@@ -62,6 +62,9 @@ public class DefaultGenetics implements IMobGenetics
         { "rawtypes", "unchecked" })
         var a = new Alleles(g1, g2, this);
         this.genetics.put(g1.getKey(), a);
+        // Update the expressed gene after adding it to our map. This notifies
+        // gene listeners, and ensures they can look it up from our map.
+        a.getExpressed();
     }
 
     @SuppressWarnings("unchecked")

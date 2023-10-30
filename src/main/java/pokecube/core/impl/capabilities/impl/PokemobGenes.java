@@ -77,7 +77,6 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         else if (t.getKey().equals(GeneticsManager.SIZEGENE))
         {
             genesSize = this.getGenes().getAlleles(t.getKey());
-            this.setSize(genesSize.getExpressed().getValue());
         }
         else if (t.getKey().equals(GeneticsManager.SHINYGENE))
         {
@@ -123,146 +122,114 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
 
     private void initGenes()
     {
+        if (this.getGenes() == null) throw new RuntimeException("This should not be called here");
+
+        this.genesSpecies = this.getGenes().getAlleles(GeneticsManager.SPECIESGENE);
+        this.genesShiny = this.getGenes().getAlleles(GeneticsManager.SHINYGENE);
+        this.genesEVs = this.getGenes().getAlleles(GeneticsManager.EVSGENE);
+        this.genesSize = this.getGenes().getAlleles(GeneticsManager.SIZEGENE);
+        this.genesIVs = this.getGenes().getAlleles(GeneticsManager.IVSGENE);
+        this.genesMoves = this.getGenes().getAlleles(GeneticsManager.MOVESGENE);
+        this.genesNature = this.getGenes().getAlleles(GeneticsManager.NATUREGENE);
+        this.genesColour = this.getGenes().getAlleles(GeneticsManager.COLOURGENE);
+        this.genesAbility = this.getGenes().getAlleles(GeneticsManager.ABILITYGENE);
+
         // Species gene
         if (this.genesSpecies == null)
         {
-            if (this.getGenes() == null) throw new RuntimeException("This should not be called here");
-            this.genesSpecies = this.getGenes().getAlleles(GeneticsManager.SPECIESGENE);
-            if (this.genesSpecies == null)
-            {
-                this.genesSpecies = new Alleles<>(this.getGenes());
-                this.getGenes().getAlleles().put(GeneticsManager.SPECIESGENE, this.genesSpecies);
-            }
-            SpeciesInfo info;
-            if (this.genesSpecies.getAllele(0) == null
-                    || (info = (_speciesCache = this.genesSpecies.getExpressed()).getValue()).getEntry() == null)
-            {
-                _speciesCache = new SpeciesGene();
-                info = _speciesCache.getValue();
-                info.setEntry(PokecubeCore.getEntryFor(this.getEntity().getType()));
-                info.setSexe(Tools.getSexe(info.getEntry().getSexeRatio(), ThutCore.newRandom()));
-                info.setEntry(info.getEntry().getForGender(info.getSexe()));
-                // Generate the basic genes
-                this.genesSpecies.setAllele(0,
-                        _speciesCache.getMutationRate() > this.getEntity().getRandom().nextFloat()
-                                ? (SpeciesGene) _speciesCache.mutate()
-                                : _speciesCache);
-                this.genesSpecies.setAllele(1,
-                        _speciesCache.getMutationRate() > this.getEntity().getRandom().nextFloat()
-                                ? (SpeciesGene) _speciesCache.mutate()
-                                : _speciesCache);
-                // This triggers a call to accept above, we will undo the
-                // results of that call next.
-                this.genesSpecies.getExpressed();
-                // Set the expressed gene to the info made above, this is to
-                // override the gene from merging parents which results in the
-                // child state.
-                _speciesCache.setValue(info);
-            }
-            info = _speciesCache.getValue();
-            info.setEntry(info.getEntry().getForGender(info.getSexe()));
+            this.genesSpecies = new Alleles<>(this.getGenes());
+            this.getGenes().getAlleles().put(GeneticsManager.SPECIESGENE, this.genesSpecies);
         }
+        SpeciesInfo info;
+        if (this.genesSpecies.getAllele(0) == null
+                || (info = (_speciesCache = this.genesSpecies.getExpressed()).getValue()).getEntry() == null)
+        {
+            _speciesCache = new SpeciesGene();
+            info = _speciesCache.getValue();
+            info.setEntry(PokecubeCore.getEntryFor(this.getEntity().getType()));
+            info.setSexe(Tools.getSexe(info.getEntry().getSexeRatio(), ThutCore.newRandom()));
+            info.setEntry(info.getEntry().getForGender(info.getSexe()));
+            // Generate the basic genes
+            this.genesSpecies.setAllele(0,
+                    _speciesCache.getMutationRate() > this.getEntity().getRandom().nextFloat()
+                            ? (SpeciesGene) _speciesCache.mutate()
+                            : _speciesCache);
+            this.genesSpecies.setAllele(1,
+                    _speciesCache.getMutationRate() > this.getEntity().getRandom().nextFloat()
+                            ? (SpeciesGene) _speciesCache.mutate()
+                            : _speciesCache);
+            // This triggers a call to accept above, we will undo the
+            // results of that call next.
+            this.genesSpecies.getExpressed();
+            // Set the expressed gene to the info made above, this is to
+            // override the gene from merging parents which results in the
+            // child state.
+            _speciesCache.setValue(info);
+        }
+        info = _speciesCache.getValue();
+        info.setEntry(info.getEntry().getForGender(info.getSexe()));
 
         // Shiny gene
         if (this.genesShiny == null)
         {
-            if (this.getGenes() == null) throw new RuntimeException("This should not be called here");
-            this.genesShiny = this.getGenes().getAlleles(GeneticsManager.SHINYGENE);
-            if (this.genesShiny == null)
-            {
-                GeneticsManager.initGene(GeneticsManager.SHINYGENE, getEntity(), getGenes(), ShinyGene::new);
-            }
+            GeneticsManager.initGene(GeneticsManager.SHINYGENE, getEntity(), getGenes(), ShinyGene::new);
         }
 
         // EVs gene
         if (this.genesEVs == null)
         {
-            if (this.getGenes() == null) throw new RuntimeException("This should not be called here");
-            this.genesEVs = this.getGenes().getAlleles(GeneticsManager.EVSGENE);
-            if (this.genesEVs == null)
-            {
-                GeneticsManager.initGene(GeneticsManager.EVSGENE, getEntity(), getGenes(), EVsGene::new);
-            }
+            GeneticsManager.initGene(GeneticsManager.EVSGENE, getEntity(), getGenes(), EVsGene::new);
         }
 
         // IVs gene
         if (this.genesIVs == null)
         {
-            if (this.getGenes() == null) throw new RuntimeException("This should not be called here");
-            this.genesIVs = this.getGenes().getAlleles(GeneticsManager.IVSGENE);
-            if (this.genesIVs == null)
-            {
-                GeneticsManager.initGene(GeneticsManager.IVSGENE, getEntity(), getGenes(), IVsGene::new);
-            }
+            GeneticsManager.initGene(GeneticsManager.IVSGENE, getEntity(), getGenes(), IVsGene::new);
         }
 
         // Moves Gene
         if (this.genesMoves == null)
         {
-            if (this.getGenes() == null) throw new RuntimeException("This should not be called here");
-            this.genesMoves = this.getGenes().getAlleles(GeneticsManager.MOVESGENE);
-            if (this.genesMoves == null)
-            {
-                GeneticsManager.initGene(GeneticsManager.MOVESGENE, getEntity(), getGenes(), MovesGene::new);
-            }
+            GeneticsManager.initGene(GeneticsManager.MOVESGENE, getEntity(), getGenes(), MovesGene::new);
         }
 
         // Nature gene
         if (this.genesNature == null)
         {
-            if (this.getGenes() == null) throw new RuntimeException("This should not be called here");
-            this.genesNature = this.getGenes().getAlleles(GeneticsManager.NATUREGENE);
-            if (this.genesNature == null)
-            {
-                GeneticsManager.initGene(GeneticsManager.NATUREGENE, getEntity(), getGenes(), NatureGene::new);
-            }
+            GeneticsManager.initGene(GeneticsManager.NATUREGENE, getEntity(), getGenes(), NatureGene::new);
         }
 
         // Colour gene
         if (this.genesColour == null)
         {
-            if (this.getGenes() == null) throw new RuntimeException("This should not be called here");
-            this.genesColour = this.getGenes().getAlleles(GeneticsManager.COLOURGENE);
-            if (this.genesColour == null)
-            {
-                GeneticsManager.initGene(GeneticsManager.COLOURGENE, getEntity(), getGenes(), ColourGene::new);
-            }
+            GeneticsManager.initGene(GeneticsManager.COLOURGENE, getEntity(), getGenes(), ColourGene::new);
         }
 
         // Ability gene
         if (this.genesAbility == null)
         {
-            if (this.getGenes() == null) throw new RuntimeException("This should not be called here");
-            this.genesAbility = this.getGenes().getAlleles(GeneticsManager.ABILITYGENE);
-            if (this.genesAbility == null)
-            {
-                Supplier<Gene<?>> generator = () -> {
-                    final Random random = new Random(this.getRNGValue());
-                    final PokedexEntry entry = this.getPokedexEntry();
-                    int abilityIndex = random.nextInt(100) % 2;
-                    if (entry.getAbility(abilityIndex, this) == null) if (abilityIndex != 0) abilityIndex = 0;
-                    else abilityIndex = 1;
-                    final Ability ability = entry.getAbility(abilityIndex, this);
-                    final AbilityGene gene = new AbilityGene();
-                    final AbilityObject obj = gene.getValue();
-                    obj.ability = "";
-                    obj.abilityObject = ability;
-                    obj.abilityIndex = (byte) abilityIndex;
-                    return gene;
-                };
-                GeneticsManager.initGene(GeneticsManager.ABILITYGENE, getEntity(), getGenes(), generator);
-            }
+            Supplier<Gene<?>> generator = () -> {
+                final Random random = new Random(this.getRNGValue());
+                final PokedexEntry entry = this.getPokedexEntry();
+                int abilityIndex = random.nextInt(100) % 2;
+                if (entry.getAbility(abilityIndex, this) == null) if (abilityIndex != 0) abilityIndex = 0;
+                else abilityIndex = 1;
+                final Ability ability = entry.getAbility(abilityIndex, this);
+                final AbilityGene gene = new AbilityGene();
+                final AbilityObject obj = gene.getValue();
+                obj.ability = "";
+                obj.abilityObject = ability;
+                obj.abilityIndex = (byte) abilityIndex;
+                return gene;
+            };
+            GeneticsManager.initGene(GeneticsManager.ABILITYGENE, getEntity(), getGenes(), generator);
+
         }
 
         // Size gene
         if (this.genesSize == null)
         {
-            if (this.getGenes() == null) throw new RuntimeException("This should not be called here");
-            this.genesSize = this.getGenes().getAlleles(GeneticsManager.SIZEGENE);
-            if (this.genesSize == null)
-            {
-                GeneticsManager.initGene(GeneticsManager.SIZEGENE, getEntity(), getGenes(), SizeGene::new);
-            }
+            GeneticsManager.initGene(GeneticsManager.SIZEGENE, getEntity(), getGenes(), SizeGene::new);
         }
     }
 
