@@ -41,11 +41,13 @@ import pokecube.core.ai.tasks.bees.BeeTasks.BeeHabitat;
 import pokecube.core.commands.Kill.KillCommandEvent;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.JsonPokedexEntry;
+import pokecube.core.entity.genetics.GeneticsManager;
+import pokecube.core.entity.genetics.GeneticsManager.GeneticsProvider;
 import pokecube.core.entity.pokemobs.PokemobType;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager.GeneticsProvider;
 import pokecube.core.eventhandlers.EventsHandler;
 import thut.api.OwnableCaps;
+import thut.api.ThutCaps;
+import thut.api.entity.genetics.IMobGenetics;
 import thut.api.item.ItemList;
 import thut.api.util.JsonUtil;
 import thut.core.common.world.mobs.data.DataSync_Impl;
@@ -233,11 +235,23 @@ public class Compat
             }
 
             final VanillaPokemob pokemob = new VanillaPokemob(mob);
-            final GeneticsProvider genes = new GeneticsProvider();
+            IMobGenetics _genes;
+            if (event.getCapabilities().containsKey(GeneticsManager.POKECUBEGENETICS))
+            {
+                _genes = event.getCapabilities().get(GeneticsManager.POKECUBEGENETICS)
+                        .getCapability(ThutCaps.GENETICS_CAP).orElse(null);
+                if (_genes == null) throw new IllegalStateException("Genes null yet registered?");
+            }
+            else
+            {
+                final GeneticsProvider genes = new GeneticsProvider();
+                _genes = genes.wrapped;
+                event.addCapability(GeneticsManager.POKECUBEGENETICS, genes);
+            }
             final DataSync_Impl data = new DataSync_Impl();
             pokemob.setDataSync(data);
-            pokemob.genes = genes.wrapped;
-            event.addCapability(GeneticsManager.POKECUBEGENETICS, genes);
+            pokemob.setGenes(_genes);
+            _genes.addChangeListener(pokemob);
             event.addCapability(EventsHandler.POKEMOBCAP, pokemob);
             event.addCapability(EventsHandler.DATACAP, data);
             IGuardAICapability.addCapability(event);

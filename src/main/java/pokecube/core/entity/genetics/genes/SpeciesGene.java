@@ -1,4 +1,4 @@
-package pokecube.core.entity.pokemobs.genetics.genes;
+package pokecube.core.entity.genetics.genes;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,8 +17,8 @@ import pokecube.core.database.Database;
 import pokecube.core.database.genes.Mutations.Mutation;
 import pokecube.core.database.genes.Mutations.MutationHolder;
 import pokecube.core.database.tags.Tags;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
-import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
+import pokecube.core.entity.genetics.GeneticsManager;
+import pokecube.core.entity.genetics.genes.SpeciesGene.SpeciesInfo;
 import thut.api.entity.genetics.Gene;
 import thut.core.common.ThutCore;
 

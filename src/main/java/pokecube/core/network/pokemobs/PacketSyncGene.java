@@ -21,6 +21,7 @@ public class PacketSyncGene extends Packet
     public static void syncGene(final Entity mob, final Alleles<?, ?> gene, final ServerPlayer entityPlayer)
     {
         if (!(mob.getLevel() instanceof ServerLevel) || gene == null) return;
+        if (!mob.isAddedToWorld()) return;
         final PacketSyncGene packet = new PacketSyncGene();
         packet.genes = gene;
         packet.entityId = mob.getId();
@@ -30,6 +31,7 @@ public class PacketSyncGene extends Packet
     public static void syncGeneToTracking(final Entity mob, final Alleles<?, ?> gene)
     {
         if (!(mob.getLevel() instanceof ServerLevel) || gene == null) return;
+        if (!mob.isAddedToWorld()) return;
         final PacketSyncGene packet = new PacketSyncGene();
         packet.genes = gene;
         packet.entityId = mob.getId();

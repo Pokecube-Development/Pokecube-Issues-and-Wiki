@@ -1,4 +1,4 @@
-package pokecube.core.entity.pokemobs.genetics.epigenes;
+package pokecube.core.entity.genetics.epigenes;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.moves.MoveEntry;
 import pokecube.core.PokecubeCore;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
+import pokecube.core.entity.genetics.GeneticsManager;
 import thut.api.entity.genetics.Gene;
 
 public class MovesGene implements Gene<String[]>
@@ -33,7 +33,7 @@ public class MovesGene implements Gene<String[]>
                 // Update name if needed from legacy names
                 moves[i] = temp = entry.name;
             }
-            else if(PokecubeCore.getConfig().debug_moves)
+            else if (PokecubeCore.getConfig().debug_moves)
             {
                 PokecubeAPI.LOGGER.warn("Unknown move {}", temp);
             }

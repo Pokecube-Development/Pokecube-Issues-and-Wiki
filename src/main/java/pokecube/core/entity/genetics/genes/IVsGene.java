@@ -1,12 +1,12 @@
-package pokecube.core.entity.pokemobs.genetics.genes;
+package pokecube.core.entity.genetics.genes;
 
 import java.util.Random;
 
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.utils.Tools;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
-import pokecube.core.entity.pokemobs.genetics.epigenes.EVsGene;
+import pokecube.core.entity.genetics.GeneticsManager;
+import pokecube.core.entity.genetics.epigenes.EVsGene;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.IMobGenetics;
