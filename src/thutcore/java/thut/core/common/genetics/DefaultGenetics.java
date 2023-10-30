@@ -147,6 +147,8 @@ public class DefaultGenetics implements IMobGenetics
             final ResourceLocation key = new ResourceLocation(tag.getString("K"));
             try
             {
+                // Set in map first, so that it can be checked during load's
+                // change listeners.
                 this.getAlleles().put(key, alleles);
                 alleles.load(tag.getCompound("V"), key);
             }

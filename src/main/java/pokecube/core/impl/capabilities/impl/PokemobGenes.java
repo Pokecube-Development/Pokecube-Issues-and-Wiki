@@ -65,6 +65,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     private boolean changing = false;
 
     private Boolean _shinyCache = null;
+    private boolean _movesChanged = false;
 
     @Override
     public void accept(Gene<?> t)
@@ -86,6 +87,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         else if (t.getKey().equals(GeneticsManager.MOVESGENE))
         {
             genesMoves = this.getGenes().getAlleles(t.getKey());
+            _movesChanged = true;
         }
         else if (t.getKey().equals(GeneticsManager.NATUREGENE))
         {
@@ -276,8 +278,9 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     public String[] getMoves()
     {
         final MovesGene gene = this.genesMoves.getExpressed();
-        if (gene.getValue() != this.getMoveStats().getBaseMoves())
+        if (_movesChanged)
         {
+            _movesChanged = false;
             this.getMoveStats().setBaseMoves(gene.getValue());
             this.getMoveStats().reset();
         }
@@ -372,13 +375,6 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         this.shinyTexs.clear();
 
         this.initGenes();
-
-        // Refresh the datamanager for moves.
-        this.setMoves(this.getMoveStats().getBaseMoves());
-        // Refresh the datamanager for evs
-        this.setEVs(this.getEVs());
-
-        this.setSize(this.getSizeRaw());
 
         // Ensure this is in persistent data for client side tooltip
         this.entity.getPersistentData().putByte(TagNames.SEXE, this.getSexe());
@@ -480,7 +476,8 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
                 return;
             }
             final MovesGene gene = this.genesMoves.getExpressed();
-            gene.setValue(this.getMoveStats().setBaseMoves(moves));
+            for (int i = 0; i < 4; i++) gene.getValue()[i] = moves[i];
+            this.getMoveStats().setBaseMoves(gene.getValue());
         }
         PacketSyncGene.syncGeneToTracking(this.getEntity(), this.genesMoves);
     }
