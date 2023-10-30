@@ -184,8 +184,11 @@ public abstract class EntityPokecubeBase extends LivingEntity
         if (!this.isAlive()) return;
 
         final boolean serverSide = this.level() instanceof ServerLevel;
-        final boolean capturing = this.getTilt() >= 0;
+        final boolean capturing = this.isCapturing();
         final boolean releasing = this.isReleasing();
+
+        // Capturing or on client, break early.
+        if (!serverSide || capturing || releasing) return;
 
         switch (result.getType())
         {
@@ -213,8 +216,6 @@ public abstract class EntityPokecubeBase extends LivingEntity
             // Set us to the location, but not stick to players.
             if (!invalidStick) this.setPos(result.getLocation().x, result.getLocation().y, result.getLocation().z);
 
-            // Capturing or on client, break early.
-            if (!serverSide || capturing || releasing) break;
             // Send out or try to capture.
             if (PokecubeManager.isFilled(this.getItem()))
             {

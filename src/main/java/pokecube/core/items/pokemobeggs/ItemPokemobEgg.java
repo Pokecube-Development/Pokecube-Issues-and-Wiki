@@ -11,7 +11,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
@@ -100,13 +99,11 @@ public class ItemPokemobEgg extends Item
     {
         if (stack.isEmpty() || stack.getTag() == null) return null;
         if (stack.getTag().contains("pokemob")) return Database.getEntry(stack.getTag().getString("pokemob"));
+        IMobGenetics _genes = GeneticsManager.getGenes(stack);
         genes:
-        if (stack.getTag().contains(GeneticsManager.GENES))
+        if (_genes != null)
         {
-            final Tag genes = stack.getTag().get(GeneticsManager.GENES);
-            final IMobGenetics eggs = new DefaultGenetics();
-            eggs.deserializeNBT((ListTag) genes);
-            final Alleles<SpeciesInfo, SpeciesGene> gene = eggs.getAlleles(GeneticsManager.SPECIESGENE);
+            final Alleles<SpeciesInfo, SpeciesGene> gene = _genes.getAlleles(GeneticsManager.SPECIESGENE);
             if (gene == null) break genes;
             final SpeciesGene sgene = gene.getExpressed();
             final SpeciesInfo info = sgene.getValue();
@@ -131,14 +128,25 @@ public class ItemPokemobEgg extends Item
         return pokemob;
     }
 
-    private static void getGenetics(final IPokemob mother, final IPokemob father, final CompoundTag nbt)
+    private static void getGenetics(final IPokemob mother, final IPokemob father, final ItemStack stack)
     {
-        final IMobGenetics eggs = new DefaultGenetics();
-        final IMobGenetics mothers = mother.getEntity().getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
-        final IMobGenetics fathers = father.getEntity().getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
+        IMobGenetics eggs = GeneticsManager.getGenes(stack);
+        boolean existing = eggs != null;
+        if (!existing)
+        {
+            eggs = new DefaultGenetics();
+            existing = false;
+        }
+        IMobGenetics mothers = mother.getEntity().getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
+        IMobGenetics fathers = father.getEntity().getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
         GeneticsManager.initEgg(eggs, mothers, fathers);
-        final Tag tag = eggs.serializeNBT();
-        nbt.put(GeneticsManager.GENES, tag);
+
+        var nbt = stack.getTag();
+        if (!existing)
+        {
+            final Tag tag = eggs.serializeNBT();
+            nbt.put(GeneticsManager.GENES, tag);
+        }
         try
         {
             final Alleles<SpeciesInfo, SpeciesGene> alleles = eggs.getAlleles(GeneticsManager.SPECIESGENE);
@@ -225,24 +233,19 @@ public class ItemPokemobEgg extends Item
         else mob.getEntity().getPersistentData().remove(TagNames.HATCHED);
     }
 
-    public static void initPokemobGenetics(final IPokemob mob, final CompoundTag nbt, final boolean imprint)
+    private static void initPokemobGenetics(final IPokemob mob, final ItemStack stack, final boolean imprint)
     {
         mob.setForSpawn(10);
         if (imprint) mob.getEntity().getPersistentData().putBoolean(TagNames.HATCHED, true);
-        if (nbt.contains(GeneticsManager.GENES))
-        {
-            final Tag genes = nbt.get(GeneticsManager.GENES);
-            final IMobGenetics eggs = new DefaultGenetics();
-            eggs.deserializeNBT((ListTag) genes);
-            GeneticsManager.initFromGenes(eggs, mob);
-        }
+        final IMobGenetics eggs = GeneticsManager.getGenes(stack);
+        if (eggs != null) GeneticsManager.initFromGenes(eggs, mob);
     }
 
     public static void initStack(final Entity mother, final IPokemob father, final ItemStack stack)
     {
         if (!stack.hasTag()) stack.setTag(new CompoundTag());
         final IPokemob mob = PokemobCaps.getPokemobFor(mother);
-        if (mob != null && father != null) ItemPokemobEgg.getGenetics(mob, father, stack.getTag());
+        if (mob != null && father != null) ItemPokemobEgg.getGenetics(mob, father, stack);
     }
 
     public static IPokemob make(final Level world, final ItemStack stack, final EntityPokemobEgg egg)
@@ -261,7 +264,7 @@ public class ItemPokemobEgg extends Item
             mob.setForSpawn(exp);
             final CompoundTag nbt = stack.getTag();
             final boolean hasNest = nbt.contains("nestLoc");
-            if (stack.hasTag()) ItemPokemobEgg.initPokemobGenetics(mob, stack.getTag(), !hasNest);
+            if (stack.hasTag()) ItemPokemobEgg.initPokemobGenetics(mob, stack, !hasNest);
             mob.spawnInit();
         }
         return PokemobCaps.getPokemobFor(entity);

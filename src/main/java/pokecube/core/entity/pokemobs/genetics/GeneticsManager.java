@@ -3,6 +3,8 @@ package pokecube.core.entity.pokemobs.genetics;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 import org.nfunk.jep.JEP;
 
 import com.google.common.collect.Lists;
@@ -23,7 +25,6 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.utils.TagNames;
-import pokecube.core.PokecubeItems;
 import pokecube.core.entity.pokemobs.genetics.epigenes.EVsGene;
 import pokecube.core.entity.pokemobs.genetics.epigenes.MovesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.AbilityGene;
@@ -34,6 +35,7 @@ import pokecube.core.entity.pokemobs.genetics.genes.ShinyGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SizeGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.impl.PokecubeMod;
+import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.ThutCaps;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
@@ -107,11 +109,15 @@ public class GeneticsManager
         GeneticsManager.init();
     }
 
+    public static final ResourceLocation GENEHOLDERS = new ResourceLocation("pokecube:dna_holder");
+
     public static void registerCapabilities(final AttachCapabilitiesEvent<ItemStack> event)
     {
-        if (ItemList.is(PokecubeItems.POKEMOBEGG, event.getObject())
+        if (ItemList.is(GENEHOLDERS, event.getObject())
                 && !event.getCapabilities().containsKey(GeneticsManager.POKECUBEGENETICS))
+        {
             event.addCapability(GeneticsManager.POKECUBEGENETICS, new GeneticsProvider());
+        }
     }
 
     public static List<String> getMutationConfig()
@@ -170,5 +176,47 @@ public class GeneticsManager
     {
         final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         pokemob.onGenesChanged();
+    }
+
+    @Nullable
+    public static IMobGenetics getGenes(ItemStack stack)
+    {
+        if (stack.isEmpty()) return null;
+        IMobGenetics genes = stack.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
+        if (!stack.hasTag()) return genes;
+        // Support old way first.
+        if (stack.getTag().contains(GENES))
+        {
+            var nbt = stack.getTag();
+            final Tag _genes = nbt.get(GeneticsManager.GENES);
+            if (genes != null)
+            {
+                genes.deserializeNBT((ListTag) _genes);
+                stack.getTag().remove(GENES);
+            }
+            else
+            {
+                genes = new DefaultGenetics();
+                genes.deserializeNBT((ListTag) _genes);
+                if (genes.getAlleles().isEmpty()) genes = null;
+            }
+            return genes;
+        }
+        // Next check for if it is a filled cube
+        if (PokecubeManager.isFilled(stack))
+        {
+            var nbt = stack.getTag();
+            final CompoundTag poketag = nbt.getCompound(TagNames.POKEMOB);
+            if (!poketag.getCompound("ForgeCaps").contains(GeneticsManager.POKECUBEGENETICS.toString())) return null;
+            if (!poketag.getCompound("ForgeCaps").getCompound(GeneticsManager.POKECUBEGENETICS.toString())
+                    .contains("V"))
+                return null;
+            final Tag _genes = poketag.getCompound("ForgeCaps").getCompound(GeneticsManager.POKECUBEGENETICS.toString())
+                    .get("V");
+            genes = new DefaultGenetics();
+            genes.deserializeNBT((ListTag) _genes);
+            return genes;
+        }
+        return genes;
     }
 }
