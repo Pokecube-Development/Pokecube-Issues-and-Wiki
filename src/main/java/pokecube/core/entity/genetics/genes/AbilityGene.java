@@ -1,10 +1,10 @@
-package pokecube.core.entity.pokemobs.genetics.genes;
+package pokecube.core.entity.genetics.genes;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.data.abilities.Ability;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
-import pokecube.core.entity.pokemobs.genetics.genes.AbilityGene.AbilityObject;
+import pokecube.core.entity.genetics.GeneticsManager;
+import pokecube.core.entity.genetics.genes.AbilityGene.AbilityObject;
 import thut.api.entity.genetics.Gene;
 import thut.core.common.ThutCore;
 

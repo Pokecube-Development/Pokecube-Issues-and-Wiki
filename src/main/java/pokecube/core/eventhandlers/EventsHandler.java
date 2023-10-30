@@ -94,11 +94,11 @@ import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.blocks.trade.TraderTile;
 import pokecube.core.commands.CommandManager;
 import pokecube.core.database.Database;
+import pokecube.core.entity.genetics.GeneticsManager;
+import pokecube.core.entity.genetics.GeneticsManager.GeneticsProvider;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokecubes.EntityPokecube;
 import pokecube.core.entity.pokemobs.EntityPokemob;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager.GeneticsProvider;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.impl.capabilities.DefaultPokemob;
@@ -118,10 +118,12 @@ import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
+import thut.api.ThutCaps;
 import thut.api.Tracker;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ShearableCaps;
 import thut.api.entity.event.LevelEntityEvent;
+import thut.api.entity.genetics.IMobGenetics;
 import thut.api.inventory.InvHelper.ItemCap;
 import thut.api.item.ItemList;
 import thut.api.level.structures.NamedVolumes.INamedStructure;
@@ -540,8 +542,19 @@ public class EventsHandler
             event.addCapability(EventsHandler.AFFECTEDCAP, affected);
         }
 
-        final GeneticsProvider genes = new GeneticsProvider();
-        event.addCapability(GeneticsManager.POKECUBEGENETICS, genes);
+        IMobGenetics _genes;
+        if (event.getCapabilities().containsKey(GeneticsManager.POKECUBEGENETICS))
+        {
+            _genes = event.getCapabilities().get(GeneticsManager.POKECUBEGENETICS).getCapability(ThutCaps.GENETICS_CAP)
+                    .orElse(null);
+            if (_genes == null) throw new IllegalStateException("Genes null yet registered?");
+        }
+        else
+        {
+            final GeneticsProvider genes = new GeneticsProvider();
+            _genes = genes.wrapped;
+            event.addCapability(GeneticsManager.POKECUBEGENETICS, genes);
+        }
 
         if (event.getObject() instanceof EntityPokemob mob
                 && !event.getCapabilities().containsKey(EventsHandler.POKEMOBCAP))
@@ -550,7 +563,8 @@ public class EventsHandler
             final DataSync_Impl data = new DataSync_Impl();
             final TextureableCaps.PokemobCap tex = new TextureableCaps.PokemobCap(mob);
             pokemob.setDataSync(data);
-            pokemob.genes = genes.wrapped;
+            pokemob.setGenes(_genes);
+            _genes.addChangeListener(pokemob);
             event.addCapability(EventsHandler.POKEMOBCAP, pokemob);
             event.addCapability(EventsHandler.DATACAP, data);
             event.addCapability(EventsHandler.TEXTURECAP, tex);

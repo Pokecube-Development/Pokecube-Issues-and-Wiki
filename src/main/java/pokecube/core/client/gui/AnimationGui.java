@@ -93,7 +93,7 @@ public class AnimationGui extends Screen
                 ret.read(realMob.write());
                 ret.onGenesChanged();
                 if (ret instanceof DefaultPokemob to && realMob instanceof DefaultPokemob from)
-                    to.genes.deserializeNBT(from.genes.serializeNBT());
+                    to.getGenes().deserializeNBT(from.getGenes().serializeNBT());
                 if (!realMob.getPokedexEntry().stock)
                 {
                     final CompoundTag tag = new CompoundTag();

@@ -202,7 +202,7 @@ public abstract class PokemobBase implements IPokemob
     /** How long the mob is */
     protected float length;
     /** The IMobGenetics used to store our genes. */
-    public IMobGenetics genes;
+    private IMobGenetics genes;
     /** The IMobGenetics used to store our genes. */
     private IOwnable ownerHolder;
 
@@ -309,5 +309,15 @@ public abstract class PokemobBase implements IPokemob
     public void setDeathTime(long time)
     {
         this.dataSync().set(params.TIMEOFDEATH, time);
+    }
+
+    public IMobGenetics getGenes()
+    {
+        return genes;
+    }
+
+    public void setGenes(IMobGenetics genes)
+    {
+        this.genes = genes;
     }
 }

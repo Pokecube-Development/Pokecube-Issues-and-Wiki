@@ -234,7 +234,7 @@ public class EntityPokemob extends PokemobRidable
 
         CompoundTag tag = buffer.readNbt();
         final ListTag list = (ListTag) tag.get("g");
-        final IMobGenetics genes = this.getCapability(ThutCaps.GENETICS_CAP).orElse(this.pokemobCap.genes);
+        final IMobGenetics genes = this.getCapability(ThutCaps.GENETICS_CAP).orElse(this.pokemobCap.getGenes());
         genes.deserializeNBT(list);
         this.pokemobCap.read(tag.getCompound("p"));
         this.pokemobCap.onGenesChanged();
@@ -312,7 +312,7 @@ public class EntityPokemob extends PokemobRidable
         this.initSeats();
         data.writeInt(this.seatCount);
         this.pokemobCap.updateHealth();
-        final IMobGenetics genes = this.getCapability(ThutCaps.GENETICS_CAP).orElse(this.pokemobCap.genes);
+        final IMobGenetics genes = this.getCapability(ThutCaps.GENETICS_CAP).orElse(this.pokemobCap.getGenes());
         final FriendlyByteBuf buffer = new FriendlyByteBuf(data);
         final ListTag list = genes.serializeNBT();
         CompoundTag nbt = new CompoundTag();

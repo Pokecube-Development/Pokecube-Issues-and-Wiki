@@ -1,11 +1,13 @@
 package thut.core.common.genetics;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -21,13 +23,12 @@ import thut.core.common.ThutCore;
 
 public class DefaultGenetics implements IMobGenetics
 {
-    Random                               rand     = ThutCore.newRandom();
+    Random rand = ThutCore.newRandom();
     Map<ResourceLocation, Alleles<?, ?>> genetics = Maps.newHashMap();
-    Set<Alleles<?, ?>>                   epigenes;
+    Set<Alleles<?, ?>> epigenes;
 
     public DefaultGenetics()
-    {
-    }
+    {}
 
     @Override
     public Map<ResourceLocation, Alleles<?, ?>> getAlleles()
@@ -39,6 +40,31 @@ public class DefaultGenetics implements IMobGenetics
     public Collection<ResourceLocation> getKeys()
     {
         return this.genetics.keySet();
+    }
+
+    private List<Consumer<Gene<?>>> _listeners = new ArrayList<>();
+
+    public void addChangeListener(Consumer<Gene<?>> listener)
+    {
+        _listeners.add(listener);
+    }
+
+    @Override
+    public List<Consumer<Gene<?>>> getChangeListeners()
+    {
+        return _listeners;
+    }
+
+    @Override
+    public <GENE extends Gene<?>> void setGenes(GENE g1, GENE g2)
+    {
+        @SuppressWarnings(
+        { "rawtypes", "unchecked" })
+        var a = new Alleles(g1, g2, this);
+        this.genetics.put(g1.getKey(), a);
+        // Update the expressed gene after adding it to our map. This notifies
+        // gene listeners, and ensures they can look it up from our map.
+        a.getExpressed();
     }
 
     @SuppressWarnings("unchecked")
@@ -86,7 +112,7 @@ public class DefaultGenetics implements IMobGenetics
                 if (gene2.getMutationRate() > this.rand.nextFloat()) gene2 = gene2.mutate(parent1, parent2);
 
                 // Make the new allele.
-                final Alleles<?, ?> allele = new Alleles<>(gene1, gene2);
+                final Alleles<?, ?> allele = new Alleles<>(gene1, gene2, this);
                 this.getAlleles().put(gene1.getKey(), allele);
             }
         }
@@ -117,15 +143,18 @@ public class DefaultGenetics implements IMobGenetics
         for (int i = 0; i < list.size(); i++)
         {
             final CompoundTag tag = list.getCompound(i);
-            final Alleles<?, ?> alleles = new Alleles<>();
+            final Alleles<?, ?> alleles = new Alleles<>(this);
             final ResourceLocation key = new ResourceLocation(tag.getString("K"));
             try
             {
-                alleles.load(tag.getCompound("V"), key);
+                // Set in map first, so that it can be checked during load's
+                // change listeners.
                 this.getAlleles().put(key, alleles);
+                alleles.load(tag.getCompound("V"), key);
             }
             catch (final Exception e)
             {
+                this.getAlleles().remove(key);
                 ThutCore.LOGGER.error("Error loading gene for key: " + key, e);
             }
         }

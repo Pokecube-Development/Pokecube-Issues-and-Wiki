@@ -31,7 +31,7 @@ import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
+import pokecube.core.entity.genetics.GeneticsManager;
 import thut.api.entity.IMobColourable;
 import thut.api.maths.Vector3;
 import thut.api.util.PermNodes;

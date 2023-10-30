@@ -568,7 +568,7 @@ public class EventsHandlerClient
         if (pokemob instanceof DefaultPokemob) try
         {
             final DefaultPokemob poke = (DefaultPokemob) pokemob;
-            poke.genes.deserializeNBT((ListTag) genesTag);
+            poke.getGenes().deserializeNBT((ListTag) genesTag);
         }
         catch (final Exception e)
         {
