@@ -203,7 +203,7 @@ public class Pokemake2
         if (entry.nbt instanceof CompoundTag nbt) tag = nbt;
         initFromNBT(pokemob, pos, tag);
         pokemob.spawnInit();
-        mob.getLevel().addFreshEntity(mob);
+        mob.level().addFreshEntity(mob);
         if (owner != null) pokemob.setOwner(owner);
         return 0;
     }
