@@ -183,7 +183,7 @@ public class GeneticsManager
 
         registerGeneProvider((living) -> {
 
-            var genes = living.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
+            var genes = ThutCaps.getGenetics(living);
             // Only apply if it has genes
             if (genes == null) return;
 
@@ -203,7 +203,7 @@ public class GeneticsManager
     public static void initFromGenes(final IMobGenetics genes, final IPokemob pokemob)
     {
         final Entity mob = pokemob.getEntity();
-        final IMobGenetics mobs = mob.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
+        final IMobGenetics mobs = ThutCaps.getGenetics(mob);
         if (genes != mobs) mobs.getAlleles().putAll(genes.getAlleles());
         pokemob.onGenesChanged();
     }
@@ -236,7 +236,7 @@ public class GeneticsManager
     {
         // We only apply to living entities
         if (!(mob instanceof LivingEntity living)) return;
-        IMobGenetics genes = living.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
+        IMobGenetics genes = ThutCaps.getGenetics(living);
         // And only ones with genes
         if (genes == null) return;
         // Now apply the genes
@@ -250,7 +250,7 @@ public class GeneticsManager
     public static IMobGenetics getGenes(ItemStack stack)
     {
         if (stack.isEmpty()) return null;
-        IMobGenetics genes = stack.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
+        IMobGenetics genes = ThutCaps.getGenetics(stack);
         if (!stack.hasTag()) return genes;
         // Support old way first.
         if (stack.getTag().contains(GENES))

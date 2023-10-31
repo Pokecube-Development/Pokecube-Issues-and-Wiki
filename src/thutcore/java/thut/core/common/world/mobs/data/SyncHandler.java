@@ -7,7 +7,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
-import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
 import thut.api.world.mobs.data.DataSync;
 
@@ -28,7 +27,7 @@ public class SyncHandler
             if (!data.syncNow() && tick % data.tickRate() != data.tickOffset() % data.tickRate()) break mainData;
             PacketDataSync.sync(entity, data, entity.getId(), false);
         }
-        ICopyMob copy = CopyCaps.get(event.getEntity());
+        ICopyMob copy = ThutCaps.getCopyMob(event.getEntity());
         copyData:
         {
             if (copy == null || copy.getCopiedMob() == null) break copyData;
@@ -45,7 +44,7 @@ public class SyncHandler
 
     public static DataSync getData(final Entity mob)
     {
-        return mob.getCapability(ThutCaps.DATASYNC, null).orElse(null);
+        return ThutCaps.getDataSync(mob);
     }
 
     @SubscribeEvent

@@ -31,6 +31,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -65,7 +66,6 @@ import thut.wearables.impl.ConfigWearable;
 import thut.wearables.inventory.ContainerWearables;
 import thut.wearables.inventory.IWearableInventory;
 import thut.wearables.inventory.PlayerWearables;
-import thut.wearables.inventory.WearableHandler;
 import thut.wearables.network.MouseOverPacket;
 import thut.wearables.network.PacketGui;
 import thut.wearables.network.PacketHandler;
@@ -163,6 +163,12 @@ public class ThutWearables
     public static final Capability<IWearableInventory> WEARABLES_CAP = CapabilityManager.get(new CapabilityToken<>()
     {
     });
+    
+    public static IActiveWearable getWearable(final ICapabilityProvider in)
+    {
+        if (in == null) return null;
+        return in.getCapability(WEARABLE_CAP).orElse(null);
+    }
 
     public static final ResourceLocation WEARABLES_ITEM_TAG = new ResourceLocation(Reference.MODID, "wearable");
 
@@ -197,7 +203,7 @@ public class ThutWearables
     public static PlayerWearables getWearables(final LivingEntity wearer)
     {
         final PlayerWearables wearables = null;
-        final IWearableInventory inven = wearer.getCapability(WearableHandler.WEARABLES_CAP).orElse(wearables);
+        final IWearableInventory inven = wearer.getCapability(WEARABLES_CAP).orElse(wearables);
         if (inven instanceof PlayerWearables ret) return ret;
         return wearables;
     }

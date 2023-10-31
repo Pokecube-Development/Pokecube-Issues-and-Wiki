@@ -281,8 +281,7 @@ public class OwnableCaps
 
     public static IOwnable getOwnable(final ICapabilityProvider in)
     {
-        if (in == null) return null;
-        return in.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
+        return ThutCaps.getOwnable(in);
     }
 
     public static LivingEntity getOwner(final LivingEntity target)
@@ -320,7 +319,7 @@ public class OwnableCaps
         final BlockEntity tile = event.getLevel().getBlockEntity(event.getPos());
         if (tile != null && event.getEntity() instanceof LivingEntity living)
         {
-            final IOwnable ownable = tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
+            final IOwnable ownable = ThutCaps.getOwnable(tile);
             if (ownable instanceof IOwnableTE te) te.setPlacer(living);
             else if (ownable != null) ownable.setOwner(living);
         }
@@ -332,7 +331,7 @@ public class OwnableCaps
         final BlockEntity tile = event.getLevel().getBlockEntity(event.getPos());
         if (tile != null && tile.getLevel() instanceof ServerLevel level)
         {
-            final IOwnable ownable = tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
+            final IOwnable ownable = ThutCaps.getOwnable(tile);
             if (ownable instanceof IOwnableTE te && te.canEdit(event.getEntity())
                     && ItemList.is(OwnableCaps.STICKTAG, event.getItemStack()) && te.getOwnerId() != null)
             {
@@ -353,7 +352,7 @@ public class OwnableCaps
         final BlockEntity tile = event.getLevel().getBlockEntity(event.getPos());
         if (tile != null)
         {
-            final IOwnable ownable = tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
+            final IOwnable ownable = ThutCaps.getOwnable(tile);
             if (ownable instanceof IOwnableTE te && !te.canEdit(event.getPlayer())) event.setCanceled(true);
         }
     }

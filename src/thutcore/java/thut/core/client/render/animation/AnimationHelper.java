@@ -56,7 +56,7 @@ public class AnimationHelper
 
     public static IAnimationHolder getHolder(final Entity mob)
     {
-        final IAnimationHolder cap = mob.getCapability(ThutCaps.ANIMCAP).orElse(null);
+        final IAnimationHolder cap = ThutCaps.getAnimationHolder(mob);
         if (cap != null) return cap;
         if (AnimationHelper.holderMap.containsKey(mob.getUUID())) return AnimationHelper.holderMap.get(mob.getUUID());
         else

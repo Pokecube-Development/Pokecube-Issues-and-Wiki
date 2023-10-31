@@ -686,7 +686,7 @@ public class PokemobEventsHandler
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
         final PokedexEntry entry = pokemob.getPokedexEntry();
 
-        final IMobGenetics genes = event.getTarget().getCapability(ThutCaps.GENETICS_CAP).orElse(null);
+        final IMobGenetics genes = ThutCaps.getGenetics(event.getTarget());
         for (final Alleles<?, ?> allele : genes.getAlleles().values())
             PacketSyncGene.syncGene(event.getTarget(), allele, player);
 
@@ -833,7 +833,7 @@ public class PokemobEventsHandler
         living.getPersistentData().putLong("__i__", Tracker.instance().getTick());
 
         // Tick the genes
-        IMobGenetics genes = living.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
+        IMobGenetics genes = ThutCaps.getGenetics(living);
         if (genes != null) genes.onUpdateTick(living);
 
         final Level dim = living.level();
@@ -844,6 +844,7 @@ public class PokemobEventsHandler
         final boolean tooFast = ridden && !TerrainManager.isAreaLoaded(dim, living.blockPosition(),
                 PokecubeCore.getConfig().movementPauseThreshold + dist);
         if (tooFast) living.setDeltaMovement(0, living.getDeltaMovement().y, 0);
+
         final IPokemob pokemob = PokemobCaps.getPokemobFor(living);
         if (pokemob instanceof DefaultPokemob pokemobCap && living instanceof EntityPokemob mob
                 && dim instanceof ServerLevel level)

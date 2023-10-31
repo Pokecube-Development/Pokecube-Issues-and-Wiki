@@ -91,7 +91,7 @@ public class ShearableCaps
 
     public static IShearable get(final ICapabilityProvider in)
     {
-        return in.getCapability(ThutCaps.SHEARABLE).orElse(null);
+        return ThutCaps.getShearable(in);
     }
 
     private static void attachMobs(final AttachCapabilitiesEvent<Entity> event)

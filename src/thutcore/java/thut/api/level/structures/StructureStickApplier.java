@@ -56,7 +56,7 @@ public class StructureStickApplier implements ICustomStickHandler
         }
         else
         {
-            CapabilityWorldStructures structs = level.getCapability(ThutCaps.WORLD_STRUCTURES).orElse(null);
+            CapabilityWorldStructures structs = ThutCaps.getWorldStructures(level);
             if (structs != null)
             {
                 structs.addBuilding(structure, building, box);

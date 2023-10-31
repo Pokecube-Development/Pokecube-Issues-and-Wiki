@@ -186,7 +186,7 @@ public class PlayerWearables implements IWearableInventory, IItemHandlerModifiab
         final EnumWearable wear = EnumWearable.getWearable(slot);
         final IWearable worn = stack.getItem() instanceof IWearable ? (IWearable) stack.getItem() : null;
         if (worn != null) return worn.getSlot(stack) == wear;
-        final IActiveWearable worn2 = stack.getCapability(ThutWearables.WEARABLE_CAP).orElse(null);
+        final IActiveWearable worn2 = ThutWearables.getWearable(stack);
         if (worn2 != null) return worn2.getSlot(stack) == wear;
         return false;
     }

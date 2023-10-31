@@ -50,7 +50,6 @@ import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.PokemobTracker.MobEntry;
-import thut.api.AnimatedCaps;
 import thut.api.ThutCaps;
 import thut.api.entity.IAnimated;
 import thut.api.entity.IAnimated.IAnimationHolder;
@@ -130,8 +129,8 @@ public class LogicMiscUpdate extends LogicBase
         super(pokemob);
         this.lastCache = this.entity.blockPosition();
 
-        animated = AnimatedCaps.getAnimated(this.entity);
-        holder = this.entity.getCapability(ThutCaps.ANIMCAP).orElse(null);
+        animated = ThutCaps.getAnimated(this.entity);
+        holder = ThutCaps.getAnimationHolder(this.entity);
     }
 
     private void checkAIStates(UUID ownerID)

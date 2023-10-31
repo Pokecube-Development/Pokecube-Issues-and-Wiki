@@ -27,7 +27,6 @@ import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.entity.genetics.genes.SpeciesGene.SpeciesInfo;
 import pokecube.core.network.pokemobs.PacketSyncGene;
 import thut.api.ThutCaps;
-import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
 import thut.api.entity.event.CopySetEvent;
 import thut.api.entity.genetics.Gene;
@@ -313,7 +312,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
         if (!_checked)
         {
             _pokemob = PokemobCaps.getPokemobFor(entity);
-            if (_pokemob == null) _copy = CopyCaps.get(entity);
+            if (_pokemob == null) _copy = ThutCaps.getCopyMob(entity);
             _checked = true;
         }
         if (_copy != null && entity instanceof LivingEntity living)
@@ -334,7 +333,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
                     MinecraftForge.EVENT_BUS.post(new CopySetEvent(living, null, e));
                     e.setId(-(living.getId() + 100));
                     _copy.setCopiedMob(e);
-                    var genes = e.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
+                    var genes = ThutCaps.getGenetics(e);
                     if (genes != null && e.getId() < 100)
                     {
                         genes.getAlleles().forEach((key, alleles) -> {

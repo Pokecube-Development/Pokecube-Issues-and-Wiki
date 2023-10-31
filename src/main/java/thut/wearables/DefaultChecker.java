@@ -15,7 +15,7 @@ public class DefaultChecker implements IWearableChecker
     {
         if (itemstack.isEmpty()) return true;
         IActiveWearable wearable;
-        if ((wearable = itemstack.getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null)) != null)
+        if ((wearable = ThutWearables.getWearable(itemstack)) != null)
             return wearable.canRemove(player, itemstack, slot, subIndex);
         if (itemstack.getItem() instanceof IActiveWearable worn)
             return worn.canRemove(player, itemstack, slot, subIndex);
@@ -40,7 +40,7 @@ public class DefaultChecker implements IWearableChecker
     {
         if (itemstack.isEmpty()) return;
         IActiveWearable wearable;
-        if ((wearable = itemstack.getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null)) != null)
+        if ((wearable = ThutWearables.getWearable(itemstack)) != null)
         {
             wearable.onPutOn(player, itemstack, slot, subIndex);
             return;
@@ -54,7 +54,7 @@ public class DefaultChecker implements IWearableChecker
     {
         if (itemstack.isEmpty()) return;
         IActiveWearable wearable;
-        if ((wearable = itemstack.getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null)) != null)
+        if ((wearable = ThutWearables.getWearable(itemstack)) != null)
         {
             wearable.onTakeOff(player, itemstack, slot, subIndex);
             return;
@@ -68,7 +68,7 @@ public class DefaultChecker implements IWearableChecker
     {
         if (itemstack == null) return;
         IActiveWearable wearable;
-        if ((wearable = itemstack.getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null)) != null)
+        if ((wearable = ThutWearables.getWearable(itemstack)) != null)
             wearable.onUpdate(wearer, itemstack, slot, subIndex);
         if (itemstack.getItem() instanceof IActiveWearable worn) worn.onUpdate(wearer, itemstack, slot, subIndex);
         else if (wearer instanceof Player player) itemstack.getItem().onArmorTick(itemstack, wearer.level(), player);

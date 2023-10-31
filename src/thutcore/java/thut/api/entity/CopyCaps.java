@@ -14,7 +14,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -94,11 +93,6 @@ public class CopyCaps
 
     private static final Set<ResourceLocation> ATTACH_TO = Sets.newHashSet();
 
-    public static ICopyMob get(final ICapabilityProvider in)
-    {
-        return in.getCapability(ThutCaps.COPYMOB).orElse(null);
-    }
-
     private static void attachMobs(final AttachCapabilitiesEvent<Entity> event)
     {
         if (!CopyCaps.ATTACH_TO.contains(RegHelper.getKey(event.getObject().getType()))) return;
@@ -108,7 +102,7 @@ public class CopyCaps
 
     private static void onEntitySizeSet(final EntityEvent.Size event)
     {
-        final ICopyMob copyMob = CopyCaps.get(event.getEntity());
+        final ICopyMob copyMob = ThutCaps.getCopyMob(event.getEntity());
         if (copyMob == null || copyMob.getCopiedMob() == null) return;
         final LivingEntity copied = copyMob.getCopiedMob();
         final Pose pose = event.getEntity().getPose();
@@ -122,7 +116,7 @@ public class CopyCaps
 
     private static void onLivingUpdate(final LivingTickEvent event)
     {
-        final ICopyMob copyMob = CopyCaps.get(event.getEntity());
+        final ICopyMob copyMob = ThutCaps.getCopyMob(event.getEntity());
         if (copyMob == null) return;
         copyMob.onBaseTick(event.getEntity().level, event.getEntity());
     }

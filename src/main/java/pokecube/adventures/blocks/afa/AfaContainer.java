@@ -41,7 +41,7 @@ public class AfaContainer extends BaseContainer
             // Server side
             if (tile instanceof AfaTile afa)
             {
-                this.ownable = (IOwnableTE) tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
+                this.ownable = (IOwnableTE) ThutCaps.getOwnable(afa);
                 this.tile = afa;
                 this.inv = afa.inventory;
             }
@@ -50,7 +50,7 @@ public class AfaContainer extends BaseContainer
         if (this.ownable == null)
         {
             this.tile = new AfaTile(invIn.player.blockPosition(), PokecubeAdv.AFA.get().defaultBlockState());
-            this.ownable = (IOwnableTE) this.tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
+            this.ownable = (IOwnableTE) ThutCaps.getOwnable(this.tile);
             this.inv = this.tile.inventory;
             this.tile.setLevel(PokecubeCore.proxy.getWorld());
         }

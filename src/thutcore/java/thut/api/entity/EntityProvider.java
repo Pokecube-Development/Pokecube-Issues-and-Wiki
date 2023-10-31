@@ -2,6 +2,7 @@ package thut.api.entity;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
+import thut.api.ThutCaps;
 
 public class EntityProvider implements IEntityProvider
 {
@@ -28,7 +29,7 @@ public class EntityProvider implements IEntityProvider
                 if (ret == null && this.defaults != null) return this.defaults.getEntity(world, id, targetCopyMob);
                 return ret;
             }
-            final ICopyMob copy = CopyCaps.get(ret);
+            final ICopyMob copy = ThutCaps.getCopyMob(ret);
             if (copy != null) return copy.getCopiedMob();
             return ret;
         }

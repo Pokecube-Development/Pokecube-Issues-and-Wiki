@@ -25,7 +25,6 @@ import pokecube.core.database.Database;
 import pokecube.core.network.pokemobs.PacketSyncGene;
 import pokecube.core.utils.PokemobTracker;
 import thut.api.ThutCaps;
-import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
 import thut.api.entity.event.CopySetEvent;
 import thut.api.entity.event.CopyUpdateEvent;
@@ -62,7 +61,7 @@ public class Pokeplayer
                     final String wrd = StringArgumentType.getString(ctx, "val");
 
                     final PokedexEntry var = Database.getEntry(wrd);
-                    final ICopyMob copy = CopyCaps.get(ctx.getSource().getEntity());
+                    final ICopyMob copy = ThutCaps.getCopyMob(ctx.getSource().getEntity());
                     if (copy == null) throw Pokeplayer.ERROR_FAILED.create();
                     System.out.println(var);
                     // TODO apply the species gene here.
@@ -74,7 +73,7 @@ public class Pokeplayer
 
     private static void onPlayerTick(final PlayerTickEvent event)
     {
-        final ICopyMob copy = CopyCaps.get(event.player);
+        final ICopyMob copy = ThutCaps.getCopyMob(event.player);
 
         // If we are copied, then just use the mob's step height.
         if (copy != null && copy.getCopiedMob() != null)
@@ -130,7 +129,7 @@ public class Pokeplayer
 
             if (player instanceof ServerPlayer splayer && splayer.tickCount % 20 == 0)
             {
-                var mobGenes = pokemob.getEntity().getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
+                var mobGenes = ThutCaps.getGenetics(pokemob.getEntity());
                 pokemob.getEntity().onAddedToWorld();
                 for (final Alleles<?, ?> allele : mobGenes.getAlleles().values())
                 {

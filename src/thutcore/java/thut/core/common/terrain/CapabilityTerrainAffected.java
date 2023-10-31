@@ -100,7 +100,7 @@ public class CapabilityTerrainAffected
 
     private static void EntityUpdate(final LivingTickEvent evt)
     {
-        final ITerrainAffected effects = evt.getEntity().getCapability(ThutCaps.TERRAIN_AFFECTED, null).orElse(null);
+        final ITerrainAffected effects = ThutCaps.getTerrainAffected(evt.getEntity());
         if (effects != null) effects.onTerrainTick();
     }
 

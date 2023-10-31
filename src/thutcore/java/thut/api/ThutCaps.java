@@ -1,8 +1,10 @@
 package thut.api;
 
+import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.IItemHandler;
@@ -75,5 +77,101 @@ public class ThutCaps
         event.register(IMobGenetics.class);
         event.register(IMobTexturable.class);
         event.register(CapabilityWorldStructures.class);
+    }
+    
+    public static IMobTexturable getTexturable(final ICapabilityProvider in)
+    {
+        if (in == null) return null;
+        return in.getCapability(ThutCaps.MOBTEX_CAP).orElse(null);
+    }
+    
+    public static IMobGenetics getGenetics(final ICapabilityProvider in)
+    {
+        if (in == null) return null;
+        return in.getCapability(ThutCaps.GENETICS_CAP).orElse(null);
+    }
+    
+    public static ITerrainAffected getTerrainAffected(final ICapabilityProvider in)
+    {
+        if (in == null) return null;
+        return in.getCapability(ThutCaps.TERRAIN_AFFECTED).orElse(null);
+    }
+    
+    public static IAnimationHolder getAnimationHolder(final ICapabilityProvider in)
+    {
+        if (in == null) return null;
+        return in.getCapability(ThutCaps.ANIMCAP).orElse(null);
+    }
+    
+    public static ICopyMob getCopyMob(final ICapabilityProvider in)
+    {
+        if (in == null) return null;
+        return in.getCapability(ThutCaps.COPYMOB).orElse(null);
+    }
+    
+    public static DataSync getDataSync(final ICapabilityProvider in)
+    {
+        if (in == null) return null;
+        return in.getCapability(ThutCaps.DATASYNC).orElse(null);
+    }
+    
+    public static IShearable getShearable(final ICapabilityProvider in)
+    {
+        if (in == null) return null;
+        return in.getCapability(ThutCaps.SHEARABLE).orElse(null);
+    }
+    
+    public static IAnimated getAnimated(final ICapabilityProvider in)
+    {
+        if (in == null) return null;
+        return in.getCapability(ThutCaps.ANIMATED).orElse(null);
+    }
+    
+    public static IBreedingMob getBreedable(final ICapabilityProvider in)
+    {
+        if (in == null) return null;
+        return in.getCapability(ThutCaps.BREEDS).orElse(null);
+    }
+    
+    public static IMobColourable getColourable(final ICapabilityProvider in)
+    {
+        if (in == null) return null;
+        return in.getCapability(ThutCaps.COLOURABLE).orElse(null);
+    }
+    
+    public static IOwnable getOwnable(final ICapabilityProvider in)
+    {
+        if (in == null) return null;
+        return in.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
+    }
+
+    public static CapabilityWorldStructures getWorldStructures(ICapabilityProvider in)
+    {
+        if (in == null) return null;
+        return in.getCapability(WORLD_STRUCTURES).orElse(null);
+    }
+
+    public static ITerrainProvider getTerrainProvider(ICapabilityProvider in)
+    {
+        if (in == null) return null;
+        return in.getCapability(TERRAIN_PROVIDER).orElse(null);
+    }
+
+    public static ILinkable getLinkable(ICapabilityProvider in)
+    {
+        if (in == null) return null;
+        return in.getCapability(LINK).orElse(null);
+    }
+
+    public static ILinkable getLinkable(ICapabilityProvider in, Direction side)
+    {
+        if (in == null) return null;
+        return in.getCapability(LINK, side).orElse(null);
+    }
+
+    public static ILinkStorage getLinkStorage(ICapabilityProvider in)
+    {
+        if (in == null) return null;
+        return in.getCapability(STORE).orElse(null);
     }
 }

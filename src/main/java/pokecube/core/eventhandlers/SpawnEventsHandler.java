@@ -58,7 +58,7 @@ import pokecube.core.entity.npc.NpcType;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.TimePeriod;
-import thut.api.entity.CopyCaps;
+import thut.api.ThutCaps;
 import thut.api.entity.ICopyMob;
 import thut.api.level.terrain.BiomeType;
 import thut.api.level.terrain.TerrainManager;
@@ -362,7 +362,7 @@ public class SpawnEventsHandler
 
         if (thing.has("copyMob"))
         {
-            final ICopyMob copyMob = CopyCaps.get(mob);
+            final ICopyMob copyMob = ThutCaps.getCopyMob(mob);
             final ResourceLocation copyID = new ResourceLocation(thing.get("copyMob").getAsString());
             if (copyMob != null)
             {
