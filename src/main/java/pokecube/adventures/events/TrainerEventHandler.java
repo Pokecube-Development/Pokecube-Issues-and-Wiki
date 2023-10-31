@@ -457,6 +457,16 @@ public class TrainerEventHandler
 //        if (key.toString().contains("dna_splicer"))
 //        {
 //            IMobGenetics newGenes = GeneticsManager.getGenes(evt.getItemStack());
+//            if (player.isShiftKeyDown())
+//            {
+//                living = player;
+//                if (newGenes.getAlleles().isEmpty())
+//                {
+//                    var g1 = new SpeciesGene();
+//                    var g2 = new SpeciesGene();
+//                    newGenes.setGenes(g1, g2);
+//                }
+//            }
 //            IMobGenetics mobGenes = living.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
 //            if (newGenes == null || mobGenes == null) break gene_splice;
 //            ItemStack tmp = new ItemStack(Items.BOOK);
@@ -469,11 +479,17 @@ public class TrainerEventHandler
 //            IMobGenetics bottleGenes = GeneticsManager.getGenes(bottle);
 //            for (var _key : mobGenes.getKeys()) bottleGenes.getAlleles().put(_key, mobGenes.getAlleles().get(_key));
 //            ClonerHelper.spliceGenes(newGenes, bottle, selector);
-//            for (var _key : bottleGenes.getKeys()) mobGenes.getAlleles().put(_key, bottleGenes.getAlleles().get(_key));
+//            for (var _key : bottleGenes.getKeys())
+//            {
+//                var alleles = bottleGenes.getAlleles().get(_key);
+//                alleles.setChangeListeners(mobGenes.getChangeListeners());
+//                mobGenes.getAlleles().put(_key, alleles);
+//                alleles.onChanged();
+//            }
 //            if (player instanceof ServerPlayer splayer)
 //            {
 //                for (final Alleles<?, ?> allele : mobGenes.getAlleles().values())
-//                    PacketSyncGene.syncGene(living, allele, splayer);
+//                    PacketSyncGene.syncGeneToTracking(living, allele);
 //                EntityUpdate.sendEntityUpdate(living);
 //            }
 //            evt.setCanceled(true);
