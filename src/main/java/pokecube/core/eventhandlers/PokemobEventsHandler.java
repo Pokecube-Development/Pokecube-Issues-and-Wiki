@@ -71,8 +71,6 @@ import pokecube.api.ai.IInhabitor;
 import pokecube.api.blocks.IInhabitable;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.EvolutionData;
-import pokecube.api.entity.CapabilityInhabitable;
-import pokecube.api.entity.CapabilityInhabitor;
 import pokecube.api.entity.pokemob.ICanEvolve;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.Nature;
@@ -110,6 +108,7 @@ import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.network.pokemobs.PacketSyncGene;
 import pokecube.core.network.pokemobs.PacketSyncNewMoves;
 import pokecube.core.utils.AITools;
+import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.Permissions;
 import pokecube.core.utils.PokemobTracker;
@@ -428,7 +427,7 @@ public class PokemobEventsHandler
         // We only want to run this from execution thread.
         if (!mob.getServer().isSameThread() || !(mob.level instanceof ServerLevel world)) return;
 
-        final IInhabitor inhabitor = mob.getCapability(CapabilityInhabitor.CAPABILITY).orElse(null);
+        final IInhabitor inhabitor = CapHolders.getInhabitor(mob);
         // Not a valid inhabitor of things, so return.
         if (inhabitor == null) return;
 
@@ -468,7 +467,7 @@ public class PokemobEventsHandler
         final BlockEntity tile = world.getBlockEntity(pos.pos());
         // No tile entity here? also not a bee leaving hive!
         if (tile == null) return;
-        final IInhabitable habitat = tile.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
+        final IInhabitable habitat = CapHolders.getInhabitable(tile);
         // Not a habitat, so not going to be a bee leaving a hive
         if (habitat == null) return;
 

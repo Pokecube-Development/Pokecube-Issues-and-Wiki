@@ -54,7 +54,7 @@ public class PacketSyncRoutes extends Packet
 
     public static void sendUpdateClientPacket(final Entity mob, final ServerPlayer player, final boolean gui)
     {
-        final IGuardAICapability guard = mob.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
+        final IGuardAICapability guard = CapHolders.getGuardAI(mob);
         final PacketSyncRoutes packet = new PacketSyncRoutes();
         packet.data.put("R", guard.serializeTasks());
         packet.data.putBoolean("O", gui);
@@ -84,7 +84,7 @@ public class PacketSyncRoutes extends Packet
         final CompoundTag data = this.data;
         final Entity e = PokecubeAPI.getEntityProvider().getEntity(player.level(), id, true);
         if (e == null) return;
-        final IGuardAICapability guard = e.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
+        final IGuardAICapability guard = CapHolders.getGuardAI(e);
         guard.loadTasks((ListTag) data.get("R"));
         if (data.getBoolean("O")) PacketSyncRoutes.sendServerPacket(e, null);
         else
@@ -99,7 +99,7 @@ public class PacketSyncRoutes extends Packet
         final CompoundTag data = this.data;
         final Entity e = PokecubeAPI.getEntityProvider().getEntity(player.level(), id, true);
         if (e == null) return;
-        final IGuardAICapability guard = e.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
+        final IGuardAICapability guard = CapHolders.getGuardAI(e);
 
         if (guard != null)
         {

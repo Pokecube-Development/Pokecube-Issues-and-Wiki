@@ -95,7 +95,7 @@ public class Tasks
         final Mob entity = pokemob.getEntity();
         Behavior<?> task;
 
-        final IGuardAICapability guardCap = entity.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
+        final IGuardAICapability guardCap = CapHolders.getGuardAI(entity);
         if (entry.stock)
         {
             // Idle tasks
@@ -246,7 +246,7 @@ public class Tasks
 
         final List<Pair<Integer, ? extends BehaviorControl<? super LivingEntity>>> list = Lists.newArrayList();
 
-        final IGuardAICapability guardCap = pokemob.getEntity().getCapability(CapHolders.GUARDAI_CAP).orElse(null);
+        final IGuardAICapability guardCap = CapHolders.getGuardAI(pokemob.getEntity());
         final GuardAI guardai = new GuardAI(pokemob.getEntity(), guardCap);
         guardai.shouldRun = () -> {
             if (!pokemob.getGeneralState(GeneralStates.TAMED)) return true;

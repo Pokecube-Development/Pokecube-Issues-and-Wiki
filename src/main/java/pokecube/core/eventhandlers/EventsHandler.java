@@ -64,7 +64,6 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.data.spawns.SpawnRule;
-import pokecube.api.entity.CapabilityAffected;
 import pokecube.api.entity.CapabilityAffected.DefaultAffected;
 import pokecube.api.entity.CapabilityInhabitable.SaveableHabitatProvider;
 import pokecube.api.entity.CapabilityInhabitor.InhabitorProvider;
@@ -809,7 +808,7 @@ public class EventsHandler
         // Handle ongoing effects for this mob.
         if (evt.getEntity().tickCount % tick == 0 || !EventsHandler.COOLDOWN_BASED)
         {
-            final IOngoingAffected affected = CapabilityAffected.getAffected(evt.getEntity());
+            final IOngoingAffected affected = PokemobCaps.getAffected(evt.getEntity());
             if (affected != null) affected.tick();
         }
     }

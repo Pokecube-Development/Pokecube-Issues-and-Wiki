@@ -116,7 +116,7 @@ public class Linker extends Item
 
     public static boolean interact(final ServerPlayer playerIn, final Entity target, final ItemStack stack)
     {
-        final IGuardAICapability ai = target.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
+        final IGuardAICapability ai = CapHolders.getGuardAI(target);
         final ILinkStorage storage = ThutCaps.getLinkStorage(stack);
         if (storage == null) return false;
         final GlobalPos pos = storage.getLinkedPos(playerIn);

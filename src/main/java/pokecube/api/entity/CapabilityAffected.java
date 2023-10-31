@@ -16,7 +16,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
@@ -149,17 +148,8 @@ public class CapabilityAffected
 
     public static boolean addEffect(final Entity mob, final IOngoingEffect effect)
     {
-        final IOngoingAffected affected = CapabilityAffected.getAffected(mob);
+        final IOngoingAffected affected = PokemobCaps.getAffected(mob);
         if (affected != null) return affected.addEffect(effect);
         return false;
-    }
-
-    public static IOngoingAffected getAffected(final ICapabilityProvider entityIn)
-    {
-        if (entityIn == null) return null;
-        final IOngoingAffected var = entityIn.getCapability(PokemobCaps.AFFECTED_CAP, null).orElse(null);
-        if (var != null) return var;
-        else if (IOngoingAffected.class.isInstance(entityIn)) return IOngoingAffected.class.cast(entityIn);
-        return null;
     }
 }

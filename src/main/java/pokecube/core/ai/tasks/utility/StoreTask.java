@@ -451,7 +451,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
 
         WorldlyContainer container = tile instanceof WorldlyContainer cont ? cont : null;
         IItemHandlerModifiable inventory = null;
-        if ((tile.getCapability(ThutCaps.ITEM_HANDLER, side).orElse(null)) instanceof IItemHandlerModifiable inv)
+        if ((ThutCaps.getInventory(tile, side)) instanceof IItemHandlerModifiable inv)
             inventory = inv;
         if (inventory == null && container == null) return null;
         return Pair.of(inventory, container);

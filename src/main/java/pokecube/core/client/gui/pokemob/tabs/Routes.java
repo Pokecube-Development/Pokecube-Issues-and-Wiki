@@ -52,7 +52,7 @@ public class Routes extends Tab
     {
         super(parent, "routes");
         this.entity = this.menu.pokemob.getEntity();
-        this.guard = this.entity.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
+        this.guard = CapHolders.getGuardAI(entity);
         this.guard.attachChangeListener(callback);
         this.icon = Resources.TAB_ICON_ROUTES;
     }

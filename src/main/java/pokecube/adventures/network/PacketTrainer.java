@@ -115,7 +115,7 @@ public class PacketTrainer extends NBTPacket
         {
             final CompoundTag tag = new CompoundTag();
             final IHasNPCAIStates ai = TrainerCaps.getNPCAIStates(target);
-            final IGuardAICapability guard = target.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
+            final IGuardAICapability guard = CapHolders.getGuardAI(target);
             final IHasPokemobs pokemobs = TrainerCaps.getHasPokemobs(target);
             final IHasRewards rewards = TrainerCaps.getHasRewards(target);
             final IHasMessages messages = TrainerCaps.getMessages(target);
@@ -162,7 +162,7 @@ public class PacketTrainer extends NBTPacket
                 {
                     final CompoundTag nbt = this.getTag().getCompound("C");
                     final IHasNPCAIStates ai = TrainerCaps.getNPCAIStates(mob);
-                    final IGuardAICapability guard = mob.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
+                    final IGuardAICapability guard = CapHolders.getGuardAI(mob);
                     final IHasPokemobs pokemobs = TrainerCaps.getHasPokemobs(mob);
                     final IHasRewards rewards = TrainerCaps.getHasRewards(mob);
                     final IHasMessages messages = TrainerCaps.getMessages(mob);

@@ -55,11 +55,11 @@ public abstract class TrainerBase extends NpcMob
     protected TrainerBase(final EntityType<? extends TrainerBase> type, final Level worldIn)
     {
         super(type, worldIn);
-        this.pokemobsCap = (DefaultPokemobs) this.getCapability(TrainerCaps.HASPOKEMOBS_CAP).orElse(null);
-        this.rewardsCap = this.getCapability(TrainerCaps.REWARDS_CAP).orElse(null);
-        this.messages = this.getCapability(TrainerCaps.MESSAGES_CAP).orElse(null);
-        this.aiStates = this.getCapability(TrainerCaps.AISTATES_CAP).orElse(null);
-        this.trades = this.getCapability(TrainerCaps.TRADES_CAP).orElse(null);
+        this.pokemobsCap = (DefaultPokemobs) TrainerCaps.getHasPokemobs(this);
+        this.rewardsCap = TrainerCaps.getHasRewards(this);
+        this.messages = TrainerCaps.getMessages(this);
+        this.aiStates = TrainerCaps.getNPCAIStates(this);
+        this.trades = TrainerCaps.getHasTrades(this);
     }
 
     public boolean canTrade(final Player player)

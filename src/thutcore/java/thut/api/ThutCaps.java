@@ -79,6 +79,30 @@ public class ThutCaps
         event.register(CapabilityWorldStructures.class);
     }
     
+    public static IEnergyStorage getEnergy(final ICapabilityProvider in)
+    {
+        if (in == null) return null;
+        return in.getCapability(ThutCaps.ENERGY).orElse(null);
+    }
+    
+    public static IEnergyStorage getEnergy(final ICapabilityProvider in, Direction side)
+    {
+        if (in == null) return null;
+        return in.getCapability(ThutCaps.ENERGY).orElse(null);
+    }
+    
+    public static IItemHandler getInventory(final ICapabilityProvider in, Direction side)
+    {
+        if (in == null) return null;
+        return in.getCapability(ThutCaps.ITEM_HANDLER, side).orElse(null);
+    }
+    
+    public static IItemHandler getInventory(final ICapabilityProvider in)
+    {
+        if (in == null) return null;
+        return in.getCapability(ThutCaps.ITEM_HANDLER).orElse(null);
+    }
+    
     public static IMobTexturable getTexturable(final ICapabilityProvider in)
     {
         if (in == null) return null;

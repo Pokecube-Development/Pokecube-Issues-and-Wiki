@@ -396,7 +396,7 @@ public class SpawnEventsHandler
         }
         if (info == null) return;
         // Set us to sit at this location.
-        final IGuardAICapability guard = mob.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
+        final IGuardAICapability guard = CapHolders.getGuardAI(mob);
         mob.restrictTo(mob.blockPosition(), info.roam);
         if (guard != null)
         {

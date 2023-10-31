@@ -521,7 +521,7 @@ public class MovesUtils implements IMoveConstants
 
         if (ret)
         {
-            final IOngoingAffected affect = CapabilityAffected.getAffected(target);
+            final IOngoingAffected affect = PokemobCaps.getAffected(target);
             if (affect != null)
             {
                 for (byte i = 0; i < diff.length; i++)
@@ -627,7 +627,7 @@ public class MovesUtils implements IMoveConstants
             }
             else if (attacked != null)
             {
-                final IOngoingAffected affected = CapabilityAffected.getAffected(attacked);
+                final IOngoingAffected affected = PokemobCaps.getAffected(attacked);
                 if (affected != null)
                 {
                     applied = true;

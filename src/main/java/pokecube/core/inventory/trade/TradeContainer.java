@@ -40,8 +40,7 @@ public class TradeContainer extends BaseContainer
             if (tile instanceof TraderTile)
             {
                 this.tile = (TraderTile) tile;
-                final InvWrapper wrapper = (InvWrapper) this.tile
-                        .getCapability(ThutCaps.ITEM_HANDLER).orElse(null);
+                final InvWrapper wrapper = (InvWrapper) ThutCaps.getInventory(this.tile);
                 this.inv = wrapper.getInv();
             }
         });
@@ -49,8 +48,7 @@ public class TradeContainer extends BaseContainer
         if (this.inv == null)
         {
             this.tile = new TraderTile(inv.player.blockPosition(), PokecubeItems.TRADER.get().defaultBlockState());
-            final InvWrapper wrapper = (InvWrapper) this.tile
-                    .getCapability(ThutCaps.ITEM_HANDLER).orElse(null);
+            final InvWrapper wrapper = (InvWrapper) ThutCaps.getInventory(this.tile);
             this.inv = wrapper.getInv();
         }
 

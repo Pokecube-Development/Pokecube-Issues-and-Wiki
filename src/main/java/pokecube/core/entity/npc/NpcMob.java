@@ -130,7 +130,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         // system.
         brain.addActivity(Activity.IDLE, Tasks.getIdlePackage(villagerprofession, 0.5F));
 
-        final IGuardAICapability guard = this.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
+        final IGuardAICapability guard = CapHolders.getGuardAI(this);
         if (guard != null)
         {
             final GuardAI guardai = new GuardAI(this, guard);

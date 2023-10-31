@@ -39,7 +39,7 @@ public class TMContainer extends BaseContainer
             if (tile instanceof TMTile)
             {
                 this.tile = (TMTile) tile;
-                final InvWrapper wrapper = (InvWrapper) this.tile.getCapability(ThutCaps.ITEM_HANDLER).orElse(null);
+                final InvWrapper wrapper = (InvWrapper) ThutCaps.getInventory(this.tile);
                 this.inv = wrapper.getInv();
             }
         });
@@ -48,7 +48,7 @@ public class TMContainer extends BaseContainer
         {
             this.tile = new TMTile(inv.player.blockPosition(), PokecubeItems.TM_MACHINE.get().defaultBlockState());
             this.tile.setLevel(PokecubeCore.proxy.getWorld());
-            final InvWrapper wrapper = (InvWrapper) this.tile.getCapability(ThutCaps.ITEM_HANDLER).orElse(null);
+            final InvWrapper wrapper = (InvWrapper) ThutCaps.getInventory(this.tile);
             this.inv = wrapper.getInv();
         }
 

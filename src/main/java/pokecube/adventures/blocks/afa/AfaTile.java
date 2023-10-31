@@ -144,8 +144,7 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
     public AfaTile(final BlockPos pos, final BlockState state)
     {
         super(PokecubeAdv.AFA_TYPE.get(), pos, state);
-        this.itemstore = (IItemHandlerModifiable) this.getCapability(ThutCaps.ITEM_HANDLER)
-                .orElse(null);
+        this.itemstore = (IItemHandlerModifiable) ThutCaps.getInventory(this);
         this.inventory = new AfaContainer.InvWrapper(this.itemstore, (IOwnableTE) ThutCaps.getOwnable(this));
         ((AfaContainer.InvWrapper) this.inventory).addListener(this);
     }
