@@ -11,6 +11,8 @@ public class SharedAttributes
 
     public static double getScale(LivingEntity mob)
     {
+        // This can be null if size is checked during constructor.
+        if (mob.getAttributes() == null) return 1;
         if (!mob.getAttributes().hasAttribute(MOB_SIZE_SCALE.get())) return 1;
         return mob.getAttributeValue(MOB_SIZE_SCALE.get());
     }
