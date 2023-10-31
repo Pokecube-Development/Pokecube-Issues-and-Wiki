@@ -2,7 +2,8 @@
 	"credit": "Made with Blockbench",
 	"parent": "item/handheld",
 	"textures": {
-		"layer0": "pokecube_legends:item/rainbow_sword"
+		"layer0": "pokecube_legends:item/rainbow_sword",
+		"layer1": "pokecube_legends:item/rainbow_sword_shine"
 	},
 	"display": {
 		"thirdperson_righthand": {
