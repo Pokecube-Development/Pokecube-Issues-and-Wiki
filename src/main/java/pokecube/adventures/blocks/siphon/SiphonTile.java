@@ -20,7 +20,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -31,6 +30,7 @@ import thut.api.LinkableCaps.ILinkStorage;
 import thut.api.ThutCaps;
 import thut.api.block.ITickTile;
 import thut.api.entity.teleporting.TeleDest;
+import thut.core.common.ThutCore;
 import thut.lib.TComponent;
 
 public class SiphonTile extends InteractableTile implements ITickTile
@@ -140,7 +140,7 @@ public class SiphonTile extends InteractableTile implements ITickTile
     @Override
     public void tick()
     {
-        if (!this.level.isClientSide) MinecraftForge.EVENT_BUS.post(new SiphonTickEvent(this));
+        if (!this.level.isClientSide) ThutCore.FORGE_BUS.post(new SiphonTickEvent(this));
     }
 
     @Override

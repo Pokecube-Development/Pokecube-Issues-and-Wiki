@@ -107,7 +107,7 @@ public class EditorGui extends Screen
         this.messages = TrainerCaps.getMessages(mob);
         this.aiStates = TrainerCaps.getNPCAIStates(mob);
         this.pokemob = PokemobCaps.getPokemobFor(mob);
-        if (this.entity != null) this.guard = this.entity.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
+        if (this.entity != null) this.guard = CapHolders.getGuardAI(entity);
         else this.guard = null;
     }
 

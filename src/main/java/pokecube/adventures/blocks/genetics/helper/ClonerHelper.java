@@ -14,7 +14,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.common.MinecraftForge;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.SelectorValue;
 import pokecube.api.PokecubeAPI;
@@ -23,9 +22,9 @@ import pokecube.api.events.GeneEditEvent;
 import pokecube.api.events.GeneEditEvent.EditType;
 import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
-import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
-import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
+import pokecube.core.entity.genetics.GeneticsManager;
+import pokecube.core.entity.genetics.genes.SpeciesGene;
+import pokecube.core.entity.genetics.genes.SpeciesGene.SpeciesInfo;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
@@ -107,31 +106,7 @@ public class ClonerHelper
 
     public static IMobGenetics getGenes(final ItemStack stack)
     {
-        if (stack.isEmpty() || !stack.hasTag()) return null;
-        final CompoundTag nbt = stack.getTag();
-        if (!nbt.contains(GeneticsManager.GENES))
-        {
-            if (PokecubeManager.isFilled(stack))
-            {
-                final CompoundTag poketag = nbt.getCompound(TagNames.POKEMOB);
-                if (!poketag.getCompound("ForgeCaps").contains(GeneticsManager.POKECUBEGENETICS.toString()))
-                    return null;
-                if (!poketag.getCompound("ForgeCaps").getCompound(GeneticsManager.POKECUBEGENETICS.toString())
-                        .contains("V"))
-                    return null;
-                final Tag genes = poketag.getCompound("ForgeCaps")
-                        .getCompound(GeneticsManager.POKECUBEGENETICS.toString()).get("V");
-                final IMobGenetics eggs = new DefaultGenetics();
-                eggs.deserializeNBT((ListTag) genes);
-                return eggs;
-            }
-            return null;
-        }
-        final Tag genes = nbt.get(GeneticsManager.GENES);
-        final IMobGenetics eggs = new DefaultGenetics();
-        eggs.deserializeNBT((ListTag) genes);
-        if (eggs.getAlleles().isEmpty()) return null;
-        return eggs;
+        return GeneticsManager.getGenes(stack);
     }
 
     public static Set<Class<? extends Gene<?>>> getGeneSelectors(final ItemStack stack)
@@ -197,13 +172,6 @@ public class ClonerHelper
         return SelectorValue.load(selectorTag);
     }
 
-    public static boolean isDNAContainer(final ItemStack stack)
-    {
-        if (stack.isEmpty() || !stack.hasTag()) return false;
-        final String potion = stack.getTag().getString("Potion");
-        return potion.equals("minecraft:water") || potion.equals("minecraft:mundane");
-    }
-
     private static <T, GENE extends Gene<T>> void merge(final IMobGenetics source, final IMobGenetics destination,
             final IGeneSelector selector, final ResourceLocation loc)
     {
@@ -230,8 +198,15 @@ public class ClonerHelper
     public static void setGenes(final ItemStack stack, final IMobGenetics sourceGenes, final IMobGenetics genes,
             final EditType reason)
     {
-        if (stack.isEmpty() || !stack.hasTag()) return;
-        MinecraftForge.EVENT_BUS.post(new GeneEditEvent(sourceGenes, genes, reason));
+        if (stack.isEmpty()) return;
+        IMobGenetics destGenes = ClonerHelper.getGenes(stack);
+        if (destGenes != null)
+        {
+            genes.getAlleles().forEach((key, value) -> destGenes.getAlleles().put(key, value));
+            return;
+        }
+        if (!stack.hasTag() && destGenes == null) return;
+        ThutCore.FORGE_BUS.post(new GeneEditEvent(sourceGenes, genes, reason));
         final CompoundTag nbt = stack.getTag();
         final Tag geneTag = genes.serializeNBT();
         if (PokecubeManager.isFilled(stack))

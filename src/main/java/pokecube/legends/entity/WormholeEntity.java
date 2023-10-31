@@ -173,7 +173,7 @@ public class WormholeEntity extends LivingEntity
 
         if (now < lastTp) return;
 
-        final IWormholeWorld holes = world.getCapability(WormholeSpawns.WORMHOLES_CAP).orElse(null);
+        final IWormholeWorld holes = WormholeSpawns.getWormholes(world);
         if (holes == null) return;
 
         final double chance = ItemList.is(WormholeSpawns.SPACE_WORMS, entity) ? WormholeSpawns.teleWormholeChanceWorms
@@ -196,8 +196,7 @@ public class WormholeEntity extends LivingEntity
             for (int i = 0; i < pokemob.getInventory().getContainerSize(); i++)
             {
                 final ItemStack test = pokemob.getInventory().getItem(i);
-                final LazyOptional<ILinkStorage> test_stack = test.getCapability(ThutCaps.STORE);
-                if (test_stack.isPresent()) link = test_stack.orElse(null);
+                link = ThutCaps.getLinkStorage(test);
             }
             if (link != null)
             {
@@ -285,7 +284,7 @@ public class WormholeEntity extends LivingEntity
     {
         final ResourceKey<Level> key = d.getPos().dimension();
         final ServerLevel dest = this.getServer().getLevel(key);
-        final IWormholeWorld holes = this.level.getCapability(WormholeSpawns.WORMHOLES_CAP).orElse(null);
+        final IWormholeWorld holes = WormholeSpawns.getWormholes(level);
         this.makingDest = true;
         EventsHandler.Schedule(dest, w -> {
             this.dest = d;
@@ -315,7 +314,7 @@ public class WormholeEntity extends LivingEntity
                 PokecubeAPI.LOGGER.error("Warning, Wormhole had invalid exit dimension {}", key);
             }
             final WorldBorder border = dest.getWorldBorder();
-            final IWormholeWorld holes = this.level.getCapability(WormholeSpawns.WORMHOLES_CAP).orElse(null);
+            final IWormholeWorld holes = WormholeSpawns.getWormholes(level);
             this.makingDest = true;
             EventsHandler.Schedule(dest, w -> {
                 final int x = (int) ((border.getMaxX() - border.getMinX()) * rng.nextDouble() + border.getMinX());
@@ -389,7 +388,7 @@ public class WormholeEntity extends LivingEntity
         {
             if (this.level instanceof ServerLevel)
             {
-                final IWormholeWorld holes = this.level.getCapability(WormholeSpawns.WORMHOLES_CAP).orElse(null);
+                final IWormholeWorld holes = WormholeSpawns.getWormholes(level);
                 holes.removeWormhole(this.getPos().getPos().pos());
                 holes.getWormholes().clear();
 

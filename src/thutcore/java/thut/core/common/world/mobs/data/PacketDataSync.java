@@ -10,6 +10,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import thut.api.entity.EntityProvider;
 import thut.api.world.mobs.data.Data;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.ThutCore;
@@ -75,7 +76,7 @@ public class PacketDataSync extends Packet
     public void handleClient()
     {
         final Level world = net.minecraft.client.Minecraft.getInstance().level;
-        final Entity mob = world.getEntity(this.id);
+        final Entity mob = EntityProvider.provider.getEntity(world, id);
         if (mob == null) return;
         final DataSync sync = SyncHandler.getData(mob);
         if (sync == null) return;

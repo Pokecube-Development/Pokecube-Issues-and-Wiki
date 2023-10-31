@@ -7,7 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
+import thut.core.common.ThutCore;
 import thut.wearables.ThutWearables;
 import thut.wearables.events.WearablesLoadedEvent;
 import thut.wearables.inventory.PlayerWearables;
@@ -27,7 +27,7 @@ public class PacketSyncWearables extends Packet
         final PlayerWearables cap = ThutWearables.getWearables(player);
         if (cap != null)
         {
-            MinecraftForge.EVENT_BUS.post(new WearablesLoadedEvent(player, cap));
+            ThutCore.FORGE_BUS.post(new WearablesLoadedEvent(player, cap));
             this.data.putInt("I", player.getId());
             cap.writeToNBT(this.data);
         }

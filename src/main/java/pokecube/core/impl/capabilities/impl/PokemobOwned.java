@@ -393,7 +393,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
     public void setHome(final int x, final int y, final int z, final int distance)
     {
         if (this.guardCap == null) // First try to collect and reset this
-            this.guardCap = this.entity.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
+            this.guardCap = CapHolders.getGuardAI(entity);
 
         // Then lets just log the error
         if (this.guardCap == null || this.guardCap.getPrimaryTask() == null)

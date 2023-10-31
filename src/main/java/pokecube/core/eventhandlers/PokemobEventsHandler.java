@@ -14,7 +14,6 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
-import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -48,7 +47,6 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.TickEvent.LevelTickEvent;
@@ -72,8 +70,6 @@ import pokecube.api.ai.IInhabitor;
 import pokecube.api.blocks.IInhabitable;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.EvolutionData;
-import pokecube.api.entity.CapabilityInhabitable;
-import pokecube.api.entity.CapabilityInhabitor;
 import pokecube.api.entity.pokemob.ICanEvolve;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.Nature;
@@ -111,6 +107,7 @@ import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.network.pokemobs.PacketSyncGene;
 import pokecube.core.network.pokemobs.PacketSyncNewMoves;
 import pokecube.core.utils.AITools;
+import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.Permissions;
 import pokecube.core.utils.PokemobTracker;
@@ -129,6 +126,7 @@ import thut.api.world.WorldTickManager;
 import thut.api.world.WorldTickManager.DelayedTask;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
+import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
 public class PokemobEventsHandler
@@ -149,7 +147,7 @@ public class PokemobEventsHandler
 
         public void init()
         {
-            MinecraftForge.EVENT_BUS.register(this);
+            ThutCore.FORGE_BUS.register(this);
         }
 
         public void tick()
@@ -226,7 +224,7 @@ public class PokemobEventsHandler
         public void tick(final LevelTickEvent evt)
         {
             if (evt.level != this.world || evt.phase != Phase.END) return;
-            MinecraftForge.EVENT_BUS.unregister(this);
+            ThutCore.FORGE_BUS.unregister(this);
             this.tick();
         }
 
@@ -350,58 +348,58 @@ public class PokemobEventsHandler
         // the drops. This adds the inventory items to the drops list for wild
         // pokemobs, and prevents drops for pokemobs which have been revived or
         // are tame
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGHEST, PokemobEventsHandler::onLivingDrops);
+        ThutCore.FORGE_BUS.addListener(EventPriority.HIGHEST, PokemobEventsHandler::onLivingDrops);
         // This is done twice as some events only send one rather than the other
         // from client side!
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onInteract);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onInteract);
         // This handles pokemob damage stuff. It deals with: cancelling damage
         // on invalid targets, adjusting damage amount by the scaling configs
         // and preventing player suffocating while riding a pokemob into a
         // cieling.
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onLivingHurt);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onLivingHurt);
         // Used to reset the "NOITEMUSE" flag, which controls using healing
         // items, the capture delay, etc.
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onLivingAttacked);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onLivingAttacked);
 
         // This ensures that the damage sources apply for the correct entity,
         // this part is for support for mods like customnpcs
         // It also handles exp gain for the pokemobs when they kill something.
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onLivingDeath);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onLivingDeath);
         // This deals with pokemob initialization, it initializes the AI, and
         // also does some checks for things like evolution, etc
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onJoinWorld);
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, false, PokemobEventsHandler::onJoinWorldLast);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onJoinWorld);
+        ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, false, PokemobEventsHandler::onJoinWorldLast);
         // This synchronizes genetics over to the clients when they start
         // tracking the mob locally.
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onStartTracking);
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onStopTracking);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onStartTracking);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onStopTracking);
         // This syncs rotation of the ridden pokemob with the rider.
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onWorldTick);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onWorldTick);
         // Monitors sim speed and reduces idle tick rate if lagging too much
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onServerTick);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onServerTick);
         // This pauses the pokemobs if too close to the edge of the loaded area,
         // preventing them from chunkloading during their AI. It also then
         // ensures their UUID is correct after evolution, and then ticks the
         // "logic" section of their AI.
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onMobTick);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onMobTick);
         // Similar as the above, except only for "logic" on the copied state
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onCopyTick);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onCopyTick);
         // Called by MixinMobEntity before the first brain tick, to ensure the
         // brain has AI setup, etc.
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onBrainInit);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onBrainInit);
 
         // This checks if we are an inhabitor of a nest, and we just left it. if
         // this is the case, then some extra processing is done related to
         // finishing tasks, etc upon leaving the nest.
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onMobAddedToWorld);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onMobAddedToWorld);
 
         // Checks to see if we are diving mob+dive, or flyingmob+fly, and if so,
         // we speed back up breaking.
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onBreakSpeed);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onBreakSpeed);
 
         // If noone has modified result of a capture event pre, we deny it if
         // the mob is not alive.
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, false, PokemobEventsHandler::onCapturePre);
+        ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, false, PokemobEventsHandler::onCapturePre);
     }
 
     public static Set<ResourceKey<Level>> BEE_RELEASE_TICK = Sets.newConcurrentHashSet();
@@ -428,7 +426,7 @@ public class PokemobEventsHandler
         // We only want to run this from execution thread.
         if (!mob.getServer().isSameThread() || !(mob.level instanceof ServerLevel world)) return;
 
-        final IInhabitor inhabitor = mob.getCapability(CapabilityInhabitor.CAPABILITY).orElse(null);
+        final IInhabitor inhabitor = CapHolders.getInhabitor(mob);
         // Not a valid inhabitor of things, so return.
         if (inhabitor == null) return;
 
@@ -468,7 +466,7 @@ public class PokemobEventsHandler
         final BlockEntity tile = world.getBlockEntity(pos.pos());
         // No tile entity here? also not a bee leaving hive!
         if (tile == null) return;
-        final IInhabitable habitat = tile.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
+        final IInhabitable habitat = CapHolders.getInhabitable(tile);
         // Not a habitat, so not going to be a bee leaving a hive
         if (habitat == null) return;
 
@@ -686,7 +684,7 @@ public class PokemobEventsHandler
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
         final PokedexEntry entry = pokemob.getPokedexEntry();
 
-        final IMobGenetics genes = event.getTarget().getCapability(ThutCaps.GENETICS_CAP).orElse(null);
+        final IMobGenetics genes = ThutCaps.getGenetics(event.getTarget());
         for (final Alleles<?, ?> allele : genes.getAlleles().values())
             PacketSyncGene.syncGene(event.getTarget(), allele, player);
 
@@ -759,8 +757,12 @@ public class PokemobEventsHandler
             // Initialize this for client side here
             if (living.level.isClientSide() && pokemob.getTickLogic().isEmpty()) pokemob.initAI();
 
+            // Mark copy as in world for logic checks
+            living.onAddedToWorld();
             // Tick the logic stuff for this mob.
             for (final Logic l : pokemob.getTickLogic()) if (l.shouldRun()) l.tick(living.getLevel());
+            // Unmark copy as in world afterwards
+            living.onRemovedFromWorld();
         }
     }
 
@@ -829,7 +831,7 @@ public class PokemobEventsHandler
         living.getPersistentData().putLong("__i__", Tracker.instance().getTick());
 
         // Tick the genes
-        IMobGenetics genes = living.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
+        IMobGenetics genes = ThutCaps.getGenetics(living);
         if (genes != null) genes.onUpdateTick(living);
 
         final Level dim = living.getLevel();
@@ -840,6 +842,7 @@ public class PokemobEventsHandler
         final boolean tooFast = ridden && !TerrainManager.isAreaLoaded(dim, living.blockPosition(),
                 PokecubeCore.getConfig().movementPauseThreshold + dist);
         if (tooFast) living.setDeltaMovement(0, living.getDeltaMovement().y, 0);
+
         final IPokemob pokemob = PokemobCaps.getPokemobFor(living);
         if (pokemob instanceof DefaultPokemob pokemobCap && living instanceof EntityPokemob mob
                 && dim instanceof ServerLevel level)
@@ -939,7 +942,7 @@ public class PokemobEventsHandler
         if (PokemobEventsHandler.DYETAGS.isEmpty()) for (final DyeColor colour : DyeColor.values())
         {
             final ResourceLocation tag = new ResourceLocation("forge", "dyes/" + colour.getName());
-            PokemobEventsHandler.DYETAGS.put(colour, TagKey.create(Registry.ITEM_REGISTRY, tag));
+            PokemobEventsHandler.DYETAGS.put(colour, TagKey.create(RegHelper.ITEM_REGISTRY, tag));
         }
         return PokemobEventsHandler.DYETAGS;
     }
@@ -1054,7 +1057,7 @@ public class PokemobEventsHandler
         final Mob entity = pokemob.getEntity();
 
         final InteractEvent event = new InteractEvent(pokemob, player, evt);
-        MinecraftForge.EVENT_BUS.post(event);
+        ThutCore.FORGE_BUS.post(event);
         if (event.getResult() != Result.DEFAULT)
         {
             evt.setCanceled(true);

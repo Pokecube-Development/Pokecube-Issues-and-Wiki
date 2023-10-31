@@ -91,7 +91,7 @@ public class CapabilityHasTrades
     @SubscribeEvent
     public static void setup(final NpcTradesEvent event)
     {
-        IHasNPCAIStates aiStates = event.getEntity().getCapability(TrainerCaps.AISTATES_CAP).orElse(null);
+        IHasNPCAIStates aiStates = TrainerCaps.getNPCAIStates(event.getEntity());
         if (aiStates == null) return;
         // If we don't trade items, clear the offers
         if (!aiStates.getAIState(AIState.TRADES_ITEMS)) event.offers.clear();

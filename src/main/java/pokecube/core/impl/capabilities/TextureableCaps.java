@@ -180,7 +180,6 @@ public class TextureableCaps
 
     public static IMobTexturable forMob(final Entity mob)
     {
-        if (mob == null) return null;
-        return mob.getCapability(ThutCaps.MOBTEX_CAP).orElse(null);
+        return ThutCaps.getTexturable(mob);
     }
 }

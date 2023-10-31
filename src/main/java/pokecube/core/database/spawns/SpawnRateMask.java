@@ -10,7 +10,6 @@ import com.google.common.collect.Maps;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
@@ -21,6 +20,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
+import thut.core.common.ThutCore;
 
 public class SpawnRateMask
 {
@@ -29,7 +29,9 @@ public class SpawnRateMask
     public static void init()
     {
         RATE_MASKS.clear();
-        if (MinecraftForge.EVENT_BUS.post(new SpawnMaskEvent()) || !PokecubeCore.getConfig().applySpawnRateMask) return;
+        var event = new SpawnMaskEvent();
+        ThutCore.FORGE_BUS.post(event);
+        if (event.isCanceled() || !PokecubeCore.getConfig().applySpawnRateMask) return;
         for (PokedexEntry e : Database.getSortedFormes())
         {
             RATE_MASKS.put(e, new SpawnRateMask(e));

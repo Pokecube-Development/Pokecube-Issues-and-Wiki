@@ -45,7 +45,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import thut.api.entity.CopyCaps;
+import thut.api.ThutCaps;
 import thut.api.entity.ICopyMob;
 import thut.api.level.structures.NamedVolumes.INamedStructure;
 import thut.api.level.structures.StructureManager;
@@ -162,7 +162,7 @@ public class ClientInit
     public static void renderMob(final RenderLivingEvent.Pre<?, ?> event)
     {
         final LivingEntity living = event.getEntity();
-        final ICopyMob copied = CopyCaps.get(living);
+        final ICopyMob copied = ThutCaps.getCopyMob(living);
         if (copied != null && copied.getCopiedMob() != null)
         {
             final LivingEntity entity = copied.getCopiedMob();
@@ -187,7 +187,7 @@ public class ClientInit
     public static void renderHand(final RenderHandEvent event)
     {
         final Player player = Minecraft.getInstance().player;
-        final ICopyMob copied = CopyCaps.get(player);
+        final ICopyMob copied = ThutCaps.getCopyMob(player);
         if (copied != null && copied.getCopiedMob() != null) event.setCanceled(true);
     }
 

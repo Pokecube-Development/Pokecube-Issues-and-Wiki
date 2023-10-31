@@ -48,6 +48,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.items.IPokecube;
 import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.utils.Tools;
@@ -76,7 +77,6 @@ import pokecube.core.init.ItemGenerator;
 import pokecube.core.inventory.barrels.GenericBarrelMenu;
 import pokecube.core.items.ItemPokedex;
 import pokecube.core.items.ItemTM;
-import pokecube.core.items.UsableItemEffects;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.items.pokecubes.DispenserBehaviorPokecube;
@@ -129,7 +129,7 @@ public class PokecubeItems extends ItemList
         }
     };
 
-    public static final ResourceLocation POKEMOBEGG = new ResourceLocation("pokecube:pokemob_egg");
+    public static final ResourceLocation POKEMOBEGG = new ResourceLocation("pokecube:pokemobegg");
     public static final ResourceLocation HELDKEY = new ResourceLocation("pokecube:pokemob_held");
     public static final ResourceLocation EVOSKEY = new ResourceLocation("pokecube:pokemob_evo");
     public static final ResourceLocation TMKEY = new ResourceLocation("pokecube:tms");
@@ -697,7 +697,7 @@ public class PokecubeItems extends ItemList
 
     public static boolean isValidHeldItem(final ItemStack stack)
     {
-        if (stack.getCapability(UsableItemEffects.USABLEITEM_CAP, null).isPresent()) return true;
+        if (PokemobCaps.getPokemobUsable(stack) != null) return true;
         if (ADDED_HELD.contains(RegHelper.getKey(stack))) return true;
         return ItemList.is(PokecubeItems.HELDKEY, stack) || PokecubeItems.isValidEvoItem(stack);
     }

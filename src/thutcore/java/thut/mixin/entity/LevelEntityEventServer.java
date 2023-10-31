@@ -7,8 +7,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.common.MinecraftForge;
 import thut.api.entity.event.LevelEntityEvent;
+import thut.core.common.ThutCore;
 
 @Mixin(ServerLevel.class)
 public class LevelEntityEventServer
@@ -16,6 +16,6 @@ public class LevelEntityEventServer
     @Inject(method = "broadcastEntityEvent", at = @At(value = "RETURN"))
     public void pokecube$onBroadcastEntityEvent(Entity entity, byte key, CallbackInfo cb)
     {
-        MinecraftForge.EVENT_BUS.post(new LevelEntityEvent(entity, key));
+        ThutCore.FORGE_BUS.post(new LevelEntityEvent(entity, key));
     }
 }

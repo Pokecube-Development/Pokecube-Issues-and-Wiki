@@ -24,6 +24,7 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.database.Database;
+import thut.api.ThutCaps;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
 
@@ -117,7 +118,7 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IClie
             {
                 statue_cache.setLevel(mc.level);
                 statue_cache.load(blockTag);
-                copy = CopyCaps.get(statue_cache);
+                copy = ThutCaps.getCopyMob(statue_cache);
                 if (copy != null)
                 {
                     mob = copy.getCopiedMob();

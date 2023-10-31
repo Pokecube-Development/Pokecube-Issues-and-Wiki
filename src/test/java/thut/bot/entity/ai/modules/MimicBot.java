@@ -12,13 +12,13 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.registries.ForgeRegistries;
-import thut.api.entity.CopyCaps;
+import thut.api.ThutCaps;
 import thut.api.entity.ICopyMob;
 import thut.api.entity.event.CopyUpdateEvent;
 import thut.bot.entity.BotPlayer;
 import thut.bot.entity.ai.BotAI;
+import thut.core.common.ThutCore;
 import thut.core.common.network.CapabilitySync;
 import thut.lib.RegHelper;
 
@@ -43,7 +43,7 @@ public class MimicBot extends AbstractBot
                 ResourceLocation loc = new ResourceLocation(match.group(5));
                 final EntityType<?> type = ForgeRegistries.ENTITY_TYPES.getValue(loc);
                 if (type == null || !RegHelper.getKey(type).equals(loc)) return false;
-                final ICopyMob copy = CopyCaps.get(player);
+                final ICopyMob copy = ThutCaps.getCopyMob(player);
                 copy.setCopiedID(loc);
                 CapabilitySync.sendUpdate(player);
                 this.getTag().putString("id", loc.toString());
@@ -60,7 +60,7 @@ public class MimicBot extends AbstractBot
     @Override
     public void end(ServerPlayer commander)
     {
-        final ICopyMob copy = CopyCaps.get(player);
+        final ICopyMob copy = ThutCaps.getCopyMob(player);
         copy.setCopiedID(null);
         getTag().remove("id");
     }
@@ -68,7 +68,7 @@ public class MimicBot extends AbstractBot
     @Override
     protected void preBotTick(ServerLevel world)
     {
-        final ICopyMob copy = CopyCaps.get(player);
+        final ICopyMob copy = ThutCaps.getCopyMob(player);
         if (copy.getCopiedMob() instanceof PathfinderMob mob)
         {
             this.mob = mob;
@@ -81,7 +81,7 @@ public class MimicBot extends AbstractBot
     @Override
     public void tick()
     {
-        final ICopyMob copy = CopyCaps.get(player);
+        final ICopyMob copy = ThutCaps.getCopyMob(player);
         ResourceLocation id = copy.getCopiedID();
         LivingEntity mob = copy.getCopiedMob();
         CompoundTag nbt = copy.getCopiedNBT();
@@ -105,7 +105,7 @@ public class MimicBot extends AbstractBot
     @Override
     public void botTick(ServerLevel world)
     {
-        final ICopyMob copy = CopyCaps.get(player);
+        final ICopyMob copy = ThutCaps.getCopyMob(player);
         copy.baseInit(world, player);
         LivingEntity living = copy.getCopiedMob();
 
@@ -147,7 +147,9 @@ public class MimicBot extends AbstractBot
 
         living.level = player.level;
 
-        if (!MinecraftForge.EVENT_BUS.post(new CopyUpdateEvent(living, player)))
+        var event =new CopyUpdateEvent(living, player);
+        ThutCore.FORGE_BUS.post(event);
+        if (!event.isCanceled())
         {
             living.setHealth(player.getHealth());
             living.setAirSupply(player.getAirSupply());

@@ -31,7 +31,7 @@ import pokecube.api.raids.RaidManager;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
+import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.network.pokemobs.PacketSyncGene;
@@ -140,12 +140,12 @@ public class TerastalMechanic
     public static Alleles<TeraType, Gene<TeraType>> getTeraGenes(Entity entity)
     {
 
-        final IMobGenetics genes = entity.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
+        final IMobGenetics genes = ThutCaps.getGenetics(entity);
         if (genes == null) return null;
         if (!genes.getKeys().contains(GeneticsManager.TERAGENE))
         {
             // Initialise it for the mob here.
-            Alleles<TeraType, Gene<TeraType>> alleles = new Alleles<>();
+            Alleles<TeraType, Gene<TeraType>> alleles = new Alleles<>(genes);
             Gene<TeraType> gene1 = new TeraTypeGene().mutate();
             Gene<TeraType> gene2 = new TeraTypeGene().mutate();
 

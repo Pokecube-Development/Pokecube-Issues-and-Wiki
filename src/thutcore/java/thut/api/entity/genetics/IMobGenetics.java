@@ -1,8 +1,10 @@
 package thut.api.entity.genetics;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
@@ -12,13 +14,12 @@ import net.minecraftforge.common.util.INBTSerializable;
 public interface IMobGenetics extends INBTSerializable<ListTag>
 {
     /**
-     * This is a map of Name -> Alleles. this is to be used to sort the
-     * Alleles. The keys for this should be the same as they key registed in
-     * GeneRegistry
+     * This is a map of Name -> Alleles. this is to be used to sort the Alleles.
+     * The keys for this should be the same as they key registed in GeneRegistry
      *
      * @return
      */
-    Map<ResourceLocation, Alleles<?,?>> getAlleles();
+    Map<ResourceLocation, Alleles<?, ?>> getAlleles();
 
     Collection<ResourceLocation> getKeys();
 
@@ -32,6 +33,8 @@ public interface IMobGenetics extends INBTSerializable<ListTag>
      */
     Set<Alleles<?, ?>> getEpigenes();
 
+    <GENE extends Gene<?>> void setGenes(GENE g1, GENE g2);
+
     /**
      * This is called whenever the mob associated with this gene ticks.
      *
@@ -39,9 +42,12 @@ public interface IMobGenetics extends INBTSerializable<ListTag>
      */
     default void onUpdateTick(final Entity entity)
     {
-        for (final Alleles<?, ?> allele : this.getAlleles().values())
-            allele.getExpressed().onUpdateTick(entity);
+        for (final Alleles<?, ?> allele : this.getAlleles().values()) allele.getExpressed().onUpdateTick(entity);
     }
 
     void setFromParents(IMobGenetics parent1, IMobGenetics parent2);
+
+    void addChangeListener(Consumer<Gene<?>> listener);
+    
+    List<Consumer<Gene<?>>> getChangeListeners();
 }

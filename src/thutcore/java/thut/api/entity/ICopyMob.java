@@ -10,11 +10,11 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.registries.ForgeRegistries;
 import thut.api.entity.event.CopySetEvent;
 import thut.api.entity.event.CopyUpdateEvent;
+import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 
 public interface ICopyMob extends INBTSerializable<CompoundTag>
@@ -44,7 +44,8 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
     {
         final CompoundTag nbt = new CompoundTag();
         if (this.getCopiedID() != null) nbt.putString("id", this.getCopiedID().toString());
-        if (!this.getCopiedNBT().isEmpty()) nbt.put("tag", this.getCopiedNBT());
+        if (this.getCopiedMob() != null) nbt.put("tag", this.getCopiedMob().serializeNBT());
+        else if (!this.getCopiedNBT().isEmpty()) nbt.put("tag", this.getCopiedNBT());
         return nbt;
     }
 
@@ -57,7 +58,9 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
                 if (holder != null)
                 {
                     final LivingEntity mob = this.getCopiedMob();
-                    if (MinecraftForge.EVENT_BUS.post(new CopySetEvent(holder, mob, null)))
+                    var event = new CopySetEvent(holder, mob, null);
+                    ThutCore.FORGE_BUS.post(event);
+                    if (event.isCanceled())
                     {
                         this.setCopiedID(RegHelper.getKey(this.getCopiedMob().getType()));
                         this.setCopiedMob(mob);
@@ -76,22 +79,24 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
             final Entity entity = type.create(level);
             if (entity instanceof LivingEntity mob)
             {
-                if (MinecraftForge.EVENT_BUS.post(new CopySetEvent(holder, null, mob)))
+                var event = new CopySetEvent(holder, null, mob);
+                ThutCore.FORGE_BUS.post(event);
+                if (event.isCanceled())
                 {
                     this.setCopiedID(null);
                     this.setCopiedNBT(new CompoundTag());
                     return;
                 }
-                this.setCopiedMob(mob);
                 try
                 {
+                    System.out.println(this.getCopiedNBT());
                     mob.deserializeNBT(this.getCopiedNBT());
-                    this.setCopiedNBT(mob.serializeNBT());
                 }
                 catch (final Exception e)
                 {
                     e.printStackTrace();
                 }
+                this.setCopiedMob(mob);
             }
             else
             {
@@ -109,6 +114,11 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
         if (living != null && holder != null)
         {
             living.setId(-(holder.getId() + 100));
+            living.noPhysics = true;
+            living.level = holder.level;
+
+            ICopyMob.copyEntityTransforms(living, holder);
+            ICopyMob.copyPositions(living, holder);
 
             living.onAddedToWorld();
             living.baseTick();
@@ -121,12 +131,9 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
             living.setItemInHand(InteractionHand.MAIN_HAND, holder.getItemInHand(InteractionHand.MAIN_HAND));
             living.setItemInHand(InteractionHand.OFF_HAND, holder.getItemInHand(InteractionHand.OFF_HAND));
 
-            living.noPhysics = true;
-            ICopyMob.copyEntityTransforms(living, holder);
-            ICopyMob.copyPositions(living, holder);
-            living.level = holder.level;
-
-            if (!MinecraftForge.EVENT_BUS.post(new CopyUpdateEvent(living, holder)))
+            var event = new CopyUpdateEvent(living, holder);
+            ThutCore.FORGE_BUS.post(event);
+            if (!event.isCanceled())
             {
                 living.setHealth(holder.getHealth());
                 living.setAirSupply(holder.getAirSupply());

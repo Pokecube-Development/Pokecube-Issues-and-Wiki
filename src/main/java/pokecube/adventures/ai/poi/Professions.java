@@ -12,11 +12,11 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades.ItemListing;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.entity.npc.NpcType;
+import thut.core.common.ThutCore;
 
 public class Professions
 {
@@ -38,7 +38,7 @@ public class Professions
 
     public static void init()
     {
-        MinecraftForge.EVENT_BUS.addListener(Professions::onTradeUpdate);
+        ThutCore.FORGE_BUS.addListener(Professions::onTradeUpdate);
     }
 
     public static void postInit()

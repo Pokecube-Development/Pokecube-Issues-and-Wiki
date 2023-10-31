@@ -20,9 +20,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.network.NetworkHooks;
+import thut.core.common.ThutCore;
 import thut.wearables.EnumWearable;
 import thut.wearables.ThutWearables;
 import thut.wearables.events.WearableUseEvent;
@@ -77,7 +77,7 @@ public class PacketGui extends Packet
             {
                 final WearableContext context = new WearableContext(player, stack, this.data);
                 WearableUseEvent event = new WearableUseEvent(context);
-                MinecraftForge.EVENT_BUS.post(event);
+                ThutCore.FORGE_BUS.post(event);
                 if (event.getResult() == Result.DEFAULT) EnumWearable.interact(player, stack, slot, context);
             }
         }

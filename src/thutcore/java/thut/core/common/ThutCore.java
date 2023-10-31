@@ -220,6 +220,9 @@ public class ThutCore
             return ThutCore.THUTICON;
         }
     };
+    
+    // Bus for Forge Events
+    public static final IEventBus FORGE_BUS = MinecraftForge.EVENT_BUS;
 
     private static Map<String, String> trimmed = new Object2ObjectOpenHashMap<String, String>();
 
@@ -273,8 +276,8 @@ public class ThutCore
 
         // Register ourselves for server and other game events we are interested
         // in
-        MinecraftForge.EVENT_BUS.register(this);
-        MinecraftForge.EVENT_BUS.addListener(PermNodes::gatherPerms);
+        ThutCore.FORGE_BUS.register(this);
+        ThutCore.FORGE_BUS.addListener(PermNodes::gatherPerms);
 
         Tracker.init();
         LootLayerFunction.init();

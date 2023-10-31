@@ -413,7 +413,7 @@ public abstract class PokemobMoves extends PokemobStats
         // Ensure max health, etc are correct.
         this.updateHealth();
         // Clear off any persistant effects.
-        final IOngoingAffected affected = CapabilityAffected.getAffected(this.getEntity());
+        final IOngoingAffected affected = PokemobCaps.getAffected(this.getEntity());
         if (affected != null) affected.removeEffects(PersistantStatusEffect.ID);
         this.dataSync().set(this.params.STATUSDW, 0);
     }
@@ -466,13 +466,13 @@ public abstract class PokemobMoves extends PokemobStats
         {
             // Check if we actually have a status, if we do not, then we can
             // apply one.
-            final IOngoingAffected affected = CapabilityAffected.getAffected(this.getEntity());
+            final IOngoingAffected affected = PokemobCaps.getAffected(this.getEntity());
             if (affected != null) if (affected.getEffects(PersistantStatusEffect.ID) == null) break non;
             return false;
         }
         else if (status == IMoveConstants.STATUS_NON)
         {
-            final IOngoingAffected affected = CapabilityAffected.getAffected(this.getEntity());
+            final IOngoingAffected affected = PokemobCaps.getAffected(this.getEntity());
             affected.removeEffects(PersistantStatusEffect.ID);
             this.dataSync().set(this.params.STATUSDW, status);
             return true;

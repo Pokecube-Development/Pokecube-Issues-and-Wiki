@@ -2,13 +2,12 @@ package pokecube.core.network.pokemobs;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import thut.api.ThutCaps;
 import thut.api.entity.genetics.Alleles;
@@ -20,6 +19,7 @@ public class PacketSyncGene extends Packet
     public static void syncGene(final Entity mob, final Alleles<?, ?> gene, final ServerPlayer entityPlayer)
     {
         if (!(mob.getLevel() instanceof ServerLevel) || gene == null) return;
+        if (!mob.isAddedToWorld()) return;
         final PacketSyncGene packet = new PacketSyncGene();
         packet.genes = gene;
         packet.entityId = mob.getId();
@@ -29,10 +29,12 @@ public class PacketSyncGene extends Packet
     public static void syncGeneToTracking(final Entity mob, final Alleles<?, ?> gene)
     {
         if (!(mob.getLevel() instanceof ServerLevel) || gene == null) return;
+        if (!mob.isAddedToWorld()) return;
         final PacketSyncGene packet = new PacketSyncGene();
         packet.genes = gene;
         packet.entityId = mob.getId();
         PokecubeCore.packets.sendToTracking(packet, mob);
+        if (mob instanceof ServerPlayer player) syncGene(mob, gene, player);
     }
 
     Alleles<?, ?> genes = new Alleles<>();
@@ -50,7 +52,9 @@ public class PacketSyncGene extends Packet
         this.entityId = buffer.readInt();
         try
         {
-            this.genes.load(buffer.readNbt());
+            var tag = buffer.readNbt();
+            ResourceLocation key = new ResourceLocation(tag.getString("K"));
+            this.genes.load(tag, key);
         }
         catch (final Exception e)
         {
@@ -66,11 +70,13 @@ public class PacketSyncGene extends Packet
         final Alleles<?, ?> alleles = this.genes;
         final Entity mob = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), id, true);
         if (mob == null) return;
-        final IMobGenetics genes = mob.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
-        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
-        if (genes != null && alleles != null && alleles.getExpressed() != null) genes.getAlleles().put(alleles
-                .getExpressed().getKey(), alleles);
-        if (pokemob != null) pokemob.onGenesChanged();
+        final IMobGenetics genes = ThutCaps.getGenetics(mob);
+        if (genes != null && alleles != null && alleles.getExpressed() != null)
+        {
+            genes.getAlleles().put(alleles.getExpressed().getKey(), alleles);
+            alleles.setChangeListeners(genes.getChangeListeners());
+            alleles.onChanged();
+        }
     }
 
     @Override
@@ -81,6 +87,7 @@ public class PacketSyncGene extends Packet
         try
         {
             tag = this.genes.save();
+            tag.putString("K", this.genes.getExpressed().getKey().toString());
         }
         catch (final Exception e)
         {

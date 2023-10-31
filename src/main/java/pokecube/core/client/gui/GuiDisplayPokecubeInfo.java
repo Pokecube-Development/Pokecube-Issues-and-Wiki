@@ -22,7 +22,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -62,6 +61,7 @@ import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.EntityTools;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
 {
@@ -126,23 +126,22 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
         this.minecraft = Minecraft.getInstance();
         this.fontRenderer = this.minecraft.font;
         if (GuiDisplayPokecubeInfo.instance != null)
-            MinecraftForge.EVENT_BUS.unregister(GuiDisplayPokecubeInfo.instance);
+            ThutCore.FORGE_BUS.unregister(GuiDisplayPokecubeInfo.instance);
         GuiDisplayPokecubeInfo.instance = this;
-        MinecraftForge.EVENT_BUS.register(this);
+        ThutCore.FORGE_BUS.register(this);
     }
 
     @Override
     public void render(final ForgeGui gui, final PoseStack mStack, final float partialTicks, final int width,
             final int height)
     {
-        MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderMoveMessages(mStack, gui));
+        ThutCore.FORGE_BUS.post(new GuiEvent.RenderMoveMessages(mStack, gui));
         if (this.indexPokemob > this.getPokemobsToDisplay().length)
         {
             this.refreshCounter = 0;
             this.indexPokemob = 0;
             this.pokemobsCache = this.getPokemobsToDisplay();
         }
-        if (this.getPokemobsToDisplay().length == 0) return;
         if (this.indexPokemob >= this.getPokemobsToDisplay().length) this.indexPokemob = 0;
         if (this.fontRenderer == null) this.fontRenderer = this.minecraft.font;
 
@@ -152,9 +151,9 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
             GuiDisplayPokecubeInfo.targetRenderer.isMouseOver();
         }
 
-        MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderSelectedInfo(mStack, gui));
-        MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderTargetInfo(mStack, gui));
-        MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderTeleports(mStack, gui));
+        ThutCore.FORGE_BUS.post(new GuiEvent.RenderSelectedInfo(mStack, gui));
+        ThutCore.FORGE_BUS.post(new GuiEvent.RenderTargetInfo(mStack, gui));
+        ThutCore.FORGE_BUS.post(new GuiEvent.RenderTeleports(mStack, gui));
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
@@ -330,9 +329,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
         }
 
         if (this.indexPokemob >= this.pokemobsCache.length) this.indexPokemob--;
-
         if (this.indexPokemob < 0) this.indexPokemob = 0;
-
     }
 
     /**

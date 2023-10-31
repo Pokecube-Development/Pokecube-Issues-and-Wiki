@@ -15,7 +15,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.item.ItemExpireEvent;
@@ -40,6 +39,7 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
 import pokecube.core.network.packets.PacketPC;
 import pokecube.core.utils.PokemobTracker;
+import thut.core.common.ThutCore;
 
 public class PCEventsHandler
 {
@@ -57,21 +57,21 @@ public class PCEventsHandler
         // This handler deals with changing the name of the PC from "Someone's
         // PC" to "Thutmose's PC" when the owner logs in. This is in reference
         // to "Bill's PC" in the pokemon games.
-        MinecraftForge.EVENT_BUS.addListener(PCEventsHandler::onPlayerJoinWorld);
+        ThutCore.FORGE_BUS.addListener(PCEventsHandler::onPlayerJoinWorld);
         // This syncs initial data to the player, like their PC box names, etc.
-        MinecraftForge.EVENT_BUS.addListener(PCEventsHandler::onPlayerLogin);
+        ThutCore.FORGE_BUS.addListener(PCEventsHandler::onPlayerLogin);
         // This handles sending the pokecube to their PC if they had no room.
-        MinecraftForge.EVENT_BUS.addListener(PCEventsHandler::onItemPickup);
+        ThutCore.FORGE_BUS.addListener(PCEventsHandler::onItemPickup);
         // This sends the pokecube to PC if tossed with Q or similar.
-        MinecraftForge.EVENT_BUS.addListener(PCEventsHandler::onItemTossed);
+        ThutCore.FORGE_BUS.addListener(PCEventsHandler::onItemTossed);
         // This sends to PC if the pokecube item tries to despawn.
-        MinecraftForge.EVENT_BUS.addListener(PCEventsHandler::onItemExpire);
+        ThutCore.FORGE_BUS.addListener(PCEventsHandler::onItemExpire);
 
         // This recalls the player's following pokemobs if they die.
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, false, PCEventsHandler::onPlayerDeath);
+        ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, false, PCEventsHandler::onPlayerDeath);
         // This removes their pokecubes and important items from the drops list,
         // and instead sends them to PC.
-        MinecraftForge.EVENT_BUS.addListener(PCEventsHandler::onPlayerDrops);
+        ThutCore.FORGE_BUS.addListener(PCEventsHandler::onPlayerDrops);
     }
 
     /**

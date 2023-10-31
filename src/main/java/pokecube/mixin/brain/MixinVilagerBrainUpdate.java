@@ -10,8 +10,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.MinecraftForge;
 import pokecube.api.events.pokemobs.ai.BrainInitEvent;
+import thut.core.common.ThutCore;
 
 @Mixin(Villager.class)
 public abstract class MixinVilagerBrainUpdate extends AbstractVillager
@@ -25,6 +25,6 @@ public abstract class MixinVilagerBrainUpdate extends AbstractVillager
     @Inject(method = "refreshBrain", at = @At(value = "RETURN"))
     public void onRefreshBrain(ServerLevel level, CallbackInfo ci)
     {
-        MinecraftForge.EVENT_BUS.post(new BrainInitEvent(this));
+        ThutCore.FORGE_BUS.post(new BrainInitEvent(this));
     }
 }

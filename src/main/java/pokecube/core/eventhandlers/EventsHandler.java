@@ -36,7 +36,6 @@ import net.minecraft.world.item.trading.Merchant;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.entity.EntityTypeTest;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -44,6 +43,7 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
+import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
@@ -63,11 +63,11 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.data.spawns.SpawnRule;
-import pokecube.api.entity.CapabilityAffected;
 import pokecube.api.entity.CapabilityAffected.DefaultAffected;
 import pokecube.api.entity.CapabilityInhabitable.SaveableHabitatProvider;
 import pokecube.api.entity.CapabilityInhabitor.InhabitorProvider;
 import pokecube.api.entity.IOngoingAffected;
+import pokecube.api.entity.SharedAttributes;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
@@ -92,11 +92,11 @@ import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.blocks.trade.TraderTile;
 import pokecube.core.commands.CommandManager;
 import pokecube.core.database.Database;
+import pokecube.core.entity.genetics.GeneticsManager;
+import pokecube.core.entity.genetics.GeneticsManager.GeneticsProvider;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokecubes.EntityPokecube;
 import pokecube.core.entity.pokemobs.EntityPokemob;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager.GeneticsProvider;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.impl.capabilities.DefaultPokemob;
@@ -116,10 +116,12 @@ import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
+import thut.api.ThutCaps;
 import thut.api.Tracker;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ShearableCaps;
 import thut.api.entity.event.LevelEntityEvent;
+import thut.api.entity.genetics.IMobGenetics;
 import thut.api.inventory.InvHelper.ItemCap;
 import thut.api.item.ItemList;
 import thut.api.level.structures.NamedVolumes.INamedStructure;
@@ -130,6 +132,7 @@ import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
 import thut.api.world.IWorldTickListener;
 import thut.api.world.WorldTickManager;
+import thut.core.common.ThutCore;
 import thut.core.common.commands.CommandConfigs;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.handlers.PlayerDataHandler.PlayerData;
@@ -151,7 +154,7 @@ public class EventsHandler
             this.player = player;
             this.start = player.getLevel().getGameTime();
             if (!SpawnHandler.canSpawnInWorld(player.getLevel(), false)) return;
-            MinecraftForge.EVENT_BUS.register(this);
+            ThutCore.FORGE_BUS.register(this);
         }
 
         @SubscribeEvent
@@ -175,7 +178,7 @@ public class EventsHandler
                     packet = PacketChoose.createOpenPacket(special, pick, Database.getStarters());
                 }
                 PokecubeCore.packets.sendTo(packet, (ServerPlayer) event.player);
-                MinecraftForge.EVENT_BUS.unregister(this);
+                ThutCore.FORGE_BUS.unregister(this);
             }
         }
     }
@@ -329,70 +332,72 @@ public class EventsHandler
         // This adds: AffectCapability, PokemobCapability + supporting (data,
         // genetics, textures, shearable) as well as NPCMob capabilities for
         // textures.
-        MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, EventsHandler::onEntityCaps);
+        ThutCore.FORGE_BUS.addGenericListener(Entity.class, EventsHandler::onEntityCaps);
         // This one does the mega wearable caps for worn items
-        MinecraftForge.EVENT_BUS.addGenericListener(ItemStack.class, EventsHandler::onItemCaps);
+        ThutCore.FORGE_BUS.addGenericListener(ItemStack.class, EventsHandler::onItemCaps);
         // This does inventory capabilities for:
         // TM machine, Trading Maching and PCs
-        MinecraftForge.EVENT_BUS.addGenericListener(BlockEntity.class, EventsHandler::onTileCaps);
+        ThutCore.FORGE_BUS.addGenericListener(BlockEntity.class, EventsHandler::onTileCaps);
         // This is being used as an earlier "world load" like event, for
         // re-setting the pokecube serializer for the overworld.
-        MinecraftForge.EVENT_BUS.addGenericListener(Level.class, EventsHandler::onWorldCaps);
+        ThutCore.FORGE_BUS.addGenericListener(Level.class, EventsHandler::onWorldCaps);
 
         // This handles preventing blacklisted mobs from joining a world, for
         // the disable<thing> configs. It also adds the creepers avoid psychic
         // types AI, and does some cleanup for shoulder mobs.
-        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onMobJoinWorld);
+        ThutCore.FORGE_BUS.addListener(EventsHandler::onMobJoinWorld);
         // This handles one part of preventing natural spawns for the mobs
         // disabled via configs
-        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onCheckSpawnCheck);
+        ThutCore.FORGE_BUS.addListener(EventsHandler::onCheckSpawnCheck);
         // Handle forwarding the vanilla level entity events to appropriate
         // listeners.
-        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onVanillaEntityEvent);
+        ThutCore.FORGE_BUS.addListener(EventsHandler::onVanillaEntityEvent);
 
         // Here we handle bed healing if enabled in configs
-        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onPlayerWakeUp);
+        ThutCore.FORGE_BUS.addListener(EventsHandler::onPlayerWakeUp);
         // This ticks ongoing effects (like burn, poison, etc)
-        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onLivingUpdate);
+        ThutCore.FORGE_BUS.addListener(EventsHandler::onLivingUpdate);
         // This synchronizes stats and data for the player, and sends the
         // GuiOnLogin if enabled and required.
-        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onPlayerLogin);
+        ThutCore.FORGE_BUS.addListener(EventsHandler::onPlayerLogin);
         // This one handles not sending "hidden" pokecubes to the player, for
         // loot-pokecubes which the player is not allowed to pick up yet.
         // This also handles syncing player data over to other players, for
         // stats information in pokewatch.
-        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onStartTracking);
+        ThutCore.FORGE_BUS.addListener(EventsHandler::onStartTracking);
 
         // Does some debug output in pokecube tags if enabled.
-        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onServerStarting);
+        ThutCore.FORGE_BUS.addListener(EventsHandler::onServerStarting);
         // Cleans up some things for when server next starts.
-        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onServerStopped);
+        ThutCore.FORGE_BUS.addListener(EventsHandler::onServerStopped);
         // Initialises or reloads some datapack dependent values in Database
-        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onResourcesReloaded);
+        ThutCore.FORGE_BUS.addListener(EventsHandler::onResourcesReloaded);
         // This does similar to the above, but on dedicated servers only.
-        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onTagsUpdated);
+        ThutCore.FORGE_BUS.addListener(EventsHandler::onTagsUpdated);
         // Registers our commands.
-        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onCommandRegister);
+        ThutCore.FORGE_BUS.addListener(EventsHandler::onCommandRegister);
 
         // This deals with running the tasks scheduled via
-        MinecraftForge.EVENT_BUS.addListener(WorldTickManager::onWorldUnload);
-        MinecraftForge.EVENT_BUS.addListener(WorldTickManager::onWorldLoad);
-        MinecraftForge.EVENT_BUS.addListener(WorldTickManager::onWorldTick);
+        ThutCore.FORGE_BUS.addListener(WorldTickManager::onWorldUnload);
+        ThutCore.FORGE_BUS.addListener(WorldTickManager::onWorldLoad);
+        ThutCore.FORGE_BUS.addListener(WorldTickManager::onWorldTick);
+
+        ThutCore.FORGE_BUS.addListener(EventsHandler::onMobSize);
 
         // This attempts to recall the mobs following the player when they
         // change dimension.
-        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onChangeDimension);
+        ThutCore.FORGE_BUS.addListener(EventsHandler::onChangeDimension);
         // This handles preventing players from being kicked for flying, if they
         // are riding a pokemob that can fly.
-        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onPlayerTick);
+        ThutCore.FORGE_BUS.addListener(EventsHandler::onPlayerTick);
         // This saves the pokecube Serializer
-        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onWorldSave);
+        ThutCore.FORGE_BUS.addListener(EventsHandler::onWorldSave);
 
         // These 4 are for handling interaction events, etc
-        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onEntityInteract);
-        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onEntityInteractSpecific);
-        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onItemRightClick);
-        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onEmptyRightClick);
+        ThutCore.FORGE_BUS.addListener(EventsHandler::onEntityInteract);
+        ThutCore.FORGE_BUS.addListener(EventsHandler::onEntityInteractSpecific);
+        ThutCore.FORGE_BUS.addListener(EventsHandler::onItemRightClick);
+        ThutCore.FORGE_BUS.addListener(EventsHandler::onEmptyRightClick);
 
         // now let our other handlers register their stuff
 
@@ -407,7 +412,7 @@ public class EventsHandler
 
         // Here we register the onWorldLoad for pokemob tracker, this handles
         // initializing the tracked pokemob maps, etc.
-        MinecraftForge.EVENT_BUS.addListener(PokemobTracker::onWorldLoad);
+        ThutCore.FORGE_BUS.addListener(PokemobTracker::onWorldLoad);
 
     }
 
@@ -425,7 +430,7 @@ public class EventsHandler
         if (!evt.isCanceled())
         {
             final CustomInteractEvent event = new CustomInteractEvent(player, evt.getHand(), evt.getTarget());
-            MinecraftForge.EVENT_BUS.post(event);
+            ThutCore.FORGE_BUS.post(event);
             if (event.getResult() == Result.ALLOW)
             {
                 player.getPersistentData().putLong("__poke_int_c_", Tracker.instance().getTick());
@@ -447,7 +452,7 @@ public class EventsHandler
         if (!evt.isCanceled())
         {
             final CustomInteractEvent event = new CustomInteractEvent(player, evt.getHand(), evt.getTarget());
-            MinecraftForge.EVENT_BUS.post(event);
+            ThutCore.FORGE_BUS.post(event);
             if (event.isCanceled())
             {
                 player.getPersistentData().putLong("__poke_int_c_", Tracker.instance().getTick());
@@ -535,16 +540,30 @@ public class EventsHandler
             final DefaultAffected affected = new DefaultAffected((LivingEntity) event.getObject());
             event.addCapability(EventsHandler.AFFECTEDCAP, affected);
         }
+
+        IMobGenetics _genes;
+        if (event.getCapabilities().containsKey(GeneticsManager.POKECUBEGENETICS))
+        {
+            _genes = event.getCapabilities().get(GeneticsManager.POKECUBEGENETICS).getCapability(ThutCaps.GENETICS_CAP)
+                    .orElse(null);
+            if (_genes == null) throw new IllegalStateException("Genes null yet registered?");
+        }
+        else
+        {
+            final GeneticsProvider genes = new GeneticsProvider();
+            _genes = genes.wrapped;
+            event.addCapability(GeneticsManager.POKECUBEGENETICS, genes);
+        }
+
         if (event.getObject() instanceof EntityPokemob mob
                 && !event.getCapabilities().containsKey(EventsHandler.POKEMOBCAP))
         {
             final DefaultPokemob pokemob = new DefaultPokemob(mob);
-            final GeneticsProvider genes = new GeneticsProvider();
             final DataSync_Impl data = new DataSync_Impl();
             final TextureableCaps.PokemobCap tex = new TextureableCaps.PokemobCap(mob);
             pokemob.setDataSync(data);
-            pokemob.genes = genes.wrapped;
-            event.addCapability(GeneticsManager.POKECUBEGENETICS, genes);
+            pokemob.setGenes(_genes);
+            _genes.addChangeListener(pokemob);
             event.addCapability(EventsHandler.POKEMOBCAP, pokemob);
             event.addCapability(EventsHandler.DATACAP, data);
             event.addCapability(EventsHandler.TEXTURECAP, tex);
@@ -784,13 +803,12 @@ public class EventsHandler
             }
             poke.onTick();
         }
-
         if (evt.getEntity().getLevel().isClientSide || !evt.getEntity().isAlive()) return;
         final int tick = Math.max(PokecubeCore.getConfig().attackCooldown, 1);
         // Handle ongoing effects for this mob.
         if (evt.getEntity().tickCount % tick == 0 || !EventsHandler.COOLDOWN_BASED)
         {
-            final IOngoingAffected affected = CapabilityAffected.getAffected(evt.getEntity());
+            final IOngoingAffected affected = PokemobCaps.getAffected(evt.getEntity());
             if (affected != null) affected.tick();
         }
     }
@@ -868,6 +886,17 @@ public class EventsHandler
         final List<Entity> pokemobs = new ArrayList<>(world.getEntities(EntityTypeTest.forClass(Entity.class),
                 e -> EventsHandler.shouldRecallOnChangeDimension(entity, e)));
         PCEventsHandler.recallAll(pokemobs, false);
+    }
+
+    private static void onMobSize(EntityEvent.Size event)
+    {
+        // Attributes can be null when this is called in the initial set for the
+        // constructor of the Entity itself.
+        if (event.getEntity() instanceof LivingEntity living && living.getAttributes() != null)
+        {
+            double s = SharedAttributes.getScale(living);
+            event.setNewEyeHeight((float) (event.getNewEyeHeight() * s));
+        }
     }
 
     private static void onPlayerTick(final PlayerTickEvent event)

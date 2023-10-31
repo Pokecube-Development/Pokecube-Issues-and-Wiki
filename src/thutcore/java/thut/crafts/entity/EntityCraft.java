@@ -24,7 +24,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.LevelTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.api.entity.IMultiplePassengerEntity;
@@ -32,6 +31,7 @@ import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.BlockEntityInteractHandler;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vec3f;
+import thut.core.common.ThutCore;
 import thut.core.common.world.mobs.data.types.Data_Seat;
 
 public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEntity
@@ -47,14 +47,14 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
             this.dismounted = dismounted;
             this.craft = craft;
             this.seat = seat;
-            MinecraftForge.EVENT_BUS.register(this);
+            ThutCore.FORGE_BUS.register(this);
         }
 
         @SubscribeEvent
         public void tick(final LevelTickEvent event)
         {
             if (event.level != this.craft.level) return;
-            MinecraftForge.EVENT_BUS.unregister(this);
+            ThutCore.FORGE_BUS.unregister(this);
             final double x = this.craft.getX() + this.seat.seat.x;
             final double y = this.craft.getY() + this.seat.seat.y;
             final double z = this.craft.getZ() + this.seat.seat.z;
@@ -275,7 +275,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         energyCost = Math.max(energyCost, 1);
         power = (this.energy = (int) (this.energy - energyCost)) > 0;
         if (this.energy < 0) this.energy = 0;
-        MinecraftForge.EVENT_BUS.post(new EventCraftConsumePower(this, (long) energyCost));
+        ThutCore.FORGE_BUS.post(new EventCraftConsumePower(this, (long) energyCost));
         if (!power) this.toMoveY = false;
         return power;
     }

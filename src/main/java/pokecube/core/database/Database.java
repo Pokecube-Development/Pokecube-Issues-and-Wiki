@@ -33,7 +33,6 @@ import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
@@ -395,7 +394,7 @@ public class Database
 
         // Fire load event to let addons do stuff after databases have been
         // loaded.
-        MinecraftForge.EVENT_BUS.post(new InitDatabase.Load());
+        ThutCore.FORGE_BUS.post(new InitDatabase.Load());
 
         // Init the lists of what all forms are loaded.
         Database.initFormLists();
@@ -871,7 +870,7 @@ public class Database
         Database.loadCustomPacks(true);
 
         // Register the dex inspector
-        MinecraftForge.EVENT_BUS.register(PokedexInspector.class);
+        ThutCore.FORGE_BUS.register(PokedexInspector.class);
 
         // Load in the combat types first.
         CombatTypeLoader.loadTypes();

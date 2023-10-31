@@ -32,7 +32,6 @@ import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -59,6 +58,7 @@ import pokecube.core.client.render.mobs.RenderNPC;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.IMobGenetics;
+import thut.core.common.ThutCore;
 import thut.lib.TComponent;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeAdv.MODID, value = Dist.CLIENT)
@@ -234,7 +234,7 @@ public class ClientSetupHandler
     @SubscribeEvent
     public static void setupClient(final FMLClientSetupEvent event)
     {
-        MinecraftForge.EVENT_BUS.register(EventHandler.class);
+        ThutCore.FORGE_BUS.register(EventHandler.class);
 
         // Register container guis.
         MenuScreens.register(PokecubeAdv.CLONER_CONT.get(), Cloner::new);

@@ -13,9 +13,9 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ScreenEvent.Init;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import thut.core.common.ThutCore;
 import thut.lib.TComponent;
 import thut.wearables.ThutWearables;
 import thut.wearables.network.PacketGui;
@@ -32,7 +32,7 @@ public class GuiEvents
 
     public static void init()
     {
-        MinecraftForge.EVENT_BUS.register(GuiEvents.class);
+        ThutCore.FORGE_BUS.register(GuiEvents.class);
     }
 
     public static boolean active;

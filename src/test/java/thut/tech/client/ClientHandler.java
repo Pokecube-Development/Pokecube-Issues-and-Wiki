@@ -19,11 +19,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent.Stage;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 import thut.tech.Reference;
 import thut.tech.client.render.ControllerRenderer;
 import thut.tech.client.render.RenderLift;
@@ -94,6 +94,6 @@ public class ClientHandler
     @SubscribeEvent
     public static void setupClient(final FMLClientSetupEvent event)
     {
-        MinecraftForge.EVENT_BUS.register(BoundRenderer.class);
+        ThutCore.FORGE_BUS.register(BoundRenderer.class);
     }
 }

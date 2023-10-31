@@ -23,11 +23,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.SkullBlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.client.PokecenterSound;
+import thut.core.common.ThutCore;
 
 public class ClientProxy extends CommonProxy
 {
@@ -39,7 +39,7 @@ public class ClientProxy extends CommonProxy
 
     public ClientProxy()
     {
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGHEST, this::serverAboutToStart);
+        ThutCore.FORGE_BUS.addListener(EventPriority.HIGHEST, this::serverAboutToStart);
     }
 
     private void serverAboutToStart(final ServerAboutToStartEvent event)

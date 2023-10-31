@@ -4,7 +4,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.level.BlockEvent.BreakEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import thut.core.common.ThutCore;
@@ -15,8 +14,8 @@ public class BreakTestEvent extends BreakEvent
 
     public static void init()
     {
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, BreakTestEvent::handleCancel);
-        if (DEBUG) MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGHEST, BreakTestEvent::testCancelling);
+        ThutCore.FORGE_BUS.addListener(EventPriority.HIGH, BreakTestEvent::handleCancel);
+        if (DEBUG) ThutCore.FORGE_BUS.addListener(EventPriority.HIGHEST, BreakTestEvent::testCancelling);
     }
 
     public static boolean testBreak(Level world, BlockPos pos, BlockState state, Player player)
@@ -24,7 +23,7 @@ public class BreakTestEvent extends BreakEvent
         try
         {
             var event = new BreakTestEvent(world, pos, state, player);
-            MinecraftForge.EVENT_BUS.post(event);
+            ThutCore.FORGE_BUS.post(event);
             return !event.wasPreCancelled();
         }
         catch (Exception e)

@@ -6,13 +6,13 @@ package pokecube.core.client.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.GuiEvent;
 import pokecube.core.network.pokemobs.PacketTeleport;
+import thut.core.common.ThutCore;
 
 public class GuiTeleport extends GuiComponent
 {
@@ -30,7 +30,7 @@ public class GuiTeleport extends GuiComponent
 
     public static void create()
     {
-        if (GuiTeleport.instance != null) MinecraftForge.EVENT_BUS.unregister(GuiTeleport.instance);
+        if (GuiTeleport.instance != null) ThutCore.FORGE_BUS.unregister(GuiTeleport.instance);
         GuiTeleport.instance = new GuiTeleport();
     }
 
@@ -52,7 +52,7 @@ public class GuiTeleport extends GuiComponent
     private GuiTeleport()
     {
         this.minecraft = Minecraft.getInstance();
-        MinecraftForge.EVENT_BUS.register(this);
+        ThutCore.FORGE_BUS.register(this);
         this.fontRenderer = this.minecraft.font;
         GuiTeleport.instance = this;
     }

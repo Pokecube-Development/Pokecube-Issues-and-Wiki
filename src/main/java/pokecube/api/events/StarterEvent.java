@@ -17,7 +17,7 @@ public class StarterEvent extends Event
 {
     @Cancelable
     /**
-     * This event is fired on the MinecraftForge.EVENT_BUS after creating the
+     * This event is fired on the ThutCore.FORGE_BUS after creating the
      * pokemob's itemstack for the player's chosen pokemob. Cancelling this
      * event will prevent giving the items to the player. The list of items for
      * the player can be edited in this event, so it can be used to add
@@ -36,7 +36,7 @@ public class StarterEvent extends Event
 
     @Cancelable
     /**
-     * This event is fired on the MinecraftForge.EVENT_BUS before processing the
+     * This event is fired on the ThutCore.FORGE_BUS before processing the
      * starter selection for the player. Cancelling this event will prevent the
      * starter pack of items from being processed entirely.
      * 
@@ -53,7 +53,7 @@ public class StarterEvent extends Event
 
     @Cancelable
     /**
-     * This event is fired on the MinecraftForge.EVENT_BUS, on the client side.
+     * This event is fired on the ThutCore.FORGE_BUS, on the client side.
      * If it is cancelled, then the default ChooseFirst gui will not be
      * displayed to the client. Use this event to either deny such gui, or as a
      * place to open a custom selection gui.

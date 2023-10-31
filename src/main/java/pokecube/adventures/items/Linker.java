@@ -12,7 +12,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.adventures.PokecubeAdv;
@@ -117,10 +116,9 @@ public class Linker extends Item
 
     public static boolean interact(final ServerPlayer playerIn, final Entity target, final ItemStack stack)
     {
-        final IGuardAICapability ai = target.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
-        final LazyOptional<ILinkStorage> test_stack = stack.getCapability(ThutCaps.STORE, null);
-        if (!test_stack.isPresent()) return false;
-        final ILinkStorage storage = test_stack.orElse(null);
+        final IGuardAICapability ai = CapHolders.getGuardAI(target);
+        final ILinkStorage storage = ThutCaps.getLinkStorage(stack);
+        if (storage == null) return false;
         final GlobalPos pos = storage.getLinkedPos(playerIn);
         if (ai != null && pos != null && pos.dimension() == target.getLevel().dimension())
         {

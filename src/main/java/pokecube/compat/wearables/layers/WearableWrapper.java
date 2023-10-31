@@ -194,7 +194,7 @@ public class WearableWrapper
     private static IWearable getWearable(final ItemStack stack)
     {
         if (stack.getItem() instanceof IWearable wearable) return wearable;
-        return stack.getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null);
+        return ThutWearables.getWearable(stack);
     }
 
     public static WornOffsets getPartParent(final LivingEntity wearer, final IModelRenderer<?> renderer,
