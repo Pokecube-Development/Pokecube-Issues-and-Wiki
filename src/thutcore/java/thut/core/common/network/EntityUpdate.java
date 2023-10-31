@@ -17,6 +17,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.CapabilityDispatcher;
 import net.minecraftforge.common.capabilities.CapabilityProvider;
+import thut.api.entity.EntityProvider;
 import thut.api.item.ItemList;
 import thut.core.common.ThutCore;
 import thut.core.common.network.nbtpacket.NBTPacket;
@@ -131,7 +132,7 @@ public class EntityUpdate extends NBTPacket
     {
         final int id = this.getTag().getInt("id");
         final Level world = net.minecraft.client.Minecraft.getInstance().level;
-        final Entity mob = world.getEntity(id);
+        final Entity mob = EntityProvider.provider.getEntity(world, id);
         if (mob != null) EntityUpdate.readMob(mob, this.getTag().getCompound("tag"));
     }
 }

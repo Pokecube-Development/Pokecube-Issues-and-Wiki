@@ -45,7 +45,8 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
     {
         final CompoundTag nbt = new CompoundTag();
         if (this.getCopiedID() != null) nbt.putString("id", this.getCopiedID().toString());
-        if (!this.getCopiedNBT().isEmpty()) nbt.put("tag", this.getCopiedNBT());
+        if (this.getCopiedMob() != null) nbt.put("tag", this.getCopiedMob().serializeNBT());
+        else if (!this.getCopiedNBT().isEmpty()) nbt.put("tag", this.getCopiedNBT());
         return nbt;
     }
 
@@ -83,16 +84,16 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
                     this.setCopiedNBT(new CompoundTag());
                     return;
                 }
-                this.setCopiedMob(mob);
                 try
                 {
+                    System.out.println(this.getCopiedNBT());
                     mob.deserializeNBT(this.getCopiedNBT());
-                    this.setCopiedNBT(mob.serializeNBT());
                 }
                 catch (final Exception e)
                 {
                     e.printStackTrace();
                 }
+                this.setCopiedMob(mob);
             }
             else
             {
@@ -110,6 +111,11 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
         if (living != null && holder != null)
         {
             living.setId(-(holder.getId() + 100));
+            living.noPhysics = true;
+            living.level = holder.level;
+
+            ICopyMob.copyEntityTransforms(living, holder);
+            ICopyMob.copyPositions(living, holder);
 
             living.onAddedToWorld();
             living.baseTick();
@@ -121,11 +127,6 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
 
             living.setItemInHand(InteractionHand.MAIN_HAND, holder.getItemInHand(InteractionHand.MAIN_HAND));
             living.setItemInHand(InteractionHand.OFF_HAND, holder.getItemInHand(InteractionHand.OFF_HAND));
-
-            living.noPhysics = true;
-            ICopyMob.copyEntityTransforms(living, holder);
-            ICopyMob.copyPositions(living, holder);
-            living.level = holder.level;
 
             if (!MinecraftForge.EVENT_BUS.post(new CopyUpdateEvent(living, holder)))
             {

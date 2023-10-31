@@ -141,7 +141,6 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
             this.indexPokemob = 0;
             this.pokemobsCache = this.getPokemobsToDisplay();
         }
-        if (this.getPokemobsToDisplay().length == 0) return;
         if (this.indexPokemob >= this.getPokemobsToDisplay().length) this.indexPokemob = 0;
         if (this.fontRenderer == null) this.fontRenderer = this.minecraft.font;
 
@@ -329,9 +328,7 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
         }
 
         if (this.indexPokemob >= this.pokemobsCache.length) this.indexPokemob--;
-
         if (this.indexPokemob < 0) this.indexPokemob = 0;
-
     }
 
     /**

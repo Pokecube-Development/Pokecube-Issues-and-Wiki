@@ -39,37 +39,43 @@ public class OutMobInfo extends GuiEventComponent
         }
     }
 
+    protected IPokemob getMob()
+    {
+        var info = GuiDisplayPokecubeInfo.instance();
+        return info.getCurrentPokemob();
+    }
+
     @Override
     public void _drawGui(GuiEvent evt)
     {
-        final int dir = PokecubeCore.getConfig().guiDown ? 1 : -1;
-        final int nameOffsetX = dir == 1 ? 43 : 43;
-        final int nameOffsetY = dir == 1 ? 0 : 23;
-        final int movesOffsetX = 42;
-        final int movesOffsetY = dir == 1 ? 22 : 10;
-        final int hpOffsetX = 42;
-        final int hpOffsetY = 13;
-        final int xpOffsetX = 42;
-        final int xpOffsetY = 20;
-        final int statusOffsetX = 0;
-        final int statusOffsetY = 27;
-        final int confuseOffsetX = 12;
-        final int confuseOffsetY = 1;
-
-        float total, ratio;
-        int width, height, u, v;
-
-        int moveIndex = 0;
-        int moveCount = 0;
-        int x = hpOffsetX + 1;
-        int y = hpOffsetY + 1;
-
-        var graphics = evt.getGraphics();
-        var gui = evt.getGui();
-        var info = GuiDisplayPokecubeInfo.instance();
-        final IPokemob pokemob = info.getCurrentPokemob();
+        final IPokemob pokemob = getMob();
         if (pokemob != null)
         {
+            final int dir = PokecubeCore.getConfig().guiDown ? 1 : -1;
+            final int nameOffsetX = dir == 1 ? 43 : 43;
+            final int nameOffsetY = dir == 1 ? 0 : 23;
+            final int movesOffsetX = 42;
+            final int movesOffsetY = dir == 1 ? 22 : 10;
+            final int hpOffsetX = 42;
+            final int hpOffsetY = 13;
+            final int xpOffsetX = 42;
+            final int xpOffsetY = 20;
+            final int statusOffsetX = 0;
+            final int statusOffsetY = 27;
+            final int confuseOffsetX = 12;
+            final int confuseOffsetY = 1;
+
+            float total, ratio;
+            int width, height, u, v;
+
+            int moveIndex = 0;
+            int moveCount = 0;
+            int x = hpOffsetX + 1;
+            int y = hpOffsetY + 1;
+
+            var graphics = evt.getGraphics();
+            var gui = evt.getGui();
+
             FormattedCharSequence displayName = pokemob.getDisplayName().getVisualOrderText();
             if (gui.getFont().width(displayName) > 70)
             {
@@ -158,6 +164,7 @@ public class OutMobInfo extends GuiEventComponent
 
             // Draw number of pokemon
             RenderSystem.enableBlend();
+            var info = GuiDisplayPokecubeInfo.instance();
             final int n = info.getPokemobsToDisplay().length;
             final int n2 = info.indexPokemob + 1;
             String txt = n == 1 ? n + "" : n2 + "/" + n;

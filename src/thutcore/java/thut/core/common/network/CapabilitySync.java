@@ -21,6 +21,7 @@ import net.minecraftforge.common.capabilities.CapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
+import thut.api.entity.EntityProvider;
 import thut.core.common.ThutCore;
 import thut.core.common.network.nbtpacket.NBTPacket;
 import thut.core.common.network.nbtpacket.PacketAssembly;
@@ -157,7 +158,7 @@ public class CapabilitySync extends NBTPacket
     {
         final int id = this.getTag().getInt("id");
         final Level world = net.minecraft.client.Minecraft.getInstance().level;
-        final Entity mob = world.getEntity(id);
+        final Entity mob = EntityProvider.provider.getEntity(world, id);
         if (mob != null) CapabilitySync.readMob(mob, this.getTag().getCompound("tag"));
     }
 }

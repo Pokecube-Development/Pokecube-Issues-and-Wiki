@@ -63,8 +63,8 @@ public abstract class GuiEventComponent implements Comparable<GuiEventComponent>
     int mX;
     int mY;
 
-    final Rectangle bounds = new Rectangle();
-    final Rectangle pos = new Rectangle();
+    protected final Rectangle bounds = new Rectangle();
+    protected final Rectangle pos = new Rectangle();
 
     public int getZLevel()
     {
