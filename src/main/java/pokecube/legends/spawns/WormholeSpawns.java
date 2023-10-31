@@ -104,6 +104,11 @@ public class WormholeSpawns implements IWorldTickListener
     {
     });
 
+    public static IWormholeWorld getWormholes(Level level)
+    {
+        return level.getCapability(WormholeSpawns.WORMHOLES_CAP).orElse(null);
+    }
+
     static WormholeSpawns INSTANCE = new WormholeSpawns();
 
     public static double randomWormholeChance = 0.00001;
@@ -157,7 +162,7 @@ public class WormholeSpawns implements IWorldTickListener
     {
         if (!SpawnHandler.canSpawnInWorld(world)) return;
 
-        final IWormholeWorld holes = world.getCapability(WormholeSpawns.WORMHOLES_CAP).orElse(null);
+        final IWormholeWorld holes = WormholeSpawns.getWormholes(world);
         if (holes == null) return;
 
         final double rate = WormholeSpawns.randomWormholeChance;

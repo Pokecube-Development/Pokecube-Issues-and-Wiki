@@ -26,7 +26,6 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.network.NetworkHooks;
 import pokecube.api.blocks.IInhabitable;
 import pokecube.api.data.PokedexEntry;
-import pokecube.api.entity.CapabilityInhabitable;
 import pokecube.api.entity.CapabilityInhabitable.HabitatProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.EggEvent;
@@ -39,6 +38,7 @@ import pokecube.core.eventhandlers.SpawnHandler.ForbidRegion;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
+import pokecube.core.utils.CapHolders;
 import thut.api.ThutCaps;
 import thut.api.block.ITickTile;
 import thut.api.inventory.InvWrapper;
@@ -88,7 +88,7 @@ public class NestTile extends InteractableTile implements ITickTile
     public NestTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
     {
         super(tileEntityTypeIn, pos, state);
-        this.habitat = this.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
+        this.habitat = CapHolders.getInhabitable(this);
     }
 
     public void setWrappedHab(final IInhabitable toWrap)
@@ -145,12 +145,12 @@ public class NestTile extends InteractableTile implements ITickTile
     public InteractionResult onInteract(final BlockPos pos, final Player player, final InteractionHand hand,
             final BlockHitResult hit)
     {
-        final IItemHandler handler = this.getCapability(ThutCaps.ITEM_HANDLER).orElse(null);
-        if (handler instanceof IItemHandlerModifiable)
+        final IItemHandler handler = ThutCaps.getInventory(this);
+        if (handler instanceof IItemHandlerModifiable mhandler)
         {
             if (player instanceof ServerPlayer sendTo)
             {
-                final InvWrapper wrapper = new InvWrapper((IItemHandlerModifiable) handler);
+                final InvWrapper wrapper = new InvWrapper(mhandler);
                 wrapper.addListener(c -> {
                     this.getLevel().getChunk(getBlockPos()).setUnsaved(true);
                 });

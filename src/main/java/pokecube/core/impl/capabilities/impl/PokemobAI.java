@@ -256,7 +256,7 @@ public abstract class PokemobAI extends PokemobEvolves
         final Mob entity = this.getEntity();
         final PokedexEntry entry = this.getPokedexEntry();
 
-        this.guardCap = entity.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
+        this.guardCap = CapHolders.getGuardAI(entity);
         
         if (this.getOwnerHolder() == null)
             PokecubeAPI.LOGGER.warn("Pokemob without ownable cap, this is a bug! " + this.getPokedexEntry());

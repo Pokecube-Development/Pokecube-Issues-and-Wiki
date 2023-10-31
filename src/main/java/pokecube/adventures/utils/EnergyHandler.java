@@ -159,7 +159,7 @@ public class EnergyHandler
         int ret = 0;
         for (final Entity entity : l) if (entity != null && entity.isAddedToWorld() && entity.isAlive())
         {
-            final IEnergyStorage producer = entity.getCapability(ThutCaps.ENERGY).orElse(null);
+            final IEnergyStorage producer = ThutCaps.getEnergy(entity);
             if (producer != null)
             {
                 final double dSq = Math.max(1, entity.distanceToSqr(tile.getBlockPos().getX() + 0.5,
@@ -191,14 +191,14 @@ public class EnergyHandler
         int output = EnergyHandler.getOutput(event.getTile(), PokecubeAdv.config.maxOutput, true, mobs);
         event.getTile().energy.theoreticalOutput = output;
         event.getTile().energy.currentOutput = output;
-        final IEnergyStorage producer = event.getTile().getCapability(ThutCaps.ENERGY).orElse(null);
+        final IEnergyStorage producer = ThutCaps.getEnergy(event.getTile());
         final int start = output;
         final Vector3 v = new Vector3().set(event.getTile());
         for (final Direction side : Direction.values())
         {
             final BlockEntity te = v.getTileEntity(world, side);
             IEnergyStorage cap;
-            if (te != null && (cap = te.getCapability(ThutCaps.ENERGY, side.getOpposite()).orElse(null)) != null)
+            if (te != null && (cap = ThutCaps.getEnergy(te, side.getOpposite())) != null)
             {
                 if (!cap.canReceive()) continue;
                 final int toSend = cap.receiveEnergy(output, true);
@@ -216,7 +216,7 @@ public class EnergyHandler
             IEnergyStorage cap;
             sides:
             for (final Direction side : Direction.values())
-                if ((cap = te.getCapability(ThutCaps.ENERGY, side.getOpposite()).orElse(null)) != null)
+                if ((cap = ThutCaps.getEnergy(te, side.getOpposite())) != null)
             {
                 if (!cap.canReceive()) continue;
                 final int toSend = cap.receiveEnergy(output, true);
