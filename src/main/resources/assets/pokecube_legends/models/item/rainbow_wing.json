@@ -1,7 +1,7 @@
 {  
-   "parent":"item/generated",
-   "textures":{  
-      "layer0":"pokecube_legends:item/rainbow_wing",
-      "layer1":"pokecube_legends:item/rainbow_wing_shine"
+   "parent": "item/generated",
+   "textures": {
+      "layer0": "pokecube_legends:item/rainbow_wing",
+      "layer1": "pokecube_legends:item/rainbow_wing_shine"
    }
 }
