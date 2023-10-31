@@ -77,8 +77,7 @@ public class AnimatedCaps
 
     public static IAnimated getAnimated(final ICapabilityProvider in)
     {
-        if (in == null) return null;
-        return in.getCapability(ThutCaps.ANIMATED).orElse(null);
+        return ThutCaps.getAnimated(in);
     }
 
     public static void setup()

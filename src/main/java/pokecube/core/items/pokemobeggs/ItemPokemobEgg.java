@@ -136,8 +136,8 @@ public class ItemPokemobEgg extends Item
             eggs = new DefaultGenetics();
             existing = false;
         }
-        IMobGenetics mothers = mother.getEntity().getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
-        IMobGenetics fathers = father.getEntity().getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
+        IMobGenetics mothers = ThutCaps.getGenetics(mother.getEntity());
+        IMobGenetics fathers = ThutCaps.getGenetics(father.getEntity());
         GeneticsManager.initEgg(eggs, mothers, fathers);
 
         var nbt = stack.getTag();

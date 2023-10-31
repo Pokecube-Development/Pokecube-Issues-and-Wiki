@@ -240,7 +240,7 @@ public abstract class PokemobBase implements IPokemob
      */
     public IOwnable getOwnerHolder()
     {
-        if (this.ownerHolder == null) this.ownerHolder = this.entity.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
+        if (this.ownerHolder == null) this.ownerHolder = ThutCaps.getOwnable(this.entity);
         return this.ownerHolder;
     }
 

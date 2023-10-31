@@ -40,7 +40,7 @@ import pokecube.core.entity.npc.NpcType;
 import pokecube.core.eventhandlers.SpawnEventsHandler.GuardInfo;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.CapHolders;
-import thut.api.entity.CopyCaps;
+import thut.api.ThutCaps;
 import thut.api.entity.ICopyMob;
 import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
@@ -319,7 +319,7 @@ public class PacketTrainer extends NBTPacket
             // Here we edit the mob itself
             if (!type.isEmpty())
             {
-                final ICopyMob copied = CopyCaps.get(mob);
+                final ICopyMob copied = ThutCaps.getCopyMob(mob);
                 mobHolder = TrainerCaps.getHasPokemobs(mob);
                 if (copied != null)
                 {

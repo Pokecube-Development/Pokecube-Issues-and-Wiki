@@ -143,7 +143,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         this.noCulling = true;
         this.invulnerableTime = 0;
         this.noPhysics = true;
-        dataSync = this.getCapability(ThutCaps.DATASYNC).orElse(null);
+        dataSync = ThutCaps.getDataSync(this);
         POS = dataSync.register(new Data_Vec3().setRealtime(), Optional.empty());
     }
 

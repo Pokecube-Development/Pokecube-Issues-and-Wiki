@@ -70,7 +70,7 @@ public class PacketSyncGene extends Packet
         final Alleles<?, ?> alleles = this.genes;
         final Entity mob = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), id, true);
         if (mob == null) return;
-        final IMobGenetics genes = mob.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
+        final IMobGenetics genes = ThutCaps.getGenetics(mob);
         if (genes != null && alleles != null && alleles.getExpressed() != null)
         {
             genes.getAlleles().put(alleles.getExpressed().getKey(), alleles);

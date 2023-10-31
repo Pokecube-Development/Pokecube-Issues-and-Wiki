@@ -25,7 +25,7 @@ public class BlingitemRenderer extends BlockEntityWithoutLevelRenderer implement
     private IWearable getWearable(final ItemStack stack)
     {
         if (stack.getItem() instanceof IWearable worn) return worn;
-        return stack.getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null);
+        return ThutWearables.getWearable(stack);
     }
 
     @Override

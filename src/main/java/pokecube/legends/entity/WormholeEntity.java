@@ -195,8 +195,7 @@ public class WormholeEntity extends LivingEntity
             for (int i = 0; i < pokemob.getInventory().getContainerSize(); i++)
             {
                 final ItemStack test = pokemob.getInventory().getItem(i);
-                final LazyOptional<ILinkStorage> test_stack = test.getCapability(ThutCaps.STORE);
-                if (test_stack.isPresent()) link = test_stack.orElse(null);
+                link = ThutCaps.getLinkStorage(test);
             }
             if (link != null)
             {

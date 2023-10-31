@@ -140,7 +140,7 @@ public class TerastalMechanic
     public static Alleles<TeraType, Gene<TeraType>> getTeraGenes(Entity entity)
     {
 
-        final IMobGenetics genes = entity.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
+        final IMobGenetics genes = ThutCaps.getGenetics(entity);
         if (genes == null) return null;
         if (!genes.getKeys().contains(GeneticsManager.TERAGENE))
         {

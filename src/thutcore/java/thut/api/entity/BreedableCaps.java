@@ -118,8 +118,7 @@ public class BreedableCaps
 
     public static IBreedingMob getBreedable(final ICapabilityProvider in)
     {
-        if (in == null) return null;
-        return in.getCapability(ThutCaps.BREEDS).orElse(null);
+        return ThutCaps.getBreedable(in);
     }
 
     public static void setup()

@@ -31,7 +31,7 @@ public class DynamaxGene implements Gene<DynaObject>
     @Nullable
     public static DynaObject getDyna(Entity mob)
     {
-        final IMobGenetics genes = mob.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
+        final IMobGenetics genes = ThutCaps.getGenetics(mob);
         if (genes == null) return null;
         if (!genes.getKeys().contains(GeneticsManager.GMAXGENE))
         {
