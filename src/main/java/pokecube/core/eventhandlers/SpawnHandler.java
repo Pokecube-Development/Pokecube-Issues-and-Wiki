@@ -16,6 +16,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.mojang.brigadier.StringReader;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.core.BlockPos;
@@ -23,6 +24,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -65,6 +67,7 @@ import pokecube.api.events.pokemobs.SpawnEvent.Variance;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.commands.Pokemake;
+import pokecube.core.commands.Pokemake2;
 import pokecube.core.database.Database;
 import pokecube.core.init.Config;
 import pokecube.core.utils.ChunkCoordinate;
@@ -840,6 +843,10 @@ public final class SpawnHandler
             {
                 context = new SpawnContext(context, point);
                 final SpawnEvent.Pick.Final event = new SpawnEvent.Pick.Final(context);
+                String spawnArgs = "";
+                if (matcher.spawnRule.values.containsKey(SpawnBiomeMatcher.SPAWNCOMMAND))
+                    spawnArgs = matcher.spawnRule.getString(SpawnBiomeMatcher.SPAWNCOMMAND);
+                event.setSpawnArgs(spawnArgs);
                 PokecubeAPI.POKEMOB_BUS.post(event);
                 if (event.getPicked() == null) continue;
                 entity = PokecubeCore.createPokemob(event.getPicked(), level);
@@ -851,17 +858,31 @@ public final class SpawnHandler
                     if ((entity = SpawnHandler.creatureSpecificInit(entity, level, x, y, z, v3.set(entity), entry,
                             matcher, spawnTag)) != null)
                     {
-                        final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
-                        if (!event.getSpawnArgs().isEmpty())
+                        IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
+                        if (!(spawnArgs = event.getSpawnArgs()).isEmpty())
                         {
-                            final String[] args = event.getSpawnArgs().split(" ");
-                            Pokemake.setToArgs(args, pokemob, 0, v, false);
-                        }
-                        else if (matcher.spawnRule.values.containsKey(SpawnBiomeMatcher.SPAWNCOMMAND))
-                        {
-                            final String[] args = matcher.spawnRule.getString(SpawnBiomeMatcher.SPAWNCOMMAND)
-                                    .split(" ");
-                            Pokemake.setToArgs(args, pokemob, 0, v, false);
+                            // This case means we are an nbt tag
+                            if (spawnArgs.charAt(0) == '{')
+                            {
+                                try
+                                {
+                                    var parsed = (new TagParser(new StringReader(spawnArgs))).readValue();
+                                    if (parsed instanceof CompoundTag tag)
+                                    {
+                                        pokemob = Pokemake2.initFromNBT(pokemob, tag);
+                                        entity = pokemob.getEntity();
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                    e.printStackTrace();
+                                }
+                            }
+                            else
+                            {
+                                final String[] args = event.getSpawnArgs().split(" ");
+                                Pokemake.setToArgs(args, pokemob, 0, v, false);
+                            }
                         }
                         final SpawnEvent.Post evt = new SpawnEvent.Post(pokemob);
                         PokecubeAPI.POKEMOB_BUS.post(evt);
