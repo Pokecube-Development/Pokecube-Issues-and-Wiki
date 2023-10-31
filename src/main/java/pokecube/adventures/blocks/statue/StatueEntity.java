@@ -45,7 +45,6 @@ import thut.api.entity.IMobColourable;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.network.TileUpdate;
-import thut.lib.RegHelper;
 
 public class StatueEntity extends InteractableTile
 {
@@ -77,15 +76,12 @@ public class StatueEntity extends InteractableTile
         if (copy != null)
         {
             LivingEntity before = copy.getCopiedMob();
-            if (before == null)
+            copy.onBaseTick(this.level, null);
+            if (copy.getCopiedMob() == null)
             {
                 copy.setCopiedMob(before = PokecubeCore.createPokemob(Database.missingno, this.level));
-                if (copy.getCopiedID() == null) copy.setCopiedID(RegHelper.getKey(before.getType()));
-                if (!copy.getCopiedNBT().isEmpty()) before.deserializeNBT(copy.getCopiedNBT());
-                before = null;
+                break check;
             }
-            copy.onBaseTick(this.level, null);
-            if (copy.getCopiedMob() == null) break check;
             if (copy.getCopiedMob() != before)
             {
                 final BlockPos pos = this.getBlockPos();
@@ -338,9 +334,7 @@ public class StatueEntity extends InteractableTile
         }
         // Server side send packet that it changed
         if (!this.level.isClientSide()) TileUpdate.sendUpdate(this);
-        // Client side clear the mob
-        else copy.setCopiedMob(null);
-        // Both sides refresh mob if changed
+        // refresh mob if changed
         this.checkMob();
         this.fuelTimer = tag.getLong("fuelTimer");
     }
