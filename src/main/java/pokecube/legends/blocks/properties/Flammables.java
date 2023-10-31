@@ -48,6 +48,7 @@ public class Flammables
         flammableBlocks(BlockInit.AGED_LEAVES.get(), 30, 60);
         flammableBlocks(BlockInit.CORRUPTED_LEAVES.get(), 30, 60);
         flammableBlocks(BlockInit.DISTORTIC_LEAVES.get(), 30, 60);
+        flammableBlocks(BlockInit.DYNA_LEAVES_PASTEL_PINK.get(), 30, 60);
         flammableBlocks(BlockInit.DYNA_LEAVES_PINK.get(), 30, 60);
         flammableBlocks(BlockInit.DYNA_LEAVES_RED.get(), 30, 60);
         flammableBlocks(BlockInit.INVERTED_LEAVES.get(), 30, 60);
