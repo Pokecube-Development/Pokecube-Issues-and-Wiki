@@ -14,6 +14,7 @@ import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerEvent.StopTracking;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
+import thut.api.entity.EntityProvider;
 import thut.api.entity.multipart.IMultpart;
 import thut.core.common.ThutCore;
 import thut.core.common.network.nbtpacket.NBTPacket;
@@ -136,7 +137,7 @@ public class PartSync extends NBTPacket
             partMap.clear();
             return;
         }
-        Entity mob = world.getEntity(id);
+        Entity mob = EntityProvider.provider.getEntity(world, id);
 
         if (!(mob instanceof IMultpart<?, ?> parts)) return;
 

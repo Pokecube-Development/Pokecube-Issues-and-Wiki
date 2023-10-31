@@ -70,6 +70,16 @@ public class CopyCaps
         public void setCopiedMob(final LivingEntity mob)
         {
             this.copiedMob = mob;
+            if (mob != null)
+            {
+                this.setCopiedID(RegHelper.getKey(mob));
+                this.setCopiedNBT(mob.serializeNBT());
+            }
+            else
+            {
+                this.setCopiedID(null);
+                this.setCopiedNBT(new CompoundTag());
+            }
         }
 
         @Override

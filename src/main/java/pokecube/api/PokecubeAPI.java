@@ -5,8 +5,8 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraftforge.eventbus.api.BusBuilder;
 import net.minecraftforge.eventbus.api.IEventBus;
-import pokecube.api.entity.EntityProvider;
-import pokecube.api.entity.IEntityProvider;
+import thut.api.entity.EntityProvider;
+import thut.api.entity.IEntityProvider;
 import thut.core.common.ThutCore;
 
 public class PokecubeAPI
@@ -19,9 +19,6 @@ public class PokecubeAPI
     // Bus for Pokemob Events
     public static final IEventBus POKEMOB_BUS = BusBuilder.builder().build();
 
-    // Provider for entities.
-    public static IEntityProvider provider = new EntityProvider(null);
-
     /**
      * Allows for dealing with cases like pokeplayer, where the entity that the
      * world stores is not necessarily the one wanted for pokemob interaction.
@@ -30,7 +27,7 @@ public class PokecubeAPI
      */
     public static IEntityProvider getEntityProvider()
     {
-        return PokecubeAPI.provider;
+        return EntityProvider.provider;
     }
 
     public static void logInfo(Object... args)

@@ -8,8 +8,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import thut.api.ThutCaps;
 import thut.api.entity.genetics.Alleles;
@@ -36,6 +34,7 @@ public class PacketSyncGene extends Packet
         packet.genes = gene;
         packet.entityId = mob.getId();
         PokecubeCore.packets.sendToTracking(packet, mob);
+        if (mob instanceof ServerPlayer player) syncGene(mob, gene, player);
     }
 
     Alleles<?, ?> genes = new Alleles<>();
@@ -72,10 +71,12 @@ public class PacketSyncGene extends Packet
         final Entity mob = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), id, true);
         if (mob == null) return;
         final IMobGenetics genes = mob.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
-        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         if (genes != null && alleles != null && alleles.getExpressed() != null)
+        {
             genes.getAlleles().put(alleles.getExpressed().getKey(), alleles);
-        if (pokemob != null) pokemob.onGenesChanged();
+            alleles.setChangeListeners(genes.getChangeListeners());
+            alleles.onChanged();
+        }
     }
 
     @Override

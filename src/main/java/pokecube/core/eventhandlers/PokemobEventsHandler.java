@@ -759,8 +759,12 @@ public class PokemobEventsHandler
             // Initialize this for client side here
             if (living.level.isClientSide() && pokemob.getTickLogic().isEmpty()) pokemob.initAI();
 
+            // Mark copy as in world for logic checks
+            living.onAddedToWorld();
             // Tick the logic stuff for this mob.
             for (final Logic l : pokemob.getTickLogic()) if (l.shouldRun()) l.tick(living.getLevel());
+            // Unmark copy as in world afterwards
+            living.onRemovedFromWorld();
         }
     }
 
