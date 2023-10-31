@@ -65,7 +65,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent.StopTracking;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.ai.IInhabitor;
 import pokecube.api.blocks.IInhabitable;
@@ -131,7 +130,7 @@ import thut.lib.TComponent;
 
 public class PokemobEventsHandler
 {
-    public static class EvoTicker
+    public static class EvoTicker implements Runnable
     {
         final LivingEntity thisEntity;
         final LivingEntity evolution;
@@ -147,10 +146,12 @@ public class PokemobEventsHandler
 
         public void init()
         {
-            ThutCore.FORGE_BUS.register(this);
+            DelayedTask run = new DelayedTask(0, this);
+            WorldTickManager.scheduleTask(this.world.dimension(), run);
         }
 
-        public void tick()
+        @Override
+        public void run()
         {
             if (this.done) return;
             this.done = true;
@@ -220,21 +221,13 @@ public class PokemobEventsHandler
             EntityUpdate.sendEntityUpdate(this.evolution);
         }
 
-        @SubscribeEvent
-        public void tick(final WorldTickEvent evt)
-        {
-            if (evt.world != this.world || evt.phase != Phase.END) return;
-            ThutCore.FORGE_BUS.unregister(this);
-            this.tick();
-        }
-
         public static void scheduleEvolve(final LivingEntity thisEntity, final LivingEntity evolution,
                 final boolean immediate)
         {
             if (!(thisEntity.level instanceof ServerLevel)) return;
             final EvoTicker ticker = new EvoTicker(thisEntity, evolution);
             if (!immediate) ticker.init();
-            else ticker.tick();
+            else ticker.run();
         }
     }
 
