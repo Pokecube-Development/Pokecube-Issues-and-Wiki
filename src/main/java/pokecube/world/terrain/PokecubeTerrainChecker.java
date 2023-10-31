@@ -43,7 +43,7 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
         DensityFunction.SinglePointContext densityfunction$singlepointcontext = new DensityFunction.SinglePointContext(
                 pos.getX(), pos.getY(), pos.getZ());
         double f4 = noiserouter.ridges().compute(densityfunction$singlepointcontext);
-        double d0 = (double) NoiseRouterData.peaksAndValleys((float) f4);
+        double d0 = NoiseRouterData.peaksAndValleys((float) f4);
         return d0 > 0.5 ? TerrainType.HILLS : TerrainType.FLAT;
     }
 

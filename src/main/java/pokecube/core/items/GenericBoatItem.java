@@ -96,8 +96,8 @@ public class GenericBoatItem extends Item
 
     private GenericBoat getBoat(Level world, HitResult hitresult)
     {
-        return (GenericBoat)(this.hasChest
+        return this.hasChest
                 ? new GenericChestBoat(world, hitresult.getLocation().x, hitresult.getLocation().y, hitresult.getLocation().z)
-                : new GenericBoat(world, hitresult.getLocation().x, hitresult.getLocation().y, hitresult.getLocation().z));
+                : new GenericBoat(world, hitresult.getLocation().x, hitresult.getLocation().y, hitresult.getLocation().z);
     }
 }

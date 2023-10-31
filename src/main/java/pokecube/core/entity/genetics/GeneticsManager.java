@@ -27,7 +27,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.ai.BrainInitEvent;
@@ -227,7 +227,7 @@ public class GeneticsManager
         initMob(event.getEntity());
     }
 
-    private static void addRegisteredGenes(final EntityJoinWorldEvent event)
+    private static void addRegisteredGenes(final EntityJoinLevelEvent event)
     {
         initMob(event.getEntity());
     }

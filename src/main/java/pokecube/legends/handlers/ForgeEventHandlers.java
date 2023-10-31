@@ -159,7 +159,7 @@ public class ForgeEventHandlers
     public void bucket(final FillBucketEvent evt)
     {
         if (!(evt.getEntity() instanceof ServerPlayer player) || !PokecubeLegends.config.protectTemples) return;
-        final ServerLevel world = (ServerLevel) player.getLevel();
+        final ServerLevel world = player.getLevel();
         BlockPos pos = player.blockPosition();
         if (evt.getTarget() instanceof BlockHitResult && evt.getTarget().getType() != Type.MISS)
         {

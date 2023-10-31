@@ -86,8 +86,7 @@ public class MoltenMeteoriteType extends FluidType
                 public void setItemMovement(ItemEntity entity)
                 {
                     Vec3 vec3 = entity.getDeltaMovement();
-                    entity.setDeltaMovement(vec3.x * (double) 0.95F,
-                            vec3.y + (double) (vec3.y < (double) 0.06F ? 5.0E-4F : 0.0F), vec3.z * (double) 0.95F);
+                    entity.setDeltaMovement(vec3.x * 0.95F, vec3.y + (vec3.y < 0.06F ? 5.0E-4F : 0.0F), vec3.z * 0.95F);
                 }
             });
 }

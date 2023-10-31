@@ -26,7 +26,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import thut.api.entity.blockentity.world.IBlockEntityWorld;
@@ -271,7 +270,7 @@ public class ControllerRenderer implements BlockEntityRenderer<ControllerTile>
             var model = dispatcher.getBlockModel(copied);
             for (var renderType : model.getRenderTypes(copied, RandomSource.create(copied.getSeed(randPos)),
                     net.minecraftforge.client.model.data.ModelData.EMPTY))
-                dispatcher.getModelRenderer().tesselateBlock((BlockAndTintGetter) world, model, copied, pos, mat,
+                dispatcher.getModelRenderer().tesselateBlock(world, model, copied, pos, mat,
                         buff.getBuffer(renderType), false, RandomSource.create(), copied.getSeed(pos),
                         OverlayTexture.NO_OVERLAY, net.minecraftforge.client.model.data.ModelData.EMPTY, renderType);
             mat.popPose();
