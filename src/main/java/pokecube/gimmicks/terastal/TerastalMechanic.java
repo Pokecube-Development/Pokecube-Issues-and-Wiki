@@ -22,6 +22,7 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler;
 import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler.IChangeHandler;
+import pokecube.api.events.init.PokemakeArgumentEvent;
 import pokecube.api.events.pokemobs.ChangeForm;
 import pokecube.api.events.pokemobs.HealEvent;
 import pokecube.api.events.pokemobs.RecallEvent;
@@ -70,6 +71,8 @@ public class TerastalMechanic
         PokecubeAPI.POKEMOB_BUS.addListener(TerastalMechanic::onRecall);
         // Add listener for removing tera cooldown when healed at a pokecenter
         PokecubeAPI.POKEMOB_BUS.addListener(TerastalMechanic::onHeal);
+        // Add listener for removing tera cooldown when healed at a pokecenter
+        PokecubeAPI.POKEMOB_BUS.addListener(TerastalMechanic::onPokemake);
         // Register a change handler for terastallizing
         ChangeFormHandler.addChangeHandler(new Terastallizer());
         // Register a raid type
@@ -260,6 +263,35 @@ public class TerastalMechanic
             doTera(pokemob);
         }
         return canTera;
+    }
+
+    /**
+     * This handles processing the tera type from the nbt in the pokemake
+     * arguments.
+     * 
+     * @param event
+     */
+    private static final void onPokemake(PokemakeArgumentEvent event)
+    {
+        String type = event.getNbt().getString("tera_type");
+        var tera = getTera(event.getPokemob().getEntity());
+        if (!type.isBlank())
+        {
+            try
+            {
+                PokeType tera_type = PokeType.getType(type);
+                if (tera != null) tera.teraType = tera_type;
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+        }
+        if (event.getNbt().getBoolean("is_tera"))
+        {
+            tera.isTera = true;
+        }
     }
 
     /**

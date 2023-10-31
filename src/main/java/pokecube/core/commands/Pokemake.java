@@ -281,21 +281,21 @@ public class Pokemake
 
     public static void register(final CommandDispatcher<CommandSourceStack> commandDispatcher)
     {
-        final String perm = "command.pokemake";
+        final String perm = "command.pokemake_old";
         // Normal pokemake
         PermNodes.registerBooleanNode(PokecubeCore.MODID, perm, DefaultPermissionLevel.OP,
-                "Is the player allowed to use /pokemake");
+                "Is the player allowed to use /pokemake_old");
 
         LiteralArgumentBuilder<CommandSourceStack> command;
         // Set a permission
-        command = Commands.literal("pokemake").requires(cs -> CommandTools.hasPerm(cs, perm));
+        command = Commands.literal("pokemake_old").requires(cs -> CommandTools.hasPerm(cs, perm));
         // Plain command, no args besides name.
         command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(Pokemake.SUGGEST_POKEMOB)
                 .executes(ctx -> Pokemake.execute(ctx.getSource(), StringArgumentType.getString(ctx, "mob"),
                         Lists.newArrayList())));
         commandDispatcher.register(command);
 
-        command = Commands.literal("pokemake").requires(cs -> CommandTools.hasPerm(cs, perm));
+        command = Commands.literal("pokemake_old").requires(cs -> CommandTools.hasPerm(cs, perm));
         // command with player and no arguments
         command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(Pokemake.SUGGEST_POKEMOB)
                 .then(Commands.argument("player", EntityArgument.player())
@@ -303,7 +303,7 @@ public class Pokemake
                                 Lists.newArrayList(EntityArgument.getPlayer(ctx, "player"))))));
         commandDispatcher.register(command);
 
-        command = Commands.literal("pokemake").requires(cs -> CommandTools.hasPerm(cs, perm));
+        command = Commands.literal("pokemake_old").requires(cs -> CommandTools.hasPerm(cs, perm));
         // Command with player then string arguments
         command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(Pokemake.SUGGEST_POKEMOB)
                 .then(Commands.argument("player", EntityArgument.player()).then(Commands
@@ -313,7 +313,7 @@ public class Pokemake
                                         StringArgumentType.getString(ctx, "args")))))));
         commandDispatcher.register(command);
 
-        command = Commands.literal("pokemake").requires(cs -> CommandTools.hasPerm(cs, perm));
+        command = Commands.literal("pokemake_old").requires(cs -> CommandTools.hasPerm(cs, perm));
         // Command string arguments
         command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(Pokemake.SUGGEST_POKEMOB)
                 .then(Commands.argument("args", StringArgumentType.greedyString())
