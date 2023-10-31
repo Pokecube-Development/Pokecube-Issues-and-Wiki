@@ -7,7 +7,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.material.Material;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -71,7 +70,7 @@ public class TechCore
 
     public TechCore()
     {
-        MinecraftForge.EVENT_BUS.register(this);
+        ThutCore.FORGE_BUS.register(this);
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         // Register recipe serializers

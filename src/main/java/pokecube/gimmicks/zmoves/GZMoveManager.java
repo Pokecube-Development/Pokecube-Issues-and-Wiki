@@ -12,7 +12,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -38,6 +37,7 @@ import pokecube.core.moves.implementations.MovesAdder;
 import pokecube.gimmicks.dynamax.D_Move_Damage;
 import thut.api.Tracker;
 import thut.api.Tracker.UpdateHandler;
+import thut.core.common.ThutCore;
 import thut.core.common.network.GeneralUpdate;
 
 @Mod.EventBusSubscriber(bus = Bus.MOD, modid = PokecubeCore.MODID)
@@ -67,7 +67,7 @@ public class GZMoveManager
     public static void init(FMLLoadCompleteEvent event)
     {
         ItemTM.INVALID_TMS.add(s -> isGZDMove(MovesUtils.getMove(s)));
-        MinecraftForge.EVENT_BUS.addListener(GZMoveManager::onMobUpdate);
+        ThutCore.FORGE_BUS.addListener(GZMoveManager::onMobUpdate);
         PokecubeAPI.MOVE_BUS.addListener(GZMoveManager::postMoveUse);
         Tracker.HANDLERS.put(ZMoveModeHandler.HANDLER.getKey(), ZMoveModeHandler.HANDLER);
         StanceHandler.MODE_LISTENERS.put(StanceHandler.MODE, ZMoveModeHandler.HANDLER);

@@ -12,13 +12,13 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.registries.ForgeRegistries;
 import thut.api.ThutCaps;
 import thut.api.entity.ICopyMob;
 import thut.api.entity.event.CopyUpdateEvent;
 import thut.bot.entity.BotPlayer;
 import thut.bot.entity.ai.BotAI;
+import thut.core.common.ThutCore;
 import thut.core.common.network.CapabilitySync;
 import thut.lib.RegHelper;
 
@@ -147,7 +147,9 @@ public class MimicBot extends AbstractBot
 
         living.level = player.level;
 
-        if (!MinecraftForge.EVENT_BUS.post(new CopyUpdateEvent(living, player)))
+        var event =new CopyUpdateEvent(living, player);
+        ThutCore.FORGE_BUS.post(event);
+        if (!event.isCanceled())
         {
             living.setHealth(player.getHealth());
             living.setAirSupply(player.getAirSupply());

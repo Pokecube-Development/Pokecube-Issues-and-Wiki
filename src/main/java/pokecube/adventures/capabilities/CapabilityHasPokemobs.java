@@ -21,7 +21,6 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -59,6 +58,7 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.DataSync;
+import thut.core.common.ThutCore;
 
 public class CapabilityHasPokemobs
 {
@@ -957,7 +957,7 @@ public class CapabilityHasPokemobs
             final TrainerInteractEvent.CanInteract event = new CanInteract(player, this.getLatestContext());
             final Result result = player == this.user || player.isCreative() ? Result.ALLOW : Result.DENY;
             event.setResult(result);
-            MinecraftForge.EVENT_BUS.post(event);
+            ThutCore.FORGE_BUS.post(event);
             final boolean allow = event.getResult() == Result.ALLOW;
             return allow;
         }

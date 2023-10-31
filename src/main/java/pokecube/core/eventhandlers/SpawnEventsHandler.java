@@ -36,7 +36,6 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.material.Material;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -63,6 +62,7 @@ import thut.api.level.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
+import thut.core.common.ThutCore;
 
 public class SpawnEventsHandler
 {
@@ -80,11 +80,11 @@ public class SpawnEventsHandler
 
         // This handles spawning in the NPCs, etc from the structure blocks with
         // appropriate data markers.
-        MinecraftForge.EVENT_BUS.addListener(SpawnEventsHandler::onReadStructTag);
+        ThutCore.FORGE_BUS.addListener(SpawnEventsHandler::onReadStructTag);
         // This handles setting of the subbiomes for structures as they spawn
         // in, it is lowest, and not listening for cancalling incase addons make
         // adjustments first.
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, false, SpawnEventsHandler::onStructureSpawn);
+        ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, false, SpawnEventsHandler::onStructureSpawn);
     }
 
     private static void CapLevel(final SpawnEvent.PickLevel event)
@@ -212,8 +212,9 @@ public class SpawnEventsHandler
 
     private static void spawnNpc(final StructureEvent.ReadTag event, final NpcMob mob, final JsonObject thing)
     {
-        if (!MinecraftForge.EVENT_BUS
-                .post(new NpcSpawn.Check(mob, event.pos, event.worldActual, MobSpawnType.STRUCTURE, thing)))
+        var checkEvent = new NpcSpawn.Check(mob, event.pos, event.worldActual, MobSpawnType.STRUCTURE, thing);
+        ThutCore.FORGE_BUS.post(checkEvent);
+        if (!checkEvent.isCanceled())
         {
             event.setResult(Result.ALLOW);
             SpawnEventsHandler.spawnMob(event, mob, thing);

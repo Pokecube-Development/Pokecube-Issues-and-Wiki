@@ -21,7 +21,6 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
@@ -50,6 +49,7 @@ import thut.api.ThutCaps;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.item.ItemList;
 import thut.api.util.JsonUtil;
+import thut.core.common.ThutCore;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 import thut.lib.RegHelper;
 
@@ -107,13 +107,13 @@ public class Compat
     public static void register(final CompatEvent event)
     {
         // Here will will register the vanilla mobs as a type of pokemob.
-        MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, Compat::onEntityCaps);
+        ThutCore.FORGE_BUS.addGenericListener(Entity.class, Compat::onEntityCaps);
         // Here will will register the vanilla bee hives as habitable
-        MinecraftForge.EVENT_BUS.addGenericListener(BlockEntity.class, Compat::onTileEntityCaps);
+        ThutCore.FORGE_BUS.addGenericListener(BlockEntity.class, Compat::onTileEntityCaps);
         // Here we disable the pokecube kill command for vanilla mobs for #753
         PokecubeAPI.POKEMOB_BUS.addListener(Compat::onKillCommand);
         // Here will will register the handler for making the default datapack
-        MinecraftForge.EVENT_BUS.addListener(Compat::onServerStarted);
+        ThutCore.FORGE_BUS.addListener(Compat::onServerStarted);
     }
 
     private static void onServerStarted(final ServerStartedEvent event)

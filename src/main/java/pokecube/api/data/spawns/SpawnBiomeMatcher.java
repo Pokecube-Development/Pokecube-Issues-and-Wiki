@@ -24,7 +24,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.material.Material;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.spawns.SpawnCheck.MatchResult;
@@ -40,6 +39,7 @@ import pokecube.core.database.Database;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.api.level.terrain.BiomeDatabase;
 import thut.api.level.terrain.BiomeType;
+import thut.core.common.ThutCore;
 
 public class SpawnBiomeMatcher
 {
@@ -466,7 +466,9 @@ public class SpawnBiomeMatcher
                 boolean subCondition = true;
                 for (final Predicate<SpawnCheck> c : this._additionalConditions) subCondition &= c.apply(checker);
                 if (!subCondition) return false;
-                boolean eventResult = !MinecraftForge.EVENT_BUS.post(new SpawnCheckEvent.Check(this, checker));
+                var event = new SpawnCheckEvent.Check(this, checker);
+                ThutCore.FORGE_BUS.post(event);
+                boolean eventResult = !event.isCanceled();
                 return eventResult;
             }
             return false;
@@ -482,7 +484,10 @@ public class SpawnBiomeMatcher
         if (!loc) return false;
         boolean subCondition = true;
         for (final Predicate<SpawnCheck> c : this._additionalConditions) subCondition &= c.apply(checker);
-        return subCondition && !MinecraftForge.EVENT_BUS.post(new SpawnCheckEvent.Check(this, checker));
+        if (!subCondition) return false;
+        var event = new SpawnCheckEvent.Check(this, checker);
+        ThutCore.FORGE_BUS.post(event);
+        return !event.isCanceled();
     }
 
     private boolean weatherMatches(final SpawnCheck checker)
@@ -880,7 +885,7 @@ public class SpawnBiomeMatcher
         {
         };
 
-        MinecraftForge.EVENT_BUS.post(new SpawnCheckEvent.Init(this));
+        ThutCore.FORGE_BUS.post(new SpawnCheckEvent.Init(this));
 
         if (spawnRule.biomes != null)
         {

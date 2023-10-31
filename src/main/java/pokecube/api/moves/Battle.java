@@ -19,7 +19,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.MinecraftForge;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.TeamManager;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -33,6 +32,7 @@ import pokecube.core.utils.AITools;
 import thut.api.maths.Vector3;
 import thut.api.world.IWorldTickListener;
 import thut.api.world.WorldTickManager;
+import thut.core.common.ThutCore;
 
 public class Battle
 {
@@ -112,7 +112,9 @@ public class Battle
         final Battle existingA = Battle.getBattle(mobA);
         final Battle existingB = Battle.getBattle(mobB);
 
-        if (MinecraftForge.EVENT_BUS.post(new JoinBattleEvent(mobA, mobB, existingA, existingB))) return false;
+        var event = new JoinBattleEvent(mobA, mobB, existingA, existingB);
+        ThutCore.FORGE_BUS.post(event);
+        if (event.isCanceled()) return false;
 
         IPokemob pokemob = PokemobCaps.getPokemobFor(mobA);
         if (pokemob != null) pokemob.setCombatState(CombatStates.BATTLING, true);
@@ -336,7 +338,7 @@ public class Battle
         final IPokemob poke = PokemobCaps.getPokemobFor(mob);
         if (poke != null && poke.getAbility() != null) poke.getAbility().endCombat(poke);
 
-        MinecraftForge.EVENT_BUS.post(new ExitBattleEvent(mob, this));
+        ThutCore.FORGE_BUS.post(new ExitBattleEvent(mob, this));
     }
 
     private boolean checkStale(final Map<UUID, LivingEntity> side, List<LivingEntity> set, List<LivingEntity> stale)

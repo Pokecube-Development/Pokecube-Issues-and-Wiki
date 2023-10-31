@@ -33,7 +33,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -351,7 +350,7 @@ public class ItemPokemobEgg extends Item
         final EntityPokemobEgg entity = new EntityPokemobEgg(EntityTypes.getEgg(), world).setToPos(location)
                 .setStack(eggItemStack);
         final EggEvent.Place event = new EggEvent.Place(entity);
-        MinecraftForge.EVENT_BUS.post(event);
+        ThutCore.FORGE_BUS.post(event);
         world.addFreshEntity(entity);
         return true;
     }

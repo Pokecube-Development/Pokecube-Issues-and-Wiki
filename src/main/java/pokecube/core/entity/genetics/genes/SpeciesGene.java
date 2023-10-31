@@ -13,7 +13,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.MinecraftForge;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
@@ -330,7 +329,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
                 {
                     _pokemob = PokemobCaps.getPokemobFor(e);
                     if (_pokemob != null) _pokemob.setOwner(living);
-                    MinecraftForge.EVENT_BUS.post(new CopySetEvent(living, null, e));
+                    ThutCore.FORGE_BUS.post(new CopySetEvent(living, null, e));
                     e.setId(-(living.getId() + 100));
                     _copy.setCopiedMob(e);
                     var genes = ThutCaps.getGenetics(e);
@@ -352,7 +351,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
             }
             if (this.info.getEntry() == null && mob != null)
             {
-                MinecraftForge.EVENT_BUS.post(new CopySetEvent(living, mob, null));
+                ThutCore.FORGE_BUS.post(new CopySetEvent(living, mob, null));
                 _copy.setCopiedMob(null);
                 if (living instanceof Player) System.out.println("No Mob");
                 entity.refreshDimensions();

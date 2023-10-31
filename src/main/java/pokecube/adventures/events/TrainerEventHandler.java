@@ -37,7 +37,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -501,7 +500,7 @@ public class TrainerEventHandler
         if (target instanceof Villager vill)
         {
             NpcEvent.OpenInventory event = new NpcEvent.OpenInventory(vill);
-            MinecraftForge.EVENT_BUS.post(event);
+            ThutCore.FORGE_BUS.post(event);
 
             boolean creativeStick = player.isCreative() && player.getItemInHand(hand).getItem() == Items.STICK;
 

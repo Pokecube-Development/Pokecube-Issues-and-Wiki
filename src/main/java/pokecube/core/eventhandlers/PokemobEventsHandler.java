@@ -48,7 +48,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.TickEvent.Phase;
@@ -148,7 +147,7 @@ public class PokemobEventsHandler
 
         public void init()
         {
-            MinecraftForge.EVENT_BUS.register(this);
+            ThutCore.FORGE_BUS.register(this);
         }
 
         public void tick()
@@ -225,7 +224,7 @@ public class PokemobEventsHandler
         public void tick(final WorldTickEvent evt)
         {
             if (evt.world != this.world || evt.phase != Phase.END) return;
-            MinecraftForge.EVENT_BUS.unregister(this);
+            ThutCore.FORGE_BUS.unregister(this);
             this.tick();
         }
 
@@ -349,58 +348,58 @@ public class PokemobEventsHandler
         // the drops. This adds the inventory items to the drops list for wild
         // pokemobs, and prevents drops for pokemobs which have been revived or
         // are tame
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGHEST, PokemobEventsHandler::onLivingDrops);
+        ThutCore.FORGE_BUS.addListener(EventPriority.HIGHEST, PokemobEventsHandler::onLivingDrops);
         // This is done twice as some events only send one rather than the other
         // from client side!
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onInteract);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onInteract);
         // This handles pokemob damage stuff. It deals with: cancelling damage
         // on invalid targets, adjusting damage amount by the scaling configs
         // and preventing player suffocating while riding a pokemob into a
         // cieling.
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onLivingHurt);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onLivingHurt);
         // Used to reset the "NOITEMUSE" flag, which controls using healing
         // items, the capture delay, etc.
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onLivingAttacked);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onLivingAttacked);
 
         // This ensures that the damage sources apply for the correct entity,
         // this part is for support for mods like customnpcs
         // It also handles exp gain for the pokemobs when they kill something.
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onLivingDeath);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onLivingDeath);
         // This deals with pokemob initialization, it initializes the AI, and
         // also does some checks for things like evolution, etc
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onJoinWorld);
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, false, PokemobEventsHandler::onJoinWorldLast);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onJoinWorld);
+        ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, false, PokemobEventsHandler::onJoinWorldLast);
         // This synchronizes genetics over to the clients when they start
         // tracking the mob locally.
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onStartTracking);
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onStopTracking);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onStartTracking);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onStopTracking);
         // This syncs rotation of the ridden pokemob with the rider.
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onWorldTick);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onWorldTick);
         // Monitors sim speed and reduces idle tick rate if lagging too much
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onServerTick);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onServerTick);
         // This pauses the pokemobs if too close to the edge of the loaded area,
         // preventing them from chunkloading during their AI. It also then
         // ensures their UUID is correct after evolution, and then ticks the
         // "logic" section of their AI.
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onMobTick);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onMobTick);
         // Similar as the above, except only for "logic" on the copied state
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onCopyTick);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onCopyTick);
         // Called by MixinMobEntity before the first brain tick, to ensure the
         // brain has AI setup, etc.
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onBrainInit);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onBrainInit);
 
         // This checks if we are an inhabitor of a nest, and we just left it. if
         // this is the case, then some extra processing is done related to
         // finishing tasks, etc upon leaving the nest.
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onMobAddedToWorld);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onMobAddedToWorld);
 
         // Checks to see if we are diving mob+dive, or flyingmob+fly, and if so,
         // we speed back up breaking.
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onBreakSpeed);
+        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onBreakSpeed);
 
         // If noone has modified result of a capture event pre, we deny it if
         // the mob is not alive.
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, false, PokemobEventsHandler::onCapturePre);
+        ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, false, PokemobEventsHandler::onCapturePre);
     }
 
     public static Set<ResourceKey<Level>> BEE_RELEASE_TICK = Sets.newConcurrentHashSet();
@@ -1058,7 +1057,7 @@ public class PokemobEventsHandler
         final Mob entity = pokemob.getEntity();
 
         final InteractEvent event = new InteractEvent(pokemob, player, evt);
-        MinecraftForge.EVENT_BUS.post(event);
+        ThutCore.FORGE_BUS.post(event);
         if (event.getResult() != Result.DEFAULT)
         {
             evt.setCanceled(true);

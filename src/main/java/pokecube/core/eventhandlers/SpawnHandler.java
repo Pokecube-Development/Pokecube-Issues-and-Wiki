@@ -49,7 +49,6 @@ import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeEventFactory;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
@@ -234,7 +233,7 @@ public final class SpawnHandler
             if (applyBreak)
             {
                 final MeteorEvent event = new MeteorEvent(state, to, pos, power, boom);
-                MinecraftForge.EVENT_BUS.post(event);
+                ThutCore.FORGE_BUS.post(event);
                 final TerrainSegment seg = TerrainManager.getInstance().getTerrain(boom.level, pos);
                 seg.setBiome(pos, BiomeType.METEOR);
             }
@@ -687,7 +686,7 @@ public final class SpawnHandler
 
     public SpawnHandler()
     {
-        MinecraftForge.EVENT_BUS.register(this);
+        ThutCore.FORGE_BUS.register(this);
     }
 
     public void doMeteor(final ServerLevel world)

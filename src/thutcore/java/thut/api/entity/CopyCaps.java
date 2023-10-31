@@ -12,7 +12,6 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -22,6 +21,7 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import thut.api.ThutCaps;
 import thut.api.entity.animation.CapabilityAnimation.DefaultImpl;
+import thut.core.common.ThutCore;
 import thut.core.common.network.CapabilitySync;
 import thut.lib.RegHelper;
 
@@ -123,9 +123,9 @@ public class CopyCaps
 
     public static void setup()
     {
-        MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, EventPriority.LOWEST, CopyCaps::attachMobs);
-        MinecraftForge.EVENT_BUS.addListener(CopyCaps::onEntitySizeSet);
-        MinecraftForge.EVENT_BUS.addListener(CopyCaps::onLivingUpdate);
+        ThutCore.FORGE_BUS.addGenericListener(Entity.class, EventPriority.LOWEST, CopyCaps::attachMobs);
+        ThutCore.FORGE_BUS.addListener(CopyCaps::onEntitySizeSet);
+        ThutCore.FORGE_BUS.addListener(CopyCaps::onLivingUpdate);
 
         CapabilitySync.TO_SYNC.add(CopyCaps.LOC.toString());
         CapabilitySync.TO_SYNC.add(CopyCaps.ANIM.toString());

@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraftforge.common.MinecraftForge;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
@@ -19,6 +18,7 @@ import pokecube.legends.handlers.GeneProtector;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.ItemInit;
 import pokecube.legends.spawns.LegendarySpawn;
+import thut.core.common.ThutCore;
 import thut.lib.CompatParser.ClassFinder;
 
 public class LegendaryConditions
@@ -41,9 +41,9 @@ public class LegendaryConditions
 
         // Register the thng that prevents genetic modification of protected
         // mobs
-        MinecraftForge.EVENT_BUS.register(new GeneProtector());
+        ThutCore.FORGE_BUS.register(new GeneProtector());
         PokecubeAPI.POKEMOB_BUS.register(new GeneProtector());
-        MinecraftForge.EVENT_BUS.register(LegendarySpawn.class);
+        ThutCore.FORGE_BUS.register(LegendarySpawn.class);
 
         List<Class<?>> foundClasses;
         final List<Class<? extends AbstractCondition>> conditionclasses = Lists.newArrayList();

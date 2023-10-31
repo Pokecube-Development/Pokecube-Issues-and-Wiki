@@ -9,7 +9,6 @@ import net.minecraft.commands.Commands;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -29,6 +28,7 @@ import thut.api.entity.ICopyMob;
 import thut.api.entity.event.CopySetEvent;
 import thut.api.entity.event.CopyUpdateEvent;
 import thut.api.entity.genetics.Alleles;
+import thut.core.common.ThutCore;
 import thut.lib.TComponent;
 
 @Mod.EventBusSubscriber(bus = Bus.MOD, modid = PokecubeCore.MODID)
@@ -41,13 +41,13 @@ public class Pokeplayer
     public static void init(FMLLoadCompleteEvent event)
     {
         // The commmand to turn into a pokemob
-        MinecraftForge.EVENT_BUS.addListener(Pokeplayer::onCommandRegister);
+        ThutCore.FORGE_BUS.addListener(Pokeplayer::onCommandRegister);
         // We want to sync from copy to us, not other way, so handle that here.
-        MinecraftForge.EVENT_BUS.addListener(Pokeplayer::onCopyTick);
+        ThutCore.FORGE_BUS.addListener(Pokeplayer::onCopyTick);
         // Handles resetting flight permissions when un-setting mob
-        MinecraftForge.EVENT_BUS.addListener(Pokeplayer::onCopySet);
+        ThutCore.FORGE_BUS.addListener(Pokeplayer::onCopySet);
         // This syncs step height for the mob over
-        MinecraftForge.EVENT_BUS.addListener(Pokeplayer::onPlayerTick);
+        ThutCore.FORGE_BUS.addListener(Pokeplayer::onPlayerTick);
     }
 
     private static final SimpleCommandExceptionType ERROR_FAILED = new SimpleCommandExceptionType(

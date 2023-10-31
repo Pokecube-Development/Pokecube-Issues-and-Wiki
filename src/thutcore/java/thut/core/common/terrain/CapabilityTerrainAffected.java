@@ -7,7 +7,6 @@ import net.minecraft.core.SectionPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
@@ -57,7 +56,8 @@ public class CapabilityTerrainAffected
             for (final ITerrainEffect effect : this.effects)
             {
                 final TerrainEffectEvent event = new TerrainEffectEvent(this.theMob, effect.getIdentifier(), true);
-                if (!MinecraftForge.EVENT_BUS.post(event)) effect.doEffect(this.theMob, true);
+                ThutCore.FORGE_BUS.post(event);
+                if (!event.isCanceled()) effect.doEffect(this.theMob, true);
             }
         }
 
@@ -84,7 +84,8 @@ public class CapabilityTerrainAffected
             for (final ITerrainEffect effect : this.effects)
             {
                 final TerrainEffectEvent event = new TerrainEffectEvent(this.theMob, effect.getIdentifier(), false);
-                if (!MinecraftForge.EVENT_BUS.post(event)) effect.doEffect(this.theMob, false);
+                ThutCore.FORGE_BUS.post(event);
+                if (!event.isCanceled()) effect.doEffect(this.theMob, false);
             }
         }
 
@@ -94,8 +95,8 @@ public class CapabilityTerrainAffected
 
     public static void init()
     {
-        MinecraftForge.EVENT_BUS.addListener(CapabilityTerrainAffected::EntityUpdate);
-        MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, CapabilityTerrainAffected::onEntityCapabilityAttach);
+        ThutCore.FORGE_BUS.addListener(CapabilityTerrainAffected::EntityUpdate);
+        ThutCore.FORGE_BUS.addGenericListener(Entity.class, CapabilityTerrainAffected::onEntityCapabilityAttach);
     }
 
     private static void EntityUpdate(final LivingUpdateEvent evt)

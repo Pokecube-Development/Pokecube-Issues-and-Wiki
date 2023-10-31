@@ -12,9 +12,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.google.common.collect.Lists;
 
 import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
+import thut.core.common.ThutCore;
 import thut.test.scripting.handlers.CmdHandler;
 import thut.test.scripting.handlers.GetBlockHandler;
 import thut.test.scripting.handlers.GetPlayerHandler;
@@ -181,8 +181,8 @@ public class CmdListener
 
     public static void init()
     {
-        MinecraftForge.EVENT_BUS.addListener(CmdListener::onServerStarting);
-        MinecraftForge.EVENT_BUS.addListener(CmdListener::onServerStopped);
+        ThutCore.FORGE_BUS.addListener(CmdListener::onServerStarting);
+        ThutCore.FORGE_BUS.addListener(CmdListener::onServerStopped);
     }
 
     private static void onServerStarting(final ServerStartingEvent event)

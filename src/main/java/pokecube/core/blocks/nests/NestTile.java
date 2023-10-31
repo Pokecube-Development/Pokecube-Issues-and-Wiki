@@ -20,7 +20,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.network.NetworkHooks;
@@ -62,7 +61,7 @@ public class NestTile extends InteractableTile implements ITickTile
         egg.setToPos(pos.getX() + 1.5 * (0.5 - rand.nextDouble()), pos.getY() + 1,
                 pos.getZ() + 1.5 * (0.5 - rand.nextDouble())).setStack(eggItem);
         final EggEvent.Lay event = new EggEvent.Lay(egg);
-        MinecraftForge.EVENT_BUS.post(event);
+        ThutCore.FORGE_BUS.post(event);
         if (spawnNow) egg.setAge(-100);// Make it spawn after 5s
         if (!event.isCanceled())
         {

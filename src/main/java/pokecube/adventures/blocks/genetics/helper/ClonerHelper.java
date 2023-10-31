@@ -14,7 +14,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.common.MinecraftForge;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.SelectorValue;
 import pokecube.api.PokecubeAPI;
@@ -207,7 +206,7 @@ public class ClonerHelper
             return;
         }
         if (!stack.hasTag() && destGenes == null) return;
-        MinecraftForge.EVENT_BUS.post(new GeneEditEvent(sourceGenes, genes, reason));
+        ThutCore.FORGE_BUS.post(new GeneEditEvent(sourceGenes, genes, reason));
         final CompoundTag nbt = stack.getTag();
         final Tag geneTag = genes.serializeNBT();
         if (PokecubeManager.isFilled(stack))

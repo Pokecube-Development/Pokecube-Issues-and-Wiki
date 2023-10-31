@@ -4,7 +4,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
@@ -20,8 +19,8 @@ public class GeneralUpdate extends NBTPacket
 
     public static void init()
     {
-        MinecraftForge.EVENT_BUS.addListener(GeneralUpdate::onTick);
-        MinecraftForge.EVENT_BUS.addListener(GeneralUpdate::onLogin);
+        ThutCore.FORGE_BUS.addListener(GeneralUpdate::onTick);
+        ThutCore.FORGE_BUS.addListener(GeneralUpdate::onLogin);
     }
 
     private static void onTick(final PlayerTickEvent event)

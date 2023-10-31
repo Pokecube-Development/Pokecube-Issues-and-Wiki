@@ -9,7 +9,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerEvent.StopTracking;
@@ -27,8 +26,8 @@ public class PartSync extends NBTPacket
 
     static
     {
-        MinecraftForge.EVENT_BUS.addListener(PartSync::onStopTracking);
-        MinecraftForge.EVENT_BUS.addListener(PartSync::onStartTracking);
+        ThutCore.FORGE_BUS.addListener(PartSync::onStopTracking);
+        ThutCore.FORGE_BUS.addListener(PartSync::onStartTracking);
     }
 
     public static void sendUpdate(final Entity mob)
