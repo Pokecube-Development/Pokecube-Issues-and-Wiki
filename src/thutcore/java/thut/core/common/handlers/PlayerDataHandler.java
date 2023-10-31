@@ -18,7 +18,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.storage.LevelResource;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import net.minecraftforge.event.level.LevelEvent;
@@ -113,9 +112,9 @@ public class PlayerDataHandler
 
     public static void clear()
     {
-        if (PlayerDataHandler.INSTANCECLIENT != null) MinecraftForge.EVENT_BUS.unregister(
+        if (PlayerDataHandler.INSTANCECLIENT != null) ThutCore.FORGE_BUS.unregister(
                 PlayerDataHandler.INSTANCECLIENT);
-        if (PlayerDataHandler.INSTANCESERVER != null) MinecraftForge.EVENT_BUS.unregister(
+        if (PlayerDataHandler.INSTANCESERVER != null) ThutCore.FORGE_BUS.unregister(
                 PlayerDataHandler.INSTANCESERVER);
         PlayerDataHandler.INSTANCECLIENT = PlayerDataHandler.INSTANCESERVER = null;
     }
@@ -181,7 +180,7 @@ public class PlayerDataHandler
 
     public PlayerDataHandler()
     {
-        MinecraftForge.EVENT_BUS.register(this);
+        ThutCore.FORGE_BUS.register(this);
     }
 
     @SubscribeEvent

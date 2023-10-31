@@ -22,7 +22,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -50,6 +49,7 @@ import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.item.ItemList;
+import thut.core.common.ThutCore;
 import thut.core.common.genetics.DefaultGenetics;
 
 public class GeneticsManager
@@ -173,8 +173,8 @@ public class GeneticsManager
         GeneRegistry.register(ShinyGene.class);
         GeneRegistry.register(SizeGene.class);
 
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOW, GeneticsManager::addRegisteredGenes);
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, GeneticsManager::onBrainInit);
+        ThutCore.FORGE_BUS.addListener(EventPriority.LOW, GeneticsManager::addRegisteredGenes);
+        ThutCore.FORGE_BUS.addListener(EventPriority.HIGH, GeneticsManager::onBrainInit);
 
         // Populate defaults, add-ons can adjust this as needed later.
         DEFAULT_GENES.put(SIZEGENE, SizeGene::new);

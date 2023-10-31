@@ -39,7 +39,6 @@ import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.world.level.levelgen.blending.Blender;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.LevelTickEvent;
 import net.minecraftforge.event.entity.EntityEvent;
@@ -56,6 +55,7 @@ import thut.api.entity.teleporting.TeleDest;
 import thut.api.entity.teleporting.ThutTeleporter;
 import thut.api.maths.Vector3;
 import thut.lib.RegHelper;
+import thut.core.common.ThutCore;
 import thut.lib.TComponent;
 
 public class SecretBaseDimension
@@ -65,7 +65,7 @@ public class SecretBaseDimension
 
     public static void onConstruct(final IEventBus bus)
     {
-        MinecraftForge.EVENT_BUS.register(SecretBaseDimension.class);
+        ThutCore.FORGE_BUS.register(SecretBaseDimension.class);
     }
 
     public static void sendToBase(final ServerPlayer player, final UUID baseOwner)

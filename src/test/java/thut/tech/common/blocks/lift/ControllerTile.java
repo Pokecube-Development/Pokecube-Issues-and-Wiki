@@ -21,12 +21,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.extensions.IForgeBlockEntity;
 import thut.api.block.ITickTile;
 import thut.api.entity.blockentity.IBlockEntity;
 import thut.api.entity.blockentity.world.IBlockEntityWorld;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 import thut.core.common.network.TileUpdate;
 import thut.lib.TComponent;
 import thut.tech.common.TechCore;
@@ -422,7 +422,7 @@ public class ControllerTile extends BlockEntity implements ITickTile// ,
                 final int power = this.level.getSignal(this.getBlockPos(), facing.getOpposite());
                 if (power > 0) lift.call(this.floor);
             }
-            MinecraftForge.EVENT_BUS.post(new ControllerUpdate(this));
+            ThutCore.FORGE_BUS.post(new ControllerUpdate(this));
         }
     }
 

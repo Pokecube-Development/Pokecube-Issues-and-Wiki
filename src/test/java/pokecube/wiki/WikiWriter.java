@@ -4,11 +4,11 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import thut.core.common.ThutCore;
 
 @Mod(value = "pokecube_wiki")
 public class WikiWriter
@@ -17,7 +17,7 @@ public class WikiWriter
     {
         ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class,
                 () -> new IExtensionPoint.DisplayTest(() -> "pokecube_wiki", (incoming, isNetwork) -> true));
-        MinecraftForge.EVENT_BUS.addListener(WikiWriter::onCommandRegister);
+        ThutCore.FORGE_BUS.addListener(WikiWriter::onCommandRegister);
     }
 
     private static void onCommandRegister(final RegisterCommandsEvent event)

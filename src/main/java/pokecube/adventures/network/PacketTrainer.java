@@ -17,7 +17,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.api.PokecubeAPI;
@@ -47,6 +46,7 @@ import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
 import thut.api.util.PermNodes;
 import thut.api.util.PermNodes.DefaultPermissionLevel;
+import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
 import thut.core.common.network.nbtpacket.NBTPacket;
 import thut.core.common.network.nbtpacket.PacketAssembly;
@@ -241,7 +241,7 @@ public class PacketTrainer extends NBTPacket
             args = args + var;
             final StructureEvent.ReadTag event = new ReadTag(args, vec.getPos(), player.level(),
                     (ServerLevel) player.level(), player.getRandom(), BoundingBox.infinite());
-            MinecraftForge.EVENT_BUS.post(event);
+            ThutCore.FORGE_BUS.post(event);
             break;
         case UPDATETRAINER:
             if (!PermNodes.getBooleanPerm(player, PacketTrainer.EDITTRAINER))

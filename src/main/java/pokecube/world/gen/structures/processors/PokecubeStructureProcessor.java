@@ -12,8 +12,8 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureEntityInfo;
-import net.minecraftforge.common.MinecraftForge;
 import pokecube.api.events.StructureEvent;
+import thut.core.common.ThutCore;
 
 public class PokecubeStructureProcessor extends StructureProcessor
 {
@@ -43,7 +43,7 @@ public class PokecubeStructureProcessor extends StructureProcessor
             final StructureEntityInfo entityInfo, final StructurePlaceSettings placementSettings, final StructureTemplate template)
     {
         final StructureEvent.SpawnEntity event = new StructureEvent.SpawnEntity(entityInfo, rawEntityInfo);
-        MinecraftForge.EVENT_BUS.post(event);
+        ThutCore.FORGE_BUS.post(event);
         return event.getInfo();
     }
 

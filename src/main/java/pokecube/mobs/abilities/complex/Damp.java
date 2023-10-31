@@ -1,6 +1,5 @@
 package pokecube.mobs.abilities.complex;
 
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.data.abilities.Ability;
@@ -33,7 +32,7 @@ public class Damp extends Ability
     public void destroy(IPokemob mob)
     {
         if (ThutCore.proxy.isClientSide()) return;
-        MinecraftForge.EVENT_BUS.unregister(this);
+        ThutCore.FORGE_BUS.unregister(this);
     }
 
     @Override
@@ -45,7 +44,7 @@ public class Damp extends Ability
             {
                 if (IPokemob.class.isInstance(args[i]))
                 {
-                    MinecraftForge.EVENT_BUS.register(this);
+                    ThutCore.FORGE_BUS.register(this);
                     this.mob = IPokemob.class.cast(args[i]);
                 }
                 if (args[i] instanceof Integer) this.range = (int) args[i];

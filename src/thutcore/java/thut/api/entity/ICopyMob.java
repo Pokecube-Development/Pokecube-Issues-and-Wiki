@@ -10,11 +10,11 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.registries.ForgeRegistries;
 import thut.api.entity.event.CopySetEvent;
 import thut.api.entity.event.CopyUpdateEvent;
+import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 import thut.mixin.accessors.WalkAniAccessor;
 
@@ -59,7 +59,9 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
                 if (holder != null)
                 {
                     final LivingEntity mob = this.getCopiedMob();
-                    if (MinecraftForge.EVENT_BUS.post(new CopySetEvent(holder, mob, null)))
+                    var event = new CopySetEvent(holder, mob, null);
+                    ThutCore.FORGE_BUS.post(event);
+                    if (event.isCanceled())
                     {
                         this.setCopiedID(RegHelper.getKey(this.getCopiedMob().getType()));
                         this.setCopiedMob(mob);
@@ -78,7 +80,9 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
             final Entity entity = type.create(level);
             if (entity instanceof LivingEntity mob)
             {
-                if (MinecraftForge.EVENT_BUS.post(new CopySetEvent(holder, null, mob)))
+                var event = new CopySetEvent(holder, null, mob);
+                ThutCore.FORGE_BUS.post(event);
+                if (event.isCanceled())
                 {
                     this.setCopiedID(null);
                     this.setCopiedNBT(new CompoundTag());
@@ -128,7 +132,9 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
             living.setItemInHand(InteractionHand.MAIN_HAND, holder.getItemInHand(InteractionHand.MAIN_HAND));
             living.setItemInHand(InteractionHand.OFF_HAND, holder.getItemInHand(InteractionHand.OFF_HAND));
 
-            if (!MinecraftForge.EVENT_BUS.post(new CopyUpdateEvent(living, holder)))
+            var event = new CopyUpdateEvent(living, holder);
+            ThutCore.FORGE_BUS.post(event);
+            if (!event.isCanceled())
             {
                 living.setHealth(holder.getHealth());
                 living.setAirSupply(holder.getAirSupply());

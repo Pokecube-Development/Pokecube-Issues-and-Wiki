@@ -12,13 +12,13 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.recipes.LegendsLootingRecipeSerializer.SerializerLooting;
+import thut.core.common.ThutCore;
 
 public class LegendsLootingRecipeManager
 {
@@ -82,6 +82,6 @@ public class LegendsLootingRecipeManager
 
     public static void init()
     {
-        MinecraftForge.EVENT_BUS.addListener(LegendsLootingRecipeManager::onPlayerClickBlock);
+        ThutCore.FORGE_BUS.addListener(LegendsLootingRecipeManager::onPlayerClickBlock);
     }
 }

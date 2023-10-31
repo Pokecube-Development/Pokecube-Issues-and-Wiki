@@ -15,7 +15,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityDispatcher;
 import net.minecraftforge.common.capabilities.CapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -117,8 +116,8 @@ public class CapabilitySync extends NBTPacket
 
     public static void init()
     {
-        MinecraftForge.EVENT_BUS.addListener(CapabilitySync::onStartTracking);
-        MinecraftForge.EVENT_BUS.addListener(CapabilitySync::onJoinWorld);
+        ThutCore.FORGE_BUS.addListener(CapabilitySync::onStartTracking);
+        ThutCore.FORGE_BUS.addListener(CapabilitySync::onJoinWorld);
     }
 
     private static void readMob(final Entity mob, final CompoundTag tag)

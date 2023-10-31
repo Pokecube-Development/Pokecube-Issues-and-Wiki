@@ -47,7 +47,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.dimension.DimensionType;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.TickEvent.Phase;
@@ -81,11 +80,11 @@ public class ThutBot
     public ThutBot()
     {
         // Register our event listeners
-        MinecraftForge.EVENT_BUS.addListener(ThutBot::onServerTick);
-        MinecraftForge.EVENT_BUS.addListener(ThutBot::onChat);
-        MinecraftForge.EVENT_BUS.addListener(ThutBot::onServerStart);
-        MinecraftForge.EVENT_BUS.addListener(ThutBot::onServerStop);
-        MinecraftForge.EVENT_BUS.addListener(ThutBot::onCommandRegister);
+        ThutCore.FORGE_BUS.addListener(ThutBot::onServerTick);
+        ThutCore.FORGE_BUS.addListener(ThutBot::onChat);
+        ThutCore.FORGE_BUS.addListener(ThutBot::onServerStart);
+        ThutCore.FORGE_BUS.addListener(ThutBot::onServerStop);
+        ThutCore.FORGE_BUS.addListener(ThutBot::onCommandRegister);
 
         final File logfile = FMLPaths.GAMEDIR.get().resolve("logs").resolve("thutbot.log").toFile();
         if (logfile.exists())

@@ -20,7 +20,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.SharedAttributes;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -36,6 +35,7 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 
 public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPokecube>
@@ -113,7 +113,7 @@ public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPo
     {
         super(renderManager, new ModelPokecube(), 0);
         pokecubeRenderers.clear();
-        MinecraftForge.EVENT_BUS.post(new RegisterCubeRenderer());
+        ThutCore.FORGE_BUS.post(new RegisterCubeRenderer());
         new RenderFancyPokecube(renderManager);
     }
 

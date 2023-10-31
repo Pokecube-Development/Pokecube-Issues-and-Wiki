@@ -20,7 +20,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
@@ -125,8 +124,8 @@ public class WormholeSpawns implements IWorldTickListener
     public static void init()
     {
         WorldTickManager.registerStaticData(() -> WormholeSpawns.INSTANCE, p -> true);
-        MinecraftForge.EVENT_BUS.addGenericListener(Level.class, WormholeSpawns::onWorldCaps);
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, WormholeEntity::onTeleport);
+        ThutCore.FORGE_BUS.addGenericListener(Level.class, WormholeSpawns::onWorldCaps);
+        ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, WormholeEntity::onTeleport);
     }
 
     public static void registerCapabilities(final RegisterCapabilitiesEvent event)

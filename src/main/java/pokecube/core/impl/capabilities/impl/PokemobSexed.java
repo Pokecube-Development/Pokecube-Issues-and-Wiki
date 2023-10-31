@@ -8,7 +8,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.MinecraftForge;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -118,7 +117,7 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
                     .setStackByParents(this.getEntity(), male);
             EggEvent.Lay event;
             event = new EggEvent.Lay(eggItem);
-            MinecraftForge.EVENT_BUS.post(event);
+            ThutCore.FORGE_BUS.post(event);
             if (!event.isCanceled())
             {
                 final ServerPlayer player = (ServerPlayer) (this.getOwner() instanceof ServerPlayer ? this.getOwner()

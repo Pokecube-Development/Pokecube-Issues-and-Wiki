@@ -25,7 +25,6 @@ import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.LevelTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.level.ExplosionEvent;
@@ -279,7 +278,7 @@ public class ExplosionCustom extends Explosion
                 SoundSource.BLOCKS, 4.0F,
                 (1.0F + (this.level.random.nextFloat() - this.level.random.nextFloat()) * 0.2F) * 0.7F);
         this.level.addParticle(ParticleTypes.EXPLOSION, this.centre.x, this.centre.y, this.centre.z, 1.0D, 0.0D, 0.0D);
-        MinecraftForge.EVENT_BUS.register(this);
+        ThutCore.FORGE_BUS.register(this);
         boomApplier.start();
         if (this.hasSubBooms)
         {
@@ -387,7 +386,7 @@ public class ExplosionCustom extends Explosion
         {
             if (this.subBooms.isEmpty())
             {
-                MinecraftForge.EVENT_BUS.unregister(this);
+                ThutCore.FORGE_BUS.unregister(this);
                 boomDone = true;
             }
             else
@@ -410,7 +409,7 @@ public class ExplosionCustom extends Explosion
         this.applyBlockEffects(result);
         this.applyEntityEffects(result);
         final ExplosionEvent evt2 = new ExplosionEvent.Detonate(this.level, this, this.targets);
-        MinecraftForge.EVENT_BUS.post(evt2);
+        ThutCore.FORGE_BUS.post(evt2);
 
         // Process the chunks and set them not unsaved, this will prevent them
         // re-saving to disk each tick the explosion runs.
@@ -422,7 +421,7 @@ public class ExplosionCustom extends Explosion
 
         if (result.done)
         {
-            MinecraftForge.EVENT_BUS.unregister(this);
+            ThutCore.FORGE_BUS.unregister(this);
             boomApplier.printDebugInfo();
             boomDone = true;
         }
@@ -437,6 +436,6 @@ public class ExplosionCustom extends Explosion
     @SubscribeEvent
     public void WorldUnloadEvent(final Unload evt)
     {
-        if (evt.getLevel() == this.level) MinecraftForge.EVENT_BUS.unregister(this);
+        if (evt.getLevel() == this.level) ThutCore.FORGE_BUS.unregister(this);
     }
 }

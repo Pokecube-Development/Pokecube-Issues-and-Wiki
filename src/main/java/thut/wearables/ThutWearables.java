@@ -27,7 +27,6 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
@@ -57,6 +56,7 @@ import net.minecraftforge.network.IContainerFactory;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 import thut.wearables.client.gui.GuiEvents;
 import thut.wearables.client.gui.GuiWearables;
@@ -93,7 +93,7 @@ public class ThutWearables
         {
             super.setup(event);
             GuiEvents.init();
-            MinecraftForge.EVENT_BUS.register(new WearableEventHandler());
+            ThutCore.FORGE_BUS.register(new WearableEventHandler());
         }
 
         @Override
@@ -234,7 +234,7 @@ public class ThutWearables
         // Register Config stuff
         thut.core.common.config.Config.setupConfigs(ThutWearables.config, ThutWearables.MODID, ThutWearables.MODID);
 
-        MinecraftForge.EVENT_BUS.register(this);
+        ThutCore.FORGE_BUS.register(this);
         final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
         // Register the setup method for modloading
@@ -263,7 +263,8 @@ public class ThutWearables
             if (!stack.isEmpty())
             {
                 final WearableDroppedEvent dropEvent = new WearableDroppedEvent(event, stack, i);
-                if (MinecraftForge.EVENT_BUS.post(dropEvent)) continue;
+                ThutCore.FORGE_BUS.post(dropEvent);
+                if (dropEvent.isCanceled()) continue;
                 EnumWearable.takeOff(mob, stack, i);
                 final double d0 = mob.getY() - 0.3D + mob.getEyeHeight();
                 final ItemEntity drop = new ItemEntity(mob.level(), mob.getX(), d0, mob.getZ(), stack);

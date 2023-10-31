@@ -49,7 +49,6 @@ import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent.Stage;
 import net.minecraftforge.client.event.ScreenEvent.MouseScrolled;
 import net.minecraftforge.client.event.ScreenEvent.Render;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.LeftClickEmpty;
@@ -86,6 +85,7 @@ import pokecube.core.network.pokemobs.PacketBattleTargets;
 import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.network.pokemobs.PacketMountedControl;
 import pokecube.core.utils.PokemobTracker;
+import thut.core.common.ThutCore;
 
 public class EventsHandlerClient
 {
@@ -103,37 +103,37 @@ public class EventsHandlerClient
     {
         // This handles ridden input controls, auto-recalling of pokemobs, and
         // auto-selection of moves.
-        MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::onPlayerTick);
+        ThutCore.FORGE_BUS.addListener(EventsHandlerClient::onPlayerTick);
 
         // This one handles allowing the player to interact with mobs which are
         // larger than the vanilla hitboxes.
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, EventsHandlerClient::onMouseInput);
+        ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, EventsHandlerClient::onMouseInput);
 
         // This one handles scrolling the message display while in chat.
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, EventsHandlerClient::onMouseScroll);
+        ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, EventsHandlerClient::onMouseScroll);
 
         // Here we handle the various keybindings for the mod
-        MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::onKeyInput);
+        ThutCore.FORGE_BUS.addListener(EventsHandlerClient::onKeyInput);
 
         // This renders the pokemob's icons over the pokecubes when alt is held
         // in an inventory.
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, EventsHandlerClient::onRenderGUIScreenPre);
+        ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, EventsHandlerClient::onRenderGUIScreenPre);
         // And this does it for the hotbar.
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, EventsHandlerClient::onRenderHotbar);
+        ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, EventsHandlerClient::onRenderHotbar);
 
         // Now for some additional client side handlers
 
         // Register the handler for drawing things like evolution, etc
-        MinecraftForge.EVENT_BUS.addListener(RenderMobOverlays::renderPost);
-        MinecraftForge.EVENT_BUS.addListener(RenderMobOverlays::renderPre);
-        MinecraftForge.EVENT_BUS.addListener(RenderMobOverlays::renderNameplate);
+        ThutCore.FORGE_BUS.addListener(RenderMobOverlays::renderPost);
+        ThutCore.FORGE_BUS.addListener(RenderMobOverlays::renderPre);
+        ThutCore.FORGE_BUS.addListener(RenderMobOverlays::renderNameplate);
         // Register the handler for drawing selected box around targeted
         // entities for throwing cubes at
-        MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::renderBounds);
+        ThutCore.FORGE_BUS.addListener(EventsHandlerClient::renderBounds);
         // Used to dismount shoulder mobs
-        MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::onLeftClickEmpty);
+        ThutCore.FORGE_BUS.addListener(EventsHandlerClient::onLeftClickEmpty);
         // Used to adjust overlay effects whild riding pokemobs
-        MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::onRenderFluidOverlay);
+        ThutCore.FORGE_BUS.addListener(EventsHandlerClient::onRenderFluidOverlay);
 
         // Initialise this gui
         GuiDisplayPokecubeInfo.instance();

@@ -11,9 +11,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.MinecraftForge;
 import pokecube.api.events.pokemobs.ai.BrainInitEvent;
 import pokecube.core.utils.AITools;
+import thut.core.common.ThutCore;
 
 @Mixin(LivingEntity.class)
 public abstract class MixinLivingEntityInit extends Entity
@@ -28,7 +28,7 @@ public abstract class MixinLivingEntityInit extends Entity
     public void onConstructor(EntityType<? extends LivingEntity> type, Level level, CallbackInfo ci)
     {
         LivingEntity living = (LivingEntity) (Object) this;
-        MinecraftForge.EVENT_BUS.post(new BrainInitEvent(living));
+        ThutCore.FORGE_BUS.post(new BrainInitEvent(living));
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At(value = "RETURN"))
@@ -41,7 +41,7 @@ public abstract class MixinLivingEntityInit extends Entity
         if (this.level instanceof ServerLevel)
         {
             LivingEntity living = (LivingEntity) (Object) this;
-            MinecraftForge.EVENT_BUS.post(new BrainInitEvent(living));
+            ThutCore.FORGE_BUS.post(new BrainInitEvent(living));
             AITools.reloadBrain(living, compound);
         }
     }

@@ -50,7 +50,6 @@ import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.network.NetworkHooks;
@@ -67,6 +66,7 @@ import pokecube.core.utils.CapHolders;
 import thut.api.entity.ai.BrainUtil;
 import thut.api.inventory.npc.NpcContainer;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 import thut.lib.TComponent;
 
 public class NpcMob extends Villager implements IEntityAdditionalSpawnData
@@ -235,7 +235,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
     public InteractionResult mobInteract(final Player player, final InteractionHand hand)
     {
         NpcEvent.OpenInventory event = new NpcEvent.OpenInventory(this);
-        MinecraftForge.EVENT_BUS.post(event);
+        ThutCore.FORGE_BUS.post(event);
         if (event.getResult() == Result.ALLOW)
         {
             if (player instanceof ServerPlayer sp)
@@ -257,7 +257,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
     @Override
     public boolean canBreed()
     {
-        if (MinecraftForge.EVENT_BUS.post(new NpcBreedEvent.Check(this))) return false;
+        if (ThutCore.FORGE_BUS.post(new NpcBreedEvent.Check(this))) return false;
         return super.canBreed();
     }
 
@@ -445,7 +445,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         // Now add the defaults
         this.init_offers.accept(this.offers);
         // Then post the event
-        MinecraftForge.EVENT_BUS.post(new NpcTradesEvent(this, offers));
+        ThutCore.FORGE_BUS.post(new NpcTradesEvent(this, offers));
     }
 
     public void setInitOffers(final Consumer<MerchantOffers> in)

@@ -11,7 +11,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.EvolutionData;
@@ -28,6 +27,7 @@ import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.EntityTools;
 import thut.api.item.ItemList;
+import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
 import thut.lib.TComponent;
 
@@ -168,7 +168,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         else if (this.getPokedexEntry().canEvolve() && thisEntity.isAlive())
         {
             EvolveEvent evt = new EvolveEvent.Pre(thisMob, evol, data);
-            MinecraftForge.EVENT_BUS.post(evt);
+            ThutCore.FORGE_BUS.post(evt);
             if (evt.isCanceled()) return null;
             if (delayed)
             {
@@ -191,7 +191,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 if (neededItem && ItemStack.isSameItem(stack, thisMob.getHeldItem())) evo.setHeldItem(ItemStack.EMPTY);
 
                 evt = new EvolveEvent.Post(evo);
-                MinecraftForge.EVENT_BUS.post(evt);
+                ThutCore.FORGE_BUS.post(evt);
                 // Lean any moves that should are supposed to have just
                 // learnt.
                 if (delayed) evo.getMoveStats().oldLevel = evo.getLevel() - 1;

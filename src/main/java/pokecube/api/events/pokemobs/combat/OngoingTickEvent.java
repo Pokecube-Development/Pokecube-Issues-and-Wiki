@@ -6,7 +6,7 @@ import net.minecraftforge.eventbus.api.Cancelable;
 import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
 
 /**
- * This event is fired on the MinecraftForge.EVENT_BUS. If canceled, the
+ * This event is fired on the ThutCore.FORGE_BUS. If canceled, the
  * ongoing effect for the entity will not be ticked, and will not have its
  * duration dropped, or be removed when duration reaches 0
  */

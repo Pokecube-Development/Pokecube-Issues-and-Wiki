@@ -20,7 +20,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -60,6 +59,7 @@ import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.EntityTools;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
 {
@@ -125,16 +125,16 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
         this.minecraft = Minecraft.getInstance();
         this.fontRenderer = this.minecraft.font;
         if (GuiDisplayPokecubeInfo.instance != null)
-            MinecraftForge.EVENT_BUS.unregister(GuiDisplayPokecubeInfo.instance);
+            ThutCore.FORGE_BUS.unregister(GuiDisplayPokecubeInfo.instance);
         GuiDisplayPokecubeInfo.instance = this;
-        MinecraftForge.EVENT_BUS.register(this);
+        ThutCore.FORGE_BUS.register(this);
     }
 
     @Override
     public void render(final ForgeGui gui, final GuiGraphics graphics, final float partialTicks, final int width,
             final int height)
     {
-        MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderMoveMessages(graphics, gui));
+        ThutCore.FORGE_BUS.post(new GuiEvent.RenderMoveMessages(graphics, gui));
         if (this.indexPokemob > this.getPokemobsToDisplay().length)
         {
             this.refreshCounter = 0;
@@ -150,9 +150,9 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
             GuiDisplayPokecubeInfo.targetRenderer.isMouseOver();
         }
 
-        MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderSelectedInfo(graphics, gui));
-        MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderTargetInfo(graphics, gui));
-        MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderTeleports(graphics, gui));
+        ThutCore.FORGE_BUS.post(new GuiEvent.RenderSelectedInfo(graphics, gui));
+        ThutCore.FORGE_BUS.post(new GuiEvent.RenderTargetInfo(graphics, gui));
+        ThutCore.FORGE_BUS.post(new GuiEvent.RenderTeleports(graphics, gui));
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)

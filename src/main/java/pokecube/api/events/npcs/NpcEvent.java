@@ -28,7 +28,7 @@ public abstract class NpcEvent extends LivingEvent
 
     @HasResult
     /**
-     * Fired on the MinecraftForge.EVENT_BUS when an NPC is interacted with. If
+     * Fired on the ThutCore.FORGE_BUS when an NPC is interacted with. If
      * this gets a Result of Result.ALLOW, it will trigger opening of the Npc's
      * inventory instead of the regular interactions.
      *

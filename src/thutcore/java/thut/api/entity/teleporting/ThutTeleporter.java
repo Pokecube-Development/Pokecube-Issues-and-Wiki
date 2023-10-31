@@ -17,13 +17,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.LevelTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 public class ThutTeleporter
 {
@@ -39,7 +39,7 @@ public class ThutTeleporter
             this.entity = entity;
             this.overworld = entity.getServer().getLevel(Level.OVERWORLD);
             this.start = this.overworld.getGameTime();
-            MinecraftForge.EVENT_BUS.register(this);
+            ThutCore.FORGE_BUS.register(this);
         }
 
         @SubscribeEvent
@@ -49,7 +49,7 @@ public class ThutTeleporter
             final long time = this.overworld.getGameTime();
             if (time - this.start > 20)
             {
-                MinecraftForge.EVENT_BUS.unregister(this);
+                ThutCore.FORGE_BUS.unregister(this);
                 return;
             }
             event.setCanceled(true);
@@ -72,7 +72,7 @@ public class ThutTeleporter
             this.sound = sound;
             this.destWorld = destWorld;
             final boolean inTick = destWorld.isHandlingTick();
-            if (inTick) MinecraftForge.EVENT_BUS.register(this);
+            if (inTick) ThutCore.FORGE_BUS.register(this);
             else if (entity instanceof ServerPlayer player)
             {
                 player.isChangingDimension = true;
@@ -104,7 +104,7 @@ public class ThutTeleporter
         {
             if (event.level == this.entity.level() && event.phase == Phase.END)
             {
-                MinecraftForge.EVENT_BUS.unregister(this);
+                ThutCore.FORGE_BUS.unregister(this);
                 if (this.entity instanceof ServerPlayer player)
                 {
                     player.isChangingDimension = true;
@@ -151,7 +151,7 @@ public class ThutTeleporter
             this.rider = rider;
             this.world = world;
             this.index = index;
-            MinecraftForge.EVENT_BUS.register(this);
+            ThutCore.FORGE_BUS.register(this);
         }
 
         @SubscribeEvent
@@ -159,7 +159,7 @@ public class ThutTeleporter
         {
             if (event.level != this.world) return;
             if (event.phase != Phase.END) return;
-            if (this.n++ > 20) MinecraftForge.EVENT_BUS.unregister(this);
+            if (this.n++ > 20) ThutCore.FORGE_BUS.unregister(this);
             final Entity mount = this.world.getEntity(this.mount);
             final Entity rider = this.world.getEntity(this.rider);
             if (mount != null && rider != null)
@@ -169,7 +169,7 @@ public class ThutTeleporter
                 if (num == this.index)
                 {
                     rider.startRiding(mount, true);
-                    MinecraftForge.EVENT_BUS.unregister(this);
+                    ThutCore.FORGE_BUS.unregister(this);
                 }
             }
         }
@@ -233,7 +233,9 @@ public class ThutTeleporter
 
     private static void addMob(final ServerLevel world, final Entity entity)
     {
-        if (MinecraftForge.EVENT_BUS.post(new EntityJoinLevelEvent(entity, world))) return;
+        var event = new EntityJoinLevelEvent(entity, world);
+        ThutCore.FORGE_BUS.post(event);
+        if (event.isCanceled()) return;
         final ChunkAccess ichunk = world.getChunk(Mth.floor(entity.getX() / 16.0D), Mth.floor(entity.getZ() / 16.0D),
                 ChunkStatus.FULL, true);
         if (ichunk instanceof LevelChunk) ichunk.addEntity(entity);

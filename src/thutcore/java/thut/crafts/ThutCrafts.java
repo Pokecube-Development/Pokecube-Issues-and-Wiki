@@ -7,7 +7,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -102,7 +101,7 @@ public class ThutCrafts
         ThutCrafts.packets.registerMessage(PacketCraftControl.class, PacketCraftControl::new);
 
         // SEtup proxy
-        MinecraftForge.EVENT_BUS.register(ThutCrafts.class);
+        ThutCore.FORGE_BUS.register(ThutCrafts.class);
 
         CommonInit.HANDLERS.add(new CraftStickApplier());
     }

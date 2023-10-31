@@ -18,7 +18,6 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.energy.IEnergyStorage;
 import thut.api.ThutCaps;
 import thut.api.entity.blockentity.BlockEntityBase;
@@ -195,7 +194,7 @@ public class EntityLift extends BlockEntityBase
             power = true;
             this.energy.extractEnergy(energyCost, false);
         }
-        MinecraftForge.EVENT_BUS.post(new EventLiftConsumePower(this, energyCost));
+        ThutCore.FORGE_BUS.post(new EventLiftConsumePower(this, energyCost));
         if (!power)
         {
             this.setDestinationFloor(-1);

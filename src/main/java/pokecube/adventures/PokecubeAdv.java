@@ -23,7 +23,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -84,6 +83,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.utils.EntityTools;
 import thut.api.entity.CopyCaps;
+import thut.core.common.ThutCore;
 import thut.core.common.commands.CommandConfigs;
 import thut.core.common.network.PacketHandler;
 
@@ -317,7 +317,7 @@ public class PokecubeAdv
         EntityTypes.init();
         MemoryTypes.init();
 
-        MinecraftForge.EVENT_BUS.register(this);
+        ThutCore.FORGE_BUS.register(this);
         PokecubeAPI.POKEMOB_BUS.register(this);
     }
 

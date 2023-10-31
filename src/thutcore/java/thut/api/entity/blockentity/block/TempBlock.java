@@ -26,11 +26,11 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import thut.api.block.ITickTile;
+import thut.core.common.ThutCore;
 
 public class TempBlock extends AirBlock implements EntityBlock
 {
@@ -57,7 +57,7 @@ public class TempBlock extends AirBlock implements EntityBlock
         super(properties);
         this.registerDefaultState(
                 this.stateDefinition.any().setValue(TempBlock.LIGHTLEVEL, 0).setValue(TempBlock.WATERLOGGED, false));
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, this::onPlayerInteract);
+        ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, this::onPlayerInteract);
     }
 
     @Override

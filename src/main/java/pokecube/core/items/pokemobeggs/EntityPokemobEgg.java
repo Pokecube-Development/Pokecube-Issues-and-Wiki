@@ -19,13 +19,13 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.HopperBlockEntity;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.EggEvent;
 import pokecube.api.moves.Battle;
 import pokecube.core.PokecubeCore;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 /** @author Manchou */
 public class EntityPokemobEgg extends AgeableMob
@@ -222,7 +222,7 @@ public class EntityPokemobEgg extends AgeableMob
             if (!hasNest) ItemPokemobEgg.tryImprint(this.getPokemob(true));
         }
         final EggEvent.PreHatch event = new EggEvent.PreHatch(this);
-        MinecraftForge.EVENT_BUS.post(event);
+        ThutCore.FORGE_BUS.post(event);
         if (!event.isCanceled())
             ItemPokemobEgg.spawn(this.getPokemob(true), this.getMainHandItem(), this.level(), this);
         this.discard();
