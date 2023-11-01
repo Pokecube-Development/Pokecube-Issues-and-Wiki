@@ -192,8 +192,18 @@ public abstract class PokemobRidable extends PokemobHasParts
     @Override
     protected void initSizes(final float size)
     {
-        if (size == getHolder().holder().last_size) return;
-        getHolder().holder().last_size = size;
+        float a = 1, b = 1, c = 1;
+        final PokedexEntry entry = pokemobCap.getPokedexEntry();
+        float h = size;
+        if (entry != null)
+        {
+            a = entry.width * size;
+            b = entry.height * size;
+            c = entry.length * size;
+            h = Math.max(a, Math.max(b, c));
+        }
+        if (h == getHolder().holder().last_size) return;
+        getHolder().holder().last_size = h;
         this.init = false;
         this.initSeats();
         super.initSizes(size);

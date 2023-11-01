@@ -66,6 +66,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
 
     private Boolean _shinyCache = null;
     private boolean _movesChanged = false;
+    private boolean _sizeChanged = false;
 
     @Override
     public void accept(Gene<?> t)
@@ -74,10 +75,12 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         {
             genesSpecies = this.getGenes().getAlleles(t.getKey());
             _speciesCache = genesSpecies.getExpressed();
+            _sizeChanged = true;
         }
         else if (t.getKey().equals(GeneticsManager.SIZEGENE))
         {
             genesSize = this.getGenes().getAlleles(t.getKey());
+            _sizeChanged = true;
         }
         else if (t.getKey().equals(GeneticsManager.SHINYGENE))
         {
@@ -346,7 +349,9 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     @Override
     public float getSize()
     {
-        return this.getSizeRaw();
+        float size = this.getSizeRaw();
+        if (_sizeChanged) this.setSize(size);
+        return size;
     }
 
     @Override
@@ -512,6 +517,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
                 if (holder != null) info.setForme(holder);
             }
             info.setEntry(newEntry);
+            _sizeChanged = true;
             this.changing = false;
             return ret;
         }
@@ -521,6 +527,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         // These need to be set after change form call, as that also does a
         // validation of old entry.
         info.setTmpEntry(newEntry);
+        _sizeChanged = true;
         if (info.getTmpForme() == entry.default_holder) info.setTmpForme(newEntry.default_holder);
 
         if (this.getEntity().getLevel() != null) ret.setSize(ret.getSize());
@@ -536,6 +543,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         FormeHolder form = Database.formeHoldersByKey.getOrDefault(newEntry.getTrimmedName(),
                 newEntry.getModel(this.getSexe()));
         this._speciesCache.getValue().setForme(form);
+        _sizeChanged = true;
         PacketSyncGene.syncGeneToTracking(this.getEntity(), this.genesSpecies);
 
         // Reset the types cache
@@ -589,10 +597,10 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     @Override
     public void setSize(float size)
     {
-        float a = 1, b = 1, c = 1;
         final PokedexEntry entry = this.getPokedexEntry();
-        if (entry != null)
+        if (entry != null && _sizeChanged)
         {
+            float a = 1, b = 1, c = 1;
             a = entry.width * size;
             b = entry.height * size;
             c = entry.length * size;
@@ -612,9 +620,12 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
                 final float max = (float) (maxS / Math.max(a, Math.max(c, b)));
                 size *= max;
             }
+            // Un-set this first, else infinte loop from refresh checking this.
+            _sizeChanged = false;
             this.getEntity().refreshDimensions();
         }
         final SizeGene gene = this.genesSize.getExpressed();
+        _sizeChanged = size != gene.getValue();
         gene.setValue(size);
     }
 

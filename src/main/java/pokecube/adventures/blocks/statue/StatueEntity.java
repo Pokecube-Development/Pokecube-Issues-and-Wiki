@@ -35,6 +35,7 @@ import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.database.Database;
+import pokecube.core.entity.pokemobs.PokemobType;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
 import thut.api.entity.IAnimated.IAnimationHolder;
@@ -130,6 +131,12 @@ public class StatueEntity extends InteractableTile
     public void handleUpdateTag(final CompoundTag tag)
     {
         this.deserializeNBT(tag);
+        final ICopyMob copy = ThutCaps.getCopyMob(this);
+        var id = copy.getCopiedID();
+        var _tag = copy.getCopiedNBT();
+        copy.setCopiedMob(null);
+        copy.setCopiedID(id);
+        copy.setCopiedNBT(_tag);
         this.checkMob();
     }
 
@@ -286,13 +293,13 @@ public class StatueEntity extends InteractableTile
         // First update ID if present, and refresh the mob
         if (id != null)
         {
-            copy.setCopiedID(e_id = new ResourceLocation(id));
             copy.setCopiedMob(null);
+            copy.setCopiedID(e_id = new ResourceLocation(id));
         }
         else
         {
-            copy.setCopiedID(e_id = new ResourceLocation("pokecube:missingno"));
             copy.setCopiedMob(null);
+            copy.setCopiedID(e_id = new ResourceLocation("pokecube:missingno"));
         }
         initMob.run();
         var mob = copy.getCopiedMob();
@@ -302,6 +309,15 @@ public class StatueEntity extends InteractableTile
         {
             pokemob.setBasePokedexEntry(entry);
             pokemob.setPokedexEntry(entry);
+        }
+        if (copy.getCopiedMob().getType() instanceof PokemobType<?> t)
+        {
+            if (pokemob != null && pokemob.getPokedexEntry() == Database.missingno
+                    && t.getEntry() != Database.missingno)
+            {
+                pokemob.setPokedexEntry(t.getEntry());
+                pokemob.setBasePokedexEntry(t.getEntry());
+            }
         }
         if (over_tex != null) mob.getPersistentData().putString("statue:over_tex", over_tex);
         if (over_tex_a != -1) mob.getPersistentData().putInt("statue:over_tex_a", over_tex_a);
@@ -327,8 +343,7 @@ public class StatueEntity extends InteractableTile
         if (tag.contains("custom_model"))
         {
             final CompoundTag modelTag = tag.getCompound("custom_model");
-            LivingEntity mob = initMob(copy, modelTag, () -> this.checkMob());
-            copy.setCopiedNBT(mob.serializeNBT());
+            initMob(copy, modelTag, () -> this.checkMob());
         }
         // Server side send packet that it changed
         if (!this.level.isClientSide()) TileUpdate.sendUpdate(this);
