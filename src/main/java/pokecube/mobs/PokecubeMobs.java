@@ -15,7 +15,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -76,7 +75,7 @@ public class PokecubeMobs
 
     public PokecubeMobs()
     {
-        MinecraftForge.EVENT_BUS.register(this);
+        ThutCore.FORGE_BUS.register(this);
         PokecubeAPI.POKEMOB_BUS.register(this);
 
         final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();

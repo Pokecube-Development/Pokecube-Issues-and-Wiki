@@ -45,7 +45,6 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.api.PokecubeAPI;
@@ -57,6 +56,7 @@ import pokecube.mixin.accessors.WorldGenRegionAccessor;
 import pokecube.world.gen.structures.PokecubeStructures;
 import pokecube.world.gen.structures.processors.MarkerToAirProcessor;
 import pokecube.world.gen.structures.processors.NoWaterlogProcessor;
+import thut.core.common.ThutCore;
 
 public class ExpandedJigsawPiece extends SinglePoolElement
 {
@@ -317,7 +317,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement
                     final StructureEvent.BuildStructure event = new StructureEvent.BuildStructure(realBox, this.world,
                             this.name, placementsettings);
                     event.setBiomeType(this.biome_type);
-                    MinecraftForge.EVENT_BUS.post(event);
+                    ThutCore.FORGE_BUS.post(event);
                 }
             }
 
@@ -401,7 +401,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement
                 final Event event = new StructureEvent.ReadTag(function.trim(), pos, worldIn, (ServerLevel) this.world,
                         rand, box);
                 if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logDebug(function.trim() + " " + pos);
-                MinecraftForge.EVENT_BUS.post(event);
+                ThutCore.FORGE_BUS.post(event);
                 if (event.getResult() == Result.ALLOW) ExpandedJigsawPiece.apply(pos, this.world);
             }
         }

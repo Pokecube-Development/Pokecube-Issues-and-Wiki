@@ -2,9 +2,9 @@ package pokecube.api.events.pokemobs;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.eventbus.api.Cancelable;
+import thut.core.common.ThutCore;
 
 @Cancelable
 public class TeleportEvent extends EntityTeleportEvent
@@ -19,7 +19,7 @@ public class TeleportEvent extends EntityTeleportEvent
             final double targetZ)
     {
         final TeleportEvent event = new TeleportEvent(entity, targetX, targetY, targetZ);
-        MinecraftForge.EVENT_BUS.post(event);
+        ThutCore.FORGE_BUS.post(event);
         return event;
     }
 }

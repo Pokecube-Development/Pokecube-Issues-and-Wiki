@@ -1,4 +1,4 @@
-package pokecube.core.entity.pokemobs.genetics.genes;
+package pokecube.core.entity.genetics.genes;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,15 +10,24 @@ import javax.annotation.Nullable;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.genes.Mutations.Mutation;
 import pokecube.core.database.genes.Mutations.MutationHolder;
 import pokecube.core.database.tags.Tags;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
-import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
+import pokecube.core.entity.genetics.GeneticsManager;
+import pokecube.core.entity.genetics.genes.SpeciesGene.SpeciesInfo;
+import pokecube.core.network.pokemobs.PacketSyncGene;
+import thut.api.ThutCaps;
+import thut.api.entity.ICopyMob;
+import thut.api.entity.event.CopySetEvent;
 import thut.api.entity.genetics.Gene;
 import thut.core.common.ThutCore;
 
@@ -56,7 +65,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
         {
             this.setSexe(tag.getByte("G"));
             this.entry = Database.getEntry(tag.getString("E"));
-            if (tag.contains("TE")) this.tmpEntry = Database.getEntry(tag.getString("T"));
+            if (tag.contains("TE")) this.tmpEntry = Database.getEntry(tag.getString("TE"));
             if (tag.contains("F"))
             {
                 this.forme = FormeHolder.load(tag.getCompound("F"));
@@ -64,7 +73,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
             }
             if (tag.contains("TF"))
             {
-                this.tmpForme = FormeHolder.load(tag.getCompound("F"));
+                this.tmpForme = FormeHolder.load(tag.getCompound("TF"));
                 if (tmpForme != null && tmpForme._entry == Database.missingno && this.tmpEntry != null)
                     tmpForme.setEntry(this.tmpEntry);
             }
@@ -137,6 +146,15 @@ public class SpeciesGene implements Gene<SpeciesInfo>
         public void setTmpEntry(PokedexEntry tmpEntry)
         {
             this.tmpEntry = tmpEntry;
+            if (tmpEntry != this.entry && this.getForme() == this.entry.getModel(getSexe()))
+            {
+                this.setTmpForme(tmpEntry.getModel(getSexe()));
+            }
+            else if (tmpEntry == this.entry && this.getForme() == tmpEntry.getModel(getSexe()))
+            {
+                this.tmpEntry = null;
+                this.tmpForme = null;
+            }
         }
 
         public @Nullable FormeHolder getTmpForme()
@@ -194,6 +212,9 @@ public class SpeciesGene implements Gene<SpeciesInfo>
     @Override
     public Gene<SpeciesInfo> interpolate(final Gene<SpeciesInfo> other)
     {
+        // Can be null for a blank species gene for a not-pokemob
+        if (this.info.entry == null) return other.mutate();
+
         final SpeciesGene newGene = new SpeciesGene();
         final SpeciesGene otherG = (SpeciesGene) other;
         SpeciesGene mother = this.info.getSexe() == IPokemob.FEMALE ? this : this.info.getSexe() > 0 ? this : otherG;
@@ -260,11 +281,15 @@ public class SpeciesGene implements Gene<SpeciesInfo>
     public void load(final CompoundTag tag)
     {
         this.info.load(tag.getCompound("V"));
+        this._transformed = tag.getBoolean("T");
     }
 
     @Override
     public Gene<SpeciesInfo> mutate()
     {
+        // Can be null for a blank species gene for a not-pokemob
+        if (info.entry == null) return this;
+
         final SpeciesGene newGene = new SpeciesGene();
         newGene.setValue(this.info.clone());
         // Prevents mobs from hatching with wrong forms.
@@ -279,7 +304,69 @@ public class SpeciesGene implements Gene<SpeciesInfo>
     {
         final CompoundTag tag = new CompoundTag();
         tag.put("V", this.info.save());
+        if (_transformed) tag.putBoolean("T", true);
         return tag;
+    }
+
+    private IPokemob _pokemob = null;
+    private ICopyMob _copy = null;
+    private boolean _transformed = false;
+    private boolean _checked = false;
+
+    @Override
+    public void onUpdateTick(Entity entity)
+    {
+        if (!entity.isAddedToWorld()) return;
+        if (!_checked)
+        {
+            _pokemob = PokemobCaps.getPokemobFor(entity);
+            if (_pokemob == null) _copy = ThutCaps.getCopyMob(entity);
+            _checked = true;
+        }
+        if (_copy != null && entity instanceof LivingEntity living)
+        {
+            var mob = _copy.getCopiedMob();
+            if (mob != null && _pokemob == null)
+            {
+                _pokemob = PokemobCaps.getPokemobFor(mob);
+                if (_pokemob != null) _pokemob.setOwner(living);
+            }
+            if (mob == null && this.info.getEntry() != null)
+            {
+                var e = PokecubeCore.createPokemob(this.info.getEntry(), entity.level);
+                if (e != null)
+                {
+                    _pokemob = PokemobCaps.getPokemobFor(e);
+                    if (_pokemob != null) _pokemob.setOwner(living);
+                    ThutCore.FORGE_BUS.post(new CopySetEvent(living, null, e));
+                    e.setId(-(living.getId() + 100));
+                    _copy.setCopiedMob(e);
+                    var genes = ThutCaps.getGenetics(e);
+                    if (genes != null && e.getId() < 100)
+                    {
+                        genes.getAlleles().forEach((key, alleles) -> {
+                            alleles.getChangeListeners().add(0, g -> {
+                                e.onAddedToWorld();
+                            });
+                            PacketSyncGene.syncGeneToTracking(living, alleles);
+                            alleles.getChangeListeners().add(g -> {
+                                e.onRemovedFromWorld();
+                            });
+                        });
+                    }
+                    if (living instanceof Player) System.out.println("New Mob");
+                    _transformed = true;
+                }
+            }
+            if (this.info.getEntry() == null && mob != null)
+            {
+                ThutCore.FORGE_BUS.post(new CopySetEvent(living, mob, null));
+                _copy.setCopiedMob(null);
+                if (living instanceof Player) System.out.println("No Mob");
+                entity.refreshDimensions();
+                _transformed = false;
+            }
+        }
     }
 
     @Override

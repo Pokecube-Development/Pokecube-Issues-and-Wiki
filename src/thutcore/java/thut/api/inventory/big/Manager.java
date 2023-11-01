@@ -17,7 +17,6 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.api.inventory.big.BigInventory.LoadFactory;
@@ -38,7 +37,7 @@ public abstract class Manager<T extends BigInventory>
         this.valid = valid;
         this.new_factory = new_factory;
         this.load_factory = load_factory;
-        MinecraftForge.EVENT_BUS.register(this);
+        ThutCore.FORGE_BUS.register(this);
     }
 
     public abstract String fileName();

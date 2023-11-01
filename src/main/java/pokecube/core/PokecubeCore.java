@@ -27,7 +27,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -83,6 +82,7 @@ import thut.api.data.StringTag;
 import thut.api.entity.CopyCaps;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
+import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.PacketHandler;
 import thut.wearables.ThutWearables;
@@ -284,7 +284,7 @@ public class PokecubeCore
         PlayerDataHandler.register(PlayerPokemobCache.class);
 
         // Register the data fixer for registry changes.
-        MinecraftForge.EVENT_BUS.register(RegistryChangeFixer.class);
+        ThutCore.FORGE_BUS.register(RegistryChangeFixer.class);
 
         // Initialize advancement triggers
         Triggers.init();

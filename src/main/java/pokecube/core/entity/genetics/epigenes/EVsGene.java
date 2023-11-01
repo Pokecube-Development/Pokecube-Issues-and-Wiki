@@ -1,7 +1,7 @@
-package pokecube.core.entity.pokemobs.genetics.epigenes;
+package pokecube.core.entity.genetics.epigenes;
 
 import net.minecraft.resources.ResourceLocation;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
+import pokecube.core.entity.genetics.GeneticsManager;
 import thut.api.entity.genetics.Gene;
 import thut.core.common.genetics.genes.GeneByteArr;
 

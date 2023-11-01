@@ -15,7 +15,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeItems;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
+import pokecube.core.entity.genetics.GeneticsManager;
 import thut.api.entity.genetics.Gene;
 import thut.core.common.ThutCore;
 import thut.wearables.EnumWearable;
@@ -209,5 +209,11 @@ public class TeraTypeGene implements Gene<TeraTypeGene.TeraType>
     public void setValue(TeraType value)
     {
         this.value = value;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "" + value.teraType;
     }
 }

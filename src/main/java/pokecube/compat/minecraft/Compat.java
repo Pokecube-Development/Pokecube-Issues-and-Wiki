@@ -21,7 +21,6 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
@@ -41,13 +40,16 @@ import pokecube.core.ai.tasks.bees.BeeTasks.BeeHabitat;
 import pokecube.core.commands.Kill.KillCommandEvent;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.JsonPokedexEntry;
+import pokecube.core.entity.genetics.GeneticsManager;
+import pokecube.core.entity.genetics.GeneticsManager.GeneticsProvider;
 import pokecube.core.entity.pokemobs.PokemobType;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager.GeneticsProvider;
 import pokecube.core.eventhandlers.EventsHandler;
 import thut.api.OwnableCaps;
+import thut.api.ThutCaps;
+import thut.api.entity.genetics.IMobGenetics;
 import thut.api.item.ItemList;
 import thut.api.util.JsonUtil;
+import thut.core.common.ThutCore;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 import thut.lib.RegHelper;
 
@@ -105,13 +107,13 @@ public class Compat
     public static void register(final CompatEvent event)
     {
         // Here will will register the vanilla mobs as a type of pokemob.
-        MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, Compat::onEntityCaps);
+        ThutCore.FORGE_BUS.addGenericListener(Entity.class, Compat::onEntityCaps);
         // Here will will register the vanilla bee hives as habitable
-        MinecraftForge.EVENT_BUS.addGenericListener(BlockEntity.class, Compat::onTileEntityCaps);
+        ThutCore.FORGE_BUS.addGenericListener(BlockEntity.class, Compat::onTileEntityCaps);
         // Here we disable the pokecube kill command for vanilla mobs for #753
         PokecubeAPI.POKEMOB_BUS.addListener(Compat::onKillCommand);
         // Here will will register the handler for making the default datapack
-        MinecraftForge.EVENT_BUS.addListener(Compat::onServerStarted);
+        ThutCore.FORGE_BUS.addListener(Compat::onServerStarted);
     }
 
     private static void onServerStarted(final ServerStartedEvent event)
@@ -233,11 +235,23 @@ public class Compat
             }
 
             final VanillaPokemob pokemob = new VanillaPokemob(mob);
-            final GeneticsProvider genes = new GeneticsProvider();
+            IMobGenetics _genes;
+            if (event.getCapabilities().containsKey(GeneticsManager.POKECUBEGENETICS))
+            {
+                _genes = event.getCapabilities().get(GeneticsManager.POKECUBEGENETICS)
+                        .getCapability(ThutCaps.GENETICS_CAP).orElse(null);
+                if (_genes == null) throw new IllegalStateException("Genes null yet registered?");
+            }
+            else
+            {
+                final GeneticsProvider genes = new GeneticsProvider();
+                _genes = genes.wrapped;
+                event.addCapability(GeneticsManager.POKECUBEGENETICS, genes);
+            }
             final DataSync_Impl data = new DataSync_Impl();
             pokemob.setDataSync(data);
-            pokemob.genes = genes.wrapped;
-            event.addCapability(GeneticsManager.POKECUBEGENETICS, genes);
+            pokemob.setGenes(_genes);
+            _genes.addChangeListener(pokemob);
             event.addCapability(EventsHandler.POKEMOBCAP, pokemob);
             event.addCapability(EventsHandler.DATACAP, data);
             IGuardAICapability.addCapability(event);

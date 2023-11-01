@@ -45,7 +45,7 @@ public class BaseTile extends InteractableTile
         UUID targetBase = player.getUUID();
         if (!this.any)
         {
-            final IOwnableTE tile = (IOwnableTE) this.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
+            final IOwnableTE tile = (IOwnableTE) ThutCaps.getOwnable(this);
             targetBase = tile.getOwnerId();
             if (targetBase == null) return InteractionResult.SUCCESS;
             GlobalPos exit_here;

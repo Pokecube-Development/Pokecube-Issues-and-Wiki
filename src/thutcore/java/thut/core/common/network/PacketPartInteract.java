@@ -16,6 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.entity.PartEntity;
+import thut.api.entity.EntityProvider;
 import thut.api.entity.multipart.GenericPartEntity;
 
 /**
@@ -100,7 +101,7 @@ public class PacketPartInteract extends Packet
     @Nullable
     public Entity getEntityFromWorld(final Level worldIn)
     {
-        return worldIn.getEntity(this.entityId);
+        return EntityProvider.provider.getEntity(worldIn, entityId);
     }
 
     public ServerboundInteractPacket.ActionType getAction()

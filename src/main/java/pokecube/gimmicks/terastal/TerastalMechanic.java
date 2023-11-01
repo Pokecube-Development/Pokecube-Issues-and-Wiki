@@ -22,6 +22,7 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler;
 import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler.IChangeHandler;
+import pokecube.api.events.init.PokemakeArgumentEvent;
 import pokecube.api.events.pokemobs.ChangeForm;
 import pokecube.api.events.pokemobs.HealEvent;
 import pokecube.api.events.pokemobs.RecallEvent;
@@ -31,7 +32,7 @@ import pokecube.api.raids.RaidManager;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
+import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.network.pokemobs.PacketSyncGene;
@@ -70,6 +71,8 @@ public class TerastalMechanic
         PokecubeAPI.POKEMOB_BUS.addListener(TerastalMechanic::onRecall);
         // Add listener for removing tera cooldown when healed at a pokecenter
         PokecubeAPI.POKEMOB_BUS.addListener(TerastalMechanic::onHeal);
+        // Add listener for removing tera cooldown when healed at a pokecenter
+        PokecubeAPI.POKEMOB_BUS.addListener(TerastalMechanic::onPokemake);
         // Register a change handler for terastallizing
         ChangeFormHandler.addChangeHandler(new Terastallizer());
         // Register a raid type
@@ -140,12 +143,12 @@ public class TerastalMechanic
     public static Alleles<TeraType, Gene<TeraType>> getTeraGenes(Entity entity)
     {
 
-        final IMobGenetics genes = entity.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
+        final IMobGenetics genes = ThutCaps.getGenetics(entity);
         if (genes == null) return null;
         if (!genes.getKeys().contains(GeneticsManager.TERAGENE))
         {
             // Initialise it for the mob here.
-            Alleles<TeraType, Gene<TeraType>> alleles = new Alleles<>();
+            Alleles<TeraType, Gene<TeraType>> alleles = new Alleles<>(genes);
             Gene<TeraType> gene1 = new TeraTypeGene().mutate();
             Gene<TeraType> gene2 = new TeraTypeGene().mutate();
 
@@ -260,6 +263,35 @@ public class TerastalMechanic
             doTera(pokemob);
         }
         return canTera;
+    }
+
+    /**
+     * This handles processing the tera type from the nbt in the pokemake
+     * arguments.
+     * 
+     * @param event
+     */
+    private static final void onPokemake(PokemakeArgumentEvent event)
+    {
+        String type = event.getNbt().getString("tera_type");
+        var tera = getTera(event.getPokemob().getEntity());
+        if (!type.isBlank())
+        {
+            try
+            {
+                PokeType tera_type = PokeType.getType(type);
+                if (tera != null) tera.teraType = tera_type;
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+        }
+        if (event.getNbt().getBoolean("is_tera"))
+        {
+            tera.isTera = true;
+        }
     }
 
     /**

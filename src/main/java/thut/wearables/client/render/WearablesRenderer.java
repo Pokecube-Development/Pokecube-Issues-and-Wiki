@@ -37,7 +37,7 @@ public class WearablesRenderer<T extends LivingEntity, M extends HumanoidModel<T
     private IWearable getWearable(final ItemStack stack)
     {
         if (stack.getItem() instanceof IWearable) return (IWearable) stack.getItem();
-        return stack.getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null);
+        return ThutWearables.getWearable(stack);
     }
 
     @Override

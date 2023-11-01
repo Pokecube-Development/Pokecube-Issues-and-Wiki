@@ -10,7 +10,6 @@ import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
@@ -118,12 +117,11 @@ public class BreedableCaps
 
     public static IBreedingMob getBreedable(final ICapabilityProvider in)
     {
-        if (in == null) return null;
-        return in.getCapability(ThutCaps.BREEDS).orElse(null);
+        return ThutCaps.getBreedable(in);
     }
 
     public static void setup()
     {
-        MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, EventPriority.LOWEST, BreedableCaps::attachMobs);
+        ThutCore.FORGE_BUS.addGenericListener(Entity.class, EventPriority.LOWEST, BreedableCaps::attachMobs);
     }
 }

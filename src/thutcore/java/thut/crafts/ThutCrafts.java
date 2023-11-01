@@ -5,7 +5,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig.Type;
@@ -94,6 +93,6 @@ public class ThutCrafts
         ThutCrafts.packets.registerMessage(PacketCraftControl.class, PacketCraftControl::new);
 
         // SEtup proxy
-        MinecraftForge.EVENT_BUS.register(ThutCrafts.class);
+        ThutCore.FORGE_BUS.register(ThutCrafts.class);
     }
 }

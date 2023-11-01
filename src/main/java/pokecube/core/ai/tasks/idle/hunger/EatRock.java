@@ -1,7 +1,9 @@
 package pokecube.core.ai.tasks.idle.hunger;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import com.google.common.collect.Lists;
 
@@ -21,8 +23,6 @@ import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
-import java.util.function.Supplier;
-import java.util.ArrayList;
 
 public class EatRock extends EatBlockBase
 {

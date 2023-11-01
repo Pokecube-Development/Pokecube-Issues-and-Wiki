@@ -161,6 +161,13 @@ public class CaptureManager
     public static void captureFailed(final EntityPokecubeBase cube)
     {
         final LivingEntity living = SendOutManager.sendOut(cube, true);
+        if (living == null)
+        {
+            // Just drop the cube? something went wrong
+            cube.spawnAtLocation(cube.getItem());
+            PokecubeAPI.LOGGER.error("Error with capture failure for {}", cube.getItem().getTag());
+            return;
+        }
         final IPokemob pokemob = PokemobCaps.getPokemobFor(living);
         cube.setNotCapturing();
         cube.setReleased(living);
@@ -208,11 +215,11 @@ public class CaptureManager
             HappinessType.applyHappiness(pokemob, HappinessType.TRADE);
             if (cube.shooter != null && !pokemob.getGeneralState(GeneralStates.TAMED)) pokemob.setOwner(cube.shooter);
             /*
-             * Set not to wander around by default, they can choose to enable this
-             * later.
+             * Set not to wander around by default, they can choose to enable
+             * this later.
              */
             pokemob.setRoutineState(AIRoutine.WANDER, false);
-            
+
             final IPokemob revert = pokemob.resetForm(false);
             if (revert != null) pokemob = revert;
             if (pokemob.getEntity().getPersistentData().contains(TagNames.ABILITY)) pokemob.setAbilityRaw(

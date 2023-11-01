@@ -73,8 +73,7 @@ public class DaycareTile extends InteractableTile implements ITickTile
     public DaycareTile(final BlockPos pos, final BlockState state)
     {
         this(PokecubeAdv.DAYCARE_TYPE.get(), pos, state);
-        this.itemstore = (IItemHandlerModifiable) this.getCapability(ThutCaps.ITEM_HANDLER)
-                .orElse(null);
+        this.itemstore = (IItemHandlerModifiable) ThutCaps.getInventory(this);
     }
 
     public DaycareTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)

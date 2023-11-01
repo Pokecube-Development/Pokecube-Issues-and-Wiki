@@ -16,7 +16,7 @@ public interface IGeneSelector
     public static Gene<?> copy(final Gene<?> geneIn) throws Exception
     {
         final CompoundTag tag = GeneRegistry.save(geneIn);
-        return GeneRegistry.load(tag);
+        return GeneRegistry.load(tag, geneIn.getKey());
     }
 
     default int arrIndex()

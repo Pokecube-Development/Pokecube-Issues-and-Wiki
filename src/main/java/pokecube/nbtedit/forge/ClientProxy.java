@@ -15,7 +15,6 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.PokecubeAPI;
@@ -25,6 +24,7 @@ import pokecube.nbtedit.nbt.SaveStates;
 import pokecube.nbtedit.packets.EntityRequestPacket;
 import pokecube.nbtedit.packets.PacketHandler;
 import pokecube.nbtedit.packets.TileRequestPacket;
+import thut.core.common.ThutCore;
 import thut.core.common.network.Packet;
 import thut.lib.TComponent;
 
@@ -98,7 +98,7 @@ public class ClientProxy extends CommonProxy
     @OnlyIn(value = Dist.CLIENT)
     public void setupClient()
     {
-        MinecraftForge.EVENT_BUS.register(this);
+        ThutCore.FORGE_BUS.register(this);
         try
         {
             final SaveStates save = NBTEdit.getSaveStates();

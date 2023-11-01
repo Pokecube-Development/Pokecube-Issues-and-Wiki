@@ -5,9 +5,9 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.events.GeneEditEvent;
 import pokecube.api.events.GeneEditEvent.EditType;
 import pokecube.api.stats.SpecialCaseRegister;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
-import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
-import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
+import pokecube.core.entity.genetics.GeneticsManager;
+import pokecube.core.entity.genetics.genes.SpeciesGene;
+import pokecube.core.entity.genetics.genes.SpeciesGene.SpeciesInfo;
 import thut.api.entity.genetics.Alleles;
 
 public class GeneProtector
