@@ -90,7 +90,6 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
                 }
                 try
                 {
-                    System.out.println(this.getCopiedNBT());
                     mob.deserializeNBT(this.getCopiedNBT());
                 }
                 catch (final Exception e)
