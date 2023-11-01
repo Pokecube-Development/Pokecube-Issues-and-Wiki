@@ -149,7 +149,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             // change to new forme.
             final IPokemob evo = this.changeForm(((EvolveEvent.Pre) evt).forme, immediate, true);
             // Remove held item if it had one.
-            if (needed_items.contains(data) && ItemStack.isSame(stack, thisMob.getHeldItem()))
+            if (needed_items.contains(data) && ItemStack.isSameItem(stack, thisMob.getHeldItem()))
                 evo.setHeldItem(ItemStack.EMPTY);
             // Init things like moves.
             evo.getMoveStats().oldLevel = thisMob.getMoveStats().oldLevel;
@@ -194,7 +194,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             if (evo != null)
             {
                 // Clear held item if used for evolving.
-                if (needed_items.contains(data) && ItemStack.isSame(stack, thisMob.getHeldItem()))
+                if (needed_items.contains(data) && ItemStack.isSameItem(stack, thisMob.getHeldItem()))
                     evo.setHeldItem(ItemStack.EMPTY);
 
                 evt = new EvolveEvent.Post(evo);
