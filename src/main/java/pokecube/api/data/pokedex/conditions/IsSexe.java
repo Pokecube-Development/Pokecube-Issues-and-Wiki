@@ -4,6 +4,13 @@ import net.minecraft.network.chat.Component;
 import pokecube.api.entity.pokemob.IPokemob;
 import thut.lib.TComponent;
 
+/**
+ * This class matches a pokemob with the specified sex<br>
+ * <br>
+ * Matcher key: "sexe" <br>
+ * Json keys: <br>
+ * "sexe" - String, sex to match, "male" or "female"
+ */
 @Condition(name="sexe")
 public class IsSexe implements PokemobCondition
 {

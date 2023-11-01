@@ -18,7 +18,15 @@ import pokecube.api.utils.Tools;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import thut.lib.TComponent;
 
-@Condition(name="item")
+/**
+ * This class matches a pokemob with the specified held or evolution item<br>
+ * <br>
+ * Matcher key: "item" <br>
+ * Json keys: <br>
+ * "item" - JsonObject, optional, recipe format json for the item "tag" -
+ * String, optional, tag for the item
+ */
+@Condition(name = "item")
 public class HasHeldItem implements PokemobCondition
 {
     public JsonObject item = null;

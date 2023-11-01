@@ -8,14 +8,13 @@ import thut.lib.TComponent;
 
 /**
  * 
- * This class matches the time for a condition. <br>
+ * This class matches the phas of the moon for a condition. <br>
  * <br>
- * Matcher key: "light" <br>
+ * Matcher key: "moon_phase" <br>
  * Json keys: <br>
- * "start" - float, start time of day (fraction of day, 0-1) <br>
- * "end" - float, end time of day (fraction of day, 0-1) <br>
- * "preset" - String, Optional, "day", "dawn", "dusk" or "night" to apply the
- * default times
+ * "phase" - int, Phase of the moon, (0-7), 0 is full moon <br>
+ * "max" - float, max brightness of moon, 1.0 is full, 0.0 is new <br>
+ * "min" - float, min brightness of moon, 1.0 is full, 0.0 is new <br>
  *
  */
 @MatcherFunction(name = "moon_phase")
