@@ -7,6 +7,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
@@ -34,8 +35,10 @@ import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.events.pokemobs.SpawnEvent.FunctionVariance;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
+import pokecube.core.commands.arguments.PokemobArgument;
 import pokecube.core.database.Database;
 import pokecube.core.database.spawns.PokemobSpawns;
+import pokecube.core.database.spawns.PokemobSpawns.SpawnSet;
 import thut.api.util.JsonUtil;
 import thut.core.xml.bind.annotation.XmlAnyAttribute;
 import thut.core.xml.bind.annotation.XmlElement;
@@ -258,6 +261,24 @@ public class PokedexEntryLoader
         if (!Database.spawnables.contains(entry)) Database.spawnables.add(entry);
         // If it can spawn in water, then it can swim in water.
         if (matcher.water) entry.mobType |= MovementType.WATER.mask;
+
+        String variant = rule.model == null ? "" : rule.model.key;
+        if (!variant.isBlank())
+        {
+            var matching = PokemobArgument.getMatching(variant);
+            SpawnSet set = new SpawnSet(matcher, spawnEntry);
+            for (var _entry : matching)
+            {
+                // this is the main spawn, we ignore it.
+                if (_entry == entry) continue;
+                // Add the matcher to the custom list for here.
+                PokemobSpawns.REGEX_SPAWNS.compute(_entry, (e, list) -> {
+                    if (list == null) list = new ArrayList<>();
+                    list.add(set);
+                    return list;
+                });
+            }
+        }
         return matcher;
     }
 
@@ -353,7 +374,6 @@ public class PokedexEntryLoader
         try
         {
             PokedexEntry.InteractionLogic.initDefaults();
-            JsonPokedexEntry.postInit();
         }
         catch (final Exception e)
         {

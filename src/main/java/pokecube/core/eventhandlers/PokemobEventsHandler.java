@@ -237,7 +237,6 @@ public class PokemobEventsHandler
         public static void scheduleChange(int delay, PokedexEntry mega, IPokemob evolver, Component message,
                 Runnable pre, Runnable post)
         {
-
             final Entity mob = evolver.getEntity();
             if (!(mob.level instanceof ServerLevel level)) return;
 
@@ -392,7 +391,7 @@ public class PokemobEventsHandler
 
         // If noone has modified result of a capture event pre, we deny it if
         // the mob is not alive.
-        ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, false, PokemobEventsHandler::onCapturePre);
+        PokecubeAPI.POKEMOB_BUS.addListener(EventPriority.LOWEST, false, PokemobEventsHandler::onCapturePre);
     }
 
     public static Set<ResourceKey<Level>> BEE_RELEASE_TICK = Sets.newConcurrentHashSet();
@@ -511,8 +510,12 @@ public class PokemobEventsHandler
         PokemobEventsHandler.processInteract(evt, evt.getTarget());
     }
 
+    /**
+     * This provides our default handling to prevent capturing dead pokemobs.
+     */
     private static void onCapturePre(CaptureEvent.Pre event)
     {
+        System.out.println(event.getResult());
         if (event.getResult() != Result.DEFAULT) return;
         if (!event.mob.isAlive()) event.setResult(Result.DENY);
     }
@@ -559,6 +562,9 @@ public class PokemobEventsHandler
         }
     }
 
+    /**
+     * Here we apply the exp bonus from exp share and lucky eggs
+     */
     private static void onKillEvent(final KillEvent evt)
     {
         final IPokemob killer = evt.killer;
@@ -661,6 +667,10 @@ public class PokemobEventsHandler
         pokemob.onGenesChanged();
     }
 
+    /**
+     * This applies the pokemob AI to the entity, it is done via an event here
+     * so we can apply this to mobs added by other things, such as vanilla.
+     */
     private static void onBrainInit(final BrainInitEvent event)
     {
         final Entity mob = event.getEntity();

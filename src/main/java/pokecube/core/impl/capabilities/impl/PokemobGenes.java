@@ -67,6 +67,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     private Boolean _shinyCache = null;
     private boolean _movesChanged = false;
     private boolean _sizeChanged = false;
+    private boolean _abilityChanged = false;
 
     @Override
     public void accept(Gene<?> t)
@@ -107,20 +108,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         else if (t.getKey().equals(GeneticsManager.ABILITYGENE))
         {
             this.genesAbility = this.getGenes().getAlleles(t.getKey());
-            final AbilityGene gene = this.genesAbility.getExpressed();
-            final AbilityObject obj = gene.getValue();
-            if (obj.abilityObject == null && !obj.searched)
-            {
-                if (!obj.ability.isEmpty())
-                {
-                    final Ability ability = AbilityManager.getAbility(obj.ability);
-                    obj.abilityObject = ability;
-                }
-                else obj.abilityObject = this.getPokedexEntry().getAbility(obj.abilityIndex, this);
-                obj.searched = true;
-            }
-            this.moveInfo.battleAbility = obj.abilityObject;
-            this.setAbilityRaw(this.getAbility());
+            _abilityChanged = true;
         }
         PacketSyncGene.syncGeneToTracking(this.getEntity(), this.getGenes().getAlleles(t.getKey()));
     }
@@ -241,9 +229,27 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     @Override
     public Ability getAbility()
     {
+        if (this._abilityChanged)
+        {
+            final AbilityGene gene = this.genesAbility.getExpressed();
+            final AbilityObject obj = gene.getValue();
+            if (obj.abilityObject == null && !obj.searched)
+            {
+                if (!obj.ability.isEmpty())
+                {
+                    final Ability ability = AbilityManager.getAbility(obj.ability);
+                    obj.abilityObject = ability;
+                }
+                else obj.abilityObject = this.getPokedexEntry().getAbility(obj.abilityIndex, this);
+                obj.searched = true;
+            }
+            this.moveInfo.battleAbility = obj.abilityObject;
+            this._abilityChanged = false;
+            this.setAbilityRaw(this.getAbility());
+        }
+        if (this.inCombat()) return this.moveInfo.battleAbility;
         final AbilityGene gene = this.genesAbility.getExpressed();
         final AbilityObject obj = gene.getValue();
-        if (this.inCombat()) return this.moveInfo.battleAbility;
         // not in battle, re-synchronize this.
         this.moveInfo.battleAbility = obj.abilityObject;
         return obj.abilityObject;
