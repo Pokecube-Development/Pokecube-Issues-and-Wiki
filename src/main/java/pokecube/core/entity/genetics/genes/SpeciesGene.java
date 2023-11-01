@@ -65,7 +65,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
         {
             this.setSexe(tag.getByte("G"));
             this.entry = Database.getEntry(tag.getString("E"));
-            if (tag.contains("TE")) this.tmpEntry = Database.getEntry(tag.getString("T"));
+            if (tag.contains("TE")) this.tmpEntry = Database.getEntry(tag.getString("TE"));
             if (tag.contains("F"))
             {
                 this.forme = FormeHolder.load(tag.getCompound("F"));
@@ -73,7 +73,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
             }
             if (tag.contains("TF"))
             {
-                this.tmpForme = FormeHolder.load(tag.getCompound("F"));
+                this.tmpForme = FormeHolder.load(tag.getCompound("TF"));
                 if (tmpForme != null && tmpForme._entry == Database.missingno && this.tmpEntry != null)
                     tmpForme.setEntry(this.tmpEntry);
             }
@@ -146,6 +146,15 @@ public class SpeciesGene implements Gene<SpeciesInfo>
         public void setTmpEntry(PokedexEntry tmpEntry)
         {
             this.tmpEntry = tmpEntry;
+            if (tmpEntry != this.entry && this.getForme() == this.entry.getModel(getSexe()))
+            {
+                this.setTmpForme(tmpEntry.getModel(getSexe()));
+            }
+            else if (tmpEntry == this.entry && this.getForme() == tmpEntry.getModel(getSexe()))
+            {
+                this.tmpEntry = null;
+                this.tmpForme = null;
+            }
         }
 
         public @Nullable FormeHolder getTmpForme()

@@ -50170,6 +50170,7 @@
           },
           {
             "name": "lilligant_hisui",
+            "priority": 1,
             "location": {
               "desc": "pokecube.spawns.deserts.general",
               "and_preset": "deserts"
