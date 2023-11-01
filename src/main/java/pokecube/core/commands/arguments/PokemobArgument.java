@@ -19,6 +19,7 @@ import net.minecraft.resources.ResourceLocation;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.commands.arguments.PokemobArgument.PokemobInput;
 import pokecube.core.database.Database;
+import thut.core.common.ThutCore;
 import thut.lib.TComponent;
 
 public class PokemobArgument implements ArgumentType<PokemobInput>
@@ -57,12 +58,25 @@ public class PokemobArgument implements ArgumentType<PokemobInput>
     public PokemobInput parse(StringReader reader) throws CommandSyntaxException
     {
         int i = reader.getCursor();
-        while (reader.canRead() && ResourceLocation.isAllowedInResourceLocation(reader.peek()))
+        char c;
+        while (reader.canRead() && (ResourceLocation.isAllowedInResourceLocation(c = reader.peek()) || c == '*'))
         {
             reader.skip();
         }
         String s = reader.getString().substring(i, reader.getCursor());
-        PokedexEntry entry = Database.getEntry(s);
+        PokedexEntry entry = null;
+        if (s.endsWith("*"))
+        {
+            var key = s.length() > 1 ? s.substring(0, s.length() - 1) : "";
+            var entries = Database.getSortedFormes().stream().filter(e -> key.isBlank() || e.getName().startsWith(key))
+                    .toList();
+            if (!entries.isEmpty())
+            {
+                entry = entries.size() == 1 ? entries.get(0)
+                        : entries.get(ThutCore.newRandom().nextInt(entries.size()));
+            }
+        }
+        else entry = Database.getEntry(s);
         if (entry == null) throw ERROR_UNKNOWN_ENTITY.create(reader);
         PokemobInput resp = new PokemobInput();
         resp.entry = entry;
