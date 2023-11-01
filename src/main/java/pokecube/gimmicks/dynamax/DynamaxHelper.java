@@ -64,7 +64,7 @@ public class DynamaxHelper
         // Register dynamax raid
         RaidManager.registerBossType(new DynamaxRaid());
     }
-    
+
     /**
      * Handles dynamaxing on command. Checks for valid max spots, etc.
      */
@@ -170,6 +170,14 @@ public class DynamaxHelper
     {
         var entity = event.getPokemob().getEntity();
         entity.getPersistentData().putBoolean("pokecube:dyna_reverted", true);
+
+        var entry = event.getPokemob().getPokedexEntry();
+        // TODO better way to decide this
+        if ((entry.getName().endsWith("-gmax") || entry.getName().endsWith("-eternamax"))
+                && entry.getBaseForme() != null)
+        {
+            event.getPokemob().setBasePokedexEntry(entry.getBaseForme());
+        }
     }
 
     private static void postFormChange(ChangeForm.Post event)

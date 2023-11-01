@@ -15,6 +15,7 @@ public class PacketChangeForme extends Packet
 {
     public static void sendPacketToTracking(final Entity mob, final PokedexEntry forme)
     {
+        if (mob.level.isClientSide()) return;
         final PacketChangeForme packet = new PacketChangeForme();
         packet.entityId = mob.getId();
         packet.forme = forme;
@@ -26,8 +27,7 @@ public class PacketChangeForme extends Packet
     PokedexEntry forme;
 
     public PacketChangeForme()
-    {
-    }
+    {}
 
     public PacketChangeForme(final FriendlyByteBuf buffer)
     {
