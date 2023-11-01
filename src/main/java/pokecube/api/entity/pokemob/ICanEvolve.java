@@ -2,7 +2,9 @@ package pokecube.api.entity.pokemob;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import net.minecraft.nbt.CompoundTag;
@@ -97,7 +99,6 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         final IPokemob thisMob = (IPokemob) this;
         if (thisEntity == null) return null;
 
-        boolean neededItem = false;
         PokedexEntry evol = null;
         EvolutionData data = null;
 
@@ -108,22 +109,26 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             if (d.shouldEvolve(thisMob, stack)) valid.add(d);
 
         List<EvolutionData> select_from = new ArrayList<>();
+        Set<EvolutionData> needed_items = new HashSet<>();
         // Now lets see if any need the item, but others do not.
         for (final EvolutionData d : valid)
         {
             if (!d.shouldEvolve(thisMob, ItemStack.EMPTY))
             {
                 select_from.add(d);
-                neededItem = true;
+                needed_items.add(d);
             }
         }
         if (select_from.isEmpty()) select_from.addAll(valid);
         if (select_from.isEmpty()) return null;
 
-        int index = 0;
-        if (select_from.size() > 1) index = thisEntity.getRandom().nextInt(select_from.size());
+        if (select_from.size() > 1)
+        {
+            Collections.shuffle(select_from);
+            select_from.sort(null);
+        }
 
-        data = select_from.get(index);
+        data = select_from.get(0);
         evol = data.evolution;
 
         if (evol == null) return null;
@@ -144,7 +149,8 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             // change to new forme.
             final IPokemob evo = this.changeForm(((EvolveEvent.Pre) evt).forme, immediate, true);
             // Remove held item if it had one.
-            if (neededItem && ItemStack.isSameItem(stack, thisMob.getHeldItem())) evo.setHeldItem(ItemStack.EMPTY);
+            if (needed_items.contains(data) && ItemStack.isSame(stack, thisMob.getHeldItem()))
+                evo.setHeldItem(ItemStack.EMPTY);
             // Init things like moves.
             evo.getMoveStats().oldLevel = thisMob.getMoveStats().oldLevel;
             evo.levelUp(evo.getLevel());
@@ -188,7 +194,8 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             if (evo != null)
             {
                 // Clear held item if used for evolving.
-                if (neededItem && ItemStack.isSameItem(stack, thisMob.getHeldItem())) evo.setHeldItem(ItemStack.EMPTY);
+                if (needed_items.contains(data) && ItemStack.isSame(stack, thisMob.getHeldItem()))
+                    evo.setHeldItem(ItemStack.EMPTY);
 
                 evt = new EvolveEvent.Post(evo);
                 ThutCore.FORGE_BUS.post(evt);

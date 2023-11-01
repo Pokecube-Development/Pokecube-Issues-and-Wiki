@@ -104,7 +104,7 @@ public class PokedexEntry
     {
     }
 
-    public static class EvolutionData
+    public static class EvolutionData implements Comparable<EvolutionData>
     {
         public PokemobCondition _condition;
         public PokedexEntry result;
@@ -203,6 +203,12 @@ public class PokedexEntry
             boolean matched = _condition.matches(mob);
             mob.setEvolutionStack(old);
             return matched;
+        }
+
+        @Override
+        public int compareTo(EvolutionData o)
+        {
+            return this.data.compareTo(o.data);
         }
     }
 
@@ -1714,6 +1720,9 @@ public class PokedexEntry
         PokedexEntry breedEntry = this;
         if (this.isGenderForme) breedEntry = this.getBaseForme();
         List<Evolution> evos = EvolutionDataLoader.RULES.getOrDefault(breedEntry, Collections.emptyList());
+        // Sort the list, this uses the priority, so some can be set to match
+        // first.
+        evos.sort(null);
 
         for (final Evolution evol : evos)
         {
@@ -1915,12 +1924,6 @@ public class PokedexEntry
     public void setSpawnData(final SpawnData data)
     {
         this.spawns = data;
-    }
-
-    public boolean shouldEvolve(final IPokemob mob)
-    {
-        for (final EvolutionData d : this.evolutions) if (d.shouldEvolve(mob)) return true;
-        return false;
     }
 
     public boolean swims()
