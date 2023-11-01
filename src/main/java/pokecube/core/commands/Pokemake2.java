@@ -207,7 +207,7 @@ public class Pokemake2
         }
         // Test for if a command block, if so, just summon it on top.
         if (pos.equals(source.getPosition())
-                && source.getLevel().getBlockState(new BlockPos(pos)).getBlock() == Blocks.COMMAND_BLOCK)
+                && source.getLevel().getBlockState(BlockPos.containing(pos)).getBlock() == Blocks.COMMAND_BLOCK)
         {
             pos = pos.add(0, 1, 0);
         }
