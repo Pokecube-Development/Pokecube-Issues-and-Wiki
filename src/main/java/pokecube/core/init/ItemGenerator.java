@@ -329,7 +329,7 @@ public class ItemGenerator
                             .strength(2.0F).sound(SoundType.WOOD)),
                     block ->
                     {
-                        ItemGenerator.slabs.put(name, block);
+                        ItemGenerator.fences.put(name, block);
                     });
 
             // Fence Gates
@@ -654,6 +654,8 @@ public class ItemGenerator
     public static void flammables(final FMLLoadCompleteEvent event)
     {
         final List<String> names = Lists.newArrayList(ItemGenerator.berryWoods.keySet());
+        final List<String> leaves = Lists.newArrayList(ItemGenerator.berryLeaves.keySet());
+        final List<String> onlyLeaves = Lists.newArrayList(ItemGenerator.onlyBerryLeaves.keySet());
         Collections.sort(names);
         event.enqueueWork(() -> {
             for (final String name : names)
@@ -664,9 +666,6 @@ public class ItemGenerator
                 ItemGenerator.flammableBlocks(ItemGenerator.stripped_logs.get(name).get(), 5, 5);
                 ItemGenerator.flammableBlocks(ItemGenerator.stripped_woods.get(name).get(), 5, 5);
 
-                // Leaves
-                ItemGenerator.flammableBlocks(ItemGenerator.leaves.get(name).get(), 30, 60);
-
                 // Woods
                 ItemGenerator.flammableBlocks(ItemGenerator.planks.get(name).get(), 5, 20);
                 ItemGenerator.flammableBlocks(ItemGenerator.slabs.get(name).get(), 5, 20);
@@ -675,6 +674,12 @@ public class ItemGenerator
                 ItemGenerator.flammableBlocks(ItemGenerator.fence_gates.get(name).get(), 5, 20);
                 ItemGenerator.flammableBlocks(ItemGenerator.bookshelves.get(name).get(), 5, 20);
             }
+
+            // Leaves
+            for (final String name : leaves)
+                ItemGenerator.flammableBlocks(ItemGenerator.leaves.get(name).get(), 30, 60);
+            for (final String name : onlyLeaves)
+                ItemGenerator.flammableBlocks(ItemGenerator.leaves.get(name).get(), 30, 60);
         });
     }
 
