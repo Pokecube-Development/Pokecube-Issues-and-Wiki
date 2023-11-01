@@ -157,6 +157,12 @@ public class MegaEvolveHelper
         var entity = event.getPokemob().getEntity();
         entity.getPersistentData().remove("pokecube:megatime");
         entity.getPersistentData().putBoolean("pokecube:mega_reverted", true);
+
+        var reversion = MegaEvoData.REVERSIONS.get(event.getPokemob().getPokedexEntry());
+        if (reversion != null && reversion != event.getPokemob().getBasePokedexEntry())
+        {
+            event.getPokemob().setBasePokedexEntry(reversion);
+        }
     }
 
     private static void postFormChange(ChangeForm.Post event)

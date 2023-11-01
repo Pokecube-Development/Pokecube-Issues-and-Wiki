@@ -1,6 +1,8 @@
 package pokecube.core.commands;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 import com.mojang.brigadier.CommandDispatcher;
@@ -22,6 +24,9 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.init.PokemakeArgumentEvent;
+import pokecube.api.raids.IBossProvider;
+import pokecube.api.raids.RaidManager;
+import pokecube.api.raids.RaidManager.RaidContext;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.commands.arguments.PokemobArgument;
@@ -199,11 +204,39 @@ public class Pokemake2
             return 1;
         }
         IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
-        CompoundTag tag = null;
+        CompoundTag tag = new CompoundTag();
         if (entry.nbt instanceof CompoundTag nbt) tag = nbt;
         initFromNBT(pokemob, pos, tag);
         pokemob.spawnInit();
-        mob.level().addFreshEntity(mob);
+
+        String raid = tag.getString("raid");
+        if (!raid.isBlank())
+        {
+            var level = source.getLevel();
+            RaidContext context = new RaidContext(level, mob.getOnPos(), owner);
+            owner = null;
+            IBossProvider bossMaker = null;
+            if (!raid.equalsIgnoreCase("random"))
+            {
+                bossMaker = RaidManager.RAID_TYPES.get(raid);
+            }
+            else
+            {
+                List<IBossProvider> choices = new ArrayList<>(RaidManager.RAID_TYPES.values());
+                if (choices.size() > 1) bossMaker = choices.get(level.getRandom().nextInt(choices.size()));
+                else bossMaker = choices.get(0);
+            }
+            if (bossMaker != null)
+            {
+                bossMaker.makeBoss(context, pokemob);
+                RaidManager.initRaidBoss(pokemob.getEntity(), bossMaker, context);
+            }
+            else mob.level().addFreshEntity(mob);
+        }
+        else
+        {
+            mob.level().addFreshEntity(mob);
+        }
         if (owner != null) pokemob.setOwner(owner);
         return 0;
     }
