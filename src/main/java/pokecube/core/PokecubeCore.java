@@ -37,7 +37,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.NewRegistryEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
-import pokecube.api.data.pokedex.EvolutionDataLoader;
+import pokecube.api.data.pokedex.conditions.PokemobConditionLoader;
 import pokecube.api.data.spawns.matchers.MatcherLoaders;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -105,6 +105,7 @@ public class PokecubeCore
             PokecubeAPI.POKEMOB_BUS.post(pre);
             pre.modIDs.add(PokecubeCore.MODID);
             MatcherLoaders.init();
+            PokemobConditionLoader.init();
             Database.preInit();
             Sounds.initMoveSounds();
             Sounds.initConfigSounds();
@@ -301,7 +302,6 @@ public class PokecubeCore
         Sounds.init();
         PaintingsHandler.init();
         RaidManager.init();
-        EvolutionDataLoader.init();
 
         // Register the battle managers
         Battle.register();

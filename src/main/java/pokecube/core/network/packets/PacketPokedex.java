@@ -47,6 +47,7 @@ import pokecube.core.client.gui.GuiPokedex;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.database.Database;
 import pokecube.core.database.rewards.XMLRewardsHandler;
+import pokecube.core.database.spawns.PokemobSpawns;
 import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.eventhandlers.SpawnHandler.ForbidReason;
 import pokecube.core.eventhandlers.SpawnHandler.ForbiddenEntry;
@@ -253,6 +254,20 @@ public class PacketPokedex extends NBTPacket
             if (serialised == null) continue;
             spawns.putString("" + n, serialised);
             n++;
+        }
+        if (PokemobSpawns.REGEX_SPAWNS.containsKey(entry))
+        {
+            var list = PokemobSpawns.REGEX_SPAWNS.get(entry);
+            for (var set : list)
+            {
+                var matcher = set.matcher();
+                String serialised = PacketPokedex.serialize(matcher);
+                // This is null in the case that the spawn is not valid, or is
+                // hidden by the desc being set to __hidden__
+                if (serialised == null) continue;
+                spawns.putString("" + n, serialised);
+                n++;
+            }
         }
         spawns.putInt("n", n);
         packet.getTag().put("V", spawns);
