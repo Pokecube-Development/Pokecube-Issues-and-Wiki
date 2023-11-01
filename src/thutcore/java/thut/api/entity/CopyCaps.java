@@ -77,7 +77,6 @@ public class CopyCaps
             else
             {
                 this.setCopiedID(null);
-                this.setCopiedNBT(new CompoundTag());
             }
         }
 
