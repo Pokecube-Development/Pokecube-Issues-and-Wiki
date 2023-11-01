@@ -5,6 +5,7 @@ import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.utils.PokeType;
+import pokecube.api.moves.MoveEntry;
 
 @AbilityProvider(name = "dragons-maw")
 public class DragonsMaw extends Ability

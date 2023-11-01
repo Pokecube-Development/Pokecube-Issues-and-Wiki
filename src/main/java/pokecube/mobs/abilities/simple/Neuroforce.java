@@ -3,10 +3,13 @@ package pokecube.mobs.abilities.simple;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.utils.MoveApplication;
+import pokecube.api.moves.utils.MoveApplication.DamageApplier;
 import pokecube.api.moves.utils.MoveApplication.Accuracy;
 import pokecube.api.utils.PokeType;
+import pokecube.api.moves.MoveEntry;
 import pokecube.api.utils.Tools;
 
 @AbilityProvider(name = "neuroforce")
