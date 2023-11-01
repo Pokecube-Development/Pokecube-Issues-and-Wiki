@@ -12,11 +12,13 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.coordinates.Vec3Argument;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.abilities.AbilityManager;
@@ -203,6 +205,13 @@ public class Pokemake2
             CommandTools.sendError(source, "pokecube.command.makeinvalid");
             return 1;
         }
+        // Test for if a command block, if so, just summon it on top.
+        if (pos.equals(source.getPosition())
+                && source.getLevel().getBlockState(new BlockPos(pos)).getBlock() == Blocks.COMMAND_BLOCK)
+        {
+            pos = pos.add(0, 1, 0);
+        }
+
         IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         CompoundTag tag = new CompoundTag();
         if (entry.nbt instanceof CompoundTag nbt) tag = nbt;
