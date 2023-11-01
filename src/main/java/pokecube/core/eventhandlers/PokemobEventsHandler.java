@@ -391,7 +391,7 @@ public class PokemobEventsHandler
 
         // If noone has modified result of a capture event pre, we deny it if
         // the mob is not alive.
-        ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, false, PokemobEventsHandler::onCapturePre);
+        PokecubeAPI.POKEMOB_BUS.addListener(EventPriority.LOWEST, false, PokemobEventsHandler::onCapturePre);
     }
 
     public static Set<ResourceKey<Level>> BEE_RELEASE_TICK = Sets.newConcurrentHashSet();
@@ -515,6 +515,7 @@ public class PokemobEventsHandler
      */
     private static void onCapturePre(CaptureEvent.Pre event)
     {
+        System.out.println(event.getResult());
         if (event.getResult() != Result.DEFAULT) return;
         if (!event.mob.isAlive()) event.setResult(Result.DENY);
     }
