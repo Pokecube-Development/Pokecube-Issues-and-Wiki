@@ -5,7 +5,15 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.commands.synchronization.ArgumentTypeInfo;
+import net.minecraft.commands.synchronization.ArgumentTypeInfos;
+import net.minecraft.commands.synchronization.SingletonArgumentInfo;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 import pokecube.core.PokecubeCore;
+import pokecube.core.commands.arguments.PokemobArgument;
 import pokecube.core.utils.Permissions;
 import thut.api.util.PermNodes;
 import thut.api.util.PermNodes.DefaultPermissionLevel;
@@ -35,5 +43,21 @@ public class CommandManager
         Meteor.register(commandDispatcher);
         Pokerecall.register(commandDispatcher);
         Pokeegg.register(commandDispatcher);
+    }
+
+    public static final DeferredRegister<ArgumentTypeInfo<?, ?>> ARGS;
+
+    public static final RegistryObject<ArgumentTypeInfo<?, ?>> POKEMAKE;
+
+    static
+    {
+        ARGS = DeferredRegister.create(ForgeRegistries.COMMAND_ARGUMENT_TYPES, PokecubeCore.MODID);
+        POKEMAKE = ARGS.register("pokemob", () -> ArgumentTypeInfos.registerByClass(PokemobArgument.class,
+                SingletonArgumentInfo.contextFree(PokemobArgument::pokemob)));
+    }
+
+    public static void init(IEventBus bus)
+    {
+        ARGS.register(bus);
     }
 }
