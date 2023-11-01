@@ -1944,8 +1944,7 @@ public class PokedexEntry
     @Override
     public String toString()
     {
-        final String ret = this.name;
-        return ret;
+        return this.name;
     }
 
     public void updateMoves()
