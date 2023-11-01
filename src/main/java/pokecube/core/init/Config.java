@@ -122,7 +122,7 @@ public class Config extends ConfigData
                 POKEMOBS_DESPAWN = GameRules.register("pokecube:pokemobs_despawn", Category.SPAWNING,
                         GameRules.BooleanValue.create(true));
                 POKEMOBS_CULL = GameRules.register("pokecube:pokemobs_cull", Category.SPAWNING,
-                        GameRules.BooleanValue.create(false));
+                        GameRules.BooleanValue.create(true));
 
                 POKEMOB_CULL_DISTANCE = GameRules.register("pokecube:pokemob_cull_distance", Category.SPAWNING,
                         GameRules.IntegerValue.create(96));
@@ -402,8 +402,8 @@ public class Config extends ConfigData
     public int captureDelayTicks = 0;
     @Configure(category = Config.mobAI, comment = "If true, pokemobs will need to execute an attack after breaking out of a cube before they can go into another for capture. [Default: true]")
     public boolean captureDelayTillAttack = true;
-    @Configure(category = Config.mobAI, comment = "How often pokemobs attempt to perform an idle action, such as walking, etc. Larger numbers are better for server performance, but result in less wandering of wild pokemobs. [Default: 50]")
-    public int idleTickRate = 50;
+    @Configure(category = Config.mobAI, comment = "How often pokemobs attempt to perform an idle action, such as walking, etc. Larger numbers are better for server performance, but result in less wandering of wild pokemobs. [Default: 70]")
+    public int idleTickRate = 70;
     @Configure(category = Config.mobAI, comment = "Maximum distance a wild pokemob will try to move while idle wandering. [Default: 16]")
     public int idleMaxPathWild = 16;
     @Configure(category = Config.mobAI, comment = "Maximum distance a tamed pokemob will try to move while idle wandering. [Default: 4]")
@@ -517,8 +517,8 @@ public class Config extends ConfigData
     public List<String> softSpawnBiomeBlacklist = Lists.newArrayList("the_bumblezone:sugar_water_floor",
             "the_bumblezone:hive_wall", "the_bumblezone:hive_pillar");
 
-    @Configure(category = Config.spawning, comment = "This is how often the code attempts to spawn pokemobs near a player. [Default: 3]")
-    public int spawnRate = 1;
+    @Configure(category = Config.spawning, comment = "This is how often the code attempts to spawn pokemobs near a player. [Default: 2]")
+    public int spawnRate = 2;
     @Configure(category = Config.spawning, comment = "Default radius of effect for repels, also applies to dynamax spots. [Default: 16]")
     public int repelRadius = 16;
 
@@ -702,8 +702,8 @@ public class Config extends ConfigData
     // ridden Speed multipliers
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor of the riding speed while flying. [Default: 0.3]")
     public double flySpeedFactor = 0.3;
-    @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor of the riding speed while in water. [Default: 1.0]")
-    public double surfSpeedFactor = 1;
+    @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor of the riding speed while in water. [Default: 0.5]")
+    public double surfSpeedFactor = 0.5;
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor of the riding speed while on the ground. [Default: 1.0]")
     public double groundSpeedFactor = 1;
 
