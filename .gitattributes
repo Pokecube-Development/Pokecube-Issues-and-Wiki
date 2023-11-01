@@ -1,2 +1,2 @@
-*.java crlf
-*.json crlf
+#*.java crlf
+#*.json crlf

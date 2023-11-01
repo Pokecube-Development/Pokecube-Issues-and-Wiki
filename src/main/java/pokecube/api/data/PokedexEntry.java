@@ -1532,7 +1532,6 @@ public class PokedexEntry
         return this.name;
     }
 
-    /** @return the pokedexNb */
     public int getPokedexNb()
     {
         return this.pokedexNb;
