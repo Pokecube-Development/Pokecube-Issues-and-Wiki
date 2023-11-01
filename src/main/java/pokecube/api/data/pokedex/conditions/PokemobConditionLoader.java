@@ -11,10 +11,12 @@ import com.google.common.collect.Sets;
 
 import net.minecraftforge.fml.loading.moddiscovery.ModFile;
 import net.minecraftforge.forgespi.language.ModFileScanData.AnnotationData;
+import pokecube.api.data.pokedex.EvolutionDataLoader;
 import thut.lib.CompatParser.ClassFinder;
 
 public class PokemobConditionLoader
 {
+
     private static Set<Package> packages = Sets.newHashSet();
 
     public static void registerMatcherPackage(Package pack)
@@ -30,6 +32,9 @@ public class PokemobConditionLoader
     @SuppressWarnings("unchecked")
     public static void init()
     {
+        // Initialise this here to ensure it loads
+        EvolutionDataLoader.INSTANCE.getKey();
+        
         List<Class<?>> foundClasses = Lists.newArrayList();
 
         Type ANNOTE = Type.getType("Lpokecube/api/data/pokedex/conditions/Condition;");
