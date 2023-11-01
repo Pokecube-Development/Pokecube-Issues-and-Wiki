@@ -32,7 +32,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import pokecube.core.blocks.InteractableBlock;
 import pokecube.core.blocks.InteractableHorizontalBlock;
 import thut.api.ThutCaps;
 import thut.api.entity.ICopyMob;
@@ -165,6 +164,6 @@ public class PokemobStatue extends InteractableHorizontalBlock implements Entity
     @Override
     public VoxelShape getOcclusionShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos)
     {
-        return InteractableBlock.RENDERSHAPE;
+        return Shapes.empty();
     }
 }
