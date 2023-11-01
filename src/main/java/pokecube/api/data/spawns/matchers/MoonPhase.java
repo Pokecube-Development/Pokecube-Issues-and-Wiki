@@ -29,7 +29,7 @@ public class MoonPhase extends BaseMatcher
     public MatchResult _matches(SpawnBiomeMatcher matcher, SpawnCheck checker)
     {
         int moon_time = checker.world.getMoonPhase();
-        if (moon_time != phase) return MatchResult.FAIL;
+        if (phase >= 0 && moon_time != phase) return MatchResult.FAIL;
         float brightness = checker.world.getMoonBrightness();
         return brightness >= min && brightness <= max ? MatchResult.SUCCEED : MatchResult.FAIL;
     }
