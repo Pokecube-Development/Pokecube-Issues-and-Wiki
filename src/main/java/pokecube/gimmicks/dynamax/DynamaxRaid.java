@@ -62,25 +62,36 @@ public class DynamaxRaid implements IBossProvider
     }
 
     @Override
-    public LivingEntity makeBoss(RaidContext context)
+    public LivingEntity makeBoss(RaidContext context, IPokemob pokemob)
     {
-        PokedexEntry entry = getRandomEntry(context.level());
-        if (entry != null && entry != Database.missingno)
+        boolean newMob = pokemob == null;
+        if (newMob)
         {
-            final Mob entity = PokecubeCore.createPokemob(entry, context.level());
-            final Vector3 v = new Vector3().set(context.pos());
-            final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
+            PokedexEntry entry = getRandomEntry(context.level());
+            if (entry != null && entry != Database.missingno)
+            {
+                Mob entity = PokecubeCore.createPokemob(entry, context.level());
+                pokemob = PokemobCaps.getPokemobFor(entity);
+            }
+        }
 
+        if (pokemob != null)
+        {
+            var entity = pokemob.getEntity();
+            var entry = pokemob.getPokedexEntry();
             var genes = DynamaxGene.getDyna(entity);
             genes.gigantamax = false;
 
             // Pokemob Level Spawm
             final int level = ThutCore.newRandom().nextInt(50);
 
-            pokemob.setForSpawn(Tools.levelToXp(entry.getEvolutionMode(), level), false);
-
-            pokemob.spawnInit();
-            v.add(0.5, 3, 0.5).moveEntity(entity);
+            if (newMob)
+            {
+                pokemob.setForSpawn(Tools.levelToXp(entry.getEvolutionMode(), level), false);
+                pokemob.spawnInit();
+                final Vector3 v = new Vector3().set(context.pos());
+                v.add(0.5, 3, 0.5).moveEntity(entity);
+            }
             return entity;
         }
 

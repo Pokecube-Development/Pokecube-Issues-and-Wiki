@@ -94,6 +94,37 @@ public class RaidManager
         RAID_TYPES.put(provider.getKey(), provider);
     }
 
+    public static void initRaidBoss(@Nonnull LivingEntity boss, @Nonnull IBossProvider bossMaker,
+            @Nonnull RaidContext context)
+    {
+        boss.getPersistentData().putString("pokecube:raid_boss", bossMaker.getKey());
+        boss.getPersistentData().putBoolean(TagNames.NOPOOF, true);
+        boss.getPersistentData().putBoolean("alwaysAgress", true);
+
+        if (!boss.getPersistentData().contains("pokecube:raid_duration"))
+            boss.getPersistentData().putInt("pokecube:raid_duration", RAID_DURATION);
+
+        boss.setHealth(boss.getMaxHealth());
+
+        context.level().addFreshEntity(boss);
+        IPokemob pokemob = PokemobCaps.getPokemobFor(boss);
+        if (pokemob != null)
+        {
+            final List<AIRoutine> bannedAI = Lists.newArrayList();
+            bannedAI.add(AIRoutine.BURROWS);
+            bannedAI.add(AIRoutine.BEEAI);
+            bannedAI.add(AIRoutine.ANTAI);
+            bannedAI.forEach(e -> pokemob.setRoutineState(e, false));
+            pokemob.setBossInfo(new ServerBossEvent(boss.getDisplayName(), BossEvent.BossBarColor.RED,
+                    BossEvent.BossBarOverlay.PROGRESS));
+        }
+        bossMaker.postBossSpawn(boss, context);
+        if (context.player() != null)
+        {
+            Battle.createOrAddToBattle(context.player(), boss);
+        }
+    }
+
     public static boolean makeRaid(@Nonnull ServerLevel level, @Nonnull BlockPos pos, @Nullable ServerPlayer player)
     {
         return makeRaid(level, pos, player, null);
@@ -116,38 +147,9 @@ public class RaidManager
         }
         if (bossMaker == null) return false;
         RaidContext context = new RaidContext(level, pos, player);
-        LivingEntity boss = bossMaker.makeBoss(context);
+        LivingEntity boss = bossMaker.makeBoss(context, null);
         if (boss == null) return false;
-
-        boss.getPersistentData().putString("pokecube:raid_boss", bossMaker.getKey());
-        boss.getPersistentData().putBoolean(TagNames.NOPOOF, true);
-        boss.getPersistentData().putBoolean("alwaysAgress", true);
-
-        if (!boss.getPersistentData().contains("pokecube:raid_duration"))
-            boss.getPersistentData().putInt("pokecube:raid_duration", RAID_DURATION);
-
-        level.addFreshEntity(boss);
-        boss.setHealth(boss.getMaxHealth());
-
-        IPokemob pokemob = PokemobCaps.getPokemobFor(boss);
-        if (pokemob != null)
-        {
-            final List<AIRoutine> bannedAI = Lists.newArrayList();
-            bannedAI.add(AIRoutine.BURROWS);
-            bannedAI.add(AIRoutine.BEEAI);
-            bannedAI.add(AIRoutine.ANTAI);
-            bannedAI.forEach(e -> pokemob.setRoutineState(e, false));
-            pokemob.setBossInfo(new ServerBossEvent(boss.getDisplayName(), BossEvent.BossBarColor.RED,
-                    BossEvent.BossBarOverlay.PROGRESS));
-        }
-
-        bossMaker.postBossSpawn(boss, context);
-
-        if (player != null)
-        {
-            Battle.createOrAddToBattle(player, boss);
-        }
-
+        initRaidBoss(boss, bossMaker, context);
         return true;
     }
 }
