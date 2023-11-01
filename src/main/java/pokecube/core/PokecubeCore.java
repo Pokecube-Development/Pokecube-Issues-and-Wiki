@@ -50,6 +50,7 @@ import pokecube.core.ai.npc.Activities;
 import pokecube.core.ai.npc.Schedules;
 import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.blocks.berries.BerryGenManager;
+import pokecube.core.commands.CommandManager;
 import pokecube.core.database.Database;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.eventhandlers.SpawnHandler;
@@ -266,6 +267,7 @@ public class PokecubeCore
         PokecubeCore.PAINTINGS.register(bus);
 
         PokecubeWorld.init(bus);
+        CommandManager.init(bus);
 
         bus.addListener(this::loadComplete);
 
