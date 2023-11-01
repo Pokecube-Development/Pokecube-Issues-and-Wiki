@@ -18,6 +18,7 @@ import pokecube.api.utils.Tools;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import thut.lib.TComponent;
 
+@Condition(name="item")
 public class HasHeldItem implements PokemobCondition
 {
     public JsonObject item = null;

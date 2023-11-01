@@ -6,6 +6,7 @@ import pokecube.api.utils.Tools;
 import pokecube.core.moves.MovesUtils;
 import thut.lib.TComponent;
 
+@Condition(name="move")
 public class HasMove implements PokemobCondition
 {
     public String move;

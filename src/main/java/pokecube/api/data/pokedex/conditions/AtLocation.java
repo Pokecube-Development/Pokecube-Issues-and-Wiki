@@ -8,6 +8,7 @@ import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.pokemob.IPokemob;
 import thut.api.maths.Vector3;
 
+@Condition(name="location")
 public class AtLocation implements PokemobCondition
 {
     public SpawnRule location;

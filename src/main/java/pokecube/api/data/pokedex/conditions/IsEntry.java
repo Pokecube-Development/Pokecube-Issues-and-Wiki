@@ -4,6 +4,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.database.Database;
 
+@Condition(name="entry")
 public class IsEntry implements PokemobCondition
 {
     public String entry;

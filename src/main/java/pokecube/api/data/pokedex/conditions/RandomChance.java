@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Component;
 import pokecube.api.entity.pokemob.IPokemob;
 import thut.lib.TComponent;
 
+@Condition(name="chance")
 public class RandomChance implements PokemobCondition
 {
     public double chance;

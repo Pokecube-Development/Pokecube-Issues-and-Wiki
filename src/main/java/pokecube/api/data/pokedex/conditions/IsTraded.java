@@ -4,6 +4,7 @@ import net.minecraft.network.chat.Component;
 import pokecube.api.entity.pokemob.IPokemob;
 import thut.lib.TComponent;
 
+@Condition(name="traded")
 public class IsTraded implements PokemobCondition
 {
     @Override
