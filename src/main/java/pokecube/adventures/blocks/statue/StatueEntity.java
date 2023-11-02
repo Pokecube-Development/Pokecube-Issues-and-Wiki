@@ -76,15 +76,23 @@ public class StatueEntity extends InteractableTile
         {
             LivingEntity before = copy.getCopiedMob();
             copy.onBaseTick(this.level, null);
-            if (copy.getCopiedMob() == null)
+            var after = copy.getCopiedMob();
+            if (after == null)
             {
                 copy.setCopiedMob(before = PokecubeCore.createPokemob(Database.missingno, this.level));
                 break check;
             }
-            if (copy.getCopiedMob() != before)
+            IPokemob pokemob = PokemobCaps.getPokemobFor(after);
+            if (pokemob != null && pokemob.getPokedexEntry() == Database.missingno
+                    && after.getType() instanceof PokemobType<?> t && t.getEntry() != Database.missingno)
+            {
+                pokemob.setBasePokedexEntry(t.getEntry());
+                pokemob.setPokedexEntry(t.getEntry());
+            }
+            if (after != before)
             {
                 final BlockPos pos = this.getBlockPos();
-                final LivingEntity mob = copy.getCopiedMob();
+                final LivingEntity mob = after;
                 IMobColourable colourable = ThutCaps.getColourable(mob);
                 if (colourable != null) colourable.getRGBA();
                 mob.setUUID(UUID.randomUUID());
