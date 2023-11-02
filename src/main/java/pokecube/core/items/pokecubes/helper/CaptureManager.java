@@ -219,6 +219,8 @@ public class CaptureManager
              * this later.
              */
             pokemob.setRoutineState(AIRoutine.WANDER, false);
+            // Ensure it is not sitting anymore
+            pokemob.setLogicState(LogicStates.SITTING, false);
 
             final IPokemob revert = pokemob.resetForm(false);
             if (revert != null) pokemob = revert;
