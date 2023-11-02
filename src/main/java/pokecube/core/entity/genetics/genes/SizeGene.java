@@ -1,4 +1,4 @@
-package pokecube.core.entity.pokemobs.genetics.genes;
+package pokecube.core.entity.genetics.genes;
 
 import java.util.Random;
 
@@ -6,7 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.SharedAttributes;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
+import pokecube.core.entity.genetics.GeneticsManager;
 import thut.api.entity.genetics.Gene;
 import thut.core.common.ThutCore;
 import thut.core.common.genetics.genes.GeneFloat;
@@ -56,6 +56,8 @@ public class SizeGene extends GeneFloat
     @Override
     public void onUpdateTick(Entity entity)
     {
+        if (value < 0.01f) value = 0.01f;
+        if (value > 100f) value = 100f;
         if (this._last_set != this.value && entity instanceof LivingEntity living)
         {
             living.getAttribute(SharedAttributes.MOB_SIZE_SCALE.get()).setBaseValue(this.value);

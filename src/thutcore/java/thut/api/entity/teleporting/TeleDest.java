@@ -4,7 +4,6 @@ import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
-import net.minecraftforge.common.MinecraftForge;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.lib.TComponent;
@@ -30,8 +29,8 @@ public class TeleDest
         }
         final TeleDest dest = new TeleDest().setLoc(pos, loc).setName(name).setIndex(index).setVersion(version);
         final TeleLoadEvent event = new TeleLoadEvent(dest);
-        // This returns true if the event is cancelled.
-        if (MinecraftForge.EVENT_BUS.post(event)) return null;
+        ThutCore.FORGE_BUS.post(event);
+        if (event.isCanceled()) return null;
         // The event can override the destination, it defaults to dest.
         return event.getOverride();
     }

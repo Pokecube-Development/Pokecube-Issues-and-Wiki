@@ -1,11 +1,11 @@
-package pokecube.core.entity.pokemobs.genetics.genes;
+package pokecube.core.entity.genetics.genes;
 
 import java.util.Random;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.entity.pokemob.Nature;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
+import pokecube.core.entity.genetics.GeneticsManager;
 import thut.api.entity.genetics.Gene;
 import thut.core.common.ThutCore;
 

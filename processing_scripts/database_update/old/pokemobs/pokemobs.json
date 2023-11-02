@@ -50170,6 +50170,7 @@
           },
           {
             "name": "lilligant_hisui",
+            "priority": 1,
             "location": {
               "desc": "pokecube.spawns.deserts.general",
               "and_preset": "deserts"
@@ -59785,7 +59786,6 @@
               "not_preset": "cold_areas,hot_areas,mountains"
             },
             "evoMoves": "gust",
-            "form_from": "vivillon_el",
             "model": {
               "key": "vivillon_el"
             }

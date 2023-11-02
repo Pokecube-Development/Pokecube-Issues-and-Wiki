@@ -72,7 +72,7 @@ public class RecipeDye extends CustomRecipe
         {
             final ItemStack stack = inv.getItem(i);
             if (stack.isEmpty()) continue;
-            IWearable wear = stack.getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null);
+            IWearable wear = ThutWearables.getWearable(stack);
             if (wear == null && stack.getItem() instanceof IWearable) wear = (IWearable) stack.getItem();
             if (wear != null && wear.dyeable(stack))
             {
@@ -129,7 +129,7 @@ public class RecipeDye extends CustomRecipe
         {
             final ItemStack stack = inv.getItem(i);
             if (stack.isEmpty()) continue;
-            IWearable wear = stack.getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null);
+            IWearable wear = ThutWearables.getWearable(stack);
             if (wear == null && stack.getItem() instanceof IWearable w) wear = w;
             // Let vanilla recipe handle this one.
             if (stack.getItem() instanceof DyeableLeatherItem) return false;

@@ -1,7 +1,6 @@
 package pokecube.mobs.abilities.complex;
 
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityProvider;
@@ -24,7 +23,7 @@ public class Synchronize extends Ability
     public void destroy(IPokemob mob)
     {
         if (ThutCore.proxy.isClientSide()) return;
-        MinecraftForge.EVENT_BUS.unregister(this);
+        ThutCore.FORGE_BUS.unregister(this);
     }
 
     @SubscribeEvent
@@ -43,7 +42,7 @@ public class Synchronize extends Ability
         {
             if (IPokemob.class.isInstance(args[i]))
             {
-                MinecraftForge.EVENT_BUS.register(this);
+                ThutCore.FORGE_BUS.register(this);
                 this.location = new Vector3().set(args[i]);
                 this.pokemob = IPokemob.class.cast(args[i]);
             }

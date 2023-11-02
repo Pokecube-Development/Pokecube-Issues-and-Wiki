@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:potion",
+    "pokecube:pokemobegg",
+    "pokecube_legends:dna_splicera",
+    "pokecube_legends:dna_splicerb"
+  ]
+}

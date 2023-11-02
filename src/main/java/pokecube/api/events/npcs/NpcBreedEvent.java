@@ -13,7 +13,7 @@ public class NpcBreedEvent extends NpcEvent
 
     @Cancelable
     /**
-     * This event is fired on the MinecraftForge.EVENT_BUS whenever an NPC
+     * This event is fired on the ThutCore.FORGE_BUS whenever an NPC
      * checks canBreed(). Cancelling this event will force canBreed() to return
      * false.
      *

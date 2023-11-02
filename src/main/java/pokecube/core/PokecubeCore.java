@@ -27,7 +27,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -40,7 +39,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.NewRegistryEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
-import pokecube.api.data.pokedex.EvolutionDataLoader;
+import pokecube.api.data.pokedex.conditions.PokemobConditionLoader;
 import pokecube.api.data.spawns.matchers.MatcherLoaders;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -83,6 +82,7 @@ import thut.api.data.StringTag;
 import thut.api.entity.CopyCaps;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
+import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.PacketHandler;
 import thut.wearables.ThutWearables;
@@ -105,6 +105,7 @@ public class PokecubeCore
             PokecubeAPI.POKEMOB_BUS.post(pre);
             pre.modIDs.add(PokecubeCore.MODID);
             MatcherLoaders.init();
+            PokemobConditionLoader.init();
             Database.preInit();
             Sounds.initMoveSounds();
             Sounds.initConfigSounds();
@@ -284,7 +285,7 @@ public class PokecubeCore
         PlayerDataHandler.register(PlayerPokemobCache.class);
 
         // Register the data fixer for registry changes.
-        MinecraftForge.EVENT_BUS.register(RegistryChangeFixer.class);
+        ThutCore.FORGE_BUS.register(RegistryChangeFixer.class);
 
         // Initialize advancement triggers
         Triggers.init();
@@ -299,7 +300,6 @@ public class PokecubeCore
         Sounds.init();
         PaintingsHandler.init();
         RaidManager.init();
-        EvolutionDataLoader.init();
 
         // Register the battle managers
         Battle.register();

@@ -36,7 +36,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -82,7 +81,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     public static void setup()
     {
-        MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, EventPriority.LOWEST, BlockEntityBase::attachMobs);
+        ThutCore.FORGE_BUS.addGenericListener(Entity.class, EventPriority.LOWEST, BlockEntityBase::attachMobs);
     }
 
     public static final ResourceLocation DATASCAP = new ResourceLocation(ThutCore.MODID, "data");
@@ -143,7 +142,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         this.noCulling = true;
         this.invulnerableTime = 0;
         this.noPhysics = true;
-        dataSync = this.getCapability(ThutCaps.DATASYNC).orElse(null);
+        dataSync = ThutCaps.getDataSync(this);
         POS = dataSync.register(new Data_Vec3().setRealtime(), Optional.empty());
     }
 

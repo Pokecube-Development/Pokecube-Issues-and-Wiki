@@ -9,13 +9,13 @@ import com.google.common.collect.Lists;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import thut.api.entity.IAnimated;
+import thut.core.common.ThutCore;
 
 public class AnimatedCaps
 {
@@ -77,13 +77,12 @@ public class AnimatedCaps
 
     public static IAnimated getAnimated(final ICapabilityProvider in)
     {
-        if (in == null) return null;
-        return in.getCapability(ThutCaps.ANIMATED).orElse(null);
+        return ThutCaps.getAnimated(in);
     }
 
     public static void setup()
     {
-        MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, EventPriority.LOWEST, AnimatedCaps::attachMobs);
+        ThutCore.FORGE_BUS.addGenericListener(Entity.class, EventPriority.LOWEST, AnimatedCaps::attachMobs);
     }
 
 }

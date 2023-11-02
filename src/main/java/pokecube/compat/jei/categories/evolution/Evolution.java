@@ -1,5 +1,6 @@
 package pokecube.compat.jei.categories.evolution;
 
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -15,21 +16,19 @@ public class Evolution
 
     public Evolution(final PokedexEntry evolver, final EvolutionData data)
     {
-        this.from = Pokemob.ALLMAP.get(evolver);
         FormeHolder holder = evolver.getModel(IPokemob.MALE);
-//        if (data.gender == 1) holder = evolver.getModel(IPokemob.MALE);
-//        if (data.gender == 2) holder = evolver.getModel(IPokemob.FEMALE);
-//        if (data.neededForme != null) holder = Database.formeHolders.get(data.neededForme);
         this.from = holder == null ? this.from : Pokemob.FORMMAP.get(holder);
+        if (this.from == null) this.from = Pokemob.ALLMAP.get(evolver);
 
-        this.to = Pokemob.ALLMAP.get(data.evolution);
         holder = data.evolution.getModel(IPokemob.MALE);
-//        if (data.gender == 1) holder = evolver.getModel(IPokemob.MALE);
-//        if (data.gender == 2) holder = evolver.getModel(IPokemob.FEMALE);
         if (data.data.getForme(data.evolution) != null) holder = data.data.getForme(data.evolution);
         this.to = holder == null ? this.to : Pokemob.FORMMAP.get(holder);
+        if (this.to == null) this.to = Pokemob.ALLMAP.get(data.evolution);
 
         this.data = data;
+
+        if (this.from == null || this.to == null)
+            PokecubeAPI.LOGGER.error("Error with JEI Evolution for {} ({})", evolver, data.evolution);
     }
 
 }

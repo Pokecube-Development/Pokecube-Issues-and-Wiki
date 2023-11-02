@@ -14,7 +14,6 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingChangeTargetEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import pokecube.api.PokecubeAPI;
@@ -36,6 +35,7 @@ import thut.api.OwnableCaps;
 import thut.api.entity.ai.IAICombat;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 /** This IAIRunnable is to find targets for the pokemob to try to kill. */
 public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinder
@@ -53,9 +53,9 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
     public static boolean handleDamagedTargets = true;
     static
     {
-        MinecraftForge.EVENT_BUS.addListener(FindTargetsTask::onBrainSetTarget);
-        MinecraftForge.EVENT_BUS.addListener(FindTargetsTask::onLivingSetTarget);
-        MinecraftForge.EVENT_BUS.addListener(FindTargetsTask::onLivingHurt);
+        ThutCore.FORGE_BUS.addListener(FindTargetsTask::onBrainSetTarget);
+        ThutCore.FORGE_BUS.addListener(FindTargetsTask::onLivingSetTarget);
+        ThutCore.FORGE_BUS.addListener(FindTargetsTask::onLivingHurt);
     }
 
     private static LivingEntity divertTarget(LivingEntity aggressor, LivingEntity aggressed)

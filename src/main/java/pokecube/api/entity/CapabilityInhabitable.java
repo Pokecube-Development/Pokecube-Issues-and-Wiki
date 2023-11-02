@@ -13,20 +13,15 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.api.blocks.IInhabitable;
+import pokecube.core.utils.CapHolders;
 
 public class CapabilityInhabitable
 {
-    public static final Capability<IInhabitable> CAPABILITY = CapabilityManager.get(new CapabilityToken<>()
-    {
-    });
-
     public static class HabitatProvider implements ICapabilityProvider, IInhabitable
     {
         // These are public so that they can potentially be replaced as needed.
@@ -49,7 +44,7 @@ public class CapabilityInhabitable
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return CapabilityInhabitable.CAPABILITY.orEmpty(cap, this.cap_holder);
+            return CapHolders.IIHABITABLE_CAP.orEmpty(cap, this.cap_holder);
         }
 
         @Override

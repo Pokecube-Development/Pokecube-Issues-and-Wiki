@@ -232,7 +232,6 @@ public class JsonPokedexEntry
     {
         var entry = json.toPokedexEntry();
         json.initStage2(entry);
-        json.postInit(entry);
     }
 
     public static String ENTIRE_DATABASE_CACHE = "";
@@ -488,12 +487,7 @@ public class JsonPokedexEntry
         entry.setGenderedForm(female_model, IPokemob.FEMALE);
     }
 
-    public void postInit(PokedexEntry entry)
-    {
-        this.handleSpawns(entry);
-    }
-
-    private void handleSpawns(PokedexEntry entry)
+    public void handleSpawns(PokedexEntry entry)
     {
         if (this.spawn_rules == null) return;
         final boolean overwrite = this.replace;
@@ -578,19 +572,7 @@ public class JsonPokedexEntry
         for (var load : loaded) load.initStage2(Database.getEntry(load.name));
 
         if (updateCache) registered = true;
-        else for (var load : LOADED)
-        {
-            load.postInit(Database.getEntry(load.name));
-        }
         if (updateCache) LOADED = oldLoaded;
-    }
-
-    public static void postInit()
-    {
-        for (var load : LOADED)
-        {
-            load.postInit(Database.getEntry(load.name));
-        }
     }
 
     public static List<JsonPokedexEntry> LOADED = Lists.newArrayList();

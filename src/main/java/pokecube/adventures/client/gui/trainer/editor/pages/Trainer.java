@@ -18,7 +18,7 @@ import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.items.pokecubes.PokecubeManager;
-import thut.api.entity.CopyCaps;
+import thut.api.ThutCaps;
 import thut.api.entity.ICopyMob;
 import thut.lib.TComponent;
 
@@ -99,7 +99,7 @@ public class Trainer extends Page
             this.customTex.setValue(mob.customTex);
         }
 
-        final ICopyMob copied = CopyCaps.get(this.parent.entity);
+        final ICopyMob copied = ThutCaps.getCopyMob(this.parent.entity);
         if (copied != null && copied.getCopiedID() != null) this.copyMob.setValue(copied.getCopiedID().toString());
 
         this.addRenderableWidget(this.name);

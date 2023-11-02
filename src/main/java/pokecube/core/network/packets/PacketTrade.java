@@ -64,7 +64,7 @@ public class PacketTrade extends Packet
     {
         final AbstractContainerMenu cont = player.containerMenu;
         if (!(cont instanceof TradeContainer container)) return;
-        final InvWrapper inv = (InvWrapper) container.tile.getCapability(ThutCaps.ITEM_HANDLER).orElse(null);
+        final InvWrapper inv = (InvWrapper) ThutCaps.getInventory(container.tile);
         if (this.data.contains("r"))
         {
             container.tile.confirmed[0] = false;

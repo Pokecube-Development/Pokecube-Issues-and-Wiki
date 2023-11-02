@@ -7,16 +7,19 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.PokedexEntry.SpawnData.SpawnEntry;
 import pokecube.api.data.pokedex.DefaultFormeHolder;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnRule;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
+import pokecube.core.database.pokedex.JsonPokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.resources.PackFinder;
 import thut.api.data.DataHelpers;
@@ -33,11 +36,11 @@ public class PokemobSpawns extends ResourceData
 
     public static final class SpawnList
     {
-        public List<SpawnEntry> rules = Lists.newArrayList();
+        public List<SpawnRuleEntry> rules = Lists.newArrayList();
         public boolean replace = false;
     }
 
-    public static final class SpawnEntry
+    public static final class SpawnRuleEntry
     {
         public List<MobEntry> entries = Lists.newArrayList();
         public String desc;
@@ -63,7 +66,12 @@ public class PokemobSpawns extends ResourceData
         }
     }
 
+    public static record SpawnSet(SpawnBiomeMatcher matcher, SpawnEntry entry)
+    {
+    }
+
     private static final SpawnList MASTER_LIST = new SpawnList();
+    public static Map<PokedexEntry, List<SpawnSet>> REGEX_SPAWNS = Maps.newHashMap();
 
     public static void registerSpawns()
     {
@@ -100,6 +108,14 @@ public class PokemobSpawns extends ResourceData
 
     private void apply()
     {
+        REGEX_SPAWNS.clear();
+
+        // Start with the custom spawns that may be loaded elsewhere
+        for (var load : JsonPokedexEntry.LOADED)
+        {
+            load.handleSpawns(Database.getEntry(load.name));
+        }
+
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Applying Pokemob spawns.");
         MASTER_LIST.rules.forEach(entry -> {
 
@@ -225,8 +241,8 @@ public class PokemobSpawns extends ResourceData
 
             for (final SpawnList m : loaded)
             {
-                final List<SpawnEntry> conds = m.rules;
-                for (final SpawnEntry rule : conds)
+                final List<SpawnRuleEntry> conds = m.rules;
+                for (final SpawnRuleEntry rule : conds)
                 {
                     if (rule.and_preset == null && rule.or_preset == null && rule.not_preset == null)
                     {

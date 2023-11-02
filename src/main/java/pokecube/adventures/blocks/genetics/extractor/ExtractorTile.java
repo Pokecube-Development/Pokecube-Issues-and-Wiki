@@ -2,6 +2,7 @@ package pokecube.adventures.blocks.genetics.extractor;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
@@ -19,10 +20,19 @@ import pokecube.adventures.blocks.genetics.helper.recipe.PoweredRecipe;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeExtract;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector;
 import thut.api.entity.genetics.IMobGenetics;
+import thut.api.item.ItemList;
 import thut.lib.TComponent;
 
 public class ExtractorTile extends BaseGeneticsTile
 {
+    private static ResourceLocation EXTRACT_DEST = new ResourceLocation("pokecube_adventures",
+            "dna_extractor_destination");
+
+    public static boolean isDNAContainer(final ItemStack stack)
+    {
+        return ItemList.is(EXTRACT_DEST, stack);
+    }
+
     public ItemStack override_selector = ItemStack.EMPTY;
 
     public ExtractorTile(final BlockPos pos, final BlockState state)
@@ -41,16 +51,16 @@ public class ExtractorTile extends BaseGeneticsTile
         switch (index)
         {
         case 0:// DNA Container
-            return ClonerHelper.isDNAContainer(stack) && ClonerHelper.getGenes(stack) == null;
+            return isDNAContainer(stack);
         case 1:// DNA Selector
             final boolean hasGenes = !ClonerHelper.getGeneSelectors(stack).isEmpty();
-            final boolean selector = hasGenes || RecipeSelector.getSelectorValue(
-                    stack) != RecipeSelector.defaultSelector;
+            final boolean selector = hasGenes
+                    || RecipeSelector.getSelectorValue(stack) != RecipeSelector.defaultSelector;
             return hasGenes || selector;
         case 2:// DNA Source
             final IMobGenetics genes = ClonerHelper.getGenes(stack);
-            if (genes == null && !stack.isEmpty()) for (final Ingredient stack1 : ClonerHelper.DNAITEMS.keySet())
-                if (stack1.test(stack)) return true;
+            if (genes == null && !stack.isEmpty())
+                for (final Ingredient stack1 : ClonerHelper.DNAITEMS.keySet()) if (stack1.test(stack)) return true;
             return genes != null;
         }
         return false;

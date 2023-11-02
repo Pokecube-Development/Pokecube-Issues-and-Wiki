@@ -18,7 +18,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.adventures.PokecubeAdv;
@@ -39,13 +38,14 @@ import pokecube.core.database.Database;
 import pokecube.core.database.recipes.IRecipeParser;
 import pokecube.core.database.recipes.XMLRecipeHandler;
 import pokecube.core.database.recipes.XMLRecipeHandler.XMLRecipe;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
-import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
-import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
+import pokecube.core.entity.genetics.GeneticsManager;
+import pokecube.core.entity.genetics.genes.SpeciesGene;
+import pokecube.core.entity.genetics.genes.SpeciesGene.SpeciesInfo;
 import pokecube.core.init.ItemGenerator;
 import pokecube.core.items.ItemFossil;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.IMobGenetics;
+import thut.core.common.ThutCore;
 
 public class RecipeHandlers
 {
@@ -330,7 +330,7 @@ public class RecipeHandlers
         XMLRecipeHandler.recipeParsers.put("cloner", new ClonerRecipeParser());
         XMLRecipeHandler.recipeParsers.put("selector", new SelectorRecipeParser());
         XMLRecipeHandler.recipeParsers.put("dna", new DNARecipeParser());
-        MinecraftForge.EVENT_BUS.addListener(RecipeHandlers::onCrafted);
+        ThutCore.FORGE_BUS.addListener(RecipeHandlers::onCrafted);
     }
 
     private static void onCrafted(final ItemCraftedEvent event)

@@ -9,7 +9,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.events.PokedexInspectEvent;
@@ -18,6 +17,7 @@ import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
+import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.lib.TComponent;
 
@@ -97,7 +97,7 @@ public class PokedexInspector
     public static boolean inspect(final Player player, final boolean reward)
     {
         PokedexInspectEvent evt;
-        MinecraftForge.EVENT_BUS.post(evt = new PokedexInspectEvent(player, reward));
+        ThutCore.FORGE_BUS.post(evt = new PokedexInspectEvent(player, reward));
         if (evt.isCanceled())
         {
             final String uuid = evt.getEntity().getStringUUID();

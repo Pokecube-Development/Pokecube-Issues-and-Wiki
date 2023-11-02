@@ -70,8 +70,7 @@ public abstract class InteractableDirectionalBlock extends DirectionalBlock
             }
             else
             {
-                final IItemHandler items = tileentity.getCapability(ThutCaps.ITEM_HANDLER)
-                        .orElse(null);
+                final IItemHandler items = ThutCaps.getInventory(tileentity);
                 if (items != null)
                 {
 

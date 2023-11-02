@@ -15,17 +15,6 @@ import net.minecraft.server.packs.resources.Resource;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.Evolution;
-import pokecube.api.data.pokedex.conditions.AtLeastLevel;
-import pokecube.api.data.pokedex.conditions.AtLocation;
-import pokecube.api.data.pokedex.conditions.HasAbility;
-import pokecube.api.data.pokedex.conditions.HasHeldItem;
-import pokecube.api.data.pokedex.conditions.HasMove;
-import pokecube.api.data.pokedex.conditions.IsEntry;
-import pokecube.api.data.pokedex.conditions.IsHappy;
-import pokecube.api.data.pokedex.conditions.IsSexe;
-import pokecube.api.data.pokedex.conditions.IsTraded;
-import pokecube.api.data.pokedex.conditions.PokemobCondition;
-import pokecube.api.data.pokedex.conditions.RandomChance;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.resources.PackFinder;
 import thut.api.data.DataHelpers;
@@ -35,20 +24,6 @@ import thut.lib.ResourceHelper;
 
 public class EvolutionDataLoader extends ResourceData
 {
-    public static void init()
-    {
-        PokemobCondition.CONDITIONS.put("level", AtLeastLevel.class);
-        PokemobCondition.CONDITIONS.put("location", AtLocation.class);
-        PokemobCondition.CONDITIONS.put("item", HasHeldItem.class);
-        PokemobCondition.CONDITIONS.put("traded", IsTraded.class);
-        PokemobCondition.CONDITIONS.put("happy", IsHappy.class);
-        PokemobCondition.CONDITIONS.put("sexe", IsSexe.class);
-        PokemobCondition.CONDITIONS.put("move", HasMove.class);
-        PokemobCondition.CONDITIONS.put("chance", RandomChance.class);
-        PokemobCondition.CONDITIONS.put("entry", IsEntry.class);
-        PokemobCondition.CONDITIONS.put("ability", HasAbility.class);
-    }
-
     public static final EvolutionDataLoader INSTANCE = new EvolutionDataLoader("database/pokemobs/evolutions/");
 
     public static Map<PokedexEntry, List<Evolution>> RULES = new HashMap<>();

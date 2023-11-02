@@ -5,12 +5,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import thut.api.ThutCaps;
+import thut.core.common.ThutCore;
 
 public class ShearableCaps
 {
@@ -91,7 +91,7 @@ public class ShearableCaps
 
     public static IShearable get(final ICapabilityProvider in)
     {
-        return in.getCapability(ThutCaps.SHEARABLE).orElse(null);
+        return ThutCaps.getShearable(in);
     }
 
     private static void attachMobs(final AttachCapabilitiesEvent<Entity> event)
@@ -102,6 +102,6 @@ public class ShearableCaps
 
     public static void setup()
     {
-        MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, ShearableCaps::attachMobs);
+        ThutCore.FORGE_BUS.addGenericListener(Entity.class, ShearableCaps::attachMobs);
     }
 }

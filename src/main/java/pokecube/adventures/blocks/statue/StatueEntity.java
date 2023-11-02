@@ -24,7 +24,6 @@ import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.api.PokecubeAPI;
@@ -36,16 +35,15 @@ import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.database.Database;
+import pokecube.core.entity.pokemobs.PokemobType;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
-import thut.api.entity.CopyCaps;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.ICopyMob;
 import thut.api.entity.IMobColourable;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.network.TileUpdate;
-import thut.lib.RegHelper;
 
 public class StatueEntity extends InteractableTile
 {
@@ -72,26 +70,31 @@ public class StatueEntity extends InteractableTile
         // of worldgen, passed in via the block.getShape
         if (!this.hasLevel()) return;
 
-        final ICopyMob copy = CopyCaps.get(this);
+        final ICopyMob copy = ThutCaps.getCopyMob(this);
         check:
         if (copy != null)
         {
             LivingEntity before = copy.getCopiedMob();
-            if (before == null)
+            copy.onBaseTick(this.level, null);
+            var after = copy.getCopiedMob();
+            if (after == null)
             {
                 copy.setCopiedMob(before = PokecubeCore.createPokemob(Database.missingno, this.level));
-                if (copy.getCopiedID() == null) copy.setCopiedID(RegHelper.getKey(before.getType()));
-                if (!copy.getCopiedNBT().isEmpty()) before.deserializeNBT(copy.getCopiedNBT());
-                before = null;
+                break check;
             }
-            copy.onBaseTick(this.level, null);
-            if (copy.getCopiedMob() == null) break check;
-            if (copy.getCopiedMob() != before)
+            IPokemob pokemob = PokemobCaps.getPokemobFor(after);
+            if (pokemob != null && pokemob.getPokedexEntry() == Database.missingno
+                    && after.getType() instanceof PokemobType<?> t && t.getEntry() != Database.missingno)
+            {
+                pokemob.setBasePokedexEntry(t.getEntry());
+                pokemob.setPokedexEntry(t.getEntry());
+            }
+            if (after != before)
             {
                 final BlockPos pos = this.getBlockPos();
-                final LivingEntity mob = copy.getCopiedMob();
-                final LazyOptional<IMobColourable> colourable = mob.getCapability(ThutCaps.COLOURABLE);
-                if (colourable.isPresent()) colourable.orElse(null).getRGBA();
+                final LivingEntity mob = after;
+                IMobColourable colourable = ThutCaps.getColourable(mob);
+                if (colourable != null) colourable.getRGBA();
                 mob.setUUID(UUID.randomUUID());
                 mob.setPos(pos.getX(), pos.getY(), pos.getZ());
                 final Direction dir = this.getBlockState().getValue(HorizontalDirectionalBlock.FACING);
@@ -136,6 +139,12 @@ public class StatueEntity extends InteractableTile
     public void handleUpdateTag(final CompoundTag tag)
     {
         this.deserializeNBT(tag);
+        final ICopyMob copy = ThutCaps.getCopyMob(this);
+        var id = copy.getCopiedID();
+        var _tag = copy.getCopiedNBT();
+        copy.setCopiedMob(null);
+        copy.setCopiedID(id);
+        copy.setCopiedNBT(_tag);
         this.checkMob();
     }
 
@@ -162,7 +171,7 @@ public class StatueEntity extends InteractableTile
     @SubscribeEvent
     public void onSpawnEventRate(SpawnEvent.Check.Rate event)
     {
-        final ICopyMob copy = CopyCaps.get(this);
+        final ICopyMob copy = ThutCaps.getCopyMob(this);
 
         if (copy == null || !(this.level instanceof ServerLevel slevel))
         {
@@ -292,13 +301,13 @@ public class StatueEntity extends InteractableTile
         // First update ID if present, and refresh the mob
         if (id != null)
         {
-            copy.setCopiedID(e_id = new ResourceLocation(id));
             copy.setCopiedMob(null);
+            copy.setCopiedID(e_id = new ResourceLocation(id));
         }
         else
         {
-            copy.setCopiedID(e_id = new ResourceLocation("pokecube:missingno"));
             copy.setCopiedMob(null);
+            copy.setCopiedID(e_id = new ResourceLocation("pokecube:missingno"));
         }
         initMob.run();
         var mob = copy.getCopiedMob();
@@ -309,11 +318,20 @@ public class StatueEntity extends InteractableTile
             pokemob.setBasePokedexEntry(entry);
             pokemob.setPokedexEntry(entry);
         }
+        if (copy.getCopiedMob().getType() instanceof PokemobType<?> t)
+        {
+            if (pokemob != null && pokemob.getPokedexEntry() == Database.missingno
+                    && t.getEntry() != Database.missingno)
+            {
+                pokemob.setPokedexEntry(t.getEntry());
+                pokemob.setBasePokedexEntry(t.getEntry());
+            }
+        }
         if (over_tex != null) mob.getPersistentData().putString("statue:over_tex", over_tex);
         if (over_tex_a != -1) mob.getPersistentData().putInt("statue:over_tex_a", over_tex_a);
         if (anim != null) mob.getPersistentData().putString("statue:anim", anim);
         if (pokemob != null) pokemob.setSize(size);
-        final IAnimationHolder anims = mob.getCapability(ThutCaps.ANIMCAP).orElse(null);
+        final IAnimationHolder anims = ThutCaps.getAnimationHolder(mob);
         if (anim != null && anims != null)
         {
             anims.setFixed(true);
@@ -329,18 +347,15 @@ public class StatueEntity extends InteractableTile
         // The stuff below only matters for when this is placed directly or nbt
         // edited. when loading normally, level is null, so we exit here.
         if (this.level == null) return;
-        final ICopyMob copy = CopyCaps.get(this);
+        final ICopyMob copy = ThutCaps.getCopyMob(this);
         if (tag.contains("custom_model"))
         {
             final CompoundTag modelTag = tag.getCompound("custom_model");
-            LivingEntity mob = initMob(copy, modelTag, () -> this.checkMob());
-            copy.setCopiedNBT(mob.serializeNBT());
+            initMob(copy, modelTag, () -> this.checkMob());
         }
         // Server side send packet that it changed
         if (!this.level.isClientSide()) TileUpdate.sendUpdate(this);
-        // Client side clear the mob
-        else copy.setCopiedMob(null);
-        // Both sides refresh mob if changed
+        // refresh mob if changed
         this.checkMob();
         this.fuelTimer = tag.getLong("fuelTimer");
     }
