@@ -94,16 +94,25 @@ public class SwimAndWalkNodeProcessor extends NodeEvaluator
     {
         Arrays.fill(nodes_swim, null);
         Arrays.fill(nodes_walk, null);
-        int i1 = swimmer.getNeighbors(nodes_swim, node);
-        int i2 = walker.getNeighbors(nodes_walk, node);
+        pos.set(node.x, node.y, node.z);
+        var water = !level.getFluidState(pos).isEmpty();
+        int is = swimmer.getNeighbors(nodes_swim, node);
+        int iw = walker.getNeighbors(nodes_walk, node);
         int k = 0;
-        for (int i = 0; i < i2; i++)
-        {
-            if (nodes_walk[i] != null) toFill[k++] = nodes_walk[i];
-        }
+
+        var node1 = water ? nodes_swim : nodes_walk;
+        var node2 = water ? nodes_walk : nodes_swim;
+
+        int i1 = water ? is : iw;
+        int i2 = water ? iw : is;
+
         for (int i = 0; i < i1; i++)
         {
-            if (nodes_swim[i] != null) toFill[k++] = nodes_swim[i];
+            if (node1[i] != null) toFill[k++] = node1[i];
+        }
+        for (int i = 0; i < i2; i++)
+        {
+            if (node2[i] != null) toFill[k++] = node2[i];
             if (k > 30)
             {
                 ThutCore.logInfo("Uh Oh, out of room for nodes");

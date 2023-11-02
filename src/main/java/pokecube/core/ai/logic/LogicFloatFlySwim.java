@@ -71,7 +71,7 @@ public class LogicFloatFlySwim extends LogicBase
         @Override
         public double getSpeedModifier()
         {
-            return super.getSpeedModifier() * 0.375;
+            return super.getSpeedModifier() * 0.25;
         }
 
         @Override
@@ -81,7 +81,7 @@ public class LogicFloatFlySwim extends LogicBase
             if (pokemob.getController().blocksPathing() || !pokemob.getEntity().isAlive()) return;
             AttributeInstance attr = this.mob.getAttribute(Attributes.MOVEMENT_SPEED);
             this.speed_boost = new AttributeModifier(UIDS, "pokecube:swim_speed",
-                    PokecubeCore.getConfig().swimPathingSpeedFactor * 0.25, AttributeModifier.Operation.MULTIPLY_BASE);
+                    PokecubeCore.getConfig().swimPathingSpeedFactor, AttributeModifier.Operation.MULTIPLY_BASE);
             if (!attr.hasModifier(speed_boost) && this.mob.isInWater()) attr.addTransientModifier(speed_boost);
             else if (attr.hasModifier(speed_boost) && !this.mob.isInWater()) attr.removeModifier(speed_boost);
 
@@ -95,10 +95,14 @@ public class LogicFloatFlySwim extends LogicBase
 
                 // Total distance squared
                 final double ds2 = dx * dx + dy * dy + dz * dz;
-                if (ds2 < 0.01F)
+
+                if (ds2 < 0.001F)
                 {
                     this.mob.setYya(0.0F);
-                    this.mob.setZza(0.0F);
+                    this.mob.setXxa(0.0F);
+                    this.mob.setSpeed(0.0F);
+                    Path path = this.mob.getNavigation().getPath();
+                    path.advance();
                     return;
                 }
                 // Horizontal distance
@@ -111,10 +115,12 @@ public class LogicFloatFlySwim extends LogicBase
                 float angleDiff = this.mob.yRot - f;
                 angleDiff /= 180F / (float) Math.PI;
 
-                final float dot = Mth.cos(angleDiff);
+                final float cos = Mth.cos(angleDiff);
                 float f1 = (float) (this.getSpeedModifier() * this.pokemob.getMovementSpeed());
 
-                this.mob.setSpeed(f1 * dot);
+                float fwd = f1 * cos;
+                this.mob.setSpeed(fwd);
+
                 final float f2 = (float) -(Mth.atan2(dy, dh) * (180F / (float) Math.PI));
                 this.mob.xRot = this.rotlerp(this.mob.xRot, f2, 10.0F);
                 f1 *= Math.abs(dy / ds);
@@ -129,7 +135,7 @@ public class LogicFloatFlySwim extends LogicBase
                 final float dh_hat = Mth.abs(dh / ds);
                 final float dy_hat = (float) Math.abs(dy / ds);
                 final Vec3 v = this.mob.getDeltaMovement();
-                this.mob.setDeltaMovement(v.x * dh_hat * dot, v.y * dy_hat * dot, v.z * dh_hat * dot);
+                this.mob.setDeltaMovement(v.x * dh_hat * cos, v.y * dy_hat * cos, v.z * dh_hat * cos);
             }
             else this.mob.setSpeed(0.0F);
         }
