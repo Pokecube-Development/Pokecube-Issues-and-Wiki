@@ -1,7 +1,12 @@
 package pokecube.core.ai.logic;
 
+import java.util.UUID;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
@@ -27,6 +32,8 @@ import thut.api.maths.Vector3;
  */
 public class LogicFloatFlySwim extends LogicBase
 {
+    private static final UUID UIDS = UUID.fromString("4454b0d8-75ef-4689-8fce-daab61a7e1b2");
+
     private static class WalkController extends MoveControl
     {
 
@@ -55,26 +62,33 @@ public class LogicFloatFlySwim extends LogicBase
 
     private static class SwimController extends MoveControl
     {
+        private AttributeModifier speed_boost = null;
         final IPokemob pokemob;
 
         public SwimController(final IPokemob mob)
         {
             super(mob.getEntity());
             this.pokemob = mob;
+            this.speed_boost = new AttributeModifier(UIDS, "pokecube:swim_speed",
+                    PokecubeCore.getConfig().swimPathingSpeedFactor, AttributeModifier.Operation.MULTIPLY_BASE);
         }
 
         @Override
         public double getSpeedModifier()
         {
-            return super.getSpeedModifier() * PokecubeCore.getConfig().swimPathingSpeedFactor * 0.375;
+            return super.getSpeedModifier() * 0.25;
         }
 
         @Override
         public void tick()
         {
             this.mob.setNoGravity(this.mob.isInWater());
-
-            if (pokemob.getController().blocksPathing()) return;
+            if (pokemob.getController().blocksPathing() || !pokemob.getEntity().isAlive()) return;
+            AttributeInstance attr = this.mob.getAttribute(Attributes.MOVEMENT_SPEED);
+            this.speed_boost = new AttributeModifier(UIDS, "pokecube:swim_speed",
+                    PokecubeCore.getConfig().swimPathingSpeedFactor, AttributeModifier.Operation.MULTIPLY_BASE);
+            if (!attr.hasModifier(speed_boost) && this.mob.isInWater()) attr.addTransientModifier(speed_boost);
+            else if (attr.hasModifier(speed_boost) && !this.mob.isInWater()) attr.removeModifier(speed_boost);
 
             if (this.operation == MoveControl.Operation.MOVE_TO && !this.mob.getNavigation().isDone())
             {
@@ -86,10 +100,14 @@ public class LogicFloatFlySwim extends LogicBase
 
                 // Total distance squared
                 final double ds2 = dx * dx + dy * dy + dz * dz;
-                if (ds2 < 0.01F)
+
+                if (ds2 < 0.001F)
                 {
                     this.mob.setYya(0.0F);
-                    this.mob.setZza(0.0F);
+                    this.mob.setXxa(0.0F);
+                    this.mob.setSpeed(0.0F);
+                    Path path = this.mob.getNavigation().getPath();
+                    path.advance();
                     return;
                 }
                 // Horizontal distance
@@ -102,11 +120,12 @@ public class LogicFloatFlySwim extends LogicBase
                 float angleDiff = this.mob.yRot - f;
                 angleDiff /= 180F / (float) Math.PI;
 
-                final float dot = Mth.cos(angleDiff);
+                final float cos = Mth.cos(angleDiff);
                 float f1 = (float) (this.getSpeedModifier() * this.pokemob.getMovementSpeed());
 
-                this.mob.setSpeed(f1 * dot);
-                this.mob.flyingSpeed = (float) (f1 * 0.05);
+                float fwd = f1 * cos;
+                this.mob.setSpeed(fwd);
+
                 final float f2 = (float) -(Mth.atan2(dy, dh) * (180F / (float) Math.PI));
                 this.mob.xRot = this.rotlerp(this.mob.xRot, f2, 10.0F);
                 f1 *= Math.abs(dy / ds);
@@ -121,7 +140,7 @@ public class LogicFloatFlySwim extends LogicBase
                 final float dh_hat = Mth.abs(dh / ds);
                 final float dy_hat = (float) Math.abs(dy / ds);
                 final Vec3 v = this.mob.getDeltaMovement();
-                this.mob.setDeltaMovement(v.x * dh_hat * dot, v.y * dy_hat * dot, v.z * dh_hat * dot);
+                this.mob.setDeltaMovement(v.x * dh_hat * cos, v.y * dy_hat * cos, v.z * dh_hat * cos);
             }
             else this.mob.setSpeed(0.0F);
         }
