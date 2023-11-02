@@ -114,11 +114,10 @@ public class SwimAndWalkNodeProcessor extends NodeEvaluator
     }
 
     @Override
-    public BlockPathTypes getBlockPathType(BlockGetter level, int x, int y, int z, Mob mob, int a, int b, int c,
-            boolean d, boolean e)
+    public BlockPathTypes getBlockPathType(BlockGetter level, int x, int y, int z, Mob mob)
     {
-        var walk = walker.getBlockPathType(level, x, y, z, mob, a, b, c, d, e);
-        var swim = swimmer.getBlockPathType(level, x, y, z, mob, a, b, c, d, e);
+        var walk = walker.getBlockPathType(level, x, y, z, mob);
+        var swim = swimmer.getBlockPathType(level, x, y, z, mob);
         var water = swim != BlockPathTypes.BLOCKED;
         return water ? swim == null ? walk : swim : walk == null ? swim : walk;
     }
