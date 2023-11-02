@@ -597,6 +597,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     {
         final ShinyGene gene = this.genesShiny.getExpressed();
         gene.setValue(shiny);
+        this._shinyCache = shiny;
         PacketSyncGene.syncGeneToTracking(this.getEntity(), this.genesShiny);
     }
 
