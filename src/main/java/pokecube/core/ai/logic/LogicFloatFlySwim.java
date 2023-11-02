@@ -66,7 +66,7 @@ public class LogicFloatFlySwim extends LogicBase
         @Override
         public double getSpeedModifier()
         {
-            return super.getSpeedModifier() * PokecubeCore.getConfig().swimPathingSpeedFactor;
+            return super.getSpeedModifier() * PokecubeCore.getConfig().swimPathingSpeedFactor * 0.375;
         }
 
         @Override
