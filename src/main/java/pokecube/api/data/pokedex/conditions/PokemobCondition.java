@@ -160,14 +160,14 @@ public interface PokemobCondition
     {
         if (!obj.has("key"))
         {
-            PokecubeAPI.LOGGER.error("missing key {} for a mega evo rule!", obj);
+            PokecubeAPI.LOGGER.error("missing key {} for a pokemob rule!", obj);
             return null;
         }
         String key = obj.get("key").getAsString();
         Class<? extends PokemobCondition> condClass = CONDITIONS.get(key);
         if (condClass == null)
         {
-            PokecubeAPI.LOGGER.error("invalid type key {} for a mega evo rule!", key);
+            PokecubeAPI.LOGGER.error("invalid type key {} for a pokemob rule!", key);
             return null;
         }
         PokemobCondition condition = JsonUtil.gson.fromJson(obj, condClass);
