@@ -118,8 +118,21 @@ public class Description extends ListPage<LineEntry>
         final List<FormattedCharSequence> list;
         if (fullColour)
         {
-            page = TComponent.translatable("entity.pokecube." + pokedexEntry.getTrimmedName() + ".dexDesc");
+            String key = "entity.pokecube." + pokedexEntry.getTrimmedName() + ".dexDesc";
+            page = TComponent.translatable(key);
+            // No description
+            if (page.getString().equals(key))
+            {
+                // Check if we have a base form
+                if (pokedexEntry.generated)
+                {
+                    key = "entity.pokecube." + pokedexEntry.getBaseForme().getTrimmedName() + ".dexDesc";
+                    page = TComponent.translatable(key);
+                }
+                else page = TComponent.literal("");
+            }
             list = Lists.newArrayList(this.font.split(page, 100));
+            if (page.getString().isBlank()) list.clear();
             list.add(TComponent.literal("").getVisualOrderText());
             page = pokedexEntry.getDescription(this.parent.pokemob, this.parent.pokemob.getCustomHolder());
             list.addAll(this.font.split(page, 100));

@@ -167,10 +167,22 @@ public class GuiPokedex extends Screen
         this.list = new ScrollGui<>(this, this.minecraft, 110, height, this.font.lineHeight, offsetX, offsetY);
 
         MutableComponent page;
-
-        page = TComponent.translatable("entity.pokecube." + GuiPokedex.pokedexEntry.getTrimmedName() + ".dexDesc");
+        String key = "entity.pokecube." + GuiPokedex.pokedexEntry.getTrimmedName() + ".dexDesc";
+        page = TComponent.translatable(key);
+        // No description
+        if (page.getString().equals(key))
+        {
+            // Check if we have a base form
+            if (GuiPokedex.pokedexEntry.generated)
+            {
+                key = "entity.pokecube." + GuiPokedex.pokedexEntry.getBaseForme().getTrimmedName() + ".dexDesc";
+                page = TComponent.translatable(key);
+            }
+            else page = TComponent.literal("");
+        }
         this.pokemobTextField.setValue(I18n.get(GuiPokedex.pokedexEntry.getUnlocalizedName()));
         var list = Lists.newArrayList(this.font.split(page, 100));
+        if (page.getString().isBlank()) list.clear();
         list.add(TComponent.literal("").getVisualOrderText());
         var holder = this.pokemob != null ? this.pokemob.getCustomHolder() : null;
         page = pokedexEntry.getDescription(pokemob, holder);
