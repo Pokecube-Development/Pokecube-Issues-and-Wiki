@@ -41,7 +41,6 @@ import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.eventhandlers.StatsCollector;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.init.Config;
-import pokecube.core.utils.Resources;
 import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.lib.TComponent;
@@ -55,9 +54,6 @@ import thut.lib.TComponent;
 public class Health
 {
     static List<LivingEntity> renderedEntities = new ArrayList<>();
-
-    public static final RenderType TYPE = RenderType.text(Resources.GUI_BATTLE);
-    public static final RenderType BACKGROUND = RenderType.textSeeThrough(Resources.GUI_BATTLE);
 
     public static BiFunction<LivingEntity, Entity, Boolean> RENDER_HEALTH = (entity, viewPoint) -> {
         final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
@@ -220,14 +216,13 @@ public class Health
             // Background
             if (background)
             {
-                buffer = Utils.makeBuilder(Health.BACKGROUND, buf);
-                buffer = Utils.makeBuilder(RenderType.textBackground(), buf);
+                buffer = Utils.makeBuilder(RenderType.textBackgroundSeeThrough(), buf);
                 final int a = 32;
                 Health.blit(buffer, pos, -size - padding, -bgHeight, size + padding, barHeight1 + padding,
                         zlevel + .006f, 0, 0, 0, a, br);
                 zlevel += 0.001f;
             }
-            buffer = Utils.makeBuilder(Health.TYPE, buf);
+            buffer = Utils.makeBuilder(RenderType.textBackground(), buf);
 
             // Health bar
             // Gray Space

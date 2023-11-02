@@ -167,7 +167,7 @@ public abstract class PokemobStats extends PokemobGenes
         }
         else if (oldName) this.dataSync().set(this.params.NICKNAMEDW, "");
         else this.dataSync().set(this.params.NICKNAMEDW, nickname);
-        if (!this.getPokedexEntry().stock && this.getEntity().isAddedToWorld())
+        if (this.getEntity().isAddedToWorld())
             this.getEntity().setCustomName(oldName ? null : TComponent.literal(nickname));
     }
 
