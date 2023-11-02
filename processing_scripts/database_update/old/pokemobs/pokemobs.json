@@ -59799,7 +59799,6 @@
               "not_preset": "cold_areas,hot_areas,mountains"
             },
             "evoMoves": "gust",
-            "form_from": "vivillon_el",
             "model": {
               "key": "vivillon_el"
             }
