@@ -19551,7 +19551,7 @@
           {
             "name": "Lanturn",
             "level": 27,
-            "evoMoves": "spitup,  stockpile,  stockpileswallowspitup,  swallow"
+            "evoMoves": "spitup, stockpile, swallow"
           }
         ],
         "lootTable": "pokecube:entities/glow_fish_1",
@@ -22193,7 +22193,7 @@
           {
             "name": "Forretress",
             "level": 31,
-            "evoMoves": "autotomize,  mirrorshot,  mirrorshotautotomize"
+            "evoMoves": "autotomize,  mirrorshot"
           }
         ],
         "lootTable": "minecraft:entities/creeper",
@@ -29140,7 +29140,7 @@
           {
             "name": "Ninjask",
             "level": 20,
-            "evoMoves": "doubleteam,  doubleteamscreechfurycutter,  furycutter,  screech"
+            "evoMoves": "doubleteam,  furycutter,  screech"
           }
         ],
         "lootTable": "minecraft:entities/spider",
@@ -35662,7 +35662,7 @@
           {
             "name": "Metang",
             "level": 20,
-            "evoMoves": "confusion,  confusionmetalclaw,  metalclaw"
+            "evoMoves": "confusion,  metalclaw"
           }
         ],
         "lootTable": "pokecube:entities/iron_pearls_1",
