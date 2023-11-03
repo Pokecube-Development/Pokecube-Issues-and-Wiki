@@ -5368,5 +5368,13 @@
       "width":0.6,
       "length":0.6
     }
+  },
+  {
+    "name":"dondozo",
+    "size":{
+      "height":6.0,
+      "width":8.0,
+      "length":12.0
+    }
   }
 ]
