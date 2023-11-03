@@ -170,10 +170,17 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
             length = maxZ - minZ;
         }
 
+        boolean subDivided = getHolder().getParts().length > 0;
+
         // This needs the larger bounding box regardless of parts, so that the
         // lookup finds the parts at all for things like projectile impact
         // calculations.
-        this.dimensions = EntityDimensions.fixed(Math.max(width, length), height);
+        if (subDivided)
+        {
+            this.dimensions = EntityDimensions.fixed(0.1f, 0.1f);
+            this.noCulling = true;
+        }
+        else this.dimensions = EntityDimensions.fixed(Math.max(width, length), height);
         final boolean first = this.firstTick;
         this.firstTick = true;
         this.refreshDimensions();

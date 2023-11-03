@@ -1,20 +1,16 @@
 package thut.core.common.network.nbtpacket;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.zip.GZIPInputStream;
 
 import net.minecraft.nbt.ByteArrayTag;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtAccounter;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
@@ -185,15 +181,12 @@ public final class PacketAssembly<T extends NBTPacket>
 
             try
             {
-                final DataInputStream dis = new DataInputStream(
-                        new BufferedInputStream(new GZIPInputStream(new ByteArrayInputStream(tmp))));
-                final CompoundTag tag = NbtIo.read(dis, NbtAccounter.UNLIMITED);
-                dis.close();
-                return tag;
+                return NbtIo.readCompressed(new ByteArrayInputStream(tmp));
             }
             catch (final Exception e)
             {
-                throw new RuntimeException("Unable to assemble BQ packet", e);
+                ThutCore.LOGGER.error("Size: {} {}, {}", size, tmp.length, this.factory.create().getClass());
+                throw new RuntimeException("Unable to dis-assemble packet", e);
             }
         }
 
