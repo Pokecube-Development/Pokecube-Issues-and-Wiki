@@ -388,7 +388,7 @@ public class ItemGenerator
             var wall_block = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(15).apply(name),
                     () -> new GenericWallSign(
                             BlockBehaviour.Properties.of(Material.WOOD, ItemGenerator.berryWoods.get(name))
-                                    .strength(2.0F).sound(SoundType.WOOD).noOcclusion(),
+                                    .strength(2.0F).sound(SoundType.WOOD).noOcclusion().noCollission(),
                             type),
                     block ->
                     {
@@ -399,7 +399,7 @@ public class ItemGenerator
             var standing_block = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(16).apply(name),
                     () -> new GenericStandingSign(
                             BlockBehaviour.Properties.of(Material.WOOD, ItemGenerator.berryWoods.get(name))
-                                    .strength(2.0F).sound(SoundType.WOOD).noOcclusion(),
+                                    .strength(2.0F).sound(SoundType.WOOD).noOcclusion().noCollission(),
                             type),
                     block ->
                     {
