@@ -177,7 +177,9 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
         // calculations.
         if (subDivided)
         {
-            this.dimensions = EntityDimensions.fixed(0.1f, 0.1f);
+            width = Math.min(Math.max(width, length), maxW);
+            height = Math.min(height, maxH);
+            this.dimensions = EntityDimensions.fixed(width, height);
             this.noCulling = true;
         }
         else this.dimensions = EntityDimensions.fixed(Math.max(width, length), height);
