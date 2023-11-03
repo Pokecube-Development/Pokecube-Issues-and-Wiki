@@ -3,6 +3,8 @@ package pokecube.core.ai.logic;
 import java.util.UUID;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -11,8 +13,10 @@ import net.minecraft.world.entity.ai.control.FlyingMoveControl;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
@@ -55,7 +59,41 @@ public class LogicFloatFlySwim extends LogicBase
         public void tick()
         {
             if (pokemob.getController().blocksPathing()) return;
-            super.tick();
+            if (this.operation == MoveControl.Operation.MOVE_TO)
+            {
+                this.operation = MoveControl.Operation.WAIT;
+                double d0 = this.wantedX - this.mob.getX();
+                double d1 = this.wantedZ - this.mob.getZ();
+                double d2 = this.wantedY - this.mob.getY();
+                double d3 = d0 * d0 + d2 * d2 + d1 * d1;
+
+                if (d3 < 0.001F)
+                {
+                    this.mob.setYya(0.0F);
+                    this.mob.setXxa(0.0F);
+                    this.mob.setSpeed(0.0F);
+                    Path path = this.mob.getNavigation().getPath();
+                    path.advance();
+                    return;
+                }
+
+                float f9 = (float) (Mth.atan2(d1, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
+                this.mob.setYRot(this.rotlerp(this.mob.getYRot(), f9, 90.0F));
+                this.mob.setSpeed((float) (this.speedModifier * this.mob.getAttributeValue(Attributes.MOVEMENT_SPEED)));
+                BlockPos blockpos = this.mob.blockPosition();
+                BlockState blockstate = this.mob.level.getBlockState(blockpos);
+                VoxelShape voxelshape = blockstate.getCollisionShape(this.mob.level, blockpos);
+                if (d2 > (double) this.mob.getStepHeight()
+                        && d0 * d0 + d1 * d1 < (double) Math.max(1.0F, this.mob.getBbWidth())
+                        || !voxelshape.isEmpty()
+                                && this.mob.getY() < voxelshape.max(Direction.Axis.Y) + (double) blockpos.getY()
+                                && !blockstate.is(BlockTags.DOORS) && !blockstate.is(BlockTags.FENCES))
+                {
+                    this.mob.getJumpControl().jump();
+                    this.operation = MoveControl.Operation.JUMPING;
+                }
+            }
+            else super.tick();
         }
 
     }
@@ -305,9 +343,9 @@ public class LogicFloatFlySwim extends LogicBase
             if (hereVec.distToSq(this.lastPos) < 1)
             {
                 this.time_at_pos++;
-                if (this.time_at_pos > 100)
+                if (this.time_at_pos > 10)
                 {
-                    this.entity.getNavigation().stop();
+                    path.advance();
                     this.time_at_pos = 0;
                 }
             }
