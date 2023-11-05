@@ -91,8 +91,6 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
             part.remove(RemovalReason.DISCARDED);
         }
 
-        if (this.isAddedToWorld() && !this.getHolder().allParts().isEmpty()) PartSync.sendUpdate(this, true);
-
         getHolder().clear();
         upperList.clear();
         lowerList.clear();
@@ -113,7 +111,12 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
         getHolder().holder().colWidth = width;
         getHolder().holder().colHeight = height;
 
-        if (height > maxH || width > maxW || length > maxW)
+        boolean subDivide = height > maxH || width > maxW || length > maxW;
+
+        // Special handling for client side gui only mobs:
+        subDivide = subDivide && (!level.isClientSide() || this.isAddedToWorld());
+
+        if (subDivide)
         {
             final int nx = Mth.ceil(width / maxW);
             final int nz = Mth.ceil(length / maxH);
