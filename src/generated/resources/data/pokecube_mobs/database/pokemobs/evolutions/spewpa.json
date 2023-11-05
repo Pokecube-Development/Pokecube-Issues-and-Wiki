@@ -87,6 +87,7 @@
   {
     "name": "vivillon",
     "user": "spewpa",
+    "priority": 5,
     "condition": [
       {
         "key": "level",
@@ -218,6 +219,7 @@
   {
     "name": "vivillon",
     "user": "spewpa",
+    "priority": 100,
     "condition": {
       "key": "level",
       "level": 12
