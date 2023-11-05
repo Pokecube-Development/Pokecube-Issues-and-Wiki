@@ -59813,7 +59813,7 @@
           {
             "name": "Vivillon",
             "level": 12,
-            "priority": 10,
+            "priority": 8,
             "location": {
               "desc": "pokecube.spawns.caves.general",
               "and_preset": "caves"
@@ -59826,7 +59826,7 @@
           {
             "name": "Vivillon",
             "level": 12,
-            "priority": 10,
+            "priority": 5,
             "location": {
               "desc": "pokecube.spawns.nether.general",
               "and_preset": "nether"
@@ -59839,7 +59839,7 @@
           {
             "name": "Vivillon",
             "level": 12,
-            "priority": 10,
+            "priority": 5,
             "location": {
               "desc": "pokecube.spawns.end.general",
               "and_preset": "end"
@@ -59902,7 +59902,7 @@
             },
             "evoMoves": "gust",
             "model": {
-              "key": "vivillon_industrial"
+              "key": "vivillon_pokeball"
             }
           },
           {
@@ -60016,7 +60016,7 @@
       "mega": false,
       "gmax": false,
       "model": {
-        "key": "vivillon_mod",
+        "key": "vivillon_modern",
         "tex": "vivillon_modern",
         "model": "vivillon",
         "anim": "vivillon"
@@ -60074,72 +60074,134 @@
       },
       "models": [
         {
-          "key": "vivillon",
-          "tex": "vivillon_plains",
+          "key": "vivillon_modern",
+          "tex": "vivillon_modern",
           "model": "vivillon",
           "anim": "vivillon"
         },
         {
-          "key": "vivillon_de",
+          "key": "vivillon_savanna",
+          "tex": "vivillon_savanna",
+          "model": "vivillon",
+          "anim": "vivillon"
+        },
+        {
+          "key": "vivillon_highplains",
           "tex": "vivillon_highplains",
           "model": "vivillon",
           "anim": "vivillon"
         },
         {
-          "key": "vivillon_el",
-          "tex": "vivillon_plains",
+          "key": "vivillon_archipelago",
+          "tex": "vivillon_archipelago",
           "model": "vivillon",
           "anim": "vivillon"
         },
         {
-          "key": "vivillon_oc",
+          "key": "vivillon_continental",
+          "tex": "vivillon_continental",
+          "model": "vivillon",
+          "anim": "vivillon"
+        },
+        {
+          "key": "vivillon_fancy",
+          "tex": "vivillon_fancy",
+          "model": "vivillon",
+          "anim": "vivillon"
+        },
+        {
+          "key": "vivillon_garden",
+          "tex": "vivillon_garden",
+          "model": "vivillon",
+          "anim": "vivillon"
+        },
+        {
+          "key": "vivillon_jungle",
+          "tex": "vivillon_jungle",
+          "model": "vivillon",
+          "anim": "vivillon"
+        },
+        {
+          "key": "vivillon_marine",
+          "tex": "vivillon_marine",
+          "model": "vivillon",
+          "anim": "vivillon"
+        },
+        {
+          "key": "vivillon_pokeball",
+          "tex": "vivillon_pokeball",
+          "model": "vivillon",
+          "anim": "vivillon"
+        },
+        {
+          "key": "vivillon_river",
+          "tex": "vivillon_river",
+          "model": "vivillon",
+          "anim": "vivillon"
+        },
+        {
+          "key": "vivillon_tundra",
+          "tex": "vivillon_tundra",
+          "model": "vivillon",
+          "anim": "vivillon"
+        },
+        {
+          "key": "vivillon_elegant",
+          "tex": "vivillon_elegant",
+          "model": "vivillon",
+          "anim": "vivillon"
+        },
+        {
+          "key": "vivillon_ocean",
           "tex": "vivillon_ocean",
           "model": "vivillon",
           "anim": "vivillon"
         },
         {
-          "key": "vivillon_sa",
+          "key": "vivillon_sandstorm",
           "tex": "vivillon_sandstorm",
           "model": "vivillon",
           "anim": "vivillon"
         },
         {
-          "key": "vivillon_he",
+          "key": "vivillon_hell",
           "tex": "vivillon_hell",
           "model": "vivillon",
           "anim": "vivillon"
         },
         {
-          "key": "vivillon_en",
-          "tex": "vivillon_end"
+          "key": "vivillon_end",
+          "tex": "vivillon_end",
+          "model": "vivillon_end",
+          "anim": "vivillon_end"
         },
         {
-          "key": "vivillon_po",
+          "key": "vivillon_polar",
           "tex": "vivillon_polar",
           "model": "vivillon",
           "anim": "vivillon"
         },
         {
-          "key": "vivillon_ic",
-          "tex": "vivillon_icesnow",
+          "key": "vivillon_icysnow",
+          "tex": "vivillon_icysnow",
           "model": "vivillon",
           "anim": "vivillon"
         },
         {
-          "key": "vivillon_mon",
+          "key": "vivillon_monsoon",
           "tex": "vivillon_monsoon",
           "model": "vivillon",
           "anim": "vivillon"
         },
         {
-          "key": "vivillon_su",
+          "key": "vivillon_sun",
           "tex": "vivillon_sun",
           "model": "vivillon",
           "anim": "vivillon"
         },
         {
-          "key": "vivillon_mod",
-          "tex": "vivillon_modern",
+          "key": "vivillon_meadow",
+          "tex": "vivillon_meadow",
           "model": "vivillon",
           "anim": "vivillon"
         }

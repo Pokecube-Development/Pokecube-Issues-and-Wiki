@@ -167,7 +167,7 @@
         "location": {
           "desc": "pokecube.spawns.flowers.general",
           "and_preset": "flowers",
-		      "not_preset": "cold_areas"
+          "not_preset": "cold_areas"
         }
       }
     ],
@@ -242,7 +242,7 @@
       "key": "vivillon_river"
     }
   },
-    {
+  {
     "name": "vivillon",
     "user": "spewpa",
     "priority": 8,
@@ -255,7 +255,7 @@
         "key": "location",
         "location": {
           "desc": "pokecube.spawns.caves.general",
-		      "and_preset": "caves"
+          "and_preset": "caves"
         }
       }
     ],

@@ -181,6 +181,12 @@
       "pounce"
     ]
   },
+  "model": {
+    "key": "vivillon_modern",
+    "tex": "vivillon_modern",
+    "model": "vivillon",
+    "anim": "vivillon"
+  },
   "models": [
     {
       "key": "vivillon_modern",
@@ -188,7 +194,7 @@
       "model": "vivillon",
       "anim": "vivillon"
     },
-	{
+    {
       "key": "vivillon_savanna",
       "tex": "vivillon_savanna",
       "model": "vivillon",
@@ -200,55 +206,55 @@
       "model": "vivillon",
       "anim": "vivillon"
     },
-	  {
+    {
       "key": "vivillon_archipelago",
       "tex": "vivillon_archipelago",
       "model": "vivillon",
       "anim": "vivillon"
     },
-	  {
+    {
       "key": "vivillon_continental",
       "tex": "vivillon_continental",
       "model": "vivillon",
       "anim": "vivillon"
     },
-	  {
+    {
       "key": "vivillon_fancy",
       "tex": "vivillon_fancy",
       "model": "vivillon",
       "anim": "vivillon"
     },
-	  {
+    {
       "key": "vivillon_garden",
       "tex": "vivillon_garden",
       "model": "vivillon",
       "anim": "vivillon"
     },
-	  {
+    {
       "key": "vivillon_jungle",
       "tex": "vivillon_jungle",
       "model": "vivillon",
       "anim": "vivillon"
     },
-	  {
+    {
       "key": "vivillon_marine",
       "tex": "vivillon_marine",
       "model": "vivillon",
       "anim": "vivillon"
     },
-	  {
+    {
       "key": "vivillon_pokeball",
       "tex": "vivillon_pokeball",
       "model": "vivillon",
       "anim": "vivillon"
     },
-	  {
+    {
       "key": "vivillon_river",
       "tex": "vivillon_river",
       "model": "vivillon",
       "anim": "vivillon"
     },
-	  {
+    {
       "key": "vivillon_tundra",
       "tex": "vivillon_tundra",
       "model": "vivillon",
@@ -281,7 +287,7 @@
     {
       "key": "vivillon_end",
       "tex": "vivillon_end",
-	  "model": "vivillon_end",
+      "model": "vivillon_end",
       "anim": "vivillon_end"
     },
     {
