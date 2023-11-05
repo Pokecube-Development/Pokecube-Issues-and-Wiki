@@ -59718,6 +59718,7 @@
           {
             "name": "Vivillon",
             "level": 12,
+            "priority": 5,
             "location": {
               "desc": "pokecube.evos.spewpa.vivillon_po",
               "matchers": {
@@ -59793,6 +59794,7 @@
           {
             "name": "Vivillon",
             "level": 12,
+            "priority": 100,
             "evoMoves": "gust",
             "model": {
               "key": "vivillon_de"
