@@ -8,7 +8,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -102,8 +101,8 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
                 this.addPart(s.getKey(), size, s.getValue());
         }
 
-        final float maxH = (float) PokecubeCore.getConfig().largeMobForSplit;
-        final float maxW = (float) PokecubeCore.getConfig().largeMobForSplit;
+        final float maxH = this.maxH();
+        final float maxW = this.maxW();
         float width = entry.width * size;
         float length = entry.length * size;
         float height = entry.height * size;
@@ -118,26 +117,11 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
 
         if (subDivide)
         {
-            final int nx = Mth.ceil(width / maxW);
-            final int nz = Mth.ceil(length / maxH);
-            final int ny = Mth.ceil(height / maxW);
+            var split = this.splitToParts(width, height, length, 0, 0, 0);
+            var parts = split.toArray(new PokemobPart[0]);
 
-            final float dx = width / nx;
-            final float dy = height / ny;
-            final float dz = length / nz;
-
-            getHolder().setParts(new PokemobPart[nx * ny * nz]);
-            final float dw = Math.max(width / nx, length / nz);
-            final float dh = dy;
-            int i = 0;
-
-            for (int y = 0; y < ny; y++) for (int x = 0; x < nx; x++) for (int z = 0; z < nz; z++)
-            {
-                getHolder().holder().parts[i] = new PokemobPart(this, dw, dh, x * dx - nx * dx / 2f, y * dy,
-                        z * dz - nz * dz / 2f, "part_" + i);
-                getHolder().allParts().add(getHolder().holder().parts[i]);
-                i++;
-            }
+            getHolder().setParts(parts);
+            for (var p : parts) getHolder().allParts().add(p);
 
             getHolder().holder().colWidth = Math.min(1, maxW);
             getHolder().holder().colHeight = Math.min(1, maxH);
@@ -191,6 +175,18 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
         this.refreshDimensions();
         this.firstTick = first;
         if (this.isAddedToWorld()) PartSync.sendUpdate(weSelf());
+    }
+
+    @Override
+    public float maxH()
+    {
+        return (float) PokecubeCore.getConfig().largeMobForSplit;
+    }
+
+    @Override
+    public float maxW()
+    {
+        return (float) PokecubeCore.getConfig().largeMobForSplit;
     }
 
     @Override
