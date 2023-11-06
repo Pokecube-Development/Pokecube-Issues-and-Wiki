@@ -5,7 +5,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -23,6 +22,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.inventory.pc.PCContainer;
 import thut.api.Tracker;
+import thut.core.common.ThutCore;
 import thut.lib.TComponent;
 import thut.wearables.ThutWearables;
 import thut.wearables.inventory.PlayerWearables;
@@ -50,7 +50,7 @@ public class MegaEvolveHelper
         // Actually apply said changes
         PokecubeAPI.POKEMOB_BUS.addListener(MegaEvolveHelper::postFormChange);
         // Register mega item capabilities
-        MinecraftForge.EVENT_BUS.addGenericListener(ItemStack.class, EventPriority.LOW, MegaCapability::onItemCaps);
+        ThutCore.FORGE_BUS.addGenericListener(ItemStack.class, EventPriority.LOW, MegaCapability::onItemCaps);
         // Register the ability to mega evolve from the owner command
         ChangeFormHandler.addChangeHandler(new MegaEvolver());
         // Init mega evo data, this will then load in mega evos when the
@@ -157,6 +157,12 @@ public class MegaEvolveHelper
         var entity = event.getPokemob().getEntity();
         entity.getPersistentData().remove("pokecube:megatime");
         entity.getPersistentData().putBoolean("pokecube:mega_reverted", true);
+
+        var reversion = MegaEvoData.REVERSIONS.get(event.getPokemob().getPokedexEntry());
+        if (reversion != null && reversion != event.getPokemob().getBasePokedexEntry())
+        {
+            event.getPokemob().setBasePokedexEntry(reversion);
+        }
     }
 
     private static void postFormChange(ChangeForm.Post event)

@@ -155,7 +155,7 @@ public class Moves
                 this._min_hits = move.min_hits;
                 this._max_hits = move.max_hits;
 
-                this._post_attack_delay_factor = move.cooldown;
+                if (this.move.cooldown > 0) this._post_attack_delay_factor = move.cooldown;
             }
         }
 

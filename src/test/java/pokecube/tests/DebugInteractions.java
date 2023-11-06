@@ -50,8 +50,7 @@ public class DebugInteractions
 
         if (te instanceof ChestBlockEntity chest && isStructureMaker)
         {
-            IItemHandlerModifiable itemSource = (IItemHandlerModifiable) chest.getCapability(ThutCaps.ITEM_HANDLER)
-                    .orElse(null);
+            IItemHandlerModifiable itemSource = (IItemHandlerModifiable) ThutCaps.getInventory(chest);
             BlockPos origin = evt.getPos();
             Direction orientation = level.getBlockState(origin).getValue(ChestBlock.FACING);
 

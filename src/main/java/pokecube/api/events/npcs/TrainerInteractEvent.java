@@ -19,7 +19,7 @@ public class TrainerInteractEvent extends LivingEvent
 
     /**
      * This event is fired when a trainer checks isUsableByPlayer for inventory
-     * access. It is fired one the MinecraftForge.EVENT_BUS. The results are as
+     * access. It is fired one the ThutCore.FORGE_BUS. The results are as
      * follows:
      * <br>
      * DEFAULT - use whatever trainer.isUsableByPlayer(target) returns

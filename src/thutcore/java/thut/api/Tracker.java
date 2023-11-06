@@ -17,7 +17,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.LevelResource;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.ServerTickEvent;
@@ -42,10 +41,10 @@ public class Tracker
 
     public static void init()
     {
-        MinecraftForge.EVENT_BUS.addListener(Tracker::onServerTick);
-        MinecraftForge.EVENT_BUS.addListener(Tracker::onClientTick);
-        MinecraftForge.EVENT_BUS.addListener(Tracker::onServerStart);
-        MinecraftForge.EVENT_BUS.addListener(Tracker::onWorldSave);
+        ThutCore.FORGE_BUS.addListener(Tracker::onServerTick);
+        ThutCore.FORGE_BUS.addListener(Tracker::onClientTick);
+        ThutCore.FORGE_BUS.addListener(Tracker::onServerStart);
+        ThutCore.FORGE_BUS.addListener(Tracker::onWorldSave);
     }
 
     public static interface UpdateHandler

@@ -13,7 +13,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
+import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.network.pokemobs.PacketSyncGene;
 import pokecube.gimmicks.dynamax.DynamaxGene.DynaObject;
@@ -31,12 +31,12 @@ public class DynamaxGene implements Gene<DynaObject>
     @Nullable
     public static DynaObject getDyna(Entity mob)
     {
-        final IMobGenetics genes = mob.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
+        final IMobGenetics genes = ThutCaps.getGenetics(mob);
         if (genes == null) return null;
         if (!genes.getKeys().contains(GeneticsManager.GMAXGENE))
         {
             // Initialise it for the mob here.
-            Alleles<DynaObject, Gene<DynaObject>> alleles = new Alleles<>();
+            Alleles<DynaObject, Gene<DynaObject>> alleles = new Alleles<>(genes);
             Gene<DynaObject> gene1 = new DynamaxGene();
             Gene<DynaObject> gene2 = new DynamaxGene();
             alleles.setAllele(0, gene1);

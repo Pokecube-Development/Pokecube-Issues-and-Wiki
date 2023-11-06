@@ -9,12 +9,12 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.eventbus.api.Event.Result;
+import thut.core.common.ThutCore;
 
 public class LinkableCaps
 {
@@ -22,28 +22,28 @@ public class LinkableCaps
     public static interface ILinkStorage
     {
         /**
-         * This gets the UUID for a mob, if this
-         * is null, then it does not have a linked mob
+         * This gets the UUID for a mob, if this is null, then it does not have
+         * a linked mob
          */
         @Nullable
         UUID getLinkedMob(Entity user);
 
         /**
-         * This gets the UUID for a pos, if this
-         * is null, then it does not have a linked pos
+         * This gets the UUID for a pos, if this is null, then it does not have
+         * a linked pos
          */
         @Nullable
         GlobalPos getLinkedPos(Entity user);
 
         /**
-         * This will set the linked mob, returns whether
-         * this setting actually occured.
+         * This will set the linked mob, returns whether this setting actually
+         * occured.
          */
         boolean setLinkedMob(@Nullable UUID mobid, @Nullable Entity user);
 
         /**
-         * This will set the linked pos, returns whether
-         * this setting actually occured.
+         * This will set the linked pos, returns whether this setting actually
+         * occured.
          */
         boolean setLinkedPos(@Nullable GlobalPos pos, @Nullable Entity user);
     }
@@ -51,15 +51,13 @@ public class LinkableCaps
     public static interface ILinkable
     {
         /**
-         * @param link
-         *            - who to link to
+         * @param link - who to link to
          * @return whether the link connected.
          */
         boolean link(ILinkStorage link, @Nullable Entity user);
 
         /**
-         * This will return an ILinkStorage which
-         * will link to this ILinkable.
+         * This will return an ILinkStorage which will link to this ILinkable.
          */
         @Nonnull
         ILinkStorage getLink(@Nullable Entity user);
@@ -141,7 +139,7 @@ public class LinkableCaps
     public static class Linkable implements ILinkable, ICapabilityProvider
     {
         private final LazyOptional<ILinkable> holder = LazyOptional.of(() -> this);
-        LinkStorage                           store  = new LinkStorage();
+        LinkStorage store = new LinkStorage();
 
         @Override
         public boolean link(final ILinkStorage link, final Entity user)
@@ -167,7 +165,7 @@ public class LinkableCaps
 
     public static void setup()
     {
-        MinecraftForge.EVENT_BUS.addListener(LinkableCaps::linkBlock);
+        ThutCore.FORGE_BUS.addListener(LinkableCaps::linkBlock);
     }
 
     private static void linkBlock(final RightClickBlock event)
@@ -175,16 +173,15 @@ public class LinkableCaps
         // Only run for items
         if (event.getItemStack().isEmpty()) return;
         // Check if stack is a linkstore
-        final LazyOptional<ILinkStorage> test_stack = event.getItemStack().getCapability(ThutCaps.STORE);
-        if (!test_stack.isPresent()) return;
-        final ILinkStorage storage = test_stack.orElse(null);
+        final ILinkStorage storage = ThutCaps.getLinkStorage(event.getItemStack());
+        if (storage == null) return;
         final BlockEntity tile = event.getWorld().getBlockEntity(event.getPos());
-        final LazyOptional<ILinkable> test_tile;
+        ILinkable linkable = ThutCaps.getLinkable(tile, event.getFace());
         // Only run for tile entities
-        if (tile != null && (test_tile = tile.getCapability(ThutCaps.LINK, event.getFace())).isPresent())
+        if (linkable != null)
         {
             // Only run for linkable ones
-            test_tile.orElse(null).link(storage, event.getPlayer());
+            linkable.link(storage, event.getPlayer());
             event.setCanceled(true);
             event.setUseBlock(Result.DENY);
             event.setUseItem(Result.DENY);

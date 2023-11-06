@@ -32,7 +32,6 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.placement.RarityFilter;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -40,6 +39,7 @@ import net.minecraftforge.registries.RegistryObject;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.Reference;
 import pokecube.legends.worldgen.WorldgenFeatures;
+import thut.core.common.ThutCore;
 
 public class FeaturesInit
 {
@@ -383,7 +383,7 @@ public class FeaturesInit
 
     public static void init(IEventBus bus)
     {
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, Configs::onBiomeLoading);
+        ThutCore.FORGE_BUS.addListener(EventPriority.HIGH, Configs::onBiomeLoading);
         PlantPlacements.init();
         Configs.init();
     }

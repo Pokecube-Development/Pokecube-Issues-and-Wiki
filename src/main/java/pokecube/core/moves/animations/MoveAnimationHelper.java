@@ -19,7 +19,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent.Stage;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -33,6 +32,7 @@ import thut.api.level.terrain.CapabilityTerrain.ITerrainProvider;
 import thut.api.level.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 import thut.lib.CompatParser.ClassFinder;
 
 public class MoveAnimationHelper
@@ -98,7 +98,7 @@ public class MoveAnimationHelper
         if (MoveAnimationHelper.instance == null)
         {
             MoveAnimationHelper.instance = new MoveAnimationHelper();
-            MinecraftForge.EVENT_BUS.register(MoveAnimationHelper.instance);
+            ThutCore.FORGE_BUS.register(MoveAnimationHelper.instance);
         }
         return MoveAnimationHelper.instance;
     }

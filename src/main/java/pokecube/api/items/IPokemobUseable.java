@@ -6,8 +6,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.utils.MoveApplication;
-import pokecube.core.items.UsableItemEffects;
 
 public interface IPokemobUseable
 {
@@ -20,8 +20,7 @@ public interface IPokemobUseable
     public static IPokemobUseable getUsableFor(final ICapabilityProvider objectIn)
     {
         if (objectIn == null) return null;
-        final IPokemobUseable pokemobHolder = objectIn.getCapability(UsableItemEffects.USABLEITEM_CAP, null)
-                .orElse(null);
+        final IPokemobUseable pokemobHolder = PokemobCaps.getPokemobUsable(objectIn);
         if (pokemobHolder != null) return pokemobHolder;
         else if (IPokemobUseable.class.isInstance(objectIn)) return IPokemobUseable.class.cast(objectIn);
         else if (objectIn instanceof ItemStack && IPokemobUseable.class.isInstance(((ItemStack) objectIn).getItem()))

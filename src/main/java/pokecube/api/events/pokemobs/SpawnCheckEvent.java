@@ -5,7 +5,7 @@ import net.minecraftforge.eventbus.api.Event;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 
-/** Fired on the MinecraftForge.EVENT_BUS */
+/** Fired on the ThutCore.FORGE_BUS */
 public class SpawnCheckEvent extends Event
 {
     @Cancelable

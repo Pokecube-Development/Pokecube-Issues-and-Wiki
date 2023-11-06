@@ -42,6 +42,9 @@ public class MegaEvoData extends ResourceData
         public String name;
         public String user;
         public JsonElement rule;
+        // If true, this rule will always revert when recalled, even if it
+        // "naturally" spawned.
+        public boolean auto_revert = true;
 
         private MegaCondition _condition;
         private PokedexEntry _entryTo;
@@ -84,6 +87,7 @@ public class MegaEvoData extends ResourceData
             List<MegaRule> rules = RULES.get(user);
             if (rules == null) RULES.put(user, rules = new ArrayList<>());
             rules.add(this);
+            if (auto_revert) REVERSIONS.put(_entryTo, user);
         }
 
         @Override
@@ -103,6 +107,7 @@ public class MegaEvoData extends ResourceData
     public static final MegaEvoData INSTANCE = new MegaEvoData("database/pokemobs/mega_evos/");
 
     public static Map<PokedexEntry, List<MegaRule>> RULES = new HashMap<>();
+    public static Map<PokedexEntry, PokedexEntry> REVERSIONS = new HashMap<>();
 
     public static void init()
     {

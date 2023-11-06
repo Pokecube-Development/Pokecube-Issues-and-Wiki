@@ -14,7 +14,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.data.PokedexEntry;
@@ -27,6 +26,7 @@ import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.StatsCollector;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.PokecubeSerializer;
+import thut.core.common.ThutCore;
 import thut.core.common.network.Packet;
 
 public class PacketChoose extends Packet
@@ -42,21 +42,23 @@ public class PacketChoose extends Packet
             this.special = special;
             this.starters = starters;
             this.pick = pick;
-            MinecraftForge.EVENT_BUS.register(this);
+            ThutCore.FORGE_BUS.register(this);
         }
 
         @OnlyIn(Dist.CLIENT)
         @SubscribeEvent
         public void tick(final ClientTickEvent event)
         {
-            if (!MinecraftForge.EVENT_BUS.post(new StarterEvent.Gui()))
+            var gui = new StarterEvent.Gui();
+            ThutCore.FORGE_BUS.post(gui);
+            if (!gui.isCanceled())
             {
                 pokecube.core.client.gui.GuiChooseFirstPokemob.special = this.special;
                 pokecube.core.client.gui.GuiChooseFirstPokemob.pick = this.pick;
                 pokecube.core.client.gui.GuiChooseFirstPokemob.starters = this.starters;
                 net.minecraft.client.Minecraft.getInstance().setScreen(new GuiChooseFirstPokemob(this.starters));
             }
-            MinecraftForge.EVENT_BUS.unregister(this);
+            ThutCore.FORGE_BUS.unregister(this);
         }
     }
 
@@ -122,7 +124,7 @@ public class PacketChoose extends Packet
         if (PokecubeSerializer.getInstance().hasStarter(player)) return;
         // Fire pre event to deny starters from being processed.
         final StarterEvent.Pre pre = new StarterEvent.Pre(player);
-        MinecraftForge.EVENT_BUS.post(pre);
+        ThutCore.FORGE_BUS.post(pre);
         if (pre.isCanceled()) return;
         final String entryName = this.data.getString("N");
         final PokedexEntry entry = Database.getEntry(entryName);
@@ -137,7 +139,7 @@ public class PacketChoose extends Packet
 
         // Fire pick event to add new starters or items
         final StarterEvent.Pick pick = new StarterEvent.Pick(player, items, entry);
-        MinecraftForge.EVENT_BUS.post(pick);
+        ThutCore.FORGE_BUS.post(pick);
         /**
          * If canceled, assume items were not needed, or canceller handled
          * giving them.

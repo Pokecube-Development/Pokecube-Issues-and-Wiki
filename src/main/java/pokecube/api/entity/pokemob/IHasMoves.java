@@ -5,7 +5,6 @@ import javax.annotation.Nullable;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
-import pokecube.api.entity.CapabilityAffected;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.api.entity.pokemob.IHasCommands.Command;
@@ -256,7 +255,7 @@ public interface IHasMoves extends IHasStats
     default void healChanges()
     {
         this.getMoveStats().changes = 0;
-        final IOngoingAffected affected = CapabilityAffected.getAffected(this.getEntity());
+        final IOngoingAffected affected = PokemobCaps.getAffected(this.getEntity());
         if (affected != null) affected.removeEffects(NonPersistantStatusEffect.ID);
     }
 
@@ -341,7 +340,7 @@ public interface IHasMoves extends IHasStats
     default void removeChange(final int change)
     {
         this.getMoveStats().changes -= change;
-        final IOngoingAffected affected = CapabilityAffected.getAffected(this.getEntity());
+        final IOngoingAffected affected = PokemobCaps.getAffected(this.getEntity());
         if (affected != null)
         {
             final Effect toRemove = Effect.getStatus((byte) change);

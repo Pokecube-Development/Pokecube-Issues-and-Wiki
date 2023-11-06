@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.eventbus.api.Event.Result;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.CaptureEvent;
 import pokecube.api.events.pokemobs.FaintEvent;
 import pokecube.api.raids.RaidManager.RaidContext;
@@ -24,9 +25,10 @@ public interface IBossProvider
      * raid.
      * 
      * @param context
+     * @param pokemob - optional pokemob to init instead of create
      * @return a boss or null
      */
-    LivingEntity makeBoss(@Nonnull RaidContext context);
+    LivingEntity makeBoss(@Nonnull RaidContext context, @Nullable IPokemob pokemob);
 
     /**
      * Called after the boss is added to the world, can be used for anything
@@ -64,7 +66,7 @@ public interface IBossProvider
 
     default void onBossFaint(FaintEvent event)
     {
-        if(event.pokemob.getEntity().getLastHurtByMob() instanceof ServerPlayer player)
+        if (event.pokemob.getEntity().getLastHurtByMob() instanceof ServerPlayer player)
             thut.lib.ChatHelper.sendSystemMessage(player,
                     TComponent.translatable("pokecube.raid.capture.generic", event.pokemob.getDisplayName()));
     }

@@ -46,7 +46,7 @@ public class StanceHandler extends DefaultHandler
     public void handleCommand(final IPokemob pokemob) throws Exception
     {
         boolean stay = pokemob.getGeneralState(GeneralStates.STAYING);
-        final IGuardAICapability guard = pokemob.getEntity().getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
+        final IGuardAICapability guard = CapHolders.getGuardAI(pokemob.getEntity());
         switch (this.key)
         {
         case STAY:
