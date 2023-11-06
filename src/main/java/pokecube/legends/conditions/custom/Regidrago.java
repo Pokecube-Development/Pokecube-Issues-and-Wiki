@@ -2,10 +2,12 @@ package pokecube.legends.conditions.custom;
 
 import java.util.ArrayList;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
+import pokecube.legends.Reference;
 import pokecube.legends.conditions.AbstractCondition;
 import pokecube.legends.conditions.AbstractRegiCondition;
 import pokecube.legends.init.BlockInit;
@@ -13,9 +15,10 @@ import thut.api.maths.Vector3;
 
 public class Regidrago extends AbstractRegiCondition
 {
+    private static final ResourceLocation VALID_BLOCKS = new ResourceLocation(Reference.ID, "arceus_approved/regidrago");
     public Regidrago()
     {
-        super("regidrago", BlockInit.GOLEM_STONE.get(), BlockInit.REGIDRAGO_CORE.get(), Blocks.OBSIDIAN);
+        super("regidrago", BlockInit.GOLEM_STONE.get(), BlockInit.REGIDRAGO_CORE.get(), VALID_BLOCKS);
     }
 
     @Override
@@ -60,7 +63,7 @@ public class Regidrago extends AbstractRegiCondition
             locations.clear();
             locations.add(location.add(-1, 0, 0));
             locations.add(location.add(1, 0, 0));
-            check = AbstractCondition.isBlock(world, locations, Blocks.OBSIDIAN);
+            check = AbstractCondition.isBlock(world, locations, VALID_BLOCKS);
         }
         else
         {
@@ -75,7 +78,7 @@ public class Regidrago extends AbstractRegiCondition
                 locations.clear();
                 locations.add(location.add(0, 0, 1));
                 locations.add(location.add(0, 0, -1));
-                check = AbstractCondition.isBlock(world, locations, Blocks.OBSIDIAN);
+                check = AbstractCondition.isBlock(world, locations, VALID_BLOCKS);
             }
         }
         if (!check)
