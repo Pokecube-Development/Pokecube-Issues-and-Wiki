@@ -27,7 +27,7 @@ public class Breeding extends ListPage<LineEntry>
     public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_pokedex_breeding");
     public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_pokedex_breeding_nm");
 
-    int last = 0;
+    long last = 0;
     final PokemobInfoPage parent;
 
     public Breeding(final PokemobInfoPage parent)
@@ -39,14 +39,11 @@ public class Breeding extends ListPage<LineEntry>
     @Override
     void drawInfo(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
-        final PokedexEntry ourEntry = this.parent.pokemob.getPokedexEntry();
-        final int num = PacketPokedex.relatedLists.getOrDefault(ourEntry.getTrimmedName(), Collections.emptyList())
-                .size();
         // This is to give extra time for packet syncing.
-        if (this.last != num)
+        if (PacketPokedex.changed != this.last)
         {
             this.initList();
-            this.last = num;
+            this.last = PacketPokedex.changed;
             this.children.add(this.list);
         }
     }
