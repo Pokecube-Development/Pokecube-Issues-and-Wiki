@@ -1,11 +1,11 @@
 package pokecube.core.network.packets;
 
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
@@ -57,6 +57,7 @@ import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.world.dimension.SecretBaseDimension;
+import thut.api.Tracker;
 import thut.api.entity.teleporting.TeleDest;
 import thut.api.maths.Cruncher.SquareLoopCruncher;
 import thut.api.maths.Vector3;
@@ -88,10 +89,12 @@ public class PacketPokedex extends NBTPacket
 
     public static final Gson gson = new GsonBuilder().setExclusionStrategies(UnderscoreIgnore.INSTANCE).create();
 
-    public static List<String> values = Lists.newArrayList();
-    public static List<SpawnBiomeMatcher> selectedMob = Lists.newArrayList();
+    public static List<String> values = new ArrayList<>();
+    public static List<SpawnBiomeMatcher> selectedMob = new ArrayList<>();
+    public static BitSet validSpawnIndex = new BitSet();
     public static Map<PokedexEntry, SpawnBiomeMatcher> selectedLoc = Maps.newHashMap();
     public static Map<String, List<String>> relatedLists = Maps.newHashMap();
+    public static long changed = 0;
 
     public static Set<PokedexEntry> haveConditions = Sets.newHashSet();
 
@@ -244,8 +247,10 @@ public class PacketPokedex extends NBTPacket
     {
         int n = 0;
         final CompoundTag spawns = new CompoundTag();
+        CompoundTag spawnHere = new CompoundTag();
         var entry = Database.getEntry(tag.getString("V"));
         var packet = new PacketPokedex(PacketPokedex.REQUESTMOB);
+        SpawnCheck check = new SpawnCheck(new Vector3(player), player.level);
         if (entry.getSpawnData() != null) for (final SpawnBiomeMatcher matcher : entry.getSpawnData().matchers.keySet())
         {
             String serialised = PacketPokedex.serialize(matcher);
@@ -253,6 +258,7 @@ public class PacketPokedex extends NBTPacket
             // hidden by the desc being set to __hidden__
             if (serialised == null) continue;
             spawns.putString("" + n, serialised);
+            if (matcher.matches(check)) spawnHere.putBoolean("" + n, true);
             n++;
         }
         if (PokemobSpawns.REGEX_SPAWNS.containsKey(entry))
@@ -266,11 +272,13 @@ public class PacketPokedex extends NBTPacket
                 // hidden by the desc being set to __hidden__
                 if (serialised == null) continue;
                 spawns.putString("" + n, serialised);
+                if (matcher.matches(check)) spawnHere.putBoolean("" + n, true);
                 n++;
             }
         }
         spawns.putInt("n", n);
         packet.getTag().put("V", spawns);
+        packet.getTag().put("H", spawnHere);
         PacketPokedex.ASSEMBLER.sendTo(packet, player);
         packet = new PacketPokedex(PacketPokedex.BREEDLIST);
         final CompoundTag breedable = new CompoundTag();
@@ -306,7 +314,7 @@ public class PacketPokedex extends NBTPacket
 
         packet.getTag().putBoolean("M", watch);
         packet.getTag().putInt("R", PokecubeCore.getConfig().baseRadarRange);
-        final List<GlobalPos> meteors = Lists.newArrayList(PokecubeSerializer.getInstance().meteors);
+        final List<GlobalPos> meteors = new ArrayList<>(PokecubeSerializer.getInstance().meteors);
         meteors.removeIf(p -> p.dimension() != here.dimension());
 
         SquareLoopCruncher searcher = new SquareLoopCruncher();
@@ -444,10 +452,10 @@ public class PacketPokedex extends NBTPacket
             if (watch) net.minecraft.client.Minecraft.getInstance()
                     .setScreen(new GuiPokeWatch(player, mob instanceof LivingEntity ? (LivingEntity) mob : null));
             else net.minecraft.client.Minecraft.getInstance().setScreen(new GuiPokedex(pokemob, player));
-            return;
+            break;
         case BASERADAR:
             pokecube.core.client.gui.watch.SecretBaseRadarPage.updateRadar(this.getTag());
-            return;
+            break;
         case REQUESTLOC:
             PacketPokedex.selectedLoc.clear();
             data = this.getTag().getCompound("V");
@@ -461,31 +469,38 @@ public class PacketPokedex extends NBTPacket
             if (this.getTag().contains("E"))
                 PokecubePlayerDataHandler.getCustomDataTag(player).putString("WEntry", this.getTag().getString("E"));
             PacketPokedex.repelled = this.getTag().getBoolean("R");
-            return;
+            break;
         case REQUESTMOB:
             PacketPokedex.selectedMob.clear();
             data = this.getTag().getCompound("V");
             num = data.getInt("n");
+            var validHere = this.getTag().getCompound("H");
+            validSpawnIndex.clear();
+            for (var key : validHere.getAllKeys())
+            {
+                boolean var = validHere.getBoolean(key);
+                if (var) validSpawnIndex.set(Integer.parseInt(key));
+            }
             for (int i = 0; i < num; i++)
             {
                 String value = data.getString("" + i);
                 var matcher = PacketPokedex.gson.fromJson(value, SpawnBiomeMatcher.class).setClient();
                 PacketPokedex.selectedMob.add(matcher);
             }
-            return;
+            break;
         case BREEDLIST:
             data = this.getTag().getCompound("V");
             final String entry = this.getTag().getString("e");
-            final List<String> related = Lists.newArrayList();
+            final List<String> related = new ArrayList<>();
             num = data.getInt("n");
             for (int i = 0; i < num; i++) related.add(data.getString("" + i));
             PacketPokedex.relatedLists.put(entry, related);
-            return;
+            break;
         case REWARDS:
             final String reward = this.getTag().getString("R");
             if (!reward.isEmpty()) Database.loadRewards(reward);
             pokecube.core.client.gui.GuiInfoMessages.clear();
-            return;
+            break;
         case CHECKLEGEND:
             PacketPokedex.haveConditions.clear();
             final ListTag legends = this.getTag().getList("legends", 8);
@@ -501,8 +516,9 @@ public class PacketPokedex extends NBTPacket
                 final PokedexEntry p = Database.getEntry(no_breed.getString(i));
                 if (p != null) PacketPokedex.noBreeding.add(p);
             }
-            return;
+            break;
         }
+        changed = Tracker.instance().getTick();
     }
 
     public static String serialize(final SpawnBiomeMatcher matcher)
