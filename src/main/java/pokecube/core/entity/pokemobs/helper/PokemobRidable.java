@@ -359,9 +359,9 @@ public abstract class PokemobRidable extends PokemobHasParts
             {
                 final Vec3f seat = new Vec3f();
                 final BodyPart part = bodySeats.get(index);
-                seat.x = (float) (part.__pos__.x + part.__ride__.x) * size;
-                seat.y = (float) (part.__pos__.y + part.__ride__.y) * size;
-                seat.z = (float) (part.__pos__.z + part.__ride__.z) * size;
+                seat.x = (float) (part.__ride__.x) * size;
+                seat.y = (float) (part.__ride__.y) * size;
+                seat.z = (float) (part.__ride__.z) * size;
                 final Seat newSeat = (Seat) this.getSeat(index).clone();
                 newSeat.seat = seat;
                 this.pokemobCap.dataSync().set(SEAT[index], newSeat);

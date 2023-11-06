@@ -61,8 +61,8 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
             if (this.ride != null)
             {
                 args = this.ride.split(",");
-                this.__ride__ = new Vec3(Double.parseDouble(args[0]), Double.parseDouble(args[1]),
-                        Double.parseDouble(args[2]));
+                this.__ride__ = new Vec3(Double.parseDouble(args[0]) - __pos__.x,
+                        Double.parseDouble(args[1]) - __pos__.y, Double.parseDouble(args[2]) - __pos__.z);
             }
         }
     }
@@ -227,13 +227,13 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
             }
         }
     }
-    
+
     @Override
     public float getStepHeight()
     {
         return this.getParent().getStepHeight();
     }
-    
+
     @Override
     public ItemStack getPickedResult(HitResult target)
     {
