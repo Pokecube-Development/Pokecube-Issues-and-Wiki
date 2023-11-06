@@ -193,8 +193,14 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IItem
         var genes = ThutCaps.getGenetics(mob);
         if (pokemob != null && genes != null)
         {
-            float size = GuiPokemobHelper.sizeMap.getOrDefault(pokemob.getPokedexEntry(), 1.0f);
-            pokemob.setSize(0.15f / size);
+            if (!mob.getPersistentData().contains("pokecube:__gui__size"))
+                mob.getPersistentData().putFloat("pokecube:__gui__size", pokemob.getSize());
+            if (transform != TransformType.GROUND)
+            {
+                float size = GuiPokemobHelper.sizeMap.getOrDefault(pokemob.getPokedexEntry(), 1.0f);
+                pokemob.setSize(0.15f / size);
+            }
+            else pokemob.setSize(mob.getPersistentData().getFloat("pokecube:__gui__size"));
             var size_gene = genes.getAlleles(GeneticsManager.SIZEGENE);
             if (size_gene != null) size_gene.getExpressed().onUpdateTick(mob);
         }
