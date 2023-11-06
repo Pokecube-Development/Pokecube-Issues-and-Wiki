@@ -1,8 +1,8 @@
 package pokecube.legends.items;
 
 import java.util.List;
-
 import java.util.Random;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;

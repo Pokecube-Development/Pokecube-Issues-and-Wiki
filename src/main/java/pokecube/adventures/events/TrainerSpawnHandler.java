@@ -27,7 +27,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
@@ -261,7 +260,8 @@ public class TrainerSpawnHandler
             if (t == null) return;
             final IHasPokemobs cap = TrainerCaps.getHasPokemobs(t);
             final NpcSpawn event = new NpcSpawn.Spawn(t, v.getPos(), w, MobSpawnType.NATURAL);
-            if (MinecraftForge.EVENT_BUS.post(event))
+            ThutCore.FORGE_BUS.post(event);
+            if (event.isCanceled())
             {
                 t.remove(RemovalReason.DISCARDED);
                 return;
@@ -340,8 +340,9 @@ public class TrainerSpawnHandler
                 PokecubeAPI.LOGGER.error("Error parsing " + function, e);
             }
             if (PokecubeCore.getConfig().debug_spawning) PokecubeAPI.logInfo("Adding trainer: " + mob);
-            if (!MinecraftForge.EVENT_BUS
-                    .post(new NpcSpawn.Check(mob, event.pos, event.worldActual, MobSpawnType.STRUCTURE, thing)))
+            var checkEvent = new NpcSpawn.Check(mob, event.pos, event.worldActual, MobSpawnType.STRUCTURE, thing);
+            ThutCore.FORGE_BUS.post(checkEvent);
+            if (!checkEvent.isCanceled())
             {
                 event.setResult(Result.ALLOW);
                 final JsonObject apply = thing;

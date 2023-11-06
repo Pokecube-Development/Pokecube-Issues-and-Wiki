@@ -4,9 +4,10 @@
   <phase name="global" scale="0.18"/>
   <metadata head="head" headCap="-20,20" headCap1="-20,20"/>
   <phase duration="10" leftFront="leg1" leftHind="leg3" name="quadWalk" rightFront="leg2" rightHind="leg4"/>
+  <phase female="f" male="m" name="textures"/>
   <customTex default="rhyhorn">
-   <part name="Head" tex="rhyhorneye"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <part name="Head" tex="rhyhorn_eye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:3"/>
   </customTex>
   <phase type="idle">
    <part name="mouth">

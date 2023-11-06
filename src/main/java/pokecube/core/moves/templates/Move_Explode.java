@@ -11,7 +11,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Explosion;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.ExplosionEvent;
 import pokecube.api.data.moves.IMove;
 import pokecube.api.data.moves.MoveApplicationRegistry;
@@ -28,6 +27,7 @@ import pokecube.core.moves.MovesUtils;
 import thut.api.boom.ExplosionCustom;
 import thut.api.boom.ExplosionCustom.IEntityHitter;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 /** @author Manchou */
 public class Move_Explode implements IMove
@@ -102,7 +102,7 @@ public class Move_Explode implements IMove
                     final ExplosionCustom boom = MovesUtils.newExplosion(mob, mob.getX(), mob.getY(), mob.getZ(), f1);
                     boom.hitter = hitter;
                     final ExplosionEvent.Start evt = new ExplosionEvent.Start(mob.getLevel(), boom);
-                    MinecraftForge.EVENT_BUS.post(evt);
+                    ThutCore.FORGE_BUS.post(evt);
                     if (!evt.isCanceled()) boom.doExplosion();
                 }
 

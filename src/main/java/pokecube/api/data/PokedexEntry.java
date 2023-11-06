@@ -107,7 +107,7 @@ public class PokedexEntry
     {
     }
 
-    public static class EvolutionData
+    public static class EvolutionData implements Comparable<EvolutionData>
     {
         public PokemobCondition _condition;
         public PokedexEntry result;
@@ -206,6 +206,12 @@ public class PokedexEntry
             boolean matched = _condition.matches(mob);
             mob.setEvolutionStack(old);
             return matched;
+        }
+
+        @Override
+        public int compareTo(EvolutionData o)
+        {
+            return this.data.compareTo(o.data);
         }
     }
 
@@ -1530,7 +1536,6 @@ public class PokedexEntry
         return this.name;
     }
 
-    /** @return the pokedexNb */
     public int getPokedexNb()
     {
         return this.pokedexNb;
@@ -1718,6 +1723,9 @@ public class PokedexEntry
         PokedexEntry breedEntry = this;
         if (this.isGenderForme) breedEntry = this.getBaseForme();
         List<Evolution> evos = EvolutionDataLoader.RULES.getOrDefault(breedEntry, Collections.emptyList());
+        // Sort the list, this uses the priority, so some can be set to match
+        // first.
+        evos.sort(null);
 
         for (final Evolution evol : evos)
         {
@@ -1922,12 +1930,6 @@ public class PokedexEntry
         this.spawns = data;
     }
 
-    public boolean shouldEvolve(final IPokemob mob)
-    {
-        for (final EvolutionData d : this.evolutions) if (d.shouldEvolve(mob)) return true;
-        return false;
-    }
-
     public boolean swims()
     {
         return MovementType.WATER.is(this.mobType);
@@ -1941,8 +1943,7 @@ public class PokedexEntry
     @Override
     public String toString()
     {
-        final String ret = this.name;
-        return ret;
+        return this.name;
     }
 
     public void updateMoves()

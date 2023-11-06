@@ -8,6 +8,15 @@ import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.pokemob.IPokemob;
 import thut.api.maths.Vector3;
 
+
+/**
+ * This class matches the location the pokemob is at<br>
+ * <br>
+ * Matcher key: "location" <br>
+ * Json keys: <br>
+ * "location" - Json Object of spawn rule format
+ */
+@Condition(name = "location")
 public class AtLocation implements PokemobCondition
 {
     public SpawnRule location;

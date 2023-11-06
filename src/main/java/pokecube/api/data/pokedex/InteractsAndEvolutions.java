@@ -28,9 +28,11 @@ import thut.core.common.ThutCore;
 public class InteractsAndEvolutions
 {
 
-    public static class Evolution
+    public static class Evolution implements Comparable<Evolution>
     {
         public Boolean clear;
+
+        public int priority = 10;
 
         public JsonElement condition;
 
@@ -123,6 +125,14 @@ public class InteractsAndEvolutions
         public String toString()
         {
             return PokedexEntryLoader.gson.toJson(this);
+        }
+
+        @Override
+        public int compareTo(Evolution o)
+        {
+            // Only use priority, this way certain evolutions can be preferred,
+            // but otherwise will be random order.
+            return Integer.compare(priority, o.priority);
         }
     }
 

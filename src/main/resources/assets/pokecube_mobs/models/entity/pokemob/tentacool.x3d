@@ -215,7 +215,14 @@
 						<Group DEF="group_ME_Cube_030">
 							<Shape>
 								<Appearance>
-									<Material USE="MA_Body" />
+									<Material DEF="MA_Light"
+									          diffuseColor="0.800 0.800 0.800"
+									          specularColor="0.401 0.401 0.401"
+									          emissiveColor="0.000 0.000 0.000"
+									          ambientIntensity="0.000"
+									          shininess="0.500"
+									          transparency="0.0"
+									          />
 								</Appearance>
 								<IndexedTriangleSet solid="false"
 								                    normalPerVertex="true"
@@ -350,14 +357,7 @@
 						<Group DEF="group_ME_Cube_032">
 							<Shape>
 								<Appearance>
-									<Material DEF="MA_Light"
-									          diffuseColor="0.800 0.800 0.800"
-									          specularColor="0.401 0.401 0.401"
-									          emissiveColor="0.000 0.000 0.000"
-									          ambientIntensity="0.000"
-									          shininess="0.500"
-									          transparency="0.0"
-									          />
+									<Material USE="MA_Light" />
 								</Appearance>
 								<IndexedTriangleSet solid="false"
 								                    normalPerVertex="true"
@@ -694,7 +694,7 @@
 						<Group DEF="group_ME_Cube_037">
 							<Shape>
 								<Appearance>
-									<Material USE="MA_Body" />
+									<Material USE="MA_Light" />
 								</Appearance>
 								<IndexedTriangleSet solid="false"
 								                    normalPerVertex="true"

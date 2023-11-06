@@ -66,8 +66,7 @@ public abstract class InteractableBlock extends Block
             }
             else
             {
-                final IItemHandler items = tileentity.getCapability(ThutCaps.ITEM_HANDLER)
-                        .orElse(null);
+                final IItemHandler items = ThutCaps.getInventory(tileentity);
                 if (items != null)
                 {
 

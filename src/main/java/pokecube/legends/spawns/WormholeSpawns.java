@@ -19,7 +19,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
@@ -104,6 +103,11 @@ public class WormholeSpawns implements IWorldTickListener
     {
     });
 
+    public static IWormholeWorld getWormholes(Level level)
+    {
+        return level.getCapability(WormholeSpawns.WORMHOLES_CAP).orElse(null);
+    }
+
     static WormholeSpawns INSTANCE = new WormholeSpawns();
 
     public static double randomWormholeChance = 0.00001;
@@ -119,8 +123,8 @@ public class WormholeSpawns implements IWorldTickListener
     public static void init()
     {
         WorldTickManager.registerStaticData(() -> WormholeSpawns.INSTANCE, p -> true);
-        MinecraftForge.EVENT_BUS.addGenericListener(Level.class, WormholeSpawns::onWorldCaps);
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, WormholeEntity::onTeleport);
+        ThutCore.FORGE_BUS.addGenericListener(Level.class, WormholeSpawns::onWorldCaps);
+        ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, WormholeEntity::onTeleport);
     }
 
     public static void registerCapabilities(final RegisterCapabilitiesEvent event)
@@ -157,7 +161,7 @@ public class WormholeSpawns implements IWorldTickListener
     {
         if (!SpawnHandler.canSpawnInWorld(world)) return;
 
-        final IWormholeWorld holes = world.getCapability(WormholeSpawns.WORMHOLES_CAP).orElse(null);
+        final IWormholeWorld holes = WormholeSpawns.getWormholes(world);
         if (holes == null) return;
 
         final double rate = WormholeSpawns.randomWormholeChance;

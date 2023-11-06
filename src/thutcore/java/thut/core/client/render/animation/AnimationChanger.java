@@ -106,7 +106,7 @@ public class AnimationChanger implements IAnimationChanger
     {
         this.checkWildCard(partIdentifier);
         int rgba = 0xFFFFFFFF;
-        final IMobColourable pokemob = entity.getCapability(ThutCaps.COLOURABLE).orElse(null);
+        final IMobColourable pokemob = ThutCaps.getColourable(entity);
         if (pokemob == null) return rgba;
         rgba = 0xFF000000;
         if (this.dyeables.contains(partIdentifier))

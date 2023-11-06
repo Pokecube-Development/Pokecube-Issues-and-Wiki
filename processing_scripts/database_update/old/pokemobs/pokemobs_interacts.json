@@ -2364,7 +2364,7 @@
           {
             "name": "Lanturn",
             "level": 27,
-            "evoMoves": "spitup,  stockpile,  stockpileswallowspitup,  swallow"
+            "evoMoves": "spitup,  stockpile,  swallow"
           }
         ]
       }
@@ -2706,7 +2706,7 @@
           {
             "name": "Forretress",
             "level": 31,
-            "evoMoves": "autotomize,  mirrorshot,  mirrorshotautotomize"
+            "evoMoves": "autotomize,  mirrorshot"
           }
         ]
       }
@@ -3748,7 +3748,7 @@
           {
             "name": "Ninjask",
             "level": 20,
-            "evoMoves": "doubleteam,  doubleteamscreechfurycutter,  furycutter,  screech"
+            "evoMoves": "doubleteam,  furycutter,  screech"
           }
         ]
       }
@@ -4629,7 +4629,7 @@
           {
             "name": "Metang",
             "level": 20,
-            "evoMoves": "confusion,  confusionmetalclaw,  metalclaw"
+            "evoMoves": "confusion,  metalclaw"
           }
         ]
       }

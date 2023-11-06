@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.adventures.blocks.statue.StatueEntity;
 import pokecube.core.client.render.mobs.overlays.Status.StatusTexturer;
-import thut.api.entity.CopyCaps;
+import thut.api.ThutCaps;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.ICopyMob;
 import thut.core.client.render.animation.AnimationHelper;
@@ -86,7 +86,7 @@ public class StatueBlock implements BlockEntityRenderer<StatueEntity>
             final MultiBufferSource bufferIn, final int combinedLightIn, final int combinedOverlayIn)
     {
 
-        final ICopyMob copy = CopyCaps.get(tile);
+        final ICopyMob copy = ThutCaps.getCopyMob(tile);
         tile.checkMob();
         if (copy == null || copy.getCopiedMob() == null || tile.ticks++ < 10) return;
         final LivingEntity copied = copy.getCopiedMob();

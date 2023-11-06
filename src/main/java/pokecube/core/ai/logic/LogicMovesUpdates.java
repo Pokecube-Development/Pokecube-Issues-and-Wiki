@@ -12,7 +12,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.entity.CapabilityAffected;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -206,7 +205,7 @@ public class LogicMovesUpdates extends LogicBase
              * Heals the status effects if the capability is soemhow removed,
              * yet it still thinks it has a status.
              */
-            final IOngoingAffected affected = CapabilityAffected.getAffected(this.pokemob.getEntity());
+            final IOngoingAffected affected = PokemobCaps.getAffected(this.pokemob.getEntity());
             if (affected == null) return;
             final Collection<?> set = affected.getEffects(PersistantStatusEffect.ID);
             if (set.isEmpty() && this.statusTick++ > 20)

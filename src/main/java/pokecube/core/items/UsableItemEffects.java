@@ -19,12 +19,11 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.items.IPokemobUseable;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.utils.Tools;
@@ -44,7 +43,7 @@ public class UsableItemEffects
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return UsableItemEffects.USABLEITEM_CAP.orEmpty(cap, this.holder);
+            return PokemobCaps.USABLEITEM_CAP.orEmpty(cap, this.holder);
         }
 
     }
@@ -290,10 +289,6 @@ public class UsableItemEffects
             return result;
         }
     }
-
-    public static final Capability<IPokemobUseable> USABLEITEM_CAP = CapabilityManager.get(new CapabilityToken<>()
-    {
-    });
 
     public static final ResourceLocation USABLE = new ResourceLocation(PokecubeMod.ID, "usables");
 

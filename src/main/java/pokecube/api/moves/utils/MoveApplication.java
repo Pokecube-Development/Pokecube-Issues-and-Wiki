@@ -22,7 +22,6 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.npc.Npc;
 import net.minecraft.world.entity.player.Player;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.entity.CapabilityAffected;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -384,7 +383,7 @@ public class MoveApplication implements Comparable<MoveApplication>
                 @Override
                 public void applyOngoingEffects(Damage t)
                 {
-                    final IOngoingAffected targetAffected = CapabilityAffected.getAffected(t.move().target);
+                    final IOngoingAffected targetAffected = PokemobCaps.getAffected(t.move().target);
                     if (PokecubeCore.getConfig().debug_moves)
                         PokecubeAPI.logInfo("Applying Ongoing Effect for move {} used on {}", t.move().getName(),
                                 t.move().getTarget());

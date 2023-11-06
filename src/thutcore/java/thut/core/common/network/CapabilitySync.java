@@ -15,12 +15,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityDispatcher;
 import net.minecraftforge.common.capabilities.CapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
+import thut.api.entity.EntityProvider;
 import thut.core.common.ThutCore;
 import thut.core.common.network.nbtpacket.NBTPacket;
 import thut.core.common.network.nbtpacket.PacketAssembly;
@@ -116,8 +116,8 @@ public class CapabilitySync extends NBTPacket
 
     public static void init()
     {
-        MinecraftForge.EVENT_BUS.addListener(CapabilitySync::onStartTracking);
-        MinecraftForge.EVENT_BUS.addListener(CapabilitySync::onJoinWorld);
+        ThutCore.FORGE_BUS.addListener(CapabilitySync::onStartTracking);
+        ThutCore.FORGE_BUS.addListener(CapabilitySync::onJoinWorld);
     }
 
     private static void readMob(final Entity mob, final CompoundTag tag)
@@ -157,7 +157,7 @@ public class CapabilitySync extends NBTPacket
     {
         final int id = this.getTag().getInt("id");
         final Level world = net.minecraft.client.Minecraft.getInstance().level;
-        final Entity mob = world.getEntity(id);
+        final Entity mob = EntityProvider.provider.getEntity(world, id);
         if (mob != null) CapabilitySync.readMob(mob, this.getTag().getCompound("tag"));
     }
 }

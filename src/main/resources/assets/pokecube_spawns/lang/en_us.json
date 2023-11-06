@@ -25,7 +25,6 @@
   "pokecube.spawns.deserts.night":"In deserts at night",
   "pokecube.spawns.deserts.day":"In deserts during the day",
   "pokecube.spawns.deserts.hills":"In hilly areas in deserts",
-  "pokecube.spawns.deserts.night":"In deserts at night",
   "pokecube.spawns.badlands.general":"In badlands",
   "pokecube.spawns.badlands.night":"In badlands at night",
   "pokecube.spawns.badlands.day":"In badlands during the day",
@@ -119,16 +118,6 @@
   "pokecube.spawns.villages.general":"Around villages",
   "pokecube.spawns.villages.day":"Around villages, during the day",
   
-  "_comment2": "Pokemob specific info",
-  
-  "pokecube.evos.spewpa.vivillon_oc": "Around oceans and beaches which are not cold",
-  "pokecube.evos.spewpa.vivillon_sa": "In deserts",
-  "pokecube.evos.spewpa.vivillon_he": "In the nether",
-  "pokecube.evos.spewpa.vivillon_en": "In the end",
-  "pokecube.evos.spewpa.vivillon_po": "In cold, frozen areas",
-  "pokecube.evos.spewpa.vivillon_ic": "In cold areas",
-  "pokecube.evos.spewpa.vivillon_mon": "In wet areas",
-  "pokecube.evos.spewpa.vivillon_su": "In savannas",
-  "pokecube.evos.spewpa.vivillon_mod": "In villages",
-  "pokecube.evos.spewpa.vivillon_el": "Around most plains and forests"
+  "_comment2": "Pokemob specific info"
+
  }

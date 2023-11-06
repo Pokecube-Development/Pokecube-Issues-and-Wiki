@@ -22,8 +22,8 @@ import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import pokecube.api.blocks.IInhabitable;
-import pokecube.api.entity.CapabilityInhabitable;
 import pokecube.core.ai.tasks.bees.BeeTasks;
+import pokecube.core.utils.CapHolders;
 
 public class HiveSensor extends Sensor<Mob>
 {
@@ -52,14 +52,14 @@ public class HiveSensor extends Sensor<Mob>
     {
         final IHiveEnterer vanillaHives = (entityIn, tile) -> {
             if (!(tile instanceof BeehiveBlockEntity)) return false;
-            final IInhabitable habitat = tile.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
+            final IInhabitable habitat = CapHolders.getInhabitable(tile);
             return habitat != null && habitat.onEnterHabitat(entityIn);
         };
         HiveSensor.hiveEnterers.add(vanillaHives);
 
         final IHiveSpaceCheck vanillaCheck = (entityIn, tile) -> {
             if (!(tile instanceof BeehiveBlockEntity)) return false;
-            final IInhabitable habitat = tile.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
+            final IInhabitable habitat = CapHolders.getInhabitable(tile);
             return habitat != null && habitat.canEnterHabitat(entityIn);
         };
         HiveSensor.hiveSpaceCheckers.add(vanillaCheck);

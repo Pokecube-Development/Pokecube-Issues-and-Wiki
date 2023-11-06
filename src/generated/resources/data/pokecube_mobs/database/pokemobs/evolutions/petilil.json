@@ -12,6 +12,7 @@
   {
     "name": "lilligant-hisui",
     "user": "petilil",
+    "priority": 1,
     "condition": [
       {
         "key": "location",

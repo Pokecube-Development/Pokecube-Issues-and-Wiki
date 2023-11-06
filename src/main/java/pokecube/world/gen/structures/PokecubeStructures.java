@@ -10,7 +10,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.RegistryObject;
@@ -18,6 +17,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.world.PokecubeWorld;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
+import thut.core.common.ThutCore;
 
 public class PokecubeStructures
 {
@@ -37,7 +37,7 @@ public class PokecubeStructures
 
     public static void init(final IEventBus bus)
     {
-        MinecraftForge.EVENT_BUS.addListener(PokecubeStructures::spawnVillageChecker);
+        ThutCore.FORGE_BUS.addListener(PokecubeStructures::spawnVillageChecker);
     }
 
     private static void spawnVillageChecker(final WorldEvent.Load event)

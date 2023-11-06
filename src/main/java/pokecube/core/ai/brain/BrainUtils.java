@@ -12,7 +12,6 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraftforge.common.MinecraftForge;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
@@ -22,6 +21,7 @@ import pokecube.core.utils.AITools;
 import thut.api.entity.ai.BrainUtil;
 import thut.api.entity.ai.VectorPosWrapper;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 public class BrainUtils extends BrainUtil
 {
@@ -191,7 +191,7 @@ public class BrainUtils extends BrainUtil
         if (!target.isAlive() || target.getHealth() <= 0) return;
 
         final SetAttackTargetEvent event = new SetAttackTargetEvent(mob, target);
-        MinecraftForge.EVENT_BUS.post(event);
+        ThutCore.FORGE_BUS.post(event);
 
         target = event.newTarget;
 

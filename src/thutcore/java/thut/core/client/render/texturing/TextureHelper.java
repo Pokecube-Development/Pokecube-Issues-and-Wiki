@@ -287,7 +287,7 @@ public class TextureHelper implements IPartTexturer
     public void bindObject(final Object thing)
     {
         this.mob = null;
-        if (thing instanceof ICapabilityProvider cap) this.mob = cap.getCapability(ThutCaps.MOBTEX_CAP).orElse(null);
+        if (thing instanceof ICapabilityProvider cap) this.mob = ThutCaps.getTexturable(cap);
         if (this.mob == null && thing instanceof Entity e) this.mob = new IMobTexturable()
         {
             Entity entity = e;

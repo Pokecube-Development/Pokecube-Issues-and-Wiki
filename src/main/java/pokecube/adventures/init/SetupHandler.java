@@ -1,7 +1,6 @@
 package pokecube.adventures.init;
 
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -29,44 +28,45 @@ import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.events.init.CompatEvent;
 import pokecube.compat.Compat;
 import thut.api.OwnableCaps;
+import thut.core.common.ThutCore;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeAdv.MODID)
 public class SetupHandler
 {
     public static void registerListeners()
     {
-        MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, EventPriority.LOWEST,
+        ThutCore.FORGE_BUS.addGenericListener(Entity.class, EventPriority.LOWEST,
                 TrainerEventHandler::onAttachMobCaps);
 
         // These two interact ones handle right click custom effects on npcs
-        MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onEntityInteract);
+        ThutCore.FORGE_BUS.addListener(TrainerEventHandler::onEntityInteract);
         // This one handles npcs being invulnerable to pokemobs, as well as some
         // damage target allocation
-        MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onLivingHurt);
+        ThutCore.FORGE_BUS.addListener(TrainerEventHandler::onLivingHurt);
         // Increases reputation for nearby NPCs if the player defeats wild
         // pokemobs
-        MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onLivingDeath);
+        ThutCore.FORGE_BUS.addListener(TrainerEventHandler::onLivingDeath);
         // Prevents npcs flagged as not mating from mating
-        MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onNpcBreedCheck);
+        ThutCore.FORGE_BUS.addListener(TrainerEventHandler::onNpcBreedCheck);
         // Hotkey to open belt inventory
-        MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onWearableUse);
+        ThutCore.FORGE_BUS.addListener(TrainerEventHandler::onWearableUse);
         // Hotkey to open belt inventory
-        MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::dropBelt);
+        ThutCore.FORGE_BUS.addListener(TrainerEventHandler::dropBelt);
 
         // One phase of initializing trainers.
-        MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onJoinWorld);
+        ThutCore.FORGE_BUS.addListener(TrainerEventHandler::onJoinWorld);
         // Does similar to onJoinWorld, but can take a different SpawnReason
-        MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onNpcSpawn);
+        ThutCore.FORGE_BUS.addListener(TrainerEventHandler::onNpcSpawn);
         // ticks the IHasPokemobs, and also ensures that the mob goes back to
         // idle mode if it was in battle, and battle is over.
-        MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onNpcTick);
+        ThutCore.FORGE_BUS.addListener(TrainerEventHandler::onNpcTick);
         // This initializes the mob's brain for use.
-        MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onBrainInit);
+        ThutCore.FORGE_BUS.addListener(TrainerEventHandler::onBrainInit);
         // Loads the trades for the trainers.
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, TrainerEventHandler::onPostServerStart);
+        ThutCore.FORGE_BUS.addListener(EventPriority.HIGH, TrainerEventHandler::onPostServerStart);
         // Manages npcs joining battles, such as preventing always friendly ones
         // from doing so.
-        MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onBattleJoin);
+        ThutCore.FORGE_BUS.addListener(TrainerEventHandler::onBattleJoin);
         // Prevent trainer's pokemobs going to the PC
         PokecubeAPI.POKEMOB_BUS.addListener(TrainerEventHandler::onSentToPC);
         // Prevents normal processing for recalling pokemobs, this re-adds it to
@@ -75,19 +75,19 @@ public class SetupHandler
         // Ensures the trainer is linked to its pokemob when it is sent out.
         PokecubeAPI.POKEMOB_BUS.addListener(TrainerEventHandler::onPostSendOut);
         // Used to make un-battleable trainers invisible if configured to do so.
-        MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onWatchTrainer);
+        ThutCore.FORGE_BUS.addListener(TrainerEventHandler::onWatchTrainer);
         // Prevent capturing trainers in snag cubes
         PokecubeAPI.POKEMOB_BUS.addListener(TrainerEventHandler::captureAttempt);
 
-        MinecraftForge.EVENT_BUS.register(TrainerSpawnHandler.class);
-        MinecraftForge.EVENT_BUS.register(BagItem.class);
-        MinecraftForge.EVENT_BUS.register(Linker.class);
-        MinecraftForge.EVENT_BUS.register(EnergyHandler.class);
-        MinecraftForge.EVENT_BUS.register(InventoryHandler.class);
-        MinecraftForge.EVENT_BUS.register(BlockEventHandler.class);
-        MinecraftForge.EVENT_BUS.register(TrainerTracker.class);
-        MinecraftForge.EVENT_BUS.register(CapabilityHasTrades.class);
-        MinecraftForge.EVENT_BUS.register(PlayerPokemobs.class);
+        ThutCore.FORGE_BUS.register(TrainerSpawnHandler.class);
+        ThutCore.FORGE_BUS.register(BagItem.class);
+        ThutCore.FORGE_BUS.register(Linker.class);
+        ThutCore.FORGE_BUS.register(EnergyHandler.class);
+        ThutCore.FORGE_BUS.register(InventoryHandler.class);
+        ThutCore.FORGE_BUS.register(BlockEventHandler.class);
+        ThutCore.FORGE_BUS.register(TrainerTracker.class);
+        ThutCore.FORGE_BUS.register(CapabilityHasTrades.class);
+        ThutCore.FORGE_BUS.register(PlayerPokemobs.class);
     }
 
     @SubscribeEvent

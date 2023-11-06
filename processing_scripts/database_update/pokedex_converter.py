@@ -732,6 +732,9 @@ def convert_evolution(entry):
         # Now construct the evolution
         _rule['name'] = result
         _rule['user'] = user
+        # Order priority if present
+        if "priority" in rule:
+            _rule["priority"] = rule["priority"]
         _rule["condition"] = da_rules
         if "evoMoves" in rule:
             _rule["evoMoves"] = rule["evoMoves"]
