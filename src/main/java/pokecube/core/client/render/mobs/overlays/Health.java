@@ -41,6 +41,8 @@ import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.eventhandlers.StatsCollector;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.init.Config;
+import pokecube.core.utils.EntityTools;
+import thut.api.entity.multipart.GenericPartEntity;
 import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.lib.TComponent;
@@ -62,8 +64,13 @@ public class Health
         final EntityRenderDispatcher renderManager = Minecraft.getInstance().getEntityRenderDispatcher();
         // Some sanity checks
         if (renderManager == null || renderManager.camera == null) return false;
+
+        // For hovor target, or cross-hair stuff, only consider the root entity
+        var rootHovor = EntityTools.getCoreEntity(EventsHandlerClient.hovorTarget);
+        var rootCross = EntityTools.getCoreEntity(renderManager.crosshairPickEntity);
+
         // If we are set to only show focused, then only show that.
-        if (PokecubeCore.getConfig().showOnlyFocused && (entity != EventsHandlerClient.hovorTarget && entity != renderManager.crosshairPickEntity)) return false;
+        if (PokecubeCore.getConfig().showOnlyFocused && (entity != rootHovor && entity != rootCross)) return false;
         // Only apply to stock ones, unless otherwise configured
         if (PokecubeCore.getConfig().nonStockHealthbars && !pokemob.getPokedexEntry().stock) return false;
         // Only apply if in range
@@ -184,6 +191,8 @@ public class Health
             quaternion = viewer.rotation();
             mat.mulPose(quaternion);
             mat.scale(scale, scale, scale);
+            mat.mulPose(Axis.YP.rotationDegrees(180));
+            mat.mulPose(Axis.XP.rotationDegrees(180));
 
             final float padding = config.backgroundPadding;
             final int bgHeight = config.backgroundHeight;
@@ -209,8 +218,6 @@ public class Health
             if (entity instanceof Mob mob && mob.hasCustomName()) nameComp = (MutableComponent) mob.getCustomName();
             if (namel + 20 > size * 2) size = namel / 2f + 10F;
             float healthSize = size * (health / maxHealth);
-            mat.mulPose(Axis.YP.rotationDegrees(180));
-            mat.mulPose(Axis.XP.rotationDegrees(180));
 
             pos = mat.last().pose();
             // Background
@@ -338,6 +345,36 @@ public class Health
             mat.popPose();
         }
         mat.popPose();
+
+        if (PokecubeCore.getConfig().enableDebugInfo && mc.options.renderDebug && entity.isMultipartEntity()
+                && entity.getParts() != null)
+        {
+            float scale = 0.02f;
+            float s = 0.5f;
+            for (var p : entity.getParts())
+            {
+                if (!(p instanceof GenericPartEntity<?> g)) continue;
+
+                mat.pushPose();
+
+                double dx = p.getX() - entity.getX();
+                double dy = p.getY() - entity.getY();
+                double dz = p.getZ() - entity.getZ();
+                mat.translate(dx, dy + p.getBbHeight(), dz);
+                Quaternionf quaternion;
+                quaternion = viewer.rotation();
+                mat.mulPose(quaternion);
+                mat.scale(scale, scale, scale);
+                mat.mulPose(Axis.YP.rotationDegrees(180));
+                mat.mulPose(Axis.XP.rotationDegrees(180));
+                mat.translate(0, -2.5F, 0F);
+                mat.scale(s, s, s);
+
+                guigraphics.drawString(mc.font, g.id, 0, 16, 0xFFFFFFFF, false);
+
+                mat.popPose();
+            }
+        }
     }
 
     public static void renderIcon(final LivingEntity mob, final PoseStack mat, final MultiBufferSource buf,
