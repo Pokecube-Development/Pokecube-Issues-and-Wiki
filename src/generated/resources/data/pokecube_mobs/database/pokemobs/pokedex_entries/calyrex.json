@@ -183,21 +183,5 @@
       "tera-blast"
     ]
   },
-  "spawn_rules": [
-    {
-      "and_preset": "taigas",
-      "values": {
-        "rate": "0.0"
-      }
-    },
-    {
-      "values": {
-        "structures": "pokecube_legends:castle_n",
-        "min": "1",
-        "max": "1",
-        "rate": "0.008"
-      }
-    }
-  ],
   "loot_table": "pokecube:entities/generic_legend"
 }

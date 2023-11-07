@@ -271,13 +271,5 @@
       ]
     }
   },
-  "spawn_rules": [
-    {
-      "values": {
-        "structures": "pokecube_legends:necrozma_tower",
-        "rate": "0.0"
-      }
-    }
-  ],
   "loot_table": "pokecube:entities/generic_legend"
 }

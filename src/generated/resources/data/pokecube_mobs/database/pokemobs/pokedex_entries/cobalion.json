@@ -170,21 +170,5 @@
       "coaching"
     ]
   },
-  "spawn_rules": [
-    {
-      "values": {
-        "structures": "pokecube_legends:keldeo_place",
-        "rate": "0.0"
-      }
-    },
-    {
-      "values": {
-        "structures": "pokecube_legends:keldeo_place",
-        "min": "1",
-        "rate": "0.005",
-        "max": "1"
-      }
-    }
-  ],
   "loot_table": "pokecube:entities/generic_legend"
 }

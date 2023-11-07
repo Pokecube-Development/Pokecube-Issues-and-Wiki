@@ -199,15 +199,5 @@
       "expanding-force"
     ]
   },
-  "spawn_rules": [
-    {
-      "values": {
-        "types": "#pokecube_legends:can_spawn/blacephalon",
-        "min": "1",
-        "rate": "0.2",
-        "max": "1"
-      }
-    }
-  ],
   "loot_table": "pokecube:entities/blaze_rabbit_2"
 }

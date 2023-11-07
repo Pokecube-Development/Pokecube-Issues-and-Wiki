@@ -259,13 +259,5 @@
       "dual-wingbeat"
     ]
   },
-  "spawn_rules": [
-    {
-      "and_preset": "beaches",
-      "values": {
-        "rate": "0.0"
-      }
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_2"
 }

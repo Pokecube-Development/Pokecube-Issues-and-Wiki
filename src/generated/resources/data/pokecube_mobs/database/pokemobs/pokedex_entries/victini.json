@@ -219,13 +219,5 @@
       "expanding-force",
       "scorching-sands"
     ]
-  },
-  "spawn_rules": [
-    {
-      "and_preset": "villages",
-      "values": {
-        "rate": "0.0"
-      }
-    }
-  ]
+  }
 }

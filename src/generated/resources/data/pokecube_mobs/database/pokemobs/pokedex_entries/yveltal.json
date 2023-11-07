@@ -204,13 +204,5 @@
       "lash-out",
       "dual-wingbeat"
     ]
-  },
-  "spawn_rules": [
-    {
-      "values": {
-        "structures": "pokecube_legends:yveltal_place",
-        "rate": "0.0"
-      }
-    }
-  ]
+  }
 }

@@ -2,23 +2,19 @@ package pokecube.legends.spawns;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.registries.RegistryObject;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -35,6 +31,7 @@ import pokecube.core.database.Database;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.conditions.AbstractCondition;
+import pokecube.legends.conditions.data.Conditions.Spawn;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.lib.TComponent;
@@ -53,10 +50,10 @@ public class LegendarySpawn
     {
         final List<LegendarySpawn> matches = Lists.newArrayList();
         LegendarySpawn.spawns.forEach(s -> {
-            if (s.targetBlockChecker.test(state)) matches.add(s);
+            if (s.spawn.getTarget().test(state)) matches.add(s);
         });
         LegendarySpawn.data_spawns.forEach(s -> {
-            if (s.targetBlockChecker.test(state)) matches.add(s);
+            if (s.spawn.getTarget().test(state)) matches.add(s);
         });
         return matches;
     }
@@ -68,13 +65,15 @@ public class LegendarySpawn
         final ServerLevel worldIn = context.level();
         final PokedexEntry entry = context.entry();
 
-        final SpawnResult result = !spawn.heldItemChecker.test(stack) ? SpawnResult.WRONGITEM : SpawnResult.FAIL;
+        final SpawnResult result = !spawn.spawn.getKey().test(stack) ? SpawnResult.WRONGITEM : SpawnResult.FAIL;
 
         final ISpecialSpawnCondition spawnCondition = SpecialCaseRegister.getSpawnCondition(entry);
         final ISpecialCaptureCondition captureCondition = SpecialCaseRegister.getCaptureCondition(entry);
         if (spawnCondition != null)
         {
             final Vector3 location = new Vector3().set(evt.getPos());
+            if (spawnCondition instanceof AbstractCondition sCond) sCond.setSpawnRule(spawn.spawn);
+
             final CanSpawn test = spawnCondition.canSpawn(context, message);
 
             // Priority of errors:
@@ -93,8 +92,8 @@ public class LegendarySpawn
                 final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
                 if (captureCondition != null && !captureCondition.canCapture(playerIn, pokemob))
                 {
-                    if (message && captureCondition instanceof AbstractCondition)
-                        ((AbstractCondition) captureCondition).canCapture(playerIn, message);
+                    if (message && captureCondition instanceof AbstractCondition cond)
+                        cond.canCapture(playerIn, message);
                     evt.setCanceled(true);
                     return SpawnResult.NOCAPTURE;
                 }
@@ -188,6 +187,7 @@ public class LegendarySpawn
                 final ISpecialSpawnCondition spawnCondition = SpecialCaseRegister.getSpawnCondition(match.entry);
                 if (spawnCondition != null)
                 {
+                    if (spawnCondition instanceof AbstractCondition sCond) sCond.setSpawnRule(match.spawn);
                     final CanSpawn test = spawnCondition.canSpawn(context, false);
                     if (test == CanSpawn.ALREADYHAVE) break item;
                 }
@@ -238,32 +238,13 @@ public class LegendarySpawn
 
     }
 
-    private final Predicate<ItemStack> heldItemChecker;
-    private final Predicate<BlockState> targetBlockChecker;
-
+    private final Spawn spawn;
     private final PokedexEntry entry;
 
-    public LegendarySpawn(final String entry, final Item held, final Block target)
+    public LegendarySpawn(final String entry, Spawn spawn, boolean data_based)
     {
-        this(entry, (c) -> c.getItem() == held, (b) -> b.getBlock() == target, false);
-    }
-
-    public LegendarySpawn(final String entry, final RegistryObject<Item> held, final Block target)
-    {
-        this(entry, (c) -> c.getItem() == held.get(), (b) -> b.getBlock() == target, false);
-    }
-
-    public LegendarySpawn(final String entry, final RegistryObject<Item> held, final RegistryObject<Block> target)
-    {
-        this(entry, (c) -> c.getItem() == held.get(), (b) -> b.getBlock() == target.get(), false);
-    }
-
-    public LegendarySpawn(final String entry, final Predicate<ItemStack> heldItemChecker,
-            final Predicate<BlockState> targetBlockChecker, final boolean data_based)
-    {
-        this.heldItemChecker = heldItemChecker;
-        this.targetBlockChecker = targetBlockChecker;
         this.entry = Database.getEntry(entry);
+        this.spawn = spawn;
         if (this.entry == null)
             PokecubeAPI.LOGGER.warn("Tried to register spawn entry for {}, which is not a valid entry!", entry);
         else if (!data_based) LegendarySpawn.spawns.add(this);

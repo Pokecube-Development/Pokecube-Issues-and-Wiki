@@ -1,983 +1,1370 @@
 {
-  "conditions": [
+  "replace":false,
+  "conditions":[
     {
-      "name": "articuno",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.3",
-        "type": "ice"
+      "name":"articuno",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.3",
+        "type":"ice"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:ice_wing"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:ice_wing"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:lugia_tower"
+          }
         }
       }
     },
     {
-      "name": "articuno-galar",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.3",
-        "type": "flying"
+      "name":"articuno-galar",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.3",
+        "type":"flying"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:ice_dark_wing"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:ice_dark_wing"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:legendary_tree"
+          }
         }
       }
     },
     {
-      "name": "zapdos",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.3",
-        "type": "electric"
+      "name":"zapdos",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.3",
+        "type":"electric"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:electric_wing"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:electric_wing"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:lugia_tower"
+          }
         }
       }
     },
     {
-      "name": "zapdos-galar",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.2",
-        "type": "fighting"
+      "name":"zapdos-galar",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.2",
+        "type":"fighting"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:static_wing"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:static_wing"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:legendary_tree"
+          }
         }
       }
     },
     {
-      "name": "moltres",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.3",
-        "type": "fire"
+      "name":"moltres",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.3",
+        "type":"fire"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:fire_wing"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:fire_wing"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:lugia_tower"
+          }
         }
       }
     },
     {
-      "name": "moltres-galar",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.3",
-        "type": "dark"
+      "name":"moltres-galar",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.3",
+        "type":"dark"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:dark_fire_wing"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:dark_fire_wing"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:legendary_tree"
+          }
         }
       }
     },
     {
-      "name": "raikou",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.4",
-        "type": "electric"
+      "name":"raikou",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.4",
+        "type":"electric"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:thunder_gem"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:thunder_gem"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:ho-oh_temple"
+          }
         }
       }
     },
     {
-      "name": "entei",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.6",
-        "type": "fire"
+      "name":"entei",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.6",
+        "type":"fire"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:flame_gem"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:flame_gem"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:ho-oh_temple"
+          }
         }
       }
     },
     {
-      "name": "suicune",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.5",
-        "type": "water"
+      "name":"suicune",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.5",
+        "type":"water"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:water_gem"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:water_gem"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:ho-oh_temple"
+          }
         }
       }
     },
     {
-      "name": "lugia",
-      "preset": "entry_based",
-      "options": {
-        "entries": "articuno,zapdos,moltres"
+      "name":"lugia",
+      "preset":"entry_based",
+      "options":{
+        "entries":"articuno,zapdos,moltres"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:oceanorb"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:oceanorb"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:lugia_tower"
+          }
         }
       }
     },
     {
-      "name": "ho-oh",
-      "preset": "entry_based",
-      "options": {
-        "entries": "raikou,suicune,entei"
+      "name":"ho-oh",
+      "preset":"entry_based",
+      "options":{
+        "entries":"raikou,suicune,entei"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:legendaryorb"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:legendaryorb"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:ho-oh_temple"
+          }
         }
       }
     },
     {
-      "name": "celebi",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.7",
-        "type": "grass"
+      "name":"celebi",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.7",
+        "type":"grass"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:greenorb"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:greenorb"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:celebi_temple"
+          }
         }
       }
     },
     {
-      "name": "latias",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.3",
-        "type": "dragon"
+      "name":"latias",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.3",
+        "type":"dragon"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:soul_dew"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:soul_dew"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "and_preset":"beaches"
         }
       }
     },
     {
-      "name": "latios",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.3",
-        "type": "dragon"
+      "name":"latios",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.3",
+        "type":"dragon"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:soul_dew"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:soul_dew"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "and_preset":"beaches"
         }
       }
     },
     {
-      "name": "kyogre",
-      "preset": "spawns_only",
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:blueorb"
+      "name":"regirock",
+      "preset":"spawns_only",
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:rockcore"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:regirock_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:regirock_temple"
+          }
         }
       }
     },
     {
-      "name": "groudon",
-      "preset": "spawns_only",
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:redorb"
+      "name":"regice",
+      "preset":"spawns_only",
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:icecore"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:regice_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:regice_temple"
+          }
         }
       }
     },
     {
-      "name": "rayquaza",
-      "preset": "entry_based",
-      "options": {
-        "entries": "kyogre,groudon"
-      },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:ancient_stone"
+      "name":"registeel",
+      "preset":"spawns_only",
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:steelcore"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:registeel_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:registeel_temple"
+          }
         }
       }
     },
     {
-      "name": "jirachi",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.2",
-        "type": "steel"
-      },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:star_core"
+      "name":"regidrago",
+      "preset":"spawns_only",
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:dragocore"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:regidrago_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:regidrago_temple"
+          }
         }
       }
     },
     {
-      "name": "deoxys-normal",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.2",
-        "type": "psychic"
-      },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:meteor_shard"
+      "name":"regieleki",
+      "preset":"spawns_only",
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:thundercore"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:regieleki_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:regieleki_temple"
+          }
         }
       }
     },
     {
-      "name": "uxie",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.3",
-        "type": "psychic"
-      },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:uxie_gem"
+      "name":"regigigas",
+      "preset":"spawns_only",
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:regisorb"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:regigiga_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:regigigas_temple"
+          }
         }
       }
     },
     {
-      "name": "mesprit",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.3",
-        "type": "psychic"
-      },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:mesprit_gem"
+      "name":"kyogre",
+      "preset":"spawns_only",
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:blueorb"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:kyogre_temple"
+          }
         }
       }
     },
     {
-      "name": "azelf",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.3",
-        "type": "psychic"
-      },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:azelf_gem"
+      "name":"groudon",
+      "preset":"spawns_only",
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:redorb"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:groudon_temple"
+          }
         }
       }
     },
     {
-      "name": "dialga",
-      "preset": "entry_based",
-      "options": {
-        "entries": "uxie,mesprit,azelf"
+      "name":"rayquaza",
+      "preset":"entry_based",
+      "options":{
+        "entries":"kyogre,groudon"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:adamantorb"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:ancient_stone"
         },
-        "target": {
-          "id": "pokecube_legends:timerspace_spawn"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:sky_pillar"
+          }
         }
       }
     },
     {
-      "name": "palkia",
-      "preset": "entry_based",
-      "options": {
-        "entries": "uxie,mesprit,azelf"
+      "name":"jirachi",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.2",
+        "type":"steel"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:lustrousorb"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:star_core"
         },
-        "target": {
-          "id": "pokecube_legends:timerspace_spawn"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:sky_pillar"
+          }
         }
       }
     },
     {
-      "name": "heatran",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.5",
-        "type": "fire"
+      "name":"deoxys-normal",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.2",
+        "type":"psychic"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:magmacore"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:meteor_shard"
         },
-        "target": {
-          "id": "pokecube_legends:heatran_spawn"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:sky_pillar"
+          }
         }
       }
     },
     {
-      "name": "giratina-altered",
-      "preset": "entry_based",
-      "options": {
-        "entries": "dialga,palkia"
+      "name":"uxie",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.3",
+        "type":"psychic"
       },
-      "spawn": {}
-    },
-    {
-      "name": "cresselia",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.3",
-        "type": "fairy"
-      },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:lunar_wing"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:uxie_gem"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:zamazenta_temple,pokecube_legends:zacian_temple"
+          }
         }
       }
     },
     {
-      "name": "manaphy",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.4",
-        "type": "water"
+      "name":"mesprit",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.3",
+        "type":"psychic"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:manaphy_necklace"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:mesprit_gem"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:zamazenta_temple,pokecube_legends:zacian_temple"
+          }
         }
       }
     },
     {
-      "name": "darkrai",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.3",
-        "type": "dark"
+      "name":"azelf",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.3",
+        "type":"psychic"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:nightmare_book"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:azelf_gem"
         },
-        "target": {
-          "id": "pokecube_legends:yveltal_spawn"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:zamazenta_temple,pokecube_legends:zacian_temple"
+          }
         }
       }
     },
     {
-      "name": "arceus",
-      "preset": "entry_based",
-      "options": {
-        "entries": "dialga,palkia,giratina-altered"
+      "name":"dialga",
+      "preset":"entry_based",
+      "options":{
+        "entries":"uxie,mesprit,azelf"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:azure_flute"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:adamantorb"
         },
-        "target": {
-          "id": "pokecube_legends:timerspace_spawn"
+        "target":{
+          "id":"pokecube_legends:timerspace_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:space_temple"
+          }
         }
       }
     },
     {
-      "name": "victini",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.5",
-        "type": "psychic"
+      "name":"palkia",
+      "preset":"entry_based",
+      "options":{
+        "entries":"uxie,mesprit,azelf"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:emblem"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:lustrousorb"
         },
-        "target": {
-          "id": "pokecube_legends:victini_spawn"
+        "target":{
+          "id":"pokecube_legends:timerspace_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:space_temple"
+          }
         }
       }
     },
     {
-      "name": "cobalion",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.3",
-        "type": "steel"
+      "name":"heatran",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.5",
+        "type":"fire"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:cobalion_sword"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:magmacore"
         },
-        "target": {
-          "id": "pokecube_legends:keldeo_spawn"
+        "target":{
+          "id":"pokecube_legends:heatran_spawn"
+        },
+        "location":{
+          "and_preset":"nether"
         }
       }
     },
     {
-      "name": "terrakion",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.3",
-        "type": "rock"
+      "name":"giratina-altered",
+      "preset":"entry_based",
+      "options":{
+        "entries":"dialga,palkia"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:terrakion_sword"
+      "spawn":{
+        
+      }
+    },
+    {
+      "name":"cresselia",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.3",
+        "type":"fairy"
+      },
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:lunar_wing"
         },
-        "target": {
-          "id": "pokecube_legends:keldeo_spawn"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:sky_pillar"
+          }
         }
       }
     },
     {
-      "name": "virizion",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.3",
-        "type": "grass"
+      "name":"manaphy",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.4",
+        "type":"water"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:virizion_sword"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:manaphy_necklace"
         },
-        "target": {
-          "id": "pokecube_legends:keldeo_spawn"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:kyogre_temple"
+          }
         }
       }
     },
     {
-      "name": "tornadus-incarnate",
-      "preset": "entry_based",
-      "options": {
-        "entries": "meloetta_aria"
+      "name":"darkrai",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.3",
+        "type":"dark"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:green_rune"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:nightmare_book"
         },
-        "target": {
-          "id": "pokecube_legends:nature_spawn"
+        "target":{
+          "id":"pokecube_legends:yveltal_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:yveltal_ruins"
+          }
         }
       }
     },
     {
-      "name": "thundurus-incarnate",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.5",
-        "type": "meloetta_aria"
+      "name":"arceus",
+      "preset":"entry_based",
+      "options":{
+        "entries":"dialga,palkia,giratina-altered"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:blue_rune"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:azure_flute"
         },
-        "target": {
-          "id": "pokecube_legends:nature_spawn"
+        "target":{
+          "id":"pokecube_legends:timerspace_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:space_temple"
+          }
         }
       }
     },
     {
-      "name": "reshiram",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.5",
-        "type": "dragon"
+      "name":"victini",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.5",
+        "type":"psychic"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:lightstone"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:emblem"
         },
-        "target": {
-          "id": "pokecube_legends:blackwhite_spawn"
+        "target":{
+          "id":"pokecube_legends:victini_spawn"
+        },
+        "location":{
+          "and_preset":"villages"
         }
       }
     },
     {
-      "name": "zekrom",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.5",
-        "type": "dragon"
+      "name":"cobalion",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.3",
+        "type":"steel"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:darkstone"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:cobalion_sword"
         },
-        "target": {
-          "id": "pokecube_legends:blackwhite_spawn"
+        "target":{
+          "id":"pokecube_legends:keldeo_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:keldeo_place"
+          }
         }
       }
     },
     {
-      "name": "landorus-incarnate",
-      "preset": "entry_based",
-      "options": {
-        "entries": "meloetta_aria"
+      "name":"terrakion",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.3",
+        "type":"rock"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:orange_rune"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:terrakion_sword"
         },
-        "target": {
-          "id": "pokecube_legends:nature_spawn"
+        "target":{
+          "id":"pokecube_legends:keldeo_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:keldeo_place"
+          }
         }
       }
     },
     {
-      "name": "kyurem",
-      "preset": "entry_based",
-      "options": {
-        "entries": "reshiram,zekrom"
+      "name":"virizion",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.3",
+        "type":"grass"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:kyurem_core"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:virizion_sword"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:keldeo_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:keldeo_place"
+          }
         }
       }
     },
     {
-      "name": "keldeo-ordinary",
-      "preset": "entry_based",
-      "options": {
-        "entries": "virizion,terrakion,cobalion"
+      "name":"tornadus-incarnate",
+      "preset":"entry_based",
+      "options":{
+        "entries":"meloetta_aria"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:keldeo_sword"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:green_rune"
         },
-        "target": {
-          "id": "pokecube_legends:keldeo_spawn"
+        "target":{
+          "id":"pokecube_legends:nature_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:nature_place"
+          }
         }
       }
     },
     {
-      "name": "meloetta-aria",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.4",
-        "type": "normal"
+      "name":"thundurus-incarnate",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.5",
+        "type":"meloetta_aria"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:meloetta_ocarina"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:blue_rune"
         },
-        "target": {
-          "id": "pokecube_legends:nature_spawn"
+        "target":{
+          "id":"pokecube_legends:nature_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:nature_place"
+          }
         }
       }
     },
     {
-      "name": "xerneas",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.4",
-        "type": "fairy"
+      "name":"reshiram",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.5",
+        "type":"dragon"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:lifeorb"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:lightstone"
         },
-        "target": {
-          "id": "pokecube_legends:xerneas_spawn"
+        "target":{
+          "id":"pokecube_legends:blackwhite_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:castle_n"
+          }
         }
       }
     },
     {
-      "name": "yveltal",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.5",
-        "type": "dark"
+      "name":"zekrom",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.5",
+        "type":"dragon"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:destructorb"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:darkstone"
         },
-        "target": {
-          "id": "pokecube_legends:yveltal_spawn"
+        "target":{
+          "id":"pokecube_legends:blackwhite_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:castle_n"
+          }
         }
       }
     },
     {
-      "name": "zygarde-10",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.2",
-        "type": "ground"
+      "name":"landorus-incarnate",
+      "preset":"entry_based",
+      "options":{
+        "entries":"meloetta_aria"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:zygardecube"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:orange_rune"
         },
-        "target": {
-          "id": "pokecube_legends:yveltal_spawn"
+        "target":{
+          "id":"pokecube_legends:nature_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:nature_place"
+          }
         }
       }
     },
     {
-      "name": "zygarde-10",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.2",
-        "type": "ground"
+      "name":"kyurem",
+      "preset":"entry_based",
+      "options":{
+        "entries":"reshiram,zekrom"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:zygardecube"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:kyurem_core"
         },
-        "target": {
-          "id": "pokecube_legends:xerneas_spawn"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "and_preset":"snowy_areas"
         }
       }
     },
     {
-      "name": "diancie",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.3",
-        "type": "fairy"
+      "name":"keldeo-ordinary",
+      "preset":"entry_based",
+      "options":{
+        "entries":"virizion,terrakion,cobalion"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:diamond_gem"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:keldeo_sword"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:keldeo_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:keldeo_place"
+          }
         }
       }
     },
     {
-      "name": "hoopa",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.3",
-        "type": "ghost"
+      "name":"meloetta-aria",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.4",
+        "type":"normal"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:prisonbottle"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:meloetta_ocarina"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:nature_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:nature_place"
+          }
         }
       }
     },
     {
-      "name": "volcanion",
-      "preset": "entry_based",
-      "options": {
-        "entries": "magearna"
+      "name":"xerneas",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.4",
+        "type":"fairy"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:steam_core"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:lifeorb"
         },
-        "target": {
-          "id": "pokecube_legends:magearna_spawn"
+        "target":{
+          "id":"pokecube_legends:xerneas_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:xerneas_tree"
+          }
         }
       }
     },
     {
-      "name": "tapu-koko",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.2",
-        "type": "electric"
+      "name":"yveltal",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.5",
+        "type":"dark"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:koko_orb"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:destructorb"
         },
-        "target": {
-          "id": "pokecube_legends:koko_core"
+        "target":{
+          "id":"pokecube_legends:yveltal_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:yveltal_ruins"
+          }
         }
       }
     },
     {
-      "name": "tapu-lele",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.2",
-        "type": "psychic"
+      "name":"zygarde-10",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.2",
+        "type":"ground"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:lele_orb"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:zygardecube"
         },
-        "target": {
-          "id": "pokecube_legends:lele_core"
+        "target":{
+          "id":"pokecube_legends:yveltal_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:yveltal_ruins"
+          }
         }
       }
     },
     {
-      "name": "tapu-bulu",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.3",
-        "type": "grass"
+      "name":"zygarde-10",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.2",
+        "type":"ground"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:bulu_orb"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:zygardecube"
         },
-        "target": {
-          "id": "pokecube_legends:bulu_core"
+        "target":{
+          "id":"pokecube_legends:xerneas_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:xerneas_tree"
+          }
         }
       }
     },
     {
-      "name": "tapu-fini",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.3",
-        "type": "water"
+      "name":"diancie",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.3",
+        "type":"fairy"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:fini_orb"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:diamond_gem"
         },
-        "target": {
-          "id": "pokecube_legends:fini_core"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "and_preset":"extreme_hills"
         }
       }
     },
     {
-      "name": "cosmog",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.3",
-        "type": "psychic"
+      "name":"hoopa",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.3",
+        "type":"ghost"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:cosmic_orb"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:prisonbottle"
         },
-        "target": {
-          "id": "pokecube_legends:timerspace_spawn"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "and_preset":"ruins"
         }
       }
     },
     {
-      "name": "cosmoem",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.5",
-        "type": "psychic"
-      }
-    },
-    {
-      "name": "necrozma",
-      "preset": "entry_based",
-      "options": {
-        "entries": "solgaleo,lunala"
+      "name":"volcanion",
+      "preset":"entry_based",
+      "options":{
+        "entries":"magearna"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:lighting_crystal"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:steam_core"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:magearna_spawn"
+        },
+        "location":{
+          "and_preset":"villages"
         }
       }
     },
     {
-      "name": "magearna",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.2",
-        "type": "ghost"
+      "name":"tapu-koko",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.2",
+        "type":"electric"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:soul_heart"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:koko_orb"
         },
-        "target": {
-          "id": "pokecube_legends:magearna_spawn"
+        "target":{
+          "id":"pokecube_legends:koko_core"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:tapu_center"
+          }
         }
       }
     },
     {
-      "name": "zacian",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.6",
-        "type": "steel"
+      "name":"tapu-lele",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.2",
+        "type":"psychic"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:rustedsword"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:lele_orb"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:lele_core"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:tapu_center"
+          }
         }
       }
     },
     {
-      "name": "zamazenta",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.6",
-        "type": "steel"
+      "name":"tapu-bulu",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.3",
+        "type":"grass"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:rustedshield"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:bulu_orb"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:bulu_core"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:tapu_center"
+          }
         }
       }
     },
     {
-      "name": "eternatus",
-      "preset": "entry_based",
-      "options": {
-        "entries": "zacian,zamazenta"
+      "name":"tapu-fini",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.3",
+        "type":"water"
       },
-      "spawn": {}
-    },
-    {
-      "name": "kubfu",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.3",
-        "type": "fighting"
-      },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:kubfu_spawn"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:fini_orb"
         },
-        "target": {
-          "id": "pokecube_legends:legendary_spawn"
+        "target":{
+          "id":"pokecube_legends:fini_core"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:tapu_center"
+          }
         }
       }
     },
     {
-      "name": "glastrier",
-      "preset": "entry_based",
-      "options": {
-        "entries": "calyrex"
+      "name":"cosmog",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.3",
+        "type":"psychic"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:ice_carrot"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:cosmic_orb"
         },
-        "target": {
-          "id": "pokecube_legends:trough_spawn"
+        "target":{
+          "id":"pokecube_legends:timerspace_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:space_temple"
+          }
         }
       }
     },
     {
-      "name": "spectrier",
-      "preset": "entry_based",
-      "options": {
-        "entries": "calyrex"
+      "name":"cosmoem",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.5",
+        "type":"psychic"
+      }
+    },
+    {
+      "name":"necrozma",
+      "preset":"entry_based",
+      "options":{
+        "entries":"solgaleo,lunala"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:shadow_carrot"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:lighting_crystal"
         },
-        "target": {
-          "id": "pokecube_legends:trough_spawn"
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:necrozma_tower"
+          }
         }
       }
     },
     {
-      "name": "calyrex",
-      "preset": "type_based",
-      "options": {
-        "threshold": "0.4",
-        "type": "grass"
+      "name":"magearna",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.2",
+        "type":"ghost"
       },
-      "spawn": {
-        "key": {
-          "id": "pokecube_legends:wooden_crown"
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:soul_heart"
         },
-        "target": {
-          "id": "pokecube_legends:trough_spawn"
+        "target":{
+          "id":"pokecube_legends:magearna_spawn"
+        },
+        "location":{
+          "and_preset":"villages"
+        }
+      }
+    },
+    {
+      "name":"zacian",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.6",
+        "type":"steel"
+      },
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:rustedsword"
+        },
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:zamazenta_temple,pokecube_legends:zacian_temple"
+          }
+        }
+      }
+    },
+    {
+      "name":"zamazenta",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.6",
+        "type":"steel"
+      },
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:rustedshield"
+        },
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:zamazenta_temple,pokecube_legends:zacian_temple"
+          }
+        }
+      }
+    },
+    {
+      "name":"eternatus",
+      "preset":"entry_based",
+      "options":{
+        "entries":"zacian,zamazenta"
+      },
+      "spawn":{
+        
+      }
+    },
+    {
+      "name":"kubfu",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.3",
+        "type":"fighting"
+      },
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:kubfu_spawn"
+        },
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:kubfu_dojo"
+          }
+        }
+      }
+    },
+    {
+      "name":"glastrier",
+      "preset":"entry_based",
+      "options":{
+        "entries":"calyrex"
+      },
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:ice_carrot"
+        },
+        "target":{
+          "id":"pokecube_legends:trough_spawn"
+        },
+        "location":{
+          "and_preset":"snowy_areas"
+        }
+      }
+    },
+    {
+      "name":"spectrier",
+      "preset":"entry_based",
+      "options":{
+        "entries":"calyrex"
+      },
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:shadow_carrot"
+        },
+        "target":{
+          "id":"pokecube_legends:trough_spawn"
+        },
+        "location":{
+          "and_preset":"snowy_areas"
+        }
+      }
+    },
+    {
+      "name":"calyrex",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.4",
+        "type":"grass"
+      },
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:wooden_crown"
+        },
+        "target":{
+          "id":"pokecube_legends:trough_spawn"
+        },
+        "location":{
+          "and_preset":"taigas"
         }
       }
     }
-  ],
-  "replace": false
+  ]
 }

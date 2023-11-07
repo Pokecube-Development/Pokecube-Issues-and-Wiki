@@ -169,13 +169,5 @@
       "tera-blast"
     ]
   },
-  "spawn_rules": [
-    {
-      "values": {
-        "structures": "pokecube_legends:regieleki_temple",
-        "rate": "0.0"
-      }
-    }
-  ],
   "loot_table": "pokecube:entities/redstone_1"
 }
