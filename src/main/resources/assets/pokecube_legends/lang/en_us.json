@@ -90,7 +90,7 @@
     "msg.infolegend.info": "§aCapture [%1$s§a] Type Pokémobs so he can Trust You. Needs: %2$s, §aOwn: %3$s.",
     "msg.infolegendduo.info": "§aCapture [%1$s§a] Type Pokémobs, and Kill [%2$s§a] Type Pokémobs. Needs: %3$s, §aOwn: %4$s. §aNeeds Kill: %5$s, §aKilled: %6$s.",
     "msg.infolegendextra.info": "§aGet [%1$s§a] to Catch this Pokémob.",
-    "msg.nohere.info": "§c[§a%1$s§c] does not seem to spawn in this location",
+    "msg.nohere.info": "§c[§a%1$s§c] does not spawn in this location",
     "msg.notrust.info": "§c[§a%1$s§c] does not trust you enough for that",
     "msg.noitem.info": "§cThis requires an offering",
     "msg.wrongitem.info": "§c[§a%1$s§c] does not like your offering",
@@ -102,7 +102,7 @@
     "msg.cannot_defile_temple": "§cArceus will not allow you to do that!",
 
     "_comment7": "Raid related messages",
-    "msg.notaraidspot.info": "§cThis den does not seem to be able to be activated.",
+    "msg.notaraidspot.info": "§cThis is not able to be activated.",
 
     "_comment8": "Hoopa Portal",
     "msg.hoopaportal.deny.too_weak": "§cYour pokémob does not have enough levels.",
