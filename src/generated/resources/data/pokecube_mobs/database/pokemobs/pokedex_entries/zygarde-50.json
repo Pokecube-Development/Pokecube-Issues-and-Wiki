@@ -200,20 +200,6 @@
     ]
   },
   "sound": "zygarde-50",
-  "spawn_rules": [
-    {
-      "values": {
-        "structures": "pokecube_legends:xerneas_place",
-        "rate": "0.0"
-      }
-    },
-    {
-      "values": {
-        "structures": "pokecube_legends:yveltal_place",
-        "rate": "0.0"
-      }
-    }
-  ],
   "interactions": [
     {
       "male": true,

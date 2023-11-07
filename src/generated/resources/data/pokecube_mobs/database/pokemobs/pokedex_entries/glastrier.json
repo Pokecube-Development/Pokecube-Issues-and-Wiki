@@ -178,13 +178,5 @@
       "forme": "calyrex-ice"
     }
   ],
-  "spawn_rules": [
-    {
-      "and_preset": "snowy_areas",
-      "values": {
-        "rate": "0.0"
-      }
-    }
-  ],
   "loot_table": "pokecube:entities/both_ice"
 }

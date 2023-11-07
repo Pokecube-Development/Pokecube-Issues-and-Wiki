@@ -211,13 +211,5 @@
       "dual-wingbeat",
       "scorching-sands"
     ]
-  },
-  "spawn_rules": [
-    {
-      "values": {
-        "structures": "pokecube_legends:castle_n",
-        "rate": "0.0"
-      }
-    }
-  ]
+  }
 }

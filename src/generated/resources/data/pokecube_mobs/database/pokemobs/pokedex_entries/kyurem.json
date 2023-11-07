@@ -217,13 +217,5 @@
       "forme": "kyurem-white"
     }
   ],
-  "spawn_rules": [
-    {
-      "and_preset": "snowy_areas",
-      "values": {
-        "rate": "0.0"
-      }
-    }
-  ],
   "loot_table": "pokecube:entities/generic_legend"
 }

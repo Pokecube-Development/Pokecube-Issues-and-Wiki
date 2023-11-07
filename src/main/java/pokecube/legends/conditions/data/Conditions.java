@@ -16,6 +16,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.stats.ISpecialCaptureCondition;
 import pokecube.api.stats.ISpecialSpawnCondition;
 import pokecube.api.stats.SpecialCaseRegister;
@@ -32,6 +33,7 @@ public class Conditions
     {
         public Map<String, String> key = Maps.newHashMap();
         public Map<String, String> target = Maps.newHashMap();
+        public SpawnRule location = null;
 
         private Predicate<ItemStack> _key;
         private Predicate<BlockState> _target;
@@ -86,9 +88,7 @@ public class Conditions
         {
             if (this.spawn != null && !this.spawn.key.isEmpty() && !this.spawn.target.isEmpty())
             {
-                final Predicate<ItemStack> heldItemChecker = this.spawn.getKey();
-                final Predicate<BlockState> targetBlockChecker = this.spawn.getTarget();
-                final LegendarySpawn spawn = new LegendarySpawn(this.name, heldItemChecker, targetBlockChecker, true);
+                final LegendarySpawn spawn = new LegendarySpawn(this.name, this.spawn, true);
                 LegendarySpawn.data_spawns.add(spawn);
             }
         };

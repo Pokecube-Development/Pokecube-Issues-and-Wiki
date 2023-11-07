@@ -184,14 +184,6 @@
       "pounce"
     ]
   },
-  "spawn_rules": [
-    {
-      "and_preset": "nether",
-      "values": {
-        "rate": "0.0"
-      }
-    }
-  ],
   "interactions": [
     {
       "male": true,

@@ -155,15 +155,5 @@
       "flip-turn"
     ]
   },
-  "spawn_rules": [
-    {
-      "and_preset": "ocean_monument",
-      "values": {
-        "min": "1",
-        "rate": "1.0",
-        "max": "1"
-      }
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

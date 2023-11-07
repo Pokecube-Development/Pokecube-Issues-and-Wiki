@@ -249,13 +249,5 @@
       "dual-wingbeat"
     ]
   },
-  "spawn_rules": [
-    {
-      "values": {
-        "structures": "pokecube_legends:lugia_tower",
-        "rate": "0.0"
-      }
-    }
-  ],
   "loot_table": "pokecube:entities/oranberry"
 }

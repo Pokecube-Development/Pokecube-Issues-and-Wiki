@@ -216,15 +216,5 @@
       "trailblaze"
     ]
   },
-  "spawn_rules": [
-    {
-      "values": {
-        "structures": "pokecube_legends:celebi_temple",
-        "min": "1",
-        "max": "1",
-        "rate": "0.02"
-      }
-    }
-  ],
   "loot_table": "pokecube:entities/generic_legend"
 }

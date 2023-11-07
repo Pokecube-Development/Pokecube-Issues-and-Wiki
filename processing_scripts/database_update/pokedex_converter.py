@@ -440,7 +440,8 @@ class PokemonSpecies:
                     stats = old_entry['stats']
                     # Same for spawns, mega rules, interactions and evolutoons
                     if 'spawnRules' in stats:
-                        entry.spawn_rules = stats['spawnRules']
+                        # entry.spawn_rules = stats['spawnRules']
+                        print(f"Not adding spawn rules for {old_entry['name']}")
                     if 'megaRules' in stats:
                         entry.mega_rules = stats['megaRules']
                     if 'interactions' in stats:

@@ -221,14 +221,6 @@
       "stomping-tantrum"
     ]
   },
-  "spawn_rules": [
-    {
-      "values": {
-        "structures": "pokecube_legends:sky_pillar",
-        "rate": "0.0"
-      }
-    }
-  ],
   "interactions": [
     {
       "male": true,
