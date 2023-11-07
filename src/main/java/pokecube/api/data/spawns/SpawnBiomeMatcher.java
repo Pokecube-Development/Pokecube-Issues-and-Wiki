@@ -333,7 +333,7 @@ public class SpawnBiomeMatcher
         if (!this._and_children.isEmpty())
         {
             boolean and_valid = _and_children.stream().allMatch(m -> m.checkBiome(biome));
-            return and_valid;
+            if (!and_valid) return false;
         }
         if (!this._or_children.isEmpty()) return or_valid;
 
@@ -393,7 +393,7 @@ public class SpawnBiomeMatcher
         if (!this._and_children.isEmpty())
         {
             boolean and_valid = _and_children.stream().allMatch(m -> m.checkSubBiome(biome));
-            return and_valid;
+            if (!and_valid) return false;
         }
         if (!this._or_children.isEmpty()) return or_valid;
 
