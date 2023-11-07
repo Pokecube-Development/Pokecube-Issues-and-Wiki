@@ -211,13 +211,5 @@
       "rising-voltage",
       "dual-wingbeat"
     ]
-  },
-  "spawn_rules": [
-    {
-      "values": {
-        "structures": "pokecube_legends:castle_n",
-        "rate": "0.0"
-      }
-    }
-  ]
+  }
 }

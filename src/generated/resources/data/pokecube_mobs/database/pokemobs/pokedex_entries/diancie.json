@@ -223,13 +223,5 @@
       "snowscape"
     ]
   },
-  "spawn_rules": [
-    {
-      "and_preset": "extreme_hills",
-      "values": {
-        "rate": "0.0"
-      }
-    }
-  ],
   "loot_table": "pokecube:entities/diamond_legend"
 }
