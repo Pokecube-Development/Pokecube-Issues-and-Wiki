@@ -15,8 +15,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.legends.conditions.AbstractCondition;
 import pokecube.legends.conditions.data.ConditionLoader;
 import pokecube.legends.handlers.GeneProtector;
-import pokecube.legends.init.BlockInit;
-import pokecube.legends.init.ItemInit;
 import pokecube.legends.spawns.LegendarySpawn;
 import thut.core.common.ThutCore;
 import thut.lib.CompatParser.ClassFinder;
@@ -31,14 +29,6 @@ public class LegendaryConditions
     public void init()
     {
         // Registring Event Lengendary Spawns
-        new LegendarySpawn("registeel", ItemInit.STEEL_CORE, BlockInit.REGISTEEL_CORE);
-        new LegendarySpawn("regirock", ItemInit.ROCK_CORE, BlockInit.REGIROCK_CORE);
-        new LegendarySpawn("regice", ItemInit.ICE_CORE, BlockInit.REGICE_CORE);
-        new LegendarySpawn("regidrago", ItemInit.DRAGO_CORE, BlockInit.REGIDRAGO_CORE);
-        new LegendarySpawn("regieleki", ItemInit.THUNDER_CORE, BlockInit.REGIELEKI_CORE);
-
-        new LegendarySpawn("regigigas", ItemInit.REGIS_ORB, BlockInit.REGIGIGA_CORE);
-
         // Register the thng that prevents genetic modification of protected
         // mobs
         ThutCore.FORGE_BUS.register(new GeneProtector());

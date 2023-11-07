@@ -18,6 +18,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.SpawnData;
+import pokecube.api.data.PokedexEntry.SpawnData.SpawnEntry;
+import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.api.stats.CaptureStats;
@@ -31,6 +33,7 @@ import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.legends.PokecubeLegends;
+import pokecube.legends.conditions.data.Conditions.Spawn;
 import thut.api.Tracker;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
@@ -69,6 +72,13 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
         }
         else for (final Vector3 v : blocks) if (v.getBlockMaterial(world) == material) return false;
         return ret;
+    }
+
+    private Spawn spawnRules = null;
+
+    public void setSpawnRule(Spawn spawn)
+    {
+        this.spawnRules = spawn;
     }
 
     private final List<Predicate<BlockState>> relevantBlocks = Lists.newArrayList();
@@ -187,8 +197,16 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     {
         final CanSpawn test = this.canSpawn(context);
         if (!test.test()) return test;
-        final SpawnData data = this.getEntry().getSpawnData();
-        final boolean canSpawnHere = data == null || SpawnHandler.canSpawn(data, context, false);
+
+        SpawnData data = this.getEntry().getSpawnData();
+        boolean canSpawnHere = data == null;
+        if (spawnRules != null && spawnRules.location != null)
+        {
+            data = new SpawnData(context.entry());
+            SpawnEntry entry = new SpawnEntry();
+            data.matchers.put(SpawnBiomeMatcher.get(spawnRules.location), entry);
+            canSpawnHere = SpawnHandler.canSpawn(data, context, false);
+        }
         if (canSpawnHere)
         {
             final boolean here = PokemobTracker.countPokemobs(context.location(), context.level(), 32,
