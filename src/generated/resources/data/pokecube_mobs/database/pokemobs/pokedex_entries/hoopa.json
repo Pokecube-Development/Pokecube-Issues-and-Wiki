@@ -220,14 +220,6 @@
       "forme": "hoopa-unbound"
     }
   ],
-  "spawn_rules": [
-    {
-      "and_preset": "ruins",
-      "values": {
-        "rate": "0.0"
-      }
-    }
-  ],
   "old_name": "hoopa_confined",
   "loot_table": "pokecube:entities/generic_legend"
 }

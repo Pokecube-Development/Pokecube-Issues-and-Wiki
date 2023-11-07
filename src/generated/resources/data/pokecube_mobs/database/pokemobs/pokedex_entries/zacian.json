@@ -166,13 +166,5 @@
       "forme": "zacian-crowned"
     }
   ],
-  "spawn_rules": [
-    {
-      "values": {
-        "structures": "pokecube_legends:zamazenta_temple,pokecube_legends:zacian_temple",
-        "rate": "0.0"
-      }
-    }
-  ],
   "loot_table": "pokecube:entities/iron_2"
 }

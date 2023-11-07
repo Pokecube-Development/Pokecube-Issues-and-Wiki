@@ -172,13 +172,5 @@
       "forme": "calyrex-shadow"
     }
   ],
-  "spawn_rules": [
-    {
-      "and_preset": "spooky_areas",
-      "values": {
-        "rate": "0.0"
-      }
-    }
-  ],
   "loot_table": "pokecube:entities/ender_cow_1"
 }

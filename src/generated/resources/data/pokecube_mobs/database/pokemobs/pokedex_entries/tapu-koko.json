@@ -195,13 +195,5 @@
       "natures-madness"
     ]
   },
-  "spawn_rules": [
-    {
-      "values": {
-        "structures": "pokecube_legends:tapus_temple",
-        "rate": "0.0"
-      }
-    }
-  ],
   "old_name": "tapu_koko"
 }

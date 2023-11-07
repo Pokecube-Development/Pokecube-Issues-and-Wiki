@@ -256,13 +256,5 @@
       "snowscape"
     ]
   },
-  "spawn_rules": [
-    {
-      "and_preset": "villages",
-      "values": {
-        "rate": "0.0"
-      }
-    }
-  ],
   "loot_table": "pokecube:entities/generic_legend"
 }

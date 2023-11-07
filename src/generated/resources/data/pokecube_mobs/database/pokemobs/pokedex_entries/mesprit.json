@@ -202,13 +202,5 @@
       "expanding-force",
       "tera-blast"
     ]
-  },
-  "spawn_rules": [
-    {
-      "values": {
-        "structures": "pokecube_legends:zamazenta_temple,pokecube_legends:zacian_temple",
-        "rate": "0.0"
-      }
-    }
-  ]
+  }
 }
