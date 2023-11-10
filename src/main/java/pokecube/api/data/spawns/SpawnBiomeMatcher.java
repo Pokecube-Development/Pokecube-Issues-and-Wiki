@@ -33,6 +33,7 @@ import pokecube.api.data.spawns.matchers.Biomes;
 import pokecube.api.data.spawns.matchers.MatchChecker;
 import pokecube.api.data.spawns.matchers.StructureMatcher;
 import pokecube.api.data.spawns.matchers.Structures;
+import pokecube.api.events.data.SpawnMatchInit;
 import pokecube.api.events.pokemobs.SpawnCheckEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
@@ -935,6 +936,9 @@ public class SpawnBiomeMatcher
             }
             this._compoundMatcher = this._compoundMatcher.and(_structs);
             this._compoundMatcher.init();
+            var event = new SpawnMatchInit(this._compoundMatcher);
+            ThutCore.FORGE_BUS.post(event);
+            this._compoundMatcher = event.getMatchChecker();
             this._usesMatchers = true;
         }
 

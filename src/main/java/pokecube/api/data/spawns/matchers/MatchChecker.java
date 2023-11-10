@@ -6,13 +6,15 @@ import net.minecraft.network.chat.Component;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.data.spawns.SpawnCheck.MatchResult;
+import pokecube.api.events.data.SpawnMatchInit;
+import thut.core.common.ThutCore;
 
 public interface MatchChecker
 {
     public static class OrMatch implements MatchChecker
     {
-        public final MatchChecker A;
-        public final MatchChecker B;
+        public MatchChecker A;
+        public MatchChecker B;
 
         public OrMatch(MatchChecker A, MatchChecker B)
         {
@@ -34,14 +36,20 @@ public interface MatchChecker
         public void init()
         {
             A.init();
+            var event = new SpawnMatchInit(A);
+            ThutCore.FORGE_BUS.post(new SpawnMatchInit(A));
+            A = event.getMatchChecker();
             B.init();
+            event = new SpawnMatchInit(B);
+            ThutCore.FORGE_BUS.post(new SpawnMatchInit(B));
+            B = event.getMatchChecker();
         }
     }
 
     public static class AndMatch implements MatchChecker
     {
-        public final MatchChecker A;
-        public final MatchChecker B;
+        public MatchChecker A;
+        public MatchChecker B;
 
         public AndMatch(MatchChecker A, MatchChecker B)
         {
@@ -64,7 +72,13 @@ public interface MatchChecker
         public void init()
         {
             A.init();
+            var event = new SpawnMatchInit(A);
+            ThutCore.FORGE_BUS.post(new SpawnMatchInit(A));
+            A = event.getMatchChecker();
             B.init();
+            event = new SpawnMatchInit(B);
+            ThutCore.FORGE_BUS.post(new SpawnMatchInit(B));
+            B = event.getMatchChecker();
         }
     }
 
