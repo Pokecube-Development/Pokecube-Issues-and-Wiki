@@ -142,8 +142,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         public ModelWrapper<Mob> wrapper;
         final Vector3 rotPoint = new Vector3();
         Map<String, List<Animation>> anims = new Object2ObjectOpenHashMap<>();
-        private IPartTexturer texturer;
-        private IAnimationChanger animator;
+
         public String name;
         public Map<String, PartInfo> parts = new Object2ObjectOpenHashMap<>();
         Map<String, List<Vector5>> global;
@@ -170,15 +169,12 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         // will render missingno model.
         protected int failTimer = 0;
 
-        IAnimationHolder currentHolder = null;
-
         HeadInfo headInfo = new HeadInfo();
 
         public Holder(final PokedexEntry entry)
         {
             super(entry.model(), entry.texture(), entry.animation(), entry.getTrimmedName());
             this.entry = entry;
-            this.texturer = new PokemobTexHelper(entry);
 
             if (Database.dummyMap.containsKey(entry.getPokedexNb()))
             {
@@ -210,30 +206,9 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         }
 
         @Override
-        public IAnimationChanger getAnimationChanger()
-        {
-            return this.animator;
-        }
-
-        @Override
         public Map<String, List<Animation>> getAnimations()
         {
             return this.animations;
-        }
-
-        @Override
-        public IAnimationHolder getAnimationHolder()
-        {
-            return this.currentHolder;
-        }
-
-        @Override
-        public void setAnimationHolder(final IAnimationHolder holder)
-        {
-            this.currentHolder = holder;
-            if (holder != null) holder.getHeadInfo().copyFrom(this.getHeadInfo());
-            if (this.animator != null) this.animator.setAnimationHolder(holder);
-            this.wrapper.imodel.setAnimationHolder(holder);
         }
 
         private String getPhase(final Mob entity, final IPokemob pokemob)
@@ -259,17 +234,12 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         }
 
         @Override
-        public IPartTexturer getTexturer()
-        {
-            return this.texturer;
-        }
-
-        @Override
         public boolean hasAnimation(final String phase, final Entity entity)
         {
-            if (this.animator != null && this.animator.hasAnimation(phase)) return true;
+            var animator = this.getAnimationChanger();
+            if (animator != null && animator.hasAnimation(phase)) return true;
             return IModelRenderer.DEFAULTPHASE.equals(phase) || this.animations.containsKey(phase)
-                    || this.wrapper.imodel.getBuiltInAnimations().contains(phase);
+                    || this.wrapper.getModel().getBuiltInAnimations().contains(phase);
         }
 
         @Override
@@ -277,8 +247,8 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         {
             this.toRun.clear();
             this.toRunNames.clear();
-            if (this.animator != null)
-                this.animator.getAlternates(this.toRunNames, this.animations.keySet(), entity, phase);
+            var animator = this.getAnimationChanger();
+            if (animator != null) animator.getAlternates(this.toRunNames, this.animations.keySet(), entity, phase);
             for (final String name : this.toRunNames)
             {
                 final List<Animation> anims = this.animations.get(name);
@@ -308,7 +278,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             this.wrapper = model;
             ModelFactory.create(model.model, m -> {
                 // Set this first in here, so that we can run parse properly.
-                this.wrapper.imodel = m;
+                this.wrapper.setModel(m);
                 AnimationLoader.parse(this, m, this);
             });
         }
@@ -337,12 +307,6 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         }
 
         @Override
-        public void setAnimationChanger(final IAnimationChanger changer)
-        {
-            this.animator = changer;
-        }
-
-        @Override
         public void setRotationOffset(final Vector3 offset)
         {
             this.offset = offset;
@@ -352,12 +316,6 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         public void setScale(final Vector3 scale)
         {
             this.scale = scale;
-        }
-
-        @Override
-        public void setTexturer(final IPartTexturer texturer)
-        {
-            this.texturer = texturer;
         }
 
         @Override
@@ -372,6 +330,44 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         public HeadInfo getHeadInfo()
         {
             return this.headInfo;
+        }
+
+        @Override
+        public void setAnimationChanger(final IAnimationChanger changer)
+        {
+            this.wrapper.animChangeHolder.set(changer);
+        }
+
+        @Override
+        public IAnimationChanger getAnimationChanger()
+        {
+            return this.wrapper.animChangeHolder.get();
+        }
+
+        @Override
+        public void setTexturer(final IPartTexturer texturer)
+        {
+            this.wrapper.texChangeHolder.set(texturer);
+        }
+
+        @Override
+        public IPartTexturer getTexturer()
+        {
+            if (this.wrapper.texChangeHolder.get() == null) this.setTexturer(new PokemobTexHelper(entry));
+            return this.wrapper.texChangeHolder.get();
+        }
+
+        @Override
+        public void setAnimationHolder(final IAnimationHolder holder)
+        {
+            if (holder != null) holder.getHeadInfo().copyFrom(this.getHeadInfo());
+            this.wrapper.setAnimationHolder(holder);
+        }
+
+        @Override
+        public IAnimationHolder getAnimationHolder()
+        {
+            return this.wrapper.animHolderHolder.get();
         }
     }
 
@@ -509,8 +505,8 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         if (holder.loadTimer-- > 0) return;
         holder.loadTimer = 0;
         holder.failTimer = 0;
-        if (holder.wrapper == null || holder.wrapper.imodel == null || !holder.wrapper.isValid() || holder.model == null
-                || holder.texture == null)
+        if (holder.wrapper == null || holder.wrapper.getModel() == null || !holder.wrapper.isValid()
+                || holder.model == null || holder.texture == null)
             holder = RenderPokemob.getMissingNo();
 
         this.model = holder.wrapper;
