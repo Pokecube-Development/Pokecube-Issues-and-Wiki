@@ -23,6 +23,7 @@ import thut.api.maths.Vector4;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.texturing.IPartTexturer;
+import thut.core.client.render.texturing.IRetexturableModel.Holder;
 
 public interface IExtendedModelPart extends IModelCustom
 {
@@ -33,13 +34,11 @@ public interface IExtendedModelPart extends IModelCustom
         void onRender(PoseStack mat, IExtendedModelPart part);
     }
 
-    public static void sort(final List<String> order, final Map<String, IExtendedModelPart> parts)
+    public static void sort(final List<IExtendedModelPart> order, final Map<String, IExtendedModelPart> parts)
     {
         order.clear();
-        order.addAll(parts.keySet());
-        order.sort((s1, s2) -> {
-            final IExtendedModelPart o1 = parts.get(s1);
-            final IExtendedModelPart o2 = parts.get(s2);
+        order.addAll(parts.values());
+        order.sort((o1, o2) -> {
             boolean transp1 = false;
             boolean transp2 = false;
             for (final Material m : o1.getMaterials())
@@ -61,7 +60,7 @@ public interface IExtendedModelPart extends IModelCustom
                 if (transp2) break;
             }
             if (transp1 != transp2) return transp1 ? 1 : -1;
-            return s1.compareTo(s2);
+            return o1.getName().compareTo(o2.getName());
         });
     }
 
@@ -96,16 +95,17 @@ public interface IExtendedModelPart extends IModelCustom
         for (final IExtendedModelPart o : this.getSubParts().values()) o.preProcess();
     }
 
-    default void sort(final List<String> order)
+    default void sort(final List<IExtendedModelPart> order)
     {
         IExtendedModelPart.sort(order, this.getSubParts());
     }
 
     default Entity convertToGlobal(PoseStack mat, Vector3f fill)
     {
-        if (this.getAnimationHolder() == null) return null;
-        if (this.getAnimationHolder().getContext() == null) return null;
-        if (!(this.getAnimationHolder().getContext().getContext() instanceof Entity e)) return null;
+        var holderSup = this.getAnimationHolder();
+        if (holderSup == null || holderSup.get() == null) return null;
+        if (holderSup.get().getContext() == null) return null;
+        if (!(holderSup.get().getContext().getContext() instanceof Entity e)) return null;
 
         PoseStack mat2 = new PoseStack();
         mat2.last().pose().set(mat.last().pose());
@@ -166,7 +166,7 @@ public interface IExtendedModelPart extends IModelCustom
 
     <T extends IExtendedModelPart> Map<String, T> getSubParts();
 
-    List<String> getRenderOrder();
+    List<IExtendedModelPart> getRenderOrder();
 
     String getType();
 
@@ -228,9 +228,9 @@ public interface IExtendedModelPart extends IModelCustom
     default void setDefaultAngles(float rx, float ry, float rz)
     {}
 
-    void setAnimationHolder(IAnimationHolder holder);
+    Holder<IAnimationHolder> getAnimationHolder();
 
-    IAnimationHolder getAnimationHolder();
+    void setAnimationHolder(Holder<IAnimationHolder> input);
 
     void setParent(IExtendedModelPart parent);
 

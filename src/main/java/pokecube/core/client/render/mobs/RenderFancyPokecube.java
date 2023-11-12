@@ -109,7 +109,7 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
             IModel m2 = ModelFactory.create(model.model, m -> {
                 synchronized (models)
                 {
-                    model.imodel = m;
+                    model.setModel(m);
                     this.changer = null;
                     this.texer = null;
                     this.anims = Maps.newHashMap();
@@ -134,7 +134,7 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
             IModel m2 = ModelFactory.create(model.model, m -> {
                 synchronized (models)
                 {
-                    model.imodel = m;
+                    model.setModel(m);
                     this.changer = null;
                     this.texer = null;
                     this.anims = Maps.newHashMap();
@@ -376,12 +376,13 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     {
         this.holder = holder;
         if (this.changer != null) this.changer.setAnimationHolder(holder);
-        if (this.model instanceof ModelWrapper<?> wrap) wrap.imodel.setAnimationHolder(holder);
+        if (this.model instanceof ModelWrapper<?> wrap) wrap.setAnimationHolder(holder);
     }
 
     @Override
     public IAnimationHolder getAnimationHolder()
     {
+        if (this.model instanceof ModelWrapper<?> wrap) return wrap.animHolderHolder.get();
         return this.holder;
     }
 

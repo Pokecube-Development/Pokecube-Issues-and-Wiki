@@ -81,7 +81,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     private final HashMap<String, IExtendedModelPart> nullPartsMap = Maps.newHashMap();
     private final HashMap<String, IExtendedModelPart> subPartsMap = Maps.newHashMap();
 
-    private final List<String> order = Lists.newArrayList();
+    private final List<IExtendedModelPart> order = Lists.newArrayList();
 
     private final Set<String> nullHeadSet = Sets.newHashSet();
     private final Set<String> animations = Sets.newHashSet();
@@ -94,12 +94,12 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     Vector3 max = new Vector3();
 
     Model wrapped;
-    IPartTexturer texturer;
-    IAnimationChanger changer;
+
+    IRetexturableModel.Holder<IAnimationChanger> animChangeHolder = new IRetexturableModel.Holder<>();
+    IRetexturableModel.Holder<IAnimationHolder> animHolderHolder = new IRetexturableModel.Holder<>();
+    IRetexturableModel.Holder<IPartTexturer> texChangeHolder = new IRetexturableModel.Holder<>();
 
     private final int[] rgbabro = new int[6];
-
-    IAnimationHolder currentHolder = null;
 
     protected IModelCallback callback = null;
 
@@ -245,8 +245,6 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     {
         if (this.wrapped != null)
         {
-            this.wrapped.body.setTexturer(this.texturer);
-            this.wrapped.body.setAnimationChanger(this.changer);
             // Scaling factor for model.
             mat.scale(0.165f, 0.165f, 0.165f);
             // Makes model face correct way.
@@ -319,18 +317,6 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     @Override
-    public void setAnimationChangerRaw(IAnimationChanger changer)
-    {
-        this.changer = changer;
-    }
-
-    @Override
-    public void setTexturerRaw(IPartTexturer texturer)
-    {
-        this.texturer = texturer;
-    }
-
-    @Override
     public List<Material> getMaterials()
     {
         return this.mats;
@@ -394,19 +380,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     @Override
-    public IAnimationHolder getAnimationHolder()
-    {
-        return this.currentHolder;
-    }
-
-    @Override
-    public void setAnimationHolder(final IAnimationHolder holder)
-    {
-        this.currentHolder = holder;
-    }
-
-    @Override
-    public List<String> getRenderOrder()
+    public List<IExtendedModelPart> getRenderOrder()
     {
         // TODO see what we need to do for this for wearables support later.
         return this.order;
@@ -431,5 +405,50 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     {
         // TODO Auto-generated method stub
         
+    }
+
+    @Override
+    public Holder<IAnimationHolder> getAnimationHolder()
+    {
+        return this.animHolderHolder;
+    }
+
+    @Override
+    public void setAnimationHolder(Holder<IAnimationHolder> input)
+    {
+        this.animHolderHolder = input;
+        for (var part : this.getRenderOrder()) part.setAnimationHolder(input);
+    }
+
+    @Override
+    public Holder<IAnimationChanger> getAnimationChanger()
+    {
+        return this.animChangeHolder;
+    }
+
+    @Override
+    public void setAnimationChanger(Holder<IAnimationChanger> input)
+    {
+        this.animChangeHolder = input;
+        for (var part : this.getRenderOrder()) if (part instanceof IRetexturableModel p) p.setAnimationChanger(input);
+    }
+
+    @Override
+    public Holder<IPartTexturer> getTexturerChanger()
+    {
+        return this.texChangeHolder;
+    }
+
+    @Override
+    public void setTexturerChanger(Holder<IPartTexturer> input)
+    {
+        this.texChangeHolder = input;
+        for (var part : this.getRenderOrder()) if (part instanceof IRetexturableModel p) p.setTexturerChanger(input);
+    }
+
+    @Override
+    public void setAnimationHolder(IAnimationHolder holder)
+    {
+        this.animHolderHolder.set(holder);
     }
 }
