@@ -154,7 +154,7 @@ public class GimmickEvos
                 }
                 if (hasCube && hasSpace)
                 {
-                    final Entity pokemon = PokecubeCore.createPokemob(Database.getEntry("shedinja"), player.getLevel());
+                    final Entity pokemon = PokecubeCore.createPokemob(Database.getEntry("shedinja"), player.level());
                     if (pokemon != null)
                     {
                         final ItemStack mobCube = cube.copy();
