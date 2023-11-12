@@ -13,6 +13,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -24,6 +25,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import thut.api.AnimatedCaps;
 import thut.api.ModelHolder;
+import thut.api.ThutCaps;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.IMobColourable;
 import thut.api.entity.animation.Animation;
@@ -40,7 +42,6 @@ import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.client.render.texturing.TextureHelper;
 import thut.core.common.ThutCore;
-import thut.core.common.mobs.DefaultColourable;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = ThutCore.MODID, value = Dist.CLIENT)
 public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IModel
@@ -56,6 +57,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     public final ModelHolder model;
     public final IModelRenderer<?> renderer;
     private IModel imodel;
+    private IModelCustom renderModel;
     private T entityIn;
     protected float rotationPointX = 0, rotationPointY = 0, rotationPointZ = 0;
     protected float rotateAngleX = 0, rotateAngleY = 0, rotateAngleZ = 0, rotateAngle = 0;
@@ -68,6 +70,8 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     public final IRetexturableModel.Holder<IAnimationChanger> animChangeHolder = new IRetexturableModel.Holder<>();
     public final IRetexturableModel.Holder<IAnimationHolder> animHolderHolder = new IRetexturableModel.Holder<>();
     public final IRetexturableModel.Holder<IPartTexturer> texChangeHolder = new IRetexturableModel.Holder<>();
+
+    final Set<String> excluded = new ObjectOpenHashSet<>(16);
 
     public ModelWrapper(final ModelHolder model, final IModelRenderer<?> renderer)
     {
@@ -130,13 +134,12 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         this.getModel().preProcessAnimations(collection);
     }
 
-    private void initColours(final IExtendedModelPart parent, final T entity, final int brightness, final int overlay)
+    private void initColours(final IExtendedModelPart parent, final T entity, IMobColourable poke, final int brightness,
+            final int overlay)
     {
         if (debugMode) return;
         int red = 255, green = 255, blue = 255;
         int alpha = 255;
-        final IMobColourable poke = entity == null ? null
-                : entity.getCapability(DefaultColourable.CAPABILITY).orElse(null);
 
         if (poke != null)
         {
@@ -154,7 +157,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
             alpha = this.tmp[3];
         }
         parent.setRGBABrO(red, green, blue, alpha, brightness, overlay);
-        for (var part : parent.getRenderOrder()) this.initColours(part, entity, brightness, overlay);
+        for (var part : parent.getRenderOrder()) this.initColours(part, entity, poke, brightness, overlay);
     }
 
     @Override
@@ -178,17 +181,10 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         }
     }
 
-    @Override
-    public void renderToBuffer(final PoseStack mat, final VertexConsumer buffer, final int packedLightIn,
-            final int packedOverlayIn, final float red, final float green, final float blue, final float alpha)
+    private void preInitModel(final int packedLightIn, final int packedOverlayIn)
     {
-        if (this.entityIn == null) return;
-        if (this.getModel() == null) this.setModel(ModelFactory.createWithRenderer(this.model, this.renderer));
-        if (!this.isLoaded()) return;
-        mat.pushPose();
-        this.transformGlobal(mat, buffer, this.renderer.getAnimation(this.entityIn), this.entityIn,
-                Minecraft.getInstance().getFrameTime());
-        final Set<String> excluded = Sets.newHashSet();
+        excluded.clear();
+        final IMobColourable poke = ThutCaps.getColourable(entityIn);
         for (var part : this.getModel().getRenderOrder())
         {
             if (part.isHidden())
@@ -198,27 +194,24 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
             }
             if (part.getParent() == null)
             {
-                this.initColours(part, this.entityIn, packedLightIn, packedOverlayIn);
+                this.initColours(part, this.entityIn, poke, packedLightIn, packedOverlayIn);
             }
         }
-        if (this.getModel() instanceof IModelCustom cmodel)
-        {
-            cmodel.renderAllExcept(mat, buffer, excluded);
-        }
-        else
-        {
-            for (var part : this.getModel().getRenderOrder())
-            {
-                if (part == null) continue;
-                if (part.getParent() == null)
-                {
-                    mat.pushPose();
-                    this.initColours(part, this.entityIn, packedLightIn, packedOverlayIn);
-                    part.renderAllExcept(mat, buffer, this.renderer, excluded);
-                    mat.popPose();
-                }
-            }
-        }
+    }
+
+    @Override
+    public void renderToBuffer(final PoseStack mat, final VertexConsumer buffer, final int packedLightIn,
+            final int packedOverlayIn, final float red, final float green, final float blue, final float alpha)
+    {
+        if (this.entityIn == null) return;
+        if (this.getModel() == null) this.setModel(ModelFactory.createWithRenderer(this.model, this.renderer));
+        if (!this.isLoaded() || renderModel == null) return;
+
+        mat.pushPose();
+        this.transformGlobal(mat, buffer, this.renderer.getAnimation(this.entityIn), this.entityIn,
+                Minecraft.getInstance().getFrameTime());
+        preInitModel(packedLightIn, packedOverlayIn);
+        renderModel.renderAllExcept(mat, buffer, excluded);
         mat.popPose();
     }
 
@@ -331,6 +324,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
                 p.setTexturerChanger(texChangeHolder);
             }
         }
+        if (imodel instanceof IModelCustom m) renderModel = m;
         return imodel;
     }
 
