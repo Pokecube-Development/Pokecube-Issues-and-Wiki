@@ -7,9 +7,7 @@
         {
   		  "not_preset": "cold_areas",
           "and_preset": "forests",
-          "values": {
-            "rate": "0.05"
-          }
+          "rate": "0.05"
         }
       ],
       "gender": "Male"
@@ -20,9 +18,7 @@
       "spawns": [
         {
           "preset": "all_not_caves",
-          "values": {
-            "rate": "0.5"
-          }
+          "rate": "0.5"
         }
       ],
       "gender": "Male"
@@ -33,9 +29,7 @@
       "spawns": [
         {
           "preset": "all_not_caves",
-          "values": {
-            "rate": "0.5"
-          }
+          "rate": "0.5"
         }
       ],
       "gender": "Female"
@@ -46,9 +40,7 @@
       "spawns": [
         {
           "and_preset": "caves,mountains",
-          "values": {
-            "rate": "1.0"
-          }
+          "rate": "1.0"
         }
       ],
       "gender": "Male",
@@ -70,9 +62,7 @@
       "spawns": [
         {
           "or_preset": "lake_ground,river_ground,beach_ground,ocean_ground",
-          "values": {
-            "rate": "0.25"
-          }
+          "rate": "0.25"
         }
       ],
       "gender": "Male",
@@ -86,9 +76,7 @@
       "spawns": [
         {
           "preset": "all",
-          "values": {
-            "rate": "0.05"
-          }
+          "rate": "0.05"
         }
       ],
       "gender": "Both"
@@ -99,9 +87,7 @@
       "spawns": [
         {
           "preset": "all",
-          "values": {
-            "rate": "0.05"
-          }
+          "rate": "0.05"
         }
       ],
       "gender": "Both"
@@ -112,9 +98,7 @@
       "spawns": [
         {
           "preset": "all",
-          "values": {
-            "rate": "0.05"
-          }
+          "rate": "0.05"
         }
       ],
       "gender": "male"
@@ -125,9 +109,7 @@
       "spawns": [
         {
           "preset": "all",
-          "values": {
-            "rate": "0.05"
-          }
+          "rate": "0.05"
         }
       ],
       "gender": "Male"
@@ -138,15 +120,11 @@
       "spawns": [
         {
           "preset": "industrial",
-          "values": {
-            "rate": "0.05"
-          }
+          "rate": "0.05"
         },
         {
           "preset": "villages",
-          "values": {
-            "rate": "0.05"
-          }
+          "rate": "0.05"
         }
       ],
       "gender": "Male"
@@ -157,9 +135,7 @@
       "spawns": [
         {
           "preset": "all",
-          "values": {
-            "rate": "0.05"
-          }
+          "rate": "0.05"
         }
       ],
       "gender": "Both"
@@ -170,9 +146,7 @@
       "spawns": [
         {
           "preset": "all",
-          "values": {
-            "rate": "0.05"
-          }
+          "rate": "0.05"
         }
       ],
       "gender": "Female"
@@ -183,9 +157,7 @@
       "spawns": [
         {
           "preset": "all",
-          "values": {
-            "rate": "0.05"
-          }
+          "rate": "0.05"
         }
       ],
       "gender": "Male"
@@ -196,9 +168,7 @@
       "spawns": [
         {
           "and_preset": "caves,mountains",
-          "values": {
-            "rate": "0.75"
-          }
+          "rate": "0.75"
         }
       ],
       "gender": "Male"
@@ -209,9 +179,7 @@
       "spawns": [
         {
           "preset": "all",
-          "values": {
-            "rate": "0.05"
-          }
+          "rate": "0.05"
         }
       ],
       "gender": "Male"
@@ -222,9 +190,7 @@
       "spawns": [
         {
           "preset": "nether",
-          "values": {
-            "rate": "0.5"
-          }
+          "rate": "0.5"
         }
       ],
       "gender": "Female"
@@ -235,9 +201,7 @@
       "spawns": [
         {
           "preset": "all",
-          "values": {
-            "rate": "0.05"
-          }
+          "rate": "0.05"
         }
       ],
       "gender": "Male"
@@ -248,15 +212,11 @@
       "spawns": [
         {
           "preset": "industrial",
-          "values": {
-            "rate": "0.05"
-          }
+          "rate": "0.05"
         },
         {
           "preset": "villages",
-          "values": {
-            "rate": "0.05"
-          }
+          "rate": "0.05"
         }
       ],
       "gender": "Male"
@@ -267,9 +227,7 @@
       "spawns": [
         {
           "preset": "all",
-          "values": {
-            "rate": "0.05"
-          }
+          "rate": "0.05"
         }
       ],
       "gender": "Male"
@@ -280,9 +238,7 @@
       "spawns": [
         {
           "preset": "all",
-          "values": {
-            "rate": "0.05"
-          }
+          "rate": "0.05"
         }
       ],
       "gender": "Male"
@@ -293,9 +249,7 @@
       "spawns": [
         {
           "preset": "all",
-          "values": {
-            "rate": "0.05"
-          }
+          "rate": "0.05"
         }
       ],
       "gender": "Male"
@@ -306,9 +260,7 @@
       "spawns": [
         {
           "preset": "all",
-          "values": {
-            "rate": "0.05"
-          }
+          "rate": "0.05"
         }
       ],
       "gender": "Female"
@@ -319,9 +271,7 @@
       "spawns": [
         {
           "preset": "all",
-          "values": {
-            "rate": "0.05"
-          }
+          "rate": "0.05"
         }
       ],
       "gender": "Male"
@@ -332,9 +282,7 @@
       "spawns": [
         {
           "preset": "all",
-          "values": {
-            "rate": "0.05"
-          }
+          "rate": "0.05"
         }
       ],
       "gender": "Male"
@@ -345,9 +293,7 @@
       "spawns": [
         {
           "preset": "all",
-          "values": {
-            "rate": "0.05"
-          }
+          "rate": "0.05"
         }
       ],
       "gender": "Male"
@@ -358,9 +304,7 @@
       "spawns": [
         {
           "or_preset": "beach_ground,ocean_ground",
-          "values": {
-            "rate": "0.25"
-          }
+          "rate": "0.25"
         }
       ],
       "gender": "Male"
@@ -371,9 +315,7 @@
       "spawns": [
         {
           "or_preset": "lakes,beaches,oceans,rivers",
-          "values": {
-            "rate": "0.25"
-          }
+          "rate": "0.25"
         }
       ],
       "gender": "Both"
@@ -384,9 +326,7 @@
       "spawns": [
         {
           "preset": "all",
-          "values": {
-            "rate": "0.05"
-          }
+          "rate": "0.05"
         }
       ],
       "gender": "Male"
@@ -396,10 +336,8 @@
       "pokemon": "arceus",
       "spawns": [
         {
-          "types": "sky",
-          "values": {
-            "rate": "0.05"
-          }
+          "preset": "end",
+          "rate": "0.05"
         }
       ],
       "gender": "Male"
@@ -410,9 +348,7 @@
       "spawns": [
         {
           "preset": "all",
-          "values": {
-            "rate": "0.05"
-          }
+          "rate": "0.05"
         }
       ],
       "gender": "Male",

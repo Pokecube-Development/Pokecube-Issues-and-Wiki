@@ -125,8 +125,6 @@ public class TypeTrainer extends NpcType
     {
         return e -> {
             boolean isPlayer = e instanceof Player;
-//            if (!isPlayer && PokecubeCore.getConfig().debug_ai)
-//                PokecubeAPI.logDebug("NPC {} not agroing due to not being a player", npc);
             return isPlayer;
         };
     }
@@ -135,8 +133,6 @@ public class TypeTrainer extends NpcType
     {
         return e -> {
             boolean isPokemob = PokemobCaps.getPokemobFor(e) != null;
-//            if (!isPokemob && PokecubeCore.getConfig().debug_ai)
-//                PokecubeAPI.logDebug("NPC {} not agroing due to not being a pokemob", npc);
             return isPokemob;
         };
     }
@@ -145,8 +141,6 @@ public class TypeTrainer extends NpcType
     {
         return e -> {
             boolean isZombie = e instanceof Zombie;
-//            if (!isZombie && PokecubeCore.getConfig().debug_ai)
-//                PokecubeAPI.logDebug("NPC {} not agroing due to not being a zombie", npc);
             return isZombie;
         };
     }

@@ -19,15 +19,15 @@ import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
-import net.minecraft.world.entity.SpawnPlacements.Type;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraftforge.event.TickEvent.LevelTickEvent;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -254,7 +254,8 @@ public class TrainerSpawnHandler
         if (count < Config.instance.trainerDensity)
         {
             final Vector3 u = v.add(0, -1, 0);
-            if (w.isEmptyBlock(v.getPos()) && w.isEmptyBlock(u.getPos())) return;
+            final Vector3 up = v.add(0, 1, 0);
+            if (w.isEmptyBlock(v.getPos()) && w.isEmptyBlock(u.getPos()) || !w.isEmptyBlock(up.getPos())) return;
 
             final long time = System.nanoTime();
             final TrainerNpc t = TrainerSpawnHandler.getTrainer(v, w);
@@ -271,10 +272,9 @@ public class TrainerSpawnHandler
             if (dt > 20) PokecubeAPI.LOGGER.warn("Trainer " + cap.getType().getName() + " " + dt + "ms ");
             v.offsetBy(Direction.UP).moveEntity(t);
 
+            FluidState fluid = w.getFluidState(v.getPos());
             // Not valid spawning spot, so deny the spawn here.
-            if (!(NaturalSpawner.isSpawnPositionOk(Type.ON_GROUND, w, v.getPos(), t.getType())
-                    || NaturalSpawner.isSpawnPositionOk(Type.IN_WATER, w, v.getPos(), t.getType())))
-                return;
+            if (!fluid.isEmpty() && fluid.getType() != Fluids.WATER) return;
 
             if (t.pokemobsCap.countPokemon() > 0
                     && SpawnHandler.checkNoSpawnerInArea(w, (int) t.getX(), (int) t.getY(), (int) t.getZ()))

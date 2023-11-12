@@ -31,6 +31,11 @@ public class TrainerEntryLoader
     public static class Held extends Drop
     {}
 
+    public static class TrainerSpawn extends SpawnRule
+    {
+        public float rate = 1.0f;
+    }
+
     public static class Worn
     {
         public String key;
@@ -49,7 +54,7 @@ public class TrainerEntryLoader
         Boolean replace;
         String team;
 
-        List<SpawnRule> spawns = Lists.newArrayList();
+        List<TrainerSpawn> spawns = Lists.newArrayList();
         List<String> tags = Lists.newArrayList();
         List<Worn> worn = Lists.newArrayList();
 
@@ -142,19 +147,8 @@ public class TrainerEntryLoader
                 else PokecubeAPI.LOGGER.warn("Invalid key {} for worn items for {}", w.key, name);
             }
             if (entry.spawns != null) entry.spawns.forEach(rule -> {
-                Float weight;
-                try
-                {
-                    weight = Float.parseFloat(rule.getString("rate"));
-                }
-                catch (final Exception e)
-                {
-                    PokecubeAPI.LOGGER.warn(
-                            "Error with weight for " + type.getName() + " " + rule.values + " " + entry.spawns, e);
-                    return;
-                }
                 final SpawnBiomeMatcher matcher = SpawnBiomeMatcher.get(rule);
-                type.spawns.put(matcher, weight);
+                type.spawns.put(matcher, rule.rate);
             });
             type.hasBelt = entry.belt;
             if (entry.gender != null) type.genders = entry.gender.equalsIgnoreCase("male") ? male
