@@ -6,11 +6,8 @@
       "pokemon": "tauros,zubat,doduo,venomoth,skarmory,golem,rhydon,rhyperior,purugly,toxicroak,skuntank,yanma,koffing,magnemite,raticate,grimer,golbat,houndoom,arbok,geodude,graveler,drowzee,persian,murkrow,electrode,beedrill",
       "spawns": [
         {
-          "values": {
-            "rate": "0.4",
-            "types": "all",
-            "typesBlacklist": "cave"
-          }
+          "preset": "all_not_caves",
+          "rate": "0.4"
         }
       ],
       "gender": "Both"
@@ -20,11 +17,8 @@
       "pokemon": "dugtrio_alola,sliggoo,herdier,lumineon,shelgon,trumbeak,parasect,drifblim,vibrava,primeape,muk_alola,magneton,porygon2,machoke,vanillish,mudsdale,pelipper,magmar,electabuzz,ledian,kecleon,arbok,lurantis,sudowoodo,arcanine,huntail,gorebyss,anorith,lileep,houndoom,manectric,pupitar,granbull,scrafty,shiinotic",
       "spawns": [
         {
-          "values": {
-            "rate": "0.2",
-            "types": "all",
-            "typesBlacklist": "cave"
-          }
+          "preset": "all_not_caves",
+          "rate": "0.2"
         }
       ],
       "gender": "Both"
@@ -40,11 +34,8 @@
       "pokemon": "psyduck,krabby,marill,poliwhirl,zorua,scraggy,inkay,krokorok,politoed,machamp,hitmontop,gallade",
       "spawns": [
         {
-          "values": {
-            "rate": "0.4",
-            "types": "all",
-            "typesBlacklist": "cave"
-          }
+          "preset": "all_not_caves",
+          "rate": "0.4"
         }
       ],
       "gender": "Both"
