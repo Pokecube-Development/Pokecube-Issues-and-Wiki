@@ -935,10 +935,7 @@ public class SpawnBiomeMatcher
                 if (matcher instanceof Biomes biomes) this._biomeMatchers.add(biomes);
             }
             this._compoundMatcher = this._compoundMatcher.and(_structs);
-            this._compoundMatcher.init();
-            var event = new SpawnMatchInit(this._compoundMatcher);
-            ThutCore.FORGE_BUS.post(event);
-            this._compoundMatcher = event.getMatchChecker();
+            this._compoundMatcher = SpawnMatchInit.initMatchChecker(this._compoundMatcher);
             this._usesMatchers = true;
         }
 

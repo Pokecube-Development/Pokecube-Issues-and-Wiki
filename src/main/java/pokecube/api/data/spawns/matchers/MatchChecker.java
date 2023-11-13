@@ -7,7 +7,6 @@ import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.data.spawns.SpawnCheck.MatchResult;
 import pokecube.api.events.data.SpawnMatchInit;
-import thut.core.common.ThutCore;
 
 public interface MatchChecker
 {
@@ -35,14 +34,8 @@ public interface MatchChecker
         @Override
         public void init()
         {
-            A.init();
-            var event = new SpawnMatchInit(A);
-            ThutCore.FORGE_BUS.post(new SpawnMatchInit(A));
-            A = event.getMatchChecker();
-            B.init();
-            event = new SpawnMatchInit(B);
-            ThutCore.FORGE_BUS.post(new SpawnMatchInit(B));
-            B = event.getMatchChecker();
+            A = SpawnMatchInit.initMatchChecker(A);
+            B = SpawnMatchInit.initMatchChecker(B);
         }
     }
 
@@ -71,14 +64,8 @@ public interface MatchChecker
         @Override
         public void init()
         {
-            A.init();
-            var event = new SpawnMatchInit(A);
-            ThutCore.FORGE_BUS.post(new SpawnMatchInit(A));
-            A = event.getMatchChecker();
-            B.init();
-            event = new SpawnMatchInit(B);
-            ThutCore.FORGE_BUS.post(new SpawnMatchInit(B));
-            B = event.getMatchChecker();
+            A = SpawnMatchInit.initMatchChecker(A);
+            B = SpawnMatchInit.initMatchChecker(B);
         }
     }
 

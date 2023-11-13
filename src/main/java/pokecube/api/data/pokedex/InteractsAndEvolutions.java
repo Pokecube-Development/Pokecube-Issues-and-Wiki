@@ -18,6 +18,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.pokedex.conditions.IsSexe;
 import pokecube.api.data.pokedex.conditions.PokemobCondition;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
+import pokecube.api.events.data.PokemobMatchInit;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
@@ -89,8 +90,7 @@ public class InteractsAndEvolutions
             if (condition != null)
             {
                 result = PokemobCondition.makeFromElement(condition);
-                result.init();
-                return result;
+                return PokemobMatchInit.initMatchChecker(result);
             }
             return result;
         }
@@ -194,9 +194,8 @@ public class InteractsAndEvolutions
                 if (result == null) result = res.not();
                 else result = result.and(res.not());
             }
-            bits.forEach(c -> c.init());
             if (result == null) result = e -> true;
-            return result;
+            return PokemobMatchInit.initMatchChecker(result);
         }
     }
 
