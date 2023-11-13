@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 import net.minecraft.network.chat.Component;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.events.data.PokemobMatchInit;
 import thut.api.util.JsonUtil;
 import thut.lib.TComponent;
 
@@ -170,8 +171,7 @@ public interface PokemobCondition
             PokecubeAPI.LOGGER.error("invalid type key {} for a pokemob rule!", key);
             return null;
         }
-        PokemobCondition condition = JsonUtil.gson.fromJson(obj, condClass);
-        condition.init();
-        return condition;
+        PokemobCondition condition =JsonUtil.gson.fromJson(obj, condClass);
+        return  PokemobMatchInit.initMatchChecker(condition);
     }
 }
