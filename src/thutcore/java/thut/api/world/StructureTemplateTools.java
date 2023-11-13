@@ -12,10 +12,14 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.piston.PistonBaseBlock;
+import net.minecraft.world.level.block.piston.PistonHeadBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BedPart;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.block.state.properties.PistonType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 
@@ -34,6 +38,11 @@ public class StructureTemplateTools
             if (state.hasProperty(DoorBlock.HALF) && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER)
             {
                 // We handle this by placing lower, and ignoring upper.
+                return ItemStack.EMPTY;
+            }
+            if (state.getBlock() == Blocks.PISTON_HEAD)
+            {
+                // We handle placing the base, not the head.
                 return ItemStack.EMPTY;
             }
             Item item = state.getBlock().asItem();
@@ -55,6 +64,15 @@ public class StructureTemplateTools
             if (state.hasProperty(DoorBlock.HALF) && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER)
             {
                 level.setBlockAndUpdate(pos.above(), state.setValue(DoorBlock.HALF, DoubleBlockHalf.UPPER));
+            }
+            if (state.hasProperty(PistonBaseBlock.EXTENDED) && state.getValue(PistonBaseBlock.EXTENDED))
+            {
+                var dir = state.getValue(PistonBaseBlock.FACING);
+                var head = Blocks.PISTON_HEAD.defaultBlockState().setValue(PistonHeadBlock.FACING, dir);
+                if (state.getBlock() == Blocks.STICKY_PISTON)
+                    head = head.setValue(PistonHeadBlock.TYPE, PistonType.STICKY);
+                System.out.println("Head: "+head+" "+pos.relative(dir));
+                level.setBlockAndUpdate(pos.relative(dir), head);
             }
         }
     }
