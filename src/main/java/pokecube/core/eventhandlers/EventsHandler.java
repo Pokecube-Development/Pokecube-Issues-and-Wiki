@@ -797,10 +797,14 @@ public class EventsHandler
         if (evt.getEntity().getLevel().isClientSide || !evt.getEntity().isAlive()) return;
         final int tick = Math.max(PokecubeCore.getConfig().attackCooldown, 1);
         // Handle ongoing effects for this mob.
-        if (evt.getEntity().tickCount % tick == 0 || !EventsHandler.COOLDOWN_BASED)
+        final IOngoingAffected affected = PokemobCaps.getAffected(evt.getEntity());
+        if (affected != null)
         {
-            final IOngoingAffected affected = PokemobCaps.getAffected(evt.getEntity());
-            if (affected != null) affected.tick();
+            affected.tick();
+            if (evt.getEntity().tickCount % tick == 0 || !EventsHandler.COOLDOWN_BASED)
+            {
+                affected.tickDamage();
+            }
         }
     }
 
