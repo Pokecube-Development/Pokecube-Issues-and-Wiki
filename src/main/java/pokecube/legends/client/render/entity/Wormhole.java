@@ -53,6 +53,7 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
     {
         final ModelHolder holder = new ModelHolder(Wormhole.MODEL);
         final ModelWrapper<WormholeEntity> model = new ModelWrapper<>(holder, this);
+        this.model = model;
         ModelFactory.create(model.model, m -> {
             model.setModel(m);
             AnimationLoader.parse(holder, model, this);

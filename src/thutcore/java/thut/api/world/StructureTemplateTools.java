@@ -71,7 +71,6 @@ public class StructureTemplateTools
                 var head = Blocks.PISTON_HEAD.defaultBlockState().setValue(PistonHeadBlock.FACING, dir);
                 if (state.getBlock() == Blocks.STICKY_PISTON)
                     head = head.setValue(PistonHeadBlock.TYPE, PistonType.STICKY);
-                System.out.println("Head: "+head+" "+pos.relative(dir));
                 level.setBlockAndUpdate(pos.relative(dir), head);
             }
         }

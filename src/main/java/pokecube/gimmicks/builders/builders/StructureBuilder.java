@@ -112,6 +112,8 @@ public class StructureBuilder implements IWorldTickListener
     public Set<BlockPos> pendingBuild = new HashSet<>();
     public Set<BlockPos> pendingClear = new HashSet<>();
 
+    public int passes = 0;
+
     public StructureBuilder(BlockPos origin, Rotation rotation, Mirror mirror, IItemHandlerModifiable itemSource,
             Supplier<StructureTemplate> keyProvider)
     {
@@ -283,6 +285,7 @@ public class StructureBuilder implements IWorldTickListener
         this._template = template;
         if (template != null)
         {
+            this.done = false;
             placeOrder.clear();
             removeOrder.clear();
 
@@ -314,7 +317,7 @@ public class StructureBuilder implements IWorldTickListener
             {
                 this.done = true;
                 WorldTickManager.removeWorldData(level.dimension(), this);
-                PokecubeAPI.LOGGER.info("Already Complete Structure!");
+                PokecubeAPI.LOGGER.info("Already Complete Structure! " + this);
                 return;
             }
             sortedNeededItems.clear();
@@ -526,6 +529,11 @@ public class StructureBuilder implements IWorldTickListener
         checkBlueprint(level);
         if (!creative || removeOrder.isEmpty())
         {
+            if (passes++ < 3)
+            {
+                _template = null;
+                return;
+            }
             WorldTickManager.removeWorldData(level.dimension(), this);
             PokecubeAPI.LOGGER.info("terminated structure!");
             return;
@@ -547,6 +555,12 @@ public class StructureBuilder implements IWorldTickListener
         }
         if (!ended) return;
         // If we finished, remove.
+
+        if (passes < 3)
+        {
+            _template = null;
+            return;
+        }
         WorldTickManager.removeWorldData(level.dimension(), this);
         PokecubeAPI.LOGGER.info("Finished structure!");
     }

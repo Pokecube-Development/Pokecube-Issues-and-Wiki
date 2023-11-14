@@ -46,7 +46,9 @@ public class DoBuild extends UtilTask
     boolean makeBorder = false;
 
     PlaceInfo nextPlace = null;
+    BlockPos nextClear = null;
     int pathTimeout = -1;
+    int last_check = -1;
 
     Vector3 seeking = new Vector3();
 
@@ -74,8 +76,6 @@ public class DoBuild extends UtilTask
         builder = null;
         ys = null;
         makeBorder = true;
-        System.out.println("Builder Reset! " + entity.getDisplayName().getString());
-        Thread.dumpStack();
     }
 
     private boolean checkValid(ItemStack stack, List<ItemStack> requested)
@@ -94,12 +94,12 @@ public class DoBuild extends UtilTask
         }
         builder.checkBlueprint(level);
         builder.provideBoM();
-        ys = new ArrayList<>(builder.removeOrder.keySet());
         this.builder = builder;
+        ys = new ArrayList<>(builder.removeOrder.keySet());
+        last_check = builder.passes;
         hasInstructions = true;
         makeBorder = true;
         builder.creative = pokemob.getOwner() instanceof ServerPlayer player && player.isCreative();
-        System.out.println("Builder Set! " + entity.getDisplayName().getString());
         if (builder.done) reset();
     }
 
@@ -109,7 +109,7 @@ public class DoBuild extends UtilTask
         var storeLoc = storage.storageLoc;
         if (storeLoc == null || !(entity.level instanceof ServerLevel level)) return;
 
-        if (builder != null && builder._template == null) builder.checkBlueprint(level);
+        if (builder != null && (builder._template == null || builder.done)) builder.checkBlueprint(level);
 
         if (builder == null || builder._template == null)
         {
@@ -117,30 +117,33 @@ public class DoBuild extends UtilTask
             return;
         }
 
-        // Let storage return items if needed.
-        if (storage.pathing) return;
+        if (last_check != builder.passes)
+        {
+            ys = new ArrayList<>(builder.removeOrder.keySet());
+            last_check = builder.passes;
+        }
 
         if (entity.tickCount % 40 == 0) builder.checkBoM();
 
         IItemHandlerModifiable itemhandler = builder.itemSource;
 
-        var clearSpot = builder.nextRemoval(ys, level);
-        boolean isClear = clearSpot == null;
+        if (nextClear == null) nextClear = builder.nextRemoval(ys, level);
+        boolean isClear = nextClear == null;
         pathTimeout--;
 
         if (!isClear)
         {
             double diff = 5;
             diff = Math.max(diff, this.entity.getBbWidth());
-            if (entity.getOnPos().distSqr(clearSpot) > diff)
+            if (entity.getOnPos().distSqr(nextClear) > diff)
             {
-                this.setWalkTo(clearSpot, 1, 0);
+                this.setWalkTo(nextClear, 1, 0);
                 if (pathTimeout < 0) pathTimeout = 40;
-                builder.pendingClear.add(clearSpot);
+                builder.pendingClear.add(nextClear);
             }
             if (pathTimeout < 20 || builder.creative)
             {
-                if (!storage.canBreak(level, clearSpot))
+                if (!storage.canBreak(level, nextClear))
                 {
                     // Notify that we can't actually break this.
                     double size = pokemob.getMobSizes().mag();
@@ -159,18 +162,19 @@ public class DoBuild extends UtilTask
                 }
                 else
                 {
-                    BlockState state = level.getBlockState(clearSpot);
-                    final List<ItemStack> list = Block.getDrops(state, level, clearSpot,
-                            level.getBlockEntity(clearSpot));
+                    BlockState state = level.getBlockState(nextClear);
+                    final List<ItemStack> list = Block.getDrops(state, level, nextClear,
+                            level.getBlockEntity(nextClear));
                     list.removeIf(stack -> ItemStackTools.addItemStackToInventory(stack, builder.itemSource, 1));
                     list.forEach(c -> {
-                        int x = clearSpot.getX();
-                        int z = clearSpot.getZ();
-                        ItemEntity item = new ItemEntity(level, x + 0.5, clearSpot.getY() + 0.5, z + 0.5, c);
+                        int x = nextClear.getX();
+                        int z = nextClear.getZ();
+                        ItemEntity item = new ItemEntity(level, x + 0.5, nextClear.getY() + 0.5, z + 0.5, c);
                         level.addFreshEntity(item);
                     });
-                    level.destroyBlock(clearSpot, false);
-                    builder.pendingClear.remove(clearSpot);
+                    level.destroyBlock(nextClear, false);
+                    builder.pendingClear.remove(nextClear);
+                    nextClear = null;
 
                     // TODO ensure this walks to storage first, and only when
                     // nearly full.
@@ -254,6 +258,14 @@ public class DoBuild extends UtilTask
                     }
                 }
             }
+            else
+            {
+                if (builder.passes++ < 3)
+                {
+                    builder._template = null;
+                }
+                else reset();
+            }
         }
         else if (gettingPart)
         {
@@ -274,7 +286,10 @@ public class DoBuild extends UtilTask
             if (pathTimeout < 20)
             {
                 var pair = storage.getInventory(level, storage.storageLoc, Direction.UP);
+                int bak = storage.emptySlots;
+                storage.emptySlots = 0;
                 storage.doStorageCheck(itemhandler);
+                storage.emptySlots = bak;
                 var container = pair.getFirst();
 
                 List<ItemStack> requested = new ArrayList<>();
@@ -341,5 +356,11 @@ public class DoBuild extends UtilTask
     public boolean shouldRun()
     {
         return hasInstructions;
+    }
+
+    @Override
+    public boolean loadThrottle()
+    {
+        return false;
     }
 }

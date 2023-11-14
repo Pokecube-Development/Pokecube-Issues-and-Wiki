@@ -352,6 +352,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
             // We should be pathing to storage here, so return true.
             return true;
         }
+        this.pathing = false;
         var storage = this.getInventory(this.world, this.storageLoc, this.storageFace);
         // if Somehow have no storage, should return false.
         if (storage == null && !this.findItemStorage(true)) return false;
@@ -531,6 +532,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
     @Override
     public boolean shouldRun()
     {
+        if (pathing && this.pokemob.getHome() != null) return true;
         if (!this.pokemob.isRoutineEnabled(AIRoutine.STORE) || this.pokemob.getHome() == null) return false;
         return true;
     }

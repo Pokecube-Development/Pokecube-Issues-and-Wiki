@@ -5,9 +5,6 @@ import net.minecraftforge.registries.RegistryObject;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.InterestingMobs;
 import pokecube.core.ai.brain.sensors.NearBlocks;
-import pokecube.gimmicks.nests.tasks.ants.AntTasks;
-import pokecube.gimmicks.nests.tasks.bees.BeeTasks;
-import pokecube.gimmicks.nests.tasks.burrows.BurrowTasks;
 
 public class Sensors
 {
@@ -23,8 +20,6 @@ public class Sensors
 
     public static void init()
     {
-        BeeTasks.init();
-        AntTasks.init();
-        BurrowTasks.init();
+        // NO-OP, this is here to ensure the above static block is called.
     }
 }

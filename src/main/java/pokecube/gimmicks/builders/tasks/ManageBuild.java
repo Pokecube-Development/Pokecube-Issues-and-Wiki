@@ -35,6 +35,7 @@ import pokecube.api.entity.TeamManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.ai.tasks.utility.UtilTask;
 import pokecube.gimmicks.builders.BuilderTasks;
@@ -51,7 +52,22 @@ import thut.api.util.JsonUtil;
 
 /**
  * This IAIRunnable assigns building tasks based on the instructions in a book
- * in the offhand slot.
+ * in the offhand slot.<br>
+ * <br>
+ * Format for the instructions is as follows:<br>
+ * First page of a writable book should say:<br>
+ * first line: t:key where key is jigsaw or building<br>
+ * second line: resource location to look up<br>
+ * following lines (optional):<br>
+ * p: x y z - coordinates to shift by r: ROTATION - rotates the structure,
+ * ROTATION is NONE, CLOCKWISE_90, CLOCKWISE_180 or COUNTERCLOCKWISE_90 <br>
+ * <br>
+ * Example book:<br>
+ * t:jigsaw<br>
+ * pokecube_legends:temples/surface/sky_pillar<br>
+ * p: 0 1 0<br>
+ * r: CLOCKWISE_90<br>
+ * m: NONE<br>
  */
 public class ManageBuild extends UtilTask
 {
@@ -61,6 +77,8 @@ public class ManageBuild extends UtilTask
     ItemStack last = ItemStack.EMPTY;
     StructureBuilder builder;
     JigsawBuilder jigsaw;
+    int timer = 0;
+    List<IPokemob> minions = new ArrayList<>();
 
     public ManageBuild(IPokemob pokemob, StoreTask storage)
     {
@@ -84,22 +102,24 @@ public class ManageBuild extends UtilTask
             reset();
             return;
         }
-        final IItemHandlerModifiable keySource = new InvWrapper(pokemob.getInventory());
-        builder.keyProvider = StructureBuilder.makeForSource(builder, keySource, keySource.getSlots() - 1);
+        // Jigsaw sets the key provider based on the loaded jigsaw, otherwise we
+        // need to set it based on our offhand item
+        if (jigsaw == null)
+        {
+            final IItemHandlerModifiable keySource = new InvWrapper(pokemob.getInventory());
+            builder.keyProvider = StructureBuilder.makeForSource(builder, keySource, keySource.getSlots() - 1);
+        }
 
         for (var pokemob : pokemobs)
         {
             var task = pokemob.getNamedTaskes().get(DoBuild.KEY);
-            if (!(task instanceof DoBuild build)) continue;
-
-            if (builder.workers.contains(pokemob.getEntity())) continue;
+            if (!(task instanceof DoBuild build) || build.builder != null) continue;
 
             build.storage.storageLoc = storage.storageLoc;
             build.storage.storageFace = storage.storageFace;
 
             final IItemHandlerModifiable itemSource = new InvWrapper(pokemob.getInventory());
             builder.itemSource = itemSource;
-
             if (pokemob != this.pokemob)
             {
                 builder.addBoMRecord(new BoMRecord(() -> pokemob.getEntity().getOffhandItem(),
@@ -110,7 +130,8 @@ public class ManageBuild extends UtilTask
                 builder.addBoMRecord(new BoMRecord(() -> pair.getFirst().getStackInSlot(0),
                         _book -> pair.getFirst().setStackInSlot(0, _book)));
             }
-            builder.workers.add(pokemob.getEntity());
+            if (!builder.workers.contains(pokemob.getEntity())) builder.workers.add(pokemob.getEntity());
+            if (!minions.contains(pokemob)) minions.add(pokemob);
             build.setBuilder(builder, level);
         }
     }
@@ -121,48 +142,97 @@ public class ManageBuild extends UtilTask
         var storeLoc = storage.storageLoc;
         if (storeLoc == null || !(entity.level instanceof ServerLevel level)) return;
 
-        if (entity.tickCount % 50 != 0) return;
+        if (entity.tickCount - timer < 50) return;
+        timer = entity.tickCount;
 
-        if (!this.entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES)) return;
+        if (storeLoc.distManhattan(entity.getOnPos()) > 3)
+        {
+            setWalkTo(storeLoc, 1, 1);
+        }
+        else
+        {
+            pokemob.setLogicState(LogicStates.SITTING, true);
+        }
 
         List<IPokemob> pokemobs = new ArrayList<>();
-        Iterable<LivingEntity> visible = this.entity.getBrain()
-                .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findAll(e ->
-                {
-                    IPokemob p = PokemobCaps.getPokemobFor(e);
-                    if (p == null) return false;
-                    if (!TeamManager.sameTeam(e, entity)) return false;
-                    return p.getGeneralState(GeneralStates.STAYING) && p.isRoutineEnabled(BuilderTasks.BUILD)
-                            && p.getNamedTaskes().containsKey(DoBuild.KEY);
-                });
-        // Only allow valid guard targets.
-        for (var o : visible) pokemobs.add(PokemobCaps.getPokemobFor(o));
-
-        if (pokemobs.isEmpty() && pokemob.isRoutineEnabled(BuilderTasks.BUILD))
+        if (this.entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES))
+        {
+            Iterable<LivingEntity> visible = this.entity.getBrain()
+                    .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findAll(e ->
+                    {
+                        IPokemob p = PokemobCaps.getPokemobFor(e);
+                        if (p == null) return false;
+                        if (!TeamManager.sameTeam(e, entity)) return false;
+                        return p.getGeneralState(GeneralStates.STAYING) && p.isRoutineEnabled(BuilderTasks.BUILD)
+                                && p.getNamedTaskes().containsKey(DoBuild.KEY);
+                    });
+            // Only allow valid guard targets.
+            for (var o : visible) pokemobs.add(PokemobCaps.getPokemobFor(o));
+        }
+        if (pokemobs.isEmpty() && pokemob.isRoutineEnabled(BuilderTasks.BUILD) && minions.isEmpty())
         {
             pokemobs.add(pokemob);
         }
 
+        if (!minions.isEmpty())
+        {
+            for (var m : minions) if (!pokemobs.contains(m) && m.getEntity().isAddedToWorld()) pokemobs.add(m);
+        }
+
         if (pokemobs.isEmpty()) return;
 
+        if (builder != null)
+        {
+            if (builder.done)
+            {
+                if (builder.passes++ > 3)
+                {
+                    if (jigsaw != null) jigsaw.builders.remove(0);
+                    for (var m : minions)
+                    {
+                        var task = m.getNamedTaskes().get(DoBuild.KEY);
+                        if (!(task instanceof DoBuild build) || build.builder != builder) continue;
+                        build.builder = null;
+                    }
+                    builder = null;
+                }
+                else
+                {
+                    builder._template = null;
+                }
+            }
+        }
         if (builder == null)
         {
+            for (var m : minions)
+            {
+                var task = m.getNamedTaskes().get(DoBuild.KEY);
+                if (!(task instanceof DoBuild build)) continue;
+                build.builder = null;
+            }
+            minions.clear();
+            if (jigsaw != null)
+            {
+                while (!jigsaw.builders.isEmpty())
+                {
+                    if (!jigsaw.builders.get(0).done || jigsaw.builders.get(0).passes < 3)
+                    {
+                        break;
+                    }
+                    jigsaw.builders.remove(0);
+                }
+            }
+
             if (jigsaw == null || jigsaw.builders.isEmpty())
             {
                 reset();
                 return;
             }
+
             this.setBuilder(jigsaw.builders.get(0), level, pokemobs);
         }
         else if (builder.workers.size() < 1 && builder.workers.size() < pokemobs.size())
             this.setBuilder(builder, level, pokemobs);
-        if (builder == null || builder.done || builder._template == null)
-        {
-            if (jigsaw != null) jigsaw.builders.remove(0);
-            builder = null;
-            if (jigsaw != null && !jigsaw.builders.isEmpty()) this.setBuilder(jigsaw.builders.get(0), level, pokemobs);
-            return;
-        }
     }
 
     @Override
@@ -170,6 +240,7 @@ public class ManageBuild extends UtilTask
     {
         if (last != pokemob.getEntity().getOffhandItem() && entity.level instanceof ServerLevel level)
         {
+            boolean hadInstructions = hasInstructions;
             last = pokemob.getEntity().getOffhandItem();
             hasInstructions = false;
 
@@ -286,6 +357,7 @@ public class ManageBuild extends UtilTask
 
                                 this.jigsaw = new JigsawBuilder(structurepiecesbuilder, shift, itemSource, level);
                                 hasInstructions = true;
+                                System.out.println("New Jigsaw!");
                             }
                             else
                             {
@@ -296,9 +368,20 @@ public class ManageBuild extends UtilTask
                 }
                 catch (Exception e)
                 {
-                    PokecubeAPI.LOGGER.error(e);
+                    PokecubeAPI.LOGGER.error("Error loading building instructions", e);
                 }
             }
+
+            if (hadInstructions && !hasInstructions)
+            {
+                for (var m : minions)
+                {
+                    var task = m.getNamedTaskes().get(DoBuild.KEY);
+                    if (!(task instanceof DoBuild build) || build.builder == null) continue;
+                    build.reset();
+                }
+            }
+            timer = entity.tickCount;
         }
         return hasInstructions;
     }
