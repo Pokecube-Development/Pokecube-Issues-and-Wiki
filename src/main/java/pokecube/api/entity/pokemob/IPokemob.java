@@ -472,6 +472,14 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     float getHomeDistance();
 
     /**
+     * Slots go as follows:<br>
+     * <ul>
+     *  <li>0 - saddle</li>
+     *  <li>1 - held item</li>
+     *  <li>2-6 - general inventory</li>
+     *  <li>rest - armour followed by offhand item</li>
+     * </ul>
+     * 
      * @return the Container holding our inventory
      */
     Container getInventory();

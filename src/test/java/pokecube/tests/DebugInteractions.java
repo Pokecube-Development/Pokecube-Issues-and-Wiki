@@ -2,6 +2,7 @@ package pokecube.tests;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import com.google.common.base.Predicates;
@@ -11,7 +12,6 @@ import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
@@ -23,7 +23,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
@@ -76,10 +75,7 @@ public class DebugInteractions
         {
             IItemHandlerModifiable itemSource = (IItemHandlerModifiable) ThutCaps.getInventory(chest);
             BlockPos origin = evt.getPos();
-            Direction orientation = level.getBlockState(origin).getValue(ChestBlock.FACING);
-
             ItemStack key = itemSource.getStackInSlot(0);
-            boolean made = false;
             check:
             if (key.hasTag() && key.getOrCreateTag().get("pages") instanceof ListTag list && !list.isEmpty()
                     && list.get(0) instanceof StringTag entry)
@@ -92,83 +88,103 @@ public class DebugInteractions
                     if (!string.startsWith("{")) string = "{\"text\":\"" + string + "\"}";
                     var parsed = JsonUtil.gson.fromJson(string, JsonObject.class);
                     String[] lines = parsed.get("text").getAsString().strip().split("\n");
-                    if (!lines[0].equals("pool:")) break check;
+
+                    String type = lines[0].replace("t:", "").strip();
+
+                    if (!(type.equals("jigsaw") || type.equals("building"))) break check;
+
                     if (lines.length >= 2) toMake = new ResourceLocation(lines[1]);
-                    if (lines.length >= 3)
+                    String rotation = "NONE";
+                    String offset = "0 0 0";
+                    String mirror = "NONE";
+
+                    for (int i = 2; i < lines.length; i++)
                     {
-                        var args = lines[2].contains(",") ? lines[2].split(",") : lines[2].split(" ");
-                        int dx = 0;
-                        int dy = 0;
-                        int dz = 0;
+                        String line = lines[i];
+                        if (line.startsWith("p:")) offset = line.replace("p:", "").strip();
+                        if (line.startsWith("r:")) rotation = line.replace("r:", "").strip();
+                        if (line.startsWith("m:")) rotation = line.replace("m:", "").strip();
 
-                        if (args.length == 1)
-                        {
-                            dy = Integer.parseInt(args[0]);
-                        }
-                        else if (args.length == 3)
-                        {
-                            dx = Integer.parseInt(args[0]);
-                            dy = Integer.parseInt(args[1]);
-                            dz = Integer.parseInt(args[2]);
-
-                            int tmp;
-                            switch (orientation)
-                            {
-                            case DOWN:
-                                break;
-                            case EAST:
-                                dz = -dz;
-                                break;
-                            case NORTH:
-                                tmp = -dx;
-                                dx = dz;
-                                dz = tmp;
-                                break;
-                            case SOUTH:
-                                tmp = dx;
-                                dx = -dz;
-                                dz = tmp;
-                                break;
-                            case UP:
-                                break;
-                            case WEST:
-                                dx = -dx;
-                                break;
-                            default:
-                                break;
-
-                            }
-                        }
-                        shift = new BlockPos(dx, dy, dz);
                     }
+
+                    Rotation rot = Rotation.NONE;
+                    try
+                    {
+                        rot = Rotation.valueOf(rotation.toUpperCase(Locale.ROOT));
+                    }
+                    catch (Exception e)
+                    {
+                        PokecubeAPI.LOGGER.error(e);
+                    }
+
+                    Mirror mir = Mirror.NONE;
+                    try
+                    {
+                        mir = Mirror.valueOf(mirror.toUpperCase(Locale.ROOT));
+                    }
+                    catch (Exception e)
+                    {
+                        PokecubeAPI.LOGGER.error(e);
+                    }
+
+                    var args = offset.contains(",") ? offset.split(",") : offset.split(" ");
+                    int dx = 0;
+                    int dy = 0;
+                    int dz = 0;
+
+                    if (args.length == 1)
+                    {
+                        dy = Integer.parseInt(args[0]);
+                    }
+                    else if (args.length == 3)
+                    {
+                        dx = Integer.parseInt(args[0]);
+                        dy = Integer.parseInt(args[1]);
+                        dz = Integer.parseInt(args[2]);
+                    }
+                    shift = new BlockPos(dx, dy, dz);
 
                     if (toMake != null)
                     {
-                        var poolHolder = level.registryAccess().registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY)
-                                .getHolderOrThrow(ResourceKey.create(Registry.TEMPLATE_POOL_REGISTRY, toMake));
-                        ExpandedJigsawConfiguration config = new ExpandedJigsawConfiguration(poolHolder, 1,
-                                YSettings.DEFAULT, ClearanceSettings.DEFAULT, new ArrayList<>(), "", "", "none",
-                                Heightmap.Types.WORLD_SURFACE_WG, new ArrayList<>(), 0, 0, AvoidanceSettings.DEFAULT);
-                        var context = new PieceGeneratorSupplier.Context<ExpandedJigsawConfiguration>(
-                                level.getChunkSource().getGenerator(),
-                                level.getChunkSource().getGenerator().getBiomeSource(), level.getSeed(),
-                                new ChunkPos(origin), config, level, Predicates.alwaysTrue(),
-                                level.getStructureManager(), level.registryAccess());
-                        var make = ExpandedJigsawPacement.addPieces(context, ExpandedPoolElementStructurePiece::new,
-                                origin, false, false);
-                        if (make.isPresent())
+                        if (type.equals("building"))
                         {
-                            StructurePiecesBuilder structurepiecesbuilder = new StructurePiecesBuilder();
+
+                            StructureBuilder builder = new StructureBuilder(origin, rot, mir, itemSource);
+                            builder.creative = true;
+                            WorldTickManager.addWorldData(level.dimension(), builder);
+                        }
+                        else
+                        {
+                            var poolHolder = level.registryAccess().registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY)
+                                    .getHolderOrThrow(ResourceKey.create(Registry.TEMPLATE_POOL_REGISTRY, toMake));
+                            ExpandedJigsawConfiguration config = new ExpandedJigsawConfiguration(poolHolder, 1,
+                                    YSettings.DEFAULT, ClearanceSettings.DEFAULT, new ArrayList<>(), "", "", "none",
+                                    Heightmap.Types.WORLD_SURFACE_WG, new ArrayList<>(), 0, 0,
+                                    AvoidanceSettings.DEFAULT);
+                            var context = new PieceGeneratorSupplier.Context<ExpandedJigsawConfiguration>(
+                                    level.getChunkSource().getGenerator(),
+                                    level.getChunkSource().getGenerator().getBiomeSource(), level.getSeed(),
+                                    new ChunkPos(origin), config, level, Predicates.alwaysTrue(),
+                                    level.getStructureManager(), level.registryAccess());
                             WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
-                            var buildContext = new PieceGenerator.Context<ExpandedJigsawConfiguration>(config,
-                                    level.getChunkSource().getGenerator(), level.getStructureManager(),
-                                    new ChunkPos(origin), level, worldgenrandom, level.getSeed());
-                            make.get().generatePieces(structurepiecesbuilder, buildContext);
-                            var builder = new JigsawBuilder(structurepiecesbuilder, shift, itemSource, level);
-                            for (var b : builder.builders)
+                            worldgenrandom.setLargeFeatureSeed(context.seed(), context.chunkPos().x,
+                                    context.chunkPos().z);
+                            var make = ExpandedJigsawPacement.addPieces(context, ExpandedPoolElementStructurePiece::new,
+                                    origin, false, false, worldgenrandom, rot);
+                            if (make.isPresent())
                             {
-                                b.creative = true;
-                                WorldTickManager.addWorldData(level.dimension(), b);
+                                StructurePiecesBuilder structurepiecesbuilder = new StructurePiecesBuilder();
+
+                                var buildContext = new PieceGenerator.Context<ExpandedJigsawConfiguration>(config,
+                                        level.getChunkSource().getGenerator(), level.getStructureManager(),
+                                        new ChunkPos(origin), level, worldgenrandom, level.getSeed());
+                                make.get().generatePieces(structurepiecesbuilder, buildContext);
+                                var builder = new JigsawBuilder(structurepiecesbuilder, shift, itemSource, level);
+                                for (var b : builder.builders)
+                                {
+                                    b.creative = true;
+                                    WorldTickManager.addWorldData(level.dimension(), b);
+                                }
                             }
                         }
                     }
@@ -177,35 +193,6 @@ public class DebugInteractions
                 {
                     PokecubeAPI.LOGGER.error(e);
                 }
-            }
-
-            if (!made)
-            {
-                Mirror mirror = Mirror.NONE;
-                Rotation rotation = Rotation.NONE;
-
-                switch (orientation)
-                {
-                case SOUTH:
-                    mirror = Mirror.LEFT_RIGHT;
-                    rotation = Rotation.NONE;
-                    break;
-                case WEST:
-                    mirror = Mirror.LEFT_RIGHT;
-                    rotation = Rotation.CLOCKWISE_90;
-                    break;
-                case EAST:
-                    mirror = Mirror.NONE;
-                    rotation = Rotation.CLOCKWISE_90;
-                    break;
-                default:
-                    mirror = Mirror.NONE;
-                    rotation = Rotation.NONE;
-                }
-
-                StructureBuilder builder = new StructureBuilder(origin, rotation, mirror, itemSource);
-                builder.creative = true;
-                WorldTickManager.addWorldData(level.dimension(), builder);
             }
         }
     }

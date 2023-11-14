@@ -1,6 +1,7 @@
 package pokecube.core.ai.tasks.utility.builders;
 
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,21 +57,51 @@ public class StructureBuilder implements IWorldTickListener
     {
     }
 
-    boolean done = false;
+    public static Supplier<StructureTemplate> makeForSource(StructureBuilder structureBuilder,
+            IItemHandlerModifiable itemSource, int slot)
+    {
+        return () -> {
+            ItemStack key = itemSource.getStackInSlot(slot);
+            if (!key.hasTag()) return null;
+            ResourceLocation toMake = structureBuilder.toMake;
+            structureBuilder.dy = 0;
+            var tag = key.getTag().get("pages");
+            if (structureBuilder.key_info != null && tag.toString().equals(structureBuilder.key_info.toString()))
+                return structureBuilder._template;
+            structureBuilder.key_info = tag;
+            if (toMake == null)
+            {
+                PokecubeAPI.LOGGER.error("No ResourceLocation!");
+                return null;
+            }
+            var opt = structureBuilder.level.getStructureManager().get(toMake);
+            if (!opt.isPresent())
+            {
+                PokecubeAPI.LOGGER.error("No Template for {}!", toMake);
+                return null;
+            }
+            return opt.get();
+        };
+    }
+
+    public boolean done = false;
     public boolean creative = false;
-    int layer = Integer.MIN_VALUE;
-    IItemHandlerModifiable itemSource = null;
-    Supplier<StructureTemplate> keyProvider;
-    StructureTemplate _template;
-    int dy = 0;
-    BlockPos origin;
-    ServerLevel level;
-    Rotation rotation;
-    Mirror mirror;
-    Tag key_info = null;
-    Map<Integer, List<StructureBlockInfo>> removeOrder = new HashMap<>();
-    List<StructureBlockInfo> placeOrder = new ArrayList<>();
-    Map<BlockPos, ItemStack> neededItems = Maps.newHashMap();
+    public int layer = Integer.MIN_VALUE;
+    public IItemHandlerModifiable itemSource = null;
+    public Supplier<StructureTemplate> keyProvider;
+    public StructureTemplate _template;
+    public int dy = 0;
+    public BlockPos origin;
+    public ServerLevel level;
+    public Rotation rotation;
+    public Mirror mirror;
+    public Tag key_info = null;
+    public Map<Integer, List<StructureBlockInfo>> removeOrder = new HashMap<>();
+    public List<StructureBlockInfo> placeOrder = new ArrayList<>();
+    public Map<BlockPos, ItemStack> neededItems = Maps.newHashMap();
+    public ResourceLocation toMake;
+    public BitSet missingItems = new BitSet();
+    public BitSet ignoredItems = new BitSet();
     public StructurePlaceSettings settings;
     public BoMRecord BoM = new BoMRecord(() -> itemSource.getStackInSlot(1),
             _book -> itemSource.setStackInSlot(1, _book));
@@ -87,7 +118,7 @@ public class StructureBuilder implements IWorldTickListener
         this.mirror = mirror;
 
         this.itemSource = itemSource;
-        if (keyProvider == null) keyProvider = this::fromSource;
+        if (keyProvider == null) keyProvider = makeForSource(this, itemSource, 0);
         this.keyProvider = keyProvider;
     }
 
@@ -96,50 +127,54 @@ public class StructureBuilder implements IWorldTickListener
         this(origin, rotation, mirror, itemSource, null);
     }
 
-    private StructureTemplate fromSource()
+    /**
+     * Checks if the bill of materials has marked the stacks as do not require.
+     */
+    public void checkBoM()
     {
-        ItemStack key = this.itemSource.getStackInSlot(0);
-        if (!key.hasTag()) return null;
-        ResourceLocation toMake = null;
-        dy = 0;
-        var tag = key.getTag().get("pages");
-        if (key_info != null && tag.toString().equals(key_info.toString())) return _template;
-        key_info = tag;
-        placeOrder.clear();
-        removeOrder.clear();
-        if (tag instanceof ListTag list && !list.isEmpty() && list.get(0) instanceof StringTag entry)
+        ItemStack book = BoM.BoMProvider().get();
+        if (book.getItem() instanceof WritableBookItem)
         {
-            try
+            CompoundTag nbt = book.getOrCreateTag();
+            ListTag pages = null;
+            if (!nbt.contains("pages") || !(nbt.get("pages") instanceof ListTag t2))
+                nbt.put("pages", pages = new ListTag());
+            else pages = t2;
+            for (int page = 0; page < pages.size(); page++)
             {
+                var entry = pages.get(page);
                 String string = entry.getAsString();
                 if (!string.startsWith("{")) string = "{\"text\":\"" + string + "\"}";
                 var parsed = JsonUtil.gson.fromJson(string, JsonObject.class);
-                String[] lines = parsed.get("text").getAsString().strip().split("\n");
-                if (!lines[0].equals("build:")) return null;
-                if (lines.length >= 2) toMake = new ResourceLocation(lines[1]);
-                if (lines.length >= 3) dy = Integer.parseInt(lines[2]);
+                String txt = parsed.get("text").getAsString().strip();
+                if (!txt.startsWith("Next Items:")) continue;
+                var lines = txt.split("\n");
+
+                List<Integer> items = new ArrayList<>();
+                int n = 0;
+                for (int i = 0, max = placeOrder.size(); i < max; i++)
+                {
+                    ItemStack needed = neededItems.get(placeOrder.get(i).pos);
+                    if (needed == null || needed.isEmpty()) continue;
+                    if (n++ > 3) break;
+                    items.add(i);
+                }
+
+                for (int i = 1, j = 0; i < lines.length && j < items.size(); i++)
+                {
+                    var line = lines[i];
+                    if (line.isBlank()) break;
+                    var args = line.split("x");
+                    if (args.length < 2) break;
+                    j++;
+                    if ("0".equals(args[0]))
+                    {
+                        ignoredItems.set(items.get(j));
+                    }
+                }
+                break;
             }
-            catch (Exception e)
-            {
-                PokecubeAPI.LOGGER.error(e);
-            }
         }
-
-        if (toMake == null)
-        {
-            PokecubeAPI.LOGGER.error("No ResourceLocation!");
-            return null;
-        }
-
-        var opt = level.getStructureManager().get(toMake);
-
-        if (!opt.isPresent())
-        {
-            PokecubeAPI.LOGGER.error("No Template for {}!", toMake);
-            return null;
-        }
-
-        return opt.get();
     }
 
     public void provideBoM()
@@ -174,11 +209,15 @@ public class StructureBuilder implements IWorldTickListener
 
             MutableComponent msg = TComponent.literal("Next Items:");
             int n = 0;
+            List<ItemStack> requested = new ArrayList<>();
+            needed_check:
             for (int i = 0, max = placeOrder.size(); i < max; i++)
             {
                 ItemStack needed = neededItems.get(placeOrder.get(i).pos);
                 if (needed == null || needed.isEmpty()) continue;
-                if (n++ > 3) break;
+                if (++n > 3) break;
+                for (var stack : requested) if (ItemStack.isSame(stack, needed)) continue needed_check;
+                requested.add(needed);
                 MutableComponent name = (MutableComponent) needed.getDisplayName();
                 name.setStyle(name.getStyle().withColor(0));
                 msg = msg.append(TComponent.literal("\n")).append(TComponent.literal(needed.getCount() + "x"))
@@ -192,15 +231,16 @@ public class StructureBuilder implements IWorldTickListener
             // The set is to ensure each stack is only added once!
             List<ItemStack> stacks = Lists.newArrayList(Sets.newHashSet(neededItems.values()));
             stacks.sort((a, b) -> b.getCount() - a.getCount());
-            msg = TComponent.literal("Needed Items:");
+            msg = TComponent.literal("Total Cost:");
 
             for (var s : stacks)
             {
+                if (s == null || s.isEmpty()) continue;
                 if (n++ > 8)
                 {
                     if (compiled) pages.add(StringTag.valueOf(Component.Serializer.toJson(msg)));
                     else pages.add(StringTag.valueOf(msg.getString()));
-                    msg = TComponent.literal("Needed Items:");
+                    msg = TComponent.literal("Total Cost:");
                     n = 0;
                 }
                 MutableComponent name = (MutableComponent) s.getDisplayName();
@@ -216,6 +256,9 @@ public class StructureBuilder implements IWorldTickListener
             nbt.putString("title", "BoM");
             nbt.putString("author", "BoM Generator");
             book.setTag(nbt);
+
+            if (!compiled) book.setHoverName(TComponent.literal("BoM"));
+
             BoM.BoMConsumer().accept(book);
         }
     }
@@ -229,6 +272,9 @@ public class StructureBuilder implements IWorldTickListener
         this._template = template;
         if (template != null)
         {
+            placeOrder.clear();
+            removeOrder.clear();
+
             BlockPos location = origin.above(dy);
             if (settings == null)
             {
@@ -282,10 +328,12 @@ public class StructureBuilder implements IWorldTickListener
         {
             placeOrder.clear();
             removeOrder.clear();
+            missingItems.clear();
+            ignoredItems.clear();
         }
     }
 
-    public boolean tryClear(List<Integer> ys, ServerLevel level)
+    public BlockPos nextRemoval(List<Integer> ys, ServerLevel level)
     {
         for (int i = ys.size() - 1; i >= 0; i--)
         {
@@ -296,28 +344,39 @@ public class StructureBuilder implements IWorldTickListener
             BlockPos pos = remove.get(0);
             if (level.getMinBuildHeight() >= pos.getY()) continue;
             if (level.getMaxBuildHeight() <= pos.getY()) continue;
-            if (pos.equals(origin)) continue;
-            BlockState state = level.getBlockState(pos);
-            final List<ItemStack> list = Block.getDrops(state, level, pos, level.getBlockEntity(pos));
-            if (!creative)
-            {
-                list.removeIf(stack -> ItemStackTools.addItemStackToInventory(stack, itemSource, 1));
-                list.forEach(c -> {
-                    int x = pos.getX();
-                    int z = pos.getZ();
-                    ItemEntity item = new ItemEntity(level, x + 0.5, y + 0.5, z + 0.5, c);
-                    level.addFreshEntity(item);
-                });
-            }
-            level.destroyBlock(pos, false);
-            return false;
+            return pos;
         }
+        return null;
+    }
+
+    public boolean tryClear(List<Integer> ys, ServerLevel level)
+    {
+        BlockPos pos = nextRemoval(ys, level);
+        if (pos == null) return true;
+        BlockState state = level.getBlockState(pos);
+        final List<ItemStack> list = Block.getDrops(state, level, pos, level.getBlockEntity(pos));
+        if (!creative)
+        {
+            list.removeIf(stack -> ItemStackTools.addItemStackToInventory(stack, itemSource, 1));
+            list.forEach(c -> {
+                int x = pos.getX();
+                int z = pos.getZ();
+                ItemEntity item = new ItemEntity(level, x + 0.5, pos.getY() + 0.5, z + 0.5, c);
+                level.addFreshEntity(item);
+            });
+        }
+        level.destroyBlock(pos, false);
         return true;
     }
 
-    public CanPlace canPlace(StructureBlockInfo info)
+    public PlaceInfo canPlace(StructureBlockInfo info, int index)
     {
-        if (info.state == null || info.state.isAir()) return CanPlace.YES;
+        if (info.state == null || info.state.isAir()) return new PlaceInfo(CanPlace.YES, info, -1);
+
+        // If we are marked as to ignore this point. return no directly, this
+        // skips the placement.
+        if (ignoredItems.get(index)) return new PlaceInfo(CanPlace.NO, info, -1);
+
         ItemStack stack = StructureTemplateTools.getForInfo(info);
         if (!stack.isEmpty())
         {
@@ -327,65 +386,112 @@ public class StructureBuilder implements IWorldTickListener
                 ItemStack inSlot = itemSource.getStackInSlot(i);
                 if (ItemStack.isSame(stack, inSlot))
                 {
-                    inSlot.shrink(1);
-                    if (needed != null) needed.shrink(1);
-                    return CanPlace.YES;
+                    return new PlaceInfo(CanPlace.YES, info, i);
                 }
             }
             if (needed == null)
             {
-                return CanPlace.NO;
+                return new PlaceInfo(CanPlace.NO, info, -1);
             }
             else if (creative)
             {
-                return CanPlace.YES;
+                return new PlaceInfo(CanPlace.YES, info, -1);
+            }
+            else
+            {
+                missingItems.set(index);
             }
         }
-        return stack.isEmpty() ? CanPlace.NO : CanPlace.NEED_ITEM;
+        return new PlaceInfo(stack.isEmpty() ? CanPlace.NO : CanPlace.NEED_ITEM, info, -1);
     }
 
-    public boolean tryPlace(List<Integer> ys, ServerLevel level)
+    public static record PlaceInfo(CanPlace valid, StructureBlockInfo info, int itemSlot)
     {
-        for (var info : placeOrder)
+    }
+
+    public PlaceInfo getNextPlacement(ServerLevel level)
+    {
+        for (int i = 0; i < placeOrder.size(); i++)
         {
+            var info = placeOrder.get(i);
             if (level.getMinBuildHeight() >= info.pos.getY())
             {
-                placeOrder.remove(info);
-                return false;
+                return new PlaceInfo(CanPlace.NO, info, -1);
             }
             if (level.getMaxBuildHeight() <= info.pos.getY())
             {
-                placeOrder.remove(info);
-                return false;
+                return new PlaceInfo(CanPlace.NO, info, -1);
             }
-            if (info.pos.equals(origin))
+            PlaceInfo canPlace = canPlace(info, i);
+            if (canPlace.valid == CanPlace.NO)
             {
-                placeOrder.remove(info);
-                return false;
+                return canPlace;
             }
-            CanPlace place = canPlace(info);
-            if (place == CanPlace.NO)
+            else if (canPlace.valid == CanPlace.NEED_ITEM)
             {
-                placeOrder.remove(info);
-                return false;
+                // Check if the bill of materials has this listed as to ignore.
+                checkBoM();
+                return canPlace;
             }
-            else if (place == CanPlace.NEED_ITEM)
-            {
-                return false;
-            }
-            // We do not use the "recommended" rotate function, as that is for
-            // blocks already in world. Using it prevents pistons from rotating
-            // properly!
+            // We do not use the "recommended" rotate function, as that is
+            // for blocks already in world. Using it prevents pistons from
+            // rotating properly!
             @SuppressWarnings("deprecation")
             BlockState placeState = info.state.rotate(settings.getRotation());// .mirror(settings.getMirror())
             BlockState old = level.getBlockState(info.pos);
             boolean same = old.isAir() & placeState.isAir();
-            if (same) continue;
-
             placeOrder.remove(info);
-            StructureTemplateTools.getPlacer(placeState).placeBlock(placeState, info.pos, level);
+            if (same)
+            {
+                // Skip and decrement here
+                i--;
+                continue;
+            }
+
+            return canPlace;
+        }
+        return null;
+    }
+
+    public boolean tryPlace(ServerLevel level)
+    {
+        PlaceInfo placement = getNextPlacement(level);
+        if (placement != null)
+        {
+            var info = placement.info;
+            switch (placement.valid)
+            {
+            case NEED_ITEM:
+                break;
+            case NO:
+                placeOrder.remove(info);
+                break;
+            case YES:
+                // We do not use the "recommended" rotate function, as that is
+                // for blocks already in world. Using it prevents pistons from
+                // rotating properly!
+                @SuppressWarnings("deprecation")
+                BlockState placeState = info.state.rotate(settings.getRotation());// .mirror(settings.getMirror())
+                BlockState old = level.getBlockState(info.pos);
+                boolean same = old.isAir() & placeState.isAir();
+                placeOrder.remove(info);
+                if (same) break;
+
+                if (placement.itemSlot >= 0)
+                {
+                    ItemStack needed = neededItems.get(info.pos);
+                    if (needed != null) needed.shrink(1);
+                    ItemStack inSlot = itemSource.getStackInSlot(placement.itemSlot);
+                    inSlot.shrink(1);
+                }
+                StructureTemplateTools.getPlacer(placeState).placeBlock(placeState, info.pos, level);
+                break;
+            default:
+                break;
+            }
             return false;
         }
+        this.done = true;
         return true;
     }
 
@@ -410,7 +516,7 @@ public class StructureBuilder implements IWorldTickListener
             // Check if we need to remove invalid blocks, do that first.
             if (!tryClear(ys, level)) continue;
             // Then check if we can place blocks.
-            if (!(ended = tryPlace(ys, level))) continue;
+            if (!(ended = tryPlace(level))) continue;
             if (ended) break;
         }
         if (!ended) return;

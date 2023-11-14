@@ -88,7 +88,7 @@ public class IdleRestTask extends BaseIdleTask
             distance = (int) Math.min(distance, this.pokemob.getHomeDistance());
             this.v.set(this.pokemob.getHome());
             if (this.entity.blockPosition().distSqr(this.pokemob.getHome()) > this.pokemob.getHomeDistance()
-                    * this.pokemob.getHomeDistance())
+                    * this.pokemob.getHomeDistance() * 0.75)
                 goHome = true;
         }
         else

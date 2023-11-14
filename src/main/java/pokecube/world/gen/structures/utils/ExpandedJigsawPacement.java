@@ -98,6 +98,14 @@ public class ExpandedJigsawPacement
     {
         WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
         worldgenrandom.setLargeFeatureSeed(context.seed(), context.chunkPos().x, context.chunkPos().z);
+        Rotation rotation = Rotation.getRandom(worldgenrandom);
+        return addPieces(context, factory, centre, bound_checks, on_surface, worldgenrandom, rotation);
+    }
+
+    public static Optional<PieceGenerator<ExpandedJigsawConfiguration>> addPieces(
+            PieceGeneratorSupplier.Context<ExpandedJigsawConfiguration> context, PieceFactory factory, BlockPos centre,
+            boolean bound_checks, boolean on_surface, WorldgenRandom worldgenrandom, Rotation rotation)
+    {
         RegistryAccess registryaccess = context.registryAccess();
         ExpandedJigsawConfiguration config = context.config();
         ChunkGenerator chunkgenerator = context.chunkGenerator();
@@ -106,7 +114,6 @@ public class ExpandedJigsawPacement
         Predicate<Holder<Biome>> predicate = context.validBiome();
         StructureFeature.bootstrap();
         Registry<StructureTemplatePool> registry = registryaccess.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY);
-        Rotation rotation = Rotation.getRandom(worldgenrandom);
 
         StructureTemplatePool root_pool = config.startPool().value();
         // This one can be completely random, as is just the start pool, this
@@ -164,9 +171,8 @@ public class ExpandedJigsawPacement
                     {
                         int max_box_size = 80;
                         int max_box_height = 512;
-                        AABB aabb = new AABB(i - max_box_size, k - max_box_height,
-                                j - max_box_size, i + max_box_size + 1,
-                                k + max_box_height + 1, j + max_box_size + 1);
+                        AABB aabb = new AABB(i - max_box_size, k - max_box_height, j - max_box_size,
+                                i + max_box_size + 1, k + max_box_height + 1, j + max_box_size + 1);
 
                         List<Placer> attempts = Lists.newArrayList();
 

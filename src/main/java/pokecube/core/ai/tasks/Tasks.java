@@ -52,6 +52,7 @@ import pokecube.core.ai.tasks.misc.LookAtTask;
 import pokecube.core.ai.tasks.misc.RunAway;
 import pokecube.core.ai.tasks.misc.SwimTask;
 import pokecube.core.ai.tasks.misc.WalkToTask;
+import pokecube.core.ai.tasks.utility.BuildStructureTask;
 import pokecube.core.ai.tasks.utility.GatherTask;
 import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.ai.tasks.utility.UseMoveTask;
@@ -238,6 +239,8 @@ public class Tasks
         aiList.add(ai);
         // Gather things from ground
         aiList.add(new GatherTask(pokemob, 32, ai));
+        // Gather things from ground
+        aiList.add(new BuildStructureTask(pokemob, ai));
         // Execute moves when told to
         aiList.add(new UseMoveTask(pokemob));
         // forget we were being hunted
