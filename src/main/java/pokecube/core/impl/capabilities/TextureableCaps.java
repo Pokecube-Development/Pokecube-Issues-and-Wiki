@@ -15,13 +15,10 @@ import net.minecraftforge.common.util.LazyOptional;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.entity.pokemob.ai.CombatStates;
-import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.core.entity.pokemobs.EntityPokemob;
 import thut.api.ThutCaps;
+import thut.api.entity.IAnimated;
 import thut.api.entity.IMobTexturable;
-import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 
 public class TextureableCaps
@@ -90,6 +87,7 @@ public class TextureableCaps
         private final LazyOptional<IMobTexturable> holder = LazyOptional.of(() -> this);
         EntityPokemob mob;
         public IPokemob pokemob;
+        IAnimated animated;
         String forme;
         List<String> states = Lists.newArrayList();
 
@@ -100,7 +98,15 @@ public class TextureableCaps
         {
             this();
             this.mob = mob;
-            this.pokemob = PokemobCaps.getPokemobFor(mob);
+        }
+
+        private void checkPokemob()
+        {
+            if (this.pokemob == null)
+            {
+                this.pokemob = PokemobCaps.getPokemobFor(this.mob);
+                this.animated = ThutCaps.getAnimated(this.mob);
+            }
         }
 
         @Override
@@ -112,43 +118,40 @@ public class TextureableCaps
         @Override
         public LivingEntity getEntity()
         {
-            if (this.pokemob == null) this.pokemob = PokemobCaps.getPokemobFor(this.mob);
             return this.mob;
         }
 
         @Override
         public int getRandomSeed()
         {
-            if (this.pokemob == null) this.pokemob = PokemobCaps.getPokemobFor(this.mob);
+            checkPokemob();
             return this.pokemob.getRNGValue();
         }
 
         @Override
         public String getModId()
         {
-            if (this.pokemob == null) this.pokemob = PokemobCaps.getPokemobFor(this.mob);
+            checkPokemob();
             return this.pokemob.getPokedexEntry().getModId();
         }
 
         @Override
         public ResourceLocation getTexture(final String part)
         {
-            if (this.pokemob == null) this.pokemob = PokemobCaps.getPokemobFor(this.mob);
+            checkPokemob();
             return this.pokemob.getTexture();
         }
 
         @Override
         public List<String> getTextureStates()
         {
-            if (this.pokemob != null)
+            checkPokemob();
+            if (this.animated != null)
             {
-                this.states.clear();
-                for (final GeneralStates state : GeneralStates.values())
-                    if (this.pokemob.getGeneralState(state)) this.states.add(ThutCore.trim(state.name()));
-                for (final LogicStates state : LogicStates.values())
-                    if (this.pokemob.getLogicState(state)) this.states.add(ThutCore.trim(state.name()));
-                for (final CombatStates state : CombatStates.values())
-                    if (this.pokemob.getCombatState(state)) this.states.add(ThutCore.trim(state.name()));
+                states.clear();
+                states.addAll(animated.getChoices());
+                states.addAll(animated.transientAnimations());
+                return states;
             }
             return this.states;
         }
@@ -156,7 +159,7 @@ public class TextureableCaps
         @Override
         public ResourceLocation preApply(final ResourceLocation in)
         {
-            if (this.pokemob == null) this.pokemob = PokemobCaps.getPokemobFor(this.mob);
+            checkPokemob();
             return this.pokemob.modifyTexture(in);
         }
 
@@ -165,6 +168,7 @@ public class TextureableCaps
         @Override
         public String getForm()
         {
+            checkPokemob();
             if (this.forme == null || this.pokemob == null || this.pokemob.getPokedexEntry() != this.lastEntry)
             {
                 if (this.pokemob == null) this.pokemob = PokemobCaps.getPokemobFor(this.mob);
