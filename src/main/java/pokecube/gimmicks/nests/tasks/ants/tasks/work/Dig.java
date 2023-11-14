@@ -1,0 +1,179 @@
+package pokecube.gimmicks.nests.tasks.ants.tasks.work;
+
+import java.util.Optional;
+import java.util.function.Predicate;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.ai.behavior.BlockPosTracker;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.ai.tasks.utility.UtilTask;
+import pokecube.gimmicks.nests.tasks.ants.AntTasks.AntJob;
+import pokecube.gimmicks.nests.tasks.ants.nest.Edge;
+import pokecube.gimmicks.nests.tasks.ants.nest.Node;
+import pokecube.gimmicks.nests.tasks.ants.nest.Part;
+import pokecube.gimmicks.nests.tasks.ants.tasks.AbstractConstructTask;
+import thut.api.Tracker;
+
+public class Dig extends AbstractConstructTask
+{
+    public Dig(final IPokemob pokemob)
+    {
+        super(pokemob, j -> j == AntJob.DIG, 3);
+    }
+
+    private boolean digPart(final Part part)
+    {
+        final long time = Tracker.instance().getTick();
+        if (!part.shouldDig(time)) return false;
+        this.valids.set(0);
+
+        // Start with a check of if the pos is inside.
+        Predicate<BlockPos> isValid = p -> part.getTree().shouldCheckDig(p, time);
+        // If it is inside, and not diggable, we notify the node of the
+        // dug spot, finally we check if there is space nearby to stand.
+        isValid = isValid.and(p ->
+        {
+            if (UtilTask.diggable.test(this.world.getBlockState(p)))
+            {
+                this.valids.getAndIncrement();
+                return this.hasEmptySpace.test(p);
+            }
+            return false;
+        });
+        final BlockPos pos = this.entity.blockPosition();
+        // Stream -> filter gets us only the valid postions.
+        // Min then gets us the one closest to the ant.
+        final Optional<BlockPos> valid = part.getDigBlocks().keySet().stream().filter(isValid).min((p1, p2) ->
+        {
+            final double d1 = p1.distSqr(pos);
+            final double d2 = p2.distSqr(pos);
+            return Double.compare(d1, d2);
+        });
+        if (valid.isPresent())
+        {
+            this.work_pos = valid.get().immutable();
+            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Found Dig Site!");
+            return true;
+        }
+        final boolean done = part instanceof Edge ? this.valids.get() == 0 : this.valids.get() < 3;
+        if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("No Site " + this.valids.get() + " " + done);
+        // None were valid to dig, so mark as done.
+        if (done) part.setDigDone(time + (part instanceof Node ? 2400 : 1200));
+        return false;
+    }
+
+    private boolean divert(final Part old)
+    {
+        final long time = Tracker.instance().getTick();
+        this.n = null;
+        this.e = null;
+        if (old instanceof Edge edge)
+        {
+            Node next = edge.node1;
+            if (next.shouldDig(time))
+            {
+                this.n = next;
+                this.e = null;
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Switching to a node 1 " + this.n);
+                return true;
+            }
+            next = edge.node2;
+            if (next.shouldDig(time))
+            {
+                this.n = next;
+                this.e = null;
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Switching to a node 2 " + this.n);
+                return true;
+            }
+        }
+        else if (old instanceof Node node)
+        {
+            Edge next = null;
+            for (final Edge e : node.edges)
+                if (e.shouldDig(time))
+                {
+                    next = e;
+                    break;
+                }
+            if (next != null)
+            {
+                this.n = null;
+                this.e = next;
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Switching to an edge 1 " + this.e);
+                return true;
+            }
+        }
+        // Try to find another open node or edge
+        for (final Node n : this.nest.hab.rooms.allRooms)
+            if (n.shouldDig(time))
+            {
+                this.n = n;
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Switching to a node 3 " + this.n);
+                return true;
+            }
+        for (final Edge e : this.nest.hab.rooms.allEdges)
+            if (e.shouldDig(time))
+            {
+                this.e = e;
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Switching to an edge 2 " + e);
+                return true;
+            }
+        return false;
+    }
+
+    @Override
+    protected boolean selectJobSite()
+    {
+        final boolean edge = this.e != null;
+        dig_select:
+        if (this.work_pos == null && (this.progressTimer % 5 == 0 || this.progressTimer < 0))
+        {
+            final Part part = edge ? this.e : this.n;
+            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Selecting dig site: " + part);
+            if (this.digPart(part))
+            {
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Selected dig site");
+                break dig_select;
+            }
+            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Site No Task!");
+            if (!this.divert(part))
+            {
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Job Done!");
+                this.endTask();
+            }
+            return false;
+        }
+        return this.work_pos != null;
+    }
+
+    @Override
+    protected void onTimeout(final Part part)
+    {
+        // Mark the block as on cooldown for a few seconds, and the room as
+        // well. This gives them some time to look for a different spot to dig,
+        // before trying again here.
+        part.markDug(this.work_pos, Tracker.instance().getTick() + 240);
+        part.setDigDone(this.world.getGameTime() + 120);
+        super.onTimeout(part);
+    }
+
+    @Override
+    protected boolean shouldGiveUp(final double pathDistFromEnd)
+    {
+        return this.progressTimer > 40;
+    }
+
+    @Override
+    protected void doWork()
+    {
+        final boolean dug = this.tryHarvest(this.work_pos, true);
+        BrainUtils.setLeapTarget(this.entity, new BlockPosTracker(this.work_pos));
+        final Part part = this.n == null ? this.e : this.n;
+        // Mark it as done for the next few seconds or so
+        part.markDug(this.work_pos, Tracker.instance().getTick() + 2400);
+        if (dug && this.n != null) this.n.dug.add(this.work_pos.immutable());
+    }
+}

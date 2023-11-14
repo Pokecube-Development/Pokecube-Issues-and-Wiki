@@ -5,9 +5,9 @@ import net.minecraftforge.registries.RegistryObject;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.InterestingMobs;
 import pokecube.core.ai.brain.sensors.NearBlocks;
-import pokecube.core.ai.tasks.ants.AntTasks;
-import pokecube.core.ai.tasks.bees.BeeTasks;
-import pokecube.core.ai.tasks.burrows.BurrowTasks;
+import pokecube.gimmicks.nests.tasks.ants.AntTasks;
+import pokecube.gimmicks.nests.tasks.bees.BeeTasks;
+import pokecube.gimmicks.nests.tasks.burrows.BurrowTasks;
 
 public class Sensors
 {
