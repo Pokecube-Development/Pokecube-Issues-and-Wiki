@@ -146,6 +146,8 @@ public class BuildStructureTask extends UtilTask
             return;
         }
 
+        if (entity.tickCount % 40 == 0) builder.checkBoM();
+
         IItemHandlerModifiable itemhandler = builder.itemSource;
 
         var clearSpot = builder.nextRemoval(ys, level);

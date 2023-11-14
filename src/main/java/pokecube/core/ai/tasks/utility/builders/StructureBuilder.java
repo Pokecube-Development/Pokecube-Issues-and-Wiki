@@ -3,12 +3,13 @@ package pokecube.core.ai.tasks.utility.builders;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
@@ -99,6 +100,7 @@ public class StructureBuilder implements IWorldTickListener
     public Map<Integer, List<StructureBlockInfo>> removeOrder = new HashMap<>();
     public List<StructureBlockInfo> placeOrder = new ArrayList<>();
     public Map<BlockPos, ItemStack> neededItems = Maps.newHashMap();
+    public List<ItemStack> sortedNeededItems = new ArrayList<>();
     public ResourceLocation toMake;
     public BitSet missingItems = new BitSet();
     public BitSet ignoredItems = new BitSet();
@@ -133,13 +135,14 @@ public class StructureBuilder implements IWorldTickListener
     public void checkBoM()
     {
         ItemStack book = BoM.BoMProvider().get();
-        if (book.getItem() instanceof WritableBookItem)
+        if (book.getItem() instanceof WritableBookItem && book.hasTag())
         {
             CompoundTag nbt = book.getOrCreateTag();
             ListTag pages = null;
             if (!nbt.contains("pages") || !(nbt.get("pages") instanceof ListTag t2))
                 nbt.put("pages", pages = new ListTag());
             else pages = t2;
+            Set<String> itemLists = new HashSet<>();
             for (int page = 0; page < pages.size(); page++)
             {
                 var entry = pages.get(page);
@@ -147,32 +150,19 @@ public class StructureBuilder implements IWorldTickListener
                 if (!string.startsWith("{")) string = "{\"text\":\"" + string + "\"}";
                 var parsed = JsonUtil.gson.fromJson(string, JsonObject.class);
                 String txt = parsed.get("text").getAsString().strip();
-                if (!txt.startsWith("Next Items:")) continue;
+                if (!txt.startsWith("Total Cost:")) continue;
                 var lines = txt.split("\n");
-
-                List<Integer> items = new ArrayList<>();
-                int n = 0;
-                for (int i = 0, max = placeOrder.size(); i < max; i++)
-                {
-                    ItemStack needed = neededItems.get(placeOrder.get(i).pos);
-                    if (needed == null || needed.isEmpty()) continue;
-                    if (n++ > 3) break;
-                    items.add(i);
-                }
-
-                for (int i = 1, j = 0; i < lines.length && j < items.size(); i++)
+                for (int i = 1; i < lines.length; i++)
                 {
                     var line = lines[i];
-                    if (line.isBlank()) break;
-                    var args = line.split("x");
-                    if (args.length < 2) break;
-                    j++;
-                    if ("0".equals(args[0]))
-                    {
-                        ignoredItems.set(items.get(j));
-                    }
+                    if (!line.isBlank() && line.startsWith("-x")) itemLists.add(line.replace("-x", ""));
                 }
-                break;
+            }
+
+            ignoredItems.clear();
+            if (itemLists.size() > 0) for (int i = 0; i < sortedNeededItems.size(); i++)
+            {
+                if (itemLists.contains(sortedNeededItems.get(i).getDisplayName().getString())) ignoredItems.set(i);
             }
         }
     }
@@ -183,6 +173,9 @@ public class StructureBuilder implements IWorldTickListener
         boolean compiled = false;
         if (book.getItem() instanceof WritableBookItem || (compiled = (book.getItem() instanceof WrittenBookItem)))
         {
+            // Check first to see if maybe things were denied.
+            checkBoM();
+
             CompoundTag nbt = book.getOrCreateTag();
             ListTag pages = null;
             if (!nbt.contains("pages") || !(nbt.get("pages") instanceof ListTag t2))
@@ -210,6 +203,7 @@ public class StructureBuilder implements IWorldTickListener
             MutableComponent msg = TComponent.literal("Next Items:");
             int n = 0;
             List<ItemStack> requested = new ArrayList<>();
+
             needed_check:
             for (int i = 0, max = placeOrder.size(); i < max; i++)
             {
@@ -220,21 +214,21 @@ public class StructureBuilder implements IWorldTickListener
                 requested.add(needed);
                 MutableComponent name = (MutableComponent) needed.getDisplayName();
                 name.setStyle(name.getStyle().withColor(0));
-                msg = msg.append(TComponent.literal("\n")).append(TComponent.literal(needed.getCount() + "x"))
-                        .append(name);
+                String count = needed.getCount() + "x";
+                int index = sortedNeededItems.indexOf(needed);
+                if (index >= 0 && this.ignoredItems.get(index)) count = "-x";
+                msg = msg.append(TComponent.literal("\n")).append(TComponent.literal(count)).append(name);
             }
 
             if (compiled) pages.add(StringTag.valueOf(Component.Serializer.toJson(msg)));
             else pages.add(StringTag.valueOf(msg.getString()));
 
             n = 0;
-            // The set is to ensure each stack is only added once!
-            List<ItemStack> stacks = Lists.newArrayList(Sets.newHashSet(neededItems.values()));
-            stacks.sort((a, b) -> b.getCount() - a.getCount());
             msg = TComponent.literal("Total Cost:");
 
-            for (var s : stacks)
+            for (int i = 0; i < sortedNeededItems.size(); i++)
             {
+                ItemStack s = sortedNeededItems.get(i);
                 if (s == null || s.isEmpty()) continue;
                 if (n++ > 8)
                 {
@@ -245,7 +239,9 @@ public class StructureBuilder implements IWorldTickListener
                 }
                 MutableComponent name = (MutableComponent) s.getDisplayName();
                 name.setStyle(name.getStyle().withColor(0));
-                msg = msg.append(TComponent.literal("\n")).append(TComponent.literal(s.getCount() + "x")).append(name);
+                String count = s.getCount() + "x";
+                if (this.ignoredItems.get(i)) count = "-x";
+                msg = msg.append(TComponent.literal("\n")).append(TComponent.literal(count)).append(name);
             }
             if (!msg.getString().isBlank())
             {
@@ -304,6 +300,11 @@ public class StructureBuilder implements IWorldTickListener
                 PokecubeAPI.LOGGER.info("Already Complete Structure!");
                 return;
             }
+            sortedNeededItems.clear();
+            // The set is to ensure each stack is only added once!
+            sortedNeededItems.addAll(Sets.newHashSet(neededItems.values()));
+            sortedNeededItems.sort((a, b) -> b.getCount() - a.getCount());
+
             provideBoM();
 
             for (var info : infos)
@@ -375,7 +376,7 @@ public class StructureBuilder implements IWorldTickListener
 
         // If we are marked as to ignore this point. return no directly, this
         // skips the placement.
-        if (ignoredItems.get(index)) return new PlaceInfo(CanPlace.NO, info, -1);
+        if (index >= 0 && ignoredItems.get(index)) return new PlaceInfo(CanPlace.NO, info, -1);
 
         ItemStack stack = StructureTemplateTools.getForInfo(info);
         if (!stack.isEmpty())
@@ -422,7 +423,8 @@ public class StructureBuilder implements IWorldTickListener
             {
                 return new PlaceInfo(CanPlace.NO, info, -1);
             }
-            PlaceInfo canPlace = canPlace(info, i);
+            int index = sortedNeededItems.indexOf(neededItems.get(info.pos));
+            PlaceInfo canPlace = canPlace(info, index);
             if (canPlace.valid == CanPlace.NO)
             {
                 return canPlace;
