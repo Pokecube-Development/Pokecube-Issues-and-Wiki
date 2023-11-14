@@ -68,7 +68,7 @@ public class LogicFloatFlySwim extends LogicBase
                     this.mob.setXxa(0.0F);
                     this.mob.setSpeed(0.0F);
                     Path path = this.mob.getNavigation().getPath();
-                    path.advance();
+                    if (path != null) path.advance();
                     return;
                 }
 
@@ -138,6 +138,7 @@ public class LogicFloatFlySwim extends LogicBase
                     this.mob.setXxa(0.0F);
                     this.mob.setSpeed(0.0F);
                     Path path = this.mob.getNavigation().getPath();
+                    if (path != null) path.advance();
                     path.advance();
                     return;
                 }

@@ -48,7 +48,7 @@ import thut.lib.TComponent;
 public class DynamaxHelper
 {
     /**
-     * Setup and register tera type stuff.
+     * Setup and register stuff.
      */
     @SubscribeEvent
     public static void init(FMLLoadCompleteEvent event)

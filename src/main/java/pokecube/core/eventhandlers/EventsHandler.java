@@ -84,8 +84,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.ai.tasks.IRunnable;
-import pokecube.core.ai.tasks.ants.AntTasks.AntInhabitor;
-import pokecube.core.ai.tasks.bees.BeeTasks.BeeInhabitor;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.blocks.pc.PCTile;
 import pokecube.core.blocks.tms.TMTile;
@@ -114,6 +112,8 @@ import pokecube.core.network.packets.PacketPokecube;
 import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.PokemobTracker;
+import pokecube.gimmicks.nests.tasks.ants.AntTasks.AntInhabitor;
+import pokecube.gimmicks.nests.tasks.bees.BeeTasks.BeeInhabitor;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
 import thut.api.ThutCaps;
@@ -806,10 +806,14 @@ public class EventsHandler
         if (evt.getEntity().level().isClientSide || !evt.getEntity().isAlive()) return;
         final int tick = Math.max(PokecubeCore.getConfig().attackCooldown, 1);
         // Handle ongoing effects for this mob.
-        if (evt.getEntity().tickCount % tick == 0 || !EventsHandler.COOLDOWN_BASED)
+        final IOngoingAffected affected = PokemobCaps.getAffected(evt.getEntity());
+        if (affected != null)
         {
-            final IOngoingAffected affected = PokemobCaps.getAffected(evt.getEntity());
-            if (affected != null) affected.tick();
+            affected.tick();
+            if (evt.getEntity().tickCount % tick == 0 || !EventsHandler.COOLDOWN_BASED)
+            {
+                affected.tickDamage();
+            }
         }
     }
 
