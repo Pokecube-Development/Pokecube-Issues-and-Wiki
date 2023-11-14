@@ -223,10 +223,10 @@ public class StructureBuilder implements IWorldTickListener
                 needed_check:
                 for (int i = 0, max = placeOrder.size(); i < max; i++)
                 {
-                    ItemStack needed = neededItems.get(placeOrder.get(i).pos);
+                    ItemStack needed = neededItems.get(placeOrder.get(i).pos());
                     if (needed == null || needed.isEmpty()) continue;
                     if (++n > 3) break;
-                    for (var stack : requested) if (ItemStack.isSame(stack, needed)) continue needed_check;
+                    for (var stack : requested) if (ItemStack.isSameItem(stack, needed)) continue needed_check;
                     requested.add(needed);
                     MutableComponent name = (MutableComponent) needed.getDisplayName();
                     name.setStyle(name.getStyle().withColor(0));
@@ -329,9 +329,9 @@ public class StructureBuilder implements IWorldTickListener
 
             for (var info : infos)
             {
-                if (info.state != null)
+                if (info.state() != null)
                 {
-                    Integer y = info.pos.getY();
+                    Integer y = info.pos().getY();
                     removeOrder.compute(y, (i, l) -> {
                         List<StructureBlockInfo> atY = l;
                         if (atY == null)
@@ -394,7 +394,7 @@ public class StructureBuilder implements IWorldTickListener
 
     public PlaceInfo canPlace(StructureBlockInfo info, int index)
     {
-        if (info.state == null || info.state.isAir()) return new PlaceInfo(CanPlace.YES, info, -1);
+        if (info.state() == null || info.state().isAir()) return new PlaceInfo(CanPlace.YES, info, -1);
 
         // If we are marked as to ignore this point. return no directly, this
         // skips the placement.
@@ -403,11 +403,11 @@ public class StructureBuilder implements IWorldTickListener
         ItemStack stack = StructureTemplateTools.getForInfo(info);
         if (!stack.isEmpty())
         {
-            ItemStack needed = neededItems.get(info.pos);
+            ItemStack needed = neededItems.get(info.pos());
             for (int i = 1; i < itemSource.getSlots(); i++)
             {
                 ItemStack inSlot = itemSource.getStackInSlot(i);
-                if (ItemStack.isSame(stack, inSlot))
+                if (ItemStack.isSameItem(stack, inSlot))
                 {
                     return new PlaceInfo(CanPlace.YES, info, i);
                 }
@@ -438,17 +438,17 @@ public class StructureBuilder implements IWorldTickListener
         {
             var info = placeOrder.get(i);
             // Someone else is working on this.
-            if (pendingBuild.contains(info.pos)) continue;
+            if (pendingBuild.contains(info.pos())) continue;
 
-            if (level.getMinBuildHeight() >= info.pos.getY())
+            if (level.getMinBuildHeight() >= info.pos().getY())
             {
                 return new PlaceInfo(CanPlace.NO, info, -1);
             }
-            if (level.getMaxBuildHeight() <= info.pos.getY())
+            if (level.getMaxBuildHeight() <= info.pos().getY())
             {
                 return new PlaceInfo(CanPlace.NO, info, -1);
             }
-            int index = sortedNeededItems.indexOf(neededItems.get(info.pos));
+            int index = sortedNeededItems.indexOf(neededItems.get(info.pos()));
             PlaceInfo canPlace = canPlace(info, index);
             if (canPlace.valid == CanPlace.NO)
             {
@@ -464,8 +464,8 @@ public class StructureBuilder implements IWorldTickListener
             // for blocks already in world. Using it prevents pistons from
             // rotating properly!
             @SuppressWarnings("deprecation")
-            BlockState placeState = info.state.rotate(settings.getRotation());// .mirror(settings.getMirror())
-            BlockState old = level.getBlockState(info.pos);
+            BlockState placeState = info.state().rotate(settings.getRotation());// .mirror(settings.getMirror())
+            BlockState old = level.getBlockState(info.pos());
             boolean same = old.isAir() & placeState.isAir();
             placeOrder.remove(info);
             if (same)
@@ -491,28 +491,28 @@ public class StructureBuilder implements IWorldTickListener
                 break;
             case NO:
                 placeOrder.remove(info);
-                pendingBuild.remove(info.pos);
+                pendingBuild.remove(info.pos());
                 break;
             case YES:
                 // We do not use the "recommended" rotate function, as that is
                 // for blocks already in world. Using it prevents pistons from
                 // rotating properly!
                 @SuppressWarnings("deprecation")
-                BlockState placeState = info.state.rotate(settings.getRotation());// .mirror(settings.getMirror())
-                BlockState old = level.getBlockState(info.pos);
+                BlockState placeState = info.state().rotate(settings.getRotation());// .mirror(settings.getMirror())
+                BlockState old = level.getBlockState(info.pos());
                 boolean same = old.isAir() & placeState.isAir();
                 placeOrder.remove(info);
-                pendingBuild.remove(info.pos);
+                pendingBuild.remove(info.pos());
                 if (same) break;
 
                 if (placement.itemSlot >= 0)
                 {
-                    ItemStack needed = neededItems.get(info.pos);
+                    ItemStack needed = neededItems.get(info.pos());
                     if (needed != null) needed.shrink(1);
                     ItemStack inSlot = itemSource.getStackInSlot(placement.itemSlot);
                     inSlot.shrink(1);
                 }
-                StructureTemplateTools.getPlacer(placeState).placeBlock(placeState, info.pos, level);
+                StructureTemplateTools.getPlacer(placeState).placeBlock(placeState, info.pos(), level);
                 break;
             default:
                 break;

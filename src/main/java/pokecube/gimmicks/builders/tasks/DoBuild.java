@@ -80,7 +80,7 @@ public class DoBuild extends UtilTask
 
     private boolean checkValid(ItemStack stack, List<ItemStack> requested)
     {
-        for (ItemStack v : requested) if (ItemStack.isSame(v, stack)) return true;
+        for (ItemStack v : requested) if (ItemStack.isSameItem(v, stack)) return true;
         return false;
     }
 
@@ -205,11 +205,11 @@ public class DoBuild extends UtilTask
             if (nextPlace == null)
             {
                 nextPlace = builder.getNextPlacement(level);
-                if (nextPlace != null) builder.pendingBuild.add(nextPlace.info().pos);
+                if (nextPlace != null) builder.pendingBuild.add(nextPlace.info().pos());
             }
             if (nextPlace != null)
             {
-                var pos = nextPlace.info().pos;
+                var pos = nextPlace.info().pos();
                 double diff = 5;
                 diff = Math.max(diff, this.entity.getBbWidth());
                 if (entity.getOnPos().distSqr(pos) > diff)
@@ -232,10 +232,10 @@ public class DoBuild extends UtilTask
                     needed_check:
                     for (int i = 0, max = builder.placeOrder.size(); i < max; i++)
                     {
-                        ItemStack needed = builder.neededItems.get(builder.placeOrder.get(i).pos);
+                        ItemStack needed = builder.neededItems.get(builder.placeOrder.get(i).pos());
                         if (needed == null || needed.isEmpty()) continue;
                         if (++n > 3) break;
-                        for (var stack : requested) if (ItemStack.isSame(stack, needed)) continue needed_check;
+                        for (var stack : requested) if (ItemStack.isSameItem(stack, needed)) continue needed_check;
                         needed = needed.copy();
                         needed.setCount(Math.min(5, needed.getCount()));
                         requested.add(needed);
@@ -244,7 +244,7 @@ public class DoBuild extends UtilTask
                     for (int i = 2; i < itemhandler.getSlots(); i++)
                     {
                         ItemStack stack = itemhandler.getStackInSlot(i);
-                        for (var stack2 : requested) if (ItemStack.isSame(stack, stack2))
+                        for (var stack2 : requested) if (ItemStack.isSameItem(stack, stack2))
                         {
                             requested.remove(stack2);
                             break;
@@ -297,10 +297,10 @@ public class DoBuild extends UtilTask
                 needed_check:
                 for (int i = 0, max = builder.placeOrder.size(); i < max; i++)
                 {
-                    ItemStack needed = builder.neededItems.get(builder.placeOrder.get(i).pos);
+                    ItemStack needed = builder.neededItems.get(builder.placeOrder.get(i).pos());
                     if (needed == null || needed.isEmpty()) continue;
                     if (++n > 3) break;
-                    for (var stack : requested) if (ItemStack.isSame(stack, needed)) continue needed_check;
+                    for (var stack : requested) if (ItemStack.isSameItem(stack, needed)) continue needed_check;
                     needed = needed.copy();
                     needed.setCount(Math.min(5, needed.getCount()));
                     requested.add(needed);
@@ -311,7 +311,7 @@ public class DoBuild extends UtilTask
                     ItemStack stack = container.getStackInSlot(i);
                     if (checkValid(stack, requested))
                     {
-                        for (var stack2 : requested) if (ItemStack.isSame(stack, stack2))
+                        for (var stack2 : requested) if (ItemStack.isSameItem(stack, stack2))
                         {
                             requested.remove(stack2);
                             break;

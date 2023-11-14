@@ -106,6 +106,13 @@ public class ExpandedJigsawPacement
     {
         WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
         worldgenrandom.setLargeFeatureSeed(context.seed(), context.chunkPos().x, context.chunkPos().z);
+        Rotation rotation = Rotation.getRandom(worldgenrandom);
+        return addPieces(config, context, centre, bound_checks, on_surface, worldgenrandom, rotation);
+    }
+
+    public static Optional<GenerationStub> addPieces(GenericJigsawStructure config, GenerationContext context,
+            BlockPos centre, boolean bound_checks, boolean on_surface, WorldgenRandom worldgenrandom, Rotation rotation)
+    {
         RandomState rng = context.randomState();
         RegistryAccess registryaccess = context.registryAccess();
         ChunkGenerator chunkgenerator = context.chunkGenerator();
@@ -114,7 +121,6 @@ public class ExpandedJigsawPacement
         Predicate<Holder<Biome>> predicate = context.validBiome();
 
         Registry<StructureTemplatePool> registry = registryaccess.registryOrThrow(RegHelper.TEMPLATE_POOL_REGISTRY);
-        Rotation rotation = Rotation.getRandom(worldgenrandom);
 
         StructureTemplatePool root_pool = config.startPool.value();
         String root_name = config.name;
