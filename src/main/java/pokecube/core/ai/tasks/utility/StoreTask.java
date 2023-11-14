@@ -44,6 +44,8 @@ import thut.lib.ItemStackTools;
  */
 public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>, ContainerListener
 {
+    public static final String KEY = "store_stuff";
+
     public static int COOLDOWN = 10;
     public static int MAXSIZE = 100;
 
@@ -440,7 +442,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
     @Override
     public String getIdentifier()
     {
-        return "store_stuff";
+        return KEY;
     }
 
     public Pair<IItemHandlerModifiable, WorldlyContainer> getInventory(final ServerLevel world, final BlockPos pos,

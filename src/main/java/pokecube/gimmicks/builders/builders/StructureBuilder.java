@@ -1,4 +1,4 @@
-package pokecube.core.ai.tasks.utility.builders;
+package pokecube.gimmicks.builders.builders;
 
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -23,6 +23,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -105,8 +106,11 @@ public class StructureBuilder implements IWorldTickListener
     public BitSet missingItems = new BitSet();
     public BitSet ignoredItems = new BitSet();
     public StructurePlaceSettings settings;
-    public BoMRecord BoM = new BoMRecord(() -> itemSource.getStackInSlot(1),
-            _book -> itemSource.setStackInSlot(1, _book));
+    public List<BoMRecord> BoMs = new ArrayList<>();
+    public List<LivingEntity> workers = new ArrayList<>();
+
+    public Set<BlockPos> pendingBuild = new HashSet<>();
+    public Set<BlockPos> pendingClear = new HashSet<>();
 
     public StructureBuilder(BlockPos origin, Rotation rotation, Mirror mirror, IItemHandlerModifiable itemSource,
             Supplier<StructureTemplate> keyProvider)
@@ -129,133 +133,144 @@ public class StructureBuilder implements IWorldTickListener
         this(origin, rotation, mirror, itemSource, null);
     }
 
+    public void addBoMRecord(BoMRecord BoM)
+    {
+        BoMs.add(BoM);
+    }
+
     /**
      * Checks if the bill of materials has marked the stacks as do not require.
      */
     public void checkBoM()
     {
-        ItemStack book = BoM.BoMProvider().get();
-        if (book.getItem() instanceof WritableBookItem && book.hasTag())
+        for (var BoM : BoMs)
         {
-            CompoundTag nbt = book.getOrCreateTag();
-            ListTag pages = null;
-            if (!nbt.contains("pages") || !(nbt.get("pages") instanceof ListTag t2))
-                nbt.put("pages", pages = new ListTag());
-            else pages = t2;
-            Set<String> itemLists = new HashSet<>();
-            for (int page = 0; page < pages.size(); page++)
+            ItemStack book = BoM.BoMProvider().get();
+            if (book.getItem() instanceof WritableBookItem && book.hasTag())
             {
-                var entry = pages.get(page);
-                String string = entry.getAsString();
-                if (!string.startsWith("{")) string = "{\"text\":\"" + string + "\"}";
-                var parsed = JsonUtil.gson.fromJson(string, JsonObject.class);
-                String txt = parsed.get("text").getAsString().strip();
-                if (!txt.startsWith("Total Cost:")) continue;
-                var lines = txt.split("\n");
-                for (int i = 1; i < lines.length; i++)
+                CompoundTag nbt = book.getOrCreateTag();
+                ListTag pages = null;
+                if (!nbt.contains("pages") || !(nbt.get("pages") instanceof ListTag t2))
+                    nbt.put("pages", pages = new ListTag());
+                else pages = t2;
+                Set<String> itemLists = new HashSet<>();
+                for (int page = 0; page < pages.size(); page++)
                 {
-                    var line = lines[i];
-                    if (!line.isBlank() && line.startsWith("-x")) itemLists.add(line.replace("-x", ""));
+                    var entry = pages.get(page);
+                    String string = entry.getAsString();
+                    if (!string.startsWith("{")) string = "{\"text\":\"" + string + "\"}";
+                    var parsed = JsonUtil.gson.fromJson(string, JsonObject.class);
+                    String txt = parsed.get("text").getAsString().strip();
+                    if (!txt.startsWith("Total Cost:")) continue;
+                    var lines = txt.split("\n");
+                    for (int i = 1; i < lines.length; i++)
+                    {
+                        var line = lines[i];
+                        if (!line.isBlank() && line.startsWith("-x")) itemLists.add(line.replace("-x", ""));
+                    }
                 }
-            }
 
-            ignoredItems.clear();
-            if (itemLists.size() > 0) for (int i = 0; i < sortedNeededItems.size(); i++)
-            {
-                if (itemLists.contains(sortedNeededItems.get(i).getDisplayName().getString())) ignoredItems.set(i);
+                ignoredItems.clear();
+                if (itemLists.size() > 0) for (int i = 0; i < sortedNeededItems.size(); i++)
+                {
+                    if (itemLists.contains(sortedNeededItems.get(i).getDisplayName().getString())) ignoredItems.set(i);
+                }
             }
         }
     }
 
     public void provideBoM()
     {
-        ItemStack book = BoM.BoMProvider().get();
-        boolean compiled = false;
-        if (book.getItem() instanceof WritableBookItem || (compiled = (book.getItem() instanceof WrittenBookItem)))
+        for (var BoM : BoMs)
         {
-            // Check first to see if maybe things were denied.
-            checkBoM();
-
-            CompoundTag nbt = book.getOrCreateTag();
-            ListTag pages = null;
-            if (!nbt.contains("pages") || !(nbt.get("pages") instanceof ListTag t2))
-                nbt.put("pages", pages = new ListTag());
-            else pages = t2;
-            List<StringTag> BoMHeader = new ArrayList<>();
-
-            for (int i = 0; i < pages.size(); i++)
+            ItemStack book = BoM.BoMProvider().get();
+            boolean compiled = false;
+            if (book.getItem() instanceof WritableBookItem || (compiled = (book.getItem() instanceof WrittenBookItem)))
             {
-                var entry = pages.get(i);
-                String string = entry.getAsString();
-                if (!string.startsWith("{")) string = "{\"text\":\"" + string + "\"}";
-                var parsed = JsonUtil.gson.fromJson(string, JsonObject.class);
-                if (parsed.get("text").getAsString().strip().startsWith("Next Items:")) break;
-                if (entry instanceof StringTag tag) BoMHeader.add(tag);
-            }
+                // Check first to see if maybe things were denied.
+                checkBoM();
 
-            pages.clear();
+                CompoundTag nbt = book.getOrCreateTag();
+                ListTag pages = null;
+                if (!nbt.contains("pages") || !(nbt.get("pages") instanceof ListTag t2))
+                    nbt.put("pages", pages = new ListTag());
+                else pages = t2;
+                List<StringTag> BoMHeader = new ArrayList<>();
 
-            for (var tag : BoMHeader)
-            {
-                pages.add(tag);
-            }
+                for (int i = 0; i < pages.size(); i++)
+                {
+                    var entry = pages.get(i);
+                    String string = entry.getAsString();
+                    if (!string.startsWith("{")) string = "{\"text\":\"" + string + "\"}";
+                    var parsed = JsonUtil.gson.fromJson(string, JsonObject.class);
+                    if (parsed.get("text").getAsString().strip().startsWith("Next Items:")) break;
+                    if (entry instanceof StringTag tag) BoMHeader.add(tag);
+                }
 
-            MutableComponent msg = TComponent.literal("Next Items:");
-            int n = 0;
-            List<ItemStack> requested = new ArrayList<>();
+                pages.clear();
 
-            needed_check:
-            for (int i = 0, max = placeOrder.size(); i < max; i++)
-            {
-                ItemStack needed = neededItems.get(placeOrder.get(i).pos);
-                if (needed == null || needed.isEmpty()) continue;
-                if (++n > 3) break;
-                for (var stack : requested) if (ItemStack.isSame(stack, needed)) continue needed_check;
-                requested.add(needed);
-                MutableComponent name = (MutableComponent) needed.getDisplayName();
-                name.setStyle(name.getStyle().withColor(0));
-                String count = needed.getCount() + "x";
-                int index = sortedNeededItems.indexOf(needed);
-                if (index >= 0 && this.ignoredItems.get(index)) count = "-x";
-                msg = msg.append(TComponent.literal("\n")).append(TComponent.literal(count)).append(name);
-            }
+                for (var tag : BoMHeader)
+                {
+                    pages.add(tag);
+                }
 
-            if (compiled) pages.add(StringTag.valueOf(Component.Serializer.toJson(msg)));
-            else pages.add(StringTag.valueOf(msg.getString()));
+                MutableComponent msg = TComponent.literal("Next Items:");
+                int n = 0;
+                List<ItemStack> requested = new ArrayList<>();
 
-            n = 0;
-            msg = TComponent.literal("Total Cost:");
+                needed_check:
+                for (int i = 0, max = placeOrder.size(); i < max; i++)
+                {
+                    ItemStack needed = neededItems.get(placeOrder.get(i).pos);
+                    if (needed == null || needed.isEmpty()) continue;
+                    if (++n > 3) break;
+                    for (var stack : requested) if (ItemStack.isSame(stack, needed)) continue needed_check;
+                    requested.add(needed);
+                    MutableComponent name = (MutableComponent) needed.getDisplayName();
+                    name.setStyle(name.getStyle().withColor(0));
+                    String count = needed.getCount() + "x";
+                    int index = sortedNeededItems.indexOf(needed);
+                    if (index >= 0 && this.ignoredItems.get(index)) count = "-x";
+                    msg = msg.append(TComponent.literal("\n")).append(TComponent.literal(count)).append(name);
+                }
 
-            for (int i = 0; i < sortedNeededItems.size(); i++)
-            {
-                ItemStack s = sortedNeededItems.get(i);
-                if (s == null || s.isEmpty()) continue;
-                if (n++ > 8)
+                if (compiled) pages.add(StringTag.valueOf(Component.Serializer.toJson(msg)));
+                else pages.add(StringTag.valueOf(msg.getString()));
+
+                n = 0;
+                msg = TComponent.literal("Total Cost:");
+
+                for (int i = 0; i < sortedNeededItems.size(); i++)
+                {
+                    ItemStack s = sortedNeededItems.get(i);
+                    if (s == null || s.isEmpty()) continue;
+                    if (n++ > 8)
+                    {
+                        if (compiled) pages.add(StringTag.valueOf(Component.Serializer.toJson(msg)));
+                        else pages.add(StringTag.valueOf(msg.getString()));
+                        msg = TComponent.literal("Total Cost:");
+                        n = 0;
+                    }
+                    MutableComponent name = (MutableComponent) s.getDisplayName();
+                    name.setStyle(name.getStyle().withColor(0));
+                    String count = s.getCount() + "x";
+                    if (this.ignoredItems.get(i)) count = "-x";
+                    msg = msg.append(TComponent.literal("\n")).append(TComponent.literal(count)).append(name);
+                }
+                if (!msg.getString().isBlank())
                 {
                     if (compiled) pages.add(StringTag.valueOf(Component.Serializer.toJson(msg)));
                     else pages.add(StringTag.valueOf(msg.getString()));
-                    msg = TComponent.literal("Total Cost:");
-                    n = 0;
                 }
-                MutableComponent name = (MutableComponent) s.getDisplayName();
-                name.setStyle(name.getStyle().withColor(0));
-                String count = s.getCount() + "x";
-                if (this.ignoredItems.get(i)) count = "-x";
-                msg = msg.append(TComponent.literal("\n")).append(TComponent.literal(count)).append(name);
-            }
-            if (!msg.getString().isBlank())
-            {
-                if (compiled) pages.add(StringTag.valueOf(Component.Serializer.toJson(msg)));
-                else pages.add(StringTag.valueOf(msg.getString()));
-            }
-            book = compiled ? new ItemStack(Items.WRITTEN_BOOK) : new ItemStack(Items.WRITABLE_BOOK);
-            nbt.putString("title", "BoM");
-            nbt.putString("author", "BoM Generator");
-            book.setTag(nbt);
+                book = compiled ? new ItemStack(Items.WRITTEN_BOOK) : new ItemStack(Items.WRITABLE_BOOK);
+                nbt.putString("title", "BoM");
+                nbt.putString("author", "BoM Generator");
+                book.setTag(nbt);
 
-            if (!compiled) book.setHoverName(TComponent.literal("BoM"));
+                if (!compiled) book.setHoverName(TComponent.literal("BoM"));
 
-            BoM.BoMConsumer().accept(book);
+                BoM.BoMConsumer().accept(book);
+            }
         }
     }
 
@@ -290,6 +305,8 @@ public class StructureBuilder implements IWorldTickListener
             List<StructureBlockInfo> infos = StructureTemplate.processBlockInfos(level, location, BlockPos.ZERO,
                     settings, list, template);
 
+            pendingBuild.clear();
+            placeOrder.clear();
             placeOrder.addAll(infos);
             neededItems.clear();
             neededItems = StructureTemplateTools.getNeededMaterials(level, infos);
@@ -327,6 +344,7 @@ public class StructureBuilder implements IWorldTickListener
         // If key removed, clear as well
         else
         {
+            pendingBuild.clear();
             placeOrder.clear();
             removeOrder.clear();
             missingItems.clear();
@@ -345,6 +363,7 @@ public class StructureBuilder implements IWorldTickListener
             BlockPos pos = remove.get(0);
             if (level.getMinBuildHeight() >= pos.getY()) continue;
             if (level.getMaxBuildHeight() <= pos.getY()) continue;
+            if (pendingClear.contains(pos)) continue;
             return pos;
         }
         return null;
@@ -415,6 +434,9 @@ public class StructureBuilder implements IWorldTickListener
         for (int i = 0; i < placeOrder.size(); i++)
         {
             var info = placeOrder.get(i);
+            // Someone else is working on this.
+            if (pendingBuild.contains(info.pos)) continue;
+
             if (level.getMinBuildHeight() >= info.pos.getY())
             {
                 return new PlaceInfo(CanPlace.NO, info, -1);
@@ -455,9 +477,8 @@ public class StructureBuilder implements IWorldTickListener
         return null;
     }
 
-    public boolean tryPlace(ServerLevel level)
+    public boolean tryPlace(PlaceInfo placement, ServerLevel level)
     {
-        PlaceInfo placement = getNextPlacement(level);
         if (placement != null)
         {
             var info = placement.info;
@@ -467,6 +488,7 @@ public class StructureBuilder implements IWorldTickListener
                 break;
             case NO:
                 placeOrder.remove(info);
+                pendingBuild.remove(info.pos);
                 break;
             case YES:
                 // We do not use the "recommended" rotate function, as that is
@@ -477,6 +499,7 @@ public class StructureBuilder implements IWorldTickListener
                 BlockState old = level.getBlockState(info.pos);
                 boolean same = old.isAir() & placeState.isAir();
                 placeOrder.remove(info);
+                pendingBuild.remove(info.pos);
                 if (same) break;
 
                 if (placement.itemSlot >= 0)
@@ -518,7 +541,8 @@ public class StructureBuilder implements IWorldTickListener
             // Check if we need to remove invalid blocks, do that first.
             if (!tryClear(ys, level)) continue;
             // Then check if we can place blocks.
-            if (!(ended = tryPlace(level))) continue;
+            PlaceInfo placement = getNextPlacement(level);
+            if (!(ended = tryPlace(placement, level))) continue;
             if (ended) break;
         }
         if (!ended) return;

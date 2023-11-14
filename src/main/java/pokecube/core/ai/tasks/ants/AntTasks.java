@@ -1,6 +1,7 @@
 package pokecube.core.ai.tasks.ants;
 
 import java.util.List;
+import java.util.Map;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
@@ -87,7 +88,8 @@ public class AntTasks
                 MemoryModules.EGG.get(), MemoryModules.GOING_HOME.get());
     }
 
-    private static void addTasks(final IPokemob pokemob, final List<IAIRunnable> list)
+    private static void addTasks(final IPokemob pokemob, final List<IAIRunnable> list,
+            Map<String, IAIRunnable> namedTasks)
     {
         if (!PokecubeCore.getConfig().pokemobsMakeNests) return;
         if (!AIRoutine.ANTAI.isAllowed(pokemob)) return;

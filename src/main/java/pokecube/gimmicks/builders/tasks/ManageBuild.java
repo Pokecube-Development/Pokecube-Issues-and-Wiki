@@ -1,43 +1,43 @@
-package pokecube.tests;
+package pokecube.gimmicks.builders.tasks;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import com.google.common.base.Predicates;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
-import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
-import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.TeamManager;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.core.ai.tasks.utility.StoreTask;
+import pokecube.core.ai.tasks.utility.UtilTask;
+import pokecube.gimmicks.builders.BuilderTasks;
 import pokecube.gimmicks.builders.builders.JigsawBuilder;
 import pokecube.gimmicks.builders.builders.StructureBuilder;
 import pokecube.gimmicks.builders.builders.StructureBuilder.BoMRecord;
@@ -47,38 +47,138 @@ import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration.Clearan
 import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration.YSettings;
 import pokecube.world.gen.structures.pieces.ExpandedPoolElementStructurePiece;
 import pokecube.world.gen.structures.utils.ExpandedJigsawPacement;
-import thut.api.ThutCaps;
-import thut.api.Tracker;
-import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
-import thut.api.world.WorldTickManager;
-import thut.lib.TComponent;
 
-@Mod.EventBusSubscriber
-public class DebugInteractions
+/**
+ * This IAIRunnable assigns building tasks based on the instructions in a book
+ * in the offhand slot.
+ */
+public class ManageBuild extends UtilTask
 {
+    final StoreTask storage;
 
-    @SubscribeEvent
-    public static void onBlockRightClick(final PlayerInteractEvent.RightClickBlock evt)
+    boolean hasInstructions = false;
+    ItemStack last = ItemStack.EMPTY;
+    StructureBuilder builder;
+    JigsawBuilder jigsaw;
+
+    public ManageBuild(IPokemob pokemob, StoreTask storage)
     {
-        if (!(evt.getPlayer() instanceof ServerPlayer player)
-                || !(evt.getPlayer().getLevel() instanceof ServerLevel level))
-            return;
-        boolean isStructureMaker = evt.getItemStack().getDisplayName().getString().contains("structure_maker");
+        super(pokemob);
+        this.storage = storage;
+    }
 
-        var te = level.getBlockEntity(evt.getPos());
+    @Override
+    public void reset()
+    {
+        hasInstructions = false;
+        jigsaw = null;
+        builder = null;
+    }
 
-        long tick = Tracker.instance().getTick();
-        if (player.getPersistentData().getLong("__debug_interaction__") == tick) return;
-        player.getPersistentData().putLong("__debug_interaction__", tick);
-
-        if (te instanceof ChestBlockEntity chest && isStructureMaker)
+    public void setBuilder(StructureBuilder builder, ServerLevel level, List<IPokemob> pokemobs)
+    {
+        var pair = storage.getInventory(level, storage.storageLoc, Direction.UP);
+        if (pair == null)
         {
-            IItemHandlerModifiable itemSource = (IItemHandlerModifiable) ThutCaps.getInventory(chest);
-            BlockPos origin = evt.getPos();
-            ItemStack key = itemSource.getStackInSlot(0);
+            reset();
+            return;
+        }
+        final IItemHandlerModifiable keySource = new InvWrapper(pokemob.getInventory());
+        builder.keyProvider = StructureBuilder.makeForSource(builder, keySource, keySource.getSlots() - 1);
+
+        for (var pokemob : pokemobs)
+        {
+            var task = pokemob.getNamedTaskes().get(DoBuild.KEY);
+            if (!(task instanceof DoBuild build)) continue;
+
+            if (builder.workers.contains(pokemob.getEntity())) continue;
+
+            build.storage.storageLoc = storage.storageLoc;
+            build.storage.storageFace = storage.storageFace;
+
+            final IItemHandlerModifiable itemSource = new InvWrapper(pokemob.getInventory());
+            builder.itemSource = itemSource;
+
+            if (pokemob != this.pokemob)
+            {
+                builder.addBoMRecord(new BoMRecord(() -> pokemob.getEntity().getOffhandItem(),
+                        _book -> pokemob.getEntity().setItemInHand(InteractionHand.OFF_HAND, _book)));
+            }
+            else
+            {
+                builder.addBoMRecord(new BoMRecord(() -> pair.getFirst().getStackInSlot(0),
+                        _book -> pair.getFirst().setStackInSlot(0, _book)));
+            }
+            builder.workers.add(pokemob.getEntity());
+            build.setBuilder(builder, level);
+        }
+    }
+
+    @Override
+    public void run()
+    {
+        var storeLoc = storage.storageLoc;
+        if (storeLoc == null || !(entity.level instanceof ServerLevel level)) return;
+
+        if (entity.tickCount % 50 != 0) return;
+
+        if (!this.entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES)) return;
+
+        List<IPokemob> pokemobs = new ArrayList<>();
+        Iterable<LivingEntity> visible = this.entity.getBrain()
+                .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findAll(e ->
+                {
+                    IPokemob p = PokemobCaps.getPokemobFor(e);
+                    if (p == null) return false;
+                    if (!TeamManager.sameTeam(e, entity)) return false;
+                    return p.getGeneralState(GeneralStates.STAYING) && p.isRoutineEnabled(BuilderTasks.BUILD)
+                            && p.getNamedTaskes().containsKey(DoBuild.KEY);
+                });
+        // Only allow valid guard targets.
+        for (var o : visible) pokemobs.add(PokemobCaps.getPokemobFor(o));
+
+        if (pokemobs.isEmpty() && pokemob.isRoutineEnabled(BuilderTasks.BUILD))
+        {
+            pokemobs.add(pokemob);
+        }
+
+        if (pokemobs.isEmpty()) return;
+
+        if (builder == null)
+        {
+            if (jigsaw == null || jigsaw.builders.isEmpty())
+            {
+                reset();
+                return;
+            }
+            this.setBuilder(jigsaw.builders.get(0), level, pokemobs);
+        }
+        else if (builder.workers.size() < 1 && builder.workers.size() < pokemobs.size())
+            this.setBuilder(builder, level, pokemobs);
+        if (builder == null || builder.done || builder._template == null)
+        {
+            if (jigsaw != null) jigsaw.builders.remove(0);
+            builder = null;
+            if (jigsaw != null && !jigsaw.builders.isEmpty()) this.setBuilder(jigsaw.builders.get(0), level, pokemobs);
+            return;
+        }
+    }
+
+    @Override
+    public boolean shouldRun()
+    {
+        if (last != pokemob.getEntity().getOffhandItem() && entity.level instanceof ServerLevel level)
+        {
+            last = pokemob.getEntity().getOffhandItem();
+            hasInstructions = false;
+
+            var pair = storage.getInventory(level, storage.storageLoc, Direction.UP);
+            if (pair == null) return false;
+
+            BlockPos origin = pokemob.getHome();
             check:
-            if (key.hasTag() && key.getOrCreateTag().get("pages") instanceof ListTag list && !list.isEmpty()
+            if (last.hasTag() && last.getOrCreateTag().get("pages") instanceof ListTag list && !list.isEmpty()
                     && list.get(0) instanceof StringTag entry)
             {
                 try
@@ -95,6 +195,7 @@ public class DebugInteractions
                     if (!(type.equals("jigsaw") || type.equals("building"))) break check;
 
                     if (lines.length >= 2) toMake = new ResourceLocation(lines[1]);
+
                     String rotation = "NONE";
                     String offset = "0 0 0";
                     String mirror = "NONE";
@@ -147,19 +248,18 @@ public class DebugInteractions
 
                     if (toMake != null)
                     {
+                        final IItemHandlerModifiable itemSource = new InvWrapper(this.pokemob.getInventory());
                         if (type.equals("building"))
                         {
-                            StructureBuilder builder = new StructureBuilder(origin, rot, mir, itemSource);
-                            builder.creative = true;
-                            builder.addBoMRecord(new BoMRecord(() -> itemSource.getStackInSlot(1),
-                                    _book -> itemSource.setStackInSlot(1, _book)));
-                            WorldTickManager.addWorldData(level.dimension(), builder);
+                            builder = new StructureBuilder(origin.offset(shift), rot, mir, itemSource);
+                            builder.toMake = toMake;
+                            hasInstructions = true;
                         }
                         else
                         {
                             var poolHolder = level.registryAccess().registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY)
                                     .getHolderOrThrow(ResourceKey.create(Registry.TEMPLATE_POOL_REGISTRY, toMake));
-                            ExpandedJigsawConfiguration config = new ExpandedJigsawConfiguration(poolHolder, 1,
+                            ExpandedJigsawConfiguration config = new ExpandedJigsawConfiguration(poolHolder, 4,
                                     YSettings.DEFAULT, ClearanceSettings.DEFAULT, new ArrayList<>(), "", "", "none",
                                     Heightmap.Types.WORLD_SURFACE_WG, new ArrayList<>(), 0, 0,
                                     AvoidanceSettings.DEFAULT);
@@ -176,19 +276,20 @@ public class DebugInteractions
                             if (make.isPresent())
                             {
                                 StructurePiecesBuilder structurepiecesbuilder = new StructurePiecesBuilder();
-
+                                worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
+                                worldgenrandom.setLargeFeatureSeed(context.seed(), context.chunkPos().x,
+                                        context.chunkPos().z);
                                 var buildContext = new PieceGenerator.Context<ExpandedJigsawConfiguration>(config,
                                         level.getChunkSource().getGenerator(), level.getStructureManager(),
                                         new ChunkPos(origin), level, worldgenrandom, level.getSeed());
                                 make.get().generatePieces(structurepiecesbuilder, buildContext);
-                                var builder = new JigsawBuilder(structurepiecesbuilder, shift, itemSource, level);
-                                for (var b : builder.builders)
-                                {
-                                    b.creative = true;
-                                    b.addBoMRecord(new BoMRecord(() -> itemSource.getStackInSlot(1),
-                                            _book -> itemSource.setStackInSlot(1, _book)));
-                                    WorldTickManager.addWorldData(level.dimension(), b);
-                                }
+
+                                this.jigsaw = new JigsawBuilder(structurepiecesbuilder, shift, itemSource, level);
+                                hasInstructions = true;
+                            }
+                            else
+                            {
+                                System.out.println("Jigsaw failed to generate!");
                             }
                         }
                     }
@@ -199,62 +300,7 @@ public class DebugInteractions
                 }
             }
         }
+        return hasInstructions;
     }
 
-    @SubscribeEvent
-    public static void onItemRightClick(final PlayerInteractEvent.RightClickItem evt)
-    {
-        if (!(evt.getPlayer() instanceof ServerPlayer player)
-                || !(evt.getPlayer().getLevel() instanceof ServerLevel level))
-            return;
-        boolean isStructureDebug = evt.getItemStack().getDisplayName().getString().contains("structure_debug");
-        Vector3 v = new Vector3().set(player);
-        if (isStructureDebug)
-        {
-            var registry = level.registryAccess().registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
-            var list = registry.stream().toList();
-            List<ResourceLocation> found = Lists.newArrayList();
-            List<ResourceLocation> not_found = Lists.newArrayList();
-            Map<ResourceLocation, Pair<Integer, BlockPos>> found_map = Maps.newHashMap();
-            thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("Searching for Structures!"));
-            for (var feature : list)
-            {
-                var name = registry.getKey(feature);
-                if (name.toString().startsWith("pokecube"))
-                {
-                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("Checking " + name));
-                    final ResourceKey<ConfiguredStructureFeature<?, ?>> structure = ResourceKey
-                            .create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, name);
-                    var holder = registry.getHolderOrThrow(structure);
-                    HolderSet<ConfiguredStructureFeature<?, ?>> holderset = HolderSet.direct(holder);
-                    Pair<BlockPos, Holder<ConfiguredStructureFeature<?, ?>>> thing = level.getChunkSource()
-                            .getGenerator().findNearestMapFeature(level, holderset, v.getPos(), 100, false);
-                    if (thing != null)
-                    {
-                        found.add(name);
-                        found_map.put(name,
-                                Pair.of((int) Math.sqrt(thing.getFirst().distSqr(v.getPos())), thing.getFirst()));
-                    }
-                    else
-                    {
-                        not_found.add(name);
-                    }
-                }
-            }
-            thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("Search Complete"));
-            found.sort(null);
-            not_found.sort(null);
-            PokecubeAPI.LOGGER.info("Structures Found:");
-            for (var name : found)
-            {
-                PokecubeAPI.LOGGER.info("{}\t{}\t{}", found_map.get(name).getFirst(), found_map.get(name).getSecond(),
-                        name);
-            }
-            PokecubeAPI.LOGGER.info("Structures Missing:");
-            for (var name : not_found)
-            {
-                PokecubeAPI.LOGGER.info(name);
-            }
-        }
-    }
 }

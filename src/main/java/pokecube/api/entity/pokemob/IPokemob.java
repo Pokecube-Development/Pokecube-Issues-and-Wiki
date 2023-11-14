@@ -5,6 +5,7 @@ package pokecube.api.entity.pokemob;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -517,6 +518,8 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
      *         for combat, etc.
      */
     List<IAIRunnable> getTasks();
+    
+    Map<String, IAIRunnable> getNamedTaskes();
 
     /**
      * Note: This only returns a unique number for player owned pokemobs. All

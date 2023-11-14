@@ -1,6 +1,7 @@
 package pokecube.core.ai.tasks.bees;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.mojang.serialization.Codec;
@@ -83,7 +84,8 @@ public class BeeTasks
         return List.of(BeeTasks.HIVE_SENSOR.get(), BeeTasks.FLOWER_SENSOR.get(), Sensors.VISIBLE_BLOCKS.get());
     }
 
-    private static void addTasks(final IPokemob pokemob, final List<IAIRunnable> list)
+    private static void addTasks(final IPokemob pokemob, final List<IAIRunnable> list,
+            Map<String, IAIRunnable> namedTasks)
     {
         if (!pokemob.getEntity().getType().is(EntityTypeTags.BEEHIVE_INHABITORS)) return;
         // Gather Nectar from found flower
@@ -170,8 +172,7 @@ public class BeeTasks
         static
         {
             // We copy IGNORED_BEE_TAGS from BeehiveBlockEntity
-            IGNORED_BEE_TAGS = ObfuscationReflectionHelper.getPrivateValue(BeehiveBlockEntity.class, null,
-                    "f_155129_");
+            IGNORED_BEE_TAGS = ObfuscationReflectionHelper.getPrivateValue(BeehiveBlockEntity.class, null, "f_155129_");
         }
 
         final BeehiveBlockEntity hive;

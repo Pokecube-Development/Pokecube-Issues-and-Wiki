@@ -1,4 +1,4 @@
-package pokecube.core.ai.tasks.utility.builders;
+package pokecube.gimmicks.builders.builders;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,7 @@
 package pokecube.core.ai.tasks.burrows;
 
 import java.util.List;
+import java.util.Map;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -54,7 +55,8 @@ public class BurrowTasks
                 MemoryModules.NO_NEST_TIMER.get());
     }
 
-    private static void addTasks(final IPokemob pokemob, final List<IAIRunnable> list)
+    private static void addTasks(final IPokemob pokemob, final List<IAIRunnable> list,
+            Map<String, IAIRunnable> namedTasks)
     {
         if (!PokecubeCore.getConfig().pokemobsMakeNests) return;
         if (!BurrowTasks.isValid(pokemob.getEntity())) return;
