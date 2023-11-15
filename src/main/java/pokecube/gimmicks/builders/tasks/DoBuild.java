@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
+import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.ai.tasks.utility.UtilTask;
 import pokecube.gimmicks.builders.BuilderTasks;
@@ -161,12 +162,15 @@ public class DoBuild extends UtilTask
 
                     if (!clearer.isCreative())
                     {
+                        int minSlot = 0;
+                        if (ourInventory == storage.getPokeInventory()) minSlot = 2;
+                        int startSlot = minSlot;
                         // If we are not creative, we drop the items, and
                         // attempt to add to inventory, or drop in world
                         // otherwise.
                         final List<ItemStack> list = Block.getDrops(state, level, nextClear,
                                 level.getBlockEntity(nextClear));
-                        list.removeIf(stack -> ItemStackTools.addItemStackToInventory(stack, ourInventory, 1));
+                        list.removeIf(stack -> ItemStackTools.addItemStackToInventory(stack, ourInventory, startSlot));
                         list.forEach(c -> {
                             int x = nextClear.getX();
                             int z = nextClear.getZ();
@@ -222,7 +226,7 @@ public class DoBuild extends UtilTask
         List<ItemStack> requested = new ArrayList<>();
         builder.getNextNeeded(requested, 3);
 
-        for (int i = 2; i < ourInventory.getSlots(); i++)
+        for (int i = 0; i < ourInventory.getSlots(); i++)
         {
             ItemStack stack = ourInventory.getStackInSlot(i);
             for (var stack2 : requested) if (ItemStack.isSame(stack, stack2))
@@ -263,6 +267,9 @@ public class DoBuild extends UtilTask
             requested.clear();
             builder.getNextNeeded(requested, 3);
 
+            int minSlot = 0;
+            if (ourInventory == storage.getPokeInventory()) minSlot = 2;
+
             if (container != null) for (int i = 0; i < container.getSlots(); i++)
             {
                 ItemStack stack = container.getStackInSlot(i);
@@ -273,8 +280,17 @@ public class DoBuild extends UtilTask
                         requested.remove(stack2);
                         break;
                     }
-                    container.setStackInSlot(i, ItemStack.EMPTY);
-                    ItemStackTools.addItemStackToInventory(stack, ourInventory, 2);
+                    if (stack.getCount() > 5)
+                    {
+                        var split = stack.split(5);
+                        container.setStackInSlot(i, stack);
+                        ItemStackTools.addItemStackToInventory(split, ourInventory, minSlot);
+                    }
+                    else
+                    {
+                        container.setStackInSlot(i, ItemStack.EMPTY);
+                        ItemStackTools.addItemStackToInventory(stack, ourInventory, minSlot);
+                    }
                 }
             }
 
@@ -283,18 +299,26 @@ public class DoBuild extends UtilTask
                 // need item, request it.
                 builder.provideBoM(this.BoM);
 
-                double size = pokemob.getMobSizes().mag();
+                double size = 0.1;
                 double x = this.entity.getX();
-                double y = this.entity.getY();
+                double y = this.entity.getY() + this.entity.getBbHeight();
                 double z = this.entity.getZ();
 
                 Random r = ThutCore.newRandom();
-                for (int l = 0; l < 2; l++)
+                double i = r.nextGaussian() * size;
+                double j = r.nextGaussian() * size;
+                double k = r.nextGaussian() * size;
+                level.sendParticles(ParticleTypes.ANGRY_VILLAGER, x + i, y + j, z + k, 1, 0, 0, 0, 0);
+                
+                if (storeLoc.distManhattan(entity.getOnPos()) > 3)
                 {
-                    double i = r.nextGaussian() * size;
-                    double j = r.nextGaussian() * size;
-                    double k = r.nextGaussian() * size;
-                    level.sendParticles(ParticleTypes.ANGRY_VILLAGER, x + i, y + j, z + k, 1, 0, 0, 0, 0);
+                    // Path to it if too far.
+                    setWalkTo(storeLoc, 1, 1);
+                }
+                else
+                {
+                    // Otherwise just sit down.
+                    pokemob.setLogicState(LogicStates.SITTING, true);
                 }
             }
             else

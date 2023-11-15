@@ -241,20 +241,16 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
             MutableComponent msg = TComponent.literal("Next Items:");
             int n = 0;
             List<ItemStack> requested = new ArrayList<>();
-
-            needed_check:
-            for (int i = 0, max = placeOrder.size(); i < max; i++)
+            this.getNextNeeded(requested, 24);
+            for (var needed : requested)
             {
-                ItemStack needed = neededItems.get(placeOrder.get(i).pos);
                 if (needed == null || needed.isEmpty()) continue;
-                if (++n > 3) break;
-                for (var stack : requested) if (ItemStack.isSame(stack, needed)) continue needed_check;
-                requested.add(needed);
+                if (n++ > 8) break;
                 MutableComponent name = (MutableComponent) needed.getDisplayName();
                 name.setStyle(name.getStyle().withColor(0));
                 String count = needed.getCount() + "x";
                 int index = sortedNeededItems.indexOf(needed);
-                if (index >= 0 && this.ignoredItems.get(index)) count = "-x";
+                if (index >= 0 && this.ignoredItems.get(index)) continue;
                 msg = msg.append(TComponent.literal("\n")).append(TComponent.literal(count)).append(name);
             }
 
@@ -605,10 +601,10 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
         {
             ItemStack needed = neededItems.get(placeOrder.get(i).pos);
             if (needed == null || needed.isEmpty()) continue;
+            int index = sortedNeededItems.indexOf(needed);
+            if (index >= 0 && this.ignoredItems.get(index)) continue;
             if (n++ > number) break;
             for (var stack : requested) if (ItemStack.isSame(stack, needed)) continue needed_check;
-            needed = needed.copy();
-            needed.setCount(Math.min(5, needed.getCount()));
             requested.add(needed);
         }
     }
