@@ -12,7 +12,6 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
@@ -95,7 +94,7 @@ public abstract class AbstractBurrowTask extends TaskBase
         if (this.burrow == null) return false;
         final boolean tameCheck = this.pokemob.getOwnerId() == null
                 || this.pokemob.getGeneralState(GeneralStates.STAYING);
-        final boolean aiEnabled = this.pokemob.isRoutineEnabled(AIRoutine.BURROWS);
+        final boolean aiEnabled = this.pokemob.isRoutineEnabled(BurrowTasks.BURROWS);
         return tameCheck && aiEnabled && this.doTask();
     }
 

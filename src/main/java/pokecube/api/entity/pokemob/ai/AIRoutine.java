@@ -11,12 +11,6 @@ public enum AIRoutine implements IExtensibleEnum
     //@formatter:off
     //Does the pokemob gather item drops and harvest crops.
     GATHER,
-    //Does the pokemob act like a vanilla bee
-    BEEAI(true, IMoveConstants.isBee),
-    //Does the pokemob act like an ant
-    ANTAI(true, IMoveConstants.isAnt),
-    //Does the pokemob make burrows
-    BURROWS(true, IMoveConstants.burrows),
     //Does the pokemob store its inventory when full.
     STORE(false),
     //Does the pokemob return to inventory when dead

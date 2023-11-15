@@ -3,6 +3,7 @@ package pokecube.gimmicks.nests.tasks.bees;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import com.mojang.serialization.Codec;
 
@@ -30,6 +31,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.events.pokemobs.InitAIEvent.Init.Type;
+import pokecube.api.raids.RaidManager;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
@@ -44,6 +46,18 @@ import thut.api.entity.ai.IAIRunnable;
 
 public class BeeTasks
 {
+    public static final Predicate<IPokemob> isBee = pokemob -> {
+        final Mob entity = pokemob.getEntity();
+        final boolean isBee = entity.getType().is(EntityTypeTags.BEEHIVE_INHABITORS);
+        // Only care about bees
+        if (!isBee) return false;
+        // Only process stock pokemobs
+        if (!pokemob.getPokedexEntry().stock) return false;
+        return true;
+    };
+
+    public static AIRoutine BEEAI = AIRoutine.create("BEEAI", true, isBee);
+
     public static final RegistryObject<MemoryModuleType<GlobalPos>> HIVE_POS = MemoryModules.NEST_POS;
     public static final RegistryObject<MemoryModuleType<GlobalPos>> FLOWER_POS = MemoryModules.WORK_POS;
 
@@ -71,6 +85,8 @@ public class BeeTasks
     {
         TaskAdders.register(Type.IDLE, BeeTasks::addTasks);
         BeeEventsHandler.init();
+        
+        RaidManager.BANNEDAI.add(BEEAI);
     }
 
     private static List<MemoryModuleType<?>> getMemories()
@@ -105,7 +121,7 @@ public class BeeTasks
     {
         final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob == null) return false;
-        return pokemob.isRoutineEnabled(AIRoutine.BEEAI);
+        return pokemob.isRoutineEnabled(BeeTasks.BEEAI);
     }
 
     public static Optional<GlobalPos> getFlower(LivingEntity bee)
