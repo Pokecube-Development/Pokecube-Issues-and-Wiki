@@ -21,8 +21,8 @@ import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.ai.tasks.utility.UtilTask;
 import pokecube.gimmicks.builders.BuilderTasks;
+import pokecube.gimmicks.builders.builders.IBlocksBuilder.PlaceInfo;
 import pokecube.gimmicks.builders.builders.StructureBuilder;
-import pokecube.gimmicks.builders.builders.StructureBuilder.PlaceInfo;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.lib.ItemStackTools;
@@ -50,14 +50,11 @@ public class DoBuild extends UtilTask
     PlaceInfo nextPlace = null;
     BlockPos nextClear = null;
     int pathTimeout = -1;
-    int last_check = -1;
 
     Vector3 seeking = new Vector3();
 
     Vector3 v = new Vector3();
     Vector3 v1 = new Vector3();
-
-    List<Integer> ys = null;
 
     public DoBuild(IPokemob pokemob, StoreTask storage)
     {
@@ -76,7 +73,6 @@ public class DoBuild extends UtilTask
     {
         hasInstructions = false;
         builder = null;
-        ys = null;
         makeBorder = true;
     }
 
@@ -97,8 +93,6 @@ public class DoBuild extends UtilTask
         builder.checkBlueprint(level);
         builder.provideBoM();
         this.builder = builder;
-        ys = new ArrayList<>(builder.removeOrder.keySet());
-        last_check = builder.passes;
         hasInstructions = true;
         makeBorder = true;
         builder.creative = pokemob.getOwner() instanceof ServerPlayer player && player.isCreative();
@@ -128,25 +122,18 @@ public class DoBuild extends UtilTask
 //            return;
         }
 
-        // Update removal ys list each builder pass
-        if (last_check != builder.passes)
-        {
-            ys = new ArrayList<>(builder.removeOrder.keySet());
-            last_check = builder.passes;
-        }
-
         // Sync creative status from player
         builder.creative = pokemob.getOwner() instanceof ServerPlayer player
                 && (player.isCreative() || player.isSpectator());
 
-        builder.pendingBuild.add(storeLoc);
-        builder.pendingClear.add(storeLoc);
+        builder.markPendingBuild(storeLoc);
+        builder.markPendingClear(storeLoc);
 
         if (entity.tickCount % 40 == 0) builder.checkBoM();
 
         IItemHandlerModifiable itemhandler = builder.itemSource;
 
-        if (nextClear == null) nextClear = builder.nextRemoval(ys, level);
+        if (nextClear == null) nextClear = builder.nextRemoval(level);
         boolean isClear = nextClear == null;
         pathTimeout--;
 
@@ -160,7 +147,7 @@ public class DoBuild extends UtilTask
             {
                 this.setWalkTo(nextClear, 1, 0);
                 if (pathTimeout < 0) pathTimeout = 40;
-                builder.pendingClear.add(nextClear);
+                builder.markPendingClear(nextClear);
             }
             if (pathTimeout < 20 || builder.creative)
             {
@@ -204,7 +191,7 @@ public class DoBuild extends UtilTask
                     // We destroy the block
                     level.destroyBlock(nextClear, false);
                     // Then remove the mutex flag for this location
-                    builder.pendingClear.remove(nextClear);
+                    builder.markCleared(nextClear);
                     nextClear = null;;
 
                     // Now we check if we should go store items or not.
@@ -241,7 +228,7 @@ public class DoBuild extends UtilTask
             if (nextPlace == null)
             {
                 nextPlace = builder.getNextPlacement(level);
-                if (nextPlace != null) builder.pendingBuild.add(nextPlace.info().pos);
+                if (nextPlace != null) builder.markPendingBuild(nextPlace.info().pos);
             }
             // Once spot is selected, try to walk there (or let it timeout and
             // just place if not creative, creative places immediately)

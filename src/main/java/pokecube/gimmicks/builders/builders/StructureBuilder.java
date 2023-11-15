@@ -54,13 +54,9 @@ import thut.api.world.WorldTickManager;
 import thut.lib.ItemStackTools;
 import thut.lib.TComponent;
 
-public class StructureBuilder implements IWorldTickListener, INBTSerializable<CompoundTag>
+public class StructureBuilder
+        implements IWorldTickListener, INBTSerializable<CompoundTag>, IBlocksBuilder, IBlocksClearer
 {
-    private static enum CanPlace
-    {
-        YES, NO, NEED_ITEM;
-    }
-
     public static record BoMRecord(Supplier<ItemStack> BoMProvider, Consumer<ItemStack> BoMConsumer)
     {
     }
@@ -145,6 +141,7 @@ public class StructureBuilder implements IWorldTickListener, INBTSerializable<Co
     public Mirror mirror;
     public Tag key_info = null;
     public Map<Integer, List<StructureBlockInfo>> removeOrder = new HashMap<>();
+    public List<Integer> ys = new ArrayList<>();
     public List<StructureBlockInfo> placeOrder = new ArrayList<>();
     public Map<BlockPos, ItemStack> neededItems = Maps.newHashMap();
     public List<ItemStack> sortedNeededItems = new ArrayList<>();
@@ -360,6 +357,7 @@ public class StructureBuilder implements IWorldTickListener, INBTSerializable<Co
                     settings, list, template);
 
             pendingBuild.clear();
+            pendingClear.clear();
             placeOrder.clear();
             placeOrder.addAll(infos);
             neededItems.clear();
@@ -392,11 +390,15 @@ public class StructureBuilder implements IWorldTickListener, INBTSerializable<Co
                     });
                 }
             }
+            ys.clear();
+            ys.addAll(removeOrder.keySet());
+            ys.sort(null);
         }
         // If key removed, clear as well
         else
         {
             pendingBuild.clear();
+            pendingClear.clear();
             placeOrder.clear();
             removeOrder.clear();
             missingItems.clear();
@@ -404,7 +406,20 @@ public class StructureBuilder implements IWorldTickListener, INBTSerializable<Co
         }
     }
 
-    public BlockPos nextRemoval(List<Integer> ys, ServerLevel level)
+    @Override
+    public void markPendingClear(BlockPos pos)
+    {
+        pendingClear.add(pos);
+    }
+
+    @Override
+    public void markCleared(BlockPos pos)
+    {
+        pendingClear.remove(pos);
+    }
+
+    @Override
+    public BlockPos nextRemoval(ServerLevel level)
     {
         for (int i = ys.size() - 1; i >= 0; i--)
         {
@@ -421,9 +436,10 @@ public class StructureBuilder implements IWorldTickListener, INBTSerializable<Co
         return null;
     }
 
-    public boolean tryClear(List<Integer> ys, ServerLevel level)
+    @Override
+    public boolean tryClear(ServerLevel level)
     {
-        BlockPos pos = nextRemoval(ys, level);
+        BlockPos pos = nextRemoval(level);
         if (pos == null) return true;
         BlockState state = level.getBlockState(pos);
         final List<ItemStack> list = Block.getDrops(state, level, pos, level.getBlockEntity(pos));
@@ -441,6 +457,19 @@ public class StructureBuilder implements IWorldTickListener, INBTSerializable<Co
         return true;
     }
 
+    @Override
+    public void markPendingBuild(BlockPos pos)
+    {
+        pendingBuild.add(pos);
+    }
+
+    @Override
+    public void markBuilt(BlockPos pos)
+    {
+        pendingBuild.remove(pos);
+    }
+
+    @Override
     public PlaceInfo canPlace(StructureBlockInfo info, int index)
     {
         if (info.state == null || info.state.isAir()) return new PlaceInfo(CanPlace.YES, info, -1);
@@ -477,10 +506,7 @@ public class StructureBuilder implements IWorldTickListener, INBTSerializable<Co
         return new PlaceInfo(stack.isEmpty() ? CanPlace.NO : CanPlace.NEED_ITEM, info, -1);
     }
 
-    public static record PlaceInfo(CanPlace valid, StructureBlockInfo info, int itemSlot)
-    {
-    }
-
+    @Override
     public PlaceInfo getNextPlacement(ServerLevel level)
     {
         for (int i = 0; i < placeOrder.size(); i++)
@@ -499,11 +525,11 @@ public class StructureBuilder implements IWorldTickListener, INBTSerializable<Co
             }
             int index = sortedNeededItems.indexOf(neededItems.get(info.pos));
             PlaceInfo canPlace = canPlace(info, index);
-            if (canPlace.valid == CanPlace.NO)
+            if (canPlace.valid() == CanPlace.NO)
             {
                 return canPlace;
             }
-            else if (canPlace.valid == CanPlace.NEED_ITEM)
+            else if (canPlace.valid() == CanPlace.NEED_ITEM)
             {
                 // Check if the bill of materials has this listed as to ignore.
                 checkBoM();
@@ -529,18 +555,19 @@ public class StructureBuilder implements IWorldTickListener, INBTSerializable<Co
         return null;
     }
 
+    @Override
     public boolean tryPlace(PlaceInfo placement, ServerLevel level)
     {
         if (placement != null)
         {
-            var info = placement.info;
-            switch (placement.valid)
+            var info = placement.info();
+            switch (placement.valid())
             {
             case NEED_ITEM:
                 break;
             case NO:
                 placeOrder.remove(info);
-                pendingBuild.remove(info.pos);
+                markBuilt(info.pos);
                 break;
             case YES:
                 // We do not use the "recommended" rotate function, as that is
@@ -551,14 +578,14 @@ public class StructureBuilder implements IWorldTickListener, INBTSerializable<Co
                 BlockState old = level.getBlockState(info.pos);
                 boolean same = old.isAir() & placeState.isAir();
                 placeOrder.remove(info);
-                pendingBuild.remove(info.pos);
+                markBuilt(info.pos);
                 if (same) break;
 
-                if (placement.itemSlot >= 0)
+                if (placement.itemSlot() >= 0)
                 {
                     ItemStack needed = neededItems.get(info.pos);
                     if (needed != null) needed.shrink(1);
-                    ItemStack inSlot = itemSource.getStackInSlot(placement.itemSlot);
+                    ItemStack inSlot = itemSource.getStackInSlot(placement.itemSlot());
                     inSlot.shrink(1);
                 }
                 StructureTemplateTools.getPlacer(placeState).placeBlock(placeState, info.pos, level);
@@ -588,15 +615,12 @@ public class StructureBuilder implements IWorldTickListener, INBTSerializable<Co
             return;
         }
 
-        List<Integer> ys = new ArrayList<>(removeOrder.keySet());
-        ys.sort(null);
-
         long end = System.currentTimeMillis() + 100;
         boolean ended = false;
         while (System.currentTimeMillis() < end)
         {
             // Check if we need to remove invalid blocks, do that first.
-            if (!tryClear(ys, level)) continue;
+            if (!tryClear(level)) continue;
             // Then check if we can place blocks.
             PlaceInfo placement = getNextPlacement(level);
             if (!(ended = tryPlace(placement, level))) continue;
