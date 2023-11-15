@@ -76,6 +76,9 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
     protected ItemStack instructionsCache = ItemStack.EMPTY;
     protected List<ResourceLocation> keys = Lists.newArrayList();
 
+    private IItemHandlerModifiable taskInventory;
+    private IItemHandlerModifiable pokeInventory;
+
     private final Set<BlockPos> knownValid = Sets.newHashSet();
 
     private boolean initialised = false;
@@ -145,7 +148,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         this.emptySlots = 0;
         this.firstEmpty = -1;
         // Has a berry already, can pass through to storage check.
-        final IItemHandlerModifiable itemhandler = new InvWrapper(this.pokemob.getInventory());
+        final IItemHandlerModifiable itemhandler = getPokeInventory();
 
         // Search inventory for free slots or berries.
         // We only use 5 of the slots, so starting at 2.
@@ -167,6 +170,12 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
                 this.emptySlots++;
             }
         }
+
+        // If the item after the berry slot has an inventory, we use that.
+        ItemStack pastBerry = itemhandler.getStackInSlot(3);
+        var inv = ThutCaps.getInventory(pastBerry);
+        if (inv instanceof IItemHandlerModifiable mod) setTaskInventory(mod);
+        else setTaskInventory(itemhandler);
     }
 
     private BlockPos checkDir(final ServerLevel world, final Direction dir, BlockPos centre, final Direction side)
@@ -259,7 +268,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         return false;
     }
 
-    public boolean doEmptyCheck(final IItemHandlerModifiable pokemobInv)
+    public boolean doEmptyCheck(final IItemHandlerModifiable taskInventory)
     {
         // Can only pick up item if we have a free slot for it.
         if (this.emptySlots == 0) return false;
@@ -293,18 +302,20 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         int start = 0;
         if (inventory.getSecond() != null)
         {
+            int endSlot = taskInventory.getSlots();
+            if (taskInventory == getPokeInventory()) endSlot = 7;
             WorldlyContainer container = inventory.getSecond();
             for (int i : container.getSlotsForFace(emptyFace))
             {
                 inv:
-                for (int slot = this.firstEmpty; slot < pokemobInv.getSlots(); slot++)
-                    if (pokemobInv.getStackInSlot(slot).isEmpty())
+                for (int slot = this.firstEmpty; slot < endSlot; slot++)
+                    if (taskInventory.getStackInSlot(slot).isEmpty())
                 {
                     ItemStack stack = container.getItem(i);
                     if (container.canTakeItemThroughFace(i, stack, emptyFace) && !stack.isEmpty() && checkValid(stack))
                     {
                         container.setItem(i, ItemStack.EMPTY);
-                        pokemobInv.setStackInSlot(slot, stack);
+                        taskInventory.setStackInSlot(slot, stack);
                         // Collected our item successfully
                         collected = true;
                         start = i + 1;
@@ -315,16 +326,18 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         }
         else
         {
+            int endSlot = taskInventory.getSlots();
+            if (taskInventory == getPokeInventory()) endSlot = 7;
             int imax = Math.min(inventory.getFirst().getSlots(), StoreTask.MAXSIZE);
             inv:
-            for (int slot = this.firstEmpty; slot < pokemobInv.getSlots(); slot++)
-                if (pokemobInv.getStackInSlot(slot).isEmpty()) for (int i = start; i < imax; i++)
+            for (int slot = this.firstEmpty; slot < endSlot; slot++)
+                if (taskInventory.getStackInSlot(slot).isEmpty()) for (int i = start; i < imax; i++)
             {
                 final ItemStack stack = inventory.getFirst().getStackInSlot(i);
                 if (!stack.isEmpty() && checkValid(stack))
                 {
                     inventory.getFirst().setStackInSlot(i, ItemStack.EMPTY);
-                    pokemobInv.setStackInSlot(slot, stack);
+                    taskInventory.setStackInSlot(slot, stack);
                     // Collected our item successfully
                     collected = true;
                     start = i + 1;
@@ -337,7 +350,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         return collected;
     }
 
-    public boolean doStorageCheck(final IItemHandlerModifiable pokemobInv)
+    public boolean doStorageCheck(final IItemHandlerModifiable taskInventory)
     {
         // Only dump inventory if no free slots.
         if (this.emptySlots > 1) return false;
@@ -359,10 +372,19 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         // Second pass to find storage.
         if (storage == null) storage = this.getInventory(this.world, this.storageLoc, this.storageFace);
         if (storage == null || storage.getFirst() == null) return false;
-        // Store every item after berry slot except offhand
-        for (int i = 3; i < pokemobInv.getSlots() - 1; i++)
+
+        int endSlot = taskInventory.getSlots();
+        int startSlot = 0;
+        if (taskInventory == getPokeInventory())
         {
-            ItemStack stack = pokemobInv.getStackInSlot(i);
+            endSlot = 7;
+            startSlot = 3;
+        }
+
+        // Store every item after berry slot except offhand
+        for (int i = startSlot; i < endSlot; i++)
+        {
+            ItemStack stack = taskInventory.getStackInSlot(i);
             if (stack.isEmpty()) continue;
 
             if (storage.getSecond() != null)
@@ -371,7 +393,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
                 if (ItemStackTools.addItemStackToInventory(stack, container, 0, storageFace))
                 {
                     if (stack.isEmpty()) stack = ItemStack.EMPTY;
-                    pokemobInv.setStackInSlot(i, stack);
+                    taskInventory.setStackInSlot(i, stack);
                 }
             }
             else
@@ -379,7 +401,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
                 if (ItemStackTools.addItemStackToInventory(stack, storage.getFirst(), 0))
                 {
                     if (stack.isEmpty()) stack = ItemStack.EMPTY;
-                    pokemobInv.setStackInSlot(i, stack);
+                    taskInventory.setStackInSlot(i, stack);
                 }
             }
         }
@@ -578,9 +600,27 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
             stuff = this.findItemStorage(true);
             if (!stuff) this.searchInventoryCooldown = 50 * StoreTask.COOLDOWN;
         }
-        final IItemHandlerModifiable itemhandler = new InvWrapper(this.pokemob.getInventory());
-        if (this.doBerryCheck(itemhandler) || this.doStorageCheck(itemhandler) || this.doEmptyCheck(itemhandler))
+        // Berry check uses poke inventory, the others use task inventory
+        if (this.doBerryCheck(getPokeInventory()) || this.doStorageCheck(getTaskInventory())
+                || this.doEmptyCheck(getTaskInventory()))
             this.doStorageCooldown = 5;
         else this.doStorageCooldown = 10 * StoreTask.COOLDOWN;
+    }
+
+    public IItemHandlerModifiable getPokeInventory()
+    {
+        if (pokeInventory == null) this.pokeInventory = new InvWrapper(this.pokemob.getInventory());
+        return pokeInventory;
+    }
+
+    public IItemHandlerModifiable getTaskInventory()
+    {
+        if (taskInventory == null) this.setTaskInventory(getPokeInventory());
+        return taskInventory;
+    }
+
+    public void setTaskInventory(IItemHandlerModifiable taskInventory)
+    {
+        this.taskInventory = taskInventory;
     }
 }

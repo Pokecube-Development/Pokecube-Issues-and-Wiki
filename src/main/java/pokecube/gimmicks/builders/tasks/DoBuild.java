@@ -14,7 +14,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.core.ai.tasks.utility.StoreTask;
@@ -356,7 +355,7 @@ public class DoBuild extends UtilTask
             return;
         }
 
-        if (ourInventory == null) ourInventory = new InvWrapper(pokemob.getInventory());
+        if (ourInventory == null) ourInventory = storage.getTaskInventory();
 
         if (storage.pathing)
         {
