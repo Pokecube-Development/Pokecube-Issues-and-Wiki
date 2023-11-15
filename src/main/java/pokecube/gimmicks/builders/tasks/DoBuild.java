@@ -3,6 +3,7 @@ package pokecube.gimmicks.builders.tasks;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Consumer;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -16,8 +17,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
+import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.ai.tasks.utility.UtilTask;
+import pokecube.core.inventory.pokemob.PokemobInventory;
 import pokecube.gimmicks.builders.BuilderTasks;
 import pokecube.gimmicks.builders.builders.BuilderManager.BuilderClearer;
 import pokecube.gimmicks.builders.builders.IBlocksBuilder;
@@ -133,7 +136,7 @@ public class DoBuild extends UtilTask
             if (entity.getOnPos().distSqr(nextClear) > diff)
             {
                 this.setWalkTo(nextClear, 1, 0);
-                if (pathTimeout < 0) pathTimeout = 40;
+                if (pathTimeout < 0) pathTimeout = 150;
                 clearer.markPendingClear(nextClear);
             }
             if (pathTimeout < 20 || clearer.isCreative())
@@ -141,19 +144,15 @@ public class DoBuild extends UtilTask
                 if (!storage.canBreak(level, nextClear))
                 {
                     // Notify that we can't actually break this.
-                    double size = pokemob.getMobSizes().mag();
+                    double size = 0.1;
                     double x = this.entity.getX();
-                    double y = this.entity.getY();
+                    double y = this.entity.getY() + entity.getBbHeight();
                     double z = this.entity.getZ();
-
                     Random r = ThutCore.newRandom();
-                    for (int l = 0; l < 2; l++)
-                    {
-                        double i = r.nextGaussian() * size;
-                        double j = r.nextGaussian() * size;
-                        double k = r.nextGaussian() * size;
-                        level.sendParticles(ParticleTypes.ANGRY_VILLAGER, x + i, y + j, z + k, 1, 0, 0, 0, 0);
-                    }
+                    double i = r.nextGaussian() * size;
+                    double j = r.nextGaussian() * size;
+                    double k = r.nextGaussian() * size;
+                    level.sendParticles(ParticleTypes.ANGRY_VILLAGER, x + i, y + j, z + k, 1, 0, 0, 0, 0);
                 }
                 else
                 {
@@ -161,18 +160,32 @@ public class DoBuild extends UtilTask
 
                     if (!clearer.isCreative())
                     {
+                        int minSlot = 0;
+                        int maxSlot = storage.getTaskInventory().getSlots();
+                        if (storage.getTaskInventory() == storage.getPokeInventory())
+                        {
+                            minSlot = 2;
+                            maxSlot = PokemobInventory.MAIN_INVENTORY_SIZE;
+                        }
+                        int startSlot = minSlot;
+                        int endSlot = maxSlot;
+                        Consumer<ItemStack> dropHandler = stack -> {
+                            if (!ItemStackTools.addItemStackToInventory(stack, storage.getTaskInventory(), startSlot,
+                                    endSlot))
+                            {
+                                double x = nextClear.getX() + 0.5;
+                                double y = nextClear.getY() + 0.5;
+                                double z = nextClear.getZ() + 0.5;
+                                ItemEntity item = new ItemEntity(level, x, y, z, stack);
+                                level.addFreshEntity(item);
+                            }
+                        };
                         // If we are not creative, we drop the items, and
                         // attempt to add to inventory, or drop in world
                         // otherwise.
                         final List<ItemStack> list = Block.getDrops(state, level, nextClear,
                                 level.getBlockEntity(nextClear));
-                        list.removeIf(stack -> ItemStackTools.addItemStackToInventory(stack, ourInventory, 1));
-                        list.forEach(c -> {
-                            int x = nextClear.getX();
-                            int z = nextClear.getZ();
-                            ItemEntity item = new ItemEntity(level, x + 0.5, nextClear.getY() + 0.5, z + 0.5, c);
-                            level.addFreshEntity(item);
-                        });
+                        list.forEach(dropHandler);
                     }
 
                     // We destroy the block
@@ -184,8 +197,9 @@ public class DoBuild extends UtilTask
                     if (!clearer.isCreative())
                     {
                         // Now we check if we should go store items or not.
-                        storage.doStorageCheck(ourInventory);
+                        storage.doStorageCheck(storage.getTaskInventory());
                         pokemob.setRoutineState(AIRoutine.STORE, true);
+                        pokemob.setRoutineState(AIRoutine.GATHER, false);
                     }
                 }
             }
@@ -196,11 +210,12 @@ public class DoBuild extends UtilTask
 
     private boolean checkSupplies(ServerLevel level)
     {
+//        if (entity.tickCount % 20 == 0) System.out.println("Supplies? ");
         // If we are trying to get to the place to build, first select the
         // spot.
         if (nextPlace == null)
         {
-            nextPlace = builder.getNextPlacement(level, ourInventory);
+            nextPlace = builder.getNextPlacement(level, storage.getTaskInventory());
             if (nextPlace != null) builder.markPendingBuild(nextPlace.info().pos());
             else return false;
         }
@@ -222,15 +237,17 @@ public class DoBuild extends UtilTask
         List<ItemStack> requested = new ArrayList<>();
         builder.getNextNeeded(requested, 3);
 
-        for (int i = 2; i < ourInventory.getSlots(); i++)
+        for (int i = 0; i < storage.getTaskInventory().getSlots(); i++)
         {
-            ItemStack stack = ourInventory.getStackInSlot(i);
+            ItemStack stack = storage.getTaskInventory().getStackInSlot(i);
             for (var stack2 : requested) if (ItemStack.isSameItem(stack, stack2))
             {
                 requested.remove(stack2);
                 break;
             }
         }
+//        if (entity.tickCount % 20 == 0) System.out.println(requested);
+
         // This means we already had the next set of items on the list.
         if (requested.isEmpty())
         {
@@ -246,22 +263,16 @@ public class DoBuild extends UtilTask
         if (entity.getOnPos().distSqr(storeLoc) > diff)
         {
             this.setWalkTo(storeLoc, 1, 0);
-            if (pathTimeout < 0) pathTimeout = 40;
+            if (pathTimeout < 0) pathTimeout = 150;
         }
 
         if (pathTimeout < 20)
         {
             var pair = storage.getInventory(level, storage.storageLoc, Direction.UP);
-            int bak = storage.emptySlots;
-            storage.emptySlots = 0;
-            // Start by trying to dump our items
-            storage.doStorageCheck(ourInventory);
-            storage.emptySlots = bak;
             var container = pair.getFirst();
 
-            // reset the requested list (we dumped items)
-            requested.clear();
-            builder.getNextNeeded(requested, 3);
+            int minSlot = 0;
+            if (storage.getTaskInventory() == storage.getPokeInventory()) minSlot = 2;
 
             if (container != null) for (int i = 0; i < container.getSlots(); i++)
             {
@@ -273,8 +284,17 @@ public class DoBuild extends UtilTask
                         requested.remove(stack2);
                         break;
                     }
-                    container.setStackInSlot(i, ItemStack.EMPTY);
-                    ItemStackTools.addItemStackToInventory(stack, ourInventory, 2);
+                    if (stack.getCount() > 5)
+                    {
+                        var split = stack.split(5);
+                        container.setStackInSlot(i, stack);
+                        ItemStackTools.addItemStackToInventory(split, storage.getTaskInventory(), minSlot);
+                    }
+                    else
+                    {
+                        container.setStackInSlot(i, ItemStack.EMPTY);
+                        ItemStackTools.addItemStackToInventory(stack, storage.getTaskInventory(), minSlot);
+                    }
                 }
             }
 
@@ -282,19 +302,28 @@ public class DoBuild extends UtilTask
             {
                 // need item, request it.
                 builder.provideBoM(this.BoM);
-
-                double size = pokemob.getMobSizes().mag();
-                double x = this.entity.getX();
-                double y = this.entity.getY();
-                double z = this.entity.getZ();
-
-                Random r = ThutCore.newRandom();
-                for (int l = 0; l < 2; l++)
+                if (entity.tickCount % 10 == 0)
                 {
+                    double size = 0.1;
+                    double x = this.entity.getX();
+                    double y = this.entity.getY() + this.entity.getBbHeight();
+                    double z = this.entity.getZ();
+
+                    Random r = ThutCore.newRandom();
                     double i = r.nextGaussian() * size;
                     double j = r.nextGaussian() * size;
                     double k = r.nextGaussian() * size;
                     level.sendParticles(ParticleTypes.ANGRY_VILLAGER, x + i, y + j, z + k, 1, 0, 0, 0, 0);
+                }
+                if (storeLoc.distManhattan(entity.getOnPos()) > 3)
+                {
+                    // Path to it if too far.
+                    setWalkTo(storeLoc, 1, 1);
+                }
+                else
+                {
+                    // Otherwise just sit down.
+                    pokemob.setLogicState(LogicStates.SITTING, true);
                 }
             }
             else
@@ -309,11 +338,12 @@ public class DoBuild extends UtilTask
 
     private void buildBlocks(ServerLevel level)
     {
+//        if (entity.tickCount % 20 == 0) System.out.println("Building");
         // This is always called after checkSupplies, which would have set this.
         if (nextPlace == null)
         {
             this.reset();
-            System.out.println("Reset :(");
+//            System.out.println("Reset :(");
             return;
         }
 
@@ -323,7 +353,7 @@ public class DoBuild extends UtilTask
         if (entity.getOnPos().distSqr(pos) > diff)
         {
             this.setWalkTo(pos, 1, 0);
-            if (pathTimeout < 0) pathTimeout = 40;
+            if (pathTimeout < 0) pathTimeout = 150;
         }
         if (pathTimeout < 20 || builder.isCreative())
         {
@@ -331,8 +361,7 @@ public class DoBuild extends UtilTask
             findingSpot = false;
             if (checkSupplies(level))
             {
-//                if (entity.tickCount % 20 == 0) System.out.println("Place! "+nextPlace);
-                builder.tryPlace(nextPlace, level, ourInventory);
+                builder.tryPlace(nextPlace, level, storage.getTaskInventory());
                 nextPlace = null;
             }
         }
@@ -355,8 +384,6 @@ public class DoBuild extends UtilTask
             return;
         }
 
-        if (ourInventory == null) ourInventory = storage.getTaskInventory();
-
         if (storage.pathing)
         {
 //            System.out.println("Dumping items!");
@@ -364,10 +391,10 @@ public class DoBuild extends UtilTask
         }
 
         // Sync creative status from player
-        builder.setCreative(
-                pokemob.getOwner() instanceof ServerPlayer player && (player.isCreative() || player.isSpectator()));
-        builder.setCreative(
-                pokemob.getOwner() instanceof ServerPlayer player && (player.isCreative() || player.isSpectator()));
+        boolean creative = pokemob.getOwner() instanceof ServerPlayer player
+                && (player.isCreative() || player.isSpectator());
+        builder.setCreative(creative);
+        clearer.setCreative(creative);
 
         builder.markPendingBuild(storeLoc);
         clearer.markPendingClear(storeLoc);

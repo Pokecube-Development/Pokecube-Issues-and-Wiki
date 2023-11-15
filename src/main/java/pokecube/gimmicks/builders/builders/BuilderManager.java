@@ -83,9 +83,9 @@ public class BuilderManager
         public CompoundTag apply(BuilderClearer build)
         {
             CompoundTag tag = new CompoundTag();
-            if (build.builder() instanceof INBTSerializable ser) tag.put("b", ser.serializeNBT());
+            if (build.builder() instanceof INBTSerializable<?> ser) tag.put("b", ser.serializeNBT());
             if (build.builder() == build.clearer()) tag.putBoolean("s", true);
-            else if (build.clearer() instanceof INBTSerializable ser) tag.put("c", ser.serializeNBT());
+            else if (build.clearer() instanceof INBTSerializable<?> ser) tag.put("c", ser.serializeNBT());
             return tag;
         }
 
@@ -113,6 +113,7 @@ public class BuilderManager
             String rotation = "NONE";
             String offset = "0 0 0";
             String mirror = "NONE";
+            String _origin = "";
             int jigsawDepth = 4;
 
             for (int i = 2; i < lines.size(); i++)
@@ -122,6 +123,7 @@ public class BuilderManager
                 if (line.startsWith("r:")) rotation = line.replace("r:", "").strip();
                 if (line.startsWith("m:")) rotation = line.replace("m:", "").strip();
                 if (line.startsWith("d:")) jigsawDepth = Integer.parseInt(line.replace("d:", "").strip());
+                if (line.startsWith("o:")) _origin = line.replace("o:", "").strip();
             }
 
             Rotation rot = Rotation.NONE;
@@ -159,7 +161,20 @@ public class BuilderManager
                 dy = Integer.parseInt(args[1]);
                 dz = Integer.parseInt(args[2]);
             }
+
             shift = new BlockPos(dx, dy, dz);
+
+            if (!_origin.isBlank())
+            {
+                args = _origin.contains(",") ? _origin.split(",") : _origin.split(" ");
+                if (args.length == 3)
+                {
+                    dx = Integer.parseInt(args[0]);
+                    dy = Integer.parseInt(args[1]);
+                    dz = Integer.parseInt(args[2]);
+                    origin = new BlockPos(dx, dy, dz);
+                }
+            }
 
             if (toMake != null)
             {

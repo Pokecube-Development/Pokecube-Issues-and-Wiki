@@ -241,20 +241,16 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
             MutableComponent msg = TComponent.literal("Next Items:");
             int n = 0;
             List<ItemStack> requested = new ArrayList<>();
-
-            needed_check:
-            for (int i = 0, max = placeOrder.size(); i < max; i++)
+            this.getNextNeeded(requested, 24);
+            for (var needed : requested)
             {
-                ItemStack needed = neededItems.get(placeOrder.get(i).pos());
                 if (needed == null || needed.isEmpty()) continue;
-                if (++n > 3) break;
-                for (var stack : requested) if (ItemStack.isSameItem(stack, needed)) continue needed_check;
-                requested.add(needed);
+                if (n++ > 8) break;
                 MutableComponent name = (MutableComponent) needed.getDisplayName();
                 name.setStyle(name.getStyle().withColor(0));
                 String count = needed.getCount() + "x";
                 int index = sortedNeededItems.indexOf(needed);
-                if (index >= 0 && this.ignoredItems.get(index)) count = "-x";
+                if (index >= 0 && this.ignoredItems.get(index)) continue;
                 msg = msg.append(TComponent.literal("\n")).append(TComponent.literal(count)).append(name);
             }
 
@@ -553,6 +549,15 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
         {
             var info = placement.info();
             var type = placement.valid();
+
+            // If placement has NEED_ITEM, and this is called anyway, re-check.
+            if (type == CanPlace.NEED_ITEM || type == CanPlace.YES)
+            {
+                int index = sortedNeededItems.indexOf(neededItems.get(info.pos));
+                placement = canPlace(info, index, itemSource);
+                type = placement.valid();
+            }
+
             switch (type)
             {
             case NEED_ITEM:
@@ -575,10 +580,11 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
 
                 if (placement.itemSlot() >= 0 && itemSource != null)
                 {
-                    ItemStack needed = neededItems.get(info.pos());
+                    ItemStack needed = neededItems.remove(info.pos());
                     if (needed != null) needed.shrink(1);
                     ItemStack inSlot = itemSource.getStackInSlot(placement.itemSlot());
                     inSlot.shrink(1);
+                    itemSource.setStackInSlot(placement.itemSlot(), inSlot);
                 }
                 StructureTemplateTools.getPlacer(placeState).placeBlock(placeState, info.pos(), level);
                 break;
@@ -605,10 +611,10 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
         {
             ItemStack needed = neededItems.get(placeOrder.get(i).pos());
             if (needed == null || needed.isEmpty()) continue;
+            int index = sortedNeededItems.indexOf(needed);
+            if (index >= 0 && this.ignoredItems.get(index)) continue;
             if (n++ > number) break;
             for (var stack : requested) if (ItemStack.isSameItem(stack, needed)) continue needed_check;
-            needed = needed.copy();
-            needed.setCount(Math.min(5, needed.getCount()));
             requested.add(needed);
         }
     }
