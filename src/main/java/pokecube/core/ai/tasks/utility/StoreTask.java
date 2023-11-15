@@ -352,8 +352,25 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
 
     public boolean doStorageCheck(final IItemHandlerModifiable taskInventory)
     {
+        boolean isPoke = taskInventory == getPokeInventory();
         // Only dump inventory if no free slots.
-        if (this.emptySlots > 1) return false;
+        if (this.emptySlots > 1 && isPoke) return false;
+
+        // Otherwise, dump if more than 1/4 fills
+        if (!isPoke)
+        {
+            int size = taskInventory.getSlots();
+            int threshold = 3 * size / 4;
+            // Count the number of empty slots
+            int count = 0;
+            for (int i = 0; i < size; i++)
+            {
+                if (taskInventory.getStackInSlot(i).isEmpty()) count++;
+                // If we have more empty than needed, return.
+                if (count >= threshold) return false;
+            }
+        }
+
         // No ItemStorage
         if (!this.findItemStorage(false)) return false;
         // check if should path to storage.
