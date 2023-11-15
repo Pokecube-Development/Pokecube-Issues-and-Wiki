@@ -71,7 +71,6 @@ public class BagContainer extends BaseContainer
 
     protected void bindInventories()
     {
-        this.clearSlots();
         this.bindBagInventory();
         this.bindPlayerInventory(this.invPlayer, 55);
     }
@@ -84,8 +83,7 @@ public class BagContainer extends BaseContainer
                 this.addSlot(new BagSlot(this.inv, n + j + i * 9, 8 + j * 18 + BagContainer.xOffset, 18 + i * 18
                         + BagContainer.yOffset));
         // int k = 0;
-        for (final Object o : this.slots)
-            if (o instanceof Slot) ((Slot) o).setChanged();
+        for (final Slot o : this.slots) o.setChanged();
     }
 
     @Override
@@ -103,11 +101,6 @@ public class BagContainer extends BaseContainer
             packet.data.putString("N", name);
             PokecubeAdv.packets.sendToServer(packet);
         }
-    }
-
-    protected void clearSlots()
-    {
-        this.slots.clear();
     }
 
     @Override

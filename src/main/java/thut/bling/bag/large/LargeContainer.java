@@ -56,7 +56,6 @@ public class LargeContainer extends BaseContainer
 
     protected void bindInventories()
     {
-        this.clearSlots();
         this.bindBagInventory();
         this.bindPlayerInventory(this.invPlayer, 55);
     }
@@ -85,11 +84,6 @@ public class LargeContainer extends BaseContainer
             packet.data.putString("N", name);
             ThutBling.packets.sendToServer(packet);
         }
-    }
-
-    protected void clearSlots()
-    {
-        this.slots.clear();
     }
 
     @Override

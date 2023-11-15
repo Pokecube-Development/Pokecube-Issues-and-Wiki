@@ -2,42 +2,247 @@ package pokecube.gimmicks.builders.builders;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
+import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
 
-public class JigsawBuilder
+/**
+ * This class is effectively a list of {@link StructureBuilder}, which is
+ * initialised from the result of a jigsaw structure assembly. We also have the
+ * functions for saving/loading the state of the structure, so that we do not
+ * reset and randomise when world closes and re-opens.
+ *
+ */
+public class JigsawBuilder implements INBTSerializable<CompoundTag>, IBlocksBuilder, IBlocksClearer
 {
-    public List<StructureBuilder> builders = new ArrayList<>();
-    StructurePiecesBuilder pieceBuilder;
+    private List<StructureBuilder> builders = new ArrayList<>();
+    private ServerLevel level;
+    private boolean creative = false;
 
-    public JigsawBuilder(StructurePiecesBuilder pieceBuilder, BlockPos shift, IItemHandlerModifiable itemSource,
-            ServerLevel level)
+    public JigsawBuilder()
+    {}
+
+    public JigsawBuilder(StructurePiecesBuilder pieceBuilder, BlockPos shift, ServerLevel level)
     {
-        this.pieceBuilder = pieceBuilder;
         pieceBuilder.build().pieces().forEach(piece -> {
             if (piece instanceof PoolElementStructurePiece pooled)
             {
                 if (pooled.getElement() instanceof SinglePoolElement elem)
                 {
                     BlockPos origin = pooled.getPosition().offset(shift);
-                    var builder = new StructureBuilder(origin, pooled.getRotation(), pooled.getMirror(), itemSource,
-                            () -> elem.getTemplate(level.getStructureManager()));
+                    var builder = new StructureBuilder(origin, pooled.getRotation(), pooled.getMirror());
 
                     // Now make the settings object
                     StructurePlaceSettings settings = null;
                     if (elem instanceof ExpandedJigsawPiece jig)
                         settings = jig.getSettings(pooled.getRotation(), null, false);
                     builder.settings = settings;
+                    builder._source = pooled;
+                    builder._loaded = elem.getTemplate(level.getStructureManager());
+                    builder.checkBlueprint(level);
                     builders.add(builder);
                 }
             }
         });
+    }
+
+    @Override
+    public CompoundTag serializeNBT()
+    {
+        CompoundTag tag = new CompoundTag();
+        ListTag list = new ListTag();
+        builders.forEach(b -> {
+            var nbt = b.serializeNBT();
+            if (!nbt.isEmpty())
+            {
+                list.add(nbt);
+            }
+        });
+        tag.put("builders", list);
+        return tag;
+    }
+
+    @Override
+    public void deserializeNBT(CompoundTag nbt)
+    {
+        ListTag list = nbt.getList("builders", Tag.TAG_COMPOUND);
+        this.builders.clear();
+        list.forEach(tag -> {
+            if (tag instanceof CompoundTag nbt2)
+            {
+                StructureBuilder builder = new StructureBuilder();
+                builder.deserializeNBT(nbt2);
+                this.builders.add(builder);
+            }
+        });
+    }
+
+    private StructureBuilder next()
+    {
+        if (builders.size() == 0) return null;
+        while (builders.size() > 0 && !builders.get(0).validBuilder())
+        {
+            builders.remove(0);
+        }
+        if (builders.size() == 0) return null;
+        return builders.get(0);
+    }
+
+    @Override
+    public boolean tryClear(ServerLevel level, Consumer<ItemStack> dropHandler)
+    {
+        var next = next();
+        if (next == null) return false;
+        return next.tryClear(level, dropHandler);
+    }
+
+    @Override
+    public BlockPos nextRemoval(ServerLevel level)
+    {
+        var next = next();
+        if (next == null) return null;
+        return next.nextRemoval(level);
+    }
+
+    @Override
+    public void markPendingClear(BlockPos pos)
+    {
+        var next = next();
+        if (next == null) return;
+        next.markPendingClear(pos);
+    }
+
+    @Override
+    public void markCleared(BlockPos pos)
+    {
+        var next = next();
+        if (next == null) return;
+        next.markCleared(pos);
+    }
+
+    @Override
+    public boolean validBuilder()
+    {
+        var next = next();
+        if (next == null) return false;
+        return next.validBuilder();
+    }
+
+    @Override
+    public void clearBoMRecords()
+    {
+        var next = next();
+        if (next == null) return;
+        next.clearBoMRecords();
+    }
+
+    @Override
+    public void addBoMRecord(BoMRecord BoM)
+    {
+        var next = next();
+        if (next == null) return;
+        next.addBoMRecord(BoM);
+    }
+
+    @Override
+    public void provideBoM(BoMRecord record)
+    {
+        var next = next();
+        if (next == null) return;
+        next.provideBoM(record);
+    }
+
+    @Override
+    public void checkBoM(BoMRecord record)
+    {
+        var next = next();
+        if (next == null) return;
+        next.checkBoM(record);
+    }
+
+    @Override
+    public ServerLevel getLevel()
+    {
+        return this.level;
+    }
+
+    @Override
+    public void update(ServerLevel level)
+    {
+        for (var builder : this.builders) builder.update(level);
+    }
+
+    @Override
+    public boolean tryPlace(PlaceInfo placement, ServerLevel level, IItemHandlerModifiable itemSource)
+    {
+        var next = next();
+        if (next == null) return false;
+        return next.tryPlace(placement, level, itemSource);
+    }
+
+    @Override
+    public PlaceInfo getNextPlacement(ServerLevel level, IItemHandlerModifiable itemSource)
+    {
+        var next = next();
+        if (next == null) return null;
+        return next.getNextPlacement(level, itemSource);
+    }
+
+    @Override
+    public PlaceInfo canPlace(StructureBlockInfo info, int index, IItemHandlerModifiable itemSource)
+    {
+        var next = next();
+        if (next == null) return null;
+        return next.canPlace(info, index, itemSource);
+    }
+
+    @Override
+    public void markPendingBuild(BlockPos pos)
+    {
+        var next = next();
+        if (next == null) return;
+        next.markPendingBuild(pos);
+    }
+
+    @Override
+    public void markBuilt(BlockPos pos)
+    {
+        var next = next();
+        if (next == null) return;
+        next.markBuilt(pos);
+    }
+
+    @Override
+    public void getNextNeeded(List<ItemStack> requested, int number)
+    {
+        var next = next();
+        if (next == null) return;
+        next.getNextNeeded(requested, number);
+    }
+
+    @Override
+    public boolean isCreative()
+    {
+        return this.creative;
+    }
+
+    @Override
+    public void setCreative(boolean creative)
+    {
+        this.creative = creative;
+        for (var builder : this.builders) builder.setCreative(creative);
     }
 }

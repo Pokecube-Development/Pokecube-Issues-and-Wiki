@@ -16,6 +16,7 @@ import com.google.gson.JsonObject;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
@@ -23,8 +24,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.WritableBookItem;
@@ -33,90 +32,118 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
+import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.JigsawReplacementProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
+import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.api.PokecubeAPI;
+import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
 import pokecube.world.gen.structures.processors.MarkerToAirProcessor;
 import thut.api.util.JsonUtil;
-import thut.api.world.IWorldTickListener;
 import thut.api.world.StructureTemplateTools;
-import thut.api.world.WorldTickManager;
-import thut.lib.ItemStackTools;
 import thut.lib.TComponent;
 
-public class StructureBuilder implements IWorldTickListener
+public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksBuilder, IBlocksClearer
 {
-    private static enum CanPlace
-    {
-        YES, NO, NEED_ITEM;
-    }
 
-    public static record BoMRecord(Supplier<ItemStack> BoMProvider, Consumer<ItemStack> BoMConsumer)
-    {
-    }
-
-    public static Supplier<StructureTemplate> makeForSource(StructureBuilder structureBuilder,
-            IItemHandlerModifiable itemSource, int slot)
+    public static Supplier<StructureTemplate> loadFromTemplate(StructureBuilder builder)
     {
         return () -> {
-            ItemStack key = itemSource.getStackInSlot(slot);
-            if (!key.hasTag()) return null;
-            ResourceLocation toMake = structureBuilder.toMake;
-            structureBuilder.dy = 0;
-            var tag = key.getTag().get("pages");
-            if (structureBuilder.key_info != null && tag.toString().equals(structureBuilder.key_info.toString()))
-                return structureBuilder._template;
-            structureBuilder.key_info = tag;
+            if (builder._loaded != null) return builder._loaded;
+
+            // Load our pool element from tag
+            if (builder._source_tag != null)
+            {
+                var ctx = StructurePieceSerializationContext.fromLevel(builder.level);
+                builder._source = new PoolElementStructurePiece(ctx, builder._source_tag);
+                // Now discard the tag
+                builder._source_tag = null;
+            }
+
+            // Now load our template from the pool element
+            if (builder._source != null)
+            {
+                ServerLevel level = builder.level;
+                var e = builder._source.getElement();
+                // The below block is very similar to what is done in
+                // JigsawBuilder when it makes it initially.
+                if (e instanceof SinglePoolElement elem)
+                {
+                    // Now make the settings object
+                    StructurePlaceSettings settings = null;
+                    if (elem instanceof ExpandedJigsawPiece jig)
+                        settings = jig.getSettings(builder._source.getRotation(), null, false);
+                    // Then set the settings
+                    builder.settings = settings;
+                    // And load the template
+                    builder._loaded = elem.getTemplate(level.getStructureManager());
+                }
+            }
+
+            // Otherwise check the toMake
+            ResourceLocation toMake = builder.toMake;
             if (toMake == null)
             {
                 PokecubeAPI.LOGGER.error("No ResourceLocation!");
                 return null;
             }
-            var opt = structureBuilder.level.getStructureManager().get(toMake);
+            var opt = builder.level.getStructureManager().get(toMake);
             if (!opt.isPresent())
             {
                 PokecubeAPI.LOGGER.error("No Template for {}!", toMake);
                 return null;
             }
-            return opt.get();
+            return builder._loaded = opt.get();
         };
     }
 
-    public boolean done = false;
-    public boolean creative = false;
-    public int layer = Integer.MIN_VALUE;
-    public IItemHandlerModifiable itemSource = null;
-    public Supplier<StructureTemplate> keyProvider;
-    public StructureTemplate _template;
-    public int dy = 0;
-    public BlockPos origin;
-    public ServerLevel level;
-    public Rotation rotation;
-    public Mirror mirror;
-    public Tag key_info = null;
-    public Map<Integer, List<StructureBlockInfo>> removeOrder = new HashMap<>();
-    public List<StructureBlockInfo> placeOrder = new ArrayList<>();
-    public Map<BlockPos, ItemStack> neededItems = Maps.newHashMap();
-    public List<ItemStack> sortedNeededItems = new ArrayList<>();
-    public ResourceLocation toMake;
-    public BitSet missingItems = new BitSet();
-    public BitSet ignoredItems = new BitSet();
-    public StructurePlaceSettings settings;
-    public List<BoMRecord> BoMs = new ArrayList<>();
-    public List<LivingEntity> workers = new ArrayList<>();
+    private boolean done = false;
+    private boolean creative = false;
 
-    public Set<BlockPos> pendingBuild = new HashSet<>();
-    public Set<BlockPos> pendingClear = new HashSet<>();
+    private Supplier<StructureTemplate> keyProvider;
+    private StructureTemplate _template;
+
+    protected StructurePlaceSettings settings;
+    protected PoolElementStructurePiece _source;
+    protected StructureTemplate _loaded;
+
+    public ResourceLocation toMake;
+
+    private CompoundTag _source_tag;
+    private BlockPos origin;
+    private ServerLevel level;
+    private Rotation rotation;
+    private Mirror mirror;
+
+    private Map<Integer, List<StructureBlockInfo>> removeOrder = new HashMap<>();
+    private List<Integer> ys = new ArrayList<>();
+    private List<StructureBlockInfo> placeOrder = new ArrayList<>();
+    private Map<BlockPos, ItemStack> neededItems = Maps.newHashMap();
+    private List<ItemStack> sortedNeededItems = new ArrayList<>();
+
+    private BitSet missingItems = new BitSet();
+    private BitSet ignoredItems = new BitSet();
+
+    private List<BoMRecord> BoMs = new ArrayList<>();
+    private Set<BlockPos> pendingBuild = new HashSet<>();
+    private Set<BlockPos> pendingClear = new HashSet<>();
 
     public int passes = 0;
 
-    public StructureBuilder(BlockPos origin, Rotation rotation, Mirror mirror, IItemHandlerModifiable itemSource,
-            Supplier<StructureTemplate> keyProvider)
+    public StructureBuilder()
     {
+        this.keyProvider = loadFromTemplate(this);
+    }
+
+    public StructureBuilder(BlockPos origin, Rotation rotation, Mirror mirror)
+    {
+        this();
         this.origin = origin;
 
         if (mirror == null) mirror = Mirror.NONE;
@@ -124,17 +151,15 @@ public class StructureBuilder implements IWorldTickListener
 
         this.rotation = rotation;
         this.mirror = mirror;
-
-        this.itemSource = itemSource;
-        if (keyProvider == null) keyProvider = makeForSource(this, itemSource, 0);
-        this.keyProvider = keyProvider;
     }
 
-    public StructureBuilder(BlockPos origin, Rotation rotation, Mirror mirror, IItemHandlerModifiable itemSource)
+    @Override
+    public void clearBoMRecords()
     {
-        this(origin, rotation, mirror, itemSource, null);
+        BoMs.clear();
     }
 
+    @Override
     public void addBoMRecord(BoMRecord BoM)
     {
         BoMs.add(BoM);
@@ -143,137 +168,145 @@ public class StructureBuilder implements IWorldTickListener
     /**
      * Checks if the bill of materials has marked the stacks as do not require.
      */
-    public void checkBoM()
+    @Override
+    public void checkBoM(BoMRecord BoM)
     {
-        for (var BoM : BoMs)
+        ItemStack book = BoM.BoMProvider().get();
+        if (book.getItem() instanceof WritableBookItem && book.hasTag())
         {
-            ItemStack book = BoM.BoMProvider().get();
-            if (book.getItem() instanceof WritableBookItem && book.hasTag())
+            CompoundTag nbt = book.getOrCreateTag();
+            ListTag pages = null;
+            if (!nbt.contains("pages") || !(nbt.get("pages") instanceof ListTag t2))
+                nbt.put("pages", pages = new ListTag());
+            else pages = t2;
+            Set<String> itemLists = new HashSet<>();
+            for (int page = 0; page < pages.size(); page++)
             {
-                CompoundTag nbt = book.getOrCreateTag();
-                ListTag pages = null;
-                if (!nbt.contains("pages") || !(nbt.get("pages") instanceof ListTag t2))
-                    nbt.put("pages", pages = new ListTag());
-                else pages = t2;
-                Set<String> itemLists = new HashSet<>();
-                for (int page = 0; page < pages.size(); page++)
+                var entry = pages.get(page);
+                String string = entry.getAsString();
+                if (!string.startsWith("{")) string = "{\"text\":\"" + string + "\"}";
+                var parsed = JsonUtil.gson.fromJson(string, JsonObject.class);
+                String txt = parsed.get("text").getAsString().strip();
+                if (!txt.startsWith("Total Cost:")) continue;
+                var lines = txt.split("\n");
+                for (int i = 1; i < lines.length; i++)
                 {
-                    var entry = pages.get(page);
-                    String string = entry.getAsString();
-                    if (!string.startsWith("{")) string = "{\"text\":\"" + string + "\"}";
-                    var parsed = JsonUtil.gson.fromJson(string, JsonObject.class);
-                    String txt = parsed.get("text").getAsString().strip();
-                    if (!txt.startsWith("Total Cost:")) continue;
-                    var lines = txt.split("\n");
-                    for (int i = 1; i < lines.length; i++)
-                    {
-                        var line = lines[i];
-                        if (!line.isBlank() && line.startsWith("-x")) itemLists.add(line.replace("-x", ""));
-                    }
+                    var line = lines[i];
+                    if (!line.isBlank() && line.startsWith("-x")) itemLists.add(line.replace("-x", ""));
                 }
+            }
 
-                ignoredItems.clear();
-                if (itemLists.size() > 0) for (int i = 0; i < sortedNeededItems.size(); i++)
-                {
-                    if (itemLists.contains(sortedNeededItems.get(i).getDisplayName().getString())) ignoredItems.set(i);
-                }
+            ignoredItems.clear();
+            if (itemLists.size() > 0) for (int i = 0; i < sortedNeededItems.size(); i++)
+            {
+                if (itemLists.contains(sortedNeededItems.get(i).getDisplayName().getString())) ignoredItems.set(i);
             }
         }
     }
 
-    public void provideBoM()
+    @Override
+    public void provideBoM(BoMRecord BoM)
     {
-        for (var BoM : BoMs)
+        ItemStack book = BoM.BoMProvider().get();
+        boolean compiled = false;
+        if (book.getItem() instanceof WritableBookItem || (compiled = (book.getItem() instanceof WrittenBookItem)))
         {
-            ItemStack book = BoM.BoMProvider().get();
-            boolean compiled = false;
-            if (book.getItem() instanceof WritableBookItem || (compiled = (book.getItem() instanceof WrittenBookItem)))
+            // Check first to see if maybe things were denied.
+            checkBoM(BoM);
+
+            CompoundTag nbt = book.getOrCreateTag();
+            ListTag pages = null;
+            if (!nbt.contains("pages") || !(nbt.get("pages") instanceof ListTag t2))
+                nbt.put("pages", pages = new ListTag());
+            else pages = t2;
+            List<StringTag> BoMHeader = new ArrayList<>();
+
+            for (int i = 0; i < pages.size(); i++)
             {
-                // Check first to see if maybe things were denied.
-                checkBoM();
+                var entry = pages.get(i);
+                String string = entry.getAsString();
+                if (!string.startsWith("{")) string = "{\"text\":\"" + string + "\"}";
+                var parsed = JsonUtil.gson.fromJson(string, JsonObject.class);
+                if (parsed.get("text").getAsString().strip().startsWith("Next Items:")) break;
+                if (entry instanceof StringTag tag) BoMHeader.add(tag);
+            }
 
-                CompoundTag nbt = book.getOrCreateTag();
-                ListTag pages = null;
-                if (!nbt.contains("pages") || !(nbt.get("pages") instanceof ListTag t2))
-                    nbt.put("pages", pages = new ListTag());
-                else pages = t2;
-                List<StringTag> BoMHeader = new ArrayList<>();
+            pages.clear();
 
-                for (int i = 0; i < pages.size(); i++)
-                {
-                    var entry = pages.get(i);
-                    String string = entry.getAsString();
-                    if (!string.startsWith("{")) string = "{\"text\":\"" + string + "\"}";
-                    var parsed = JsonUtil.gson.fromJson(string, JsonObject.class);
-                    if (parsed.get("text").getAsString().strip().startsWith("Next Items:")) break;
-                    if (entry instanceof StringTag tag) BoMHeader.add(tag);
-                }
+            for (var tag : BoMHeader)
+            {
+                pages.add(tag);
+            }
 
-                pages.clear();
+            MutableComponent msg = TComponent.literal("Next Items:");
+            int n = 0;
+            List<ItemStack> requested = new ArrayList<>();
 
-                for (var tag : BoMHeader)
-                {
-                    pages.add(tag);
-                }
+            needed_check:
+            for (int i = 0, max = placeOrder.size(); i < max; i++)
+            {
+                ItemStack needed = neededItems.get(placeOrder.get(i).pos());
+                if (needed == null || needed.isEmpty()) continue;
+                if (++n > 3) break;
+                for (var stack : requested) if (ItemStack.isSameItem(stack, needed)) continue needed_check;
+                requested.add(needed);
+                MutableComponent name = (MutableComponent) needed.getDisplayName();
+                name.setStyle(name.getStyle().withColor(0));
+                String count = needed.getCount() + "x";
+                int index = sortedNeededItems.indexOf(needed);
+                if (index >= 0 && this.ignoredItems.get(index)) count = "-x";
+                msg = msg.append(TComponent.literal("\n")).append(TComponent.literal(count)).append(name);
+            }
 
-                MutableComponent msg = TComponent.literal("Next Items:");
-                int n = 0;
-                List<ItemStack> requested = new ArrayList<>();
+            if (compiled) pages.add(StringTag.valueOf(Component.Serializer.toJson(msg)));
+            else pages.add(StringTag.valueOf(msg.getString()));
 
-                needed_check:
-                for (int i = 0, max = placeOrder.size(); i < max; i++)
-                {
-                    ItemStack needed = neededItems.get(placeOrder.get(i).pos());
-                    if (needed == null || needed.isEmpty()) continue;
-                    if (++n > 3) break;
-                    for (var stack : requested) if (ItemStack.isSameItem(stack, needed)) continue needed_check;
-                    requested.add(needed);
-                    MutableComponent name = (MutableComponent) needed.getDisplayName();
-                    name.setStyle(name.getStyle().withColor(0));
-                    String count = needed.getCount() + "x";
-                    int index = sortedNeededItems.indexOf(needed);
-                    if (index >= 0 && this.ignoredItems.get(index)) count = "-x";
-                    msg = msg.append(TComponent.literal("\n")).append(TComponent.literal(count)).append(name);
-                }
+            n = 0;
+            msg = TComponent.literal("Total Cost:");
 
-                if (compiled) pages.add(StringTag.valueOf(Component.Serializer.toJson(msg)));
-                else pages.add(StringTag.valueOf(msg.getString()));
-
-                n = 0;
-                msg = TComponent.literal("Total Cost:");
-
-                for (int i = 0; i < sortedNeededItems.size(); i++)
-                {
-                    ItemStack s = sortedNeededItems.get(i);
-                    if (s == null || s.isEmpty()) continue;
-                    if (n++ > 8)
-                    {
-                        if (compiled) pages.add(StringTag.valueOf(Component.Serializer.toJson(msg)));
-                        else pages.add(StringTag.valueOf(msg.getString()));
-                        msg = TComponent.literal("Total Cost:");
-                        n = 0;
-                    }
-                    MutableComponent name = (MutableComponent) s.getDisplayName();
-                    name.setStyle(name.getStyle().withColor(0));
-                    String count = s.getCount() + "x";
-                    if (this.ignoredItems.get(i)) count = "-x";
-                    msg = msg.append(TComponent.literal("\n")).append(TComponent.literal(count)).append(name);
-                }
-                if (!msg.getString().isBlank())
+            for (int i = 0; i < sortedNeededItems.size(); i++)
+            {
+                ItemStack s = sortedNeededItems.get(i);
+                if (s == null || s.isEmpty()) continue;
+                if (n++ > 8)
                 {
                     if (compiled) pages.add(StringTag.valueOf(Component.Serializer.toJson(msg)));
                     else pages.add(StringTag.valueOf(msg.getString()));
+                    msg = TComponent.literal("Total Cost:");
+                    n = 0;
                 }
-                book = compiled ? new ItemStack(Items.WRITTEN_BOOK) : new ItemStack(Items.WRITABLE_BOOK);
-                nbt.putString("title", "BoM");
-                nbt.putString("author", "BoM Generator");
-                book.setTag(nbt);
-
-                if (!compiled) book.setHoverName(TComponent.literal("BoM"));
-
-                BoM.BoMConsumer().accept(book);
+                MutableComponent name = (MutableComponent) s.getDisplayName();
+                name.setStyle(name.getStyle().withColor(0));
+                String count = s.getCount() + "x";
+                if (this.ignoredItems.get(i)) count = "-x";
+                msg = msg.append(TComponent.literal("\n")).append(TComponent.literal(count)).append(name);
             }
+            if (!msg.getString().isBlank())
+            {
+                if (compiled) pages.add(StringTag.valueOf(Component.Serializer.toJson(msg)));
+                else pages.add(StringTag.valueOf(msg.getString()));
+            }
+            book = compiled ? new ItemStack(Items.WRITTEN_BOOK) : new ItemStack(Items.WRITABLE_BOOK);
+            nbt.putString("title", "BoM");
+            nbt.putString("author", "BoM Generator");
+            book.setTag(nbt);
+
+            if (!compiled) book.setHoverName(TComponent.literal("BoM"));
+
+            BoM.BoMConsumer().accept(book);
         }
+    }
+
+    @Override
+    public ServerLevel getLevel()
+    {
+        return this.level;
+    }
+
+    @Override
+    public void update(ServerLevel level)
+    {
+        checkBlueprint(level);
     }
 
     public void checkBlueprint(ServerLevel level)
@@ -289,7 +322,7 @@ public class StructureBuilder implements IWorldTickListener
             placeOrder.clear();
             removeOrder.clear();
 
-            BlockPos location = origin.above(dy);
+            BlockPos location = origin;
             if (settings == null)
             {
                 settings = new StructurePlaceSettings();
@@ -309,6 +342,7 @@ public class StructureBuilder implements IWorldTickListener
                     settings, list, template);
 
             pendingBuild.clear();
+            pendingClear.clear();
             placeOrder.clear();
             placeOrder.addAll(infos);
             neededItems.clear();
@@ -316,8 +350,6 @@ public class StructureBuilder implements IWorldTickListener
             if (neededItems.isEmpty())
             {
                 this.done = true;
-                WorldTickManager.removeWorldData(level.dimension(), this);
-                PokecubeAPI.LOGGER.info("Already Complete Structure! " + this);
                 return;
             }
             sortedNeededItems.clear();
@@ -325,7 +357,7 @@ public class StructureBuilder implements IWorldTickListener
             sortedNeededItems.addAll(Sets.newHashSet(neededItems.values()));
             sortedNeededItems.sort((a, b) -> b.getCount() - a.getCount());
 
-            provideBoM();
+            for (var BoM : BoMs) provideBoM(BoM);
 
             for (var info : infos)
             {
@@ -343,11 +375,15 @@ public class StructureBuilder implements IWorldTickListener
                     });
                 }
             }
+            ys.clear();
+            ys.addAll(removeOrder.keySet());
+            ys.sort(null);
         }
         // If key removed, clear as well
         else
         {
             pendingBuild.clear();
+            pendingClear.clear();
             placeOrder.clear();
             removeOrder.clear();
             missingItems.clear();
@@ -355,7 +391,20 @@ public class StructureBuilder implements IWorldTickListener
         }
     }
 
-    public BlockPos nextRemoval(List<Integer> ys, ServerLevel level)
+    @Override
+    public void markPendingClear(BlockPos pos)
+    {
+        pendingClear.add(pos);
+    }
+
+    @Override
+    public void markCleared(BlockPos pos)
+    {
+        pendingClear.remove(pos);
+    }
+
+    @Override
+    public BlockPos nextRemoval(ServerLevel level)
     {
         for (int i = ys.size() - 1; i >= 0; i--)
         {
@@ -372,27 +421,35 @@ public class StructureBuilder implements IWorldTickListener
         return null;
     }
 
-    public boolean tryClear(List<Integer> ys, ServerLevel level)
+    @Override
+    public boolean tryClear(ServerLevel level, Consumer<ItemStack> dropHandler)
     {
-        BlockPos pos = nextRemoval(ys, level);
+        BlockPos pos = nextRemoval(level);
         if (pos == null) return true;
         BlockState state = level.getBlockState(pos);
-        final List<ItemStack> list = Block.getDrops(state, level, pos, level.getBlockEntity(pos));
         if (!creative)
         {
-            list.removeIf(stack -> ItemStackTools.addItemStackToInventory(stack, itemSource, 1));
-            list.forEach(c -> {
-                int x = pos.getX();
-                int z = pos.getZ();
-                ItemEntity item = new ItemEntity(level, x + 0.5, pos.getY() + 0.5, z + 0.5, c);
-                level.addFreshEntity(item);
-            });
+            final List<ItemStack> list = Block.getDrops(state, level, pos, level.getBlockEntity(pos));
+            list.forEach(dropHandler);
         }
         level.destroyBlock(pos, false);
         return true;
     }
 
-    public PlaceInfo canPlace(StructureBlockInfo info, int index)
+    @Override
+    public void markPendingBuild(BlockPos pos)
+    {
+        pendingBuild.add(pos);
+    }
+
+    @Override
+    public void markBuilt(BlockPos pos)
+    {
+        pendingBuild.remove(pos);
+    }
+
+    @Override
+    public PlaceInfo canPlace(StructureBlockInfo info, int index, IItemHandlerModifiable itemSource)
     {
         if (info.state() == null || info.state().isAir()) return new PlaceInfo(CanPlace.YES, info, -1);
 
@@ -403,8 +460,8 @@ public class StructureBuilder implements IWorldTickListener
         ItemStack stack = StructureTemplateTools.getForInfo(info);
         if (!stack.isEmpty())
         {
-            ItemStack needed = neededItems.get(info.pos());
-            for (int i = 1; i < itemSource.getSlots(); i++)
+            // Only check needed item if not creative
+            if (!creative && itemSource != null) for (int i = 1; i < itemSource.getSlots(); i++)
             {
                 ItemStack inSlot = itemSource.getStackInSlot(i);
                 if (ItemStack.isSameItem(stack, inSlot))
@@ -412,6 +469,9 @@ public class StructureBuilder implements IWorldTickListener
                     return new PlaceInfo(CanPlace.YES, info, i);
                 }
             }
+
+            ItemStack needed = neededItems.get(info.pos());
+
             if (needed == null)
             {
                 return new PlaceInfo(CanPlace.NO, info, -1);
@@ -428,11 +488,8 @@ public class StructureBuilder implements IWorldTickListener
         return new PlaceInfo(stack.isEmpty() ? CanPlace.NO : CanPlace.NEED_ITEM, info, -1);
     }
 
-    public static record PlaceInfo(CanPlace valid, StructureBlockInfo info, int itemSlot)
-    {
-    }
-
-    public PlaceInfo getNextPlacement(ServerLevel level)
+    @Override
+    public PlaceInfo getNextPlacement(ServerLevel level, IItemHandlerModifiable itemSource)
     {
         for (int i = 0; i < placeOrder.size(); i++)
         {
@@ -449,15 +506,15 @@ public class StructureBuilder implements IWorldTickListener
                 return new PlaceInfo(CanPlace.NO, info, -1);
             }
             int index = sortedNeededItems.indexOf(neededItems.get(info.pos()));
-            PlaceInfo canPlace = canPlace(info, index);
-            if (canPlace.valid == CanPlace.NO)
+            PlaceInfo canPlace = canPlace(info, index, itemSource);
+            if (canPlace.valid() == CanPlace.NO)
             {
                 return canPlace;
             }
-            else if (canPlace.valid == CanPlace.NEED_ITEM)
+            else if (canPlace.valid() == CanPlace.NEED_ITEM)
             {
                 // Check if the bill of materials has this listed as to ignore.
-                checkBoM();
+                for (var BoM : BoMs) checkBoM(BoM);
                 return canPlace;
             }
             // We do not use the "recommended" rotate function, as that is
@@ -477,21 +534,32 @@ public class StructureBuilder implements IWorldTickListener
 
             return canPlace;
         }
+
+        if (passes++ < 3)
+        {
+            // Reset and check again
+            this._template = null;
+            this.checkBlueprint(level);
+            return getNextPlacement(level, itemSource);
+        }
+        this.done = true;
         return null;
     }
 
-    public boolean tryPlace(PlaceInfo placement, ServerLevel level)
+    @Override
+    public boolean tryPlace(PlaceInfo placement, ServerLevel level, IItemHandlerModifiable itemSource)
     {
         if (placement != null)
         {
-            var info = placement.info;
-            switch (placement.valid)
+            var info = placement.info();
+            var type = placement.valid();
+            switch (type)
             {
             case NEED_ITEM:
                 break;
             case NO:
                 placeOrder.remove(info);
-                pendingBuild.remove(info.pos());
+                markBuilt(info.pos());
                 break;
             case YES:
                 // We do not use the "recommended" rotate function, as that is
@@ -502,14 +570,14 @@ public class StructureBuilder implements IWorldTickListener
                 BlockState old = level.getBlockState(info.pos());
                 boolean same = old.isAir() & placeState.isAir();
                 placeOrder.remove(info);
-                pendingBuild.remove(info.pos());
+                markBuilt(info.pos());
                 if (same) break;
 
-                if (placement.itemSlot >= 0)
+                if (placement.itemSlot() >= 0 && itemSource != null)
                 {
                     ItemStack needed = neededItems.get(info.pos());
                     if (needed != null) needed.shrink(1);
-                    ItemStack inSlot = itemSource.getStackInSlot(placement.itemSlot);
+                    ItemStack inSlot = itemSource.getStackInSlot(placement.itemSlot());
                     inSlot.shrink(1);
                 }
                 StructureTemplateTools.getPlacer(placeState).placeBlock(placeState, info.pos(), level);
@@ -519,49 +587,78 @@ public class StructureBuilder implements IWorldTickListener
             }
             return false;
         }
-        this.done = true;
         return true;
     }
 
     @Override
-    public void onTickEnd(ServerLevel level)
+    public boolean validBuilder()
     {
-        checkBlueprint(level);
-        if (!creative || removeOrder.isEmpty())
+        return _template != null && !done;
+    }
+
+    @Override
+    public void getNextNeeded(List<ItemStack> requested, int number)
+    {
+        int n = 0;
+        needed_check:
+        for (int i = 0, max = placeOrder.size(); i < max; i++)
         {
-            if (passes++ < 3)
-            {
-                _template = null;
-                return;
-            }
-            WorldTickManager.removeWorldData(level.dimension(), this);
-            PokecubeAPI.LOGGER.info("terminated structure!");
-            return;
+            ItemStack needed = neededItems.get(placeOrder.get(i).pos());
+            if (needed == null || needed.isEmpty()) continue;
+            if (n++ > number) break;
+            for (var stack : requested) if (ItemStack.isSameItem(stack, needed)) continue needed_check;
+            needed = needed.copy();
+            needed.setCount(Math.min(5, needed.getCount()));
+            requested.add(needed);
+        }
+    }
+
+    @Override
+    public CompoundTag serializeNBT()
+    {
+        CompoundTag tag = new CompoundTag();
+        if (this._source != null)
+        {
+            var contx = StructurePieceSerializationContext.fromLevel(level);;
+            tag.put("source", this._source.createTag(contx));
+            tag.putString("rotation", this.rotation.name());
+            tag.putString("mirror", this.mirror.name());
+            tag.put("origin", this.newIntegerList(this.origin.getX(), this.origin.getY(), this.origin.getZ()));
+        }
+        return tag;
+    }
+
+    @Override
+    public void deserializeNBT(CompoundTag nbt)
+    {
+        this._source_tag = nbt.getCompound("source");
+        this.rotation = Rotation.valueOf(nbt.getString("rotation"));
+        this.mirror = Mirror.valueOf(nbt.getString("mirror"));
+        ListTag list = nbt.getList("origin", Tag.TAG_INT);
+        this.origin = new BlockPos(list.getInt(0), list.getInt(1), list.getInt(2));
+    }
+
+    private ListTag newIntegerList(int... array)
+    {
+        ListTag listtag = new ListTag();
+
+        for (int i : array)
+        {
+            listtag.add(IntTag.valueOf(i));
         }
 
-        List<Integer> ys = new ArrayList<>(removeOrder.keySet());
-        ys.sort(null);
+        return listtag;
+    }
 
-        long end = System.currentTimeMillis() + 100;
-        boolean ended = false;
-        while (System.currentTimeMillis() < end)
-        {
-            // Check if we need to remove invalid blocks, do that first.
-            if (!tryClear(ys, level)) continue;
-            // Then check if we can place blocks.
-            PlaceInfo placement = getNextPlacement(level);
-            if (!(ended = tryPlace(placement, level))) continue;
-            if (ended) break;
-        }
-        if (!ended) return;
-        // If we finished, remove.
+    @Override
+    public boolean isCreative()
+    {
+        return this.creative;
+    }
 
-        if (passes < 3)
-        {
-            _template = null;
-            return;
-        }
-        WorldTickManager.removeWorldData(level.dimension(), this);
-        PokecubeAPI.LOGGER.info("Finished structure!");
+    @Override
+    public void setCreative(boolean creative)
+    {
+        this.creative = creative;
     }
 }

@@ -1,4 +1,4 @@
-package pokecube.gimmicks.nests.tasks;
+package pokecube.gimmicks.nests;
 
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;

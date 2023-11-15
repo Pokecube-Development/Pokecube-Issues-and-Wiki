@@ -85,7 +85,6 @@ public class PCContainer extends BaseContainer
 
     protected void bindInventories()
     {
-        this.clearSlots();
         this.bindPCInventory();
         this.bindPlayerInventory(this.invPlayer, 55);
     }
@@ -115,11 +114,6 @@ public class PCContainer extends BaseContainer
             packet.data.putString("N", name);
             PokecubeCore.packets.sendToServer(packet);
         }
-    }
-
-    protected void clearSlots()
-    {
-        this.slots.clear();
     }
 
     @Override
