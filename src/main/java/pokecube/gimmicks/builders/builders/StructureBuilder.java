@@ -549,6 +549,15 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
         {
             var info = placement.info();
             var type = placement.valid();
+
+            // If placement has NEED_ITEM, and this is called anyway, re-check.
+            if (type == CanPlace.NEED_ITEM || type == CanPlace.YES)
+            {
+                int index = sortedNeededItems.indexOf(neededItems.get(info.pos));
+                placement = canPlace(info, index, itemSource);
+                type = placement.valid();
+            }
+
             switch (type)
             {
             case NEED_ITEM:
@@ -571,10 +580,11 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
 
                 if (placement.itemSlot() >= 0 && itemSource != null)
                 {
-                    ItemStack needed = neededItems.get(info.pos);
+                    ItemStack needed = neededItems.remove(info.pos);
                     if (needed != null) needed.shrink(1);
                     ItemStack inSlot = itemSource.getStackInSlot(placement.itemSlot());
                     inSlot.shrink(1);
+                    itemSource.setStackInSlot(placement.itemSlot(), inSlot);
                 }
                 StructureTemplateTools.getPlacer(placeState).placeBlock(placeState, info.pos, level);
                 break;

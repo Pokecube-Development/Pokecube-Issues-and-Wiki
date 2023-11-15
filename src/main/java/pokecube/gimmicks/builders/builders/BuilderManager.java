@@ -82,9 +82,9 @@ public class BuilderManager
         public CompoundTag apply(BuilderClearer build)
         {
             CompoundTag tag = new CompoundTag();
-            if (build.builder() instanceof INBTSerializable ser) tag.put("b", ser.serializeNBT());
+            if (build.builder() instanceof INBTSerializable<?> ser) tag.put("b", ser.serializeNBT());
             if (build.builder() == build.clearer()) tag.putBoolean("s", true);
-            else if (build.clearer() instanceof INBTSerializable ser) tag.put("c", ser.serializeNBT());
+            else if (build.clearer() instanceof INBTSerializable<?> ser) tag.put("c", ser.serializeNBT());
             return tag;
         }
 
