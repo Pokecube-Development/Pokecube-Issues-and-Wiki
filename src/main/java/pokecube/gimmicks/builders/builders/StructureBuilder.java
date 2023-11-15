@@ -553,7 +553,7 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
             // If placement has NEED_ITEM, and this is called anyway, re-check.
             if (type == CanPlace.NEED_ITEM || type == CanPlace.YES)
             {
-                int index = sortedNeededItems.indexOf(neededItems.get(info.pos));
+                int index = sortedNeededItems.indexOf(neededItems.get(info.pos()));
                 placement = canPlace(info, index, itemSource);
                 type = placement.valid();
             }
