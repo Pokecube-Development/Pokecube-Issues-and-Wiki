@@ -2,16 +2,19 @@ package pokecube.gimmicks.builders.builders;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
@@ -23,16 +26,16 @@ import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
  * reset and randomise when world closes and re-opens.
  *
  */
-public class JigsawBuilder implements INBTSerializable<CompoundTag>
+public class JigsawBuilder implements INBTSerializable<CompoundTag>, IBlocksBuilder, IBlocksClearer
 {
-    public List<StructureBuilder> builders = new ArrayList<>();
-    public ServerLevel level;
+    private List<StructureBuilder> builders = new ArrayList<>();
+    private ServerLevel level;
+    private boolean creative = false;
 
     public JigsawBuilder()
     {}
 
-    public JigsawBuilder(StructurePiecesBuilder pieceBuilder, BlockPos shift, IItemHandlerModifiable itemSource,
-            ServerLevel level)
+    public JigsawBuilder(StructurePiecesBuilder pieceBuilder, BlockPos shift, ServerLevel level)
     {
         pieceBuilder.build().pieces().forEach(piece -> {
             if (piece instanceof PoolElementStructurePiece pooled)
@@ -40,7 +43,7 @@ public class JigsawBuilder implements INBTSerializable<CompoundTag>
                 if (pooled.getElement() instanceof SinglePoolElement elem)
                 {
                     BlockPos origin = pooled.getPosition().offset(shift);
-                    var builder = new StructureBuilder(origin, pooled.getRotation(), pooled.getMirror(), itemSource);
+                    var builder = new StructureBuilder(origin, pooled.getRotation(), pooled.getMirror());
 
                     // Now make the settings object
                     StructurePlaceSettings settings = null;
@@ -54,12 +57,6 @@ public class JigsawBuilder implements INBTSerializable<CompoundTag>
                 }
             }
         });
-    }
-
-    public void setLevel(ServerLevel level)
-    {
-        this.level = level;
-        for (var b : builders) b.checkBlueprint(level);
     }
 
     @Override
@@ -91,5 +88,161 @@ public class JigsawBuilder implements INBTSerializable<CompoundTag>
                 this.builders.add(builder);
             }
         });
+    }
+
+    private StructureBuilder next()
+    {
+        if (builders.size() == 0) return null;
+        while (builders.size() > 0 && !builders.get(0).validBuilder())
+        {
+            builders.remove(0);
+        }
+        if (builders.size() == 0) return null;
+        return builders.get(0);
+    }
+
+    @Override
+    public boolean tryClear(ServerLevel level, Consumer<ItemStack> dropHandler)
+    {
+        var next = next();
+        if (next == null) return false;
+        return next.tryClear(level, dropHandler);
+    }
+
+    @Override
+    public BlockPos nextRemoval(ServerLevel level)
+    {
+        var next = next();
+        if (next == null) return null;
+        return next.nextRemoval(level);
+    }
+
+    @Override
+    public void markPendingClear(BlockPos pos)
+    {
+        var next = next();
+        if (next == null) return;
+        next.markPendingClear(pos);
+    }
+
+    @Override
+    public void markCleared(BlockPos pos)
+    {
+        var next = next();
+        if (next == null) return;
+        next.markCleared(pos);
+    }
+
+    @Override
+    public boolean validBuilder()
+    {
+        var next = next();
+        if (next == null) return false;
+        return next.validBuilder();
+    }
+
+    @Override
+    public void clearBoMRecords()
+    {
+        var next = next();
+        if (next == null) return;
+        next.clearBoMRecords();
+    }
+
+    @Override
+    public void addBoMRecord(BoMRecord BoM)
+    {
+        var next = next();
+        if (next == null) return;
+        next.addBoMRecord(BoM);
+    }
+
+    @Override
+    public void provideBoM(BoMRecord record)
+    {
+        var next = next();
+        if (next == null) return;
+        next.provideBoM(record);
+    }
+
+    @Override
+    public void checkBoM(BoMRecord record)
+    {
+        var next = next();
+        if (next == null) return;
+        next.checkBoM(record);
+    }
+
+    @Override
+    public ServerLevel getLevel()
+    {
+        return this.level;
+    }
+
+    @Override
+    public void update(ServerLevel level)
+    {
+        for (var builder : this.builders) builder.update(level);
+    }
+
+    @Override
+    public boolean tryPlace(PlaceInfo placement, ServerLevel level, IItemHandlerModifiable itemSource)
+    {
+        var next = next();
+        if (next == null) return false;
+        return next.tryPlace(placement, level, itemSource);
+    }
+
+    @Override
+    public PlaceInfo getNextPlacement(ServerLevel level, IItemHandlerModifiable itemSource)
+    {
+        var next = next();
+        if (next == null) return null;
+        return next.getNextPlacement(level, itemSource);
+    }
+
+    @Override
+    public PlaceInfo canPlace(StructureBlockInfo info, int index, IItemHandlerModifiable itemSource)
+    {
+        var next = next();
+        if (next == null) return null;
+        return next.canPlace(info, index, itemSource);
+    }
+
+    @Override
+    public void markPendingBuild(BlockPos pos)
+    {
+        var next = next();
+        if (next == null) return;
+        next.markPendingBuild(pos);
+    }
+
+    @Override
+    public void markBuilt(BlockPos pos)
+    {
+        var next = next();
+        if (next == null) return;
+        next.markBuilt(pos);
+    }
+
+    @Override
+    public void getNextNeeded(List<ItemStack> requested, int number)
+    {
+        var next = next();
+        if (next == null) return;
+        next.getNextNeeded(requested, number);
+    }
+
+    @Override
+    public boolean isCreative()
+    {
+        return this.creative;
+    }
+
+    @Override
+    public void setCreative(boolean creative)
+    {
+        this.creative = creative;
+        for (var builder : this.builders) builder.setCreative(creative);
     }
 }
