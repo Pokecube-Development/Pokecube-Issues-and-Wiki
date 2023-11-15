@@ -10,8 +10,10 @@ import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -28,6 +30,7 @@ import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
+import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.api.PokecubeAPI;
@@ -69,11 +72,14 @@ import thut.api.util.JsonUtil;
  * r: CLOCKWISE_90<br>
  * m: NONE<br>
  */
-public class ManageBuild extends UtilTask
+public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTag>
 {
+    public static final String KEY = "builder_manager";
+
     final StoreTask storage;
 
     boolean hasInstructions = false;
+    boolean loadedBuild = false;
     ItemStack last = ItemStack.EMPTY;
     StructureBuilder builder;
     JigsawBuilder jigsaw;
@@ -97,11 +103,7 @@ public class ManageBuild extends UtilTask
     public void setBuilder(StructureBuilder builder, ServerLevel level, List<IPokemob> pokemobs)
     {
         var pair = storage.getInventory(level, storage.storageLoc, Direction.UP);
-        if (pair == null)
-        {
-            reset();
-            return;
-        }
+        if (pair == null) return;
         // Jigsaw sets the key provider based on the loaded jigsaw, otherwise we
         // need to set it based on our offhand item
         if (jigsaw == null)
@@ -109,6 +111,7 @@ public class ManageBuild extends UtilTask
             final IItemHandlerModifiable keySource = new InvWrapper(pokemob.getInventory());
             builder.keyProvider = StructureBuilder.makeForSource(builder, keySource, keySource.getSlots() - 1);
         }
+        else builder.keyProvider = StructureBuilder.loadFromTemplate(builder);
 
         this.builder = builder;
 
@@ -122,17 +125,20 @@ public class ManageBuild extends UtilTask
 
             final IItemHandlerModifiable itemSource = new InvWrapper(pokemob.getInventory());
             builder.itemSource = itemSource;
-            if (pokemob != this.pokemob)
+            if (!builder.workers.contains(pokemob.getEntity()))
             {
-                builder.addBoMRecord(new BoMRecord(() -> pokemob.getEntity().getOffhandItem(),
-                        _book -> pokemob.getEntity().setItemInHand(InteractionHand.OFF_HAND, _book)));
+                if (pokemob != this.pokemob)
+                {
+                    builder.addBoMRecord(new BoMRecord(() -> pokemob.getEntity().getOffhandItem(),
+                            _book -> pokemob.getEntity().setItemInHand(InteractionHand.OFF_HAND, _book)));
+                }
+                else
+                {
+                    builder.addBoMRecord(new BoMRecord(() -> pair.getFirst().getStackInSlot(0),
+                            _book -> pair.getFirst().setStackInSlot(0, _book)));
+                }
+                builder.workers.add(pokemob.getEntity());
             }
-            else
-            {
-                builder.addBoMRecord(new BoMRecord(() -> pair.getFirst().getStackInSlot(0),
-                        _book -> pair.getFirst().setStackInSlot(0, _book)));
-            }
-            if (!builder.workers.contains(pokemob.getEntity())) builder.workers.add(pokemob.getEntity());
             if (!minions.contains(pokemob)) minions.add(pokemob);
             build.setBuilder(builder, level);
         }
@@ -142,23 +148,34 @@ public class ManageBuild extends UtilTask
     public void run()
     {
         var storeLoc = storage.storageLoc;
+        // Only run if we actually have storage (and are server side)
         if (storeLoc == null || !(entity.level instanceof ServerLevel level)) return;
 
+        // Only run this every 2.5 seconds or so
         if (entity.tickCount - timer < 50) return;
         timer = entity.tickCount;
 
+        // Initialise the level, this ensures that it loads properly from nbt if
+        // saved. This also calls an initial init for all of the builders
+        if (jigsaw != null && jigsaw.level == null) jigsaw.setLevel(level);
+
+        // Debug prints for jigsaws
 //        System.out.println(this.jigsaw + " " + (this.jigsaw != null ? this.jigsaw.builders.size() : 0));
 //        if (jigsaw != null && jigsaw.builders.size() > 0) System.out.println(this.jigsaw.builders.get(0).workers);
 
+        // Building managers sit down near their storage.
         if (storeLoc.distManhattan(entity.getOnPos()) > 3)
         {
+            // Path to it if too far.
             setWalkTo(storeLoc, 1, 1);
         }
         else
         {
+            // Otherwise just sit down.
             pokemob.setLogicState(LogicStates.SITTING, true);
         }
 
+        // Here we find a set of minions to make do the work
         List<IPokemob> pokemobs = new ArrayList<>();
         if (this.entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES))
         {
@@ -174,18 +191,23 @@ public class ManageBuild extends UtilTask
             // Only allow valid guard targets.
             for (var o : visible) pokemobs.add(PokemobCaps.getPokemobFor(o));
         }
+
+        // If no minions found, I guess we do it ourselves.
         if (pokemobs.isEmpty() && pokemob.isRoutineEnabled(BuilderTasks.BUILD) && minions.isEmpty())
         {
             pokemobs.add(pokemob);
         }
 
+        // If we had found minions before, re-add them now.
         if (!minions.isEmpty())
         {
             for (var m : minions) if (!pokemobs.contains(m) && m.getEntity().isAddedToWorld()) pokemobs.add(m);
         }
 
+        // No workers?? (maybe we are not allowed to build via AI button)
         if (pokemobs.isEmpty()) return;
 
+        // If we have a builder, check the done status and reset if needed.
         if (builder != null)
         {
             if (builder.done)
@@ -207,6 +229,9 @@ public class ManageBuild extends UtilTask
                 }
             }
         }
+
+        // If we don't have a builder, reset the minions and then cycle the
+        // builder from jigsaw if possible, otherwise reset.
         if (builder == null)
         {
             for (var m : minions)
@@ -230,19 +255,34 @@ public class ManageBuild extends UtilTask
 
             if (jigsaw == null || jigsaw.builders.isEmpty())
             {
+
+                // Swap held items in this case. This prevents us immediately
+                // trying to make a jigsaw again.
+                ItemStack main = entity.getMainHandItem();
+                ItemStack off = entity.getOffhandItem();
+                entity.setItemInHand(InteractionHand.MAIN_HAND, off);
+                entity.setItemInHand(InteractionHand.OFF_HAND, main);
+
                 reset();
                 return;
             }
 
             this.setBuilder(jigsaw.builders.get(0), level, pokemobs);
         }
-        else if (builder.workers.size() < 1 && builder.workers.size() < pokemobs.size())
-            this.setBuilder(builder, level, pokemobs);
+        // Otherwise order minions to work on our builder.
+        else this.setBuilder(builder, level, pokemobs);
     }
 
     @Override
     public boolean shouldRun()
     {
+        if (loadedBuild)
+        {
+            loadedBuild = false;
+            last = pokemob.getEntity().getOffhandItem();
+            hasInstructions = true;
+        }
+
         if (last != pokemob.getEntity().getOffhandItem() && entity.level instanceof ServerLevel level)
         {
             boolean hadInstructions = hasInstructions;
@@ -275,6 +315,7 @@ public class ManageBuild extends UtilTask
                     String rotation = "NONE";
                     String offset = "0 0 0";
                     String mirror = "NONE";
+                    int jigsawDepth = 4;
 
                     for (int i = 2; i < lines.length; i++)
                     {
@@ -282,7 +323,7 @@ public class ManageBuild extends UtilTask
                         if (line.startsWith("p:")) offset = line.replace("p:", "").strip();
                         if (line.startsWith("r:")) rotation = line.replace("r:", "").strip();
                         if (line.startsWith("m:")) rotation = line.replace("m:", "").strip();
-
+                        if (line.startsWith("d:")) jigsawDepth = Integer.parseInt(line.replace("d:", "").strip());
                     }
 
                     Rotation rot = Rotation.NONE;
@@ -335,9 +376,9 @@ public class ManageBuild extends UtilTask
                         {
                             var poolHolder = level.registryAccess().registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY)
                                     .getHolderOrThrow(ResourceKey.create(Registry.TEMPLATE_POOL_REGISTRY, toMake));
-                            ExpandedJigsawConfiguration config = new ExpandedJigsawConfiguration(poolHolder, 4,
-                                    YSettings.DEFAULT, ClearanceSettings.DEFAULT, new ArrayList<>(), "", "", "none",
-                                    Heightmap.Types.WORLD_SURFACE_WG, new ArrayList<>(), 0, 0,
+                            ExpandedJigsawConfiguration config = new ExpandedJigsawConfiguration(poolHolder,
+                                    jigsawDepth, YSettings.DEFAULT, ClearanceSettings.DEFAULT, new ArrayList<>(), "",
+                                    "", "none", Heightmap.Types.WORLD_SURFACE_WG, new ArrayList<>(), 0, 0,
                                     AvoidanceSettings.DEFAULT);
                             var context = new PieceGeneratorSupplier.Context<ExpandedJigsawConfiguration>(
                                     level.getChunkSource().getGenerator(),
@@ -389,6 +430,46 @@ public class ManageBuild extends UtilTask
             timer = entity.tickCount;
         }
         return hasInstructions;
+    }
+
+    @Override
+    public String getIdentifier()
+    {
+        return KEY;
+    }
+
+    @Override
+    public CompoundTag serializeNBT()
+    {
+        CompoundTag nbt = new CompoundTag();
+        if (this.jigsaw != null)
+        {
+            nbt.put("jigsaw", this.jigsaw.serializeNBT());
+        }
+        else if (this.builder != null)
+        {
+            nbt.put("builder", this.builder.serializeNBT());
+        }
+        return nbt;
+    }
+
+    @Override
+    public void deserializeNBT(CompoundTag nbt)
+    {
+        if (nbt.contains("jigsaw", Tag.TAG_COMPOUND))
+        {
+            this.jigsaw = new JigsawBuilder();
+            this.jigsaw.deserializeNBT(nbt.getCompound("jigsaw"));
+            hasInstructions = true;
+            loadedBuild = true;
+        }
+        else if (nbt.contains("builder", Tag.TAG_COMPOUND))
+        {
+            this.builder = new StructureBuilder();
+            this.builder.deserializeNBT(nbt.getCompound("builder"));
+            hasInstructions = true;
+            loadedBuild = true;
+        }
     }
 
 }

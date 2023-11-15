@@ -440,12 +440,6 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         return this.storageLoc != null;
     }
 
-    @Override
-    public String getIdentifier()
-    {
-        return KEY;
-    }
-
     public Pair<IItemHandlerModifiable, WorldlyContainer> getInventory(final ServerLevel world, final BlockPos pos,
             final Direction side)
     {
@@ -495,6 +489,12 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
     @Override
     public void run()
     {}
+
+    @Override
+    public String getIdentifier()
+    {
+        return KEY;
+    }
 
     @Override
     public CompoundTag serializeNBT()

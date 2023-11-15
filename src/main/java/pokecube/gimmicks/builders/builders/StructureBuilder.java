@@ -16,6 +16,7 @@ import com.google.gson.JsonObject;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
@@ -33,13 +34,18 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
+import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.JigsawReplacementProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
+import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.api.PokecubeAPI;
+import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
 import pokecube.world.gen.structures.processors.MarkerToAirProcessor;
 import thut.api.util.JsonUtil;
 import thut.api.world.IWorldTickListener;
@@ -48,7 +54,7 @@ import thut.api.world.WorldTickManager;
 import thut.lib.ItemStackTools;
 import thut.lib.TComponent;
 
-public class StructureBuilder implements IWorldTickListener
+public class StructureBuilder implements IWorldTickListener, INBTSerializable<CompoundTag>
 {
     private static enum CanPlace
     {
@@ -59,24 +65,61 @@ public class StructureBuilder implements IWorldTickListener
     {
     }
 
-    public static Supplier<StructureTemplate> makeForSource(StructureBuilder structureBuilder,
-            IItemHandlerModifiable itemSource, int slot)
+    public static Supplier<StructureTemplate> loadFromTemplate(StructureBuilder builder)
+    {
+        return () -> {
+            if (builder._loaded != null) return builder._loaded;
+
+            // Load our pool element from tag
+            if (builder._source_tag != null)
+            {
+                var ctx = StructurePieceSerializationContext.fromLevel(builder.level);
+                builder._source = new PoolElementStructurePiece(ctx, builder._source_tag);
+                // Now discard the tag
+                builder._source_tag = null;
+            }
+
+            // Now load our template from the pool element
+            if (builder._source != null)
+            {
+                ServerLevel level = builder.level;
+                var e = builder._source.getElement();
+                // The below block is very similar to what is done in
+                // JigsawBuilder when it makes it initially.
+                if (e instanceof SinglePoolElement elem)
+                {
+                    // Now make the settings object
+                    StructurePlaceSettings settings = null;
+                    if (elem instanceof ExpandedJigsawPiece jig)
+                        settings = jig.getSettings(builder._source.getRotation(), null, false);
+                    // Then set the settings
+                    builder.settings = settings;
+                    // And load the template
+                    builder._loaded = elem.getTemplate(level.getStructureManager());
+                }
+            }
+            return builder._loaded;
+        };
+    }
+
+    public static Supplier<StructureTemplate> makeForSource(StructureBuilder builder, IItemHandlerModifiable itemSource,
+            int slot)
     {
         return () -> {
             ItemStack key = itemSource.getStackInSlot(slot);
             if (!key.hasTag()) return null;
-            ResourceLocation toMake = structureBuilder.toMake;
-            structureBuilder.dy = 0;
+            ResourceLocation toMake = builder.toMake;
+            builder.dy = 0;
             var tag = key.getTag().get("pages");
-            if (structureBuilder.key_info != null && tag.toString().equals(structureBuilder.key_info.toString()))
-                return structureBuilder._template;
-            structureBuilder.key_info = tag;
+            if (builder.key_info != null && tag.toString().equals(builder.key_info.toString()))
+                return builder._template;
+            builder.key_info = tag;
             if (toMake == null)
             {
                 PokecubeAPI.LOGGER.error("No ResourceLocation!");
                 return null;
             }
-            var opt = structureBuilder.level.getStructureManager().get(toMake);
+            var opt = builder.level.getStructureManager().get(toMake);
             if (!opt.isPresent())
             {
                 PokecubeAPI.LOGGER.error("No Template for {}!", toMake);
@@ -92,6 +135,9 @@ public class StructureBuilder implements IWorldTickListener
     public IItemHandlerModifiable itemSource = null;
     public Supplier<StructureTemplate> keyProvider;
     public StructureTemplate _template;
+    public PoolElementStructurePiece _source;
+    public CompoundTag _source_tag;
+    public StructureTemplate _loaded;
     public int dy = 0;
     public BlockPos origin;
     public ServerLevel level;
@@ -113,6 +159,11 @@ public class StructureBuilder implements IWorldTickListener
     public Set<BlockPos> pendingClear = new HashSet<>();
 
     public int passes = 0;
+
+    public StructureBuilder()
+    {
+        this.keyProvider = loadFromTemplate(this);
+    }
 
     public StructureBuilder(BlockPos origin, Rotation rotation, Mirror mirror, IItemHandlerModifiable itemSource,
             Supplier<StructureTemplate> keyProvider)
@@ -561,5 +612,42 @@ public class StructureBuilder implements IWorldTickListener
         }
         WorldTickManager.removeWorldData(level.dimension(), this);
         PokecubeAPI.LOGGER.info("Finished structure!");
+    }
+
+    @Override
+    public CompoundTag serializeNBT()
+    {
+        CompoundTag tag = new CompoundTag();
+        if (this._source != null)
+        {
+            var contx = StructurePieceSerializationContext.fromLevel(level);;
+            tag.put("source", this._source.createTag(contx));
+            tag.putString("rotation", this.rotation.name());
+            tag.putString("mirror", this.mirror.name());
+            tag.put("origin", this.newIntegerList(this.origin.getX(), this.origin.getY(), this.origin.getZ()));
+        }
+        return tag;
+    }
+
+    @Override
+    public void deserializeNBT(CompoundTag nbt)
+    {
+        this._source_tag = nbt.getCompound("source");
+        this.rotation = Rotation.valueOf(nbt.getString("rotation"));
+        this.mirror = Mirror.valueOf(nbt.getString("mirror"));
+        ListTag list = nbt.getList("origin", Tag.TAG_INT);
+        this.origin = new BlockPos(list.getInt(0), list.getInt(1), list.getInt(2));
+    }
+
+    private ListTag newIntegerList(int... array)
+    {
+        ListTag listtag = new ListTag();
+
+        for (int i : array)
+        {
+            listtag.add(IntTag.valueOf(i));
+        }
+
+        return listtag;
     }
 }

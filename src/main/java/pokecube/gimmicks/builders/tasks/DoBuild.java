@@ -17,8 +17,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.ai.tasks.utility.UtilTask;
+import pokecube.gimmicks.builders.BuilderTasks;
 import pokecube.gimmicks.builders.builders.StructureBuilder;
 import pokecube.gimmicks.builders.builders.StructureBuilder.PlaceInfo;
 import thut.api.maths.Vector3;
@@ -107,21 +109,38 @@ public class DoBuild extends UtilTask
     public void run()
     {
         var storeLoc = storage.storageLoc;
+        // Only run if we actually have storage (and are server side)
         if (storeLoc == null || !(entity.level instanceof ServerLevel level)) return;
 
+        // Refresh blueprint if needed
         if (builder != null && (builder._template == null || builder.done)) builder.checkBlueprint(level);
 
+        // If refresh failed, we are done, so reset.
         if (builder == null || builder._template == null)
         {
             reset();
             return;
         }
 
+        if (storage.pathing)
+        {
+//            System.out.println("Dumping items!");
+//            return;
+        }
+
+        // Update removal ys list each builder pass
         if (last_check != builder.passes)
         {
             ys = new ArrayList<>(builder.removeOrder.keySet());
             last_check = builder.passes;
         }
+
+        // Sync creative status from player
+        builder.creative = pokemob.getOwner() instanceof ServerPlayer player
+                && (player.isCreative() || player.isSpectator());
+
+        builder.pendingBuild.add(storeLoc);
+        builder.pendingClear.add(storeLoc);
 
         if (entity.tickCount % 40 == 0) builder.checkBoM();
 
@@ -131,6 +150,7 @@ public class DoBuild extends UtilTask
         boolean isClear = nextClear == null;
         pathTimeout--;
 
+        // First check for blocks to remove
         if (!isClear)
         {
 //            if (entity.tickCount % 20 == 0) System.out.println("Clearing " + nextClear);
@@ -164,29 +184,40 @@ public class DoBuild extends UtilTask
                 else
                 {
                     BlockState state = level.getBlockState(nextClear);
-                    final List<ItemStack> list = Block.getDrops(state, level, nextClear,
-                            level.getBlockEntity(nextClear));
-                    list.removeIf(stack -> ItemStackTools.addItemStackToInventory(stack, builder.itemSource, 1));
-                    list.forEach(c -> {
-                        int x = nextClear.getX();
-                        int z = nextClear.getZ();
-                        ItemEntity item = new ItemEntity(level, x + 0.5, nextClear.getY() + 0.5, z + 0.5, c);
-                        level.addFreshEntity(item);
-                    });
+
+                    if (!builder.creative)
+                    {
+                        // If we are not creative, we drop the items, and
+                        // attempt to add to inventory, or drop in world
+                        // otherwise.
+                        final List<ItemStack> list = Block.getDrops(state, level, nextClear,
+                                level.getBlockEntity(nextClear));
+                        list.removeIf(stack -> ItemStackTools.addItemStackToInventory(stack, builder.itemSource, 1));
+                        list.forEach(c -> {
+                            int x = nextClear.getX();
+                            int z = nextClear.getZ();
+                            ItemEntity item = new ItemEntity(level, x + 0.5, nextClear.getY() + 0.5, z + 0.5, c);
+                            level.addFreshEntity(item);
+                        });
+                    }
+
+                    // We destroy the block
                     level.destroyBlock(nextClear, false);
+                    // Then remove the mutex flag for this location
                     builder.pendingClear.remove(nextClear);
-//                    if (entity.tickCount % 20 == 0)
-//                        System.out.println("Broke " + nextClear + " " + level.getBlockState(nextClear));
                     nextClear = null;;
 
-                    // TODO ensure this walks to storage first, and only when
-                    // nearly full.
+                    // Now we check if we should go store items or not.
                     storage.doStorageCheck(itemhandler);
+                    pokemob.setRoutineState(AIRoutine.STORE, true);
                 }
             }
         }
         else if (makeBorder)
         {
+            // Now mark the corners with torches, we just spawn these for now.
+            // might consider requiring them later.
+
             var origin = builder.origin;
             var size = builder._template.getSize();
 
@@ -205,11 +236,15 @@ public class DoBuild extends UtilTask
         }
         else if (findingSpot)
         {
+            // If we are trying to get to the place to build, first select the
+            // spot.
             if (nextPlace == null)
             {
                 nextPlace = builder.getNextPlacement(level);
                 if (nextPlace != null) builder.pendingBuild.add(nextPlace.info().pos);
             }
+            // Once spot is selected, try to walk there (or let it timeout and
+            // just place if not creative, creative places immediately)
             if (nextPlace != null)
             {
                 var pos = nextPlace.info().pos;
@@ -358,7 +393,7 @@ public class DoBuild extends UtilTask
     @Override
     public boolean shouldRun()
     {
-        return hasInstructions;
+        return hasInstructions && pokemob.isRoutineEnabled(BuilderTasks.BUILD);
     }
 
     @Override

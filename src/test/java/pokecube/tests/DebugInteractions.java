@@ -98,6 +98,7 @@ public class DebugInteractions
                     String rotation = "NONE";
                     String offset = "0 0 0";
                     String mirror = "NONE";
+                    int jigsawDepth = 4;
 
                     for (int i = 2; i < lines.length; i++)
                     {
@@ -105,7 +106,7 @@ public class DebugInteractions
                         if (line.startsWith("p:")) offset = line.replace("p:", "").strip();
                         if (line.startsWith("r:")) rotation = line.replace("r:", "").strip();
                         if (line.startsWith("m:")) rotation = line.replace("m:", "").strip();
-
+                        if (line.startsWith("d:")) jigsawDepth = Integer.parseInt(line.replace("d:", "").strip());
                     }
 
                     Rotation rot = Rotation.NONE;
@@ -159,7 +160,7 @@ public class DebugInteractions
                         {
                             var poolHolder = level.registryAccess().registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY)
                                     .getHolderOrThrow(ResourceKey.create(Registry.TEMPLATE_POOL_REGISTRY, toMake));
-                            ExpandedJigsawConfiguration config = new ExpandedJigsawConfiguration(poolHolder, 1,
+                            ExpandedJigsawConfiguration config = new ExpandedJigsawConfiguration(poolHolder, jigsawDepth,
                                     YSettings.DEFAULT, ClearanceSettings.DEFAULT, new ArrayList<>(), "", "", "none",
                                     Heightmap.Types.WORLD_SURFACE_WG, new ArrayList<>(), 0, 0,
                                     AvoidanceSettings.DEFAULT);
