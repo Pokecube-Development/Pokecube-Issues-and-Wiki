@@ -133,6 +133,7 @@ public class DoBuild extends UtilTask
 
         if (!isClear)
         {
+//            if (entity.tickCount % 20 == 0) System.out.println("Clearing " + nextClear);
             double diff = 5;
             diff = Math.max(diff, this.entity.getBbWidth());
             if (entity.getOnPos().distSqr(nextClear) > diff)
@@ -174,7 +175,9 @@ public class DoBuild extends UtilTask
                     });
                     level.destroyBlock(nextClear, false);
                     builder.pendingClear.remove(nextClear);
-                    nextClear = null;
+//                    if (entity.tickCount % 20 == 0)
+//                        System.out.println("Broke " + nextClear + " " + level.getBlockState(nextClear));
+                    nextClear = null;;
 
                     // TODO ensure this walks to storage first, and only when
                     // nearly full.

@@ -316,8 +316,6 @@ public class StructureBuilder implements IWorldTickListener
             if (neededItems.isEmpty())
             {
                 this.done = true;
-                WorldTickManager.removeWorldData(level.dimension(), this);
-                PokecubeAPI.LOGGER.info("Already Complete Structure! " + this);
                 return;
             }
             sortedNeededItems.clear();

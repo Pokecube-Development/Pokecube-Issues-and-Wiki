@@ -7,9 +7,12 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -22,6 +25,8 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.PistonType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 
 public class StructureTemplateTools
 {
@@ -137,14 +142,14 @@ public class StructureTemplateTools
             {
                 BlockState old = level.getBlockState(info.pos);
                 if (old.isAir()) continue;
+                BlockHitResult result = new BlockHitResult(new Vec3(info.pos.getX(), info.pos.getY(), info.pos.getZ()),
+                        Direction.UP, info.pos, false);
+                ItemStack stack = getForInfo(info);
+                BlockPlaceContext context = new BlockPlaceContext(level, null, InteractionHand.MAIN_HAND, stack,
+                        result);
+                // Just directly replace blocks that allow it
+                if (old.canBeReplaced(context)) continue;
                 if (old.getBlock() != info.state.getBlock()) remove.add(info.pos);
-//                else
-//                {
-//                    BlockState placeState = info.state.mirror(settings.getMirror()).rotate(level, info.pos,
-//                            settings.getRotation());
-//                    if (old.getProperties().stream().anyMatch(p -> !old.getValue(p).equals(placeState.getValue(p))))
-//                        remove.add(info.pos);
-//                }
             }
         }
         return remove;

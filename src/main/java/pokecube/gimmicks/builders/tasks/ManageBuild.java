@@ -110,6 +110,8 @@ public class ManageBuild extends UtilTask
             builder.keyProvider = StructureBuilder.makeForSource(builder, keySource, keySource.getSlots() - 1);
         }
 
+        this.builder = builder;
+
         for (var pokemob : pokemobs)
         {
             var task = pokemob.getNamedTaskes().get(DoBuild.KEY);
@@ -144,6 +146,9 @@ public class ManageBuild extends UtilTask
 
         if (entity.tickCount - timer < 50) return;
         timer = entity.tickCount;
+
+//        System.out.println(this.jigsaw + " " + (this.jigsaw != null ? this.jigsaw.builders.size() : 0));
+//        if (jigsaw != null && jigsaw.builders.size() > 0) System.out.println(this.jigsaw.builders.get(0).workers);
 
         if (storeLoc.distManhattan(entity.getOnPos()) > 3)
         {
