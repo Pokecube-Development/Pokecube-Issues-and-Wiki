@@ -18,7 +18,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -65,7 +64,6 @@ import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.CapabilityAffected.DefaultAffected;
 import pokecube.api.entity.CapabilityInhabitable.SaveableHabitatProvider;
-import pokecube.api.entity.CapabilityInhabitor.InhabitorProvider;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.SharedAttributes;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -76,7 +74,6 @@ import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.events.CustomInteractEvent;
 import pokecube.api.events.pokemobs.FaintEvent;
 import pokecube.api.moves.Battle;
-import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.utils.PokeType;
 import pokecube.api.utils.TagNames;
 import pokecube.compat.wearables.sided.Common;
@@ -112,8 +109,6 @@ import pokecube.core.network.packets.PacketPokecube;
 import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.PokemobTracker;
-import pokecube.gimmicks.nests.tasks.ants.AntTasks.AntInhabitor;
-import pokecube.gimmicks.nests.tasks.bees.BeeTasks.BeeInhabitor;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
 import thut.api.ThutCaps;
@@ -123,7 +118,6 @@ import thut.api.entity.ShearableCaps;
 import thut.api.entity.event.LevelEntityEvent;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.inventory.InvHelper.ItemCap;
-import thut.api.item.ItemList;
 import thut.api.level.structures.NamedVolumes.INamedStructure;
 import thut.api.level.structures.StructureManager;
 import thut.api.level.terrain.BiomeType;
@@ -570,12 +564,6 @@ public class EventsHandler
             event.addCapability(ShearableCaps.LOC, new ShearableCaps.Wrapper(pokemob));
             event.addCapability(CopyCaps.LOC, (ICapabilityProvider) pokemob.getCopy());
             IGuardAICapability.addCapability(event);
-
-            // If it is a bee, we will add this to it.
-            if (mob.getType().is(EntityTypeTags.BEEHIVE_INHABITORS))
-                event.addCapability(EventsHandler.BEECAP, new InhabitorProvider(new BeeInhabitor(mob)));
-            if (ItemList.is(IMoveConstants.ANTS, mob))
-                event.addCapability(EventsHandler.ANTCAP, new InhabitorProvider(new AntInhabitor(mob)));
         }
 
         if (event.getObject() instanceof NpcMob npc)

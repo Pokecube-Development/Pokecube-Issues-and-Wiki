@@ -2,6 +2,7 @@ package pokecube.gimmicks.nests.tasks.ants;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
@@ -13,6 +14,7 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraftforge.registries.RegistryObject;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.ai.IInhabitor;
 import pokecube.api.ai.TaskAdders;
 import pokecube.api.entity.CapabilityInhabitable;
@@ -20,6 +22,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.events.pokemobs.InitAIEvent.Init.Type;
+import pokecube.api.raids.RaidManager;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
@@ -39,9 +42,24 @@ import pokecube.gimmicks.nests.tasks.ants.tasks.work.Guard;
 import pokecube.gimmicks.nests.tasks.ants.tasks.work.Idle;
 import thut.api.entity.ai.BrainUtil;
 import thut.api.entity.ai.IAIRunnable;
+import thut.api.item.ItemList;
 
 public class AntTasks
 {
+    public static ResourceLocation ANTS = new ResourceLocation(PokecubeAPI.MODID, "ants");
+
+    public static final Predicate<IPokemob> isAnt = pokemob -> {
+        final Mob entity = pokemob.getEntity();
+        final boolean isAnt = ItemList.is(AntTasks.ANTS, entity);
+        // Only care about bees
+        if (!isAnt) return false;
+        // Only process stock pokemobs
+        if (!pokemob.getPokedexEntry().stock) return false;
+        return true;
+    };
+
+    public static AIRoutine ANTAI = AIRoutine.create("ANTAI", true, isAnt);
+
     public static enum AntJob
     {
         NONE, DIG, BUILD, GUARD, GATHER, FARM;
@@ -72,6 +90,8 @@ public class AntTasks
     {
         CapabilityInhabitable.Register(AntTasks.NESTLOC, () -> new AntHabitat());
         TaskAdders.register(Type.IDLE, AntTasks::addTasks);
+        
+        RaidManager.BANNEDAI.add(ANTAI);
     }
 
     private static final List<SensorType<?>> getSensors()
@@ -92,7 +112,7 @@ public class AntTasks
             Map<String, IAIRunnable> namedTasks)
     {
         if (!PokecubeCore.getConfig().pokemobsMakeNests) return;
-        if (!AIRoutine.ANTAI.isAllowed(pokemob)) return;
+        if (!AntTasks.ANTAI.isAllowed(pokemob)) return;
 
         list.add(new CheckNest(pokemob).setPriority(200));
         list.add(new MakeNest(pokemob));
@@ -111,7 +131,7 @@ public class AntTasks
     {
         final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob == null) return false;
-        return pokemob.isRoutineEnabled(AIRoutine.ANTAI);
+        return pokemob.isRoutineEnabled(AntTasks.ANTAI);
     }
 
     public static AntJob getJob(final Mob ant)

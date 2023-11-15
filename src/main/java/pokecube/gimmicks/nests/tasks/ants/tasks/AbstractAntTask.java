@@ -57,7 +57,7 @@ public abstract class AbstractAntTask extends BaseIdleTask
         this.pokemob.setRoutineState(AIRoutine.MATE, false);
         final boolean tameCheck = this.pokemob.getOwnerId() == null
                 || this.pokemob.getGeneralState(GeneralStates.STAYING);
-        final boolean aiEnabled = this.pokemob.isRoutineEnabled(AIRoutine.ANTAI);
+        final boolean aiEnabled = this.pokemob.isRoutineEnabled(AntTasks.ANTAI);
         return tameCheck && aiEnabled && this.doTask();
     }
 }
