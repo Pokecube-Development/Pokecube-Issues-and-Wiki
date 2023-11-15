@@ -12,6 +12,7 @@ import com.google.common.base.Predicates;
 import com.google.gson.JsonObject;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -24,20 +25,20 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
-import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
-import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.Structure.StructureSettings;
+import net.minecraft.world.level.levelgen.structure.TerrainAdjustment;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
 import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.api.PokecubeAPI;
 import pokecube.gimmicks.builders.builders.events.BuilderInstructionsEvent;
-import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration;
-import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration.AvoidanceSettings;
-import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration.ClearanceSettings;
-import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration.YSettings;
-import pokecube.world.gen.structures.pieces.ExpandedPoolElementStructurePiece;
+import pokecube.world.gen.structures.GenericJigsawStructure;
+import pokecube.world.gen.structures.GenericJigsawStructure.AvoidanceSettings;
+import pokecube.world.gen.structures.GenericJigsawStructure.ClearanceSettings;
+import pokecube.world.gen.structures.GenericJigsawStructure.YSettings;
 import pokecube.world.gen.structures.utils.ExpandedJigsawPacement;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
@@ -187,27 +188,23 @@ public class BuilderManager
                 {
                     var poolHolder = level.registryAccess().registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY)
                             .getHolderOrThrow(ResourceKey.create(Registry.TEMPLATE_POOL_REGISTRY, toMake));
-                    ExpandedJigsawConfiguration config = new ExpandedJigsawConfiguration(poolHolder, jigsawDepth,
+                    StructureSettings settings = new StructureSettings(
+                            HolderSet.direct(level.getBiomeManager().getBiome(origin)), new HashMap<>(),
+                            GenerationStep.Decoration.SURFACE_STRUCTURES, TerrainAdjustment.NONE);
+                    GenericJigsawStructure config = new GenericJigsawStructure(settings, poolHolder, jigsawDepth,
                             YSettings.DEFAULT, ClearanceSettings.DEFAULT, new ArrayList<>(), "", "", "none",
                             Heightmap.Types.WORLD_SURFACE_WG, new ArrayList<>(), 0, 0, AvoidanceSettings.DEFAULT);
-                    var context = new PieceGeneratorSupplier.Context<ExpandedJigsawConfiguration>(
+                    var context = new Structure.GenerationContext(level.registryAccess(),
                             level.getChunkSource().getGenerator(),
-                            level.getChunkSource().getGenerator().getBiomeSource(), level.getSeed(),
-                            new ChunkPos(origin), config, level, Predicates.alwaysTrue(), level.getStructureManager(),
-                            level.registryAccess());
-                    WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
-                    worldgenrandom.setLargeFeatureSeed(context.seed(), context.chunkPos().x, context.chunkPos().z);
-                    var make = ExpandedJigsawPacement.addPieces(context, ExpandedPoolElementStructurePiece::new, origin,
-                            false, false, worldgenrandom, rot);
+                            level.getChunkSource().getGenerator().getBiomeSource(),
+                            level.getChunkSource().randomState(), level.getStructureManager(), level.getSeed(),
+                            new ChunkPos(origin), level, Predicates.alwaysTrue());
+                    WorldgenRandom worldgenrandom = context.random();
+                    var make = ExpandedJigsawPacement.addPieces(config, context, origin, false, false, worldgenrandom,
+                            rot);
                     if (make.isPresent())
                     {
-                        StructurePiecesBuilder structurepiecesbuilder = new StructurePiecesBuilder();
-                        worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
-                        worldgenrandom.setLargeFeatureSeed(context.seed(), context.chunkPos().x, context.chunkPos().z);
-                        var buildContext = new PieceGenerator.Context<ExpandedJigsawConfiguration>(config,
-                                level.getChunkSource().getGenerator(), level.getStructureManager(),
-                                new ChunkPos(origin), level, worldgenrandom, level.getSeed());
-                        make.get().generatePieces(structurepiecesbuilder, buildContext);
+                        StructurePiecesBuilder structurepiecesbuilder = make.get().getPiecesBuilder();
 
                         var jigsaw = new JigsawBuilder(structurepiecesbuilder, shift, level);
                         return new BuilderClearer(jigsaw, jigsaw, "jigsaw");
