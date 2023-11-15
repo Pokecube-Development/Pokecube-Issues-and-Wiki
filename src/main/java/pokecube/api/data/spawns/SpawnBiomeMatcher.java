@@ -36,6 +36,7 @@ import pokecube.api.data.spawns.matchers.Biomes;
 import pokecube.api.data.spawns.matchers.MatchChecker;
 import pokecube.api.data.spawns.matchers.StructureMatcher;
 import pokecube.api.data.spawns.matchers.Structures;
+import pokecube.api.events.data.SpawnMatchInit;
 import pokecube.api.events.pokemobs.SpawnCheckEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
@@ -337,7 +338,7 @@ public class SpawnBiomeMatcher
         if (!this._and_children.isEmpty())
         {
             boolean and_valid = _and_children.stream().allMatch(m -> m.checkBiome(biome));
-            return and_valid;
+            if (!and_valid) return false;
         }
         if (!this._or_children.isEmpty()) return or_valid;
 
@@ -397,7 +398,7 @@ public class SpawnBiomeMatcher
         if (!this._and_children.isEmpty())
         {
             boolean and_valid = _and_children.stream().allMatch(m -> m.checkSubBiome(biome));
-            return and_valid;
+            if (!and_valid) return false;
         }
         if (!this._or_children.isEmpty()) return or_valid;
 
@@ -949,7 +950,7 @@ public class SpawnBiomeMatcher
                 if (matcher instanceof Biomes biomes) this._biomeMatchers.add(biomes);
             }
             this._compoundMatcher = this._compoundMatcher.and(_structs);
-            this._compoundMatcher.init();
+            this._compoundMatcher = SpawnMatchInit.initMatchChecker(this._compoundMatcher);
             this._usesMatchers = true;
         }
 

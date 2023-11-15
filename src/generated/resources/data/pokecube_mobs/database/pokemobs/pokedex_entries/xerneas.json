@@ -216,13 +216,5 @@
       "anim": "xerneas",
       "types": "fairy"
     }
-  ],
-  "spawn_rules": [
-    {
-      "values": {
-        "structures": "pokecube_legends:xerneas_place",
-        "rate": "0.0"
-      }
-    }
   ]
 }

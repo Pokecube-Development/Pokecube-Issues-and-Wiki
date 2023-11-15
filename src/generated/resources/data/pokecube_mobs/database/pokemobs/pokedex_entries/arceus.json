@@ -408,13 +408,5 @@
       "anim": "arceus_fairy",
       "types": "fairy"
     }
-  ],
-  "spawn_rules": [
-    {
-      "values": {
-        "structures": "pokecube_legends:space_temple",
-        "rate": "0.0"
-      }
-    }
   ]
 }

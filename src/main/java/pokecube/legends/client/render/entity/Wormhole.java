@@ -39,10 +39,6 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
 
     private final HashMap<String, List<Animation>> anims = Maps.newHashMap();
 
-    private IAnimationChanger changer = null;
-    private IPartTexturer texer = null;
-    private IAnimationHolder holder = null;
-
     final Vector3 rotPoint = new Vector3();
     private Vector3 offset = new Vector3();
     private Vector3 scale = new Vector3();
@@ -57,8 +53,9 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
     {
         final ModelHolder holder = new ModelHolder(Wormhole.MODEL);
         final ModelWrapper<WormholeEntity> model = new ModelWrapper<>(holder, this);
+        this.model = model;
         ModelFactory.create(model.model, m -> {
-            model.imodel = m;
+            model.setModel(m);
             AnimationLoader.parse(holder, model, this);
         });
         return model;
@@ -102,21 +99,9 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
     }
 
     @Override
-    public IAnimationChanger getAnimationChanger()
-    {
-        return this.changer;
-    }
-
-    @Override
     public Map<String, List<Animation>> getAnimations()
     {
         return this.anims;
-    }
-
-    @Override
-    public IPartTexturer getTexturer()
-    {
-        return this.texer;
     }
 
     @Override
@@ -174,26 +159,6 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
     }
 
     @Override
-    public void setAnimationHolder(final IAnimationHolder holder)
-    {
-        this.holder = holder;
-        if (this.changer != null) this.changer.setAnimationHolder(holder);
-        this.model.imodel.setAnimationHolder(holder);
-    }
-
-    @Override
-    public IAnimationHolder getAnimationHolder()
-    {
-        return this.holder;
-    }
-
-    @Override
-    public void setAnimationChanger(final IAnimationChanger changer)
-    {
-        this.changer = changer;
-    }
-
-    @Override
     public void setRotationOffset(final Vector3 offset)
     {
         this.offset = offset;
@@ -206,12 +171,6 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
     }
 
     @Override
-    public void setTexturer(final IPartTexturer texturer)
-    {
-        this.texer = texturer;
-    }
-
-    @Override
     public void updateModel(final Map<String, List<Vector5>> phaseList, final ModelHolder model)
     {}
 
@@ -219,6 +178,42 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
     public HeadInfo getHeadInfo()
     {
         return HeadInfo.DUMMY;
+    }
+
+    @Override
+    public void setAnimationChanger(final IAnimationChanger changer)
+    {
+        this.getModel().animChangeHolder.set(changer);
+    }
+
+    @Override
+    public IAnimationChanger getAnimationChanger()
+    {
+        return this.getModel().animChangeHolder.get();
+    }
+
+    @Override
+    public void setTexturer(final IPartTexturer texturer)
+    {
+        this.getModel().texChangeHolder.set(texturer);
+    }
+
+    @Override
+    public IPartTexturer getTexturer()
+    {
+        return this.getModel().texChangeHolder.get();
+    }
+
+    @Override
+    public void setAnimationHolder(final IAnimationHolder holder)
+    {
+        this.getModel().setAnimationHolder(holder);
+    }
+
+    @Override
+    public IAnimationHolder getAnimationHolder()
+    {
+        return this.getModel().animHolderHolder.get();
     }
 
 }

@@ -191,13 +191,5 @@
       "chilling-water"
     ]
   },
-  "spawn_rules": [
-    {
-      "values": {
-        "structures": "pokecube_legends:kyogre_temple",
-        "rate": "0.0"
-      }
-    }
-  ],
   "loot_table": "pokecube:entities/fish_2"
 }

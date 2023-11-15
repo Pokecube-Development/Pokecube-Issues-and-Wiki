@@ -226,13 +226,5 @@
       "tera-blast"
     ]
   },
-  "spawn_rules": [
-    {
-      "values": {
-        "structures": "pokecube_legends:groudon_temple",
-        "rate": "0.0"
-      }
-    }
-  ],
   "loot_table": "pokecube:entities/stone_gold"
 }

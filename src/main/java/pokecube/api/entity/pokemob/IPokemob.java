@@ -5,6 +5,7 @@ package pokecube.api.entity.pokemob;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -472,6 +473,14 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     float getHomeDistance();
 
     /**
+     * Slots go as follows:<br>
+     * <ul>
+     *  <li>0 - saddle</li>
+     *  <li>1 - held item</li>
+     *  <li>2-6 - general inventory</li>
+     *  <li>rest - armour followed by offhand item</li>
+     * </ul>
+     * 
      * @return the Container holding our inventory
      */
     Container getInventory();
@@ -509,6 +518,8 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
      *         for combat, etc.
      */
     List<IAIRunnable> getTasks();
+    
+    Map<String, IAIRunnable> getNamedTaskes();
 
     /**
      * Note: This only returns a unique number for player owned pokemobs. All

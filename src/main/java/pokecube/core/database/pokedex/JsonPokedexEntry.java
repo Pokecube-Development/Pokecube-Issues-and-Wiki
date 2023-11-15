@@ -346,6 +346,7 @@ public class JsonPokedexEntry
             return other;
         }
         for (var l : other.__loaded_from) if (!this.__loaded_from.contains(l)) this.__loaded_from.add(l);
+        for (var l : this.__loaded_from) if (!other.__loaded_from.contains(l)) other.__loaded_from.add(l);
         mergeBasic(other);
         return this;
     }
@@ -524,7 +525,6 @@ public class JsonPokedexEntry
                     toLoad.compute(entry.name, (key, list) -> {
                         var ret = list;
                         if (ret == null) ret = Lists.newArrayList();
-                        if (!_compound_files.contains(l)) entry.__loaded_from.add(l);
                         ret.add(entry);
                         return ret;
                     });
@@ -609,7 +609,6 @@ public class JsonPokedexEntry
     private static List<JsonPokedexEntry> loadDatabase(final InputStream stream, ResourceLocation source)
             throws Exception
     {
-        JsonPokedexEntry database = null;
         ArrayList<JsonPokedexEntry> list = new ArrayList<>();
         final InputStreamReader reader = new InputStreamReader(stream);
         JsonElement json = JsonUtil.gson.fromJson(reader, JsonElement.class);
@@ -622,8 +621,10 @@ public class JsonPokedexEntry
         }
         else
         {
-            database = JsonUtil.gson.fromJson(json, JsonPokedexEntry.class);
-            list.add(database);
+            JsonPokedexEntry entry = null;
+            entry = JsonUtil.gson.fromJson(json, JsonPokedexEntry.class);
+            entry.__loaded_from.add(source);
+            list.add(entry);
         }
         return list;
     }

@@ -185,13 +185,5 @@
       "stomping-tantrum"
     ]
   },
-  "spawn_rules": [
-    {
-      "values": {
-        "structures": "pokecube_legends:regice_temple",
-        "rate": "0.0"
-      }
-    }
-  ],
   "loot_table": "pokecube:entities/snowball"
 }

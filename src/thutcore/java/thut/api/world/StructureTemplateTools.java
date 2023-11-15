@@ -7,17 +7,26 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.piston.PistonBaseBlock;
+import net.minecraft.world.level.block.piston.PistonHeadBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BedPart;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.block.state.properties.PistonType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 
 public class StructureTemplateTools
 {
@@ -34,6 +43,11 @@ public class StructureTemplateTools
             if (state.hasProperty(DoorBlock.HALF) && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER)
             {
                 // We handle this by placing lower, and ignoring upper.
+                return ItemStack.EMPTY;
+            }
+            if (state.getBlock() == Blocks.PISTON_HEAD)
+            {
+                // We handle placing the base, not the head.
                 return ItemStack.EMPTY;
             }
             Item item = state.getBlock().asItem();
@@ -55,6 +69,14 @@ public class StructureTemplateTools
             if (state.hasProperty(DoorBlock.HALF) && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER)
             {
                 level.setBlockAndUpdate(pos.above(), state.setValue(DoorBlock.HALF, DoubleBlockHalf.UPPER));
+            }
+            if (state.hasProperty(PistonBaseBlock.EXTENDED) && state.getValue(PistonBaseBlock.EXTENDED))
+            {
+                var dir = state.getValue(PistonBaseBlock.FACING);
+                var head = Blocks.PISTON_HEAD.defaultBlockState().setValue(PistonHeadBlock.FACING, dir);
+                if (state.getBlock() == Blocks.STICKY_PISTON)
+                    head = head.setValue(PistonHeadBlock.TYPE, PistonType.STICKY);
+                level.setBlockAndUpdate(pos.relative(dir), head);
             }
         }
     }
@@ -120,14 +142,14 @@ public class StructureTemplateTools
             {
                 BlockState old = level.getBlockState(info.pos);
                 if (old.isAir()) continue;
+                BlockHitResult result = new BlockHitResult(new Vec3(info.pos.getX(), info.pos.getY(), info.pos.getZ()),
+                        Direction.UP, info.pos, false);
+                ItemStack stack = getForInfo(info);
+                BlockPlaceContext context = new BlockPlaceContext(level, null, InteractionHand.MAIN_HAND, stack,
+                        result);
+                // Just directly replace blocks that allow it
+                if (old.canBeReplaced(context)) continue;
                 if (old.getBlock() != info.state.getBlock()) remove.add(info.pos);
-//                else
-//                {
-//                    BlockState placeState = info.state.mirror(settings.getMirror()).rotate(level, info.pos,
-//                            settings.getRotation());
-//                    if (old.getProperties().stream().anyMatch(p -> !old.getValue(p).equals(placeState.getValue(p))))
-//                        remove.add(info.pos);
-//                }
             }
         }
         return remove;

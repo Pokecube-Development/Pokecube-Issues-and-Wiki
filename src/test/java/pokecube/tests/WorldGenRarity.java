@@ -228,6 +228,30 @@ public class WorldGenRarity
                 if (!found.contains(name)) PokecubeAPI.LOGGER.info(name);
             }
         }
+//        else if (chat.getMessage().startsWith("Debug:Struct:"))
+//        {
+//            try
+//            {
+//                ServerPlayer splayer = chat.getPlayer();
+//                var key = new ResourceLocation(chat.getMessage().replace("Debug:Struct:",""));
+//                var reg = splayer.level.registryAccess()
+//                        .registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
+//                var val = reg.get(key);
+//                if (val.config instanceof ExpandedJigsawConfiguration conf)
+//                {
+//                    var banned = conf._banned;
+//                    var needed = conf._needed;
+//                    var biome = splayer.level.getBiome(splayer.getOnPos());
+//                    for (var b : banned) System.out.println(b.spawnRule + " " + b.checkBiome(biome));
+//                    System.out.println(banned + " " + needed.get(0).checkBiome(biome));
+//                }
+//            }
+//            catch (Exception e)
+//            {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     @SubscribeEvent

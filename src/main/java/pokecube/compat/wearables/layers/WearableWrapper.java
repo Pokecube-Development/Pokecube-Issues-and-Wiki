@@ -34,6 +34,7 @@ import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.model.parts.Part;
+import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.client.render.wrappers.ModelWrapper;
 import thut.lib.AxisAngles;
 import thut.lib.TComponent;
@@ -303,20 +304,26 @@ public class WearableWrapper
                 else
                 {
                     wrapper = new HeldItemWrapper(ident);
+                    wrapper.setAnimationHolder(part.getAnimationHolder());
+                    if (part instanceof IRetexturableModel p)
+                    {
+                        wrapper.setAnimationChanger(p.getAnimationChanger());
+                        wrapper.setTexturerChanger(p.getTexturerChanger());
+                    }
                     wrapper.setOffsets(offsets);
                     wrapper.setParent(part);
                     part.addChild(wrapper);
                     if (debug)
                     {
-                        part.getRenderOrder().add(0, ident);
+                        part.getRenderOrder().add(0, wrapper);
                         imodel.getParts().put(ident, wrapper);
-                        imodel.getRenderOrder().add(0, ident);
+                        imodel.getRenderOrder().add(0, wrapper);
                     }
                     else
                     {
-                        part.getRenderOrder().add(ident);
+                        part.getRenderOrder().add(wrapper);
                         imodel.getParts().put(ident, wrapper);
-                        imodel.getRenderOrder().add(ident);
+                        imodel.getRenderOrder().add(wrapper);
                     }
                 }
 
@@ -325,17 +332,17 @@ public class WearableWrapper
                     wrapper.setOffsets(offsets);
                     wrapper.stack = stack;
                     wrapper.mob = wearer;
-                    imodel.getRenderOrder().remove(ident);
+                    imodel.getRenderOrder().remove(wrapper);
 
                     if (debug)
                     {
                         imodel.getParts().put(ident, wrapper);
-                        imodel.getRenderOrder().add(0, ident);
+                        imodel.getRenderOrder().add(0, wrapper);
                     }
                     else
                     {
                         imodel.getParts().put(ident, wrapper);
-                        imodel.getRenderOrder().add(ident);
+                        imodel.getRenderOrder().add(wrapper);
                     }
                     part.preProcess();
                 }
@@ -371,15 +378,15 @@ public class WearableWrapper
                         part.addChild(wrapper);
                         if (debug)
                         {
-                            part.getRenderOrder().add(0, ident);
+                            part.getRenderOrder().add(0, wrapper);
                             imodel.getParts().put(ident, wrapper);
-                            imodel.getRenderOrder().add(0, ident);
+                            imodel.getRenderOrder().add(0, wrapper);
                         }
                         else
                         {
-                            part.getRenderOrder().add(ident);
+                            part.getRenderOrder().add(wrapper);
                             imodel.getParts().put(ident, wrapper);
-                            imodel.getRenderOrder().add(ident);
+                            imodel.getRenderOrder().add(wrapper);
                         }
                     }
 
@@ -391,17 +398,17 @@ public class WearableWrapper
                         wrapper.stack = stack;
                         wrapper.wrapped = w;
                         wrapper.subIndex = i;
-                        imodel.getRenderOrder().remove(ident);
+                        imodel.getRenderOrder().remove(wrapper);
 
                         if (debug)
                         {
                             imodel.getParts().put(ident, wrapper);
-                            imodel.getRenderOrder().add(0, ident);
+                            imodel.getRenderOrder().add(0, wrapper);
                         }
                         else
                         {
                             imodel.getParts().put(ident, wrapper);
-                            imodel.getRenderOrder().add(ident);
+                            imodel.getRenderOrder().add(wrapper);
                         }
                         part.preProcess();
                     }

@@ -189,13 +189,5 @@
       "meteor-beam"
     ]
   },
-  "spawn_rules": [
-    {
-      "values": {
-        "structures": "pokecube_legends:regirock_temple",
-        "rate": "0.0"
-      }
-    }
-  ],
   "loot_table": "pokecube:entities/stone_2"
 }

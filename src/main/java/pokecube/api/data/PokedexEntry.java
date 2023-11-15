@@ -1038,7 +1038,7 @@ public class PokedexEntry
                     this.formeItems.put(stack, i);
                     if (output != null)
                     {
-                        if (output.noItemForm != null) PokecubeAPI.LOGGER
+                        if (output.noItemForm != null && output.noItemForm != this) PokecubeAPI.LOGGER
                                 .warn("Changing Base forme of {} from {} to {}", output, output.noItemForm, this);
                         if (PokecubeCore.getConfig().debug_data)
                             PokecubeAPI.logInfo("Adding Forme with Key " + stack + " To " + output + " for " + this);

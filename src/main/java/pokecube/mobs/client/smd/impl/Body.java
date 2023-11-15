@@ -13,6 +13,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
+import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.api.maths.vecmath.Vec3f;
 import thut.core.client.render.model.parts.Material;
@@ -37,8 +38,11 @@ public class Body implements IRetexturableModel
     private int nextVertexID = 0;
     protected boolean partOfGroup;
     public Bone root;
-    IPartTexturer texturer;
-    IAnimationChanger changer;
+
+    IRetexturableModel.Holder<IAnimationChanger> animChangeHolder = new IRetexturableModel.Holder<>();
+    IRetexturableModel.Holder<IAnimationHolder> animHolderHolder = new IRetexturableModel.Holder<>();
+    IRetexturableModel.Holder<IPartTexturer> texChangeHolder = new IRetexturableModel.Holder<>();
+
     private final double[] uvShift =
     { 0, 0 };
 
@@ -277,10 +281,11 @@ public class Body implements IRetexturableModel
             if ((material = entry.getKey()) != null)
             {
                 final String tex = material.name;
-                if (this.texturer != null)
+                var texer = texChangeHolder.get();
+                if (texer != null)
                 {
-                    this.texturer.shiftUVs(tex, this.uvShift);
-                    this.texturer.shiftUVs(tex, this.uvShift);
+                    texer.shiftUVs(tex, this.uvShift);
+                    texer.shiftUVs(tex, this.uvShift);
                 }
                 this.render(mat, material.preRender(mat, buffer), material.rgbabro, entry, !material.flat);
                 this.uvShift[0] = this.uvShift[1] = 0;
@@ -302,18 +307,6 @@ public class Body implements IRetexturableModel
     public void setAnimation(final Animation anim)
     {
         this.currentAnim = anim;
-    }
-
-    @Override
-    public void setAnimationChangerRaw(IAnimationChanger changer)
-    {
-        this.changer = changer;
-    }
-
-    @Override
-    public void setTexturerRaw(IPartTexturer texturer)
-    {
-        this.texturer = texturer;
     }
 
     private void updateBone(final String line, final int lineCount)
@@ -347,5 +340,29 @@ public class Body implements IRetexturableModel
             final float weight = weights[i] / sum;
             this.bones.get(boneID).addVertex(vert, weight);
         }
+    }
+
+    @Override
+    public Holder<IAnimationChanger> getAnimationChanger()
+    {
+        return this.animChangeHolder;
+    }
+
+    @Override
+    public void setAnimationChanger(Holder<IAnimationChanger> input)
+    {
+        this.animChangeHolder = input;
+    }
+
+    @Override
+    public Holder<IPartTexturer> getTexturerChanger()
+    {
+        return this.texChangeHolder;
+    }
+
+    @Override
+    public void setTexturerChanger(Holder<IPartTexturer> input)
+    {
+        this.texChangeHolder = input;
     }
 }

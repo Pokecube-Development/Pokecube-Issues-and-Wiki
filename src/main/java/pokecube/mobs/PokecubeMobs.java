@@ -6,10 +6,8 @@ import java.util.Random;
 import com.google.common.collect.Maps;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -29,7 +27,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.init.InitDatabase;
 import pokecube.api.events.init.RegisterMiscItems;
@@ -37,8 +34,6 @@ import pokecube.api.events.init.RegisterPokecubes;
 import pokecube.api.events.init.RegisterPokemobsEvent;
 import pokecube.api.events.pokemobs.CaptureEvent.Post;
 import pokecube.api.events.pokemobs.CaptureEvent.Pre;
-import pokecube.api.events.pokemobs.EvolveEvent;
-import pokecube.api.items.IPokecube;
 import pokecube.api.items.IPokecube.DefaultPokecubeBehaviour;
 import pokecube.api.items.IPokecube.NormalPokecubeBehaviour;
 import pokecube.api.items.IPokecube.PokecubeBehaviour;
@@ -51,7 +46,6 @@ import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.database.Database;
 import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.eventhandlers.EventsHandler;
-import pokecube.core.eventhandlers.StatsCollector;
 import pokecube.core.init.ItemGenerator;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.megastuff.ItemMegawearable;
@@ -96,19 +90,6 @@ public class PokecubeMobs
     }
 
     @SubscribeEvent
-    public void evolveTyrogue(final EvolveEvent.Pre evt)
-    {
-        if (evt.mob.getPokedexEntry() == Database.getEntry("Tyrogue"))
-        {
-            final int atk = evt.mob.getStat(Stats.ATTACK, false);
-            final int def = evt.mob.getStat(Stats.DEFENSE, false);
-            if (atk > def) evt.forme = Database.getEntry("Hitmonlee");
-            else if (def > atk) evt.forme = Database.getEntry("Hitmonchan");
-            else evt.forme = Database.getEntry("Hitmontop");
-        }
-    }
-
-    @SubscribeEvent
     public void livingUpdate(final LivingTickEvent evt)
     {
         final IPokemob shuckle = PokemobCaps.getPokemobFor(evt.getEntity());
@@ -145,58 +126,6 @@ public class PokecubeMobs
                 }
                 shuckle.setHeldItem(candy);
                 return;
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public void makeShedinja(final EvolveEvent.Post evt)
-    {
-        if (evt.mob.getOwner() instanceof ServerPlayer player) this.makeShedinja(evt.mob, player);
-    }
-
-    void makeShedinja(final IPokemob evo, final Player player)
-    {
-        if (evo.getPokedexEntry() == Database.getEntry("ninjask"))
-        {
-            final Inventory inv = player.getInventory();
-            boolean hasCube = false;
-            boolean hasSpace = false;
-            ItemStack cube = ItemStack.EMPTY;
-            int m = -1;
-            for (int n = 0; n < inv.getContainerSize(); n++)
-            {
-                final ItemStack item = inv.getItem(n);
-                if (item == ItemStack.EMPTY) hasSpace = true;
-                final ResourceLocation key = PokecubeItems.getCubeId(item);
-                if (!hasCube && key != null && IPokecube.PokecubeBehaviour.BEHAVIORS.containsKey(key)
-                        && !PokecubeManager.isFilled(item))
-                {
-                    hasCube = true;
-                    cube = item;
-                    m = n;
-                }
-                if (hasCube && hasSpace) break;
-
-            }
-            if (hasCube && hasSpace)
-            {
-                final Entity pokemon = PokecubeCore.createPokemob(Database.getEntry("shedinja"), player.getLevel());
-                if (pokemon != null)
-                {
-                    final ItemStack mobCube = cube.copy();
-                    mobCube.setCount(1);
-                    final IPokemob poke = PokemobCaps.getPokemobFor(pokemon);
-                    poke.setPokecube(mobCube);
-                    poke.setOwner(player);
-                    poke.setExp(Tools.levelToXp(poke.getExperienceMode(), 20), true);
-                    poke.getEntity().setHealth(poke.getEntity().getMaxHealth());
-                    final ItemStack shedinja = PokecubeManager.pokemobToItem(poke);
-                    StatsCollector.addCapture(poke);
-                    cube.shrink(1);
-                    if (cube.isEmpty()) inv.setItem(m, ItemStack.EMPTY);
-                    inv.add(shedinja);
-                }
             }
         }
     }

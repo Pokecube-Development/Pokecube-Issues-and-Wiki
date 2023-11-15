@@ -194,13 +194,5 @@
       "lash-out"
     ]
   },
-  "spawn_rules": [
-    {
-      "values": {
-        "structures": "pokecube_legends:yveltal_place",
-        "rate": "0.0"
-      }
-    }
-  ],
   "loot_table": "pokecube:entities/generic_legend"
 }

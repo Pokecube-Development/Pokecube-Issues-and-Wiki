@@ -162,8 +162,7 @@ public class AITools
     public static Predicate<IPokemob> shouldAgroNearestPlayer = new AgroCheck();
 
     /**
-     * Checks to see if the wild pokemob should try to agro the nearest visible
-     * player.
+     * Checks to see if the damage source can affect pokemobs
      */
     public static Predicate<DamageSource> validToHitPokemob = new ValidDamageToPokemob();
 

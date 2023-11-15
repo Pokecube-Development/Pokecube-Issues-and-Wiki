@@ -30,14 +30,17 @@ public class SpawnCheck
     {
         SUN, CLOUD, RAIN, SNOW, NONE;
 
-        public static Weather getForWorld(final Level world, final Vector3 location)
+        public static Weather getForWorld(final Level world, final Vector3 location, boolean onlyOutside)
         {
             final boolean globalRain = world.isRaining();
             final BlockPos position = location.getPos();
-            boolean outside = world.canSeeSky(position);
-            outside = outside
-                    && position.getY() + 1 > world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, position).getY();
-            if (!outside) return NONE;
+            if (onlyOutside)
+            {
+                boolean outside = world.canSeeSky(position);
+                outside = outside && position.getY() + 1 > world
+                        .getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, position).getY();
+                if (!outside) return NONE;
+            }
             if (globalRain)
             {
                 final Biome.Precipitation type = world.getBiome(position).value().getPrecipitation();
@@ -81,7 +84,10 @@ public class SpawnCheck
     public final BlockState blockState;
     public final FluidState fluid;
     public final BiomeType type;
+    // This weather can be "NONE" if the location is not outside
     public final Weather weather;
+    // This weather shouldn't ever be "NONE"
+    public final Weather outsideWeather;
     public final TerrainType terrain;
     public final boolean thundering;
     public final LevelAccessor world;
@@ -109,7 +115,8 @@ public class SpawnCheck
         this.fluid = world.getFluidState(location.getPos());
         final int lightBlock = world.getMaxLocalRawBrightness(location.getPos());
         this.light = lightBlock / 15f;
-        this.weather = Weather.getForWorld(level, location);
+        this.weather = Weather.getForWorld(level, location, true);
+        this.outsideWeather = weather == Weather.NONE ? Weather.getForWorld(level, location, false) : weather;
         this.thundering = this.weather == Weather.RAIN && level.isThundering();
         this.day = PokedexEntry.day.contains(time);
         this.dusk = PokedexEntry.dusk.contains(time);

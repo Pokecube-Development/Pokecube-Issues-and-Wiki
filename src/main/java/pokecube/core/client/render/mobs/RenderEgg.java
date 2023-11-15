@@ -107,12 +107,7 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
 
     private final HashMap<String, List<Animation>> anims = Maps.newHashMap();
 
-    private IAnimationChanger changer = new EggColourer();
-    private IPartTexturer texer = null;
-
     private final Vector3 scale = new Vector3();
-
-    IAnimationHolder animHolder = new CapabilityAnimation.DefaultImpl();
 
     public RenderEgg(final EntityRendererProvider.Context manager)
     {
@@ -124,10 +119,10 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     {
         final ModelHolder holder = new ModelHolder(RenderEgg.MODEL, RenderEgg.TEXTURE, RenderEgg.ANIM, "pokemob_egg");
         final ModelWrapper<EntityPokemobEgg> model = new ModelWrapper<>(holder, this);
-        model.imodel = ModelFactory.create(holder, m -> {
-            model.imodel = m;
+        model.setModel(ModelFactory.create(holder, m -> {
+            model.setModel(m);
             AnimationLoader.parse(model.model, model, this);
-        });
+        }));
         return model;
     }
 
@@ -175,21 +170,9 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     }
 
     @Override
-    public IAnimationChanger getAnimationChanger()
-    {
-        return this.changer;
-    }
-
-    @Override
     public Map<String, List<Animation>> getAnimations()
     {
         return this.anims;
-    }
-
-    @Override
-    public IPartTexturer getTexturer()
-    {
-        return this.texer;
     }
 
     @Override
@@ -213,12 +196,6 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     }
 
     @Override
-    public void setAnimationChanger(final IAnimationChanger changer)
-    {
-        this.changer = changer;
-    }
-
-    @Override
     public void setRotationOffset(final Vector3 offset)
     {}
 
@@ -229,32 +206,62 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     }
 
     @Override
-    public void setTexturer(final IPartTexturer texturer)
-    {
-        this.texer = texturer;
-    }
-
-    @Override
     public void updateModel(final Map<String, List<Vector5>> phaseList, final ModelHolder model)
     {
 
     }
 
     @Override
+    public HeadInfo getHeadInfo()
+    {
+        return HeadInfo.DUMMY;
+    }
+
+    @Override
+    public void setAnimationChanger(final IAnimationChanger changer)
+    {
+        this.getModel().animChangeHolder.set(changer);
+    }
+
+    @Override
+    public IAnimationChanger getAnimationChanger()
+    {
+        var changer = this.getModel().animChangeHolder.get();
+        if (changer == null)
+        {
+            changer = new EggColourer();
+            this.setAnimationChanger(changer);
+        }
+        return changer;
+    }
+
+    @Override
+    public void setTexturer(final IPartTexturer texturer)
+    {
+        this.getModel().texChangeHolder.set(texturer);
+    }
+
+    @Override
+    public IPartTexturer getTexturer()
+    {
+        return this.getModel().texChangeHolder.get();
+    }
+
+    @Override
     public void setAnimationHolder(final IAnimationHolder holder)
     {
-        this.animHolder = holder;
+        this.getModel().setAnimationHolder(holder);
     }
 
     @Override
     public IAnimationHolder getAnimationHolder()
     {
-        return this.animHolder;
-    }
-
-    @Override
-    public HeadInfo getHeadInfo()
-    {
-        return HeadInfo.DUMMY;
+        var holder = this.getModel().animHolderHolder.get();
+        if (holder == null)
+        {
+            holder = new CapabilityAnimation.DefaultImpl();
+            this.setAnimationHolder(holder);
+        }
+        return holder;
     }
 }

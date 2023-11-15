@@ -3,6 +3,7 @@ package thut.bling;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
@@ -13,8 +14,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -30,6 +33,15 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.InvWrapper;
+import thut.api.ThutCaps;
+import thut.bling.bag.small.SmallInventory;
+import thut.bling.bag.small.SmallManager;
 import thut.bling.client.BlingitemRenderer;
 import thut.bling.client.ClientSetupHandler;
 import thut.bling.network.PacketBag;
@@ -68,10 +80,46 @@ public class BlingItem extends Item implements IWearable, DyeableLeatherItem
         {
             ThutBling.ITEMS.register("bling_" + s, () -> new BlingItem(s, BlingItem.wearables.get(s)));
         }
+        ThutCore.FORGE_BUS.addGenericListener(ItemStack.class, BlingItem::onItemCaps);
+    }
+
+    private static void onItemCaps(final AttachCapabilitiesEvent<ItemStack> event)
+    {
+        if (event.getObject().getItem() instanceof BlingItem bling && bling.localInventory)
+        {
+            var stack = event.getObject();
+            ICapabilityProvider provider = new ICapabilityProvider()
+            {
+                final LazyOptional<IItemHandler> holder = LazyOptional.of(() -> this.getWrapped());
+
+                private InvWrapper wrapped = null;
+
+                protected IItemHandler getWrapped()
+                {
+                    if (wrapped != null) return wrapped;
+                    UUID id = UUID.randomUUID();
+                    if (!stack.hasTag()) stack.setTag(new CompoundTag());
+                    final CompoundTag tag = stack.getTag();
+                    if (tag.hasUUID("bag_id")) id = tag.getUUID("bag_id");
+                    else tag.putUUID("bag_id", id);
+                    final SmallInventory inv = SmallManager.INSTANCE.get(id);
+                    wrapped = new InvWrapper(inv);
+                    return wrapped;
+                }
+
+                @Override
+                public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side)
+                {
+                    return ThutCaps.ITEM_HANDLER.orEmpty(cap, holder);
+                }
+            };
+            event.addCapability(new ResourceLocation(ThutBling.MODID, "bag_inventory"), provider);
+        }
     }
 
     public final String name;
     private final EnumWearable slot;
+    private boolean localInventory = false;
 
     public BlingItem(final String name, final EnumWearable slot)
     {
@@ -80,6 +128,7 @@ public class BlingItem extends Item implements IWearable, DyeableLeatherItem
         this.slot = slot;
         BlingItem.defaults.put(this, slot);
         BlingItem.bling.add(this);
+        localInventory = name.equals("bag");
     }
 
     @Override

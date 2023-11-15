@@ -158,13 +158,5 @@
       "tera-blast"
     ]
   },
-  "spawn_rules": [
-    {
-      "values": {
-        "structures": "pokecube_legends:regidrago_temple",
-        "rate": "0.0"
-      }
-    }
-  ],
   "loot_table": "pokecube:entities/enderpearls_1"
 }

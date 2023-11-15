@@ -57,11 +57,13 @@ public final class PacketAssembly<T extends BigPacket>
 
     public void sendTo(final T packet, final ServerPlayer player)
     {
+        if (player == null) return;
         this.sendTo(packet, PacketDistributor.PLAYER.with(() -> player));
     }
 
     public void sendToTracking(final T message, final Entity entity)
     {
+        if (entity == null) return;
         this.sendTo(message, PacketDistributor.TRACKING_ENTITY.with(() -> entity));
     }
 

@@ -221,16 +221,5 @@
       "anim": "unown"
     }
   ],
-  "spawn_rules": [
-    {
-      "values": {
-        "types": "#pokecube_legends:can_spawn/unown",
-        "rate": "0.3"
-      },
-      "model": {
-        "key": "unown_*"
-      }
-    }
-  ],
   "loot_table": "pokecube:entities/enderpearls_1"
 }
