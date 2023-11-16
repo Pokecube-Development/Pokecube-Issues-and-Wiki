@@ -142,34 +142,13 @@ public class BuilderManager
                 PokecubeAPI.LOGGER.error(e);
             }
 
-            var args = offset.contains(",") ? offset.split(",") : offset.split(" ");
-            int dx = 0;
-            int dy = 0;
-            int dz = 0;
-
-            if (args.length == 1)
-            {
-                dy = Integer.parseInt(args[0]);
-            }
-            else if (args.length == 3)
-            {
-                dx = Integer.parseInt(args[0]);
-                dy = Integer.parseInt(args[1]);
-                dz = Integer.parseInt(args[2]);
-            }
-
-            shift = new BlockPos(dx, dy, dz);
+            var tmp = BookInstructionsParser.blockPosFromInstruction(offset);
+            if (tmp != null) shift = tmp;
 
             if (!_origin.isBlank())
             {
-                args = _origin.contains(",") ? _origin.split(",") : _origin.split(" ");
-                if (args.length == 3)
-                {
-                    dx = Integer.parseInt(args[0]);
-                    dy = Integer.parseInt(args[1]);
-                    dz = Integer.parseInt(args[2]);
-                    origin = new BlockPos(dx, dy, dz);
-                }
+                tmp = BookInstructionsParser.blockPosFromInstruction(_origin);
+                if (tmp != null) origin = tmp;
             }
 
             if (toMake != null)
