@@ -47,6 +47,7 @@ import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
 import pokecube.world.gen.structures.processors.MarkerToAirProcessor;
 import thut.api.util.JsonUtil;
 import thut.api.world.StructureTemplateTools;
+import thut.api.world.StructureTemplateTools.PlaceContext;
 import thut.lib.TComponent;
 
 public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksBuilder, IBlocksClearer
@@ -114,6 +115,8 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
     protected StructureTemplate _loaded;
 
     public ResourceLocation toMake;
+
+    private PlaceContext placement;
 
     private CompoundTag _source_tag;
     private BlockPos origin;
@@ -567,13 +570,8 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
                 markBuilt(info.pos);
                 break;
             case YES:
-                // We do not use the "recommended" rotate function, as that is
-                // for blocks already in world. Using it prevents pistons from
-                // rotating properly!
-                @SuppressWarnings("deprecation")
-                BlockState placeState = info.state.rotate(settings.getRotation());// .mirror(settings.getMirror())
                 BlockState old = level.getBlockState(info.pos);
-                boolean same = old.isAir() & placeState.isAir();
+                boolean same = old.isAir() & info.state.isAir();
                 placeOrder.remove(info);
                 markBuilt(info.pos);
                 if (same) break;
@@ -586,7 +584,7 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
                     inSlot.shrink(1);
                     itemSource.setStackInSlot(placement.itemSlot(), inSlot);
                 }
-                StructureTemplateTools.getPlacer(placeState).placeBlock(placeState, info.pos, level);
+                StructureTemplateTools.placeBlock(info, getPlacement());
                 break;
             default:
                 break;
@@ -666,5 +664,14 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
     public void setCreative(boolean creative)
     {
         this.creative = creative;
+    }
+
+    private PlaceContext getPlacement()
+    {
+        if (placement == null || placement.creative() != this.isCreative())
+        {
+            placement = new PlaceContext(settings, level, creative);
+        }
+        return placement;
     }
 }
