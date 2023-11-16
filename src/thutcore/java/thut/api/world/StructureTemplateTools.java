@@ -8,6 +8,7 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Clearable;
 import net.minecraft.world.InteractionHand;
@@ -60,7 +61,14 @@ public class StructureTemplateTools
             Item item = state.getBlock().asItem();
             if (item != null)
             {
-                return new ItemStack(item);
+                ItemStack stack = new ItemStack(item);
+                if (info.nbt != null)
+                {
+                    CompoundTag tag = new CompoundTag();
+                    tag.put("BlockEntityTag", info.nbt);
+                    stack.setTag(tag);
+                }
+                return stack;
             }
             return ItemStack.EMPTY;
         }

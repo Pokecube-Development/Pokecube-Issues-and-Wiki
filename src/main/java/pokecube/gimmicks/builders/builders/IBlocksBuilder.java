@@ -1,5 +1,6 @@
 package pokecube.gimmicks.builders.builders;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -41,10 +42,16 @@ public interface IBlocksBuilder
      * Record holding suppliers and consumers for providing a Bill of Materials
      * (BoM) involved in our builder. BoMProvider() should return the itemstack
      * to populate with the BoM, and BoMConsumer() is used to provide the
-     * feedback.
+     * feedback. If not told to provide only needed, the entire list of items
+     * get put in neededStacks.
      */
-    public static record BoMRecord(Supplier<ItemStack> BoMProvider, Consumer<ItemStack> BoMConsumer)
+    public static record BoMRecord(Supplier<ItemStack> BoMProvider, Consumer<ItemStack> BoMConsumer,
+            List<ItemStack> neededStacks)
     {
+        public BoMRecord(Supplier<ItemStack> BoMProvider, Consumer<ItemStack> BoMConsumer)
+        {
+            this(BoMProvider, BoMConsumer, new ArrayList<>());
+        }
     }
 
     /**
@@ -80,8 +87,9 @@ public interface IBlocksBuilder
      * Provides feedback to the given {@link BoMRecord}
      * 
      * @param record
+     * @param onlyNeeded
      */
-    void provideBoM(BoMRecord record);
+    void provideBoM(BoMRecord record, boolean onlyNeeded);
 
     /**
      * checks status of the given {@link BoMRecord}. If the "Needed Items" of

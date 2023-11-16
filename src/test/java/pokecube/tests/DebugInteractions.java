@@ -17,16 +17,19 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.api.PokecubeAPI;
 import pokecube.gimmicks.builders.builders.BuilderManager;
 import pokecube.gimmicks.builders.builders.BuilderManager.BuildContext;
 import pokecube.gimmicks.builders.builders.IBlocksBuilder;
+import pokecube.gimmicks.builders.builders.IBlocksBuilder.BoMRecord;
 import pokecube.gimmicks.builders.builders.IBlocksBuilder.PlaceInfo;
 import pokecube.gimmicks.builders.builders.IBlocksClearer;
 import thut.api.ThutCaps;
@@ -34,6 +37,7 @@ import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.api.world.IWorldTickListener;
 import thut.api.world.WorldTickManager;
+import thut.bling.ThutBling;
 import thut.lib.TComponent;
 
 @Mod.EventBusSubscriber
@@ -93,6 +97,7 @@ public class DebugInteractions
                 || !(evt.getPlayer().getLevel() instanceof ServerLevel level))
             return;
         boolean isStructureMaker = evt.getItemStack().getDisplayName().getString().contains("structure_maker");
+        boolean isStructureBoM = evt.getItemStack().getDisplayName().getString().contains("structure_BoM");
 
         var te = level.getBlockEntity(evt.getPos());
 
@@ -100,7 +105,7 @@ public class DebugInteractions
         if (player.getPersistentData().getLong("__debug_interaction__") == tick) return;
         player.getPersistentData().putLong("__debug_interaction__", tick);
 
-        if (te instanceof ChestBlockEntity chest && isStructureMaker)
+        if (te instanceof ChestBlockEntity chest && (isStructureMaker || isStructureBoM))
         {
             IItemHandlerModifiable itemSource = (IItemHandlerModifiable) ThutCaps.getInventory(chest);
             BlockPos origin = evt.getPos();
@@ -111,8 +116,50 @@ public class DebugInteractions
                 {
                     var context = new BuildContext(level, origin);
                     var build = BuilderManager.fromInstructions(key, context);
-                    if (build != null) WorldTickManager.addWorldData(level.dimension(),
-                            new BuilderClearer(build.clearer(), build.builder()));
+                    if (build != null)
+                    {
+                        if (isStructureMaker)
+                        {
+                            WorldTickManager.addWorldData(level.dimension(),
+                                    new BuilderClearer(build.clearer(), build.builder()));
+                        }
+                        else
+                        {
+                            var BoM = new BoMRecord(() -> new ItemStack(Items.WRITTEN_BOOK),
+                                    _book -> itemSource.setStackInSlot(1, _book));
+                            build.builder().provideBoM(BoM, false);
+                            var items = BoM.neededStacks();
+                            var bagItem = ForgeRegistries.ITEMS
+                                    .getValue(new ResourceLocation(ThutBling.MODID, "bling_bag"));
+                            ItemStack bag = new ItemStack(bagItem);
+                            outer:
+                            while (!items.isEmpty())
+                            {
+                                IItemHandlerModifiable inventory = (IItemHandlerModifiable) ThutCaps.getInventory(bag);
+                                for (int i = 0; i < inventory.getSlots(); i++)
+                                {
+                                    if (items.isEmpty())
+                                    {
+                                        player.addItem(bag);
+                                        break outer;
+                                    }
+                                    var stack = items.get(0);
+                                    if (stack.getCount() > stack.getMaxStackSize())
+                                    {
+                                        var sub = stack.split(stack.getMaxStackSize());
+                                        inventory.setStackInSlot(i, sub);
+                                    }
+                                    else
+                                    {
+                                        inventory.setStackInSlot(i, stack);
+                                        items.remove(0);
+                                    }
+                                }
+                                player.addItem(bag);
+                                bag = new ItemStack(bagItem);
+                            }
+                        }
+                    }
                 }
                 catch (Exception e)
                 {

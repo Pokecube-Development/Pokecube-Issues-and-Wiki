@@ -113,7 +113,7 @@ public class DoBuild extends UtilTask
         if (this.builder != null)
         {
             builder.update(level);
-            builder.provideBoM(this.BoM);
+            builder.provideBoM(this.BoM, true);
             hasInstructions = true;
             builder.setCreative(pokemob.getOwner() instanceof ServerPlayer player && player.isCreative());
             if (!builder.validBuilder()) reset();
@@ -301,7 +301,7 @@ public class DoBuild extends UtilTask
             if (requested.size() > 0)
             {
                 // need item, request it.
-                builder.provideBoM(this.BoM);
+                builder.provideBoM(this.BoM, true);
                 if (entity.tickCount % 10 == 0)
                 {
                     double size = 0.1;
