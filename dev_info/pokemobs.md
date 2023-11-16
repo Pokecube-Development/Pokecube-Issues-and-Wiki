@@ -55,7 +55,13 @@ These are arranged into three groupings:
     - [UseMoveTask](../src/main/java/pokecube/core/ai/tasks/utility/UseMoveTask.java)
     - [ForgetHuntedByTask](../src/main/java/pokecube/core/ai/tasks/idle/ForgetHuntedByTask.java)
 
-And can be modified via the `InitAIEvent.Init` events which are fired when the lists are populated
+### Adding/Modifying AI
+
+The `InitAIEvent.Init` events are fired when the above lists are populated. This can be used to add to or modify the lists, if using the `IAIRunnable` type of task. An example of this usage can be found via the [Structure Builder Gimmick](../src/main/java/pokecube/gimmicks/builders/BuilderTasks.java), which adds 2 tasks to the `UTILITY` tasks list.
+
+AI tasks can also be set to be automatically added by registering a [ITaskAdder](../src/main/java/pokecube/api/ai/ITaskAdder.java) with [TaskAdders.register](../src/main/java/pokecube/api/ai/TaskAdders.java). An example of this can be found via the [Ant Nest Gimmick](../src/main/java/pokecube/gimmicks/nests/tasks/ants/AntTasks.java), where it adds a variety of sensors, memories and tasks. This method allows adding any arbitrary task type, rather than just `IAIRunnable`.
+
+### Additional Tick Logic
 
 There is then an additional list of `Logic` objects, obtainable via `IPokemob.getTickLogic()`
 

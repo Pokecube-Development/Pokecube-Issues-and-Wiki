@@ -40,8 +40,9 @@ public class BuilderTasks
         StoreTask storage = task instanceof StoreTask store ? store : null;
         if (storage == null) return;
         IPokemob pokemob = event.getPokemob();
-        // Gather things from ground
+        // Add manager for building
         event.add(new ManageBuild(pokemob, storage));
+        // Add worker for building
         event.add(new DoBuild(pokemob, storage));
     }
 }
