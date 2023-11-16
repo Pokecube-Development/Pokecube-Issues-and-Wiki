@@ -22,3 +22,6 @@ These files are general descriptions of the code/data structures used in Pokecub
     -   [Pokemob tags](custom_tags.md#pokemob-tags)
 -   [Instructions Books](instructions_books.md) - Information about formatting for instructions books
 -   [Gimmicks](gimmicks.md) - Information about additional gimmicks, examples of API use.
+-   [Commands](commands.md) - Information about commands and related events
+    -   [/pokemake](commands.md#pokemake)
+    -   [/pokecube kill](commands.md#pokecube-kill)
