@@ -9,13 +9,10 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import com.google.common.base.Predicates;
-import com.google.gson.JsonObject;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -32,6 +29,7 @@ import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplie
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
 import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.utils.BookInstructionsParser;
 import pokecube.gimmicks.builders.builders.events.BuilderInstructionsEvent;
 import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration;
 import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration.AvoidanceSettings;
@@ -39,7 +37,6 @@ import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration.Clearan
 import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration.YSettings;
 import pokecube.world.gen.structures.pieces.ExpandedPoolElementStructurePiece;
 import pokecube.world.gen.structures.utils.ExpandedJigsawPacement;
-import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 
 public class BuilderManager
@@ -104,7 +101,7 @@ public class BuilderManager
             ResourceLocation toMake = null;
             BlockPos shift = new BlockPos(0, 0, 0);
 
-            String type = lines.get(0).replace("t:", "").strip();
+            String type = lines.get(0).replace("build:", "").strip();
 
             if (!(type.equals("jigsaw") || type.equals("building"))) return null;
 
@@ -212,10 +209,6 @@ public class BuilderManager
                         var jigsaw = new JigsawBuilder(structurepiecesbuilder, shift, level);
                         return new BuilderClearer(jigsaw, jigsaw, "jigsaw");
                     }
-                    else
-                    {
-                        System.out.println("Jigsaw failed to generate!");
-                    }
                 }
             }
 
@@ -264,40 +257,20 @@ public class BuilderManager
     public static BuilderClearer fromInstructions(ItemStack source, BuildContext context)
     {
         defaultInit();
-
-        if (source.hasTag() && source.getOrCreateTag().get("pages") instanceof ListTag list && !list.isEmpty())
+        List<String> instructions = BookInstructionsParser.getInstructions(source, "build");
+        try
         {
-            List<String> instructions = new ArrayList<>();
-            list.forEach(tag -> {
-                if (tag instanceof StringTag entry)
-                {
-                    String string = entry.getAsString();
-                    if (!string.startsWith("{")) string = "{\"text\":\"" + string + "\"}";
-                    var parsed = JsonUtil.gson.fromJson(string, JsonObject.class);
-                    String[] lines = parsed.get("text").getAsString().strip().split("\n");
-                    for (String s : lines)
-                    {
-                        s = s.strip();
-                        if (s.isBlank()) continue;
-                        instructions.add(s);
-                    }
-                }
-            });
-
-            try
-            {
-                if (instructions.isEmpty()) return null;
-                String type = instructions.get(0).replace("t:", "").strip();
-                BuilderClearer initial = null;
-                if (providers.containsKey(type)) initial = providers.get(type).apply(instructions, context);
-                var event = new BuilderInstructionsEvent(instructions, initial);
-                ThutCore.FORGE_BUS.post(event);
-                return event.getResults();
-            }
-            catch (Exception e)
-            {
-                PokecubeAPI.LOGGER.error("Error loading building instructions", e);
-            }
+            if (instructions.isEmpty()) return null;
+            String type = instructions.get(0).replace("build:", "").strip();
+            BuilderClearer initial = null;
+            if (providers.containsKey(type)) initial = providers.get(type).apply(instructions, context);
+            var event = new BuilderInstructionsEvent(instructions, initial);
+            ThutCore.FORGE_BUS.post(event);
+            return event.getResults();
+        }
+        catch (Exception e)
+        {
+            PokecubeAPI.LOGGER.error("Error loading building instructions", e);
         }
         return null;
     }
