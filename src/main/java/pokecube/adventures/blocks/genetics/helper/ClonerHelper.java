@@ -1,5 +1,6 @@
 package pokecube.adventures.blocks.genetics.helper;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -8,9 +9,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -20,6 +19,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.events.GeneEditEvent;
 import pokecube.api.events.GeneEditEvent.EditType;
+import pokecube.api.utils.BookInstructionsParser;
 import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.entity.genetics.GeneticsManager;
@@ -113,25 +113,20 @@ public class ClonerHelper
     {
         final Set<Class<? extends Gene<?>>> ret = Sets.newHashSet();
         if (stack.isEmpty() || !stack.hasTag()) return ret;
-        if (stack.getTag().contains("pages") && stack.getTag().get("pages") instanceof ListTag pages)
+        List<String> instructions = BookInstructionsParser.getInstructions(stack, "genes");
+        for (String line : instructions)
         {
+            if (line.equalsIgnoreCase("ALL"))
+            {
+                ret.addAll(GeneRegistry.getGenes());
+                break;
+            }
             try
             {
-                String string = pages.getString(0);
-                if (!string.startsWith("{")) string = "{\"text\":\"" + string + "\"}";
-                final Component comp = Component.Serializer.fromJson(string);
-                for (final String line : comp.getString().split("\n"))
-                {
-                    if (line.equalsIgnoreCase("ALL"))
-                    {
-                        ret.addAll(GeneRegistry.getGenes());
-                        break;
-                    }
-                    final Class<? extends Gene<?>> geneClass = ClonerHelper.getGene(line);
-                    if (geneClass != null) ret.add(geneClass);
-                }
+                final Class<? extends Gene<?>> geneClass = ClonerHelper.getGene(line);
+                if (geneClass != null) ret.add(geneClass);
             }
-            catch (final Exception e)
+            catch (Exception e)
             {
                 if (PokecubeCore.getConfig().debug_misc)
                     PokecubeAPI.LOGGER.warn("Error locating selectors for " + stack + " " + stack.getTag(), e);
@@ -143,23 +138,12 @@ public class ClonerHelper
     public static int getIndex(final ItemStack stack)
     {
         if (stack.isEmpty() || !stack.hasTag()) return -1;
-        if (stack.getTag().contains("pages") && stack.getTag().get("pages") instanceof ListTag pages)
+        List<String> instructions = BookInstructionsParser.getInstructions(stack, "genes");
+        for (String line : instructions)
         {
-            try
-            {
-                final Component comp = Component.Serializer.fromJson(pages.getString(0));
-                for (final String line : comp.getString().split("\n"))
-                {
-                    if (line.equalsIgnoreCase("ALL")) return -1;
-                    final String[] args = line.split("#");
-                    if (args.length == 2) return Integer.parseInt(args[1]);
-                }
-            }
-            catch (final Exception e)
-            {
-                if (PokecubeCore.getConfig().debug_misc)
-                    PokecubeAPI.LOGGER.warn("Error checking index for " + stack + " " + stack.getTag(), e);
-            }
+            if (line.equalsIgnoreCase("ALL")) return -1;
+            final String[] args = line.split("#");
+            if (args.length == 2) return Integer.parseInt(args[1]);
         }
         return -1;
     }
