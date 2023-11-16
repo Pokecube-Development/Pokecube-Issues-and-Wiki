@@ -50,6 +50,10 @@ import thut.api.world.StructureTemplateTools;
 import thut.api.world.StructureTemplateTools.PlaceContext;
 import thut.lib.TComponent;
 
+/**
+ * This {@link IBlocksBuilder} and {@link IBlocksClearer} handles constructing a
+ * building based on a defined {@link StructureTemplate}.
+ */
 public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksBuilder, IBlocksClearer
 {
 
@@ -124,13 +128,41 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
     private Rotation rotation;
     private Mirror mirror;
 
+    /**
+     * Map of y-coordinate -> list of blocks to place/remove
+     */
     private Map<Integer, List<StructureBlockInfo>> removeOrder = new HashMap<>();
+    /**
+     * Sorted list of keys for {@link #removeOrder}
+     */
     private List<Integer> ys = new ArrayList<>();
+    /**
+     * List of blocks to place, in the order that the {@link StructureTemplate}
+     * defines. This order ensures proper placement of torches, redstone wire,
+     * etc.
+     */
     private List<StructureBlockInfo> placeOrder = new ArrayList<>();
+    /**
+     * Map of location - itemstack needed to place at that location. The values
+     * in this map are not unique.
+     */
     private Map<BlockPos, ItemStack> neededItems = Maps.newHashMap();
+    /**
+     * A sorted list of the values from {@link #neededItems}, sorted with
+     * largest amount needed first. This is what gets printed in the BoM.
+     */
     private List<ItemStack> sortedNeededItems = new ArrayList<>();
 
+    /**
+     * Set of items we don't have to place, by index in
+     * {@link #sortedNeededItems}
+     */
     private BitSet missingItems = new BitSet();
+    /**
+     * Set of items we explicitly ignore for placement, set in
+     * {@link #checkBoM(pokecube.gimmicks.builders.builders.IBlocksBuilder.BoMRecord)},
+     * and by index in {@link #sortedNeededItems}
+     */
     private BitSet ignoredItems = new BitSet();
 
     private List<BoMRecord> BoMs = new ArrayList<>();
@@ -308,6 +340,13 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
         checkBlueprint(level);
     }
 
+    /**
+     * Here we ensure the {@link StructureTemplate} we are using is valid, and
+     * populate maps of location - {@link StructureBlockInfo} for
+     * removal/construction.
+     * 
+     * @param level
+     */
     public void checkBlueprint(ServerLevel level)
     {
         this.level = level;
@@ -356,8 +395,11 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
             sortedNeededItems.addAll(Sets.newHashSet(neededItems.values()));
             sortedNeededItems.sort((a, b) -> b.getCount() - a.getCount());
 
+            // Update the BoMs
             for (var BoM : BoMs) provideBoM(BoM);
 
+            // Now populate the map of removal positions to check. this is
+            // sorted by y value, to allow removal in the approprate order.
             for (var info : infos)
             {
                 if (info.state != null)
@@ -403,7 +445,7 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
     }
 
     @Override
-    public BlockPos nextRemoval(ServerLevel level)
+    public BlockPos nextRemoval()
     {
         for (int i = ys.size() - 1; i >= 0; i--)
         {
@@ -421,9 +463,9 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
     }
 
     @Override
-    public boolean tryClear(ServerLevel level, Consumer<ItemStack> dropHandler)
+    public boolean tryClear(Consumer<ItemStack> dropHandler)
     {
-        BlockPos pos = nextRemoval(level);
+        BlockPos pos = nextRemoval();
         if (pos == null) return true;
         BlockState state = level.getBlockState(pos);
         if (!creative)
@@ -448,10 +490,11 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
     }
 
     @Override
-    public PlaceInfo canPlace(StructureBlockInfo info, int index, IItemHandlerModifiable itemSource)
+    public PlaceInfo canPlace(StructureBlockInfo info, IItemHandlerModifiable itemSource)
     {
         if (info.state == null || info.state.isAir()) return new PlaceInfo(CanPlace.YES, info, -1);
 
+        int index = sortedNeededItems.indexOf(neededItems.get(info.pos));
         // If we are marked as to ignore this point. return no directly, this
         // skips the placement.
         if (index >= 0 && ignoredItems.get(index)) return new PlaceInfo(CanPlace.NO, info, -1);
@@ -488,7 +531,7 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
     }
 
     @Override
-    public PlaceInfo getNextPlacement(ServerLevel level, IItemHandlerModifiable itemSource)
+    public PlaceInfo getNextPlacement(IItemHandlerModifiable itemSource)
     {
         for (int i = 0; i < placeOrder.size(); i++)
         {
@@ -504,8 +547,7 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
             {
                 return new PlaceInfo(CanPlace.NO, info, -1);
             }
-            int index = sortedNeededItems.indexOf(neededItems.get(info.pos));
-            PlaceInfo canPlace = canPlace(info, index, itemSource);
+            PlaceInfo canPlace = canPlace(info, itemSource);
             if (canPlace.valid() == CanPlace.NO)
             {
                 return canPlace;
@@ -539,14 +581,14 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
             // Reset and check again
             this._template = null;
             this.checkBlueprint(level);
-            return getNextPlacement(level, itemSource);
+            return getNextPlacement(itemSource);
         }
         this.done = true;
         return null;
     }
 
     @Override
-    public boolean tryPlace(PlaceInfo placement, ServerLevel level, IItemHandlerModifiable itemSource)
+    public boolean tryPlace(PlaceInfo placement, IItemHandlerModifiable itemSource)
     {
         if (placement != null)
         {
@@ -556,8 +598,7 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
             // If placement has NEED_ITEM, and this is called anyway, re-check.
             if (type == CanPlace.NEED_ITEM || type == CanPlace.YES)
             {
-                int index = sortedNeededItems.indexOf(neededItems.get(info.pos));
-                placement = canPlace(info, index, itemSource);
+                placement = canPlace(info, itemSource);
                 type = placement.valid();
             }
 

@@ -8,6 +8,9 @@ import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.google.common.base.Predicates;
 
 import net.minecraft.core.BlockPos;
@@ -39,20 +42,54 @@ import pokecube.world.gen.structures.pieces.ExpandedPoolElementStructurePiece;
 import pokecube.world.gen.structures.utils.ExpandedJigsawPacement;
 import thut.core.common.ThutCore;
 
+/**
+ * This class manages organising IBlocksBuilder and IBlocksClearer, and
+ * generating them from instructions in books, as well as saving/loading of them
+ * to/from nbt.
+ */
 public class BuilderManager
 {
+    /**
+     * Record for holding the IBlocksBuilder, IBlocksClearer for a mob to work
+     * with. It also holds a String, saveKey, which is what is used to lookup
+     * the serializer/deserializer.
+     */
     public static record BuilderClearer(IBlocksBuilder builder, IBlocksClearer clearer, String saveKey)
     {
     }
 
+    /**
+     * Context for starting a build. It includes the involved server level, as
+     * well as the blockpos to consider origin for the build.
+     */
     public static record BuildContext(ServerLevel level, BlockPos origin)
     {
     }
 
+    /**
+     * Map of saveKey - generator for the BuilderClearer. The saveKey is looked
+     * up based on the instructions, as the text after build: in the
+     * instructions book.<br>
+     * <br>
+     * The List&ltString&gt is the instructions loaded from the book.
+     */
     public static Map<String, BiFunction<List<String>, BuildContext, BuilderClearer>> providers = new HashMap<>();
+    /**
+     * Map of saveKey - load function.
+     */
     public static Map<String, Function<CompoundTag, BuilderClearer>> loaders = new HashMap<>();
+    /**
+     * Map of saveKey - save function.
+     */
     public static Map<String, Function<BuilderClearer, CompoundTag>> savers = new HashMap<>();
 
+    /**
+     * Attempts to save the builder
+     * 
+     * @param build
+     * @return nbt containing the saved builder, or empty nbt if no saver.
+     */
+    @Nonnull
     public static CompoundTag save(BuilderClearer build)
     {
         CompoundTag nbt = new CompoundTag();
@@ -64,6 +101,13 @@ public class BuilderManager
         return nbt;
     }
 
+    /**
+     * Attemps to load a builder
+     * 
+     * @param nbt
+     * @return either the loaded builder or null
+     */
+    @Nullable
     public static BuilderClearer load(CompoundTag nbt)
     {
         String key = nbt.getString("K");
@@ -72,6 +116,14 @@ public class BuilderManager
         return load.apply(nbt);
     }
 
+    /**
+     * Default implementation of a saver, this can save any generic
+     * IBlocksBuilder (key of "b") and IBlocksClearer (key of "c") that also
+     * implement INBTSerializable <br>
+     * <br>
+     * In the case that they are the same object, it only saves it as the
+     * builder, and includes a boolean saved under the key "s"
+     */
     public static class DefaultSaver implements Function<BuilderClearer, CompoundTag>
     {
 
@@ -87,9 +139,12 @@ public class BuilderManager
 
     }
 
-    public static class DefaultParser implements BiFunction<List<String>, BuildContext, BuilderClearer>
+    /**
+     * Default parser for "jigsaw" and "building" keys, class is private as this
+     * is the hardcoded implementation.
+     */
+    private static class DefaultParser implements BiFunction<List<String>, BuildContext, BuilderClearer>
     {
-
         @Override
         public BuilderClearer apply(List<String> lines, BuildContext bcontext)
         {
@@ -193,9 +248,12 @@ public class BuilderManager
 
             return null;
         }
-
     }
 
+    /**
+     * Populates providers, savers and loaders with some defaults if they are
+     * empty.
+     */
     public static void defaultInit()
     {
         if (providers.isEmpty())
@@ -212,6 +270,8 @@ public class BuilderManager
         }
         if (loaders.isEmpty())
         {
+            // Our default loader assumes it was saved with the default saver,
+            // so if you edited the saver, ensure to change here too!
             loaders.put("jigsaw", (tag) -> {
                 if (tag.contains("b", Tag.TAG_COMPOUND))
                 {
@@ -233,6 +293,16 @@ public class BuilderManager
         }
     }
 
+    /**
+     * Attempts to generate a {@link BuilderClearer} from instructions found in
+     * the given itemstack.
+     * 
+     * @param source  - instructions to read
+     * @param context - context for the build
+     * @return generated {@link BuilderClearer} or null if not valid
+     *         instructions.
+     */
+    @Nullable
     public static BuilderClearer fromInstructions(ItemStack source, BuildContext context)
     {
         defaultInit();

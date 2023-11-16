@@ -73,10 +73,10 @@ public class DebugInteractions
             while (System.currentTimeMillis() < end)
             {
                 // Check if we need to remove invalid blocks, do that first.
-                if (!clearer.tryClear(level, (i) -> {})) continue;
+                if (!clearer.tryClear((i) -> {})) continue;
                 // Then check if we can place blocks.
-                PlaceInfo placement = builder.getNextPlacement(level, null);
-                if (!(ended = builder.tryPlace(placement, level, null))) continue;
+                PlaceInfo placement = builder.getNextPlacement(null);
+                if (!(ended = builder.tryPlace(placement, null))) continue;
                 if (ended) break;
             }
             if (builder.validBuilder()) return;

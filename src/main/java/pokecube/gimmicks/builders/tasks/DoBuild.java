@@ -123,7 +123,7 @@ public class DoBuild extends UtilTask
     private boolean blocksClear(ServerLevel level)
     {
         if (clearer == null) return true;
-        if (nextClear == null) nextClear = clearer.nextRemoval(level);
+        if (nextClear == null) nextClear = clearer.nextRemoval();
         boolean isClear = nextClear == null;
         pathTimeout--;
 
@@ -215,7 +215,7 @@ public class DoBuild extends UtilTask
         // spot.
         if (nextPlace == null)
         {
-            nextPlace = builder.getNextPlacement(level, storage.getTaskInventory());
+            nextPlace = builder.getNextPlacement(storage.getTaskInventory());
             if (nextPlace != null) builder.markPendingBuild(nextPlace.info().pos);
             else return false;
         }
@@ -361,7 +361,7 @@ public class DoBuild extends UtilTask
             findingSpot = false;
             if (checkSupplies(level))
             {
-                builder.tryPlace(nextPlace, level, storage.getTaskInventory());
+                builder.tryPlace(nextPlace, storage.getTaskInventory());
                 nextPlace = null;
             }
         }
