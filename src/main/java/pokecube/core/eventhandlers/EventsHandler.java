@@ -118,6 +118,7 @@ import thut.api.entity.ShearableCaps;
 import thut.api.entity.event.LevelEntityEvent;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.inventory.InvHelper.ItemCap;
+import thut.api.item.ItemList;
 import thut.api.level.terrain.BiomeType;
 import thut.api.level.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
@@ -221,6 +222,7 @@ public class EventsHandler
     public static final ResourceLocation ANTCAP = new ResourceLocation(PokecubeMod.ID, "ant");
     public static final ResourceLocation TEXTURECAP = new ResourceLocation(PokecubeMod.ID, "textured");
     public static final ResourceLocation INVENTORYCAP = new ResourceLocation(PokecubeMod.ID, "tile_inventory");
+    public static final ResourceLocation NOGENESTAG = new ResourceLocation(PokecubeMod.ID, "no_genetics");
 
     static double max = 0;
 
@@ -526,14 +528,14 @@ public class EventsHandler
             event.addCapability(EventsHandler.AFFECTEDCAP, affected);
         }
 
-        IMobGenetics _genes;
+        IMobGenetics _genes = null;
         if (event.getCapabilities().containsKey(GeneticsManager.POKECUBEGENETICS))
         {
             _genes = event.getCapabilities().get(GeneticsManager.POKECUBEGENETICS).getCapability(ThutCaps.GENETICS_CAP)
                     .orElse(null);
             if (_genes == null) throw new IllegalStateException("Genes null yet registered?");
         }
-        else
+        else if (!ItemList.is(NOGENESTAG, living))
         {
             final GeneticsProvider genes = new GeneticsProvider();
             _genes = genes.wrapped;
@@ -541,7 +543,7 @@ public class EventsHandler
         }
 
         if (event.getObject() instanceof EntityPokemob mob
-                && !event.getCapabilities().containsKey(EventsHandler.POKEMOBCAP))
+                && !event.getCapabilities().containsKey(EventsHandler.POKEMOBCAP) && _genes != null)
         {
             final DefaultPokemob pokemob = new DefaultPokemob(mob);
             final DataSync_Impl data = new DataSync_Impl();
