@@ -170,7 +170,7 @@ public class BuilderManager
             for (int i = 2; i < lines.size(); i++)
             {
                 String line = lines.get(i);
-                if (line.startsWith("p:")) offset = line.replace("p:", "").strip();
+                if (line.startsWith("s:")) offset = line.replace("s:", "").strip();
                 if (line.startsWith("r:")) rotation = line.replace("r:", "").strip();
                 if (line.startsWith("m:")) rotation = line.replace("m:", "").strip();
                 if (line.startsWith("d:")) jigsawDepth = Integer.parseInt(line.replace("d:", "").strip());
@@ -306,7 +306,7 @@ public class BuilderManager
     public static BuilderClearer fromInstructions(ItemStack source, BuildContext context)
     {
         defaultInit();
-        List<String> instructions = BookInstructionsParser.getInstructions(source, "build");
+        List<String> instructions = BookInstructionsParser.getInstructions(source, "build", true);
         try
         {
             if (instructions.isEmpty()) return null;

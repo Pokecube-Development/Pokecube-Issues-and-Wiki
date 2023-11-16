@@ -93,7 +93,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         {
             this.instructionsCache = stack;
             keys.clear();
-            List<String> instructions = BookInstructionsParser.getInstructions(stack, "item filters");
+            List<String> instructions = BookInstructionsParser.getInstructions(stack, "item filters", false);
             for (String line : instructions)
             {
                 try
