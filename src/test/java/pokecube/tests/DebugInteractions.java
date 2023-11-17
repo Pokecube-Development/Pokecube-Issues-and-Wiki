@@ -32,8 +32,11 @@ import pokecube.gimmicks.builders.builders.IBlocksBuilder;
 import pokecube.gimmicks.builders.builders.IBlocksBuilder.BoMRecord;
 import pokecube.gimmicks.builders.builders.IBlocksBuilder.PlaceInfo;
 import pokecube.gimmicks.builders.builders.IBlocksClearer;
+import pokecube.gimmicks.builders.builders.JigsawBuilder;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
+import thut.api.level.structures.NamedVolumes.INamedPart;
+import thut.api.level.structures.StructureManager;
 import thut.api.maths.Vector3;
 import thut.api.world.IWorldTickListener;
 import thut.api.world.WorldTickManager;
@@ -108,8 +111,27 @@ public class DebugInteractions
 
         if (isStructureCopier)
         {
-            var structs = level.structureFeatureManager().getAllStructuresAt(player.getOnPos());
-            System.out.println(structs);
+            var structs = StructureManager.getFor(level.dimension(), evt.getPos(), false);
+
+            for (var s : structs)
+            {
+                INamedPart inside = null;
+                for (var p : s.getParts())
+                {
+                    if (p.getBounds().isInside(evt.getPos()))
+                    {
+                        inside = p;
+                        break;
+                    }
+                }
+                if (inside != null)
+                {
+                    System.out.println(inside.getWrapped().getClass());
+                }
+                JigsawBuilder builder = new JigsawBuilder(level, s);
+                var build = new BuilderClearer(builder, builder);
+                WorldTickManager.addWorldData(level.dimension(), build);
+            }
         }
 
         if (te instanceof ChestBlockEntity chest && (isStructureMaker || isStructureBoM))
