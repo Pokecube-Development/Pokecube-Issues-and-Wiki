@@ -23,12 +23,15 @@ import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
  * This class is effectively a list of {@link StructureBuilder}, which is
  * initialised from the result of a jigsaw structure assembly. We also have the
  * functions for saving/loading the state of the structure, so that we do not
- * reset and randomise when world closes and re-opens.
+ * reset and randomise when world closes and re-opens.<br>
+ * <br>
+ * Our {@link IBlocksBuilder} and {@link IBlocksClearer} methods are forwarded
+ * to the appropriate entries in our list of {@link StructureBuilder}.
  *
  */
 public class JigsawBuilder implements INBTSerializable<CompoundTag>, IBlocksBuilder, IBlocksClearer
 {
-    private List<StructureBuilder> builders = new ArrayList<>();
+    public List<StructureBuilder> builders = new ArrayList<>();
     private ServerLevel level;
     private boolean creative = false;
 
@@ -102,19 +105,19 @@ public class JigsawBuilder implements INBTSerializable<CompoundTag>, IBlocksBuil
     }
 
     @Override
-    public boolean tryClear(ServerLevel level, Consumer<ItemStack> dropHandler)
+    public boolean tryClear(Consumer<ItemStack> dropHandler)
     {
         var next = next();
         if (next == null) return false;
-        return next.tryClear(level, dropHandler);
+        return next.tryClear(dropHandler);
     }
 
     @Override
-    public BlockPos nextRemoval(ServerLevel level)
+    public BlockPos nextRemoval()
     {
         var next = next();
         if (next == null) return null;
-        return next.nextRemoval(level);
+        return next.nextRemoval();
     }
 
     @Override
@@ -158,11 +161,18 @@ public class JigsawBuilder implements INBTSerializable<CompoundTag>, IBlocksBuil
     }
 
     @Override
-    public void provideBoM(BoMRecord record)
+    public void provideBoM(BoMRecord record, boolean onlyNeeded)
     {
-        var next = next();
-        if (next == null) return;
-        next.provideBoM(record);
+        if (onlyNeeded)
+        {
+            var next = next();
+            if (next == null) return;
+            next.provideBoM(record, onlyNeeded);
+        }
+        else
+        {
+
+        }
     }
 
     @Override
@@ -182,31 +192,32 @@ public class JigsawBuilder implements INBTSerializable<CompoundTag>, IBlocksBuil
     @Override
     public void update(ServerLevel level)
     {
+        this.level = level;
         for (var builder : this.builders) builder.update(level);
     }
 
     @Override
-    public boolean tryPlace(PlaceInfo placement, ServerLevel level, IItemHandlerModifiable itemSource)
+    public boolean tryPlace(PlaceInfo placement, IItemHandlerModifiable itemSource)
     {
         var next = next();
         if (next == null) return false;
-        return next.tryPlace(placement, level, itemSource);
+        return next.tryPlace(placement, itemSource);
     }
 
     @Override
-    public PlaceInfo getNextPlacement(ServerLevel level, IItemHandlerModifiable itemSource)
+    public PlaceInfo getNextPlacement(IItemHandlerModifiable itemSource)
     {
         var next = next();
         if (next == null) return null;
-        return next.getNextPlacement(level, itemSource);
+        return next.getNextPlacement(itemSource);
     }
 
     @Override
-    public PlaceInfo canPlace(StructureBlockInfo info, int index, IItemHandlerModifiable itemSource)
+    public PlaceInfo canPlace(StructureBlockInfo info, IItemHandlerModifiable itemSource)
     {
         var next = next();
         if (next == null) return null;
-        return next.canPlace(info, index, itemSource);
+        return next.canPlace(info, itemSource);
     }
 
     @Override

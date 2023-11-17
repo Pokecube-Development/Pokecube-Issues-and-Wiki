@@ -8,7 +8,9 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.Clearable;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -30,10 +32,16 @@ import net.minecraft.world.phys.Vec3;
 
 public class StructureTemplateTools
 {
+    public static record PlaceContext(StructurePlaceSettings settings, ServerLevel level, boolean creative)
+    {
+    }
+
     public static interface BlockPlacer
     {
-        default ItemStack getForBlock(BlockState state)
+        default ItemStack getForBlock(StructureBlockInfo info)
         {
+            var state = info.state;
+
             if (state == null) return ItemStack.EMPTY;
             if (state.hasProperty(BedBlock.PART) && state.getValue(BedBlock.PART) == BedPart.HEAD)
             {
@@ -53,14 +61,41 @@ public class StructureTemplateTools
             Item item = state.getBlock().asItem();
             if (item != null)
             {
-                return new ItemStack(item);
+                ItemStack stack = new ItemStack(item);
+                if (info.nbt != null)
+                {
+                    CompoundTag tag = new CompoundTag();
+                    tag.put("BlockEntityTag", info.nbt);
+                    stack.setTag(tag);
+                }
+                return stack;
             }
             return ItemStack.EMPTY;
         }
 
-        default void placeBlock(BlockState state, BlockPos pos, ServerLevel level)
+        default void placeBlock(StructureBlockInfo info, PlaceContext context)
         {
+            var pos = info.pos;
+            var tag = info.nbt;
+            var settings = context.settings();
+            var level = context.level();
+
+            // We do not use the "recommended" rotate function, as that is
+            // for blocks already in world. Using it prevents pistons from
+            // rotating properly!
+            @SuppressWarnings("deprecation")
+            var state = info.state.rotate(settings.getRotation()).mirror(settings.getMirror());
+
             level.setBlockAndUpdate(pos, state);
+
+            if (tag != null && context.creative())
+            {
+                var blockentity = level.getBlockEntity(pos);
+                Clearable.tryClear(blockentity);
+                // Load custom sign things.
+                if (blockentity != null) blockentity.load(tag);
+            }
+
             if (state.hasProperty(BedBlock.PART) && state.getValue(BedBlock.PART) == BedPart.FOOT)
             {
                 level.setBlockAndUpdate(pos.relative(state.getValue(BedBlock.FACING)),
@@ -93,9 +128,14 @@ public class StructureTemplateTools
         return placers.getOrDefault(toPlace.getBlock(), DEFAULT);
     }
 
+    public static void placeBlock(StructureBlockInfo info, PlaceContext context)
+    {
+        getPlacer(info.state).placeBlock(info, context);
+    }
+
     public static ItemStack getForInfo(StructureBlockInfo info)
     {
-        return getPlacer(info.state).getForBlock(info.state);
+        return getPlacer(info.state).getForBlock(info);
     }
 
     public static Map<BlockPos, ItemStack> getNeededMaterials(ServerLevel level, List<StructureBlockInfo> infos,
@@ -112,7 +152,7 @@ public class StructureTemplateTools
                 BlockPlacer placer = getPlacer(info.state);
                 BlockState old = level.getBlockState(info.pos);
                 if (old.getBlock() == info.state.getBlock()) continue;
-                ItemStack newStack = placer.getForBlock(info.state);
+                ItemStack newStack = placer.getForBlock(info);
                 if (!newStack.isEmpty())
                 {
                     Item item = newStack.getItem();

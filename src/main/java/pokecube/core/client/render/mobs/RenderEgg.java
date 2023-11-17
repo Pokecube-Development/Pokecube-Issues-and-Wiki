@@ -119,6 +119,7 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     {
         final ModelHolder holder = new ModelHolder(RenderEgg.MODEL, RenderEgg.TEXTURE, RenderEgg.ANIM, "pokemob_egg");
         final ModelWrapper<EntityPokemobEgg> model = new ModelWrapper<>(holder, this);
+        this.model = model;
         model.setModel(ModelFactory.create(holder, m -> {
             model.setModel(m);
             AnimationLoader.parse(model.model, model, this);

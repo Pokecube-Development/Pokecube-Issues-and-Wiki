@@ -307,6 +307,7 @@
     "pokemob.gui.ai.airborne.desc": "Enable flying/floating",
     "pokemob.gui.ai.usedoors.desc": "Enable opening doors",
     "pokemob.gui.ai.poofs.desc": "Enable returning to cube on fainting",
+    "pokemob.gui.ai.build.desc": "Enable building from instructions",
 
     "pokemob.gui.ai.gather": "Gather",
     "pokemob.gui.ai.beeai": "Bee AI",
@@ -320,6 +321,7 @@
     "pokemob.gui.ai.airborne": "Airborne",
     "pokemob.gui.ai.usedoors": "Doors",
     "pokemob.gui.ai.poofs": "Poofs",
+    "pokemob.gui.ai.build": "Builds",
 
     "pokemob.gui.storage.berry": "Berry inventory location",
     "pokemob.gui.storage.storage": "Item dropoff inventory location",

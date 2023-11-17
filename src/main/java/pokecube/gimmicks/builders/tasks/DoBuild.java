@@ -28,6 +28,7 @@ import pokecube.gimmicks.builders.builders.IBlocksBuilder.BoMRecord;
 import pokecube.gimmicks.builders.builders.IBlocksBuilder.PlaceInfo;
 import pokecube.gimmicks.builders.builders.IBlocksClearer;
 import pokecube.gimmicks.builders.builders.StructureBuilder;
+import thut.api.ThutCaps;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.lib.ItemStackTools;
@@ -113,7 +114,7 @@ public class DoBuild extends UtilTask
         if (this.builder != null)
         {
             builder.update(level);
-            builder.provideBoM(this.BoM);
+            builder.provideBoM(this.BoM, true);
             hasInstructions = true;
             builder.setCreative(pokemob.getOwner() instanceof ServerPlayer player && player.isCreative());
             if (!builder.validBuilder()) reset();
@@ -123,7 +124,7 @@ public class DoBuild extends UtilTask
     private boolean blocksClear(ServerLevel level)
     {
         if (clearer == null) return true;
-        if (nextClear == null) nextClear = clearer.nextRemoval(level);
+        if (nextClear == null) nextClear = clearer.nextRemoval();
         boolean isClear = nextClear == null;
         pathTimeout--;
 
@@ -208,6 +209,48 @@ public class DoBuild extends UtilTask
         return true;
     }
 
+    private void takeFromContainer(IItemHandlerModifiable container, List<ItemStack> requested, int minSlot,
+            int maxSlot, int depth)
+    {
+        if (requested.isEmpty()) return;
+        List<IItemHandlerModifiable> subs = new ArrayList<>();
+        for (int i = 0; i < container.getSlots(); i++)
+        {
+            ItemStack stack = container.getStackInSlot(i);
+            if (checkValid(stack, requested))
+            {
+                for (var stack2 : requested) if (ItemStack.isSame(stack, stack2))
+                {
+                    requested.remove(stack2);
+                    if (requested.isEmpty()) return;
+                    break;
+                }
+                if (stack.getCount() > 5)
+                {
+                    var split = stack.split(5);
+                    container.setStackInSlot(i, stack);
+                    ItemStackTools.addItemStackToInventory(split, storage.getTaskInventory(), minSlot, maxSlot);
+                }
+                else
+                {
+                    container.setStackInSlot(i, ItemStack.EMPTY);
+                    ItemStackTools.addItemStackToInventory(stack, storage.getTaskInventory(), minSlot, maxSlot);
+                }
+                continue;
+            }
+            var tmp = ThutCaps.getInventory(stack);
+            if (tmp instanceof IItemHandlerModifiable subContainer && depth == 0)
+            {
+                subs.add(subContainer);
+            }
+        }
+        for (var subContainer : subs)
+        {
+            takeFromContainer(subContainer, requested, minSlot, maxSlot, depth + 1);
+            if (requested.isEmpty()) return;
+        }
+    }
+
     private boolean checkSupplies(ServerLevel level)
     {
 //        if (entity.tickCount % 20 == 0) System.out.println("Supplies? ");
@@ -215,7 +258,7 @@ public class DoBuild extends UtilTask
         // spot.
         if (nextPlace == null)
         {
-            nextPlace = builder.getNextPlacement(level, storage.getTaskInventory());
+            nextPlace = builder.getNextPlacement(storage.getTaskInventory());
             if (nextPlace != null) builder.markPendingBuild(nextPlace.info().pos);
             else return false;
         }
@@ -272,36 +315,20 @@ public class DoBuild extends UtilTask
             var container = pair.getFirst();
 
             int minSlot = 0;
-            if (storage.getTaskInventory() == storage.getPokeInventory()) minSlot = 2;
-
-            if (container != null) for (int i = 0; i < container.getSlots(); i++)
+            int maxSlot = storage.getTaskInventory().getSlots();
+            if (storage.getTaskInventory() == storage.getPokeInventory())
             {
-                ItemStack stack = container.getStackInSlot(i);
-                if (checkValid(stack, requested))
-                {
-                    for (var stack2 : requested) if (ItemStack.isSame(stack, stack2))
-                    {
-                        requested.remove(stack2);
-                        break;
-                    }
-                    if (stack.getCount() > 5)
-                    {
-                        var split = stack.split(5);
-                        container.setStackInSlot(i, stack);
-                        ItemStackTools.addItemStackToInventory(split, storage.getTaskInventory(), minSlot);
-                    }
-                    else
-                    {
-                        container.setStackInSlot(i, ItemStack.EMPTY);
-                        ItemStackTools.addItemStackToInventory(stack, storage.getTaskInventory(), minSlot);
-                    }
-                }
+                minSlot = 2;
+                maxSlot = PokemobInventory.MAIN_INVENTORY_SIZE;
             }
+
+            if (container != null) takeFromContainer(container, requested, minSlot, maxSlot, 0);
 
             if (requested.size() > 0)
             {
+//                System.out.println(requested);
                 // need item, request it.
-                builder.provideBoM(this.BoM);
+                builder.provideBoM(this.BoM, true);
                 if (entity.tickCount % 10 == 0)
                 {
                     double size = 0.1;
@@ -324,6 +351,9 @@ public class DoBuild extends UtilTask
                 {
                     // Otherwise just sit down.
                     pokemob.setLogicState(LogicStates.SITTING, true);
+
+                    // Also dump items
+                    storage.doStorageCheck(storage.getTaskInventory());
                 }
             }
             else
@@ -361,7 +391,7 @@ public class DoBuild extends UtilTask
             findingSpot = false;
             if (checkSupplies(level))
             {
-                builder.tryPlace(nextPlace, level, storage.getTaskInventory());
+                builder.tryPlace(nextPlace, storage.getTaskInventory());
                 nextPlace = null;
             }
         }

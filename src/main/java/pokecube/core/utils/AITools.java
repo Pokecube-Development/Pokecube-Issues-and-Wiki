@@ -30,18 +30,19 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.tags.Tags;
 import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.damage.IPokedamage;
-import thut.api.item.ItemList;
 import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 
 public class AITools
 {
 
-    public static final ResourceLocation FRIENDLY = new ResourceLocation("pokecube", "friendly");
-    public static final ResourceLocation HOSTILE = new ResourceLocation("pokecube", "hostile");
+    public static final String FRIENDLY = "friendly";
+    public static final String HOSTILE = "hostile";
+    public static final String TIMID = "timid";
 
     private static class AgroCheck implements Predicate<IPokemob>
     {
@@ -51,7 +52,7 @@ public class AITools
             final boolean tame = input.getGeneralState(GeneralStates.TAMED);
             if (tame) return false;
             if (input.getEntity().getPersistentData().getBoolean("alwaysAgress")) return true;
-            boolean wildAgress = ItemList.is(HOSTILE, input.getEntity());
+            boolean wildAgress = Tags.POKEMOB.isIn(HOSTILE, input.getPokedexEntry().getTrimmedName());
             if (wildAgress)
             {
                 if (PokecubeCore.getConfig().hostileAgroRate > 0)
@@ -59,7 +60,7 @@ public class AITools
                 else wildAgress = false;
                 return wildAgress;
             }
-            boolean friendly = ItemList.is(FRIENDLY, input.getEntity());
+            boolean friendly = Tags.POKEMOB.isIn(FRIENDLY, input.getPokedexEntry().getTrimmedName());
             if (friendly) return false;
 
             /// If not hostile, or not friendly, it uses the normal config

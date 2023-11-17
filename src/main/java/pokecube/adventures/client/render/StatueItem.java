@@ -25,6 +25,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.database.Database;
 import pokecube.core.entity.genetics.GeneticsManager;
+import pokecube.core.entity.pokemobs.PokemobType;
 import thut.api.ThutCaps;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
@@ -90,6 +91,7 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IClie
             final UUID id = stack.getTagElement("__id_cache__").getUUID("id");
             if (StatueItem.CACHE.containsKey(id)) mob = StatueItem.CACHE.get(id);
             else hasCache = false;
+            hasCache = false;
         }
 
         final boolean flag = !hasCache && stack.getTagElement("BlockEntityTag") != null;
@@ -174,6 +176,16 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IClie
                 pokemob.setSize(0.55f / mobScale);
             }
             else pokemob.setSize(1);
+            
+            if (copy.getCopiedMob().getType() instanceof PokemobType<?> t)
+            {
+                if (pokemob != null && pokemob.getPokedexEntry() == Database.missingno
+                        && t.getEntry() != Database.missingno)
+                {
+                    pokemob.setPokedexEntry(t.getEntry());
+                    pokemob.setBasePokedexEntry(t.getEntry());
+                }
+            }
         }
 
         mob.setPos(0, 0, 0);

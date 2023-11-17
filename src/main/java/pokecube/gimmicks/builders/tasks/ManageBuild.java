@@ -39,7 +39,7 @@ import pokecube.gimmicks.builders.builders.IBlocksBuilder.BoMRecord;
  * ROTATION is NONE, CLOCKWISE_90, CLOCKWISE_180 or COUNTERCLOCKWISE_90 <br>
  * <br>
  * Example book:<br>
- * t:jigsaw<br>
+ * build:jigsaw<br>
  * pokecube_legends:temples/surface/sky_pillar<br>
  * p: 0 1 0<br>
  * r: CLOCKWISE_90<br>

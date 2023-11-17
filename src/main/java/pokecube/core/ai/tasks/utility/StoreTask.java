@@ -1,7 +1,6 @@
 package pokecube.core.ai.tasks.utility;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -12,8 +11,6 @@ import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
@@ -30,6 +27,7 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.utils.BookInstructionsParser;
 import pokecube.core.ai.tasks.idle.HungerTask;
 import thut.api.ThutCaps;
 import thut.api.entity.event.BreakTestEvent;
@@ -95,31 +93,18 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         {
             this.instructionsCache = stack;
             keys.clear();
-            if (stack.hasTag() && stack.getTag().contains("pages")
-                    && stack.getTag().get("pages") instanceof ListTag pages)
+            List<String> instructions = BookInstructionsParser.getInstructions(stack, "item filters", false);
+            for (String line : instructions)
+            {
                 try
-            {
-                var string = pages.getString(0);
-                if (!string.startsWith("{")) string = "{\"text\":\"" + string + "\"}";
-                final Component comp = Component.Serializer.fromJson(string);
-                boolean isFilter = false;
-                for (final String line : comp.getString().split("\n"))
                 {
-                    if (line.toLowerCase(Locale.ROOT).contains("item filters"))
-                    {
-                        isFilter = true;
-                        continue;
-                    }
-                    if (isFilter)
-                    {
-                        ResourceLocation res = new ResourceLocation(line);
-                        keys.add(res);
-                    }
+                    ResourceLocation res = new ResourceLocation(line);
+                    keys.add(res);
                 }
-            }
                 catch (Exception e)
-            {
-                e.printStackTrace();
+                {
+                    e.printStackTrace();
+                }
             }
         }
     }
