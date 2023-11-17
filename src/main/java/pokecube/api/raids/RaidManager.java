@@ -8,8 +8,6 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
@@ -89,6 +87,8 @@ public class RaidManager
 
     public static Map<String, IBossProvider> RAID_TYPES = new HashMap<>();
 
+    public static List<AIRoutine> BANNEDAI = new ArrayList<>();
+
     public static void registerBossType(IBossProvider provider)
     {
         RAID_TYPES.put(provider.getKey(), provider);
@@ -110,11 +110,7 @@ public class RaidManager
         IPokemob pokemob = PokemobCaps.getPokemobFor(boss);
         if (pokemob != null)
         {
-            final List<AIRoutine> bannedAI = Lists.newArrayList();
-            bannedAI.add(AIRoutine.BURROWS);
-            bannedAI.add(AIRoutine.BEEAI);
-            bannedAI.add(AIRoutine.ANTAI);
-            bannedAI.forEach(e -> pokemob.setRoutineState(e, false));
+            BANNEDAI.forEach(e -> pokemob.setRoutineState(e, false));
             pokemob.setBossInfo(new ServerBossEvent(boss.getDisplayName(), BossEvent.BossBarColor.RED,
                     BossEvent.BossBarOverlay.PROGRESS));
         }

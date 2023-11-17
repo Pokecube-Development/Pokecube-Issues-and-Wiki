@@ -18,7 +18,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -65,7 +64,6 @@ import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.CapabilityAffected.DefaultAffected;
 import pokecube.api.entity.CapabilityInhabitable.SaveableHabitatProvider;
-import pokecube.api.entity.CapabilityInhabitor.InhabitorProvider;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.SharedAttributes;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -76,7 +74,6 @@ import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.events.CustomInteractEvent;
 import pokecube.api.events.pokemobs.FaintEvent;
 import pokecube.api.moves.Battle;
-import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.utils.PokeType;
 import pokecube.api.utils.TagNames;
 import pokecube.compat.wearables.sided.Common;
@@ -84,8 +81,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.ai.tasks.IRunnable;
-import pokecube.core.ai.tasks.ants.AntTasks.AntInhabitor;
-import pokecube.core.ai.tasks.bees.BeeTasks.BeeInhabitor;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.blocks.pc.PCTile;
 import pokecube.core.blocks.tms.TMTile;
@@ -227,6 +222,7 @@ public class EventsHandler
     public static final ResourceLocation ANTCAP = new ResourceLocation(PokecubeMod.ID, "ant");
     public static final ResourceLocation TEXTURECAP = new ResourceLocation(PokecubeMod.ID, "textured");
     public static final ResourceLocation INVENTORYCAP = new ResourceLocation(PokecubeMod.ID, "tile_inventory");
+    public static final ResourceLocation NOGENESTAG = new ResourceLocation(PokecubeMod.ID, "no_genetics");
 
     static double max = 0;
 
@@ -532,14 +528,14 @@ public class EventsHandler
             event.addCapability(EventsHandler.AFFECTEDCAP, affected);
         }
 
-        IMobGenetics _genes;
+        IMobGenetics _genes = null;
         if (event.getCapabilities().containsKey(GeneticsManager.POKECUBEGENETICS))
         {
             _genes = event.getCapabilities().get(GeneticsManager.POKECUBEGENETICS).getCapability(ThutCaps.GENETICS_CAP)
                     .orElse(null);
             if (_genes == null) throw new IllegalStateException("Genes null yet registered?");
         }
-        else
+        else if (!ItemList.is(NOGENESTAG, living))
         {
             final GeneticsProvider genes = new GeneticsProvider();
             _genes = genes.wrapped;
@@ -547,7 +543,7 @@ public class EventsHandler
         }
 
         if (event.getObject() instanceof EntityPokemob mob
-                && !event.getCapabilities().containsKey(EventsHandler.POKEMOBCAP))
+                && !event.getCapabilities().containsKey(EventsHandler.POKEMOBCAP) && _genes != null)
         {
             final DefaultPokemob pokemob = new DefaultPokemob(mob);
             final DataSync_Impl data = new DataSync_Impl();
@@ -561,12 +557,6 @@ public class EventsHandler
             event.addCapability(ShearableCaps.LOC, new ShearableCaps.Wrapper(pokemob));
             event.addCapability(CopyCaps.LOC, (ICapabilityProvider) pokemob.getCopy());
             IGuardAICapability.addCapability(event);
-
-            // If it is a bee, we will add this to it.
-            if (mob.getType().is(EntityTypeTags.BEEHIVE_INHABITORS))
-                event.addCapability(EventsHandler.BEECAP, new InhabitorProvider(new BeeInhabitor(mob)));
-            if (ItemList.is(IMoveConstants.ANTS, mob))
-                event.addCapability(EventsHandler.ANTCAP, new InhabitorProvider(new AntInhabitor(mob)));
         }
 
         if (event.getObject() instanceof NpcMob npc)
@@ -797,10 +787,14 @@ public class EventsHandler
         if (evt.getEntity().getLevel().isClientSide || !evt.getEntity().isAlive()) return;
         final int tick = Math.max(PokecubeCore.getConfig().attackCooldown, 1);
         // Handle ongoing effects for this mob.
-        if (evt.getEntity().tickCount % tick == 0 || !EventsHandler.COOLDOWN_BASED)
+        final IOngoingAffected affected = PokemobCaps.getAffected(evt.getEntity());
+        if (affected != null)
         {
-            final IOngoingAffected affected = PokemobCaps.getAffected(evt.getEntity());
-            if (affected != null) affected.tick();
+            affected.tick();
+            if (evt.getEntity().tickCount % tick == 0 || !EventsHandler.COOLDOWN_BASED)
+            {
+                affected.tickDamage();
+            }
         }
     }
 

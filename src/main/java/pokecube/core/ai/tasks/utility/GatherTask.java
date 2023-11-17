@@ -37,6 +37,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.eventbus.api.Event.Result;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
@@ -94,41 +95,49 @@ public class GatherTask extends UtilTask
         return fullCrop || ItemList.is(GatherTask.HARVEST, input);
     };
 
+    public static record HarvestContext(ServerLevel level, BlockState state, BlockPos pos,
+            IItemHandlerModifiable destination, boolean isPokemobInventory)
+    {
+    }
+
     public static interface IHarvester
     {
-        default boolean isHarvestable(final Mob entity, final IPokemob pokemob, final BlockState state,
-                final BlockPos pos, final ServerLevel world)
+        default boolean isHarvestable(Mob entity, IPokemob pokemob, HarvestContext context)
         {
-            final HarvestCheckEvent event = new HarvestCheckEvent(pokemob, state, pos);
+            final HarvestCheckEvent event = new HarvestCheckEvent(pokemob, context.state(), context.pos());
             PokecubeAPI.POKEMOB_BUS.post(event);
             final boolean gatherable = event.getResult() == Result.ALLOW ? true
-                    : event.getResult() == Result.DENY ? false : GatherTask.harvestMatcher.apply(state);
+                    : event.getResult() == Result.DENY ? false : GatherTask.harvestMatcher.apply(context.state());
             return gatherable;
         }
 
-        default void harvest(final Mob entity, final IPokemob pokemob, final BlockState state, final BlockPos pos,
-                final ServerLevel world)
+        default void harvest(Mob entity, IPokemob pokemob, HarvestContext context)
         {
-            world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
-            final List<ItemStack> list = Block.getDrops(state, world, pos, world.getBlockEntity(pos));
+            context.level().setBlockAndUpdate(context.pos(), Blocks.AIR.defaultBlockState());
+            final List<ItemStack> list = Block.getDrops(context.state(), context.level(), context.pos(),
+                    context.level().getBlockEntity(context.pos()));
             boolean replanted = false;
+
+            int startSlot = context.isPokemobInventory() ? 2 : 0;
+            int endSlot = context.isPokemobInventory() ? PokemobInventory.MAIN_INVENTORY_SIZE
+                    : context.destination().getSlots();
             // See if anything dropped was a seed for the thing we
             // picked.
             for (final ItemStack stack : list)
             {
                 // If so, Replant it.
-                if (!replanted) replanted = new ReplantTask(stack, state, pos).run(world);
-                new InventoryChange(entity, 2, stack, true).run(world);
+                if (!replanted) replanted = new ReplantTask(stack, context.state(), context.pos()).run(context.level());
+                new InventoryChange(entity, startSlot, stack, true).run(context.level());
             }
-            if (!replanted) for (int i = 2; i < pokemob.getInventory().getContainerSize(); i++)
+            if (!replanted) for (int i = startSlot; i < endSlot; i++)
             {
                 final ItemStack stack = pokemob.getInventory().getItem(i);
                 if (!stack.isEmpty() && stack.getItem() instanceof IPlantable plantable)
                 {
-                    final BlockState plantState = plantable.getPlant(world, pos.above());
-                    if (plantState.getBlock() == state.getBlock() && !replanted)
+                    final BlockState plantState = plantable.getPlant(context.level(), context.pos().above());
+                    if (plantState.getBlock() == context.state().getBlock() && !replanted)
                     {
-                        replanted = new ReplantTask(stack, state, pos).run(world);
+                        replanted = new ReplantTask(stack, context.state(), context.pos()).run(context.level());
                         break;
                     }
                 }
@@ -218,27 +227,25 @@ public class GatherTask extends UtilTask
         GatherTask.REGISTRY.put(new ResourceLocation("pokecube:sweet_berries"), new IHarvester()
         {
             @Override
-            public void harvest(final Mob entity, final IPokemob pokemob, final BlockState state, final BlockPos pos,
-                    final ServerLevel world)
+            public void harvest(final Mob entity, final IPokemob pokemob, HarvestContext context)
             {
-                final int i = state.getValue(SweetBerryBushBlock.AGE);
+                final int i = context.state().getValue(SweetBerryBushBlock.AGE);
                 final boolean flag = i == 3;
-                world.setBlockAndUpdate(pos, state.setValue(SweetBerryBushBlock.AGE, 1));
-                final int j = 1 + world.random.nextInt(2);
+                context.level().setBlockAndUpdate(context.pos(), context.state().setValue(SweetBerryBushBlock.AGE, 1));
+                final int j = 1 + context.level().random.nextInt(2);
                 final ItemStack stack = new ItemStack(Items.SWEET_BERRIES, j + (flag ? 1 : 0));
-                world.playSound((Player) null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F,
-                        0.8F + world.random.nextFloat() * 0.4F);
-                new InventoryChange(entity, 2, stack, true).run(world);
+                context.level().playSound((Player) null, context.pos(), SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES,
+                        SoundSource.BLOCKS, 1.0F, 0.8F + context.level().random.nextFloat() * 0.4F);
+                new InventoryChange(entity, 2, stack, true).run(context.level());
             }
 
             @Override
-            public boolean isHarvestable(final Mob entity, final IPokemob pokemob, final BlockState state,
-                    final BlockPos pos, final ServerLevel world)
+            public boolean isHarvestable(final Mob entity, final IPokemob pokemob, HarvestContext context)
             {
-                final HarvestCheckEvent event = new HarvestCheckEvent(pokemob, state, pos);
+                final HarvestCheckEvent event = new HarvestCheckEvent(pokemob, context.state(), context.pos());
                 PokecubeAPI.POKEMOB_BUS.post(event);
                 final boolean gatherable = event.getResult() == Result.ALLOW ? true
-                        : event.getResult() == Result.DENY ? false : GatherTask.sweetBerry.apply(state);
+                        : event.getResult() == Result.DENY ? false : GatherTask.sweetBerry.apply(context.state());
                 return gatherable;
             }
         });
@@ -282,10 +289,11 @@ public class GatherTask extends UtilTask
     {
         if (!storage.checkValid(block.getState())) return false;
         boolean canHarvest = false;
+        HarvestContext context = new HarvestContext(world, block.getState(), block.getPos(), storage.getTaskInventory(),
+                storage.getTaskInventory() == storage.getPokeInventory());
         for (final Entry<ResourceLocation, IHarvester> entry : GatherTask.REGISTRY.entrySet())
         {
-            canHarvest = entry.getValue().isHarvestable(this.entity, this.pokemob, block.getState(), block.getPos(),
-                    this.world);
+            canHarvest = entry.getValue().isHarvestable(this.entity, this.pokemob, context);
             if (canHarvest) break;
         }
         return canHarvest;
@@ -330,10 +338,11 @@ public class GatherTask extends UtilTask
             this.targetBlock = this.blocks.get(0);
 
             this.currentHarvester = null;
+            HarvestContext context = new HarvestContext(world, targetBlock.getState(), targetBlock.getPos(),
+                    storage.getTaskInventory(), storage.getTaskInventory() == storage.getPokeInventory());
             for (final Entry<ResourceLocation, IHarvester> entry : GatherTask.REGISTRY.entrySet())
             {
-                final boolean canHarvest = entry.getValue().isHarvestable(this.entity, this.pokemob,
-                        this.targetBlock.getState(), this.targetBlock.getPos(), this.world);
+                final boolean canHarvest = entry.getValue().isHarvestable(this.entity, this.pokemob, context);
                 if (canHarvest)
                 {
                     this.currentHarvester = entry.getKey();
@@ -363,8 +372,18 @@ public class GatherTask extends UtilTask
         {
             double diff = 1;
             diff = Math.max(diff, this.entity.getBbWidth());
+
+            int minSlot = 0;
+            int maxSlot = storage.getTaskInventory().getSlots();
+
+            if (storage.getTaskInventory() == storage.getPokeInventory())
+            {
+                minSlot = 2;
+                maxSlot = PokemobInventory.MAIN_INVENTORY_SIZE;
+            }
+
             if (this.targetItem.distanceTo(this.entity) < diff && ItemStackTools.addItemStackToInventory(
-                    this.targetItem.getItem(), this.pokemob.getInventory(), 2, PokemobInventory.MAIN_INVENTORY_SIZE))
+                    this.targetItem.getItem(), this.storage.getTaskInventory(), minSlot, maxSlot))
             {
                 this.targetItem.discard();
             }
@@ -393,9 +412,11 @@ public class GatherTask extends UtilTask
             final BlockState state = stuffLoc.getBlockState(this.entity.getLevel());
             if (this.currentHarvester != null)
             {
+                HarvestContext context = new HarvestContext(world, state, stuffLoc.getPos(), storage.getTaskInventory(),
+                        storage.getTaskInventory() == storage.getPokeInventory());
                 final IHarvester harvest = GatherTask.REGISTRY.get(this.currentHarvester);
-                if (harvest.isHarvestable(this.entity, this.pokemob, state, stuffLoc.getPos(), this.world))
-                    harvest.harvest(this.entity, this.pokemob, state, stuffLoc.getPos(), this.world);
+                if (harvest.isHarvestable(this.entity, this.pokemob, context))
+                    harvest.harvest(this.entity, this.pokemob, context);
             }
             this.reset();
         }

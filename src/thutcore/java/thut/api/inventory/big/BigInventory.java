@@ -24,7 +24,7 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
     }
 
     UUID id;
-    int  page = 0;
+    int page = 0;
 
     private final boolean isReal;
 
@@ -49,8 +49,7 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
     public BigInventory(final Manager<? extends BigInventory> manager, final UUID id)
     {
         this.boxes = new String[this.boxCount()];
-        for (int i = 0; i < this.boxCount(); i++)
-            this.boxes[i] = "Box " + String.valueOf(i + 1);
+        for (int i = 0; i < this.boxCount(); i++) this.boxes[i] = "Box " + String.valueOf(i + 1);
         this.opened = new boolean[this.boxCount()];
         this.id = id;
         this.contents.defaultReturnValue(ItemStack.EMPTY);
@@ -67,8 +66,7 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
     public BigInventory(final Manager<? extends BigInventory> manager, final CompoundTag tag)
     {
         this.boxes = new String[this.boxCount()];
-        for (int i = 0; i < this.boxCount(); i++)
-            this.boxes[i] = "Box " + String.valueOf(i + 1);
+        for (int i = 0; i < this.boxCount(); i++) this.boxes[i] = "Box " + String.valueOf(i + 1);
         this.opened = new boolean[this.boxCount()];
         this.contents.defaultReturnValue(ItemStack.EMPTY);
         this.manager = manager;
@@ -85,8 +83,7 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
     public BigInventory(final Manager<? extends BigInventory> manager, final FriendlyByteBuf buffer)
     {
         this.boxes = new String[this.boxCount()];
-        for (int i = 0; i < this.boxCount(); i++)
-            this.boxes[i] = "Box " + String.valueOf(i + 1);
+        for (int i = 0; i < this.boxCount(); i++) this.boxes[i] = "Box " + String.valueOf(i + 1);
         this.opened = new boolean[this.boxCount()];
         this.contents.defaultReturnValue(ItemStack.EMPTY);
         this.manager = manager;
@@ -113,18 +110,16 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
 
     public void addItem(final ItemStack stack)
     {
-        for (int i = this.getPage() * 54; i < this.getContainerSize(); i++)
-            if (this.getItem(i).isEmpty())
-            {
-                this.setItem(i, stack);
-                return;
-            }
-        for (int i = 0; i < this.getPage() * 54; i++)
-            if (this.getItem(i).isEmpty())
-            {
-                this.setItem(i, stack);
-                return;
-            }
+        for (int i = this.getPage() * 54; i < this.getContainerSize(); i++) if (this.getItem(i).isEmpty())
+        {
+            this.setItem(i, stack);
+            return;
+        }
+        for (int i = 0; i < this.getPage() * 54; i++) if (this.getItem(i).isEmpty())
+        {
+            this.setItem(i, stack);
+            return;
+        }
     }
 
     public abstract int boxCount();
@@ -236,8 +231,8 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
     }
 
     /**
-     * Returns true if automation is allowed to insert the given stack
-     * (ignoring stack size) into the given slot.
+     * Returns true if automation is allowed to insert the given stack (ignoring
+     * stack size) into the given slot.
      */
     @Override
     public boolean canPlaceItem(final int par1, final ItemStack stack)
@@ -253,13 +248,11 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
 
     @Override
     public void setChanged()
-    {
-    }
+    {}
 
     @Override
     public void startOpen(final Player player)
-    {
-    }
+    {}
 
     @Override
     public ItemStack removeItemNoUpdate(final int i)
@@ -292,8 +285,7 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
     {
         boxes.putString("UUID", this.id.toString());
         boxes.putInt("page", this.page);
-        for (int i = 0; i < this.boxCount(); i++)
-            boxes.putString("name" + i, this.boxes[i]);
+        for (int i = 0; i < this.boxCount(); i++) boxes.putString("name" + i, this.boxes[i]);
     }
 
     public void serializeItems(final CompoundTag items)

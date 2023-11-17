@@ -1,20 +1,32 @@
 package thut.core.client.render.texturing;
 
+import java.util.function.Supplier;
+
 import thut.api.entity.animation.IAnimationChanger;
 
 public interface IRetexturableModel
 {
-    default void setAnimationChanger(IAnimationChanger changer)
+    public static class Holder<T> implements Supplier<T>
     {
-        setAnimationChangerRaw(changer);
+        T value = null;
+
+        @Override
+        public T get()
+        {
+            return value;
+        }
+
+        public void set(T value)
+        {
+            this.value = value;
+        }
     }
 
-    void setAnimationChangerRaw(IAnimationChanger changer);
+    Holder<IAnimationChanger> getAnimationChanger();
 
-    default void setTexturer(IPartTexturer texturer)
-    {
-        setTexturerRaw(texturer);
-    }
+    void setAnimationChanger(Holder<IAnimationChanger> input);
 
-    void setTexturerRaw(IPartTexturer texturer);
+    Holder<IPartTexturer> getTexturerChanger();
+
+    void setTexturerChanger(Holder<IPartTexturer> input);
 }

@@ -16,8 +16,8 @@ import net.minecraft.world.phys.Vec3;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.core.ai.tasks.bees.BeeTasks;
 import pokecube.core.impl.PokecubeMod;
+import pokecube.gimmicks.nests.tasks.bees.BeeTasks;
 import thut.api.maths.Vector3;
 
 @AbilityProvider(name = "honey-gather", singleton = false)

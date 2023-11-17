@@ -9,6 +9,8 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerEvent.StopTracking;
@@ -122,6 +124,7 @@ public class PartSync extends BigPacket
     }
 
     @Override
+    @OnlyIn(value = Dist.CLIENT)
     protected void onCompleteClient()
     {
         var buffer = new FriendlyByteBuf(Unpooled.copiedBuffer(this.getData()));
@@ -129,10 +132,10 @@ public class PartSync extends BigPacket
         int id = buffer.readInt();
         boolean remove = buffer.readBoolean();
         int[] arr = buffer.readVarIntArray();
+        Int2ObjectMap<PartEntity<?>> partMap = ObfuscationReflectionHelper
+                .getPrivateValue(net.minecraft.client.multiplayer.ClientLevel.class, world, "partEntities");
         if (remove)
         {
-            Int2ObjectMap<PartEntity<?>> partMap = ObfuscationReflectionHelper
-                    .getPrivateValue(net.minecraft.client.multiplayer.ClientLevel.class, world, "partEntities");
             List<PartEntity<?>> list = new ArrayList<>();
             for (int i : arr)
             {
@@ -144,8 +147,6 @@ public class PartSync extends BigPacket
 
         if (!(mob instanceof IMultpart<?, ?> parts)) return;
 
-        Int2ObjectMap<PartEntity<?>> partMap = ObfuscationReflectionHelper
-                .getPrivateValue(net.minecraft.client.multiplayer.ClientLevel.class, world, "partEntities");
         // Clear out the old parts first.
         var old = new ArrayList<>(world.getPartEntities());
         // Clear out the old parts first.
