@@ -62,10 +62,10 @@ public class StructureTemplateTools
             if (item != null)
             {
                 ItemStack stack = new ItemStack(item);
-                if (info.nbt != null)
+                if (info.nbt() != null)
                 {
                     CompoundTag tag = new CompoundTag();
-                    tag.put("BlockEntityTag", info.nbt);
+                    tag.put("BlockEntityTag", info.nbt());
                     stack.setTag(tag);
                 }
                 return stack;
