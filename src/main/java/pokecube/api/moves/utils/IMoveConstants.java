@@ -16,8 +16,6 @@ import thut.api.item.ItemList;
 /** @author Manchou */
 public interface IMoveConstants extends IMoveNames
 {
-    static ResourceLocation ANTS = new ResourceLocation(PokecubeAPI.MODID, "ants");
-
     static ResourceLocation BURROWS = new ResourceLocation(PokecubeAPI.MODID, "burrowers");
 
     static final Predicate<IPokemob> isBee = pokemob -> {
@@ -25,16 +23,6 @@ public interface IMoveConstants extends IMoveNames
         final boolean isBee = entity.getType().is(EntityTypeTags.BEEHIVE_INHABITORS);
         // Only care about bees
         if (!isBee) return false;
-        // Only process stock pokemobs
-        if (!pokemob.getPokedexEntry().stock) return false;
-        return true;
-    };
-
-    static final Predicate<IPokemob> isAnt = pokemob -> {
-        final Mob entity = pokemob.getEntity();
-        final boolean isAnt = ItemList.is(IMoveConstants.ANTS, entity);
-        // Only care about bees
-        if (!isAnt) return false;
         // Only process stock pokemobs
         if (!pokemob.getPokedexEntry().stock) return false;
         return true;

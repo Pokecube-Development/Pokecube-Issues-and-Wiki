@@ -30,6 +30,7 @@ import pokecube.mobs.moves.attacks.FireSpin;
 import pokecube.mobs.moves.attacks.Infestation;
 import pokecube.mobs.moves.attacks.Leechseed;
 import pokecube.mobs.moves.attacks.Perishsong;
+import pokecube.mobs.moves.attacks.Taunt;
 import pokecube.mobs.moves.attacks.Whirlpool;
 import pokecube.mobs.moves.attacks.Yawn;
 import thut.core.common.ThutCore;
@@ -265,6 +266,7 @@ public class MoveRegister
         ONGOING.put("perish-song", new Perishsong());
         ONGOING.put("whirlpool", new Whirlpool());
         ONGOING.put("yawn", new Yawn());
+        ONGOING.put("taunt", new Taunt());
     }
 
     private static void terrainMoves()

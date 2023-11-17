@@ -30,4 +30,10 @@ public class SmallInventory extends BigInventory
     {
         return 1;
     }
+    
+    @Override
+    public int getContainerSize()
+    {
+        return 27;
+    }
 }
