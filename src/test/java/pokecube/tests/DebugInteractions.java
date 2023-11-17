@@ -11,7 +11,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -20,6 +22,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
+import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -32,7 +36,6 @@ import pokecube.gimmicks.builders.builders.IBlocksBuilder;
 import pokecube.gimmicks.builders.builders.IBlocksBuilder.BoMRecord;
 import pokecube.gimmicks.builders.builders.IBlocksBuilder.PlaceInfo;
 import pokecube.gimmicks.builders.builders.IBlocksClearer;
-import pokecube.gimmicks.builders.builders.JigsawBuilder;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
 import thut.api.level.structures.NamedVolumes.INamedPart;
@@ -124,13 +127,27 @@ public class DebugInteractions
                         break;
                     }
                 }
-                if (inside != null)
+                if (inside != null && inside.getWrapped() instanceof PoolElementStructurePiece pooled)
                 {
-                    System.out.println(inside.getWrapped().getClass());
+                    ItemStack book = new ItemStack(Items.WRITABLE_BOOK);
+                    CompoundTag nbt = new CompoundTag();
+                    ListTag pages = new ListTag();
+                    nbt.put("pages", pages);
+                    String msg = "build:building\n";
+
+                    var contx = StructurePieceSerializationContext.fromLevel(level);;
+                    var pooled_tag = pooled.createTag(contx);
+                    msg += pooled_tag.getCompound("pool_element").getString("location") + "\n";
+                    if (pooled_tag.contains("rotation")) msg += "r: " + pooled_tag.getString("rotation") + "\n";
+                    pages.add(StringTag.valueOf(msg));
+
+                    book.setTag(nbt);
+                    book.setHoverName(TComponent.literal("Blueprint"));
+                    player.addItem(book);
                 }
-                JigsawBuilder builder = new JigsawBuilder(level, s);
-                var build = new BuilderClearer(builder, builder);
-                WorldTickManager.addWorldData(level.dimension(), build);
+//                JigsawBuilder builder = new JigsawBuilder(level, s);
+//                var build = new BuilderClearer(builder, builder);
+//                WorldTickManager.addWorldData(level.dimension(), build);
             }
         }
 
