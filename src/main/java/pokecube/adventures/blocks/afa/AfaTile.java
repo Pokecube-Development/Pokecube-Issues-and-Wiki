@@ -6,6 +6,7 @@ import org.nfunk.jep.JEP;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -175,6 +176,25 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
             this.ability.init(this.pokemob, this.distance);
             if (this.getLevel() instanceof ServerLevel && update) TileUpdate.sendUpdate(this);
         }
+    }
+
+    @Override
+    public ClientboundBlockEntityDataPacket getUpdatePacket()
+    {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public CompoundTag getUpdateTag()
+    {
+        return this.serializeNBT();
+    }
+
+    @Override
+    public void handleUpdateTag(final CompoundTag tag)
+    {
+        this.deserializeNBT(tag);
+        this.refreshAbility(false);
     }
 
     @Override
