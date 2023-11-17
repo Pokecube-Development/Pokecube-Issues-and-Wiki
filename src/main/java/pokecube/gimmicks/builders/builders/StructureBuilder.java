@@ -24,6 +24,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.WritableBookItem;
@@ -118,7 +119,7 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
     protected PoolElementStructurePiece _source;
     protected StructureTemplate _loaded;
 
-    public ResourceLocation toMake;
+    protected ResourceLocation toMake;
 
     private PlaceContext placement;
 
@@ -169,7 +170,7 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
     private Set<BlockPos> pendingBuild = new HashSet<>();
     private Set<BlockPos> pendingClear = new HashSet<>();
 
-    public int passes = 0;
+    private int passes = 0;
 
     public StructureBuilder()
     {
@@ -240,7 +241,7 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
     }
 
     @Override
-    public void provideBoM(BoMRecord BoM)
+    public void provideBoM(BoMRecord BoM, boolean onlyNeeded)
     {
         ItemStack book = BoM.BoMProvider().get();
         boolean compiled = false;
@@ -295,9 +296,66 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
             n = 0;
             msg = TComponent.literal("Total Cost:");
 
-            for (int i = 0; i < sortedNeededItems.size(); i++)
+            List<ItemStack> items = this.sortedNeededItems;
+            if (!onlyNeeded)
             {
-                ItemStack s = sortedNeededItems.get(i);
+                // Otherwise provide to the BoM stacks.
+                items = BoM.neededStacks();
+                items.clear();
+
+                var builder = this;
+                // Recompute entire list, and provide that.
+                Map<Item, List<ItemStack>> stacks = Maps.newHashMap();
+
+                for (var info : builder.placeOrder)
+                {
+                    ItemStack stack = StructureTemplateTools.getForInfo(info);
+                    if (stack != null && !stack.isEmpty()) items.add(stack);
+                }
+
+                for (var stack : items)
+                {
+                    var list = stacks.getOrDefault(stack.getItem(), new ArrayList<>());
+                    stacks.put(stack.getItem(), list);
+                    if (list.isEmpty()) list.add(stack);
+                    else
+                    {
+                        if (!stack.hasTag())
+                        {
+                            boolean found = false;
+                            for (ItemStack held : list)
+                            {
+                                if (!held.hasTag())
+                                {
+                                    held.grow(stack.getCount());
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (!found) list.add(stack);
+                        }
+                        else
+                        {
+                            boolean found = false;
+                            for (ItemStack held : list)
+                            {
+                                if (held.hasTag() && held.getTag().equals(stack.getTag()))
+                                {
+                                    held.grow(stack.getCount());
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (!found) list.add(stack);
+                        }
+                    }
+                }
+                items.clear();
+                for (var list : stacks.values()) items.addAll(list);
+            }
+            for (int i = 0; i < items.size(); i++)
+            {
+                ItemStack s = items.get(i);
                 if (s == null || s.isEmpty()) continue;
                 if (n++ > 8)
                 {
@@ -309,9 +367,10 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
                 MutableComponent name = (MutableComponent) s.getDisplayName();
                 name.setStyle(name.getStyle().withColor(0));
                 String count = s.getCount() + "x";
-                if (this.ignoredItems.get(i)) count = "-x";
+                if (onlyNeeded && this.ignoredItems.get(i)) count = "-x";
                 msg = msg.append(TComponent.literal("\n")).append(TComponent.literal(count)).append(name);
             }
+
             if (!msg.getString().isBlank())
             {
                 if (compiled) pages.add(StringTag.valueOf(Component.Serializer.toJson(msg)));
@@ -396,7 +455,7 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
             sortedNeededItems.sort((a, b) -> b.getCount() - a.getCount());
 
             // Update the BoMs
-            for (var BoM : BoMs) provideBoM(BoM);
+            for (var BoM : BoMs) provideBoM(BoM, true);
 
             // Now populate the map of removal positions to check. this is
             // sorted by y value, to allow removal in the approprate order.

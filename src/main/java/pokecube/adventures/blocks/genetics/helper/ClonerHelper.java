@@ -113,7 +113,7 @@ public class ClonerHelper
     {
         final Set<Class<? extends Gene<?>>> ret = Sets.newHashSet();
         if (stack.isEmpty() || !stack.hasTag()) return ret;
-        List<String> instructions = BookInstructionsParser.getInstructions(stack, "genes");
+        List<String> instructions = BookInstructionsParser.getInstructions(stack, "genes", false);
         for (String line : instructions)
         {
             if (line.equalsIgnoreCase("ALL"))
@@ -138,7 +138,7 @@ public class ClonerHelper
     public static int getIndex(final ItemStack stack)
     {
         if (stack.isEmpty() || !stack.hasTag()) return -1;
-        List<String> instructions = BookInstructionsParser.getInstructions(stack, "genes");
+        List<String> instructions = BookInstructionsParser.getInstructions(stack, "genes", false);
         for (String line : instructions)
         {
             if (line.equalsIgnoreCase("ALL")) return -1;

@@ -31,7 +31,7 @@ import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
  */
 public class JigsawBuilder implements INBTSerializable<CompoundTag>, IBlocksBuilder, IBlocksClearer
 {
-    private List<StructureBuilder> builders = new ArrayList<>();
+    public List<StructureBuilder> builders = new ArrayList<>();
     private ServerLevel level;
     private boolean creative = false;
 
@@ -161,11 +161,18 @@ public class JigsawBuilder implements INBTSerializable<CompoundTag>, IBlocksBuil
     }
 
     @Override
-    public void provideBoM(BoMRecord record)
+    public void provideBoM(BoMRecord record, boolean onlyNeeded)
     {
-        var next = next();
-        if (next == null) return;
-        next.provideBoM(record);
+        if (onlyNeeded)
+        {
+            var next = next();
+            if (next == null) return;
+            next.provideBoM(record, onlyNeeded);
+        }
+        else
+        {
+
+        }
     }
 
     @Override

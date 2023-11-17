@@ -1,12 +1,12 @@
 package pokecube.core.ai.brain.sensors;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.AgeableMob;
@@ -19,6 +19,7 @@ import net.minecraft.world.entity.ai.memory.NearestVisibleLivingEntities;
 import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.AABB;
 import pokecube.api.entity.TeamManager;
@@ -77,12 +78,13 @@ public class InterestingMobs extends Sensor<LivingEntity>
             if (entityIn.tickCount % RootTask.runRate != tick) return;
         }
 
-        final List<AgeableMob> mates = Lists.newArrayList();
-        final List<ItemEntity> items = Lists.newArrayList();
-        final List<Projectile> projectiles = Lists.newArrayList();
-        final List<LivingEntity> mobs = Lists.newArrayList();
-        final List<LivingEntity> visible = Lists.newArrayList();
-        final List<LivingEntity> herd = Lists.newArrayList();
+        final List<AgeableMob> mates = new ArrayList<>();
+        final List<ItemEntity> items = new ArrayList<>();
+        final List<Projectile> projectiles = new ArrayList<>();
+        final List<LivingEntity> mobs = new ArrayList<>();
+        final List<LivingEntity> visible = new ArrayList<>();
+        final List<LivingEntity> herd = new ArrayList<>();
+        List<Player> survivalPlayers = new ArrayList<>();
         EntityPokemobEgg egg = null;
         final double dh = 8;
         final double dv = 4;
@@ -116,6 +118,8 @@ public class InterestingMobs extends Sensor<LivingEntity>
             else if (InterestingMobs.VISIBLE.test(entityIn, living))
             {
                 visible.add(living);
+                if (living instanceof Player player && isEntityTargetable(entityIn, living))
+                    survivalPlayers.add(player);
                 final boolean validMate = canMate && e instanceof AgeableMob mob
                         && mateBox.intersects(living.getBoundingBox())
                         && this.isValid((AgeableMob) entityIn, mob, pokemob);
@@ -137,6 +141,9 @@ public class InterestingMobs extends Sensor<LivingEntity>
         else brain.eraseMemory(MemoryModules.HERD_MEMBERS.get());
         if (!projectiles.isEmpty()) brain.setMemory(MemoryModules.VISIBLE_PROJECTILES.get(), projectiles);
         else brain.eraseMemory(MemoryModules.VISIBLE_PROJECTILES.get());
+        if (!survivalPlayers.isEmpty())
+            brain.setMemory(MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER, survivalPlayers.get(0));
+        else brain.eraseMemory(MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER);
         if (brain.checkMemory(MemoryModules.EGG.get(), MemoryStatus.REGISTERED))
         {
             if (egg != null) brain.setMemory(MemoryModules.EGG.get(), egg);
@@ -147,7 +154,8 @@ public class InterestingMobs extends Sensor<LivingEntity>
     @Override
     public Set<MemoryModuleType<?>> requires()
     {
-        return ImmutableSet.of(MemoryModuleType.NEAREST_LIVING_ENTITIES, MemoryModules.POSSIBLE_MATES.get(),
+        return ImmutableSet.of(MemoryModuleType.NEAREST_LIVING_ENTITIES,
+                MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER, MemoryModules.POSSIBLE_MATES.get(),
                 MemoryModules.HERD_MEMBERS.get(), MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES,
                 MemoryModules.VISIBLE_ITEMS.get(), MemoryModules.VISIBLE_PROJECTILES.get());
     }

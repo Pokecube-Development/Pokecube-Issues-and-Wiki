@@ -78,7 +78,7 @@ public class BookInstructionsParser
     }
 
     @Nonnull
-    public static List<String> getInstructions(ItemStack source, String start)
+    public static List<String> getInstructions(ItemStack source, String start, boolean includeHeader)
     {
         List<String> instructions = new ArrayList<>();
         if (source.hasTag() && source.getOrCreateTag().get("pages") instanceof ListTag list && !list.isEmpty())
@@ -104,6 +104,7 @@ public class BookInstructionsParser
                     }
                 }
             });
+            if (!includeHeader && !instructions.isEmpty()) instructions.remove(0);
         }
         return instructions;
     }
