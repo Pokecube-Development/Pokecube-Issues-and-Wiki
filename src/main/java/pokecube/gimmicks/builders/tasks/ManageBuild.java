@@ -8,6 +8,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
@@ -110,10 +111,20 @@ public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTa
         var builder = build.builder();
         var clearer = build.clearer();
 
+        boolean creative = pokemob.getOwner() instanceof ServerPlayer player
+                && (player.isCreative() || player.isSpectator());
         // Initialise the level, this ensures that it loads properly from nbt if
         // saved. This also calls an initial init for all of the builders
-        if (builder != null && builder.getLevel() == null) builder.update(level);
-        if (clearer != null && clearer.getLevel() == null) clearer.update(level);
+        if (builder != null && builder.getLevel() == null)
+        {
+            builder.setCreative(creative);
+            builder.update(level);
+        }
+        if (clearer != null && clearer.getLevel() == null)
+        {
+            clearer.setCreative(creative);
+            clearer.update(level);
+        }
 
         // This means we are finished
         if (builder != null && !builder.validBuilder())

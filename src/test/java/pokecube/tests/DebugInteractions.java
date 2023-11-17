@@ -98,12 +98,19 @@ public class DebugInteractions
             return;
         boolean isStructureMaker = evt.getItemStack().getDisplayName().getString().contains("structure_maker");
         boolean isStructureBoM = evt.getItemStack().getDisplayName().getString().contains("structure_BoM");
+        boolean isStructureCopier = evt.getItemStack().getDisplayName().getString().contains("structure_Copy");
 
         var te = level.getBlockEntity(evt.getPos());
 
         long tick = Tracker.instance().getTick();
         if (player.getPersistentData().getLong("__debug_interaction__") == tick) return;
         player.getPersistentData().putLong("__debug_interaction__", tick);
+
+        if (isStructureCopier)
+        {
+            var structs = level.structureFeatureManager().getAllStructuresAt(player.getOnPos());
+            System.out.println(structs);
+        }
 
         if (te instanceof ChestBlockEntity chest && (isStructureMaker || isStructureBoM))
         {

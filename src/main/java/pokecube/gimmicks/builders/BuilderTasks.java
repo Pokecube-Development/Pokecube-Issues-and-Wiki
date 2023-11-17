@@ -1,9 +1,13 @@
 package pokecube.gimmicks.builders;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
@@ -24,6 +28,8 @@ public class BuilderTasks
 {
     public static AIRoutine BUILD = AIRoutine.create("BUILD", true, e -> true);
 
+    public static BuilderConfig config = BuilderConfig.loadConfig();
+
     /**
      * Setup and register stuff.
      */
@@ -31,6 +37,12 @@ public class BuilderTasks
     public static void init(FMLLoadCompleteEvent event)
     {
         PokecubeAPI.POKEMOB_BUS.addListener(BuilderTasks::onAIInit);
+
+        List<String> keys = new ArrayList<>();
+        ForgeRegistries.BLOCK_ENTITIES.getKeys().forEach(key -> keys.add(key.toString()));
+        keys.sort(null);
+        config.known_ids = keys;
+        BuilderConfig.saveConfig(config);
     }
 
     private static void onAIInit(InitAIEvent.Init event)

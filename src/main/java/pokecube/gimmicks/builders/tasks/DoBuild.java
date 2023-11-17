@@ -420,12 +420,6 @@ public class DoBuild extends UtilTask
 //            return;
         }
 
-        // Sync creative status from player
-        boolean creative = pokemob.getOwner() instanceof ServerPlayer player
-                && (player.isCreative() || player.isSpectator());
-        builder.setCreative(creative);
-        clearer.setCreative(creative);
-
         builder.markPendingBuild(storeLoc);
         clearer.markPendingClear(storeLoc);
 
