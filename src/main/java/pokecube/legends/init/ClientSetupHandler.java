@@ -3,6 +3,8 @@ package pokecube.legends.init;
 import java.util.function.Predicate;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.geom.LayerDefinitions;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.particle.FlameParticle;
 import net.minecraft.client.particle.LavaParticle;
 import net.minecraft.client.particle.SmokeParticle;
@@ -18,6 +20,7 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -34,57 +37,47 @@ import pokecube.legends.blocks.normalblocks.InfectedFireBlock;
 import pokecube.legends.blocks.plants.TaintedKelpPlantBlock;
 import pokecube.legends.client.render.block.Raid;
 import pokecube.legends.client.render.entity.Wormhole;
+import pokecube.legends.client.render.model.LegendsModelLayers;
+import pokecube.legends.client.render.model.armor.ImprisonmentArmorModel;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID, value = Dist.CLIENT)
-public class ClientSetupHandler
-{
+public class ClientSetupHandler {
     static final Predicate<Material> notSolid = m -> m == Material.ICE || m == Material.ICE_SOLID
             || m == Material.HEAVY_METAL || m == Material.LEAVES || m == Material.REPLACEABLE_PLANT;
 
     @SubscribeEvent
-    public static void setupClient(final FMLClientSetupEvent event)
-    {
+    public static void setupClient(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
-            for (final RegistryObject<Block> reg : PokecubeLegends.NO_TAB.getEntries())
-            {
+            for (final RegistryObject<Block> reg : PokecubeLegends.NO_TAB.getEntries()) {
                 final Block b = reg.get();
                 if (b instanceof ItemGenerator.GenericPottedPlant || b instanceof InfectedFireBlock
                         || b instanceof TaintedKelpPlantBlock)
                     ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
             }
-            for (final RegistryObject<Block> reg : PokecubeLegends.DIMENSIONS_TAB.getEntries())
-            {
+            for (final RegistryObject<Block> reg : PokecubeLegends.DIMENSIONS_TAB.getEntries()) {
                 final Block b = reg.get();
-                if (b instanceof FlowerBase || b instanceof MushroomBase)
-                {
+                if (b instanceof FlowerBase || b instanceof MushroomBase) {
                     ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
                     continue;
                 }
-                if (b instanceof GenericBookshelfEmpty)
-                {
+                if (b instanceof GenericBookshelfEmpty) {
                     ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutoutMipped());
                     continue;
                 }
                 boolean fullCube = true;
-                for (final BlockState state : b.getStateDefinition().getPossibleStates())
-                {
+                for (final BlockState state : b.getStateDefinition().getPossibleStates()) {
                     final Material m = state.getMaterial();
-                    if (ClientSetupHandler.notSolid.test(m))
-                    {
+                    if (ClientSetupHandler.notSolid.test(m)) {
                         fullCube = false;
                         break;
                     }
-                    try
-                    {
+                    try {
                         final VoxelShape s = state.getShape(null, BlockPos.ZERO);
-                        if (s != Shapes.block())
-                        {
+                        if (s != Shapes.block()) {
                             fullCube = false;
                             break;
                         }
-                    }
-                    catch (final Exception e)
-                    {
+                    } catch (final Exception e) {
                         fullCube = false;
                         break;
                     }
@@ -100,35 +93,27 @@ public class ClientSetupHandler
             ItemBlockRenderTypes.setRenderLayer(PlantsInit.LARGE_GOLDEN_FERN.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(PlantsInit.TALL_GOLDEN_GRASS.get(), RenderType.cutout());
 
-            for (final RegistryObject<Block> reg : PokecubeLegends.DECORATION_TAB.getEntries())
-            {
+            for (final RegistryObject<Block> reg : PokecubeLegends.DECORATION_TAB.getEntries()) {
                 final Block b = reg.get();
-                if (b instanceof FlowerBase || b instanceof MushroomBase)
-                {
+                if (b instanceof FlowerBase || b instanceof MushroomBase) {
                     ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
                     continue;
                 }
                 boolean fullCube = true;
-                for (final BlockState state : b.getStateDefinition().getPossibleStates())
-                {
+                for (final BlockState state : b.getStateDefinition().getPossibleStates()) {
                     final Material m = state.getMaterial();
-                    if (ClientSetupHandler.notSolid.test(m))
-                    {
+                    if (ClientSetupHandler.notSolid.test(m)) {
                         fullCube = false;
                         break;
                     }
-                    try
-                    {
+                    try {
                         final VoxelShape s = state.getShape(null, BlockPos.ZERO);
-                        if (s != Shapes.block())
-                        {
+                        if (s != Shapes.block()) {
                             fullCube = false;
                             break;
                         }
                         if (m == Material.GLASS) ItemBlockRenderTypes.setRenderLayer(b, RenderType.translucent());
-                    }
-                    catch (final Exception e)
-                    {
+                    } catch (final Exception e) {
                         fullCube = false;
                         break;
                     }
@@ -138,29 +123,22 @@ public class ClientSetupHandler
             ItemBlockRenderTypes.setRenderLayer(BlockInit.ONE_WAY_GLASS.get(), RenderType.cutoutMipped());
             ItemBlockRenderTypes.setRenderLayer(BlockInit.FRAMED_DISTORTIC_MIRROR.get(), RenderType.translucent());
 
-            for (final RegistryObject<Block> reg : PokecubeLegends.POKECUBE_BLOCKS_TAB.getEntries())
-            {
+            for (final RegistryObject<Block> reg : PokecubeLegends.POKECUBE_BLOCKS_TAB.getEntries()) {
                 final Block b = reg.get();
                 boolean fullCube = true;
-                for (final BlockState state : b.getStateDefinition().getPossibleStates())
-                {
+                for (final BlockState state : b.getStateDefinition().getPossibleStates()) {
                     final Material m = state.getMaterial();
-                    if (ClientSetupHandler.notSolid.test(m))
-                    {
+                    if (ClientSetupHandler.notSolid.test(m)) {
                         fullCube = false;
                         break;
                     }
-                    try
-                    {
+                    try {
                         final VoxelShape s = state.getShape(null, BlockPos.ZERO);
-                        if (s != Shapes.block())
-                        {
+                        if (s != Shapes.block()) {
                             fullCube = false;
                             break;
                         }
-                    }
-                    catch (final Exception e)
-                    {
+                    } catch (final Exception e) {
                         fullCube = false;
                         break;
                     }
@@ -182,8 +160,7 @@ public class ClientSetupHandler
     }
 
     @SubscribeEvent
-    public static void registerRenderers(final RegisterRenderers event)
-    {
+    public static void registerRenderers(final RegisterRenderers event) {
         // Renderer for blocks
         event.registerBlockEntityRenderer(BlockInit.RAID_SPAWN_ENTITY.get(), Raid::new);
         event.registerBlockEntityRenderer(TileEntityInit.CAMPFIRE_ENTITY.get(), CampfireRenderer::new);
@@ -193,8 +170,7 @@ public class ClientSetupHandler
     }
 
     @SubscribeEvent
-    public static void registerParticleFactories(final ParticleFactoryRegisterEvent event)
-    {
+    public static void registerParticleFactories(final ParticleFactoryRegisterEvent event) {
         Minecraft.getInstance().particleEngine.register(ParticleInit.GOLD_STAR.get(),
                 SuspendedTownParticle.HappyVillagerProvider::new);
         Minecraft.getInstance().particleEngine.register(ParticleInit.ERROR.get(),
@@ -206,5 +182,12 @@ public class ClientSetupHandler
         Minecraft.getInstance().particleEngine.register(ParticleInit.INFECTED_SPARK.get(), LavaParticle.Provider::new);
         Minecraft.getInstance().particleEngine.register(ParticleInit.MUSHROOM.get(),
                 SuspendedTownParticle.Provider::new);
+    }
+
+    @SubscribeEvent
+    public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event)
+    {
+        event.registerLayerDefinition(LegendsModelLayers.IMPRISONMENT_ARMOR_INNER,
+                () -> LayerDefinition.create(ImprisonmentArmorModel.setup(LayerDefinitions.INNER_ARMOR_DEFORMATION), 64, 64));
     }
 }

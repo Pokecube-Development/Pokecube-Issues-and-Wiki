@@ -8,6 +8,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
@@ -36,6 +37,7 @@ import pokecube.legends.items.LegendsSword;
 import pokecube.legends.items.RainbowSword;
 import pokecube.legends.items.TemporalBambooBlockItem;
 import pokecube.legends.items.UltraKey;
+import pokecube.legends.items.armor.ImprisonmentArmorItem;
 import pokecube.legends.items.armor.UltraBootsEffect;
 import pokecube.legends.items.armor.UltraHelmetEffect;
 import pokecube.legends.items.natureedit.ItemNature;
@@ -395,7 +397,7 @@ public class ItemInit
                 () -> new ItemBase("zygardecube", 3, PokecubeLegends.TAB_LEGENDS, 1));
 
         IMPRISIONMENT_HELMET = PokecubeLegends.ITEMS.register("imprisonment_helmet",
-                () -> new ItemBase("imprisonment_helmet", 2, PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ImprisonmentArmorItem(ArmorMaterials.DIAMOND, EquipmentSlot.HEAD, new Item.Properties()));
         COBALION_SWORD = PokecubeLegends.ITEMS.register("cobalion_sword",
                 () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE, 2, -2.4F, new Item.Properties(),
                         PokecubeLegends.TAB_LEGENDS).setTooltipName("cobalion_sword").setTooltipExtraLine(2));
