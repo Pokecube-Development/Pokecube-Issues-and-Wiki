@@ -16,19 +16,24 @@ import com.google.common.base.Predicates;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
+import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
 import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.api.PokecubeAPI;
@@ -40,7 +45,10 @@ import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration.Clearan
 import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration.YSettings;
 import pokecube.world.gen.structures.pieces.ExpandedPoolElementStructurePiece;
 import pokecube.world.gen.structures.utils.ExpandedJigsawPacement;
+import thut.api.level.structures.NamedVolumes.INamedPart;
+import thut.api.level.structures.StructureManager;
 import thut.core.common.ThutCore;
+import thut.lib.TComponent;
 
 /**
  * This class manages organising IBlocksBuilder and IBlocksClearer, and
@@ -248,6 +256,55 @@ public class BuilderManager
 
             return null;
         }
+    }
+
+    public static boolean generateBuildingBookForLocation(ServerLevel level, BlockPos pos, ItemStack book)
+    {
+        if (book.getItem() != Items.WRITABLE_BOOK) return false;
+        var structs = StructureManager.getFor(level.dimension(), pos, false);
+        for (var s : structs)
+        {
+            INamedPart inside = null;
+            for (var p : s.getParts())
+            {
+                if (p.getBounds().isInside(pos))
+                {
+                    inside = p;
+                    break;
+                }
+            }
+            if (inside != null && inside.getWrapped() instanceof PoolElementStructurePiece pooled)
+            {
+                CompoundTag nbt = new CompoundTag();
+                ListTag pages = new ListTag();
+                nbt.put("pages", pages);
+                String msg = "build:building\n";
+
+                var contx = StructurePieceSerializationContext.fromLevel(level);;
+                var pooled_tag = pooled.createTag(contx);
+                var element_tag = pooled_tag.getCompound("pool_element");
+                msg += element_tag.getString("location") + "\n";
+                if (pooled_tag.contains("rotation")) msg += "r: " + pooled_tag.getString("rotation") + "\n";
+
+                int dy = pooled_tag.getInt("ground_level_delta");
+                if (element_tag.contains("int_config"))
+                {
+                    dy += element_tag.getCompound("int_config").getInt("y_offset");
+                }
+
+                if (dy != 0) msg += "s: 0 " + dy + " 0\n";
+                if (pooled_tag.contains("PosX")) msg += "o: " + pooled_tag.getInt("PosX") + " "
+                        + pooled_tag.getInt("PosY") + " " + pooled_tag.getInt("PosZ") + "\n";
+
+                System.out.println(pooled_tag);
+                pages.add(StringTag.valueOf(msg));
+
+                book.setTag(nbt);
+                book.setHoverName(TComponent.literal("Blueprint"));
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

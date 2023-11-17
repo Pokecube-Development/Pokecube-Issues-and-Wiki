@@ -511,6 +511,7 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
         {
             int y = ys.get(i);
             List<StructureBlockInfo> infos = removeOrder.get(y);
+            if (infos == null) continue;
             List<BlockPos> remove = StructureTemplateTools.getNeedsRemoval(level, settings, infos);
             if (remove.isEmpty()) continue;
             BlockPos pos = remove.get(0);
@@ -566,7 +567,7 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
             {
                 return new PlaceInfo(CanPlace.YES, info, -1);
             }
-            
+
             // Only check needed item if not creative
             if (!creative && itemSource != null) for (int i = 1; i < itemSource.getSlots(); i++)
             {
