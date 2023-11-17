@@ -87,7 +87,7 @@ public class AnimationXML
             if (mob == null || _type == null || !(mob.level instanceof ClientLevel level) || !mob.isAddedToWorld())
                 return;
             if (ThutCore.getConfig().modelCullThreshold == -1) return;
-            var animated = part.getAnimationHolder().getContext();
+            var animated = part.getAnimationHolder().get().getContext();
             var existing = animated.activeParticles().get(this);
 
             double rx = _place.x() + _particlePosition.x();

@@ -1,6 +1,9 @@
 package pokecube.core.impl.capabilities.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Lists;
@@ -57,7 +60,8 @@ public abstract class PokemobAI extends PokemobEvolves
     private int cachedCombatState;
     private int cachedLogicState;
 
-    private List<IAIRunnable> tasks = Lists.newArrayList();
+    private List<IAIRunnable> tasks = new ArrayList<>();
+    private Map<String, IAIRunnable> namedTasks = new HashMap<>();
 
     private Battle battle;
 
@@ -233,6 +237,12 @@ public abstract class PokemobAI extends PokemobEvolves
     }
 
     @Override
+    public Map<String, IAIRunnable> getNamedTaskes()
+    {
+        return namedTasks;
+    }
+
+    @Override
     public Battle getBattle()
     {
         return this.battle;
@@ -257,7 +267,7 @@ public abstract class PokemobAI extends PokemobEvolves
         final PokedexEntry entry = this.getPokedexEntry();
 
         this.guardCap = CapHolders.getGuardAI(entity);
-        
+
         if (this.getOwnerHolder() == null)
             PokecubeAPI.LOGGER.warn("Pokemob without ownable cap, this is a bug! " + this.getPokedexEntry());
         if (this.guardCap == null)
@@ -322,6 +332,8 @@ public abstract class PokemobAI extends PokemobEvolves
         // Send notification event of AI initilization, incase anyone wants to
         // affect it.
         PokecubeAPI.POKEMOB_BUS.post(new InitAIEvent.Post(this));
+
+        for (var task : this.tasks) if (!task.getIdentifier().isBlank()) namedTasks.put(task.getIdentifier(), task);
     }
 
     @Override

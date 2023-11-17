@@ -2,20 +2,15 @@ package pokecube.api.entity.pokemob.ai;
 
 import java.util.function.Predicate;
 
+import net.minecraftforge.common.IExtensibleEnum;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.IMoveConstants;
 
-public enum AIRoutine
+public enum AIRoutine implements IExtensibleEnum
 {
     //@formatter:off
     //Does the pokemob gather item drops and harvest crops.
     GATHER,
-    //Does the pokemob act like a vanilla bee
-    BEEAI(true, IMoveConstants.isBee),
-    //Does the pokemob act like an ant
-    ANTAI(true, IMoveConstants.isAnt),
-    //Does the pokemob make burrows
-    BURROWS(true, IMoveConstants.burrows),
     //Does the pokemob store its inventory when full.
     STORE(false),
     //Does the pokemob return to inventory when dead
@@ -33,6 +28,11 @@ public enum AIRoutine
     //Can the pokemob open and close doors
     USEDOORS(true, IMoveConstants.canOpenDoors);
     //@formatter:on
+
+    public static AIRoutine create(String name, boolean value, Predicate<IPokemob> isAllowed)
+    {
+        throw new IllegalStateException("Enum not extended");
+    }
 
     private final boolean default_;
 

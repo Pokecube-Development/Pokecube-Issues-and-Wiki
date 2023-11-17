@@ -183,9 +183,9 @@ public class ItemStackTools
         if (itemstack.isEmpty())
         {
             itemstack = itemStackIn.copy();
-            itemstack.setCount(0);
             if (itemStackIn.hasTag()) itemstack.setTag(itemStackIn.getTag().copy());
             inventory.setStackInSlot(index, itemstack);
+            return 0;
         }
 
         int remainingCount = count;

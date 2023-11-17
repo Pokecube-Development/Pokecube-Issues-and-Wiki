@@ -88,7 +88,7 @@ public class IdleRestTask extends BaseIdleTask
             distance = (int) Math.min(distance, this.pokemob.getHomeDistance());
             this.v.set(this.pokemob.getHome());
             if (this.entity.blockPosition().distSqr(this.pokemob.getHome()) > this.pokemob.getHomeDistance()
-                    * this.pokemob.getHomeDistance())
+                    * this.pokemob.getHomeDistance() * 0.75 || pokemob.isOnGround())
                 goHome = true;
         }
         else
@@ -128,6 +128,8 @@ public class IdleRestTask extends BaseIdleTask
         {
             pokemob.setLogicState(LogicStates.SITTING, false);
             reset();
+            restTimer = 20 + this.entity.getRandom().nextInt(IdleWalkTask.IDLETIMER)
+                    + this.entity.getRandom().nextInt(100);
             restTimer *= 10;
         }
         else

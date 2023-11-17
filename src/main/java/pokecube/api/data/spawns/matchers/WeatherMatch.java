@@ -1,5 +1,6 @@
 package pokecube.api.data.spawns.matchers;
 
+import net.minecraft.world.level.Level;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.data.spawns.SpawnCheck.MatchResult;
@@ -12,6 +13,8 @@ import pokecube.api.data.spawns.SpawnCheck.Weather;
  * Matcher key: "weather" <br>
  * Json keys: <br>
  * "type" - String, one of: "sun", "cloud", "rain", "snow", "none" <br>
+ * "inside" - boolean, default false. Whether it checks for weather other than "none" while underground as well<br>
+ * "outside" - boolean, default true. Whether it includes the check for weather which includes "none"
  * <br>
  * "none" is the response if not above ground.
  *
@@ -20,6 +23,8 @@ import pokecube.api.data.spawns.SpawnCheck.Weather;
 public class WeatherMatch extends BaseMatcher
 {
     public String type = "";
+    public boolean outside = true;
+    public boolean inside = false;
 
     private Weather _weather;
     private boolean _thunder = false;
@@ -27,8 +32,23 @@ public class WeatherMatch extends BaseMatcher
     @Override
     public MatchResult _matches(SpawnBiomeMatcher matcher, SpawnCheck checker)
     {
-        if (_thunder) return checker.thundering ? MatchResult.SUCCEED : MatchResult.FAIL;
-        return checker.weather == _weather ? MatchResult.SUCCEED : MatchResult.FAIL;
+        var weather = checker.weather;
+        var resp = MatchResult.FAIL;
+        if (outside)
+        {
+            if (_thunder) resp = checker.thundering ? MatchResult.SUCCEED : MatchResult.FAIL;
+            else resp = weather == _weather ? MatchResult.SUCCEED : MatchResult.FAIL;
+            if (resp == MatchResult.SUCCEED) return resp;
+        }
+        weather = checker.outsideWeather;
+        if (inside)
+        {
+            if (_thunder && checker.world instanceof Level level)
+                resp = level.isThundering() ? MatchResult.SUCCEED : MatchResult.FAIL;
+            else resp = weather == _weather ? MatchResult.SUCCEED : MatchResult.FAIL;
+            if (resp == MatchResult.SUCCEED) return resp;
+        }
+        return resp;
     }
 
     @Override

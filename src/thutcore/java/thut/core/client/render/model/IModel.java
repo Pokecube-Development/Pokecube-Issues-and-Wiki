@@ -45,12 +45,9 @@ public interface IModel
 
     Map<String, IExtendedModelPart> getParts();
 
-    List<String> getRenderOrder();
+    List<IExtendedModelPart> getRenderOrder();
 
-    default void setAnimationHolder(final IAnimationHolder holder)
-    {
-        this.getParts().forEach((s, p) -> p.setAnimationHolder(holder));
-    }
+    void setAnimationHolder(final IAnimationHolder holder);
 
     /**
      * Adjusts for differences in global coordinate systems.
@@ -116,6 +113,9 @@ public interface IModel
                 PokecubeAPI.LOGGER.error(e);
             }
         }
+        // Here we loop over the parts values instead of render order, as this
+        // is called before the render order is ready to setup. This is also not
+        // called during rendering itself, so is fine to be a slower loop.
         for (final IExtendedModelPart part : this.getParts().values()) part.updateMaterial(mat, material);
     }
 }
