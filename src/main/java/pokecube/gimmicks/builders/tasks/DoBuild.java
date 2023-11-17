@@ -326,7 +326,7 @@ public class DoBuild extends UtilTask
 
             if (requested.size() > 0)
             {
-                System.out.println(requested);
+//                System.out.println(requested);
                 // need item, request it.
                 builder.provideBoM(this.BoM, true);
                 if (entity.tickCount % 10 == 0)
