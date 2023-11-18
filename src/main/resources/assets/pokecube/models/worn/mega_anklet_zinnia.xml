@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" scale="1.171" offset="0,-0.15,-0.02" rotation="x:-90,y:0"/>
+  <phase name="global" scale="1.18" offset="0,-0.15,-0.06" rotation="x:-90,y:0"/>
   <material name="anklet" meshs="anklet" tex="textures/worn/mega_anklet_zinnia.png"/>
   <material name="anklet_overlay" meshs="anklet_overlay" tex="textures/worn/mega_anklet_zinnia_overlay.png"/>
   <material name="gem" meshs="gem" tex="textures/blank.png"/>
