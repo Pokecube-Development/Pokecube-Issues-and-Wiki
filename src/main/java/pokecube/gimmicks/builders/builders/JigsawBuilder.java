@@ -2,13 +2,17 @@ package pokecube.gimmicks.builders.builders;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
+
+import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
@@ -18,6 +22,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
+import thut.api.level.structures.NamedVolumes.INamedStructure;
 
 /**
  * This class is effectively a list of {@link StructureBuilder}, which is
@@ -38,6 +43,33 @@ public class JigsawBuilder implements INBTSerializable<CompoundTag>, IBlocksBuil
     public JigsawBuilder()
     {}
 
+    public JigsawBuilder(ServerLevel level, INamedStructure structure)
+    {
+        for (var part : structure.getParts())
+        {
+            if (part.getWrapped() instanceof PoolElementStructurePiece pooled)
+            {
+                if (pooled.getElement() instanceof SinglePoolElement elem)
+                {
+                    BlockPos origin = pooled.getPosition();
+                    var builder = new StructureBuilder(origin, pooled.getRotation(), pooled.getMirror());
+
+                    // Now make the settings object
+                    StructurePlaceSettings settings = null;
+                    if (elem instanceof ExpandedJigsawPiece jig)
+                    {
+                        settings = jig.getSettings(pooled.getRotation(), null, false);
+                    }
+                    builder.settings = settings;
+                    builder._source = pooled;
+                    builder._loaded = elem.getTemplate(level.getStructureManager());
+                    builder.checkBlueprint(level);
+                    builders.add(builder);
+                }
+            }
+        }
+    }
+
     public JigsawBuilder(StructurePiecesBuilder pieceBuilder, BlockPos shift, ServerLevel level)
     {
         pieceBuilder.build().pieces().forEach(piece -> {
@@ -51,7 +83,9 @@ public class JigsawBuilder implements INBTSerializable<CompoundTag>, IBlocksBuil
                     // Now make the settings object
                     StructurePlaceSettings settings = null;
                     if (elem instanceof ExpandedJigsawPiece jig)
+                    {
                         settings = jig.getSettings(pooled.getRotation(), null, false);
+                    }
                     builder.settings = settings;
                     builder._source = pooled;
                     builder._loaded = elem.getTemplate(level.getStructureManager());
@@ -171,7 +205,56 @@ public class JigsawBuilder implements INBTSerializable<CompoundTag>, IBlocksBuil
         }
         else
         {
+            List<ItemStack> items = new ArrayList<>();
+            // Recompute entire list, and provide that.
+            Map<Item, List<ItemStack>> stacks = Maps.newHashMap();
+            record.neededStacks().clear();
 
+            for (var builder : this.builders)
+            {
+                builder.provideBoM(record, onlyNeeded);
+                for (var stack : record.neededStacks())
+                {
+                    var list = stacks.getOrDefault(stack.getItem(), new ArrayList<>());
+                    stacks.put(stack.getItem(), list);
+                    if (list.isEmpty()) list.add(stack);
+                    else
+                    {
+                        if (!stack.hasTag())
+                        {
+                            boolean found = false;
+                            for (ItemStack held : list)
+                            {
+                                if (!held.hasTag())
+                                {
+                                    held.grow(stack.getCount());
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (!found) list.add(stack);
+                        }
+                        else
+                        {
+                            boolean found = false;
+                            for (ItemStack held : list)
+                            {
+                                if (held.hasTag() && held.getTag().equals(stack.getTag()))
+                                {
+                                    held.grow(stack.getCount());
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (!found) list.add(stack);
+                        }
+                    }
+                }
+                items.clear();
+                for (var list : stacks.values()) items.addAll(list);
+            }
+            record.neededStacks().clear();
+            record.neededStacks().addAll(items);
         }
     }
 

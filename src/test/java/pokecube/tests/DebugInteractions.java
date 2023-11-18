@@ -125,24 +125,31 @@ public class DebugInteractions
             return;
         boolean isStructureMaker = evt.getItemStack().getDisplayName().getString().contains("structure_maker");
         boolean isStructureBoM = evt.getItemStack().getDisplayName().getString().contains("structure_BoM");
+        boolean isStructureCopier = evt.getItemStack().getDisplayName().getString().contains("structure_Copy");
 
         var te = level.getBlockEntity(evt.getPos());
 
         long tick = Tracker.instance().getTick();
         if (player.getPersistentData().getLong("__debug_interaction__") == tick) return;
         player.getPersistentData().putLong("__debug_interaction__", tick);
+        BlockPos origin = evt.getPos();
+        var context = new BuildContext(level, origin, player);
+
+        if (isStructureCopier)
+        {
+            ItemStack book = new ItemStack(Items.WRITABLE_BOOK);
+            if (BuilderManager.generateBuildingBookForLocation(context, book)) player.addItem(book);
+        }
 
         if (te instanceof ChestBlockEntity chest && (isStructureMaker || isStructureBoM))
         {
             IItemHandlerModifiable itemSource = (IItemHandlerModifiable) ThutCaps.getInventory(chest);
-            BlockPos origin = evt.getPos();
             ItemStack key = itemSource.getStackInSlot(0);
             if (key.hasTag() && key.getOrCreateTag().get("pages") instanceof ListTag)
             {
 
                 try
                 {
-                    var context = new BuildContext(level, origin);
                     var build = BuilderManager.fromInstructions(key, context);
                     if (build != null)
                     {
