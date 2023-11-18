@@ -200,7 +200,6 @@ public class BuilderManager
                     name = loc.getPath();
                 }
                 toMake = new ResourceLocation(bcontext.player().getStringUUID(), name);
-                System.out.println(toMake);
             }
             else toMake = new ResourceLocation(name);
 
