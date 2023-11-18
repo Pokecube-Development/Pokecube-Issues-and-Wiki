@@ -284,8 +284,7 @@ public class ClientSetupHandler
         }
         event.registerEntityRenderer(EntityTypes.getPokecube(), RenderPokecube::new);
         event.registerEntityRenderer(EntityTypes.getMove(), RenderMoves::new);
-        event.registerEntityRenderer(EntityTypes.getNpc(),
-                (entityRenderDispatcher) -> new RenderNPC<>(entityRenderDispatcher, false));
+        event.registerEntityRenderer(EntityTypes.getNpc(), RenderNPC::new);
         event.registerEntityRenderer(EntityTypes.getEgg(), RenderEgg::new);
         event.registerEntityRenderer(EntityTypes.getBoat(), GenericBoatRenderer::new);
 

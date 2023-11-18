@@ -225,10 +225,8 @@ public class ClientSetupHandler
     @SubscribeEvent
     public static void registerRenderers(final RegisterRenderers event)
     {
-        event.registerEntityRenderer(EntityTypes.getTrainer(),
-                (entityRenderDispatcher) -> new RenderNPC<>(entityRenderDispatcher, false));
-        event.registerEntityRenderer(EntityTypes.getLeader(),
-                (entityRenderDispatcher) -> new RenderNPC<>(entityRenderDispatcher, false));
+        event.registerEntityRenderer(EntityTypes.getTrainer(), RenderNPC::new);
+        event.registerEntityRenderer(EntityTypes.getLeader(), RenderNPC::new);
 
         event.registerBlockEntityRenderer(PokecubeAdv.STATUE_TYPE.get(), StatueBlock::new);
     }
