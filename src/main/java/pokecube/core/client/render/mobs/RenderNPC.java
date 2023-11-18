@@ -35,7 +35,7 @@ public class RenderNPC<T extends NpcMob> extends LivingEntityRenderer<T, PlayerM
     protected final List<RenderLayer<T, PlayerModel<T>>> layers_slim = Lists.newArrayList();
     protected final List<RenderLayer<T, PlayerModel<T>>> layers_normal = Lists.newArrayList();
 
-    public RenderNPC(final EntityRendererProvider.Context context)
+    public RenderNPC(final EntityRendererProvider.Context context, boolean slimArms)
     {
         super(context, new PlayerModel<>(context.bakeLayer(ModelLayers.PLAYER), false), 0.5F);
         this.normal = this.getModel();
@@ -49,6 +49,9 @@ public class RenderNPC<T extends NpcMob> extends LivingEntityRenderer<T, PlayerM
                 new HumanoidArmorLayer<>(this, new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)),
                         new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR))));
 
+        this.addLayer(new HumanoidArmorLayer<T, PlayerModel<T>, HumanoidModel<T>>(this,
+                new HumanoidModel<>(context.bakeLayer(slimArms ? ModelLayers.PLAYER_SLIM_INNER_ARMOR : ModelLayers.PLAYER_INNER_ARMOR)),
+                new HumanoidModel<>(context.bakeLayer(slimArms ? ModelLayers.PLAYER_SLIM_OUTER_ARMOR : ModelLayers.PLAYER_OUTER_ARMOR))));
         this.addLayer(new ItemInHandLayer<>(this));
         this.addLayer(new ArrowLayer<>(context, this));
         this.addLayer(new CustomHeadLayer<>(this, context.getModelSet()));
