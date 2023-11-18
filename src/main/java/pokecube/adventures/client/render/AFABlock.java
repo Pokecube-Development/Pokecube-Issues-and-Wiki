@@ -14,7 +14,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.adventures.blocks.afa.AfaTile;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.client.render.mobs.overlays.Status.StatusTexturer;
+import pokecube.core.entity.genetics.GeneticsManager;
+import thut.api.ThutCaps;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.core.client.render.animation.AnimationHelper;
 import thut.core.client.render.texturing.IPartTexturer;
@@ -89,6 +92,20 @@ public class AFABlock implements BlockEntityRenderer<AfaTile>
         final LivingEntity copied = pokemob.getEntity();
 
         matrixStackIn.pushPose();
+
+        float size = 0.15f / GuiPokemobHelper.sizeMap.getOrDefault(pokemob.getPokedexEntry(), 1.0f);
+        float oldSize = pokemob.getSize();
+        if (size != oldSize)
+        {
+            pokemob.setRGBA(255, 255, 255, 128);
+            pokemob.setSize(size);
+            var genes = ThutCaps.getGenetics(copied);
+            var size_gene = genes.getAlleles(GeneticsManager.SIZEGENE);
+            if (size_gene != null) size_gene.getExpressed().onUpdateTick(copied);
+        }
+
+        copied.setYBodyRot(((tile.getLevel().getDayTime() + partialTicks) * 2.5f) % 360f);
+        copied.setYHeadRot(((tile.getLevel().getDayTime() + partialTicks) * 2.5f) % 360f);
 
         matrixStackIn.translate(0, 1, 0);
         // TODO Read offsets from afa and apply them here.

@@ -174,8 +174,8 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
             this.pokemob.getEntity().setPos(this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 0.5,
                     this.getBlockPos().getZ() + 0.5);
             this.ability.init(this.pokemob, this.distance);
-            if (this.getLevel() instanceof ServerLevel && update) TileUpdate.sendUpdate(this);
         }
+        if (this.getLevel() instanceof ServerLevel && update) TileUpdate.sendUpdate(this);
     }
 
     @Override
