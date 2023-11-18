@@ -87,7 +87,7 @@ public class StructureTemplateTools
             // for blocks already in world. Using it prevents pistons from
             // rotating properly!
             @SuppressWarnings("deprecation")
-            var state = info.state.rotate(settings.getRotation()).mirror(settings.getMirror());
+            var state = info.state.mirror(settings.getMirror()).rotate(settings.getRotation());
 
             level.setBlockAndUpdate(pos, state);
 

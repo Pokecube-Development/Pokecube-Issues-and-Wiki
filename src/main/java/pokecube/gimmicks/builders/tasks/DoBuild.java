@@ -421,7 +421,7 @@ public class DoBuild extends UtilTask
         }
 
         builder.markPendingBuild(storeLoc);
-        clearer.markPendingClear(storeLoc);
+        if (clearer != null) clearer.markPendingClear(storeLoc);
 
         if (entity.tickCount % 40 == 0) builder.checkBoM(this.BoM);
 
