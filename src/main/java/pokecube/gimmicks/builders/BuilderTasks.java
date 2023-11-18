@@ -39,7 +39,7 @@ public class BuilderTasks
         PokecubeAPI.POKEMOB_BUS.addListener(BuilderTasks::onAIInit);
 
         List<String> keys = new ArrayList<>();
-        ForgeRegistries.BLOCK_ENTITIES.getKeys().forEach(key -> keys.add(key.toString()));
+        ForgeRegistries.BLOCK_ENTITY_TYPES.getKeys().forEach(key -> keys.add(key.toString()));
         keys.sort(null);
         config.known_ids = keys;
         BuilderConfig.saveConfig(config);
