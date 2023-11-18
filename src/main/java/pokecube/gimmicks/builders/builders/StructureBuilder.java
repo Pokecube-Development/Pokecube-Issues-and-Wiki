@@ -44,6 +44,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.api.PokecubeAPI;
+import pokecube.gimmicks.builders.BuilderTasks;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
 import pokecube.world.gen.structures.processors.MarkerToAirProcessor;
 import thut.api.util.JsonUtil;
@@ -443,7 +444,7 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
             placeOrder.clear();
             placeOrder.addAll(infos);
             neededItems.clear();
-            neededItems = StructureTemplateTools.getNeededMaterials(level, infos);
+            neededItems = StructureTemplateTools.getNeededMaterials(level, infos, BuilderTasks.config::canHaveTag);
             if (neededItems.isEmpty())
             {
                 this.done = true;
@@ -510,6 +511,7 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
         {
             int y = ys.get(i);
             List<StructureBlockInfo> infos = removeOrder.get(y);
+            if (infos == null) continue;
             List<BlockPos> remove = StructureTemplateTools.getNeedsRemoval(level, settings, infos);
             if (remove.isEmpty()) continue;
             BlockPos pos = remove.get(0);
@@ -561,6 +563,11 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
         ItemStack stack = StructureTemplateTools.getForInfo(info);
         if (!stack.isEmpty())
         {
+            if (creative)
+            {
+                return new PlaceInfo(CanPlace.YES, info, -1);
+            }
+
             // Only check needed item if not creative
             if (!creative && itemSource != null) for (int i = 1; i < itemSource.getSlots(); i++)
             {
@@ -577,16 +584,13 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
             {
                 return new PlaceInfo(CanPlace.NO, info, -1);
             }
-            else if (creative)
-            {
-                return new PlaceInfo(CanPlace.YES, info, -1);
-            }
             else
             {
                 missingItems.set(index);
             }
+            return new PlaceInfo(CanPlace.NEED_ITEM, info, -1);
         }
-        return new PlaceInfo(stack.isEmpty() ? CanPlace.NO : CanPlace.NEED_ITEM, info, -1);
+        return new PlaceInfo(CanPlace.NO, info, -1);
     }
 
     @Override
@@ -768,9 +772,13 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
 
     private PlaceContext getPlacement()
     {
-        if (placement == null || placement.creative() != this.isCreative())
+        if (placement == null)
         {
-            placement = new PlaceContext(settings, level, creative);
+            placement = new PlaceContext(settings, level, (info) -> {
+                if (this.isCreative()) return true;
+                ItemStack stack = StructureTemplateTools.getForInfo(info);
+                return BuilderTasks.config.canHaveTag(stack);
+            });
         }
         return placement;
     }

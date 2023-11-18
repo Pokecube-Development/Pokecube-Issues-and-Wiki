@@ -8,6 +8,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
@@ -71,6 +72,19 @@ public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTa
         build = null;
     }
 
+    /**
+     * Swaps the book to the main hand, so it is no longer read for
+     * instructions.
+     */
+    private void swapHands()
+    {
+        ItemStack main = entity.getMainHandItem();
+        ItemStack off = entity.getOffhandItem();
+        entity.setItemInHand(InteractionHand.MAIN_HAND, off);
+        entity.setItemInHand(InteractionHand.OFF_HAND, main);
+        pokemob.getInventory().setChanged();
+    }
+
     public void setBuilder(BuilderClearer builder, ServerLevel level, List<IPokemob> pokemobs)
     {
         var pair = storage.getInventory(level, storage.storageLoc, Direction.UP);
@@ -110,20 +124,27 @@ public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTa
         var builder = build.builder();
         var clearer = build.clearer();
 
+        boolean creative = pokemob.getOwner() instanceof ServerPlayer player
+                && (player.isCreative() || player.isSpectator());
         // Initialise the level, this ensures that it loads properly from nbt if
         // saved. This also calls an initial init for all of the builders
-        if (builder != null && builder.getLevel() == null) builder.update(level);
-        if (clearer != null && clearer.getLevel() == null) clearer.update(level);
+        if (builder != null && builder.getLevel() == null)
+        {
+            builder.setCreative(creative);
+            builder.update(level);
+        }
+        if (clearer != null && clearer.getLevel() == null)
+        {
+            clearer.setCreative(creative);
+            clearer.update(level);
+        }
 
         // This means we are finished
         if (builder != null && !builder.validBuilder())
         {
             // Swap held items in this case. This prevents us immediately
             // trying to make a jigsaw again.
-            ItemStack main = entity.getMainHandItem();
-            ItemStack off = entity.getOffhandItem();
-            entity.setItemInHand(InteractionHand.MAIN_HAND, off);
-            entity.setItemInHand(InteractionHand.OFF_HAND, main);
+            swapHands();
             reset();
             return;
         }
@@ -211,9 +232,16 @@ public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTa
             if (pair == null) return false;
 
             BlockPos origin = pokemob.getHome();
-            BuildContext context = new BuildContext(level, origin);
+            ServerPlayer owner = null;
+            if (pokemob.getOwner() instanceof ServerPlayer player) owner = player;
+            BuildContext context = new BuildContext(level, origin, owner);
             this.build = BuilderManager.fromInstructions(last, context);
             hasInstructions = this.build != null;
+            if (hasInstructions && build.saveKey().equals("save"))
+            {
+                swapHands();
+                hasInstructions = false;
+            }
 
             if (hadInstructions && !hasInstructions)
             {

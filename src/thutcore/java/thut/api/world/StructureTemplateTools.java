@@ -1,7 +1,9 @@
 package thut.api.world;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -32,7 +34,8 @@ import net.minecraft.world.phys.Vec3;
 
 public class StructureTemplateTools
 {
-    public static record PlaceContext(StructurePlaceSettings settings, ServerLevel level, boolean creative)
+    public static record PlaceContext(StructurePlaceSettings settings, ServerLevel level,
+            Predicate<StructureBlockInfo> applyTag)
     {
     }
 
@@ -84,11 +87,11 @@ public class StructureTemplateTools
             // for blocks already in world. Using it prevents pistons from
             // rotating properly!
             @SuppressWarnings("deprecation")
-            var state = info.state.rotate(settings.getRotation()).mirror(settings.getMirror());
+            var state = info.state.mirror(settings.getMirror()).rotate(settings.getRotation());
 
             level.setBlockAndUpdate(pos, state);
 
-            if (tag != null && context.creative())
+            if (tag != null && context.applyTag().test(info))
             {
                 var blockentity = level.getBlockEntity(pos);
                 Clearable.tryClear(blockentity);
@@ -139,11 +142,12 @@ public class StructureTemplateTools
     }
 
     public static Map<BlockPos, ItemStack> getNeededMaterials(ServerLevel level, List<StructureBlockInfo> infos,
-            int startIndex, int endIndex)
+            int startIndex, int endIndex, Predicate<ItemStack> applyTag)
     {
         endIndex = Math.min(endIndex, infos.size() - 1);
-        Map<Item, ItemStack> tmp = Maps.newHashMap();
-        Map<BlockPos, ItemStack> neededItems = Maps.newHashMap();
+        Map<Item, List<ItemStack>> stacks = Maps.newHashMap();
+        Map<BlockPos, ItemStack> byCoordinate = Maps.newHashMap();
+        outer:
         for (int i = startIndex; i <= endIndex; i++)
         {
             var info = infos.get(i);
@@ -152,24 +156,59 @@ public class StructureTemplateTools
                 BlockPlacer placer = getPlacer(info.state);
                 BlockState old = level.getBlockState(info.pos);
                 if (old.getBlock() == info.state.getBlock()) continue;
-                ItemStack newStack = placer.getForBlock(info);
-                if (!newStack.isEmpty())
+                ItemStack stack = placer.getForBlock(info);
+                if (stack.hasTag() && !applyTag.test(stack)) stack.setTag(null);
+                if (!stack.isEmpty())
                 {
-                    Item item = newStack.getItem();
-                    ItemStack stack = tmp.get(item);
-                    if (stack == null) stack = newStack;
-                    else stack.setCount(stack.getCount() + 1);
-                    tmp.put(item, stack);
-                    neededItems.put(info.pos, stack);
+                    var list = stacks.getOrDefault(stack.getItem(), new ArrayList<>());
+                    stacks.put(stack.getItem(), list);
+                    if (list.isEmpty())
+                    {
+                        byCoordinate.put(info.pos, stack);
+                        list.add(stack);
+                        continue outer;
+                    }
+                    else
+                    {
+                        if (!stack.hasTag())
+                        {
+                            for (ItemStack held : list)
+                            {
+                                if (!held.hasTag())
+                                {
+                                    held.grow(stack.getCount());
+                                    continue outer;
+                                }
+                            }
+                            byCoordinate.put(info.pos, stack);
+                            list.add(stack);
+                            continue outer;
+                        }
+                        else
+                        {
+                            for (ItemStack held : list)
+                            {
+                                if (held.hasTag() && held.getTag().equals(stack.getTag()))
+                                {
+                                    held.grow(stack.getCount());
+                                    continue outer;
+                                }
+                            }
+                            byCoordinate.put(info.pos, stack);
+                            list.add(stack);
+                            continue outer;
+                        }
+                    }
                 }
             }
         }
-        return neededItems;
+        return byCoordinate;
     }
 
-    public static Map<BlockPos, ItemStack> getNeededMaterials(ServerLevel level, List<StructureBlockInfo> infos)
+    public static Map<BlockPos, ItemStack> getNeededMaterials(ServerLevel level, List<StructureBlockInfo> infos,
+            Predicate<ItemStack> applyTag)
     {
-        return getNeededMaterials(level, infos, 0, infos.size() - 1);
+        return getNeededMaterials(level, infos, 0, infos.size() - 1, applyTag);
     }
 
     public static List<BlockPos> getNeedsRemoval(ServerLevel level, StructurePlaceSettings settings,

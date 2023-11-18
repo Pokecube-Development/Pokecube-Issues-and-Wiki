@@ -13,25 +13,34 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
 
+import net.minecraft.ResourceLocationException;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
+import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.Structure.StructureSettings;
 import net.minecraft.world.level.levelgen.structure.TerrainAdjustment;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.utils.BookInstructionsParser;
@@ -41,7 +50,10 @@ import pokecube.world.gen.structures.GenericJigsawStructure.AvoidanceSettings;
 import pokecube.world.gen.structures.GenericJigsawStructure.ClearanceSettings;
 import pokecube.world.gen.structures.GenericJigsawStructure.YSettings;
 import pokecube.world.gen.structures.utils.ExpandedJigsawPacement;
+import thut.api.level.structures.NamedVolumes.INamedPart;
+import thut.api.level.structures.StructureManager;
 import thut.core.common.ThutCore;
+import thut.lib.TComponent;
 
 /**
  * This class manages organising IBlocksBuilder and IBlocksClearer, and
@@ -55,7 +67,8 @@ public class BuilderManager
      * with. It also holds a String, saveKey, which is what is used to lookup
      * the serializer/deserializer.
      */
-    public static record BuilderClearer(IBlocksBuilder builder, IBlocksClearer clearer, String saveKey)
+    public static record BuilderClearer(@Nullable IBlocksBuilder builder, @Nullable IBlocksClearer clearer,
+            @Nonnull String saveKey)
     {
     }
 
@@ -63,8 +76,12 @@ public class BuilderManager
      * Context for starting a build. It includes the involved server level, as
      * well as the blockpos to consider origin for the build.
      */
-    public static record BuildContext(ServerLevel level, BlockPos origin)
+    public static record BuildContext(ServerLevel level, BlockPos origin, @Nullable ServerPlayer player)
     {
+        public BuildContext(ServerLevel level, BlockPos origin)
+        {
+            this(level, origin, null);
+        }
     }
 
     /**
@@ -127,6 +144,7 @@ public class BuilderManager
      */
     public static class DefaultSaver implements Function<BuilderClearer, CompoundTag>
     {
+        public static final DefaultSaver INSTANCE = new DefaultSaver();
 
         @Override
         public CompoundTag apply(BuilderClearer build)
@@ -146,6 +164,8 @@ public class BuilderManager
      */
     private static class DefaultParser implements BiFunction<List<String>, BuildContext, BuilderClearer>
     {
+        private static final DefaultParser INSTANCE = new DefaultParser();
+
         @Override
         public BuilderClearer apply(List<String> lines, BuildContext bcontext)
         {
@@ -158,15 +178,38 @@ public class BuilderManager
             BlockPos shift = new BlockPos(0, 0, 0);
 
             String type = lines.get(0).replace("build:", "").strip();
+            boolean loadSaved = false;
 
-            if (!(type.equals("jigsaw") || type.equals("building"))) return null;
+            if (type.equals("save"))
+            {
+                if (bcontext.player() == null) return null;
+                boolean trySave = saveStructureForLocation(lines, bcontext);
+                if (!trySave) return null;
+                return new BuilderClearer(null, null, type);
+            }
 
-            toMake = new ResourceLocation(lines.get(1));
+            if (!(type.equals("jigsaw") || type.equals("building") || (loadSaved = type.equals("saved")))) return null;
+
+            if (type.equals("saved") && bcontext.player() == null) return null;
+
+            var name = lines.get(1);
+            if (loadSaved)
+            {
+                if (name.contains(":"))
+                {
+                    var loc = new ResourceLocation(name);
+                    name = loc.getPath();
+                }
+                toMake = new ResourceLocation(bcontext.player().getStringUUID(), name);
+            }
+            else toMake = new ResourceLocation(name);
+
             String rotation = "NONE";
             String offset = "0 0 0";
             String mirror = "NONE";
             String _origin = "";
             int jigsawDepth = 4;
+            boolean noClear = false;
 
             for (int i = 2; i < lines.size(); i++)
             {
@@ -176,6 +219,7 @@ public class BuilderManager
                 if (line.startsWith("m:")) rotation = line.replace("m:", "").strip();
                 if (line.startsWith("d:")) jigsawDepth = Integer.parseInt(line.replace("d:", "").strip());
                 if (line.startsWith("o:")) _origin = line.replace("o:", "").strip();
+                if (line.startsWith("no_clear")) noClear = true;
             }
 
             Rotation rot = Rotation.NONE;
@@ -209,10 +253,11 @@ public class BuilderManager
 
             if (toMake != null)
             {
-                if (type.equals("building"))
+                if (type.equals("building") || type.equals("saved"))
                 {
                     var builder = new StructureBuilder(origin.offset(shift), rot, mir);
                     builder.toMake = toMake;
+                    if (noClear) return new BuilderClearer(builder, null, "builder");
                     return new BuilderClearer(builder, builder, "builder");
                 }
                 else
@@ -238,6 +283,7 @@ public class BuilderManager
                         StructurePiecesBuilder structurepiecesbuilder = make.get().getPiecesBuilder();
 
                         var jigsaw = new JigsawBuilder(structurepiecesbuilder, shift, level);
+                        if (noClear) return new BuilderClearer(jigsaw, null, "jigsaw");
                         return new BuilderClearer(jigsaw, jigsaw, "jigsaw");
                     }
                 }
@@ -245,6 +291,125 @@ public class BuilderManager
 
             return null;
         }
+    }
+
+    public static boolean saveStructureForLocation(List<String> lines, BuildContext bcontext)
+    {
+        if (bcontext.player() == null) return false;
+        if (lines.size() < 2) return false;
+
+        var level = bcontext.level();
+        var origin = bcontext.origin();
+
+        ResourceLocation toMake = null;
+        BlockPos size = new BlockPos(0, 0, 0);
+
+        String type = lines.get(0).replace("build:", "").strip();
+
+        if (!type.equals("save")) return false;
+
+        var name = lines.get(1);
+        if (name.contains(":"))
+        {
+            var loc = new ResourceLocation(name);
+            name = loc.getPath();
+        }
+
+        toMake = new ResourceLocation(bcontext.player().getStringUUID(), name);
+
+        String _size = "0 0 0";
+        String _origin = "";
+
+        for (int i = 2; i < lines.size(); i++)
+        {
+            String line = lines.get(i);
+            if (line.startsWith("s:")) _size = line.replace("s:", "").strip();
+            if (line.startsWith("o:")) _origin = line.replace("o:", "").strip();
+        }
+
+        var tmp = BookInstructionsParser.blockPosFromInstruction(_size);
+        if (tmp != null) size = tmp;
+
+        if (!_origin.isBlank())
+        {
+            tmp = BookInstructionsParser.blockPosFromInstruction(_origin);
+            if (tmp != null) origin = tmp;
+        }
+
+        int volume = size.getX() * size.getY() * size.getZ();
+        if (volume > 32 * 32 * 32) return false;
+
+        var structuremanager = level.getStructureManager();
+
+        StructureTemplate structuretemplate;
+        try
+        {
+            structuretemplate = structuremanager.getOrCreate(toMake);
+        }
+        catch (ResourceLocationException resourcelocationexception1)
+        {
+            return false;
+        }
+
+        structuretemplate.fillFromWorld(level, origin, size, false, Blocks.AIR);
+        structuretemplate.setAuthor(bcontext.player().getName().getString());
+        try
+        {
+            return structuremanager.save(toMake);
+        }
+        catch (ResourceLocationException resourcelocationexception)
+        {
+            return false;
+        }
+    }
+
+    public static boolean generateBuildingBookForLocation(BuildContext context, ItemStack book)
+    {
+        var level = context.level();
+        var pos = context.origin();
+        if (book.getItem() != Items.WRITABLE_BOOK) return false;
+        var structs = StructureManager.getFor(level.dimension(), pos, false);
+        for (var s : structs)
+        {
+            INamedPart inside = null;
+            for (var p : s.getParts())
+            {
+                if (p.getBounds().isInside(pos))
+                {
+                    inside = p;
+                    break;
+                }
+            }
+            if (inside != null && inside.getWrapped() instanceof PoolElementStructurePiece pooled)
+            {
+                CompoundTag nbt = new CompoundTag();
+                ListTag pages = new ListTag();
+                nbt.put("pages", pages);
+                String msg = "build:building\n";
+
+                var contx = StructurePieceSerializationContext.fromLevel(level);;
+                var pooled_tag = pooled.createTag(contx);
+                var element_tag = pooled_tag.getCompound("pool_element");
+                msg += element_tag.getString("location") + "\n";
+                if (pooled_tag.contains("rotation")) msg += "r: " + pooled_tag.getString("rotation") + "\n";
+
+                int dy = pooled_tag.getInt("ground_level_delta");
+                if (element_tag.contains("int_config"))
+                {
+                    dy += element_tag.getCompound("int_config").getInt("y_offset");
+                }
+
+                if (dy != 0) msg += "s: 0 " + dy + " 0\n";
+                if (pooled_tag.contains("PosX")) msg += "o: " + pooled_tag.getInt("PosX") + " "
+                        + pooled_tag.getInt("PosY") + " " + pooled_tag.getInt("PosZ") + "\n";
+                pages.add(StringTag.valueOf(msg));
+
+                book.setTag(nbt);
+                book.setHoverName(TComponent.literal("Blueprint"));
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -255,13 +420,15 @@ public class BuilderManager
     {
         if (providers.isEmpty())
         {
-            var parser = new DefaultParser();
+            var parser = DefaultParser.INSTANCE;
             providers.put("jigsaw", parser);
             providers.put("building", parser);
+            providers.put("save", parser);
+            providers.put("saved", parser);
         }
         if (savers.isEmpty())
         {
-            var saver = new DefaultSaver();
+            var saver = DefaultSaver.INSTANCE;
             savers.put("jigsaw", saver);
             savers.put("building", saver);
         }
