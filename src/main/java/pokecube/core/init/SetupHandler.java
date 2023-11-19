@@ -1,7 +1,5 @@
 package pokecube.core.init;
 
-import net.minecraft.commands.synchronization.ArgumentTypes;
-import net.minecraft.commands.synchronization.EmptyArgumentSerializer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -22,7 +20,6 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.items.IPokemobUseable;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
-import pokecube.core.commands.arguments.PokemobArgument;
 import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.moves.PokemobTerrainEffects;
@@ -64,10 +61,6 @@ public class SetupHandler
 
         // Forward this to PCEdit mod:
         NBTEdit.setup(event);
-
-        // Register command argument type serializers
-        ArgumentTypes.register("pokecube:pokemob", PokemobArgument.class,
-                new EmptyArgumentSerializer<>(PokemobArgument::pokemob));
     }
 
     @SubscribeEvent
