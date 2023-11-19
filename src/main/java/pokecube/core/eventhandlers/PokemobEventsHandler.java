@@ -515,7 +515,6 @@ public class PokemobEventsHandler
      */
     private static void onCapturePre(CaptureEvent.Pre event)
     {
-        System.out.println(event.getResult());
         if (event.getResult() != Result.DEFAULT) return;
         if (!event.mob.isAlive()) event.setResult(Result.DENY);
     }
