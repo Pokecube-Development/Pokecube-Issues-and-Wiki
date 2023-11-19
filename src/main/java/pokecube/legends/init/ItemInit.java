@@ -397,7 +397,9 @@ public class ItemInit
                 () -> new ItemBase("zygardecube", 3, PokecubeLegends.TAB_LEGENDS, 1));
 
         IMPRISIONMENT_HELMET = PokecubeLegends.ITEMS.register("imprisonment_helmet",
-                () -> new ImprisonmentArmorItem(ArmorMaterials.DIAMOND, EquipmentSlot.HEAD, new Item.Properties()));
+                () -> new ImprisonmentArmorItem("imprisonment_helmet", 2,
+                        LegendsArmorMaterial.IMPRISONMENT_ARMOR, EquipmentSlot.HEAD, PokecubeLegends.TAB_LEGENDS, 1,
+                        new Item.Properties()));
         COBALION_SWORD = PokecubeLegends.ITEMS.register("cobalion_sword",
                 () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE, 2, -2.4F, new Item.Properties(),
                         PokecubeLegends.TAB_LEGENDS).setTooltipName("cobalion_sword").setTooltipExtraLine(2));
@@ -506,14 +508,14 @@ public class ItemInit
                         BlockInit.TEMPORAL_SIGN.get(), BlockInit.TEMPORAL_WALL_SIGN.get()));
 
         ULTRA_HELMET = PokecubeLegends.ITEMS.register("ultra_helmet",
-                () -> new UltraHelmetEffect(ItemInit.armormaterial, EquipmentSlot.HEAD,
+                () -> new UltraHelmetEffect(LegendsArmorMaterial.ULTRA_ARMOR, EquipmentSlot.HEAD,
                         new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
         ULTRA_CHESTPLATE = PokecubeLegends.ITEMS.register("ultra_chestplate",
-                () -> new ArmorItem(ItemInit.armormaterial, EquipmentSlot.CHEST,
+                () -> new ArmorItem(LegendsArmorMaterial.ULTRA_ARMOR, EquipmentSlot.CHEST,
                         new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
-        ULTRA_LEGGINGS = PokecubeLegends.ITEMS.register("ultra_leggings", () -> new ArmorItem(ItemInit.armormaterial,
+        ULTRA_LEGGINGS = PokecubeLegends.ITEMS.register("ultra_leggings", () -> new ArmorItem(LegendsArmorMaterial.ULTRA_ARMOR,
                 EquipmentSlot.LEGS, new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
-        ULTRA_BOOTS = PokecubeLegends.ITEMS.register("ultra_boots", () -> new UltraBootsEffect(ItemInit.armormaterial,
+        ULTRA_BOOTS = PokecubeLegends.ITEMS.register("ultra_boots", () -> new UltraBootsEffect(LegendsArmorMaterial.ULTRA_ARMOR,
                 EquipmentSlot.FEET, new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
 
         ULTRAKEY = PokecubeLegends.ITEMS.register("ultrakey",

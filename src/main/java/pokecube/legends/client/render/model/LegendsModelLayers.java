@@ -7,6 +7,7 @@ import pokecube.legends.Reference;
 public class LegendsModelLayers
 {
     public static final ModelLayerLocation IMPRISONMENT_ARMOR_INNER = register("imprisonmemt_armor", "inner");
+    public static final ModelLayerLocation IMPRISONMENT_ARMOR_OUTER = register("imprisonmemt_armor", "outer");
 
     private static ModelLayerLocation register(String name, String location)
     {
