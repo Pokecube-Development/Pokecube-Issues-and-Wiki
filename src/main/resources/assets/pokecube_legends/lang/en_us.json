@@ -169,16 +169,16 @@
     "spawn.structure.pokecube_legends.registeel_temple": "Registeel Temple",
     
     "filled_map.maps/ocean_town": "Exploration Map: Ocean Village",
-    "filled_map.maps/team_rocket": "Rocket Hideout",
-    "filled_map.maps/team_magma": "Magma Hideout",
-    "filled_map.maps/team_aqua": "Aqua Hideout",
+    "filled_map.maps/team_rocket": "Exploration Map: Team Rocket Hideout",
+    "filled_map.maps/team_magma": "Exploration Map: Team Magma Hideout",
+    "filled_map.maps/team_aqua": "Exploration Map: Team Aqua Hideout",
 
     "_comment10": "Advancements",
-    "advancements.mirror.title": "Welcome to Distortic World!",
+    "advancements.mirror.title": "Welcome to the Distortic World!",
     "advancements.mirror.descr": "Enter the Distortic World for the first time.",
 
     "advancements.headmirror.title": "I see myself?",
-    "advancements.headmirror.descr": "build Giratina's Mirror",
+    "advancements.headmirror.descr": "Build Giratina's Mirror",
 
     "advancements.intotespace.title": "Colliding Universes!",
     "advancements.intotespace.descr": "Visit all Ultra Space biomes",
@@ -187,19 +187,19 @@
     "advancements.ultraubs.descr": "Capture all Ultra Beasts",
 
     "advancements.ultratraje.title": "Avoiding Anomalies!",
-    "advancements.ultratraje.descr": "Craft a full set of Ultra armor",
+    "advancements.ultratraje.descr": "Craft the Ultra Space Suit",
 
-    "advancements.ultraspace.title": "Welcome to Ultra Space!",
+    "advancements.ultraspace.title": "Ready for Ultra Space!",
     "advancements.ultraspace.descr": "Enter Ultra Space for the first time",
 
     "advancements.spectrum.title": "Spectrum!?",
     "advancements.spectrum.descr": "Acquire Spectrum",
 
     "_comment11": "Armors",
-    "item.pokecube_legends.ultra_helmet": "Ultra Helmet",
-    "item.pokecube_legends.ultra_chestplate": "Ultra Chestplate",
-    "item.pokecube_legends.ultra_leggings": "Ultra Leggings",
-    "item.pokecube_legends.ultra_boots": "Ultra Boots",
+    "item.pokecube_legends.ultra_helmet": "Ultra Space Suit Helmet",
+    "item.pokecube_legends.ultra_chestplate": "Ultra Space Suit Chestplate",
+    "item.pokecube_legends.ultra_leggings": "Ultra Space Suit Leggings",
+    "item.pokecube_legends.ultra_boots": "Ultra Space Suit Boots",
 
     "_comment12": "Biomes",
     "biome.pokecube_legends.aquamarine_caves": "Aquamarine Caves",
