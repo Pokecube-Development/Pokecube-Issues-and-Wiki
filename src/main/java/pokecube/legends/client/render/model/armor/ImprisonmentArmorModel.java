@@ -45,13 +45,13 @@ public class ImprisonmentArmorModel extends HumanoidModel<LivingEntity>
         var spikes = brace.addOrReplaceChild("spikes",
                 CubeListBuilder.create()
                         .texOffs(0, 43)
-                        .addBox(-9.0F, 1.5F, -9.0F, 18.0F, 0.0F, 18.0F),
+                        .addBox(-9.0F, 1.3F, -9.0F, 18.0F, 0.0F, 18.0F),
                 PartPose.offset(0.0F, 0.0F, 0.0F));
 
         var chin_spike = brace.addOrReplaceChild("chin_spike",
                 CubeListBuilder.create()
                         .texOffs(24, 0)
-                        .addBox(-1.5F, 1.5F, -4.9F, 3.0F, 4.0F, 1.0F),
+                        .addBox(-1.5F, 1.3F, -4.9F, 3.0F, 4.0F, 1.0F),
                 PartPose.offset(0.0F, 0.0F, 0.0F));
 
         var left_ear = head.addOrReplaceChild("left_ear",
@@ -69,19 +69,19 @@ public class ImprisonmentArmorModel extends HumanoidModel<LivingEntity>
         var axe = head.addOrReplaceChild("axe",
                 CubeListBuilder.create()
                         .texOffs(24, 16)
-                        .addBox(-1.0F, -16.5F, -2.0F, 2.0F, 8.0F, 18.0F),
+                        .addBox(-1.0F, -16.45F, -2.0F, 2.0F, 8.0F, 18.0F),
                 PartPose.offset(0.0F, 0.0F, 0.0F));
 
         var axe_piece = axe.addOrReplaceChild("axe_piece",
                 CubeListBuilder.create()
                         .texOffs(0, 46)
-                        .addBox(-1.0F, -16.5F, -5.0F, 2.0F, 5.0F, 3.0F),
+                        .addBox(-1.0F, -16.45F, -5.0F, 2.0F, 5.0F, 3.0F),
                 PartPose.offset(0.0F, 0.0F, 0.0F));
 
         var axe_sheath = axe.addOrReplaceChild("axe_sheath",
                 CubeListBuilder.create()
                         .texOffs(0, 29)
-                        .addBox(-2.0F, -17.5F, 4.0F, 4.0F, 10.0F, 5.0F),
+                        .addBox(-2.0F, -17.45F, 4.0F, 4.0F, 10.0F, 5.0F),
                 PartPose.offset(0.0F, 0.0F, 0.0F));
 
 
