@@ -97,7 +97,7 @@ public class Category implements IRecipeCategory<MoveRecipe>
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, MoveRecipe recipe, IFocusGroup focuses)
     {
-        IRecipeSlotBuilder outputSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, 94, 18);
+        IRecipeSlotBuilder outputSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, 95, 19);
         outputSlot.addItemStack(recipe.getResultItem());
 
         NonNullList<Ingredient> ingredients = recipe.getIngredients();
@@ -107,7 +107,7 @@ public class Category implements IRecipeCategory<MoveRecipe>
         {
             final int index = x + y * 3;
             if (index >= ingredients.size()) break outer;
-            IRecipeSlotBuilder inputSlot = builder.addSlot(RecipeIngredientRole.INPUT, x * 18, y * 18);
+            IRecipeSlotBuilder inputSlot = builder.addSlot(RecipeIngredientRole.INPUT, x * 18 + 3, y * 18 + 1);
             inputSlot.addIngredients(ingredients.get(index));
         }
     }
