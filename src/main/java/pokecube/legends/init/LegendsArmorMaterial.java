@@ -14,8 +14,8 @@ import pokecube.legends.Reference;
 
 public enum LegendsArmorMaterial implements ArmorMaterial
 {
-    ULTRA_ARMOR("ultra", 33, new int[]{3, 6, 8, 3}, 10,
-            SoundEvents.ARMOR_EQUIP_DIAMOND, 2.0F, 0.0F, () -> Ingredient.of(ItemInit.SPECTRUM_SHARD.get())),
+    ULTRA_ARMOR("ultraspace_suit", 33, new int[]{3, 6, 8, 3}, 10,
+            SoundEvents.ARMOR_EQUIP_LEATHER, 2.0F, 0.0F, () -> Ingredient.of(ItemInit.SPECTRUM_SHARD.get())),
     IMPRISONMENT_ARMOR("imprisonment", 37, new int[]{3, 6, 8, 3}, 15,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 3.0F, 0.1F, () -> Ingredient.of(Items.NETHERITE_INGOT));
 

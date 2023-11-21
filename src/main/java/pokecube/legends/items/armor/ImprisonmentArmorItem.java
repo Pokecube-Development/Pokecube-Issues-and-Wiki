@@ -1,6 +1,8 @@
 package pokecube.legends.items.armor;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -22,7 +24,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.IItemRenderProperties;
 import pokecube.legends.Reference;
 import pokecube.legends.client.render.model.LegendsModelLayers;
-import pokecube.legends.client.render.model.armor.BaseArmorModel;
+import pokecube.legends.client.render.model.armor.ImprisonmentArmorModel;
 import thut.lib.TComponent;
 
 public class ImprisonmentArmorItem extends ArmorItem
@@ -55,21 +57,29 @@ public class ImprisonmentArmorItem extends ArmorItem
     @Override
     public void initializeClient(Consumer<IItemRenderProperties> consumer)
     {
-        consumer.accept(ArmorRender.INSTANCE);
-    }
+        consumer.accept(new IItemRenderProperties() {
+            @Override
+            public HumanoidModel<? extends LivingEntity> getArmorModel(LivingEntity entity, ItemStack stack, EquipmentSlot slot, HumanoidModel defaultModel)
+            {
+                EntityModelSet models = Minecraft.getInstance().getEntityModels();
 
-    private static final class ArmorRender implements IItemRenderProperties
-    {
-        private static final ArmorRender INSTANCE = new ArmorRender();
+                HumanoidModel<? extends LivingEntity> armorModel =
+                        new HumanoidModel<>(new ModelPart(Collections.emptyList(), Map.of(
+                        "head", new ImprisonmentArmorModel<>(models.bakeLayer(LegendsModelLayers.IMPRISONMENT_ARMOR_INNER)).head,
+                        "hat", new ModelPart(Collections.emptyList(), Collections.emptyMap()),
+                        "body", new ModelPart(Collections.emptyList(), Collections.emptyMap()),
+                        "right_arm", new ModelPart(Collections.emptyList(), Collections.emptyMap()),
+                        "left_arm", new ModelPart(Collections.emptyList(), Collections.emptyMap()),
+                        "right_leg", new ModelPart(Collections.emptyList(), Collections.emptyMap()),
+                        "left_leg", new ModelPart(Collections.emptyList(), Collections.emptyMap()))));
 
-        @Override
-        public HumanoidModel<?> getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot slot, HumanoidModel<?> _default)
-        {
-            EntityModelSet models = Minecraft.getInstance().getEntityModels();
-            ModelPart root = models.bakeLayer(slot == EquipmentSlot.LEGS ?
-                    LegendsModelLayers.IMPRISONMENT_ARMOR_INNER : LegendsModelLayers.IMPRISONMENT_ARMOR_OUTER);
-            return new BaseArmorModel(root);
-        }
+                armorModel.crouching = entity.isShiftKeyDown();
+                armorModel.riding = defaultModel.riding;
+                armorModel.young = entity.isBaby();
+
+                return armorModel;
+            }
+        });
     }
 
     @Override

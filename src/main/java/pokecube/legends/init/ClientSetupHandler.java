@@ -187,9 +187,6 @@ public class ClientSetupHandler {
     @SubscribeEvent
     public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event)
     {
-        event.registerLayerDefinition(LegendsModelLayers.IMPRISONMENT_ARMOR_INNER,
-                () -> LayerDefinition.create(ImprisonmentArmorModel.setup(LayerDefinitions.INNER_ARMOR_DEFORMATION), 64, 64));
-        event.registerLayerDefinition(LegendsModelLayers.IMPRISONMENT_ARMOR_OUTER,
-                () -> LayerDefinition.create(ImprisonmentArmorModel.setup(LayerDefinitions.INNER_ARMOR_DEFORMATION), 64, 64));
+        event.registerLayerDefinition(LegendsModelLayers.IMPRISONMENT_ARMOR_INNER, ImprisonmentArmorModel::createBodyLayer);
     }
 }
