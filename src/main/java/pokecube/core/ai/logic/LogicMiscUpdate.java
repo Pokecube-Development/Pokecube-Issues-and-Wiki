@@ -135,7 +135,8 @@ public class LogicMiscUpdate extends LogicBase
 
     private void checkAIStates(UUID ownerID)
     {
-        final boolean angry = this.pokemob.inCombat();
+        boolean angry = this.pokemob.inCombat();
+        boolean sleepingAI = this.pokemob.getLogicState(LogicStates.SLEEPING);
 
         if (this.pokemob.getGeneralState(GeneralStates.MATING) && !BrainUtils.hasMateTarget((AgeableMob) this.entity))
             this.pokemob.setGeneralState(GeneralStates.MATING, false);
@@ -178,6 +179,9 @@ public class LogicMiscUpdate extends LogicBase
             this.pokemob.setRoutineState(AIRoutine.AIRBORNE, true);
             // Much longer cooldown if actually, really in combat
             this.combatTimer = 50;
+
+            // Ensure we are not sleeping state while in combat
+            if (sleepingAI) this.pokemob.setLogicState(LogicStates.SLEEPING, sleepingAI = false);
         }
 
         this.inCombat = angry;
@@ -192,7 +196,7 @@ public class LogicMiscUpdate extends LogicBase
                 && this.pokemob.getGeneralState(GeneralStates.EXITINGCUBE))
             this.pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
 
-        boolean noMotion = this.pokemob.getLogicState(LogicStates.SLEEPING);
+        boolean noMotion = sleepingAI;
         boolean sitting = this.pokemob.getLogicState(LogicStates.SITTING);
         noMotion |= sitting;
 
@@ -212,7 +216,7 @@ public class LogicMiscUpdate extends LogicBase
         }
 
         // Check if we shouldn't just randomly go to sleep.
-        final boolean ownedSleepCheck = this.pokemob.getGeneralState(GeneralStates.TAMED)
+        final boolean ownedSleepCheck = sleepingAI && this.pokemob.getGeneralState(GeneralStates.TAMED)
                 && !this.pokemob.getGeneralState(GeneralStates.STAYING);
         if (ownedSleepCheck) this.pokemob.setLogicState(LogicStates.SLEEPING, false);
 

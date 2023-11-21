@@ -78,8 +78,9 @@ public class LogicMountedControl extends LogicBase
 
     public boolean blocksPathing()
     {
-        final Entity rider = this.entity.getControllingPassenger();
         if (this.pokemob.getLogicState(LogicStates.SITTING)) return true;
+        if (this.pokemob.getLogicState(LogicStates.SLEEPING)) return true;
+        final Entity rider = this.entity.getControllingPassenger();
         if (rider == null) return false;
         return !this.canPathWhileRidden;
     }
