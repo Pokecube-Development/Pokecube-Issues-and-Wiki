@@ -194,8 +194,11 @@ public class EntityMoveUse extends ThrowableProjectile
 
         this.init = true;
         this.startAge = this.getDuration();
-        if (!this.start.equals(this.end)) this.dir.set(this.end).subtractFrom(this.start).norm();
+        if (this.start.distToSq(end) > 0.125) this.dir.set(this.end).subtractFrom(this.start).norm();
         else this.onSelf = true;
+
+        if (this.getUser() == this.getTarget()) this.onSelf = true;
+
         this.dist = this.start.distanceTo(this.end);
         this.refreshDimensions();
 
@@ -203,11 +206,8 @@ public class EntityMoveUse extends ThrowableProjectile
 
         if (!this.getUser().getLevel().isClientSide())
         {
-            // Put us and our user in here by default.
+            // Put us here by default.
             this.addIgnoredEntity(this);
-            // Only put user in if it is not the target, this allows self moves
-            // to work properly
-            if (this.getUser() != this.getTarget() || this.getTarget() == null) this.addIgnoredEntity(this.getUser());
             this.apply.finished = this::isDone;
             userMob.getMoveStats().addMoveInProgress(userMob, this.apply);
         }
@@ -215,6 +215,7 @@ public class EntityMoveUse extends ThrowableProjectile
 
     public void addIgnoredEntity(Entity entity)
     {
+        System.out.println(this.getUser().getName().getString() + " ignores " + entity);
         if (entity != null) this.apply.alreadyHit.add(entity.getUUID());
     }
 
@@ -233,7 +234,7 @@ public class EntityMoveUse extends ThrowableProjectile
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
-    private void doMoveUse(final LivingEntity target)
+    private void doMoveUse(LivingEntity target)
     {
         final MoveEntry attack = this.getMove();
         final Mob user = this.getUser();
