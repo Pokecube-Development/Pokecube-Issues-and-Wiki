@@ -177,7 +177,7 @@ public class StructureTemplateTools
                                 if (!held.hasTag())
                                 {
                                     held.grow(stack.getCount());
-                                    byCoordinate.put(info.pos, held);
+                                    byCoordinate.put(info.pos(), held);
                                     continue outer;
                                 }
                             }
@@ -192,7 +192,7 @@ public class StructureTemplateTools
                                 if (held.hasTag() && held.getTag().equals(stack.getTag()))
                                 {
                                     held.grow(stack.getCount());
-                                    byCoordinate.put(info.pos, held);
+                                    byCoordinate.put(info.pos(), held);
                                     continue outer;
                                 }
                             }
