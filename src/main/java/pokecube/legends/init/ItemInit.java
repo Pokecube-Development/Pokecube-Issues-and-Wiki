@@ -449,8 +449,7 @@ public class ItemInit
         RAINBOW_SWORD = PokecubeLegends.ITEMS.register("rainbow_sword",
                 () -> new RainbowSword(WeaponTiers.RAINBOW_WING, PokecubeItems.TAB_ITEMS, 2, -3.0F));
 
-        // Dimensions Creative Tab - Sorting depends on the order the items are
-        // listed in
+        // Dimensions Creative Tab - Sorting depends on the order the items are listed in
         // UltraSpace
         GOLDEN_SHROOM = PokecubeLegends.ITEMS.register("golden_shroom",
                 () -> new ItemNameBlockItem(PlantsInit.GOLDEN_SHROOM_PLANT.get(),
