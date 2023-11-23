@@ -886,9 +886,12 @@
     "item.pokecube_legends.wooden_crown": "Wooden Crown",
     "item.pokecube_legends.cosmic_orb": "Cosmic Orb",
 
-    "item.pokecube_legends.cobalion_sword": "Cobalion Sword",
-    "item.pokecube_legends.virizion_sword": "Virizion Sword",
-    "item.pokecube_legends.terrakion_sword": "Terrakion Sword",
+    "item.pokecube_legends.cobalion_sword": "Cobalion's Sword of Justice",
+    "item.pokecube_legends.virizion_sword": "Virizion's Sword of Justice",
+    "item.pokecube_legends.terrakion_sword": "Terrakion's Sword of Justice",
+    "item.pokecube_legends.keldeo_sword": "Keldeo's Sword of Justice",
+    "item.pokecube_legends.zacian_sword": "Zacian's Sword",
+    "item.pokecube_legends.zamazenta_shield": "Zamazenta's Shield",
 
     "item.pokecube_legends.lightstone": "Light Stone",
     "item.pokecube_legends.darkstone": "Dark Stone",
@@ -931,10 +934,7 @@
     "item.pokecube_legends.galarwreath": "Galar Wreath",
     "item.pokecube_legends.ancient_stone": "Ancient Stone",
     "item.pokecube_legends.imprisonment_helmet":"Imprisonment Helmet",
-    "item.pokecube_legends.keldeo_sword": "Keldeo Sword",
     "item.pokecube_legends.kubfu_spawn": "Gray Scarf",
-    "item.pokecube_legends.zamazenta_shield": "Zamazenta Shield",
-    "item.pokecube_legends.zacian_sword": "Zacian Sword",
     "item.pokecube_legends.pile_of_ash": "Pile of Ash",
 
     "_comment28": "Mints",
@@ -1240,7 +1240,7 @@
     "legends.zacian_sword.tooltip.line1": "§cEvolves: §7Zacian",
 
     "legends.zamazenta_shield.tooltip": "§6§n§lCrafted",
-    "legends.zamazenta_shield.tooltip.line1": "§cEvolves: §7Zamazenta.",
+    "legends.zamazenta_shield.tooltip.line1": "§cEvolves: §7Zamazenta",
 
     "legends.cobalion_sword.tooltip": "§6§n§lPurchased",
     "legends.cobalion_sword.tooltip.line1": "§aUse On: §7Elemental Spawner",

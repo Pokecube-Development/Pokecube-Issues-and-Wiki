@@ -4,11 +4,8 @@ import java.util.Locale;
 
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
@@ -20,7 +17,6 @@ import net.minecraft.world.item.StandingAndWallBlockItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.WaterLilyBlockItem;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.RegistryObject;
@@ -29,10 +25,9 @@ import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.render.mobs.RenderPokecube;
 import pokecube.legends.PokecubeLegends;
-import pokecube.legends.Reference;
 import pokecube.legends.items.DistortedMirror;
 import pokecube.legends.items.ItemBase;
-import pokecube.legends.items.ItemTiers;
+import pokecube.legends.items.WeaponTiers;
 import pokecube.legends.items.LegendsSword;
 import pokecube.legends.items.RainbowSword;
 import pokecube.legends.items.TemporalBambooBlockItem;
@@ -46,10 +41,6 @@ import pokecube.legends.items.zmove.ItemZCrystal;
 
 public class ItemInit
 {
-    // Materials
-    public static final Tier MATERIAL_RAINBOW = Tiers.DIAMOND;
-    public static final Tier MATERIAL_JUSTISE = Tiers.DIAMOND;
-
     // Keys
     // Orbs
     public static final RegistryObject<Item> BLUE_ORB;
@@ -401,21 +392,19 @@ public class ItemInit
                         LegendsArmorMaterial.IMPRISONMENT_ARMOR, EquipmentSlot.HEAD, PokecubeLegends.TAB_LEGENDS, 1,
                         new Item.Properties()));
         COBALION_SWORD = PokecubeLegends.ITEMS.register("cobalion_sword",
-                () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE, 2, -2.4F, new Item.Properties(),
+                () -> new LegendsSword(WeaponTiers.COBALION, 1, -2.6F, new Item.Properties(),
                         PokecubeLegends.TAB_LEGENDS).setTooltipName("cobalion_sword").setTooltipExtraLine(2));
-        KELDEO_SWORD = PokecubeLegends.ITEMS
-                .register("keldeo_sword",
-                        () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE, 2, -2.4F, new Item.Properties(),
-                                PokecubeLegends.TAB_LEGENDS).setTooltipName("keldeo_sword").setTooltipExtraLine(2)
-                                        .setShiny());
+        KELDEO_SWORD = PokecubeLegends.ITEMS.register("keldeo_sword",
+                () -> new LegendsSword(WeaponTiers.KELDEO, 1, -2.4F, new Item.Properties(),
+                        PokecubeLegends.TAB_LEGENDS).setTooltipName("keldeo_sword").setTooltipExtraLine(2));
         TERRAKION_SWORD = PokecubeLegends.ITEMS.register("terrakion_sword",
-                () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE, 2, -2.4F, new Item.Properties(),
+                () -> new LegendsSword(WeaponTiers.TERRAKION, 1, -3.0F, new Item.Properties(),
                         PokecubeLegends.TAB_LEGENDS).setTooltipName("terrakion_sword").setTooltipExtraLine(2));
         VIRIZION_SWORD = PokecubeLegends.ITEMS.register("virizion_sword",
-                () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE, 3, -2.4F, new Item.Properties(),
+                () -> new LegendsSword(WeaponTiers.VIRIZION, 1, -2.2F, new Item.Properties(),
                         PokecubeLegends.TAB_LEGENDS).setTooltipName("virizion_sword").setTooltipExtraLine(2));
         ZACIAN_SWORD = PokecubeLegends.ITEMS.register("zacian_sword",
-                () -> new LegendsSword(Tiers.NETHERITE, 3, -2.4F, new Item.Properties().fireResistant(),
+                () -> new LegendsSword(Tiers.NETHERITE, 4, -2.8F, new Item.Properties().fireResistant(),
                         PokecubeLegends.TAB_LEGENDS).setTooltipName("zacian_sword").setTooltipExtraLine(1));
 
         // Shields
@@ -458,7 +447,7 @@ public class ItemInit
                 () -> new ItemBase("wishing_piece", PokecubeItems.TAB_ITEMS, 1));
 
         RAINBOW_SWORD = PokecubeLegends.ITEMS.register("rainbow_sword",
-                () -> new RainbowSword(ItemTiers.RAINBOW_WING, PokecubeItems.TAB_ITEMS, 2, -2.4F));
+                () -> new RainbowSword(WeaponTiers.RAINBOW_WING, PokecubeItems.TAB_ITEMS, 2, -3.0F));
 
         // Dimensions Creative Tab - Sorting depends on the order the items are
         // listed in
@@ -582,60 +571,6 @@ public class ItemInit
         TAMATO_POKEPUFF = PokecubeLegends.ITEMS.register("tamato_pokepuff", () -> new ItemBase("tamato_pokepuff", 1,
                 PokecubeItems.TAB_BERRIES, Rarity.UNCOMMON, FoodInit.FIRE_RESISTANCE_POKEPUFF, 16));
     }
-
-    public static final ArmorMaterial armormaterial = new ArmorMaterial()
-    {
-        @Override
-        public int getDurabilityForSlot(final EquipmentSlot slot)
-        {
-            return new int[]
-            { 13, 15, 16, 11 }[slot.getIndex()] * 25;
-        }
-
-        @Override
-        public int getDefenseForSlot(final EquipmentSlot slot)
-        {
-            return new int[]
-            { 2, 5, 6, 2 }[slot.getIndex()];
-        }
-
-        @Override
-        public int getEnchantmentValue()
-        {
-            return 9;
-        }
-
-        @Override
-        public net.minecraft.sounds.SoundEvent getEquipSound()
-        {
-            return SoundEvents.ZOMBIE_ATTACK_IRON_DOOR;
-        }
-
-        @Override
-        public Ingredient getRepairIngredient()
-        {
-            return Ingredient.of(ItemInit.SPECTRUM_SHARD.get());
-        }
-
-        @Override
-        @OnlyIn(Dist.CLIENT)
-        public String getName()
-        {
-            return Reference.ID + ":ultra";
-        }
-
-        @Override
-        public float getToughness()
-        {
-            return 1.5f;
-        }
-
-        @Override
-        public float getKnockbackResistance()
-        {
-            return 2;
-        }
-    };
 
     public static void init()
     {}
