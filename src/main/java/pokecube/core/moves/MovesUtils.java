@@ -721,6 +721,7 @@ public class MovesUtils implements IMoveConstants
 
         Set<UUID> applied = new HashSet<>();
 
+        boolean notUser = true;
         if (battle != null)
         {
             List<LivingEntity> targets = Lists.newArrayList();
@@ -752,13 +753,11 @@ public class MovesUtils implements IMoveConstants
                     // fired.
                     Vector3 use = new Vector3(end);
                     if (s != target) use.set(s);
-
                     final EntityMoveUse moveUse = EntityMoveUse.create(level, apply, use);
-
                     if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Queuing move: {} used by {} on {}",
                             move.name, user.getDisplayName().getString(), s.getDisplayName().getString());
                     MoveQueuer.queueMove(moveUse);
-
+                    if (s == user) notUser = false;
                     if (!move.isMultiTarget()) break;
                 }
             }
@@ -781,6 +780,7 @@ public class MovesUtils implements IMoveConstants
                         final EntityMoveUse moveUse = EntityMoveUse.create(level, apply, end);
                         MoveQueuer.queueMove(moveUse);
                         did = true;
+                        if (target == user) notUser = false;
                     }
                 }
                 apply.setTarget(mob);
@@ -792,6 +792,7 @@ public class MovesUtils implements IMoveConstants
                     final EntityMoveUse moveUse = EntityMoveUse.create(level, apply, end);
                     MoveQueuer.queueMove(moveUse);
                     did = true;
+                    if (mob == user) notUser = false;
                 }
 
                 if (!did)
@@ -805,6 +806,7 @@ public class MovesUtils implements IMoveConstants
                 }
             }
         }
+        if (notUser) apply.alreadyHit.add(user.getUUID());
     }
 
     public static ItemStack applyEnchants(IPokemob pokemob, ItemStack tool)
