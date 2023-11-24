@@ -102,7 +102,7 @@ public class DynamaxRaid implements IBossProvider
     public void postBossSpawn(LivingEntity boss, RaidContext context)
     {
         IPokemob pokemob = PokemobCaps.getPokemobFor(boss);
-        DynamaxHelper.doDynamax(pokemob, RAID_DURATION, null);
+        DynamaxHelper.doDynamax(pokemob, pokemob.getEvolutionEntry(), RAID_DURATION, null);
 
         final LootTable loottable = pokemob.getEntity().getLevel().getServer().getLootTables().get(lootTable);
         final LootContext.Builder lootcontext$builder = new LootContext.Builder(

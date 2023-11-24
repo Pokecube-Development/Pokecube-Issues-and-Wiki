@@ -129,7 +129,7 @@ public class DynamaxHelper
                     pokemob.displayMessageToOwner(mess);
                     mess = TComponent.translatable("pokemob.dynamax.success", oldName);
                     PokecubePlayerDataHandler.getCustomDataTag(owner.getUUID()).putLong("pokecube:dynatime", time);
-                    doDynamax(pokemob, PokecubeCore.getConfig().dynamax_duration, mess);
+                    doDynamax(pokemob, newEntry, PokecubeCore.getConfig().dynamax_duration, mess);
                     return true;
                 }
             }
@@ -207,9 +207,9 @@ public class DynamaxHelper
 
     private static final UUID DYNAMOD = new UUID(343523462346243l, 23453246267457l);
 
-    public static void doDynamax(IPokemob pokemob, int duration, Component mess)
+    public static void doDynamax(IPokemob pokemob, PokedexEntry newEntry, int duration, Component mess)
     {
-        MegaEvoTicker.scheduleChange(PokecubeCore.getConfig().evolutionTicks, pokemob.getPokedexEntry(), pokemob, mess,
+        MegaEvoTicker.scheduleChange(PokecubeCore.getConfig().evolutionTicks, newEntry, pokemob, mess,
                 () ->
                 {
                     // Flag as evolving for animation effects
