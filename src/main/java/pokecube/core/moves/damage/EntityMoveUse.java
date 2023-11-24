@@ -215,7 +215,6 @@ public class EntityMoveUse extends ThrowableProjectile
 
     public void addIgnoredEntity(Entity entity)
     {
-        System.out.println(this.getUser().getName().getString() + " ignores " + entity);
         if (entity != null) this.apply.alreadyHit.add(entity.getUUID());
     }
 
