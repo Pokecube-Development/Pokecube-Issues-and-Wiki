@@ -22,6 +22,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
+import thut.api.level.structures.NamedVolumes.INamedStructure;
 
 /**
  * This class is effectively a list of {@link StructureBuilder}, which is
@@ -41,6 +42,33 @@ public class JigsawBuilder implements INBTSerializable<CompoundTag>, IBlocksBuil
 
     public JigsawBuilder()
     {}
+
+    public JigsawBuilder(ServerLevel level, INamedStructure structure)
+    {
+        for (var part : structure.getParts())
+        {
+            if (part.getWrapped() instanceof PoolElementStructurePiece pooled)
+            {
+                if (pooled.getElement() instanceof SinglePoolElement elem)
+                {
+                    BlockPos origin = pooled.getPosition();
+                    var builder = new StructureBuilder(origin, pooled.getRotation(), pooled.getMirror());
+
+                    // Now make the settings object
+                    StructurePlaceSettings settings = null;
+                    if (elem instanceof ExpandedJigsawPiece jig)
+                    {
+                        settings = jig.getSettings(pooled.getRotation(), null, false);
+                    }
+                    builder.settings = settings;
+                    builder._source = pooled;
+                    builder._loaded = elem.getTemplate(level.getStructureManager());
+                    builder.checkBlueprint(level);
+                    builders.add(builder);
+                }
+            }
+        }
+    }
 
     public JigsawBuilder(StructurePiecesBuilder pieceBuilder, BlockPos shift, ServerLevel level)
     {

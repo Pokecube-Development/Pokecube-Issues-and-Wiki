@@ -105,23 +105,23 @@ public class DebugInteractions
         long tick = Tracker.instance().getTick();
         if (player.getPersistentData().getLong("__debug_interaction__") == tick) return;
         player.getPersistentData().putLong("__debug_interaction__", tick);
+        BlockPos origin = evt.getPos();
+        var context = new BuildContext(level, origin, player);
 
         if (isStructureCopier)
         {
-            var structs = level.structureFeatureManager().getAllStructuresAt(player.getOnPos());
-            System.out.println(structs);
+            ItemStack book = new ItemStack(Items.WRITABLE_BOOK);
+            if (BuilderManager.generateBuildingBookForLocation(context, book)) player.addItem(book);
         }
 
         if (te instanceof ChestBlockEntity chest && (isStructureMaker || isStructureBoM))
         {
             IItemHandlerModifiable itemSource = (IItemHandlerModifiable) ThutCaps.getInventory(chest);
-            BlockPos origin = evt.getPos();
             ItemStack key = itemSource.getStackInSlot(0);
             if (key.hasTag() && key.getOrCreateTag().get("pages") instanceof ListTag)
             {
                 try
                 {
-                    var context = new BuildContext(level, origin);
                     var build = BuilderManager.fromInstructions(key, context);
                     if (build != null)
                     {
