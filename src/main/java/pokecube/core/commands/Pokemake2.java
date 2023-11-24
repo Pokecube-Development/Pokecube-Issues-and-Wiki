@@ -68,6 +68,8 @@ public class Pokemake2
 
         mob.moveTo(pos.x(), pos.y(), pos.z());
 
+        String[] read_moves = new String[4];
+        int move_num = 0;
         // Process moves
         if (nbt.contains("moves"))
         {
@@ -78,12 +80,22 @@ public class Pokemake2
                 for (int i = 0; i < moves.size(); i++)
                 {
                     pokemob.learn(moves.getString(i));
+                    if (move_num < 4)
+                    {
+                        read_moves[move_num] = moves.getString(i);
+                        move_num++;
+                    }
                 }
             }
             else if (type == Tag.TAG_STRING)
             {
                 String move = nbt.getString("moves");
                 pokemob.learn(move);
+                if (move_num < 4)
+                {
+                    read_moves[move_num] = move;
+                    move_num++;
+                }
             }
         }
         // Also handle single move case
@@ -91,6 +103,11 @@ public class Pokemake2
         {
             String move = nbt.getString("move");
             pokemob.learn(move);
+            if (move_num < 4)
+            {
+                read_moves[move_num] = move;
+                move_num++;
+            }
         }
 
         // Process Nature
@@ -191,6 +208,13 @@ public class Pokemake2
             {
                 pokemob = pokemob.setExp(exp, false);
                 pokemob = pokemob.levelUp(level);
+
+                // Now re-learn the moves in order if neede
+                for (int i = 0; i < move_num; i++)
+                {
+                    var move = read_moves[i];
+                    pokemob.setMove(i, move);
+                }
             }
         }
 
