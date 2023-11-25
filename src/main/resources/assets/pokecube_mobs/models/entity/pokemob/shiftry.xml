@@ -7,6 +7,55 @@
    <part name="Head" tex="shiftry_eye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
   </customTex>
+  <phase type="gui_render">
+   <part name="orl1">
+    <component length="10" name="1" rotChange="0,0,1" rotOffset="0,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-1" startKey="10"/>
+   </part>
+   <part name="orl2">
+    <component length="10" name="1" rotChange="0,0,-1" rotOffset="0,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,1" startKey="10"/>
+   </part>
+   <part name="mouth">
+    <component length="10" name="1" posChange="0,1,0" startKey="0"/>
+	<component length="10" name="2" posChange="0,-2,0" startKey="5"/>
+    <component length="10" name="3" posChange="0,1,0" startKey="10"/>
+   </part>
+   <part name="leg1">
+    <component length="10" name="1" rotOffset="0,6,0" startKey="0"/>
+   </part>
+   <part name="leg2">
+    <component length="10" name="1" rotOffset="0,-6,0" startKey="0"/>
+   </part>
+   <part name="hair1">
+    <component length="10" name="1" rotChange="-3,0,0" rotOffset="15,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="3,0,0" startKey="10"/>
+   </part>
+   <part name="hair2">
+    <component length="10" name="1" rotChange="-3,0,0" rotOffset="15,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="3,0,0" startKey="10"/>
+   </part>
+   <part name="hair3">
+    <component length="10" name="1" rotChange="-3,0,0" rotOffset="15,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="3,0,0" startKey="10"/>
+   </part>
+   <part name="hair4">
+    <component length="10" name="1" rotChange="-3,0,0" rotOffset="15,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="3,0,0" startKey="10"/>
+   </part>
+   <part name="hair5">
+    <component length="10" name="1" rotChange="-3,0,0" rotOffset="15,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="3,0,0" startKey="10"/>
+   </part>
+   <part name="arm1">
+    <component length="10" name="1" rotChange="0,0,1" rotOffset="0,0,-20" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-1" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotChange="0,0,-1" rotOffset="0,0,20" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,1" startKey="10"/>
+   </part>
+  </phase>
   <phase type="idle-1">
    <part name="orl1">
     <component length="10" name="1" rotChange="0,0,1" rotOffset="0,0,0" startKey="0"/>
