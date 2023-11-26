@@ -87,7 +87,7 @@ public class StructureTemplateTools
             // for blocks already in world. Using it prevents pistons from
             // rotating properly!
             @SuppressWarnings("deprecation")
-            var state = info.state.rotate(settings.getRotation()).mirror(settings.getMirror());
+            var state = info.state.mirror(settings.getMirror()).rotate(settings.getRotation());
 
             level.setBlockAndUpdate(pos, state);
 
@@ -144,11 +144,11 @@ public class StructureTemplateTools
     public static Map<BlockPos, ItemStack> getNeededMaterials(ServerLevel level, List<StructureBlockInfo> infos,
             int startIndex, int endIndex, Predicate<ItemStack> applyTag)
     {
-        endIndex = Math.min(endIndex, infos.size() - 1);
+        endIndex = Math.min(endIndex, infos.size());
         Map<Item, List<ItemStack>> stacks = Maps.newHashMap();
         Map<BlockPos, ItemStack> byCoordinate = Maps.newHashMap();
         outer:
-        for (int i = startIndex; i <= endIndex; i++)
+        for (int i = startIndex; i < endIndex; i++)
         {
             var info = infos.get(i);
             if (info.state != null && !info.state.isAir())
@@ -177,6 +177,7 @@ public class StructureTemplateTools
                                 if (!held.hasTag())
                                 {
                                     held.grow(stack.getCount());
+                                    byCoordinate.put(info.pos, held);
                                     continue outer;
                                 }
                             }
@@ -191,6 +192,7 @@ public class StructureTemplateTools
                                 if (held.hasTag() && held.getTag().equals(stack.getTag()))
                                 {
                                     held.grow(stack.getCount());
+                                    byCoordinate.put(info.pos, held);
                                     continue outer;
                                 }
                             }
@@ -208,7 +210,7 @@ public class StructureTemplateTools
     public static Map<BlockPos, ItemStack> getNeededMaterials(ServerLevel level, List<StructureBlockInfo> infos,
             Predicate<ItemStack> applyTag)
     {
-        return getNeededMaterials(level, infos, 0, infos.size() - 1, applyTag);
+        return getNeededMaterials(level, infos, 0, infos.size(), applyTag);
     }
 
     public static List<BlockPos> getNeedsRemoval(ServerLevel level, StructurePlaceSettings settings,

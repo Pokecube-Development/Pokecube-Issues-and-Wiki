@@ -741,7 +741,7 @@ public class EventsHandler
 
     private static void onVanillaEntityEvent(final LevelEntityEvent event)
     {
-        if (event.getKey() == 60)
+        if (event.getKey() == 60 && !event.getEntity().level.isClientSide())
         {
             IPokemob pokemob = PokemobCaps.getPokemobFor(event.getEntity());
             if (pokemob == null || pokemob.getOwnerId() == null) return;

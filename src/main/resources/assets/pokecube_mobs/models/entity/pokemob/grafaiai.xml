@@ -5,7 +5,7 @@
 	<metadata head="head" headCap="-40,40" headCap1="-40,40"/>
 	<phase name="biWalk" leftLeg="leg1" rightLeg="leg2" leftArm="" rightArm="" duration="10" legAngle="30"/>
     <customTex default="grafaiai">
-     <part name="Eye" tex="grafaiai_eye"/>
+     <part name="Eye" tex="grafaiaieye"/>
     </customTex>
 	<phase type="sitting">
 		<part name="body">

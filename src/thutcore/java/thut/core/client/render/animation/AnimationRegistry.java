@@ -36,22 +36,39 @@ public class AnimationRegistry
     /** Add in defaults. */
     static
     {
-        AnimationRegistry.animations.put("quadwalk", QuadWalkAnimation.class);
-        AnimationRegistry.animations.put("biwalk", BiWalkAnimation.class);
-        AnimationRegistry.animations.put("flap", BasicFlapAnimation.class);
-        AnimationRegistry.animations.put("advflap", AdvancedFlapAnimation.class);
-        AnimationRegistry.animations.put("snakewalk", SnakeMovement.class);
-        AnimationRegistry.animations.put("snakefly", SnakeMovement.class);
-        AnimationRegistry.animationPhases.put("snakefly", "flying");
-        AnimationRegistry.animations.put("snakeidle", SnakeMovement.class);
-        AnimationRegistry.animationPhases.put("snakeidle", "idle");
-        AnimationRegistry.animations.put("snakeswim", SnakeMovement.class);
-        AnimationRegistry.animationPhases.put("snakeswim", "swimming");
-
-        //
+        //Sitting
         AnimationRegistry.animations.put("snakesit", SnakeMovement.class);
         AnimationRegistry.animationPhases.put("snakesit", "sitting");
-        //
+
+        //Idle
+        AnimationRegistry.animations.put("snakeidle", SnakeMovement.class);
+        AnimationRegistry.animationPhases.put("snakeidle", "idle");
+
+        //Walking
+        AnimationRegistry.animations.put("quadwalk", QuadWalkAnimation.class);
+        AnimationRegistry.animations.put("biwalk", BiWalkAnimation.class);
+        AnimationRegistry.animations.put("snakewalk", SnakeMovement.class);
+
+        //Floating
+        AnimationRegistry.animations.put("snakefloating", SnakeMovement.class);
+        AnimationRegistry.animationPhases.put("snakefloating", "floating");
+
+        //Flying
+        AnimationRegistry.animations.put("flap", BasicFlapAnimation.class);
+        AnimationRegistry.animations.put("advflap", AdvancedFlapAnimation.class);
+
+        AnimationRegistry.animations.put("snakefly", SnakeMovement.class);
+        AnimationRegistry.animationPhases.put("snakefly", "flying");
+        AnimationRegistry.animations.put("flywalk", QuadWalkAnimation.class);
+        AnimationRegistry.animationPhases.put("flywalk", "flying");
+
+        //Swimming
+        AnimationRegistry.animations.put("swimbiwalk", BiWalkAnimation.class);
+        AnimationRegistry.animationPhases.put("swimbiwalk", "swimming");
+        AnimationRegistry.animations.put("swimwalk", QuadWalkAnimation.class);
+        AnimationRegistry.animationPhases.put("swimwalk", "swimming");
+        AnimationRegistry.animations.put("snakeswim", SnakeMovement.class);
+        AnimationRegistry.animationPhases.put("snakeswim", "swimming");
     }
 
     /**
