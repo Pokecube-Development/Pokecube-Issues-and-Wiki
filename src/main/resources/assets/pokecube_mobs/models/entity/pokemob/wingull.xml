@@ -19,7 +19,7 @@
    <part name="wing1">
     <component length="1" name="1" rotOffset="0,0,65," startKey="0"/>
    </part>
-   <part name="wing1_2">
+   <part name="wing1_1">
     <component length="1" name="1" rotOffset="0,0,-140," startKey="0"/>
    </part>
    <part name="wing2">

@@ -70,6 +70,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
     public int firstEmpty = 0;
 
     public boolean pathing = false;
+    private BlockPos pathTarget = null;
 
     protected ItemStack instructionsCache = ItemStack.EMPTY;
     protected List<ResourceLocation> keys = Lists.newArrayList();
@@ -228,13 +229,9 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         if (!this.hasItem(i -> ItemList.is(HungerTask.FOODTAG, i), berries.getFirst())) return false;
         if (this.pokemob.getEntity().blockPosition().distSqr(this.berryLoc) > 9)
         {
-            this.pathing = true;
-            final double speed = 1;
-            this.setWalkTo(this.berryLoc, speed, 0);
+            this.setPathTarget(berryLoc);
             // We should be pathing to berries, so return true to stop other
             // storage tasks.
-            // PokecubeAPI.logDebug(this.pokemob.getDisplayName().getUnformattedComponentText()
-            // + " Pathing to Berries at " + this.berryLoc);
             return true;
         }
         for (int i = 0; i < Math.min(berries.getFirst().getSlots(), StoreTask.MAXSIZE); i++)
@@ -249,7 +246,6 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
                 return false;
             }
         }
-        this.pathing = false;
         return false;
     }
 
@@ -276,9 +272,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         // Path to the inventory.
         if (this.pokemob.getEntity().blockPosition().distSqr(this.emptyInventory) > 9)
         {
-            this.pathing = true;
-            final double speed = 1;
-            this.setWalkTo(this.emptyInventory, speed, 0);
+            this.setPathTarget(emptyInventory);
             // We should be pathing, so return true.
             return true;
         }
@@ -331,7 +325,6 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
                 }
             }
         }
-        this.pathing = false;
         return collected;
     }
 
@@ -359,15 +352,11 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         // No ItemStorage
         if (!this.findItemStorage(false)) return false;
         // check if should path to storage.
-        if (this.pokemob.getEntity().blockPosition().distSqr(this.storageLoc) > 9)
+        if (setPathTarget(storageLoc))
         {
-            this.pathing = true;
-            final double speed = 1;
-            this.setWalkTo(this.storageLoc, speed, 0);
             // We should be pathing to storage here, so return true.
             return true;
         }
-        this.pathing = false;
         var storage = this.getInventory(this.world, this.storageLoc, this.storageFace);
         // if Somehow have no storage, should return false.
         if (storage == null && !this.findItemStorage(true)) return false;
@@ -407,7 +396,6 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
                 }
             }
         }
-        this.pathing = false;
         return true;
     }
 
@@ -504,15 +492,36 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         return false;
     }
 
+    public boolean setPathTarget(BlockPos pos)
+    {
+        // If already close enough, then don't try to path.
+        if (pos != null && pos.distManhattan(entity.getOnPos()) < 2 + entity.getBbWidth()) pos = null;
+        this.pathTarget = pos;
+        this.pathing = pos != null;
+        return pathing;
+    }
+
     @Override
     public void reset()
     {
         this.pathing = false;
+        this.pathTarget = null;
     }
 
     @Override
     public void run()
-    {}
+    {
+        if (this.pathing)
+        {
+            if (pathTarget != null)
+            {
+                this.setWalkTo(pathTarget, 1.0, 0);
+                // This will reset us if we are close enough.
+                setPathTarget(pathTarget);
+            }
+            else this.pathing = false;
+        }
+    }
 
     @Override
     public String getIdentifier()
@@ -581,6 +590,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
     @Override
     public void tick()
     {
+        if (this.pathing) return;
         if (!this.initialised)
         {
             this.initialised = true;
