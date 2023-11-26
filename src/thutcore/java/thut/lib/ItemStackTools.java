@@ -136,7 +136,7 @@ public class ItemStackTools
 
     private static boolean canMergeStacks(final ItemStack stack1, final ItemStack stack2)
     {
-        return !stack1.isEmpty() && ItemStackTools.stackEqualExact(stack1, stack2) && stack1.isStackable()
+        return ItemStack.isSameItemSameTags(stack1, stack2) && stack1.isStackable()
                 && stack1.getCount() < stack1.getMaxStackSize();
     }
 
@@ -149,18 +149,12 @@ public class ItemStackTools
         return -1;
     }
 
-    /** Checks item, NBT, and meta if the item is not damageable */
-    private static boolean stackEqualExact(final ItemStack stack1, final ItemStack stack2)
-    {
-        return stack1.getItem() == stack2.getItem() && ItemStack.tagMatches(stack1, stack2);
-    }
-
     /** stores an itemstack in the users inventory */
     private static int storeItemStack(ItemStack itemStackIn, IItemHandlerModifiable inventory, int minIndex,
             int maxIndex)
     {
         maxIndex = Math.min(maxIndex, inventory.getSlots());
-        for (int index = minIndex; index < inventory.getSlots(); ++index)
+        for (int index = minIndex; index < maxIndex; ++index)
             if (ItemStackTools.canMergeStacks(inventory.getStackInSlot(index), itemStackIn)) return index;
         return -1;
     }

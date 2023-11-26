@@ -25,11 +25,13 @@ import pokecube.gimmicks.builders.BuilderTasks;
 import pokecube.gimmicks.builders.builders.BuilderManager.BuilderClearer;
 import pokecube.gimmicks.builders.builders.IBlocksBuilder;
 import pokecube.gimmicks.builders.builders.IBlocksBuilder.BoMRecord;
+import pokecube.gimmicks.builders.builders.IBlocksBuilder.CanPlace;
 import pokecube.gimmicks.builders.builders.IBlocksBuilder.PlaceInfo;
 import pokecube.gimmicks.builders.builders.IBlocksClearer;
 import pokecube.gimmicks.builders.builders.StructureBuilder;
 import thut.api.ThutCaps;
 import thut.api.maths.Vector3;
+import thut.api.world.StructureTemplateTools;
 import thut.core.common.ThutCore;
 import thut.lib.ItemStackTools;
 
@@ -219,22 +221,34 @@ public class DoBuild extends UtilTask
             ItemStack stack = container.getStackInSlot(i);
             if (checkValid(stack, requested))
             {
-                for (var stack2 : requested) if (ItemStack.isSame(stack, stack2))
-                {
-                    requested.remove(stack2);
-                    if (requested.isEmpty()) return;
-                    break;
-                }
+                boolean collected = true;
                 if (stack.getCount() > 5)
                 {
                     var split = stack.split(5);
                     container.setStackInSlot(i, stack);
-                    ItemStackTools.addItemStackToInventory(split, storage.getTaskInventory(), minSlot, maxSlot);
+                    if (!ItemStackTools.addItemStackToInventory(split, storage.getTaskInventory(), minSlot, maxSlot))
+                    {
+                        stack.grow(5);
+                        collected = false;
+                    }
                 }
                 else
                 {
                     container.setStackInSlot(i, ItemStack.EMPTY);
-                    ItemStackTools.addItemStackToInventory(stack, storage.getTaskInventory(), minSlot, maxSlot);
+                    if (!ItemStackTools.addItemStackToInventory(stack, storage.getTaskInventory(), minSlot, maxSlot))
+                    {
+                        container.setStackInSlot(i, stack);
+                        collected = false;
+                    }
+                }
+                if (collected)
+                {
+                    for (var stack2 : requested) if (ItemStack.isSame(stack, stack2))
+                    {
+                        requested.remove(stack2);
+                        if (requested.isEmpty()) return;
+                        break;
+                    }
                 }
                 continue;
             }
@@ -259,8 +273,18 @@ public class DoBuild extends UtilTask
         if (nextPlace == null)
         {
             nextPlace = builder.getNextPlacement(storage.getTaskInventory());
-            if (nextPlace != null) builder.markPendingBuild(nextPlace.info().pos);
-            else return false;
+            if (nextPlace != null)
+            {
+                builder.markPendingBuild(nextPlace.info().pos);
+                // Skip invalid placements directly, the tryPlace here should
+                // internally mark the spot as "done"
+                if (nextPlace.valid() == CanPlace.NO)
+                {
+                    builder.tryPlace(nextPlace, storage.getTaskInventory());
+                    nextPlace = null;
+                }
+            }
+            if (nextPlace == null) return false;
         }
 
         // This means we already checked, this will be unset right before
@@ -279,6 +303,24 @@ public class DoBuild extends UtilTask
         // immediately continue
         List<ItemStack> requested = new ArrayList<>();
         builder.getNextNeeded(requested, 3);
+
+        if (nextPlace != null)
+        {
+            ItemStack stack = StructureTemplateTools.getForInfo(nextPlace.info());
+            if (!stack.isEmpty())
+            {
+                boolean has = false;
+                for (var stack2 : requested)
+                {
+                    if (ItemStack.isSame(stack2, stack))
+                    {
+                        has = true;
+                        break;
+                    }
+                }
+                if (!has) requested.add(0, stack);
+            }
+        }
 
         for (int i = 0; i < storage.getTaskInventory().getSlots(); i++)
         {
@@ -377,6 +419,15 @@ public class DoBuild extends UtilTask
             return;
         }
 
+        // Skip invalid placements directly, the tryPlace here should internally
+        // mark the spot as "done"
+        if (nextPlace.valid() == CanPlace.NO)
+        {
+            builder.tryPlace(nextPlace, storage.getTaskInventory());
+            nextPlace = null;
+            return;
+        }
+
         var pos = nextPlace.info().pos;
         double diff = 5;
         diff = Math.max(diff, this.entity.getBbWidth());
@@ -421,7 +472,7 @@ public class DoBuild extends UtilTask
         }
 
         builder.markPendingBuild(storeLoc);
-        clearer.markPendingClear(storeLoc);
+        if (clearer != null) clearer.markPendingClear(storeLoc);
 
         if (entity.tickCount % 40 == 0) builder.checkBoM(this.BoM);
 

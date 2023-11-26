@@ -72,6 +72,19 @@ public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTa
         build = null;
     }
 
+    /**
+     * Swaps the book to the main hand, so it is no longer read for
+     * instructions.
+     */
+    private void swapHands()
+    {
+        ItemStack main = entity.getMainHandItem();
+        ItemStack off = entity.getOffhandItem();
+        entity.setItemInHand(InteractionHand.MAIN_HAND, off);
+        entity.setItemInHand(InteractionHand.OFF_HAND, main);
+        pokemob.getInventory().setChanged();
+    }
+
     public void setBuilder(BuilderClearer builder, ServerLevel level, List<IPokemob> pokemobs)
     {
         var pair = storage.getInventory(level, storage.storageLoc, Direction.UP);
@@ -131,10 +144,7 @@ public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTa
         {
             // Swap held items in this case. This prevents us immediately
             // trying to make a jigsaw again.
-            ItemStack main = entity.getMainHandItem();
-            ItemStack off = entity.getOffhandItem();
-            entity.setItemInHand(InteractionHand.MAIN_HAND, off);
-            entity.setItemInHand(InteractionHand.OFF_HAND, main);
+            swapHands();
             reset();
             return;
         }
@@ -222,9 +232,16 @@ public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTa
             if (pair == null) return false;
 
             BlockPos origin = pokemob.getHome();
-            BuildContext context = new BuildContext(level, origin);
+            ServerPlayer owner = null;
+            if (pokemob.getOwner() instanceof ServerPlayer player) owner = player;
+            BuildContext context = new BuildContext(level, origin, owner);
             this.build = BuilderManager.fromInstructions(last, context);
             hasInstructions = this.build != null;
+            if (hasInstructions && build.saveKey().equals("save"))
+            {
+                swapHands();
+                hasInstructions = false;
+            }
 
             if (hadInstructions && !hasInstructions)
             {

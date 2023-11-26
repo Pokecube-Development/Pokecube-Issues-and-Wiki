@@ -7,6 +7,87 @@
    <part name="Eye" tex="ceruledge_eye"/>
    <animation diffs="0,0.5" part="Eye" trigger="random:0.005:5"/>
   </customTex>
+  <phase type="gui_render">
+   <part name="cint">
+    <component length="10" name="1" rotOffset="0,50,0" startKey="0"/>
+   </part>
+   <part name="body1">
+    <component length="8" name="1" rotChange="0.5,0,0" startKey="0"/>
+    <component length="8" name="2" rotChange="-0.5,0,0" startKey="10"/>
+   </part>
+   <part name="neck">
+    <component length="10" name="1" rotOffset="0,-40,0" startKey="0"/>
+   </part>
+   <part name="fire1">
+    <component length="10" name="1" rotChange="-4,0,0" scaleChange="0.1,0.1,0.1" startKey="0"/>
+    <component length="10" name="2" rotChange="8,0,0" scaleChange="-0.2,-0.2,-0.2" startKey="5"/>
+	<component length="10" name="3" rotChange="-4,0,0" scaleChange="0.1,0.1,0.1" startKey="10"/>
+   </part>
+   <part name="fire2">
+    <component length="10" name="1" rotChange="-4,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="8,0,0" startKey="5"/>
+	<component length="10" name="3" rotChange="-4,0,0" startKey="10"/>
+   </part>
+   <part name="fire3">
+    <component length="10" name="1" rotChange="4,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-8,0,0" startKey="5"/>
+	<component length="10" name="3" rotChange="4,0,0" startKey="10"/>
+   </part>
+   <part name="fire4">
+    <component length="10" name="1" rotChange="-4,0,0" scaleChange="0.1,0.1,0.1" startKey="0"/>
+    <component length="10" name="2" rotChange="8,0,0" scaleChange="-0.2,-0.2,-0.2" startKey="5"/>
+	<component length="10" name="3" rotChange="-4,0,0" scaleChange="0.1,0.1,0.1" startKey="10"/>
+   </part>
+    <part name="arm1">
+    <component length="10" name="1" rotChange="0,0,0.3" rotOffset="0,10,-55" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-0.3" startKey="10"/>
+   </part>
+   <part name="hand1">
+    <component length="1" name="1" rotOffset="0,-20,0," startKey="0"/>
+   </part>
+   <part name="h1_1">
+    <component length="10" name="1" rotChange="0,-4,0" scaleChange="-0.2,-0.2,-0.2" startKey="0"/>
+    <component length="10" name="2" rotChange="0,8,0" scaleChange="0.2,0.2,0.2" startKey="5"/>
+	<component length="10" name="3" rotChange="0,-4,0" startKey="10"/>
+   </part>
+   <part name="h1_2">
+    <component length="10" name="1" rotChange="0,4,0" scaleChange="-0.2,-0.2,-0.2" startKey="0"/>
+    <component length="10" name="2" rotChange="0,-8,0" scaleChange="0.2,0.2,0.2" startKey="5"/>
+	<component length="10" name="3" rotChange="0,4,0" startKey="10"/>
+   </part>
+   <part name="hand1_1">
+    <component length="1" name="1" posOffset="7,0,0," scaleOffset="0.7,0.9,0.9," startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotChange="0,0,-0.3" rotOffset="0,30,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,0.3" startKey="10"/>
+   </part>
+   <part name="hand2">
+    <component length="1" name="1" rotOffset="0,0,0," startKey="0"/>
+   </part>
+   <part name="h2_1">
+    <component length="10" name="1" rotChange="0,-4,0" scaleChange="-0.2,-0.2,-0.2" startKey="0"/>
+    <component length="10" name="2" rotChange="0,8,0" scaleChange="0.2,0.2,0.2" startKey="5"/>
+	<component length="10" name="3" rotChange="0,-4,0" startKey="10"/>
+   </part>
+   <part name="h1_2_001">
+    <component length="10" name="1" rotChange="0,4,0" scaleChange="-0.2,-0.2,-0.2" startKey="0"/>
+    <component length="10" name="2" rotChange="0,-8,0" scaleChange="0.2,0.2,0.2" startKey="5"/>
+	<component length="10" name="3" rotChange="0,4,0" startKey="10"/>
+   </part>
+   <part name="leg1">
+    <component length="1" name="1" rotOffset="0,35,15," startKey="0"/>
+   </part>
+   <part name="leg1_1">
+    <component length="1" name="1" rotOffset="0,0,-5," startKey="0"/>
+   </part>
+   <part name="leg2">
+    <component length="1" name="1" rotOffset="0,-15,-15," startKey="0"/>
+   </part>
+   <part name="leg2_1">
+    <component length="1" name="1" rotOffset="0,-10,5," startKey="0"/>
+   </part>
+  </phase>
   <material name="Glow" light="1" transluscent="false" shader="alpha_shader"/>
   <phase type="sitting">
    <part name="body">
