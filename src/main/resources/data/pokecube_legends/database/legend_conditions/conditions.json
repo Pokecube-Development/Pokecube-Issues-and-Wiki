@@ -806,13 +806,33 @@
     },
     {
       "name":"thundurus-incarnate",
-      "preset":"type_based",
+      "preset":"entry_based",
       "options":{
         "entries":"meloetta_aria"
       },
       "spawn":{
         "key":{
           "id":"pokecube_legends:blue_rune"
+        },
+        "target":{
+          "id":"pokecube_legends:nature_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:nature_place"
+          }
+        }
+      }
+    },
+    {
+      "name":"enamorous-incarnate",
+      "preset":"entry_based",
+      "options":{
+        "entries":"meloetta_aria"
+      },
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:ancient_stone"
         },
         "target":{
           "id":"pokecube_legends:nature_spawn"
