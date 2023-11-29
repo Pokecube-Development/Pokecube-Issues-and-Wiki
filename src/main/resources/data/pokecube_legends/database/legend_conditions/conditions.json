@@ -808,8 +808,7 @@
       "name":"thundurus-incarnate",
       "preset":"type_based",
       "options":{
-        "threshold":"0.5",
-        "type":"meloetta_aria"
+        "entries":"meloetta_aria"
       },
       "spawn":{
         "key":{
