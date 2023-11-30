@@ -662,6 +662,27 @@
       }
     },
     {
+      "name":"phione",
+      "preset":"type_based",
+      "options":{
+        "threshold":"0.4",
+        "type":"water"
+      },
+      "spawn":{
+        "key":{
+          "id":"pokecube_legends:water_gem"
+        },
+        "target":{
+          "id":"pokecube_legends:legendary_spawn"
+        },
+        "location":{
+          "values":{
+            "structures":"pokecube_legends:kyogre_temple"
+          }
+        }
+      }
+    },
+    {
       "name":"darkrai",
       "preset":"type_based",
       "options":{
