@@ -353,9 +353,9 @@ public class ItemInit
         AZURE_FLUTE = PokecubeLegends.ITEMS.register("azure_flute",
                 () -> new ItemBase("azure_flute", 2, PokecubeLegends.TAB_LEGENDS, 1));
         DNA_SPLICERA = PokecubeLegends.ITEMS.register("dna_splicera",
-                () -> new ItemBase("dna_splicers", 2, PokecubeItems.TAB_ITEMS, 1));
+                () -> new ItemBase("dna_splicer_a", 1, PokecubeItems.TAB_ITEMS, 1));
         DNA_SPLICERB = PokecubeLegends.ITEMS.register("dna_splicerb",
-                () -> new ItemBase("dna_splicers", 2, PokecubeItems.TAB_ITEMS, 1));
+                () -> new ItemBase("dna_splicer_b", 1, PokecubeItems.TAB_ITEMS, 1));
         GRACIDEA = PokecubeLegends.ITEMS.register("gracidea",
                 () -> new ItemBase("gracidea", 1, PokecubeItems.TAB_ITEMS, 10));
         GRAY_SCARF = PokecubeLegends.ITEMS.register("kubfu_spawn",
