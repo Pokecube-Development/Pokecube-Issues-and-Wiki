@@ -9,6 +9,69 @@
    <animation diffs="0,0.5" part="Eye" trigger="random:0.005:5"/>
    <part name="Mark" tex="quaquaval_mark"/>
   </customTex>
+  <phase type="gui_render">
+   <part name="body1">
+    <component length="15" name="1" rotChange="1,0,0" rotOffset="-2,0,0" startKey="0"/>
+    <component length="15" name="2" rotChange="-1,0,0" startKey="10"/>
+   </part>
+   <part name="back">
+    <component length="10" name="1" rotChange="5,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-5,0,0" startKey="10"/>
+   </part>
+   <part name="hair">
+    <component length="10" name="1" rotChange="1,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-1,0,0" startKey="10"/>
+   </part>
+   <part name="f">
+    <component length="10" name="1" rotChange="3,0,0" rotOffset="3,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-3,0,0" startKey="10"/>
+   </part>
+   <part name="l1">
+    <component length="10" name="1" rotChange="0,0,-2" rotOffset="0,15,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,2" startKey="10"/>
+   </part>
+   <part name="l1_1">
+    <component length="10" name="1" rotOffset="0,17,0" startKey="0"/>
+   </part>
+   <part name="l1_2">
+    <component length="10" name="1" rotOffset="0,17,0" startKey="0"/>
+   </part>
+   <part name="l2">
+    <component length="10" name="1" rotChange="0,0,2" rotOffset="0,-15,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-2" startKey="10"/>
+   </part>
+   <part name="l2_1">
+    <component length="10" name="1" rotOffset="0,-17,0" startKey="0"/>
+   </part>
+   <part name="l2_2">
+    <component length="10" name="1" rotOffset="0,-17,0" startKey="0"/>
+   </part>
+   <part name="arm1">
+    <component length="10" name="1" rotOffset="40,40,-55" startKey="0"/>
+   </part>
+   <part name="arm1_1">
+    <component length="10" name="1" rotOffset="15,-90,0" startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotChange="0,0,-0.6" rotOffset="10,0,70" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,0.6" startKey="10"/>
+   </part>
+   <part name="arm2_1">
+    <component length="10" name="1" rotOffset="0,0,-5" startKey="0"/>
+   </part>
+   <part name="leg1">
+    <component length="10" name="1" rotOffset="-25,10,0" startKey="0"/>
+   </part>
+   <part name="leg1_1">
+    <component length="10" name="1" rotOffset="25,0,0" startKey="0"/>
+   </part>
+   <part name="foot1">
+    <component length="10" name="1" rotOffset="20,0,0" startKey="0"/>
+   </part>
+   <part name="leg2">
+     <component length="10" name="1" rotOffset="0,-20,0" startKey="0"/>
+   </part>
+  </phase>
   <phase type="sitting-2">
    <part name="body">
     <component length="10" name="1" rotChange="0,0,10" rotOffset="0,0,0" startKey="0"/>

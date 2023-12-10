@@ -91,11 +91,16 @@ public class PCContainer extends BaseContainer
 
     protected void bindPCInventory()
     {
-        int n = 0;
-        n = this.inv.getPage() * 54;
-        for (int i = 0; i < 6; i++) for (int j = 0; j < 9; j++) this.addSlot(new PCSlot(this.inv, n + j + i * 9,
-                8 + j * 18 + PCContainer.xOffset, 18 + i * 18 + PCContainer.yOffset));
-        // int k = 0;
+        boolean boundSlots = !this.slots.isEmpty();
+        final int n = this.inv.getPage() * 54;
+        for (int i = 0; i < 6; i++) for (int j = 0; j < 9; j++)
+        {
+            int slotIndex = j + i * 9;
+            int bagIndex = n + slotIndex;
+            if (!boundSlots) this.addSlot(new PCSlot(this.inv, bagIndex, 8 + j * 18 + PCContainer.xOffset,
+                    18 + i * 18 + PCContainer.yOffset));
+            else if (this.slots.get(slotIndex) instanceof PCSlot slot) slot.setSlotIndex(bagIndex);
+        }
         for (final Slot s : this.slots) s.setChanged();
     }
 
