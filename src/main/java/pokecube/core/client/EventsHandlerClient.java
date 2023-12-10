@@ -230,8 +230,8 @@ public class EventsHandlerClient
         if (player == null) return;
         //
         if (evt.getAction() == GLFW.GLFW_PRESS && evt.getButton() == GLFW.GLFW_MOUSE_BUTTON_RIGHT
-                && Minecraft.getInstance().hitResult == null
-                || Minecraft.getInstance().hitResult.getType() == Type.MISS)
+                && (Minecraft.getInstance().hitResult == null
+                        || Minecraft.getInstance().hitResult.getType() == Type.MISS))
         {
             final Entity entity = Tools.getPointedEntity(player, 6);
             if (entity != null) hands:

@@ -18,6 +18,7 @@ import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.network.PacketBag;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.inventory.BaseContainer;
+import thut.api.inventory.big.BigSlot;
 import thut.api.item.ItemList;
 import thut.core.common.ThutCore;
 
@@ -34,8 +35,7 @@ public class BagContainer extends BaseContainer
     /**
      * Returns true if the item is valid for the bag
      *
-     * @param itemstack
-     *            the itemstack to test
+     * @param itemstack the itemstack to test
      * @return true if the item is valid
      */
     public static boolean isItemValid(final ItemStack itemstack)
@@ -77,12 +77,16 @@ public class BagContainer extends BaseContainer
 
     protected void bindBagInventory()
     {
+        boolean boundSlots = !this.slots.isEmpty();
         final int n = this.inv.getPage() * 54;
-        for (int i = 0; i < 6; i++)
-            for (int j = 0; j < 9; j++)
-                this.addSlot(new BagSlot(this.inv, n + j + i * 9, 8 + j * 18 + BagContainer.xOffset, 18 + i * 18
-                        + BagContainer.yOffset));
-        // int k = 0;
+        for (int i = 0; i < 6; i++) for (int j = 0; j < 9; j++)
+        {
+            int slotIndex = j + i * 9;
+            int bagIndex = n + slotIndex;
+            if (!boundSlots) this.addSlot(new BigSlot(this.inv, bagIndex, 8 + j * 18 + BagContainer.xOffset,
+                    18 + i * 18 + BagContainer.yOffset));
+            else if (this.slots.get(slotIndex) instanceof BigSlot slot) slot.setSlotIndex(bagIndex);
+        }
         for (final Slot o : this.slots) o.setChanged();
     }
 
