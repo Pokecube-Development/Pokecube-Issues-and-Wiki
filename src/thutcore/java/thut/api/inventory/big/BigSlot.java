@@ -23,12 +23,6 @@ public class BigSlot extends Slot
     }
 
     @Override
-    public ItemStack getItem()
-    {
-        return this.container.getItem(this.getContainerSlot());
-    }
-
-    @Override
     public boolean mayPlace(final ItemStack itemstack)
     {
         return this.container.canPlaceItem(this.getSlotIndex(), itemstack);
@@ -42,12 +36,23 @@ public class BigSlot extends Slot
         this.container.setChanged();
     }
 
-    /** Helper method to put a stack in the slot. */
+    @Override
+    public ItemStack getItem()
+    {
+        return this.container.getItem(this.getContainerSlot());
+    }
+
     @Override
     public void set(final ItemStack par1ItemStack)
     {
         this.container.setItem(this.getSlotIndex(), par1ItemStack);
         this.setChanged();
+    }
+
+    @Override
+    public ItemStack remove(int amount)
+    {
+        return this.container.removeItem(this.getContainerSlot(), amount);
     }
 
     @Override
