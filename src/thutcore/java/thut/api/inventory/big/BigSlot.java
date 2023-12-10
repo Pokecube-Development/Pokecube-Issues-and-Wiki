@@ -1,16 +1,16 @@
-package pokecube.adventures.items.bag;
+package thut.api.inventory.big;
 
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
-public class BagSlot extends Slot
+public class BigSlot extends Slot
 {
-
+    private int actualSlot = -1;
     public boolean release = false;
 
-    public BagSlot(final Container inventory, final int slotIndex, final int xDisplay, final int yDisplay)
+    public BigSlot(final Container inventory, final int slotIndex, final int xDisplay, final int yDisplay)
     {
         super(inventory, slotIndex, xDisplay, yDisplay);
     }
@@ -20,6 +20,12 @@ public class BagSlot extends Slot
     public boolean mayPickup(final Player par1PlayerEntity)
     {
         return !this.release;
+    }
+
+    @Override
+    public ItemStack getItem()
+    {
+        return this.container.getItem(this.getContainerSlot());
     }
 
     @Override
@@ -42,5 +48,22 @@ public class BagSlot extends Slot
     {
         this.container.setItem(this.getSlotIndex(), par1ItemStack);
         this.setChanged();
+    }
+
+    @Override
+    public int getContainerSlot()
+    {
+        return actualSlot;
+    }
+
+    @Override
+    public int getSlotIndex()
+    {
+        return actualSlot;
+    }
+
+    public void setSlotIndex(int slot)
+    {
+        actualSlot = slot;
     }
 }
