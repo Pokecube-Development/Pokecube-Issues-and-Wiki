@@ -54,6 +54,12 @@ public class PCSlot extends Slot
     }
 
     @Override
+    public ItemStack remove(int amount)
+    {
+        return this.container.removeItem(this.getContainerSlot(), amount);
+    }
+
+    @Override
     public void onTake(final Player thePlayer, final ItemStack stack)
     {
         PlayerPokemobCache.UpdateCache(stack, false, false);
