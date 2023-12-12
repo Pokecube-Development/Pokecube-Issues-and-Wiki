@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    {"id": "pokecube_legends:azure_coleus", "required": false},
     {"id": "pokecube_legends:golden_allium", "required": false},
     {"id": "pokecube_legends:golden_azure_bluet", "required": false},
     {"id": "pokecube_legends:golden_cornflower", "required": false},
