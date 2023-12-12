@@ -62,6 +62,7 @@ public class Compostables
         compostableBlocks(0.65f, PlantsInit.GOLDEN_POPPY);
         compostableBlocks(0.65f, PlantsInit.GOLDEN_SHROOM_PLANT);
         compostableBlocks(0.65f, PlantsInit.GOLDEN_TULIP);
+        compostableBlocks(0.65f, PlantsInit.GRACIDEA);
         compostableBlocks(0.65f, PlantsInit.INVERTED_ORCHID);
         compostableBlocks(0.65f, PlantsInit.LARGE_GOLDEN_FERN);
         compostableBlocks(0.65f, PlantsInit.PINK_TAINTED_LILY_PAD);

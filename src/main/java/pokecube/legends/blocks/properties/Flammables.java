@@ -121,6 +121,7 @@ public class Flammables
         flammableBlocks(PlantsInit.GOLDEN_SHROOM_PLANT.get(), 60, 100);
         flammableBlocks(PlantsInit.GOLDEN_SWEET_BERRY_BUSH.get(), 60, 100);
         flammableBlocks(PlantsInit.GOLDEN_TULIP.get(), 60, 100);
+        flammableBlocks(PlantsInit.GRACIDEA.get(), 60, 100);
         flammableBlocks(PlantsInit.INVERTED_ORCHID.get(), 60, 100);
         flammableBlocks(PlantsInit.HANGING_TENDRILS.get(), 60, 100);
         flammableBlocks(PlantsInit.HANGING_TENDRILS_PLANT.get(), 60, 100);

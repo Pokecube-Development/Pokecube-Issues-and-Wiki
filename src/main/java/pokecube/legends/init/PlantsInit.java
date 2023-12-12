@@ -2,6 +2,7 @@ package pokecube.legends.init;
 
 import net.minecraft.data.worldgen.features.TreeFeatures;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -9,6 +10,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.registries.RegistryObject;
+import pokecube.core.PokecubeItems;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.FlowerBase;
 import pokecube.legends.blocks.MushroomBase;
@@ -33,6 +35,7 @@ import pokecube.legends.blocks.plants.TallGoldenGrassBlock;
 import pokecube.legends.blocks.plants.TallTaintedSeagrassBlock;
 import pokecube.legends.blocks.plants.TemporalBambooBlock;
 import pokecube.legends.blocks.plants.TemporalBambooShootBlock;
+import pokecube.legends.items.ItemBase;
 
 public class PlantsInit
 {
@@ -57,6 +60,7 @@ public class PlantsInit
     public static final RegistryObject<Block> GOLDEN_SHROOM_PLANT;
     public static final RegistryObject<Block> GOLDEN_SWEET_BERRY_BUSH;
     public static final RegistryObject<Block> GOLDEN_TULIP;
+    public static final RegistryObject<Block> GRACIDEA;
     public static final RegistryObject<Block> INVERTED_ORCHID;
     public static final RegistryObject<Block> HANGING_TENDRILS;
     public static final RegistryObject<Block> HANGING_TENDRILS_PLANT;
@@ -77,6 +81,10 @@ public class PlantsInit
 
     static
     {
+        GRACIDEA = PokecubeLegends.DIMENSIONS_TAB.register("gracidea",
+                () -> new FlowerBase("gracidea", 1, MobEffects.LUCK, 10,
+                        BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.GOLD).noCollission().instabreak().sound(SoundType.GRASS)));
+
         AZURE_COLEUS = PokecubeLegends.DIMENSIONS_TAB.register("azure_coleus", () -> new AzureColeusBlock(MobEffects.INVISIBILITY, 15,
                 BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_BLUE).randomTicks().noCollission().sound(SoundType.AZALEA)));
 
