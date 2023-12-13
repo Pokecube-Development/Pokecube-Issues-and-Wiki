@@ -2,9 +2,9 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"particle": "pokecube_legends:item/gracidea",
+		"particle": "block/flower_pot",
 		"flowerpot": "block/flower_pot",
-		"dirt": "pokecube_legends:block/corrupted_dirt",
+		"dirt": "block/dirt",
 		"stem": "pokecube_legends:block/gracidea_stem",
 		"petals": "pokecube_legends:block/gracidea_petals"
 	},
@@ -54,8 +54,8 @@
 			}
 		},
 		{
-			"from": [6, 0, 6],
-			"to": [10, 5, 10],
+			"from": [6, -1, 6],
+			"to": [10, 4, 10],
 			"faces": {
 				"up": {"uv": [6, 6, 10, 10], "texture": "#dirt"},
 				"down": {"uv": [6, 12, 10, 16], "texture": "#flowerpot", "cullface": "down"}
@@ -82,40 +82,40 @@
 			}
 		},
 		{
-			"from": [4, 12.3, 0],
-			"to": [12, 12.3, 8],
+			"from": [4, 12.4, 0],
+			"to": [12, 12.4, 8],
 			"shade": false,
-			"rotation": {"angle": 22.5, "axis": "x", "origin": [4, 12.3, 8]},
+			"rotation": {"angle": 22.5, "axis": "x", "origin": [4, 12.4, 8]},
 			"faces": {
 				"up": {"uv": [0, 0, 8, 8], "texture": "#petals"},
 				"down": {"uv": [0, 8, 8, 0], "texture": "#petals"}
 			}
 		},
 		{
-			"from": [4, 12.3, 8],
-			"to": [12, 12.3, 16],
+			"from": [4, 12.4, 8],
+			"to": [12, 12.4, 16],
 			"shade": false,
-			"rotation": {"angle": -22.5, "axis": "x", "origin": [4, 12.3, 8]},
+			"rotation": {"angle": -22.5, "axis": "x", "origin": [4, 12.4, 8]},
 			"faces": {
 				"up": {"uv": [8, 8, 0, 0], "texture": "#petals"},
 				"down": {"uv": [8, 0, 0, 8], "texture": "#petals"}
 			}
 		},
 		{
-			"from": [0, 12.3, 4],
-			"to": [8, 12.3, 12],
+			"from": [0, 12.4, 4],
+			"to": [8, 12.4, 12],
 			"shade": false,
-			"rotation": {"angle": -22.5, "axis": "z", "origin": [8, 12.3, 4]},
+			"rotation": {"angle": -22.5, "axis": "z", "origin": [8, 12.4, 4]},
 			"faces": {
 				"up": {"uv": [0, 0, 8, 8], "rotation": 270, "texture": "#petals"},
 				"down": {"uv": [0, 8, 8, 0], "rotation": 90, "texture": "#petals"}
 			}
 		},
 		{
-			"from": [8, 12.3, 4],
-			"to": [16, 12.3, 12],
+			"from": [8, 12.4, 4],
+			"to": [16, 12.4, 12],
 			"shade": false,
-			"rotation": {"angle": 22.5, "axis": "z", "origin": [8, 12.3, 4]},
+			"rotation": {"angle": 22.5, "axis": "z", "origin": [8, 12.4, 4]},
 			"faces": {
 				"up": {"uv": [0, 0, 8, 8], "rotation": 90, "texture": "#petals"},
 				"down": {"uv": [0, 8, 8, 0], "rotation": 270, "texture": "#petals"}

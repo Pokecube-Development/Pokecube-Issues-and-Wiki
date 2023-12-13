@@ -3,8 +3,8 @@
 	"parent": "block/cross",
 	"textures": {
 		"stem": "pokecube_legends:block/gracidea_stem",
-		"petals": "pokecube_legends:block/gracidea_petals",
-		"particle": "pokecube_legends:item/gracidea"
+		"particle": "pokecube_legends:block/gracidea_petals",
+		"petals": "pokecube_legends:block/gracidea_petals"
 	},
 	"elements": [
 		{
@@ -28,40 +28,40 @@
 			}
 		},
 		{
-			"from": [4, 11.1, 0],
-			"to": [12, 11.1, 8],
+			"from": [4, 11.2, 0],
+			"to": [12, 11.2, 8],
 			"shade": false,
-			"rotation": {"angle": 22.5, "axis": "x", "origin": [4, 11.1, 8]},
+			"rotation": {"angle": 22.5, "axis": "x", "origin": [4, 11.2, 8]},
 			"faces": {
 				"up": {"uv": [0, 0, 8, 8], "texture": "#petals"},
 				"down": {"uv": [0, 8, 8, 0], "texture": "#petals"}
 			}
 		},
 		{
-			"from": [4, 11.1, 8],
-			"to": [12, 11.1, 16],
+			"from": [4, 11.2, 8],
+			"to": [12, 11.2, 16],
 			"shade": false,
-			"rotation": {"angle": -22.5, "axis": "x", "origin": [4, 11.1, 8]},
+			"rotation": {"angle": -22.5, "axis": "x", "origin": [4, 11.2, 8]},
 			"faces": {
 				"up": {"uv": [8, 8, 0, 0], "texture": "#petals"},
 				"down": {"uv": [8, 0, 0, 8], "texture": "#petals"}
 			}
 		},
 		{
-			"from": [0, 11.1, 4],
-			"to": [8, 11.1, 12],
+			"from": [0, 11.2, 4],
+			"to": [8, 11.2, 12],
 			"shade": false,
-			"rotation": {"angle": -22.5, "axis": "z", "origin": [8, 11.1, 4]},
+			"rotation": {"angle": -22.5, "axis": "z", "origin": [8, 11.2, 4]},
 			"faces": {
 				"up": {"uv": [0, 0, 8, 8], "rotation": 270, "texture": "#petals"},
 				"down": {"uv": [0, 8, 8, 0], "rotation": 90, "texture": "#petals"}
 			}
 		},
 		{
-			"from": [8, 11.1, 4],
-			"to": [16, 11.1, 12],
+			"from": [8, 11.2, 4],
+			"to": [16, 11.2, 12],
 			"shade": false,
-			"rotation": {"angle": 22.5, "axis": "z", "origin": [8, 11.1, 4]},
+			"rotation": {"angle": 22.5, "axis": "z", "origin": [8, 11.2, 4]},
 			"faces": {
 				"up": {"uv": [0, 0, 8, 8], "rotation": 90, "texture": "#petals"},
 				"down": {"uv": [0, 8, 8, 0], "rotation": 270, "texture": "#petals"}
