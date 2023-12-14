@@ -1238,10 +1238,10 @@
     "_comment43": "Spawner Item Tooltips",
 
     "legends.zacian_sword.tooltip": "§6§n§lCrafted",
-    "legends.zacian_sword.tooltip.line1": "§cEvolves: §7Zacian",
+    "legends.zacian_sword.tooltip.line1": "§cTransforms: §7Zacian",
 
     "legends.zamazenta_shield.tooltip": "§6§n§lCrafted",
-    "legends.zamazenta_shield.tooltip.line1": "§cEvolves: §7Zamazenta",
+    "legends.zamazenta_shield.tooltip.line1": "§cTransforms: §7Zamazenta",
 
     "legends.cobalion_sword.tooltip": "§6§n§lPurchased",
     "legends.cobalion_sword.tooltip.line1": "§aUse On: §7Elemental Spawner",
@@ -1324,7 +1324,7 @@
     "legends.greenorb.tooltip.line1": "§aUse On: §7Legendary Spawner",
     "legends.greenorb.tooltip.line2": "§bSpawns: §7Celebi",
     "legends.griseousorb.tooltip": "§6§n§lCrafted or Purchased",
-    "legends.griseousorb.tooltip.line1": "§cEvolves: §7Giratina",
+    "legends.griseousorb.tooltip.line1": "§cTransforms: §7Giratina",
     "legends.ice_carrot.tooltip": "§6§n§lReward or Purchased",
     "legends.ice_carrot.tooltip.line1": "§aUse On: §7Trough Spawner",
     "legends.ice_carrot.tooltip.line2": "§bSpawns: §7Glastrier",
