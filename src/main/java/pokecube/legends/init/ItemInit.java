@@ -14,7 +14,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SignItem;
 import net.minecraft.world.item.StandingAndWallBlockItem;
-import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.WaterLilyBlockItem;
 import net.minecraftforge.api.distmarker.Dist;
@@ -139,8 +138,8 @@ public class ItemInit
     public static final RegistryObject<Item> REINS_U;
 
     // Evolutions
-    public static final RegistryObject<Item> CHPOT;
-    public static final RegistryObject<Item> CRPOT;
+    public static final RegistryObject<Item> CHIPPED_POT;
+    public static final RegistryObject<Item> CRACKED_POT;
     public static final RegistryObject<Item> GALARCUFF;
     public static final RegistryObject<Item> PDARK;
     public static final RegistryObject<Item> PWATER;
@@ -344,9 +343,11 @@ public class ItemInit
                 () -> new ItemBase("static_wing", 2, PokecubeLegends.TAB_LEGENDS, 1));
 
         ICE_CARROT = PokecubeLegends.ITEMS.register("ice_carrot",
-                () -> new ItemBase("ice_carrot", 3, PokecubeLegends.TAB_LEGENDS, Rarity.RARE, FoodInit.ICE_CARROT, 16));
-        SHADOW_CARROT = PokecubeLegends.ITEMS.register("shadow_carrot", () -> new ItemBase("shadow_carrot", 3,
-                PokecubeLegends.TAB_LEGENDS, Rarity.RARE, FoodInit.SHADOW_CARROT, 16));
+                () -> new ItemBase("ice_carrot", 3,
+                        PokecubeLegends.TAB_LEGENDS, Rarity.RARE, FoodInit.ICE_CARROT, 16));
+        SHADOW_CARROT = PokecubeLegends.ITEMS.register("shadow_carrot",
+                () -> new ItemBase("shadow_carrot", 3,
+                        PokecubeLegends.TAB_LEGENDS, Rarity.RARE, FoodInit.SHADOW_CARROT, 16));
 
         // Misc
         AZURE_FLUTE = PokecubeLegends.ITEMS.register("azure_flute",
@@ -364,7 +365,7 @@ public class ItemInit
         MELOETTA_OCARINA = PokecubeLegends.ITEMS.register("meloetta_ocarina",
                 () -> new ItemBase("meloetta_ocarina", 2, PokecubeLegends.TAB_LEGENDS, 1));
         METEOR_SHARD = PokecubeLegends.ITEMS.register("meteor_shard",
-                () -> new ItemBase("meteor_shard", 2, PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("meteor_shard", 2, PokecubeLegends.TAB_LEGENDS, 16));
         METEORITE = PokecubeLegends.ITEMS.register("meteorite",
                 () -> new ItemBase("meteorite", 1, PokecubeItems.TAB_ITEMS, 16));
         NIGHTMARE_BOOK = PokecubeLegends.ITEMS.register("nightmare_book",
@@ -430,10 +431,14 @@ public class ItemInit
         BODY_MIRROR = PokecubeLegends.ITEMS.register("body_mirror", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 1));
         GLASS_MIRROR = PokecubeLegends.ITEMS.register("glass_mirror", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 1));
 
-        CHPOT = PokecubeLegends.ITEMS.register("chippedpot", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 1));
-        CRPOT = PokecubeLegends.ITEMS.register("crackedpot", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 1));
-        GALARCUFF = PokecubeLegends.ITEMS.register("galarcuff", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 1));
-        GALARWREATH = PokecubeLegends.ITEMS.register("galarwreath", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 1));
+        CHIPPED_POT = PokecubeLegends.ITEMS.register("chippedpot",
+                () -> new ItemBase("chipped_pot", 1, PokecubeItems.TAB_ITEMS, 1));
+        CRACKED_POT = PokecubeLegends.ITEMS.register("crackedpot",
+                () -> new ItemBase("cracked_pot", 1, PokecubeItems.TAB_ITEMS, 1));
+        GALARCUFF = PokecubeLegends.ITEMS.register("galarcuff",
+                () -> new ItemBase("galar_cuff", 1, PokecubeItems.TAB_ITEMS, 1));
+        GALARWREATH = PokecubeLegends.ITEMS.register("galarwreath",
+                () -> new ItemBase("galar_wreath", 1, PokecubeItems.TAB_ITEMS, 1));
         GIGANTIC_SHARD = PokecubeLegends.ITEMS.register("gigantic_shard",
                 () -> new ItemBase("gigantic_shard", PokecubeItems.TAB_ITEMS, 1).setShiny());
         PDARK = PokecubeLegends.ITEMS.register("pdark", () -> new ItemBase("pdark", 1, PokecubeItems.TAB_ITEMS, 1));
