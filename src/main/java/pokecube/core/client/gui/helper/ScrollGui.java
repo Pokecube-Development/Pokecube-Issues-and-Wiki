@@ -116,7 +116,7 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
             RenderSystem.disableTexture();
             RenderSystem.setShader(GameRenderer::getPositionColorShader);
             int l1 = (int) ((float) ((this.y1 - this.y0) * (this.y1 - this.y0)) / (float) this.getMaxPosition());
-            l1 = Mth.clamp(l1, 32, this.y1 - this.y0 - 8);
+            l1 = Mth.clamp(l1, 32, this.y1 - this.y0 - 4);
             int i2 = (int) this.getScrollAmount() * (this.y1 - this.y0 - l1) / k1 + this.y0;
             if (i2 < this.y0) i2 = this.y0;
             i2 += scrollBarDy;
@@ -128,30 +128,60 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
 
             bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
 
-            // This does the black background.
-            bufferbuilder.vertex(x0, y1, 0.0D).color(0, 0, 0, 255).endVertex();
-            bufferbuilder.vertex(x1, y1, 0.0D).color(0, 0, 0, 255).endVertex();
-            bufferbuilder.vertex(x1, y0, 0.0D).color(0, 0, 0, 255).endVertex();
-            bufferbuilder.vertex(x0, y0, 0.0D).color(0, 0, 0, 255).endVertex();
 
-            // This does the darker coloured bar
+            // This does the gray border corners
+            bufferbuilder.vertex(x0 - 1, y1 + 1, 0.0D).color(139, 139, 139, 255).endVertex();
+            bufferbuilder.vertex(x1 + 1, y1 + 1, 0.0D).color(139, 139, 139, 255).endVertex();
+            bufferbuilder.vertex(x1 + 1, y0 - 1, 0.0D).color(139, 139, 139, 255).endVertex();
+            bufferbuilder.vertex(x0 - 1, y0 - 1, 0.0D).color(139, 139, 139, 255).endVertex();
+
+            // This does the dark border
+            bufferbuilder.vertex(x0 - 1, y1, 0.0D).color(55, 55, 55, 255).endVertex();
+            bufferbuilder.vertex(x1, y1, 0.0D).color(55, 55, 55, 255).endVertex();
+            bufferbuilder.vertex(x1, y0 - 1, 0.0D).color(55, 55, 55, 255).endVertex();
+            bufferbuilder.vertex(x0 - 1, y0 - 1, 0.0D).color(55, 55, 55, 255).endVertex();
+
+            // This does the white border
+            bufferbuilder.vertex(x0, y1 + 1, 0.0D).color(255, 255, 255, 255).endVertex();
+            bufferbuilder.vertex(x1 + 1, y1 + 1, 0.0D).color(255, 255, 255, 255).endVertex();
+            bufferbuilder.vertex(x1 + 1, y0, 0.0D).color(255, 255, 255, 255).endVertex();
+            bufferbuilder.vertex(x0, y0, 0.0D).color(255, 255, 255, 255).endVertex();
+
+            // This does the gray background
+            bufferbuilder.vertex(x0, y1, 0.0D).color(139, 139, 139, 255).endVertex();
+            bufferbuilder.vertex(x1, y1, 0.0D).color(139, 139, 139, 255).endVertex();
+            bufferbuilder.vertex(x1, y0, 0.0D).color(139, 139, 139, 255).endVertex();
+            bufferbuilder.vertex(x0, y0, 0.0D).color(139, 139, 139, 255).endVertex();
+
+            // This does the gray border corners of the scroll bar
             y1 = i2 + l1 + scrollBarDy;
             y0 = i2;
+            bufferbuilder.vertex(x0, y1, 0.0D).color(139, 139, 139, 255).endVertex();
+            bufferbuilder.vertex(x1, y1, 0.0D).color(139, 139, 139, 255).endVertex();
+            bufferbuilder.vertex(x1, y0, 0.0D).color(139, 139, 139, 255).endVertex();
+            bufferbuilder.vertex(x0, y0, 0.0D).color(139, 139, 139, 255).endVertex();
 
-            bufferbuilder.vertex(x0, y1, 0.0D).color(128, 128, 128, 255).endVertex();
-            bufferbuilder.vertex(x1, y1, 0.0D).color(128, 128, 128, 255).endVertex();
-            bufferbuilder.vertex(x1, y0, 0.0D).color(128, 128, 128, 255).endVertex();
-            bufferbuilder.vertex(x0, y0, 0.0D).color(128, 128, 128, 255).endVertex();
+            // This does the white border of the scroll bar
+            bufferbuilder.vertex(x0, y1 - 1, 0.0D).color(255, 255, 255, 255).endVertex();
+            bufferbuilder.vertex(x1 - 1, y1 - 1, 0.0D).color(255, 255, 255, 255).endVertex();
+            bufferbuilder.vertex(x1 - 1, y0, 0.0D).color(255, 255, 255, 255).endVertex();
+            bufferbuilder.vertex(x0, y0, 0.0D).color(255, 255, 255, 255).endVertex();
 
-            // This does the lighter coloured bar
+            // This does the dark border of the scroll bar
+            bufferbuilder.vertex(x0 + 1, y1, 0.0D).color(55, 55, 55, 255).endVertex();
+            bufferbuilder.vertex(x1, y1, 0.0D).color(55, 55, 55, 255).endVertex();
+            bufferbuilder.vertex(x1, y0 + 1, 0.0D).color(55, 55, 55, 255).endVertex();
+            bufferbuilder.vertex(x0 + 1, y0 + 1, 0.0D).color(55, 55, 55, 255).endVertex();
+
+            // This does the center bar of the scroll bar
             x1 -= 1;
             y0 += 1;
             y1 -= 1;
             x0 += 1;
-            bufferbuilder.vertex(x0, y1, 0.0D).color(192, 192, 192, 255).endVertex();
-            bufferbuilder.vertex(x1, y1, 0.0D).color(192, 192, 192, 255).endVertex();
-            bufferbuilder.vertex(x1, y0, 0.0D).color(192, 192, 192, 255).endVertex();
-            bufferbuilder.vertex(x0, y0, 0.0D).color(192, 192, 192, 255).endVertex();
+            bufferbuilder.vertex(x0, y1, 0.0D).color(198, 198, 198, 255).endVertex();
+            bufferbuilder.vertex(x1, y1, 0.0D).color(198, 198, 198, 255).endVertex();
+            bufferbuilder.vertex(x1, y0, 0.0D).color(198, 198, 198, 255).endVertex();
+            bufferbuilder.vertex(x0, y0, 0.0D).color(198, 198, 198, 255).endVertex();
             tessellator.end();
         }
 
