@@ -40,23 +40,23 @@ public class Spawns extends ListPage<LineEntry>
     {
         super.initList();
         int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
-        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
-        final int height = this.font.lineHeight * 9;
-        final int width = 110;
+        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 26;
+        final int height = this.font.lineHeight * 12;
+        final int width = 123;
 
-        final int dx = 48;
-        final int dy = 12;
+        final int dx = 41;
+        final int dy = 10;
         offsetX += dx;
         offsetY += dy;
 
-        this.list = new ScrollGui<>(this, this.minecraft, width, height - this.font.lineHeight / 2,
+        this.list = new ScrollGui<>(this, this.minecraft, width, height,
                 this.font.lineHeight, offsetX, offsetY);
         for (int i = 0; i < PacketPokedex.selectedMob.size(); i++)
         {
             SpawnBiomeMatcher matcher = PacketPokedex.selectedMob.get(i);
             int colour = -1;
             if (PacketPokedex.validSpawnIndex.get(i)) colour = 0xC99D0A;
-            SpawnListEntry entry = new SpawnListEntry(this, this.font, matcher, null, 100, height, offsetY).noRate();
+            SpawnListEntry entry = new SpawnListEntry(this, this.font, matcher, null, 112, height, offsetY).noRate();
             entry.getLines(this.list, null, colour).forEach(c -> this.list.addEntry(c));
         }
     }

@@ -436,9 +436,9 @@ public class ItemInit
         CRACKED_POT = PokecubeLegends.ITEMS.register("crackedpot",
                 () -> new ItemBase("cracked_pot", 1, PokecubeItems.TAB_ITEMS, 1));
         GALARCUFF = PokecubeLegends.ITEMS.register("galarcuff",
-                () -> new ItemBase("galar_cuff", 1, PokecubeItems.TAB_ITEMS, 1));
+                () -> new ItemBase("galarica_cuff", 1, PokecubeItems.TAB_ITEMS, 1));
         GALARWREATH = PokecubeLegends.ITEMS.register("galarwreath",
-                () -> new ItemBase("galar_wreath", 1, PokecubeItems.TAB_ITEMS, 1));
+                () -> new ItemBase("galarica_wreath", 1, PokecubeItems.TAB_ITEMS, 1));
         GIGANTIC_SHARD = PokecubeLegends.ITEMS.register("gigantic_shard",
                 () -> new ItemBase("gigantic_shard", PokecubeItems.TAB_ITEMS, 1).setShiny());
         PDARK = PokecubeLegends.ITEMS.register("pdark", () -> new ItemBase("pdark", 1, PokecubeItems.TAB_ITEMS, 1));

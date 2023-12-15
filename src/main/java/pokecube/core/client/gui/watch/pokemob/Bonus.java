@@ -2,13 +2,16 @@ package pokecube.core.client.gui.watch.pokemob;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.MultiLineLabel;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.Nature;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
 import thut.lib.TComponent;
@@ -46,8 +49,8 @@ public class Bonus extends PokeInfoPage
         // Draw ability, Happiness and Size
         final String ability = this.parent.pokemob.getAbilityName();
         final Nature nature = this.parent.pokemob.getNature();
-        dx = 145; // 55
-        int dy = 40; // 25 //40
+        dx = 133; // 145
+        int dy = 40; // 40
 
         final int abilitycolour = 0x000080; //GuiPokeWatch.nightMode ? 0x444444 : 0x444444;
         final int sizeColour = 0x333333; //GuiPokeWatch.nightMode ? 0x444444 : 0x444444;
@@ -63,30 +66,30 @@ public class Bonus extends PokeInfoPage
         MutableComponent message = TComponent.literal("");
 
         // Draw size
-        dy += 15; // 50 //10
+        dy += 12; // 52
         message = TComponent.translatable("pokewatch.size", "%.2f".formatted(this.parent.pokemob.getSize()));
-        this.splitRenderer = MultiLineLabel.create(this.fontRender, message, 100);
+        this.splitRenderer = MultiLineLabel.create(this.fontRender, message, 112);
         this.splitRenderer.renderLeftAlignedNoShadow(mat, x + dx, y + dy, 12, sizeColour);
 
         // Draw Nature
-        dy += 14; // 50 //11
+        dy += 12; // 64
         if (nature != null)
         {
             message = TComponent.translatable("pokewatch.nature", this.parent.pokemob.getNature());
-            this.splitRenderer = MultiLineLabel.create(this.fontRender, message, 100);
+            this.splitRenderer = MultiLineLabel.create(this.fontRender, message, 112);
             this.splitRenderer.renderLeftAlignedNoShadow(mat, x + dx, y + dy, 12, natureColour);
         }
 
-        if (happiness == 0) message = TComponent.translatable("pokemob.info.happy0");
-        if (happiness > 0) message = TComponent.translatable("pokemob.info.happy1");
-        if (happiness > 49) message = TComponent.translatable("pokemob.info.happy2");
-        if (happiness > 99) message = TComponent.translatable("pokemob.info.happy3");
-        if (happiness > 149) message = TComponent.translatable("pokemob.info.happy4");
-        if (happiness > 199) message = TComponent.translatable("pokemob.info.happy5");
-        if (happiness > 254) message = TComponent.translatable("pokemob.info.happy6");
+        if (happiness == 0) message = TComponent.translatable("pokemob.info.happy0", this.parent.pokemob.getDisplayName()).withStyle(ChatFormatting.DARK_RED);
+        if (happiness > 0) message = TComponent.translatable("pokemob.info.happy1", this.parent.pokemob.getDisplayName()).withStyle(ChatFormatting.RED);
+        if (happiness > 49) message = TComponent.translatable("pokemob.info.happy2", this.parent.pokemob.getDisplayName());
+        if (happiness > 99) message = TComponent.translatable("pokemob.info.happy3", this.parent.pokemob.getDisplayName());
+        if (happiness > 149) message = TComponent.translatable("pokemob.info.happy4", this.parent.pokemob.getDisplayName());
+        if (happiness > 199) message = TComponent.translatable("pokemob.info.happy5", this.parent.pokemob.getDisplayName()).withStyle(ChatFormatting.DARK_GREEN);
+        if (happiness > 254) message = TComponent.translatable("pokemob.info.happy6", this.parent.pokemob.getDisplayName()).withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD);
         // Draw Happiness
-        dy += 19; // 50 //16
-        this.splitRenderer = MultiLineLabel.create(this.fontRender, message, 100);
+        dy += 12; // 76
+        this.splitRenderer = MultiLineLabel.create(this.fontRender, message, 112);
         this.splitRenderer.renderLeftAlignedNoShadow(mat, x + dx, y + dy, 12, sizeColour);
     }
 

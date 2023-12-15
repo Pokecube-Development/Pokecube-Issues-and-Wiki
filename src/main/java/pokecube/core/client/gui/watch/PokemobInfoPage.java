@@ -381,7 +381,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         int colour = 0x30D64C;
         // Draw Subtitle Page
         var title = this.current_page.getTitle();
-        this.font.draw(mat, title, x + 103 - this.font.width(title) / 2, y + 34, colour);
+        this.font.draw(mat, title, x + 103 - this.font.width(title) / 2, y + 30, colour);
         int dx = -76;
         int dy = 10;
 

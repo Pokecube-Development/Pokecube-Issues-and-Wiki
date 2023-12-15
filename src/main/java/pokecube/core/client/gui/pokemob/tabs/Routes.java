@@ -83,7 +83,7 @@ public class Routes extends Tab
         final int xOffset = this.width / 2 - 10;
         final int yOffset = this.height / 2 - 77;
 
-        this.list = new ScrollGui<>(parent, this.parent.minecraft, 92, 50, 50, xOffset, yOffset + 10);
+        this.list = new ScrollGui<>(parent, this.parent.minecraft, 95, 52, 50, xOffset, yOffset + 10);
         this.list.scrollBarDx = 0;
         this.list.scrollBarDy = 3;
 

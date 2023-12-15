@@ -127,15 +127,15 @@ public class Moves extends ListPage<LineEntry>
     {
         super.initList();
         int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
-        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
-        final int height = this.font.lineHeight * 6;
+        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 26;
+        final int height = this.font.lineHeight * 12;
 
-        final int dx = 46;
-        final int dy = 25;
+        final int dx = 41;
+        final int dy = 10;
         offsetY += dy;
         offsetX += dx;
 
-        final int width = 111;
+        final int width = 123;
 
         final int colour = 0xFFFFFFFF;
 

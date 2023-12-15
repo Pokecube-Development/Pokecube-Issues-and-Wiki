@@ -70,15 +70,14 @@ public class Breeding extends ListPage<LineEntry>
     {
         super.initList();
         int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
-        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
-        final int height = this.font.lineHeight * 7;
-        int width = 90; // 135
+        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 26;
+        final int height = this.font.lineHeight * 12;
+        int width = 123; // 135
 
         final int colour = 0xFFFFFFFF;
 
-        width = 90;
-        final int dx = 65; //55
-        final int dy = 15; //10
+        final int dx = 41; //55
+        final int dy = 10; //10
         offsetY += dy;
         offsetX += dx;
 
@@ -98,8 +97,7 @@ public class Breeding extends ListPage<LineEntry>
             }
         };
         final PokedexEntry ourEntry = this.parent.pokemob.getPokedexEntry();
-        this.list = new ScrollGui<>(this, this.minecraft, width, height - this.font.lineHeight / 2,
-                this.font.lineHeight, offsetX, offsetY);
+        this.list = new ScrollGui<>(this, this.minecraft, width, height,
         MutableComponent main = TComponent.translatable(ourEntry.getUnlocalizedName());
         if (!PacketPokedex.noBreeding.contains(ourEntry)) for (final String name : PacketPokedex.relatedLists
                 .getOrDefault(ourEntry.getTrimmedName(), Collections.emptyList()))
