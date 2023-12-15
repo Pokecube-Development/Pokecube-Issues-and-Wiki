@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import javax.sound.sampled.Line;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.ClickEvent.Action;
@@ -145,11 +146,49 @@ public class Description extends ListPage<LineEntry>
         final PokedexEntry e = this.parent.pokemob.getPokedexEntry();
         if (PacketPokedex.haveConditions.contains(e))
         {
-            this.list = new ScrollGui<>(this, this.minecraft, 123, height, this.font.lineHeight, offsetX, offsetY);
+            if (GuiPokeWatch.nightMode)
+            {
+                this.list = new ScrollGui<LineEntry>(this, this.minecraft, 123, height, this.font.lineHeight, offsetX, offsetY)
+                    .setScrollBarColor(255, 172, 56)
+                    .setScrollBarDarkBorder(165, 81, 36)
+                    .setScrollBarGrayBorder(255, 128, 55)
+                    .setScrollBarLightBorder(255, 255, 255)
+                    .setScrollColor(255, 128, 55)
+                    .setScrollDarkBorder(165, 81, 36)
+                    .setScrollLightBorder(255, 255, 255);
+            } else this.list = new ScrollGui<LineEntry>(this, this.minecraft, 123, height, this.font.lineHeight, offsetX, offsetY)
+                    .setScrollBarColor(83, 175, 255)
+                    .setScrollBarDarkBorder(39, 75, 142)
+                    .setScrollBarGrayBorder(69, 132, 249)
+                    .setScrollBarLightBorder(255, 255, 255)
+                    .setScrollColor(69, 132, 249)
+                    .setScrollDarkBorder(39, 75, 142)
+                    .setScrollLightBorder(255, 255, 255);
+
             for (var line : list)
                 this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, line, textColour).setClickListner(listen));
         } else {
-            this.list = new ScrollGui<>(this, this.minecraft, 123, this.font.lineHeight * 12, this.font.lineHeight, offsetX, offsetY);
+            if (GuiPokeWatch.nightMode)
+            {
+                this.list = new ScrollGui<LineEntry>(this,
+                    this.minecraft, 123, this.font.lineHeight * 12, this.font.lineHeight, offsetX, offsetY)
+                    .setScrollBarColor(255, 172, 56)
+                    .setScrollBarDarkBorder(165, 81, 36)
+                    .setScrollBarGrayBorder(255, 128, 55)
+                    .setScrollBarLightBorder(255, 255, 255)
+                    .setScrollColor(255, 128, 55)
+                    .setScrollDarkBorder(165, 81, 36)
+                    .setScrollLightBorder(255, 255, 255);
+            } else this.list = new ScrollGui<LineEntry>(this,
+                    this.minecraft, 123, this.font.lineHeight * 12, this.font.lineHeight, offsetX, offsetY)
+                    .setScrollBarColor(83, 175, 255)
+                    .setScrollBarDarkBorder(39, 75, 142)
+                    .setScrollBarGrayBorder(69, 132, 249)
+                    .setScrollBarLightBorder(255, 255, 255)
+                    .setScrollColor(69, 132, 249)
+                    .setScrollDarkBorder(39, 75, 142)
+                    .setScrollLightBorder(255, 255, 255);
+
             for (var line : list)
                 this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, line, textColour).setClickListner(listen));
         }

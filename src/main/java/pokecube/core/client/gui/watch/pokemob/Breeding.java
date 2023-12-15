@@ -97,7 +97,27 @@ public class Breeding extends ListPage<LineEntry>
             }
         };
         final PokedexEntry ourEntry = this.parent.pokemob.getPokedexEntry();
-        this.list = new ScrollGui<>(this, this.minecraft, width, height,
+        if (GuiPokeWatch.nightMode)
+        {
+            this.list = new ScrollGui<LineEntry>(this, this.minecraft, width, height,
+                this.font.lineHeight, offsetX, offsetY)
+                    .setScrollBarColor(255, 172, 56)
+                    .setScrollBarDarkBorder(165, 81, 36)
+                    .setScrollBarGrayBorder(255, 128, 55)
+                    .setScrollBarLightBorder(255, 255, 255)
+                    .setScrollColor(255, 128, 55)
+                    .setScrollDarkBorder(165, 81, 36)
+                    .setScrollLightBorder(255, 255, 255);
+        } else this.list = new ScrollGui<LineEntry>(this, this.minecraft, width, height,
+            this.font.lineHeight, offsetX, offsetY)
+                .setScrollBarColor(83, 175, 255)
+                .setScrollBarDarkBorder(39, 75, 142)
+                .setScrollBarGrayBorder(69, 132, 249)
+                .setScrollBarLightBorder(255, 255, 255)
+                .setScrollColor(69, 132, 249)
+                .setScrollDarkBorder(39, 75, 142)
+                .setScrollLightBorder(255, 255, 255);
+
         MutableComponent main = TComponent.translatable(ourEntry.getUnlocalizedName());
         if (!PacketPokedex.noBreeding.contains(ourEntry)) for (final String name : PacketPokedex.relatedLists
                 .getOrDefault(ourEntry.getTrimmedName(), Collections.emptyList()))
