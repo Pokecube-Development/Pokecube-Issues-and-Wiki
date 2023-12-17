@@ -51,8 +51,8 @@ public class Spawns extends ListPage<LineEntry>
 
         if (GuiPokeWatch.nightMode)
         {
-        this.list = new ScrollGui<LineEntry>(this, this.minecraft, width, height,
-            this.font.lineHeight, offsetX, offsetY)
+            this.list = new ScrollGui<LineEntry>(this, this.minecraft, width, height,
+                this.font.lineHeight, offsetX, offsetY)
                 .setScrollBarColor(255, 172, 56)
                 .setScrollBarDarkBorder(165, 81, 36)
                 .setScrollBarGrayBorder(255, 128, 55)
@@ -60,7 +60,8 @@ public class Spawns extends ListPage<LineEntry>
                 .setScrollColor(255, 128, 55)
                 .setScrollDarkBorder(165, 81, 36)
                 .setScrollLightBorder(255, 255, 255);
-        } else this.list = new ScrollGui<LineEntry>(this, this.minecraft, width, height,
+        } else {
+            this.list = new ScrollGui<LineEntry>(this, this.minecraft, width, height,
                 this.font.lineHeight, offsetX, offsetY)
                 .setScrollBarColor(83, 175, 255)
                 .setScrollBarDarkBorder(39, 75, 142)
@@ -69,6 +70,7 @@ public class Spawns extends ListPage<LineEntry>
                 .setScrollColor(69, 132, 249)
                 .setScrollDarkBorder(39, 75, 142)
                 .setScrollLightBorder(255, 255, 255);
+        }
 
         for (int i = 0; i < PacketPokedex.selectedMob.size(); i++)
         {

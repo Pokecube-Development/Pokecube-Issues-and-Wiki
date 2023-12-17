@@ -117,8 +117,8 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
             final int my = (int) (mouseY - y);
 
             // The box to click goes from (ox, oy) -> (ox + dx, oy + dy)
-            int ox = 200;
-            int oy = 32;
+            int ox = 235;
+            int oy = 33;
             int dx = 10;
             int dy = 10;
 
@@ -241,7 +241,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
                 genderColor = 0xCC5555;
                 gender = "\u2640";
             }
-            dx = 140;
+            dx = 148;
             dy = 40;
             this.font.draw(mat, gender, x + dx, y + dy, genderColor);
         }

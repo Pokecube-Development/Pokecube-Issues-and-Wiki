@@ -24,12 +24,15 @@ public class PlayerInfo extends PokeStartPage
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
 
-        final int colour = ChatFormatting.GOLD.getColor();
+        final int colour_red = ChatFormatting.DARK_RED.getColor();
+        final int colour_blue = ChatFormatting.DARK_BLUE.getColor();
         Player player = this.watch.player;
         if (this.watch.target instanceof Player) player = (Player) this.watch.target;
 
         // Name Player
-        var title = player.getDisplayName();
-        this.font.draw(mat, title, x + 130 - this.font.width(title) / 2, y + 129, colour);
+        var title = player.getDisplayName() + "'s" + this.parent.pokemob.getDisplayName();
+        if (GuiPokeWatch.nightMode)
+            this.font.draw(mat, title, x + 130 - this.font.width(title) / 2, y + 129, colour_blue);
+        else this.font.draw(mat, title, x + 130 - this.font.width(title) / 2, y + 129, colour_red);
     }
 }

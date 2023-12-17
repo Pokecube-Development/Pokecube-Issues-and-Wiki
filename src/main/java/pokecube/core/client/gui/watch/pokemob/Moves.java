@@ -48,8 +48,8 @@ public class Moves extends ListPage<LineEntry>
 
     private void drawMoves(final PoseStack mat, final int x, final int y, final int mouseX, final int mouseY)
     {
-        final int dx = 52; // -30
-        final int dy = 16; // 20
+        final int dx = 53; // -30
+        final int dy = 18; // 20
 
         IPokemob pokemob = this.parent.pokemob;
 
@@ -98,7 +98,7 @@ public class Moves extends ListPage<LineEntry>
             if (move != null && move.root_entry._implemented)
             {
                 Component moveName = MovesUtils.getMoveName(move.getName(), pokemob);
-                final int oy = 10;
+                final int oy = 11;
                 this.font.drawShadow(mat, moveName, x + dx, y + dy + offset[1] + oy,
                         move.getType(this.parent.pokemob).colour);
             }
@@ -131,7 +131,7 @@ public class Moves extends ListPage<LineEntry>
         final int height = this.font.lineHeight * 12;
 
         final int dx = 41;
-        final int dy = 10;
+        final int dy = 8;
         offsetY += dy;
         offsetX += dx;
 

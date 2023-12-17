@@ -54,7 +54,7 @@ public abstract class PokeInfoPage extends WatchPage
         final Component next = TComponent.literal("");
         final Component prev = TComponent.literal("");
 
-        final TexButton prevBtn = this.addRenderableWidget(new TexButton(x - 115, y - 25, 12, 20, prev, b -> {
+        final TexButton prevBtn = this.addRenderableWidget(new TexButton(x - 115, y - 27, 12, 20, prev, b -> {
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
             final int i = Screen.hasShiftDown() ? Screen.hasControlDown() ? 100 : 10 : 1;
             entry = Pokedex.getInstance().getPrevious(entry, i);
@@ -63,7 +63,7 @@ public abstract class PokeInfoPage extends WatchPage
             this.parent.initPages(this.parent.pokemob);
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(48, 108, 12, 20)));
 
-        final TexButton nextBtn = this.addRenderableWidget(new TexButton(x - 27, y - 25, 12, 20, next, b -> {
+        final TexButton nextBtn = this.addRenderableWidget(new TexButton(x - 27, y - 27, 12, 20, next, b -> {
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
             final int i = Screen.hasShiftDown() ? Screen.hasControlDown() ? 100 : 10 : 1;
             entry = Pokedex.getInstance().getNext(entry, i);

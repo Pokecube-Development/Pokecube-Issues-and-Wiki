@@ -264,8 +264,8 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             final int my = (int) (mouseY - y);
 
             // The box to click goes from (ox, oy) -> (ox + dx, oy + dy)
-            int ox = 100;
-            int oy = 26;
+            int ox = 103;
+            int oy = 25;
             int dx = 10;
             int dy = 10;
 
@@ -301,7 +301,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                 return ret;
             }
 
-            ox = 32;
+            ox = 31;
             oy = 35;
             dx = 90;
             dy = 60;
@@ -328,7 +328,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             // Draw hovored tooltip with pokemob's name
             int mx = mouseX - x;
             int my = mouseY - y;
-            if (mx > -35 && mx < -35 + 50) if (my > 25 && my < 25 + 70)
+            if (mx > -30 && mx < -30 + 50) if (my > 25 && my < 25 + 70)
             {
                 final List<String> text = Lists.newArrayList();
                 text.add(this.pokemob.getPokedexEntry().getTranslatedName().getString());
@@ -341,16 +341,16 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                 int box = 0;
                 for (final String s : text) box = Math.max(box, this.font.width(s) + 2);
 
-                GuiComponent.fill(mat, x + mx - 2, y + my - 2,
-                        x + mx + box + 2, y + my + dy * text.size() + 2, 0xD92E0A65);
+                GuiComponent.fill(mat, x /*+ mx*/ - 2, y + my - 2,
+                        x + /*mx +*/ box + 2, y + my + dy * text.size() + 2, 0xD92E0A65);
 
                 for (final String s : text)
                 {
-                    GuiComponent.fill(mat, x + mx - 1, y + my - 1,
-                            x + mx + box + 1, y + my + dy + 1, 0xD91E0F1E);
+                    GuiComponent.fill(mat, x /*+ mx*/ - 1, y + my - 1,
+                            x + /*mx +*/ box + 1, y + my + dy + 1, 0xD91E0F1E);
                     if (this.pokemob.isShiny())
-                        this.font.draw(mat, s, x + mx + 1 - this.font.width(s), y + my + 1, 0xFFFFBB6F);
-                    else this.font.draw(mat, s, x + mx + 1 - this.font.width(s), y + my + 1, 0xFFFFFFFF);
+                        this.font.draw(mat, s, x + /*mx +*/ 1 - this.font.width(s) / 2, y + my + 1, 0xFFFFBB6F);
+                    else this.font.draw(mat, s, x + /*mx +*/ 1 - this.font.width(s) / 2, y + my + 1, 0xFFFFFFFF);
                     my += dy;
                 }
                 GlStateManager._enableDepthTest();
