@@ -102,17 +102,19 @@ public class WikiPage extends ListPage<LineEntry>
     {
         super.initList();
         final int x = this.watch.width / 2;
-        final int y = this.watch.height / 2 - 5;
-        final Component next = TComponent.literal(">");
-        final Component prev = TComponent.literal("<");
-        final TexButton nextBtn = this.addRenderableWidget(new TexButton(x + 64, y - 75, 12, 12, next, b -> {
-            this.index++;
-            this.setList();
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
-        final TexButton prevBtn = this.addRenderableWidget(new TexButton(x - 69, y - 75, 12, 12, prev, b -> {
+        final int y = this.watch.height / 2;
+        final Component next = TComponent.literal("");
+        final Component prev = TComponent.literal("");
+
+        final TexButton prevBtn = this.addRenderableWidget(new TexButton(x - 116, y - 79, 12, 12, prev, b -> {
             this.index--;
             this.setList();
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(229, 108, 12, 12)));
+
+        final TexButton nextBtn = this.addRenderableWidget(new TexButton(x + 104, y - 79, 12, 12, next, b -> {
+            this.index++;
+            this.setList();
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(241, 108, 12, 12)));
         this.setList();
         
         nextBtn.setFGColor(0x444444);

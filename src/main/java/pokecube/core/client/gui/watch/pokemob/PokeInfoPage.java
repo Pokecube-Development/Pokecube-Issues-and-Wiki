@@ -50,28 +50,27 @@ public abstract class PokeInfoPage extends WatchPage
     {
         super.init();
         final int x = this.watch.width / 2;
-        final int y = this.watch.height / 2 - 3;
         final int y = this.watch.height / 2;
         final Component next = TComponent.literal("");
         final Component prev = TComponent.literal("");
 
-        final TexButton prevBtn = this.addRenderableWidget(new TexButton(x - 115, y - 15, 12, 20, prev, b -> {
+        final TexButton prevBtn = this.addRenderableWidget(new TexButton(x - 115, y - 25, 12, 20, prev, b -> {
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
             final int i = Screen.hasShiftDown() ? Screen.hasControlDown() ? 100 : 10 : 1;
             entry = Pokedex.getInstance().getPrevious(entry, i);
             PacketPokedex.selectedMob.clear();
             this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.getLevel());
             this.parent.initPages(this.parent.pokemob);
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(229, 108, 12, 20)));
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(48, 108, 12, 20)));
 
-        final TexButton nextBtn = this.addRenderableWidget(new TexButton(x - 28, y - 15, 12, 20, next, b -> {
+        final TexButton nextBtn = this.addRenderableWidget(new TexButton(x - 27, y - 25, 12, 20, next, b -> {
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
             final int i = Screen.hasShiftDown() ? Screen.hasControlDown() ? 100 : 10 : 1;
             entry = Pokedex.getInstance().getNext(entry, i);
             PacketPokedex.selectedMob.clear();
             this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.getLevel());
             this.parent.initPages(this.parent.pokemob);
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(241, 108, 12, 20)));
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(60, 108, 12, 20)));
 
         this.addRenderableWidget(new TexButton(x - 93, y + 40, 12, 12, TComponent.literal(""), b -> {
             this.watch.player.playSound(this.parent.pokemob.getSound(), 0.5f, 1.0F);
