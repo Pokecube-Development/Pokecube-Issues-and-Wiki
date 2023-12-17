@@ -42,10 +42,10 @@ public class Spawns extends ListPage<LineEntry>
         int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 26;
         final int height = this.font.lineHeight * 12;
-        final int width = 123;
+        final int width = 120;
 
         final int dx = 41;
-        final int dy = 10;
+        final int dy = 8;
         offsetX += dx;
         offsetY += dy;
 
@@ -74,8 +74,8 @@ public class Spawns extends ListPage<LineEntry>
         {
             SpawnBiomeMatcher matcher = PacketPokedex.selectedMob.get(i);
             int colour = -1;
-            if (PacketPokedex.validSpawnIndex.get(i)) colour = 0xC99D0A;
-            SpawnListEntry entry = new SpawnListEntry(this, this.font, matcher, null, 112, height, offsetY).noRate();
+            if (PacketPokedex.validSpawnIndex.get(i)) colour = 0x267F00;
+            SpawnListEntry entry = new SpawnListEntry(this, this.font, matcher, null, width - 10, height, offsetY).noRate();
             entry.getLines(this.list, null, colour).forEach(c -> this.list.addEntry(c));
         }
     }

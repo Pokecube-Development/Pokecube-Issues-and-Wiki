@@ -168,7 +168,7 @@
     "pokewatch.title.baseradar": "§l§nSecret Base Radar",
     "pokewatch.title.meteorradar": "§l§nMeteor Compass",
     "pokewatch.title.repelsradar": "§l§nSpawn Inhibitor Radar",
-    "pokewatch.title.wiki": "§l§nInfo Books",
+    "pokewatch.title.wiki": "§l§nWiki Info",
     "pokewatch.title.pokeinfo": "§l§nPokémob Info",
     "pokewatch.title.spawns": "§l§nLocal Spawns",
     "pokewatch.title.start": "§l§nPokéWatch Home",
@@ -224,7 +224,7 @@
     "pokewatch.spawns.structures": "Structures:",
     "pokewatch.spawns.rate_local": "Adjusted Rate: %s",
     "pokewatch.spawns.rate_single": "Non Adj Rate: %s",
-    "pokewatch.spawns.info": "Spawns for here:",
+    "pokewatch.spawns.info": "Spawns for this area:",
 
     "pokewatch.HP": "HP",
     "pokewatch.ATT": "ATT",

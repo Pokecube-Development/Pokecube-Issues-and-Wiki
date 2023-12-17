@@ -72,12 +72,12 @@ public class Breeding extends ListPage<LineEntry>
         int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 26;
         final int height = this.font.lineHeight * 12;
-        int width = 123; // 135
+        int width = 120; // 135
 
         final int colour = 0xFFFFFFFF;
 
         final int dx = 41; //55
-        final int dy = 10; //10
+        final int dy = 8; //10
         offsetY += dy;
         offsetX += dx;
 
@@ -101,13 +101,13 @@ public class Breeding extends ListPage<LineEntry>
         {
             this.list = new ScrollGui<LineEntry>(this, this.minecraft, width, height,
                 this.font.lineHeight, offsetX, offsetY)
-                    .setScrollBarColor(255, 172, 56)
-                    .setScrollBarDarkBorder(165, 81, 36)
-                    .setScrollBarGrayBorder(255, 128, 55)
-                    .setScrollBarLightBorder(255, 255, 255)
-                    .setScrollColor(255, 128, 55)
-                    .setScrollDarkBorder(165, 81, 36)
-                    .setScrollLightBorder(255, 255, 255);
+                    .setScrollBarColor(255, 150, 79)
+                    .setScrollBarDarkBorder(211, 81, 29)
+                    .setScrollBarGrayBorder(244, 123, 58)
+                    .setScrollBarLightBorder(255, 190, 111)
+                    .setScrollColor(244, 123, 58)
+                    .setScrollDarkBorder(211, 81, 29)
+                    .setScrollLightBorder(255, 190, 111);
         } else this.list = new ScrollGui<LineEntry>(this, this.minecraft, width, height,
             this.font.lineHeight, offsetX, offsetY)
                 .setScrollBarColor(83, 175, 255)

@@ -30,6 +30,6 @@ public class PlayerInfo extends PokeStartPage
 
         // Name Player
         var title = player.getDisplayName();
-        this.font.draw(mat, title, x + 135 - this.font.width(title) / 2, y + 129, colour);
+        this.font.draw(mat, title, x + 130 - this.font.width(title) / 2, y + 129, colour);
     }
 }

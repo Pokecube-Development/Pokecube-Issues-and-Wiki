@@ -84,7 +84,7 @@ public class Description extends ListPage<LineEntry>
 
         final int height = this.font.lineHeight * 10; // 8
         final int dx = 41;
-        final int dy = 10;
+        final int dy = 8;
         offsetX += dx;
         offsetY += dy;
 
@@ -148,15 +148,15 @@ public class Description extends ListPage<LineEntry>
         {
             if (GuiPokeWatch.nightMode)
             {
-                this.list = new ScrollGui<LineEntry>(this, this.minecraft, 123, height, this.font.lineHeight, offsetX, offsetY)
-                    .setScrollBarColor(255, 172, 56)
-                    .setScrollBarDarkBorder(165, 81, 36)
-                    .setScrollBarGrayBorder(255, 128, 55)
-                    .setScrollBarLightBorder(255, 255, 255)
-                    .setScrollColor(255, 128, 55)
-                    .setScrollDarkBorder(165, 81, 36)
-                    .setScrollLightBorder(255, 255, 255);
-            } else this.list = new ScrollGui<LineEntry>(this, this.minecraft, 123, height, this.font.lineHeight, offsetX, offsetY)
+                this.list = new ScrollGui<LineEntry>(this, this.minecraft, 120, height, this.font.lineHeight, offsetX, offsetY)
+                    .setScrollBarColor(255, 150, 79)
+                    .setScrollBarDarkBorder(211, 81, 29)
+                    .setScrollBarGrayBorder(244, 123, 58)
+                    .setScrollBarLightBorder(255, 190, 111)
+                    .setScrollColor(244, 123, 58)
+                    .setScrollDarkBorder(211, 81, 29)
+                    .setScrollLightBorder(255, 190, 111);
+            } else this.list = new ScrollGui<LineEntry>(this, this.minecraft, 120, height, this.font.lineHeight, offsetX, offsetY)
                     .setScrollBarColor(83, 175, 255)
                     .setScrollBarDarkBorder(39, 75, 142)
                     .setScrollBarGrayBorder(69, 132, 249)
@@ -171,16 +171,16 @@ public class Description extends ListPage<LineEntry>
             if (GuiPokeWatch.nightMode)
             {
                 this.list = new ScrollGui<LineEntry>(this,
-                    this.minecraft, 123, this.font.lineHeight * 12, this.font.lineHeight, offsetX, offsetY)
-                    .setScrollBarColor(255, 172, 56)
-                    .setScrollBarDarkBorder(165, 81, 36)
-                    .setScrollBarGrayBorder(255, 128, 55)
-                    .setScrollBarLightBorder(255, 255, 255)
-                    .setScrollColor(255, 128, 55)
-                    .setScrollDarkBorder(165, 81, 36)
-                    .setScrollLightBorder(255, 255, 255);
+                    this.minecraft, 120, this.font.lineHeight * 12, this.font.lineHeight, offsetX, offsetY)
+                    .setScrollBarColor(255, 150, 79)
+                    .setScrollBarDarkBorder(211, 81, 29)
+                    .setScrollBarGrayBorder(244, 123, 58)
+                    .setScrollBarLightBorder(255, 190, 111)
+                    .setScrollColor(244, 123, 58)
+                    .setScrollDarkBorder(211, 81, 29)
+                    .setScrollLightBorder(255, 190, 111);
             } else this.list = new ScrollGui<LineEntry>(this,
-                    this.minecraft, 123, this.font.lineHeight * 12, this.font.lineHeight, offsetX, offsetY)
+                    this.minecraft, 120, this.font.lineHeight * 12, this.font.lineHeight, offsetX, offsetY)
                     .setScrollBarColor(83, 175, 255)
                     .setScrollBarDarkBorder(39, 75, 142)
                     .setScrollBarGrayBorder(69, 132, 249)

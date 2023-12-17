@@ -73,8 +73,12 @@ public abstract class PokeInfoPage extends WatchPage
             this.parent.initPages(this.parent.pokemob);
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(241, 108, 12, 20)));
 
+        this.addRenderableWidget(new TexButton(x - 93, y + 40, 12, 12, TComponent.literal(""), b -> {
+            this.watch.player.playSound(this.parent.pokemob.getSound(), 0.5f, 1.0F);
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(229, 72, 12, 12)));
+
         // Change Forms
-        this.addRenderableWidget(new TexButton(x - 71, y + 43, 12, 12, TComponent.literal(""), b -> {
+        this.addRenderableWidget(new TexButton(x - 71, y + 40, 12, 12, TComponent.literal(""), b -> {
             if (this.parent.pokemob.getEntity().isAddedToWorld()) return;
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
             PokedexEntry nextE = Pokedex.getInstance().getNextForm(entry);
@@ -83,9 +87,6 @@ public abstract class PokeInfoPage extends WatchPage
             this.parent.pokemob.setBasePokedexEntry(nextE);
             this.parent.initPages(this.parent.pokemob);
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(241, 72, 12, 12)));
-        this.addRenderableWidget(new TexButton(x - 93, y + 43, 12, 12, TComponent.literal(""), b -> {
-            this.watch.player.playSound(this.parent.pokemob.getSound(), 0.5f, 1.0F);
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(229, 72, 12, 12)));
 
         nextBtn.setFGColor(0x444444);
         prevBtn.setFGColor(0x444444);

@@ -117,10 +117,10 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
             final int my = (int) (mouseY - y);
 
             // The box to click goes from (ox, oy) -> (ox + dx, oy + dy)
-            int ox = 10;
-            int oy = 29;
-            int dx = 14;
-            int dy = 14;
+            int ox = 200;
+            int oy = 32;
+            int dx = 10;
+            int dy = 10;
 
             // Click for toggling if it is male or female
             if (mx > ox && mx < ox + dx && my > oy && my < oy + dy)
@@ -222,7 +222,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
             pokemob.setSize(1);
 
             final float yaw = Util.getMillis() / 20;
-            dx = -6; //90
+            dx = -15; //90
             dy = 65;
 
             // Draw the actual pokemob
@@ -241,7 +241,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
                 genderColor = 0xCC5555;
                 gender = "\u2640";
             }
-            dx = -73;
+            dx = 140;
             dy = 40;
             this.font.draw(mat, gender, x + dx, y + dy, genderColor);
         }
@@ -255,23 +255,42 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
 
-        //Shiny Button
-       this.addRenderableWidget(new TexButton(x - 78, y + 93, 12, 12, TComponent.literal(""), b -> {
+        this.addRenderableWidget(new TexButton(x - 78, y + 69, 12, 12, TComponent.literal(""), b -> {
+            this.watch.player.playSound(this.pokemob.getSound(), 0.5f, 1.0F);
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(229, 72, 12, 12)));
+
+        // Shiny Button
+       this.addRenderableWidget(new TexButton(x - 78, y + 82, 12, 12, TComponent.literal(""), b -> {
            if (this.pokemob.getPokedexEntry().hasShiny && !this.pokemob.getEntity().isAddedToWorld()) {
         		this.pokemob.setShiny(!this.pokemob.isShiny());
         		this.pokemob.onGenesChanged();
         	}
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(241, 36, 12, 12)));
-       
-       this.addRenderableWidget(new TexButton(x - 78, y + 79, 12, 12, TComponent.literal(""), b -> {
-           this.watch.player.playSound(this.pokemob.getSound(), 0.5f, 1.0F);
-       }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(229, 72, 12, 12)));
-       
-       this.addRenderableWidget(new TexButton(x + 137, y + 7, 17, 17,
-               TComponent.literal(""), b ->
-               {
-                   GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
-                   this.watch.init();
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(110, 72, 17, 17)));
+
+        // Change Forms
+        this.addRenderableWidget(new TexButton(x - 78, y + 95, 12, 12, TComponent.literal(""), b -> {
+            if (this.pokemob.getEntity().isAddedToWorld()) return;
+            PokedexEntry entry = this.pokemob.getPokedexEntry();
+            PokedexEntry nextE = Pokedex.getInstance().getNextForm(entry);
+            if (nextE == entry) nextE = Pokedex.getInstance().getFirstForm(entry);
+            this.pokemob = this.pokemob.setPokedexEntry(nextE);
+            this.pokemob.setBasePokedexEntry(nextE);
+            this.initPages(this.pokemob);
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(241, 72, 12, 12)));
+    }
+
+    @Override
+    public void onPageOpened()
+    {
+        super.onPageOpened();
+        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
+        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
+
+        this.addRenderableWidget(new TexButton(x - 108, y + 102, 17, 17,
+                TComponent.literal(""), b ->
+        {
+            GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
+            this.watch.init();
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new TexButton.UVImgRender(110, 72, 17, 17)));
     }
 }
