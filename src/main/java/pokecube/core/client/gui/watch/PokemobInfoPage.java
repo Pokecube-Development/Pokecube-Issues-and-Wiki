@@ -520,16 +520,5 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         buttons.add(new UVHolder(81, -80, 195, 72, 4)); // Breeding
         buttons.add(new UVHolder(99, -80, 212, 72, 5)); // Description
         buttons.forEach(uv -> uv.makeButton(this));
-
-        // Shiny Button
-        this.addRenderableWidget(new TexButton(x - 50, y + 40, 12, 12, TComponent.literal(""), b -> {
-            if (this.pokemob.getPokedexEntry().hasShiny && !this.pokemob.getEntity().isAddedToWorld())
-            {
-                this.pokemob.setShiny(!this.pokemob.isShiny());
-                this.pokemob.onGenesChanged();
-            }
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(241, 36, 12, 12)));
-
-        this.addRenderableWidget(this.search);
     }
 }

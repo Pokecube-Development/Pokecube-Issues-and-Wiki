@@ -32,6 +32,8 @@ import thut.lib.TComponent;
 public class StartWatch extends PageWithSubPages<PokeStartPage>
 {
     public static int savedIndex = 0;
+    public static TexButton shiny;
+    public static TexButton formChanger;
 
     public static List<Class<? extends PokeStartPage>> PAGELIST = Lists.newArrayList();
 
@@ -117,7 +119,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
             final int my = (int) (mouseY - y);
 
             // The box to click goes from (ox, oy) -> (ox + dx, oy + dy)
-            int ox = 235;
+            int ox = 234;
             int oy = 33;
             int dx = 10;
             int dy = 10;
@@ -226,7 +228,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
             dy = 65;
 
             // Draw the actual pokemob
-            GuiPokemobHelper.renderMob(pokemob.getEntity(), x + dx, y + dy, 0, yaw, 0, yaw, 3.3f, partialTicks);
+            GuiPokemobHelper.renderMob(pokemob.getEntity(), x + dx, y + dy, 0, yaw, 0, yaw, 3.0f, partialTicks);
 
             // Draw gender
             int genderColor = 0xBBBBBB;
@@ -255,28 +257,36 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
 
+        // Play Sound Button
         this.addRenderableWidget(new TexButton(x - 78, y + 69, 12, 12, TComponent.literal(""), b -> {
             this.watch.player.playSound(this.pokemob.getSound(), 0.5f, 1.0F);
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(229, 72, 12, 12)));
 
         // Shiny Button
-       this.addRenderableWidget(new TexButton(x - 78, y + 82, 12, 12, TComponent.literal(""), b -> {
+       shiny = this.addRenderableWidget(new TexButton(x - 78, y + 82, 12, 12, TComponent.literal(""), b -> {
            if (this.pokemob.getPokedexEntry().hasShiny && !this.pokemob.getEntity().isAddedToWorld()) {
         		this.pokemob.setShiny(!this.pokemob.isShiny());
         		this.pokemob.onGenesChanged();
         	}
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(241, 36, 12, 12)));
 
-        // Change Forms
-        this.addRenderableWidget(new TexButton(x - 78, y + 95, 12, 12, TComponent.literal(""), b -> {
+        shiny.active = this.pokemob.getPokedexEntry().hasShiny && !this.pokemob.getEntity().isAddedToWorld();
+
+        // Change Forms Button
+        formChanger = this.addRenderableWidget(new TexButton(x - 78, y + 95, 12, 12, TComponent.literal(""), b -> {
             if (this.pokemob.getEntity().isAddedToWorld()) return;
             PokedexEntry entry = this.pokemob.getPokedexEntry();
-            PokedexEntry nextE = Pokedex.getInstance().getNextForm(entry);
-            if (nextE == entry) nextE = Pokedex.getInstance().getFirstForm(entry);
-            this.pokemob = this.pokemob.setPokedexEntry(nextE);
-            this.pokemob.setBasePokedexEntry(nextE);
+            PokedexEntry nextEntry = Pokedex.getInstance().getNextForm(entry);
+            if (nextEntry == entry) nextEntry = Pokedex.getInstance().getFirstForm(entry);
+            this.pokemob = this.pokemob.setPokedexEntry(nextEntry);
+            this.pokemob.setBasePokedexEntry(nextEntry);
             this.initPages(this.pokemob);
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(241, 72, 12, 12)));
+
+        PokedexEntry entry = this.pokemob.getPokedexEntry();
+        PokedexEntry nextEntry = Pokedex.getInstance().getNextForm(entry);
+        PokedexEntry firstEntry = Pokedex.getInstance().getFirstForm(entry);
+        formChanger.active = nextEntry != firstEntry && !this.pokemob.getEntity().isAddedToWorld();
     }
 
     @Override

@@ -37,7 +37,14 @@ public abstract class PokeStartPage extends WatchPage
 
     @Override
     public void onPageOpened()
-    {}
+    {
+        PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
+        PokedexEntry nextEntry = Pokedex.getInstance().getNextForm(entry);
+        PokedexEntry firstEntry = Pokedex.getInstance().getFirstForm(entry);
+
+        StartWatch.formChanger.active = nextEntry != firstEntry && !this.parent.pokemob.getEntity().isAddedToWorld();
+        StartWatch.shiny.active = this.parent.pokemob.getPokedexEntry().hasShiny && !this.parent.pokemob.getEntity().isAddedToWorld();
+    }
 
     @Override
     public void onPageClosed()
@@ -61,6 +68,11 @@ public abstract class PokeStartPage extends WatchPage
             PacketPokedex.selectedMob.clear();
             this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.getLevel());
             this.parent.initPages(this.parent.pokemob);
+
+            PokedexEntry nextEntry = Pokedex.getInstance().getNextForm(entry);
+            PokedexEntry firstEntry = Pokedex.getInstance().getFirstForm(entry);
+            StartWatch.formChanger.active = nextEntry != firstEntry && !this.parent.pokemob.getEntity().isAddedToWorld();
+            StartWatch.shiny.active = this.parent.pokemob.getPokedexEntry().hasShiny && !this.parent.pokemob.getEntity().isAddedToWorld();
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(48, 108, 12, 20)));
 
         final TexButton nextBtn = this.addRenderableWidget(new TexButton(x + 104, y - 14, 12, 20, next, b -> {
@@ -70,6 +82,11 @@ public abstract class PokeStartPage extends WatchPage
             PacketPokedex.selectedMob.clear();
             this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.getLevel());
             this.parent.initPages(this.parent.pokemob);
+
+            PokedexEntry nextEntry = Pokedex.getInstance().getNextForm(entry);
+            PokedexEntry firstEntry = Pokedex.getInstance().getFirstForm(entry);
+            StartWatch.formChanger.active = nextEntry != firstEntry && !this.parent.pokemob.getEntity().isAddedToWorld();
+            StartWatch.shiny.active = this.parent.pokemob.getPokedexEntry().hasShiny && !this.parent.pokemob.getEntity().isAddedToWorld();
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(60, 108, 12, 20)));
         
         nextBtn.setFGColor(0x444444);
