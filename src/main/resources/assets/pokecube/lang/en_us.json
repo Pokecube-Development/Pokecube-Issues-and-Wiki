@@ -163,6 +163,8 @@
     "_comment": "Pokewatch Stuff",
 
     "pokewatch.button.home": "§l§nHome",
+    "pokewatch.home.player_pokemob": "%1$s's %2$s",
+
     "pokewatch.title.teleports": "§l§nTeleport Locations",
     "pokewatch.title.blank": "§l§nBlank Page",
     "pokewatch.title.baseradar": "§l§nSecret Base Radar",
