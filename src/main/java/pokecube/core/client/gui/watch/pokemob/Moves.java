@@ -56,6 +56,7 @@ public class Moves extends ListPage<LineEntry>
         int held = -1;
         final int mx = mouseX - (x + dx);
         final int my = mouseY - (y + dy);
+
         for (int i = 0; i < this.moveOffsets.length; i++)
         {
             final int[] offset = this.moveOffsets[i];
@@ -68,9 +69,11 @@ public class Moves extends ListPage<LineEntry>
             if (move != null)
             {
                 Component moveName = MovesUtils.getMoveName(move.getName(), pokemob);
+
                 this.font.drawShadow(mat, moveName, x + dx, y + dy + offset[1] + offset[4],
                         move.getType(pokemob).colour);
                 final int length = this.font.width(moveName);
+
                 boolean mouseOver = mx > 0 && mx < length && my > offset[1] && my < offset[1] + this.font.lineHeight;
                 if (mouseOver)
                 {
@@ -82,9 +85,12 @@ public class Moves extends ListPage<LineEntry>
                     if (pwr > 0) value = TComponent.translatable("pokewatch.moves.pwr.fmt", pwr, stat);
                     Component info = TComponent.translatable("pokewatch.moves.pwr", value);
                     final int box = Math.max(10, this.font.width(info) + 2);
-                    final int mx1 = 65 - box;
-                    final int my1 = offset[1] + 30;
+                    final int mx1 = 170 - box;
+                    final int my1 = offset[1] + 18;
                     final int dy1 = this.font.lineHeight;
+                    mat.pushPose();
+                    mat.pushPose();
+                    mat.translate(0, 0, 1);
                     GuiComponent.fill(mat, x + mx1 - 2, y + my1 - 2, x + mx1 + box + 2, y + my1 + dy1 + 2, 0xD92E0A65);
                     GuiComponent.fill(mat, x + mx1 - 1, y + my1 - 1, x + mx1 + box + 1, y + my1 + dy1 + 1, 0xD91E0F1E);
                     this.font.draw(mat, info, x + mx1 + 1, y + my1 + 1, 0xFFFFFFFF);
@@ -399,14 +405,16 @@ public class Moves extends ListPage<LineEntry>
             if (pwr > 0) value = TComponent.translatable("pokewatch.moves.pwr.fmt", pwr, stat);
             Component info = TComponent.translatable("pokewatch.moves.pwr", value);
             final int box = Math.max(10, this.font.width(info) + 2);
-            final int mx = 100 - box;
+            final int mx = 106 - box;
             final int my = 0;
             final int dy = this.font.lineHeight;
+            mat.pushPose();
             mat.pushPose();
             mat.translate(0, 0, 1);
             GuiComponent.fill(mat, x + mx - 2, y + my - 2, x + mx + box + 2, y + my + dy + 2, 0xD92E0A65);
             GuiComponent.fill(mat, x + mx - 1, y + my - 1, x + mx + box + 1, y + my + dy + 1, 0xD91E0F1E);
             this.font.draw(mat, info, x + mx + 1, y + my + 1, 0xFFFFFFFF);
+            mat.popPose();
             mat.popPose();
         }
         super.renderComponentHoverEffect(mat, component, x, y);

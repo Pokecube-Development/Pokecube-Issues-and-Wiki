@@ -37,14 +37,7 @@ public abstract class PokeStartPage extends WatchPage
 
     @Override
     public void onPageOpened()
-    {
-        PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
-        PokedexEntry nextEntry = Pokedex.getInstance().getNextForm(entry);
-        PokedexEntry firstEntry = Pokedex.getInstance().getFirstForm(entry);
-
-        StartWatch.formChanger.active = nextEntry != firstEntry && !this.parent.pokemob.getEntity().isAddedToWorld();
-        StartWatch.shiny.active = this.parent.pokemob.getPokedexEntry().hasShiny && !this.parent.pokemob.getEntity().isAddedToWorld();
-    }
+    {}
 
     @Override
     public void onPageClosed()
@@ -71,7 +64,8 @@ public abstract class PokeStartPage extends WatchPage
 
             PokedexEntry nextEntry = Pokedex.getInstance().getNextForm(entry);
             PokedexEntry firstEntry = Pokedex.getInstance().getFirstForm(entry);
-            StartWatch.formChanger.active = nextEntry != firstEntry && !this.parent.pokemob.getEntity().isAddedToWorld();
+            PokedexEntry previousEntry = Pokedex.getInstance().getPreviousForm(entry);
+            StartWatch.formChanger.active = (nextEntry != firstEntry && previousEntry != firstEntry) && !this.parent.pokemob.getEntity().isAddedToWorld();
             StartWatch.shiny.active = this.parent.pokemob.getPokedexEntry().hasShiny && !this.parent.pokemob.getEntity().isAddedToWorld();
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(48, 108, 12, 20)));
 
@@ -85,7 +79,8 @@ public abstract class PokeStartPage extends WatchPage
 
             PokedexEntry nextEntry = Pokedex.getInstance().getNextForm(entry);
             PokedexEntry firstEntry = Pokedex.getInstance().getFirstForm(entry);
-            StartWatch.formChanger.active = nextEntry != firstEntry && !this.parent.pokemob.getEntity().isAddedToWorld();
+            PokedexEntry previousEntry = Pokedex.getInstance().getPreviousForm(entry);
+            StartWatch.formChanger.active = (nextEntry != firstEntry && previousEntry != firstEntry) && !this.parent.pokemob.getEntity().isAddedToWorld();
             StartWatch.shiny.active = this.parent.pokemob.getPokedexEntry().hasShiny && !this.parent.pokemob.getEntity().isAddedToWorld();
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(60, 108, 12, 20)));
         

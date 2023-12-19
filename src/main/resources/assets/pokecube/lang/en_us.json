@@ -183,7 +183,7 @@
     "pokewatch.title.pokeinfo.description": "§l§nDescription",
     "pokewatch.title.pokeinfo.extra": "§l§nBattle",
 
-    "pokewatch.moves.lvl": "L.%1$s: %2$s",
+    "pokewatch.moves.lvl": "Lvl %1$s: %2$s",
     "pokewatch.moves.tm": "TM: %1$s",
     "pokewatch.moves.pwr": "PWR: %s",
     "pokewatch.moves.pwr.fmt": "%s (%s)",
