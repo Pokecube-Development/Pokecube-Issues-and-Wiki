@@ -6,9 +6,11 @@ import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.network.chat.Component;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
@@ -34,6 +36,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
     public static int savedIndex = 0;
     public static TexButton shiny;
     public static TexButton formChanger;
+    public static TexButton gender;
 
     public static List<Class<? extends PokeStartPage>> PAGELIST = Lists.newArrayList();
 
@@ -94,53 +97,6 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
         PacketPokedex.updateWatchEntry(pokemob.getPokedexEntry());
         // Force close and open the page to update.
         this.changePage(this.index);
-    }
-
-    long lastClick = 0;
-
-    @Override
-    public boolean mouseClicked(final double mouseX, final double mouseY, final int mouseButton)
-    {
-        final boolean ret = super.mouseClicked(mouseX, mouseY, mouseButton);
-
-        // Implement some flood control for this.
-        if (System.currentTimeMillis() - this.lastClick < 30) return ret;
-        this.lastClick = System.currentTimeMillis();
-
-        // change gender if clicking on the gender, and shininess otherwise
-        if (!this.watch.canEdit(this.pokemob))
-        {
-            // If it is actually a real mob, swap it out for the fake one.
-            if (this.pokemob.getEntity().isAddedToWorld()) this.pokemob = AnimationGui.getRenderMob(this.pokemob);
-
-            final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
-            final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
-            final int mx = (int) (mouseX - x);
-            final int my = (int) (mouseY - y);
-
-            // The box to click goes from (ox, oy) -> (ox + dx, oy + dy)
-            int ox = 234;
-            int oy = 33;
-            int dx = 10;
-            int dy = 10;
-
-            // Click for toggling if it is male or female
-            if (mx > ox && mx < ox + dx && my > oy && my < oy + dy)
-            {
-                switch (this.pokemob.getSexe())
-                {
-                case IPokemob.MALE:
-                    this.pokemob.setSexe(IPokemob.FEMALE);
-                    break;
-                case IPokemob.FEMALE:
-                    this.pokemob.setSexe(IPokemob.MALE);
-                    break;
-                }
-                this.pokemob.onGenesChanged();
-                return ret;
-            }
-        }
-        return ret;
     }
 
     @Override
@@ -229,23 +185,6 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
 
             // Draw the actual pokemob
             GuiPokemobHelper.renderMob(pokemob.getEntity(), x + dx, y + dy, 0, yaw, 0, yaw, 3.0f, partialTicks);
-
-            // Draw gender
-            int genderColor = 0xBBBBBB;
-            String gender = "";
-            if (pokemob.getSexe() == IPokemob.MALE)
-            {
-                genderColor = 0x0011CC;
-                gender = "\u2642";
-            }
-            else if (pokemob.getSexe() == IPokemob.FEMALE)
-            {
-                genderColor = 0xCC5555;
-                gender = "\u2640";
-            }
-            dx = 148;
-            dy = 40;
-            this.font.draw(mat, gender, x + dx, y + dy, genderColor);
         }
     }
 
@@ -258,12 +197,12 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
 
         // Play Sound Button
-        this.addRenderableWidget(new TexButton(x - 78, y + 69, 12, 12, TComponent.literal(""), b -> {
+        this.addRenderableWidget(new TexButton(x - 78, y + 95, 12, 12, TComponent.literal(""), b -> {
             this.watch.player.playSound(this.pokemob.getSound(), 0.5f, 1.0F);
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(229, 72, 12, 12)));
 
         // Shiny Button
-       shiny = this.addRenderableWidget(new TexButton(x - 78, y + 82, 12, 12, TComponent.literal(""), b -> {
+       shiny = this.addRenderableWidget(new TexButton(x - 65, y + 95, 12, 12, TComponent.literal(""), b -> {
            if (this.pokemob.getPokedexEntry().hasShiny && !this.pokemob.getEntity().isAddedToWorld()) {
         		this.pokemob.setShiny(!this.pokemob.isShiny());
         		this.pokemob.onGenesChanged();
@@ -273,7 +212,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
         shiny.active = this.pokemob.getPokedexEntry().hasShiny && !this.pokemob.getEntity().isAddedToWorld();
 
         // Change Forms Button
-        formChanger = this.addRenderableWidget(new TexButton(x - 78, y + 95, 12, 12, TComponent.literal(""), b -> {
+        formChanger = this.addRenderableWidget(new TexButton(x - 52, y + 95, 12, 12, TComponent.literal(""), b -> {
             if (this.pokemob.getEntity().isAddedToWorld()) return;
             PokedexEntry entry = this.pokemob.getPokedexEntry();
             PokedexEntry nextEntry = Pokedex.getInstance().getNextForm(entry);
@@ -284,9 +223,39 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(241, 72, 12, 12)));
 
         PokedexEntry entry = this.pokemob.getPokedexEntry();
-        PokedexEntry nextEntry = Pokedex.getInstance().getNextForm(entry);
         PokedexEntry firstEntry = Pokedex.getInstance().getFirstForm(entry);
-        formChanger.active = nextEntry != firstEntry && !this.pokemob.getEntity().isAddedToWorld();
+        PokedexEntry nextEntry = Pokedex.getInstance().getNextForm(entry);
+        PokedexEntry previousEntry = Pokedex.getInstance().getPreviousForm(entry);
+        formChanger.active = (firstEntry != nextEntry && previousEntry != firstEntry) && !this.pokemob.getEntity().isAddedToWorld();
+
+        // Gender Button
+        Component genderText = TComponent.literal("");
+        if (this.pokemob.getSexe() == IPokemob.MALE)
+        {
+            genderText = TComponent.literal("\u2642");
+        } else if (this.pokemob.getSexe() == IPokemob.FEMALE)
+        {
+            genderText = TComponent.literal("\u2640");
+        }
+
+        gender = this.addRenderableWidget(new TexButton(x - 39, y + 95, 12, 12, genderText, b -> {
+            var old = this.pokemob.getPokedexEntry();
+            switch (this.pokemob.getSexe())
+            {
+                case IPokemob.MALE:
+                    this.pokemob.setSexe(IPokemob.FEMALE);
+                    break;
+                case IPokemob.FEMALE:
+                    this.pokemob.setSexe(IPokemob.MALE);
+                    break;
+            }
+            this.pokemob.onGenesChanged();
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)).shadow(true));
+
+        gender.active = !this.pokemob.getEntity().isAddedToWorld() &&
+                (this.pokemob.getSexe() == IPokemob.MALE || this.pokemob.getSexe() == IPokemob.FEMALE);
+        if (this.pokemob.getSexe() == IPokemob.MALE) gender.setFGColor(ChatFormatting.DARK_BLUE.getColor());
+        else if (this.pokemob.getSexe() == IPokemob.FEMALE) gender.setFGColor(ChatFormatting.DARK_RED.getColor());
     }
 
     @Override

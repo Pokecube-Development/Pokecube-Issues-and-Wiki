@@ -5,11 +5,13 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.gui.helper.TexButton;
@@ -29,6 +31,7 @@ public abstract class PokeInfoPage extends WatchPage
     static int formIndex = 0;
     public static TexButton formChanger;
     public static TexButton shiny;
+    public static TexButton gender;
 
     public PokeInfoPage(final PokemobInfoPage parent, final String title, final ResourceLocation day,
             final ResourceLocation night)
@@ -39,13 +42,7 @@ public abstract class PokeInfoPage extends WatchPage
 
     @Override
     public void onPageOpened()
-    {
-        PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
-        PokedexEntry nextEntry = Pokedex.getInstance().getNextForm(entry);
-        PokedexEntry firstEntry = Pokedex.getInstance().getFirstForm(entry);
-        formChanger.active = nextEntry != firstEntry && !this.parent.pokemob.getEntity().isAddedToWorld();
-        shiny.active = this.parent.pokemob.getPokedexEntry().hasShiny && !this.parent.pokemob.getEntity().isAddedToWorld();
-    }
+    {}
 
     @Override
     public void onPageClosed()
@@ -72,8 +69,9 @@ public abstract class PokeInfoPage extends WatchPage
 
             PokedexEntry nextEntry = Pokedex.getInstance().getNextForm(entry);
             PokedexEntry firstEntry = Pokedex.getInstance().getFirstForm(entry);
-            formChanger.active = nextEntry != firstEntry && !this.parent.pokemob.getEntity().isAddedToWorld();
-            PokemobInfoPage.shiny.active = this.parent.pokemob.getPokedexEntry().hasShiny && !this.parent.pokemob.getEntity().isAddedToWorld();
+            PokedexEntry previousEntry = Pokedex.getInstance().getPreviousForm(entry);
+            formChanger.active = (nextEntry != firstEntry && previousEntry != firstEntry) && !this.parent.pokemob.getEntity().isAddedToWorld();
+            shiny.active = this.parent.pokemob.getPokedexEntry().hasShiny && !this.parent.pokemob.getEntity().isAddedToWorld();
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(48, 108, 12, 20)));
 
         final TexButton nextBtn = this.addRenderableWidget(new TexButton(x - 27, y - 27, 12, 20, next, b -> {
@@ -86,17 +84,18 @@ public abstract class PokeInfoPage extends WatchPage
 
             PokedexEntry nextEntry = Pokedex.getInstance().getNextForm(entry);
             PokedexEntry firstEntry = Pokedex.getInstance().getFirstForm(entry);
-            formChanger.active = nextEntry != firstEntry;
+            PokedexEntry previousEntry = Pokedex.getInstance().getPreviousForm(entry);
+            formChanger.active = (nextEntry != firstEntry && previousEntry != firstEntry) && !this.parent.pokemob.getEntity().isAddedToWorld();
             shiny.active = this.parent.pokemob.getPokedexEntry().hasShiny && !this.parent.pokemob.getEntity().isAddedToWorld();
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(60, 108, 12, 20)));
 
         // Play Sound Button
-        this.addRenderableWidget(new TexButton(x - 93, y + 40, 12, 12, TComponent.literal(""), b -> {
+        this.addRenderableWidget(new TexButton(x - 95, y + 40, 12, 12, TComponent.literal(""), b -> {
             this.watch.player.playSound(this.parent.pokemob.getSound(), 0.5f, 1.0F);
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(229, 72, 12, 12)));
 
         // Change Forms Button
-        formChanger = this.addRenderableWidget(new TexButton(x - 71, y + 40, 12, 12, TComponent.literal(""), b -> {
+        formChanger = this.addRenderableWidget(new TexButton(x - 79, y + 40, 12, 12, TComponent.literal(""), b -> {
             if (this.parent.pokemob.getEntity().isAddedToWorld()) return;
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
             PokedexEntry nextE = Pokedex.getInstance().getNextForm(entry);
@@ -107,12 +106,13 @@ public abstract class PokeInfoPage extends WatchPage
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(241, 72, 12, 12)));
 
         PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
-        PokedexEntry nextEntry = Pokedex.getInstance().getNextForm(entry);
         PokedexEntry firstEntry = Pokedex.getInstance().getFirstForm(entry);
-        formChanger.active = nextEntry != firstEntry && !this.parent.pokemob.getEntity().isAddedToWorld();
+        PokedexEntry nextEntry = Pokedex.getInstance().getNextForm(firstEntry);
+        PokedexEntry previousEntry = Pokedex.getInstance().getPreviousForm(firstEntry);
+        formChanger.active = (firstEntry != nextEntry && previousEntry != firstEntry) && !this.parent.pokemob.getEntity().isAddedToWorld();
 
         // Shiny Button
-        shiny = this.addRenderableWidget(new TexButton(x - 50, y + 40, 12, 12, TComponent.literal(""), b -> {
+        shiny = this.addRenderableWidget(new TexButton(x - 63, y + 40, 12, 12, TComponent.literal(""), b -> {
             if (this.parent.pokemob.getPokedexEntry().hasShiny && !this.parent.pokemob.getEntity().isAddedToWorld())
             {
                 this.parent.pokemob.setShiny(!this.parent.pokemob.isShiny());
@@ -121,6 +121,50 @@ public abstract class PokeInfoPage extends WatchPage
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(241, 36, 12, 12)));
 
         shiny.active = this.parent.pokemob.getPokedexEntry().hasShiny && !this.parent.pokemob.getEntity().isAddedToWorld();
+
+        // Gender Button
+        Component genderText = TComponent.literal("");
+        if (this.parent.pokemob.getSexe() == IPokemob.MALE)
+        {
+            genderText = TComponent.literal("\u2642");
+        } else if (this.parent.pokemob.getSexe() == IPokemob.FEMALE)
+        {
+            genderText = TComponent.literal("\u2640");
+        }
+
+        gender = this.addRenderableWidget(new TexButton(x - 47, y + 40, 12, 12, genderText, b -> {
+            var old = this.parent.pokemob.getPokedexEntry();
+            var e = old;
+            switch (this.parent.pokemob.getSexe())
+            {
+                case IPokemob.MALE:
+                    e = old.getForGender(IPokemob.FEMALE);
+                    this.parent.pokemob.setSexe(IPokemob.FEMALE);
+                    if (e != old)
+                    {
+                        this.parent.pokemob = this.parent.pokemob.setPokedexEntry(e);
+                        this.parent.pokemob.setBasePokedexEntry(e);
+                    }
+                    this.parent.initPages(this.parent.pokemob);
+                    break;
+                case IPokemob.FEMALE:
+                    e = old.getForGender(IPokemob.MALE);
+                    this.parent.pokemob.setSexe(IPokemob.MALE);
+                    if (e != old)
+                    {
+                        this.parent.pokemob = this.parent.pokemob.setPokedexEntry(e);
+                        this.parent.pokemob.setBasePokedexEntry(e);
+                    }
+                    this.parent.initPages(this.parent.pokemob);
+                    break;
+            }
+            this.parent.pokemob.onGenesChanged();
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)).shadow(true));
+
+        gender.active = !this.parent.pokemob.getEntity().isAddedToWorld() &&
+                (this.parent.pokemob.getSexe() == IPokemob.MALE || this.parent.pokemob.getSexe() == IPokemob.FEMALE);
+        if (this.parent.pokemob.getSexe() == IPokemob.MALE) gender.setFGColor(ChatFormatting.DARK_BLUE.getColor());
+        else if (this.parent.pokemob.getSexe() == IPokemob.FEMALE) gender.setFGColor(ChatFormatting.DARK_RED.getColor());
 
         nextBtn.setFGColor(0x444444);
         prevBtn.setFGColor(0x444444);
