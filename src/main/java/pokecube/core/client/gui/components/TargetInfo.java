@@ -46,7 +46,7 @@ public class TargetInfo extends GuiEventComponent
         final int nameOffsetX = dir == 1 ? 43 : 43;
         final int nameOffsetY = dir == 1 ? 0 : 23;
         final int hpOffsetX = 42;
-        final int hpOffsetY = 13;
+        final int hpOffsetY = 14;
         final int statusOffsetX = 0;
         final int statusOffsetY = 27;
         final int confuseOffsetX = 12;
@@ -67,12 +67,12 @@ public class TargetInfo extends GuiEventComponent
             // Render HP
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
-            gui.blit(evt.getMat(), hpOffsetX, hpOffsetY, 43, 12, 92, 7);
+            gui.blit(evt.getMat(), hpOffsetX, hpOffsetY, 43, 12, 90, 7);
             final float total = entity.getMaxHealth();
             final float ratio = entity.getHealth() / total;
             final int x = hpOffsetX + 1;
             final int y = hpOffsetY + 1;
-            final int width = (int) (92 * ratio);
+            final int width = (int) (90 * ratio);
             gui.blit(evt.getMat(), x, y, 0, 85, width, 5);
 
             // Render number of enemies
@@ -85,10 +85,14 @@ public class TargetInfo extends GuiEventComponent
                 final int num = gui.getFont().width(txt);
                 evt.getMat().pushPose();
                 evt.getMat().translate(nameOffsetX - 43 - num, nameOffsetY, 0);
-                if (num > 10) evt.getMat().scale(1.5f * num / 18f, 1, 1);
-                gui.blit(evt.getMat(), 0, 0, 0, 27, 15, 15);
+
+                if (num > 8) gui.blit(evt.getMat(), -9, 0, 150, 0, 30, 15);
+                else gui.blit(evt.getMat(), 0, 0, 0, 27, 15, 15);
+
                 evt.getMat().popPose();
-                gui.getFont().draw(evt.getMat(), txt, nameOffsetX - 43 - num + 2, nameOffsetY + 4,
+                if (num > 8) gui.getFont().draw(evt.getMat(), txt, nameOffsetX - 52 - num + 2, nameOffsetY + 4,
+                        GuiDisplayPokecubeInfo.lightGrey);
+                else gui.getFont().draw(evt.getMat(), txt, nameOffsetX - 43 - num + 2, nameOffsetY + 4,
                         GuiDisplayPokecubeInfo.lightGrey);
             }
             // Render Status
@@ -117,7 +121,7 @@ public class TargetInfo extends GuiEventComponent
 
             // Render Name
             RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
-            gui.blit(evt.getMat(), nameOffsetX, nameOffsetY, 44, 0, 90, 13);
+            gui.blit(evt.getMat(), nameOffsetX, nameOffsetY, 44, 0, 89, 13);
             final String displayName = entity.getDisplayName().getString();
             if (gui.getFont().width(displayName) > 70)
             {
