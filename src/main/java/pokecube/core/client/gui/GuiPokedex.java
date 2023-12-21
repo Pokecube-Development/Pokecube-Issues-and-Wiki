@@ -102,28 +102,28 @@ public class GuiPokedex extends Screen
         this.soundButton = this.addRenderableWidget(new TexButton(xOffset - 122, yOffset + 66, 16, 18, TComponent.literal(""), b -> {
             float volume = 1F;
             this.minecraft.player.playSound(GuiPokedex.pokedexEntry.getSoundEvent(), volume, 1.0F);
-        }).setTex(Resources.WIDGETS_POKEDEX).setRender(new TexButton.UVImgRender(0, 0, 16, 16)));
+        }).setTex(Resources.WIDGETS_POKEDEX).setRender(new TexButton.UVImgRender(0, 0, 16, 18)));
 
         // Previous Button
         this.prevButton = this.addRenderableWidget(new TexButton(xOffset - 33, yOffset + 62, 10, 18, TComponent.literal(""), b -> {
             GuiPokedex.pokedexEntry = Pokedex.getInstance().getPrevious(GuiPokedex.pokedexEntry, 1);
             this.initList();
             PacketPokedex.updateWatchEntry(GuiPokedex.pokedexEntry);
-        }).setTex(Resources.WIDGETS_POKEDEX).setRender(new TexButton.UVImgRender(16, 0, 10, 16)));
+        }).setTex(Resources.WIDGETS_POKEDEX).setRender(new TexButton.UVImgRender(16, 0, 10, 18)));
 
         // Next Button
         this.nextButton = this.addRenderableWidget(new TexButton(xOffset - 19, yOffset + 62, 10, 18, TComponent.literal(""), b -> {
             GuiPokedex.pokedexEntry = Pokedex.getInstance().getNext(GuiPokedex.pokedexEntry, 1);
             this.initList();
             PacketPokedex.updateWatchEntry(GuiPokedex.pokedexEntry);
-        }).setTex(Resources.WIDGETS_POKEDEX).setRender(new TexButton.UVImgRender(26, 0, 10, 16)));
+        }).setTex(Resources.WIDGETS_POKEDEX).setRender(new TexButton.UVImgRender(26, 0, 10, 18)));
 
         // Down Button
         this.downButton = this.addRenderableWidget(new TexButton(xOffset - 25, yOffset + 70, 8, 18, TComponent.literal(""), b -> {
             GuiPokedex.pokedexEntry = Pokedex.getInstance().getPrevious(GuiPokedex.pokedexEntry, 10);
             this.initList();
             PacketPokedex.updateWatchEntry(GuiPokedex.pokedexEntry);
-        }).setTex(Resources.WIDGETS_POKEDEX).setRender(new TexButton.UVImgRender(44, 0, 8, 16)));
+        }).setTex(Resources.WIDGETS_POKEDEX).setRender(new TexButton.UVImgRender(44, 0, 8, 18)));
 
         // Up Button
         this.upButton = this.addRenderableWidget(new TexButton(xOffset - 25, yOffset + 58, 8, 12, TComponent.literal(""), b -> {
