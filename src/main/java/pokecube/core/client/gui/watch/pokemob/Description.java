@@ -131,16 +131,16 @@ public class Description extends ListPage<LineEntry>
                 }
                 else page = TComponent.literal("");
             }
-            list = Lists.newArrayList(this.font.split(page, 110));
+            list = Lists.newArrayList(this.font.split(page, 108));
             if (page.getString().isBlank()) list.clear();
             list.add(TComponent.literal("").getVisualOrderText());
             page = pokedexEntry.getDescription(this.parent.pokemob, this.parent.pokemob.getCustomHolder());
-            list.addAll(this.font.split(page, 110));
+            list.addAll(this.font.split(page, 108));
         }
         else
         {
             page = pokedexEntry.getDescription(this.parent.pokemob, this.parent.pokemob.getCustomHolder());
-            list = this.font.split(page, 110);
+            list = this.font.split(page, 112);
         }
 
         final PokedexEntry e = this.parent.pokemob.getPokedexEntry();

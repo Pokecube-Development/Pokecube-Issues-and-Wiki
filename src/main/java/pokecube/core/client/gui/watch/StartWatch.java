@@ -36,7 +36,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
     public static int savedIndex = 0;
     public static TexButton shiny;
     public static TexButton formChanger;
-    public static TexButton gender;
+    TexButton gender;
 
     public static List<Class<? extends PokeStartPage>> PAGELIST = Lists.newArrayList();
 
@@ -184,7 +184,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
             dy = 65;
 
             // Draw the actual pokemob
-            GuiPokemobHelper.renderMob(pokemob.getEntity(), x + dx, y + dy, 0, yaw, 0, yaw, 3.0f, partialTicks);
+            GuiPokemobHelper.renderMob(pokemob.getEntity(), x + dx, y + dy, 0, yaw, 0, yaw, 3.0F, partialTicks);
         }
     }
 
@@ -238,21 +238,36 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
             genderText = TComponent.literal("\u2640");
         }
 
-        gender = this.addRenderableWidget(new TexButton(x - 39, y + 95, 12, 12, genderText, b -> {
+        this.gender = this.addRenderableWidget(new TexButton(x - 39, y + 95, 12, 12, genderText, b -> {
             var old = this.pokemob.getPokedexEntry();
+            var e = old;
             switch (this.pokemob.getSexe())
             {
                 case IPokemob.MALE:
+                    e = old.getForGender(IPokemob.FEMALE);
                     this.pokemob.setSexe(IPokemob.FEMALE);
+                    if (e != old)
+                    {
+                        this.pokemob = this.pokemob.setPokedexEntry(e);
+                        this.pokemob.setBasePokedexEntry(e);
+                    }
+                    this.initPages(this.pokemob);
                     break;
                 case IPokemob.FEMALE:
+                    e = old.getForGender(IPokemob.MALE);
                     this.pokemob.setSexe(IPokemob.MALE);
+                    if (e != old)
+                    {
+                        this.pokemob = this.pokemob.setPokedexEntry(e);
+                        this.pokemob.setBasePokedexEntry(e);
+                    }
+                    this.initPages(this.pokemob);
                     break;
             }
             this.pokemob.onGenesChanged();
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)).shadow(true));
 
-        gender.active = !this.pokemob.getEntity().isAddedToWorld() &&
+        this.gender.active = !this.pokemob.getEntity().isAddedToWorld() &&
                 (this.pokemob.getSexe() == IPokemob.MALE || this.pokemob.getSexe() == IPokemob.FEMALE);
         if (this.pokemob.getSexe() == IPokemob.MALE) gender.setFGColor(ChatFormatting.DARK_BLUE.getColor());
         else if (this.pokemob.getSexe() == IPokemob.FEMALE) gender.setFGColor(ChatFormatting.DARK_RED.getColor());
@@ -271,5 +286,8 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
             GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
             this.watch.init();
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new TexButton.UVImgRender(110, 72, 17, 17)));
+
+        this.gender.active = !this.pokemob.getEntity().isAddedToWorld() &&
+                (this.pokemob.getSexe() == IPokemob.MALE || this.pokemob.getSexe() == IPokemob.FEMALE);
     }
 }

@@ -24,6 +24,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.utils.PokeType;
 import pokecube.core.client.gui.AnimationGui;
+import pokecube.core.client.gui.GuiPokedex;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.ShiftedTooltip;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
@@ -234,7 +235,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             pokemob.onGenesChanged();
         }
         this.search.setVisible(!this.watch.canEdit(pokemob));
-        this.search.setValue(entry.getName());
+        this.search.setValue(I18n.get(entry.getUnlocalizedName()));
         PacketPokedex.sendSpecificSpawnsRequest(entry);
         PacketPokedex.updateWatchEntry(entry);
         // Force close and open the page to update.

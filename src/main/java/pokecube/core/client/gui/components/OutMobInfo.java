@@ -173,7 +173,7 @@ public class OutMobInfo extends GuiEventComponent
             evt.getMat().translate(nameOffsetX + 89, nameOffsetY, 0);
 
             if (num > 8) gui.blit(evt.getMat(), 1, 0, 150, 0, 30, 15);
-            else gui.blit(evt.getMat(), 0, 0, 134, 0, 15, 15);
+            else gui.blit(evt.getMat(), 1, 0, 134, 0, 15, 15);
 
             evt.getMat().popPose();
             if (num > 8) gui.getFont().draw(evt.getMat(), txt, nameOffsetX + 99 - num / 4, nameOffsetY + 4,

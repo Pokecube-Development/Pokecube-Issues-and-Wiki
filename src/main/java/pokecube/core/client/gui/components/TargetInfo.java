@@ -84,13 +84,12 @@ public class TargetInfo extends GuiEventComponent
                 String txt = n == 1 ? n + "" : n2 + "/" + n;
                 final int num = gui.getFont().width(txt);
                 evt.getMat().pushPose();
-                evt.getMat().translate(nameOffsetX - 43 - num, nameOffsetY, 0);
 
-                if (num > 8) gui.blit(evt.getMat(), -9, 0, 150, 0, 30, 15);
+                if (num > 8) gui.blit(evt.getMat(), -27, 0, 150, 0, 30, 15);
                 else gui.blit(evt.getMat(), 0, 0, 0, 27, 15, 15);
 
                 evt.getMat().popPose();
-                if (num > 8) gui.getFont().draw(evt.getMat(), txt, nameOffsetX - 52 - num + 2, nameOffsetY + 4,
+                if (num > 8) gui.getFont().draw(evt.getMat(), txt, nameOffsetX - 47 - num + 2, nameOffsetY + 4,
                         GuiDisplayPokecubeInfo.lightGrey);
                 else gui.getFont().draw(evt.getMat(), txt, nameOffsetX - 43 - num + 2, nameOffsetY + 4,
                         GuiDisplayPokecubeInfo.lightGrey);
