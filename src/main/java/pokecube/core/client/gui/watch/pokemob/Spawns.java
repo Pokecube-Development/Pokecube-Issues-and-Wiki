@@ -40,23 +40,44 @@ public class Spawns extends ListPage<LineEntry>
     {
         super.initList();
         int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
-        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
-        final int height = this.font.lineHeight * 9;
-        final int width = 110;
+        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 26;
+        final int height = this.font.lineHeight * 12;
+        final int width = 120;
 
-        final int dx = 48;
-        final int dy = 12;
+        final int dx = 41;
+        final int dy = 8;
         offsetX += dx;
         offsetY += dy;
 
-        this.list = new ScrollGui<>(this, this.minecraft, width, height - this.font.lineHeight / 2,
-                this.font.lineHeight, offsetX, offsetY);
+        if (GuiPokeWatch.nightMode)
+        {
+            this.list = new ScrollGui<LineEntry>(this, this.minecraft, width, height,
+                this.font.lineHeight, offsetX, offsetY)
+                .setScrollBarColor(255, 172, 56)
+                .setScrollBarDarkBorder(165, 81, 36)
+                .setScrollBarGrayBorder(255, 128, 55)
+                .setScrollBarLightBorder(255, 255, 255)
+                .setScrollColor(255, 128, 55)
+                .setScrollDarkBorder(165, 81, 36)
+                .setScrollLightBorder(255, 255, 255);
+        } else {
+            this.list = new ScrollGui<LineEntry>(this, this.minecraft, width, height,
+                this.font.lineHeight, offsetX, offsetY)
+                .setScrollBarColor(83, 175, 255)
+                .setScrollBarDarkBorder(39, 75, 142)
+                .setScrollBarGrayBorder(69, 132, 249)
+                .setScrollBarLightBorder(255, 255, 255)
+                .setScrollColor(69, 132, 249)
+                .setScrollDarkBorder(39, 75, 142)
+                .setScrollLightBorder(255, 255, 255);
+        }
+
         for (int i = 0; i < PacketPokedex.selectedMob.size(); i++)
         {
             SpawnBiomeMatcher matcher = PacketPokedex.selectedMob.get(i);
             int colour = -1;
-            if (PacketPokedex.validSpawnIndex.get(i)) colour = 0xC99D0A;
-            SpawnListEntry entry = new SpawnListEntry(this, this.font, matcher, null, 100, height, offsetY).noRate();
+            if (PacketPokedex.validSpawnIndex.get(i)) colour = 0x267F00;
+            SpawnListEntry entry = new SpawnListEntry(this, this.font, matcher, null, width - 10, height, offsetY).noRate();
             entry.getLines(this.list, null, colour).forEach(c -> this.list.addEntry(c));
         }
     }

@@ -14,7 +14,7 @@
       "item": "pokecube_legends:totem_block"
     },
     "C": {
-      "item": "minecraft:packed_ice"
+      "tag": "minecraft:ice"
     }
   },
   "result": {

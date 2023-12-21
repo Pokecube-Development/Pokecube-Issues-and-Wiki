@@ -1010,8 +1010,8 @@
     "block.pokecube_legends.fini_brown_totem": "棕色卡璞・鳍鳍图腾",
 
     "_comment37": "Block Tooltips",
-    "legendblock.portalwarp.tooltip": "该传送门会在一段时间内生成一个随机的宝可梦。",
-    "legendblock.raid_spawner.tooltip": "§6创造极巨团体战。",
+    "legends.portalwarp.tooltip": "该传送门会在一段时间内生成一个随机的宝可梦。",
+    "legends.raid_spawner.tooltip": "§6创造极巨团体战。",
     "legends.gigantic_shard.tooltip": "让你的宝可梦可以极巨化！",
     "legends.wishing_piece.tooltip": "在瞭望塔巨巢上使用，就会有极巨化宝可梦出现。",
     "pokecube_legends.cramobot.tooltip": "Win an item! Feed me:\n%1$s[钻石, 绿宝石, 末影珍珠]",
