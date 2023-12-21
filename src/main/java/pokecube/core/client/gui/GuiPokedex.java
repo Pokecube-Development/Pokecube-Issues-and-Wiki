@@ -3,13 +3,10 @@
  */
 package pokecube.core.client.gui;
 
-import org.lwjgl.glfw.GLFW;
-
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
@@ -17,13 +14,12 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.ClickEvent.Action;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Player;
+import org.lwjgl.glfw.GLFW;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -32,7 +28,6 @@ import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
-import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.database.Database;
@@ -104,38 +99,38 @@ public class GuiPokedex extends Screen
         this.pokemobTextField.setEditable(true);
 
         // Play Sound Button
-        this.soundButton = this.addRenderableWidget(new TexButton(xOffset - 121, yOffset + 70, 16, 16, TComponent.literal(""), b -> {
+        this.soundButton = this.addRenderableWidget(new TexButton(xOffset - 122, yOffset + 66, 16, 18, TComponent.literal(""), b -> {
             float volume = 1F;
             this.minecraft.player.playSound(GuiPokedex.pokedexEntry.getSoundEvent(), volume, 1.0F);
         }).setTex(Resources.WIDGETS_POKEDEX).setRender(new TexButton.UVImgRender(0, 0, 16, 16)));
 
         // Previous Button
-        this.prevButton = this.addRenderableWidget(new TexButton(xOffset - 28, yOffset + 67, 12, 16, TComponent.literal(""), b -> {
+        this.prevButton = this.addRenderableWidget(new TexButton(xOffset - 33, yOffset + 62, 10, 18, TComponent.literal(""), b -> {
             GuiPokedex.pokedexEntry = Pokedex.getInstance().getPrevious(GuiPokedex.pokedexEntry, 1);
             this.initList();
             PacketPokedex.updateWatchEntry(GuiPokedex.pokedexEntry);
-        }).setTex(Resources.WIDGETS_POKEDEX).setRender(new TexButton.UVImgRender(16, 0, 12, 16)));
+        }).setTex(Resources.WIDGETS_POKEDEX).setRender(new TexButton.UVImgRender(16, 0, 10, 16)));
 
         // Next Button
-        this.nextButton = this.addRenderableWidget(new TexButton(xOffset - 16, yOffset + 67, 12, 16, TComponent.literal(""), b -> {
+        this.nextButton = this.addRenderableWidget(new TexButton(xOffset - 19, yOffset + 62, 10, 18, TComponent.literal(""), b -> {
             GuiPokedex.pokedexEntry = Pokedex.getInstance().getNext(GuiPokedex.pokedexEntry, 1);
             this.initList();
             PacketPokedex.updateWatchEntry(GuiPokedex.pokedexEntry);
-        }).setTex(Resources.WIDGETS_POKEDEX).setRender(new TexButton.UVImgRender(28, 0, 12, 16)));
+        }).setTex(Resources.WIDGETS_POKEDEX).setRender(new TexButton.UVImgRender(26, 0, 10, 16)));
 
         // Down Button
-        this.downButton = this.addRenderableWidget(new TexButton(xOffset - 20, yOffset + 73, 8, 16, TComponent.literal(""), b -> {
+        this.downButton = this.addRenderableWidget(new TexButton(xOffset - 25, yOffset + 70, 8, 18, TComponent.literal(""), b -> {
             GuiPokedex.pokedexEntry = Pokedex.getInstance().getPrevious(GuiPokedex.pokedexEntry, 10);
             this.initList();
             PacketPokedex.updateWatchEntry(GuiPokedex.pokedexEntry);
-        }).setTex(Resources.WIDGETS_POKEDEX).setRender(new TexButton.UVImgRender(48, 0, 8, 16)));
+        }).setTex(Resources.WIDGETS_POKEDEX).setRender(new TexButton.UVImgRender(44, 0, 8, 16)));
 
         // Up Button
-        this.upButton = this.addRenderableWidget(new TexButton(xOffset - 20, yOffset + 64, 8, 12, TComponent.literal(""), b -> {
+        this.upButton = this.addRenderableWidget(new TexButton(xOffset - 25, yOffset + 58, 8, 12, TComponent.literal(""), b -> {
             GuiPokedex.pokedexEntry = Pokedex.getInstance().getNext(GuiPokedex.pokedexEntry, 10);
             this.initList();
             PacketPokedex.updateWatchEntry(GuiPokedex.pokedexEntry);
-        }).setTex(Resources.WIDGETS_POKEDEX).setRender(new TexButton.UVImgRender(40, 0, 8, 12)));
+        }).setTex(Resources.WIDGETS_POKEDEX).setRender(new TexButton.UVImgRender(36, 0, 8, 12)));
 
         if (GuiPokedex.pokedexEntry != null)
             this.pokemobTextField.setValue(I18n.get(GuiPokedex.pokedexEntry.getUnlocalizedName()));
@@ -150,7 +145,7 @@ public class GuiPokedex extends Screen
         final int offsetY = (this.height - 160) / 2 + 22;
         final int height = 15 * this.font.lineHeight;
 
-        this.list = new ScrollGui<LineEntry>(this, this.minecraft, 108, height, this.font.lineHeight, offsetX, offsetY + 2)
+        this.list = new ScrollGui<LineEntry>(this, this.minecraft, 108, height, this.font.lineHeight, offsetX, offsetY + 1)
                 .setScrollBarColor(255, 12, 53)
                 .setScrollBarDarkBorder(107, 6, 24)
                 .setScrollBarGrayBorder(193, 9, 43)
