@@ -10,7 +10,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.HangingSignItem;
@@ -21,7 +20,6 @@ import net.minecraft.world.item.PlaceOnWaterBlockItem;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SignItem;
 import net.minecraft.world.item.StandingAndWallBlockItem;
-import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.api.distmarker.Dist;
@@ -33,14 +31,14 @@ import pokecube.core.entity.boats.GenericBoat;
 import pokecube.core.init.ItemGenerator;
 import pokecube.core.client.render.mobs.RenderPokecube;
 import pokecube.legends.PokecubeLegends;
-import pokecube.legends.Reference;
 import pokecube.legends.items.DistortedMirror;
 import pokecube.legends.items.ItemBase;
-import pokecube.legends.items.ItemTiers;
+import pokecube.legends.items.WeaponTiers;
 import pokecube.legends.items.LegendsSword;
 import pokecube.legends.items.RainbowSword;
 import pokecube.legends.items.TemporalBambooBlockItem;
 import pokecube.legends.items.UltraKey;
+import pokecube.legends.items.armor.ImprisonmentArmorItem;
 import pokecube.legends.items.armor.UltraBootsEffect;
 import pokecube.legends.items.armor.UltraHelmetEffect;
 import pokecube.legends.items.natureedit.ItemNature;
@@ -49,10 +47,6 @@ import pokecube.legends.items.zmove.ItemZCrystal;
 
 public class ItemInit
 {
-    // Materials
-    public static final Tier MATERIAL_RAINBOW = Tiers.DIAMOND;
-    public static final Tier MATERIAL_JUSTISE = Tiers.DIAMOND;
-
     // Keys
     // Orbs
     public static final RegistryObject<Item> BLUE_ORB;
@@ -272,7 +266,7 @@ public class ItemInit
         OCEAN_ORB = PokecubeLegends.ITEMS.register("oceanorb",
                 () -> new ItemBase("oceanorb", 2, 1));
         RAINBOW_ORB = PokecubeLegends.ITEMS.register("legendaryorb",
-                () -> new ItemBase("legendaryorb", 2, 1).setShiny());
+                () -> new ItemBase("legendaryorb", 2, 1));
         RED_ORB = PokecubeLegends.ITEMS.register("redorb",
                 () -> new ItemBase("redorb", 2, 1));
         REGIS_ORB = PokecubeLegends.ITEMS.register("regisorb",
@@ -362,7 +356,7 @@ public class ItemInit
         LUNAR_WING = PokecubeLegends.ITEMS.register("lunar_wing",
                 () -> new ItemBase("lunar_wing", 2, 1));
         RAINBOW_WING = PokecubeLegends.ITEMS.register("rainbow_wing",
-                () -> new ItemBase("rainbow_wing", 1, 1).setShiny());
+                () -> new ItemBase("rainbow_wing", 1, 1));
         SILVER_WING = PokecubeLegends.ITEMS.register("silver_wing",
                 () -> new ItemBase("silver_wing", 1, 1));
         STATIC_WING = PokecubeLegends.ITEMS.register("static_wing",
@@ -383,7 +377,7 @@ public class ItemInit
         DNA_SPLICER_B = PokecubeLegends.ITEMS.register("dna_splicerb",
                 () -> new ItemBase("dna_splicers", 1, 1));
         GRACIDEA = PokecubeLegends.ITEMS.register("gracidea",
-                () -> new ItemBase("gracidea", 1, 10));
+                () -> new ItemBase("gracidea", 1, 1));
         KUBFU_SCARF = PokecubeLegends.ITEMS.register("kubfu_spawn",
                 () -> new ItemBase("kubfu_spawn", 2, 1));
         LIGHTING_CRYSTAL = PokecubeLegends.ITEMS.register("lighting_crystal",
@@ -416,22 +410,24 @@ public class ItemInit
                 () -> new ItemBase("zygardecube", 3, 1));
 
         IMPRISIONMENT_HELMET = PokecubeLegends.ITEMS.register("imprisonment_helmet",
-                () -> new ItemBase("imprisonment_helmet", 2, 1));
+                () -> new ImprisonmentArmorItem("imprisonment_helmet", 2,
+                        LegendsArmorMaterial.IMPRISONMENT_ARMOR, ArmorItem.Type.HELMET, 1,
+                        new Item.Properties()));
         COBALION_SWORD = PokecubeLegends.ITEMS.register("cobalion_sword",
-                () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE, 2, -2.4F, new Item.Properties())
-                .setTooltipName("cobalion_sword").setTooltipExtraLine(2));
+                () -> new LegendsSword(WeaponTiers.COBALION, 1, -2.6F, new Item.Properties())
+                        .setTooltipName("cobalion_sword").setTooltipExtraLine(2));
         KELDEO_SWORD = PokecubeLegends.ITEMS.register("keldeo_sword",
-                () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE, 2, -2.4F, new Item.Properties())
-                .setTooltipName("keldeo_sword").setTooltipExtraLine(2).setShiny());
+                () -> new LegendsSword(WeaponTiers.KELDEO, 1, -2.4F, new Item.Properties())
+                        .setTooltipName("keldeo_sword").setTooltipExtraLine(2));
         TERRAKION_SWORD = PokecubeLegends.ITEMS.register("terrakion_sword",
-                () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE, 2, -2.4F, new Item.Properties())
-                .setTooltipName("terrakion_sword").setTooltipExtraLine(2));
+                () -> new LegendsSword(WeaponTiers.TERRAKION, 1, -3.0F, new Item.Properties())
+                        .setTooltipName("terrakion_sword").setTooltipExtraLine(2));
         VIRIZION_SWORD = PokecubeLegends.ITEMS.register("virizion_sword",
-                () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE, 3, -2.4F, new Item.Properties())
-                .setTooltipName("virizion_sword").setTooltipExtraLine(2));
+                () -> new LegendsSword(WeaponTiers.VIRIZION, 1, -2.2F, new Item.Properties())
+                        .setTooltipName("virizion_sword").setTooltipExtraLine(2));
         ZACIAN_SWORD = PokecubeLegends.ITEMS.register("zacian_sword",
-                () -> new LegendsSword(Tiers.NETHERITE, 3, -2.4F, new Item.Properties().fireResistant())
-                .setTooltipName("zacian_sword").setTooltipExtraLine(1));
+                () -> new LegendsSword(Tiers.NETHERITE, 4, -2.8F, new Item.Properties().fireResistant())
+                        .setTooltipName("zacian_sword").setTooltipExtraLine(1));
 
         // Shields
         ZAMAZENTA_SHIELD = PokecubeLegends.ITEMS.register("zamazenta_shield",
@@ -458,21 +454,29 @@ public class ItemInit
         BODY_MIRROR = PokecubeLegends.ITEMS.register("body_mirror", () -> new ItemBase(1));
         GLASS_MIRROR = PokecubeLegends.ITEMS.register("glass_mirror", () -> new ItemBase(1));
 
-        CHIPPED_POT = PokecubeLegends.ITEMS.register("chippedpot", () -> new ItemBase(1));
-        CRACKED_POT = PokecubeLegends.ITEMS.register("crackedpot", () -> new ItemBase(1));
-        GALARCUFF = PokecubeLegends.ITEMS.register("galarcuff", () -> new ItemBase(1));
-        GALARWREATH = PokecubeLegends.ITEMS.register("galarwreath", () -> new ItemBase(1));
-        GIGANTIC_SHARD = PokecubeLegends.ITEMS.register("gigantic_shard", () -> new ItemBase("gigantic_shard", 1).setShiny());
-        PARCHMENT_DARK = PokecubeLegends.ITEMS.register("pdark", () -> new ItemBase("pdark", 1, 1));
-        PARCHMENT_WATER = PokecubeLegends.ITEMS.register("pwater", () -> new ItemBase("pwater", 1, 1));
-        REINS_UNITY = PokecubeLegends.ITEMS.register("reins_u", () -> new ItemBase("reins_u", 1, 1));
-        WISHING_PIECE = PokecubeLegends.ITEMS.register("wishing_piece", () -> new ItemBase("wishing_piece", 1));
+        CHIPPED_POT = PokecubeLegends.ITEMS.register("chippedpot",
+                () -> new ItemBase("chipped_pot", 1, 1));
+        CRACKED_POT = PokecubeLegends.ITEMS.register("crackedpot",
+                () -> new ItemBase("cracked_pot", 1, 1));
+        GALARCUFF = PokecubeLegends.ITEMS.register("galarcuff",
+                () -> new ItemBase("galarica_cuff", 1, 1));
+        GALARWREATH = PokecubeLegends.ITEMS.register("galarwreath",
+                () -> new ItemBase("galarica_wreath", 1, 1));
+        GIGANTIC_SHARD = PokecubeLegends.ITEMS.register("gigantic_shard",
+                () -> new ItemBase("gigantic_shard",1).setShiny());
+        PARCHMENT_DARK = PokecubeLegends.ITEMS.register("pdark",
+                () -> new ItemBase("pdark", 1, 1));
+        PARCHMENT_WATER = PokecubeLegends.ITEMS.register("pwater",
+                () -> new ItemBase("pwater", 1, 1));
+        REINS_UNITY = PokecubeLegends.ITEMS.register("reins_u",
+                () -> new ItemBase("reins_u", 1, 1));
+        WISHING_PIECE = PokecubeLegends.ITEMS.register("wishing_piece",
+                () -> new ItemBase("wishing_piece", 1));
 
         RAINBOW_SWORD = PokecubeLegends.ITEMS.register("rainbow_sword",
-                () -> new RainbowSword(ItemTiers.RAINBOW_WING, 2, -2.4F));
+                () -> new RainbowSword(WeaponTiers.RAINBOW_WING, 2, -3.0F));
 
-        // Dimensions Creative Tab - Sorting depends on the order the items are
-        // listed in
+        // Dimensions Creative Tab - Sorting depends on the order the items are listed in
         // UltraSpace
         GOLDEN_SHROOM = PokecubeLegends.ITEMS.register("golden_shroom",
                 () -> new ItemNameBlockItem(PlantsInit.GOLDEN_SHROOM_PLANT.get(),
@@ -535,15 +539,13 @@ public class ItemInit
         ItemGenerator.BOATS.add(new GenericBoat.BoatRegister(BlockInit.TEMPORAL_PLANKS, "temporal", PokecubeLegends.ITEMS));
 
         ULTRA_HELMET = PokecubeLegends.ITEMS.register("ultra_helmet",
-                () -> new UltraHelmetEffect(ItemInit.SPECTRUM, ArmorItem.Type.HELMET,
-                        new Item.Properties()));
+                () -> new UltraHelmetEffect(LegendsArmorMaterial.ULTRA_ARMOR, ArmorItem.Type.HELMET, new Item.Properties()));
         ULTRA_CHESTPLATE = PokecubeLegends.ITEMS.register("ultra_chestplate",
-                () -> new ArmorItem(ItemInit.SPECTRUM, ArmorItem.Type.CHESTPLATE,
-                        new Item.Properties()));
-        ULTRA_LEGGINGS = PokecubeLegends.ITEMS.register("ultra_leggings", () -> new ArmorItem(ItemInit.SPECTRUM,
-                ArmorItem.Type.LEGGINGS, new Item.Properties()));
-        ULTRA_BOOTS = PokecubeLegends.ITEMS.register("ultra_boots", () -> new UltraBootsEffect(ItemInit.SPECTRUM,
-                ArmorItem.Type.BOOTS, new Item.Properties()));
+                () -> new ArmorItem(LegendsArmorMaterial.ULTRA_ARMOR, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
+        ULTRA_LEGGINGS = PokecubeLegends.ITEMS.register("ultra_leggings",
+                () -> new ArmorItem(LegendsArmorMaterial.ULTRA_ARMOR, ArmorItem.Type.LEGGINGS, new Item.Properties()));
+        ULTRA_BOOTS = PokecubeLegends.ITEMS.register("ultra_boots",
+                () -> new UltraBootsEffect(LegendsArmorMaterial.ULTRA_ARMOR, ArmorItem.Type.BOOTS, new Item.Properties()));
 
         ULTRA_KEY = PokecubeLegends.ITEMS.register("ultrakey",
                 () -> new UltraKey("ultrakey", 1));
@@ -609,60 +611,6 @@ public class ItemInit
         TAMATO_POKEPUFF = PokecubeLegends.ITEMS.register("tamato_pokepuff", () -> new ItemBase("tamato_pokepuff", 1,
                 Rarity.UNCOMMON, FoodInit.FIRE_RESISTANCE_POKEPUFF, 16));
     }
-
-    public static final ArmorMaterial SPECTRUM = new ArmorMaterial()
-    {
-        @Override
-        public int getDurabilityForType(final ArmorItem.Type armorSlot)
-        {
-            return new int[]
-            { 13, 15, 16, 11 }[armorSlot.getSlot().getIndex()] * 25;
-        }
-
-        @Override
-        public int getDefenseForType(final ArmorItem.Type armorSlot)
-        {
-            return new int[]
-            { 2, 5, 6, 2 }[armorSlot.getSlot().getIndex()];
-        }
-
-        @Override
-        public int getEnchantmentValue()
-        {
-            return 9;
-        }
-
-        @Override
-        public net.minecraft.sounds.SoundEvent getEquipSound()
-        {
-            return SoundEvents.ARMOR_EQUIP_NETHERITE;
-        }
-
-        @Override
-        public Ingredient getRepairIngredient()
-        {
-            return Ingredient.of(ItemInit.SPECTRUM_SHARD.get());
-        }
-
-        @Override
-        @OnlyIn(Dist.CLIENT)
-        public String getName()
-        {
-            return Reference.ID + ":ultra";
-        }
-
-        @Override
-        public float getToughness()
-        {
-            return 1.5f;
-        }
-
-        @Override
-        public float getKnockbackResistance()
-        {
-            return 2;
-        }
-    };
 
     public static void init()
     {}

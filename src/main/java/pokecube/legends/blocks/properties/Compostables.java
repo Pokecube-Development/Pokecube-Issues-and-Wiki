@@ -22,6 +22,7 @@ public class Compostables
         compostableBlocks(0.3f, BlockInit.CORRUPTED_SAPLING);
         compostableBlocks(0.3f, BlockInit.DISTORTIC_LEAVES);
         compostableBlocks(0.3f, BlockInit.DISTORTIC_SAPLING);
+        compostableBlocks(0.3f, BlockInit.DYNA_LEAVES_PASTEL_PINK);
         compostableBlocks(0.3f, BlockInit.DYNA_LEAVES_PINK);
         compostableBlocks(0.3f, BlockInit.DYNA_LEAVES_RED);
         compostableBlocks(0.3f, BlockInit.INVERTED_LEAVES);
@@ -29,6 +30,7 @@ public class Compostables
         compostableBlocks(0.3f, BlockInit.MIRAGE_LEAVES);
         compostableBlocks(0.3f, BlockInit.MIRAGE_SAPLING);
         compostableBlocks(0.3f, BlockInit.SMALL_CONTAMINATED_DRIPLEAF);
+        compostableBlocks(0.3f, BlockInit.TEMPORAL_LEAVES);
         compostableBlocks(0.3f, BlockInit.TEMPORAL_SAPLING);
         compostableBlocks(0.3f, PlantsInit.CORRUPTED_GRASS);
         compostableBlocks(0.3f, PlantsInit.DISTORTIC_GRASS);
@@ -60,6 +62,7 @@ public class Compostables
         compostableBlocks(0.65f, PlantsInit.GOLDEN_POPPY);
         compostableBlocks(0.65f, PlantsInit.GOLDEN_SHROOM_PLANT);
         compostableBlocks(0.65f, PlantsInit.GOLDEN_TULIP);
+        compostableBlocks(0.65f, PlantsInit.GRACIDEA);
         compostableBlocks(0.65f, PlantsInit.INVERTED_ORCHID);
         compostableBlocks(0.65f, PlantsInit.LARGE_GOLDEN_FERN);
         compostableBlocks(0.65f, PlantsInit.PINK_TAINTED_LILY_PAD);

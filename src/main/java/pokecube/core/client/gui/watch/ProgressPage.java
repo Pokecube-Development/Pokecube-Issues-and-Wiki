@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -71,40 +72,53 @@ public class ProgressPage extends PageWithSubPages<Progress>
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
         final int colour = 0xFF78C850;
-        graphics.drawCenteredString(this.font, this.getTitle().getString(), x + 135, y + 5, colour);
-        graphics.drawCenteredString(this.font, this.current_page.getTitle().getString(), x + 135, y + 18,
-                colour);
 
+        graphics.drawCenteredString(this.font, this.getTitle().getString(), x + 130, y + 18, colour);
+        graphics.drawCenteredString(this.font, this.current_page.getTitle().getString(), x + 130, y + 5, colour);
+
+        final int title_colour = 0x185100;
         Player player = this.watch.player;
         if (this.watch.target instanceof Player) player = (Player) this.watch.target;
         var title = player.getDisplayName();
-        graphics.drawString(this.font, title, x + 135 - this.font.width(title) / 2, y + 36, colour, false);
+        graphics.drawString(this.font, title, x + 130 - this.font.width(title) / 2, y + 36, title_colour, false);
     }
 
     @Override
     public void onPageOpened()
     {
         super.onPageOpened();
+        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
+        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
+
         PacketPokedex.sendInspectPacket(false, Minecraft.getInstance().getLanguageManager().getSelected());
+
+        this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b ->
+        {
+            GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
+            this.watch.init();
+        }).bounds(x - 108, y + 102, 17, 17).setTexture(GuiPokeWatch.getWidgetTex())
+                .setRender(new TexButton.UVImgRender(110, 72, 17, 17)).build());
     }
 
     @Override
     public void preSubOpened()
     {
         final int x = this.watch.width / 2;
-        final int y = this.watch.height / 2 - 5;
-        final Component next = TComponent.literal(">");
-        final Component prev = TComponent.literal("<");
-        final TexButton nextBtn = this.addRenderableWidget(new TexButton.Builder(next, b ->
-        {
-            this.changePage(this.index + 1);
-        }).bounds(x + 90, y - 70, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
-        		.setRender(new UVImgRender(200, 0, 12, 12)).build());
+        final int y = this.watch.height / 2;
+        final Component next = TComponent.literal("");
+        final Component prev = TComponent.literal("");
+
         final TexButton prevBtn = this.addRenderableWidget(new TexButton.Builder(prev, b ->
         {
             this.changePage(this.index - 1);
-        }).bounds(x - 90, y - 70, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
-        		.setRender(new UVImgRender(200, 0, 12, 12)).build());
+        }).bounds(x - 116, y - 79, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
+                .setRender(new UVImgRender(229, 108, 12, 12)).build());
+
+        final TexButton nextBtn = this.addRenderableWidget(new TexButton.Builder(next, b ->
+        {
+            this.changePage(this.index + 1);
+        }).bounds(x + 104, y - 79, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
+        		.setRender(new UVImgRender(241, 108, 12, 12)).build());
 
         nextBtn.setFGColor(0x444444);
         prevBtn.setFGColor(0x444444);

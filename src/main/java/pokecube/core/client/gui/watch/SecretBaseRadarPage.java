@@ -114,15 +114,22 @@ public class SecretBaseRadarPage extends WatchPage
     public void onPageOpened()
     {
         super.onPageOpened();
-        //final int x = this.watch.width / 2;
-        //final int y = this.watch.height / 2 - 5;
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
         
         this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""),
-                b -> SecretBaseRadarPage.mode = RadarMode.values()[(SecretBaseRadarPage.mode.ordinal() + 1)
-                        % RadarMode.values().length]).bounds(x + 136, y + 90, 17, 17).setTexture(GuiPokeWatch.getWidgetTex())
-                                .setRender(new UVImgRender(212, 123, 17, 17)).build());
+                b -> SecretBaseRadarPage.mode =
+                        RadarMode.values()[(SecretBaseRadarPage.mode.ordinal() + 1) % RadarMode.values().length])
+                .bounds(x + 136, y + 90, 17, 17)
+                .setTexture(GuiPokeWatch.getWidgetTex())
+                .setRender(new UVImgRender(212, 123, 17, 17)).build());
+
+        this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b ->
+        {
+            GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
+            this.watch.init();
+        }).bounds(x - 108, y + 102, 17, 17).setTexture(GuiPokeWatch.getWidgetTex())
+                .setRender(new UVImgRender(110, 72, 17, 17)).build());
     }
 
     @Override
@@ -194,8 +201,7 @@ public class SecretBaseRadarPage extends WatchPage
         }
         tessellator.end();
         graphics.pose().popPose();
-        graphics.drawCenteredString(this.font, this.getTitle().getString(), x + 128, y + 8, 0x78C850);
-
+        graphics.drawCenteredString(this.font, this.getTitle().getString(), x + 128, y + 18, 0x78C850);
         super.render(graphics, mouseX, mouseY, partialTicks);
     }
 }

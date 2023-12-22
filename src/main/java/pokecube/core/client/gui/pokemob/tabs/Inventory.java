@@ -68,7 +68,7 @@ public class Inventory extends Tab
             this.value = (int) (1000 * (1 - current)) / 10f;
             this.value = Math.max(0, this.value);
 
-            int col = 0xFF555555;
+            int col = 0xFF8B8B8B;
             // Fill the background
             graphics.fill(this.getX(), this.getY(), this.getX() + this.width, this.getY() + this.height, col);
             col = 0xFFFFFFFF;
@@ -130,7 +130,7 @@ public class Inventory extends Tab
         // Bar width
         int w = 89;
         // Bar height
-        int h = 5;
+        int h = 4;
         // Bar positioning
         final int i = 6, j = 48;
         this.addRenderableWidget(
@@ -181,45 +181,42 @@ public class Inventory extends Tab
         }, (b, graphics, x, y) -> {
             Component tooltip = b.getMessage();
             graphics.renderTooltip(parent.font, tooltip, x, y);
-        }).bounds(k + 64, l + 18, 16, 16).build()).noAuto();
+        }).bounds(k + 63, l + 18, 16, 16).build()).noAuto();
 
-        this.addRenderableWidget(
-                new TooltipArea.Builder(TComponent.translatable("pokemob.gui.slot.held_item"), (x, y) ->
-                {
-                    Slot slot = menu.slots.get(1);
-                    if (slot.hasItem()) return false;
-                    return PokecubeCore.getConfig().pokemobGuiTooltips;
-                }, (b, graphics, x, y) -> {
-                    Component tooltip = b.getMessage();
-                    graphics.renderTooltip(parent.font, tooltip, x, y);
-                }).bounds(k + 64, l + 36, 16, 16).build()).noAuto();
+        this.addRenderableWidget(new TooltipArea.Builder(TComponent.translatable("pokemob.gui.slot.held_item"), (x, y) ->
+        {
+            Slot slot = menu.slots.get(1);
+            if (slot.hasItem()) return false;
+            return PokecubeCore.getConfig().pokemobGuiTooltips;
+        }, (b, graphics, x, y) -> {
+            Component tooltip = b.getMessage();
+            graphics.renderTooltip(parent.font, tooltip, x, y);
+        }).bounds(k + 63, l + 36, 16, 16).build()).noAuto();
 
-        this.addRenderableWidget(
-                new TooltipArea.Builder(TComponent.translatable("pokemob.gui.slot.off_hand"), (x, y) ->
-                {
-                    Slot slot = menu.slots.get(2);
-                    if (slot.hasItem()) return false;
-                    return PokecubeCore.getConfig().pokemobGuiTooltips;
-                }, (b, graphics, x, y) -> {
-                    Component tooltip = b.getMessage();
-                    graphics.renderTooltip(parent.font, tooltip, x, y);
-                }).bounds(k + 64, l + 54, 16, 16).build()).noAuto();
+        this.addRenderableWidget(new TooltipArea.Builder(TComponent.translatable("pokemob.gui.slot.off_hand"), (x, y) ->
+        {
+            Slot slot = menu.slots.get(2);
+            if (slot.hasItem()) return false;
+            return PokecubeCore.getConfig().pokemobGuiTooltips;
+        }, (b, graphics, x, y) -> {
+            Component tooltip = b.getMessage();
+            graphics.renderTooltip(parent.font, tooltip, x, y);
+        }).bounds(k + 63, l + 54, 16, 16).build()).noAuto();
 
-        this.addRenderableWidget(
-                new TooltipArea.Builder(TComponent.translatable("pokemob.gui.slot.food_misc"), (x, y) ->
-                {
-                    // This is done inside here as when the tabs change, it can
-                    // re-set the slots lists, thereby invalidating the previous
-                    // check!
-                    List<Slot> items = Lists.newArrayList();
-                    Supplier<Boolean> hasAnyItem = () -> items.stream().allMatch(s -> !s.hasItem());
-                    if (items.isEmpty()) for (int m = 3; m < 8; m++) items.add(menu.slots.get(m));
-                    if (!hasAnyItem.get()) return false;
-                    return PokecubeCore.getConfig().pokemobGuiTooltips;
-                }, (b, graphics, x, y) -> {
-                    Component tooltip = b.getMessage();
-                    graphics.renderTooltip(parent.font, tooltip, x, y);
-                }).bounds(k + 83, l + 18, 89, 16).build()).noAuto();
+        this.addRenderableWidget(new TooltipArea.Builder(TComponent.translatable("pokemob.gui.slot.food_misc"), (x, y) ->
+        {
+            // This is done inside here as when the tabs change, it can
+            // re-set the slots lists, thereby invalidating the previous
+            // check!
+            List<Slot> items = Lists.newArrayList();
+            Supplier<Boolean> hasAnyItem = () -> items.stream().allMatch(s -> !s.hasItem());
+            if (items.isEmpty()) for (int m = 3; m < 8; m++) items.add(menu.slots.get(m));
+            if (!hasAnyItem.get()) return false;
+            return PokecubeCore.getConfig().pokemobGuiTooltips;
+        }, (b, graphics, x, y) -> {
+            Component tooltip = b.getMessage();
+            graphics.renderTooltip(parent.font, tooltip, x, y);
+        }).bounds(k + 83, l + 18, 89, 16).build()).noAuto();
 
         xOffset = 80;
         yOffset = 77;
@@ -248,11 +245,11 @@ public class Inventory extends Tab
         // The 5 inventory slots
         graphics.blit(POKEMOB_GUI, k + 82, l + 17, 36, this.imageHeight + 72, 90, 18);
         // The saddle slot
-        graphics.blit(POKEMOB_GUI, k + 63, l + 17, 18, this.imageHeight + 72, 18, 18);
+        graphics.blit(POKEMOB_GUI, k + 62, l + 17, 18, this.imageHeight + 72, 18, 18);
         // The held item slot
-        graphics.blit(POKEMOB_GUI, k + 63, l + 35, 0, this.imageHeight + 72, 18, 18);
+        graphics.blit(POKEMOB_GUI, k + 62, l + 35, 0, this.imageHeight + 72, 18, 18);
         // The off-hand slot
-        graphics.blit(POKEMOB_GUI, k + 63, l + 53, 0, this.imageHeight + 72, 18, 18);
+        graphics.blit(POKEMOB_GUI, k + 62, l + 53, 0, this.imageHeight + 72, 18, 18);
     }
 
     @Override

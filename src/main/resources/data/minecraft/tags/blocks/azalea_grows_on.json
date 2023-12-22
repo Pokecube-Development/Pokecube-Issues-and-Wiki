@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:ash_block"
+    {"id": "pokecube_legends:ash_block", "required": false}
   ]
 }

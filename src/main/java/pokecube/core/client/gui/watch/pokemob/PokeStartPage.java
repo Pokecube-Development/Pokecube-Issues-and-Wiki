@@ -50,18 +50,10 @@ public abstract class PokeStartPage extends WatchPage
     {
         super.init();
         final int x = this.watch.width / 2;
-        final int y = this.watch.height / 2 - 3;
-        final Component next = TComponent.literal(">");
-        final Component prev = TComponent.literal("<");
-        final TexButton nextBtn = this.addRenderableWidget(new TexButton.Builder(next, b -> {
-            PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
-            final int i = Screen.hasShiftDown() ? Screen.hasControlDown() ? 100 : 10 : 1;
-            entry = Pokedex.getInstance().getNext(entry, i);
-            PacketPokedex.selectedMob.clear();
-            this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.level());
-            this.parent.initPages(this.parent.pokemob);
-        }).bounds(x + 100, y - 25, 12, 20).setTexture(GuiPokeWatch.getWidgetTex())
-        		.setRender(new UVImgRender(212, 0, 12, 20)).build());
+        final int y = this.watch.height / 2;
+        final Component next = TComponent.literal("");
+        final Component prev = TComponent.literal("");
+
         final TexButton prevBtn = this.addRenderableWidget(new TexButton.Builder(prev, b -> {
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
             final int i = Screen.hasShiftDown() ? Screen.hasControlDown() ? 100 : 10 : 1;
@@ -69,8 +61,30 @@ public abstract class PokeStartPage extends WatchPage
             PacketPokedex.selectedMob.clear();
             this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.level());
             this.parent.initPages(this.parent.pokemob);
-        }).bounds(x - 115, y - 25, 12, 20).setTexture(GuiPokeWatch.getWidgetTex())
-        		.setRender(new UVImgRender(212, 0, 12, 20)).build());
+
+            PokedexEntry nextEntry = Pokedex.getInstance().getNextForm(entry);
+            PokedexEntry firstEntry = Pokedex.getInstance().getFirstForm(entry);
+            PokedexEntry previousEntry = Pokedex.getInstance().getPreviousForm(entry);
+            StartWatch.formChanger.active = (nextEntry != firstEntry && previousEntry != firstEntry) && !this.parent.pokemob.getEntity().isAddedToWorld();
+            StartWatch.shiny.active = this.parent.pokemob.getPokedexEntry().hasShiny && !this.parent.pokemob.getEntity().isAddedToWorld();
+        }).bounds(x - 116, y - 14, 12, 20).setTexture(GuiPokeWatch.getWidgetTex())
+                .setRender(new UVImgRender(48, 108, 12, 20)).build());
+
+        final TexButton nextBtn = this.addRenderableWidget(new TexButton.Builder(next, b -> {
+            PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
+            final int i = Screen.hasShiftDown() ? Screen.hasControlDown() ? 100 : 10 : 1;
+            entry = Pokedex.getInstance().getNext(entry, i);
+            PacketPokedex.selectedMob.clear();
+            this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.level());
+            this.parent.initPages(this.parent.pokemob);
+
+            PokedexEntry nextEntry = Pokedex.getInstance().getNextForm(entry);
+            PokedexEntry firstEntry = Pokedex.getInstance().getFirstForm(entry);
+            PokedexEntry previousEntry = Pokedex.getInstance().getPreviousForm(entry);
+            StartWatch.formChanger.active = (nextEntry != firstEntry && previousEntry != firstEntry) && !this.parent.pokemob.getEntity().isAddedToWorld();
+            StartWatch.shiny.active = this.parent.pokemob.getPokedexEntry().hasShiny && !this.parent.pokemob.getEntity().isAddedToWorld();
+        }).bounds(x + 104, y - 14, 12, 20).setTexture(GuiPokeWatch.getWidgetTex())
+        		.setRender(new UVImgRender(60, 108, 12, 20)).build());
         
         nextBtn.setFGColor(0x444444);
         prevBtn.setFGColor(0x444444);

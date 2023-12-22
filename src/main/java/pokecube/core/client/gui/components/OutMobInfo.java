@@ -55,11 +55,11 @@ public class OutMobInfo extends GuiEventComponent
             final int nameOffsetX = dir == 1 ? 43 : 43;
             final int nameOffsetY = dir == 1 ? 0 : 23;
             final int movesOffsetX = 42;
-            final int movesOffsetY = dir == 1 ? 22 : 10;
+            final int movesOffsetY = dir == 1 ? 23 : 10;
             final int hpOffsetX = 42;
-            final int hpOffsetY = 13;
+            final int hpOffsetY = 14;
             final int xpOffsetX = 42;
-            final int xpOffsetY = 20;
+            final int xpOffsetY = 21;
             final int statusOffsetX = 0;
             final int statusOffsetY = 27;
             final int confuseOffsetX = 12;
@@ -94,15 +94,15 @@ public class OutMobInfo extends GuiEventComponent
             }
 
             // Render HP
-            width = (int) (92 * ratio);
+            width = (int) (90 * ratio);
             height = 5;
             u = 0;
             v = 85;
-            graphics.blit(Resources.GUI_BATTLE, hpOffsetX, hpOffsetY, 43, 12, 92, 7);
+            graphics.blit(Resources.GUI_BATTLE, hpOffsetX, hpOffsetY, 43, 12, 90, 7);
             graphics.blit(Resources.GUI_BATTLE, x, y, u, v, width, height);
 
             // Render XP
-            graphics.blit(Resources.GUI_BATTLE, xpOffsetX, xpOffsetY, 43, 19, 92, 5);
+            graphics.blit(Resources.GUI_BATTLE, xpOffsetX, xpOffsetY, 43, 19, 90, 5);
             int current = pokemob.getExp();
             int level = pokemob.getLevel();
             int prev = Tools.levelToXp(pokemob.getExperienceMode(), level);
@@ -113,7 +113,7 @@ public class OutMobInfo extends GuiEventComponent
             if (level == 100) ratio = 1;
             x = xpOffsetX + 1;
             y = xpOffsetY;
-            width = (int) (92 * ratio);
+            width = (int) (90 * ratio);
             height = 2;
             u = 0;
             v = 97;
@@ -151,15 +151,15 @@ public class OutMobInfo extends GuiEventComponent
             }
 
             // Render Name
-            if (currentMoveIndex == 5) RenderSystem.setShaderColor(0.0F, 1.0F, 0.0F, 1.0F);
-            graphics.blit(Resources.GUI_BATTLE, nameOffsetX, nameOffsetY, 44, 0, 90, 13);
+            if (currentMoveIndex == 5) RenderSystem.setShaderColor(0.0F, 1.0F, 0.4F, 1.0F);
+            graphics.blit(Resources.GUI_BATTLE, nameOffsetX, nameOffsetY, 44, 0, 89, 13);
             if (currentMoveIndex == 5) RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
             graphics.drawString(gui.getFont(), displayName, nameOffsetX + 3, nameOffsetY + 3,
                     GuiDisplayPokecubeInfo.lightGrey);
 
             // Render level
-            graphics.drawString(gui.getFont(), "L." + level, nameOffsetX + 88 - gui.getFont().width("L." + level),
+            graphics.drawString(gui.getFont(), "Lvl" + level, nameOffsetX + 82 - gui.getFont().width("Lvl" + level),
                     nameOffsetY + 3, GuiDisplayPokecubeInfo.lightGrey);
 
             // Draw number of pokemon
@@ -171,11 +171,15 @@ public class OutMobInfo extends GuiEventComponent
             final int num = gui.getFont().width(txt);
             evt.getMat().pushPose();
             evt.getMat().translate(nameOffsetX + 89, nameOffsetY, 0);
-            if (num > 10) evt.getMat().scale(1.5f * num / 18f, 1, 1);
-            graphics.blit(Resources.GUI_BATTLE, 0, 0, 0, 27, 15, 15);
+
+            if (num > 8) graphics.blit(Resources.GUI_BATTLE, 1, 0, 150, 0, 30, 15);
+            else graphics.blit(Resources.GUI_BATTLE, 0, 0, 0, 27, 15, 15);
             evt.getMat().popPose();
-            graphics.drawString(gui.getFont(), txt, nameOffsetX + 95 - num / 4, nameOffsetY + 4,
+
+            if (num > 8) graphics.drawString(gui.getFont(), txt, nameOffsetX + 99 - num / 4, nameOffsetY + 4,
                     GuiDisplayPokecubeInfo.lightGrey);
+            else graphics.drawString(gui.getFont(), txt, nameOffsetX + 95 - num / 4, nameOffsetY + 4,
+                        GuiDisplayPokecubeInfo.lightGrey);
 
             // Render Moves
             for (moveCount = 0; moveCount < 4; moveCount++) if (pokemob.getMove(moveCount) == null) break;

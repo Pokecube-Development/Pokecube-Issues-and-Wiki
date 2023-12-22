@@ -75,16 +75,16 @@ public class GlobalProgress extends Progress
 
         if (player != this.watch.player) inspectBtn.visible = false;
 
-        for (var line : this.font.getSplitter().splitLines(captureLine, 190, Style.EMPTY))
+        for (var line : this.font.getSplitter().splitLines(captureLine, 205, Style.EMPTY))
             this.lines.add(line.getString());
         this.lines.add("");
-        for (var line : this.font.getSplitter().splitLines(killLine, 190, Style.EMPTY))
+        for (var line : this.font.getSplitter().splitLines(killLine, 205, Style.EMPTY))
             this.lines.add(line.getString());
         this.lines.add("");
-        for (var line : this.font.getSplitter().splitLines(hatchLine, 190, Style.EMPTY))
+        for (var line : this.font.getSplitter().splitLines(hatchLine, 205, Style.EMPTY))
             this.lines.add(line.getString());
         this.lines.add("");
-        for (var line : this.font.getSplitter().splitLines(nearbyLine, 190, Style.EMPTY))
+        for (var line : this.font.getSplitter().splitLines(nearbyLine, 205, Style.EMPTY))
             this.lines.add(line.getString());
     }
 

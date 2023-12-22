@@ -2,10 +2,12 @@ package pokecube.legends.conditions.custom;
 
 import java.util.ArrayList;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
+import pokecube.legends.Reference;
 import pokecube.legends.conditions.AbstractCondition;
 import pokecube.legends.conditions.AbstractEntriedCondition;
 import pokecube.legends.init.BlockInit;
@@ -13,10 +15,11 @@ import thut.api.maths.Vector3;
 
 public class Regigigas extends AbstractEntriedCondition
 {
+    private static final ResourceLocation VALID_BLOCKS = new ResourceLocation(Reference.ID, "arceus_approved/regigigas");
     public Regigigas()
     {
         super("regigigas", "regice", "registeel", "regirock", "regieleki", "regidrago");
-        final Object[] blocks = { BlockInit.GOLEM_STONE.get(), BlockInit.REGIGIGA_CORE.get(), Blocks.END_STONE_BRICKS };
+        final Object[] blocks = { BlockInit.GOLEM_STONE.get(), BlockInit.REGIGIGA_CORE.get(), VALID_BLOCKS };
         for (final Object block : blocks)
             this.setRelevant(block);
     }
@@ -64,7 +67,7 @@ public class Regigigas extends AbstractEntriedCondition
             locations.clear();
             locations.add(location.add(-1, 0, 0));
             locations.add(location.add(1, 0, 0));
-            check = AbstractCondition.isBlock(world, locations, Blocks.END_STONE_BRICKS);
+            check = AbstractCondition.isBlock(world, locations, VALID_BLOCKS);
         }
         else
         {
@@ -79,7 +82,7 @@ public class Regigigas extends AbstractEntriedCondition
                 locations.clear();
                 locations.add(location.add(0, 0, 1));
                 locations.add(location.add(0, 0, -1));
-                check = AbstractCondition.isBlock(world, locations, Blocks.END_STONE_BRICKS);
+                check = AbstractCondition.isBlock(world, locations, VALID_BLOCKS);
             }
         }
         if (!check)

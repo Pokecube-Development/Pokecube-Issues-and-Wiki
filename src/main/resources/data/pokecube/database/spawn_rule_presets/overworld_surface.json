@@ -92,7 +92,7 @@
       "and_preset":"overworld",
       "matchers":{
         "biome":{
-          "biome_tags":"#forge:is_peak"
+          "biome_tags":"#minecraft:is_hill"
         }
       }
     },
