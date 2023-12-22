@@ -22,6 +22,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import org.jetbrains.annotations.NotNull;
 import pokecube.legends.Reference;
 import pokecube.legends.client.render.model.LegendsModelLayers;
 import pokecube.legends.client.render.model.armor.ImprisonmentArmorModel;
@@ -58,7 +59,7 @@ public class ImprisonmentArmorItem extends ArmorItem
     {
         consumer.accept(new IClientItemExtensions() {
             @Override
-            public Model getGenericArmorModel(LivingEntity entity, ItemStack stack, EquipmentSlot slot, HumanoidModel<?> defaultModel)
+            public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity entity, ItemStack stack, EquipmentSlot slot, HumanoidModel<?> defaultModel)
             {
                 EntityModelSet models = Minecraft.getInstance().getEntityModels();
 

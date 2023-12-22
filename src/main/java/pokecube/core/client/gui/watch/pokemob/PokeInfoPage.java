@@ -73,7 +73,7 @@ public abstract class PokeInfoPage extends WatchPage
             formChanger.active = (nextEntry != firstEntry && previousEntry != firstEntry) && !this.parent.pokemob.getEntity().isAddedToWorld();
             shiny.active = this.parent.pokemob.getPokedexEntry().hasShiny && !this.parent.pokemob.getEntity().isAddedToWorld();
         }).bounds(x - 115, y - 27, 12, 20).setTexture(GuiPokeWatch.getWidgetTex())
-        		.setRender(new UVImgRender(212, 0, 12, 20)).build());
+        		.setRender(new UVImgRender(48, 108, 12, 20)).build());
         
         final TexButton nextBtn = this.addRenderableWidget(new TexButton.Builder(prev, b -> {
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
@@ -89,7 +89,7 @@ public abstract class PokeInfoPage extends WatchPage
             formChanger.active = (nextEntry != firstEntry && previousEntry != firstEntry) && !this.parent.pokemob.getEntity().isAddedToWorld();
             shiny.active = this.parent.pokemob.getPokedexEntry().hasShiny && !this.parent.pokemob.getEntity().isAddedToWorld();
         }).bounds(x - 27, y - 27, 12, 20).setTexture(GuiPokeWatch.getWidgetTex())
-        		.setRender(new UVImgRender(48, 108, 12, 20)).build());
+        		.setRender(new UVImgRender(60, 108, 12, 20)).build());
 
         // Play Sound Button
         this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
