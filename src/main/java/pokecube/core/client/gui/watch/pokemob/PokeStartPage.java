@@ -68,6 +68,16 @@ public abstract class PokeStartPage extends WatchPage
             PokedexEntry previousEntry = Pokedex.getInstance().getPreviousForm(entry);
             StartWatch.formChanger.active = (nextEntry != firstEntry && previousEntry != firstEntry) && !this.parent.pokemob.getEntity().isAddedToWorld();
             StartWatch.shiny.active = this.parent.pokemob.getPokedexEntry().hasShiny && !this.parent.pokemob.getEntity().isAddedToWorld();
+
+            if (StartWatch.shiny.active)
+                StartWatch.shiny.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.shiny.tooltip")));
+            else StartWatch.shiny.setTooltip(Tooltip.create(Component.literal("")));
+            if (StartWatch.formChanger.active)
+                StartWatch.formChanger.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.forms.tooltip")));
+            else StartWatch.formChanger.setTooltip(Tooltip.create(Component.literal("")));
+            if (StartWatch.gender.active)
+                StartWatch.gender.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.gender.tooltip")));
+            else StartWatch.gender.setTooltip(Tooltip.create(Component.literal("")));
         }).bounds(x - 116, y - 14, 12, 20).setTexture(GuiPokeWatch.getWidgetTex())
                 .setRender(new UVImgRender(48, 108, 12, 20))
                 .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.previous.tooltip")))
@@ -86,6 +96,16 @@ public abstract class PokeStartPage extends WatchPage
             PokedexEntry previousEntry = Pokedex.getInstance().getPreviousForm(entry);
             StartWatch.formChanger.active = (nextEntry != firstEntry && previousEntry != firstEntry) && !this.parent.pokemob.getEntity().isAddedToWorld();
             StartWatch.shiny.active = this.parent.pokemob.getPokedexEntry().hasShiny && !this.parent.pokemob.getEntity().isAddedToWorld();
+
+            if (StartWatch.shiny.active)
+                StartWatch.shiny.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.shiny.tooltip")));
+            else StartWatch.shiny.setTooltip(Tooltip.create(Component.literal("")));
+            if (StartWatch.formChanger.active)
+                StartWatch.formChanger.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.forms.tooltip")));
+            else StartWatch.formChanger.setTooltip(Tooltip.create(Component.literal("")));
+            if (StartWatch.gender.active)
+                StartWatch.gender.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.gender.tooltip")));
+            else StartWatch.gender.setTooltip(Tooltip.create(Component.literal("")));
         }).bounds(x + 104, y - 14, 12, 20).setTexture(GuiPokeWatch.getWidgetTex())
         		.setRender(new UVImgRender(60, 108, 12, 20))
                 .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.next.tooltip")))

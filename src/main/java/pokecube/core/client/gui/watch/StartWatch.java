@@ -37,7 +37,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
     public static int savedIndex = 0;
     public static TexButton shiny;
     public static TexButton formChanger;
-    TexButton gender;
+    public static TexButton gender;
 
     public static List<Class<? extends PokeStartPage>> PAGELIST = Lists.newArrayList();
 
@@ -66,6 +66,43 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
     {
         super(TComponent.translatable(""), watch, GuiPokeWatch.TEX_DM, GuiPokeWatch.TEX_NM);
         this.pokemob = watch.pokemob;
+    }
+
+    TexButton nightMode;
+
+    @Override
+    public void onPageOpened()
+    {
+        super.onPageOpened();
+        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
+        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
+
+        this.nightMode = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b ->
+        {
+            GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
+            this.watch.init();
+        }).bounds(x - 108, y + 102, 17, 17).setRender(new TexButton.UVImgRender(110, 72, 17, 17))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.night_mode.narrate"))
+                .setTexture(GuiPokeWatch.getWidgetTex()).build());
+
+        if (GuiPokeWatch.nightMode)
+            this.nightMode.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.light_mode.tooltip")));
+        else this.nightMode.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.dark_mode.tooltip")));
+
+        if (shiny.active)
+            shiny.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.shiny.tooltip")));
+        else shiny.setTooltip(Tooltip.create(Component.literal("")));
+
+        if (formChanger.active)
+            formChanger.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.forms.tooltip")));
+        else formChanger.setTooltip(Tooltip.create(Component.literal("")));
+
+        if (gender.active)
+            gender.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.gender.tooltip")));
+        else gender.setTooltip(Tooltip.create(Component.literal("")));
+
+        this.gender.active = !this.pokemob.getEntity().isAddedToWorld() &&
+                (this.pokemob.getSexe() == IPokemob.MALE || this.pokemob.getSexe() == IPokemob.FEMALE);
     }
 
     @Override
@@ -217,10 +254,6 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
                .setTexture(GuiPokeWatch.getWidgetTex())
                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.shiny.narrate")).build());
 
-        if (shiny.active)
-            shiny.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.shiny.tooltip")));
-        else shiny.setTooltip(Tooltip.create(Component.literal("")));
-
         shiny.active = this.pokemob.getPokedexEntry().hasShiny && !this.pokemob.getEntity().isAddedToWorld();
 
         // Change Forms Button
@@ -236,10 +269,6 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
                 .setRender(new UVImgRender(241, 72, 12, 12))
                 .setTexture(GuiPokeWatch.getWidgetTex())
                 .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.forms.narrate")).build());
-
-        if (formChanger.active)
-            formChanger.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.forms.tooltip")));
-        else formChanger.setTooltip(Tooltip.create(Component.literal("")));
 
         PokedexEntry entry = this.pokemob.getPokedexEntry();
         PokedexEntry firstEntry = Pokedex.getInstance().getFirstForm(entry);
@@ -289,38 +318,9 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
                 .setTexture(GuiPokeWatch.getWidgetTex()).shadow(true)
                 .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.gender.narrate")).build());
 
-        if (gender.active)
-            gender.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.gender.tooltip")));
-        else gender.setTooltip(Tooltip.create(Component.literal("")));
-
         this.gender.active = !this.pokemob.getEntity().isAddedToWorld() &&
                 (this.pokemob.getSexe() == IPokemob.MALE || this.pokemob.getSexe() == IPokemob.FEMALE);
         if (this.pokemob.getSexe() == IPokemob.MALE) gender.setFGColor(ChatFormatting.DARK_BLUE.getColor());
         else if (this.pokemob.getSexe() == IPokemob.FEMALE) gender.setFGColor(ChatFormatting.DARK_RED.getColor());
-    }
-
-    TexButton nightMode;
-
-    @Override
-    public void onPageOpened()
-    {
-        super.onPageOpened();
-        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
-        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
-
-        this.nightMode = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b ->
-        {
-            GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
-            this.watch.init();
-        }).bounds(x - 108, y + 102, 17, 17).setRender(new TexButton.UVImgRender(110, 72, 17, 17))
-                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.night_mode.narrate"))
-                .setTexture(GuiPokeWatch.getWidgetTex()).build());
-
-        if (GuiPokeWatch.nightMode)
-            this.nightMode.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.light_mode.tooltip")));
-        else this.nightMode.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.dark_mode.tooltip")));
-
-        this.gender.active = !this.pokemob.getEntity().isAddedToWorld() &&
-                (this.pokemob.getSexe() == IPokemob.MALE || this.pokemob.getSexe() == IPokemob.FEMALE);
     }
 }

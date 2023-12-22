@@ -54,7 +54,9 @@ public class Description extends ListPage<LineEntry>
                 PacketPokedex.sendCaptureCheck(e);
             }).bounds(x + 3, y + 21, 100, 12).setTexture(GuiPokeWatch.getWidgetTex())
             		.setRender(new UVImgRender(0, 72, 100, 12)).build());
-            button.setFGColor(0x444444);
+
+            if (GuiPokeWatch.nightMode) button.setFGColor(0xFFE06F);
+            else button.setFGColor(0xADDCFF);
         }
     }
 

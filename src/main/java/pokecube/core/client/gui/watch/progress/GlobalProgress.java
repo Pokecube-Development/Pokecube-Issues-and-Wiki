@@ -71,7 +71,8 @@ public class GlobalProgress extends Progress
         }).bounds(x - 50, y + 38, 100, 12).setTexture(GuiPokeWatch.getWidgetTex())
         		.setRender(new UVImgRender(0, 72, 100, 12)).build());
 
-        inspectBtn.setFGColor(0x444444);
+        if (GuiPokeWatch.nightMode) inspectBtn.setFGColor(0xFFE06F);
+        else inspectBtn.setFGColor(0xADDCFF);
 
         if (player != this.watch.player) inspectBtn.visible = false;
 

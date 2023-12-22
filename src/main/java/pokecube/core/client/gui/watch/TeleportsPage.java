@@ -61,20 +61,12 @@ public class TeleportsPage extends ListPage<TeleOption>
                 this.parent.initList();
             }).bounds(0, 0, 10, 10)
                     .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.confirm_delete.narrate")).build();
-
-            if (this.confirm.active)
-                this.confirm.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.confirm_delete.tooltip")));
-            else confirm.setTooltip(Tooltip.create(Component.literal("")));
             
             this.delete = new Button.Builder(TComponent.literal("x"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.confirm.active = !this.confirm.active;
             }).bounds(0, 0, 10, 10)
                     .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.delete.narrate")).build();
-
-            if (this.delete.active)
-                this.delete.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.delete.tooltip")));
-            else delete.setTooltip(Tooltip.create(Component.literal("")));
             
             this.delete.setFGColor(0xFFFF0000);
             this.confirm.active = false;
@@ -88,10 +80,6 @@ public class TeleportsPage extends ListPage<TeleOption>
                 });
             }).bounds(0, 0, 10, 10)
                     .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.move_up.narrate")).build();
-
-            if (this.moveUp.active)
-                this.moveUp.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.move_up.tooltip")));
-            else moveUp.setTooltip(Tooltip.create(Component.literal("")));
             		
             this.moveDown = new Button.Builder(TComponent.literal("\u21e9"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
@@ -102,10 +90,6 @@ public class TeleportsPage extends ListPage<TeleOption>
                 });
             }).bounds(0, 0, 10, 10)
                     .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.move_down.narrate")).build();
-
-            if (this.moveDown.active)
-                this.moveDown.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.move_down.tooltip")));
-            else moveDown.setTooltip(Tooltip.create(Component.literal("")));
             
             this.moveUp.active = dest.index != 0;
             this.moveDown.active = dest.index != parent.locations.size() - 1;
@@ -201,6 +185,22 @@ public class TeleportsPage extends ListPage<TeleOption>
             this.moveUp.setX(x - 2 + 18 + this.teleportsNameBox.getWidth());
             this.moveDown.setY(y - 5);
             this.moveDown.setX(x - 2 + 26 + this.teleportsNameBox.getWidth());
+
+            if (this.confirm.active)
+                this.confirm.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.confirm_delete.tooltip")));
+            else confirm.setTooltip(Tooltip.create(Component.literal("")));
+
+            if (this.delete.active)
+                this.delete.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.delete.tooltip")));
+            else delete.setTooltip(Tooltip.create(Component.literal("")));
+
+            if (this.moveUp.active)
+                this.moveUp.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.move_up.tooltip")));
+            else moveUp.setTooltip(Tooltip.create(Component.literal("")));
+
+            if (this.moveDown.active)
+                this.moveDown.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.move_down.tooltip")));
+            else moveDown.setTooltip(Tooltip.create(Component.literal("")));
         }
     }
 
