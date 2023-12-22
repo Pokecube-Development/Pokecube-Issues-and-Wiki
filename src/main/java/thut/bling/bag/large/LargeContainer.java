@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.api.inventory.BaseContainer;
+import thut.api.inventory.big.BigSlot;
 import thut.api.item.ItemList;
 import thut.bling.ThutBling;
 import thut.bling.network.PacketBag;
@@ -62,10 +63,16 @@ public class LargeContainer extends BaseContainer
 
     protected void bindBagInventory()
     {
+        boolean boundSlots = !this.slots.isEmpty();
         final int n = this.inv.getPage() * 54;
-        for (int i = 0; i < 6; i++) for (int j = 0; j < 9; j++) this.addSlot(new BagSlot(this.inv, n + j + i * 9,
-                8 + j * 18 + LargeContainer.xOffset, 18 + i * 18 + LargeContainer.yOffset));
-        // int k = 0;
+        for (int i = 0; i < 6; i++) for (int j = 0; j < 9; j++)
+        {
+            int slotIndex = j + i * 9;
+            int bagIndex = n + slotIndex;
+            if (!boundSlots) this.addSlot(new BigSlot(this.inv, bagIndex, 8 + j * 18 + LargeContainer.xOffset,
+                    18 + i * 18 + LargeContainer.yOffset));
+            else if (this.slots.get(slotIndex) instanceof BigSlot slot) slot.setSlotIndex(bagIndex);
+        }
         for (final Slot o : this.slots) o.setChanged();
     }
 

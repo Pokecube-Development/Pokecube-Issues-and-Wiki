@@ -137,17 +137,29 @@ public class Pokemake2
         if (nbt.contains("shiny")) pokemob.setShiny(shiny);
 
         // Process colours
-        int[] colours = nbt.getIntArray("colour");
-        colour:
-        if (colours.length >= 3)
+        if (nbt.contains("colour"))
         {
-            IMobColourable coloured = ThutCaps.getColourable(mob);
-            if (coloured == null) break colour;
-            int r = colours[0];
-            int g = colours[1];
-            int b = colours[2];
-            int a = colours.length > 3 ? colours[3] : 255;
-            coloured.setRGBA(r, g, b, a);
+            var type = nbt.getTagType("colour");
+            int[] colours = {};
+
+            if (type == Tag.TAG_INT_ARRAY) colours = nbt.getIntArray("colour");
+            else if (type == Tag.TAG_LIST)
+            {
+                ListTag read = nbt.getList("colour", Tag.TAG_INT);
+                colours = new int[read.size()];
+                if (read.size() == 6) for (int i = 0; i < 6; i++) colours[i] = read.getInt(i);
+            }
+            colour:
+            if (colours.length >= 3)
+            {
+                IMobColourable coloured = ThutCaps.getColourable(mob);
+                if (coloured == null) break colour;
+                int r = colours[0];
+                int g = colours[1];
+                int b = colours[2];
+                int a = colours.length > 3 ? colours[3] : 255;
+                coloured.setRGBA(r, g, b, a);
+            }
         }
 
         // Process ability
@@ -191,6 +203,11 @@ public class Pokemake2
             {
                 int[] read = nbt.getIntArray("ivs");
                 if (read.length == 6) for (int i = 0; i < 6; i++) ivs[i] = (byte) read[i];
+            }
+            else if (type == Tag.TAG_LIST)
+            {
+                ListTag read = nbt.getList("ivs", Tag.TAG_INT);
+                if (read.size() == 6) for (int i = 0; i < 6; i++) ivs[i] = (byte) read.getInt(i);
             }
             pokemob.setIVs(ivs);
         }

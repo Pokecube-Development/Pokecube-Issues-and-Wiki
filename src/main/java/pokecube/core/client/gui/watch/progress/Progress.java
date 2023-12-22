@@ -6,8 +6,10 @@ import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.network.chat.Component;
+import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.util.WatchPage;
+import thut.lib.TComponent;
 
 public abstract class Progress extends WatchPage
 {
@@ -23,6 +25,21 @@ public abstract class Progress extends WatchPage
     public Progress(final Component title, final GuiPokeWatch watch)
     {
         super(title, watch, GuiPokeWatch.TEX_DM, GuiPokeWatch.TEX_NM);
+    }
+
+    @Override
+    public void onPageOpened()
+    {
+        super.onPageOpened();
+        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
+        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
+
+        this.addRenderableWidget(new TexButton(x - 108, y + 102, 17, 17,
+                TComponent.literal(""), b ->
+        {
+            GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
+            this.watch.init();
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new TexButton.UVImgRender(110, 72, 17, 17)));
     }
 
     @Override

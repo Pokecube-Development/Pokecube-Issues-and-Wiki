@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:golden_sweet_berry_bush",
-    "pokecube_legends:small_contaminated_dripleaf"
+    {"id": "pokecube_legends:golden_sweet_berry_bush", "required": false},
+    {"id": "pokecube_legends:small_contaminated_dripleaf", "required": false}
   ]
 }

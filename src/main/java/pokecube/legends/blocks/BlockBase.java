@@ -3,7 +3,6 @@ package pokecube.legends.blocks;
 import java.util.List;
 
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffect;
@@ -26,8 +25,8 @@ import thut.lib.TComponent;
 public class BlockBase extends Block
 {
     VoxelShape customShape = null;
-    String infoname;
-    boolean hasTextInfo = false;
+    String tooltip_id;
+    boolean hasTooltip = false;
     boolean hasRequiredCorrectToolForDrops = false;
 
     // ToolTip
@@ -35,8 +34,8 @@ public class BlockBase extends Block
             final float resistance, final SoundType sound, final boolean requiresCorrectToolForDrops)
     {
         super(BlockBehaviour.Properties.of(material, color).strength(hardness, resistance).sound(sound).requiresCorrectToolForDrops());
-        this.infoname = name;
-        this.hasTextInfo = true;
+        this.tooltip_id = name;
+        this.hasTooltip = true;
         this.hasRequiredCorrectToolForDrops(requiresCorrectToolForDrops);
     }
 
@@ -52,8 +51,8 @@ public class BlockBase extends Block
     public BlockBase(final String name, final Properties props)
     {
         super(props);
-        this.infoname = name;
-        this.hasTextInfo = true;
+        this.tooltip_id = name;
+        this.hasTooltip = true;
     }
 
     // Vertex -No ToolTip-
@@ -63,12 +62,12 @@ public class BlockBase extends Block
     }
 
     // Effects -ToolTip-
-    public BlockBase(final String name, final Material material, final MaterialColor color, final float hardness,
+    public BlockBase(final String tooltipName, final Material material, final MaterialColor color, final float hardness,
             final float resistance, final SoundType sound, final boolean requiresCorrectToolForDrops, final MobEffect effects)
     {
         super(BlockBehaviour.Properties.of(material, color).strength(hardness, resistance).sound(sound));
-        this.infoname = name;
-        this.hasTextInfo = true;
+        this.tooltip_id = tooltipName;
+        this.hasTooltip = true;
     }
 
     // Effects -No ToolTip-
@@ -80,8 +79,8 @@ public class BlockBase extends Block
 
     public BlockBase setToolTip(final String infoname)
     {
-        this.infoname = infoname;
-        this.hasTextInfo = true;
+        this.tooltip_id = infoname;
+        this.hasTooltip = true;
         return this;
     }
 
@@ -102,7 +101,7 @@ public class BlockBase extends Block
     public BlockBase hasRequiredCorrectToolForDrops(final boolean hasDrop)
     {
         this.hasRequiredCorrectToolForDrops = hasDrop;
-        if (this.hasRequiredCorrectToolForDrops == true)
+        if (this.hasRequiredCorrectToolForDrops)
             this.properties.requiresCorrectToolForDrops();
         return this;
     }
@@ -112,14 +111,11 @@ public class BlockBase extends Block
     public void appendHoverText(final ItemStack stack, final BlockGetter worldIn, final List<Component> tooltip,
             final TooltipFlag flagIn)
     {
-        if (!this.hasTextInfo)
+        if (!this.hasTooltip)
             return;
-        String message;
         if (Screen.hasShiftDown())
-            message = I18n.get("legendblock." + this.infoname + ".tooltip");
-        else
-            message = I18n.get("pokecube.tooltip.advanced");
-        tooltip.add(TComponent.translatable(message));
+            tooltip.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip"));
+        else tooltip.add(TComponent.translatable("pokecube.tooltip.advanced"));
     }
 
     public int ticksRandomly()
