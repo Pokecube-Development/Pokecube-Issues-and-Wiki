@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.network.chat.Component;
@@ -15,13 +16,12 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.IItemRenderProperties;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import pokecube.legends.Reference;
 import pokecube.legends.client.render.model.LegendsModelLayers;
 import pokecube.legends.client.render.model.armor.ImprisonmentArmorModel;
@@ -33,14 +33,13 @@ public class ImprisonmentArmorItem extends ArmorItem
     boolean hasTooltip = false;
     int tooltipLineAmt = 0;
 
-    public ImprisonmentArmorItem(final ArmorMaterial material, final EquipmentSlot slot, final Properties properties)
+    public ImprisonmentArmorItem(final ArmorMaterial material, final ArmorItem.Type slot, final Properties properties)
     {
         super(material, slot, properties);
     }
 
     public ImprisonmentArmorItem(final String tooltipName, final int tooltipExtraLineAmt, final ArmorMaterial material,
-                                 final EquipmentSlot slot, final CreativeModeTab tab, final int maxStackSize,
-                                 final Properties properties)
+                                 final ArmorItem.Type slot, final int maxStackSize, final Properties properties)
     {
         super(material, slot, properties);
         this.hasTooltip = true;
@@ -55,11 +54,11 @@ public class ImprisonmentArmorItem extends ArmorItem
     }
 
     @Override
-    public void initializeClient(Consumer<IItemRenderProperties> consumer)
+    public void initializeClient(Consumer<IClientItemExtensions> consumer)
     {
-        consumer.accept(new IItemRenderProperties() {
+        consumer.accept(new IClientItemExtensions() {
             @Override
-            public HumanoidModel<? extends LivingEntity> getArmorModel(LivingEntity entity, ItemStack stack, EquipmentSlot slot, HumanoidModel defaultModel)
+            public Model getGenericArmorModel(LivingEntity entity, ItemStack stack, EquipmentSlot slot, HumanoidModel<?> defaultModel)
             {
                 EntityModelSet models = Minecraft.getInstance().getEntityModels();
 

@@ -14,10 +14,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.ForgeTier;
 import net.minecraftforge.common.TierSortingRegistry;
 import pokecube.legends.init.ItemInit;
+import thut.lib.RegHelper;
 
 public class WeaponTiers
 {
-    public static final TagKey<Block> NEEDS_RAINBOW_TOOL = TagKey.create(Registry.BLOCK_REGISTRY,
+    public static final TagKey<Block> NEEDS_RAINBOW_TOOL = TagKey.create(RegHelper.BLOCK_REGISTRY,
             new ResourceLocation("pokecube_legends:needs_rainbow_tool"));
 
     public static final Tier RAINBOW_WING = TierSortingRegistry.registerTier(
