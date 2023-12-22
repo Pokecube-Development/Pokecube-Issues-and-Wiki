@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -73,7 +74,9 @@ public abstract class PokeInfoPage extends WatchPage
             formChanger.active = (nextEntry != firstEntry && previousEntry != firstEntry) && !this.parent.pokemob.getEntity().isAddedToWorld();
             shiny.active = this.parent.pokemob.getPokedexEntry().hasShiny && !this.parent.pokemob.getEntity().isAddedToWorld();
         }).bounds(x - 115, y - 27, 12, 20).setTexture(GuiPokeWatch.getWidgetTex())
-        		.setRender(new UVImgRender(48, 108, 12, 20)).build());
+        		.setRender(new UVImgRender(48, 108, 12, 20))
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.previous.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.previous.narrate")).build());
         
         final TexButton nextBtn = this.addRenderableWidget(new TexButton.Builder(prev, b -> {
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
@@ -89,13 +92,17 @@ public abstract class PokeInfoPage extends WatchPage
             formChanger.active = (nextEntry != firstEntry && previousEntry != firstEntry) && !this.parent.pokemob.getEntity().isAddedToWorld();
             shiny.active = this.parent.pokemob.getPokedexEntry().hasShiny && !this.parent.pokemob.getEntity().isAddedToWorld();
         }).bounds(x - 27, y - 27, 12, 20).setTexture(GuiPokeWatch.getWidgetTex())
-        		.setRender(new UVImgRender(60, 108, 12, 20)).build());
+        		.setRender(new UVImgRender(60, 108, 12, 20))
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.next.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.next.narrate")).build());
 
         // Play Sound Button
         this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
             this.watch.player.playSound(this.parent.pokemob.getSound(), 0.5f, 1.0F);
         }).bounds(x - 95, y + 40, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
-                .setRender(new UVImgRender(229, 72, 12, 12)).build());
+                .setRender(new UVImgRender(229, 72, 12, 12))
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.sound.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.sound.narrate")).build());
 
         // Change Forms Button
         formChanger = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
@@ -107,7 +114,9 @@ public abstract class PokeInfoPage extends WatchPage
             this.parent.pokemob.setBasePokedexEntry(nextE);
             this.parent.initPages(this.parent.pokemob);
         }).bounds(x - 79, y + 40, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
-        		.setRender(new UVImgRender(241, 72, 12, 12)).build());
+        		.setRender(new UVImgRender(241, 72, 12, 12))
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.forms.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.forms.narrate")).build());
 
         PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
         PokedexEntry firstEntry = Pokedex.getInstance().getFirstForm(entry);
@@ -123,7 +132,9 @@ public abstract class PokeInfoPage extends WatchPage
                 this.parent.pokemob.onGenesChanged();
             }
         }).bounds(x - 63, y + 40, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
-                .setRender(new UVImgRender(241, 36, 12, 12)).build());
+                .setRender(new UVImgRender(241, 36, 12, 12))
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.shiny.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.shiny.narrate")).build());
 
         shiny.active = this.parent.pokemob.getPokedexEntry().hasShiny && !this.parent.pokemob.getEntity().isAddedToWorld();
 
@@ -165,7 +176,9 @@ public abstract class PokeInfoPage extends WatchPage
             }
             this.parent.pokemob.onGenesChanged();
         }).bounds(x - 47, y + 40, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
-                .setRender(new UVImgRender(200, 0, 12, 12)).shadow(true).build());
+                .setRender(new UVImgRender(200, 0, 12, 12)).shadow(true)
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.gender.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.gender.narrate")).build());
 
         gender.active = !this.parent.pokemob.getEntity().isAddedToWorld() &&
                 (this.parent.pokemob.getSexe() == IPokemob.MALE || this.parent.pokemob.getSexe() == IPokemob.FEMALE);

@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -96,8 +96,10 @@ public class ProgressPage extends PageWithSubPages<Progress>
         {
             GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
             this.watch.init();
-        }).bounds(x - 108, y + 102, 17, 17).setTexture(GuiPokeWatch.getWidgetTex())
-                .setRender(new TexButton.UVImgRender(110, 72, 17, 17)).build());
+        }).bounds(x - 108, y + 102, 17, 17).setRender(new TexButton.UVImgRender(110, 72, 17, 17))
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.night_mode.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.night_mode.narrate"))
+                .setTexture(GuiPokeWatch.getWidgetTex()).build());
     }
 
     @Override
@@ -112,13 +114,17 @@ public class ProgressPage extends PageWithSubPages<Progress>
         {
             this.changePage(this.index - 1);
         }).bounds(x - 116, y - 79, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
-                .setRender(new UVImgRender(229, 108, 12, 12)).build());
+                .setRender(new UVImgRender(229, 108, 12, 12))
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.prev_progress.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.prev_progress.narrate")).build());
 
         final TexButton nextBtn = this.addRenderableWidget(new TexButton.Builder(next, b ->
         {
             this.changePage(this.index + 1);
         }).bounds(x + 104, y - 79, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
-        		.setRender(new UVImgRender(241, 108, 12, 12)).build());
+                .setRender(new UVImgRender(241, 108, 12, 12))
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.next_progress.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.next_progress.narrate")).build());
 
         nextBtn.setFGColor(0x444444);
         prevBtn.setFGColor(0x444444);

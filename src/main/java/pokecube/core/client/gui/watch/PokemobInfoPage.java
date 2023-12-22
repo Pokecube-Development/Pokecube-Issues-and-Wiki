@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Lists;
@@ -23,7 +25,6 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.utils.PokeType;
 import pokecube.core.client.gui.AnimationGui;
-import pokecube.core.client.gui.GuiPokedex;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.ShiftedTooltip;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
@@ -89,7 +90,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             gui.addRenderableWidget(new TexButton.Builder(page.getTitle(), b -> {
                 gui.changePage(this.index);
                 PokemobInfoPage.savedIndex = this.index;
-            }).bounds(x + buttonX, y + buttonY, 17, 17).onTooltip(new ShiftedTooltip(-buttonX, -95 - buttonY))
+            }).bounds(x + buttonX, y + buttonY, 17, 17).onTooltip(new ShiftedTooltip(-buttonX, -96 - buttonY))
                     .setTexture(GuiPokeWatch.getWidgetTex()).noName()
                     .setRender(new UVImgRender(uOffset, vOffset, 17, 17)).build());
         }
@@ -110,7 +111,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
 
     public IPokemob pokemob;
 
-    EditBox search;
+    EditBox searchBox;
 
     public PokemobInfoPage(final GuiPokeWatch watch)
     {
@@ -121,10 +122,10 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
     @Override
     public boolean keyPressed(final int keyCode, final int b, final int c)
     {
-        if (this.search.isFocused())
-            if (keyCode == GLFW.GLFW_KEY_RIGHT && this.search.getCursorPosition() == this.search.value.length())
+        if (this.searchBox.isFocused())
+            if (keyCode == GLFW.GLFW_KEY_RIGHT && this.searchBox.getCursorPosition() == this.searchBox.value.length())
         {
-            String text = this.search.getValue();
+            String text = this.searchBox.getValue();
             text = Database.trim(text);
             final List<String> ret = new ArrayList<>();
             for (final PokedexEntry entry : Database.getSortedFormes())
@@ -152,13 +153,13 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                 match = name;
                 break;
             }
-            if (!ret.isEmpty()) this.search.setValue(ret.get(0));
+            if (!ret.isEmpty()) this.searchBox.setValue(ret.get(0));
             return true;
         }
             else if (keyCode == GLFW.GLFW_KEY_ENTER)
         {
             PokedexEntry entry = this.pokemob.getPokedexEntry();
-            PokedexEntry newEntry = Database.getEntry(this.search.getValue());
+            PokedexEntry newEntry = Database.getEntry(this.searchBox.getValue());
             // Search to see if maybe it was a translated name put into the
             // search.
             if (newEntry == null)
@@ -166,7 +167,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                 for (final PokedexEntry e : Database.getSortedFormes())
                 {
                     final String translated = I18n.get(e.getUnlocalizedName());
-                    if (translated.equalsIgnoreCase(this.search.getValue()))
+                    if (translated.equalsIgnoreCase(this.searchBox.getValue()))
                     {
                         Database.data2.put(translated, e);
                         entry = e;
@@ -185,11 +186,11 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             }
             if (newEntry != null)
             {
-                this.search.setValue(newEntry.getName());
+                this.searchBox.setValue(newEntry.getName());
                 this.pokemob = AnimationGui.getRenderMob(newEntry);
                 this.initPages(this.pokemob);
             }
-            else this.search.setValue(entry.getName());
+            else this.searchBox.setValue(entry.getName());
             return true;
         }
         return super.keyPressed(keyCode, b, c);
@@ -208,8 +209,9 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         super.init();
         final int x = this.watch.width / 2 + 90;
         final int y = this.watch.height / 2 + 30;
-        this.search = new EditBox(this.font, x - 205, y - 113, 100, 10, TComponent.literal(""));
-        this.addRenderableWidget(this.search);
+        this.searchBox = new EditBox(this.font, x - 205, y - 113, 100, 10, TComponent.literal(""));
+        this.searchBox.setTooltip(Tooltip.create(Component.translatable("editbox.pokecube.pokewatch.search.tooltip")));
+        this.addRenderableWidget(this.searchBox);
         this.index = PokemobInfoPage.savedIndex;
     }
 
@@ -234,8 +236,9 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             else if (entry.getSexeRatio() == 254) pokemob.setSexe(IPokemob.FEMALE);
             pokemob.onGenesChanged();
         }
-        this.search.setVisible(!this.watch.canEdit(pokemob));
-        this.search.setValue(I18n.get(entry.getUnlocalizedName()));
+        this.searchBox.setVisible(!this.watch.canEdit(pokemob));
+        this.searchBox.isEditable = !this.watch.canEdit(pokemob);
+        this.searchBox.setValue(I18n.get(entry.getUnlocalizedName()));
         PacketPokedex.sendSpecificSpawnsRequest(entry);
         PacketPokedex.updateWatchEntry(entry);
         // Force close and open the page to update.
@@ -297,16 +300,16 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             final String name = PokecubePlayerDataHandler.getCustomDataTag(this.watch.player).getString("WEntry");
             if (!name.equals(this.pokemob.getPokedexEntry().getName()))
             {
-                this.search.setValue(name);
+                this.searchBox.setValue(name);
                 final PokedexEntry entry = this.pokemob.getPokedexEntry();
-                final PokedexEntry newEntry = Database.getEntry(this.search.getValue());
+                final PokedexEntry newEntry = Database.getEntry(this.searchBox.getValue());
                 if (newEntry != null && newEntry != entry)
                 {
-                    this.search.setValue(newEntry.getName());
+                    this.searchBox.setValue(newEntry.getName());
                     this.pokemob = AnimationGui.getRenderMob(newEntry);
                     this.initPages(this.pokemob);
                 }
-                else this.search.setValue(entry.getName());
+                else this.searchBox.setValue(entry.getName());
             }
         }
 
@@ -412,8 +415,10 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         {
             GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
             this.watch.init();
-        }).bounds(x - 108, y + 102, 17, 17).setTexture(GuiPokeWatch.getWidgetTex())
-                .setRender(new TexButton.UVImgRender(110, 72, 17, 17)).build());
+        }).bounds(x - 108, y + 102, 17, 17).setRender(new TexButton.UVImgRender(110, 72, 17, 17))
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.night_mode.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.night_mode.narrate"))
+                .setTexture(GuiPokeWatch.getWidgetTex()).build());
     }
 
     @Override

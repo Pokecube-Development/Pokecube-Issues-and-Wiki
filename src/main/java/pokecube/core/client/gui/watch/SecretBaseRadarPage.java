@@ -3,6 +3,7 @@ package pokecube.core.client.gui.watch;
 import java.util.Map;
 import java.util.Set;
 
+import net.minecraft.client.gui.components.Tooltip;
 import org.joml.Matrix4f;
 
 import com.google.common.collect.Maps;
@@ -116,20 +117,24 @@ public class SecretBaseRadarPage extends WatchPage
         super.onPageOpened();
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
-        
+
         this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""),
                 b -> SecretBaseRadarPage.mode =
                         RadarMode.values()[(SecretBaseRadarPage.mode.ordinal() + 1) % RadarMode.values().length])
                 .bounds(x + 136, y + 90, 17, 17)
                 .setTexture(GuiPokeWatch.getWidgetTex())
-                .setRender(new UVImgRender(212, 123, 17, 17)).build());
+                .setRender(new UVImgRender(212, 123, 17, 17))
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.radar.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.radar.narrate")).build());
 
         this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b ->
         {
             GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
             this.watch.init();
         }).bounds(x - 108, y + 102, 17, 17).setTexture(GuiPokeWatch.getWidgetTex())
-                .setRender(new UVImgRender(110, 72, 17, 17)).build());
+                .setRender(new UVImgRender(110, 72, 17, 17))
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.night_mode.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.night_mode.narrate")).build());
     }
 
     @Override

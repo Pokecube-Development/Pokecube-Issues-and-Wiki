@@ -9,6 +9,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import pokecube.api.PokecubeAPI;
@@ -201,7 +202,9 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
             this.watch.player.playSound(this.pokemob.getSound(), 0.5f, 1.0F);
         }).bounds(x - 78, y + 95, 12, 12)
                 .setRender(new UVImgRender(229, 72, 12, 12))
-                .setTexture(GuiPokeWatch.getWidgetTex()).build());
+                .setTexture(GuiPokeWatch.getWidgetTex())
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.sound.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.sound.narrate")).build());
 
         // Shiny Button
        shiny = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
@@ -211,7 +214,9 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
         	}
         }).bounds(x - 65, y + 95, 12, 12)
                .setRender(new UVImgRender(241, 36, 12, 12))
-               .setTexture(GuiPokeWatch.getWidgetTex()).build());
+               .setTexture(GuiPokeWatch.getWidgetTex())
+               .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.shiny.tooltip")))
+               .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.shiny.narrate")).build());
 
         shiny.active = this.pokemob.getPokedexEntry().hasShiny && !this.pokemob.getEntity().isAddedToWorld();
 
@@ -226,7 +231,9 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
             this.initPages(this.pokemob);
         }).bounds(x - 52, y + 95, 12, 12)
                 .setRender(new UVImgRender(241, 72, 12, 12))
-                .setTexture(GuiPokeWatch.getWidgetTex()).build());
+                .setTexture(GuiPokeWatch.getWidgetTex())
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.forms.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.forms.narrate")).build());
 
         PokedexEntry entry = this.pokemob.getPokedexEntry();
         PokedexEntry firstEntry = Pokedex.getInstance().getFirstForm(entry);
@@ -273,7 +280,9 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
             this.pokemob.onGenesChanged();
         }).bounds(x - 39, y + 95, 12, 12)
                 .setRender(new UVImgRender(200, 0, 12, 12))
-                .setTexture(GuiPokeWatch.getWidgetTex()).shadow(true).build());
+                .setTexture(GuiPokeWatch.getWidgetTex()).shadow(true)
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.gender.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.gender.narrate")).build());
 
         this.gender.active = !this.pokemob.getEntity().isAddedToWorld() &&
                 (this.pokemob.getSexe() == IPokemob.MALE || this.pokemob.getSexe() == IPokemob.FEMALE);
@@ -293,6 +302,8 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
             GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
             this.watch.init();
         }).bounds(x - 108, y + 102, 17, 17).setRender(new TexButton.UVImgRender(110, 72, 17, 17))
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.night_mode.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.night_mode.narrate"))
                 .setTexture(GuiPokeWatch.getWidgetTex()).build());
 
         this.gender.active = !this.pokemob.getEntity().isAddedToWorld() &&

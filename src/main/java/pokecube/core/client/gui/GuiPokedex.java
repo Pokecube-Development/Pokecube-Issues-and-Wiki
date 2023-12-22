@@ -6,17 +6,18 @@ package pokecube.core.client.gui;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.ClickEvent.Action;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.player.Player;
@@ -48,7 +49,7 @@ public class GuiPokedex extends Screen
     public IPokemob pokemob = null;
     protected Player PlayerEntity = null;
     protected ScrollGui<LineEntry> list;
-    protected EditBox pokemobTextField;
+    protected EditBox pokemobSearchBox;
     /** The X size of the inventory window in pixels. */
     protected int xSize;
 
@@ -95,9 +96,14 @@ public class GuiPokedex extends Screen
         final int yOffset = this.height / 2 + 1;
         final int xOffset = this.width / 2;
 
-        this.pokemobTextField = new EditBox(this.font, xOffset - 60, yOffset + 40, 103, 12, TComponent.literal(""));
-        this.pokemobTextField.setBordered(false);
-        this.pokemobTextField.setEditable(true);
+        this.pokemobSearchBox = new EditBox(this.font, xOffset - 60, yOffset + 40, 103, 12, TComponent.literal(""));
+        this.pokemobSearchBox.setTooltip(Tooltip.create(Component.translatable("editbox.pokecube.pokedex.search.tooltip")));
+        this.pokemobSearchBox.setBordered(false);
+        this.pokemobSearchBox.setEditable(true);
+
+        if (GuiPokedex.pokedexEntry != null)
+            this.pokemobSearchBox.setValue(I18n.get(GuiPokedex.pokedexEntry.getUnlocalizedName()));
+        this.addRenderableWidget(this.pokemobSearchBox);
 
         // Play Sound Button
         this.soundButton = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
@@ -105,7 +111,9 @@ public class GuiPokedex extends Screen
             this.minecraft.player.playSound(GuiPokedex.pokedexEntry.getSoundEvent(), volume, 1.0F);
         }).bounds(xOffset - 122, yOffset + 66, 16, 18)
                 .setRender(new TexButton.UVImgRender(0, 0, 16, 18))
-                .setTexture(Resources.WIDGETS_POKEDEX).build());
+                .setTexture(Resources.WIDGETS_POKEDEX)
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokedex.sound.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokedex.sound.narrate")).build());
 
         // Previous Button
         this.prevButton = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
@@ -114,7 +122,9 @@ public class GuiPokedex extends Screen
             PacketPokedex.updateWatchEntry(GuiPokedex.pokedexEntry);
         }).bounds(xOffset - 33, yOffset + 62, 10, 18)
                 .setRender(new TexButton.UVImgRender(16, 0, 10, 18))
-                .setTexture(Resources.WIDGETS_POKEDEX).build());
+                .setTexture(Resources.WIDGETS_POKEDEX)
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokedex.previous.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokedex.previous.narrate")).build());
 
         // Next Button
         this.nextButton = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
@@ -123,7 +133,9 @@ public class GuiPokedex extends Screen
             PacketPokedex.updateWatchEntry(GuiPokedex.pokedexEntry);
         }).bounds(xOffset - 19, yOffset + 62, 10, 18)
                 .setRender(new TexButton.UVImgRender(26, 0, 10, 18))
-                .setTexture(Resources.WIDGETS_POKEDEX).build());
+                .setTexture(Resources.WIDGETS_POKEDEX)
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokedex.next.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokedex.next.narrate")).build());
 
         // Down Button
         this.downButton = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
@@ -132,7 +144,9 @@ public class GuiPokedex extends Screen
             PacketPokedex.updateWatchEntry(GuiPokedex.pokedexEntry);
         }).bounds(xOffset - 25, yOffset + 70, 8, 18)
                 .setRender(new TexButton.UVImgRender(44, 0, 8, 18))
-                .setTexture(Resources.WIDGETS_POKEDEX).build());
+                .setTexture(Resources.WIDGETS_POKEDEX)
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokedex.down.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokedex.down.narrate")).build());
 
         // Up Button
         this.upButton = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
@@ -141,11 +155,10 @@ public class GuiPokedex extends Screen
             PacketPokedex.updateWatchEntry(GuiPokedex.pokedexEntry);
         }).bounds(xOffset - 25, yOffset + 58, 8, 12)
                 .setRender(new TexButton.UVImgRender(36, 0, 8, 12))
-                .setTexture(Resources.WIDGETS_POKEDEX).build());
+                .setTexture(Resources.WIDGETS_POKEDEX)
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokedex.up.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokedex.up.narrate")).build());
 
-        if (GuiPokedex.pokedexEntry != null)
-            this.pokemobTextField.setValue(I18n.get(GuiPokedex.pokedexEntry.getUnlocalizedName()));
-        this.addRenderableWidget(this.pokemobTextField);
         this.initList();
     }
 
@@ -179,7 +192,7 @@ public class GuiPokedex extends Screen
             }
             else page = TComponent.literal("");
         }
-        this.pokemobTextField.setValue(I18n.get(GuiPokedex.pokedexEntry.getUnlocalizedName()));
+        this.pokemobSearchBox.setValue(I18n.get(GuiPokedex.pokedexEntry.getUnlocalizedName()));
         var list = Lists.newArrayList(this.font.split(page, 98));
         if (page.getString().isBlank()) list.clear();
         list.add(TComponent.literal("").getVisualOrderText());
@@ -223,15 +236,15 @@ public class GuiPokedex extends Screen
     @Override
     public boolean keyPressed(final int key, final int unk1, final int unk2)
     {
-        if (key == GLFW.GLFW_KEY_ENTER && this.pokemobTextField.isFocused())
+        if (key == GLFW.GLFW_KEY_ENTER && this.pokemobSearchBox.isFocused())
         {
-            PokedexEntry entry = Database.getEntry(this.pokemobTextField.getValue());
+            PokedexEntry entry = Database.getEntry(this.pokemobSearchBox.getValue());
             if (entry == null)
             {
                 for (final PokedexEntry e : Database.getSortedFormes())
                 {
                     final String translated = I18n.get(e.getUnlocalizedName());
-                    if (translated.equalsIgnoreCase(this.pokemobTextField.getValue()))
+                    if (translated.equalsIgnoreCase(this.pokemobSearchBox.getValue()))
                     {
                         Database.data2.put(translated, e);
                         entry = e;
@@ -248,7 +261,7 @@ public class GuiPokedex extends Screen
                 this.initList();
                 PacketPokedex.updateWatchEntry(GuiPokedex.pokedexEntry);
             }
-            else this.pokemobTextField.setValue(I18n.get(GuiPokedex.pokedexEntry.getUnlocalizedName()));
+            else this.pokemobSearchBox.setValue(I18n.get(GuiPokedex.pokedexEntry.getUnlocalizedName()));
         }
         else if (key == GLFW.GLFW_KEY_UP)
         {
@@ -337,9 +350,9 @@ public class GuiPokedex extends Screen
         {}
 
         // Draw default gui stuff.
-        final int length = this.font.width(this.pokemobTextField.getValue()) / 2;
+        final int length = this.font.width(this.pokemobSearchBox.getValue()) / 2;
         xOffset = this.width / 2 - 65;
-        this.pokemobTextField.setX(xOffset - length);
+        this.pokemobSearchBox.setX(xOffset - length);
         super.render(graphics, mouseX, mouseY, partialTick);
 
         // Draw description

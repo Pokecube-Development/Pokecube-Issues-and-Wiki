@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -68,7 +69,9 @@ public abstract class PokeStartPage extends WatchPage
             StartWatch.formChanger.active = (nextEntry != firstEntry && previousEntry != firstEntry) && !this.parent.pokemob.getEntity().isAddedToWorld();
             StartWatch.shiny.active = this.parent.pokemob.getPokedexEntry().hasShiny && !this.parent.pokemob.getEntity().isAddedToWorld();
         }).bounds(x - 116, y - 14, 12, 20).setTexture(GuiPokeWatch.getWidgetTex())
-                .setRender(new UVImgRender(48, 108, 12, 20)).build());
+                .setRender(new UVImgRender(48, 108, 12, 20))
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.previous.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.previous.narrate")).build());
 
         final TexButton nextBtn = this.addRenderableWidget(new TexButton.Builder(next, b -> {
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
@@ -84,7 +87,9 @@ public abstract class PokeStartPage extends WatchPage
             StartWatch.formChanger.active = (nextEntry != firstEntry && previousEntry != firstEntry) && !this.parent.pokemob.getEntity().isAddedToWorld();
             StartWatch.shiny.active = this.parent.pokemob.getPokedexEntry().hasShiny && !this.parent.pokemob.getEntity().isAddedToWorld();
         }).bounds(x + 104, y - 14, 12, 20).setTexture(GuiPokeWatch.getWidgetTex())
-        		.setRender(new UVImgRender(60, 108, 12, 20)).build());
+        		.setRender(new UVImgRender(60, 108, 12, 20))
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.next.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.next.narrate")).build());
         
         nextBtn.setFGColor(0x444444);
         prevBtn.setFGColor(0x444444);

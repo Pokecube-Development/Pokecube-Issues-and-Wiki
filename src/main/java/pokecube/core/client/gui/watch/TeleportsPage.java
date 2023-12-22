@@ -3,6 +3,8 @@ package pokecube.core.client.gui.watch;
 import java.util.List;
 import java.util.function.Consumer;
 
+import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.client.Minecraft;
@@ -19,7 +21,6 @@ import pokecube.core.client.gui.helper.ListEditBox;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.watch.TeleportsPage.TeleOption;
-import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.ListPage;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.api.entity.teleporting.TeleDest;
@@ -33,7 +34,7 @@ public class TeleportsPage extends ListPage<TeleOption>
         final int offsetY;
         final Minecraft mc;
         final TeleDest dest;
-        final EditBox text;
+        final EditBox teleportsNameBox;
         final Button delete;
         final Button confirm;
         final Button moveUp;
@@ -44,7 +45,8 @@ public class TeleportsPage extends ListPage<TeleOption>
                 final int height, final TeleportsPage parent)
         {
             this.dest = dest;
-            this.text = text;
+            this.teleportsNameBox = text;
+            this.teleportsNameBox.setTooltip(Tooltip.create(Component.translatable("editbox.pokecube.pokewatch.teleports.tooltip")));
             this.mc = mc;
             this.offsetY = offsetY;
             this.guiHeight = height;
@@ -57,20 +59,16 @@ public class TeleportsPage extends ListPage<TeleOption>
                 TeleportHandler.unsetTeleport(this.dest.index, this.parent.watch.player.getStringUUID());
                 // Update the list for the page.
                 this.parent.initList();
-            })/*, (b, pose, x, y) -> {
-                if (!b.active) return;
-                Component tooltip = TComponent.translatable("pokecube.gui.delete.confirm.desc");
-                parent.renderTooltip(pose, tooltip, x, y);
-            });*/.bounds(0, 0, 10, 10).build();
+            }).bounds(0, 0, 10, 10)
+                    .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.confirm_delete.tooltip")))
+                    .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.confirm_delete.narrate")).build();
             
             this.delete = new Button.Builder(TComponent.literal("x"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.confirm.active = !this.confirm.active;
-            })/*, (b, pose, x, y) -> {
-                if (!b.active) return;
-                Component tooltip = TComponent.translatable("pokecube.gui.delete.start.desc");
-                parent.renderTooltip(pose, tooltip, x, y);
-            });*/.bounds(0, 0, 10, 10).build();
+            }).bounds(0, 0, 10, 10)
+                    .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.delete.tooltip")))
+                    .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.delete.narrate")).build();
             
             this.delete.setFGColor(0xFFFF0000);
             this.confirm.active = false;
@@ -82,11 +80,9 @@ public class TeleportsPage extends ListPage<TeleOption>
                     // Update the list for the page.
                     this.parent.initList();
                 });
-            })/*, (b, pose, x, y) -> {
-                if (!b.active) return;
-                Component tooltip = TComponent.translatable("pokecube.gui.move.up.desc");
-                parent.renderTooltip(pose, tooltip, x, y);
-            });*/.bounds(0, 0, 10, 10).build();
+            }).bounds(0, 0, 10, 10)
+                    .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.move_up.tooltip")))
+                    .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.move_up.narrate")).build();
             		
             this.moveDown = new Button.Builder(TComponent.literal("\u21e9"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
@@ -95,11 +91,9 @@ public class TeleportsPage extends ListPage<TeleOption>
                     // Update the list for the page.
                     this.parent.initList();
                 });
-            })/*, (b, pose, x, y) -> {
-                if (!b.active) return;
-                Component tooltip = TComponent.translatable("pokecube.gui.move.down.desc");
-                parent.renderTooltip(pose, tooltip, x, y);
-            });*/.bounds(0, 0, 10, 10).build();
+            }).bounds(0, 0, 10, 10)
+                    .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.move_down.tooltip")))
+                    .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.move_down.narrate")).build();
             
             this.moveUp.active = dest.index != 0;
             this.moveDown.active = dest.index != parent.locations.size() - 1;
@@ -118,32 +112,32 @@ public class TeleportsPage extends ListPage<TeleOption>
             this.confirm.visible = false;
             this.moveUp.visible = false;
             this.moveDown.visible = false;
-            this.text.visible = false;
+            this.teleportsNameBox.visible = false;
 
             remover.accept(this.delete);
             remover.accept(this.confirm);
             remover.accept(this.moveUp);
             remover.accept(this.moveDown);
-            remover.accept(this.text);
+            remover.accept(this.teleportsNameBox);
         }
 
         @Override
         public boolean keyPressed(final int keyCode, final int p_keyPressed_2_, final int p_keyPressed_3_)
         {
-            if (this.text.isFocused())
+            if (this.teleportsNameBox.isFocused())
             {
                 if (keyCode == GLFW.GLFW_KEY_ENTER)
                 {
-                    if (!this.text.getValue().equals(this.dest.getName()))
+                    if (!this.teleportsNameBox.getValue().equals(this.dest.getName()))
                     {
-                        PacketPokedex.sendRenameTelePacket(this.text.getValue(), this.dest.index);
-                        this.dest.setName(this.text.getValue());
-                        this.text.setFocused(false);
+                        PacketPokedex.sendRenameTelePacket(this.teleportsNameBox.getValue(), this.dest.index);
+                        this.dest.setName(this.teleportsNameBox.getValue());
+                        this.teleportsNameBox.setFocused(false);
                         return true;
                     }
                     return false;
                 }
-                return this.text.keyPressed(keyCode, p_keyPressed_2_, p_keyPressed_3_);
+                return this.teleportsNameBox.keyPressed(keyCode, p_keyPressed_2_, p_keyPressed_3_);
             }
             return super.keyPressed(keyCode, p_keyPressed_2_, p_keyPressed_3_);
         }
@@ -151,13 +145,13 @@ public class TeleportsPage extends ListPage<TeleOption>
         @Override
         public boolean charTyped(final char typedChar, final int keyCode)
         {
-            if (this.text.isFocused()) return this.text.charTyped(typedChar, keyCode);
+            if (this.teleportsNameBox.isFocused()) return this.teleportsNameBox.charTyped(typedChar, keyCode);
 
-            if (keyCode == GLFW.GLFW_KEY_ENTER) if (!this.text.getValue().equals(this.dest.getName()))
+            if (keyCode == GLFW.GLFW_KEY_ENTER) if (!this.teleportsNameBox.getValue().equals(this.dest.getName()))
             {
-                PacketPokedex.sendRenameTelePacket(this.text.getValue(), this.dest.index);
-                this.dest.setName(this.text.getValue());
-                this.text.setFocused(false);
+                PacketPokedex.sendRenameTelePacket(this.teleportsNameBox.getValue(), this.dest.index);
+                this.dest.setName(this.teleportsNameBox.getValue());
+                this.teleportsNameBox.setFocused(false);
                 return true;
             }
             return super.charTyped(typedChar, keyCode);
@@ -171,7 +165,7 @@ public class TeleportsPage extends ListPage<TeleOption>
             this.confirm.visible = false;
             this.moveUp.visible = false;
             this.moveDown.visible = false;
-            this.text.visible = false;
+            this.teleportsNameBox.visible = false;
         }
 
         @Override
@@ -183,18 +177,18 @@ public class TeleportsPage extends ListPage<TeleOption>
             this.confirm.visible = true;
             this.moveUp.visible = true;
             this.moveDown.visible = true;
-            this.text.visible = true;
+            this.teleportsNameBox.visible = true;
 
-            this.text.setX(x - 2);
-            this.text.setY(y - 4);
+            this.teleportsNameBox.setX(x - 2);
+            this.teleportsNameBox.setY(y - 4);
             this.delete.setY(y - 5);
-            this.delete.setX(x - 1 + this.text.getWidth());
+            this.delete.setX(x - 1 + this.teleportsNameBox.getWidth());
             this.confirm.setY(y - 5);
-            this.confirm.setX(x - 2 + 10 + this.text.getWidth());
+            this.confirm.setX(x - 2 + 10 + this.teleportsNameBox.getWidth());
             this.moveUp.setY(y - 5);
-            this.moveUp.setX(x - 2 + 18 + this.text.getWidth());
+            this.moveUp.setX(x - 2 + 18 + this.teleportsNameBox.getWidth());
             this.moveDown.setY(y - 5);
-            this.moveDown.setX(x - 2 + 26 + this.text.getWidth());
+            this.moveDown.setX(x - 2 + 26 + this.teleportsNameBox.getWidth());
         }
     }
 
@@ -219,8 +213,10 @@ public class TeleportsPage extends ListPage<TeleOption>
         {
             GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
             this.watch.init();
-        }).bounds(x - 108, y + 102, 17, 17).setTexture(GuiPokeWatch.getWidgetTex())
-                .setRender(new TexButton.UVImgRender(110, 72, 17, 17)).build());
+        }).bounds(x - 108, y + 102, 17, 17).setRender(new TexButton.UVImgRender(110, 72, 17, 17))
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.night_mode.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.night_mode.narrate"))
+                .setTexture(GuiPokeWatch.getWidgetTex()).build());
     }
 
     protected double scroll = 0;
