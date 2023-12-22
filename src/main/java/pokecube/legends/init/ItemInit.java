@@ -136,7 +136,6 @@ public class ItemInit
     public static final RegistryObject<Item> REVEAL_GLASS;
     public static final RegistryObject<Item> DNA_SPLICER_A;
     public static final RegistryObject<Item> DNA_SPLICER_B;
-    public static final RegistryObject<Item> GRACIDEA;
     public static final RegistryObject<Item> METEORITE;
     public static final RegistryObject<Item> N_SOLARIZER;
     public static final RegistryObject<Item> N_LUNARIZER;
@@ -376,8 +375,6 @@ public class ItemInit
                 () -> new ItemBase("dna_splicers", 1, 1));
         DNA_SPLICER_B = PokecubeLegends.ITEMS.register("dna_splicerb",
                 () -> new ItemBase("dna_splicers", 1, 1));
-        GRACIDEA = PokecubeLegends.ITEMS.register("gracidea",
-                () -> new ItemBase("gracidea", 1, 1));
         KUBFU_SCARF = PokecubeLegends.ITEMS.register("kubfu_spawn",
                 () -> new ItemBase("kubfu_spawn", 2, 1));
         LIGHTING_CRYSTAL = PokecubeLegends.ITEMS.register("lighting_crystal",

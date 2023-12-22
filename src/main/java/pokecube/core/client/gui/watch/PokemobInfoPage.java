@@ -384,7 +384,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             final String type1 = PokeType.getTranslatedName(_type1).getString();
             dx = -77; // 72
             dy = 117;
-            colour = _type1.colour;=
+            colour = _type1.colour;
             graphics.drawString(this.font, type1, x + dx, y + dy, colour, false);
 
             dy = 117;

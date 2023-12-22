@@ -215,12 +215,12 @@ public class TeleportsPage extends ListPage<TeleOption>
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
 
-        this.addRenderableWidget(new TexButton(x - 108, y + 102, 17, 17,
-                TComponent.literal(""), b ->
+        this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b ->
         {
             GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
             this.watch.init();
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new TexButton.UVImgRender(110, 72, 17, 17)));
+        }).bounds(x - 108, y + 102, 17, 17).setTexture(GuiPokeWatch.getWidgetTex())
+                .setRender(new TexButton.UVImgRender(110, 72, 17, 17)).build());
     }
 
     protected double scroll = 0;

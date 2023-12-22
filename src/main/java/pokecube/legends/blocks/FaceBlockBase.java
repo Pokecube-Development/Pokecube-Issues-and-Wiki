@@ -25,8 +25,8 @@ public class FaceBlockBase extends BlockBase
         super(BlockBehaviour.Properties.of().strength(destroyTime, blastResistance).mapColor(color).sound(sound).instrument(instrument).requiresCorrectToolForDrops());
         this.registerDefaultState(this.stateDefinition.any().setValue(FaceBlockBase.FACING, defaultDirection));
         this.hasRequiredCorrectToolForDrops(requiresCorrectToolForDrops);
-        this.hasTextInfo = true;
-        this.infoname = name;
+        this.hasTooltip = true;
+        this.tooltip_id = name;
     }
 
     public FaceBlockBase(final MapColor color, final Direction defaultDirection, final SoundType sound, final NoteBlockInstrument instrument,
