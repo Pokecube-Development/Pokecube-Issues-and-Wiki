@@ -265,7 +265,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                 if (!this.pokemob.getPokemonNickname().isEmpty())
                     text.add("\"" + this.pokemob.getPokemonNickname() + "\"");
                 GlStateManager._disableDepthTest();
-                mx = -18; // 50
+                mx = -16; // 50
                 my = 20;
                 final int dy = this.font.lineHeight;
                 int box = 0;
