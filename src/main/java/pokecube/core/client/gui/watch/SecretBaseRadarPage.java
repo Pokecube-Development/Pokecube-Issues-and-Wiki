@@ -37,6 +37,7 @@ public class SecretBaseRadarPage extends WatchPage
 
     public static Map<RadarMode, Set<BlockPos>> radar_hits = Maps.newHashMap();
 
+    TexButton nightMode;
     public static enum RadarMode
     {
         SECRET_BASE("base"), METEOR("meteor", 10), SPAWN_INHIBITORS("repels");
@@ -127,14 +128,17 @@ public class SecretBaseRadarPage extends WatchPage
                 .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.radar.tooltip")))
                 .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.radar.narrate")).build());
 
-        this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b ->
+        this.nightMode = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b ->
         {
             GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
             this.watch.init();
         }).bounds(x - 108, y + 102, 17, 17).setTexture(GuiPokeWatch.getWidgetTex())
                 .setRender(new UVImgRender(110, 72, 17, 17))
-                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.night_mode.tooltip")))
                 .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.night_mode.narrate")).build());
+
+        if (GuiPokeWatch.nightMode)
+            this.nightMode.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.light_mode.tooltip")));
+        else this.nightMode.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.dark_mode.tooltip")));
     }
 
     @Override

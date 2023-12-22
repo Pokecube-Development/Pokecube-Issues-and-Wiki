@@ -227,6 +227,8 @@ public class SpawnsPage extends ListPage<LineEntry>
         super.render(graphics, mouseX, mouseY, partialTicks);
     }
 
+    TexButton nightMode;
+
     @Override
     public void onPageOpened()
     {
@@ -234,13 +236,16 @@ public class SpawnsPage extends ListPage<LineEntry>
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
 
-        this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b ->
+        this.nightMode = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b ->
         {
             GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
             this.watch.init();
         }).bounds(x - 108, y + 102, 17, 17).setRender(new TexButton.UVImgRender(110, 72, 17, 17))
-                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.night_mode.tooltip")))
                 .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.night_mode.narrate"))
                 .setTexture(GuiPokeWatch.getWidgetTex()).build());
+
+        if (GuiPokeWatch.nightMode)
+            this.nightMode.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.light_mode.tooltip")));
+        else this.nightMode.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.dark_mode.tooltip")));
     }
 }

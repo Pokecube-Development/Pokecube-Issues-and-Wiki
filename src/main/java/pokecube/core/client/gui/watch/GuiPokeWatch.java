@@ -3,6 +3,7 @@ package pokecube.core.client.gui.watch;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Lists;
@@ -74,6 +75,7 @@ public class GuiPokeWatch extends Screen
             gui.addRenderableWidget(new TexButton.Builder(page.getTitle(), b -> {
                 gui.changePage(this.index, true);
             }).bounds(x + buttonX, y + buttonY, 24, 24).onTooltip(new ShiftedTooltip(-129 , -96 - buttonY))
+                    .createNarration(supplier -> Component.literal(page.getTitle().getString()))
                     .setTexture(GuiPokeWatch.getWidgetTex()).noName()
                     .setRender(new UVImgRender(uOffset, vOffset, 24, 24)).build());
         }

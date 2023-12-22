@@ -115,8 +115,11 @@ public abstract class PokeInfoPage extends WatchPage
             this.parent.initPages(this.parent.pokemob);
         }).bounds(x - 79, y + 40, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
         		.setRender(new UVImgRender(241, 72, 12, 12))
-                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.forms.tooltip")))
                 .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.forms.narrate")).build());
+
+        if (formChanger.active)
+            formChanger.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.forms.tooltip")));
+        else formChanger.setTooltip(Tooltip.create(Component.literal("")));
 
         PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
         PokedexEntry firstEntry = Pokedex.getInstance().getFirstForm(entry);
@@ -133,8 +136,11 @@ public abstract class PokeInfoPage extends WatchPage
             }
         }).bounds(x - 63, y + 40, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
                 .setRender(new UVImgRender(241, 36, 12, 12))
-                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.shiny.tooltip")))
                 .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.shiny.narrate")).build());
+
+        if (shiny.active)
+            shiny.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.shiny.tooltip")));
+        else shiny.setTooltip(Tooltip.create(Component.literal("")));
 
         shiny.active = this.parent.pokemob.getPokedexEntry().hasShiny && !this.parent.pokemob.getEntity().isAddedToWorld();
 
@@ -177,8 +183,11 @@ public abstract class PokeInfoPage extends WatchPage
             this.parent.pokemob.onGenesChanged();
         }).bounds(x - 47, y + 40, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
                 .setRender(new UVImgRender(200, 0, 12, 12)).shadow(true)
-                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.gender.tooltip")))
                 .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.gender.narrate")).build());
+
+        if (gender.active)
+            gender.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.gender.tooltip")));
+        else gender.setTooltip(Tooltip.create(Component.literal("")));
 
         gender.active = !this.parent.pokemob.getEntity().isAddedToWorld() &&
                 (this.parent.pokemob.getSexe() == IPokemob.MALE || this.parent.pokemob.getSexe() == IPokemob.FEMALE);

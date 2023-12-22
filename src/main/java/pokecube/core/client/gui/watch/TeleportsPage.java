@@ -60,15 +60,21 @@ public class TeleportsPage extends ListPage<TeleOption>
                 // Update the list for the page.
                 this.parent.initList();
             }).bounds(0, 0, 10, 10)
-                    .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.confirm_delete.tooltip")))
                     .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.confirm_delete.narrate")).build();
+
+            if (this.confirm.active)
+                this.confirm.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.confirm_delete.tooltip")));
+            else confirm.setTooltip(Tooltip.create(Component.literal("")));
             
             this.delete = new Button.Builder(TComponent.literal("x"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.confirm.active = !this.confirm.active;
             }).bounds(0, 0, 10, 10)
-                    .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.delete.tooltip")))
                     .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.delete.narrate")).build();
+
+            if (this.delete.active)
+                this.delete.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.delete.tooltip")));
+            else delete.setTooltip(Tooltip.create(Component.literal("")));
             
             this.delete.setFGColor(0xFFFF0000);
             this.confirm.active = false;
@@ -81,8 +87,11 @@ public class TeleportsPage extends ListPage<TeleOption>
                     this.parent.initList();
                 });
             }).bounds(0, 0, 10, 10)
-                    .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.move_up.tooltip")))
                     .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.move_up.narrate")).build();
+
+            if (this.moveUp.active)
+                this.moveUp.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.move_up.tooltip")));
+            else moveUp.setTooltip(Tooltip.create(Component.literal("")));
             		
             this.moveDown = new Button.Builder(TComponent.literal("\u21e9"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
@@ -92,8 +101,11 @@ public class TeleportsPage extends ListPage<TeleOption>
                     this.parent.initList();
                 });
             }).bounds(0, 0, 10, 10)
-                    .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.move_down.tooltip")))
                     .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.move_down.narrate")).build();
+
+            if (this.moveDown.active)
+                this.moveDown.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.move_down.tooltip")));
+            else moveDown.setTooltip(Tooltip.create(Component.literal("")));
             
             this.moveUp.active = dest.index != 0;
             this.moveDown.active = dest.index != parent.locations.size() - 1;
@@ -202,6 +214,8 @@ public class TeleportsPage extends ListPage<TeleOption>
         super(TComponent.translatable("pokewatch.title.teleports"), watch, TeleportsPage.TEX_DM, TeleportsPage.TEX_NM);
     }
 
+    TexButton nightMode;
+
     @Override
     public void onPageOpened()
     {
@@ -209,14 +223,17 @@ public class TeleportsPage extends ListPage<TeleOption>
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
 
-        this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b ->
+        this.nightMode = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b ->
         {
             GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
             this.watch.init();
         }).bounds(x - 108, y + 102, 17, 17).setRender(new TexButton.UVImgRender(110, 72, 17, 17))
-                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.night_mode.tooltip")))
                 .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.night_mode.narrate"))
                 .setTexture(GuiPokeWatch.getWidgetTex()).build());
+
+        if (GuiPokeWatch.nightMode)
+            this.nightMode.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.light_mode.tooltip")));
+        else this.nightMode.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.dark_mode.tooltip")));
     }
 
     protected double scroll = 0;

@@ -83,6 +83,8 @@ public class ProgressPage extends PageWithSubPages<Progress>
         graphics.drawString(this.font, title, x + 130 - this.font.width(title) / 2, y + 36, title_colour, false);
     }
 
+    TexButton nightMode;
+
     @Override
     public void onPageOpened()
     {
@@ -92,14 +94,17 @@ public class ProgressPage extends PageWithSubPages<Progress>
 
         PacketPokedex.sendInspectPacket(false, Minecraft.getInstance().getLanguageManager().getSelected());
 
-        this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b ->
+        this.nightMode = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b ->
         {
             GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
             this.watch.init();
         }).bounds(x - 108, y + 102, 17, 17).setRender(new TexButton.UVImgRender(110, 72, 17, 17))
-                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.night_mode.tooltip")))
                 .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.night_mode.narrate"))
                 .setTexture(GuiPokeWatch.getWidgetTex()).build());
+
+        if (GuiPokeWatch.nightMode)
+            this.nightMode.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.light_mode.tooltip")));
+        else this.nightMode.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.dark_mode.tooltip")));
     }
 
     @Override
