@@ -19,7 +19,9 @@ import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
 import pokecube.core.client.gui.helper.INotifiedEntry;
 import pokecube.core.client.gui.helper.ListEditBox;
 import pokecube.core.client.gui.helper.ScrollGui;
+import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.watch.TeleportsPage.TeleOption;
+import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.ListPage;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.api.entity.teleporting.TeleDest;
@@ -203,6 +205,21 @@ public class TeleportsPage extends ListPage<TeleOption>
         super(TComponent.translatable("pokewatch.title.teleports"), watch, TeleportsPage.TEX_DM, TeleportsPage.TEX_NM);
     }
 
+    @Override
+    public void onPageOpened()
+    {
+        super.onPageOpened();
+        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
+        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
+
+        this.addRenderableWidget(new TexButton(x - 108, y + 102, 17, 17,
+                TComponent.literal(""), b ->
+        {
+            GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
+            this.watch.init();
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new TexButton.UVImgRender(110, 72, 17, 17)));
+    }
+
     protected double scroll = 0;
 
     @Override
@@ -211,11 +228,32 @@ public class TeleportsPage extends ListPage<TeleOption>
         if (this.list != null) this.scroll = this.list.getScrollAmount();
         super.initList();
         this.locations = TeleportHandler.getTeleports(this.watch.player.getStringUUID());
-        final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 55;
-        final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
-        final int height = 100; //90
-        final int width = 150; //146
-        this.list = new ScrollGui<>(this, this.minecraft, width, height, 10, offsetX, offsetY);
+        final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 14;
+        final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 37;
+        final int height = 100; // 10 teleport lines
+        final int width = 230; // 260
+
+        if (GuiPokeWatch.nightMode)
+        {
+            this.list = new ScrollGui<TeleOption>(this, this.minecraft, width, height, 10, offsetX, offsetY)
+                    .setScrollBarColor(255, 150, 79)
+                    .setScrollBarDarkBorder(211, 81, 29)
+                    .setScrollBarGrayBorder(244, 123, 58)
+                    .setScrollBarLightBorder(255, 190, 111)
+                    .setScrollColor(244, 123, 58)
+                    .setScrollDarkBorder(211, 81, 29)
+                    .setScrollLightBorder(255, 190, 111);
+        } else {
+            this.list = new ScrollGui<TeleOption>(this, this.minecraft, width, height, 10, offsetX, offsetY)
+                    .setScrollBarColor(83, 175, 255)
+                    .setScrollBarDarkBorder(39, 75, 142)
+                    .setScrollBarGrayBorder(69, 132, 249)
+                    .setScrollBarLightBorder(255, 255, 255)
+                    .setScrollColor(69, 132, 249)
+                    .setScrollDarkBorder(39, 75, 142)
+                    .setScrollLightBorder(255, 255, 255);
+        }
+
         for (final TeleDest d : this.locations)
         {
             final EditBox name = new ListEditBox(this.font, 0, 0, 104, 10, TComponent.literal(""))

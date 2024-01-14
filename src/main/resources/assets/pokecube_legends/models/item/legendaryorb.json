@@ -1,6 +1,7 @@
 {  
    "parent":"item/generated",
-   "textures":{  
-      "layer0":"pokecube_legends:item/rainboworb"
+   "textures": {
+      "layer0":"pokecube_legends:item/rainbow_orb",
+      "layer1":"pokecube_legends:item/rainbow_orb_shine"
    }
 }

@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.CampfireRenderer;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -22,16 +23,16 @@ import net.minecraftforge.registries.RegistryObject;
 import pokecube.legends.Reference;
 import pokecube.legends.client.render.block.Raid;
 import pokecube.legends.client.render.entity.Wormhole;
+import pokecube.legends.client.render.model.LegendsModelLayers;
+import pokecube.legends.client.render.model.armor.ImprisonmentArmorModel;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID, value = Dist.CLIENT)
-public class ClientSetupHandler
-{
+public class ClientSetupHandler {
     static final Predicate<Material> notSolid = m -> m == Material.ICE || m == Material.ICE_SOLID
             || m == Material.HEAVY_METAL || m == Material.LEAVES || m == Material.REPLACEABLE_PLANT;
 
     @SubscribeEvent
-    public static void setupClient(final FMLClientSetupEvent event)
-    {
+    public static void setupClient(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             Stream.of(FluidInit.DISTORTIC_WATER, FluidInit.DISTORTIC_WATER_FLOWING).map(RegistryObject::get)
                     .forEach(fluid -> ItemBlockRenderTypes.setRenderLayer(fluid, RenderType.translucent()));
@@ -42,8 +43,7 @@ public class ClientSetupHandler
     }
 
     @SubscribeEvent
-    public static void registerRenderers(final RegisterRenderers event)
-    {
+    public static void registerRenderers(final RegisterRenderers event) {
         // Renderer for blocks
         event.registerBlockEntityRenderer(BlockInit.RAID_SPAWN_ENTITY.get(), Raid::new);
         event.registerBlockEntityRenderer(TileEntityInit.CAMPFIRE_ENTITY.get(), CampfireRenderer::new);
@@ -62,5 +62,11 @@ public class ClientSetupHandler
         event.register(ParticleInit.INFECTED_SOUL.get(), SoulParticle.Provider::new);
         event.register(ParticleInit.INFECTED_SPARK.get(), LavaParticle.Provider::new);
         event.register(ParticleInit.MUSHROOM.get(), SuspendedTownParticle.Provider::new);
+    }
+
+    @SubscribeEvent
+    public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event)
+    {
+        event.registerLayerDefinition(LegendsModelLayers.IMPRISONMENT_ARMOR_INNER, ImprisonmentArmorModel::createBodyLayer);
     }
 }

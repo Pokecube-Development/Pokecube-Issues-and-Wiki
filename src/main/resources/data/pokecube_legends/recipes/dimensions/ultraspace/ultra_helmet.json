@@ -14,7 +14,7 @@
       "item": "pokecube_legends:magnetic_stone"
     },
     "A": {
-      "tag": "forge:glass"
+      "tag": "forge:glass/tinted"
     },
     "X": {
       "tag": "forge:gems/spectrum"

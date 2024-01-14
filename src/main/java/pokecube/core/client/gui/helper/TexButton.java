@@ -89,7 +89,18 @@ public class TexButton extends Button
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
             RenderSystem.enableDepthTest();
-            final int i = button.getYImage(button.isHoveredOrFocused());
+            int i = button.getYImage(button.isHoveredOrFocused());
+            if (!button.isActive())
+            {
+                i = 0;
+                button.blit(matrixStack,
+                        button.x, button.y,
+                        button.uOffset, button.vOffset + i * button.vSize,
+                        button.width / 2, button.height);
+                button.blit(matrixStack, button.x + button.width / 2, button.y,
+                        button.uEnd.apply(button.width), button.vOffset + i * button.vSize,
+                        button.width / 2, button.height);
+            } else {
             button.blit(matrixStack,
                     button.x, button.y,
                     button.uOffset, button.vOffset + i * button.vSize,
@@ -97,6 +108,7 @@ public class TexButton extends Button
             button.blit(matrixStack, button.x + button.width / 2, button.y,
                     button.uEnd.apply(button.width), button.vOffset + i * button.vSize,
                     button.width / 2, button.height);
+            }
             //@formatter:on
         }
     }
@@ -131,6 +143,7 @@ public class TexButton extends Button
     public ResourceLocation texture = AbstractWidget.WIDGETS_LOCATION;
 
     boolean renderName = true;
+    boolean shadowed = false;
 
     int uOffset = 0;
     int vOffset = 46;
@@ -172,6 +185,12 @@ public class TexButton extends Button
         return this;
     }
 
+    public TexButton shadow(Boolean hasShadow)
+    {
+        this.shadowed = hasShadow;
+        return this;
+    }
+
     public TexButton sized(final int uOffset, final int vOffset, final int vSize)
     {
         return this.sized(uOffset, vOffset, vSize, this.uEnd);
@@ -203,6 +222,13 @@ public class TexButton extends Button
             final String msg = this.getMessage().getString();
             final float dx = fontrenderer.width(msg) / 2f;
             fontrenderer.draw(matrixStack, msg, this.x + this.getWidth() / 2 - dx, this.y + (this.getHeight() - 8) / 2,
+                    j | 255 << 24);
+        }
+        if (this.shadowed && this.renderName)
+        {
+            final String msg = this.getMessage().getString();
+            final float dx = fontrenderer.width(msg) / 2f;
+            fontrenderer.drawShadow(matrixStack, msg, this.x + this.getWidth() / 2 - dx, this.y + (this.getHeight() - 8) / 2,
                     j | 255 << 24);
         }
         if (this.isHoveredOrFocused()) this.renderToolTip(matrixStack, mouseX, mouseY);

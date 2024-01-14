@@ -61,7 +61,7 @@ public class TechCore
                 Block.Properties.of(Material.METAL).strength(3.5f).dynamicShape().noOcclusion()));
 
         LIFT = TechCore.ITEMS.register("lift", () -> new Item(new Item.Properties().tab(ThutCore.THUTITEMS)));
-        LINKER = TechCore.ITEMS.register("linker", () -> new ItemLinker(new Item.Properties().tab(ThutCore.THUTITEMS)));
+        LINKER = TechCore.ITEMS.register("linker", () -> new ItemLinker(new Item.Properties().tab(ThutCore.THUTITEMS).stacksTo(1)));
 
         for (final RegistryObject<Block> reg : TechCore.BLOCKS.getEntries())
             TechCore.ITEMS.register(reg.getId().getPath(),

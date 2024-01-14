@@ -48,6 +48,7 @@ public class RenderNPC<T extends NpcMob> extends LivingEntityRenderer<T, PlayerM
         this.layers_normal.add(
                 new HumanoidArmorLayer<>(this, new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)),
                         new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR))));
+        this.addLayer(this.layers_normal.get(0));
 
         this.addLayer(new ItemInHandLayer<>(this, context.getItemInHandRenderer()));
         this.addLayer(new ArrowLayer<>(context, this));
@@ -62,7 +63,19 @@ public class RenderNPC<T extends NpcMob> extends LivingEntityRenderer<T, PlayerM
             final MultiBufferSource bufferIn, final int packedLightIn)
     {
         final IMobTexturable mob = TextureableCaps.forMob(entityIn);
-        if (mob instanceof NPCCap<?> npc) this.model = npc.slim.apply(entityIn) ? this.slim : this.normal;
+        if (mob instanceof NPCCap<?> npc)
+        {
+            boolean slimArms = npc.slim.apply(entityIn);
+            if (slimArms)
+            {
+                this.model = slim;
+                this.layers.set(0, layers_slim.get(0));
+            }
+            else {
+                this.model = normal;
+                this.layers.set(0, layers_normal.get(0));
+            }
+        }
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
 

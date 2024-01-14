@@ -203,10 +203,11 @@ public class PokecubeAdv
 
         // Items
         EXPSHARE = PokecubeAdv.ITEMS.register("exp_share",
-                () -> new Item(new Item.Properties().tab(PokecubeItems.TAB_ITEMS)));
+                () -> new Item(new Item.Properties().tab(PokecubeItems.TAB_ITEMS).stacksTo(1)));
         LINKER = PokecubeAdv.ITEMS.register("linker",
-                () -> new Linker(new Item.Properties().tab(PokecubeItems.TAB_ITEMS)));
-        BAG = PokecubeAdv.ITEMS.register("bag", () -> new BagItem(new Item.Properties().tab(PokecubeItems.TAB_ITEMS)));
+                () -> new Linker(new Item.Properties().tab(PokecubeItems.TAB_ITEMS).stacksTo(1)));
+        BAG = PokecubeAdv.ITEMS.register("bag",
+                () -> new BagItem(new Item.Properties().tab(PokecubeItems.TAB_ITEMS).stacksTo(1)));
 
         // Tile Entities
         AFA_TYPE = PokecubeAdv.TILES.register("afa",

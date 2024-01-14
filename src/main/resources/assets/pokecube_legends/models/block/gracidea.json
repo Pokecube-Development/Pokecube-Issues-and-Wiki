@@ -1,0 +1,145 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/cross",
+	"textures": {
+		"stem": "pokecube_legends:block/gracidea_stem",
+		"particle": "pokecube_legends:block/gracidea_petals",
+		"petals": "pokecube_legends:block/gracidea_petals"
+	},
+	"elements": [
+		{
+			"from": [0.8, 0, 8],
+			"to": [15.2, 16, 8],
+			"shade": false,
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 8, 8], "rescale": true},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#stem"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#stem"}
+			}
+		},
+		{
+			"from": [8, 0, 0.8],
+			"to": [8, 16, 15.2],
+			"shade": false,
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 8, 8], "rescale": true},
+			"faces": {
+				"east": {"uv": [0, 0, 16, 16], "texture": "#stem"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#stem"}
+			}
+		},
+		{
+			"from": [4, 11.2, 0],
+			"to": [12, 11.2, 8],
+			"shade": false,
+			"rotation": {"angle": 22.5, "axis": "x", "origin": [4, 11.2, 8]},
+			"faces": {
+				"up": {"uv": [0, 0, 8, 8], "texture": "#petals"},
+				"down": {"uv": [0, 8, 8, 0], "texture": "#petals"}
+			}
+		},
+		{
+			"from": [4, 11.2, 8],
+			"to": [12, 11.2, 16],
+			"shade": false,
+			"rotation": {"angle": -22.5, "axis": "x", "origin": [4, 11.2, 8]},
+			"faces": {
+				"up": {"uv": [8, 8, 0, 0], "texture": "#petals"},
+				"down": {"uv": [8, 0, 0, 8], "texture": "#petals"}
+			}
+		},
+		{
+			"from": [0, 11.2, 4],
+			"to": [8, 11.2, 12],
+			"shade": false,
+			"rotation": {"angle": -22.5, "axis": "z", "origin": [8, 11.2, 4]},
+			"faces": {
+				"up": {"uv": [0, 0, 8, 8], "rotation": 270, "texture": "#petals"},
+				"down": {"uv": [0, 8, 8, 0], "rotation": 90, "texture": "#petals"}
+			}
+		},
+		{
+			"from": [8, 11.2, 4],
+			"to": [16, 11.2, 12],
+			"shade": false,
+			"rotation": {"angle": 22.5, "axis": "z", "origin": [8, 11.2, 4]},
+			"faces": {
+				"up": {"uv": [0, 0, 8, 8], "rotation": 90, "texture": "#petals"},
+				"down": {"uv": [0, 8, 8, 0], "rotation": 270, "texture": "#petals"}
+			}
+		},
+		{
+			"from": [4, 11.4, 0],
+			"to": [12, 11.4, 8],
+			"shade": false,
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 11, 8]},
+			"faces": {
+				"up": {"uv": [8, 0, 16, 8], "texture": "#petals"},
+				"down": {"uv": [8, 8, 16, 0], "texture": "#petals"}
+			}
+		},
+		{
+			"from": [4, 11.4, 8],
+			"to": [12, 11.4, 16],
+			"shade": false,
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 11, 8]},
+			"faces": {
+				"up": {"uv": [16, 8, 8, 0], "texture": "#petals"},
+				"down": {"uv": [16, 0, 8, 8], "texture": "#petals"}
+			}
+		},
+		{
+			"from": [0, 11.4, 4],
+			"to": [8, 11.4, 12],
+			"shade": false,
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 11, 8]},
+			"faces": {
+				"up": {"uv": [8, 0, 16, 8], "rotation": 270, "texture": "#petals"},
+				"down": {"uv": [8, 8, 16, 0], "rotation": 90, "texture": "#petals"}
+			}
+		},
+		{
+			"from": [8, 11.4, 4],
+			"to": [16, 11.4, 12],
+			"shade": false,
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 11, 8]},
+			"faces": {
+				"up": {"uv": [8, 0, 16, 8], "rotation": 90, "texture": "#petals"},
+				"down": {"uv": [8, 8, 16, 0], "rotation": 270, "texture": "#petals"}
+			}
+		},
+		{
+			"name": "leaf",
+			"from": [4, 11, 4],
+			"to": [12, 11, 12],
+			"shade": false,
+			"faces": {
+				"up": {"uv": [0, 8, 8, 16], "texture": "#petals"},
+				"down": {"uv": [0, 8, 8, 16], "texture": "#petals"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "stem",
+			"origin": [8, 8, 8],
+			"color": 0,
+			"nbt": "{}",
+			"children": [0, 1]
+		},
+		{
+			"name": "petals_22.5",
+			"origin": [8, 11, 4],
+			"color": 0,
+			"nbt": "{}",
+			"children": [2, 3, 4, 5]
+		},
+		{
+			"name": "petals_45",
+			"origin": [8, 11, 8],
+			"color": 0,
+			"nbt": "{}",
+			"children": [6, 7, 8, 9]
+		},
+		10
+	]
+}

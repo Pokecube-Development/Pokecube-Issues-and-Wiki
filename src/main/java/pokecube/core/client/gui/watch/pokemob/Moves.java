@@ -48,14 +48,15 @@ public class Moves extends ListPage<LineEntry>
 
     private void drawMoves(final PoseStack mat, final int x, final int y, final int mouseX, final int mouseY)
     {
-        final int dx = 70; // -30
-        final int dy = 30; // 20
+        final int dx = 53; // -30
+        final int dy = 18; // 20
 
         IPokemob pokemob = this.parent.pokemob;
 
         int held = -1;
         final int mx = mouseX - (x + dx);
         final int my = mouseY - (y + dy);
+
         for (int i = 0; i < this.moveOffsets.length; i++)
         {
             final int[] offset = this.moveOffsets[i];
@@ -68,9 +69,11 @@ public class Moves extends ListPage<LineEntry>
             if (move != null)
             {
                 Component moveName = MovesUtils.getMoveName(move.getName(), pokemob);
-                this.font.draw(mat, moveName, x + dx, y + dy + offset[1] + offset[4],
+
+                this.font.drawShadow(mat, moveName, x + dx, y + dy + offset[1] + offset[4],
                         move.getType(pokemob).colour);
                 final int length = this.font.width(moveName);
+
                 boolean mouseOver = mx > 0 && mx < length && my > offset[1] && my < offset[1] + this.font.lineHeight;
                 if (mouseOver)
                 {
@@ -82,11 +85,14 @@ public class Moves extends ListPage<LineEntry>
                     if (pwr > 0) value = TComponent.translatable("pokewatch.moves.pwr.fmt", pwr, stat);
                     Component info = TComponent.translatable("pokewatch.moves.pwr", value);
                     final int box = Math.max(10, this.font.width(info) + 2);
-                    final int mx1 = 65 - box;
-                    final int my1 = offset[1] + 30;
+                    final int mx1 = 170 - box;
+                    final int my1 = offset[1] + 18;
                     final int dy1 = this.font.lineHeight;
-                    GuiComponent.fill(mat, x + mx1 - 1, y + my1 - 1, x + mx1 + box + 1, y + my1 + dy1 + 1, 0xFF78C850);
-                    GuiComponent.fill(mat, x + mx1, y + my1, x + mx1 + box, y + my1 + dy1, 0xFF000000);
+                    mat.pushPose();
+                    mat.pushPose();
+                    mat.translate(0, 0, 1);
+                    GuiComponent.fill(mat, x + mx1 - 2, y + my1 - 2, x + mx1 + box + 2, y + my1 + dy1 + 2, 0xD92E0A65);
+                    GuiComponent.fill(mat, x + mx1 - 1, y + my1 - 1, x + mx1 + box + 1, y + my1 + dy1 + 1, 0xD91E0F1E);
                     this.font.draw(mat, info, x + mx1 + 1, y + my1 + 1, 0xFFFFFFFF);
                 }
             }
@@ -98,8 +104,8 @@ public class Moves extends ListPage<LineEntry>
             if (move != null && move.root_entry._implemented)
             {
                 Component moveName = MovesUtils.getMoveName(move.getName(), pokemob);
-                final int oy = 10;
-                this.font.draw(mat, moveName, x + dx, y + dy + offset[1] + oy,
+                final int oy = 11;
+                this.font.drawShadow(mat, moveName, x + dx, y + dy + offset[1] + oy,
                         move.getType(this.parent.pokemob).colour);
             }
         }
@@ -127,15 +133,15 @@ public class Moves extends ListPage<LineEntry>
     {
         super.initList();
         int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
-        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
-        final int height = this.font.lineHeight * 6;
+        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 26;
+        final int height = this.font.lineHeight * 12;
 
-        final int dx = 46;
-        final int dy = 25;
+        final int dx = 41;
+        final int dy = 8;
         offsetY += dy;
         offsetX += dx;
 
-        final int width = 111;
+        final int width = 120;
 
         final int colour = 0xFFFFFFFF;
 
@@ -156,7 +162,25 @@ public class Moves extends ListPage<LineEntry>
         };
         IPokemob pokemob = this.parent.pokemob;
 
-        this.list = new ScrollGui<>(this, this.minecraft, width, height, this.font.lineHeight, offsetX, offsetY);
+        if (GuiPokeWatch.nightMode)
+        {
+            this.list = new ScrollGui<LineEntry>(this, this.minecraft, width, height, this.font.lineHeight, offsetX, offsetY)
+                    .setScrollBarColor(255, 150, 79)
+                    .setScrollBarDarkBorder(211, 81, 29)
+                    .setScrollBarGrayBorder(244, 123, 58)
+                    .setScrollBarLightBorder(255, 190, 111)
+                    .setScrollColor(244, 123, 58)
+                    .setScrollDarkBorder(211, 81, 29)
+                    .setScrollLightBorder(255, 190, 111);
+        } else this.list = new ScrollGui<LineEntry>(this, this.minecraft, width, height, this.font.lineHeight, offsetX, offsetY)
+                .setScrollBarColor(83, 175, 255)
+                .setScrollBarDarkBorder(39, 75, 142)
+                .setScrollBarGrayBorder(69, 132, 249)
+                .setScrollBarLightBorder(255, 255, 255)
+                .setScrollColor(69, 132, 249)
+                .setScrollDarkBorder(39, 75, 142)
+                .setScrollLightBorder(255, 255, 255);
+
         final PokedexEntry entry = pokemob.getPokedexEntry();
         final Set<String> added = Sets.newHashSet();
 
@@ -177,7 +201,7 @@ public class Moves extends ListPage<LineEntry>
                             .withClickEvent(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s))
                             .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TComponent.literal(s))));
                     this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main.getVisualOrderText(), colour)
-                            .setClickListner(listener));
+                            .setClickListner(listener).shadow());
                 }
             }
             for (final String s : entry.getMoves())
@@ -192,7 +216,7 @@ public class Moves extends ListPage<LineEntry>
                         .withClickEvent(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s))
                         .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TComponent.literal(s))));
                 this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main.getVisualOrderText(), colour)
-                        .setClickListner(listener));
+                        .setClickListner(listener).shadow());
             }
         }
     }
@@ -381,14 +405,16 @@ public class Moves extends ListPage<LineEntry>
             if (pwr > 0) value = TComponent.translatable("pokewatch.moves.pwr.fmt", pwr, stat);
             Component info = TComponent.translatable("pokewatch.moves.pwr", value);
             final int box = Math.max(10, this.font.width(info) + 2);
-            final int mx = 100 - box;
+            final int mx = 106 - box;
             final int my = 0;
             final int dy = this.font.lineHeight;
             mat.pushPose();
+            mat.pushPose();
             mat.translate(0, 0, 1);
-            GuiComponent.fill(mat, x + mx - 1, y + my - 1, x + mx + box + 1, y + my + dy + 1, 0xFF78C850);
-            GuiComponent.fill(mat, x + mx, y + my, x + mx + box, y + my + dy, 0xFF000000);
+            GuiComponent.fill(mat, x + mx - 2, y + my - 2, x + mx + box + 2, y + my + dy + 2, 0xD92E0A65);
+            GuiComponent.fill(mat, x + mx - 1, y + my - 1, x + mx + box + 1, y + my + dy + 1, 0xD91E0F1E);
             this.font.draw(mat, info, x + mx + 1, y + my + 1, 0xFFFFFFFF);
+            mat.popPose();
             mat.popPose();
         }
         super.renderComponentHoverEffect(mat, component, x, y);

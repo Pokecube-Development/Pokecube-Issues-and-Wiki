@@ -75,7 +75,7 @@ public class Category implements IRecipeCategory<Wrapper>
             final double mouseX, final double mouseY)
     {
         final List<Component> tooltips = Lists.newArrayList();
-        final Rectangle arrow = new Rectangle(44, 18, 32, 17);
+        final Rectangle arrow = new Rectangle(51, 18, 32, 17);
         if (!arrow.contains(mouseX, mouseY)) return tooltips;
         tooltips.add(TComponent.translatable("gui.jei.cloner.need_egg"));
         return tooltips;
@@ -93,8 +93,8 @@ public class Category implements IRecipeCategory<Wrapper>
         {
             final int index = x + y * 3;
             if (index >= ingredients.size()) break outer;
-            final int dy = x == 1 ? 0 : 9;
-            IRecipeSlotBuilder inputSlot = builder.addSlot(RecipeIngredientRole.INPUT, x * 18 + 2, y * 18 + dy);
+            final int dy = x == 1 ? 1 : 10;
+            IRecipeSlotBuilder inputSlot = builder.addSlot(RecipeIngredientRole.INPUT, x * 18 + 3, y * 18 + dy);
             inputSlot.addIngredients(ingredients.get(index));
         }
     }
