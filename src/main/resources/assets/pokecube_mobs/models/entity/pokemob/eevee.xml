@@ -3,6 +3,7 @@
  <model name="">
   <phase name="global" scale="0.28"/>
   <metadata head="head" headCap="-70,70" headCap1="-60,60"/>
+  <phase duration="10" leftFront="leg1" leftHind="leg3" name="quadWalk" rightFront="leg2" rightHind="leg4"/>
   <phase axis="0" name="snakeIdle" parts="tail:tail1:tail2"/>
   <phase axis="0" name="snakeWalk" parts="tail:tail1:tail2"/>
   <worn angles="-110,0,0" id="__HAT__" offset="0,0.25,0.1" parent="head" scale="0.83"/>
@@ -13,10 +14,8 @@
   <worn angles="-10,0,0" id="__BACK__" offset="0,0.17,0.22" parent="body1" scale="0.65,0.65,0.65"/>
   <phase female="f" male="m" name="textures"/>
   <customTex default="eevee">
-   <part name="Head" tex="eeveehead"/>
-   <animation diffs="0,0.48" part="Head" trigger="random:0.005:2"/>
-   <part name="Mouth" tex="eeveehead"/>
-   <animation diffs="0,0.2" part="Mouth" trigger="random:0.005:2"/>
+   <part name="Head" tex="eevee_face"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase type="sitting">
    <part name="body">
@@ -67,6 +66,11 @@
    </part>
   </phase>
   <phase type="walking">
+   <part name="body">
+	<component length="10" name="1" rotChange="-2,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="4,0,0" startKey="5"/>
+	<component length="10" name="3" rotChange="-2,0,0" startKey="10"/>
+   </part>
    <part name="orl1">
     <component length="8" name="1" rotChange="0,0,3" startKey="0"/>
     <component length="8" name="2" rotChange="0,0,-3" startKey="10"/>
@@ -78,46 +82,6 @@
    <part name="tail">
     <component length="8" name="1" rotChange="-8,0,0" rotOffset="0,0,0" startKey="0"/>
     <component length="8" name="2" rotChange="8,0,0" startKey="10"/>
-   </part>
-   <part name="leg1">
-    <component length="10" name="1" rotChange="-20,0,0," startKey="0"/>
-	<component length="10" name="2" rotChange="40,0,0," startKey="5"/>
-	<component length="10" name="3" rotChange="-20,0,0," startKey="10"/>
-   </part>
-   <part name="leg1_1">
-    <component length="10" name="1" rotChange="-25,0,0," startKey="0"/>
-	<component length="10" name="2" rotChange="50,0,0," startKey="5"/>
-	<component length="10" name="3" rotChange="-25,0,0," startKey="10"/>
-   </part>  
-   <part name="leg4">
-    <component length="10" name="1" rotChange="20,0,0," startKey="0"/>
-	<component length="10" name="2" rotChange="-40,0,0," startKey="5"/>
-	<component length="10" name="3" rotChange="20,0,0," startKey="10"/>
-   </part>
-   <part name="leg4_1">
-    <component length="10" name="1" rotChange="25,0,0," startKey="0"/>
-	<component length="10" name="2" rotChange="-50,0,0," startKey="5"/>
-	<component length="10" name="3" rotChange="25,0,0," startKey="10"/>
-   </part> 
-   <part name="leg2">
-    <component length="10" name="1" rotChange="20,0,0," startKey="0"/>
-	<component length="10" name="2" rotChange="-40,0,0," startKey="5"/>
-	<component length="10" name="3" rotChange="20,0,0," startKey="10"/>
-   </part>
-   <part name="leg2_1">
-    <component length="10" name="1" rotChange="25,0,0," startKey="0"/>
-	<component length="10" name="2" rotChange="-50,0,0," startKey="5"/>
-	<component length="10" name="3" rotChange="25,0,0," startKey="10"/>
-   </part>
-   <part name="leg3">
-    <component length="10" name="1" rotChange="-20,0,0," startKey="0"/>
-	<component length="10" name="2" rotChange="40,0,0," startKey="5"/>
-	<component length="10" name="3" rotChange="-20,0,0," startKey="10"/>
-   </part>
-   <part name="leg3_1">
-    <component length="10" name="1" rotChange="-25,0,0," startKey="0"/>
-	<component length="10" name="2" rotChange="50,0,0," startKey="5"/>
-	<component length="10" name="3" rotChange="-25,0,0," startKey="10"/>
    </part>
   </phase>
  </model>
