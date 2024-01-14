@@ -237,6 +237,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             else if (entry.getSexeRatio() == 254) pokemob.setSexe(IPokemob.FEMALE);
             pokemob.onGenesChanged();
         }
+        this.addRenderableWidget(this.searchBox);
         this.searchBox.setVisible(!this.watch.canEdit(pokemob));
         this.searchBox.isEditable = !this.watch.canEdit(pokemob);
         this.searchBox.setValue(I18n.get(entry.getUnlocalizedName()));
@@ -432,8 +433,6 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
     {
         this.children().clear();
         this.initPages(this.pokemob);
-        final int x = this.watch.width / 2;
-        final int y = this.watch.height / 2;
 
         List<UVHolder> buttons = new ArrayList<>();
         buttons.add(new UVHolder(9, -80, 127, 72, 0)); // Stats

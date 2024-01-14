@@ -79,8 +79,10 @@ public class AITools
         {
             if (input == null) return true;
             final Entity core = EntityTools.getCoreEntity(input);
-            if (_blacklist.stream().anyMatch(e -> e.test(core))) return false;
-
+            synchronized (_blacklist)
+            {
+                if (_blacklist.stream().anyMatch(e -> e.test(core))) return false;
+            }
             // Then check if is a valid player.
             if (core instanceof ServerPlayer player)
             {
@@ -104,8 +106,10 @@ public class AITools
         {
             if (input == null) return true;
             final Entity core = EntityTools.getCoreEntity(input);
-            if (_blacklist.stream().anyMatch(e -> e.test(core))) return false;
-
+            synchronized (_blacklist)
+            {
+                if (_blacklist.stream().anyMatch(e -> e.test(core))) return false;
+            }
             // Then check if is a valid player.
             if (core instanceof ServerPlayer player)
             {
@@ -177,21 +181,27 @@ public class AITools
 
     public static void clearAgroBlacklist()
     {
-        _blacklist.clear();
+        synchronized (_blacklist)
+        {
+            _blacklist.clear();
+        }
     }
 
     public static void registerAgroBlacklist(String var)
     {
-        if (var.startsWith("#"))
+        synchronized (_blacklist)
         {
-            TagKey<EntityType<?>> tag = TagKey.create(RegHelper.ENTITY_TYPE_REGISTRY,
-                    new ResourceLocation(var.replace("#", "")));
-            _blacklist.add(e -> e.getType().is(tag));
-        }
-        else
-        {
-            ResourceLocation id = new ResourceLocation(var.replace("#", ""));
-            _blacklist.add(e -> id.equals(RegHelper.getKey(e)));
+            if (var.startsWith("#"))
+            {
+                TagKey<EntityType<?>> tag = TagKey.create(Registry.ENTITY_TYPE_REGISTRY,
+                        new ResourceLocation(var.replace("#", "")));
+                _blacklist.add(e -> e.getType().is(tag));
+            }
+            else
+            {
+                ResourceLocation id = new ResourceLocation(var.replace("#", ""));
+                _blacklist.add(e -> id.equals(RegHelper.getKey(e)));
+            }
         }
     }
 
