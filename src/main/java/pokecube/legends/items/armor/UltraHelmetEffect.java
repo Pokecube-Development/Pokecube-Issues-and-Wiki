@@ -8,12 +8,14 @@ import net.minecraft.world.level.Level;
 
 public class UltraHelmetEffect extends ArmorItem
 {
-	public UltraHelmetEffect(final ArmorMaterial materialIn, final Type armorSlot, final Properties builder) {
+	public UltraHelmetEffect(final ArmorMaterial materialIn, final Type armorSlot, final Properties builder)
+	{
 		super(materialIn, armorSlot, builder);
 	}
 
 	@Override
-	public void onArmorTick(final ItemStack itemstack, final Level world, final Player entity) {
+	public void onArmorTick(final ItemStack itemstack, final Level world, final Player entity)
+	{
 		super.onArmorTick(itemstack, world, entity);
 		{
 			final java.util.HashMap<String, Object> $_dependencies = new java.util.HashMap<>();
@@ -22,8 +24,10 @@ public class UltraHelmetEffect extends ArmorItem
 		}
 	}
 
-	public static void executeProcedure(final java.util.HashMap<String, Object> dependencies) {
-		if (dependencies.get("entity") == null) {
+	public static void executeProcedure(final java.util.HashMap<String, Object> dependencies)
+	{
+		if (dependencies.get("entity") == null)
+		{
 			System.err.println("Failed Effect Helmet!");
 			return;
 		}

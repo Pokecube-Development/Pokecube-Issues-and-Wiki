@@ -40,6 +40,7 @@ public class Resources
 
     public final static ResourceLocation WIDGETS;
     public final static ResourceLocation WIDGETS_NM;
+    public final static ResourceLocation WIDGETS_POKEDEX;
 
     static
     {
@@ -74,5 +75,6 @@ public class Resources
 
         WIDGETS = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/widgets.png");
         WIDGETS_NM = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/widgets_nm.png");
+        WIDGETS_POKEDEX = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/pokedex_widgets.png");
     }
 }

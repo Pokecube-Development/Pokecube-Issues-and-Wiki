@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:end_stones",
+    "minecraft:end_stone_bricks"
+  ]
+}

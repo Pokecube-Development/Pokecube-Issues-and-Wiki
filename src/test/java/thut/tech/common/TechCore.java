@@ -66,8 +66,8 @@ public class TechCore
         LIFTCONTROLLER = TechCore.BLOCKS.register("controller",
                 () -> new ControllerBlock(Block.Properties.of().strength(3.5f).dynamicShape().noOcclusion()));
 
-        LIFT = TechCore.ITEMS.register("lift", () -> new Item(new Item.Properties()));
-        LINKER = TechCore.ITEMS.register("linker", () -> new ItemLinker(new Item.Properties()));
+        LIFT = TechCore.ITEMS.register("lift", () -> new Item(new Item.Properties().stacksTo(1)));
+        LINKER = TechCore.ITEMS.register("linker", () -> new ItemLinker(new Item.Properties().stacksTo(1)));
 
         for (final RegistryObject<Block> reg : TechCore.BLOCKS.getEntries())
             TechCore.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()));

@@ -69,15 +69,14 @@ public class Breeding extends ListPage<LineEntry>
     {
         super.initList();
         int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
-        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
-        final int height = this.font.lineHeight * 7;
-        int width = 90; // 135
+        int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 26;
+        final int height = this.font.lineHeight * 12;
+        int width = 120; // 135
 
         final int colour = 0xFFFFFFFF;
 
-        width = 90;
-        final int dx = 65; //55
-        final int dy = 15; //10
+        final int dx = 41; //55
+        final int dy = 8; //10
         offsetY += dy;
         offsetX += dx;
 
@@ -97,8 +96,27 @@ public class Breeding extends ListPage<LineEntry>
             }
         };
         final PokedexEntry ourEntry = this.parent.pokemob.getPokedexEntry();
-        this.list = new ScrollGui<>(this, this.minecraft, width, height - this.font.lineHeight / 2,
-                this.font.lineHeight, offsetX, offsetY);
+        if (GuiPokeWatch.nightMode)
+        {
+            this.list = new ScrollGui<LineEntry>(this, this.minecraft, width, height,
+                this.font.lineHeight, offsetX, offsetY)
+                    .setScrollBarColor(255, 150, 79)
+                    .setScrollBarDarkBorder(211, 81, 29)
+                    .setScrollBarGrayBorder(244, 123, 58)
+                    .setScrollBarLightBorder(255, 190, 111)
+                    .setScrollColor(244, 123, 58)
+                    .setScrollDarkBorder(211, 81, 29)
+                    .setScrollLightBorder(255, 190, 111);
+        } else this.list = new ScrollGui<LineEntry>(this, this.minecraft, width, height,
+            this.font.lineHeight, offsetX, offsetY)
+                .setScrollBarColor(83, 175, 255)
+                .setScrollBarDarkBorder(39, 75, 142)
+                .setScrollBarGrayBorder(69, 132, 249)
+                .setScrollBarLightBorder(255, 255, 255)
+                .setScrollColor(69, 132, 249)
+                .setScrollDarkBorder(39, 75, 142)
+                .setScrollLightBorder(255, 255, 255);
+
         MutableComponent main = TComponent.translatable(ourEntry.getUnlocalizedName());
         if (!PacketPokedex.noBreeding.contains(ourEntry)) for (final String name : PacketPokedex.relatedLists
                 .getOrDefault(ourEntry.getTrimmedName(), Collections.emptyList()))

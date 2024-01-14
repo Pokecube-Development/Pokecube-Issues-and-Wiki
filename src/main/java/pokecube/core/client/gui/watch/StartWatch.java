@@ -5,10 +5,13 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.network.chat.Component;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
@@ -32,6 +35,9 @@ import thut.lib.TComponent;
 public class StartWatch extends PageWithSubPages<PokeStartPage>
 {
     public static int savedIndex = 0;
+    public static TexButton shiny;
+    public static TexButton formChanger;
+    public static TexButton gender;
 
     public static List<Class<? extends PokeStartPage>> PAGELIST = Lists.newArrayList();
 
@@ -60,6 +66,43 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
     {
         super(TComponent.translatable(""), watch, GuiPokeWatch.TEX_DM, GuiPokeWatch.TEX_NM);
         this.pokemob = watch.pokemob;
+    }
+
+    TexButton nightMode;
+
+    @Override
+    public void onPageOpened()
+    {
+        super.onPageOpened();
+        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
+        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
+
+        this.nightMode = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b ->
+        {
+            GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
+            this.watch.init();
+        }).bounds(x - 108, y + 102, 17, 17).setRender(new TexButton.UVImgRender(110, 72, 17, 17))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.night_mode.narrate"))
+                .setTexture(GuiPokeWatch.getWidgetTex()).build());
+
+        if (GuiPokeWatch.nightMode)
+            this.nightMode.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.light_mode.tooltip")));
+        else this.nightMode.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.dark_mode.tooltip")));
+
+        if (shiny.active)
+            shiny.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.shiny.tooltip")));
+        else shiny.setTooltip(Tooltip.create(Component.literal("")));
+
+        if (formChanger.active)
+            formChanger.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.forms.tooltip")));
+        else formChanger.setTooltip(Tooltip.create(Component.literal("")));
+
+        if (gender.active)
+            gender.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.gender.tooltip")));
+        else gender.setTooltip(Tooltip.create(Component.literal("")));
+
+        this.gender.active = !this.pokemob.getEntity().isAddedToWorld() &&
+                (this.pokemob.getSexe() == IPokemob.MALE || this.pokemob.getSexe() == IPokemob.FEMALE);
     }
 
     @Override
@@ -92,53 +135,6 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
         PacketPokedex.updateWatchEntry(pokemob.getPokedexEntry());
         // Force close and open the page to update.
         this.changePage(this.index);
-    }
-
-    long lastClick = 0;
-
-    @Override
-    public boolean mouseClicked(final double mouseX, final double mouseY, final int mouseButton)
-    {
-        final boolean ret = super.mouseClicked(mouseX, mouseY, mouseButton);
-
-        // Implement some flood control for this.
-        if (System.currentTimeMillis() - this.lastClick < 30) return ret;
-        this.lastClick = System.currentTimeMillis();
-
-        // change gender if clicking on the gender, and shininess otherwise
-        if (!this.watch.canEdit(this.pokemob))
-        {
-            // If it is actually a real mob, swap it out for the fake one.
-            if (this.pokemob.getEntity().isAddedToWorld()) this.pokemob = AnimationGui.getRenderMob(this.pokemob);
-
-            final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
-            final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
-            final int mx = (int) (mouseX - x);
-            final int my = (int) (mouseY - y);
-
-            // The box to click goes from (ox, oy) -> (ox + dx, oy + dy)
-            int ox = 10;
-            int oy = 29;
-            int dx = 14;
-            int dy = 14;
-
-            // Click for toggling if it is male or female
-            if (mx > ox && mx < ox + dx && my > oy && my < oy + dy)
-            {
-                switch (this.pokemob.getSexe())
-                {
-                case IPokemob.MALE:
-                    this.pokemob.setSexe(IPokemob.FEMALE);
-                    break;
-                case IPokemob.FEMALE:
-                    this.pokemob.setSexe(IPokemob.MALE);
-                    break;
-                }
-                this.pokemob.onGenesChanged();
-                return ret;
-            }
-        }
-        return ret;
     }
 
     @Override
@@ -222,28 +218,11 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
             pokemob.setSize(1);
 
             final float yaw = Util.getMillis() / 20;
-            dx = -6; //90
+            dx = -15; //90
             dy = 65;
 
             // Draw the actual pokemob
-            GuiPokemobHelper.renderMob(pokemob.getEntity(), x + dx, y + dy, 0, yaw, 0, yaw, 3.3f, partialTicks);
-
-            // Draw gender
-            int genderColor = 0xBBBBBB;
-            String gender = "";
-            if (pokemob.getSexe() == IPokemob.MALE)
-            {
-                genderColor = 0x0011CC;
-                gender = "\u2642";
-            }
-            else if (pokemob.getSexe() == IPokemob.FEMALE)
-            {
-                genderColor = 0xCC5555;
-                gender = "\u2640";
-            }
-            dx = -73;
-            dy = 40;
-            graphics.drawString(this.font, gender, x + dx, y + dy, genderColor, false);
+            GuiPokemobHelper.renderMob(pokemob.getEntity(), x + dx, y + dy, 0, yaw, 0, yaw, 3.0F, partialTicks);
         }
     }
 
@@ -255,25 +234,93 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
 
-        //Shiny Button
-       this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
-        	if (this.pokemob.getPokedexEntry().hasShiny && !this.pokemob.getEntity().isAddedToWorld()) {
+        // Play Sound Button
+        this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
+            this.watch.player.playSound(this.pokemob.getSound(), 0.5f, 1.0F);
+        }).bounds(x - 78, y + 95, 12, 12)
+                .setRender(new UVImgRender(229, 72, 12, 12))
+                .setTexture(GuiPokeWatch.getWidgetTex())
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.sound.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.sound.narrate")).build());
+
+        // Shiny Button
+       shiny = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
+           if (this.pokemob.getPokedexEntry().hasShiny && !this.pokemob.getEntity().isAddedToWorld()) {
         		this.pokemob.setShiny(!this.pokemob.isShiny());
         		this.pokemob.onGenesChanged();
         	}
-        }).bounds(x - 78, y + 93, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
-    		   .setRender(new UVImgRender(241, 36, 12, 12)).build());
-       
-       this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
-           this.watch.player.playSound(this.pokemob.getSound(), 0.5f, 1.0F);
-       }).bounds(x - 78, y + 79, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
-    		   .setRender(new UVImgRender(229, 72, 12, 12)).build());
-       
-       this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b ->
-               {
-                   GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
-                   this.watch.init();
-        }).bounds(x + 137, y + 7, 17, 17).setTexture(GuiPokeWatch.getWidgetTex())
-    		   .setRender(new UVImgRender(110, 72, 17, 17)).build());
+        }).bounds(x - 65, y + 95, 12, 12)
+               .setRender(new UVImgRender(241, 36, 12, 12))
+               .setTexture(GuiPokeWatch.getWidgetTex())
+               .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.shiny.narrate")).build());
+
+        shiny.active = this.pokemob.getPokedexEntry().hasShiny && !this.pokemob.getEntity().isAddedToWorld();
+
+        // Change Forms Button
+        formChanger = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
+            if (this.pokemob.getEntity().isAddedToWorld()) return;
+            PokedexEntry entry = this.pokemob.getPokedexEntry();
+            PokedexEntry nextEntry = Pokedex.getInstance().getNextForm(entry);
+            if (nextEntry == entry) nextEntry = Pokedex.getInstance().getFirstForm(entry);
+            this.pokemob = this.pokemob.setPokedexEntry(nextEntry);
+            this.pokemob.setBasePokedexEntry(nextEntry);
+            this.initPages(this.pokemob);
+        }).bounds(x - 52, y + 95, 12, 12)
+                .setRender(new UVImgRender(241, 72, 12, 12))
+                .setTexture(GuiPokeWatch.getWidgetTex())
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.forms.narrate")).build());
+
+        PokedexEntry entry = this.pokemob.getPokedexEntry();
+        PokedexEntry firstEntry = Pokedex.getInstance().getFirstForm(entry);
+        PokedexEntry nextEntry = Pokedex.getInstance().getNextForm(entry);
+        PokedexEntry previousEntry = Pokedex.getInstance().getPreviousForm(entry);
+        formChanger.active = (firstEntry != nextEntry && previousEntry != firstEntry) && !this.pokemob.getEntity().isAddedToWorld();
+
+        // Gender Button
+        Component genderText = TComponent.literal("");
+        if (this.pokemob.getSexe() == IPokemob.MALE)
+        {
+            genderText = TComponent.literal("\u2642");
+        } else if (this.pokemob.getSexe() == IPokemob.FEMALE)
+        {
+            genderText = TComponent.literal("\u2640");
+        }
+
+        this.gender = this.addRenderableWidget(new TexButton.Builder(genderText, b -> {
+            var old = this.pokemob.getPokedexEntry();
+            var e = old;
+            switch (this.pokemob.getSexe())
+            {
+                case IPokemob.MALE:
+                    e = old.getForGender(IPokemob.FEMALE);
+                    this.pokemob.setSexe(IPokemob.FEMALE);
+                    if (e != old)
+                    {
+                        this.pokemob = this.pokemob.setPokedexEntry(e);
+                        this.pokemob.setBasePokedexEntry(e);
+                    }
+                    this.initPages(this.pokemob);
+                    break;
+                case IPokemob.FEMALE:
+                    e = old.getForGender(IPokemob.MALE);
+                    this.pokemob.setSexe(IPokemob.MALE);
+                    if (e != old)
+                    {
+                        this.pokemob = this.pokemob.setPokedexEntry(e);
+                        this.pokemob.setBasePokedexEntry(e);
+                    }
+                    this.initPages(this.pokemob);
+                    break;
+            }
+            this.pokemob.onGenesChanged();
+        }).bounds(x - 39, y + 95, 12, 12)
+                .setRender(new UVImgRender(200, 0, 12, 12))
+                .setTexture(GuiPokeWatch.getWidgetTex()).shadow(true)
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.gender.narrate")).build());
+
+        this.gender.active = !this.pokemob.getEntity().isAddedToWorld() &&
+                (this.pokemob.getSexe() == IPokemob.MALE || this.pokemob.getSexe() == IPokemob.FEMALE);
+        if (this.pokemob.getSexe() == IPokemob.MALE) gender.setFGColor(ChatFormatting.DARK_BLUE.getColor());
+        else if (this.pokemob.getSexe() == IPokemob.FEMALE) gender.setFGColor(ChatFormatting.DARK_RED.getColor());
     }
 }

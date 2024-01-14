@@ -71,20 +71,21 @@ public class GlobalProgress extends Progress
         }).bounds(x - 50, y + 38, 100, 12).setTexture(GuiPokeWatch.getWidgetTex())
         		.setRender(new UVImgRender(0, 72, 100, 12)).build());
 
-        inspectBtn.setFGColor(0x444444);
+        if (GuiPokeWatch.nightMode) inspectBtn.setFGColor(0xFFE06F);
+        else inspectBtn.setFGColor(0xADDCFF);
 
         if (player != this.watch.player) inspectBtn.visible = false;
 
-        for (var line : this.font.getSplitter().splitLines(captureLine, 190, Style.EMPTY))
+        for (var line : this.font.getSplitter().splitLines(captureLine, 205, Style.EMPTY))
             this.lines.add(line.getString());
         this.lines.add("");
-        for (var line : this.font.getSplitter().splitLines(killLine, 190, Style.EMPTY))
+        for (var line : this.font.getSplitter().splitLines(killLine, 205, Style.EMPTY))
             this.lines.add(line.getString());
         this.lines.add("");
-        for (var line : this.font.getSplitter().splitLines(hatchLine, 190, Style.EMPTY))
+        for (var line : this.font.getSplitter().splitLines(hatchLine, 205, Style.EMPTY))
             this.lines.add(line.getString());
         this.lines.add("");
-        for (var line : this.font.getSplitter().splitLines(nearbyLine, 190, Style.EMPTY))
+        for (var line : this.font.getSplitter().splitLines(nearbyLine, 205, Style.EMPTY))
             this.lines.add(line.getString());
     }
 

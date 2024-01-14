@@ -9,6 +9,7 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
@@ -19,6 +20,7 @@ import net.minecraft.world.Difficulty;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.client.gui.helper.ScrollGui;
+import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.client.gui.watch.util.ListPage;
@@ -71,17 +73,60 @@ public class SpawnsPage extends ListPage<LineEntry>
         int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2;
         final int max = this.font.lineHeight;
-        final int height = max * 6;
+        final int height = max * 11;
 
-        final int dx = 55;
-        final int dy = 45;
+        final int dx = 15;
+        final int dy = 37;
         offsetX += dx;
         offsetY += dy;
 
         final String local = "Local_Rate";
         final List<PokedexEntry> names = Lists.newArrayList(PacketPokedex.selectedLoc.keySet());
         final Map<PokedexEntry, Float> rates = Maps.newHashMap();
-        this.list = new ScrollGui<>(this, this.minecraft, 151, height, max, offsetX, offsetY);
+
+        if (GuiPokeWatch.nightMode)
+        {
+            if (this.repel = PacketPokedex.repelled || Minecraft.getInstance().level.getDifficulty() == Difficulty.PEACEFUL) {
+                this.list = new ScrollGui<LineEntry>(this, this.minecraft, 230, max * 9, max, offsetX, offsetY)
+                    .setScrollBarColor(255, 150, 79)
+                    .setScrollBarDarkBorder(211, 81, 29)
+                    .setScrollBarGrayBorder(244, 123, 58)
+                    .setScrollBarLightBorder(255, 190, 111)
+                    .setScrollColor(244, 123, 58)
+                    .setScrollDarkBorder(211, 81, 29)
+                    .setScrollLightBorder(255, 190, 111);
+            } else {
+                this.list = new ScrollGui<LineEntry>(this, this.minecraft, 230, height, max, offsetX, offsetY)
+                    .setScrollBarColor(255, 150, 79)
+                    .setScrollBarDarkBorder(211, 81, 29)
+                    .setScrollBarGrayBorder(244, 123, 58)
+                    .setScrollBarLightBorder(255, 190, 111)
+                    .setScrollColor(244, 123, 58)
+                    .setScrollDarkBorder(211, 81, 29)
+                    .setScrollLightBorder(255, 190, 111);
+            }
+        } else {
+            if (this.repel = PacketPokedex.repelled || Minecraft.getInstance().level.getDifficulty() == Difficulty.PEACEFUL) {
+                this.list = new ScrollGui<LineEntry>(this, this.minecraft, 230, max * 9, max, offsetX, offsetY)
+                        .setScrollBarColor(83, 175, 255)
+                        .setScrollBarDarkBorder(39, 75, 142)
+                        .setScrollBarGrayBorder(69, 132, 249)
+                        .setScrollBarLightBorder(255, 255, 255)
+                        .setScrollColor(69, 132, 249)
+                        .setScrollDarkBorder(39, 75, 142)
+                        .setScrollLightBorder(255, 255, 255);
+            } else {
+                this.list = new ScrollGui<LineEntry>(this, this.minecraft, 230, height, max, offsetX, offsetY)
+                        .setScrollBarColor(83, 175, 255)
+                        .setScrollBarDarkBorder(39, 75, 142)
+                        .setScrollBarGrayBorder(69, 132, 249)
+                        .setScrollBarLightBorder(255, 255, 255)
+                        .setScrollColor(69, 132, 249)
+                        .setScrollDarkBorder(39, 75, 142)
+                        .setScrollLightBorder(255, 255, 255);
+            }
+        }
+
         for (final PokedexEntry e : names)
         {
             try
@@ -118,7 +163,7 @@ public class SpawnsPage extends ListPage<LineEntry>
         for (final PokedexEntry pokeEntry : names)
         {
             final SpawnListEntry entry = new SpawnListEntry(this, this.font, PacketPokedex.selectedLoc.get(pokeEntry),
-                    pokeEntry, 120, height, offsetY);
+                    pokeEntry, 205, height, offsetY);
             final List<LineEntry> lines = entry.getLines(this.list, listener);
             final Component water0 = TComponent.translatable("pokewatch.spawns.water_only");
             final Component water1 = TComponent.translatable("pokewatch.spawns.water_optional");
@@ -160,25 +205,47 @@ public class SpawnsPage extends ListPage<LineEntry>
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
         final int colour = 0xFF78C850;
         //Draw Tile Page
-        graphics.drawCenteredString(this.font, I18n.get("pokewatch.spawns.info"), x + 130, y + 8, colour);
+        graphics.drawCenteredString(this.font, I18n.get("pokewatch.spawns.info"), x + 128, y + 5, colour);
 
         if (Minecraft.getInstance().level.getDifficulty() == Difficulty.PEACEFUL)
         {
             final MutableComponent comp = TComponent.translatable("pokewatch.spawns.peaceful");
-            var list = this.font.split(comp, 120);
+            var list = this.font.split(comp, 205);
             int n = 0;
             for (var entry : list)
-            	graphics.drawCenteredString(this.font, entry, x + 130, y + 118 + 8 * n++, 0); //100
+            	graphics.drawCenteredString(this.font, entry, x + 130, y + 128 + 8 * n++, 0); // 100
         }
         else if (this.repel = PacketPokedex.repelled)
         {
             final MutableComponent comp = TComponent.translatable("pokewatch.spawns.repelled");
-            var list = this.font.split(comp, 120);
+            var list = this.font.split(comp, 205);
             int n = 0;
             for (var entry : list)
-            	graphics.drawCenteredString(this.font, entry, x + 130, y + 118 + 8 * n++, 0); //100
+            	graphics.drawCenteredString(this.font, entry, x + 130, y + 128 + 8 * n++, 0); // 100
         }
 
         super.render(graphics, mouseX, mouseY, partialTicks);
+    }
+
+    TexButton nightMode;
+
+    @Override
+    public void onPageOpened()
+    {
+        super.onPageOpened();
+        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
+        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
+
+        this.nightMode = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b ->
+        {
+            GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
+            this.watch.init();
+        }).bounds(x - 108, y + 102, 17, 17).setRender(new TexButton.UVImgRender(110, 72, 17, 17))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.night_mode.narrate"))
+                .setTexture(GuiPokeWatch.getWidgetTex()).build());
+
+        if (GuiPokeWatch.nightMode)
+            this.nightMode.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.light_mode.tooltip")));
+        else this.nightMode.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.dark_mode.tooltip")));
     }
 }

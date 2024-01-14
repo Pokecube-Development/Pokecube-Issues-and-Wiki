@@ -16,11 +16,11 @@ import thut.api.maths.Vector3;
 
 public class Regice extends AbstractRegiCondition
 {
-    private static final ResourceLocation VALID = new ResourceLocation(Reference.ID, "arceus_approved/regice");
+    private static final ResourceLocation VALID_BLOCKS = new ResourceLocation(Reference.ID, "arceus_approved/regice");
 
     public Regice()
     {
-        super("regice", BlockInit.GOLEM_STONE.get(), BlockInit.REGICE_CORE.get(), Regice.VALID);
+        super("regice", BlockInit.GOLEM_STONE.get(), BlockInit.REGICE_CORE.get(), Regice.VALID_BLOCKS);
     }
 
     @Override
@@ -63,15 +63,15 @@ public class Regice extends AbstractRegiCondition
         check = AbstractCondition.isBlock(world, locations, BlockInit.GOLEM_STONE.get());
         if (check)
         {
-            check = AbstractCondition.isBlock(world, locations, Regice.VALID);
+            check = AbstractCondition.isBlock(world, locations, Regice.VALID_BLOCKS);
             Block b = location.add(1, 0, 0).getBlock(world);
             b = location.add(-1, 0, 0).getBlock(world);
-            check = ItemList.is(Regice.VALID, b);
+            check = ItemList.is(Regice.VALID_BLOCKS, b);
             if (!check)
             {
                 b = location.add(1, 0, 0).getBlock(world);
                 b = location.add(-1, 0, 0).getBlock(world);
-                check = ItemList.is(Regice.VALID, b);
+                check = ItemList.is(Regice.VALID_BLOCKS, b);
             }
         }
         else
@@ -84,15 +84,15 @@ public class Regice extends AbstractRegiCondition
             check = AbstractCondition.isBlock(world, locations, BlockInit.GOLEM_STONE.get());
             if (check)
             {
-                check = AbstractCondition.isBlock(world, locations, Regice.VALID);
+                check = AbstractCondition.isBlock(world, locations, Regice.VALID_BLOCKS);
                 Block b = location.add(0, 0, 1).getBlock(world);
                 b = location.add(0, 0, -1).getBlock(world);
-                check = ItemList.is(Regice.VALID, b);
+                check = ItemList.is(Regice.VALID_BLOCKS, b);
                 if (!check)
                 {
                     b = location.add(0, 0, 1).getBlock(world);
                     b = location.add(0, 0, -1).getBlock(world);
-                    check = ItemList.is(Regice.VALID, b);
+                    check = ItemList.is(Regice.VALID_BLOCKS, b);
                 }
             }
         }

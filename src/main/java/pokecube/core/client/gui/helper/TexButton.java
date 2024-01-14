@@ -109,13 +109,24 @@ public class TexButton extends Button
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
             RenderSystem.enableDepthTest();
-            final int i = button.getTextureY();
-            graphics.blit(Resources.SLOT_ICON_CUBE, button.getX(), button.getY(),
-                    button.uOffset, button.vOffset + i * button.vSize,
-                    button.width / 2, button.height);
-            graphics.blit(Resources.SLOT_ICON_CUBE,  button.getX() + button.width / 2, button.getY(),
-                    button.uEnd.apply(button.width), button.vOffset + i * button.vSize,
-                    button.width / 2, button.height);
+            int i = button.getTextureY();
+            if (!button.isActive())
+            {
+                i = 0;
+                graphics.blit(Resources.SLOT_ICON_CUBE, button.getX(), button.getY(),
+                        button.uOffset, button.vOffset + i * button.vSize,
+                        button.width / 2, button.height);
+                graphics.blit(Resources.SLOT_ICON_CUBE,  button.getX() + button.width / 2, button.getY(),
+                        button.uEnd.apply(button.width), button.vOffset + i * button.vSize,
+                        button.width / 2, button.height);
+            } else {
+                graphics.blit(Resources.SLOT_ICON_CUBE, button.getX(), button.getY(),
+                        button.uOffset, button.vOffset + i * button.vSize,
+                        button.width / 2, button.height);
+                graphics.blit(Resources.SLOT_ICON_CUBE,  button.getX() + button.width / 2, button.getY(),
+                        button.uEnd.apply(button.width), button.vOffset + i * button.vSize,
+                        button.width / 2, button.height);
+            }
             //@formatter:on
         }
     }
@@ -151,6 +162,7 @@ public class TexButton extends Button
     public ResourceLocation texture = AbstractWidget.WIDGETS_LOCATION;
 
     boolean renderName = true;
+    boolean shadowed = false;
 
     int uOffset = 0;
     int vOffset = 46;
@@ -185,6 +197,7 @@ public class TexButton extends Button
         setTooltip(builder.tooltip);
         if (!builder.renderName) this.noName();
         this.setRender(builder.render);
+        this.shadowed = builder.shadowed;
         this.renderName = builder.renderName;
         this.render = builder.render;
         this.texture = builder.texture;
@@ -212,6 +225,12 @@ public class TexButton extends Button
     public TexButton noName()
     {
         this.renderName = false;
+        return this;
+    }
+
+    public TexButton shadow(Boolean hasShadow)
+    {
+        this.shadowed = hasShadow;
         return this;
     }
 
@@ -267,6 +286,13 @@ public class TexButton extends Button
             graphics.drawString(fontrenderer, msg, (int) (this.getX() + this.getWidth() / 2 - dx),
                     this.getY() + (this.getHeight() - 8) / 2, j | 255 << 24, false);
         }
+        if (this.shadowed && this.renderName)
+        {
+            final String msg = this.getMessage().getString();
+            final float dx = fontrenderer.width(msg) / 2f;
+            graphics.drawString(fontrenderer, msg, (int) (this.getX() + this.getWidth() / 2 - dx),
+                    this.getY() + (this.getHeight() - 8) / 2, j | 255 << 24, true);
+        }
         if (this.isHovered() && this.onTooltip != null)
             this.onTooltip.onTooltip(this, graphics, mouseX, mouseY);
     }
@@ -305,6 +331,7 @@ public class TexButton extends Button
         public int width = 150;
         public int height = 20;
         boolean renderName = true;
+        boolean shadowed = false;
         public TexButton.CreateNarration createNarration;
         public ResourceLocation texture = AbstractWidget.WIDGETS_LOCATION;
         ImgRender render = new ImgRender()
@@ -376,6 +403,12 @@ public class TexButton extends Button
         public TexButton.Builder noName()
         {
             this.renderName = false;
+            return this;
+        }
+
+        public TexButton.Builder shadow(Boolean hasShadow)
+        {
+            this.shadowed = hasShadow;
             return this;
         }
 

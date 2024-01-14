@@ -86,14 +86,14 @@ public class Category implements IRecipeCategory<InteractRecipe>
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, InteractRecipe recipe, IFocusGroup focuses)
     {
-        IRecipeSlotBuilder outputSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, 84, 18);
+        IRecipeSlotBuilder outputSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, 85, 19);
         if (recipe.to != null) outputSlot.addIngredient(Pokemob.TYPE, recipe.to);
         else if (!recipe.interaction.stacks.isEmpty())
         {
             outputSlot.addIngredients(VanillaTypes.ITEM_STACK, recipe.interaction.stacks);
         }
 
-        IRecipeSlotBuilder inputMob = builder.addSlot(RecipeIngredientRole.INPUT, 18, 18);
+        IRecipeSlotBuilder inputMob = builder.addSlot(RecipeIngredientRole.INPUT, 18, 19);
         inputMob.addIngredient(Pokemob.TYPE, recipe.from);
 
         ItemStack needed = recipe.key;

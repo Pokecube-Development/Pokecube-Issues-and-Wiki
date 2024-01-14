@@ -3,6 +3,7 @@ package pokecube.core.client.gui.watch;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Lists;
@@ -73,7 +74,8 @@ public class GuiPokeWatch extends Screen
             WatchPage page = gui.createPage(index);
             gui.addRenderableWidget(new TexButton.Builder(page.getTitle(), b -> {
                 gui.changePage(this.index, true);
-            }).bounds(x + buttonX, y + buttonY, 24, 24).onTooltip(new ShiftedTooltip(-128 , -95 - buttonY))
+            }).bounds(x + buttonX, y + buttonY, 24, 24).onTooltip(new ShiftedTooltip(-129 , -96 - buttonY))
+                    .createNarration(supplier -> Component.literal(page.getTitle().getString()))
                     .setTexture(GuiPokeWatch.getWidgetTex()).noName()
                     .setRender(new UVImgRender(uOffset, vOffset, 24, 24)).build());
         }
@@ -223,13 +225,13 @@ public class GuiPokeWatch extends Screen
         this.current_page.init();
 
         List<UVHolder> buttons = new ArrayList<>();
-        buttons.add(new UVHolder(-152, -85, 24, 108, 0)); // home
-        buttons.add(new UVHolder(128, -85, 0, 0, 1)); // Pokedex
-        buttons.add(new UVHolder(128, -61, 96, 0, 2)); // wiki
-        buttons.add(new UVHolder(128, -37, 48, 0, 3)); // spawns
-        buttons.add(new UVHolder(128, -13, 72, 0, 4)); // trainer
-        buttons.add(new UVHolder(128, 11, 24, 0, 5)); // teleport
-        buttons.add(new UVHolder(128, 35, 120, 0, 6)); // bases/meteors
+        buttons.add(new UVHolder(-153, -85, 24, 108, 0)); // home
+        buttons.add(new UVHolder(129, -85, 0, 0, 1)); // Pokedex
+        buttons.add(new UVHolder(129, -60, 96, 0, 2)); // wiki
+        buttons.add(new UVHolder(129, -35, 48, 0, 3)); // spawns
+        buttons.add(new UVHolder(129, -10, 72, 0, 4)); // trainer
+        buttons.add(new UVHolder(129, 15, 24, 0, 5)); // teleport
+        buttons.add(new UVHolder(129, 40, 120, 0, 6)); // bases/meteors
         buttons.forEach(uv -> uv.makeButton(this));
         this.current_page.onPageOpened();
     }

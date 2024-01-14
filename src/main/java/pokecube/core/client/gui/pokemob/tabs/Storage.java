@@ -117,7 +117,7 @@ public class Storage extends Tab
             var split = parent.font.split(tooltip, this.imageWidth);
             // TODO: Fix tooltips
             parent.setTooltipForNextRenderPass(split);
-        }).bounds(k + 64, l + 54, 16, 16).build()).noAuto();
+        }).bounds(k + 63, l + 54, 16, 16).build()).noAuto();
     }
 
     @Override
@@ -287,6 +287,6 @@ public class Storage extends Tab
         final int k = (this.width - this.imageWidth) / 2;
         final int l = (this.height - this.imageHeight) / 2;
         // The off-hand slot
-        graphics.blit(POKEMOB_GUI, k + 63, l + 53, 0, this.imageHeight + 72, 18, 18);
+        graphics.blit(POKEMOB_GUI, k + 62, l + 53, 0, this.imageHeight + 72, 18, 18);
     }
 }

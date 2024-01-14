@@ -3,6 +3,7 @@ package pokecube.core.client.gui.watch;
 import java.util.Map;
 import java.util.Set;
 
+import net.minecraft.client.gui.components.Tooltip;
 import org.joml.Matrix4f;
 
 import com.google.common.collect.Maps;
@@ -36,6 +37,7 @@ public class SecretBaseRadarPage extends WatchPage
 
     public static Map<RadarMode, Set<BlockPos>> radar_hits = Maps.newHashMap();
 
+    TexButton nightMode;
     public static enum RadarMode
     {
         SECRET_BASE("base"), METEOR("meteor", 10), SPAWN_INHIBITORS("repels");
@@ -114,15 +116,29 @@ public class SecretBaseRadarPage extends WatchPage
     public void onPageOpened()
     {
         super.onPageOpened();
-        //final int x = this.watch.width / 2;
-        //final int y = this.watch.height / 2 - 5;
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
-        
+
         this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""),
-                b -> SecretBaseRadarPage.mode = RadarMode.values()[(SecretBaseRadarPage.mode.ordinal() + 1)
-                        % RadarMode.values().length]).bounds(x + 136, y + 90, 17, 17).setTexture(GuiPokeWatch.getWidgetTex())
-                                .setRender(new UVImgRender(212, 123, 17, 17)).build());
+                b -> SecretBaseRadarPage.mode =
+                        RadarMode.values()[(SecretBaseRadarPage.mode.ordinal() + 1) % RadarMode.values().length])
+                .bounds(x + 136, y + 90, 17, 17)
+                .setTexture(GuiPokeWatch.getWidgetTex())
+                .setRender(new UVImgRender(212, 123, 17, 17))
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.radar.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.radar.narrate")).build());
+
+        this.nightMode = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b ->
+        {
+            GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
+            this.watch.init();
+        }).bounds(x - 108, y + 102, 17, 17).setTexture(GuiPokeWatch.getWidgetTex())
+                .setRender(new UVImgRender(110, 72, 17, 17))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.night_mode.narrate")).build());
+
+        if (GuiPokeWatch.nightMode)
+            this.nightMode.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.light_mode.tooltip")));
+        else this.nightMode.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.dark_mode.tooltip")));
     }
 
     @Override
@@ -194,8 +210,7 @@ public class SecretBaseRadarPage extends WatchPage
         }
         tessellator.end();
         graphics.pose().popPose();
-        graphics.drawCenteredString(this.font, this.getTitle().getString(), x + 128, y + 8, 0x78C850);
-
+        graphics.drawCenteredString(this.font, this.getTitle().getString(), x + 128, y + 18, 0x78C850);
         super.render(graphics, mouseX, mouseY, partialTicks);
     }
 }

@@ -542,6 +542,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
                 output.accept(PlantsInit.AZURE_COLEUS.get());
                 output.accept(PlantsInit.COMPRECED_MUSHROOM.get());
                 output.accept(PlantsInit.DISTORCED_MUSHROOM.get());
+                output.accept(PlantsInit.GRACIDEA.get());
                 output.accept(PlantsInit.INVERTED_ORCHID.get());
                 output.accept(BlockInit.BIG_CONTAMINATED_DRIPLEAF.get());
                 output.accept(BlockInit.SMALL_CONTAMINATED_DRIPLEAF.get());
@@ -596,6 +597,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
                 output.accept(ItemInit.ZACIAN_SWORD.get());
                 output.accept(ItemInit.ZAMAZENTA_SHIELD.get());
 
+                output.accept(ItemInit.IMPRISIONMENT_HELMET.get());
                 output.accept(ItemInit.ULTRA_HELMET.get());
                 output.accept(ItemInit.ULTRA_CHESTPLATE.get());
                 output.accept(ItemInit.ULTRA_LEGGINGS.get());
@@ -786,7 +788,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
                 output.accept(ItemInit.DNA_SPLICER_B.get());
                 output.accept(ItemInit.N_LUNARIZER.get());
                 output.accept(ItemInit.N_SOLARIZER.get());
-                output.accept(ItemInit.GRACIDEA.get());
+                output.accept(PlantsInit.GRACIDEA.get());
                 output.accept(ItemInit.METEORITE.get());
                 output.accept(ItemInit.METEOR_SHARD.get());
                 output.accept(ItemInit.CHIPPED_POT.get());
@@ -1024,7 +1026,8 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
             addAfter(event, ItemInit.ZACIAN_SWORD.get(), ItemInit.RAINBOW_SWORD.get());
             addAfter(event, Items.SHIELD, ItemInit.ZAMAZENTA_SHIELD.get());
 
-            addAfter(event, Items.NETHERITE_BOOTS, ItemInit.ULTRA_HELMET.get());
+            addAfter(event, Items.TURTLE_HELMET, ItemInit.IMPRISIONMENT_HELMET.get());
+            addAfter(event, ItemInit.IMPRISIONMENT_HELMET.get(), ItemInit.ULTRA_HELMET.get());
             addAfter(event, ItemInit.ULTRA_HELMET.get(), ItemInit.ULTRA_CHESTPLATE.get());
             addAfter(event, ItemInit.ULTRA_CHESTPLATE.get(), ItemInit.ULTRA_LEGGINGS.get());
             addAfter(event, ItemInit.ULTRA_LEGGINGS.get(), ItemInit.ULTRA_BOOTS.get());
@@ -1032,6 +1035,8 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
 
         if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
+            addAfter(event, Items.PINK_PETALS, PlantsInit.GRACIDEA.get());
+
             addAfter(event, Items.DEEPSLATE_IRON_ORE, BlockInit.ASH_IRON_ORE.get());
             addAfter(event, Items.DEEPSLATE_DIAMOND_ORE, BlockInit.RUBY_ORE.get());
             addAfter(event, BlockInit.RUBY_ORE.get(), BlockInit.DEEPSLATE_RUBY_ORE.get());

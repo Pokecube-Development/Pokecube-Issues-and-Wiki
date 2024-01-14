@@ -11,6 +11,7 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.ClickEvent;
@@ -102,23 +103,51 @@ public class WikiPage extends ListPage<LineEntry>
     {
         super.initList();
         final int x = this.watch.width / 2;
-        final int y = this.watch.height / 2 - 5;
-        final Component next = TComponent.literal(">");
-        final Component prev = TComponent.literal("<");
-        final TexButton nextBtn = this.addRenderableWidget(new TexButton.Builder(next, b -> {
-            this.index++;
-            this.setList();
-        }).bounds(x + 64, y - 75, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
-        		.setRender(new UVImgRender(200, 0, 12, 12)).build());
+        final int y = this.watch.height / 2;
+        final Component next = TComponent.literal("");
+        final Component prev = TComponent.literal("");
+
         final TexButton prevBtn = this.addRenderableWidget(new TexButton.Builder(prev, b -> {
             this.index--;
             this.setList();
-        }).bounds(x - 69, y - 75, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
-        		.setRender(new UVImgRender(200, 0, 12, 12)).build());
+        }).bounds(x - 116, y - 79, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
+        		.setRender(new UVImgRender(229, 108, 12, 12))
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.prev_wiki.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.prev_wiki.narrate")).build());
+
+        final TexButton nextBtn = this.addRenderableWidget(new TexButton.Builder(next, b -> {
+            this.index++;
+            this.setList();
+        }).bounds(x + 104, y - 79, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
+                .setRender(new UVImgRender(241, 108, 12, 12))
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.next_wiki.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.next_wiki.narrate")).build());
         this.setList();
         
         nextBtn.setFGColor(0x444444);
         prevBtn.setFGColor(0x444444);
+    }
+
+    TexButton nightMode;
+
+    @Override
+    public void onPageOpened()
+    {
+        super.onPageOpened();
+        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
+        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
+
+        this.nightMode = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b ->
+        {
+            GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
+            this.watch.init();
+        }).bounds(x - 108, y + 102, 17, 17).setRender(new TexButton.UVImgRender(110, 72, 17, 17))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.night_mode.narrate"))
+                .setTexture(GuiPokeWatch.getWidgetTex()).build());
+
+        if (GuiPokeWatch.nightMode)
+            this.nightMode.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.light_mode.tooltip")));
+        else this.nightMode.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.dark_mode.tooltip")));
     }
 
     @Override
@@ -135,13 +164,35 @@ public class WikiPage extends ListPage<LineEntry>
             if (reward instanceof FreeTranslatedReward) books.add((FreeTranslatedReward) reward);
 
         books.sort((o1, o2) -> o1.key.compareTo(o2.key));
-        final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 70;
-        final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
-        final int height = 90; // 100
+        final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 16;
+        final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 37;
+        final int height = this.font.lineHeight * 11; // 100
 
         if (this.list != null) this.children.remove(this.list);
 
-        this.list = new ScrollGui<>(this, this.minecraft, 135, height, this.font.lineHeight + 2, offsetX - 40, offsetY + 18);
+        if (GuiPokeWatch.nightMode)
+        {
+            this.list = new ScrollGui<LineEntry>(this,
+                this.minecraft, 228, height, this.font.lineHeight, offsetX, offsetY)
+                    .setScrollBarColor(255, 150, 79)
+                    .setScrollBarDarkBorder(211, 81, 29)
+                    .setScrollBarGrayBorder(244, 123, 58)
+                    .setScrollBarLightBorder(255, 190, 111)
+                    .setScrollColor(244, 123, 58)
+                    .setScrollDarkBorder(211, 81, 29)
+                    .setScrollLightBorder(255, 190, 111);
+        } else {
+            this.list = new ScrollGui<LineEntry>(this,
+                this.minecraft, 228, height, this.font.lineHeight, offsetX, offsetY)
+                    .setScrollBarColor(83, 175, 255)
+                    .setScrollBarDarkBorder(39, 75, 142)
+                    .setScrollBarGrayBorder(69, 132, 249)
+                    .setScrollBarLightBorder(255, 255, 255)
+                    .setScrollColor(69, 132, 249)
+                    .setScrollDarkBorder(39, 75, 142)
+                    .setScrollLightBorder(255, 255, 255);
+        }
+
         // x - 5 / y
         if (books.isEmpty()) return;
         if (this.index < 0) this.index = books.size() - 1;
@@ -171,7 +222,7 @@ public class WikiPage extends ListPage<LineEntry>
             for (int i = 0; i < bookPages.size(); i++)
             {
                 final MutableComponent page = Component.Serializer.fromJsonLenient(bookPages.getString(i));
-                var list = this.font.split(page, 120);
+                var list = this.font.split(page, 215);
                 for (var line : list)
                 {
                     final LineEntry wikiline = new WikiLine(this.list, -5, 0, this.font, line, i)
@@ -217,7 +268,7 @@ public class WikiPage extends ListPage<LineEntry>
                     }
 
                     final MutableComponent comp = TComponent.literal(line);
-                    var list = this.font.getSplitter().splitLines(comp, 120, Style.EMPTY);
+                    var list = this.font.getSplitter().splitLines(comp, 215, Style.EMPTY);
                     Style style = Style.EMPTY;
 
                     String fmt = "";

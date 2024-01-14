@@ -40,6 +40,7 @@ public class PottedPlantsInit
     public static final RegistryObject<Block> POTTED_GOLDEN_SHROOM;
     public static final RegistryObject<Block> POTTED_GOLDEN_SWEET_BERRY_BUSH;
     public static final RegistryObject<Block> POTTED_GOLDEN_TULIP;
+    public static final RegistryObject<Block> POTTED_GRACIDEA;
     public static final RegistryObject<Block> POTTED_HANGING_TENDRILS;
     public static final RegistryObject<Block> POTTED_INVERTED_ORCHID;
     public static final RegistryObject<Block> POTTED_LARGE_GOLDEN_FERN;
@@ -141,9 +142,12 @@ public class PottedPlantsInit
         POTTED_GOLDEN_TULIP = PokecubeLegends.NO_ITEM_BLOCKS.register("potted_golden_tulip",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_TULIP.get(),
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
-        POTTED_INVERTED_ORCHID = PokecubeLegends.NO_ITEM_BLOCKS.register("potted_inverted_orchid",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.INVERTED_ORCHID.get(),
+        POTTED_GRACIDEA = PokecubeLegends.NO_ITEM_BLOCKS.register("potted_gracidea",
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GRACIDEA.get(),
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+        POTTED_INVERTED_ORCHID = PokecubeLegends.NO_ITEM_BLOCKS.register("potted_inverted_orchid",
+            () -> new ItemGenerator.GenericPottedPlant(PlantsInit.INVERTED_ORCHID.get(),
+                    BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
         POTTED_HANGING_TENDRILS = PokecubeLegends.NO_ITEM_BLOCKS.register("potted_hanging_tendrils",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.HANGING_TENDRILS.get(),
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));

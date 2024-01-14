@@ -83,10 +83,10 @@ public class Category implements IRecipeCategory<Evolution>
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, Evolution recipe, IFocusGroup focuses)
     {
-        IRecipeSlotBuilder outputSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, 84, 18);
+        IRecipeSlotBuilder outputSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, 85, 19);
         outputSlot.addIngredient(Pokemob.TYPE, recipe.to);
 
-        IRecipeSlotBuilder inputMob = builder.addSlot(RecipeIngredientRole.INPUT, 18, 18);
+        IRecipeSlotBuilder inputMob = builder.addSlot(RecipeIngredientRole.INPUT, 18, 19);
         inputMob.addIngredient(Pokemob.TYPE, recipe.from);
 
 //        ItemStack needed = recipe.data.item;
