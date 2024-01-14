@@ -101,7 +101,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
             gender.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.gender.tooltip")));
         else gender.setTooltip(Tooltip.create(Component.literal("")));
 
-        this.gender.active = !this.pokemob.getEntity().isAddedToWorld() &&
+        StartWatch.gender.active = !this.pokemob.getEntity().isAddedToWorld() &&
                 (this.pokemob.getSexe() == IPokemob.MALE || this.pokemob.getSexe() == IPokemob.FEMALE);
     }
 
@@ -286,7 +286,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
             genderText = TComponent.literal("\u2640");
         }
 
-        this.gender = this.addRenderableWidget(new TexButton.Builder(genderText, b -> {
+        StartWatch.gender = this.addRenderableWidget(new TexButton.Builder(genderText, b -> {
             var old = this.pokemob.getPokedexEntry();
             var e = old;
             switch (this.pokemob.getSexe())
@@ -318,7 +318,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
                 .setTexture(GuiPokeWatch.getWidgetTex()).shadow(true)
                 .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.gender.narrate")).build());
 
-        this.gender.active = !this.pokemob.getEntity().isAddedToWorld() &&
+        StartWatch.gender.active = !this.pokemob.getEntity().isAddedToWorld() &&
                 (this.pokemob.getSexe() == IPokemob.MALE || this.pokemob.getSexe() == IPokemob.FEMALE);
         if (this.pokemob.getSexe() == IPokemob.MALE) gender.setFGColor(ChatFormatting.DARK_BLUE.getColor());
         else if (this.pokemob.getSexe() == IPokemob.FEMALE) gender.setFGColor(ChatFormatting.DARK_RED.getColor());
