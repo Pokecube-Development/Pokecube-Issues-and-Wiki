@@ -21,7 +21,6 @@ import pokecube.core.client.gui.helper.ListEditBox;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.watch.TeleportsPage.TeleOption;
-import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.ListPage;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.api.entity.teleporting.TeleDest;

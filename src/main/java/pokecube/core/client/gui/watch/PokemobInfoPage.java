@@ -24,7 +24,6 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.utils.PokeType;
 import pokecube.core.client.gui.AnimationGui;
-import pokecube.core.client.gui.GuiPokedex;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.ShiftedTooltip;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
@@ -234,6 +233,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             else if (entry.getSexeRatio() == 254) pokemob.setSexe(IPokemob.FEMALE);
             pokemob.onGenesChanged();
         }
+        this.addRenderableWidget(this.search);
         this.search.setVisible(!this.watch.canEdit(pokemob));
         this.search.setValue(I18n.get(entry.getUnlocalizedName()));
         PacketPokedex.sendSpecificSpawnsRequest(entry);
@@ -423,8 +423,6 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
     {
         this.children().clear();
         this.initPages(this.pokemob);
-        final int x = this.watch.width / 2;
-        final int y = this.watch.height / 2;
 
         List<UVHolder> buttons = new ArrayList<>();
         buttons.add(new UVHolder(9, -80, 127, 72, 0)); // Stats
