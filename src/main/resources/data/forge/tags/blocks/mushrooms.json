@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:compreced_mushroom",
-    "pokecube_legends:distorced_mushroom",
+    {"id": "pokecube_legends:compreced_mushroom", "required": false},
+    {"id": "pokecube_legends:distorced_mushroom", "required": false},
     {"id": "pokecube_legends:golden_shroom", "required": false},
     {"id": "pokecube_legends:golden_shroom_plant", "required": false}
   ]
