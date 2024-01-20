@@ -177,7 +177,7 @@ public class ItemGenerator
     {
         var reg = PokecubeCore.BLOCKS.register("crop_" + name, () -> {
             Block b = new BerryCrop(BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryFruits.get(name))
-                    .strength(0.0F).noCollission().randomTicks().noOcclusion()
+                    .strength(0.0F).noCollission().noOcclusion().randomTicks()
                     .sound(SoundType.CROP).pushReaction(PushReaction.DESTROY), index);
             return b;
         });
@@ -188,7 +188,7 @@ public class ItemGenerator
     {
         var reg = PokecubeCore.BLOCKS.register("fruit_" + name, () -> {
             Block b = new BerryFruit(BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryCrops.get(name))
-                    .strength(0.0F).noCollission().randomTicks().noOcclusion()
+                    .strength(0.0F).noCollission().noOcclusion().randomTicks()
                     .sound(SoundType.SWEET_BERRY_BUSH).pushReaction(PushReaction.DESTROY), index);
             return b;
         });
@@ -199,7 +199,7 @@ public class ItemGenerator
     {
         var reg = PokecubeCore.BLOCKS.register("potted_" + name + "_berry", () -> {
             Block b = new GenericPottedPlant(BerryManager.berryCrops.get(index).get(),
-                    BlockBehaviour.Properties.of().instabreak().pushReaction(PushReaction.DESTROY).noOcclusion());
+                    BlockBehaviour.Properties.of().noOcclusion().instabreak().pushReaction(PushReaction.DESTROY));
             return b;
         });
         BerryManager.pottedBerries.put(id, reg);
@@ -267,12 +267,16 @@ public class ItemGenerator
         {
             final int index = BerryManager.indexByName.get(name);
 
+            // Make the wood type.
+            WoodType woodType = BerriesWoodType.addWoodTypes(name);
+
             // Leaves
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(0).apply(name),
-                    () -> new BerryLeaf(BlockBehaviour.Properties
-                            .of().mapColor(ItemGenerator.berryLeaves.get(name)).strength(0.2F).randomTicks().noOcclusion()
+                    () -> new BerryLeaf(BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryLeaves.get(name))
+                            .randomTicks().noOcclusion().ignitedByLava().strength(0.2F)
                             .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY).isValidSpawn(PokecubeItems::ocelotOrParrot)
-                            .isSuffocating((s, r, p) -> false).isViewBlocking((s, r, p) -> false), index),
+                            .isSuffocating(PokecubeItems::never).isViewBlocking(PokecubeItems::never)
+                            .isRedstoneConductor(PokecubeItems::never), index),
                     block ->
                     {
                         ItemGenerator.leaves.put(name, block);
@@ -312,7 +316,8 @@ public class ItemGenerator
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(5).apply(name),
                     () -> new GenericBookshelf(
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
-                                    .strength(2.0F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava().noOcclusion()),
+                                    .ignitedByLava().strength(1.5F)
+                                    .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS)),
                     block ->
                     {
                         ItemGenerator.bookshelves.put(name, block);
@@ -322,7 +327,8 @@ public class ItemGenerator
             var plank_block = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(6).apply(name),
                     () -> new Block(
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
-                                    .strength(2.0F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava()),
+                                    .ignitedByLava().strength(2.0F, 3.0F)
+                                    .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS)),
                     block ->
                     {
                         ItemGenerator.planks.put(name, block);
@@ -335,7 +341,8 @@ public class ItemGenerator
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(7).apply(name),
                     () -> new GenericStairs(Blocks.OAK_PLANKS.defaultBlockState(),
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
-                                    .strength(2.0F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava()),
+                                    .ignitedByLava().strength(2.0F, 3.0F)
+                                    .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS)),
                     block ->
                     {
                         ItemGenerator.stairs.put(name, block);
@@ -344,7 +351,8 @@ public class ItemGenerator
             // Slabs
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(8).apply(name),
                     () -> new SlabBlock(BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
-                            .strength(2.0F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava()),
+                            .ignitedByLava().strength(2.0F, 3.0F)
+                            .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS)),
                     block ->
                     {
                         ItemGenerator.slabs.put(name, block);
@@ -353,7 +361,8 @@ public class ItemGenerator
             // Fences
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(9).apply(name),
                     () -> new FenceBlock(BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
-                            .strength(2.0F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava()),
+                            .ignitedByLava().strength(2.0F, 3.0F)
+                            .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS)),
                     block ->
                     {
                         ItemGenerator.fences.put(name, block);
@@ -363,18 +372,17 @@ public class ItemGenerator
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(10).apply(name),
                     () -> new FenceGateBlock(
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
-                                    .strength(2.0F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS)
-                                    .forceSolidOn().ignitedByLava().forceSolidOn(), SoundEvents.FENCE_GATE_OPEN, SoundEvents.FENCE_GATE_CLOSE),
+                                    .ignitedByLava().forceSolidOn().strength(2.0F, 3.0F)
+                                    .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS), woodType),
                     block ->
                     {
                         ItemGenerator.fence_gates.put(name, block);
                     });
 
-            // TODO: Check this
             // Buttons
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(11).apply(name),
-                    () -> new GenericButton(BlockSetType.OAK, true, 30,
-                    BlockBehaviour.Properties.of().strength(0.5f).noCollission().ignitedByLava()
+                    () -> new GenericButton(woodType.setType(), true, 30,
+                    BlockBehaviour.Properties.of().strength(0.5f).ignitedByLava().noCollission()
                             .sound(SoundType.WOOD).pushReaction(PushReaction.DESTROY)),
                     block ->
                     {
@@ -383,9 +391,9 @@ public class ItemGenerator
 
             // Pressure Plates
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(12).apply(name),
-                    () -> new GenericPressurePlate(Sensitivity.EVERYTHING, BlockSetType.OAK,
+                    () -> new GenericPressurePlate(Sensitivity.EVERYTHING, woodType.setType(),
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
-                                    .strength(0.5F).forceSolidOn().noCollission().ignitedByLava()
+                                    .strength(0.5F).ignitedByLava().forceSolidOn().noCollission()
                                     .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).pushReaction(PushReaction.DESTROY)),
                     block ->
                     {
@@ -394,9 +402,9 @@ public class ItemGenerator
 
             // Trapdoors
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(13).apply(name),
-                    () -> new GenericTrapDoor(BlockSetType.OAK,
+                    () -> new GenericTrapDoor(woodType.setType(),
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
-                                    .strength(2.0F).noOcclusion().ignitedByLava().isValidSpawn(PokecubeItems::never)
+                                    .strength(3.0F).ignitedByLava().noOcclusion().isValidSpawn(PokecubeItems::never)
                                     .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS)),
                     block ->
                     {
@@ -405,54 +413,54 @@ public class ItemGenerator
 
             // Doors
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(14).apply(name),
-                    () -> new GenericDoor(BlockSetType.OAK,
+                    () -> new GenericDoor(woodType.setType(),
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
-                                    .strength(2.0F).noOcclusion().ignitedByLava().pushReaction(PushReaction.DESTROY)
-                                    .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS)),
+                                    .strength(3.0F).ignitedByLava().noOcclusion().sound(SoundType.WOOD)
+                                    .instrument(NoteBlockInstrument.BASS).pushReaction(PushReaction.DESTROY)),
                     block ->
                     {
                         ItemGenerator.doors.put(name, block);
                     });
 
-            // Sign stuff, first make the wood type.
-            WoodType woodType = BerriesWoodType.addWoodTypes(name);
-            // sign_blocks
+            // Sign Blocks
             var standing_sign = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(16).apply(name),
                     () -> new GenericStandingSign(
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
-                                    .strength(1.0F).noCollission().noOcclusion().forceSolidOn().ignitedByLava()
+                                    .strength(1.0F).ignitedByLava().noCollission().noOcclusion().forceSolidOn()
                                     .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS), woodType),
                     block ->
                     {
                         ItemGenerator.berry_signs.put(name, block);
                     });
-            // wall_sign_blocks
+            // Wall Sign Blocks
             var wall_sign = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(15).apply(name),
                     () -> new GenericWallSign(
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
-                                    .strength(1.0F).noCollission().noOcclusion().forceSolidOn().ignitedByLava()
+                                    .strength(1.0F).ignitedByLava().noCollission().noOcclusion().forceSolidOn()
                                     .lootFrom(standing_sign).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS), woodType),
                     block ->
                     {
                         ItemGenerator.berry_wall_signs.put(name, block);
                     });
 
-            // hanging sign blocks
+            // Hanging Sign Blocks
             var ceiling_hanging_sign = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(17).apply(name),
                     () -> new GenericCeilingHangingSign(
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
-                                    .strength(1.0F).noCollission().forceSolidOn().ignitedByLava()
+                                    .strength(1.0F).ignitedByLava().noCollission().forceSolidOn()
                                     .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS), woodType),
                     block ->
                     {
                         ItemGenerator.berry_hanging_signs.put(name, block);
                     });
-            // wall hanging sign blocks
+
+            // Wall Hanging Sign Blocks
             var wall_hanging_sign = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(18).apply(name),
                     () -> new GenericWallHangingSign(
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
-                                    .strength(1.0F).noCollission().forceSolidOn().ignitedByLava()
-                                    .lootFrom(ceiling_hanging_sign).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS), woodType),
+                                    .strength(1.0F).ignitedByLava().noCollission().forceSolidOn()
+                                    .lootFrom(ceiling_hanging_sign).sound(SoundType.WOOD)
+                                    .instrument(NoteBlockInstrument.BASS), woodType),
                     block ->
                     {
                         ItemGenerator.berry_wall_hanging_signs.put(name, block);
@@ -462,7 +470,7 @@ public class ItemGenerator
             var fillable_shelves = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(19).apply(name),
                     () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of()
                             .mapColor(ItemGenerator.berryWoods.get(name)).ignitedByLava()
-                            .strength(1.5F).sound(SoundType.WOOD)
+                            .strength(1.5F).sound(SoundType.CHISELED_BOOKSHELF)
                             .instrument(NoteBlockInstrument.BASS)),
                     block ->
                     {
