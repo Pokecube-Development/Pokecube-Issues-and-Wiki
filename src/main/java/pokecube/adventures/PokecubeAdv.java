@@ -170,28 +170,28 @@ public class PokecubeAdv
         // Blocks
         AFA = PokecubeAdv.BLOCKS.register("afa",
                 () -> new AfaBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN)
-                        .strength(5.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops().dynamicShape()));
+                        .strength(5.0F, 6.0F).sound(SoundType.NETHERITE_BLOCK).requiresCorrectToolForDrops()));
         COMMANDER = PokecubeAdv.BLOCKS.register("commander",
                 () -> new CommanderBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
-                        .strength(5.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops().dynamicShape()));
+                        .strength(5.0F, 6.0F).sound(SoundType.NETHERITE_BLOCK).requiresCorrectToolForDrops()));
         DAYCARE = PokecubeAdv.BLOCKS.register("daycare",
                 () -> new DaycareBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK)
-                        .strength(5.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops().dynamicShape()));
+                        .strength(5.0F, 6.0F).sound(SoundType.NETHERITE_BLOCK).requiresCorrectToolForDrops()));
         CLONER = PokecubeAdv.BLOCKS.register("cloner",
                 () -> new ClonerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE)
-                        .strength(5.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops().dynamicShape()));
+                        .strength(5.0F, 6.0F).sound(SoundType.NETHERITE_BLOCK).requiresCorrectToolForDrops()));
         EXTRACTOR = PokecubeAdv.BLOCKS.register("extractor",
                 () -> new ExtractorBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN)
-                        .strength(5.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops().dynamicShape()));
+                        .strength(5.0F, 6.0F).sound(SoundType.NETHERITE_BLOCK).requiresCorrectToolForDrops()));
         SPLICER = PokecubeAdv.BLOCKS.register("splicer",
                 () -> new SplicerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN)
-                        .strength(5.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops().dynamicShape()));
+                        .strength(5.0F, 6.0F).sound(SoundType.NETHERITE_BLOCK).requiresCorrectToolForDrops()));
         SIPHON = PokecubeAdv.BLOCKS.register("siphon",
                 () -> new SiphonBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_GREEN)
-                        .strength(5.0F, 6.0F).sound(SoundType.METAL).dynamicShape()));
+                        .strength(5.0F, 6.0F).sound(SoundType.NETHERITE_BLOCK)));
         WARP_PAD = PokecubeAdv.BLOCKS.register("warp_pad",
                 () -> new WarpPadBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN)
-                        .strength(5.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
+                        .strength(5.0F, 6.0F).sound(SoundType.NETHERITE_BLOCK).requiresCorrectToolForDrops()));
         STATUE = PokecubeAdv.BLOCKS.register("statue",
                 () -> new PokemobStatue(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
                         .strength(5.0F, 6.0F).sound(SoundType.STONE).dynamicShape().noOcclusion()
