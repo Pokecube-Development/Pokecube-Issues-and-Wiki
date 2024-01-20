@@ -1,5 +1,8 @@
 {
 	"variants": {
-		"": { "model": "pokecube:block/repel" }
+		"facing=north": { "model": "pokecube:block/repel" },
+		"facing=south": { "model": "pokecube:block/repel", "y": 180 },
+		"facing=east":  { "model": "pokecube:block/repel", "y": 90 },
+		"facing=west":  { "model": "pokecube:block/repel", "y": 270 }
 	}
 }

@@ -7,8 +7,9 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.core.blocks.InteractableBlock;
+import pokecube.core.blocks.InteractableHorizontalBlock;
 
-public class RepelBlock extends InteractableBlock implements EntityBlock
+public class RepelBlock extends InteractableHorizontalBlock implements EntityBlock
 {
 
     public RepelBlock(final Properties properties)
