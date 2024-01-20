@@ -814,7 +814,7 @@ public class ItemGenerator
                 ItemGenerator.flammableBlocks(ItemGenerator.slabs.get(name).get(), 5, 20);
                 ItemGenerator.flammableBlocks(ItemGenerator.stairs.get(name).get(), 5, 20);
 //                TODO: Fix this causing a crash
-//                ItemGenerator.flammableBlocks(ItemGenerator.fences.get(name).get(), 5, 20);
+                ItemGenerator.flammableBlocks(ItemGenerator.fences.get(name).get(), 5, 20);
                 ItemGenerator.flammableBlocks(ItemGenerator.fence_gates.get(name).get(), 5, 20);
                 ItemGenerator.flammableBlocks(ItemGenerator.bookshelves.get(name).get(), 5, 20);
             }
