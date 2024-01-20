@@ -15,6 +15,7 @@
     "pokecube_legends:infected_lantern",
     "pokecube_legends:infected_torch",
     "pokecube_legends:infected_torch_wall",
+    {"id": "#chipped:torches", "required": false},
     {"id": "#twigs:paper_lanterns", "required": false},
     {"id": "architects_palette:algal_cage_lantern", "required": false},
     {"id": "architects_palette:glowstone_cage_lantern", "required": false},
