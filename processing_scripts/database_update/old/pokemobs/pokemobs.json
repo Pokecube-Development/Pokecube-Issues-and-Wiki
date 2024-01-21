@@ -61523,7 +61523,11 @@
         "evolutions": [
           {
             "name": "Malamar",
-            "level": 30
+            "level": 30,
+            "nbt_name": {
+              "nbt_name": "^(Dinnerbone|Grumm)$",
+              "desc": "pokecube.evos.inkay"
+            }
           }
         ],
         "lootTable": "minecraft:entities/squid",
