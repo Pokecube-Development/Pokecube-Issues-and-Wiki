@@ -122,7 +122,7 @@ public class Config extends ConfigData
                 POKEMOBS_DESPAWN = GameRules.register("pokecube:pokemobs_despawn", Category.SPAWNING,
                         GameRules.BooleanValue.create(true));
                 POKEMOBS_CULL = GameRules.register("pokecube:pokemobs_cull", Category.SPAWNING,
-                        GameRules.BooleanValue.create(true));
+                        GameRules.BooleanValue.create(false));
 
                 POKEMOB_CULL_DISTANCE = GameRules.register("pokecube:pokemob_cull_distance", Category.SPAWNING,
                         GameRules.IntegerValue.create(96));
@@ -402,8 +402,8 @@ public class Config extends ConfigData
     public int captureDelayTicks = 0;
     @Configure(category = Config.mobAI, comment = "If true, pokemobs will need to execute an attack after breaking out of a cube before they can go into another for capture. [Default: true]")
     public boolean captureDelayTillAttack = true;
-    @Configure(category = Config.mobAI, comment = "How often pokemobs attempt to perform an idle action, such as walking, etc. Larger numbers are better for server performance, but result in less wandering of wild pokemobs. [Default: 70]")
-    public int idleTickRate = 70;
+    @Configure(category = Config.mobAI, comment = "How often pokemobs attempt to perform an idle action, such as walking, etc. Larger numbers are better for server performance, but result in less wandering of wild pokemobs. [Default: 50]")
+    public int idleTickRate = 50;
     @Configure(category = Config.mobAI, comment = "Maximum distance a wild pokemob will try to move while idle wandering. [Default: 16]")
     public int idleMaxPathWild = 16;
     @Configure(category = Config.mobAI, comment = "Maximum distance a tamed pokemob will try to move while idle wandering. [Default: 4]")
@@ -496,11 +496,11 @@ public class Config extends ConfigData
 
     @Configure(category = Config.spawning, comment = "These determine what lvl pokemobs spawn based on location. If central is true, then the origin for the function is 0,0, otherwise it is world spawn. if radial is true, then the function takes the variable r, which is horizontal distance from the origin. Otherwise it takes x and y, which are the horizontal coordinates with respect to the origin.")
     public List<String> dimensionSpawnLevels = Lists.newArrayList(new String[]
-    {
-            //@formatter:off
-            "{\"dim\":\"the_nether\",\"func\":\"abs((25)*(sin(x*8*10^-3)^3 + sin(y*8*10^-3)^3))\",\"radial\":false,\"central\":false}",
-            "{\"dim\":\"overworld\",\"func\":\"abs((25)*(sin(x*10^-3)^3 + sin(y*10^-3)^3))\",\"radial\":false,\"central\":false}",
-            "{\"dim\":\"the_end\",\"func\":\"1+r/200\",\"radial\":true,\"central\":true}"
+            {
+                    //@formatter:off
+                    "{\"dim\":\"the_nether\",\"func\":\"abs((25)*(sin(x*8*10^-3)^3 + sin(y*8*10^-3)^3))\",\"radial\":false,\"central\":false}",
+                    "{\"dim\":\"overworld\",\"func\":\"abs((25)*(sin(x*10^-3)^3 + sin(y*10^-3)^3))\",\"radial\":false,\"central\":false}",
+                    "{\"dim\":\"the_end\",\"func\":\"1+r/200\",\"radial\":true,\"central\":true}"
             });//@formatter:on
 
     @Configure(category = Config.spawning, comment = "This is an additional function applied to spawn lvl's after dimensionSpawnLevels, here x is the level chosen by dimensionSpawnLevels, and the output is the actual spawn lvl. [Default: \"x + ceil(5*rand())\"]")
@@ -517,8 +517,8 @@ public class Config extends ConfigData
     public List<String> softSpawnBiomeBlacklist = Lists.newArrayList("the_bumblezone:sugar_water_floor",
             "the_bumblezone:hive_wall", "the_bumblezone:hive_pillar");
 
-    @Configure(category = Config.spawning, comment = "This is how often the code attempts to spawn pokemobs near a player. [Default: 2]")
-    public int spawnRate = 2;
+    @Configure(category = Config.spawning, comment = "This is how often the code attempts to spawn pokemobs near a player. [Default: 3]")
+    public int spawnRate = 1;
     @Configure(category = Config.spawning, comment = "Default radius of effect for repels, also applies to dynamax spots. [Default: 16]")
     public int repelRadius = 16;
 
@@ -534,19 +534,19 @@ public class Config extends ConfigData
 
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the tamed pokemob GUI based on the position of guiRef. [Default: [0, 0]]")
     public List<Integer> guiSelectedPos = Lists.newArrayList(new Integer[]
-    { 0, 0 });
+            { 0, 0 });
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the teleport pokemob GUI based on the position of teleRef. [Default: [-150, 0]]")
     public List<Integer> guiTeleportPos = Lists.newArrayList(new Integer[]
-    { -150, 0 });
+            { -150, 0 });
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the target pokemob GUI based on the position of targetRef. [Default: [0, 0]]")
     public List<Integer> guiTargetPos = Lists.newArrayList(new Integer[]
-    { 0, 0 });
+            { 0, 0 });
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the pokemob message GUI based on the position of messageRef. [Default: [0, 0]]")
     public List<Integer> guiMessagePos = Lists.newArrayList(new Integer[]
-    { 0, 0 });
+            { 0, 0 });
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Padding of the pokemob message GUI based on the position of messageRef. [Default: [0, 0]]")
     public List<Integer> messagePadding = Lists.newArrayList(new Integer[]
-    { 0, 0 });
+            { 0, 0 });
 
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Scale of the GUI. [Default: 1.0]")
     public double guiSize = 1;
@@ -597,12 +597,12 @@ public class Config extends ConfigData
     @Configure(category = Config.advanced, comment = "Randomness. Changing not recommended.")
     // DOLATER find more internal variables to add to this.
     public List<String> extraVars = Lists.newArrayList(new String[]
-    { "jc:" + EventsHandler.juiceChance, "rc:" + EventsHandler.candyChance, "eggDpl:" + ItemPokemobEgg.PLAYERDIST,
-            "eggDpm:" + ItemPokemobEgg.MOBDIST });
+            { "jc:" + EventsHandler.juiceChance, "rc:" + EventsHandler.candyChance, "eggDpl:" + ItemPokemobEgg.PLAYERDIST,
+                    "eggDpm:" + ItemPokemobEgg.MOBDIST });
 
     @Configure(category = Config.advanced, comment = "Moves in here will ignore pokemobsDamageBlocks, and apply their effects regardless.")
     public List<String> damageBlocksWhitelist = Lists.newArrayList(new String[]
-    { "flash", "teleport", "dig", "cut", "rock-smash", "secret-power", "nature-power", "hyperspace-hole", "nest_dig" });
+            { "flash", "teleport", "dig", "cut", "rock-smash", "secret-power", "nature-power", "hyperspace-hole", "nest_dig" });
     @Configure(category = Config.advanced, comment = "Moves in here will ignore pokemobsDamageBlocks and never apply their effects.")
     public List<String> damageBlocksBlacklist = Lists.newArrayList();
     @Configure(category = Config.advanced, comment = "This is how much exp is given for killing a non-pokemob, h is the max health of the mob, and a is the amount of armour it had. [Default: \"h*(a+1)^2\"]")
@@ -702,14 +702,14 @@ public class Config extends ConfigData
     // ridden Speed multipliers
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor of the riding speed while flying. [Default: 0.3]")
     public double flySpeedFactor = 0.3;
-    @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor of the riding speed while in water. [Default: 0.5]")
-    public double surfSpeedFactor = 0.5;
+    @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor of the riding speed while in water. [Default: 1.0]")
+    public double surfSpeedFactor = 1;
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor of the riding speed while on the ground. [Default: 1.0]")
     public double groundSpeedFactor = 1;
 
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Flying will not be allowed in these dimensions.")
     public List<String> blackListedFlyDims = Lists.newArrayList(new String[]
-    { "the_end", "the_nether" });
+            { "the_end", "the_nether" });
 
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Approximate cooldown for attacks in ticks, larger values will slow down combat. [Default: 20]")
     public int attackCooldown = 20;
@@ -951,7 +951,7 @@ public class Config extends ConfigData
         }
 
         if (failed) this.dodges = new SoundEvent[]
-        { SoundEvents.GENERIC_SMALL_FALL };
+                { SoundEvents.GENERIC_SMALL_FALL };
 
         failed = false;
         if (this.leapSounds.size() == 0) failed = true;
@@ -976,7 +976,7 @@ public class Config extends ConfigData
         }
 
         if (failed) this.leaps = new SoundEvent[]
-        { SoundEvents.GENERIC_SMALL_FALL };
+                { SoundEvents.GENERIC_SMALL_FALL };
 
         PokecubeManager.init();
     }
