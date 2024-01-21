@@ -3,12 +3,14 @@ package thut.core.common.network;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.netty.buffer.Unpooled;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerEvent.StopTracking;
@@ -16,10 +18,10 @@ import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import thut.api.entity.EntityProvider;
 import thut.api.entity.multipart.IMultpart;
 import thut.core.common.ThutCore;
-import thut.core.common.network.nbtpacket.NBTPacket;
-import thut.core.common.network.nbtpacket.PacketAssembly;
+import thut.core.common.network.bigpacket.BigPacket;
+import thut.core.common.network.bigpacket.PacketAssembly;
 
-public class PartSync extends NBTPacket
+public class PartSync extends BigPacket
 {
     public static final PacketAssembly<PartSync> ASSEMBLER = PacketAssembly.registerAssembler(PartSync.class,
             PartSync::new, ThutCore.packets);
@@ -39,18 +41,19 @@ public class PartSync extends NBTPacket
 
     public static void sendUpdate(final Entity mob, boolean remove)
     {
-        CompoundTag tag = makePacket(mob, remove);
+        byte[] tag = makePacket(mob, remove);
         if (tag != null) PartSync.ASSEMBLER.sendToTracking(new PartSync(tag), mob);
     }
 
-    private static CompoundTag makePacket(Entity mob, boolean remove)
+    private static byte[] makePacket(Entity mob, boolean remove)
     {
         if (!(mob.level instanceof ServerLevel level)) return null;
         if (!(mob instanceof IMultpart<?, ?> parts)) return null;
         if (parts.getHolder().allParts().isEmpty()) return null;
-        final CompoundTag tag = new CompoundTag();
-        tag.putInt("i", mob.getId());
-        tag.putBoolean("r", remove);
+
+        FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
+        buffer.writeInt(mob.getId());
+        buffer.writeBoolean(remove);
 
         if (remove)
         {
@@ -60,8 +63,8 @@ public class PartSync extends NBTPacket
             {
                 arr[i++] = part.getId();
             }
-            tag.putIntArray("p", arr);
-            return tag;
+            buffer.writeVarIntArray(arr);
+            return buffer.array();
         }
         else
         {
@@ -72,10 +75,12 @@ public class PartSync extends NBTPacket
             // them whenever this changes.
             Int2ObjectMap<PartEntity<?>> partMap = ObfuscationReflectionHelper.getPrivateValue(ServerLevel.class, level,
                     "f_143247_");
+            var old = new ArrayList<>(level.getPartEntities());
             // Clear out the old parts first.
-            for (var part : parts.getHolder().allParts())
+            for (var part : old)
             {
-                partMap.remove(part.getId());
+                if (part.getParent() == null || part.getParent() == mob || part.getParent().isRemoved())
+                    partMap.remove(part.getId());
             }
             for (int i = 0; i < arr.length; i++)
             {
@@ -83,21 +88,21 @@ public class PartSync extends NBTPacket
                 arr[i] = part.getId();
                 partMap.put(arr[i], part);
             }
-            tag.putIntArray("p", arr);
-            return tag;
+            buffer.writeVarIntArray(arr);
+            return buffer.array();
         }
     }
 
     private static void onStopTracking(StopTracking event)
     {
-        CompoundTag tag = makePacket(event.getTarget(), true);
+        byte[] tag = makePacket(event.getTarget(), true);
         if (tag != null && event.getPlayer() instanceof ServerPlayer player)
             PartSync.ASSEMBLER.sendTo(new PartSync(tag), player);
     }
 
     private static void onStartTracking(StartTracking event)
     {
-        CompoundTag tag = makePacket(event.getTarget(), false);
+        byte[] tag = makePacket(event.getTarget(), false);
         if (tag != null && event.getPlayer() instanceof ServerPlayer player)
             PartSync.ASSEMBLER.sendTo(new PartSync(tag), player);
     }
@@ -107,9 +112,10 @@ public class PartSync extends NBTPacket
         super();
     }
 
-    public PartSync(final CompoundTag tag)
+    public PartSync(final byte[] tag)
     {
-        super(tag);
+        super();
+        this.setData(tag);
     }
 
     public PartSync(final FriendlyByteBuf buffer)
@@ -118,34 +124,36 @@ public class PartSync extends NBTPacket
     }
 
     @Override
+    @OnlyIn(value = Dist.CLIENT)
     protected void onCompleteClient()
     {
-        int id = this.getTag().getInt("i");
-        int[] arr = this.getTag().getIntArray("p");
-        boolean remove = this.getTag().getBoolean("r");
+        var buffer = new FriendlyByteBuf(Unpooled.copiedBuffer(this.getData()));
         final net.minecraft.client.multiplayer.ClientLevel world = net.minecraft.client.Minecraft.getInstance().level;
+        int id = buffer.readInt();
+        boolean remove = buffer.readBoolean();
+        int[] arr = buffer.readVarIntArray();
+        Int2ObjectMap<PartEntity<?>> partMap = ObfuscationReflectionHelper
+                .getPrivateValue(net.minecraft.client.multiplayer.ClientLevel.class, world, "partEntities");
         if (remove)
         {
-            Int2ObjectMap<PartEntity<?>> partMap = ObfuscationReflectionHelper
-                    .getPrivateValue(net.minecraft.client.multiplayer.ClientLevel.class, world, "partEntities");
             List<PartEntity<?>> list = new ArrayList<>();
             for (int i : arr)
             {
                 list.add(partMap.remove(i));
             }
-            partMap.clear();
             return;
         }
         Entity mob = EntityProvider.provider.getEntity(world, id);
 
         if (!(mob instanceof IMultpart<?, ?> parts)) return;
 
-        Int2ObjectMap<PartEntity<?>> partMap = ObfuscationReflectionHelper
-                .getPrivateValue(net.minecraft.client.multiplayer.ClientLevel.class, world, "partEntities");
         // Clear out the old parts first.
-        for (var part : parts.getHolder().allParts())
+        var old = new ArrayList<>(world.getPartEntities());
+        // Clear out the old parts first.
+        for (var part : old)
         {
-            partMap.remove(part.getId());
+            if (part.getParent() == null || part.getParent() == mob || part.getParent().isRemoved())
+                partMap.remove(part.getId());
         }
         if (remove) return;
         for (int i = 0; i < Math.min(parts.getHolder().getParts().length, arr.length); i++)

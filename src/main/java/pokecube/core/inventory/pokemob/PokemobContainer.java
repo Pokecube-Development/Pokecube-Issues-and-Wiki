@@ -58,7 +58,7 @@ public class PokemobContainer extends BaseContainer
     {
         int offhand = pokemobInv.getContainerSize() - 1;
 
-        this.addSlot(new CustomSlot(this.pokemobInv, 0, 64, 18)
+        this.addSlot(new CustomSlot(this.pokemobInv, 0, 63, 18)
         {
             /**
              * Check if the stack is a valid item for this slot. Always true
@@ -70,7 +70,7 @@ public class PokemobContainer extends BaseContainer
                 return super.mayPlace(stack) && stack.getItem() == Items.SADDLE;
             }
         });
-        this.addSlot(new CustomSlot(this.pokemobInv, 1, 64, 36)
+        this.addSlot(new CustomSlot(this.pokemobInv, 1, 63, 36)
         {
             /**
              * Returns the maximum stack size for a given slot (usually the same
@@ -92,7 +92,7 @@ public class PokemobContainer extends BaseContainer
                 return !pokemob.getPokedexEntry().stock || PokecubeItems.isValidHeldItem(stack);
             }
         });
-        this.addSlot(new TexturedSlot(this.pokemobInv, offhand, 64, 54, Resources.SLOT_ICON_BOOK));
+        this.addSlot(new TexturedSlot(this.pokemobInv, offhand, 63, 54, Resources.SLOT_ICON_BOOK));
         for (int k = 0; k < 5; ++k) this.addSlot(new CustomSlot(this.pokemobInv, 2 + k, 83 + k * 18, 18)
         {
             /**
@@ -147,8 +147,10 @@ public class PokemobContainer extends BaseContainer
     @Override
     public boolean stillValid(final Player user)
     {
+        float dh = pokemob.getSize()
+                * (Math.max(pokemob.getBasePokedexEntry().width, pokemob.getPokedexEntry().length));
         return this.pokemobInv.stillValid(user) && this.pokemob.getEntity().isAlive()
-                && this.pokemob.getEntity().distanceTo(user) < 8.0F;
+                && this.pokemob.getEntity().distanceTo(user) < (8.0F + dh);
     }
 
     @Override

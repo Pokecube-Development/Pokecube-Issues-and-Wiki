@@ -27,15 +27,14 @@ public class CapabilityAffected
 {
     public static class DefaultAffected implements IOngoingAffected, ICapabilitySerializable<ListTag>
     {
-        private final LazyOptional<IOngoingAffected>     holder  = LazyOptional.of(() -> this);
-        LivingEntity                                     entity;
-        final List<IOngoingEffect>                       effects = Lists.newArrayList();
-        IOngoingEffect[]                                 cachedArray;
-        final Map<ResourceLocation, Set<IOngoingEffect>> map     = Maps.newHashMap();
+        private final LazyOptional<IOngoingAffected> holder = LazyOptional.of(() -> this);
+        LivingEntity entity;
+        final List<IOngoingEffect> effects = Lists.newArrayList();
+        IOngoingEffect[] cachedArray;
+        final Map<ResourceLocation, Set<IOngoingEffect>> map = Maps.newHashMap();
 
         public DefaultAffected()
-        {
-        }
+        {}
 
         public DefaultAffected(final LivingEntity entity)
         {
@@ -79,8 +78,7 @@ public class CapabilityAffected
         public void clearEffects()
         {
             this.effects.clear();
-            for (final Set<IOngoingEffect> set : this.map.values())
-                set.clear();
+            for (final Set<IOngoingEffect> set : this.map.values()) set.clear();
         }
 
         @Override
@@ -125,13 +123,14 @@ public class CapabilityAffected
         }
 
         @Override
-        public void tick()
+        public void tickDamage()
         {
             final Set<IOngoingEffect> stale = Sets.newHashSet();
-            this.cachedArray = this.effects.toArray(new IOngoingEffect[this.effects.size()]);
+            // cachedArray was populated during the call to tick() which
+            // preceded this call.
             for (final IOngoingEffect effect : this.cachedArray)
             {
-                final OngoingTickEvent event = new OngoingTickEvent(this.getEntity(), effect);
+                final OngoingTickEvent event = new OngoingTickEvent(this.getEntity(), effect, true);
                 ThutCore.FORGE_BUS.post(event);
                 if (!event.isCanceled())
                 {
@@ -142,8 +141,19 @@ public class CapabilityAffected
                 }
                 else if (effect.getDuration() == 0) stale.add(effect);
             }
-            for (final IOngoingEffect effect : stale)
-                this.removeEffect(effect);
+            for (final IOngoingEffect effect : stale) this.removeEffect(effect);
+        }
+
+        @Override
+        public void tick()
+        {
+            this.cachedArray = this.effects.toArray(new IOngoingEffect[this.effects.size()]);
+            for (final IOngoingEffect effect : this.cachedArray)
+            {
+                final OngoingTickEvent event = new OngoingTickEvent(this.getEntity(), effect, false);
+                ThutCore.FORGE_BUS.post(event);
+                if (!event.isCanceled()) effect.onTick(this);
+            }
         }
     }
 

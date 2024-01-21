@@ -4,47 +4,54 @@
   <phase name="global" scale="0.75"/>
   <metadata head="head" headCap="-10,10" headCap1="-10,10" headDir2="-1"/>
   <customTex default="cloyster">
-   <part name="Head" tex="cloysterhead"/>
-   <animation diffs="0.45,0" part="Head" trigger="random:0.005:25"/>
+   <part name="Face" tex="cloyster_face"/>
+   <animation diffs="0.5,0" part="Face" trigger="random:0.005:5"/>
   </customTex>
   <phase type="sitting">
-   <part name="casc1">
-    <component length="10" name="1" rotOffset="0,0,0" startKey="0"/>
+   <part name="cap1">
+    <component length="10" name="1" rotOffset="0,-15,0" startKey="0"/>
+   </part>
+   <part name="cap2">
+    <component length="10" name="1" rotOffset="0,15,0" startKey="0"/>
    </part>
   </phase>
   <phase type="idle">
-   <part name="casc1">
-    <component length="10" name="1" rotChange="0,-5,0" rotOffset="0,15,0" startKey="0"/>
-    <component length="10" name="2" rotChange="0,5,0" startKey="10"/>
+   <part name="cap1">
+    <component length="10" name="1" rotChange="0,-1,0" rotOffset="0,2,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,1,0" startKey="10"/>
    </part>
-   <part name="casc2">
-    <component length="10" name="1" rotChange="0,5,0" rotOffset="0,-15,0" startKey="0"/>
-    <component length="10" name="2" rotChange="0,-5,0" startKey="10"/>
+   <part name="cap2">
+    <component length="10" name="1" rotChange="0,1,0" rotOffset="0,-2,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,-1,0" startKey="10"/>
    </part>
   </phase>
   <phase type="walking">
-   <part name="casc1">
-    <component length="10" name="1" rotChange="0,-5,0" rotOffset="0,15,0" startKey="0"/>
-    <component length="10" name="2" rotChange="0,5,0" startKey="10"/>
+   <part name="body">
+    <component length="10" name="1" rotOffset="5,0,0," posChange="0,-2,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,2,0" startKey="10"/>
    </part>
-   <part name="casc2">
-    <component length="10" name="1" rotChange="0,5,0" rotOffset="0,-15,0" startKey="0"/>
-    <component length="10" name="2" rotChange="0,-5,0" startKey="10"/>
+   <part name="cap1">
+    <component length="10" name="1" rotChange="0,-2,0" rotOffset="0,2,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,2,0" startKey="10"/>
+   </part>
+   <part name="cap2">
+    <component length="10" name="1" rotChange="0,2,0" rotOffset="0,-2,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,-2,0" startKey="10"/>
    </part>
   </phase>
   <phase type="swimming">
    <part name="body">
-    <component length="10" name="1" rotOffset="0,180,0" startKey="0"/>
+    <component length="10" name="1" rotOffset="0,180,0" posOffset="0,0,15" startKey="0"/>
    </part>
-   <part name="casc1">
-    <component length="10" name="1" rotChange="0,-5,0" rotOffset="0,10,0" startKey="0"/>
+   <part name="cap1">
+    <component length="10" name="1" rotChange="0,-10,0" rotOffset="0,10,0" startKey="0"/>
     <component length="10" name="2" rotChange="0,20,0" startKey="5"/>
-	<component length="10" name="3" rotChange="0,-5,0" startKey="10"/>
+	<component length="10" name="3" rotChange="0,-10,0" startKey="10"/>
    </part>
-   <part name="casc2">
-    <component length="10" name="1" rotChange="0,5,0" rotOffset="0,-10,0" startKey="0"/>
+   <part name="cap2">
+    <component length="10" name="1" rotChange="0,10,0" rotOffset="0,-10,0" startKey="0"/>
     <component length="10" name="2" rotChange="0,-20,0" startKey="5"/>
-	<component length="10" name="3" rotChange="0,5,0" startKey="10"/>
+	<component length="10" name="3" rotChange="0,10,0" startKey="10"/>
    </part>
   </phase>
  </model>

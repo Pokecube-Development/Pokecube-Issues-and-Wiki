@@ -24,6 +24,8 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.database.Database;
+import pokecube.core.entity.genetics.GeneticsManager;
+import pokecube.core.entity.pokemobs.PokemobType;
 import thut.api.ThutCaps;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
@@ -89,6 +91,7 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IItem
             final UUID id = stack.getTagElement("__id_cache__").getUUID("id");
             if (StatueItem.CACHE.containsKey(id)) mob = StatueItem.CACHE.get(id);
             else hasCache = false;
+            hasCache = false;
         }
 
         final boolean flag = !hasCache && stack.getTagElement("BlockEntityTag") != null;
@@ -173,6 +176,16 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IItem
                 pokemob.setSize(0.55f / mobScale);
             }
             else pokemob.setSize(1);
+            
+            if (copy.getCopiedMob().getType() instanceof PokemobType<?> t)
+            {
+                if (pokemob != null && pokemob.getPokedexEntry() == Database.missingno
+                        && t.getEntry() != Database.missingno)
+                {
+                    pokemob.setPokedexEntry(t.getEntry());
+                    pokemob.setBasePokedexEntry(t.getEntry());
+                }
+            }
         }
 
         mob.setPos(0, 0, 0);
@@ -188,6 +201,21 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IItem
             final MultiBufferSource bufs, final int light, final int overlay)
     {
         LivingEntity mob = getMob(stack, transform);
+        var pokemob = PokemobCaps.getPokemobFor(mob);
+        var genes = ThutCaps.getGenetics(mob);
+        if (pokemob != null && genes != null)
+        {
+            if (!mob.getPersistentData().contains("pokecube:__gui__size"))
+                mob.getPersistentData().putFloat("pokecube:__gui__size", pokemob.getSize());
+            if (transform != TransformType.GROUND)
+            {
+                float size = GuiPokemobHelper.sizeMap.getOrDefault(pokemob.getPokedexEntry(), 1.0f);
+                pokemob.setSize(0.15f / size);
+            }
+            else pokemob.setSize(mob.getPersistentData().getFloat("pokecube:__gui__size"));
+            var size_gene = genes.getAlleles(GeneticsManager.SIZEGENE);
+            if (size_gene != null) size_gene.getExpressed().onUpdateTick(mob);
+        }
         StatueBlock.renderStatue(mob, 0, mat, bufs, light, overlay);
     }
 

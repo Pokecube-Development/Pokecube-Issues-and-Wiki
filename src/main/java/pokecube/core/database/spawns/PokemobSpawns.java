@@ -11,6 +11,7 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
+import net.minecraftforge.fml.ModList;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.SpawnData.SpawnEntry;
@@ -36,6 +37,7 @@ public class PokemobSpawns extends ResourceData
 
     public static final class SpawnList
     {
+        public List<String> required_mods = Lists.newArrayList();
         public List<SpawnRuleEntry> rules = Lists.newArrayList();
         public boolean replace = false;
     }
@@ -212,7 +214,7 @@ public class PokemobSpawns extends ResourceData
     {
         try
         {
-            final List<SpawnList> loaded = Lists.newArrayList();
+            SpawnList loaded = null;
 
             // This one we just take the first resourcelocation. If someone
             // wants to edit an existing one, it means they are most likely
@@ -228,8 +230,9 @@ public class PokemobSpawns extends ResourceData
                     reader.close();
                     return;
                 }
-                if (temp.replace) loaded.clear();
-                loaded.add(temp);
+                if (temp.required_mods != null)
+                    for (String s : temp.required_mods) if (!ModList.get().isLoaded(s)) return;
+                loaded = temp;
             }
             catch (final Exception e)
             {
@@ -239,18 +242,17 @@ public class PokemobSpawns extends ResourceData
             }
             reader.close();
 
-            for (final SpawnList m : loaded)
+            if (loaded == null) return;
+
+            final List<SpawnRuleEntry> conds = loaded.rules;
+            for (final SpawnRuleEntry rule : conds)
             {
-                final List<SpawnRuleEntry> conds = m.rules;
-                for (final SpawnRuleEntry rule : conds)
+                if (rule.and_preset == null && rule.or_preset == null && rule.not_preset == null)
                 {
-                    if (rule.and_preset == null && rule.or_preset == null && rule.not_preset == null)
-                    {
-                        PokecubeAPI.LOGGER.error("Missing preset tag for {}, skipping it.", rule.entries);
-                        continue;
-                    }
-                    MASTER_LIST.rules.add(rule);
+                    PokecubeAPI.LOGGER.error("Missing preset tag for {}, skipping it.", rule.entries);
+                    continue;
                 }
+                MASTER_LIST.rules.add(rule);
             }
         }
         catch (final Exception e)

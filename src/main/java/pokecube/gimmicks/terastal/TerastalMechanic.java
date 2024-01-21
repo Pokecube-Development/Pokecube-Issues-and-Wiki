@@ -333,7 +333,7 @@ public class TerastalMechanic
         TeraType tera = getTera(attacker.getEntity());
 
         // Here we apply the effects to the move when terastallized.
-        if (tera.isTera)
+        if (tera != null && tera.isTera)
         {
             boolean originalType = move.type == attacker.originalType1() || move.type == attacker.originalType2();
             if (originalType) move.stab = true;

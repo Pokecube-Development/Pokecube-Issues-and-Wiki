@@ -6,13 +6,14 @@ import net.minecraft.network.chat.Component;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.data.spawns.SpawnCheck.MatchResult;
+import pokecube.api.events.data.SpawnMatchInit;
 
 public interface MatchChecker
 {
     public static class OrMatch implements MatchChecker
     {
-        public final MatchChecker A;
-        public final MatchChecker B;
+        public MatchChecker A;
+        public MatchChecker B;
 
         public OrMatch(MatchChecker A, MatchChecker B)
         {
@@ -33,15 +34,15 @@ public interface MatchChecker
         @Override
         public void init()
         {
-            A.init();
-            B.init();
+            A = SpawnMatchInit.initMatchChecker(A);
+            B = SpawnMatchInit.initMatchChecker(B);
         }
     }
 
     public static class AndMatch implements MatchChecker
     {
-        public final MatchChecker A;
-        public final MatchChecker B;
+        public MatchChecker A;
+        public MatchChecker B;
 
         public AndMatch(MatchChecker A, MatchChecker B)
         {
@@ -63,8 +64,8 @@ public interface MatchChecker
         @Override
         public void init()
         {
-            A.init();
-            B.init();
+            A = SpawnMatchInit.initMatchChecker(A);
+            B = SpawnMatchInit.initMatchChecker(B);
         }
     }
 

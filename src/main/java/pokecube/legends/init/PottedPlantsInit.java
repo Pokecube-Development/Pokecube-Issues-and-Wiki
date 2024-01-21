@@ -40,6 +40,7 @@ public class PottedPlantsInit
     public static final RegistryObject<Block> POTTED_GOLDEN_SHROOM;
     public static final RegistryObject<Block> POTTED_GOLDEN_SWEET_BERRY_BUSH;
     public static final RegistryObject<Block> POTTED_GOLDEN_TULIP;
+    public static final RegistryObject<Block> POTTED_GRACIDEA;
     public static final RegistryObject<Block> POTTED_HANGING_TENDRILS;
     public static final RegistryObject<Block> POTTED_INVERTED_ORCHID;
     public static final RegistryObject<Block> POTTED_LARGE_GOLDEN_FERN;
@@ -140,6 +141,9 @@ public class PottedPlantsInit
                         BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_GOLDEN_TULIP = PokecubeLegends.NO_TAB.register("potted_golden_tulip",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_TULIP.get(),
+                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_GRACIDEA = PokecubeLegends.NO_TAB.register("potted_gracidea",
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GRACIDEA.get(),
                         BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_INVERTED_ORCHID = PokecubeLegends.NO_TAB.register("potted_inverted_orchid",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.INVERTED_ORCHID.get(),

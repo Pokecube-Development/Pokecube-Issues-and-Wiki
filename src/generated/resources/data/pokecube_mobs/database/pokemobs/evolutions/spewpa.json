@@ -2,6 +2,7 @@
   {
     "name": "vivillon",
     "user": "spewpa",
+    "priority": 10,
     "condition": [
       {
         "key": "level",
@@ -10,20 +11,20 @@
       {
         "key": "location",
         "location": {
-          "desc": "pokecube.evos.spewpa.vivillon_oc",
-          "or_preset": "oceans,beaches",
-          "not_preset": "cold_areas"
+          "desc": "pokecube.spawns.oceans.general",
+          "and_preset": "oceans"
         }
       }
     ],
     "evoMoves": "gust",
     "model": {
-      "key": "vivillon_oc"
+      "key": "vivillon_ocean"
     }
   },
   {
     "name": "vivillon",
     "user": "spewpa",
+    "priority": 10,
     "condition": [
       {
         "key": "level",
@@ -32,19 +33,42 @@
       {
         "key": "location",
         "location": {
-          "desc": "pokecube.evos.spewpa.vivillon_sa",
+          "desc": "pokecube.spawns.all.general",
+          "and_preset": "sky,all_overworld"
+        }
+      }
+    ],
+    "evoMoves": "gust",
+    "model": {
+      "key": "vivillon_sun"
+    }
+  },
+  {
+    "name": "vivillon",
+    "user": "spewpa",
+    "priority": 10,
+    "condition": [
+      {
+        "key": "level",
+        "level": 12
+      },
+      {
+        "key": "location",
+        "location": {
+          "desc": "pokecube.spawns.deserts.general",
           "and_preset": "deserts"
         }
       }
     ],
     "evoMoves": "gust",
     "model": {
-      "key": "vivillon_sa"
+      "key": "vivillon_sandstorm"
     }
   },
   {
     "name": "vivillon",
     "user": "spewpa",
+    "priority": 10,
     "condition": [
       {
         "key": "level",
@@ -53,19 +77,219 @@
       {
         "key": "location",
         "location": {
-          "desc": "pokecube.evos.spewpa.vivillon_he",
+          "desc": "pokecube.spawns.swamps.ground",
+          "and_preset": "swamp_ground"
+        }
+      }
+    ],
+    "evoMoves": "gust",
+    "model": {
+      "key": "vivillon_garden"
+    }
+  },
+  {
+    "name": "vivillon",
+    "user": "spewpa",
+    "priority": 10,
+    "condition": [
+      {
+        "key": "level",
+        "level": 12
+      },
+      {
+        "key": "location",
+        "location": {
+          "desc": "pokecube.spawns.forests.taiga",
+          "and_preset": "taigas"
+        }
+      }
+    ],
+    "evoMoves": "gust",
+    "model": {
+      "key": "vivillon_tundra"
+    }
+  },
+  {
+    "name": "vivillon",
+    "user": "spewpa",
+    "priority": 10,
+    "condition": [
+      {
+        "key": "level",
+        "level": 12
+      },
+      {
+        "key": "location",
+        "location": {
+          "desc": "pokecube.spawns.mountains.general",
+          "and_preset": "mountains"
+        }
+      }
+    ],
+    "evoMoves": "gust",
+    "model": {
+      "key": "vivillon_highplains"
+    }
+  },
+  {
+    "name": "vivillon",
+    "user": "spewpa",
+    "priority": 10,
+    "condition": [
+      {
+        "key": "level",
+        "level": 12
+      },
+      {
+        "key": "location",
+        "location": {
+          "desc": "pokecube.spawns.oceans.ground",
+          "and_preset": "ocean_ground"
+        }
+      }
+    ],
+    "evoMoves": "gust",
+    "model": {
+      "key": "vivillon_archipelago"
+    }
+  },
+  {
+    "name": "vivillon",
+    "user": "spewpa",
+    "priority": 10,
+    "condition": [
+      {
+        "key": "level",
+        "level": 12
+      },
+      {
+        "key": "location",
+        "location": {
+          "desc": "pokecube.spawns.flowers.general",
+          "and_preset": "flowers",
+          "not_preset": "cold_areas"
+        }
+      }
+    ],
+    "evoMoves": "gust",
+    "model": {
+      "key": "vivillon_fancy"
+    }
+  },
+  {
+    "name": "vivillon",
+    "user": "spewpa",
+    "priority": 10,
+    "condition": [
+      {
+        "key": "level",
+        "level": 12
+      },
+      {
+        "key": "location",
+        "location": {
+          "desc": "pokecube.spawns.jungles.general",
+          "and_preset": "jungles"
+        }
+      }
+    ],
+    "evoMoves": "gust",
+    "model": {
+      "key": "vivillon_jungle"
+    }
+  },
+  {
+    "name": "vivillon",
+    "user": "spewpa",
+    "priority": 10,
+    "condition": [
+      {
+        "key": "level",
+        "level": 12
+      },
+      {
+        "key": "location",
+        "location": {
+          "desc": "pokecube.spawns.beaches.ground",
+          "and_preset": "beaches"
+        }
+      }
+    ],
+    "evoMoves": "gust",
+    "model": {
+      "key": "vivillon_marine"
+    }
+  },
+  {
+    "name": "vivillon",
+    "user": "spewpa",
+    "priority": 10,
+    "condition": [
+      {
+        "key": "level",
+        "level": 12
+      },
+      {
+        "key": "location",
+        "location": {
+          "desc": "pokecube.spawns.rivers.general",
+          "and_preset": "rivers"
+        }
+      }
+    ],
+    "evoMoves": "gust",
+    "model": {
+      "key": "vivillon_river"
+    }
+  },
+  {
+    "name": "vivillon",
+    "user": "spewpa",
+    "priority": 8,
+    "condition": [
+      {
+        "key": "level",
+        "level": 12
+      },
+      {
+        "key": "location",
+        "location": {
+          "desc": "pokecube.spawns.caves.general",
+          "and_preset": "caves"
+        }
+      }
+    ],
+    "evoMoves": "gust",
+    "model": {
+      "key": "vivillon_continental"
+    }
+  },
+  {
+    "name": "vivillon",
+    "user": "spewpa",
+    "priority": 5,
+    "condition": [
+      {
+        "key": "level",
+        "level": 12
+      },
+      {
+        "key": "location",
+        "location": {
+          "desc": "pokecube.spawns.nether.general",
           "and_preset": "nether"
         }
       }
     ],
     "evoMoves": "gust",
     "model": {
-      "key": "vivillon_he"
+      "key": "vivillon_hell"
     }
   },
   {
     "name": "vivillon",
     "user": "spewpa",
+    "priority": 5,
     "condition": [
       {
         "key": "level",
@@ -74,19 +298,20 @@
       {
         "key": "location",
         "location": {
-          "desc": "pokecube.evos.spewpa.vivillon_en",
+          "desc": "pokecube.spawns.end.general",
           "and_preset": "end"
         }
       }
     ],
     "evoMoves": "gust",
     "model": {
-      "key": "vivillon_en"
+      "key": "vivillon_end"
     }
   },
   {
     "name": "vivillon",
     "user": "spewpa",
+    "priority": 5,
     "condition": [
       {
         "key": "level",
@@ -95,7 +320,7 @@
       {
         "key": "location",
         "location": {
-          "desc": "pokecube.evos.spewpa.vivillon_po",
+          "desc": "pokecube.spawns.cold_snowy.cold",
           "matchers": {
             "biome": {
               "biome_tags": "#pokecube_mobs:vivillon_polar"
@@ -106,12 +331,13 @@
     ],
     "evoMoves": "gust",
     "model": {
-      "key": "vivillon_po"
+      "key": "vivillon_polar"
     }
   },
   {
     "name": "vivillon",
     "user": "spewpa",
+    "priority": 10,
     "condition": [
       {
         "key": "level",
@@ -120,19 +346,20 @@
       {
         "key": "location",
         "location": {
-          "desc": "pokecube.evos.spewpa.vivillon_ic",
+          "desc": "pokecube.spawns.cold_snowy.snowy",
           "and_preset": "cold_areas"
         }
       }
     ],
     "evoMoves": "gust",
     "model": {
-      "key": "vivillon_ic"
+      "key": "vivillon_icysnow"
     }
   },
   {
     "name": "vivillon",
     "user": "spewpa",
+    "priority": 7,
     "condition": [
       {
         "key": "level",
@@ -141,19 +368,20 @@
       {
         "key": "location",
         "location": {
-          "desc": "pokecube.evos.spewpa.vivillon_mon",
-          "and_preset": "wet_areas"
+          "desc": "pokecube.spawns.meteors.general",
+          "and_preset": "meteors"
         }
       }
     ],
     "evoMoves": "gust",
     "model": {
-      "key": "vivillon_mon"
+      "key": "vivillon_monsoon"
     }
   },
   {
     "name": "vivillon",
     "user": "spewpa",
+    "priority": 6,
     "condition": [
       {
         "key": "level",
@@ -162,19 +390,42 @@
       {
         "key": "location",
         "location": {
-          "desc": "pokecube.evos.spewpa.vivillon_su",
+          "desc": "pokecube.spawns.industrial.general",
+          "and_preset": "industrial"
+        }
+      }
+    ],
+    "evoMoves": "gust",
+    "model": {
+      "key": "vivillon_pokeball"
+    }
+  },
+  {
+    "name": "vivillon",
+    "user": "spewpa",
+    "priority": 10,
+    "condition": [
+      {
+        "key": "level",
+        "level": 12
+      },
+      {
+        "key": "location",
+        "location": {
+          "desc": "pokecube.spawns.plains.savanna",
           "and_preset": "savannas"
         }
       }
     ],
     "evoMoves": "gust",
     "model": {
-      "key": "vivillon_su"
+      "key": "vivillon_savanna"
     }
   },
   {
     "name": "vivillon",
     "user": "spewpa",
+    "priority": 10,
     "condition": [
       {
         "key": "level",
@@ -183,19 +434,20 @@
       {
         "key": "location",
         "location": {
-          "desc": "pokecube.evos.spewpa.vivillon_mod",
+          "desc": "pokecube.spawns.villages.general",
           "and_preset": "villages"
         }
       }
     ],
     "evoMoves": "gust",
     "model": {
-      "key": "vivillon_mod"
+      "key": "vivillon_meadow"
     }
   },
   {
     "name": "vivillon",
     "user": "spewpa",
+    "priority": 10,
     "condition": [
       {
         "key": "level",
@@ -204,7 +456,7 @@
       {
         "key": "location",
         "location": {
-          "desc": "pokecube.evos.spewpa.vivillon_el",
+          "desc": "pokecube.spawns.forests.not_cold",
           "or_preset": "plains,forests",
           "not_preset": "cold_areas,hot_areas,mountains"
         }
@@ -212,19 +464,20 @@
     ],
     "evoMoves": "gust",
     "model": {
-      "key": "vivillon_el"
+      "key": "vivillon_elegant"
     }
   },
   {
     "name": "vivillon",
     "user": "spewpa",
+    "priority": 100,
     "condition": {
       "key": "level",
       "level": 12
     },
     "evoMoves": "gust",
     "model": {
-      "key": "vivillon_de"
+      "key": "vivillon_modern"
     }
   }
 ]

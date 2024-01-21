@@ -181,13 +181,5 @@
       "flip-turn"
     ]
   },
-  "spawn_rules": [
-    {
-      "values": {
-        "structures": "pokecube_legends:keldeo_place",
-        "rate": "0.0"
-      }
-    }
-  ],
   "old_name": "keldeo"
 }

@@ -48,6 +48,7 @@ public class Flammables
         flammableBlocks(BlockInit.AGED_LEAVES.get(), 30, 60);
         flammableBlocks(BlockInit.CORRUPTED_LEAVES.get(), 30, 60);
         flammableBlocks(BlockInit.DISTORTIC_LEAVES.get(), 30, 60);
+        flammableBlocks(BlockInit.DYNA_LEAVES_PASTEL_PINK.get(), 30, 60);
         flammableBlocks(BlockInit.DYNA_LEAVES_PINK.get(), 30, 60);
         flammableBlocks(BlockInit.DYNA_LEAVES_RED.get(), 30, 60);
         flammableBlocks(BlockInit.INVERTED_LEAVES.get(), 30, 60);
@@ -120,6 +121,7 @@ public class Flammables
         flammableBlocks(PlantsInit.GOLDEN_SHROOM_PLANT.get(), 60, 100);
         flammableBlocks(PlantsInit.GOLDEN_SWEET_BERRY_BUSH.get(), 60, 100);
         flammableBlocks(PlantsInit.GOLDEN_TULIP.get(), 60, 100);
+        flammableBlocks(PlantsInit.GRACIDEA.get(), 60, 100);
         flammableBlocks(PlantsInit.INVERTED_ORCHID.get(), 60, 100);
         flammableBlocks(PlantsInit.HANGING_TENDRILS.get(), 60, 100);
         flammableBlocks(PlantsInit.HANGING_TENDRILS_PLANT.get(), 60, 100);

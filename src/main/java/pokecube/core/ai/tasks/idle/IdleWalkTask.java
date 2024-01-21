@@ -40,8 +40,8 @@ public class IdleWalkTask extends BaseIdleTask
         final Random rand = ThutCore.newRandom();
 
         // SElect random gaussians from here.
-        double x = rand.nextGaussian() * distance;
-        double z = rand.nextGaussian() * distance;
+        double x = rand.nextFloat() * distance;
+        double z = rand.nextFloat() * distance;
 
         // Cap x and z to distance.
         if (Math.abs(x) > distance) x = Math.signum(x) * distance;
@@ -174,7 +174,7 @@ public class IdleWalkTask extends BaseIdleTask
             distance = (int) Math.min(distance, this.pokemob.getHomeDistance());
             this.v.set(this.pokemob.getHome());
             if (this.entity.blockPosition().distSqr(this.pokemob.getHome()) > this.pokemob.getHomeDistance()
-                    * this.pokemob.getHomeDistance())
+                    * this.pokemob.getHomeDistance() * 0.75)
                 goHome = true;
         }
         else

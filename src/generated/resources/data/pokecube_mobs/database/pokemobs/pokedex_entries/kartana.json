@@ -172,15 +172,5 @@
       "steel-beam"
     ]
   },
-  "spawn_rules": [
-    {
-      "values": {
-        "types": "#pokecube_legends:can_spawn/kartana",
-        "min": "1",
-        "rate": "0.2",
-        "max": "1"
-      }
-    }
-  ],
   "loot_table": "pokecube:entities/stone_gold"
 }

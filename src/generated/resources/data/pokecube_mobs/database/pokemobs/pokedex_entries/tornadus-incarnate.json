@@ -207,14 +207,6 @@
     ]
   },
   "sound": "tornadus-incarnate",
-  "spawn_rules": [
-    {
-      "values": {
-        "structures": "pokecube_legends:nature_place",
-        "rate": "0.0"
-      }
-    }
-  ],
   "interactions": [
     {
       "male": true,

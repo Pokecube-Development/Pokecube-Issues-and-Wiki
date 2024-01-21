@@ -34,6 +34,18 @@ public interface IOngoingAffected extends INBTSerializable<ListTag>
         void affectTarget(IOngoingAffected target);
 
         /**
+         * This is called every tick, rather than just damaging ones. This can
+         * be used to apply any custom logic which needs to occur outside of the
+         * regular move cooldown limits.
+         * 
+         * @param target
+         */
+        default void onTick(IOngoingAffected target)
+        {
+
+        }
+
+        /**
          * Should multiples of this effect be allowed at once. If false, a new
          * effect of the same ID will not be allowed to be added while this one
          * is active.
@@ -172,5 +184,18 @@ public interface IOngoingAffected extends INBTSerializable<ListTag>
         return list;
     }
 
+    /**
+     * This is called to apply damage effects, etc. Normally it is only called
+     * once every second or so, based on the config setting for attack
+     * cooldowns. This is called after {@link #tick()}, but not for every call
+     * of {@link #tick()}
+     */
+    void tickDamage();
+
+    /**
+     * This is called every tick to apply any custom tick logic the effect
+     * needs. Damage should not be done during this call! This is called before
+     * {@link #tickDamage()}, but not always followed by it.
+     */
     void tick();
 }

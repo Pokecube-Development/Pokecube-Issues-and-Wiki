@@ -102,7 +102,7 @@ public class Storage extends Tab
 
         final int k = (this.width - this.imageWidth) / 2;
         final int l = (this.height - this.imageHeight) / 2;
-        this.addRenderableWidget(new TooltipArea(k + 64, l + 54, 16, 16,
+        this.addRenderableWidget(new TooltipArea(k + 63, l + 54, 16, 16,
                 TComponent.translatable("pokemob.gui.slot.storage.off_hand"), (x, y) ->
                 {
                     Slot offhand_slot = menu.slots.get(3);
@@ -281,6 +281,6 @@ public class Storage extends Tab
         final int k = (this.width - this.imageWidth) / 2;
         final int l = (this.height - this.imageHeight) / 2;
         // The off-hand slot
-        parent.blit(mat, k + 63, l + 53, 0, this.imageHeight + 72, 18, 18);
+        parent.blit(mat, k + 62, l + 53, 0, this.imageHeight + 72, 18, 18);
     }
 }

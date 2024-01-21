@@ -31,18 +31,19 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.tags.Tags;
 import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.damage.IPokedamage;
-import thut.api.item.ItemList;
 import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 
 public class AITools
 {
 
-    public static final ResourceLocation FRIENDLY = new ResourceLocation("pokecube", "friendly");
-    public static final ResourceLocation HOSTILE = new ResourceLocation("pokecube", "hostile");
+    public static final String FRIENDLY = "friendly";
+    public static final String HOSTILE = "hostile";
+    public static final String TIMID = "timid";
 
     private static class AgroCheck implements Predicate<IPokemob>
     {
@@ -52,7 +53,7 @@ public class AITools
             final boolean tame = input.getGeneralState(GeneralStates.TAMED);
             if (tame) return false;
             if (input.getEntity().getPersistentData().getBoolean("alwaysAgress")) return true;
-            boolean wildAgress = ItemList.is(HOSTILE, input.getEntity());
+            boolean wildAgress = Tags.POKEMOB.isIn(HOSTILE, input.getPokedexEntry().getTrimmedName());
             if (wildAgress)
             {
                 if (PokecubeCore.getConfig().hostileAgroRate > 0)
@@ -60,7 +61,7 @@ public class AITools
                 else wildAgress = false;
                 return wildAgress;
             }
-            boolean friendly = ItemList.is(FRIENDLY, input.getEntity());
+            boolean friendly = Tags.POKEMOB.isIn(FRIENDLY, input.getPokedexEntry().getTrimmedName());
             if (friendly) return false;
 
             /// If not hostile, or not friendly, it uses the normal config
@@ -79,8 +80,10 @@ public class AITools
         {
             if (input == null) return true;
             final Entity core = EntityTools.getCoreEntity(input);
-            if (_blacklist.stream().anyMatch(e -> e.test(core))) return false;
-
+            synchronized (_blacklist)
+            {
+                if (_blacklist.stream().anyMatch(e -> e.test(core))) return false;
+            }
             // Then check if is a valid player.
             if (core instanceof ServerPlayer player)
             {
@@ -104,8 +107,10 @@ public class AITools
         {
             if (input == null) return true;
             final Entity core = EntityTools.getCoreEntity(input);
-            if (_blacklist.stream().anyMatch(e -> e.test(core))) return false;
-
+            synchronized (_blacklist)
+            {
+                if (_blacklist.stream().anyMatch(e -> e.test(core))) return false;
+            }
             // Then check if is a valid player.
             if (core instanceof ServerPlayer player)
             {
@@ -163,8 +168,7 @@ public class AITools
     public static Predicate<IPokemob> shouldAgroNearestPlayer = new AgroCheck();
 
     /**
-     * Checks to see if the wild pokemob should try to agro the nearest visible
-     * player.
+     * Checks to see if the damage source can affect pokemobs
      */
     public static Predicate<DamageSource> validToHitPokemob = new ValidDamageToPokemob();
 
@@ -178,21 +182,27 @@ public class AITools
 
     public static void clearAgroBlacklist()
     {
-        _blacklist.clear();
+        synchronized (_blacklist)
+        {
+            _blacklist.clear();
+        }
     }
 
     public static void registerAgroBlacklist(String var)
     {
-        if (var.startsWith("#"))
+        synchronized (_blacklist)
         {
-            TagKey<EntityType<?>> tag = TagKey.create(Registry.ENTITY_TYPE_REGISTRY,
-                    new ResourceLocation(var.replace("#", "")));
-            _blacklist.add(e -> e.getType().is(tag));
-        }
-        else
-        {
-            ResourceLocation id = new ResourceLocation(var.replace("#", ""));
-            _blacklist.add(e -> id.equals(RegHelper.getKey(e)));
+            if (var.startsWith("#"))
+            {
+                TagKey<EntityType<?>> tag = TagKey.create(Registry.ENTITY_TYPE_REGISTRY,
+                        new ResourceLocation(var.replace("#", "")));
+                _blacklist.add(e -> e.getType().is(tag));
+            }
+            else
+            {
+                ResourceLocation id = new ResourceLocation(var.replace("#", ""));
+                _blacklist.add(e -> id.equals(RegHelper.getKey(e)));
+            }
         }
     }
 

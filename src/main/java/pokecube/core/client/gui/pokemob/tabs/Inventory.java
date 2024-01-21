@@ -64,7 +64,7 @@ public class Inventory extends Tab
             this.value = (int) (1000 * (1 - current)) / 10f;
             this.value = Math.max(0, this.value);
 
-            int col = 0xFF555555;
+            int col = 0xFF8B8B8B;
             // Fill the background
             GuiComponent.fill(mat, this.x, this.y, this.x + this.width, this.y + this.height, col);
             col = 0xFFFFFFFF;
@@ -76,7 +76,7 @@ public class Inventory extends Tab
             greenness = Math.max(0, greenness);
             col1 |= redness << 16 | greenness << 8;
             // Fill the bar
-            this.fillGradient(mat, this.x, this.y, this.x + (int) (this.width * current), this.y + this.height, col,
+            this.fillGradient(mat, this.x, this.y, this.x + (int) (this.width * current), this.y + this.height, col1,
                     col1);
         }
 
@@ -126,7 +126,7 @@ public class Inventory extends Tab
         // Bar width
         int w = 89;
         // Bar height
-        int h = 5;
+        int h = 4;
         // Bar positioning
         final int i = 6, j = 48;
         this.addRenderableWidget(
@@ -175,7 +175,7 @@ public class Inventory extends Tab
         final int l = (this.height - this.imageHeight) / 2;
 
         this.addRenderableWidget(
-                new TooltipArea(k + 64, l + 18, 16, 16, TComponent.translatable("pokemob.gui.slot.saddle"), (x, y) ->
+                new TooltipArea(k + 63, l + 18, 16, 16, TComponent.translatable("pokemob.gui.slot.saddle"), (x, y) ->
                 {
                     Slot slot = menu.slots.get(0);
                     if (slot.hasItem()) return false;
@@ -185,7 +185,7 @@ public class Inventory extends Tab
                     parent.renderTooltip(pose, tooltip, x, y);
                 }).noAuto());
         this.addRenderableWidget(
-                new TooltipArea(k + 64, l + 36, 16, 16, TComponent.translatable("pokemob.gui.slot.held_item"), (x, y) ->
+                new TooltipArea(k + 63, l + 36, 16, 16, TComponent.translatable("pokemob.gui.slot.held_item"), (x, y) ->
                 {
                     Slot slot = menu.slots.get(1);
                     if (slot.hasItem()) return false;
@@ -195,7 +195,7 @@ public class Inventory extends Tab
                     parent.renderTooltip(pose, tooltip, x, y);
                 }).noAuto());
         this.addRenderableWidget(
-                new TooltipArea(k + 64, l + 54, 16, 16, TComponent.translatable("pokemob.gui.slot.off_hand"), (x, y) ->
+                new TooltipArea(k + 63, l + 54, 16, 16, TComponent.translatable("pokemob.gui.slot.off_hand"), (x, y) ->
                 {
                     Slot slot = menu.slots.get(2);
                     if (slot.hasItem()) return false;
@@ -248,11 +248,11 @@ public class Inventory extends Tab
         // The 5 inventory slots
         parent.blit(mat, k + 82, l + 17, 36, this.imageHeight + 72, 90, 18);
         // The saddle slot
-        parent.blit(mat, k + 63, l + 17, 18, this.imageHeight + 72, 18, 18);
+        parent.blit(mat, k + 62, l + 17, 18, this.imageHeight + 72, 18, 18);
         // The held item slot
-        parent.blit(mat, k + 63, l + 35, 0, this.imageHeight + 72, 18, 18);
+        parent.blit(mat, k + 62, l + 35, 0, this.imageHeight + 72, 18, 18);
         // The off-hand slot
-        parent.blit(mat, k + 63, l + 53, 0, this.imageHeight + 72, 18, 18);
+        parent.blit(mat, k + 62, l + 53, 0, this.imageHeight + 72, 18, 18);
     }
 
     @Override
