@@ -144,6 +144,11 @@ public class CoreCreativeTabs
             addAfter(event, Items.EMERALD, PokecubeItems.EMERALDSHARD.get());
         }
 
+        if (event.getTabKey() == CreativeModeTabs.REDSTONE_BLOCKS && PokecubeCore.getConfig().itemsInVanillaTabs)
+        {
+            addAfter(event, Items.REDSTONE_LAMP, PokecubeItems.REPEL.get());
+        }
+
         if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS)
         {
             add(event, PokecubeItems.SPAWN_EGG.get());
