@@ -51,7 +51,8 @@ public class CoreCreativeTabs
 
         if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
-            addAfter(event, Items.BLAST_FURNACE, PokecubeItems.HEALER.get());
+            addAfter(event, Items.BLAST_FURNACE, PokecubeItems.REPEL.get());
+            addAfter(event, PokecubeItems.REPEL.get(), PokecubeItems.HEALER.get());
             addAfter(event, PokecubeItems.HEALER.get(), PokecubeItems.PC_TOP.get());
             addAfter(event, PokecubeItems.PC_TOP.get(), PokecubeItems.PC_BASE.get());
             addAfter(event, PokecubeItems.PC_BASE.get(), PokecubeItems.TRADER.get());
@@ -60,7 +61,6 @@ public class CoreCreativeTabs
             addAfter(event, PokecubeItems.TM.get(), PokecubeItems.DYNAMAX.get());
             addAfter(event, Items.LODESTONE, PokecubeItems.SECRET_BASE.get());
             addBefore(event, Items.BEE_NEST, PokecubeItems.NEST.get());
-            addBefore(event, Items.SUSPICIOUS_SAND, PokecubeItems.REPEL.get());
 
             addAfter(event, Items.BOOKSHELF, PokecubeItems.getStack("enigma_bookshelf").getItem());
             addAfter(event, PokecubeItems.getStack("enigma_bookshelf").getItem(),
