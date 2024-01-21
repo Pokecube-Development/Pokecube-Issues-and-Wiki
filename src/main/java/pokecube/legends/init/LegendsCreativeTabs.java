@@ -494,7 +494,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
                 output.accept(BlockInit.DEEPSLATE_SAPPHIRE_ORE.get());
                 output.accept(BlockInit.ULTRA_SAPPHIRE_ORE.get());
                 output.accept(BlockInit.DUSK_SAPPHIRE_ORE.get());
-                output.accept(BlockInit.SPECTRUM_ORE.get());
+                output.accept(BlockInit.ULTRA_SPECTRUM_ORE.get());
                 output.accept(BlockInit.DUSK_SPECTRUM_ORE.get());
                 output.accept(BlockInit.FRACTAL_ORE.get());
                 output.accept(BlockInit.METEORITE_COSMIC_ORE.get());
