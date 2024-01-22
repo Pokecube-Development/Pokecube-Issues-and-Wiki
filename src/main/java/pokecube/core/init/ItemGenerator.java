@@ -15,7 +15,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.core.Direction;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.HangingSignItem;
@@ -424,20 +423,20 @@ public class ItemGenerator
 
             // Sign Blocks
             var standing_sign = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(16).apply(name),
-                    () -> new GenericStandingSign(
-                            BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
-                                    .strength(1.0F).ignitedByLava().noCollission().noOcclusion().forceSolidOn()
-                                    .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS), woodType),
+                    () -> new GenericStandingSign(woodType, BlockBehaviour.Properties.of()
+                            .mapColor(ItemGenerator.berryWoods.get(name)).sound(SoundType.WOOD)
+                            .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                            .ignitedByLava().noCollission().noOcclusion().forceSolidOn()),
                     block ->
                     {
                         ItemGenerator.berry_signs.put(name, block);
                     });
             // Wall Sign Blocks
             var wall_sign = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(15).apply(name),
-                    () -> new GenericWallSign(
-                            BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
-                                    .strength(1.0F).ignitedByLava().noCollission().noOcclusion().forceSolidOn()
-                                    .lootFrom(standing_sign).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS), woodType),
+                    () -> new GenericWallSign(woodType, BlockBehaviour.Properties.of()
+                            .mapColor(ItemGenerator.berryWoods.get(name)).sound(SoundType.WOOD)
+                            .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                            .ignitedByLava().noCollission().noOcclusion().forceSolidOn().lootFrom(standing_sign)),
                     block ->
                     {
                         ItemGenerator.berry_wall_signs.put(name, block);
@@ -445,10 +444,10 @@ public class ItemGenerator
 
             // Hanging Sign Blocks
             var ceiling_hanging_sign = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(17).apply(name),
-                    () -> new GenericCeilingHangingSign(
-                            BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
-                                    .strength(1.0F).ignitedByLava().noCollission().forceSolidOn()
-                                    .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS), woodType),
+                    () -> new GenericCeilingHangingSign(woodType, BlockBehaviour.Properties.of()
+                            .mapColor(ItemGenerator.berryWoods.get(name))
+                            .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS)
+                            .strength(1.0F).ignitedByLava().noCollission().forceSolidOn()),
                     block ->
                     {
                         ItemGenerator.berry_hanging_signs.put(name, block);
@@ -456,11 +455,10 @@ public class ItemGenerator
 
             // Wall Hanging Sign Blocks
             var wall_hanging_sign = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(18).apply(name),
-                    () -> new GenericWallHangingSign(
-                            BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
-                                    .strength(1.0F).ignitedByLava().noCollission().forceSolidOn()
-                                    .lootFrom(ceiling_hanging_sign).sound(SoundType.WOOD)
-                                    .instrument(NoteBlockInstrument.BASS), woodType),
+                    () -> new GenericWallHangingSign(woodType, BlockBehaviour.Properties.of()
+                            .mapColor(ItemGenerator.berryWoods.get(name))
+                            .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                            .ignitedByLava().noCollission().forceSolidOn().lootFrom(ceiling_hanging_sign)),
                     block ->
                     {
                         ItemGenerator.berry_wall_hanging_signs.put(name, block);

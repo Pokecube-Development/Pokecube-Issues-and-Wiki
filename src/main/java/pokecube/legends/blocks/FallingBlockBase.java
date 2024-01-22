@@ -10,10 +10,10 @@ public class FallingBlockBase extends FallingBlock
 {
     private final int dustColor;
 
-    public FallingBlockBase(final int color, final BlockBehaviour.Properties properties)
+    public FallingBlockBase(final int dustColor, final BlockBehaviour.Properties properties)
     {
         super(properties);
-        this.dustColor = color;
+        this.dustColor = dustColor;
     }
 
     @Override
