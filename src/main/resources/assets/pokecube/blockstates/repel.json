@@ -1,5 +1,13 @@
 {
 	"variants": {
-		"": { "model": "pokecube:block/repel" }
+		"facing=north,powered=false": { "model": "pokecube:block/repel" },
+		"facing=south,powered=false": { "model": "pokecube:block/repel", "y": 180 },
+		"facing=east,powered=false":  { "model": "pokecube:block/repel", "y": 90 },
+		"facing=west,powered=false":  { "model": "pokecube:block/repel", "y": 270 },
+
+		"facing=north,powered=true": { "model": "pokecube:block/repel_on" },
+		"facing=south,powered=true": { "model": "pokecube:block/repel_on", "y": 180 },
+		"facing=east,powered=true":  { "model": "pokecube:block/repel_on", "y": 90 },
+		"facing=west,powered=true":  { "model": "pokecube:block/repel_on", "y": 270 }
 	}
 }

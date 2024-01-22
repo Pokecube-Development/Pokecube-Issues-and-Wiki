@@ -246,8 +246,8 @@ public class PokecubeItems extends ItemList
                 () -> new BaseBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(2000)
                         .sound(SoundType.STONE).requiresCorrectToolForDrops()));
         REPEL = PokecubeCore.BLOCKS.register("repel",
-                () -> new RepelBlock(BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.COLOR_GREEN)
-                        .strength(0.5F, 2.5F).sound(SoundType.GRASS).requiresCorrectToolForDrops()));
+                () -> new RepelBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GREEN)
+                        .strength(2.0F, 2.5F).sound(SoundType.NETHERITE_BLOCK).requiresCorrectToolForDrops()));
         HEALER = PokecubeCore.BLOCKS.register("pokecenter",
                 () -> new HealerBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.WOOL).strength(2000)
                         .sound(SoundType.METAL).requiresCorrectToolForDrops()));
