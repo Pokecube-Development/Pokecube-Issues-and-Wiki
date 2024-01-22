@@ -5,7 +5,6 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.Component;

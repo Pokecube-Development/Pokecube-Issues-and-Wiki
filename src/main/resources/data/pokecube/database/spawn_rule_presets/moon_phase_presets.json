@@ -1,0 +1,68 @@
+{
+  "rules":[
+    {
+      "preset":"full_moon",
+      "matchers":{
+        "moon_phase":{
+          "phase": 0
+        }
+      }
+    },
+    {
+      "preset":"waning_gibbous",
+      "matchers":{
+        "moon_phase":{
+          "phase": 1
+        }
+      }
+    },
+    {
+      "preset":"last_quarter",
+      "matchers":{
+        "moon_phase":{
+          "phase": 2
+        }
+      }
+    },
+    {
+      "preset":"waning_crescent",
+      "matchers":{
+        "moon_phase":{
+          "phase": 3
+        }
+      }
+    },
+    {
+      "preset":"new_moon",
+      "matchers":{
+        "moon_phase":{
+          "phase": 4
+        }
+      }
+    },
+    {
+      "preset":"waxing_crescent",
+      "matchers":{
+        "moon_phase":{
+          "phase": 5
+        }
+      }
+    },
+    {
+      "preset":"first_quarter",
+      "matchers":{
+        "moon_phase":{
+          "phase": 6
+        }
+      }
+    },
+    {
+      "preset":"waxing_gibbous",
+      "matchers":{
+        "moon_phase":{
+          "phase": 7
+        }
+      }
+    }
+  ]
+}

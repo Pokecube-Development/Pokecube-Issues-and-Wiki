@@ -5,7 +5,6 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import javax.sound.sampled.Line;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.ClickEvent.Action;
