@@ -145,7 +145,7 @@ import thut.api.block.flowing.SolidBlock;
 @SuppressWarnings("deprecation")
 public class BlockInit
 {
-    // Decorative_Blocks
+    // Decorative Blocks
     public static final RegistryObject<Block> METEORITE_SLAB;
     public static final RegistryObject<Block> METEORITE_STAIRS;
 

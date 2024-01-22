@@ -1,16 +1,11 @@
 package pokecube.legends.init;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.data.worldgen.features.TreeFeatures;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.registries.RegistryObject;
@@ -51,7 +46,6 @@ import pokecube.legends.blocks.plants.TallGoldenGrassBlock;
 import pokecube.legends.blocks.plants.TallTaintedSeagrassBlock;
 import pokecube.legends.blocks.plants.TemporalBambooShootBlock;
 import pokecube.legends.blocks.plants.TemporalBambooStalkBlock;
-import pokecube.legends.items.ItemBase;
 import pokecube.legends.worldgen.trees.AgedTreeGrower;
 import pokecube.legends.worldgen.trees.CorruptedTreeGrower;
 import pokecube.legends.worldgen.trees.DistorticTreeGrower;
@@ -144,34 +138,38 @@ public class PlantsInit
                 () -> new SaplingBase(TemporalTreeGrower::new, BlockBehaviour.Properties.of().mapColor(MapColor.PLANT)
                         .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY).instabreak().noCollission()));
 
-        TEMPORAL_BAMBOO = PokecubeLegends.NO_ITEM_BLOCKS.register("temporal_bamboo", () -> new TemporalBambooStalkBlock(
-                BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_NYLIUM)
-                        .strength(1.2f).noOcclusion().randomTicks().ignitedByLava().dynamicShape().forceSolidOn()
-                        .sound(SoundType.BAMBOO).pushReaction(PushReaction.DESTROY).offsetType(BlockBehaviour.OffsetType.XZ).isRedstoneConductor(PlantsInit::never)));
-        TEMPORAL_BAMBOO_SHOOT = PokecubeLegends.NO_ITEM_BLOCKS.register("temporal_bamboo_shoot", () -> new TemporalBambooShootBlock(
-                BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_NYLIUM)
-                        .strength(1.2f).noOcclusion().randomTicks().instabreak().ignitedByLava().dynamicShape().forceSolidOn()
-                        .sound(SoundType.BAMBOO).pushReaction(PushReaction.DESTROY).offsetType(BlockBehaviour.OffsetType.XZ)));
-
-        AZURE_COLEUS = PokecubeLegends.BLOCKS.register("azure_coleus", () -> new AzureColeusBlock(MobEffects.INVISIBILITY, 15,
-                BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLUE).randomTicks().noCollission().instabreak().ignitedByLava()
-                        .sound(SoundType.AZALEA).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
-        GRACIDEA = PokecubeLegends.BLOCKS.register("gracidea",
-                () -> new FlowerBase("gracidea", 1, MobEffects.LUCK, 10,
-                        BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK).noCollission().instabreak().ignitedByLava()
-                                .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
+        TEMPORAL_BAMBOO = PokecubeLegends.NO_ITEM_BLOCKS.register("temporal_bamboo",
+                () -> new TemporalBambooStalkBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_NYLIUM)
+                        .sound(SoundType.BAMBOO).pushReaction(PushReaction.DESTROY).offsetType(BlockBehaviour.OffsetType.XZ)
+                        .strength(1.2f).noOcclusion().randomTicks().instabreak().ignitedByLava()
+                        .dynamicShape().forceSolidOn().isRedstoneConductor(PokecubeItems::never)));
+        TEMPORAL_BAMBOO_SHOOT = PokecubeLegends.NO_ITEM_BLOCKS.register("temporal_bamboo_shoot",
+                () -> new TemporalBambooShootBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_NYLIUM)
+                        .sound(SoundType.BAMBOO).pushReaction(PushReaction.DESTROY).offsetType(BlockBehaviour.OffsetType.XZ)
+                        .strength(1.2f).noOcclusion().randomTicks().instabreak().ignitedByLava()
+                        .dynamicShape().forceSolidOn()));
 
         COMPRECED_MUSHROOM = PokecubeLegends.BLOCKS.register("compreced_mushroom",
                 () -> new MushroomBase(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE)
-                        .noCollission().randomTicks().instabreak().ignitedByLava()
-                        .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY).offsetType(BlockBehaviour.OffsetType.XZ),
+                        .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY).offsetType(BlockBehaviour.OffsetType.XZ)
+                        .noCollission().randomTicks().instabreak().ignitedByLava().hasPostProcess(PokecubeItems::always),
                         TreeFeatures.HUGE_RED_MUSHROOM).bonemealTarget(false));
-
         DISTORCED_MUSHROOM = PokecubeLegends.BLOCKS.register("distorced_mushroom",
                 () -> new MushroomBase(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE)
-                        .noCollission().randomTicks().instabreak().ignitedByLava()
-                        .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY).offsetType(BlockBehaviour.OffsetType.XZ),
+                        .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY).offsetType(BlockBehaviour.OffsetType.XZ)
+                        .noCollission().randomTicks().instabreak().ignitedByLava().hasPostProcess(PokecubeItems::always),
                         TreeFeatures.HUGE_RED_MUSHROOM).bonemealTarget(false));
+
+        AZURE_COLEUS = PokecubeLegends.BLOCKS.register("azure_coleus",
+                () -> new AzureColeusBlock(MobEffects.INVISIBILITY, 15, BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.COLOR_BLUE).sound(SoundType.AZALEA).offsetType(BlockBehaviour.OffsetType.XZ)
+                        .pushReaction(PushReaction.DESTROY).randomTicks().noCollission().instabreak().ignitedByLava()));
+
+        GRACIDEA = PokecubeLegends.BLOCKS.register("gracidea",
+                () -> new FlowerBase("gracidea", 1, MobEffects.LUCK, 10,
+                        BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK).sound(SoundType.GRASS)
+                                .offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)
+                                .noCollission().instabreak()));
 
         CRYSTALLIZED_CACTUS = PokecubeLegends.BLOCKS.register("crystallized_cactus",
                 () -> new CrystallizedCactus(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE)
@@ -185,79 +183,85 @@ public class PlantsInit
                         .sound(SoundType.LARGE_AMETHYST_BUD).pushReaction(PushReaction.DESTROY)
                         .noCollission().instabreak()));
 
-        GOLDEN_FERN = PokecubeLegends.BLOCKS.register("golden_fern", () -> new TallGoldenGrassBlock(
-                BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).noCollission().replaceable().instabreak().ignitedByLava()
-                        .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
+        GOLDEN_FERN = PokecubeLegends.BLOCKS.register("golden_fern",
+                () -> new TallGoldenGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
+                        .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ)
+                        .pushReaction(PushReaction.DESTROY).noCollission().replaceable().instabreak().ignitedByLava()));
+        LARGE_GOLDEN_FERN = PokecubeLegends.BLOCKS.register("large_golden_fern",
+                () -> new DoublePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
+                        .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ)
+                        .pushReaction(PushReaction.DESTROY).noCollission().replaceable().instabreak().ignitedByLava()));
+        GOLDEN_GRASS = PokecubeLegends.BLOCKS.register("golden_grass",
+                () -> new TallGoldenGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
+                        .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ)
+                        .pushReaction(PushReaction.DESTROY).noCollission().replaceable().instabreak().ignitedByLava()));
+        TALL_GOLDEN_GRASS = PokecubeLegends.BLOCKS.register("tall_golden_grass",
+                () -> new DoublePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
+                        .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ)
+                        .pushReaction(PushReaction.DESTROY).noCollission().replaceable().instabreak().ignitedByLava()));
 
-        LARGE_GOLDEN_FERN = PokecubeLegends.BLOCKS.register("large_golden_fern", () -> new DoublePlantBlock(
-                BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).noCollission().replaceable().instabreak().ignitedByLava()
-                        .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
-
-        GOLDEN_GRASS = PokecubeLegends.BLOCKS.register("golden_grass", () -> new TallGoldenGrassBlock(
-                BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).noCollission().replaceable().instabreak().ignitedByLava()
-                        .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
-
-        TALL_GOLDEN_GRASS = PokecubeLegends.BLOCKS.register("tall_golden_grass", () -> new DoublePlantBlock(
-                BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).noCollission().replaceable().instabreak().ignitedByLava()
-                        .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
-
-        GOLDEN_ALLIUM = PokecubeLegends.BLOCKS.register("golden_allium", () -> new FlowerBase(MobEffects.ABSORPTION, 10,
-                BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).noCollission().instabreak().ignitedByLava()
-                        .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
-        
-        GOLDEN_AZURE_BLUET = PokecubeLegends.BLOCKS.register("golden_azure_bluet", () -> new FlowerBase(MobEffects.ABSORPTION, 10,
-                BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).noCollission().instabreak().ignitedByLava()
-                        .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
-        
-        GOLDEN_CORNFLOWER = PokecubeLegends.BLOCKS.register("golden_cornflower", () -> new FlowerBase(MobEffects.ABSORPTION, 10,
-                BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).noCollission().instabreak().ignitedByLava()
-                        .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
-        
-        GOLDEN_DANDELION = PokecubeLegends.BLOCKS.register("golden_dandelion", () -> new FlowerBase(MobEffects.ABSORPTION, 10,
-                BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).noCollission().instabreak().ignitedByLava()
-                        .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
-        
-        GOLDEN_LILY_VALLEY = PokecubeLegends.BLOCKS.register("golden_lily_of_the_valley", () -> new FlowerBase(MobEffects.ABSORPTION, 10,
-                BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).noCollission().instabreak().ignitedByLava()
-                        .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
-        
-        GOLDEN_POPPY = PokecubeLegends.BLOCKS.register("golden_poppy", () -> new FlowerBase(MobEffects.ABSORPTION, 10,
-                BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).noCollission().instabreak().ignitedByLava()
-                        .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
-        
-        GOLDEN_ORCHID = PokecubeLegends.BLOCKS.register("golden_orchid", () -> new FlowerBase(MobEffects.ABSORPTION, 10,
-                BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).noCollission().instabreak().ignitedByLava()
-                        .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
-        
-        GOLDEN_OXEYE_DAISY = PokecubeLegends.BLOCKS.register("golden_oxeye_daisy", () -> new FlowerBase(MobEffects.ABSORPTION, 10,
-                BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).noCollission().instabreak().ignitedByLava()
-                        .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
-
-        GOLDEN_TULIP = PokecubeLegends.BLOCKS.register("golden_tulip", () -> new FlowerBase(MobEffects.ABSORPTION, 10,
-                BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).noCollission().instabreak().ignitedByLava()
-                        .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
+        GOLDEN_ALLIUM = PokecubeLegends.BLOCKS.register("golden_allium",
+                () -> new FlowerBase(MobEffects.ABSORPTION, 10, BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.GOLD).sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ)
+                        .pushReaction(PushReaction.DESTROY).noCollission().replaceable().instabreak()));
+        GOLDEN_AZURE_BLUET = PokecubeLegends.BLOCKS.register("golden_azure_bluet",
+                () -> new FlowerBase(MobEffects.ABSORPTION, 10, BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.GOLD).sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ)
+                        .pushReaction(PushReaction.DESTROY).noCollission().replaceable().instabreak()));
+        GOLDEN_CORNFLOWER = PokecubeLegends.BLOCKS.register("golden_cornflower",
+                () -> new FlowerBase(MobEffects.ABSORPTION, 10, BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.GOLD).sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ)
+                        .pushReaction(PushReaction.DESTROY).noCollission().replaceable().instabreak()));
+        GOLDEN_DANDELION = PokecubeLegends.BLOCKS.register("golden_dandelion",
+                () -> new FlowerBase(MobEffects.ABSORPTION, 10, BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.GOLD).sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ)
+                        .pushReaction(PushReaction.DESTROY).noCollission().replaceable().instabreak()));
+        GOLDEN_LILY_VALLEY = PokecubeLegends.BLOCKS.register("golden_lily_of_the_valley",
+                () -> new FlowerBase(MobEffects.ABSORPTION, 10, BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.GOLD).sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ)
+                        .pushReaction(PushReaction.DESTROY).noCollission().replaceable().instabreak()));
+        GOLDEN_POPPY = PokecubeLegends.BLOCKS.register("golden_poppy",
+                () -> new FlowerBase(MobEffects.ABSORPTION, 10, BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.GOLD).sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ)
+                        .pushReaction(PushReaction.DESTROY).noCollission().replaceable().instabreak()));
+        GOLDEN_ORCHID = PokecubeLegends.BLOCKS.register("golden_orchid",
+                () -> new FlowerBase(MobEffects.ABSORPTION, 10, BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.GOLD).sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ)
+                        .pushReaction(PushReaction.DESTROY).noCollission().replaceable().instabreak()));
+        GOLDEN_OXEYE_DAISY = PokecubeLegends.BLOCKS.register("golden_oxeye_daisy",
+                () -> new FlowerBase(MobEffects.ABSORPTION, 10, BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.GOLD).sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ)
+                        .pushReaction(PushReaction.DESTROY).noCollission().replaceable().instabreak()));
+        GOLDEN_TULIP = PokecubeLegends.BLOCKS.register("golden_tulip",
+                () -> new FlowerBase(MobEffects.ABSORPTION, 10, BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.GOLD).sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ)
+                        .pushReaction(PushReaction.DESTROY).noCollission().replaceable().instabreak()));
 
         GOLDEN_SHROOM_PLANT = PokecubeLegends.NO_ITEM_BLOCKS.register("golden_shroom_plant",
                 () -> new MushroomBase(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
-                        .noCollission().randomTicks().instabreak().ignitedByLava()
-                        .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY), 
+                        .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)
+                        .noCollission().randomTicks().instabreak().ignitedByLava().hasPostProcess(PokecubeItems::always),
                         TreeFeatures.HUGE_RED_MUSHROOM).bonemealTarget(false));
 
-        GOLDEN_SWEET_BERRY_BUSH = PokecubeLegends.BLOCKS.register("golden_sweet_berry_bush", () -> new GoldenSweetBerryBushBlock(
-                BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).randomTicks().noCollission().instabreak().ignitedByLava()
-                        .sound(SoundType.SWEET_BERRY_BUSH).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
+        GOLDEN_SWEET_BERRY_BUSH = PokecubeLegends.BLOCKS.register("golden_sweet_berry_bush",
+                () -> new GoldenSweetBerryBushBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
+                        .sound(SoundType.SWEET_BERRY_BUSH).offsetType(BlockBehaviour.OffsetType.XZ)
+                        .pushReaction(PushReaction.DESTROY).randomTicks().noCollission().instabreak()));
 
-        INVERTED_ORCHID = PokecubeLegends.BLOCKS.register("inverted_orchid", () -> new InvertedOrchidBlock(MobEffects.HEAL, 10,
-                BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK).noCollission().instabreak().ignitedByLava()
-                        .sound(SoundType.BAMBOO_SAPLING).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
+        INVERTED_ORCHID = PokecubeLegends.BLOCKS.register("inverted_orchid",
+                () -> new InvertedOrchidBlock(MobEffects.HEAL, 10, BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.COLOR_PINK).sound(SoundType.BAMBOO_SAPLING)
+                        .offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)
+                        .noCollission().instabreak()));
 
-        CORRUPTED_GRASS = PokecubeLegends.BLOCKS.register("corrupted_grass", () -> new TallCorruptedGrassBlock(
-                BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_BLUE).noCollission().replaceable().instabreak().ignitedByLava()
-                        .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
-
-        TALL_CORRUPTED_GRASS = PokecubeLegends.BLOCKS.register("tall_corrupted_grass", () -> new DoublePlantBlock(
-                BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_BLUE).noCollission().replaceable().instabreak().ignitedByLava()
-                        .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
+        CORRUPTED_GRASS = PokecubeLegends.BLOCKS.register("corrupted_grass",
+                () -> new TallCorruptedGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_BLUE)
+                        .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ)
+                        .pushReaction(PushReaction.DESTROY).noCollission().replaceable().instabreak().ignitedByLava()));
+        TALL_CORRUPTED_GRASS = PokecubeLegends.BLOCKS.register("tall_corrupted_grass",
+                () -> new DoublePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_BLUE)
+                        .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ)
+                        .pushReaction(PushReaction.DESTROY).noCollission().replaceable().instabreak().ignitedByLava()));
 
         POLLUTING_BLOSSOM = PokecubeLegends.BLOCKS.register("polluting_blossom",
                 () -> new PollutingBlossomBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_PURPLE)
@@ -276,71 +280,72 @@ public class PlantsInit
                         .mapColor(MapColor.TERRACOTTA_RED).sound(SoundType.BIG_DRIPLEAF)
                         .pushReaction(PushReaction.DESTROY).strength(0.1F).noCollission()));
 
-        TAINTED_ROOTS = PokecubeLegends.BLOCKS.register("tainted_roots", () -> new TaintedRootsBlock(
-                BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_PURPLE).noCollission().replaceable().instabreak().ignitedByLava()
-                        .sound(SoundType.ROOTS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
+        TAINTED_ROOTS = PokecubeLegends.BLOCKS.register("tainted_roots",
+                () -> new TaintedRootsBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_PURPLE)
+                        .sound(SoundType.ROOTS).offsetType(BlockBehaviour.OffsetType.XZ)
+                        .pushReaction(PushReaction.DESTROY).noCollission().replaceable().instabreak()));
 
-        TAINTED_KELP = PokecubeLegends.BLOCKS.register("tainted_kelp", () -> new TaintedKelpBlock(
-                BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_PURPLE).noCollission().instabreak().ignitedByLava()
-                        .sound(SoundType.WET_GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
+        TAINTED_KELP = PokecubeLegends.BLOCKS.register("tainted_kelp",
+                () -> new TaintedKelpBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_PURPLE)
+                        .sound(SoundType.WET_GRASS).offsetType(BlockBehaviour.OffsetType.XZ)
+                        .pushReaction(PushReaction.DESTROY).randomTicks().noCollission().instabreak()));
+        TAINTED_KELP_PLANT = PokecubeLegends.BLOCKS.register("tainted_kelp_plant",
+                () -> new TaintedKelpPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_PURPLE)
+                        .sound(SoundType.WET_GRASS).offsetType(BlockBehaviour.OffsetType.XZ)
+                        .pushReaction(PushReaction.DESTROY).noCollission().instabreak()));
 
-        TAINTED_KELP_PLANT = PokecubeLegends.BLOCKS.register("tainted_kelp_plant", () -> new TaintedKelpPlantBlock(
-                BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_PURPLE).noCollission().instabreak().ignitedByLava()
-                        .sound(SoundType.WET_GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
+        PINK_TAINTED_LILY_PAD = PokecubeLegends.NO_ITEM_BLOCKS.register("pink_blossom_tainted_lily_pad",
+                () -> new BlossomLilyPadBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_PURPLE)
+                        .sound(SoundType.LILY_PAD).pushReaction(PushReaction.DESTROY).noOcclusion().instabreak()));
+        TAINTED_LILY_PAD = PokecubeLegends.NO_ITEM_BLOCKS.register("tainted_lily_pad",
+                () -> new LilyPadBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_PURPLE)
+                        .sound(SoundType.LILY_PAD).pushReaction(PushReaction.DESTROY).noOcclusion().instabreak()));
 
-        PINK_TAINTED_LILY_PAD = PokecubeLegends.NO_ITEM_BLOCKS.register("pink_blossom_tainted_lily_pad", () -> new BlossomLilyPadBlock(
-                BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_PURPLE).noOcclusion().instabreak().ignitedByLava()
-                        .sound(SoundType.LILY_PAD).pushReaction(PushReaction.DESTROY)));
+        HANGING_TENDRILS = PokecubeLegends.BLOCKS.register("hanging_tendrils",
+                () -> new HangingTendrilsBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_PURPLE)
+                        .sound(SoundType.CAVE_VINES).pushReaction(PushReaction.DESTROY).randomTicks().noCollission()
+                        .instabreak().ignitedByLava().lightLevel(HangingTendrilsBlock.emission(5))));
+        HANGING_TENDRILS_PLANT = PokecubeLegends.NO_ITEM_BLOCKS.register("hanging_tendrils_plant",
+                () -> new HangingTendrilsPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_PURPLE)
+                        .sound(SoundType.CAVE_VINES).pushReaction(PushReaction.DESTROY).noCollission().instabreak()
+                        .ignitedByLava().lightLevel(HangingTendrilsBlock.emission(5))));
 
-        TAINTED_LILY_PAD = PokecubeLegends.NO_ITEM_BLOCKS.register("tainted_lily_pad", () -> new LilyPadBlock(
-                BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_PURPLE).noOcclusion().instabreak().ignitedByLava()
-                        .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)));
+        TAINTED_SEAGRASS = PokecubeLegends.BLOCKS.register("tainted_seagrass",
+                () -> new TaintedSeagrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_PURPLE)
+                        .sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)
+                        .replaceable().instabreak().ignitedByLava()));
+        TALL_TAINTED_SEAGRASS = PokecubeLegends.BLOCKS.register("tall_tainted_seagrass",
+                () -> new TallTaintedSeagrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_PURPLE)
+                        .sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)
+                        .replaceable().instabreak().ignitedByLava()));
 
-        HANGING_TENDRILS = PokecubeLegends.BLOCKS.register("hanging_tendrils", () -> new HangingTendrilsBlock(
-                BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_PURPLE).randomTicks().noCollission().instabreak().ignitedByLava()
-                        .sound(SoundType.CAVE_VINES).pushReaction(PushReaction.DESTROY).lightLevel(HangingTendrilsBlock.emission(5))));
-        HANGING_TENDRILS_PLANT = PokecubeLegends.NO_ITEM_BLOCKS.register("hanging_tendrils_plant", () -> new HangingTendrilsPlantBlock(
-                BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_PURPLE).noCollission().instabreak().ignitedByLava()
-                        .sound(SoundType.CAVE_VINES).pushReaction(PushReaction.DESTROY).lightLevel(HangingTendrilsBlock.emission(5))));
+        PURPLE_WISTERIA_VINES = PokecubeLegends.BLOCKS.register("purple_wisteria_vines",
+                () -> new PurpleWisteriaVinesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE)
+                        .sound(SoundType.CAVE_VINES).pushReaction(PushReaction.DESTROY)
+                        .randomTicks().noCollission().instabreak().ignitedByLava()));
+        PURPLE_WISTERIA_VINES_PLANT = PokecubeLegends.NO_ITEM_BLOCKS.register("purple_wisteria_vines_plant",
+                () -> new PurpleWisteriaVinesPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE)
+                        .sound(SoundType.CAVE_VINES).pushReaction(PushReaction.DESTROY)
+                        .noCollission().instabreak().ignitedByLava()));
 
-        TAINTED_SEAGRASS = PokecubeLegends.BLOCKS.register("tainted_seagrass", () -> new TaintedSeagrassBlock(
-                BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_PURPLE).replaceable().instabreak().ignitedByLava()
-                        .sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
-
-        TALL_TAINTED_SEAGRASS = PokecubeLegends.BLOCKS.register("tall_tainted_seagrass", () -> new TallTaintedSeagrassBlock(
-                BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_PURPLE).replaceable().instabreak().ignitedByLava()
-                        .sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
-
-        PURPLE_WISTERIA_VINES = PokecubeLegends.BLOCKS.register("purple_wisteria_vines", () -> new PurpleWisteriaVinesBlock(
-                BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).randomTicks().noCollission().instabreak().ignitedByLava()
-                        .sound(SoundType.CAVE_VINES).pushReaction(PushReaction.DESTROY)));
-        PURPLE_WISTERIA_VINES_PLANT = PokecubeLegends.NO_ITEM_BLOCKS.register("purple_wisteria_vines_plant", () -> new PurpleWisteriaVinesPlantBlock(
-                BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).noCollission().instabreak().ignitedByLava()
-                        .sound(SoundType.CAVE_VINES).pushReaction(PushReaction.DESTROY)));
-
-        DISTORTIC_GRASS = PokecubeLegends.BLOCKS.register("distortic_grass", () -> new TallDistorticGrassBlock(
-                BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA).noCollission().replaceable().instabreak().ignitedByLava()
-                        .sound(SoundType.ROOTS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
+        DISTORTIC_GRASS = PokecubeLegends.BLOCKS.register("distortic_grass",
+                () -> new TallDistorticGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA)
+                        .sound(SoundType.ROOTS).offsetType(BlockBehaviour.OffsetType.XZ)
+                        .pushReaction(PushReaction.DESTROY).noCollission().replaceable().instabreak().ignitedByLava()));
         
-        DISTORTIC_VINES = PokecubeLegends.NO_ITEM_BLOCKS.register("distortic_vines", () -> new DistortedVinesTopBlock(
-                BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA).randomTicks().noCollission().instabreak().ignitedByLava()
-                        .sound(SoundType.WEEPING_VINES).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
-        DISTORTIC_VINES_PLANT = PokecubeLegends.NO_ITEM_BLOCKS.register("distortic_vines_plant", () -> new DistortedVinesBlock(
-                BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA).noCollission().instabreak().ignitedByLava()
-                        .sound(SoundType.WEEPING_VINES).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
+        DISTORTIC_VINES = PokecubeLegends.NO_ITEM_BLOCKS.register("distortic_vines",
+                () -> new DistortedVinesTopBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA)
+                        .sound(SoundType.WEEPING_VINES).offsetType(BlockBehaviour.OffsetType.XZ)
+                        .pushReaction(PushReaction.DESTROY).randomTicks().noCollission().instabreak().ignitedByLava()));
+        DISTORTIC_VINES_PLANT = PokecubeLegends.NO_ITEM_BLOCKS.register("distortic_vines_plant",
+                () -> new DistortedVinesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA)
+                        .sound(SoundType.WEEPING_VINES).offsetType(BlockBehaviour.OffsetType.XZ)
+                        .pushReaction(PushReaction.DESTROY).noCollission().instabreak().ignitedByLava()));
+
         STRING_OF_PEARLS = PokecubeLegends.BLOCKS.register("string_of_pearls",
                 () -> new StringOfPearlsBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_NYLIUM)
                         .sound(SoundType.VINE).pushReaction(PushReaction.DESTROY).strength(0.2F)
                         .noCollission().ignitedByLava().replaceable().randomTicks()));
-    }
-
-    public static Boolean always(BlockState state, BlockGetter block, BlockPos pos, EntityType<?> type)
-    {
-        return Boolean.TRUE;
-    }
-
-    public static boolean never(BlockState state, BlockGetter blockGetter, BlockPos pos) {
-        return Boolean.FALSE;
     }
 
     public static void registry()

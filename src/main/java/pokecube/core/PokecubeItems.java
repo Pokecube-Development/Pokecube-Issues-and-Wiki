@@ -263,6 +263,10 @@ public class PokecubeItems extends ItemList
         return entity == EntityType.OCELOT || entity == EntityType.PARROT;
     }
 
+    public static boolean always(BlockState state, BlockGetter block, BlockPos pos) {
+        return true;
+    }
+
     public static Boolean never(BlockState state, BlockGetter block, BlockPos pos, EntityType<?> type)
     {
         return Boolean.FALSE;
