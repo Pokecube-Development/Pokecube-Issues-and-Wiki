@@ -2,6 +2,7 @@ package pokecube.core.init;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.api.data.moves.Animations.AnimationJson;
 import pokecube.api.data.moves.Moves;
@@ -12,16 +13,18 @@ public class Sounds
     public static final RegistryObject<SoundEvent> CAPTURE_SOUND;
     public static final RegistryObject<SoundEvent> HEAL_SOUND;
     public static final RegistryObject<SoundEvent> HEAL_MUSIC;
+    public static final RegistryObject<SoundEvent> REPEL_SPRAYS;
 
     static
     {
-        // TODO: Check if correct
         CAPTURE_SOUND = PokecubeCore.SOUNDS.register("pokecube_caught",
                 () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(PokecubeCore.MODID + ":pokecube_caught")));
         HEAL_SOUND = PokecubeCore.SOUNDS.register("pokecenter",
                 () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(PokecubeCore.MODID + ":pokecenter")));
         HEAL_MUSIC = PokecubeCore.SOUNDS.register("pokecenterloop",
                 () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(PokecubeCore.MODID + ":pokecenterloop")));
+        REPEL_SPRAYS = PokecubeCore.SOUNDS.register("block.repel_sprays",
+                () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(PokecubeCore.MODID + ":block.repel_sprays")));
     }
 
     public static void init()

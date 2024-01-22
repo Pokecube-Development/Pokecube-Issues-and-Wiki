@@ -4,6 +4,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -20,6 +22,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import org.jetbrains.annotations.Nullable;
 import pokecube.core.blocks.InteractableHorizontalBlock;
+import pokecube.core.init.Sounds;
 
 public class RepelBlock extends InteractableHorizontalBlock implements EntityBlock
 {
@@ -81,6 +84,8 @@ public class RepelBlock extends InteractableHorizontalBlock implements EntityBlo
         {
             if (worldReader instanceof Level world)
             {
+                world.playSound(null, pos, Sounds.REPEL_SPRAYS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+
                 if (worldReader.getBlockState(pos).getValue(FACING) == Direction.NORTH)
                     addParticles(world, x + 0.5, y + 1.1, z - 0.1, 0.15D, 0.15D, -0.5D);
                 else if (worldReader.getBlockState(pos).getValue(FACING) == Direction.SOUTH)
@@ -107,6 +112,8 @@ public class RepelBlock extends InteractableHorizontalBlock implements EntityBlo
         int x = pos.getX();
         int y = pos.getY();
         int z = pos.getZ();
+
+        world.playSound(null, pos, Sounds.REPEL_SPRAYS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
 
         if (world.getBlockState(pos).getValue(FACING) == Direction.NORTH)
             addParticles(world, x + 0.5, y + 1.1, z - 0.1, 0.15D, 0.15D, -0.5D);

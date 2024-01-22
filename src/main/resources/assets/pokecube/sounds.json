@@ -42,6 +42,9 @@
   "moves.hitdamage": {"category": "hostile","sounds": [{"name": "pokecube:moves/hitdamage","stream": false}]},
   "moves.hitnoteffective": {"category": "hostile","sounds": [{"name": "pokecube:moves/hitnoteffective","stream": false}]},
   "moves.hitsupereffective": {"category": "hostile","sounds": [{"name": "pokecube:moves/hitsupereffective","stream": false}]},
+  "block.repel_sprays": {"category": "block","sounds": [{"name": "block/candle/extinguish1","stream": false},
+    {"name": "block/candle/extinguish2","stream": false},
+    {"name": "block/candle/extinguish3","stream": false}], "subtitle": "pokecube.subtitles.block.repel_sprays"},
   "pokecenter": {"category": "block","sounds": [{"name": "pokecube:pokecenter","stream": false}], "subtitle": "pokecube.subtitles.pokecenter"},
   "pokecenterloop": {"category": "record","sounds": [{"name": "pokecube:pokecenterloop","stream": true}], "subtitle": "pokecube.subtitles.pokecenter_loop"},
   "pokecube_caught": {"category": "player","sounds": [{"name": "pokecube:pokecube_caught","stream": false}], "subtitle": "pokecube.subtitles.pokemob_caught"}

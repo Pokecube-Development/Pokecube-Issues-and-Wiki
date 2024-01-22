@@ -401,6 +401,7 @@
 
     "repel.info.setrange": "Radius was set to %1$s blocks.",
     "repel.info.getrange": "Radius is currently %1$s blocks.",
+    "pokecube.subtitles.block.repel_sprays": "Repel sprays",
 
     "pokecube.recall.fail": "§cNothing to recall.",
     "pokecube.recall.success": "%1$s §arecalled.",
@@ -409,6 +410,7 @@
     "pokecube.sendout.fail..noperms.specific": "%1$s §arecalled.",
     "pokecube.sendout.fail.cancelled": "%1$s §arecalled.",
 
+    "pokecube.subtitles.pokemob_caught": "Pokémob caught",
     "pokecube.caught": "%1$s §ahas been caught!",
     "pokecube.missed": "%1$s §cbroke out!",
     "pokecube.denied": "§cThe Pokémob refuses to enter the cube!",
@@ -522,6 +524,8 @@
 
     "_comment": "Blocks",
 
+    "pokecube.subtitles.pokecenter": "PokéCenter heals",
+    "pokecube.subtitles.pokecenter_loop": "PokéCenter music plays",
     "block.pokecube.pokecenter": "PokéCenter",
     "block.pokecenter.heal": "",
     "block.pokecenter.heal.tooltip": "Heal",
