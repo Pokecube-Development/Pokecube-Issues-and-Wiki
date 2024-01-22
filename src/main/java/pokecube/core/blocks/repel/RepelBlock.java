@@ -7,6 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -131,7 +132,7 @@ public class RepelBlock extends InteractableHorizontalBlock implements EntityBlo
 
     public static void addParticles(Level world, double x, double y, double z, double motionX, double motionY, double motionZ)
     {
-        Random random = world.getRandom();
+        RandomSource random = world.getRandom();
 
         for (int i = 0; i < 50; ++i) {
             world.addParticle(ParticleTypes.CLOUD, x, y, z,
