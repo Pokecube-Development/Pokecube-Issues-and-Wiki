@@ -117,7 +117,36 @@
   
   "pokecube.spawns.villages.general":"Found near villages",
   "pokecube.spawns.villages.day":"Found near villages during the day",
-  
-  "_comment2": "Pokemob specific info"
 
+  "pokecube.spawns.weather.raining": "During rain",
+  "pokecube.spawns.weather.clear": "During clear weather",
+  "pokecube.spawns.weather.snowy": "During snow",
+  "pokecube.spawns.weather.thunder": "During thunderstorms",
+
+  "pokecube.spawns.moon.full": "During a full moon",
+  "pokecube.spawns.moon.waninggibbous": "During a waning gibbous moon",
+  "pokecube.spawns.moon.lastquarter": "During a last quarter moon",
+  "pokecube.spawns.moon.waningcrescent": "During a waning crescent moon",
+  "pokecube.spawns.moon.new": "During a new moon",
+  "pokecube.spawns.moon.waxingcrescent": "During a waxing crescent moon",
+  "pokecube.spawns.moon.firstquarter": "During a first quarter moon",
+  "pokecube.spawns.moon.waxinggibbous": "During a waxing gibbous moon",
+
+  "pokecube.spawns.moon.gibbous": "During a gibbous moon",
+  "pokecube.spawns.moon.quarter": "During a quarter moon",
+  "pokecube.spawns.moon.crescent": "During a crescent moon",
+
+  "_comment2": "Pokemob specific info",
+  
+  "pokecube.evos.spewpa.vivillon_oc": "Around oceans and beaches which are not cold",
+  "pokecube.evos.spewpa.vivillon_sa": "In deserts",
+  "pokecube.evos.spewpa.vivillon_he": "In the nether",
+  "pokecube.evos.spewpa.vivillon_en": "In the end",
+  "pokecube.evos.spewpa.vivillon_po": "In cold, frozen areas",
+  "pokecube.evos.spewpa.vivillon_ic": "In cold areas",
+  "pokecube.evos.spewpa.vivillon_mon": "In wet areas",
+  "pokecube.evos.spewpa.vivillon_su": "In savannas",
+  "pokecube.evos.spewpa.vivillon_mod": "In villages",
+  "pokecube.evos.spewpa.vivillon_el": "Around most plains and forests",
+  "pokecube.evos.inkay": "When upside down"
  }

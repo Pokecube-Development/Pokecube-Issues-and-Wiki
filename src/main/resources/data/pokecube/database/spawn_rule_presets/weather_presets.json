@@ -25,6 +25,15 @@
       }
     },
     {
+      "preset":"raining_inside",
+      "matchers":{
+        "weather":{
+          "type":"rain",
+          "inside": true
+        }
+      }
+    },
+    {
       "preset":"snowing",
       "matchers":{
         "weather":{

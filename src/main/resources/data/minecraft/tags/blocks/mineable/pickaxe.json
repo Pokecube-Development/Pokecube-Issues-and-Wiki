@@ -3,6 +3,7 @@
   "values": [
     "pokecube:deepslate_fossil_ore",
     "pokecube:fossil_ore",
+    "pokecube:repel",
     {"id": "#forge:fence_gates/concrete", "required": false},
     {"id": "#forge:fences/concrete", "required": false},
     {"id": "#pokecube_legends:concrete_hanging_signs", "required": false},

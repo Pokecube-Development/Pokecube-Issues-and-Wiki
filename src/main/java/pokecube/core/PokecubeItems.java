@@ -198,7 +198,7 @@ public class PokecubeItems extends ItemList
                         .sound(SoundType.STONE).instrument(NoteBlockInstrument.BASEDRUM)));
         REPEL = PokecubeCore.BLOCKS.register("repel",
                 () -> new RepelBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
-                        .strength(0.5F, 2.5F).requiresCorrectToolForDrops().sound(SoundType.WOOD)));
+                        .strength(2.0F, 2.5F).requiresCorrectToolForDrops().sound(SoundType.NETHERITE_BLOCK)));
         HEALER = PokecubeCore.BLOCKS.register("pokecenter",
                 () -> new HealerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL)
                         .strength(2000).requiresCorrectToolForDrops().sound(SoundType.METAL)));

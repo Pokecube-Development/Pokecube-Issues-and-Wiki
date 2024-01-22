@@ -12,6 +12,7 @@ public class Sounds
     public static final RegistryObject<SoundEvent> CAPTURE_SOUND;
     public static final RegistryObject<SoundEvent> HEAL_SOUND;
     public static final RegistryObject<SoundEvent> HEAL_MUSIC;
+    public static final RegistryObject<SoundEvent> REPEL_SPRAYS;
 
     static
     {
@@ -22,6 +23,8 @@ public class Sounds
                 () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(PokecubeCore.MODID + ":pokecenter")));
         HEAL_MUSIC = PokecubeCore.SOUNDS.register("pokecenterloop",
                 () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(PokecubeCore.MODID + ":pokecenterloop")));
+        REPEL_SPRAYS = PokecubeCore.SOUNDS.register("block.repel_sprays",
+                () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(PokecubeCore.MODID + ":block.repel_sprays")));
     }
 
     public static void init()
