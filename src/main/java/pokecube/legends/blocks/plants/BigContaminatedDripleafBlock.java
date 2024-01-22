@@ -35,6 +35,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.legends.Reference;
 import pokecube.legends.init.BlockInit;
+import pokecube.legends.init.PlantsInit;
 import thut.lib.RegHelper;
 
 public class BigContaminatedDripleafBlock extends BigDripleafBlock implements BonemealableBlock, SimpleWaterloggedBlock
@@ -97,7 +98,7 @@ public class BigContaminatedDripleafBlock extends BigDripleafBlock implements Bo
 
     private static boolean canReplace(BlockState state)
     {
-        return state.isAir() || state.is(Blocks.WATER) || state.is(BlockInit.SMALL_CONTAMINATED_DRIPLEAF.get());
+        return state.isAir() || state.is(Blocks.WATER) || state.is(PlantsInit.SMALL_CONTAMINATED_DRIPLEAF.get());
     }
 
     protected static boolean canPlaceAt(LevelHeightAccessor height, BlockPos pos, BlockState state)
@@ -107,7 +108,7 @@ public class BigContaminatedDripleafBlock extends BigDripleafBlock implements Bo
 
     protected static boolean place(LevelAccessor world, BlockPos pos, FluidState fluidState, Direction direction)
     {
-        BlockState state = BlockInit.BIG_CONTAMINATED_DRIPLEAF.get().defaultBlockState()
+        BlockState state = PlantsInit.BIG_CONTAMINATED_DRIPLEAF.get().defaultBlockState()
                 .setValue(WATERLOGGED, Boolean.valueOf(fluidState.isSourceOfType(Fluids.WATER)))
                 .setValue(FACING, direction);
         return world.setBlock(pos, state, 3);
@@ -118,7 +119,7 @@ public class BigContaminatedDripleafBlock extends BigDripleafBlock implements Bo
     {
         BlockPos posBelow = pos.below();
         BlockState stateBelow = world.getBlockState(posBelow);
-        return stateBelow.is(this) || stateBelow.is(BlockInit.BIG_CONTAMINATED_DRIPLEAF_STEM.get())
+        return stateBelow.is(this) || stateBelow.is(PlantsInit.BIG_CONTAMINATED_DRIPLEAF_STEM.get())
                 || stateBelow.is(BIG_CONTAMINATED_DRIPLEAF_PLACEABLE);
     }
 
@@ -145,7 +146,7 @@ public class BigContaminatedDripleafBlock extends BigDripleafBlock implements Bo
             }
 
             return direction == Direction.UP && state1.is(this)
-                    ? BlockInit.BIG_CONTAMINATED_DRIPLEAF_STEM.get().withPropertiesOf(state)
+                    ? PlantsInit.BIG_CONTAMINATED_DRIPLEAF_STEM.get().withPropertiesOf(state)
                     : super.updateShape(state, direction, state1, world, pos, pos1);
         }
     }
@@ -173,8 +174,8 @@ public class BigContaminatedDripleafBlock extends BigDripleafBlock implements Bo
     {
         BlockState state = context.getLevel().getBlockState(context.getClickedPos().below());
         FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
-        boolean flag = state.is(BlockInit.BIG_CONTAMINATED_DRIPLEAF.get())
-                || state.is(BlockInit.BIG_CONTAMINATED_DRIPLEAF_STEM.get());
+        boolean flag = state.is(PlantsInit.BIG_CONTAMINATED_DRIPLEAF.get())
+                || state.is(PlantsInit.BIG_CONTAMINATED_DRIPLEAF_STEM.get());
         return this.defaultBlockState().setValue(WATERLOGGED, Boolean.valueOf(fluidState.isSourceOfType(Fluids.WATER)))
                 .setValue(FACING, flag ? state.getValue(FACING) : context.getHorizontalDirection().getOpposite());
     }

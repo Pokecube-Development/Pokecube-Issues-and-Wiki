@@ -96,12 +96,12 @@ public class Flammables
         flammableBlocks(BlockInit.TEMPORAL_FENCE_GATE.get(), 5, 20);
 
         // Plants
-        flammableBlocks(BlockInit.STRING_OF_PEARLS.get(), 15, 100);
-        flammableBlocks(BlockInit.DYNA_SHRUB.get(), 30, 60);
-        flammableBlocks(BlockInit.BIG_CONTAMINATED_DRIPLEAF.get(), 60, 100);
-        flammableBlocks(BlockInit.BIG_CONTAMINATED_DRIPLEAF_STEM.get(), 60, 100);
-        flammableBlocks(BlockInit.POLLUTING_BLOSSOM.get(), 60, 100);
-        flammableBlocks(BlockInit.SMALL_CONTAMINATED_DRIPLEAF.get(), 60, 100);
+        flammableBlocks(PlantsInit.STRING_OF_PEARLS.get(), 15, 100);
+        flammableBlocks(PlantsInit.DYNA_SHRUB.get(), 30, 60);
+        flammableBlocks(PlantsInit.BIG_CONTAMINATED_DRIPLEAF.get(), 60, 100);
+        flammableBlocks(PlantsInit.BIG_CONTAMINATED_DRIPLEAF_STEM.get(), 60, 100);
+        flammableBlocks(PlantsInit.POLLUTING_BLOSSOM.get(), 60, 100);
+        flammableBlocks(PlantsInit.SMALL_CONTAMINATED_DRIPLEAF.get(), 60, 100);
 
         flammableBlocks(PlantsInit.AZURE_COLEUS.get(), 60, 100);
         flammableBlocks(PlantsInit.COMPRECED_MUSHROOM.get(), 60, 100);

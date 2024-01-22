@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import pokecube.legends.init.BlockInit;
+import pokecube.legends.init.PlantsInit;
 
 public class AquamarineClusterBlock extends AmethystClusterBlock implements SimpleWaterloggedBlock
 {
@@ -27,7 +28,7 @@ public class AquamarineClusterBlock extends AmethystClusterBlock implements Simp
         Direction direction = state.getValue(FACING);
         BlockPos posOpposite = pos.relative(direction.getOpposite());
         BlockPos posDown = pos.relative(Direction.DOWN);
-        return world.getBlockState(posOpposite).isFaceSturdy(world, posOpposite, direction) || world.getBlockState(posDown).is(BlockInit.CRYSTALLIZED_CACTUS.get());
+        return world.getBlockState(posOpposite).isFaceSturdy(world, posOpposite, direction) || world.getBlockState(posDown).is(PlantsInit.CRYSTALLIZED_CACTUS.get());
     }
 
     @Override

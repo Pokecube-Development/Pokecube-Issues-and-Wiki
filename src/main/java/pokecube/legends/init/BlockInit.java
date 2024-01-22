@@ -608,7 +608,6 @@ public class BlockInit
     public static final RegistryObject<Block> MIRAGE_BOOKSHELF;
     public static final RegistryObject<Block> MIRAGE_BOOKSHELF_EMPTY;
 
-    public static final RegistryObject<Block> STRING_OF_PEARLS;
     public static final RegistryObject<Block> TEMPORAL_LOG;
     public static final RegistryObject<Block> TEMPORAL_PLANKS;
     public static final RegistryObject<Block> TEMPORAL_LEAVES;
@@ -630,7 +629,6 @@ public class BlockInit
     public static final RegistryObject<Block> DYNA_LEAVES_PINK;
     public static final RegistryObject<Block> DYNA_LEAVES_RED;
     public static final RegistryObject<Block> DYNA_LEAVES_PASTEL_PINK;
-    public static final RegistryObject<Block> DYNA_SHRUB;
 
     // Signs
     public static final RegistryObject<Block> AGED_SIGN;
@@ -665,17 +663,6 @@ public class BlockInit
     public static final RegistryObject<Block> MIRAGE_WALL_HANGING_SIGN;
     public static final RegistryObject<Block> TEMPORAL_HANGING_SIGN;
     public static final RegistryObject<Block> TEMPORAL_WALL_HANGING_SIGN;
-
-    // Plants
-    public static final RegistryObject<Block> INVERTED_SAPLING;
-    public static final RegistryObject<Block> TEMPORAL_SAPLING;
-    public static final RegistryObject<Block> AGED_SAPLING;
-    public static final RegistryObject<Block> CORRUPTED_SAPLING;
-    public static final RegistryObject<Block> MIRAGE_SAPLING;
-    public static final RegistryObject<Block> DISTORTIC_SAPLING;
-    public static final RegistryObject<Block> CRYSTALLIZED_BUSH;
-    public static final RegistryObject<Block> TALL_CRYSTALLIZED_BUSH;
-    public static final RegistryObject<Block> CRYSTALLIZED_CACTUS;
 
     // Ores
     public static final RegistryObject<Block> DUSK_COAL_ORE;
@@ -740,11 +727,6 @@ public class BlockInit
     public static final RegistryObject<Block> SPECTRUM_STAIRS;
 
     public static final RegistryObject<Block> COSMIC_DUST_BLOCK;
-
-    public static final RegistryObject<Block> BIG_CONTAMINATED_DRIPLEAF;
-    public static final RegistryObject<Block> BIG_CONTAMINATED_DRIPLEAF_STEM;
-    public static final RegistryObject<Block> POLLUTING_BLOSSOM;
-    public static final RegistryObject<Block> SMALL_CONTAMINATED_DRIPLEAF;
 
     public static final RegistryObject<BlockEntityType<RaidSpawn>> RAID_SPAWN_ENTITY;
     public static final RegistryObject<BlockEntityType<RingTile>> RING_ENTITY;
@@ -1315,10 +1297,6 @@ public class BlockInit
                         .sound(SoundType.GLASS).instrument(NoteBlockInstrument.HAT)
                         .strength(1.5F, 1.5F).lightLevel(i -> 10)));
 
-        AGED_SAPLING = PokecubeLegends.BLOCKS.register("aged_sapling",
-                () -> new SaplingBase(AgedTreeGrower::new, BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
-                        .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY).instabreak().noCollission()));
-
         AGED_LEAVES = PokecubeLegends.BLOCKS.register("aged_leaves",
                 () -> new AgedLeavesBlock(20, BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
                         .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
@@ -1390,28 +1368,6 @@ public class BlockInit
                                 .noOcclusion().ignitedByLava()));
 
         // Corrupted Blocks
-        POLLUTING_BLOSSOM = PokecubeLegends.BLOCKS.register("polluting_blossom",
-                () -> new PollutingBlossomBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_PURPLE)
-                        .sound(SoundType.SPORE_BLOSSOM).pushReaction(PushReaction.DESTROY).noCollission().instabreak()));
-        SMALL_CONTAMINATED_DRIPLEAF = PokecubeLegends.BLOCKS.register("small_contaminated_dripleaf",
-                () -> new SmallContaminatedDripleafBlock(BlockBehaviour.Properties.of()
-                        .mapColor(MapColor.TERRACOTTA_RED).sound(SoundType.SMALL_DRIPLEAF)
-                        .pushReaction(PushReaction.DESTROY).offsetType(BlockBehaviour.OffsetType.XYZ)
-                        .noCollission().instabreak()));
-        BIG_CONTAMINATED_DRIPLEAF = PokecubeLegends.BLOCKS.register("big_contaminated_dripleaf",
-                () -> new BigContaminatedDripleafBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_RED)
-                        .sound(SoundType.BIG_DRIPLEAF).pushReaction(PushReaction.DESTROY)
-                        .strength(0.1F).forceSolidOff()));
-        BIG_CONTAMINATED_DRIPLEAF_STEM = PokecubeLegends.NO_ITEM_BLOCKS.register("big_contaminated_dripleaf_stem",
-                () -> new BigContaminatedDripleafStemBlock(BlockBehaviour.Properties.of()
-                        .mapColor(MapColor.TERRACOTTA_RED).sound(SoundType.BIG_DRIPLEAF)
-                        .pushReaction(PushReaction.DESTROY).strength(0.1F).noCollission()));
-
-        CORRUPTED_SAPLING = PokecubeLegends.BLOCKS.register("corrupted_sapling",
-                () -> new SaplingBase(CorruptedTreeGrower::new, BlockBehaviour.Properties.of()
-                        .mapColor(MapColor.COLOR_BLACK).sound(SoundType.GRASS)
-                        .pushReaction(PushReaction.DESTROY).instabreak().noCollission()));
-
         CORRUPTED_LEAVES = PokecubeLegends.BLOCKS.register("corrupted_leaves",
                 () -> new CorruptedLeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY)
                         .sound(SoundType.SOUL_SAND).pushReaction(PushReaction.DESTROY)
@@ -1483,11 +1439,6 @@ public class BlockInit
                                 .noOcclusion().ignitedByLava()));
 
         // Distorted Blocks
-        DISTORTIC_SAPLING = PokecubeLegends.BLOCKS.register("distortic_sapling",
-                () -> new DistorticSapling(new DistorticTreeGrower(), BlockBehaviour.Properties.of()
-                        .mapColor(MapColor.COLOR_PURPLE).sound(SoundType.GRASS)
-                        .pushReaction(PushReaction.DESTROY).instabreak().noCollission()));
-
         DISTORTIC_LEAVES = PokecubeLegends.BLOCKS.register("distortic_leaves",
                 () -> new LeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE)
                         .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
@@ -1559,11 +1510,6 @@ public class BlockInit
                                 .noOcclusion().ignitedByLava()));
 
         // Inverted Blocks
-        INVERTED_SAPLING = PokecubeLegends.BLOCKS.register("inverted_sapling",
-                () -> new SaplingBase(InvertedTreeGrower::new, BlockBehaviour.Properties.of()
-                        .mapColor(MapColor.COLOR_BLUE).sound(SoundType.GRASS)
-                        .pushReaction(PushReaction.DESTROY).instabreak().noCollission()));
-
         INVERTED_LEAVES = PokecubeLegends.BLOCKS.register("inverted_leaves",
                 () -> new LeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE)
                         .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
@@ -1635,11 +1581,6 @@ public class BlockInit
                                 .noOcclusion().ignitedByLava()));
 
         // MIRAGE Blocks
-        MIRAGE_SAPLING = PokecubeLegends.BLOCKS.register("mirage_sapling",
-                () -> new MirageSapling(new MirageTreeGrower(), BlockBehaviour.Properties.of()
-                        .mapColor(MapColor.COLOR_LIGHT_BLUE).sound(SoundType.GRASS)
-                        .pushReaction(PushReaction.DESTROY).instabreak().noCollission()));
-
         MIRAGE_LEAVES = PokecubeLegends.BLOCKS.register("mirage_leaves",
                 () -> new MirageLeavesBlock(3, BlockBehaviour.Properties.of()
                         .mapColor(MapColor.COLOR_LIGHT_BLUE).sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
@@ -1710,15 +1651,6 @@ public class BlockInit
                                 .noOcclusion().ignitedByLava()));
 
         // Temporal Blocks
-        STRING_OF_PEARLS = PokecubeLegends.BLOCKS.register("string_of_pearls",
-                () -> new StringOfPearlsBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_NYLIUM)
-                        .sound(SoundType.VINE).pushReaction(PushReaction.DESTROY).strength(0.2F)
-                        .noCollission().ignitedByLava().replaceable().randomTicks()));
-
-        TEMPORAL_SAPLING = PokecubeLegends.BLOCKS.register("temporal_sapling",
-                () -> new SaplingBase(TemporalTreeGrower::new, BlockBehaviour.Properties.of().mapColor(MapColor.PLANT)
-                        .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY).instabreak().noCollission()));
-
         TEMPORAL_LEAVES = PokecubeLegends.BLOCKS.register("temporal_leaves",
                 () -> new LeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_NYLIUM)
                         .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
@@ -1808,23 +1740,6 @@ public class BlockInit
                         .isSuffocating(PokecubeItems::never).isViewBlocking(PokecubeItems::never)
                         .isRedstoneConductor(PokecubeItems::never).isValidSpawn(PokecubeItems::ocelotOrParrot)
                         .strength(0.2F).ignitedByLava().noOcclusion().randomTicks()));
-
-        DYNA_SHRUB = PokecubeLegends.BLOCKS.register("dyna_shrub",
-                () -> new DynaShrubBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
-                        .sound(SoundType.AZALEA).pushReaction(PushReaction.DESTROY)
-                        .instabreak().noOcclusion().forceSolidOff()));
-
-        CRYSTALLIZED_CACTUS = PokecubeLegends.BLOCKS.register("crystallized_cactus",
-                () -> new CrystallizedCactus(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE)
-                        .sound(SoundType.AMETHYST).pushReaction(PushReaction.DESTROY).strength(0.4f)));
-        TALL_CRYSTALLIZED_BUSH = PokecubeLegends.BLOCKS.register("tall_crystallized_bush",
-                () -> new TallCrystallizedBush(BlockBehaviour.Properties.of().mapColor(MapColor.SNOW)
-                        .sound(SoundType.AMETHYST_CLUSTER).pushReaction(PushReaction.DESTROY)
-                        .noCollission().instabreak()));
-        CRYSTALLIZED_BUSH = PokecubeLegends.BLOCKS.register("crystallized_bush",
-                () -> new CrystallizedBush(BlockBehaviour.Properties.of().mapColor(MapColor.SNOW)
-                        .sound(SoundType.LARGE_AMETHYST_BUD).pushReaction(PushReaction.DESTROY)
-                        .noCollission().instabreak()));
 
         // Decorations Creative Tab -
         INFECTED_TORCH = PokecubeLegends.NO_ITEM_BLOCKS.register("infected_torch",
