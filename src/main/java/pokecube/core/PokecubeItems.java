@@ -199,7 +199,7 @@ public class PokecubeItems extends ItemList
         REPEL = PokecubeCore.BLOCKS.register("repel",
                 () -> new RepelBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
                         .requiresCorrectToolForDrops().ignitedByLava().isValidSpawn(PokecubeItems::never)
-                        .strength(2.0F, 2.5F).sound(SoundType.NETHERITE_BLOCK)));
+                        .strength(2.0F, 2.5F).requiresCorrectToolForDrops().sound(SoundType.NETHERITE_BLOCK)));
         HEALER = PokecubeCore.BLOCKS.register("pokecenter",
                 () -> new HealerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL)
                         .strength(2000).requiresCorrectToolForDrops().sound(SoundType.NETHERITE_BLOCK)));
