@@ -303,8 +303,16 @@ public class ForgetTargetTask extends CombatTask
             }
 
             // Target is too far away, lets forget it.
+            distance:
             if (this.entity.distanceTo(this.target) > PokecubeCore.getConfig().chaseDistance)
             {
+                // Check if we are owned
+                boolean owned = this.pokemob.getOwnerId() != null && !pokemob.isPlayerOwned();
+                // Do it this way for now incase we want to adjust how we decide
+                // this. For now, this makes npc owned pokemobs not deagro from
+                // distance.
+                if (owned) break distance;
+
                 // Send deagress message and put mob on cooldown.
                 final Component message = TComponent.translatable("pokemob.deagress.timeout",
                         this.pokemob.getDisplayName().getString());
