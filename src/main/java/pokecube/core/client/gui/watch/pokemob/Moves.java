@@ -259,7 +259,7 @@ public class Moves extends ListPage<LineEntry>
             final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
 
             final int dx = 150;
-            final int dy = 48;
+            final int dy = 38;
 
             // The top left move corner should be (x + dx, y + dy)
 
@@ -311,7 +311,7 @@ public class Moves extends ListPage<LineEntry>
                 final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
 
                 final int dx = 150;
-                final int dy = 48;
+                final int dy = 38;
 
                 // The top left move corner should be (x + dx, y + dy)
 
@@ -350,7 +350,7 @@ public class Moves extends ListPage<LineEntry>
             final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
 
             final int dx = 150;
-            final int dy = 48;
+            final int dy = 38;
 
             // The top left move corner should be (x + dx, y + dy)
 
