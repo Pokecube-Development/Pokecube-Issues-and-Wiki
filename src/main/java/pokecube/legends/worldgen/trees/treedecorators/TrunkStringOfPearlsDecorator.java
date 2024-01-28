@@ -12,6 +12,7 @@ import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
 import pokecube.legends.blocks.plants.StringOfPearlsBlock;
 import pokecube.legends.init.BlockInit;
+import pokecube.legends.init.PlantsInit;
 import pokecube.legends.worldgen.trees.Trees;
 
 public class TrunkStringOfPearlsDecorator extends TreeDecorator
@@ -73,7 +74,7 @@ public class TrunkStringOfPearlsDecorator extends TreeDecorator
     public static void placeVine(BiConsumer<BlockPos, BlockState> blockSetter, BlockPos pos, BooleanProperty b,
             RandomSource random)
     {
-        blockSetter.accept(pos, BlockInit.STRING_OF_PEARLS.get().defaultBlockState().setValue(b, Boolean.valueOf(true))
+        blockSetter.accept(pos, PlantsInit.STRING_OF_PEARLS.get().defaultBlockState().setValue(b, Boolean.valueOf(true))
                 .setValue(StringOfPearlsBlock.FLOWERS, Boolean.valueOf(random.nextFloat() < 0.11F)));
     }
 

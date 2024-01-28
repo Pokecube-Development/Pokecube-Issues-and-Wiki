@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 public class GenericStandingSign extends StandingSignBlock
 {
 
-    public GenericStandingSign(Properties properties, WoodType woodType)
+    public GenericStandingSign(WoodType woodType, Properties properties)
     {
         super(properties, woodType);
     }

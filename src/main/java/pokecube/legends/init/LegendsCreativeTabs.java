@@ -494,7 +494,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
                 output.accept(BlockInit.DEEPSLATE_SAPPHIRE_ORE.get());
                 output.accept(BlockInit.ULTRA_SAPPHIRE_ORE.get());
                 output.accept(BlockInit.DUSK_SAPPHIRE_ORE.get());
-                output.accept(BlockInit.SPECTRUM_ORE.get());
+                output.accept(BlockInit.ULTRA_SPECTRUM_ORE.get());
                 output.accept(BlockInit.DUSK_SPECTRUM_ORE.get());
                 output.accept(BlockInit.FRACTAL_ORE.get());
                 output.accept(BlockInit.METEORITE_COSMIC_ORE.get());
@@ -528,25 +528,25 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
                 output.accept(BlockInit.DYNA_LEAVES_PINK.get());
                 output.accept(BlockInit.DYNA_LEAVES_PASTEL_PINK.get());
 
-                output.accept(BlockInit.AGED_SAPLING.get());
-                output.accept(BlockInit.CORRUPTED_SAPLING.get());
-                output.accept(BlockInit.DISTORTIC_SAPLING.get());
-                output.accept(BlockInit.INVERTED_SAPLING.get());
-                output.accept(BlockInit.MIRAGE_SAPLING.get());
-                output.accept(BlockInit.TEMPORAL_SAPLING.get());
-                output.accept(BlockInit.DYNA_SHRUB.get());
+                output.accept(PlantsInit.AGED_SAPLING.get());
+                output.accept(PlantsInit.CORRUPTED_SAPLING.get());
+                output.accept(PlantsInit.DISTORTIC_SAPLING.get());
+                output.accept(PlantsInit.INVERTED_SAPLING.get());
+                output.accept(PlantsInit.MIRAGE_SAPLING.get());
+                output.accept(PlantsInit.TEMPORAL_SAPLING.get());
+                output.accept(PlantsInit.DYNA_SHRUB.get());
 
-                output.accept(BlockInit.CRYSTALLIZED_CACTUS.get());
-                output.accept(BlockInit.TALL_CRYSTALLIZED_BUSH.get());
-                output.accept(BlockInit.CRYSTALLIZED_BUSH.get());
+                output.accept(PlantsInit.CRYSTALLIZED_CACTUS.get());
+                output.accept(PlantsInit.TALL_CRYSTALLIZED_BUSH.get());
+                output.accept(PlantsInit.CRYSTALLIZED_BUSH.get());
                 output.accept(PlantsInit.AZURE_COLEUS.get());
                 output.accept(PlantsInit.COMPRECED_MUSHROOM.get());
                 output.accept(PlantsInit.DISTORCED_MUSHROOM.get());
                 output.accept(PlantsInit.GRACIDEA.get());
                 output.accept(PlantsInit.INVERTED_ORCHID.get());
-                output.accept(BlockInit.BIG_CONTAMINATED_DRIPLEAF.get());
-                output.accept(BlockInit.SMALL_CONTAMINATED_DRIPLEAF.get());
-                output.accept(BlockInit.POLLUTING_BLOSSOM.get());
+                output.accept(PlantsInit.BIG_CONTAMINATED_DRIPLEAF.get());
+                output.accept(PlantsInit.SMALL_CONTAMINATED_DRIPLEAF.get());
+                output.accept(PlantsInit.POLLUTING_BLOSSOM.get());
                 output.accept(PlantsInit.TALL_CORRUPTED_GRASS.get());
                 output.accept(PlantsInit.CORRUPTED_GRASS.get());
                 output.accept(PlantsInit.HANGING_TENDRILS.get());
@@ -560,7 +560,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
                 output.accept(PlantsInit.DISTORTIC_GRASS.get());
                 output.accept(PlantsInit.DISTORTIC_VINES.get());
                 output.accept(PlantsInit.TEMPORAL_BAMBOO.get());
-                output.accept(BlockInit.STRING_OF_PEARLS.get());
+                output.accept(PlantsInit.STRING_OF_PEARLS.get());
 
                 output.accept(PlantsInit.TALL_GOLDEN_GRASS.get());
                 output.accept(PlantsInit.GOLDEN_GRASS.get());

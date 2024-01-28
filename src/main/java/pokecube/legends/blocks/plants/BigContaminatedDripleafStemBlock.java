@@ -27,6 +27,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.legends.Reference;
 import pokecube.legends.init.BlockInit;
+import pokecube.legends.init.PlantsInit;
 import thut.lib.RegHelper;
 
 public class BigContaminatedDripleafStemBlock extends BigDripleafStemBlock
@@ -70,12 +71,12 @@ public class BigContaminatedDripleafStemBlock extends BigDripleafStemBlock
         BlockState stateBelow = world.getBlockState(posBelow);
         BlockState stateAbove = world.getBlockState(pos.above());
         return (stateBelow.is(this) || stateBelow.is(BIG_CONTAMINATED_DRIPLEAF_PLACEABLE))
-                && (stateAbove.is(this) || stateAbove.is(BlockInit.BIG_CONTAMINATED_DRIPLEAF.get()));
+                && (stateAbove.is(this) || stateAbove.is(PlantsInit.BIG_CONTAMINATED_DRIPLEAF.get()));
     }
 
     protected static boolean place(LevelAccessor world, BlockPos pos, FluidState fluidState, Direction direction)
     {
-        BlockState state = BlockInit.BIG_CONTAMINATED_DRIPLEAF_STEM.get().defaultBlockState()
+        BlockState state = PlantsInit.BIG_CONTAMINATED_DRIPLEAF_STEM.get().defaultBlockState()
                 .setValue(WATERLOGGED, Boolean.valueOf(fluidState.isSourceOfType(Fluids.WATER)))
                 .setValue(FACING, direction);
         return world.setBlock(pos, state, 3);
@@ -109,7 +110,7 @@ public class BigContaminatedDripleafStemBlock extends BigDripleafStemBlock
     public boolean isValidBonemealTarget(LevelReader worldReader, BlockPos pos, BlockState state, boolean b)
     {
         Optional<BlockPos> optional = BlockUtil.getTopConnectedBlock(worldReader, pos, state.getBlock(), Direction.UP,
-                BlockInit.BIG_CONTAMINATED_DRIPLEAF.get());
+                PlantsInit.BIG_CONTAMINATED_DRIPLEAF.get());
         if (!optional.isPresent())
         {
             return false;
@@ -126,7 +127,7 @@ public class BigContaminatedDripleafStemBlock extends BigDripleafStemBlock
     public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state)
     {
         Optional<BlockPos> optional = BlockUtil.getTopConnectedBlock(world, pos, state.getBlock(), Direction.UP,
-                BlockInit.BIG_CONTAMINATED_DRIPLEAF.get());
+                PlantsInit.BIG_CONTAMINATED_DRIPLEAF.get());
         if (optional.isPresent())
         {
             BlockPos posOptional = optional.get();
@@ -140,6 +141,6 @@ public class BigContaminatedDripleafStemBlock extends BigDripleafStemBlock
     @Override
     public ItemStack getCloneItemStack(BlockGetter block, BlockPos pos, BlockState state)
     {
-        return new ItemStack(BlockInit.BIG_CONTAMINATED_DRIPLEAF.get());
+        return new ItemStack(PlantsInit.BIG_CONTAMINATED_DRIPLEAF.get());
     }
 }

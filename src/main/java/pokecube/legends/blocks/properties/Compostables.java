@@ -17,21 +17,21 @@ public class Compostables
     public static void registerDefaults()
     {
         compostableBlocks(0.3f, BlockInit.AGED_LEAVES);
-        compostableBlocks(0.3f, BlockInit.AGED_SAPLING);
+        compostableBlocks(0.3f, PlantsInit.AGED_SAPLING);
         compostableBlocks(0.3f, BlockInit.CORRUPTED_LEAVES);
-        compostableBlocks(0.3f, BlockInit.CORRUPTED_SAPLING);
+        compostableBlocks(0.3f, PlantsInit.CORRUPTED_SAPLING);
         compostableBlocks(0.3f, BlockInit.DISTORTIC_LEAVES);
-        compostableBlocks(0.3f, BlockInit.DISTORTIC_SAPLING);
+        compostableBlocks(0.3f, PlantsInit.DISTORTIC_SAPLING);
         compostableBlocks(0.3f, BlockInit.DYNA_LEAVES_PASTEL_PINK);
         compostableBlocks(0.3f, BlockInit.DYNA_LEAVES_PINK);
         compostableBlocks(0.3f, BlockInit.DYNA_LEAVES_RED);
         compostableBlocks(0.3f, BlockInit.INVERTED_LEAVES);
-        compostableBlocks(0.3f, BlockInit.INVERTED_SAPLING);
+        compostableBlocks(0.3f, PlantsInit.INVERTED_SAPLING);
         compostableBlocks(0.3f, BlockInit.MIRAGE_LEAVES);
-        compostableBlocks(0.3f, BlockInit.MIRAGE_SAPLING);
-        compostableBlocks(0.3f, BlockInit.SMALL_CONTAMINATED_DRIPLEAF);
+        compostableBlocks(0.3f, PlantsInit.MIRAGE_SAPLING);
+        compostableBlocks(0.3f, PlantsInit.SMALL_CONTAMINATED_DRIPLEAF);
         compostableBlocks(0.3f, BlockInit.TEMPORAL_LEAVES);
-        compostableBlocks(0.3f, BlockInit.TEMPORAL_SAPLING);
+        compostableBlocks(0.3f, PlantsInit.TEMPORAL_SAPLING);
         compostableBlocks(0.3f, PlantsInit.CORRUPTED_GRASS);
         compostableBlocks(0.3f, PlantsInit.DISTORTIC_GRASS);
         compostableBlocks(0.3f, PlantsInit.GOLDEN_GRASS);
@@ -41,13 +41,13 @@ public class Compostables
         compostableBlocks(0.3f, PlantsInit.TAINTED_KELP);
         compostableBlocks(0.3f, PlantsInit.TAINTED_SEAGRASS);
 
-        compostableBlocks(0.5f, BlockInit.STRING_OF_PEARLS);
+        compostableBlocks(0.5f, PlantsInit.STRING_OF_PEARLS);
         compostableBlocks(0.5f, PlantsInit.TALL_CORRUPTED_GRASS);
         compostableBlocks(0.5f, PlantsInit.TALL_GOLDEN_GRASS);
 
-        compostableBlocks(0.65f, BlockInit.BIG_CONTAMINATED_DRIPLEAF);
-        compostableBlocks(0.65f, BlockInit.DYNA_SHRUB);
-        compostableBlocks(0.65f, BlockInit.POLLUTING_BLOSSOM);
+        compostableBlocks(0.65f, PlantsInit.BIG_CONTAMINATED_DRIPLEAF);
+        compostableBlocks(0.65f, PlantsInit.DYNA_SHRUB);
+        compostableBlocks(0.65f, PlantsInit.POLLUTING_BLOSSOM);
         compostableBlocks(0.65f, PlantsInit.AZURE_COLEUS);
         compostableBlocks(0.65f, PlantsInit.COMPRECED_MUSHROOM);
         compostableBlocks(0.65f, PlantsInit.DISTORCED_MUSHROOM);
@@ -71,6 +71,6 @@ public class Compostables
         compostableBlocks(0.65f, PlantsInit.TALL_TAINTED_SEAGRASS);
         compostableBlocks(0.65f, PlantsInit.TEMPORAL_BAMBOO);
 
-        compostableBlocks(0.75f, BlockInit.CRYSTALLIZED_CACTUS);
+        compostableBlocks(0.75f, PlantsInit.CRYSTALLIZED_CACTUS);
     }
 }

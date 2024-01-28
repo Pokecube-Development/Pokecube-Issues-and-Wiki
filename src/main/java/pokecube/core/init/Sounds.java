@@ -2,6 +2,7 @@ package pokecube.core.init;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.api.data.moves.Animations.AnimationJson;
 import pokecube.api.data.moves.Moves;
@@ -16,7 +17,6 @@ public class Sounds
 
     static
     {
-        // TODO: Check if correct
         CAPTURE_SOUND = PokecubeCore.SOUNDS.register("pokecube_caught",
                 () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(PokecubeCore.MODID + ":pokecube_caught")));
         HEAL_SOUND = PokecubeCore.SOUNDS.register("pokecenter",

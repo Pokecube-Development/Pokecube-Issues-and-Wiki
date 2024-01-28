@@ -8,8 +8,7 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 
 public class GenericCeilingHangingSign extends CeilingHangingSignBlock
 {
-
-    public GenericCeilingHangingSign(Properties properties, WoodType woodType)
+    public GenericCeilingHangingSign(WoodType woodType, Properties properties)
     {
         super(properties, woodType);
     }

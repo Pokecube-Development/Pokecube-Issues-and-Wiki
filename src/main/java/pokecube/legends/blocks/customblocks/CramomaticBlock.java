@@ -159,7 +159,8 @@ public class CramomaticBlock extends Rotates implements SimpleWaterloggedBlock
 
 	  @Override
 	  public InteractionResult use(BlockState state, Level world, BlockPos pos, Player entity, InteractionHand hand,
-	      BlockHitResult hit) {
+	      BlockHitResult hit)
+	  {
 		  int x = pos.getX();
 		  int y = pos.getY();
 		  int z = pos.getZ();
@@ -179,7 +180,8 @@ public class CramomaticBlock extends Rotates implements SimpleWaterloggedBlock
 		  return InteractionResult.PASS;
 	  }
 
-	public static void addParticles(Level world, int x, int y, int z) {
+	public static void addParticles(Level world, int x, int y, int z)
+	{
 		RandomSource random = world.getRandom();
 		if (world.isClientSide) {
 			for (int i = 0; i < 10; ++i) {

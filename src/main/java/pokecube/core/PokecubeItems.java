@@ -181,7 +181,7 @@ public class PokecubeItems extends ItemList
         FOSSIL_ORE = PokecubeCore.BLOCKS.register("fossil_ore",
                 () -> new DropExperienceBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
                         .requiresCorrectToolForDrops().strength(3.0f, 3.0f)
-                        .sound(SoundType.BONE_BLOCK).instrument(NoteBlockInstrument.BASEDRUM),
+                        .sound(SoundType.STONE).instrument(NoteBlockInstrument.BASEDRUM),
                         UniformInt.of(0, 3)));
         DEEPSLATE_FOSSIL_ORE = PokecubeCore.BLOCKS.register("deepslate_fossil_ore",
                 () -> new DropExperienceBlock(BlockBehaviour.Properties.of().mapColor(MapColor.DEEPSLATE)
@@ -190,33 +190,35 @@ public class PokecubeItems extends ItemList
 
         NEST = PokecubeCore.BLOCKS.register("nest",
                 () -> new NestBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN)
-                        .strength(0.5F).isValidSpawn(PokecubeItems::ocelotOrParrot)
-                        .sound(SoundType.GRASS).instrument(NoteBlockInstrument.HARP).pushReaction(PushReaction.NORMAL)));
+                        .ignitedByLava().strength(0.5F).isValidSpawn(PokecubeItems::ocelotOrParrot)
+                        .sound(SoundType.MANGROVE_ROOTS).instrument(NoteBlockInstrument.HARP).pushReaction(PushReaction.NORMAL)));
         SECRET_BASE = PokecubeCore.BLOCKS.register("secret_base",
                 () -> new BaseBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
-                        .strength(2000).requiresCorrectToolForDrops()
+                        .requiresCorrectToolForDrops().strength(2000)
                         .sound(SoundType.STONE).instrument(NoteBlockInstrument.BASEDRUM)));
         REPEL = PokecubeCore.BLOCKS.register("repel",
                 () -> new RepelBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
+                        .requiresCorrectToolForDrops().ignitedByLava().isValidSpawn(PokecubeItems::never)
                         .strength(2.0F, 2.5F).requiresCorrectToolForDrops().sound(SoundType.NETHERITE_BLOCK)));
         HEALER = PokecubeCore.BLOCKS.register("pokecenter",
                 () -> new HealerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL)
-                        .strength(2000).requiresCorrectToolForDrops().sound(SoundType.METAL)));
+                        .strength(2000).requiresCorrectToolForDrops().sound(SoundType.NETHERITE_BLOCK)));
         PC_TOP = PokecubeCore.BLOCKS.register("pc_top",
                 () -> new PCBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
-                        .strength(2000).requiresCorrectToolForDrops().sound(SoundType.METAL), true));
+                        .strength(2000).requiresCorrectToolForDrops().sound(SoundType.NETHERITE_BLOCK), true));
         PC_BASE = PokecubeCore.BLOCKS.register("pc_base",
                 () -> new PCBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
-                        .strength(2000).requiresCorrectToolForDrops().sound(SoundType.METAL), false));
+                        .strength(2000).requiresCorrectToolForDrops().sound(SoundType.NETHERITE_BLOCK), false));
         TM_MACHINE = PokecubeCore.BLOCKS.register("tm_machine",
                 () -> new TMBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE)
-                        .strength(2000).requiresCorrectToolForDrops().sound(SoundType.METAL)));
+                        .strength(2000).requiresCorrectToolForDrops().sound(SoundType.NETHERITE_BLOCK)));
         TRADER = PokecubeCore.BLOCKS.register("trade_machine",
                 () -> new TraderBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
-                        .strength(2000).requiresCorrectToolForDrops().sound(SoundType.METAL)));
+                        .strength(2000).requiresCorrectToolForDrops().sound(SoundType.NETHERITE_BLOCK)));
         DYNAMAX = PokecubeCore.BLOCKS.register("dynamax",
                 () -> new MaxBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA)
-                        .strength(0.8F).requiresCorrectToolForDrops().sound(SoundType.AMETHYST_CLUSTER)));
+                        .strength(0.8F).requiresCorrectToolForDrops().noOcclusion().forceSolidOn()
+                        .lightLevel(i -> 5).sound(SoundType.AMETHYST_CLUSTER)));
 
         // Tile Entity Types
         BASE_TYPE = PokecubeCore.TILES.register("secret_base",
@@ -259,6 +261,10 @@ public class PokecubeItems extends ItemList
                                          final EntityType<?> entity)
     {
         return entity == EntityType.OCELOT || entity == EntityType.PARROT;
+    }
+
+    public static boolean always(BlockState state, BlockGetter block, BlockPos pos) {
+        return true;
     }
 
     public static Boolean never(BlockState state, BlockGetter block, BlockPos pos, EntityType<?> type)

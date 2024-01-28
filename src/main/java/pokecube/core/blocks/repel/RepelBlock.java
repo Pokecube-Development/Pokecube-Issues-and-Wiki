@@ -1,7 +1,7 @@
 package pokecube.core.blocks.repel;
 
-import java.util.Random;
 import javax.annotation.Nullable;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -49,22 +49,25 @@ public class RepelBlock extends InteractableHorizontalBlock implements EntityBlo
     public void neighborChanged(final BlockState state, final Level world, final BlockPos pos, final Block block,
             final BlockPos fromPos, final boolean isMoving)
     {
-        final int power = world.getBestNeighborSignal(pos);
+        final boolean power = world.hasNeighborSignal(pos);
         final BlockEntity tile = world.getBlockEntity(pos);
 
         if (!(tile instanceof RepelTile repel)) return;
-        if (power != 0)
+        if (power == state.getValue(POWERED))
         {
-            repel.enabled = false;
-            repel.removeForbiddenSpawningCoord();
-            world.scheduleTick(pos, this, 4);
-            world.setBlock(pos, state.setValue(POWERED, Boolean.FALSE), 3);
-        }
-        else
-        {
-            repel.enabled = true;
-            repel.addForbiddenSpawningCoord();
-            world.setBlock(pos, state.setValue(POWERED, Boolean.TRUE), 3);
+            if (power)
+            {
+                repel.enabled = false;
+                repel.removeForbiddenSpawningCoord();
+                world.scheduleTick(pos, this, 4);
+                world.setBlock(pos, state.setValue(POWERED, Boolean.FALSE), 3);
+            }
+            else
+            {
+                repel.enabled = true;
+                repel.addForbiddenSpawningCoord();
+                world.setBlock(pos, state.setValue(POWERED, Boolean.TRUE), 3);
+            }
         }
     }
 
@@ -95,7 +98,7 @@ public class RepelBlock extends InteractableHorizontalBlock implements EntityBlo
         }
     }
 
-    public void tick(BlockState state, ServerLevel world, BlockPos pos, Random random)
+    public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random)
     {
         if (!state.getValue(POWERED) && !world.hasNeighborSignal(pos))
         {

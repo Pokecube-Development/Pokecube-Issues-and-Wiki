@@ -24,6 +24,7 @@ import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.legends.init.BlockInit;
+import pokecube.legends.init.PlantsInit;
 
 public class CrystallizedCactus extends Block implements SimpleWaterloggedBlock
 {
@@ -60,7 +61,7 @@ public class CrystallizedCactus extends Block implements SimpleWaterloggedBlock
     public boolean canSurvive(final BlockState state, final LevelReader reader, final BlockPos pos)
     {
        final BlockState state1 = reader.getBlockState(pos.below());
-       return (state1.isFaceSturdy(reader, pos, Direction.UP) || state1.is(BlockInit.CRYSTALLIZED_CACTUS.get())
+       return (state1.isFaceSturdy(reader, pos, Direction.UP) || state1.is(PlantsInit.CRYSTALLIZED_CACTUS.get())
     		   || state1.is(Blocks.CACTUS));
     }
 

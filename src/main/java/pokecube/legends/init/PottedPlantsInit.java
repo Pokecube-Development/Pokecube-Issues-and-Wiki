@@ -58,38 +58,38 @@ public class PottedPlantsInit
     {
         // No Tab
         POTTED_AGED_SAPLING = PokecubeLegends.NO_ITEM_BLOCKS.register("potted_aged_sapling",
-                () -> new ItemGenerator.GenericPottedPlant(BlockInit.AGED_SAPLING.get(),
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.AGED_SAPLING.get(),
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
         POTTED_AZURE_COLEUS = PokecubeLegends.NO_ITEM_BLOCKS.register("potted_azure_coleus",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.AZURE_COLEUS.get(),
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
         POTTED_CORRUPTED_SAPLING = PokecubeLegends.NO_ITEM_BLOCKS.register("potted_corrupted_sapling",
-                () -> new ItemGenerator.GenericPottedPlant(BlockInit.CORRUPTED_SAPLING.get(),
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.CORRUPTED_SAPLING.get(),
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
         POTTED_CORRUPTED_GRASS = PokecubeLegends.NO_ITEM_BLOCKS.register("potted_corrupted_grass",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.CORRUPTED_GRASS.get(),
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
         POTTED_DISTORTIC_SAPLING = PokecubeLegends.NO_ITEM_BLOCKS.register("potted_distortic_sapling",
-                () -> new ItemGenerator.GenericPottedPlant(BlockInit.DISTORTIC_SAPLING.get(),
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.DISTORTIC_SAPLING.get(),
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
         POTTED_INVERTED_SAPLING = PokecubeLegends.NO_ITEM_BLOCKS.register("potted_inverted_sapling",
-                () -> new ItemGenerator.GenericPottedPlant(BlockInit.INVERTED_SAPLING.get(),
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.INVERTED_SAPLING.get(),
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
         POTTED_MIRAGE_SAPLING = PokecubeLegends.NO_ITEM_BLOCKS.register("potted_mirage_sapling",
-                () -> new ItemGenerator.GenericPottedPlant(BlockInit.MIRAGE_SAPLING.get(),
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.MIRAGE_SAPLING.get(),
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
         POTTED_TEMPORAL_SAPLING = PokecubeLegends.NO_ITEM_BLOCKS.register("potted_temporal_sapling",
-                () -> new ItemGenerator.GenericPottedPlant(BlockInit.TEMPORAL_SAPLING.get(),
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.TEMPORAL_SAPLING.get(),
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
 
         POTTED_COMPRECED_MUSHROOM = PokecubeLegends.NO_ITEM_BLOCKS.register("potted_compreced_mushroom",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.COMPRECED_MUSHROOM.get(),
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
         POTTED_CRYSTALLIZED_BUSH = PokecubeLegends.NO_ITEM_BLOCKS.register("potted_crystallized_bush",
-                () -> new PottedCrystallizedBush(BlockInit.CRYSTALLIZED_BUSH.get(),
+                () -> new PottedCrystallizedBush(PlantsInit.CRYSTALLIZED_BUSH.get(),
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
         POTTED_CRYSTALLIZED_CACTUS = PokecubeLegends.NO_ITEM_BLOCKS.register("potted_crystallized_cactus",
-                () -> new PottedCrystallizedCactus(BlockInit.CRYSTALLIZED_CACTUS.get(),
+                () -> new PottedCrystallizedCactus(PlantsInit.CRYSTALLIZED_CACTUS.get(),
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
         POTTED_DISTORCED_MUSHROOM = PokecubeLegends.NO_ITEM_BLOCKS.register("potted_distorced_mushroom",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.DISTORCED_MUSHROOM.get(),
@@ -101,7 +101,7 @@ public class PottedPlantsInit
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.DISTORTIC_VINES.get(),
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
         POTTED_DYNA_SHRUB = PokecubeLegends.NO_ITEM_BLOCKS.register("potted_dyna_shrub",
-                () -> new ItemGenerator.GenericPottedPlant(BlockInit.DYNA_SHRUB.get(),
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.DYNA_SHRUB.get(),
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
         POTTED_GOLDEN_ALLIUM = PokecubeLegends.NO_ITEM_BLOCKS.register("potted_golden_allium",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_ALLIUM.get(),
@@ -158,19 +158,19 @@ public class PottedPlantsInit
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.PINK_TAINTED_LILY_PAD.get(),
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
         POTTED_POLLUTING_BLOSSOM = PokecubeLegends.NO_ITEM_BLOCKS.register("potted_polluting_blossom",
-                () -> new ItemGenerator.GenericPottedPlant(BlockInit.POLLUTING_BLOSSOM.get(),
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.POLLUTING_BLOSSOM.get(),
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
         POTTED_PURPLE_WISTERIA_VINES = PokecubeLegends.NO_ITEM_BLOCKS.register("potted_purple_wisteria_vines",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.PURPLE_WISTERIA_VINES.get(),
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
         POTTED_STRING_OF_PEARLS = PokecubeLegends.NO_ITEM_BLOCKS.register("potted_string_of_pearls",
-                () -> new ItemGenerator.GenericPottedPlant(BlockInit.STRING_OF_PEARLS.get(),
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.STRING_OF_PEARLS.get(),
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
         POTTED_TAINTED_ROOTS = PokecubeLegends.NO_ITEM_BLOCKS.register("potted_tainted_roots",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.TAINTED_ROOTS.get(),
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
         POTTED_TALL_CRYSTALLIZED_BUSH = PokecubeLegends.NO_ITEM_BLOCKS.register("potted_tall_crystallized_bush",
-                () -> new PottedCrystallizedBush(BlockInit.TALL_CRYSTALLIZED_BUSH.get(),
+                () -> new PottedCrystallizedBush(PlantsInit.TALL_CRYSTALLIZED_BUSH.get(),
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
         POTTED_TALL_CORRUPTED_GRASS = PokecubeLegends.NO_ITEM_BLOCKS.register("potted_tall_corrupted_grass",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.TALL_CORRUPTED_GRASS.get(),

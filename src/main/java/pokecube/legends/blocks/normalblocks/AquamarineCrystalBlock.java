@@ -42,6 +42,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.legends.init.BlockInit;
+import pokecube.legends.init.PlantsInit;
 
 public class AquamarineCrystalBlock extends PointedDripstoneBlock implements Fallable, SimpleWaterloggedBlock
 {
@@ -62,7 +63,7 @@ public class AquamarineCrystalBlock extends PointedDripstoneBlock implements Fal
     public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos)
     {
         return isValidAquamarineCrystalPlacement(world, pos, state.getValue(TIP_DIRECTION))
-                || state.is(BlockInit.CRYSTALLIZED_CACTUS.get());
+                || state.is(PlantsInit.CRYSTALLIZED_CACTUS.get());
     }
 
     public void onProjectileHit(Level world, BlockState state, BlockHitResult block, Projectile projectile)
@@ -531,7 +532,7 @@ public class AquamarineCrystalBlock extends PointedDripstoneBlock implements Fal
         BlockPos pos1 = pos.relative(direction.getOpposite());
         BlockState state = world.getBlockState(pos1);
         return state.isFaceSturdy(world, pos1, direction) || isAquamarineCrystalWithDirection(state, direction)
-                || state.is(BlockInit.CRYSTALLIZED_CACTUS.get());
+                || state.is(PlantsInit.CRYSTALLIZED_CACTUS.get());
     }
 
     public static boolean isTip(BlockState state, boolean b)

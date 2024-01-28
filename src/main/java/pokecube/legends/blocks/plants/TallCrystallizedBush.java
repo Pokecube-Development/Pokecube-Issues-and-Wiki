@@ -29,6 +29,7 @@ import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.PlantType;
 import pokecube.legends.init.BlockInit;
+import pokecube.legends.init.PlantsInit;
 
 public class TallCrystallizedBush extends DoublePlantBlock implements SimpleWaterloggedBlock
 {
@@ -135,7 +136,7 @@ public class TallCrystallizedBush extends DoublePlantBlock implements SimpleWate
 
     @Override
     public boolean mayPlaceOn(final BlockState state, final BlockGetter worldIn, final BlockPos pos) {
-        return state.isFaceSturdy(worldIn, pos, Direction.UP) || state.is(BlockInit.CRYSTALLIZED_CACTUS.get());
+        return state.isFaceSturdy(worldIn, pos, Direction.UP) || state.is(PlantsInit.CRYSTALLIZED_CACTUS.get());
     }
 
     @Override
