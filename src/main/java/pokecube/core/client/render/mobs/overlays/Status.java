@@ -158,7 +158,8 @@ public class Status
             final float s = (1 + ds) / 1.73205081f;
 
             Vector3 scale = new Vector3(s, s, s);
-            mat.scale(-1.0F, -1.0F, 1.0F);
+            float s2 = pokemob.getSize();
+            mat.scale(-s2, -s2, s2);
             mat.translate(0.0D, -1.501F, 0.0d);
             final StatusTexturer statusTexturer = effects.texturer();
 
