@@ -148,6 +148,7 @@ public class TerastalRaid implements IBossProvider
             else new InventoryChange(boss, 2, itemstack, true).run(context.level());
             if (i++ >= n) break;
         }
+        boss.setHealth(boss.getMaxHealth());
         context.level().playLocalSound(boss.getX(), boss.getY(), boss.getZ(), SoundEvents.DRAGON_FIREBALL_EXPLODE,
                 SoundSource.NEUTRAL, 1, 1, false);
     }
