@@ -52,7 +52,7 @@ public class RenderMobOverlays
 
     public static void renderNameplate(final RenderNameTagEvent event)
     {
-        if (event.getEntity() instanceof LivingEntity living)
+        if (event.getEntity() instanceof LivingEntity living && event.getPartialTick() >= 0)
         {
             float scale = 1 / (float) SharedAttributes.getScale(living);
             if (scale != 1) event.getPoseStack().scale(scale, scale, scale);
