@@ -87,6 +87,7 @@ public class DynamaxGene implements Gene<DynaObject>
     // Used for the tick logic below
     private long dynatime = -1;
     private boolean de_dyna = false;
+    private boolean was_dyna = false;
 
     @Override
     public ResourceLocation getKey()
@@ -118,21 +119,34 @@ public class DynamaxGene implements Gene<DynaObject>
     public void onUpdateTick(Entity entity)
     {
         IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
-        if (pokemob != null && DynamaxHelper.isDynamax(pokemob))
+
+        boolean isDyna = DynamaxHelper.isDynamax(pokemob);
+        if (pokemob != null)
         {
-            boolean isGigant = this.getValue().gigantamax;
             String[] g_z_moves = pokemob.getMoveStats().getMovesToUse();
-            for (int i = 0; i < 4; i++)
+            if (isDyna)
             {
-                String move = pokemob.getMove(i);
-                final String gmove = GZMoveManager.getGMove(pokemob, move, isGigant);
-                if (gmove != null) g_z_moves[i] = gmove;
+                was_dyna = true;
+                boolean isGigant = this.getValue().gigantamax;
+                for (int i = 0; i < 4; i++)
+                {
+                    String move = pokemob.getMoveStats().getBaseMoves()[i];
+                    final String gmove = GZMoveManager.getGMove(pokemob, move, isGigant);
+                    if (gmove != null) g_z_moves[i] = gmove;
+                }
+            }
+            else if (was_dyna)
+            {
+                was_dyna = false;
+                for (int i = 0; i < 4; i++)
+                {
+                    String move = pokemob.getMoveStats().getBaseMoves()[i];
+                    g_z_moves[i] = move;
+                }
             }
         }
 
         if (entity.getLevel().isClientSide()) return;
-
-        boolean isDyna = DynamaxHelper.isDynamax(pokemob);
         // check dynamax timer for cooldown.
         if (isDyna)
         {
