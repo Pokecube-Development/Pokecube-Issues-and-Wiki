@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Tier;
@@ -27,19 +26,19 @@ public class WeaponTiers
             new ResourceLocation("pokecube_legends:rainbow_wing"), List.of(Tiers.IRON), List.of(Tiers.DIAMOND));
 
     public static final Tier COBALION = TierSortingRegistry.registerTier(
-            new ForgeTier(3, 1700, 6.0F, 6.0F, 7, BlockTags.NEEDS_IRON_TOOL,
+            new ForgeTier(3, 1700, 6.0F, 6.0F, 7, NEEDS_RAINBOW_TOOL,
                     () -> Ingredient.of(Items.NETHERITE_INGOT)),
             new ResourceLocation("pokecube_legends:cobalion"), List.of(Tiers.IRON), List.of(Tiers.DIAMOND));
     public static final Tier KELDEO = TierSortingRegistry.registerTier(
-            new ForgeTier(3, 1800, 7.0F, 4.5F, 10, BlockTags.NEEDS_IRON_TOOL,
+            new ForgeTier(3, 1800, 7.0F, 4.5F, 10, NEEDS_RAINBOW_TOOL,
                     () -> Ingredient.of(Items.NETHERITE_INGOT)),
             new ResourceLocation("pokecube_legends:keldeo"), List.of(Tiers.IRON), List.of(Tiers.DIAMOND));
     public static final Tier TERRAKION = TierSortingRegistry.registerTier(
-            new ForgeTier(3, 2000, 7.5F, 5.0F, 8, BlockTags.NEEDS_IRON_TOOL,
+            new ForgeTier(3, 2000, 7.5F, 5.0F, 8, NEEDS_RAINBOW_TOOL,
                     () -> Ingredient.of(Items.NETHERITE_INGOT)),
             new ResourceLocation("pokecube_legends:terrakion"), List.of(Tiers.IRON), List.of(Tiers.DIAMOND));
     public static final Tier VIRIZION = TierSortingRegistry.registerTier(
-            new ForgeTier(3, 1500, 8.0F, 4.0F, 9, BlockTags.NEEDS_IRON_TOOL,
+            new ForgeTier(3, 1500, 8.0F, 4.0F, 9, NEEDS_RAINBOW_TOOL,
                     () -> Ingredient.of(Items.NETHERITE_INGOT)),
             new ResourceLocation("pokecube_legends:verizion"), List.of(Tiers.IRON), List.of(Tiers.DIAMOND));
 }
