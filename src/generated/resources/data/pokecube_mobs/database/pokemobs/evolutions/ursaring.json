@@ -6,6 +6,8 @@
       {
         "key": "location",
         "location": {
+          "desc": "pokecube.spawns.moon.full",
+          "and_preset": "full_moon",
           "matchers": {
             "time": {
               "preset": "night"
@@ -28,7 +30,8 @@
       {
         "key": "location",
         "location": {
-          "and_preset": "spooky_areas",
+          "desc": "pokecube.spawns.moon.new",
+          "and_preset": "new_moon",
           "matchers": {
             "time": {
               "preset": "night"

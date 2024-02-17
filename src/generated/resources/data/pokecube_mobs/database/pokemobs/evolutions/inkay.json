@@ -1,8 +1,15 @@
 {
   "name": "malamar",
   "user": "inkay",
-  "condition": {
-    "key": "level",
-    "level": 30
-  }
+  "condition": [
+    {
+      "key": "level",
+      "level": 30
+    },
+    {
+      "key": "nbt_name",
+      "desc": "pokecube.evos.inkay",
+      "nbt_name": "^(Dinnerbone|Grumm)$"
+    }
+  ]
 }

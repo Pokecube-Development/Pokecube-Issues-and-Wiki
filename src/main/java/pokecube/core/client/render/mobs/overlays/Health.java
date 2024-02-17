@@ -66,17 +66,20 @@ public class Health
         final EntityRenderDispatcher renderManager = Minecraft.getInstance().getEntityRenderDispatcher();
         // Some sanity checks
         if (renderManager == null || renderManager.camera == null) return false;
-
-        // For hovor target, or cross-hair stuff, only consider the root entity
-        var rootHovor = EntityTools.getCoreEntity(EventsHandlerClient.hovorTarget);
-        var rootCross = EntityTools.getCoreEntity(renderManager.crosshairPickEntity);
-
-        // If we are set to only show focused, then only show that.
-        if (PokecubeCore.getConfig().showOnlyFocused && (entity != rootHovor && entity != rootCross)) return false;
         // Only apply to stock ones, unless otherwise configured
         if (PokecubeCore.getConfig().nonStockHealthbars && !pokemob.getPokedexEntry().stock) return false;
         // Only apply if in range
         if (entity.distanceTo(viewPoint) > PokecubeCore.getConfig().maxDistance) return false;
+
+        // For hovor target, or cross-hair stuff, only consider the root entity
+        var rootHovor = EntityTools.getCoreEntity(EventsHandlerClient.hovorTarget);
+        var rootCross = EntityTools.getCoreEntity(renderManager.crosshairPickEntity);
+        boolean inCombat = pokemob.inCombat();
+
+        // If we are set to only show focused, then only show that, only do this
+        // if it isn't in combat.
+        if (!inCombat && PokecubeCore.getConfig().showOnlyFocused && (entity != rootHovor && entity != rootCross))
+            return false;
         final Camera viewer = renderManager.camera;
         // If viewer is riding us, do not show
         if (entity.getPassengers().contains(viewer.getEntity())) return false;

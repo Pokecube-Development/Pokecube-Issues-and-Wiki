@@ -5,7 +5,6 @@
     "#pokecube:berry_fruits",
     "#pokecube:berry_leaves",
     "pokecube:nest",
-    "pokecube:repel",
     {"id": "#pokecube_legends:legends_leaves", "required": false},
     {"id": "pokecube_legends:azure_coleus", "required": false},
     {"id": "pokecube_legends:compreced_mushroom", "required": false},

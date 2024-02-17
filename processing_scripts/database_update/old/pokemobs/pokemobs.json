@@ -23417,7 +23417,20 @@
           {
             "name": "Ursaluna",
             "item_preset": "pokecube_mobs:peat_block",
-            "time": "night"
+            "time": "night",
+            "location": {
+              "desc": "pokecube.spawns.moon.full",
+              "and_preset": "full_moon"
+            }
+          },
+          {
+            "name": "ursaluna-bloodmoon",
+            "item_preset": "pokecube_mobs:peat_block",
+            "time": "night",
+            "location": {
+              "desc": "pokecube.spawns.moon.full",
+              "and_preset": "new_moon"
+            }
           }
         ],
         "lootTable": "pokecube:entities/rabbit_3",
@@ -61728,7 +61741,11 @@
         "evolutions": [
           {
             "name": "Malamar",
-            "level": 30
+            "level": 30,
+            "nbt_name": {
+              "nbt_name": "^(Dinnerbone|Grumm)$",
+              "desc": "pokecube.evos.inkay"
+            }
           }
         ],
         "lootTable": "minecraft:entities/squid",
@@ -62962,6 +62979,10 @@
           {
             "name": "Goodra",
             "level": 50,
+            "location": {
+              "desc": "pokecube.spawns.weather.raining",
+              "and_preset": "raining"
+            },
             "evoMoves": "aquatail"
           }
         ],
@@ -63029,7 +63050,12 @@
         "evolutions": [
           {
             "name": "goodra_hisui",
-            "level": 50
+            "level": 50,
+            "location": {
+              "desc": "pokecube.spawns.weather.raining",
+              "and_preset": "raining"
+            },
+            "evoMoves": "iron-tail"
           }
         ],
         "stats": {

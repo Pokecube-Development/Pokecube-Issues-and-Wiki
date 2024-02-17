@@ -209,21 +209,19 @@ public class DynamaxHelper
 
     public static void doDynamax(IPokemob pokemob, PokedexEntry newEntry, int duration, Component mess)
     {
-        MegaEvoTicker.scheduleChange(PokecubeCore.getConfig().evolutionTicks, newEntry, pokemob, mess,
-                () ->
-                {
-                    // Flag as evolving for animation effects
-                    pokemob.setGeneralState(GeneralStates.EVOLVING, true);
-                    pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
-                    pokemob.setEvolutionTicks(PokecubeCore.getConfig().evolutionTicks + 50);
-                    pokemob.setEvolutionStack(PokecubeItems.getStack(ICanEvolve.EVERSTONE));
-                    PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Pre(pokemob));
-                }, () -> {
-                    DynamaxHelper.onDynamax(pokemob, duration);
-                    PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Post(pokemob));
-                    pokemob.setGeneralState(GeneralStates.EVOLVING, false);
-                    pokemob.setEvolutionStack(ItemStack.EMPTY);
-                });
+        MegaEvoTicker.scheduleChange(PokecubeCore.getConfig().evolutionTicks, newEntry, pokemob, mess, () -> {
+            // Flag as evolving for animation effects
+            pokemob.setGeneralState(GeneralStates.EVOLVING, true);
+            pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
+            pokemob.setEvolutionTicks(PokecubeCore.getConfig().evolutionTicks + 50);
+            pokemob.setEvolutionStack(PokecubeItems.getStack(ICanEvolve.EVERSTONE));
+            PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Pre(pokemob));
+        }, () -> {
+            DynamaxHelper.onDynamax(pokemob, duration);
+            PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Post(pokemob));
+            pokemob.setGeneralState(GeneralStates.EVOLVING, false);
+            pokemob.setEvolutionStack(ItemStack.EMPTY);
+        });
     }
 
     /**
@@ -240,6 +238,7 @@ public class DynamaxHelper
         long time = Tracker.instance().getTick();
         entity.getPersistentData().putLong("pokecube:dynatime", time);
         entity.getPersistentData().putInt("pokecube:dynadur", duration);
+
         var info = DynamaxGene.getDyna(entity);
         float scale = 1.5f + 0.05f * info.dynaLevel;
         var hpBoost = new AttributeModifier(DYNAMOD, "pokecube:dynamax", scale, Operation.MULTIPLY_TOTAL);
@@ -260,9 +259,10 @@ public class DynamaxHelper
         }
     }
 
-    protected static boolean isDynamax(IPokemob pokemob)
+    public static boolean isDynamax(IPokemob pokemob)
     {
         var entity = pokemob.getEntity();
-        return entity.getPersistentData().contains("pokecube:dynadur");
+        var hpAttr = entity.getAttribute(Attributes.MAX_HEALTH);
+        return hpAttr.getModifier(DYNAMOD) != null;
     }
 }

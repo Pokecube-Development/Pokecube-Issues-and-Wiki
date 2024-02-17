@@ -35,6 +35,7 @@ import pokecube.core.items.ItemTM;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.implementations.MovesAdder;
 import pokecube.gimmicks.dynamax.D_Move_Damage;
+import pokecube.gimmicks.dynamax.DynamaxHelper;
 import thut.api.Tracker;
 import thut.api.Tracker.UpdateHandler;
 import thut.core.common.ThutCore;
@@ -87,6 +88,9 @@ public class GZMoveManager
         if (pokemob == null || pokemob.getOwner() == null) return;
         LivingEntity owner = pokemob.getOwner();
 
+        // we don't handle in this case!
+        if (DynamaxHelper.isDynamax(pokemob)) return;
+
         long lastUse = owner.getPersistentData().getLong("pokecube:used-z-move");
         long tick = Tracker.instance().getTick();
         if (lastUse + Z_MOVE_COOLDOWN > tick) return;
@@ -108,6 +112,10 @@ public class GZMoveManager
     private static void postMoveUse(DuringUse.Post event)
     {
         IPokemob pokemob = event.getUser();
+
+        // we don't handle in this case!
+        if (DynamaxHelper.isDynamax(pokemob)) return;
+        
         LivingEntity owner = pokemob.getOwner();
         if (owner != null && isZMove(event.getMove()))
         {
@@ -286,7 +294,7 @@ public class GZMoveManager
     public static String getGMove(final IPokemob user, final String base_move, boolean gigant)
     {
         if (base_move == null) return null;
-        if (!user.getEntity().getPersistentData().contains("pokecube:dynatime")) return null;
+        if (!DynamaxHelper.isDynamax(user)) return null;
         final MoveEntry move = MovesUtils.getMove(base_move);
         if (move == null) return null;
         gigant = gigant && GZMoveManager.g_max_moves_map.containsKey(base_move);

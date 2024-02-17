@@ -356,7 +356,12 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     public float getSize()
     {
         float size = this.getSizeRaw();
-        if (_sizeChanged) this.setSize(size);
+        if (_sizeChanged)
+        {
+            final SizeGene gene = this.genesSize.getExpressed();
+            size = gene.getValue();
+            this.setSize(size);
+        }
         return size;
     }
 

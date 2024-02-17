@@ -90,17 +90,24 @@ public class BookInstructionsParser
                 {
                     String string = entry.getAsString();
                     if (!string.startsWith("{")) string = "{\"text\":\"" + string + "\"}";
-                    var parsed = JsonUtil.gson.fromJson(string, JsonObject.class);
-                    String[] lines = parsed.get("text").getAsString().strip().split("\n");
-                    for (String s : lines)
+                    try
                     {
-                        s = s.strip();
-                        if (s.isBlank()) continue;
-                        // Allow headers, etc in the book
-                        if (instructions.isEmpty() && !s.startsWith(start_key)) continue;
-                        if (!instructions.isEmpty() && instructions.get(instructions.size() - 1).startsWith("end:"))
-                            break;
-                        instructions.add(s);
+                        var parsed = JsonUtil.gson.fromJson(string, JsonObject.class);
+                        String[] lines = parsed.get("text").getAsString().strip().split("\n");
+                        for (String s : lines)
+                        {
+                            s = s.strip();
+                            if (s.isBlank()) continue;
+                            // Allow headers, etc in the book
+                            if (instructions.isEmpty() && !s.startsWith(start_key)) continue;
+                            if (!instructions.isEmpty() && instructions.get(instructions.size() - 1).startsWith("end:"))
+                                break;
+                            instructions.add(s);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        // Some items may have funny nbt tags added, which can cause this.
                     }
                 }
             });

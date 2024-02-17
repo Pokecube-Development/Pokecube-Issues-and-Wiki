@@ -5,6 +5,6 @@
 		"front": "pokecube:block/repel_front",
 		"particle": "pokecube:block/repel_front",
 		"side": "pokecube:block/repel_side",
-		"top": "pokecube:block/repel_top"
+		"top": "pokecube:block/repel_top_on"
 	}
 }
