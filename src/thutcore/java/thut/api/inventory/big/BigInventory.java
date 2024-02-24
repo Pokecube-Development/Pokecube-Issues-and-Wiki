@@ -322,6 +322,8 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
 
     public int getPage()
     {
+        if (this.page < 0) this.page = this.boxCount() - 1;
+        if (this.page > this.boxCount() - 1) this.page = 0;
         return this.page;
     }
 
@@ -341,6 +343,8 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
 
     public void setPage(final int page)
     {
+        if (this.page < 0) this.page = this.boxCount() - 1;
+        if (this.page > this.boxCount() - 1) this.page = 0;
         this.page = page;
     }
 

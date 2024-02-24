@@ -67,12 +67,14 @@ public class BagContainer extends BaseContainer
         this.inv = pc;
         this.invPlayer = ivplay;
         this.bindInventories();
+        this.gotoInventoryPage(inv.getPage()+1);
     }
 
     protected void bindInventories()
     {
+        boolean bound = !this.slots.isEmpty();
         this.bindBagInventory();
-        this.bindPlayerInventory(this.invPlayer, 45);
+        if (!bound) this.bindPlayerInventory(this.invPlayer, 45);
     }
 
     protected void bindBagInventory()
@@ -139,7 +141,6 @@ public class BagContainer extends BaseContainer
 
     public void gotoInventoryPage(final int page)
     {
-        if (page - 1 == this.inv.getPage()) return;
         this.inv.setPage(page - 1);
         if (ThutCore.proxy.isClientSide())
         {
