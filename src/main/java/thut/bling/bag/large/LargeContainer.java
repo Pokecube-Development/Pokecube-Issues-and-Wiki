@@ -53,12 +53,14 @@ public class LargeContainer extends BaseContainer
         this.inv = pc;
         this.invPlayer = ivplay;
         this.bindInventories();
+        this.gotoInventoryPage(inv.getPage() + 1);
     }
 
     protected void bindInventories()
     {
+        boolean bound = !this.slots.isEmpty();
         this.bindBagInventory();
-        this.bindPlayerInventory(this.invPlayer, 55);
+        if (!bound) this.bindPlayerInventory(this.invPlayer, 55);
     }
 
     protected void bindBagInventory()
@@ -125,7 +127,6 @@ public class LargeContainer extends BaseContainer
 
     public void gotoInventoryPage(final int page)
     {
-        if (page - 1 == this.inv.getPage()) return;
         this.inv.setPage(page - 1);
         if (ThutCore.proxy.isClientSide())
         {
