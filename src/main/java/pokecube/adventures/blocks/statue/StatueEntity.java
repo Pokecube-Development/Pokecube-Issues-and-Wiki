@@ -273,7 +273,7 @@ public class StatueEntity extends InteractableTile
         ItemStack stack = player.getItemInHand(hand);
         if (!player.isShiftKeyDown() && stack.is(TagKey.create(Registry.ITEM_REGISTRY, FUELTAG)))
         {
-            if (player instanceof ServerPlayer)
+            if (player instanceof ServerPlayer && !player.isCreative())
             {
                 stack.shrink(1);
                 if (fuelTimer < Tracker.instance().getTick()) fuelTimer = Tracker.instance().getTick();

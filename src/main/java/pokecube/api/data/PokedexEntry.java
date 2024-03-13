@@ -411,7 +411,7 @@ public class PokedexEntry
             final long timer = dt + now;
             data.putLong("lastInteract", timer);
             pokemob.applyHunger((int) (action.hunger * PokecubeCore.getConfig().interactHungerScale));
-            if (consumeInput) held.shrink(1);
+            if (consumeInput && !player.isCreative()) held.shrink(1);
             if (held.isEmpty()) player.getInventory().setItem(player.getInventory().selected, result);
             else if (!player.getInventory().add(result)) player.drop(result, false);
             if (player != pokemob.getOwner()) Battle.createOrAddToBattle(entity, player);
