@@ -20,6 +20,7 @@ import pokecube.core.client.render.mobs.overlays.Evolution;
 import pokecube.core.client.render.mobs.overlays.ExitCube;
 import pokecube.core.client.render.mobs.overlays.Health;
 import pokecube.core.client.render.mobs.overlays.Status;
+import pokecube.core.entity.pokemobs.EntityPokemob;
 
 public class RenderMobOverlays
 {
@@ -69,7 +70,8 @@ public class RenderMobOverlays
                 if (PokecubeCore.getConfig().renderInF1 || Minecraft.renderNames())
                 {
                     Health.renderHealthBar(living, mat, buf, partialTicks, cameraEntity, br);
-                    event.setResult(Result.DENY);
+                    if (event.getEntity() instanceof EntityPokemob)
+                        event.setResult(Result.DENY);
                 }
             }
         }
