@@ -132,6 +132,7 @@
       "swords-dance",
       "body-slam",
       "take-down",
+      "double-edge",
       "hyper-beam",
       "low-kick",
       "thunderbolt",
@@ -167,7 +168,9 @@
       "electric-terrain",
       "stomping-tantrum",
       "body-press",
-      "tera-blast"
+      "tera-blast",
+      "hard-press",
+      "supercell-slam"
     ]
   }
 }

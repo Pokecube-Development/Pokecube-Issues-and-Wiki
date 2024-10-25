@@ -155,6 +155,7 @@
       "sand-attack",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "growl",
       "ember",
@@ -195,6 +196,7 @@
       "hidden-power",
       "sunny-day",
       "rock-smash",
+      "uproar",
       "heat-wave",
       "will-o-wisp",
       "facade",
@@ -224,7 +226,9 @@
       "incinerate",
       "fire-pledge",
       "work-up",
-      "confide"
+      "confide",
+      "tera-blast",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/coal_chicken_1"

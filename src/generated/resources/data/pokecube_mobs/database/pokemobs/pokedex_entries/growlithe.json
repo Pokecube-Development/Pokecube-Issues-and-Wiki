@@ -233,7 +233,8 @@
       "burn-up",
       "psychic-fangs",
       "raging-fury",
-      "tera-blast"
+      "tera-blast",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/blaze_rabbit_1"

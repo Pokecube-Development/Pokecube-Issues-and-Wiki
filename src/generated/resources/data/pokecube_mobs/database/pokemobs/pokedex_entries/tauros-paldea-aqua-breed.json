@@ -122,6 +122,7 @@
     "misc": [
       "body-slam",
       "take-down",
+      "double-edge",
       "hydro-pump",
       "surf",
       "hyper-beam",
@@ -140,6 +141,7 @@
       "endure",
       "sleep-talk",
       "rain-dance",
+      "whirlpool",
       "facade",
       "endeavor",
       "rock-tomb",

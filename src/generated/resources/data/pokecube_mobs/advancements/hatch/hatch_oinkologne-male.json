@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.oinkologne-male"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.oinkologne-male"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_oinkologne-male": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "oinkologne-male"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

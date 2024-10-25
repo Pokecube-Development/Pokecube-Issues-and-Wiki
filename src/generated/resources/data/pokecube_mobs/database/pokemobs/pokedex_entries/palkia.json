@@ -55,7 +55,8 @@
         "L": 1,
         "moves": [
           "scary-face",
-          "dragon-breath"
+          "dragon-breath",
+          "twister"
         ]
       },
       {
@@ -92,6 +93,12 @@
         "L": 42,
         "moves": [
           "aqua-tail"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "dragon-pulse"
         ]
       },
       {

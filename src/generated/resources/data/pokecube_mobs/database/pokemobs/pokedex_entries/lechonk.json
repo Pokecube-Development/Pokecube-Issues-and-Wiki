@@ -114,11 +114,13 @@
     "misc": [
       "body-slam",
       "take-down",
+      "double-edge",
       "dig",
       "rest",
       "super-fang",
       "substitute",
       "thief",
+      "curse",
       "protect",
       "mud-slap",
       "endure",

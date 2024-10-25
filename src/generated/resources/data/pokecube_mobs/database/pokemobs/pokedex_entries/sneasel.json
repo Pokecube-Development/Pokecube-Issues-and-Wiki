@@ -48,6 +48,18 @@
         ]
       },
       {
+        "L": 34,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "blizzard"
+        ]
+      },
+      {
         "L": 20,
         "moves": [
           "agility"
@@ -63,6 +75,12 @@
         "L": 32,
         "moves": [
           "screech"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "swift"
         ]
       },
       {
@@ -114,15 +132,16 @@
         ]
       },
       {
-        "L": 47,
+        "L": 25,
         "moves": [
-          "ice-shard"
+          "poison-jab",
+          "hone-claws"
         ]
       },
       {
-        "L": 25,
+        "L": 47,
         "moves": [
-          "hone-claws"
+          "ice-shard"
         ]
       }
     ],
@@ -242,7 +261,8 @@
       "triple-axel",
       "tera-blast",
       "snowscape",
-      "trailblaze"
+      "trailblaze",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/rabbit_1"

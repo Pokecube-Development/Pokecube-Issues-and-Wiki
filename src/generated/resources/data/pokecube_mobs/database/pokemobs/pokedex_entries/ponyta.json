@@ -64,6 +64,13 @@
         ]
       },
       {
+        "L": 37,
+        "moves": [
+          "double-edge",
+          "agility"
+        ]
+      },
+      {
         "L": 4,
         "moves": [
           "tail-whip"
@@ -72,7 +79,8 @@
       {
         "L": 9,
         "moves": [
-          "ember"
+          "ember",
+          "double-hit"
         ]
       },
       {
@@ -82,9 +90,10 @@
         ]
       },
       {
-        "L": 37,
+        "L": 21,
         "moves": [
-          "agility"
+          "hypnosis",
+          "flame-charge"
         ]
       },
       {
@@ -115,12 +124,6 @@
         "L": 49,
         "moves": [
           "flare-blitz"
-        ]
-      },
-      {
-        "L": 21,
-        "moves": [
-          "flame-charge"
         ]
       },
       {

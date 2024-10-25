@@ -2,7 +2,7 @@
   "name": "okidogi",
   "id": 1014,
   "stock": true,
-  "base_experience": null,
+  "base_experience": 278,
   "size": {
     "height": 1.8
   },
@@ -106,6 +106,7 @@
       "thunder-punch",
       "body-slam",
       "take-down",
+      "double-edge",
       "roar",
       "hyper-beam",
       "low-kick",
@@ -114,6 +115,7 @@
       "rest",
       "substitute",
       "thief",
+      "curse",
       "reversal",
       "spite",
       "protect",
@@ -145,14 +147,18 @@
       "fire-fang",
       "gunk-shot",
       "iron-head",
+      "sludge-wave",
       "low-sweep",
       "snarl",
       "high-horsepower",
+      "throat-chop",
       "psychic-fangs",
       "stomping-tantrum",
       "body-press",
       "lash-out",
-      "tera-blast"
+      "tera-blast",
+      "hard-press",
+      "upper-hand"
     ]
   }
 }

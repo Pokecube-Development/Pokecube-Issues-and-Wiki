@@ -96,6 +96,13 @@
         ]
       },
       {
+        "L": 37,
+        "moves": [
+          "water-pulse",
+          "laser-focus"
+        ]
+      },
+      {
         "L": 31,
         "moves": [
           "brine"
@@ -108,23 +115,26 @@
         ]
       },
       {
-        "L": 37,
+        "L": 72,
         "moves": [
-          "laser-focus"
+          "wave-crash"
         ]
       }
     ],
     "misc": [
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "leer",
+      "disable",
       "water-gun",
       "hydro-pump",
       "surf",
       "ice-beam",
       "blizzard",
       "bubble-beam",
+      "aurora-beam",
       "hyper-beam",
       "toxic",
       "agility",
@@ -135,11 +145,14 @@
       "waterfall",
       "swift",
       "bubble",
+      "splash",
       "rest",
       "substitute",
       "snore",
       "curse",
+      "flail",
       "protect",
+      "scary-face",
       "icy-wind",
       "outrage",
       "endure",
@@ -158,6 +171,7 @@
       "yawn",
       "secret-power",
       "dive",
+      "weather-ball",
       "signal-beam",
       "muddy-water",
       "bounce",
@@ -172,6 +186,7 @@
       "iron-head",
       "captivate",
       "round",
+      "clear-smog",
       "scald",
       "quash",
       "hurricane",
@@ -180,7 +195,10 @@
       "liquidation",
       "breaking-swipe",
       "scale-shot",
-      "flip-turn"
+      "flip-turn",
+      "tera-blast",
+      "snowscape",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/squid_fish_2"

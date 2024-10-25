@@ -116,6 +116,7 @@
       "snore",
       "protect",
       "endure",
+      "charm",
       "swagger",
       "attract",
       "sleep-talk",
@@ -128,6 +129,7 @@
       "rain-dance",
       "sunny-day",
       "psych-up",
+      "shadow-ball",
       "fake-out",
       "torment",
       "facade",
@@ -166,7 +168,9 @@
       "disarming-voice",
       "play-rough",
       "confide",
-      "expanding-force"
+      "expanding-force",
+      "tera-blast",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/rabbit_1"

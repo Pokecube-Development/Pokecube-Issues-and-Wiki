@@ -210,7 +210,9 @@
       "infestation",
       "stomping-tantrum",
       "burning-jealousy",
-      "tera-blast"
+      "scorching-sands",
+      "tera-blast",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/magma_cream"

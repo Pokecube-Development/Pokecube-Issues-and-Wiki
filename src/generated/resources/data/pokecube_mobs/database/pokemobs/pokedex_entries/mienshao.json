@@ -131,6 +131,7 @@
       "mega-kick",
       "jump-kick",
       "take-down",
+      "double-edge",
       "hyper-beam",
       "low-kick",
       "strength",
@@ -209,9 +210,11 @@
       "laser-focus",
       "brutal-swing",
       "coaching",
+      "triple-axel",
       "tera-blast",
       "ice-spinner",
-      "trailblaze"
+      "trailblaze",
+      "upper-hand"
     ]
   },
   "interactions": [

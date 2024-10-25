@@ -168,6 +168,7 @@
       "substitute",
       "thief",
       "snore",
+      "curse",
       "reversal",
       "protect",
       "scary-face",
@@ -232,8 +233,10 @@
       "stomping-tantrum",
       "body-press",
       "lash-out",
+      "coaching",
       "tera-blast",
-      "chilling-water"
+      "chilling-water",
+      "upper-hand"
     ]
   },
   "loot_table": "minecraft:entities/cow_2"

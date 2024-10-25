@@ -175,6 +175,7 @@
       "swift",
       "flash",
       "rest",
+      "super-fang",
       "substitute",
       "snore",
       "protect",
@@ -200,6 +201,7 @@
       "charge",
       "helping-hand",
       "wish",
+      "endeavor",
       "secret-power",
       "fake-tears",
       "signal-beam",
@@ -225,10 +227,15 @@
       "volt-switch",
       "electroweb",
       "wild-charge",
+      "play-rough",
       "play-nice",
       "confide",
+      "electric-terrain",
       "nuzzle",
-      "tearful-look"
+      "tearful-look",
+      "tera-blast",
+      "trailblaze",
+      "alluring-voice"
     ]
   },
   "loot_table": "pokecube:entities/redstone_rabbit_1"

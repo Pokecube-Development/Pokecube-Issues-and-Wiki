@@ -43,17 +43,34 @@
         "L": 1,
         "moves": [
           "scratch",
+          "tackle",
           "leer",
           "ember",
-          "flamethrower",
-          "facade",
-          "nasty-plot"
+          "facade"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "flamethrower"
         ]
       },
       {
         "L": 39,
         "moves": [
           "fire-spin"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "swift"
         ]
       },
       {
@@ -111,6 +128,12 @@
         ]
       },
       {
+        "L": 25,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
         "L": 46,
         "moves": [
           "acrobatics"
@@ -129,24 +152,33 @@
       "scratch",
       "swords-dance",
       "cut",
+      "double-kick",
       "headbutt",
+      "take-down",
+      "double-edge",
       "leer",
       "ember",
       "flamethrower",
       "low-kick",
+      "counter",
       "strength",
       "fire-spin",
       "dig",
       "toxic",
+      "agility",
       "double-team",
+      "focus-energy",
+      "metronome",
       "fire-blast",
       "swift",
       "fury-swipes",
       "rest",
       "rock-slide",
       "substitute",
+      "thief",
       "flame-wheel",
       "snore",
+      "reversal",
       "protect",
       "mach-punch",
       "mud-slap",
@@ -157,10 +189,13 @@
       "sleep-talk",
       "return",
       "frustration",
+      "encore",
       "iron-tail",
       "hidden-power",
       "sunny-day",
+      "psych-up",
       "rock-smash",
+      "fake-out",
       "uproar",
       "heat-wave",
       "torment",
@@ -175,6 +210,7 @@
       "endeavor",
       "secret-power",
       "slack-off",
+      "fake-tears",
       "overheat",
       "rock-tomb",
       "aerial-ace",
@@ -187,10 +223,13 @@
       "fling",
       "flare-blitz",
       "poison-jab",
+      "drain-punch",
       "vacuum-wave",
       "focus-blast",
+      "switcheroo",
       "nasty-plot",
       "shadow-claw",
+      "zen-headbutt",
       "rock-climb",
       "gunk-shot",
       "captivate",
@@ -210,7 +249,10 @@
       "confide",
       "power-up-punch",
       "burning-jealousy",
-      "lash-out"
+      "lash-out",
+      "tera-blast",
+      "temper-flare",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/coal_2"

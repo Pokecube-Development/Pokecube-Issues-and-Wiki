@@ -44,6 +44,7 @@
           "pound",
           "tackle",
           "growl",
+          "water-gun",
           "bubble",
           "charm",
           "metal-claw"
@@ -52,7 +53,8 @@
       {
         "L": 11,
         "moves": [
-          "swords-dance"
+          "swords-dance",
+          "aerial-ace"
         ]
       },
       {
@@ -62,15 +64,15 @@
         ]
       },
       {
-        "L": 46,
+        "L": 43,
         "moves": [
-          "mist"
+          "double-edge"
         ]
       },
       {
-        "L": 8,
+        "L": 46,
         "moves": [
-          "water-gun"
+          "mist"
         ]
       },
       {
@@ -110,6 +112,18 @@
         ]
       },
       {
+        "L": 18,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "roost"
+        ]
+      },
+      {
         "L": 33,
         "moves": [
           "brine"
@@ -118,7 +132,20 @@
       {
         "L": 0,
         "moves": [
+          "flash-cannon",
           "aqua-jet"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "liquidation"
+        ]
+      },
+      {
+        "L": 66,
+        "moves": [
+          "wave-crash"
         ]
       }
     ],
@@ -128,9 +155,14 @@
       "headbutt",
       "fury-attack",
       "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
       "growl",
       "roar",
+      "supersonic",
       "mist",
+      "water-gun",
       "hydro-pump",
       "surf",
       "ice-beam",
@@ -143,18 +175,23 @@
       "earthquake",
       "dig",
       "toxic",
+      "agility",
       "double-team",
       "haze",
       "waterfall",
+      "swift",
       "bubble",
       "rest",
       "rock-slide",
       "substitute",
       "snore",
       "protect",
+      "scary-face",
       "mud-slap",
       "icy-wind",
       "endure",
+      "charm",
+      "false-swipe",
       "swagger",
       "fury-cutter",
       "steel-wing",
@@ -165,27 +202,36 @@
       "metal-claw",
       "hidden-power",
       "rain-dance",
+      "psych-up",
       "rock-smash",
       "whirlpool",
       "uproar",
       "hail",
       "facade",
+      "helping-hand",
       "brick-break",
+      "yawn",
       "knock-off",
       "secret-power",
       "dive",
+      "feather-dance",
       "hydro-cannon",
       "weather-ball",
+      "air-cutter",
       "rock-tomb",
+      "metal-sound",
       "signal-beam",
       "aerial-ace",
       "iron-defense",
       "covet",
       "water-pulse",
+      "roost",
       "brine",
       "natural-gift",
       "pluck",
       "fling",
+      "aqua-ring",
+      "air-slash",
       "vacuum-wave",
       "giga-impact",
       "avalanche",
@@ -205,13 +251,22 @@
       "water-pledge",
       "bulldoze",
       "work-up",
+      "disarming-voice",
       "confide",
       "laser-focus",
       "throat-chop",
+      "power-trip",
       "liquidation",
+      "steel-beam",
       "lash-out",
       "flip-turn",
-      "dual-wingbeat"
+      "triple-axel",
+      "dual-wingbeat",
+      "wave-crash",
+      "tera-blast",
+      "ice-spinner",
+      "snowscape",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/chicken_3"

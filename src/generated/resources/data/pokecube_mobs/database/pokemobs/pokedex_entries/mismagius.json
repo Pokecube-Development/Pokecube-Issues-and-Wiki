@@ -40,23 +40,51 @@
         "moves": [
           "growl",
           "psybeam",
-          "confusion",
           "confuse-ray",
           "psywave",
           "spite",
           "perish-song",
           "mean-look",
           "pain-split",
-          "shadow-ball",
           "grudge",
           "astonish",
           "magical-leaf",
           "payback",
           "lucky-chant",
           "power-gem",
-          "hex",
+          "shadow-sneak",
           "phantom-force",
           "mystical-fire"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "confusion"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "hypnosis"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "shadow-ball"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "extrasensory"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "hex"
         ]
       }
     ],
@@ -69,6 +97,7 @@
       "thunder-wave",
       "thunder",
       "toxic",
+      "confusion",
       "psychic",
       "night-shade",
       "double-team",
@@ -81,6 +110,7 @@
       "substitute",
       "thief",
       "snore",
+      "curse",
       "spite",
       "protect",
       "scary-face",
@@ -99,6 +129,7 @@
       "sunny-day",
       "psych-up",
       "shadow-ball",
+      "future-sight",
       "uproar",
       "torment",
       "will-o-wisp",
@@ -153,7 +184,8 @@
       "lash-out",
       "poltergeist",
       "tera-blast",
-      "snowscape"
+      "snowscape",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/ghast_pearls"

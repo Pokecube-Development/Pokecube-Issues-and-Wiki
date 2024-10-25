@@ -54,7 +54,8 @@
       {
         "L": 15,
         "moves": [
-          "take-down"
+          "take-down",
+          "iron-defense"
         ]
       },
       {
@@ -102,9 +103,15 @@
         ]
       },
       {
-        "L": 23,
+        "L": 21,
         "moves": [
           "rock-slide"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "mud-slap"
         ]
       },
       {

@@ -63,6 +63,18 @@
         ]
       },
       {
+        "L": 40,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
         "L": 5,
         "moves": [
           "defense-curl"
@@ -72,6 +84,12 @@
         "L": 41,
         "moves": [
           "amnesia"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "rest"
         ]
       },
       {

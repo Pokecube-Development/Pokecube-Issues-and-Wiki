@@ -122,6 +122,7 @@
     "misc": [
       "body-slam",
       "take-down",
+      "double-edge",
       "flamethrower",
       "hyper-beam",
       "fire-spin",
@@ -164,7 +165,8 @@
       "body-press",
       "lash-out",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "temper-flare"
     ]
   }
 }

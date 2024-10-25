@@ -45,6 +45,12 @@
         ]
       },
       {
+        "L": 5,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
         "L": 43,
         "moves": [
           "double-edge"
@@ -56,6 +62,7 @@
           "low-kick",
           "rock-throw",
           "flail",
+          "rollout",
           "fake-tears",
           "copycat",
           "wood-hammer"
@@ -92,6 +99,12 @@
         ]
       },
       {
+        "L": 21,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
         "L": 29,
         "moves": [
           "block"
@@ -113,6 +126,12 @@
         "L": 47,
         "moves": [
           "stone-edge"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "stealth-rock"
         ]
       },
       {
@@ -187,6 +206,7 @@
       "helping-hand",
       "role-play",
       "brick-break",
+      "endeavor",
       "secret-power",
       "fake-tears",
       "rock-tomb",

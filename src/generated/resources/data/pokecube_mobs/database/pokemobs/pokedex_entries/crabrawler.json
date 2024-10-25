@@ -187,8 +187,10 @@
       "brutal-swing",
       "stomping-tantrum",
       "liquidation",
+      "coaching",
       "tera-blast",
-      "chilling-water"
+      "chilling-water",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/fish_1"

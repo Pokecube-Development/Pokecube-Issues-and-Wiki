@@ -48,6 +48,19 @@
         ]
       },
       {
+        "L": 34,
+        "moves": [
+          "thunderbolt"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "thunder",
+          "electro-ball"
+        ]
+      },
+      {
         "L": 15,
         "moves": [
           "double-team"
@@ -57,6 +70,12 @@
         "L": 36,
         "moves": [
           "substitute"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "shadow-ball"
         ]
       },
       {
@@ -72,15 +91,15 @@
         ]
       },
       {
-        "L": 29,
+        "L": 6,
         "moves": [
-          "ominous-wind"
+          "charge-beam"
         ]
       },
       {
-        "L": 43,
+        "L": 29,
         "moves": [
-          "electro-ball"
+          "ominous-wind"
         ]
       },
       {

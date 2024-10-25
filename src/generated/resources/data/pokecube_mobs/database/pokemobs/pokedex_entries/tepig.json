@@ -85,15 +85,16 @@
         ]
       },
       {
-        "L": 21,
+        "L": 9,
         "moves": [
-          "rollout"
+          "endure",
+          "odor-sleuth"
         ]
       },
       {
-        "L": 9,
+        "L": 21,
         "moves": [
-          "odor-sleuth"
+          "rollout"
         ]
       },
       {
@@ -128,16 +129,20 @@
       }
     ],
     "misc": [
+      "fire-punch",
       "tackle",
       "body-slam",
       "take-down",
       "thrash",
+      "double-edge",
       "tail-whip",
       "roar",
       "ember",
       "flamethrower",
       "strength",
       "solar-beam",
+      "fire-spin",
+      "dig",
       "toxic",
       "double-team",
       "defense-curl",
@@ -148,6 +153,8 @@
       "snore",
       "curse",
       "protect",
+      "mud-slap",
+      "endure",
       "rollout",
       "swagger",
       "attract",
@@ -190,7 +197,10 @@
       "heat-crash",
       "confide",
       "burn-up",
-      "stomping-tantrum"
+      "stomping-tantrum",
+      "tera-blast",
+      "trailblaze",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/coal_pig_1"

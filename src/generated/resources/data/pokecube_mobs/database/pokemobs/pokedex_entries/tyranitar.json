@@ -265,7 +265,8 @@
       "body-press",
       "breaking-swipe",
       "lash-out",
-      "tera-blast"
+      "tera-blast",
+      "hard-press"
     ]
   },
   "loot_table": "pokecube:entities/stone_gold"

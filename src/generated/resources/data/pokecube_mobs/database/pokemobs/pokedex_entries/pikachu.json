@@ -107,9 +107,14 @@
         ]
       },
       {
+        "L": 15,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
         "L": 26,
         "moves": [
-          "swift",
           "spark"
         ]
       },
@@ -224,6 +229,7 @@
       "helping-hand",
       "brick-break",
       "knock-off",
+      "endeavor",
       "secret-power",
       "fake-tears",
       "signal-beam",
@@ -257,7 +263,9 @@
       "laser-focus",
       "rising-voltage",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "alluring-voice",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/redstone_rabbit_1"

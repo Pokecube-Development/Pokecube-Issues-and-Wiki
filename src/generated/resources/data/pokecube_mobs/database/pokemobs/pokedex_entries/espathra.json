@@ -122,6 +122,7 @@
     "misc": [
       "body-slam",
       "take-down",
+      "double-edge",
       "psybeam",
       "hyper-beam",
       "low-kick",
@@ -143,12 +144,14 @@
       "baton-pass",
       "rain-dance",
       "sunny-day",
+      "psych-up",
       "shadow-ball",
       "uproar",
       "facade",
       "helping-hand",
       "trick",
       "skill-swap",
+      "feather-dance",
       "hyper-voice",
       "aerial-ace",
       "calm-mind",
@@ -167,6 +170,7 @@
       "disarming-voice",
       "dazzling-gleam",
       "psychic-terrain",
+      "expanding-force",
       "tera-blast",
       "pounce"
     ]

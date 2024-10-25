@@ -62,6 +62,12 @@
         ]
       },
       {
+        "L": 15,
+        "moves": [
+          "poison-powder"
+        ]
+      },
+      {
         "L": 22,
         "moves": [
           "stun-spore"
@@ -71,6 +77,13 @@
         "L": 10,
         "moves": [
           "sleep-powder"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "recover",
+          "entrainment"
         ]
       },
       {
@@ -128,15 +141,15 @@
         ]
       },
       {
-        "L": 37,
-        "moves": [
-          "entrainment"
-        ]
-      },
-      {
         "L": 44,
         "moves": [
           "after-you"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "leafage"
         ]
       }
     ],

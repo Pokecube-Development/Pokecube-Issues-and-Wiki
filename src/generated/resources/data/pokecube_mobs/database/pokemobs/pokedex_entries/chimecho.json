@@ -38,6 +38,7 @@
       {
         "L": 1,
         "moves": [
+          "tackle",
           "wrap",
           "growl",
           "confusion",
@@ -64,6 +65,18 @@
         "L": 52,
         "moves": [
           "psychic"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "hypnosis"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "recover"
         ]
       },
       {
@@ -102,6 +115,12 @@
         "L": 22,
         "moves": [
           "extrasensory"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "ominous-wind"
         ]
       },
       {
@@ -209,7 +228,9 @@
       "confide",
       "dazzling-gleam",
       "laser-focus",
-      "tera-blast"
+      "expanding-force",
+      "tera-blast",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/enderpearls_1"

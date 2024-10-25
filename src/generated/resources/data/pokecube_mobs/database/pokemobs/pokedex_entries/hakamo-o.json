@@ -131,6 +131,7 @@
       "tackle",
       "body-slam",
       "take-down",
+      "double-edge",
       "leer",
       "roar",
       "low-kick",
@@ -195,10 +196,14 @@
       "dual-chop",
       "noble-roar",
       "confide",
+      "throat-chop",
       "brutal-swing",
+      "breaking-swipe",
       "scale-shot",
       "coaching",
-      "tera-blast"
+      "tera-blast",
+      "dragon-cheer",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/pig_2"

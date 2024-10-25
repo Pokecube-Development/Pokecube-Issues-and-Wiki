@@ -58,9 +58,21 @@
         ]
       },
       {
+        "L": 43,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
         "L": 13,
         "moves": [
           "bide"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "acid-armor"
         ]
       },
       {
@@ -104,6 +116,18 @@
         "L": 42,
         "moves": [
           "dragon-pulse"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "acid-spray"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "shelter"
         ]
       }
     ],

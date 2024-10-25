@@ -179,6 +179,7 @@
       "sleep-talk",
       "return",
       "frustration",
+      "pain-split",
       "pursuit",
       "iron-tail",
       "hidden-power",
@@ -227,7 +228,8 @@
       "burning-jealousy",
       "lash-out",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/blaze_rabbit_1"

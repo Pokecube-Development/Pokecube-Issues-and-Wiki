@@ -45,6 +45,7 @@
           "smog",
           "spite",
           "perish-song",
+          "astonish",
           "reflect-type"
         ]
       },
@@ -73,7 +74,7 @@
         ]
       },
       {
-        "L": 7,
+        "L": 6,
         "moves": [
           "poison-gas"
         ]
@@ -139,6 +140,12 @@
         ]
       },
       {
+        "L": 18,
+        "moves": [
+          "venoshock"
+        ]
+      },
+      {
         "L": 55,
         "moves": [
           "hex"
@@ -179,6 +186,7 @@
       "lick",
       "skull-bash",
       "dream-eater",
+      "poison-gas",
       "psywave",
       "explosion",
       "rest",
@@ -264,7 +272,8 @@
       "skitter-smack",
       "poltergeist",
       "corrosive-gas",
-      "tera-blast"
+      "tera-blast",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/enderpearls_3"

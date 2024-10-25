@@ -43,6 +43,12 @@
         ]
       },
       {
+        "L": 6,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
         "L": 1,
         "moves": [
           "leer",
@@ -93,6 +99,12 @@
         ]
       },
       {
+        "L": 18,
+        "moves": [
+          "poison-gas"
+        ]
+      },
+      {
         "L": 16,
         "moves": [
           "flame-wheel"
@@ -137,6 +149,7 @@
       "mega-kick",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "leer",
       "ember",
@@ -186,6 +199,7 @@
       "will-o-wisp",
       "facade",
       "focus-punch",
+      "follow-me",
       "helping-hand",
       "brick-break",
       "secret-power",
@@ -195,17 +209,22 @@
       "fling",
       "power-swap",
       "flare-blitz",
+      "poison-jab",
       "lava-plume",
       "captivate",
       "flame-burst",
       "flame-charge",
+      "acid-spray",
       "round",
       "clear-smog",
       "incinerate",
       "dual-chop",
       "belch",
       "confide",
-      "power-up-punch"
+      "power-up-punch",
+      "burning-jealousy",
+      "tera-blast",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/rabbit_1"

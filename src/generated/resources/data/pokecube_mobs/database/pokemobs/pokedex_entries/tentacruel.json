@@ -90,6 +90,12 @@
         ]
       },
       {
+        "L": 6,
+        "moves": [
+          "bubble"
+        ]
+      },
+      {
         "L": 34,
         "moves": [
           "acid-armor"
@@ -155,6 +161,7 @@
       "ice-beam",
       "blizzard",
       "bubble-beam",
+      "aurora-beam",
       "hyper-beam",
       "mega-drain",
       "toxic",
@@ -162,10 +169,13 @@
       "mimic",
       "screech",
       "double-team",
+      "confuse-ray",
       "barrier",
+      "haze",
       "reflect",
       "bide",
       "waterfall",
+      "swift",
       "skull-bash",
       "constrict",
       "acid-armor",
@@ -175,6 +185,7 @@
       "snore",
       "curse",
       "protect",
+      "scary-face",
       "sludge-bomb",
       "icy-wind",
       "giga-drain",
@@ -185,8 +196,10 @@
       "return",
       "frustration",
       "safeguard",
+      "rapid-spin",
       "hidden-power",
       "rain-dance",
+      "mirror-coat",
       "whirlpool",
       "hail",
       "facade",
@@ -194,16 +207,22 @@
       "knock-off",
       "secret-power",
       "dive",
+      "weather-ball",
+      "tickle",
       "muddy-water",
+      "mud-shot",
       "water-pulse",
       "brine",
       "natural-gift",
+      "acupressure",
       "payback",
       "wring-out",
       "toxic-spikes",
+      "aqua-ring",
       "poison-jab",
       "giga-impact",
       "cross-poison",
+      "gunk-shot",
       "captivate",
       "venoshock",
       "sludge-wave",
@@ -216,8 +235,15 @@
       "venom-drench",
       "dazzling-gleam",
       "infestation",
+      "throat-chop",
       "brutal-swing",
-      "corrosive-gas"
+      "liquidation",
+      "skitter-smack",
+      "corrosive-gas",
+      "flip-turn",
+      "tera-blast",
+      "pounce",
+      "chilling-water"
     ]
   },
   "interactions": [

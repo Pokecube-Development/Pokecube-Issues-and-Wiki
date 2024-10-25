@@ -56,9 +56,27 @@
         ]
       },
       {
+        "L": 34,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "blizzard"
+        ]
+      },
+      {
         "L": 32,
         "moves": [
           "screech"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "swift"
         ]
       },
       {
@@ -104,6 +122,13 @@
         ]
       },
       {
+        "L": 25,
+        "moves": [
+          "poison-jab",
+          "hone-claws"
+        ]
+      },
+      {
         "L": 47,
         "moves": [
           "dark-pulse"
@@ -119,12 +144,6 @@
         "L": 20,
         "moves": [
           "nasty-plot"
-        ]
-      },
-      {
-        "L": 25,
-        "moves": [
-          "hone-claws"
         ]
       }
     ],
@@ -235,7 +254,8 @@
       "ice-spinner",
       "snowscape",
       "trailblaze",
-      "chilling-water"
+      "chilling-water",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/rabbit_2"

@@ -125,6 +125,7 @@
       "synthesis",
       "hidden-power",
       "sunny-day",
+      "psych-up",
       "facade",
       "nature-power",
       "helping-hand",
@@ -154,7 +155,8 @@
       "pollen-puff",
       "grassy-glide",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "alluring-voice"
     ]
   },
   "loot_table": "pokecube:entities/leaves"

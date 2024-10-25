@@ -111,9 +111,27 @@
         ]
       },
       {
+        "L": 6,
+        "moves": [
+          "silver-wind"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "aerial-ace"
+        ]
+      },
+      {
         "L": 37,
         "moves": [
           "iron-defense"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "close-combat"
         ]
       },
       {
@@ -239,10 +257,12 @@
       "lunge",
       "brutal-swing",
       "steel-beam",
+      "skitter-smack",
       "dual-wingbeat",
       "tera-blast",
       "pounce",
-      "trailblaze"
+      "trailblaze",
+      "hard-press"
     ]
   },
   "loot_table": "pokecube:entities/iron_seeds_1"

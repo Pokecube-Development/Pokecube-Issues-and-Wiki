@@ -66,9 +66,22 @@
         ]
       },
       {
+        "L": 43,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
         "L": 48,
         "moves": [
           "earthquake"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "rock-slide",
+          "chip-away"
         ]
       },
       {
@@ -78,9 +91,21 @@
         ]
       },
       {
+        "L": 11,
+        "moves": [
+          "rock-smash"
+        ]
+      },
+      {
         "L": 29,
         "moves": [
           "rock-blast"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "giga-impact"
         ]
       },
       {
@@ -90,15 +115,15 @@
         ]
       },
       {
-        "L": 13,
+        "L": 18,
         "moves": [
-          "smack-down"
+          "stealth-rock"
         ]
       },
       {
-        "L": 25,
+        "L": 13,
         "moves": [
-          "chip-away"
+          "smack-down"
         ]
       },
       {
@@ -111,6 +136,12 @@
         "L": 33,
         "moves": [
           "drill-run"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "high-horsepower"
         ]
       }
     ],
@@ -131,6 +162,7 @@
       "tackle",
       "body-slam",
       "take-down",
+      "double-edge",
       "tail-whip",
       "roar",
       "flamethrower",
@@ -139,6 +171,7 @@
       "ice-beam",
       "blizzard",
       "hyper-beam",
+      "counter",
       "strength",
       "thunderbolt",
       "thunder",
@@ -152,6 +185,7 @@
       "substitute",
       "thief",
       "snore",
+      "curse",
       "reversal",
       "spite",
       "protect",
@@ -170,6 +204,7 @@
       "frustration",
       "megahorn",
       "iron-tail",
+      "metal-claw",
       "hidden-power",
       "rain-dance",
       "sunny-day",
@@ -193,12 +228,14 @@
       "shock-wave",
       "hammer-arm",
       "natural-gift",
+      "metal-burst",
       "payback",
       "fling",
       "rock-polish",
       "poison-jab",
       "aqua-tail",
       "dragon-pulse",
+      "dragon-rush",
       "focus-blast",
       "earth-power",
       "giga-impact",
@@ -214,6 +251,7 @@
       "stone-edge",
       "captivate",
       "stealth-rock",
+      "guard-split",
       "smack-down",
       "heavy-slam",
       "round",
@@ -232,7 +270,10 @@
       "body-press",
       "breaking-swipe",
       "meteor-beam",
-      "scorching-sands"
+      "scorching-sands",
+      "tera-blast",
+      "temper-flare",
+      "supercell-slam"
     ]
   },
   "loot_table": "pokecube:entities/stone_2"

@@ -134,7 +134,9 @@
       "swords-dance",
       "double-kick",
       "body-slam",
+      "take-down",
       "thrash",
+      "double-edge",
       "leer",
       "bite",
       "growl",
@@ -169,6 +171,7 @@
       "will-o-wisp",
       "facade",
       "taunt",
+      "helping-hand",
       "revenge",
       "endeavor",
       "overheat",
@@ -186,7 +189,10 @@
       "work-up",
       "parting-shot",
       "confide",
-      "power-trip"
+      "power-trip",
+      "tera-blast",
+      "trailblaze",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/coal_rabbit_1"

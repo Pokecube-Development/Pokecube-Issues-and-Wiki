@@ -130,9 +130,11 @@
       "sleep-talk",
       "safeguard",
       "sunny-day",
+      "psych-up",
       "ancient-power",
       "facade",
       "superpower",
+      "endeavor",
       "imprison",
       "rock-tomb",
       "sand-tomb",
@@ -160,7 +162,8 @@
       "stomping-tantrum",
       "body-press",
       "meteor-beam",
-      "tera-blast"
+      "tera-blast",
+      "hard-press"
     ]
   },
   "loot_table": "pokecube:entities/cobble_1"

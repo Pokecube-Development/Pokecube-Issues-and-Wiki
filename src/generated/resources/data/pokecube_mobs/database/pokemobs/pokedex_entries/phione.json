@@ -40,16 +40,29 @@
         ]
       },
       {
+        "L": 1,
+        "moves": [
+          "water-gun",
+          "bubble",
+          "water-sport"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
         "L": 24,
         "moves": [
           "bubble-beam"
         ]
       },
       {
-        "L": 1,
+        "L": 6,
         "moves": [
-          "bubble",
-          "water-sport"
+          "confusion"
         ]
       },
       {
@@ -93,10 +106,29 @@
         "moves": [
           "aqua-ring"
         ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "moonblast"
+        ]
+      },
+      {
+        "L": 75,
+        "moves": [
+          "take-heart"
+        ]
       }
     ],
     "misc": [
       "supersonic",
+      "hydro-pump",
       "surf",
       "ice-beam",
       "blizzard",
@@ -122,6 +154,7 @@
       "return",
       "frustration",
       "safeguard",
+      "baton-pass",
       "hidden-power",
       "rain-dance",
       "psych-up",
@@ -146,13 +179,19 @@
       "fling",
       "last-resort",
       "aqua-ring",
+      "zen-headbutt",
       "grass-knot",
       "round",
       "scald",
+      "disarming-voice",
       "confide",
       "dazzling-gleam",
       "liquidation",
-      "flip-turn"
+      "flip-turn",
+      "take-heart",
+      "tera-blast",
+      "chilling-water",
+      "alluring-voice"
     ]
   },
   "loot_table": "pokecube:entities/fish_1"

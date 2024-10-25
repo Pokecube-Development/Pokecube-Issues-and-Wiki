@@ -39,8 +39,14 @@
         "L": 1,
         "moves": [
           "disable",
-          "night-shade",
+          "shadow-sneak",
           "ominous-wind"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "psychic"
         ]
       },
       {
@@ -53,6 +59,13 @@
         "L": 11,
         "moves": [
           "quick-attack"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "night-shade",
+          "nightmare"
         ]
       },
       {
@@ -74,16 +87,17 @@
         ]
       },
       {
-        "L": 38,
-        "moves": [
-          "nightmare"
-        ]
-      },
-      {
         "L": 29,
         "moves": [
           "feint-attack",
-          "pursuit"
+          "pursuit",
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "shadow-ball"
         ]
       },
       {
@@ -104,6 +118,12 @@
         "moves": [
           "dark-void"
         ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "hex"
+        ]
       }
     ],
     "misc": [
@@ -122,7 +142,9 @@
       "psychic",
       "hypnosis",
       "quick-attack",
+      "night-shade",
       "double-team",
+      "confuse-ray",
       "haze",
       "swift",
       "dream-eater",
@@ -133,8 +155,10 @@
       "thief",
       "nightmare",
       "snore",
+      "curse",
       "spite",
       "protect",
+      "scary-face",
       "feint-attack",
       "sludge-bomb",
       "mud-slap",
@@ -183,15 +207,18 @@
       "dark-void",
       "ominous-wind",
       "wonder-room",
+      "psyshock",
       "foul-play",
       "round",
+      "hex",
       "incinerate",
       "retaliate",
       "snarl",
       "confide",
       "power-up-punch",
       "throat-chop",
-      "lash-out"
+      "lash-out",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/generic_legend"

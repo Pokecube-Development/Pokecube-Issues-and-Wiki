@@ -70,6 +70,12 @@
         ]
       },
       {
+        "L": 11,
+        "moves": [
+          "poison-powder"
+        ]
+      },
+      {
         "L": 10,
         "moves": [
           "stun-spore"
@@ -90,7 +96,8 @@
       {
         "L": 25,
         "moves": [
-          "giga-drain"
+          "giga-drain",
+          "venoshock"
         ]
       },
       {
@@ -108,13 +115,15 @@
       {
         "L": 34,
         "moves": [
-          "ingrain"
+          "ingrain",
+          "poison-jab"
         ]
       },
       {
         "L": 43,
         "moves": [
-          "aromatherapy"
+          "aromatherapy",
+          "energy-ball"
         ]
       },
       {

@@ -77,6 +77,13 @@
         ]
       },
       {
+        "L": 16,
+        "moves": [
+          "magical-leaf",
+          "leaf-tornado"
+        ]
+      },
+      {
         "L": 32,
         "moves": [
           "leaf-blade"
@@ -105,12 +112,6 @@
         "moves": [
           "coil"
         ]
-      },
-      {
-        "L": 16,
-        "moves": [
-          "leaf-tornado"
-        ]
       }
     ],
     "misc": [
@@ -121,6 +122,8 @@
       "vine-whip",
       "tackle",
       "wrap",
+      "take-down",
+      "double-edge",
       "leer",
       "mega-drain",
       "leech-seed",
@@ -130,30 +133,40 @@
       "double-team",
       "light-screen",
       "reflect",
+      "swift",
+      "glare",
       "flash",
       "rest",
       "substitute",
       "snore",
       "protect",
       "giga-drain",
+      "endure",
       "swagger",
+      "mean-look",
       "attract",
       "sleep-talk",
       "return",
       "frustration",
       "safeguard",
+      "sweet-scent",
       "iron-tail",
       "synthesis",
       "hidden-power",
+      "twister",
       "sunny-day",
+      "mirror-coat",
       "torment",
       "facade",
       "nature-power",
       "taunt",
+      "helping-hand",
       "knock-off",
       "snatch",
       "secret-power",
+      "bullet-seed",
       "aerial-ace",
+      "magical-leaf",
       "calm-mind",
       "leaf-blade",
       "wring-out",
@@ -170,7 +183,12 @@
       "grass-pledge",
       "work-up",
       "leaf-tornado",
-      "confide"
+      "petal-blizzard",
+      "grassy-terrain",
+      "confide",
+      "grassy-glide",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/wheat_seeds_2"

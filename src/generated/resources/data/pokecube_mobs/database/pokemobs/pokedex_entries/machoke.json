@@ -42,6 +42,7 @@
         "L": 1,
         "moves": [
           "karate-chop",
+          "tackle",
           "leer",
           "low-kick",
           "focus-energy",
@@ -49,7 +50,7 @@
         ]
       },
       {
-        "L": 66,
+        "L": 34,
         "moves": [
           "double-edge"
         ]
@@ -70,6 +71,12 @@
         "L": 31,
         "moves": [
           "strength"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "mach-punch"
         ]
       },
       {
@@ -103,6 +110,12 @@
         ]
       },
       {
+        "L": 6,
+        "moves": [
+          "rock-smash"
+        ]
+      },
+      {
         "L": 48,
         "moves": [
           "superpower"
@@ -124,13 +137,26 @@
       {
         "L": 43,
         "moves": [
-          "bulk-up"
+          "bulk-up",
+          "close-combat"
         ]
       },
       {
         "L": 27,
         "moves": [
           "wake-up-slap"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "bullet-punch"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "double-hit"
         ]
       },
       {

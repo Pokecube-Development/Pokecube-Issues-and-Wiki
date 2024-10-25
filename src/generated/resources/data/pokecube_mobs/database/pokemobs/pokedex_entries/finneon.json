@@ -40,7 +40,8 @@
       {
         "L": 1,
         "moves": [
-          "pound"
+          "pound",
+          "bubble"
         ]
       },
       {
@@ -53,6 +54,12 @@
         "L": 6,
         "moves": [
           "water-gun"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "hydro-pump"
         ]
       },
       {
@@ -106,6 +113,12 @@
         ]
       },
       {
+        "L": 34,
+        "moves": [
+          "roost"
+        ]
+      },
+      {
         "L": 42,
         "moves": [
           "u-turn"
@@ -115,6 +128,12 @@
         "L": 33,
         "moves": [
           "aqua-ring"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "air-slash"
         ]
       },
       {
@@ -194,7 +213,8 @@
       "dazzling-gleam",
       "flip-turn",
       "tera-blast",
-      "chilling-water"
+      "chilling-water",
+      "alluring-voice"
     ]
   },
   "female_model": {

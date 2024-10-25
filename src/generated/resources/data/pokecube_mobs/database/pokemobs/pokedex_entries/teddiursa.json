@@ -41,6 +41,7 @@
         "L": 1,
         "moves": [
           "scratch",
+          "tackle",
           "leer",
           "lick",
           "fake-tears",
@@ -56,16 +57,17 @@
         ]
       },
       {
-        "L": 8,
+        "L": 43,
         "moves": [
-          "fury-swipes"
+          "double-edge",
+          "rest",
+          "snore"
         ]
       },
       {
-        "L": 43,
+        "L": 8,
         "moves": [
-          "rest",
-          "snore"
+          "fury-swipes"
         ]
       },
       {
@@ -100,9 +102,21 @@
         ]
       },
       {
+        "L": 11,
+        "moves": [
+          "bulldoze"
+        ]
+      },
+      {
         "L": 25,
         "moves": [
           "play-nice"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "high-horsepower"
         ]
       }
     ],

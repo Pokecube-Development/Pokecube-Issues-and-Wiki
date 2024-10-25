@@ -148,6 +148,7 @@
       "ice-punch",
       "thunder-punch",
       "take-down",
+      "double-edge",
       "hyper-beam",
       "low-kick",
       "thunderbolt",
@@ -190,12 +191,17 @@
       "electro-ball",
       "low-sweep",
       "volt-switch",
+      "electroweb",
       "wild-charge",
       "play-rough",
       "eerie-impulse",
       "electric-terrain",
+      "throat-chop",
       "body-press",
-      "tera-blast"
+      "coaching",
+      "tera-blast",
+      "supercell-slam",
+      "upper-hand"
     ]
   }
 }

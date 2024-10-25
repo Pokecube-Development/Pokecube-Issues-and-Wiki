@@ -167,6 +167,7 @@
       "hidden-power",
       "rain-dance",
       "sunny-day",
+      "psych-up",
       "facade",
       "taunt",
       "helping-hand",
@@ -195,7 +196,8 @@
       "revelation-dance",
       "dual-wingbeat",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "alluring-voice"
     ]
   },
   "sound": "oricorio-baile",

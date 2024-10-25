@@ -140,6 +140,7 @@
       "body-slam",
       "take-down",
       "thrash",
+      "double-edge",
       "growl",
       "roar",
       "surf",
@@ -160,6 +161,7 @@
       "substitute",
       "thief",
       "snore",
+      "curse",
       "flail",
       "reversal",
       "powder-snow",
@@ -186,6 +188,7 @@
       "taunt",
       "superpower",
       "brick-break",
+      "endeavor",
       "secret-power",
       "dive",
       "rock-tomb",
@@ -227,7 +230,8 @@
       "tera-blast",
       "snowscape",
       "trailblaze",
-      "chilling-water"
+      "chilling-water",
+      "hard-press"
     ]
   },
   "interactions": [

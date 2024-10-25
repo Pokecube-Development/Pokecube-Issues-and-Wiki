@@ -127,6 +127,7 @@
     ],
     "misc": [
       "swords-dance",
+      "body-slam",
       "hyper-beam",
       "solar-beam",
       "thunder-wave",
@@ -137,6 +138,7 @@
       "double-team",
       "light-screen",
       "reflect",
+      "swift",
       "rest",
       "rock-slide",
       "slash",
@@ -146,6 +148,7 @@
       "protect",
       "scary-face",
       "outrage",
+      "sandstorm",
       "endure",
       "swagger",
       "sleep-talk",
@@ -155,6 +158,7 @@
       "morning-sun",
       "moonlight",
       "hidden-power",
+      "sunny-day",
       "future-sight",
       "heat-wave",
       "facade",
@@ -208,7 +212,8 @@
       "photon-geyser",
       "breaking-swipe",
       "expanding-force",
-      "meteor-beam"
+      "meteor-beam",
+      "tera-blast"
     ]
   },
   "sound": "necrozma-dusk",

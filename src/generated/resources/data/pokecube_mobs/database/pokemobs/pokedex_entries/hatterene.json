@@ -127,7 +127,9 @@
       "attract",
       "sleep-talk",
       "safeguard",
+      "pain-split",
       "baton-pass",
+      "psych-up",
       "shadow-ball",
       "future-sight",
       "facade",
@@ -166,7 +168,8 @@
       "life-dew",
       "expanding-force",
       "misty-explosion",
-      "tera-blast"
+      "tera-blast",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/enderpearls_2"

@@ -129,6 +129,7 @@
     ],
     "misc": [
       "cut",
+      "poison-sting",
       "pin-missile",
       "hyper-beam",
       "absorb",
@@ -162,6 +163,8 @@
       "hidden-power",
       "rain-dance",
       "facade",
+      "charge",
+      "helping-hand",
       "secret-power",
       "signal-beam",
       "bounce",
@@ -188,9 +191,12 @@
       "confide",
       "infestation",
       "throat-chop",
+      "lunge",
       "speed-swap",
       "rising-voltage",
-      "skitter-smack"
+      "skitter-smack",
+      "tera-blast",
+      "pounce"
     ]
   },
   "loot_table": "pokecube:entities/redstone_spider_2"

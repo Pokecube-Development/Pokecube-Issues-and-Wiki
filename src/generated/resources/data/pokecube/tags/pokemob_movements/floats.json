@@ -20,8 +20,8 @@
     "pokecube:misdreavus",
     "pokecube:unown",
     "pokecube:corsola-galar",
-    "pokecube:lunatone;0.5",
-    "pokecube:solrock;0.5",
+    "pokecube:lunatone",
+    "pokecube:solrock",
     "pokecube:castform",
     "pokecube:castform-rainy",
     "pokecube:castform-snowy",
@@ -124,7 +124,6 @@
     "pokecube:diancie",
     "pokecube:diancie-mega",
     "pokecube:hoopa",
-    "pokecube:hoopa-unbound",
     "pokecube:comfey",
     "pokecube:minior-meteor",
     "pokecube:minior-blue",
@@ -162,11 +161,13 @@
     "pokecube:glimmet",
     "pokecube:glimmora",
     "pokecube:varoom",
+    "pokecube:revavroom",
     "pokecube:flutter-mane",
     "pokecube:scream-tail",
     "pokecube:iron-moth",
     "pokecube:miraidon",
     "pokecube:poltchageist",
-    "pokecube:sinistcha"
+    "pokecube:sinistcha",
+    "pokecube:pecharunt"
   ]
 }

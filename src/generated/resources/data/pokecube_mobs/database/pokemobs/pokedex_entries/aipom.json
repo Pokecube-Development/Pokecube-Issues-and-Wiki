@@ -41,13 +41,21 @@
         "L": 1,
         "moves": [
           "scratch",
-          "tail-whip"
+          "tail-whip",
+          "quick-attack"
         ]
       },
       {
         "L": 4,
         "moves": [
           "sand-attack"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "double-edge",
+          "last-resort"
         ]
       },
       {
@@ -71,13 +79,20 @@
       {
         "L": 18,
         "moves": [
-          "fury-swipes"
+          "fury-swipes",
+          "mud-bomb"
         ]
       },
       {
         "L": 11,
         "moves": [
           "baton-pass"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "iron-tail"
         ]
       },
       {
@@ -96,12 +111,6 @@
         "L": 36,
         "moves": [
           "fling"
-        ]
-      },
-      {
-        "L": 43,
-        "moves": [
-          "last-resort"
         ]
       },
       {
@@ -190,6 +199,7 @@
       "revenge",
       "brick-break",
       "knock-off",
+      "endeavor",
       "snatch",
       "secret-power",
       "astonish",
@@ -225,9 +235,11 @@
       "tail-slap",
       "confide",
       "power-up-punch",
+      "throat-chop",
       "tera-blast",
       "trailblaze",
-      "chilling-water"
+      "chilling-water",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/rabbit_1"

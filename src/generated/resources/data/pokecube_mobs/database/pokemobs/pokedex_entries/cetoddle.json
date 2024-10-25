@@ -126,6 +126,7 @@
     "misc": [
       "body-slam",
       "take-down",
+      "double-edge",
       "ice-beam",
       "blizzard",
       "hyper-beam",
@@ -133,6 +134,7 @@
       "amnesia",
       "rest",
       "substitute",
+      "curse",
       "protect",
       "belly-drum",
       "icy-wind",

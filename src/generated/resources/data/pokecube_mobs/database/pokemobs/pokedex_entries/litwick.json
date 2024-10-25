@@ -207,7 +207,8 @@
       "skitter-smack",
       "burning-jealousy",
       "poltergeist",
-      "tera-blast"
+      "tera-blast",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/enderpearls_1"

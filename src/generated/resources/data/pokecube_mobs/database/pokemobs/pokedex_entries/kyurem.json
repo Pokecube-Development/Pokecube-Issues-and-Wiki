@@ -132,6 +132,9 @@
     "misc": [
       "cut",
       "fly",
+      "body-slam",
+      "take-down",
+      "roar",
       "ice-beam",
       "blizzard",
       "hyper-beam",
@@ -176,6 +179,8 @@
       "weather-ball",
       "rock-tomb",
       "signal-beam",
+      "sheer-cold",
+      "aerial-ace",
       "icicle-spear",
       "dragon-claw",
       "dragon-dance",
@@ -186,7 +191,9 @@
       "focus-blast",
       "earth-power",
       "giga-impact",
+      "avalanche",
       "shadow-claw",
+      "ice-fang",
       "zen-headbutt",
       "flash-cannon",
       "draco-meteor",
@@ -198,13 +205,17 @@
       "dragon-tail",
       "glaciate",
       "noble-roar",
+      "freeze-dry",
       "confide",
       "laser-focus",
       "brutal-swing",
       "body-press",
       "breaking-swipe",
       "scale-shot",
-      "dual-wingbeat"
+      "dual-wingbeat",
+      "tera-blast",
+      "snowscape",
+      "dragon-cheer"
     ]
   },
   "forme_items": [

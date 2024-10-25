@@ -42,6 +42,7 @@
         "L": 1,
         "moves": [
           "pound",
+          "tackle",
           "growl",
           "metronome",
           "sweet-kiss",
@@ -99,9 +100,35 @@
         ]
       },
       {
+        "L": 0,
+        "moves": [
+          "air-cutter"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "extrasensory"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "calm-mind"
+        ]
+      },
+      {
         "L": 49,
         "moves": [
           "last-resort"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "air-slash",
+          "bestow",
+          "baby-doll-eyes"
         ]
       },
       {
@@ -111,15 +138,21 @@
         ]
       },
       {
-        "L": 25,
+        "L": 11,
         "moves": [
-          "bestow"
+          "draining-kiss"
         ]
       },
       {
         "L": 14,
         "moves": [
           "fairy-wind"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "moonblast"
         ]
       }
     ],

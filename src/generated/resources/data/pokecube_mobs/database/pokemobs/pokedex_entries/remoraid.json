@@ -41,6 +41,7 @@
         "L": 1,
         "moves": [
           "water-gun",
+          "bubble",
           "helping-hand"
         ]
       },
@@ -89,7 +90,8 @@
       {
         "L": 6,
         "moves": [
-          "lock-on"
+          "lock-on",
+          "acid-spray"
         ]
       },
       {
@@ -108,6 +110,12 @@
         "L": 26,
         "moves": [
           "water-pulse"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "charge-beam"
         ]
       },
       {

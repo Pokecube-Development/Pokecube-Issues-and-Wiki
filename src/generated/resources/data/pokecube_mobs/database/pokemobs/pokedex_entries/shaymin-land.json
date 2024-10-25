@@ -36,14 +36,34 @@
       {
         "L": 19,
         "moves": [
-          "leech-seed"
+          "leech-seed",
+          "air-slash"
         ]
       },
       {
         "L": 1,
         "moves": [
           "growth",
-          "defense-curl"
+          "defense-curl",
+          "leafage"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "sleep-powder"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "recover"
         ]
       },
       {
@@ -68,7 +88,8 @@
       {
         "L": 64,
         "moves": [
-          "aromatherapy"
+          "aromatherapy",
+          "grassy-terrain"
         ]
       },
       {
@@ -87,7 +108,9 @@
       {
         "L": 46,
         "moves": [
-          "natural-gift"
+          "natural-gift",
+          "earth-power",
+          "play-rough"
         ]
       },
       {
@@ -112,6 +135,8 @@
     "misc": [
       "swords-dance",
       "headbutt",
+      "take-down",
+      "double-edge",
       "hyper-beam",
       "leech-seed",
       "growth",
@@ -134,6 +159,7 @@
       "return",
       "frustration",
       "safeguard",
+      "baton-pass",
       "sweet-scent",
       "synthesis",
       "hidden-power",
@@ -144,25 +170,38 @@
       "endeavor",
       "secret-power",
       "aromatherapy",
+      "air-cutter",
       "bullet-seed",
+      "aerial-ace",
       "covet",
       "magical-leaf",
       "healing-wish",
       "natural-gift",
+      "tailwind",
       "last-resort",
       "worry-seed",
       "seed-bomb",
+      "air-slash",
       "energy-ball",
       "earth-power",
       "giga-impact",
       "zen-headbutt",
+      "leaf-storm",
       "grass-knot",
       "seed-flare",
+      "ominous-wind",
       "round",
+      "petal-blizzard",
+      "disarming-voice",
+      "grassy-terrain",
+      "play-rough",
       "confide",
       "dazzling-gleam",
+      "baby-doll-eyes",
       "laser-focus",
-      "grassy-glide"
+      "grassy-glide",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "forme_items": [

@@ -46,6 +46,12 @@
         ]
       },
       {
+        "L": 43,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
         "L": 22,
         "moves": [
           "bite"
@@ -76,6 +82,12 @@
         ]
       },
       {
+        "L": 25,
+        "moves": [
+          "sleep-powder"
+        ]
+      },
+      {
         "L": 17,
         "moves": [
           "curse"
@@ -100,9 +112,21 @@
         ]
       },
       {
+        "L": 34,
+        "moves": [
+          "leaf-blade"
+        ]
+      },
+      {
         "L": 52,
         "moves": [
           "leaf-storm"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "bulldoze"
         ]
       },
       {
@@ -117,12 +141,17 @@
       "cut",
       "headbutt",
       "tackle",
+      "body-slam",
+      "take-down",
+      "thrash",
+      "double-edge",
       "bite",
       "roar",
       "strength",
       "absorb",
       "mega-drain",
       "leech-seed",
+      "growth",
       "razor-leaf",
       "solar-beam",
       "toxic",
@@ -130,6 +159,7 @@
       "withdraw",
       "light-screen",
       "reflect",
+      "amnesia",
       "flash",
       "rest",
       "substitute",
@@ -151,28 +181,44 @@
       "sunny-day",
       "crunch",
       "rock-smash",
+      "stockpile",
+      "spit-up",
+      "swallow",
       "facade",
       "nature-power",
       "superpower",
       "secret-power",
+      "tickle",
       "sand-tomb",
       "bullet-seed",
+      "mud-shot",
+      "magical-leaf",
       "natural-gift",
       "worry-seed",
       "seed-bomb",
       "energy-ball",
       "earth-power",
+      "zen-headbutt",
       "rock-climb",
       "leaf-storm",
+      "iron-head",
       "captivate",
       "stealth-rock",
       "grass-knot",
+      "wide-guard",
       "smack-down",
+      "heavy-slam",
       "round",
+      "shell-smash",
       "grass-pledge",
+      "bulldoze",
       "work-up",
+      "grassy-terrain",
       "confide",
-      "grassy-glide"
+      "leafage",
+      "grassy-glide",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/shellseed_2"

@@ -51,6 +51,12 @@
         ]
       },
       {
+        "L": 49,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
         "L": 7,
         "moves": [
           "night-shade"
@@ -162,6 +168,7 @@
       "safeguard",
       "moonlight",
       "hidden-power",
+      "rain-dance",
       "sunny-day",
       "psych-up",
       "shadow-ball",
@@ -206,7 +213,8 @@
       "expanding-force",
       "meteor-beam",
       "poltergeist",
-      "dual-wingbeat"
+      "dual-wingbeat",
+      "tera-blast"
     ]
   },
   "forme_items": [

@@ -41,6 +41,7 @@
         "L": 28,
         "moves": [
           "swords-dance",
+          "slam",
           "chip-away"
         ]
       },
@@ -48,13 +49,28 @@
         "L": 1,
         "moves": [
           "headbutt",
+          "tackle",
           "leer"
         ]
       },
       {
         "L": 15,
         "moves": [
-          "take-down"
+          "take-down",
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "double-edge",
+          "zen-headbutt"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "bite"
         ]
       },
       {
@@ -79,7 +95,14 @@
         "L": 10,
         "moves": [
           "pursuit",
+          "rock-smash",
           "rock-polish"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "crunch"
         ]
       },
       {
@@ -95,9 +118,9 @@
         ]
       },
       {
-        "L": 37,
+        "L": 21,
         "moves": [
-          "zen-headbutt"
+          "iron-head"
         ]
       },
       {
@@ -115,6 +138,7 @@
       "slam",
       "stomp",
       "headbutt",
+      "body-slam",
       "take-down",
       "thrash",
       "double-edge",
@@ -164,6 +188,7 @@
       "endeavor",
       "secret-power",
       "rock-tomb",
+      "rock-blast",
       "shock-wave",
       "hammer-arm",
       "natural-gift",
@@ -186,7 +211,11 @@
       "incinerate",
       "bulldoze",
       "confide",
-      "power-up-punch"
+      "power-up-punch",
+      "stomping-tantrum",
+      "tera-blast",
+      "trailblaze",
+      "dragon-cheer"
     ]
   },
   "loot_table": "pokecube:entities/fossil_mob"

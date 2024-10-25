@@ -204,6 +204,7 @@
       "secret-power",
       "weather-ball",
       "air-cutter",
+      "metal-sound",
       "signal-beam",
       "aerial-ace",
       "shock-wave",
@@ -232,7 +233,8 @@
       "laser-focus",
       "rising-voltage",
       "dual-wingbeat",
-      "tera-blast"
+      "tera-blast",
+      "supercell-slam"
     ]
   },
   "loot_table": "pokecube:entities/generic_legend"

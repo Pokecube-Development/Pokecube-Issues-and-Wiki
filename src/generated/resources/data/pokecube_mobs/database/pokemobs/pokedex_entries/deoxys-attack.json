@@ -76,7 +76,8 @@
       {
         "L": 25,
         "moves": [
-          "pursuit"
+          "pursuit",
+          "psyshock"
         ]
       },
       {
@@ -92,6 +93,13 @@
         ]
       },
       {
+        "L": 43,
+        "moves": [
+          "skill-swap",
+          "psycho-shift"
+        ]
+      },
+      {
         "L": 55,
         "moves": [
           "cosmic-power"
@@ -104,12 +112,6 @@
         ]
       },
       {
-        "L": 43,
-        "moves": [
-          "psycho-shift"
-        ]
-      },
-      {
         "L": 49,
         "moves": [
           "zen-headbutt"
@@ -118,15 +120,20 @@
     ],
     "misc": [
       "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
       "cut",
       "bind",
       "mega-kick",
       "headbutt",
       "body-slam",
       "wrap",
+      "take-down",
       "double-edge",
       "leer",
       "ice-beam",
+      "psybeam",
       "hyper-beam",
       "low-kick",
       "counter",
@@ -138,12 +145,14 @@
       "thunder",
       "toxic",
       "psychic",
+      "agility",
       "teleport",
       "night-shade",
       "mimic",
       "double-team",
       "light-screen",
       "reflect",
+      "swift",
       "dream-eater",
       "flash",
       "rest",
@@ -151,20 +160,24 @@
       "substitute",
       "snore",
       "protect",
+      "scary-face",
       "mud-slap",
       "zap-cannon",
+      "icy-wind",
       "endure",
       "swagger",
       "sleep-talk",
       "return",
       "frustration",
       "safeguard",
+      "pain-split",
       "pursuit",
       "hidden-power",
       "rain-dance",
       "sunny-day",
       "psych-up",
       "shadow-ball",
+      "future-sight",
       "rock-smash",
       "torment",
       "facade",
@@ -176,7 +189,9 @@
       "magic-coat",
       "recycle",
       "brick-break",
+      "knock-off",
       "skill-swap",
+      "imprison",
       "snatch",
       "secret-power",
       "rock-tomb",
@@ -197,6 +212,7 @@
       "focus-blast",
       "energy-ball",
       "giga-impact",
+      "nasty-plot",
       "avalanche",
       "zen-headbutt",
       "flash-cannon",
@@ -209,13 +225,19 @@
       "telekinesis",
       "low-sweep",
       "round",
+      "stored-power",
       "ally-switch",
       "confide",
       "power-up-punch",
       "laser-focus",
       "throat-chop",
+      "psychic-terrain",
       "brutal-swing",
-      "stomping-tantrum"
+      "stomping-tantrum",
+      "expanding-force",
+      "meteor-beam",
+      "tera-blast",
+      "psychic-noise"
     ]
   },
   "interactions": [

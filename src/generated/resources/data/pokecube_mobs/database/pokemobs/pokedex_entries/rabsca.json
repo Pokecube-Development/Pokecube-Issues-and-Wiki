@@ -144,6 +144,7 @@
       "sunny-day",
       "psych-up",
       "shadow-ball",
+      "future-sight",
       "facade",
       "trick",
       "skill-swap",
@@ -172,9 +173,12 @@
       "dazzling-gleam",
       "psychic-terrain",
       "lunge",
+      "expanding-force",
+      "skitter-smack",
       "poltergeist",
       "tera-blast",
-      "pounce"
+      "pounce",
+      "psychic-noise"
     ]
   }
 }

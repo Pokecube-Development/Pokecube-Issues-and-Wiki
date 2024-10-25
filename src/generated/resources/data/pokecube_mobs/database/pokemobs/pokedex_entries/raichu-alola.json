@@ -127,6 +127,7 @@
       "recycle",
       "brick-break",
       "knock-off",
+      "endeavor",
       "skill-swap",
       "signal-beam",
       "covet",
@@ -165,7 +166,10 @@
       "expanding-force",
       "rising-voltage",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "alluring-voice",
+      "psychic-noise",
+      "upper-hand"
     ]
   },
   "interactions": [

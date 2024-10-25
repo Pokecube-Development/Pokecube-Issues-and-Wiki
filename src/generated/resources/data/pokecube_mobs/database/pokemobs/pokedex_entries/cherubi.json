@@ -37,6 +37,7 @@
         "L": 1,
         "moves": [
           "tackle",
+          "absorb",
           "morning-sun"
         ]
       },
@@ -44,6 +45,13 @@
         "L": 31,
         "moves": [
           "take-down"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "double-edge",
+          "solar-beam"
         ]
       },
       {
@@ -59,9 +67,22 @@
         ]
       },
       {
-        "L": 37,
+        "L": 9,
         "moves": [
-          "solar-beam"
+          "stun-spore"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "sleep-powder"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "petal-dance",
+          "petal-blizzard"
         ]
       },
       {
@@ -95,9 +116,15 @@
         ]
       },
       {
-        "L": 47,
+        "L": 21,
         "moves": [
-          "petal-blizzard"
+          "energy-ball"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "draining-kiss"
         ]
       },
       {

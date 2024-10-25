@@ -94,6 +94,12 @@
         ]
       },
       {
+        "L": 25,
+        "moves": [
+          "energy-ball"
+        ]
+      },
+      {
         "L": 26,
         "moves": [
           "ice-shard"
@@ -103,6 +109,12 @@
         "L": 36,
         "moves": [
           "wood-hammer"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "icicle-crash"
         ]
       }
     ],
@@ -131,6 +143,7 @@
       "rest",
       "substitute",
       "snore",
+      "curse",
       "powder-snow",
       "protect",
       "mud-slap",

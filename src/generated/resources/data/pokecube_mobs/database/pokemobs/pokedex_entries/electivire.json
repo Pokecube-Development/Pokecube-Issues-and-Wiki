@@ -94,6 +94,12 @@
         ]
       },
       {
+        "L": 11,
+        "moves": [
+          "spark"
+        ]
+      },
+      {
         "L": 15,
         "moves": [
           "shock-wave"
@@ -126,6 +132,8 @@
       "mega-kick",
       "headbutt",
       "body-slam",
+      "take-down",
+      "double-edge",
       "leer",
       "flamethrower",
       "hyper-beam",
@@ -143,6 +151,8 @@
       "screech",
       "double-team",
       "light-screen",
+      "reflect",
+      "metronome",
       "swift",
       "flash",
       "rest",
@@ -158,25 +168,33 @@
       "sleep-talk",
       "return",
       "frustration",
+      "dynamic-punch",
       "iron-tail",
       "hidden-power",
+      "cross-chop",
       "rain-dance",
       "rock-smash",
       "uproar",
       "torment",
       "facade",
       "focus-punch",
+      "follow-me",
       "charge",
       "taunt",
       "helping-hand",
       "brick-break",
+      "knock-off",
       "secret-power",
       "weather-ball",
       "rock-tomb",
+      "metal-sound",
       "signal-beam",
+      "bulk-up",
       "covet",
       "shock-wave",
+      "hammer-arm",
       "natural-gift",
+      "feint",
       "fling",
       "magnet-rise",
       "focus-blast",
@@ -195,11 +213,15 @@
       "dual-chop",
       "ion-deluge",
       "confide",
+      "eerie-impulse",
       "electric-terrain",
       "power-up-punch",
       "darkest-lariat",
       "stomping-tantrum",
-      "rising-voltage"
+      "rising-voltage",
+      "tera-blast",
+      "trailblaze",
+      "supercell-slam"
     ]
   },
   "loot_table": "pokecube:entities/redstone_rabbit_3"

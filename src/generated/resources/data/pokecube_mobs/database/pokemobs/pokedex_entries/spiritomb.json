@@ -80,6 +80,14 @@
         ]
       },
       {
+        "L": 25,
+        "moves": [
+          "extrasensory",
+          "ominous-wind",
+          "hex"
+        ]
+      },
+      {
         "L": 15,
         "moves": [
           "payback"
@@ -101,13 +109,6 @@
         "L": 37,
         "moves": [
           "nasty-plot"
-        ]
-      },
-      {
-        "L": 25,
-        "moves": [
-          "ominous-wind",
-          "hex"
         ]
       }
     ],

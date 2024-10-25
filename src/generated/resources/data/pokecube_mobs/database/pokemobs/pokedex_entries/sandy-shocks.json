@@ -146,6 +146,7 @@
       "sunny-day",
       "facade",
       "charge",
+      "metal-sound",
       "sand-tomb",
       "iron-defense",
       "mud-shot",
@@ -160,13 +161,16 @@
       "electro-ball",
       "volt-switch",
       "bulldoze",
+      "electroweb",
       "wild-charge",
       "eerie-impulse",
       "electric-terrain",
       "high-horsepower",
       "stomping-tantrum",
       "body-press",
-      "tera-blast"
+      "scorching-sands",
+      "tera-blast",
+      "supercell-slam"
     ]
   }
 }

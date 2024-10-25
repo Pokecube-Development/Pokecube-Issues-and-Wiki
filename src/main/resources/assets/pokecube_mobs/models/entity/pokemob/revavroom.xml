@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ModelAnimator version="0.1">
+	<model name="">
+	<phase name="global" scale="0.4"/>
+	<customTex default="revavroom">
+	<part name="Eye" tex="revavroom_eye"/>
+	<animation diffs="0,0.5" part="Eye" trigger="random:0.005:3"/>
+	</customTex>
+	<material name="fire" light="0.5" transluscent="false" shader="swirl_shader"/>
+	<phase type="idle">
+		<part name="body">
+			<component length="10" name="1" rotChange="-0.3,0,0," startKey="0"/>
+			<component length="10" name="2" rotChange="0.3,0,0," startKey="10"/>
+		</part>
+		<part name="leg1">
+			<component length="1" name="1" rotOffset="0,0,-5," startKey="0"/>
+		</part>
+		<part name="leg2">
+			<component length="1" name="1" rotOffset="0,0,5," startKey="0"/>
+		</part>
+		<part name="leg3">
+			<component length="1" name="1" rotOffset="0,0,5," startKey="0"/>
+		</part>
+		<part name="leg4">
+			<component length="1" name="1" rotOffset="0,0,-5," startKey="0"/>
+		</part>
+		<part name="neck">
+			<component length="10" name="1" rotChange="-2,0,0," startKey="0"/>
+			<component length="10" name="2" rotChange="2,0,0," startKey="10"/>
+		</part>
+		<part name="p">
+			<component length="10" name="1" rotChange="-3,0,0," startKey="0"/>
+			<component length="10" name="2" rotChange="-3,0,3," startKey="3"/>
+			<component length="10" name="2" rotChange="3,0,-3," startKey="6"/>
+			<component length="10" name="2" rotChange="0,0,3," startKey="10"/>
+		</part>
+	</phase>
+	<phase type="walking">
+		<part name="leg1">
+			<component length="20" name="1" rotChange="360,0,0," startKey="0"/>
+		</part>
+			<part name="leg2">
+		<component length="20" name="1" rotChange="360,0,0," startKey="0"/>
+		</part>
+		<part name="leg3">
+			<component length="30" name="1" rotChange="360,0,0," startKey="0"/>
+		</part>
+		<part name="leg4">
+		<component length="30" name="1" rotChange="360,0,0," startKey="0"/>
+		</part>
+		<part name="body">
+			<component length="10" name="1" rotChange="-1,0,0," startKey="0"/>
+			<component length="10" name="2" rotChange="1,0,0," startKey="10"/>
+		</part>
+		<part name="neck">
+			<component length="10" name="1" rotChange="-2,0,0," startKey="0"/>
+			<component length="10" name="2" rotChange="2,0,0," startKey="10"/>
+		</part>
+	</phase>
+	<phase type="floating">
+		<part name="leg1">
+			<component length="40" name="1" rotChange="360,0,0," startKey="0"/>
+		</part>
+			<part name="leg2">
+		<component length="40" name="1" rotChange="360,0,0," startKey="0"/>
+		</part>
+		<part name="leg3">
+			<component length="50" name="1" rotChange="360,0,0," startKey="0"/>
+		</part>
+		<part name="leg4">
+		<component length="50" name="1" rotChange="360,0,0," startKey="0"/>
+		</part>
+		<part name="body">
+			<component length="10" name="1" rotChange="-2,0,0," startKey="0"/>
+			<component length="10" name="2" rotChange="2,0,0," startKey="10"/>
+		</part>
+		<part name="neck">
+			<component length="10" name="1" rotChange="-3,0,0," startKey="0"/>
+			<component length="10" name="2" rotChange="3,0,0," startKey="10"/>
+		</part>
+	</phase>
+	</model>
+</ModelAnimator>
+
+

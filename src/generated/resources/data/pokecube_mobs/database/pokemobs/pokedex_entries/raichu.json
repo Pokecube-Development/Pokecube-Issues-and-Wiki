@@ -69,6 +69,12 @@
           "play-nice",
           "nuzzle"
         ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "swift"
+        ]
       }
     ],
     "misc": [
@@ -141,6 +147,7 @@
       "helping-hand",
       "brick-break",
       "knock-off",
+      "endeavor",
       "secret-power",
       "signal-beam",
       "covet",
@@ -176,7 +183,9 @@
       "brutal-swing",
       "rising-voltage",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "alluring-voice",
+      "upper-hand"
     ]
   },
   "interactions": [

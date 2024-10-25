@@ -41,6 +41,7 @@
         "L": 28,
         "moves": [
           "swords-dance",
+          "slam",
           "chip-away"
         ]
       },
@@ -48,6 +49,7 @@
         "L": 1,
         "moves": [
           "headbutt",
+          "tackle",
           "leer",
           "focus-energy",
           "pursuit"
@@ -56,7 +58,20 @@
       {
         "L": 15,
         "moves": [
-          "take-down"
+          "take-down",
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "bite"
         ]
       },
       {
@@ -72,9 +87,22 @@
         ]
       },
       {
+        "L": 29,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
         "L": 36,
         "moves": [
           "ancient-power"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "rock-smash",
+          "rock-polish"
         ]
       },
       {
@@ -90,15 +118,15 @@
         ]
       },
       {
-        "L": 10,
-        "moves": [
-          "rock-polish"
-        ]
-      },
-      {
         "L": 43,
         "moves": [
           "zen-headbutt"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "iron-head"
         ]
       },
       {
@@ -113,8 +141,13 @@
       "thunder-punch",
       "swords-dance",
       "cut",
+      "whirlwind",
+      "stomp",
       "headbutt",
+      "body-slam",
       "take-down",
+      "thrash",
+      "double-edge",
       "leer",
       "roar",
       "flamethrower",
@@ -137,6 +170,7 @@
       "substitute",
       "thief",
       "snore",
+      "curse",
       "spite",
       "protect",
       "scary-face",
@@ -155,6 +189,7 @@
       "hidden-power",
       "rain-dance",
       "sunny-day",
+      "crunch",
       "ancient-power",
       "rock-smash",
       "whirlpool",
@@ -166,7 +201,10 @@
       "endeavor",
       "secret-power",
       "rock-tomb",
+      "dragon-claw",
+      "rock-blast",
       "shock-wave",
+      "hammer-arm",
       "natural-gift",
       "payback",
       "assurance",
@@ -185,6 +223,7 @@
       "stealth-rock",
       "head-smash",
       "smack-down",
+      "heavy-slam",
       "round",
       "chip-away",
       "incinerate",
@@ -193,7 +232,13 @@
       "confide",
       "power-up-punch",
       "laser-focus",
-      "stomping-tantrum"
+      "stomping-tantrum",
+      "body-press",
+      "breaking-swipe",
+      "tera-blast",
+      "trailblaze",
+      "dragon-cheer",
+      "supercell-slam"
     ]
   },
   "loot_table": "pokecube:entities/fossil_mob"

@@ -162,6 +162,7 @@
       "sleep-talk",
       "return",
       "frustration",
+      "pain-split",
       "iron-tail",
       "hidden-power",
       "rain-dance",
@@ -178,6 +179,7 @@
       "taunt",
       "helping-hand",
       "role-play",
+      "endeavor",
       "snatch",
       "secret-power",
       "hyper-voice",
@@ -210,7 +212,8 @@
       "burning-jealousy",
       "lash-out",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/blaze_rabbit_2"

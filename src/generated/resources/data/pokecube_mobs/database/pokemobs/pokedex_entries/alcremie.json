@@ -58,15 +58,16 @@
         ]
       },
       {
-        "L": 25,
+        "L": 20,
         "moves": [
-          "attract"
+          "charm",
+          "aromatherapy"
         ]
       },
       {
-        "L": 20,
+        "L": 25,
         "moves": [
-          "aromatherapy"
+          "attract"
         ]
       },
       {
@@ -101,45 +102,60 @@
       }
     ],
     "misc": [
+      "tackle",
       "hyper-beam",
       "solar-beam",
       "psychic",
+      "recover",
       "light-screen",
       "metronome",
+      "acid-armor",
       "rest",
       "tri-attack",
       "substitute",
       "snore",
       "protect",
+      "sweet-kiss",
       "giga-drain",
       "endure",
       "charm",
       "attract",
       "sleep-talk",
       "safeguard",
+      "pain-split",
       "encore",
+      "sweet-scent",
+      "psych-up",
       "facade",
       "helping-hand",
+      "endeavor",
       "imprison",
       "fake-tears",
       "magical-leaf",
       "calm-mind",
       "fling",
+      "last-resort",
       "drain-punch",
       "energy-ball",
       "giga-impact",
       "wonder-room",
       "psyshock",
       "magic-room",
+      "entrainment",
       "round",
       "stored-power",
+      "disarming-voice",
       "draining-kiss",
       "misty-terrain",
       "play-rough",
       "mystical-fire",
+      "aromatic-mist",
       "dazzling-gleam",
+      "baby-doll-eyes",
       "decorate",
-      "misty-explosion"
+      "misty-explosion",
+      "tera-blast",
+      "alluring-voice"
     ]
   },
   "model": {

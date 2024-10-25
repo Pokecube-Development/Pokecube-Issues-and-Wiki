@@ -66,6 +66,7 @@
         "L": 7,
         "moves": [
           "water-gun",
+          "charm",
           "water-sport"
         ]
       },
@@ -114,7 +115,8 @@
       {
         "L": 53,
         "moves": [
-          "hail"
+          "hail",
+          "snowscape"
         ]
       },
       {
@@ -165,6 +167,7 @@
       "growl",
       "disable",
       "water-gun",
+      "hydro-pump",
       "surf",
       "ice-beam",
       "blizzard",
@@ -176,6 +179,7 @@
       "rage",
       "mimic",
       "double-team",
+      "haze",
       "bide",
       "lick",
       "waterfall",
@@ -189,6 +193,7 @@
       "perish-song",
       "icy-wind",
       "endure",
+      "charm",
       "swagger",
       "attract",
       "sleep-talk",
@@ -202,6 +207,7 @@
       "rain-dance",
       "whirlpool",
       "fake-out",
+      "uproar",
       "stockpile",
       "spit-up",
       "swallow",
@@ -210,7 +216,9 @@
       "helping-hand",
       "secret-power",
       "dive",
+      "weather-ball",
       "signal-beam",
+      "muddy-water",
       "icicle-spear",
       "water-sport",
       "water-pulse",
@@ -219,6 +227,7 @@
       "fling",
       "aqua-ring",
       "aqua-tail",
+      "avalanche",
       "ice-shard",
       "captivate",
       "aqua-jet",
@@ -228,7 +237,13 @@
       "drill-run",
       "belch",
       "confide",
-      "smart-strike"
+      "smart-strike",
+      "flip-turn",
+      "triple-axel",
+      "tera-blast",
+      "ice-spinner",
+      "snowscape",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/fish_1",

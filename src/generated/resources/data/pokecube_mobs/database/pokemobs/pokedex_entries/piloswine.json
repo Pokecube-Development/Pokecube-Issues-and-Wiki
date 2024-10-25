@@ -72,15 +72,16 @@
         ]
       },
       {
-        "L": 37,
+        "L": 52,
         "moves": [
-          "mist"
+          "double-edge",
+          "blizzard"
         ]
       },
       {
-        "L": 52,
+        "L": 37,
         "moves": [
-          "blizzard"
+          "mist"
         ]
       },
       {
@@ -98,7 +99,8 @@
       {
         "L": 11,
         "moves": [
-          "mud-slap"
+          "mud-slap",
+          "bulldoze"
         ]
       },
       {
@@ -128,7 +130,14 @@
       {
         "L": 18,
         "moves": [
-          "mud-bomb"
+          "mud-bomb",
+          "icicle-crash"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "high-horsepower"
         ]
       }
     ],
@@ -213,6 +222,7 @@
       "freeze-dry",
       "confide",
       "high-horsepower",
+      "throat-chop",
       "stomping-tantrum",
       "tera-blast",
       "snowscape",

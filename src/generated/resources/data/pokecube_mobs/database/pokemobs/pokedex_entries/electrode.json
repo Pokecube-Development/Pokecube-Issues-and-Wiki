@@ -132,6 +132,7 @@
       "headbutt",
       "tackle",
       "take-down",
+      "double-edge",
       "sonic-boom",
       "hyper-beam",
       "thunder-shock",
@@ -178,6 +179,7 @@
       "helping-hand",
       "magic-coat",
       "secret-power",
+      "metal-sound",
       "signal-beam",
       "shock-wave",
       "gyro-ball",
@@ -192,12 +194,14 @@
       "foul-play",
       "round",
       "volt-switch",
+      "electroweb",
       "wild-charge",
       "confide",
       "eerie-impulse",
       "magnetic-flux",
       "electric-terrain",
-      "tera-blast"
+      "tera-blast",
+      "supercell-slam"
     ]
   },
   "loot_table": "pokecube:entities/redstone_creeper_2"

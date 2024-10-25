@@ -132,6 +132,7 @@
       "charge",
       "hyper-voice",
       "weather-ball",
+      "muddy-water",
       "mud-shot",
       "water-pulse",
       "giga-impact",
@@ -139,11 +140,13 @@
       "electro-ball",
       "acid-spray",
       "volt-switch",
+      "electroweb",
       "wild-charge",
       "eerie-impulse",
       "electric-terrain",
       "tera-blast",
-      "chilling-water"
+      "chilling-water",
+      "supercell-slam"
     ]
   }
 }

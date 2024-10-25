@@ -119,6 +119,7 @@
       "swords-dance",
       "body-slam",
       "take-down",
+      "double-edge",
       "roar",
       "hyper-beam",
       "low-kick",
@@ -174,7 +175,8 @@
       "stomping-tantrum",
       "body-press",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "hard-press"
     ]
   }
 }

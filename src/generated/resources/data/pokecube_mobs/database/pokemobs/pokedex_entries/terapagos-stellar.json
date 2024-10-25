@@ -1,0 +1,155 @@
+{
+  "name": "terapagos-stellar",
+  "id": 1024,
+  "stock": true,
+  "is_extra_form": true,
+  "base_experience": null,
+  "size": {
+    "height": 1.7
+  },
+  "mass": 77.0,
+  "is_default": false,
+  "capture_rate": 255,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 95,
+    "attack": 95,
+    "defense": 110,
+    "special_attack": 105,
+    "special_defense": 110,
+    "speed": 85
+  },
+  "evs": {
+    "hp": 3
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "teraform-zero"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 20,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "withdraw",
+          "tri-attack",
+          "rapid-spin"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 90,
+        "moves": [
+          "gyro-ball"
+        ]
+      },
+      {
+        "L": 80,
+        "moves": [
+          "rock-polish"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "earth-power"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "heavy-slam"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "tera-starstorm"
+        ]
+      }
+    ],
+    "misc": [
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "roar",
+      "flamethrower",
+      "surf",
+      "ice-beam",
+      "hyper-beam",
+      "solar-beam",
+      "thunderbolt",
+      "thunder",
+      "earthquake",
+      "toxic",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "protect",
+      "endure",
+      "sleep-talk",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "facade",
+      "weather-ball",
+      "calm-mind",
+      "water-pulse",
+      "gravity",
+      "gyro-ball",
+      "flare-blitz",
+      "aura-sphere",
+      "dark-pulse",
+      "bug-buzz",
+      "dragon-pulse",
+      "power-gem",
+      "energy-ball",
+      "earth-power",
+      "giga-impact",
+      "zen-headbutt",
+      "flash-cannon",
+      "iron-head",
+      "stone-edge",
+      "stealth-rock",
+      "heavy-slam",
+      "stored-power",
+      "wild-charge",
+      "heat-crash",
+      "dazzling-gleam",
+      "body-press",
+      "meteor-beam",
+      "scorching-sands",
+      "ice-spinner",
+      "supercell-slam"
+    ]
+  }
+}

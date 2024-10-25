@@ -55,6 +55,12 @@
         ]
       },
       {
+        "L": 46,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
         "L": 16,
         "moves": [
           "bite"
@@ -75,7 +81,8 @@
       {
         "L": 9,
         "moves": [
-          "amnesia"
+          "amnesia",
+          "rest"
         ]
       },
       {
@@ -128,9 +135,33 @@
         ]
       },
       {
+        "L": 57,
+        "moves": [
+          "giga-impact"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
         "L": 17,
         "moves": [
           "chip-away"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "bulldoze"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "high-horsepower"
         ]
       }
     ],

@@ -106,7 +106,7 @@
         ]
       },
       {
-        "L": 56,
+        "L": 49,
         "moves": [
           "endeavor"
         ]
@@ -149,9 +149,11 @@
       "swords-dance",
       "cut",
       "slam",
+      "double-kick",
       "mega-kick",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "leer",
       "roar",
@@ -162,6 +164,7 @@
       "strength",
       "absorb",
       "mega-drain",
+      "leech-seed",
       "solar-beam",
       "earthquake",
       "dig",
@@ -175,7 +178,9 @@
       "flash",
       "rest",
       "rock-slide",
+      "slash",
       "substitute",
+      "thief",
       "snore",
       "protect",
       "mud-slap",
@@ -192,6 +197,7 @@
       "frustration",
       "safeguard",
       "dynamic-punch",
+      "dragon-breath",
       "pursuit",
       "iron-tail",
       "synthesis",
@@ -202,6 +208,7 @@
       "facade",
       "focus-punch",
       "nature-power",
+      "helping-hand",
       "brick-break",
       "endeavor",
       "secret-power",
@@ -222,6 +229,7 @@
       "x-scissor",
       "dragon-pulse",
       "drain-punch",
+      "vacuum-wave",
       "focus-blast",
       "energy-ball",
       "giga-impact",
@@ -237,6 +245,7 @@
       "acrobatics",
       "grass-pledge",
       "bulldoze",
+      "dragon-tail",
       "work-up",
       "dual-chop",
       "grassy-terrain",
@@ -249,7 +258,12 @@
       "brutal-swing",
       "breaking-swipe",
       "scale-shot",
-      "grassy-glide"
+      "grassy-glide",
+      "tera-blast",
+      "shed-tail",
+      "trailblaze",
+      "dragon-cheer",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/wheat_seeds_3"

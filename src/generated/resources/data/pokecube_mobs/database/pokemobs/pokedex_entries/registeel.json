@@ -114,6 +114,7 @@
       "mega-kick",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "hyper-beam",
       "counter",
@@ -161,6 +162,7 @@
       "brick-break",
       "secret-power",
       "rock-tomb",
+      "metal-sound",
       "sand-tomb",
       "aerial-ace",
       "iron-defense",
@@ -190,7 +192,10 @@
       "body-press",
       "steel-beam",
       "steel-roller",
-      "meteor-beam"
+      "meteor-beam",
+      "tera-blast",
+      "ice-spinner",
+      "hard-press"
     ]
   },
   "loot_table": "pokecube:entities/iron_2"

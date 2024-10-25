@@ -156,6 +156,7 @@
       "double-edge",
       "bite",
       "growl",
+      "roar",
       "supersonic",
       "water-gun",
       "hydro-pump",
@@ -212,6 +213,8 @@
       "mud-sport",
       "ice-ball",
       "rock-tomb",
+      "muddy-water",
+      "mud-shot",
       "water-pulse",
       "natural-gift",
       "aqua-tail",
@@ -226,7 +229,10 @@
       "scald",
       "water-pledge",
       "work-up",
-      "confide"
+      "confide",
+      "liquidation",
+      "tera-blast",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/fish_1"

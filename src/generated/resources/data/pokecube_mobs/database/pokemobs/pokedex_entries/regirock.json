@@ -112,6 +112,7 @@
       "mega-kick",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "hyper-beam",
       "counter",
@@ -168,6 +169,7 @@
       "natural-gift",
       "fling",
       "rock-polish",
+      "power-gem",
       "drain-punch",
       "focus-blast",
       "earth-power",
@@ -186,7 +188,9 @@
       "power-up-punch",
       "stomping-tantrum",
       "body-press",
-      "meteor-beam"
+      "meteor-beam",
+      "tera-blast",
+      "hard-press"
     ]
   },
   "loot_table": "pokecube:entities/stone_2"

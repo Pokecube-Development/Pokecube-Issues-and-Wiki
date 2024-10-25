@@ -224,7 +224,8 @@
       "liquidation",
       "lash-out",
       "tera-blast",
-      "chilling-water"
+      "chilling-water",
+      "hard-press"
     ]
   },
   "loot_table": "pokecube:entities/shear_fish"

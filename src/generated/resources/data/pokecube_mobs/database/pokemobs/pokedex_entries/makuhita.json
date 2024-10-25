@@ -234,8 +234,10 @@
       "power-up-punch",
       "stomping-tantrum",
       "body-press",
+      "coaching",
       "tera-blast",
-      "chilling-water"
+      "chilling-water",
+      "upper-hand"
     ]
   },
   "loot_table": "minecraft:entities/cow_1"

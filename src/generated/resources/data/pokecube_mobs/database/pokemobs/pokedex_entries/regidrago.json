@@ -155,7 +155,8 @@
       "breaking-swipe",
       "scale-shot",
       "dragon-energy",
-      "tera-blast"
+      "tera-blast",
+      "dragon-cheer"
     ]
   },
   "loot_table": "pokecube:entities/enderpearls_1"

@@ -1,7 +1,7 @@
 [
   {
     "name": "maushold",
-    "user": "tandemaus",
+    "user": "tandemaus-family-of-four",
     "condition": {
       "key": "level",
       "level": 25
@@ -9,7 +9,7 @@
   },
   {
     "name": "maushold",
-    "user": "tandemaus",
+    "user": "tandemaus-family-of-four",
     "condition": [
       {
         "key": "level",

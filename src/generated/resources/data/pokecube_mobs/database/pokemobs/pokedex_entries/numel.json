@@ -182,6 +182,7 @@
       "nature-power",
       "helping-hand",
       "yawn",
+      "endeavor",
       "secret-power",
       "overheat",
       "rock-tomb",
@@ -212,8 +213,10 @@
       "stomping-tantrum",
       "body-press",
       "lash-out",
+      "scorching-sands",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "temper-flare"
     ]
   },
   "interactions": [

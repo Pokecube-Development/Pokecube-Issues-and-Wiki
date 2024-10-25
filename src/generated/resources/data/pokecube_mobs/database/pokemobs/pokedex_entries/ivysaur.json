@@ -107,6 +107,12 @@
         "moves": [
           "worry-seed"
         ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "power-whip"
+        ]
       }
     ],
     "misc": [
@@ -120,6 +126,7 @@
       "take-down",
       "double-edge",
       "growl",
+      "roar",
       "strength",
       "mega-drain",
       "leech-seed",
@@ -128,6 +135,7 @@
       "solar-beam",
       "poison-powder",
       "sleep-powder",
+      "petal-dance",
       "string-shot",
       "toxic",
       "rage",
@@ -166,6 +174,7 @@
       "facade",
       "nature-power",
       "helping-hand",
+      "ingrain",
       "knock-off",
       "secret-power",
       "weather-ball",
@@ -180,13 +189,16 @@
       "captivate",
       "grass-knot",
       "venoshock",
+      "acid-spray",
       "round",
       "echoed-voice",
       "grass-pledge",
       "work-up",
       "grassy-terrain",
       "confide",
-      "grassy-glide"
+      "grassy-glide",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/wheat_seeds_2"

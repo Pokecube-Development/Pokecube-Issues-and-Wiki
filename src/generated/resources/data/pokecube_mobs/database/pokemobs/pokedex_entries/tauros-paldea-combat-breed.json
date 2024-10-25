@@ -121,6 +121,7 @@
     "misc": [
       "body-slam",
       "take-down",
+      "double-edge",
       "surf",
       "hyper-beam",
       "earthquake",
@@ -152,6 +153,7 @@
       "wild-charge",
       "drill-run",
       "high-horsepower",
+      "throat-chop",
       "smart-strike",
       "stomping-tantrum",
       "body-press",

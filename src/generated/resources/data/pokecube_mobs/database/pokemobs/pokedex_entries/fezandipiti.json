@@ -2,7 +2,7 @@
   "name": "fezandipiti",
   "id": 1016,
   "stock": true,
-  "base_experience": null,
+  "base_experience": 278,
   "size": {
     "height": 1.4
   },
@@ -121,6 +121,7 @@
       "endure",
       "charm",
       "sleep-talk",
+      "psych-up",
       "shadow-ball",
       "uproar",
       "heat-wave",
@@ -150,7 +151,8 @@
       "dazzling-gleam",
       "lash-out",
       "dual-wingbeat",
-      "tera-blast"
+      "tera-blast",
+      "alluring-voice"
     ]
   }
 }

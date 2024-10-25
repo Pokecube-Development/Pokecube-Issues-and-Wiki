@@ -65,16 +65,17 @@
         ]
       },
       {
+        "L": 52,
+        "moves": [
+          "double-edge",
+          "blizzard"
+        ]
+      },
+      {
         "L": 37,
         "moves": [
           "mist",
           "amnesia"
-        ]
-      },
-      {
-        "L": 52,
-        "moves": [
-          "blizzard"
         ]
       },
       {
@@ -86,7 +87,8 @@
       {
         "L": 11,
         "moves": [
-          "mud-slap"
+          "mud-slap",
+          "bulldoze"
         ]
       },
       {
@@ -122,13 +124,20 @@
       {
         "L": 18,
         "moves": [
-          "mud-bomb"
+          "mud-bomb",
+          "icicle-crash"
         ]
       },
       {
         "L": 33,
         "moves": [
           "double-hit"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "high-horsepower"
         ]
       }
     ],
@@ -217,11 +226,13 @@
       "freeze-dry",
       "confide",
       "high-horsepower",
+      "throat-chop",
       "stomping-tantrum",
       "body-press",
       "tera-blast",
       "snowscape",
-      "trailblaze"
+      "trailblaze",
+      "hard-press"
     ]
   },
   "interactions": [

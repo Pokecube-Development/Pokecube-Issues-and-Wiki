@@ -101,6 +101,12 @@
         ]
       },
       {
+        "L": 6,
+        "moves": [
+          "bubble"
+        ]
+      },
+      {
         "L": 32,
         "moves": [
           "acid-armor"
@@ -179,6 +185,7 @@
       "reflect",
       "bide",
       "waterfall",
+      "swift",
       "skull-bash",
       "constrict",
       "bubble",
@@ -212,6 +219,7 @@
       "dive",
       "tickle",
       "muddy-water",
+      "mud-shot",
       "water-pulse",
       "brine",
       "natural-gift",
@@ -222,6 +230,7 @@
       "aqua-ring",
       "poison-jab",
       "cross-poison",
+      "gunk-shot",
       "captivate",
       "venoshock",
       "sludge-wave",
@@ -232,7 +241,13 @@
       "confide",
       "dazzling-gleam",
       "infestation",
-      "brutal-swing"
+      "throat-chop",
+      "brutal-swing",
+      "liquidation",
+      "flip-turn",
+      "tera-blast",
+      "pounce",
+      "chilling-water"
     ]
   },
   "interactions": [

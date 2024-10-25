@@ -105,7 +105,9 @@
       "swords-dance",
       "cut",
       "double-kick",
+      "body-slam",
       "take-down",
+      "double-edge",
       "leer",
       "roar",
       "hyper-beam",
@@ -148,6 +150,7 @@
       "calm-mind",
       "rock-blast",
       "close-combat",
+      "aura-sphere",
       "rock-polish",
       "poison-jab",
       "air-slash",
@@ -167,10 +170,13 @@
       "work-up",
       "sacred-sword",
       "confide",
+      "high-horsepower",
       "laser-focus",
       "smart-strike",
       "stomping-tantrum",
-      "coaching"
+      "coaching",
+      "tera-blast",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/generic_legend"

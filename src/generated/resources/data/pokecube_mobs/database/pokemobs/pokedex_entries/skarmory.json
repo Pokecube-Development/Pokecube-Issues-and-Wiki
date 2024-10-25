@@ -126,6 +126,12 @@
         ]
       },
       {
+        "L": 32,
+        "moves": [
+          "payback"
+        ]
+      },
+      {
         "L": 53,
         "moves": [
           "night-slash"
@@ -158,9 +164,11 @@
       "fly",
       "sand-attack",
       "fury-attack",
+      "take-down",
       "double-edge",
       "leer",
       "roar",
+      "hyper-beam",
       "peck",
       "drill-peck",
       "counter",
@@ -178,6 +186,7 @@
       "thief",
       "snore",
       "curse",
+      "reversal",
       "protect",
       "mud-slap",
       "spikes",
@@ -221,6 +230,7 @@
       "air-slash",
       "x-scissor",
       "brave-bird",
+      "giga-impact",
       "flash-cannon",
       "defog",
       "iron-head",
@@ -230,10 +240,13 @@
       "autotomize",
       "round",
       "sky-drop",
+      "drill-run",
+      "hurricane",
       "confide",
       "body-press",
       "steel-beam",
-      "dual-wingbeat"
+      "dual-wingbeat",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/iron_chicken_1"

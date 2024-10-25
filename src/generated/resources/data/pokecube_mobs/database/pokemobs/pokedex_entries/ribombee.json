@@ -188,10 +188,13 @@
       "pollen-puff",
       "lunge",
       "speed-swap",
+      "skitter-smack",
       "dual-wingbeat",
       "tera-blast",
       "pounce",
-      "trailblaze"
+      "trailblaze",
+      "alluring-voice",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/glowstone_dust"

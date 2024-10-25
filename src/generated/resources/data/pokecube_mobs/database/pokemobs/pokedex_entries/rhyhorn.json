@@ -74,6 +74,12 @@
         ]
       },
       {
+        "L": 43,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
         "L": 50,
         "moves": [
           "leer"
@@ -92,9 +98,10 @@
         ]
       },
       {
-        "L": 43,
+        "L": 25,
         "moves": [
-          "rock-slide"
+          "rock-slide",
+          "chip-away"
         ]
       },
       {
@@ -110,9 +117,21 @@
         ]
       },
       {
+        "L": 11,
+        "moves": [
+          "rock-smash"
+        ]
+      },
+      {
         "L": 29,
         "moves": [
           "rock-blast"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "giga-impact"
         ]
       },
       {
@@ -122,15 +141,15 @@
         ]
       },
       {
-        "L": 13,
+        "L": 18,
         "moves": [
-          "smack-down"
+          "stealth-rock"
         ]
       },
       {
-        "L": 25,
+        "L": 13,
         "moves": [
-          "chip-away"
+          "smack-down"
         ]
       },
       {
@@ -143,6 +162,12 @@
         "L": 33,
         "moves": [
           "drill-run"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "high-horsepower"
         ]
       }
     ],
@@ -237,6 +262,7 @@
       "stealth-rock",
       "guard-split",
       "smack-down",
+      "heavy-slam",
       "round",
       "chip-away",
       "incinerate",
@@ -247,7 +273,10 @@
       "high-horsepower",
       "smart-strike",
       "stomping-tantrum",
-      "scorching-sands"
+      "body-press",
+      "scorching-sands",
+      "tera-blast",
+      "supercell-slam"
     ]
   },
   "loot_table": "pokecube:entities/stone_1"

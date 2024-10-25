@@ -43,8 +43,15 @@
           "pound",
           "gust",
           "water-gun",
+          "bubble",
           "attract",
           "soak"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "hydro-pump"
         ]
       },
       {
@@ -92,6 +99,12 @@
         ]
       },
       {
+        "L": 34,
+        "moves": [
+          "roost"
+        ]
+      },
+      {
         "L": 48,
         "moves": [
           "u-turn"
@@ -101,6 +114,12 @@
         "L": 35,
         "moves": [
           "aqua-ring"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "air-slash"
         ]
       }
     ],
@@ -172,7 +191,8 @@
       "dazzling-gleam",
       "flip-turn",
       "tera-blast",
-      "chilling-water"
+      "chilling-water",
+      "alluring-voice"
     ]
   },
   "female_model": {

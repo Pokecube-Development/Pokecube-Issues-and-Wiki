@@ -73,6 +73,12 @@
         ]
       },
       {
+        "L": 52,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
         "L": 53,
         "moves": [
           "dream-eater"
@@ -81,7 +87,8 @@
       {
         "L": 40,
         "moves": [
-          "future-sight"
+          "future-sight",
+          "aura-sphere"
         ]
       },
       {
@@ -252,7 +259,9 @@
       "expanding-force",
       "misty-explosion",
       "triple-axel",
-      "tera-blast"
+      "tera-blast",
+      "alluring-voice",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/enderpearls_3"

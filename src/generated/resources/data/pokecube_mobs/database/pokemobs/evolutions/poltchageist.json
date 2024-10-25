@@ -1,0 +1,36 @@
+[
+  {
+    "name": "sinistcha",
+    "user": "poltchageist-counterfeit",
+    "condition": {
+      "key": "item",
+      "item": {
+        "item": "pokecube:crackedpot"
+      }
+    },
+    "evoMoves": "matcha-gotcha",
+    "model": {
+      "key": "sinistcha-unremarkable",
+      "tex": "sinistcha",
+      "model": "sinistcha-unremarkable",
+      "anim": "sinistcha"
+    }
+  },
+  {
+    "name": "sinistcha",
+    "user": "poltchageist-artisan",
+    "condition": {
+      "key": "item",
+      "item": {
+        "item": "pokecube:chippedpot"
+      }
+    },
+    "evoMoves": "matcha-gotcha",
+    "model": {
+      "key": "sinistcha-masterpiece",
+      "tex": "sinistcha",
+      "model": "sinistcha-masterpiece",
+      "anim": "sinistcha"
+    }
+  }
+]

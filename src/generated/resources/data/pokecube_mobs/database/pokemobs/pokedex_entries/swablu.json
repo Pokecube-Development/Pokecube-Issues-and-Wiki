@@ -187,6 +187,7 @@
       "heat-wave",
       "facade",
       "helping-hand",
+      "endeavor",
       "refresh",
       "secret-power",
       "feather-dance",
@@ -217,7 +218,8 @@
       "dazzling-gleam",
       "dual-wingbeat",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "dragon-cheer"
     ]
   },
   "loot_table": "pokecube:entities/wool_1"

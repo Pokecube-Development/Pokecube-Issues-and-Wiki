@@ -131,6 +131,7 @@
       "mega-kick",
       "body-slam",
       "take-down",
+      "double-edge",
       "leer",
       "hyper-beam",
       "low-kick",
@@ -148,6 +149,7 @@
       "substitute",
       "thief",
       "snore",
+      "curse",
       "reversal",
       "protect",
       "mach-punch",
@@ -203,7 +205,9 @@
       "brutal-swing",
       "stomping-tantrum",
       "coaching",
-      "tera-blast"
+      "tera-blast",
+      "hard-press",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/rabbit_1"

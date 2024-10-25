@@ -54,6 +54,13 @@
         ]
       },
       {
+        "L": 42,
+        "moves": [
+          "focus-energy",
+          "laser-focus"
+        ]
+      },
+      {
         "L": 6,
         "moves": [
           "rock-smash"
@@ -102,12 +109,6 @@
         ]
       },
       {
-        "L": 42,
-        "moves": [
-          "laser-focus"
-        ]
-      },
-      {
         "L": 24,
         "moves": [
           "breaking-swipe"
@@ -117,6 +118,10 @@
     "misc": [
       "swords-dance",
       "body-slam",
+      "take-down",
+      "double-edge",
+      "leer",
+      "roar",
       "hyper-beam",
       "solar-beam",
       "thunderbolt",
@@ -136,13 +141,17 @@
       "endure",
       "attract",
       "sleep-talk",
+      "metal-claw",
       "mirror-coat",
+      "rock-smash",
       "facade",
       "brick-break",
       "rock-tomb",
+      "metal-sound",
       "iron-defense",
       "dragon-claw",
       "gyro-ball",
+      "metal-burst",
       "dark-pulse",
       "night-slash",
       "dragon-pulse",
@@ -152,15 +161,19 @@
       "iron-head",
       "stone-edge",
       "stealth-rock",
+      "hone-claws",
       "heavy-slam",
       "foul-play",
       "round",
+      "dragon-tail",
       "snarl",
       "stomping-tantrum",
       "body-press",
       "breaking-swipe",
       "steel-beam",
-      "steel-roller"
+      "steel-roller",
+      "tera-blast",
+      "dragon-cheer"
     ]
   },
   "loot_table": "pokecube:entities/iron_1"

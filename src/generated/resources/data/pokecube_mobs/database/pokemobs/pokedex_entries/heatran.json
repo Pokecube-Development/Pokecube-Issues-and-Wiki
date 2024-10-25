@@ -46,6 +46,7 @@
       {
         "L": 1,
         "moves": [
+          "ember",
           "fire-spin",
           "ancient-power",
           "heat-wave",
@@ -63,7 +64,8 @@
       {
         "L": 6,
         "moves": [
-          "metal-claw"
+          "metal-claw",
+          "iron-defense"
         ]
       },
       {
@@ -181,7 +183,8 @@
       "burning-jealousy",
       "scorching-sands",
       "tera-blast",
-      "pounce"
+      "pounce",
+      "hard-press"
     ]
   },
   "interactions": [

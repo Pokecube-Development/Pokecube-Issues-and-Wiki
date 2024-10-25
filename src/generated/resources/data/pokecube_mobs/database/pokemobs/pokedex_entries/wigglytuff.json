@@ -218,7 +218,9 @@
       "tera-blast",
       "ice-spinner",
       "trailblaze",
-      "chilling-water"
+      "chilling-water",
+      "alluring-voice",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/moonstone"

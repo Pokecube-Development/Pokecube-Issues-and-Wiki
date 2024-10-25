@@ -109,6 +109,18 @@
         "moves": [
           "sand-tomb"
         ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "mud-bomb"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "high-horsepower"
+        ]
       }
     ],
     "misc": [
@@ -132,6 +144,7 @@
       "rock-slide",
       "substitute",
       "snore",
+      "curse",
       "protect",
       "mud-slap",
       "sandstorm",
@@ -178,7 +191,8 @@
       "stomping-tantrum",
       "body-press",
       "scorching-sands",
-      "tera-blast"
+      "tera-blast",
+      "hard-press"
     ]
   },
   "interactions": [

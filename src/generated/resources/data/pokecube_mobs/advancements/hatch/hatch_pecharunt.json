@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.pecharunt"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.pecharunt"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_pecharunt": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "pecharunt"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

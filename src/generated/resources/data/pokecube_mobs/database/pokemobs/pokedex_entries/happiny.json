@@ -42,14 +42,27 @@
         "L": 1,
         "moves": [
           "pound",
+          "tackle",
           "minimize",
           "charm"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "double-edge"
         ]
       },
       {
         "L": 4,
         "moves": [
           "defense-curl"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "soft-boiled"
         ]
       },
       {
@@ -72,9 +85,33 @@
         ]
       },
       {
+        "L": 25,
+        "moves": [
+          "calm-mind"
+        ]
+      },
+      {
         "L": 5,
         "moves": [
           "copycat"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "draining-kiss"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "fairy-wind"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "baby-doll-eyes"
         ]
       }
     ],

@@ -92,6 +92,13 @@
         ]
       },
       {
+        "L": 16,
+        "moves": [
+          "magical-leaf",
+          "leaf-tornado"
+        ]
+      },
+      {
         "L": 28,
         "moves": [
           "leaf-blade"
@@ -120,12 +127,6 @@
         "moves": [
           "coil"
         ]
-      },
-      {
-        "L": 16,
-        "moves": [
-          "leaf-tornado"
-        ]
       }
     ],
     "misc": [
@@ -136,6 +137,8 @@
       "vine-whip",
       "tackle",
       "wrap",
+      "take-down",
+      "double-edge",
       "leer",
       "mega-drain",
       "leech-seed",
@@ -145,6 +148,7 @@
       "double-team",
       "light-screen",
       "reflect",
+      "swift",
       "glare",
       "flash",
       "rest",
@@ -152,6 +156,7 @@
       "snore",
       "protect",
       "giga-drain",
+      "endure",
       "swagger",
       "mean-look",
       "attract",
@@ -171,9 +176,11 @@
       "facade",
       "nature-power",
       "taunt",
+      "helping-hand",
       "knock-off",
       "snatch",
       "secret-power",
+      "bullet-seed",
       "aerial-ace",
       "magical-leaf",
       "calm-mind",
@@ -194,8 +201,12 @@
       "grass-pledge",
       "work-up",
       "leaf-tornado",
+      "petal-blizzard",
       "grassy-terrain",
-      "confide"
+      "confide",
+      "grassy-glide",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/wheat_seeds_1"

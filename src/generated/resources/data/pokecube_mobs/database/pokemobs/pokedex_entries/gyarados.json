@@ -59,7 +59,8 @@
       {
         "L": 0,
         "moves": [
-          "bite"
+          "bite",
+          "water-pulse"
         ]
       },
       {
@@ -78,6 +79,12 @@
         "L": 36,
         "moves": [
           "dragon-rage"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "focus-energy"
         ]
       },
       {
@@ -221,6 +228,7 @@
       "facade",
       "taunt",
       "helping-hand",
+      "endeavor",
       "secret-power",
       "dive",
       "muddy-water",
@@ -251,7 +259,9 @@
       "scale-shot",
       "lash-out",
       "tera-blast",
-      "chilling-water"
+      "chilling-water",
+      "dragon-cheer",
+      "temper-flare"
     ]
   },
   "pose_shapes": {

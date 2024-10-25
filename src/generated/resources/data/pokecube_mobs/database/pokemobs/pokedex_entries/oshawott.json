@@ -74,6 +74,14 @@
         ]
       },
       {
+        "L": 25,
+        "moves": [
+          "slash",
+          "revenge",
+          "aerial-ace"
+        ]
+      },
+      {
         "L": 19,
         "moves": [
           "fury-cutter"
@@ -83,13 +91,6 @@
         "L": 31,
         "moves": [
           "encore"
-        ]
-      },
-      {
-        "L": 25,
-        "moves": [
-          "revenge",
-          "aerial-ace"
         ]
       },
       {
@@ -168,6 +169,7 @@
       "hidden-power",
       "rain-dance",
       "rock-smash",
+      "whirlpool",
       "hail",
       "facade",
       "taunt",

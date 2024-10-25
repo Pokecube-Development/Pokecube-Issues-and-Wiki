@@ -145,6 +145,7 @@
       "spark",
       "attract",
       "sleep-talk",
+      "pain-split",
       "rain-dance",
       "memento",
       "facade",
@@ -165,6 +166,7 @@
       "round",
       "scald",
       "hex",
+      "electroweb",
       "wild-charge",
       "venom-drench",
       "electric-terrain",
@@ -173,7 +175,8 @@
       "zing-zap",
       "rising-voltage",
       "tera-blast",
-      "chilling-water"
+      "chilling-water",
+      "supercell-slam"
     ]
   },
   "loot_table": "pokecube:entities/fish_1"

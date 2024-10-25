@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase name="global" scale="0.6"/>
+  <phase name="global" scale="0.27"/>
   <metadata head="neck:head" headCap="-20,20" headCap1="-10,10"/>
   <phase duration="10" leftFront="leg4" leftHind="leg2" name="quadWalk" rightFront="leg3" rightHind="leg1"/>
+  <phase female="f" male="m" name="textures"/>
   <customTex default="numel">
-   <part name="Head" tex="numelhead"/>
-   <animation diffs="0,0.47" part="Head" trigger="random:0.005:3"/>
+   <part name="Eye" tex="numel_eye"/>
+   <animation diffs="0,0.5" part="Eye" trigger="random:0.005:3"/>
   </customTex>
+  <phase type="idle">
+   <part name="neck">
+    <component length="10" name="1" rotChange="2,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-2,0,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="body">
+    <component length="10" name="1" posChange="0,1,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,-2,0" startKey="5"/>
+    <component length="10" name="3" posChange="0,1,0" startKey="10"/>
+   </part>
+   <part name="neck">
+    <component length="10" name="1" rotChange="-4,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="4,0,0" startKey="10"/>
+   </part>
+  </phase>
  </model>
 </ModelAnimator>

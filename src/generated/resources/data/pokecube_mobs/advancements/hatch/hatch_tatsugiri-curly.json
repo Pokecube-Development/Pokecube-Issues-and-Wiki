@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.tatsugiri-curly"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tatsugiri-curly"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_tatsugiri-curly": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "tatsugiri-curly"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

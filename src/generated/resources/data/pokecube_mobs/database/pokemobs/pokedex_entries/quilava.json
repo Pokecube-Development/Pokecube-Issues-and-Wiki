@@ -128,6 +128,7 @@
     ],
     "misc": [
       "cut",
+      "double-kick",
       "headbutt",
       "tackle",
       "body-slam",
@@ -175,10 +176,13 @@
       "focus-punch",
       "nature-power",
       "brick-break",
+      "endeavor",
       "eruption",
       "secret-power",
       "overheat",
+      "extrasensory",
       "aerial-ace",
+      "howl",
       "covet",
       "natural-gift",
       "flare-blitz",
@@ -198,7 +202,8 @@
       "confide",
       "burn-up",
       "burning-jealousy",
-      "tera-blast"
+      "tera-blast",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/coal_2"

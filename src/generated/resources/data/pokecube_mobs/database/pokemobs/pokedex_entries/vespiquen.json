@@ -53,9 +53,21 @@
         ]
       },
       {
+        "L": 11,
+        "moves": [
+          "pin-missile"
+        ]
+      },
+      {
         "L": 33,
         "moves": [
           "toxic"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "recover"
         ]
       },
       {
@@ -96,9 +108,21 @@
         ]
       },
       {
+        "L": 18,
+        "moves": [
+          "silver-wind"
+        ]
+      },
+      {
         "L": 37,
         "moves": [
           "air-slash"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "bug-buzz"
         ]
       },
       {
@@ -227,9 +251,11 @@
       "laser-focus",
       "pollen-puff",
       "lunge",
+      "skitter-smack",
       "dual-wingbeat",
       "tera-blast",
-      "pounce"
+      "pounce",
+      "psychic-noise"
     ]
   },
   "interactions": [

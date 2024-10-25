@@ -70,7 +70,9 @@
       {
         "L": 25,
         "moves": [
-          "pin-missile"
+          "pin-missile",
+          "thunderbolt",
+          "mimic"
         ]
       },
       {
@@ -101,6 +103,12 @@
         "L": 13,
         "moves": [
           "quick-attack"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "calm-mind"
         ]
       },
       {
@@ -193,6 +201,7 @@
       "hyper-voice",
       "weather-ball",
       "fake-tears",
+      "metal-sound",
       "signal-beam",
       "covet",
       "calm-mind",
@@ -213,6 +222,7 @@
       "retaliate",
       "volt-switch",
       "work-up",
+      "electroweb",
       "wild-charge",
       "confide",
       "eerie-impulse",
@@ -221,7 +231,8 @@
       "laser-focus",
       "rising-voltage",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "alluring-voice"
     ]
   },
   "loot_table": "pokecube:entities/glow_rabbit_1"

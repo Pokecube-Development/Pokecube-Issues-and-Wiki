@@ -135,6 +135,7 @@
       "tackle",
       "body-slam",
       "take-down",
+      "double-edge",
       "leer",
       "bite",
       "roar",
@@ -211,7 +212,8 @@
       "stomping-tantrum",
       "lash-out",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "upper-hand"
     ]
   },
   "sound": "lycanroc-midnight",

@@ -43,7 +43,8 @@
         "moves": [
           "tackle",
           "take-down",
-          "magnet-rise"
+          "magnet-rise",
+          "hone-claws"
         ]
       },
       {
@@ -170,8 +171,10 @@
       "sunny-day",
       "psych-up",
       "shadow-ball",
+      "future-sight",
       "rock-smash",
       "facade",
+      "focus-punch",
       "trick",
       "brick-break",
       "secret-power",
@@ -187,6 +190,7 @@
       "natural-gift",
       "magnet-rise",
       "rock-polish",
+      "giga-impact",
       "bullet-punch",
       "psycho-cut",
       "zen-headbutt",
@@ -197,6 +201,7 @@
       "hone-claws",
       "psyshock",
       "telekinesis",
+      "heavy-slam",
       "round",
       "ally-switch",
       "bulldoze",
@@ -205,7 +210,11 @@
       "steel-beam",
       "expanding-force",
       "steel-roller",
-      "meteor-beam"
+      "meteor-beam",
+      "tera-blast",
+      "trailblaze",
+      "hard-press",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/iron_pearls_2"

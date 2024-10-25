@@ -147,6 +147,7 @@
       "headbutt",
       "body-slam",
       "double-edge",
+      "psybeam",
       "hyper-beam",
       "thunderbolt",
       "thunder-wave",
@@ -156,6 +157,7 @@
       "psychic",
       "mimic",
       "double-team",
+      "confuse-ray",
       "defense-curl",
       "light-screen",
       "reflect",
@@ -201,6 +203,8 @@
       "refresh",
       "secret-power",
       "meteor-mash",
+      "fake-tears",
+      "metal-sound",
       "cosmic-power",
       "signal-beam",
       "aerial-ace",
@@ -239,7 +243,9 @@
       "life-dew",
       "steel-beam",
       "expanding-force",
-      "meteor-beam"
+      "meteor-beam",
+      "tera-blast",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/generic_legend"

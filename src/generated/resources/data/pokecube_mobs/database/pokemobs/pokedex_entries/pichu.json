@@ -39,7 +39,8 @@
       {
         "L": 5,
         "moves": [
-          "tail-whip"
+          "tail-whip",
+          "quick-attack"
         ]
       },
       {
@@ -50,15 +51,45 @@
         ]
       },
       {
+        "L": 29,
+        "moves": [
+          "thunderbolt"
+        ]
+      },
+      {
         "L": 18,
         "moves": [
           "thunder-wave"
         ]
       },
       {
+        "L": 47,
+        "moves": [
+          "thunder"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
         "L": 10,
         "moves": [
           "sweet-kiss"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "spark"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "iron-tail"
         ]
       },
       {

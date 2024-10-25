@@ -165,11 +165,14 @@
       "electro-ball",
       "low-sweep",
       "volt-switch",
+      "electroweb",
       "wild-charge",
       "play-rough",
       "eerie-impulse",
       "electric-terrain",
-      "tera-blast"
+      "coaching",
+      "tera-blast",
+      "upper-hand"
     ]
   }
 }

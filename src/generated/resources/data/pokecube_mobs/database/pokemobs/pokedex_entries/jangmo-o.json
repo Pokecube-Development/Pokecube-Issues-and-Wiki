@@ -187,8 +187,10 @@
       "dual-chop",
       "noble-roar",
       "confide",
+      "breaking-swipe",
       "scale-shot",
-      "tera-blast"
+      "tera-blast",
+      "dragon-cheer"
     ]
   },
   "loot_table": "pokecube:entities/pig_1"

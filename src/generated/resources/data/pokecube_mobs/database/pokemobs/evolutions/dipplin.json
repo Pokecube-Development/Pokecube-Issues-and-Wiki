@@ -1,0 +1,9 @@
+{
+   "name": "hydrapple",
+   "user": "dipplin",
+   "condition": "condition": {
+		"key": "move",
+		"move": "dragon-cheer"
+	},
+   "evoMoves": "double-hit"
+}

@@ -125,6 +125,12 @@
         ]
       },
       {
+        "L": 9,
+        "moves": [
+          "ice-shard"
+        ]
+      },
+      {
         "L": 26,
         "moves": [
           "ice-fang"

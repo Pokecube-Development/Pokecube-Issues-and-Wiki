@@ -47,6 +47,7 @@
           "tackle",
           "defense-curl",
           "bide",
+          "rollout",
           "mud-sport",
           "rock-polish",
           "heavy-slam"
@@ -55,7 +56,8 @@
       {
         "L": 15,
         "moves": [
-          "take-down"
+          "take-down",
+          "iron-defense"
         ]
       },
       {
@@ -96,22 +98,21 @@
         ]
       },
       {
-        "L": 23,
+        "L": 21,
         "moves": [
           "rock-slide"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "mud-slap"
         ]
       },
       {
         "L": 4,
         "moves": [
           "sandstorm"
-        ]
-      },
-      {
-        "L": 10,
-        "moves": [
-          "rollout",
-          "steamroller"
         ]
       },
       {
@@ -142,6 +143,12 @@
         "L": 22,
         "moves": [
           "bulldoze"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "steamroller"
         ]
       }
     ],
@@ -240,7 +247,8 @@
       "high-horsepower",
       "stomping-tantrum",
       "body-press",
-      "tera-blast"
+      "tera-blast",
+      "hard-press"
     ]
   },
   "loot_table": "pokecube:entities/stone_2"

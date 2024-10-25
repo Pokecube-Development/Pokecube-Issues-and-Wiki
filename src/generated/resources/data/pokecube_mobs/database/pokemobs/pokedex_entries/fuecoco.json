@@ -136,7 +136,8 @@
       "belch",
       "disarming-voice",
       "stomping-tantrum",
-      "tera-blast"
+      "tera-blast",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/blaze_rabbit_1"

@@ -115,6 +115,18 @@
         "moves": [
           "sand-tomb"
         ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "mud-bomb"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "high-horsepower"
+        ]
       }
     ],
     "misc": [

@@ -48,6 +48,7 @@
         "moves": [
           "tackle",
           "tail-whip",
+          "growl",
           "scary-face",
           "charm",
           "thunder-fang",
@@ -78,7 +79,8 @@
         "L": 31,
         "moves": [
           "rage",
-          "taunt"
+          "taunt",
+          "last-resort"
         ]
       },
       {
@@ -141,6 +143,8 @@
       "thief",
       "snore",
       "curse",
+      "reversal",
+      "spite",
       "protect",
       "scary-face",
       "feint-attack",
@@ -158,19 +162,23 @@
       "present",
       "frustration",
       "dynamic-punch",
+      "encore",
       "hidden-power",
       "rain-dance",
       "sunny-day",
       "crunch",
       "shadow-ball",
       "rock-smash",
+      "uproar",
       "torment",
       "facade",
       "focus-punch",
       "smelling-salts",
       "taunt",
+      "helping-hand",
       "superpower",
       "brick-break",
+      "endeavor",
       "secret-power",
       "hyper-voice",
       "fake-tears",
@@ -198,7 +206,13 @@
       "play-rough",
       "confide",
       "dazzling-gleam",
-      "power-up-punch"
+      "power-up-punch",
+      "psychic-fangs",
+      "stomping-tantrum",
+      "lash-out",
+      "tera-blast",
+      "trailblaze",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/rabbit_1"

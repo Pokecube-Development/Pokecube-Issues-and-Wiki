@@ -113,6 +113,12 @@
         ]
       },
       {
+        "L": 43,
+        "moves": [
+          "earth-power"
+        ]
+      },
+      {
         "L": 13,
         "moves": [
           "mud-bomb"
@@ -144,6 +150,7 @@
       "rock-slide",
       "substitute",
       "snore",
+      "curse",
       "protect",
       "scary-face",
       "mud-slap",

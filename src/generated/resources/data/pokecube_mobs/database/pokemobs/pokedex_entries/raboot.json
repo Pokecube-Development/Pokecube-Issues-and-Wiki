@@ -92,6 +92,7 @@
       "swords-dance",
       "double-kick",
       "mega-kick",
+      "sand-attack",
       "headbutt",
       "tackle",
       "take-down",
@@ -107,6 +108,7 @@
       "focus-energy",
       "fire-blast",
       "swift",
+      "high-jump-kick",
       "rest",
       "super-fang",
       "substitute",
@@ -130,6 +132,7 @@
       "mud-shot",
       "u-turn",
       "assurance",
+      "sucker-punch",
       "flare-blitz",
       "fire-fang",
       "gunk-shot",
@@ -143,7 +146,8 @@
       "work-up",
       "burning-jealousy",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/rabbit_2"

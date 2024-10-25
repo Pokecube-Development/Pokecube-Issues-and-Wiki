@@ -52,6 +52,13 @@
         ]
       },
       {
+        "L": 50,
+        "moves": [
+          "double-edge",
+          "tri-attack"
+        ]
+      },
+      {
         "L": 7,
         "moves": [
           "psybeam"
@@ -66,7 +73,21 @@
       {
         "L": 15,
         "moves": [
-          "thunder-shock"
+          "thunder-shock",
+          "spark"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "thunderbolt",
+          "signal-beam"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "thunder-wave"
         ]
       },
       {
@@ -82,21 +103,9 @@
         ]
       },
       {
-        "L": 50,
-        "moves": [
-          "tri-attack"
-        ]
-      },
-      {
         "L": 45,
         "moves": [
           "lock-on"
-        ]
-      },
-      {
-        "L": 29,
-        "moves": [
-          "signal-beam"
         ]
       },
       {
@@ -120,6 +129,8 @@
     ],
     "misc": [
       "tackle",
+      "take-down",
+      "double-edge",
       "ice-beam",
       "blizzard",
       "psybeam",
@@ -163,6 +174,7 @@
       "shadow-ball",
       "uproar",
       "facade",
+      "charge",
       "trick",
       "magic-coat",
       "recycle",
@@ -193,7 +205,8 @@
       "electroweb",
       "confide",
       "eerie-impulse",
-      "speed-swap"
+      "speed-swap",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/enderpearls_2"

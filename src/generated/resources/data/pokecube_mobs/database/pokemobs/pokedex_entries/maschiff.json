@@ -121,6 +121,7 @@
     "misc": [
       "body-slam",
       "take-down",
+      "double-edge",
       "roar",
       "dig",
       "rest",

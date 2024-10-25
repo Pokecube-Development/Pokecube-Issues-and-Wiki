@@ -116,15 +116,33 @@
         ]
       },
       {
+        "L": 11,
+        "moves": [
+          "aerial-ace"
+        ]
+      },
+      {
         "L": 30,
         "moves": [
           "u-turn"
         ]
       },
       {
+        "L": 34,
+        "moves": [
+          "poison-jab"
+        ]
+      },
+      {
         "L": 40,
         "moves": [
           "x-scissor"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "mud-bomb"
         ]
       },
       {
@@ -240,7 +258,9 @@
       "throat-chop",
       "lunge",
       "psychic-fangs",
+      "breaking-swipe",
       "scale-shot",
+      "skitter-smack",
       "dual-wingbeat",
       "tera-blast"
     ]

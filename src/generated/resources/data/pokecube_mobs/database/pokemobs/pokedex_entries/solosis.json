@@ -144,9 +144,11 @@
       }
     ],
     "misc": [
+      "psybeam",
       "thunder-wave",
       "thunder",
       "toxic",
+      "confusion",
       "psychic",
       "night-shade",
       "double-team",
@@ -154,6 +156,7 @@
       "confuse-ray",
       "light-screen",
       "reflect",
+      "swift",
       "dream-eater",
       "flash",
       "psywave",
@@ -177,6 +180,7 @@
       "encore",
       "hidden-power",
       "rain-dance",
+      "sunny-day",
       "psych-up",
       "shadow-ball",
       "future-sight",
@@ -217,7 +221,8 @@
       "infestation",
       "psychic-terrain",
       "expanding-force",
-      "steel-roller"
+      "steel-roller",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/slimeballs_1"

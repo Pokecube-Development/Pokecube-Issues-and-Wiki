@@ -238,7 +238,9 @@
       "work-up",
       "confide",
       "power-up-punch",
-      "tera-blast"
+      "breaking-swipe",
+      "tera-blast",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/coal_1"

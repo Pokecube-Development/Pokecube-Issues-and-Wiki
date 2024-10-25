@@ -186,6 +186,7 @@
       "charge",
       "helping-hand",
       "brick-break",
+      "endeavor",
       "secret-power",
       "signal-beam",
       "shock-wave",
@@ -220,8 +221,12 @@
       "laser-focus",
       "brutal-swing",
       "stomping-tantrum",
+      "breaking-swipe",
+      "meteor-beam",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "dragon-cheer",
+      "supercell-slam"
     ]
   },
   "interactions": [

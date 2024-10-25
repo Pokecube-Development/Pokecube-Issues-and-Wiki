@@ -42,6 +42,7 @@
         "L": 1,
         "moves": [
           "pound",
+          "tackle",
           "double-edge",
           "growl",
           "defense-curl",
@@ -114,6 +115,12 @@
         ]
       },
       {
+        "L": 25,
+        "moves": [
+          "calm-mind"
+        ]
+      },
+      {
         "L": 57,
         "moves": [
           "healing-wish"
@@ -147,6 +154,24 @@
         "L": 20,
         "moves": [
           "bestow"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "draining-kiss"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "fairy-wind"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "baby-doll-eyes"
         ]
       }
     ],
@@ -212,6 +237,7 @@
       "sleep-talk",
       "heal-bell",
       "return",
+      "present",
       "frustration",
       "safeguard",
       "dynamic-punch",
@@ -281,7 +307,8 @@
       "tera-blast",
       "snowscape",
       "trailblaze",
-      "chilling-water"
+      "chilling-water",
+      "alluring-voice"
     ]
   },
   "held_table": "pokecube:entities/lucky_oval",

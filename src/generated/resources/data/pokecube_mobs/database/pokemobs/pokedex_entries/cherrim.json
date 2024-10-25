@@ -37,6 +37,7 @@
         "L": 1,
         "moves": [
           "tackle",
+          "absorb",
           "leech-seed",
           "growth",
           "morning-sun",
@@ -51,9 +52,27 @@
         ]
       },
       {
+        "L": 37,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
         "L": 43,
         "moves": [
           "solar-beam"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "stun-spore"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "sleep-powder"
         ]
       },
       {
@@ -93,9 +112,21 @@
         ]
       },
       {
+        "L": 21,
+        "moves": [
+          "energy-ball"
+        ]
+      },
+      {
         "L": 50,
         "moves": [
           "petal-blizzard"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "draining-kiss"
         ]
       }
     ],

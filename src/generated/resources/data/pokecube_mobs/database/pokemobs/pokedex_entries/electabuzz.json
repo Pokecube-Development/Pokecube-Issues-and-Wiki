@@ -95,6 +95,12 @@
         ]
       },
       {
+        "L": 11,
+        "moves": [
+          "spark"
+        ]
+      },
+      {
         "L": 15,
         "moves": [
           "shock-wave"
@@ -174,20 +180,27 @@
       "dynamic-punch",
       "iron-tail",
       "hidden-power",
+      "cross-chop",
       "rain-dance",
       "rock-smash",
       "uproar",
       "facade",
       "focus-punch",
+      "follow-me",
       "charge",
       "taunt",
       "helping-hand",
       "brick-break",
+      "knock-off",
       "secret-power",
+      "metal-sound",
       "signal-beam",
+      "bulk-up",
       "covet",
       "shock-wave",
+      "hammer-arm",
       "natural-gift",
+      "feint",
       "fling",
       "magnet-rise",
       "focus-blast",
@@ -204,8 +217,13 @@
       "wild-charge",
       "dual-chop",
       "confide",
+      "eerie-impulse",
+      "electric-terrain",
       "power-up-punch",
-      "rising-voltage"
+      "rising-voltage",
+      "tera-blast",
+      "trailblaze",
+      "supercell-slam"
     ]
   },
   "loot_table": "pokecube:entities/redstone_1"

@@ -124,6 +124,7 @@
       "fly",
       "body-slam",
       "take-down",
+      "double-edge",
       "roar",
       "flamethrower",
       "hydro-pump",
@@ -146,6 +147,7 @@
       "hyper-voice",
       "air-cutter",
       "rock-tomb",
+      "metal-sound",
       "tailwind",
       "u-turn",
       "dark-pulse",
@@ -164,9 +166,12 @@
       "hurricane",
       "snarl",
       "electric-terrain",
+      "throat-chop",
+      "meteor-beam",
       "lash-out",
       "dual-wingbeat",
-      "tera-blast"
+      "tera-blast",
+      "dragon-cheer"
     ]
   }
 }

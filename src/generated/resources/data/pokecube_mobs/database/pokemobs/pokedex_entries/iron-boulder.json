@@ -1,0 +1,166 @@
+{
+  "name": "iron-boulder",
+  "id": 1022,
+  "stock": true,
+  "base_experience": 295,
+  "size": {
+    "height": 1.5
+  },
+  "mass": 162.5,
+  "is_default": true,
+  "capture_rate": 10,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 90,
+    "attack": 120,
+    "defense": 80,
+    "special_attack": 68,
+    "special_defense": 108,
+    "speed": 124
+  },
+  "evs": {
+    "speed": 3
+  },
+  "types": [
+    "rock",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "quark-drive"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 63,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "horn-attack",
+          "leer",
+          "rock-throw",
+          "electric-terrain"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "counter"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "megahorn"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "rock-tomb"
+        ]
+      },
+      {
+        "L": 91,
+        "moves": [
+          "giga-impact"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "psycho-cut"
+        ]
+      },
+      {
+        "L": 84,
+        "moves": [
+          "stone-edge"
+        ]
+      },
+      {
+        "L": 77,
+        "moves": [
+          "quick-guard"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "sacred-sword"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "mighty-cleave"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "hyper-beam",
+      "earthquake",
+      "psychic",
+      "agility",
+      "rest",
+      "substitute",
+      "protect",
+      "scary-face",
+      "sandstorm",
+      "endure",
+      "sleep-talk",
+      "facade",
+      "taunt",
+      "brick-break",
+      "rock-tomb",
+      "aerial-ace",
+      "iron-defense",
+      "rock-blast",
+      "close-combat",
+      "poison-jab",
+      "air-slash",
+      "x-scissor",
+      "giga-impact",
+      "zen-headbutt",
+      "iron-head",
+      "stone-edge",
+      "psyshock",
+      "bulldoze",
+      "wild-charge",
+      "electric-terrain",
+      "solar-blade",
+      "throat-chop",
+      "meteor-beam",
+      "tera-blast"
+    ]
+  }
+}

@@ -152,6 +152,7 @@
       "mega-kick",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "leer",
       "low-kick",
@@ -175,6 +176,7 @@
       "rock-slide",
       "slash",
       "substitute",
+      "thief",
       "snore",
       "protect",
       "mud-slap",
@@ -200,6 +202,7 @@
       "facade",
       "focus-punch",
       "nature-power",
+      "helping-hand",
       "brick-break",
       "endeavor",
       "secret-power",
@@ -225,12 +228,17 @@
       "quick-guard",
       "acrobatics",
       "grass-pledge",
+      "dragon-tail",
       "work-up",
       "grassy-terrain",
       "confide",
       "power-up-punch",
       "leafage",
-      "grassy-glide"
+      "breaking-swipe",
+      "grassy-glide",
+      "tera-blast",
+      "trailblaze",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/wheat_seeds_1"

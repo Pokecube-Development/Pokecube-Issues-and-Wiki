@@ -47,7 +47,8 @@
           "hypnosis",
           "lick",
           "smog",
-          "spite"
+          "spite",
+          "astonish"
         ]
       },
       {
@@ -69,7 +70,7 @@
         ]
       },
       {
-        "L": 7,
+        "L": 6,
         "moves": [
           "poison-gas"
         ]
@@ -135,6 +136,12 @@
         ]
       },
       {
+        "L": 18,
+        "moves": [
+          "venoshock"
+        ]
+      },
+      {
         "L": 55,
         "moves": [
           "hex"
@@ -163,6 +170,7 @@
       "self-destruct",
       "lick",
       "dream-eater",
+      "poison-gas",
       "psywave",
       "explosion",
       "rest",

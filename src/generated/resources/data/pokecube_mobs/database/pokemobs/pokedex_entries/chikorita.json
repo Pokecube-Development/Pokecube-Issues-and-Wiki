@@ -51,6 +51,14 @@
         ]
       },
       {
+        "L": 23,
+        "moves": [
+          "leech-seed",
+          "nature-power",
+          "natural-gift"
+        ]
+      },
+      {
         "L": 6,
         "moves": [
           "razor-leaf"
@@ -81,6 +89,13 @@
         ]
       },
       {
+        "L": 42,
+        "moves": [
+          "giga-drain",
+          "aromatherapy"
+        ]
+      },
+      {
         "L": 39,
         "moves": [
           "safeguard"
@@ -99,19 +114,6 @@
         ]
       },
       {
-        "L": 23,
-        "moves": [
-          "nature-power",
-          "natural-gift"
-        ]
-      },
-      {
-        "L": 42,
-        "moves": [
-          "aromatherapy"
-        ]
-      },
-      {
         "L": 20,
         "moves": [
           "magical-leaf"
@@ -125,6 +127,7 @@
       "headbutt",
       "tackle",
       "body-slam",
+      "take-down",
       "double-edge",
       "growl",
       "counter",
@@ -148,6 +151,7 @@
       "detect",
       "giga-drain",
       "endure",
+      "charm",
       "swagger",
       "fury-cutter",
       "attract",
@@ -155,6 +159,7 @@
       "return",
       "frustration",
       "safeguard",
+      "encore",
       "sweet-scent",
       "iron-tail",
       "synthesis",
@@ -163,11 +168,13 @@
       "ancient-power",
       "facade",
       "nature-power",
+      "helping-hand",
       "ingrain",
       "magic-coat",
       "refresh",
       "secret-power",
       "aromatherapy",
+      "fake-tears",
       "grass-whistle",
       "bullet-seed",
       "magical-leaf",
@@ -185,7 +192,11 @@
       "grass-pledge",
       "work-up",
       "grassy-terrain",
-      "confide"
+      "confide",
+      "solar-blade",
+      "grassy-glide",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/wheat_seeds_1"

@@ -141,6 +141,7 @@
       "cut",
       "fly",
       "body-slam",
+      "take-down",
       "double-edge",
       "roar",
       "surf",
@@ -204,6 +205,8 @@
       "secret-power",
       "dive",
       "mist-ball",
+      "weather-ball",
+      "air-cutter",
       "aerial-ace",
       "dragon-claw",
       "covet",
@@ -244,12 +247,19 @@
       "reflect-type",
       "retaliate",
       "bulldoze",
+      "disarming-voice",
+      "draining-kiss",
       "confide",
       "mystical-fire",
       "laser-focus",
+      "liquidation",
       "breaking-swipe",
       "scale-shot",
-      "dual-wingbeat"
+      "dual-wingbeat",
+      "tera-blast",
+      "chilling-water",
+      "dragon-cheer",
+      "alluring-voice"
     ]
   },
   "loot_table": "pokecube:entities/chicken_2"

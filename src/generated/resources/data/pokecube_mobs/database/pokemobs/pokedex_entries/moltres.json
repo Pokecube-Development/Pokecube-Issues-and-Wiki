@@ -225,7 +225,8 @@
       "burning-jealousy",
       "dual-wingbeat",
       "scorching-sands",
-      "tera-blast"
+      "tera-blast",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/generic_legend"

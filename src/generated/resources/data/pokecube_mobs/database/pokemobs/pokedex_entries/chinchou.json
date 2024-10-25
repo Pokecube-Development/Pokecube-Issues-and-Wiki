@@ -180,6 +180,7 @@
       "secret-power",
       "dive",
       "signal-beam",
+      "muddy-water",
       "bounce",
       "shock-wave",
       "water-pulse",
@@ -195,11 +196,18 @@
       "round",
       "scald",
       "volt-switch",
+      "electroweb",
       "wild-charge",
       "ion-deluge",
       "confide",
+      "eerie-impulse",
+      "electric-terrain",
       "dazzling-gleam",
-      "rising-voltage"
+      "liquidation",
+      "rising-voltage",
+      "flip-turn",
+      "tera-blast",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/glow_fish_1"

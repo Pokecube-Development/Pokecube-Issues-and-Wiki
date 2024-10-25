@@ -178,6 +178,7 @@
       "brick-break",
       "yawn",
       "knock-off",
+      "endeavor",
       "skill-swap",
       "imprison",
       "snatch",
@@ -218,7 +219,8 @@
       "terrain-pulse",
       "tera-blast",
       "trailblaze",
-      "chilling-water"
+      "chilling-water",
+      "psychic-noise"
     ]
   },
   "interactions": [

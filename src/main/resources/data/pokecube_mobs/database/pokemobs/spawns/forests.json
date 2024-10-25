@@ -27,7 +27,7 @@
         {"key": "nymble","min": 1,"max": 8,"rate": 0.2},
 
         {"key": "pikipek","min": 1,"max": 6,"rate": 0.2},
-        {"key": "squawkabilly","min": 1,"max": 4,"rate": 0.2},
+        {"key": "squawkabilly-green-plumage","min": 1,"max": 4,"rate": 0.2},
         {"key": "squawkabilly-blue-plumage","min": 1,"max": 4,"rate": 0.2},
         {"key": "squawkabilly-yellow-plumage","min": 1,"max": 2,"rate": 0.2},
         {"key": "dedenne","min": 1,"max": 4,"rate": 0.2},

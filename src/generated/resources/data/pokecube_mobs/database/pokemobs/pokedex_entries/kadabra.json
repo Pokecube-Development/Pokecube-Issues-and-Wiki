@@ -64,6 +64,12 @@
         ]
       },
       {
+        "L": 6,
+        "moves": [
+          "hypnosis"
+        ]
+      },
+      {
         "L": 19,
         "moves": [
           "night-shade"
@@ -107,7 +113,7 @@
         ]
       },
       {
-        "L": 50,
+        "L": 11,
         "moves": [
           "calm-mind"
         ]
@@ -122,6 +128,12 @@
         "L": 28,
         "moves": [
           "psycho-cut"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "zen-headbutt"
         ]
       },
       {

@@ -66,6 +66,12 @@
         ]
       },
       {
+        "L": 43,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
         "L": 55,
         "moves": [
           "leer",
@@ -81,8 +87,20 @@
       {
         "L": 48,
         "moves": [
-          "earthquake",
-          "rock-slide"
+          "earthquake"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "rock-slide",
+          "chip-away"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "rock-smash"
         ]
       },
       {
@@ -98,21 +116,27 @@
         ]
       },
       {
+        "L": 52,
+        "moves": [
+          "giga-impact"
+        ]
+      },
+      {
         "L": 41,
         "moves": [
           "stone-edge"
         ]
       },
       {
-        "L": 13,
+        "L": 18,
         "moves": [
-          "smack-down"
+          "stealth-rock"
         ]
       },
       {
-        "L": 25,
+        "L": 13,
         "moves": [
-          "chip-away"
+          "smack-down"
         ]
       },
       {
@@ -125,6 +149,12 @@
         "L": 33,
         "moves": [
           "drill-run"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "high-horsepower"
         ]
       }
     ],
@@ -222,12 +252,14 @@
       "shock-wave",
       "hammer-arm",
       "natural-gift",
+      "metal-burst",
       "payback",
       "fling",
       "rock-polish",
       "poison-jab",
       "aqua-tail",
       "dragon-pulse",
+      "dragon-rush",
       "focus-blast",
       "earth-power",
       "giga-impact",
@@ -240,6 +272,7 @@
       "stone-edge",
       "captivate",
       "stealth-rock",
+      "guard-split",
       "smack-down",
       "heavy-slam",
       "round",
@@ -258,7 +291,9 @@
       "body-press",
       "breaking-swipe",
       "meteor-beam",
-      "scorching-sands"
+      "scorching-sands",
+      "tera-blast",
+      "supercell-slam"
     ]
   },
   "loot_table": "pokecube:entities/stone_2"

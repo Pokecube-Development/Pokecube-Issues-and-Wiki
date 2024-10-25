@@ -129,11 +129,16 @@
     "misc": [
       "cut",
       "fly",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "roar",
       "flamethrower",
       "hyper-beam",
       "strength",
       "solar-beam",
       "dragon-rage",
+      "fire-spin",
       "toxic",
       "psychic",
       "double-team",
@@ -147,6 +152,7 @@
       "substitute",
       "snore",
       "protect",
+      "scary-face",
       "outrage",
       "endure",
       "swagger",
@@ -209,7 +215,9 @@
       "breaking-swipe",
       "scale-shot",
       "dual-wingbeat",
-      "scorching-sands"
+      "scorching-sands",
+      "tera-blast",
+      "dragon-cheer"
     ]
   }
 }

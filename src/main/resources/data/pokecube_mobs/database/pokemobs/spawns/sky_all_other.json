@@ -7,7 +7,7 @@
         {"key": "swablu","min": 1,"max": 4,"rate": 0.5},
         {"key": "pidove","min": 1,"max": 4,"rate": 0.5},
         {"key": "starly","min": 1,"max": 4,"rate": 0.5},
-        {"key": "squawkabilly","min": 1,"max": 4,"rate": 0.5},
+        {"key": "squawkabilly-green-plumage","min": 1,"max": 4,"rate": 0.5},
         {"key": "squawkabilly-blue-plumage","min": 1,"max": 4,"rate": 0.4},
         {"key": "squawkabilly-yellow-plumage","min": 1,"max": 4,"rate": 0.3},
         {"key": "drifloon","min": 1,"max": 4,"rate": 0.25},

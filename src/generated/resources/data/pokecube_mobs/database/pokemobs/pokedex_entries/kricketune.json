@@ -48,6 +48,12 @@
         ]
       },
       {
+        "L": 37,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
         "L": 18,
         "moves": [
           "sing"
@@ -97,6 +103,12 @@
         ]
       },
       {
+        "L": 9,
+        "moves": [
+          "aerial-ace"
+        ]
+      },
+      {
         "L": 42,
         "moves": [
           "night-slash"
@@ -130,6 +142,7 @@
     "misc": [
       "swords-dance",
       "cut",
+      "tackle",
       "take-down",
       "growl",
       "sing",
@@ -196,6 +209,7 @@
       "laser-focus",
       "throat-chop",
       "lunge",
+      "skitter-smack",
       "tera-blast",
       "pounce",
       "trailblaze"

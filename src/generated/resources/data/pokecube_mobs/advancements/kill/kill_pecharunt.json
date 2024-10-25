@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.pecharunt"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.pecharunt"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_pecharunt": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "pecharunt"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

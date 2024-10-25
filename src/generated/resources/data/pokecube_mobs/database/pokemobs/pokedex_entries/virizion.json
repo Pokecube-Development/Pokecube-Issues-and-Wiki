@@ -66,15 +66,16 @@
         ]
       },
       {
-        "L": 13,
+        "L": 42,
         "moves": [
-          "helping-hand"
+          "synthesis",
+          "quick-guard"
         ]
       },
       {
-        "L": 42,
+        "L": 13,
         "moves": [
-          "quick-guard"
+          "helping-hand"
         ]
       },
       {
@@ -100,7 +101,9 @@
       "swords-dance",
       "cut",
       "double-kick",
+      "body-slam",
       "take-down",
+      "double-edge",
       "leer",
       "roar",
       "hyper-beam",
@@ -118,6 +121,7 @@
       "snore",
       "reversal",
       "protect",
+      "scary-face",
       "giga-drain",
       "endure",
       "false-swipe",
@@ -140,6 +144,7 @@
       "revenge",
       "brick-break",
       "secret-power",
+      "bullet-seed",
       "aerial-ace",
       "block",
       "bounce",
@@ -148,9 +153,11 @@
       "leaf-blade",
       "close-combat",
       "worry-seed",
+      "aura-sphere",
       "seed-bomb",
       "air-slash",
       "x-scissor",
+      "vacuum-wave",
       "focus-blast",
       "energy-ball",
       "giga-impact",
@@ -168,7 +175,10 @@
       "laser-focus",
       "smart-strike",
       "grassy-glide",
-      "coaching"
+      "coaching",
+      "tera-blast",
+      "trailblaze",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/generic_legend"

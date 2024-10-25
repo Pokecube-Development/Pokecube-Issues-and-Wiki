@@ -160,6 +160,7 @@
       "hidden-power",
       "rain-dance",
       "sunny-day",
+      "psych-up",
       "shadow-ball",
       "rock-smash",
       "will-o-wisp",
@@ -214,7 +215,8 @@
       "lash-out",
       "poltergeist",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/enderpearls_2"

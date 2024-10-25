@@ -148,9 +148,27 @@
         ]
       },
       {
+        "L": 25,
+        "moves": [
+          "energy-ball"
+        ]
+      },
+      {
         "L": 50,
         "moves": [
           "power-whip"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "double-hit"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "acid-spray"
         ]
       },
       {

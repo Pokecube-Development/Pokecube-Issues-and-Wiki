@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.raging-bolt"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.raging-bolt"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_raging-bolt": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "raging-bolt"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

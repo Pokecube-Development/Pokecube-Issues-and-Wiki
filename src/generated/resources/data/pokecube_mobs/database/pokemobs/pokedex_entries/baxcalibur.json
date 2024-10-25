@@ -119,6 +119,7 @@
       "swords-dance",
       "body-slam",
       "take-down",
+      "double-edge",
       "ice-beam",
       "blizzard",
       "hyper-beam",
@@ -155,9 +156,11 @@
       "high-horsepower",
       "stomping-tantrum",
       "body-press",
+      "breaking-swipe",
       "scale-shot",
       "tera-blast",
-      "snowscape"
+      "snowscape",
+      "dragon-cheer"
     ]
   }
 }

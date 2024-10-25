@@ -180,6 +180,7 @@
       "twister",
       "sunny-day",
       "facade",
+      "endeavor",
       "skill-swap",
       "secret-power",
       "poison-fang",
@@ -202,6 +203,7 @@
       "bug-bite",
       "ominous-wind",
       "venoshock",
+      "sludge-wave",
       "quiver-dance",
       "acid-spray",
       "round",
@@ -210,8 +212,10 @@
       "confide",
       "infestation",
       "lunge",
+      "skitter-smack",
       "tera-blast",
-      "pounce"
+      "pounce",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/spider_eye"

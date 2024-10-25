@@ -50,9 +50,15 @@
         ]
       },
       {
-        "L": 1,
+        "L": 6,
         "moves": [
           "tackle",
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
           "poison-sting",
           "string-shot",
           "harden",
@@ -88,7 +94,8 @@
         "L": 25,
         "moves": [
           "leech-life",
-          "silver-wind"
+          "silver-wind",
+          "venoshock"
         ]
       },
       {
@@ -116,6 +123,12 @@
         ]
       },
       {
+        "L": 34,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
         "L": 35,
         "moves": [
           "bug-buzz"
@@ -131,7 +144,9 @@
     "misc": [
       "gust",
       "whirlwind",
+      "tackle",
       "double-edge",
+      "poison-sting",
       "hyper-beam",
       "absorb",
       "mega-drain",

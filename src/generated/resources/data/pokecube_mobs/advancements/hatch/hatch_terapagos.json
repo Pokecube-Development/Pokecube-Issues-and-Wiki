@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.terapagos"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.terapagos"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_terapagos": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "terapagos"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

@@ -40,7 +40,8 @@
       {
         "L": 1,
         "moves": [
-          "tackle"
+          "tackle",
+          "quick-attack"
         ]
       },
       {
@@ -71,6 +72,12 @@
         "L": 32,
         "moves": [
           "thunder-wave"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "thunder"
         ]
       },
       {
@@ -139,6 +146,7 @@
       "headbutt",
       "tackle",
       "take-down",
+      "double-edge",
       "leer",
       "bite",
       "roar",
@@ -194,6 +202,7 @@
       "electro-ball",
       "round",
       "volt-switch",
+      "electroweb",
       "wild-charge",
       "snarl",
       "play-rough",

@@ -191,8 +191,10 @@
       "will-o-wisp",
       "facade",
       "helping-hand",
+      "endeavor",
       "refresh",
       "secret-power",
+      "feather-dance",
       "hyper-voice",
       "astonish",
       "weather-ball",
@@ -230,7 +232,9 @@
       "dual-wingbeat",
       "tera-blast",
       "snowscape",
-      "trailblaze"
+      "trailblaze",
+      "dragon-cheer",
+      "alluring-voice"
     ]
   },
   "loot_table": "pokecube:entities/wool_2"

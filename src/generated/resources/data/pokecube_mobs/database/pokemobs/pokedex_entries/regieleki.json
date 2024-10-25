@@ -166,7 +166,8 @@
       "electric-terrain",
       "rising-voltage",
       "thunder-cage",
-      "tera-blast"
+      "tera-blast",
+      "supercell-slam"
     ]
   },
   "loot_table": "pokecube:entities/redstone_1"

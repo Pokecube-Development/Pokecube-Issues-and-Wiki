@@ -68,6 +68,13 @@
         ]
       },
       {
+        "L": 25,
+        "moves": [
+          "mimic",
+          "assurance"
+        ]
+      },
+      {
         "L": 29,
         "moves": [
           "screech"
@@ -105,9 +112,9 @@
         ]
       },
       {
-        "L": 25,
+        "L": 34,
         "moves": [
-          "assurance"
+          "calm-mind"
         ]
       },
       {
@@ -232,7 +239,8 @@
       "throat-chop",
       "lash-out",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "alluring-voice"
     ]
   },
   "loot_table": "pokecube:entities/rabbit_1"

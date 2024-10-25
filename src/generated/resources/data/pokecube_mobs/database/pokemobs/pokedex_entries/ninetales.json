@@ -51,16 +51,38 @@
           "hypnosis",
           "quick-attack",
           "confuse-ray",
-          "fire-blast",
           "spite",
           "safeguard",
           "will-o-wisp",
           "imprison",
           "grudge",
-          "extrasensory",
           "nasty-plot",
           "incinerate",
           "inferno"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "fire-blast"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "flame-wheel"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "extrasensory"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "hex"
         ]
       }
     ],

@@ -88,6 +88,12 @@
         ]
       },
       {
+        "L": 25,
+        "moves": [
+          "energy-ball"
+        ]
+      },
+      {
         "L": 26,
         "moves": [
           "ice-shard"
@@ -97,6 +103,12 @@
         "L": 36,
         "moves": [
           "wood-hammer"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "icicle-crash"
         ]
       }
     ],
@@ -108,6 +120,7 @@
       "headbutt",
       "body-slam",
       "take-down",
+      "double-edge",
       "leer",
       "mist",
       "ice-beam",
@@ -126,6 +139,7 @@
       "rock-slide",
       "substitute",
       "snore",
+      "curse",
       "powder-snow",
       "protect",
       "scary-face",
@@ -191,7 +205,8 @@
       "ice-spinner",
       "snowscape",
       "trailblaze",
-      "chilling-water"
+      "chilling-water",
+      "hard-press"
     ]
   },
   "loot_table": "pokecube:entities/snow_rabbit_2"

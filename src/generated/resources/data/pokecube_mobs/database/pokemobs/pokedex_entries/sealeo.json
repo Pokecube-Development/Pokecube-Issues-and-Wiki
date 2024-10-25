@@ -61,6 +61,12 @@
         ]
       },
       {
+        "L": 34,
+        "moves": [
+          "ice-beam"
+        ]
+      },
+      {
         "L": 45,
         "moves": [
           "blizzard"
@@ -116,9 +122,21 @@
         ]
       },
       {
+        "L": 11,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
         "L": 17,
         "moves": [
           "brine"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "liquidation"
         ]
       }
     ],

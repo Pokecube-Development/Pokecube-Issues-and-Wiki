@@ -130,6 +130,7 @@
       "thunder-punch",
       "body-slam",
       "take-down",
+      "double-edge",
       "roar",
       "flamethrower",
       "ice-beam",
@@ -158,6 +159,7 @@
       "rain-dance",
       "sunny-day",
       "crunch",
+      "psych-up",
       "uproar",
       "facade",
       "helping-hand",
@@ -189,9 +191,11 @@
       "psychic-terrain",
       "psychic-fangs",
       "stomping-tantrum",
+      "expanding-force",
       "misty-explosion",
       "tera-blast",
-      "snowscape"
+      "snowscape",
+      "psychic-noise"
     ]
   }
 }

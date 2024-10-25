@@ -129,17 +129,23 @@
       }
     ],
     "misc": [
+      "psybeam",
       "thunder-wave",
       "thunder",
       "toxic",
+      "confusion",
       "psychic",
+      "night-shade",
       "double-team",
       "recover",
+      "confuse-ray",
       "light-screen",
       "reflect",
+      "swift",
       "dream-eater",
       "flash",
       "psywave",
+      "acid-armor",
       "explosion",
       "rest",
       "rock-slide",
@@ -159,6 +165,7 @@
       "encore",
       "hidden-power",
       "rain-dance",
+      "sunny-day",
       "psych-up",
       "shadow-ball",
       "future-sight",
@@ -172,6 +179,7 @@
       "imprison",
       "snatch",
       "secret-power",
+      "astonish",
       "rock-tomb",
       "signal-beam",
       "iron-defense",
@@ -198,7 +206,8 @@
       "infestation",
       "psychic-terrain",
       "expanding-force",
-      "steel-roller"
+      "steel-roller",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/slimeballs_2"

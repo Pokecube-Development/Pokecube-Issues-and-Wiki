@@ -68,7 +68,8 @@
       {
         "L": 21,
         "moves": [
-          "take-down"
+          "take-down",
+          "psyshield-bash"
         ]
       },
       {
@@ -81,6 +82,12 @@
         "L": 3,
         "moves": [
           "leer"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "confusion"
         ]
       },
       {
@@ -111,6 +118,12 @@
         "L": 7,
         "moves": [
           "astonish"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "extrasensory"
         ]
       },
       {
@@ -193,6 +206,7 @@
       "sunny-day",
       "psych-up",
       "shadow-ball",
+      "future-sight",
       "uproar",
       "facade",
       "helping-hand",

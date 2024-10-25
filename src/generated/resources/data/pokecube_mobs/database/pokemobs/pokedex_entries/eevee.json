@@ -62,7 +62,8 @@
       {
         "L": 25,
         "moves": [
-          "take-down"
+          "take-down",
+          "mimic"
         ]
       },
       {
@@ -106,6 +107,12 @@
         "L": 20,
         "moves": [
           "refresh"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "calm-mind"
         ]
       },
       {
@@ -206,7 +213,8 @@
       "baby-doll-eyes",
       "laser-focus",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "alluring-voice"
     ]
   },
   "loot_table": "pokecube:entities/rabbit_1"

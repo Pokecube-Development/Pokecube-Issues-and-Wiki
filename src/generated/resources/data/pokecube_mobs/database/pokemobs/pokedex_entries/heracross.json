@@ -76,6 +76,13 @@
         ]
       },
       {
+        "L": 37,
+        "moves": [
+          "double-edge",
+          "megahorn"
+        ]
+      },
+      {
         "L": 31,
         "moves": [
           "pin-missile"
@@ -88,15 +95,21 @@
         ]
       },
       {
+        "L": 21,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
         "L": 46,
         "moves": [
           "reversal"
         ]
       },
       {
-        "L": 37,
+        "L": 5,
         "moves": [
-          "megahorn"
+          "rock-smash"
         ]
       },
       {
@@ -192,6 +205,7 @@
       "revenge",
       "brick-break",
       "knock-off",
+      "endeavor",
       "secret-power",
       "arm-thrust",
       "rock-tomb",
@@ -228,10 +242,12 @@
       "lunge",
       "smart-strike",
       "brutal-swing",
+      "skitter-smack",
       "coaching",
       "tera-blast",
       "pounce",
-      "trailblaze"
+      "trailblaze",
+      "upper-hand"
     ]
   },
   "male_model": {

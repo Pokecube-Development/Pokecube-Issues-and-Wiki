@@ -65,7 +65,7 @@
         ]
       },
       {
-        "L": 48,
+        "L": 46,
         "moves": [
           "double-edge"
         ]
@@ -158,6 +158,12 @@
         ]
       },
       {
+        "L": 29,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
         "L": 50,
         "moves": [
           "heavy-slam"
@@ -167,6 +173,12 @@
         "L": 17,
         "moves": [
           "chip-away"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "bulldoze"
         ]
       },
       {
@@ -316,7 +328,9 @@
       "terrain-pulse",
       "tera-blast",
       "trailblaze",
-      "chilling-water"
+      "chilling-water",
+      "hard-press",
+      "supercell-slam"
     ]
   },
   "loot_table": "pokecube:entities/pig_3"

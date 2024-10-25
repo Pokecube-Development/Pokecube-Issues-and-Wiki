@@ -67,7 +67,8 @@
       {
         "L": 11,
         "moves": [
-          "haze"
+          "haze",
+          "roost"
         ]
       },
       {
@@ -96,6 +97,12 @@
         ]
       },
       {
+        "L": 18,
+        "moves": [
+          "aerial-ace"
+        ]
+      },
+      {
         "L": 50,
         "moves": [
           "tailwind"
@@ -104,13 +111,32 @@
       {
         "L": 25,
         "moves": [
-          "assurance"
+          "assurance",
+          "night-slash"
         ]
       },
       {
         "L": 55,
         "moves": [
           "sucker-punch"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "dark-pulse"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "nasty-plot"
         ]
       },
       {
@@ -123,6 +149,12 @@
         "L": 65,
         "moves": [
           "quash"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "snarl"
         ]
       }
     ],
@@ -222,7 +254,8 @@
       "confide",
       "lash-out",
       "dual-wingbeat",
-      "tera-blast"
+      "tera-blast",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/chicken_1"

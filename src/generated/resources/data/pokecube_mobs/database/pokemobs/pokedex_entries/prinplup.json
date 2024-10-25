@@ -43,6 +43,7 @@
           "pound",
           "tackle",
           "growl",
+          "water-gun",
           "bubble"
         ]
       },
@@ -53,15 +54,15 @@
         ]
       },
       {
-        "L": 42,
+        "L": 43,
         "moves": [
-          "mist"
+          "double-edge"
         ]
       },
       {
-        "L": 8,
+        "L": 42,
         "moves": [
-          "water-gun"
+          "mist"
         ]
       },
       {
@@ -99,6 +100,7 @@
         "L": 11,
         "moves": [
           "charm",
+          "aerial-ace",
           "water-sport"
         ]
       },
@@ -115,9 +117,27 @@
         ]
       },
       {
+        "L": 18,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "roost"
+        ]
+      },
+      {
         "L": 33,
         "moves": [
           "brine"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "liquidation"
         ]
       }
     ],
@@ -126,8 +146,12 @@
       "headbutt",
       "fury-attack",
       "tackle",
+      "take-down",
+      "double-edge",
       "growl",
+      "supersonic",
       "mist",
+      "water-gun",
       "hydro-pump",
       "surf",
       "ice-beam",
@@ -138,10 +162,12 @@
       "strength",
       "dig",
       "toxic",
+      "agility",
       "double-team",
       "haze",
       "bide",
       "waterfall",
+      "swift",
       "bubble",
       "rest",
       "substitute",
@@ -150,6 +176,7 @@
       "mud-slap",
       "icy-wind",
       "endure",
+      "charm",
       "swagger",
       "attract",
       "sleep-talk",
@@ -158,13 +185,17 @@
       "metal-claw",
       "hidden-power",
       "rain-dance",
+      "psych-up",
       "rock-smash",
       "whirlpool",
       "hail",
       "facade",
+      "helping-hand",
       "brick-break",
+      "yawn",
       "secret-power",
       "dive",
+      "feather-dance",
       "weather-ball",
       "rock-tomb",
       "signal-beam",
@@ -172,10 +203,12 @@
       "covet",
       "water-sport",
       "water-pulse",
+      "roost",
       "brine",
       "natural-gift",
       "pluck",
       "fling",
+      "aqua-ring",
       "shadow-claw",
       "defog",
       "captivate",
@@ -188,8 +221,16 @@
       "quash",
       "water-pledge",
       "work-up",
+      "disarming-voice",
       "confide",
-      "flip-turn"
+      "power-trip",
+      "liquidation",
+      "flip-turn",
+      "triple-axel",
+      "tera-blast",
+      "ice-spinner",
+      "snowscape",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/chicken_2"

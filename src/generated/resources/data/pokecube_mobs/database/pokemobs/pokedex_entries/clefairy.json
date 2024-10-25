@@ -41,6 +41,7 @@
         "L": 1,
         "moves": [
           "pound",
+          "tackle",
           "growl",
           "splash",
           "sweet-kiss",
@@ -64,9 +65,21 @@
         ]
       },
       {
+        "L": 47,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
         "L": 7,
         "moves": [
           "sing"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "psychic"
         ]
       },
       {
@@ -121,6 +134,12 @@
         ]
       },
       {
+        "L": 21,
+        "moves": [
+          "calm-mind"
+        ]
+      },
+      {
         "L": 49,
         "moves": [
           "gravity"
@@ -160,6 +179,24 @@
         "L": 19,
         "moves": [
           "bestow"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "draining-kiss"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "fairy-wind"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "baby-doll-eyes"
         ]
       }
     ],
@@ -320,7 +357,8 @@
       "misty-explosion",
       "dual-wingbeat",
       "tera-blast",
-      "chilling-water"
+      "chilling-water",
+      "alluring-voice"
     ]
   },
   "held_table": "pokecube:entities/moonstone",

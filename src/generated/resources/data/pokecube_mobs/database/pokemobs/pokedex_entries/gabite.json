@@ -54,6 +54,12 @@
         ]
       },
       {
+        "L": 37,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
         "L": 27,
         "moves": [
           "bite"
@@ -72,9 +78,21 @@
         ]
       },
       {
+        "L": 47,
+        "moves": [
+          "outrage"
+        ]
+      },
+      {
         "L": 13,
         "moves": [
           "sandstorm"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "twister"
         ]
       },
       {
@@ -93,6 +111,12 @@
         "L": 49,
         "moves": [
           "dragon-rush"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "earth-power"
         ]
       },
       {
@@ -116,6 +140,7 @@
       "tackle",
       "body-slam",
       "take-down",
+      "double-edge",
       "bite",
       "roar",
       "flamethrower",
@@ -184,9 +209,11 @@
       "dual-chop",
       "confide",
       "laser-focus",
+      "breaking-swipe",
       "scale-shot",
       "scorching-sands",
-      "tera-blast"
+      "tera-blast",
+      "dragon-cheer"
     ]
   },
   "male_model": {

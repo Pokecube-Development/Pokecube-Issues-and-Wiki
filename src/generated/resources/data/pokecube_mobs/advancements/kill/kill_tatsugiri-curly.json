@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.tatsugiri-curly"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tatsugiri-curly"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_tatsugiri-curly": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "tatsugiri-curly"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

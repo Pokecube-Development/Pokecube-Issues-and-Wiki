@@ -103,6 +103,13 @@
         ]
       },
       {
+        "L": 31,
+        "moves": [
+          "rock-polish",
+          "autotomize"
+        ]
+      },
+      {
         "L": 38,
         "moves": [
           "power-gem"
@@ -112,12 +119,6 @@
         "L": 24,
         "moves": [
           "stealth-rock"
-        ]
-      },
-      {
-        "L": 31,
-        "moves": [
-          "autotomize"
         ]
       },
       {
@@ -150,6 +151,7 @@
       "snore",
       "protect",
       "sandstorm",
+      "endure",
       "rollout",
       "swagger",
       "attract",
@@ -165,6 +167,7 @@
       "rock-tomb",
       "cosmic-power",
       "calm-mind",
+      "rock-blast",
       "gravity",
       "gyro-ball",
       "u-turn",
@@ -172,6 +175,7 @@
       "magnet-rise",
       "rock-polish",
       "power-gem",
+      "earth-power",
       "giga-impact",
       "zen-headbutt",
       "iron-head",
@@ -185,7 +189,10 @@
       "acrobatics",
       "bulldoze",
       "confide",
-      "dazzling-gleam"
+      "dazzling-gleam",
+      "meteor-beam",
+      "scorching-sands",
+      "tera-blast"
     ]
   },
   "old_name": "orange_core_minior",

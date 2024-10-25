@@ -114,6 +114,7 @@
       "rock-slide",
       "substitute",
       "snore",
+      "curse",
       "protect",
       "mud-slap",
       "spikes",
@@ -151,7 +152,8 @@
       "body-press",
       "meteor-beam",
       "scorching-sands",
-      "tera-blast"
+      "tera-blast",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/coal_1"

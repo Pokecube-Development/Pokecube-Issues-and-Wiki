@@ -43,8 +43,16 @@
           "scratch",
           "sand-attack",
           "tail-whip",
+          "quick-attack",
           "astonish",
           "dual-chop"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "double-edge",
+          "last-resort"
         ]
       },
       {
@@ -68,13 +76,20 @@
       {
         "L": 18,
         "moves": [
-          "fury-swipes"
+          "fury-swipes",
+          "mud-bomb"
         ]
       },
       {
         "L": 11,
         "moves": [
           "baton-pass"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "iron-tail"
         ]
       },
       {
@@ -87,12 +102,6 @@
         "L": 36,
         "moves": [
           "fling"
-        ]
-      },
-      {
-        "L": 43,
-        "moves": [
-          "last-resort"
         ]
       },
       {
@@ -118,6 +127,7 @@
       "sand-attack",
       "headbutt",
       "take-down",
+      "double-edge",
       "tail-whip",
       "hyper-beam",
       "low-kick",
@@ -167,6 +177,7 @@
       "role-play",
       "brick-break",
       "knock-off",
+      "endeavor",
       "snatch",
       "secret-power",
       "astonish",
@@ -204,9 +215,12 @@
       "confide",
       "power-up-punch",
       "laser-focus",
+      "throat-chop",
+      "triple-axel",
       "tera-blast",
       "trailblaze",
-      "chilling-water"
+      "chilling-water",
+      "upper-hand"
     ]
   },
   "interactions": [

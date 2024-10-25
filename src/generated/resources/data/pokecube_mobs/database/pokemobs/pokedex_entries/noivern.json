@@ -140,6 +140,7 @@
       "tackle",
       "body-slam",
       "take-down",
+      "double-edge",
       "bite",
       "supersonic",
       "flamethrower",
@@ -211,8 +212,11 @@
       "boomburst",
       "confide",
       "laser-focus",
+      "breaking-swipe",
       "dual-wingbeat",
-      "tera-blast"
+      "tera-blast",
+      "dragon-cheer",
+      "psychic-noise"
     ]
   },
   "interactions": [

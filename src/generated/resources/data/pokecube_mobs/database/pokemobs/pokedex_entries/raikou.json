@@ -116,6 +116,7 @@
       "cut",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "leer",
       "bite",
@@ -141,6 +142,7 @@
       "snore",
       "curse",
       "protect",
+      "scary-face",
       "mud-slap",
       "zap-cannon",
       "detect",
@@ -179,11 +181,13 @@
       "discharge",
       "iron-head",
       "charge-beam",
+      "electro-ball",
       "round",
       "scald",
       "quash",
       "volt-switch",
       "bulldoze",
+      "electroweb",
       "wild-charge",
       "snarl",
       "confide",
@@ -191,7 +195,10 @@
       "electric-terrain",
       "laser-focus",
       "throat-chop",
-      "rising-voltage"
+      "rising-voltage",
+      "tera-blast",
+      "trailblaze",
+      "supercell-slam"
     ]
   },
   "loot_table": "pokecube:entities/generic_legend"

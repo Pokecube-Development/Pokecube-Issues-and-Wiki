@@ -118,6 +118,7 @@
       "gust",
       "wing-attack",
       "fly",
+      "double-edge",
       "water-gun",
       "hydro-pump",
       "surf",
@@ -142,6 +143,7 @@
       "frustration",
       "hidden-power",
       "rain-dance",
+      "whirlpool",
       "uproar",
       "hail",
       "facade",
@@ -176,7 +178,8 @@
       "flip-turn",
       "tera-blast",
       "trailblaze",
-      "chilling-water"
+      "chilling-water",
+      "alluring-voice"
     ]
   },
   "loot_table": "pokecube:entities/chicken_2"

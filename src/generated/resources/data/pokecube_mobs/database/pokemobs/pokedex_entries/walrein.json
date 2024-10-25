@@ -43,7 +43,8 @@
       {
         "L": 25,
         "moves": [
-          "body-slam"
+          "body-slam",
+          "liquidation"
         ]
       },
       {
@@ -61,6 +62,12 @@
         "L": 48,
         "moves": [
           "surf"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "ice-beam"
         ]
       },
       {
@@ -106,6 +113,12 @@
         "L": 60,
         "moves": [
           "sheer-cold"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "water-pulse"
         ]
       },
       {

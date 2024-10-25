@@ -182,7 +182,9 @@
       "taunt",
       "helping-hand",
       "brick-break",
+      "endeavor",
       "hyper-voice",
+      "metal-sound",
       "poison-tail",
       "shock-wave",
       "payback",
@@ -204,6 +206,7 @@
       "hex",
       "shift-gear",
       "volt-switch",
+      "electroweb",
       "wild-charge",
       "snarl",
       "belch",
@@ -217,7 +220,8 @@
       "overdrive",
       "rising-voltage",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "psychic-noise"
     ]
   },
   "sound": "toxtricity-amped",

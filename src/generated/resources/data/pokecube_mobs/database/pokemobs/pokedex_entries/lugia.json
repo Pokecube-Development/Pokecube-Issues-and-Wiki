@@ -143,6 +143,7 @@
       "fly",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "roar",
       "mist",
@@ -175,6 +176,7 @@
       "curse",
       "aeroblast",
       "protect",
+      "scary-face",
       "mud-slap",
       "zap-cannon",
       "icy-wind",
@@ -226,6 +228,7 @@
       "air-slash",
       "dragon-pulse",
       "dragon-rush",
+      "brave-bird",
       "earth-power",
       "giga-impact",
       "avalanche",
@@ -240,13 +243,18 @@
       "round",
       "echoed-voice",
       "sky-drop",
+      "acrobatics",
       "bulldoze",
       "dragon-tail",
       "hurricane",
       "confide",
       "laser-focus",
+      "liquidation",
       "scale-shot",
-      "dual-wingbeat"
+      "dual-wingbeat",
+      "tera-blast",
+      "chilling-water",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/oranberry"

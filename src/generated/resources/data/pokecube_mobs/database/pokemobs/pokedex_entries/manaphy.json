@@ -49,9 +49,21 @@
         ]
       },
       {
+        "L": 57,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
         "L": 24,
         "moves": [
           "bubble-beam"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "confusion"
         ]
       },
       {
@@ -93,7 +105,8 @@
       {
         "L": 76,
         "moves": [
-          "heart-swap"
+          "heart-swap",
+          "take-heart"
         ]
       },
       {
@@ -101,13 +114,28 @@
         "moves": [
           "aqua-ring"
         ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "moonblast"
+        ]
       }
     ],
     "misc": [
       "supersonic",
+      "water-gun",
+      "hydro-pump",
       "surf",
       "ice-beam",
       "blizzard",
+      "psybeam",
       "bubble-beam",
       "hyper-beam",
       "toxic",
@@ -135,6 +163,7 @@
       "return",
       "frustration",
       "safeguard",
+      "baton-pass",
       "hidden-power",
       "rain-dance",
       "psych-up",
@@ -151,6 +180,7 @@
       "dive",
       "tail-glow",
       "weather-ball",
+      "fake-tears",
       "signal-beam",
       "bounce",
       "covet",
@@ -166,13 +196,20 @@
       "aqua-ring",
       "energy-ball",
       "giga-impact",
+      "zen-headbutt",
       "grass-knot",
       "round",
+      "stored-power",
       "scald",
+      "disarming-voice",
       "confide",
       "dazzling-gleam",
       "liquidation",
-      "flip-turn"
+      "flip-turn",
+      "take-heart",
+      "tera-blast",
+      "chilling-water",
+      "alluring-voice"
     ]
   },
   "loot_table": "pokecube:entities/generic_legend"

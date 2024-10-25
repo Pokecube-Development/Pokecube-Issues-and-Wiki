@@ -66,9 +66,22 @@
         ]
       },
       {
+        "L": 40,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
         "L": 0,
         "moves": [
-          "water-gun"
+          "water-gun",
+          "water-pulse"
         ]
       },
       {
@@ -81,6 +94,12 @@
         "L": 48,
         "moves": [
           "amnesia"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "rest"
         ]
       },
       {
@@ -123,7 +142,8 @@
       {
         "L": 23,
         "moves": [
-          "yawn"
+          "yawn",
+          "aqua-tail"
         ]
       }
     ],

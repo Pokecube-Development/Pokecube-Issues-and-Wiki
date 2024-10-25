@@ -263,7 +263,8 @@
       "expanding-force",
       "tera-blast",
       "snowscape",
-      "chilling-water"
+      "chilling-water",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/pig_1"

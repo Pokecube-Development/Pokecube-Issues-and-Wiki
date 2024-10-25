@@ -210,7 +210,9 @@
       "psychic-fangs",
       "breaking-swipe",
       "dual-wingbeat",
-      "tera-blast"
+      "tera-blast",
+      "dragon-cheer",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/iron_seeds_2"
