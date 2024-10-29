@@ -1,10 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ModelAnimator version="0.1">
- <model name="">
-  <phase name="global" scale="0.36"/>
+<ModelAnimator>
+ <model>
+  <phase name="global" scale="0.56"/>
+  <metadata head="body" headCap="-60,60" headCap1="-60,60"/>
+  <customTex default="solrock">
+   <part name="Eye" tex="solrock_eye"/>
+   <animation diffs="0,0.5" part="Eye" trigger="random:0.005:5"/>
+  </customTex>
+  <phase type="idle">
+    <part name="body">
+    <component length="10" name="1" posChange="0,-1,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,2,0" startKey="5"/>
+	<component length="10" name="3" posChange="0,-1,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="body">
+    <component length="10" name="1" rotOffset="10,0,0" posChange="0,-1,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,2,0" startKey="5"/>
+	<component length="10" name="3" posChange="0,-1,0" startKey="10"/>
+   </part>
+  </phase>
   <phase type="flying">
    <part name="body">
-    <component length="130" name="1" rotChange="0,0,360," startKey="0"/>
+    <component length="70" name="1" rotOffset="10,0,0" posChange="0,-2,0" rotChange="0,0,360" startKey="0"/>
+    <component length="10" name="2" posChange="0,4,0" startKey="5"/>
+	<component length="10" name="3" posChange="0,-2,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="floating">
+   <part name="body">
+    <component length="10" name="1" posChange="0,-1,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,2,0" startKey="5"/>
+	<component length="10" name="3" posChange="0,-1,0" startKey="10"/>
    </part>
   </phase>
  </model>
