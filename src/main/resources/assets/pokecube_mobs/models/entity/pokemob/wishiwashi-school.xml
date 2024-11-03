@@ -10,6 +10,7 @@
   <phase axis="0" length="140" name="snakeSwim" parts="tail:tail1:tail2:tail3:tail4:tail5:tail6:tail7"/>
   <phase axis="0" angle="15" length="195" name="snakeSwim" parts="tail6_1:tail6_2:tail6_3"/>
   <material name="Glow" light="1" transluscent="false" shader="alpha_shader"/>
+  <customTex default="wishiwashi-school"/>
   <phase type="idle">
    <part name="body">
     <component length="10" name="1" posChange="0,1,0" startKey="0"/>
