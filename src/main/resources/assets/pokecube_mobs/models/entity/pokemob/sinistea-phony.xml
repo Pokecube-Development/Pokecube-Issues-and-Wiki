@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" scale="0.12"/>
+  <customTex default="sinistea">
+   <part name="Head" tex="sinisteaface"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <part name="Back" tex="sinisteaback"/>
+  </customTex>
+  <phase type="idle">
+   <part name="arm1">
+    <component length="30" name="1" hidden="true" startKey="0"/>
+   </part>
+   <part name="body">
+    <component length="10" name="1" rotChange="5,0,-3" startKey="0"/>
+    <component length="10" name="2" rotChange="-5,0,3" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="flying">
+   <part name="body">
+    <component length="10" name="1" rotChange="5,0,-3" startKey="0"/>
+    <component length="10" name="2" rotChange="-5,0,3" startKey="10"/>
+   </part>
+   <part name="base">
+    <component length="10" name="1" rotChange="0,0,10" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-20" startKey="5"/>
+	<component length="10" name="2" rotChange="0,0,10" startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

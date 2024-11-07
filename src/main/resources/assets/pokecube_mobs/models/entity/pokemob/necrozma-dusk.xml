@@ -3,7 +3,7 @@
  <model>
   <phase name="global" scale="0.46"/>
   <metadata head="head" headCap="-60,60"/>
-  <phase duration="10" leftFront="leg3" leftHind="leg1" name="quadWalk" rightFront="leg4" rightHind="leg2"/>
+  <phase angle="20" duration="10" leftFront="leg1:leg1_1" leftHind="leg2:leg2_1" name="quadWalk" rightFront="leg3:leg3_1" rightHind="leg4:leg4_1"/>
   <phase axis="0" name="snakeIdle" parts="tail:tail1:tail2:tail3:tail4:tail5:tail6"/>
   <phase axis="1" name="snakeWalk" parts="tail:tail1:tail2:tail3:tail4:tail5:tail6"/>
   <phase axis="0" name="snakeFly" parts="tail:tail1:tail2:tail3:tail4:tail5:tail6"/>
@@ -177,6 +177,10 @@
    </part>
   </phase>
   <phase type="walking">
+    <part name="body">
+    <component length="8" name="1" rotChange="4,0,0" startKey="0"/>
+    <component length="8" name="2" rotChange="-4,0,0" startKey="10"/>
+   </part>
    <part name="mouth">
     <component length="8" name="1" rotChange="-7,0,0," rotOffset="-7,0,0," startKey="0"/>
     <component length="8" name="2" rotChange="7,0,0," startKey="10"/>
