@@ -2,6 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.7"/>
+  <phase angle="20" duration="10" leftFront="leg1:leg1_1" leftHind="leg2:leg2_1" name="quadWalk" rightFront="leg3:leg3_1" rightHind="leg4:leg4_1"/>
   <customTex default="copperajah">
    <part name="Head" tex="copperajaheye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:10"/>
@@ -60,26 +61,6 @@
    </part>
    <part name="orl2">
     <component length="10" name="1" rotOffset="0,20,0" startKey="0"/>
-   </part>
-   <part name="leg1">
-    <component length="10" name="1" rotChange="20,0,0," startKey="0"/>
-	<component length="10" name="2" rotChange="-40,0,0," startKey="5"/>
-	<component length="10" name="3" rotChange="20,0,0," startKey="10"/>
-   </part>
-   <part name="leg2">
-    <component length="10" name="1" rotChange="-20,0,0," startKey="0"/>
-	<component length="10" name="2" rotChange="40,0,0," startKey="5"/>
-	<component length="10" name="3" rotChange="-20,0,0," startKey="10"/>
-   </part>
-   <part name="leg4">
-    <component length="10" name="1" rotChange="20,0,0," startKey="0"/>
-	<component length="10" name="2" rotChange="-40,0,0," startKey="5"/>
-	<component length="10" name="3" rotChange="20,0,0," startKey="10"/>
-   </part>
-   <part name="leg3">
-    <component length="10" name="1" rotChange="-20,0,0," startKey="0"/>
-	<component length="10" name="2" rotChange="40,0,0," startKey="5"/>
-	<component length="10" name="3" rotChange="-20,0,0," startKey="10"/>
    </part>
   </phase>
  </model>

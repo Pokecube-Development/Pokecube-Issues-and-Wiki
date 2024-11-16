@@ -15,7 +15,8 @@
   <phase name="snakeWalk" axis="1" parts="hair:hair1:hair2:hair3:hair4:hair5"/>
   <phase name="snakeFly" axis="0" parts="tail:tail1:tail2:tail3:tail4"/>
   <phase name="snakeFly" axis="0" parts="hair:hair1:hair2:hair3:hair4:hair5"/>
-  <phase duration="10" leftFront="leg1" leftHind="leg3" name="quadWalk" rightFront="leg2" rightHind="leg4"/>
+  <phase angle="20" duration="10" leftFront="leg1:leg1_1" leftHind="leg2:leg2_1" name="quadWalk" rightFront="leg3:leg3_1" rightHind="leg4:leg4_1"/>
+  <phase angle="20" duration="10" leftFront="leg1:leg1_1" leftHind="leg2:leg2_1" name="flyWalk" rightFront="leg3:leg3_1" rightHind="leg4:leg4_1"/>
   <phase type="idle">
    <part name="leg1">
     <component length="10" name="1" rotOffset="-4,0,-8" startKey="0"/>
@@ -30,7 +31,13 @@
     <component length="10" name="1" rotOffset="4,0,8" startKey="0"/>
    </part>
   </phase>
-  <phase type="flying">
+  <phase type="walking">
+   <part name="body">
+    <component length="8" name="1" rotChange="4,0,0" startKey="0"/>
+    <component length="8" name="2" rotChange="-4,0,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="floating">
    <part name="leg1">
 	<component length="10" name="1" rotChange="-2,0,0" rotOffset="4,0,-2" startKey="0"/>
     <component length="10" name="2" rotChange="2,0,0" startKey="10"/>
@@ -58,6 +65,12 @@
    </part>
    <part name="leg3_1">
     <component length="10" name="1" rotOffset="60,0,0" startKey="0"/>
+   </part>
+  </phase>
+  <phase type="flying">
+   <part name="body">
+    <component length="6" name="1" rotChange="4,0,0" startKey="0"/>
+    <component length="6" name="2" rotChange="-4,0,0" startKey="10"/>
    </part>
   </phase>
  </model>

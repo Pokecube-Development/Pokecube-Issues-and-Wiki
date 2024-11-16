@@ -1,8 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" scale="0.75"/>
-  <metadata headAxis="1" headCap="-60,60" headDir="1"/>
-  <phase duration="10" leftFront="Leg12" leftHind="Leg1" name="quadWalk" rightFront="Leg8" rightHind="Leg2"/>
+  <phase name="global" scale="0.12"/>
+  <metadata head="body" headCap="-10,10" headCap1="-10,10"/>
+  <phase duration="10" leftFront="leg1" leftHind="leg2" name="quadWalk" rightFront="leg3" rightHind="leg4"/>
+  <customTex default="surskit">
+   <part name="Eye" tex="surskit_eye"/>
+   <animation diffs="0,0.5" part="Eye" trigger="random:0.005:5"/>
+  </customTex>
+  <phase type="idle">
+   <part name="body">
+    <component length="10" name="1" posChange="0,-1,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,1,0" startKey="10"/>
+   </part>
+   <part name="leg1">
+    <component length="10" name="1" rotChange="2,0,2" startKey="0"/>
+    <component length="10" name="2" rotChange="-2,0,-2" startKey="10"/>
+   </part>
+   <part name="leg2">
+    <component length="10" name="1" rotChange="2,0,-2" startKey="0"/>
+    <component length="10" name="2" rotChange="-2,0,2" startKey="10"/>
+   </part>
+   <part name="leg3">
+    <component length="10" name="1" rotChange="-2,0,-2" startKey="0"/>
+    <component length="10" name="2" rotChange="2,0,2" startKey="10"/>
+   </part>
+   <part name="leg4">
+    <component length="10" name="1" rotChange="-2,0,2" startKey="0"/>
+    <component length="10" name="2" rotChange="2,0,-2" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="body">
+    <component length="10" name="1" posChange="0,-1,0" rotOffset="6,0,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,1,0" startKey="10"/>
+   </part>
+  </phase>
  </model>
 </ModelAnimator>

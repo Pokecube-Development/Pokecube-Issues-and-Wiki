@@ -3,7 +3,7 @@
  <model name="">
   <phase name="global" scale="1.0"/>
   <metadata head="neck1:neck2" headCap="-35,35" headCap1="-35,35" headDir1="-1"/>
-  <phase duration="10" leftFront="leg4" leftHind="leg2" name="quadWalk" rightFront="leg3" rightHind="leg1"/>
+  <phase angle="20" duration="10" leftFront="leg1:leg1_1" leftHind="leg2:leg2_1" name="quadWalk" rightFront="leg3:leg3_1" rightHind="leg4:leg4_1"/>
   <customTex default="xerneas">
    <part name="Head" tex="xerneaseye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:25"/>
@@ -67,6 +67,10 @@
     <component length="15" name="1" rotOffset="20,0,0" rotChange="0,20,0" startKey="0"/>
     <component length="15" name="2" rotChange="0,-40,0" startKey="5"/>
 	<component length="15" name="3" rotChange="0,20,0" startKey="10"/>
+   </part>
+   <part name="body">
+    <component length="8" name="1" rotChange="4,0,0" startKey="0"/>
+    <component length="8" name="2" rotChange="-4,0,0" startKey="10"/>
    </part>
   </phase>
  </model>
