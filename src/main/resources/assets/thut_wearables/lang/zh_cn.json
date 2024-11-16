@@ -9,10 +9,18 @@
     "button.wearables.on": "打开",
 
     "wearables.command.fail.noperms": "你不能使用这个命令.",
-    "wearables.command.fail.targetted": "Failed to Open Wearables of Target.",
-    "wearables.other.fail": "Failed to Open Wearables of Target.",
+    "wearables.command.fail.targetted": "无法打开目标的饰品GUI",
+    "wearables.other.fail": "无法打开目标的饰品GUI",
+
+    "wearables.gui.button.open": "打开饰品GUI",
+    "wearables.gui.button.close": "关闭饰品GUI",
 
     "wearables.keyuse.left": "左侧按键: §6[§r%s§6]",
     "wearables.keyuse.right": "右侧按键: §6[§r%s§6]",
-    "wearables.keyuse.single": "按键: §6[§r%s§6]"
+    "wearables.keyuse.single": "按键: §6[§r%s§6]",
+
+    "key.categories.wearables": "可穿戴物品",
+    "key.wearables.activate": "激活",
+    "key.wearables.wearable": " 可穿戴",
+    "key.wearables.toggle_gui": "打开饰品GUI"
 }

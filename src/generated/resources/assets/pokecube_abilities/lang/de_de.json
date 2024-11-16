@@ -296,5 +296,14 @@
   "ability.toxic-debris.name": "Giftbelag",
   "ability.armor-tail.name": "Schweifrüstung",
   "ability.earth-eater.name": "Bodenschmaus",
-  "ability.mycelium-might.name": "Myzelienkraft"
+  "ability.mycelium-might.name": "Myzelienkraft",
+  "ability.hospitality.name": "Gastlichkeit",
+  "ability.minds-eye.name": "Geistiges Auge",
+  "ability.embody-aspect.name": "Erinnerungskraft",
+  "ability.toxic-chain.name": "Giftkette",
+  "ability.supersweet-syrup.name": "Süßer Nektar",
+  "ability.tera-shift.name": "Tera-Wandel",
+  "ability.tera-shell.name": "Tera-Panzer",
+  "ability.teraform-zero.name": "Teraforming Null",
+  "ability.poison-puppeteer.name": "Giftpuppenspiel"
 }

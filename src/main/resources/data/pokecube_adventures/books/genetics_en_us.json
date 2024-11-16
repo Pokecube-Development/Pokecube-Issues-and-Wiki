@@ -24,32 +24,32 @@
       "lines": [
         "§4§n§lBasic Terminology{_ref_:_terms_}{_link_:_index_}",
         " ",
-        "§4§nExpressed Gene (EG):",
+        "§4§nPhenotype:",
         "This is the trait which appears on the mob itself.",
         " ",
-        "§4§nParent Gene (PG):",
-        "These are genes available for inheritance, these are generally merged in some way to result in the expressed gene, each EG corresponds to 2 PGs.",
+        "§4§nAllele:",
+        "A pair of genes, each of them from a parent. These are genes available for inheritance, these are generally merged in some way to result in the expressed gene, each phenotype corresponds to a pair of allele.",
         " ",
         "§4§nDominant:",
-        "Dominant PGs will express regardless of the other PG.",
+        "Dominant gene will express regardless of the other one in that allele.",
         " ",
         "§4§nRecessive:",
-        "Recessive PGs require both PGs to be the same to be expressed.",
+        "Recessive genes require both genes of that allele to be the same to be expressed.",
         " ",
-        "§4§nCo-Dominant:",
-        "Co-dominant PGs will select a random gene for expression",
+        "§4§nRandom Dominant:",
+        "Random dominant genes will select a random gene of that allele for expression",
         " ",
         "§4§nEpigenetic:",
-        "If the gene is epigenetic, then instead of using PGs for inheritance, it will use the EG, and that EG will change based on the history of the Pokémob."
+        "If the gene is epigenetic, then instead of using allele for inheritance, it will use the phenotype of parents, and that phenotype will change based on the history of the Pokémob."
       ]
     },
     {
       "lines": [
         "§9§n§lPokémob DNA:{_ref_:_pokedna_}{_link_:_index_}",
         "",
-        "There are presently 10 known genes of Pokémobs.",
+        "There are presently 10 known types of genes for Pokémobs.",
         "",
-        "Of these 10 genes, 2 are strictly epigenetic, and 1 of them has a low chance of being epigenetic.",
+        "Of these 10 types, 2 are strictly epigenetic, and 1 of them has a low chance of being epigenetic.",
         " ",
         "§nKnown genes:{_ref_:_genes_}",
         "",
@@ -66,7 +66,7 @@
         "",
         "§9*Epigenetic",
         " ",
-        "Most of these genes appear to be Co-dominant, with a low rate of mutations, below are the exceptions",
+        "Most of these genes appear to be random dominant, with a low rate of mutations, below are the exceptions",
         "",
         "§9Nature",
         "§9Shiny",
@@ -75,19 +75,19 @@
         " ",
         "§9§nNature Gene:",
         "",
-        "The Nature gene appears to occasionally exhibit a merging effect rather than dominance, the EG can end up as a merge of the 2 PGs, rather than direct inheritance.",
+        "The Nature gene appears to occasionally exhibit a merging effect rather than dominance, the phenotype can end up as a merge of the allele, rather than direct inheritance.",
         " ",
         "§9§nShiny Gene:",
         "",
-        "The Shiny gene appears to be a rare, recessive gene, and the Shiny Charm is able to switch the EG for this, not affecting any of the PGs",
+        "The Shiny gene appears to be a rare, recessive gene, and the Shiny Charm is able to switch the phenotype for this, not affecting any of the gene",
         " ",
         "§9§nSpecies Gene:",
         "",
-        "For the species gene, it seems dominance is dependant on whether one of the PGs is gendered, genderless PGs are recessive, this gene ocassionally has epigenetic tendencies",
+        "For the species gene, it seems dominance is dependant on whether one of the gene of that allele is gendered, genderless one is recessive, this gene ocassionally has epigenetic tendencies",
         " ",
         "§9§nMoves Gene:",
         "",
-        "The Moves gene only seems to be expressed if both PGs are the same, which is generally not the case."
+        "The Moves gene only seems to be expressed if both genes of that allele are the same, which is generally not the case."
       ]
     },
     {
@@ -106,7 +106,7 @@
         " ",
         "There are 2 ways to make a selector, via computer interface (CC), or via a written book.",
         " ",
-        "A Book selector consists of placing the names of the genes on the first page of the book, each on a seperate line (or \"all\"). The book selector can then be crafted with various modifier items to adjust its chances of breaking, both themselves and the DNA, the only currently known modifier is the nether star, but others might exist.",
+        "A Book selector starts with a line of \"genes:\" and following with the names of the genes on the first page of the book, each on a seperate line (or \"all\"). The book selector can then be crafted with various modifier items to adjust its chances of breaking, both themselves and the DNA, the only currently known modifier is the nether star, but others might exist.",
         " ",
         "§2§n§lGene Extractor{_ref_:_extractor_}{_link_:_index_}",
         "",
@@ -123,7 +123,7 @@
         " ",
         "The tooltip on the selector will display which genes are being selected, and it will also display the chance of DNA or selector loss.",
         " ",
-        "DNA sources might also display a tooltip containing their contents, this is also accessible via computer interface."
+        "DNA sources might also display a tooltip containing their contents in related machines' GUI."
       ]
     },
     {

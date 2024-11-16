@@ -13,5 +13,18 @@
 
     "gui.bag.next": "下一页",
     "gui.bag.previous": "上一页",
-    "gui.bag.rename": "改名"
+    "block.bag.next": "",
+    "block.bag.next.narrate": "下一页",
+    "block.bag.next.tooltip": "下一页",
+    "block.bag.previous": "",
+    "block.bag.previous.narrate": "上一页",
+    "block.bag.previous.tooltip": "上一页",
+    "gui.bag.rename": "重命名",
+    "block.bag.rename.narrate": "重命名页面",
+    "block.bag.rename.tooltip": "重命名页面",
+    "block.bag.search": "",
+    "block.bag.search.narrate": "搜索栏",
+    "block.bag.search.tooltip": "搜索",
+    "block.bag.page.tooltip": "页面#",
+    "block.bag.page.tooltip.narrate": "页号"
 }

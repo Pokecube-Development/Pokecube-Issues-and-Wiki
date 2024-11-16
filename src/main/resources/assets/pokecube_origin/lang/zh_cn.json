@@ -1,5 +1,6 @@
 {
     "_comment": "Pokécube translation",
+
     "item.pokecube.waterstone": "水之石",
     "item.pokecube.firestone": "火之石",
     "item.pokecube.thunderstone": "雷之石",
@@ -13,6 +14,8 @@
     "item.pokecube.dawnstone": "觉醒之石",
     "item.pokecube.kingsrock": "王者之证",
     "item.pokecube.luckyegg": "幸运蛋",
+
+
     "item.pokecube.berry.desc": "可以种植在田里",
     "item.pokecube.berry_cheri": "樱子果",
     "item.pokecube.berry_cheri.desc": "可以治愈麻痹",
@@ -27,7 +30,7 @@
     "item.pokecube.berry_leppa": "苹野果",
     "item.pokecube.berry_leppa.desc": "回复比平时更多的饥饿值",
     "item.pokecube.berry_oran": "橙橙果",
-    "item.pokecube.berry_oran.desc": "可以回复１０ＨＰ",
+    "item.pokecube.berry_oran.desc": "可以回复10ＨＰ",
     "item.pokecube.berry_persim": "柿仔果",
     "item.pokecube.berry_persim.desc": "有一些宝可梦喜欢吃这个。",
     "item.pokecube.berry_lum": "木子果",
@@ -59,12 +62,16 @@
     "item.pokecube.berry_rowap": "雾莲果",
     "item.pokecube.berry_rowap.desc": "用来制作驱虫剂",
     "item.pokecube.berryjuice": "浆果汁",
+
+
     "item.pokecube.vitamin_hpup": "ＨＰ增强剂",
     "item.pokecube.vitamin_calcium": "特攻增强剂",
     "item.pokecube.vitamin_protein": "攻击增强剂",
     "item.pokecube.vitamin_iron": "防御增强剂",
     "item.pokecube.vitamin_zinc": "特防增强剂",
     "item.pokecube.vitamin_carbos": "速度增强剂",
+
+
     "item.pokecube.pokecube": "精灵球",
     "item.pokecube.pokecube.desc": "用于投向野生宝可梦并将其捕捉的球。它是胶囊样式的。",
     "item.pokecube.greatcube": "超级球",
@@ -110,17 +117,19 @@
     "item.pokecube.luxurycube": "豪华球",
     "item.pokecube.luxurycube.desc": "住着十分惬意的球。捉到的野生宝可梦会变得容易和训练家亲密。",
     "item.pokecube.dreamcube": "梦境球",
-    "item.pokecube.dreamcube.desc": "有点与众不同的球。能很容易地捕捉睡眠状态的宝可梦。",
+    "item.pokecube.dreamcube.desc": "有点与众不同的球。能很容易地捕捉睡眠状态的宝可梦。\n功能如同大师球。",
     "item.pokecube.safaricube": "狩猎球",
-    "item.pokecube.safaricube.desc": "曾在关都地区的狩猎地带以及神奥地区的大湿地被使用。是一种特殊的球。",
+    "item.pokecube.safaricube.desc": "曾在关都地区的狩猎地带以及神奥地区的大湿地被使用。是一种特殊的球。\n比一般的精灵球性能要好。",
     "item.pokecube.fastcube": "速度球",
     "item.pokecube.fastcube.desc": "有点与众不同的球。能很容易地捕捉逃跑速度很快的宝可梦。",
     "item.pokecube.sportcube": "竞赛球",
-    "item.pokecube.sportcube.desc": "曽在城都地区的捕虫大赛上使用的特殊的球。",
+    "item.pokecube.sportcube.desc": "曽在城都地区的捕虫大赛上使用的特殊的球。\n比一般的精灵球性能要好。",
     "item.pokecube.parkcube": "公园球",
-    "item.pokecube.parkcube.desc": "在伙伴公园里使用的特殊的球。",
+    "item.pokecube.parkcube.desc": "在伙伴公园里使用的特殊的球。\n功能如同大师球。",
     "item.pokecube.pokeseal": "密封球",
     "item.pokecube.pokeseal.desc": "有点与众不同的球。可以自定义宝可梦的粒子效果。",
+
+
     "item.pokecube.candy": "坏掉的糖果",
     "item.pokecube.candy.rare": "神奇糖果",
     "item.pokecube.mewhair": "梦幻毛发",
@@ -133,6 +142,8 @@
     "item.pokecube.protector": "护具",
     "item.pokecube.upgrade": "升级数据",
     "item.pokecube.metalcoat": "金属膜",
+
+
     "item.pokecube.fossil_omanyte": "贝壳化石",
     "item.pokecube.fossil_kabuto": "甲壳化石",
     "item.pokecube.fossil_aerodactyl": "秘密琥珀",
@@ -148,12 +159,18 @@
     "item.pokecube.fossil_arctozolt": "鸟龙化石",
     "item.pokecube.fossil_dracovish": "鱼海兽化石",
     "item.pokecube.fossil_dracozolt": "鸟海兽化石",
-    "item.pokecube.mega_glasses": "Mega眼镜",
-    "item.pokecube.mega_tiara": "Mega头冠",
-    "item.pokecube.mega_pendant": "Mega吊坠",
-    "item.pokecube.mega_earring": "Mega耳环",
+
+
+    "item.pokecube.mega_glasses": "超级眼镜",
+    "item.pokecube.mega_tiara": "超级头冠",
+    "item.pokecube.mega_pendant": "超级吊坠",
+    "item.pokecube.mega_earring": "超级耳环",
     "item.pokecube.mega_ankletzinnia": "龙之脚镯",
+
+
     "item.pokecube.shiny_charm": "闪耀护符",
+
+
     "item.pokecube.abomasnowmega": "暴雪王进化石",
     "item.pokecube.absolmega": "阿勃梭鲁进化石",
     "item.pokecube.aerodactylmega": "化石翼龙进化石",
@@ -203,6 +220,7 @@
     "item.pokecube.venusaurmega": "妙蛙花进化石",
     "item.pokecube.alphaorb": "靛蓝色宝珠",
     "item.pokecube.omegaorb": "朱红色宝珠",
+
     "block.pokecube.fruit_cheri": "樱子果",
     "block.pokecube.fruit_chesto": "零余果",
     "block.pokecube.fruit_pecha": "桃桃果",
@@ -214,7 +232,7 @@
     "block.pokecube.fruit_lum": "木子果",
     "block.pokecube.fruit_sitrus": "文柚果",
     "block.pokecube.fruit_nanab": "蕉香果",
-    "block.pokecube.fruit_null": "Null 树果",
+    "block.pokecube.fruit_null": "Bug果",
     "block.pokecube.fruit_pinap": "凰梨果",
     "block.pokecube.fruit_cornn": "玉黍果",
     "block.pokecube.fruit_pomeg": "榴石果",
@@ -226,6 +244,7 @@
     "block.pokecube.fruit_enigma": "谜芝果",
     "block.pokecube.fruit_jaboca": "嘉珍果",
     "block.pokecube.fruit_rowap": "雾莲果",
+
     "block.pokecube.potted_aspear_berry": "盆装利木果",
     "block.pokecube.potted_cheri_berry": "盆装樱子果",
     "block.pokecube.potted_chesto_berry": "盆装零余果",
@@ -238,7 +257,7 @@
     "block.pokecube.potted_leppa_berry": "盆装苹野果",
     "block.pokecube.potted_lum_berry": "盆装木子果",
     "block.pokecube.potted_nanab_berry": "盆装蕉香果",
-    "block.pokecube.potted_null_berry": "盆装 Null 树果",
+    "block.pokecube.potted_null_berry": "盆装Bug果",
     "block.pokecube.potted_oran_berry": "盆装橙橙果",
     "block.pokecube.potted_pecha_berry": "盆装桃桃果",
     "block.pokecube.potted_persim_berry": "盆装柿仔果",
@@ -249,6 +268,8 @@
     "block.pokecube.potted_rowap_berry": "盆装雾莲果",
     "block.pokecube.potted_sitrus_berry": "盆装文柚果",
     "block.pokecube.potted_tamato_berry": "盆装茄番果",
+
+    "block.pokecube.crop_null":"Bug果作物",
     "block.pokecube.crop_cheri": "樱子果作物",
     "block.pokecube.crop_chesto": "零余果作物",
     "block.pokecube.crop_pecha": "桃桃果作物",
@@ -271,6 +292,7 @@
     "block.pokecube.crop_enigma": "谜芝果作物",
     "block.pokecube.crop_jaboca": "嘉珍果作物",
     "block.pokecube.crop_rowap": "雾莲果作物",
+
     "block.pokecube.leaves_cheri": "樱子树叶",
     "block.pokecube.leaves_chesto": "零余树叶",
     "block.pokecube.leaves_pecha": "桃桃树叶",
@@ -293,6 +315,7 @@
     "block.pokecube.leaves_enigma": "谜芝树叶",
     "block.pokecube.leaves_jaboca": "嘉珍树叶",
     "block.pokecube.leaves_rowap": "雾莲树叶",
+
     "block.pokecube.plank_cheri": "樱子木板",
     "block.pokecube.plank_chesto": "零余木板",
     "block.pokecube.plank_pecha": "桃桃木板",
@@ -315,6 +338,7 @@
     "block.pokecube.plank_enigma": "谜芝木板",
     "block.pokecube.plank_jaboca": "嘉珍木板",
     "block.pokecube.plank_rowap": "雾莲木板",
+
     "block.pokecube.log_cheri": "樱子木",
     "block.pokecube.log_chesto": "零余木",
     "block.pokecube.log_pecha": "桃桃木",
