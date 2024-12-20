@@ -40,6 +40,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.Event.Result;
@@ -1543,7 +1544,10 @@ public class PokedexEntry
         if (this.heldTable != null)
         {
             final LootTable loottable = mob.level().getServer().getLootData().getLootTable(this.heldTable);
-            LootParams params = new LootParams.Builder((ServerLevel) mob.level()).create(loottable.getParamSet());
+            LootParams params = new LootParams.Builder((ServerLevel) mob.level())
+                    .withParameter(LootContextParams.THIS_ENTITY, mob)
+                    .withParameter(LootContextParams.DAMAGE_SOURCE, mob.level().damageSources().generic())
+                    .withParameter(LootContextParams.ORIGIN, mob.position()).create(loottable.getParamSet());
             // Generate the loot list.
             final List<ItemStack> list = loottable.getRandomItems(params);
             for (final ItemStack itemstack : list) if (!itemstack.isEmpty())
