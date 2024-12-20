@@ -167,6 +167,7 @@
       "return",
       "frustration",
       "safeguard",
+      "baton-pass",
       "iron-tail",
       "hidden-power",
       "rain-dance",
@@ -182,10 +183,12 @@
       "role-play",
       "magic-coat",
       "recycle",
+      "yawn",
       "skill-swap",
       "snatch",
       "secret-power",
       "fake-tears",
+      "tickle",
       "signal-beam",
       "extrasensory",
       "covet",
@@ -218,7 +221,11 @@
       "confide",
       "power-up-punch",
       "psychic-terrain",
-      "expanding-force"
+      "expanding-force",
+      "tera-blast",
+      "trailblaze",
+      "alluring-voice",
+      "psychic-noise"
     ]
   },
   "interactions": [

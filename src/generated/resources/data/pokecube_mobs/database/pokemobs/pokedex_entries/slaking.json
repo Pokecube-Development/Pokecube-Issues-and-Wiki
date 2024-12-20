@@ -145,6 +145,7 @@
       "substitute",
       "thief",
       "snore",
+      "curse",
       "flail",
       "reversal",
       "protect",
@@ -177,6 +178,7 @@
       "brick-break",
       "yawn",
       "knock-off",
+      "endeavor",
       "secret-power",
       "slack-off",
       "hyper-voice",
@@ -221,13 +223,15 @@
       "confide",
       "power-up-punch",
       "high-horsepower",
+      "throat-chop",
       "stomping-tantrum",
       "body-press",
       "lash-out",
       "tera-blast",
       "pounce",
       "trailblaze",
-      "chilling-water"
+      "chilling-water",
+      "hard-press"
     ]
   },
   "interactions": [

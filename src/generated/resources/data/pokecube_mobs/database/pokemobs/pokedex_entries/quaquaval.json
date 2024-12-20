@@ -152,11 +152,15 @@
       "baton-pass",
       "encore",
       "rain-dance",
+      "psych-up",
+      "whirlpool",
       "facade",
       "taunt",
       "helping-hand",
       "brick-break",
       "knock-off",
+      "endeavor",
+      "feather-dance",
       "hydro-cannon",
       "air-cutter",
       "aerial-ace",
@@ -175,10 +179,13 @@
       "disarming-voice",
       "misty-terrain",
       "liquidation",
+      "coaching",
       "flip-turn",
+      "triple-axel",
       "tera-blast",
       "ice-spinner",
-      "chilling-water"
+      "chilling-water",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/chicken_1"

@@ -57,9 +57,21 @@
         ]
       },
       {
+        "L": 57,
+        "moves": [
+          "self-destruct"
+        ]
+      },
+      {
         "L": 76,
         "moves": [
           "explosion"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "tri-attack"
         ]
       },
       {
@@ -99,6 +111,12 @@
         ]
       },
       {
+        "L": 12,
+        "moves": [
+          "double-hit"
+        ]
+      },
+      {
         "L": 84,
         "moves": [
           "mystical-power"
@@ -110,6 +128,7 @@
       "ice-punch",
       "thunder-punch",
       "headbutt",
+      "double-edge",
       "flamethrower",
       "psybeam",
       "hyper-beam",
@@ -162,6 +181,7 @@
       "magic-coat",
       "recycle",
       "knock-off",
+      "endeavor",
       "skill-swap",
       "imprison",
       "secret-power",
@@ -202,6 +222,7 @@
       "power-up-punch",
       "laser-focus",
       "expanding-force",
+      "mystical-power",
       "tera-blast"
     ]
   },

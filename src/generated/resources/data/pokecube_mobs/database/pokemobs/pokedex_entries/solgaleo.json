@@ -129,6 +129,9 @@
       }
     ],
     "misc": [
+      "body-slam",
+      "take-down",
+      "double-edge",
       "roar",
       "flamethrower",
       "hyper-beam",
@@ -211,7 +214,8 @@
       "steel-beam",
       "expanding-force",
       "steel-roller",
-      "meteor-beam"
+      "meteor-beam",
+      "tera-blast"
     ]
   },
   "forme_items": [

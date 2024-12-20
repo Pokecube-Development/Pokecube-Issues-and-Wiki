@@ -75,7 +75,8 @@
       {
         "L": 0,
         "moves": [
-          "razor-leaf"
+          "razor-leaf",
+          "leafage"
         ]
       },
       {
@@ -87,6 +88,7 @@
       {
         "L": 25,
         "moves": [
+          "mimic",
           "giga-drain"
         ]
       },
@@ -106,6 +108,12 @@
         "L": 17,
         "moves": [
           "grass-whistle"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "calm-mind"
         ]
       },
       {
@@ -155,6 +163,7 @@
       "rest",
       "substitute",
       "snore",
+      "curse",
       "protect",
       "mud-slap",
       "giga-drain",
@@ -213,7 +222,8 @@
       "laser-focus",
       "grassy-glide",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "alluring-voice"
     ]
   },
   "loot_table": "pokecube:entities/rabbit_1"

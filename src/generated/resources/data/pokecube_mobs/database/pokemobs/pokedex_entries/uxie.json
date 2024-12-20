@@ -58,9 +58,21 @@
         ]
       },
       {
+        "L": 57,
+        "moves": [
+          "hypnosis"
+        ]
+      },
+      {
         "L": 46,
         "moves": [
           "amnesia"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "tri-attack"
         ]
       },
       {
@@ -72,7 +84,8 @@
       {
         "L": 36,
         "moves": [
-          "future-sight"
+          "future-sight",
+          "calm-mind"
         ]
       },
       {
@@ -91,6 +104,12 @@
         "L": 50,
         "moves": [
           "extrasensory"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "double-hit"
         ]
       },
       {
@@ -139,6 +158,7 @@
       "return",
       "frustration",
       "safeguard",
+      "pain-split",
       "baton-pass",
       "encore",
       "iron-tail",
@@ -194,7 +214,9 @@
       "power-up-punch",
       "laser-focus",
       "expanding-force",
-      "tera-blast"
+      "mystical-power",
+      "tera-blast",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/fish_1"

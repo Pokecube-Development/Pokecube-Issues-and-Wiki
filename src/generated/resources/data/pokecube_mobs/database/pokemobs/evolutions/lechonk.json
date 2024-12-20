@@ -1,8 +1,30 @@
-{
-  "name": "oinkologne",
-  "user": "lechonk",
-  "condition": {
-    "key": "level",
-    "level": 18
+[
+  {
+	"name": "oinkologne-male",
+	"user": "lechonk",
+	"condition": [
+		{
+	    "key": "level",
+		"level": 18,
+		},
+		{
+        "key": "sexe",
+        "sexe": "male"
+		}
+	]
+  },
+  {
+	"name": "oinkologne-female",
+	"user": "lechonk",
+	"condition": [
+		{
+	    "key": "level",
+		"level": 18,
+		},
+		{
+        "key": "sexe",
+        "sexe": "female"
+		}
+	]
   }
-}
+]

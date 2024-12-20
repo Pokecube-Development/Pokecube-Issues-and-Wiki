@@ -49,6 +49,7 @@
           "leer",
           "double-team",
           "powder-snow",
+          "ice-ball",
           "astonish",
           "sheer-cold",
           "ice-shard"
@@ -102,6 +103,12 @@
         "L": 23,
         "moves": [
           "ice-fang"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "icicle-crash"
         ]
       },
       {

@@ -151,6 +151,7 @@
       "substitute",
       "thief",
       "snore",
+      "curse",
       "reversal",
       "protect",
       "scary-face",
@@ -160,6 +161,7 @@
       "sleep-talk",
       "return",
       "frustration",
+      "pain-split",
       "baton-pass",
       "iron-tail",
       "vital-throw",
@@ -216,7 +218,8 @@
       "coaching",
       "tera-blast",
       "trailblaze",
-      "chilling-water"
+      "chilling-water",
+      "upper-hand"
     ]
   },
   "interactions": [

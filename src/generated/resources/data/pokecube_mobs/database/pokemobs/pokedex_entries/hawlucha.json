@@ -240,7 +240,8 @@
       "coaching",
       "dual-wingbeat",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/chicken_1"

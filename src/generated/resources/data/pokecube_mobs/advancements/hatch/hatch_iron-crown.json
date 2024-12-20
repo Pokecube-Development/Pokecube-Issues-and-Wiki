@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.iron-crown"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.iron-crown"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_iron-crown": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "iron-crown"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

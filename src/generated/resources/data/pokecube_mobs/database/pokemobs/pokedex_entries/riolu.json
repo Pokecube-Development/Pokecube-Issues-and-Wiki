@@ -45,6 +45,12 @@
         ]
       },
       {
+        "L": 9,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
         "L": 6,
         "moves": [
           "counter"
@@ -68,7 +74,8 @@
       {
         "L": 29,
         "moves": [
-          "reversal"
+          "reversal",
+          "crunch"
         ]
       },
       {
@@ -90,9 +97,29 @@
         ]
       },
       {
+        "L": 15,
+        "moves": [
+          "iron-defense",
+          "force-palm"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "bulk-up"
+        ]
+      },
+      {
         "L": 11,
         "moves": [
           "feint"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "close-combat",
+          "nasty-plot"
         ]
       },
       {
@@ -102,15 +129,15 @@
         ]
       },
       {
-        "L": 15,
+        "L": 21,
         "moves": [
-          "force-palm"
+          "aura-sphere"
         ]
       },
       {
-        "L": 47,
+        "L": 5,
         "moves": [
-          "nasty-plot"
+          "bullet-punch"
         ]
       },
       {
@@ -178,6 +205,7 @@
       "rain-dance",
       "sunny-day",
       "crunch",
+      "psych-up",
       "rock-smash",
       "facade",
       "focus-punch",
@@ -226,7 +254,8 @@
       "laser-focus",
       "coaching",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/rabbit_1"

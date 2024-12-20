@@ -66,6 +66,14 @@
         ]
       },
       {
+        "L": 25,
+        "moves": [
+          "mimic",
+          "skill-swap",
+          "play-rough"
+        ]
+      },
+      {
         "L": 33,
         "moves": [
           "light-screen"
@@ -84,9 +92,9 @@
         ]
       },
       {
-        "L": 25,
+        "L": 34,
         "moves": [
-          "skill-swap"
+          "calm-mind"
         ]
       },
       {
@@ -152,6 +160,7 @@
       "rest",
       "substitute",
       "snore",
+      "curse",
       "protect",
       "endure",
       "charm",
@@ -203,7 +212,8 @@
       "laser-focus",
       "misty-explosion",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "alluring-voice"
     ]
   },
   "loot_table": "pokecube:entities/rabbit_1"

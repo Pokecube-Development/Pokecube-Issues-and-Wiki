@@ -68,7 +68,8 @@
         "L": 18,
         "moves": [
           "bite",
-          "pursuit"
+          "pursuit",
+          "water-pulse"
         ]
       },
       {
@@ -132,6 +133,7 @@
       "headbutt",
       "body-slam",
       "take-down",
+      "double-edge",
       "bite",
       "growl",
       "roar",
@@ -184,6 +186,7 @@
       "secret-power",
       "dive",
       "rock-tomb",
+      "muddy-water",
       "bulk-up",
       "water-sport",
       "water-pulse",

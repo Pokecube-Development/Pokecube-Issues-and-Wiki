@@ -42,7 +42,15 @@
         "L": 1,
         "moves": [
           "scratch",
+          "tackle",
           "focus-energy"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "double-edge",
+          "belch"
         ]
       },
       {
@@ -113,6 +121,12 @@
         ]
       },
       {
+        "L": 34,
+        "moves": [
+          "poison-jab"
+        ]
+      },
+      {
         "L": 31,
         "moves": [
           "night-slash"
@@ -122,12 +136,6 @@
         "L": 19,
         "moves": [
           "acid-spray"
-        ]
-      },
-      {
-        "L": 43,
-        "moves": [
-          "belch"
         ]
       },
       {
@@ -213,6 +221,7 @@
       "hone-claws",
       "venoshock",
       "flame-burst",
+      "sludge-wave",
       "acid-spray",
       "foul-play",
       "round",
@@ -228,7 +237,8 @@
       "lash-out",
       "corrosive-gas",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/rabbit_1"

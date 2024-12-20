@@ -46,6 +46,7 @@
           "bind",
           "tackle",
           "harden",
+          "rollout",
           "mud-sport"
         ]
       },
@@ -94,7 +95,8 @@
       {
         "L": 34,
         "moves": [
-          "rock-slide"
+          "rock-slide",
+          "high-horsepower"
         ]
       },
       {
@@ -161,6 +163,12 @@
         "L": 22,
         "moves": [
           "smack-down"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "bulldoze"
         ]
       }
     ],

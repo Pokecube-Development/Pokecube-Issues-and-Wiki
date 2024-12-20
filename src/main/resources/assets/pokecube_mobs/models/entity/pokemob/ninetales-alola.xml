@@ -3,17 +3,17 @@
  <model>
   <phase name="global" scale="0.63"/>
   <metadata head="neck" headCap="-20,20" headCap1="-20,20"/>
-  <phase duration="10" leftFront="leg1" leftHind="leg4" name="quadWalk" rightFront="leg2" rightHind="leg3"/>
+  <phase angle="20" duration="10" leftFront="leg1:leg1_1" leftHind="leg2:leg2_1" name="quadWalk" rightFront="leg3:leg3_1" rightHind="leg4:leg4_1"/>
   <customTex default="ninetales-alola">
    <part name="Head" tex="ninetalesalolaeye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
   </customTex>
-  <phase axis="0" length="50" name="snakeSit" parts="hair1:hair2:hair3:hair4:hair5:hair6:hair7:hair8:tail9:hair10"/>
-  <phase axis="0" length="40" name="snakeSit" parts="hair7_1:hair7_2:hair7_3:hair7_4"/>
-  <phase axis="0" length="50" name="snakeIdle" parts="hair1:hair2:hair3:hair4:hair5:hair6:hair7:hair8:tail9:hair10"/>
-  <phase axis="0" length="20" name="snakeIdle" parts="hair7_1:hair7_2:hair7_3:hair7_4"/>
-  <phase axis="1" length="50" name="snakeWalk" parts="hair1:hair2:hair3:hair4:hair5:hair6:hair7:hair8:tail9:hair10"/>
-  <phase axis="1" length="20" name="snakeWalk" parts="hair7_1:hair7_2:hair7_3:hair7_4"/>
+  <phase axis="0" angle="32" length="150" name="snakeSit" parts="hair1:hair2:hair3:hair4:hair5:hair6:hair7:hair8:tail9:hair10"/>
+  <phase axis="0" angle="32" length="140" name="snakeSit" parts="hair7_1:hair7_2:hair7_3:hair7_4"/>
+  <phase axis="0" angle="32" length="150" name="snakeIdle" parts="hair1:hair2:hair3:hair4:hair5:hair6:hair7:hair8:tail9:hair10"/>
+  <phase axis="0" angle="32" length="120" name="snakeIdle" parts="hair7_1:hair7_2:hair7_3:hair7_4"/>
+  <phase axis="1" angle="32" length="150" name="snakeWalk" parts="hair1:hair2:hair3:hair4:hair5:hair6:hair7:hair8:tail9:hair10"/>
+  <phase axis="1" angle="32" length="120" name="snakeWalk" parts="hair7_1:hair7_2:hair7_3:hair7_4"/>
   <phase type="sitting">
    <part name="body">
     <component length="10" name="1" rotOffset="-60,0,0," posOffset="0,13.5,0" startKey="0"/>
@@ -488,6 +488,10 @@
    </part>
   </phase>
   <phase type="walking">
+   <part name="body">
+    <component length="8" name="1" rotChange="4,0,0" startKey="0"/>
+    <component length="8" name="2" rotChange="-4,0,0" startKey="10"/>
+   </part>
    <part name="tail1">
     <component length="10" name="1" rotChange="2,0,0," rotOffset="10,0,0," startKey="0"/>
     <component length="10" name="2" rotChange="-2,0,0," startKey="10"/>

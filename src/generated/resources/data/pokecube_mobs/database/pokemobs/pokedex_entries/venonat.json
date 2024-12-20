@@ -167,6 +167,7 @@
       "hidden-power",
       "sunny-day",
       "facade",
+      "endeavor",
       "skill-swap",
       "secret-power",
       "poison-fang",
@@ -186,8 +187,10 @@
       "confide",
       "infestation",
       "lunge",
+      "skitter-smack",
       "tera-blast",
-      "pounce"
+      "pounce",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/spider_eye"

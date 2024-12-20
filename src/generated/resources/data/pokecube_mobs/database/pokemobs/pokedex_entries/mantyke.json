@@ -65,6 +65,12 @@
         ]
       },
       {
+        "L": 47,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
         "L": 3,
         "moves": [
           "supersonic"
@@ -95,6 +101,12 @@
         ]
       },
       {
+        "L": 9,
+        "moves": [
+          "aerial-ace"
+        ]
+      },
+      {
         "L": 46,
         "moves": [
           "bounce"
@@ -104,6 +116,12 @@
         "L": 19,
         "moves": [
           "water-pulse"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "roost"
         ]
       },
       {

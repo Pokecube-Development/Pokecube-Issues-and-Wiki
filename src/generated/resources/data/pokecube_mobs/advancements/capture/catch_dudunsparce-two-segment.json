@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.dudunsparce-two-segment"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.dudunsparce-two-segment"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_dudunsparce-two-segment": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "dudunsparce-two-segment"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

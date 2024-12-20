@@ -39,6 +39,12 @@
   "moves": {
     "level_up": [
       {
+        "L": 5,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
         "L": 29,
         "moves": [
           "body-slam"
@@ -52,6 +58,12 @@
           "mud-slap",
           "mud-sport",
           "water-pulse"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "hydro-pump"
         ]
       },
       {
@@ -128,6 +140,7 @@
       "rock-slide",
       "substitute",
       "snore",
+      "curse",
       "protect",
       "sludge-bomb",
       "mud-slap",

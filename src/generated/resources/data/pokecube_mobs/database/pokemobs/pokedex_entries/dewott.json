@@ -66,6 +66,12 @@
         ]
       },
       {
+        "L": 25,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
         "L": 21,
         "moves": [
           "fury-cutter"
@@ -128,6 +134,7 @@
       "blizzard",
       "dig",
       "toxic",
+      "screech",
       "double-team",
       "focus-energy",
       "waterfall",
@@ -138,6 +145,7 @@
       "snore",
       "protect",
       "icy-wind",
+      "detect",
       "endure",
       "false-swipe",
       "swagger",
@@ -151,6 +159,7 @@
       "hidden-power",
       "rain-dance",
       "rock-smash",
+      "whirlpool",
       "hail",
       "facade",
       "taunt",
@@ -165,6 +174,8 @@
       "water-sport",
       "water-pulse",
       "fling",
+      "copycat",
+      "night-slash",
       "aqua-tail",
       "air-slash",
       "x-scissor",
@@ -177,13 +188,15 @@
       "retaliate",
       "water-pledge",
       "work-up",
+      "sacred-sword",
       "razor-shell",
       "confide",
       "liquidation",
       "flip-turn",
       "tera-blast",
       "snowscape",
-      "chilling-water"
+      "chilling-water",
+      "aqua-cutter"
     ]
   },
   "interactions": [

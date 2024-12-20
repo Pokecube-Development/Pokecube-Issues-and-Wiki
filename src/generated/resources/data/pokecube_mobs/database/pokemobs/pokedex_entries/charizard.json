@@ -143,6 +143,7 @@
       "take-down",
       "double-edge",
       "leer",
+      "bite",
       "growl",
       "roar",
       "ember",
@@ -177,6 +178,7 @@
       "curse",
       "protect",
       "scary-face",
+      "belly-drum",
       "mud-slap",
       "outrage",
       "sandstorm",
@@ -197,6 +199,7 @@
       "twister",
       "sunny-day",
       "crunch",
+      "ancient-power",
       "rock-smash",
       "beat-up",
       "heat-wave",
@@ -222,6 +225,7 @@
       "flare-blitz",
       "air-slash",
       "dragon-pulse",
+      "dragon-rush",
       "focus-blast",
       "giga-impact",
       "shadow-claw",
@@ -252,7 +256,9 @@
       "scale-shot",
       "dual-wingbeat",
       "scorching-sands",
-      "tera-blast"
+      "tera-blast",
+      "dragon-cheer",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/coal_3"

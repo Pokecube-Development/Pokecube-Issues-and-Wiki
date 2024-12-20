@@ -114,6 +114,7 @@
     "misc": [
       "body-slam",
       "take-down",
+      "double-edge",
       "hyper-beam",
       "earthquake",
       "dig",
@@ -130,6 +131,7 @@
       "facade",
       "helping-hand",
       "rock-tomb",
+      "metal-sound",
       "sand-tomb",
       "iron-defense",
       "mud-shot",

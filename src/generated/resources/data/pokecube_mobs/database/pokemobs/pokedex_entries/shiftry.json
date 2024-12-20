@@ -131,6 +131,7 @@
       "substitute",
       "thief",
       "snore",
+      "curse",
       "reversal",
       "spite",
       "protect",
@@ -168,6 +169,7 @@
       "revenge",
       "brick-break",
       "knock-off",
+      "endeavor",
       "imprison",
       "secret-power",
       "astonish",
@@ -214,6 +216,7 @@
       "leaf-tornado",
       "hurricane",
       "snarl",
+      "petal-blizzard",
       "grassy-terrain",
       "confide",
       "power-up-punch",
@@ -224,7 +227,8 @@
       "lash-out",
       "tera-blast",
       "trailblaze",
-      "chilling-water"
+      "chilling-water",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/wheat_seeds_2"

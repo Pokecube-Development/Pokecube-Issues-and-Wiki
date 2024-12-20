@@ -282,6 +282,7 @@
       "snatch",
       "secret-power",
       "dive",
+      "feather-dance",
       "blaze-kick",
       "hyper-voice",
       "blast-burn",
@@ -292,6 +293,7 @@
       "overheat",
       "rock-tomb",
       "silver-wind",
+      "metal-sound",
       "cosmic-power",
       "signal-beam",
       "sand-tomb",
@@ -427,6 +429,7 @@
       "hurricane",
       "snarl",
       "phantom-force",
+      "petal-blizzard",
       "disarming-voice",
       "draining-kiss",
       "grassy-terrain",
@@ -482,7 +485,14 @@
       "snowscape",
       "pounce",
       "trailblaze",
-      "chilling-water"
+      "chilling-water",
+      "hard-press",
+      "dragon-cheer",
+      "alluring-voice",
+      "temper-flare",
+      "supercell-slam",
+      "psychic-noise",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/mewhair"

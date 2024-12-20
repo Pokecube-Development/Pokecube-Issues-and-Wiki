@@ -125,9 +125,21 @@
         ]
       },
       {
+        "L": 34,
+        "moves": [
+          "flash-cannon"
+        ]
+      },
+      {
         "L": 58,
         "moves": [
           "heavy-slam"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "hex"
         ]
       }
     ],
@@ -227,7 +239,9 @@
       "steel-roller",
       "meteor-beam",
       "tera-blast",
-      "ice-spinner"
+      "ice-spinner",
+      "hard-press",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/iron_2"

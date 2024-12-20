@@ -73,6 +73,7 @@
         "L": 99,
         "moves": [
           "sky-attack",
+          "overheat",
           "burn-up"
         ]
       },
@@ -141,6 +142,8 @@
       "gust",
       "whirlwind",
       "fly",
+      "body-slam",
+      "take-down",
       "double-edge",
       "roar",
       "flamethrower",
@@ -229,13 +232,15 @@
       "sky-drop",
       "incinerate",
       "bulldoze",
+      "hurricane",
       "confide",
       "mystical-fire",
       "laser-focus",
       "burn-up",
       "life-dew",
       "dual-wingbeat",
-      "scorching-sands"
+      "scorching-sands",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/oranberry"

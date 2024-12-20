@@ -49,6 +49,7 @@
         "moves": [
           "tackle",
           "tail-whip",
+          "growl",
           "scary-face",
           "outrage",
           "charm",
@@ -80,7 +81,8 @@
         "L": 35,
         "moves": [
           "rage",
-          "taunt"
+          "taunt",
+          "last-resort"
         ]
       },
       {
@@ -144,6 +146,8 @@
       "thief",
       "snore",
       "curse",
+      "reversal",
+      "spite",
       "protect",
       "scary-face",
       "sludge-bomb",
@@ -158,8 +162,10 @@
       "sleep-talk",
       "heal-bell",
       "return",
+      "present",
       "frustration",
       "dynamic-punch",
+      "encore",
       "iron-tail",
       "hidden-power",
       "rain-dance",
@@ -167,14 +173,18 @@
       "crunch",
       "shadow-ball",
       "rock-smash",
+      "uproar",
       "torment",
       "facade",
       "focus-punch",
       "taunt",
+      "helping-hand",
       "superpower",
       "brick-break",
+      "endeavor",
       "secret-power",
       "hyper-voice",
+      "fake-tears",
       "overheat",
       "rock-tomb",
       "bulk-up",
@@ -182,6 +192,7 @@
       "shock-wave",
       "water-pulse",
       "natural-gift",
+      "close-combat",
       "payback",
       "fling",
       "last-resort",
@@ -193,6 +204,7 @@
       "rock-climb",
       "stone-edge",
       "captivate",
+      "low-sweep",
       "round",
       "incinerate",
       "retaliate",
@@ -204,7 +216,12 @@
       "confide",
       "dazzling-gleam",
       "power-up-punch",
-      "stomping-tantrum"
+      "psychic-fangs",
+      "stomping-tantrum",
+      "lash-out",
+      "tera-blast",
+      "trailblaze",
+      "temper-flare"
     ]
   },
   "interactions": [

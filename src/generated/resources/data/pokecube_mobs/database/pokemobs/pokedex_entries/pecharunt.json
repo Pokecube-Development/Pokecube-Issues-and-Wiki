@@ -1,0 +1,130 @@
+{
+  "name": "pecharunt",
+  "id": 1025,
+  "stock": true,
+  "base_experience": 300,
+  "size": {
+    "height": 0.3
+  },
+  "mass": 0.3,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 88,
+    "attack": 88,
+    "defense": 160,
+    "special_attack": 88,
+    "special_defense": 88,
+    "speed": 88
+  },
+  "evs": {
+    "defense": 3
+  },
+  "types": [
+    "poison",
+    "ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "poison-puppeteer"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 56,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 72,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "withdraw"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "smog",
+          "poison-gas",
+          "memento",
+          "astonish"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "destiny-bond"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "shadow-ball"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "fake-tears"
+        ]
+      },
+      {
+        "L": 64,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "parting-shot"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "malignant-chain"
+        ]
+      }
+    ],
+    "misc": [
+      "toxic",
+      "night-shade",
+      "defense-curl",
+      "rest",
+      "substitute",
+      "curse",
+      "spite",
+      "protect",
+      "sludge-bomb",
+      "endure",
+      "rollout",
+      "mean-look",
+      "sleep-talk",
+      "shadow-ball",
+      "imprison",
+      "fake-tears",
+      "nasty-plot",
+      "gunk-shot",
+      "venoshock",
+      "sludge-wave",
+      "acid-spray",
+      "foul-play",
+      "hex",
+      "phantom-force",
+      "poltergeist",
+      "tera-blast"
+    ]
+  }
+}

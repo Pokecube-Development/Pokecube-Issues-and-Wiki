@@ -140,6 +140,7 @@
       "volt-switch",
       "bulldoze",
       "dragon-tail",
+      "electroweb",
       "wild-charge",
       "ion-deluge",
       "confide",
@@ -151,7 +152,8 @@
       "stomping-tantrum",
       "liquidation",
       "body-press",
-      "tera-blast"
+      "tera-blast",
+      "supercell-slam"
     ]
   },
   "loot_table": "pokecube:entities/redstone_fish_2"

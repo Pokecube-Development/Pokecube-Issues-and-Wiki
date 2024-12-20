@@ -208,7 +208,8 @@
       "confide",
       "infestation",
       "high-horsepower",
-      "tera-blast"
+      "tera-blast",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/magma_cream"

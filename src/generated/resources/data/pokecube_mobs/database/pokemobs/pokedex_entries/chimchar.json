@@ -41,7 +41,14 @@
         "L": 1,
         "moves": [
           "scratch",
+          "tackle",
           "leer"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "double-edge"
         ]
       },
       {
@@ -60,6 +67,12 @@
         "L": 33,
         "moves": [
           "fire-spin"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "swift"
         ]
       },
       {
@@ -125,6 +138,8 @@
       "cut",
       "double-kick",
       "headbutt",
+      "take-down",
+      "double-edge",
       "leer",
       "ember",
       "flamethrower",
@@ -135,13 +150,17 @@
       "fire-spin",
       "dig",
       "toxic",
+      "agility",
       "double-team",
       "focus-energy",
+      "metronome",
       "fire-blast",
       "swift",
       "fury-swipes",
       "rest",
+      "rock-slide",
       "substitute",
+      "thief",
       "flame-wheel",
       "snore",
       "protect",
@@ -157,6 +176,7 @@
       "iron-tail",
       "hidden-power",
       "sunny-day",
+      "psych-up",
       "rock-smash",
       "fake-out",
       "uproar",
@@ -175,16 +195,22 @@
       "secret-power",
       "blaze-kick",
       "slack-off",
+      "fake-tears",
       "overheat",
+      "rock-tomb",
       "aerial-ace",
       "bulk-up",
       "covet",
       "natural-gift",
       "u-turn",
       "fling",
+      "flare-blitz",
+      "poison-jab",
       "vacuum-wave",
+      "switcheroo",
       "nasty-plot",
       "shadow-claw",
+      "zen-headbutt",
       "rock-climb",
       "gunk-shot",
       "captivate",
@@ -201,7 +227,9 @@
       "work-up",
       "confide",
       "power-up-punch",
-      "burning-jealousy"
+      "burning-jealousy",
+      "tera-blast",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/coal_1"

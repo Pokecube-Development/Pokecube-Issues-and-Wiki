@@ -129,6 +129,7 @@
       "fly",
       "tackle",
       "take-down",
+      "double-edge",
       "growl",
       "ember",
       "flamethrower",
@@ -164,6 +165,7 @@
       "taunt",
       "snatch",
       "secret-power",
+      "feather-dance",
       "air-cutter",
       "overheat",
       "aerial-ace",
@@ -188,7 +190,9 @@
       "hurricane",
       "confide",
       "dual-wingbeat",
-      "tera-blast"
+      "tera-blast",
+      "temper-flare",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/chicken_3"

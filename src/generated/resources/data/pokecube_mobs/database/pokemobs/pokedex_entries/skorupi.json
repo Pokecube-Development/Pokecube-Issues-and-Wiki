@@ -39,6 +39,12 @@
   "moves": {
     "level_up": [
       {
+        "L": 25,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
         "L": 1,
         "moves": [
           "poison-sting",
@@ -97,19 +103,14 @@
       {
         "L": 34,
         "moves": [
-          "toxic-spikes"
+          "toxic-spikes",
+          "x-scissor"
         ]
       },
       {
         "L": 38,
         "moves": [
           "night-slash"
-        ]
-      },
-      {
-        "L": 42,
-        "moves": [
-          "x-scissor"
         ]
       },
       {

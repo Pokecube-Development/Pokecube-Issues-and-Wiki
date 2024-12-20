@@ -45,9 +45,31 @@
         ]
       },
       {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "fissure",
+          "outrage",
+          "imprison",
+          "rock-tomb",
+          "sand-tomb",
+          "block",
+          "mud-shot",
+          "hammer-arm",
+          "smack-down"
+        ]
+      },
+      {
         "L": 5,
         "moves": [
           "leer"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "bite",
+          "punishment"
         ]
       },
       {
@@ -63,20 +85,6 @@
         ]
       },
       {
-        "L": 1,
-        "moves": [
-          "fissure",
-          "outrage",
-          "imprison",
-          "rock-tomb",
-          "sand-tomb",
-          "block",
-          "mud-shot",
-          "hammer-arm",
-          "smack-down"
-        ]
-      },
-      {
         "L": 43,
         "moves": [
           "rock-slide"
@@ -89,15 +97,27 @@
         ]
       },
       {
+        "L": 11,
+        "moves": [
+          "twister"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
         "L": 25,
         "moves": [
           "extrasensory"
         ]
       },
       {
-        "L": 7,
+        "L": 22,
         "moves": [
-          "punishment"
+          "bulk-up"
         ]
       },
       {
@@ -202,6 +222,8 @@
       "confide",
       "brutal-swing",
       "stomping-tantrum",
+      "scorching-sands",
+      "sandsear-storm",
       "tera-blast"
     ]
   },

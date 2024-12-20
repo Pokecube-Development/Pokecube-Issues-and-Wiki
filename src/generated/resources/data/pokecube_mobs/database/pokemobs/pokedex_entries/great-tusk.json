@@ -128,6 +128,7 @@
     "misc": [
       "body-slam",
       "take-down",
+      "double-edge",
       "roar",
       "hyper-beam",
       "earthquake",
@@ -147,6 +148,7 @@
       "taunt",
       "brick-break",
       "knock-off",
+      "endeavor",
       "rock-tomb",
       "bulk-up",
       "mud-shot",
@@ -167,11 +169,14 @@
       "bulldoze",
       "play-rough",
       "high-horsepower",
+      "throat-chop",
       "smart-strike",
       "stomping-tantrum",
       "body-press",
       "tera-blast",
-      "ice-spinner"
+      "ice-spinner",
+      "temper-flare",
+      "supercell-slam"
     ]
   }
 }

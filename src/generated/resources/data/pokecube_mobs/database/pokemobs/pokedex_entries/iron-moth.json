@@ -148,6 +148,7 @@
       "facade",
       "helping-hand",
       "overheat",
+      "metal-sound",
       "u-turn",
       "toxic-spikes",
       "flare-blitz",
@@ -158,6 +159,7 @@
       "flash-cannon",
       "charge-beam",
       "venoshock",
+      "sludge-wave",
       "flame-charge",
       "acid-spray",
       "acrobatics",
@@ -166,6 +168,7 @@
       "electric-terrain",
       "dazzling-gleam",
       "lunge",
+      "meteor-beam",
       "tera-blast",
       "pounce"
     ]

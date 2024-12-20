@@ -155,9 +155,11 @@
       "helping-hand",
       "brick-break",
       "knock-off",
+      "endeavor",
       "skill-swap",
       "fake-tears",
       "rock-tomb",
+      "metal-sound",
       "fling",
       "flash-cannon",
       "stone-edge",
@@ -169,8 +171,10 @@
       "draining-kiss",
       "play-rough",
       "steel-beam",
+      "skitter-smack",
       "tera-blast",
-      "pounce"
+      "pounce",
+      "hard-press"
     ]
   }
 }

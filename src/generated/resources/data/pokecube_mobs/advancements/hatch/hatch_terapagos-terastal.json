@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.terapagos-terastal"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.terapagos-terastal"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_terapagos-terastal": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "terapagos-terastal"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

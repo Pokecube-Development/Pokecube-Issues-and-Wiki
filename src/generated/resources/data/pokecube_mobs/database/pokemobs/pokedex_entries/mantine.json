@@ -72,6 +72,12 @@
         ]
       },
       {
+        "L": 47,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
         "L": 49,
         "moves": [
           "hydro-pump"
@@ -87,6 +93,12 @@
         "L": 11,
         "moves": [
           "confuse-ray"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "aerial-ace"
         ]
       },
       {

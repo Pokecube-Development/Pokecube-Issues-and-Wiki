@@ -1,0 +1,13 @@
+{
+  "name": "archaludon",
+  "user": "duraludon",
+  "condition": [
+    {
+      "key": "item",
+      "item": {
+        "item": "minecraft:netherite"
+      }
+    },
+	"evoMoves": "electro-shot"
+  ]
+}

@@ -180,7 +180,9 @@
       "incinerate",
       "dragon-tail",
       "confide",
-      "tera-blast"
+      "tera-blast",
+      "dragon-cheer",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/shellseed_1"

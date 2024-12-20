@@ -156,6 +156,7 @@
       "sunny-day",
       "psych-up",
       "shadow-ball",
+      "future-sight",
       "uproar",
       "torment",
       "facade",
@@ -210,8 +211,11 @@
       "laser-focus",
       "throat-chop",
       "psychic-terrain",
+      "expanding-force",
+      "skitter-smack",
       "lash-out",
-      "tera-blast"
+      "tera-blast",
+      "psychic-noise"
     ]
   },
   "forme_items": [

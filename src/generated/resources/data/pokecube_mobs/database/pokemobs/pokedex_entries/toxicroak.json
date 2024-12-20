@@ -85,6 +85,12 @@
         ]
       },
       {
+        "L": 5,
+        "moves": [
+          "rock-smash"
+        ]
+      },
+      {
         "L": 62,
         "moves": [
           "flatter"
@@ -103,6 +109,12 @@
         ]
       },
       {
+        "L": 47,
+        "moves": [
+          "close-combat"
+        ]
+      },
+      {
         "L": 31,
         "moves": [
           "sucker-punch"
@@ -112,6 +124,12 @@
         "L": 49,
         "moves": [
           "poison-jab"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "earth-power"
         ]
       },
       {
@@ -239,7 +257,8 @@
       "corrosive-gas",
       "coaching",
       "tera-blast",
-      "chilling-water"
+      "chilling-water",
+      "upper-hand"
     ]
   },
   "male_model": {

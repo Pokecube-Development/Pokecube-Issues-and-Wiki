@@ -41,14 +41,27 @@
         "L": 1,
         "moves": [
           "pound",
+          "tackle",
           "splash",
           "charm"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "double-edge"
         ]
       },
       {
         "L": 7,
         "moves": [
           "sing"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "psychic"
         ]
       },
       {
@@ -70,6 +83,12 @@
         ]
       },
       {
+        "L": 21,
+        "moves": [
+          "calm-mind"
+        ]
+      },
+      {
         "L": 13,
         "moves": [
           "copycat"
@@ -79,6 +98,30 @@
         "L": 12,
         "moves": [
           "disarming-voice"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "draining-kiss"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "fairy-wind"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "moonblast"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "baby-doll-eyes"
         ]
       }
     ],
@@ -186,7 +229,8 @@
       "confide",
       "dazzling-gleam",
       "tera-blast",
-      "chilling-water"
+      "chilling-water",
+      "alluring-voice"
     ]
   },
   "loot_table": "pokecube:entities/moonstone"

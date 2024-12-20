@@ -1,0 +1,174 @@
+{
+  "name": "raging-bolt",
+  "id": 1021,
+  "stock": true,
+  "base_experience": 295,
+  "size": {
+    "height": 5.2
+  },
+  "mass": 480.0,
+  "is_default": true,
+  "capture_rate": 10,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 125,
+    "attack": 73,
+    "defense": 91,
+    "special_attack": 137,
+    "special_defense": 89,
+    "speed": 75
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "electric",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "protosynthesis"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "stomp",
+          "twister",
+          "sunny-day",
+          "shock-wave"
+        ]
+      },
+      {
+        "L": 91,
+        "moves": [
+          "thunder"
+        ]
+      },
+      {
+        "L": 77,
+        "moves": [
+          "zap-cannon"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "dragon-breath"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "charge"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "calm-mind"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "dragon-pulse"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "dragon-tail"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "electric-terrain"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "dragon-hammer"
+        ]
+      },
+      {
+        "L": 84,
+        "moves": [
+          "body-press"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "rising-voltage"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "thunderclap"
+        ]
+      }
+    ],
+    "misc": [
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "roar",
+      "hyper-beam",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "rest",
+      "substitute",
+      "protect",
+      "scary-face",
+      "outrage",
+      "endure",
+      "sleep-talk",
+      "sunny-day",
+      "crunch",
+      "ancient-power",
+      "facade",
+      "charge",
+      "taunt",
+      "hyper-voice",
+      "weather-ball",
+      "calm-mind",
+      "dragon-pulse",
+      "giga-impact",
+      "thunder-fang",
+      "draco-meteor",
+      "charge-beam",
+      "heavy-slam",
+      "electro-ball",
+      "volt-switch",
+      "dragon-tail",
+      "electroweb",
+      "wild-charge",
+      "snarl",
+      "eerie-impulse",
+      "electric-terrain",
+      "stomping-tantrum",
+      "body-press",
+      "breaking-swipe",
+      "tera-blast",
+      "dragon-cheer",
+      "supercell-slam"
+    ]
+  }
+}

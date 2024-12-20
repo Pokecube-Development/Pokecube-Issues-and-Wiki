@@ -44,22 +44,38 @@
         "L": 1,
         "moves": [
           "scratch",
+          "tackle",
           "leer",
           "ember",
-          "flamethrower",
           "mach-punch",
-          "torment",
           "facade",
           "taunt",
           "slack-off",
-          "flare-blitz",
-          "nasty-plot"
+          "flare-blitz"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "flamethrower"
         ]
       },
       {
         "L": 42,
         "moves": [
           "fire-spin"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "swift"
         ]
       },
       {
@@ -75,6 +91,14 @@
         ]
       },
       {
+        "L": 29,
+        "moves": [
+          "torment",
+          "u-turn",
+          "punishment"
+        ]
+      },
+      {
         "L": 58,
         "moves": [
           "calm-mind"
@@ -87,16 +111,15 @@
         ]
       },
       {
-        "L": 29,
-        "moves": [
-          "u-turn",
-          "punishment"
-        ]
-      },
-      {
         "L": 0,
         "moves": [
           "close-combat"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "nasty-plot"
         ]
       },
       {
@@ -110,6 +133,12 @@
         "moves": [
           "power-up-punch"
         ]
+      },
+      {
+        "L": 65,
+        "moves": [
+          "raging-fury"
+        ]
       }
     ],
     "misc": [
@@ -118,30 +147,41 @@
       "scratch",
       "swords-dance",
       "cut",
+      "double-kick",
       "headbutt",
+      "body-slam",
+      "take-down",
+      "double-edge",
       "leer",
       "roar",
       "ember",
       "flamethrower",
       "hyper-beam",
       "low-kick",
+      "counter",
       "strength",
       "solar-beam",
       "fire-spin",
       "earthquake",
       "dig",
       "toxic",
+      "agility",
       "double-team",
+      "focus-energy",
+      "metronome",
       "fire-blast",
       "swift",
       "fury-swipes",
       "rest",
       "rock-slide",
       "substitute",
+      "thief",
       "flame-wheel",
       "snore",
+      "reversal",
       "protect",
       "mach-punch",
+      "scary-face",
       "mud-slap",
       "endure",
       "rollout",
@@ -150,10 +190,13 @@
       "sleep-talk",
       "return",
       "frustration",
+      "encore",
       "iron-tail",
       "hidden-power",
       "sunny-day",
+      "psych-up",
       "rock-smash",
+      "fake-out",
       "uproar",
       "heat-wave",
       "torment",
@@ -167,7 +210,9 @@
       "knock-off",
       "endeavor",
       "secret-power",
+      "slack-off",
       "blast-burn",
+      "fake-tears",
       "overheat",
       "rock-tomb",
       "aerial-ace",
@@ -181,12 +226,16 @@
       "fling",
       "punishment",
       "flare-blitz",
+      "aura-sphere",
       "poison-jab",
+      "drain-punch",
       "vacuum-wave",
       "focus-blast",
+      "switcheroo",
       "giga-impact",
       "nasty-plot",
       "shadow-claw",
+      "zen-headbutt",
       "rock-climb",
       "gunk-shot",
       "stone-edge",
@@ -208,8 +257,15 @@
       "confide",
       "power-up-punch",
       "laser-focus",
+      "throat-chop",
       "burning-jealousy",
-      "lash-out"
+      "lash-out",
+      "coaching",
+      "scorching-sands",
+      "raging-fury",
+      "tera-blast",
+      "temper-flare",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/coal_3"

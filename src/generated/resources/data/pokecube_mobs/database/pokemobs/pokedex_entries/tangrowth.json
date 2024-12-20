@@ -101,6 +101,12 @@
         ]
       },
       {
+        "L": 52,
+        "moves": [
+          "sludge-bomb"
+        ]
+      },
+      {
         "L": 36,
         "moves": [
           "giga-drain"
@@ -137,9 +143,27 @@
         ]
       },
       {
+        "L": 25,
+        "moves": [
+          "energy-ball"
+        ]
+      },
+      {
         "L": 53,
         "moves": [
           "power-whip"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "double-hit"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "acid-spray"
         ]
       },
       {

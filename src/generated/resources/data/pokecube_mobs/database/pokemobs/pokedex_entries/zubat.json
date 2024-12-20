@@ -38,6 +38,13 @@
   "moves": {
     "level_up": [
       {
+        "L": 1,
+        "moves": [
+          "gust",
+          "absorb"
+        ]
+      },
+      {
         "L": 13,
         "moves": [
           "wing-attack"
@@ -56,15 +63,15 @@
         ]
       },
       {
-        "L": 1,
-        "moves": [
-          "absorb"
-        ]
-      },
-      {
         "L": 28,
         "moves": [
           "toxic"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "hypnosis"
         ]
       },
       {
@@ -101,7 +108,8 @@
       {
         "L": 25,
         "moves": [
-          "poison-fang"
+          "poison-fang",
+          "cross-poison"
         ]
       },
       {

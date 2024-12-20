@@ -42,20 +42,26 @@
         "L": 1,
         "moves": [
           "scratch",
+          "tackle",
           "leer",
           "lick",
           "charm",
           "fake-tears",
           "covet",
           "hammer-arm",
-          "fling",
-          "baby-doll-eyes"
+          "fling"
         ]
       },
       {
         "L": 58,
         "moves": [
           "thrash"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "double-edge"
         ]
       },
       {
@@ -108,9 +114,21 @@
         ]
       },
       {
+        "L": 11,
+        "moves": [
+          "bulldoze"
+        ]
+      },
+      {
         "L": 25,
         "moves": [
           "play-nice"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "baby-doll-eyes"
         ]
       },
       {
@@ -219,6 +237,7 @@
       "play-rough",
       "play-nice",
       "confide",
+      "baby-doll-eyes",
       "power-up-punch",
       "high-horsepower",
       "laser-focus",

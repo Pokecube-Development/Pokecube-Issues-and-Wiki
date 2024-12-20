@@ -152,7 +152,9 @@
       "false-swipe",
       "sleep-talk",
       "encore",
+      "psych-up",
       "shadow-ball",
+      "future-sight",
       "taunt",
       "helping-hand",
       "trick",
@@ -185,8 +187,11 @@
       "misty-terrain",
       "electric-terrain",
       "dazzling-gleam",
+      "throat-chop",
       "psychic-terrain",
       "liquidation",
+      "expanding-force",
+      "coaching",
       "tera-blast"
     ]
   }

@@ -45,7 +45,8 @@
         "moves": [
           "hypnosis",
           "lick",
-          "smog"
+          "smog",
+          "astonish"
         ]
       },
       {
@@ -67,7 +68,7 @@
         ]
       },
       {
-        "L": 7,
+        "L": 6,
         "moves": [
           "poison-gas"
         ]
@@ -133,6 +134,12 @@
         ]
       },
       {
+        "L": 18,
+        "moves": [
+          "venoshock"
+        ]
+      },
+      {
         "L": 43,
         "moves": [
           "hex"
@@ -162,6 +169,7 @@
       "lick",
       "smog",
       "dream-eater",
+      "poison-gas",
       "psywave",
       "explosion",
       "rest",

@@ -67,6 +67,7 @@
         "L": 20,
         "moves": [
           "protect",
+          "torment",
           "payback"
         ]
       },
@@ -145,6 +146,8 @@
       "mega-kick",
       "sand-attack",
       "headbutt",
+      "take-down",
+      "double-edge",
       "leer",
       "roar",
       "low-kick",
@@ -161,6 +164,7 @@
       "substitute",
       "thief",
       "snore",
+      "curse",
       "spite",
       "protect",
       "scary-face",
@@ -173,6 +177,7 @@
       "sleep-talk",
       "return",
       "frustration",
+      "encore",
       "iron-tail",
       "hidden-power",
       "rain-dance",
@@ -181,13 +186,16 @@
       "rock-smash",
       "beat-up",
       "fake-out",
+      "uproar",
       "torment",
       "facade",
       "focus-punch",
       "taunt",
+      "helping-hand",
       "revenge",
       "brick-break",
       "knock-off",
+      "endeavor",
       "snatch",
       "secret-power",
       "fake-tears",
@@ -196,6 +204,7 @@
       "dragon-claw",
       "bulk-up",
       "dragon-dance",
+      "close-combat",
       "payback",
       "assurance",
       "fling",
@@ -225,8 +234,12 @@
       "snarl",
       "confide",
       "power-up-punch",
+      "throat-chop",
       "lash-out",
-      "coaching"
+      "coaching",
+      "tera-blast",
+      "trailblaze",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/rabbit_1"

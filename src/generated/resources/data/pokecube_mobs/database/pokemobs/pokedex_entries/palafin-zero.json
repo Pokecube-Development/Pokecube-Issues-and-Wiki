@@ -1,0 +1,186 @@
+{
+  "name": "palafin-zero",
+  "id": 964,
+  "stock": true,
+  "base_experience": 160,
+  "size": {
+    "height": 1.3
+  },
+  "mass": 60.2,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 100,
+    "attack": 70,
+    "defense": 72,
+    "special_attack": 53,
+    "special_defense": 62,
+    "speed": 100
+  },
+  "evs": {
+    "hp": 2
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "zero-to-hero"
+    ],
+    "hidden": [
+      "zero-to-hero"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "supersonic",
+          "water-gun",
+          "jet-punch"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "mist"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "encore"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "focus-punch"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "dive"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "astonish"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "aqua-tail"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "aqua-jet"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "double-hit"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "acrobatics"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "flip-turn"
+        ]
+      },
+      {
+        "L": 61,
+        "moves": [
+          "wave-crash"
+        ]
+      }
+    ],
+    "misc": [
+      "ice-punch",
+      "body-slam",
+      "take-down",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "agility",
+      "haze",
+      "waterfall",
+      "swift",
+      "rest",
+      "substitute",
+      "reversal",
+      "protect",
+      "icy-wind",
+      "outrage",
+      "endure",
+      "charm",
+      "sleep-talk",
+      "encore",
+      "rain-dance",
+      "psych-up",
+      "whirlpool",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "helping-hand",
+      "endeavor",
+      "hyper-voice",
+      "bulk-up",
+      "water-pulse",
+      "close-combat",
+      "fling",
+      "aura-sphere",
+      "drain-punch",
+      "focus-blast",
+      "giga-impact",
+      "zen-headbutt",
+      "iron-head",
+      "grass-knot",
+      "acrobatics",
+      "disarming-voice",
+      "draining-kiss",
+      "throat-chop",
+      "liquidation",
+      "flip-turn",
+      "tera-blast",
+      "chilling-water",
+      "hard-press"
+    ]
+  }
+}

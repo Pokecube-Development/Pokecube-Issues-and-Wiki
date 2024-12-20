@@ -69,6 +69,12 @@
         ]
       },
       {
+        "L": 30,
+        "moves": [
+          "shadow-ball"
+        ]
+      },
+      {
         "L": 28,
         "moves": [
           "dragon-claw"
@@ -88,15 +94,16 @@
         ]
       },
       {
-        "L": 33,
+        "L": 42,
         "moves": [
-          "earth-power"
+          "dragon-pulse",
+          "shadow-claw"
         ]
       },
       {
-        "L": 42,
+        "L": 33,
         "moves": [
-          "shadow-claw"
+          "earth-power"
         ]
       },
       {
@@ -141,6 +148,7 @@
       "slash",
       "substitute",
       "snore",
+      "curse",
       "spite",
       "protect",
       "scary-face",
@@ -210,6 +218,7 @@
       "confide",
       "brutal-swing",
       "breaking-swipe",
+      "skitter-smack",
       "poltergeist",
       "dual-wingbeat",
       "tera-blast"

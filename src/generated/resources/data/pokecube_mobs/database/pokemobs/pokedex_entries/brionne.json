@@ -121,6 +121,7 @@
     "misc": [
       "pound",
       "double-slap",
+      "body-slam",
       "growl",
       "sing",
       "water-gun",
@@ -132,11 +133,13 @@
       "toxic",
       "double-team",
       "waterfall",
+      "swift",
       "amnesia",
       "rest",
       "substitute",
       "snore",
       "protect",
+      "perish-song",
       "icy-wind",
       "endure",
       "charm",
@@ -159,6 +162,7 @@
       "covet",
       "water-pulse",
       "brine",
+      "aqua-ring",
       "aqua-tail",
       "captivate",
       "aqua-jet",
@@ -176,8 +180,12 @@
       "moonblast",
       "confide",
       "baby-doll-eyes",
+      "life-dew",
       "flip-turn",
-      "triple-axel"
+      "triple-axel",
+      "tera-blast",
+      "ice-spinner",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/fish_2"

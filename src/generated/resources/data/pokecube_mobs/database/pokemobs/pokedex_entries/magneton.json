@@ -56,15 +56,16 @@
         ]
       },
       {
-        "L": 26,
+        "L": 34,
         "moves": [
           "thunderbolt"
         ]
       },
       {
-        "L": 56,
+        "L": 43,
         "moves": [
-          "thunder"
+          "thunder",
+          "discharge"
         ]
       },
       {
@@ -131,12 +132,6 @@
         "L": 33,
         "moves": [
           "flash-cannon"
-        ]
-      },
-      {
-        "L": 43,
-        "moves": [
-          "discharge"
         ]
       },
       {

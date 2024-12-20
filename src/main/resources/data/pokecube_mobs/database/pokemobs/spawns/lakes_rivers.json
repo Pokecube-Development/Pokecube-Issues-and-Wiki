@@ -76,7 +76,7 @@
         
         {"key": "yanma","min": 1,"max": 4,"rate": 0.3},
         {"key": "tadbulb","min": 1,"max": 2,"rate": 0.2},
-        {"key": "tatsugiri","min": 1,"max": 2,"rate": 0.15},
+        {"key": "tatsugiri-curly","min": 1,"max": 2,"rate": 0.15},
         {"key": "tatsugiri-droopy","min": 1,"max": 2,"rate": 0.15},
         {"key": "tatsugiri-stretchy","min": 1,"max": 2,"rate": 0.15},
         {"key": "tauros-paldea-aqua-breed","min": 1,"max": 2,"rate": 0.1},
@@ -112,7 +112,7 @@
         {"key": "basculin","min": 1,"max": 4,"rate": 0.25,"variant": "basculin_red"},
         {"key": "goldeen","min": 1,"max": 4,"rate": 0.2},
         {"key": "bruxish","min": 1,"max": 4,"rate": 0.2},
-        {"key": "tatsugiri","min": 1,"max": 2,"rate": 0.2},
+        {"key": "tatsugiri-curly","min": 1,"max": 2,"rate": 0.2},
         {"key": "tatsugiri-droopy","min": 1,"max": 2,"rate": 0.2},
         {"key": "tatsugiri-stretchy","min": 1,"max": 2,"rate": 0.2},
         

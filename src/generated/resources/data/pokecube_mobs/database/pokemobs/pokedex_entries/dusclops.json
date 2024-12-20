@@ -46,6 +46,7 @@
           "bind",
           "leer",
           "disable",
+          "absorb",
           "night-shade",
           "future-sight",
           "astonish",
@@ -53,9 +54,21 @@
         ]
       },
       {
+        "L": 43,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
         "L": 30,
         "moves": [
           "confuse-ray"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "leech-life"
         ]
       },
       {
@@ -91,7 +104,8 @@
       {
         "L": 25,
         "moves": [
-          "will-o-wisp"
+          "will-o-wisp",
+          "dark-pulse"
         ]
       },
       {

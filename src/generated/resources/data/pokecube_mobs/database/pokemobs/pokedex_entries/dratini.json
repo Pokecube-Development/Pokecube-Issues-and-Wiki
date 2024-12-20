@@ -203,7 +203,8 @@
       "breaking-swipe",
       "scale-shot",
       "tera-blast",
-      "chilling-water"
+      "chilling-water",
+      "dragon-cheer"
     ]
   },
   "loot_table": "pokecube:entities/fish_1"

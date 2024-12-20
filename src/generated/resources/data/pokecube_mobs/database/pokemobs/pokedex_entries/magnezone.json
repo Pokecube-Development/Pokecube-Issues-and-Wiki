@@ -61,6 +61,19 @@
         ]
       },
       {
+        "L": 34,
+        "moves": [
+          "thunderbolt"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "thunder",
+          "discharge"
+        ]
+      },
+      {
         "L": 39,
         "moves": [
           "screech"
@@ -115,12 +128,6 @@
         ]
       },
       {
-        "L": 43,
-        "moves": [
-          "discharge"
-        ]
-      },
-      {
         "L": 11,
         "moves": [
           "magnet-bomb"
@@ -137,6 +144,7 @@
       "tackle",
       "body-slam",
       "take-down",
+      "double-edge",
       "supersonic",
       "sonic-boom",
       "hyper-beam",
@@ -211,7 +219,9 @@
       "steel-beam",
       "steel-roller",
       "rising-voltage",
-      "tera-blast"
+      "tera-blast",
+      "hard-press",
+      "supercell-slam"
     ]
   },
   "loot_table": "pokecube:entities/iron_redstone_3"

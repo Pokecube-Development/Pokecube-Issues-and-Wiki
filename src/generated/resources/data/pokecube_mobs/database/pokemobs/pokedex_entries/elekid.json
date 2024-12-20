@@ -100,6 +100,12 @@
         ]
       },
       {
+        "L": 11,
+        "moves": [
+          "spark"
+        ]
+      },
+      {
         "L": 15,
         "moves": [
           "shock-wave"
@@ -128,6 +134,7 @@
       "rolling-kick",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "leer",
       "low-kick",
@@ -171,10 +178,14 @@
       "uproar",
       "facade",
       "focus-punch",
+      "follow-me",
       "charge",
+      "taunt",
       "helping-hand",
       "brick-break",
+      "knock-off",
       "secret-power",
+      "metal-sound",
       "signal-beam",
       "covet",
       "shock-wave",
@@ -183,6 +194,7 @@
       "feint",
       "fling",
       "magnet-rise",
+      "focus-blast",
       "discharge",
       "captivate",
       "charge-beam",
@@ -193,7 +205,12 @@
       "wild-charge",
       "dual-chop",
       "confide",
-      "power-up-punch"
+      "eerie-impulse",
+      "electric-terrain",
+      "power-up-punch",
+      "tera-blast",
+      "trailblaze",
+      "supercell-slam"
     ]
   },
   "loot_table": "pokecube:entities/rabbit_1"

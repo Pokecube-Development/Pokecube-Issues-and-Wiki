@@ -46,9 +46,9 @@
           "psybeam",
           "aurora-beam",
           "constrict",
+          "bubble",
           "helping-hand",
           "rock-blast",
-          "water-pulse",
           "gunk-shot"
         ]
       },
@@ -67,7 +67,8 @@
       {
         "L": 18,
         "moves": [
-          "bubble-beam"
+          "bubble-beam",
+          "water-pulse"
         ]
       },
       {
@@ -113,9 +114,21 @@
         ]
       },
       {
+        "L": 11,
+        "moves": [
+          "charge-beam"
+        ]
+      },
+      {
         "L": 64,
         "moves": [
           "soak"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "acid-spray"
         ]
       }
     ],

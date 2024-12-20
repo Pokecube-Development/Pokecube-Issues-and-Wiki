@@ -2,7 +2,7 @@
   "name": "poltchageist",
   "id": 1012,
   "stock": true,
-  "base_experience": null,
+  "base_experience": 62,
   "size": {
     "height": 0.1
   },
@@ -112,11 +112,14 @@
       "reflect",
       "rest",
       "substitute",
+      "curse",
       "spite",
       "protect",
       "giga-drain",
       "endure",
       "sleep-talk",
+      "pain-split",
+      "psych-up",
       "shadow-ball",
       "uproar",
       "imprison",
@@ -135,5 +138,25 @@
       "poltergeist",
       "tera-blast"
     ]
-  }
+  },
+  "model": {
+    "key": "poltchageist-counterfeit",
+    "tex": "poltchageist",
+    "model": "poltchageist-counterfeit",
+    "anim": "poltchageist"
+  },
+  "models": [
+    {
+      "key": "poltchageist-counterfeit",
+      "tex": "poltchageist",
+      "model": "poltchageist-counterfeit",
+      "anim": "poltchageist"
+    },
+    {
+      "key": "poltchageist-artisan",
+      "tex": "poltchageist",
+      "model": "poltchageist-artisan",
+      "anim": "poltchageist"
+    }
+  ]
 }

@@ -55,6 +55,14 @@
         ]
       },
       {
+        "L": 26,
+        "moves": [
+          "leech-seed",
+          "nature-power",
+          "natural-gift"
+        ]
+      },
+      {
         "L": 66,
         "moves": [
           "solar-beam"
@@ -79,6 +87,13 @@
         ]
       },
       {
+        "L": 60,
+        "moves": [
+          "giga-drain",
+          "aromatherapy"
+        ]
+      },
+      {
         "L": 54,
         "moves": [
           "safeguard"
@@ -97,19 +112,6 @@
         ]
       },
       {
-        "L": 26,
-        "moves": [
-          "nature-power",
-          "natural-gift"
-        ]
-      },
-      {
-        "L": 60,
-        "moves": [
-          "aromatherapy"
-        ]
-      },
-      {
         "L": 22,
         "moves": [
           "magical-leaf"
@@ -119,9 +121,11 @@
     "misc": [
       "swords-dance",
       "cut",
+      "vine-whip",
       "headbutt",
       "tackle",
       "body-slam",
+      "take-down",
       "double-edge",
       "growl",
       "hyper-beam",
@@ -142,12 +146,14 @@
       "substitute",
       "snore",
       "curse",
+      "flail",
       "protect",
       "mud-slap",
       "detect",
       "outrage",
       "giga-drain",
       "endure",
+      "charm",
       "swagger",
       "fury-cutter",
       "attract",
@@ -155,6 +161,7 @@
       "return",
       "frustration",
       "safeguard",
+      "encore",
       "sweet-scent",
       "iron-tail",
       "synthesis",
@@ -164,9 +171,15 @@
       "rock-smash",
       "facade",
       "nature-power",
+      "helping-hand",
+      "ingrain",
       "magic-coat",
+      "knock-off",
+      "endeavor",
       "secret-power",
+      "weather-ball",
       "aromatherapy",
+      "fake-tears",
       "bullet-seed",
       "frenzy-plant",
       "magical-leaf",
@@ -175,19 +188,28 @@
       "seed-bomb",
       "energy-ball",
       "giga-impact",
+      "zen-headbutt",
       "rock-climb",
+      "leaf-storm",
       "captivate",
       "grass-knot",
       "round",
       "echoed-voice",
+      "heal-pulse",
       "grass-pledge",
       "bulldoze",
       "dragon-tail",
       "work-up",
       "petal-blizzard",
+      "grassy-terrain",
       "confide",
+      "solar-blade",
       "laser-focus",
-      "stomping-tantrum"
+      "stomping-tantrum",
+      "body-press",
+      "grassy-glide",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "male_model": {

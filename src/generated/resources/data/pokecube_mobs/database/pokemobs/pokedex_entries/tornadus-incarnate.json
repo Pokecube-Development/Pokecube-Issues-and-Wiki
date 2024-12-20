@@ -41,6 +41,7 @@
         "L": 1,
         "moves": [
           "gust",
+          "tackle",
           "thrash",
           "swagger",
           "uproar",
@@ -65,6 +66,12 @@
         "L": 31,
         "moves": [
           "agility"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "twister"
         ]
       },
       {
@@ -113,6 +120,12 @@
         "L": 37,
         "moves": [
           "air-slash"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "nasty-plot"
         ]
       },
       {
@@ -201,6 +214,7 @@
       "confide",
       "brutal-swing",
       "lash-out",
+      "bleakwind-storm",
       "tera-blast",
       "snowscape",
       "chilling-water"

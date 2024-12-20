@@ -108,9 +108,27 @@
         ]
       },
       {
+        "L": 6,
+        "moves": [
+          "silver-wind"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "aerial-ace"
+        ]
+      },
+      {
         "L": 61,
         "moves": [
           "feint"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "close-combat"
         ]
       },
       {
@@ -228,6 +246,7 @@
       "laser-focus",
       "lunge",
       "brutal-swing",
+      "skitter-smack",
       "dual-wingbeat",
       "tera-blast",
       "pounce",

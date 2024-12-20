@@ -51,7 +51,8 @@
       {
         "L": 11,
         "moves": [
-          "double-slap"
+          "double-slap",
+          "iron-defense"
         ]
       },
       {
@@ -64,6 +65,12 @@
         "L": 39,
         "moves": [
           "psychic"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "hypnosis"
         ]
       },
       {
@@ -112,7 +119,8 @@
       {
         "L": 18,
         "moves": [
-          "encore"
+          "encore",
+          "zen-headbutt"
         ]
       },
       {
@@ -124,7 +132,8 @@
       {
         "L": 43,
         "moves": [
-          "role-play"
+          "role-play",
+          "calm-mind"
         ]
       },
       {

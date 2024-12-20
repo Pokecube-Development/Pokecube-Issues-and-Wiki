@@ -245,8 +245,10 @@
       "power-up-punch",
       "laser-focus",
       "psychic-terrain",
+      "expanding-force",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/enderpearls_2"

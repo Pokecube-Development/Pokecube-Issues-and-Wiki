@@ -65,9 +65,33 @@
         ]
       },
       {
+        "L": 18,
+        "moves": [
+          "aerial-ace"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "roost"
+        ]
+      },
+      {
         "L": 75,
         "moves": [
           "dark-pulse"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "brave-bird"
         ]
       },
       {
@@ -88,12 +112,20 @@
           "quash",
           "comeuppance"
         ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "snarl"
+        ]
       }
     ],
     "misc": [
+      "gust",
       "wing-attack",
       "fly",
       "take-down",
+      "double-edge",
       "hyper-beam",
       "thunder-wave",
       "toxic",
@@ -135,8 +167,10 @@
       "taunt",
       "helping-hand",
       "superpower",
+      "endeavor",
       "snatch",
       "secret-power",
+      "feather-dance",
       "astonish",
       "air-cutter",
       "aerial-ace",
@@ -171,7 +205,8 @@
       "lash-out",
       "dual-wingbeat",
       "tera-blast",
-      "chilling-water"
+      "chilling-water",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/chicken_2"

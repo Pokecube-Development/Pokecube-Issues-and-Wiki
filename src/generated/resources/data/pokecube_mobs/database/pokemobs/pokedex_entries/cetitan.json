@@ -127,6 +127,7 @@
       "ice-punch",
       "body-slam",
       "take-down",
+      "double-edge",
       "ice-beam",
       "blizzard",
       "hyper-beam",
@@ -134,6 +135,7 @@
       "amnesia",
       "rest",
       "substitute",
+      "curse",
       "protect",
       "icy-wind",
       "endure",
@@ -159,7 +161,8 @@
       "tera-blast",
       "ice-spinner",
       "snowscape",
-      "chilling-water"
+      "chilling-water",
+      "hard-press"
     ]
   }
 }

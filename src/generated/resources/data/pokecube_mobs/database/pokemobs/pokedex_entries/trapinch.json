@@ -137,6 +137,7 @@
       "sand-attack",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "bite",
       "hyper-beam",
@@ -183,7 +184,9 @@
       "natural-gift",
       "feint",
       "earth-power",
+      "stone-edge",
       "captivate",
+      "stealth-rock",
       "bug-bite",
       "round",
       "struggle-bug",
@@ -191,7 +194,8 @@
       "confide",
       "first-impression",
       "laser-focus",
-      "scorching-sands"
+      "scorching-sands",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/sand_1"

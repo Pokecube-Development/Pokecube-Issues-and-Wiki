@@ -49,7 +49,8 @@
         "moves": [
           "tackle",
           "protect",
-          "bug-bite"
+          "bug-bite",
+          "struggle-bug"
         ]
       },
       {
@@ -93,8 +94,7 @@
       {
         "L": 38,
         "moves": [
-          "silver-wind",
-          "struggle-bug"
+          "silver-wind"
         ]
       },
       {

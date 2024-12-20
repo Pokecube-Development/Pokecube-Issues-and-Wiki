@@ -42,6 +42,7 @@
           "pound",
           "tackle",
           "growl",
+          "absorb",
           "bide"
         ]
       },
@@ -59,6 +60,7 @@
       }
     ],
     "misc": [
+      "tackle",
       "growl",
       "string-shot",
       "bide",
@@ -69,6 +71,7 @@
       "bug-bite",
       "struggle-bug",
       "lunge",
+      "skitter-smack",
       "tera-blast"
     ]
   },

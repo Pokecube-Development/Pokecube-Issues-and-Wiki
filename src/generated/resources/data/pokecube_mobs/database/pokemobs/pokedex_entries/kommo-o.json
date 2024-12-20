@@ -148,6 +148,7 @@
       "tackle",
       "body-slam",
       "take-down",
+      "double-edge",
       "leer",
       "roar",
       "flamethrower",
@@ -194,6 +195,7 @@
       "endeavor",
       "hyper-voice",
       "rock-tomb",
+      "metal-sound",
       "sky-uppercut",
       "aerial-ace",
       "iron-defense",
@@ -231,6 +233,7 @@
       "boomburst",
       "confide",
       "laser-focus",
+      "throat-chop",
       "clanging-scales",
       "brutal-swing",
       "stomping-tantrum",
@@ -239,7 +242,9 @@
       "breaking-swipe",
       "scale-shot",
       "coaching",
-      "tera-blast"
+      "tera-blast",
+      "dragon-cheer",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/pig_3"

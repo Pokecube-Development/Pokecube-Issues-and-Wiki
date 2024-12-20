@@ -44,6 +44,7 @@
           "scratch",
           "tail-whip",
           "water-gun",
+          "bubble",
           "encore",
           "yawn",
           "water-sport",
@@ -79,6 +80,12 @@
         "L": 10,
         "moves": [
           "confusion"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "hypnosis"
         ]
       },
       {
@@ -212,6 +219,7 @@
       "role-play",
       "brick-break",
       "knock-off",
+      "endeavor",
       "skill-swap",
       "secret-power",
       "dive",
@@ -254,7 +262,8 @@
       "flip-turn",
       "tera-blast",
       "trailblaze",
-      "chilling-water"
+      "chilling-water",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/chicken_2",

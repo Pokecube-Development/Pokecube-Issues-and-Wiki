@@ -219,6 +219,7 @@
       "recycle",
       "brick-break",
       "knock-off",
+      "endeavor",
       "skill-swap",
       "imprison",
       "snatch",
@@ -251,8 +252,10 @@
       "dazzling-gleam",
       "power-up-punch",
       "psychic-terrain",
+      "expanding-force",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/enderpearls_1"

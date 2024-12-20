@@ -41,6 +41,7 @@
         "L": 1,
         "moves": [
           "scratch",
+          "bubble",
           "water-sport"
         ]
       },
@@ -84,6 +85,12 @@
         "L": 10,
         "moves": [
           "confusion"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "hypnosis"
         ]
       },
       {
@@ -219,11 +226,13 @@
       "brick-break",
       "yawn",
       "knock-off",
+      "endeavor",
       "skill-swap",
       "refresh",
       "secret-power",
       "dive",
       "signal-beam",
+      "muddy-water",
       "aerial-ace",
       "mud-shot",
       "water-sport",
@@ -257,7 +266,8 @@
       "flip-turn",
       "tera-blast",
       "trailblaze",
-      "chilling-water"
+      "chilling-water",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/chicken_1",

@@ -2,7 +2,7 @@
   "name": "dipplin",
   "id": 1011,
   "stock": true,
-  "base_experience": null,
+  "base_experience": 170,
   "size": {
     "height": 0.4
   },
@@ -149,7 +149,8 @@
       "pollen-puff",
       "grassy-glide",
       "tera-blast",
-      "pounce"
+      "pounce",
+      "dragon-cheer"
     ]
   }
 }

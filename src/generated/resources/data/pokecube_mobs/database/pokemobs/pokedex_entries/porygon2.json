@@ -117,6 +117,7 @@
     ],
     "misc": [
       "tackle",
+      "take-down",
       "double-edge",
       "ice-beam",
       "blizzard",
@@ -163,6 +164,7 @@
       "psych-up",
       "shadow-ball",
       "facade",
+      "charge",
       "trick",
       "magic-coat",
       "recycle",
@@ -190,7 +192,8 @@
       "electroweb",
       "confide",
       "eerie-impulse",
-      "speed-swap"
+      "speed-swap",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/enderpearls_2"

@@ -42,6 +42,7 @@
         "L": 25,
         "moves": [
           "bind",
+          "double-edge",
           "disable"
         ]
       },
@@ -55,6 +56,13 @@
         "L": 21,
         "moves": [
           "stomp"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "lick"
         ]
       },
       {
@@ -94,9 +102,9 @@
         ]
       },
       {
-        "L": 1,
+        "L": 6,
         "moves": [
-          "lick"
+          "rest"
         ]
       },
       {
@@ -136,6 +144,18 @@
         ]
       },
       {
+        "L": 43,
+        "moves": [
+          "giga-impact"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
         "L": 53,
         "moves": [
           "power-whip"
@@ -145,6 +165,12 @@
         "L": 37,
         "moves": [
           "chip-away"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "bulldoze"
         ]
       }
     ],

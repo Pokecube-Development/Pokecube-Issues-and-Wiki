@@ -78,6 +78,13 @@
         ]
       },
       {
+        "L": 16,
+        "moves": [
+          "magical-leaf",
+          "leaf-tornado"
+        ]
+      },
+      {
         "L": 32,
         "moves": [
           "leaf-blade"
@@ -106,12 +113,6 @@
         "moves": [
           "coil"
         ]
-      },
-      {
-        "L": 16,
-        "moves": [
-          "leaf-tornado"
-        ]
       }
     ],
     "misc": [
@@ -121,7 +122,10 @@
       "slam",
       "vine-whip",
       "tackle",
+      "body-slam",
       "wrap",
+      "take-down",
+      "double-edge",
       "leer",
       "hyper-beam",
       "strength",
@@ -133,33 +137,44 @@
       "double-team",
       "light-screen",
       "reflect",
+      "swift",
+      "glare",
       "flash",
       "rest",
       "substitute",
       "snore",
       "protect",
+      "scary-face",
       "outrage",
       "giga-drain",
+      "endure",
       "swagger",
+      "mean-look",
       "attract",
       "sleep-talk",
       "return",
       "frustration",
       "safeguard",
+      "sweet-scent",
       "iron-tail",
       "synthesis",
       "hidden-power",
+      "twister",
       "sunny-day",
+      "mirror-coat",
       "rock-smash",
       "torment",
       "facade",
       "nature-power",
       "taunt",
+      "helping-hand",
       "knock-off",
       "snatch",
       "secret-power",
+      "bullet-seed",
       "aerial-ace",
       "frenzy-plant",
+      "magical-leaf",
       "calm-mind",
       "leaf-blade",
       "wring-out",
@@ -179,8 +194,15 @@
       "dragon-tail",
       "work-up",
       "leaf-tornado",
+      "petal-blizzard",
+      "grassy-terrain",
       "confide",
-      "brutal-swing"
+      "brutal-swing",
+      "breaking-swipe",
+      "scale-shot",
+      "grassy-glide",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/wheat_seeds_3"

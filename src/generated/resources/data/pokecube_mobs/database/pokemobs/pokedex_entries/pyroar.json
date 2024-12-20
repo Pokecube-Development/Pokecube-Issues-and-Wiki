@@ -122,6 +122,7 @@
       "tackle",
       "body-slam",
       "take-down",
+      "double-edge",
       "leer",
       "roar",
       "ember",
@@ -185,7 +186,8 @@
       "psychic-fangs",
       "burning-jealousy",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "temper-flare"
     ]
   },
   "male_model": {

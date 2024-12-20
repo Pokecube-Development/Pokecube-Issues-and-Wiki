@@ -156,6 +156,7 @@
       "substitute",
       "thief",
       "snore",
+      "curse",
       "protect",
       "lock-on",
       "outrage",
@@ -196,7 +197,8 @@
       "dragon-darts",
       "breaking-swipe",
       "tera-blast",
-      "pounce"
+      "pounce",
+      "dragon-cheer"
     ]
   },
   "loot_table": "pokecube:entities/enderpearls_3"

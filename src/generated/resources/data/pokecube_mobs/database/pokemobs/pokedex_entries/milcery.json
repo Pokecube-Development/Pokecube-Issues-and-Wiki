@@ -62,6 +62,13 @@
         ]
       },
       {
+        "L": 20,
+        "moves": [
+          "charm",
+          "aromatherapy"
+        ]
+      },
+      {
         "L": 25,
         "moves": [
           "attract"
@@ -71,12 +78,6 @@
         "L": 10,
         "moves": [
           "sweet-scent"
-        ]
-      },
-      {
-        "L": 20,
-        "moves": [
-          "aromatherapy"
         ]
       },
       {
@@ -105,24 +106,32 @@
       }
     ],
     "misc": [
+      "tackle",
+      "recover",
+      "acid-armor",
       "rest",
       "substitute",
       "snore",
       "protect",
+      "sweet-kiss",
       "endure",
       "charm",
       "attract",
       "sleep-talk",
+      "sweet-scent",
       "facade",
       "helping-hand",
       "fling",
       "last-resort",
+      "entrainment",
       "round",
       "stored-power",
       "draining-kiss",
       "misty-terrain",
+      "aromatic-mist",
       "dazzling-gleam",
-      "baby-doll-eyes"
+      "baby-doll-eyes",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/white_1"

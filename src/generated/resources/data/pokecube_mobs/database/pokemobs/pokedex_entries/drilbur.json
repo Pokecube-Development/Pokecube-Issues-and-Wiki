@@ -133,6 +133,8 @@
       "scratch",
       "swords-dance",
       "cut",
+      "take-down",
+      "double-edge",
       "submission",
       "strength",
       "earthquake",
@@ -147,6 +149,7 @@
       "slash",
       "substitute",
       "snore",
+      "curse",
       "protect",
       "sludge-bomb",
       "mud-slap",
@@ -160,8 +163,10 @@
       "rapid-spin",
       "metal-claw",
       "hidden-power",
+      "sunny-day",
       "rock-smash",
       "facade",
+      "helping-hand",
       "brick-break",
       "secret-power",
       "mud-sport",
@@ -185,7 +190,9 @@
       "drill-run",
       "confide",
       "high-horsepower",
-      "scorching-sands"
+      "stomping-tantrum",
+      "scorching-sands",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/rabbit_1"

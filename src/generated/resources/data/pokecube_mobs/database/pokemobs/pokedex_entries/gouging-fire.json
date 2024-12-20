@@ -1,0 +1,178 @@
+{
+  "name": "gouging-fire",
+  "id": 1020,
+  "stock": true,
+  "base_experience": 295,
+  "size": {
+    "height": 3.5
+  },
+  "mass": 590.0,
+  "is_default": true,
+  "capture_rate": 10,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 105,
+    "attack": 115,
+    "defense": 121,
+    "special_attack": 65,
+    "special_defense": 93,
+    "speed": 91
+  },
+  "evs": {
+    "defense": 3
+  },
+  "types": [
+    "fire",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "protosynthesis"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "stomp",
+          "leer",
+          "sunny-day",
+          "incinerate"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "fire-blast"
+        ]
+      },
+      {
+        "L": 77,
+        "moves": [
+          "outrage"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "morning-sun"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "crush-claw"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "howl"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "dragon-claw"
+        ]
+      },
+      {
+        "L": 84,
+        "moves": [
+          "flare-blitz"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "dragon-rush"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "fire-fang"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "lava-plume"
+        ]
+      },
+      {
+        "L": 91,
+        "moves": [
+          "raging-fury"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "burning-bulwark"
+        ]
+      }
+    ],
+    "misc": [
+      "double-kick",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "roar",
+      "flamethrower",
+      "hyper-beam",
+      "fire-spin",
+      "earthquake",
+      "fire-blast",
+      "rest",
+      "substitute",
+      "reversal",
+      "protect",
+      "scary-face",
+      "outrage",
+      "endure",
+      "sleep-talk",
+      "sunny-day",
+      "crunch",
+      "ancient-power",
+      "heat-wave",
+      "facade",
+      "weather-ball",
+      "overheat",
+      "dragon-claw",
+      "dragon-dance",
+      "flare-blitz",
+      "dragon-pulse",
+      "giga-impact",
+      "thunder-fang",
+      "fire-fang",
+      "draco-meteor",
+      "iron-head",
+      "stone-edge",
+      "flame-charge",
+      "bulldoze",
+      "dragon-tail",
+      "heat-crash",
+      "snarl",
+      "noble-roar",
+      "smart-strike",
+      "psychic-fangs",
+      "stomping-tantrum",
+      "breaking-swipe",
+      "scale-shot",
+      "scorching-sands",
+      "tera-blast",
+      "dragon-cheer",
+      "temper-flare"
+    ]
+  }
+}

@@ -228,7 +228,8 @@
       "power-up-punch",
       "coaching",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/rabbit_1"

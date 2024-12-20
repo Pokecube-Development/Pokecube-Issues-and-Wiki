@@ -121,6 +121,7 @@
       "fire-blast",
       "rest",
       "substitute",
+      "curse",
       "protect",
       "mud-slap",
       "outrage",
@@ -144,7 +145,8 @@
       "snarl",
       "disarming-voice",
       "stomping-tantrum",
-      "tera-blast"
+      "tera-blast",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/blaze_rabbit_1"

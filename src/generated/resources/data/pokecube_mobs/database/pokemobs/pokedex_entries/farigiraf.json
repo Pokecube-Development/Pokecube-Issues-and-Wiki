@@ -120,6 +120,7 @@
     "misc": [
       "body-slam",
       "take-down",
+      "double-edge",
       "roar",
       "psybeam",
       "hyper-beam",
@@ -139,6 +140,7 @@
       "rest",
       "substitute",
       "thief",
+      "curse",
       "protect",
       "endure",
       "sleep-talk",
@@ -146,11 +148,14 @@
       "rain-dance",
       "sunny-day",
       "crunch",
+      "psych-up",
       "shadow-ball",
+      "future-sight",
       "uproar",
       "facade",
       "helping-hand",
       "trick",
+      "endeavor",
       "skill-swap",
       "imprison",
       "hyper-voice",
@@ -173,8 +178,10 @@
       "psychic-terrain",
       "psychic-fangs",
       "stomping-tantrum",
+      "expanding-force",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/ender_cow_1"

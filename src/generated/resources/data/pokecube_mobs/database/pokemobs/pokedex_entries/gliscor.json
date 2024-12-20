@@ -46,7 +46,6 @@
           "sand-attack",
           "poison-sting",
           "harden",
-          "slash",
           "knock-off",
           "poison-jab",
           "thunder-fang",
@@ -58,6 +57,12 @@
         "L": 50,
         "moves": [
           "swords-dance"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "pin-missile"
         ]
       },
       {
@@ -81,6 +86,12 @@
         ]
       },
       {
+        "L": 25,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
         "L": 19,
         "moves": [
           "feint-attack",
@@ -91,6 +102,12 @@
         "L": 16,
         "moves": [
           "fury-cutter"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "aerial-ace"
         ]
       },
       {
@@ -112,6 +129,18 @@
         ]
       },
       {
+        "L": 52,
+        "moves": [
+          "earth-power"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "mud-bomb"
+        ]
+      },
+      {
         "L": 22,
         "moves": [
           "acrobatics"
@@ -127,6 +156,7 @@
       "headbutt",
       "take-down",
       "double-edge",
+      "poison-sting",
       "hyper-beam",
       "counter",
       "strength",
@@ -142,6 +172,7 @@
       "sky-attack",
       "rest",
       "rock-slide",
+      "slash",
       "substitute",
       "thief",
       "snore",
@@ -219,6 +250,9 @@
       "lunge",
       "brutal-swing",
       "psychic-fangs",
+      "breaking-swipe",
+      "scale-shot",
+      "skitter-smack",
       "dual-wingbeat",
       "tera-blast"
     ]

@@ -128,6 +128,7 @@
     "misc": [
       "swords-dance",
       "take-down",
+      "double-edge",
       "hyper-beam",
       "solar-beam",
       "agility",
@@ -146,6 +147,7 @@
       "helping-hand",
       "brick-break",
       "imprison",
+      "metal-sound",
       "aerial-ace",
       "iron-defense",
       "magical-leaf",
@@ -164,8 +166,10 @@
       "grassy-terrain",
       "electric-terrain",
       "solar-blade",
+      "throat-chop",
       "psychic-terrain",
       "smart-strike",
+      "coaching",
       "tera-blast",
       "trailblaze"
     ]

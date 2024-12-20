@@ -2,7 +2,7 @@
   "name": "sinistcha",
   "id": 1013,
   "stock": true,
-  "base_experience": null,
+  "base_experience": 178,
   "size": {
     "height": 0.2
   },
@@ -119,11 +119,14 @@
       "reflect",
       "rest",
       "substitute",
+      "curse",
       "spite",
       "protect",
       "giga-drain",
       "endure",
       "sleep-talk",
+      "pain-split",
+      "psych-up",
       "shadow-ball",
       "uproar",
       "imprison",
@@ -142,5 +145,25 @@
       "poltergeist",
       "tera-blast"
     ]
-  }
+  },
+   "model": {
+    "key": "sinistea-unremarkable",
+    "tex": "sinistea",
+    "model": "sinistea-unremarkable",
+    "anim": "sinistea"
+  },
+  "models": [
+    {
+      "key": "sinistea-unremarkable",
+      "tex": "sinistea",
+      "model": "sinistea-unremarkable",
+      "anim": "sinistea"
+    },
+    {
+      "key": "sinistea-masterpiece",
+      "tex": "sinistea",
+      "model": "sinistea-masterpiece",
+      "anim": "sinistea"
+    }
+  ]
 }

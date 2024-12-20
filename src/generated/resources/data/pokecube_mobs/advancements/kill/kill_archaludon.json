@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.archaludon"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.archaludon"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_archaludon": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "archaludon"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

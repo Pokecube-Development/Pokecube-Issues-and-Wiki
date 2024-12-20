@@ -34,9 +34,22 @@
   "moves": {
     "level_up": [
       {
+        "L": 6,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "poison-sting"
+        ]
+      },
+      {
         "L": 0,
         "moves": [
-          "harden"
+          "harden",
+          "iron-defense"
         ]
       }
     ],

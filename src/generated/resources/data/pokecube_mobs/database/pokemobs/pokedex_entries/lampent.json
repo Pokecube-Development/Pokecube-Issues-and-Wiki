@@ -196,7 +196,8 @@
       "burning-jealousy",
       "lash-out",
       "poltergeist",
-      "tera-blast"
+      "tera-blast",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/enderpearls_2"

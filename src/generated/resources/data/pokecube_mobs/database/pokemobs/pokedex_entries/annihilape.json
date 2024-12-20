@@ -139,6 +139,7 @@
       "thunder-punch",
       "body-slam",
       "take-down",
+      "double-edge",
       "hyper-beam",
       "low-kick",
       "thunderbolt",
@@ -152,6 +153,7 @@
       "rock-slide",
       "substitute",
       "thief",
+      "curse",
       "reversal",
       "spite",
       "protect",
@@ -169,6 +171,7 @@
       "taunt",
       "helping-hand",
       "brick-break",
+      "endeavor",
       "overheat",
       "rock-tomb",
       "bulk-up",
@@ -189,8 +192,10 @@
       "acrobatics",
       "bulldoze",
       "phantom-force",
+      "throat-chop",
       "stomping-tantrum",
-      "lash-out"
+      "lash-out",
+      "coaching"
     ]
   }
 }

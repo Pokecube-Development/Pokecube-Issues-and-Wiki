@@ -83,6 +83,13 @@
         ]
       },
       {
+        "L": 25,
+        "moves": [
+          "mimic",
+          "future-sight"
+        ]
+      },
+      {
         "L": 17,
         "moves": [
           "swift"
@@ -101,9 +108,9 @@
         ]
       },
       {
-        "L": 25,
+        "L": 34,
         "moves": [
-          "future-sight"
+          "calm-mind"
         ]
       },
       {
@@ -224,7 +231,9 @@
       "psychic-fangs",
       "expanding-force",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "alluring-voice",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/rabbit_1"

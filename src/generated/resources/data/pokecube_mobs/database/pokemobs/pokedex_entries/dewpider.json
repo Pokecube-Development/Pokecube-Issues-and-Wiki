@@ -131,7 +131,10 @@
       }
     ],
     "misc": [
+      "headbutt",
       "bite",
+      "water-gun",
+      "hydro-pump",
       "surf",
       "ice-beam",
       "blizzard",
@@ -163,6 +166,7 @@
       "spit-up",
       "facade",
       "magic-coat",
+      "endeavor",
       "signal-beam",
       "iron-defense",
       "water-sport",
@@ -175,6 +179,7 @@
       "power-split",
       "wonder-room",
       "magic-room",
+      "soak",
       "entrainment",
       "round",
       "scald",
@@ -184,7 +189,11 @@
       "infestation",
       "lunge",
       "liquidation",
-      "skitter-smack"
+      "skitter-smack",
+      "tera-blast",
+      "pounce",
+      "trailblaze",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/spider"

@@ -223,7 +223,9 @@
       "burning-jealousy",
       "corrosive-gas",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "dragon-cheer",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/blaze_rabbit_2"

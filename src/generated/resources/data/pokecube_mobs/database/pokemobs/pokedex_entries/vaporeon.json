@@ -76,7 +76,8 @@
       {
         "L": 0,
         "moves": [
-          "water-gun"
+          "water-gun",
+          "bubble"
         ]
       },
       {
@@ -98,6 +99,14 @@
         ]
       },
       {
+        "L": 25,
+        "moves": [
+          "mimic",
+          "aqua-ring",
+          "aqua-tail"
+        ]
+      },
+      {
         "L": 33,
         "moves": [
           "haze"
@@ -116,6 +125,12 @@
         ]
       },
       {
+        "L": 34,
+        "moves": [
+          "calm-mind"
+        ]
+      },
+      {
         "L": 17,
         "moves": [
           "water-pulse"
@@ -125,12 +140,6 @@
         "L": 41,
         "moves": [
           "last-resort"
-        ]
-      },
-      {
-        "L": 25,
-        "moves": [
-          "aqua-ring"
         ]
       },
       {
@@ -234,7 +243,8 @@
       "flip-turn",
       "tera-blast",
       "trailblaze",
-      "chilling-water"
+      "chilling-water",
+      "alluring-voice"
     ]
   },
   "loot_table": "pokecube:entities/fish_1"

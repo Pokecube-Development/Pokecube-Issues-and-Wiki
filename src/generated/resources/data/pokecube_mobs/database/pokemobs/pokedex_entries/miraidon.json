@@ -150,6 +150,7 @@
       "taunt",
       "helping-hand",
       "overheat",
+      "metal-sound",
       "dragon-claw",
       "calm-mind",
       "u-turn",
@@ -170,7 +171,9 @@
       "eerie-impulse",
       "electric-terrain",
       "dazzling-gleam",
-      "tera-blast"
+      "tera-blast",
+      "dragon-cheer",
+      "supercell-slam"
     ]
   }
 }

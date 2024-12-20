@@ -43,12 +43,9 @@
         "L": 1,
         "moves": [
           "poison-sting",
-          "absorb",
           "mega-drain",
           "leech-seed",
           "growth",
-          "stun-spore",
-          "petal-dance",
           "toxic",
           "giga-drain",
           "sweet-scent",
@@ -62,6 +59,48 @@
           "petal-blizzard",
           "grassy-terrain",
           "venom-drench"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "absorb"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "poison-powder"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "stun-spore"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "petal-dance"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "poison-jab"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "energy-ball"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "venoshock"
         ]
       }
     ],

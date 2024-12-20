@@ -38,16 +38,17 @@
   "moves": {
     "level_up": [
       {
-        "L": 29,
+        "L": 1,
         "moves": [
-          "fury-attack"
+          "gust",
+          "tackle",
+          "leafage"
         ]
       },
       {
-        "L": 1,
+        "L": 29,
         "moves": [
-          "tackle",
-          "leafage"
+          "fury-attack"
         ]
       },
       {
@@ -71,13 +72,15 @@
       {
         "L": 18,
         "moves": [
-          "foresight"
+          "foresight",
+          "aerial-ace"
         ]
       },
       {
         "L": 25,
         "moves": [
-          "synthesis"
+          "synthesis",
+          "air-slash"
         ]
       },
       {
@@ -89,7 +92,14 @@
       {
         "L": 11,
         "moves": [
-          "astonish"
+          "astonish",
+          "roost"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "magical-leaf"
         ]
       },
       {
@@ -113,7 +123,8 @@
       {
         "L": 43,
         "moves": [
-          "brave-bird"
+          "brave-bird",
+          "leaf-storm"
         ]
       },
       {

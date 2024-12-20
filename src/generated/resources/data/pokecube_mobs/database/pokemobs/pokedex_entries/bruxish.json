@@ -155,6 +155,7 @@
       "hidden-power",
       "rain-dance",
       "crunch",
+      "whirlpool",
       "uproar",
       "torment",
       "facade",
@@ -191,9 +192,11 @@
       "psychic-terrain",
       "psychic-fangs",
       "liquidation",
+      "expanding-force",
       "flip-turn",
       "tera-blast",
-      "chilling-water"
+      "chilling-water",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/fish_1"

@@ -74,7 +74,8 @@
       {
         "L": 46,
         "moves": [
-          "natural-gift"
+          "natural-gift",
+          "play-rough"
         ]
       },
       {
@@ -111,6 +112,8 @@
     "misc": [
       "swords-dance",
       "headbutt",
+      "take-down",
+      "double-edge",
       "hyper-beam",
       "leech-seed",
       "growth",
@@ -134,6 +137,7 @@
       "return",
       "frustration",
       "safeguard",
+      "baton-pass",
       "sweet-scent",
       "synthesis",
       "hidden-power",
@@ -141,9 +145,11 @@
       "psych-up",
       "facade",
       "nature-power",
+      "endeavor",
       "secret-power",
       "air-cutter",
       "bullet-seed",
+      "aerial-ace",
       "covet",
       "magical-leaf",
       "natural-gift",
@@ -153,6 +159,7 @@
       "seed-bomb",
       "air-slash",
       "energy-ball",
+      "earth-power",
       "giga-impact",
       "zen-headbutt",
       "leaf-storm",
@@ -160,10 +167,17 @@
       "seed-flare",
       "ominous-wind",
       "round",
+      "petal-blizzard",
+      "disarming-voice",
+      "grassy-terrain",
+      "play-rough",
       "confide",
       "dazzling-gleam",
+      "baby-doll-eyes",
       "laser-focus",
-      "grassy-glide"
+      "grassy-glide",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "old_name": "shaymin_sky"

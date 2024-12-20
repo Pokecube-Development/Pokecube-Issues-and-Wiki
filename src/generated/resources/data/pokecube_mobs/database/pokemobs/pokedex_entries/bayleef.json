@@ -54,6 +54,14 @@
         ]
       },
       {
+        "L": 26,
+        "moves": [
+          "leech-seed",
+          "nature-power",
+          "natural-gift"
+        ]
+      },
+      {
         "L": 54,
         "moves": [
           "solar-beam"
@@ -69,6 +77,13 @@
         "L": 18,
         "moves": [
           "reflect"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "giga-drain",
+          "aromatherapy"
         ]
       },
       {
@@ -90,19 +105,6 @@
         ]
       },
       {
-        "L": 26,
-        "moves": [
-          "nature-power",
-          "natural-gift"
-        ]
-      },
-      {
-        "L": 50,
-        "moves": [
-          "aromatherapy"
-        ]
-      },
-      {
         "L": 22,
         "moves": [
           "magical-leaf"
@@ -112,9 +114,11 @@
     "misc": [
       "swords-dance",
       "cut",
+      "vine-whip",
       "headbutt",
       "tackle",
       "body-slam",
+      "take-down",
       "double-edge",
       "growl",
       "counter",
@@ -132,11 +136,13 @@
       "substitute",
       "snore",
       "curse",
+      "flail",
       "protect",
       "mud-slap",
       "detect",
       "giga-drain",
       "endure",
+      "charm",
       "swagger",
       "fury-cutter",
       "attract",
@@ -144,6 +150,7 @@
       "return",
       "frustration",
       "safeguard",
+      "encore",
       "sweet-scent",
       "iron-tail",
       "synthesis",
@@ -153,23 +160,35 @@
       "rock-smash",
       "facade",
       "nature-power",
+      "helping-hand",
+      "ingrain",
       "magic-coat",
+      "knock-off",
       "secret-power",
       "aromatherapy",
+      "fake-tears",
       "bullet-seed",
       "magical-leaf",
       "natural-gift",
       "worry-seed",
       "seed-bomb",
       "energy-ball",
+      "leaf-storm",
       "captivate",
       "grass-knot",
       "round",
       "echoed-voice",
+      "heal-pulse",
       "grass-pledge",
       "work-up",
+      "grassy-terrain",
       "confide",
-      "laser-focus"
+      "solar-blade",
+      "laser-focus",
+      "stomping-tantrum",
+      "grassy-glide",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/wheat_seeds_2"

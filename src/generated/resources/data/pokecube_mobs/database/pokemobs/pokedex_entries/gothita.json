@@ -230,7 +230,8 @@
       "confide",
       "psychic-terrain",
       "expanding-force",
-      "tera-blast"
+      "tera-blast",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/enderpearls_1"

@@ -65,6 +65,14 @@
         ]
       },
       {
+        "L": 25,
+        "moves": [
+          "ice-beam",
+          "mimic",
+          "ice-shard"
+        ]
+      },
+      {
         "L": 45,
         "moves": [
           "blizzard"
@@ -85,6 +93,7 @@
       {
         "L": 0,
         "moves": [
+          "powder-snow",
           "icy-wind"
         ]
       },
@@ -101,15 +110,15 @@
         ]
       },
       {
-        "L": 41,
+        "L": 34,
         "moves": [
-          "last-resort"
+          "calm-mind"
         ]
       },
       {
-        "L": 25,
+        "L": 41,
         "moves": [
-          "ice-shard"
+          "last-resort"
         ]
       },
       {
@@ -164,6 +173,7 @@
       "rest",
       "substitute",
       "snore",
+      "curse",
       "protect",
       "mud-slap",
       "icy-wind",
@@ -220,7 +230,8 @@
       "triple-axel",
       "tera-blast",
       "snowscape",
-      "chilling-water"
+      "chilling-water",
+      "alluring-voice"
     ]
   },
   "loot_table": "pokecube:entities/rabbit_1"

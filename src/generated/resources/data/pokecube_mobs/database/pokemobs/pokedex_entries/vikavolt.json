@@ -190,7 +190,8 @@
       "skitter-smack",
       "dual-wingbeat",
       "tera-blast",
-      "pounce"
+      "pounce",
+      "supercell-slam"
     ]
   },
   "loot_table": "pokecube:entities/redstone_spider_2"

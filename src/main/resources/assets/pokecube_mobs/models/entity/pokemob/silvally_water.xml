@@ -3,7 +3,7 @@
  <model>
   <phase name="global" scale="0.30"/>
   <metadata head="neck:neck1:head" headCap="-20,20" headCap1="-10,10"  headDir2="-1"/>
-  <phase duration="10" leftFront="leg4" leftHind="leg1" name="quadWalk" rightFront="leg3" rightHind="leg2"/>
+  <phase angle="20" duration="10" leftFront="leg1:leg1_1" leftHind="leg2:leg2_1" name="quadWalk" rightFront="leg3:leg3_1" rightHind="leg4:leg4_1"/>
   <customTex default="silvally">
    <part name="Head" tex="silvallyeye_water"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:3"/>
@@ -73,6 +73,10 @@
     <component length="10" name="1" rotChange="0,7,0" startKey="0"/>
     <component length="10" name="2" rotChange="0,-14,0" startKey="5"/>
 	<component length="10" name="3" rotChange="0,7,0" startKey="10"/>
+   </part>
+   <part name="body">
+    <component length="8" name="1" rotChange="4,0,0" startKey="0"/>
+    <component length="8" name="2" rotChange="-4,0,0" startKey="10"/>
    </part>
   </phase>
  </model>

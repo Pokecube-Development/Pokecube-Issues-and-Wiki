@@ -188,10 +188,13 @@
       "stomping-tantrum",
       "liquidation",
       "body-press",
+      "coaching",
       "tera-blast",
       "ice-spinner",
       "snowscape",
-      "chilling-water"
+      "chilling-water",
+      "hard-press",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/fish_1"

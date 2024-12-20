@@ -88,6 +88,12 @@
         ]
       },
       {
+        "L": 5,
+        "moves": [
+          "rock-smash"
+        ]
+      },
+      {
         "L": 50,
         "moves": [
           "flatter"
@@ -112,6 +118,13 @@
         ]
       },
       {
+        "L": 47,
+        "moves": [
+          "close-combat",
+          "belch"
+        ]
+      },
+      {
         "L": 31,
         "moves": [
           "sucker-punch"
@@ -124,6 +137,12 @@
         ]
       },
       {
+        "L": 37,
+        "moves": [
+          "earth-power"
+        ]
+      },
+      {
         "L": 38,
         "moves": [
           "nasty-plot"
@@ -133,12 +152,6 @@
         "L": 29,
         "moves": [
           "mud-bomb"
-        ]
-      },
-      {
-        "L": 47,
-        "moves": [
-          "belch"
         ]
       }
     ],
@@ -251,7 +264,8 @@
       "lash-out",
       "coaching",
       "tera-blast",
-      "chilling-water"
+      "chilling-water",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/spider_eye"

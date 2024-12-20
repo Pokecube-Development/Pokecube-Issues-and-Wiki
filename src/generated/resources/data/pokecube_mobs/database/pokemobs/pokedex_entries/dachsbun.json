@@ -125,6 +125,7 @@
     "misc": [
       "body-slam",
       "take-down",
+      "double-edge",
       "roar",
       "hyper-beam",
       "dig",
@@ -141,8 +142,10 @@
       "rain-dance",
       "sunny-day",
       "crunch",
+      "psych-up",
       "facade",
       "helping-hand",
+      "endeavor",
       "mud-shot",
       "giga-impact",
       "thunder-fang",
@@ -157,7 +160,8 @@
       "stomping-tantrum",
       "body-press",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "alluring-voice"
     ]
   },
   "loot_table": "pokecube:entities/bread"

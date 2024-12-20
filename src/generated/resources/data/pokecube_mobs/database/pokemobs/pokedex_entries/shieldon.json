@@ -47,7 +47,14 @@
       {
         "L": 15,
         "moves": [
-          "take-down"
+          "take-down",
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "double-edge"
         ]
       },
       {
@@ -89,7 +96,14 @@
       {
         "L": 37,
         "moves": [
-          "metal-burst"
+          "metal-burst",
+          "stealth-rock"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "earth-power"
         ]
       },
       {
@@ -154,6 +168,7 @@
       "secret-power",
       "rock-tomb",
       "metal-sound",
+      "sand-tomb",
       "iron-defense",
       "rock-blast",
       "shock-wave",
@@ -161,6 +176,7 @@
       "metal-burst",
       "magnet-rise",
       "rock-polish",
+      "power-gem",
       "earth-power",
       "flash-cannon",
       "iron-head",
@@ -174,7 +190,13 @@
       "round",
       "incinerate",
       "bulldoze",
-      "confide"
+      "confide",
+      "stomping-tantrum",
+      "steel-beam",
+      "scorching-sands",
+      "tera-blast",
+      "trailblaze",
+      "hard-press"
     ]
   },
   "loot_table": "pokecube:entities/fossil_mob"

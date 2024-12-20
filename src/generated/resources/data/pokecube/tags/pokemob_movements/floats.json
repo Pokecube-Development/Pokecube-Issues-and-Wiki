@@ -124,7 +124,6 @@
     "pokecube:diancie",
     "pokecube:diancie-mega",
     "pokecube:hoopa",
-    "pokecube:hoopa-unbound",
     "pokecube:comfey",
     "pokecube:minior-meteor",
     "pokecube:minior-blue",
@@ -161,12 +160,14 @@
     "pokecube:flittle",
     "pokecube:glimmet",
     "pokecube:glimmora",
-    "pokecube:varoom",
+    "pokecube:varoom;0.5",
+    "pokecube:revavroom;0.5",
     "pokecube:flutter-mane",
     "pokecube:scream-tail",
     "pokecube:iron-moth",
     "pokecube:miraidon",
     "pokecube:poltchageist",
-    "pokecube:sinistcha"
+    "pokecube:sinistcha",
+    "pokecube:pecharunt"
   ]
 }

@@ -56,6 +56,13 @@
         ]
       },
       {
+        "L": 37,
+        "moves": [
+          "double-edge",
+          "dragon-rush"
+        ]
+      },
+      {
         "L": 25,
         "moves": [
           "bite",
@@ -75,6 +82,12 @@
         ]
       },
       {
+        "L": 47,
+        "moves": [
+          "outrage"
+        ]
+      },
+      {
         "L": 13,
         "moves": [
           "sandstorm"
@@ -84,6 +97,12 @@
         "L": 12,
         "moves": [
           "dragon-breath"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "twister"
         ]
       },
       {
@@ -99,9 +118,9 @@
         ]
       },
       {
-        "L": 37,
+        "L": 29,
         "moves": [
-          "dragon-rush"
+          "earth-power"
         ]
       },
       {
@@ -187,7 +206,8 @@
       "confide",
       "scale-shot",
       "scorching-sands",
-      "tera-blast"
+      "tera-blast",
+      "dragon-cheer"
     ]
   },
   "male_model": {

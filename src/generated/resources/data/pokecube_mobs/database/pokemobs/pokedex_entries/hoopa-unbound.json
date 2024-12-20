@@ -146,6 +146,7 @@
       "sunny-day",
       "psych-up",
       "shadow-ball",
+      "future-sight",
       "uproar",
       "torment",
       "facade",
@@ -200,7 +201,11 @@
       "laser-focus",
       "throat-chop",
       "psychic-terrain",
-      "tera-blast"
+      "expanding-force",
+      "skitter-smack",
+      "lash-out",
+      "tera-blast",
+      "psychic-noise"
     ]
   },
   "sound": "hoopa-unbound",

@@ -138,6 +138,7 @@
       "endure",
       "false-swipe",
       "sleep-talk",
+      "pain-split",
       "rain-dance",
       "sunny-day",
       "facade",
@@ -158,10 +159,14 @@
       "grass-knot",
       "bug-bite",
       "struggle-bug",
+      "electroweb",
+      "throat-chop",
       "lunge",
+      "skitter-smack",
       "tera-blast",
       "pounce",
-      "trailblaze"
+      "trailblaze",
+      "upper-hand"
     ]
   },
   "loot_table": "minecraft:entities/spider"

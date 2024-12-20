@@ -245,7 +245,8 @@
       "body-press",
       "burning-jealousy",
       "scorching-sands",
-      "tera-blast"
+      "tera-blast",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/turtleshells_1"

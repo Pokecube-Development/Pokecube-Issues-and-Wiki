@@ -2,7 +2,7 @@
   "name": "munkidori",
   "id": 1015,
   "stock": true,
-  "base_experience": null,
+  "base_experience": 278,
   "size": {
     "height": 1.0
   },
@@ -121,7 +121,9 @@
       "endure",
       "sleep-talk",
       "baton-pass",
+      "psych-up",
       "shadow-ball",
+      "future-sight",
       "uproar",
       "facade",
       "taunt",
@@ -140,6 +142,7 @@
       "grass-knot",
       "psyshock",
       "venoshock",
+      "sludge-wave",
       "acid-spray",
       "stored-power",
       "hex",
@@ -147,7 +150,8 @@
       "lash-out",
       "poltergeist",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "psychic-noise"
     ]
   }
 }

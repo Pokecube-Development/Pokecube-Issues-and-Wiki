@@ -38,6 +38,12 @@
   "moves": {
     "level_up": [
       {
+        "L": 36,
+        "moves": [
+          "bind"
+        ]
+      },
+      {
         "L": 1,
         "moves": [
           "vine-whip",
@@ -73,6 +79,12 @@
         "L": 19,
         "moves": [
           "sweet-kiss"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "charm"
         ]
       },
       {
@@ -154,6 +166,7 @@
       "toxic",
       "double-team",
       "light-screen",
+      "swift",
       "amnesia",
       "rest",
       "substitute",
@@ -185,6 +198,7 @@
       "trick",
       "role-play",
       "magic-coat",
+      "knock-off",
       "aromatherapy",
       "bullet-seed",
       "covet",
@@ -210,6 +224,7 @@
       "acrobatics",
       "leaf-tornado",
       "petal-blizzard",
+      "disarming-voice",
       "draining-kiss",
       "flower-shield",
       "grassy-terrain",
@@ -218,7 +233,10 @@
       "dazzling-gleam",
       "floral-healing",
       "pollen-puff",
-      "grassy-glide"
+      "grassy-glide",
+      "tera-blast",
+      "trailblaze",
+      "alluring-voice"
     ]
   },
   "loot_table": "pokecube:entities/other_seeds"

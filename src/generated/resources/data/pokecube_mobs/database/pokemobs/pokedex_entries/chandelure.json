@@ -135,7 +135,8 @@
       "lash-out",
       "poltergeist",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/ghast_pearls"

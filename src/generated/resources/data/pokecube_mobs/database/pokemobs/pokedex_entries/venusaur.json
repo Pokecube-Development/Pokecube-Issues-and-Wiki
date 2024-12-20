@@ -46,8 +46,7 @@
           "tackle",
           "growl",
           "leech-seed",
-          "amnesia",
-          "power-whip"
+          "amnesia"
         ]
       },
       {
@@ -113,6 +112,12 @@
         ]
       },
       {
+        "L": 51,
+        "moves": [
+          "power-whip"
+        ]
+      },
+      {
         "L": 50,
         "moves": [
           "petal-blizzard"
@@ -158,6 +163,7 @@
       "snore",
       "curse",
       "protect",
+      "scary-face",
       "sludge-bomb",
       "mud-slap",
       "outrage",
@@ -180,6 +186,7 @@
       "facade",
       "nature-power",
       "helping-hand",
+      "ingrain",
       "knock-off",
       "secret-power",
       "weather-ball",
@@ -189,6 +196,7 @@
       "magical-leaf",
       "natural-gift",
       "worry-seed",
+      "poison-jab",
       "seed-bomb",
       "energy-ball",
       "earth-power",
@@ -199,6 +207,7 @@
       "captivate",
       "grass-knot",
       "venoshock",
+      "acid-spray",
       "round",
       "echoed-voice",
       "grass-pledge",
@@ -209,7 +218,9 @@
       "confide",
       "stomping-tantrum",
       "grassy-glide",
-      "terrain-pulse"
+      "terrain-pulse",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "male_model": {

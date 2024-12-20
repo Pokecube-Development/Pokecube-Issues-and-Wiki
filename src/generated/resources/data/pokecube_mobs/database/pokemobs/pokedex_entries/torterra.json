@@ -50,6 +50,12 @@
         ]
       },
       {
+        "L": 43,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
         "L": 22,
         "moves": [
           "bite"
@@ -71,6 +77,12 @@
         "L": 10,
         "moves": [
           "growth"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "sleep-powder"
         ]
       },
       {
@@ -104,15 +116,33 @@
         ]
       },
       {
+        "L": 34,
+        "moves": [
+          "leaf-blade"
+        ]
+      },
+      {
         "L": 57,
         "moves": [
           "leaf-storm"
         ]
       },
       {
+        "L": 18,
+        "moves": [
+          "bulldoze"
+        ]
+      },
+      {
         "L": 6,
         "moves": [
           "leafage"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "headlong-rush"
         ]
       }
     ],
@@ -121,6 +151,10 @@
       "cut",
       "headbutt",
       "tackle",
+      "body-slam",
+      "take-down",
+      "thrash",
+      "double-edge",
       "bite",
       "roar",
       "hyper-beam",
@@ -128,6 +162,7 @@
       "absorb",
       "mega-drain",
       "leech-seed",
+      "growth",
       "razor-leaf",
       "solar-beam",
       "earthquake",
@@ -136,6 +171,7 @@
       "withdraw",
       "light-screen",
       "reflect",
+      "amnesia",
       "flash",
       "rest",
       "rock-slide",
@@ -143,6 +179,7 @@
       "snore",
       "curse",
       "protect",
+      "scary-face",
       "mud-slap",
       "outrage",
       "sandstorm",
@@ -160,15 +197,24 @@
       "sunny-day",
       "crunch",
       "rock-smash",
+      "stockpile",
+      "spit-up",
+      "swallow",
       "facade",
       "nature-power",
       "superpower",
       "secret-power",
+      "hyper-voice",
       "rock-tomb",
+      "tickle",
       "sand-tomb",
       "bullet-seed",
+      "iron-defense",
       "block",
       "frenzy-plant",
+      "mud-shot",
+      "magical-leaf",
+      "rock-blast",
       "natural-gift",
       "worry-seed",
       "rock-polish",
@@ -176,6 +222,7 @@
       "energy-ball",
       "earth-power",
       "giga-impact",
+      "zen-headbutt",
       "rock-climb",
       "leaf-storm",
       "iron-head",
@@ -184,15 +231,26 @@
       "stealth-rock",
       "grass-knot",
       "wood-hammer",
+      "wide-guard",
       "smack-down",
+      "heavy-slam",
       "round",
+      "shell-smash",
       "grass-pledge",
       "bulldoze",
       "work-up",
+      "grassy-terrain",
       "confide",
       "high-horsepower",
+      "leafage",
       "stomping-tantrum",
-      "grassy-glide"
+      "body-press",
+      "grassy-glide",
+      "scorching-sands",
+      "headlong-rush",
+      "tera-blast",
+      "trailblaze",
+      "hard-press"
     ]
   },
   "loot_table": "pokecube:entities/shellseed_3"

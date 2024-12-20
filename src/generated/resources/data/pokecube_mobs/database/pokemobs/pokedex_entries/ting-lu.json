@@ -139,6 +139,7 @@
     "misc": [
       "body-slam",
       "take-down",
+      "double-edge",
       "hyper-beam",
       "earthquake",
       "dig",
@@ -169,6 +170,7 @@
       "hex",
       "bulldoze",
       "snarl",
+      "throat-chop",
       "stomping-tantrum",
       "body-press",
       "lash-out",

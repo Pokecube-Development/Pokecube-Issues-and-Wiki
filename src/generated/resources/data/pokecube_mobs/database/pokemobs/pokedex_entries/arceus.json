@@ -45,9 +45,16 @@
         "L": 1,
         "moves": [
           "seismic-toss",
+          "quick-attack",
           "cosmic-power",
           "natural-gift",
           "punishment"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "confusion"
         ]
       },
       {
@@ -69,6 +76,12 @@
         ]
       },
       {
+        "L": 12,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
         "L": 60,
         "moves": [
           "future-sight"
@@ -85,6 +98,18 @@
         "L": 30,
         "moves": [
           "hyper-voice"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "extrasensory"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "calm-mind"
         ]
       },
       {
@@ -113,6 +138,7 @@
       "headbutt",
       "body-slam",
       "take-down",
+      "double-edge",
       "roar",
       "flamethrower",
       "hydro-pump",
@@ -269,9 +295,12 @@
       "liquidation",
       "body-press",
       "steel-beam",
+      "meteor-beam",
+      "scorching-sands",
       "tera-blast",
       "trailblaze",
-      "chilling-water"
+      "chilling-water",
+      "supercell-slam"
     ]
   },
   "model": {

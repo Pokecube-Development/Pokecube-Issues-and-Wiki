@@ -140,8 +140,11 @@
       "protect",
       "endure",
       "sleep-talk",
+      "psych-up",
       "facade",
       "taunt",
+      "endeavor",
+      "feather-dance",
       "air-cutter",
       "aerial-ace",
       "bulk-up",
@@ -157,12 +160,14 @@
       "quick-guard",
       "acrobatics",
       "hurricane",
+      "throat-chop",
       "lunge",
       "liquidation",
       "dual-wingbeat",
       "tera-blast",
       "pounce",
-      "chilling-water"
+      "chilling-water",
+      "upper-hand"
     ]
   }
 }

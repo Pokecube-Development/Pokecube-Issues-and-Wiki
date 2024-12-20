@@ -85,7 +85,8 @@
       {
         "L": 15,
         "moves": [
-          "fury-swipes"
+          "fury-swipes",
+          "venoshock"
         ]
       },
       {
@@ -116,6 +117,12 @@
         "L": 54,
         "moves": [
           "x-scissor"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "energy-ball"
         ]
       },
       {

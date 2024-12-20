@@ -38,6 +38,15 @@
   "moves": {
     "level_up": [
       {
+        "L": 1,
+        "moves": [
+          "gust",
+          "tackle",
+          "growl",
+          "quick-attack"
+        ]
+      },
+      {
         "L": 9,
         "moves": [
           "wing-attack"
@@ -50,17 +59,15 @@
         ]
       },
       {
-        "L": 1,
-        "moves": [
-          "tackle",
-          "growl",
-          "quick-attack"
-        ]
-      },
-      {
         "L": 33,
         "moves": [
           "take-down"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "double-edge"
         ]
       },
       {
@@ -88,9 +95,27 @@
         ]
       },
       {
+        "L": 21,
+        "moves": [
+          "roost"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
         "L": 43,
         "moves": [
           "brave-bird"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "giga-impact"
         ]
       },
       {
@@ -106,6 +131,7 @@
       "fly",
       "tackle",
       "take-down",
+      "double-edge",
       "growl",
       "toxic",
       "agility",
@@ -135,6 +161,7 @@
       "helping-hand",
       "endeavor",
       "secret-power",
+      "feather-dance",
       "air-cutter",
       "aerial-ace",
       "roost",

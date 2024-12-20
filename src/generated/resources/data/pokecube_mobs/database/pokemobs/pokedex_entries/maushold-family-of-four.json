@@ -1,0 +1,165 @@
+{
+  "name": "maushold-family-of-four",
+  "id": 925,
+  "stock": true,
+  "base_experience": 165,
+  "size": {
+    "height": 0.3
+  },
+  "mass": 2.3,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "fast",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 74,
+    "attack": 75,
+    "defense": 70,
+    "special_attack": 65,
+    "special_defense": 75,
+    "speed": 111
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "friend-guard",
+      "cheek-pouch"
+    ],
+    "hidden": [
+      "technician"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "follow-me",
+          "baby-doll-eyes",
+          "tidy-up"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "super-fang"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "encore"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "beat-up"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "helping-hand"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "hyper-voice"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "bullet-seed"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "copycat"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "double-hit"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "echoed-voice"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "play-rough"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "population-bomb"
+        ]
+      }
+    ],
+    "misc": [
+      "take-down",
+      "double-edge",
+      "hyper-beam",
+      "low-kick",
+      "thunder-wave",
+      "dig",
+      "agility",
+      "swift",
+      "rest",
+      "super-fang",
+      "substitute",
+      "thief",
+      "protect",
+      "mud-slap",
+      "endure",
+      "charm",
+      "sleep-talk",
+      "encore",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "hyper-voice",
+      "fake-tears",
+      "bullet-seed",
+      "aerial-ace",
+      "mud-shot",
+      "water-pulse",
+      "u-turn",
+      "seed-bomb",
+      "giga-impact",
+      "shadow-claw",
+      "grass-knot",
+      "low-sweep",
+      "play-rough",
+      "tera-blast",
+      "trailblaze",
+      "chilling-water"
+    ]
+  }
+}

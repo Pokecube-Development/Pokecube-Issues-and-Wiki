@@ -186,6 +186,7 @@
       "wish",
       "magic-coat",
       "recycle",
+      "endeavor",
       "skill-swap",
       "imprison",
       "secret-power",
@@ -226,8 +227,10 @@
       "psychic-terrain",
       "psychic-fangs",
       "stomping-tantrum",
+      "expanding-force",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "psychic-noise"
     ]
   },
   "male_model": {

@@ -229,7 +229,8 @@
       "scale-shot",
       "lash-out",
       "dual-wingbeat",
-      "tera-blast"
+      "tera-blast",
+      "dragon-cheer"
     ]
   },
   "loot_table": "pokecube:entities/pig_3"

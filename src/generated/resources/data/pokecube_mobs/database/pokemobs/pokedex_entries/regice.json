@@ -182,7 +182,11 @@
       "confide",
       "power-up-punch",
       "aurora-veil",
-      "stomping-tantrum"
+      "stomping-tantrum",
+      "body-press",
+      "tera-blast",
+      "ice-spinner",
+      "snowscape"
     ]
   },
   "loot_table": "pokecube:entities/snowball"

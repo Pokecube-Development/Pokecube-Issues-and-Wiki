@@ -116,14 +116,27 @@
         ]
       },
       {
+        "L": 16,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
         "L": 41,
         "moves": [
           "wide-guard"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "axe-kick"
         ]
       }
     ],
     "misc": [
       "mega-punch",
+      "swords-dance",
       "double-kick",
       "mega-kick",
       "jump-kick",
@@ -159,6 +172,8 @@
       "curse",
       "reversal",
       "protect",
+      "mach-punch",
+      "scary-face",
       "mud-slap",
       "foresight",
       "detect",
@@ -169,6 +184,8 @@
       "return",
       "frustration",
       "dynamic-punch",
+      "baton-pass",
+      "rapid-spin",
       "hidden-power",
       "rain-dance",
       "sunny-day",
@@ -177,12 +194,14 @@
       "uproar",
       "facade",
       "focus-punch",
+      "taunt",
       "helping-hand",
       "role-play",
       "superpower",
       "revenge",
       "brick-break",
       "knock-off",
+      "endeavor",
       "secret-power",
       "blaze-kick",
       "rock-tomb",
@@ -198,6 +217,8 @@
       "poison-jab",
       "vacuum-wave",
       "focus-blast",
+      "giga-impact",
+      "bullet-punch",
       "rock-climb",
       "stone-edge",
       "captivate",
@@ -211,8 +232,11 @@
       "power-up-punch",
       "laser-focus",
       "throat-chop",
+      "lunge",
       "stomping-tantrum",
-      "coaching"
+      "coaching",
+      "tera-blast",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/skull_rabbit_2"

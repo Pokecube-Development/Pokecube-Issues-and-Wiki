@@ -3,13 +3,15 @@
  <model>
   <phase name="global" scale="0.46"/>
   <metadata head="head" headCap="-10,10" headCap1="-8,8"/>
-  <customTex default="ogerpon">
-   <part name="Eye" tex="ogerpon_eye"/>
-   <animation diffs="0.5,0" part="Eye" trigger="random:0.005:10"/>
-   <part name="Mouth" tex="ogerpon_mouth"/>
+  <customTex default="ogerpon_teal">
+   <part name="Eye" tex="ogerpon_teal_eye"/>
+   <animation diffs="0,0.5" part="Eye" trigger="random:0.005:10"/>
+   <part name="Mouth" tex="ogerpon_mouth_teal"/>
    <animation diffs="0.5,0" part="Mouth" trigger="random:0.005:10"/>
    <part name="Mask" tex="ogerpon_mask_teal"/>
+   <part name="Glow" tex="ogerpon_mask_teal"/>
   </customTex>
+  <material name="Glow" light="1" transluscent="false" shader="alpha_shader"/>
   <phase type="idle">
    <part name="body">
     <component length="10" name="1" rotChange="0,0,2" rotOffset="0,0,0" startKey="0"/>

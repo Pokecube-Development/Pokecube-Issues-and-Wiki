@@ -38,6 +38,12 @@
   "moves": {
     "level_up": [
       {
+        "L": 5,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
         "L": 29,
         "moves": [
           "body-slam"
@@ -48,6 +54,12 @@
         "moves": [
           "water-gun",
           "mud-slap"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "hydro-pump"
         ]
       },
       {

@@ -128,12 +128,14 @@
     "misc": [
       "body-slam",
       "take-down",
+      "double-edge",
       "hyper-beam",
       "low-kick",
       "earthquake",
       "leech-life",
       "rest",
       "substitute",
+      "curse",
       "reversal",
       "protect",
       "sandstorm",
@@ -166,9 +168,11 @@
       "lunge",
       "stomping-tantrum",
       "body-press",
+      "skitter-smack",
       "dual-wingbeat",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "temper-flare"
     ]
   }
 }

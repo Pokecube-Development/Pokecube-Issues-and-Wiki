@@ -1,11 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ModelAnimator version="0.1">
+<ModelAnimator>
  <model>
-  <phase name="global" scale="0.22"/>
-  <metadata head="base" headCap="-60,60"/>
+  <phase name="global" scale="0.26"/>
+  <metadata head="body" headCap="-60,60" headCap1="-60,60"/>
   <customTex default="lunatone">
-   <part name="Head" tex="lunatoneeye"/>
-   <animation diffs="0,0.51" part="Head" trigger="random:0.005:5"/>
+   <part name="Head" tex="lunatone_eye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
   </customTex>
+  <material name="Head" light="1" transluscent="false" shader="alpha_shader"/>
+  <phase type="idle">
+    <part name="body">
+    <component length="10" name="1" posChange="0,-1,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,2,0" startKey="5"/>
+	<component length="10" name="3" posChange="0,-1,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="body">
+    <component length="10" name="1" rotOffset="10,0,0" posChange="0,-1,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,2,0" startKey="5"/>
+	<component length="10" name="3" posChange="0,-1,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="flying">
+   <part name="body">
+    <component length="10" name="1" rotOffset="10,0,0" posChange="0,-1,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,2,0" startKey="5"/>
+	<component length="10" name="3" posChange="0,-1,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="floating">
+   <part name="body">
+    <component length="10" name="1" posChange="0,-1,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,2,0" startKey="5"/>
+	<component length="10" name="3" posChange="0,-1,0" startKey="10"/>
+   </part>
+  </phase>
  </model>
 </ModelAnimator>

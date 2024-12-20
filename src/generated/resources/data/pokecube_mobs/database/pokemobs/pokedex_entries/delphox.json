@@ -146,6 +146,7 @@
       "fire-spin",
       "toxic",
       "psychic",
+      "hypnosis",
       "agility",
       "night-shade",
       "double-team",
@@ -184,6 +185,7 @@
       "helping-hand",
       "trick",
       "role-play",
+      "wish",
       "magic-coat",
       "recycle",
       "skill-swap",
@@ -201,6 +203,7 @@
       "shock-wave",
       "embargo",
       "lucky-chant",
+      "copycat",
       "flare-blitz",
       "focus-blast",
       "switcheroo",
@@ -229,8 +232,11 @@
       "power-up-punch",
       "laser-focus",
       "psychic-terrain",
+      "expanding-force",
       "burning-jealousy",
-      "tera-blast"
+      "scorching-sands",
+      "tera-blast",
+      "psychic-noise"
     ]
   },
   "interactions": [

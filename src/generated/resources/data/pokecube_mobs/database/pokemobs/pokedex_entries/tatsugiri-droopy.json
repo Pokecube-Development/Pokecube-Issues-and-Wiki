@@ -122,9 +122,11 @@
       "baton-pass",
       "rapid-spin",
       "rain-dance",
+      "whirlpool",
       "facade",
       "taunt",
       "helping-hand",
+      "muddy-water",
       "dragon-dance",
       "water-pulse",
       "dragon-pulse",
@@ -133,7 +135,8 @@
       "draco-meteor",
       "lunge",
       "tera-blast",
-      "chilling-water"
+      "chilling-water",
+      "dragon-cheer"
     ]
   },
   "sound": "tatsugiri-droopy"

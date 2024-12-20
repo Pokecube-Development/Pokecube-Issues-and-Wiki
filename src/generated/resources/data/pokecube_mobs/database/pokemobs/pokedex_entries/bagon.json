@@ -191,7 +191,8 @@
       "incinerate",
       "dragon-tail",
       "confide",
-      "tera-blast"
+      "tera-blast",
+      "dragon-cheer"
     ]
   },
   "loot_table": "pokecube:entities/iron_1"

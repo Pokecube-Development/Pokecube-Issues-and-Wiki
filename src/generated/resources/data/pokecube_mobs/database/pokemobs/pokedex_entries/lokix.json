@@ -140,6 +140,7 @@
     "misc": [
       "swords-dance",
       "take-down",
+      "double-edge",
       "low-kick",
       "agility",
       "leech-life",
@@ -168,7 +169,9 @@
       "bug-bite",
       "low-sweep",
       "struggle-bug",
+      "throat-chop",
       "lunge",
+      "skitter-smack",
       "lash-out",
       "tera-blast",
       "pounce",

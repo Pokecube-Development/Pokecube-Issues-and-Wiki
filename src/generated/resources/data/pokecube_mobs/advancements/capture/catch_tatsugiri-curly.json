@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.tatsugiri-curly"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tatsugiri-curly"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_tatsugiri-curly": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "tatsugiri-curly"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

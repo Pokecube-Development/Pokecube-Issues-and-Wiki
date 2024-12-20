@@ -40,17 +40,23 @@
   "moves": {
     "level_up": [
       {
-        "L": 1,
+        "L": 6,
         "moves": [
           "gust",
-          "tackle",
-          "foresight"
+          "quick-attack"
         ]
       },
       {
         "L": 43,
         "moves": [
           "wing-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "foresight"
         ]
       },
       {
@@ -82,12 +88,6 @@
         ]
       },
       {
-        "L": 6,
-        "moves": [
-          "quick-attack"
-        ]
-      },
-      {
         "L": 46,
         "moves": [
           "screech"
@@ -96,7 +96,8 @@
       {
         "L": 11,
         "moves": [
-          "double-team"
+          "double-team",
+          "silver-wind"
         ]
       },
       {
@@ -144,6 +145,7 @@
     ],
     "misc": [
       "swords-dance",
+      "gust",
       "wing-attack",
       "whirlwind",
       "headbutt",
@@ -186,6 +188,7 @@
       "pursuit",
       "hidden-power",
       "sunny-day",
+      "psych-up",
       "ancient-power",
       "shadow-ball",
       "uproar",
@@ -210,8 +213,10 @@
       "struggle-bug",
       "confide",
       "lunge",
+      "skitter-smack",
       "tera-blast",
-      "pounce"
+      "pounce",
+      "psychic-noise"
     ]
   },
   "loot_table": "minecraft:entities/spider"

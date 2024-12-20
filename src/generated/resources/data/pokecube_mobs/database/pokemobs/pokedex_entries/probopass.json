@@ -117,6 +117,12 @@
         ]
       },
       {
+        "L": 38,
+        "moves": [
+          "flash-cannon"
+        ]
+      },
+      {
         "L": 31,
         "moves": [
           "discharge"
@@ -164,6 +170,7 @@
       "tri-attack",
       "substitute",
       "snore",
+      "curse",
       "protect",
       "mud-slap",
       "zap-cannon",
@@ -189,6 +196,7 @@
       "magic-coat",
       "secret-power",
       "rock-tomb",
+      "metal-sound",
       "sand-tomb",
       "iron-defense",
       "block",
@@ -224,7 +232,10 @@
       "stomping-tantrum",
       "body-press",
       "steel-beam",
-      "tera-blast"
+      "meteor-beam",
+      "tera-blast",
+      "hard-press",
+      "supercell-slam"
     ]
   },
   "loot_table": "pokecube:entities/stone_2"

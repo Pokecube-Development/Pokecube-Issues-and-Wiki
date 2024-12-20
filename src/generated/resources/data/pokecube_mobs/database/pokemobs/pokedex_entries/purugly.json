@@ -41,16 +41,22 @@
         "L": 1,
         "moves": [
           "scratch",
+          "tackle",
           "growl",
           "fake-out",
-          "sucker-punch",
-          "play-rough"
+          "sucker-punch"
         ]
       },
       {
         "L": 45,
         "moves": [
           "body-slam"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "double-edge"
         ]
       },
       {
@@ -104,6 +110,18 @@
         ]
       },
       {
+        "L": 23,
+        "moves": [
+          "night-slash"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
         "L": 32,
         "moves": [
           "captivate",
@@ -114,6 +132,12 @@
         "L": 60,
         "moves": [
           "hone-claws"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "play-rough"
         ]
       }
     ],
@@ -187,6 +211,7 @@
       "retaliate",
       "bulldoze",
       "work-up",
+      "play-rough",
       "confide",
       "throat-chop",
       "stomping-tantrum"

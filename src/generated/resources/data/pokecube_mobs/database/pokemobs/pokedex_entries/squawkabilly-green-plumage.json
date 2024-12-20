@@ -1,0 +1,169 @@
+{
+  "name": "squawkabilly-green-plumage",
+  "id": 931,
+  "stock": true,
+  "base_experience": 146,
+  "size": {
+    "height": 0.6
+  },
+  "mass": 2.4,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "slow-then-very-fast",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 82,
+    "attack": 96,
+    "defense": 51,
+    "special_attack": 45,
+    "special_defense": 51,
+    "speed": 92
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "normal",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "intimidate",
+      "hustle"
+    ],
+    "hidden": [
+      "guts"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 30,
+        "moves": [
+          "fly"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "fury-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "growl",
+          "peck",
+          "mimic"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "reversal"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "uproar"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "torment"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "facade"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "taunt"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "aerial-ace"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "roost"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "copycat"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "brave-bird"
+        ]
+      }
+    ],
+    "misc": [
+      "fly",
+      "take-down",
+      "double-edge",
+      "hyper-beam",
+      "rest",
+      "substitute",
+      "thief",
+      "reversal",
+      "protect",
+      "scary-face",
+      "endure",
+      "sleep-talk",
+      "sunny-day",
+      "uproar",
+      "heat-wave",
+      "flatter",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "endeavor",
+      "feather-dance",
+      "hyper-voice",
+      "fake-tears",
+      "air-cutter",
+      "aerial-ace",
+      "tailwind",
+      "u-turn",
+      "air-slash",
+      "brave-bird",
+      "giga-impact",
+      "foul-play",
+      "final-gambit",
+      "hurricane",
+      "parting-shot",
+      "lash-out",
+      "dual-wingbeat",
+      "tera-blast",
+      "pounce"
+    ]
+  }
+}

@@ -178,6 +178,7 @@
       "sunny-day",
       "psych-up",
       "shadow-ball",
+      "future-sight",
       "uproar",
       "torment",
       "facade",
@@ -189,6 +190,7 @@
       "magic-coat",
       "recycle",
       "brick-break",
+      "endeavor",
       "skill-swap",
       "imprison",
       "snatch",
@@ -236,10 +238,12 @@
       "lunge",
       "stomping-tantrum",
       "body-press",
+      "expanding-force",
       "tera-blast",
       "snowscape",
       "trailblaze",
-      "chilling-water"
+      "chilling-water",
+      "psychic-noise"
     ]
   },
   "interactions": [

@@ -40,7 +40,8 @@
       {
         "L": 36,
         "moves": [
-          "headbutt"
+          "headbutt",
+          "wave-crash"
         ]
       },
       {
@@ -220,6 +221,7 @@
       "water-spout",
       "muddy-water",
       "iron-defense",
+      "mud-shot",
       "water-pulse",
       "gyro-ball",
       "brine",
@@ -239,8 +241,12 @@
       "work-up",
       "confide",
       "power-up-punch",
+      "liquidation",
       "life-dew",
-      "flip-turn"
+      "flip-turn",
+      "tera-blast",
+      "ice-spinner",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/turtleshells_1"

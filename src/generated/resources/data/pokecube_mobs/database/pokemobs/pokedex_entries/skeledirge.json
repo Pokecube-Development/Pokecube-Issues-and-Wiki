@@ -146,6 +146,7 @@
       "fire-blast",
       "rest",
       "substitute",
+      "curse",
       "protect",
       "scary-face",
       "mud-slap",
@@ -180,7 +181,10 @@
       "disarming-voice",
       "stomping-tantrum",
       "poltergeist",
-      "tera-blast"
+      "scorching-sands",
+      "tera-blast",
+      "alluring-voice",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/blaze_rabbit_1"

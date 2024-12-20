@@ -49,7 +49,8 @@
         "L": 1,
         "moves": [
           "scary-face",
-          "dragon-breath"
+          "dragon-breath",
+          "twister"
         ]
       },
       {
@@ -93,6 +94,12 @@
         "L": 37,
         "moves": [
           "aura-sphere"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "dragon-pulse"
         ]
       },
       {
@@ -168,6 +175,7 @@
       "hyper-voice",
       "overheat",
       "rock-tomb",
+      "metal-sound",
       "aerial-ace",
       "iron-defense",
       "dragon-claw",

@@ -140,6 +140,7 @@
       "take-down",
       "double-edge",
       "leer",
+      "bite",
       "growl",
       "roar",
       "ember",
@@ -170,6 +171,7 @@
       "curse",
       "protect",
       "scary-face",
+      "belly-drum",
       "mud-slap",
       "outrage",
       "endure",
@@ -183,9 +185,11 @@
       "dynamic-punch",
       "dragon-breath",
       "iron-tail",
+      "metal-claw",
       "hidden-power",
       "sunny-day",
       "crunch",
+      "ancient-power",
       "rock-smash",
       "beat-up",
       "heat-wave",
@@ -205,6 +209,8 @@
       "fling",
       "flare-blitz",
       "dragon-pulse",
+      "dragon-rush",
+      "focus-blast",
       "shadow-claw",
       "fire-fang",
       "captivate",
@@ -221,7 +227,9 @@
       "work-up",
       "confide",
       "power-up-punch",
-      "tera-blast"
+      "breaking-swipe",
+      "tera-blast",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/coal_2"

@@ -126,12 +126,14 @@
     "misc": [
       "body-slam",
       "take-down",
+      "double-edge",
       "hyper-beam",
       "earthquake",
       "dig",
       "rest",
       "rock-slide",
       "substitute",
+      "curse",
       "protect",
       "sandstorm",
       "endure",
@@ -155,6 +157,7 @@
       "bulldoze",
       "stomping-tantrum",
       "body-press",
+      "meteor-beam",
       "tera-blast"
     ]
   }

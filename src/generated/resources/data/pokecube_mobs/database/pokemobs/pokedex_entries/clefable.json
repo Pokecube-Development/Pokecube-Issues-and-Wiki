@@ -43,6 +43,7 @@
         "moves": [
           "pound",
           "double-slap",
+          "tackle",
           "growl",
           "sing",
           "minimize",
@@ -65,6 +66,42 @@
           "moonblast",
           "spotlight",
           "life-dew"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "calm-mind"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "draining-kiss"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "fairy-wind"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "baby-doll-eyes"
         ]
       }
     ],
@@ -154,6 +191,7 @@
       "sunny-day",
       "psych-up",
       "shadow-ball",
+      "future-sight",
       "rock-smash",
       "uproar",
       "facade",
@@ -226,7 +264,8 @@
       "misty-explosion",
       "dual-wingbeat",
       "tera-blast",
-      "chilling-water"
+      "chilling-water",
+      "alluring-voice"
     ]
   },
   "loot_table": "pokecube:entities/moonstone"

@@ -130,6 +130,7 @@
       "stomp",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "leer",
       "bite",
@@ -203,7 +204,9 @@
       "confide",
       "laser-focus",
       "stomping-tantrum",
-      "scorching-sands"
+      "scorching-sands",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/generic_legend"

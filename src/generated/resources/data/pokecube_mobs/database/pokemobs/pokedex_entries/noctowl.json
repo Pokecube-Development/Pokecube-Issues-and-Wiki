@@ -225,7 +225,8 @@
       "confide",
       "laser-focus",
       "dual-wingbeat",
-      "tera-blast"
+      "tera-blast",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/chicken_2",

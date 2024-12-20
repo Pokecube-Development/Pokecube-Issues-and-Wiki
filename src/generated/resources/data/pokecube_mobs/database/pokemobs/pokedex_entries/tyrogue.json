@@ -55,6 +55,7 @@
       "headbutt",
       "tackle",
       "body-slam",
+      "take-down",
       "double-edge",
       "low-kick",
       "counter",
@@ -112,7 +113,9 @@
       "bulldoze",
       "work-up",
       "confide",
-      "laser-focus"
+      "laser-focus",
+      "tera-blast",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/cow_1"

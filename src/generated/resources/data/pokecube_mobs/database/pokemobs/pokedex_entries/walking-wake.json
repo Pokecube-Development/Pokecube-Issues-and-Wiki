@@ -116,6 +116,7 @@
     "misc": [
       "body-slam",
       "take-down",
+      "double-edge",
       "roar",
       "flamethrower",
       "hydro-pump",
@@ -135,6 +136,7 @@
       "rain-dance",
       "sunny-day",
       "crunch",
+      "whirlpool",
       "facade",
       "knock-off",
       "weather-ball",
@@ -151,9 +153,11 @@
       "hurricane",
       "snarl",
       "liquidation",
+      "breaking-swipe",
       "flip-turn",
       "tera-blast",
-      "chilling-water"
+      "chilling-water",
+      "dragon-cheer"
     ]
   }
 }

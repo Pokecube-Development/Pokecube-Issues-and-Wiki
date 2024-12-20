@@ -125,6 +125,7 @@
     "misc": [
       "body-slam",
       "take-down",
+      "double-edge",
       "roar",
       "dig",
       "agility",
@@ -140,10 +141,12 @@
       "rain-dance",
       "sunny-day",
       "crunch",
+      "psych-up",
       "facade",
       "helping-hand",
       "wish",
       "yawn",
+      "endeavor",
       "howl",
       "mud-shot",
       "copycat",
@@ -157,7 +160,8 @@
       "psychic-fangs",
       "stomping-tantrum",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "alluring-voice"
     ]
   },
   "loot_table": "pokecube:entities/bread"

@@ -75,19 +75,14 @@
       {
         "L": 49,
         "moves": [
-          "mirror-move"
+          "mirror-move",
+          "reversal"
         ]
       },
       {
         "L": 44,
         "moves": [
           "slash"
-        ]
-      },
-      {
-        "L": 56,
-        "moves": [
-          "reversal"
         ]
       },
       {
@@ -146,6 +141,7 @@
       "sand-attack",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "growl",
       "roar",
@@ -175,7 +171,9 @@
       "rock-slide",
       "slash",
       "substitute",
+      "thief",
       "snore",
+      "curse",
       "reversal",
       "protect",
       "mud-slap",
@@ -192,6 +190,7 @@
       "hidden-power",
       "sunny-day",
       "rock-smash",
+      "uproar",
       "heat-wave",
       "will-o-wisp",
       "facade",
@@ -205,6 +204,7 @@
       "secret-power",
       "feather-dance",
       "blaze-kick",
+      "crush-claw",
       "blast-burn",
       "overheat",
       "rock-tomb",
@@ -213,6 +213,7 @@
       "bulk-up",
       "bounce",
       "natural-gift",
+      "feint",
       "u-turn",
       "close-combat",
       "assurance",
@@ -221,6 +222,7 @@
       "flare-blitz",
       "aura-sphere",
       "poison-jab",
+      "night-slash",
       "vacuum-wave",
       "focus-blast",
       "brave-bird",
@@ -246,7 +248,10 @@
       "power-up-punch",
       "laser-focus",
       "coaching",
-      "scorching-sands"
+      "scorching-sands",
+      "tera-blast",
+      "temper-flare",
+      "upper-hand"
     ]
   },
   "male_model": {

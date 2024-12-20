@@ -140,6 +140,7 @@
       "blizzard",
       "hyper-beam",
       "agility",
+      "haze",
       "waterfall",
       "swift",
       "rest",
@@ -153,9 +154,13 @@
       "sleep-talk",
       "encore",
       "rain-dance",
+      "psych-up",
+      "whirlpool",
       "facade",
+      "focus-punch",
       "taunt",
       "helping-hand",
+      "endeavor",
       "hyper-voice",
       "bulk-up",
       "water-pulse",
@@ -171,9 +176,12 @@
       "acrobatics",
       "disarming-voice",
       "draining-kiss",
+      "throat-chop",
       "liquidation",
+      "flip-turn",
       "tera-blast",
-      "chilling-water"
+      "chilling-water",
+      "hard-press"
     ]
   },
   "sound": "palafin-hero"

@@ -81,7 +81,8 @@
       {
         "L": 25,
         "moves": [
-          "pursuit"
+          "pursuit",
+          "psyshock"
         ]
       },
       {
@@ -97,15 +98,16 @@
         ]
       },
       {
-        "L": 67,
+        "L": 43,
         "moves": [
-          "psycho-boost"
+          "skill-swap",
+          "psycho-shift"
         ]
       },
       {
-        "L": 43,
+        "L": 67,
         "moves": [
-          "psycho-shift"
+          "psycho-boost"
         ]
       },
       {
@@ -126,9 +128,11 @@
       "headbutt",
       "body-slam",
       "wrap",
+      "take-down",
       "double-edge",
       "leer",
       "ice-beam",
+      "psybeam",
       "hyper-beam",
       "low-kick",
       "counter",
@@ -148,6 +152,7 @@
       "light-screen",
       "reflect",
       "swift",
+      "amnesia",
       "dream-eater",
       "flash",
       "rest",
@@ -155,6 +160,7 @@
       "substitute",
       "snore",
       "protect",
+      "scary-face",
       "mud-slap",
       "icy-wind",
       "endure",
@@ -163,6 +169,7 @@
       "return",
       "frustration",
       "safeguard",
+      "pain-split",
       "dynamic-punch",
       "pursuit",
       "hidden-power",
@@ -171,6 +178,7 @@
       "psych-up",
       "extreme-speed",
       "shadow-ball",
+      "future-sight",
       "rock-smash",
       "torment",
       "facade",
@@ -183,6 +191,7 @@
       "brick-break",
       "knock-off",
       "skill-swap",
+      "imprison",
       "snatch",
       "secret-power",
       "rock-tomb",
@@ -202,6 +211,7 @@
       "focus-blast",
       "energy-ball",
       "giga-impact",
+      "nasty-plot",
       "avalanche",
       "zen-headbutt",
       "flash-cannon",
@@ -214,13 +224,19 @@
       "telekinesis",
       "low-sweep",
       "round",
+      "stored-power",
       "ally-switch",
       "confide",
       "power-up-punch",
       "laser-focus",
       "throat-chop",
+      "psychic-terrain",
       "brutal-swing",
-      "stomping-tantrum"
+      "stomping-tantrum",
+      "expanding-force",
+      "meteor-beam",
+      "tera-blast",
+      "psychic-noise"
     ]
   },
   "interactions": [

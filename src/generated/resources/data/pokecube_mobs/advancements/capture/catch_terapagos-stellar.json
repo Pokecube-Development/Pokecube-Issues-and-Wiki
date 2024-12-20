@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.terapagos-stellar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.terapagos-stellar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_terapagos-stellar": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "terapagos-stellar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

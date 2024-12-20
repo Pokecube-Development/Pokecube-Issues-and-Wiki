@@ -2,7 +2,7 @@
   "name": "ogerpon",
   "id": 1017,
   "stock": true,
-  "base_experience": null,
+  "base_experience": 275,
   "size": {
     "height": 1.2
   },
@@ -153,6 +153,7 @@
       "grassy-terrain",
       "play-rough",
       "solar-blade",
+      "throat-chop",
       "stomping-tantrum",
       "grassy-glide",
       "lash-out",

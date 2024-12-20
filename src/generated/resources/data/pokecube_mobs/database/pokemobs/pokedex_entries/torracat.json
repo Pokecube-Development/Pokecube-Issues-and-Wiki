@@ -126,7 +126,9 @@
       "swords-dance",
       "double-kick",
       "body-slam",
+      "take-down",
       "thrash",
+      "double-edge",
       "leer",
       "bite",
       "growl",
@@ -155,11 +157,13 @@
       "hidden-power",
       "sunny-day",
       "crunch",
+      "fake-out",
       "heat-wave",
       "torment",
       "will-o-wisp",
       "facade",
       "taunt",
+      "helping-hand",
       "revenge",
       "endeavor",
       "overheat",
@@ -176,7 +180,12 @@
       "fire-pledge",
       "work-up",
       "dual-chop",
-      "confide"
+      "parting-shot",
+      "confide",
+      "power-trip",
+      "tera-blast",
+      "trailblaze",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/coal_rabbit_2"

@@ -53,7 +53,8 @@
       "iron-defense",
       "zen-headbutt",
       "iron-head",
-      "steel-beam"
+      "steel-beam",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/iron_pearls_1"

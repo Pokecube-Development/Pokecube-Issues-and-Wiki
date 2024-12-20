@@ -141,6 +141,7 @@
       "swords-dance",
       "cut",
       "take-down",
+      "double-edge",
       "leer",
       "bite",
       "roar",
@@ -208,7 +209,8 @@
       "breaking-swipe",
       "scale-shot",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "dragon-cheer"
     ]
   },
   "loot_table": "pokecube:entities/bones"

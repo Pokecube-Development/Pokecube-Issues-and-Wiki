@@ -135,6 +135,7 @@
       "string-shot",
       "thunderbolt",
       "thunder-wave",
+      "thunder",
       "toxic",
       "agility",
       "screech",
@@ -163,6 +164,7 @@
       "hidden-power",
       "rain-dance",
       "facade",
+      "helping-hand",
       "secret-power",
       "camouflage",
       "signal-beam",
@@ -191,7 +193,9 @@
       "lunge",
       "speed-swap",
       "rising-voltage",
-      "skitter-smack"
+      "skitter-smack",
+      "tera-blast",
+      "pounce"
     ]
   },
   "loot_table": "pokecube:entities/redstone_spider_1"

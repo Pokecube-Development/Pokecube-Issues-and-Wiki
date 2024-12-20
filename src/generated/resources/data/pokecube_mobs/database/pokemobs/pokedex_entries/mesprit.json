@@ -59,6 +59,18 @@
         ]
       },
       {
+        "L": 57,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "tri-attack"
+        ]
+      },
+      {
         "L": 16,
         "moves": [
           "protect"
@@ -73,7 +85,8 @@
       {
         "L": 36,
         "moves": [
-          "future-sight"
+          "future-sight",
+          "calm-mind"
         ]
       },
       {
@@ -101,6 +114,12 @@
         ]
       },
       {
+        "L": 12,
+        "moves": [
+          "double-hit"
+        ]
+      },
+      {
         "L": 84,
         "moves": [
           "mystical-power"
@@ -112,6 +131,7 @@
       "ice-punch",
       "thunder-punch",
       "headbutt",
+      "double-edge",
       "ice-beam",
       "blizzard",
       "psybeam",
@@ -144,6 +164,7 @@
       "return",
       "frustration",
       "safeguard",
+      "pain-split",
       "baton-pass",
       "encore",
       "iron-tail",
@@ -200,7 +221,9 @@
       "power-up-punch",
       "laser-focus",
       "expanding-force",
-      "tera-blast"
+      "mystical-power",
+      "tera-blast",
+      "psychic-noise"
     ]
   }
 }

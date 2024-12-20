@@ -41,6 +41,7 @@
           "fire-punch",
           "ice-punch",
           "thunder-punch",
+          "tackle",
           "confuse-ray",
           "dizzy-punch",
           "foresight",
@@ -52,7 +53,8 @@
       {
         "L": 36,
         "moves": [
-          "mega-punch"
+          "mega-punch",
+          "iron-head"
         ]
       },
       {
@@ -65,6 +67,25 @@
         "L": 24,
         "moves": [
           "protect"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "rock-smash"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "facade",
+          "bulldoze"
         ]
       },
       {
@@ -121,6 +142,7 @@
       "mega-kick",
       "headbutt",
       "body-slam",
+      "double-edge",
       "hyper-beam",
       "strength",
       "thunderbolt",
@@ -192,7 +214,9 @@
       "high-horsepower",
       "stomping-tantrum",
       "body-press",
-      "terrain-pulse"
+      "terrain-pulse",
+      "tera-blast",
+      "hard-press"
     ]
   },
   "loot_table": "pokecube:entities/leaves"

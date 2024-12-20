@@ -44,6 +44,19 @@
         ]
       },
       {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "fake-out"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
         "L": 8,
         "moves": [
           "growl"
@@ -87,12 +100,6 @@
         ]
       },
       {
-        "L": 1,
-        "moves": [
-          "fake-out"
-        ]
-      },
-      {
         "L": 29,
         "moves": [
           "taunt",
@@ -103,6 +110,18 @@
         "L": 41,
         "moves": [
           "sucker-punch"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "night-slash"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "nasty-plot"
         ]
       },
       {

@@ -120,6 +120,7 @@
     "misc": [
       "body-slam",
       "take-down",
+      "double-edge",
       "hyper-beam",
       "thunderbolt",
       "agility",
@@ -139,6 +140,7 @@
       "facade",
       "taunt",
       "knock-off",
+      "endeavor",
       "hyper-voice",
       "overheat",
       "aerial-ace",
@@ -156,10 +158,14 @@
       "acrobatics",
       "dragon-tail",
       "wild-charge",
+      "breaking-swipe",
       "scale-shot",
       "tera-blast",
       "ice-spinner",
-      "trailblaze"
+      "trailblaze",
+      "dragon-cheer",
+      "temper-flare",
+      "supercell-slam"
     ]
   },
   "pose_shapes": {

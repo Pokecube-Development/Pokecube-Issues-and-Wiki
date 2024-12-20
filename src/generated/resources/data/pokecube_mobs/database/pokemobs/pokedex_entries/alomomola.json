@@ -195,7 +195,8 @@
       "flip-turn",
       "tera-blast",
       "snowscape",
-      "chilling-water"
+      "chilling-water",
+      "alluring-voice"
     ]
   },
   "loot_table": "pokecube:entities/fish_1"

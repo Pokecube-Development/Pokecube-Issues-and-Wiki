@@ -120,6 +120,7 @@
     ],
     "misc": [
       "body-slam",
+      "double-edge",
       "hyper-beam",
       "solar-beam",
       "confuse-ray",

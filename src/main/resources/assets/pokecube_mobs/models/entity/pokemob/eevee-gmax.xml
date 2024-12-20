@@ -7,9 +7,9 @@
   <phase axis="0" name="snakeWalk" parts="tail:tail1:tail2"/>
   <phase female="f" male="m" name="textures"/>
   <customTex default="eevee">
-   <part name="Head" tex="eeveehead"/>
+   <part name="Head" tex="eevee_face"/>
    <animation diffs="0,0.48" part="Head" trigger="random:0.005:1"/>
-   <part name="Mouth" tex="eeveehead"/>
+   <part name="Mouth" tex="eevee_face"/>
    <animation diffs="0,0.2" part="Mouth" trigger="random:0.005:1"/>
   </customTex>
   <phase type="sitting">

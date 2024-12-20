@@ -45,6 +45,13 @@
         ]
       },
       {
+        "L": 5,
+        "moves": [
+          "tackle",
+          "flail"
+        ]
+      },
+      {
         "L": 43,
         "moves": [
           "double-edge"
@@ -75,12 +82,6 @@
         ]
       },
       {
-        "L": 5,
-        "moves": [
-          "flail"
-        ]
-      },
-      {
         "L": 19,
         "moves": [
           "feint-attack"
@@ -89,6 +90,7 @@
       {
         "L": 1,
         "moves": [
+          "rollout",
           "fake-tears",
           "copycat"
         ]
@@ -97,6 +99,12 @@
         "L": 26,
         "moves": [
           "rock-tomb"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "iron-defense"
         ]
       },
       {
@@ -109,6 +117,18 @@
         "L": 40,
         "moves": [
           "sucker-punch"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "stealth-rock"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "head-smash"
         ]
       },
       {

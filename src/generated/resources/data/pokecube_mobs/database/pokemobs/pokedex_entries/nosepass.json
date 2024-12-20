@@ -93,6 +93,12 @@
         ]
       },
       {
+        "L": 18,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
         "L": 7,
         "moves": [
           "block"
@@ -155,6 +161,7 @@
       "rock-slide",
       "substitute",
       "snore",
+      "curse",
       "protect",
       "mud-slap",
       "zap-cannon",
@@ -211,6 +218,7 @@
       "stomping-tantrum",
       "body-press",
       "steel-beam",
+      "meteor-beam",
       "tera-blast"
     ]
   },

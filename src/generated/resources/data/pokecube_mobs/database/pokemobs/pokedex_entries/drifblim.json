@@ -43,11 +43,18 @@
         "L": 1,
         "moves": [
           "gust",
+          "confusion",
           "minimize",
           "constrict",
           "astonish",
           "phantom-force",
           "strength-sap"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "hypnosis"
         ]
       },
       {
@@ -95,7 +102,8 @@
       {
         "L": 25,
         "moves": [
-          "stockpile"
+          "stockpile",
+          "mystical-fire"
         ]
       },
       {
@@ -103,6 +111,18 @@
         "moves": [
           "spit-up",
           "swallow"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "extrasensory"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "calm-mind"
         ]
       },
       {
@@ -159,6 +179,7 @@
       "substitute",
       "thief",
       "snore",
+      "curse",
       "spite",
       "protect",
       "mud-slap",
@@ -222,7 +243,8 @@
       "confide",
       "strength-sap",
       "brutal-swing",
-      "tera-blast"
+      "tera-blast",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/string_1"

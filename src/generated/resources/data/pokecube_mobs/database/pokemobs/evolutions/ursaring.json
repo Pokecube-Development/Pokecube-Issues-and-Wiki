@@ -32,6 +32,7 @@
         "location": {
           "desc": "pokecube.spawns.moon.new",
           "and_preset": "new_moon",
+          "and_preset": "spooky_areas",
           "matchers": {
             "time": {
               "preset": "night"

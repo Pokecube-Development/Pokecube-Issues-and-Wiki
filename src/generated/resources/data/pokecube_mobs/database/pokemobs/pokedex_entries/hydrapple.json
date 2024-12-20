@@ -1,0 +1,176 @@
+{
+  "name": "hydrapple",
+  "id": 1019,
+  "stock": true,
+  "base_experience": 270,
+  "size": {
+    "height": 1.8
+  },
+  "mass": 93.0,
+  "is_default": true,
+  "capture_rate": 10,
+  "base_happiness": 50,
+  "growth_rate": "slow-then-very-fast",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 106,
+    "attack": 80,
+    "defense": 110,
+    "special_attack": 120,
+    "special_defense": 80,
+    "speed": 44
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "grass",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "supersweet-syrup",
+      "regenerator"
+    ],
+    "hidden": [
+      "sticky-hold"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 8,
+        "moves": [
+          "growth"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "withdraw",
+          "sweet-scent",
+          "recycle",
+          "astonish"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "substitute"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "dragon-breath"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "bullet-seed"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "dragon-pulse"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "energy-ball"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "power-whip"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "dragon-tail"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "syrup-bomb"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "fickle-beam"
+        ]
+      }
+    ],
+    "misc": [
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "hydro-pump",
+      "hyper-beam",
+      "solar-beam",
+      "earthquake",
+      "defense-curl",
+      "reflect",
+      "rest",
+      "substitute",
+      "curse",
+      "protect",
+      "outrage",
+      "giga-drain",
+      "endure",
+      "rollout",
+      "sleep-talk",
+      "rain-dance",
+      "sunny-day",
+      "uproar",
+      "facade",
+      "recycle",
+      "yawn",
+      "bullet-seed",
+      "magical-leaf",
+      "gyro-ball",
+      "sucker-punch",
+      "seed-bomb",
+      "dragon-pulse",
+      "energy-ball",
+      "earth-power",
+      "giga-impact",
+      "nasty-plot",
+      "draco-meteor",
+      "leaf-storm",
+      "grass-knot",
+      "bug-bite",
+      "double-hit",
+      "heavy-slam",
+      "dragon-tail",
+      "grassy-terrain",
+      "infestation",
+      "pollen-puff",
+      "body-press",
+      "breaking-swipe",
+      "grassy-glide",
+      "tera-blast",
+      "pounce",
+      "dragon-cheer"
+    ]
+  }
+}

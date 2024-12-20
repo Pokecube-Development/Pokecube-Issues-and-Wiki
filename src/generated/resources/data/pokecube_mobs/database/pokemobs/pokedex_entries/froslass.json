@@ -122,6 +122,12 @@
         ]
       },
       {
+        "L": 34,
+        "moves": [
+          "icicle-crash"
+        ]
+      },
+      {
         "L": 23,
         "moves": [
           "draining-kiss"
@@ -160,6 +166,7 @@
       "rest",
       "substitute",
       "snore",
+      "curse",
       "spite",
       "powder-snow",
       "protect",

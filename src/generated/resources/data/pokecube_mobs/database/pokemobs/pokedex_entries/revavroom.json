@@ -133,12 +133,14 @@
     "misc": [
       "body-slam",
       "take-down",
+      "double-edge",
       "hyper-beam",
       "toxic",
       "haze",
       "rest",
       "substitute",
       "thief",
+      "curse",
       "protect",
       "scary-face",
       "sludge-bomb",
@@ -150,7 +152,9 @@
       "uproar",
       "facade",
       "taunt",
+      "endeavor",
       "overheat",
+      "metal-sound",
       "iron-defense",
       "gyro-ball",
       "toxic-spikes",
@@ -161,13 +165,16 @@
       "gunk-shot",
       "iron-head",
       "venoshock",
+      "sludge-wave",
       "heavy-slam",
       "acid-spray",
       "bulldoze",
       "high-horsepower",
       "steel-beam",
       "lash-out",
-      "tera-blast"
+      "tera-blast",
+      "hard-press",
+      "temper-flare"
     ]
   }
 }

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.gouging-fire"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gouging-fire"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_gouging-fire": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "gouging-fire"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

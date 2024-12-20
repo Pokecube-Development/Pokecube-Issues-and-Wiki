@@ -65,7 +65,8 @@
       {
         "L": 15,
         "moves": [
-          "fire-spin"
+          "fire-spin",
+          "flame-wheel"
         ]
       },
       {
@@ -130,6 +131,13 @@
         ]
       },
       {
+        "L": 9,
+        "moves": [
+          "nasty-plot",
+          "baby-doll-eyes"
+        ]
+      },
+      {
         "L": 47,
         "moves": [
           "captivate"
@@ -157,12 +165,6 @@
         "L": 50,
         "moves": [
           "inferno"
-        ]
-      },
-      {
-        "L": 9,
-        "moves": [
-          "baby-doll-eyes"
         ]
       }
     ],

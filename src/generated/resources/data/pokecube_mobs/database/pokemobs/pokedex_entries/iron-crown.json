@@ -1,0 +1,169 @@
+{
+  "name": "iron-crown",
+  "id": 1023,
+  "stock": true,
+  "base_experience": 295,
+  "size": {
+    "height": 1.6
+  },
+  "mass": 156.0,
+  "is_default": true,
+  "capture_rate": 10,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 90,
+    "attack": 72,
+    "defense": 100,
+    "special_attack": 122,
+    "special_defense": 108,
+    "speed": 98
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "steel",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "quark-drive"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+          "confusion",
+          "metal-claw",
+          "electric-terrain"
+        ]
+      },
+      {
+        "L": 91,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "future-sight"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 84,
+        "moves": [
+          "metal-burst"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "psycho-cut"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "flash-cannon"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "psyshock"
+        ]
+      },
+      {
+        "L": 77,
+        "moves": [
+          "quick-guard"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "volt-switch"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "sacred-sword"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "smart-strike"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "tachyon-cutter"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "hyper-beam",
+      "psychic",
+      "agility",
+      "rest",
+      "substitute",
+      "protect",
+      "scary-face",
+      "endure",
+      "sleep-talk",
+      "metal-claw",
+      "future-sight",
+      "facade",
+      "brick-break",
+      "metal-sound",
+      "iron-defense",
+      "calm-mind",
+      "gravity",
+      "air-slash",
+      "x-scissor",
+      "focus-blast",
+      "giga-impact",
+      "zen-headbutt",
+      "flash-cannon",
+      "iron-head",
+      "psyshock",
+      "heavy-slam",
+      "stored-power",
+      "volt-switch",
+      "bulldoze",
+      "electric-terrain",
+      "solar-blade",
+      "smart-strike",
+      "steel-beam",
+      "expanding-force",
+      "tera-blast",
+      "supercell-slam",
+      "psychic-noise"
+    ]
+  }
+}

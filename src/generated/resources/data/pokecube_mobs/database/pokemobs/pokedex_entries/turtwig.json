@@ -43,6 +43,12 @@
         ]
       },
       {
+        "L": 43,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
         "L": 21,
         "moves": [
           "bite"
@@ -57,7 +63,8 @@
       {
         "L": 25,
         "moves": [
-          "mega-drain"
+          "mega-drain",
+          "sleep-powder"
         ]
       },
       {
@@ -109,9 +116,21 @@
         ]
       },
       {
+        "L": 34,
+        "moves": [
+          "leaf-blade"
+        ]
+      },
+      {
         "L": 45,
         "moves": [
           "leaf-storm"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "bulldoze"
         ]
       },
       {
@@ -127,6 +146,7 @@
       "headbutt",
       "tackle",
       "body-slam",
+      "take-down",
       "thrash",
       "double-edge",
       "bite",
@@ -175,13 +195,17 @@
       "tickle",
       "sand-tomb",
       "bullet-seed",
+      "mud-shot",
+      "magical-leaf",
       "natural-gift",
       "worry-seed",
       "seed-bomb",
       "energy-ball",
       "earth-power",
+      "zen-headbutt",
       "rock-climb",
       "leaf-storm",
+      "iron-head",
       "captivate",
       "stealth-rock",
       "grass-knot",
@@ -189,11 +213,16 @@
       "smack-down",
       "heavy-slam",
       "round",
+      "shell-smash",
       "grass-pledge",
+      "bulldoze",
       "work-up",
       "grassy-terrain",
       "confide",
-      "grassy-glide"
+      "leafage",
+      "grassy-glide",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/shellseed_1"

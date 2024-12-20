@@ -280,7 +280,8 @@
       "tera-blast",
       "chilly-reception",
       "snowscape",
-      "chilling-water"
+      "chilling-water",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/pig_3"

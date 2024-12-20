@@ -41,6 +41,7 @@
       {
         "L": 1,
         "moves": [
+          "tackle",
           "thrash",
           "thunder-shock",
           "swagger",
@@ -71,7 +72,20 @@
       {
         "L": 31,
         "moves": [
-          "agility"
+          "agility",
+          "extrasensory"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "spark"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "twister"
         ]
       },
       {
@@ -223,7 +237,9 @@
       "brutal-swing",
       "rising-voltage",
       "lash-out",
-      "tera-blast"
+      "wildbolt-storm",
+      "tera-blast",
+      "supercell-slam"
     ]
   },
   "sound": "thundurus-incarnate",

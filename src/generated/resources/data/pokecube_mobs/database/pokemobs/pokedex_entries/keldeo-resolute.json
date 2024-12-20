@@ -111,6 +111,7 @@
       "cut",
       "double-kick",
       "take-down",
+      "double-edge",
       "leer",
       "roar",
       "hydro-pump",
@@ -136,7 +137,9 @@
       "return",
       "frustration",
       "safeguard",
+      "pain-split",
       "megahorn",
+      "baton-pass",
       "hidden-power",
       "rain-dance",
       "sunny-day",
@@ -164,6 +167,7 @@
       "aqua-tail",
       "air-slash",
       "x-scissor",
+      "vacuum-wave",
       "focus-blast",
       "giga-impact",
       "stone-edge",
@@ -179,7 +183,11 @@
       "smart-strike",
       "liquidation",
       "coaching",
-      "flip-turn"
+      "flip-turn",
+      "tera-blast",
+      "trailblaze",
+      "chilling-water",
+      "upper-hand"
     ]
   },
   "old_name": "keldeo_resolute"

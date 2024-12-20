@@ -116,6 +116,12 @@
         "moves": [
           "shell-smash"
         ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "wave-crash"
+        ]
       }
     ],
     "misc": [
@@ -130,6 +136,7 @@
       "tail-whip",
       "bite",
       "roar",
+      "mist",
       "water-gun",
       "hydro-pump",
       "surf",
@@ -150,6 +157,7 @@
       "double-team",
       "withdraw",
       "defense-curl",
+      "haze",
       "reflect",
       "bide",
       "waterfall",
@@ -160,7 +168,9 @@
       "substitute",
       "snore",
       "curse",
+      "flail",
       "protect",
+      "scary-face",
       "mud-slap",
       "icy-wind",
       "outrage",
@@ -178,26 +188,32 @@
       "hidden-power",
       "rain-dance",
       "crunch",
+      "mirror-coat",
       "rock-smash",
       "whirlpool",
+      "fake-out",
       "hail",
       "facade",
       "focus-punch",
       "helping-hand",
       "brick-break",
+      "yawn",
       "secret-power",
       "dive",
       "hydro-cannon",
       "weather-ball",
       "rock-tomb",
+      "water-spout",
       "signal-beam",
       "muddy-water",
       "iron-defense",
+      "mud-shot",
       "water-pulse",
       "gyro-ball",
       "brine",
       "natural-gift",
       "fling",
+      "aqua-ring",
       "aura-sphere",
       "dark-pulse",
       "aqua-tail",
@@ -209,6 +225,7 @@
       "flash-cannon",
       "rock-climb",
       "captivate",
+      "aqua-jet",
       "smack-down",
       "round",
       "scald",
@@ -221,8 +238,12 @@
       "power-up-punch",
       "liquidation",
       "body-press",
+      "life-dew",
       "terrain-pulse",
-      "flip-turn"
+      "flip-turn",
+      "tera-blast",
+      "ice-spinner",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/turtleshells_3"

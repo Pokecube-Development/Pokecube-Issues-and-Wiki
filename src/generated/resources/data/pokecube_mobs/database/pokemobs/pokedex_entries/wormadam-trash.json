@@ -40,13 +40,20 @@
   "moves": {
     "level_up": [
       {
+        "L": 6,
+        "moves": [
+          "gust"
+        ]
+      },
+      {
         "L": 1,
         "moves": [
           "tackle",
           "protect",
           "metal-burst",
           "sucker-punch",
-          "bug-bite"
+          "bug-bite",
+          "struggle-bug"
         ]
       },
       {
@@ -84,6 +91,12 @@
         "L": 41,
         "moves": [
           "attract"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "silver-wind"
         ]
       },
       {
@@ -190,7 +203,8 @@
       "bulldoze",
       "electroweb",
       "confide",
-      "infestation"
+      "infestation",
+      "steel-beam"
     ]
   },
   "old_name": "wormadam_trash",

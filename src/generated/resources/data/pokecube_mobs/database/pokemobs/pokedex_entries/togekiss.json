@@ -44,6 +44,7 @@
         "L": 1,
         "moves": [
           "pound",
+          "tackle",
           "double-edge",
           "growl",
           "metronome",
@@ -62,8 +63,44 @@
           "aura-sphere",
           "air-slash",
           "after-you",
-          "fairy-wind",
           "life-dew"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "air-cutter",
+          "draining-kiss"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "extrasensory"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "calm-mind"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "fairy-wind"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "moonblast"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "baby-doll-eyes"
         ]
       }
     ],

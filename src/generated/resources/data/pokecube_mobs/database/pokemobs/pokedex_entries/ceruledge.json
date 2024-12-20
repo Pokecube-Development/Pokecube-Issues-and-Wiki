@@ -136,12 +136,14 @@
       "fire-blast",
       "rest",
       "substitute",
+      "curse",
       "spite",
       "protect",
       "endure",
       "false-swipe",
       "sleep-talk",
       "sunny-day",
+      "psych-up",
       "shadow-ball",
       "heat-wave",
       "will-o-wisp",
@@ -169,6 +171,7 @@
       "hex",
       "phantom-force",
       "solar-blade",
+      "throat-chop",
       "poltergeist",
       "tera-blast"
     ]

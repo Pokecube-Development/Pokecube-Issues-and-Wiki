@@ -54,6 +54,12 @@
         ]
       },
       {
+        "L": 6,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
         "L": 49,
         "moves": [
           "flamethrower"
@@ -87,6 +93,12 @@
         "L": 55,
         "moves": [
           "fire-blast"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "poison-gas"
         ]
       },
       {
@@ -139,7 +151,10 @@
       "mega-kick",
       "headbutt",
       "body-slam",
+      "take-down",
+      "double-edge",
       "leer",
+      "roar",
       "ember",
       "flamethrower",
       "hyper-beam",
@@ -156,6 +171,7 @@
       "smokescreen",
       "confuse-ray",
       "focus-energy",
+      "metronome",
       "smog",
       "fire-blast",
       "rest",
@@ -164,9 +180,12 @@
       "thief",
       "flame-wheel",
       "snore",
+      "curse",
       "protect",
+      "mach-punch",
       "scary-face",
       "feint-attack",
+      "belly-drum",
       "mud-slap",
       "endure",
       "swagger",
@@ -174,8 +193,10 @@
       "sleep-talk",
       "return",
       "frustration",
+      "dynamic-punch",
       "iron-tail",
       "hidden-power",
+      "cross-chop",
       "sunny-day",
       "rock-smash",
       "uproar",
@@ -184,10 +205,13 @@
       "will-o-wisp",
       "facade",
       "focus-punch",
+      "follow-me",
       "taunt",
       "helping-hand",
       "brick-break",
+      "knock-off",
       "secret-power",
+      "hyper-voice",
       "weather-ball",
       "overheat",
       "rock-tomb",
@@ -196,6 +220,7 @@
       "fling",
       "power-swap",
       "flare-blitz",
+      "poison-jab",
       "focus-blast",
       "giga-impact",
       "rock-climb",
@@ -204,17 +229,22 @@
       "flame-burst",
       "flame-charge",
       "low-sweep",
+      "acid-spray",
       "round",
       "clear-smog",
       "incinerate",
       "bulldoze",
       "dual-chop",
+      "heat-crash",
+      "belch",
       "confide",
       "mystical-fire",
       "power-up-punch",
       "stomping-tantrum",
       "burning-jealousy",
-      "scorching-sands"
+      "scorching-sands",
+      "tera-blast",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/blaze_rabbit_3"

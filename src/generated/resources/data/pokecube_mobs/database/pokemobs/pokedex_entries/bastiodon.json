@@ -49,7 +49,14 @@
       {
         "L": 15,
         "moves": [
-          "take-down"
+          "take-down",
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "double-edge"
         ]
       },
       {
@@ -89,9 +96,21 @@
         ]
       },
       {
+        "L": 29,
+        "moves": [
+          "earth-power"
+        ]
+      },
+      {
         "L": 51,
         "moves": [
           "iron-head"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "stealth-rock"
         ]
       },
       {
@@ -104,25 +123,35 @@
     "misc": [
       "headbutt",
       "tackle",
+      "body-slam",
       "take-down",
+      "double-edge",
       "roar",
       "flamethrower",
       "ice-beam",
       "blizzard",
       "hyper-beam",
+      "counter",
       "strength",
       "thunderbolt",
       "thunder",
       "earthquake",
+      "fissure",
       "dig",
       "toxic",
+      "screech",
       "double-team",
+      "reflect",
+      "focus-energy",
       "fire-blast",
       "rest",
       "rock-slide",
       "substitute",
       "snore",
+      "curse",
+      "reversal",
       "protect",
+      "scary-face",
       "mud-slap",
       "outrage",
       "sandstorm",
@@ -145,13 +174,16 @@
       "secret-power",
       "rock-tomb",
       "metal-sound",
+      "sand-tomb",
       "iron-defense",
       "block",
+      "rock-blast",
       "shock-wave",
       "natural-gift",
       "metal-burst",
       "magnet-rise",
       "rock-polish",
+      "power-gem",
       "earth-power",
       "giga-impact",
       "avalanche",
@@ -160,13 +192,23 @@
       "stone-edge",
       "captivate",
       "stealth-rock",
+      "wide-guard",
+      "guard-split",
       "smack-down",
       "heavy-slam",
+      "foul-play",
       "round",
       "incinerate",
       "bulldoze",
       "confide",
-      "stomping-tantrum"
+      "stomping-tantrum",
+      "body-press",
+      "steel-beam",
+      "meteor-beam",
+      "scorching-sands",
+      "tera-blast",
+      "trailblaze",
+      "hard-press"
     ]
   },
   "loot_table": "pokecube:entities/fossil_mob"

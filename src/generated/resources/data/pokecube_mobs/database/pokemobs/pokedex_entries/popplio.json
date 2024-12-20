@@ -142,6 +142,7 @@
       "toxic",
       "double-team",
       "waterfall",
+      "swift",
       "amnesia",
       "rest",
       "substitute",
@@ -191,7 +192,10 @@
       "baby-doll-eyes",
       "life-dew",
       "flip-turn",
-      "triple-axel"
+      "triple-axel",
+      "tera-blast",
+      "ice-spinner",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/fish_1"

@@ -104,6 +104,7 @@
         "L": 13,
         "moves": [
           "skill-swap",
+          "switcheroo",
           "bestow"
         ]
       },
@@ -175,6 +176,7 @@
       "swift",
       "flash",
       "rest",
+      "super-fang",
       "substitute",
       "snore",
       "protect",
@@ -200,6 +202,7 @@
       "charge",
       "helping-hand",
       "wish",
+      "endeavor",
       "skill-swap",
       "secret-power",
       "fake-tears",
@@ -225,10 +228,16 @@
       "volt-switch",
       "electroweb",
       "wild-charge",
+      "play-rough",
       "play-nice",
       "confide",
+      "eerie-impulse",
+      "electric-terrain",
       "nuzzle",
-      "tearful-look"
+      "tearful-look",
+      "tera-blast",
+      "trailblaze",
+      "alluring-voice"
     ]
   },
   "loot_table": "pokecube:entities/redstone_rabbit_1"

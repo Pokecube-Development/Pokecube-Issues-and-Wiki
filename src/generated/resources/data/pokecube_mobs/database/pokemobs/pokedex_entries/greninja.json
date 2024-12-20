@@ -133,6 +133,7 @@
       "blizzard",
       "hyper-beam",
       "low-kick",
+      "counter",
       "strength",
       "dig",
       "toxic",
@@ -186,16 +187,19 @@
       "toxic-spikes",
       "dark-pulse",
       "night-slash",
+      "switcheroo",
       "giga-impact",
       "shadow-sneak",
       "gunk-shot",
       "grass-knot",
       "smack-down",
+      "sludge-wave",
       "low-sweep",
       "round",
       "echoed-voice",
       "scald",
       "acrobatics",
+      "retaliate",
       "water-pledge",
       "work-up",
       "mat-block",
@@ -207,7 +211,8 @@
       "tera-blast",
       "snowscape",
       "trailblaze",
-      "chilling-water"
+      "chilling-water",
+      "upper-hand"
     ]
   },
   "loot_table": "pokecube:entities/fish_3"

@@ -58,7 +58,7 @@
         ]
       },
       {
-        "L": 26,
+        "L": 34,
         "moves": [
           "thunderbolt"
         ]
@@ -70,9 +70,10 @@
         ]
       },
       {
-        "L": 44,
+        "L": 43,
         "moves": [
-          "thunder"
+          "thunder",
+          "magnet-rise"
         ]
       },
       {
@@ -121,12 +122,6 @@
         "L": 47,
         "moves": [
           "gyro-ball"
-        ]
-      },
-      {
-        "L": 43,
-        "moves": [
-          "magnet-rise"
         ]
       },
       {

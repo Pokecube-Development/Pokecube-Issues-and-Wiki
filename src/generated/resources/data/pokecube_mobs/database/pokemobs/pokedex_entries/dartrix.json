@@ -39,18 +39,19 @@
   "moves": {
     "level_up": [
       {
-        "L": 33,
-        "moves": [
-          "fury-attack"
-        ]
-      },
-      {
         "L": 1,
         "moves": [
+          "gust",
           "tackle",
           "growl",
           "peck",
           "leafage"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "fury-attack"
         ]
       },
       {
@@ -80,7 +81,20 @@
       {
         "L": 11,
         "moves": [
-          "astonish"
+          "astonish",
+          "roost"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "aerial-ace"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "magical-leaf"
         ]
       },
       {
@@ -102,6 +116,12 @@
         ]
       },
       {
+        "L": 25,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
         "L": 51,
         "moves": [
           "brave-bird"
@@ -117,6 +137,12 @@
         "L": 12,
         "moves": [
           "shadow-sneak"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "leaf-storm"
         ]
       },
       {
@@ -136,7 +162,9 @@
       "razor-leaf",
       "solar-beam",
       "toxic",
+      "night-shade",
       "double-team",
+      "confuse-ray",
       "light-screen",
       "haze",
       "swift",

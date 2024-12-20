@@ -133,6 +133,7 @@
       "swords-dance",
       "body-slam",
       "take-down",
+      "double-edge",
       "roar",
       "flamethrower",
       "hyper-beam",
@@ -189,9 +190,13 @@
       "snarl",
       "stomping-tantrum",
       "body-press",
+      "breaking-swipe",
       "scale-shot",
+      "meteor-beam",
       "dual-wingbeat",
-      "tera-blast"
+      "tera-blast",
+      "dragon-cheer",
+      "temper-flare"
     ]
   }
 }

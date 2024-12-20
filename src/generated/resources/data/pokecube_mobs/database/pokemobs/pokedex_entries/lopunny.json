@@ -44,6 +44,7 @@
           "pound",
           "defense-curl",
           "splash",
+          "mach-punch",
           "foresight",
           "mirror-coat",
           "magic-coat",
@@ -61,13 +62,21 @@
       {
         "L": 23,
         "moves": [
-          "jump-kick"
+          "jump-kick",
+          "double-hit"
         ]
       },
       {
         "L": 32,
         "moves": [
           "headbutt"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "double-edge",
+          "close-combat"
         ]
       },
       {
@@ -79,7 +88,14 @@
       {
         "L": 16,
         "moves": [
-          "quick-attack"
+          "quick-attack",
+          "draining-kiss"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "swift"
         ]
       },
       {
@@ -134,6 +150,12 @@
         "L": 43,
         "moves": [
           "after-you"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "play-rough"
         ]
       },
       {

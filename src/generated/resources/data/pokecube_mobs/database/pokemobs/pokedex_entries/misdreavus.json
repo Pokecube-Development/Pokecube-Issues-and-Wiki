@@ -38,13 +38,20 @@
         "moves": [
           "growl",
           "confusion",
-          "psywave"
+          "psywave",
+          "shadow-sneak"
         ]
       },
       {
         "L": 28,
         "moves": [
           "psybeam"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "hypnosis"
         ]
       },
       {
@@ -93,6 +100,12 @@
         "L": 10,
         "moves": [
           "astonish"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "extrasensory"
         ]
       },
       {
@@ -164,6 +177,7 @@
       "sunny-day",
       "psych-up",
       "shadow-ball",
+      "future-sight",
       "uproar",
       "torment",
       "will-o-wisp",
@@ -218,7 +232,8 @@
       "burning-jealousy",
       "poltergeist",
       "tera-blast",
-      "snowscape"
+      "snowscape",
+      "psychic-noise"
     ]
   },
   "loot_table": "pokecube:entities/enderpearls_1"

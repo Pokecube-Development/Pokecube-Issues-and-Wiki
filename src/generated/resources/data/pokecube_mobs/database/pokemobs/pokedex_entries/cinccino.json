@@ -60,6 +60,11 @@
       }
     ],
     "misc": [
+      "pound",
+      "slam",
+      "take-down",
+      "double-edge",
+      "tail-whip",
       "sing",
       "hyper-beam",
       "thunderbolt",
@@ -71,10 +76,13 @@
       "light-screen",
       "swift",
       "rest",
+      "super-fang",
       "substitute",
       "thief",
       "snore",
+      "flail",
       "protect",
+      "mud-slap",
       "endure",
       "charm",
       "swagger",
@@ -83,6 +91,7 @@
       "return",
       "frustration",
       "safeguard",
+      "baton-pass",
       "encore",
       "iron-tail",
       "hidden-power",
@@ -92,6 +101,7 @@
       "facade",
       "helping-hand",
       "knock-off",
+      "endeavor",
       "secret-power",
       "hyper-voice",
       "fake-tears",
@@ -119,8 +129,15 @@
       "play-rough",
       "confide",
       "dazzling-gleam",
+      "baby-doll-eyes",
       "laser-focus",
-      "triple-axel"
+      "triple-axel",
+      "tera-blast",
+      "ice-spinner",
+      "tidy-up",
+      "trailblaze",
+      "chilling-water",
+      "alluring-voice"
     ]
   },
   "interactions": [

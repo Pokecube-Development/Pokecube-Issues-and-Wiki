@@ -164,9 +164,13 @@
       "smack-down",
       "bulldoze",
       "high-horsepower",
+      "throat-chop",
       "stomping-tantrum",
+      "meteor-beam",
+      "skitter-smack",
       "tera-blast",
-      "trailblaze"
+      "trailblaze",
+      "temper-flare"
     ]
   },
   "loot_table": "pokecube:entities/cobble_1"
