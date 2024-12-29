@@ -109,7 +109,7 @@ public class ItemPokedex extends Item implements DyeableLeatherItem
         final Block block = hit.getBlockState(worldIn).getBlock();
         if (!worldIn.isClientSide && playerIn instanceof ServerPlayer player && worldIn instanceof ServerLevel level)
         {
-            SpawnHandler.refreshTerrain(new Vector3().set(player), player.level(), true);
+            SpawnHandler.refreshTerrain(new Vector3().set(pos), player.level(), true);
 
             // Debug option to see if structures are in an area, for testing
             // datapacks/configs.
