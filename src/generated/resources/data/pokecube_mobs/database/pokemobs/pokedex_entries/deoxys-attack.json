@@ -250,12 +250,12 @@
       "isTag": false,
       "key": {
         "values": {
-          "id": "meteorite"
+          "id": "pokecube_legends:meteorite"
         }
       },
       "action": {
         "values": {
-          "forme": "deoxysdefense",
+          "forme": "deoxys-defense",
           "type": "forme"
         }
       }
