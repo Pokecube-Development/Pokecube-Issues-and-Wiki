@@ -43,7 +43,7 @@ public class ModelFactory
             for (final String ext1 : ModelFactory.knownExtension)
             {
                 final IFactory<?> factory = ModelFactory.modelFactories.get(ext1);
-                final ResourceLocation model1 = new ResourceLocation(location.getNamespace(), path + "." + ext1);
+                final ResourceLocation model1 = ResourceLocation.fromNamespaceAndPath(location.getNamespace(), path + "." + ext1);
                 if (ThutCore.conf.debug_models) ThutCore.LOGGER.debug("Checking " + model1);
                 ret = factory.create(model1);
                 ext = ext1;

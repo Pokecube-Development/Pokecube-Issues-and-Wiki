@@ -1,8 +1,12 @@
 package thut.tech.common.items;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
@@ -11,28 +15,31 @@ import thut.tech.common.util.RecipeSerializers;
 
 public class RecipeReset extends CustomRecipe
 {
-    public RecipeReset(final ResourceLocation idIn)
+    public RecipeReset(CraftingBookCategory bookCategory)
     {
-        super(idIn);
+        super(bookCategory);
     }
 
     @Override
-    public ItemStack assemble(final CraftingContainer inv)
+    public ItemStack assemble(CraftingInput inv, Provider access)
     {
         int n = 0;
         boolean matched = false;
 
         // Try to match a device linker
         ItemStack linker = ItemStack.EMPTY;
-        for (int i = 0; i < inv.getContainerSize(); i++)
+        for (int i = 0; i < inv.size(); i++)
         {
             final ItemStack stack = inv.getItem(i);
             if (stack.isEmpty()) continue;
             link:
             if (stack.getItem() == TechCore.LINKER.get())
             {
-                if (!stack.hasTag()) break link;
-                if (!stack.getTag().contains("lift")) break link;
+                CompoundTag data = stack.has(DataComponents.CUSTOM_DATA)
+                        ? stack.get(DataComponents.CUSTOM_DATA).copyTag()
+                        : null;
+                if (data == null) break link;
+                if (!data.contains("lift")) break link;
                 matched = true;
                 linker = stack;
             }
@@ -42,22 +49,27 @@ public class RecipeReset extends CustomRecipe
         if (matched)
         {
             final ItemStack ret = linker.copy();
-            ret.getTag().remove("lift");
+            CompoundTag data = ret.get(DataComponents.CUSTOM_DATA).copyTag();
+            data.remove("lift");
+            ret.set(DataComponents.CUSTOM_DATA, CustomData.of(data));
             return ret;
         }
 
         // Try to match an elevator item
         n = 0;
         linker = ItemStack.EMPTY;
-        for (int i = 0; i < inv.getContainerSize(); i++)
+        for (int i = 0; i < inv.size(); i++)
         {
             final ItemStack stack = inv.getItem(i);
             if (stack.isEmpty()) continue;
             link:
             if (stack.getItem() == TechCore.LIFT.get())
             {
-                if (!stack.hasTag()) break link;
-                if (!stack.getTag().contains("min")) break link;
+                CompoundTag data = stack.has(DataComponents.CUSTOM_DATA)
+                        ? stack.get(DataComponents.CUSTOM_DATA).copyTag()
+                        : null;
+                if (data == null) break link;
+                if (!data.contains("min")) break link;
                 matched = true;
                 linker = stack;
             }
@@ -67,8 +79,10 @@ public class RecipeReset extends CustomRecipe
         if (matched)
         {
             final ItemStack ret = linker.copy();
-            ret.getTag().remove("min");
-            ret.getTag().remove("time");
+            CompoundTag data = ret.get(DataComponents.CUSTOM_DATA).copyTag();
+            data.remove("min");
+            data.remove("time");
+            ret.set(DataComponents.CUSTOM_DATA, CustomData.of(data));
             return ret;
         }
 
@@ -82,9 +96,9 @@ public class RecipeReset extends CustomRecipe
     }
 
     @Override
-    public boolean matches(final CraftingContainer inv, final Level worldIn)
+    public boolean matches(final CraftingInput inv, final Level worldIn)
     {
-        return !this.assemble(inv).isEmpty();
+        return !this.assemble(inv, worldIn.registryAccess()).isEmpty();
     }
 
     @Override

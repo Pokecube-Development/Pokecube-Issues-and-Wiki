@@ -1,0 +1,12 @@
+{
+  "feature": "pokecube_legends:corrupted_grass_and_tainted_roots",
+  "placement": [
+    {
+      "type": "minecraft:block_predicate_filter",
+      "predicate": {
+        "type": "minecraft:matching_blocks",
+        "blocks": "minecraft:air"
+      }
+    }
+  ]
+}

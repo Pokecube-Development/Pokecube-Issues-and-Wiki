@@ -7,11 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
@@ -132,7 +133,9 @@ public class X3dModel extends BaseModel
             offset = t.rotation.split(" ");
             final Vector3f axis = new Vector3f(Float.parseFloat(offset[0]), Float.parseFloat(offset[1]),
                     Float.parseFloat(offset[2]));
-            final Quaternion quat = new Quaternion(axis, Float.parseFloat(offset[3]), false);
+
+            final Quaternionf quat = new Quaternionf();
+            if (axis.length() > 0) quat.fromAxisAngleRad(axis, Float.parseFloat(offset[3]));
             final Vector4 rotations = new Vector4(quat);
 
             final Set<String> children = t.getChildNames();

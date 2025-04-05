@@ -1,0 +1,63 @@
+package pokecube.world.gen.structures.processors;
+
+import javax.annotation.Nullable;
+
+import com.mojang.serialization.Dynamic;
+import com.mojang.serialization.MapCodec;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureEntityInfo;
+import pokecube.api.events.StructureEvent;
+import thut.core.common.ThutCore;
+
+public class PokecubeStructureProcessor extends StructureProcessor
+{
+    public static final MapCodec<StructureProcessor> CODEC;
+
+    public static final StructureProcessor PROCESSOR = new PokecubeStructureProcessor();
+
+    public PokecubeStructureProcessor()
+    {
+    }
+
+    public PokecubeStructureProcessor(final Dynamic<?> p_deserialize_1_)
+    {
+    }
+
+    @Override
+    @Nullable
+    public StructureTemplate.StructureBlockInfo process(final LevelReader world, final BlockPos pos1, final BlockPos pos2,
+            final StructureTemplate.StructureBlockInfo rawInfo, final StructureTemplate.StructureBlockInfo modInfo, final StructurePlaceSettings settings,
+            @Nullable final StructureTemplate template)
+    {
+        return modInfo;
+    }
+
+    @Override
+    public StructureEntityInfo processEntity(final LevelReader world, final BlockPos seedPos, final StructureEntityInfo rawEntityInfo,
+            final StructureEntityInfo entityInfo, final StructurePlaceSettings placementSettings, final StructureTemplate template)
+    {
+        final StructureEvent.SpawnEntity event = new StructureEvent.SpawnEntity(entityInfo, rawEntityInfo);
+        ThutCore.FORGE_BUS.post(event);
+        return event.getInfo();
+    }
+
+    @Override
+    protected StructureProcessorType<?> getType()
+    {
+        return PokecubeStructureProcessors.STRUCTS.get();
+    }
+
+    static
+    {
+        CODEC = MapCodec.unit(() ->
+        {
+            return PokecubeStructureProcessor.PROCESSOR;
+        });
+    }
+}

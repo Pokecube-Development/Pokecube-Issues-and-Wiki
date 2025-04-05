@@ -3,7 +3,7 @@
   "group": "concrete_bucket",
   "ingredients": [
     {
-      "tag": "minecraft:concrete_powders"
+      "tag": "c:concrete_powders"
     },
     {
       "item": "minecraft:water_bucket"

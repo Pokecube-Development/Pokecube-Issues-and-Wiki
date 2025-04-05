@@ -14,15 +14,15 @@ public class TextureFactory
             float expectedW)
     {
         // First check if a mcmeta version of the file exists.
-        ResourceLocation mcmeta = new ResourceLocation(tex.getNamespace(), tex.getPath() + ".mcmeta");
+        ResourceLocation mcmeta = ResourceLocation.fromNamespaceAndPath(tex.getNamespace(), tex.getPath() + ".mcmeta");
         BaseTexture texture = null;
         if (tex.getPath().contains("--sep--"))
         {
             var paths = tex.getPath().split("--sep--");
             if (paths.length >= 4)
             {
-                ResourceLocation locA = new ResourceLocation(tex.getNamespace(), paths[0]);
-                ResourceLocation locB = new ResourceLocation(paths[1], paths[2]);
+                ResourceLocation locA = ResourceLocation.fromNamespaceAndPath(tex.getNamespace(), paths[0]);
+                ResourceLocation locB = ResourceLocation.fromNamespaceAndPath(paths[1], paths[2]);
                 texture = new MergedTexture(locA, locB, Integer.parseInt(paths[3]));
                 texturemanager.register(tex, texture);
                 return texture;

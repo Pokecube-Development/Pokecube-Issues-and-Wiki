@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:distortic_framed_mirror",
+  "pattern": [
+    "0A0",
+    "AGA",
+    "0A0"
+  ],
+  "key": {
+    "0": {
+      "tag": "pokecube_legends:distortic_logs"
+    },
+    "A": {
+      "item": "pokecube_legends:distortic_mirror"
+    },
+    "G": {
+      "tag": "forge:glass"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:distortic_framed_mirror",
+    "count": 8
+  }
+}

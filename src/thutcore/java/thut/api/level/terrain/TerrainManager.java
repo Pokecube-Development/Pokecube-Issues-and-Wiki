@@ -9,26 +9,23 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.chunk.ChunkSource;
-import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.world.ChunkEvent;
-import net.minecraftforge.event.world.ChunkWatchEvent;
-import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import thut.api.level.terrain.CapabilityTerrain.DefaultProvider;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.level.ChunkEvent;
+import net.neoforged.neoforge.event.level.ChunkWatchEvent;
+import net.neoforged.neoforge.event.level.LevelEvent;
 import thut.api.maths.Vector3;
 import thut.api.util.PermNodes;
 import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.core.common.ThutCore;
 import thut.core.common.network.TerrainUpdate;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.GAME)
 public class TerrainManager
 {
     public static final String EDIT_SUBBIOMES_PERM = "subbiome.can_edit";
 
-    public static final ResourceLocation TERRAINCAP = new ResourceLocation("thutcore", "terrain");
+    public static final ResourceLocation TERRAINCAP = ResourceLocation.fromNamespaceAndPath("thutcore", "terrain");
     private static TerrainManager terrain;
 
     public static void init()
@@ -71,7 +68,7 @@ public class TerrainManager
     public static void onChunkLoad(final ChunkEvent.Load evt)
     {
         ResourceKey<Level> dim = null;
-        if (evt.getWorld() instanceof Level level && !evt.getWorld().isClientSide()) dim = level.dimension();
+        if (evt.getLevel() instanceof Level level && !evt.getLevel().isClientSide()) dim = level.dimension();
         // This is null when this is loaded off-thread, IE before the chunk is
         // finished
         if (dim != null) ITerrainProvider.addChunk(dim, evt.getChunk());
@@ -81,7 +78,7 @@ public class TerrainManager
     public static void onChunkUnload(final ChunkEvent.Unload evt)
     {
         ResourceKey<Level> dim = null;
-        if (evt.getWorld() instanceof Level level && !evt.getWorld().isClientSide()) dim = level.dimension();
+        if (evt.getLevel() instanceof Level level && !evt.getLevel().isClientSide()) dim = level.dimension();
         if (dim != null) ITerrainProvider.removeChunk(dim, evt.getChunk().getPos());
     }
 
@@ -93,18 +90,9 @@ public class TerrainManager
     }
 
     @SubscribeEvent
-    public static void onWorldUnload(final WorldEvent.Unload evt)
+    public static void onWorldUnload(final LevelEvent.Unload evt)
     {
 
-    }
-
-    @SubscribeEvent
-    public static void onChunkCapabilityAttach(final AttachCapabilitiesEvent<LevelChunk> event)
-    {
-        if (event.getCapabilities().containsKey(TerrainManager.TERRAINCAP)) return;
-        final LevelChunk chunk = event.getObject();
-        final DefaultProvider terrain = new DefaultProvider(chunk);
-        event.addCapability(TerrainManager.TERRAINCAP, terrain);
     }
 
     public ITerrainProvider provider = new ITerrainProvider()
@@ -118,7 +106,7 @@ public class TerrainManager
 
     public TerrainSegment getTerrain(final LevelAccessor world, final double x, final double y, final double z)
     {
-        final BlockPos pos = new BlockPos(x, y, z);
+        final BlockPos pos = new BlockPos((int) x, (int) y, (int) z);
         final TerrainSegment ret = this.getTerrain(world, pos);
         if (world instanceof ServerLevel) ret.initBiomes(world);
         return ret;
@@ -127,7 +115,7 @@ public class TerrainManager
     public TerrainSegment getTerrainForEntity(final Entity e)
     {
         if (e == null) return null;
-        return this.getTerrain(e.getLevel(), e.getX(), e.getY(), e.getZ());
+        return this.getTerrain(e.level(), e.getX(), e.getY(), e.getZ());
     }
 
     public TerrainSegment getTerrian(final LevelAccessor world, final Vector3 v)

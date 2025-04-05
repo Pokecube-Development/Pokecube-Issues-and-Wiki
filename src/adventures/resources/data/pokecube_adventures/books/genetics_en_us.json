@@ -1,0 +1,152 @@
+{
+  "title": "Pokémob Genetics",
+  "author": "Thutmose",
+  "pages": [
+    {
+      "lines": [
+        "§lPokémob Genetics Guide",
+        "v1.2"
+      ]
+    },
+    {
+      "lines": [
+        "§nIndex{_ref_:_index_}",
+        "§4§nBasic Terms{_link_:_terms_}",
+        "§3§nPokémob DNA{_link_:_pokedna_}",
+        "§2§nExtracting DNA{_link_:_extract_}",
+        "   §2§nDNA Selectors{_link_:_selector_}",
+        "   §2§nGene Extractor{_link_:_extractor_}",
+        "§5§nCloning Pokémobs{_link_:_clone_}",
+        "§1§nSplicing DNA{_link_:_splice_}"
+      ]
+    },
+    {
+      "lines": [
+        "§4§n§lBasic Terminology{_ref_:_terms_}{_link_:_index_}",
+        " ",
+        "§4§nPhenotype:",
+        "This is the trait which appears on the mob itself.",
+        " ",
+        "§4§nAllele:",
+        "A pair of genes, each of them from a parent. These are genes available for inheritance, these are generally merged in some way to result in the expressed gene, each phenotype corresponds to a pair of allele.",
+        " ",
+        "§4§nDominant:",
+        "Dominant gene will express regardless of the other one in that allele.",
+        " ",
+        "§4§nRecessive:",
+        "Recessive genes require both genes of that allele to be the same to be expressed.",
+        " ",
+        "§4§nRandom Dominant:",
+        "Random dominant genes will select a random gene of that allele for expression",
+        " ",
+        "§4§nEpigenetic:",
+        "If the gene is epigenetic, then instead of using allele for inheritance, it will use the phenotype of parents, and that phenotype will change based on the history of the Pokémob."
+      ]
+    },
+    {
+      "lines": [
+        "§9§n§lPokémob DNA:{_ref_:_pokedna_}{_link_:_index_}",
+        "",
+        "There are presently 10 known types of genes for Pokémobs.",
+        "",
+        "Of these 10 types, 2 are strictly epigenetic, and 1 of them has a low chance of being epigenetic.",
+        " ",
+        "§nKnown genes:{_ref_:_genes_}",
+        "",
+        "§9ability",
+        "§9colour",
+        "§9size",
+        "§9nature",
+        "§9shiny",
+        "§9moves*",
+        "§9ivs",
+        "§9evs*",
+        "§9species",
+        "§9gmax",
+        "",
+        "§9*Epigenetic",
+        " ",
+        "Most of these genes appear to be random dominant, with a low rate of mutations, below are the exceptions",
+        "",
+        "§9Nature",
+        "§9Shiny",
+        "§9Species",
+        "§9Moves",
+        " ",
+        "§9§nNature Gene:",
+        "",
+        "The Nature gene appears to occasionally exhibit a merging effect rather than dominance, the phenotype can end up as a merge of the allele, rather than direct inheritance.",
+        " ",
+        "§9§nShiny Gene:",
+        "",
+        "The Shiny gene appears to be a rare, recessive gene, and the Shiny Charm is able to switch the phenotype for this, not affecting any of the gene",
+        " ",
+        "§9§nSpecies Gene:",
+        "",
+        "For the species gene, it seems dominance is dependant on whether one of the gene of that allele is gendered, genderless one is recessive, this gene ocassionally has epigenetic tendencies",
+        " ",
+        "§9§nMoves Gene:",
+        "",
+        "The Moves gene only seems to be expressed if both genes of that allele are the same, which is generally not the case."
+      ]
+    },
+    {
+      "lines": [
+        "§2§n§lExtracting DNA{_ref_:_extract_}{_link_:_index_}",
+        "",
+        "DNA is extracted via the Gene Extractor.",
+        " ",
+        "§4§lDO NOT §rtry to extract legendary species dna, it is unstable and will be destroyed by this process.",
+        " ",
+        "This process requires power, which can be provided by an Energy Siphon, a bottle of water (for the DNA to go into), a Selector and a DNA source.",
+        " ",
+        "§2§n§lDNA Selectors{_ref_:_selector_}{_link_:_index_}",
+        "",
+        "DNA Selectors tell the machine which gene is being targetted for extraction or splicing.",
+        " ",
+        "There are 2 ways to make a selector, via computer interface (CC), or via a written book.",
+        " ",
+        "A Book selector starts with a line of \"genes:\" and following with the names of the genes on the first page of the book, each on a seperate line (or \"all\"). The book selector can then be crafted with various modifier items to adjust its chances of breaking, both themselves and the DNA, the only currently known modifier is the nether star, but others might exist.",
+        " ",
+        "§2§n§lGene Extractor{_ref_:_extractor_}{_link_:_index_}",
+        "",
+        "The Gene Extractor is used to extract DNA from a source, it places it into a bottle, and has success chances defined based on the selector used.",
+        " ",
+        "§2§nKnown DNA Sources:",
+        "",
+        "Filled Pokecube",
+        "Pokemob Eggs",
+        "Fossils",
+        "Bottles of DNA",
+        " ",
+        "When using a computer, no selector is explicitly needed, however a modifier item can be placed in the slot instead.",
+        " ",
+        "The tooltip on the selector will display which genes are being selected, and it will also display the chance of DNA or selector loss.",
+        " ",
+        "DNA sources might also display a tooltip containing their contents in related machines' GUI."
+      ]
+    },
+    {
+      "lines": [
+        "§5§n§lCloning Pokémobs:{_ref_:_clone_}{_link_:_index_}",
+        "",
+        "§c§lWARNING: §rWhatever is in the upper left bottle slot will be merged into the DNA of the resulting mob. This may result in the mob changing after capture!",
+        " ",
+        "Once you have extracted some Species DNA, you can place the bottle of it into the gene input slot of the cloning device.",
+        " ",
+        "An egg of some form needs to be provided in the egg slot, this can be any egg, and then power needs to be provided to the block.",
+        " ",
+        "Once the device has enough power, it will spawn the clone directly in front of the device, this is usually at lvl 20. If you are accessing the device when it spawns, you are likely to be the owner of the clone."
+      ]
+    },
+    {
+      "lines": [
+        "§1§n§lSplicing DNA:{_ref_:_splice_}{_link_:_index_}",
+        "",
+        "The Gene Splicer can be used to splice together DNA from different sources.",
+        " ",
+        "The Selector used is the same as in the Gene Extractor, but now the destination and source slots can both take DNA."
+      ]
+    }
+  ]
+}

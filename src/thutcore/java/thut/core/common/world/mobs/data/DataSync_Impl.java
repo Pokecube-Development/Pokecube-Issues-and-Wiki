@@ -5,17 +5,19 @@ import java.util.Map.Entry;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
-import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import thut.api.ThutCaps;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.neoforged.neoforge.attachment.AttachmentType;
+import net.neoforged.neoforge.attachment.IAttachmentHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import thut.api.world.mobs.data.Data;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.ThutCore;
@@ -29,7 +31,7 @@ import thut.core.common.world.mobs.data.types.Data_String;
 import thut.core.common.world.mobs.data.types.Data_UUID;
 import thut.core.common.world.mobs.data.types.Data_Vec3;
 
-public class DataSync_Impl implements DataSync, ICapabilityProvider
+public class DataSync_Impl implements DataSync
 {
     public static Int2ObjectArrayMap<Class<? extends Data<?>>> REGISTRY = new Int2ObjectArrayMap<>();
 
@@ -49,20 +51,6 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
     public static void addMapping(final Class<? extends Data<?>> dataType)
     {
         DataSync_Impl.REGISTRY.put(DataSync_Impl.REGISTRY.size(), dataType);
-    }
-
-    /**
-     * Used to check if a data sync is already registered for this mob.
-     * 
-     * @param event
-     * @return
-     */
-    public static DataSync getData(final AttachCapabilitiesEvent<Entity> event)
-    {
-        for (final ICapabilityProvider provider : event.getCapabilities().values())
-            if (provider.getCapability(ThutCaps.DATASYNC).isPresent())
-                return provider.getCapability(ThutCaps.DATASYNC).orElse(null);
-        return null;
     }
 
     @SuppressWarnings("deprecation")
@@ -90,7 +78,6 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
 
     private Int2ObjectArrayMap<Data<?>> data = new Int2ObjectArrayMap<>();
     private Int2ObjectArrayMap<Data<?>> readCache = new Int2ObjectArrayMap<>();
-    private final LazyOptional<DataSync> holder = LazyOptional.of(() -> this);
 
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
@@ -102,6 +89,13 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
     private boolean syncNow = false;
 
     private int offset = ThutCore.newRandom().nextInt();
+    protected Provider provider = null;
+
+    @Override
+    public void setHolderLookup(Provider provider)
+    {
+        this.provider = provider;
+    }
 
     @Override
     @SuppressWarnings("unchecked")
@@ -126,12 +120,6 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
     }
 
     @Override
-    public <T> LazyOptional<T> getCapability(final Capability<T> capability, final Direction facing)
-    {
-        return ThutCaps.DATASYNC.orEmpty(capability, this.holder);
-    }
-
-    @Override
     public List<Data<?>> getDirty()
     {
         List<Data<?>> list = null;
@@ -149,6 +137,7 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
     @Override
     public <T> int register(final Data<T> data, final T value)
     {
+        data.setHolderLookup(this.provider);
         data.set(value);
         final int id = this.data.size();
         data.setID(id);
@@ -213,6 +202,33 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
     public boolean syncNow()
     {
         return syncNow;
+    }
+
+    public static DataSync makeProvider(final IAttachmentHolder in)
+    {
+        Provider p = null;
+        if (in instanceof Entity e) p = e.registryAccess();
+        else if (in instanceof BlockEntity b) p = b.getLevel().registryAccess();
+        if (p == null) return null;
+        var impl = new DataSync_Impl();
+        impl.setHolderLookup(p);
+        return impl;
+    }
+
+    public static DataSync get(final IAttachmentHolder in)
+    {
+        return in.getData(TYPE_SAVE.get());
+    }
+
+    public static final ResourceLocation LOCSAVEABLE = ResourceLocation.parse("thutcore:data_sync");
+
+    public static Supplier<AttachmentType<DataSync>> TYPE_SAVE;
+
+    public static void registerAttachment(DeferredRegister<AttachmentType<?>> registry)
+    {
+        Function<IAttachmentHolder, DataSync> func_a = DataSync_Impl::makeProvider;
+        var attach_a = AttachmentType.builder(func_a).build();
+        TYPE_SAVE = registry.register(LOCSAVEABLE.getPath(), () -> attach_a);
     }
 
 }

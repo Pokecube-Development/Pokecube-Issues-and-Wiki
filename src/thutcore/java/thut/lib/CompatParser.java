@@ -9,9 +9,9 @@ import java.util.function.BiFunction;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.minecraftforge.fml.loading.FMLLoader;
-import net.minecraftforge.fml.loading.moddiscovery.ModFile;
-import net.minecraftforge.forgespi.language.ModFileScanData.ClassData;
+import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.fml.loading.moddiscovery.ModFile;
+import net.neoforged.neoforgespi.language.ModFileScanData.ClassData;
 import thut.core.common.ThutCore;
 
 public class CompatParser

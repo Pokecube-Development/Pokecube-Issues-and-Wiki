@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:distortic_framed_mirror_pane",
+  "pattern": [
+    "AAA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "pokecube_legends:distortic_framed_mirror"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:distortic_framed_mirror_pane",
+    "count": 16
+  }
+}

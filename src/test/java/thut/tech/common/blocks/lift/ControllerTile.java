@@ -5,27 +5,30 @@ import java.util.List;
 import java.util.UUID;
 import java.util.Vector;
 
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderGetter;
+import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.extensions.IForgeBlockEntity;
 import thut.api.block.ITickTile;
 import thut.api.entity.blockentity.IBlockEntity;
 import thut.api.entity.blockentity.world.IBlockEntityWorld;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.network.TileUpdate;
+import thut.lib.TComponent;
 import thut.tech.common.TechCore;
 import thut.tech.common.entity.EntityLift;
 import thut.tech.common.network.PacketLift;
@@ -117,7 +120,7 @@ public class ControllerTile extends BlockEntity implements ITickTile// ,
         if (!this.isSideOn(side)) return false;
         if (this.isEditMode(side))
         {
-            if (!this.getLevel().isClientSide)
+            if (!this.getLevel().isClientSide && clicker instanceof ServerPlayer player)
             {
                 String message = "msg.callPanel";
                 switch (button)
@@ -125,13 +128,15 @@ public class ControllerTile extends BlockEntity implements ITickTile// ,
                 case 1:
                     this.callFaces[side.ordinal()] = !this.isCallPanel(side);
                     this.floorDisplay[side.ordinal()] = false;
-                    clicker.sendMessage(new TranslatableComponent(message, this.isCallPanel(side)), Util.NIL_UUID);
+                    thut.lib.ChatHelper.sendSystemMessage(player,
+                            TComponent.translatable(message, this.isCallPanel(side)));
                     break;
                 case 2:
                     this.floorDisplay[side.ordinal()] = !this.isFloorDisplay(side);
                     this.callFaces[side.ordinal()] = false;
                     message = "msg.floorDisplay";
-                    clicker.sendMessage(new TranslatableComponent(message, this.isFloorDisplay(side)), Util.NIL_UUID);
+                    thut.lib.ChatHelper.sendSystemMessage(player,
+                            TComponent.translatable(message, this.isFloorDisplay(side)));
                     break;
                 case 13:
                     if (this.getLift() != null) this.setLift(null);
@@ -139,7 +144,7 @@ public class ControllerTile extends BlockEntity implements ITickTile// ,
                 case 16:
                     this.editFace[side.ordinal()] = false;
                     message = "msg.editMode";
-                    clicker.sendMessage(new TranslatableComponent(message, false), Util.NIL_UUID);
+                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(message, false));
                     break;
                 }
                 if (clicker instanceof ServerPlayer) this.sendUpdate((ServerPlayer) clicker);
@@ -211,29 +216,18 @@ public class ControllerTile extends BlockEntity implements ITickTile// ,
 
     }
 
-    @Override
-    public AABB getRenderBoundingBox()
-    {
-        final AABB bb = IForgeBlockEntity.INFINITE_EXTENT_AABB;
-        return bb;
-    }
+//    TODO check render distance (beacon?)
+//    @Override
+//    public AABB getRenderBoundingBox()
+//    {
+//        final AABB bb = IForgeBlockEntity.INFINITE_EXTENT_AABB;
+//        return bb;
+//    }
 
     public int getSidePage(final Direction side)
     {
         if (this.isEditMode(side)) return 0;
         return this.sidePages[side.get3DDataValue()];
-    }
-
-    @Override
-    public CompoundTag getUpdateTag()
-    {
-        return this.saveWithoutMetadata();
-    }
-
-    @Override
-    public void handleUpdateTag(final CompoundTag tag)
-    {
-        this.load(tag);
     }
 
     public boolean isSideOn(final Direction side)
@@ -259,9 +253,9 @@ public class ControllerTile extends BlockEntity implements ITickTile// ,
     }
 
     @Override
-    public void load(final CompoundTag par1)
+    protected void loadAdditional(CompoundTag par1, Provider registries)
     {
-        super.load(par1);
+        super.loadAdditional(par1, registries);
         this.floor = par1.getInt("floor");
         // Reset this so that it will re-find after loading.
         this.lift = null;
@@ -279,7 +273,10 @@ public class ControllerTile extends BlockEntity implements ITickTile// ,
         if (par1.contains("state"))
         {
             final CompoundTag state = par1.getCompound("state");
-            this.copiedState = NbtUtils.readBlockState(state);
+            HolderGetter<Block> holdergetter = (HolderGetter<Block>) (this.level != null
+                    ? this.level.holderLookup(Registries.BLOCK)
+                    : BuiltInRegistries.BLOCK.asLookup());
+            this.copiedState = NbtUtils.readBlockState(holdergetter, state);
         }
     }
 
@@ -418,9 +415,9 @@ public class ControllerTile extends BlockEntity implements ITickTile// ,
     }
 
     @Override
-    public void saveAdditional(final CompoundTag par1)
+    public void saveAdditional(final CompoundTag par1, Provider registries)
     {
-        super.saveAdditional(par1);
+        super.saveAdditional(par1, registries);
         par1.putInt("floor", this.floor);
         par1.putByteArray("sides", this.sides);
         par1.putByteArray("sidePages", this.sidePages);

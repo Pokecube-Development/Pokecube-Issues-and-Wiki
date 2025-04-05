@@ -3,12 +3,14 @@ package thut.core.common.network.bigpacket;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import thut.core.common.network.Packet;
 
 public abstract class BigPacket extends Packet
 {
     protected CompoundTag tag = new CompoundTag();
     protected byte[] data = null;
+    private byte[] complete = null;
     final PacketAssembly<?> assembler;
 
     public BigPacket()
@@ -22,11 +24,10 @@ public abstract class BigPacket extends Packet
         this.tag = tag;
     }
 
-    public BigPacket(final FriendlyByteBuf buffer)
+    public void read(final FriendlyByteBuf buffer)
     {
-        this();
         this.tag = buffer.readNbt();
-        if (this.assembler != null) this.data = this.assembler.onRead(this.getTag());
+        complete = this.assembler.onRead(this.getTag());
     }
 
     public byte[] getData()
@@ -53,7 +54,6 @@ public abstract class BigPacket extends Packet
     @Override
     public final void handleServer(final ServerPlayer player)
     {
-        final byte[] complete = this.assembler.onRead(this.getTag());
         if (complete != null)
         {
             this.setData(complete);
@@ -62,17 +62,16 @@ public abstract class BigPacket extends Packet
     }
 
     @Override
-    public final void handleClient()
+    public final void handleClient(Player player)
     {
-        final byte[] complete = this.data == null ? this.assembler.onRead(this.getTag()) : this.data;
         if (complete != null)
         {
             this.setData(complete);
-            this.onCompleteClient();
+            this.onCompleteClient(player);
         }
     }
 
-    protected void onCompleteClient()
+    protected void onCompleteClient(Player player)
     {
 
     }

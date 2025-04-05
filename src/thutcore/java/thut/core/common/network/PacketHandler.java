@@ -1,73 +1,129 @@
 package thut.core.common.network;
 
-import com.google.common.base.Function;
+import java.util.ArrayList;
+import java.util.List;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload.Type;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.network.simple.SimpleChannel;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 
 public class PacketHandler
 {
-    private static boolean canClientConnect(final String versionClient, final String versionServer)
+    private String version;
+
+    private List<Class<Packet>> TO_SERVER = new ArrayList<>();
+    private List<Class<Packet>> TO_CLIENT = new ArrayList<>();
+    private List<Class<Packet>> TO_BOTHCS = new ArrayList<>();
+
+    public PacketHandler(final String version)
     {
-        return versionClient.equals(versionServer);
+        this.version = version;
+        final IEventBus modEventBus = ModLoadingContext.get().getActiveContainer().getEventBus();
+        modEventBus.addListener(this::onPayloadRegister);
     }
 
-    private static boolean canServerConnect(final String versionClient, final String versionServer)
+    private void onPayloadRegister(RegisterPayloadHandlersEvent event)
     {
-        return versionClient.equals(versionServer);
+        var reg = event.registrar(version);
+
+        TO_SERVER.forEach((packet) -> {
+            try
+            {
+                var inst = packet.getConstructor().newInstance();
+                @SuppressWarnings("unchecked")
+                CustomPacketPayload.Type<Packet> type = (Type<Packet>) inst.type();
+                reg.commonToServer(type, inst, inst);
+
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        });
+
+        TO_CLIENT.forEach((packet) -> {
+            try
+            {
+                var inst = packet.getConstructor().newInstance();
+                @SuppressWarnings("unchecked")
+                CustomPacketPayload.Type<Packet> type = (Type<Packet>) inst.type();
+                reg.commonToClient(type, inst, inst);
+
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        });
+
+        TO_BOTHCS.forEach((packet) -> {
+            try
+            {
+                var inst = packet.getConstructor().newInstance();
+                @SuppressWarnings("unchecked")
+                CustomPacketPayload.Type<Packet> type = (Type<Packet>) inst.type();
+                reg.commonBidirectional(type, inst, inst);
+
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        });
     }
 
-    private final SimpleChannel INSTANCE;
-
-    private int ID = 0;
-
-    public PacketHandler(final ResourceLocation channel, final String version)
+    @SuppressWarnings("unchecked")
+    public <MSG extends Packet> void registerToClientMessage(Class<MSG> clazz)
     {
-        this.INSTANCE = NetworkRegistry.newSimpleChannel(channel, () -> version, s -> PacketHandler.canClientConnect(
-                version, s), s -> PacketHandler.canServerConnect(s, version));
+        TO_CLIENT.add((Class<Packet>) clazz);
     }
 
-    public SimpleChannel channel()
+    @SuppressWarnings("unchecked")
+    public <MSG extends Packet> void registerToServerMessage(Class<MSG> clazz)
     {
-        return this.INSTANCE;
+        TO_SERVER.add((Class<Packet>) clazz);
     }
 
-    private int nextID()
+    @SuppressWarnings("unchecked")
+    public <MSG extends Packet> void registerBiDirectionalMessage(Class<MSG> clazz)
     {
-        return this.ID++;
-    }
-
-    public <MSG extends Packet> void registerMessage(final Class<MSG> clazz, final Function<FriendlyByteBuf, MSG> decoder)
-    {
-        this.INSTANCE.registerMessage(this.nextID(), clazz, Packet::write, decoder, Packet::handle);
+        TO_BOTHCS.add((Class<Packet>) clazz);
     }
 
     public void sendTo(final Packet message, final ServerPlayer target)
     {
-        this.channel().send(PacketDistributor.PLAYER.with(() -> target), message);
+        PacketDistributor.sendToPlayer(target, message);
     }
 
     public void sendToServer(final Packet message)
     {
-        this.channel().sendToServer(message);
+        PacketDistributor.sendToServer(message);
     }
 
     public void sendToTracking(final Packet message, final Entity tracked)
     {
-        this.channel().send(PacketDistributor.TRACKING_ENTITY.with(() -> tracked), message);
+        PacketDistributor.sendToPlayersTrackingEntity(tracked, message);
+    }
+
+    public void sendToTrackingAndSelf(final Packet message, final Entity tracked)
+    {
+        PacketDistributor.sendToPlayersTrackingEntityAndSelf(tracked, message);
     }
 
     public void sendToTracking(final Packet message, final ChunkAccess tracked)
     {
-        if (tracked instanceof LevelChunk) this.channel().send(PacketDistributor.TRACKING_CHUNK.with(() -> (LevelChunk) tracked),
-                message);
+        if (tracked instanceof LevelChunk)
+        {
+            var chunk = tracked;
+            PacketDistributor.sendToPlayersTrackingChunk((ServerLevel) chunk.getLevel(), chunk.getPos(), message);
+        }
     }
-
 }

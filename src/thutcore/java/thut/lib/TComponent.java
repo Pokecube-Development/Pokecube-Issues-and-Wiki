@@ -1,23 +1,29 @@
 package thut.lib;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.contents.TranslatableContents;
 
 public class TComponent
 {
     public static MutableComponent literal(String key)
     {
-        return new TextComponent(key);
+        return Component.literal(key);
     }
 
     public static MutableComponent translatable(String key)
     {
-        return new TranslatableComponent(key);
+        return Component.translatable(key);
     }
 
     public static MutableComponent translatable(String key, Object... args)
     {
-        return new TranslatableComponent(key, args);
+        var _args = new Object[args.length];
+        for(int i = 0; i<args.length; i++) {
+            var o = args[i];
+            if(!(o instanceof Component || TranslatableContents.isAllowedPrimitiveArgument(o))) o = o+"";
+            _args[i] = o;
+        }
+        return Component.translatable(key, _args);
     }
 }

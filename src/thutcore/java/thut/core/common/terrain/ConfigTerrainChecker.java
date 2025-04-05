@@ -5,8 +5,8 @@ import java.util.List;
 import com.google.common.base.Predicate;
 
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 import thut.api.level.terrain.BiomeType;
 import thut.api.level.terrain.TerrainSegment;
 import thut.api.level.terrain.TerrainSegment.ISubBiomeChecker;
@@ -25,7 +25,7 @@ public class ConfigTerrainChecker implements ISubBiomeChecker
 
     private boolean apply(final BlockState state)
     {
-        if (state.getMaterial() == Material.AIR) return false;
+        if (state.is(Blocks.AIR) || state.is(Blocks.CAVE_AIR)) return false;
         for (final Predicate<BlockState> predicate : this.list)
             if (predicate.apply(state)) return true;
         return false;

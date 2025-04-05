@@ -111,7 +111,7 @@ public class RootTask<E extends LivingEntity> extends Behavior<E>
     protected boolean runTick(final E mobIn)
     {
         int rate = Math.max(runRate, _run_rate);
-        return mobIn.tickCount % rate == mobIn.id % rate;
+        return mobIn.tickCount % rate == mobIn.getId() % rate;
     }
 
     protected void setWalkTo(final Vector3 pos, final double speed, final int dist)

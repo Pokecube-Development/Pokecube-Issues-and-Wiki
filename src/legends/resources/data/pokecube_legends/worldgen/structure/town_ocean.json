@@ -1,0 +1,32 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "start_pool": "pokecube_legends:village/ocean/town_centers",
+  "step": "surface_structures",
+  "use_expansion_hack": true,
+  "avoid_range": 6,
+  "biome_room": 10,
+  "size": 6,
+  "structures_to_avoid": [],
+  "required_parts": [
+    "gym",
+    "pokecenter"
+  ],
+  "biomes": {
+    "type": "forge:and",
+    "values": [
+      "#minecraft:is_ocean",
+      {
+        "type": "forge:not",
+        "value": {
+          "type": "forge:or",
+          "values": [
+            "#forge:is_cold",
+            "#forge:is_snowy"
+          ]
+        }
+      }
+    ]
+  },
+  "spawn_overrides": {}
+}

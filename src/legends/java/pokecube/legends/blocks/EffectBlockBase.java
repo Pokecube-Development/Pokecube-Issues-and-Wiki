@@ -1,0 +1,54 @@
+package pokecube.legends.blocks;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
+import pokecube.legends.init.ItemInit;
+
+public class EffectBlockBase extends BlockBase
+{
+    private final MobEffect effect;
+
+    public EffectBlockBase(final String name, final MapColor color, final SoundType sound, NoteBlockInstrument instrument,
+                           final boolean requiresCorrectToolForDrops, final MobEffect effects, final float destroyTime, final float blastResistance)
+    {
+        super(name, color, sound, instrument, requiresCorrectToolForDrops, effects, destroyTime, blastResistance);
+        this.effect = effects;
+    }
+
+    public EffectBlockBase(final MapColor color, final SoundType sound, NoteBlockInstrument instrument,
+                           final boolean requiresCorrectToolForDrops, final MobEffect effects, final float destroyTime, final float blastResistance)
+    {
+        super(color, sound, instrument, requiresCorrectToolForDrops, effects, destroyTime, blastResistance);
+        this.effect = effects;
+    }
+
+    @Override
+    public void stepOn(final Level world, final BlockPos pos, final BlockState state, final Entity entity)
+    {
+        super.stepOn(world, pos, state, entity);
+        EffectBlockBase.applyEffects(entity, this.effect);
+    }
+
+    public static void applyEffects(final Entity entity, final MobEffect effects)
+    {
+        if (entity instanceof ServerPlayer) if (((Player) entity).getInventory().armor.get(3)
+                .getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem() || ((Player) entity)
+                        .getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1)
+                                .getItem() || ((Player) entity).getInventory().armor.get(1).getItem() != new ItemStack(
+                                        ItemInit.ULTRA_LEGGINGS.get(), 1).getItem() || ((Player) entity)
+                                                .getInventory().armor.get(0).getItem() != new ItemStack(
+                                                        ItemInit.ULTRA_BOOTS.get(), 1).getItem())
+            ((LivingEntity) entity).addEffect(new MobEffectInstance(effects, 120, 1));
+    }
+}

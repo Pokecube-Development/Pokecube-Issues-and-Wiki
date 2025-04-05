@@ -13,23 +13,20 @@ import java.util.function.Supplier;
 
 import com.electronwill.nightconfig.core.CommentedConfig;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
-import com.electronwill.nightconfig.core.io.WritingMode;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ForgeConfigSpec.Builder;
-import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.config.ModConfig.Type;
-import net.minecraftforge.fml.event.config.ModConfigEvent;
-import net.minecraftforge.fml.event.config.ModConfigEvent.Reloading;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLPaths;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.config.ModConfigEvent;
+import net.neoforged.fml.event.config.ModConfigEvent.Reloading;
+import net.neoforged.fml.loading.FMLPaths;
+import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec.Builder;
+import net.neoforged.neoforge.common.ModConfigSpec.ConfigValue;
 import thut.core.common.ThutCore;
 
 public class Config
@@ -56,7 +53,7 @@ public class Config
         }
 
         @Override
-        public void init(final Type type, final Field field, final ConfigValue<?> val)
+        public void init(final ModConfig.Type type, final Field field, final ConfigValue<?> val)
         {
             switch (type)
             {
@@ -78,8 +75,8 @@ public class Config
         public void onFileChange(final Reloading configEvent)
         {
             ThutCore.LOGGER.debug("{} config belongs to us!", configEvent.getConfig().getFileName());
-            if (configEvent.getConfig().getConfigData() instanceof CommentedFileConfig)
-                ((CommentedFileConfig) configEvent.getConfig().getConfigData()).load();
+            if (configEvent.getConfig().getLoadedConfig().config() instanceof CommentedFileConfig conf)
+            	conf.load();
             this.read(configEvent.getConfig());
         }
 
@@ -94,7 +91,7 @@ public class Config
         public void read(final ModConfig modConfig)
         {
             Map<Field, Supplier<?>> values = Maps.newHashMap();
-            final Type type = modConfig.getType();
+            final ModConfig.Type type = modConfig.getType();
             switch (type)
             {
             case CLIENT:
@@ -201,7 +198,7 @@ public class Config
                 final Object ours = f.get(this);
                 final Object val = values.get(f).get();
                 if (ours.equals(val)) continue;
-                config.getConfigData().set(values.get(f).getPath(), ours);
+                config.getLoadedConfig().config().set(values.get(f).getPath(), ours);
                 ret = true;
             }
             catch (final Exception e)
@@ -237,7 +234,7 @@ public class Config
         }
 
         @Override
-        public void initRead(Type type, CommentedFileConfig config)
+        public void initRead(ModConfig.Type type, CommentedFileConfig config)
         {
             Map<Field, Supplier<?>> values = Maps.newHashMap();
             Map<String, Field> fields = Maps.newHashMap();
@@ -254,7 +251,7 @@ public class Config
 
     public static interface IConfigHolder
     {
-        void init(Type type, Field field, ConfigValue<?> val);
+        void init(ModConfig.Type type, Field field, ConfigValue<?> val);
 
         /**
          * This is called whenever the values in this config may have changed.
@@ -270,10 +267,10 @@ public class Config
 
         void write();
 
-        void initRead(Type type, CommentedFileConfig config);
+        void initRead(ModConfig.Type type, CommentedFileConfig config);
     }
 
-    private static ForgeConfigSpec[] initConfigSpecs(final IConfigHolder holder)
+    private static ModConfigSpec[] initConfigSpecs(final IConfigHolder holder)
     {
         final Builder COMMON_BUILDER = new Builder();
         final Builder CLIENT_BUILDER = new Builder();
@@ -317,15 +314,15 @@ public class Config
         Collections.sort(clientList, comp);
         Collections.sort(serverList, comp);
 
-        Config.build(COMMON_BUILDER, commonList, holder, Type.COMMON);
-        Config.build(SERVER_BUILDER, serverList, holder, Type.SERVER);
-        Config.build(CLIENT_BUILDER, clientList, holder, Type.CLIENT);
+        Config.build(COMMON_BUILDER, commonList, holder, ModConfig.Type.COMMON);
+        Config.build(SERVER_BUILDER, serverList, holder, ModConfig.Type.SERVER);
+        Config.build(CLIENT_BUILDER, clientList, holder, ModConfig.Type.CLIENT);
 
-        final ForgeConfigSpec COMMON_CONFIG_SPEC = commonList.isEmpty() ? null : COMMON_BUILDER.pop().build();
-        final ForgeConfigSpec CLIENT_CONFIG_SPEC = clientList.isEmpty() ? null : CLIENT_BUILDER.pop().build();
-        final ForgeConfigSpec SERVER_CONFIG_SPEC = serverList.isEmpty() ? null : SERVER_BUILDER.pop().build();
+        final ModConfigSpec COMMON_CONFIG_SPEC = commonList.isEmpty() ? null : COMMON_BUILDER.pop().build();
+        final ModConfigSpec CLIENT_CONFIG_SPEC = clientList.isEmpty() ? null : CLIENT_BUILDER.pop().build();
+        final ModConfigSpec SERVER_CONFIG_SPEC = serverList.isEmpty() ? null : SERVER_BUILDER.pop().build();
 
-        return new ForgeConfigSpec[]
+        return new ModConfigSpec[]
         { COMMON_CONFIG_SPEC, CLIENT_CONFIG_SPEC, SERVER_CONFIG_SPEC };
     }
 
@@ -344,7 +341,7 @@ public class Config
     }
 
     private static void build(final Builder builder, final List<Field> fields, final IConfigHolder holder,
-            final Type type)
+            final ModConfig.Type type)
     {
 
         final Map<String, String> cat_comments = Maps.newHashMap();
@@ -396,14 +393,17 @@ public class Config
         }
     }
 
-    private static void loadConfig(ModConfig.Type type, IConfigHolder holder, ForgeConfigSpec spec, Path path)
+    private static void loadConfig(ModConfig.Type type, IConfigHolder holder, ModConfigSpec spec, Path path)
     {
-        ThutCore.LOGGER.debug("Loading config file {}", path);
-        final CommentedFileConfig configData = CommentedFileConfig.builder(path).sync().autosave()
-                .writingMode(WritingMode.REPLACE).build();
-        configData.load();
-        spec.setConfig(configData);
-        holder.initRead(type, configData);
+//        ThutCore.LOGGER.debug("Loading config file {}", path);
+//        final CommentedFileConfig configData = CommentedFileConfig.builder(path).sync().autosave()
+//                .writingMode(WritingMode.REPLACE).build();
+//        configData.load();
+//    	var container = ModLoadingContext.get().getActiveContainer();
+//        ConfigTracker.INSTANCE.registerConfig(type, spec, container);
+//        spec.setConfig(configData);
+//        holder.initRead(type, configData);
+    	// TODO see if this is still needed?
     }
 
     /**
@@ -411,15 +411,12 @@ public class Config
      * @param subfolder the folder that this config is in.
      * @param prefix    prefix for these config files.
      */
-    public static void setupConfigs(final IConfigHolder holder, final String subfolder, final String prefix)
+    public static void setupConfigs(ModContainer container, final IConfigHolder holder, final String subfolder, final String prefix)
     {
-        final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        modEventBus.register(holder);
-
-        ForgeConfigSpec COMMON_CONFIG_SPEC;
-        ForgeConfigSpec CLIENT_CONFIG_SPEC;
-        ForgeConfigSpec SERVER_CONFIG__SPEC;
-        final ForgeConfigSpec[] specs = Config.initConfigSpecs(holder);
+        ModConfigSpec COMMON_CONFIG_SPEC;
+        ModConfigSpec CLIENT_CONFIG_SPEC;
+        ModConfigSpec SERVER_CONFIG__SPEC;
+        final ModConfigSpec[] specs = Config.initConfigSpecs(holder);
         COMMON_CONFIG_SPEC = specs[0];
         CLIENT_CONFIG_SPEC = specs[1];
         SERVER_CONFIG__SPEC = specs[2];
@@ -440,11 +437,11 @@ public class Config
 
         // Register the configs
         if (COMMON_CONFIG_SPEC != null)
-            ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, COMMON_CONFIG_SPEC, commonfile.toString());
+        	container.registerConfig(ModConfig.Type.COMMON, COMMON_CONFIG_SPEC, commonfile.toString());
         if (CLIENT_CONFIG_SPEC != null)
-            ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, CLIENT_CONFIG_SPEC, clientfile.toString());
+        	container.registerConfig(ModConfig.Type.CLIENT, CLIENT_CONFIG_SPEC, clientfile.toString());
         if (SERVER_CONFIG__SPEC != null)
-            ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SERVER_CONFIG__SPEC, serverfile.toString());
+        	container.registerConfig(ModConfig.Type.SERVER, SERVER_CONFIG__SPEC, serverfile.toString());
 
         // Load configs
         if (COMMON_CONFIG_SPEC != null) Config.loadConfig(ModConfig.Type.COMMON, holder, COMMON_CONFIG_SPEC, common);

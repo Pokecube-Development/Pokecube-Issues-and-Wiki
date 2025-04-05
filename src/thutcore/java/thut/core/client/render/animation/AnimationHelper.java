@@ -38,11 +38,12 @@ public class AnimationHelper
         boolean animate = false;
         if (holder != null)
         {
-            if (!entity.canUpdate())
-            {
-                partialTick = 0;
-                limbSwing = 0;
-            }
+        	// TODO custom canUpdate, this was from forge.
+//            if (!entity.canUpdate())
+//            {
+//                partialTick = 0;
+//                limbSwing = 0;
+//            }
             for (final Animation animation : list)
             {
                 holder.preRunAnim(animation);

@@ -60,7 +60,7 @@ public interface IBlockEntityWorld extends LevelAccessor
     default Level getWorld()
     {
         final Entity entity = (Entity) this.getBlockEntity();
-        return entity.getLevel();
+        return entity.level();
     }
 
     default BlockEntity getTile(BlockPos pos)
@@ -73,10 +73,11 @@ public interface IBlockEntityWorld extends LevelAccessor
         final int j = pos.getY() - Mth.floor(entity.getY() + mob.getMin().getY());
         final int k = pos.getZ() - Mth.floor(entity.getZ() + mob.getMin().getZ());
         final BlockEntity tile = mob.getTiles()[i][j][k];
+        var provider = entity.registryAccess();
         if (tile != null && !tile.getBlockPos().equals(pos))
         {
-            final CompoundTag tag = tile.serializeNBT();
-            mob.getTiles()[i][j][k] = BlockEntity.loadStatic(pos, mob.getBlocks()[i][j][k], tag);
+            final CompoundTag tag = tile.saveWithFullMetadata(provider);
+            mob.getTiles()[i][j][k] = BlockEntity.loadStatic(pos, mob.getBlocks()[i][j][k], tag, provider);
         }
         return tile;
     }
@@ -115,23 +116,24 @@ public interface IBlockEntityWorld extends LevelAccessor
         final int yMin = mob.getMin().getY();
         if (mob.getBlocks() == null)
         {
-            if (!entity.getLevel().isClientSide) entity.discard();
+            if (!entity.level().isClientSide) entity.discard();
             return;
         }
         final int sizeX = mob.getBlocks().length;
         final int sizeY = mob.getBlocks()[0].length;
         final int sizeZ = mob.getBlocks()[0][0].length;
         BlockEntity tile;
+        var provider = entity.registryAccess();
         for (int i = 0; i < sizeX; i++) for (int j = 0; j < sizeY; j++)
             for (int k = 0; k < sizeZ; k++) if ((tile = mob.getTiles()[i][j][k]) != null)
         {
-            final BlockPos pos = new BlockPos(i + xMin + entity.getX(), j + yMin + entity.getY(),
-                    k + zMin + entity.getZ());
+            final BlockPos pos = new BlockPos((int) (i + xMin + entity.getX()),
+                    (int) (j + yMin + entity.getY()), (int) (k + zMin + entity.getZ()));
             final BlockPos old = tile.getBlockPos();
             if (!old.equals(pos))
             {
-                final CompoundTag tag = tile.serializeNBT();
-                mob.getTiles()[i][j][k] = BlockEntity.loadStatic(pos, mob.getBlocks()[i][j][k], tag);
+                final CompoundTag tag = tile.saveWithFullMetadata(provider);
+                mob.getTiles()[i][j][k] = BlockEntity.loadStatic(pos, mob.getBlocks()[i][j][k], tag, provider);
             }
         }
     }
@@ -145,10 +147,11 @@ public interface IBlockEntityWorld extends LevelAccessor
         final int j = pos.getY() - Mth.floor(entity.getY() + mob.getMin().getY());
         final int k = pos.getZ() - Mth.floor(entity.getZ() + mob.getMin().getZ());
         mob.getTiles()[i][j][k] = tile;
+        var provider = entity.registryAccess();
         if (tile != null && !tile.getBlockPos().equals(pos))
         {
-            final CompoundTag tag = tile.serializeNBT();
-            mob.getTiles()[i][j][k] = BlockEntity.loadStatic(pos, mob.getBlocks()[i][j][k], tag);
+            final CompoundTag tag = tile.saveWithFullMetadata(provider);
+            mob.getTiles()[i][j][k] = BlockEntity.loadStatic(pos, mob.getBlocks()[i][j][k], tag, provider);
         }
         return true;
     }

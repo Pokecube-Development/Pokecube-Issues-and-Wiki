@@ -1,5 +1,6 @@
 package thut.api.entity.genetics;
 
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -45,7 +46,7 @@ public interface Gene<T>
      *
      * @param tag - the compoundTag containing our data
      */
-    void load(CompoundTag tag);
+    void load(Provider provider, CompoundTag tag);
 
     /**
      * This method should return a mutated gene.
@@ -80,7 +81,7 @@ public interface Gene<T>
     }
 
     /** @return nbttag compount for saving. */
-    CompoundTag save();
+    CompoundTag save(Provider provider);
 
     /**
      * @param value Sets the value of the gene.

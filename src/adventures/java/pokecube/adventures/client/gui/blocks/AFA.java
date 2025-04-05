@@ -1,0 +1,137 @@
+package pokecube.adventures.client.gui.blocks;
+
+import java.util.List;
+import java.util.Optional;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.CyclingSlotBackground;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
+import pokecube.adventures.PokecubeAdv;
+import pokecube.adventures.blocks.afa.AfaContainer;
+import pokecube.adventures.network.PacketAFA;
+import pokecube.core.impl.PokecubeMod;
+import pokecube.core.utils.Resources;
+import thut.lib.TComponent;
+
+public class AFA extends AbstractContainerScreen<AfaContainer>
+{
+    private static final ResourceLocation CUBE_ICON_SLOT = Resources.SLOT_ICON_CUBE;
+    private static final ResourceLocation SHINY_ICON_SLOT =
+            ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.TEXTURE_GUI_ICON_FOLDER + "slot_shiny_charm");
+    private static final List<ResourceLocation> ICON_SLOTS = List.of(CUBE_ICON_SLOT, SHINY_ICON_SLOT);
+    private final CyclingSlotBackground slotIcons = new CyclingSlotBackground(0);
+
+    public AFA(final AfaContainer screenContainer, final Inventory inv, final Component titleIn)
+    {
+        super(screenContainer, inv, titleIn);
+    }
+
+    @Override
+    protected void containerTick() {
+        super.containerTick();
+        this.slotIcons.tick(ICON_SLOTS);
+    }
+
+    @Override
+    protected void renderBg(final GuiGraphics graphics, final float partialTicks, final int mouseX, final int mouseY)
+    {
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID, "textures/gui/afa.png"));
+        final int x = (this.width - this.imageWidth) / 2;
+        final int y = (this.height - this.imageHeight) / 2;
+        graphics.blit(ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID,
+                "textures/gui/afa.png"), x, y, 0, 0, this.imageWidth, this.imageHeight);
+
+        this.slotIcons.render(this.menu, graphics, partialTicks, x, y);
+    }
+
+    @Override
+    protected void renderLabels(final GuiGraphics graphics, final int mouseX, final int mouseY)
+    {
+        String text = this.getTitle().getString();
+        graphics.drawString(this.font, text, 8, 6, 4210752, false);
+        graphics.drawString(this.font, this.playerInventoryTitle.getString(), 8, this.imageHeight - 94 + 2, 4210752, false);
+
+        text = this.menu.tile.ability != null ? I18n.get("block.afa.ability.info", I18n.get(this.menu.tile.ability
+                .getName())) : I18n.get("block.afa.ability.none");
+
+        int color = this.menu.tile.ability == null ? 0xBF1E0B : 0x0A4C0B;
+        graphics.drawString(this.font, text, 62, 26, color, false);
+
+        text = I18n.get("block.afa.range.info", this.menu.tile.distance);
+
+        graphics.drawString(this.font, text, 62, 40, 4210752, false);
+
+        color = this.menu.tile.cost > this.menu.tile.orig ? 0xBF1E0B : 4210752;
+        text = I18n.get("block.afa.power.info", this.menu.tile.cost, this.menu.tile.orig);
+
+        graphics.drawString(this.font, text, 62, 54, color, false);
+    }
+
+    @Override
+    /** Draws the screen and all the components in it. */
+    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
+    {
+        this.renderBackground(graphics, mouseX, mouseY, partialTicks);
+        super.render(graphics, mouseX, mouseY, partialTicks);
+        this.renderOnboardingTooltips(graphics, mouseX, mouseY);
+        this.renderTooltip(graphics, mouseX, mouseY);
+    }
+
+    @Override
+    protected void init()
+    {
+        super.init();
+
+        final int xOffset = -86;
+        final int yOffset = -88;
+
+        // Elements placed in order of selection when pressing tab
+        final Component prev = TComponent.translatable("block.ability_field_amplifier.previous");
+        this.addRenderableWidget(new Button.Builder(prev, (b) -> {
+            final PacketAFA message = new PacketAFA();
+            message.data.putBoolean("U", false);
+            message.data.putBoolean("S", Screen.hasShiftDown());
+            PokecubeAdv.packets.sendToServer(message);
+        }).bounds(this.width / 2 + xOffset + 30, this.height / 2 - yOffset - 117, 10, 10)
+                .createNarration(supplier -> Component.translatable("block.ability_field_amplifier.previous.narrate")).build());
+
+        final Component next = TComponent.translatable("block.ability_field_amplifier.next");
+        this.addRenderableWidget(new Button.Builder(next, (b) -> {
+            final PacketAFA message = new PacketAFA();
+            message.data.putBoolean("U", true);
+            message.data.putBoolean("S", Screen.hasShiftDown());
+            PokecubeAdv.packets.sendToServer(message);
+        }).bounds(this.width / 2 + xOffset + 42, this.height / 2 - yOffset - 117, 10, 10)
+                .createNarration(supplier -> Component.translatable("block.ability_field_amplifier.next.narrate")).build());
+    }
+
+
+    private void renderOnboardingTooltips(GuiGraphics graphics, int mouseX, int mouseY) {
+        Optional<Component> optional = Optional.empty();
+
+        if (this.hoveredSlot != null) {
+            ItemStack stack = this.menu.getSlot(0).getItem();
+            if (stack.isEmpty()) {
+                if (this.hoveredSlot.index == 0) {
+                    optional = Optional.of(Component.translatable("block.ability_field_amplifier.slot_tooltip"));
+                }
+            }
+        }
+
+        optional.ifPresent((component) -> {
+            graphics.renderTooltip(this.font, this.font.split(component, 115), mouseX, mouseY);
+        });
+    }
+}

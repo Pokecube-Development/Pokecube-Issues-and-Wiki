@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -18,9 +18,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.entity.PartEntity;
+import net.neoforged.neoforge.entity.PartEntity;
+import net.neoforged.neoforge.event.EventHooks;
+import net.neoforged.neoforge.event.entity.EntityEvent;
 import thut.api.maths.vecmath.Mat3f;
 import thut.api.maths.vecmath.Vec3f;
 import thut.core.common.ThutCore;
@@ -110,7 +110,7 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
     }
 
     @Override
-    protected void defineSynchedData()
+    protected void defineSynchedData(SynchedEntityData.Builder builder)
     {}
 
     @Override
@@ -127,7 +127,7 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
     @Override
     public boolean hurt(final DamageSource source, final float amount)
     {
-        if (this.getLevel().isClientSide && source.getDirectEntity() instanceof Player)
+        if (this.level().isClientSide && source.getDirectEntity() instanceof Player)
         {
             final PacketPartInteract packet = new PacketPartInteract(this.id, this.getParent(),
                     source.getDirectEntity().isShiftKeyDown());
@@ -154,7 +154,7 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
     @Override
     public InteractionResult interactAt(final Player player, final Vec3 vec, final InteractionHand hand)
     {
-        if (this.getLevel().isClientSide)
+        if (this.level().isClientSide)
         {
             final PacketPartInteract packet = new PacketPartInteract(this.id, this.getParent(), hand, vec,
                     player.isShiftKeyDown());
@@ -166,7 +166,7 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
     @Override
     public InteractionResult interact(final Player player, final InteractionHand hand)
     {
-        if (this.getLevel().isClientSide)
+        if (this.level().isClientSide)
         {
             final PacketPartInteract packet = new PacketPartInteract(this.id, this.getParent(), hand,
                     player.isShiftKeyDown());
@@ -202,36 +202,37 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
     @Override
     public void refreshDimensions()
     {
-        final EntityDimensions entitysize = this.dimensions;
+        final EntityDimensions entitysize = this.getDimensions(null);
         final Pose pose = this.getPose();
-        final net.minecraftforge.event.entity.EntityEvent.Size sizeEvent = net.minecraftforge.event.ForgeEventFactory
-                .getEntitySizeForge(this, pose, this.getDimensions(pose), this.getEyeHeight(pose, entitysize));
+        
+        final EntityEvent.Size sizeEvent = EventHooks
+                .getEntitySizeForge(this, pose, this.getDimensions(pose));
         final EntityDimensions entitysize1 = sizeEvent.getNewSize();
         this.dimensions = entitysize1;
-        if (entitysize1.width < entitysize.width)
+        if (entitysize1.width() < entitysize.width())
         {
-            final double d0 = entitysize1.width / 2.0D;
+            final double d0 = entitysize1.width() / 2.0D;
             this.setBoundingBox(new AABB(this.getX() - d0, this.getY(), this.getZ() - d0, this.getX() + d0,
-                    this.getY() + entitysize1.height, this.getZ() + d0));
+                    this.getY() + entitysize1.height(), this.getZ() + d0));
         }
         else
         {
             final AABB axisalignedbb = this.getBoundingBox();
             this.setBoundingBox(new AABB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ,
-                    axisalignedbb.minX + entitysize1.width, axisalignedbb.minY + entitysize1.height,
-                    axisalignedbb.minZ + entitysize1.width));
-            if (entitysize1.width > entitysize.width && !this.firstTick && !this.level.isClientSide)
+                    axisalignedbb.minX + entitysize1.width(), axisalignedbb.minY + entitysize1.height(),
+                    axisalignedbb.minZ + entitysize1.width()));
+            if (entitysize1.width() > entitysize.width() && !this.firstTick && !this.level().isClientSide)
             {
-                final float f = entitysize.width - entitysize1.width;
+                final float f = entitysize.width() - entitysize1.width();
                 this.move(MoverType.SELF, new Vec3(f, 0.0D, f));
             }
         }
     }
 
     @Override
-    public float getStepHeight()
+    public float maxUpStep()
     {
-        return this.getParent().getStepHeight();
+        return this.getParent().maxUpStep();
     }
 
     @Override
@@ -240,19 +241,20 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
         return this.getParent().getPickedResult(target);
     }
 
-    @Override
-    public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
-    {
-        // This can be null if this is called early enough
-        if (this.getParent() == null) return super.getCapability(cap, side);
-        return this.getParent().getCapability(cap, side);
-    }
-
-    @Override
-    public <T> LazyOptional<T> getCapability(final Capability<T> cap)
-    {
-        // This can be null if this is called early enough
-        if (this.getParent() == null) return super.getCapability(cap);
-        return this.getParent().getCapability(cap);
-    }
+//    TODO figure out how to sync these now...
+//    @Override
+//    public <T>  getCapability(final EntityCapability<T, C> cap, final Direction side)
+//    {
+//        // This can be null if this is called early enough
+//        if (this.getParent() == null) return super.getCapability(cap, side);
+//        return this.getParent().getCapability(cap, side);
+//    }
+//
+//    @Nullable
+//    public final <T> T getCapability(final EntityCapability<T> cap)
+//    {
+//        // This can be null if this is called early enough
+//        if (this.getParent() == null) return super.getCapability(cap);
+//        return this.getParent().getCapability(cap);
+//    }
 }

@@ -1,6 +1,5 @@
 package thut.crafts.entity;
 
-import net.minecraft.world.entity.Entity;
 import thut.api.entity.blockentity.world.IBlockEntityWorld;
 
 public class CraftController
@@ -25,20 +24,20 @@ public class CraftController
     {
         if (!this.entity.isVehicle()) return;
 
-        if (this.leftRotateDown || this.rightRotateDown) this.entity.yRotO = this.entity.yRot;
+        if (this.leftRotateDown || this.rightRotateDown) this.entity.yRotO = this.entity.getYRot();
         // this.entity.prevRenderYawOffset = this.entity.renderYawOffset;
-
-        if (this.leftRotateDown)
-        {
-            for (final Entity passenger : this.entity.getPassengers())
-                passenger.yRot -= 5;
-            this.entity.yRot -= 5;
-        }
-        if (this.rightRotateDown)
-        {
-            for (final Entity passenger : this.entity.getPassengers())
-                passenger.yRot += 5;
-            this.entity.yRot += 5;
-        }
+        // TODO craft rotation
+//        if (this.leftRotateDown)
+//        {
+//            for (final Entity passenger : this.entity.getPassengers())
+//                passenger.yRot -= 5;
+//            this.entity.yRot -= 5;
+//        }
+//        if (this.rightRotateDown)
+//        {
+//            for (final Entity passenger : this.entity.getPassengers())
+//                passenger.yRot += 5;
+//            this.entity.yRot += 5;
+//        }
     }
 }

@@ -4,12 +4,14 @@ import java.util.UUID;
 
 import io.netty.buffer.Unpooled;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 public abstract class BigInventory implements Container, INBTSerializable<CompoundTag>
 {
@@ -20,7 +22,7 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
 
     public static interface LoadFactory<T>
     {
-        T create(Manager<?> manager, CompoundTag nbt);
+        T create(Manager<?> manager, HolderLookup.Provider access, CompoundTag nbt);
     }
 
     UUID id;
@@ -63,14 +65,15 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
      * @param manager
      * @param id
      */
-    public BigInventory(final Manager<? extends BigInventory> manager, final CompoundTag tag)
+    public BigInventory(final Manager<? extends BigInventory> manager, HolderLookup.Provider access,
+            final CompoundTag tag)
     {
         this.boxes = new String[this.boxCount()];
         for (int i = 0; i < this.boxCount(); i++) this.boxes[i] = "Box " + String.valueOf(i + 1);
         this.opened = new boolean[this.boxCount()];
         this.contents.defaultReturnValue(ItemStack.EMPTY);
         this.manager = manager;
-        this.deserializeNBT(tag);
+        this.deserializeNBT(access, tag);
         this.isReal = true;
     }
 
@@ -133,7 +136,7 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
     @Override
     public void stopOpen(final Player player)
     {
-        if (this.isReal) this.manager.save(this.id);
+        if (this.isReal) this.manager.save(player.registryAccess(), this.id);
     }
 
     @Override
@@ -145,8 +148,9 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
             if (this.contents.get(i).isEmpty()) this.contents.remove(i);
             if (this.isReal && !this.loading)
             {
+                var reg = ServerLifecycleHooks.getCurrentServer().registryAccess();
                 this.dirty = true;
-                this.manager.save(this.id);
+                this.manager.save(reg, this.id);
                 this.dirty = false;
             }
             return itemstack;
@@ -154,7 +158,7 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
         return ItemStack.EMPTY;
     }
 
-    public void deserializeBox(final CompoundTag nbt)
+    public void deserializeBox(HolderLookup.Provider access, final CompoundTag nbt)
     {
         this.loading = true;
         final int start = nbt.getInt("box") * 54;
@@ -166,7 +170,7 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
             final int j = CompoundNBT.getShort("Slot");
             if (j >= start && j < start + 54)
             {
-                final ItemStack itemstack = ItemStack.of(CompoundNBT);
+                final ItemStack itemstack = ItemStack.parseOptional(access, CompoundNBT);
                 this.setItem(j, itemstack);
             }
         }
@@ -184,7 +188,7 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
         }
     }
 
-    public void deserializeItems(final CompoundTag nbt)
+    public void deserializeItems(HolderLookup.Provider access, final CompoundTag nbt)
     {
         this.contents.clear();
         for (final String key : nbt.getAllKeys())
@@ -196,7 +200,7 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
             if (j >= 0 && j < this.getContainerSize())
             {
                 if (this.contents.containsKey(j)) continue;
-                final ItemStack itemstack = ItemStack.of(CompoundNBT);
+                final ItemStack itemstack = ItemStack.parseOptional(access, CompoundNBT);
                 this.setItem(j, itemstack);
             }
             this.loading = false;
@@ -204,11 +208,11 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
     }
 
     @Override
-    public void deserializeNBT(final CompoundTag nbt)
+    public void deserializeNBT(HolderLookup.Provider access, final CompoundTag nbt)
     {
         final CompoundTag boxes = nbt.getCompound("boxes");
         this.deserializeBoxInfo(boxes);
-        this.deserializeItems(nbt);
+        this.deserializeItems(access, nbt);
     }
 
     @Override
@@ -262,7 +266,7 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
         return stack;
     }
 
-    public CompoundTag serializeBox(final int box)
+    public CompoundTag serializeBox(HolderLookup.Provider access, final int box)
     {
         final CompoundTag items = new CompoundTag();
         items.putInt("box", box);
@@ -274,8 +278,7 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
             if (!itemstack.isEmpty())
             {
                 CompoundNBT.putShort("Slot", (short) i);
-                itemstack.save(CompoundNBT);
-                items.put("item" + i, CompoundNBT);
+                items.put("item" + i, itemstack.save(access, CompoundNBT));
             }
         }
         return items;
@@ -288,7 +291,7 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
         for (int i = 0; i < this.boxCount(); i++) boxes.putString("name" + i, this.boxes[i]);
     }
 
-    public void serializeItems(final CompoundTag items)
+    public void serializeItems(HolderLookup.Provider access, final CompoundTag items)
     {
         for (int i = 0; i < this.getContainerSize(); i++)
         {
@@ -297,19 +300,18 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
             if (!itemstack.isEmpty())
             {
                 CompoundNBT.putShort("Slot", (short) i);
-                itemstack.save(CompoundNBT);
-                items.put("item" + i, CompoundNBT);
+                items.put("item" + i, itemstack.save(access, CompoundNBT));
             }
         }
     }
 
     @Override
-    public CompoundTag serializeNBT()
+    public CompoundTag serializeNBT(HolderLookup.Provider access)
     {
         final CompoundTag items = new CompoundTag();
         final CompoundTag boxes = new CompoundTag();
         this.serializeBoxInfo(boxes);
-        this.serializeItems(items);
+        this.serializeItems(access, items);
         items.put("boxes", boxes);
         return items;
     }
@@ -335,8 +337,9 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
         else this.contents.remove(i);
         if (!old.equals(itemstack) && this.isReal && !this.loading)
         {
+            var reg = ServerLifecycleHooks.getCurrentServer().registryAccess();
             this.dirty = true;
-            this.manager.save(this.id);
+            this.manager.save(reg, this.id);
             this.dirty = false;
         }
     }

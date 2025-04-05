@@ -1,0 +1,27 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "start_pool": "pokecube_legends:ultraspace/qualot_tree_island",
+  "terrain_adaptation": "beard_box",
+  "step": "surface_structures",
+  "avoid_range": 6,
+  "size": 1,
+  "avoidances": {
+    "avoidances": [
+      {
+        "name": "qualot_tree_island",
+        "distance": 256
+      }
+    ],
+    "flags": [
+      "qualot_tree_island"
+    ]
+  },
+  "y_settings": {
+    "dy_offset": 50,
+    "surface_type": "air",
+    "vertical_offset": 50
+  },
+  "biomes": "#pokecube_world:is_ultraspace/is_temporal",
+  "spawn_overrides": {}
+}

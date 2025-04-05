@@ -2,9 +2,10 @@
     "_comment": "Thut's Concrete Language Properties",
     "_comment": "@author Thutmose and Vexatos",
 
-    "_comment": "Misc",
-    "itemGroup.thut": "Thut's Mods",
-    
+    "_comment": "Creative Tab",
+    "itemGroup.thutcore.wearables": "Thut Bling: Wearables",
+    "itemGroup.thutcore.utilities": "Thut's Mods: Utilities",
+
     "teledest.location": "[%1$s, %2$s, %3$s: %4$s]",
 
     "_comment": "Commands",

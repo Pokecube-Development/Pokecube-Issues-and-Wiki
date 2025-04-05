@@ -6,17 +6,16 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.capabilities.CapabilityDispatcher;
-import net.minecraftforge.common.capabilities.CapabilityProvider;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import thut.api.entity.EntityProvider;
 import thut.api.item.ItemList;
 import thut.core.common.ThutCore;
@@ -27,7 +26,7 @@ import thut.lib.RegHelper;
 public class EntityUpdate extends NBTPacket
 {
 
-    public static final ResourceLocation NOREAD = new ResourceLocation(ThutCore.MODID, "additional_only_server");
+    public static final ResourceLocation NOREAD = ResourceLocation.fromNamespaceAndPath(ThutCore.MODID, "additional_only_server");
 
     private static Set<EntityType<?>> errorSet = Sets.newHashSet();
 
@@ -37,8 +36,8 @@ public class EntityUpdate extends NBTPacket
     {
         try
         {
-            EntityUpdate.GETMOBCAPS = CapabilityProvider.class.getDeclaredMethod("getCapabilities");
-            EntityUpdate.GETMOBCAPS.setAccessible(true);
+//            EntityUpdate.GETMOBCAPS = CapabilityProvider.class.getDeclaredMethod("getCapabilities");
+//            EntityUpdate.GETMOBCAPS.setAccessible(true);
         }
         catch (final Exception e)
         {
@@ -51,7 +50,7 @@ public class EntityUpdate extends NBTPacket
 
     public static void sendEntityUpdate(final Entity entity)
     {
-        if (entity.getLevel().isClientSide)
+        if (entity.level().isClientSide)
         {
             ThutCore.LOGGER.error("Packet sent on wrong side!", new IllegalArgumentException());
             return;
@@ -61,13 +60,12 @@ public class EntityUpdate extends NBTPacket
         final CompoundTag mobtag = new CompoundTag();
         entity.saveWithoutId(mobtag);
         tag.put("tag", mobtag);
-        final EntityUpdate message = new EntityUpdate(tag);
-        EntityUpdate.ASSEMBLER.sendToTracking(message, entity);
+        EntityUpdate.ASSEMBLER.sendToTracking(tag, entity);
     }
 
     public static void readMob(final Entity mob, final CompoundTag tag)
     {
-        if ((mob.getLevel() instanceof ServerLevel || !ItemList.is(EntityUpdate.NOREAD, mob)) && !EntityUpdate.errorSet
+        if ((mob.level() instanceof ServerLevel || !ItemList.is(EntityUpdate.NOREAD, mob)) && !EntityUpdate.errorSet
                 .contains(mob.getType())) try
         {
             mob.load(tag);
@@ -89,7 +87,7 @@ public class EntityUpdate extends NBTPacket
 
             try
             {
-                mob.setCustomName(Component.Serializer.fromJson(s));
+                mob.setCustomName(Component.Serializer.fromJson(s, mob.registryAccess()));
             }
             catch (final Exception exception)
             {
@@ -99,8 +97,9 @@ public class EntityUpdate extends NBTPacket
         // Then try the capabilities
         if (tag.contains("ForgeCaps", 10)) try
         {
-            final CapabilityDispatcher disp = (CapabilityDispatcher) EntityUpdate.GETMOBCAPS.invoke(mob);
-            if (disp != null) disp.deserializeNBT(tag.getCompound("ForgeCaps"));
+            // TODO sync caps?
+//            final CapabilityDispatcher disp = (CapabilityDispatcher) EntityUpdate.GETMOBCAPS.invoke(mob);
+//            if (disp != null) disp.deserializeNBT(tag.getCompound("ForgeCaps"));
         }
         catch (final Exception e)
         {
@@ -116,23 +115,19 @@ public class EntityUpdate extends NBTPacket
         super();
     }
 
-    public EntityUpdate(final CompoundTag tag)
-    {
-        super(tag);
-    }
-
-    public EntityUpdate(final FriendlyByteBuf buffer)
-    {
-        super(buffer);
-    }
-
     @Override
     @OnlyIn(value = Dist.CLIENT)
-    protected void onCompleteClient()
+    protected void onCompleteClient(Player player)
     {
         final int id = this.getTag().getInt("id");
-        final Level world = net.minecraft.client.Minecraft.getInstance().level;
+        final Level world = player.level();
         final Entity mob = EntityProvider.provider.getEntity(world, id);
         if (mob != null) EntityUpdate.readMob(mob, this.getTag().getCompound("tag"));
     }
+
+    private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("thutcore:entity_sync"));
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
+	}
 }

@@ -2,9 +2,9 @@ package thut.core.common.world.mobs.data;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent.StartTracking;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
 import thut.api.entity.ICopyMob;
@@ -13,9 +13,9 @@ import thut.api.world.mobs.data.DataSync;
 public class SyncHandler
 {
     @SubscribeEvent
-    public static void EntityUpdate(final LivingUpdateEvent event)
+    public static void EntityUpdate(final EntityTickEvent.Post event)
     {
-        if (event.getEntity().getLevel().isClientSide) return;
+        if (event.getEntity().level().isClientSide) return;
         Entity entity = event.getEntity();
         DataSync data = SyncHandler.getData(entity);
         mainData:
@@ -50,7 +50,7 @@ public class SyncHandler
     @SubscribeEvent
     public static void startTracking(final StartTracking event)
     {
-        if (event.getTarget().getLevel().isClientSide) return;
+        if (event.getTarget().level().isClientSide) return;
         final DataSync data = SyncHandler.getData(event.getTarget());
         if (data == null) return;
         PacketDataSync.sync((ServerPlayer) event.getEntity(), data, event.getTarget().getId(), true);

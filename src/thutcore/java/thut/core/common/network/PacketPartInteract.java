@@ -6,7 +6,9 @@ import javax.annotation.Nullable;
 
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.network.protocol.game.ServerboundInteractPacket;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -15,7 +17,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.entity.PartEntity;
+import net.neoforged.neoforge.entity.PartEntity;
+import net.neoforged.neoforge.event.EventHooks;
 import thut.api.entity.EntityProvider;
 import thut.api.entity.multipart.GenericPartEntity;
 
@@ -35,7 +38,7 @@ public class PacketPartInteract extends Packet
 
     public PacketPartInteract()
     {
-        super(null);
+        super();
     }
 
     public PacketPartInteract(final String name, final Entity entityIn, final boolean sneak)
@@ -67,7 +70,7 @@ public class PacketPartInteract extends Packet
         this.id = name;
     }
 
-    public PacketPartInteract(final FriendlyByteBuf buf)
+    public void read(final FriendlyByteBuf buf)
     {
         this.entityId = buf.readVarInt();
         this.action = buf.readEnum(ServerboundInteractPacket.ActionType.class);
@@ -128,7 +131,7 @@ public class PacketPartInteract extends Packet
     @Override
     public void handleServer(final ServerPlayer player)
     {
-        final ServerLevel serverworld = player.getLevel();
+        final ServerLevel serverworld = (ServerLevel) player.level();
         Entity entity = this.getEntityFromWorld(serverworld);
 
         // Most of the stuff from here is copied from CUseEntityPacket!
@@ -159,8 +162,8 @@ public class PacketPartInteract extends Packet
                     optional = Optional.of(player.interactOn(entity, hand));
                 else if (this.getAction() == ServerboundInteractPacket.ActionType.INTERACT_AT)
                 {
-                    if (net.minecraftforge.common.ForgeHooks.onInteractEntityAt(player, entity, this.getHitVec(),
-                            hand) != null)
+                	// TODO check item part interactions
+                    if (EventHooks.onItemUseStart(player, itemstack, entity.getId()) != -1)
                         return;
                     optional = Optional.of(entity.interactAt(player, this.getHitVec(), hand));
                 }
@@ -174,5 +177,11 @@ public class PacketPartInteract extends Packet
             }
         }
     }
+
+    private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("thutcore:part_interaction"));
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
+	}
 
 }

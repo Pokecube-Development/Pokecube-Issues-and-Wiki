@@ -1,0 +1,60 @@
+{
+  "elements": [
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/sky/balloons/balloon_1",
+        "bool_config": { "no_affect_noise": true },"processors": "pokecube:generic",
+        "int_config": {"space_below":0},"projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/sky/balloons/balloon_2",
+        "bool_config": { "no_affect_noise": true },"processors": "pokecube:generic",
+        "int_config": {"space_below":0},"projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/sky/balloons/balloon_3",
+        "bool_config": { "no_affect_noise": true },"processors": "pokecube:generic",
+        "int_config": {"space_below":0},"projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/sky/balloons/balloon_4",
+        "bool_config": { "no_affect_noise": true },"processors": "pokecube:generic",
+        "int_config": {"space_below":0},"projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/sky/balloons/balloon_5",
+        "bool_config": { "no_affect_noise": true },"processors": "pokecube:generic",
+        "int_config": {"space_below":0},"projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/sky/balloons/balloon_special",
+        "bool_config": { "no_affect_noise": true },"processors": "pokecube:generic",
+        "int_config": {"space_below":0},"projection": "rigid"
+      },
+      "weight": 2
+    }
+  ],
+  "fallback": "pokecube:village/sky/terminators",
+  "name": "pokecube:village/sky/balloons"
+}

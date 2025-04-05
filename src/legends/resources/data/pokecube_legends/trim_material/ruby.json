@@ -1,0 +1,9 @@
+{
+  "asset_name": "ruby",
+  "description": {
+    "color": "#CB1936",
+    "translate": "trim_material.pokecube_legends.ruby"
+  },
+  "ingredient": "pokecube_legends:ruby",
+  "item_model_index": 0.8
+}

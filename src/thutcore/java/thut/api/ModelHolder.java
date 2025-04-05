@@ -36,7 +36,7 @@ public class ModelHolder
 
     public ModelHolder(ResourceLocation model)
     {
-        this(model, null, new ResourceLocation(model.getNamespace(), model.getPath() + ".xml"), model.getPath());
+        this(model, null, ResourceLocation.fromNamespaceAndPath(model.getNamespace(), model.getPath() + ".xml"), model.getPath());
     }
 
     public Vector3 getLoadedOffset()

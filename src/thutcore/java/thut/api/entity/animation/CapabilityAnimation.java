@@ -13,13 +13,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
-import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
-import net.minecraftforge.common.util.LazyOptional;
-import thut.api.ThutCaps;
 import thut.api.entity.IAnimated;
 import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
@@ -27,11 +23,9 @@ import thut.api.entity.IAnimated.MolangVars;
 
 public class CapabilityAnimation
 {
-    public static class DefaultImpl implements IAnimationHolder, ICapabilitySerializable<CompoundTag>
+    public static class DefaultImpl implements IAnimationHolder
     {
         private static final List<Animation> EMPTY = Collections.emptyList();
-
-        private final LazyOptional<IAnimationHolder> holder = LazyOptional.of(() -> this);
 
         Map<String, List<Animation>> anims = Maps.newHashMap();
 
@@ -69,12 +63,6 @@ public class CapabilityAnimation
             this.start_times.clear();
             this.transients.clear();
             this.playingList = this.anims.getOrDefault(this.pending, DefaultImpl.EMPTY);
-        }
-
-        @Override
-        public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
-        {
-            return ThutCaps.ANIMCAP.orEmpty(cap, this.holder);
         }
 
         @Override
@@ -162,7 +150,7 @@ public class CapabilityAnimation
         @Override
         public void preRunAll()
         {
-            if (context != null && context.getContext() instanceof Entity e && e.tickCount % 10 == 0)
+            if (context != null && context.getContext() instanceof Entity e)
             {
                 var transients = context.transientAnimations();
                 synchronized (transients)
@@ -179,7 +167,7 @@ public class CapabilityAnimation
                                 {
                                     var animList = anims.get(s);
                                     if (animList == null || animList.isEmpty()) continue;
-                                    int index = animList.size() > 1 ? e.random.nextInt(animList.size()) : 0;
+                                    int index = animList.size() > 1 ? e.getRandom().nextInt(animList.size()) : 0;
                                     synchronized (this.transients)
                                     {
                                         var selected = animList.get(index);
@@ -262,7 +250,7 @@ public class CapabilityAnimation
         }
 
         @Override
-        public CompoundTag serializeNBT()
+        public CompoundTag serializeNBT(HolderLookup.Provider registries)
         {
             final CompoundTag tag = new CompoundTag();
             tag.putString("pl", this.playing);
@@ -280,7 +268,7 @@ public class CapabilityAnimation
         }
 
         @Override
-        public void deserializeNBT(final CompoundTag nbt)
+        public void deserializeNBT(HolderLookup.Provider registries, final CompoundTag nbt)
         {
             this.playing = nbt.getString("pl");
             this.pending = nbt.getString("pn");

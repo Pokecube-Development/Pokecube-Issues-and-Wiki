@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
 
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import thut.core.common.ThutCore;
@@ -75,11 +76,11 @@ public class Alleles<T, GENE extends Gene<T>>
     }
 
     @SuppressWarnings("unchecked")
-    public void load(final CompoundTag tag, ResourceLocation key) throws Exception
+    public void load(Provider provider, final CompoundTag tag, ResourceLocation key) throws Exception
     {
-        this.alleles.set(0, (GENE) GeneRegistry.load(tag.getCompound("gene1"), key));
-        this.alleles.set(1, (GENE) GeneRegistry.load(tag.getCompound("gene2"), key));
-        if (tag.contains("expressed")) this.setExpressed((GENE) GeneRegistry.load(tag.getCompound("expressed"), key));
+        this.alleles.set(0, (GENE) GeneRegistry.load(provider, tag.getCompound("gene1"), key));
+        this.alleles.set(1, (GENE) GeneRegistry.load(provider, tag.getCompound("gene2"), key));
+        if (tag.contains("expressed")) this.setExpressed((GENE) GeneRegistry.load(provider, tag.getCompound("expressed"), key));
     }
 
     @SuppressWarnings("unchecked")
@@ -93,19 +94,19 @@ public class Alleles<T, GENE extends Gene<T>>
         this.setExpressed((GENE) a.interpolate(b));
     }
 
-    public CompoundTag save()
+    public CompoundTag save(Provider provider)
     {
         final CompoundTag tag = new CompoundTag();
         try
         {
-            tag.put("expressed", GeneRegistry.save(this.getExpressed()));
+            tag.put("expressed", GeneRegistry.save(provider, this.getExpressed()));
         }
         catch (final Exception e)
         {
             ThutCore.LOGGER.error(this.getExpressed() + " " + this.getExpressed().getKey(), e);
         }
-        tag.put("gene1", GeneRegistry.save(this.getAllele(0)));
-        tag.put("gene2", GeneRegistry.save(this.getAllele(1)));
+        tag.put("gene1", GeneRegistry.save(provider, this.getAllele(0)));
+        tag.put("gene2", GeneRegistry.save(provider, this.getAllele(1)));
         return tag;
     }
 

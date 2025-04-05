@@ -1,0 +1,16 @@
+{
+  "elements": [
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/cave/tunnel/tunnel_2",
+        "processors": "pokecube:cave_village",
+        "int_config": { "space_below": 0 },
+        "projection": "rigid"
+      },
+      "weight": 1
+    }
+  ],
+  "fallback": "minecraft:empty",
+  "name": "pokecube:village/cave/tunnel/tunnel_2"
+}

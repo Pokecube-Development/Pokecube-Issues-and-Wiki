@@ -6,17 +6,19 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.joml.Vector3f;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -27,20 +29,15 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.entity.IEntityAdditionalSpawnData;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages.SpawnEntity;
+import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import thut.api.ThutCaps;
 import thut.api.entity.blockentity.block.TempBlock;
 import thut.api.entity.blockentity.block.TempTile;
@@ -50,50 +47,32 @@ import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.ThutCore;
-import thut.core.common.world.mobs.data.DataSync_Impl;
 import thut.core.common.world.mobs.data.PacketDataSync;
 import thut.core.common.world.mobs.data.types.Data_Vec3;
 import thut.crafts.ThutCrafts;
 import thut.lib.TComponent;
 
-public abstract class BlockEntityBase extends Entity implements IEntityAdditionalSpawnData, IBlockEntity
+public abstract class BlockEntityBase extends Entity implements IBlockEntity, IEntityWithComplexSpawn
 {
     public static class BlockEntityType<T extends BlockEntityBase> extends EntityType<T>
     {
         public BlockEntityType(final EntityType.EntityFactory<T> factory)
         {
             super(factory, MobCategory.MISC, true, false, true, true, ImmutableSet.of(),
-                    new EntityDimensions(1, 1, true), 64, 1, e -> true, e -> 64, e -> 1, null);
+                    EntityDimensions.scalable(1, 1), 0.0f, 64, 1, FeatureFlagSet.of());
         }
 
-        @Override
-        public T customClientSpawn(final SpawnEntity packet, final Level world)
-        {
-            return this.create(world);
-        }
+//        TODO custom client factory?
+//        @Override
+//        public T customClientSpawn(final SpawnEntity packet, final Level world)
+//        {
+//            return this.create(world);
+//        }
 
         @Override
         public boolean isBlockDangerous(BlockState p_20631_)
         {
             return false;
-        }
-    }
-
-    public static void setup()
-    {
-        ThutCore.FORGE_BUS.addGenericListener(Entity.class, EventPriority.LOWEST, BlockEntityBase::attachMobs);
-    }
-
-    public static final ResourceLocation DATASCAP = new ResourceLocation(ThutCore.MODID, "data");
-
-    private static void attachMobs(final AttachCapabilitiesEvent<Entity> event)
-    {
-        if (!(event.getObject() instanceof BlockEntityBase)) return;
-        DataSync data = DataSync_Impl.getData(event);
-        if (data == null)
-        {
-            data = new DataSync_Impl();
-            event.addCapability(DATASCAP, (DataSync_Impl) data);
         }
     }
 
@@ -250,10 +229,10 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     public void checkCollision()
     {
         BlockPos.betweenClosedStream(this.getBoundingBox()).forEach(p -> {
-            final Level world = this.getLevel();
+            final Level world = this.level();
             final BlockState block = world.getBlockState(p);
 
-            ResourceLocation replaceable = new ResourceLocation("thutcore:craft_replace");
+            ResourceLocation replaceable = ResourceLocation.parse("thutcore:craft_replace");
             boolean air = block.isAir();
 
             boolean isReplaceable = air || ItemList.is(replaceable, block);
@@ -314,7 +293,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
                 entityO = entity.position().subtract(entityO);
                 entity.yo = entity.yOld = entityO.y();
 
-                entity.onGround = true;
+                entity.setOnGround(true);
                 entity.fallDistance = 0;
                 entity.verticalCollision = true;
                 entity.verticalCollisionBelow = tileV.y() > 0;
@@ -338,12 +317,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     {}
 
     abstract protected BlockEntityInteractHandler createInteractHandler();
-
-    @Override
-    public Packet<?> getAddEntityPacket()
-    {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
 
     public final void doMotion()
     {
@@ -450,12 +423,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     }
 
     @Override
-    public Iterable<ItemStack> getArmorSlots()
-    {
-        return Lists.newArrayList();
-    }
-
-    @Override
     public BlockState[][][] getBlocks()
     {
         return this.blocks;
@@ -537,10 +504,10 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         if (nbt.contains("bounds"))
         {
             final CompoundTag bounds = nbt.getCompound("bounds");
-            this.boundMin = new BlockPos(bounds.getDouble("minx"), bounds.getDouble("miny"), bounds.getDouble("minz"));
-            this.boundMax = new BlockPos(bounds.getDouble("maxx"), bounds.getDouble("maxy"), bounds.getDouble("maxz"));
-            if (bounds.contains("orix")) this.originalPos = new BlockPos(bounds.getDouble("orix"),
-                    bounds.getDouble("oriy"), bounds.getDouble("oriz"));
+            this.boundMin = new BlockPos(bounds.getInt("minx"), bounds.getInt("miny"), bounds.getInt("minz"));
+            this.boundMax = new BlockPos(bounds.getInt("maxx"), bounds.getInt("maxy"), bounds.getInt("maxz"));
+            if (bounds.contains("orix"))
+                this.originalPos = new BlockPos(bounds.getInt("orix"), bounds.getInt("oriy"), bounds.getInt("oriz"));
         }
         this.readBlocks(nbt);
         this.getUpdater().resetShape();
@@ -562,12 +529,14 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
             {
                 final String name = "B" + i + "," + k + "," + j;
                 if (!blockTag.contains(name)) continue;
-                final BlockState state = NbtUtils.readBlockState(blockTag.getCompound(name));
+                // TODO see if this needs to use a passed in holderlookup
+                final BlockState state = NbtUtils.readBlockState(this.level().holderLookup(Registries.BLOCK),
+                        blockTag.getCompound(name));
                 this.blocks[i][k][j] = state;
                 if (blockTag.contains("T" + i + "," + k + "," + j)) try
                 {
                     final CompoundTag tag = blockTag.getCompound("T" + i + "," + k + "," + j);
-                    this.tiles[i][k][j] = BlockEntity.loadStatic(BlockPos.ZERO, state, tag);
+                    this.tiles[i][k][j] = BlockEntity.loadStatic(BlockPos.ZERO, state, tag, this.registryAccess());
                 }
                 catch (final Exception e)
                 {
@@ -587,31 +556,22 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         // this.setBoundingBox(this.collider.getBoundingBox());
     }
 
-    @Override
-    public AABB getBoundingBox()
+    public AABB _getBoundingBox()
     {
+        // TODO see if this was needed, if so AT getBoundingBox to not be final!
         AABB box = super.getBoundingBox();
         final BlockPos size = this.getSize();
         if ((box.getXsize() != size.getX() + 1 || box.getYsize() != size.getY() + 1
                 || box.getZsize() != size.getZ() + 1))
+        {
             box = this.getUpdater().getBoundingBox();
+            this.setBoundingBox(box);
+        }
         return box;
     }
 
     @Override
-    protected AABB getBoundingBoxForPose(final Pose pose)
-    {
-        return this.getBoundingBox();
-    }
-
-    @Override
-    public void readSpawnData(final FriendlyByteBuf data)
-    {
-        this.readAdditionalSaveData(data.readNbt());
-    }
-
-    @Override
-    protected void defineSynchedData()
+    protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
         // NO-OP here.
     }
@@ -620,7 +580,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     @Override
     public void remove(final RemovalReason reason)
     {
-        if (!this.getLevel().isClientSide && this.isAlive() && this.shouldRevert)
+        if (!this.level().isClientSide && this.isAlive() && this.shouldRevert)
             IBlockEntity.BlockEntityFormer.RevertEntity(this);
         super.remove(reason);
     }
@@ -666,10 +626,9 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     {
         super.tick();
         if (this.getBlocks() == null) return;
-        if (!this.isAddedToWorld()) this.onAddedToWorld();
+        if (!this.isAddedToLevel()) this.onAddedToLevel();
         this.setBoundingBox(this.getUpdater().getBoundingBox());
-        this.yRot = 0;
-        this.xRot = 0;
+        this.setRot(0, 0);
         this.preColliderTick();
         this.getUpdater().onUpdate();
         this.doMotion();
@@ -723,7 +682,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
                 {
                     if (this.tiles[i][k][j] != null)
                     {
-                        CompoundTag tag = this.tiles[i][k][j].saveWithFullMetadata();
+                        CompoundTag tag = this.tiles[i][k][j].saveWithFullMetadata(this.registryAccess());
                         blocksTag.put("T" + i + "," + k + "," + j, tag);
                     }
                 }
@@ -757,11 +716,17 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     }
 
     @Override
-    public void writeSpawnData(final FriendlyByteBuf data)
+    public void writeSpawnData(final RegistryFriendlyByteBuf data)
     {
         final CompoundTag tag = new CompoundTag();
         this.addAdditionalSaveData(tag);
         data.writeNbt(tag);
+    }
+
+    @Override
+    public void readSpawnData(RegistryFriendlyByteBuf data)
+    {
+        this.readAdditionalSaveData(data.readNbt());
     }
 
     @Override

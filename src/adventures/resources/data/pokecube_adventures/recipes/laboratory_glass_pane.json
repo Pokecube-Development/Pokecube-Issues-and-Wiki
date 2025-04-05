@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_adventures:laboratory_glass_pane",
+  "pattern": [
+    "GGG",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "item": "pokecube_adventures:laboratory_glass"
+    }
+  },
+  "result": {
+    "item": "pokecube_adventures:laboratory_glass_pane",
+    "count": 16
+  }
+}

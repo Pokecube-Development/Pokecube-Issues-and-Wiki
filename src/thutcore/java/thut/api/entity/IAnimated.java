@@ -11,7 +11,9 @@ import javax.annotation.Nonnull;
 
 import org.nfunk.jep.JEP;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
+import net.neoforged.neoforge.common.util.INBTSerializable;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.IAnimationChanger;
 
@@ -168,7 +170,7 @@ public interface IAnimated
         }
     }
 
-    public static interface IAnimationHolder
+    public static interface IAnimationHolder extends INBTSerializable<CompoundTag>
     {
         /** should clear the ticks animations were run on */
         void clean();
@@ -246,11 +248,11 @@ public interface IAnimated
             molangs.t = ageInTicks;
             if (molangs.t < 0) molangs.t = 0;
 
-            molangs.is_on_ground = entityIn.isOnGround() ? 1 : 0;
+            molangs.is_on_ground = entityIn.onGround() ? 1 : 0;
             molangs.is_in_water = entityIn.isInWater() ? 1 : 0;
             molangs.is_on_fire = entityIn.isOnFire() ? 1 : 0;
 
-            molangs.yaw_speed = entityIn.yRot - entityIn.yRotO;
+            molangs.yaw_speed = entityIn.getYRot() - entityIn.yRotO;
 
             molangs.on_fire_time = entityIn.getRemainingFireTicks();
         }

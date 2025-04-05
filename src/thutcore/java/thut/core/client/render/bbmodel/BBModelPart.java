@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
+
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 
 import thut.api.maths.Vector4;
 import thut.core.client.render.bbmodel.BBModelTemplate.Element;
@@ -119,7 +121,7 @@ public class BBModelPart extends Part
         {
             newRots = Arrays.copyOf(oldRots, 3);
 
-            Quaternion quat = new Quaternion(0, 0, 0, 1);
+            Quaternionf quat = new Quaternionf(0, 0, 0, 1);
             float x = b.getRotation()[0];
             float y = b.getRotation()[1];
             float z = b.getRotation()[2];
@@ -137,10 +139,10 @@ public class BBModelPart extends Part
                 if (z != 0) quat.mul(AxisAngles.ZP.rotationDegrees(z));
             }
 
-            Vector3f xyz = quat.toYXZDegrees();
-            newRots[0] = xyz.x();
-            newRots[1] = xyz.y();
-            newRots[2] = xyz.z();
+            Vector3f xyz = quat.getEulerAnglesXYZ(new Vector3f());
+            newRots[0] = (float) (Math.toDegrees(xyz.x()));
+            newRots[1] = (float) (Math.toDegrees(xyz.y()));
+            newRots[2] = (float) (Math.toDegrees(xyz.z()));
         }
 
         b.rotation = newRots;
@@ -239,9 +241,9 @@ public class BBModelPart extends Part
         float ry = this.ry + rotations.y;
         float rz = this.rz + rotations.z;
 
-        if (rz != 0) mat.mulPose(AxisAngles.YN.rotationDegrees(rz));
-        if (ry != 0) mat.mulPose(AxisAngles.ZP.rotationDegrees(ry));
-        if (rx != 0) mat.mulPose(AxisAngles.XP.rotationDegrees(rx));
+        if (rz != 0) mat.mulPose(Axis.YN.rotationDegrees(rz));
+        if (ry != 0) mat.mulPose(Axis.ZP.rotationDegrees(ry));
+        if (rx != 0) mat.mulPose(Axis.XP.rotationDegrees(rx));
 
         // Translate by post-PreOffset amount.
         mat.translate(this.postTrans.x, this.postTrans.y, this.postTrans.z);

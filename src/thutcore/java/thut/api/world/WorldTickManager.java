@@ -12,12 +12,14 @@ import com.google.common.collect.Maps;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.event.TickEvent.WorldTickEvent;
-import net.minecraftforge.event.world.WorldEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.level.LevelEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import thut.api.Tracker;
 import thut.core.common.ThutCore;
 
+@EventBusSubscriber
 public class WorldTickManager
 {
     public static class DelayedTask implements Runnable
@@ -187,10 +189,11 @@ public class WorldTickManager
         holder.removeData(data);
     }
 
-    public static void onWorldLoad(final WorldEvent.Load event)
+    @SubscribeEvent
+    public static void onWorldLoad(final LevelEvent.Load event)
     {
-        if (event.getWorld().isClientSide()) return;
-        if (!(event.getWorld() instanceof ServerLevel level)) return;
+        if (event.getLevel().isClientSide()) return;
+        if (!(event.getLevel() instanceof ServerLevel level)) return;
         final ResourceKey<Level> key = level.dimension();
         if (WorldTickManager.dataMap.containsKey(key)) WorldTickManager.dataMap.get(key).detach();
         final WorldData data = new WorldData(level);
@@ -201,38 +204,46 @@ public class WorldTickManager
         WorldTickManager.pathHelpers.put(key, Lists.newArrayList());
     }
 
-    public static void onWorldUnload(final WorldEvent.Unload event)
+    @SubscribeEvent
+    public static void onWorldUnload(final LevelEvent.Unload event)
     {
-        if (event.getWorld().isClientSide()) return;
-        if (!(event.getWorld() instanceof ServerLevel level)) return;
+        if (event.getLevel().isClientSide()) return;
+        if (!(event.getLevel() instanceof ServerLevel level)) return;
         final ResourceKey<Level> key = level.dimension();
         if (WorldTickManager.dataMap.containsKey(key)) WorldTickManager.dataMap.remove(key).detach();
         WorldTickManager.pathHelpers.remove(key);
     }
 
-    public static void onWorldTick(final WorldTickEvent event)
+    @SubscribeEvent
+    public static void onWorldTickPre(final LevelTickEvent.Post event)
     {
-        if (event.world instanceof ServerLevel)
+        if (event.getLevel() instanceof ServerLevel)
         {
-            // Uncomment to produce server lag for testing.
-//            if (event.world.getRandom().nextDouble() > 0.9)
-//            {
-//                long start = System.nanoTime();
-//                int wait = event.world.getRandom().nextInt(1000000, 100000000);
-//                while (System.nanoTime() < start + wait)
-//                {}
-//                System.out.println("FORCED LAGGED: " + (wait / 1e9d));
-//            }
-
-            final ResourceKey<Level> key = event.world.dimension();
+            final ResourceKey<Level> key = event.getLevel().dimension();
             final WorldData data = WorldTickManager.dataMap.get(key);
             if (data == null)
             {
                 ThutCore.LOGGER.error("Ticking world before load???");
                 return;
             }
-            if (event.phase == Phase.END) data.onWorldTickEnd();
-            else data.onWorldTickStart();
+            data.onWorldTickEnd();
+
+        }
+    }
+
+    @SubscribeEvent
+    public static void onWorldTickPre(final LevelTickEvent.Pre event)
+    {
+        if (event.getLevel() instanceof ServerLevel)
+        {
+            final ResourceKey<Level> key = event.getLevel().dimension();
+            final WorldData data = WorldTickManager.dataMap.get(key);
+            if (data == null)
+            {
+                ThutCore.LOGGER.error("Ticking world before load???");
+                return;
+            }
+            data.onWorldTickStart();
         }
     }
 }

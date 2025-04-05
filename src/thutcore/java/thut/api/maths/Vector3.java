@@ -16,8 +16,8 @@ import net.minecraft.core.Direction8;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Holder.Reference;
+import net.minecraft.core.HolderOwner;
 import net.minecraft.core.QuartPos;
-import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket;
 import net.minecraft.resources.ResourceKey;
@@ -44,16 +44,16 @@ import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.chunk.PalettedContainer;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.lighting.LevelLightEngine;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.Node;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.common.util.FakePlayerFactory;
-import net.minecraftforge.entity.PartEntity;
+import net.neoforged.neoforge.common.util.FakePlayer;
+import net.neoforged.neoforge.common.util.FakePlayerFactory;
+import net.neoforged.neoforge.entity.PartEntity;
 import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 
@@ -178,7 +178,7 @@ public class Vector3
             final Vec3 end = direction.scalarMultBy(range).addTo(source).toVec3d();
             if (Vector3.USEDFORRAYTRACECONTEXT == null)
                 Vector3.USEDFORRAYTRACECONTEXT = FakePlayerFactory.get(level, Vector3.FAKEPLAYER);
-            else Vector3.USEDFORRAYTRACECONTEXT.setLevel(level);
+            else Vector3.USEDFORRAYTRACECONTEXT.setServerLevel(level);
             final ClipContext context = new ClipContext(start, end, ClipContext.Block.COLLIDER, Fluid.NONE,
                     Vector3.USEDFORRAYTRACECONTEXT);
             final BlockHitResult result = world.clip(context);
@@ -563,13 +563,6 @@ public class Vector3
         return ret;
     }
 
-    public Material getBlockMaterial(final BlockGetter world)
-    {
-        final BlockState state = world.getBlockState(this.getPos());
-        if (state == null || state.getBlock() == null) return Material.AIR;
-        return state.getMaterial();
-    }
-
     public BlockState getBlockState(final BlockGetter world)
     {
         return world.getBlockState(this.getPos());
@@ -632,9 +625,11 @@ public class Vector3
         {
             for (ret = world.getMaxBuildHeight(); ret > world.getMinBuildHeight(); ret--)
             {
-                final BlockState state = world.getBlockState(new BlockPos(this.intX(), ret, this.intZ()));
+                BlockPos pos = new BlockPos(this.intX(), ret, this.intZ());
+                final FluidState fluid = world.getFluidState(pos);
+                BlockState state = world.getBlockState(pos);
                 if (state == null) continue;
-                if (state.getMaterial().isSolid()) return ret;
+                if (fluid.isEmpty() && !state.isAir()) return ret;
             }
         }
         return ret;
@@ -669,14 +664,12 @@ public class Vector3
 
     public boolean isAir(final BlockGetter world)
     {
-        Material m;
         if (world instanceof Level)
         {
             final BlockState state = world.getBlockState(this.getPos());
-            return state.getBlock() == null || (m = this.getBlockMaterial(world)) == null || m == Material.AIR
-                    || state.isAir();
+            return state.getBlock() == null || state.isAir();
         }
-        return (m = this.getBlockMaterial(world)) == null || m == Material.AIR;
+        return false;
     }
 
     public boolean isClearOfBlocks(final BlockGetter world)
@@ -686,9 +679,7 @@ public class Vector3
         if (state == null) return true;
 
         ret = this.isAir(world);
-        if (!ret) ret = ret || this.getBlockMaterial(world).isLiquid();
-        if (!ret) ret = ret || this.getBlockMaterial(world).isReplaceable();
-        if (!ret) ret = ret || !this.getBlockMaterial(world).blocksMotion();
+        if (!ret) ret = ret || state.canBeReplaced();
         if (!ret)
         {
             final VoxelShape shape = state.getCollisionShape(world, this.getPos());
@@ -1031,16 +1022,19 @@ public class Vector3
         int j = chunk.getSectionIndex(QuartPos.toBlock(l));
 
         LevelChunkSection section = chunk.getSections()[j];
-        PalettedContainer<Holder<Biome>> biomes = section.getBiomes();
+        PalettedContainer<Holder<Biome>> biomes = (PalettedContainer<Holder<Biome>>) section.getBiomes();
 
         Biome old = biomes.get(qx & 3, l & 3, qz & 3).value();
         // No need to run this if we are already the same biome...
         if (old == biome) return;
 
-        ResourceKey<Biome> key = ResourceKey.create(Registry.BIOME_REGISTRY, RegHelper.getKey(biome));
-        Registry<Biome> registry = level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY);
-        Reference<Biome> holder = Holder.Reference.createStandAlone(registry, key);
-        holder.bind(key, biome);
+        ResourceKey<Biome> key = ResourceKey.create(RegHelper.BIOME_REGISTRY, RegHelper.getKey(biome));
+        HolderOwner<Biome> registry = level.registryAccess().registryOrThrow(RegHelper.BIOME_REGISTRY).holderOwner();
+//        Reference<Biome> _holder = Holder.Reference.createStandAlone(registry, key);
+        Reference<Biome> holder = Holder.Reference.createIntrusive(registry, biome);
+        // TODO test biome setting
+//        holder.bindKey(key);
+//        holder.bindValue(biome);
 
         biomes.set(qx & 3, l & 3, qz & 3, holder);
 
@@ -1049,7 +1043,7 @@ public class Vector3
             ChunkMap map = level.getChunkSource().chunkMap;
             LevelLightEngine lights = level.getLightEngine();
             ClientboundLevelChunkWithLightPacket packet = new ClientboundLevelChunkWithLightPacket(lchunk, lights, null,
-                    null, true);
+                    null);
 
             // Send the packet to tracking things, this is taken from
             // PacketDistributor.TRACKING_CHUNK

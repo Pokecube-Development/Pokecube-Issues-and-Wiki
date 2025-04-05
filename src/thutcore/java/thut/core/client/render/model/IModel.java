@@ -9,11 +9,9 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.ImmutableSet;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Quaternion;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import pokecube.api.PokecubeAPI;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.maths.Vector3;
@@ -21,6 +19,7 @@ import thut.api.maths.vecmath.Vec3f;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.model.parts.Material;
 import thut.core.common.ThutCore;
+import thut.lib.AxisAngles;
 
 public interface IModel
 {
@@ -58,7 +57,7 @@ public interface IModel
     default void globalFix(final PoseStack mat, final float dx, final float dy, final float dz)
     {
         // These are the parameters for models exported from blender.
-        mat.mulPose(new Quaternion(90, 0, 180, true));
+        mat.mulPose(AxisAngles.MODEL_ROTATE);
         mat.translate(0, 0, dy - 1.5f);
     }
 
@@ -106,11 +105,11 @@ public interface IModel
             try
             {
                 material.texture = mat.tex;
-                material.tex = new ResourceLocation(mat.tex);
+                material.tex = ResourceLocation.parse(mat.tex);
             }
             catch (Exception e)
             {
-                PokecubeAPI.LOGGER.error(e);
+                ThutCore.LOGGER.error(e);
             }
         }
         // Here we loop over the parts values instead of render order, as this

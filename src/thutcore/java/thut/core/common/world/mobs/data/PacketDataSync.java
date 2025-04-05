@@ -5,11 +5,14 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import thut.api.entity.EntityProvider;
 import thut.api.world.mobs.data.Data;
 import thut.api.world.mobs.data.DataSync;
@@ -26,8 +29,7 @@ public class PacketDataSync extends Packet
         final PacketDataSync packet = new PacketDataSync();
         packet.data = list;
         packet.id = entity_id;
-        ThutCore.packets.sendToTracking(packet, tracked);
-        if (tracked instanceof ServerPlayer player) ThutCore.packets.sendTo(packet, player);
+        ThutCore.packets.sendToTrackingAndSelf(packet, tracked);
     }
 
     public static void sync(final ServerPlayer syncTo, final DataSync data, final int entity_id, final boolean all)
@@ -47,12 +49,10 @@ public class PacketDataSync extends Packet
 
     public PacketDataSync()
     {
-        super(null);
     }
 
-    public PacketDataSync(final FriendlyByteBuf buf)
+    public void read(final FriendlyByteBuf buf)
     {
-        super(buf);
         this.id = buf.readInt();
         final byte num = buf.readByte();
         if (num > 0) for (int i = 0; i < num; i++)
@@ -73,9 +73,9 @@ public class PacketDataSync extends Packet
 
     @Override
     @OnlyIn(value = Dist.CLIENT)
-    public void handleClient()
+    public void handleClient(Player player)
     {
-        final Level world = net.minecraft.client.Minecraft.getInstance().level;
+        final Level world = player.level();
         final Entity mob = EntityProvider.provider.getEntity(world, id);
         if (mob == null) return;
         final DataSync sync = SyncHandler.getData(mob);
@@ -97,4 +97,10 @@ public class PacketDataSync extends Packet
             val.write(buf);
         }
     }
+
+    private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("thutcore:data_sync"));
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
+	}
 }

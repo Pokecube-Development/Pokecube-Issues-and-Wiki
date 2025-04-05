@@ -73,8 +73,8 @@ public interface IBlockEntity
                 final BlockEntity old = world.getBlockEntity(temp);
                 if (old != null)
                 {
-                    CompoundTag tag = old.saveWithFullMetadata();
-                    ret[i - xMin][j - yMin][k - zMin] = BlockEntity.loadStatic(temp, world.getBlockState(temp), tag);
+                    CompoundTag tag = old.saveWithFullMetadata(world.registryAccess());
+                    ret[i - xMin][j - yMin][k - zMin] = BlockEntity.loadStatic(temp, world.getBlockState(temp), tag, world.registryAccess());
                 }
             }
             return ret;
@@ -85,9 +85,9 @@ public interface IBlockEntity
         {
             final T ret = type.create(world);
             // This enforces that min is the lower corner, and max is the upper.
-            final AABB box = new AABB(min, max);
-            min = new BlockPos(box.minX, box.minY, box.minZ);
-            max = new BlockPos(box.maxX, box.maxY, box.maxZ);
+            final AABB box = AABB.encapsulatingFullBlocks(min, max);
+            min = new BlockPos((int) box.minX, (int) box.minY, (int) box.minZ);
+            max = new BlockPos((int) box.maxX, (int) box.maxY, (int) box.maxZ);
             final IBlockEntity entity = (IBlockEntity) ret;
             ret.setPos(pos.getX(), pos.getY(), pos.getZ());
             final BlockState[][][] blocks = BlockEntityFormer.checkBlocks(world, min, max, pos);
@@ -120,7 +120,7 @@ public interface IBlockEntity
                     if (hit != null) return hit;
                 }
             }
-            return BlockHitResult.miss(end, Direction.DOWN, new BlockPos(end));
+            return BlockHitResult.miss(end, Direction.DOWN, new BlockPos((int) end.x, (int) end.y, (int) end.z));
         }
 
         public static void removeBlocks(final Level world, final BlockPos min, final BlockPos max, final BlockPos pos)
@@ -175,22 +175,22 @@ public interface IBlockEntity
                 // whether the entity is rotated, and then also call the
                 // block's rotate method as well before placing the
                 // BlockState.
-                final BlockPos pos = new BlockPos(i + xMin + entity.getX(), j + yMin + entity.getY(),
-                        k + zMin + entity.getZ());
+                final BlockPos pos = new BlockPos((int) (i + xMin + entity.getX()),
+                        (int) (j + yMin + entity.getY()), (int) (k + zMin + entity.getZ()));
                 final BlockState state = toRevert.getFakeWorld().getBlock(pos);
                 final BlockEntity tile = toRevert.getFakeWorld().getTile(pos);
                 if (state != null)
                 {
-                    if (!entity.getLevel().isEmptyBlock(pos)) entity.getLevel().destroyBlock(pos, true);
-                    entity.getLevel().setBlockAndUpdate(pos, state);
+                    if (!entity.level().isEmptyBlock(pos)) entity.level().destroyBlock(pos, true);
+                    entity.level().setBlockAndUpdate(pos, state);
                     if (tile != null)
                     {
-                        final BlockEntity newTile = entity.getLevel().getBlockEntity(pos);
-                        if (newTile != null) newTile.load(tile.saveWithFullMetadata());
+                        final BlockEntity newTile = entity.level().getBlockEntity(pos);
+                        if (newTile != null) newTile.loadWithComponents(tile.saveWithFullMetadata(entity.registryAccess()), entity.registryAccess());
                     }
                 }
             }
-            final List<Entity> possibleInside = entity.getLevel().getEntities(entity, entity.getBoundingBox());
+            final List<Entity> possibleInside = entity.level().getEntities(entity, entity.getBoundingBox());
             for (final Entity e : possibleInside) e.setPos(e.getX(), e.getY() + 0.25, e.getZ());
         }
     }

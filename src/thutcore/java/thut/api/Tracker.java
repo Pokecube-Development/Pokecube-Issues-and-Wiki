@@ -11,18 +11,18 @@ import java.util.Map;
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2LongArrayMap;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtAccounter;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.LevelResource;
-import net.minecraftforge.event.TickEvent.ClientTickEvent;
-import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.event.TickEvent.ServerTickEvent;
-import net.minecraftforge.event.server.ServerStartedEvent;
-import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.server.ServerLifecycleHooks;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.event.level.LevelEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import thut.core.common.ThutCore;
 
 /**
@@ -111,17 +111,17 @@ public class Tracker
     }
 
     // Increment time
-    private static void onServerTick(final ServerTickEvent event)
+    private static void onServerTick(final ServerTickEvent.Post event)
     {
-        if (event.phase == Phase.END) Tracker.instance().time++;
+        Tracker.instance().time++;
     }
 
-    private static void onClientTick(final ClientTickEvent event)
+    private static void onClientTick(final ClientTickEvent.Post event)
     {
         // Force this to also increment client side while on a dedicated server.
         // This allows using the ticker for ensuring animations, etc keep
         // running as well.
-        if (ServerLifecycleHooks.getCurrentServer() == null && event.phase == Phase.END) Tracker.instance().time++;
+        if (ServerLifecycleHooks.getCurrentServer() == null) Tracker.instance().time++;
     }
 
     // Load the time and set it.
@@ -141,7 +141,7 @@ public class Tracker
         try
         {
             final FileInputStream fileinputstream = new FileInputStream(file);
-            final CompoundTag CompoundNBT = NbtIo.readCompressed(fileinputstream);
+            final CompoundTag CompoundNBT = NbtIo.readCompressed(fileinputstream, NbtAccounter.create(104857600L));
             fileinputstream.close();
             final CompoundTag tag = CompoundNBT.getCompound("Data");
             Tracker.read(tag, null);
@@ -152,9 +152,9 @@ public class Tracker
         }
     }
 
-    private static void onWorldSave(final WorldEvent.Save event)
+    private static void onWorldSave(final LevelEvent.Save event)
     {
-        if (!(event.getWorld() instanceof ServerLevel level)) return;
+        if (!(event.getLevel() instanceof ServerLevel level)) return;
         if (level.dimension() != Level.OVERWORLD) return;
 
         final MinecraftServer server = ThutCore.proxy.getServer();

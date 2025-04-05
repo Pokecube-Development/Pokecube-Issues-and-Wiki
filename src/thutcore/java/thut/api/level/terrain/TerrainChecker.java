@@ -3,7 +3,6 @@ package thut.api.level.terrain;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 import thut.api.data.StringTag.StringValue;
 import thut.api.item.ItemList;
 import thut.api.util.JsonUtil;
@@ -20,19 +19,19 @@ public class TerrainChecker
 
     public static BiomeType INSIDE = BiomeType.getBiome("inside", true).setNoSave();
 
-    public static ResourceLocation CAVETAG = new ResourceLocation(ThutCore.MODID, "cave");
-    public static ResourceLocation FRUITTAG = new ResourceLocation(ThutCore.MODID, "fruit");
-    public static ResourceLocation GROUNDTAG = new ResourceLocation(ThutCore.MODID, "ground");
-    public static ResourceLocation INDUSTRIALTAG = new ResourceLocation(ThutCore.MODID, "industrial");
-    public static ResourceLocation PLANTEATTAG = new ResourceLocation(ThutCore.MODID, "plants_edible");
-    public static ResourceLocation PLANTCUTTAG = new ResourceLocation(ThutCore.MODID, "plants_cutable");
-    public static ResourceLocation ROCKTAG = new ResourceLocation(ThutCore.MODID, "rocks");
-    public static ResourceLocation SURFACETAG = new ResourceLocation(ThutCore.MODID, "surface");
-    public static ResourceLocation TERRAINTAG = new ResourceLocation(ThutCore.MODID, "terrain");
-    public static ResourceLocation WOODTAG = new ResourceLocation(ThutCore.MODID, "wood");
+    public static ResourceLocation CAVE_TAG = ResourceLocation.fromNamespaceAndPath(ThutCore.MODID, "cave");
+    public static ResourceLocation FRUIT_TAG = ResourceLocation.fromNamespaceAndPath(ThutCore.MODID, "fruit");
+    public static ResourceLocation GROUND_TAG = ResourceLocation.fromNamespaceAndPath(ThutCore.MODID, "ground");
+    public static ResourceLocation INDUSTRIAL_TAG = ResourceLocation.fromNamespaceAndPath(ThutCore.MODID, "industrial");
+    public static ResourceLocation PLANTS_EDIBLE_TAG = ResourceLocation.fromNamespaceAndPath(ThutCore.MODID, "plants_edible");
+    public static ResourceLocation PLANTS_CUTABLE_TAG = ResourceLocation.fromNamespaceAndPath(ThutCore.MODID, "plants_cutable");
+    public static ResourceLocation ROCK_TAG = ResourceLocation.fromNamespaceAndPath(ThutCore.MODID, "rocks");
+    public static ResourceLocation SURFACE_TAG = ResourceLocation.fromNamespaceAndPath(ThutCore.MODID, "surface");
+    public static ResourceLocation TERRAIN_TAG = ResourceLocation.fromNamespaceAndPath(ThutCore.MODID, "terrain");
+    public static ResourceLocation WOOD_TAG = ResourceLocation.fromNamespaceAndPath(ThutCore.MODID, "wood");
 
-    public static ResourceLocation LEAVES = new ResourceLocation("minecraft:leaves");
-    public static ResourceLocation FLOWERS = new ResourceLocation("minecraft:small_flowers");
+    public static ResourceLocation LEAVES = ResourceLocation.parse("minecraft:leaves");
+    public static ResourceLocation FLOWERS = ResourceLocation.parse("minecraft:small_flowers");
 
     public static final String tagKey = "thutcore:structure_subbiomes";
 
@@ -58,60 +57,52 @@ public class TerrainChecker
 
     public static boolean isCave(final BlockState state)
     {
-        return ItemList.is(TerrainChecker.CAVETAG, state);
+        return ItemList.is(TerrainChecker.CAVE_TAG, state);
     }
 
     public static boolean isGround(final BlockState state)
     {
-        return ItemList.is(TerrainChecker.GROUNDTAG, state);
+        return ItemList.is(TerrainChecker.GROUND_TAG, state);
     }
 
     public static boolean isFruit(final BlockState state)
     {
-        return ItemList.is(TerrainChecker.FRUITTAG, state);
+        return ItemList.is(TerrainChecker.FRUIT_TAG, state);
     }
 
     public static boolean isIndustrial(final BlockState state)
     {
-        return ItemList.is(TerrainChecker.INDUSTRIALTAG, state);
-    }
-
-    private static boolean isPlant(final Material m)
-    {
-        return m == Material.PLANT || m == Material.REPLACEABLE_PLANT || m == Material.REPLACEABLE_WATER_PLANT
-                || m == Material.WATER_PLANT;
+        return ItemList.is(TerrainChecker.INDUSTRIAL_TAG, state);
     }
 
     public static boolean isEdiblePlant(final BlockState state)
     {
-        return ItemList.is(TerrainChecker.PLANTEATTAG, state)
-                || ThutCore.getConfig().autoPopulateLists && TerrainChecker.isPlant(state.getMaterial());
+        return ItemList.is(TerrainChecker.PLANTS_EDIBLE_TAG, state) || state.is(BlockTags.FLOWERS);
     }
 
     public static boolean isCutablePlant(final BlockState state)
     {
-        return ItemList.is(TerrainChecker.PLANTEATTAG, state) || ItemList.is(BlockTags.LEAVES.location(), state)
-                || ThutCore.getConfig().autoPopulateLists && TerrainChecker.isPlant(state.getMaterial());
+        return ItemList.is(TerrainChecker.PLANTS_CUTABLE_TAG, state) || ItemList.is(BlockTags.LEAVES.location(), state);
     }
 
     public static boolean isRock(final BlockState state)
     {
-        return ItemList.is(TerrainChecker.ROCKTAG, state);
+        return ItemList.is(TerrainChecker.ROCK_TAG, state);
     }
 
     public static boolean isSurface(final BlockState state)
     {
-        return ItemList.is(TerrainChecker.SURFACETAG, state);
+        return ItemList.is(TerrainChecker.SURFACE_TAG, state);
     }
 
     public static boolean isTerrain(final BlockState state)
     {
-        return ItemList.is(TerrainChecker.TERRAINTAG, state);
+        return ItemList.is(TerrainChecker.TERRAIN_TAG, state);
     }
 
     public static boolean isWood(final BlockState state)
     {
-        return ItemList.is(TerrainChecker.WOODTAG, state);
+        return ItemList.is(TerrainChecker.WOOD_TAG, state);
     }
 
     public static boolean isLeaves(final BlockState state)

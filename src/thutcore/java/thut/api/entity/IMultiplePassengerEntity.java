@@ -7,41 +7,11 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import thut.api.maths.vecmath.Mat3f;
 import thut.api.maths.vecmath.Vec3f;
 
 public interface IMultiplePassengerEntity
 {
-    public static class MultiplePassengerManager
-    {
-        public static void managePassenger(final Entity passenger, final IMultiplePassengerEntity multipassenger)
-        {
-            final Entity entity = (Entity) multipassenger;
-            if (!entity.hasPassenger(passenger)) return;
-            Vec3f v = multipassenger.getSeat(passenger);
-            final float yaw = -multipassenger.getYaw() * 0.017453292F;
-            final float pitch = -multipassenger.getPitch() * 0.017453292F;
-            final float sinYaw = Mth.sin(yaw);
-            final float cosYaw = Mth.cos(yaw);
-            final float sinPitch = Mth.sin(pitch);
-            final float cosPitch = Mth.cos(pitch);
-            final Mat3f matrixYaw = new Mat3f(cosYaw, 0, sinYaw, 0, 1, 0, -sinYaw, 0, cosYaw);
-            final Mat3f matrixPitch = new Mat3f(cosPitch, -sinPitch, 0, sinPitch, cosPitch, 0, 0, 0, 1);
-            final Mat3f transform = new Mat3f();
-            transform.mul(matrixYaw, matrixPitch);
-            if (v == null) v = new Vec3f();
-            else
-            {
-                v = (Vec3f) v.clone();
-                transform.transform(v);
-            }
-            passenger.setPos(entity.getX() + v.x, entity.getY() + passenger.getMyRidingOffset() + v.y,
-                    entity.getZ() + v.z);
-        }
-    }
-
     public static class Seat
     {
         public static final UUID BLANK = new UUID(0, 0);

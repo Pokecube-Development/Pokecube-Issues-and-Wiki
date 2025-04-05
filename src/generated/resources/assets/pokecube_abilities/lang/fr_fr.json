@@ -296,5 +296,14 @@
   "ability.toxic-debris.name": "Dépôt Toxique",
   "ability.armor-tail.name": "Armure Caudale",
   "ability.earth-eater.name": "Absorbe-Terre",
-  "ability.mycelium-might.name": "Force Fongique"
+  "ability.mycelium-might.name": "Force Fongique",
+  "ability.hospitality.name": "Aux Petits Soins",
+  "ability.minds-eye.name": "Œil Révélateur",
+  "ability.embody-aspect.name": "Force Mémorielle",
+  "ability.toxic-chain.name": "Chaîne Toxique",
+  "ability.supersweet-syrup.name": "Nectar Mielleux",
+  "ability.tera-shift.name": "Téramorphose",
+  "ability.tera-shell.name": "Téra-Carapace",
+  "ability.teraform-zero.name": "Téraformation 0",
+  "ability.poison-puppeteer.name": "Emprise Toxique"
 }

@@ -1,40 +1,49 @@
 package thut.tech.common.handlers;
 
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.EnergyStorage;
-import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import thut.tech.Reference;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.EventBusSubscriber.Bus;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.ICapabilityProvider;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.energy.EnergyStorage;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import thut.api.ThutCaps;
+import thut.api.attachments.Energy;
 import thut.tech.common.TechCore;
 import thut.tech.common.blocks.lift.ControllerTile;
 import thut.tech.common.entity.EntityLift;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber(bus = Bus.MOD)
 public class EnergyHandler
 {
-    /** Pretty standard storable EnergyStorage. */
-    public static class ProviderLift extends EnergyStorage implements ICapabilityProvider
+    public static class ProviderLift implements ICapabilityProvider<EntityLift, Direction, IEnergyStorage>
     {
-        private final LazyOptional<IEnergyStorage> holder = LazyOptional.of(() -> this);
-
-        public ProviderLift()
-        {
-            super(TechCore.config.maxLiftEnergy, TechCore.config.maxLiftEnergy);
-        }
-
         @Override
-        public <T> LazyOptional<T> getCapability(final Capability<T> capability, final Direction facing)
+        public @Nullable IEnergyStorage getCapability(EntityLift object, Direction context)
         {
-            return CapabilityEnergy.ENERGY.orEmpty(capability, this.holder);
+            if (!Energy.has(object, context))
+            {
+                Energy.set(object, context,
+                        new EnergyStorage(TechCore.config.maxLiftEnergy, TechCore.config.maxLiftEnergy));
+            }
+            return ThutCaps.getEnergy(object, context);
+        }
+    }
+
+    public static class ProviderController implements ICapabilityProvider<ControllerTile, Direction, IEnergyStorage>
+    {
+        @Override
+        public @Nullable IEnergyStorage getCapability(ControllerTile object, Direction context)
+        {
+            if (!Energy.has(object, context))
+            {
+                Energy.set(object, context, new ControllerEnergy(object));
+            }
+            return ThutCaps.getEnergy(object, context);
         }
     }
 
@@ -43,14 +52,14 @@ public class EnergyHandler
      * This allows interfacing with the lift's energy via any of the connected
      * controllers.
      */
-    public static class ProviderLiftController implements ICapabilityProvider, IEnergyStorage
+    public static class ControllerEnergy extends EnergyStorage
     {
-        private final LazyOptional<IEnergyStorage> holder = LazyOptional.of(() -> this);
         final ControllerTile tile;
         IEnergyStorage lift = null;
 
-        public ProviderLiftController(final ControllerTile tile)
+        public ControllerEnergy(final ControllerTile tile)
         {
+            super(0, 0);
             this.tile = tile;
         }
 
@@ -76,12 +85,6 @@ public class EnergyHandler
             this.updateLift();
             if (this.lift != null) return this.lift.extractEnergy(maxExtract, simulate);
             return 0;
-        }
-
-        @Override
-        public <T> LazyOptional<T> getCapability(final Capability<T> capability, final Direction facing)
-        {
-            return CapabilityEnergy.ENERGY.orEmpty(capability, this.holder);
         }
 
         @Override
@@ -111,25 +114,16 @@ public class EnergyHandler
         private void updateLift()
         {
             if (this.tile.getLift() == null) this.lift = null;
-            else this.lift = this.tile.getLift().getCapability(CapabilityEnergy.ENERGY, null).orElse(null);
+            else this.lift = this.tile.getLift().getCapability(Capabilities.EnergyStorage.ENTITY, null);
         }
     }
 
-    private static final ResourceLocation ENERGY = new ResourceLocation(Reference.MOD_ID, "energy");
-
     @SubscribeEvent
     /** Adds the energy capability to the lift mobs. */
-    public static void onEntityCapabilityAttach(final AttachCapabilitiesEvent<Entity> event)
+    public static void onEntityCapabilityAttach(final RegisterCapabilitiesEvent event)
     {
-        if (event.getObject() instanceof EntityLift && !event.getCapabilities().containsKey(EnergyHandler.ENERGY))
-            event.addCapability(EnergyHandler.ENERGY, new ProviderLift());
-    }
-
-    @SubscribeEvent
-    /** Adds the energy capability to the lift controllers. */
-    public static void onTileCapabilityAttach(final AttachCapabilitiesEvent<BlockEntity> event)
-    {
-        if (event.getObject() instanceof ControllerTile && !event.getCapabilities().containsKey(EnergyHandler.ENERGY))
-            event.addCapability(EnergyHandler.ENERGY, new ProviderLiftController((ControllerTile) event.getObject()));
+        event.registerEntity(Capabilities.EnergyStorage.ENTITY, TechCore.LIFTTYPE.get(), new ProviderLift());
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, TechCore.CONTROLTYPE.get(),
+                new ProviderController());
     }
 }

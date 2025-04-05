@@ -1,0 +1,121 @@
+# This is an example neoforge.mods.toml file. It contains the data relating to the loading mods.
+# There are several mandatory fields (#mandatory), and many more that are optional (#optional).
+# The overall format is standard TOML format, v0.5.0.
+# Note that there are a couple of TOML lists in this file.
+# Find more information on toml format here:  https://github.com/toml-lang/toml
+# The name of the mod loader type to load - for regular FML @Mod mods it should be javafml
+modLoader="javafml" #mandatory
+
+# A version range to match for said mod loader - for regular FML @Mod it will be the FML version. This is currently 2.
+loaderVersion="${loader_version_range}" #mandatory
+
+# The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
+# Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
+license="All rights reserved"
+
+# A URL to refer people to when problems occur with this mod
+#issueTrackerURL="https://change.me.to.your.issue.tracker.example.invalid/" #optional
+
+# The [[accessTransformers]] block allows you to declare where your AT file is.
+# If this block is omitted, a fallback attempt will be made to load an AT from META-INF/accesstransformer.cfg
+#[[accessTransformers]]
+#file="META-INF/accesstransformer.cfg"
+
+# The [[mixins]] block allows you to declare your mixin config to FML so that it gets loaded.
+[[mixins]]
+    config="thutcore.mixins.json"
+[[mixins]]
+    config="pokecube.mixins.json"
+
+[[mods]]
+    modId="pokecube"
+    version="${mod_version}"
+    displayName="Pokécube Core"
+    authors="Thutmose"
+    description='''
+    Core mod for Pokécube Functionality
+    '''
+
+[[mods]]
+    modId="pokecube_mobs"
+    version="${mod_version}"
+    displayName="Pokécube Mobs"
+    authors="Thutmose"
+    description='''
+    General mobs provider for Pokécube
+    '''
+
+[[mods]]
+    modId="pokecube_adventures"
+    version="${mod_version}"
+    displayName="Pokécube Revival"
+    authors="Thutmose"
+    description='''
+    Additional Features for Pokécube..
+    '''
+
+#[[mods]]
+#    modId="pokecube_legends"
+#    version="${mod_version}"
+#    displayName="Pokécube Legends"
+#    authors="NelkGames, Thutmose"
+#    description='''
+#    Legendary Spawning mechanics for Pokécube..
+#    '''
+
+[[mods]]
+    modId="thutcore"
+    version="99.99.99"
+    displayName="Thut Core"
+    authors="Thutmose"
+    description='''
+    This is a library of shared functionality for my mods.
+
+    This is the version embedded into Pokécube, so use that for
+    the more reliable version number
+    '''
+    
+[[mods]]
+    modId="thutcrafts"
+    version="${mod_version}"
+    displayName="Thut Crafts"
+    authors="Thutmose"
+    description='''
+    Tech Demo mod for testing the elevator mod updates.
+    '''
+    
+[[mods]]
+    modId="thut_wearables"
+    version="${mod_version}"
+    displayName="Thut Wearables"
+    authors="Thutmose"
+    description='''
+    Accessories Slots for Minecraft!
+
+    This is the version embedded into Pokécube.
+    '''
+
+[[mods]]
+    modId="thut_bling"
+    version="${mod_version}"
+    displayName="Thut Bling"
+    authors="Thutmose"
+    description='''
+    Bling for Thut Wearables!
+
+    This is the version embedded into Pokécube.
+    '''
+    
+[[dependencies.pokecube]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="${minecraft_version}"
+    ordering="NONE"
+    side="BOTH"
+    
+[[dependencies.pokecube]]
+    modId="neoforge"
+    mandatory=true
+    versionRange="${neo_version}"
+    ordering="NONE"
+    side="BOTH"

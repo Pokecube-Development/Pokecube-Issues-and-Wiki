@@ -1,0 +1,67 @@
+
+{
+  "name": "pokecube:village/plains/start_pool",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube:village/plains/town_centers/center_1",
+        "flags":"street_corner",
+        "projection": "rigid",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:mossify_20_percent"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube:village/plains/town_centers/center_2",
+        "flags":"street_corner",
+        "projection": "rigid",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:mossify_20_percent"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube:village/plains/town_centers/center_3",
+        "flags":"street_corner",
+        "projection": "rigid",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:mossify_20_percent"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube:village/plains/town_centers/center_4",
+        "flags":"street_corner",
+        "projection": "rigid",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:mossify_20_percent"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube:village/plains/town_centers/center_grepa_tree",
+        "flags":"street_corner",
+        "projection": "rigid",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:mossify_20_percent"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube:village/plains/town_centers/center_leppa_tree",
+        "flags":"street_corner",
+        "projection": "rigid",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:mossify_20_percent"
+      }
+    }
+  ]
+}

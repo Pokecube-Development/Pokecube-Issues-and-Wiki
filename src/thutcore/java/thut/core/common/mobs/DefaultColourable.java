@@ -1,15 +1,16 @@
 package thut.core.common.mobs;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
-import net.minecraftforge.common.util.INBTSerializable;
+import java.util.function.Function;
+import java.util.function.Supplier;
+
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.attachment.AttachmentType;
+import net.neoforged.neoforge.attachment.IAttachmentHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import thut.api.entity.IMobColourable;
 
-public class DefaultColourable implements IMobColourable, INBTSerializable<CompoundTag>
+public class DefaultColourable implements IMobColourable
 {
-    public static final Capability<IMobColourable> CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
 
     int[] RGBA   = { 255, 255, 255, 255 };
     int   colour = 0;
@@ -39,20 +40,25 @@ public class DefaultColourable implements IMobColourable, INBTSerializable<Compo
         this.RGBA = colours;
     }
 
-    @Override
-    public CompoundTag serializeNBT()
+    public static IMobColourable makeProvider(final IAttachmentHolder in)
     {
-        final CompoundTag tag = new CompoundTag();
-        tag.putInt("c", this.getDyeColour());
-        tag.putIntArray("rgba", this.getRGBA());
-        return tag;
+        return new DefaultColourable();
     }
 
-    @Override
-    public void deserializeNBT(final CompoundTag tag)
+    public static IMobColourable get(final IAttachmentHolder in)
     {
-        if (tag.contains("c")) this.setDyeColour(tag.getInt("c"));
-        if (tag.contains("rgba")) this.setRGBA(tag.getIntArray("rgba"));
+        if (in.hasData(TYPE_SAVE.get())) return in.getData(TYPE_SAVE.get());
+        return null;
     }
+    
+    public static final ResourceLocation LOCSAVEABLE = ResourceLocation.parse("thutcore:colourables");
 
+    public static Supplier<AttachmentType<IMobColourable>> TYPE_SAVE;
+    
+    public static void registerAttachment(DeferredRegister<AttachmentType<?>> registry)
+    {
+        Function<IAttachmentHolder, IMobColourable> func_a = DefaultColourable::makeProvider;
+        var attach_a = AttachmentType.serializable(func_a).build();
+        TYPE_SAVE = registry.register(LOCSAVEABLE.getPath(), () -> attach_a);
+    }
 }

@@ -1,13 +1,16 @@
 package thut.api.block.flowing;
 
 import java.lang.reflect.Array;
-import java.util.Random;
 import java.util.function.Supplier;
+
+import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
@@ -28,32 +31,32 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.fml.loading.FMLEnvironment;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import thut.api.item.ItemList;
 import thut.api.level.terrain.TerrainChecker;
 import thut.core.common.ThutCore;
 
 public abstract class MoltenBlock extends FlowingBlock implements SimpleWaterloggedBlock
 {
-    public static RegistryObject<FlowingBlock>[] makeMolten(DeferredRegister<Block> BLOCKS, String modid, String layer,
+    public static DeferredBlock<FlowingBlock>[] makeMolten(DeferredRegister.Blocks BLOCKS, String modid, String layer,
             String block, BlockBehaviour.Properties layer_props, BlockBehaviour.Properties block_props,
             ResourceLocation solid_layer, ResourceLocation solid_block)
     {
-        ResourceLocation layer_id = new ResourceLocation(modid, layer);
-        ResourceLocation block_id = new ResourceLocation(modid, block);
+        ResourceLocation layer_id = ResourceLocation.fromNamespaceAndPath(modid, layer);
+        ResourceLocation block_id = ResourceLocation.fromNamespaceAndPath(modid, block);
 
         @SuppressWarnings("unchecked")
-        RegistryObject<FlowingBlock>[] arr = (RegistryObject<FlowingBlock>[]) Array.newInstance(RegistryObject.class,
+        DeferredBlock<FlowingBlock>[] arr = (DeferredBlock<FlowingBlock>[]) Array.newInstance(DeferredBlock.class,
                 2);
 
-        RegistryObject<FlowingBlock> layer_reg = BLOCKS.register(layer,
+        DeferredBlock<FlowingBlock> layer_reg = BLOCKS.register(layer,
                 () -> new PartialMolten(layer_props).solidBlock(() -> SolidBlock.REGMAP.get(solid_layer).get())
                         .alternateBlock(() -> REGMAP.get(block_id).get()));
         REGMAP.put(layer_id, layer_reg);
 
-        RegistryObject<FlowingBlock> block_reg = BLOCKS.register(block,
+        DeferredBlock<FlowingBlock> block_reg = BLOCKS.register(block,
                 () -> new FullMolten(block_props).solidBlock(() -> SolidBlock.REGMAP.get(solid_block).get())
                         .alternateBlock(() -> REGMAP.get(layer_id).get()));
         REGMAP.put(block_id, block_reg);
@@ -64,7 +67,7 @@ public abstract class MoltenBlock extends FlowingBlock implements SimpleWaterlog
         return arr;
     }
 
-    public static final ResourceLocation LAVAREPLACEABLE = new ResourceLocation("thutcore:lava_replace");
+    public static final ResourceLocation LAVAREPLACEABLE = ResourceLocation.fromNamespaceAndPath("thutcore","lava_replace");
 
     public static final BooleanProperty HEATED = BooleanProperty.create("heated");
 
@@ -112,7 +115,7 @@ public abstract class MoltenBlock extends FlowingBlock implements SimpleWaterlog
     }
 
     @Override
-    public ItemStack pickupBlock(LevelAccessor level, BlockPos pos, BlockState state)
+    public ItemStack pickupBlock(@Nullable Player player, LevelAccessor level, BlockPos pos, BlockState state)
     {
         int amt = this.getAmount(state);
         if (amt > 12)
@@ -126,7 +129,7 @@ public abstract class MoltenBlock extends FlowingBlock implements SimpleWaterlog
             }
             return new ItemStack(Items.LAVA_BUCKET);
         }
-        return SimpleWaterloggedBlock.super.pickupBlock(level, pos, state);
+        return SimpleWaterloggedBlock.super.pickupBlock(player, level, pos, state);
     }
 
     public MoltenBlock solidBlock(Supplier<Block> supplier)
@@ -164,7 +167,7 @@ public abstract class MoltenBlock extends FlowingBlock implements SimpleWaterlog
     {
         if (ItemList.is(LAVAREPLACEABLE, state)) return true;
         @SuppressWarnings("deprecation")
-        boolean burns = ((FireBlock) Blocks.FIRE).getBurnOdd(state) > 0;
+        boolean burns = ((FireBlock) Blocks.FIRE).getBurnOdds(state) > 0;
         if (burns) return true;
         return super.canReplace(state);
     }
@@ -179,16 +182,16 @@ public abstract class MoltenBlock extends FlowingBlock implements SimpleWaterlog
     }
 
     @Override
-    public BlockState getMergeResult(BlockState mergeFrom, BlockState mergeInto, BlockPos posTo, ServerLevel level)
+    public BlockState getFlowResult(BlockState flowState, BlockState mergeInto, BlockPos posTo, ServerLevel level)
     {
-        BlockState ret = super.getMergeResult(mergeFrom, mergeInto, posTo, level);
+        BlockState ret = super.getFlowResult(flowState, mergeInto, posTo, level);
         // The result from the merge won't be heated, even if we are!
         if (ret != mergeInto && ret.hasProperty(HEATED)) ret = ret.setValue(HEATED, false);
         return ret;
     }
 
     @Override
-    public boolean canMergeInto(BlockState here, BlockState other, BlockPos posTo, ServerLevel level)
+    public boolean canFlowInto(BlockState here, BlockState other, BlockPos posTo, ServerLevel level)
     {
         checkSolid();
         if (solid_full.isAir()) return false;
@@ -202,7 +205,7 @@ public abstract class MoltenBlock extends FlowingBlock implements SimpleWaterlog
             if (amt_from != amt_to) return true;
         }
 
-        return super.canMergeInto(here, other, posTo, level);
+        return super.canFlowInto(here, other, posTo, level);
     }
 
     @Override
@@ -219,17 +222,22 @@ public abstract class MoltenBlock extends FlowingBlock implements SimpleWaterlog
     }
 
     @Override
-    public void onStableTick(BlockState state, ServerLevel level, BlockPos pos, Random random)
+    public void onStableTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
     {
         if (!FMLEnvironment.production)
         {
             tickRateFall = 1;
             tickRateFlow = 1;
         }
-        double rng = random.nextDouble();
+
+        if (!canHarden(state, pos, level, random))
+        {
+            reScheduleTick(state, level, pos);
+            return;
+        }
 
         harden:
-        if ((!state.hasProperty(HEATED) || !state.getValue(HEATED)) && rng < hardenRate && !isFalling(state))
+        if ((!state.hasProperty(HEATED) || !state.getValue(HEATED)) && !isFalling(state))
         {
             checkSolid();
 
@@ -249,16 +257,11 @@ public abstract class MoltenBlock extends FlowingBlock implements SimpleWaterlog
             {
                 solidTo = solid_layer;
             }
-            
+
             solidTo = IFlowingBlock.copyValidTo(state, solidTo);
             solidTo = this.setAmount(solidTo, dust);
             level.setBlock(pos, solidTo, 2);
             onHarden(state, solidTo, level, pos, random);
-            return;
-        }
-        else if (rng > hardenRate)
-        {
-            reScheduleTick(state, level, pos);
             return;
         }
         super.onStableTick(state, level, pos, random);
@@ -267,7 +270,13 @@ public abstract class MoltenBlock extends FlowingBlock implements SimpleWaterlog
         if (state.getLightBlock(level, pos) != 0) level.getChunk(pos).setUnsaved(false);
     }
 
-    protected void onHarden(BlockState state, BlockState solidTo, ServerLevel level, BlockPos pos, Random random)
+    protected boolean canHarden(BlockState state, BlockPos pos, ServerLevel level, RandomSource random)
+    {
+        double rng = random.nextDouble();
+        return rng < hardenRate;
+    }
+
+    protected void onHarden(BlockState state, BlockState solidTo, ServerLevel level, BlockPos pos, RandomSource random)
     {
 
     }

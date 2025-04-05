@@ -1,6 +1,7 @@
 package thut.core.common.world.mobs.data.types;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.core.HolderLookup.Provider;
 import thut.api.world.mobs.data.Data;
 
 public abstract class Data_Base<T> implements Data<T>
@@ -11,6 +12,13 @@ public abstract class Data_Base<T> implements Data<T>
     private T lastSent = null;
 
     private boolean realtime = false;
+    protected Provider provider = null;
+    
+    @Override
+    public void setHolderLookup(Provider provider)
+    {
+    	this.provider = provider;
+    }
 
     @Override
     public boolean dirty()

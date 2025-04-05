@@ -1,0 +1,58 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube_legends:magmacore"
+    },
+    "title": {
+      "translate": "achievement.pokelegends.magmacore",
+      "color": "red",
+      "bold": false,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
+    },
+    "description": {
+      "translate": "achievement.pokelegends.magmacore.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "position": {
+                "x": {
+                  "min": 0,
+                  "max": 300
+                },
+                "y": {
+                  "min": 5,
+                  "max": 5
+                },
+                "z": {
+                  "min": 0,
+                  "max": 300
+                }
+              },
+              "dimension": "minecraft:the_nether"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "loot": [
+      "pokecube_legends:entities/heatrancore"
+    ]
+  },
+  "parent": "pokecube_legends:root"
+}

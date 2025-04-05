@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/template_lantern",
-  "textures": {
-    "lantern": "pokecube_legends:block/infected_lantern"
-  }
-}

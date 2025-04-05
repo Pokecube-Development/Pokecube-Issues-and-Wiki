@@ -1,12 +1,13 @@
 package thut.core.common.network;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.event.TickEvent.PlayerTickEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import thut.api.Tracker;
 import thut.core.common.ThutCore;
 import thut.core.common.network.nbtpacket.NBTPacket;
@@ -23,22 +24,21 @@ public class GeneralUpdate extends NBTPacket
         ThutCore.FORGE_BUS.addListener(GeneralUpdate::onLogin);
     }
 
-    private static void onTick(final PlayerTickEvent event)
+    private static void onTick(final PlayerTickEvent.Post event)
     {
-        if (event.player instanceof ServerPlayer player && event.player.tickCount % 1000 == 0
-                && event.phase == Phase.END)
+        if (event.getEntity() instanceof ServerPlayer player && event.getEntity().tickCount % 1000 == 0)
             GeneralUpdate.sendUpdate(player);
     }
 
     private static void onLogin(final PlayerLoggedInEvent event)
     {
-        if (event.getPlayer() instanceof ServerPlayer player) GeneralUpdate.sendUpdate(player);
+        if (event.getEntity() instanceof ServerPlayer player) GeneralUpdate.sendUpdate(player);
     }
 
     private static void sendUpdate(final ServerPlayer player)
     {
         final CompoundTag tag = Tracker.write();
-        GeneralUpdate.ASSEMBLER.sendTo(new GeneralUpdate(tag), player);
+        GeneralUpdate.ASSEMBLER.sendTo(tag, player);
     }
 
     public static void sendToServer(CompoundTag nbt, String key)
@@ -46,7 +46,7 @@ public class GeneralUpdate extends NBTPacket
         CompoundTag tag = new CompoundTag();
         tag.putString("key", key);
         tag.put("tag", nbt);
-        GeneralUpdate.ASSEMBLER.sendToServer(new GeneralUpdate(tag));
+        GeneralUpdate.ASSEMBLER.sendToServer(tag);
     }
 
     public static void sendToTracking(CompoundTag nbt, String key, Entity tracked)
@@ -54,22 +54,12 @@ public class GeneralUpdate extends NBTPacket
         CompoundTag tag = new CompoundTag();
         tag.putString("key", key);
         tag.put("tag", nbt);
-        GeneralUpdate.ASSEMBLER.sendToTracking(new GeneralUpdate(tag), tracked);
+        GeneralUpdate.ASSEMBLER.sendToTracking(tag, tracked);
     }
 
     public GeneralUpdate()
     {
         super();
-    }
-
-    public GeneralUpdate(final CompoundTag tag)
-    {
-        super(tag);
-    }
-
-    public GeneralUpdate(final FriendlyByteBuf buffer)
-    {
-        super(buffer);
     }
 
     @Override
@@ -79,8 +69,16 @@ public class GeneralUpdate extends NBTPacket
     }
 
     @Override
-    protected void onCompleteClient()
+    protected void onCompleteClient(Player player)
     {
         Tracker.read(this.getTag(), null);
+    }
+
+    private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("thutcore:general_sync"));
+
+    @Override
+    public Type<? extends CustomPacketPayload> type()
+    {
+        return TYPE;
     }
 }

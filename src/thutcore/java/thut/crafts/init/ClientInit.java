@@ -10,6 +10,8 @@ import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -17,18 +19,16 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.ClientRegistry;
-import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.client.event.RenderLevelStageEvent.Stage;
-import net.minecraftforge.client.settings.KeyConflictContext;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.EventBusSubscriber.Bus;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderers;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent.Stage;
+import net.neoforged.neoforge.client.settings.KeyConflictContext;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import thut.api.entity.blockentity.render.RenderBlockEntity;
 import thut.api.maths.Vector3;
 import thut.crafts.Reference;
@@ -37,7 +37,7 @@ import thut.crafts.entity.CraftController;
 import thut.crafts.entity.EntityCraft;
 import thut.crafts.network.PacketCraftControl;
 
-@Mod.EventBusSubscriber(bus = Bus.FORGE, value = Dist.CLIENT)
+@EventBusSubscriber(bus = Bus.GAME, value = Dist.CLIENT)
 public class ClientInit
 {
     static KeyMapping UP;
@@ -45,7 +45,7 @@ public class ClientInit
     static KeyMapping ROTATERIGHT;
     static KeyMapping ROTATELEFT;
 
-    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.MODID, value = Dist.CLIENT)
+    @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = Reference.MODID, value = Dist.CLIENT)
     public static class RegistryEvents
     {
         @SubscribeEvent
@@ -55,7 +55,7 @@ public class ClientInit
         }
 
         @SubscribeEvent
-        public static void setupClient(final FMLClientSetupEvent event)
+        public static void registerKeys(RegisterKeyMappingsEvent event)
         {
             ClientInit.UP = new KeyMapping("crafts.key.up", InputConstants.UNKNOWN.getValue(), "keys.crafts");
             ClientInit.DOWN = new KeyMapping("crafts.key.down", InputConstants.UNKNOWN.getValue(), "keys.crafts");
@@ -71,24 +71,25 @@ public class ClientInit
             ClientInit.ROTATELEFT.setKeyConflictContext(inGame);
             ClientInit.ROTATERIGHT.setKeyConflictContext(inGame);
 
-            ClientRegistry.registerKeyBinding(ClientInit.UP);
-            ClientRegistry.registerKeyBinding(ClientInit.DOWN);
-            ClientRegistry.registerKeyBinding(ClientInit.ROTATELEFT);
-            ClientRegistry.registerKeyBinding(ClientInit.ROTATERIGHT);
+            event.register(ClientInit.UP);
+            event.register(ClientInit.DOWN);
+            event.register(ClientInit.ROTATELEFT);
+            event.register(ClientInit.ROTATERIGHT);
+
         }
     }
 
     @SubscribeEvent
-    public static void clientTick(final TickEvent.PlayerTickEvent event)
+    public static void clientTick(final PlayerTickEvent.Pre event)
     {
-        if (event.phase == Phase.START || event.player != Minecraft.getInstance().player) return;
+        if (event.getEntity() != Minecraft.getInstance().player) return;
         control:
-        if (event.player.isPassenger() && Minecraft.getInstance().screen == null)
+        if (event.getEntity().isPassenger() && Minecraft.getInstance().screen == null)
         {
-            final Entity e = event.player.getVehicle();
+            final Entity e = event.getEntity().getVehicle();
             if (e instanceof EntityCraft)
             {
-                final net.minecraft.client.player.LocalPlayer player = (net.minecraft.client.player.LocalPlayer) event.player;
+                final net.minecraft.client.player.LocalPlayer player = (net.minecraft.client.player.LocalPlayer) event.getEntity();
                 final CraftController controller = ((EntityCraft) e).controller;
                 if (controller == null) break control;
                 controller.backInputDown = player.input.down;
@@ -117,12 +118,13 @@ public class ClientInit
         if (!(held = player.getMainHandItem()).isEmpty() || !(held = player.getOffhandItem()).isEmpty())
         {
             if (held.getItem() != ThutCrafts.CRAFTMAKER.get()) return;
-            if (held.getTag() != null && held.getTag().contains("min"))
+            CompoundTag data = held.has(DataComponents.CUSTOM_DATA)?held.get(DataComponents.CUSTOM_DATA).copyTag():null;
+            if (data != null && data.contains("min"))
             {
                 final Minecraft mc = Minecraft.getInstance();
                 final Vec3 projectedView = mc.gameRenderer.getMainCamera().getPosition();
                 Vec3 pointed = new Vec3(projectedView.x, projectedView.y, projectedView.z)
-                        .add(mc.player.getViewVector(event.getPartialTick()));
+                        .add(mc.player.getViewVector(event.getPartialTick().getGameTimeDeltaTicks()));
                 if (mc.hitResult != null && mc.hitResult.getType() == Type.BLOCK)
                 {
                     final BlockHitResult result = (BlockHitResult) mc.hitResult;
@@ -130,10 +132,10 @@ public class ClientInit
                             result.getBlockPos().getZ());
                     //
                 }
-                final Vector3 v = Vector3.readFromNBT(held.getTag().getCompound("min"), "");
+                final Vector3 v = Vector3.readFromNBT(data.getCompound("min"), "");
 
                 final AABB one = new AABB(v.getPos());
-                final AABB two = new AABB(new BlockPos(pointed));
+                final AABB two = new AABB(new BlockPos((int) pointed.x, (int) pointed.y, (int) pointed.z));
 
                 final double minX = Math.min(one.minX, two.minX);
                 final double minY = Math.min(one.minY, two.minY);

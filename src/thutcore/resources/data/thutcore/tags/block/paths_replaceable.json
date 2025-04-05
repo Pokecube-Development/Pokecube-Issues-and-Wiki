@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:mooshrooms_spawnable_on",
+    "#minecraft:flowers",
+    "minecraft:brown_mushroom",
+    "minecraft:red_mushroom",
+    { "id": "#pokecube:berry_fruits", "required": false }
+  ]
+}

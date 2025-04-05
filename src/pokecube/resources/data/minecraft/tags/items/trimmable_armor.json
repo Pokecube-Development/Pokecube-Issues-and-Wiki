@@ -1,0 +1,8 @@
+{
+  "values": [
+    {"id": "pokecube_legends:ultra_helmet", "required": false},
+    {"id": "pokecube_legends:ultra_chestplate", "required": false},
+    {"id": "pokecube_legends:ultra_leggings", "required": false},
+    {"id": "pokecube_legends:ultra_boots", "required": false}
+  ]
+}

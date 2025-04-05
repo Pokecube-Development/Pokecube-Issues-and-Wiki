@@ -1,0 +1,6 @@
+{
+    "parent": "pokecube:block/berryfruit",
+    "textures": {
+        "cross": "pokecube:block/chestofruit"
+    }
+}

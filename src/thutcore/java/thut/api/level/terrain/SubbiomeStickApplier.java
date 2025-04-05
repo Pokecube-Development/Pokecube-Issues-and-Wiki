@@ -38,8 +38,8 @@ public class SubbiomeStickApplier implements ICustomStickHandler
     {
         final BiomeType subbiome = this.getSubbiome(player, held);
         final BoundingBox box = BoundingBox.fromCorners(min, max);
-        final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box.minX, box.minY, box.minZ, box.maxX, box.maxY,
-                box.maxZ);
+        final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box.minX(), box.minY(), box.minZ(), box.maxX(), box.maxY(),
+                box.maxZ());
         poses.forEach((p) -> {
             TerrainManager.getInstance().getTerrain(level, p).setBiome(p, subbiome);
         });

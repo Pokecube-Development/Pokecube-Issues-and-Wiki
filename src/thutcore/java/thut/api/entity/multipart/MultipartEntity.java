@@ -41,7 +41,7 @@ public abstract class MultipartEntity<T extends GenericPartEntity<E>, E extends 
     public T[] getParts()
     {
         this.checkUpdateParts();
-        if (!this.isAddedToWorld())
+        if (!this.isAddedToLevel())
         {
             return getHolder().makeAllParts(this.getPartClass());
         }

@@ -1,7 +1,10 @@
 package thut.api.block.flowing.functions;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonObject;
+import java.util.List;
+import java.util.function.Supplier;
+
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
@@ -10,26 +13,29 @@ import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunct
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraftforge.registries.RegistryObject;
 import thut.api.block.flowing.IFlowingBlock;
 import thut.core.common.ThutCore;
 
 public class LootLayerFunction extends LootItemConditionalFunction
 {
+    public static final MapCodec<LootLayerFunction> CODEC = RecordCodecBuilder.mapCodec(
+    		instance -> commonFields(instance).apply(instance, LootLayerFunction::new)
+        );
+	
 
-    public static RegistryObject<LootItemFunctionType> TYPE = ThutCore.RegistryEvents.LOOTTYPE
-            .register("flowing_layer_loot", () -> new LootItemFunctionType(new LootLayerFunction.Serializer()));
+    public static Supplier<LootItemFunctionType<LootLayerFunction>> TYPE = ThutCore.RegistryEvents.LOOTTYPE
+            .register("flowing_layer_loot", () -> new LootItemFunctionType<>(CODEC));
 
     public static void init()
     {}
 
-    protected LootLayerFunction(LootItemCondition[] conds)
+    protected LootLayerFunction(List<LootItemCondition> conds)
     {
         super(conds);
     }
 
     @Override
-    public LootItemFunctionType getType()
+    public LootItemFunctionType<LootLayerFunction> getType()
     {
         return TYPE.get();
     }
@@ -51,14 +57,5 @@ public class LootLayerFunction extends LootItemConditionalFunction
         return simpleBuilder((conds) -> {
             return new LootLayerFunction(conds);
         });
-    }
-
-    public static class Serializer extends LootItemConditionalFunction.Serializer<LootLayerFunction>
-    {
-        public LootLayerFunction deserialize(JsonObject object, JsonDeserializationContext context,
-                LootItemCondition[] conditions)
-        {
-            return new LootLayerFunction(conditions);
-        }
     }
 }

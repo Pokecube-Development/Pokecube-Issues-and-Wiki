@@ -1,0 +1,12 @@
+{
+  "feature": "pokecube_legends:golden_grass_and_fern",
+  "placement": [
+    {
+      "type": "minecraft:block_predicate_filter",
+      "predicate": {
+        "type": "minecraft:matching_blocks",
+        "blocks": "minecraft:air"
+      }
+    }
+  ]
+}

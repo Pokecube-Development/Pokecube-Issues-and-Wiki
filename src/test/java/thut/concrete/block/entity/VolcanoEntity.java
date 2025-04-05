@@ -9,7 +9,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
@@ -22,7 +22,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.common.util.INBTSerializable;
 import thut.api.Tracker;
 import thut.api.block.ITickTile;
 import thut.api.block.flowing.FlowingBlock;
@@ -33,6 +33,7 @@ import thut.api.boom.ExplosionCustom.BlockBreaker;
 import thut.api.maths.Vector3;
 import thut.concrete.Concrete;
 import thut.concrete.block.VolcanoBlock;
+import thut.lib.RegHelper;
 
 public class VolcanoEntity extends BlockEntity implements ITickTile {
 	public static abstract class Part implements INBTSerializable<CompoundTag> {
@@ -40,12 +41,12 @@ public class VolcanoEntity extends BlockEntity implements ITickTile {
 		long completed = -1;
 
 		@Override
-		public void deserializeNBT(CompoundTag nbt) {
+		public void deserializeNBT(HolderLookup.Provider provider, CompoundTag nbt) {
 			completed = nbt.getLong("c");
 		}
 
 		@Override
-		public CompoundTag serializeNBT() {
+		public CompoundTag serializeNBT(HolderLookup.Provider provider) {
 			CompoundTag tag = new CompoundTag();
 			tag.putLong("c", completed);
 			return tag;
@@ -93,7 +94,8 @@ public class VolcanoEntity extends BlockEntity implements ITickTile {
 				Set<BlockPos> checked = Sets.newHashSet();
 
 				for (int i = 0; i < length; i++) {
-					BlockPos p = new BlockPos(start.add(dir.scale(i)));
+				    var v = start.add(dir.scale(i));
+					BlockPos p = BlockPos.containing(v);
 					if (checked.contains(p))
 						continue;
 
@@ -121,18 +123,18 @@ public class VolcanoEntity extends BlockEntity implements ITickTile {
 		}
 
 		@Override
-		public CompoundTag serializeNBT() {
-			CompoundTag tag = super.serializeNBT();
-			tag.put("dest", dest.serializeNBT());
+		public CompoundTag serializeNBT(HolderLookup.Provider provider) {
+			CompoundTag tag = super.serializeNBT(provider);
+			tag.put("dest", dest.serializeNBT(provider));
 			tag.putInt("size", size);
 			return tag;
 		}
 
 		@Override
-		public void deserializeNBT(CompoundTag nbt) {
-			super.deserializeNBT(nbt);
+		public void deserializeNBT(HolderLookup.Provider provider, CompoundTag nbt) {
+			super.deserializeNBT(provider, nbt);
 			dest = new Chamber();
-			dest.deserializeNBT(nbt.getCompound("dest"));
+			dest.deserializeNBT(provider, nbt.getCompound("dest"));
 			size = nbt.getInt("size");
 		}
 	}
@@ -156,7 +158,7 @@ public class VolcanoEntity extends BlockEntity implements ITickTile {
 								.setValue(IFlowingBlock.LAYERS, 8).setValue(MoltenBlock.VISCOSITY, viscosity);
 					} else {
 						boolean noDust;
-						Vec3 diff = boom.getPosition().subtract(pos.getX(), pos.getY(), pos.getZ()).normalize();
+						Vec3 diff = boom.center().subtract(pos.getX(), pos.getY(), pos.getZ()).normalize();
 						double dot = diff.dot(new Vec3(0, 1, 0));
 						noDust = dot > 0 || dot < -0.95;
 						if (noDust)
@@ -178,7 +180,7 @@ public class VolcanoEntity extends BlockEntity implements ITickTile {
 					}
 				}
 				Vector3 v = new Vector3().set(pos);
-				Biome b = level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).get(Concrete.VOLCANO_BIOME);
+				Biome b = level.registryAccess().registryOrThrow(RegHelper.BIOME_REGISTRY).get(Concrete.VOLCANO_BIOME);
 				v.setBiome(b, level);
 				return to;
 			}
@@ -234,27 +236,27 @@ public class VolcanoEntity extends BlockEntity implements ITickTile {
 		}
 
 		@Override
-		public CompoundTag serializeNBT() {
-			CompoundTag tag = super.serializeNBT();
+		public CompoundTag serializeNBT(HolderLookup.Provider provider) {
+			CompoundTag tag = super.serializeNBT(provider);
 			tag.put("location", NbtUtils.writeBlockPos(location));
 			tag.putFloat("size", size);
 			ListTag listTag = new ListTag();
 			for (Tube t : tubes)
-				listTag.add(t.serializeNBT());
+				listTag.add(t.serializeNBT(provider));
 			tag.put("tubes", listTag);
 			return tag;
 		}
 
 		@Override
-		public void deserializeNBT(CompoundTag nbt) {
-			super.deserializeNBT(nbt);
+		public void deserializeNBT(HolderLookup.Provider provider, CompoundTag nbt) {
+			super.deserializeNBT(provider, nbt);
 			this.size = nbt.getFloat("size");
-			this.location = NbtUtils.readBlockPos(nbt.getCompound("location"));
+			this.location = NbtUtils.readBlockPos(nbt, "location").get();
 			ListTag listTag = nbt.getList("tubes", nbt.getId());
 			this.tubes.clear();
 			for (int i = 0; i < listTag.size(); i++) {
 				Tube t = new Tube(this);
-				t.deserializeNBT(listTag.getCompound(i));
+				t.deserializeNBT(provider, listTag.getCompound(i));
 				this.tubes.add(t);
 			}
 		}
@@ -269,20 +271,20 @@ public class VolcanoEntity extends BlockEntity implements ITickTile {
 	}
 
 	@Override
-	public void load(CompoundTag tag) {
-		super.load(tag);
-		mainChamber.deserializeNBT(tag.getCompound("chamber"));
+	public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+		super.loadAdditional(tag, registries);
+		mainChamber.deserializeNBT(registries, tag.getCompound("chamber"));
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag tag) {
-		super.saveAdditional(tag);
-		tag.put("chamber", mainChamber.serializeNBT());
+	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+		super.saveAdditional(tag, registries);
+		tag.put("chamber", mainChamber.serializeNBT(registries));
 	}
 
 	@Override
 	public void tick() {
-		if (this.level.isClientSide || !(this.level instanceof ServerLevel level))
+		if (this.level.isClientSide || !(this.level instanceof ServerLevel level) || !Concrete.config.volcanoes_tick)
 			return;
 		if (mainChamber.tubes.isEmpty()) {
 			WorldgenRandom rand = new WorldgenRandom(new LegacyRandomSource(0L));

@@ -2,16 +2,17 @@ package thut.core.client.render.model.parts;
 
 import java.util.Arrays;
 
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
-import com.mojang.math.Matrix3f;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
-import com.mojang.math.Vector4f;
 
+import net.minecraft.util.FastColor;
 import thut.api.maths.vecmath.Vec3f;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.IPartTexturer;
@@ -24,8 +25,6 @@ public abstract class Mesh
     public static float windowScale = 1;
     public static int verts = 0;
     public static double modelCullThreshold = 0;
-
-    private static final float inv_255 = 1 / 255f;
 
     public final Vertex[] vertices;
     public final Vertex[] normals;
@@ -180,12 +179,12 @@ public abstract class Mesh
             float s = len * cullScale;
 
             dp.set(s, s, s, 0);
-            dp.transform(pos);
+            dp.mul(pos);
             dp.mul(a);
             double dr2_us = dp.dot(dp);
 
             dp.set(0, 0, 0, 1);
-            dp.transform(pos);
+            dp.mul(pos);
             double dr2_2 = dp.dot(dp);
 
             boolean size_cull = modelCullThreshold * dr2_2 >= dr2_us;
@@ -193,22 +192,23 @@ public abstract class Mesh
             if (size_cull) return;
         }
 
-        float red = material.rgbabro[0] * inv_255;
-        float green = material.rgbabro[1] * inv_255;
-        float blue = material.rgbabro[2] * inv_255;
-        float alpha = this.material.alpha * material.rgbabro[3] * inv_255;
+        int red = material.rgbabro[0];
+        int green = material.rgbabro[1];
+        int blue = material.rgbabro[2];
+        int alpha = (int) (this.material.alpha * material.rgbabro[3]);
         int lightmapUV = material.rgbabro[4];
         int overlayUV = material.rgbabro[5];
 
         if (debug || overrideColour)
         {
-            red = this.rgbabro[0] * inv_255;
-            green = this.rgbabro[1] * inv_255;
-            blue = this.rgbabro[2] * inv_255;
-            alpha = this.material.alpha * this.rgbabro[3] * inv_255;
+            red = this.rgbabro[0];
+            green = this.rgbabro[1];
+            blue = this.rgbabro[2];
+            alpha = (int) (this.material.alpha * this.rgbabro[3]);
             lightmapUV = this.rgbabro[4];
             overlayUV = this.rgbabro[5];
         }
+        int argb = FastColor.ARGB32.color(alpha, red, green, blue);
 
         final boolean flat = this.material.flat;
         Vertex[] normals = flat ? this.normalList : this.normals;
@@ -262,7 +262,7 @@ public abstract class Mesh
                 nz = normal.z;
 
                 dn.set(nx, ny, nz);
-                dn.transform(norms);
+                dn.mul(norms);
 
                 // Next we can pull out the coordinates if not culled.
                 textureCoordinate = this.textureCoordinates[i];
@@ -273,7 +273,7 @@ public abstract class Mesh
                 z = Math.fma(this.renderScale, (vertex.z - mz), mz);
 
                 dp.set(x, y, z, 1);
-                dp.transform(pos);
+                dp.mul(pos);
 
                 // This results in u * su + du
                 u = Math.fma(textureCoordinate.u, su, du);
@@ -281,10 +281,10 @@ public abstract class Mesh
 
                 // We use the default mob format, since that is what mobs use.
                 // This means we need these in this order!
-                buffer.vertex(
+                buffer.addVertex(
                 //@formatter:off
                     dp.x(), dp.y(), dp.z(),
-                    red, green, blue, alpha,
+                    argb,
                     u, v,
                     overlayUV, lightmapUV,
                     dn.x(), dn.y(), dn.z());
@@ -305,7 +305,7 @@ public abstract class Mesh
             nz = normal.z;
 
             dn.set(nx, ny, nz);
-            dn.transform(norms);
+            dn.mul(norms);
 
             // Next we can pull out the coordinates if not culled.
             textureCoordinate = this.textureCoordinates[i];
@@ -316,7 +316,7 @@ public abstract class Mesh
             z = vertex.z;
 
             dp.set(x, y, z, 1);
-            dp.transform(pos);
+            dp.mul(pos);
 
             // This results in u * su + du
             u = Math.fma(textureCoordinate.u, su, du);
@@ -324,10 +324,10 @@ public abstract class Mesh
 
             // We use the default mob format, since that is what mobs use.
             // This means we need these in this order!
-            buffer.vertex(
+            buffer.addVertex(
             //@formatter:off
                 dp.x(), dp.y(), dp.z(),
-                red, green, blue, alpha,
+                argb,
                 u, v,
                 overlayUV, lightmapUV,
                 dn.x(), dn.y(), dn.z());

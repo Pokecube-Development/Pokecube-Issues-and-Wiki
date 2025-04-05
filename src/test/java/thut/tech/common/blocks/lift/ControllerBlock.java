@@ -1,12 +1,11 @@
 package thut.tech.common.blocks.lift;
 
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -15,7 +14,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.SignalGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -27,6 +26,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import thut.api.block.ITickTile;
 import thut.core.common.network.TileUpdate;
+import thut.lib.TComponent;
 import thut.tech.common.TechCore;
 
 public class ControllerBlock extends Block implements EntityBlock
@@ -97,10 +97,9 @@ public class ControllerBlock extends Block implements EntityBlock
     }
 
     @Override
-    public boolean shouldCheckWeakPower(final BlockState state, final LevelReader world, final BlockPos pos,
-            Direction side)
+    public boolean shouldCheckWeakPower(BlockState state, SignalGetter level, BlockPos pos, Direction side)
     {
-        final ControllerTile te = (ControllerTile) world.getBlockEntity(pos);
+        final ControllerTile te = (ControllerTile) level.getBlockEntity(pos);
         side = side.getOpposite();
         final boolean called = state.getValue(ControllerBlock.CALLED);
         // Note that we do not check if the side is on, as this allows
@@ -120,63 +119,72 @@ public class ControllerBlock extends Block implements EntityBlock
     }
 
     // End of Redstone
-
+    
     @Override
-    public InteractionResult use(final BlockState state, final Level worldIn, final BlockPos pos, final Player playerIn,
-            final InteractionHand handIn, final BlockHitResult hit)
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+            Player playerIn, InteractionHand hand, BlockHitResult hitResult)
     {
-        final ItemStack heldItem = playerIn.getItemInHand(handIn);
-        final Direction side = hit.getDirection();
-        final boolean linkerOrStick = heldItem.getItem() == Items.STICK || heldItem.getItem() == TechCore.LINKER.get();
-        var be = worldIn.getBlockEntity(pos);
-        if (!(be instanceof ControllerTile te)) return InteractionResult.PASS;
-        // This happens when sent from client side!
-        if (!be.hasLevel()) be.setLevel(worldIn);
+        final Direction side = hitResult.getDirection();
+        var be = level.getBlockEntity(pos);
+        if (!(be instanceof ControllerTile te)) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        final boolean linkerOrStick = stack.getItem() == Items.STICK || stack.getItem() == TechCore.LINKER.get();
         if (linkerOrStick && playerIn.isShiftKeyDown())
         {
             if (te.isSideOn(side))
             {
                 te.setSide(side, false);
                 if (!te.getLevel().isClientSide) TileUpdate.sendUpdate(te);
-                return InteractionResult.SUCCESS;
+                return ItemInteractionResult.SUCCESS;
             }
-            return InteractionResult.PASS;
+            return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
         }
         if (!linkerOrStick && side == Direction.DOWN)
         {
-            if (heldItem.getItem() instanceof BlockItem block)
+            if (stack.getItem() instanceof BlockItem block)
             {
-                final BlockPlaceContext context = new BlockPlaceContext(new UseOnContext(playerIn, handIn, hit));
+                final BlockPlaceContext context = new BlockPlaceContext(new UseOnContext(playerIn, hand, hitResult));
                 te.copiedState = block.getBlock().getStateForPlacement(context);
-                worldIn.setBlockAndUpdate(pos, state.setValue(ControllerBlock.MASKED, true));
+                level.setBlockAndUpdate(pos, state.setValue(ControllerBlock.MASKED, true));
                 if (!te.getLevel().isClientSide) TileUpdate.sendUpdate(te);
-                return InteractionResult.SUCCESS;
+                return ItemInteractionResult.SUCCESS;
             }
-            return InteractionResult.PASS;
+            return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
         }
-        if (!te.isSideOn(side) || heldItem.getItem() == Items.STICK)
+        if (!te.isSideOn(side) || stack.getItem() == Items.STICK)
         {
             if (linkerOrStick)
             {
-                if (!worldIn.isClientSide)
+                if (!level.isClientSide)
                 {
                     te.setSide(side, !te.isSideOn(side));
                     if (playerIn instanceof ServerPlayer player) te.sendUpdate(player);
                 }
-                return InteractionResult.SUCCESS;
+                return ItemInteractionResult.SUCCESS;
             }
         }
-        else if (te.isSideOn(side)) if (heldItem.getItem() == TechCore.LINKER.get())
+        else if (te.isSideOn(side)) if (stack.getItem() == TechCore.LINKER.get())
         {
-            if (!worldIn.isClientSide && !te.isEditMode(side) && !te.isFloorDisplay(side))
+            if (!level.isClientSide && !te.isEditMode(side) && !te.isFloorDisplay(side))
             {
                 te.setSidePage(side, (te.getSidePage(side) + 1) % 8);
                 if (playerIn instanceof ServerPlayer player) te.sendUpdate(player);
                 TileUpdate.sendUpdate(te);
             }
-            return InteractionResult.SUCCESS;
+            return ItemInteractionResult.SUCCESS;
         }
-        else if (!playerIn.isShiftKeyDown())
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+    }
+
+    @Override
+    public InteractionResult useWithoutItem(final BlockState state, final Level worldIn, final BlockPos pos,
+            final Player playerIn, final BlockHitResult hit)
+    {
+        final Direction side = hit.getDirection();
+        var be = worldIn.getBlockEntity(pos);
+        if (!(be instanceof ControllerTile te)) return InteractionResult.PASS;
+        // This happens when sent from client side!
+        if (!be.hasLevel()) be.setLevel(worldIn);
+        if (!playerIn.isShiftKeyDown())
         {
             final float hitX = (float) hit.getLocation().x;
             final float hitY = (float) hit.getLocation().y;
@@ -184,23 +192,27 @@ public class ControllerBlock extends Block implements EntityBlock
             return te.doButtonClick(playerIn, side, hitX, hitY, hitZ) ? InteractionResult.SUCCESS
                     : InteractionResult.PASS;
         }
-        if (playerIn.isShiftKeyDown() && handIn == InteractionHand.MAIN_HAND && playerIn instanceof ServerPlayer)
+        if (playerIn.isShiftKeyDown() && playerIn instanceof ServerPlayer)
         {
             final boolean sideOn = !te.isSideOn(side);
-            playerIn.sendMessage(new TranslatableComponent("msg.lift.side." + (sideOn ? "on" : "off")), Util.NIL_UUID);
+            thut.lib.ChatHelper.sendSystemMessage(playerIn,
+                    TComponent.translatable("msg.lift.side." + (sideOn ? "on" : "off")));
             if (sideOn)
             {
                 final boolean call = te.isCallPanel(side);
                 final boolean edit = te.isEditMode(side);
                 final boolean display = te.isFloorDisplay(side);
-                if (edit) playerIn.sendMessage(new TranslatableComponent("msg.lift.side.edit"), Util.NIL_UUID);
-                else if (call) playerIn.sendMessage(new TranslatableComponent("msg.lift.side.call"), Util.NIL_UUID);
+                if (edit)
+                    thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable("msg.lift.side.edit"));
+                else if (call)
+                    thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable("msg.lift.side.call"));
                 else if (display)
-                    playerIn.sendMessage(new TranslatableComponent("msg.lift.side.display"), Util.NIL_UUID);
+                    thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable("msg.lift.side.display"));
                 else
                 {
                     final int page = te.getSidePage(side);
-                    playerIn.sendMessage(new TranslatableComponent("msg.lift.side.page", page), Util.NIL_UUID);
+                    thut.lib.ChatHelper.sendSystemMessage(playerIn,
+                            TComponent.translatable("msg.lift.side.page", page));
                 }
             }
         }

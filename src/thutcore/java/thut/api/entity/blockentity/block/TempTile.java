@@ -3,15 +3,17 @@ package thut.api.entity.blockentity.block;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.joml.Vector3f;
+
 import com.google.common.collect.Sets;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -21,8 +23,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
 import thut.api.block.ITickTile;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.BlockEntityBase.RelativeEntityPos;
@@ -91,8 +91,8 @@ public class TempTile extends BlockEntity implements ITickTile
         return null;
     }
 
-    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos, final Player player,
-            final InteractionHand hand, final BlockHitResult hit)
+    public InteractionResult useWithoutItem(final BlockState state, final Level world, final BlockPos pos, final Player player,
+             final BlockHitResult hit)
     {
         final BlockState eff = this.getEffectiveState();
         if (eff != null && !NO_INTERACT.contains(eff) && blockEntity.getFakeWorld() instanceof Level level)
@@ -102,7 +102,7 @@ public class TempTile extends BlockEntity implements ITickTile
             {
                 BlockEntity be = this.getEffectiveTile();
                 if (be != null && be.getLevel() == null) be.setLevel(level);
-                res = eff.use(level, player, hand, hit);
+                res = eff.useWithoutItem(level, player, hit);
             }
             catch (Exception e)
             {
@@ -111,17 +111,41 @@ public class TempTile extends BlockEntity implements ITickTile
             }
             if (res != InteractionResult.PASS) return res;
         }
+        return blockEntity.interactAtFromTile(player, hit.getLocation(), player.getUsedItemHand());
+    }
+    
+    public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos,
+            Player player, InteractionHand hand, BlockHitResult hitResult)
+    {
+        final BlockState eff = this.getEffectiveState();
+        if (eff != null && !NO_INTERACT.contains(eff) && blockEntity.getFakeWorld() instanceof Level level)
+        {
+            ItemInteractionResult res = ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            try
+            {
+                BlockEntity be = this.getEffectiveTile();
+                if (be != null && be.getLevel() == null) be.setLevel(level);
+                res = eff.useItemOn(stack, level, player, hand, hitResult);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                NO_INTERACT.add(eff);
+            }
+            if (res != ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION) return res;
+        }
         // Otherwise forward the interaction to the block entity;
-        return blockEntity.interactAtFromTile(player, hit.getLocation(), hand);
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
-    @Override
-    public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
-    {
-        final BlockEntity effective = this.getEffectiveTile();
-        if (effective != null && !(effective instanceof TempTile)) return effective.getCapability(cap, side);
-        return super.getCapability(cap, side);
-    }
+//    TODO figure out how to sync these now...
+//    @Override
+//    public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
+//    {
+//        final BlockEntity effective = this.getEffectiveTile();
+//        if (effective != null && !(effective instanceof TempTile)) return effective.getCapability(cap, side);
+//        return super.getCapability(cap, side);
+//    }
 
     public VoxelShape getShape(boolean forCollide)
     {

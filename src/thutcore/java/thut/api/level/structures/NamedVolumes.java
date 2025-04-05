@@ -6,16 +6,15 @@ import java.util.Map.Entry;
 import com.google.common.collect.Lists;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
-import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
+import thut.lib.RegHelper;
 
 public class NamedVolumes
 {
@@ -94,15 +93,14 @@ public class NamedVolumes
     {
         List<INamedPart> parts = Lists.newArrayList();
         final String name;
-        public ConfiguredStructureFeature<?, ?> feature;
+        public Structure feature;
         public StructureStart start;
         final ServerLevel level;
 
         private int hash = -1;
         private String key;
 
-        public NamedStructureWrapper(ServerLevel level, String name,
-                Entry<ConfiguredStructureFeature<?, ?>, StructureStart> entry)
+        public NamedStructureWrapper(ServerLevel level, String name, Entry<Structure, StructureStart> entry)
         {
             this.feature = entry.getKey();
             this.name = name;
@@ -143,8 +141,8 @@ public class NamedVolumes
         public boolean is(String name)
         {
             if (INamedStructure.super.is(name)) return true;
-            var key = Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY;
-            var tag = TagKey.create(key, new ResourceLocation(name));
+            var key = RegHelper.STRUCTURE_REGISTRY;
+            var tag = TagKey.create(key, ResourceLocation.parse(name));
             var registry = level.registryAccess().registryOrThrow(key);
             var opt_holder = registry.getHolder(registry.getId(this.feature));
             return opt_holder.get().is(tag);
@@ -180,9 +178,9 @@ public class NamedVolumes
         {
             this.part = part;
             if (source != null && part instanceof PoolElementStructurePiece p
-                    && p.getElement() instanceof ExpandedJigsawPiece exp)
+                    && p.getElement() instanceof INamedPart exp)
             {
-                this.name = exp.name;
+                this.name = exp.getName();
             }
             else this.name = "unk_part";
         }

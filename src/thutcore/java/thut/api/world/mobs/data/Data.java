@@ -1,9 +1,12 @@
 package thut.api.world.mobs.data;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.core.HolderLookup;
 
 public interface Data<T>
 {
+	void setHolderLookup(HolderLookup.Provider provider);
+		
     boolean dirty();
 
     T get();

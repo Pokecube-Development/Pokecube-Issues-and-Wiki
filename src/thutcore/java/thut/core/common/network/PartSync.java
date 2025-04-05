@@ -6,15 +6,18 @@ import java.util.List;
 import io.netty.buffer.Unpooled;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.entity.PartEntity;
-import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
-import net.minecraftforge.event.entity.player.PlayerEvent.StopTracking;
-import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
+import net.minecraft.world.entity.player.Player;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.fml.util.ObfuscationReflectionHelper;
+import net.neoforged.neoforge.entity.PartEntity;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent.StartTracking;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent.StopTracking;
 import thut.api.entity.EntityProvider;
 import thut.api.entity.multipart.IMultpart;
 import thut.core.common.ThutCore;
@@ -34,20 +37,20 @@ public class PartSync extends BigPacket
 
     public static void sendUpdate(final Entity mob)
     {
-        if (!(mob.level instanceof ServerLevel)) return;
+        if (!(mob.level() instanceof ServerLevel)) return;
         if (!(mob instanceof IMultpart<?, ?>)) return;
-        sendUpdate(mob, !mob.isAddedToWorld());
+        sendUpdate(mob, !mob.isAddedToLevel());
     }
 
     public static void sendUpdate(final Entity mob, boolean remove)
     {
         byte[] tag = makePacket(mob, remove);
-        if (tag != null) PartSync.ASSEMBLER.sendToTracking(new PartSync(tag), mob);
+        if (tag != null) PartSync.ASSEMBLER.sendToTracking(tag, mob);
     }
 
     private static byte[] makePacket(Entity mob, boolean remove)
     {
-        if (!(mob.level instanceof ServerLevel level)) return null;
+        if (!(mob.level() instanceof ServerLevel level)) return null;
         if (!(mob instanceof IMultpart<?, ?> parts)) return null;
         if (parts.getHolder().allParts().isEmpty()) return null;
 
@@ -96,15 +99,15 @@ public class PartSync extends BigPacket
     private static void onStopTracking(StopTracking event)
     {
         byte[] tag = makePacket(event.getTarget(), true);
-        if (tag != null && event.getPlayer() instanceof ServerPlayer player)
-            PartSync.ASSEMBLER.sendTo(new PartSync(tag), player);
+        if (tag != null && event.getEntity() instanceof ServerPlayer player)
+            PartSync.ASSEMBLER.sendTo(tag, player);
     }
 
     private static void onStartTracking(StartTracking event)
     {
         byte[] tag = makePacket(event.getTarget(), false);
-        if (tag != null && event.getPlayer() instanceof ServerPlayer player)
-            PartSync.ASSEMBLER.sendTo(new PartSync(tag), player);
+        if (tag != null && event.getEntity() instanceof ServerPlayer player)
+            PartSync.ASSEMBLER.sendTo(tag, player);
     }
 
     public PartSync()
@@ -118,14 +121,9 @@ public class PartSync extends BigPacket
         this.setData(tag);
     }
 
-    public PartSync(final FriendlyByteBuf buffer)
-    {
-        super(buffer);
-    }
-
     @Override
     @OnlyIn(value = Dist.CLIENT)
-    protected void onCompleteClient()
+    protected void onCompleteClient(Player player)
     {
         var buffer = new FriendlyByteBuf(Unpooled.copiedBuffer(this.getData()));
         final net.minecraft.client.multiplayer.ClientLevel world = net.minecraft.client.Minecraft.getInstance().level;
@@ -163,4 +161,10 @@ public class PartSync extends BigPacket
             partMap.put(arr[i], part);
         }
     }
+
+    private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("thutcore:part_sync"));
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
+	}
 }

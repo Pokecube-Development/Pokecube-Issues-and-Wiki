@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" scale="0.25"/>
+  <metadata head="neck:head" headCap="-10,10" headCap1="-10,10"/>
+  <phase axis="2" name="snakeSit" parts="l1:l1_1:l1_2:l1_3:l1_4:l1_5:l1_6"/>
+  <phase axis="2" name="snakeSit" parts="l2:l2_1:l2_2:l2_3:l2_4:l2_5:l2_6"/>
+  <phase axis="2" name="snakeIdle" parts="l1:l1_1:l1_2:l1_3:l1_4:l1_5:l1_6"/>
+  <phase axis="2" name="snakeIdle" parts="l2:l2_1:l2_2:l2_3:l2_4:l2_5:l2_6"/>
+  <phase axis="0" name="snakeWalk" parts="tail:tail1:tail2:tail3:tail4:tail5:tail6"/>
+  <phase axis="0" name="snakeWalk" parts="l1:l1_1:l1_2:l1_3:l1_4:l1_5:l1_6"/>
+  <phase axis="0" name="snakeWalk" parts="l2:l2_1:l2_2:l2_3:l2_4:l2_5:l2_6"/>
+  <customTex default="glaceon">
+   <part name="Head" tex="glaceoneye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:3"/>
+   <part name="Mouth" tex="glaceonmouth"/>
+   <animation diffs="0,0.5" part="Mouth" trigger="random:0.005:3"/>
+  </customTex>
+  <phase type="sitting">
+   <part name="body">
+    <component length="1" name="1" posOffset="0,22,0" rotOffset="-40,0,0" startKey="0"/>
+   </part>
+   <part name="body1">
+    <component length="1" name="1" rotOffset="-10,0,0" startKey="0"/>
+   </part>
+   <part name="leg1">
+    <component length="1" name="1" rotOffset="30,0,-5" startKey="0"/>
+   </part>
+   <part name="leg2">
+    <component length="1" name="1" rotOffset="30,0,5" startKey="0"/>
+   </part>
+   <part name="leg4">
+    <component length="1" name="1" posOffset="0,0,5" rotOffset="-50,0,10" startKey="0"/>
+   </part>
+   <part name="leg3">
+    <component length="1" name="1" posOffset="0,0,5" rotOffset="-50,0,-10" startKey="0"/>
+   </part>
+   <part name="neck">
+    <component length="1" name="1" rotOffset="40,0,0" startKey="0"/>
+   </part>
+   <part name="orl1">
+    <component length="8" name="1" rotChange="0,0,3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="orl2">
+    <component length="8" name="1" rotChange="0,0,-3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+   <part name="tail">
+    <component length="10" name="1" rotOffset="5,0,0" startKey="0"/>
+   </part>
+   <part name="tail1">
+    <component length="10" name="1" rotOffset="5,0,0" startKey="0"/>
+   </part>
+   <part name="tail2">
+    <component length="8" name="1" rotOffset="28,10,0" startKey="0"/>
+   </part>
+   <part name="tail3">
+    <component length="8" name="1" rotOffset="10,15,0" startKey="0"/>
+   </part>
+   <part name="tail4">
+    <component length="8" name="1" rotOffset="15,15,0" startKey="0"/>
+   </part>
+   <part name="tail5">
+    <component length="8" name="1" rotOffset="20,15,0" startKey="0"/>
+   </part>
+   <part name="tail5_1">
+    <component length="8" name="1" rotOffset="40,0,0" startKey="0"/>
+   </part>
+   <part name="tail5_2">
+    <component length="8" name="1" rotOffset="40,0,0" startKey="0"/>
+   </part>
+   <part name="tail6_1">
+    <component length="8" name="1" rotOffset="40,0,0" startKey="0"/>
+   </part>
+   <part name="tail6_2">
+    <component length="8" name="1" rotOffset="40,0,0" startKey="0"/>
+   </part>
+  </phase>
+  <phase type="idle">
+   <part name="leg1">
+    <component length="8" name="1" rotOffset="8,0,-5" startKey="0"/>
+   </part>
+   <part name="foot1">
+    <component length="8" name="1" rotOffset="0,0,5" startKey="0"/>
+   </part>
+   <part name="leg2">
+    <component length="8" name="1" rotOffset="0,0,5" startKey="0"/>
+   </part>
+   <part name="foot2">
+    <component length="8" name="1" rotOffset="0,0,-5" startKey="0"/>
+   </part>
+   <part name="leg4">
+    <component length="8" name="1" rotOffset="-8,0,-5" startKey="0"/>
+   </part>
+   <part name="foot4">
+    <component length="8" name="1" rotOffset="-4,0,5" startKey="0"/>
+   </part>
+   <part name="leg3">
+    <component length="8" name="1" rotOffset="8,0,5" startKey="0"/>
+   </part>
+   <part name="foot3">
+    <component length="8" name="1" rotOffset="-4,0,-5" startKey="0"/>
+   </part>
+   <part name="a1">
+    <component length="8" name="1" rotChange="0,0,4" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-4" startKey="10"/>
+   </part>
+   <part name="a2">
+    <component length="8" name="1" rotChange="0,0,-4" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,4" startKey="10"/>
+   </part>
+   <part name="orl1">
+    <component length="8" name="1" rotChange="0,0,3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="orl2">
+    <component length="8" name="1" rotChange="0,0,-3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="orl1">
+    <component length="8" name="1" rotChange="0,0,3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="orl2">
+    <component length="8" name="1" rotChange="0,0,-3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+   <part name="leg1">
+    <component length="10" name="1" rotChange="-20,0,0," startKey="0"/>
+	<component length="10" name="2" rotChange="40,0,0," startKey="5"/>
+	<component length="10" name="3" rotChange="-20,0,0," startKey="10"/>
+   </part>
+   <part name="leg1_1">
+    <component length="10" name="1" rotChange="-25,0,0," startKey="0"/>
+	<component length="10" name="2" rotChange="50,0,0," startKey="5"/>
+	<component length="10" name="3" rotChange="-25,0,0," startKey="10"/>
+   </part>  
+   <part name="leg4">
+    <component length="10" name="1" rotChange="20,0,0," startKey="0"/>
+	<component length="10" name="2" rotChange="-40,0,0," startKey="5"/>
+	<component length="10" name="3" rotChange="20,0,0," startKey="10"/>
+   </part>
+   <part name="leg4_1">
+    <component length="10" name="1" rotChange="25,0,0," startKey="0"/>
+	<component length="10" name="2" rotChange="-50,0,0," startKey="5"/>
+	<component length="10" name="3" rotChange="25,0,0," startKey="10"/>
+   </part> 
+   <part name="leg2">
+    <component length="10" name="1" rotChange="20,0,0," startKey="0"/>
+	<component length="10" name="2" rotChange="-40,0,0," startKey="5"/>
+	<component length="10" name="3" rotChange="20,0,0," startKey="10"/>
+   </part>
+   <part name="leg2_1">
+    <component length="10" name="1" rotChange="25,0,0," startKey="0"/>
+	<component length="10" name="2" rotChange="-50,0,0," startKey="5"/>
+	<component length="10" name="3" rotChange="25,0,0," startKey="10"/>
+   </part>
+   <part name="leg3">
+    <component length="10" name="1" rotChange="-20,0,0," startKey="0"/>
+	<component length="10" name="2" rotChange="40,0,0," startKey="5"/>
+	<component length="10" name="3" rotChange="-20,0,0," startKey="10"/>
+   </part>
+   <part name="leg3_1">
+    <component length="10" name="1" rotChange="-25,0,0," startKey="0"/>
+	<component length="10" name="2" rotChange="50,0,0," startKey="5"/>
+	<component length="10" name="3" rotChange="-25,0,0," startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

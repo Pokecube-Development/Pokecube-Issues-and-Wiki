@@ -15,13 +15,12 @@ import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.event.TickEvent.WorldTickEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
@@ -43,7 +42,7 @@ public class ThutTeleporter
         }
 
         @SubscribeEvent
-        public void damage(final LivingHurtEvent event)
+        public void damage(final LivingDamageEvent.Pre event)
         {
             if (!event.getEntity().getUUID().equals(this.entity.getUUID())) return;
             final long time = this.overworld.getGameTime();
@@ -52,7 +51,7 @@ public class ThutTeleporter
                 ThutCore.FORGE_BUS.unregister(this);
                 return;
             }
-            event.setCanceled(true);
+            event.setNewDamage(0);
         }
 
     }
@@ -73,11 +72,11 @@ public class ThutTeleporter
             this.destWorld = destWorld;
             final boolean inTick = destWorld.isHandlingTick();
             if (inTick) ThutCore.FORGE_BUS.register(this);
-            else if (entity instanceof ServerPlayer player)
+            else if (this.entity instanceof ServerPlayer player)
             {
                 player.isChangingDimension = true;
-                player.teleportTo(destWorld, dest.getTeleLoc().x, dest.getTeleLoc().y, dest.getTeleLoc().z, entity.yRot,
-                        entity.xRot);
+                player.teleportTo(destWorld, dest.getTeleLoc().x, dest.getTeleLoc().y, dest.getTeleLoc().z, entity.getYRot(),
+                        entity.getXRot());
                 if (sound)
                 {
                     destWorld.playLocalSound(dest.getTeleLoc().x, dest.getTeleLoc().y, dest.getTeleLoc().z,
@@ -100,16 +99,16 @@ public class ThutTeleporter
         }
 
         @SubscribeEvent
-        public void tickEvent(final WorldTickEvent event)
+        public void tickEvent(final LevelTickEvent.Post event)
         {
-            if (event.world == this.entity.getLevel() && event.phase == Phase.END)
+            if (event.getLevel() == this.entity.level())
             {
                 ThutCore.FORGE_BUS.unregister(this);
                 if (this.entity instanceof ServerPlayer player)
                 {
                     player.isChangingDimension = true;
                     player.teleportTo(this.destWorld, this.dest.getTeleLoc().x, this.dest.getTeleLoc().y,
-                            this.dest.getTeleLoc().z, this.entity.yRot, this.entity.xRot);
+                            this.dest.getTeleLoc().z, this.entity.getYRot(), this.entity.getXRot());
                     if (this.sound)
                     {
                         this.destWorld.playLocalSound(this.dest.getTeleLoc().x, this.dest.getTeleLoc().y,
@@ -155,10 +154,9 @@ public class ThutTeleporter
         }
 
         @SubscribeEvent
-        public void TickEvent(final WorldTickEvent event)
+        public void TickEvent(final LevelTickEvent.Post event)
         {
-            if (event.world != this.world) return;
-            if (event.phase != Phase.END) return;
+            if (event.getLevel() != this.world) return;
             if (this.n++ > 20) ThutCore.FORGE_BUS.unregister(this);
             final Entity mount = this.world.getEntity(this.mount);
             final Entity rider = this.world.getEntity(this.rider);
@@ -182,10 +180,10 @@ public class ThutTeleporter
 
     public static void transferTo(final Entity entity, final TeleDest dest, final boolean sound)
     {
-        if (entity.getLevel() instanceof ServerLevel)
+        if (entity.level() instanceof ServerLevel)
         {
             new InvulnTicker(entity);
-            if (dest.loc.dimension() == entity.level.dimension())
+            if (dest.loc.dimension() == entity.level().dimension())
             {
                 ThutTeleporter.moveMob(entity, dest);
                 return;
@@ -198,13 +196,13 @@ public class ThutTeleporter
 
     private static void transferMob(final ServerLevel destWorld, final TeleDest dest, final Entity entity)
     {
-        ServerPlayer player = null;
-        if (entity instanceof ServerPlayer)
+    	ServerPlayer player = null;
+        if (entity instanceof ServerPlayer access)
         {
-            player = (ServerPlayer) entity;
+            player = access;
             player.isChangingDimension = true;
         }
-        final ServerLevel serverworld = (ServerLevel) entity.getLevel();
+        final ServerLevel serverworld = (ServerLevel) entity.level();
 
         final List<Entity> passengers = entity.getPassengers();
         entity.ejectPassengers();
@@ -219,21 +217,21 @@ public class ThutTeleporter
 
         ThutTeleporter.removeMob(serverworld, entity, true);
         entity.revive();
-        entity.moveTo(dest.getTeleLoc().x, dest.getTeleLoc().y, dest.getTeleLoc().z, entity.yRot, entity.xRot);
+        entity.moveTo(dest.getTeleLoc().x, dest.getTeleLoc().y, dest.getTeleLoc().z, entity.getYRot(), entity.getXRot());
         entity.level = destWorld;
         ThutTeleporter.addMob(destWorld, entity);
         if (player != null)
         {
             player.isChangingDimension = false;
             player.connection.resetPosition();
-            player.connection.teleport(dest.getTeleLoc().x, dest.getTeleLoc().y, dest.getTeleLoc().z, entity.yRot,
-                    entity.xRot);
+            player.connection.teleport(dest.getTeleLoc().x, dest.getTeleLoc().y, dest.getTeleLoc().z, entity.getYRot(),
+                    entity.getXRot());
         }
     }
 
     private static void addMob(final ServerLevel world, final Entity entity)
     {
-        var event = new EntityJoinWorldEvent(entity, world);
+        var event = new EntityJoinLevelEvent(entity, world);
         ThutCore.FORGE_BUS.post(event);
         if (event.isCanceled()) return;
         final ChunkAccess ichunk = world.getChunk(Mth.floor(entity.getX() / 16.0D), Mth.floor(entity.getZ() / 16.0D),
@@ -263,15 +261,15 @@ public class ThutTeleporter
             targetZ = event.getTargetZ();
 
             dest = new TeleDest().setLoc(
-                    GlobalPos.of(dest.getPos().dimension(), new BlockPos(targetX, targetY, targetZ)),
+                    GlobalPos.of(dest.getPos().dimension(), new BlockPos((int) targetX, (int) targetY, (int) targetZ)),
                     new Vector3().set(targetX, targetY, targetZ));
         }
 
         if (entity instanceof ServerPlayer player)
         {
             player.isChangingDimension = true;
-            player.connection.teleport(dest.getTeleLoc().x, dest.getTeleLoc().y, dest.getTeleLoc().z, entity.yRot,
-                    entity.xRot);
+            player.connection.teleport(dest.getTeleLoc().x, dest.getTeleLoc().y, dest.getTeleLoc().z, entity.getYRot(),
+                    entity.getXRot());
             player.connection.resetPosition();
             player.isChangingDimension = false;
         }

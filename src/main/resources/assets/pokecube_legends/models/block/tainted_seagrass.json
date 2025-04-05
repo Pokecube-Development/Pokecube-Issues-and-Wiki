@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/template_seagrass",
-  "textures": {
-    "texture": "pokecube_legends:block/tainted_seagrass"
-  }
-}

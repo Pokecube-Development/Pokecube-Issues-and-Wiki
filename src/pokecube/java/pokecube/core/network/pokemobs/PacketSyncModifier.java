@@ -1,0 +1,80 @@
+package pokecube.core.network.pokemobs;
+
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.Stats;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.stats.IStatsModifiers;
+import pokecube.core.PokecubeCore;
+import thut.core.common.network.Packet;
+
+public class PacketSyncModifier extends Packet
+{
+    public static void sendUpdate(final String type, final IPokemob pokemob)
+    {
+        if (pokemob == null) return;
+        if (!pokemob.getEntity().isAddedToLevel()) return;
+        final PacketSyncModifier packet = new PacketSyncModifier();
+        packet.entityId = pokemob.getEntity().getId();
+        packet.modifier = pokemob.getModifiers().indecies.get(type);
+        for (final Stats stat : Stats.values())
+            packet.values[stat.ordinal()] = pokemob.getModifiers().sortedModifiers.get(packet.modifier).getModifierRaw(
+                    stat);
+        PokecubeCore.packets.sendToTracking(packet, pokemob.getEntity());
+    }
+
+    int   entityId;
+    int   modifier;
+    float values[] = new float[Stats.values().length];
+
+    public PacketSyncModifier()
+    {
+    }
+
+    public void read(final FriendlyByteBuf buf)
+    {
+        this.entityId = buf.readInt();
+        this.modifier = buf.readInt();
+        for (int i = 0; i < this.values.length; i++)
+            this.values[i] = buf.readFloat();
+    }
+
+    @Override
+    public void handleClient(Player player)
+    {
+        final int id = this.entityId;
+        final int modifier = this.modifier;
+        final float[] values = this.values;
+        final Entity e = PokecubeAPI.getEntityProvider().getEntity(player.level(), id, true);
+        final IPokemob mob = PokemobCaps.getPokemobFor(e);
+        if (mob != null)
+        {
+            final IStatsModifiers stats = mob.getModifiers().sortedModifiers.get(modifier);
+            for (final Stats stat : Stats.values())
+                stats.setModifier(stat, values[stat.ordinal()]);
+        }
+    }
+
+    @Override
+    public void write(final FriendlyByteBuf buf)
+    {
+        buf.writeInt(this.entityId);
+        buf.writeInt(this.modifier);
+        for (final float value : this.values)
+            buf.writeFloat(value);
+    }
+
+    private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("pokecube:pokemob_stat_mods"));
+
+    @Override
+    public Type<? extends CustomPacketPayload> type()
+    {
+        return TYPE;
+    }
+
+}

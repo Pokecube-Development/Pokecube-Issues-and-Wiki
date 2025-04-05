@@ -1,0 +1,9 @@
+{
+  "asset_name": "sapphire",
+  "description": {
+    "color": "#0043D3",
+    "translate": "trim_material.pokecube_legends.sapphire"
+  },
+  "ingredient": "pokecube_legends:sapphire",
+  "item_model_index": 0.8
+}

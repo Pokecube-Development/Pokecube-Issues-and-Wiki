@@ -1,19 +1,18 @@
 package thut.tech.client.render;
 
 import java.awt.Color;
-import java.util.Random;
+
+import org.joml.Matrix4f;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderStateShard.TextureStateShard;
@@ -23,14 +22,15 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.EmptyModelData;
-import net.minecraftforge.client.model.data.IModelData;
+import net.neoforged.neoforge.client.model.data.ModelData;
 import thut.api.entity.blockentity.world.IBlockEntityWorld;
 import thut.tech.common.TechCore;
 import thut.tech.common.blocks.lift.ControllerTile;
@@ -39,15 +39,15 @@ import thut.tech.common.entity.EntityLift;
 public class ControllerRenderer implements BlockEntityRenderer<ControllerTile>
 {
 
-    private static final ResourceLocation overlay = new ResourceLocation("thuttech:textures/blocks/overlay.png");
-    private static final ResourceLocation overlay_1 = new ResourceLocation("thuttech:textures/blocks/overlay_1.png");
-    private static final ResourceLocation font = new ResourceLocation("thuttech:textures/blocks/font.png");
+    private static final ResourceLocation overlay = ResourceLocation.parse("thuttech:textures/block/overlay.png");
+    private static final ResourceLocation overlay_1 = ResourceLocation.parse("thuttech:textures/block/overlay_1.png");
+    private static final ResourceLocation font = ResourceLocation.parse("thuttech:textures/block/font.png");
 
     // Buttons for edit mode
-    private static final ResourceLocation call = new ResourceLocation("thuttech:textures/blocks/overlay_call.png");
-    private static final ResourceLocation disp = new ResourceLocation("thuttech:textures/blocks/overlay_display.png");
-    private static final ResourceLocation exit = new ResourceLocation("thuttech:textures/blocks/overlay_exit.png");
-    private static final ResourceLocation unlink = new ResourceLocation("thuttech:textures/blocks/overlay_unlink.png");
+    private static final ResourceLocation call = ResourceLocation.parse("thuttech:textures/block/overlay_call.png");
+    private static final ResourceLocation disp = ResourceLocation.parse("thuttech:textures/block/overlay_display.png");
+    private static final ResourceLocation exit = ResourceLocation.parse("thuttech:textures/block/overlay_exit.png");
+    private static final ResourceLocation unlink = ResourceLocation.parse("thuttech:textures/block/overlay_unlink.png");
 
     private static void render(final RenderType type, final PoseStack mat, final MultiBufferSource buff, final float x1,
             final float y1, final float x2, final float y2, final float r, final float g, final float b, final float a,
@@ -62,10 +62,10 @@ public class ControllerRenderer implements BlockEntityRenderer<ControllerTile>
     {
         final VertexConsumer buffer = buff.getBuffer(type);
         final Matrix4f o = mat.last().pose();
-        buffer.vertex(o, x2, y2, 0).color(r, g, b, a).uv(u1, v1).endVertex();
-        buffer.vertex(o, x2, y1, 0).color(r, g, b, a).uv(u1, v2).endVertex();
-        buffer.vertex(o, x1, y1, 0).color(r, g, b, a).uv(u2, v2).endVertex();
-        buffer.vertex(o, x1, y2, 0).color(r, g, b, a).uv(u2, v1).endVertex();
+        buffer.addVertex(o, x2, y2, 0).setUv(u1, v1).setColor(r, g, b, a);
+        buffer.addVertex(o, x2, y1, 0).setUv(u1, v2).setColor(r, g, b, a);
+        buffer.addVertex(o, x1, y1, 0).setUv(u2, v2).setColor(r, g, b, a);
+        buffer.addVertex(o, x1, y2, 0).setUv(u2, v1).setColor(r, g, b, a);
     }
 
     private static final TransparencyStateShard TRANSP = new RenderStateShard.TransparencyStateShard(
@@ -81,7 +81,7 @@ public class ControllerRenderer implements BlockEntityRenderer<ControllerTile>
 
     private static RenderType.CompositeState getState(final ResourceLocation texture)
     {
-        return RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_COLOR_TEX_SHADER)
+        return RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_COLOR_TEX_LIGHTMAP_SHADER)
                 .setTextureState(new TextureStateShard(texture, false, true))
                 .setTransparencyState(ControllerRenderer.TRANSP).setWriteMaskState(ControllerRenderer.MASK)
                 .createCompositeState(false);
@@ -89,7 +89,7 @@ public class ControllerRenderer implements BlockEntityRenderer<ControllerTile>
 
     public static RenderType makeType(final ResourceLocation tex)
     {
-        return RenderType.create(tex.toString(), DefaultVertexFormat.POSITION_COLOR_TEX, Mode.QUADS, 256, false, true,
+        return RenderType.create(tex.toString(), DefaultVertexFormat.POSITION_TEX_COLOR, Mode.QUADS, 256, false, true,
                 ControllerRenderer.getState(tex));
     }
 
@@ -269,16 +269,13 @@ public class ControllerRenderer implements BlockEntityRenderer<ControllerTile>
                 world = w.getWorld();
                 randPos = BlockPos.ZERO;
             }
-            final IModelData data = Minecraft.getInstance().getBlockRenderer().getBlockModel(copied).getModelData(world,
-                    pos, copied, EmptyModelData.INSTANCE);
-            for (final RenderType type : RenderType.chunkBufferLayers())
-                if (ItemBlockRenderTypes.canRenderInLayer(copied, type))
-            {
-                final BlockRenderDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
-                final BakedModel model = blockRenderer.getBlockModel(copied);
-                blockRenderer.getModelRenderer().tesselateBlock(world, model, copied, pos, mat, buff.getBuffer(type),
-                        false, new Random(), copied.getSeed(randPos), combinedOverlayIn, data);
-            }
+            BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
+            var model = dispatcher.getBlockModel(copied);
+            for (var renderType : model.getRenderTypes(copied, RandomSource.create(copied.getSeed(randPos)),
+                    ModelData.EMPTY))
+                dispatcher.getModelRenderer().tesselateBlock((BlockAndTintGetter) world, model, copied, pos, mat,
+                        buff.getBuffer(renderType), false, RandomSource.create(), copied.getSeed(pos),
+                        OverlayTexture.NO_OVERLAY, ModelData.EMPTY, renderType);
             mat.popPose();
         }
 
@@ -291,7 +288,7 @@ public class ControllerRenderer implements BlockEntityRenderer<ControllerTile>
             mat.pushPose();
             final float f = dir.toYRot();
             mat.translate(0.5D, 0.5D, 0.5D);
-            mat.mulPose(Vector3f.YN.rotationDegrees(f + 180));
+            mat.mulPose(Axis.YN.rotationDegrees(f + 180));
             mat.translate(-0.5D, -0.5D, -0.5D);
 
             int a = 64;

@@ -1,10 +1,9 @@
 package thut.api.entity.teleporting;
 
-import net.minecraftforge.eventbus.api.Cancelable;
-import net.minecraftforge.eventbus.api.Event;
+import net.neoforged.bus.api.Event;
+import net.neoforged.bus.api.ICancellableEvent;
 
-@Cancelable
-public class TeleLoadEvent extends Event
+public class TeleLoadEvent extends Event implements ICancellableEvent
 {
     private final TeleDest dest;
 

@@ -8,15 +8,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 import net.minecraft.nbt.ByteArrayTag;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtAccounter;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.network.PacketDistributor.PacketTarget;
+import net.minecraft.world.level.chunk.LevelChunk;
 import thut.core.common.ThutCore;
 import thut.core.common.network.PacketHandler;
 
@@ -61,42 +62,45 @@ public final class PacketAssembly<T extends NBTPacket>
         this.handler = handler;
     }
 
-    public void sendTo(final T packet, final ServerPlayer player)
+    public void sendTo(final CompoundTag packet, final ServerPlayer player)
     {
-        this.sendTo(packet, PacketDistributor.PLAYER.with(() -> player));
+        sendTo(packet, p -> handler.sendTo(p, player));
     }
 
-    public void sendToTracking(final T message, final Entity entity)
+    public void sendToTracking(final CompoundTag packet, final LevelChunk chunk)
     {
-        this.sendTo(message, PacketDistributor.TRACKING_ENTITY.with(() -> entity));
+        sendTo(packet, p -> handler.sendToTracking(p, chunk));
     }
 
-    public void sendTo(final T packet, final PacketTarget target)
+    public void sendToTracking(final CompoundTag packet, final Entity entity)
+    {
+        sendTo(packet, p -> handler.sendToTracking(p, entity));
+    }
+
+    public void sendToServer(final CompoundTag packet)
+    {
+        sendTo(packet, p -> handler.sendToServer(p));
+    }
+
+    public void sendTo(final CompoundTag packet, Consumer<T> processor)
     {
         final UUID id = UUID.randomUUID();
-        final List<CompoundTag> tags = this.splitPacket(id, packet.getTag());
+        final List<CompoundTag> tags = this.splitPacket(id, packet);
         for (final CompoundTag tag : tags)
         {
             final T newPacket = this.factory.create();
             newPacket.setTag(tag);
-            this.handler.channel().send(target, newPacket);
-        }
-    }
-
-    public void sendToServer(final T packet)
-    {
-        final UUID id = UUID.randomUUID();
-        final List<CompoundTag> tags = this.splitPacket(id, packet.getTag());
-        for (final CompoundTag tag : tags)
-        {
-            final T newPacket = this.factory.create();
-            newPacket.setTag(tag);
-            this.handler.channel().sendToServer(newPacket);
+            processor.accept(newPacket);
         }
     }
 
     protected CompoundTag onRead(final CompoundTag tag)
     {
+        if (tag == null)
+        {
+            ThutCore.LOGGER.error("Error with bad packet! Tag:" + tag, new IllegalStateException());
+            return null;
+        }
         final UUID id = tag.getUUID("id");
         final CompoundTag made = this.assemblePacket(id, tag);
         return made;
@@ -132,7 +136,6 @@ public final class PacketAssembly<T extends NBTPacket>
                 container.putUUID("id", id);
                 pkts.add(container);
             }
-
             return pkts;
         }
         catch (final Exception e)
@@ -151,7 +154,7 @@ public final class PacketAssembly<T extends NBTPacket>
         final int size = tags.getInt("size");
         final int index = tags.getInt("start");
         final boolean end = tags.getBoolean("end");
-        final byte[] data = tags.getByteArray("data");
+        byte[] data = tags.getByteArray("data");
 
         byte[] tmp = this.getBuffer(id);
 
@@ -172,10 +175,9 @@ public final class PacketAssembly<T extends NBTPacket>
         if (end)
         {
             this.clearBuffer(id);
-
             try
             {
-                return NbtIo.readCompressed(new ByteArrayInputStream(tmp));
+                return NbtIo.readCompressed(new ByteArrayInputStream(tmp), NbtAccounter.create(104857600L));
             }
             catch (final Exception e)
             {

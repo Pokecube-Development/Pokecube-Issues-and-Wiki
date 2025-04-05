@@ -1,0 +1,9 @@
+{
+  "asset_name": "ash",
+  "description": {
+    "color": "#706C70",
+    "translate": "trim_material.pokecube_legends.ash"
+  },
+  "ingredient": "pokecube_legends:pile_of_ash",
+  "item_model_index": 0.8
+}

@@ -2,6 +2,7 @@ package thut.core.common.genetics.genes;
 
 import java.util.Arrays;
 
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import thut.api.entity.genetics.Gene;
 
@@ -16,13 +17,13 @@ public abstract class GeneIntArray implements Gene<int[]>
     }
 
     @Override
-    public void load(final CompoundTag tag)
+    public void load(Provider provider, final CompoundTag tag)
     {
         this.value = tag.getIntArray("V");
     }
 
     @Override
-    public CompoundTag save()
+    public CompoundTag save(Provider provider)
     {
         final CompoundTag tag = new CompoundTag();
         tag.putIntArray("V", this.value);

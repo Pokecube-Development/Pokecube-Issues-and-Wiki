@@ -12,16 +12,18 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtAccounter;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.storage.LevelResource;
-import net.minecraftforge.event.TickEvent.PlayerTickEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.level.LevelEvent;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import thut.core.common.ThutCore;
 
 public class PlayerDataHandler
@@ -32,7 +34,7 @@ public class PlayerDataHandler
 
         String getIdentifier();
 
-        void readFromNBT(CompoundTag tag);
+        void readFromNBT(Provider provider, CompoundTag tag);
 
         void readSync(ByteBuf data);
 
@@ -40,14 +42,14 @@ public class PlayerDataHandler
 
         void writeSync(ByteBuf data);
 
-        void writeToNBT(CompoundTag tag);
+        void writeToNBT(Provider provider, CompoundTag tag);
 
         default void onPlayerTick(final PlayerTickEvent event)
         {
 
         }
 
-        default void onPlayerUpdate(final LivingUpdateEvent event)
+        default void onPlayerUpdate(final EntityTickEvent.Pre event)
         {
 
         }
@@ -62,35 +64,32 @@ public class PlayerDataHandler
     {
         @Override
         public void readSync(final ByteBuf data)
-        {
-        }
+        {}
 
         @Override
         public void writeSync(final ByteBuf data)
-        {
-        }
+        {}
     }
 
     public static class PlayerDataManager
     {
-        public Map<Class<? extends PlayerData>, PlayerData> data  = Maps.newHashMap();
-        Map<String, PlayerData>                             idMap = Maps.newHashMap();
-        final String                                        uuid;
+        public Map<Class<? extends PlayerData>, PlayerData> data = Maps.newHashMap();
+        Map<String, PlayerData> idMap = Maps.newHashMap();
+        final String uuid;
 
         public PlayerDataManager(final String uuid)
         {
             this.uuid = uuid;
-            for (final Class<? extends PlayerData> type : PlayerDataHandler.dataMap)
-                try
-                {
-                    final PlayerData toAdd = type.getConstructor().newInstance();
-                    this.data.put(type, toAdd);
-                    this.idMap.put(toAdd.getIdentifier(), toAdd);
-                }
-                catch (final Exception e)
-                {
-                    e.printStackTrace();
-                }
+            for (final Class<? extends PlayerData> type : PlayerDataHandler.dataMap) try
+            {
+                final PlayerData toAdd = type.getConstructor().newInstance();
+                this.data.put(type, toAdd);
+                this.idMap.put(toAdd.getIdentifier(), toAdd);
+            }
+            catch (final Exception e)
+            {
+                e.printStackTrace();
+            }
         }
 
         @SuppressWarnings("unchecked")
@@ -106,16 +105,14 @@ public class PlayerDataHandler
     }
 
     private static Set<Class<? extends PlayerData>> dataMap = Sets.newHashSet();
-    private static Set<String>                      dataIds = Sets.newHashSet();
-    private static PlayerDataHandler                INSTANCESERVER;
-    private static PlayerDataHandler                INSTANCECLIENT;
+    private static Set<String> dataIds = Sets.newHashSet();
+    private static PlayerDataHandler INSTANCESERVER;
+    private static PlayerDataHandler INSTANCECLIENT;
 
     public static void clear()
     {
-        if (PlayerDataHandler.INSTANCECLIENT != null) ThutCore.FORGE_BUS.unregister(
-                PlayerDataHandler.INSTANCECLIENT);
-        if (PlayerDataHandler.INSTANCESERVER != null) ThutCore.FORGE_BUS.unregister(
-                PlayerDataHandler.INSTANCESERVER);
+        if (PlayerDataHandler.INSTANCECLIENT != null) ThutCore.FORGE_BUS.unregister(PlayerDataHandler.INSTANCECLIENT);
+        if (PlayerDataHandler.INSTANCESERVER != null) ThutCore.FORGE_BUS.unregister(PlayerDataHandler.INSTANCESERVER);
         PlayerDataHandler.INSTANCECLIENT = PlayerDataHandler.INSTANCESERVER = null;
     }
 
@@ -154,9 +151,9 @@ public class PlayerDataHandler
 
     public static PlayerDataHandler getInstance()
     {
-        if (ThutCore.proxy.isClientSide()) return PlayerDataHandler.INSTANCECLIENT != null
-                ? PlayerDataHandler.INSTANCECLIENT
-                : (PlayerDataHandler.INSTANCECLIENT = new PlayerDataHandler());
+        if (ThutCore.proxy.isClientSide())
+            return PlayerDataHandler.INSTANCECLIENT != null ? PlayerDataHandler.INSTANCECLIENT
+                    : (PlayerDataHandler.INSTANCECLIENT = new PlayerDataHandler());
         return PlayerDataHandler.INSTANCESERVER != null ? PlayerDataHandler.INSTANCESERVER
                 : (PlayerDataHandler.INSTANCESERVER = new PlayerDataHandler());
     }
@@ -168,12 +165,12 @@ public class PlayerDataHandler
 
     public static void saveCustomData(final Player player)
     {
-        PlayerDataHandler.saveCustomData(player.getStringUUID());
+        PlayerDataHandler.saveCustomData(player.registryAccess(), player.getStringUUID());
     }
 
-    public static void saveCustomData(final String cachedUniqueIdString)
+    public static void saveCustomData(Provider provider, final String cachedUniqueIdString)
     {
-        PlayerDataHandler.getInstance().save(cachedUniqueIdString, "misc");
+        PlayerDataHandler.getInstance().save(provider, cachedUniqueIdString, "misc");
     }
 
     private final Map<String, PlayerDataManager> data = Maps.newHashMap();
@@ -184,7 +181,7 @@ public class PlayerDataHandler
     }
 
     @SubscribeEvent
-    public void cleanupOfflineData(final WorldEvent.Save event)
+    public void cleanupOfflineData(final LevelEvent.Save event)
     {
         // Whenever overworld saves, check player list for any that are not
         // online, and remove them. This is done here, and not on logoff, as
@@ -199,29 +196,29 @@ public class PlayerDataHandler
         }
         for (final String s : toUnload)
         {
-            this.save(s);
+            this.save(server.registryAccess(), s);
             this.data.remove(s);
         }
     }
 
     public PlayerDataManager getPlayerData(final Player player)
     {
-        return this.getPlayerData(player.getStringUUID());
+        return this.getPlayerData(player.registryAccess(), player.getStringUUID());
     }
 
-    public PlayerDataManager getPlayerData(final String uuid)
+    public PlayerDataManager getPlayerData(Provider provider, final String uuid)
     {
         PlayerDataManager manager = this.data.get(uuid);
-        if (manager == null) manager = this.load(uuid);
+        if (manager == null) manager = this.load(provider, uuid);
         return manager;
     }
 
-    public PlayerDataManager getPlayerData(final UUID uniqueID)
+    public PlayerDataManager getPlayerData(Provider provider, final UUID uniqueID)
     {
-        return this.getPlayerData(uniqueID.toString());
+        return this.getPlayerData(provider, uniqueID.toString());
     }
 
-    public PlayerDataManager load(final String uuid)
+    public PlayerDataManager load(Provider provider, final String uuid)
     {
         final PlayerDataManager manager = new PlayerDataManager(uuid);
         if (this == PlayerDataHandler.INSTANCESERVER) for (final PlayerData data : manager.data.values())
@@ -239,9 +236,9 @@ public class PlayerDataHandler
             if (file != null && file.exists()) try
             {
                 final FileInputStream fileinputstream = new FileInputStream(file);
-                final CompoundTag CompoundNBT = NbtIo.readCompressed(fileinputstream);
+                final CompoundTag CompoundNBT = NbtIo.readCompressed(fileinputstream, NbtAccounter.create(104857600L));
                 fileinputstream.close();
-                data.readFromNBT(CompoundNBT.getCompound("Data"));
+                data.readFromNBT(provider, CompoundNBT.getCompound("Data"));
             }
             catch (final Exception e)
             {
@@ -253,18 +250,18 @@ public class PlayerDataHandler
         return manager;
     }
 
-    public void save(final String uuid)
+    public void save(Provider provider, final String uuid)
     {
         final PlayerDataManager manager = this.data.get(uuid);
-        if (manager != null && this == PlayerDataHandler.INSTANCESERVER) for (final PlayerData data : manager.data
-                .values())
+        if (manager != null && this == PlayerDataHandler.INSTANCESERVER)
+            for (final PlayerData data : manager.data.values())
         {
             final String fileName = data.dataFileName();
             final File file = PlayerDataHandler.getFileForUUID(uuid, fileName);
             if (file != null)
             {
                 final CompoundTag CompoundNBT = new CompoundTag();
-                data.writeToNBT(CompoundNBT);
+                data.writeToNBT(provider, CompoundNBT);
                 final CompoundTag CompoundNBT1 = new CompoundTag();
                 CompoundNBT1.put("Data", CompoundNBT);
                 try
@@ -275,18 +272,19 @@ public class PlayerDataHandler
                 }
                 catch (final Exception e)
                 {
-                    ThutCore.LOGGER.error("Warning, Data for {} [} was corrupted while trying to save!", uuid, fileName, e);
+                    ThutCore.LOGGER.error("Warning, Data for {} [} was corrupted while trying to save!", uuid, fileName,
+                            e);
                     e.printStackTrace();
                 }
             }
         }
     }
 
-    public void save(final String uuid, final String dataType)
+    public void save(Provider provider, final String uuid, final String dataType)
     {
         final PlayerDataManager manager = this.data.get(uuid);
-        if (manager != null && this == PlayerDataHandler.INSTANCESERVER) for (final PlayerData data : manager.data
-                .values())
+        if (manager != null && this == PlayerDataHandler.INSTANCESERVER)
+            for (final PlayerData data : manager.data.values())
         {
             if (!data.getIdentifier().equals(dataType)) continue;
             final String fileName = data.dataFileName();
@@ -294,7 +292,7 @@ public class PlayerDataHandler
             if (file != null)
             {
                 final CompoundTag CompoundNBT = new CompoundTag();
-                data.writeToNBT(CompoundNBT);
+                data.writeToNBT(provider, CompoundNBT);
                 final CompoundTag CompoundNBT1 = new CompoundTag();
                 CompoundNBT1.put("Data", CompoundNBT);
                 try
@@ -305,7 +303,8 @@ public class PlayerDataHandler
                 }
                 catch (final Exception e)
                 {
-                    ThutCore.LOGGER.error("Warning, Data for {} [} was corrupted while trying to save!", uuid, fileName, e);
+                    ThutCore.LOGGER.error("Warning, Data for {} [} was corrupted while trying to save!", uuid, fileName,
+                            e);
                     e.printStackTrace();
                 }
             }

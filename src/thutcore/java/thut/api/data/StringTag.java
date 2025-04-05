@@ -170,11 +170,11 @@ public class StringTag<T> implements IResourceData
         this.validLoad = false;
         try
         {
-            final String path = new ResourceLocation(this.tagPath).getPath();
+            final String path = ResourceLocation.parse(this.tagPath).getPath();
             var resources = RESOURCE_PROVIDER.apply(path);
             this.validLoad = !resources.isEmpty();
             resources.forEach((l, r) -> {
-                if (l.toString().contains("//")) l = new ResourceLocation(l.toString().replace("//", "/"));
+                if (l.toString().contains("//")) l = ResourceLocation.parse(l.toString().replace("//", "/"));
                 final String tag = l.toString().replace(path, "").replace(".json", "");
                 this.loadTag(l, r, tag, "");
             });

@@ -1,0 +1,44 @@
+package pokecube.core.entity.pokemobs;
+
+import com.google.common.collect.ImmutableSet;
+
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.flag.FeatureFlagSet;
+import net.minecraft.world.level.storage.loot.LootTable;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.utils.PokeType;
+
+public class PokemobType<T extends TamableAnimal> extends EntityType<T>
+{
+    final PokedexEntry entry;
+
+    public PokemobType(final EntityType.EntityFactory<T> factory, final PokedexEntry entry)
+    {
+        super(factory, MobCategory.CREATURE, true, true, false, true, ImmutableSet.of(),
+                EntityDimensions.scalable(entry.width, entry.height), 64, 3, 1, FeatureFlagSet.of());
+        this.entry = entry;
+        entry.setEntityType(this);
+    }
+
+    public PokedexEntry getEntry()
+    {
+        return this.entry;
+    }
+
+    @Override
+    public ResourceKey<LootTable> getDefaultLootTable()
+    {
+        if (this.entry.lootTable != null) return this.entry.lootTable;
+        return super.getDefaultLootTable();
+    }
+
+    @Override
+    public boolean fireImmune()
+    {
+        return this.entry.isType(PokeType.getType("fire")) || this.entry.isHeatProof;
+    }
+}

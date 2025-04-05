@@ -6,8 +6,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.wrapper.InvWrapper;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.items.wrapper.InvWrapper;
 
 public class ItemStackTools
 {
@@ -136,7 +136,7 @@ public class ItemStackTools
 
     private static boolean canMergeStacks(final ItemStack stack1, final ItemStack stack2)
     {
-        return ItemStack.isSameItemSameTags(stack1, stack2) && stack1.isStackable()
+        return ItemStack.isSameItemSameComponents(stack1, stack2) && stack1.isStackable()
                 && stack1.getCount() < stack1.getMaxStackSize();
     }
 
@@ -177,7 +177,6 @@ public class ItemStackTools
         if (itemstack.isEmpty())
         {
             itemstack = itemStackIn.copy();
-            if (itemStackIn.hasTag()) itemstack.setTag(itemStackIn.getTag().copy());
             inventory.setStackInSlot(index, itemstack);
             return 0;
         }

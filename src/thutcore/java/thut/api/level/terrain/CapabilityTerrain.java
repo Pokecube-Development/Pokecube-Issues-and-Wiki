@@ -1,5 +1,8 @@
 package thut.api.level.terrain;
 
+import java.util.function.Function;
+import java.util.function.Supplier;
+
 import it.unimi.dsi.fastutil.ints.Int2BooleanArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
@@ -8,24 +11,21 @@ import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
-import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.SectionPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.world.level.Level;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.common.util.LazyOptional;
-import thut.api.ThutCaps;
+import net.neoforged.neoforge.attachment.AttachmentType;
+import net.neoforged.neoforge.attachment.IAttachmentHolder;
+import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class CapabilityTerrain
 {
-    public static class DefaultProvider implements ITerrainProvider, ICapabilityProvider, INBTSerializable<CompoundTag>
+    public static class DefaultProvider implements ITerrainProvider
     {
-        private final LazyOptional<ITerrainProvider> holder = LazyOptional.of(() -> this);
-
         private BlockPos pos;
         private ChunkAccess chunk;
 
@@ -48,7 +48,7 @@ public class CapabilityTerrain
         }
 
         @Override
-        public void deserializeNBT(final CompoundTag nbt)
+        public void deserializeNBT(HolderLookup.Provider registries, final CompoundTag nbt)
         {
             final BlockPos pos = this.getChunkPos();
             final int x = pos.getX();
@@ -89,12 +89,6 @@ public class CapabilityTerrain
         }
 
         @Override
-        public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
-        {
-            return ThutCaps.TERRAIN_PROVIDER.orEmpty(cap, this.holder);
-        }
-
-        @Override
         public BlockPos getChunkPos()
         {
             if (this.pos == null) this.pos = new BlockPos(this.chunk.getPos().x, 0, this.chunk.getPos().z);
@@ -125,23 +119,8 @@ public class CapabilityTerrain
             final BlockPos pos = this.mutable;
 
             // Try to pull it from our array
-            TerrainSegment ret = this.segMap.get(chunkY);
-            // try to find any cached variants if they exist
-            final TerrainSegment cached = thut.api.level.terrain.ITerrainProvider
-                    .removeCached(((Level) this.chunk.getWorldForge()).dimension(), this.chunk.getPos(), chunkY);
+            TerrainSegment ret = new TerrainSegment(pos.getX(), pos.getY(), pos.getZ());
 
-            // If not found, make a new one, or use cached
-            if (ret == null)
-            {
-                if (cached != null) ret = cached;
-                else ret = new TerrainSegment(pos.getX(), pos.getY(), pos.getZ());
-            }
-            // If there is a cached version, lets merge over into it.
-            else if (cached != null) for (int i = 0; i < cached.biomes.length; i++)
-                if (ret.biomes[i] == -1) ret.biomes[i] = cached.biomes[i];
-
-            // Let the segment know what chunk it goes with, and that it is
-            // actually real.
             ret.chunk = this.chunk;
             ret.real = true;
             this.reals.put(chunkY, true);
@@ -150,7 +129,7 @@ public class CapabilityTerrain
         }
 
         @Override
-        public CompoundTag serializeNBT()
+        public CompoundTag serializeNBT(HolderLookup.Provider registries)
         {
             final CompoundTag nbt = new CompoundTag();
             final IntSet ids = new IntOpenHashSet();
@@ -197,5 +176,27 @@ public class CapabilityTerrain
         void setTerrainSegment(TerrainSegment segment, int chunkY);
 
         ITerrainProvider setChunk(final ChunkAccess chunk);
+    }
+    
+    public static ITerrainProvider makeProvider(final IAttachmentHolder in)
+    {
+        if(!(in instanceof ChunkAccess chunk)) return null;
+        return new DefaultProvider(chunk);
+    }
+
+    public static ITerrainProvider get(final IAttachmentHolder in)
+    {
+        return in.getData(TYPE_SAVE.get());
+    }
+    
+    public static final ResourceLocation LOCSAVEABLE = ResourceLocation.parse("thutcore:terrain");
+
+    public static Supplier<AttachmentType<ITerrainProvider>> TYPE_SAVE;
+    
+    public static void registerAttachment(DeferredRegister<AttachmentType<?>> registry)
+    {
+        Function<IAttachmentHolder, ITerrainProvider> func_a = CapabilityTerrain::makeProvider;
+        var attach_a = AttachmentType.serializable(func_a).build();
+        TYPE_SAVE = registry.register(LOCSAVEABLE.getPath(), () -> attach_a);
     }
 }

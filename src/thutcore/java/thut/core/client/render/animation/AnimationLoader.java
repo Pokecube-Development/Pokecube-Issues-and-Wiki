@@ -11,10 +11,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
 
+import org.joml.Vector3f;
 import org.w3c.dom.Node;
 
 import com.google.common.collect.Sets;
-import com.mojang.math.Vector3f;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
@@ -271,7 +271,7 @@ public class AnimationLoader
 
                 // Handle customTextures
                 texturer.init(texs);
-                if (texs.defaults != null) holder.texture = new ResourceLocation(texs.defaults);
+                if (texs.defaults != null) holder.texture = ResourceLocation.parse(texs.defaults);
                 texturer.init(texs);
 
                 // Apply texture phases (ie texture animations)
@@ -385,21 +385,21 @@ public class AnimationLoader
             {
                 // Handle customTextures
                 if (texs.defaults != null) holder.texture = holder.texture != null
-                        ? new ResourceLocation(holder.texture.toString().replace(holder.name, texs.defaults))
-                        : new ResourceLocation(holder.model.getNamespace(), texs.defaults);
+                        ? ResourceLocation.parse(holder.texture.toString().replace(holder.name, texs.defaults))
+                        : ResourceLocation.fromNamespaceAndPath(holder.model.getNamespace(), texs.defaults);
 
                 for (IExtendedModelPart p : model.getParts().values())
                 {
                     // Handle customTextures
                     if (texs.defaults != null) holder.texture = holder.texture != null
-                            ? new ResourceLocation(holder.texture.toString().replace(holder.name, texs.defaults))
-                            : new ResourceLocation(holder.model.getNamespace(), texs.defaults);
+                            ? ResourceLocation.parse(holder.texture.toString().replace(holder.name, texs.defaults))
+                            : ResourceLocation.fromNamespaceAndPath(holder.model.getNamespace(), texs.defaults);
                     List<String> matNames = new ArrayList<>();
                     for (TexPart part : texs.parts)
                     {
 
-                        ResourceLocation tex = part.tex.contains(":") ? new ResourceLocation(part.tex)
-                                : new ResourceLocation(holder.model.getNamespace(), part.tex);
+                        ResourceLocation tex = part.tex.contains(":") ? ResourceLocation.parse(part.tex)
+                                : ResourceLocation.fromNamespaceAndPath(holder.model.getNamespace(), part.tex);
                         if (p.getName().equals(part.name))
                         {
                             for (Material m3 : p.getMaterials())

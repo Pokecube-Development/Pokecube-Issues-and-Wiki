@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    {"id": "pokecube:basculin", "required": false},
+    {"id": "pokecube:bruxish", "required": false},
+    {"id": "pokecube:feebas", "required": false},
+    {"id": "pokecube:finneon", "required": false},
+    {"id": "pokecube:goldeen", "required": false},
+    {"id": "pokecube:luminein", "required": false},
+    {"id": "pokecube:luvdisc", "required": false},
+    {"id": "pokecube:magikarp", "required": false},
+    {"id": "pokecube:qwilfish", "required": false},
+    {"id": "pokecube:seaking", "required": false},
+    {"id": "pokecube:stunfisk", "required": false},
+    {"id": "pokecube:whiscash", "required": false},
+    {"id": "pokecube:wishiwashi", "required": false}
+  ]
+}

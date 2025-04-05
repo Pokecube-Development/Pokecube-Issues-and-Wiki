@@ -1,0 +1,9 @@
+{
+  "asset_name": "fractal",
+  "description": {
+    "color": "#A1C3DC",
+    "translate": "trim_material.pokecube_legends.fractal"
+  },
+  "ingredient": "pokecube_legends:fractal_shard",
+  "item_model_index": 0.8
+}

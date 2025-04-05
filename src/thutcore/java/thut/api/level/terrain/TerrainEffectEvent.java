@@ -1,11 +1,10 @@
 package thut.api.level.terrain;
 
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.event.entity.EntityEvent;
-import net.minecraftforge.eventbus.api.Cancelable;
+import net.neoforged.bus.api.ICancellableEvent;
+import net.neoforged.neoforge.event.entity.EntityEvent;
 
-@Cancelable
-public class TerrainEffectEvent extends EntityEvent
+public class TerrainEffectEvent extends EntityEvent implements ICancellableEvent
 {
     public final String  identifier;
     public final boolean entry;

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "tag": "forge:ingots/netherite"
+  },
+  "base": {
+    "item": "minecraft:shield"
+  },
+  "template": {
+    "item": "pokecube_legends:rustedshield"
+  },
+  "result": {
+    "item": "pokecube_legends:zamazenta_shield"
+  }
+}

@@ -1,7 +1,0 @@
-{
-  "parent": "block/cross",
-  "textures": {
-    "cross": "pokecube_legends:block/golden_grass",
-    "particle": "pokecube_legends:block/golden_grass"
-  }
-}

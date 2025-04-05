@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.common.util.INBTSerializable;
 
 public interface IMobGenetics extends INBTSerializable<ListTag>
 {

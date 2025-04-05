@@ -10,11 +10,12 @@ import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
 
+import org.joml.Quaternionf;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Quaternion;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -58,7 +59,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public Vector4 rotations = new Vector4();
     public Vertex scale = new Vertex(1, 1, 1);
 
-    protected Quaternion _quat = new Quaternion(0, 0, 0, 1);
+    protected Quaternionf _quat = new Quaternionf(0, 0, 0, 1);
     protected Vector4 _rot = new Vector4();
 
     private float ds = 1;

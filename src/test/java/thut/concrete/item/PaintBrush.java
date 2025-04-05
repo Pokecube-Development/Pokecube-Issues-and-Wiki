@@ -1,23 +1,72 @@
 package thut.concrete.item;
 
+import java.util.Map;
+import java.util.function.Function;
+
+import com.google.common.collect.Maps;
+
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.item.BrushItem;
 import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.AirBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BrushableBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import thut.api.block.IDyedBlock;
 import thut.api.block.flowing.IFlowingBlock;
 import thut.concrete.Concrete;
-import thut.concrete.block.ConcreteBlock;
 
-public class PaintBrush extends Item
+public class PaintBrush extends BrushItem
 {
     private final DyeColor colour;
+    public static final Map<Block, IDyedBlock> PAINTABLE_BLOCKS = Maps.newHashMap();
+
+    public static class ManualPaintable implements IDyedBlock
+    {
+        Block ours;
+        DyeColor colour;
+        Map<DyeColor, Block> variants;
+
+        public ManualPaintable(Block ours, DyeColor colour, Map<DyeColor, Block> variants)
+        {
+            this.variants = variants;
+            this.colour = colour;
+            this.ours = ours;
+        }
+
+        @Override
+        public DyeColor getColour()
+        {
+            return colour;
+        }
+
+        @Override
+        public Block getFor(DyeColor c)
+        {
+            if (c == colour) return ours;
+            return variants.get(c);
+        }
+
+    }
 
     public PaintBrush(Properties properties, DyeColor colour)
     {
@@ -25,55 +74,133 @@ public class PaintBrush extends Item
         this.colour = colour;
     }
 
+    public static void registerPaintable(Block block, IDyedBlock paintable)
+    {
+        PAINTABLE_BLOCKS.put(block, paintable);
+    }
+
+    private static void registerVanillalike(Function<DyeColor, String> name_lookup)
+    {
+        Map<DyeColor, Block> variants = Maps.newHashMap();
+        for (DyeColor color : DyeColor.values())
+        {
+            String name = name_lookup.apply(color);
+            Block block = BuiltInRegistries.BLOCK.get(ResourceLocation.parse(name));
+            variants.put(color, block);
+        }
+        for (var pair : variants.entrySet())
+            registerPaintable(pair.getValue(), new ManualPaintable(pair.getValue(), pair.getKey(), variants));
+    }
+
+    static
+    {
+        for (final String s : Concrete.config.dyeable_blocks)
+        {
+            registerVanillalike(colour -> s.replace("red", colour.getName()));
+        }
+    }
+
     @Override
     public InteractionResult useOn(UseOnContext context)
     {
-        if (colour == null) return super.useOn(context);
-        Level level = context.getLevel();
-        BlockPos pos = context.getClickedPos();
-        BlockState state = level.getBlockState(pos);
-
-//        if (level instanceof ServerLevel)
+        Player player = context.getPlayer();
+        HitResult hitresult = this.calculateHitResult(player);
+        if (player != null
+                && (hitresult.getType() == HitResult.Type.BLOCK || hitresult.getType() == HitResult.Type.ENTITY))
+        {
+            player.startUsingItem(context.getHand());
+        }
+        return InteractionResult.CONSUME;
+//        TODO ?
+//        if (world instanceof ServerLevel)
 //        {
-//            ExplosionCustom boom = new ExplosionCustom(level, null, Vector3.getNewVector().set(pos), 200);
+//            ExplosionCustom boom = new ExplosionCustom(world, null, Vector3.getNewVector().set(pos), 200);
 //            boom.breaker = new ChamberBoom(4);
 //            boom.doExplosion();
 //        }
-
-        if (state.getBlock() instanceof IDyedBlock b)
-        {
-            if (colour != b.getColour() && b.getFor(colour) != null)
-            {
-                BlockState painted = IFlowingBlock.copyValidTo(state, b.getFor(colour).defaultBlockState());
-                level.setBlock(pos, painted, 3);
-                ItemStack stack = context.getItemInHand();
-                if (context.getPlayer() instanceof ServerPlayer player)
-                {
-                    boolean broke = stack.hurt(1, player.getRandom(), player);
-                    if (broke) stack = new ItemStack(Concrete.BRUSHES[16].get());
-                    player.setItemInHand(context.getHand(), stack);
-                }
-                return InteractionResult.sidedSuccess(level.isClientSide());
-            }
-        }
-        else if (ConcreteBlock.VANILLAREV.containsKey(state.getBlock()))
-        {
-            DyeColor old = ConcreteBlock.VANILLAREV.get(state.getBlock());
-            if (old != this.colour)
-            {
-                ItemStack stack = context.getItemInHand();
-                if (context.getPlayer() instanceof ServerPlayer player)
-                {
-                    boolean broke = stack.hurt(1, player.getRandom(), player);
-                    if (broke) stack = new ItemStack(Concrete.BRUSHES[16].get());
-                    player.setItemInHand(context.getHand(), stack);
-                }
-                Block newBlock = ConcreteBlock.VANILLA.get(colour);
-                level.setBlock(pos, newBlock.defaultBlockState(), 3);
-                return InteractionResult.sidedSuccess(level.isClientSide());
-            }
-        }
-        return super.useOn(context);
     }
 
+    @Override
+    public void onUseTick(Level world, LivingEntity entity, ItemStack stack, int ticks)
+    {
+        if (ticks >= 0 && entity instanceof Player player)
+        {
+            HitResult hitresult = this.calculateHitResult(entity);
+            if (hitresult instanceof BlockHitResult hitResult)
+            {
+                if (hitresult.getType() == HitResult.Type.BLOCK || hitresult.getType() == HitResult.Type.ENTITY)
+                {
+                    int i = this.getUseDuration(stack, entity) - ticks + 1;
+                    boolean flag = i % 4 == 2;
+                    if (flag)
+                    {
+                        BlockPos pos = hitResult.getBlockPos();
+                        BlockState state = world.getBlockState(pos);
+                        HumanoidArm arm = entity.getUsedItemHand() == InteractionHand.MAIN_HAND ? player.getMainArm()
+                                : player.getMainArm().getOpposite();
+                        this.spawnDustParticles(world, hitResult, state, entity.getViewVector(0.0F), arm);
+                        Block block = state.getBlock();
+                        SoundEvent soundevent;
+                        if (block instanceof BrushableBlock)
+                        {
+                            BrushableBlock brushableblock = (BrushableBlock) block;
+                            soundevent = brushableblock.getBrushSound();
+                        }
+                        else
+                        {
+                            soundevent = SoundEvents.BRUSH_GENERIC;
+                        }
+                        world.playSound(player, pos, soundevent, SoundSource.BLOCKS);
+
+                        IDyedBlock dyeable = null;
+
+                        if (state.getBlock() instanceof IDyedBlock dyed) dyeable = dyed;
+                        else dyeable = PAINTABLE_BLOCKS.get(state.getBlock());
+                        if (dyeable != null)
+                        {
+                            if (colour != dyeable.getColour() && dyeable.getFor(colour) != null)
+                            {
+                                BlockState painted = IFlowingBlock.copyValidTo(state,
+                                        dyeable.getFor(colour).defaultBlockState());
+                                if (painted != null && !(painted.getBlock() instanceof AirBlock))
+                                {
+                                    if (painted.hasBlockEntity())
+                                    {
+                                        BlockEntity blockEntity = world.getBlockEntity(pos);
+                                        if (blockEntity != null && !world.isClientSide)
+                                        {
+                                            world.setBlockEntity(blockEntity);
+                                            world.setBlock(pos, painted, 3);
+                                        }
+                                    }
+                                    if (!world.isClientSide) world.setBlock(pos, painted, 3);
+                                }
+                                if (player instanceof ServerPlayer serverPlayer && !serverPlayer.isCreative())
+                                {
+                                    stack.hurtAndBreak(1, (ServerLevel) serverPlayer.level(), serverPlayer, t->{});
+                                    boolean broke = stack.isEmpty();
+                                    if (broke) stack = new ItemStack(Concrete.BRUSHES[16].get());
+                                    player.setItemInHand(serverPlayer.getUsedItemHand(), stack);
+                                }
+                            }
+                        }
+                    }
+                    return;
+                }
+            }
+            entity.releaseUsingItem();
+        }
+        else
+        {
+            entity.releaseUsingItem();
+        }
+    }
+
+    public HitResult calculateHitResult(LivingEntity entity)
+    {
+        return ProjectileUtil.getHitResultOnViewVector(entity, (player) -> {
+            return !player.isSpectator() && player.isPickable();
+            // TODO use the attribute for the below.
+        }, Player.DEFAULT_BLOCK_INTERACTION_RANGE);
+    }
 }

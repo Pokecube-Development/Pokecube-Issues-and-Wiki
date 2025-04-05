@@ -1,8 +1,7 @@
 package thut.api.entity.event;
 
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.EntityEvent;
+import net.neoforged.neoforge.event.entity.EntityEvent;
 
 /**
  * Called when the vanilla broadcastEntityEvent occurs. This is called both

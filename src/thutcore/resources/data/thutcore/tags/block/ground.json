@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "#c:gravels",
+    "#c:sands",
+    "#c:cobblestones",
+    "#c:stones",
+    "#minecraft:base_stone_overworld",
+    "#minecraft:base_stone_nether",
+    "#minecraft:lush_ground_replaceable",
+    "#minecraft:terracotta",
+    {"id": "#pokecube_legends:base_stone_distorted_world", "required": false},
+    {"id": "#pokecube_legends:base_stone_ultraspace", "required": false},
+    {"id": "pokecube_legends:ash_block", "required": false},
+    "minecraft:end_stone"
+  ]
+}

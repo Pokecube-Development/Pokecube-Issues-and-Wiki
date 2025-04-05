@@ -1,0 +1,9 @@
+{
+  "asset_name": "aquamarine",
+  "description": {
+    "color": "#0EB4FF",
+    "translate": "trim_material.pokecube_legends.aquamarine"
+  },
+  "ingredient": "pokecube_legends:aquamarine",
+  "item_model_index": 0.8
+}

@@ -1,0 +1,98 @@
+{
+  "name": "pokecube:village/plains/start_pool",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 6,
+      "element": {
+        "location": "pokecube:village/plains/houses/house_small_1",
+        "projection": "rigid",
+        "element_type": "pokecube:expanded_pool_element",
+        "extra_pools": ["minecraft:village/plains/houses"],
+        "processors": "pokecube:mossify_20_percent"
+      }
+    },
+    {
+      "weight": 6,
+      "element": {
+        "location": "pokecube:village/plains/houses/house_big_1",
+        "projection": "rigid",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:mossify_20_percent"
+      }
+    },
+    {
+      "weight": 6,
+      "element": {
+        "location": "pokecube:village/plains/houses/house_medium_1",
+        "projection": "rigid",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:mossify_20_percent"
+      }
+    },
+    {
+      "weight": 6,
+      "element": {
+        "location": "pokecube:village/plains/houses/house_medium_2",
+        "projection": "rigid",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:mossify_20_percent"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube:village/common/pokecenter/center_01",
+        "processors": "pokecube:mossify_20_percent_no_waterlog",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"only_once": true},
+        "int_config": { "space_below": 0 },
+        "flags": "pokecenter",
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube:village/plains/gym/gym_01",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:decay_10_percent",
+        "bool_config": {"only_once": true},
+        "int_config": { "space_below": 0 },
+        "projection": "rigid",
+        "flags": "gym"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "pokecube:village/plains/houses/team_rocket_plains_house",
+        "processors": "pokecube:ladders_mossify_20_percent",
+        "element_type": "pokecube:expanded_pool_element",
+        "int_config":{"extra_child_depth":7,"space_below":0},
+        "bool_config": {"only_once": true},
+        "needed_flags": "shaft",
+        "projection": "rigid",
+        "flags": "team_house"
+      }
+    },
+    {
+      "weight": 4,
+      "element": {
+        "location": "pokecube:village/plains/farms/large_berry_farm",
+        "processors": "pokecube:berry_farm",
+        "projection": "rigid",
+        "element_type": "minecraft:legacy_single_pool_element"
+      }
+    },
+    {
+      "weight": 4,
+      "element": {
+        "location": "pokecube:village/plains/farms/small_berry_farm",
+        "processors": "pokecube:berry_farm",
+        "projection": "rigid",
+        "element_type": "minecraft:legacy_single_pool_element"
+      }
+    }
+  ]
+}

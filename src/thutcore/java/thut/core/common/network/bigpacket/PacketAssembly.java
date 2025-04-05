@@ -6,14 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 import net.minecraft.nbt.ByteArrayTag;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.network.PacketDistributor.PacketTarget;
 import thut.core.common.ThutCore;
 import thut.core.common.network.PacketHandler;
 
@@ -55,39 +54,25 @@ public final class PacketAssembly<T extends BigPacket>
         this.handler = handler;
     }
 
-    public void sendTo(final T packet, final ServerPlayer player)
+    public void sendTo(final byte[] packet, final ServerPlayer player)
     {
-        if (player == null) return;
-        this.sendTo(packet, PacketDistributor.PLAYER.with(() -> player));
+        sendTo(packet, p->{handler.sendTo(p, player);});
     }
 
-    public void sendToTracking(final T message, final Entity entity)
+    public void sendToTracking(final byte[] packet, final Entity entity)
     {
-        if (entity == null) return;
-        this.sendTo(message, PacketDistributor.TRACKING_ENTITY.with(() -> entity));
+        sendTo(packet, p->{handler.sendToTracking(p, entity);});
     }
 
-    public void sendTo(final T packet, final PacketTarget target)
+    public void sendTo(final byte[] packet, Consumer<T> processor)
     {
         final UUID id = UUID.randomUUID();
-        final List<CompoundTag> tags = this.splitPacket(id, packet.getData());
+        final List<CompoundTag> tags = this.splitPacket(id, packet);
         for (final CompoundTag tag : tags)
         {
             final T newPacket = this.factory.create();
             newPacket.setTag(tag);
-            this.handler.channel().send(target, newPacket);
-        }
-    }
-
-    public void sendToServer(final T packet)
-    {
-        final UUID id = UUID.randomUUID();
-        final List<CompoundTag> tags = this.splitPacket(id, packet.getData());
-        for (final CompoundTag tag : tags)
-        {
-            final T newPacket = this.factory.create();
-            newPacket.setTag(tag);
-            this.handler.channel().sendToServer(newPacket);
+            processor.accept(newPacket);
         }
     }
 

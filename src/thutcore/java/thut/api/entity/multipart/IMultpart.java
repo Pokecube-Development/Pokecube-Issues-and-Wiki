@@ -13,8 +13,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.entity.PartEntity;
-import thut.api.AnimatedCaps;
+import net.neoforged.neoforge.entity.PartEntity;
+import thut.api.ThutCaps;
 import thut.api.entity.IAnimated;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
 import thut.api.entity.multipart.GenericPartEntity.BodyPart;
@@ -216,7 +216,7 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
     {
         this.initParts();
         // check if effective_pose needs updating
-        final IAnimated animHolder = AnimatedCaps.getAnimated(weSelf());
+        final IAnimated animHolder = ThutCaps.getAnimated(weSelf());
         anims:
         if (animHolder != null)
         {
@@ -239,9 +239,8 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
 
                 if (subDivided)
                 {
-
-                    float width = Math.min(weSelf().dimensions.width, maxW());
-                    float height = Math.min(weSelf().dimensions.height, maxH());
+                    float width = Math.min(weSelf().dimensions.width(), maxW());
+                    float height = Math.min(weSelf().dimensions.height(), maxH());
                     weSelf().dimensions = EntityDimensions.fixed(width, height);
                     weSelf().noCulling = true;
 
@@ -261,10 +260,10 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         final Vec3 v = weSelf().position();
         r.set((float) v.x(), (float) v.y(), (float) v.z());
         final Vec3 dr = new Vec3(r.x - weSelf().xOld, r.y - weSelf().yOld, r.z - weSelf().zOld);
-        float rotY = weSelf() instanceof LivingEntity e ? e.yBodyRot : weSelf().yRot;
+        float rotY = weSelf() instanceof LivingEntity e ? e.yBodyRot : weSelf().getYRot();
 
         rot.rotY((float) Math.toRadians(180 - rotY));
-        if (weSelf().isAddedToWorld())
+        if (weSelf().isAddedToLevel())
         {
             for (final T p : getHolder().holder().parts) p.update(rot, r, dr);
             if (weSelf().tickCount % 20 == 0) PartSync.sendUpdate(weSelf());

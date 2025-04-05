@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "#pokecube_legends:ultra_dirts",
+    "#pokecube_legends:ultra_gravels",
+    "#pokecube_legends:ultra_stones",
+    "#pokecube_legends:ultra_sandstones",
+    "pokecube_legends:turquoise_gravel",
+    "pokecube_legends:unrefined_aquamarine"
+  ]
+}

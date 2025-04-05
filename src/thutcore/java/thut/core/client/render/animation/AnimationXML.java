@@ -8,18 +8,19 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
+import org.joml.Vector3f;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.registries.ForgeRegistries;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.IExtendedModelPart.IPartRenderAdder;
 import thut.core.common.ThutCore;
@@ -59,11 +60,11 @@ public class AnimationXML
 
         private void init()
         {
-            _particleType = new ResourceLocation(particle);
+            _particleType = ResourceLocation.parse(particle);
             var parts = this.parts.split(":");
             _parts.clear();
             for (var p : parts) _parts.add(p);
-            var _particle = ForgeRegistries.PARTICLE_TYPES.getValue(_particleType);
+            var _particle = BuiltInRegistries.PARTICLE_TYPE.get(_particleType);
             if (_particle instanceof ParticleOptions type) _type = type;
 
             var v3 = AnimationLoader.getVector3(offset, null);
@@ -84,7 +85,7 @@ public class AnimationXML
         public void onRender(PoseStack mat, IExtendedModelPart part)
         {
             Entity mob = part.convertToGlobal(mat, _place);
-            if (mob == null || _type == null || !(mob.level instanceof ClientLevel level) || !mob.isAddedToWorld())
+            if (mob == null || _type == null || !(mob.level() instanceof ClientLevel) || !mob.isAddedToLevel())
                 return;
             if (ThutCore.getConfig().modelCullThreshold == -1) return;
             var animated = part.getAnimationHolder().get().getContext();

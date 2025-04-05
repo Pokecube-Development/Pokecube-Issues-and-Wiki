@@ -114,7 +114,7 @@ public class TeleDest
     {
         if (this.subLoc == null) this.subLoc = new Vector3().set(this.loc.pos()).add(0.5, 0, 0.5);
         this.subLoc.writeToNBT(nbt, "v");
-        nbt.put("pos", GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE, this.loc).get().left().get());
+        nbt.put("pos", GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE, this.loc).getOrThrow());
         nbt.putString("name", this.name);
         nbt.putInt("i", this.index);
         nbt.putInt("_v_", this.version);

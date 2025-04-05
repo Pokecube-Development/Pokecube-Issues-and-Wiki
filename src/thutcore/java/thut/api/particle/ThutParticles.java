@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistries;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.core.common.ThutCore;
@@ -137,12 +137,13 @@ public class ThutParticles
         }
         if (ret == null)
         {
-            final ResourceLocation location = new ResourceLocation(name);
-            final ParticleType<?> type = ForgeRegistries.PARTICLE_TYPES.getValue(location);
+            final ResourceLocation location = ResourceLocation.parse(name);
+            final ParticleType<?> type = BuiltInRegistries.PARTICLE_TYPE.get(location);
+            // TODO test particles
             if (type instanceof ParticleOptions opts) return opts;
-            else if (type != null && type.getDeserializer() instanceof ParticleOptions opts) return opts;
+            else if (type != null && type.codec() instanceof ParticleOptions opts) return opts;
             else if (type != null) ThutCore.LOGGER.warn("Warning for particle {}, it isn't an options? {} {}", name,
-                    type.getClass(), Arrays.toString(type.getDeserializer().getClass().getInterfaces()));
+                    type.getClass(), Arrays.toString(type.codec().getClass().getInterfaces()));
         }
 
         if (ret == null)

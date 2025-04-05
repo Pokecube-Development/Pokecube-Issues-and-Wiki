@@ -1,0 +1,17 @@
+{
+  "name": "pokecube:village/plains/pokecenter/path",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube:village/plains/pokecenter/path",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:street_plains",
+        "projection": "terrain_matching",
+        "flags": "pokecenter_path",
+        "bool_config": { "no_affect_noise": true }
+      }
+    }
+  ]
+}

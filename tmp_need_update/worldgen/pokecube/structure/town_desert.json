@@ -1,0 +1,30 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "start_pool": "pokecube:village/desert/town_centers",
+  "terrain_adaptation": "beard_box",
+  "step": "surface_structures",
+  "use_expansion_hack": true,
+  "biome_type": "village",
+  "avoid_range": 6,
+  "size": 6,
+  "required_parts": [
+    "gym",
+    "pokecenter"
+  ],
+  "structures_to_avoid": [
+    "minecraft:pillager_outposts",
+    "minecraft:villages"
+  ],
+  "biomes": {
+    "type": "forge:and",
+    "values": [
+      "#forge:is_sandy",
+      {
+        "type": "forge:not",
+        "value": "#minecraft:is_badlands"
+      }
+    ]
+  },
+  "spawn_overrides": {}
+}

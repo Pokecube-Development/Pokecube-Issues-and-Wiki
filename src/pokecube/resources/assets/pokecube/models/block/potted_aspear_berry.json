@@ -1,0 +1,6 @@
+{
+  "parent": "pokecube:block/potted_berry",
+  "textures": {
+    "plant": "pokecube:block/potted_aspear_berry"
+  }
+}

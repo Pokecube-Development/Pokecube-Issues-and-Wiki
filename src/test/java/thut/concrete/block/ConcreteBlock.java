@@ -3,12 +3,16 @@ package thut.concrete.block;
 import java.lang.reflect.Array;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
+import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
@@ -18,8 +22,8 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import thut.api.block.IDyedBlock;
 import thut.api.block.flowing.FlowingBlock;
 import thut.api.block.flowing.SolidBlock;
@@ -27,45 +31,63 @@ import thut.api.block.flowing.SolidBlock;
 public abstract class ConcreteBlock extends SolidBlock implements IDyedBlock
 {
     public static final Map<DyeColor, Block> VANILLA = Maps.newHashMap();
-    public static final Map<Block, DyeColor> VANILLAREV = Maps.newHashMap();
 
     static
     {
         for (DyeColor c : DyeColor.values())
         {
             String name = c.getName() + "_concrete";
-            @SuppressWarnings("deprecation")
-            Block b = Registry.BLOCK.get(new ResourceLocation(name));
+            Block b = BuiltInRegistries.BLOCK.get(ResourceLocation.parse(name));
             VANILLA.put(c, b);
-            VANILLAREV.put(b, c);
         }
     }
 
-    public static RegistryObject<FlowingBlock>[] makeDry(DeferredRegister<Block> BLOCKS, String modid, String layer,
+    public static DeferredBlock<FlowingBlock>[] makeDry(DeferredRegister.Blocks BLOCKS, String modid, String layer,
             String block, BlockBehaviour.Properties layer_props, BlockBehaviour.Properties block_props, DyeColor colour)
     {
-        ResourceLocation layer_id = new ResourceLocation(modid, layer);
-//        ResourceLocation block_id = new ResourceLocation(modid, block);
+        ResourceLocation layer_id = ResourceLocation.fromNamespaceAndPath(modid, layer);
 
         @SuppressWarnings("unchecked")
-        RegistryObject<FlowingBlock>[] arr = (RegistryObject<FlowingBlock>[]) Array.newInstance(RegistryObject.class,
+        DeferredBlock<FlowingBlock>[] arr = (DeferredBlock<FlowingBlock>[]) Array.newInstance(DeferredBlock.class,
                 2);
 
-//        RegistryObject<FlowingBlock> layer_reg = BLOCKS.register(layer,
-//                () -> new PartialDry(layer_props, colour).alternateBlock(() -> REGMAP.get(block_id).get()));
-//        REGMAP.put(layer_id, layer_reg);
-        RegistryObject<FlowingBlock> layer_reg = BLOCKS.register(layer,
+        DeferredBlock<FlowingBlock> layer_reg = BLOCKS.register(layer,
                 () -> new PartialDry(layer_props, colour).alternateBlock(() -> VANILLA.get(colour)));
         REGMAP.put(layer_id, layer_reg);
 
-//        RegistryObject<FlowingBlock> block_reg = BLOCKS.register(block,
-//                () -> new FullDry(block_props, colour).alternateBlock(() -> REGMAP.get(layer_id).get()));
-//        REGMAP.put(block_id, block_reg);
-
         arr[0] = layer_reg;
-//        arr[1] = block_reg;
 
         return arr;
+    }
+
+    @Override
+    @Nullable
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        BlockState state = context.getLevel().getBlockState(context.getClickedPos());
+        if (state.is(this)) {
+            if (context.getPlayer() != null && context.getPlayer().isCreative())
+            {
+                int i = state.getValue(LAYERS);
+                return state.setValue(LAYERS, Integer.valueOf(Math.min(16, i + 1)));
+            }
+        } else {
+            return super.getStateForPlacement(context);
+        }
+        return super.getStateForPlacement(context);
+    }
+
+    @Override
+    public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
+        int i = state.getValue(LAYERS);
+        if (context.getItemInHand().is(this.asItem()) && i < 16) {
+            if (context.replacingClickedOnBlock()) {
+                return context.getClickedFace() == Direction.UP;
+            } else {
+                return true;
+            }
+        } else {
+            return i == 1;
+        }
     }
 
     private final DyeColor colour;

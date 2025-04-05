@@ -1,11 +1,10 @@
 package thut.api.block.flowing;
 
-import java.util.Random;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -28,8 +27,8 @@ public interface IFlowingBlock
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final IntegerProperty VISCOSITY = IntegerProperty.create("viscosity", 0, 15);
 
-    public static final ResourceLocation DUSTREPLACEABLE = new ResourceLocation("thutcore:dust_replace");
-    public static final ResourceLocation NOTDUSTREPLACEABLE = new ResourceLocation("thutcore:no_dust_replace");
+    public static final ResourceLocation DUSTREPLACEABLE = ResourceLocation.fromNamespaceAndPath("thutcore","dust_replace");
+    public static final ResourceLocation NOTDUSTREPLACEABLE = ResourceLocation.fromNamespaceAndPath("thutcore","no_dust_replace");
 
     public static VoxelShape[] makeShapes()
     {
@@ -145,7 +144,7 @@ public interface IFlowingBlock
         return Blocks.AIR.defaultBlockState();
     }
 
-    default void onStableTick(BlockState state, ServerLevel level, BlockPos pos, Random random)
+    default void onStableTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
     {
         int dust = getExistingAmount(state, pos, level);
         if (dust == 16 && state.hasProperty(LAYERS) && getAlternate() != thisBlock())
@@ -154,28 +153,26 @@ public interface IFlowingBlock
         }
     }
 
-    default BlockState tryFall(BlockState state, ServerLevel level, BlockPos pos, Random random)
+    default BlockState tryFall(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
     {
         boolean falling = isFalling(state);
 
         // Try down first;
-        int dust = getExistingAmount(state, pos, level);
+        int amountHere = getExistingAmount(state, pos, level);
 
         BlockPos belowPos = pos.below();
-        BlockState b = level.getBlockState(belowPos);
-        int below = getExistingAmount(b, belowPos, level);
-        boolean belowFalling = isFalling(b);
+        BlockState stateBelow = level.getBlockState(belowPos);
+        int amountBelow = getExistingAmount(stateBelow, belowPos, level);
+        boolean belowFalling = isFalling(stateBelow);
 
-        if (!this.canReplace(b))
+        if (!this.canReplace(stateBelow))
         {
-            int dustBelow = getAmount(b);
-
             FluidState us = state.getFluidState();
             FluidState belowFluid = level.getFluidState(belowPos);
             boolean fluidCheck = us.holder().value() != belowFluid.holder().value();
             fluidCheck &= !level.getFluidState(belowPos).isEmpty();
 
-            boolean shouldBeFalling = belowFalling || fluidCheck || (dustBelow < 16 && dustBelow > 0);
+            boolean shouldBeFalling = belowFalling || fluidCheck || (amountBelow < 16 && amountBelow > 0);
             if (shouldBeFalling && !falling)
             {
                 BlockState fall = makeFalling(state, true);
@@ -196,23 +193,26 @@ public interface IFlowingBlock
 
         if (falling || !state.hasProperty(FALLING))
         {
-            if ((below < 0 || below == 16))
+            if ((amountBelow < 0 || amountBelow == 16))
             {
                 if (!belowFalling)
                 {
-                    level.setBlock(pos, state = makeFalling(state, false), 2);
+                    if (falling)
+                    {
+                        level.setBlock(pos, state = makeFalling(state, false), 2);
+                    }
                     return state;
                 }
             }
             else
             {
-                int total = dust + below;
-                int diff = 16 - below;
+                int total = amountHere + amountBelow;
+                int diff = 16 - amountBelow;
                 BlockState newBelow;
                 if (total <= 16)
                 {
-                    newBelow = getMergeResult(setAmount(state, total), b, belowPos, level);
-                    if (newBelow != b)
+                    newBelow = getFlowResult(setAmount(state, total), stateBelow, belowPos, level);
+                    if (newBelow != stateBelow)
                     {
                         state = setAmount(state, 0);
                         // Sanity check:
@@ -228,16 +228,16 @@ public interface IFlowingBlock
                         return state;
                     }
                 }
-                else if (dust - diff >= 0)
+                else if (amountHere - diff >= 0)
                 {
                     BlockState b2 = getAlternate().defaultBlockState();
                     b2 = copyValidTo(state, b2);
-                    newBelow = getMergeResult(b2, b, belowPos, level);
+                    newBelow = getFlowResult(b2, stateBelow, belowPos, level);
 
-                    if (newBelow != b)
+                    if (newBelow != stateBelow)
                     {
                         newBelow = setAmount(newBelow, 16);
-                        state = setAmount(state, dust - diff);
+                        state = setAmount(state, amountHere - diff);
 
                         // Sanity check:
                         int aB = getAmount(newBelow);
@@ -248,14 +248,14 @@ public interface IFlowingBlock
 
                         level.setBlock(belowPos, newBelow, 2);
                         level.setBlock(pos, state, 2);
-                        level.scheduleTick(pos.immutable(), thisBlock(), getFallRate());
+                        level.scheduleTick(pos, thisBlock(), getFallRate());
                         level.scheduleTick(belowPos, newBelow.getBlock(), getFallRate());
                         return state;
                     }
                 }
             }
         }
-        if (below >= 0 && below < 16)
+        if (amountBelow >= 0 && amountBelow < 16)
         {
             BlockState fall = makeFalling(state, true);
             if (fall != state)
@@ -267,15 +267,15 @@ public interface IFlowingBlock
         return state;
     }
 
-    default BlockState trySpread(BlockState state, ServerLevel level, BlockPos pos, Random random)
+    default BlockState trySpread(BlockState flowFrom, ServerLevel level, BlockPos pos, RandomSource random)
     {
-        int dust = getExistingAmount(state, pos, level);
-        int slope = getSlope(state);
+        int dust = getExistingAmount(flowFrom, pos, level);
+        int slope = getSlope(flowFrom);
 
         if (dust >= slope)
         {
             Vector3 v = new Vector3().set(pos);
-            BlockState b = null;
+            BlockState flowInto = null;
             Direction dir = null;
 
             int existing = dust;
@@ -289,8 +289,8 @@ public interface IFlowingBlock
                 Direction d = Direction.values()[index];
                 if (d == Direction.DOWN || d == Direction.UP) continue;
                 v.set(d).addTo(pos.getX(), pos.getY(), pos.getZ());
-                b = v.getBlockState(level);
-                amt = getExistingAmount(b, v.getPos(), level);
+                flowInto = v.getBlockState(level);
+                amt = getExistingAmount(flowInto, v.getPos(), level);
                 if (amt == -1 || amt > dust - slope) continue;
                 existing += amt;
                 dir = d;
@@ -313,30 +313,31 @@ public interface IFlowingBlock
 
                 if (next > 0 && left != dust)
                 {
-                    BlockState oldState = setAmount(state, left);
+                    BlockState flowRemains = setAmount(flowFrom, left);
                     BlockPos pos2 = v.getPos();
 
-                    BlockState nextState = setAmount(state, next);
-                    BlockState newState = getMergeResult(nextState, b, pos2, level);
-                    if (newState != b)
+                    BlockState flowState = setAmount(flowFrom, next);
+                    BlockState destState = getFlowResult(flowState, flowInto, pos2, level);
+
+                    if (destState != flowInto)
                     {
 
-                        int aB = getAmount(newState);
-                        int aH = getAmount(oldState);
+                        int aB = getAmount(destState);
+                        int aH = getAmount(flowRemains);
 
                         if (aB + aH != existing)
                             ThutCore.LOGGER.error("Error falling down {}, fluid not conserved!", this);
 
-                        level.setBlock(pos, oldState, 2);
-                        level.setBlock(pos2, newState, 2);
-                        level.scheduleTick(pos.immutable(), oldState.getBlock(), getFlowRate());
-                        level.scheduleTick(pos2, newState.getBlock(), getFlowRate());
-                        return newState;
+                        level.setBlock(pos, flowRemains, 2);
+                        level.setBlock(pos2, destState, 2);
+                        level.scheduleTick(pos.immutable(), flowRemains.getBlock(), getFlowRate());
+                        level.scheduleTick(pos2, destState.getBlock(), getFlowRate());
+                        return flowRemains;
                     }
                 }
             }
         }
-        return state;
+        return flowFrom;
     }
 
     default int getExistingAmount(BlockState state, BlockPos pos, ServerLevel level)
@@ -368,19 +369,30 @@ public interface IFlowingBlock
         return ItemList.is(DUSTREPLACEABLE, state);
     }
 
-    default BlockState getMergeResult(BlockState mergeFrom, BlockState mergeInto, BlockPos posTo, ServerLevel level)
+    /**
+     * 
+     * @param flowState - This is the fractional state which would be placed if
+     *                  destState is air
+     * @param destState - This is the state we are flowing into
+     * @param posTo     - Location of the state we are flowing int
+     * @param level     - level involved in the slow
+     * @return flowState modified based on destState, or destState if no flow
+     *         should occur
+     */
+    default BlockState getFlowResult(BlockState flowState, BlockState destState, BlockPos posTo, ServerLevel level)
     {
-        FluidState into = mergeInto.getFluidState();
-        if ((into.is(Fluids.WATER) || (mergeInto.hasProperty(WATERLOGGED) && mergeInto.getValue(WATERLOGGED)))
-                && mergeFrom.hasProperty(WATERLOGGED))
+        FluidState into = destState.getFluidState();
+        // first lets ensure waterlogging is kept if we are flowing into water.
+        if ((into.is(Fluids.WATER) || (destState.hasProperty(WATERLOGGED) && destState.getValue(WATERLOGGED)))
+                && flowState.hasProperty(WATERLOGGED))
         {
-            mergeFrom = mergeFrom.setValue(WATERLOGGED, true);
+            flowState = flowState.setValue(WATERLOGGED, true);
         }
-        if (canMergeInto(mergeFrom, mergeInto, posTo, level)) return mergeFrom;
-        return mergeInto;
+        if (canFlowInto(flowState, destState, posTo, level)) return flowState;
+        return destState;
     }
 
-    default boolean canMergeInto(BlockState here, BlockState other, BlockPos posTo, ServerLevel level)
+    default boolean canFlowInto(BlockState here, BlockState other, BlockPos posTo, ServerLevel level)
     {
         return canReplace(other, posTo, level) || other.getBlock() == here.getBlock();
     }
@@ -394,24 +406,27 @@ public interface IFlowingBlock
             level.scheduleTick(pos, state.getBlock(), isFalling(state) ? getFallRate() : getFlowRate());
     }
 
-    default void doTick(BlockState state, ServerLevel level, BlockPos pos, Random random)
+    default void doTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
     {
         if (!this.flows(state)) return;
         boolean debug = false;
         if (debug) level.getProfiler().push("flowing_block:" + this.getClass());
         int amt = getAmount(state);
+        IFlowingBlock flower = this;
 
         // Try down first;
         if (debug) level.getProfiler().push("fall_check");
-        BlockState rem = tryFall(state, level, pos, random);
+        BlockState rem = flower.tryFall(state, level, pos, random);
+        if (rem.getBlock() instanceof IFlowingBlock flow) flower = flow;
         if (debug) level.getProfiler().pop();
         // Next try spreading sideways
         if (debug) level.getProfiler().push("spread_check");
-        if (getAmount(rem) > 0) rem = trySpread(rem, level, pos, random);
+        if (getAmount(rem) > 0) rem = flower.trySpread(rem, level, pos, random);
+        if (rem.getBlock() instanceof IFlowingBlock flow) flower = flow;
         // Then apply any checks for if we were stable
-        if (debug) level.getProfiler().push("stability_check:" + this.getClass());
-        if (getAmount(rem) == amt) onStableTick(rem, level, pos, random);
-        else if (getAmount(rem) > 0) reScheduleTick(rem, level, pos);
+        if (debug) level.getProfiler().push("stability_check:" + flower.getClass());
+        if (getAmount(rem) == amt) flower.onStableTick(rem, level, pos, random);
+        else if (getAmount(rem) > 0) flower.reScheduleTick(rem, level, pos);
         if (debug) level.getProfiler().pop();
 
         if (debug) level.getProfiler().pop();

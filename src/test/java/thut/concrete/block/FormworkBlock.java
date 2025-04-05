@@ -1,10 +1,9 @@
 package thut.concrete.block;
 
-import java.util.Random;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -44,11 +43,13 @@ public class FormworkBlock extends Block implements SimpleWaterloggedBlock
                 .setValue(WATERLOGGED, Boolean.valueOf(false)).setValue(BOTTOM, Boolean.valueOf(false)));
     }
 
+    @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> p_56051_)
     {
         p_56051_.add(DISTANCE, WATERLOGGED, BOTTOM);
     }
 
+    @Override
     public VoxelShape getShape(BlockState p_56057_, BlockGetter p_56058_, BlockPos p_56059_, CollisionContext p_56060_)
     {
 //        if (!p_56060_.isHoldingItem(p_56057_.getBlock().asItem()))
@@ -61,16 +62,19 @@ public class FormworkBlock extends Block implements SimpleWaterloggedBlock
 //        }
     }
 
+    @Override
     public VoxelShape getInteractionShape(BlockState p_56053_, BlockGetter p_56054_, BlockPos p_56055_)
     {
         return Shapes.block();
     }
 
+    @Override
     public boolean canBeReplaced(BlockState p_56037_, BlockPlaceContext p_56038_)
     {
         return p_56038_.getItemInHand().is(this.asItem());
     }
 
+    @Override
     public BlockState getStateForPlacement(BlockPlaceContext p_56023_)
     {
         BlockPos blockpos = p_56023_.getClickedPos();
@@ -82,6 +86,7 @@ public class FormworkBlock extends Block implements SimpleWaterloggedBlock
                 .setValue(BOTTOM, Boolean.valueOf(this.isBottom(level, blockpos, i)));
     }
 
+    @Override
     public void onPlace(BlockState p_56062_, Level p_56063_, BlockPos p_56064_, BlockState p_56065_, boolean p_56066_)
     {
         if (!p_56063_.isClientSide)
@@ -91,6 +96,7 @@ public class FormworkBlock extends Block implements SimpleWaterloggedBlock
 
     }
 
+    @Override
     public BlockState updateShape(BlockState p_56044_, Direction p_56045_, BlockState p_56046_, LevelAccessor p_56047_,
             BlockPos p_56048_, BlockPos p_56049_)
     {
@@ -107,34 +113,37 @@ public class FormworkBlock extends Block implements SimpleWaterloggedBlock
         return p_56044_;
     }
 
-    public void tick(BlockState p_56032_, ServerLevel p_56033_, BlockPos p_56034_, Random p_56035_)
+    @Override
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rng)
     {
-        int i = getDistance(p_56033_, p_56034_);
-        BlockState blockstate = p_56032_.setValue(DISTANCE, Integer.valueOf(i)).setValue(BOTTOM,
-                Boolean.valueOf(this.isBottom(p_56033_, p_56034_, i)));
+        int i = getDistance(level, pos);
+        BlockState blockstate = state.setValue(DISTANCE, Integer.valueOf(i)).setValue(BOTTOM,
+                Boolean.valueOf(this.isBottom(level, pos, i)));
         if (blockstate.getValue(DISTANCE) == STABILITY_MAX_DISTANCE)
         {
-            if (p_56032_.getValue(DISTANCE) == STABILITY_MAX_DISTANCE)
+            if (state.getValue(DISTANCE) == STABILITY_MAX_DISTANCE)
             {
-            	FallingBlockEntity.fall(p_56033_, p_56034_, blockstate);
+                FallingBlockEntity.fall(level, pos, blockstate);
             }
             else
             {
-                p_56033_.destroyBlock(p_56034_, true);
+                level.destroyBlock(pos, true);
             }
         }
-        else if (p_56032_ != blockstate)
+        else if (state != blockstate)
         {
-            p_56033_.setBlock(p_56034_, blockstate, 3);
+            level.setBlock(pos, blockstate, 3);
         }
 
     }
 
+    @Override
     public boolean canSurvive(BlockState p_56040_, LevelReader p_56041_, BlockPos p_56042_)
     {
         return getDistance(p_56041_, p_56042_) < STABILITY_MAX_DISTANCE;
     }
 
+    @Override
     public VoxelShape getCollisionShape(BlockState p_56068_, BlockGetter p_56069_, BlockPos p_56070_,
             CollisionContext p_56071_)
     {
@@ -151,6 +160,7 @@ public class FormworkBlock extends Block implements SimpleWaterloggedBlock
     }
 
     @Deprecated
+    @Override
     public FluidState getFluidState(BlockState p_56073_)
     {
         return p_56073_.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(p_56073_);

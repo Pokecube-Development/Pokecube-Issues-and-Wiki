@@ -11,7 +11,7 @@ import com.google.common.collect.Sets;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import thut.api.ThutCaps;
 import thut.api.entity.IMobTexturable;
 import thut.core.client.render.animation.AnimationXML.ColourTex;
@@ -287,7 +287,7 @@ public class TextureHelper implements IPartTexturer
     public void bindObject(final Object thing)
     {
         this.mob = null;
-        if (thing instanceof ICapabilityProvider cap) this.mob = ThutCaps.getTexturable(cap);
+        if (thing instanceof IAttachmentHolder cap) this.mob = ThutCaps.getTexturable(cap);
         if (this.mob == null && thing instanceof Entity e) this.mob = new IMobTexturable()
         {
             Entity entity = e;
@@ -313,7 +313,7 @@ public class TextureHelper implements IPartTexturer
                 if (this.remapped.containsKey(in)) return this.remapped.get(in);
                 if (!in.getPath().contains(".png"))
                 {
-                    final ResourceLocation updated = new ResourceLocation(in.getNamespace(),
+                    final ResourceLocation updated = ResourceLocation.fromNamespaceAndPath(in.getNamespace(),
                             "entity/textures/" + in.getPath() + ".png");
                     this.remapped.put(in, updated);
                 }
@@ -358,8 +358,8 @@ public class TextureHelper implements IPartTexturer
     private ResourceLocation getResource(final String tex)
     {
         if (tex == null) return this.mob.getTexture(null);
-        else if (tex.contains(":")) return new ResourceLocation(tex);
-        else return new ResourceLocation(this.mob.getModId(), tex);
+        else if (tex.contains(":")) return ResourceLocation.parse(tex);
+        else return ResourceLocation.fromNamespaceAndPath(this.mob.getModId(), tex);
     }
 
     @Override

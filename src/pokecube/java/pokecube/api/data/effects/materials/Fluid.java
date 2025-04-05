@@ -1,0 +1,30 @@
+package pokecube.api.data.effects.materials;
+
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.LivingEntity;
+
+public class Fluid extends BaseMaterialAction
+{
+    public String fluid;
+
+    public TagKey<net.minecraft.world.level.material.Fluid> _tag = null;
+
+    public Fluid()
+    {}
+
+    @Override
+    public void init()
+    {
+        super.init();
+        _tag = TagKey.create(Registries.FLUID, ResourceLocation.parse(fluid));
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public boolean shouldApply(LivingEntity mob)
+    {
+        return mob.getFluidHeight(_tag) > 0;
+    }
+}

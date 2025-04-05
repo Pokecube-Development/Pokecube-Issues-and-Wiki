@@ -1,0 +1,28 @@
+{
+    "item.thut_bling.bling_hat": "Hat",
+    "item.thut_bling.bling_eye": "Sun Glasses",
+    "item.thut_bling.bling_neck": "Necklace",
+    "item.thut_bling.bling_wrist": "Bracelet",
+    "item.thut_bling.bling_ring": "Ring",
+    "item.thut_bling.bling_ankle": "Anklet",
+    "item.thut_bling.bling_ear": "Earring",
+    "item.thut_bling.bling_waist": "Belt",
+    "item.thut_bling.bling_bag": "Bag",
+    "item.thut_bling.bling_bag_ender_large": "Large Ender Bag",
+    "item.thut_bling.bling_bag_ender_vanilla": "Ender Bag",
+
+    "block.bag.next": "",
+    "block.bag.next.narrate": "Next Page",
+    "block.bag.next.tooltip": "Next Page",
+    "block.bag.previous": "",
+    "block.bag.previous.narrate": "Previous Page",
+    "block.bag.previous.tooltip": "Previous Page",
+    "block.bag.rename": "",
+    "block.bag.rename.narrate": "Rename Page",
+    "block.bag.rename.tooltip": "Rename Page",
+    "block.bag.search": "",
+    "block.bag.search.narrate": "Search Bar",
+    "block.bag.search.tooltip": "Search",
+    "block.bag.page.tooltip": "Page #",
+    "block.bag.page.tooltip.narrate": "Page Number"
+}

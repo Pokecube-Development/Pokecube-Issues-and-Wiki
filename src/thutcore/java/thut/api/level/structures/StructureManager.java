@@ -10,24 +10,22 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.core.SectionPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.world.ChunkEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.level.ChunkEvent;
 import thut.api.level.structures.NamedVolumes.INamedStructure;
 import thut.api.level.structures.NamedVolumes.NamedStructureWrapper;
 import thut.api.level.terrain.GlobalChunkPos;
 import thut.api.level.terrain.ITerrainProvider;
-import thut.api.level.terrain.TerrainManager;
 import thut.core.common.ThutCore;
+import thut.lib.RegHelper;
 
 public class StructureManager
 {
@@ -47,7 +45,7 @@ public class StructureManager
             ThutCore.LOGGER.warn("Warning, too big box for {}: {}", structure.getName(), b);
             return;
         }
-        for (int x = b.minX >> 4; x <= b.maxX >> 4; x++) for (int z = b.minZ >> 4; z <= b.maxZ >> 4; z++)
+        for (int x = b.minX() >> 4; x <= b.maxX() >> 4; x++) for (int z = b.minZ() >> 4; z <= b.maxZ() >> 4; z++)
         {
             final ChunkPos p = new ChunkPos(x, z);
             final GlobalChunkPos pos = new GlobalChunkPos(dim, p);
@@ -65,7 +63,7 @@ public class StructureManager
 
     public static void remove(ResourceKey<Level> dim, BoundingBox b, Predicate<INamedStructure> structure)
     {
-        for (int x = b.minX >> 4; x <= b.maxX >> 4; x++) for (int z = b.minZ >> 4; z <= b.maxZ >> 4; z++)
+        for (int x = b.minX() >> 4; x <= b.maxX() >> 4; x++) for (int z = b.minZ() >> 4; z <= b.maxZ() >> 4; z++)
         {
             final ChunkPos p = new ChunkPos(x, z);
             final GlobalChunkPos pos = new GlobalChunkPos(dim, p);
@@ -77,7 +75,7 @@ public class StructureManager
     public static Set<INamedStructure> getColliding(ResourceKey<Level> dim, BoundingBox b)
     {
         final Set<INamedStructure> matches = Sets.newHashSet();
-        for (int x = b.minX >> 4; x <= b.maxX >> 4; x++) for (int z = b.minZ >> 4; z <= b.maxZ >> 4; z++)
+        for (int x = b.minX() >> 4; x <= b.maxX() >> 4; x++) for (int z = b.minZ() >> 4; z <= b.maxZ() >> 4; z++)
         {
             final ChunkPos p = new ChunkPos(x, z);
             final GlobalChunkPos pos = new GlobalChunkPos(dim, p);
@@ -123,21 +121,13 @@ public class StructureManager
     }
 
     @SubscribeEvent
-    public static void onLevelCapabilityAttach(final AttachCapabilitiesEvent<Level> event)
-    {
-        if (!(event.getObject() instanceof ServerLevel level)) return;
-        if (event.getCapabilities().containsKey(TerrainManager.TERRAINCAP)) return;
-        event.addCapability(TerrainManager.TERRAINCAP, new CapabilityWorldStructures(level));
-    }
-
-    @SubscribeEvent
     public static void onChunkLoad(final ChunkEvent.Load evt)
     {
         // The world is null when it is loaded off thread during worldgen!
-        if (!(evt.getWorld() instanceof ServerLevel w) || evt.getWorld().isClientSide()) return;
+        if (!(evt.getLevel() instanceof ServerLevel w) || evt.getLevel().isClientSide()) return;
         final ResourceKey<Level> dim = w.dimension();
-        var reg = w.registryAccess().registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
-        for (final Entry<ConfiguredStructureFeature<?, ?>, StructureStart> entry : evt.getChunk().getAllStarts()
+        var reg = w.registryAccess().registryOrThrow(RegHelper.STRUCTURE_REGISTRY);
+        for (final Entry<Structure, StructureStart> entry : evt.getChunk().getAllStarts()
                 .entrySet())
         {
             String name = reg.getKey(entry.getKey()).toString();
@@ -151,8 +141,8 @@ public class StructureManager
     @SubscribeEvent
     public static void onChunkUnload(final ChunkEvent.Unload evt)
     {
-        if (!(evt.getWorld() instanceof Level) || evt.getWorld().isClientSide()) return;
-        final Level w = (Level) evt.getWorld();
+        if (!(evt.getLevel() instanceof Level) || evt.getLevel().isClientSide()) return;
+        final Level w = (Level) evt.getLevel();
         final ResourceKey<Level> dim = w.dimension();
         final GlobalChunkPos pos = new GlobalChunkPos(dim, evt.getChunk().getPos());
         StructureManager.map_by_pos.remove(pos);
@@ -162,6 +152,5 @@ public class StructureManager
     {
         StructureManager.map_by_pos.clear();
         ITerrainProvider.loadedChunks.clear();
-        ITerrainProvider.pendingCache.clear();
     }
 }

@@ -3,8 +3,10 @@ package thut.api.entity.blockentity.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -21,15 +23,14 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.Event.Result;
-import net.minecraftforge.eventbus.api.EventPriority;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.neoforge.common.util.TriState;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import thut.api.block.ITickTile;
 import thut.core.common.ThutCore;
 
@@ -40,9 +41,8 @@ public class TempBlock extends AirBlock implements EntityBlock
 
     public static TempBlock make()
     {
-        return new TempBlock(BlockBehaviour.Properties.of(Material.STRUCTURAL_AIR).noDrops()
-                .isRedstoneConductor(TempBlock::solidCheck).dynamicShape().noOcclusion()
-                .lightLevel(s -> s.getValue(TempBlock.LIGHTLEVEL)));
+        return new TempBlock(BlockBehaviour.Properties.of().isRedstoneConductor(TempBlock::solidCheck).replaceable()
+                .dynamicShape().noOcclusion().lightLevel(s -> s.getValue(TempBlock.LIGHTLEVEL)));
     }
 
     private static boolean solidCheck(final BlockState state, final BlockGetter reader, final BlockPos pos)
@@ -78,21 +78,21 @@ public class TempBlock extends AirBlock implements EntityBlock
     private void onPlayerInteract(final PlayerInteractEvent.RightClickBlock event)
     {
         final BlockHitResult trace = event.getHitVec();
-        if (trace == null || !event.getEntity().isShiftKeyDown()) return;
-        final Level world = event.getEntity().getLevel();
+        if (trace == null && !event.getEntity().isShiftKeyDown()) return;
+        final Level world = event.getEntity().level();
         final BlockEntity tile = world.getBlockEntity(event.getPos());
         if (tile instanceof TempTile temp)
         {
-            Player player = event.getPlayer();
+            Player player = event.getEntity();
             BlockPos pos = event.getPos();
             BlockState state = world.getBlockState(pos);
             InteractionHand hand = event.getHand();
-            InteractionResult result = temp.use(state, world, pos, player, hand, trace);
-            if (result != InteractionResult.PASS)
+            ItemInteractionResult result = temp.useItemOn(event.getItemStack(), state, world, pos, player, hand, trace);
+            if (result != ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION)
             {
                 event.setCanceled(true);
-                event.setUseBlock(Result.ALLOW);
-                event.setUseItem(Result.ALLOW);
+                event.setUseBlock(TriState.DEFAULT);
+                event.setUseItem(TriState.DEFAULT);
             }
         }
     }
@@ -102,7 +102,7 @@ public class TempBlock extends AirBlock implements EntityBlock
      * model, MODELBLOCK_ANIMATED for TESR-only, LIQUID for vanilla liquids,
      * INVISIBLE to skip all rendering
      *
-     * @deprecated call via {@link BlockState#getRenderType()} whenever
+     * @deprecated call via {@link BlockState#getRenderShape()} whenever
      *             possible. Implementing/overriding is fine.
      */
     @Deprecated
@@ -113,12 +113,21 @@ public class TempBlock extends AirBlock implements EntityBlock
     }
 
     @Override
-    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos, final Player player,
-            final InteractionHand hand, final BlockHitResult hit)
+    public InteractionResult useWithoutItem(final BlockState state, final Level world, final BlockPos pos, final Player player,
+    		final BlockHitResult hit)
     {
         final BlockEntity tile = world.getBlockEntity(pos);
-        if (tile instanceof TempTile temp) return temp.use(state, world, pos, player, hand, hit);
+        if (tile instanceof TempTile temp) return temp.useWithoutItem(state, world, pos, player, hit);
         return InteractionResult.PASS;
+    }
+    
+    @Override
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+            Player player, InteractionHand hand, BlockHitResult hitResult)
+    {
+        final BlockEntity tile = level.getBlockEntity(pos);
+        if (tile instanceof TempTile temp) return temp.useItemOn(stack, state, level, pos, player, hand, hitResult);
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
     @Override
@@ -131,9 +140,14 @@ public class TempBlock extends AirBlock implements EntityBlock
     public void entityInside(final BlockState state, final Level level, final BlockPos pos, final Entity entity)
     {
         final BlockEntity be = level.getBlockEntity(pos);
-        if (be instanceof TempTile temp && temp.getEffectiveState() != null
-                && temp.getEffectiveState().getBlock() != state.getBlock())
-            temp.getEffectiveState().entityInside(level, pos, entity);
+        if (be instanceof TempTile temp)
+        {
+            temp.onVerticalCollide(entity, 0);
+            if (temp.getEffectiveState() != null && temp.getEffectiveState().getBlock() != state.getBlock())
+            {
+                temp.getEffectiveState().entityInside(level, pos, entity);
+            }
+        }
     }
 
     @Override
@@ -162,6 +176,13 @@ public class TempBlock extends AirBlock implements EntityBlock
             if (tile.getEffectiveState() != null && tile.getEffectiveState().getBlock() != state.getBlock())
                 tile.getEffectiveState().getBlock().stepOn(level, pos, state, entity);
         }
+    }
+
+    @Override
+    public void updateEntityAfterFallOn(BlockGetter level, Entity entity)
+    {
+        // TODO Auto-generated method stub
+        super.updateEntityAfterFallOn(level, entity);
     }
 
     @Override

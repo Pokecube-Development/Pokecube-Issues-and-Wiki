@@ -1,0 +1,176 @@
+package pokecube.adventures.client.gui.trainer.editor.pages;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.AbstractSelectionList;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import pokecube.adventures.capabilities.utils.BattleAction;
+import pokecube.adventures.client.gui.trainer.editor.EditorGui;
+import pokecube.adventures.client.gui.trainer.editor.pages.Messages.MessageOption;
+import pokecube.adventures.client.gui.trainer.editor.pages.util.ListPage;
+import pokecube.adventures.network.PacketTrainer;
+import pokecube.api.entity.trainers.IHasMessages;
+import pokecube.api.entity.trainers.actions.Action;
+import pokecube.api.entity.trainers.actions.IAction;
+import pokecube.api.entity.trainers.actions.MessageState;
+import pokecube.core.PokecubeCore;
+import pokecube.core.client.gui.helper.INotifiedEntry;
+import pokecube.core.client.gui.helper.ScrollGui;
+import thut.lib.TComponent;
+
+public class Messages extends ListPage<MessageOption>
+{
+
+    public static class MessageOption extends AbstractSelectionList.Entry<MessageOption> implements INotifiedEntry
+    {
+
+        final Messages parent;
+
+        final Minecraft mc;
+
+        final int offsetY;
+        final int index;
+        final int guiHeight;
+
+        final Button apply;
+
+        final EditBox message;
+        final EditBox action;
+
+        final IHasMessages messages;
+
+        public MessageOption(final Minecraft mc, final Messages parent, final int height, final int offsetY,
+                final int index)
+        {
+            this.mc = mc;
+            this.offsetY = offsetY;
+            this.guiHeight = height;
+            this.parent = parent;
+
+            this.messages = parent.parent.messages;
+
+            this.index = index;
+
+            this.message = new EditBox(parent.font, 0, 0, 170, 10, TComponent.literal(""));
+            this.action = new EditBox(parent.font, 0, 0, 170, 10, TComponent.literal(""));
+
+            final MessageState state = MessageState.values()[this.index];
+            this.message.setValue(this.messages.getMessage(state));
+            final IAction act = this.messages.getAction(state);
+            if (act instanceof Action action)
+            {
+                String msg = action.getCommand();
+                this.action.setValue(msg);
+            }
+            if (act instanceof BattleAction) this.action.setValue("action:initiate_battle");
+
+            this.message.setMaxLength(1024);
+            this.action.setMaxLength(1024);
+
+            this.apply = new Button.Builder(TComponent.translatable("traineredit.button.apply"), (b) -> {
+                b.playDownSound(this.mc.getSoundManager());
+                this.onUpdated();
+            }).bounds(0, 0, 50, 10).build();
+
+            parent.addRenderableWidget(this.apply);
+            parent.addRenderableWidget(this.message);
+            parent.addRenderableWidget(this.action);
+
+            this.action.moveCursorToStart(false);
+            this.message.moveCursorToStart(false);
+
+            this.apply.visible = false;
+            this.message.visible = false;
+            this.action.visible = false;
+        }
+
+        @Override
+        public void preRender(final int slotIndex, final int x, final int y, final int listWidth, final int slotHeight,
+                final int mouseX, final int mouseY, final boolean isSelected, final float partialTicks)
+        {
+            this.message.visible = false;
+            this.action.visible = false;
+            this.apply.visible = false;
+        }
+
+        @Override
+        public void render(final GuiGraphics graphics, final int slotIndex, final int y, final int x, final int listWidth,
+                           final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
+                           final float partialTicks)
+        {
+            this.message.visible = true;
+            this.action.visible = true;
+            this.apply.visible = true;
+
+            final int dy = 10;
+
+            this.apply.setX(x - 2 + this.message.getWidth());
+            this.apply.setY(y - 4 + dy);
+            this.message.setX(x - 2);
+            this.message.setY(y - 4 + dy);
+            this.action.setX(x - 2);
+            this.action.setY(y - 4 + dy + 12);
+
+            // TODO: Fix this
+            // this.parent.font.draw(graphics, MessageState.values()[this.index].name(), x, y - 5, 0xFFFFFF);
+            this.message.render(graphics, mouseX, mouseY, partialTicks);
+            this.action.render(graphics, mouseX, mouseY, partialTicks);
+            this.apply.render(graphics, mouseX, mouseY, partialTicks);
+        }
+
+        public void onUpdated()
+        {
+            final String act = this.action.getValue();
+            IAction newAction = null;
+            if (act.equals("action:initiate_battle")) newAction = new BattleAction();
+            else if (!act.isEmpty()) newAction = new Action(act);
+            final String msg = this.message.getValue();
+            final MessageState state = MessageState.values()[this.index];
+            this.messages.setAction(state, newAction);
+            this.messages.setMessage(state, msg);
+
+            final Tag tag = this.messages.serializeNBT(PokecubeCore.proxy.getRegistries());
+            final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATETRAINER);
+            final CompoundTag nbt = message.getTag();
+            nbt.put("__messages__", tag);
+            nbt.putInt("I", this.parent.parent.entity.getId());
+            PacketTrainer.ASSEMBLER.sendToServer(message.getTag());
+        }
+    }
+
+    public Messages(final EditorGui parent)
+    {
+        super(TComponent.literal(""), parent);
+    }
+
+    @Override
+    public boolean isValid()
+    {
+        return this.parent.messages != null;
+    }
+
+    @Override
+    public void initList()
+    {
+        this.children.clear();
+        this.renderables.clear();
+        super.initList();
+        int x = (this.parent.width - 256) / 2;
+        int y = (this.parent.height - 160) / 2;
+        final int height = 120;
+        final int width = 245;
+        this.list = new ScrollGui<>(this, this.minecraft, width, height, 40, x + 10, y + 24);
+        for (int i = 0; i < MessageState.values().length; i++)
+            this.list.addEntry(new MessageOption(this.minecraft, this, height, y + 24, i));
+        this.children.add(this.list);
+        x = this.width / 2;
+        y = this.height / 2;
+
+        this.addRenderableWidget(new Button.Builder(TComponent.translatable("traineredit.button.home"), (b) -> {
+            this.closeCallback.run();
+        }).bounds(x + 73, y + 64, 50, 12).build());
+    }
+}

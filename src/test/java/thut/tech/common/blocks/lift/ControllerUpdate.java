@@ -1,6 +1,6 @@
 package thut.tech.common.blocks.lift;
 
-import net.minecraftforge.eventbus.api.Event;
+import net.neoforged.bus.api.Event;
 
 public class ControllerUpdate extends Event
 {

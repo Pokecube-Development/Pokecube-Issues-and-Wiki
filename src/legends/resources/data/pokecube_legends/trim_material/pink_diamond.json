@@ -1,0 +1,9 @@
+{
+  "asset_name": "pink_diamond",
+  "description": {
+    "color": "#A4208B",
+    "translate": "trim_material.pokecube_legends.pink_diamond"
+  },
+  "ingredient": "pokecube_legends:diamond_gem",
+  "item_model_index": 0.8
+}

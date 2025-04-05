@@ -1,46 +1,44 @@
 package thut.api.particle;
 
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
+
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.brigadier.StringReader;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 
 import net.minecraft.client.Camera;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
 public class ParticleBase extends ParticleType<ParticleBase> implements IParticle, IAnimatedParticle, ParticleOptions
 {
-    @SuppressWarnings("deprecation")
-    private static final ParticleOptions.Deserializer<ParticleBase> DESERIALIZER = new ParticleOptions.Deserializer<>()
-    {
+    private static class Codec implements StreamCodec<RegistryFriendlyByteBuf, ParticleBase>{
+
         @Override
-        public ParticleBase fromCommand(final ParticleType<ParticleBase> particleTypeIn, final StringReader reader)
-                throws CommandSyntaxException
+        public ParticleBase decode(RegistryFriendlyByteBuf buffer)
         {
-            return ((ParticleBase) particleTypeIn).read(reader);
+            return new ParticleBase(0, 0).read(buffer);
         }
 
         @Override
-        public ParticleBase fromNetwork(final ParticleType<ParticleBase> particleTypeIn, final FriendlyByteBuf buffer)
+        public void encode(RegistryFriendlyByteBuf buffer, ParticleBase value)
         {
-            return ((ParticleBase) particleTypeIn).read(buffer);
+            value.writeToNetwork(buffer);
         }
-    };
+        
+    }
 
-    public static ResourceLocation TEXTUREMAP = new ResourceLocation(ThutCore.MODID, "textures/particles.png");
-
-    private final Codec<ParticleBase> codec = Codec.unit(this);
+    public static ResourceLocation TEXTUREMAP = ResourceLocation.fromNamespaceAndPath(ThutCore.MODID, "textures/particles.png");
 
     public int     duration  = 10;
     public int     lifetime  = 10;
@@ -57,7 +55,7 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
 
     public ParticleBase(final int x, final int y)
     {
-        super(true, ParticleBase.DESERIALIZER);
+        super(true);
         this.tex[0][0] = x;
         this.tex[0][1] = y;
     }
@@ -69,14 +67,7 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
     }
 
     @Override
-    public String writeToString()
-    {
-        // TODO jsonify ourselves maybe?
-        return ForgeRegistries.PARTICLE_TYPES.getKey(this).toString();
-    }
-
-    @Override
-    public ParticleType<?> getType()
+    public ParticleBase getType()
     {
         return this;
     }
@@ -116,11 +107,12 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
         return this;
     }
 
-    protected void render(final VertexConsumer buffer, final Quaternion quaternion,
+    protected void render(final VertexConsumer buffer, final Quaternionf quaternion,
             final thut.api.maths.vecmath.Vec3f offset)
     {
         final Vector3f vector3f1 = new Vector3f(-1.0F, -1.0F, 0.0F);
-        vector3f1.transform(quaternion);
+        // TODO: check this
+        quaternion.transform(vector3f1);
         final Vector3f[] verts = new Vector3f[] { //@formatter:off
                 new Vector3f(-1.0F, -1.0F, 0.0F),
                 new Vector3f(-1.0F, 1.0F, 0.0F),
@@ -131,8 +123,8 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
 
         for (int i = 0; i < 4; ++i)
         {
-            final com.mojang.math.Vector3f vector3f = verts[i];
-            vector3f.transform(quaternion);
+            final Vector3f vector3f = verts[i];
+            quaternion.transform(vector3f);
             vector3f.mul(f4);
             vector3f.add(offset.x, offset.y, offset.z);
         }
@@ -150,10 +142,10 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
         final float u1 = u * 1f / 16f, v1 = v * 1f / 16f;
         final float u2 = (u + 1) * 1f / 16f, v2 = (v + 1) * 1f / 16f;
 
-        buffer.vertex(verts[0].x(), verts[0].y(), verts[0].z()).color(r, g, b, a).uv(u1, v2).uv2(j).endVertex();
-        buffer.vertex(verts[1].x(), verts[1].y(), verts[1].z()).color(r, g, b, a).uv(u2, v2).uv2(j).endVertex();
-        buffer.vertex(verts[2].x(), verts[2].y(), verts[2].z()).color(r, g, b, a).uv(u2, v1).uv2(j).endVertex();
-        buffer.vertex(verts[3].x(), verts[3].y(), verts[3].z()).color(r, g, b, a).uv(u1, v1).uv2(j).endVertex();
+        buffer.addVertex(verts[0].x(), verts[0].y(), verts[0].z()).setColor(r, g, b, a).setUv(u1, v2).setLight(j);
+        buffer.addVertex(verts[1].x(), verts[1].y(), verts[1].z()).setColor(r, g, b, a).setUv(u2, v2).setLight(j);
+        buffer.addVertex(verts[2].x(), verts[2].y(), verts[2].z()).setColor(r, g, b, a).setUv(u2, v1).setLight(j);
+        buffer.addVertex(verts[3].x(), verts[3].y(), verts[3].z()).setColor(r, g, b, a).setUv(u1, v1).setLight(j);
     }
 
     @Override
@@ -161,7 +153,7 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
     public void renderParticle(final VertexConsumer buffer, final Camera renderInfo, final float partialTicks,
             final thut.api.maths.vecmath.Vec3f offset)
     {
-        Quaternion quaternion;
+        Quaternionf quaternion;
         quaternion = renderInfo.rotation();
         this.render(buffer, quaternion, offset);
     }
@@ -235,7 +227,6 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
         this.velocity = v;
     }
 
-    @Override
     public void writeToNetwork(final FriendlyByteBuf buffer)
     {
         buffer.writeInt(this.duration);
@@ -253,9 +244,17 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
             buffer.writeVarIntArray(element);
     }
 
+    private final MapCodec<ParticleBase> codec = MapCodec.unit(this::getType);
+    private static Codec CODEC = new Codec();
+
     @Override
-    public Codec<ParticleBase> codec()
+    public MapCodec<ParticleBase> codec()
     {
-        return this.codec;
+        return codec;
+    }
+    @Override
+    public StreamCodec<? super RegistryFriendlyByteBuf, ParticleBase> streamCodec()
+    {
+        return CODEC;
     }
 }

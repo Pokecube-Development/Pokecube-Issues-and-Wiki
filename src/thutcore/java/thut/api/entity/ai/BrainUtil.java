@@ -12,6 +12,7 @@ import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.behavior.Behavior;
+import net.minecraft.world.entity.ai.behavior.BehaviorControl;
 import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.Sensor;
@@ -128,7 +129,7 @@ public class BrainUtil
      * @param brain the brain
      * @param match the predicate to match
      */
-    public static void removeMatchingTasks(final Brain<?> brain, final Predicate<Behavior<?>> match)
+    public static void removeMatchingTasks(final Brain<?> brain, final Predicate<BehaviorControl<?>> match)
     {
         brain.availableBehaviorsByPriority.forEach((i, map) -> map.values().forEach(s -> s.removeIf(match)));
     }

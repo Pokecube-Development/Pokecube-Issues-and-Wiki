@@ -56,7 +56,7 @@ public class StringValueAdaptor implements JsonDeserializer<StringValue<?>>
                     }
                     else if (type == ResourceLocation.class)
                     {
-                        return new StringValue<>(name).setValue(new ResourceLocation(value));
+                        return new StringValue<>(name).setValue(ResourceLocation.parse(value));
                     }
                     else
                     {

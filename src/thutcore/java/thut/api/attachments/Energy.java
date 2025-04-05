@@ -1,0 +1,226 @@
+package thut.api.attachments;
+
+import java.util.Locale;
+import java.util.function.Supplier;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+
+import io.netty.buffer.ByteBuf;
+import net.minecraft.ResourceLocationException;
+import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.attachment.AttachmentType;
+import net.neoforged.neoforge.attachment.IAttachmentHolder;
+import net.neoforged.neoforge.energy.EnergyStorage;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import thut.api.data.HolderProvider;
+
+public class Energy
+{
+    public static class CustomeStorage extends EnergyStorage
+    {
+
+        public CustomeStorage(int capacity)
+        {
+            super(capacity);
+        }
+
+        public CustomeStorage(int capacity, int maxTransfer)
+        {
+            super(capacity, maxTransfer, maxTransfer, 0);
+        }
+
+        public CustomeStorage(int capacity, int maxReceive, int maxExtract)
+        {
+            super(capacity, maxReceive, maxExtract, 0);
+        }
+
+        public CustomeStorage(int capacity, int maxReceive, int maxExtract, int energy)
+        {
+            super(capacity, maxReceive, maxExtract, energy);
+        }
+
+        public int maxReceive()
+        {
+            return maxReceive;
+        }
+
+        public int maxExtract()
+        {
+            return maxExtract;
+        }
+
+    }
+
+    public static class Wrapping extends CustomeStorage
+    {
+        final IEnergyStorage wrapped;
+
+        public Wrapping(IEnergyStorage wrap)
+        {
+            super(0);
+            wrapped = wrap;
+        }
+
+        @Override
+        public boolean canExtract()
+        {
+            return wrapped.canExtract();
+        }
+
+        @Override
+        public boolean canReceive()
+        {
+            return wrapped.canReceive();
+        }
+
+        @Override
+        public int getEnergyStored()
+        {
+            return wrapped.getEnergyStored();
+        }
+
+        @Override
+        public int getMaxEnergyStored()
+        {
+            return wrapped.getMaxEnergyStored();
+        }
+
+        @Override
+        public int extractEnergy(int toExtract, boolean simulate)
+        {
+            return wrapped.extractEnergy(toExtract, simulate);
+        }
+
+        @Override
+        public int receiveEnergy(int toReceive, boolean simulate)
+        {
+            return wrapped.receiveEnergy(toReceive, simulate);
+        }
+    }
+
+    public static record EnergyHolder(CustomeStorage energy, CompoundTag tag)
+    {
+        public EnergyHolder(CompoundTag tag)
+        {
+            this(null, tag);
+        }
+
+        public EnergyHolder withContext(HolderLookup.Provider context)
+        {
+            int C = this.tag.getInt("C");
+            int MR = this.tag.getInt("MR");
+            int ME = this.tag.getInt("ME");
+            CustomeStorage contents = new CustomeStorage(C, MR, ME);
+
+            contents.deserializeNBT(context, this.tag().get("E"));
+            return new EnergyHolder(contents, this.tag);
+        }
+
+        public EnergyHolder saveHolder(HolderLookup.Provider context)
+        {
+            var saved = this.energy.serializeNBT(context);
+            var tag = new CompoundTag();
+            tag.put("E", saved);
+            tag.putInt("C", this.energy.getMaxEnergyStored());
+            tag.putInt("MR", this.energy.maxReceive());
+            tag.putInt("ME", this.energy.maxExtract());
+            return new EnergyHolder(energy, tag);
+        }
+
+        public static final Codec<EnergyHolder> CODEC = CompoundTag.CODEC
+                .<EnergyHolder>comapFlatMap(EnergyHolder::read, EnergyHolder::tag).stable();
+        public static final StreamCodec<ByteBuf, EnergyHolder> STREAM_CODEC = ByteBufCodecs.COMPOUND_TAG
+                .map(EnergyHolder::parse, EnergyHolder::tag);
+
+        public static DataResult<EnergyHolder> read(CompoundTag tag)
+        {
+            try
+            {
+                return DataResult.success(parse(tag));
+            }
+            catch (ResourceLocationException resourcelocationexception)
+            {
+                return DataResult.error(
+                        () -> "Not a valid itemholder tag: " + tag + " " + resourcelocationexception.getMessage());
+            }
+        }
+
+        public static EnergyHolder parse(CompoundTag tag)
+        {
+            return new EnergyHolder(tag);
+        }
+    }
+
+    public static final ResourceLocation LOCSAVEABLE = ResourceLocation.parse("thutcore:energy");
+
+    // ITEM DATA
+
+    public static Supplier<DataComponentType<EnergyHolder>> INVENTORY_STORE;
+
+    public static void registerItemData(DeferredRegister<DataComponentType<?>> registry)
+    {
+        INVENTORY_STORE = registry.register("energy_storage", name -> new DataComponentType.Builder<EnergyHolder>()
+                .persistent(EnergyHolder.CODEC).networkSynchronized(EnergyHolder.STREAM_CODEC).build());
+    }
+
+    // ENTITY/TILE ENTITY ATTACHMENT
+
+    @SuppressWarnings("unchecked")
+    public static Supplier<AttachmentType<EnergyStorage>>[] TYPES = (Supplier<AttachmentType<EnergyStorage>>[]) new Supplier<?>[6];
+
+    @SuppressWarnings("unchecked")
+    public static final HolderProvider<EnergyStorage>[] REGISTRY = (HolderProvider<EnergyStorage>[]) new HolderProvider<?>[6];
+
+    public static final HolderProvider<EnergyStorage> DEFAULT()
+    {
+        return REGISTRY[0];
+    }
+
+    public static EnergyStorage makeProvider(final IAttachmentHolder in)
+    {
+        return new EnergyStorage(1);
+    }
+
+    public static EnergyStorage get(final IAttachmentHolder in, Direction d)
+    {
+        if (d == null) d = Direction.DOWN;
+        var TYPE = TYPES[d.ordinal()].get();
+        if (in.hasData(TYPE)) return in.getData(TYPE);
+        return null;
+    }
+
+    public static boolean has(final IAttachmentHolder in, Direction d)
+    {
+        if (d == null) d = Direction.DOWN;
+        var TYPE = TYPES[d.ordinal()].get();
+        return in.hasData(TYPE);
+    }
+
+    public static void set(final IAttachmentHolder in, Direction d, EnergyStorage storage)
+    {
+        if (d == null) d = Direction.DOWN;
+        var TYPE = TYPES[d.ordinal()].get();
+        in.setData(TYPE, storage);
+    }
+
+    public static void registerAttachment(DeferredRegister<AttachmentType<?>> registry)
+    {
+        for (Direction d : Direction.values())
+        {
+            var prov = new HolderProvider<EnergyStorage>();
+            REGISTRY[d.ordinal()] = prov;
+            var KEY = "energy_" + d.getName().toLowerCase(Locale.ROOT);
+
+            var type = registry.register(KEY, () -> AttachmentType.serializable(prov::make).build());
+            TYPES[d.ordinal()] = type;
+        }
+    }
+}

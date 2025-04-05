@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:enigma_sign",
+    "pokecube:leppa_sign",
+    "pokecube:nanab_sign",
+    "pokecube:oran_sign",
+    "pokecube:pecha_sign",
+    "pokecube:sitrus_sign",
+    {"id": "pokecube_legends:aged_sign", "required": false},
+    {"id": "pokecube_legends:concrete_sign", "required": false},
+    {"id": "pokecube_legends:concrete_dense_sign", "required": false},
+    {"id": "pokecube_legends:corrupted_sign", "required": false},
+    {"id": "pokecube_legends:distortic_sign", "required": false},
+    {"id": "pokecube_legends:inverted_sign", "required": false},
+    {"id": "pokecube_legends:mirage_sign", "required": false},
+    {"id": "pokecube_legends:temporal_sign", "required": false}
+  ]
+}

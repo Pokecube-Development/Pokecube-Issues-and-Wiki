@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
@@ -37,11 +38,11 @@ public class NetworkTools
     }
 
     /// This function supports itemstacks with more then 64 items.
-    public static ItemStack readItemStack(ByteBuf dataIn)
+    public static ItemStack readItemStack(HolderLookup.Provider access, ByteBuf dataIn)
     {
         final FriendlyByteBuf buf = new FriendlyByteBuf(dataIn);
         final CompoundTag nbt = buf.readNbt();
-        final ItemStack stack = ItemStack.of(nbt);
+        final ItemStack stack = ItemStack.parseOptional(access, nbt);
         stack.setCount(buf.readInt());
         return stack;
     }
@@ -101,11 +102,10 @@ public class NetworkTools
     }
 
     /// This function supports itemstacks with more then 64 items.
-    public static void writeItemStack(ByteBuf dataOut, ItemStack itemStack)
+    public static void writeItemStack(HolderLookup.Provider access, ByteBuf dataOut, ItemStack itemStack)
     {
         final FriendlyByteBuf buf = new FriendlyByteBuf(dataOut);
-        final CompoundTag nbt = new CompoundTag();
-        itemStack.save(nbt);
+        final CompoundTag nbt = (CompoundTag) itemStack.save(access, new CompoundTag());
         try
         {
             buf.writeNbt(nbt);

@@ -1,0 +1,268 @@
+package pokecube.core.client.render.mobs;
+
+import java.awt.Color;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import com.google.common.collect.Maps;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexFormat.Mode;
+
+import net.minecraft.client.renderer.RenderStateShard;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.utils.PokeType;
+import pokecube.core.PokecubeCore;
+import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
+import thut.api.ModelHolder;
+import thut.api.entity.IAnimated.HeadInfo;
+import thut.api.entity.IAnimated.IAnimationHolder;
+import thut.api.entity.animation.Animation;
+import thut.api.entity.animation.CapabilityAnimation;
+import thut.api.entity.animation.IAnimationChanger;
+import thut.api.maths.Vector3;
+import thut.core.client.render.animation.AnimationLoader;
+import thut.core.client.render.model.IModel;
+import thut.core.client.render.model.IModelRenderer;
+import thut.core.client.render.model.ModelFactory;
+import thut.core.client.render.texturing.IPartTexturer;
+import thut.core.client.render.wrappers.ModelWrapper;
+
+public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapper<EntityPokemobEgg>>
+        implements IModelRenderer<EntityPokemobEgg>
+{
+    static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID, "textures/entity/egg/egg.png");
+    static final ResourceLocation MODEL = ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID, "models/entity/egg/egg");
+    static final ResourceLocation ANIM = ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID, "models/entity/egg/egg.xml");
+
+    private static class EggColourer implements IAnimationChanger
+    {
+        IAnimationHolder anims = new CapabilityAnimation.DefaultImpl();
+
+        @Override
+        public void addChild(final IAnimationChanger animationRandomizer)
+        {}
+
+        @Override
+        public boolean modifyColourForPart(final String partIdentifier, final Entity entity, final int[] rgba)
+        {
+            if (!(entity instanceof EntityPokemobEgg egg)) return false;
+            final IPokemob poke = egg.getPokemob(false);
+            if (poke == null) return false;
+            final PokeType t1 = poke.getType1();
+            final PokeType t2 = poke.getType2();
+            final int rgb = partIdentifier.contains("spot") ? t2.colour : t1.colour;
+            final Color c = new Color(rgb);
+            rgba[0] = c.getRed();
+            rgba[1] = c.getGreen();
+            rgba[2] = c.getBlue();
+            rgba[3] = 255;
+            return true;
+        }
+
+        @Override
+        public WornOffsets getOffsets(final String part)
+        {
+            return null;
+        }
+
+        @Override
+        public void init(final Collection<Animation> anims)
+        {}
+
+        @Override
+        public void parseDyeables(final Set<String> set)
+        {}
+
+        @Override
+        public void parseShearables(final Set<String> set)
+        {}
+
+        @Override
+        public void parseWornOffsets(final Map<String, WornOffsets> map)
+        {}
+
+        @Override
+        public void setAnimationHolder(final IAnimationHolder holder)
+        {
+            this.anims = holder;
+        }
+
+        @Override
+        public IAnimationHolder getAnimationHolder()
+        {
+            return this.anims;
+        }
+
+    }
+
+    private final HashMap<String, List<Animation>> anims = Maps.newHashMap();
+
+    private final Vector3 scale = new Vector3();
+
+    public RenderEgg(final EntityRendererProvider.Context manager)
+    {
+        super(manager, null, 0.1f);
+        this.model = this.makeModel();
+    }
+
+    private ModelWrapper<EntityPokemobEgg> makeModel()
+    {
+        final ModelHolder holder = new ModelHolder(RenderEgg.MODEL, RenderEgg.TEXTURE, RenderEgg.ANIM, "pokemob_egg");
+        final ModelWrapper<EntityPokemobEgg> model = new ModelWrapper<>(holder, this);
+        this.model = model;
+        model.setModel(ModelFactory.create(holder, m -> {
+            model.setModel(m);
+            AnimationLoader.parse(model.model, model, this);
+        }));
+        return model;
+    }
+
+    @Override
+    protected RenderType getRenderType(final EntityPokemobEgg entity, final boolean bool_a, final boolean bool_b,
+            final boolean bool_c)
+    {
+        if (model.lastInit == -1)
+        {
+            this.model = this.makeModel();
+            this.model.lastInit = 0;
+        }
+        final RenderType.CompositeState rendertype$state = RenderType.CompositeState.builder()
+                .setTextureState(new RenderStateShard.TextureStateShard(this.getTextureLocation(entity), false, false))
+                .setTransparencyState(new RenderStateShard.TransparencyStateShard("translucent_transparency", () ->
+                {
+                    RenderSystem.enableBlend();
+                    RenderSystem.defaultBlendFunc();
+                }, () -> {
+                    RenderSystem.disableBlend();
+                })).setShaderState(RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER)
+                .setCullState(new RenderStateShard.CullStateShard(false))
+                .setLightmapState(new RenderStateShard.LightmapStateShard(true))
+                .setOverlayState(new RenderStateShard.OverlayStateShard(true)).createCompositeState(false);
+        return RenderType.create("pokecube:pokemob_egg", DefaultVertexFormat.NEW_ENTITY, Mode.TRIANGLES, 256, bool_a,
+                bool_b, rendertype$state);
+    }
+
+    @Override
+    public Vector3 getScale()
+    {
+        return this.scale;
+    }
+
+    @Override
+    protected boolean shouldShowName(final EntityPokemobEgg entity)
+    {
+        return false;
+    }
+
+    @Override
+    public ResourceLocation getTextureLocation(final EntityPokemobEgg entity)
+    {
+        return RenderEgg.TEXTURE;
+    }
+
+    @Override
+    public Map<String, List<Animation>> getAnimations()
+    {
+        return this.anims;
+    }
+
+    @Override
+    public boolean hasAnimation(final String phase, final Entity entity)
+    {
+        return false;
+    }
+
+    @Override
+    public void scaleEntity(final PoseStack mat, final Entity entity, final IModel model, final float partialTick)
+    {
+        final float s = 1f;
+        float sx = (float) this.getScale().x;
+        float sy = (float) this.getScale().y;
+        float sz = (float) this.getScale().z;
+        sx *= s;
+        sy *= s;
+        sz *= s;
+        if (!this.getScale().isEmpty()) mat.scale(sx, sy, sz);
+        else mat.scale(s, s, s);
+    }
+
+    @Override
+    public void setRotationOffset(final Vector3 offset)
+    {}
+
+    @Override
+    public void setScale(final Vector3 scale)
+    {
+        this.scale.set(scale);
+    }
+
+    @Override
+    public void updateModel(final Map<String, List<Vector5>> phaseList, final ModelHolder model)
+    {
+
+    }
+
+    @Override
+    public HeadInfo getHeadInfo()
+    {
+        return HeadInfo.DUMMY;
+    }
+
+    @Override
+    public void setAnimationChanger(final IAnimationChanger changer)
+    {
+        this.getModel().animChangeHolder.set(changer);
+    }
+
+    @Override
+    public IAnimationChanger getAnimationChanger()
+    {
+        var changer = this.getModel().animChangeHolder.get();
+        if (changer == null)
+        {
+            changer = new EggColourer();
+            this.setAnimationChanger(changer);
+        }
+        return changer;
+    }
+
+    @Override
+    public void setTexturer(final IPartTexturer texturer)
+    {
+        this.getModel().texChangeHolder.set(texturer);
+    }
+
+    @Override
+    public IPartTexturer getTexturer()
+    {
+        return this.getModel().texChangeHolder.get();
+    }
+
+    @Override
+    public void setAnimationHolder(final IAnimationHolder holder)
+    {
+        this.getModel().setAnimationHolder(holder);
+    }
+
+    @Override
+    public IAnimationHolder getAnimationHolder()
+    {
+        var holder = this.getModel().animHolderHolder.get();
+        if (holder == null)
+        {
+            holder = new CapabilityAnimation.DefaultImpl();
+            this.setAnimationHolder(holder);
+        }
+        return holder;
+    }
+}

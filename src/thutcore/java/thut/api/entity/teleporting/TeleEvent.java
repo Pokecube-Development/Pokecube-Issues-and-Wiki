@@ -2,12 +2,11 @@ package thut.api.entity.teleporting;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.event.entity.EntityTeleportEvent;
-import net.minecraftforge.eventbus.api.Cancelable;
+import net.neoforged.bus.api.ICancellableEvent;
+import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
 import thut.core.common.ThutCore;
 
-@Cancelable
-public class TeleEvent extends EntityTeleportEvent
+public class TeleEvent extends EntityTeleportEvent implements ICancellableEvent
 {
     public TeleEvent(final Entity entity, final double targetX, final double targetY, final double targetZ)
     {

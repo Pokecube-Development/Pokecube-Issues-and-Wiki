@@ -6,13 +6,13 @@ import java.util.UUID;
 import com.google.common.collect.Maps;
 
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.event.TickEvent.PlayerTickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.LogicalSide;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
+@EventBusSubscriber(value = Dist.CLIENT)
 public class TickHandler
 {
     public static Map<UUID, Integer> playerTickTracker = Maps.newHashMap();
@@ -23,19 +23,20 @@ public class TickHandler
      * This is used to re-set view bobbing for when a player walks off a block
      * entity.
      */
-    public static void PlayerTick(final PlayerTickEvent event)
+    public static void PlayerTick(final PlayerTickEvent.Post event)
     {
-        if (event.phase == Phase.END && TickHandler.playerTickTracker.containsKey(event.player.getUUID()))
+        if (TickHandler.playerTickTracker.containsKey(event.getEntity().getUUID()))
         {
-            final Integer time = TickHandler.playerTickTracker.get(event.player.getUUID());
-            if (time < (int) (System.currentTimeMillis() % 2000) - 100) Minecraft
-                    .getInstance().options.bobView = true;
+            final Integer time = TickHandler.playerTickTracker.get(event.getEntity().getUUID());
+            if (time < (int) (System.currentTimeMillis() % 2000) - 100)
+                Minecraft.getInstance().options.bobView().set(true);;
         }
         /**
          * This deals with the massive hunger reduction for standing on the
          * block entities.
          */
-        if (event.phase == Phase.END && event.side == LogicalSide.CLIENT) if (event.player.tickCount == event.player
-                .getPersistentData().getInt("lastStandTick") + 1) event.player.setOnGround(true);
+        if (event.getEntity().level().isClientSide())
+            if (event.getEntity().tickCount == event.getEntity().getPersistentData().getInt("lastStandTick") + 1)
+                event.getEntity().setOnGround(true);
     }
 }

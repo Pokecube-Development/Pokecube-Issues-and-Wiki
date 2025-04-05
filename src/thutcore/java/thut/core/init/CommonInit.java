@@ -6,23 +6,23 @@ import java.util.Locale;
 import com.google.common.collect.Lists;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.entity.IEntityAdditionalSpawnData;
-import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import thut.api.TickHandler;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.EventBusSubscriber.Bus;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent.StartTracking;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import thut.api.Tracker;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.level.structures.StructureManager;
@@ -40,13 +40,13 @@ import thut.core.common.world.mobs.data.SyncHandler;
 import thut.crafts.entity.EntityCraft;
 import thut.lib.TComponent;
 
-@Mod.EventBusSubscriber(bus = Bus.FORGE)
+@EventBusSubscriber(bus = Bus.GAME)
 public class CommonInit
 {
     public static final String SET_SUBBIOME = "thutcore.subbiome.set";
     public static final String SET_STRUCTURE = "thutcore.structure.edit";
 
-    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = ThutCore.MODID)
+    @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = ThutCore.MODID)
     public static class RegistryEvents
     {
         @SubscribeEvent
@@ -56,7 +56,6 @@ public class CommonInit
             TerrainManager.getInstance();
 
             ThutCore.FORGE_BUS.register(StructureManager.class);
-            ThutCore.FORGE_BUS.register(TickHandler.class);
             ThutCore.FORGE_BUS.register(MobEvents.class);
             ThutCore.FORGE_BUS.register(SyncHandler.class);
 
@@ -111,8 +110,8 @@ public class CommonInit
     @SubscribeEvent
     public static void interactRightClickBlock(final PlayerInteractEvent.RightClickBlock evt)
     {
-        if (evt.getHand() == InteractionHand.OFF_HAND || !(evt.getPlayer() instanceof ServerPlayer player)
-                || evt.getItemStack().isEmpty() || !evt.getPlayer().isShiftKeyDown())
+        if (evt.getHand() == InteractionHand.OFF_HAND || !(evt.getEntity() instanceof ServerPlayer player)
+                || evt.getItemStack().isEmpty() || !evt.getEntity().isShiftKeyDown())
             return;
         final ItemStack itemstack = evt.getItemStack();
 
@@ -127,39 +126,44 @@ public class CommonInit
         }
         if (handler == null) return;
 
-        final Player playerIn = evt.getPlayer();
-        final Level worldIn = evt.getWorld();
+        final Player playerIn = evt.getEntity();
+        final Level worldIn = evt.getLevel();
         final BlockPos pos = evt.getPos();
-        if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min"))
+        
+        CompoundTag data = itemstack.has(DataComponents.CUSTOM_DATA)?itemstack.get(DataComponents.CUSTOM_DATA).copyTag():null;
+        
+        if (data!=null && playerIn.isShiftKeyDown() && data.contains("min"))
         {
-            final CompoundTag minTag = itemstack.getTag().getCompound("min");
+            final CompoundTag minTag = data.getCompound("min");
             final BlockPos min = pos;
             final BlockPos max = Vector3.readFromNBT(minTag, "").getPos();
             if (!handler.checkValid(player, worldIn, itemstack, min, max)) return;
             if (!worldIn.isClientSide && worldIn instanceof ServerLevel level)
                 handler.apply(player, level, itemstack, min, max);
-            itemstack.getTag().remove("min");
+            data.remove("min");
+            itemstack.set(DataComponents.CUSTOM_DATA, CustomData.of(data));
             evt.setCanceled(true);
         }
         else
         {
-            if (!itemstack.hasTag()) itemstack.setTag(new CompoundTag());
+            if(data==null) data = new CompoundTag();
             final CompoundTag min = new CompoundTag();
             new Vector3().set(pos).writeToNBT(min, "");
-            itemstack.getTag().put("min", min);
+            data.put("min", min);
             final String message = handler.getCornerMessage();
             if (!worldIn.isClientSide)
                 thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message, pos));
             evt.setCanceled(true);
-            itemstack.getTag().putLong("time", Tracker.instance().getTick());
+            data.putLong("time", Tracker.instance().getTick());
+            itemstack.set(DataComponents.CUSTOM_DATA, CustomData.of(data));
         }
     }
 
     @SubscribeEvent
     public static void interactRightClickBlock(final PlayerInteractEvent.RightClickItem evt)
     {
-        if (evt.getHand() == InteractionHand.OFF_HAND || !(evt.getPlayer() instanceof ServerPlayer player)
-                || evt.getItemStack().isEmpty() || !evt.getPlayer().isShiftKeyDown())
+        if (evt.getHand() == InteractionHand.OFF_HAND || !(evt.getEntity() instanceof ServerPlayer player)
+                || evt.getItemStack().isEmpty() || !evt.getEntity().isShiftKeyDown())
             return;
         final ItemStack itemstack = evt.getItemStack();
 
@@ -174,29 +178,31 @@ public class CommonInit
         }
         if (handler == null) return;
 
-        final Player playerIn = evt.getPlayer();
-        final Level worldIn = evt.getWorld();
+        final Player playerIn = evt.getEntity();
+        final Level worldIn = evt.getLevel();
         final long now = Tracker.instance().getTick();
-        if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min")
-                && itemstack.getTag().getLong("time") != now)
+        if(!itemstack.has(DataComponents.CUSTOM_DATA)) return;
+        var data = itemstack.get(DataComponents.CUSTOM_DATA).copyTag();
+        if (playerIn.isShiftKeyDown() && data.contains("min") && data.getLong("time") != now)
         {
-            final CompoundTag minTag = itemstack.getTag().getCompound("min");
+            final CompoundTag minTag = data.getCompound("min");
             final Vec3 loc = playerIn.position().add(0, playerIn.getEyeHeight(), 0)
                     .add(playerIn.getLookAngle().scale(2));
-            final BlockPos pos = new BlockPos(loc);
+            final BlockPos pos = new BlockPos((int) loc.x, (int) loc.y, (int) loc.z);
             final BlockPos min = pos;
             final BlockPos max = Vector3.readFromNBT(minTag, "").getPos();
             if (!worldIn.isClientSide && worldIn instanceof ServerLevel level)
                 handler.apply(player, level, itemstack, min, max);
-            itemstack.getTag().remove("min");
+            data.remove("min");
+            itemstack.set(DataComponents.CUSTOM_DATA, CustomData.of(data));
         }
     }
 
     @SubscribeEvent
     public static void logout(final PlayerLoggedOutEvent event)
     {
-        if (event.getPlayer().isPassenger() && event.getPlayer().getRootVehicle() instanceof EntityCraft)
-            event.getPlayer().stopRiding();
+        if (event.getEntity().isPassenger() && event.getEntity().getRootVehicle() instanceof EntityCraft)
+            event.getEntity().stopRiding();
     }
 
     @SubscribeEvent
@@ -207,7 +213,7 @@ public class CommonInit
      */
     public static void startTracking(final StartTracking evt)
     {
-        if (evt.getTarget() instanceof IEntityAdditionalSpawnData && evt.getTarget() instanceof BlockEntityBase)
+        if (evt.getTarget() instanceof BlockEntityBase)
             EntityUpdate.sendEntityUpdate(evt.getTarget());
     }
 }

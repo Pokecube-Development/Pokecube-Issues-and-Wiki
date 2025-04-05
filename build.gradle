@@ -1,122 +1,22 @@
-buildscript {
-    repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
-        jcenter()
-        mavenCentral()
-        flatDir {
-          dirs 'libs'
-        }
-        maven {url='https://repo.spongepowered.org/repository/maven-public/'}
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
-    }
-}
-
 plugins {
-  id 'org.ajoberstar.grgit' version '2.3.0'
+    id 'java-library'
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id 'net.neoforged.gradle.userdev' version '7.0.170'
 }
 
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'eclipse'
-apply plugin: 'maven-publish'
-apply plugin: 'org.spongepowered.mixin'
-
-mixin {
-    add sourceSets.main, "thutcore.refmap.json"
-    
-    config "pokecube.mixins.json"
-    config "thutcore.mixins.json"
+tasks.named('wrapper', Wrapper).configure {
+    // Define wrapper values here so as to not have to always do so when updating gradlew.properties.
+    // Switching this to Wrapper.DistributionType.ALL will download the full gradle sources that comes with
+    // documentation attached on cursor hover of gradle classes and methods. However, this comes with increased
+    // file size for Gradle. If you do switch this to ALL, run the Gradle wrapper task twice afterwards.
+    // (Verify by checking gradle/wrapper/gradle-wrapper.properties to see if distributionUrl now points to `-all`)
+    distributionType = Wrapper.DistributionType.BIN
 }
 
-ext {
-    VERSION_COMPILE = gitVersion("${version_major}.${version_minor}")
-    VERSION_THUTCORE = gitVersion("${version_thutcore}.${version_major}.${version_minor}")
-    // Force a refresh of the toml file
-    cleanTOML()
-}
-
-version = "${version_minecraft}-${VERSION_COMPILE}"
-group = 'thut'
-archivesBaseName = "${compile_name}"
-
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
-
-minecraft {
-    mappings channel: "${channel_mappings}", version: "${version_mappings}"
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-
-    runs {
-        client = {
-            taskName 'run_client_1'
-            // recommended logging level for the console
-            properties 'forge.logging.console.level': 'debug'
-            properties '-XX': '+UnlockCommercialFeatures'
-            properties '-XX': '+FlightRecorder'
-            properties 'forge.logging.console.level': 'debug'
-            workingDirectory project.file('run').canonicalPath
-            args "-mixin.config=pokecube.mixins.json", "-mixin.config=thutcore.mixins.json"
-            source sourceSets.main
-        }
-        client_2 {
-            parent runs.client
-            taskName 'run_client_2'
-
-            environment 'MOD_CLASSES', 'dummy' // Needed to work around FG limitation, FG will replace this!
-            args "-mixin.config=pokecube.mixins.json", "-mixin.config=thutcore.mixins.json", '--username', 'Dev2'
-        }
-        client_3 {
-            parent runs.client
-            taskName 'run_client_3'
-
-            environment 'MOD_CLASSES', 'dummy' // Needed to work around FG limitation, FG will replace this!
-            args "-mixin.config=pokecube.mixins.json", "-mixin.config=thutcore.mixins.json", '--username', 'Dev3'
-        }
-        client_4 {
-            parent runs.client
-            taskName 'run_client_4'
-
-            environment 'MOD_CLASSES', 'dummy' // Needed to work around FG limitation, FG will replace this!
-            args "-mixin.config=pokecube.mixins.json", "-mixin.config=thutcore.mixins.json", '--username', 'Dev4'
-        }
-        test_client {
-            parent runs.client
-            taskName 'run_test_client'
-
-            environment 'MOD_CLASSES', 'dummy' // Needed to work around FG limitation, FG will replace this!
-            args "-mixin.config=pokecube.mixins.json", "-mixin.config=thutcore.mixins.json"
-
-            mods {
-                TestMods { sources sourceSets.test }
-                MainMods { sources sourceSets.main }
-            }
-        }
-        server = {
-            taskName 'run_server'
-            // recommended logging level for the console
-            properties 'forge.logging.console.level': 'debug'
-            properties '-XX': '+UnlockCommercialFeatures'
-            properties '-XX': '+FlightRecorder'
-            jvmArg "-Xmx2G"
-            workingDirectory project.file('run').canonicalPath
-            args "-mixin.config=pokecube.mixins.json", "-mixin.config=thutcore.mixins.json"
-            source sourceSets.main
-        }
-        test_server {
-            parent runs.server
-            taskName 'run_test_server'
-
-            environment 'MOD_CLASSES', 'dummy' // Needed to work around FG limitation, FG will replace this!
-            args "-mixin.config=pokecube.mixins.json", "-mixin.config=thutcore.mixins.json"
-
-            mods {
-                TestMods { sources sourceSets.test }
-                MainMods { sources sourceSets.main }
-            }
-        }
-    }
-}
+version = mod_version
+group = mod_group_id
 
 repositories {
     maven {
@@ -125,84 +25,204 @@ repositories {
             includeGroup "curse.maven"
         }
     }
-    flatDir {
-        dirs 'libs'
+    mavenLocal()
+}
+
+base {
+    archivesName = compile_name
+}
+
+// Mojang ships Java 21 to end users starting in 1.20.5, so mods should target Java 21.
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+minecraft.accessTransformers.file rootProject.file('src/main/resources/META-INF/accesstransformer.cfg')
+//minecraft.accessTransformers.entry public net.minecraft.client.Minecraft textureManager # textureManager
+
+// Default run configurations.
+// These can be tweaked, removed, or duplicated as needed.
+runs {
+    // applies to all the run configs below
+    configureEach {
+        // Recommended logging data for a userdev environment
+        // The markers can be added/remove as needed separated by commas.
+        // "SCAN": For mods scan.
+        // "REGISTRIES": For firing of registry events.
+        // "REGISTRYDUMP": For getting the contents of all registries.
+        systemProperty 'forge.logging.markers', 'REGISTRIES'
+
+        // Recommended logging level for the console
+        // You can set various levels here.
+        // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
+        systemProperty 'forge.logging.console.level', 'debug'
+
+        modSource project.sourceSets.main
     }
-    maven {
-        // location of the maven that hosts JEI files
-        name = "Progwml6 maven"
-        url = "https://dvs1.progwml6.com/files/maven/"
-      }
-    maven {
-        // location of a maven mirror for JEI files, as a fallback
-        name = "ModMaven"
-        url = "https://modmaven.k-4u.nl"
+
+    client {
+        // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
+        systemProperty 'forge.enabledGameTestNamespaces', project.mod_group_id
     }
+
+    server {
+        systemProperty 'forge.enabledGameTestNamespaces', project.mod_group_id
+        //argument '--nogui'
+    }
+
+    // This run config launches GameTestServer and runs all registered gametests, then exits.
+    // By default, the server will crash when no gametests are provided.
+    // The gametest system is also enabled by default for other run configs under the /test command.
+    // gameTestServer {
+    //     systemProperty 'forge.enabledGameTestNamespaces', project.mod_group_id
+    // }
+
+    data {
+        // example of overriding the workingDirectory set in configureEach above, uncomment if you want to use it
+        // workingDirectory project.file('run-data')
+
+        // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
+        arguments.addAll '--mod', project.mod_group_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+    }
+
+    client_1 {
+        // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
+        run 'client' //In case you want to clone the client run into the someRun
+       // configure runTypes.client //In case you want to clone the client run type into the someRun
+        arguments '--username', 'Dev1'
+    }
+
+    client_2 {
+        // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
+        run 'client' //In case you want to clone the client run into the someRun
+       // configure runTypes.client //In case you want to clone the client run type into the someRun
+        arguments '--username', 'Dev2'
+    }
+
+    client_3 {
+        // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
+        run 'client' //In case you want to clone the client run into the someRun
+       // configure runTypes.client //In case you want to clone the client run type into the someRun
+        arguments '--username', 'Dev3'
+    }
+}
+
+// Include resources generated by data generators.
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+sourceSets.main.resources { srcDir 'src/thutcore/resources' }
+sourceSets.main.java { srcDir 'src/thutcore/java' }
+
+sourceSets.main.resources { srcDir 'src/wearables/resources' }
+sourceSets.main.java { srcDir 'src/wearables/java' }
+
+//** Main Pokecube set
+sourceSets.main.resources { srcDir 'src/pokecube/resources' }
+sourceSets.main.java { srcDir 'src/pokecube/java' }
+//**/
+
+//** Pokecube Adventures
+sourceSets.main.resources { srcDir 'src/adventures/resources' }
+sourceSets.main.java { srcDir 'src/adventures/java' }
+//**/
+
+//** Pokecube Compat
+sourceSets.main.resources { srcDir 'src/compat/resources' }
+sourceSets.main.java { srcDir 'src/compat/java' }
+//**/
+
+/** Pokecube Legends
+sourceSets.main.resources { srcDir 'src/legends/resources' }
+sourceSets.main.java { srcDir 'src/legends/java' }
+//**/
+
+/** Test code
+sourceSets.main.resources { srcDir 'src/test/resources' }
+sourceSets.main.java { srcDir 'src/test/java' }
+//**/
+
+// Sets up a dependency configuration called 'localRuntime'.
+// This configuration should be used instead of 'runtimeOnly' to declare
+// a dependency that will be present for runtime testing but that is
+// "optional", meaning it will not be pulled by dependents of this mod.
+configurations {
+    runtimeClasspath.extendsFrom localRuntime
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${version_minecraft}-${version_forge}"
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    // Specify the version of Minecraft to use.
+    // Depending on the plugin applied there are several options. We will assume you applied the userdev plugin as shown above.
+    // The group for userdev is net.neoforged, the module name is neoforge, and the version is the same as the neoforge version.
+    // You can however also use the vanilla plugin (net.neoforged.gradle.vanilla) to use a version of Minecraft without the neoforge loader.
+    // And its provides the option to then use net.minecraft as the group, and one of; client, server or joined as the module name, plus the game version as version.
+    // For all intends and purposes: You can treat this dependency as if it is a normal library you would use.
+    implementation "net.neoforged:neoforge:${neo_version}"
+
+    // Example optional mod dependency with JEI
+    // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
+    //compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
+    //compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
+    // We add the full version to localRuntime, not runtimeOnly, so that we do not publish a dependency on it
+    //localRuntime "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
     
-    // Cyanide
-    implementation fg.deobf("curse.maven:cyanide-${version_cyanide}")
-    // JEI
-    // compile against the JEI API but do not include it at runtime
-    compileOnly fg.deobf("mezz.jei:jei-${version_jei_mc}:${version_jei}:api")
-    // at runtime, use the full JEI jar
-    runtimeOnly fg.deobf("mezz.jei:jei-${version_jei_mc}:${version_jei}")
+    implementation "curse.maven:jei-${version_jei}"
+
+    // Example mod dependency using a mod jar from ./libs with a flat dir repository
+    // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar
+    // The group id is ignored when searching -- in this case, it is "blank"
+    // implementation "blank:coolmod-${mc_version}:${coolmod_version}"
+
+    // Example mod dependency using a file as dependency
+    // implementation files("libs/coolmod-${mc_version}-${coolmod_version}.jar")
+
+    // Example project dependency using a sister or child project:
+    // implementation project(":myproject")
+
+    // For more info:
+    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
+    // http://www.gradle.org/docs/current/userguide/dependency_management.html
 }
 
-sourceSets {
-    main.java.srcDirs += 'src/thutcore/java'
-    main.resources.srcDirs += 'src/thutcore/resources'
-    main.resources.srcDirs += 'src/generated/resources'
-}
+// This block of code expands all declared replace properties in the specified resource targets.
+// A missing property will result in an error. Properties are expanded using ${} Groovy notation.
+// When "copyIdeResources" is enabled, this will also run before the game launches in IDE environments.
+// See https://docs.gradle.org/current/dsl/org.gradle.language.jvm.tasks.ProcessResources.html
+tasks.withType(ProcessResources).configureEach {
+    var replaceProperties = [
+            minecraft_version      : minecraft_version,
+            minecraft_version_range: minecraft_version_range,
+            neo_version            : neo_version,
+            neo_version_range      : neo_version_range,
+            loader_version_range   : loader_version_range,
+            mod_version            : mod_version,
+    ]
+    inputs.properties replaceProperties
 
-jar {
-    manifest {
-        attributes 'FMLAT': 'accesstransformer.cfg',
-        "Specification-Title": "${compile_name}",
-        "Specification-Vendor": "${author_name}",
-        "Specification-Version": VERSION_COMPILE,
-        "Implementation-Title": project.name,
-        "Implementation-Version": VERSION_COMPILE,
-        "Implementation-Vendor" :"${author_name}",
-        "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+    filesMatching(['META-INF/neoforge.mods.toml']) {
+        expand replaceProperties
     }
 }
 
-processResources.doLast {
-    def TOMLFILE = "./build/resources/main/META-INF/mods.toml"
-    replaceParameters(TOMLFILE, "version_thutcore", VERSION_THUTCORE)
-    replaceParameters(TOMLFILE, "version_mc", "${version_mcsupport}")
-    replaceParameters(TOMLFILE, "version_forge", "${version_forge}")
-}
-
-def replaceParameters(filename, find, replace) {
-    ant.replace(file:filename,token:find,value:replace)
-}
-
-def cleanTOML()
-{
-    delete "./build/resources/main/META-INF/mods.toml" 
-}
-
-def gitVersion(value) {
-    if("${pre_release}".toBoolean())
-    {
-        return "${value}.${pre_ver}"
+// Example configuration to allow publishing using the maven-publish plugin
+publishing {
+    publications {
+        register('mavenJava', MavenPublication) {
+            from components.java
+        }
     }
-    def raw = grgit.describe(longDescr: true)
-    def desc = (raw == null ? 'unknown-offset-hash' : grgit.describe(longDescr: true)).split('-') as List
-    def vers = desc.get(1)
-    def splis = vers.split(/[.]/)
-    def majver = splis[0].toInteger()
-    def subver = splis[1].toInteger()
-    def offset = splis[2].toInteger()
-    def ver = offset + 1
-    if (subver < version_minor.toInteger() || majver < version_major.toInteger()){
-        ver = 0
+    repositories {
+        maven {
+            url "file://${project.projectDir}/repo"
+        }
     }
-    return "${value}.${ver}"
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}
+
+// IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
 }

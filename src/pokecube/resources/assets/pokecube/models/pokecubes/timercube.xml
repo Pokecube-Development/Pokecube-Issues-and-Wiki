@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model>
+  <phase name="global" scale="1"/>
+   <material name="front" tex="pokecube:textures/item/timercubefront.png" cull="false" />
+   <material name="side_l" tex="pokecube:textures/item/timercubeside.png" cull="false" />
+   <material name="side_r" tex="pokecube:textures/item/timercubeside.png" cull="false" />
+   <material name="top" tex="pokecube:textures/item/timercubetop.png" cull="false" />
+   <material name="bottom" tex="pokecube:textures/item/timercubebottom.png" cull="false" />
+   <material name="back" tex="pokecube:textures/item/timercubeback.png" cull="false" />
+ </model>
+</ModelAnimator>

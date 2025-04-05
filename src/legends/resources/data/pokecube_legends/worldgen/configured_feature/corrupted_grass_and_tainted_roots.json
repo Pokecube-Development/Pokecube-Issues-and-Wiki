@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:simple_block",
+  "config": {
+    "to_place": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 10,
+          "data": {
+            "Name": "pokecube_legends:corrupted_grass"
+          }
+        },
+        {
+          "weight": 1,
+          "data": {
+            "Name": "pokecube_legends:tainted_roots"
+          }
+        }
+      ]
+    }
+  }
+}

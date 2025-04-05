@@ -1,15 +1,26 @@
 package thut.api;
 
 import net.minecraft.core.Direction;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
-import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.items.IItemHandler;
-import thut.api.LinkableCaps.ILinkStorage;
-import thut.api.LinkableCaps.ILinkable;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.neoforged.neoforge.attachment.AttachmentType;
+import net.neoforged.neoforge.attachment.IAttachmentHolder;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.energy.EnergyStorage;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import thut.api.attachments.AnimatedCaps;
+import thut.api.attachments.Breedable;
+import thut.api.attachments.CopyMob;
+import thut.api.attachments.Energy;
+import thut.api.attachments.IOwnable;
+import thut.api.attachments.Inventory;
+import thut.api.attachments.Linkable;
+import thut.api.attachments.Linkable.ILinkable;
+import thut.api.attachments.Linkable.LinkHolder;
+import thut.api.attachments.Ownable;
+import thut.api.attachments.Shearable;
 import thut.api.entity.IAnimated;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.IBreedingMob;
@@ -19,183 +30,166 @@ import thut.api.entity.IMobTexturable;
 import thut.api.entity.IShearable;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.level.structures.CapabilityWorldStructures;
+import thut.api.level.terrain.CapabilityTerrain;
 import thut.api.level.terrain.CapabilityTerrain.ITerrainProvider;
 import thut.api.level.terrain.ITerrainAffected;
 import thut.api.world.mobs.data.DataSync;
+import thut.core.common.genetics.DefaultGenetics;
+import thut.core.common.mobs.DefaultColourable;
+import thut.core.common.network.PacketSyncAttachments;
+import thut.core.common.terrain.CapabilityTerrainAffected;
+import thut.core.common.world.mobs.data.DataSync_Impl;
 
 public class ThutCaps
 {
-
-    public static final Capability<ILinkable> LINK = CapabilityManager.get(new CapabilityToken<>(){});
-
-    public static final Capability<ILinkStorage> STORE = CapabilityManager.get(new CapabilityToken<>(){});
-
-    public static final Capability<ITerrainProvider> TERRAIN_PROVIDER = CapabilityManager.get(new CapabilityToken<>(){});
-
-    public static final Capability<CapabilityWorldStructures> WORLD_STRUCTURES = CapabilityManager.get(new CapabilityToken<>(){});
-
-    public static final Capability<IOwnable> OWNABLE_CAP = CapabilityManager.get(new CapabilityToken<>(){});
-
-    public static final Capability<IMobColourable> COLOURABLE = CapabilityManager.get(new CapabilityToken<>(){});
-
-    public static final Capability<IBreedingMob> BREEDS = CapabilityManager.get(new CapabilityToken<>(){});
-
-    public static final Capability<IAnimated> ANIMATED = CapabilityManager.get(new CapabilityToken<>(){});
-
-    public static final Capability<IShearable> SHEARABLE = CapabilityManager.get(new CapabilityToken<>(){});
-
-    public static final Capability<DataSync> DATASYNC = CapabilityManager.get(new CapabilityToken<>(){});
-
-    public static final Capability<ICopyMob> COPYMOB = CapabilityManager.get(new CapabilityToken<>(){});
-
-    public static final Capability<IAnimationHolder> ANIMCAP = CapabilityManager.get(new CapabilityToken<>(){});
-
-    public static final Capability<ITerrainAffected> TERRAIN_AFFECTED = CapabilityManager.get(new CapabilityToken<>(){});
-
-    public static final Capability<IMobGenetics> GENETICS_CAP = CapabilityManager.get(new CapabilityToken<>(){});
-
-    public static final Capability<IMobTexturable> MOBTEX_CAP = CapabilityManager.get(new CapabilityToken<>(){});
-    
-    public static final Capability<IItemHandler> ITEM_HANDLER = CapabilityManager.get(new CapabilityToken<>(){});
-    
-    public static final Capability<IEnergyStorage> ENERGY = CapabilityManager.get(new CapabilityToken<>(){});
-
-    public static void registerCapabilities(final RegisterCapabilitiesEvent event)
+    public static void registerAttachments(DeferredRegister<AttachmentType<?>> registry)
     {
-        event.register(ILinkable.class);
-        event.register(ILinkStorage.class);
-        event.register(ITerrainProvider.class);
-        event.register(IOwnable.class);
-        event.register(ICopyMob.class);
-        event.register(IAnimationHolder.class);
-        event.register(IMobColourable.class);
-        event.register(IBreedingMob.class);
-        event.register(IAnimated.class);
-        event.register(IShearable.class);
-        event.register(DataSync.class);
-        event.register(ITerrainAffected.class);
-        event.register(IMobGenetics.class);
-        event.register(IMobTexturable.class);
-        event.register(CapabilityWorldStructures.class);
-    }
-    
-    public static IEnergyStorage getEnergy(final ICapabilityProvider in)
-    {
-        if (in == null) return null;
-        return in.getCapability(ThutCaps.ENERGY).orElse(null);
-    }
-    
-    public static IEnergyStorage getEnergy(final ICapabilityProvider in, Direction side)
-    {
-        if (in == null) return null;
-        return in.getCapability(ThutCaps.ENERGY).orElse(null);
-    }
-    
-    public static IItemHandler getInventory(final ICapabilityProvider in, Direction side)
-    {
-        if (in == null) return null;
-        return in.getCapability(ThutCaps.ITEM_HANDLER, side).orElse(null);
-    }
-    
-    public static IItemHandler getInventory(final ICapabilityProvider in)
-    {
-        if (in == null) return null;
-        return in.getCapability(ThutCaps.ITEM_HANDLER).orElse(null);
-    }
-    
-    public static IMobTexturable getTexturable(final ICapabilityProvider in)
-    {
-        if (in == null) return null;
-        return in.getCapability(ThutCaps.MOBTEX_CAP).orElse(null);
-    }
-    
-    public static IMobGenetics getGenetics(final ICapabilityProvider in)
-    {
-        if (in == null) return null;
-        return in.getCapability(ThutCaps.GENETICS_CAP).orElse(null);
-    }
-    
-    public static ITerrainAffected getTerrainAffected(final ICapabilityProvider in)
-    {
-        if (in == null) return null;
-        return in.getCapability(ThutCaps.TERRAIN_AFFECTED).orElse(null);
-    }
-    
-    public static IAnimationHolder getAnimationHolder(final ICapabilityProvider in)
-    {
-        if (in == null) return null;
-        return in.getCapability(ThutCaps.ANIMCAP).orElse(null);
-    }
-    
-    public static ICopyMob getCopyMob(final ICapabilityProvider in)
-    {
-        if (in == null) return null;
-        return in.getCapability(ThutCaps.COPYMOB).orElse(null);
-    }
-    
-    public static DataSync getDataSync(final ICapabilityProvider in)
-    {
-        if (in == null) return null;
-        return in.getCapability(ThutCaps.DATASYNC).orElse(null);
-    }
-    
-    public static IShearable getShearable(final ICapabilityProvider in)
-    {
-        if (in == null) return null;
-        return in.getCapability(ThutCaps.SHEARABLE).orElse(null);
-    }
-    
-    public static IAnimated getAnimated(final ICapabilityProvider in)
-    {
-        if (in == null) return null;
-        return in.getCapability(ThutCaps.ANIMATED).orElse(null);
-    }
-    
-    public static IBreedingMob getBreedable(final ICapabilityProvider in)
-    {
-        if (in == null) return null;
-        return in.getCapability(ThutCaps.BREEDS).orElse(null);
-    }
-    
-    public static IMobColourable getColourable(final ICapabilityProvider in)
-    {
-        if (in == null) return null;
-        return in.getCapability(ThutCaps.COLOURABLE).orElse(null);
-    }
-    
-    public static IOwnable getOwnable(final ICapabilityProvider in)
-    {
-        if (in == null) return null;
-        return in.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
+        Ownable.registerAttachment(registry);
+        Shearable.registerAttachment(registry);
+        CopyMob.registerAttachment(registry);
+        CapabilityTerrain.registerAttachment(registry);
+        CapabilityTerrainAffected.registerAttachment(registry);
+        CapabilityWorldStructures.registerAttachment(registry);
+        Linkable.registerAttachment(registry);
+        DefaultGenetics.registerAttachment(registry);
+        Inventory.registerAttachment(registry);
+        DefaultColourable.registerAttachment(registry);
+        Breedable.registerAttachment(registry);
+        AnimatedCaps.registerAttachment(registry);
+        DataSync_Impl.registerAttachment(registry);
+        Energy.registerAttachment(registry);
+
+        IMobTexturable.Defaults.registerAttachment(registry);
+
+        PacketSyncAttachments.SYNCED.add(CopyMob.LOC);
+        PacketSyncAttachments.SYNCED.add(CopyMob.ANIM);
+        PacketSyncAttachments.SYNCED.add(DefaultGenetics.KEY);
     }
 
-    public static CapabilityWorldStructures getWorldStructures(ICapabilityProvider in)
+    public static void registerItemData(DeferredRegister<DataComponentType<?>> registry)
     {
-        if (in == null) return null;
-        return in.getCapability(WORLD_STRUCTURES).orElse(null);
+        Linkable.registerItemData(registry);
+        DefaultGenetics.registerItemData(registry);
+        Inventory.registerItemData(registry);
     }
 
-    public static ITerrainProvider getTerrainProvider(ICapabilityProvider in)
+    public static IMobTexturable getTexturable(final IAttachmentHolder in)
     {
         if (in == null) return null;
-        return in.getCapability(TERRAIN_PROVIDER).orElse(null);
+        return IMobTexturable.Defaults.get(in);
     }
 
-    public static ILinkable getLinkable(ICapabilityProvider in)
+    public static IMobGenetics getGenetics(final IAttachmentHolder in)
     {
         if (in == null) return null;
-        return in.getCapability(LINK).orElse(null);
+        return DefaultGenetics.get(in);
     }
 
-    public static ILinkable getLinkable(ICapabilityProvider in, Direction side)
+    public static ITerrainAffected getTerrainAffected(final IAttachmentHolder in)
     {
         if (in == null) return null;
-        return in.getCapability(LINK, side).orElse(null);
+        return CapabilityTerrainAffected.get(in);
     }
 
-    public static ILinkStorage getLinkStorage(ICapabilityProvider in)
+    public static IAnimationHolder getAnimationHolder(final IAttachmentHolder in)
     {
         if (in == null) return null;
-        return in.getCapability(STORE).orElse(null);
+        return CopyMob.getAnimHolder(in);
+    }
+
+    public static ICopyMob getCopyMob(final IAttachmentHolder in)
+    {
+        if (in == null) return null;
+        return CopyMob.getCopyHolder(in);
+    }
+
+    public static DataSync getDataSync(final IAttachmentHolder in)
+    {
+        if (in == null) return null;
+        return DataSync_Impl.get(in);
+    }
+
+    public static IShearable getShearable(final IAttachmentHolder in)
+    {
+        if (in == null) return null;
+        return Shearable.get(in);
+    }
+
+    public static IAnimated getAnimated(final IAttachmentHolder in)
+    {
+        if (in == null) return null;
+        return AnimatedCaps.get(in);
+    }
+
+    public static IBreedingMob getBreedable(final IAttachmentHolder in)
+    {
+        if (in == null) return null;
+        return Breedable.get(in);
+    }
+
+    public static IMobColourable getColourable(final IAttachmentHolder in)
+    {
+        if (in == null) return null;
+        return DefaultColourable.get(in);
+    }
+
+    public static IOwnable getOwnable(final IAttachmentHolder in)
+    {
+        if (in == null) return null;
+        return Ownable.get(in);
+    }
+
+    public static CapabilityWorldStructures getWorldStructures(IAttachmentHolder in)
+    {
+        if (in == null) return null;
+        return CapabilityWorldStructures.get(in);
+    }
+
+    public static ITerrainProvider getTerrainProvider(IAttachmentHolder in)
+    {
+        if (in == null) return null;
+        return CapabilityTerrain.get(in);
+    }
+
+    public static ILinkable getLinkable(IAttachmentHolder in)
+    {
+        return getLinkable(in, Direction.DOWN);
+    }
+
+    public static LinkHolder getLinkStorage(ItemStack stack)
+    {
+        return stack.get(Linkable.LINK_STORE);
+    }
+
+    public static ILinkable getLinkable(IAttachmentHolder in, Direction side)
+    {
+        if (in == null) return null;
+        return Linkable.get(in, side);
+    }
+
+    public static EnergyStorage getEnergy(IAttachmentHolder in)
+    {
+        return getEnergy(in, Direction.DOWN);
+    }
+
+    public static EnergyStorage getEnergy(IAttachmentHolder in, Direction side)
+    {
+        if (in == null) return null;
+        return Energy.get(in, side);
+    }
+
+    public static IItemHandler getInventory(ItemStack item)
+    {
+        return item.getCapability(Capabilities.ItemHandler.ITEM);
+    }
+
+    public static IItemHandler getInventory(BlockEntity tile, Direction side)
+    {
+        return tile.getLevel().getCapability(Capabilities.ItemHandler.BLOCK, tile.getBlockPos(), side);
+    }
+
+    public static IItemHandler getInventory(BlockEntity tile)
+    {
+        return getInventory(tile, null);
     }
 }

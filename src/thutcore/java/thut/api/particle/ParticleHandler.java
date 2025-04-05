@@ -8,12 +8,12 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.ParticleStatus;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.client.event.RenderLevelStageEvent.Stage;
-import net.minecraftforge.event.world.WorldEvent.Unload;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent.Stage;
+import net.neoforged.neoforge.event.level.LevelEvent.Unload;
 import thut.api.maths.Vector3;
 
 public class ParticleHandler
@@ -39,7 +39,7 @@ public class ParticleHandler
 
     public static void addParticle(final Vector3 location, final IParticle particle)
     {
-        if (particle == null || location == null || Minecraft.getInstance().options.particles == ParticleStatus.MINIMAL)
+        if (particle == null || location == null || Minecraft.getInstance().options.particles().get() == ParticleStatus.MINIMAL)
             return;
         synchronized (ParticleHandler.particles)
         {
@@ -80,17 +80,17 @@ public class ParticleHandler
                     mat.pushPose();
                     source.set(target.subtract(source));
                     mat.translate(source.x, source.y, source.z);
-                    final double d0 = (-player.getX() + player.xOld) * event.getPartialTick();
-                    final double d1 = (-player.getY() + player.yOld) * event.getPartialTick();
-                    final double d2 = (-player.getZ() + player.zOld) * event.getPartialTick();
+                    final double d0 = (-player.getX() + player.xOld) * event.getPartialTick().getGameTimeDeltaTicks();
+                    final double d1 = (-player.getY() + player.yOld) * event.getPartialTick().getGameTimeDeltaTicks();
+                    final double d2 = (-player.getZ() + player.zOld) * event.getPartialTick().getGameTimeDeltaTicks();
                     source.set(d0, d1, d2);
                     mat.translate(source.x, source.y, source.z);
                     // particle.render(event.getRenderPartialTicks());
                     mat.popPose();
-                    if (particle.lastTick() != player.getLevel().getGameTime())
+                    if (particle.lastTick() != player.level().getGameTime())
                     {
                         particle.setDuration(particle.getDuration() - 1);
-                        particle.setLastTick(player.getLevel().getGameTime());
+                        particle.setLastTick(player.level().getGameTime());
                     }
                     if (particle.getDuration() < 0)
                     {

@@ -1,0 +1,36 @@
+{
+  "elements": [
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/cave/town_centers/center_1",
+        "int_config":{"space_below":0, "extra_child_depth":3},
+        "processors": "pokecube:generic_ladders",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/cave/town_centers/center_2",
+        "int_config":{"space_below":0, "extra_child_depth":3},
+        "processors": "pokecube:generic_ladders",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/cave/town_centers/center_3",
+        "int_config":{"space_below":0, "extra_child_depth":3},
+        "processors": "pokecube:generic_ladders",
+        "projection": "rigid"
+      },
+      "weight": 1
+    }
+  ],
+  "fallback": "minecraft:empty",
+  "name": "pokecube:village/cave/town_centers"
+}

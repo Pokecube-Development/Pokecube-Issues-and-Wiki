@@ -1,0 +1,32 @@
+
+{
+  "required": true,
+  "package": "pokecube.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "pokecube.refmap.json",
+  "mixins": [
+    "accessors.AttributeMaxAccessor",
+    "accessors.ChunkAccessAcessor",
+	"accessors.WorldGenRegionAccessor",
+	"accessors.BlockItemAccessor",
+	"accessors.BehaviourAccessor",
+    "brain.MixinLivingEntityInit",
+    "brain.MixinVilagerBrainUpdate",
+    "brain.MixinMobEntity",
+    "entity.BeeHiveFix",
+    "entity.EntityDeathMixin",
+    "entity.EntityScaleMixin",
+    "features.LessJungleBushInStructuresMixin",
+    "features.NoBasaltColumnsInStructuresMixin",
+    "features.NoDeltasInStructuresMixin",
+    "features.NoLakesInStructuresMixin",
+    "features.NoFluidFallsInStructuresMixin",
+    "invokers.SurfaceSystemInvoker"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}

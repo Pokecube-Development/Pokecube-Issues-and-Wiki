@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "#c:gems",
+    {"id": "#pokecube:megastones", "required": false}
+  ]
+}

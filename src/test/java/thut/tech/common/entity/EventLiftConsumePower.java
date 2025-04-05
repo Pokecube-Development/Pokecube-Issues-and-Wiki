@@ -1,6 +1,6 @@
 package thut.tech.common.entity;
 
-import net.minecraftforge.eventbus.api.Event;
+import net.neoforged.bus.api.Event;
 
 public class EventLiftConsumePower extends Event
 {

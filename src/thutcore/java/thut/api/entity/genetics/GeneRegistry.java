@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import thut.core.common.ThutCore;
@@ -23,11 +24,11 @@ public class GeneRegistry
         return GeneRegistry.geneMap.values();
     }
 
-    public static Gene<?> load(final CompoundTag tag, ResourceLocation key) throws Exception
+    public static Gene<?> load(Provider provider, final CompoundTag tag, ResourceLocation key) throws Exception
     {
         Gene<?> ret = null;
         ret = GeneRegistry.geneMap.get(key).getConstructor().newInstance();
-        ret.load(tag);
+        ret.load(provider, tag);
         return ret;
     }
 
@@ -46,9 +47,9 @@ public class GeneRegistry
         }
     }
 
-    public static CompoundTag save(final Gene<?> gene)
+    public static CompoundTag save(Provider provider, final Gene<?> gene)
     {
-        return gene.save();
+        return gene.save(provider);
     }
 
 }

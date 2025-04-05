@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/template_glass_pane_side_alt",
+  "render_type": "translucent",
+  "textures": {
+    "edge": "pokecube_legends:block/distortic_framed_mirror_pane_top",
+    "pane": "pokecube_legends:block/distortic_framed_mirror"
+  }
+}

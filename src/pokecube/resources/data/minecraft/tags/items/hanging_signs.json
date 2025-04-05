@@ -1,0 +1,17 @@
+{
+  "values": [
+    "pokecube:enigma_hanging_sign",
+    "pokecube:leppa_hanging_sign",
+    "pokecube:nanab_hanging_sign",
+    "pokecube:oran_hanging_sign",
+    "pokecube:pecha_hanging_sign",
+    "pokecube:sitrus_hanging_sign",
+    {"id": "pokecube_legends:aged_hanging_sign", "required": false},
+    {"id": "pokecube_legends:concrete_hanging_sign", "required": false},
+    {"id": "pokecube_legends:corrupted_hanging_sign", "required": false},
+    {"id": "pokecube_legends:distortic_hanging_sign", "required": false},
+    {"id": "pokecube_legends:inverted_hanging_sign", "required": false},
+    {"id": "pokecube_legends:mirage_hanging_sign", "required": false},
+    {"id": "pokecube_legends:temporal_hanging_sign", "required": false}
+  ]
+}

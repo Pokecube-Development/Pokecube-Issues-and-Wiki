@@ -3,6 +3,8 @@ package thut.tech.common.network;
 import io.netty.buffer.Unpooled;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -22,7 +24,8 @@ public class PacketLift extends Packet
         buffer.writeBlockPos(controller);
         buffer.writeInt(button);
         buffer.writeBoolean(callPanel);
-        final PacketLift packet = new PacketLift(buffer);
+        final PacketLift packet = new PacketLift();
+        packet.read(buffer);
         TechCore.packets.sendToServer(packet);
     }
 
@@ -40,7 +43,8 @@ public class PacketLift extends Packet
         buffer.writeBlockPos(controller);
         buffer.writeInt(button);
         buffer.writeBoolean(callPanel);
-        final PacketLift packet = new PacketLift(buffer);
+        final PacketLift packet = new PacketLift();
+        packet.read(buffer);
         TechCore.packets.sendToServer(packet);
     }
 
@@ -57,7 +61,7 @@ public class PacketLift extends Packet
     public PacketLift()
     {}
 
-    public PacketLift(final FriendlyByteBuf buffer)
+    public void read(final FriendlyByteBuf buffer)
     {
         this.key = buffer.readByte();
         switch (this.key)
@@ -122,5 +126,13 @@ public class PacketLift extends Packet
         case 2:
             break;
         }
+    }
+
+    private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("thuttech:lift_control"));
+
+    @Override
+    public Type<? extends CustomPacketPayload> type()
+    {
+        return TYPE;
     }
 }

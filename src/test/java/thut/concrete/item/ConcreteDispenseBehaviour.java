@@ -1,8 +1,8 @@
 package thut.concrete.item;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
+import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
@@ -20,9 +20,9 @@ public class ConcreteDispenseBehaviour implements DispenseItemBehavior
     @Override
     public ItemStack dispense(BlockSource source, ItemStack stack)
     {
-        ServerLevel level = source.getLevel();
-        BlockPos pos = source.getPos();
-        BlockState state = source.getBlockState();
+        ServerLevel level = source.level();
+        BlockPos pos = source.pos();
+        BlockState state = source.state();
 
         if (state.hasProperty(BlockStateProperties.FACING))
         {

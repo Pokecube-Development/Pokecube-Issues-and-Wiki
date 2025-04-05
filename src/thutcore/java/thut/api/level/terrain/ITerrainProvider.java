@@ -11,7 +11,6 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import thut.api.ThutCaps;
 
 public interface ITerrainProvider
@@ -60,13 +59,6 @@ public interface ITerrainProvider
     }
 
     /**
-     * This is a cache of pending terrain segments, it is used as sometimes
-     * segments need to have things set for them which the chunk is still being
-     * generated, ie not completely loaded.
-     */
-    public static Map<ResourceKey<Level>, Map<ChunkPos, TerrainCache>> pendingCache = new ConcurrentHashMap<>();
-
-    /**
      * This is a cache of loaded chunks, it is used to prevent thread lock
      * contention when trying to look up a chunk, as it seems that
      * world.chunkExists returning true does not mean that you can just go and
@@ -106,23 +98,6 @@ public interface ITerrainProvider
         return chunks.get(cpos);
     }
 
-    public static TerrainSegment removeCached(final ResourceKey<Level> dim, final BlockPos pos)
-    {
-        final ChunkPos cpos = new ChunkPos(pos.getX(), pos.getZ());
-        return ITerrainProvider.removeCached(dim, cpos, pos.getY());
-    }
-
-    public static TerrainSegment removeCached(final ResourceKey<Level> dim, final ChunkPos cpos, final int y)
-    {
-        final Map<ChunkPos, TerrainCache> chunks = ITerrainProvider.pendingCache.get(dim);
-        if (chunks == null) return null;
-        final TerrainCache segs = chunks.get(cpos);
-        if (segs == null) return null;
-        final TerrainSegment var = segs.remove(y);
-        if (!segs.isValid()) chunks.remove(cpos);
-        return var;
-    }
-
     /**
      * @param world - world like object to look up for
      * @param p     - position in block coordinates, not chunk coordinates
@@ -132,32 +107,15 @@ public interface ITerrainProvider
     {
         if (!(world instanceof Level level)) return new TerrainSegment(p);
         // Convert the pos to a chunk pos
-        ChunkPos temp = null;
         final ResourceKey<Level> dim = level.dimension();
         final ChunkAccess chunk = world.isClientSide() ? world.getChunk(p)
-                : ITerrainProvider.getChunk(dim, temp = new ChunkPos(p));
-        // final ChunkAccess chunk = world.getChunk(p);
-        // temp = chunk.getPos();
-        final boolean real = chunk != null && chunk instanceof ICapabilityProvider;
+                : ITerrainProvider.getChunk(dim, new ChunkPos(p));
 
         int y = SectionPos.blockToSectionCoord(p.getY());
         if (y < world.getMinSection()) y = world.getMinSection();
         if (y > world.getMaxSection()) y = world.getMaxSection();
 
-        // This means it occurs during worldgen?
-        if (!real)
-        {
-            Map<ChunkPos, TerrainCache> chunks = ITerrainProvider.pendingCache.get(dim);
-            if (chunks == null) ITerrainProvider.pendingCache.put(dim, chunks = new ConcurrentHashMap<>());
-            TerrainCache segs = chunks.get(temp);
-            if (segs == null)
-            {
-                segs = new TerrainCache(temp, chunk, world);
-                chunks.put(temp, segs);
-            }
-            return segs.get(y);
-        }
-        final CapabilityTerrain.ITerrainProvider provider = ThutCaps.getTerrainProvider((ICapabilityProvider) chunk);
+        final CapabilityTerrain.ITerrainProvider provider = ThutCaps.getTerrainProvider(chunk);
         provider.setChunk(chunk);
         return provider.getTerrainSegment(y);
     }

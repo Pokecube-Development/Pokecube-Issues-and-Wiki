@@ -119,7 +119,7 @@ public class AnimatedTexture extends BaseTexture implements Tickable
             }
             if (hasMeta)
             {
-                ResourceLocation mcmeta = new ResourceLocation(location.getNamespace(), location.getPath() + ".mcmeta");
+                ResourceLocation mcmeta = ResourceLocation.fromNamespaceAndPath(location.getNamespace(), location.getPath() + ".mcmeta");
                 var reader = ResourceHelper.getReader(mcmeta, manager);
                 info = JsonUtil.gson.fromJson(reader, McMeta.class).animation;
                 if (info != null)

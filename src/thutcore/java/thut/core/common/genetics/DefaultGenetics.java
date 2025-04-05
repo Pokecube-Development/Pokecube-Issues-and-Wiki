@@ -8,16 +8,24 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.attachment.AttachmentType;
+import net.neoforged.neoforge.attachment.IAttachmentHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
+import thut.api.entity.genetics.GeneHolder;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.core.common.ThutCore;
 
@@ -119,7 +127,7 @@ public class DefaultGenetics implements IMobGenetics
     }
 
     @Override
-    public ListTag serializeNBT()
+    public ListTag serializeNBT(HolderLookup.Provider provider)
     {
         final ListTag genes = new ListTag();
 
@@ -131,26 +139,26 @@ public class DefaultGenetics implements IMobGenetics
             final CompoundTag tag = new CompoundTag();
             final Alleles<?, ?> gene = this.getAlleles(key);
             tag.putString("K", key.toString());
-            tag.put("V", gene.save());
+            tag.put("V", gene.save(provider));
             genes.add(tag);
         }
         return genes;
     }
 
     @Override
-    public void deserializeNBT(final ListTag list)
+    public void deserializeNBT(HolderLookup.Provider provider, final ListTag list)
     {
         for (int i = 0; i < list.size(); i++)
         {
             final CompoundTag tag = list.getCompound(i);
             final Alleles<?, ?> alleles = new Alleles<>(this);
-            final ResourceLocation key = new ResourceLocation(tag.getString("K"));
+            final ResourceLocation key = ResourceLocation.parse(tag.getString("K"));
             try
             {
                 // Set in map first, so that it can be checked during load's
                 // change listeners.
                 this.getAlleles().put(key, alleles);
-                alleles.load(tag.getCompound("V"), key);
+                alleles.load(provider, tag.getCompound("V"), key);
             }
             catch (final Exception e)
             {
@@ -158,5 +166,34 @@ public class DefaultGenetics implements IMobGenetics
                 ThutCore.LOGGER.error("Error loading gene for key: " + key, e);
             }
         }
+    }
+
+    public static IMobGenetics makeProvider(final IAttachmentHolder in)
+    {
+        return new DefaultGenetics();
+    }
+
+    public static IMobGenetics get(final IAttachmentHolder in)
+    {
+        return in.getData(TYPE.get());
+    }
+
+    public static final ResourceLocation KEY = ResourceLocation.parse("thutcore:genetics");
+
+    public static Supplier<AttachmentType<IMobGenetics>> TYPE;
+
+    public static void registerAttachment(DeferredRegister<AttachmentType<?>> registry)
+    {
+        Function<IAttachmentHolder, IMobGenetics> func_a = DefaultGenetics::makeProvider;
+        var attach_a = AttachmentType.serializable(func_a).build();
+        TYPE = registry.register(KEY.getPath(), () -> attach_a);
+    }
+
+    public static Supplier<DataComponentType<GeneHolder>> GENE_STORE;
+
+    public static void registerItemData(DeferredRegister<DataComponentType<?>> registry)
+    {
+        GENE_STORE = registry.register("gene_storage", name -> new DataComponentType.Builder<GeneHolder>()
+                .persistent(GeneHolder.CODEC).networkSynchronized(GeneHolder.STREAM_CODEC).build());
     }
 }

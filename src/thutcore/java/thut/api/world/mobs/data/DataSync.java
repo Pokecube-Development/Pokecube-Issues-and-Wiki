@@ -2,12 +2,16 @@ package thut.api.world.mobs.data;
 
 import java.util.List;
 
+import net.minecraft.core.HolderLookup;
+
 /**
  * Capability for synchronizing generic values between server and client.
  *
  */
 public interface DataSync
 {
+	void setHolderLookup(HolderLookup.Provider provider);
+	
     /**
      * Gets the value for the entry.
      *

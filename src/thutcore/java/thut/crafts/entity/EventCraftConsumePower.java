@@ -1,6 +1,6 @@
 package thut.crafts.entity;
 
-import net.minecraftforge.eventbus.api.Event;
+import net.neoforged.bus.api.Event;
 
 public class EventCraftConsumePower extends Event
 {

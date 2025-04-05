@@ -1,36 +1,36 @@
 package thut.api.inventory;
 
-import java.util.function.Predicate;
+import java.util.function.BiFunction;
 
-import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
-import thut.api.ThutCaps;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import thut.api.item.ItemList;
 
 public class InvHelper
 {
-    public static class ItemCap extends ItemStackHandler implements ICapabilitySerializable<CompoundTag>
+    public static class ItemCap extends ItemStackHandler
     {
         private final int stackSize;
-        private final LazyOptional<IItemHandler> holder = LazyOptional.of(() -> this);
-        private final ResourceLocation mask;
-        public Predicate<ItemStack> stackCheck = (s) -> true;
+        public ResourceLocation mask;
+        public BiFunction<Integer, ItemStack, Boolean> stackCheck = (c, s) -> true;
 
-        public ItemCap(final int slotCount, final int stackSize)
+        public ItemCap(int slotCount)
+        {
+            this(slotCount, 64, null);
+        }
+
+        public ItemCap(int slotCount, int stackSize)
         {
             this(slotCount, stackSize, null);
         }
 
-        public ItemCap(final int slotCount, final int stackSize, final ResourceLocation mask)
+        public ItemCap(int slotCount, int stackSize, ResourceLocation mask)
         {
             super(slotCount);
             this.stackSize = stackSize;
@@ -38,37 +38,47 @@ public class InvHelper
         }
 
         @Override
-        public boolean isItemValid(final int slot, final ItemStack stack)
+        public boolean isItemValid(int slot, ItemStack stack)
         {
-            if (this.mask != null) return ItemList.is(this.mask, stack) && this.stackCheck.test(stack);
-            return super.isItemValid(slot, stack) && this.stackCheck.test(stack);
+            if (this.mask != null) return ItemList.is(this.mask, stack) && this.stackCheck.apply(slot, stack);
+            return super.isItemValid(slot, stack) && this.stackCheck.apply(slot, stack);
         }
 
         @Override
-        public int getSlotLimit(final int slot)
+        public int getSlotLimit(int slot)
         {
             return this.stackSize;
         }
 
         @Override
-        public <T> LazyOptional<T> getCapability(final Capability<T> capability, final Direction facing)
+        public void deserializeNBT(Provider provider, CompoundTag nbt)
         {
-            return ThutCaps.ITEM_HANDLER.orEmpty(capability, this.holder);
+            super.deserializeNBT(provider, nbt);
+            if (nbt.contains("mask")) mask = ResourceLocation.parse(nbt.getString("mask"));
+        }
+
+        @Override
+        public CompoundTag serializeNBT(Provider provider)
+        {
+            var tag = super.serializeNBT(provider);
+            if (this.mask != null) tag.putString("mask", this.mask.toString());
+            return tag;
         }
     }
 
-    public static void load(final Container inven, final CompoundTag tag)
+    public static void load(final Container inven, final CompoundTag tag, HolderLookup.Provider registries)
     {
         final ListTag listnbt = tag.getList("Items", 10);
         for (int i = 0; i < listnbt.size(); ++i)
         {
             final CompoundTag compoundnbt = listnbt.getCompound(i);
             final int j = compoundnbt.getByte("Slot") & 255;
-            if (j >= 0 && j < inven.getContainerSize()) inven.setItem(j, ItemStack.of(compoundnbt));
+            if (j >= 0 && j < inven.getContainerSize())
+                inven.setItem(j, ItemStack.parseOptional(registries, compoundnbt));
         }
     }
 
-    public static void save(final Container inven, final CompoundTag tag)
+    public static void save(final Container inven, final CompoundTag tag, HolderLookup.Provider registries)
     {
         final ListTag listnbt = new ListTag();
         for (int i = 0; i < inven.getContainerSize(); ++i)
@@ -78,8 +88,7 @@ public class InvHelper
             {
                 final CompoundTag compoundnbt = new CompoundTag();
                 compoundnbt.putByte("Slot", (byte) i);
-                itemstack.save(compoundnbt);
-                listnbt.add(compoundnbt);
+                listnbt.add(itemstack.save(registries, compoundnbt));
             }
         }
         tag.put("Items", listnbt);

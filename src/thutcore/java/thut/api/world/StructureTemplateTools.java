@@ -43,7 +43,7 @@ public class StructureTemplateTools
     {
         default ItemStack getForBlock(StructureBlockInfo info)
         {
-            var state = info.state;
+            var state = info.state();
 
             if (state == null) return ItemStack.EMPTY;
             if (state.hasProperty(BedBlock.PART) && state.getValue(BedBlock.PART) == BedPart.HEAD)
@@ -65,11 +65,12 @@ public class StructureTemplateTools
             if (item != null)
             {
                 ItemStack stack = new ItemStack(item);
-                if (info.nbt != null)
+                if (info.nbt() != null)
                 {
                     CompoundTag tag = new CompoundTag();
-                    tag.put("BlockEntityTag", info.nbt);
-                    stack.setTag(tag);
+                    tag.put("BlockEntityTag", info.nbt());
+                   // TODO block entity info tags
+//                    stack.setTag(tag);
                 }
                 return stack;
             }
@@ -78,8 +79,8 @@ public class StructureTemplateTools
 
         default void placeBlock(StructureBlockInfo info, PlaceContext context)
         {
-            var pos = info.pos;
-            var tag = info.nbt;
+            var pos = info.pos();
+            var tag = info.nbt();
             var settings = context.settings();
             var level = context.level();
 
@@ -87,7 +88,7 @@ public class StructureTemplateTools
             // for blocks already in world. Using it prevents pistons from
             // rotating properly!
             @SuppressWarnings("deprecation")
-            var state = info.state.mirror(settings.getMirror()).rotate(settings.getRotation());
+            var state = info.state().mirror(settings.getMirror()).rotate(settings.getRotation());
 
             level.setBlockAndUpdate(pos, state);
 
@@ -96,7 +97,8 @@ public class StructureTemplateTools
                 var blockentity = level.getBlockEntity(pos);
                 Clearable.tryClear(blockentity);
                 // Load custom sign things.
-                if (blockentity != null) blockentity.load(tag);
+                // TODO block entity info tags
+//                if (blockentity != null) blockentity.load(tag);
             }
 
             if (state.hasProperty(BedBlock.PART) && state.getValue(BedBlock.PART) == BedPart.FOOT)
@@ -133,12 +135,12 @@ public class StructureTemplateTools
 
     public static void placeBlock(StructureBlockInfo info, PlaceContext context)
     {
-        getPlacer(info.state).placeBlock(info, context);
+        getPlacer(info.state()).placeBlock(info, context);
     }
 
     public static ItemStack getForInfo(StructureBlockInfo info)
     {
-        return getPlacer(info.state).getForBlock(info);
+        return getPlacer(info.state()).getForBlock(info);
     }
 
     public static Map<BlockPos, ItemStack> getNeededMaterials(ServerLevel level, List<StructureBlockInfo> infos,
@@ -151,55 +153,56 @@ public class StructureTemplateTools
         for (int i = startIndex; i < endIndex; i++)
         {
             var info = infos.get(i);
-            if (info.state != null && !info.state.isAir())
+            if (info.state() != null && !info.state().isAir())
             {
-                BlockPlacer placer = getPlacer(info.state);
-                BlockState old = level.getBlockState(info.pos);
-                if (old.getBlock() == info.state.getBlock()) continue;
+                BlockPlacer placer = getPlacer(info.state());
+                BlockState old = level.getBlockState(info.pos());
+                if (old.getBlock() == info.state().getBlock()) continue;
                 ItemStack stack = placer.getForBlock(info);
-                if (stack.hasTag() && !applyTag.test(stack)) stack.setTag(null);
+                // TODO decide on how to cync through this now with components
+//                if (stack.hasTag() && !applyTag.test(stack)) stack.setTag(null);
                 if (!stack.isEmpty())
                 {
                     var list = stacks.getOrDefault(stack.getItem(), new ArrayList<>());
                     stacks.put(stack.getItem(), list);
                     if (list.isEmpty())
                     {
-                        byCoordinate.put(info.pos, stack);
+                        byCoordinate.put(info.pos(), stack);
                         list.add(stack);
                         continue outer;
                     }
                     else
                     {
-                        if (!stack.hasTag())
+//                        if (!stack.hasTag())
                         {
-                            for (ItemStack held : list)
-                            {
-                                if (!held.hasTag())
-                                {
-                                    held.grow(stack.getCount());
-                                    byCoordinate.put(info.pos, held);
-                                    continue outer;
-                                }
-                            }
-                            byCoordinate.put(info.pos, stack);
+//                            for (ItemStack held : list)
+//                            {
+//                                if (!held.hasTag())
+//                                {
+//                                    held.grow(stack.getCount());
+//                                    byCoordinate.put(info.pos(), held);
+//                                    continue outer;
+//                                }
+//                            }
+                            byCoordinate.put(info.pos(), stack);
                             list.add(stack);
                             continue outer;
                         }
-                        else
-                        {
-                            for (ItemStack held : list)
-                            {
-                                if (held.hasTag() && held.getTag().equals(stack.getTag()))
-                                {
-                                    held.grow(stack.getCount());
-                                    byCoordinate.put(info.pos, held);
-                                    continue outer;
-                                }
-                            }
-                            byCoordinate.put(info.pos, stack);
-                            list.add(stack);
-                            continue outer;
-                        }
+//                        else
+//                        {
+//                            for (ItemStack held : list)
+//                            {
+//                                if (held.hasTag() && held.getTag().equals(stack.getTag()))
+//                                {
+//                                    held.grow(stack.getCount());
+//                                    byCoordinate.put(info.pos(), held);
+//                                    continue outer;
+//                                }
+//                            }
+//                            byCoordinate.put(info.pos(), stack);
+//                            list.add(stack);
+//                            continue outer;
+//                        }
                     }
                 }
             }
@@ -219,18 +222,18 @@ public class StructureTemplateTools
         List<BlockPos> remove = Lists.newArrayList();
         for (var info : infos)
         {
-            if (info.state != null)
+            if (info.state() != null)
             {
-                BlockState old = level.getBlockState(info.pos);
+                BlockState old = level.getBlockState(info.pos());
                 if (old.isAir()) continue;
-                BlockHitResult result = new BlockHitResult(new Vec3(info.pos.getX(), info.pos.getY(), info.pos.getZ()),
-                        Direction.UP, info.pos, false);
+                BlockHitResult result = new BlockHitResult(new Vec3(info.pos().getX(), info.pos().getY(), info.pos().getZ()),
+                        Direction.UP, info.pos(), false);
                 ItemStack stack = getForInfo(info);
                 BlockPlaceContext context = new BlockPlaceContext(level, null, InteractionHand.MAIN_HAND, stack,
                         result);
                 // Just directly replace blocks that allow it
                 if (old.canBeReplaced(context)) continue;
-                if (old.getBlock() != info.state.getBlock()) remove.add(info.pos);
+                if (old.getBlock() != info.state().getBlock()) remove.add(info.pos());
             }
         }
         return remove;

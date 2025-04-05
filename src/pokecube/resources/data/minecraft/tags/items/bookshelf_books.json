@@ -1,0 +1,6 @@
+{
+  "values": [
+    {"id": "pokecube:pokedex", "required": false},
+    {"id": "pokecube_legends:nightmare_book", "required": false}
+  ]
+}

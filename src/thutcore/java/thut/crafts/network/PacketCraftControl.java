@@ -1,11 +1,10 @@
 package thut.crafts.network;
 
-import java.util.function.Supplier;
-
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.network.NetworkEvent;
 import thut.core.common.network.Packet;
 import thut.crafts.ThutCrafts;
 import thut.crafts.entity.CraftController;
@@ -23,10 +22,10 @@ public class PacketCraftControl extends Packet
     private static final short RLEFT = 64;
     private static final short RRIGHT = 128;
 
-    public static void sendControlPacket(final Entity pokemob, final CraftController controller)
+    public static void sendControlPacket(final Entity craft, final CraftController controller)
     {
         final PacketCraftControl packet = new PacketCraftControl();
-        packet.entityId = pokemob.getId();
+        packet.entityId = craft.getId();
         if (controller.backInputDown) packet.message += PacketCraftControl.BACK;
         if (controller.forwardInputDown) packet.message += PacketCraftControl.FORWARD;
         if (controller.leftInputDown) packet.message += PacketCraftControl.LEFT;
@@ -42,38 +41,35 @@ public class PacketCraftControl extends Packet
 
     short message;
 
-    PacketCraftControl()
+    public PacketCraftControl()
     {
-        super(null);
     }
 
-    public PacketCraftControl(final FriendlyByteBuf buffer)
+    public void read(final FriendlyByteBuf buffer)
     {
-        super(buffer);
         this.entityId = buffer.readInt();
         this.message = buffer.readShort();
     }
 
+    /*
+     * Handles Server side interaction.
+     */
     @Override
-    public void handle(final Supplier<NetworkEvent.Context> ctx)
+    public void handleServer(ServerPlayer player)
     {
-        ctx.get().enqueueWork(() -> {
-            final Player player = ctx.get().getSender();
-            final Entity mob = player.getLevel().getEntity(this.entityId);
-            if (mob != null && mob instanceof EntityCraft craft)
-            {
-                final CraftController controller = craft.controller;
-                controller.forwardInputDown = (this.message & PacketCraftControl.FORWARD) > 0;
-                controller.backInputDown = (this.message & PacketCraftControl.BACK) > 0;
-                controller.leftInputDown = (this.message & PacketCraftControl.LEFT) > 0;
-                controller.rightInputDown = (this.message & PacketCraftControl.RIGHT) > 0;
-                controller.upInputDown = (this.message & PacketCraftControl.UP) > 0;
-                controller.downInputDown = (this.message & PacketCraftControl.DOWN) > 0;
-                controller.leftRotateDown = (this.message & PacketCraftControl.RLEFT) > 0;
-                controller.rightRotateDown = (this.message & PacketCraftControl.RRIGHT) > 0;
-            }
-        });
-        ctx.get().setPacketHandled(true);
+        final Entity mob = player.level().getEntity(this.entityId);
+        if (mob != null && mob instanceof EntityCraft craft)
+        {
+            final CraftController controller = craft.controller;
+            controller.forwardInputDown = (this.message & PacketCraftControl.FORWARD) > 0;
+            controller.backInputDown = (this.message & PacketCraftControl.BACK) > 0;
+            controller.leftInputDown = (this.message & PacketCraftControl.LEFT) > 0;
+            controller.rightInputDown = (this.message & PacketCraftControl.RIGHT) > 0;
+            controller.upInputDown = (this.message & PacketCraftControl.UP) > 0;
+            controller.downInputDown = (this.message & PacketCraftControl.DOWN) > 0;
+            controller.leftRotateDown = (this.message & PacketCraftControl.RLEFT) > 0;
+            controller.rightRotateDown = (this.message & PacketCraftControl.RRIGHT) > 0;
+        }
     }
 
     @Override
@@ -82,4 +78,10 @@ public class PacketCraftControl extends Packet
         buffer.writeInt(this.entityId);
         buffer.writeShort(this.message);
     }
+
+    private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("thutcrafts:craft_control"));
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
+	}
 }

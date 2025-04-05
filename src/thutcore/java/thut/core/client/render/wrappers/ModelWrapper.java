@@ -10,8 +10,6 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.client.Minecraft;
@@ -19,11 +17,10 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import thut.api.AnimatedCaps;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.TextureAtlasStitchedEvent;
 import thut.api.ModelHolder;
 import thut.api.ThutCaps;
 import thut.api.entity.IAnimated.IAnimationHolder;
@@ -43,13 +40,13 @@ import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.client.render.texturing.TextureHelper;
 import thut.core.common.ThutCore;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = ThutCore.MODID, value = Dist.CLIENT)
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = ThutCore.MODID, value = Dist.CLIENT)
 public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IModel
 {
     private static final Set<ModelWrapper<?>> WRAPPERS = Sets.newHashSet();
 
     @SubscribeEvent
-    public static void onTextureReload(final TextureStitchEvent.Post event)
+    public static void onTextureReload(final TextureAtlasStitchedEvent event)
     {
         ModelWrapper.WRAPPERS.forEach(w -> w.setModel(null));
     }
@@ -199,27 +196,20 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         }
     }
 
-    @Override
-    public void renderToBuffer(final PoseStack mat, final VertexConsumer buffer, final int packedLightIn,
-            final int packedOverlayIn, final float red, final float green, final float blue, final float alpha)
-    {
+	@Override
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay,
+			int color) {
         if (this.entityIn == null) return;
         if (this.getModel() == null) this.setModel(ModelFactory.createWithRenderer(this.model, this.renderer));
         if (!this.isLoaded() || renderModel == null) return;
 
-        mat.pushPose();
-        this.transformGlobal(mat, buffer, this.renderer.getAnimation(this.entityIn), this.entityIn,
-                Minecraft.getInstance().getFrameTime());
-        preInitModel(packedLightIn, packedOverlayIn);
-        renderModel.renderAllExcept(mat, buffer, excluded);
-        mat.popPose();
-    }
-
-    protected void rotate(final PoseStack mat)
-    {
-        final Vector3f axis = new Vector3f(this.rotateAngleX, this.rotateAngleY, this.rotateAngleZ);
-        mat.mulPose(new Quaternion(axis, this.rotateAngle, true));
-    }
+        poseStack.pushPose();
+        this.transformGlobal(poseStack, buffer, this.renderer.getAnimation(this.entityIn), this.entityIn,
+                Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true));
+        preInitModel(packedLight, packedOverlay);
+        renderModel.renderAllExcept(poseStack, buffer, excluded);
+        poseStack.popPose();
+	}
 
     public void setMob(final T entity, final MultiBufferSource bufferIn, ResourceLocation default_)
     {
@@ -255,7 +245,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         this.setEntity(entityIn);
         var holder = this.animHolderHolder.get();
         this.renderer.setAnimation(entityIn, partialTickTime);
-        holder.setContext(AnimatedCaps.getAnimated(entityIn));
+        holder.setContext(ThutCaps.getAnimated(entityIn));
         holder.preRunAll();
         this.applyAnimation(entityIn, this.renderer, partialTickTime, limbSwing);
         holder.postRunAll();

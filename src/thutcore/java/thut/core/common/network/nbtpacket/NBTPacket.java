@@ -3,11 +3,13 @@ package thut.core.common.network.nbtpacket;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import thut.core.common.network.Packet;
 
 public abstract class NBTPacket extends Packet
 {
     protected CompoundTag tag = new CompoundTag();
+    private CompoundTag complete = null;
     final PacketAssembly<?> assembler;
 
     public NBTPacket()
@@ -19,17 +21,10 @@ public abstract class NBTPacket extends Packet
         }
     }
 
-    public NBTPacket(final CompoundTag tag)
+    public void read(final FriendlyByteBuf buffer)
     {
-        this();
-        this.tag = tag;
-    }
-
-    public NBTPacket(final FriendlyByteBuf buffer)
-    {
-        this();
         this.tag = buffer.readNbt();
-        if (this.assembler != null) this.assembler.onRead(this.getTag());
+        complete = this.assembler.onRead(this.getTag());
     }
 
     @Override
@@ -46,26 +41,24 @@ public abstract class NBTPacket extends Packet
     @Override
     public final void handleServer(final ServerPlayer player)
     {
-        final CompoundTag complete = this.assembler.onRead(this.getTag());
         if (complete != null)
         {
-            this.tag = complete;
-            if (complete != null) this.onCompleteServer(player);
+            this.setTag(complete);
+            this.onCompleteServer(player);
         }
     }
 
     @Override
-    public final void handleClient()
+    public final void handleClient(Player player)
     {
-        final CompoundTag complete = this.assembler.onRead(this.getTag());
         if (complete != null)
         {
-            this.tag = complete;
-            this.onCompleteClient();
+            this.setTag(complete);
+            this.onCompleteClient(player);
         }
     }
 
-    protected void onCompleteClient()
+    protected void onCompleteClient(Player player)
     {
 
     }

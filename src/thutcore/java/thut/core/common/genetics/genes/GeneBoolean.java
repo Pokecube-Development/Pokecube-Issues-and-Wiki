@@ -1,5 +1,6 @@
 package thut.core.common.genetics.genes;
 
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import thut.api.entity.genetics.Gene;
 
@@ -14,13 +15,13 @@ public abstract class GeneBoolean implements Gene<Boolean>
     }
 
     @Override
-    public void load(final CompoundTag tag)
+    public void load(Provider provider, final CompoundTag tag)
     {
         this.value = tag.getBoolean("V");
     }
 
     @Override
-    public CompoundTag save()
+    public CompoundTag save(Provider provider)
     {
         final CompoundTag tag = new CompoundTag();
         tag.putBoolean("V", this.value);

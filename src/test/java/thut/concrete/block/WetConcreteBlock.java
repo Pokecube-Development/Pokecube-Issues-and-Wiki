@@ -2,12 +2,17 @@ package thut.concrete.block;
 
 import java.lang.reflect.Array;
 import java.util.Map;
+import java.util.function.Supplier;
+
+import javax.annotation.Nullable;
 
 import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -26,34 +31,35 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import thut.api.block.flowing.FlowingBlock;
+import thut.api.block.flowing.IFlowingBlock;
 import thut.api.block.flowing.MoltenBlock;
 import thut.api.item.ItemList;
 import thut.concrete.Concrete;
 
 public abstract class WetConcreteBlock extends MoltenBlock
 {
-    public static final Map<ResourceLocation, RegistryObject<FlowingBlock>> REGMAP = Maps.newHashMap();
+    public static final Map<ResourceLocation, Supplier<FlowingBlock>> REGMAP = Maps.newHashMap();
 
-    public static RegistryObject<FlowingBlock>[] makeWet(DeferredRegister<Block> BLOCKS, String modid, String layer,
+    public static DeferredBlock<FlowingBlock>[] makeWet(DeferredRegister.Blocks BLOCKS, String modid, String layer,
             String block, BlockBehaviour.Properties layer_props, BlockBehaviour.Properties block_props,
             ResourceLocation solid_layer, ResourceLocation solid_block)
     {
-        ResourceLocation layer_id = new ResourceLocation(modid, layer);
-        ResourceLocation block_id = new ResourceLocation(modid, block);
+        ResourceLocation layer_id = ResourceLocation.fromNamespaceAndPath(modid, layer);
+        ResourceLocation block_id = ResourceLocation.fromNamespaceAndPath(modid, block);
 
         @SuppressWarnings("unchecked")
-        RegistryObject<FlowingBlock>[] arr = (RegistryObject<FlowingBlock>[]) Array.newInstance(RegistryObject.class,
+        DeferredBlock<FlowingBlock>[] arr = (DeferredBlock<FlowingBlock>[]) Array.newInstance(DeferredBlock.class,
                 2);
 
-        RegistryObject<FlowingBlock> layer_reg = BLOCKS.register(layer,
+        DeferredBlock<FlowingBlock> layer_reg = BLOCKS.register(layer,
                 () -> new PartialWet(layer_props).solidBlock(() -> ConcreteBlock.REGMAP.get(solid_layer).get())
                         .alternateBlock(() -> REGMAP.get(block_id).get()));
         REGMAP.put(layer_id, layer_reg);
 
-        RegistryObject<FlowingBlock> block_reg = BLOCKS.register(block, // ConcreteBlock.REGMAP.get(solid_block).get()
+        DeferredBlock<FlowingBlock> block_reg = BLOCKS.register(block, // ConcreteBlock.REGMAP.get(solid_block).get()
                 () -> new FullWet(block_props).solidBlock(() -> ConcreteBlock.VANILLA.get(DyeColor.LIGHT_GRAY))
                         .alternateBlock(() -> REGMAP.get(layer_id).get()));
         REGMAP.put(block_id, block_reg);
@@ -64,7 +70,7 @@ public abstract class WetConcreteBlock extends MoltenBlock
         return arr;
     }
 
-    public static final ResourceLocation WETCONCRETEREPLACEABLE = new ResourceLocation("concrete:wet_concrete_replace");
+    public static final ResourceLocation WETCONCRETEREPLACEABLE = ResourceLocation.parse("concrete:wet_concrete_replace");
 
     private final DyeColor colour;
 
@@ -111,7 +117,7 @@ public abstract class WetConcreteBlock extends MoltenBlock
     }
 
     @Override
-    public ItemStack pickupBlock(LevelAccessor level, BlockPos pos, BlockState state)
+    public ItemStack pickupBlock(@Nullable Player player, LevelAccessor level, BlockPos pos, BlockState state)
     {
         int amt = this.getAmount(state);
         if (amt == 16)
@@ -143,15 +149,30 @@ public abstract class WetConcreteBlock extends MoltenBlock
     }
 
     @Override
-    public BlockState getMergeResult(BlockState mergeFrom, BlockState mergeInto, BlockPos posTo, ServerLevel level)
+    public BlockState getFlowResult(BlockState flowState, BlockState destState, BlockPos posTo, ServerLevel level)
     {
-        if (mergeInto.getBlock() instanceof RebarBlock)
+        boolean destRebar = destState.getBlock() instanceof RebarBlock;
+        boolean fromRebar = flowState.getBlock() instanceof RebarBlock;
+
+        if (fromRebar)
         {
-            BlockState ret = Concrete.REBAR_BLOCK.get().defaultBlockState().setValue(RebarBlock.LEVEL,
-                    this.getExistingAmount(mergeFrom, posTo, level));
-            return ret;
+            flowState = this.setAmount(destState, this.getAmount(flowState));
         }
-        return super.getMergeResult(mergeFrom, mergeInto, posTo, level);
+        else if (destRebar)
+        {
+            var newFlowState = Concrete.REBAR_BLOCK.get().defaultBlockState();
+            newFlowState = IFlowingBlock.copyValidTo(destState, newFlowState);
+            newFlowState = newFlowState.setValue(RebarBlock.LEVEL, this.getExistingAmount(flowState, posTo, level));
+            flowState = newFlowState;
+        }
+        else flowState = super.getFlowResult(flowState, destState, posTo, level);
+        return flowState;
+    }
+
+    @Override
+    protected boolean canHarden(BlockState state, BlockPos pos, ServerLevel level, RandomSource random)
+    {
+        return level.isRaining();
     }
 
     @Override

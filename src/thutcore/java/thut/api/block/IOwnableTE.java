@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import thut.api.IOwnable;
+import thut.api.attachments.IOwnable;
 
 public interface IOwnableTE extends IOwnable
 {
