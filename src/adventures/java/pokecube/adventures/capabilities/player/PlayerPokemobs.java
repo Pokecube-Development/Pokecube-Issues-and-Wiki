@@ -32,13 +32,13 @@ public class PlayerPokemobs extends DefaultPokemobs
     {
         final IHasPokemobs mobs = player.getData(TrainerCaps.TRAINER);
         DataSync data = ThutCaps.getDataSync(player);
-        mobs.setDataSync(data);
         if (mobs instanceof PlayerPokemobs players)
         {
             players.holder.TYPE = data.register(new Data_String(), "");
             for (int i = 0; i < 6; i++)
                 players.holder.POKEMOBS[i] = data.register(new Data_ItemStack(), ItemStack.EMPTY);
         }
+        mobs.setDataSync(data);
     }
 
     Player player;

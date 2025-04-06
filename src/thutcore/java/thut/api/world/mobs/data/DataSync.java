@@ -10,8 +10,8 @@ import net.minecraft.core.HolderLookup;
  */
 public interface DataSync
 {
-	void setHolderLookup(HolderLookup.Provider provider);
-	
+    void setHolderLookup(HolderLookup.Provider provider);
+
     /**
      * Gets the value for the entry.
      *
@@ -80,11 +80,16 @@ public interface DataSync
     {
         return 10;
     }
-    
+
     boolean syncNow();
 
     /**
      * @return A random offset to apply with use with tickRate()
      */
     int tickOffset();
+
+    default void copyFrom(DataSync other)
+    {
+        for (var data : other.getAll()) this.set(data.getID(), other.get(data.getID()));
+    }
 }

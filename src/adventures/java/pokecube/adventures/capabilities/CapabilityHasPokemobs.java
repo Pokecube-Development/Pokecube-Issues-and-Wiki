@@ -59,6 +59,7 @@ import thut.api.data.HolderProvider;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.ThutCore;
+import thut.core.common.world.mobs.data.DataSync_Impl;
 
 public class CapabilityHasPokemobs
 {
@@ -232,7 +233,7 @@ public class CapabilityHasPokemobs
         private final Set<ITargetWatcher> watchers = Sets.newHashSet();
 
         public final DataParamHolder holder = new DataParamHolder();
-        private DataSync datasync;
+        private DataSync datasync = new DataSync_Impl();
 
         public DefaultPokemobs()
         {}
@@ -842,6 +843,7 @@ public class CapabilityHasPokemobs
         @Override
         public void setDataSync(final DataSync sync)
         {
+            sync.copyFrom(this.datasync);
             this.datasync = sync;
         }
 

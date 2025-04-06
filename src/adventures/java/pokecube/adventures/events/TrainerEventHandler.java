@@ -216,11 +216,11 @@ public class TrainerEventHandler
         mob.setData(TrainerCaps.REWARDS, rewards);
 
         DataSync data = DataSync_Impl.get(mob);
-        mobs.setDataSync(data);
         mobs.holder.TYPE = data.register(new Data_String(), "");
-
         for (int i = 0; i < 6; i++) mobs.holder.POKEMOBS[i] = data.register(new Data_ItemStack(), ItemStack.EMPTY);
-
+        
+        mobs.setDataSync(data);
+        
         if (PokecubeCore.getConfig().debug_spawning)
             PokecubeAPI.logInfo("Initializing caps " + mob + " " + mob.isAlive());
     }

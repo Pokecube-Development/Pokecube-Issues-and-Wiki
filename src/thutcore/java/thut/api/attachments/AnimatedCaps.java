@@ -53,7 +53,7 @@ public class AnimatedCaps
             return particles;
         }
     }
-    
+
     public static IAnimated makeProvider(final IAttachmentHolder in)
     {
         return new Impl(in);
@@ -61,14 +61,13 @@ public class AnimatedCaps
 
     public static IAnimated get(final IAttachmentHolder in)
     {
-        if (in.hasData(TYPE_SAVE.get())) return in.getData(TYPE_SAVE.get());
-        return null;
+        return in.getData(TYPE_SAVE.get());
     }
-    
+
     public static final ResourceLocation LOCSAVEABLE = ResourceLocation.parse("thutcore:animated_mob");
 
     public static Supplier<AttachmentType<IAnimated>> TYPE_SAVE;
-    
+
     public static void registerAttachment(DeferredRegister<AttachmentType<?>> registry)
     {
         Function<IAttachmentHolder, IAnimated> func_a = AnimatedCaps::makeProvider;

@@ -54,4 +54,6 @@ public interface IOwnable
 
     /** sets owner by UUID */
     void setOwner(UUID id);
+
+    void setPlayerOwned(boolean playerOwned);
 }

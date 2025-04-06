@@ -97,6 +97,12 @@ public class Ownable
         public void deserializeNBT(Provider provider, CompoundTag nbt)
         {}
 
+        @Override
+        public void setPlayerOwned(boolean playerOwned)
+        {
+            wrapped.setPlayerOwned(playerOwned);
+        }
+
     }
 
     public abstract static class VanillaWrapper<M extends Mob> implements IOwnableSerializable
@@ -181,6 +187,12 @@ public class Ownable
             this.wrapped.setOwnerUUID(id);
         }
 
+        @Override
+        public void setPlayerOwned(boolean playerOwned)
+        {
+            this.playerOwned = playerOwned;
+        }
+
     }
 
     public static class TameWrapper extends VanillaWrapper<TamableAnimal>
@@ -240,6 +252,12 @@ public class Ownable
             this.wrapped.setOwnerUUID(id);
             this.wrapped.setTame(isTame, isTame && !wasTame);
         }
+
+        @Override
+        public void setPlayerOwned(boolean playerOwned)
+        {
+            this.playerOwned = playerOwned;
+        }
     }
 
     public static class BaseImpl implements IOwnable
@@ -281,6 +299,12 @@ public class Ownable
         public void setOwner(final UUID id)
         {
             this.ownerId = id;
+        }
+
+        @Override
+        public void setPlayerOwned(boolean playerOwned)
+        {
+            this.playerOwned = playerOwned;
         }
     }
 

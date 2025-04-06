@@ -46,7 +46,7 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
         return this.behaviors.stream().filter((task) -> {
             return task.getStatus() == Behavior.Status.RUNNING;
         }).anyMatch((task) -> {
-            return ((BehaviourAccessor<E>) task).canStillUse(worldIn, entityIn, gameTimeIn);
+            return ((BehaviourAccessor<E>) task).invokeCanStillUse(worldIn, entityIn, gameTimeIn);
         });
     }
 

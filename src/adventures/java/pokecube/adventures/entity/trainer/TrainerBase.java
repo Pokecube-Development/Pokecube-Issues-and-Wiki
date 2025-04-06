@@ -40,7 +40,7 @@ import thut.wearables.inventory.PlayerWearables;
 
 public abstract class TrainerBase extends NpcMob
 {
-    public static final ResourceLocation BRIBE = ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID, "trainer_bribe");
+    public static final ResourceLocation BRIBE = ResourceLocation.parse(PokecubeAdv.MODID + ":trainer_bribe");
 
     public List<IPokemob> currentPokemobs = new ArrayList<>();
     public DefaultPokemobs pokemobsCap;
@@ -60,6 +60,10 @@ public abstract class TrainerBase extends NpcMob
         this.messages = TrainerCaps.getMessages(this);
         this.aiStates = TrainerCaps.getNPCAIStates(this);
         this.trades = TrainerCaps.getHasTrades(this);
+        if (this.pokemobsCap == null)
+        {
+            Thread.dumpStack();
+        }
     }
 
     public boolean canTrade(final Player player)
@@ -78,8 +82,7 @@ public abstract class TrainerBase extends NpcMob
         final ItemStack stack = player.getItemInHand(hand);
         if (player.getAbilities().instabuild && player.isCrouching())
         {
-            if (!this.level().isClientSide && player.isCrouching()
-                    && player.getMainHandItem().getItem() == Items.STICK)
+            if (!this.level().isClientSide && player.isCrouching() && player.getMainHandItem().getItem() == Items.STICK)
                 this.pokemobsCap.throwCubeAt(player);
             return InteractionResult.sidedSuccess(this.level.isClientSide);
         }

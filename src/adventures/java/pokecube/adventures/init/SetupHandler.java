@@ -69,7 +69,7 @@ public class SetupHandler
         PokecubeAPI.POKEMOB_BUS.addListener(TrainerEventHandler::captureAttempt);
         
         // Init the mobs
-        PokecubeAPI.POKEMOB_BUS.addListener(TrainerEventHandler::entityConstruct);
+        ThutCore.FORGE_BUS.addListener(TrainerEventHandler::entityConstruct);
 
         ThutCore.FORGE_BUS.register(TrainerSpawnHandler.class);
         ThutCore.FORGE_BUS.register(EnergyHandler.class);

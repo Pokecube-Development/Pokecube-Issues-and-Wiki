@@ -38,6 +38,9 @@ public record PokecubeContents(IPokemob pokemob, LivingEntity entity, CompoundTa
         copy.remove("M");
         copy.remove("K");
         copy.remove("P");
+        copy.remove("CHP");
+        copy.remove("MHP");
+        if (pokemob == null) return new PokecubeContents(copy);
         var saved = serializePokemob(pokemob);
         copy.merge(saved);
         return new PokecubeContents(pokemob, pokemob.getEntity(), copy);
@@ -45,11 +48,14 @@ public record PokecubeContents(IPokemob pokemob, LivingEntity entity, CompoundTa
 
     public PokecubeContents withEntity(LivingEntity entity)
     {
-        IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         CompoundTag copy = tag.copy();
         copy.remove("M");
         copy.remove("K");
         copy.remove("P");
+        copy.remove("CHP");
+        copy.remove("MHP");
+        if (pokemob == null) return new PokecubeContents(copy);
+        IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob != null)
         {
             var saved = serializePokemob(pokemob);

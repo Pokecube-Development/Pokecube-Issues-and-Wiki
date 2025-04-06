@@ -552,6 +552,7 @@ public class EventsHandler
             if (pokemob instanceof DefaultPokemob def)
             {
                 def.setDataSync(data);
+                def.setDataSync(data);
                 def.setGenes(genes);
                 def.setCopy(copy);
                 genes.addChangeListener(def);

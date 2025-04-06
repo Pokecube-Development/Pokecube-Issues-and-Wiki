@@ -1,5 +1,6 @@
 package thut.core.common.world.mobs.data;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.concurrent.locks.Lock;
@@ -107,13 +108,9 @@ public class DataSync_Impl implements DataSync
     @Override
     public List<Data<?>> getAll()
     {
-        List<Data<?>> list = null;
+        List<Data<?>> list = new ArrayList<Data<?>>();
         this.r.lock();
-        for (final Data<?> value : this.data.values())
-        {
-            if (list == null) list = Lists.newArrayList();
-            list.add(value);
-        }
+        list.addAll(this.data.values());
         this.r.unlock();
         syncNow = false;
         return list;
@@ -217,18 +214,18 @@ public class DataSync_Impl implements DataSync
 
     public static DataSync get(final IAttachmentHolder in)
     {
-        return in.getData(TYPE_SAVE.get());
+        return in.getData(TYPE.get());
     }
 
-    public static final ResourceLocation LOCSAVEABLE = ResourceLocation.parse("thutcore:data_sync");
+    public static final ResourceLocation KEY = ResourceLocation.parse("thutcore:data_sync");
 
-    public static Supplier<AttachmentType<DataSync>> TYPE_SAVE;
+    public static Supplier<AttachmentType<DataSync>> TYPE;
 
     public static void registerAttachment(DeferredRegister<AttachmentType<?>> registry)
     {
         Function<IAttachmentHolder, DataSync> func_a = DataSync_Impl::makeProvider;
         var attach_a = AttachmentType.builder(func_a).build();
-        TYPE_SAVE = registry.register(LOCSAVEABLE.getPath(), () -> attach_a);
+        TYPE = registry.register(KEY.getPath(), () -> attach_a);
     }
 
 }

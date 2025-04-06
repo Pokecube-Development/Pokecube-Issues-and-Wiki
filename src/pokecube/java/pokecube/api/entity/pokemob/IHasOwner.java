@@ -5,6 +5,7 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.ai.logic.LogicMountedControl;
@@ -12,9 +13,49 @@ import thut.api.attachments.IOwnable;
 
 public interface IHasOwner extends IHasMobAIStates, IOwnable
 {
+    IOwnable getOwnerHolder();
+
+    void setOwnerHolder(IOwnable holder);
+
+    @Override
+    default LivingEntity getOwner()
+    {
+        return getOwnerHolder().getOwner();
+    }
+
+    @Override
+    default UUID getOwnerId()
+    {
+        return getOwnerHolder().getOwnerId();
+    }
+
+    @Override
+    default void setOwner(LivingEntity e)
+    {
+        getOwnerHolder().setOwner(e);
+    }
+
+    @Override
+    default void setOwner(UUID id)
+    {
+        getOwnerHolder().setOwner(id);
+    }
+
+    @Override
+    default void setPlayerOwned(boolean playerOwned)
+    {
+        getOwnerHolder().setPlayerOwned(playerOwned);
+    }
+    
+    @Override
+    default boolean isPlayerOwned()
+    {
+        return getOwnerHolder().isPlayerOwned();
+    }
+
     /**
-     * Displays a message in the console of the owner player (if this pokemob
-     * is tamed).
+     * Displays a message in the console of the owner player (if this pokemob is
+     * tamed).
      *
      * @param message
      */
@@ -44,8 +85,7 @@ public interface IHasOwner extends IHasMobAIStates, IOwnable
 
     @Nonnull
     /**
-     * @return Team we are on, guarding pokemobs shouldn't attack team
-     *         members.
+     * @return Team we are on, guarding pokemobs shouldn't attack team members.
      */
     String getPokemobTeam();
 
@@ -61,8 +101,7 @@ public interface IHasOwner extends IHasMobAIStates, IOwnable
     /**
      * Sets owner uuid
      *
-     * @param original
-     *            trainer's UUID
+     * @param original trainer's UUID
      */
     void setOriginalOwnerUUID(UUID original);
 

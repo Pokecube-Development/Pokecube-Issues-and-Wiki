@@ -117,7 +117,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
     @Override
     public LivingEntity getOwner()
     {
-        final UUID ownerID = this.getOwnerId();
+        final UUID ownerID = super.getOwnerId();
         if (ownerID == null) return null;
         final Level world = this.getEntity().level();
         final boolean serv = world instanceof ServerLevel;
@@ -125,12 +125,6 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
             if (this.getOwnerHolder().getOwner() == null)
                 this.getOwnerHolder().setOwner(PokecubeCore.proxy.getPlayer());
         return serv ? this.getOwnerHolder().getOwner((ServerLevel) world) : this.getOwnerHolder().getOwner();
-    }
-
-    @Override
-    public UUID getOwnerId()
-    {
-        return this.getOwnerHolder().getOwnerId();
     }
 
     @Override
@@ -162,12 +156,6 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
             animalchest = null;
         }
         this.pokeChest.addListener(this);
-    }
-
-    @Override
-    public boolean isPlayerOwned()
-    {
-        return this.getOwnerHolder().isPlayerOwned();
     }
 
     @Override
@@ -434,8 +422,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         /*
          * Set owner, and set original owner if none already exists.
          */
-        this.getOwnerHolder().setOwner(e);
-        this.getOwnerHolder().setOwner(e.getUUID());
+        super.setOwner(e);
         if (this.getOriginalOwnerUUID() == null) this.setOriginalOwnerUUID(e.getUUID());
 
         /*
@@ -469,7 +456,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
     {
         final UUID old = this.getOwnerId();
         if (old != null && owner != null) PlayerPokemobCache.RemoveFromCache(old, this);
-        this.getOwnerHolder().setOwner(owner);
+        super.setOwner(owner);
         // Clear team, it will refresh it whenever it is actually checked.
         this.setPokemobTeam("");
         if (this.getEntity() instanceof TamableAnimal animal) animal.setOwnerUUID(owner);

@@ -36,7 +36,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.logic.Logic;
-import pokecube.core.ai.logic.LogicFloatFlySwim;
 import pokecube.core.ai.logic.LogicInLiquid;
 import pokecube.core.ai.logic.LogicInMaterials;
 import pokecube.core.ai.logic.LogicMiscUpdate;
@@ -287,7 +286,8 @@ public abstract class PokemobAI extends PokemobEvolves
         this.getTickLogic().add(new LogicInLiquid(this));
         this.getTickLogic().add(new LogicMovesUpdates(this));
         this.getTickLogic().add(new LogicInMaterials(this));
-        if (entry.stock) this.getTickLogic().add(new LogicFloatFlySwim(this));
+        Thread.dumpStack(); // TODO fix FloatFlySwim
+//        if (entry.stock) this.getTickLogic().add(new LogicFloatFlySwim(this));
         this.getTickLogic().add(new LogicMiscUpdate(this));
 
         // If the mob was constructed without a world somehow (during init for

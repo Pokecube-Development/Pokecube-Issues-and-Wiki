@@ -48,6 +48,11 @@ public interface IMobGenetics extends INBTSerializable<ListTag>
     void setFromParents(IMobGenetics parent1, IMobGenetics parent2);
 
     void addChangeListener(Consumer<Gene<?>> listener);
-    
+
     List<Consumer<Gene<?>>> getChangeListeners();
+
+    default void copyFrom(IMobGenetics genes)
+    {
+        this.getAlleles().putAll(genes.getAlleles());
+    }
 }

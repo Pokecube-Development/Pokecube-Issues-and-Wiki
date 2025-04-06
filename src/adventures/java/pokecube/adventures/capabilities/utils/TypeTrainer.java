@@ -511,6 +511,7 @@ public class TypeTrainer extends NpcType
             t.pokemon.removeIf(e -> (e.length > 8 || e.height > 8 || e.width > 8));
             if (t.pokemon.size() == 0 && t != TypeTrainer.merchant) toRemove.add(t);
         }
+        if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Loaded Trainer Types: " + TypeTrainer.typeMap);
         if (!toRemove.isEmpty()) PokecubeAPI.logInfo("Removing Trainer Types: " + toRemove);
         for (final TypeTrainer t : toRemove) TypeTrainer.typeMap.remove(t.getName());
         TypeTrainer.initSpawns();

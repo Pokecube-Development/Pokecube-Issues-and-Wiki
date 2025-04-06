@@ -25,7 +25,7 @@ public class PacketDataSync extends Packet
     {
         final List<Data<?>> list = all ? data.getAll() : data.getDirty();
         // Nothing to sync.
-        if (list == null || tracked == null || list.isEmpty()) return;
+        if (list == null || list.isEmpty()) return;
         final PacketDataSync packet = new PacketDataSync();
         packet.data = list;
         packet.id = entity_id;

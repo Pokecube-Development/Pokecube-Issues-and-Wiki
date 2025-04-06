@@ -161,7 +161,7 @@ public class PokemobCaps
         }
         CompoundTag tag = contents.tag().getCompound("M");
         var made = EntityType.create(tag, level);
-        if (made.isEmpty())
+        if (!made.isEmpty())
         {
             var e = made.get();
             return e instanceof LivingEntity e1 ? e1 : null;

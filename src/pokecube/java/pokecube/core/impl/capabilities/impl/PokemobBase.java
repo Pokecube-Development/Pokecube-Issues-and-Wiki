@@ -27,15 +27,16 @@ import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.moves.damage.EntityMoveUse;
 import pokecube.core.network.pokemobs.PacketPingBoss;
-import thut.api.ThutCaps;
 import thut.api.attachments.CopyMob;
 import thut.api.attachments.IOwnable;
+import thut.api.attachments.Ownable;
 import thut.api.entity.IBreedingMob;
 import thut.api.entity.ICopyMob;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.DataSync;
-import thut.core.common.world.mobs.data.SyncHandler;
+import thut.core.common.genetics.DefaultGenetics;
+import thut.core.common.world.mobs.data.DataSync_Impl;
 import thut.core.common.world.mobs.data.types.Data_Byte;
 import thut.core.common.world.mobs.data.types.Data_Float;
 import thut.core.common.world.mobs.data.types.Data_Int;
@@ -76,9 +77,8 @@ public abstract class PokemobBase implements IPokemob
 
         public final int[] DISABLE = new int[4];
 
-        public void register(final IPokemob pokemob)
+        public void register(final DataSync sync)
         {
-            final DataSync sync = pokemob.dataSync();
             // Held Item timer
             this.HELDITEMDW = sync.register(new Data_ItemStack(), ItemStack.EMPTY);
 
@@ -183,7 +183,7 @@ public abstract class PokemobBase implements IPokemob
     protected SpawnRule spawnInitRule = null;
 
     /** Data manager used for syncing data */
-    public DataSync dataSync;
+    public DataSync dataSync = new DataSync_Impl();
     /** Holds the data parameters used for syncing our stuff. */
     protected final DataParameters params = new DataParameters();
 
@@ -202,9 +202,9 @@ public abstract class PokemobBase implements IPokemob
     /** How long the mob is */
     protected float length;
     /** The IMobGenetics used to store our genes. */
-    private IMobGenetics genes;
+    private IMobGenetics genes = new DefaultGenetics();
     /** The IMobGenetics used to store our genes. */
-    private IOwnable ownerHolder;
+    private IOwnable ownerHolder = new Ownable.Impl();
 
     protected ICopyMob transformed = new CopyMob.Impl();
 
@@ -231,7 +231,6 @@ public abstract class PokemobBase implements IPokemob
     @Override
     public DataSync dataSync()
     {
-        if (this.dataSync == null) this.dataSync = SyncHandler.getData(this.getEntity());
         return this.dataSync;
     }
 
@@ -240,15 +239,23 @@ public abstract class PokemobBase implements IPokemob
      */
     public IOwnable getOwnerHolder()
     {
-        if (this.ownerHolder == null) this.ownerHolder = ThutCaps.getOwnable(this.entity);
         return this.ownerHolder;
+    }
+
+    public void setOwnerHolder(IOwnable holder)
+    {
+        holder.setOwner(this.ownerHolder.getOwner());
+        holder.setOwner(this.ownerHolder.getOwnerId());
+        holder.setPlayerOwned(this.ownerHolder.isPlayerOwned());
+        this.ownerHolder = holder;
     }
 
     @Override
     public void setDataSync(final DataSync sync)
     {
+        this.params.register(sync);
+        sync.copyFrom(this.dataSync());
         this.dataSync = sync;
-        this.params.register(this);
     }
 
     @Override
@@ -318,6 +325,7 @@ public abstract class PokemobBase implements IPokemob
 
     public void setGenes(IMobGenetics genes)
     {
+        genes.copyFrom(this.genes);
         this.genes = genes;
     }
 
