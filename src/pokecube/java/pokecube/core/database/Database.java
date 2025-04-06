@@ -695,11 +695,6 @@ public class Database
         // don't want to do anything here.
         if (!Database.listener.loaded) return;
 
-        if (ServerLifecycleHooks.getCurrentServer() == null)
-        {
-            Thread.dumpStack();
-        }
-
         if (!needs_reload)
         {
             if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Skipping Load, too soon since last load.");

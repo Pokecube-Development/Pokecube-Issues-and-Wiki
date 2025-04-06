@@ -52,6 +52,7 @@ public class PacketSyncGene extends Packet
         {
             var tag = buffer.readNbt();
             ResourceLocation key = ResourceLocation.parse(tag.getString("K"));
+            PokecubeAPI.logInfo("Read " + tag);
             this.genes.load(PokecubeCore.proxy.getRegistries(), tag, key);
         }
         catch (final Exception e)
@@ -70,7 +71,7 @@ public class PacketSyncGene extends Packet
         final IMobGenetics genes = ThutCaps.getGenetics(mob);
         if (genes != null && alleles != null && alleles.getExpressed() != null)
         {
-            genes.getAlleles().put(alleles.getExpressed().getKey(), alleles);
+            genes.setGenes(alleles.getAllele(0), alleles.getAllele(1), alleles.getExpressed());
             alleles.setChangeListeners(genes.getChangeListeners());
             alleles.onChanged();
         }

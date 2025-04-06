@@ -130,8 +130,9 @@ public class ClonerHelper
 
     public static void registerItemData(DeferredRegister<DataComponentType<?>> registry)
     {
-        VALUE_STORE = registry.register("dna_item_store", name -> new DataComponentType.Builder<DNAPack>()
-                .persistent(DNAPack.CODEC).networkSynchronized(DNAPack.STREAM_CODEC).build());
+        VALUE_STORE = registry.register("dna_item_store",
+                name -> new DataComponentType.Builder<DNAPack>().persistent(DNAPack.CODEC)
+                        .networkSynchronized(DNAPack.STREAM_CODEC).build());
     }
 
     public static final String SELECTORTAG = "DNASelector";
@@ -223,7 +224,8 @@ public class ClonerHelper
         final Alleles<T, GENE> alleles = source.getAlleles(loc);
         Alleles<T, GENE> eggsAllele = destination.getAlleles(loc);
         eggsAllele = selector.merge(provider, source, destination, alleles, eggsAllele);
-        if (eggsAllele != null) destination.getAlleles().put(loc, eggsAllele);
+        if (eggsAllele != null)
+            destination.setGenes(eggsAllele.getAllele(0), eggsAllele.getAllele(1), eggsAllele.getExpressed());
     }
 
     public static void mergeGenes(Provider provider, final IMobGenetics genesIn, final ItemStack destination,
@@ -269,7 +271,7 @@ public class ClonerHelper
                 final GENE gene = alleles.getAllele(rand.nextBoolean() ? 0 : 1);
                 alleles.setExpressed(gene);
             }
-            destination.getAlleles().put(loc, alleles);
+            destination.setGenes(alleles.getAllele(0), alleles.getAllele(1), alleles.getExpressed());
         }
     }
 

@@ -3,11 +3,7 @@
  */
 package pokecube.core.items.berries;
 
-import java.util.Map;
-import java.util.function.Supplier;
-
 import com.google.common.collect.Maps;
-
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.Item;
@@ -19,6 +15,9 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import pokecube.core.items.UsableItemEffects;
 import pokecube.core.items.UsableItemEffects.BerryUsable.BerryEffect;
+
+import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * @author Oracion
@@ -39,8 +38,6 @@ public class BerryManager
             this.effect = effect;
             this.index = index;
             this.flavours = flavours;
-            Thread.dumpStack();
-            // TODO need to post register flavours as defaults.
         }
     }
 

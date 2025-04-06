@@ -759,17 +759,17 @@ public class Config extends ConfigData
     public boolean non_vanilla_pokemobs = false;
 
     @Configure(category = Config.debug_modes, comment = "Debug output for move use. [Default: false]")
-    public boolean debug_moves = true;
+    public boolean debug_moves = false;
     @Configure(category = Config.debug_modes, comment = "Debug output for mob ai. [Default: false]")
-    public boolean debug_ai = true;
+    public boolean debug_ai = false;
     @Configure(category = Config.debug_modes, comment = "Debug output for chat commands and pokemob orders. [Default: false]")
-    public boolean debug_commands = true;
+    public boolean debug_commands = false;
     @Configure(category = Config.debug_modes, comment = "Debug output for datapack loading. [Default: false]")
-    public boolean debug_data = true;
+    public boolean debug_data = false;
     @Configure(category = Config.debug_modes, comment = "Debug output for pokemob spawning. [Default: false]")
-    public boolean debug_spawning = true;
+    public boolean debug_spawning = false;
     @Configure(category = Config.debug_modes, comment = "Debug output for uncatogorised things. [Default: false]")
-    public boolean debug_misc = true;
+    public boolean debug_misc = false;
 
     public Config()
     {

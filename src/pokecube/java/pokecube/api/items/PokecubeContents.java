@@ -74,13 +74,13 @@ public record PokecubeContents(IPokemob pokemob, LivingEntity entity, CompoundTa
     public PokecubeContents withTilt(int tilt)
     {
         this.tag().putInt("tilt", tilt);
-        return this;
+        return new PokecubeContents(pokemob, entity, tag());
     }
 
     public PokecubeContents withCapturePos(Vector3 pos)
     {
         pos.writeToNBT(this.tag(), "_cap_pos_");
-        return this;
+        return new PokecubeContents(pokemob, entity, tag());
     }
 
     public Optional<Vector3> getCapturePos()

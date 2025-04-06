@@ -96,7 +96,6 @@ public class CombatTypeLoader
             {
                 BufferedReader reader = ResourceHelper.getReader(r);
                 CombatTypes types = CombatTypeLoader.gson.fromJson(reader, CombatTypes.class);
-                Thread.dumpStack();
                 if (!types.types.isEmpty()) loaded.add(types);
                 reader.close();
             }

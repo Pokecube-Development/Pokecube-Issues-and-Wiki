@@ -40,10 +40,7 @@ public class DynamaxGene implements Gene<DynaObject>
             Alleles<DynaObject, Gene<DynaObject>> alleles = new Alleles<>(genes);
             Gene<DynaObject> gene1 = new DynamaxGene();
             Gene<DynaObject> gene2 = new DynamaxGene();
-            alleles.setAllele(0, gene1);
-            alleles.setAllele(1, gene2);
-            alleles.getExpressed();
-            genes.getAlleles().put(GeneticsManager.GMAXGENE, alleles);
+            genes.setGenes(gene1, gene2);
             if (mob.level() instanceof ServerLevel) PacketSyncGene.syncGeneToTracking(mob, alleles);
         }
         try

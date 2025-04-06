@@ -35,12 +35,7 @@ import pokecube.api.moves.Battle;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.ai.logic.Logic;
-import pokecube.core.ai.logic.LogicInLiquid;
-import pokecube.core.ai.logic.LogicInMaterials;
-import pokecube.core.ai.logic.LogicMiscUpdate;
-import pokecube.core.ai.logic.LogicMountedControl;
-import pokecube.core.ai.logic.LogicMovesUpdates;
+import pokecube.core.ai.logic.*;
 import pokecube.core.ai.tasks.Tasks;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.utils.AITools;
@@ -286,15 +281,15 @@ public abstract class PokemobAI extends PokemobEvolves
         this.getTickLogic().add(new LogicInLiquid(this));
         this.getTickLogic().add(new LogicMovesUpdates(this));
         this.getTickLogic().add(new LogicInMaterials(this));
-        Thread.dumpStack(); // TODO fix FloatFlySwim
-//        if (entry.stock) this.getTickLogic().add(new LogicFloatFlySwim(this));
+        if (entry.stock) this.getTickLogic().add(new LogicFloatFlySwim(this));
         this.getTickLogic().add(new LogicMiscUpdate(this));
 
         // If the mob was constructed without a world somehow (during init for
         // JEI, etc), do not bother with AI stuff.
-        if (entity.level() == null || ThutCore.proxy.isClientSide())
+        entity.level();
+        if (ThutCore.proxy.isClientSide())
         {
-            if (entity.level() != null) PokecubeAPI.POKEMOB_BUS.post(new InitAIEvent.Post(this));
+            PokecubeAPI.POKEMOB_BUS.post(new InitAIEvent.Post(this));
             return;
         }
 
@@ -343,7 +338,7 @@ public abstract class PokemobAI extends PokemobEvolves
     {
         // If the mob was constructed without a world somehow (during init for
         // JEI, etc), do not bother with AI stuff.
-        if (entity.level() == null || ThutCore.proxy.isClientSide()) return;
+        if (ThutCore.proxy.isClientSide()) return;
 
         // Set the pathing priorities for various blocks
         if (entity.fireImmune())
@@ -374,7 +369,7 @@ public abstract class PokemobAI extends PokemobEvolves
             this.setTargetID(-1);
             this.getEntity().getPersistentData().putString("lastMoveHitBy", "");
         }
-        else if (entity != null)
+        else
         {
             final IOwnable target = ThutCaps.getOwnable(entity);
             final boolean mateFight = this.getCombatState(CombatStates.MATEFIGHT);
@@ -406,7 +401,6 @@ public abstract class PokemobAI extends PokemobEvolves
                 BrainUtils.clearAttackTarget(this.getEntity());
                 return;
             }
-            if (entity == null || remote) return;
             this.setLogicState(LogicStates.SITTING, false);
             if (this.getAbility() != null) this.getAbility().onAgress(this, entity);
         }

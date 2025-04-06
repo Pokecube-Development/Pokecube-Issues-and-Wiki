@@ -6,6 +6,7 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
@@ -112,7 +113,7 @@ public class CapabilityNPCMessages
 
     }
     
-    private static final HolderProvider<IHasMessages> _REGISTRY = new HolderProvider<>();
+    private static final HolderProvider<IHasMessages> _REGISTRY = new HolderProvider<>(ResourceLocation.parse("pokecube_adventure:messages"));
 
     public static void registerProvider(HolderProvider.Provider<IHasMessages> reg)
     {

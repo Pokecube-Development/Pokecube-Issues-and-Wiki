@@ -4,7 +4,6 @@ import java.util.function.Supplier;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.ResourceLocationException;
@@ -161,7 +160,7 @@ public class PokemobCaps
         }
         CompoundTag tag = contents.tag().getCompound("M");
         var made = EntityType.create(tag, level);
-        if (!made.isEmpty())
+        if (made.isPresent())
         {
             var e = made.get();
             return e instanceof LivingEntity e1 ? e1 : null;
@@ -182,19 +181,16 @@ public class PokemobCaps
         }
 
         @Override
-        public final String toString()
+        public String toString()
         {
             return key.toString();
         }
 
-        public static final RecordCodecBuilder<UsableItem, ResourceLocation> KeyCodec = ResourceLocation.CODEC
-                .fieldOf("key").forGetter(UsableItem::key);
+        public static final Codec<UsableItem> CODEC = Codec.STRING.comapFlatMap(UsableItem::read,
+                UsableItem::toString).stable();
 
-        public static final Codec<UsableItem> CODEC = Codec.STRING
-                .<UsableItem>comapFlatMap(UsableItem::read, UsableItem::toString).stable();
-
-        public static final StreamCodec<ByteBuf, UsableItem> STREAM_CODEC = ByteBufCodecs.STRING_UTF8
-                .map(UsableItem::parse, UsableItem::toString);
+        public static final StreamCodec<ByteBuf, UsableItem> STREAM_CODEC = ByteBufCodecs.STRING_UTF8.map(
+                UsableItem::parse, UsableItem::toString);
 
         public static DataResult<UsableItem> read(String location)
         {
@@ -216,17 +212,18 @@ public class PokemobCaps
         }
     }
 
-    public static final HolderProvider<IPokemob> _REGISTRY = new HolderProvider<>();
+    public static final HolderProvider<IPokemob> _REGISTRY = new HolderProvider<>(ResourceLocation.parse("pokecube:pokemob"));
 
     public static void registerAttachment(DeferredRegister<AttachmentType<?>> registry)
     {
-        POKEMOB = registry.register("pokemob", () -> AttachmentType.serializable(PokemobCaps._REGISTRY::make).build());
+        POKEMOB = registry.register("pokemob",
+                () -> AttachmentType.serializable(PokemobCaps._REGISTRY::make).copyOnDeath().build());
 
         ONGOING_AFFECTED = registry.register("ongoing_affected",
                 () -> AttachmentType.builder(CapabilityAffected::makeProvider).build());
 
         INHABITABLE = registry.register("habitat",
-                () -> AttachmentType.serializable(CapabilityInhabitable::makeProvider).build());;
+                () -> AttachmentType.serializable(CapabilityInhabitable::makeProvider).build());
 
         INHABITOR = registry.register("inhabitor",
                 () -> AttachmentType.builder(CapabilityInhabitor._REGISTRY::make).build());
@@ -237,13 +234,17 @@ public class PokemobCaps
 
     public static void registerComponents(DeferredRegister<DataComponentType<?>> registry)
     {
-        USABLE_DATA = registry.register("mob_usables", name -> new DataComponentType.Builder<UsableItem>()
-                .persistent(UsableItem.CODEC).networkSynchronized(UsableItem.STREAM_CODEC).build());
-        POKECUBE_DATA = registry.register("pokecube", name -> new DataComponentType.Builder<PokecubeContents>()
-                .persistent(PokecubeContents.CODEC).networkSynchronized(PokecubeContents.STREAM_CODEC).build());
-        POKEEGG_DATA = registry.register("pokeegg", name -> new DataComponentType.Builder<EggInfo>()
-                .persistent(EggInfo.CODEC).networkSynchronized(EggInfo.STREAM_CODEC).build());
-        POKESEAL_DATA = registry.register("pokeseal", name -> new DataComponentType.Builder<PokesealContents>()
-                .persistent(PokesealContents.CODEC).networkSynchronized(PokesealContents.STREAM_CODEC).build());
+        USABLE_DATA = registry.register("mob_usable",
+                name -> new DataComponentType.Builder<UsableItem>().persistent(UsableItem.CODEC)
+                        .networkSynchronized(UsableItem.STREAM_CODEC).build());
+        POKECUBE_DATA = registry.register("pokecube",
+                name -> new DataComponentType.Builder<PokecubeContents>().persistent(PokecubeContents.CODEC)
+                        .networkSynchronized(PokecubeContents.STREAM_CODEC).build());
+        POKEEGG_DATA = registry.register("pokeegg",
+                name -> new DataComponentType.Builder<EggInfo>().persistent(EggInfo.CODEC)
+                        .networkSynchronized(EggInfo.STREAM_CODEC).build());
+        POKESEAL_DATA = registry.register("pokeseal",
+                name -> new DataComponentType.Builder<PokesealContents>().persistent(PokesealContents.CODEC)
+                        .networkSynchronized(PokesealContents.STREAM_CODEC).build());
     }
 }

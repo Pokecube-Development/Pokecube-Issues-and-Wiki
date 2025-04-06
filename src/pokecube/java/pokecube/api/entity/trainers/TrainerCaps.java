@@ -15,26 +15,31 @@ public class TrainerCaps
 
     public static IHasPokemobs getHasPokemobs(final IAttachmentHolder entityIn)
     {
+        if (entityIn == null) return null;
         return entityIn.hasData(TRAINER) ? entityIn.getData(TRAINER) : null;
     }
 
     public static IHasRewards getHasRewards(final IAttachmentHolder entityIn)
     {
+        if (entityIn == null) return null;
         return entityIn.hasData(REWARDS) ? entityIn.getData(REWARDS) : null;
     }
 
     public static IHasTrades getHasTrades(final IAttachmentHolder entityIn)
     {
+        if (entityIn == null) return null;
         return entityIn.hasData(TRADES) ? entityIn.getData(TRADES) : null;
     }
 
     public static IHasMessages getMessages(final IAttachmentHolder entityIn)
     {
+        if (entityIn == null) return null;
         return entityIn.hasData(MESSAGES) ? entityIn.getData(MESSAGES) : null;
     }
 
     public static IHasNPCAIStates getNPCAIStates(final IAttachmentHolder entityIn)
     {
+        if (entityIn == null) return null;
         return entityIn.hasData(AISTATES) ? entityIn.getData(AISTATES) : null;
     }
 }

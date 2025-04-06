@@ -328,7 +328,7 @@ public final class SpawnHandler
 
     public static boolean canSpawnInWorld(final Level world, final boolean respectDifficulty)
     {
-        if (world == null || !(world instanceof ServerLevel level)) return true;
+        if (!(world instanceof ServerLevel level)) return true;
         if (respectDifficulty && world.getDifficulty() == Difficulty.PEACEFUL) return false;
         if (!Config.Rules.doSpawn(level)) return false;
         if (SpawnHandler.dimensionBlacklist.contains(level.dimension())) return false;
@@ -358,8 +358,8 @@ public final class SpawnHandler
             CompoundTag spawnTag)
     {
         var spawnData = EventHooks.finalizeMobSpawn(MobEntity, (ServerLevelAccessor) world,
-                world.getCurrentDifficultyAt(world.getSharedSpawnPos()), MobSpawnType.NATURAL, (SpawnGroupData) entry);
-        // TODO use the spawn data
+                world.getCurrentDifficultyAt(world.getSharedSpawnPos()), MobSpawnType.NATURAL, (SpawnGroupData) null);
+        // TODO use the spawn data and make the spawngroupdata meaningfull
         if (spawnData == null) return null;
 
         IPokemob pokemob = PokemobCaps.getPokemobFor(MobEntity);

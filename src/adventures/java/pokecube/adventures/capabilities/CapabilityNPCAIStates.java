@@ -2,6 +2,7 @@ package pokecube.adventures.capabilities;
 
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.api.entity.trainers.IHasNPCAIStates;
@@ -80,7 +81,7 @@ public class CapabilityNPCAIStates
 
     }
     
-    private static final HolderProvider<IHasNPCAIStates> _REGISTRY = new HolderProvider<>();
+    private static final HolderProvider<IHasNPCAIStates> _REGISTRY = new HolderProvider<>(ResourceLocation.parse("pokecube_adventure:ai_states"));
 
     public static void registerProvider(HolderProvider.Provider<IHasNPCAIStates> reg)
     {

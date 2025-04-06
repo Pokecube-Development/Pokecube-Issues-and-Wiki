@@ -106,10 +106,10 @@ public class PokecubeManager
     }
 
     /**
-     * Called the heal the mob, it will set health to max health, will reset
-     * hurtTime and deathTime, and if a pokemob, will reset hunger back to full.
-     * 
-     * @param mob
+     * Called the heal the mob, it will set health to max health, will reset hurtTime and deathTime, and if a pokemob,
+     * will reset hunger back to full.
+     *
+     * @param mob mob to heal
      */
     public static void heal(final LivingEntity mob)
     {
@@ -163,12 +163,16 @@ public class PokecubeManager
             world = PokecubeCore.proxy.getWorld();
             PokecubeAPI.LOGGER.catching(new NullPointerException("World null when itemToMob!"));
         }
-        return PokemobCaps.getPokemobIn(stack, world).entity();
+        var holder = PokemobCaps.getPokemobIn(stack, world);
+        if (holder == null) return null;
+        return holder.entity();
     }
 
     public static IPokemob itemToPokemob(final ItemStack itemStack, final Level world)
     {
-        return PokemobCaps.getPokemobIn(itemStack, world).pokemob();
+        var holder = PokemobCaps.getPokemobIn(itemStack, world);
+        if (holder == null) return null;
+        return holder.pokemob();
     }
 
     public static ItemStack pokemobToItem(final IPokemob pokemob)
@@ -195,29 +199,29 @@ public class PokecubeManager
     public static void setColor(final ItemStack itemStack)
     {
         // TODO tooltip colour
-//        int color = 0xEEEEEE;
-//
-//        final ResourceLocation id = PokecubeItems.getCubeId(itemStack);
-//
-//        if (ItemList.is(PokecubeItems.POKEMOBEGG, itemStack)) color = 0x78C848;
-//        else if (id != null) if (id.getPath().equals("poke")) color = 0xEE0000;
-//        else if (id.getPath().equals("great")) color = 0x0B90CE;
-//        else if (id.getPath().equals("ultra")) color = 0xDCA937;
-//        else if (id.getPath().equals("master")) color = 0x332F6A;
-//
-//        CompoundTag var3 = itemStack.getTag();
-//
-//        if (var3 == null)
-//        {
-//            var3 = new CompoundTag();
-//            itemStack.setTag(var3);
-//        }
-//
-//        final CompoundTag var4 = var3.getCompound("display");
-//
-//        if (!var3.contains("display")) var3.put("display", var4);
-//
-//        var4.putInt("cubecolor", color);
+        //        int color = 0xEEEEEE;
+        //
+        //        final ResourceLocation id = PokecubeItems.getCubeId(itemStack);
+        //
+        //        if (ItemList.is(PokecubeItems.POKEMOBEGG, itemStack)) color = 0x78C848;
+        //        else if (id != null) if (id.getPath().equals("poke")) color = 0xEE0000;
+        //        else if (id.getPath().equals("great")) color = 0x0B90CE;
+        //        else if (id.getPath().equals("ultra")) color = 0xDCA937;
+        //        else if (id.getPath().equals("master")) color = 0x332F6A;
+        //
+        //        CompoundTag var3 = itemStack.getTag();
+        //
+        //        if (var3 == null)
+        //        {
+        //            var3 = new CompoundTag();
+        //            itemStack.setTag(var3);
+        //        }
+        //
+        //        final CompoundTag var4 = var3.getCompound("display");
+        //
+        //        if (!var3.contains("display")) var3.put("display", var4);
+        //
+        //        var4.putInt("cubecolor", color);
     }
 
     public static void setTilt(final ItemStack stack, final int number, Level level)

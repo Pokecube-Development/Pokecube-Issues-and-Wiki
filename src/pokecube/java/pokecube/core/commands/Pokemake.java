@@ -259,7 +259,6 @@ public class Pokemake
         temp.set(source.getPosition()).addTo(offset);
         temp.moveEntity(mob);
         pokemob.spawnInit();
-        GeneticsManager.initMob(mob);
         mob.level().addFreshEntity(mob);
 
         final String text = ChatFormatting.GREEN + "Spawned " + pokemob.getDisplayName().getString();

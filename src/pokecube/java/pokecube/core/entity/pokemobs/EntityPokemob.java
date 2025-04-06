@@ -441,11 +441,8 @@ public class EntityPokemob extends PokemobRidable
         if (compound.contains("OwnerUUID")) try
         {
             final UUID id = UUID.fromString(compound.getString("OwnerUUID"));
-            if (id != null)
-            {
-                this.setOwnerUUID(id);
-                this.setTame(true, false);
-            }
+            this.setOwnerUUID(id);
+            this.setTame(true, false);
         }
         catch (final Exception e)
         {

@@ -22,6 +22,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.pokemobs.ai.BrainInitEvent;
 import pokecube.api.utils.TagNames;
 import pokecube.core.entity.genetics.epigenes.EVsGene;
@@ -64,9 +65,6 @@ public class GeneticsManager
 
     public static final ResourceLocation SPECIESGENE = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "species");
 
-    public static List<Consumer<LivingEntity>> GENE_PROVIDERS = new ArrayList<>();
-    public static Map<ResourceLocation, Supplier<Gene<?>>> DEFAULT_GENES = new HashMap<>();
-
     public static Map<ResourceLocation, Float> mutationRates = Maps.newHashMap();
 
     static
@@ -86,11 +84,6 @@ public class GeneticsManager
     }
 
     public static final ResourceLocation GENEHOLDERS = ResourceLocation.parse("pokecube:dna_holder");
-
-    public static void registerGeneProvider(Consumer<LivingEntity> provider)
-    {
-        GENE_PROVIDERS.add(provider);
-    }
 
     public static List<String> getMutationConfig()
     {
@@ -127,25 +120,12 @@ public class GeneticsManager
         GeneRegistry.register(ShinyGene.class);
         GeneRegistry.register(SizeGene.class);
 
-        ThutCore.FORGE_BUS.addListener(EventPriority.LOW, GeneticsManager::addRegisteredGenes);
-        ThutCore.FORGE_BUS.addListener(EventPriority.HIGH, GeneticsManager::onBrainInit);
+        // Populate defaults, add-ons can adjust this as needed later via similar calls to GeneRegistry
+        @SuppressWarnings("unchecked")
+        Class<? extends Gene<?>>[] GENE_CLASSES = new Class[] { AbilityGene.class, ColourGene.class, SpeciesGene.class,
+                IVsGene.class, EVsGene.class, MovesGene.class, NatureGene.class, ShinyGene.class, SizeGene.class };
 
-        // Populate defaults, add-ons can adjust this as needed later.
-        DEFAULT_GENES.put(SIZEGENE, SizeGene::new);
-        DEFAULT_GENES.put(COLOURGENE, ColourGene::new);
-        DEFAULT_GENES.put(NATUREGENE, NatureGene::new);
-
-        registerGeneProvider((living) -> {
-
-            var genes = ThutCaps.getGenetics(living);
-            // Only apply if it has genes
-            if (genes == null) return;
-
-            // Now make each gene if not present
-            DEFAULT_GENES.forEach((key, gene) -> {
-                if (genes.getAlleles(key) == null) initGene(key, living, genes, gene);
-            });
-        });
+        GeneRegistry.registerDefaultGene((living) -> PokemobCaps._REGISTRY.make(living) != null, GENE_CLASSES);
     }
 
     public static void initEgg(final IMobGenetics eggs, final IMobGenetics mothers, final IMobGenetics fathers)
@@ -168,36 +148,12 @@ public class GeneticsManager
         GeneticsManager.epigeneticParser.initFunTab();
         GeneticsManager.epigeneticParser.addStandardFunctions();
         GeneticsManager.epigeneticParser.initSymTab(); // clear the contents of
-                                                       // the symbol table
+        // the symbol table
         GeneticsManager.epigeneticParser.addStandardConstants();
         GeneticsManager.epigeneticParser.addComplex();
         // table
         GeneticsManager.epigeneticParser.addVariable("v", 0);
         GeneticsManager.epigeneticParser.parseExpression(GeneticsManager.epigeneticFunction);
-    }
-
-    private static void onBrainInit(final BrainInitEvent event)
-    {
-        initMob(event.getEntity());
-    }
-
-    private static void addRegisteredGenes(final EntityJoinLevelEvent event)
-    {
-        initMob(event.getEntity());
-    }
-
-    public static void initMob(final Entity mob)
-    {
-        // We only apply to living entities
-        if (!(mob instanceof LivingEntity living)) return;
-        IMobGenetics genes = ThutCaps.getGenetics(living);
-        // And only ones with genes
-        if (genes == null) return;
-        // Now apply the genes
-        GENE_PROVIDERS.forEach(p -> p.accept(living));
-        // If we are server side, and added to world, update clients.
-        if (!living.level.isClientSide() && living.isAddedToLevel())
-            genes.getAlleles().forEach((key, alleles) -> PacketSyncGene.syncGeneToTracking(living, alleles));
     }
 
     @Nullable
@@ -210,7 +166,6 @@ public class GeneticsManager
         {
             stack.set(DefaultGenetics.GENE_STORE, holder = holder.withContext(context));
         }
-        IMobGenetics genes = holder.genes();
-        return genes;
+        return holder.genes();
     }
 }

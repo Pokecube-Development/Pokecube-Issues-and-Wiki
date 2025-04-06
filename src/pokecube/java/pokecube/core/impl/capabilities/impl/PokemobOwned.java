@@ -39,6 +39,8 @@ import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.LogicMountedControl;
+import pokecube.core.entity.genetics.GeneticsManager;
+import pokecube.core.entity.genetics.genes.SpeciesGene;
 import pokecube.core.entity.pokecubes.EntityPokecube;
 import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.eventhandlers.SpawnHandler;
@@ -52,6 +54,7 @@ import pokecube.core.network.pokemobs.PacketPokemobMessage;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.CapHolders;
 import thut.api.Tracker;
+import thut.api.entity.genetics.Alleles;
 import thut.core.common.ThutCore;
 import thut.lib.TComponent;
 
@@ -488,9 +491,10 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         FormeHolder forme = this.getCustomHolder();
         if (forme != null)
         {
+            Alleles<SpeciesGene.SpeciesInfo, SpeciesGene> genesSpecies = getGenes().getAlleles(GeneticsManager.SPECIESGENE);
             // Sync these to PGs as well
-            this.genesSpecies.getAllele(0).getValue().setForme(forme);
-            this.genesSpecies.getAllele(1).getValue().setForme(forme);
+            genesSpecies.getAllele(0).getValue().setForme(forme);
+            genesSpecies.getAllele(1).getValue().setForme(forme);
         }
         return pokemob;
     }

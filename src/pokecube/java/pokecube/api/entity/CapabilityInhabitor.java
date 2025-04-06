@@ -1,6 +1,7 @@
 package pokecube.api.entity;
 
 import net.minecraft.core.GlobalPos;
+import net.minecraft.resources.ResourceLocation;
 import pokecube.api.ai.IInhabitor;
 import thut.api.data.HolderProvider;
 
@@ -30,5 +31,5 @@ public class CapabilityInhabitor
         {}
     }
 
-    public static final HolderProvider<IInhabitor> _REGISTRY = new HolderProvider<>();
+    public static final HolderProvider<IInhabitor> _REGISTRY = new HolderProvider<>(ResourceLocation.parse("pokecube:inhabitor"));
 }

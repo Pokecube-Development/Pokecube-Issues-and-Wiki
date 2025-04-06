@@ -25,9 +25,7 @@ import thut.lib.TComponent;
 /**
  * This class matches a pokemob with the specified held or evolution item<br>
  * <br>
- * Matcher key: "item" <br>
- * Json keys: <br>
- * "item" - JsonObject, optional, recipe format json for the item "tag" -
+ * Matcher key: "item" <br> Json keys: <br> "item" - JsonObject, optional, recipe format json for the item "tag" -
  * String, optional, tag for the item
  */
 @Condition(name = "item")
@@ -115,18 +113,23 @@ public class HasHeldItem implements PokemobCondition
         }
         if (item != null)
         {
-            var toStr = item.toString();
-            StringReader reader = new StringReader(toStr);
             var parser = new ItemParser(registries);
             ItemResult result;
             try
             {
+                String toStr = item.toString();
+                // Simple item case
+                if (item.size() == 1 && item.has("item"))
+                {
+                    toStr = item.get("item").getAsString();
+                }
+                StringReader reader = new StringReader(toStr);
                 result = parser.parse(reader);
                 _value = new ItemStack(result.item(), 1, result.components());
             }
             catch (CommandSyntaxException e)
             {
-                e.printStackTrace();
+                PokecubeAPI.LOGGER.error("Error loading item {}, {}", item.get("item").getAsString(), item, e);
             }
         }
         if (!tag.isEmpty())

@@ -10,6 +10,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -60,6 +61,8 @@ import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.ThutCore;
 import thut.core.common.world.mobs.data.DataSync_Impl;
+import thut.core.common.world.mobs.data.types.Data_ItemStack;
+import thut.core.common.world.mobs.data.types.Data_String;
 
 public class CapabilityHasPokemobs
 {
@@ -236,7 +239,15 @@ public class CapabilityHasPokemobs
         private DataSync datasync = new DataSync_Impl();
 
         public DefaultPokemobs()
-        {}
+        {
+            this.initSync((this.datasync));
+        }
+
+        private void initSync(DataSync sync){
+            holder.TYPE = sync.register(new Data_String(), "");
+            for (int i = 0; i < 6; i++)
+                holder.POKEMOBS[i] = sync.register(new Data_ItemStack(), ItemStack.EMPTY);
+        }
 
         @Override
         public void addTargetWatcher(final ITargetWatcher watcher)
@@ -735,7 +746,7 @@ public class CapabilityHasPokemobs
             final IHasPokemobs other = TrainerCaps.getHasPokemobs(target);
             if (other != null) other.onSetTarget(this.getTrainer(), true);
 
-            if (target != null && this.getAttackCooldown() <= 0)
+            if (this.getAttackCooldown() <= 0)
             {
                 int cooldown = Config.instance.trainerBattleDelay;
                 final LivingEntity hitBy = this.user.getBrain().hasMemoryValue(MemoryModuleType.HURT_BY_ENTITY)
@@ -750,31 +761,14 @@ public class CapabilityHasPokemobs
                 this.messages.doAction(MessageState.AGRESS, new ActionContext(target, this.getTrainer()));
                 this.aiStates.setAIState(AIState.INBATTLE, true);
             }
-            if (target == null)
-            {
-                if (old != null && this.aiStates.getAIState(AIState.INBATTLE))
-                {
-                    this.messages.sendMessage(MessageState.DEAGRESS, old, this.user.getDisplayName(),
-                            old.getDisplayName());
-                    this.messages.doAction(MessageState.DEAGRESS, new ActionContext(target, this.getTrainer()));
-                }
-                this.aiStates.setAIState(AIState.THROWING, false);
-                this.aiStates.setAIState(AIState.INBATTLE, false);
-            }
             // Notify the watchers that a target was actually set.
             for (final ITargetWatcher watcher : watchers) watcher.onSet(target);
 
-            if (target == null)
-            {
-                BrainUtils.deagro(this.getTrainer());
-                this.resetPokemob();
-                this.getTrainer().getBrain().setActiveActivityIfPossible(Activity.IDLE);
-            }
-            else this.getTrainer().getBrain().setActiveActivityIfPossible(Activities.BATTLE.get());
+            this.getTrainer().getBrain().setActiveActivityIfPossible(Activities.BATTLE.get());
         }
 
         @Override
-        public void setType(final TypeTrainer type)
+        public void setType(TypeTrainer type)
         {
             this.type = type;
             if (!this.user.level.isClientSide) this.datasync.set(this.holder.TYPE, type == null ? "" : type.getName());
@@ -843,6 +837,7 @@ public class CapabilityHasPokemobs
         @Override
         public void setDataSync(final DataSync sync)
         {
+            this.initSync(sync);
             sync.copyFrom(this.datasync);
             this.datasync = sync;
         }
@@ -987,7 +982,7 @@ public class CapabilityHasPokemobs
         }
     }
 
-    private static final HolderProvider<IHasPokemobs> _REGISTRY = new HolderProvider<>();
+    private static final HolderProvider<IHasPokemobs> _REGISTRY = new HolderProvider<>(ResourceLocation.parse("pokecube_adventure:trainer"));
 
     public static void registerProvider(HolderProvider.Provider<IHasPokemobs> reg)
     {

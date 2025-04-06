@@ -1,9 +1,6 @@
 package pokecube.core.impl.capabilities.impl;
 
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.Vector;
+import java.util.*;
 
 import com.google.common.collect.Lists;
 
@@ -18,6 +15,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.moves.PokemobMoveStats;
@@ -32,6 +30,7 @@ import thut.api.attachments.IOwnable;
 import thut.api.attachments.Ownable;
 import thut.api.entity.IBreedingMob;
 import thut.api.entity.ICopyMob;
+import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.DataSync;
@@ -83,46 +82,46 @@ public abstract class PokemobBase implements IPokemob
             this.HELDITEMDW = sync.register(new Data_ItemStack(), ItemStack.EMPTY);
 
             // Humger timer
-            this.HUNGERDW = sync.register(new Data_Int(), Integer.valueOf(0));
+            this.HUNGERDW = sync.register(new Data_Int(), 0);
             // // for sheared status
             this.NICKNAMEDW = sync.register(new Data_String(), "");// nickname
-            this.HAPPYDW = sync.register(new Data_Int(), Integer.valueOf(0));// Happiness
+            this.HAPPYDW = sync.register(new Data_Int(), 0);// Happiness
             this.TYPE1DW = sync.register(new Data_String(), "");// overriden
             // type1
             this.TYPE2DW = sync.register(new Data_String(), "");// overriden
             // type2
 
             // From EntityAiPokemob
-            this.DIRECTIONPITCHDW = sync.register(new Data_Float().setRealtime(), Float.valueOf(0));
-            this.HEADINGDW = sync.register(new Data_Float().setRealtime(), Float.valueOf(0));
-            this.ATTACKTARGETIDDW = sync.register(new Data_Int(), Integer.valueOf(-1));
-            this.ALLYTARGETIDDW = sync.register(new Data_Int(), Integer.valueOf(-1));
-            this.GENERALSTATESDW = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));
-            this.LOGICSTATESDW = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));
-            this.COMBATSTATESDW = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));
+            this.DIRECTIONPITCHDW = sync.register(new Data_Float().setRealtime(), (float) 0);
+            this.HEADINGDW = sync.register(new Data_Float().setRealtime(), (float) 0);
+            this.ATTACKTARGETIDDW = sync.register(new Data_Int(), -1);
+            this.ALLYTARGETIDDW = sync.register(new Data_Int(), -1);
+            this.GENERALSTATESDW = sync.register(new Data_Int().setRealtime(), 0);
+            this.LOGICSTATESDW = sync.register(new Data_Int().setRealtime(), 0);
+            this.COMBATSTATESDW = sync.register(new Data_Int().setRealtime(), 0);
 
-            this.ALLYNUMDW = sync.register(new Data_Int(), Integer.valueOf(1));
-            this.ENEMYNUMDW = sync.register(new Data_Int(), Integer.valueOf(0));
+            this.ALLYNUMDW = sync.register(new Data_Int(), 1);
+            this.ENEMYNUMDW = sync.register(new Data_Int(), 0);
 
             // from EntityEvolvablePokemob
-            this.EVOLTICKDW = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));// evolution
+            this.EVOLTICKDW = sync.register(new Data_Int().setRealtime(), 0);// evolution
             // tick
 
             // From EntityMovesPokemb
-            this.STATUSDW = sync.register(new Data_Int(), Integer.valueOf((byte) -1));
-            this.MOVEINDEXDW = sync.register(new Data_Byte().setRealtime(), Byte.valueOf((byte) -1));
-            this.STATUSTIMERDW = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));
-            this.ATTACKCOOLDOWN = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));
+            this.STATUSDW = sync.register(new Data_Int(), (int) (byte) -1);
+            this.MOVEINDEXDW = sync.register(new Data_Byte().setRealtime(), (byte) -1);
+            this.STATUSTIMERDW = sync.register(new Data_Int().setRealtime(), 0);
+            this.ATTACKCOOLDOWN = sync.register(new Data_Int().setRealtime(), 0);
 
-            this.DYECOLOUR = sync.register(new Data_Int(), Integer.valueOf(-1));
+            this.DYECOLOUR = sync.register(new Data_Int(), -1);
 
-            this.ZMOVECD = sync.register(new Data_Int(), Integer.valueOf(-1));
-
-            // Flavours for various berries eaten.
-            for (int i = 0; i < 5; i++) this.FLAVOURS[i] = sync.register(new Data_Int(), Integer.valueOf(0));
+            this.ZMOVECD = sync.register(new Data_Int(), -1);
 
             // Flavours for various berries eaten.
-            for (int i = 0; i < 4; i++) this.DISABLE[i] = sync.register(new Data_Int(), Integer.valueOf(0));
+            for (int i = 0; i < 5; i++) this.FLAVOURS[i] = sync.register(new Data_Int(), 0);
+
+            // Flavours for various berries eaten.
+            for (int i = 0; i < 4; i++) this.DISABLE[i] = sync.register(new Data_Int(), 0);
 
             // Ability name
             this.ABILITYNAMEID = sync.register(new Data_String(), "");
@@ -153,8 +152,7 @@ public abstract class PokemobBase implements IPokemob
     /** Egg we are trying to protect. */
     protected Entity egg = null;
     /**
-     * Timer for determining whether wants to breed, will only do so if this is
-     * greater than 0
+     * Timer for determining whether wants to breed, will only do so if this is greater than 0
      */
     protected int loveTimer;
     /** List of nearby male mobs to breed with */
@@ -166,9 +164,8 @@ public abstract class PokemobBase implements IPokemob
     /** Tracker for things related to moves. */
     protected PokemobMoveStats moveInfo = new PokemobMoveStats();
     /**
-     * The current move being used, this is used to track whether the mob can
-     * launch a new move, only allows sending a new move if this returns true
-     * for isDone()
+     * The current move being used, this is used to track whether the mob can launch a new move, only allows sending a
+     * new move if this returns true for isDone()
      */
     protected EntityMoveUse activeMove;
     /** Used for size when pathing */
@@ -211,8 +208,7 @@ public abstract class PokemobBase implements IPokemob
     protected ServerBossEvent bossEvent = null;
 
     /**
-     * Used to cache current texture for quicker lookups, array to include any
-     * animated textures
+     * Used to cache current texture for quicker lookups, array to include any animated textures
      */
     protected ResourceLocation[] textures;
 
@@ -227,6 +223,11 @@ public abstract class PokemobBase implements IPokemob
     protected List<Logic> logic = Lists.newArrayList();
 
     protected boolean isRemoved = false;
+
+    public PokemobBase()
+    {
+        this.params.register(dataSync);
+    }
 
     @Override
     public DataSync dataSync()
@@ -254,7 +255,7 @@ public abstract class PokemobBase implements IPokemob
     public void setDataSync(final DataSync sync)
     {
         this.params.register(sync);
-        sync.copyFrom(this.dataSync());
+        sync.copyFrom(this.dataSync);
         this.dataSync = sync;
     }
 
@@ -272,8 +273,6 @@ public abstract class PokemobBase implements IPokemob
 
     /**
      * Handles health update.
-     *
-     * @param level
      */
     @Override
     public void updateHealth()
@@ -325,8 +324,30 @@ public abstract class PokemobBase implements IPokemob
 
     public void setGenes(IMobGenetics genes)
     {
+        // Sanity check of if we have copies
+        Set<Alleles<?,?>> test = new HashSet<>();
+        test.addAll(genes.getAlleles().values());
+        if(test.size()!=genes.getAlleles().size()){
+            Thread.dumpStack();
+            PokecubeAPI.logInfo("???");
+        }
+        test.clear();
+        test.addAll(this.genes.getAlleles().values());
+        if(test.size()!=this.genes.getAlleles().size()){
+            Thread.dumpStack();
+            PokecubeAPI.logInfo("???");
+        }
+
         genes.copyFrom(this.genes);
         this.genes = genes;
+        this.onGenesChanged();
+
+        test.clear();
+        test.addAll(this.genes.getAlleles().values());
+        if(test.size()!=this.genes.getAlleles().size()){
+            Thread.dumpStack();
+            PokecubeAPI.logInfo("???");
+        }
     }
 
     public void setCopy(ICopyMob transform)

@@ -117,7 +117,7 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
             for (final String s : routines.getAllKeys())
             {
                 final AIRoutine routine = AIRoutine.valueOf(s);
-                this.setRoutineState(routine, routines.getBoolean(s));
+                if (routine != null) this.setRoutineState(routine, routines.getBoolean(s));
             }
             this.loadedTasks = aiTag.getCompound(TagNames.AITAG);
         }
@@ -222,8 +222,9 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
             if (routine.isAllowed(this)) aiRoutineTag.putBoolean(routine.toString(), this.isRoutineEnabled(routine));
         aiTag.put(TagNames.AIROUTINES, aiRoutineTag);
         final CompoundTag taskTag = new CompoundTag();
-        for (final IAIRunnable task : this.getTasks()) if (task instanceof INBTSerializable)
-            taskTag.put(task.getIdentifier(), ((INBTSerializable<?>) task).serializeNBT(provider));
+        for (final IAIRunnable task : this.getTasks())
+            if (task instanceof INBTSerializable)
+                taskTag.put(task.getIdentifier(), ((INBTSerializable<?>) task).serializeNBT(provider));
         aiTag.put(TagNames.AITAG, taskTag);
 
         // Misc other

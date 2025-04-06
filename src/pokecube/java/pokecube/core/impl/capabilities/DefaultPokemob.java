@@ -41,7 +41,7 @@ public class DefaultPokemob extends PokemobSexed implements IPokemob
     {
         try
         {
-            this.deserializeNBT(provider, tag);
+            super.deserializeNBT(provider, tag);
         }
         catch (final Exception e)
         {

@@ -26,8 +26,8 @@ public interface ZPower
     public static class Defaults implements ZPower
     {
 
-        public static final HolderProvider<ZPower> _REGISTRY = new HolderProvider<>();
         public static final ResourceLocation ID = ResourceLocation.parse("pokecube:z_power");
+        public static final HolderProvider<ZPower> _REGISTRY = new HolderProvider<>(ID);
         public static Supplier<AttachmentType<ZPower>> TYPE;
 
         public static void registerAttachment(DeferredRegister<AttachmentType<?>> registry)

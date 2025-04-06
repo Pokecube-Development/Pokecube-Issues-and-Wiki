@@ -216,9 +216,6 @@ public class TrainerEventHandler
         mob.setData(TrainerCaps.REWARDS, rewards);
 
         DataSync data = DataSync_Impl.get(mob);
-        mobs.holder.TYPE = data.register(new Data_String(), "");
-        for (int i = 0; i < 6; i++) mobs.holder.POKEMOBS[i] = data.register(new Data_ItemStack(), ItemStack.EMPTY);
-        
         mobs.setDataSync(data);
         
         if (PokecubeCore.getConfig().debug_spawning)
@@ -398,8 +395,7 @@ public class TrainerEventHandler
      * handles opening the edit gui for the trainers when the player has the
      * trainer editor.
      *
-     * @param evt
-     * @param target
+     * @param evt event
      */
     public static void processInteract(final PlayerInteractEvent.EntityInteract evt)
     {
@@ -559,7 +555,6 @@ public class TrainerEventHandler
     /**
      * This prevents trainer's pokemobs going to PC
      *
-     * @param evt
      */
     public static void onSentToPC(final PCEvent evt)
     {
@@ -573,7 +568,6 @@ public class TrainerEventHandler
     /**
      * This sends pokemobs back to their NPC trainers when they are recalled.
      *
-     * @param evt
      */
     public static void onRecalledPokemob(final RecallEvent.Pre evt)
     {
@@ -618,7 +612,6 @@ public class TrainerEventHandler
     /**
      * This links the pokemob to the trainer when it is sent out.
      *
-     * @param evt
      */
     public static void onPostSendOut(final SendOut.Post evt)
     {
@@ -629,18 +622,18 @@ public class TrainerEventHandler
         {
             if (pokemobHolder != null)
             {
-                pokemobHolder.setOutMob(evt.pokemob);
+                pokemobHolder.setOutMob(sent);
             }
             return;
         }
         if (pokemobHolder != null)
         {
-            if (pokemobHolder.getOutMob() != null && pokemobHolder.getOutMob() != evt.pokemob)
+            if (pokemobHolder.getOutMob() != null && pokemobHolder.getOutMob() != sent)
             {
                 pokemobHolder.getOutMob().onRecall();
-                pokemobHolder.setOutMob(evt.pokemob);
+                pokemobHolder.setOutMob(sent);
             }
-            else pokemobHolder.setOutMob(evt.pokemob);
+            else pokemobHolder.setOutMob(sent);
             final IHasNPCAIStates aiStates = TrainerCaps.getNPCAIStates(owner);
             if (aiStates != null) aiStates.setAIState(AIState.THROWING, false);
         }

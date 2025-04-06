@@ -18,44 +18,50 @@ import thut.lib.TComponent;
 public class GuiEditNBTTree extends Screen
 {
 
-    public final int         entityOrX, y, z;
-    private final boolean    entity;
+    public int               entityOrX, y, z;
+    private boolean          entity;
     protected String         screenTitle;
     private String           customName = "";
     private final GuiNBTTree guiTree;
 
+    private GuiEditNBTTree(CompoundTag tag){
+        super(TComponent.translatable("nbtedit.tree"));
+        this.guiTree = new GuiNBTTree(new NBTTree(tag));
+        this.renderables.add((graphics, x, y, par3)->{
+            this.guiTree.render(graphics, x, y, par3);
+            graphics.drawCenteredString(this.font, this.screenTitle, this.width / 2, 5, 16777215);
+        });
+    }
+
     public GuiEditNBTTree(final BlockPos pos, final CompoundTag tag)
     {
-        super(TComponent.translatable("nbtedit.tree"));
+        this(tag);
         this.entity = false;
         this.entityOrX = pos.getX();
         this.y = pos.getY();
         this.z = pos.getZ();
         this.screenTitle = "NBTEdit -- TileEntity at " + pos.getX() + "," + pos.getY() + "," + pos.getZ();
-        this.guiTree = new GuiNBTTree(new NBTTree(tag));
     }
 
     public GuiEditNBTTree(final int entity, final CompoundTag tag)
     {
-        super(TComponent.translatable("nbtedit.tree"));
+        this(tag);
         this.entity = true;
         this.entityOrX = entity;
         this.y = 0;
         this.z = 0;
         this.screenTitle = "NBTEdit -- EntityId #" + this.entityOrX;
-        this.guiTree = new GuiNBTTree(new NBTTree(tag));
     }
 
     public GuiEditNBTTree(final int entity, final String customName, final CompoundTag tag)
     {
-        super(TComponent.translatable("nbtedit.tree"));
+        this(tag);
         this.entity = true;
         this.entityOrX = entity;
         this.customName = customName;
         this.y = 0;
         this.z = 0;
         this.screenTitle = "NBTEdit -- EntityId #" + this.entityOrX + " " + customName;
-        this.guiTree = new GuiNBTTree(new NBTTree(tag));
     }
 
     @Override
@@ -93,6 +99,7 @@ public class GuiEditNBTTree extends Screen
         // TODO: Find replacement
         // this.minecraft.keyboardHandler.setSendRepeatsToGui(true);
         this.guiTree.initGUI(this.width, this.height, this.height - 35);
+        this.guiTree.init(this.minecraft, this.width, this.height);
 
         this.addRenderableWidget(new Button.Builder(TComponent.literal("Save"), (b) -> {
             this.quitWithSave();
@@ -105,12 +112,6 @@ public class GuiEditNBTTree extends Screen
         this.children.add(this.guiTree);
     }
 
-    @Override
-    public boolean isPauseScreen()
-    {
-        return true;
-    }
-
     public boolean isTileEntity()
     {
         return !this.entity;
@@ -119,19 +120,17 @@ public class GuiEditNBTTree extends Screen
     @Override
     public boolean mouseClicked(final double x, final double y, final int t)
     {
-        final boolean ret = super.mouseClicked(x, y, t);
-        return ret;
+        return super.mouseClicked(x, y, t);
     }
 
     @Override
     public boolean mouseScrolled(final double x, final double y, final double dx, double dy)
     {
         boolean ret = super.mouseScrolled(x, y, dx, dy);
-        final double ofs = dy;
 
-        if (ofs != 0)
+        if (dy != 0)
         {
-            this.guiTree.shift(ofs >= 1 ? 6 : -6);
+            this.guiTree.shift(dy >= 1 ? 6 : -6);
             ret = true;
         }
         return ret;
@@ -143,6 +142,18 @@ public class GuiEditNBTTree extends Screen
 //    {
 //        this.minecraft.keyboardHandler.setSendRepeatsToGui(false);
 //    }
+
+    @Override
+    protected void renderMenuBackground(GuiGraphics guiGraphics, int x, int y, int width, int height)
+    {
+        super.renderMenuBackground(guiGraphics, x, y, width, height);
+    }
+
+    @Override
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
+    {
+        super.render(guiGraphics, mouseX, mouseY, partialTick);
+    }
 
     private void quitWithoutSaving()
     {
@@ -170,15 +181,6 @@ public class GuiEditNBTTree extends Screen
                 this.guiTree.getNBTTree().toCompoundNBT()).getTag());
         Minecraft.getInstance().setScreen(null);
 
-    }
-
-    @Override
-    public void render(final GuiGraphics graphics, final int x, final int y, final float par3)
-    {
-        this.renderBackground(graphics, x, y, par3);
-        this.guiTree.render(graphics, x, y, par3);
-        graphics.drawCenteredString(this.font, this.screenTitle, this.width / 2, 5, 16777215);
-        super.render(graphics, x, y, par3);
     }
 
     @Override

@@ -3,6 +3,7 @@ package pokecube.api.entity.pokemob;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,6 +19,7 @@ public interface IHasOwner extends IHasMobAIStates, IOwnable
     void setOwnerHolder(IOwnable holder);
 
     @Override
+    @Nullable
     default LivingEntity getOwner()
     {
         return getOwnerHolder().getOwner();

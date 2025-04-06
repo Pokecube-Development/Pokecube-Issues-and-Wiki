@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import pokecube.api.entity.trainers.IHasRewards;
 import thut.api.data.HolderProvider;
@@ -21,7 +22,7 @@ public class CapabilityHasRewards
         }
     }
     
-    private static final HolderProvider<IHasRewards> _REGISTRY = new HolderProvider<>();
+    private static final HolderProvider<IHasRewards> _REGISTRY = new HolderProvider<>(ResourceLocation.parse("pokecube_adventure:rewards"));
 
     public static void registerProvider(HolderProvider.Provider<IHasRewards> reg)
     {

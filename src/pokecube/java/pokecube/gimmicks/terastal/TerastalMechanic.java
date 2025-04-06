@@ -160,10 +160,7 @@ public class TerastalMechanic
                 gene2.getValue().teraType = pokemob.getType2();
                 if (gene2.getValue().teraType == PokeType.unknown) gene2.getValue().teraType = pokemob.getType1();
             }
-            alleles.setAllele(0, gene1);
-            alleles.setAllele(1, gene2);
-            alleles.getExpressed();
-            genes.getAlleles().put(GeneticsManager.TERAGENE, alleles);
+            genes.setGenes(gene1, gene2);
             if (entity.level() instanceof ServerLevel) PacketSyncGene.syncGeneToTracking(entity, alleles);
         }
         try

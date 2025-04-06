@@ -10,6 +10,7 @@ import com.mojang.serialization.Codec;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
@@ -33,6 +34,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.attachment.AttachmentType;
+import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
@@ -56,6 +58,7 @@ import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.commands.CommandManager;
 import pokecube.core.database.Database;
 import pokecube.core.database.resources.PackFinder;
+import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.handlers.DispenseBehaviors;
 import pokecube.core.handlers.PaintingsHandler;
@@ -66,6 +69,7 @@ import pokecube.core.handlers.playerdata.PokecubePlayerData;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
 import pokecube.core.impl.PokecubeMod;
+import pokecube.core.impl.capabilities.DefaultPokemob;
 import pokecube.core.init.Config;
 import pokecube.core.init.CoreCreativeTabs;
 import pokecube.core.init.EntityTypes;
@@ -80,6 +84,7 @@ import pokecube.core.proxy.CommonProxy;
 import pokecube.core.utils.Permissions;
 import pokecube.world.PokecubeWorld;
 import thut.api.attachments.CopyMob;
+import thut.api.data.HolderProvider;
 import thut.api.data.StringTag;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
@@ -319,6 +324,23 @@ public class PokecubeCore
         PokemobCaps.registerComponents(ITEM_DATA);
         BerryManager.registerComponents(ITEM_DATA);
         ItemTM.registerComponents(ITEM_DATA);
+
+        // Register default pokemobs
+        ResourceLocation KEY = ResourceLocation.parse("pokecube:pokemob");
+        PokemobCaps._REGISTRY.register(new HolderProvider.Provider<IPokemob>() {
+            @Override
+            protected ResourceLocation key()
+            {
+                return KEY;
+            }
+
+            @Override
+            public IPokemob apply(IAttachmentHolder iAttachmentHolder)
+            {
+                if(iAttachmentHolder instanceof EntityPokemob pokemob) return new DefaultPokemob(pokemob);
+                return null;
+            }
+        });
     }
 
     private void loadComplete(final FMLLoadCompleteEvent event)

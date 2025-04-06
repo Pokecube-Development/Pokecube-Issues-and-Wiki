@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.trading.MerchantOffer;
@@ -89,7 +90,7 @@ public class CapabilityHasTrades
         if (!aiStates.getAIState(AIState.TRADES_ITEMS)) event.offers.clear();
     }
     
-    private static final HolderProvider<IHasTrades> _REGISTRY = new HolderProvider<>();
+    private static final HolderProvider<IHasTrades> _REGISTRY = new HolderProvider<>(ResourceLocation.parse("pokecube_adventure:trades"));
 
     public static void registerProvider(HolderProvider.Provider<IHasTrades> reg)
     {

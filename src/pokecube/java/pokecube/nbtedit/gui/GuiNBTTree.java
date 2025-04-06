@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Supplier;
 
+import net.minecraft.network.chat.MutableComponent;
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -29,6 +31,7 @@ import pokecube.nbtedit.nbt.NBTTree;
 import pokecube.nbtedit.nbt.NamedNBT;
 import pokecube.nbtedit.nbt.Node;
 import pokecube.nbtedit.nbt.SaveStates;
+import thut.lib.TComponent;
 
 /*
  * The main Gui class for NBTEdit. This implementation is messy, naive, and
@@ -73,13 +76,14 @@ public class GuiNBTTree extends Screen
 
     public GuiNBTTree(final NBTTree tree)
     {
-        super(null);
+        super(TComponent.translatable("nbtedit.tree"));
         this.tree = tree;
         this.yClick = -1;
         this.focusedSlotIndex = -1;
         this.nodes = new ArrayList<>();
         this.nbtButtons = new GuiNBTButton[16];
         this.saves = new GuiSaveSlotButton[7];
+        this.minecraft = Minecraft.getInstance();
     }
 
     private void addButtons()
@@ -90,7 +94,7 @@ public class GuiNBTTree extends Screen
         for (byte i = 14; i < 17; ++i)
         {
             this.nbtButtons[i - 1] = new GuiNBTButton(i, x, y, b -> this.buttonClicked((GuiNBTButton) b),
-                    (Button.CreateNarration) this.getNarrationMessage());
+                    Supplier::get);
             this.addRenderableWidget(this.nbtButtons[i - 1]);
             x += 15;
         }
@@ -99,7 +103,7 @@ public class GuiNBTTree extends Screen
         for (byte i = 12; i < 14; ++i)
         {
             this.nbtButtons[i - 1] = new GuiNBTButton(i, x, y, b -> this.buttonClicked((GuiNBTButton) b),
-                    (Button.CreateNarration) this.getNarrationMessage());
+                    Supplier::get);
             this.addRenderableWidget(this.nbtButtons[i - 1]);
             x += 15;
         }
@@ -109,7 +113,7 @@ public class GuiNBTTree extends Screen
         for (byte i = 1; i < 12; ++i)
         {
             this.nbtButtons[i - 1] = new GuiNBTButton(i, x, y, b -> this.buttonClicked((GuiNBTButton) b),
-                    (Button.CreateNarration) this.getNarrationMessage());
+                    Supplier::get);
             this.addRenderableWidget(this.nbtButtons[i - 1]);
             x += 9;
         }
@@ -119,8 +123,7 @@ public class GuiNBTTree extends Screen
     {
         final int dx = node.hasChildren() ? 10 : 0;
         // TODO: Check this
-        final GuiNBTNode nbtNode = new GuiNBTNode(this, node, x - dx, this.y,
-                (Button.CreateNarration) this.getNarrationMessage());
+        final GuiNBTNode nbtNode = new GuiNBTNode(this, node, x - dx, this.y, Supplier::get);
         this.nodes.add(nbtNode);
         this.addRenderableWidget(nbtNode);
         x += this.X_GAP;
@@ -140,7 +143,7 @@ public class GuiNBTTree extends Screen
                 NBTEdit.getSaveStates().save();
                 this.mc.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
                 return;
-            }, (Button.CreateNarration) this.getNarrationMessage());
+            }, Supplier::get);
             this.addRenderableWidget(this.saves[i]);
         }
     }
@@ -152,7 +155,8 @@ public class GuiNBTTree extends Screen
         {
             this.shiftFocus(up);
             return true;
-        } ;
+        }
+        ;
         return false;
     }
 
@@ -184,14 +188,14 @@ public class GuiNBTTree extends Screen
             }
             else if (children.size() == 0) this.setFocusedNode(this.insert(type + "1", button.getId()));
             else for (int i = 1; i <= children.size() + 1; ++i)
-            {
-                final String name = type + i;
-                if (this.validName(name, children))
                 {
-                    this.setFocusedNode(this.insert(name, button.getId()));
-                    break;
+                    final String name = type + i;
+                    if (this.validName(name, children))
+                    {
+                        this.setFocusedNode(this.insert(name, button.getId()));
+                        break;
+                    }
                 }
-            }
             this.initGUI(true);
         }
     }
@@ -209,8 +213,8 @@ public class GuiNBTTree extends Screen
 
     private boolean canPaste()
     {
-        return NBTEdit.clipboard != null && this.focused != null
-                && this.canAddToParent(this.focused.getObject().getNBT(), NBTEdit.clipboard.getNBT());
+        return NBTEdit.clipboard != null && this.focused != null && this.canAddToParent(
+                this.focused.getObject().getNBT(), NBTEdit.clipboard.getNBT());
     }
 
     @Override
@@ -233,11 +237,12 @@ public class GuiNBTTree extends Screen
 
     private boolean checkValidFocus(final Node<NamedNBT> fc)
     {
-        for (final GuiNBTNode node : this.nodes) if (node.getNode() == fc)
-        {
-            this.setFocusedNode(fc);
-            return true;
-        }
+        for (final GuiNBTNode node : this.nodes)
+            if (node.getNode() == fc)
+            {
+                this.setFocusedNode(fc);
+                return true;
+            }
         return fc.hasParent() && this.checkValidFocus(fc.getParent());
     }
 
@@ -326,8 +331,8 @@ public class GuiNBTTree extends Screen
 
             graphics.fill(this.width - 20, this.START_Y - 1, this.width, this.bottom, Integer.MIN_VALUE);
 
-            int length = (this.bottom - (this.START_Y - 1)) * (this.bottom - (this.START_Y - 1))
-                    / this.getContentHeight();
+            int length =
+                    (this.bottom - (this.START_Y - 1)) * (this.bottom - (this.START_Y - 1)) / this.getContentHeight();
             if (length < 32) length = 32;
             if (length > this.bottom - (this.START_Y - 1) - 8) length = this.bottom - (this.START_Y - 1) - 8;
             int y = -this.offset * (this.bottom - (this.START_Y - 1) - length) / this.heightDiff + this.START_Y - 1;
@@ -427,9 +432,7 @@ public class GuiNBTTree extends Screen
 
         if (this.window != null)
         {
-            @SuppressWarnings("unchecked")
-            final List<GuiEventListener> list = (List<GuiEventListener>) this.children();
-            list.add(this.window);
+            this.children.add(this.window);
         }
 
         this.addNodes(this.tree.getRoot(), this.START_X);
@@ -467,12 +470,13 @@ public class GuiNBTTree extends Screen
             final List<Node<NamedNBT>> children = this.focused.getChildren();
 
             boolean added = false;
-            for (int i = 0; i < children.size(); ++i) if (NBTEdit.SORTER.compare(newNode, children.get(i)) < 0)
-            {
-                children.add(i, newNode);
-                added = true;
-                break;
-            }
+            for (int i = 0; i < children.size(); ++i)
+                if (NBTEdit.SORTER.compare(newNode, children.get(i)) < 0)
+                {
+                    children.add(i, newNode);
+                    added = true;
+                    break;
+                }
             if (!added) children.add(newNode);
         }
         else this.focused.addChild(newNode);
@@ -536,7 +540,7 @@ public class GuiNBTTree extends Screen
     {
         final Tesselator tessellator = Tesselator.getInstance();
         final BufferBuilder worldRenderer = tessellator.begin(Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_LIGHTMAP);
-        
+
         RenderSystem.setShaderTexture(0, Screen.MENU_BACKGROUND);
         final float var6 = 32.0F;
         final Color color = new Color(4210752);
@@ -546,8 +550,10 @@ public class GuiNBTTree extends Screen
         final int a = par4;
         int l = 15728880;
         worldRenderer.addVertex(0.0F, par2, 0.0F).setColor(r, g, b, a).setUv(0.0f, par2 / var6).setLight(l);
-        worldRenderer.addVertex(this.width, par2, 0.0F).setColor(r, g, b, a).setUv(this.width / var6, par2 / var6).setLight(l);
-        worldRenderer.addVertex(this.width, par1, 0.0F).setColor(r, g, b, a).setUv(this.width / var6, par1 / var6).setLight(l);
+        worldRenderer.addVertex(this.width, par2, 0.0F).setColor(r, g, b, a).setUv(this.width / var6, par2 / var6)
+                .setLight(l);
+        worldRenderer.addVertex(this.width, par1, 0.0F).setColor(r, g, b, a).setUv(this.width / var6, par1 / var6)
+                .setLight(l);
         worldRenderer.addVertex(0.0F, par1, 0.0F).setColor(r, g, b, a).setUv(0.0f, par1 / var6).setLight(l);
     }
 
@@ -613,21 +619,22 @@ public class GuiNBTTree extends Screen
 
     public boolean rightClick(final double x, final double y2, final int t)
     {
-        for (int i = 0; i < 7; ++i) if (this.saves[i].isHoveredOrFocused())
-        {
-            this.setFocusedNode(null);
-            if (this.focusedSlotIndex != -1) if (this.focusedSlotIndex != i)
+        for (int i = 0; i < 7; ++i)
+            if (this.saves[i].isHoveredOrFocused())
             {
-                this.saves[this.focusedSlotIndex].stopEditing();
-                NBTEdit.getSaveStates().save();
+                this.setFocusedNode(null);
+                if (this.focusedSlotIndex != -1) if (this.focusedSlotIndex != i)
+                {
+                    this.saves[this.focusedSlotIndex].stopEditing();
+                    NBTEdit.getSaveStates().save();
+                    return true;
+                }
+                else // Already editing the correct one!
+                    return false;
+                this.saves[i].startEditing();
+                this.focusedSlotIndex = i;
                 return true;
             }
-            else // Already editing the correct one!
-                return false;
-            this.saves[i].startEditing();
-            this.focusedSlotIndex = i;
-            return true;
-        }
         return false;
     }
 
@@ -638,8 +645,8 @@ public class GuiNBTTree extends Screen
         {
             for (final GuiNBTButton b : this.nbtButtons) b.active = true;
             this.nbtButtons[12].active = toFocus != this.tree.getRoot();
-            this.nbtButtons[11].active = toFocus.hasParent()
-                    && !(toFocus.getParent().getObject().getNBT() instanceof ListTag);
+            this.nbtButtons[11].active =
+                    toFocus.hasParent() && !(toFocus.getParent().getObject().getNBT() instanceof ListTag);
             this.nbtButtons[13].active = true;
             this.nbtButtons[14].active = toFocus != this.tree.getRoot();
             this.nbtButtons[15].active = NBTEdit.clipboard != null;
