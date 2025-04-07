@@ -13,48 +13,25 @@ public interface DataSync
     void setHolderLookup(HolderLookup.Provider provider);
 
     /**
-     * Gets the value for the entry.
-     *
-     * @param key
-     * @return
-     */
-    <T> T get(int key);
-
-    /**
      * Gets all entries.
-     *
-     * @return
      */
     List<Data<?>> getAll();
 
     /**
      * Gets all entries which need to by synced.
-     *
-     * @return
      */
     List<Data<?>> getDirty();
 
     /**
      * This registers the given data type, the integer returned is the key for
      * this data.
-     *
-     * @param data
-     * @return
      */
-    <T> int register(Data<T> data, T value);
+    <T> Data<T> register(Data<T> data);
 
-    /**
-     * Sets the given entry to the value.
-     *
-     * @param key
-     * @param value
-     */
-    <T> void set(int key, T value);
+    void setRegisterTag(String tag);
 
     /**
      * Updates the given values.
-     *
-     * @param values
      */
     void update(List<Data<?>> values);
 
@@ -68,8 +45,6 @@ public interface DataSync
 
     /**
      * Sets the last tick that this was synced.
-     * 
-     * @param tick
      */
     void setTick(long tick);
 
@@ -83,13 +58,15 @@ public interface DataSync
 
     boolean syncNow();
 
+    void setSyncNow();
     /**
      * @return A random offset to apply with use with tickRate()
      */
     int tickOffset();
 
-    default void copyFrom(DataSync other)
-    {
-        for (var data : other.getAll()) this.set(data.getID(), other.get(data.getID()));
-    }
+    void clearMatching(String tag);
+
+    List<Data<?>> getTagged(String tag);
+
+    void mapFrom(DataSync other, String tag);
 }

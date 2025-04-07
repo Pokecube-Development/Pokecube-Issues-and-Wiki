@@ -35,6 +35,8 @@ public interface IMobGenetics extends INBTSerializable<ListTag>
 
     <GENE extends Gene<?>> void setGenes(GENE g1, GENE g2);
 
+    <GENE extends Gene<?>> void setGenes(GENE g1, GENE g2, GENE gexp);
+
     /**
      * This is called whenever the mob associated with this gene ticks.
      *
@@ -42,7 +44,7 @@ public interface IMobGenetics extends INBTSerializable<ListTag>
      */
     default void onUpdateTick(final Entity entity)
     {
-        for (final Alleles<?, ?> allele : this.getAlleles().values()) allele.getExpressed().onUpdateTick(entity);
+        this.getAlleles().values().forEach(allele->allele.getExpressed().onUpdateTick(entity));
     }
 
     void setFromParents(IMobGenetics parent1, IMobGenetics parent2);

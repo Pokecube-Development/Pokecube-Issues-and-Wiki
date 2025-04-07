@@ -77,10 +77,10 @@ public class RegHelper
         return getKey(mob.getType());
     }
 
-    public static final ResourceKey<Registry<Block>> BLOCK_REGISTRY = key("block");
-    public static final ResourceKey<Registry<Item>> ITEM_REGISTRY = key("item");
-    public static final ResourceKey<Registry<EntityType<?>>> ENTITY_TYPE_REGISTRY = key("entity_type");
-    public static final ResourceKey<Registry<BlockEntityType<?>>> BLOCK_ENTITY_TYPE_REGISTRY = key("block_entity_type");
+    public static final ResourceKey<Registry<Block>> BLOCK_REGISTRY = Registries.BLOCK;
+    public static final ResourceKey<Registry<Item>> ITEM_REGISTRY = Registries.ITEM;
+    public static final ResourceKey<Registry<EntityType<?>>> ENTITY_TYPE_REGISTRY = Registries.ENTITY_TYPE;
+    public static final ResourceKey<Registry<BlockEntityType<?>>> BLOCK_ENTITY_TYPE_REGISTRY = Registries.BLOCK_ENTITY_TYPE;
     public static final ResourceKey<Registry<Level>> DIMENSION_REGISTRY = key("dimension");
     public static final ResourceKey<Registry<RecipeType<?>>> RECIPE_TYPE_REGISTRY = key("recipe_type");
     public static final ResourceKey<Registry<MenuType<?>>> MENU_REGISTRY = key("menu");
@@ -90,7 +90,7 @@ public class RegHelper
     
     public static final ResourceKey<Registry<Activity>> ACTIVITY_REGISTRY = key("activity");
     public static final ResourceKey<Registry<Schedule>> SCHEDULE_REGISTRY = key("schedule");
-    public static final ResourceKey<Registry<MemoryModuleType<?>>> MEMORY_MODULE_TYPE_REGISTRY = key("memory_module_type");
+    public static final ResourceKey<Registry<MemoryModuleType<?>>> MEMORY_MODULE_TYPE_REGISTRY = Registries.MEMORY_MODULE_TYPE;
     public static final ResourceKey<Registry<SensorType<?>>> SENSOR_TYPE_REGISTRY = key("sensor_type");
 
     public static final ResourceKey<Registry<Structure>> STRUCTURE_REGISTRY = key("worldgen/structure");

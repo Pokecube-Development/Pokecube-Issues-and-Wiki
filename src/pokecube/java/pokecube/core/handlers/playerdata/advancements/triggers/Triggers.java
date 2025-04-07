@@ -1,30 +1,32 @@
 package pokecube.core.handlers.playerdata.advancements.triggers;
 
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
 import net.minecraft.advancements.CriterionTrigger;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 
+import java.lang.reflect.Field;
+import java.util.function.Consumer;
+
 public class Triggers
 {
-    public static final Supplier<CatchPokemobTrigger> CATCHPOKEMOB;
-    public static final Supplier<KillPokemobTrigger> KILLPOKEMOB;
-    public static final Supplier<HatchPokemobTrigger> HATCHPOKEMOB;
-    public static final Supplier<FirstPokemobTrigger> FIRSTPOKEMOB;
-    public static final Supplier<EvolvePokemobTrigger> EVOLVEPOKEMOB;
-    public static final Supplier<InspectPokemobTrigger> INSPECTPOKEMOB;
-    public static final Supplier<MegaEvolvePokemobTrigger> MEGAEVOLVEPOKEMOB;
-    public static final Supplier<BreedPokemobTrigger> BREEDPOKEMOB;
-    public static final Supplier<UseMoveTrigger> USEMOVE;
+    public static final DeferredHolder<CriterionTrigger<?>,CatchPokemobTrigger> CATCHPOKEMOB;
+    public static final DeferredHolder<CriterionTrigger<?>,KillPokemobTrigger> KILLPOKEMOB;
+    public static final DeferredHolder<CriterionTrigger<?>,HatchPokemobTrigger> HATCHPOKEMOB;
+    public static final DeferredHolder<CriterionTrigger<?>,FirstPokemobTrigger> FIRSTPOKEMOB;
+    public static final DeferredHolder<CriterionTrigger<?>,EvolvePokemobTrigger> EVOLVEPOKEMOB;
+    public static final DeferredHolder<CriterionTrigger<?>,InspectPokemobTrigger> INSPECTPOKEMOB;
+    public static final DeferredHolder<CriterionTrigger<?>,MegaEvolvePokemobTrigger> MEGAEVOLVEPOKEMOB;
+    public static final DeferredHolder<CriterionTrigger<?>,BreedPokemobTrigger> BREEDPOKEMOB;
+    public static final DeferredHolder<CriterionTrigger<?>,UseMoveTrigger> USEMOVE;
 
     public static final LootContextParam<PokedexEntry> POKEDEX_ENTRY;
     public static final LootContextParam<PokeType> POKEMOB_TYPE;
@@ -70,23 +72,41 @@ public class Triggers
 
         WITH_COUNT = new LootContextParam<>(ResourceLocation.fromNamespaceAndPath("pokecube", "with_count"));
         LENIENT_MATCH = new LootContextParam<>(ResourceLocation.fromNamespaceAndPath("pokecube", "lenient_match"));
-        
+
         // Then the registry itself
 
         REGISTER = DeferredRegister.create(BuiltInRegistries.TRIGGER_TYPES, PokecubeCore.MODID);
 
         // Finally the things to register
-        
-        CATCHPOKEMOB = REGISTER.register(CatchPokemobTrigger.ID.getPath(), n -> new CatchPokemobTrigger());
-        KILLPOKEMOB = REGISTER.register(KillPokemobTrigger.ID.getPath(), n -> new KillPokemobTrigger());
-        HATCHPOKEMOB = REGISTER.register(HatchPokemobTrigger.ID.getPath(), n -> new HatchPokemobTrigger());
-        FIRSTPOKEMOB = REGISTER.register(FirstPokemobTrigger.ID.getPath(), n -> new FirstPokemobTrigger());
-        EVOLVEPOKEMOB = REGISTER.register(EvolvePokemobTrigger.ID.getPath(), n -> new EvolvePokemobTrigger());
-        INSPECTPOKEMOB = REGISTER.register(InspectPokemobTrigger.ID.getPath(), n -> new InspectPokemobTrigger());
-        MEGAEVOLVEPOKEMOB = REGISTER.register(MegaEvolvePokemobTrigger.ID.getPath(),
-                n -> new MegaEvolvePokemobTrigger());
-        BREEDPOKEMOB = REGISTER.register(BreedPokemobTrigger.ID.getPath(), n -> new BreedPokemobTrigger());
-        USEMOVE = REGISTER.register(UseMoveTrigger.ID.getPath(), n -> new UseMoveTrigger());
+
+        FIRSTPOKEMOB = REGISTER.register(FirstPokemobTrigger.ID.getPath(), FirstPokemobTrigger::new);
+        CATCHPOKEMOB = REGISTER.register(CatchPokemobTrigger.ID.getPath(), CatchPokemobTrigger::new);
+        KILLPOKEMOB = REGISTER.register(KillPokemobTrigger.ID.getPath(), KillPokemobTrigger::new);
+        HATCHPOKEMOB = REGISTER.register(HatchPokemobTrigger.ID.getPath(), HatchPokemobTrigger::new);
+        EVOLVEPOKEMOB = REGISTER.register(EvolvePokemobTrigger.ID.getPath(), EvolvePokemobTrigger::new);
+        INSPECTPOKEMOB = REGISTER.register(InspectPokemobTrigger.ID.getPath(), InspectPokemobTrigger::new);
+        MEGAEVOLVEPOKEMOB = REGISTER.register(MegaEvolvePokemobTrigger.ID.getPath(), MegaEvolvePokemobTrigger::new);
+        BREEDPOKEMOB = REGISTER.register(BreedPokemobTrigger.ID.getPath(), BreedPokemobTrigger::new);
+        USEMOVE = REGISTER.register(UseMoveTrigger.ID.getPath(), UseMoveTrigger::new);
+
+        try
+        {
+            Field field = DeferredHolder.class.getDeclaredField("holder");
+            field.setAccessible(true);
+            field.set(FIRSTPOKEMOB, Holder.direct(new FirstPokemobTrigger()));
+            field.set(CATCHPOKEMOB, Holder.direct(new CatchPokemobTrigger()));
+            field.set(KILLPOKEMOB, Holder.direct(new KillPokemobTrigger()));
+            field.set(HATCHPOKEMOB, Holder.direct(new HatchPokemobTrigger()));
+            field.set(EVOLVEPOKEMOB, Holder.direct(new EvolvePokemobTrigger()));
+            field.set(INSPECTPOKEMOB, Holder.direct(new InspectPokemobTrigger()));
+            field.set(MEGAEVOLVEPOKEMOB, Holder.direct(new MegaEvolvePokemobTrigger()));
+            field.set(BREEDPOKEMOB, Holder.direct(new BreedPokemobTrigger()));
+            field.set(USEMOVE, Holder.direct(new UseMoveTrigger()));
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
 
     }
 

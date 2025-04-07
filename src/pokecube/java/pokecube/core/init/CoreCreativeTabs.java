@@ -1,7 +1,5 @@
 package pokecube.core.init;
 
-import java.util.function.Supplier;
-
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -21,6 +19,8 @@ import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.vitamins.ItemVitamin;
 import thut.bling.BlingItem;
 import thut.wearables.ThutWearables;
+
+import java.util.function.Supplier;
 
 @EventBusSubscriber(modid = PokecubeCore.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class CoreCreativeTabs
@@ -46,6 +46,45 @@ public class CoreCreativeTabs
     public static void addCreative(BuildCreativeModeTabContentsEvent event)
     {
         Thread.dumpStack();
+        if (event.getTab().equals(BLOCKS_ITEMS_TAB.get()))
+        {
+            add(event, PokecubeItems.POKEDEX.get());
+            add(event, PokecubeItems.POKEWATCH.get());
+
+            add(event, PokecubeItems.NEST.get());
+            add(event, PokecubeItems.FOSSIL_ORE.get());
+            add(event, PokecubeItems.DEEPSLATE_FOSSIL_ORE.get());
+            add(event, PokecubeItems.SECRET_BASE.get());
+            add(event, PokecubeItems.REPEL.get());
+
+            add(event, PokecubeItems.HEALER.get());
+            add(event, PokecubeItems.PC_TOP.get());
+            add(event, PokecubeItems.PC_BASE.get());
+            add(event, PokecubeItems.TRADER.get());
+            add(event, PokecubeItems.TM_MACHINE.get());
+            add(event, PokecubeItems.TM.get());
+            add(event, PokecubeItems.DYNAMAX.get());
+
+            add(event, PokecubeItems.BERRYJUICE.get());
+            add(event, PokecubeItems.CANDY.get());
+            add(event, PokecubeItems.REVIVE.get());
+            add(event, PokecubeItems.LUCKYEGG.get());
+            add(event, PokecubeItems.EMERALDSHARD.get());
+            add(event, PokecubeItems.SPAWN_EGG.get());
+
+            for (String type : ItemVitamin.vitamins) add(event, PokecubeItems.getStack("vitamin_" + type));
+            for (String type : ItemGenerator.fossilVariants) add(event, ItemGenerator.fossils.get(type).get());
+            for (String type : ItemGenerator.misc) add(event, ItemGenerator.miscItems.get(type).get());
+            for (String type : ItemGenerator.variants) add(event, ItemGenerator.variantItems.get(type).get());
+        }
+
+        if (event.getTab().equals(POKECUBES_TAB.get()))
+        {
+            PokecubeItems.cubeIds.forEach(id -> {
+                add(event, PokecubeItems.getStack(id));
+            });
+        }
+
         if(true)return;
         
         
@@ -180,45 +219,6 @@ public class CoreCreativeTabs
         if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS)
         {
             add(event, PokecubeItems.SPAWN_EGG.get());
-        }
-
-        if (event.getTabKey().equals(BLOCKS_ITEMS_TAB.get()))
-        {
-            add(event, PokecubeItems.POKEDEX.get());
-            add(event, PokecubeItems.POKEWATCH.get());
-
-            add(event, PokecubeItems.NEST.get());
-            add(event, PokecubeItems.FOSSIL_ORE.get());
-            add(event, PokecubeItems.DEEPSLATE_FOSSIL_ORE.get());
-            add(event, PokecubeItems.SECRET_BASE.get());
-            add(event, PokecubeItems.REPEL.get());
-
-            add(event, PokecubeItems.HEALER.get());
-            add(event, PokecubeItems.PC_TOP.get());
-            add(event, PokecubeItems.PC_BASE.get());
-            add(event, PokecubeItems.TRADER.get());
-            add(event, PokecubeItems.TM_MACHINE.get());
-            add(event, PokecubeItems.TM.get());
-            add(event, PokecubeItems.DYNAMAX.get());
-
-            add(event, PokecubeItems.BERRYJUICE.get());
-            add(event, PokecubeItems.CANDY.get());
-            add(event, PokecubeItems.REVIVE.get());
-            add(event, PokecubeItems.LUCKYEGG.get());
-            add(event, PokecubeItems.EMERALDSHARD.get());
-            add(event, PokecubeItems.SPAWN_EGG.get());
-
-            for (String type : ItemVitamin.vitamins) add(event, PokecubeItems.getStack("vitamin_" + type));
-            for (String type : ItemGenerator.fossilVariants) add(event, ItemGenerator.fossils.get(type).get());
-            for (String type : ItemGenerator.misc) add(event, ItemGenerator.miscItems.get(type).get());
-            for (String type : ItemGenerator.variants) add(event, ItemGenerator.variantItems.get(type).get());
-        }
-
-        if (event.getTab().equals(POKECUBES_TAB.get()))
-        {
-            PokecubeItems.cubeIds.forEach(id -> {
-                add(event, PokecubeItems.getStack(id));
-            });
         }
 
         if (event.getTab().equals(BERRIES_TAB.get()))

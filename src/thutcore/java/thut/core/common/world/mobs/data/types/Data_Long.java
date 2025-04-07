@@ -1,10 +1,11 @@
 package thut.core.common.world.mobs.data.types;
 
 import io.netty.buffer.ByteBuf;
+import thut.api.world.mobs.data.Data;
 
 public class Data_Long extends Data_Base<Long>
 {
-    Long value = 0l;
+    public Data_Long() {this.value = 0l;}
 
     @Override
     public Long get()
@@ -20,15 +21,18 @@ public class Data_Long extends Data_Base<Long>
     }
 
     @Override
-    public void set(Long value)
+    public Data<Long> set(Long value)
     {
-        if (this.value.equals(value)) return;
+        if (this.value.equals(value)) return this;
         if (value == null)
         {
             this.value = 0l;
-            return;
+            this.setDirty(true);
+            return this;
         }
         this.value = value;
+        this.setDirty(true);
+        return this;
     }
 
     @Override

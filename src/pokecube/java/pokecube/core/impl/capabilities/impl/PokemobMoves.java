@@ -37,6 +37,7 @@ import pokecube.core.network.pokemobs.PacketSyncMoveUse;
 import pokecube.core.utils.AITools;
 import thut.api.entity.ICopyMob;
 import thut.api.maths.Vector3;
+import thut.api.world.mobs.data.Data;
 import thut.core.common.commands.CommandTools;
 import thut.core.common.network.PacketSyncAttachments;
 import thut.lib.RegHelper;
@@ -66,8 +67,8 @@ public abstract class PokemobMoves extends PokemobStats
         // If the move is somehow null, report it and return early.
         if (move == null)
         {
-            PokecubeAPI.LOGGER
-                    .error(this.getDisplayName().getString() + " Has Used Unregistered Move: " + attack + " " + index);
+            PokecubeAPI.LOGGER.error(
+                    this.getDisplayName().getString() + " Has Used Unregistered Move: " + attack + " " + index);
             return;
         }
 
@@ -127,12 +128,12 @@ public abstract class PokemobMoves extends PokemobStats
             if (this.getMoveStats().infatuateTarget != null)
                 if (!this.getMoveStats().infatuateTarget.isAlive()) this.getMoveStats().infatuateTarget = null;
                 else if (Math.random() > 0.5)
-            {
-                final Component mess = CommandTools.makeTranslatedMessage("pokemob.status.infatuate", "red",
-                        this.getDisplayName());
-                this.displayMessageToOwner(mess);
-                return;
-            }
+                {
+                    final Component mess = CommandTools.makeTranslatedMessage("pokemob.status.infatuate", "red",
+                            this.getDisplayName());
+                    this.displayMessageToOwner(mess);
+                    return;
+                }
         }
 
         if (this.here == null) this.here = new Vector3();
@@ -146,13 +147,13 @@ public abstract class PokemobMoves extends PokemobStats
     @Override
     public int getAttackCooldown()
     {
-        return this.dataSync().get(this.params.ATTACKCOOLDOWN);
+        return this.params.ATTACKCOOLDOWN.get();
     }
 
     @Override
     public int getDisableTimer(final int index)
     {
-        return this.dataSync().get(this.params.DISABLE[index]);
+        return this.params.DISABLE[index].get();
     }
 
     @Override
@@ -164,8 +165,7 @@ public abstract class PokemobMoves extends PokemobStats
     @Override
     public int getMoveIndex()
     {
-        final byte ret = this.dataSync().get(this.params.MOVEINDEXDW);
-        return Math.max(0, ret);
+        return Math.max(0, this.params.MOVEINDEXDW.get());
     }
 
     @Override
@@ -183,45 +183,38 @@ public abstract class PokemobMoves extends PokemobStats
     @Override
     public int getStatus()
     {
-        final Integer val = this.dataSync().get(this.params.STATUSDW);
-        return Math.max(0, val);
+        return Math.max(0, this.params.STATUSDW.get());
     }
 
     @Override
     public int getEnemyNumber()
     {
-        return this.dataSync().get(this.params.ENEMYNUMDW);
+        return this.params.ENEMYNUMDW.get();
     }
 
     @Override
     public int getAllyNumber()
     {
-        return this.dataSync().get(this.params.ALLYNUMDW);
+        return this.params.ALLYNUMDW.get();
     }
 
     @Override
     public int getTargetID()
     {
-        return this.dataSync.get(this.params.ATTACKTARGETIDDW);
+        return this.params.ATTACKTARGETIDDW.get();
     }
 
     @Override
-    public void setTargetID(final int id)
-    {
-        this.dataSync.set(this.params.ATTACKTARGETIDDW, Integer.valueOf(id));
-    }
+    public void setTargetID(final int id) {this.params.ATTACKTARGETIDDW.set(id);}
 
     @Override
     public int getAllyID()
     {
-        return this.dataSync.get(this.params.ALLYTARGETIDDW);
+        return this.params.ALLYTARGETIDDW.get();
     }
 
     @Override
-    public void setAllyID(final int id)
-    {
-        this.dataSync.set(this.params.ALLYTARGETIDDW, Integer.valueOf(id));
-    }
+    public void setAllyID(final int id) {this.params.ALLYTARGETIDDW.set(id);}
 
     private void setNoBattle(int ownerOffset)
     {
@@ -238,8 +231,8 @@ public abstract class PokemobMoves extends PokemobStats
         }
         else this.setAllyID(this.getEntity().getId());
 
-        this.dataSync().set(this.params.ENEMYNUMDW, 0);
-        this.dataSync().set(this.params.ALLYNUMDW, 1);
+        this.params.ENEMYNUMDW.set(0);
+        this.params.ALLYNUMDW.set(1);
     }
 
     @Override
@@ -320,7 +313,7 @@ public abstract class PokemobMoves extends PokemobStats
             if (targetIndex < 0) targetIndex = mobs.size() - 1;
 
             // Update the appropriate number of mobs.
-            this.dataSync().set(this.params.ENEMYNUMDW, mobs.size());
+            this.params.ENEMYNUMDW.set(mobs.size());
 
             // And set the target.
             target = mobs.isEmpty() ? null : mobs.get(targetIndex % mobs.size());
@@ -347,7 +340,7 @@ public abstract class PokemobMoves extends PokemobStats
 
             mobs = b.getAllies(entity);
             // Update how many allies we have
-            this.dataSync().set(this.params.ALLYNUMDW, mobs.size());
+            this.params.ALLYNUMDW.set(mobs.size());
             // Get the number for modulo, as we also include owner here if
             // present.
             int allyN = mobs.size() + ownerOffset;
@@ -398,7 +391,7 @@ public abstract class PokemobMoves extends PokemobStats
     @Override
     public short getStatusTimer()
     {
-        return this.dataSync().get(this.params.STATUSTIMERDW);
+        return this.params.STATUSTIMERDW.get().shortValue();
     }
 
     @Override
@@ -415,20 +408,14 @@ public abstract class PokemobMoves extends PokemobStats
         // Clear off any persistant effects.
         final IOngoingAffected affected = PokemobCaps.getAffected(this.getEntity());
         if (affected != null) affected.removeEffects(PersistantStatusEffect.ID);
-        this.dataSync().set(this.params.STATUSDW, 0);
+        this.params.STATUSDW.set(0);
     }
 
     @Override
-    public void setAttackCooldown(final int timer)
-    {
-        this.dataSync().set(this.params.ATTACKCOOLDOWN, timer);
-    }
+    public void setAttackCooldown(final int timer) {this.params.ATTACKCOOLDOWN.set(timer);}
 
     @Override
-    public void setDisableTimer(final int index, final int timer)
-    {
-        this.dataSync().set(this.params.DISABLE[index], timer);
-    }
+    public void setDisableTimer(final int index, final int timer) {this.params.DISABLE[index].set(timer);}
 
     @Override
     public void setExplosionState(final int i)
@@ -453,7 +440,7 @@ public abstract class PokemobMoves extends PokemobStats
             this.moveInfo.BLOCKCOUNTER = 0;
             this.moveInfo.blocked = false;
             this.moveInfo.blockTimer = 0;
-            this.dataSync().set(this.params.MOVEINDEXDW, (byte) moveIndex);
+            this.params.MOVEINDEXDW.set((byte) moveIndex);
             this.getMoveStats().selectedMove = null;
         }
     }
@@ -474,7 +461,7 @@ public abstract class PokemobMoves extends PokemobStats
         {
             final IOngoingAffected affected = PokemobCaps.getAffected(this.getEntity());
             affected.removeEffects(PersistantStatusEffect.ID);
-            this.dataSync().set(this.params.STATUSDW, status);
+            this.params.STATUSDW.set(status);
             return true;
         }
         final Status actual = Status.getStatus(status);
@@ -489,12 +476,12 @@ public abstract class PokemobMoves extends PokemobStats
         if (status == IMoveConstants.STATUS_BRN && this.isType(PokeType.getType("fire"))) return false;
         if (status == IMoveConstants.STATUS_PAR && this.isType(PokeType.getType("electric"))) return false;
         if (status == IMoveConstants.STATUS_FRZ && this.isType(PokeType.getType("ice"))) return false;
-        if ((status == IMoveConstants.STATUS_PSN || status == IMoveConstants.STATUS_PSN2)
-                && (this.isType(PokeType.getType("poison")) || this.isType(PokeType.getType("steel"))))
-            return false;
-        this.dataSync().set(this.params.STATUSDW, status);
+        if ((status == IMoveConstants.STATUS_PSN || status == IMoveConstants.STATUS_PSN2) && (
+                this.isType(PokeType.getType("poison")) || this.isType(PokeType.getType("steel")))) return false;
+        this.params.STATUSDW.set(status);
         if ((status == IMoveConstants.STATUS_SLP || status == IMoveConstants.STATUS_FRZ) && turns == -1) turns = 5;
-        final short timer = (short) (turns == -1 ? PokecubeCore.getConfig().attackCooldown * 5
+        final short timer = (short) (turns == -1
+                ? PokecubeCore.getConfig().attackCooldown * 5
                 : turns * PokecubeCore.getConfig().attackCooldown);
         this.setStatusTimer(timer);
         PersistantStatusEffect statusEffect;
@@ -504,10 +491,7 @@ public abstract class PokemobMoves extends PokemobStats
     }
 
     @Override
-    public void setStatusTimer(final short timer)
-    {
-        this.dataSync().set(this.params.STATUSTIMERDW, (int) timer);
-    }
+    public void setStatusTimer(final short timer) {this.params.STATUSTIMERDW.set((int) timer);}
 
     @Override
     public void setTransformedTo(LivingEntity to)

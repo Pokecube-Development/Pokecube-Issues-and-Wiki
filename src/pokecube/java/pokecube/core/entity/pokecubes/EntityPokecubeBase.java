@@ -1,11 +1,5 @@
 package pokecube.core.entity.pokecubes;
 
-import java.util.Optional;
-import java.util.UUID;
-import java.util.function.Predicate;
-
-import javax.annotation.Nullable;
-
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -64,6 +58,11 @@ import thut.api.entity.ICopyMob;
 import thut.api.maths.Vector3;
 import thut.core.common.network.EntityUpdate;
 import thut.lib.RegHelper;
+
+import javax.annotation.Nullable;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.function.Predicate;
 
 public abstract class EntityPokecubeBase extends LivingEntity
 {
@@ -269,13 +268,15 @@ public abstract class EntityPokecubeBase extends LivingEntity
             if (_capturingEntity != null)
             {
                 var pos = PokemobCaps.getPokemobIn(stack).getCapturePos();
-                if(pos.isPresent()) {
+                if (pos.isPresent())
+                {
                     _capturingEntity.tickCount = 0;
                     Vector3 loc = pos.get();
                     this.capturePos.set(loc);
                     ICopyMob.copyEntityTransforms(_capturingEntity, this);
                 }
-                else{
+                else
+                {
                     PokecubeAPI.logInfo("No Capture Pos Listed?");
                     Thread.dumpStack();
                 }
@@ -617,6 +618,8 @@ public abstract class EntityPokecubeBase extends LivingEntity
         PokecubeContents contents = stack.get(PokemobCaps.POKECUBE_DATA);
         if (contents == null)
             stack.set(PokemobCaps.POKECUBE_DATA, new PokecubeContents(new CompoundTag()).withCapturePos(capturePos));
+        else stack.set(PokemobCaps.POKECUBE_DATA, contents.withCapturePos(capturePos));
+        System.out.println(stack.get(PokemobCaps.POKECUBE_DATA));
         this.setItem(stack);
 
         final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);

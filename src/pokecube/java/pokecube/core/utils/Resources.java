@@ -11,7 +11,8 @@ public class Resources
 
     public final static String TEXTURE_FOLDER = "textures/";
     public final static String TEXTURE_GUI_FOLDER = "textures/gui/";
-    public final static String TEXTURE_GUI_ICON_FOLDER = "gui/icons/";
+    public final static String TEXTURE_GUI_ICON_FOLDER = "icons/";
+    public final static String TEXTURE_SLOT_ICON_FOLDER = "gui/sprites/icons/";
 
     public final static String TEXTURE_PARTICLES = Resources.TEXTURE_FOLDER + "particles.png";
 
@@ -42,39 +43,52 @@ public class Resources
     public final static ResourceLocation WIDGETS_NM;
     public final static ResourceLocation WIDGETS_POKEDEX;
 
+    public static final ResourceLocation ICONS_GUI_SHEET;
+    public static final ResourceLocation ICONS_GUI_ATLAS;
+
+    public static final ResourceLocation ICONS_MOB_SHEET;
+    public static final ResourceLocation ICONS_MOB_ATLAS;
+
     static
     {
+        ICONS_GUI_SHEET = ResourceLocation.fromNamespaceAndPath("pokecube", "textures/atlas/icons.png");
+        ICONS_GUI_ATLAS = ResourceLocation.fromNamespaceAndPath("pokecube", "gui_icons");
 
-        GUI_POKEDEX = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "pokedexgui.png");
+        ICONS_MOB_SHEET = ResourceLocation.fromNamespaceAndPath("pokecube_mobs", "textures/atlas/icons.png");
+        ICONS_MOB_ATLAS = ResourceLocation.fromNamespaceAndPath("pokecube_mobs", "gui_icons");
 
-        GUI_BATTLE = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "battlegui.png");
+//        POKE_ICONS_ATLAS = ResourceLocation.fromNamespaceAndPath("pokecube", "gui_icons");
 
-        GUI_HEAL_TABLE = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "pokecenter_gui.png");
+        GUI_POKEDEX = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, TEXTURE_GUI_FOLDER + "pokedexgui.png");
 
-        STATUS_PAR = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.TEXTURE_FOLDER + "par.png");
+        GUI_BATTLE = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, TEXTURE_GUI_FOLDER + "battlegui.png");
 
-        STATUS_FRZ = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.TEXTURE_FOLDER + "frz.png");
+        GUI_HEAL_TABLE = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, TEXTURE_GUI_FOLDER + "pokecenter_gui.png");
 
-        STATUS_TERA = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.TEXTURE_FOLDER + "tera.png");
+        STATUS_PAR = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, TEXTURE_FOLDER + "par.png");
 
-        GUI_POKEMOB = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "pokemob.png");
+        STATUS_FRZ = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, TEXTURE_FOLDER + "frz.png");
 
-        PARTICLES = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.TEXTURE_FOLDER + "particles.png");
+        STATUS_TERA = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, TEXTURE_FOLDER + "tera.png");
 
-        SLOT_ICON_CUBE = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, TEXTURE_GUI_ICON_FOLDER + "slot_cube");
-        SLOT_ICON_TM = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, TEXTURE_GUI_ICON_FOLDER + "slot_tm");
-        SLOT_ICON_BOOK = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, TEXTURE_GUI_ICON_FOLDER + "slot_book");
-        SLOT_ICON_BOTTLE = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, TEXTURE_GUI_ICON_FOLDER + "slot_bottle");
-        SLOT_ICON_DNA = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, TEXTURE_GUI_ICON_FOLDER + "slot_dna");
-        SLOT_ICON_EGG = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, TEXTURE_GUI_ICON_FOLDER + "slot_egg");
+        GUI_POKEMOB = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, TEXTURE_GUI_FOLDER + "pokemob.png");
 
-        TAB_ICON_AI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.TEXTURE_GUI_ICON_FOLDER + "tab_ai");
-        TAB_ICON_INVENTORY = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.TEXTURE_GUI_ICON_FOLDER + "tab_inventory");
-        TAB_ICON_ROUTES = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.TEXTURE_GUI_ICON_FOLDER + "tab_routes");
-        TAB_ICON_STORAGE = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.TEXTURE_GUI_ICON_FOLDER + "tab_storage");
+        PARTICLES = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, TEXTURE_FOLDER + "particles.png");
 
-        WIDGETS = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/widgets.png");
-        WIDGETS_NM = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/widgets_nm.png");
-        WIDGETS_POKEDEX = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/pokedex_widgets.png");
+        SLOT_ICON_CUBE = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "slot_cube");
+        SLOT_ICON_TM = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "slot_tm");
+        SLOT_ICON_BOOK = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "slot_book");
+        SLOT_ICON_BOTTLE = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "slot_bottle");
+        SLOT_ICON_DNA = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "slot_dna");
+        SLOT_ICON_EGG = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "slot_egg");
+
+        TAB_ICON_AI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, TEXTURE_GUI_ICON_FOLDER + "tab_ai");
+        TAB_ICON_INVENTORY = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, TEXTURE_GUI_ICON_FOLDER + "tab_inventory");
+        TAB_ICON_ROUTES = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, TEXTURE_GUI_ICON_FOLDER + "tab_routes");
+        TAB_ICON_STORAGE = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, TEXTURE_GUI_ICON_FOLDER + "tab_storage");
+
+        WIDGETS = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, TEXTURE_GUI_FOLDER + "widgets/widgets.png");
+        WIDGETS_NM = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, TEXTURE_GUI_FOLDER + "widgets/widgets_nm.png");
+        WIDGETS_POKEDEX = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, TEXTURE_GUI_FOLDER + "widgets/pokedex_widgets.png");
     }
 }

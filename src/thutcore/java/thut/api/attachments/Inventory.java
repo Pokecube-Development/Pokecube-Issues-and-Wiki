@@ -14,6 +14,7 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -83,7 +84,7 @@ public class Inventory
     @SuppressWarnings("unchecked")
     public static final HolderProvider<ItemCap>[] REGISTRY = (HolderProvider<ItemCap>[]) new HolderProvider<?>[6];
 
-    public static final HolderProvider<ItemCap> DEFAULT()
+    public static HolderProvider<ItemCap> DEFAULT()
     {
         return REGISTRY[0];
     }
@@ -111,7 +112,7 @@ public class Inventory
     {
         for (Direction d : Direction.values())
         {
-            var prov = new HolderProvider<ItemCap>();
+            var prov = new HolderProvider<ItemCap>(ResourceLocation.parse("thutcore:item_storage"));
             REGISTRY[d.ordinal()] = prov;
             var KEY = "items_" + d.getName().toLowerCase(Locale.ROOT);
 

@@ -81,7 +81,7 @@ public class NestSensor extends Sensor<Mob>
         {
             int timer = 0;
             if (brain.hasMemoryValue(MemoryModules.NO_NEST_TIMER.get()))
-                timer = brain.getMemory(MemoryModules.NO_NEST_TIMER.get()).get();
+                timer = brain.getMemory(MemoryModules.NO_NEST_TIMER.get()).orElse(0);
             brain.setMemory(MemoryModules.NO_NEST_TIMER.get(), timer + 1);
         }
     }

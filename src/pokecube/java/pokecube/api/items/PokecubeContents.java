@@ -1,19 +1,19 @@
 package pokecube.api.items;
 
-import java.util.Optional;
-
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.ResourceLocationException;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import thut.api.maths.Vector3;
+
+import java.util.Optional;
 
 public record PokecubeContents(IPokemob pokemob, LivingEntity entity, CompoundTag tag)
 {
@@ -29,85 +29,81 @@ public record PokecubeContents(IPokemob pokemob, LivingEntity entity, CompoundTa
 
     public PokecubeContents(LivingEntity entity)
     {
-        this(PokemobCaps.getPokemobFor(entity), entity, serializePokemob(PokemobCaps.getPokemobFor(entity)));
+        this(PokemobCaps.getPokemobFor(entity), entity, serializeEntity(entity));
     }
 
     public PokecubeContents withPokemob(IPokemob pokemob)
     {
         CompoundTag copy = tag.copy();
-        copy.remove("M");
-        copy.remove("K");
-        copy.remove("P");
-        copy.remove("CHP");
-        copy.remove("MHP");
+        if (pokemob == null)
+        {
+            copy.remove("M");
+            copy.remove("K");
+            copy.remove("I");
+            copy.remove("CHP");
+            copy.remove("MHP");
+        }
         if (pokemob == null) return new PokecubeContents(copy);
-        var saved = serializePokemob(pokemob);
-        copy.merge(saved);
+        copy.merge(serializePokemob(pokemob));
         return new PokecubeContents(pokemob, pokemob.getEntity(), copy);
     }
 
     public PokecubeContents withEntity(LivingEntity entity)
     {
-        CompoundTag copy = tag.copy();
-        copy.remove("M");
-        copy.remove("K");
-        copy.remove("P");
-        copy.remove("CHP");
-        copy.remove("MHP");
-        if (pokemob == null) return new PokecubeContents(copy);
+        CompoundTag copy = tag.copy(), saved;
+        if (entity == null)
+        {
+            copy.remove("M");
+            copy.remove("K");
+            copy.remove("I");
+            copy.remove("CHP");
+            copy.remove("MHP");
+        }
+        if (entity == null) return new PokecubeContents(copy);
         IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
-        if (pokemob != null)
-        {
-            var saved = serializePokemob(pokemob);
-            copy.merge(saved);
-        }
-        else
-        {
-            CompoundTag saved = new CompoundTag();
-            CompoundTag mob = new CompoundTag();
-            if (entity.save(mob)) saved.put("M", mob);
-            copy.merge(saved);
-        }
+        if (pokemob != null) saved = serializePokemob(pokemob);
+        else saved = serializeEntity(entity);
+        copy.merge(saved);
         return new PokecubeContents(pokemob, entity, copy);
     }
 
     public PokecubeContents withTilt(int tilt)
     {
-        this.tag().putInt("tilt", tilt);
-        return new PokecubeContents(pokemob, entity, tag());
+        tag().putInt("tilt", tilt);
+        return new PokecubeContents(pokemob(), entity(), tag());
     }
 
     public PokecubeContents withCapturePos(Vector3 pos)
     {
-        pos.writeToNBT(this.tag(), "_cap_pos_");
-        return new PokecubeContents(pokemob, entity, tag());
+        pos.writeToNBT(tag(), "_cap_pos_");
+        return new PokecubeContents(pokemob(), entity(), tag());
     }
 
     public Optional<Vector3> getCapturePos()
     {
-        return Optional.ofNullable(Vector3.readFromNBT(this.tag(), "_cap_pos_"));
+        return Optional.ofNullable(Vector3.readFromNBT(tag(), "_cap_pos_"));
     }
 
     public int getTilt()
     {
-        return this.tag().getInt("tilt");
+        return tag().getInt("tilt");
     }
 
     public float getMaxHealth()
     {
-        return tag.getFloat("MHP");
+        return tag().getFloat("MHP");
     }
 
     public float getCurrentHealth()
     {
-        return tag.getFloat("CHP");
+        return tag().getFloat("CHP");
     }
 
-    public static final Codec<PokecubeContents> CODEC = CompoundTag.CODEC
-            .<PokecubeContents>comapFlatMap(PokecubeContents::read, PokecubeContents::tag).stable();
+    public static final Codec<PokecubeContents> CODEC = CompoundTag.CODEC.<PokecubeContents>comapFlatMap(
+            PokecubeContents::read, PokecubeContents::save).stable();
 
-    public static final StreamCodec<ByteBuf, PokecubeContents> STREAM_CODEC = ByteBufCodecs.COMPOUND_TAG
-            .map(PokecubeContents::parse, PokecubeContents::tag);
+    public static final StreamCodec<ByteBuf, PokecubeContents> STREAM_CODEC = ByteBufCodecs.COMPOUND_TAG.map(
+            PokecubeContents::parse, PokecubeContents::save);
 
     public static DataResult<PokecubeContents> read(CompoundTag tag)
     {
@@ -117,9 +113,14 @@ public record PokecubeContents(IPokemob pokemob, LivingEntity entity, CompoundTa
         }
         catch (ResourceLocationException resourcelocationexception)
         {
-            return DataResult
-                    .error(() -> "Not a valid pokemob tag: " + tag + " " + resourcelocationexception.getMessage());
+            return DataResult.error(
+                    () -> "Not a valid pokemob tag: " + tag + " " + resourcelocationexception.getMessage());
         }
+    }
+
+    public static CompoundTag save(PokecubeContents contents)
+    {
+        return contents.tag();
     }
 
     public static PokecubeContents parse(CompoundTag location)
@@ -129,14 +130,25 @@ public record PokecubeContents(IPokemob pokemob, LivingEntity entity, CompoundTa
 
     public static CompoundTag serializePokemob(IPokemob pokemob)
     {
+        CompoundTag tag = serializeEntity(pokemob.getEntity());
+        tag.putString("K", pokemob.serKey().toString());
+        return tag;
+    }
+
+    public static CompoundTag serializeEntity(Entity entity)
+    {
         CompoundTag tag = new CompoundTag();
         CompoundTag mob = new CompoundTag();
-        var entity = pokemob.getEntity();
-        if (entity.save(mob)) tag.put("M", mob);
-        tag.put("P", pokemob.serializeNBT(pokemob.getEntity().registryAccess()));
-        tag.putString("K", pokemob.serKey().toString());
-        tag.putFloat("CHP", entity.getHealth());
-        tag.putFloat("MHP", entity.getMaxHealth());
+        entity.saveWithoutId(mob);
+        var key = entity.getEncodeId();
+        mob.putString("id", key);
+        tag.putString("I", key);
+        tag.put("M", mob);
+        if (entity instanceof LivingEntity living)
+        {
+            tag.putFloat("CHP", living.getHealth());
+            tag.putFloat("MHP", living.getMaxHealth());
+        }
         return tag;
     }
 }

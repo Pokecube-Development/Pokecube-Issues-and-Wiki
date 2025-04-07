@@ -1,16 +1,6 @@
 package thut.core.common.world.mobs.data;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.util.function.Function;
-import java.util.function.Supplier;
-
 import com.google.common.collect.Lists;
-
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.resources.ResourceLocation;
@@ -31,6 +21,13 @@ import thut.core.common.world.mobs.data.types.Data_Seat;
 import thut.core.common.world.mobs.data.types.Data_String;
 import thut.core.common.world.mobs.data.types.Data_UUID;
 import thut.core.common.world.mobs.data.types.Data_Vec3;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.function.Supplier;
 
 public class DataSync_Impl implements DataSync
 {
@@ -55,15 +52,20 @@ public class DataSync_Impl implements DataSync
     }
 
     @SuppressWarnings("deprecation")
-    public static int getID(final Data<?> data)
+    public static void initID(final Data<?> data)
     {
-        if (data.getUID() != -1) return data.getUID();
+        if (data.getUID() != -1)
+        {
+            data.getUID();
+            return;
+        }
         for (final Entry<Integer, Class<? extends Data<?>>> entry : DataSync_Impl.REGISTRY.entrySet())
             if (entry.getValue() == data.getClass())
-        {
-            data.setUID(entry.getKey());
-            return data.getUID();
-        }
+            {
+                data.setUID(entry.getKey());
+                data.getUID();
+                return;
+            }
         throw new NullPointerException("Datatype not found for " + data);
     }
 
@@ -73,23 +75,19 @@ public class DataSync_Impl implements DataSync
         final Class<? extends Data<?>> dataType = DataSync_Impl.REGISTRY.get(id);
         if (dataType == null) throw new NullPointerException("No type registered for ID: " + id);
         final Data<?> data = dataType.getConstructor().newInstance();
-        DataSync_Impl.getID(data);
+        DataSync_Impl.initID(data);
         return (T) data;
     }
 
-    private Int2ObjectArrayMap<Data<?>> data = new Int2ObjectArrayMap<>();
-    private Int2ObjectArrayMap<Data<?>> readCache = new Int2ObjectArrayMap<>();
+    private final Int2ObjectArrayMap<Data<?>> data = new Int2ObjectArrayMap<>();
 
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
-    private final Lock r = this.lock.readLock();
-    private final Lock w = this.lock.writeLock();
-
     private long tick;
-
+    private String regTag = "unk";
     private boolean syncNow = false;
 
-    private int offset = ThutCore.newRandom().nextInt();
+    private final int offset = ThutCore.newRandom().nextInt();
     protected Provider provider = null;
 
     @Override
@@ -99,19 +97,9 @@ public class DataSync_Impl implements DataSync
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <T> T get(final int key)
-    {
-        return (T) this.readCache.get(key).get();
-    }
-
-    @Override
     public List<Data<?>> getAll()
     {
-        List<Data<?>> list = new ArrayList<Data<?>>();
-        this.r.lock();
-        list.addAll(this.data.values());
-        this.r.unlock();
+        List<Data<?>> list = new ArrayList<>(this.data.values());
         syncNow = false;
         return list;
     }
@@ -120,46 +108,45 @@ public class DataSync_Impl implements DataSync
     public List<Data<?>> getDirty()
     {
         List<Data<?>> list = null;
-        this.r.lock();
-        for (final Data<?> value : this.data.values()) if (value.dirty())
-        {
-            if (list == null) list = Lists.newArrayList();
-            list.add(value);
-        }
-        this.r.unlock();
+        for (final Data<?> value : this.data.values())
+            if (value.dirty())
+            {
+                if (list == null) list = Lists.newArrayList();
+                list.add(value);
+            }
         syncNow = false;
         return list;
     }
 
     @Override
-    public <T> int register(final Data<T> data, final T value)
+    public <T> Data<T> register(final Data<T> data)
     {
         data.setHolderLookup(this.provider);
-        data.set(value);
+        data.setSync(this);
+        data.setTag(this.regTag);
         final int id = this.data.size();
         data.setID(id);
         // Initialize the UID for this data.
-        DataSync_Impl.getID(data);
+        DataSync_Impl.initID(data);
         this.data.put(id, data);
-        this.readCache.put(id, data);
-        return id;
+        return data;
     }
 
     @Override
-    public <T> void set(final int key, final T value)
+    public void setRegisterTag(String tag)
     {
-        this.w.lock();
-        @SuppressWarnings("unchecked")
-        final Data<T> type = (Data<T>) this.data.get(key);
-        type.set(value);
-        if (type.isRealtime() && type.dirty()) syncNow = true;
-        this.w.unlock();
+        this.regTag = tag;
+    }
+
+    @Override
+    public void setSyncNow()
+    {
+        syncNow = true;
     }
 
     @Override
     public void update(final List<Data<?>> values)
     {
-        this.w.lock();
         for (final Data<?> value : values)
         {
             // Only update things we already have. This fixes issues on
@@ -171,10 +158,8 @@ public class DataSync_Impl implements DataSync
             // Only update same values, things can go funny on initial syncing
             // if things have not initialized on both sides yet.
             if (uid1 != uid2) continue;
-            this.data.put(value.getID(), value);
-            this.readCache.put(value.getID(), value);
+            old.setRaw(value.get());
         }
-        this.w.unlock();
     }
 
     @Override
@@ -193,6 +178,34 @@ public class DataSync_Impl implements DataSync
     public int tickOffset()
     {
         return offset;
+    }
+
+    @Override
+    public List<Data<?>> getTagged(String tag)
+    {
+        List<Data<?>> all = getAll();
+        List<Data<?>> list = new ArrayList<>();
+        all.forEach(data -> {if (tag.equals(data.getTag())) list.add(data);});
+        return list;
+    }
+
+    @Override
+    public void clearMatching(String tag)
+    {
+        List<Data<?>> list = getTagged(tag);
+        list.forEach(data -> {
+            this.data.remove(data.getID());
+        });
+    }
+
+    @Override
+    public void mapFrom(DataSync other, String tag)
+    {
+        this.clearMatching(tag);
+        this.setRegisterTag(tag);
+        List<Data<?>> tagged = other.getTagged(tag);
+        other.clearMatching(tag);
+        for (var d : tagged) this.register(d);
     }
 
     @Override
@@ -223,9 +236,7 @@ public class DataSync_Impl implements DataSync
 
     public static void registerAttachment(DeferredRegister<AttachmentType<?>> registry)
     {
-        Function<IAttachmentHolder, DataSync> func_a = DataSync_Impl::makeProvider;
-        var attach_a = AttachmentType.builder(func_a).build();
-        TYPE = registry.register(KEY.getPath(), () -> attach_a);
+        TYPE = registry.register(KEY.getPath(), () -> AttachmentType.builder(DataSync_Impl::makeProvider).build());
     }
 
 }

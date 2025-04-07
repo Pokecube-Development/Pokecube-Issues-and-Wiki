@@ -119,13 +119,13 @@ public class HiveSensor extends Sensor<Mob>
             // Randomize this so we don't always pick the same hive if it was
             // cleared for some reason
             brain.eraseMemory(BeeTasks.NO_HIVE_TIMER.get());
-            brain.setMemory(BeeTasks.HIVE_POS.get(), GlobalPos.of(entityIn.level().dimension(), hives.get(0)));
+            brain.setMemory(BeeTasks.HIVE_POS.get(), GlobalPos.of(entityIn.level().dimension(), hives.getFirst()));
         }
         else
         {
             int timer = 0;
             if (brain.hasMemoryValue(BeeTasks.NO_HIVE_TIMER.get()))
-                timer = brain.getMemory(BeeTasks.NO_HIVE_TIMER.get()).get();
+                timer = brain.getMemory(BeeTasks.NO_HIVE_TIMER.get()).orElse(0);
             brain.setMemory(BeeTasks.NO_HIVE_TIMER.get(), timer + 1);
         }
     }

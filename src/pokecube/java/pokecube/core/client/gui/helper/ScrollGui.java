@@ -178,6 +178,12 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
     int mouseX, mouseY;
 
     @Override
+    protected void renderListBackground(GuiGraphics guiGraphics)
+    {
+        super.renderListBackground(guiGraphics);
+    }
+
+    @Override
     public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float tick)
     {
         if (true)

@@ -1,10 +1,7 @@
 package pokecube.api.entity.pokemob;
 
-import java.util.function.Supplier;
-
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.ResourceLocationException;
 import net.minecraft.core.component.DataComponentType;
@@ -35,6 +32,8 @@ import pokecube.api.items.PokesealContents;
 import pokecube.core.utils.EntityTools;
 import thut.api.data.HolderProvider;
 import thut.core.common.network.PacketSyncAttachments;
+
+import java.util.function.Supplier;
 
 public class PokemobCaps
 {
@@ -109,11 +108,17 @@ public class PokemobCaps
     {
         PokecubeContents contents = stack.get(POKECUBE_DATA);
         if (contents == null) return null;
-        if (contents.pokemob() == null && level != null)
+        if (contents.pokemob() == null && level != null && contents.tag().contains("I"))
         {
             LivingEntity mob = loadContents(contents, level);
             IPokemob pokemob = getPokemobFor(mob);
-            contents = contents.withPokemob(pokemob);
+            if (pokemob != null) contents = contents.withPokemob(pokemob);
+            else if (mob != null) contents = contents.withEntity(mob);
+            else {
+                var tag = contents.tag().copy();
+                tag.remove("I");
+                contents = new PokecubeContents(tag);
+            }
             stack.set(POKECUBE_DATA, contents);
         }
         return contents;
@@ -159,6 +164,7 @@ public class PokemobCaps
             return null;
         }
         CompoundTag tag = contents.tag().getCompound("M");
+        if (tag.isEmpty()) return null;
         var made = EntityType.create(tag, level);
         if (made.isPresent())
         {
@@ -186,8 +192,8 @@ public class PokemobCaps
             return key.toString();
         }
 
-        public static final Codec<UsableItem> CODEC = Codec.STRING.comapFlatMap(UsableItem::read,
-                UsableItem::toString).stable();
+        public static final Codec<UsableItem> CODEC = Codec.STRING.comapFlatMap(UsableItem::read, UsableItem::toString)
+                .stable();
 
         public static final StreamCodec<ByteBuf, UsableItem> STREAM_CODEC = ByteBufCodecs.STRING_UTF8.map(
                 UsableItem::parse, UsableItem::toString);
@@ -212,7 +218,8 @@ public class PokemobCaps
         }
     }
 
-    public static final HolderProvider<IPokemob> _REGISTRY = new HolderProvider<>(ResourceLocation.parse("pokecube:pokemob"));
+    public static final HolderProvider<IPokemob> _REGISTRY = new HolderProvider<>(
+            ResourceLocation.parse("pokecube:pokemob"));
 
     public static void registerAttachment(DeferredRegister<AttachmentType<?>> registry)
     {

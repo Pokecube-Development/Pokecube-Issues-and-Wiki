@@ -1,13 +1,16 @@
 package pokecube.adventures.advancements;
 
-import java.util.function.Supplier;
-
 import net.minecraft.advancements.CriterionTrigger;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.advancements.triggers.BeatLeaderTrigger;
 import pokecube.adventures.advancements.triggers.BeatTrainerTrigger;
+
+import java.lang.reflect.Field;
+import java.util.function.Supplier;
 
 public class Triggers
 {
@@ -23,6 +26,17 @@ public class Triggers
         BEATLEADER = REGISTER.register(BeatLeaderTrigger.ID.getPath(), n -> new BeatLeaderTrigger());
         BEATTRAINER = REGISTER.register(BeatTrainerTrigger.ID.getPath(), n -> new BeatTrainerTrigger());
 
+        try
+        {
+            Field field = DeferredHolder.class.getDeclaredField("holder");
+            field.setAccessible(true);
+            field.set(BEATLEADER, Holder.direct(new BeatLeaderTrigger()));
+            field.set(BEATTRAINER, Holder.direct(new BeatTrainerTrigger()));
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void init()

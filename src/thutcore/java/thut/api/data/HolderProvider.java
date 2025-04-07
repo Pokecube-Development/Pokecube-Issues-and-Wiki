@@ -13,6 +13,12 @@ public class HolderProvider<T>
 {
     private List<Provider<T>> _PROVIDERS = new ArrayList<>();
     private Map<ResourceLocation, Provider<T>> _PROVIDER_REG = new HashMap<>();
+    public ResourceLocation key;
+
+    public HolderProvider(ResourceLocation key)
+    {
+        this.key = key;
+    }
 
     public void register(Provider<T> reg)
     {
@@ -32,6 +38,7 @@ public class HolderProvider<T>
                 return p2;
             }
         }
+        Thread.dumpStack();
         return null;
     }
 

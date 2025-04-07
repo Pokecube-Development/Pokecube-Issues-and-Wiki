@@ -4,10 +4,11 @@ import java.util.Optional;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.world.phys.Vec3;
+import thut.api.world.mobs.data.Data;
 
 public class Data_Vec3 extends Data_Base<Optional<Vec3>>
 {
-    Optional<Vec3> value = Optional.empty();
+    public Data_Vec3() {value = Optional.empty();}
 
     @Override
     public Optional<Vec3> get()
@@ -24,22 +25,26 @@ public class Data_Vec3 extends Data_Base<Optional<Vec3>>
     }
 
     @Override
-    public void set(Optional<Vec3> value)
+    public Data<Optional<Vec3>> set(Optional<Vec3> value)
     {
-        if (this.value.equals(value)) return;
-        if (value == null)
+        if (this.value.equals(value)) return this;
+        if (value.isEmpty())
         {
+            if (this.value.isEmpty()) return this;
             this.value = Optional.empty();
-            return;
+            this.setDirty(true);
+            return this;
         }
         this.value = value;
+        this.setDirty(true);
+        return this;
     }
 
     @Override
     public void write(ByteBuf buf)
     {
         super.write(buf);
-        if (!this.value.isEmpty())
+        if (this.value.isPresent())
         {
             var value = this.value.get();
             buf.writeDouble(value.x);

@@ -1,12 +1,7 @@
 package pokecube.core.handlers.playerdata;
 
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -19,6 +14,10 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.handlers.PlayerDataHandler.PlayerData;
+
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 /** This is a backup cache of the pokemobs owned by the player. */
 public class PlayerPokemobCache extends PlayerData
@@ -114,7 +113,7 @@ public class PlayerPokemobCache extends PlayerData
     public void addPokemob(final String owner, final ItemStack stack, boolean pc, final boolean deleted)
     {
         final Integer uid = PokecubeManager.getUID(stack, level());
-        if (uid == null || uid == -1) return;
+        if (uid == -1) return;
         this.cache.put(uid, stack);
         pc = pc ? this._in_pc_.add(uid) : this._in_pc_.remove(uid);
         if (deleted) this._dead_.add(uid);
@@ -176,7 +175,7 @@ public class PlayerPokemobCache extends PlayerData
             var.putBoolean("_in_pc_", this._in_pc_.contains(id));
             var.putBoolean("_dead_", this._dead_.contains(id));
             final ItemStack stack = this.cache.get(id);
-            list.add(stack.save(access, var));
+            if(!stack.isEmpty()) list.add(stack.save(access, var));
         }
         tag.put("data", list);
     }

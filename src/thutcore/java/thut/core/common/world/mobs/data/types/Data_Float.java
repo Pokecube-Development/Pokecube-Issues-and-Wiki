@@ -1,10 +1,11 @@
 package thut.core.common.world.mobs.data.types;
 
 import io.netty.buffer.ByteBuf;
+import thut.api.world.mobs.data.Data;
 
 public class Data_Float extends Data_Base<Float>
 {
-    Float value = 0f;
+    public Data_Float() {this.value = 0f;}
 
     @Override
     public Float get()
@@ -20,15 +21,18 @@ public class Data_Float extends Data_Base<Float>
     }
 
     @Override
-    public void set(Float value)
+    public Data<Float> set(Float value)
     {
-        if (this.value.equals(value)) return;
+        if (this.value.equals(value)) return this;
         if (value == null)
         {
             this.value = 0f;
-            return;
+            this.setDirty(true);
+            return this;
         }
         this.value = value;
+        this.setDirty(true);
+        return this;
     }
 
     @Override

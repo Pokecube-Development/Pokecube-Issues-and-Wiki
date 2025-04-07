@@ -1,11 +1,6 @@
 package pokecube.api.utils;
 
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.Map;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
@@ -13,6 +8,10 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import thut.core.common.ThutCore;
 import thut.lib.TComponent;
+
+import java.util.Arrays;
+import java.util.Locale;
+import java.util.Map;
 
 public class PokeType
 {
@@ -78,6 +77,12 @@ public class PokeType
         names.put(name, this);
         values = Arrays.copyOf(values, values.length + 1);
         values[values.length - 1] = this;;
+    }
+
+    @Override
+    public String toString()
+    {
+        return this.name;
     }
 
     public int ordinal()

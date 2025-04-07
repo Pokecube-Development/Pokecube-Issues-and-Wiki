@@ -101,10 +101,9 @@ public class ThutCrafts
     }
 
     public void addCreative(BuildCreativeModeTabContentsEvent event) {
-        ThutCore.LOGGER.info(event.getTabKey()+"");
+
         if (event.getTabKey() == CreativeModeTabs.OP_BLOCKS)
         {
-//            ThutCreativeTabs.addBefore(event, Items.DEBUG_STICK, ThutCrafts.CRAFTMAKER.get());
             ThutCreativeTabs.addFront(event, ThutCrafts.CRAFTMAKER.get());
         }
         if (event.getTab().equals(ThutCreativeTabs.UTILITIES_TAB.get()))

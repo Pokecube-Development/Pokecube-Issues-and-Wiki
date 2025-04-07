@@ -2,10 +2,12 @@ package thut.core.common.world.mobs.data.types;
 
 import io.netty.buffer.ByteBuf;
 import thut.api.entity.IMultiplePassengerEntity.Seat;
+import thut.api.maths.vecmath.Vec3f;
+import thut.api.world.mobs.data.Data;
 
 public class Data_Seat extends Data_Base<Seat>
 {
-    Seat value = null;
+    public Data_Seat() {this.value = new Seat(new Vec3f(), null);}
 
     @Override
     public Seat get()
@@ -22,10 +24,12 @@ public class Data_Seat extends Data_Base<Seat>
     }
 
     @Override
-    public void set(Seat value)
+    public Data<Seat> set(Seat value)
     {
-        if (value != null && value.equals(this.value)) return;
+        if (value != null && value.equals(this.value)) return this;
         this.value = value;
+        this.setDirty(true);
+        return this;
     }
 
     @Override

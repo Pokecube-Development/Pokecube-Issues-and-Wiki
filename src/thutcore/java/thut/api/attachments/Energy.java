@@ -159,7 +159,7 @@ public class Energy
         }
     }
 
-    public static final ResourceLocation LOCSAVEABLE = ResourceLocation.parse("thutcore:energy");
+    public static final ResourceLocation ID = ResourceLocation.parse("thutcore:energy");
 
     // ITEM DATA
 
@@ -179,7 +179,7 @@ public class Energy
     @SuppressWarnings("unchecked")
     public static final HolderProvider<EnergyStorage>[] REGISTRY = (HolderProvider<EnergyStorage>[]) new HolderProvider<?>[6];
 
-    public static final HolderProvider<EnergyStorage> DEFAULT()
+    public static HolderProvider<EnergyStorage> DEFAULT()
     {
         return REGISTRY[0];
     }
@@ -215,7 +215,7 @@ public class Energy
     {
         for (Direction d : Direction.values())
         {
-            var prov = new HolderProvider<EnergyStorage>();
+            var prov = new HolderProvider<EnergyStorage>(ID);
             REGISTRY[d.ordinal()] = prov;
             var KEY = "energy_" + d.getName().toLowerCase(Locale.ROOT);
 

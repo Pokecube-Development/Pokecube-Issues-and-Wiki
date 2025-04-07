@@ -73,16 +73,17 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     public CraftController controller = new CraftController(this);
     int energy = 0;
     public UUID owner;
-    final Integer[] SEAT = new Integer[10];
+    final Data_Seat[] SEAT = new Data_Seat[10];
 
     EntityDimensions size;
 
     public EntityCraft(final EntityType<EntityCraft> type, final Level par1World)
     {
         super(type, par1World);
+        this.dataSync.setRegisterTag("seats");
         // Define the seats
         for (int i = 0; i < SEAT.length; i++)
-            SEAT[i] = this.dataSync.register(new Data_Seat().setRealtime(), new Seat(new Vec3f(), null));
+            SEAT[i] = (Data_Seat) this.dataSync.register(new Data_Seat().setRealtime());
     }
 
     @Override
@@ -236,7 +237,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         {
             final Seat toSet = this.getSeat(n);
             toSet.seat.set(seat);
-            this.dataSync.set(SEAT[n], toSet);
+            SEAT[n].set(toSet);
             this.setSeatCount(n + 1);
         }
         catch (Exception e)
@@ -351,7 +352,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
 
     Seat getSeat(final int index)
     {
-        return this.dataSync.get(SEAT[index]);
+        return SEAT[index].get();
     }
 
     int getSeatCount()
@@ -368,7 +369,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
             final Seat seat = this.getSeat(i);
             ret.add(seat.seat);
         }
-        return null;
+        return ret;
     }
 
     @Override
@@ -407,7 +408,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
             {
                 final CompoundTag nbt1 = seatsList.getCompound(i);
                 final Seat seat = Seat.readFromNBT(nbt1);
-                this.dataSync.set(SEAT[i], seat);
+                SEAT[i].set(seat);
             }
         }
     }
@@ -416,7 +417,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
         super.defineSynchedData(builder);
-        builder.define(EntityCraft.MAINSEATDW, Integer.valueOf(-1));
+        builder.define(EntityCraft.MAINSEATDW, -1);
         builder.define(EntityCraft.SEATCOUNT, 0);
     }
 
@@ -457,7 +458,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         {
             toSet = (Seat) toSet.clone();
             toSet.setEntityId(id);
-            this.dataSync.set(SEAT[index], toSet);
+            SEAT[index].set(toSet);
         }
     }
 
@@ -488,7 +489,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     {
         final Seat seat = (Seat) this.getSeat(index).clone();
         seat.setEntityId(id);
-        this.dataSync.set(SEAT[index], seat);
+        SEAT[index].set(seat);
     }
 
     @Override

@@ -1,20 +1,8 @@
 package thut.core.common.genetics;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.nbt.CompoundTag;
@@ -26,8 +14,19 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.GeneHolder;
+import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.core.common.ThutCore;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class DefaultGenetics implements IMobGenetics
 {
@@ -50,7 +49,7 @@ public class DefaultGenetics implements IMobGenetics
         return this.genetics.keySet();
     }
 
-    private List<Consumer<Gene<?>>> _listeners = new ArrayList<>();
+    private final List<Consumer<Gene<?>>> _listeners = new ArrayList<>();
 
     public void addChangeListener(Consumer<Gene<?>> listener)
     {
@@ -66,13 +65,23 @@ public class DefaultGenetics implements IMobGenetics
     @Override
     public <GENE extends Gene<?>> void setGenes(GENE g1, GENE g2)
     {
-        @SuppressWarnings(
-        { "rawtypes", "unchecked" })
+        @SuppressWarnings({ "rawtypes", "unchecked" })
         var a = new Alleles(g1, g2, this);
         this.genetics.put(g1.getKey(), a);
         // Update the expressed gene after adding it to our map. This notifies
         // gene listeners, and ensures they can look it up from our map.
         a.getExpressed();
+        a.onChanged();
+    }
+
+    @Override
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public <GENE extends Gene<?>> void setGenes(GENE g1, GENE g2, GENE gexp)
+    {
+        var a = new Alleles(g1, g2, this);
+        a.setExpressed(gexp);
+        this.genetics.put(g1.getKey(), a);
+        a.onChanged();
     }
 
     @SuppressWarnings("unchecked")
@@ -120,8 +129,7 @@ public class DefaultGenetics implements IMobGenetics
                 if (gene2.getMutationRate() > this.rand.nextFloat()) gene2 = gene2.mutate(parent1, parent2);
 
                 // Make the new allele.
-                final Alleles<?, ?> allele = new Alleles<>(gene1, gene2, this);
-                this.getAlleles().put(gene1.getKey(), allele);
+                this.setGenes(gene1, gene2);
             }
         }
     }
@@ -151,26 +159,26 @@ public class DefaultGenetics implements IMobGenetics
         for (int i = 0; i < list.size(); i++)
         {
             final CompoundTag tag = list.getCompound(i);
-            final Alleles<?, ?> alleles = new Alleles<>(this);
+            final Alleles<?, ?> alleles = new Alleles<>();
             final ResourceLocation key = ResourceLocation.parse(tag.getString("K"));
             try
             {
-                // Set in map first, so that it can be checked during load's
-                // change listeners.
-                this.getAlleles().put(key, alleles);
                 alleles.load(provider, tag.getCompound("V"), key);
+                this.setGenes(alleles.getAllele(0), alleles.getAllele(1), alleles.getExpressed());
             }
             catch (final Exception e)
             {
                 this.getAlleles().remove(key);
-                ThutCore.LOGGER.error("Error loading gene for key: " + key, e);
+                ThutCore.LOGGER.error("Error loading gene for key: {}", key, e);
             }
         }
     }
 
     public static IMobGenetics makeProvider(final IAttachmentHolder in)
     {
-        return new DefaultGenetics();
+        var genes = new DefaultGenetics();
+        GeneRegistry.applyDefaultGenes(genes, in);
+        return genes;
     }
 
     public static IMobGenetics get(final IAttachmentHolder in)
@@ -184,16 +192,16 @@ public class DefaultGenetics implements IMobGenetics
 
     public static void registerAttachment(DeferredRegister<AttachmentType<?>> registry)
     {
-        Function<IAttachmentHolder, IMobGenetics> func_a = DefaultGenetics::makeProvider;
-        var attach_a = AttachmentType.serializable(func_a).build();
-        TYPE = registry.register(KEY.getPath(), () -> attach_a);
+        TYPE = registry.register(KEY.getPath(),
+                () -> AttachmentType.serializable(DefaultGenetics::makeProvider).build());
     }
 
     public static Supplier<DataComponentType<GeneHolder>> GENE_STORE;
 
     public static void registerItemData(DeferredRegister<DataComponentType<?>> registry)
     {
-        GENE_STORE = registry.register("gene_storage", name -> new DataComponentType.Builder<GeneHolder>()
-                .persistent(GeneHolder.CODEC).networkSynchronized(GeneHolder.STREAM_CODEC).build());
+        GENE_STORE = registry.register("gene_storage",
+                name -> new DataComponentType.Builder<GeneHolder>().persistent(GeneHolder.CODEC)
+                        .networkSynchronized(GeneHolder.STREAM_CODEC).build());
     }
 }

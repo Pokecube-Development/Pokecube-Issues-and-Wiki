@@ -1,12 +1,8 @@
 package pokecube.core.ai.brain.sensors;
 
-import java.util.List;
-import java.util.Set;
-
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,7 +14,6 @@ import net.minecraft.world.level.ClipContext.Block;
 import net.minecraft.world.level.ClipContext.Fluid;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -31,6 +26,9 @@ import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import thut.api.level.terrain.TerrainManager;
 import thut.api.maths.Vector3;
+
+import java.util.List;
+import java.util.Set;
 
 public class NearBlocks extends Sensor<LivingEntity>
 {
@@ -94,10 +92,9 @@ public class NearBlocks extends Sensor<LivingEntity>
         final Predicate<BlockPos> visible = input -> {
             final Vec3 end = new Vec3(input.getX() + 0.5, input.getY() + 0.5, input.getZ() + 0.5);
             final ClipContext context = new ClipContext(start, end, Block.COLLIDER, Fluid.NONE, entityIn);
-            final HitResult result = worldIn.clip(context);
+            final BlockHitResult result = worldIn.clip(context);
             if (result.getType() == Type.MISS) return true;
-            final BlockHitResult hit = (BlockHitResult) result;
-            return hit.getBlockPos().equals(input);
+            return result.getBlockPos().equals(input);
         };
 
         for (int i = 0; i < size * size * size; i++)
@@ -113,7 +110,7 @@ public class NearBlocks extends Sensor<LivingEntity>
         }
 
         final BlockPos o0 = entityIn.blockPosition();
-        list.sort((o1, o2) -> (int) (o1.getPos().distSqr(o0) - o1.getPos().distSqr(o0)));
+        list.sort((o1, o2) -> (int) (o1.getPos().distSqr(o0) - o2.getPos().distSqr(o0)));
         final Brain<?> brain = entityIn.getBrain();
         if (!list.isEmpty()) brain.setMemory(MemoryModules.VISIBLE_BLOCKS.get(), list);
         else brain.eraseMemory(MemoryModules.VISIBLE_BLOCKS.get());

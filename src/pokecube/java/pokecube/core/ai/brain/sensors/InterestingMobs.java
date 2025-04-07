@@ -1,13 +1,6 @@
 package pokecube.core.ai.brain.sensors;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-
 import com.google.common.collect.ImmutableSet;
-
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
@@ -34,6 +27,12 @@ import thut.api.ThutCaps;
 import thut.api.entity.IBreedingMob;
 import thut.api.entity.ai.RootTask;
 import thut.api.level.terrain.TerrainManager;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 public class InterestingMobs extends Sensor<LivingEntity>
 {
@@ -142,7 +141,7 @@ public class InterestingMobs extends Sensor<LivingEntity>
         if (!projectiles.isEmpty()) brain.setMemory(MemoryModules.VISIBLE_PROJECTILES.get(), projectiles);
         else brain.eraseMemory(MemoryModules.VISIBLE_PROJECTILES.get());
         if (!survivalPlayers.isEmpty())
-            brain.setMemory(MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER, survivalPlayers.get(0));
+            brain.setMemory(MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER, survivalPlayers.getFirst());
         else brain.eraseMemory(MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER);
         if (brain.checkMemory(MemoryModules.EGG.get(), MemoryStatus.REGISTERED))
         {

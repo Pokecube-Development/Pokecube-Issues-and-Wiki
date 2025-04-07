@@ -44,9 +44,10 @@ public abstract class PokemobRidable extends PokemobHasParts
     public PokemobRidable(final EntityType<? extends TamableAnimal> type, final Level worldIn)
     {
         super(type, worldIn);
+        this.pokemobCap.dataSync().setRegisterTag("seats");
         // Define the seats
         for (int i = 0; i < SEAT.length; i++)
-            SEAT[i] = this.pokemobCap.dataSync().register(new Data_Seat().setRealtime(), new Seat(new Vec3f(), null));
+            SEAT[i] = (Data_Seat) this.pokemobCap.dataSync().register(new Data_Seat().setRealtime());
     }
 
     @Override
@@ -54,8 +55,8 @@ public abstract class PokemobRidable extends PokemobHasParts
     {
         final List<Entity> passengers = this.getPassengers();
         if (passengers.isEmpty()) return null;
-        return this.getPassengers().get(0).getUUID().equals(this.pokemobCap.getOwnerId())
-                ? (LivingEntity) this.getPassengers().get(0)
+        return this.getPassengers().getFirst().getUUID().equals(this.pokemobCap.getOwnerId())
+                ? (LivingEntity) this.getPassengers().getFirst()
                 : null;
     }
 
@@ -229,19 +230,19 @@ public abstract class PokemobRidable extends PokemobHasParts
         return new Vec3((double) f, 0.0D, (double) f1);
     }
 
-    @Override
     /**
      * This is "can have saddle equipped
      */
+    @Override
     public boolean isSaddleable()
     {
         return this.isAlive() && this.getOwnerUUID() != null;
     }
 
-    @Override
     /**
      * This is "add saddle"
      */
+    @Override
     public void equipSaddle(ItemStack stack, @Nullable final SoundSource sound)
     {
         this.pokemobCap.getInventory().setItem(0, stack);
@@ -255,7 +256,7 @@ public abstract class PokemobRidable extends PokemobHasParts
     }
 
     // ========== IMultipassenger stuff below here ==============
-    final Integer[] SEAT = new Integer[10];
+    final Data_Seat[] SEAT = new Data_Seat[10];
 
     private boolean init = false;
     private String lastPose = "";
@@ -298,7 +299,7 @@ public abstract class PokemobRidable extends PokemobHasParts
             final Seat seat = this.getSeat(i);
             ret.add(seat.seat);
         }
-        return null;
+        return ret;
     }
 
     @Override
@@ -309,7 +310,7 @@ public abstract class PokemobRidable extends PokemobHasParts
         if (!old.equals(id))
         {
             toSet = new Seat(toSet.seat, id);
-            this.pokemobCap.dataSync().set(SEAT[index], toSet);
+            SEAT[index].set(toSet);
         }
     }
 
@@ -364,7 +365,7 @@ public abstract class PokemobRidable extends PokemobHasParts
                 seat.z = (float) (part.__ride__.z) * size;
                 final Seat newSeat = (Seat) this.getSeat(index).clone();
                 newSeat.seat = seat;
-                this.pokemobCap.dataSync().set(SEAT[index], newSeat);
+                SEAT[index].set(newSeat);
             }
         }
         else
@@ -383,7 +384,7 @@ public abstract class PokemobRidable extends PokemobHasParts
                 seat.z *= dz;
                 final Seat newSeat = (Seat) this.getSeat(index).clone();
                 newSeat.seat = seat;
-                this.pokemobCap.dataSync().set(SEAT[index], newSeat);
+                SEAT[index].set(newSeat);
             }
         }
     }
@@ -416,7 +417,7 @@ public abstract class PokemobRidable extends PokemobHasParts
 
     Seat getSeat(final int index)
     {
-        return this.pokemobCap.dataSync().get(SEAT[index]);
+        return SEAT[index].get();
     }
 
     @Override
@@ -486,7 +487,7 @@ public abstract class PokemobRidable extends PokemobHasParts
             final Mat3f transform = new Mat3f();
             transform.mul(matrixYaw, matrixPitch);
 
-            float dx = this == player.getPassengers().get(0) ? 0.2f + this.getBbWidth() / 2
+            float dx = this == player.getPassengers().getFirst() ? 0.2f + this.getBbWidth() / 2
                     : -(0.4f + this.getBbWidth() / 2);
 
             this.setOrderedToSit(true);

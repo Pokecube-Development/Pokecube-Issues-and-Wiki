@@ -1,10 +1,7 @@
 package pokecube.core.handlers.playerdata.advancements.triggers;
 
-import java.util.Optional;
-
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
 import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.CriterionValidator;
 import net.minecraft.advancements.critereon.EntityPredicate;
@@ -13,12 +10,15 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.stats.CaptureStats;
 import pokecube.api.utils.TagNames;
 import pokecube.core.database.Database;
 import pokecube.core.impl.PokecubeMod;
+
+import java.util.Optional;
 
 public class CatchPokemobTrigger extends SimpleCriterionTrigger<CatchPokemobTrigger.TriggerInstance>
 {
@@ -37,6 +37,7 @@ public class CatchPokemobTrigger extends SimpleCriterionTrigger<CatchPokemobTrig
     {
         LootParams lootparams = new LootParams.Builder(player.serverLevel())
                 .withParameter(Triggers.POKEDEX_ENTRY, pokemob.getPokedexEntry())
+                .withParameter(LootContextParams.THIS_ENTITY, pokemob.getEntity())
                 .create(SimplePokemobTrigger.SIMPLE_POKEMOB_SET);
         return new LootContext.Builder(lootparams).create(Optional.empty());
     }
@@ -60,9 +61,8 @@ public class CatchPokemobTrigger extends SimpleCriterionTrigger<CatchPokemobTrig
         public boolean matches(LootContext context)
         {
             if (entry.isEmpty()) return false;
-            if (!entry().get().matches(context)) return false;
-            if (!number().get().matches(context)) return false;
-            return true;
+            if(!entry().stream().allMatch(e->e.matches(context))) return false;
+            return number().stream().allMatch(e -> e.matches(context));
         }
 
         @Override

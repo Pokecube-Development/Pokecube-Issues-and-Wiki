@@ -59,10 +59,10 @@ public class Linkable
             return new LinkHolder(link, link.serializeNBT(context));
         }
 
-        public static final Codec<LinkHolder> CODEC = CompoundTag.CODEC
-                .<LinkHolder>comapFlatMap(LinkHolder::read, LinkHolder::tag).stable();
-        public static final StreamCodec<ByteBuf, LinkHolder> STREAM_CODEC = ByteBufCodecs.COMPOUND_TAG
-                .map(LinkHolder::parse, LinkHolder::tag);
+        public static final Codec<LinkHolder> CODEC = CompoundTag.CODEC.<LinkHolder>comapFlatMap(LinkHolder::read,
+                LinkHolder::tag).stable();
+        public static final StreamCodec<ByteBuf, LinkHolder> STREAM_CODEC = ByteBufCodecs.COMPOUND_TAG.map(
+                LinkHolder::parse, LinkHolder::tag);
 
         public static DataResult<LinkHolder> read(CompoundTag tag)
         {
@@ -86,28 +86,24 @@ public class Linkable
     public static interface ILinkStorage extends INBTSerializable<CompoundTag>
     {
         /**
-         * This gets the UUID for a mob, if this is null, then it does not have
-         * a linked mob
+         * This gets the UUID for a mob, if this is null, then it does not have a linked mob
          */
         @Nullable
         UUID getLinkedMob(Entity user);
 
         /**
-         * This gets the UUID for a pos, if this is null, then it does not have
-         * a linked pos
+         * This gets the UUID for a pos, if this is null, then it does not have a linked pos
          */
         @Nullable
         GlobalPos getLinkedPos(Entity user);
 
         /**
-         * This will set the linked mob, returns whether this setting actually
-         * occured.
+         * This will set the linked mob, returns whether this setting actually occured.
          */
         boolean setLinkedMob(@Nullable UUID mobid, @Nullable Entity user);
 
         /**
-         * This will set the linked pos, returns whether this setting actually
-         * occured.
+         * This will set the linked pos, returns whether this setting actually occured.
          */
         boolean setLinkedPos(@Nullable GlobalPos pos, @Nullable Entity user);
 
@@ -271,8 +267,9 @@ public class Linkable
 
     public static void registerItemData(DeferredRegister<DataComponentType<?>> registry)
     {
-        LINK_STORE = registry.register("link_storage", name -> new DataComponentType.Builder<LinkHolder>()
-                .persistent(LinkHolder.CODEC).networkSynchronized(LinkHolder.STREAM_CODEC).build());
+        LINK_STORE = registry.register("link_storage",
+                name -> new DataComponentType.Builder<LinkHolder>().persistent(LinkHolder.CODEC)
+                        .networkSynchronized(LinkHolder.STREAM_CODEC).build());
     }
 
     // ENTITY/TILE ENTITY ATTACHMENT
@@ -283,7 +280,7 @@ public class Linkable
     @SuppressWarnings("unchecked")
     public static final HolderProvider<ILinkable>[] REGISTRY = (HolderProvider<ILinkable>[]) new HolderProvider<?>[6];
 
-    public static final HolderProvider<ILinkable> DEFAULT()
+    public static HolderProvider<ILinkable> DEFAULT()
     {
         return REGISTRY[0];
     }
@@ -299,7 +296,7 @@ public class Linkable
     {
         for (Direction d : Direction.values())
         {
-            var prov = new HolderProvider<Linkable.ILinkable>();
+            var prov = new HolderProvider<Linkable.ILinkable>(ResourceLocation.parse("thutcore:item_storage"));
             REGISTRY[d.ordinal()] = prov;
             var KEY = "linkable_" + d.getName().toLowerCase(Locale.ROOT);
 
@@ -307,7 +304,7 @@ public class Linkable
             TYPES[d.ordinal()] = type;
 
             var ID = ResourceLocation.fromNamespaceAndPath("thutcore", KEY);
-            prov.register(new HolderProvider.Provider<Linkable.ILinkable>()
+            prov.register(new HolderProvider.Provider<>()
             {
                 @Override
                 public Linkable.ILinkable apply(IAttachmentHolder t)

@@ -72,8 +72,6 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
 
     private void initGenes()
     {
-        if (this.getGenes() == null) throw new RuntimeException("This should not be called here");
-
         // Species gene
         var _speciesCache = new SpeciesGene();
         var info = _speciesCache.getValue();
@@ -157,7 +155,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     @Override
     public String getAbilityName()
     {
-        return this.dataSync().get(this.params.ABILITYNAMEID);
+        return this.params.ABILITYNAMEID.get();
     }
 
     @Override
@@ -189,6 +187,10 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     public String[] getMoves()
     {
         Alleles<String[], MovesGene> genesMoves = getGenes().getAlleles(GeneticsManager.MOVESGENE);
+        if (genesMoves == null)
+        {
+            Thread.dumpStack();
+        }
         final MovesGene gene = genesMoves.getExpressed();
         if (_movesChanged)
         {
@@ -211,6 +213,11 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     public PokedexEntry getPokedexEntry()
     {
         Alleles<SpeciesInfo, SpeciesGene> genesSpecies = getGenes().getAlleles(GeneticsManager.SPECIESGENE);
+        if (genesSpecies == null)
+        {
+            Thread.dumpStack();
+            return Database.missingno;
+        }
         return genesSpecies.getExpressed().getValue().getTmpEntry();
     }
 
@@ -314,12 +321,12 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         obj.ability = ability != null
                 ? defalt != null && defalt.getName().equals(ability.getName()) ? "" : ability.toString()
                 : "";
+        String name = ability != null ? ability.getName() : "";
         if (ability != null)
         {
             ability.init(this);
-            this.dataSync().set(this.params.ABILITYNAMEID, ability.getName());
         }
-        else this.dataSync().set(this.params.ABILITYNAMEID, "");
+        this.params.ABILITYNAMEID.set(name);
         this.moveInfo.battleAbility = ability;
         PacketSyncGene.syncGeneToTracking(this.getEntity(), genesAbility);
     }
@@ -333,7 +340,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
             if (ability != null)
             {
                 ability.init(this);
-                this.dataSync().set(this.params.ABILITYNAMEID, ability.getName());
+                this.params.ABILITYNAMEID.set(ability.getName());
             }
             return;
         }

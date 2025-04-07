@@ -51,10 +51,6 @@ public abstract class PokemobAI extends PokemobEvolves
 {
     private final boolean[] routineStates = new boolean[AIRoutine.values().length];
 
-    private int cachedGeneralState;
-    private int cachedCombatState;
-    private int cachedLogicState;
-
     private List<IAIRunnable> tasks = new ArrayList<>();
     private Map<String, IAIRunnable> namedTasks = new HashMap<>();
 
@@ -63,7 +59,7 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public float getPitch()
     {
-        return this.dataSync().get(this.params.DIRECTIONPITCHDW);
+        return this.params.DIRECTIONPITCHDW.get();
     }
 
     @Override
@@ -98,25 +94,19 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public int getTotalCombatState()
     {
-        if (this.getEntity().level().isClientSide)
-            this.cachedCombatState = this.dataSync().get(this.params.COMBATSTATESDW);
-        return this.cachedCombatState;
+        return this.params.COMBATSTATESDW.get();
     }
 
     @Override
     public int getTotalGeneralState()
     {
-        if (this.getEntity().level().isClientSide)
-            this.cachedGeneralState = this.dataSync().get(this.params.GENERALSTATESDW);
-        return this.cachedGeneralState;
+        return this.params.GENERALSTATESDW.get();
     }
 
     @Override
     public int getTotalLogicState()
     {
-        if (this.getEntity().level().isClientSide)
-            this.cachedLogicState = this.dataSync().get(this.params.LOGICSTATESDW);
-        return this.cachedLogicState;
+        return this.params.LOGICSTATESDW.get();
     }
 
     @Override
@@ -179,7 +169,7 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public void setDirectionPitch(final float pitch)
     {
-        this.dataSync().set(this.params.DIRECTIONPITCHDW, pitch);
+        this.params.DIRECTIONPITCHDW.set(pitch);
     }
 
     @Override
@@ -204,25 +194,22 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public void setTotalCombatState(final int state)
     {
-        this.cachedCombatState = state;
-        this.dataSync().set(this.params.COMBATSTATESDW, state);
+        this.params.COMBATSTATESDW.set(state);
     }
 
     @Override
     public void setTotalGeneralState(final int state)
     {
-        this.cachedGeneralState = state;
-        this.dataSync().set(this.params.GENERALSTATESDW, state);
+        this.params.GENERALSTATESDW.set(state);
     }
 
     @Override
     public void setTotalLogicState(final int state)
     {
-        this.cachedLogicState = state;
-        this.dataSync().set(this.params.LOGICSTATESDW, state);
+        this.params.LOGICSTATESDW.set(state);
         // Sync sitting status over to the TameableEntity
         if (this.getEntity() instanceof TamableAnimal animal)
-            animal.setOrderedToSit((this.cachedLogicState & LogicStates.SITTING.getMask()) != 0);
+            animal.setOrderedToSit((state & LogicStates.SITTING.getMask()) != 0);
     }
 
     @Override

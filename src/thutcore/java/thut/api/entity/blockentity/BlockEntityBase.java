@@ -1,17 +1,8 @@
 package thut.api.entity.blockentity;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import org.joml.Vector3f;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -24,11 +15,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.level.Level;
@@ -38,6 +25,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
+import org.joml.Vector3f;
 import thut.api.ThutCaps;
 import thut.api.entity.blockentity.block.TempBlock;
 import thut.api.entity.blockentity.block.TempTile;
@@ -45,12 +33,19 @@ import thut.api.entity.blockentity.world.IBlockEntityWorld;
 import thut.api.entity.blockentity.world.WorldEntity;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
+import thut.api.world.mobs.data.Data;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.ThutCore;
 import thut.core.common.world.mobs.data.PacketDataSync;
 import thut.core.common.world.mobs.data.types.Data_Vec3;
 import thut.crafts.ThutCrafts;
 import thut.lib.TComponent;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class BlockEntityBase extends Entity implements IBlockEntity, IEntityWithComplexSpawn
 {
@@ -62,12 +57,12 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
                     EntityDimensions.scalable(1, 1), 0.0f, 64, 1, FeatureFlagSet.of());
         }
 
-//        TODO custom client factory?
-//        @Override
-//        public T customClientSpawn(final SpawnEntity packet, final Level world)
-//        {
-//            return this.create(world);
-//        }
+        //        TODO custom client factory?
+        //        @Override
+        //        public T customClientSpawn(final SpawnEntity packet, final Level world)
+        //        {
+        //            return this.create(world);
+        //        }
 
         @Override
         public boolean isBlockDangerous(BlockState p_20631_)
@@ -77,8 +72,7 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
     }
 
     public static record RelativeEntityPos(Entity entity, AtomicInteger lastSeen, Vector3f relativePos)
-    {
-    }
+    {}
 
     public BlockPos boundMin = BlockPos.ZERO;
     public BlockPos boundMax = BlockPos.ZERO;
@@ -111,7 +105,7 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
     private Vec3 v = Vec3.ZERO;
 
     protected final DataSync dataSync;
-    private final int POS;
+    private final Data<Optional<Vec3>> POS;
 
     public Map<Entity, RelativeEntityPos> recentCollides = Maps.newHashMap();
 
@@ -122,7 +116,7 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
         this.invulnerableTime = 0;
         this.noPhysics = true;
         dataSync = ThutCaps.getDataSync(this);
-        POS = dataSync.register(new Data_Vec3().setRealtime(), Optional.empty());
+        POS = dataSync.register(new Data_Vec3().setRealtime());
     }
 
     protected Vector3 getForceDirection()
@@ -148,16 +142,15 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
     }
 
     /**
-     * Applies a velocity to each of the entities pushing them away from each
-     * other. Args: entity
+     * Applies a velocity to each of the entities pushing them away from each other. Args: entity
      */
     @Override
     public void push(final Entity entity)
     {}
 
     @Override
-    /** Applies the given player interaction to this Entity. */
-    public InteractionResult interactAt(final Player player, final Vec3 vec, final InteractionHand hand)
+    /** Applies the given player interaction to this Entity. */ public InteractionResult interactAt(final Player player,
+            final Vec3 vec, final InteractionHand hand)
     {
         return super.interactAt(player, vec, hand);
     }
@@ -178,15 +171,13 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
     }
 
     @Override
-    /** Called when the entity is attacked. */
-    public boolean hurt(final DamageSource source, final float amount)
+    /** Called when the entity is attacked. */ public boolean hurt(final DamageSource source, final float amount)
     {
         return false;
     }
 
     /**
-     * Returns true if other Entities should be prevented from moving through
-     * this Entity.
+     * Returns true if other Entities should be prevented from moving through this Entity.
      */
     @Override
     public boolean isPickable()
@@ -200,8 +191,7 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
     }
 
     /**
-     * Returns true if this entity should push and be pushed by other entities
-     * when colliding.
+     * Returns true if this entity should push and be pushed by other entities when colliding.
      */
     @Override
     public boolean isPushable()
@@ -262,8 +252,8 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
             var entity = entry.getKey();
             var entityV = entity.getDeltaMovement();
             var pos = entry.getValue().relativePos;
-            var eBounds = entity.getBoundingBox().inflate(Math.abs(entityV.x()), Math.abs(entityV.y()),
-                    Math.abs(entityV.z()));
+            var eBounds = entity.getBoundingBox()
+                    .inflate(Math.abs(entityV.x()), Math.abs(entityV.y()), Math.abs(entityV.z()));
             boolean stillHit = eBounds.intersects(usBounds);
 
             boolean valid = stillHit;// || entity.distanceToSqr(this) < 64;
@@ -329,7 +319,7 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
             {
                 this.move(MoverType.SELF, F.toVec3d());
                 this.setV(v = Vec3.ZERO);
-                this.dataSync.set(POS, Optional.of(this.position()));
+                POS.set(Optional.of(this.position()));
             }
             else
             {
@@ -348,13 +338,13 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
             }
             else
             {
-                this.dataSync.set(POS, Optional.of(this.position()));
+                POS.set(Optional.of(this.position()));
             }
         }
         else
         {
-            Optional<Vec3> rOpt = this.dataSync.get(POS);
-            if (!rOpt.isPresent()) return;
+            Optional<Vec3> rOpt = POS.get();
+            if (rOpt.isEmpty()) return;
             Vec3 r_1 = rOpt.get();
             Vec3 r_0 = this.position();
             Vec3 v = r_1.subtract(r_0);
@@ -375,7 +365,7 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
             a = vec.subtract(this.v);
             v = vec;
             a = F.normalize().scalarMult(this.getAccel()).toVec3d();
-            this.dataSync.set(POS, Optional.of(r.add(v)));// .add(a)
+            POS.set(Optional.of(r.add(v)));
             this.setDeltaMovement(v);
         }
     }
@@ -429,8 +419,7 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
     }
 
     /**
-     * Checks if the entity's current position is a valid location to spawn this
-     * entity.
+     * Checks if the entity's current position is a valid location to spawn this entity.
      */
     public boolean getCanSpawnHere()
     {
@@ -525,24 +514,27 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
             if (sizeY == 0) sizeY = 1;
             this.blocks = new BlockState[sizeX][sizeY][sizeZ];
             this.tiles = new BlockEntity[sizeX][sizeY][sizeZ];
-            for (int i = 0; i < sizeX; i++) for (int k = 0; k < sizeY; k++) for (int j = 0; j < sizeZ; j++)
-            {
-                final String name = "B" + i + "," + k + "," + j;
-                if (!blockTag.contains(name)) continue;
-                // TODO see if this needs to use a passed in holderlookup
-                final BlockState state = NbtUtils.readBlockState(this.level().holderLookup(Registries.BLOCK),
-                        blockTag.getCompound(name));
-                this.blocks[i][k][j] = state;
-                if (blockTag.contains("T" + i + "," + k + "," + j)) try
-                {
-                    final CompoundTag tag = blockTag.getCompound("T" + i + "," + k + "," + j);
-                    this.tiles[i][k][j] = BlockEntity.loadStatic(BlockPos.ZERO, state, tag, this.registryAccess());
-                }
-                catch (final Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
+            for (int i = 0; i < sizeX; i++)
+                for (int k = 0; k < sizeY; k++)
+                    for (int j = 0; j < sizeZ; j++)
+                    {
+                        final String name = "B" + i + "," + k + "," + j;
+                        if (!blockTag.contains(name)) continue;
+                        // TODO see if this needs to use a passed in holderlookup
+                        final BlockState state = NbtUtils.readBlockState(this.level().holderLookup(Registries.BLOCK),
+                                blockTag.getCompound(name));
+                        this.blocks[i][k][j] = state;
+                        if (blockTag.contains("T" + i + "," + k + "," + j)) try
+                        {
+                            final CompoundTag tag = blockTag.getCompound("T" + i + "," + k + "," + j);
+                            this.tiles[i][k][j] = BlockEntity.loadStatic(BlockPos.ZERO, state, tag,
+                                    this.registryAccess());
+                        }
+                        catch (final Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
             // Call these in this order so any appropriate changes can be made.
             this.setBlocks(this.blocks);
             this.setTiles(this.tiles);
@@ -673,24 +665,26 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
             final int sizeX = this.blocks.length;
             final int sizeY = this.blocks[0].length;
             final int sizeZ = this.blocks[0][0].length;
-            for (int i = 0; i < sizeX; i++) for (int k = 0; k < sizeY; k++) for (int j = 0; j < sizeZ; j++)
-            {
-                final BlockState b = this.blocks[i][k][j];
-                if (b == null) continue;
-                blocksTag.put("B" + i + "," + k + "," + j, NbtUtils.writeBlockState(b));
-                try
-                {
-                    if (this.tiles[i][k][j] != null)
+            for (int i = 0; i < sizeX; i++)
+                for (int k = 0; k < sizeY; k++)
+                    for (int j = 0; j < sizeZ; j++)
                     {
-                        CompoundTag tag = this.tiles[i][k][j].saveWithFullMetadata(this.registryAccess());
-                        blocksTag.put("T" + i + "," + k + "," + j, tag);
+                        final BlockState b = this.blocks[i][k][j];
+                        if (b == null) continue;
+                        blocksTag.put("B" + i + "," + k + "," + j, NbtUtils.writeBlockState(b));
+                        try
+                        {
+                            if (this.tiles[i][k][j] != null)
+                            {
+                                CompoundTag tag = this.tiles[i][k][j].saveWithFullMetadata(this.registryAccess());
+                                blocksTag.put("T" + i + "," + k + "," + j, tag);
+                            }
+                        }
+                        catch (final Exception e)
+                        {
+                            e.printStackTrace();
+                        }
                     }
-                }
-                catch (final Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
             nbt.put("Blocks", blocksTag);
         }
     }

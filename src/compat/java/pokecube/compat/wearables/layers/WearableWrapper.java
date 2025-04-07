@@ -317,9 +317,9 @@ public class WearableWrapper
                     part.addChild(wrapper);
                     if (debug)
                     {
-                        part.getRenderOrder().add(0, wrapper);
+                        part.getRenderOrder().addFirst(wrapper);
                         imodel.getParts().put(ident, wrapper);
-                        imodel.getRenderOrder().add(0, wrapper);
+                        imodel.getRenderOrder().addFirst(wrapper);
                     }
                     else
                     {
@@ -336,14 +336,13 @@ public class WearableWrapper
                     wrapper.mob = wearer;
                     imodel.getRenderOrder().remove(wrapper);
 
+                    imodel.getParts().put(ident, wrapper);
                     if (debug)
                     {
-                        imodel.getParts().put(ident, wrapper);
-                        imodel.getRenderOrder().add(0, wrapper);
+                        imodel.getRenderOrder().addFirst(wrapper);
                     }
                     else
                     {
-                        imodel.getParts().put(ident, wrapper);
                         imodel.getRenderOrder().add(wrapper);
                     }
                     part.preProcess();
@@ -352,7 +351,6 @@ public class WearableWrapper
         }
 
         final PlayerWearables worn = ThutWearables.getWearables(wearer);
-        if (worn == null) return;
 
         int index = 0;
         for (final EnumWearable wearable : EnumWearable.values())
@@ -380,9 +378,9 @@ public class WearableWrapper
                         part.addChild(wrapper);
                         if (debug)
                         {
-                            part.getRenderOrder().add(0, wrapper);
+                            part.getRenderOrder().addFirst(wrapper);
                             imodel.getParts().put(ident, wrapper);
-                            imodel.getRenderOrder().add(0, wrapper);
+                            imodel.getRenderOrder().addFirst(wrapper);
                         }
                         else
                         {
@@ -402,14 +400,13 @@ public class WearableWrapper
                         wrapper.subIndex = i;
                         imodel.getRenderOrder().remove(wrapper);
 
+                        imodel.getParts().put(ident, wrapper);
                         if (debug)
                         {
-                            imodel.getParts().put(ident, wrapper);
-                            imodel.getRenderOrder().add(0, wrapper);
+                            imodel.getRenderOrder().addFirst(wrapper);
                         }
                         else
                         {
-                            imodel.getParts().put(ident, wrapper);
                             imodel.getRenderOrder().add(wrapper);
                         }
                         part.preProcess();

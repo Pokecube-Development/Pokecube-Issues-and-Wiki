@@ -1,12 +1,7 @@
 package pokecube.adventures.capabilities;
 
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -58,11 +53,16 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.Tracker;
 import thut.api.data.HolderProvider;
 import thut.api.maths.Vector3;
+import thut.api.world.mobs.data.Data;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.ThutCore;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 import thut.core.common.world.mobs.data.types.Data_ItemStack;
 import thut.core.common.world.mobs.data.types.Data_String;
+
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 public class CapabilityHasPokemobs
 {
@@ -70,8 +70,9 @@ public class CapabilityHasPokemobs
     {
         public static class DataParamHolder
         {
-            public int TYPE;
-            public int[] POKEMOBS = new int[6];
+            public Data<String> TYPE;
+            @SuppressWarnings("unchecked")
+            public Data<ItemStack>[] POKEMOBS = new Data[6];
         }
 
         public static class DefeatEntry implements Comparable<DefeatEntry>
@@ -240,13 +241,14 @@ public class CapabilityHasPokemobs
 
         public DefaultPokemobs()
         {
-            this.initSync((this.datasync));
+            this.initSync(this.datasync);
         }
 
         private void initSync(DataSync sync){
-            holder.TYPE = sync.register(new Data_String(), "");
+            sync.setRegisterTag("trainer");
+            holder.TYPE = sync.register(new Data_String());
             for (int i = 0; i < 6; i++)
-                holder.POKEMOBS[i] = sync.register(new Data_ItemStack(), ItemStack.EMPTY);
+                holder.POKEMOBS[i] = sync.register(new Data_ItemStack());
         }
 
         @Override
@@ -393,7 +395,7 @@ public class CapabilityHasPokemobs
         @Override
         public ItemStack getPokemob(final int slot)
         {
-            return this.datasync.get(this.holder.POKEMOBS[slot]);
+            return this.holder.POKEMOBS[slot].get();
         }
 
         @Override
@@ -415,7 +417,7 @@ public class CapabilityHasPokemobs
         {
             if (!(this.user.level instanceof ServerLevel))
             {
-                final String t = this.datasync.get(this.holder.TYPE);
+                final String t = this.holder.TYPE.get();
                 // Handle possible null type for if things are called at wrong
                 // times on client side.
                 if (this.type == null) this.type = TypeTrainer.merchant;
@@ -707,7 +709,7 @@ public class CapabilityHasPokemobs
                     }
                 }
             }
-            this.datasync.set(this.holder.POKEMOBS[slot], cube);
+            this.holder.POKEMOBS[slot].set(cube);
         }
 
         @Override
@@ -771,7 +773,7 @@ public class CapabilityHasPokemobs
         public void setType(TypeTrainer type)
         {
             this.type = type;
-            if (!this.user.level.isClientSide) this.datasync.set(this.holder.TYPE, type == null ? "" : type.getName());
+            this.holder.TYPE.set(type == null ? "" : type.getName());
         }
 
         @Override
@@ -837,8 +839,7 @@ public class CapabilityHasPokemobs
         @Override
         public void setDataSync(final DataSync sync)
         {
-            this.initSync(sync);
-            sync.copyFrom(this.datasync);
+            sync.mapFrom(this.datasync, "trainer");
             this.datasync = sync;
         }
 

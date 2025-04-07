@@ -1,14 +1,6 @@
 package thut.api.attachments;
 
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-import java.util.function.Supplier;
-
-import org.jetbrains.annotations.UnknownNullability;
-
 import com.google.common.collect.Sets;
-
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
@@ -34,11 +26,17 @@ import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import org.jetbrains.annotations.UnknownNullability;
 import thut.api.ThutCaps;
 import thut.api.block.IOwnableTE;
 import thut.api.data.HolderProvider;
 import thut.api.item.ItemList;
 import thut.core.common.ThutCore;
+
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+import java.util.function.Supplier;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.GAME)
 public class Ownable
@@ -347,14 +345,15 @@ public class Ownable
     public static final Set<EntityType<?>> MOBS = Sets.newHashSet();
     public static final Set<BlockEntityType<?>> TILES = Sets.newHashSet();
 
-    public static final ResourceLocation LOCSAVEABLE = ResourceLocation.parse("thutcore:ownable");
+    public static final ResourceLocation ID = ResourceLocation.parse("thutcore:ownable");
     public static final ResourceLocation STICKTAG = ResourceLocation.parse("thutcore:pokeystick");
 
-    public static final HolderProvider<IOwnableSerializable> _REGISTRY = new HolderProvider<Ownable.IOwnableSerializable>();
+    public static final HolderProvider<IOwnableSerializable> _REGISTRY = new HolderProvider<>(ID);
     public static Supplier<AttachmentType<IOwnableSerializable>> TYPE;
 
     public static IOwnable get(final IAttachmentHolder in)
     {
+        if (in == null) return null;
         if (in.hasData(TYPE.get())) return in.getData(TYPE.get());
         return null;
     }
@@ -368,9 +367,9 @@ public class Ownable
 
     public static void registerAttachment(DeferredRegister<AttachmentType<?>> registry)
     {
-        TYPE = registry.register(LOCSAVEABLE.getPath(), () -> AttachmentType.serializable(_REGISTRY::make).build());
+        TYPE = registry.register(ID.getPath(), () -> AttachmentType.serializable(_REGISTRY::make).build());
 
-        _REGISTRY.register(new HolderProvider.Provider<IOwnableSerializable>()
+        _REGISTRY.register(new HolderProvider.Provider<>()
         {
             @Override
             public IOwnableSerializable apply(IAttachmentHolder mob)
@@ -383,7 +382,7 @@ public class Ownable
             @Override
             protected ResourceLocation key()
             {
-                return LOCSAVEABLE;
+                return ID;
             }
         });
     }
@@ -407,8 +406,8 @@ public class Ownable
         if (tile != null && tile.getLevel() instanceof ServerLevel level)
         {
             final IOwnable ownable = ThutCaps.getOwnable(tile);
-            if (ownable instanceof IOwnableTE te && te.canEdit(event.getEntity())
-                    && ItemList.is(Ownable.STICKTAG, event.getItemStack()) && te.getOwnerId() != null)
+            if (ownable instanceof IOwnableTE te && te.canEdit(event.getEntity()) && ItemList.is(Ownable.STICKTAG,
+                    event.getItemStack()) && te.getOwnerId() != null)
             {
                 BlockState state = level.getBlockState(event.getPos());
                 List<ItemStack> drops = Block.getDrops(state, level, event.getPos(), tile, event.getEntity(),

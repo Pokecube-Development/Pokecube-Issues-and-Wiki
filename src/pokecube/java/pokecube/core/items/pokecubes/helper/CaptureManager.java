@@ -1,7 +1,5 @@
 package pokecube.core.items.pokecubes.helper;
 
-import java.util.UUID;
-
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -37,6 +35,8 @@ import thut.api.ThutCaps;
 import thut.api.attachments.IOwnable;
 import thut.api.maths.Vector3;
 import thut.lib.TComponent;
+
+import java.util.UUID;
 
 public class CaptureManager
 {
@@ -85,8 +85,8 @@ public class CaptureManager
             cube.setTime(CAPTURE_SHRINK_TIMER);
             final ItemStack mobStack = cube.getItem().copy();
             PokecubeManager.addToCube(mobStack, mob);
+            PokecubeManager.setTilt(mobStack, 5, cube.level());
             cube.setItem(mobStack);
-            PokecubeManager.setTilt(cube.getItem(), 5, cube.level());
             v.set(cube).addTo(0, mob.getBbHeight() / 2, 0).moveEntity(cube);
             removeMob = true;
             cube.setCapturing(mob);
@@ -98,9 +98,12 @@ public class CaptureManager
                 int n = cube.getTilt();
                 if (n == 5) cube.setTime(CAPTURE_SHRINK_TIMER);
                 else cube.setTime(CAPTURE_SHAKE_TIME * n + CAPTURE_SHRINK_TIMER);
-                hitten.setPokecube(cube.getItem());
-                cube.setItem(PokecubeManager.pokemobToItem(hitten));
-                PokecubeManager.setTilt(cube.getItem(), cube.getTilt(), cube.level());
+                ItemStack mobsCube = cube.getItem().copy();
+                PokemobCaps.removePokemob(mobsCube);
+                hitten.setPokecube(mobsCube);
+                ItemStack stack = PokecubeManager.pokemobToItem(hitten);
+                PokecubeManager.setTilt(stack, cube.getTilt(), cube.level());
+                cube.setItem(stack);
                 v.set(cube).addTo(0, mob.getBbHeight() / 2, 0).moveEntity(cube);
                 removeMob = true;
                 cube.setCapturing(mob);
@@ -111,9 +114,12 @@ public class CaptureManager
                 cube.setTilt(n);
                 if (n == 5) cube.setTime(CAPTURE_SHRINK_TIMER);
                 else cube.setTime(CAPTURE_SHAKE_TIME * n + CAPTURE_SHRINK_TIMER);
-                hitten.setPokecube(cube.getItem());
-                cube.setItem(PokecubeManager.pokemobToItem(hitten));
-                PokecubeManager.setTilt(cube.getItem(), n, cube.level());
+                ItemStack mobsCube = cube.getItem().copy();
+                PokemobCaps.removePokemob(mobsCube);
+                hitten.setPokecube(mobsCube);
+                ItemStack stack = PokecubeManager.pokemobToItem(hitten);
+                PokecubeManager.setTilt(stack, n, cube.level());
+                cube.setItem(stack);
                 v.set(cube).addTo(0, mob.getBbHeight() / 2, 0).moveEntity(cube);
                 removeMob = true;
                 cube.setCapturing(mob);
@@ -127,9 +133,8 @@ public class CaptureManager
                 // If they want these to differ, they can add a pokedex entry
                 // for the specfic mob.
                 final int catchRate = 250;
-                final double cubeBonus = modifier;
                 final double statusbonus = 1;
-                final double a = Tools.getCatchRate(mob.getMaxHealth(), mob.getHealth(), catchRate, cubeBonus,
+                final double a = Tools.getCatchRate(mob.getMaxHealth(), mob.getHealth(), catchRate, modifier,
                         statusbonus);
                 if (a > 255)
                 {
@@ -146,10 +151,11 @@ public class CaptureManager
             cube.setTilt(n);
             if (n == 5) cube.setTime(CAPTURE_SHRINK_TIMER);
             else cube.setTime(CAPTURE_SHAKE_TIME * n + CAPTURE_SHRINK_TIMER);
-            final ItemStack mobStack = cube.getItem().copy();
-            PokecubeManager.addToCube(mobStack, mob);
-            cube.setItem(mobStack);
-            PokecubeManager.setTilt(cube.getItem(), n, cube.level());
+            ItemStack mobsCube = cube.getItem().copy();
+            mobsCube.remove(PokemobCaps.POKECUBE_DATA);
+            hitten.setPokecube(mobsCube);
+            ItemStack stack = PokecubeManager.pokemobToItem(hitten);
+            PokecubeManager.setTilt(stack, n, cube.level());
             v.set(cube).addTo(0, mob.getBbHeight() / 2, 0).moveEntity(cube);
             removeMob = true;
             cube.setCapturing(mob);
@@ -172,7 +178,7 @@ public class CaptureManager
         cube.setNotCapturing();
         cube.setReleased(living);
 
-        if (living != null) living.moveTo(cube.capturePos.x, cube.capturePos.y, cube.capturePos.z, cube.getYRot(), 0.0F);
+        living.moveTo(cube.capturePos.x, cube.capturePos.y, cube.capturePos.z, cube.getYRot(), 0.0F);
         if (pokemob != null)
         {
             EntityPokecubeBase.setNoCaptureBasedOnConfigs(pokemob);

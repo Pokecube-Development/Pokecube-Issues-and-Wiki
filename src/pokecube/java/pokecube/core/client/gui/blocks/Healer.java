@@ -45,7 +45,7 @@ public class Healer<T extends HealerContainer> extends AbstractContainerScreen<T
         graphics.blit(Resources.GUI_HEAL_TABLE, x, y, 0, 0, this.imageWidth, this.imageHeight);
 
         // Heal Button
-        if (this.healButton.isHoveredOrFocused() || this.healButton2.isHoveredOrFocused())
+        if (this.healButton.isHovered() || this.healButton2.isHovered())
             graphics.blit(WIDGETS_GUI, x + 16, y + 25, 45, 215, 36, 36);
         else graphics.blit(WIDGETS_GUI, x + 16, y + 25, 0, 215, 36, 36);
     }
@@ -90,7 +90,7 @@ public class Healer<T extends HealerContainer> extends AbstractContainerScreen<T
     /** Draws the screen and all the components in it. */
     public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
-        this.renderBackground(graphics, mouseY, mouseY, partialTicks);
+        this.renderBackground(graphics, mouseX, mouseY, partialTicks);
         super.render(graphics, mouseX, mouseY, partialTicks);
         this.renderTooltip(graphics, mouseX, mouseY);
     }

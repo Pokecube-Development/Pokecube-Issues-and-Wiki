@@ -44,6 +44,7 @@ public class PlayerPokemobs extends DefaultPokemobs
 
     public PlayerPokemobs(final Player player)
     {
+        super();
         this.player = player;
         this.init(player, new DefaultAIStates(), new DefaultMessager(), new DefaultRewards());
     }

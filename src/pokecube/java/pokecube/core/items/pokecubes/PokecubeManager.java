@@ -1,10 +1,6 @@
 package pokecube.core.items.pokecubes;
 
-import java.util.List;
-import java.util.UUID;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -26,6 +22,9 @@ import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import thut.lib.TComponent;
+
+import java.util.List;
+import java.util.UUID;
 
 public class PokecubeManager
 {
@@ -54,14 +53,14 @@ public class PokecubeManager
     public static UUID getOwnerId(final ItemStack itemStack, Level level)
     {
         PokecubeContents contents = PokemobCaps.getPokemobIn(itemStack, level);
-        if (contents == null) return null;
+        if (contents == null || contents.pokemob() == null) return null;
         return contents.pokemob().getOwnerId();
     }
 
     public static PokedexEntry getPokedexEntry(final ItemStack itemStack, Level level)
     {
         PokecubeContents contents = PokemobCaps.getPokemobIn(itemStack, level);
-        if (contents == null) return null;
+        if (contents == null || contents.pokemob() == null) return null;
         return contents.pokemob().getPokedexEntry();
     }
 
@@ -82,7 +81,7 @@ public class PokecubeManager
     public static int getStatus(final ItemStack itemStack, Level level)
     {
         PokecubeContents contents = PokemobCaps.getPokemobIn(itemStack, level);
-        if (contents == null) return 0;
+        if (contents == null || contents.pokemob() == null) return 0;
         return contents.pokemob().getStatus();
     }
 
@@ -95,7 +94,7 @@ public class PokecubeManager
     public static Integer getUID(final ItemStack stack, Level level)
     {
         PokecubeContents contents = PokemobCaps.getPokemobIn(stack, level);
-        if (contents == null) return 0;
+        if (contents == null || contents.pokemob() == null) return 0;
         return contents.pokemob().getPokemonUID();
     }
 

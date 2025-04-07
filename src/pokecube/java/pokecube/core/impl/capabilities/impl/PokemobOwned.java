@@ -84,7 +84,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
     @Override
     public int getDyeColour()
     {
-        int info = this.dataSync().get(this.params.DYECOLOUR);
+        int info = this.params.DYECOLOUR.get();
         if (info == -1)
             info = this.isShiny() ? this.getPokedexEntry().defaultSpecials : this.getPokedexEntry().defaultSpecial;
         return info;
@@ -256,8 +256,8 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         if (getOwnerId() != null)
         {
             itemstack = PokecubeManager.pokemobToItem(this);
-            if (onDeath) itemstack.get(PokemobCaps.POKECUBE_DATA).tag().putLong("pokecube:recall_tick",
-                    Tracker.instance().getTick());
+            if (onDeath) itemstack.get(PokemobCaps.POKECUBE_DATA).tag()
+                    .putLong("pokecube:recall_tick", Tracker.instance().getTick());
         }
         toPlayer:
         if (owner instanceof Player player)
@@ -346,10 +346,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
     }
 
     @Override
-    public void setDyeColour(final int info)
-    {
-        this.dataSync().set(this.params.DYECOLOUR, Integer.valueOf(info));
-    }
+    public void setDyeColour(final int info) {this.params.DYECOLOUR.set(info);}
 
     // Cache of last held itemstack, as shift clicking inventories clears stacks
     // via network stuff.
@@ -358,10 +355,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
     @Override
     public void setHeldItem(final ItemStack itemStack)
     {
-        if (ThutCore.proxy.isServerSide())
-        {
-            this.dataSync().set(this.params.HELDITEMDW, itemStack);
-        }
+        this.params.HELDITEMDW.set(itemStack);
         super.setHeldItem(itemStack);
     }
 
@@ -374,10 +368,10 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
             // If we have a cache of last held, swap over to that.
             if (!_lastHeld.isEmpty()) oldStack = _lastHeld;
             this.getPokedexEntry().onHeldItemChange(oldStack, itemStack, this);
-            this.dataSync().set(this.params.HELDITEMDW, itemStack);
-            // Copy the item over as the actual item gets invalidated.
-            _lastHeld = itemStack.copy();
         }
+        // Copy the item over as the actual item gets invalidated.
+        _lastHeld = itemStack.copy();
+        this.params.HELDITEMDW.set(_lastHeld);
         return itemStack;
     }
 
@@ -388,7 +382,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
             this.guardCap = CapHolders.getGuardAI(entity);
 
         // Then lets just log the error
-        if (this.guardCap == null || this.guardCap.getPrimaryTask() == null)
+        if (this.guardCap.getPrimaryTask() == null)
         {
             PokecubeAPI.LOGGER.error("Error with setting home! {}", this.guardCap);
             return;
@@ -491,7 +485,8 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         FormeHolder forme = this.getCustomHolder();
         if (forme != null)
         {
-            Alleles<SpeciesGene.SpeciesInfo, SpeciesGene> genesSpecies = getGenes().getAlleles(GeneticsManager.SPECIESGENE);
+            Alleles<SpeciesGene.SpeciesInfo, SpeciesGene> genesSpecies = getGenes().getAlleles(
+                    GeneticsManager.SPECIESGENE);
             // Sync these to PGs as well
             genesSpecies.getAllele(0).getValue().setForme(forme);
             genesSpecies.getAllele(1).getValue().setForme(forme);
@@ -549,7 +544,9 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         }
         if (pokemob != this) pokemob.spawnInit(this.spawnInitRule);
         return pokemob;
-    };
+    }
+
+    ;
 
     @Override
     public void markRemoved()

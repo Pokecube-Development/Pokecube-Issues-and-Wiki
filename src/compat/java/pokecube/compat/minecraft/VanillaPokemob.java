@@ -52,7 +52,7 @@ public class VanillaPokemob extends PokemobSaves
     @Override
     public float getHeading()
     {
-        if (this.getGeneralState(GeneralStates.CONTROLLED)) return this.dataSync.get(this.params.HEADINGDW);
+        if (this.getGeneralState(GeneralStates.CONTROLLED)) return this.params.HEADINGDW.get();
         return this.getEntity().getYRot();
     }
 
@@ -78,7 +78,7 @@ public class VanillaPokemob extends PokemobSaves
         if (this.getGeneralState(GeneralStates.CONTROLLED))
         {
             this.getEntity().setYRot(heading);;
-            this.dataSync.set(this.params.HEADINGDW, heading);
+            this.params.HEADINGDW.set(heading);
         }
     }
 
@@ -109,13 +109,12 @@ public class VanillaPokemob extends PokemobSaves
         if (this.isSheared() || !this.getEntity().isEffectiveAi()) return;
         final ResourceLocation WOOL = ResourceLocation.parse("wool");
 
-        final ItemStack key = shears;
-        if (this.getPokedexEntry().interact(key))
+        if (this.getPokedexEntry().interact(shears))
         {
             final ArrayList<ItemStack> ret = new ArrayList<>();
             this.setGeneralState(GeneralStates.SHEARED, true);
             this.getEntity().getPersistentData().putLong(TagNames.SHEARTIME, Tracker.instance().getTick());
-            final Interaction action = this.getPokedexEntry().interactionLogic.getFor(key);
+            final Interaction action = this.getPokedexEntry().interactionLogic.getFor(shears);
             final List<ItemStack> list = action.stacks;
             this.applyHunger(action.hunger);
             for (final ItemStack stack : list)

@@ -1,10 +1,11 @@
 package thut.core.common.world.mobs.data.types;
 
 import io.netty.buffer.ByteBuf;
+import thut.api.world.mobs.data.Data;
 
 public class Data_String extends Data_Base<String>
 {
-    String value = "";
+    public Data_String() {this.value = "";}
 
     @Override
     public String get()
@@ -23,15 +24,18 @@ public class Data_String extends Data_Base<String>
     }
 
     @Override
-    public void set(String value)
+    public Data<String> set(String value)
     {
-        if (this.value.equals(value)) return;
+        if (this.value.equals(value)) return this;
         if (value == null)
         {
             this.value = "";
-            return;
+            this.setDirty(true);
+            return this;
         }
         this.value = value;
+        this.setDirty(true);
+        return this;
     }
 
     @Override

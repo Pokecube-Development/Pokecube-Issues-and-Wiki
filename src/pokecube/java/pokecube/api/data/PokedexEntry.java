@@ -1,23 +1,8 @@
 package pokecube.api.data;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Predicate;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -91,6 +76,19 @@ import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 import thut.lib.TComponent;
+
+import javax.annotation.Nullable;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Predicate;
 
 /** @author Manchou */
 public class PokedexEntry
@@ -2008,14 +2006,13 @@ public class PokedexEntry
     {
         if (this.icons[0][0] == null)
         {
-            final String path = this.texturePath.replace("entity", "entity_icon");
-            final String texture = path + this.getTrimmedName();
+            final String texture = this.getTrimmedName();
             if (this.isGenderForme)
             {
-                this.icons[0][0] = ResourceLocation.parse(texture + ".png");
-                this.icons[0][1] = ResourceLocation.parse(texture + "_s.png");
-                this.icons[1][0] = ResourceLocation.parse(texture + ".png");
-                this.icons[1][1] = ResourceLocation.parse(texture + "_s.png");
+                this.icons[0][0] = ResourceLocation.parse(texture);
+                this.icons[0][1] = ResourceLocation.parse(texture + "_s");
+                this.icons[1][0] = ResourceLocation.parse(texture);
+                this.icons[1][1] = ResourceLocation.parse(texture + "_s");
             }
             else
             {
@@ -2028,10 +2025,10 @@ public class PokedexEntry
                 noGender = noGender || this.getSexeRatio() >= 254;
                 if (noGender) male_ = female_ = "";
 
-                this.icons[0][0] = ResourceLocation.parse(texture + male_ + ".png");
-                this.icons[0][1] = ResourceLocation.parse(texture + male_ + "_s.png");
-                this.icons[1][0] = ResourceLocation.parse(texture + female_ + ".png");
-                this.icons[1][1] = ResourceLocation.parse(texture + female_ + "_s.png");
+                this.icons[0][0] = ResourceLocation.parse(texture + male_);
+                this.icons[0][1] = ResourceLocation.parse(texture + male_ + "_s");
+                this.icons[1][0] = ResourceLocation.parse(texture + female_);
+                this.icons[1][1] = ResourceLocation.parse(texture + female_ + "_s");
             }
         }
         final int i = male ? 0 : 1;

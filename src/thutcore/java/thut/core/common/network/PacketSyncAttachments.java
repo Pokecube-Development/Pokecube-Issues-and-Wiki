@@ -60,8 +60,7 @@ public class PacketSyncAttachments extends Packet
     }
 
     /**
-     * Syncs wearables to the player when they join a world. This fixes client
-     * issues when they use nether portals, etc
+     * Syncs wearables to the player when they join a world. This fixes client issues when they use nether portals, etc
      *
      * @param event
      */
@@ -72,14 +71,14 @@ public class PacketSyncAttachments extends Packet
         {
             // Delay this execution, so the mob is actually tracked when it
             // runs.
-            WorldTickManager.scheduleTask(mob.level().dimension(), new DelayedTask(
-                    Tracker.instance().getTick() + (mob instanceof Player ? 10 : 0), () -> sendPackets(mob)));
+            WorldTickManager.scheduleTask(mob.level().dimension(),
+                    new DelayedTask(Tracker.instance().getTick() + (mob instanceof Player ? 10 : 0),
+                            () -> sendPackets(mob)));
         }
     }
 
     /**
-     * Syncs wearables to the player when they join a world. This fixes client
-     * issues when they use nether portals, etc
+     * Syncs wearables to the player when they join a world. This fixes client issues when they use nether portals, etc
      *
      * @param event
      */
@@ -152,6 +151,7 @@ public class PacketSyncAttachments extends Packet
     private static void sendForKey(Entity mob, ResourceLocation key)
     {
         var type = NeoForgeRegistries.ATTACHMENT_TYPES.get(key);
+        if (!mob.hasData(type)) return;
         var data = mob.getData(type);
         if (!(data instanceof INBTSerializable)) return;
         var tag = ((INBTSerializable) data).serializeNBT(mob.registryAccess());
@@ -162,7 +162,8 @@ public class PacketSyncAttachments extends Packet
             {
                 _defact = (Function<IAttachmentHolder, ?>) GETDEF.get(type);
                 var def = _defact.apply(mob);
-                return ((INBTSerializable) def).serializeNBT(mob.registryAccess());
+                if (def != null) return ((INBTSerializable) def).serializeNBT(mob.registryAccess());
+                else ThutCore.logInfo("No attachment for {} for {}", key, mob);
             }
             catch (IllegalArgumentException | IllegalAccessException e)
             {
@@ -208,7 +209,6 @@ public class PacketSyncAttachments extends Packet
     public void handleClient(Player player)
     {
         final Level world = player.level;
-        if (world == null) return;
         final Entity p = world.getEntity(this.data.getInt("I"));
         if (p != null)
         {

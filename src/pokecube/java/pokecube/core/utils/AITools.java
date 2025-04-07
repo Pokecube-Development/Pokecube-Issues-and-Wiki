@@ -1,16 +1,10 @@
 package pokecube.core.utils;
 
-import java.util.List;
-import java.util.function.Predicate;
-
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
-
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
@@ -21,7 +15,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.TeamManager;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -35,6 +28,9 @@ import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.damage.IPokedamage;
 import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
+
+import java.util.List;
+import java.util.function.Predicate;
 
 public class AITools
 {
@@ -241,33 +237,23 @@ public class AITools
         return true;
     }
 
-    public static void reloadBrain(LivingEntity entity, CompoundTag compound)
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public static <E extends LivingEntity> void reloadBrain(E entity, CompoundTag compound)
     {
         if (compound.contains("Brain", 10))
         {
-            final Brain<?> brain = entity.getBrain();
+            final Brain brain = entity.getBrain();
             final CompoundTag mems = compound.getCompound("Brain").getCompound("memories");
-            for (final String s : mems.getAllKeys())
-            {
-                final Tag nbt = mems.get(s);
-                try
-                {
-                    final Dynamic<Tag> d = new Dynamic<>(NbtOps.INSTANCE, nbt);
-                    @SuppressWarnings("unchecked")
-                    final MemoryModuleType<Object> mem = (MemoryModuleType<Object>) BuiltInRegistries.MEMORY_MODULE_TYPE
-                            .get(ResourceLocation.parse(s));
-                    final DataResult<?> res = mem.getCodec().map(DataResult::success)
-                            .orElseGet(() -> DataResult.error(() -> "Error loading Memory??"))
-                            .flatMap(codec -> codec.parse(d));
-
-                    var memory = res.getOrThrow();
-                    brain.setMemory(mem, memory);
-                }
-                catch (final Throwable e)
-                {
-                    PokecubeAPI.LOGGER.error(e);
-                }
-            }
+            var ops = new Dynamic<>(NbtOps.INSTANCE, compound.get("Brain"));
+            var memoryTypes = brain.memories.keySet();
+            var sensorTypes = brain.sensors.keySet();
+            var codec = Brain.codec(memoryTypes, sensorTypes);
+            Brain copy = (Brain) codec
+                    .parse(ops)
+                    .resultOrPartial(PokecubeAPI.LOGGER::error)
+                    .orElseGet(() -> new Brain<>(memoryTypes, sensorTypes, ImmutableList.of(), () -> codec));
+            brain.memories.clear();
+            brain.memories.putAll(copy.memories);
         }
     }
 }

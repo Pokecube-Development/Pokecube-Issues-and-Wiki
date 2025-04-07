@@ -1,7 +1,8 @@
 {
   "display": {
     "icon": {
-      "item": "pokecube:pokecube"
+      "count": 1,
+      "id": "pokecube:pokecube"
     },
     "title": {
       "translate": "achievement.pokecube.catch",
@@ -28,5 +29,6 @@
       }
     }
   },
-  "parent": "pokecube_mobs:capture/get_first_pokemob"
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "sends_telemetry_event": true
 }

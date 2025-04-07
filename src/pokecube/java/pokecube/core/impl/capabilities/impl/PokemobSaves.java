@@ -1,7 +1,5 @@
 package pokecube.core.impl.capabilities.impl;
 
-import java.util.UUID;
-
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -14,6 +12,8 @@ import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.utils.TagNames;
 import thut.api.entity.ai.IAIRunnable;
+
+import java.util.UUID;
 
 public abstract class PokemobSaves extends PokemobOwned implements TagNames
 {
@@ -90,7 +90,7 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         // Read visuals tag
         if (!visualsTag.isEmpty())
         {
-            this.dataSync().set(this.params.DYECOLOUR, visualsTag.getInt(TagNames.SPECIALTAG));
+            this.setDyeColour(visualsTag.getInt(TagNames.SPECIALTAG));
             final int[] flavourAmounts = visualsTag.getIntArray(TagNames.FLAVOURSTAG);
             if (flavourAmounts.length == 5)
                 for (int i = 0; i < flavourAmounts.length; i++) this.setFlavourAmount(i, flavourAmounts[i]);
@@ -199,7 +199,7 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         // This is still written for pokecubes to read from. Actual form is
         // stored in genes.
         visualsTag.putString(TagNames.FORME, this.getPokedexEntry().getTrimmedName());
-        visualsTag.putInt(TagNames.SPECIALTAG, this.dataSync().get(this.params.DYECOLOUR));
+        visualsTag.putInt(TagNames.SPECIALTAG, this.params.DYECOLOUR.get());
         final int[] flavourAmounts = new int[5];
         for (int i = 0; i < flavourAmounts.length; i++) flavourAmounts[i] = this.getFlavourAmount(i);
         visualsTag.putIntArray(TagNames.FLAVOURSTAG, flavourAmounts);

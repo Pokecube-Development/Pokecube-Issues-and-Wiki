@@ -146,7 +146,8 @@ public class PokecubePlayerStats extends PlayerData
     public void setHasFirst(final Player player)
     {
         this.hasFirst = true;
-        Triggers.FIRSTPOKEMOB.get().trigger((ServerPlayer) player);
+        var trig = Triggers.FIRSTPOKEMOB;
+        trig.get().trigger((ServerPlayer) player);
     }
 
     @Override

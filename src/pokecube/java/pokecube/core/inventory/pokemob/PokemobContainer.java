@@ -1,9 +1,6 @@
 package pokecube.core.inventory.pokemob;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.Container;
@@ -23,6 +20,8 @@ import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.Resources;
 import thut.api.inventory.BaseContainer;
+
+import java.util.List;
 
 public class PokemobContainer extends BaseContainer
 {

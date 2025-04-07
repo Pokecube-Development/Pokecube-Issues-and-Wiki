@@ -31,13 +31,11 @@ public class CombatTypeLoader
             // First add them all in as enums.
             for (final JsonType type2 : this.types)
             {
-                final JsonType type = type2;
-                type.init();
-                if (PokeType.getType(type.name) == PokeType.unknown && !type.name.equals("???"))
-                    new PokeType(type.colour, type.name);
-                typeMap.put(type.name, type);
+                type2.init();
+                if (PokeType.getType(type2.name) == PokeType.unknown && !type2.name.equals("???"))
+                    new PokeType(type2.colour, type2.name);
+                typeMap.put(type2.name, type2);
             }
-            System.out.println(typeMap + " " + this.types);
             int n = PokeType.values().length;
             PokeType.typeTable = new float[n][n];
             for (int i = 0; i < n; i++)
@@ -47,7 +45,6 @@ public class CombatTypeLoader
                 Arrays.fill(arr, 1.0f);
                 PokeType type = PokeType.values()[i];
                 final JsonType current = typeMap.get(type.name);
-                System.out.println(current + " " + type.name);
                 for (int j = 0; j < n; j++) arr[j] = current.effect(PokeType.values()[j].name);
             }
         }

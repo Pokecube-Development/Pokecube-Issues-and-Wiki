@@ -32,12 +32,12 @@ public interface IMobTexturable
             return null;
         }
 
-        public static final HolderProvider<IMobTexturable> _REGISTRY = new HolderProvider<>();
-        public static final ResourceLocation LOCSAVEABLE = ResourceLocation.parse("thutcore:mob_texture");
+        public static final ResourceLocation ID = ResourceLocation.parse("thutcore:mob_texture");
+        public static final HolderProvider<IMobTexturable> _REGISTRY = new HolderProvider<>(ID);
         public static Supplier<AttachmentType<IMobTexturable>> TYPE;
         public static void registerAttachment(DeferredRegister<AttachmentType<?>> registry)
         {
-            TYPE = registry.register(LOCSAVEABLE.getPath(), () -> AttachmentType.builder(_REGISTRY::make).build());
+            TYPE = registry.register(ID.getPath(), () -> AttachmentType.builder(_REGISTRY::make).build());
         }
     }
 

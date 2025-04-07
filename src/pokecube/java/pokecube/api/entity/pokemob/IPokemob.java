@@ -3,12 +3,6 @@
  */
 package pokecube.api.entity.pokemob;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -45,9 +39,15 @@ import thut.api.entity.IHungrymob;
 import thut.api.entity.IMobColourable;
 import thut.api.entity.IShearable;
 import thut.api.entity.ai.IAIRunnable;
+import thut.api.entity.genetics.IMobGenetics;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.DataSync;
 import thut.lib.TComponent;
+
+import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /** @author Manchou */
 public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOwner, IHasStats, IHungrymob,
@@ -123,12 +123,11 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         {
             if (this.icons[0][0] == null)
             {
-                final String path = base.texturePath.replace("entity", "entity_icon");
-                final String texture = path + this.key.getPath();
-                this.icons[0][0] = ResourceLocation.parse(texture + ".png");
-                this.icons[0][1] = ResourceLocation.parse(texture + "_s.png");
-                this.icons[1][0] = ResourceLocation.parse(texture + ".png");
-                this.icons[1][1] = ResourceLocation.parse(texture + "_s.png");
+                final String texture = this.key.getPath();
+                this.icons[0][0] = ResourceLocation.parse(texture);
+                this.icons[0][1] = ResourceLocation.parse(texture + "_s");
+                this.icons[1][0] = ResourceLocation.parse(texture);
+                this.icons[1][1] = ResourceLocation.parse(texture + "_s");
             }
             final int i = male ? 0 : 1;
             final int j = shiny ? 1 : 0;
@@ -903,4 +902,8 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     {
         return KEY;
     }
+
+    IMobGenetics getGenes();
+
+    void setGenes(IMobGenetics genes);
 }

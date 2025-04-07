@@ -21,7 +21,8 @@ import thut.core.common.ThutCore;
 
 public abstract class PokemobHungry extends PokemobMoves
 {
-    public static final ResourceLocation LEPPABERRY = ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID, "berry_leppa");
+    public static final ResourceLocation LEPPABERRY = ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID,
+            "berry_leppa");
 
     @SuppressWarnings("unchecked")
     <T> T cast(final Object o)
@@ -50,15 +51,16 @@ public abstract class PokemobHungry extends PokemobMoves
                 int weight = Nature.getBerryWeight(berry.type.index, this.getNature());
                 final int current = this.getHappiness();
                 final HappinessType type = HappinessType.BERRY;
-                if (current < 100) weight *= type.low / 10f;
-                else if (current < 200) weight *= type.mid / 10f;
-                else weight *= type.high / 10f;
+                if (current < 100) weight *= (int) (type.low / 10f);
+                else if (current < 200) weight *= (int) (type.mid / 10f);
+                else weight *= (int) (type.high / 10f);
                 this.addHappiness(weight);
             }
         }
         this.applyHunger(-hungerValue);
         this.hungerCooldown = 0;
-        this.getEntity().playSound(BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.generic.eat")), 1, 1);
+        this.getEntity()
+                .playSound(BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.generic.eat")), 1, 1);
         this.setCombatState(CombatStates.HUNTING, false);
         if (!this.getEntity().isAlive()) return null;
         final float missingHp = this.getMaxHealth() - this.getHealth();
@@ -93,7 +95,7 @@ public abstract class PokemobHungry extends PokemobMoves
     @Override
     public int getFlavourAmount(final int index)
     {
-        return this.dataSync().get(this.params.FLAVOURS[index]);
+        return this.params.FLAVOURS[index].get();
     }
 
     @Override
@@ -105,7 +107,7 @@ public abstract class PokemobHungry extends PokemobMoves
     @Override
     public int getHungerTime()
     {
-        return this.dataSync().get(this.params.HUNGERDW);
+        return this.params.HUNGERDW.get();
     }
 
     private float _last_size = 0;
@@ -169,10 +171,7 @@ public abstract class PokemobHungry extends PokemobMoves
     }
 
     @Override
-    public void setFlavourAmount(final int index, final int amount)
-    {
-        this.dataSync().set(this.params.FLAVOURS[index], amount);
-    }
+    public void setFlavourAmount(final int index, final int amount) {this.params.FLAVOURS[index].set(amount);}
 
     @Override
     public void setHungerCooldown(final int hungerCooldown)
@@ -183,6 +182,6 @@ public abstract class PokemobHungry extends PokemobMoves
     @Override
     public void setHungerTime(final int hungerTime)
     {
-        this.dataSync().set(this.params.HUNGERDW, hungerTime);
+        this.params.HUNGERDW.set(hungerTime);
     }
 }

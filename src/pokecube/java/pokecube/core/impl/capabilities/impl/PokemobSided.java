@@ -19,8 +19,7 @@ public abstract class PokemobSided extends PokemobBase
             final boolean shiny = this.isShiny();
             final int effects = entry.textureDetails[index].length;
             final int texIndex = this.getEntity().tickCount % effects * 3 / effects + (shiny ? effects : 0);
-            final ResourceLocation texture = this.textures[texIndex];
-            return texture;
+            return this.textures[texIndex];
         }
         final int index = this.getSexe() == IPokemob.FEMALE && entry.textureDetails[1] != null ? 1 : 0;
         final int effects = entry.textureDetails[index].length;

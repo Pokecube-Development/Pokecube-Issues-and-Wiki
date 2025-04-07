@@ -94,9 +94,8 @@ public class Shearable
         {}
     }
 
-    public static final HolderProvider<IShearableSerializable> _REGISTRY = new HolderProvider<>();
-
     public static final ResourceLocation ID = ResourceLocation.parse("thutcore:shearable");
+    public static final HolderProvider<IShearableSerializable> _REGISTRY = new HolderProvider<>(ID);
     public static Supplier<AttachmentType<IShearableSerializable>> TYPE;
 
     public static IShearable get(final IAttachmentHolder in)

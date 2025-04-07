@@ -1,14 +1,7 @@
 package pokecube.core.client.gui.pokemob.tabs;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
-import org.lwjgl.glfw.GLFW;
-
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSelectionList.Entry;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -20,6 +13,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import org.lwjgl.glfw.GLFW;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler;
@@ -31,13 +25,16 @@ import pokecube.core.network.pokemobs.PacketUpdateAI;
 import pokecube.core.utils.Resources;
 import thut.lib.TComponent;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
 public class AI extends Tab
 {
-    private static final ResourceLocation CHECK_TEXTURE = ResourceLocation.parse("textures/gui/checkbox.png");
+    private static final ResourceLocation CHECK_TEXTURE = ResourceLocation.parse("icon/checkmark");
 
     private static record AIButton(Button button, AIRoutine routine)
-    {
-    }
+    {}
 
     private static class AIEntry extends Entry<AIEntry>
     {
@@ -91,12 +88,12 @@ public class AI extends Tab
                     float s = 10f / 80f;
                     int sx = x + dx;
                     int sy = y + 0;
-                    graphics.pose().translate(sx, sy, 0);
-                    graphics.pose().scale(s, s, s);
-                    graphics.pose().translate(-sx, -sy, 0);
                     int tx = 0;
                     int ty = state ? 80 : 0;
-                    graphics.blit(CHECK_TEXTURE, x + dx, y, tx, ty, 80, 80);
+                    var icon = state
+                            ? ResourceLocation.parse("widget/checkbox_selected")
+                            : ResourceLocation.parse("widget/checkbox");
+                    graphics.blitSprite(icon, x + dx, y, 8, 8);
                     graphics.pose().popPose();
                     dx += texW;
                 }
@@ -251,6 +248,7 @@ public class AI extends Tab
         PacketUpdateAI.sendMegaModePacket(this.menu.pokemob, mode);
         this.menu.pokemob.getEntity().getPersistentData().putString("pokecube:mega_mode", mode);
         // Send status message thingy
-        this.parent.getMinecraft().player.displayClientMessage(TComponent.translatable("pokemob.gui.update.megamode"), true);
+        this.parent.getMinecraft().player.displayClientMessage(TComponent.translatable("pokemob.gui.update.megamode"),
+                true);
     }
 }

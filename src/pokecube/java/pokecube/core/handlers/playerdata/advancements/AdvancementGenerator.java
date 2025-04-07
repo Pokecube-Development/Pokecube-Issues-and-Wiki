@@ -29,7 +29,8 @@ public class AdvancementGenerator
     {
         final JsonObject displayJson = new JsonObject();
         final JsonObject icon = new JsonObject();
-        icon.addProperty("item", "pokecube:pokecube");
+        icon.addProperty("id", "pokecube:pokecube");
+        icon.addProperty("count", 1);
         final JsonObject title = new JsonObject();
         title.addProperty("translate", "achievement.pokecube." + id);
         final JsonArray item = new JsonArray();

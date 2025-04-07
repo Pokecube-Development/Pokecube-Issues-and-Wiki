@@ -51,11 +51,13 @@ import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.Permissions;
 import thut.api.Tracker;
+import thut.api.entity.genetics.IMobGenetics;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vec3f;
 import thut.core.common.ThutCore;
 import thut.core.common.commands.CommandTools;
+import thut.core.common.genetics.DefaultGenetics;
 import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
@@ -135,7 +137,16 @@ public class Pokecube extends Item implements IPokecube
                 return;
             }
             final IPokemob pokemob = contents.pokemob();
-            if (pokemob == null) return;
+            var genes = item.get(DefaultGenetics.GENE_STORE);
+            if (pokemob == null || genes==null) return;
+            if(genes.genes()==null){
+                genes = genes.withContext(mob.registryAccess());
+                if(genes.genes()!=null){
+                    item.set(DefaultGenetics.GENE_STORE, genes);
+                    pokemob.setGenes(genes.genes());
+                }
+                else return;
+            }
 //            list.add(TComponent.translatable(pokemob.getDisplayName().getString(), ChatFormatting.BOLD, ChatFormatting.GOLD));
             list.add(TComponent.translatable("pokecube.tooltip.pokemob", pokemob.getDisplayName())
                     .withStyle(ChatFormatting.BOLD, ChatFormatting.GOLD));

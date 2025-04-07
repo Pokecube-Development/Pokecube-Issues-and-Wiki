@@ -1,7 +1,5 @@
 package pokecube.core.items.pokecubes.helper;
 
-import java.util.UUID;
-
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -33,6 +31,8 @@ import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
 import thut.lib.TComponent;
 
+import java.util.UUID;
+
 public class SendOutManager
 {
     public static Vector3 getFreeSpot(final Entity mob, final ServerLevel world, final Vector3 pos,
@@ -44,8 +44,9 @@ public class SendOutManager
             final PartEntity<?>[] parts = mob.getParts();
             box = null;
             // If it has parts, use that for the bounds instead.
-            for (final PartEntity<?> part : parts) if (box == null) box = part.getBoundingBox();
-            else box = box.minmax(part.getBoundingBox());
+            for (final PartEntity<?> part : parts)
+                if (box == null) box = part.getBoundingBox();
+                else box = box.minmax(part.getBoundingBox());
             if (box == null) box = mob.getBoundingBox();
             else
             {
@@ -92,18 +93,20 @@ public class SendOutManager
 
         if (mob == null) return null;
 
+        // Ensure the mob is marked as not removed
+        mob.revive();
+
         final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
 
         // Next check some conditions for whether the sendout can occur.
 
-        final boolean hasMob = mob != null;
+        final boolean hasMob = true;
         final boolean hasPokemob = pokemob != null;
         final boolean isPlayers = hasPokemob && pokemob.isPlayerOwned();
 
         if (!isPlayers && (mob instanceof LivingEntity living && living.getHealth() <= 0)) return null;
 
         final ServerPlayer user = isPlayers ? (ServerPlayer) cube.shootingEntity : null;
-        final boolean checkPerms = isPlayers && hasPokemob;
         boolean hasPerms = true;
 
         if ((mob instanceof LivingEntity living && !living.isAlive()))
@@ -117,12 +120,12 @@ public class SendOutManager
         }
 
         // Check permissions
-        if (checkPerms) hasPerms = Permissions.canSendOut(pokemob.getPokedexEntry(), user, false, true);
+        if (isPlayers) hasPerms = Permissions.canSendOut(pokemob.getPokedexEntry(), user, false, true);
 
         // No mob or no perms?, then just refund the item and exit
         if (!hasMob || !hasPerms)
         {
-            if (isPlayers && cube.shootingEntity instanceof Player player)
+            if (cube.shootingEntity instanceof Player player)
             {
                 Tools.giveItem(player, cube.getItem());
                 user.displayClientMessage(TComponent.translatable("pokecube.sendout.fail.noperms.general"), true);
@@ -136,7 +139,7 @@ public class SendOutManager
 
         // If we are breaking out from capture, directly set to old spot
         if (cube.isCapturing()) v.set(cube.capturePos);
-        // Otherwise look for free room, etc
+            // Otherwise look for free room, etc
         else
         {
             // Initialise size gene for the pokemob
@@ -215,14 +218,21 @@ public class SendOutManager
             cube.spawnAtLocation(cube.getItem(), 0.5f);
             cube.discard();
         }
-        if (pokemob == null) return null;
         return pokemob.getEntity();
     }
 
     private static void make(final ServerLevel world, final Entity mob, final Vector3 v, final IPokemob pokemob,
             final boolean summon)
     {
-        if (summon) world.addWithUUID(mob);
+        if (summon)
+        {
+            if (world.getEntity(mob.getUUID()) != null)
+            {
+                PokecubeAPI.logInfo("Discarding duplicated mob {}", mob);
+                mob.discard();
+            }
+            else world.addWithUUID(mob);
+        }
         if (pokemob != null)
         {
             pokemob.onSendOut();

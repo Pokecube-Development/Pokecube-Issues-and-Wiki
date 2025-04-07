@@ -3,11 +3,10 @@ package thut.core.common.world.mobs.data.types;
 import java.util.UUID;
 
 import io.netty.buffer.ByteBuf;
+import thut.api.world.mobs.data.Data;
 
 public class Data_UUID extends Data_Base<UUID>
 {
-    UUID value = null;
-
     @Override
     public UUID get()
     {
@@ -25,16 +24,19 @@ public class Data_UUID extends Data_Base<UUID>
     }
 
     @Override
-    public void set(UUID value)
+    public Data<UUID> set(UUID value)
     {
         if (value == null)
         {
-            if (this.value == null) return;
+            if (this.value == null) return this;
             this.value = null;
-            return;
+            this.setDirty(true);
+            return this;
         }
-        if (value.equals(this.value)) return;
+        if (value.equals(this.value)) return this;
         this.value = value;
+        this.setDirty(true);
+        return this;
     }
 
     @Override

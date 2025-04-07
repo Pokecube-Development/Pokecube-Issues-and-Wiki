@@ -1,8 +1,5 @@
 package pokecube.gimmicks.nests.tasks.burrows.sensors;
 
-import java.util.Optional;
-import java.util.Set;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.server.level.ServerLevel;
@@ -21,6 +18,9 @@ import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.gimmicks.nests.tasks.burrows.BurrowTasks;
 import pokecube.gimmicks.nests.tasks.burrows.burrow.BurrowHab;
+
+import java.util.Optional;
+import java.util.Set;
 
 public class BurrowSensor extends Sensor<Mob>
 {
@@ -81,7 +81,7 @@ public class BurrowSensor extends Sensor<Mob>
         {
             int timer = 0;
             if (brain.hasMemoryValue(MemoryModules.NO_NEST_TIMER.get()))
-                timer = brain.getMemory(MemoryModules.NO_NEST_TIMER.get()).get();
+                timer = brain.getMemory(MemoryModules.NO_NEST_TIMER.get()).orElse(0);
             brain.setMemory(MemoryModules.NO_NEST_TIMER.get(), timer + 1);
         }
     }

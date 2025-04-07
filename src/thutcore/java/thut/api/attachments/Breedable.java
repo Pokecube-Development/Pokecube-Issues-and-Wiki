@@ -99,10 +99,8 @@ public class Breedable
         return null;
     }
 
-    public static final HolderProvider<IBreedingMob> _REGISTRY = new HolderProvider<>();
-
     public static final ResourceLocation ID = ResourceLocation.parse("thutcore:breedable");
-
+    public static final HolderProvider<IBreedingMob> _REGISTRY = new HolderProvider<>(ID);
     public static Supplier<AttachmentType<IBreedingMob>> TYPE;
 
     public static void registerAttachment(DeferredRegister<AttachmentType<?>> registry)

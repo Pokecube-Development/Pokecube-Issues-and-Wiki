@@ -1,13 +1,12 @@
 package pokecube.api.entity.pokemob.ai;
 
+import com.google.common.collect.Maps;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.moves.utils.IMoveConstants;
+
 import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Predicate;
-
-import com.google.common.collect.Maps;
-
-import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.moves.utils.IMoveConstants;
 
 public class AIRoutine
 {
@@ -78,7 +77,13 @@ public class AIRoutine
 
     public String name()
     {
-        return name;
+        return this.name;
+    }
+
+    @Override
+    public String toString()
+    {
+        return this.name;
     }
 
     public int ordinal()
