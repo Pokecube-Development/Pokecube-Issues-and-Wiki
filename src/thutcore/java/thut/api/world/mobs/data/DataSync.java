@@ -35,6 +35,12 @@ public interface DataSync
      */
     void update(List<Data<?>> values);
 
+    boolean needInit();
+
+    void clearNeedInit();
+
+    void init(List<Data<?>> values);
+
     /**
      * This returns the last tick it was synced, this is used to prevent
      * over-sending of the update packets

@@ -8,7 +8,11 @@ import thut.api.world.mobs.data.Data;
 
 public class Data_ItemStack extends Data_Base<ItemStack>
 {
-    public Data_ItemStack() {this.value = ItemStack.EMPTY;}
+    public Data_ItemStack(String name)
+    {
+        super(name);
+        this.value = ItemStack.EMPTY;
+    }
 
     @Override
     public ItemStack get()

@@ -322,12 +322,12 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
             return;
         }
 
-        EventsHandler.Schedule(world, w -> {
-            final ServerLevel srld = (ServerLevel) w;
-            final Entity original = srld.getEntity(id);
-            if (original == mob) original.setRemoved(RemovalReason.DISCARDED);
-            return true;
-        });
+//        EventsHandler.Schedule(world, w -> {
+//            final ServerLevel srld = (ServerLevel) w;
+//            final Entity original = srld.getEntity(id);
+//            if (original == mob) original.setRemoved(RemovalReason.DISCARDED);
+//            return true;
+//        });
         this.getEntity().discard();
     }
 

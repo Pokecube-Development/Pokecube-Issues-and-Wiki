@@ -26,6 +26,7 @@ import thut.api.attachments.IOwnable;
 import thut.api.attachments.Ownable;
 import thut.api.entity.IBreedingMob;
 import thut.api.entity.ICopyMob;
+import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.Data;
@@ -38,8 +39,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.Vector;
+import java.util.function.Consumer;
 
-public abstract class PokemobBase implements IPokemob
+public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
 {
     public static class DataParameters
     {
@@ -80,55 +82,52 @@ public abstract class PokemobBase implements IPokemob
         {
             sync.setRegisterTag("pokemob");
             // Held Item timer
-            this.HELDITEMDW = sync.register(new Data_ItemStack());
+            this.HELDITEMDW = sync.register(new Data_ItemStack("held_item"));
 
             // Humger timer
-            this.HUNGERDW = sync.register(new Data_Int());
+            this.HUNGERDW = sync.register(new Data_Int("hunger"));
             // // for sheared status
-            this.NICKNAMEDW = sync.register(new Data_String());// nickname
-            this.HAPPYDW = sync.register(new Data_Int());// Happiness
-            this.TYPE1DW = sync.register(new Data_String());// overriden
-            // type1
-            this.TYPE2DW = sync.register(new Data_String());// overriden
-            // type2
+            this.NICKNAMEDW = sync.register(new Data_String("nickname"));
+            this.HAPPYDW = sync.register(new Data_Int("happiness"));
+            this.TYPE1DW = sync.register(new Data_String("type1"));
+            this.TYPE2DW = sync.register(new Data_String("type2"));
 
             // From EntityAiPokemob
-            this.DIRECTIONPITCHDW = sync.register(new Data_Float().setRealtime());
-            this.HEADINGDW = sync.register(new Data_Float().setRealtime());
-            this.ATTACKTARGETIDDW = sync.register(new Data_Int(-1));
-            this.ALLYTARGETIDDW = sync.register(new Data_Int(-1));
-            this.GENERALSTATESDW = sync.register(new Data_Int().setRealtime());
-            this.LOGICSTATESDW = sync.register(new Data_Int().setRealtime());
-            this.COMBATSTATESDW = sync.register(new Data_Int().setRealtime());
+            this.DIRECTIONPITCHDW = sync.register(new Data_Float("pitch").setRealtime());
+            this.HEADINGDW = sync.register(new Data_Float("yaw").setRealtime());
+            this.ATTACKTARGETIDDW = sync.register(new Data_Int("target", -1));
+            this.ALLYTARGETIDDW = sync.register(new Data_Int("ally", -1));
+            this.GENERALSTATESDW = sync.register(new Data_Int("general_state").setRealtime());
+            this.LOGICSTATESDW = sync.register(new Data_Int("logic_state").setRealtime());
+            this.COMBATSTATESDW = sync.register(new Data_Int("combat_state").setRealtime());
 
-            this.ALLYNUMDW = sync.register(new Data_Int(1));
-            this.ENEMYNUMDW = sync.register(new Data_Int());
+            this.ALLYNUMDW = sync.register(new Data_Int("ally_n", 1));
+            this.ENEMYNUMDW = sync.register(new Data_Int("enemy_n"));
 
             // from EntityEvolvablePokemob
-            this.EVOLTICKDW = sync.register(new Data_Int().setRealtime());// evolution
-            // tick
+            this.EVOLTICKDW = sync.register(new Data_Int("evo_timer").setRealtime());
 
             // From EntityMovesPokemb
-            this.STATUSDW = sync.register(new Data_Int(-1));
-            this.MOVEINDEXDW = sync.register(new Data_Byte((byte) -1).setRealtime());
-            this.STATUSTIMERDW = sync.register(new Data_Int().setRealtime());
-            this.ATTACKCOOLDOWN = sync.register(new Data_Int().setRealtime());
+            this.STATUSDW = sync.register(new Data_Int("status", -1));
+            this.MOVEINDEXDW = sync.register(new Data_Byte("move_index", (byte) -1).setRealtime());
+            this.STATUSTIMERDW = sync.register(new Data_Int("status_timer").setRealtime());
+            this.ATTACKCOOLDOWN = sync.register(new Data_Int("attack_cd").setRealtime());
 
-            this.DYECOLOUR = sync.register(new Data_Int(-1));
+            this.DYECOLOUR = sync.register(new Data_Int("dye", -1));
 
-            this.ZMOVECD = sync.register(new Data_Int(-1));
-
-            // Flavours for various berries eaten.
-            for (int i = 0; i < 5; i++) this.FLAVOURS[i] = sync.register(new Data_Int());
+            this.ZMOVECD = sync.register(new Data_Int("z_cd", -1));
 
             // Flavours for various berries eaten.
-            for (int i = 0; i < 4; i++) this.DISABLE[i] = sync.register(new Data_Int());
+            for (int i = 0; i < 5; i++) this.FLAVOURS[i] = sync.register(new Data_Int("flav_" + i));
+
+            // Flavours for various berries eaten.
+            for (int i = 0; i < 4; i++) this.DISABLE[i] = sync.register(new Data_Int("diable_" + i));
 
             // Ability name
-            this.ABILITYNAMEID = sync.register(new Data_String());
+            this.ABILITYNAMEID = sync.register(new Data_String("ability"));
 
             // Death time for tracking animations, respawning, etc
-            this.TIMEOFDEATH = sync.register(new Data_Long());
+            this.TIMEOFDEATH = sync.register(new Data_Long("time_of_death"));
         }
     }
 
@@ -272,6 +271,10 @@ public abstract class PokemobBase implements IPokemob
         {
             this.setOwnerHolder(entityIn.getData(Ownable.TYPE));
         }
+        if (entityIn.hasData(CopyMob.TYPE_COPY))
+        {
+            this.setCopy(entityIn.getData(CopyMob.TYPE_COPY));
+        }
     }
 
     protected void setMaxHealth(final float maxHealth)
@@ -337,6 +340,7 @@ public abstract class PokemobBase implements IPokemob
     {
         genes.copyFrom(this.genes);
         this.genes = genes;
+        this.genes.addChangeListener(this);
         this.onGenesChanged();
     }
 

@@ -7,6 +7,11 @@ import thut.api.world.mobs.data.Data;
 
 public class Data_UUID extends Data_Base<UUID>
 {
+    public Data_UUID(String name)
+    {
+        super(name);
+    }
+
     @Override
     public UUID get()
     {

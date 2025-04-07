@@ -446,8 +446,6 @@ public abstract class EntityPokecubeBase extends LivingEntity
         final boolean releasing = this.isReleasing();
         if (capturing || releasing) this.setSeeking(null);
 
-        // TODO: Check this, removed hardcode check of -64, datapacks can change
-        // this
         if (this.getY() < this.level.getMinBuildHeight()) this.onBelowWorld();
 
         ItemStack item = this.getItem();
@@ -476,7 +474,11 @@ public abstract class EntityPokecubeBase extends LivingEntity
             if (this.isReleasing() && test == null && this.getTime() < LogicMiscUpdate.EXITCUBEDURATION - 2)
                 this.discard();
             double dh = 1;
-            if (test != null) dh = test.getBbWidth();
+            if (test != null)
+            {
+                dh = test.getBbWidth();
+                if(!test.isAddedToLevel()) this.discard();
+            }
 
             double dx = this.capturePos.x - this.getX();
             double dy = this.capturePos.y - this.getEyeY();

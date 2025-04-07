@@ -8,45 +8,48 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import thut.api.entity.EntityProvider;
 import thut.api.world.mobs.data.Data;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.ThutCore;
 import thut.core.common.network.Packet;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PacketDataSync extends Packet
 {
     public static void sync(final Entity tracked, final DataSync data, final int entity_id, final boolean all)
     {
-        List<Data<?>> list = all ? data.getAll() : data.getDirty();
-        list = data.getAll();
+        boolean init = data.needInit();
+        data.clearNeedInit();
+        List<Data<?>> list = all || init ? data.getAll() : data.getDirty();
         // Nothing to sync.
         if (list == null || list.isEmpty()) return;
         final PacketDataSync packet = new PacketDataSync();
         packet.data = list;
         packet.id = entity_id;
+        packet.type = (byte) (init ? 1 : 0);
         ThutCore.packets.sendToTrackingAndSelf(packet, tracked);
     }
 
     public static void sync(final ServerPlayer syncTo, final DataSync data, final int entity_id, final boolean all)
     {
-        List<Data<?>> list = all ? data.getAll() : data.getDirty();
-        list = data.getAll();
+        boolean init = data.needInit();
+        List<Data<?>> list = all || init ? data.getAll() : data.getDirty();
         // Nothing to sync.
         if (list == null || list.isEmpty()) return;
         final PacketDataSync packet = new PacketDataSync();
         packet.data = list;
         packet.id = entity_id;
+        packet.type = (byte) (init ? 1 : 0);
         ThutCore.packets.sendTo(packet, syncTo);
     }
 
-    public int id;
+    int id;
+    byte type;
 
-    public List<Data<?>> data = Lists.newArrayList();
+    List<Data<?>> data = Lists.newArrayList();
 
     public PacketDataSync()
     {
@@ -55,13 +58,21 @@ public class PacketDataSync extends Packet
     public void read(final FriendlyByteBuf buf)
     {
         this.id = buf.readInt();
-        final byte num = buf.readByte();
+        this.type = buf.readByte();
+        short num = buf.readShort();
+        this.data = new ArrayList<>();
         if (num > 0) for (int i = 0; i < num; i++)
         {
-            final int uid = buf.readInt();
             try
             {
-                final Data<?> val = DataSync_Impl.makeData(uid);
+                int uid = buf.readInt();
+                String tag = "", name = "";
+                if(type==1){
+                    tag = buf.readUtf();
+                    name = buf.readUtf();
+                }
+                Data<?> val = DataSync_Impl.makeData(name, uid);
+                val.setTag(tag);
                 val.read(buf);
                 this.data.add(val);
             }
@@ -73,33 +84,41 @@ public class PacketDataSync extends Packet
     }
 
     @Override
-    @OnlyIn(value = Dist.CLIENT)
     public void handleClient(Player player)
     {
         final Level world = player.level();
         final Entity mob = EntityProvider.provider.getEntity(world, id);
         if (mob == null) return;
         final DataSync sync = SyncHandler.getData(mob);
-        sync.update(this.data);
+        if (type == 0) sync.update(this.data);
+        else sync.init(this.data);
     }
 
     @Override
     public void write(final FriendlyByteBuf buf)
     {
         buf.writeInt(this.id);
-        final byte num = (byte) this.data.size();
-        buf.writeByte(num);
+        buf.writeByte(this.type);
+        final short num = (short) this.data.size();
+        buf.writeShort(num);
         for (int i = 0; i < num; i++)
         {
             final Data<?> val = this.data.get(i);
             buf.writeInt(val.getUID());
+            if (this.type == 1)
+            {
+                buf.writeUtf(val.getTag());
+                buf.writeUtf(val.getName());
+            }
             val.write(buf);
         }
     }
 
     private final static Type<Packet> TYPE = new Type<>(ResourceLocation.parse("thutcore:data_sync"));
-	@Override
-	public Type<? extends CustomPacketPayload> type() {
-		return TYPE;
-	}
+
+    @Override
+    public Type<? extends CustomPacketPayload> type()
+    {
+        return TYPE;
+    }
 }

@@ -5,7 +5,11 @@ import thut.api.world.mobs.data.Data;
 
 public class Data_Float extends Data_Base<Float>
 {
-    public Data_Float() {this.value = 0f;}
+    public Data_Float(String name)
+    {
+        super(name);
+        this.value = 0f;
+    }
 
     @Override
     public Float get()

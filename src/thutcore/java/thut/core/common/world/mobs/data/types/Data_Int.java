@@ -5,9 +5,17 @@ import thut.api.world.mobs.data.Data;
 
 public class Data_Int extends Data_Base<Integer>
 {
-    public Data_Int(int i) {this.value = i;}
+    public Data_Int(String name, int i)
+    {
+        super(name);
+        this.value = i;
+    }
 
-    public Data_Int() {this.value = 0;}
+    public Data_Int(String name)
+    {
+        super(name);
+        this.value = 0;
+    }
 
     @Override
     public Integer get()

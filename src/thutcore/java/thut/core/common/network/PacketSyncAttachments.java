@@ -62,17 +62,17 @@ public class PacketSyncAttachments extends Packet
     /**
      * Syncs wearables to the player when they join a world. This fixes client issues when they use nether portals, etc
      *
-     * @param event
      */
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void joinWorldLast(final EntityJoinLevelEvent event)
     {
-        if (event.getEntity() instanceof LivingEntity mob && !mob.level().isClientSide)
+        if(event.getLevel().isClientSide()) return;
+        if (event.getEntity() instanceof LivingEntity mob)
         {
             // Delay this execution, so the mob is actually tracked when it
             // runs.
             WorldTickManager.scheduleTask(mob.level().dimension(),
-                    new DelayedTask(Tracker.instance().getTick() + (mob instanceof Player ? 10 : 0),
+                    new DelayedTask(Tracker.instance().getTick() + (mob instanceof Player ? 10 : 5),
                             () -> sendPackets(mob)));
         }
     }
@@ -80,7 +80,6 @@ public class PacketSyncAttachments extends Packet
     /**
      * Syncs wearables to the player when they join a world. This fixes client issues when they use nether portals, etc
      *
-     * @param event
      */
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void joinWorld(final EntityJoinLevelEvent event)
@@ -155,6 +154,9 @@ public class PacketSyncAttachments extends Packet
         var data = mob.getData(type);
         if (!(data instanceof INBTSerializable)) return;
         var tag = ((INBTSerializable) data).serializeNBT(mob.registryAccess());
+        if(key.toString().contains("gene")){
+            int x=0;
+        }
         @SuppressWarnings("unchecked")
         var test = DEFAULTS.computeIfAbsent(key, a -> {
             Function<IAttachmentHolder, ?> _defact;
@@ -213,6 +215,9 @@ public class PacketSyncAttachments extends Packet
         if (p != null)
         {
             ResourceLocation key = ResourceLocation.parse(this.data.getString("K"));
+            if(key.toString().contains("gene")){
+                int x=0;
+            }
             var type = NeoForgeRegistries.ATTACHMENT_TYPES.get(key);
             if (p.hasData(type))
             {
@@ -220,7 +225,6 @@ public class PacketSyncAttachments extends Packet
                 ser.deserializeNBT(p.registryAccess(), data.get("V"));
             }
         }
-        return;
     }
 
     @Override
@@ -229,7 +233,7 @@ public class PacketSyncAttachments extends Packet
         buffer.writeNbt(this.data);
     }
 
-    private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("thutcore:sync_attachments"));
+    private final static Type<Packet> TYPE = new Type<>(ResourceLocation.parse("thutcore:sync_attachments"));
 
     @Override
     public Type<? extends CustomPacketPayload> type()

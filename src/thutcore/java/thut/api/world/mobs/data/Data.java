@@ -11,6 +11,8 @@ public interface Data<T>
 
     Data<T> setTag(String tag);
 
+    String getName();
+
 	void setHolderLookup(HolderLookup.Provider provider);
 		
     boolean dirty();

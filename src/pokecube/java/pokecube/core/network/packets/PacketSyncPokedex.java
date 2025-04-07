@@ -1,6 +1,7 @@
 package pokecube.core.network.packets;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 import com.google.gson.JsonArray;
@@ -49,7 +50,7 @@ public class PacketSyncPokedex extends JsonPacket
     @Override
     protected void onCompleteClient(Player player)
     {
-        String resp = new String(this.getData(), Charset.forName("UTF-8"));
+        String resp = new String(this.getData(), StandardCharsets.UTF_8);
         ArrayList<JsonPokedexEntry> list = new ArrayList<>();
         var obj = JsonUtil.gson.fromJson(resp, JsonElement.class);
         if (obj.isJsonArray())

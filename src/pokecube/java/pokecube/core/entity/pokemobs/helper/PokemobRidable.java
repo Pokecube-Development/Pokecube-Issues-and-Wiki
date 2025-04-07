@@ -47,7 +47,7 @@ public abstract class PokemobRidable extends PokemobHasParts
         this.pokemobCap.dataSync().setRegisterTag("seats");
         // Define the seats
         for (int i = 0; i < SEAT.length; i++)
-            SEAT[i] = (Data_Seat) this.pokemobCap.dataSync().register(new Data_Seat().setRealtime());
+            SEAT[i] = (Data_Seat) this.pokemobCap.dataSync().register(new Data_Seat("seat_" + i).setRealtime());
     }
 
     @Override
@@ -70,8 +70,8 @@ public abstract class PokemobRidable extends PokemobHasParts
     @Override
     public boolean dismountsUnderwater()
     {
-        return !this.pokemobCap.canUseSurf() && !this.pokemobCap.canUseDive()
-                && !this.getType().is(EntityTypeTags.DISMOUNTS_UNDERWATER);
+        return !this.pokemobCap.canUseSurf() && !this.pokemobCap.canUseDive() && !this.getType()
+                .is(EntityTypeTags.DISMOUNTS_UNDERWATER);
     }
 
     // ========== Jumping Mount and Equipable stuff here ==========
@@ -152,8 +152,8 @@ public abstract class PokemobRidable extends PokemobHasParts
         {
             float f = Mth.sin(this.getYRot() * ((float) Math.PI / 180F));
             float f1 = Mth.cos(this.getYRot() * ((float) Math.PI / 180F));
-            this.setDeltaMovement(this.getDeltaMovement().add((double) (-0.4F * f * p_248808_), 0.0D,
-                    (double) (0.4F * f1 * p_248808_)));
+            this.setDeltaMovement(this.getDeltaMovement()
+                    .add((double) (-0.4F * f * p_248808_), 0.0D, (double) (0.4F * f1 * p_248808_)));
         }
 
     }
@@ -424,21 +424,21 @@ public abstract class PokemobRidable extends PokemobHasParts
     protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float partialTick)
     {
         var v = this.getSeat(entity);
-        if(v != null) return this.getPosition(partialTick).add(v.x, v.y, v.z);
+        if (v != null) return this.getPosition(partialTick).add(v.x, v.y, v.z);
         return super.getPassengerAttachmentPoint(entity, dimensions, partialTick);
     }
-    
+
     @Override
     protected void addPassenger(final Entity passenger)
     {
         super.addPassenger(passenger);
         this.initSeats();
-        if (!this.level.isClientSide)
-            for (int i = 0; i < this.seatCount; i++) if (this.getSeat(i).getEntityId() == Seat.BLANK)
-        {
-            this.updateSeat(i, passenger.getUUID());
-            break;
-        }
+        if (!this.level.isClientSide) for (int i = 0; i < this.seatCount; i++)
+            if (this.getSeat(i).getEntityId() == Seat.BLANK)
+            {
+                this.updateSeat(i, passenger.getUUID());
+                break;
+            }
     }
 
     @Override
@@ -449,12 +449,12 @@ public abstract class PokemobRidable extends PokemobHasParts
         final double y = this.getY();
         final double z = this.getZ();
         this.initSeats();
-        if (!this.level.isClientSide)
-            for (int i = 0; i < this.seatCount; i++) if (this.getSeat(i).getEntityId().equals(passenger.getUUID()))
-        {
-            this.updateSeat(i, Seat.BLANK);
-            break;
-        }
+        if (!this.level.isClientSide) for (int i = 0; i < this.seatCount; i++)
+            if (this.getSeat(i).getEntityId().equals(passenger.getUUID()))
+            {
+                this.updateSeat(i, Seat.BLANK);
+                break;
+            }
         if (passenger instanceof ServerPlayer player)
         {
             player.getServer().tell(new TickTask(player.getServer().getTickCount() + 1, () -> {
@@ -487,7 +487,8 @@ public abstract class PokemobRidable extends PokemobHasParts
             final Mat3f transform = new Mat3f();
             transform.mul(matrixYaw, matrixPitch);
 
-            float dx = this == player.getPassengers().getFirst() ? 0.2f + this.getBbWidth() / 2
+            float dx = this == player.getPassengers().getFirst()
+                    ? 0.2f + this.getBbWidth() / 2
                     : -(0.4f + this.getBbWidth() / 2);
 
             this.setOrderedToSit(true);

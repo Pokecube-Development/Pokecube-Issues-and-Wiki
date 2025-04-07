@@ -11,11 +11,17 @@ public abstract class Data_Base<T> implements Data<T>
     private int UID = -1;
     private boolean dirty = false;
     private String tag;
+    private final String name;
     protected T value;
 
     private boolean realtime = false;
     protected Provider provider = null;
     private DataSync sync;
+
+    public Data_Base(String name)
+    {
+        this.name = name;
+    }
 
     @Override
     public void setSync(DataSync sync)
@@ -40,6 +46,12 @@ public abstract class Data_Base<T> implements Data<T>
     {
         this.tag = tag;
         return this;
+    }
+
+    @Override
+    public String getName()
+    {
+        return name;
     }
 
     @Override

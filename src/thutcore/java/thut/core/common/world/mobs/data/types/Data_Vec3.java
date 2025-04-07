@@ -8,7 +8,11 @@ import thut.api.world.mobs.data.Data;
 
 public class Data_Vec3 extends Data_Base<Optional<Vec3>>
 {
-    public Data_Vec3() {value = Optional.empty();}
+    public Data_Vec3(String name)
+    {
+        super(name);
+        value = Optional.empty();
+    }
 
     @Override
     public Optional<Vec3> get()

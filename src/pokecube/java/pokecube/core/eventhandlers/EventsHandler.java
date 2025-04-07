@@ -108,6 +108,7 @@ import thut.core.common.commands.CommandConfigs;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.handlers.PlayerDataHandler.PlayerData;
 import thut.core.common.handlers.PlayerDataHandler.PlayerDataManager;
+import thut.core.common.network.EntityUpdate;
 import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
@@ -514,14 +515,6 @@ public class EventsHandler
                 pokemob = new DefaultPokemob(mob);
                 mob.setData(PokemobCaps.POKEMOB, pokemob);
             }
-            if (pokemob instanceof DefaultPokemob def)
-            {
-                def.setDataSync(data);
-                def.setDataSync(data);
-                def.setGenes(genes);
-                def.setCopy(copy);
-                genes.addChangeListener(def);
-            }
         }
     }
 
@@ -542,8 +535,8 @@ public class EventsHandler
         // Forge workaround for this not being called server side!
         if (!evt.getEntity().isAddedToLevel()) evt.getEntity().onAddedToLevel();
 
-        if (evt.getEntity() instanceof IPokemob pokemob && evt.getEntity().getPersistentData()
-                .getBoolean(TagNames.ON_SHOULDER))
+        IPokemob pokemob = PokemobCaps.getPokemobFor(evt.getEntity());
+        if (pokemob != null && evt.getEntity().getPersistentData().getBoolean(TagNames.ON_SHOULDER))
         {
             pokemob.setLogicState(LogicStates.SITTING, false);
             evt.getEntity().getPersistentData().remove(TagNames.ON_SHOULDER);
@@ -553,6 +546,14 @@ public class EventsHandler
             final AvoidEntityGoal<?> avoidAI = new AvoidEntityGoal<>(creeper, EntityPokemob.class, 6.0F, 1.0D, 1.2D,
                     e -> PokemobCaps.getPokemobFor(e).isType(PokeType.getType("psychic")));
             creeper.goalSelector.addGoal(3, avoidAI);
+        }
+        if (pokemob != null && pokemob.getEntity().level() instanceof ServerLevel level)
+        {
+            var mob = pokemob.getEntity();
+            WorldTickManager.scheduleTask(level.dimension(),
+                    new WorldTickManager.DelayedTask(Tracker.instance().getTick() + 1, () -> {
+//                        EntityUpdate.sendEntityUpdate(mob);
+                    }));
         }
     }
 
@@ -722,9 +723,9 @@ public class EventsHandler
         final int tick = Math.max(PokecubeCore.getConfig().attackCooldown, 1);
         // Handle ongoing effects for this mob.
         final IOngoingAffected affected = PokemobCaps.getAffected(evt.getEntity());
-        if (affected != null) affected.tick();
-        if (evt.getEntity().tickCount % tick == 0 || !EventsHandler.COOLDOWN_BASED)
+        if (affected != null && (evt.getEntity().tickCount % tick == 0 || !EventsHandler.COOLDOWN_BASED))
         {
+            affected.tick();
             affected.tickDamage();
         }
     }
@@ -771,7 +772,6 @@ public class EventsHandler
         PokecubeAPI.logInfo("Server Starting");
         PokecubeItems.init(event.getServer());
         EventsHandler.RUNNING = true;
-
     }
 
     private static void onServerStopped(final ServerStoppedEvent event)

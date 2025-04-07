@@ -7,7 +7,11 @@ import thut.api.world.mobs.data.Data;
 
 public class Data_Seat extends Data_Base<Seat>
 {
-    public Data_Seat() {this.value = new Seat(new Vec3f(), null);}
+    public Data_Seat(String name)
+    {
+        super(name);
+        this.value = new Seat(new Vec3f(), null);
+    }
 
     @Override
     public Seat get()

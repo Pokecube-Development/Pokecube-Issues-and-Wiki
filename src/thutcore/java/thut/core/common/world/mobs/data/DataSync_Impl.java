@@ -70,22 +70,22 @@ public class DataSync_Impl implements DataSync
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T makeData(final int id) throws Exception
+    public static <T> T makeData(String name, int id) throws Exception
     {
         final Class<? extends Data<?>> dataType = DataSync_Impl.REGISTRY.get(id);
         if (dataType == null) throw new NullPointerException("No type registered for ID: " + id);
-        final Data<?> data = dataType.getConstructor().newInstance();
+        final Data<?> data = dataType.getConstructor(String.class).newInstance(name);
         DataSync_Impl.initID(data);
         return (T) data;
     }
 
-    private final Int2ObjectArrayMap<Data<?>> data = new Int2ObjectArrayMap<>();
+    private final List<Data<?>> data = new ArrayList<>();
 
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
     private long tick;
     private String regTag = "unk";
-    private boolean syncNow = false;
+    private boolean syncNow = false, needInit =false;
 
     private final int offset = ThutCore.newRandom().nextInt(1024);
     protected Provider provider = null;
@@ -99,7 +99,7 @@ public class DataSync_Impl implements DataSync
     @Override
     public List<Data<?>> getAll()
     {
-        List<Data<?>> list = new ArrayList<>(this.data.values());
+        List<Data<?>> list = new ArrayList<>(this.data);
         syncNow = false;
         return list;
     }
@@ -108,7 +108,7 @@ public class DataSync_Impl implements DataSync
     public List<Data<?>> getDirty()
     {
         List<Data<?>> list = null;
-        for (final Data<?> value : this.data.values())
+        for (final Data<?> value : this.data)
             if (value.dirty())
             {
                 if (list == null) list = Lists.newArrayList();
@@ -128,7 +128,8 @@ public class DataSync_Impl implements DataSync
         data.setID(id);
         // Initialize the UID for this data.
         DataSync_Impl.initID(data);
-        this.data.put(id, data);
+        this.data.add(data);
+        needInit = true;
         return data;
     }
 
@@ -149,9 +150,6 @@ public class DataSync_Impl implements DataSync
     {
         for (final Data<?> value : values)
         {
-            // Only update things we already have. This fixes issues on
-            // server/client syncing when both sides have not fully initialized.
-            if (!this.data.containsKey(value.getID())) continue;
             final Data<?> old = this.data.get(value.getID());
             final int uid1 = value.getUID();
             final int uid2 = old.getUID();
@@ -160,6 +158,29 @@ public class DataSync_Impl implements DataSync
             if (uid1 != uid2) continue;
             old.setRaw(value.get());
         }
+    }
+
+    @Override
+    public boolean needInit()
+    {
+        return needInit;
+    }
+
+    @Override
+    public void clearNeedInit()
+    {
+        needInit = false;
+    }
+
+    @Override
+    public void init(List<Data<?>> values)
+    {
+        this.data.clear();
+        values.forEach(data-> {
+            this.setRegisterTag(data.getTag());
+            this.register(data);
+        });
+        needInit = false;
     }
 
     @Override
@@ -194,7 +215,7 @@ public class DataSync_Impl implements DataSync
     {
         List<Data<?>> list = getTagged(tag);
         list.forEach(data -> {
-            this.data.remove(data.getID());
+            this.data.removeIf(d->d.getName().equals(data.getName()));
         });
     }
 

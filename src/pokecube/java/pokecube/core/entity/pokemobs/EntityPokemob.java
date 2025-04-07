@@ -214,27 +214,6 @@ public class EntityPokemob extends PokemobRidable
     @Override
     public void readSpawnData(final RegistryFriendlyByteBuf data)
     {
-        // Read the datasync stuff
-        final List<Data<?>> data_list = Lists.newArrayList();
-        final byte num = data.readByte();
-        if (num > 0)
-        {
-            for (int i = 0; i < num; i++)
-            {
-                final int uid = data.readInt();
-                try
-                {
-                    final Data<?> val = DataSync_Impl.makeData(uid);
-                    val.read(data);
-                    data_list.add(val);
-                }
-                catch (final Exception e)
-                {
-                    PokecubeAPI.LOGGER.error("Error reading synced data value", e);
-                }
-            }
-            this.pokemobCap.dataSync().update(data_list);
-        }
         this.seatCount = data.readInt();
         final FriendlyByteBuf buffer = new FriendlyByteBuf(data);
 
@@ -304,16 +283,6 @@ public class EntityPokemob extends PokemobRidable
     @Override
     public void writeSpawnData(final RegistryFriendlyByteBuf data)
     {
-        // Write the dataSync stuff
-        final List<Data<?>> data_list = this.pokemobCap.dataSync().getAll();
-        final byte num = (byte) data_list.size();
-        data.writeByte(num);
-        for (int i = 0; i < num; i++)
-        {
-            final Data<?> val = data_list.get(i);
-            data.writeInt(val.getUID());
-            val.write(data);
-        }
         this.initSeats();
         data.writeInt(this.seatCount);
         this.pokemobCap.updateHealth();

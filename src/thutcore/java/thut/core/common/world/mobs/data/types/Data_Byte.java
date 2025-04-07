@@ -5,8 +5,17 @@ import thut.api.world.mobs.data.Data;
 
 public class Data_Byte extends Data_Base<Byte>
 {
-    public Data_Byte(byte i) {value = i;}
-    public Data_Byte() {value = 0;}
+    public Data_Byte(String name, byte i)
+    {
+        super(name);
+        value = i;
+    }
+
+    public Data_Byte(String name)
+    {
+        super(name);
+        value = 0;
+    }
 
     @Override
     public Byte get()

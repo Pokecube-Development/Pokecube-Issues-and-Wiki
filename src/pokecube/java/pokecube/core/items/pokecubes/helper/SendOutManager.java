@@ -204,7 +204,6 @@ public class SendOutManager
             cube.setReleased(mob);
             SendOutManager.apply(world, mob, v, pokemob, summon);
             cube.setItem(pokemob.getPokecube());
-
         }
         else if (mob instanceof LivingEntity living)
         {

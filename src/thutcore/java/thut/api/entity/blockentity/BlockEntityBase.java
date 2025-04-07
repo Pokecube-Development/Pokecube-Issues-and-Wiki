@@ -116,7 +116,8 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
         this.invulnerableTime = 0;
         this.noPhysics = true;
         dataSync = ThutCaps.getDataSync(this);
-        POS = dataSync.register(new Data_Vec3().setRealtime());
+        dataSync.setRegisterTag("block-entity");
+        POS = dataSync.register(new Data_Vec3("pos").setRealtime());
     }
 
     protected Vector3 getForceDirection()

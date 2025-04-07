@@ -244,11 +244,12 @@ public class CapabilityHasPokemobs
             this.initSync(this.datasync);
         }
 
-        private void initSync(DataSync sync){
+        private void initSync(DataSync sync)
+        {
             sync.setRegisterTag("trainer");
-            holder.TYPE = sync.register(new Data_String());
+            holder.TYPE = sync.register(new Data_String("type"));
             for (int i = 0; i < 6; i++)
-                holder.POKEMOBS[i] = sync.register(new Data_ItemStack());
+                holder.POKEMOBS[i] = sync.register(new Data_ItemStack("cube_" + i));
         }
 
         @Override
@@ -379,9 +380,8 @@ public class CapabilityHasPokemobs
                 this.outMob = PokemobCaps.getPokemobFor(level.getEntity(this.outID));
                 if (this.outMob == null) this.outID = null;
             }
-            if (this.outMob != null
-                    && (this.outMob.getEntity().getHealth() <= 0 || !this.outMob.getEntity().isAddedToLevel()))
-                this.setOutMob(null);
+            if (this.outMob != null && (this.outMob.getEntity().getHealth() <= 0 || !this.outMob.getEntity()
+                    .isAddedToLevel())) this.setOutMob(null);
             return this.outID;
         }
 
@@ -421,8 +421,10 @@ public class CapabilityHasPokemobs
                 // Handle possible null type for if things are called at wrong
                 // times on client side.
                 if (this.type == null) this.type = TypeTrainer.merchant;
-                return t.isEmpty() ? this.type
-                        : this.type.getName().equalsIgnoreCase(t) ? this.type
+                return t.isEmpty()
+                        ? this.type
+                        : this.type.getName().equalsIgnoreCase(t)
+                                ? this.type
                                 : (this.type = TypeTrainer.getTrainer(t, true));
             }
             return this.type;
@@ -498,15 +500,14 @@ public class CapabilityHasPokemobs
         public void onAddMob()
         {
             if (this.getTarget() == null || this.aiStates.getAIState(AIState.THROWING) || this.getOutMob() != null
-                    || !this.getNextPokemob().isEmpty())
-                return;
+                    || !this.getNextPokemob().isEmpty()) return;
             this.aiStates.setAIState(AIState.INBATTLE, false);
             if (this.getOutMob() == null && !this.aiStates.getAIState(AIState.THROWING))
                 if (this.getCooldown() <= Tracker.instance().getTick())
-            {
-                this.onLose(this.getTarget());
-                this.setNextSlot(0);
-            }
+                {
+                    this.onLose(this.getTarget());
+                    this.setNextSlot(0);
+                }
         }
 
         @Override
@@ -780,8 +781,7 @@ public class CapabilityHasPokemobs
         public void throwCubeAt(final Entity target)
         {
             if (target == null || this.aiStates.getAIState(AIState.THROWING)
-                    || !(target.level() instanceof ServerLevel))
-                return;
+                    || !(target.level() instanceof ServerLevel)) return;
             final ItemStack i = this.getNextPokemob();
             if (!i.isEmpty())
             {
@@ -803,14 +803,14 @@ public class CapabilityHasPokemobs
                     if (pokemob.canEvolve(pokemob.getHeldItem()))
                         for (final EvolutionData evo : pokemob.getPokedexEntry().getEvolutions())
                             if (evo.shouldEvolve(pokemob))
-                    {
-                        final IPokemob temp = PokemobCaps.getPokemobFor(evo.getEvolution(user.level));
-                        if (temp != null)
-                        {
-                            pokemob = temp;
-                            break;
-                        }
-                    }
+                            {
+                                final IPokemob temp = PokemobCaps.getPokemobFor(evo.getEvolution(user.level));
+                                if (temp != null)
+                                {
+                                    pokemob = temp;
+                                    break;
+                                }
+                            }
                 }
                 mob = pokemob.getEntity();
                 PokecubeManager.addToCube(i, mob);
@@ -983,7 +983,8 @@ public class CapabilityHasPokemobs
         }
     }
 
-    private static final HolderProvider<IHasPokemobs> _REGISTRY = new HolderProvider<>(ResourceLocation.parse("pokecube_adventure:trainer"));
+    private static final HolderProvider<IHasPokemobs> _REGISTRY = new HolderProvider<>(
+            ResourceLocation.parse("pokecube_adventure:trainer"));
 
     public static void registerProvider(HolderProvider.Provider<IHasPokemobs> reg)
     {

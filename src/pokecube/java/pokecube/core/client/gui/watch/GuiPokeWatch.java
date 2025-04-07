@@ -234,20 +234,17 @@ public class GuiPokeWatch extends Screen
         buttons.add(new UVHolder(129, 40, 120, 0, 6)); // bases/meteors
         buttons.forEach(uv -> uv.makeButton(this));
         this.current_page.onPageOpened();
-    }
 
-    @Override
-    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
-    {
-        try
-        {
-            this.current_page.renderBackground(graphics, mouseX, mouseY, partialTicks);
-            this.current_page.render(graphics, mouseX, mouseY, partialTicks);
-        }
-        catch (final Exception e)
-        {
-            this.handleError(e);
-        }
-        super.render(graphics, mouseX, mouseY, partialTicks);
+        this.renderables.add((graphics, mouseX, mouseY, partialTicks)->{
+            try
+            {
+                this.current_page.renderBackground(graphics, mouseX, mouseY, partialTicks);
+                this.current_page.render(graphics, mouseX, mouseY, partialTicks);
+            }
+            catch (final Exception e)
+            {
+                this.handleError(e);
+            }
+        });
     }
 }

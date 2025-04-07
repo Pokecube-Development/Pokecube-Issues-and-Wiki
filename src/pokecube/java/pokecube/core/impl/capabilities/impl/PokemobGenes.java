@@ -33,7 +33,7 @@ import java.util.Random;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public abstract class PokemobGenes extends PokemobSided implements IMobColourable, Consumer<Gene<?>>
+public abstract class PokemobGenes extends PokemobSided implements IMobColourable
 {
     private boolean changing = false;
     private Boolean _shinyCache = null;

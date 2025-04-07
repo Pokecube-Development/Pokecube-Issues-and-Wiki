@@ -643,7 +643,6 @@ public class PokemobEventsHandler
         final Level world = mob.level;
         final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         if (pokemob == null) return;
-        pokemob.setEntity((Mob) mob);
         final IPokemob modified = pokemob.onAddedInit();
         if (modified.getEntity() != mob)
         {
@@ -840,11 +839,11 @@ public class PokemobEventsHandler
         if (pokemob instanceof DefaultPokemob pokemobCap && living instanceof EntityPokemob mob
                 && dim instanceof ServerLevel level)
         {
-            if (pokemobCap.returning)
-            {
-                evt.setCanceled(true);
-                return;
-            }
+//            if (pokemobCap.returning)
+//            {
+//                evt.setCanceled(true);
+//                return;
+//            }
             if (pokemobCap.getOwnerId() != null) mob.setPersistenceRequired();
             final Player near = mob.level().getNearestPlayer(mob, -1);
             if (near != null && pokemob.getOwnerId() == null)

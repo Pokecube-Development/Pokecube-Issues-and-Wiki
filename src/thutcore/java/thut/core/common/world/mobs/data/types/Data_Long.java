@@ -5,7 +5,11 @@ import thut.api.world.mobs.data.Data;
 
 public class Data_Long extends Data_Base<Long>
 {
-    public Data_Long() {this.value = 0l;}
+    public Data_Long(String name)
+    {
+        super(name);
+        this.value = 0l;
+    }
 
     @Override
     public Long get()

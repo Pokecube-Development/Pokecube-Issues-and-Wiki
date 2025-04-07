@@ -156,6 +156,9 @@ public class DefaultGenetics implements IMobGenetics
     @Override
     public void deserializeNBT(HolderLookup.Provider provider, final ListTag list)
     {
+        if(ThutCore.proxy.isServerSide()){
+            int x = 0;
+        }
         for (int i = 0; i < list.size(); i++)
         {
             final CompoundTag tag = list.getCompound(i);
@@ -193,7 +196,7 @@ public class DefaultGenetics implements IMobGenetics
     public static void registerAttachment(DeferredRegister<AttachmentType<?>> registry)
     {
         TYPE = registry.register(KEY.getPath(),
-                () -> AttachmentType.serializable(DefaultGenetics::makeProvider).build());
+                () -> AttachmentType.serializable(DefaultGenetics::makeProvider).copyOnDeath().build());
     }
 
     public static Supplier<DataComponentType<GeneHolder>> GENE_STORE;

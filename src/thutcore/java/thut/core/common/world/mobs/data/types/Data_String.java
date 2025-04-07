@@ -5,7 +5,11 @@ import thut.api.world.mobs.data.Data;
 
 public class Data_String extends Data_Base<String>
 {
-    public Data_String() {this.value = "";}
+    public Data_String(String name)
+    {
+        super(name);
+        this.value = "";
+    }
 
     @Override
     public String get()
