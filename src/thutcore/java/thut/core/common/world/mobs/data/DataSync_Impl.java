@@ -87,7 +87,7 @@ public class DataSync_Impl implements DataSync
     private String regTag = "unk";
     private boolean syncNow = false;
 
-    private final int offset = ThutCore.newRandom().nextInt();
+    private final int offset = ThutCore.newRandom().nextInt(1024);
     protected Provider provider = null;
 
     @Override

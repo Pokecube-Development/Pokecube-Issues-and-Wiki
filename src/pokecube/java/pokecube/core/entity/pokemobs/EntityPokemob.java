@@ -3,13 +3,7 @@
  */
 package pokecube.core.entity.pokemobs;
 
-import java.util.List;
-import java.util.UUID;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -79,6 +73,10 @@ import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.Data;
 import thut.core.common.world.mobs.data.DataSync_Impl;
+
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.UUID;
 
 public class EntityPokemob extends PokemobRidable
 {
@@ -202,7 +200,7 @@ public class EntityPokemob extends PokemobRidable
                 level = event.getLevel();
             }
             maxXP = Tools.levelToXp(pokemob.getPokedexEntry().getEvolutionMode(), level);
-            pokemob.getEntity().getPersistentData().putInt("spawnExp", maxXP);
+            pokemob.getEntity().getPersistentData().putInt(TagNames.SPAWN_EXP, maxXP);
             final double dt = (System.nanoTime() - time) / 10e3D;
             if (PokecubeCore.getConfig().debug_spawning && dt > 100)
             {

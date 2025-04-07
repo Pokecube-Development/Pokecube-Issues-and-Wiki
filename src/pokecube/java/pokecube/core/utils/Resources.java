@@ -55,7 +55,7 @@ public class Resources
         ICONS_GUI_ATLAS = ResourceLocation.fromNamespaceAndPath("pokecube", "gui_icons");
 
         ICONS_MOB_SHEET = ResourceLocation.fromNamespaceAndPath("pokecube_mobs", "textures/atlas/icons.png");
-        ICONS_MOB_ATLAS = ResourceLocation.fromNamespaceAndPath("pokecube_mobs", "gui_icons");
+        ICONS_MOB_ATLAS = ResourceLocation.fromNamespaceAndPath("pokecube_mobs", "mob_icons");
 
 //        POKE_ICONS_ATLAS = ResourceLocation.fromNamespaceAndPath("pokecube", "gui_icons");
 

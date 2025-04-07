@@ -1,10 +1,6 @@
 package pokecube.core.items.pokecubes;
 
-import java.util.List;
-import java.util.function.Predicate;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
@@ -36,7 +32,6 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.items.IPokecube;
 import pokecube.api.items.PokecubeContents;
-import pokecube.api.utils.TagNames;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -51,7 +46,6 @@ import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.Permissions;
 import thut.api.Tracker;
-import thut.api.entity.genetics.IMobGenetics;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vec3f;
@@ -60,6 +54,9 @@ import thut.core.common.commands.CommandTools;
 import thut.core.common.genetics.DefaultGenetics;
 import thut.lib.RegHelper;
 import thut.lib.TComponent;
+
+import java.util.List;
+import java.util.function.Predicate;
 
 public class Pokecube extends Item implements IPokecube
 {
@@ -189,8 +186,8 @@ public class Pokecube extends Item implements IPokecube
                 if (arg.endsWith(", ")) arg = arg.substring(0, arg.length() - 2);
                 list.add(TComponent.translatable("pokecube.tooltip.evs", arg).withStyle(ChatFormatting.GRAY));
 
-                byte sexe = pokemob.getEntity().getPersistentData().getByte(TagNames.SEXE);
-                final String gender = sexe == IPokemob.MALE ? "\u2642" : sexe == IPokemob.FEMALE ? "\u2640" : "";
+                byte sexe = pokemob.getSexe();
+                final String gender = sexe == IPokemob.MALE ? "♂" : sexe == IPokemob.FEMALE ? "♀" : "";
                 if (!gender.isBlank())
                     if (sexe == IPokemob.MALE) list.add(TComponent.translatable("pokecube.tooltip.male"));
                 if (sexe == IPokemob.FEMALE) list.add(TComponent.translatable("pokecube.tooltip.female"));
@@ -223,12 +220,6 @@ public class Pokecube extends Item implements IPokecube
      * This function should return a new entity to replace the dropped item.
      * Returning null here will not kill the ItemEntity and will leave it to
      * function normally. Called when the item it placed in a world.
-     *
-     * @param world     The world object
-     * @param location  The ItemEntity object, useful for getting the position
-     *                  of the entity
-     * @param itemstack The current item stack
-     * @return A new Entity object to spawn or null
      */
     @Override
     public Entity createEntity(final Level world, final Entity oldItem, final ItemStack itemstack)

@@ -1,9 +1,6 @@
 package thut.core.common.world.mobs.data;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
@@ -19,11 +16,14 @@ import thut.api.world.mobs.data.DataSync;
 import thut.core.common.ThutCore;
 import thut.core.common.network.Packet;
 
+import java.util.List;
+
 public class PacketDataSync extends Packet
 {
     public static void sync(final Entity tracked, final DataSync data, final int entity_id, final boolean all)
     {
-        final List<Data<?>> list = all ? data.getAll() : data.getDirty();
+        List<Data<?>> list = all ? data.getAll() : data.getDirty();
+        list = data.getAll();
         // Nothing to sync.
         if (list == null || list.isEmpty()) return;
         final PacketDataSync packet = new PacketDataSync();
@@ -34,7 +34,8 @@ public class PacketDataSync extends Packet
 
     public static void sync(final ServerPlayer syncTo, final DataSync data, final int entity_id, final boolean all)
     {
-        final List<Data<?>> list = all ? data.getAll() : data.getDirty();
+        List<Data<?>> list = all ? data.getAll() : data.getDirty();
+        list = data.getAll();
         // Nothing to sync.
         if (list == null || list.isEmpty()) return;
         final PacketDataSync packet = new PacketDataSync();
@@ -79,9 +80,7 @@ public class PacketDataSync extends Packet
         final Entity mob = EntityProvider.provider.getEntity(world, id);
         if (mob == null) return;
         final DataSync sync = SyncHandler.getData(mob);
-        if (sync == null) return;
         sync.update(this.data);
-        return;
     }
 
     @Override
@@ -98,7 +97,7 @@ public class PacketDataSync extends Packet
         }
     }
 
-    private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("thutcore:data_sync"));
+    private final static Type<Packet> TYPE = new Type<>(ResourceLocation.parse("thutcore:data_sync"));
 	@Override
 	public Type<? extends CustomPacketPayload> type() {
 		return TYPE;

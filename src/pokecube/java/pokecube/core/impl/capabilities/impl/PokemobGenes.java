@@ -1,19 +1,12 @@
 package pokecube.core.impl.capabilities.impl;
 
-import java.util.Random;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.Nature;
-import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.utils.TagNames;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
@@ -35,6 +28,10 @@ import thut.api.entity.IMobColourable;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.core.common.ThutCore;
+
+import java.util.Random;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public abstract class PokemobGenes extends PokemobSided implements IMobColourable, Consumer<Gene<?>>
 {
@@ -303,9 +300,6 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         this.shinyTexs.clear();
 
         this.initGenes();
-
-        // Ensure this is in persistent data for client side tooltip
-        this.entity.getPersistentData().putByte(TagNames.SEXE, this.getSexe());
     }
 
     @Override
@@ -507,8 +501,6 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
                 || sexe == IPokemob.SEXLEGENDARY)
         {
             info.setSexe(sexe);
-            // Ensure this is in persistent data for client side tooltip
-            this.entity.getPersistentData().putByte(TagNames.SEXE, sexe);
         }
         else
         {

@@ -1,17 +1,8 @@
 package pokecube.core.eventhandlers;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-
-import org.nfunk.jep.JEP;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
@@ -62,6 +53,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent.EntityInte
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
+import org.nfunk.jep.JEP;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.ai.IInhabitor;
 import pokecube.api.blocks.IInhabitable;
@@ -124,6 +116,12 @@ import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
 import thut.lib.RegHelper;
 import thut.lib.TComponent;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 public class PokemobEventsHandler
 {
@@ -881,8 +879,8 @@ public class PokemobEventsHandler
             {
                 if (!pokemob.getLogicState(LogicStates.SITTING))
                 {
-                    living.getPersistentData().remove("__on_shoulder__");
-                    living.getPersistentData().remove("__on_shoulder_timer__");
+                    living.getPersistentData().remove(TagNames.ON_SHOULDER);
+                    living.getPersistentData().remove(TagNames.ON_SHOULDER_TIMER);
                     living.stopRiding();
                 }
             }
@@ -902,24 +900,24 @@ public class PokemobEventsHandler
                     PacketDataSync.syncData(player, "pokecube-custom");
                 }
             }
-            else if (living.level() instanceof ServerLevel && living.getPersistentData().getBoolean("__on_shoulder__")
+            else if (living.level() instanceof ServerLevel && living.getPersistentData().getBoolean(TagNames.ON_SHOULDER)
                     && pokemob.getLogicState(LogicStates.SITTING))
             {
-                int remountTimer = living.getPersistentData().getInt("__on_shoulder_timer__");
+                int remountTimer = living.getPersistentData().getInt(TagNames.ON_SHOULDER_TIMER);
                 if (pokemob.getOwner() instanceof Player player)
                 {
                     pokemob.moveToShoulder(player);
-                    living.getPersistentData().remove("__on_shoulder_timer__");
+                    living.getPersistentData().remove(TagNames.ON_SHOULDER_TIMER);
                 }
                 else if (remountTimer > 10)
                 {
                     pokemob.setLogicState(LogicStates.SITTING, false);
-                    living.getPersistentData().remove("__on_shoulder__");
-                    living.getPersistentData().remove("__on_shoulder_timer__");
+                    living.getPersistentData().remove(TagNames.ON_SHOULDER);
+                    living.getPersistentData().remove(TagNames.ON_SHOULDER_TIMER);
                 }
                 else
                 {
-                    living.getPersistentData().putInt("__on_shoulder_timer__", remountTimer + 1);
+                    living.getPersistentData().putInt(TagNames.ON_SHOULDER_TIMER, remountTimer + 1);
                 }
             }
             if (pokemob.getBossInfo() != null)

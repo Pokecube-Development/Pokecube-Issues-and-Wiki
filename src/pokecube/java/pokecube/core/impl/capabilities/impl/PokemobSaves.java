@@ -65,7 +65,7 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
                     if (!this.getMoveStats().newMoves.contains(newMoves.getString(i)))
                         this.getMoveStats().newMoves.add(newMoves.getString(i));
             }
-            this.setMoveIndex(movesTag.getInt(TagNames.MOVEINDEX));
+            this.params.MOVEINDEXDW.set((byte) movesTag.getInt(TagNames.MOVEINDEX));
             this.setAttackCooldown(movesTag.getInt(TagNames.COOLDOWN));
             final int[] disables = movesTag.getIntArray(TagNames.DISABLED);
             if (disables.length == 4) for (int i = 0; i < 4; i++) this.setDisableTimer(i, disables[i]);

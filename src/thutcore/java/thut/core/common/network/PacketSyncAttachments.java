@@ -1,15 +1,5 @@
 package thut.core.common.network;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -35,13 +25,23 @@ import thut.api.world.WorldTickManager;
 import thut.api.world.WorldTickManager.DelayedTask;
 import thut.core.common.ThutCore;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+
 @EventBusSubscriber
 @SuppressWarnings("rawtypes")
 public class PacketSyncAttachments extends Packet
 {
     public static List<ResourceLocation> SYNCED = new ArrayList<>();
     public static Map<Predicate<Entity>, ResourceLocation> AUTOADD = new HashMap<>();
-    private static Map<ResourceLocation, Tag> DEFAULTS = new HashMap<>();
+    private static final Map<ResourceLocation, Tag> DEFAULTS = new HashMap<>();
 
     private static Field GETDEF;
 

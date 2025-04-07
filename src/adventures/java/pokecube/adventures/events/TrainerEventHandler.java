@@ -1,12 +1,6 @@
 package pokecube.adventures.events;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.function.Function;
-
 import com.google.gson.JsonSyntaxException;
-
 import io.netty.buffer.Unpooled;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -106,10 +100,13 @@ import thut.api.world.mobs.data.DataSync;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
 import thut.core.common.world.mobs.data.DataSync_Impl;
-import thut.core.common.world.mobs.data.types.Data_ItemStack;
-import thut.core.common.world.mobs.data.types.Data_String;
 import thut.wearables.events.WearableDroppedEvent;
 import thut.wearables.events.WearableUseEvent;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class TrainerEventHandler
 {
@@ -309,16 +306,9 @@ public class TrainerEventHandler
 
     /**
      * Initializes the AI for the trainers when they join the world.
-     *
-     * @param event
      */
     public static void onJoinWorld(final EntityJoinLevelEvent event)
     {
-        if (!(event.getEntity() instanceof LivingEntity)) return;
-        if (!(event.getLevel() instanceof ServerLevel)) return;
-        // Schedule the update for the next time this ticks, otherwise we can
-        // get race conditions from block checks...
-        event.getEntity().getPersistentData().putBoolean("__need__init___", true);
     }
 
     public static void onNpcSpawn(final NpcSpawn.Spawn event)

@@ -1,12 +1,5 @@
 package pokecube.core.ai.logic;
 
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Random;
-import java.util.UUID;
-
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -57,6 +50,13 @@ import thut.api.entity.IAnimated.MolangVars;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+
+import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Random;
+import java.util.UUID;
 
 /**
  * Mostly does visuals updates, such as particle effects, checking that shearing
@@ -195,7 +195,6 @@ public class LogicMiscUpdate extends LogicBase
         if (this.entity.tickCount > LogicMiscUpdate.EXITCUBEDURATION
                 && this.pokemob.getGeneralState(GeneralStates.EXITINGCUBE))
             this.pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
-
         boolean noMotion = sleepingAI;
         boolean sitting = this.pokemob.getLogicState(LogicStates.SITTING);
         noMotion |= sitting;

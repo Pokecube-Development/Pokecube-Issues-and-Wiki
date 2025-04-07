@@ -1,5 +1,6 @@
 package pokecube.api.items;
 
+import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import io.netty.buffer.ByteBuf;
@@ -13,6 +14,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import thut.api.maths.Vector3;
 
+import java.util.List;
 import java.util.Optional;
 
 public record PokecubeContents(IPokemob pokemob, LivingEntity entity, CompoundTag tag)
@@ -134,6 +136,7 @@ public record PokecubeContents(IPokemob pokemob, LivingEntity entity, CompoundTa
         tag.putString("K", pokemob.serKey().toString());
         return tag;
     }
+    public static final List<String> TAGSTOREMOVE = Lists.newArrayList();
 
     public static CompoundTag serializeEntity(Entity entity)
     {
@@ -143,6 +146,8 @@ public record PokecubeContents(IPokemob pokemob, LivingEntity entity, CompoundTa
         var key = entity.getEncodeId();
         mob.putString("id", key);
         tag.putString("I", key);
+        var customData = mob.getCompound("NeoForgeData");
+        for(String s: TAGSTOREMOVE) customData.remove(s);
         tag.put("M", mob);
         if (entity instanceof LivingEntity living)
         {

@@ -1,17 +1,8 @@
 package pokecube.core.eventhandlers;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.function.Predicate;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceKey;
@@ -120,6 +111,14 @@ import thut.core.common.handlers.PlayerDataHandler.PlayerDataManager;
 import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.function.Predicate;
+
 public class EventsHandler
 {
     public static class ChooseFirst
@@ -202,30 +201,19 @@ public class EventsHandler
         }
     }
 
-    public static final ResourceLocation POKEMOBCAP = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "pokemob");
-    public static final ResourceLocation AFFECTEDCAP = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID,
-            "affected");
-    public static final ResourceLocation DATACAP = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "data");
-    public static final ResourceLocation BEECAP = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "bee");
-    public static final ResourceLocation ANTCAP = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "ant");
-    public static final ResourceLocation TEXTURECAP = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "textured");
-    public static final ResourceLocation INVENTORYCAP = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID,
-            "tile_inventory");
     public static final ResourceLocation NOGENESTAG = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID,
             "no_genetics");
 
     static double max = 0;
 
     /**
-     * This returns true if the given entity is not a vanilla entity, or is not
-     * a mob-like entity, it returns false for modded mobs, as well as players,
-     * armour stands, boats, etc
+     * This returns true if the given entity is not a vanilla entity, or is not a mob-like entity, it returns false for
+     * modded mobs, as well as players, armour stands, boats, etc
      */
     private static Predicate<Entity> NOTVANILLAANIMALORMOB;
 
     /**
-     * This returns true if the given entity is ia "vanilla" monster, but not a
-     * boss
+     * This returns true if the given entity is ia "vanilla" monster, but not a boss
      */
     public static Predicate<Entity> MONSTERMATCHER;
 
@@ -239,7 +227,6 @@ public class EventsHandler
         // This deals with making sure it is actually a mob, as well as not an
         // npc, or a pokemob
         EventsHandler.NOTVANILLAANIMALORMOB = e -> {
-            boolean canSpawn = false;
             final IPokemob pokemob = PokemobCaps.getPokemobFor(e);
             // This includes players, armour stands, effects, etc
             final boolean noSpawnBlock = !(e instanceof Mob);
@@ -258,7 +245,7 @@ public class EventsHandler
             final boolean isNpc = e instanceof Npc || e instanceof Merchant || e instanceof WitherBoss;
             // Lets also not block the ender dragon/parts
             final boolean isDragon = e instanceof EnderDragon || e instanceof EnderDragonPart;
-            canSpawn = noSpawnBlock || isDragon || isNpc || isPokemob || !isVanilla;
+            boolean canSpawn = noSpawnBlock || isDragon || isNpc || isPokemob || !isVanilla;
             return !canSpawn;
         };
 
@@ -300,9 +287,8 @@ public class EventsHandler
     }
 
     /**
-     * If this is false, then the effects occur on every valid tick. Only set
-     * this false if you have something else to manage the TerrainEffectEvent
-     * and the OngoingTickEvent!
+     * If this is false, then the effects occur on every valid tick. Only set this false if you have something else to
+     * manage the TerrainEffectEvent and the OngoingTickEvent!
      */
     public static boolean COOLDOWN_BASED = true;
 
@@ -361,7 +347,6 @@ public class EventsHandler
 
         // These are for handling interaction events, etc
         ThutCore.FORGE_BUS.addListener(EventsHandler::onItemRightClick);
-        ThutCore.FORGE_BUS.addListener(EventsHandler::onEmptyRightClick);
         ThutCore.FORGE_BUS.addListener(EventsHandler::onVanillaEntityEvent);
 
         // now let our other handlers register their stuff
@@ -409,7 +394,7 @@ public class EventsHandler
             @Override
             public IMobTexturable apply(IAttachmentHolder t)
             {
-                if (t instanceof NpcMob npc) return new NPCCap<>(npc, e -> e.getTex(), e -> !e.isMale());
+                if (t instanceof NpcMob npc) return new NPCCap<>(npc, NpcMob::getTex, e -> !e.isMale());
                 return null;
             }
 
@@ -451,16 +436,8 @@ public class EventsHandler
 
     private static void onItemRightClick(final PlayerInteractEvent.RightClickItem evt)
     {
-        if (!(evt.getEntity() instanceof ServerPlayer player)
-                || !(evt.getEntity().level() instanceof ServerLevel level))
-            return;
-        final String ID = "__poke_interact__";
-        final long time = player.getPersistentData().getLong(ID);
-        if (time == Tracker.instance().getTick())
-        {
-            if (player.getPersistentData().getLong("__poke_int_c_") == time) evt.setCanceled(true);
-            return;
-        }
+        if (!(evt.getEntity() instanceof ServerPlayer player) || !(evt.getEntity()
+                .level() instanceof ServerLevel level)) return;
 
         // These two are fine for production environments, as players can use
         // them to try to figure out what might be spawning where they currently
@@ -505,18 +482,6 @@ public class EventsHandler
 
             final Set<INamedStructure> set = StructureManager.getFor(level.dimension(), v.getPos(), true);
             System.out.println(set);
-        }
-    }
-
-    private static void onEmptyRightClick(final PlayerInteractEvent.RightClickEmpty evt)
-    {
-        if (!(evt.getEntity() instanceof ServerPlayer player)) return;
-        final String ID = "__poke_interact__";
-        final long time = player.getPersistentData().getLong(ID);
-        if (time == Tracker.instance().getTick())
-        {
-            if (player.getPersistentData().getLong("__poke_int_c_") == time) Thread.dumpStack();
-            return;
         }
     }
 
@@ -577,10 +542,11 @@ public class EventsHandler
         // Forge workaround for this not being called server side!
         if (!evt.getEntity().isAddedToLevel()) evt.getEntity().onAddedToLevel();
 
-        if (evt.getEntity() instanceof IPokemob pokemob && evt.getEntity().getPersistentData().getBoolean("onShoulder"))
+        if (evt.getEntity() instanceof IPokemob pokemob && evt.getEntity().getPersistentData()
+                .getBoolean(TagNames.ON_SHOULDER))
         {
             pokemob.setLogicState(LogicStates.SITTING, false);
-            evt.getEntity().getPersistentData().remove("onShoulder");
+            evt.getEntity().getPersistentData().remove(TagNames.ON_SHOULDER);
         }
         if (evt.getEntity() instanceof Creeper creeper)
         {
@@ -620,8 +586,9 @@ public class EventsHandler
         boolean fullHeal = !isTamed;
 
         boolean poofDisabled = false;
-        boolean noPoof = living.getPersistentData().getBoolean(TagNames.NOPOOF)
-                || (poofDisabled = !pokemob.isRoutineEnabled(AIRoutine.POOFS));
+        boolean noPoof =
+                living.getPersistentData().getBoolean(TagNames.NOPOOF) || (poofDisabled = !pokemob.isRoutineEnabled(
+                        AIRoutine.POOFS));
         boolean forcePoof = living.getPersistentData().getBoolean("pokecube:force_poof");
         if (noPoof)
         {
@@ -633,7 +600,8 @@ public class EventsHandler
             final FaintEvent event = new FaintEvent(pokemob);
             PokecubeAPI.POKEMOB_BUS.post(event);
             TriState res = event.getResult();
-            boolean despawn = isTamed ? PokecubeCore.getConfig().tameDeadDespawn
+            boolean despawn = isTamed
+                    ? PokecubeCore.getConfig().tameDeadDespawn
                     : PokecubeCore.getConfig().wildDeadDespawn;
             despawn = res == TriState.DEFAULT ? despawn : res == TriState.TRUE;
             if (despawn)
@@ -661,7 +629,8 @@ public class EventsHandler
                 final FaintEvent event = new FaintEvent(pokemob);
                 PokecubeAPI.POKEMOB_BUS.post(event);
                 TriState res = event.getResult();
-                boolean despawn = isTamed ? PokecubeCore.getConfig().tameDeadDespawn
+                boolean despawn = isTamed
+                        ? PokecubeCore.getConfig().tameDeadDespawn
                         : PokecubeCore.getConfig().wildDeadDespawn;
                 despawn = res == TriState.DEFAULT ? despawn : res == TriState.TRUE;
                 if (despawn) pokemob.onRecall(true);
@@ -719,8 +688,7 @@ public class EventsHandler
     {
         // Only deny them from these reasons.
         if (!(event.getSpawnType() == MobSpawnType.NATURAL || event.getSpawnType() == MobSpawnType.CHUNK_GENERATION
-                || event.getSpawnType() == MobSpawnType.STRUCTURE))
-            return;
+                || event.getSpawnType() == MobSpawnType.STRUCTURE)) return;
 
         if (EventsHandler.MONSTERMATCHER.test(event.getEntity()) && PokecubeCore.getConfig().deactivateMonsters)
             event.setResult(PositionCheck.Result.FAIL);
@@ -754,13 +722,10 @@ public class EventsHandler
         final int tick = Math.max(PokecubeCore.getConfig().attackCooldown, 1);
         // Handle ongoing effects for this mob.
         final IOngoingAffected affected = PokemobCaps.getAffected(evt.getEntity());
-        if (affected != null)
+        if (affected != null) affected.tick();
+        if (evt.getEntity().tickCount % tick == 0 || !EventsHandler.COOLDOWN_BASED)
         {
-            affected.tick();
-            if (evt.getEntity().tickCount % tick == 0 || !EventsHandler.COOLDOWN_BASED)
-            {
-                affected.tickDamage();
-            }
+            affected.tickDamage();
         }
     }
 
@@ -843,7 +808,7 @@ public class EventsHandler
     {
         // Attributes can be null when this is called in the initial set for the
         // constructor of the Entity itself.
-        if (event.getEntity() instanceof LivingEntity living && living.getAttributes() != null)
+        if (event.getEntity() instanceof LivingEntity living)
         {
             float s = (float) SharedAttributes.getScale(living);
             event.setNewSize(event.getNewSize().withEyeHeight(event.getNewSize().eyeHeight() * s));
@@ -917,9 +882,8 @@ public class EventsHandler
     }
 
     /**
-     * Checks if Entity is owned by owner, it checks if it is a pokemob, or a
-     * filled pokecube. If it is a pokemob, it also confirms that it is not set
-     * to stay.
+     * Checks if Entity is owned by owner, it checks if it is a pokemob, or a filled pokecube. If it is a pokemob, it
+     * also confirms that it is not set to stay.
      *
      * @param owner
      * @param toRecall
@@ -935,7 +899,7 @@ public class EventsHandler
             if (toRecall instanceof EntityPokecube cube && !cube.getItem().isEmpty())
             {
                 final String name = PokecubeManager.getOwner(cube.getItem(), toRecall.level());
-                if (name != null && name.equals(owner.getStringUUID())) return true;
+                return name != null && name.equals(owner.getStringUUID());
             }
             return false;
         }
@@ -958,14 +922,13 @@ public class EventsHandler
         final IPokemob pokemob = PokemobCaps.getPokemobFor(toRecall);
         if (pokemob != null)
         {
-            if (pokemob != excluded && pokemob.getOwner() == player
-                    && (includeStay || !pokemob.getGeneralState(GeneralStates.STAYING)))
-                return true;
+            return pokemob != excluded && pokemob.getOwner() == player && (includeStay || !pokemob.getGeneralState(
+                    GeneralStates.STAYING));
         }
         else if (toRecall instanceof EntityPokecube mob && !mob.getItem().isEmpty())
         {
             final String name = PokecubeManager.getOwner(mob.getItem(), toRecall.level());
-            if (name != null && name.equals(player.getStringUUID())) return true;
+            return name != null && name.equals(player.getStringUUID());
         }
         return false;
     }

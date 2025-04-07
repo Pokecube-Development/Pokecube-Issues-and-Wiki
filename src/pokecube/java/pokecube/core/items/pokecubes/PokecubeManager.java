@@ -1,6 +1,5 @@
 package pokecube.core.items.pokecubes;
 
-import com.google.common.collect.Lists;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -23,19 +22,19 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import thut.lib.TComponent;
 
-import java.util.List;
 import java.util.UUID;
 
 public class PokecubeManager
 {
-    public static final List<String> TAGSTOREMOVE = Lists.newArrayList();
 
     public static void init()
     {
-        PokecubeManager.TAGSTOREMOVE.clear();
-        PokecubeManager.TAGSTOREMOVE.add(TagNames.CAPTURING);
-        PokecubeManager.TAGSTOREMOVE.add(TagNames.REMOVED);
-        PokecubeManager.TAGSTOREMOVE.addAll(PokecubeCore.getConfig().persistent_tag_blacklist);
+        PokecubeContents.TAGSTOREMOVE.clear();
+        PokecubeContents.TAGSTOREMOVE.add(TagNames.CAPTURING);
+        PokecubeContents.TAGSTOREMOVE.add(TagNames.REMOVED);
+        PokecubeContents.TAGSTOREMOVE.add(TagNames.ON_SHOULDER);
+        PokecubeContents.TAGSTOREMOVE.add(TagNames.ON_SHOULDER_TIMER);
+        PokecubeContents.TAGSTOREMOVE.addAll(PokecubeCore.getConfig().persistent_tag_blacklist);
     }
 
     public static void addToCube(final ItemStack cube, final LivingEntity mob)

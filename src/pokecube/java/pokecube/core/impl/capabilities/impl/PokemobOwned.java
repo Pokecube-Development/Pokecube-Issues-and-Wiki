@@ -1,7 +1,5 @@
 package pokecube.core.impl.capabilities.impl;
 
-import java.util.UUID;
-
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -57,6 +55,8 @@ import thut.api.Tracker;
 import thut.api.entity.genetics.Alleles;
 import thut.core.common.ThutCore;
 import thut.lib.TComponent;
+
+import java.util.UUID;
 
 public abstract class PokemobOwned extends PokemobAI implements ContainerListener
 {
@@ -499,7 +499,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
     {
         IPokemob pokemob = this;
         if (this.spawnInitRule == null) return this;
-        int maxXP = pokemob.getEntity().getPersistentData().getInt("spawnExp");
+        int maxXP = pokemob.getEntity().getPersistentData().getInt(TagNames.SPAWN_EXP);
         /*
          * Check to see if the mob has spawnExp defined in its data. If not, it
          * will choose how much exp it spawns with based on the position that it
@@ -523,7 +523,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
             final int level = event.getLevel();
             maxXP = Tools.levelToXp(pokemob.getPokedexEntry().getEvolutionMode(), level);
         }
-        this.getEntity().getPersistentData().remove("spawnExp");
+        this.getEntity().getPersistentData().remove(TagNames.SPAWN_EXP);
 
         // Set exp and held items.
         pokemob = pokemob.setForSpawn(maxXP);

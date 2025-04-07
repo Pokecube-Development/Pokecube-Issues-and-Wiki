@@ -15,16 +15,17 @@ public class SyncHandler
     @SubscribeEvent
     public static void EntityUpdate(final EntityTickEvent.Post event)
     {
-        if (event.getEntity().level().isClientSide) return;
+        if (event.getEntity().level().isClientSide || !event.getEntity().hasData(DataSync_Impl.TYPE)) return;
         Entity entity = event.getEntity();
         DataSync data = SyncHandler.getData(entity);
         mainData:
         {
-            if (data == null) break mainData;
             long tick = Tracker.instance().getTick();
             if (tick == data.getTick()) break mainData;
             data.setTick(tick);
-            if (!data.syncNow() && tick % data.tickRate() != data.tickOffset() % data.tickRate()) break mainData;
+            boolean shouldTick = data.syncNow();
+            shouldTick |= tick % data.tickRate() == data.tickOffset() % data.tickRate();
+            if (!shouldTick) break mainData;
             PacketDataSync.sync(entity, data, entity.getId(), false);
         }
         ICopyMob copy = ThutCaps.getCopyMob(event.getEntity());
@@ -37,7 +38,9 @@ public class SyncHandler
             long tick = Tracker.instance().getTick();
             if (tick == data.getTick()) break copyData;
             data.setTick(tick);
-            if (!data.syncNow() && tick % data.tickRate() != data.tickOffset() % data.tickRate()) break copyData;
+            boolean shouldTick = data.syncNow();
+            shouldTick |= tick % data.tickRate() == data.tickOffset() % data.tickRate();
+            if (!shouldTick) break copyData;
             PacketDataSync.sync(event.getEntity(), data, entity.getId(), false);
         }
     }

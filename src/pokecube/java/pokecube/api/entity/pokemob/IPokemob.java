@@ -29,6 +29,7 @@ import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.moves.Battle;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.utils.PokeType;
+import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
@@ -627,7 +628,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         {
             if (this.getEntity().isAlive() && !this.getEntity().isPassenger() && player.getPassengers().isEmpty())
             {
-                this.getEntity().getPersistentData().putBoolean("__on_shoulder__", true);
+                this.getEntity().getPersistentData().putBoolean(TagNames.ON_SHOULDER, true);
                 this.setLogicState(LogicStates.SITTING, true);
                 this.getEntity().startRiding(player, true);
                 return true;

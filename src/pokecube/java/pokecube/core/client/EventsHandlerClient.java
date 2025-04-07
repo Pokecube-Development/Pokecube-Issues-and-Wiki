@@ -454,7 +454,7 @@ public class EventsHandlerClient
         for (int l = 0; l < 9; l++)
         {
             final ItemStack stack = player.getInventory().items.get(l);
-            if (stack != null && PokecubeManager.isFilled(stack))
+            if (PokecubeManager.isFilled(stack))
             {
                 final IPokemob pokemob = EventsHandlerClient.getPokemobForRender(stack, player.level());
                 if (pokemob == null) continue;
@@ -513,7 +513,7 @@ public class EventsHandlerClient
         if (holder != null) icon = holder.getIcon(!female, shiny, entry);
 
         TextureAtlasSprite textureatlassprite = Minecraft.getInstance().getTextureAtlas(Resources.ICONS_MOB_SHEET).apply(icon);
-        guiGraphics.blit(x, y, 1000,  width, height, textureatlassprite);
+        guiGraphics.blit(x, y, 0,  width, height, textureatlassprite);
 //        guiGraphics.blitSprite(icon, x, y, width, height);
     }
 

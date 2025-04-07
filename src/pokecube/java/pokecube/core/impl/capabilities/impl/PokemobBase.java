@@ -246,9 +246,6 @@ public abstract class PokemobBase implements IPokemob
 
     public void setOwnerHolder(IOwnable holder)
     {
-        holder.setOwner(this.ownerHolder.getOwner());
-        holder.setOwner(this.ownerHolder.getOwnerId());
-        holder.setPlayerOwned(this.ownerHolder.isPlayerOwned());
         this.ownerHolder = holder;
     }
 
@@ -270,6 +267,10 @@ public abstract class PokemobBase implements IPokemob
         if (entityIn.hasData(DataSync_Impl.TYPE))
         {
             this.setDataSync(entityIn.getData(DataSync_Impl.TYPE));
+        }
+        if (entityIn.hasData(Ownable.TYPE))
+        {
+            this.setOwnerHolder(entityIn.getData(Ownable.TYPE));
         }
     }
 
