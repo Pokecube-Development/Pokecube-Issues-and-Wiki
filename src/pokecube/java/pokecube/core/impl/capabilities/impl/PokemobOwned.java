@@ -44,6 +44,7 @@ import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.eventhandlers.StatsCollector;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.impl.PokecubeMod;
+import pokecube.core.impl.capabilities.DefaultPokemob;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.inventory.pokemob.PokemobInventory;
 import pokecube.core.items.pokecubes.PokecubeManager;
@@ -51,8 +52,10 @@ import pokecube.core.network.pokemobs.PacketPokemobMessage;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.CapHolders;
 import thut.api.Tracker;
+import thut.api.attachments.Ownable;
 import thut.api.entity.genetics.Alleles;
 import thut.core.common.ThutCore;
+import thut.core.common.genetics.DefaultGenetics;
 import thut.lib.TComponent;
 
 import java.util.UUID;
@@ -239,6 +242,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         {
             this.healStatus();
             this.healChanges();
+            this.setHealth(0);
         }
 
         final Entity owner = this.getOwner();
@@ -288,7 +292,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         }
 
         final LivingEntity targ = BrainUtils.getAttackTarget(this.getEntity());
-        /**
+        /*
          * If we have a target, and we were recalled with health, assign the
          * target to our owner instead.
          */
@@ -307,13 +311,16 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         // still around, to play death animations
         if (onDeath)
         {
-            this.setOwner(PokecubeMod.fakeUUID);
             this.getEntity().getPersistentData().putBoolean(TagNames.NODROP, true);
             this.getEntity().setRemoved(RemovalReason.DISCARDED);
+            this.getEntity().setData(Ownable.TYPE, Ownable._REGISTRY.make(this.getEntity()));
             this.getEntity().setUUID(UUID.randomUUID());
+            this.getEntity().removeData(Ownable.TYPE);
+            // Make a new copy of the pokemob
+            this.entity.setData(DefaultGenetics.TYPE, DefaultGenetics.makeProvider(this.getEntity()));
+            var copy = new DefaultPokemob((this.getEntity()));
+            copy.setPokedexEntry(this.getPokedexEntry());
             this.getEntity().revive();
-            ServerLevel level = (ServerLevel) this.getEntity().level;
-            level.addWithUUID(this.getEntity());
             return;
         }
         this.getEntity().discard();

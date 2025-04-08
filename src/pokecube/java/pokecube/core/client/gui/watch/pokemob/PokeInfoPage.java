@@ -152,10 +152,10 @@ public abstract class PokeInfoPage extends WatchPage
         Component genderText = TComponent.literal("");
         if (this.parent.pokemob.getSexe() == IPokemob.MALE)
         {
-            genderText = TComponent.literal("\u2642");
+            genderText = TComponent.literal("♂");
         } else if (this.parent.pokemob.getSexe() == IPokemob.FEMALE)
         {
-            genderText = TComponent.literal("\u2640");
+            genderText = TComponent.literal("♀");
         }
 
         gender = this.addRenderableWidget(new TexButton.Builder(genderText, b -> {
@@ -186,7 +186,7 @@ public abstract class PokeInfoPage extends WatchPage
             }
             this.parent.pokemob.onGenesChanged();
         }).bounds(x - 47, y + 40, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
-                .setRender(new UVImgRender(200, 0, 12, 12)).shadow(true)
+                .setRender(new UVImgRender(200, 0, 12, 12))
                 .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.gender.narrate")).build());
 
         gender.active = !this.parent.pokemob.getEntity().isAddedToLevel() &&
@@ -199,9 +199,8 @@ public abstract class PokeInfoPage extends WatchPage
     }
 
     @Override
-    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
+    public void renderPage(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
-        super.render(graphics, mouseX, mouseY, partialTicks);
         this.drawInfo(graphics, mouseX, mouseY, partialTicks);
     }
 

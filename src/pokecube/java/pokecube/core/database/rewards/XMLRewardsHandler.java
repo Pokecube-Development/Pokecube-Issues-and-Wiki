@@ -7,6 +7,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import net.minecraft.world.item.component.WrittenBookContent;
 import org.jline.utils.InputStreamReader;
 
 import com.google.common.collect.Lists;
@@ -32,6 +33,7 @@ import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.handlers.PokedexInspector.IInspectReward;
 import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
 import thut.api.util.JsonUtil;
+import thut.lib.TCodecs;
 import thut.lib.TComponent;
 
 public class XMLRewardsHandler
@@ -200,8 +202,8 @@ public class XMLRewardsHandler
                 try
                 {
                     lang = lang.toLowerCase(Locale.ROOT);
-                    final ResourceLocation langloc = PokecubeItems
-                            .toPokecubeResource(String.format(this.langFile, lang));
+                    final ResourceLocation langloc = PokecubeItems.toPokecubeResource(
+                            String.format(this.langFile, lang));
                     final InputStream stream = PackFinder.getStream(langloc);
                     if (stream == null) throw new FileNotFoundException(this.langFile);
                     if (this.page_file)
@@ -214,12 +216,13 @@ public class XMLRewardsHandler
                     {
                         final JsonObject holder = JsonUtil.gson.fromJson(new InputStreamReader(stream, "UTF-8"),
                                 JsonObject.class);
-                        final String json = holder.get(this.tagKey).getAsString();
-                        final ItemStack stack = new ItemStack(Items.WRITTEN_BOOK);
+                        String json = holder.get(this.tagKey).getAsString();
+                        ItemStack stack = new ItemStack(Items.WRITTEN_BOOK);
                         try
                         {
+                            Thread.dumpStack();
                             // TODO written book parsing from json
-//                            stack.setTag(TagParser.parseTag(json));
+                            //                            stack.setTag(TagParser.parseTag(json));
                             this.lang_stacks.put(key, stack);
                         }
                         catch (final Exception e)

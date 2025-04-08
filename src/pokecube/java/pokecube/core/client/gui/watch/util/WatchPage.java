@@ -47,6 +47,8 @@ public abstract class WatchPage extends Screen implements GuiEventListener
         final int j2 = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         final int k2 = (this.watch.height - GuiPokeWatch.GUIH) / 2;
         guiGraphics.blit(this.getBackgroundTex(), j2, k2, 0, 0, GuiPokeWatch.GUIW, GuiPokeWatch.GUIH);
+
+        this.renderPage(guiGraphics, mouseX, mouseY, partialTick);
     }
 
     @Override
@@ -55,10 +57,10 @@ public abstract class WatchPage extends Screen implements GuiEventListener
         return this.title;
     }
 
-    @Override
     /**
      * This is made public here to make it accessible for others.
      */
+    @Override
     public void init()
     {
         this.onPageClosed();
@@ -75,9 +77,7 @@ public abstract class WatchPage extends Screen implements GuiEventListener
     {
         // We overwrite this to reverse the ordering of checking if tab was
         // pressed
-        final boolean subpages = this.getFocused() != null && this.getFocused().keyPressed(keyCode, b, c);
-        if (subpages) return true;
-        return false;
+        return this.getFocused() != null && this.getFocused().keyPressed(keyCode, b, c);
     }
 
     public void onPageOpened()
@@ -85,5 +85,16 @@ public abstract class WatchPage extends Screen implements GuiEventListener
         @SuppressWarnings("unchecked")
         final List<GuiEventListener> list = (List<GuiEventListener>) this.watch.children();
         list.add(this);
+        this.renderables.add(this::renderPage);
+    }
+
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
+    {
+        super.render(guiGraphics,mouseX,mouseY,partialTick);
+    }
+
+    public void renderPage(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
+    {
+
     }
 }

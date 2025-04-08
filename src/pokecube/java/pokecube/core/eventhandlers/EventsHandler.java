@@ -111,12 +111,8 @@ import thut.core.common.handlers.PlayerDataHandler.PlayerDataManager;
 import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.function.Predicate;
 
 public class EventsHandler
@@ -496,9 +492,9 @@ public class EventsHandler
         if (living instanceof EntityPokemob mob)
         {
             // Init data, genes, copy
-            var data = ThutCaps.getDataSync(living);
-            var genes = ThutCaps.getGenetics(living);
-            var copy = ThutCaps.getCopyMob(living);
+            ThutCaps.getDataSync(living);
+            ThutCaps.getGenetics(living);
+            ThutCaps.getCopyMob(living);
             var ownable = ThutCaps.getOwnable(living);
 
             // Ensure this is setup.
@@ -549,14 +545,6 @@ public class EventsHandler
         if (pokemob != null && entity.level().isClientSide())
         {
             pokemob.setEntity(pokemob.getEntity());
-        }
-        if (pokemob != null && pokemob.getEntity().level() instanceof ServerLevel level)
-        {
-            var mob = pokemob.getEntity();
-            WorldTickManager.scheduleTask(level.dimension(),
-                    new WorldTickManager.DelayedTask(Tracker.instance().getTick() + 1, () -> {
-                        //                        EntityUpdate.sendEntityUpdate(mob);
-                    }));
         }
     }
 

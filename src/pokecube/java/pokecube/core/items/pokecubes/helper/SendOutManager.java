@@ -261,6 +261,7 @@ public class SendOutManager
         else
         {
             PokecubeAPI.LOGGER.warn("Replacing errored UUID mob! {}", mob);
+            test.discard();
             mob.getPersistentData().putUUID("old_uuid", id);
             mob.setUUID(UUID.randomUUID());
             SendOutManager.make(world, mob, vec, pokemob, summon);
@@ -269,13 +270,13 @@ public class SendOutManager
                 w.getChunk(vec.getPos());
                 final Entity original = world.getEntity(id);
                 // The mob already exists in the world, remove it
-                if (original != null) original.remove(RemovalReason.DISCARDED);
+                if (original != null) return false;
                 PokemobTracker.removePokemob(pokemob);
                 mob.setUUID(id);
                 PokemobTracker.addPokemob(pokemob);
                 return true;
             };
-            EventsHandler.Schedule(world, task);
+            EventsHandler.Schedule(world, task, false);
         }
     }
 }

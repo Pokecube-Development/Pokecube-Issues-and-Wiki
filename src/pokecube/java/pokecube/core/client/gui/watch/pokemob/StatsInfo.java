@@ -37,8 +37,8 @@ public class StatsInfo extends PokeInfoPage
         final String DS = I18n.get("pokewatch.DEFSP");
         final String S = I18n.get("pokewatch.VIT");
 
-        graphics.drawString(this.font, H, x + dx, statYOffSet + 18, 0xFF0000, false);
-        graphics.drawString(this.font, A, x + dx, statYOffSet + 27, 0xF08030, false);
+        graphics.drawString(this.font, H, x + dx, statYOffSet + 18, 0xFFFF0000, false);
+        graphics.drawString(this.font, A, x + dx, statYOffSet + 27, 0xF08030FF, false);
         graphics.drawString(this.font, D, x + dx, statYOffSet + 36, 0xF8D030, false);
         graphics.drawString(this.font, AS, x + dx, statYOffSet + 45, 0x6890F0, false);
         graphics.drawString(this.font, DS, x + dx, statYOffSet + 54, 0x78C850, false);

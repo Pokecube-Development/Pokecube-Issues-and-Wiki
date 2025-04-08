@@ -168,9 +168,9 @@ public class SpawnsPage extends ListPage<LineEntry>
             final Component water0 = TComponent.translatable("pokewatch.spawns.water_only");
             final Component water1 = TComponent.translatable("pokewatch.spawns.water_optional");
             // This is the name
-            final LineEntry first = lines.get(0);
+            final LineEntry first = lines.getFirst();
             // This is the blank line
-            final LineEntry last0 = lines.get(lines.size() - 1);
+            final LineEntry last0 = lines.getLast();
             // This is the adjusted spawn rate
             final LineEntry last1 = lines.get(lines.size() - 2);
             // Remove all, unless they specifiy water vs ground
@@ -193,7 +193,7 @@ public class SpawnsPage extends ListPage<LineEntry>
     }
 
     @Override
-    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
+    public void renderPage(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
         // This is to give extra time for packet syncing.
         if (this.last != PacketPokedex.selectedLoc.size() || this.repel != PacketPokedex.repelled)
@@ -223,8 +223,6 @@ public class SpawnsPage extends ListPage<LineEntry>
             for (var entry : list)
             	graphics.drawCenteredString(this.font, entry, x + 130, y + 128 + 8 * n++, 0); // 100
         }
-
-        super.render(graphics, mouseX, mouseY, partialTicks);
     }
 
     TexButton nightMode;

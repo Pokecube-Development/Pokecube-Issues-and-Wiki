@@ -1,17 +1,7 @@
 package pokecube.core.client.gui.watch.pokemob;
 
-import java.util.List;
-import java.util.Set;
-
-import com.google.common.collect.Sets;
-
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.chat.ClickEvent;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.HoverEvent;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextColor;
+import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -24,6 +14,8 @@ import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.moves.MovesUtils;
 import thut.lib.TComponent;
+
+import java.util.List;
 
 public class Moves extends ListPage<LineEntry>
 {
@@ -40,21 +32,44 @@ public class Moves extends ListPage<LineEntry>
     @Override
     void drawInfo(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
-        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 80;
-        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 8;
+        int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 80;
+        int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 8;
         if (this.watch.canEdit(this.parent.pokemob)) this.drawMoves(graphics, x, y, mouseX, mouseY);
+    }
+
+    private int getHovoredMove(double dx, double dy, double mouseX, double mouseY)
+    {
+        double x = (this.watch.width - GuiPokeWatch.GUIW) / 2f + 80;
+        double y = (this.watch.height - GuiPokeWatch.GUIH) / 2f + 8;
+        double mx = mouseX - (x + dx);
+        double my = mouseY - (y + dy);
+        IPokemob pokemob = this.parent.pokemob;
+        for (int i = 0; i < this.moveOffsets.length; i++)
+        {
+            final int[] offset = this.moveOffsets[i];
+            //this one is being dragged, so ignore it.
+            if (offset[2] != 0) continue;
+            final MoveEntry move = MovesUtils.getMove(pokemob.getMove(offset[3]));
+            if (move != null)
+            {
+                Component moveName = MovesUtils.getMoveName(move.getName(), pokemob);
+                int length = this.font.width(moveName);
+                boolean mouseOver = mx > 0 && mx < length && my > offset[1] && my < offset[1] + this.font.lineHeight;
+                if (mouseOver) return i;
+            }
+        }
+        return -1;
     }
 
     private void drawMoves(final GuiGraphics graphics, final int x, final int y, final int mouseX, final int mouseY)
     {
-        final int dx = 53; // -30
-        final int dy = 18; // 20
+        int dx = 53;
+        int dy = 18;
 
         IPokemob pokemob = this.parent.pokemob;
 
         int held = -1;
-        final int mx = mouseX - (x + dx);
-        final int my = mouseY - (y + dy);
+        int hovored = getHovoredMove(dx, dy, mouseX, mouseY);
 
         for (int i = 0; i < this.moveOffsets.length; i++)
         {
@@ -69,17 +84,13 @@ public class Moves extends ListPage<LineEntry>
             {
                 Component moveName = MovesUtils.getMoveName(move.getName(), pokemob);
                 graphics.drawString(this.font, moveName, x + dx, y + dy + offset[1] + offset[4],
-                        move.getType(pokemob).colour, true);
-                final int length = this.font.width(moveName);
-
-                boolean mouseOver = mx > 0 && mx < length && my > offset[1] && my < offset[1] + this.font.lineHeight;
-                if (mouseOver)
+                        move.getType(pokemob).colour, false);
+                if (hovored == i)
                 {
                     Component value = TComponent.literal("-");
                     final int pwr = move.getPWR(this.parent.pokemob, this.watch.player);
-                    Component stat = move.getCategory(pokemob) == AttackCategory.PHYSICAL
-                            ? TComponent.translatable("pokewatch.ATT", value)
-                            : TComponent.translatable("pokewatch.ATTSP", value);
+                    Component stat = move.getCategory(pokemob) == AttackCategory.PHYSICAL ? TComponent.translatable(
+                            "pokewatch.ATT", value) : TComponent.translatable("pokewatch.ATTSP", value);
                     if (pwr > 0) value = TComponent.translatable("pokewatch.moves.pwr.fmt", pwr, stat);
                     Component info = TComponent.translatable("pokewatch.moves.pwr", value);
                     final int box = Math.max(10, this.font.width(info) + 2);
@@ -88,11 +99,12 @@ public class Moves extends ListPage<LineEntry>
                     final int dy1 = this.font.lineHeight;
 
                     graphics.pose().pushPose();
-                    graphics.pose().pushPose();
                     graphics.pose().translate(0, 0, 1);
                     graphics.fill(x + mx1 - 2, y + my1 - 2, x + mx1 + box + 2, y + my1 + dy1 + 2, 0xD92E0A65);
                     graphics.fill(x + mx1 - 1, y + my1 - 1, x + mx1 + box + 1, y + my1 + dy1 + 1, 0xD91E0F1E);
                     graphics.drawString(this.font, info, x + mx1 + 1, y + my1 + 1, 0xFFFFFFFF, false);
+
+                    graphics.pose().popPose();
                 }
             }
         }
@@ -103,8 +115,7 @@ public class Moves extends ListPage<LineEntry>
             if (move != null && move.root_entry._implemented)
             {
                 Component moveName = MovesUtils.getMoveName(move.getName(), pokemob);
-                final int oy = 11;
-                graphics.drawString(this.font, moveName, x + dx, y + dy + offset[1] + oy,
+                graphics.drawString(this.font, moveName, x + dx, y + dy + offset[1],
                         move.getType(this.parent.pokemob).colour);
             }
         }
@@ -133,7 +144,7 @@ public class Moves extends ListPage<LineEntry>
         super.initList();
         int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 26;
-        final int height = this.font.lineHeight * 12;
+        final int height = this.font.lineHeight * 11;
 
         final int dx = 41;
         final int dy = 8;
@@ -163,25 +174,17 @@ public class Moves extends ListPage<LineEntry>
 
         if (GuiPokeWatch.nightMode)
         {
-            this.list = new ScrollGui<LineEntry>(this, this.minecraft, width, height, this.font.lineHeight, offsetX, offsetY)
-                    .setScrollBarColor(255, 150, 79)
-                    .setScrollBarDarkBorder(211, 81, 29)
-                    .setScrollBarGrayBorder(244, 123, 58)
-                    .setScrollBarLightBorder(255, 190, 111)
-                    .setScrollColor(244, 123, 58)
-                    .setScrollDarkBorder(211, 81, 29)
-                    .setScrollLightBorder(255, 190, 111);
-        } else this.list = new ScrollGui<LineEntry>(this, this.minecraft, width, height, this.font.lineHeight, offsetX, offsetY)
-                .setScrollBarColor(83, 175, 255)
-                .setScrollBarDarkBorder(39, 75, 142)
-                .setScrollBarGrayBorder(69, 132, 249)
-                .setScrollBarLightBorder(255, 255, 255)
-                .setScrollColor(69, 132, 249)
-                .setScrollDarkBorder(39, 75, 142)
-                .setScrollLightBorder(255, 255, 255);
+            this.list = new ScrollGui<LineEntry>(this, this.minecraft, width, height, this.font.lineHeight, offsetX,
+                    offsetY).setScrollBarColor(255, 150, 79).setScrollBarDarkBorder(211, 81, 29)
+                    .setScrollBarGrayBorder(244, 123, 58).setScrollBarLightBorder(255, 190, 111)
+                    .setScrollColor(244, 123, 58).setScrollDarkBorder(211, 81, 29).setScrollLightBorder(255, 190, 111);
+        }
+        else this.list = new ScrollGui<LineEntry>(this, this.minecraft, width, height, this.font.lineHeight, offsetX,
+                offsetY).setScrollBarColor(83, 175, 255).setScrollBarDarkBorder(39, 75, 142)
+                .setScrollBarGrayBorder(69, 132, 249).setScrollBarLightBorder(255, 255, 255)
+                .setScrollColor(69, 132, 249).setScrollDarkBorder(39, 75, 142).setScrollLightBorder(255, 255, 255);
 
         final PokedexEntry entry = pokemob.getPokedexEntry();
-        final Set<String> added = Sets.newHashSet();
 
         if (!this.watch.canEdit(pokemob))
         {
@@ -193,14 +196,13 @@ public class Moves extends ListPage<LineEntry>
                     MoveEntry m = MoveEntry.get(s);
                     if (m == null || !m.root_entry._implemented) continue;
 
-                    added.add(s);
                     final MutableComponent moveName = MovesUtils.getMoveName(s, pokemob);
                     final MutableComponent main = TComponent.translatable("pokewatch.moves.lvl", i, moveName);
                     main.setStyle(main.getStyle().withColor(TextColor.fromRgb(0x449944))
                             .withClickEvent(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s))
                             .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TComponent.literal(s))));
-                    this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main.getVisualOrderText(), colour)
-                            .setClickListner(listener).shadow());
+                    this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main.getVisualOrderText(),
+                            colour).setClickListner(listener));
                 }
             }
             for (final String s : entry.getMoves())
@@ -208,14 +210,14 @@ public class Moves extends ListPage<LineEntry>
                 MoveEntry m = MoveEntry.get(s);
                 if (m == null || !m.root_entry._implemented) continue;
 
-                added.add(s);
                 final MutableComponent moveName = MovesUtils.getMoveName(s, pokemob);
                 final MutableComponent main = TComponent.translatable("pokewatch.moves.tm", moveName);
                 main.setStyle(main.getStyle().withColor(TextColor.fromRgb(0x449944))
                         .withClickEvent(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s))
                         .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TComponent.literal(s))));
-                this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main.getVisualOrderText(), colour)
-                        .setClickListner(listener).shadow());
+                this.list.addEntry(
+                        new LineEntry(this.list, 0, 0, this.font, main.getVisualOrderText(), colour).setClickListner(
+                                listener));
             }
         }
     }
@@ -240,7 +242,7 @@ public class Moves extends ListPage<LineEntry>
             int i1 = 9;
             int i2 = 10;
             if (scrollY > 0) this.parent.pokemob.exchangeMoves(i1, i2);
-            else if(scrollY < 0) this.parent.pokemob.exchangeMoves(i2, i1);
+            else if (scrollY < 0) this.parent.pokemob.exchangeMoves(i2, i1);
             return true;
         }
 
@@ -250,42 +252,31 @@ public class Moves extends ListPage<LineEntry>
     @Override
     public boolean mouseClicked(final double mouseX, final double mouseY, final int mouseButton)
     {
-        if (mouseButton == 0)
+        IPokemob pokemob = this.parent.pokemob;
+        if (mouseButton == 0 && pokemob != null)
         {
             for (final int[] moveOffset : this.moveOffsets) if (moveOffset[2] != 0) return true;
 
-            final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
-            final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
+            int dx = 53; // -30
+            int dy = 18; // 20
+            int index = getHovoredMove(dx, dy, mouseX, mouseY);
 
-            final int dx = 150;
-            final int dy = 38;
+            int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 8;
+            double my = mouseY - (y + dy);
 
-            // The top left move corner should be (x + dx, y + dy)
-
-            final int x1 = (int) (mouseX - (x + dx));
-            final int y1 = (int) (mouseY - (y + dy));
-
-            // If we are somewhere in here, we are probably clicking a move
-            final boolean inBox = x1 > 0 && y1 > 0 && x1 < 95 && y1 < 58;
-
-            if (inBox)
+            if (index != -1)
             {
-                int index = y1 / 10;
-                index = Math.min(index, 4);
-                // This tells is how far down the move is, this is used as the
-                // 5th slot is different spacing, otherwise could just use
-                // index * 10
-                final int indexShift = this.moveOffsets[index][1] - this.moveOffsets[0][1];
+                int[] offset = this.moveOffsets[index];
 
                 // This marks the move as "selected"
-                this.moveOffsets[index][2] = 1;
+                offset[2] = 1;
                 // This records the original location of the mouse relative to
                 // the move
-                this.moveOffsets[index][4] = y1 - indexShift;
+                offset[4] = (int) (my - offset[1]);
 
                 // Apply the same shift as in dragged, to ensure we don't jitter
                 // when clicked.
-                this.moveOffsets[index][1] = y1 - this.moveOffsets[index][4];
+                offset[1] = (int) (my - offset[4]);
                 return true;
             }
         }
@@ -299,34 +290,21 @@ public class Moves extends ListPage<LineEntry>
         if (mouseButton == 0)
         {
             int heldIndex = -1;
-            for (int i = 0; i < this.moveOffsets.length; i++) if (this.moveOffsets[i][2] != 0)
-            {
-                heldIndex = i;
-                break;
-            }
+            for (int i = 0; i < this.moveOffsets.length; i++)
+                if (this.moveOffsets[i][2] != 0)
+                {
+                    heldIndex = i;
+                    break;
+                }
             if (heldIndex != -1)
             {
-                final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
-                final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
-
-                final int dx = 150;
-                final int dy = 38;
-
-                // The top left move corner should be (x + dx, y + dy)
-
-                final int x1 = (int) (mouseX - (x + dx));
-                final int y1 = (int) (mouseY - (y + dy));
-
-                // If we are somewhere in here, we are probably clicking a move
-                final boolean inBox = x1 > 0 && y1 > 0 && x1 < 95 && y1 < 58;
-
-                if (inBox)
-                {
-                    // Offset the location of the move by how much we have moved
-                    // the mouse since it was clicked.
-                    this.moveOffsets[heldIndex][1] = y1 - this.moveOffsets[heldIndex][4];
-                    return true;
-                }
+                int dy = 18;
+                int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 8;
+                double my = mouseY - (y + dy);
+                // Offset the location of the move by how much we have moved
+                // the mouse since it was clicked.
+                this.moveOffsets[heldIndex][1] = (int) (my - this.moveOffsets[heldIndex][4]);
+                return true;
             }
         }
         return super.mouseDragged(mouseX, mouseY, mouseButton, d2, d3);
@@ -335,41 +313,24 @@ public class Moves extends ListPage<LineEntry>
     @Override
     public boolean mouseReleased(final double mouseX, final double mouseY, final int mouseButton)
     {
-        if (mouseButton == 0)
+        IPokemob pokemob = this.parent.pokemob;
+        if (mouseButton == 0 && pokemob != null)
         {
+            int dx = 53; // -30
+            int dy = 18; // 20
+            int index = getHovoredMove(dx, dy, mouseX, mouseY);
+
             int oldIndex = -1;
-            for (int i = 0; i < this.moveOffsets.length; i++) if (this.moveOffsets[i][2] != 0)
-            {
-                oldIndex = i;
-                this.moveOffsets[i][2] = 0;
-            }
-            if (oldIndex == -1) return false;
-
-            final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
-            final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
-
-            final int dx = 150;
-            final int dy = 38;
-
-            // The top left move corner should be (x + dx, y + dy)
-
-            final int x1 = (int) (mouseX - (x + dx));
-            final int y1 = (int) (mouseY - (y + dy));
-
-            // If we are somewhere in here, we are probably clicking a move
-            boolean inBox = x1 > 0 && y1 > 0 && x1 < 95 && y1 < 58;
-
-            if (inBox)
-            {
-                int index = y1 / 10;
-                index = Math.min(index, 4);
-                index = Math.max(index, 0);
-
-                if (index == oldIndex)
+            for (int i = 0; i < this.moveOffsets.length; i++)
+                if (this.moveOffsets[i][2] != 0)
                 {
-                    inBox = x1 > 0 && y1 > 48 && x1 < 95 && y1 < 58;
+                    oldIndex = i;
+                    this.moveOffsets[i][2] = 0;
                 }
-                if (inBox) this.parent.pokemob.exchangeMoves(oldIndex, index);
+            if (oldIndex == -1) return false;
+            if (index != oldIndex && index != -1)
+            {
+                this.parent.pokemob.exchangeMoves(oldIndex, index);
             }
             //@formatter:off
             this.moveOffsets = new int[][]{
@@ -380,14 +341,15 @@ public class Moves extends ListPage<LineEntry>
                 {-10, 58, 0, 4, 0}
             };
             //@formatter:on
-            if (inBox) return true;
+            if (index != oldIndex) return true;
         }
         return super.mouseReleased(mouseX, mouseY, mouseButton);
     }
 
-    protected void renderComponentHoverEffect(final GuiGraphics graphics, final Style component, final int x, final int y)
+    protected void renderComponentHoverEffect(final GuiGraphics graphics, final Style component, final int x,
+            final int y)
     {
-    	if (this.watch.canEdit(this.parent.pokemob)) return;
+        if (this.watch.canEdit(this.parent.pokemob)) return;
         tooltip:
         if (component.getHoverEvent() != null)
         {
@@ -398,9 +360,9 @@ public class Moves extends ListPage<LineEntry>
             if (move == null) break tooltip;
             Component value = TComponent.literal("-");
             final int pwr = move.getPWR(pokemob, this.watch.player);
-            Component stat = move.getCategory(pokemob) == AttackCategory.PHYSICAL
-                    ? TComponent.translatable("pokewatch.ATT", value)
-                    : TComponent.translatable("pokewatch.ATTSP", value);
+            Component stat =
+                    move.getCategory(pokemob) == AttackCategory.PHYSICAL ? TComponent.translatable("pokewatch.ATT",
+                            value) : TComponent.translatable("pokewatch.ATTSP", value);
             if (pwr > 0) value = TComponent.translatable("pokewatch.moves.pwr.fmt", pwr, stat);
             Component info = TComponent.translatable("pokewatch.moves.pwr", value);
             final int box = Math.max(10, this.font.width(info) + 2);

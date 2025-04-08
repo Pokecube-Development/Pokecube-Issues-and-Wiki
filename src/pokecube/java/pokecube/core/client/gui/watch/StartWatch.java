@@ -130,7 +130,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
         }
         this.pokemob = pokemob;
         this.watch.canEdit(pokemob);
-        pokemob.getPokedexEntry().getName();
+
         PacketPokedex.sendSpecificSpawnsRequest(pokemob.getPokedexEntry());
         PacketPokedex.updateWatchEntry(pokemob.getPokedexEntry());
         // Force close and open the page to update.
@@ -145,33 +145,11 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
 
     @Override
     public void postPageDraw(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
-    {}
-
-	@Override
-    public void prePageDraw(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
-        if (this.current_page != null) this.current_page.renderBackground(graphics, mouseX, mouseY, partialTicks);
-        if (!this.watch.canEdit(this.pokemob))
-        {
-            final String name = PokecubePlayerDataHandler.getCustomDataTag(this.watch.player).getString("WEntry");
-            if (!name.equals(this.pokemob.getPokedexEntry().getName()))
-            {
-                final PokedexEntry entry = this.pokemob.getPokedexEntry();
-                final PokedexEntry newEntry = Database.getEntry(name);
-                if (newEntry != null && newEntry != entry)
-                {
-                    newEntry.getName();
-                    this.pokemob = AnimationGui.getRenderMob(newEntry);
-                    this.initPages(this.pokemob);
-                }
-                else entry.getName();
-            }
-        }
-
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 - 5;
-        int dx = -76;
-        int dy = 10;
+        int dx;
+        int dy;
 
         // We only want to draw the level if we are actually inspecting a
         // pokemob.
@@ -203,8 +181,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
             // Copy the stuff to the render mob if this mob is in world
             if (pokemob.getEntity().isAddedToLevel())
             {
-                final IPokemob newMob = AnimationGui.getRenderMob(pokemob);
-                pokemob = newMob;
+                pokemob = AnimationGui.getRenderMob(pokemob);
             }
 
             pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
@@ -217,12 +194,38 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
 
             pokemob.setSize(1);
 
-            final float yaw = Util.getMillis() / 20;
+            final float yaw = Util.getMillis() / 20f;
             dx = -15; //90
             dy = 65;
 
             // Draw the actual pokemob
             GuiPokemobHelper.renderMob(pokemob.getEntity(), x + dx, y + dy, 0, yaw, 0, yaw, 3.0F, partialTicks);
+        }
+    }
+
+    @Override
+    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
+    {
+        super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+        if (this.current_page != null) this.current_page.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+    }
+
+    @Override
+    public void prePageDraw(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
+    {
+        if (!this.watch.canEdit(this.pokemob))
+        {
+            final String name = PokecubePlayerDataHandler.getCustomDataTag(this.watch.player).getString("WEntry");
+            if (!name.equals(this.pokemob.getPokedexEntry().getName()))
+            {
+                final PokedexEntry entry = this.pokemob.getPokedexEntry();
+                final PokedexEntry newEntry = Database.getEntry(name);
+                if (newEntry != null && newEntry != entry)
+                {
+                    this.pokemob = AnimationGui.getRenderMob(newEntry);
+                    this.initPages(this.pokemob);
+                }
+            }
         }
     }
 
@@ -280,10 +283,10 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
         Component genderText = TComponent.literal("");
         if (this.pokemob.getSexe() == IPokemob.MALE)
         {
-            genderText = TComponent.literal("\u2642");
+            genderText = TComponent.literal("♂");
         } else if (this.pokemob.getSexe() == IPokemob.FEMALE)
         {
-            genderText = TComponent.literal("\u2640");
+            genderText = TComponent.literal("♀");
         }
 
         StartWatch.gender = this.addRenderableWidget(new TexButton.Builder(genderText, b -> {
@@ -294,6 +297,8 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
                 case IPokemob.MALE:
                     e = old.getForGender(IPokemob.FEMALE);
                     this.pokemob.setSexe(IPokemob.FEMALE);
+                    b.setMessage(TComponent.literal("♀"));
+                    b.setFGColor(ChatFormatting.DARK_RED.getColor());
                     if (e != old)
                     {
                         this.pokemob.setPokedexEntry(e);
@@ -304,6 +309,8 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
                 case IPokemob.FEMALE:
                     e = old.getForGender(IPokemob.MALE);
                     this.pokemob.setSexe(IPokemob.MALE);
+                    b.setMessage(TComponent.literal("♂"));
+                    b.setFGColor(ChatFormatting.DARK_BLUE.getColor());
                     if (e != old)
                     {
                         this.pokemob.setPokedexEntry(e);
@@ -315,7 +322,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
             this.pokemob.onGenesChanged();
         }).bounds(x - 39, y + 95, 12, 12)
                 .setRender(new UVImgRender(200, 0, 12, 12))
-                .setTexture(GuiPokeWatch.getWidgetTex()).shadow(true)
+                .setTexture(GuiPokeWatch.getWidgetTex())
                 .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.gender.narrate")).build());
 
         StartWatch.gender.active = !this.pokemob.getEntity().isAddedToLevel() &&

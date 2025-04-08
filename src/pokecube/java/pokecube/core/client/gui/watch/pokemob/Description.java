@@ -84,7 +84,7 @@ public class Description extends ListPage<LineEntry>
         int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 26;
 
-        final int height = this.font.lineHeight * 10; // 8
+        final int height = this.font.lineHeight * 11;
         final int dx = 41;
         final int dy = 8;
         offsetX += dx;
@@ -173,7 +173,7 @@ public class Description extends ListPage<LineEntry>
             if (GuiPokeWatch.nightMode)
             {
                 this.list = new ScrollGui<LineEntry>(this,
-                    this.minecraft, 120, this.font.lineHeight * 12, this.font.lineHeight, offsetX, offsetY)
+                    this.minecraft, 120, height, this.font.lineHeight, offsetX, offsetY)
                     .setScrollBarColor(255, 150, 79)
                     .setScrollBarDarkBorder(211, 81, 29)
                     .setScrollBarGrayBorder(244, 123, 58)
@@ -182,7 +182,7 @@ public class Description extends ListPage<LineEntry>
                     .setScrollDarkBorder(211, 81, 29)
                     .setScrollLightBorder(255, 190, 111);
             } else this.list = new ScrollGui<LineEntry>(this,
-                    this.minecraft, 120, this.font.lineHeight * 12, this.font.lineHeight, offsetX, offsetY)
+                    this.minecraft, 120, height, this.font.lineHeight, offsetX, offsetY)
                     .setScrollBarColor(83, 175, 255)
                     .setScrollBarDarkBorder(39, 75, 142)
                     .setScrollBarGrayBorder(69, 132, 249)

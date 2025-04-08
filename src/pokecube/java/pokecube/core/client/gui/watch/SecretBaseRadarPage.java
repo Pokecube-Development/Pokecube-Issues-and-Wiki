@@ -145,7 +145,7 @@ public class SecretBaseRadarPage extends WatchPage
     }
 
     @Override
-    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
+    public void renderPage(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
         graphics.pose().pushPose();
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;

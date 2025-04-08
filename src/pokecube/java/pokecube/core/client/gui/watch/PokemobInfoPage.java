@@ -358,8 +358,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             // Copy the stuff to the render mob if this mob is in world
             if (pokemob.getEntity().isAddedToLevel())
             {
-                final IPokemob newMob = AnimationGui.getRenderMob(pokemob);
-                pokemob = newMob;
+                pokemob = AnimationGui.getRenderMob(pokemob);
             }
 
             pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
@@ -372,7 +371,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
 
             pokemob.setSize(1);
 
-            final float yaw = Util.getMillis() / 20;
+            final float yaw = Util.getMillis() / 20f;
             dx = -80; // 90
             dy = 45;
 

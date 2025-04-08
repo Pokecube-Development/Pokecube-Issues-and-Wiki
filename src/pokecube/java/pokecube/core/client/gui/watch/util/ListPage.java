@@ -36,6 +36,7 @@ public abstract class ListPage<T extends AbstractSelectionList.Entry<T>> extends
         this.children().clear();
         super.init();
         this.initList();
+        this.addRenderableWidget(this.list);
     }
 
     public void initList()
@@ -61,6 +62,7 @@ public abstract class ListPage<T extends AbstractSelectionList.Entry<T>> extends
     {
         this.children().clear();
         this.initList();
+        this.addRenderableWidget(this.list);
         super.onPageOpened();
     }
 
@@ -71,7 +73,7 @@ public abstract class ListPage<T extends AbstractSelectionList.Entry<T>> extends
     }
 
     @Override
-    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
+    public void renderPage(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
         if (this.updateRunnable != null)
         {
@@ -79,8 +81,7 @@ public abstract class ListPage<T extends AbstractSelectionList.Entry<T>> extends
             this.updateRunnable = null;
         }
         this.drawTitle(graphics, mouseX, mouseY, partialTicks);
-        super.render(graphics, mouseX, mouseY, partialTicks);
         // Draw the list
-        if (!this.handlesList && this.list != null) this.list.render(graphics, mouseX, mouseY, partialTicks);
+//        if (!this.handlesList && this.list != null) this.list.render(graphics, mouseX, mouseY, partialTicks);
     }
 }

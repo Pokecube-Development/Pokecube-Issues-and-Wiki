@@ -181,8 +181,7 @@ public class GuiPokeWatch extends Screen
 
     public WatchPage createPage(final int index)
     {
-        WatchPage page = GuiPokeWatch.makePage(GuiPokeWatch.PAGELIST.get(index), this);
-        return page;
+        return GuiPokeWatch.makePage(GuiPokeWatch.PAGELIST.get(index), this);
     }
 
     private void handleError(final Exception e)
@@ -216,6 +215,12 @@ public class GuiPokeWatch extends Screen
     }
 
     @Override
+    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
+    {
+        // No rendering from us, let the sub page handle it
+    }
+
+    @Override
     public void init()
     {
         this.renderables.clear();
@@ -238,7 +243,6 @@ public class GuiPokeWatch extends Screen
         this.renderables.add((graphics, mouseX, mouseY, partialTicks)->{
             try
             {
-                this.current_page.renderBackground(graphics, mouseX, mouseY, partialTicks);
                 this.current_page.render(graphics, mouseX, mouseY, partialTicks);
             }
             catch (final Exception e)

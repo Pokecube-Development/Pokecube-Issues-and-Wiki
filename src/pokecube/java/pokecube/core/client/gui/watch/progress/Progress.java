@@ -50,7 +50,7 @@ public abstract class Progress extends WatchPage
     }
 
     @Override
-    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
+    public void renderPage(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2; // +80
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2; // +30
@@ -63,7 +63,6 @@ public abstract class Progress extends WatchPage
             dy += this.font.lineHeight;
             if (s.isEmpty()) dy -= this.font.lineHeight / 1.25f;
         }
-        super.render(graphics, mouseX, mouseY, partialTicks);
     }
 
 }

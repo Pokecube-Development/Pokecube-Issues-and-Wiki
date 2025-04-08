@@ -278,9 +278,10 @@ public class Health
                         if (maxHpStr.endsWith(".0")) maxHpStr = maxHpStr.substring(0, maxHpStr.length() - 2);
                         if (hpStr.endsWith(".0")) hpStr = hpStr.substring(0, hpStr.length() - 2);
                         String healthStr = hpStr + "/" + maxHpStr;
-                        //                        if (isOwner)
                         x = size / (s * s1) - mc.font.width(healthStr) / 2f;
-                        mc.font.drawInBatch(healthStr, x, y, colour, false, pos, buf, Font.DisplayMode.NORMAL, 0, br);
+                        if (isOwner)
+                            mc.font.drawInBatch(healthStr, x, y, colour, false, pos, buf, Font.DisplayMode.NORMAL, 0,
+                                    br);
 
                         // Sex
                         final String sexStr = pokemob.getSexe() == IPokemob.MALE
@@ -315,12 +316,12 @@ public class Health
                         int zOrder = 0;
                         x -= 16;
                         for (int i = 0; i < ironArmor; i++)
-                            Health.renderIcon(entity, mat, buf, x + i*1.5f, 0, zOrder--, stack, br);
+                            Health.renderIcon(entity, mat, buf, x + i * 1.5f, 0, zOrder--, stack, br);
 
                         stack = new ItemStack(Items.DIAMOND_CHESTPLATE);
                         x -= 16;
                         for (int i = 0; i < diamondArmor; i++)
-                            Health.renderIcon(entity, mat, buf, x + i*1.5f, 0, zOrder--, stack,  br);
+                            Health.renderIcon(entity, mat, buf, x + i * 1.5f, 0, zOrder--, stack, br);
                     }
                 }
                 mat.popPose();

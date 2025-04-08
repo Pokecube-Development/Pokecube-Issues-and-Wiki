@@ -1,5 +1,6 @@
 package pokecube.core.client.gui.watch;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -12,6 +13,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.ClickEvent.Action;
 import net.minecraft.network.chat.Component;
@@ -156,7 +158,7 @@ public class WikiPage extends ListPage<LineEntry>
         for (final IInspectReward reward : PokedexInspector.rewards)
             if (reward instanceof FreeTranslatedReward) books.add((FreeTranslatedReward) reward);
 
-        books.sort((o1, o2) -> o1.key.compareTo(o2.key));
+        books.sort(Comparator.comparing(o -> o.key));
         final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 16;
         final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 37;
         final int height = this.font.lineHeight * 11; // 100
@@ -202,6 +204,8 @@ public class WikiPage extends ListPage<LineEntry>
         final String lang = this.minecraft.getLanguageManager().getSelected().toLowerCase(Locale.ROOT);
         if (item_book)
         {
+            System.out.println(books.get(this.index).getInfoStack(lang).get(DataComponents.WRITTEN_BOOK_CONTENT));
+            Thread.dumpStack();
             // TODO item book pages rendered here.
 //            final ItemStack bookStack = books.get(this.index).getInfoStack(lang);
 //            if (!bookStack.hasTag()) return;
@@ -223,9 +227,9 @@ public class WikiPage extends ListPage<LineEntry>
         {
             final PagesFile pages = book.getInfoBook(lang);
             if (pages == null) return;
-            final String ref_pattern = "\\{_ref_:.*\\}";
+            final String ref_pattern = "\\{_ref_:.*}";
             final Pattern ref = Pattern.compile(ref_pattern);
-            final String link_pattern = "\\{_link_:.*\\}";
+            final String link_pattern = "\\{_link_:.*}";
             final Pattern link = Pattern.compile(link_pattern);
 
             int pagenum = 0;
@@ -303,7 +307,7 @@ public class WikiPage extends ListPage<LineEntry>
                         }
                         else entry = TComponent.literal(fmt + text);
                         entry.setStyle(style);
-                        final LineEntry wikiline = new WikiLine(this.list, -5, 0, this.font, entry.getVisualOrderText(),
+                        final LineEntry wikiline = new WikiLine(this.list, 0, 0, this.font, entry.getVisualOrderText(),
                                 pagenum).setClickListner(listener);
                         this.list.addEntry(wikiline);
                     }

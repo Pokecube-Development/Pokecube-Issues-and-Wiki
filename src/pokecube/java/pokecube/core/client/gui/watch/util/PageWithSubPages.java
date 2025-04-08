@@ -96,20 +96,25 @@ public abstract class PageWithSubPages<T extends WatchPage> extends WatchPage
     }
 
     @Override
-    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
+    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
+    {
+        // No rendering from us, let the sub page handle it
+    }
+
+    @Override
+    public void renderPage(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
         if (this.font == null) this.font = Minecraft.getInstance().font;
         this.prePageDraw(graphics, mouseX, mouseY, partialTicks);
         this.current_page.render(graphics, mouseX, mouseY, partialTicks);
         this.postPageDraw(graphics, mouseX, mouseY, partialTicks);
-        super.render(graphics, mouseX, mouseY, partialTicks);
     }
 
     @Override
-    public void resize(final Minecraft p_resize_1_, final int p_resize_2_, final int p_resize_3_)
+    public void resize(final Minecraft minecraft, final int width, final int height)
     {
         this.closeSubPage();
-        super.resize(p_resize_1_, p_resize_2_, p_resize_3_);
+        super.resize(minecraft, width, height);
     }
 
 }
