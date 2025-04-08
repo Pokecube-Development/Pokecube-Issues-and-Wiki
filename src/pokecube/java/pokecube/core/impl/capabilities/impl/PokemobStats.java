@@ -94,10 +94,10 @@ public abstract class PokemobStats extends PokemobGenes
     }
 
     @Override
-    public IPokemob setExp(int exp, final boolean notifyLevelUp)
+    public void setExp(int exp, final boolean notifyLevelUp)
     {
         Mob mob = this.getEntity();
-        if (!mob.isAlive()) return this;
+        if (!mob.isAlive()) return;
         final int old = this.getMoveStats().exp;
         this.getMoveStats().oldLevel = this.getLevel();
         final int lvl100xp = Tools.maxXPs[this.getExperienceMode()];
@@ -120,8 +120,7 @@ public abstract class PokemobStats extends PokemobGenes
                     if (mob.isAlive() && (this.canEvolve(ItemStack.EMPTY) || this.canEvolve(held)))
                     {
                         this.levelUp(newLvl);
-                        final IPokemob evo = this.evolve(true, false, held);
-                        if (evo != null) ret = evo;
+                        this.evolve(true, false, held);
                     }
                     ret.levelUp(newLvl);
                     if (mob.isAddedToLevel() && ret.getOwner() instanceof Player
@@ -134,26 +133,23 @@ public abstract class PokemobStats extends PokemobGenes
             else this.getMoveStats().exp = old;
         }
         PacketSyncExp.sendUpdate(ret);
-        return ret;
     }
 
     @Override
-    public IPokemob setForSpawn(final int exp, final boolean evolve)
+    public void setForSpawn(final int exp, final boolean evolve)
     {
         final int level = Tools.xpToLevel(this.getExperienceMode(), exp);
         this.getMoveStats().oldLevel = 0;
         this.getMoveStats().exp = exp;
-        IPokemob ret = this.levelUp(level);
+        this.levelUp(level);
         final ItemStack held = this.getHeldItem();
-        if (evolve) while (ret.canEvolve(held))
+        if (evolve) while (this.canEvolve(held))
         {
-            final IPokemob temp = ret.evolve(false, true, held);
-            if (temp == null) break;
-            ret = temp;
-            ret.getMoveStats().exp = exp;
-            ret.levelUp(level);
+            boolean evolved = this.evolve(false, true, held);
+            if (!evolved) break;
+            this.getMoveStats().exp = exp;
+            this.levelUp(level);
         }
-        return ret;
     }
 
     @Override

@@ -487,7 +487,7 @@ public class EventsHandlerClient
     public static IPokemob getRenderMob(final PokedexEntry entry, final Level world)
     {
         IPokemob pokemob = EventsHandlerClient.renderMobs.get(entry);
-        if (pokemob != null) pokemob = pokemob.setPokedexEntry(entry);
+        if (pokemob != null) pokemob.setPokedexEntry(entry);
         if (pokemob == null || pokemob != EventsHandlerClient.renderMobs.get(entry))
         {
             if (pokemob == null) pokemob = PokemobCaps.getPokemobFor(PokecubeCore.createPokemob(entry, world));

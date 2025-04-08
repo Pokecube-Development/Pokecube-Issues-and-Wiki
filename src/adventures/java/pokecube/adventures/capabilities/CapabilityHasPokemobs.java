@@ -804,12 +804,8 @@ public class CapabilityHasPokemobs
                         for (final EvolutionData evo : pokemob.getPokedexEntry().getEvolutions())
                             if (evo.shouldEvolve(pokemob))
                             {
-                                final IPokemob temp = PokemobCaps.getPokemobFor(evo.getEvolution(user.level));
-                                if (temp != null)
-                                {
-                                    pokemob = temp;
-                                    break;
-                                }
+                                boolean evolve = evo.getEvolution(user.level);
+                                if (evolve) break;
                             }
                 }
                 mob = pokemob.getEntity();

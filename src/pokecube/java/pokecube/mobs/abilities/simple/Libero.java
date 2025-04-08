@@ -25,9 +25,8 @@ public class Libero extends Ability
     }
 
     @Override
-    public IPokemob onRecall(final IPokemob mob)
+    public void onRecall(final IPokemob mob)
     {
         mob.setType1(null);
-        return super.onRecall(mob);
     }
 }

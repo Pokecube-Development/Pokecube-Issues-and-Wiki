@@ -122,7 +122,7 @@ public abstract class PokeInfoPage extends WatchPage
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
             PokedexEntry nextE = Pokedex.getInstance().getNextForm(entry);
             if (nextE == entry) nextE = Pokedex.getInstance().getFirstForm(entry);
-            this.parent.pokemob = this.parent.pokemob.setPokedexEntry(nextE);
+            this.parent.pokemob.setPokedexEntry(nextE);
             this.parent.pokemob.setBasePokedexEntry(nextE);
             this.parent.initPages(this.parent.pokemob);
         }).bounds(x - 79, y + 40, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
@@ -168,7 +168,7 @@ public abstract class PokeInfoPage extends WatchPage
                     this.parent.pokemob.setSexe(IPokemob.FEMALE);
                     if (e != old)
                     {
-                        this.parent.pokemob = this.parent.pokemob.setPokedexEntry(e);
+                        this.parent.pokemob.setPokedexEntry(e);
                         this.parent.pokemob.setBasePokedexEntry(e);
                     }
                     this.parent.initPages(this.parent.pokemob);
@@ -178,7 +178,7 @@ public abstract class PokeInfoPage extends WatchPage
                     this.parent.pokemob.setSexe(IPokemob.MALE);
                     if (e != old)
                     {
-                        this.parent.pokemob = this.parent.pokemob.setPokedexEntry(e);
+                        this.parent.pokemob.setPokedexEntry(e);
                         this.parent.pokemob.setBasePokedexEntry(e);
                     }
                     this.parent.initPages(this.parent.pokemob);

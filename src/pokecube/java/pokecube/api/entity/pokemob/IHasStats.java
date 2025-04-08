@@ -285,7 +285,7 @@ public interface IHasStats extends IHasEntry
      * @param notifyLevelUp should be false in an initialize step and true in a
      *                      true exp earning
      */
-    IPokemob setExp(int exp, boolean notifyLevelUp);
+    void setExp(int exp, boolean notifyLevelUp);
 
     /**
      * Sets current health for our mob.

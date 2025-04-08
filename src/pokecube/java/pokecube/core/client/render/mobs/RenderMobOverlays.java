@@ -7,8 +7,10 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityAttachment;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.event.RenderLivingEvent;
 import net.neoforged.neoforge.client.event.RenderNameTagEvent;
 import net.neoforged.neoforge.common.util.TriState;
@@ -64,14 +66,13 @@ public class RenderMobOverlays
                 PoseStack mat = event.getPoseStack();
                 Minecraft mc = Minecraft.getInstance();
                 Entity cameraEntity = mc.getCameraEntity();
-                float partialTicks = event.getPartialTick();
+                float partialTick = event.getPartialTick();
                 int br = event.getPackedLight();
                 if (PokecubeCore.getConfig().brightbars) br = OverlayTexture.pack(15, false);
                 if (PokecubeCore.getConfig().renderInF1 || Minecraft.renderNames())
                 {
-                    Health.renderHealthBar(living, mat, buf, partialTicks, cameraEntity, br);
-                    if (event.getEntity() instanceof EntityPokemob)
-                        event.setCanRender(TriState.FALSE);
+                    Health.renderHealthBar(living, mat, buf, partialTick, cameraEntity, br);
+                    if (event.getEntity() instanceof EntityPokemob) event.setCanRender(TriState.FALSE);
                 }
             }
         }

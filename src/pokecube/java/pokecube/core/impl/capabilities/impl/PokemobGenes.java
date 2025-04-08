@@ -424,19 +424,19 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     }
 
     @Override
-    public IPokemob setPokedexEntry(PokedexEntry newEntry)
+    public void setPokedexEntry(PokedexEntry newEntry)
     {
         Alleles<SpeciesInfo, SpeciesGene> genesSpecies = getGenes().getAlleles(GeneticsManager.SPECIESGENE);
         final PokedexEntry entry = this.getPokedexEntry();
         final SpeciesGene gene = genesSpecies.getExpressed();
         final SpeciesInfo info = gene.getValue();
-        if (newEntry == null || newEntry == entry) return this;
+        if (newEntry == null || newEntry == entry) return;
         IPokemob ret = this;
         if (this.changing)
         {
             info.setTmpEntry(newEntry);
             this.changing = false;
-            return this;
+            return;
         }
         if (!this.getEntity().isAddedToLevel())
         {
@@ -448,10 +448,11 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
             info.setEntry(newEntry);
             _sizeChanged = true;
             this.changing = false;
-            return ret;
+            return;
         }
         this.changing = true;
-        ret = this.changeForm(newEntry);
+
+        this.changeForm(newEntry);
 
         // These need to be set after change form call, as that also does a
         // validation of old entry.
@@ -461,7 +462,6 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
 
         ret.setSize(ret.getSize());
         PacketChangeForme.sendPacketToTracking(ret.getEntity(), newEntry);
-        return ret;
     }
 
     @Override

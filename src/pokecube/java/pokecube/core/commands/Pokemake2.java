@@ -220,11 +220,11 @@ public class Pokemake2
         {
             int level = nbt.getInt("level");
             int exp = Tools.levelToXp(pokemob.getExperienceMode(), level);
-            if (asWild) pokemob = pokemob.setForSpawn(exp);
+            if (asWild) pokemob.setForSpawn(exp);
             else
             {
-                pokemob = pokemob.setExp(exp, false);
-                pokemob = pokemob.levelUp(level);
+                pokemob.setExp(exp, false);
+                pokemob.levelUp(level);
 
                 // Now re-learn the moves in order if neede
                 for (int i = 0; i < move_num; i++)
@@ -265,7 +265,7 @@ public class Pokemake2
             var level = source.getLevel();
             RaidContext context = new RaidContext(level, mob.getOnPos(), owner);
             owner = null;
-            IBossProvider bossMaker = null;
+            IBossProvider bossMaker;
             if (!raid.equalsIgnoreCase("random"))
             {
                 bossMaker = RaidManager.RAID_TYPES.get(raid);
@@ -274,7 +274,7 @@ public class Pokemake2
             {
                 List<IBossProvider> choices = new ArrayList<>(RaidManager.RAID_TYPES.values());
                 if (choices.size() > 1) bossMaker = choices.get(level.getRandom().nextInt(choices.size()));
-                else bossMaker = choices.get(0);
+                else bossMaker = choices.getFirst();
             }
             if (bossMaker != null)
             {
@@ -302,18 +302,15 @@ public class Pokemake2
         // Set a permission
         command = Commands.literal("pokemake").requires(cs -> CommandTools.hasPerm(cs, perm));
         // Plain command, no args besides name.
-        command = command.then(Commands.argument("mob", PokemobArgument.pokemob())
-                .suggests(PokemobArgument.SUMMONABLE_ENTITIES).executes(ctx ->
-                {
-                    return execute(ctx.getSource(), PokemobArgument.getEntry(ctx, "mob"), null,
-                            ctx.getSource().getPosition());
-                }).then(Commands.argument("pos", Vec3Argument.vec3()).executes((ctx) -> {
-                    return execute(ctx.getSource(), PokemobArgument.getEntry(ctx, "mob"),
-                            EntityArgument.getPlayer(ctx, "owner"), Vec3Argument.getVec3(ctx, "pos"));
-                }).then(Commands.argument("owner", EntityArgument.player()).executes((ctx) -> {
-                    return execute(ctx.getSource(), PokemobArgument.getEntry(ctx, "mob"),
-                            EntityArgument.getPlayer(ctx, "owner"), ctx.getSource().getPosition());
-                }))));
+        command = command.then(
+                Commands.argument("mob", PokemobArgument.pokemob()).suggests(PokemobArgument.SUMMONABLE_ENTITIES)
+                        .executes(ctx -> execute(ctx.getSource(), PokemobArgument.getEntry(ctx, "mob"), null,
+                                ctx.getSource().getPosition())).then(Commands.argument("pos", Vec3Argument.vec3())
+                                .executes((ctx) -> execute(ctx.getSource(), PokemobArgument.getEntry(ctx, "mob"),
+                                        EntityArgument.getPlayer(ctx, "owner"), Vec3Argument.getVec3(ctx, "pos")))
+                                .then(Commands.argument("owner", EntityArgument.player()).executes(
+                                        (ctx) -> execute(ctx.getSource(), PokemobArgument.getEntry(ctx, "mob"),
+                                                EntityArgument.getPlayer(ctx, "owner"), ctx.getSource().getPosition())))));
         commandDispatcher.register(command);
 
     }

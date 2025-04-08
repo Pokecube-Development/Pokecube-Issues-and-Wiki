@@ -114,6 +114,7 @@ import thut.api.world.WorldTickManager;
 import thut.api.world.WorldTickManager.DelayedTask;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
+import thut.core.common.network.PacketSyncAttachments;
 import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
@@ -160,8 +161,8 @@ public class PokemobEventsHandler
                 for (final Entity e : riders) e.stopRiding();
                 for (final Entity e : riders) e.startRiding(this.evolution, true);
 
-                // Set this mob wild, then kill it.
-                if (old != null) old.setOwner((UUID) null);
+                // remove the IPokemob, then kill it.
+                if (old != null) thisEntity.removeData(PokemobCaps.POKEMOB);
                 // Remove old mob
                 this.thisEntity.discard();
                 // Add new mob
@@ -212,7 +213,7 @@ public class PokemobEventsHandler
                     }
                 }
             }
-            EntityUpdate.sendEntityUpdate(this.evolution);
+            PacketSyncAttachments.syncChange(this.evolution, PacketSyncAttachments.SYNCED);
         }
 
         public static void scheduleEvolve(final LivingEntity thisEntity, final LivingEntity evolution,
@@ -308,7 +309,7 @@ public class PokemobEventsHandler
                 Triggers.MEGAEVOLVEPOKEMOB.get().trigger(player, this.pokemob);
             final int evoTicks = this.pokemob.getEvolutionTicks();
             final float hp = this.pokemob.getHealth();
-            this.pokemob = this.pokemob.changeForm(this.mega, true, false);
+            this.pokemob.changeForm(this.mega, true, false);
             this.pokemob.setHealth(hp);
             /**
              * Flag the new mob as evolving to continue the animation effects.
@@ -1224,8 +1225,8 @@ public class PokemobEventsHandler
                     }
                     if (!valid) break evo;
 
-                    final IPokemob evolution = pokemob.evolve(true, false, held);
-                    if (evolution != null) if (!player.isCreative())
+                    boolean evolved = pokemob.evolve(true, false, held);
+                    if (evolved) if (!player.isCreative())
                     {
                         held.shrink(1);
                         if (held.isEmpty())

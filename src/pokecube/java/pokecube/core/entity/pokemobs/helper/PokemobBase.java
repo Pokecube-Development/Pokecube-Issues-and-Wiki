@@ -26,8 +26,8 @@ public abstract class PokemobBase extends TamableAnimal
         IPokemob pokemob = PokemobCaps.getPokemobFor(this);
         if (!(pokemob instanceof DefaultPokemob poke))
         {
+            // Internally this sets the data
             this.pokemobCap = new DefaultPokemob(this);
-            this.setData(PokemobCaps.POKEMOB, this.pokemobCap);
             Thread.dumpStack();
         }
         else

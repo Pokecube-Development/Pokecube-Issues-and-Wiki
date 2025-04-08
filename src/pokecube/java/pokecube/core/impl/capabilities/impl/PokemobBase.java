@@ -14,6 +14,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.moves.PokemobMoveStats;
 import pokecube.api.entity.pokemob.stats.StatModifiers;
 import pokecube.core.ai.logic.Logic;
@@ -269,6 +270,9 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
     public void setEntity(final Mob entityIn)
     {
         this.entity = entityIn;
+        // ensure we are the entity's IPokemob
+        entityIn.setData(PokemobCaps.POKEMOB, this);
+
         if (entityIn.hasData(DefaultGenetics.TYPE))
         {
             this.setGenes(entityIn.getData(DefaultGenetics.TYPE));

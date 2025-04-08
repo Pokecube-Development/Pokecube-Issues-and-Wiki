@@ -36,11 +36,11 @@ public interface IHasEntry extends IHasMobAIStates
     void setEntity(Mob entityIn);
 
     /**
-     * @return the {@link PokedexEntry} of the species of this Pokemob This will
-     *         be reset to the value of {@link #getBasePokedexEntry()} when the
-     *         pokemob is recalled
+     * the {@link PokedexEntry} of the species of this Pokemob This will
+     * be reset to the value of {@link #getBasePokedexEntry()} when the
+     * pokemob is recalled
      */
-    IPokemob setPokedexEntry(PokedexEntry newEntry);
+    void setPokedexEntry(PokedexEntry newEntry);
 
     /**
      * This sets the root entry, which is what is correlated to the Mob Entity

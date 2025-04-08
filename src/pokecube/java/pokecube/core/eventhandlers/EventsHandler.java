@@ -510,11 +510,8 @@ public class EventsHandler
             // Texture
             living.getData(IMobTexturable.Defaults.TYPE);
             var pokemob = PokemobCaps.getPokemobFor(living);
-            if (pokemob == null)
-            {
-                pokemob = new DefaultPokemob(mob);
-                mob.setData(PokemobCaps.POKEMOB, pokemob);
-            }
+            // This internally sets the data type
+            if (pokemob == null) new DefaultPokemob(mob);
         }
     }
 

@@ -12,6 +12,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
@@ -38,8 +39,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
     public static final ResourceLocation EVERSTONE = ResourceLocation.parse("pokecube:everstone");
 
     /**
-     * Cancels the current evoluton for the pokemob, sends appropriate message
-     * to owner.
+     * Cancels the current evoluton for the pokemob, sends appropriate message to owner.
      */
     default void cancelEvolve()
     {
@@ -78,7 +78,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
      * @param delayed true if we want to display the evolution animation
      * @return the evolution or this if the evolution failed
      */
-    default IPokemob evolve(final boolean delayed, final boolean init)
+    default boolean evolve(final boolean delayed, final boolean init)
     {
         final IPokemob thisMob = (IPokemob) this;
         return this.evolve(delayed, init, thisMob.getHeldItem());
@@ -90,14 +90,13 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
      * @param delayed true if we want to display the evolution animation
      * @param init    true if this is called during initialization of the mob
      * @param stack   the itemstack to check for evolution.
-     * @return the evolution or null if the evolution failed, or this if the
-     *         evolution succeeded, but delayed.
+     * @return the evolution or null if the evolution failed, or this if the evolution succeeded, but delayed.
      */
-    default IPokemob evolve(final boolean delayed, final boolean init, final ItemStack stack)
+    default boolean evolve(final boolean delayed, final boolean init, final ItemStack stack)
     {
         final LivingEntity thisEntity = this.getEntity();
         final IPokemob thisMob = (IPokemob) this;
-        if (thisEntity == null) return null;
+        if (thisEntity == null) return false;
 
         PokedexEntry evol = null;
         EvolutionData data = null;
@@ -120,7 +119,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             }
         }
         if (select_from.isEmpty()) select_from.addAll(valid);
-        if (select_from.isEmpty()) return null;
+        if (select_from.isEmpty()) return false;
 
         if (select_from.size() > 1)
         {
@@ -128,10 +127,10 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             select_from.sort(null);
         }
 
-        data = select_from.get(0);
+        data = select_from.getFirst();
         evol = data.evolution;
 
-        if (evol == null) return null;
+        if (evol == null) return false;
 
         // If Init, then don't bother about getting ready for animations and
         // such, just evolve directly.
@@ -140,42 +139,42 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             // Send evolve event.
             EvolveEvent evt = new EvolveEvent.Pre(thisMob, evol, data);
             PokecubeAPI.POKEMOB_BUS.post(evt);
-            if (evt.isCanceled()) return null;
+            if (evt.isCanceled()) return false;
 
             // Determine if immediate
             boolean immediate = true;
             if (this.getEntity().isAddedToLevel() && this.getEntity().level() instanceof ServerLevel level)
                 immediate = !level.isHandlingTick();
             // change to new forme.
-            final IPokemob evo = this.changeForm(((EvolveEvent.Pre) evt).forme, immediate, true);
+            boolean evolved = this.changeForm(((EvolveEvent.Pre) evt).forme, immediate, true);
             // Remove held item if it had one.
             if (needed_items.contains(data) && ItemStack.isSameItem(stack, thisMob.getHeldItem()))
-                evo.setHeldItem(ItemStack.EMPTY);
+                thisMob.setHeldItem(ItemStack.EMPTY);
             // Init things like moves.
-            evo.getMoveStats().oldLevel = thisMob.getMoveStats().oldLevel;
-            evo.levelUp(evo.getLevel());
+            thisMob.getMoveStats().oldLevel = thisMob.getMoveStats().oldLevel;
+            thisMob.levelUp(thisMob.getLevel());
 
-            evo.setCustomHolder(data.data.getForme(evo.getPokedexEntry()));
+            thisMob.setCustomHolder(data.data.getForme(thisMob.getPokedexEntry()));
 
             // Learn evolution moves and update ability.
-            for (final String s : data.evoMoves) evo.learn(s);
-            evo.setAbilityRaw(evo.getPokedexEntry().getAbility(thisMob.getAbilityIndex(), evo));
+            for (final String s : data.evoMoves) thisMob.learn(s);
+            thisMob.setAbilityRaw(thisMob.getPokedexEntry().getAbility(thisMob.getAbilityIndex(), thisMob));
 
             // Send post evolve event.
-            evt = new EvolveEvent.Post(evo);
+            evt = new EvolveEvent.Post(thisMob);
             PokecubeAPI.POKEMOB_BUS.post(evt);
 
             // We are running on init, so we don't want these effects.
-            evo.setGeneralState(GeneralStates.EVOLVING, false);
-            evo.setEvolutionTicks(-1);
-            return evo;
+            thisMob.setGeneralState(GeneralStates.EVOLVING, false);
+            thisMob.setEvolutionTicks(-1);
+            return true;
         }
         // Do not evolve if it is dead, or can't evolve.
         else if (this.getPokedexEntry().canEvolve() && thisEntity.isAlive())
         {
             EvolveEvent evt = new EvolveEvent.Pre(thisMob, evol, data);
             ThutCore.FORGE_BUS.post(evt);
-            if (evt.isCanceled()) return null;
+            if (evt.isCanceled()) return false;
             if (delayed)
             {
                 // If delayed, set the pokemob as starting to evolve, and
@@ -187,40 +186,40 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 // Send the message about evolving, to let user cancel.
                 this.displayMessageToOwner(
                         TComponent.translatable("pokemob.evolution.start", thisMob.getDisplayName()));
-                return thisMob;
+                return true;
             }
             // Evolve the mob.
-            final IPokemob evo = this.changeForm(((EvolveEvent.Pre) evt).forme, true, true);
-            if (evo != null)
+            boolean evolved = this.changeForm(((EvolveEvent.Pre) evt).forme, true, true);
+            if (evolved)
             {
                 // Clear held item if used for evolving.
                 if (needed_items.contains(data) && ItemStack.isSameItem(stack, thisMob.getHeldItem()))
-                    evo.setHeldItem(ItemStack.EMPTY);
+                    thisMob.setHeldItem(ItemStack.EMPTY);
 
-                evt = new EvolveEvent.Post(evo);
+                evt = new EvolveEvent.Post(thisMob);
                 ThutCore.FORGE_BUS.post(evt);
                 // Lean any moves that should are supposed to have just
                 // learnt.
-                if (delayed) evo.getMoveStats().oldLevel = evo.getLevel() - 1;
-                else if (data != null) evo.getMoveStats().oldLevel = thisMob.getMoveStats().oldLevel;
-                evo.levelUp(evo.getLevel());
+                if (delayed) thisMob.getMoveStats().oldLevel = thisMob.getLevel() - 1;
+                else if (data != null) thisMob.getMoveStats().oldLevel = thisMob.getMoveStats().oldLevel;
+                thisMob.levelUp(thisMob.getLevel());
 
-                evo.setBasePokedexEntry(evol);
-                evo.setPokedexEntry(evol);
-                evo.setCustomHolder(data.data.getForme(evo.getPokedexEntry()));
+                thisMob.setBasePokedexEntry(evol);
+                thisMob.setPokedexEntry(evol);
+                thisMob.setCustomHolder(data.data.getForme(thisMob.getPokedexEntry()));
 
                 // Don't immediately try evolving again, only wild ones
                 // should do that.
-                evo.setEvolutionTicks(-1);
-                evo.setGeneralState(GeneralStates.EVOLVING, false);
+                thisMob.setEvolutionTicks(-1);
+                thisMob.setGeneralState(GeneralStates.EVOLVING, false);
 
                 // Learn evolution moves and update ability.
-                for (final String s : data.evoMoves) evo.learn(s);
-                evo.setAbilityRaw(evo.getPokedexEntry().getAbility(thisMob.getAbilityIndex(), evo));
+                for (final String s : data.evoMoves) thisMob.learn(s);
+                thisMob.setAbilityRaw(thisMob.getPokedexEntry().getAbility(thisMob.getAbilityIndex(), thisMob));
             }
-            return evo;
+            return true;
         }
-        return null;
+        return false;
     }
 
     /** This entry is used for colouring evolution effects. */
@@ -230,8 +229,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
     }
 
     /**
-     * This is the itemstack we are using for evolution, it is stored here for
-     * use when evolution actually occurs.
+     * This is the itemstack we are using for evolution, it is stored here for use when evolution actually occurs.
      */
     ItemStack getEvolutionStack();
 
@@ -242,12 +240,11 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
     }
 
     /**
-     * Called when the level is up. Should be overridden to handle level up
-     * events like evolution or move learning.
+     * Called when the level is up. Should be overridden to handle level up events like evolution or move learning.
      *
      * @param level the new level
      */
-    default IPokemob levelUp(final int level)
+    default void levelUp(final int level)
     {
         final LivingEntity theEntity = this.getEntity();
         final IPokemob theMob = (IPokemob) this;
@@ -270,11 +267,12 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                     {
                         String s = theMob.getMove(i);
                         if (s == null) continue;
-                        for (final String s1 : moves) if (s.equals(s1))
-                        {
-                            moves.remove(s1);
-                            break;
-                        }
+                        for (final String s1 : moves)
+                            if (s.equals(s1))
+                            {
+                                moves.remove(s1);
+                                break;
+                            }
                     }
                     for (final String s : moves)
                     {
@@ -285,27 +283,27 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                         theMob.getMoveStats().addPendingMove(s, theMob);
                     }
                     EntityUpdate.sendEntityUpdate(this.getEntity());
-                    return theMob;
+                    return;
                 }
             }
             for (final String s : moves) theMob.learn(s);
         }
-        return theMob;
     }
 
-    default IPokemob changeForm(final PokedexEntry newEntry)
+    default boolean changeForm(final PokedexEntry newEntry)
     {
         if (this.getEntity().level() instanceof ServerLevel level)
             return this.changeForm(newEntry, !level.isHandlingTick(), false);
         return this.changeForm(newEntry, true, false);
     }
 
-    default IPokemob resetForm(boolean onRecall)
+    default boolean resetForm(boolean onRecall)
     {
+        PokedexEntry entry = this.getPokedexEntry();
         PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Revert((IPokemob) this, onRecall));
         this.setPokedexEntry(getBasePokedexEntry());
         PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Post((IPokemob) this));
-        return (IPokemob) this;
+        return entry != this.getPokedexEntry();
     }
 
     /**
@@ -314,52 +312,57 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
      * @param newEntry new pokedex entry to have
      * @return the new pokemob, return this if it fails
      */
-    default IPokemob changeForm(PokedexEntry newEntry, boolean immediate, boolean permanent)
+    default boolean changeForm(PokedexEntry newEntry, boolean immediate, boolean permanent)
     {
         final LivingEntity thisEntity = this.getEntity();
         final IPokemob thisMob = (IPokemob) this;
-        if (thisEntity == null) return thisMob;
+        if (thisEntity == null) return false;
         LivingEntity evolution = thisEntity;
-        IPokemob evoMob = thisMob;
         final PokedexEntry oldEntry = this.getPokedexEntry();
         if (newEntry != null && newEntry != oldEntry)
         {
             this.setGeneralState(GeneralStates.EVOLVING, true);
             if (permanent)
             {
+                var owner = thisMob.getOwnerId();
+                var ownerE = thisMob.getOwner();
+                var ownerP = thisMob.isPlayerOwned();
                 evolution = PokecubeCore.createPokemob(newEntry, thisEntity.level());
-                if (evolution == null)
+                if (!(evolution instanceof Mob mob))
                 {
-                    PokecubeAPI.LOGGER.warn("No Entry for " + newEntry);
-                    return thisMob;
+                    PokecubeAPI.LOGGER.warn("invalid entry for {} during evolution", newEntry);
+                    return false;
                 }
-            }
-            evoMob = PokemobCaps.getPokemobFor(evolution);
-            // Reset nickname if needed.
-            if (this.getPokemonNickname().equals(oldEntry.getName())) evoMob.setPokemonNickname("");
 
-            if (permanent)
-            {
                 final int id = evolution.getId();
                 final UUID uuid = evolution.getUUID();
-                // Copy NBT data over
+
+                // Load raw data first
                 evolution.load(thisEntity.saveWithoutId(new CompoundTag()));
+                // Sync attachments
+                mob.copyAttachmentsFrom(thisEntity, false);
+
                 // Copy transforms over.
                 EntityTools.copyEntityTransforms(evolution, thisEntity);
                 evolution.setId(id);
                 evolution.setUUID(uuid);
 
-                // Sync over any active moves
-                thisMob.getMoveStats().changeMovesUser(evoMob);
+                this.setEntity(mob);
+                // sync these separately, as often are linked to the Tameable itself
+                if(ownerE!=null) this.setOwner(ownerE);
+                else this.setOwner(owner);
+                this.setPlayerOwned(ownerP);
             }
+            // Reset nickname if needed.
+            if (this.getPokemonNickname().equals(oldEntry.getName())) thisMob.setPokemonNickname("");
 
             // Flag the mob as evolving.
-            evoMob.setGeneralState(GeneralStates.EVOLVING, true);
+            thisMob.setGeneralState(GeneralStates.EVOLVING, true);
 
-            evoMob.onGenesChanged();
+            thisMob.onGenesChanged();
 
             // Set entry, this should fix expressed species gene.
-            evoMob.setPokedexEntry(newEntry);
+            thisMob.setPokedexEntry(newEntry);
 
             // Remove this tag if present.
             evolution.getPersistentData().remove("pokecube:mega_base");
@@ -371,40 +374,39 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 {
                     final String ability = thisEntity.getPersistentData().getString("pokecube:mega_ability");
                     evolution.getPersistentData().remove("pokecube:mega_ability");
-                    if (!ability.isEmpty()) evoMob.setAbilityRaw(AbilityManager.getAbility(ability));
+                    if (!ability.isEmpty()) thisMob.setAbilityRaw(AbilityManager.getAbility(ability));
                     if (PokecubeCore.getConfig().debug_ai)
                         PokecubeAPI.logInfo("Un Mega Evolving, changing ability back to " + ability);
                 }
                 else
                 {
-                    if (thisMob.getAbility() != null) evolution.getPersistentData().putString("pokecube:mega_ability",
-                            thisMob.getAbility().toString());
+                    if (thisMob.getAbility() != null) evolution.getPersistentData()
+                            .putString("pokecube:mega_ability", thisMob.getAbility().toString());
                     evolution.getPersistentData().putString("pokecube:mega_base", oldEntry.getTrimmedName());
-                    final Ability ability = newEntry.getAbility(0, evoMob);
+                    final Ability ability = newEntry.getAbility(0, thisMob);
                     if (PokecubeCore.getConfig().debug_ai)
                         PokecubeAPI.logInfo("Mega Evolving, changing ability to " + ability);
-                    if (ability != null) evoMob.setAbilityRaw(ability);
+                    if (ability != null) thisMob.setAbilityRaw(ability);
                 }
             }
 
-            final EvolveEvent evt = new EvolveEvent.Post(evoMob);
+            final EvolveEvent evt = new EvolveEvent.Post(thisMob);
             PokecubeAPI.POKEMOB_BUS.post(evt);
             // Schedule adding to world.
             if (!evt.isCanceled() && thisEntity.isAddedToLevel())
                 EvoTicker.scheduleEvolve(thisEntity, evolution, immediate);
         }
-        return evoMob;
+        return true;
     }
 
     /**
-     * This itemstack will be used to evolve the pokemob after evolutionTicks
-     * runs out.
+     * This itemstack will be used to evolve the pokemob after evolutionTicks runs out.
      */
     void setEvolutionStack(ItemStack stack);
 
     /**
-     * The evolution tick will be set when the mob evolves and then is decreased
-     * each tick. It is used to render a special effect.
+     * The evolution tick will be set when the mob evolves and then is decreased each tick. It is used to render a
+     * special effect.
      *
      * @param evolutionTicks the evolutionTicks to set
      */

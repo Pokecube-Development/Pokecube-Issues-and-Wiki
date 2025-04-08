@@ -262,7 +262,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
             PokedexEntry entry = this.pokemob.getPokedexEntry();
             PokedexEntry nextEntry = Pokedex.getInstance().getNextForm(entry);
             if (nextEntry == entry) nextEntry = Pokedex.getInstance().getFirstForm(entry);
-            this.pokemob = this.pokemob.setPokedexEntry(nextEntry);
+            this.pokemob.setPokedexEntry(nextEntry);
             this.pokemob.setBasePokedexEntry(nextEntry);
             this.initPages(this.pokemob);
         }).bounds(x - 52, y + 95, 12, 12)
@@ -296,7 +296,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
                     this.pokemob.setSexe(IPokemob.FEMALE);
                     if (e != old)
                     {
-                        this.pokemob = this.pokemob.setPokedexEntry(e);
+                        this.pokemob.setPokedexEntry(e);
                         this.pokemob.setBasePokedexEntry(e);
                     }
                     this.initPages(this.pokemob);
@@ -306,7 +306,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
                     this.pokemob.setSexe(IPokemob.MALE);
                     if (e != old)
                     {
-                        this.pokemob = this.pokemob.setPokedexEntry(e);
+                        this.pokemob.setPokedexEntry(e);
                         this.pokemob.setBasePokedexEntry(e);
                     }
                     this.initPages(this.pokemob);

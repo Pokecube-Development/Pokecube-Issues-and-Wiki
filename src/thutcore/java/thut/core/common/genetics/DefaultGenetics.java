@@ -156,9 +156,6 @@ public class DefaultGenetics implements IMobGenetics
     @Override
     public void deserializeNBT(HolderLookup.Provider provider, final ListTag list)
     {
-        if(ThutCore.proxy.isServerSide()){
-            int x = 0;
-        }
         for (int i = 0; i < list.size(); i++)
         {
             final CompoundTag tag = list.getCompound(i);

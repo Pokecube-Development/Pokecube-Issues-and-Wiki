@@ -185,10 +185,10 @@ public class Pokemake
         mob.setHealth(mob.getMaxHealth());
         if (mob.getEntity() instanceof IMobColourable)
             ((IMobColourable) mob.getEntity()).setRGBA(red, green, blue, 255);
-        if (initLevel) if (asWild) mob = mob.setForSpawn(exp);
+        if (initLevel) if (asWild) mob.setForSpawn(exp);
         else
         {
-            mob = mob.setExp(exp, asWild);
+            mob.setExp(exp, asWild);
             level = Tools.xpToLevel(mob.getPokedexEntry().getEvolutionMode(), exp);
             mob.levelUp(level);
         }

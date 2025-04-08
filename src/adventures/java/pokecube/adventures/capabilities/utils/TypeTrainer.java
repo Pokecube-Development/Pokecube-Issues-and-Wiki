@@ -468,13 +468,12 @@ public class TypeTrainer extends NpcType
             pokemob.getEntity().setPosRaw(x, y, z);
             pokemob.getEntity().setHealth(pokemob.getEntity().getMaxHealth());
             pokemob.getEntity().getPersistentData().putBoolean("__need_init_evos__", true);
-            pokemob = pokemob.setPokedexEntry(entry);
+            pokemob.setPokedexEntry(entry);
             pokemob.setOwner(trainer.getUUID());
             pokemob.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehaviour.DEFAULTCUBE)));
             final int exp = Tools.levelToXp(pokemob.getExperienceMode(), level);
-            pokemob = pokemob.setForSpawn(exp, false);
-            final ItemStack item = PokecubeManager.pokemobToItem(pokemob);
-            return item;
+            pokemob.setForSpawn(exp, false);
+            return PokecubeManager.pokemobToItem(pokemob);
         }
         return ItemStack.EMPTY;
     }

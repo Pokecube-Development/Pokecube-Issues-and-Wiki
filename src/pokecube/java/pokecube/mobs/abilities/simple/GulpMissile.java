@@ -71,12 +71,11 @@ public class GulpMissile extends Ability
     }
 
     @Override
-    public IPokemob onRecall(final IPokemob mob)
+    public void onRecall(final IPokemob mob)
     {
         final PokedexEntry mobs = mob.getPokedexEntry();
         final boolean isSurf = mobs == GulpMissile.arrakuda;
         final boolean isDive = mobs == GulpMissile.pikachu;
-        if (isSurf || isDive) return mob.setPokedexEntry(GulpMissile.baseNormal);
-        return super.onRecall(mob);
+        if (isSurf || isDive) mob.setPokedexEntry(GulpMissile.baseNormal);
     }
 }

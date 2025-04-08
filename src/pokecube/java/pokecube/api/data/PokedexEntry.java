@@ -123,11 +123,10 @@ public class PokedexEntry
             this.data = data;
         }
 
-        public Entity getEvolution(final LevelAccessor world)
+        public boolean getEvolution(final LevelAccessor world)
         {
-            if (this.evolution == null) return null;
-            final Entity ret = PokecubeCore.createPokemob(this.evolution, (Level) world);
-            return ret;
+            if (this.evolution == null) return false;
+            return PokecubeCore.createPokemob(this.evolution, (Level) world) != null;
         }
 
         @OnlyIn(Dist.CLIENT)

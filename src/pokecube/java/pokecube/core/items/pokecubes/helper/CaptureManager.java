@@ -228,8 +228,7 @@ public class CaptureManager
             // Ensure it is not sitting anymore
             pokemob.setLogicState(LogicStates.SITTING, false);
 
-            final IPokemob revert = pokemob.resetForm(false);
-            if (revert != null) pokemob = revert;
+            pokemob.resetForm(false);
             if (pokemob.getEntity().getPersistentData().contains(TagNames.ABILITY)) pokemob.setAbilityRaw(
                     AbilityManager.getAbility(pokemob.getEntity().getPersistentData().getString(TagNames.ABILITY)));
             if (cube.shootingEntity instanceof Player player && !(cube.shootingEntity instanceof FakePlayer))

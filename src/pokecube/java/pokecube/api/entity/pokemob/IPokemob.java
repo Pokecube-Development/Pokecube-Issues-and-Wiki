@@ -690,9 +690,9 @@ public interface IPokemob
      * @param exp - exp to set
      * @return The IPokemob after the exp setting, may not be this if we evolved.
      */
-    default IPokemob setForSpawn(final int exp)
+    default void setForSpawn(final int exp)
     {
-        return this.setForSpawn(exp, true);
+        this.setForSpawn(exp, true);
     }
 
     /**
@@ -700,9 +700,8 @@ public interface IPokemob
      *
      * @param exp    - exp to set
      * @param evolve - whether we should try to evolve if possible.
-     * @return The IPokemob after the exp setting, may not be this if we evolved.
      */
-    IPokemob setForSpawn(int exp, boolean evolve);
+    void setForSpawn(int exp, boolean evolve);
 
     /**
      * Sets our held item stack

@@ -40,18 +40,17 @@ public class StanceChange extends Ability
         final MoveEntry attack = move.getMove();
 
         if (isShield && attack.getPWR(attacker, move.getTarget()) > 0)
-            attacker = attacker.setPokedexEntry(StanceChange.blade_form);
+            attacker.setPokedexEntry(StanceChange.blade_form);
         else if (isBlade && move.getName().equals("kings-shield"))
-            attacker = attacker.setPokedexEntry(StanceChange.base_form);
+            attacker.setPokedexEntry(StanceChange.base_form);
         move.setUser(attacker);
     }
 
     @Override
-    public IPokemob onRecall(final IPokemob mob)
+    public void onRecall(final IPokemob mob)
     {
         final PokedexEntry mobs = mob.getPokedexEntry();
         final boolean isBlade = mobs == StanceChange.blade_form;
-        if (isBlade) return mob.setPokedexEntry(StanceChange.base_form);
-        return super.onRecall(mob);
+        if (isBlade) mob.setPokedexEntry(StanceChange.base_form);
     }
 }

@@ -120,7 +120,7 @@ public class RecipeHandlers
                     final int exp = Tools.levelToXp(entry.getEvolutionMode(), this.level);
                     // that will make your pokemob around level 3-5.
                     // You can give him more XP if you want
-                    entity = (pokemob = pokemob.setForSpawn(exp)).getEntity();
+                    pokemob.setForSpawn(exp);
                     if (tile.getUser() != null && tame) pokemob.setOwner(tile.getUser().getUUID());
 
                     final CloneEvent.Spawn event = new CloneEvent.Spawn((ClonerTile) tile, pokemob);

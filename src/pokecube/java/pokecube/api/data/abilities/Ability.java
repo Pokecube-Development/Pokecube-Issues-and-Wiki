@@ -19,7 +19,7 @@ public abstract class Ability
 
     /**
      * Called when combat is started for this pokemob
-     * 
+     *
      * @param mob - The pokemob with this ability
      */
     public void startCombat(final IPokemob mob)
@@ -27,15 +27,14 @@ public abstract class Ability
 
     /**
      * Called when combat is ended for this pokemob
-     * 
+     *
      * @param mob - The pokemob with this ability
      */
     public void endCombat(final IPokemob mob)
     {}
 
     /**
-     * Called for the attacked target right before damage is dealt, after other
-     * calculations are done.
+     * Called for the attacked target right before damage is dealt, after other calculations are done.
      *
      * @param mob    - The pokemob with this ability
      * @param move   - the movepack being applied
@@ -68,13 +67,10 @@ public abstract class Ability
     }
 
     /**
-     * Inits the Ability, if args isn't null, it will usually have the Pokemob
-     * passed in as the first argument.<br>
-     * If there is a second argument, it should be and integer range for the
-     * expected distance the ability affects.
+     * Inits the Ability, if args isn't null, it will usually have the Pokemob passed in as the first argument.<br> If
+     * there is a second argument, it should be and integer range for the expected distance the ability affects.
      *
-     * @param args - optional arguments for constructing the ability, this is
-     *             empty in most initial cases!
+     * @param args - optional arguments for constructing the ability, this is empty in most initial cases!
      * @return this
      */
     public Ability init(@Nullable Object... args)
@@ -83,9 +79,8 @@ public abstract class Ability
     }
 
     /**
-     * Calls when the pokemob first agresses the target. This is called by the
-     * agressor, so mob is the pokemob doing the agression. Target is the
-     * agressed mob.
+     * Calls when the pokemob first agresses the target. This is called by the agressor, so mob is the pokemob doing the
+     * agression. Target is the agressed mob.
      *
      * @param mob    - The pokemob with this ability
      * @param target - the target of the agression
@@ -120,15 +115,13 @@ public abstract class Ability
     {}
 
     /**
-     * Called when a pokemob tries to recall, this might change the pokemob, so
-     * check that the returned value is not the same as mob!
+     * Called when a pokemob tries to recall, this might change the pokemob, so check that the returned value is not the
+     * same as mob!
      *
      * @param mob - The pokemob with this ability
      */
-    public IPokemob onRecall(final IPokemob mob)
-    {
-        return mob;
-    }
+    public void onRecall(final IPokemob mob)
+    {}
 
     @Override
     public String toString()

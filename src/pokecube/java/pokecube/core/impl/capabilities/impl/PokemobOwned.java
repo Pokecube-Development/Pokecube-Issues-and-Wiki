@@ -225,10 +225,10 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
 
         this.returning = true;
 
-        IPokemob base = this.resetForm(true);
+        boolean reset = this.resetForm(true);
 
         final Ability ab = this.getAbility();
-        if (ab != null) base = ab.onRecall(base);
+        if (reset) ab.onRecall(this);
 
         if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logInfo("Recalling " + this.getEntity());
         // Clear the pokemob's motion on recall
@@ -514,7 +514,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         this.getEntity().getPersistentData().remove(TagNames.SPAWN_EXP);
 
         // Set exp and held items.
-        pokemob = pokemob.setForSpawn(maxXP);
+        pokemob.setForSpawn(maxXP);
         // Only set this if we haven't had one set yet already
         if (pokemob.getHeldItem().isEmpty()) pokemob.setHeldItem(pokemob.wildHeldItem(pokemob.getEntity()));
 
