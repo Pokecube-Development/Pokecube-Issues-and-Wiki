@@ -6,6 +6,7 @@ import com.mojang.serialization.Dynamic;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.Difficulty;
@@ -26,7 +27,10 @@ import pokecube.core.database.tags.Tags;
 import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.damage.IPokedamage;
+import thut.api.Tracker;
+import thut.api.world.WorldTickManager;
 import thut.core.common.ThutCore;
+import thut.core.common.network.PacketSyncAttachments;
 import thut.lib.RegHelper;
 
 import java.util.List;
@@ -144,20 +148,17 @@ public class AITools
     }
 
     /**
-     * Checks the blacklists set via configs, to see whether the target is a
-     * valid choice.
+     * Checks the blacklists set via configs, to see whether the target is a valid choice.
      */
     public static final Predicate<Entity> validCombatTargets = new ValidTargetCheck();
 
     /**
-     * Checks the blacklists set via configs, to see whether the target is a
-     * valid choice.
+     * Checks the blacklists set via configs, to see whether the target is a valid choice.
      */
     public static final Predicate<Entity> validAgroTarget = new ValidAgressionCheck();
 
     /**
-     * Checks to see if the wild pokemob should try to agro the nearest visible
-     * player.
+     * Checks to see if the wild pokemob should try to agro the nearest visible player.
      */
     public static Predicate<IPokemob> shouldAgroNearestPlayer = new AgroCheck();
 
@@ -167,8 +168,8 @@ public class AITools
     public static Predicate<DamageSource> validToHitPokemob = new ValidDamageToPokemob();
 
     /**
-     * Checks to see if the pokemob is capable of changing its motion, this is
-     * used for things like dodging in combat, etc
+     * Checks to see if the pokemob is capable of changing its motion, this is used for things like dodging in combat,
+     * etc
      */
     public static Predicate<IPokemob> canNavigate = new CanNavigate();
 
@@ -248,12 +249,22 @@ public class AITools
             var memoryTypes = brain.memories.keySet();
             var sensorTypes = brain.sensors.keySet();
             var codec = Brain.codec(memoryTypes, sensorTypes);
-            Brain copy = (Brain) codec
-                    .parse(ops)
-                    .resultOrPartial(PokecubeAPI.LOGGER::error)
+            Brain copy = (Brain) codec.parse(ops).resultOrPartial(PokecubeAPI.LOGGER::error)
                     .orElseGet(() -> new Brain<>(memoryTypes, sensorTypes, ImmutableList.of(), () -> codec));
             brain.memories.clear();
             brain.memories.putAll(copy.memories);
+        }
+
+        // this also occurs after the pokemob has loaded, so lets mark the attachments for re-sync, etc.
+        if (entity.level() instanceof ServerLevel level)
+        {
+            IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
+            // The IPokemob loads first, this allows it to properly copy the genes, etc over
+            if (pokemob != null) pokemob.setEntity(pokemob.getEntity());
+            WorldTickManager.scheduleTask(level.dimension(),
+                    new WorldTickManager.DelayedTask(Tracker.instance().getTick() + 1,
+                            () -> PacketSyncAttachments.syncChange(entity, PacketSyncAttachments.SYNCED)));
+            ;
         }
     }
 }

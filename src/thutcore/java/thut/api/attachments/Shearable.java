@@ -1,9 +1,5 @@
 package thut.api.attachments;
 
-import java.util.function.Supplier;
-
-import org.jetbrains.annotations.UnknownNullability;
-
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -15,6 +11,8 @@ import net.neoforged.neoforge.common.util.INBTSerializable;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import thut.api.data.HolderProvider;
 import thut.api.entity.IShearable;
+
+import java.util.function.Supplier;
 
 public class Shearable
 {
@@ -84,7 +82,7 @@ public class Shearable
         {}
 
         @Override
-        public @UnknownNullability CompoundTag serializeNBT(Provider provider)
+        public CompoundTag serializeNBT(Provider provider)
         {
             return null;
         }
@@ -107,7 +105,7 @@ public class Shearable
     public static void registerAttachment(DeferredRegister<AttachmentType<?>> registry)
     {
         TYPE = registry.register(ID.getPath(), () -> AttachmentType.builder(_REGISTRY::make).build());
-        _REGISTRY.register(new HolderProvider.Provider<IShearableSerializable>()
+        _REGISTRY.register(new HolderProvider.Provider<>()
         {
 
             @Override

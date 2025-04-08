@@ -26,7 +26,6 @@ import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import org.jetbrains.annotations.UnknownNullability;
 import thut.api.ThutCaps;
 import thut.api.block.IOwnableTE;
 import thut.api.data.HolderProvider;
@@ -86,7 +85,7 @@ public class Ownable
         }
 
         @Override
-        public @UnknownNullability CompoundTag serializeNBT(Provider provider)
+        public CompoundTag serializeNBT(Provider provider)
         {
             return null;
         }

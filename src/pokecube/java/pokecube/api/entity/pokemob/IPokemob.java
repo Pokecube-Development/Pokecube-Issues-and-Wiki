@@ -51,8 +51,9 @@ import java.util.List;
 import java.util.Map;
 
 /** @author Manchou */
-public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOwner, IHasStats, IHungrymob,
-        IHasCommands, IMobColourable, IShearable
+public interface IPokemob
+        extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOwner, IHasStats, IHungrymob, IHasCommands, IMobColourable,
+        IShearable
 {
     /**
      * Holder object for custom models/textures/etc for a pokemob.
@@ -99,10 +100,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
         // Icons for the entry, ordering is male/maleshiny, female/female shiny.
         // genderless fills the male slot.
-        private final ResourceLocation[][] icons =
-        {
-                { null, null },
-                { null, null } };
+        private final ResourceLocation[][] icons = { { null, null }, { null, null } };
 
         private FormeHolder(PokedexEntry entry, final ResourceLocation model, final ResourceLocation texture,
                 final ResourceLocation animation, final ResourceLocation name)
@@ -114,7 +112,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
         /**
          * Returns the inventory icon for the pokemob.
-         * 
+         *
          * @param male  - Whether to look for male icon for gendered mobs
          * @param shiny - whether to look for shiny icon
          * @param base  - The base pokedex entry to get the icons for
@@ -137,7 +135,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
         /**
          * Serialises to NBT
-         * 
+         *
          * @return the nbt containing our data.
          */
         public CompoundTag save()
@@ -224,9 +222,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     }
 
     /**
-     * This is the interface which an AI which is used to locate combat targets
-     * for the pokemob implements.
-     *
+     * This is the interface which an AI which is used to locate combat targets for the pokemob implements.
      */
     public static interface ITargetFinder
     {
@@ -272,20 +268,19 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         EVASION,
     }
 
-//    static final UUID FLYSPEEDFACTOR_ID = UUID.fromString("662A6B8D-DA3E-4C1C-1235-96EA6097278D");
+    //    static final UUID FLYSPEEDFACTOR_ID = UUID.fromString("662A6B8D-DA3E-4C1C-1235-96EA6097278D");
     static final ResourceLocation FLYSPEEDFACTOR_ID = ResourceLocation.parse("pokecube:flying_boost");
     static final AttributeModifier FLYSPEEDFACTOR = new AttributeModifier(FLYSPEEDFACTOR_ID, 0.5F,
             AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
 
-//    static final UUID SWIMSPEEDFACTOR_ID = UUID.fromString("662A6B8D-DA3E-4C1C-1236-96EA6097278D");
+    //    static final UUID SWIMSPEEDFACTOR_ID = UUID.fromString("662A6B8D-DA3E-4C1C-1236-96EA6097278D");
     static final ResourceLocation SWIMSPEEDFACTOR_ID = ResourceLocation.parse("pokecube:swimming_boost");
     static final AttributeModifier SWIMSPEEDFACTOR = new AttributeModifier(SWIMSPEEDFACTOR_ID, 0.5F,
             AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
 
     /*
      * Genders of pokemobs
-     */
-    byte MALE = 1;
+     */ byte MALE = 1;
 
     byte FEMALE = 2;
 
@@ -297,7 +292,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     /**
      * Sets our {@link ITargetFinder} instance
-     * 
+     *
      * @param tracker
      */
     void setTargetFinder(ITargetFinder tracker);
@@ -308,8 +303,8 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     ITargetFinder getTargetFinder();
 
     /**
-     * Called each tick of the mob, the default implementation ticks
-     * {@link #timeSinceCombat()} and {@link #updateBattleInfo()}
+     * Called each tick of the mob, the default implementation ticks {@link #timeSinceCombat()} and
+     * {@link #updateBattleInfo()}
      */
     default void onTick()
     {
@@ -349,8 +344,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     }
 
     /**
-     * @return our {@link DataSync} object used to synchronize values between
-     *         client and server
+     * @return our {@link DataSync} object used to synchronize values between client and server
      */
     DataSync dataSync();
 
@@ -384,8 +378,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     float getPitch();
 
     /**
-     * Returns the name to display in any GUI. Can be the nickname or the
-     * Pokemob translated name.
+     * Returns the name to display in any GUI. Can be the nickname or the Pokemob translated name.
      *
      * @return the name to display
      */
@@ -396,23 +389,21 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     }
 
     /**
-     * The evolution tick will be set when the mob evolves and then is decreased
-     * each tick. It is used to render a special effect.
+     * The evolution tick will be set when the mob evolves and then is decreased each tick. It is used to render a
+     * special effect.
      *
      * @return the evolutionTicks
      */
     int getEvolutionTicks();
 
     /**
-     * 1 for about to explode, -1 for not exploding, this should probably be
-     * changed to a boolean.
+     * 1 for about to explode, -1 for not exploding, this should probably be changed to a boolean.
      */
     int getExplosionState();
 
     /**
-     * @return number of ticks since the last time we noticed we were in combat
-     *         If this is negative or zero, we are in combat, otherwise we are
-     *         not
+     * @return number of ticks since the last time we noticed we were in combat If this is negative or zero, we are in
+     * combat, otherwise we are not
      */
     int timeSinceCombat();
 
@@ -422,13 +413,11 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     void resetCombatTime();
 
     /**
-     * Increments us being in combat, should increase resetCombatTime if angry,
-     * and decrease it if not
+     * Increments us being in combat, should increase resetCombatTime if angry, and decrease it if not
      */
     void tickTimeSinceCombat();
 
     /**
-     * 
      * @return whether we are in combat.
      */
     default boolean inCombat()
@@ -438,9 +427,8 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     /**
      * @param index
-     * @return the value of the flavour amount for this mob, this will be used
-     *         for particle effects, and possibly for boosts based on how much
-     *         the mob likes the flavour
+     * @return the value of the flavour amount for this mob, this will be used for particle effects, and possibly for
+     * boosts based on how much the mob likes the flavour
      */
     int getFlavourAmount(int index);
 
@@ -482,7 +470,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
      * <li>2-6 - general inventory</li>
      * <li>rest - armour followed by offhand item</li>
      * </ul>
-     * 
+     *
      * @return the Container holding our inventory
      */
     Container getInventory();
@@ -498,8 +486,8 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     default double getMovementSpeed()
     {
         final AttributeInstance iattributeinstance = this.getEntity().getAttribute(Attributes.MOVEMENT_SPEED);
-        final boolean swimming = this.getEntity().isInWater()
-                || this.getEntity().isInLava() && this.getEntity().fireImmune();
+        final boolean swimming =
+                this.getEntity().isInWater() || this.getEntity().isInLava() && this.getEntity().fireImmune();
         final boolean flying = !swimming && !this.onGround();
 
         final boolean hasFlyBoost = iattributeinstance.getModifier(IPokemob.FLYSPEEDFACTOR_ID) != null;
@@ -516,24 +504,21 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     }
 
     /**
-     * @return All of our loaded AI tasks, this can be used to edit/adjust AI
-     *         for combat, etc.
+     * @return All of our loaded AI tasks, this can be used to edit/adjust AI for combat, etc.
      */
     List<IAIRunnable> getTasks();
 
     Map<String, IAIRunnable> getNamedTaskes();
 
     /**
-     * Note: This only returns a unique number for player owned pokemobs. All
-     * other pokemobs will return -1
+     * Note: This only returns a unique number for player owned pokemobs. All other pokemobs will return -1
      *
      * @return
      */
     int getPokemonUID();
 
     /**
-     * The personality value for the pokemob, used to determine nature, ability,
-     * etc.<br>
+     * The personality value for the pokemob, used to determine nature, ability, etc.<br>
      * http://bulbapedia.bulbagarden.net/wiki/Personality_value
      *
      * @return
@@ -607,14 +592,14 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     @Nullable
     /**
-     * 
+     *
      * @return the {@link FormeHolder} which we presently have.
      */
     FormeHolder getCustomHolder();
 
     /**
      * Moves us to the player's shoulder.
-     * 
+     *
      * @param player - player to put us on
      * @return whether we ended up on the shoulder.
      */
@@ -638,8 +623,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     }
 
     /**
-     * This method should only be used to update any Alleles objects that are
-     * stored for the mob's genes.
+     * This method should only be used to update any Alleles objects that are stored for the mob's genes.
      */
     default void onGenesChanged()
     {
@@ -648,7 +632,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     /**
      * called when we return to the pokecube
-     * 
+     *
      * @param onDeath - whether this occured on death
      */
     void onRecall(boolean onDeath);
@@ -672,16 +656,15 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     void setAttackCooldown(int timer);
 
     /**
-     * Sets our {@link DataSync} object used to synchronize values between
-     * client and server
-     * 
+     * Sets our {@link DataSync} object used to synchronize values between client and server
+     *
      * @param sync
      */
     void setDataSync(DataSync sync);
 
     /**
      * Sets our pitch heading direction.
-     * 
+     *
      * @param pitch
      */
     void setDirectionPitch(float pitch);
@@ -705,8 +688,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
      * Sets the experience.
      *
      * @param exp - exp to set
-     * @return The IPokemob after the exp setting, may not be this if we
-     *         evolved.
+     * @return The IPokemob after the exp setting, may not be this if we evolved.
      */
     default IPokemob setForSpawn(final int exp)
     {
@@ -718,14 +700,13 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
      *
      * @param exp    - exp to set
      * @param evolve - whether we should try to evolve if possible.
-     * @return The IPokemob after the exp setting, may not be this if we
-     *         evolved.
+     * @return The IPokemob after the exp setting, may not be this if we evolved.
      */
     IPokemob setForSpawn(int exp, boolean evolve);
 
     /**
      * Sets our held item stack
-     * 
+     *
      * @param stack - item to hold
      */
     default void setHeldItem(ItemStack stack)
@@ -735,7 +716,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     /**
      * Called when held item is changed, allows modifying the stack.
-     * 
+     *
      * @param newStack - stack to hold
      * @return possibly modified stack to hold
      */
@@ -745,8 +726,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     }
 
     /**
-     * Sets the default home location and roam distance. This is probably better
-     * managed via the IGuardAICapability.
+     * Sets the default home location and roam distance. This is probably better managed via the IGuardAICapability.
      *
      * @param x
      * @param y
@@ -767,7 +747,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     /**
      * Sets if we are a "shiny" pokemob, ie return value of {@link #isShiny()}
-     * 
+     *
      * @param shiny
      */
     void setShiny(boolean shiny);
@@ -782,9 +762,8 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     }
 
     /**
-     * This is called when the mob is added to the world, it can return a
-     * different pokemob if it evolves, in that case, this will have
-     * markRemoved() called for it.
+     * This is called when the mob is added to the world, it can return a different pokemob if it evolves, in that case,
+     * this will have markRemoved() called for it.
      *
      * @return
      */
@@ -794,8 +773,8 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     }
 
     /**
-     * This is called to mark this pokemob as "removed", if that is the case, it
-     * will immediately despawn the next tick, without drops, etc
+     * This is called to mark this pokemob as "removed", if that is the case, it will immediately despawn the next tick,
+     * without drops, etc
      */
     void markRemoved();
 
@@ -808,7 +787,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     /**
      * Called when we are spawning from a SpawnRule
-     * 
+     *
      * @param info - spawn rule which may modify us.
      * @return this or otherwise modified pokemob
      */
@@ -835,7 +814,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     /**
      * Brings us back from fainted/dead status.
-     * 
+     *
      * @param fullHp - if true, we will recover to full health.
      */
     default void revive(boolean fullHp)
@@ -853,16 +832,14 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     }
 
     /**
-     * 
-     * @return the time of death of this mob, if 0 or below, mob is not dead.
-     *         This time is set from {@link #setDeathTime(long)}, and should be
-     *         set the the value of {@link Tracker#getTick()}
+     * @return the time of death of this mob, if 0 or below, mob is not dead. This time is set from
+     * {@link #setDeathTime(long)}, and should be set the the value of {@link Tracker#getTick()}
      */
     long getDeathTime();
 
     /**
      * Sets the time of death, if revived, this should be set to 0;
-     * 
+     *
      * @param time
      */
     void setDeathTime(long time);
@@ -873,26 +850,23 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     public Battle getBattle();
 
     /**
-     * 
      * @param battle - the {@link Battle} we are presently in.
      */
     public void setBattle(Battle battle);
 
     /**
-     * @return the wrapped ICopyMob for registering as the capability, This is
-     *         used for transform, etc.
+     * @return the wrapped ICopyMob for registering as the capability, This is used for transform, etc.
      */
     ICopyMob getCopy();
 
     /**
-     * @return current ServerBossEvent for us, this allows giving server-side
-     *         boss health bars for custom pokemobs.
+     * @return current ServerBossEvent for us, this allows giving server-side boss health bars for custom pokemobs.
      */
     ServerBossEvent getBossInfo();
 
     /**
      * Sets the return value of {@link #getBossInfo()}
-     * 
+     *
      * @param event
      */
     void setBossInfo(ServerBossEvent event);

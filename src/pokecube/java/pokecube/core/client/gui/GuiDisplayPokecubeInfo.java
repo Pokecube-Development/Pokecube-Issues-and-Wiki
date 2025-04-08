@@ -3,13 +3,6 @@
  */
 package pokecube.core.client.gui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Predicate;
-
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -64,6 +57,13 @@ import pokecube.core.utils.AITools;
 import pokecube.core.utils.EntityTools;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Predicate;
 
 @EventBusSubscriber(bus = Bus.MOD, modid = PokecubeCore.MODID, value = Dist.CLIENT)
 public class GuiDisplayPokecubeInfo extends GuiGraphics
@@ -200,7 +200,7 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics
             if (owner && !pokemob.getLogicState(LogicStates.SITTING) && !pokemob.getGeneralState(GeneralStates.STAYING))
                 ret.add(pokemob);
         }
-        if (this.pokemobsCache.length != ret.size()) this.pokemobsCache = ret.toArray(new IPokemob[ret.size()]);
+        if (this.pokemobsCache.length != ret.size()) this.pokemobsCache = ret.toArray(new IPokemob[0]);
         else this.pokemobsCache = ret.toArray(this.pokemobsCache);
         Arrays.sort(this.pokemobsCache, (o1, o2) -> {
             final Entity e1 = o1.getEntity();
@@ -308,7 +308,7 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics
                 return;
             }
         }
-        if (target != null && (target instanceof LivingEntity || target instanceof PartEntity<?>)) PacketCommand
+        if ((target instanceof LivingEntity || target instanceof PartEntity<?>)) PacketCommand
                 .sendCommand(pokemob, Command.ATTACKENTITY, new AttackEntityHandler(target.getId()).setFromOwner(true));
         else if (targetLocation != null) PacketCommand.sendCommand(pokemob, Command.ATTACKLOCATION,
                 new AttackLocationHandler(targetLocation).setFromOwner(true));

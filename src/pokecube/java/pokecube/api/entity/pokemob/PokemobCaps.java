@@ -12,7 +12,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.attachment.AttachmentType;
@@ -106,15 +105,21 @@ public class PokemobCaps
 
     public static PokecubeContents getPokemobIn(ItemStack stack, Level level)
     {
+        return getPokemobIn(stack, level, false);
+    }
+
+    public static PokecubeContents getPokemobIn(ItemStack stack, Level level, boolean forceNew)
+    {
         PokecubeContents contents = stack.get(POKECUBE_DATA);
         if (contents == null) return null;
-        if (contents.pokemob() == null && level != null && contents.tag().contains("I"))
+        if ((contents.pokemob() == null || forceNew) && level != null && contents.tag().contains("I"))
         {
-            LivingEntity mob = loadContents(contents, level);
+            LivingEntity mob = loadContents(contents, level, forceNew);
             IPokemob pokemob = getPokemobFor(mob);
             if (pokemob != null) contents = contents.withPokemob(pokemob);
             else if (mob != null) contents = contents.withEntity(mob);
-            else {
+            else
+            {
                 var tag = contents.tag().copy();
                 tag.remove("I");
                 contents = new PokecubeContents(tag);
@@ -149,14 +154,9 @@ public class PokemobCaps
         return new PokecubeContents(pokemob);
     }
 
-    public static PokecubeContents storeContents(Mob pokemob)
+    public static LivingEntity loadContents(PokecubeContents contents, Level level, boolean forceNew)
     {
-        return new PokecubeContents(pokemob);
-    }
-
-    public static LivingEntity loadContents(PokecubeContents contents, Level level)
-    {
-        if (contents.pokemob() != null && contents.pokemob().getEntity() != null) return contents.pokemob().getEntity();
+        if (!forceNew && contents.pokemob() != null && contents.pokemob().getEntity() != null) return contents.pokemob().getEntity();
 
         if (level == null)
         {

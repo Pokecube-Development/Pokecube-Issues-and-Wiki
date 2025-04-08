@@ -72,7 +72,7 @@ public class PacketSyncAttachments extends Packet
             // Delay this execution, so the mob is actually tracked when it
             // runs.
             WorldTickManager.scheduleTask(mob.level().dimension(),
-                    new DelayedTask(Tracker.instance().getTick() + (mob instanceof Player ? 10 : 5),
+                    new DelayedTask(Tracker.instance().getTick(),
                             () -> sendPackets(mob)));
         }
     }
@@ -95,7 +95,6 @@ public class PacketSyncAttachments extends Packet
     /**
      * Syncs wearables of other mobs to player when they start tracking them.
      *
-     * @param event
      */
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void startTracking(final StartTracking event)
@@ -105,7 +104,7 @@ public class PacketSyncAttachments extends Packet
             // Delay this execution, so the mob is actually tracked when it
             // runs.
             WorldTickManager.scheduleTask(mob.level().dimension(),
-                    new DelayedTask(Tracker.instance().getTick() + 1, () -> sendPackets(mob)));
+                    new DelayedTask(Tracker.instance().getTick(), () -> sendPackets(mob)));
         }
     }
 
@@ -121,25 +120,7 @@ public class PacketSyncAttachments extends Packet
         var data = mob.getData(type);
         if (!(data instanceof INBTSerializable)) return;
         var key = NeoForgeRegistries.ATTACHMENT_TYPES.getKey(type);
-        var tag = ((INBTSerializable) data).serializeNBT(mob.registryAccess());
-        @SuppressWarnings("unchecked")
-        var test = DEFAULTS.computeIfAbsent(key, a -> {
-            Function<IAttachmentHolder, T> _defact;
-            try
-            {
-                _defact = (Function<IAttachmentHolder, T>) GETDEF.get(type);
-                var def = _defact.apply(mob);
-                return ((INBTSerializable) def).serializeNBT(mob.registryAccess());
-            }
-            catch (IllegalArgumentException | IllegalAccessException e)
-            {
-                e.printStackTrace();
-            }
-            return new CompoundTag();
-        });
-        if (tag.equals(test)) return;
-        var p = new PacketSyncAttachments(mob, tag, key);
-        ThutCore.packets.sendToTrackingAndSelf(p, mob);
+        sendForKey(mob, key);
     }
 
     public static <T> void syncChange(Supplier<AttachmentType<T>> type, Entity mob)
@@ -173,13 +154,14 @@ public class PacketSyncAttachments extends Packet
             }
             return new CompoundTag();
         });
-        if (tag.equals(test)) return;
+        if (tag.equals(test))return;
         var p = new PacketSyncAttachments(mob, tag, key);
         ThutCore.packets.sendToTrackingAndSelf(p, mob);
     }
 
     private static void sendPackets(LivingEntity mob)
     {
+        syncChange(mob, SYNCED);
         SYNCED.forEach(key -> {
             sendForKey(mob, key);
         });
@@ -215,9 +197,6 @@ public class PacketSyncAttachments extends Packet
         if (p != null)
         {
             ResourceLocation key = ResourceLocation.parse(this.data.getString("K"));
-            if(key.toString().contains("gene")){
-                int x=0;
-            }
             var type = NeoForgeRegistries.ATTACHMENT_TYPES.get(key);
             if (p.hasData(type))
             {

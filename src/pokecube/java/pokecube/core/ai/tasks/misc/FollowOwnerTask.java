@@ -1,9 +1,6 @@
 package pokecube.core.ai.tasks.misc;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -23,6 +20,8 @@ import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
 import thut.api.maths.Vector3;
+
+import java.util.Map;
 
 /**
  * This attempts to make the mob follow the owner around in the world. It
@@ -102,14 +101,14 @@ public class FollowOwnerTask extends TaskBase
             // Or look at path location
             BrainUtils.lookAt(this.entity, x, y, z);
         }
-        final boolean hasTarget = this.entity.getBrain().hasMemoryValue(MemoryModuleType.WALK_TARGET);
+        boolean hasTarget = this.entity.getBrain().hasMemoryValue(MemoryModuleType.WALK_TARGET);
         WalkTarget target = hasTarget ? this.entity.getBrain().getMemory(MemoryModuleType.WALK_TARGET).get() : null;
         if (target == null || target.getTarget().currentPosition().distanceToSqr(this.theOwner.position()) > 1)
             target = new WalkTarget(new EntityTracker(this.theOwner, false), (float) this.speed, 1);
 
-        final boolean isSprinting = this.entity.isSprinting();
-        final double ds2 = target.getTarget().currentPosition().distanceToSqr(this.entity.position());
-        final boolean shouldSprint = isSprinting ? ds2 > 9 : ds2 > 64;
+        boolean isSprinting = this.entity.isSprinting();
+        double ds2 = target.getTarget().currentPosition().distanceToSqr(this.entity.position());
+        boolean shouldSprint = isSprinting ? ds2 > 9 : ds2 > 64;
         if (shouldSprint != isSprinting) this.entity.setSprinting(shouldSprint);
 
         AttributeInstance walkSpeed = this.entity.getAttribute(Attributes.MOVEMENT_SPEED);

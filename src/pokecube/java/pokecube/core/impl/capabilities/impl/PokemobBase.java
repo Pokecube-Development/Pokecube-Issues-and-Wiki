@@ -33,7 +33,12 @@ import thut.api.world.mobs.data.Data;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.genetics.DefaultGenetics;
 import thut.core.common.world.mobs.data.DataSync_Impl;
-import thut.core.common.world.mobs.data.types.*;
+import thut.core.common.world.mobs.data.types.Data_Byte;
+import thut.core.common.world.mobs.data.types.Data_Float;
+import thut.core.common.world.mobs.data.types.Data_Int;
+import thut.core.common.world.mobs.data.types.Data_ItemStack;
+import thut.core.common.world.mobs.data.types.Data_Long;
+import thut.core.common.world.mobs.data.types.Data_String;
 
 import java.util.List;
 import java.util.Map;
@@ -53,7 +58,7 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
         public Data<String> TYPE1DW;
         public Data<String> TYPE2DW;
         public Data<Float> DIRECTIONPITCHDW;
-        ;
+
         public Data<Float> HEADINGDW;
         public Data<Integer> ATTACKTARGETIDDW;
         public Data<Integer> ALLYTARGETIDDW;
@@ -80,6 +85,7 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
 
         public void register(final DataSync sync)
         {
+            sync.clearMatching("pokemob");
             sync.setRegisterTag("pokemob");
             // Held Item timer
             this.HELDITEMDW = sync.register(new Data_ItemStack("held_item"));
@@ -180,7 +186,7 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
     protected SpawnRule spawnInitRule = null;
 
     /** Data manager used for syncing data */
-    public DataSync dataSync = new DataSync_Impl();
+    public DataSync dataSync;
     /** Holds the data parameters used for syncing our stuff. */
     protected final DataParameters params = new DataParameters();
 
@@ -226,6 +232,7 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
 
     public PokemobBase()
     {
+        this.dataSync = new DataSync_Impl();
         this.params.register(this.dataSync);
     }
 
@@ -251,8 +258,11 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
     @Override
     public void setDataSync(final DataSync sync)
     {
-        sync.mapFrom(this.dataSync, "pokemob");
-        this.dataSync = sync;
+        if (sync != this.dataSync)
+        {
+            sync.mapFrom(this.dataSync, "pokemob");
+            this.dataSync = sync;
+        }
     }
 
     @Override
@@ -338,10 +348,13 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
     @Override
     public void setGenes(IMobGenetics genes)
     {
-        genes.copyFrom(this.genes);
-        this.genes = genes;
-        this.genes.addChangeListener(this);
-        this.onGenesChanged();
+        if (genes != this.genes)
+        {
+            genes.copyMissingFrom(this.genes);
+            this.genes = genes;
+            this.genes.addChangeListener(this);
+            this.onGenesChanged();
+        }
     }
 
     public void setCopy(ICopyMob transform)

@@ -108,7 +108,6 @@ import thut.core.common.commands.CommandConfigs;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.handlers.PlayerDataHandler.PlayerData;
 import thut.core.common.handlers.PlayerDataHandler.PlayerDataManager;
-import thut.core.common.network.EntityUpdate;
 import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
@@ -310,8 +309,9 @@ public class EventsHandler
 
         // Here we handle bed healing if enabled in configs
         ThutCore.FORGE_BUS.addListener(EventsHandler::onPlayerWakeUp);
+        ThutCore.FORGE_BUS.addListener(EventsHandler::preLivingUpdate);
         // This ticks ongoing effects (like burn, poison, etc)
-        ThutCore.FORGE_BUS.addListener(EventsHandler::onLivingUpdate);
+        ThutCore.FORGE_BUS.addListener(EventsHandler::postLivingUpdate);
         // This synchronizes stats and data for the player, and sends the
         // GuiOnLogin if enabled and required.
         ThutCore.FORGE_BUS.addListener(EventsHandler::onPlayerLogin);
@@ -367,7 +367,7 @@ public class EventsHandler
 
         ResourceLocation TEXTURECAPP = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "textured_pokemob");
         ResourceLocation TEXTURECAPN = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "textured_npc");
-        IMobTexturable.Defaults._REGISTRY.register(new HolderProvider.Provider<IMobTexturable>()
+        IMobTexturable.Defaults._REGISTRY.register(new HolderProvider.Provider<>()
         {
 
             @Override
@@ -389,7 +389,7 @@ public class EventsHandler
                 return 10;
             }
         });
-        IMobTexturable.Defaults._REGISTRY.register(new HolderProvider.Provider<IMobTexturable>()
+        IMobTexturable.Defaults._REGISTRY.register(new HolderProvider.Provider<>()
         {
 
             @Override
@@ -412,7 +412,7 @@ public class EventsHandler
             }
         });
         ResourceLocation SHEARABLE = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "pokemob");
-        Shearable._REGISTRY.register(new HolderProvider.Provider<Shearable.IShearableSerializable>()
+        Shearable._REGISTRY.register(new HolderProvider.Provider<>()
         {
 
             @Override
@@ -520,39 +520,45 @@ public class EventsHandler
 
     private static void onMobJoinWorld(final EntityJoinLevelEvent evt)
     {
-        if (PokecubeCore.getConfig().disableVanillaMonsters && EventsHandler.MONSTERMATCHER.test(evt.getEntity()))
+        var entity = evt.getEntity();
+        if (PokecubeCore.getConfig().disableVanillaMonsters && EventsHandler.MONSTERMATCHER.test(entity))
         {
-            evt.getEntity().discard();
+            entity.discard();
             evt.setCanceled(true);
             return;
         }
-        if (PokecubeCore.getConfig().disableVanillaAnimals && EventsHandler.ANIMALMATCHER.test(evt.getEntity()))
+        if (PokecubeCore.getConfig().disableVanillaAnimals && EventsHandler.ANIMALMATCHER.test(entity))
         {
-            evt.getEntity().discard();
+            entity.discard();
             evt.setCanceled(true);
             return;
         }
         // Forge workaround for this not being called server side!
-        if (!evt.getEntity().isAddedToLevel()) evt.getEntity().onAddedToLevel();
+        if (!entity.isAddedToLevel()) entity.onAddedToLevel();
 
-        IPokemob pokemob = PokemobCaps.getPokemobFor(evt.getEntity());
-        if (pokemob != null && evt.getEntity().getPersistentData().getBoolean(TagNames.ON_SHOULDER))
+        IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
+        if (pokemob != null && entity.getPersistentData().getBoolean(TagNames.ON_SHOULDER))
         {
             pokemob.setLogicState(LogicStates.SITTING, false);
-            evt.getEntity().getPersistentData().remove(TagNames.ON_SHOULDER);
+            entity.getPersistentData().remove(TagNames.ON_SHOULDER);
         }
-        if (evt.getEntity() instanceof Creeper creeper)
+        if (entity instanceof Creeper creeper)
         {
             final AvoidEntityGoal<?> avoidAI = new AvoidEntityGoal<>(creeper, EntityPokemob.class, 6.0F, 1.0D, 1.2D,
                     e -> PokemobCaps.getPokemobFor(e).isType(PokeType.getType("psychic")));
             creeper.goalSelector.addGoal(3, avoidAI);
+        }
+        // Sync client side if needed
+        if (pokemob != null && entity.level().isClientSide())
+        {
+            pokemob.setEntity(pokemob.getEntity());
         }
         if (pokemob != null && pokemob.getEntity().level() instanceof ServerLevel level)
         {
             var mob = pokemob.getEntity();
             WorldTickManager.scheduleTask(level.dimension(),
                     new WorldTickManager.DelayedTask(Tracker.instance().getTick() + 1, () -> {
-//                        EntityUpdate.sendEntityUpdate(mob);
+                        //                        EntityUpdate.sendEntityUpdate(mob);
                     }));
         }
     }
@@ -707,27 +713,36 @@ public class EventsHandler
         }
     }
 
-    private static void onLivingUpdate(final EntityTickEvent.Pre evt)
+    private static void preLivingUpdate(final EntityTickEvent.Pre evt)
     {
-        final IPokemob poke = PokemobCaps.getPokemobFor(evt.getEntity());
+        var entity = evt.getEntity();
+        final IPokemob poke = PokemobCaps.getPokemobFor(entity);
         if (poke != null)
         {
             if (PokecubeCore.getConfig().pokemobsAreAllFrozen)
             {
                 evt.setCanceled(true);
-                return;
             }
-            poke.onTick();
         }
-        if (evt.getEntity().level().isClientSide || !evt.getEntity().isAlive()) return;
+    }
+    private static void postLivingUpdate(final EntityTickEvent.Post evt)
+    {
+        var entity = evt.getEntity();
+        final IPokemob poke = PokemobCaps.getPokemobFor(entity);
+        if (poke != null) poke.onTick();
+        if (entity.level().isClientSide()) return;
+        if (!entity.isAlive()) return;
         final int tick = Math.max(PokecubeCore.getConfig().attackCooldown, 1);
         // Handle ongoing effects for this mob.
-        final IOngoingAffected affected = PokemobCaps.getAffected(evt.getEntity());
-        if (affected != null && (evt.getEntity().tickCount % tick == 0 || !EventsHandler.COOLDOWN_BASED))
+        final IOngoingAffected affected = PokemobCaps.getAffected(entity);
+        if (affected != null && (entity.tickCount % tick == 0 || !EventsHandler.COOLDOWN_BASED))
         {
             affected.tick();
             affected.tickDamage();
         }
+//        if(entity.tickCount%100==0){
+//            PacketSyncAttachments.syncChange(DefaultGenetics.TYPE, entity);
+//        }
     }
 
     private static void onPlayerLogin(final PlayerLoggedInEvent evt)

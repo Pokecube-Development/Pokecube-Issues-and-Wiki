@@ -1,19 +1,19 @@
 package thut.api.data;
 
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.attachment.IAttachmentHolder;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.attachment.IAttachmentHolder;
-
 public class HolderProvider<T>
 {
-    private List<Provider<T>> _PROVIDERS = new ArrayList<>();
-    private Map<ResourceLocation, Provider<T>> _PROVIDER_REG = new HashMap<>();
-    public ResourceLocation key;
+    private final List<Provider<T>> _PROVIDERS = new ArrayList<>();
+    private final Map<ResourceLocation, Provider<T>> _PROVIDER_REG = new HashMap<>();
+    public final ResourceLocation key;
 
     public HolderProvider(ResourceLocation key)
     {

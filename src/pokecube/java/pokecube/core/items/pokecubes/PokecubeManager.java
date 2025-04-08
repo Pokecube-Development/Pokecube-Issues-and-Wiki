@@ -104,8 +104,8 @@ public class PokecubeManager
     }
 
     /**
-     * Called the heal the mob, it will set health to max health, will reset hurtTime and deathTime, and if a pokemob,
-     * will reset hunger back to full.
+     * Called the heal the mob, it will set health to max health, will reset hurtTime and deathTime, and if a
+     * pokemob, will reset hunger back to full.
      *
      * @param mob mob to heal
      */
@@ -156,12 +156,17 @@ public class PokecubeManager
 
     public static LivingEntity itemToMob(final ItemStack stack, Level world)
     {
+        return itemToMob(stack, world, false);
+    }
+
+    public static LivingEntity itemToMob(final ItemStack stack, Level world, boolean forceNew)
+    {
         if (world == null)
         {
             world = PokecubeCore.proxy.getWorld();
             PokecubeAPI.LOGGER.catching(new NullPointerException("World null when itemToMob!"));
         }
-        var holder = PokemobCaps.getPokemobIn(stack, world);
+        var holder = PokemobCaps.getPokemobIn(stack, world, forceNew);
         if (holder == null) return null;
         return holder.entity();
     }

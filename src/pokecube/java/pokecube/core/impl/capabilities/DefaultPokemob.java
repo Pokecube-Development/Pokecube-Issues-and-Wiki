@@ -1,8 +1,5 @@
 package pokecube.core.impl.capabilities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -22,6 +19,9 @@ import pokecube.api.utils.TagNames;
 import pokecube.core.impl.capabilities.impl.PokemobSexed;
 import thut.api.Tracker;
 import thut.api.item.ItemList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DefaultPokemob extends PokemobSexed implements IPokemob
 {

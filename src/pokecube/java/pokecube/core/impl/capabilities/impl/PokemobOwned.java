@@ -40,7 +40,6 @@ import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.entity.genetics.genes.SpeciesGene;
 import pokecube.core.entity.pokecubes.EntityPokecube;
-import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.eventhandlers.StatsCollector;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
@@ -288,10 +287,6 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
             if (!event.isCanceled()) this.onToss(tosser, itemstack);
         }
 
-        // This ensures it can't be caught by dupe
-        this.getEntity().getPersistentData().putBoolean(TagNames.REMOVED, true);
-        this.getEntity().getPersistentData().putBoolean(TagNames.CAPTURING, true);
-
         final LivingEntity targ = BrainUtils.getAttackTarget(this.getEntity());
         /**
          * If we have a target, and we were recalled with health, assign the
@@ -321,13 +316,6 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
             level.addWithUUID(this.getEntity());
             return;
         }
-
-//        EventsHandler.Schedule(world, w -> {
-//            final ServerLevel srld = (ServerLevel) w;
-//            final Entity original = srld.getEntity(id);
-//            if (original == mob) original.setRemoved(RemovalReason.DISCARDED);
-//            return true;
-//        });
         this.getEntity().discard();
     }
 

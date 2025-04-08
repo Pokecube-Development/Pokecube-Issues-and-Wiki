@@ -1,8 +1,5 @@
 package pokecube.core.ai.logic;
 
-import java.util.Collection;
-import java.util.List;
-
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -26,11 +23,13 @@ import pokecube.core.impl.entity.impl.PersistantStatusEffect;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
- * This applies ongoing moves, applies status effects, and manages sounds when
- * explosion moves are used. It also deals with setting/resetting the
- * transformed target accordingly, as well as ticking the abilities, and
- * activating the held item (like berries) if it should be used.
+ * This applies ongoing moves, applies status effects, and manages sounds when explosion moves are used. It also deals
+ * with setting/resetting the transformed target accordingly, as well as ticking the abilities, and activating the held
+ * item (like berries) if it should be used.
  */
 public class LogicMovesUpdates extends LogicBase
 {
@@ -101,6 +100,7 @@ public class LogicMovesUpdates extends LogicBase
             }
             this.index = this.pokemob.getMoveIndex();
 
+            learn_moves:
             if (this.pokemob.getMove(0) == null)
             {
                 String move = IMoveNames.MOVE_TACKLE;
@@ -210,8 +210,8 @@ public class LogicMovesUpdates extends LogicBase
             final Collection<?> set = affected.getEffects(PersistantStatusEffect.ID);
             if (set.isEmpty() && this.statusTick++ > 20)
             {
-                PokecubeAPI.LOGGER
-                        .error("Fixed Broken Status " + this.pokemob.getStatus() + " for " + this.pokemob.getEntity());
+                PokecubeAPI.LOGGER.error(
+                        "Fixed Broken Status " + this.pokemob.getStatus() + " for " + this.pokemob.getEntity());
                 this.statusTick = 0;
                 this.pokemob.healStatus();
             }

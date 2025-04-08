@@ -1,11 +1,8 @@
 package pokecube.core.ai.tasks;
 
-import java.util.List;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
-
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -14,6 +11,7 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.behavior.BehaviorControl;
 import net.minecraft.world.entity.ai.behavior.InteractWithDoor;
+import net.minecraft.world.entity.ai.behavior.MoveToTargetSink;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import pokecube.api.PokecubeAPI;
@@ -62,22 +60,25 @@ import thut.api.entity.IBreedingMob;
 import thut.api.entity.ai.BrainUtil;
 import thut.api.entity.ai.IAIRunnable;
 
+import java.util.List;
+
 public class Tasks
 {
 
-    private static final List<SensorType<?>> getSensors()
+    private static List<SensorType<?>> getSensors()
     {
         return List.of(SensorType.NEAREST_PLAYERS, SensorType.HURT_BY, Sensors.VISIBLE_BLOCKS.get(),
                 Sensors.INTERESTING_ENTITIES.get());
     }
 
-    private static final List<MemoryModuleType<?>> getMemories()
+    private static List<MemoryModuleType<?>> getMemories()
     {
         return List.of(MemoryModules.ATTACKTARGET.get(), MemoryModules.HUNTTARGET.get(), MemoryModules.HUNTED_BY.get(),
                 MemoryModules.MOVE_TARGET.get(), MemoryModules.LEAP_TARGET.get(), MemoryModules.PATH,
-                MemoryModules.MATE_TARGET, MemoryModules.WALK_TARGET, MemoryModules.LOOK_TARGET,
-                MemoryModules.EGG.get(), MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryModules.NOT_FOUND_PATH,
-                MemoryModuleType.DOORS_TO_CLOSE, MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER);
+                MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModules.MATE_TARGET, MemoryModules.WALK_TARGET,
+                MemoryModules.LOOK_TARGET, MemoryModules.EGG.get(), MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES,
+                MemoryModules.NOT_FOUND_PATH, MemoryModuleType.DOORS_TO_CLOSE,
+                MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER);
     }
 
     public static void initBrain(final Brain<?> brain)
@@ -86,8 +87,8 @@ public class Tasks
     }
 
     @SuppressWarnings("unchecked")
-    public static ImmutableList<Pair<Integer, ? extends BehaviorControl<? super LivingEntity>>> idle(final IPokemob pokemob,
-            final float speed)
+    public static ImmutableList<Pair<Integer, ? extends BehaviorControl<? super LivingEntity>>> idle(
+            final IPokemob pokemob, final float speed)
     {
         final PokedexEntry entry = pokemob.getPokedexEntry();
         // Tasks for idle
@@ -150,8 +151,9 @@ public class Tasks
         }
         // This one is outside as most things don't get this task.
         task = new WalkToTask(200);
+        task = new MoveToTargetSink();
         list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
-         if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, InteractWithDoor.create()));
+        if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, InteractWithDoor.create()));
 
         // Send the event to let anyone edit the tasks if needed.
         PokecubeAPI.POKEMOB_BUS.post(new Init(pokemob, Init.Type.IDLE, aiList));
@@ -167,8 +169,8 @@ public class Tasks
     }
 
     @SuppressWarnings("unchecked")
-    public static ImmutableList<Pair<Integer, ? extends BehaviorControl<? super LivingEntity>>> combat(final IPokemob pokemob,
-            final float speed)
+    public static ImmutableList<Pair<Integer, ? extends BehaviorControl<? super LivingEntity>>> combat(
+            final IPokemob pokemob, final float speed)
     {
         // Tasks for combat
         final List<IAIRunnable> aiList = Lists.newArrayList();
@@ -225,8 +227,8 @@ public class Tasks
     }
 
     @SuppressWarnings("unchecked")
-    public static ImmutableList<Pair<Integer, ? extends BehaviorControl<? super LivingEntity>>> utility(final IPokemob pokemob,
-            final float speed)
+    public static ImmutableList<Pair<Integer, ? extends BehaviorControl<? super LivingEntity>>> utility(
+            final IPokemob pokemob, final float speed)
     {
         // Tasks for utilitiy
         final List<IAIRunnable> aiList = Lists.newArrayList();
@@ -266,6 +268,7 @@ public class Tasks
         }
         // This one is outside as most things don't get this task.
         task = new WalkToTask(200);
+        task = new MoveToTargetSink();
         list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
         if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, InteractWithDoor.create()));
         // Send the event to let anyone edit the tasks if needed.

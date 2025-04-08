@@ -1,8 +1,8 @@
 package thut.api.world.mobs.data;
 
-import java.util.List;
-
 import net.minecraft.core.HolderLookup;
+
+import java.util.List;
 
 /**
  * Capability for synchronizing generic values between server and client.
@@ -18,7 +18,7 @@ public interface DataSync
     List<Data<?>> getAll();
 
     /**
-     * Gets all entries which need to by synced.
+     * Gets all entries which need to be synced.
      */
     List<Data<?>> getDirty();
 
@@ -44,8 +44,7 @@ public interface DataSync
     /**
      * This returns the last tick it was synced, this is used to prevent
      * over-sending of the update packets
-     * 
-     * @return
+     *
      */
     long getTick();
 

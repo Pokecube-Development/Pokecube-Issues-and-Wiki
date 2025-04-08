@@ -1,9 +1,6 @@
 package pokecube.adventures.capabilities;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -21,6 +18,8 @@ import pokecube.api.entity.trainers.actions.MessageState;
 import pokecube.core.PokecubeCore;
 import thut.api.data.HolderProvider;
 import thut.lib.TComponent;
+
+import java.util.Map;
 
 public class CapabilityNPCMessages
 {
@@ -113,7 +112,7 @@ public class CapabilityNPCMessages
 
     }
     
-    private static final HolderProvider<IHasMessages> _REGISTRY = new HolderProvider<>(ResourceLocation.parse("pokecube_adventure:messages"));
+    private static final HolderProvider<IHasMessages> _REGISTRY = new HolderProvider<>(ResourceLocation.parse("pokecube_adventure:trainer_messages"));
 
     public static void registerProvider(HolderProvider.Provider<IHasMessages> reg)
     {

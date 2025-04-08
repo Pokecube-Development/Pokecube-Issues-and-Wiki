@@ -30,7 +30,6 @@ import thut.api.entity.genetics.Gene;
 import thut.core.common.ThutCore;
 
 import java.util.Random;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public abstract class PokemobGenes extends PokemobSided implements IMobColourable
@@ -54,7 +53,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         }
         else if (t.getKey().equals(GeneticsManager.SHINYGENE))
         {
-            this._shinyCache = null;
+            _shinyCache = null;
         }
         else if (t.getKey().equals(GeneticsManager.MOVESGENE))
         {
@@ -64,11 +63,17 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         {
             _abilityChanged = true;
         }
-        PacketSyncGene.syncGeneToTracking(this.getEntity(), this.getGenes().getAlleles(t.getKey()));
+        if (!this.getEntity().level().isClientSide())
+            PacketSyncGene.syncGeneToTracking(this.getEntity(), this.getGenes().getAlleles(t.getKey()));
     }
 
     private void initGenes()
     {
+        _shinyCache = null;
+        _movesChanged = true;
+        _sizeChanged = true;
+        _abilityChanged = true;
+
         // Species gene
         var _speciesCache = new SpeciesGene();
         var info = _speciesCache.getValue();

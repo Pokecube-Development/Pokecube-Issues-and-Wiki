@@ -23,10 +23,10 @@ import thut.core.common.world.mobs.data.types.Data_UUID;
 import thut.core.common.world.mobs.data.types.Data_Vec3;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.Supplier;
 
 public class DataSync_Impl implements DataSync
@@ -81,11 +81,9 @@ public class DataSync_Impl implements DataSync
 
     private final List<Data<?>> data = new ArrayList<>();
 
-    private final ReadWriteLock lock = new ReentrantReadWriteLock();
-
     private long tick;
     private String regTag = "unk";
-    private boolean syncNow = false, needInit =false;
+    private boolean syncNow = false, needInit = false;
 
     private final int offset = ThutCore.newRandom().nextInt(1024);
     protected Provider provider = null;
@@ -175,10 +173,14 @@ public class DataSync_Impl implements DataSync
     @Override
     public void init(List<Data<?>> values)
     {
+        Map<String, Data<?>> old = new HashMap<>();
+        this.data.forEach(d -> old.put(d.getTag() + d.getName(), d));
         this.data.clear();
-        values.forEach(data-> {
+        values.forEach(data -> {
             this.setRegisterTag(data.getTag());
-            this.register(data);
+            var key = data.getTag() + data.getName();
+            var _data = old.getOrDefault(key, data);
+            this.register(_data);
         });
         needInit = false;
     }
@@ -214,9 +216,7 @@ public class DataSync_Impl implements DataSync
     public void clearMatching(String tag)
     {
         List<Data<?>> list = getTagged(tag);
-        list.forEach(data -> {
-            this.data.removeIf(d->d.getName().equals(data.getName()));
-        });
+        list.forEach(data -> this.data.removeIf(d -> d.getName().equals(data.getName())));
     }
 
     @Override
@@ -225,7 +225,6 @@ public class DataSync_Impl implements DataSync
         this.clearMatching(tag);
         this.setRegisterTag(tag);
         List<Data<?>> tagged = other.getTagged(tag);
-        other.clearMatching(tag);
         for (var d : tagged) this.register(d);
     }
 

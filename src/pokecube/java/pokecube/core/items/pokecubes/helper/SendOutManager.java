@@ -89,7 +89,7 @@ public class SendOutManager
     {
         if (cube.level().isClientSide || cube.isReleasing()) return null;
         final ServerLevel world = (ServerLevel) cube.level();
-        final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.level());
+        final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.level(), true);
 
         if (mob == null) return null;
 

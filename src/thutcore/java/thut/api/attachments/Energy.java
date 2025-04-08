@@ -1,11 +1,7 @@
 package thut.api.attachments;
 
-import java.util.Locale;
-import java.util.function.Supplier;
-
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.ResourceLocationException;
 import net.minecraft.core.Direction;
@@ -21,6 +17,9 @@ import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import thut.api.data.HolderProvider;
+
+import java.util.Locale;
+import java.util.function.Supplier;
 
 public class Energy
 {
@@ -135,10 +134,10 @@ public class Energy
             return new EnergyHolder(energy, tag);
         }
 
-        public static final Codec<EnergyHolder> CODEC = CompoundTag.CODEC
-                .<EnergyHolder>comapFlatMap(EnergyHolder::read, EnergyHolder::tag).stable();
-        public static final StreamCodec<ByteBuf, EnergyHolder> STREAM_CODEC = ByteBufCodecs.COMPOUND_TAG
-                .map(EnergyHolder::parse, EnergyHolder::tag);
+        public static final Codec<EnergyHolder> CODEC = CompoundTag.CODEC.<EnergyHolder>comapFlatMap(EnergyHolder::read,
+                EnergyHolder::tag).stable();
+        public static final StreamCodec<ByteBuf, EnergyHolder> STREAM_CODEC = ByteBufCodecs.COMPOUND_TAG.map(
+                EnergyHolder::parse, EnergyHolder::tag);
 
         public static DataResult<EnergyHolder> read(CompoundTag tag)
         {
@@ -167,8 +166,9 @@ public class Energy
 
     public static void registerItemData(DeferredRegister<DataComponentType<?>> registry)
     {
-        INVENTORY_STORE = registry.register("energy_storage", name -> new DataComponentType.Builder<EnergyHolder>()
-                .persistent(EnergyHolder.CODEC).networkSynchronized(EnergyHolder.STREAM_CODEC).build());
+        INVENTORY_STORE = registry.register("energy_storage",
+                name -> new DataComponentType.Builder<EnergyHolder>().persistent(EnergyHolder.CODEC)
+                        .networkSynchronized(EnergyHolder.STREAM_CODEC).build());
     }
 
     // ENTITY/TILE ENTITY ATTACHMENT
@@ -215,10 +215,9 @@ public class Energy
     {
         for (Direction d : Direction.values())
         {
-            var prov = new HolderProvider<EnergyStorage>(ID);
-            REGISTRY[d.ordinal()] = prov;
             var KEY = "energy_" + d.getName().toLowerCase(Locale.ROOT);
-
+            var prov = new HolderProvider<EnergyStorage>(ResourceLocation.fromNamespaceAndPath("thutcore", KEY));
+            REGISTRY[d.ordinal()] = prov;
             var type = registry.register(KEY, () -> AttachmentType.serializable(prov::make).build());
             TYPES[d.ordinal()] = type;
         }

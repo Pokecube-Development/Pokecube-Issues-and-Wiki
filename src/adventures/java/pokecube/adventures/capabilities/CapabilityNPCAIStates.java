@@ -81,7 +81,7 @@ public class CapabilityNPCAIStates
 
     }
     
-    private static final HolderProvider<IHasNPCAIStates> _REGISTRY = new HolderProvider<>(ResourceLocation.parse("pokecube_adventure:ai_states"));
+    private static final HolderProvider<IHasNPCAIStates> _REGISTRY = new HolderProvider<>(ResourceLocation.parse("pokecube_adventure:trainer_ai_state"));
 
     public static void registerProvider(HolderProvider.Provider<IHasNPCAIStates> reg)
     {

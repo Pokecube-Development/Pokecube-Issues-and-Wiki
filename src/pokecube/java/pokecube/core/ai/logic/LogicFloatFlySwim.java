@@ -53,6 +53,11 @@ public class LogicFloatFlySwim extends LogicBase
         public void tick()
         {
             if (pokemob.getController().blocksPathing()) return;
+            if(true){
+                super.tick();
+                return;
+            }
+
             if (this.operation == MoveControl.Operation.MOVE_TO)
             {
                 this.operation = MoveControl.Operation.WAIT;

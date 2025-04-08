@@ -1,17 +1,7 @@
 package thut.api.attachments;
 
-import java.util.Locale;
-import java.util.UUID;
-import java.util.function.Supplier;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.jetbrains.annotations.UnknownNullability;
-
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.ResourceLocationException;
 import net.minecraft.core.Direction;
@@ -36,6 +26,12 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import thut.api.ThutCaps;
 import thut.api.data.HolderProvider;
 import thut.core.common.ThutCore;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Locale;
+import java.util.UUID;
+import java.util.function.Supplier;
 
 public class Linkable
 {
@@ -108,7 +104,7 @@ public class Linkable
         boolean setLinkedPos(@Nullable GlobalPos pos, @Nullable Entity user);
 
         @Override
-        default @UnknownNullability CompoundTag serializeNBT(Provider provider)
+        default CompoundTag serializeNBT(Provider provider)
         {
             CompoundTag nbt = new CompoundTag();
             var pos = getLinkedPos(null);
@@ -149,7 +145,7 @@ public class Linkable
         ILinkStorage getLink(@Nullable Entity user);
 
         @Override
-        default @UnknownNullability CompoundTag serializeNBT(Provider provider)
+        default CompoundTag serializeNBT(Provider provider)
         {
             CompoundTag nbt = new CompoundTag();
             if (this.getLink(null) != null) nbt.put("link", nbt);
@@ -296,9 +292,9 @@ public class Linkable
     {
         for (Direction d : Direction.values())
         {
-            var prov = new HolderProvider<Linkable.ILinkable>(ResourceLocation.parse("thutcore:item_storage"));
-            REGISTRY[d.ordinal()] = prov;
             var KEY = "linkable_" + d.getName().toLowerCase(Locale.ROOT);
+            var prov = new HolderProvider<Linkable.ILinkable>(ResourceLocation.fromNamespaceAndPath("thutcore", KEY));
+            REGISTRY[d.ordinal()] = prov;
 
             var type = registry.register(KEY, () -> AttachmentType.serializable(prov::make).build());
             TYPES[d.ordinal()] = type;

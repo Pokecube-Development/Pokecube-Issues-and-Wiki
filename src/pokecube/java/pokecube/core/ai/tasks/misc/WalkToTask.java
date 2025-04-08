@@ -1,14 +1,7 @@
 package pokecube.core.ai.tasks.misc;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
@@ -28,6 +21,11 @@ import thut.api.entity.ai.PosWrapWrap;
 import thut.api.entity.ai.RootTask;
 import thut.api.world.IPathHelper;
 import thut.api.world.WorldTickManager;
+
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 public class WalkToTask extends RootTask<Mob>
 {
@@ -65,7 +63,10 @@ public class WalkToTask extends RootTask<Mob>
         final WalkTarget walktarget = brain.getMemory(MemoryModuleType.WALK_TARGET).get();
 
         final IPokemob pokemob = PokemobCaps.getPokemobFor(owner);
-        if (pokemob != null && !TaskBase.canMove(pokemob)) return false;
+        if (pokemob != null && !TaskBase.canMove(pokemob))
+        {
+            return false;
+        }
 
         if (RootTask.doLoadThrottling)
         {
@@ -169,7 +170,7 @@ public class WalkToTask extends RootTask<Mob>
                     if (this.currentPath != null) break pathing;
                 }
             }
-            this.currentPath = mob.getNavigation().createPath(ImmutableSet.of(blockpos), 16);
+            this.currentPath = mob.getNavigation().createPath(ImmutableSet.of(blockpos), 0);
             final double dist = target.getTarget().currentPosition().distanceTo(mob.position());
             if (dist < target.getCloseEnoughDist() && (this.currentPath == null || !this.currentPath.canReach()))
             {

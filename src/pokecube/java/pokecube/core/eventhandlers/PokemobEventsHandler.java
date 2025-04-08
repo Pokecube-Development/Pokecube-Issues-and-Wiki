@@ -162,9 +162,8 @@ public class PokemobEventsHandler
 
                 // Set this mob wild, then kill it.
                 if (old != null) old.setOwner((UUID) null);
-                this.thisEntity.getPersistentData().putBoolean(TagNames.REMOVED, true);
                 // Remove old mob
-                this.thisEntity.remove(RemovalReason.DISCARDED);
+                this.thisEntity.discard();
                 // Add new mob
                 if (!this.evolution.isAlive()) this.evolution.revive();
                 this.evolution.getPersistentData().remove(TagNames.REMOVED);
@@ -189,7 +188,7 @@ public class PokemobEventsHandler
 
                 // If there were any voxel shapes, then check if we need to
                 // collidedw
-                if (hits.size() > 0)
+                if (!hits.isEmpty())
                 {
                     VoxelShape total = Shapes.empty();
                     // Merge the found shapes into a single one
@@ -648,7 +647,12 @@ public class PokemobEventsHandler
         {
             pokemob.markRemoved();
             final Mob newMob = modified.getEntity();
-            if (world instanceof ServerLevel && !newMob.isAddedToLevel()) world.addFreshEntity(newMob);
+            if (world instanceof ServerLevel && !newMob.isAddedToLevel())
+            {
+                world.addFreshEntity(newMob);
+                event.setCanceled(true);
+                return;
+            }
         }
         // This init stage involves block checks, etc, so do that here
         pokemob.postInitAI();
@@ -679,11 +683,6 @@ public class PokemobEventsHandler
         final IMobGenetics genes = ThutCaps.getGenetics(event.getTarget());
         for (final Alleles<?, ?> allele : genes.getAlleles().values())
             PacketSyncGene.syncGene(event.getTarget(), allele, player);
-
-        // Send the whole thing over in this case, as it means it won't
-        // auto-sync things like IPokemob, etc.
-        // TODO special packet for just our capabiltiies instead!
-        if (!entry.stock) EntityUpdate.sendEntityUpdate(event.getTarget());
 
         // If the player is the owner, we sync over the mob's new moves
         if (player == pokemob.getOwner()) PacketSyncNewMoves.sendUpdatePacket(pokemob);

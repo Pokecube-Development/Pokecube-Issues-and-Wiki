@@ -1,12 +1,7 @@
 package pokecube.core.network.packets;
 
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
@@ -21,12 +16,16 @@ import thut.core.common.network.Packet;
 import thut.core.common.network.bigpacket.JsonPacket;
 import thut.core.common.network.bigpacket.PacketAssembly;
 
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+
 @EventBusSubscriber
 public class PacketSyncPokedex extends JsonPacket
 {
     @SubscribeEvent
     public static void onSyncData(OnDatapackSyncEvent event)
     {
+        if(event.getPlayer().isLocalPlayer()) return;
         var packet = new PacketSyncPokedex(JsonPokedexEntry.ENTIRE_DATABASE_CACHE);
         ASSEMBLER.sendTo(packet.getData(), event.getPlayer());
     }

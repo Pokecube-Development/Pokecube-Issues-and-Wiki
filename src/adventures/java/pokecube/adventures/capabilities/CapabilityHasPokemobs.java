@@ -984,7 +984,7 @@ public class CapabilityHasPokemobs
     }
 
     private static final HolderProvider<IHasPokemobs> _REGISTRY = new HolderProvider<>(
-            ResourceLocation.parse("pokecube_adventure:trainer"));
+            ResourceLocation.parse("pokecube_adventure:trainer_pokemobs"));
 
     public static void registerProvider(HolderProvider.Provider<IHasPokemobs> reg)
     {

@@ -18,8 +18,16 @@ public abstract class Packet
     @Override
     public Packet decode(FriendlyByteBuf buffer)
     {
-        this.read(buffer);
-        return this;
+        try
+        {
+            Packet resp = this.getClass().getConstructor().newInstance();
+            resp.read(buffer);
+            return resp;
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -32,7 +40,7 @@ public abstract class Packet
     {
         var player = context.player();
         if (ThutCore.proxy.isClientSide()) payload.handleClient(player);
-        else handleServer((ServerPlayer) player);
+        else payload.handleServer((ServerPlayer) player);
     }
 
     /*

@@ -1,9 +1,6 @@
 package pokecube.core.ai.tasks;
 
-import java.util.Map;
-
 import com.google.common.collect.ImmutableMap;
-
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -26,6 +23,8 @@ import thut.api.entity.ai.ITask;
 import thut.api.entity.ai.RootTask;
 import thut.api.maths.Vector3;
 import thut.lib.ItemStackTools;
+
+import java.util.Map;
 
 public abstract class TaskBase extends RootTask<Mob> implements ITask
 {
@@ -61,8 +60,7 @@ public abstract class TaskBase extends RootTask<Mob> implements ITask
             if (e == null || pokemob == null) return false;
             if (this.slot > 0) pokemob.getInventory().setItem(this.slot, this.stack);
             else if (!ItemStackTools.addItemStackToInventory(this.stack, pokemob.getInventory(), this.minSlot,
-                    PokemobInventory.MAIN_INVENTORY_SIZE))
-                e.spawnAtLocation(this.stack, 0);
+                    PokemobInventory.MAIN_INVENTORY_SIZE)) e.spawnAtLocation(this.stack, 0);
             return true;
         }
 
@@ -110,8 +108,8 @@ public abstract class TaskBase extends RootTask<Mob> implements ITask
         if (pokemob.getLogicState(LogicStates.CANNOTMOVE)) return false;
         // Don't move while sitting
         if (pokemob.getLogicState(LogicStates.SITTING)) return false;
-        final boolean sleeping = pokemob.getLogicState(LogicStates.SLEEPING)
-                || (pokemob.getStatus() & IMoveConstants.STATUS_SLP) > 0;
+        final boolean sleeping =
+                pokemob.getLogicState(LogicStates.SLEEPING) || (pokemob.getStatus() & IMoveConstants.STATUS_SLP) > 0;
         final boolean frozen = (pokemob.getStatus() & IMoveConstants.STATUS_FRZ) > 0;
         // DOLATER add other checks for things like bind, etc
         return !(sleeping || frozen);

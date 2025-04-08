@@ -1,9 +1,5 @@
 package pokecube.adventures.capabilities;
 
-import java.util.function.Consumer;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -19,6 +15,9 @@ import pokecube.api.entity.trainers.IHasTrades;
 import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.events.npcs.NpcTradesEvent;
 import thut.api.data.HolderProvider;
+
+import javax.annotation.Nullable;
+import java.util.function.Consumer;
 
 public class CapabilityHasTrades
 {
@@ -90,7 +89,7 @@ public class CapabilityHasTrades
         if (!aiStates.getAIState(AIState.TRADES_ITEMS)) event.offers.clear();
     }
     
-    private static final HolderProvider<IHasTrades> _REGISTRY = new HolderProvider<>(ResourceLocation.parse("pokecube_adventure:trades"));
+    private static final HolderProvider<IHasTrades> _REGISTRY = new HolderProvider<>(ResourceLocation.parse("pokecube_adventure:trainer_trades"));
 
     public static void registerProvider(HolderProvider.Provider<IHasTrades> reg)
     {

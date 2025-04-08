@@ -148,6 +148,8 @@ public record PokecubeContents(IPokemob pokemob, LivingEntity entity, CompoundTa
         tag.putString("I", key);
         var customData = mob.getCompound("NeoForgeData");
         for(String s: TAGSTOREMOVE) customData.remove(s);
+        customData = mob.getCompound("neoforge:attachments");
+        for(String s: TAGSTOREMOVE) customData.remove(s);
         tag.put("M", mob);
         if (entity instanceof LivingEntity living)
         {

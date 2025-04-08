@@ -1,11 +1,7 @@
 package thut.api.attachments;
 
-import java.util.Locale;
-import java.util.function.Supplier;
-
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.ResourceLocationException;
 import net.minecraft.core.Direction;
@@ -20,6 +16,9 @@ import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import thut.api.data.HolderProvider;
 import thut.api.inventory.InvHelper.ItemCap;
+
+import java.util.Locale;
+import java.util.function.Supplier;
 
 public class Inventory
 {
@@ -112,9 +111,9 @@ public class Inventory
     {
         for (Direction d : Direction.values())
         {
-            var prov = new HolderProvider<ItemCap>(ResourceLocation.parse("thutcore:item_storage"));
-            REGISTRY[d.ordinal()] = prov;
             var KEY = "items_" + d.getName().toLowerCase(Locale.ROOT);
+            var prov = new HolderProvider<ItemCap>(ResourceLocation.fromNamespaceAndPath("thutcore", KEY));
+            REGISTRY[d.ordinal()] = prov;
 
             var type = registry.register(KEY, () -> AttachmentType.serializable(prov::make).build());
             TYPES[d.ordinal()] = type;

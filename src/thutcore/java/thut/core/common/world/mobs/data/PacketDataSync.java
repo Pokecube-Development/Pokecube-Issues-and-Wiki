@@ -8,6 +8,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import pokecube.api.PokecubeAPI;
 import thut.api.entity.EntityProvider;
 import thut.api.world.mobs.data.Data;
 import thut.api.world.mobs.data.DataSync;
@@ -19,27 +20,27 @@ import java.util.List;
 
 public class PacketDataSync extends Packet
 {
-    public static void sync(final Entity tracked, final DataSync data, final int entity_id, final boolean all)
+    public static void sync(Entity tracked, DataSync data, int entity_id, boolean all)
     {
         boolean init = data.needInit();
         data.clearNeedInit();
         List<Data<?>> list = all || init ? data.getAll() : data.getDirty();
         // Nothing to sync.
         if (list == null || list.isEmpty()) return;
-        final PacketDataSync packet = new PacketDataSync();
+        PacketDataSync packet = new PacketDataSync();
         packet.data = list;
         packet.id = entity_id;
         packet.type = (byte) (init ? 1 : 0);
         ThutCore.packets.sendToTrackingAndSelf(packet, tracked);
     }
 
-    public static void sync(final ServerPlayer syncTo, final DataSync data, final int entity_id, final boolean all)
+    public static void sync(ServerPlayer syncTo, DataSync data, int entity_id, boolean all)
     {
         boolean init = data.needInit();
         List<Data<?>> list = all || init ? data.getAll() : data.getDirty();
         // Nothing to sync.
         if (list == null || list.isEmpty()) return;
-        final PacketDataSync packet = new PacketDataSync();
+        PacketDataSync packet = new PacketDataSync();
         packet.data = list;
         packet.id = entity_id;
         packet.type = (byte) (init ? 1 : 0);
@@ -63,14 +64,14 @@ public class PacketDataSync extends Packet
         this.data = new ArrayList<>();
         if (num > 0) for (int i = 0; i < num; i++)
         {
+            int uid = buf.readInt();
+            String tag = "", name = "";
+            if(type==1){
+                tag = buf.readUtf();
+                name = buf.readUtf();
+            }
             try
             {
-                int uid = buf.readInt();
-                String tag = "", name = "";
-                if(type==1){
-                    tag = buf.readUtf();
-                    name = buf.readUtf();
-                }
                 Data<?> val = DataSync_Impl.makeData(name, uid);
                 val.setTag(tag);
                 val.read(buf);
@@ -78,7 +79,7 @@ public class PacketDataSync extends Packet
             }
             catch (final Exception e)
             {
-                e.printStackTrace();
+                PokecubeAPI.LOGGER.error("Error loading data for {}, {}, {}, {}", id, tag, name, e);
             }
         }
     }

@@ -1,13 +1,13 @@
 package pokecube.api.entity.pokemob;
 
-import java.util.List;
-
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.core.ai.logic.Logic;
+
+import java.util.List;
 
 public interface IHasMobAIStates extends IMoveConstants
 {
@@ -62,9 +62,6 @@ public interface IHasMobAIStates extends IMoveConstants
     /**
      * This should default to whatever the routine defaults to, see
      * {@link AIRoutine#getDefault()}
-     *
-     * @param routine
-     * @return
      */
     boolean isRoutineEnabled(AIRoutine routine);
 
