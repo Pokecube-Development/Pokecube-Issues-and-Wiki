@@ -41,7 +41,7 @@ public class ClientProxy extends CommonProxy
             final HitResult pos = Minecraft.getInstance().hitResult;
             if (pos != null)
             {
-                Packet ret = null;
+                Packet ret;
                 switch (pos.getType())
                 {
                 case BLOCK:
@@ -52,9 +52,6 @@ public class ClientProxy extends CommonProxy
                     if (entity instanceof PartEntity<?> part) entity = part.getParent();
                     ret = new EntityRequestPacket(entity.getId());
                     break;
-                case MISS:
-                    NBTEdit.proxy.sendMessage(null, "Error - No tile or entity selected", ChatFormatting.RED);
-                    return;
                 default:
                     NBTEdit.proxy.sendMessage(null, "Error - No tile or entity selected", ChatFormatting.RED);
                     return;

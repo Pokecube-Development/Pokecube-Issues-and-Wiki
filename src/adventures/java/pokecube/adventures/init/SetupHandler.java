@@ -50,7 +50,7 @@ public class SetupHandler
         // idle mode if it was in battle, and battle is over.
         ThutCore.FORGE_BUS.addListener(TrainerEventHandler::onNpcTick);
         // This initializes the mob's brain for use.
-        ThutCore.FORGE_BUS.addListener(TrainerEventHandler::onBrainInit);
+        ThutCore.FORGE_BUS.addListener(EventPriority.LOW, TrainerEventHandler::onBrainInit);
         // Loads the trades for the trainers.
         ThutCore.FORGE_BUS.addListener(EventPriority.HIGH, TrainerEventHandler::onPostServerStart);
         // Manages npcs joining battles, such as preventing always friendly ones
@@ -69,7 +69,7 @@ public class SetupHandler
         PokecubeAPI.POKEMOB_BUS.addListener(TrainerEventHandler::captureAttempt);
         
         // Init the mobs
-        ThutCore.FORGE_BUS.addListener(TrainerEventHandler::entityConstruct);
+        ThutCore.FORGE_BUS.addListener(EventPriority.HIGH, TrainerEventHandler::entityLivingConstruct);
 
         ThutCore.FORGE_BUS.register(TrainerSpawnHandler.class);
         ThutCore.FORGE_BUS.register(EnergyHandler.class);

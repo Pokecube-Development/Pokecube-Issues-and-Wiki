@@ -1,10 +1,5 @@
 package pokecube.core.client.gui.watch;
 
-import java.util.Map;
-import java.util.Set;
-
-import org.joml.Matrix4f;
-
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -12,8 +7,6 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
-import com.mojang.math.Axis;
-
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.renderer.GameRenderer;
@@ -24,11 +17,16 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
+import net.minecraft.util.Mth;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.util.WatchPage;
 import thut.api.maths.Vector3;
 import thut.lib.TComponent;
+
+import java.util.Map;
+import java.util.Set;
 
 public class SecretBaseRadarPage extends WatchPage
 {
@@ -123,12 +121,10 @@ public class SecretBaseRadarPage extends WatchPage
         this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""),
                 b -> SecretBaseRadarPage.mode = RadarMode.values()[(SecretBaseRadarPage.mode.ordinal() + 1)
                         % RadarMode.values().length]).bounds(x + 136, y + 90, 17, 17)
-                                .setTexture(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(212, 123, 17, 17))
-                                .tooltip(Tooltip
-                                        .create(Component.translatable("button.pokecube.pokewatch.radar.tooltip")))
-                                .createNarration(
-                                        supplier -> Component.translatable("button.pokecube.pokewatch.radar.narrate"))
-                                .build());
+                .setTexture(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(212, 123, 17, 17))
+                .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.radar.tooltip")))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.radar.narrate"))
+                .build());
 
         this.nightMode = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
             GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
@@ -138,10 +134,10 @@ public class SecretBaseRadarPage extends WatchPage
                 .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.night_mode.narrate"))
                 .build());
 
-        if (GuiPokeWatch.nightMode) this.nightMode
-                .setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.light_mode.tooltip")));
-        else this.nightMode
-                .setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.dark_mode.tooltip")));
+        if (GuiPokeWatch.nightMode) this.nightMode.setTooltip(
+                Tooltip.create(Component.translatable("button.pokecube.pokewatch.light_mode.tooltip")));
+        else this.nightMode.setTooltip(
+                Tooltip.create(Component.translatable("button.pokecube.pokewatch.dark_mode.tooltip")));
     }
 
     @Override
@@ -151,21 +147,9 @@ public class SecretBaseRadarPage extends WatchPage
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
 
-        graphics.pose().translate(x + 126, y + 72, 0);
-        float xCoord = 0;
-        float yCoord = 0;
-        // TODO: Fix this, previously this.getBlitOffset();
-        final float zCoord = 0;
-        final float maxU = 1;
-        final float maxV = 1;
-        final float minU = -1;
-        final float minV = -1;
-        float r = 0;
-        float g = 1;
-        final float b = 0;
-        float a = 1;
-        // TODO: Fix this
-        // RenderSystem.disableTexture();
+        graphics.pose().translate(x + 126, y + 85, 0);
+        float r, g, b = 0, a;
+
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
         final Tesselator tessellator = Tesselator.getInstance();
@@ -173,21 +157,18 @@ public class SecretBaseRadarPage extends WatchPage
         r = 1;
         g = 0;
         final Vector3 here = new Vector3().set(this.watch.player);
-        final float angle = -this.watch.player.getYRot() % 360 + 180;
-        // GL11.glRotated(angle, 0, 0, 1);
-        graphics.pose().mulPose(Axis.ZP.rotationDegrees(angle));
+        final float angle = this.watch.player.getYRot() % 360 + 180;
 
         final Set<BlockPos> coords = SecretBaseRadarPage.radar_hits.get(SecretBaseRadarPage.mode);
         final float scale = SecretBaseRadarPage.mode.rangeScale;
         final float range = SecretBaseRadarPage.baseRange * scale;
 
-
         for (final BlockPos c : coords)
         {
             final Vector3 loc = new Vector3().set(c);
-            graphics.pose().pushPose();
-            Matrix4f matrix = graphics.pose().last().pose();
             final Vector3 v = loc.subtract(here);
+            v.rotateAboutLine(Vector3.secondAxis, Mth.DEG_TO_RAD * angle, loc);
+            v.set(loc);
             final float max = 55;
             final float hDistSq = (float) (v.x * v.x + v.z * v.z);
             final float vDist = (float) Math.abs(v.y) / scale;
@@ -201,17 +182,11 @@ public class SecretBaseRadarPage extends WatchPage
             dist = Math.min(dist, max);
             v.scalarMultBy(dist);
 
-            xCoord = (float) v.x;
-            yCoord = (float) v.z;
-
-            vertexbuffer.addVertex(matrix, xCoord + minU, yCoord + maxV, zCoord).setColor(r, g, b, a);
-            vertexbuffer.addVertex(matrix, xCoord + maxU, yCoord + maxV, zCoord).setColor(r, g, b, a);
-            vertexbuffer.addVertex(matrix, xCoord + maxU, yCoord + minV, zCoord).setColor(r, g, b, a);
-            vertexbuffer.addVertex(matrix, xCoord + minU, yCoord + minV, zCoord).setColor(r, g, b, a);
-            graphics.pose().popPose();
+            int xCoord = (int) v.x;
+            int yCoord = (int) v.z;
+            graphics.fill(xCoord - 1, yCoord - 1, xCoord + 1, yCoord + 1, FastColor.ARGB32.colorFromFloat(a, r, g, b));
         }
         graphics.pose().popPose();
         graphics.drawCenteredString(this.font, this.getTitle().getString(), x + 128, y + 18, 0x78C850);
-        super.render(graphics, mouseX, mouseY, partialTicks);
     }
 }

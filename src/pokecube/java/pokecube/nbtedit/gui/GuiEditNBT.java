@@ -1,15 +1,10 @@
 package pokecube.nbtedit.gui;
 
-import org.lwjgl.glfw.GLFW;
-
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.nbt.ByteArrayTag;
 import net.minecraft.nbt.ByteTag;
 import net.minecraft.nbt.DoubleTag;
@@ -22,6 +17,7 @@ import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import org.lwjgl.glfw.GLFW;
 import pokecube.nbtedit.NBTStringHelper;
 import pokecube.nbtedit.nbt.NamedNBT;
 import pokecube.nbtedit.nbt.Node;
@@ -31,7 +27,8 @@ import thut.lib.TComponent;
 public class GuiEditNBT extends AbstractWidget
 {
 
-    public static final ResourceLocation WINDOW_TEXTURE = ResourceLocation.fromNamespaceAndPath("nbtedit", "textures/gui/window.png");
+    public static final ResourceLocation WINDOW_TEXTURE = ResourceLocation.fromNamespaceAndPath("nbtedit",
+            "textures/gui/window.png");
 
     public static final int WIDTH = 178, HEIGHT = 93;
 
@@ -40,19 +37,19 @@ public class GuiEditNBT extends AbstractWidget
         switch (base.getId())
         {
         case 7:
-            String s = "";
+            StringBuilder s = new StringBuilder();
             for (final byte b : ((ByteArrayTag) base).getAsByteArray())
-                s += b + " ";
-            return s;
+                s.append(b).append(" ");
+            return s.toString();
         case 9:
             return "TagList";
         case 10:
             return "TagCompound";
         case 11:
-            String i = "";
+            StringBuilder i = new StringBuilder();
             for (final int a : ((IntArrayTag) base).getAsIntArray())
-                i += a + " ";
-            return i;
+                i.append(a).append(" ");
+            return i.toString();
         default:
             return NBTStringHelper.toString(base);
         }
@@ -105,21 +102,21 @@ public class GuiEditNBT extends AbstractWidget
         }
     }
 
-    private final Minecraft      mc = Minecraft.getInstance();
+    private final Minecraft mc = Minecraft.getInstance();
     private final Node<NamedNBT> node;
 
-    private final Tag           nbt;
+    private final Tag nbt;
 
-    private final boolean        canEditText, canEditValue;
-    private final GuiNBTTree     parent;
+    private final boolean canEditText, canEditValue;
+    private final GuiNBTTree parent;
 
-    private TextFieldWidget2     key, value;
+    private TextFieldWidget2 key, value;
 
-    private Button               save;
+    private Button save;
 
-    private String               kError, vError;
+    private String kError, vError;
 
-    private GuiCharacterButton   newLine, section;
+    private GuiCharacterButton newLine, section;
 
     public GuiEditNBT(final GuiNBTTree parent, final Node<NamedNBT> node, final boolean editText,
             final boolean editValue)
@@ -164,7 +161,6 @@ public class GuiEditNBT extends AbstractWidget
         try
         {
             GuiEditNBT.validValue(this.value.getValue(), this.nbt.getId());
-            valid &= true;
         }
         catch (final NumberFormatException e)
         {
@@ -179,17 +175,16 @@ public class GuiEditNBT extends AbstractWidget
         this.setX(x);
         this.setY(y);
 
-        // TODO: Check this
-        this.parent.addRenderableWidget(this.section = new GuiCharacterButton((byte) 0, x + GuiEditNBT.WIDTH - 1, y + 34, b ->
-        {
-            this.value.insertText("" + NBTStringHelper.SECTION_SIGN);
-            this.checkValidInput();
-        }, supplier -> Component.literal("Section Sign")));
-        this.parent.addRenderableWidget(this.newLine = new GuiCharacterButton((byte) 1, x + GuiEditNBT.WIDTH - 1, y + 50, b ->
-        {
-            this.value.insertText("\n");
-            this.checkValidInput();
-        }, supplier -> Component.literal("New Line")));
+        this.parent.addRenderableWidget(
+                this.section = new GuiCharacterButton((byte) 0, x + GuiEditNBT.WIDTH - 1, y + 34, b -> {
+                    this.value.insertText("" + NBTStringHelper.SECTION_SIGN);
+                    this.checkValidInput();
+                }, supplier -> Component.literal("Section Sign")));
+        this.parent.addRenderableWidget(
+                this.newLine = new GuiCharacterButton((byte) 1, x + GuiEditNBT.WIDTH - 1, y + 50, b -> {
+                    this.value.insertText("\n");
+                    this.checkValidInput();
+                }, supplier -> Component.literal("New Line")));
         final String sKey = this.node.getObject().getName();
         final String sValue = GuiEditNBT.getValue(this.nbt);
         this.parent.addRenderableWidget(this.key = new TextFieldWidget2(this.mc.font, x + 46, y + 18, 116, 15, false));
@@ -207,46 +202,26 @@ public class GuiEditNBT extends AbstractWidget
         if (!this.key.isFocused() && !this.value.isFocused()) if (this.canEditText) this.key.setFocused(true);
         else if (this.canEditValue) this.value.setFocused(true);
 
-        this.parent.addRenderableWidget(this.save = new Button.Builder(TComponent.literal("Save"), (b) -> {
-            this.saveAndQuit();
-        }).bounds(x + 9, y + 62, 75, 20).build());
+        this.parent.addRenderableWidget(
+                this.save = new Button.Builder(TComponent.literal("Save"), (b) -> this.saveAndQuit()).bounds(x + 9,
+                        y + 62, 75, 20).build());
 
-        this.parent.addRenderableWidget(new Button.Builder(TComponent.literal("Cancel"), (b) -> {
-            this.parent.closeWindow();
-        }).bounds(x + 93, y + 62, 75, 20).build());
+        this.parent.addRenderableWidget(
+                new Button.Builder(TComponent.literal("Cancel"), (b) -> this.parent.closeWindow()).bounds(x + 93,
+                        y + 62, 75, 20).build());
     }
 
     @Override
-    public boolean mouseClicked(final double p_mouseClicked_1_, final double p_mouseClicked_3_,
-            final int p_mouseClicked_5_)
+    public boolean mouseClicked(final double x, final double y, final int b)
     {
         this.checkValidInput();
-        return super.mouseClicked(p_mouseClicked_1_, p_mouseClicked_3_, p_mouseClicked_5_);
+        return super.mouseClicked(x, y, b);
     }
 
     @Override
     public void render(final GuiGraphics graphics, final int mx, final int my, final float m)
     {
-        this.active = false;
-
-        this.section.active = this.value.isFocused();
-        this.newLine.active = this.value.isFocused();
-
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, GuiEditNBT.WINDOW_TEXTURE);
-
-        // TODO: Check this
-        graphics.blit(GuiEditNBT.WINDOW_TEXTURE, this.getX(), this.getY(), 0, 0, GuiEditNBT.WIDTH, GuiEditNBT.HEIGHT);
-        if (!this.canEditText) graphics.fill(this.getX() + 42, this.getY() + 15,
-                this.getX() + 169, this.getY() + 31, 0x80000000);
-        if (!this.canEditValue) graphics.fill(this.getX() + 42, this.getY() + 41,
-                this.getX() + 169, this.getY() + 57, 0x80000000);
-
-        if (this.kError != null) graphics.drawCenteredString(this.mc.font, this.kError,
-                this.getX() + GuiEditNBT.WIDTH / 2, this.getY() + 4, 0xFF0000);
-        if (this.vError != null) graphics.drawCenteredString(this.mc.font, this.vError,
-                this.getX() + GuiEditNBT.WIDTH / 2, this.getY() + 32, 0xFF0000);
+        super.render(graphics, mx, my, m);
     }
 
     private void saveAndQuit()
@@ -268,8 +243,27 @@ public class GuiEditNBT extends AbstractWidget
     }
 
     @Override
-    protected void renderWidget(GuiGraphics graphics, int i, int i1, float v) {
-        // TODO Auto-generated method stub
+    protected void renderWidget(GuiGraphics graphics, int i, int i1, float v)
+    {
+        this.active = false;
+
+        this.section.active = this.value.isFocused();
+        this.newLine.active = this.value.isFocused();
+
+        if (this.value.isFocused()) this.key.setFocused(false);
+
+        graphics.blit(GuiEditNBT.WINDOW_TEXTURE, this.getX(), this.getY(), 0, 0, GuiEditNBT.WIDTH, GuiEditNBT.HEIGHT);
+
+        if (!this.canEditText)
+            graphics.fill(this.getX() + 42, this.getY() + 15, this.getX() + 169, this.getY() + 31, 0x80000000);
+        if (!this.canEditValue)
+            graphics.fill(this.getX() + 42, this.getY() + 41, this.getX() + 169, this.getY() + 57, 0x80000000);
+        if (this.kError != null)
+            graphics.drawCenteredString(this.mc.font, this.kError, this.getX() + GuiEditNBT.WIDTH / 2, this.getY() + 4,
+                    0xFF0000);
+        if (this.vError != null)
+            graphics.drawCenteredString(this.mc.font, this.vError, this.getX() + GuiEditNBT.WIDTH / 2, this.getY() + 32,
+                    0xFF0000);
     }
 
     @Override

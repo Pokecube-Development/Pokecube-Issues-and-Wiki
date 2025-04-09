@@ -121,8 +121,9 @@ public class TrainerEventHandler
 
             // Check for blank name, and if so, randomize it.
             final List<String> names = mob.isMale() ? TypeTrainer.maleNames : TypeTrainer.femaleNames;
-            if (!names.isEmpty() && mob.getNPCName().isEmpty()) mob.setNPCName("pokecube." + mob.getNpcType().getName()
-                    + ".named:" + names.get(ThutCore.newRandom().nextInt(names.size())));
+            if (!names.isEmpty() && mob.getNPCName().isEmpty()) mob.setNPCName(
+                    "pokecube." + mob.getNpcType().getName() + ".named:" + names.get(
+                            ThutCore.newRandom().nextInt(names.size())));
         }
 
         @Override
@@ -145,7 +146,7 @@ public class TrainerEventHandler
             }
             // Then per type.
             else if (trades != null) trades.addTrades(this.mob, this.mob.getOffers(), rand);
-            // Then just add the defaults.
+                // Then just add the defaults.
             else this.mob.getOffers().addAll(TypeTrainer.merchant.getRecipes(this.mob, rand));
         }
     }
@@ -177,7 +178,7 @@ public class TrainerEventHandler
     public static final ResourceLocation DATASCAP = ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID, "data");
     public static final ResourceLocation TRADESCAP = ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID, "trades");
 
-    public static void entityConstruct(EntityConstructing event)
+    public static void entityLivingConstruct(BrainInitEvent event)
     {
         if (!(event.getEntity() instanceof LivingEntity living)) return;
         if (living instanceof Player player)
@@ -189,8 +190,8 @@ public class TrainerEventHandler
         if (!(living instanceof Mob mob)) return;
         if (TypeTrainer.get(mob, false) == null) return;
 
-        final DefaultPokemobs mobs = new DefaultPokemobs();
-        final DefaultRewards rewards = new DefaultRewards();
+        var mobs = mob.getData(TrainerCaps.TRAINER);
+        if (!(mobs instanceof DefaultPokemobs pmobs)) return;
         ItemStack stack = ItemStack.EMPTY;
         try
         {
@@ -200,21 +201,15 @@ public class TrainerEventHandler
         {
             PokecubeAPI.LOGGER.warn("Error with default trainer rewards " + Config.instance.trainer_defeat_reward, e);
         }
-        if (!stack.isEmpty()) rewards.getRewards().add(new Reward(stack));
-        final DefaultAIStates aiStates = new DefaultAIStates();
-        final DefaultMessager messages = new DefaultMessager();
-        mobs.init(mob, aiStates, messages, rewards);
-
-        if (mob instanceof TrainerBase) mob.setData(TrainerCaps.TRADES, new DefaultTrades());
+        pmobs.init(mob);
+        var rewards = pmobs.rewards;
+        if (!stack.isEmpty() && rewards.getRewards().isEmpty()) rewards.getRewards().add(new Reward(stack));
 
         mob.setData(TrainerCaps.TRAINER, mobs);
-        mob.setData(TrainerCaps.AISTATES, aiStates);
-        mob.setData(TrainerCaps.MESSAGES, messages);
-        mob.setData(TrainerCaps.REWARDS, rewards);
 
         DataSync data = DataSync_Impl.get(mob);
         mobs.setDataSync(data);
-        
+
         if (PokecubeCore.getConfig().debug_spawning)
             PokecubeAPI.logInfo("Initializing caps " + mob + " " + mob.isAlive());
     }
@@ -242,8 +237,7 @@ public class TrainerEventHandler
     }
 
     /**
-     * This manages invulnerability of npcs to pokemobs, as well as managing the
-     * target allocation for trainers.
+     * This manages invulnerability of npcs to pokemobs, as well as managing the target allocation for trainers.
      *
      * @param evt
      */
@@ -252,9 +246,9 @@ public class TrainerEventHandler
         final IHasPokemobs pokemobHolder = TrainerCaps.getHasPokemobs(evt.getEntity());
         final IHasMessages messages = TrainerCaps.getMessages(evt.getEntity());
 
-        if (evt.getEntity() instanceof Npc && !Config.instance.pokemobsHarmNPCs
-                && (evt.getSource() instanceof PokemobDamageSource || evt.getSource() instanceof TerrainDamageSource))
-            evt.setNewDamage(0);;
+        if (evt.getEntity() instanceof Npc && !Config.instance.pokemobsHarmNPCs && (
+                evt.getSource() instanceof PokemobDamageSource || evt.getSource() instanceof TerrainDamageSource))
+            evt.setNewDamage(0);
 
         if (evt.getSource().getEntity() instanceof LivingEntity mob)
         {
@@ -272,9 +266,9 @@ public class TrainerEventHandler
         // The VillagerEntity.sawMurder handles this case just fine.
         if (e instanceof Villager) return 0;
         final IPokemob pokemob = PokemobCaps.getPokemobFor(e);
-        if (pokemob != null)
-            return pokemob.getGeneralState(GeneralStates.TAMED) ? PokecubeAdv.config.trainer_tame_kill_rep
-                    : PokecubeAdv.config.trainer_wild_kill_rep;
+        if (pokemob != null) return pokemob.getGeneralState(GeneralStates.TAMED)
+                ? PokecubeAdv.config.trainer_tame_kill_rep
+                : PokecubeAdv.config.trainer_wild_kill_rep;
         return 0;
     };
 
@@ -364,8 +358,7 @@ public class TrainerEventHandler
         final IHasPokemobs mobs = TrainerCaps.getHasPokemobs(mob);
         if (mobs == null || !(mob.level() instanceof ServerLevel slevel) || mob instanceof Player) return;
         if (mob.getPersistentData().contains("pokeadv_join")
-                && mob.getPersistentData().getLong("pokeadv_join") == mob.level().getGameTime())
-            return;
+                && mob.getPersistentData().getLong("pokeadv_join") == mob.level().getGameTime()) return;
         mob.getPersistentData().putLong("pokeadv_join", mob.level().getGameTime());
 
         if (mobs.countPokemon() != 0) return;
@@ -380,10 +373,9 @@ public class TrainerEventHandler
     }
 
     /**
-     * This deals with the interaction logic for trainers. It sends the messages
-     * for MessageState.INTERACT, as well as applies the doAction. It also
-     * handles opening the edit gui for the trainers when the player has the
-     * trainer editor.
+     * This deals with the interaction logic for trainers. It sends the messages for MessageState.INTERACT, as well as
+     * applies the doAction. It also handles opening the edit gui for the trainers when the player has the trainer
+     * editor.
      *
      * @param evt event
      */
@@ -423,15 +415,15 @@ public class TrainerEventHandler
                 evt.setCancellationResult(succeed);
             }
         }
-        if (evt.getItemStack().getItem() instanceof Linker && player instanceof ServerPlayer sp
-                && Linker.interact(sp, target, evt.getItemStack()))
+        if (evt.getItemStack().getItem() instanceof Linker && player instanceof ServerPlayer sp && Linker.interact(sp,
+                target, evt.getItemStack()))
         {
             evt.setCanceled(true);
             evt.setCancellationResult(succeed);
             return;
         }
-        if (target instanceof NpcMob npc
-                && npc.getNpcType().getInteraction().processInteract(player, evt.getHand(), npc))
+        if (target instanceof NpcMob npc && npc.getNpcType().getInteraction()
+                .processInteract(player, evt.getHand(), npc))
         {
             evt.setCanceled(true);
             evt.setCancellationResult(succeed);
@@ -544,7 +536,6 @@ public class TrainerEventHandler
 
     /**
      * This prevents trainer's pokemobs going to PC
-     *
      */
     public static void onSentToPC(final PCEvent evt)
     {
@@ -557,7 +548,6 @@ public class TrainerEventHandler
 
     /**
      * This sends pokemobs back to their NPC trainers when they are recalled.
-     *
      */
     public static void onRecalledPokemob(final RecallEvent.Pre evt)
     {
@@ -601,7 +591,6 @@ public class TrainerEventHandler
 
     /**
      * This links the pokemob to the trainer when it is sent out.
-     *
      */
     public static void onPostSendOut(final SendOut.Post evt)
     {
@@ -630,8 +619,7 @@ public class TrainerEventHandler
     }
 
     /**
-     * This manages making of trainers invisible if they have been defeated, if
-     * this is enabled for the given trainer.
+     * This manages making of trainers invisible if they have been defeated, if this is enabled for the given trainer.
      *
      * @param event
      */

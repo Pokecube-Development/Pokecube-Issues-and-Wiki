@@ -18,9 +18,9 @@ import pokecube.core.utils.Resources;
 public class Cloner extends AbstractContainerScreen<ClonerContainer>
 {
     public static ResourceLocation WIDGETS_GUI =
-            ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/pc_widgets.png");
+            ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.GUI_FOLDER + "widgets/pc_widgets.png");
     public static ResourceLocation GUI =
-            ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID, Resources.TEXTURE_GUI_FOLDER + "cloner.png");
+            ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID, Resources.GUI_FOLDER + "cloner.png");
     Button warningButton;
 
     public Cloner(final ClonerContainer screenContainer, final Inventory inv, final Component titleIn)

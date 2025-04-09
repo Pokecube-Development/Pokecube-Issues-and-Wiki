@@ -10,6 +10,13 @@ import pokecube.core.client.gui.watch.GuiPokeWatch;
 
 public abstract class ListPage<T extends AbstractSelectionList.Entry<T>> extends WatchPage
 {
+    private static final ResourceLocation SCROLLER_SPRITE = ResourceLocation.parse("pokecube:widgets/scroller");
+    private static final ResourceLocation SCROLLER_BACKGROUND_SPRITE = ResourceLocation.parse(
+            "pokecube:widgets/scroller_background");
+    private static final ResourceLocation SCROLLER_SPRITE_NM = ResourceLocation.parse("pokecube:widgets/scroller_nm");
+    private static final ResourceLocation SCROLLER_BACKGROUND_SPRITE_NM = ResourceLocation.parse(
+            "pokecube:widgets/scroller_background_nm");
+
     protected ScrollGui<T> list;
     /**
      * Set this to true if the page handles rendering the list itself.
@@ -30,20 +37,28 @@ public abstract class ListPage<T extends AbstractSelectionList.Entry<T>> extends
         graphics.drawCenteredString(this.font, this.getTitle().getString(), x, y, colour);
     }
 
+    protected void postInitList()
+    {
+        boolean nm = GuiPokeWatch.nightMode;
+        list.setScrollSprite(nm ? SCROLLER_SPRITE_NM : SCROLLER_SPRITE);
+        list.setScrollSpriteBG(nm ? SCROLLER_BACKGROUND_SPRITE_NM : SCROLLER_BACKGROUND_SPRITE);
+        this.addRenderableWidget(this.list);
+    }
+
     @Override
     public void init()
     {
         this.children().clear();
         super.init();
         this.initList();
-        this.addRenderableWidget(this.list);
+        postInitList();
     }
 
     public void initList()
     {
         if (this.list != null)
         {
-            this.children.remove(this.list);
+            this.removeWidget(this.list);
             this.list.children().forEach(entry -> {
                 if (entry instanceof INotifiedEntry notified) notified.addOrRemove(this::removeWidget);
             });
@@ -62,7 +77,7 @@ public abstract class ListPage<T extends AbstractSelectionList.Entry<T>> extends
     {
         this.children().clear();
         this.initList();
-        this.addRenderableWidget(this.list);
+        postInitList();
         super.onPageOpened();
     }
 
@@ -81,7 +96,5 @@ public abstract class ListPage<T extends AbstractSelectionList.Entry<T>> extends
             this.updateRunnable = null;
         }
         this.drawTitle(graphics, mouseX, mouseY, partialTicks);
-        // Draw the list
-//        if (!this.handlesList && this.list != null) this.list.render(graphics, mouseX, mouseY, partialTicks);
     }
 }

@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.core.HolderLookup.Provider;
 import thut.api.world.mobs.data.Data;
 import thut.api.world.mobs.data.DataSync;
+import thut.core.common.ThutCore;
 
 public abstract class Data_Base<T> implements Data<T>
 {
@@ -21,6 +22,7 @@ public abstract class Data_Base<T> implements Data<T>
     public Data_Base(String name)
     {
         this.name = name;
+        this.provider = ThutCore.proxy.getRegistries();
     }
 
     @Override

@@ -46,7 +46,7 @@ public class PlayerPokemobs extends DefaultPokemobs
     {
         super();
         this.player = player;
-        this.init(player, new DefaultAIStates(), new DefaultMessager(), new DefaultRewards());
+        this.init(player);
     }
 
     @Override

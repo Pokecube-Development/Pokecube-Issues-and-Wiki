@@ -1,9 +1,6 @@
 package pokecube.core.client.gui.watch.pokemob;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.ClickEvent;
@@ -26,6 +23,8 @@ import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.StatsCollector;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.lib.TComponent;
+
+import java.util.List;
 
 public class Description extends ListPage<LineEntry>
 {
@@ -53,7 +52,7 @@ public class Description extends ListPage<LineEntry>
             final TexButton button = this.addRenderableWidget(new TexButton.Builder(check_conditions, b -> {
                 PacketPokedex.sendCaptureCheck(e);
             }).bounds(x + 3, y + 21, 100, 12).setTexture(GuiPokeWatch.getWidgetTex())
-            		.setRender(new UVImgRender(0, 72, 100, 12)).build());
+                    .setRender(new UVImgRender(0, 72, 100, 12)).build());
 
             if (GuiPokeWatch.nightMode) button.setFGColor(0xFFE06F);
             else button.setFGColor(0xADDCFF);
@@ -114,9 +113,9 @@ public class Description extends ListPage<LineEntry>
                 || this.minecraft.player.getAbilities().instabuild;
 
         // Megas Inherit colouring from the base form.
-        if (!fullColour && pokedexEntry.isMega())
-            fullColour = StatsCollector.getCaptured(pokedexEntry.getBaseForme(), Minecraft.getInstance().player) > 0
-                    || StatsCollector.getHatched(pokedexEntry.getBaseForme(), Minecraft.getInstance().player) > 0;
+        if (!fullColour && pokedexEntry.isMega()) fullColour =
+                StatsCollector.getCaptured(pokedexEntry.getBaseForme(), Minecraft.getInstance().player) > 0
+                        || StatsCollector.getHatched(pokedexEntry.getBaseForme(), Minecraft.getInstance().player) > 0;
         final List<FormattedCharSequence> list;
         if (fullColour)
         {
@@ -148,48 +147,15 @@ public class Description extends ListPage<LineEntry>
         final PokedexEntry e = this.parent.pokemob.getPokedexEntry();
         if (PacketPokedex.haveConditions.contains(e))
         {
-            if (GuiPokeWatch.nightMode)
-            {
-                this.list = new ScrollGui<LineEntry>(this, this.minecraft, 120, height, this.font.lineHeight, offsetX, offsetY)
-                    .setScrollBarColor(255, 150, 79)
-                    .setScrollBarDarkBorder(211, 81, 29)
-                    .setScrollBarGrayBorder(244, 123, 58)
-                    .setScrollBarLightBorder(255, 190, 111)
-                    .setScrollColor(244, 123, 58)
-                    .setScrollDarkBorder(211, 81, 29)
-                    .setScrollLightBorder(255, 190, 111);
-            } else this.list = new ScrollGui<LineEntry>(this, this.minecraft, 120, height, this.font.lineHeight, offsetX, offsetY)
-                    .setScrollBarColor(83, 175, 255)
-                    .setScrollBarDarkBorder(39, 75, 142)
-                    .setScrollBarGrayBorder(69, 132, 249)
-                    .setScrollBarLightBorder(255, 255, 255)
-                    .setScrollColor(69, 132, 249)
-                    .setScrollDarkBorder(39, 75, 142)
-                    .setScrollLightBorder(255, 255, 255);
+            this.list = new ScrollGui<>(this, this.minecraft, 120, height, this.font.lineHeight, offsetX, offsetY);
 
             for (var line : list)
                 this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, line, textColour).setClickListner(listen));
-        } else {
-            if (GuiPokeWatch.nightMode)
-            {
-                this.list = new ScrollGui<LineEntry>(this,
-                    this.minecraft, 120, height, this.font.lineHeight, offsetX, offsetY)
-                    .setScrollBarColor(255, 150, 79)
-                    .setScrollBarDarkBorder(211, 81, 29)
-                    .setScrollBarGrayBorder(244, 123, 58)
-                    .setScrollBarLightBorder(255, 190, 111)
-                    .setScrollColor(244, 123, 58)
-                    .setScrollDarkBorder(211, 81, 29)
-                    .setScrollLightBorder(255, 190, 111);
-            } else this.list = new ScrollGui<LineEntry>(this,
-                    this.minecraft, 120, height, this.font.lineHeight, offsetX, offsetY)
-                    .setScrollBarColor(83, 175, 255)
-                    .setScrollBarDarkBorder(39, 75, 142)
-                    .setScrollBarGrayBorder(69, 132, 249)
-                    .setScrollBarLightBorder(255, 255, 255)
-                    .setScrollColor(69, 132, 249)
-                    .setScrollDarkBorder(39, 75, 142)
-                    .setScrollLightBorder(255, 255, 255);
+        }
+        else
+        {
+            this.list = new ScrollGui<LineEntry>(this, this.minecraft, 120, height, this.font.lineHeight, offsetX,
+                    offsetY);
 
             for (var line : list)
                 this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, line, textColour).setClickListner(listen));

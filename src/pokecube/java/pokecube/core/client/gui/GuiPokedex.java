@@ -98,7 +98,8 @@ public class GuiPokedex extends Screen
         int xOffset = this.width / 2;
 
         this.pokemobSearchBox = new EditBox(this.font, xOffset - 60, yOffset + 40, 103, 12, TComponent.literal(""));
-        this.pokemobSearchBox.setTooltip(Tooltip.create(Component.translatable("editbox.pokecube.pokedex.search.tooltip")));
+        this.pokemobSearchBox.setTooltip(
+                Tooltip.create(Component.translatable("editbox.pokecube.pokedex.search.tooltip")));
         this.pokemobSearchBox.setBordered(false);
         this.pokemobSearchBox.setEditable(true);
 
@@ -112,8 +113,7 @@ public class GuiPokedex extends Screen
         this.soundButton = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
             float volume = 1F;
             this.minecraft.player.playSound(GuiPokedex.pokedexEntry.getSoundEvent(), volume, 1.0F);
-        }).bounds(xOffset - 122, yOffset + 66, 16, 18)
-                .setRender(new TexButton.UVImgRender(0, 0, 16, 18))
+        }).bounds(xOffset - 122, yOffset + 66, 16, 18).setRender(new TexButton.UVImgRender(0, 0, 16, 18))
                 .setTexture(Resources.WIDGETS_POKEDEX)
                 .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokedex.sound.tooltip")))
                 .createNarration(supplier -> Component.translatable("button.pokecube.pokedex.sound.narrate")).build());
@@ -125,19 +125,18 @@ public class GuiPokedex extends Screen
             GuiPokedex.pokedexEntry = Pokedex.getInstance().getPrevious(GuiPokedex.pokedexEntry, 1);
             this.initList();
             PacketPokedex.updateWatchEntry(GuiPokedex.pokedexEntry);
-        }).bounds(xOffset - 33, yOffset + 62, 10, 18)
-                .setRender(new TexButton.UVImgRender(16, 0, 10, 18))
+        }).bounds(xOffset - 33, yOffset + 62, 10, 18).setRender(new TexButton.UVImgRender(16, 0, 10, 18))
                 .setTexture(Resources.WIDGETS_POKEDEX)
                 .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokedex.previous.tooltip")))
-                .createNarration(supplier -> Component.translatable("button.pokecube.pokedex.previous.narrate")).build());
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokedex.previous.narrate"))
+                .build());
 
         // Next Button
         this.nextButton = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
             GuiPokedex.pokedexEntry = Pokedex.getInstance().getNext(GuiPokedex.pokedexEntry, 1);
             this.initList();
             PacketPokedex.updateWatchEntry(GuiPokedex.pokedexEntry);
-        }).bounds(xOffset - 19, yOffset + 62, 10, 18)
-                .setRender(new TexButton.UVImgRender(26, 0, 10, 18))
+        }).bounds(xOffset - 19, yOffset + 62, 10, 18).setRender(new TexButton.UVImgRender(26, 0, 10, 18))
                 .setTexture(Resources.WIDGETS_POKEDEX)
                 .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokedex.next.tooltip")))
                 .createNarration(supplier -> Component.translatable("button.pokecube.pokedex.next.narrate")).build());
@@ -147,8 +146,7 @@ public class GuiPokedex extends Screen
             GuiPokedex.pokedexEntry = Pokedex.getInstance().getPrevious(GuiPokedex.pokedexEntry, 10);
             this.initList();
             PacketPokedex.updateWatchEntry(GuiPokedex.pokedexEntry);
-        }).bounds(xOffset - 25, yOffset + 70, 8, 18)
-                .setRender(new TexButton.UVImgRender(44, 0, 8, 18))
+        }).bounds(xOffset - 25, yOffset + 70, 8, 18).setRender(new TexButton.UVImgRender(44, 0, 8, 18))
                 .setTexture(Resources.WIDGETS_POKEDEX)
                 .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokedex.down.tooltip")))
                 .createNarration(supplier -> Component.translatable("button.pokecube.pokedex.down.narrate")).build());
@@ -158,8 +156,7 @@ public class GuiPokedex extends Screen
             GuiPokedex.pokedexEntry = Pokedex.getInstance().getNext(GuiPokedex.pokedexEntry, 10);
             this.initList();
             PacketPokedex.updateWatchEntry(GuiPokedex.pokedexEntry);
-        }).bounds(xOffset - 25, yOffset + 58, 8, 12)
-                .setRender(new TexButton.UVImgRender(36, 0, 8, 12))
+        }).bounds(xOffset - 25, yOffset + 58, 8, 12).setRender(new TexButton.UVImgRender(36, 0, 8, 12))
                 .setTexture(Resources.WIDGETS_POKEDEX)
                 .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokedex.up.tooltip")))
                 .createNarration(supplier -> Component.translatable("button.pokecube.pokedex.up.narrate")).build());
@@ -174,14 +171,8 @@ public class GuiPokedex extends Screen
         final int offsetY = (this.height - 160) / 2 + 22;
         final int height = 15 * this.font.lineHeight;
 
-        this.list = new ScrollGui<LineEntry>(this, this.minecraft, 108, height, this.font.lineHeight, offsetX, offsetY + 1)
-                .setScrollBarColor(255, 12, 53)
-                .setScrollBarDarkBorder(107, 6, 24)
-                .setScrollBarGrayBorder(193, 9, 43)
-                .setScrollBarLightBorder(255, 150, 169)
-                .setScrollColor(193, 9, 43)
-                .setScrollDarkBorder(107, 6, 24)
-                .setScrollLightBorder(255, 150, 169);
+        this.list = new ScrollGui<>(this, this.minecraft, 108, height, this.font.lineHeight, offsetX,
+                offsetY + 1);
 
         MutableComponent page;
         String key = "entity.pokecube." + GuiPokedex.pokedexEntry.getTrimmedName() + ".dexDesc";
@@ -306,8 +297,7 @@ public class GuiPokedex extends Screen
         graphics.blit(Resources.GUI_POKEDEX, j2, k2, 0, 0, this.xSize, this.ySize);
 
         // Draw mob
-        final IPokemob renderMob = EventsHandlerClient.getRenderMob(GuiPokedex.pokedexEntry,
-                this.PlayerEntity.level());
+        final IPokemob renderMob = EventsHandlerClient.getRenderMob(GuiPokedex.pokedexEntry, this.PlayerEntity.level());
         if (!renderMob.getEntity().isAddedToLevel())
             EntityTools.copyEntityTransforms(renderMob.getEntity(), this.PlayerEntity);
 
@@ -319,9 +309,9 @@ public class GuiPokedex extends Screen
                 || this.minecraft.player.getAbilities().instabuild;
 
         // Megas Inherit colouring from the base form.
-        if (!fullColour && pokedexEntry.isMega())
-            fullColour = StatsCollector.getCaptured(pokedexEntry.getBaseForme(), Minecraft.getInstance().player) > 0
-                    || StatsCollector.getHatched(pokedexEntry.getBaseForme(), Minecraft.getInstance().player) > 0;
+        if (!fullColour && pokedexEntry.isMega()) fullColour =
+                StatsCollector.getCaptured(pokedexEntry.getBaseForme(), Minecraft.getInstance().player) > 0
+                        || StatsCollector.getHatched(pokedexEntry.getBaseForme(), Minecraft.getInstance().player) > 0;
         // Set colouring accordingly.
         if (fullColour) renderMob.setRGBA(255, 255, 255, 255);
         else if (stats.hasInspected(pokedexEntry)) renderMob.setRGBA(127, 127, 127, 255);
@@ -339,20 +329,24 @@ public class GuiPokedex extends Screen
         int xOffset = this.width / 2;
         final int nb = GuiPokedex.pokedexEntry != null ? GuiPokedex.pokedexEntry.getPokedexNb() : 0;
         final String pokemobNum = "#" + nb;
-        final PokeType type1 = this.pokemob != null && GuiPokedex.pokedexEntry == this.pokemob.getPokedexEntry() ? this.pokemob.getType1()
+        final PokeType type1 = this.pokemob != null && GuiPokedex.pokedexEntry == this.pokemob.getPokedexEntry()
+                ? this.pokemob.getType1()
                 : GuiPokedex.pokedexEntry != null ? GuiPokedex.pokedexEntry.getType1() : PokeType.unknown;
-        final PokeType type2 = this.pokemob != null && GuiPokedex.pokedexEntry == this.pokemob.getPokedexEntry() ? this.pokemob.getType2()
+        final PokeType type2 = this.pokemob != null && GuiPokedex.pokedexEntry == this.pokemob.getPokedexEntry()
+                ? this.pokemob.getType2()
                 : GuiPokedex.pokedexEntry != null ? GuiPokedex.pokedexEntry.getType2() : PokeType.unknown;
-        graphics.drawCenteredString(this.font, pokemobNum, xOffset - 28 - pokemobNum.length()/2, yOffset + 8, 0xffffff);
+        graphics.drawCenteredString(this.font, pokemobNum, xOffset - 28 - pokemobNum.length() / 2, yOffset + 8,
+                0xffffff);
         try
         {
-            graphics.drawCenteredString(this.font, PokeType.getTranslatedName(type1), xOffset - 88,
-                    yOffset + 140, type1.colour);
-            graphics.drawCenteredString(this.font, PokeType.getTranslatedName(type2), xOffset - 44,
-                    yOffset + 140, type2.colour);
+            graphics.drawCenteredString(this.font, PokeType.getTranslatedName(type1), xOffset - 88, yOffset + 140,
+                    type1.colour);
+            graphics.drawCenteredString(this.font, PokeType.getTranslatedName(type2), xOffset - 44, yOffset + 140,
+                    type2.colour);
         }
         catch (final Exception e)
-        {}
+        {
+        }
 
         // Draw default gui stuff.
         final int length = this.font.width(this.pokemobSearchBox.getValue()) / 2;

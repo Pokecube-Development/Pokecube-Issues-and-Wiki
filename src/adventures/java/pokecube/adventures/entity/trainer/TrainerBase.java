@@ -1,8 +1,5 @@
 package pokecube.adventures.entity.trainer;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -16,6 +13,7 @@ import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.Level;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
+import pokecube.adventures.capabilities.CapabilityHasTrades;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.utils.TrainerTracker;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -38,6 +36,9 @@ import thut.wearables.EnumWearable;
 import thut.wearables.ThutWearables;
 import thut.wearables.inventory.PlayerWearables;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class TrainerBase extends NpcMob
 {
     public static final ResourceLocation BRIBE = ResourceLocation.parse(PokecubeAdv.MODID + ":trainer_bribe");
@@ -59,11 +60,19 @@ public abstract class TrainerBase extends NpcMob
         this.rewardsCap = TrainerCaps.getHasRewards(this);
         this.messages = TrainerCaps.getMessages(this);
         this.aiStates = TrainerCaps.getNPCAIStates(this);
-        this.trades = TrainerCaps.getHasTrades(this);
         if (this.pokemobsCap == null)
         {
             Thread.dumpStack();
         }
+    }
+
+    protected IHasTrades getTradesHolder()
+    {
+        if (trades == null)
+        {
+            this.setData(TrainerCaps.TRADES, this.trades = new CapabilityHasTrades.DefaultTrades());
+        }
+        return trades;
     }
 
     public boolean canTrade(final Player player)
@@ -71,8 +80,8 @@ public abstract class TrainerBase extends NpcMob
         final boolean friend = this.pokemobsCap.friendlyCooldown >= 0;
         final boolean pity = this.pokemobsCap.defeated(player);
         final boolean lost = this.pokemobsCap.defeatedBy(player);
-        final boolean trades = this.aiStates.getAIState(AIState.TRADES_ITEMS)
-                || this.aiStates.getAIState(AIState.TRADES_MOBS);
+        final boolean trades =
+                this.aiStates.getAIState(AIState.TRADES_ITEMS) || this.aiStates.getAIState(AIState.TRADES_MOBS);
         return trades && (friend || pity || lost);
     }
 
@@ -86,8 +95,8 @@ public abstract class TrainerBase extends NpcMob
                 this.pokemobsCap.throwCubeAt(player);
             return InteractionResult.sidedSuccess(this.level.isClientSide);
         }
-        else if (ItemList.is(TrainerBase.BRIBE, stack) && this.pokemobsCap.friendlyCooldown <= 0
-                && !this.getOffers().isEmpty())
+        else if (ItemList.is(TrainerBase.BRIBE, stack) && this.pokemobsCap.friendlyCooldown <= 0 && !this.getOffers()
+                .isEmpty())
         {
             stack.split(1);
             player.setItemInHand(hand, stack);
@@ -202,20 +211,20 @@ public abstract class TrainerBase extends NpcMob
     public void resetTrades()
     {
         super.resetTrades();
-        this.trades.setOffers(this.offers = null);
+        this.getTradesHolder().setOffers(this.offers = null);
     }
 
     @Override
     protected void rewardTradeXp(final MerchantOffer offer)
     {
-        this.trades.applyTrade(offer);
+        this.getTradesHolder().applyTrade(offer);
         super.rewardTradeXp(offer);
     }
 
     @Override
     public void setTradingPlayer(final Player player)
     {
-        this.trades.setCustomer(player);
+        this.getTradesHolder().setCustomer(player);
         super.setTradingPlayer(player);
     }
 
@@ -257,7 +266,7 @@ public abstract class TrainerBase extends NpcMob
     @Override
     protected void onSetOffers()
     {
-        this.trades.setOffers(this.offers);
+        this.getTradesHolder().setOffers(this.offers);
     }
 
     @Override
@@ -270,7 +279,7 @@ public abstract class TrainerBase extends NpcMob
     @Override
     public void notifyTradeUpdated(final ItemStack stack)
     {
-        this.trades.verify(stack);
+        this.getTradesHolder().verify(stack);
         super.notifyTradeUpdated(stack);
     }
 

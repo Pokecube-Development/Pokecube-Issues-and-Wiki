@@ -1,11 +1,8 @@
 package pokecube.nbtedit.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.nbtedit.NBTStringHelper;
 import pokecube.nbtedit.nbt.NamedNBT;
@@ -45,7 +42,7 @@ public class GuiNBTNode extends Button
     @Override
     public boolean clicked(final double x, final double y)
     {
-        if (!this.shouldDraw(this.tree.START_Y + 5, this.tree.bottom)) return false;
+        if (this.shouldNotDraw(this.tree.START_Y + 5, this.tree.bottom)) return false;
         return super.clicked(x, y);
     }
 
@@ -73,7 +70,7 @@ public class GuiNBTNode extends Button
     @Override
     public void render(final GuiGraphics graphics, final int mx, final int my, final float m)
     {
-        if (!this.shouldDraw(this.tree.START_Y + 5, this.tree.bottom)) return;
+        if (this.shouldNotDraw(this.tree.START_Y + 5, this.tree.bottom)) return;
 
         this.x2 = mx;
         this.y2 = my;
@@ -84,11 +81,6 @@ public class GuiNBTNode extends Button
         final int dx = this.node.hasChildren() ? 10 : 0;
         final int x = this.getX() + dx;
 
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, GuiNBTNode.WIDGET_TEXTURE);
-
-        // TODO: Check this
         if (selected) graphics.fill(x + 11, this.getY(), x + this.width, this.getY() + this.height, Integer.MIN_VALUE);
         if (this.node.hasChildren()) graphics.blit(GuiNBTNode.WIDGET_TEXTURE, x - 9, this.getY(),
                 this.node.shouldDrawChildren() ? 9 : 0, chHover ? this.height : 0, 9, this.height);
@@ -102,9 +94,9 @@ public class GuiNBTNode extends Button
         this.setY(this.getY() + dy);
     }
 
-    public boolean shouldDraw(final int top, final int bottom)
+    public boolean shouldNotDraw(final int top, final int bottom)
     {
-        return this.getY() + this.height >= top && this.getY() <= bottom;
+        return this.getY() + this.height < top || this.getY() > bottom;
     }
 
     public boolean shouldDrawChildren()

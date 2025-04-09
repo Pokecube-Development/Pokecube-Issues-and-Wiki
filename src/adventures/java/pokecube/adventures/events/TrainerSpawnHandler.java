@@ -229,7 +229,7 @@ public class TrainerSpawnHandler
         if (w.isClientSide) return;
         if (!SpawnHandler.canSpawnInWorld(w)) return;
         final List<ServerPlayer> players = w.players();
-        if (players.size() < 1) return;
+        if (players.isEmpty()) return;
         final Player p = players.get(w.random.nextInt(players.size()));
         Vector3 v = TrainerSpawnHandler.getRandomSpawningPointNearEntity(w, p, Config.instance.trainerBox);
         if (v == null) return;

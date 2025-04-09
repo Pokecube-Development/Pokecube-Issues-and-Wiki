@@ -28,7 +28,7 @@ public abstract class MixinLivingEntityInit extends Entity
     public void onConstructor(EntityType<? extends LivingEntity> type, Level level, CallbackInfo ci)
     {
         LivingEntity living = (LivingEntity) (Object) this;
-        ThutCore.FORGE_BUS.post(new BrainInitEvent(living));
+        ThutCore.FORGE_BUS.post(new BrainInitEvent(living, true));
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At(value = "RETURN"))
@@ -41,7 +41,7 @@ public abstract class MixinLivingEntityInit extends Entity
         if (this.level instanceof ServerLevel)
         {
             LivingEntity living = (LivingEntity) (Object) this;
-            ThutCore.FORGE_BUS.post(new BrainInitEvent(living));
+            ThutCore.FORGE_BUS.post(new BrainInitEvent(living, false));
             AITools.reloadBrain(living, compound);
         }
     }

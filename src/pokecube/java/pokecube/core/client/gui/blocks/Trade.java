@@ -29,17 +29,17 @@ import thut.lib.TComponent;
 public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
 {
     public static ResourceLocation TRADE_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID,
-            Resources.TEXTURE_GUI_FOLDER + "trade_machine.png");
+            Resources.GUI_FOLDER + "trade_machine.png");
     public static ResourceLocation WIDGETS_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID,
-            Resources.TEXTURE_GUI_FOLDER + "widgets/pc_widgets.png");
+            Resources.GUI_FOLDER + "widgets/pc_widgets.png");
     public static ResourceLocation TRADE_LIGHT_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID,
-            Resources.TEXTURE_GUI_FOLDER + "trade_machine_light.png");
+            Resources.GUI_FOLDER + "trade_machine_light.png");
     public static ResourceLocation WIDGETS_LIGHT_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID,
-            Resources.TEXTURE_GUI_FOLDER + "widgets/pc_widgets_light.png");
+            Resources.GUI_FOLDER + "widgets/pc_widgets_light.png");
     public static ResourceLocation TRADE_DARK_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID,
-            Resources.TEXTURE_GUI_FOLDER + "trade_machine_dark.png");
+            Resources.GUI_FOLDER + "trade_machine_dark.png");
     public static ResourceLocation WIDGETS_DARK_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID,
-            Resources.TEXTURE_GUI_FOLDER + "widgets/pc_widgets_dark.png");
+            Resources.GUI_FOLDER + "widgets/pc_widgets_dark.png");
     Button darkModeButton;
     Button lightModeButton;
     Button tradeButton;

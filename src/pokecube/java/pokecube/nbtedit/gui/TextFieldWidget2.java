@@ -21,13 +21,18 @@ public class TextFieldWidget2 extends EditBox
     {
         String s = "";
         final String s1 = CharacterFilter.filterAllowedCharacters(textToWrite, this.allowSection);
-        final int i = this.getCursorPosition() < this.highlightPos ? this.getCursorPosition() : this.highlightPos;
-        final int j = this.getCursorPosition() < this.highlightPos ? this.highlightPos : this.getCursorPosition();
-        final int k = this.getCursorPosition() - this.value.length() - (i - j);
+        final int i = Math.min(this.getCursorPosition(), this.highlightPos);
+        final int j = Math.max(this.getCursorPosition(), this.highlightPos);
+        final int k = this.getCursorPosition();
         if (!this.getValue().isEmpty()) s = s + this.getValue().substring(0, i);
 
         int l;
-        if (k < s1.length())
+        if (s.isEmpty())
+        {
+            s = textToWrite;
+            l = textToWrite.length();
+        }
+        else if (k < s1.length())
         {
             s = s + s1.substring(0, k);
             l = k;

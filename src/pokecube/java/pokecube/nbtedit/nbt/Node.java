@@ -6,10 +6,10 @@ import java.util.List;
 public class Node<T>
 {
 
-    private List<Node<T>> children;
+    private final List<Node<T>> children;
 
     private Node<T> parent;
-    private T obj;
+    private final T obj;
 
     private boolean drawChildren;
 
@@ -58,17 +58,12 @@ public class Node<T>
 
     public boolean hasChildren()
     {
-        return this.children.size() > 0;
+        return !this.children.isEmpty();
     }
 
     public boolean hasParent()
     {
         return this.parent != null;
-    }
-
-    public boolean removeChild(Node<T> n)
-    {
-        return this.children.remove(n);
     }
 
     public void setDrawChildren(boolean draw)

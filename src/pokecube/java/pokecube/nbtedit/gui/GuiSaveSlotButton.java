@@ -1,16 +1,12 @@
 package pokecube.nbtedit.gui;
 
-import org.lwjgl.glfw.GLFW;
-
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import org.lwjgl.glfw.GLFW;
 import pokecube.nbtedit.nbt.SaveStates;
 import thut.lib.TComponent;
 
@@ -75,11 +71,6 @@ public class GuiSaveSlotButton extends Button
         int textColor = this.isHoveredOrFocused() ? 16777120 : 0xffffff;
         this.renderVanillaButton(graphics, this.getX(), this.getY(), 0, 66, this.width, GuiSaveSlotButton.HEIGHT);
         graphics.drawCenteredString(this.mc.font, this.getMessage(), this.getX() + this.width / 2, this.getY() + 6, textColor);
-        // TODO: Fix this
-//        if (this.tickCount != -1 && this.tickCount / 6 % 2 == 0)
-//            this.mc.font.drawShadow(graphics, "_", this.getX() +
-//                    (this.width + this.mc.font.width(this.getMessage().getString())) / 2 + 1, this.getY() + 6, 0xffffff);
-
         if (this.xVisible)
         {
             textColor = this.inBoundsOfX(mx, my) ? 16777120 : 0xffffff;
@@ -106,10 +97,6 @@ public class GuiSaveSlotButton extends Button
     private void renderVanillaButton(final GuiGraphics graphics, final int x, final int y, final int u, final int v, final int width,
             final int height)
     {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, GuiSaveSlotButton.TEXTURE);
-
         // TODO: Check this
         // Top Left
         graphics.blit(GuiSaveSlotButton.TEXTURE, x, y, u, v, width / 2, height / 2);

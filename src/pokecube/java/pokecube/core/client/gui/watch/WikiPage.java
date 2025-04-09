@@ -1,15 +1,7 @@
 package pokecube.core.client.gui.watch;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Tooltip;
@@ -34,16 +26,23 @@ import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.handlers.PokedexInspector.IInspectReward;
 import thut.lib.TComponent;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class WikiPage extends ListPage<LineEntry>
 {
     public static class WikiLine extends LineEntry
     {
         final int page;
 
-        public WikiLine(final ScrollGui<LineEntry> list, final int y0, final int y1, final Font fontRender,
+        public WikiLine(final ScrollGui<LineEntry> list, final int x0, final int y1, final Font fontRender,
                 final FormattedCharSequence line, final int page)
         {
-            super(list, y0, y1, fontRender, line, 0);
+            super(list, x0, y1, fontRender, line, 0);
             this.page = page;
         }
     }
@@ -145,10 +144,10 @@ public class WikiPage extends ListPage<LineEntry>
                 .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.night_mode.narrate"))
                 .setTexture(GuiPokeWatch.getWidgetTex()).build());
 
-        if (GuiPokeWatch.nightMode) this.nightMode
-                .setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.light_mode.tooltip")));
-        else this.nightMode
-                .setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.dark_mode.tooltip")));
+        if (GuiPokeWatch.nightMode) this.nightMode.setTooltip(
+                Tooltip.create(Component.translatable("button.pokecube.pokewatch.light_mode.tooltip")));
+        else this.nightMode.setTooltip(
+                Tooltip.create(Component.translatable("button.pokecube.pokewatch.dark_mode.tooltip")));
     }
 
     private void setList()
@@ -165,22 +164,7 @@ public class WikiPage extends ListPage<LineEntry>
 
         if (this.list != null) this.children.remove(this.list);
 
-        if (GuiPokeWatch.nightMode)
-        {
-            this.list = new ScrollGui<LineEntry>(this, this.minecraft, 228, height, this.font.lineHeight, offsetX,
-                    offsetY).setScrollBarColor(255, 150, 79).setScrollBarDarkBorder(211, 81, 29)
-                            .setScrollBarGrayBorder(244, 123, 58).setScrollBarLightBorder(255, 190, 111)
-                            .setScrollColor(244, 123, 58).setScrollDarkBorder(211, 81, 29)
-                            .setScrollLightBorder(255, 190, 111);
-        }
-        else
-        {
-            this.list = new ScrollGui<LineEntry>(this, this.minecraft, 228, height, this.font.lineHeight, offsetX,
-                    offsetY).setScrollBarColor(83, 175, 255).setScrollBarDarkBorder(39, 75, 142)
-                            .setScrollBarGrayBorder(69, 132, 249).setScrollBarLightBorder(255, 255, 255)
-                            .setScrollColor(69, 132, 249).setScrollDarkBorder(39, 75, 142)
-                            .setScrollLightBorder(255, 255, 255);
-        }
+        this.list = new ScrollGui<>(this, this.minecraft, 228, height, this.font.lineHeight, offsetX, offsetY);
 
         // x - 5 / y
         if (books.isEmpty()) return;
@@ -207,21 +191,21 @@ public class WikiPage extends ListPage<LineEntry>
             System.out.println(books.get(this.index).getInfoStack(lang).get(DataComponents.WRITTEN_BOOK_CONTENT));
             Thread.dumpStack();
             // TODO item book pages rendered here.
-//            final ItemStack bookStack = books.get(this.index).getInfoStack(lang);
-//            if (!bookStack.hasTag()) return;
-//            final CompoundTag tag = bookStack.getTag();
-//            final ListTag bookPages = tag.getList("pages", 8);
-//            for (int i = 0; i < bookPages.size(); i++)
-//            {
-//                final MutableComponent page = Component.Serializer.fromJsonLenient(bookPages.getString(i));
-//                var list = this.font.split(page, 215);
-//                for (var line : list)
-//                {
-//                    final LineEntry wikiline = new WikiLine(this.list, -5, 0, this.font, line, i)
-//                            .setClickListner(listener);
-//                    this.list.addEntry(wikiline);
-//                }
-//            }
+            //            final ItemStack bookStack = books.get(this.index).getInfoStack(lang);
+            //            if (!bookStack.hasTag()) return;
+            //            final CompoundTag tag = bookStack.getTag();
+            //            final ListTag bookPages = tag.getList("pages", 8);
+            //            for (int i = 0; i < bookPages.size(); i++)
+            //            {
+            //                final MutableComponent page = Component.Serializer.fromJsonLenient(bookPages.getString(i));
+            //                var list = this.font.split(page, 215);
+            //                for (var line : list)
+            //                {
+            //                    final LineEntry wikiline = new WikiLine(this.list, -5, 0, this.font, line, i)
+            //                            .setClickListner(listener);
+            //                    this.list.addEntry(wikiline);
+            //                }
+            //            }
         }
         else
         {

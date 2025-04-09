@@ -15,7 +15,7 @@ import pokecube.core.utils.Resources;
 public class Trainer extends AbstractContainerScreen<ContainerTrainer>
 {
     public final static ResourceLocation TRAINER_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID,
-            Resources.TEXTURE_GUI_FOLDER + "trainergui.png");
+            Resources.GUI_FOLDER + "trainergui.png");
 
     public Trainer(final ContainerTrainer screenContainer, final Inventory inv, final Component titleIn)
     {

@@ -25,15 +25,20 @@ import thut.lib.TComponent;
 
 public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
 {
-    public static ResourceLocation TM_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "tm_machine.png");
-    public static ResourceLocation WIDGETS_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/pc_widgets.png");
-    public static ResourceLocation TM_LIGHT_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "tm_machine_light.png");
-    public static ResourceLocation WIDGETS_LIGHT_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/pc_widgets_light.png");
-    public static ResourceLocation TM_DARK_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "tm_machine_dark.png");
+    public static ResourceLocation TM_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.GUI_FOLDER + "tm_machine.png");
+    public static ResourceLocation WIDGETS_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.GUI_FOLDER
+            + "widgets/pc_widgets.png");
+    public static ResourceLocation TM_LIGHT_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.GUI_FOLDER
+            + "tm_machine_light.png");
+    public static ResourceLocation WIDGETS_LIGHT_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.GUI_FOLDER
+            + "widgets/pc_widgets_light.png");
+    public static ResourceLocation TM_DARK_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.GUI_FOLDER
+            + "tm_machine_dark.png");
 
-    public static ResourceLocation WIDGETS_DARK_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/pc_widgets_dark.png");
+    public static ResourceLocation WIDGETS_DARK_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.GUI_FOLDER
+            + "widgets/pc_widgets_dark.png");
     public static ResourceLocation WARNING_ICON =
-            ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "icons/warning_icon.png");
+            ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.GUI_FOLDER + "icons/warning_icon.png");
 
     private EditBox searchBar;
     Button applyButton;

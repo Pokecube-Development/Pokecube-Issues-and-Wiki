@@ -1,30 +1,20 @@
 package pokecube.nbtedit.gui;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.function.Supplier;
-
-import net.minecraft.network.chat.MutableComponent;
-import org.lwjgl.glfw.GLFW;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.sounds.SoundEvents;
+import org.lwjgl.glfw.GLFW;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.nbtedit.NBTStringHelper;
 import pokecube.nbtedit.nbt.NBTTree;
@@ -32,6 +22,11 @@ import pokecube.nbtedit.nbt.NamedNBT;
 import pokecube.nbtedit.nbt.Node;
 import pokecube.nbtedit.nbt.SaveStates;
 import thut.lib.TComponent;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
 
 /*
  * The main Gui class for NBTEdit. This implementation is messy, naive, and
@@ -50,8 +45,6 @@ public class GuiNBTTree extends Screen
     private final List<GuiNBTNode> nodes;
     private final GuiSaveSlotButton[] saves;
     private final GuiNBTButton[] nbtButtons;
-
-    private final int X_GAP = 10, START_X = 10;
 
     final int START_Y = 30;
     private final int Y_GAP = Minecraft.getInstance().font.lineHeight + 2;
@@ -126,7 +119,8 @@ public class GuiNBTTree extends Screen
         final GuiNBTNode nbtNode = new GuiNBTNode(this, node, x - dx, this.y, Supplier::get);
         this.nodes.add(nbtNode);
         this.addRenderableWidget(nbtNode);
-        x += this.X_GAP;
+        int x_GAP = 10;
+        x += x_GAP;
         this.y += this.Y_GAP;
         if (node.shouldDrawChildren()) for (final Node<NamedNBT> child : node.getChildren()) this.addNodes(child, x);
     }
@@ -136,13 +130,11 @@ public class GuiNBTTree extends Screen
         final SaveStates saveStates = NBTEdit.getSaveStates();
         for (int i = 0; i < 7; ++i)
         {
-            // TODO: Check this
             this.saves[i] = new GuiSaveSlotButton(saveStates.getSaveState(i), this.width - 24, 31 + i * 25, b -> {
                 final GuiSaveSlotButton button = (GuiSaveSlotButton) b;
                 button.reset();
                 NBTEdit.getSaveStates().save();
                 this.mc.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
-                return;
             }, Supplier::get);
             this.addRenderableWidget(this.saves[i]);
         }
@@ -156,7 +148,6 @@ public class GuiNBTTree extends Screen
             this.shiftFocus(up);
             return true;
         }
-        ;
         return false;
     }
 
@@ -186,7 +177,7 @@ public class GuiNBTTree extends Screen
                     this.setFocusedNode(newNode);
                 }
             }
-            else if (children.size() == 0) this.setFocusedNode(this.insert(type + "1", button.getId()));
+            else if (children.isEmpty()) this.setFocusedNode(this.insert(type + "1", button.getId()));
             else for (int i = 1; i <= children.size() + 1; ++i)
                 {
                     final String name = type + i;
@@ -203,10 +194,9 @@ public class GuiNBTTree extends Screen
     private boolean canAddToParent(final Tag parent, final Tag child)
     {
         if (parent instanceof CompoundTag) return true;
-        if (parent instanceof ListTag)
+        if (parent instanceof ListTag list)
         {
-            final ListTag list = (ListTag) parent;
-            return list.size() == 0 || list.getElementType() == child.getId();
+            return list.isEmpty() || list.getElementType() == child.getId();
         }
         return false;
     }
@@ -220,6 +210,11 @@ public class GuiNBTTree extends Screen
     @Override
     public boolean charTyped(final char ch, final int key)
     {
+        if (this.window != null && this.getFocused() instanceof GuiNBTNode)
+        {
+            this.setFocused(this.window);
+        }
+
         if (this.focusedSlotIndex != -1)
         {
             this.saves[this.focusedSlotIndex].charTyped(ch, key);
@@ -312,16 +307,7 @@ public class GuiNBTTree extends Screen
                 }
                 else
                 {
-                    float scrollMultiplier = 1.0F;
-                    int height = this.getHeightDifference();
-
-                    if (height < 1) height = 1;
-                    int length = (this.bottom - (this.START_Y - 1)) * (this.bottom - (this.START_Y - 1))
-                            / this.getContentHeight();
-                    if (length < 32) length = 32;
-                    if (length > this.bottom - (this.START_Y - 1) - 8) length = this.bottom - (this.START_Y - 1) - 8;
-
-                    scrollMultiplier /= (float) (this.bottom - (this.START_Y - 1) - length) / (float) height;
+                    float scrollMultiplier = getScrollMultiplier();
 
                     this.shift((int) ((this.yClick - my) * scrollMultiplier));
                     this.yClick = my;
@@ -341,6 +327,21 @@ public class GuiNBTTree extends Screen
 
             graphics.fillGradient(this.width - 20, y, this.width, y + length, 0x80ffffff, 0x80333333);
         }
+    }
+
+    private float getScrollMultiplier()
+    {
+        float scrollMultiplier = 1.0F;
+        int height = this.getHeightDifference();
+
+        if (height < 1) height = 1;
+        int length = (this.bottom - (this.START_Y - 1)) * (this.bottom - (this.START_Y - 1))
+                / this.getContentHeight();
+        if (length < 32) length = 32;
+        if (length > this.bottom - (this.START_Y - 1) - 8) length = this.bottom - (this.START_Y - 1) - 8;
+
+        scrollMultiplier /= (float) (this.bottom - (this.START_Y - 1) - length) / (float) height;
+        return scrollMultiplier;
     }
 
     private void edit()
@@ -392,11 +393,6 @@ public class GuiNBTTree extends Screen
         return this.Y_GAP * this.nodes.size();
     }
 
-    public GuiSaveSlotButton getFocusedSaveSlot()
-    {
-        return this.focusedSlotIndex != -1 ? this.saves[this.focusedSlotIndex] : null;
-    }
-
     private int getHeightDifference()
     {
         return this.getContentHeight() - (this.bottom - this.START_Y + 2);
@@ -435,7 +431,8 @@ public class GuiNBTTree extends Screen
             this.children.add(this.window);
         }
 
-        this.addNodes(this.tree.getRoot(), this.START_X);
+        int START_X = 10;
+        this.addNodes(this.tree.getRoot(), START_X);
         this.addButtons();
         this.addSaveSlotButtons();
         if (this.focused != null) if (!this.checkValidFocus(this.focused)) this.setFocusedNode(null);
@@ -521,7 +518,7 @@ public class GuiNBTTree extends Screen
             }
             if (!this.reInit)
             { // Check actual nodes, remove focus if nothing clicked
-                Node<NamedNBT> newFocus = null;
+                Node<NamedNBT> newFocus;
                 newFocus = node.getNode();
                 if (this.focusedSlotIndex != -1) this.stopEditingSlot();
                 this.setFocusedNode(newFocus);
@@ -532,7 +529,7 @@ public class GuiNBTTree extends Screen
     public void nodeEdited(final Node<NamedNBT> node)
     {
         final Node<NamedNBT> parent = node.getParent();
-        Collections.sort(parent.getChildren(), NBTEdit.SORTER);
+        parent.getChildren().sort(NBTEdit.SORTER);
         this.initGUI(true);
     }
 
@@ -609,11 +606,19 @@ public class GuiNBTTree extends Screen
         }
         this.overlayBackground(0, this.START_Y - 1, 255, 255);
         this.overlayBackground(this.bottom, this.height, 255, 255);
-        super.render(graphics, mx, my, ticks);
-        // TODO: Fix this
-        // Render the tooltips after, so they don't get hidden by other buttond
-        // for (final GuiNBTButton button : this.nbtButtons)
-        // button.renderToolTip(graphics, my, my);
+
+        boolean hasWindow = this.window != null;
+        for (Renderable renderable : this.renderables)
+        {
+            if (!(renderable instanceof GuiNBTNode))
+            {
+                graphics.pose().pushPose();
+                graphics.pose().translate(0, 0, 1);
+                renderable.render(graphics, mx, my, ticks);
+                graphics.pose().popPose();
+            }
+            else renderable.render(graphics, mx, my, ticks);
+        }
         this.drawScrollBar(graphics, cmx, cmy);
     }
 
@@ -655,7 +660,7 @@ public class GuiNBTTree extends Screen
         {
             if (toFocus.hasChildren())
             {
-                final byte type = toFocus.getChildren().get(0).getObject().getNBT().getId();
+                final byte type = toFocus.getChildren().getFirst().getObject().getNBT().getId();
                 for (final GuiNBTButton b : this.nbtButtons) b.active = false;
                 this.nbtButtons[type - 1].active = true;
                 this.nbtButtons[12].active = true;

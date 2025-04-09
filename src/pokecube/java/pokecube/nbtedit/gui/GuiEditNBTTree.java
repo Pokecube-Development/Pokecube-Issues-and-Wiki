@@ -18,16 +18,17 @@ import thut.lib.TComponent;
 public class GuiEditNBTTree extends Screen
 {
 
-    public int               entityOrX, y, z;
-    private boolean          entity;
-    protected String         screenTitle;
-    private String           customName = "";
+    public int entityOrX, y, z;
+    private boolean entity;
+    protected String screenTitle;
+    private String customName = "";
     private final GuiNBTTree guiTree;
 
-    private GuiEditNBTTree(CompoundTag tag){
+    private GuiEditNBTTree(CompoundTag tag)
+    {
         super(TComponent.translatable("nbtedit.tree"));
         this.guiTree = new GuiNBTTree(new NBTTree(tag));
-        this.renderables.add((graphics, x, y, par3)->{
+        this.renderables.add((graphics, x, y, par3) -> {
             this.guiTree.render(graphics, x, y, par3);
             graphics.drawCenteredString(this.font, this.screenTitle, this.width / 2, 5, 16777215);
         });
@@ -83,11 +84,6 @@ public class GuiEditNBTTree extends Screen
         return ret;
     }
 
-    public int getBlockX()
-    {
-        return this.entity ? 0 : this.entityOrX;
-    }
-
     public Entity getEntity()
     {
         return this.entity ? this.minecraft.level.getEntity(this.entityOrX) : null;
@@ -96,31 +92,23 @@ public class GuiEditNBTTree extends Screen
     @Override
     public void init()
     {
-        // TODO: Find replacement
-        // this.minecraft.keyboardHandler.setSendRepeatsToGui(true);
         this.guiTree.initGUI(this.width, this.height, this.height - 35);
         this.guiTree.init(this.minecraft, this.width, this.height);
 
-        this.addRenderableWidget(new Button.Builder(TComponent.literal("Save"), (b) -> {
-            this.quitWithSave();
-        }).bounds(this.width / 4 - 100, this.height - 27, 200, 20).build());
+        this.addRenderableWidget(
+                new Button.Builder(TComponent.literal("Save"), (b) -> this.quitWithSave()).bounds(this.width / 4 - 100,
+                        this.height - 27, 200, 20).build());
 
-        this.addRenderableWidget(new Button.Builder(TComponent.literal("Quit"), (b) -> {
-            this.quitWithoutSaving();
-        }).bounds(this.width * 3 / 4 - 100, this.height - 27, 200, 20).build());
+        this.addRenderableWidget(new Button.Builder(TComponent.literal("Quit"), (b) -> this.quitWithoutSaving()).bounds(
+                this.width * 3 / 4 - 100, this.height - 27, 200, 20).build());
 
         this.children.add(this.guiTree);
-    }
-
-    public boolean isTileEntity()
-    {
-        return !this.entity;
     }
 
     @Override
     public boolean mouseClicked(final double x, final double y, final int t)
     {
-        return super.mouseClicked(x, y, t);
+        return this.guiTree.mouseClicked(x, y, t) || super.mouseClicked(x, y, t);
     }
 
     @Override
@@ -135,13 +123,6 @@ public class GuiEditNBTTree extends Screen
         }
         return ret;
     }
-
-//    TODO: Fix this
-//    @Override
-//    public void removed()
-//    {
-//        this.minecraft.keyboardHandler.setSendRepeatsToGui(false);
-//    }
 
     @Override
     protected void renderMenuBackground(GuiGraphics guiGraphics, int x, int y, int width, int height)
@@ -166,14 +147,14 @@ public class GuiEditNBTTree extends Screen
         {
             if (this.customName.isEmpty())
             {
-                final EntityNBTPacket p = new EntityNBTPacket(this.entityOrX, this.guiTree.getNBTTree()
-                        .toCompoundNBT());
+                final EntityNBTPacket p = new EntityNBTPacket(this.entityOrX,
+                        this.guiTree.getNBTTree().toCompoundNBT());
                 EntityNBTPacket.ASSEMBLER.sendToServer(p.getTag());
             }
             else
             {
-                final CustomNBTPacket p = new CustomNBTPacket(this.entityOrX, this.customName, this.guiTree.getNBTTree()
-                        .toCompoundNBT());
+                final CustomNBTPacket p = new CustomNBTPacket(this.entityOrX, this.customName,
+                        this.guiTree.getNBTTree().toCompoundNBT());
                 CustomNBTPacket.ASSEMBLER.sendToServer(p.getTag());
             }
         }

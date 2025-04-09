@@ -1,27 +1,21 @@
 package pokecube.core.client.gui.helper;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
+import javax.annotation.Nullable;
+
 public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends AbstractSelectionList<T>
 {
-    public static final ResourceLocation SCROLLER_SPRITE = ResourceLocation.withDefaultNamespace("widget/scroller");
-    public static final ResourceLocation SCROLLER_BACKGROUND_SPRITE = ResourceLocation
-            .withDefaultNamespace("widget/scroller_background");
-    public static final ResourceLocation INWORLD_MENU_LIST_BACKGROUND = ResourceLocation
-            .withDefaultNamespace("textures/gui/inworld_menu_list_background.png");
+    private ResourceLocation SCROLLER_SPRITE = ResourceLocation.withDefaultNamespace("widget/scroller");
+    private ResourceLocation SCROLLER_BACKGROUND_SPRITE = ResourceLocation.withDefaultNamespace(
+            "widget/scroller_background");
 
     public boolean smoothScroll = false;
     private boolean checkedSmooth = false;
@@ -31,27 +25,9 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
 
     public int scrollBarDx = 0;
     public int scrollBarDy = 0;
-    public int scrollColorR = 139;
-    public int scrollColorG = 139;
-    public int scrollColorB = 139;
-    public int scrollDarkBorderR = 55;
-    public int scrollDarkBorderG = 55;
-    public int scrollDarkBorderB = 55;
-    public int scrollLightBorderR = 255;
-    public int scrollLightBorderG = 255;
-    public int scrollLightBorderB = 255;
-    public int scrollBarColorR = 198;
-    public int scrollBarColorG = 198;
-    public int scrollBarColorB = 198;
-    public int scrollBarDarkBorderR = 55;
-    public int scrollBarDarkBorderG = 55;
-    public int scrollBarDarkBorderB = 55;
-    public int scrollBarGrayBorderR = 139;
-    public int scrollBarGrayBorderG = 139;
-    public int scrollBarGrayBorderB = 139;
-    public int scrollBarLightBorderR = 255;
-    public int scrollBarLightBorderG = 255;
-    public int scrollBarLightBorderB = 255;
+    @Nullable
+    private T hovered;
+    private boolean renderHeader;
 
     public ScrollGui(final Screen parent, final Minecraft mcIn, final int widthIn, final int heightIn,
             final int slotHeightIn, final int offsetX, final int offsetY)
@@ -62,70 +38,25 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
         this.headerHeight = 0;
         // No default background thing
         this.centerListVertically = false;
-        this.setRenderHeader(false,0);
-    }
-
-    public ScrollGui<T> setScrollColor(int scrollColorR, int scrollColorG, int scrollColorB)
-    {
-        this.scrollColorR = scrollColorR;
-        this.scrollColorG = scrollColorG;
-        this.scrollColorB = scrollColorB;
-        return this;
-    }
-
-    public ScrollGui<T> setScrollDarkBorder(int scrollDarkBorderR, int scrollDarkBorderG, int scrollDarkBorderB)
-    {
-        this.scrollDarkBorderR = scrollDarkBorderR;
-        this.scrollDarkBorderG = scrollDarkBorderG;
-        this.scrollDarkBorderB = scrollDarkBorderB;
-        return this;
-    }
-
-    public ScrollGui<T> setScrollLightBorder(int scrollLightBorderR, int scrollLightBorderG, int scrollLightBorderB)
-    {
-        this.scrollLightBorderR = scrollLightBorderR;
-        this.scrollLightBorderG = scrollLightBorderG;
-        this.scrollLightBorderB = scrollLightBorderB;
-        return this;
-    }
-
-    public ScrollGui<T> setScrollBarColor(int scrollBarColorR, int scrollBarColorG, int scrollBarColorB)
-    {
-        this.scrollBarColorR = scrollBarColorR;
-        this.scrollBarColorG = scrollBarColorG;
-        this.scrollBarColorB = scrollBarColorB;
-        return this;
-    }
-
-    public ScrollGui<T> setScrollBarDarkBorder(int scrollBarDarkBorderR, int scrollBarDarkBorderG,
-            int scrollBarDarkBorderB)
-    {
-        this.scrollBarDarkBorderR = scrollBarDarkBorderR;
-        this.scrollBarDarkBorderG = scrollBarDarkBorderG;
-        this.scrollBarDarkBorderB = scrollBarDarkBorderB;
-        return this;
-    }
-
-    public ScrollGui<T> setScrollBarGrayBorder(int scrollBarGrayBorderR, int scrollBarGrayBorderG,
-            int scrollBarGrayBorderB)
-    {
-        this.scrollBarGrayBorderR = scrollBarGrayBorderR;
-        this.scrollBarGrayBorderG = scrollBarGrayBorderG;
-        this.scrollBarGrayBorderB = scrollBarGrayBorderB;
-        return this;
-    }
-
-    public ScrollGui<T> setScrollBarLightBorder(int scrollBarLightBorderR, int scrollBarLightBorderG,
-            int scrollBarLightBorderB)
-    {
-        this.scrollBarLightBorderR = scrollBarLightBorderR;
-        this.scrollBarLightBorderG = scrollBarLightBorderG;
-        this.scrollBarLightBorderB = scrollBarLightBorderB;
-        return this;
+        this.setRenderHeader(false, 0);
     }
 
     @Override
+    protected void setRenderHeader(boolean renderHeader, int headerHeight)
+    {
+        super.setRenderHeader(renderHeader, headerHeight);
+        this.renderHeader = renderHeader;
+    }
+
+    @Nullable
+    @Override
+    public T getHovered()
+    {
+        return hovered;
+    }
+
     /** This override is to make this method public. */
+    @Override
     public int addEntry(final T p_addEntry_1_)
     {
         return super.addEntry(p_addEntry_1_);
@@ -152,8 +83,7 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
     }
 
     @Override
-    /** Gets the width of the list */
-    public int getRowWidth()
+    /** Gets the width of the list */ public int getRowWidth()
     {
         return this.width;
     }
@@ -183,14 +113,48 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
 
     }
 
-    protected void renderListSeparators(GuiGraphics guiGraphics) {
+    protected void renderListSeparators(GuiGraphics guiGraphics)
+    {
 
     }
 
     @Override
     public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
     {
-        super.renderWidget(guiGraphics, mouseX, mouseY, partialTick);
+        // Direct copy from super, as we need to adjust the scroll bar, which is before decorations if present.
+
+        this.hovered = this.isMouseOver(mouseX, mouseY) ? this.getEntryAtPosition(mouseX, mouseY) : null;
+        this.renderListBackground(guiGraphics);
+        this.enableScissor(guiGraphics);
+        if (this.renderHeader)
+        {
+            int i = this.getRowLeft();
+            int j = this.getY() + 4 - (int) this.getScrollAmount();
+            this.renderHeader(guiGraphics, i, j);
+        }
+
+        this.renderListItems(guiGraphics, mouseX, mouseY, partialTick);
+        guiGraphics.disableScissor();
+        this.renderListSeparators(guiGraphics);
+        if (this.scrollbarVisible())
+        {
+            int l = this.getScrollbarPosition();
+            int i1 = (int) ((float) (this.height * this.height) / (float) this.getMaxPosition());
+            i1 = Mth.clamp(i1, 32, this.height - 8);
+            int k = (int) this.getScrollAmount() * (this.height - i1) / this.getMaxScroll() + this.getY();
+            if (k < this.getY())
+            {
+                k = this.getY();
+            }
+
+            RenderSystem.enableBlend();
+            guiGraphics.blitSprite(SCROLLER_BACKGROUND_SPRITE, l, this.getY(), 6, this.getHeight());
+            guiGraphics.blitSprite(SCROLLER_SPRITE, l, k, 6, i1);
+            RenderSystem.disableBlend();
+        }
+
+        this.renderDecorations(guiGraphics, mouseX, mouseY);
+        RenderSystem.disableBlend();
     }
 
     @Override
@@ -240,8 +204,7 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
     @Override
     /**
      * This override is to make it public
-     */
-    public T getEntry(final int index)
+     */ public T getEntry(final int index)
     {
         return super.getEntry(index);
     }
@@ -255,5 +218,15 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
     protected void updateWidgetNarration(NarrationElementOutput narrationElementOutput)
     {
 
+    }
+
+    public void setScrollSprite(ResourceLocation SCROLLER_SPRITE)
+    {
+        this.SCROLLER_SPRITE = SCROLLER_SPRITE;
+    }
+
+    public void setScrollSpriteBG(ResourceLocation SCROLLER_BACKGROUND_SPRITE)
+    {
+        this.SCROLLER_BACKGROUND_SPRITE = SCROLLER_BACKGROUND_SPRITE;
     }
 }

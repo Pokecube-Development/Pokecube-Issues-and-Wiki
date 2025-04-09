@@ -38,7 +38,6 @@ public class HolderProvider<T>
                 return p2;
             }
         }
-        Thread.dumpStack();
         return null;
     }
 

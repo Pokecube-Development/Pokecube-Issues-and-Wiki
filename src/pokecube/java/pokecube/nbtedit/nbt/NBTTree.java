@@ -1,26 +1,22 @@
 package pokecube.nbtedit.nbt;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import pokecube.api.PokecubeAPI;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.nbtedit.NBTHelper;
 import pokecube.nbtedit.NBTStringHelper;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class NBTTree
 {
 
     public static String repeat(String c, int i)
     {
-        final StringBuilder b = new StringBuilder(i + 1);
-        for (int j = 0; j < i; ++j) b.append(c);
-        return b.toString();
+        return String.valueOf(c).repeat(Math.max(0, i));
     }
 
     private final CompoundTag baseTag;
@@ -102,11 +98,6 @@ public class NBTTree
         }
     }
 
-    public boolean canDelete(Node<NamedNBT> node)
-    {
-        return node != this.root;
-    }
-
     private void construct()
     {
         this.root = new Node<>(new NamedNBT("ROOT", this.baseTag.copy()));
@@ -141,20 +132,9 @@ public class NBTTree
         return this.root;
     }
 
-    public void print()
-    {
-        this.print(this.root, 0);
-    }
-
-    private void print(Node<NamedNBT> n, int i)
-    {
-        PokecubeAPI.logInfo(NBTTree.repeat("\t", i) + NBTStringHelper.getNBTName(n.getObject()));
-        for (final Node<NamedNBT> child : n.getChildren()) this.print(child, i + 1);
-    }
-
     public void sort(Node<NamedNBT> node)
     {
-        Collections.sort(node.getChildren(), NBTEdit.SORTER);
+        node.getChildren().sort(NBTEdit.SORTER);
         for (final Node<NamedNBT> c : node.getChildren()) this.sort(c);
     }
 

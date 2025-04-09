@@ -1,7 +1,5 @@
 package pokecube.core.client.gui.watch.pokemob;
 
-import java.util.Collections;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.ClickEvent;
@@ -20,6 +18,8 @@ import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.database.Database;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.lib.TComponent;
+
+import java.util.Collections;
 
 public class Breeding extends ListPage<LineEntry>
 {
@@ -96,38 +96,21 @@ public class Breeding extends ListPage<LineEntry>
             }
         };
         final PokedexEntry ourEntry = this.parent.pokemob.getPokedexEntry();
-        if (GuiPokeWatch.nightMode)
-        {
-            this.list = new ScrollGui<LineEntry>(this, this.minecraft, width, height,
-                this.font.lineHeight, offsetX, offsetY)
-                    .setScrollBarColor(255, 150, 79)
-                    .setScrollBarDarkBorder(211, 81, 29)
-                    .setScrollBarGrayBorder(244, 123, 58)
-                    .setScrollBarLightBorder(255, 190, 111)
-                    .setScrollColor(244, 123, 58)
-                    .setScrollDarkBorder(211, 81, 29)
-                    .setScrollLightBorder(255, 190, 111);
-        } else this.list = new ScrollGui<LineEntry>(this, this.minecraft, width, height,
-            this.font.lineHeight, offsetX, offsetY)
-                .setScrollBarColor(83, 175, 255)
-                .setScrollBarDarkBorder(39, 75, 142)
-                .setScrollBarGrayBorder(69, 132, 249)
-                .setScrollBarLightBorder(255, 255, 255)
-                .setScrollColor(69, 132, 249)
-                .setScrollDarkBorder(39, 75, 142)
-                .setScrollLightBorder(255, 255, 255);
+        this.list = new ScrollGui<>(this, this.minecraft, width, height, this.font.lineHeight, offsetX, offsetY);
 
         MutableComponent main = TComponent.translatable(ourEntry.getUnlocalizedName());
-        if (!PacketPokedex.noBreeding.contains(ourEntry)) for (final String name : PacketPokedex.relatedLists
-                .getOrDefault(ourEntry.getTrimmedName(), Collections.emptyList()))
-        {
-            final PokedexEntry entry = Database.getEntry(name);
-            if (entry == null) continue;
-            main = TComponent.translatable(entry.getUnlocalizedName());
-            main.setStyle(main.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_GRAY))
-                    .withClickEvent(new ClickEvent(Action.CHANGE_PAGE, entry.getName())));
-            this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main.getVisualOrderText(), colour)
-                    .setClickListner(listener));
-        }
+        if (!PacketPokedex.noBreeding.contains(ourEntry))
+            for (final String name : PacketPokedex.relatedLists.getOrDefault(ourEntry.getTrimmedName(),
+                    Collections.emptyList()))
+            {
+                final PokedexEntry entry = Database.getEntry(name);
+                if (entry == null) continue;
+                main = TComponent.translatable(entry.getUnlocalizedName());
+                main.setStyle(main.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_GRAY))
+                        .withClickEvent(new ClickEvent(Action.CHANGE_PAGE, entry.getName())));
+                this.list.addEntry(
+                        new LineEntry(this.list, 0, 0, this.font, main.getVisualOrderText(), colour).setClickListner(
+                                listener));
+            }
     }
 }

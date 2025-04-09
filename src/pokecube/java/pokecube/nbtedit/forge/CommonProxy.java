@@ -1,9 +1,6 @@
 package pokecube.nbtedit.forge;
 
-import java.io.File;
-
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
@@ -12,7 +9,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.fml.loading.FMLPaths;
 import pokecube.nbtedit.NBTEdit;
 import thut.api.util.PermNodes;
 import thut.api.util.PermNodes.DefaultPermissionLevel;
@@ -43,14 +39,7 @@ public class CommonProxy implements Proxy
 
     public boolean checkPermission(final ServerPlayer player)
     {
-        if (NBTEdit.opOnly ? PermNodes.getBooleanPerm(player, NBTEdit.MODID) : player.getAbilities().instabuild)
-            return true;
-        return false;
-    }
-
-    public File getMinecraftDirectory()
-    {
-        return FMLPaths.GAMEDIR.get().toFile();
+        return NBTEdit.opOnly ? PermNodes.getBooleanPerm(player, NBTEdit.MODID) : player.getAbilities().instabuild;
     }
 
     public void openEditGUI(final BlockPos pos, final CompoundTag tag)

@@ -25,6 +25,6 @@ public abstract class MixinVilagerBrainUpdate extends AbstractVillager
     @Inject(method = "refreshBrain", at = @At(value = "RETURN"))
     public void onRefreshBrain(ServerLevel level, CallbackInfo ci)
     {
-        ThutCore.FORGE_BUS.post(new BrainInitEvent(this));
+        ThutCore.FORGE_BUS.post(new BrainInitEvent(this, false));
     }
 }

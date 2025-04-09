@@ -21,7 +21,7 @@ import thut.lib.TComponent;
 public class Healer<T extends HealerContainer> extends AbstractContainerScreen<T>
 {
     public static ResourceLocation WIDGETS_GUI =
-            ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/pc_widgets.png");
+            ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.GUI_FOLDER + "widgets/pc_widgets.png");
     Button healButton;
     Button healButton2;
     Inventory inventory;

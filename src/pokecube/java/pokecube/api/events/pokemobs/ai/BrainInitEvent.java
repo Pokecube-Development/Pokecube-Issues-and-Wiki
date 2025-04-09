@@ -5,8 +5,11 @@ import net.neoforged.neoforge.event.entity.living.LivingEvent;
 
 public class BrainInitEvent extends LivingEvent
 {
-    public BrainInitEvent(final LivingEntity entity)
+    public final boolean constructing;
+
+    public BrainInitEvent(final LivingEntity entity, boolean onConstruction)
     {
         super(entity);
+        this.constructing = onConstruction;
     }
 }

@@ -172,17 +172,8 @@ public class Moves extends ListPage<LineEntry>
         };
         IPokemob pokemob = this.parent.pokemob;
 
-        if (GuiPokeWatch.nightMode)
-        {
-            this.list = new ScrollGui<LineEntry>(this, this.minecraft, width, height, this.font.lineHeight, offsetX,
-                    offsetY).setScrollBarColor(255, 150, 79).setScrollBarDarkBorder(211, 81, 29)
-                    .setScrollBarGrayBorder(244, 123, 58).setScrollBarLightBorder(255, 190, 111)
-                    .setScrollColor(244, 123, 58).setScrollDarkBorder(211, 81, 29).setScrollLightBorder(255, 190, 111);
-        }
-        else this.list = new ScrollGui<LineEntry>(this, this.minecraft, width, height, this.font.lineHeight, offsetX,
-                offsetY).setScrollBarColor(83, 175, 255).setScrollBarDarkBorder(39, 75, 142)
-                .setScrollBarGrayBorder(69, 132, 249).setScrollBarLightBorder(255, 255, 255)
-                .setScrollColor(69, 132, 249).setScrollDarkBorder(39, 75, 142).setScrollLightBorder(255, 255, 255);
+        this.list = new ScrollGui<>(this, this.minecraft, width, height, this.font.lineHeight, offsetX,
+                offsetY);
 
         final PokedexEntry entry = pokemob.getPokedexEntry();
 

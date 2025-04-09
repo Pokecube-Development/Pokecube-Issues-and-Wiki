@@ -18,9 +18,9 @@ import pokecube.core.utils.Resources;
 public class Extractor extends AbstractContainerScreen<ExtractorContainer>
 {
     public static ResourceLocation WIDGETS_GUI =
-            ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/pc_widgets.png");
+            ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.GUI_FOLDER + "widgets/pc_widgets.png");
     public static ResourceLocation GUI =
-            ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID, Resources.TEXTURE_GUI_FOLDER + "extractor.png");
+            ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID, Resources.GUI_FOLDER + "extractor.png");
     Button warningButton;
 
     public Extractor(final ExtractorContainer screenContainer, final Inventory inv, final Component titleIn)

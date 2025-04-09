@@ -27,7 +27,7 @@ public class AFA extends AbstractContainerScreen<AfaContainer>
 {
     private static final ResourceLocation CUBE_ICON_SLOT = Resources.SLOT_ICON_CUBE;
     private static final ResourceLocation SHINY_ICON_SLOT =
-            ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.TEXTURE_GUI_ICON_FOLDER + "slot_shiny_charm");
+            ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.GUI_ICON_FOLDER + "slot_shiny_charm");
     private static final List<ResourceLocation> ICON_SLOTS = List.of(CUBE_ICON_SLOT, SHINY_ICON_SLOT);
     private final CyclingSlotBackground slotIcons = new CyclingSlotBackground(0);
 

@@ -20,7 +20,7 @@ import thut.core.common.handlers.PlayerDataHandler;
 
 public class CommandNBTEdit
 {
-    private static SuggestionProvider<CommandSourceStack> SUGGEST_TYPES = (ctx,
+    private static final SuggestionProvider<CommandSourceStack> SUGGEST_TYPES = (ctx,
             sb) -> net.minecraft.commands.SharedSuggestionProvider.suggest(PlayerDataHandler.getDataIDs(), sb);
 
     private static int execute(final CommandSourceStack source, final BlockPos pos) throws CommandSyntaxException
@@ -52,7 +52,7 @@ public class CommandNBTEdit
     public static void register(final CommandDispatcher<CommandSourceStack> commandDispatcher)
     {
         final LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal("pcedit")
-                .requires(cs -> NBTEdit.proxy.checkPermission(cs))
+                .requires(NBTEdit.proxy::checkPermission)
                 .then(Commands.argument("pos", BlockPosArgument.blockPos()).executes(
                         ctx -> CommandNBTEdit.execute(ctx.getSource(), BlockPosArgument.getLoadedBlockPos(ctx, "pos"))))
                 .then(Commands.argument("target", EntityArgument.entity()).executes(

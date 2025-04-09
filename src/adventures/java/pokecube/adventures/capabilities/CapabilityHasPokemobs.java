@@ -23,6 +23,9 @@ import net.neoforged.neoforge.common.util.TriState;
 import pokecube.adventures.Config;
 import pokecube.adventures.advancements.Triggers;
 import pokecube.adventures.ai.brain.MemoryTypes;
+import pokecube.adventures.capabilities.CapabilityHasRewards.DefaultRewards;
+import pokecube.adventures.capabilities.CapabilityNPCAIStates.DefaultAIStates;
+import pokecube.adventures.capabilities.CapabilityNPCMessages.DefaultMessager;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerBase;
@@ -215,9 +218,9 @@ public class CapabilityHasPokemobs
         private byte gender = 0;
         private int number = Integer.MAX_VALUE;
         private LivingEntity user;
-        private IHasNPCAIStates aiStates;
-        private IHasMessages messages;
-        private IHasRewards rewards;
+        public IHasNPCAIStates aiStates;
+        public IHasMessages messages;
+        public IHasRewards rewards;
         private int nextSlot;
         // Cooldown between sending out pokemobs
         private int attackCooldown = 0;
@@ -237,15 +240,16 @@ public class CapabilityHasPokemobs
         private final Set<ITargetWatcher> watchers = Sets.newHashSet();
 
         public final DataParamHolder holder = new DataParamHolder();
-        private DataSync datasync = new DataSync_Impl();
+        private DataSync datasync;
 
         public DefaultPokemobs()
         {
-            this.initSync(this.datasync);
+            this.initSync(new DataSync_Impl());
         }
 
         private void initSync(DataSync sync)
         {
+            this.datasync = sync;
             sync.setRegisterTag("trainer");
             holder.TYPE = sync.register(new Data_String("type"));
             for (int i = 0; i < 6; i++)
@@ -301,7 +305,7 @@ public class CapabilityHasPokemobs
             {
                 if (this.clearOnLoad()) this.clearContent();
                 final ListTag ListNBT = nbt.getList("pokemobs", 10);
-                if (ListNBT.size() != 0) for (int i = 0; i < Math.min(ListNBT.size(), this.getMaxPokemobCount()); ++i)
+                if (!ListNBT.isEmpty()) for (int i = 0; i < Math.min(ListNBT.size(), this.getMaxPokemobCount()); ++i)
                     this.setPokemob(i, ItemStack.parseOptional(provider, ListNBT.getCompound(i)));
             }
             this.initCount();
@@ -454,13 +458,18 @@ public class CapabilityHasPokemobs
             return defeated;
         }
 
-        public void init(final LivingEntity user, final IHasNPCAIStates aiStates, final IHasMessages messages,
-                final IHasRewards rewards)
+        public void init(final LivingEntity user)
         {
             this.user = user;
-            this.aiStates = aiStates;
-            this.messages = messages;
-            this.rewards = rewards;
+
+            if (user.hasData(TrainerCaps.AISTATES)) this.aiStates = user.getData(TrainerCaps.AISTATES);
+            if (user.hasData(TrainerCaps.MESSAGES)) this.messages = user.getData(TrainerCaps.MESSAGES);
+            if (user.hasData(TrainerCaps.REWARDS)) this.rewards = user.getData(TrainerCaps.REWARDS);
+
+            if (aiStates == null) user.setData(TrainerCaps.AISTATES, aiStates = new DefaultAIStates());
+            if (messages == null) user.setData(TrainerCaps.MESSAGES, messages = new DefaultMessager());
+            if (rewards == null) user.setData(TrainerCaps.REWARDS, rewards = new DefaultRewards());
+
             this.battleCooldown = Config.instance.trainerCooldown;
             this.resetTimeWin = this.battleCooldown;
             this.resetTimeLose = this.battleCooldown;
@@ -835,7 +844,8 @@ public class CapabilityHasPokemobs
         @Override
         public void setDataSync(final DataSync sync)
         {
-            sync.mapFrom(this.datasync, "trainer");
+            if (this.datasync != null) sync.mapFrom(this.datasync, "trainer");
+            else this.initSync(sync);
             this.datasync = sync;
         }
 
