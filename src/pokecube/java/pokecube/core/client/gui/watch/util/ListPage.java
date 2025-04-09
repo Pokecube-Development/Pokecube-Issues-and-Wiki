@@ -18,10 +18,6 @@ public abstract class ListPage<T extends AbstractSelectionList.Entry<T>> extends
             "pokecube:widgets/scroller_background_nm");
 
     protected ScrollGui<T> list;
-    /**
-     * Set this to true if the page handles rendering the list itself.
-     */
-    protected boolean handlesList = false;
 
     public ListPage(final Component title, final GuiPokeWatch watch, final ResourceLocation day,
             final ResourceLocation night)
@@ -48,7 +44,6 @@ public abstract class ListPage<T extends AbstractSelectionList.Entry<T>> extends
     @Override
     public void init()
     {
-        this.children().clear();
         super.init();
         this.initList();
         postInitList();

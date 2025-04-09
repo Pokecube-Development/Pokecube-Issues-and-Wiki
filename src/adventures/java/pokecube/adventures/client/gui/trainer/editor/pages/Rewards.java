@@ -218,8 +218,6 @@ public class Rewards extends ListPage<RewardOption>
     @Override
     public void initList()
     {
-        this.children.clear();
-        this.renderables.clear();
         super.initList();
         int x = (this.parent.width - 256) / 2;
         int y = (this.parent.height - 160) / 2;

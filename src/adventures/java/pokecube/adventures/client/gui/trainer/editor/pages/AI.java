@@ -60,14 +60,13 @@ public class AI extends Page
     @Override
     public void onPageOpened()
     {
-        this.children.clear();
-        this.renderables.clear();
         super.onPageOpened();
 
         final int x = this.width / 2;
         final int y = this.height / 2;
 
         this.guardList = new ScrollGui<>(this, this.minecraft, 92, 120, 35, x + 30, y - 65);
+        this.addRenderableWidget(this.guardList);
 
         final Function<CompoundTag, CompoundTag> function = t -> {
             PacketSyncRoutes.sendServerPacket(this.parent.entity, t);
@@ -147,16 +146,15 @@ public class AI extends Page
                 this.onChanged();
             };
 
-            final Button press = new Button.Builder(TComponent.literal(state.name()), action)
-                    .bounds(x - 123, y - 30 + index * 12, 100, 12).build();
+            final Button press = new Button.Builder(TComponent.literal(state.name()), action).bounds(x - 123,
+                    y - 30 + index * 12, 100, 12).build();
 
             press.setFGColor(this.parent.aiStates.getAIState(state) ? 0x00FF00 : 0xFF0000);
             this.addRenderableWidget(press);
         }
 
-        this.addRenderableWidget(new Button.Builder(TComponent.translatable("traineredit.button.home"), (b) -> {
-            this.closeCallback.run();
-        }).bounds(x + 73, y + 64, 50, 12).build());
+        this.addRenderableWidget(new Button.Builder(TComponent.translatable("traineredit.button.home"),
+                (b) -> this.closeCallback.run()).bounds(x + 73, y + 64, 50, 12).build());
     }
 
     @Override
@@ -167,15 +165,13 @@ public class AI extends Page
             this.onChanged();
             return true;
         }
-        if (this.guardList.keyPressed(keyCode, scanCode, modifiers)) return true;
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override
-    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
+    public void renderPage(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
-        super.render(graphics, mouseX, mouseY, partialTicks);
-        this.guardList.render(graphics, mouseX, mouseY, partialTicks);
+        super.renderPage(graphics, mouseX, mouseY, partialTicks);
 
         final int x = this.parent.width / 2 - 67;
         final int y = this.parent.height / 2 - 72;

@@ -9,7 +9,7 @@ public class LivePokemob extends Pokemob
     {
         super(parent);
         this.pokemob = parent.pokemob;
-        this.closeCallback = () -> this.onClose();
+        this.closeCallback = this::onClose;
     }
 
     @Override

@@ -68,8 +68,6 @@ public class Pokemob extends Page
     @Override
     public void onPageOpened()
     {
-        this.children.clear();
-        this.renderables.clear();
         super.onPageOpened();
         final int yOffset = this.height / 2;
         final int xOffset = this.width / 2;
@@ -176,9 +174,9 @@ public class Pokemob extends Page
             size = this.pokemob.getSize();
             this.shiny = this.pokemob.isShiny();
         }
-        final String gender = this.gender == IPokemob.MALE ? "\u2642" : this.gender == IPokemob.FEMALE ? "\u2640" : "o";
-        this.nature.setValue("" + nature);
-        this.ability.setValue("" + ability);
+        final String gender = this.gender == IPokemob.MALE ? "♂" : this.gender == IPokemob.FEMALE ? "♀" : "o";
+        this.nature.setValue(nature);
+        this.ability.setValue(ability);
         this.size.setValue("" + size);
         this.level.setValue("" + level);
         this.type.setValue(name);
@@ -264,8 +262,8 @@ public class Pokemob extends Page
                     this.gender = old == IPokemob.MALE ? IPokemob.FEMALE
                             : old == IPokemob.FEMALE ? IPokemob.MALE : this.gender;
                     this.pokemob.setSexe(this.gender);
-                    final String newgender = this.gender == IPokemob.MALE ? "\u2642"
-                            : this.gender == IPokemob.FEMALE ? "\u2640" : "o";
+                    final String newgender = this.gender == IPokemob.MALE ? "♂"
+                            : this.gender == IPokemob.FEMALE ? "♀" : "o";
                     b.setMessage(TComponent.literal(newgender));
                     this.onChanged();
                 }
@@ -335,8 +333,8 @@ public class Pokemob extends Page
                         this.gender = this.pokemob.getSexe();
                         this.abilIndex = this.pokemob.getAbilityIndex();
                     }
-                    this.nature.setValue("" + nature);
-                    this.ability.setValue("" + ability);
+                    this.nature.setValue(nature);
+                    this.ability.setValue(ability);
                     this.size.setValue("" + size);
                     this.level.setValue("" + level);
                     this.type.setValue(name);
@@ -433,9 +431,9 @@ public class Pokemob extends Page
     }
 
     @Override
-    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
+    public void renderPage(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
-        super.render(graphics, mouseX, mouseY, partialTicks);
+        super.renderPage(graphics, mouseX, mouseY, partialTicks);
         final int x = this.parent.width / 2;
         final int y = this.parent.height / 2 - 70;
 //        TODO: Fix these
@@ -451,7 +449,7 @@ public class Pokemob extends Page
 
         if (this.pokemob != null)
         {
-            final float yaw = Util.getMillis() / 20;
+            final float yaw = Util.getMillis() / 20f;
             final int dx = -50;
             final int dy = +20;
             // Draw the actual pokemob

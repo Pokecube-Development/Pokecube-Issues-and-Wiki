@@ -1,9 +1,6 @@
 package pokecube.core.client.gui.watch;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Tooltip;
@@ -20,6 +17,8 @@ import pokecube.core.client.gui.watch.progress.Progress;
 import pokecube.core.client.gui.watch.util.PageWithSubPages;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.lib.TComponent;
+
+import java.util.List;
 
 public class ProgressPage extends PageWithSubPages<Progress>
 {
@@ -83,28 +82,11 @@ public class ProgressPage extends PageWithSubPages<Progress>
         graphics.drawString(this.font, title, x + 130 - this.font.width(title) / 2, y + 36, title_colour, false);
     }
 
-    TexButton nightMode;
-
     @Override
     public void onPageOpened()
     {
         super.onPageOpened();
-        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
-        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
-
         PacketPokedex.sendInspectPacket(false, Minecraft.getInstance().getLanguageManager().getSelected());
-
-        this.nightMode = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b ->
-        {
-            GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
-            this.watch.init();
-        }).bounds(x - 108, y + 102, 17, 17).setRender(new TexButton.UVImgRender(110, 72, 17, 17))
-                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.night_mode.narrate"))
-                .setTexture(GuiPokeWatch.getWidgetTex()).build());
-
-        if (GuiPokeWatch.nightMode)
-            this.nightMode.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.light_mode.tooltip")));
-        else this.nightMode.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.dark_mode.tooltip")));
     }
 
     @Override

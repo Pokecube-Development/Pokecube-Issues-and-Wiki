@@ -15,7 +15,6 @@ import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
 import pokecube.core.client.gui.helper.INotifiedEntry;
 import pokecube.core.client.gui.helper.ListEditBox;
 import pokecube.core.client.gui.helper.ScrollGui;
-import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.watch.TeleportsPage.TeleOption;
 import pokecube.core.client.gui.watch.util.ListPage;
 import pokecube.core.network.packets.PacketPokedex;
@@ -72,7 +71,7 @@ public class TeleportsPage extends ListPage<TeleOption>
             this.delete.setFGColor(0xFFFF0000);
             this.confirm.active = false;
 
-            this.moveUp = new Button.Builder(TComponent.literal("\u21e7"), b -> {
+            this.moveUp = new Button.Builder(TComponent.literal("⇧"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.parent.scheduleUpdate(() -> {
                     PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index - 1);
@@ -83,7 +82,7 @@ public class TeleportsPage extends ListPage<TeleOption>
                     .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.move_up.narrate"))
                     .build();
 
-            this.moveDown = new Button.Builder(TComponent.literal("\u21e9"), b -> {
+            this.moveDown = new Button.Builder(TComponent.literal("⇩"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.parent.scheduleUpdate(() -> {
                     PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index + 1);
@@ -215,28 +214,6 @@ public class TeleportsPage extends ListPage<TeleOption>
     public TeleportsPage(final GuiPokeWatch watch)
     {
         super(TComponent.translatable("pokewatch.title.teleports"), watch, TeleportsPage.TEX_DM, TeleportsPage.TEX_NM);
-    }
-
-    TexButton nightMode;
-
-    @Override
-    public void onPageOpened()
-    {
-        super.onPageOpened();
-        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
-        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
-
-        this.nightMode = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
-            GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
-            this.watch.init();
-        }).bounds(x - 108, y + 102, 17, 17).setRender(new TexButton.UVImgRender(110, 72, 17, 17))
-                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.night_mode.narrate"))
-                .setTexture(GuiPokeWatch.getWidgetTex()).build());
-
-        if (GuiPokeWatch.nightMode) this.nightMode.setTooltip(
-                Tooltip.create(Component.translatable("button.pokecube.pokewatch.light_mode.tooltip")));
-        else this.nightMode.setTooltip(
-                Tooltip.create(Component.translatable("button.pokecube.pokewatch.dark_mode.tooltip")));
     }
 
     protected double scroll = 0;

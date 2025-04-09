@@ -1,20 +1,16 @@
 package pokecube.core.client.gui.watch;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.lwjgl.glfw.GLFW;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import org.lwjgl.glfw.GLFW;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -26,6 +22,9 @@ import pokecube.core.impl.PokecubeMod;
 import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.Resources;
 import thut.lib.TComponent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GuiPokeWatch extends Screen
 {
@@ -39,24 +38,24 @@ public class GuiPokeWatch extends Screen
         }
 
         @Override
-        public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
+        public void renderPage(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
         {
             final int x = (this.watch.width - 160) / 2 + 80;
             final int y = (this.watch.height - 160) / 2 + 70;
             graphics.drawCenteredString(this.font, I18n.get("pokewatch.title.blank"), x + 35, y - 15, 0xFFFFFFFF);
-            super.render(graphics, mouseX, mouseY, partialTicks);
+            super.renderPage(graphics, mouseX, mouseY, partialTicks);
         }
     }
 
     public static class UVHolder
     {
-        private int uOffset = 0;
-        private int vOffset = 0;
+        private final int uOffset;
+        private final int vOffset;
 
-        private int buttonX = 0;
-        private int buttonY = 0;
+        private final int buttonX;
+        private final int buttonY;
 
-        private int index = 0;
+        private final int index;
 
         public UVHolder(int x, int y, int u, int v, int index)
         {
@@ -72,16 +71,16 @@ public class GuiPokeWatch extends Screen
             final int x = gui.width / 2;
             final int y = gui.height / 2 - 5;
             WatchPage page = gui.createPage(index);
-            gui.addRenderableWidget(new TexButton.Builder(page.getTitle(), b -> {
-                gui.changePage(this.index, true);
-            }).bounds(x + buttonX, y + buttonY, 24, 24).onTooltip(new ShiftedTooltip(-129 , -96 - buttonY))
-                    .createNarration(supplier -> Component.literal(page.getTitle().getString()))
-                    .setTexture(GuiPokeWatch.getWidgetTex()).noName()
-                    .setRender(new UVImgRender(uOffset, vOffset, 24, 24)).build());
+            gui.addRenderableWidget(
+                    new TexButton.Builder(page.getTitle(), b -> gui.changePage(this.index, true)).bounds(x + buttonX,
+                                    y + buttonY, 24, 24).onTooltip(new ShiftedTooltip(-129, -96 - buttonY))
+                            .createNarration(supplier -> Component.literal(page.getTitle().getString()))
+                            .setTexture(GuiPokeWatch.getWidgetTex()).noName()
+                            .setRender(new UVImgRender(uOffset, vOffset, 24, 24)).build());
         }
     }
 
-    public static final ResourceLocation makeWatchTexture(final String tex)
+    public static ResourceLocation makeWatchTexture(final String tex)
     {
         return ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "textures/gui/watch/" + tex + ".png");
     }
@@ -186,7 +185,7 @@ public class GuiPokeWatch extends Screen
 
     private void handleError(final Exception e)
     {
-        if (this.current_page != null) PokecubeAPI.LOGGER.warn("Error with page " + this.current_page.getTitle(), e);
+        if (this.current_page != null) PokecubeAPI.LOGGER.warn("Error with page {}", this.current_page.getTitle(), e);
         else
         {
             PokecubeAPI.LOGGER.warn("Error with null page", e);
@@ -209,9 +208,7 @@ public class GuiPokeWatch extends Screen
 
         // We overwrite this to reverse the ordering of checking if tab was
         // pressed
-        final boolean subpages = this.getFocused() != null && this.getFocused().keyPressed(keyCode, b, c);
-        if (subpages) return true;
-        return false;
+        return this.getFocused() != null && this.getFocused().keyPressed(keyCode, b, c);
     }
 
     @Override
@@ -223,8 +220,6 @@ public class GuiPokeWatch extends Screen
     @Override
     public void init()
     {
-        this.renderables.clear();
-        this.children.clear();
         super.init();
         this.current_page = this.createPage(GuiPokeWatch.lastPage);
         this.current_page.init();
@@ -240,7 +235,20 @@ public class GuiPokeWatch extends Screen
         buttons.forEach(uv -> uv.makeButton(this));
         this.current_page.onPageOpened();
 
-        this.renderables.add((graphics, mouseX, mouseY, partialTicks)->{
+        final int x = (this.width - GuiPokeWatch.GUIW) / 2 + 90;
+        final int y = (this.height - GuiPokeWatch.GUIH) / 2 + 30;
+
+        var nm = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
+            GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
+            this.init();
+        }).bounds(x - 108, y + 102, 17, 17).setRender(new TexButton.UVImgRender(110, 72, 17, 17))
+                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.night_mode.narrate"))
+                .setTexture(GuiPokeWatch.getWidgetTex()).build());
+        if (GuiPokeWatch.nightMode)
+            nm.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.light_mode.tooltip")));
+        else nm.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.dark_mode.tooltip")));
+
+        this.renderables.add((graphics, mouseX, mouseY, partialTicks) -> {
             try
             {
                 this.current_page.render(graphics, mouseX, mouseY, partialTicks);

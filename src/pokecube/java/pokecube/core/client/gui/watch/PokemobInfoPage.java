@@ -405,28 +405,6 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         }
     }
 
-    TexButton nightMode;
-
-    @Override
-    public void onPageOpened()
-    {
-        super.onPageOpened();
-        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
-        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
-
-        this.nightMode = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b ->
-        {
-            GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
-            this.watch.init();
-        }).bounds(x - 108, y + 102, 17, 17).setRender(new TexButton.UVImgRender(110, 72, 17, 17))
-                .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.night_mode.narrate"))
-                .setTexture(GuiPokeWatch.getWidgetTex()).build());
-
-        if (GuiPokeWatch.nightMode)
-            this.nightMode.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.light_mode.tooltip")));
-        else this.nightMode.setTooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.dark_mode.tooltip")));
-    }
-
     @Override
     public void preSubOpened()
     {

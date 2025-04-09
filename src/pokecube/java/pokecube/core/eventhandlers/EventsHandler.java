@@ -529,6 +529,10 @@ public class EventsHandler
         // Forge workaround for this not being called server side!
         if (!entity.isAddedToLevel()) entity.onAddedToLevel();
 
+        if(entity instanceof NpcMob){
+            entity.getData(IMobTexturable.Defaults.TYPE);
+        }
+
         IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob != null && entity.getPersistentData().getBoolean(TagNames.ON_SHOULDER))
         {

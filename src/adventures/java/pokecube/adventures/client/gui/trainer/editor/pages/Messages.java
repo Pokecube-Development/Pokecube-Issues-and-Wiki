@@ -97,9 +97,9 @@ public class Messages extends ListPage<MessageOption>
         }
 
         @Override
-        public void render(final GuiGraphics graphics, final int slotIndex, final int y, final int x, final int listWidth,
-                           final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
-                           final float partialTicks)
+        public void render(final GuiGraphics graphics, final int slotIndex, final int y, final int x,
+                final int listWidth, final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
+                final float partialTicks)
         {
             this.message.visible = true;
             this.action.visible = true;
@@ -155,8 +155,6 @@ public class Messages extends ListPage<MessageOption>
     @Override
     public void initList()
     {
-        this.children.clear();
-        this.renderables.clear();
         super.initList();
         int x = (this.parent.width - 256) / 2;
         int y = (this.parent.height - 160) / 2;
@@ -169,8 +167,7 @@ public class Messages extends ListPage<MessageOption>
         x = this.width / 2;
         y = this.height / 2;
 
-        this.addRenderableWidget(new Button.Builder(TComponent.translatable("traineredit.button.home"), (b) -> {
-            this.closeCallback.run();
-        }).bounds(x + 73, y + 64, 50, 12).build());
+        this.addRenderableWidget(new Button.Builder(TComponent.translatable("traineredit.button.home"),
+                (b) -> this.closeCallback.run()).bounds(x + 73, y + 64, 50, 12).build());
     }
 }

@@ -1,30 +1,25 @@
 package pokecube.adventures.client.gui.trainer.editor.pages;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.world.entity.LivingEntity;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.adventures.client.gui.trainer.editor.pages.util.Page;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.core.entity.npc.NpcType;
 import thut.lib.TComponent;
 
+import java.util.List;
+
 public class Spawn extends Page
 {
     EditBox type;
     EditBox level;
 
-    LivingEntity mob = null;
-
     int index = 0;
 
-    boolean stand  = false;
-    String  gender = "male";
+    boolean stand = false;
+    String gender = "male";
 
     public Spawn(final EditorGui parent)
     {
@@ -34,8 +29,6 @@ public class Spawn extends Page
     @Override
     public void onPageOpened()
     {
-        this.children.clear();
-        this.renderables.clear();
         super.onPageOpened();
         int yOffset = this.height / 2;
         int xOffset = this.width / 2;
@@ -44,15 +37,14 @@ public class Spawn extends Page
 
         this.index = this.index % NpcType.typeMap.size();
         final List<String> types = Lists.newArrayList(NpcType.typeMap.keySet());
-        types.sort((s1, s2) -> s1.compareTo(s2));
+        types.sort(String::compareTo);
 
         this.type.setValue(types.get(this.index));
         this.level.setValue("5");
 
         this.stand = true;
 
-        this.level.setFilter(s ->
-        {
+        this.level.setFilter(s -> {
             if (s.isEmpty()) return true;
             try
             {
@@ -98,17 +90,17 @@ public class Spawn extends Page
         xOffset -= 20;
         yOffset += 10;
 
-        this.addRenderableWidget(new Button.Builder(TComponent.literal("Spawn NPC"), (b) -> {
-            this.send("npc");
-        }).bounds(xOffset - 100, yOffset - 80, 80, 20).build());
+        this.addRenderableWidget(
+                new Button.Builder(TComponent.literal("Spawn NPC"), (b) -> this.send("npc")).bounds(xOffset - 100,
+                        yOffset - 80, 80, 20).build());
 
-        this.addRenderableWidget(new Button.Builder(TComponent.literal("Spawn Trainer"), (b) -> {
-            this.send("trainer");
-        }).bounds(xOffset - 20, yOffset - 80, 80, 20).build());
+        this.addRenderableWidget(
+                new Button.Builder(TComponent.literal("Spawn Trainer"), (b) -> this.send("trainer")).bounds(
+                        xOffset - 20, yOffset - 80, 80, 20).build());
 
-        this.addRenderableWidget(new Button.Builder(TComponent.literal("Spawn Leader"), (b) -> {
-            this.send("leader");
-        }).bounds(xOffset + 60, yOffset - 80, 80, 20).build());
+        this.addRenderableWidget(
+                new Button.Builder(TComponent.literal("Spawn Leader"), (b) -> this.send("leader")).bounds(xOffset + 60,
+                        yOffset - 80, 80, 20).build());
     }
 
     private void send(final String type)
@@ -121,11 +113,5 @@ public class Spawn extends Page
         message.getTag().putString("_g_", this.gender);
         message.getTag().putBoolean("S", this.stand);
         PacketTrainer.ASSEMBLER.sendToServer(message.getTag());
-    }
-
-    @Override
-    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
-    {
-        super.render(graphics, mouseX, mouseY, partialTicks);
     }
 }

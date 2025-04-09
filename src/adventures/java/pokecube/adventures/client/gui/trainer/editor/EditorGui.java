@@ -45,18 +45,16 @@ public class EditorGui extends Screen
         }
 
         @Override
-        public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
+        public void renderPage(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
         {
             final int x = (this.parent.width - 160) / 2 + 80;
             final int y = (this.parent.height - 160) / 2 + 70;
             graphics.drawCenteredString(this.font, I18n.get("pokewatch.title.blank"), x, y, 0xFFFFFFFF);
-            super.render(graphics, mouseX, mouseY, partialTicks);
+            super.renderPage(graphics, mouseX, mouseY, partialTicks);
         }
 
     }
 
-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID,
-            "textures/gui/traineredit.png");
     public static List<Class<? extends Page>> PAGELIST = Lists.newArrayList();
 
     static
@@ -109,49 +107,49 @@ public class EditorGui extends Screen
         if (this.entity != null) this.guard = CapHolders.getGuardAI(entity);
         else this.guard = null;
     }
-    
+
     @Override
-    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
+    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
     {
-        super.render(graphics, mouseX, mouseY, partialTicks);
-
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
-        RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID, "textures/gui/traineredit.png"));
-
         final int j2 = (this.width - 256) / 2;
         final int k2 = (this.height - 160) / 2;
-        graphics.blit(ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID, "textures/gui/traineredit.png"), j2, k2, 0, 0, 256, 160);
-        try
-        {
-            this.current_page.render(graphics, mouseX, mouseY, partialTicks);
-        }
-        catch (final Exception e)
-        {
-            PokecubeAPI.LOGGER.warn("Error with page " + this.current_page, e);
-        }
+        this.renderBlurredBackground(partialTick);
+        guiGraphics.blit(ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID, "textures/gui/traineredit.png"), j2, k2, 0, 0, 256, 160);
     }
 
-    boolean resizing = false;
-
     @Override
-    public void rebuildWidgets()
+    public void init()
     {
-        this.children.clear();
-        this.renderables.clear();
         EditorGui.lastPage = 0;
-        super.rebuildWidgets();
+        super.init();
         // Here we just init current, it will then decide on what to do.
         this.current_page = this.createPage(EditorGui.lastPage);
         this.current_page.init(mc, width, height);
         this.current_page.onPageOpened();
+
+        this.renderables.add((graphics, mouseX, mouseY, partialTicks) -> {
+            try
+            {
+                this.current_page.render(graphics, mouseX, mouseY, partialTicks);
+            }
+            catch (final Exception e)
+            {
+                this.handleError(e);
+            }
+        });
     }
 
-    @Override
-    public void resize(final Minecraft minecraft, final int width, final int height)
+    private void handleError(final Exception e)
     {
-        this.resizing = true;
-        super.resize(minecraft, width, height);
-        this.init(this.mc, width, height);
+        if (this.current_page != null) PokecubeAPI.LOGGER.warn("Error with page {}", this.current_page.getTitle(), e);
+        else
+        {
+            PokecubeAPI.LOGGER.warn("Error with null page", e);
+            return;
+        }
+        this.current_page.onPageClosed();
+        this.current_page.init();
+        this.current_page.onPageOpened();
     }
 
     public void changePage(final int newIndex)
@@ -167,7 +165,6 @@ public class EditorGui extends Screen
         this.current_page = newPage;
         this.current_page.init(this.minecraft, this.width, this.height);
         this.current_page.onPageOpened();
-
     }
 
     public Page createPage(final int index)

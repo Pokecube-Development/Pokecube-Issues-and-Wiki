@@ -4,27 +4,28 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.network.chat.Component;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
+import pokecube.core.client.gui.helper.INotifiedEntry;
 import pokecube.core.client.gui.helper.ScrollGui;
 
 public abstract class ListPage<T extends AbstractSelectionList.Entry<T>> extends Page
 {
-
     protected ScrollGui<T> list;
-    /**
-     * Set this to true if the page handles rendering the list itself.
-     */
-    protected boolean      handlesList = false;
 
     public ListPage(final Component title, final EditorGui parent)
     {
         super(title, parent);
     }
 
-    public void drawTitle(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
+    public void drawTitle(final GuiGraphics graphics)
     {
         final int x = (this.parent.width - 160) / 2 + 80;
         final int y = (this.parent.height - 160) / 2 + 8;
         graphics.drawCenteredString(this.font, this.getTitle().getString(), x, y, 0xFFFFFFFF);
+    }
+
+    protected void postInitList()
+    {
+        this.addRenderableWidget(this.list);
     }
 
     @Override
@@ -32,11 +33,18 @@ public abstract class ListPage<T extends AbstractSelectionList.Entry<T>> extends
     {
         super.init();
         this.initList();
+        postInitList();
     }
 
     public void initList()
     {
-        if (this.list != null) this.children.remove(this.list);
+        if (this.list != null)
+        {
+            this.removeWidget(this.list);
+            this.list.children().forEach(entry -> {
+                if (entry instanceof INotifiedEntry notified) notified.addOrRemove(this::removeWidget);
+            });
+        }
     }
 
     @Override
@@ -47,11 +55,8 @@ public abstract class ListPage<T extends AbstractSelectionList.Entry<T>> extends
     }
 
     @Override
-    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
+    public void renderPage(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
-        this.drawTitle(graphics, mouseX, mouseY, partialTicks);
-        super.render(graphics, mouseX, mouseY, partialTicks);
-        // Draw the list
-        if (!this.handlesList) this.list.render(graphics, mouseX, mouseY, partialTicks);
+        this.drawTitle(graphics);
     }
 }

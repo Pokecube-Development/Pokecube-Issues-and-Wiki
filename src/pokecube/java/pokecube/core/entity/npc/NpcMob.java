@@ -66,6 +66,7 @@ import pokecube.core.ai.routes.GuardAI;
 import pokecube.core.ai.routes.GuardTask;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.utils.CapHolders;
+import thut.api.entity.IMobTexturable;
 import thut.api.entity.ai.BrainUtil;
 import thut.api.inventory.npc.NpcContainer;
 import thut.api.maths.Vector3;
@@ -115,7 +116,7 @@ public class NpcMob extends Villager implements IEntityWithComplexSpawn
     {
         final List<Pair<Integer, ? extends BehaviorControl<? super Villager>>> temp = Lists.newArrayList(addTo);
         final Pair<Integer, GuardTask<Villager>> pair = Pair.of(0, new GuardTask<>(this, guardai));
-        temp.add(0, pair);
+        temp.addFirst(pair);
         return ImmutableList.copyOf(temp);
     }
 

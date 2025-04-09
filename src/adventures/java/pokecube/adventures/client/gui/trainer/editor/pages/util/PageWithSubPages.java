@@ -46,7 +46,7 @@ public abstract class PageWithSubPages<T extends Page> extends Page
         }
         catch (final Exception e)
         {
-            PokecubeAPI.LOGGER.warn("Error with page " + this.current_page.getTitle(), e);
+            PokecubeAPI.LOGGER.warn("Error with page {}", this.current_page.getTitle(), e);
         }
         super.onPageClosed();
     }
@@ -69,7 +69,7 @@ public abstract class PageWithSubPages<T extends Page> extends Page
         }
         catch (final Exception e)
         {
-            PokecubeAPI.LOGGER.warn("Error with page " + this.current_page.getTitle(), e);
+            PokecubeAPI.LOGGER.warn("Error with page {}", this.current_page.getTitle(), e);
         }
         @SuppressWarnings("unchecked")
         final List<GuiEventListener> list = (List<GuiEventListener>) this.children();
@@ -99,13 +99,12 @@ public abstract class PageWithSubPages<T extends Page> extends Page
     }
 
     @Override
-    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
+    public void renderPage(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
         if (this.font == null) this.font = Minecraft.getInstance().font;
         this.prePageDraw(graphics, mouseX, mouseY, partialTicks);
         this.current_page.render(graphics, mouseX, mouseY, partialTicks);
         this.postPageDraw(graphics, mouseX, mouseY, partialTicks);
-        super.render(graphics, mouseX, mouseY, partialTicks);
     }
 
     @Override

@@ -1,11 +1,5 @@
 package pokecube.core.client.gui.watch.progress;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.lwjgl.glfw.GLFW;
-
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
@@ -13,6 +7,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
+import org.lwjgl.glfw.GLFW;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -27,6 +22,9 @@ import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.core.common.ThutCore;
 import thut.lib.TComponent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PerMobProgress extends Progress
 {
@@ -52,11 +50,11 @@ public class PerMobProgress extends Progress
                 if (check.startsWith(trimmed))
                 {
                     String name = entry.getName();
-                    if (name.contains(" ")) name = "\'" + name + "\'";
+                    if (name.contains(" ")) name = "'" + name + "'";
                     ret.add(name);
                 }
             }
-            Collections.sort(ret, (o1, o2) -> {
+            ret.sort((o1, o2) -> {
                 if (o1.startsWith("'") && !o2.startsWith("'")) return 1;
                 else if (o2.startsWith("'") && !o1.startsWith("'")) return -1;
                 return o1.compareToIgnoreCase(o2);
@@ -65,7 +63,7 @@ public class PerMobProgress extends Progress
                 if (t.startsWith("'") && t.endsWith("'")) t = t.substring(1, t.length() - 1);
                 return t;
             });
-            if (!ret.isEmpty()) this.text.setValue(ret.get(0));
+            if (!ret.isEmpty()) this.text.setValue(ret.getFirst());
             return true;
         }
         else if (keyCode == GLFW.GLFW_KEY_ENTER)

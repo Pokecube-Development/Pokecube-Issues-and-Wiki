@@ -1,12 +1,13 @@
 package pokecube.adventures.client.gui.trainer.editor.pages.util;
 
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
+
+import java.util.List;
 
 public abstract class Page extends Screen implements GuiEventListener
 {
@@ -32,7 +33,6 @@ public abstract class Page extends Screen implements GuiEventListener
     }
 
     /**
-     * 
      * @return Whether this page is valid for this parent.
      */
     public boolean isValid()
@@ -40,14 +40,22 @@ public abstract class Page extends Screen implements GuiEventListener
         return true;
     }
 
-    @Override
     /**
      * This is made public here to make it accessible for others.
      */
+    @Override
     public void init()
     {
         this.onPageClosed();
         super.init();
+    }
+
+    @Override
+    public boolean keyPressed(final int keyCode, final int b, final int c)
+    {
+        // We overwrite this to reverse the ordering of checking if tab was
+        // pressed
+        return this.getFocused() != null && this.getFocused().keyPressed(keyCode, b, c);
     }
 
     public void onPageClosed()
@@ -57,9 +65,18 @@ public abstract class Page extends Screen implements GuiEventListener
 
     public void onPageOpened()
     {
-        this.parent.children().remove(this.parent.current_page);
         @SuppressWarnings("unchecked")
         final List<GuiEventListener> list = (List<GuiEventListener>) this.parent.children();
         list.add(this);
+        this.renderables.add(this::renderPage);
+    }
+
+    @Override
+    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
+    {
+    }
+
+    public void renderPage(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
+    {
     }
 }

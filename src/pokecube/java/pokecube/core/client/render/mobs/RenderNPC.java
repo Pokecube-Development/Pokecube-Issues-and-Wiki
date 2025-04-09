@@ -51,7 +51,7 @@ public class RenderNPC<T extends NpcMob> extends LivingEntityRenderer<T, PlayerM
                 new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)),
                 context.getModelManager()));
 
-        this.addLayer(this.layers_normal.get(0));
+        this.addLayer(this.layers_normal.getFirst());
         this.addLayer(new ItemInHandLayer<>(this, context.getItemInHandRenderer()));
         this.addLayer(new ArrowLayer<>(context, this));
         this.addLayer(new CustomHeadLayer<>(this, context.getModelSet(), 1, 1, 1, context.getItemInHandRenderer()));
@@ -71,11 +71,11 @@ public class RenderNPC<T extends NpcMob> extends LivingEntityRenderer<T, PlayerM
             if (slimArms)
             {
                 this.model = slim;
-                this.layers.set(0, layers_slim.get(0));
+                this.layers.set(0, layers_slim.getFirst());
             }
             else {
                 this.model = normal;
-                this.layers.set(0, layers_normal.get(0));
+                this.layers.set(0, layers_normal.getFirst());
             }
         }
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
