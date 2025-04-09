@@ -42,8 +42,6 @@ public class SetupHandler
         // Hotkey to open belt inventory
         ThutCore.FORGE_BUS.addListener(TrainerEventHandler::dropBelt);
 
-        // One phase of initializing trainers.
-        ThutCore.FORGE_BUS.addListener(TrainerEventHandler::onJoinWorld);
         // Does similar to onJoinWorld, but can take a different SpawnReason
         ThutCore.FORGE_BUS.addListener(TrainerEventHandler::onNpcSpawn);
         // ticks the IHasPokemobs, and also ensures that the mob goes back to

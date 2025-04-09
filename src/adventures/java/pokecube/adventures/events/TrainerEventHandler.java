@@ -31,8 +31,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
 import net.neoforged.neoforge.common.util.TriState;
-import net.neoforged.neoforge.event.entity.EntityEvent.EntityConstructing;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent.StartTracking;
@@ -43,10 +41,6 @@ import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
-import pokecube.adventures.capabilities.CapabilityHasRewards.DefaultRewards;
-import pokecube.adventures.capabilities.CapabilityHasTrades.DefaultTrades;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates.DefaultAIStates;
-import pokecube.adventures.capabilities.CapabilityNPCMessages.DefaultMessager;
 import pokecube.adventures.capabilities.player.PlayerPokemobs;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
@@ -111,11 +105,9 @@ import java.util.function.Function;
 public class TrainerEventHandler
 {
 
-    private static class NpcOffers implements Consumer<MerchantOffers>
+    private record NpcOffers(NpcMob mob) implements Consumer<MerchantOffers>
     {
-        final NpcMob mob;
-
-        public NpcOffers(final NpcMob mob)
+        private NpcOffers(final NpcMob mob)
         {
             this.mob = mob;
 
@@ -151,32 +143,14 @@ public class TrainerEventHandler
         }
     }
 
-    private static class NpcOffer implements Consumer<MerchantOffer>
+    private record NpcOffer(NpcMob mob) implements Consumer<MerchantOffer>
     {
-        final NpcMob mob;
-
-        public NpcOffer(final NpcMob mob)
-        {
-            this.mob = mob;
-        }
-
         @Override
         public void accept(final MerchantOffer t)
         {
             this.mob.getNpcType();
         }
-
     }
-
-    public static final ResourceLocation POKEMOBSCAP = ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID,
-            "pokemobs");
-    public static final ResourceLocation AICAP = ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID, "ai");
-    public static final ResourceLocation MESSAGECAP = ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID,
-            "messages");
-    public static final ResourceLocation REWARDSCAP = ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID,
-            "rewards");
-    public static final ResourceLocation DATASCAP = ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID, "data");
-    public static final ResourceLocation TRADESCAP = ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID, "trades");
 
     public static void entityLivingConstruct(BrainInitEvent event)
     {
@@ -199,7 +173,7 @@ public class TrainerEventHandler
         }
         catch (final Exception e)
         {
-            PokecubeAPI.LOGGER.warn("Error with default trainer rewards " + Config.instance.trainer_defeat_reward, e);
+            PokecubeAPI.LOGGER.warn("Error with default trainer rewards {}", Config.instance.trainer_defeat_reward, e);
         }
         pmobs.init(mob);
         var rewards = pmobs.rewards;
@@ -238,8 +212,6 @@ public class TrainerEventHandler
 
     /**
      * This manages invulnerability of npcs to pokemobs, as well as managing the target allocation for trainers.
-     *
-     * @param evt
      */
     public static void onLivingHurt(final LivingDamageEvent.Pre evt)
     {
@@ -298,13 +270,6 @@ public class TrainerEventHandler
         }
     }
 
-    /**
-     * Initializes the AI for the trainers when they join the world.
-     */
-    public static void onJoinWorld(final EntityJoinLevelEvent event)
-    {
-    }
-
     public static void onNpcSpawn(final NpcSpawn.Spawn event)
     {
         TrainerEventHandler.initTrainer(event.getNpcMob(), event.getReason());
@@ -318,6 +283,7 @@ public class TrainerEventHandler
             final Brain<?> brain = npc.getBrain();
             if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET.get()) && brain.isActive(Activities.BATTLE.get()))
                 brain.setActiveActivityIfPossible(Activity.IDLE);
+            if (pokemobHolder.getTrainer() != npc) pokemobHolder.init(npc);
             pokemobHolder.onTick();
         }
     }
@@ -328,6 +294,7 @@ public class TrainerEventHandler
         if (pokemobHolder != null)
         {
             final LivingEntity npc = event.getEntity();
+            if (pokemobHolder.getTrainer() != npc) pokemobHolder.init(npc);
             // Add our task if the dummy not present, this can happen if the
             // brain has reset before
             if (npc instanceof Mob mob && npc.level() instanceof ServerLevel)
@@ -348,9 +315,8 @@ public class TrainerEventHandler
 
     private static void initTrainer(final LivingEntity mob, final MobSpawnType reason)
     {
-        if (mob instanceof NpcMob)
+        if (mob instanceof NpcMob npc)
         {
-            final NpcMob npc = (NpcMob) mob;
             npc.setInitOffers(new NpcOffers(npc));
             npc.setUseOffers(new NpcOffer(npc));
         }
@@ -399,7 +365,7 @@ public class TrainerEventHandler
 
             boolean creativeStick = player.isCreative() && player.getItemInHand(hand).getItem() == Items.STICK;
 
-            if (event.getResult() != TriState.FALSE || creativeStick)
+            if (event.getResult() == TriState.TRUE || creativeStick)
             {
                 if (player instanceof ServerPlayer sp)
                 {
@@ -407,9 +373,7 @@ public class TrainerEventHandler
                     buffer.writeInt(vill.getId());
                     final SimpleMenuProvider provider = new SimpleMenuProvider(
                             (i, p, e) -> new NpcContainer(i, p, buffer), vill.getDisplayName());
-                    sp.openMenu(provider, buf -> {
-                        buf.writeInt(vill.getId());
-                    });
+                    sp.openMenu(provider, buf -> buf.writeInt(vill.getId()));
                 }
                 evt.setCanceled(true);
                 evt.setCancellationResult(succeed);
@@ -495,9 +459,7 @@ public class TrainerEventHandler
             buffer.writeInt(player.getId());
             final SimpleMenuProvider provider = new SimpleMenuProvider((i, p, e) -> new ContainerTrainer(i, p, buffer),
                     player.getDisplayName());
-            player.openMenu(provider, buf -> {
-                buf.writeInt(player.getId());
-            });
+            player.openMenu(provider, buf -> buf.writeInt(player.getId()));
         }
     }
 
@@ -621,7 +583,6 @@ public class TrainerEventHandler
     /**
      * This manages making of trainers invisible if they have been defeated, if this is enabled for the given trainer.
      *
-     * @param event
      */
     public static void onWatchTrainer(final StartTracking event)
     {

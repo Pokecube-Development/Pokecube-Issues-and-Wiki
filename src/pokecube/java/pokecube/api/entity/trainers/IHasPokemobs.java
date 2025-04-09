@@ -32,6 +32,8 @@ import thut.api.world.mobs.data.DataSync;
  */
 public interface IHasPokemobs extends INBTSerializable<CompoundTag>, Container
 {
+    void init(LivingEntity npc);
+
     /**
      * LevelModes as follows:<br>
      * <br>
