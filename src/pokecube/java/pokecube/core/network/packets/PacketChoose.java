@@ -33,13 +33,9 @@ import thut.core.common.network.Packet;
 
 public class PacketChoose extends Packet
 {
-    private static class GuiOpener
+    private record GuiOpener(PokedexEntry[] starters, boolean special, boolean pick)
     {
-        final PokedexEntry[] starters;
-        final boolean special;
-        final boolean pick;
-
-        public GuiOpener(final PokedexEntry[] starters, final boolean special, final boolean pick)
+        private GuiOpener(final PokedexEntry[] starters, final boolean special, final boolean pick)
         {
             this.special = special;
             this.starters = starters;
@@ -49,15 +45,15 @@ public class PacketChoose extends Packet
 
         @OnlyIn(Dist.CLIENT)
         @SubscribeEvent
-        public void tick(final ClientTickEvent event)
+        public void tick(final ClientTickEvent.Post event)
         {
             var gui = new StarterEvent.Gui();
             ThutCore.FORGE_BUS.post(gui);
             if (!gui.isCanceled())
             {
-                pokecube.core.client.gui.GuiChooseFirstPokemob.special = this.special;
-                pokecube.core.client.gui.GuiChooseFirstPokemob.pick = this.pick;
-                pokecube.core.client.gui.GuiChooseFirstPokemob.starters = this.starters;
+                GuiChooseFirstPokemob.special = this.special;
+                GuiChooseFirstPokemob.pick = this.pick;
+                GuiChooseFirstPokemob.starters = this.starters;
                 net.minecraft.client.Minecraft.getInstance().setScreen(new GuiChooseFirstPokemob(this.starters));
             }
             ThutCore.FORGE_BUS.unregister(this);
@@ -120,7 +116,7 @@ public class PacketChoose extends Packet
     @Override
     public void handleServer(final ServerPlayer player)
     {
-        /** Ignore this packet if the player already has a starter. */
+        /* Ignore this packet if the player already has a starter. */
         if (PokecubeSerializer.getInstance().hasStarter(player)) return;
         // Fire pre event to deny starters from being processed.
         final StarterEvent.Pre pre = new StarterEvent.Pre(player);
@@ -140,29 +136,29 @@ public class PacketChoose extends Packet
         // Fire pick event to add new starters or items
         final StarterEvent.Pick pick = new StarterEvent.Pick(player, items, entry);
         ThutCore.FORGE_BUS.post(pick);
-        /**
+        /*
          * If canceled, assume items were not needed, or canceller handled
          * giving them.
          */
         if (pick.isCanceled()) return;
-        /** Update itemlist from the pick event. */
+        /* Update itemlist from the pick event. */
         items.clear();
         items.addAll(pick.starterPack);
         for (final ItemStack e : items)
         {
             if (e.isEmpty()) continue;
-            /**
+            /*
              * Run this before tools.give, as that invalidates the itemstack.
              */
             if (PokecubeManager.isFilled(e))
             {
                 final IPokemob pokemob = PokecubeManager.itemToPokemob(e, player.level());
-                /** First pokemob advancement on getting starter. */
+                /* First pokemob advancement on getting starter. */
                 if (pokemob != null && pokemob.getPokedexEntry() == entry) StatsCollector.addCapture(pokemob);
             }
             Tools.giveItem(player, e);
         }
-        /** Set starter status to prevent player getting more starters. */
+        /* Set starter status to prevent player getting more starters. */
         PokecubeSerializer.getInstance().setHasStarter(player);
         PokecubeSerializer.getInstance().save();
 
@@ -181,7 +177,7 @@ public class PacketChoose extends Packet
         buffer.writeNbt(this.data);
     }
 
-    private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("pokecube:choose_pokemob"));
+    private final static Type<Packet> TYPE = new Type<>(ResourceLocation.parse("pokecube:choose_pokemob"));
 
     @Override
     public Type<? extends CustomPacketPayload> type()
