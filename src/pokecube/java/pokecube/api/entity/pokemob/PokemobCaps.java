@@ -30,7 +30,7 @@ import pokecube.api.items.PokecubeContents;
 import pokecube.api.items.PokesealContents;
 import pokecube.core.utils.EntityTools;
 import thut.api.data.HolderProvider;
-import thut.core.common.network.PacketSyncAttachments;
+import thut.core.common.network.SyncAttachments;
 
 import java.util.function.Supplier;
 
@@ -235,8 +235,9 @@ public class PokemobCaps
         INHABITOR = registry.register("inhabitor",
                 () -> AttachmentType.builder(CapabilityInhabitor._REGISTRY::make).build());
 
-        PacketSyncAttachments.SYNCED.add(ResourceLocation.parse("pokecube:pokemob"));
-        PacketSyncAttachments.SYNCED.add(ResourceLocation.parse("pokecube:ongoing_affected"));
+        SyncAttachments.SYNCED.add(ResourceLocation.parse("pokecube:pokemob"));
+        SyncAttachments.SYNCED.add(ResourceLocation.parse("pokecube:ongoing_affected"));
+        SyncAttachments.UNCHECKED_SYNC.add(ResourceLocation.parse("pokecube:pokemob"));
     }
 
     public static void registerComponents(DeferredRegister<DataComponentType<?>> registry)

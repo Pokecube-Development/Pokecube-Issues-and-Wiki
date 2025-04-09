@@ -82,8 +82,9 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
         return top;
     }
 
+    /** Gets the width of the list */
     @Override
-    /** Gets the width of the list */ public int getRowWidth()
+    public int getRowWidth()
     {
         return this.width;
     }
@@ -104,8 +105,6 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
     {
         return this.getRowLeft() + this.getRowWidth() + this.scrollBarOffset;
     }
-
-    int mouseX, mouseY;
 
     @Override
     protected void renderListBackground(GuiGraphics guiGraphics)
@@ -201,10 +200,11 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
         return this.itemHeight;
     }
 
-    @Override
     /**
      * This override is to make it public
-     */ public T getEntry(final int index)
+     */
+    @Override
+    public T getEntry(final int index)
     {
         return super.getEntry(index);
     }

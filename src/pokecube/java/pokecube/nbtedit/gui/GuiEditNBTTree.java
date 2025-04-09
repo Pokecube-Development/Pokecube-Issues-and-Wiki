@@ -1,14 +1,12 @@
 package pokecube.nbtedit.gui;
 
-import org.lwjgl.glfw.GLFW;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
+import org.lwjgl.glfw.GLFW;
 import pokecube.nbtedit.nbt.NBTTree;
 import pokecube.nbtedit.packets.CustomNBTPacket;
 import pokecube.nbtedit.packets.EntityNBTPacket;
@@ -17,7 +15,6 @@ import thut.lib.TComponent;
 
 public class GuiEditNBTTree extends Screen
 {
-
     public int entityOrX, y, z;
     private boolean entity;
     protected String screenTitle;
@@ -28,10 +25,6 @@ public class GuiEditNBTTree extends Screen
     {
         super(TComponent.translatable("nbtedit.tree"));
         this.guiTree = new GuiNBTTree(new NBTTree(tag));
-        this.renderables.add((graphics, x, y, par3) -> {
-            this.guiTree.render(graphics, x, y, par3);
-            graphics.drawCenteredString(this.font, this.screenTitle, this.width / 2, 5, 16777215);
-        });
     }
 
     public GuiEditNBTTree(final BlockPos pos, final CompoundTag tag)
@@ -103,37 +96,11 @@ public class GuiEditNBTTree extends Screen
                 this.width * 3 / 4 - 100, this.height - 27, 200, 20).build());
 
         this.children.add(this.guiTree);
-    }
 
-    @Override
-    public boolean mouseClicked(final double x, final double y, final int t)
-    {
-        return this.guiTree.mouseClicked(x, y, t) || super.mouseClicked(x, y, t);
-    }
-
-    @Override
-    public boolean mouseScrolled(final double x, final double y, final double dx, double dy)
-    {
-        boolean ret = super.mouseScrolled(x, y, dx, dy);
-
-        if (dy != 0)
-        {
-            this.guiTree.shift(dy >= 1 ? 6 : -6);
-            ret = true;
-        }
-        return ret;
-    }
-
-    @Override
-    protected void renderMenuBackground(GuiGraphics guiGraphics, int x, int y, int width, int height)
-    {
-        super.renderMenuBackground(guiGraphics, x, y, width, height);
-    }
-
-    @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
-    {
-        super.render(guiGraphics, mouseX, mouseY, partialTick);
+        this.renderables.add((graphics, x, y, t) -> {
+            graphics.drawCenteredString(this.font, this.screenTitle, this.width / 2, 5, 16777215);
+            this.guiTree.render(graphics, x, y, t);
+        });
     }
 
     private void quitWithoutSaving()

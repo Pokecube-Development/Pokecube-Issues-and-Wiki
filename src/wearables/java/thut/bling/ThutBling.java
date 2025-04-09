@@ -1,12 +1,11 @@
 package thut.bling;
 
-import java.util.function.Supplier;
-
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
@@ -24,6 +23,8 @@ import thut.bling.network.PacketBag;
 import thut.wearables.Reference;
 import thut.wearables.ThutWearables;
 import thut.wearables.network.PacketHandler;
+
+import java.util.function.Supplier;
 
 @Mod(value = ThutBling.MODID)
 public class ThutBling
@@ -67,8 +68,9 @@ public class ThutBling
                         FeatureFlags.REGISTRY.allFlags()));
 
         DataComponentType.Builder<SmallBagData> buildersb = new DataComponentType.Builder<>();
-        SMALL_BAG_DATA = ITEM_DATA.register("small_bag_data", name -> buildersb.persistent(SmallBagData.CODEC)
-                .networkSynchronized(SmallBagData.STREAM_CODEC).build());
+        SMALL_BAG_DATA = ITEM_DATA.register("small_bag_data",
+                name -> buildersb.persistent(SmallBagData.CODEC).networkSynchronized(SmallBagData.STREAM_CODEC)
+                        .build());
         DataComponentType.Builder<GemData> builderbg = new DataComponentType.Builder<>();
         BLING_GEM_DATA = ITEM_DATA.register("bling_gem_data",
                 name -> builderbg.persistent(GemData.CODEC).networkSynchronized(GemData.STREAM_CODEC).build());
@@ -87,7 +89,7 @@ public class ThutBling
         ITEMS.register(modEventBus);
         CONTAINERS.register(modEventBus);
         ITEM_DATA.register(modEventBus);
-        modEventBus.addListener(this::addCreative);
+        modEventBus.addListener(EventPriority.HIGHEST, this::addCreative);
         modEventBus.addListener(this::modifyComponents);
 
         BlingItem.init();

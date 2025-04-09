@@ -235,7 +235,6 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             }
             else if (entry.getSexeRatio() == 0) pokemob.setSexe(IPokemob.MALE);
             else if (entry.getSexeRatio() == 254) pokemob.setSexe(IPokemob.FEMALE);
-            pokemob.onGenesChanged();
         }
         this.addRenderableWidget(this.searchBox);
         this.searchBox.setVisible(!this.watch.canEdit(pokemob));

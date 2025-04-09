@@ -92,7 +92,7 @@ public class AnimationGui extends Screen
                 ret.getEntity().setUUID(realMob.getEntity().getUUID());
                 var reg = ret.getEntity().registryAccess();
                 ret.deserializeNBT(reg, realMob.serializeNBT(reg));
-                ret.onGenesChanged();
+
                 if (ret instanceof DefaultPokemob to && realMob instanceof DefaultPokemob from)
                     to.getGenes().deserializeNBT(reg, from.getGenes().serializeNBT(reg));
                 if (!realMob.getPokedexEntry().stock)
@@ -235,7 +235,6 @@ public class AnimationGui extends Screen
         catch (final NumberFormatException e1)
         {}
 
-        this.toRender.onGenesChanged();
         this.dyeColour.setValue("" + this.toRender.getDyeColour());
         this.renderHolder = RenderPokemob.holders.get(AnimationGui.entry);
         if (this.holder != null)

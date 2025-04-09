@@ -24,7 +24,7 @@ import net.neoforged.neoforge.event.entity.EntityEvent;
 import thut.api.maths.vecmath.Mat3f;
 import thut.api.maths.vecmath.Vec3f;
 import thut.core.common.ThutCore;
-import thut.core.common.network.PacketPartInteract;
+import thut.core.common.network.PartInteract;
 
 public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
 {
@@ -129,7 +129,7 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
     {
         if (this.level().isClientSide && source.getDirectEntity() instanceof Player)
         {
-            final PacketPartInteract packet = new PacketPartInteract(this.id, this.getParent(),
+            final PartInteract packet = new PartInteract(this.id, this.getParent(),
                     source.getDirectEntity().isShiftKeyDown());
             ThutCore.packets.sendToServer(packet);
         }
@@ -156,7 +156,7 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
     {
         if (this.level().isClientSide)
         {
-            final PacketPartInteract packet = new PacketPartInteract(this.id, this.getParent(), hand, vec,
+            final PartInteract packet = new PartInteract(this.id, this.getParent(), hand, vec,
                     player.isShiftKeyDown());
             ThutCore.packets.sendToServer(packet);
         }
@@ -168,7 +168,7 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
     {
         if (this.level().isClientSide)
         {
-            final PacketPartInteract packet = new PacketPartInteract(this.id, this.getParent(), hand,
+            final PartInteract packet = new PartInteract(this.id, this.getParent(), hand,
                     player.isShiftKeyDown());
             ThutCore.packets.sendToServer(packet);
         }

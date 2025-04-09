@@ -33,8 +33,8 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
     protected GenericPartEntity.Factory<PokemobPart, PokemobHasParts> factory;
     private PartHolder<PokemobPart> parts;
 
-    private List<PokemobPart> lowerList = Lists.newArrayList();
-    private List<PokemobPart> upperList = Lists.newArrayList();
+    private final List<PokemobPart> lowerList = Lists.newArrayList();
+    private final List<PokemobPart> upperList = Lists.newArrayList();
 
     public PokemobHasParts(final EntityType<? extends TamableAnimal> type, final Level worldIn)
     {
@@ -54,7 +54,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
         {
             List<PokemobPart> allParts = Lists.newArrayList();
             Map<String, PokemobPart[]> partMap = Maps.newHashMap();
-            this.parts = new PartHolder<PokemobPart>(allParts, partMap, new Holder<PokemobPart>());
+            this.parts = new PartHolder<>(allParts, partMap, new Holder<>());
             this.factory = PokemobPart::new;
         }
         return parts;
@@ -82,7 +82,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
 
     protected void initSizes(final float size)
     {
-        final PokedexEntry entry = this.pokemobCap.getPokedexEntry();
+        final PokedexEntry entry = this.getPokemob().getPokedexEntry();
 
         // final List<PokemobPart> allParts = this.allParts;
         // We need to here send a packet to sync the IDs of the new parts vs the
@@ -141,16 +141,17 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
         float maxY = 0;
         float maxZ = 0;
         int n = 0;
-        for (final PokemobPart[] parts : getHolder().partMap().values()) for (final PokemobPart part : parts)
-        {
-            n++;
-            minX = Math.min(minX, part.r0.x - part.width);
-            minZ = Math.min(minZ, part.r0.z - part.width);
-            minY = Math.min(minY, part.r0.y);
-            maxX = Math.max(maxX, part.r0.x + part.width);
-            maxZ = Math.max(maxZ, part.r0.z + part.width);
-            maxY = Math.max(maxY, part.r0.y + part.height);
-        }
+        for (final PokemobPart[] parts : getHolder().partMap().values())
+            for (final PokemobPart part : parts)
+            {
+                n++;
+                minX = Math.min(minX, part.r0.x - part.width);
+                minZ = Math.min(minZ, part.r0.z - part.width);
+                minY = Math.min(minY, part.r0.y);
+                maxX = Math.max(maxX, part.r0.x + part.width);
+                maxZ = Math.max(maxZ, part.r0.z + part.width);
+                maxY = Math.max(maxY, part.r0.y + part.height);
+            }
 
         if (n != 0)
         {
@@ -194,7 +195,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
     @Override
     public void initParts()
     {
-        float size = this.pokemobCap.getSize();
+        float size = this.getPokemob().getSize();
         this.initSizes(size);
     }
 
@@ -207,7 +208,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
     @Override
     public boolean shouldRenderAtSqrDistance(double dr2)
     {
-        double d0 = this.pokemobCap.getMobSizes().magSq();
+        double d0 = this.getPokemob().getMobSizes().magSq();
         if (Double.isNaN(d0))
         {
             d0 = 1.0D;
@@ -361,8 +362,8 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
             for (PokemobPart part : getHolder().holder().parts)
             {
                 if (Math.abs(part.r0.y - minY) < 0.5) this.lowerList.add(part);
-                // Only allow it to be in one list, prioritsing lower, these are
-                // just used for ordered collision checks anyway.
+                    // Only allow it to be in one list, prioritsing lower, these are
+                    // just used for ordered collision checks anyway.
                 else if (Math.abs(part.r0.y - maxY) < 0.5) this.upperList.add(part);
             }
         }
@@ -377,9 +378,9 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
         return this.poses;
     }
 
-    @Override
-    public EntityDimensions getDefaultDimensions(Pose poseIn)
-    {
-        return this.dimensions;
-    }
+    //    @Override
+    //    public EntityDimensions getDefaultDimensions(Pose poseIn)
+    //    {
+    //        return this.dimensions;
+    //    }
 }

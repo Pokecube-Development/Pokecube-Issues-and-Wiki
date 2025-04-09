@@ -26,7 +26,7 @@ import thut.api.entity.multipart.GenericPartEntity;
  * This is a custom implementation of CUseEntityPacket, to support pokemob parts
  * more properly.
  */
-public class PacketPartInteract extends Packet
+public class PartInteract extends Packet
 {
     int entityId;
     boolean sneaking;
@@ -36,12 +36,12 @@ public class PacketPartInteract extends Packet
 
     private String id;
 
-    public PacketPartInteract()
+    public PartInteract()
     {
         super();
     }
 
-    public PacketPartInteract(final String name, final Entity entityIn, final boolean sneak)
+    public PartInteract(final String name, final Entity entityIn, final boolean sneak)
     {
         this.entityId = entityIn.getId();
         this.action = ServerboundInteractPacket.ActionType.ATTACK;
@@ -49,7 +49,7 @@ public class PacketPartInteract extends Packet
         this.id = name;
     }
 
-    public PacketPartInteract(final String name, final Entity entityIn, final InteractionHand handIn,
+    public PartInteract(final String name, final Entity entityIn, final InteractionHand handIn,
             final boolean sneak)
     {
         this.entityId = entityIn.getId();
@@ -59,7 +59,7 @@ public class PacketPartInteract extends Packet
         this.id = name;
     }
 
-    public PacketPartInteract(final String name, final Entity entityIn, final InteractionHand handIn,
+    public PartInteract(final String name, final Entity entityIn, final InteractionHand handIn,
             final Vec3 hitVecIn, final boolean sneak)
     {
         this.entityId = entityIn.getId();

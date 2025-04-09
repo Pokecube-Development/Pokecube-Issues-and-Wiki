@@ -58,7 +58,7 @@ public class SizeGene extends GeneFloat
     {
         if (value < 0.01f) value = 0.01f;
         if (value > 100f) value = 100f;
-        if (this._last_set != this.value && entity instanceof LivingEntity living)
+        if (entity instanceof LivingEntity living)//this._last_set != this.value &&
         {
             living.getAttribute(SharedAttributes.MOB_SIZE_SCALE).setBaseValue(this.value);
             living.refreshDimensions();

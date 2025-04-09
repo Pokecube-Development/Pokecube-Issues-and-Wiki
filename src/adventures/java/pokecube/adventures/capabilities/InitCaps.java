@@ -18,6 +18,7 @@ import pokecube.api.entity.trainers.IHasRewards;
 import pokecube.api.entity.trainers.IHasTrades;
 import pokecube.api.entity.trainers.TrainerCaps;
 import thut.api.data.HolderProvider;
+import thut.core.common.network.SyncAttachments;
 
 public class InitCaps
 {
@@ -33,6 +34,9 @@ public class InitCaps
                 () -> AttachmentType.serializable(CapabilityHasRewards::make).build());
         TrainerCaps.TRADES = registry.register("trainer_trades",
                 () -> AttachmentType.serializable(CapabilityHasTrades::make).build());
+
+        SyncAttachments.SYNCED.add(ResourceLocation.parse("pokecube_adventures:trainer_pokemobs"));
+        SyncAttachments.UNCHECKED_SYNC.add(ResourceLocation.parse("pokecube_adventures:trainer_pokemobs"));
 
         var KEY_DEFAULT = ResourceLocation.fromNamespaceAndPath("pokecube_adventures", "default");
         CapabilityHasPokemobs.registerProvider(new HolderProvider.Provider<>()

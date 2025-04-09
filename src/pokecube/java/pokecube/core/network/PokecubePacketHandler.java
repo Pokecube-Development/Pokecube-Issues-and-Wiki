@@ -24,8 +24,6 @@ import pokecube.core.network.pokemobs.PacketNickname;
 import pokecube.core.network.pokemobs.PacketPingBoss;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.network.pokemobs.PacketPokemobMessage;
-import pokecube.core.network.pokemobs.PacketSyncExp;
-import pokecube.core.network.pokemobs.PacketSyncGene;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
 import pokecube.core.network.pokemobs.PacketSyncMoveUse;
 import pokecube.core.network.pokemobs.PacketSyncNewMoves;
@@ -62,8 +60,6 @@ public class PokecubePacketHandler
         PokecubeCore.packets.registerToServerMessage(PacketNickname.class);
         PokecubeCore.packets.registerToServerMessage(PacketPokemobGui.class);
         PokecubeCore.packets.registerToClientMessage(PacketPokemobMessage.class);
-        PokecubeCore.packets.registerToClientMessage(PacketSyncExp.class);
-        PokecubeCore.packets.registerToClientMessage(PacketSyncGene.class);
         PokecubeCore.packets.registerToClientMessage(PacketSyncModifier.class);
         PokecubeCore.packets.registerToClientMessage(PacketSyncMoveUse.class);
         PokecubeCore.packets.registerToClientMessage(PacketSyncNewMoves.class);

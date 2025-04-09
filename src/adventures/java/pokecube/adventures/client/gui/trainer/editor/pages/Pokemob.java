@@ -164,7 +164,6 @@ public class Pokemob extends Page
         {
             this.abilIndex = this.pokemob.getAbilityIndex();
             this.nat = this.pokemob.getNature();
-            this.pokemob.onGenesChanged();
             this.gender = this.pokemob.getSexe();
             entry = this.pokemob.getPokedexEntry();
             name = entry.getName();
@@ -275,7 +274,6 @@ public class Pokemob extends Page
             {
                 this.shiny = !this.pokemob.isShiny();
                 this.pokemob.setShiny(this.shiny);
-                this.pokemob.onGenesChanged();
                 b.setMessage(TComponent.literal(this.shiny ? "Y" : "N"));
                 this.onChanged();
             }
@@ -322,7 +320,6 @@ public class Pokemob extends Page
                     String name = "none";
                     if (this.pokemob != null)
                     {
-                        this.pokemob.onGenesChanged();
                         name = entry.getName();
                         level = this.pokemob.getLevel();
                         nature = this.pokemob.getNature() + "";

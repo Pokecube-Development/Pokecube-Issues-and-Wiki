@@ -8,6 +8,7 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
@@ -42,10 +43,9 @@ public class CoreCreativeTabs
                     .icon(() -> new ItemStack(BerryManager.getBerryItem("cheri")))
                     .withTabsBefore(ResourceLocation.parse("pokecube:cubes_tab")).build());
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGH)
     public static void addCreative(BuildCreativeModeTabContentsEvent event)
     {
-        Thread.dumpStack();
         if (event.getTab().equals(BLOCKS_ITEMS_TAB.get()))
         {
             add(event, PokecubeItems.POKEDEX.get());
@@ -80,14 +80,9 @@ public class CoreCreativeTabs
 
         if (event.getTab().equals(POKECUBES_TAB.get()))
         {
-            PokecubeItems.cubeIds.forEach(id -> {
-                add(event, PokecubeItems.getStack(id));
-            });
+            PokecubeItems.cubeIds.forEach(id -> add(event, PokecubeItems.getStack(id)));
         }
 
-        if(true)return;
-        
-        
         if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
             addBefore(event, Items.MILK_BUCKET, PokecubeItems.BERRYJUICE.get());
@@ -223,7 +218,6 @@ public class CoreCreativeTabs
 
         if (event.getTab().equals(BERRIES_TAB.get()))
         {
-
             for (var berry : BerryManager.berryItems.values())
             {
                 add(event, berry.get());
@@ -302,9 +296,6 @@ public class CoreCreativeTabs
                     BlingItem.getStack("pokecube:mega_ring").getItem());
             addBefore(event, BlingItem.getStack("bling_ankle").getItem(),
                     BlingItem.getStack("pokecube:mega_ankletzinnia").getItem());
-
-            for (final String type : ItemGenerator.megaWearables.keySet())
-                add(event, ItemGenerator.megaWearables.get(type).get());
         }
     }
 

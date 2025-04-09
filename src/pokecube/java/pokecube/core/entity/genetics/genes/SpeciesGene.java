@@ -1,13 +1,5 @@
 package pokecube.core.entity.genetics.genes;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -25,12 +17,14 @@ import pokecube.core.database.genes.Mutations.MutationHolder;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.entity.genetics.genes.SpeciesGene.SpeciesInfo;
-import pokecube.core.network.pokemobs.PacketSyncGene;
 import thut.api.ThutCaps;
 import thut.api.entity.ICopyMob;
 import thut.api.entity.event.CopySetEvent;
 import thut.api.entity.genetics.Gene;
 import thut.core.common.ThutCore;
+
+import javax.annotation.Nullable;
+import java.util.*;
 
 public class SpeciesGene implements Gene<SpeciesInfo>
 {
@@ -58,8 +52,8 @@ public class SpeciesGene implements Gene<SpeciesInfo>
         public boolean equals(final Object obj)
         {
             if (!(obj instanceof SpeciesInfo info)) return false;
-            return this.getSexe() == info.getSexe()
-                    && (this.getEntry() == null ? true : this.getEntry().equals(info.getEntry()));
+            return this.getSexe() == info.getSexe() && (this.getEntry() == null || this.getEntry()
+                    .equals(info.getEntry()));
         }
 
         void load(final CompoundTag tag)
@@ -343,18 +337,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
                     e.setId(-(living.getId() + 100));
                     _copy.setCopiedMob(e);
                     var genes = ThutCaps.getGenetics(e);
-                    if (genes != null && e.getId() < 100)
-                    {
-                        genes.getAlleles().forEach((key, alleles) -> {
-                            alleles.getChangeListeners().add(0, g -> {
-                                e.onAddedToLevel();
-                            });
-                            PacketSyncGene.syncGeneToTracking(living, alleles);
-                            alleles.getChangeListeners().add(g -> {
-                                e.onRemovedFromLevel();
-                            });
-                        });
-                    }
+                    if (genes != null && e.getId() < 100) genes.markDirty();
                     if (living instanceof Player) System.out.println("New Mob");
                     _transformed = true;
                 }

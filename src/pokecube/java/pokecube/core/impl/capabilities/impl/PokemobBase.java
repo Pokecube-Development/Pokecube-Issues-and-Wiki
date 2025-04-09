@@ -22,6 +22,7 @@ import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.moves.damage.EntityMoveUse;
 import pokecube.core.network.pokemobs.PacketPingBoss;
+import pokecube.core.utils.PokemobTracker;
 import thut.api.attachments.CopyMob;
 import thut.api.attachments.IOwnable;
 import thut.api.attachments.Ownable;
@@ -34,12 +35,7 @@ import thut.api.world.mobs.data.Data;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.genetics.DefaultGenetics;
 import thut.core.common.world.mobs.data.DataSync_Impl;
-import thut.core.common.world.mobs.data.types.Data_Byte;
-import thut.core.common.world.mobs.data.types.Data_Float;
-import thut.core.common.world.mobs.data.types.Data_Int;
-import thut.core.common.world.mobs.data.types.Data_ItemStack;
-import thut.core.common.world.mobs.data.types.Data_Long;
-import thut.core.common.world.mobs.data.types.Data_String;
+import thut.core.common.world.mobs.data.types.*;
 
 import java.util.List;
 import java.util.Map;
@@ -51,7 +47,6 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
 {
     public static class DataParameters
     {
-
         public Data<ItemStack> HELDITEMDW;
         public Data<Integer> HUNGERDW;
         public Data<String> NICKNAMEDW;
@@ -70,6 +65,7 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
         public Data<Integer> ENEMYNUMDW;
         public Data<Integer> EVOLTICKDW;
         public Data<Integer> STATUSDW;
+        public Data<Integer> EXP;
         public Data<Byte> MOVEINDEXDW;
         public Data<Integer> STATUSTIMERDW;
         public Data<Integer> ATTACKCOOLDOWN;
@@ -86,7 +82,6 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
 
         public void register(final DataSync sync)
         {
-            sync.clearMatching("pokemob");
             sync.setRegisterTag("pokemob");
             // Held Item timer
             this.HELDITEMDW = sync.register(new Data_ItemStack("held_item"));
@@ -116,6 +111,7 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
 
             // From EntityMovesPokemb
             this.STATUSDW = sync.register(new Data_Int("status", -1));
+            this.EXP = sync.register(new Data_Int("exp", 0));
             this.MOVEINDEXDW = sync.register(new Data_Byte("move_index", (byte) -1).setRealtime());
             this.STATUSTIMERDW = sync.register(new Data_Int("status_timer").setRealtime());
             this.ATTACKCOOLDOWN = sync.register(new Data_Int("attack_cd").setRealtime());
@@ -261,8 +257,12 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
     {
         if (sync != this.dataSync)
         {
+            System.out.println(this.entity);
+            System.out.println(this.getExp());
             sync.mapFrom(this.dataSync, "pokemob");
             this.dataSync = sync;
+            System.out.println(this.getExp());
+            System.out.println();
         }
     }
 
@@ -273,22 +273,10 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
         // ensure we are the entity's IPokemob
         entityIn.setData(PokemobCaps.POKEMOB, this);
 
-        if (entityIn.hasData(DefaultGenetics.TYPE))
-        {
-            this.setGenes(entityIn.getData(DefaultGenetics.TYPE));
-        }
-        if (entityIn.hasData(DataSync_Impl.TYPE))
-        {
-            this.setDataSync(entityIn.getData(DataSync_Impl.TYPE));
-        }
-        if (entityIn.hasData(Ownable.TYPE))
-        {
-            this.setOwnerHolder(entityIn.getData(Ownable.TYPE));
-        }
-        if (entityIn.hasData(CopyMob.TYPE_COPY))
-        {
-            this.setCopy(entityIn.getData(CopyMob.TYPE_COPY));
-        }
+        this.setGenes(entityIn.getData(DefaultGenetics.TYPE));
+        this.setDataSync(entityIn.getData(DataSync_Impl.TYPE));
+        this.setOwnerHolder(entityIn.getData(Ownable.TYPE));
+        this.setCopy(entityIn.getData(CopyMob.TYPE_COPY));
     }
 
     protected void setMaxHealth(final float maxHealth)
@@ -359,6 +347,7 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
             this.genes.addChangeListener(this);
             this.onGenesChanged();
         }
+        this.getMoveStats().reset();
     }
 
     public void setCopy(ICopyMob transform)
@@ -378,6 +367,10 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
     public void markClean()
     {
         this.isDirty = false;
+        if (this.getEntity() != null && this.getEntity().isAddedToLevel())
+        {
+            PokemobTracker.addPokemob(this);
+        }
     }
 
     @Override

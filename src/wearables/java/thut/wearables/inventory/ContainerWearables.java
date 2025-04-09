@@ -20,7 +20,7 @@ import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import thut.core.common.network.PacketSyncAttachments;
+import thut.core.common.network.SyncAttachments;
 import thut.wearables.EnumWearable;
 import thut.wearables.ThutWearables;
 
@@ -238,7 +238,7 @@ public class ContainerWearables extends AbstractContainerMenu
     public void removed(final Player player)
     {
         super.removed(player);
-        if (!player.level.isClientSide) PacketSyncAttachments.syncChange(PlayerWearables.TYPE, this.wearer);
+        if (!player.level.isClientSide) SyncAttachments.syncChange(PlayerWearables.TYPE, this.wearer);
     }
 
     /**

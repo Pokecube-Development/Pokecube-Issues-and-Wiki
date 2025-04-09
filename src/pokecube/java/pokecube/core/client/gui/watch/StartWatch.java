@@ -229,7 +229,6 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
             if (this.pokemob.getPokedexEntry().hasShiny && !this.pokemob.getEntity().isAddedToLevel())
             {
                 this.pokemob.setShiny(!this.pokemob.isShiny());
-                this.pokemob.onGenesChanged();
             }
         }).bounds(x - 65, y + 95, 12, 12).setRender(new UVImgRender(241, 36, 12, 12))
                 .setTexture(GuiPokeWatch.getWidgetTex())
@@ -300,7 +299,6 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
                 this.initPages(this.pokemob);
                 break;
             }
-            this.pokemob.onGenesChanged();
         }).bounds(x - 39, y + 95, 12, 12).setRender(new UVImgRender(200, 0, 12, 12))
                 .setTexture(GuiPokeWatch.getWidgetTex())
                 .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.gender.narrate"))

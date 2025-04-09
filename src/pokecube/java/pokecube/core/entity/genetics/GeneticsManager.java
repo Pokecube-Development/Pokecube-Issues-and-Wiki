@@ -1,47 +1,33 @@
 package pokecube.core.entity.genetics;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
-import javax.annotation.Nullable;
-
-import org.nfunk.jep.JEP;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.bus.api.EventPriority;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import org.nfunk.jep.JEP;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.events.pokemobs.ai.BrainInitEvent;
 import pokecube.api.utils.TagNames;
+import pokecube.api.utils.Tools;
+import pokecube.core.PokecubeCore;
 import pokecube.core.entity.genetics.epigenes.EVsGene;
 import pokecube.core.entity.genetics.epigenes.MovesGene;
-import pokecube.core.entity.genetics.genes.AbilityGene;
-import pokecube.core.entity.genetics.genes.ColourGene;
-import pokecube.core.entity.genetics.genes.IVsGene;
-import pokecube.core.entity.genetics.genes.NatureGene;
-import pokecube.core.entity.genetics.genes.ShinyGene;
-import pokecube.core.entity.genetics.genes.SizeGene;
-import pokecube.core.entity.genetics.genes.SpeciesGene;
+import pokecube.core.entity.genetics.genes.*;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.network.pokemobs.PacketSyncGene;
 import thut.api.ThutCaps;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.core.common.ThutCore;
 import thut.core.common.genetics.DefaultGenetics;
+
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
 
 public class GeneticsManager
 {
@@ -126,6 +112,16 @@ public class GeneticsManager
                 IVsGene.class, EVsGene.class, MovesGene.class, NatureGene.class, ShinyGene.class, SizeGene.class };
 
         GeneRegistry.registerDefaultGene((living) -> PokemobCaps._REGISTRY.make(living) != null, GENE_CLASSES);
+
+        GeneRegistry.registerGeneInit(SpeciesGene.class, (holder, gene) -> {
+            if (!(holder.holder() instanceof LivingEntity entity)) return true;
+            if (!(gene instanceof SpeciesGene sgene)) return true;
+            var info = sgene.getValue();
+            info.setEntry(PokecubeCore.getEntryFor(entity.getType()));
+            info.setSexe(Tools.getSexe(info.getEntry().getSexeRatio(), ThutCore.newRandom()));
+            info.setEntry(info.getEntry().getForGender(info.getSexe()));
+            return true;
+        });
     }
 
     public static void initEgg(final IMobGenetics eggs, final IMobGenetics mothers, final IMobGenetics fathers)
@@ -139,7 +135,6 @@ public class GeneticsManager
         final Entity mob = pokemob.getEntity();
         final IMobGenetics mobs = ThutCaps.getGenetics(mob);
         if (genes != mobs) mobs.getAlleles().putAll(genes.getAlleles());
-        pokemob.onGenesChanged();
     }
 
     public static void initJEP()

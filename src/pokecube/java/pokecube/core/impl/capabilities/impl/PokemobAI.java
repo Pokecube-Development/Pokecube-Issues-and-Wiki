@@ -156,8 +156,6 @@ public abstract class PokemobAI extends PokemobEvolves
                         particleLoc.z, 0, 0, 0);
             }
         }
-        // Update genes settings.
-        this.onGenesChanged();
 
         // Update our owner entity if needed
         if (this.getOwnerId() != null && this.getOwner() != null) this.setOwner(this.getOwner());

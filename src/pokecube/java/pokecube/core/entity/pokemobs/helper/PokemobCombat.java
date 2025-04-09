@@ -27,14 +27,14 @@ public abstract class PokemobCombat extends PokemobBase
     public boolean isInvulnerableTo(final DamageSource source)
     {
         // Check type effectiveness for damage sources.
-        if (source instanceof PokemobDamageSource psource) return psource.getEffectiveness(this.pokemobCap) <= 0;
+        if (source instanceof PokemobDamageSource psource) return psource.getEffectiveness(this.getPokemob()) <= 0;
         return super.isInvulnerableTo(source);
     }
 
     @Override
     public int getArmorValue()
     {
-        return (int) (this.pokemobCap.getStat(Stats.DEFENSE, true) / 12.5);
+        return (int) (this.getPokemob().getStat(Stats.DEFENSE, true) / 12.5);
     }
 
     @Override
@@ -43,7 +43,7 @@ public abstract class PokemobCombat extends PokemobBase
         if (!(source instanceof PokemobDamageSource))
         {
             int armour = 0;
-            if (source.is(DamageTypes.MAGIC)) armour = (int) (this.pokemobCap.getStat(Stats.SPDEFENSE, true) / 12.5);
+            if (source.is(DamageTypes.MAGIC)) armour = (int) (this.getPokemob().getStat(Stats.SPDEFENSE, true) / 12.5);
             else armour = this.getArmorValue();
             damage = CombatRules.getDamageAfterAbsorb(this, damage, source, armour,
                     (float) this.getAttribute(Attributes.ARMOR_TOUGHNESS).getValue());
@@ -57,7 +57,7 @@ public abstract class PokemobCombat extends PokemobBase
         if (!this.level.isClientSide
                 && (this.isAlwaysExperienceDropper() || this.lastHurtByPlayerTime > 0 && this.shouldDropExperience()
                         && this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT))
-                && this.pokemobCap.getOwnerId() == null)
+                && this.getPokemob().getOwnerId() == null)
         {
             int i = this.getBaseExperienceReward();
             i = EventHooks.getExperienceDrop(this, this.lastHurtByPlayer, i);
@@ -76,7 +76,7 @@ public abstract class PokemobCombat extends PokemobBase
     {
         final float scale = (float) PokecubeCore.getConfig().expFromDeathDropScale;
         final int exp = (int) Math.max(1,
-                this.pokemobCap.getBaseXP() * scale * 0.01 * Math.sqrt(this.pokemobCap.getLevel()));
+                this.getPokemob().getBaseXP() * scale * 0.01 * Math.sqrt(this.getPokemob().getLevel()));
         return exp;
     }
 }

@@ -45,8 +45,10 @@ public class Compat
 
     public static List<PokedexEntry> customEntries = Lists.newArrayList();
 
-    private static final ResourceLocation NOTPOKEMOBS = ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID, "never_pokemob");
-    private static final ResourceLocation BEEHIVES = ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID, "bee_hive_cap");
+    private static final ResourceLocation NOTPOKEMOBS = ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID,
+            "never_pokemob");
+    private static final ResourceLocation BEEHIVES = ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID,
+            "bee_hive_cap");
 
     static
     {
@@ -94,9 +96,9 @@ public class Compat
         // TODO adding the vanilla pokemobs
         Thread.dumpStack();
         // Here will will register the vanilla mobs as a type of pokemob.
-//        ThutCore.FORGE_BUS.addGenericListener(Entity.class, Compat::onEntityCaps);
+        //        ThutCore.FORGE_BUS.addGenericListener(Entity.class, Compat::onEntityCaps);
         // Here will will register the vanilla bee hives as habitable
-//        ThutCore.FORGE_BUS.addGenericListener(BlockEntity.class, Compat::onTileEntityCaps);
+        //        ThutCore.FORGE_BUS.addGenericListener(BlockEntity.class, Compat::onTileEntityCaps);
         // Here we disable the pokecube kill command for vanilla mobs for #753
         PokecubeAPI.POKEMOB_BUS.addListener(Compat::onKillCommand);
         // Here will will register the handler for making the default datapack
@@ -105,6 +107,7 @@ public class Compat
 
     private static void onServerStarted(final ServerStartedEvent event)
     {
+        if (!PokecubeCore.getConfig().non_vanilla_pokemobs && !PokecubeCore.getConfig().vanilla_pokemobs) return;
         ServerLevel testLevel = event.getServer().getLevel(Level.OVERWORLD);
         List<JsonPokedexEntry> entries = new ArrayList<>();
         BuiltInRegistries.ENTITY_TYPE.forEach(t -> {
@@ -131,9 +134,8 @@ public class Compat
                     .resolve("pokemobs").resolve("pokedex_entries").toFile();
             data.mkdirs();
 
-            String metacontents = "{\r\n" + "  \"pack\": {\r\n"
-                    + "    \"pack_format\": 8,\r\n".replace("8",
-                            "" + SharedConstants.getCurrentVersion().getPackVersion(PackType.SERVER_DATA))
+            String metacontents = "{\r\n" + "  \"pack\": {\r\n" + "    \"pack_format\": 8,\r\n".replace("8",
+                    "" + SharedConstants.getCurrentVersion().getPackVersion(PackType.SERVER_DATA))
                     + "    \"description\": \"Sample Adding Mobs for Pokecube \\n (MC 1.16.4+)\"\r\n" + "  }\r\n" + "}";
             File mcmeta = new File(root, "pack.mcmeta");
 
@@ -170,81 +172,81 @@ public class Compat
         if (Compat.makePokemob.test(event.getEntity().getType())) event.setCanceled(true);
     }
 
-//    private static void onTileEntityCaps(final AttachCapabilitiesEvent<BlockEntity> event)
-//    {
-//        // Only apply to BeehiveTileEntity
-//        // For now, we do an equality check, instead of instanceof check.
-//        // TODO replace with instanceof when resourcefull bees updates
-//        if (!(event.getObject().getClass() == BeehiveBlockEntity.class)) return;
-//
-//        final BeeHabitat habitat = new BeeHabitat((BeehiveBlockEntity) event.getObject());
-//        final HabitatProvider provider = new HabitatProvider(event.getObject(), habitat);
-//        event.addCapability(Compat.BEEHIVES, provider);
-//    }
-//
-//    private static void onEntityCaps(final AttachCapabilitiesEvent<Entity> event)
-//    {
-//        // Only consider mobEntity, IPokemob requires that
-//        if (!(event.getObject() instanceof Mob mob)) return;
-//        // Do not apply this to trainers!
-//        if (Config.instance.shouldBeCustomTrainer(mob)) return;
-//        // This checks blacklists, configs, etc on the pokemob type
-//        if (!Compat.makePokemob.test(mob.getType())) return;
-//        // If someone already added it, lets skip
-//        if (!event.getCapabilities().containsKey(EventsHandler.POKEMOBCAP))
-//        {
-//            final PokedexEntry entry = PokecubeCore.getEntryFor(mob.getType());
-//            if (entry == null) try
-//            {
-//                @SuppressWarnings("unchecked")
-//                final EntityType<? extends Mob> mobType = (EntityType<? extends Mob>) mob.getType();
-//                final String name = RegHelper.getKey(mobType).toString().replace(":", "_");
-//                PokedexEntry newDerp = Database.getEntry(name);
-//                if (newDerp == null)
-//                {
-//                    newDerp = new PokedexEntry(Compat.DERP.getPokedexNb(), name, true);
-//                    newDerp.setBaseForme(Compat.DERP);
-//                    Compat.DERP.copyToForm(newDerp);
-//                    newDerp.stock = false;
-//                    newDerp.width = mob.getBbWidth();
-//                    newDerp.height = mob.getBbHeight();
-//                    generated.add(newDerp);
-//                }
-//                newDerp.setEntityType(mobType);
-//                PokecubeCore.typeMap.put(mobType, newDerp);
-//            }
-//            catch (final Exception e)
-//            {
-//                // Something went wrong, so log and exit early
-//                PokecubeAPI.LOGGER.warn("Error making pokedex entry for {}", RegHelper.getKey(mob.getType()));
-//                e.printStackTrace();
-//                return;
-//            }
-//
-//            final VanillaPokemob pokemob = new VanillaPokemob(mob);
-//            IMobGenetics _genes;
-//            if (event.getCapabilities().containsKey(GeneticsManager.POKECUBEGENETICS))
-//            {
-//                _genes = event.getCapabilities().get(GeneticsManager.POKECUBEGENETICS)
-//                        .getCapability(ThutCaps.GENETICS_CAP).orElse(null);
-//                if (_genes == null) throw new IllegalStateException("Genes null yet registered?");
-//            }
-//            else
-//            {
-//                final GeneticsProvider genes = new GeneticsProvider();
-//                _genes = genes.wrapped;
-//                event.addCapability(GeneticsManager.POKECUBEGENETICS, genes);
-//            }
-//            final DataSync_Impl data = new DataSync_Impl();
-//            pokemob.setDataSync(data);
-//            pokemob.setGenes(_genes);
-//            _genes.addChangeListener(pokemob);
-//            event.addCapability(EventsHandler.POKEMOBCAP, pokemob);
-//            event.addCapability(EventsHandler.DATACAP, data);
-//            IGuardAICapability.addCapability(event);
-//            final ICapabilitySerializable<?> own = Ownable.makeMobOwnable(mob, true);
-//            event.addCapability(Ownable.LOCBASE, own);
-//        }
-//    }
+    //    private static void onTileEntityCaps(final AttachCapabilitiesEvent<BlockEntity> event)
+    //    {
+    //        // Only apply to BeehiveTileEntity
+    //        // For now, we do an equality check, instead of instanceof check.
+    //        // TODO replace with instanceof when resourcefull bees updates
+    //        if (!(event.getObject().getClass() == BeehiveBlockEntity.class)) return;
+    //
+    //        final BeeHabitat habitat = new BeeHabitat((BeehiveBlockEntity) event.getObject());
+    //        final HabitatProvider provider = new HabitatProvider(event.getObject(), habitat);
+    //        event.addCapability(Compat.BEEHIVES, provider);
+    //    }
+    //
+    //    private static void onEntityCaps(final AttachCapabilitiesEvent<Entity> event)
+    //    {
+    //        // Only consider mobEntity, IPokemob requires that
+    //        if (!(event.getObject() instanceof Mob mob)) return;
+    //        // Do not apply this to trainers!
+    //        if (Config.instance.shouldBeCustomTrainer(mob)) return;
+    //        // This checks blacklists, configs, etc on the pokemob type
+    //        if (!Compat.makePokemob.test(mob.getType())) return;
+    //        // If someone already added it, lets skip
+    //        if (!event.getCapabilities().containsKey(EventsHandler.POKEMOBCAP))
+    //        {
+    //            final PokedexEntry entry = PokecubeCore.getEntryFor(mob.getType());
+    //            if (entry == null) try
+    //            {
+    //                @SuppressWarnings("unchecked")
+    //                final EntityType<? extends Mob> mobType = (EntityType<? extends Mob>) mob.getType();
+    //                final String name = RegHelper.getKey(mobType).toString().replace(":", "_");
+    //                PokedexEntry newDerp = Database.getEntry(name);
+    //                if (newDerp == null)
+    //                {
+    //                    newDerp = new PokedexEntry(Compat.DERP.getPokedexNb(), name, true);
+    //                    newDerp.setBaseForme(Compat.DERP);
+    //                    Compat.DERP.copyToForm(newDerp);
+    //                    newDerp.stock = false;
+    //                    newDerp.width = mob.getBbWidth();
+    //                    newDerp.height = mob.getBbHeight();
+    //                    generated.add(newDerp);
+    //                }
+    //                newDerp.setEntityType(mobType);
+    //                PokecubeCore.typeMap.put(mobType, newDerp);
+    //            }
+    //            catch (final Exception e)
+    //            {
+    //                // Something went wrong, so log and exit early
+    //                PokecubeAPI.LOGGER.warn("Error making pokedex entry for {}", RegHelper.getKey(mob.getType()));
+    //                e.printStackTrace();
+    //                return;
+    //            }
+    //
+    //            final VanillaPokemob pokemob = new VanillaPokemob(mob);
+    //            IMobGenetics _genes;
+    //            if (event.getCapabilities().containsKey(GeneticsManager.POKECUBEGENETICS))
+    //            {
+    //                _genes = event.getCapabilities().get(GeneticsManager.POKECUBEGENETICS)
+    //                        .getCapability(ThutCaps.GENETICS_CAP).orElse(null);
+    //                if (_genes == null) throw new IllegalStateException("Genes null yet registered?");
+    //            }
+    //            else
+    //            {
+    //                final GeneticsProvider genes = new GeneticsProvider();
+    //                _genes = genes.wrapped;
+    //                event.addCapability(GeneticsManager.POKECUBEGENETICS, genes);
+    //            }
+    //            final DataSync_Impl data = new DataSync_Impl();
+    //            pokemob.setDataSync(data);
+    //            pokemob.setGenes(_genes);
+    //            _genes.addChangeListener(pokemob);
+    //            event.addCapability(EventsHandler.POKEMOBCAP, pokemob);
+    //            event.addCapability(EventsHandler.DATACAP, data);
+    //            IGuardAICapability.addCapability(event);
+    //            final ICapabilitySerializable<?> own = Ownable.makeMobOwnable(mob, true);
+    //            event.addCapability(Ownable.LOCBASE, own);
+    //        }
+    //    }
 
 }

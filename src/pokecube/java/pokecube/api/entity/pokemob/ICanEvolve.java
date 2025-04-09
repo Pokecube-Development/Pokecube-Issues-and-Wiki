@@ -359,8 +359,6 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             // Flag the mob as evolving.
             thisMob.setGeneralState(GeneralStates.EVOLVING, true);
 
-            thisMob.onGenesChanged();
-
             // Set entry, this should fix expressed species gene.
             thisMob.setPokedexEntry(newEntry);
 

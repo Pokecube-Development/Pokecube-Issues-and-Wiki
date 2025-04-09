@@ -140,7 +140,6 @@ public abstract class PokeInfoPage extends WatchPage
             if (this.parent.pokemob.getPokedexEntry().hasShiny && !this.parent.pokemob.getEntity().isAddedToLevel())
             {
                 this.parent.pokemob.setShiny(!this.parent.pokemob.isShiny());
-                this.parent.pokemob.onGenesChanged();
             }
         }).bounds(x - 63, y + 40, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
                 .setRender(new UVImgRender(241, 36, 12, 12))
@@ -184,7 +183,6 @@ public abstract class PokeInfoPage extends WatchPage
                     this.parent.initPages(this.parent.pokemob);
                     break;
             }
-            this.parent.pokemob.onGenesChanged();
         }).bounds(x - 47, y + 40, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
                 .setRender(new UVImgRender(200, 0, 12, 12))
                 .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.gender.narrate")).build());

@@ -24,6 +24,8 @@ import pokecube.nbtedit.nbt.Node;
 import pokecube.nbtedit.nbt.ParseHelper;
 import thut.lib.TComponent;
 
+import java.util.function.Consumer;
+
 public class GuiEditNBT extends AbstractWidget
 {
 
@@ -113,6 +115,7 @@ public class GuiEditNBT extends AbstractWidget
     private TextFieldWidget2 key, value;
 
     private Button save;
+    private Button quit;
 
     private String kError, vError;
 
@@ -175,20 +178,20 @@ public class GuiEditNBT extends AbstractWidget
         this.setX(x);
         this.setY(y);
 
-        this.parent.addRenderableWidget(
-                this.section = new GuiCharacterButton((byte) 0, x + GuiEditNBT.WIDTH - 1, y + 34, b -> {
+        this.section = this.parent.addTopWidget(
+                new GuiCharacterButton((byte) 0, x + GuiEditNBT.WIDTH - 1, y + 34, b -> {
                     this.value.insertText("" + NBTStringHelper.SECTION_SIGN);
                     this.checkValidInput();
                 }, supplier -> Component.literal("Section Sign")));
-        this.parent.addRenderableWidget(
-                this.newLine = new GuiCharacterButton((byte) 1, x + GuiEditNBT.WIDTH - 1, y + 50, b -> {
+        this.newLine = this.parent.addTopWidget(
+                new GuiCharacterButton((byte) 1, x + GuiEditNBT.WIDTH - 1, y + 50, b -> {
                     this.value.insertText("\n");
                     this.checkValidInput();
                 }, supplier -> Component.literal("New Line")));
         final String sKey = this.node.getObject().getName();
         final String sValue = GuiEditNBT.getValue(this.nbt);
-        this.parent.addRenderableWidget(this.key = new TextFieldWidget2(this.mc.font, x + 46, y + 18, 116, 15, false));
-        this.parent.addRenderableWidget(this.value = new TextFieldWidget2(this.mc.font, x + 46, y + 44, 116, 15, true));
+        this.key = this.parent.addTopWidget(new TextFieldWidget2(this.mc.font, x + 46, y + 18, 116, 15, false));
+        this.value = this.parent.addTopWidget(new TextFieldWidget2(this.mc.font, x + 46, y + 44, 116, 15, true));
 
         this.key.setValue(sKey);
         this.key.setBordered(false);
@@ -202,11 +205,11 @@ public class GuiEditNBT extends AbstractWidget
         if (!this.key.isFocused() && !this.value.isFocused()) if (this.canEditText) this.key.setFocused(true);
         else if (this.canEditValue) this.value.setFocused(true);
 
-        this.parent.addRenderableWidget(
-                this.save = new Button.Builder(TComponent.literal("Save"), (b) -> this.saveAndQuit()).bounds(x + 9,
-                        y + 62, 75, 20).build());
+        this.save = this.parent.addTopWidget(
+                new Button.Builder(TComponent.literal("Save"), (b) -> this.saveAndQuit()).bounds(x + 9, y + 62, 75, 20)
+                        .build());
 
-        this.parent.addRenderableWidget(
+        this.quit = this.parent.addTopWidget(
                 new Button.Builder(TComponent.literal("Cancel"), (b) -> this.parent.closeWindow()).bounds(x + 93,
                         y + 62, 75, 20).build());
     }
@@ -218,10 +221,15 @@ public class GuiEditNBT extends AbstractWidget
         return super.mouseClicked(x, y, b);
     }
 
-    @Override
-    public void render(final GuiGraphics graphics, final int mx, final int my, final float m)
+    public void removeParts(Consumer<AbstractWidget> remover)
     {
-        super.render(graphics, mx, my, m);
+        remover.accept(this);
+        remover.accept(this.quit);
+        remover.accept(this.save);
+        remover.accept(this.section);
+        remover.accept(this.newLine);
+        remover.accept(this.value);
+        remover.accept(this.key);
     }
 
     private void saveAndQuit()

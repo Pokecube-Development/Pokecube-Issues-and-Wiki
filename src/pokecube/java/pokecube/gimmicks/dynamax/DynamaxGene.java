@@ -16,7 +16,6 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
-import pokecube.core.network.pokemobs.PacketSyncGene;
 import pokecube.gimmicks.dynamax.DynamaxGene.DynaObject;
 import pokecube.gimmicks.zmoves.GZMoveManager;
 import thut.api.ThutCaps;
@@ -41,7 +40,6 @@ public class DynamaxGene implements Gene<DynaObject>
             Gene<DynaObject> gene1 = new DynamaxGene();
             Gene<DynaObject> gene2 = new DynamaxGene();
             genes.setGenes(gene1, gene2);
-            if (mob.level() instanceof ServerLevel) PacketSyncGene.syncGeneToTracking(mob, alleles);
         }
         try
         {

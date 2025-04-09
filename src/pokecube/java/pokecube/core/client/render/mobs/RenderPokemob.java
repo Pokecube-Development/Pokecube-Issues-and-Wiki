@@ -201,8 +201,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             final IAnimationHolder holder = this.getAnimationHolder();
             if (holder != null && holder.isFixed()) return holder.getAnimation(entityIn);
             if (this.overrideAnim) return this.anim;
-            final String phase = this.getPhase((Mob) entityIn, PokemobCaps.getPokemobFor(entityIn));
-            return phase;
+            return this.getPhase((Mob) entityIn, PokemobCaps.getPokemobFor(entityIn));
         }
 
         @Override
@@ -287,11 +286,10 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         public void scaleEntity(final PoseStack mat, final Entity entity, final IModel model, final float partialTick)
         {
             final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
-            float s = 1;
+            float s = 1/pokemob.getSize();
             if (pokemob != null && pokemob.getGeneralState(GeneralStates.EXITINGCUBE))
             {
-                float scale = 1;
-                scale = Math.min(1, (entity.tickCount + 1 + partialTick) / LogicMiscUpdate.EXITCUBEDURATION);
+                float scale = Math.min(1, (entity.tickCount + 1 + partialTick) / LogicMiscUpdate.EXITCUBEDURATION);
                 s = Math.max(0.01f, s * scale);
             }
             float sx = (float) this.getScale().x;

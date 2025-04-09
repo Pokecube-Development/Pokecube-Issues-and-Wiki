@@ -77,7 +77,7 @@ public class PartSync extends BigPacket
             // re-adding
             // them whenever this changes.
             Int2ObjectMap<PartEntity<?>> partMap = ObfuscationReflectionHelper.getPrivateValue(ServerLevel.class, level,
-                    "f_143247_");
+                    "dragonParts");
             var old = new ArrayList<>(level.getPartEntities());
             // Clear out the old parts first.
             for (var part : old)

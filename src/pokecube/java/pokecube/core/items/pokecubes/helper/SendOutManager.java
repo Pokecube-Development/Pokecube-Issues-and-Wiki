@@ -142,9 +142,6 @@ public class SendOutManager
             // Otherwise look for free room, etc
         else
         {
-            // Initialise size gene for the pokemob
-            if (pokemob != null) pokemob.onGenesChanged();
-
             v.set(v.intX() + 0.5, v.intY(), v.intZ() + 0.5);
             final BlockState state = v.getBlockState(cube.level());
             final VoxelShape s = state.getCollisionShape(world, v.getPos());

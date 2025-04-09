@@ -19,7 +19,11 @@ import pokecube.api.moves.Battle;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.IMoveNames;
 import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.entity.genetics.GeneticsManager;
+import pokecube.core.entity.genetics.epigenes.MovesGene;
 import pokecube.core.impl.entity.impl.PersistantStatusEffect;
+import thut.api.ThutCaps;
+import thut.api.entity.genetics.Alleles;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
@@ -103,6 +107,12 @@ public class LogicMovesUpdates extends LogicBase
             learn_moves:
             if (this.pokemob.getMove(0) == null)
             {
+                var genes = ThutCaps.getGenetics(entity);
+                pokemob.setGenes(genes);
+                Alleles<String[], MovesGene> genesMoves = genes.getAlleles(GeneticsManager.MOVESGENE);
+                pokemob.getMoveStats().setBaseMoves(genesMoves.getExpressed().getValue());
+                pokemob.getMoveStats().reset();
+                if(this.pokemob.getMove(0) != null) break learn_moves;
                 String move = IMoveNames.MOVE_TACKLE;
                 final List<String> moves = this.pokemob.getPokedexEntry().getMovesForLevel(this.pokemob.getLevel());
                 if (!moves.isEmpty()) move = moves.get(ThutCore.newRandom().nextInt(moves.size()));

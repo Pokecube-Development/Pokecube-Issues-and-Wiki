@@ -16,9 +16,11 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.utils.TagNames;
+import pokecube.core.PokecubeCore;
 import pokecube.core.impl.capabilities.impl.PokemobSexed;
 import thut.api.Tracker;
 import thut.api.item.ItemList;
+import thut.core.common.world.mobs.data.DataSync_Impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,15 @@ public class DefaultPokemob extends PokemobSexed implements IPokemob
     public DefaultPokemob(final Mob mob)
     {
         this();
+        if (mob.hasData(DataSync_Impl.TYPE))
+        {
+//            this.dataSync.mapFrom(mob.getData(DataSync_Impl.TYPE), "pokemob");
+        }
+        System.out.println("New IPokemob for " + mob);
+        if(!mob.level().isClientSide())
+        {
+            Thread.dumpStack();
+        }
         this.setEntity(mob);
     }
 
@@ -125,7 +136,7 @@ public class DefaultPokemob extends PokemobSexed implements IPokemob
                     final DyeColor colour = DyeColor.byId(this.getDyeColour());
                     final Item wool = Sheep.ITEM_BY_DYE.get(colour).asItem();
                     final ItemStack _toAdd = new ItemStack(wool, stack.getCount());
-                    stack.getComponents().keySet().forEach(c->_toAdd.copyFrom(stack, c));
+                    stack.getComponents().keySet().forEach(c -> _toAdd.copyFrom(stack, c));
                 }
                 ret.add(toAdd);
             }

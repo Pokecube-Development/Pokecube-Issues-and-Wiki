@@ -1,24 +1,24 @@
 package pokecube.core.entity.pokemobs.helper;
 
-import net.minecraft.core.HolderLookup.Provider;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.animal.FlyingAnimal;
 import net.minecraft.world.entity.npc.InventoryCarrier;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
+import org.jetbrains.annotations.Nullable;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.impl.capabilities.DefaultPokemob;
-import thut.api.entity.IMobColourable;
+
+import java.util.function.Supplier;
 
 public abstract class PokemobBase extends TamableAnimal
-        implements FlyingAnimal, IMobColourable, InventoryCarrier, IEntityWithComplexSpawn
+        implements FlyingAnimal, InventoryCarrier, IEntityWithComplexSpawn
 {
-    public final DefaultPokemob pokemobCap;
+    private DefaultPokemob pokemobCap;
 
     public PokemobBase(final EntityType<? extends TamableAnimal> type, final Level worldIn)
     {
@@ -34,28 +34,35 @@ public abstract class PokemobBase extends TamableAnimal
         {
             this.pokemobCap = poke;
         }
-        this.dimensions = EntityDimensions.fixed(pokemobCap.getPokedexEntry().width, pokemobCap.getPokedexEntry().height);
+    }
+
+    public DefaultPokemob getPokemob()
+    {
+        if (this.pokemobCap == null)
+        {
+            IPokemob pokemob = PokemobCaps.getPokemobFor(this);
+            // Internally this sets the data
+            if (pokemob instanceof DefaultPokemob poke) this.pokemobCap = poke;
+            else this.setData(PokemobCaps.POKEMOB, new DefaultPokemob(this));
+        }
+        return this.pokemobCap;
+    }
+
+    @Override
+    public <T> @Nullable T setData(Supplier<AttachmentType<T>> type, T data)
+    {
+        T resp = super.setData(type, data);
+        if (data instanceof DefaultPokemob poke)
+        {
+            this.pokemobCap = poke;
+            if (poke.getEntity() != this) poke.setEntity(this);
+        }
+        return resp;
     }
 
     @Override
     public SimpleContainer getInventory()
     {
-        return pokemobCap.getInventory();
-    }
-
-    @SuppressWarnings("removal")
-    @Override
-    public CompoundTag serializeNBT(Provider provider)
-    {
-        // TODO Auto-generated method stub
-        return super.serializeNBT(provider);
-    }
-
-    @SuppressWarnings("removal")
-    @Override
-    public void deserializeNBT(Provider provider, CompoundTag nbt)
-    {
-        // TODO Auto-generated method stub
-        super.deserializeNBT(provider, nbt);
+        return getPokemob().getInventory();
     }
 }

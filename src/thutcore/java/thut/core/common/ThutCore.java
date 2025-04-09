@@ -57,14 +57,8 @@ import thut.api.level.structures.StructureManager;
 import thut.api.util.PermNodes;
 import thut.core.common.config.Config;
 import thut.core.common.handlers.ConfigHandler;
-import thut.core.common.network.EntityUpdate;
-import thut.core.common.network.GeneralUpdate;
-import thut.core.common.network.PacketHandler;
-import thut.core.common.network.PacketPartInteract;
-import thut.core.common.network.PacketSyncAttachments;
-import thut.core.common.network.PartSync;
-import thut.core.common.network.TerrainUpdate;
-import thut.core.common.network.TileUpdate;
+import thut.core.common.network.*;
+import thut.core.common.network.SyncAttachments;
 import thut.core.common.terrain.CapabilityTerrainAffected;
 import thut.core.common.world.mobs.data.PacketDataSync;
 import thut.core.init.RegistryObjects;
@@ -315,10 +309,10 @@ public class ThutCore
         ThutCore.packets.registerToClientMessage(TileUpdate.class);
         ThutCore.packets.registerToClientMessage(TerrainUpdate.class);
         ThutCore.packets.registerToClientMessage(PacketDataSync.class);
-        ThutCore.packets.registerToClientMessage(PacketSyncAttachments.class);
+        ThutCore.packets.registerToClientMessage(SyncAttachments.class);
         ThutCore.packets.registerToClientMessage(PartSync.class);
 
-        ThutCore.packets.registerToServerMessage(PacketPartInteract.class);
+        ThutCore.packets.registerToServerMessage(PartInteract.class);
 
         ThutCore.packets.registerBiDirectionalMessage(GeneralUpdate.class);
 

@@ -44,10 +44,10 @@ public abstract class PokemobRidable extends PokemobHasParts
     public PokemobRidable(final EntityType<? extends TamableAnimal> type, final Level worldIn)
     {
         super(type, worldIn);
-        this.pokemobCap.dataSync().setRegisterTag("seats");
+        this.getPokemob().dataSync().setRegisterTag("seats");
         // Define the seats
         for (int i = 0; i < SEAT.length; i++)
-            SEAT[i] = (Data_Seat) this.pokemobCap.dataSync().register(new Data_Seat("seat_" + i).setRealtime());
+            SEAT[i] = (Data_Seat) this.getPokemob().dataSync().register(new Data_Seat("seat_" + i).setRealtime());
     }
 
     @Override
@@ -55,7 +55,7 @@ public abstract class PokemobRidable extends PokemobHasParts
     {
         final List<Entity> passengers = this.getPassengers();
         if (passengers.isEmpty()) return null;
-        return this.getPassengers().getFirst().getUUID().equals(this.pokemobCap.getOwnerId())
+        return this.getPassengers().getFirst().getUUID().equals(this.getPokemob().getOwnerId())
                 ? (LivingEntity) this.getPassengers().getFirst()
                 : null;
     }
@@ -70,7 +70,7 @@ public abstract class PokemobRidable extends PokemobHasParts
     @Override
     public boolean dismountsUnderwater()
     {
-        return !this.pokemobCap.canUseSurf() && !this.pokemobCap.canUseDive() && !this.getType()
+        return !this.getPokemob().canUseSurf() && !this.getPokemob().canUseDive() && !this.getType()
                 .is(EntityTypeTags.DISMOUNTS_UNDERWATER);
     }
 
@@ -80,7 +80,7 @@ public abstract class PokemobRidable extends PokemobHasParts
     @Override
     public void onPlayerJump(int jumpPowerIn)
     {
-        boolean shouldFly = this.pokemobCap.getController().verticalControl;
+        boolean shouldFly = this.getPokemob().getController().verticalControl;
         if (shouldFly) return;
 
         if (jumpPowerIn < 0) jumpPowerIn = 0;
@@ -100,7 +100,7 @@ public abstract class PokemobRidable extends PokemobHasParts
     @Override
     public int getJumpCooldown()
     {
-        boolean shouldFly = this.pokemobCap.getController().verticalControl;
+        boolean shouldFly = this.getPokemob().getController().verticalControl;
         if (shouldFly) return 10;
         return 0;
     }
@@ -166,7 +166,7 @@ public abstract class PokemobRidable extends PokemobHasParts
         this.setRot(vec2.y, vec2.x);
         this.yRotO = this.yBodyRot = this.yHeadRot = this.getYRot();
         this.yRotO = this.yBodyRot = this.yHeadRot = this.getYRot();
-        boolean shouldFly = this.pokemobCap.getController().verticalControl;
+        boolean shouldFly = this.getPokemob().getController().verticalControl;
         if (this.isControlledByLocalInstance() && !shouldFly)
         {
             if (input_direction.z <= 0.0D)
@@ -197,8 +197,8 @@ public abstract class PokemobRidable extends PokemobHasParts
     {
         double scale = PokecubeCore.getConfig().groundSpeedFactor;
         double base = this.getAttribute(Attributes.MOVEMENT_SPEED).getValue();
-        if (this.pokemobCap.getController().inFluid) scale = PokecubeCore.getConfig().surfSpeedFactor;
-        else if (this.pokemobCap.getController().canFly && !this.pokemobCap.onGround())
+        if (this.getPokemob().getController().inFluid) scale = PokecubeCore.getConfig().surfSpeedFactor;
+        else if (this.getPokemob().getController().canFly && !this.getPokemob().onGround())
         {
             scale = PokecubeCore.getConfig().flySpeedFactor;
             base = this.getAttribute(Attributes.FLYING_SPEED).getValue();
@@ -209,7 +209,7 @@ public abstract class PokemobRidable extends PokemobHasParts
     @Override
     protected Vec3 getRiddenInput(Player player, Vec3 original_v)
     {
-        boolean shouldFly = this.pokemobCap.getController().verticalControl;
+        boolean shouldFly = this.getPokemob().getController().verticalControl;
         if (shouldFly)
         {
             float f = player.xxa * 0.5F;
@@ -218,7 +218,7 @@ public abstract class PokemobRidable extends PokemobHasParts
             {
                 f1 *= 0.25F;
             }
-            return new Vec3((double) f, this.pokemobCap.getController().moveUp, (double) f1);
+            return new Vec3((double) f, this.getPokemob().getController().moveUp, (double) f1);
         }
 
         float f = player.xxa * 0.5F;
@@ -245,14 +245,14 @@ public abstract class PokemobRidable extends PokemobHasParts
     @Override
     public void equipSaddle(ItemStack stack, @Nullable final SoundSource sound)
     {
-        this.pokemobCap.getInventory().setItem(0, stack);
+        this.getPokemob().getInventory().setItem(0, stack);
         if (sound != null) this.level.playSound((Player) null, this, SoundEvents.HORSE_SADDLE, sound, 0.5F, 1.0F);
     }
 
     @Override
     public boolean isSaddled()
     {
-        return !this.pokemobCap.getInventory().getItem(0).isEmpty();
+        return !this.getPokemob().getInventory().getItem(0).isEmpty();
     }
 
     // ========== IMultipassenger stuff below here ==============
@@ -318,7 +318,7 @@ public abstract class PokemobRidable extends PokemobHasParts
     protected void initSizes(final float size)
     {
         float a = 1, b = 1, c = 1;
-        final PokedexEntry entry = pokemobCap.getPokedexEntry();
+        final PokedexEntry entry = getPokemob().getPokedexEntry();
         float h = size;
         if (entry != null)
         {
@@ -345,14 +345,14 @@ public abstract class PokemobRidable extends PokemobHasParts
     {
         if (!(this.level instanceof ServerLevel)) return;
         if (this.init && this.lastPose.equals(getHolder().holder().effective_pose)) return;
-        final PokedexEntry entry = this.pokemobCap.getPokedexEntry();
+        final PokedexEntry entry = this.getPokemob().getPokedexEntry();
         this.lastPose = getHolder().holder().effective_pose;
         this.init = true;
         final List<BodyPart> bodySeats = Lists.newArrayList();
         BodyNode body;
         if (entry.poseShapes != null && (body = entry.poseShapes.get(this.lastPose)) != null)
             for (final BodyPart part : body.parts) if (part.__ride__ != null) bodySeats.add(part);
-        final float size = this.pokemobCap.getSize();
+        final float size = this.getPokemob().getSize();
         if (!bodySeats.isEmpty())
         {
             this.seatCount = bodySeats.size();
@@ -398,7 +398,7 @@ public abstract class PokemobRidable extends PokemobHasParts
     @Override
     public float getPitch()
     {
-        return this.pokemobCap.getPitch();
+        return this.getPokemob().getPitch();
     }
 
     // We do our own rendering, so don't need this.
@@ -467,7 +467,7 @@ public abstract class PokemobRidable extends PokemobHasParts
     @Override
     public boolean canAddPassenger(final Entity passenger)
     {
-        if (this.getPassengers().isEmpty()) return passenger == this.pokemobCap.getOwner();
+        if (this.getPassengers().isEmpty()) return passenger == this.getPokemob().getOwner();
         return this.getPassengers().size() < this.seatCount;
     }
 

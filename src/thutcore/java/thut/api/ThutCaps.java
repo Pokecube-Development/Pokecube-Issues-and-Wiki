@@ -36,7 +36,7 @@ import thut.api.level.terrain.ITerrainAffected;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.genetics.DefaultGenetics;
 import thut.core.common.mobs.DefaultColourable;
-import thut.core.common.network.PacketSyncAttachments;
+import thut.core.common.network.SyncAttachments;
 import thut.core.common.terrain.CapabilityTerrainAffected;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 
@@ -61,9 +61,9 @@ public class ThutCaps
 
         IMobTexturable.Defaults.registerAttachment(registry);
 
-        PacketSyncAttachments.SYNCED.add(CopyMob.LOC);
-        PacketSyncAttachments.SYNCED.add(CopyMob.ANIM);
-        PacketSyncAttachments.SYNCED.add(DefaultGenetics.KEY);
+        SyncAttachments.SYNCED.add(CopyMob.LOC);
+        SyncAttachments.SYNCED.add(CopyMob.ANIM);
+        SyncAttachments.SYNCED.add(DefaultGenetics.KEY);
     }
 
     public static void registerItemData(DeferredRegister<DataComponentType<?>> registry)

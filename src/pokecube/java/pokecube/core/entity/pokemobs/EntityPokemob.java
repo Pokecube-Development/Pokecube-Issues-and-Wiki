@@ -3,7 +3,6 @@
  */
 package pokecube.core.entity.pokemobs;
 
-import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -21,13 +20,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.entity.SpawnGroupData;
-import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -71,11 +64,8 @@ import thut.api.ThutCaps;
 import thut.api.entity.IAnimated;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
-import thut.api.world.mobs.data.Data;
-import thut.core.common.world.mobs.data.DataSync_Impl;
 
 import javax.annotation.Nullable;
-import java.util.List;
 import java.util.UUID;
 
 public class EntityPokemob extends PokemobRidable
@@ -122,8 +112,8 @@ public class EntityPokemob extends PokemobRidable
     @Override
     public boolean canDrownInFluidType(FluidType type)
     {
-        if (type == NeoForgeMod.WATER_TYPE.value()) return !(this.pokemobCap.swims() || this.pokemobCap.canUseDive()
-                || this.pokemobCap.isType(PokeType.getType("water")));
+        if (type == NeoForgeMod.WATER_TYPE.value()) return !(this.getPokemob().swims() || this.getPokemob().canUseDive()
+                || this.getPokemob().isType(PokeType.getType("water")));
         return super.canDrownInFluidType(type);
     }
 
@@ -131,14 +121,14 @@ public class EntityPokemob extends PokemobRidable
     public void die(final DamageSource cause)
     {
         super.die(cause);
-        this.pokemobCap.setCombatState(CombatStates.FAINTED, true);
+        this.getPokemob().setCombatState(CombatStates.FAINTED, true);
     }
 
     @Override
     public void travel(Vec3 dr)
     {
         // Swimming mobs get their own treatment while swimming
-        if (this.isControlledByLocalInstance() && this.isInWater() && this.pokemobCap.swims())
+        if (this.isControlledByLocalInstance() && this.isInWater() && this.getPokemob().swims())
         {
             this.moveRelative(this.getSpeed(), dr);
             this.move(MoverType.SELF, this.getDeltaMovement());
@@ -155,14 +145,14 @@ public class EntityPokemob extends PokemobRidable
         if (this.getPersistentData().getBoolean(TagNames.CLONED) && !PokecubeCore.getConfig().clonesDrop) return null;
         if (this.getPersistentData().getBoolean(TagNames.NODROP)) return null;
         if (this.level() instanceof ServerLevel level && Config.Rules.dropLoot(level))
-            return this.pokemobCap.getPokedexEntry().lootTable;
+            return this.getPokemob().getPokedexEntry().lootTable;
         else return null;
     }
 
     @Override
     public ItemStack getPickedResult(final HitResult target)
     {
-        return ItemPokemobEgg.getEggStack(this.pokemobCap);
+        return ItemPokemobEgg.getEggStack(this.getPokemob());
     }
 
     @Override
@@ -204,7 +194,7 @@ public class EntityPokemob extends PokemobRidable
             final double dt = (System.nanoTime() - time) / 10e3D;
             if (PokecubeCore.getConfig().debug_spawning && dt > 100)
             {
-                final String toLog = "location: %1$s took: %2$s\u00B5s to spawn Init for %3$s";
+                final String toLog = "location: %1$s took: %2$sµs to spawn Init for %3$s";
                 PokecubeAPI.logInfo(String.format(toLog, loc.getPos(), dt, pokemob.getDisplayName().getString()));
             }
         }
@@ -216,14 +206,7 @@ public class EntityPokemob extends PokemobRidable
     {
         this.seatCount = data.readInt();
         final FriendlyByteBuf buffer = new FriendlyByteBuf(data);
-
         CompoundTag tag = buffer.readNbt();
-//        final ListTag list = (ListTag) tag.get("g");
-//        final IMobGenetics genes = ThutCaps.getGenetics(this);
-//        genes.deserializeNBT(this.registryAccess(), list);
-//        this.pokemobCap.read(tag.getCompound("p"));
-//        this.pokemobCap.onGenesChanged();
-//        tag = buffer.readNbt();
         if (!tag.isEmpty()) this.getPersistentData().put("url_model", tag);
     }
 
@@ -250,7 +233,7 @@ public class EntityPokemob extends PokemobRidable
     @Override
     protected SoundEvent getAmbientSound()
     {
-        return this.pokemobCap.getSound();
+        return this.getPokemob().getSound();
     }
 
     @Override
@@ -274,9 +257,9 @@ public class EntityPokemob extends PokemobRidable
     @Override
     public void onRemovedFromLevel()
     {
-        PokemobTracker.removePokemob(this.pokemobCap);
-        if (this.pokemobCap.isPlayerOwned() && this.pokemobCap.getOwnerId() != null)
-            PlayerPokemobCache.UpdateCache(this.pokemobCap);
+        PokemobTracker.removePokemob(this.getPokemob());
+        if (this.getPokemob().isPlayerOwned() && this.getPokemob().getOwnerId() != null)
+            PlayerPokemobCache.UpdateCache(this.getPokemob());
         super.onRemovedFromLevel();
     }
 
@@ -285,41 +268,10 @@ public class EntityPokemob extends PokemobRidable
     {
         this.initSeats();
         data.writeInt(this.seatCount);
-        this.pokemobCap.updateHealth();
-//        final IMobGenetics genes = ThutCaps.getGenetics(this);
+        this.getPokemob().updateHealth();
         final FriendlyByteBuf buffer = new FriendlyByteBuf(data);
-//        final ListTag list = genes.serializeNBT(this.registryAccess());
-        CompoundTag nbt = new CompoundTag();
-//        nbt.put("p", this.pokemobCap.write());
-//        nbt.put("g", list);
-//        buffer.writeNbt(nbt);
-        nbt = this.getPersistentData().getCompound("url_model");
+        CompoundTag nbt = this.getPersistentData().getCompound("url_model");
         buffer.writeNbt(nbt);
-    }
-
-    // Methods for IMobColourable
-    @Override
-    public int getDyeColour()
-    {
-        return this.pokemobCap.getDyeColour();
-    }
-
-    @Override
-    public int[] getRGBA()
-    {
-        return this.pokemobCap.getRGBA();
-    }
-
-    @Override
-    public void setDyeColour(final int colour)
-    {
-        this.pokemobCap.setDyeColour(colour);
-    }
-
-    @Override
-    public void setRGBA(final int... colours)
-    {
-        this.pokemobCap.setRGBA(colours);
     }
 
     @Override
@@ -338,7 +290,7 @@ public class EntityPokemob extends PokemobRidable
 
         final boolean despawns = Config.Rules.doDespawn(level);
         final boolean culls = Config.Rules.doCull(level);
-        final boolean owned = this.pokemobCap.getOwnerId() != null;
+        final boolean owned = this.getPokemob().getOwnerId() != null;
 
         if (owned)
         {
@@ -351,7 +303,7 @@ public class EntityPokemob extends PokemobRidable
 
     private boolean cullCheck(double distanceToClosestPlayer)
     {
-        if (this.pokemobCap.getOwnerId() != null || !(level instanceof ServerLevel level)) return false;
+        if (this.getPokemob().getOwnerId() != null || !(level instanceof ServerLevel level)) return false;
         final boolean noPoof = this.getPersistentData().getBoolean(TagNames.NOPOOF);
         if (noPoof) return false;
         distanceToClosestPlayer = Math.sqrt(distanceToClosestPlayer);
@@ -403,8 +355,8 @@ public class EntityPokemob extends PokemobRidable
     public void readAdditionalSaveData(final CompoundTag compound)
     {
         super.readAdditionalSaveData(compound);
-        if (this.pokemobCap.getCustomHolder() != null && this.pokemobCap.getCustomHolder()._entry == Database.missingno)
-            this.pokemobCap.getCustomHolder().setEntry(this.pokemobCap.getPokedexEntry());
+        if (this.getPokemob().getCustomHolder() != null && this.getPokemob().getCustomHolder()._entry == Database.missingno)
+            this.getPokemob().getCustomHolder().setEntry(this.getPokemob().getPokedexEntry());
         if (compound.contains("OwnerUUID")) try
         {
             final UUID id = UUID.fromString(compound.getString("OwnerUUID"));

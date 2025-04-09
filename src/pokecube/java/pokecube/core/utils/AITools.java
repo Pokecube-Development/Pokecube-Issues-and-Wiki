@@ -30,7 +30,7 @@ import pokecube.core.moves.damage.IPokedamage;
 import thut.api.Tracker;
 import thut.api.world.WorldTickManager;
 import thut.core.common.ThutCore;
-import thut.core.common.network.PacketSyncAttachments;
+import thut.core.common.network.SyncAttachments;
 import thut.lib.RegHelper;
 
 import java.util.List;
@@ -263,7 +263,7 @@ public class AITools
             if (pokemob != null) pokemob.setEntity(pokemob.getEntity());
             WorldTickManager.scheduleTask(level.dimension(),
                     new WorldTickManager.DelayedTask(Tracker.instance().getTick() + 1,
-                            () -> PacketSyncAttachments.syncChange(entity, PacketSyncAttachments.SYNCED)));
+                            () -> SyncAttachments.syncChange(entity, SyncAttachments.SYNCED)));
             ;
         }
     }

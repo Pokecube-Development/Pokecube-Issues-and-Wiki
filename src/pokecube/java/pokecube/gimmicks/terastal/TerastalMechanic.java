@@ -35,7 +35,6 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
-import pokecube.core.network.pokemobs.PacketSyncGene;
 import pokecube.gimmicks.terastal.TeraTypeGene.TeraType;
 import pokecube.mixin.accessors.AttributeMaxAccessor;
 import thut.api.ThutCaps;
@@ -161,7 +160,6 @@ public class TerastalMechanic
                 if (gene2.getValue().teraType == PokeType.unknown) gene2.getValue().teraType = pokemob.getType1();
             }
             genes.setGenes(gene1, gene2);
-            if (entity.level() instanceof ServerLevel) PacketSyncGene.syncGeneToTracking(entity, alleles);
         }
         try
         {
@@ -206,7 +204,7 @@ public class TerastalMechanic
                         PokecubePlayerDataHandler.saveCustomData(provider, pokemob.getOwnerId().toString());
                     }
                     genes.getExpressed().getValue().isTera = true;
-                    PacketSyncGene.syncGeneToTracking(pokemob.getEntity(), genes);
+                    pokemob.getGenes().markDirty();
                 }, () -> {
                     PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Post(pokemob));
                     pokemob.setGeneralState(GeneralStates.EVOLVING, false);
@@ -244,7 +242,7 @@ public class TerastalMechanic
                         PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Pre(pokemob));
                     }, () -> {
                         genes.getExpressed().getValue().isTera = false;
-                        PacketSyncGene.syncGeneToTracking(pokemob.getEntity(), genes);
+                        pokemob.getGenes().markDirty();
                         PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Post(pokemob));
                         pokemob.setGeneralState(GeneralStates.EVOLVING, false);
                         pokemob.setEvolutionStack(ItemStack.EMPTY);

@@ -21,7 +21,7 @@ import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import thut.core.common.network.PacketSyncAttachments;
+import thut.core.common.network.SyncAttachments;
 import thut.wearables.EnumWearable;
 import thut.wearables.IActiveWearable;
 import thut.wearables.IWearable;
@@ -255,7 +255,7 @@ public class PlayerWearables implements IWearableInventory, IItemHandlerModifiab
         Function<IAttachmentHolder, PlayerWearables> func_a = PlayerWearables::makeProvider;
         var attach_a = AttachmentType.serializable(func_a).copyOnDeath().build();
         TYPE = registry.register(LOCSAVEABLE.getPath(), () -> attach_a);
-        PacketSyncAttachments.SYNCED.add(LOCSAVEABLE);
-        PacketSyncAttachments.AUTOADD.put(e -> e instanceof LivingEntity, LOCSAVEABLE);
+        SyncAttachments.SYNCED.add(LOCSAVEABLE);
+        SyncAttachments.AUTOADD.put(e -> e instanceof LivingEntity, LOCSAVEABLE);
     }
 }

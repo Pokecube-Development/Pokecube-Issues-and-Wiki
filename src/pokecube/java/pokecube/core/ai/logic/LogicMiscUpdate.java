@@ -171,7 +171,7 @@ public class LogicMiscUpdate extends LogicBase
                 }
             }
         }
-        /**
+        /*
          * Angry pokemobs shouldn't decide that walking is better than flying.
          */
         else

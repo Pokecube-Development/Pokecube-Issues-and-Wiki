@@ -1,12 +1,7 @@
 package pokecube.api.entity.pokemob.moves;
 
-import java.lang.reflect.Field;
-import java.util.List;
-import java.util.Set;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.data.abilities.Ability;
@@ -15,6 +10,10 @@ import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.network.pokemobs.PacketSyncNewMoves;
+
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Set;
 
 public class PokemobMoveStats
 {
@@ -82,8 +81,6 @@ public class PokemobMoveStats
     public int num = 0;
     /** The last move we used. */
     public String lastMove;
-    /** Storing exp in here as well. */
-    public int exp = 0;
     /** Cache of currently selected move */
     public MoveEntry selectedMove;
     /** The moves we are currently using */
@@ -128,7 +125,7 @@ public class PokemobMoveStats
         targettingSelf = false;
         synchronized (movesInProgress)
         {
-            movesInProgress.removeIf(s -> s.isFinished());
+            movesInProgress.removeIf(MoveApplication::isFinished);
             for (var move : movesInProgress)
             {
                 if (move.getTarget() == user.getEntity())

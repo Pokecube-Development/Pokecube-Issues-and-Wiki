@@ -11,6 +11,6 @@ public class PokemobPart extends GenericPartEntity<PokemobHasParts>
             final float z, final String id)
     {
         super(base, width, height, x, y, z, id);
-        this.pokemob = base.pokemobCap;
+        this.pokemob = base.getPokemob();
     }
 }

@@ -425,7 +425,6 @@ public class PacketTrainer extends NBTPacket
         pokemob.setShiny(shiny);
         pokemob.setSize(size);
         pokemob.setExp(Tools.levelToXp(pokemob.getExperienceMode(), level), false);
-        pokemob.onGenesChanged();
     }
 
     private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("pokecube:packet_trainer"));

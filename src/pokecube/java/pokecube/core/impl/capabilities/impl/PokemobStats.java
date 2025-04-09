@@ -12,7 +12,6 @@ import pokecube.api.events.pokemobs.LevelUpEvent;
 import pokecube.api.utils.PokeType;
 import pokecube.api.utils.Tools;
 import pokecube.core.network.pokemobs.PacketNickname;
-import pokecube.core.network.pokemobs.PacketSyncExp;
 import thut.core.common.ThutCore;
 import thut.lib.TComponent;
 
@@ -28,7 +27,7 @@ public abstract class PokemobStats extends PokemobGenes
     @Override
     public int getExp()
     {
-        return this.getMoveStats().exp;
+        return this.params.EXP.get();
     }
 
     @Override
@@ -62,8 +61,8 @@ public abstract class PokemobStats extends PokemobGenes
     /**
      * Returns 1st type.
      *
-     * @see PokeType
      * @return the byte type
+     * @see PokeType
      */
     @Override
     public PokeType getType1()
@@ -75,8 +74,8 @@ public abstract class PokemobStats extends PokemobGenes
     /**
      * Returns 2nd type.
      *
-     * @see PokeType
      * @return the byte type
+     * @see PokeType
      */
     @Override
     public PokeType getType2()
@@ -98,11 +97,11 @@ public abstract class PokemobStats extends PokemobGenes
     {
         Mob mob = this.getEntity();
         if (!mob.isAlive()) return;
-        final int old = this.getMoveStats().exp;
+        final int old = this.getExp();
         this.getMoveStats().oldLevel = this.getLevel();
         final int lvl100xp = Tools.maxXPs[this.getExperienceMode()];
         exp = Math.min(lvl100xp, exp);
-        this.getMoveStats().exp = exp;
+        this.params.EXP.set(exp);
         final int newLvl = Tools.xpToLevel(this.getExperienceMode(), exp);
         final int oldLvl = Tools.xpToLevel(this.getExperienceMode(), old);
         IPokemob ret = this;
@@ -123,16 +122,13 @@ public abstract class PokemobStats extends PokemobGenes
                         this.evolve(true, false, held);
                     }
                     ret.levelUp(newLvl);
-                    if (mob.isAddedToLevel() && ret.getOwner() instanceof Player
-                            && mob.level().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)
-                            && !mob.level().isClientSide)
-                        mob.level().addFreshEntity(
-                                new ExperienceOrb(mob.level(), mob.getX(), mob.getY(), mob.getZ(), 1));
+                    if (mob.isAddedToLevel() && ret.getOwner() instanceof Player && mob.level().getGameRules()
+                            .getBoolean(GameRules.RULE_DOMOBLOOT) && !mob.level().isClientSide) mob.level()
+                            .addFreshEntity(new ExperienceOrb(mob.level(), mob.getX(), mob.getY(), mob.getZ(), 1));
                 }
             }
-            else this.getMoveStats().exp = old;
+            else this.params.EXP.set(old);
         }
-        PacketSyncExp.sendUpdate(ret);
     }
 
     @Override
@@ -140,14 +136,14 @@ public abstract class PokemobStats extends PokemobGenes
     {
         final int level = Tools.xpToLevel(this.getExperienceMode(), exp);
         this.getMoveStats().oldLevel = 0;
-        this.getMoveStats().exp = exp;
+        this.params.EXP.set(exp);
         this.levelUp(level);
         final ItemStack held = this.getHeldItem();
         if (evolve) while (this.canEvolve(held))
         {
             boolean evolved = this.evolve(false, true, held);
             if (!evolved) break;
-            this.getMoveStats().exp = exp;
+            this.params.EXP.set(exp);
             this.levelUp(level);
         }
     }

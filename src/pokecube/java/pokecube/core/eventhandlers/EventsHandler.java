@@ -9,10 +9,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.boss.EnderDragonPart;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
@@ -29,6 +26,7 @@ import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.common.util.TriState;
+import net.neoforged.neoforge.entity.PartEntity;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.TagsUpdatedEvent;
@@ -53,7 +51,6 @@ import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.IOngoingAffected;
-import pokecube.api.entity.SharedAttributes;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
@@ -414,7 +411,7 @@ public class EventsHandler
             @Override
             public IShearableSerializable apply(IAttachmentHolder t)
             {
-                if (t instanceof EntityPokemob mob) return new Shearable.WrapperImpl(mob.pokemobCap);
+                if (t instanceof EntityPokemob mob) return new Shearable.WrapperImpl(mob.getPokemob());
                 return null;
             }
 
@@ -429,6 +426,7 @@ public class EventsHandler
     private static void onServerAboutStart(ServerAboutToStartEvent event)
     {
         PokecubeSerializer.newInstance();
+        PokemobTracker.clearAll();
     }
 
     private static void onItemRightClick(final PlayerInteractEvent.RightClickItem evt)
@@ -505,9 +503,8 @@ public class EventsHandler
 
             // Texture
             living.getData(IMobTexturable.Defaults.TYPE);
-            var pokemob = PokemobCaps.getPokemobFor(living);
-            // This internally sets the data type
-            if (pokemob == null) new DefaultPokemob(mob);
+            // IPokemob
+            living.getData(PokemobCaps.POKEMOB);
         }
     }
 
@@ -529,7 +526,8 @@ public class EventsHandler
         // Forge workaround for this not being called server side!
         if (!entity.isAddedToLevel()) entity.onAddedToLevel();
 
-        if(entity instanceof NpcMob){
+        if (entity instanceof NpcMob)
+        {
             entity.getData(IMobTexturable.Defaults.TYPE);
         }
 
@@ -714,6 +712,7 @@ public class EventsHandler
             }
         }
     }
+
     private static void postLivingUpdate(final EntityTickEvent.Post evt)
     {
         var entity = evt.getEntity();
@@ -729,9 +728,6 @@ public class EventsHandler
             affected.tick();
             affected.tickDamage();
         }
-//        if(entity.tickCount%100==0){
-//            PacketSyncAttachments.syncChange(DefaultGenetics.TYPE, entity);
-//        }
     }
 
     private static void onPlayerLogin(final PlayerLoggedInEvent evt)
@@ -810,12 +806,13 @@ public class EventsHandler
 
     private static void onMobSize(EntityEvent.Size event)
     {
-        // Attributes can be null when this is called in the initial set for the
-        // constructor of the Entity itself.
-        if (event.getEntity() instanceof LivingEntity living)
+        if (event.getEntity() instanceof PartEntity<?>) return;
+        IPokemob pokemob = PokemobCaps.getPokemobFor(event.getEntity());
+        if (pokemob != null)
         {
-            float s = (float) SharedAttributes.getScale(living);
-            event.setNewSize(event.getNewSize().withEyeHeight(event.getNewSize().eyeHeight() * s));
+            var entry = pokemob.getPokedexEntry();
+            event.setNewSize(EntityDimensions.scalable(Math.min(entry.width, entry.length), entry.height)
+                    .scale(pokemob.getSize()));
         }
     }
 
@@ -888,10 +885,6 @@ public class EventsHandler
     /**
      * Checks if Entity is owned by owner, it checks if it is a pokemob, or a filled pokecube. If it is a pokemob, it
      * also confirms that it is not set to stay.
-     *
-     * @param owner
-     * @param toRecall
-     * @return
      */
     public static boolean shouldRecallOnChangeDimension(final Entity owner, final Entity toRecall)
     {

@@ -31,20 +31,17 @@ import thut.core.common.ThutCore;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 @EventBusSubscriber
 @SuppressWarnings("rawtypes")
-public class PacketSyncAttachments extends Packet
+public class SyncAttachments extends Packet
 {
     public static List<ResourceLocation> SYNCED = new ArrayList<>();
+    public static Set<ResourceLocation> UNCHECKED_SYNC = new HashSet<>();
     public static Map<Predicate<Entity>, ResourceLocation> AUTOADD = new HashMap<>();
     private static final Map<ResourceLocation, Tag> DEFAULTS = new HashMap<>();
 
@@ -154,24 +151,27 @@ public class PacketSyncAttachments extends Packet
         var data = mob.getData(type);
         if (!(data instanceof INBTSerializable)) return;
         var tag = ((INBTSerializable) data).serializeNBT(mob.registryAccess());
-        @SuppressWarnings("unchecked")
-        var test = DEFAULTS.computeIfAbsent(key, a -> {
-            Function<IAttachmentHolder, ?> _defact;
-            try
-            {
-                _defact = (Function<IAttachmentHolder, ?>) GETDEF.get(type);
-                var def = _defact.apply(mob);
-                if (def != null) return ((INBTSerializable) def).serializeNBT(mob.registryAccess());
-                else ThutCore.logInfo("No attachment for {} for {}", key, mob);
-            }
-            catch (IllegalArgumentException | IllegalAccessException e)
-            {
-                e.printStackTrace();
-            }
-            return new CompoundTag();
-        });
-        if (tag.equals(test)) return;
-        var p = new PacketSyncAttachments(mob, tag, key);
+        if(!UNCHECKED_SYNC.contains(key))
+        {
+            @SuppressWarnings("unchecked")
+            var test = DEFAULTS.computeIfAbsent(key, a -> {
+                Function<IAttachmentHolder, ?> _defact;
+                try
+                {
+                    _defact = (Function<IAttachmentHolder, ?>) GETDEF.get(type);
+                    var def = _defact.apply(mob);
+                    if (def != null) return ((INBTSerializable) def).serializeNBT(mob.registryAccess());
+                    else ThutCore.logInfo("No attachment for {} for {}", key, mob);
+                }
+                catch (IllegalArgumentException | IllegalAccessException e)
+                {
+                    e.printStackTrace();
+                }
+                return new CompoundTag();
+            });
+            if (tag.equals(test)) return;
+        }
+        var p = new SyncAttachments(mob, tag, key);
         ThutCore.packets.sendToTrackingAndSelf(p, mob);
     }
 
@@ -183,12 +183,12 @@ public class PacketSyncAttachments extends Packet
 
     CompoundTag data;
 
-    public PacketSyncAttachments()
+    public SyncAttachments()
     {
         this.data = new CompoundTag();
     }
 
-    private PacketSyncAttachments(final Entity wearer, Tag attach, ResourceLocation key)
+    private SyncAttachments(final Entity wearer, Tag attach, ResourceLocation key)
     {
         this();
         this.data.putInt("I", wearer.getId());

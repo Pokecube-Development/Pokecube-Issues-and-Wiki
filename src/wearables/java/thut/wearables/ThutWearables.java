@@ -43,7 +43,7 @@ import net.neoforged.neoforge.network.IContainerFactory;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import thut.core.common.ThutCore;
-import thut.core.common.network.PacketSyncAttachments;
+import thut.core.common.network.SyncAttachments;
 import thut.lib.DistExecutor;
 import thut.wearables.client.gui.GuiEvents;
 import thut.wearables.client.gui.GuiWearables;
@@ -233,7 +233,7 @@ public class ThutWearables
                 cap.setStackInSlot(i, ItemStack.EMPTY);
             }
         }
-        PacketSyncAttachments.syncChange(PlayerWearables.TYPE, mob);
+        SyncAttachments.syncChange(PlayerWearables.TYPE, mob);
     }
 
     @SubscribeEvent

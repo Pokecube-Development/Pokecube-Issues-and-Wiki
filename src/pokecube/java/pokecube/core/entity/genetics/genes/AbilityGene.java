@@ -4,10 +4,13 @@ import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.data.abilities.Ability;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.entity.genetics.genes.AbilityGene.AbilityObject;
 import thut.api.entity.genetics.Gene;
 import thut.core.common.ThutCore;
+
+import java.util.Random;
 
 public class AbilityGene implements Gene<AbilityObject>
 {
@@ -19,8 +22,33 @@ public class AbilityGene implements Gene<AbilityObject>
         // Have we searched for an ability yet, if not, will look for one first
         // time ability is got.
         public boolean searched = false;
-        public String  ability      = "";
-        public byte    abilityIndex = 0;
+        public String ability = "";
+        public byte abilityIndex = 0;
+        boolean checked = false;
+
+        private void validate(IPokemob pokemob){
+            if(checked) return;
+            var entry = pokemob.getPokedexEntry();
+            int abilityIndex = new Random(pokemob.getRNGValue()).nextInt(100) % 2;
+            if (entry.getAbility(abilityIndex, pokemob) == null) if (abilityIndex != 0) abilityIndex = 0;
+            else abilityIndex = 1;
+            Ability ability = entry.getAbility(abilityIndex, pokemob);
+            this.ability = "";
+            this.abilityObject = ability;
+            this.abilityIndex = (byte) abilityIndex;
+        }
+
+        public byte getAbilityIndex(IPokemob pokemob)
+        {
+            this.validate(pokemob);
+            return this.abilityIndex;
+        }
+
+        public String getAbility(IPokemob pokemob)
+        {
+            this.validate(pokemob);
+            return ability;
+        }
     }
 
     protected AbilityObject ability = new AbilityObject();
@@ -48,7 +76,8 @@ public class AbilityGene implements Gene<AbilityObject>
     {
         final AbilityGene otherA = (AbilityGene) other;
         final byte otherIndex = otherA.ability.abilityIndex;
-        final byte index = otherIndex == this.ability.abilityIndex ? otherIndex
+        final byte index = otherIndex == this.ability.abilityIndex
+                ? otherIndex
                 : Math.random() < 0.5 ? otherIndex : this.ability.abilityIndex;
         final AbilityGene newGene = new AbilityGene();
         if (!otherA.ability.ability.isEmpty() && otherA.ability.ability.equals(this.ability.ability))
@@ -62,14 +91,14 @@ public class AbilityGene implements Gene<AbilityObject>
     {
         this.ability.abilityIndex = tag.getByte("I");
         this.ability.ability = tag.getString("A");
+        this.ability.checked = true;
     }
 
     @Override
     public Gene<AbilityObject> mutate()
     {
         final AbilityGene newGene = new AbilityGene();
-        final byte index = (byte) (this.ability.abilityIndex == 2 ? ThutCore.newRandom().nextInt(2) : 2);
-        newGene.ability.abilityIndex = index;
+        newGene.ability.abilityIndex = (byte) (this.ability.abilityIndex == 2 ? ThutCore.newRandom().nextInt(2) : 2);
         return newGene;
     }
 

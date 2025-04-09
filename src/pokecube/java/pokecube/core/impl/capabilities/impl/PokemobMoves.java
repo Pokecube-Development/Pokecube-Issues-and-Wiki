@@ -37,9 +37,8 @@ import pokecube.core.network.pokemobs.PacketSyncMoveUse;
 import pokecube.core.utils.AITools;
 import thut.api.entity.ICopyMob;
 import thut.api.maths.Vector3;
-import thut.api.world.mobs.data.Data;
 import thut.core.common.commands.CommandTools;
-import thut.core.common.network.PacketSyncAttachments;
+import thut.core.common.network.SyncAttachments;
 import thut.lib.RegHelper;
 
 public abstract class PokemobMoves extends PokemobStats
@@ -532,7 +531,7 @@ public abstract class PokemobMoves extends PokemobStats
         getCopy().setCopiedID(id == -1 ? null : RegHelper.getKey(to));
         this.getCopy().onBaseTick(this.getEntity().level, this.getEntity());
         if (to != old && !this.getEntity().level.isClientSide())
-            PacketSyncAttachments.syncChange(this.getEntity(), PokemobMoves.TO_SYNC);
+            SyncAttachments.syncChange(this.getEntity(), PokemobMoves.TO_SYNC);
     }
 
     @Override

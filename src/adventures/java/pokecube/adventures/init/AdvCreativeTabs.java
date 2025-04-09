@@ -13,6 +13,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
@@ -36,11 +37,9 @@ public class AdvCreativeTabs
                     .icon(() -> new ItemStack(PokecubeItems.getStack("pokecube_adventures:badge_rock").getItem()))
                     .withTabsBefore(ResourceLocation.parse("pokecube:berries_tab")).build());
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOW)
     public static void addCreative(BuildCreativeModeTabContentsEvent event)
     {
-        Thread.dumpStack();
-        if(true)return;
         if (event.getTabKey() == CreativeModeTabs.OP_BLOCKS)
         {
             if (event.hasPermissions())
