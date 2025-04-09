@@ -705,7 +705,8 @@ public class CapabilityHasPokemobs
         @Override
         public void setPokemob(final int slot, final ItemStack cube)
         {
-            if (!cube.isEmpty())
+            // this.getTrainer() can be null if it occurs during loading.
+            if (!cube.isEmpty() && this.getTrainer() != null)
             {
                 final String owner = PokecubeManager.getOwner(cube, this.getTrainer().level());
                 // Make trainer own it when place in.

@@ -1,10 +1,6 @@
 package pokecube.adventures.utils.trade_presets;
 
-import java.util.Map;
-import java.util.Optional;
-
 import net.minecraft.core.component.DataComponentPredicate;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.trading.ItemCost;
 import pokecube.adventures.PokecubeAdv;
@@ -13,10 +9,15 @@ import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.adventures.utils.TradeEntryLoader;
 import pokecube.adventures.utils.TradeEntryLoader.Trade;
 import pokecube.adventures.utils.TradeEntryLoader.TradePreset;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.utils.Tools;
+import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import thut.lib.RegHelper;
+import thut.api.attachments.CopyMob;
+
+import java.util.Map;
+import java.util.Optional;
 
 @TradePresetAn(key = "sellRandomStatue")
 public class SellRandomStatue implements TradePreset
@@ -25,8 +26,7 @@ public class SellRandomStatue implements TradePreset
     {
         Map<String, String> values;
         TrainerTrade recipe;
-        final ItemStack sell = statue;
-        ItemStack buy1 = ItemStack.EMPTY;
+        ItemStack buy1;
         ItemStack buy2 = ItemStack.EMPTY;
         values = trade.buys.get(0).getValues();
         buy1 = Tools.getStack(values);
@@ -37,10 +37,11 @@ public class SellRandomStatue implements TradePreset
         }
         var cost = new ItemCost(buy1.getItemHolder(), buy1.getCount(),
                 DataComponentPredicate.allOf(buy1.getComponents()));
-        var _buy2 = Optional.ofNullable(buy2.isEmpty() ? null
+        var _buy2 = Optional.ofNullable(buy2.isEmpty()
+                ? null
                 : new ItemCost(buy1.getItemHolder(), buy1.getCount(),
                         DataComponentPredicate.allOf(buy2.getComponents())));
-        recipe = new TrainerTrade(cost, _buy2, sell, trade);
+        recipe = new TrainerTrade(cost, _buy2, statue, trade);
         values = trade.values;
         if (values.containsKey(TradeEntryLoader.CHANCE))
             recipe.chance = Float.parseFloat(values.get(TradeEntryLoader.CHANCE));
@@ -55,15 +56,15 @@ public class SellRandomStatue implements TradePreset
         for (final PokedexEntry e : Database.getSortedFormes())
         {
             ItemStack statue = new ItemStack(PokecubeAdv.STATUE.get());
-            CompoundTag modelTag = new CompoundTag();
-
-            modelTag.putString("id", RegHelper.getKey(e.getEntityType()).toString());
-            modelTag.putString("over_tex", "minecraft:textures/block/stone.png");
-            // TODO STATUE Trades, also see RecipeStatueCoat
-            Thread.dumpStack();
-            //statue.getOrCreateTagElement("BlockEntityTag").put("custom_model", modelTag);
-
-            addTrade(statue, trade, trades);
+            try
+            {
+                statue.set(CopyMob.COPY_STORE, CopyMob.CopyInfo.copyOf(e.getEntityType()));
+                addTrade(statue, trade, trades);
+            }
+            catch (Exception ex)
+            {
+                PokecubeAPI.LOGGER.error("Error creating statue for {}", e, ex);
+            }
         }
     }
 

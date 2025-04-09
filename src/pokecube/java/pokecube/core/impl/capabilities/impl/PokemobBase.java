@@ -257,12 +257,8 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
     {
         if (sync != this.dataSync)
         {
-            System.out.println(this.entity);
-            System.out.println(this.getExp());
             sync.mapFrom(this.dataSync, "pokemob");
             this.dataSync = sync;
-            System.out.println(this.getExp());
-            System.out.println();
         }
     }
 

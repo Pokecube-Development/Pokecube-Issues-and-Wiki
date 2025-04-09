@@ -68,6 +68,7 @@ public class ThutCaps
 
     public static void registerItemData(DeferredRegister<DataComponentType<?>> registry)
     {
+        CopyMob.registerItemData(registry);
         Linkable.registerItemData(registry);
         DefaultGenetics.registerItemData(registry);
         Inventory.registerItemData(registry);

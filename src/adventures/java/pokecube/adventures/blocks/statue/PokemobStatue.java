@@ -1,11 +1,7 @@
 package pokecube.adventures.blocks.statue;
 
-import java.util.Map;
-import java.util.UUID;
-
 import com.google.common.collect.Maps;
 import com.mojang.serialization.MapCodec;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
@@ -37,6 +33,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.core.blocks.InteractableHorizontalBlock;
 import thut.api.ThutCaps;
 import thut.api.entity.ICopyMob;
+
+import java.util.Map;
+import java.util.UUID;
 
 public class PokemobStatue extends InteractableHorizontalBlock implements EntityBlock, SimpleWaterloggedBlock
 {

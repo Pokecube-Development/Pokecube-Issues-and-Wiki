@@ -47,6 +47,7 @@ public class CopyMob
         {
             Impl contents = new Impl();
             contents.deserializeNBT(context, this.tag());
+            contents.setCopiedNBT(this.tag());
             return new CopyInfo(contents, this.tag);
         }
 
@@ -55,10 +56,24 @@ public class CopyMob
             return new CopyInfo(copy, copy.serializeNBT(context));
         }
 
-        public static final Codec<CopyInfo> CODEC = CompoundTag.CODEC
-                .<CopyInfo>comapFlatMap(CopyInfo::read, CopyInfo::tag).stable();
-        public static final StreamCodec<ByteBuf, CopyInfo> STREAM_CODEC = ByteBufCodecs.COMPOUND_TAG
-                .map(CopyInfo::parse, CopyInfo::tag);
+        public static CopyInfo copyOf(LivingEntity mob)
+        {
+            ICopyMob copy = new CopyMob.Impl();
+            copy.setCopiedMob(mob);
+            return new CopyInfo(copy, copy.serializeNBT(mob.registryAccess()));
+        }
+
+        public static CopyInfo copyOf(EntityType<?> type)
+        {
+            CompoundTag tag = new CompoundTag();
+            tag.putString("id", RegHelper.getKey(type) + "");
+            return new CopyInfo(null, tag);
+        }
+
+        public static final Codec<CopyInfo> CODEC = CompoundTag.CODEC.<CopyInfo>comapFlatMap(CopyInfo::read,
+                CopyInfo::tag).stable();
+        public static final StreamCodec<ByteBuf, CopyInfo> STREAM_CODEC = ByteBufCodecs.COMPOUND_TAG.map(
+                CopyInfo::parse, CopyInfo::tag);
 
         public static DataResult<CopyInfo> read(CompoundTag tag)
         {
@@ -85,8 +100,9 @@ public class CopyMob
 
     public static void registerItemData(DeferredRegister<DataComponentType<?>> registry)
     {
-        COPY_STORE = registry.register("copy_mob", name -> new DataComponentType.Builder<CopyInfo>()
-                .persistent(CopyInfo.CODEC).networkSynchronized(CopyInfo.STREAM_CODEC).build());
+        COPY_STORE = registry.register("copy_mob",
+                name -> new DataComponentType.Builder<CopyInfo>().persistent(CopyInfo.CODEC)
+                        .networkSynchronized(CopyInfo.STREAM_CODEC).build());
     }
 
     // ENTITY/TILE ENTITY ATTACHMENT

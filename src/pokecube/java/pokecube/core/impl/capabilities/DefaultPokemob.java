@@ -35,15 +35,6 @@ public class DefaultPokemob extends PokemobSexed implements IPokemob
     public DefaultPokemob(final Mob mob)
     {
         this();
-        if (mob.hasData(DataSync_Impl.TYPE))
-        {
-//            this.dataSync.mapFrom(mob.getData(DataSync_Impl.TYPE), "pokemob");
-        }
-        System.out.println("New IPokemob for " + mob);
-        if(!mob.level().isClientSide())
-        {
-            Thread.dumpStack();
-        }
         this.setEntity(mob);
     }
 

@@ -179,7 +179,7 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
         if (sky)
         {
             int skyH = 16;
-            sky = v.y >= world.getHeight(Types.WORLD_SURFACE_WG, v.intX(), v.intZ()) + skyH;
+            sky = v.y >= world.getHeight(Types.WORLD_SURFACE, v.intX(), v.intZ()) + skyH;
             if (sky) return BiomeType.SKY;
         }
         return biome;

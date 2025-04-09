@@ -1,12 +1,10 @@
 package pokecube.adventures.blocks.statue;
 
-import java.util.Iterator;
-import java.util.Random;
-import java.util.UUID;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -21,6 +19,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -39,6 +38,8 @@ import pokecube.core.database.Database;
 import pokecube.core.entity.pokemobs.PokemobType;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
+import thut.api.attachments.CopyMob;
+import thut.api.attachments.CopyMob.CopyInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.ICopyMob;
 import thut.api.entity.IMobColourable;
@@ -46,10 +47,77 @@ import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.network.TileUpdate;
 
+import java.util.Random;
+import java.util.UUID;
+
 public class StatueEntity extends InteractableTile
 {
     private static final ResourceLocation FUELTAG = ResourceLocation.fromNamespaceAndPath("pokecube_adventures",
             "statue_fuel");
+
+    public static CopyInfo unpackStatue(CopyInfo info, Level level)
+    {
+        if (info == null) return null;
+        var copy = info.copy();
+        if (copy == null || copy.getCopiedID() == null)
+        {
+            info = info.withContext(level.registryAccess());
+            if (info.copy() != null)
+            {
+                copy = info.copy();
+            }
+            else return info;
+        }
+        if (copy.recreateMob(level))
+        {
+            info = new CopyMob.CopyInfo(copy, info.tag());
+        }
+        return info;
+    }
+
+    public static ICopyMob unpackStatue(ItemStack statue, Level level)
+    {
+        if (statue.has(CopyMob.COPY_STORE))
+        {
+            var info = statue.get(CopyMob.COPY_STORE);
+            var info2 = unpackStatue(info, level);
+            if (info != info2) statue.set(CopyMob.COPY_STORE, info2);
+            return info2.copy();
+        }
+        return null;
+    }
+
+    public static ICopyMob unpackStatue(StatueEntity entity)
+    {
+        var comps = entity.components();
+        var orig = comps.get(CopyMob.COPY_STORE.get());
+        if (orig == null) return null;
+        var loaded = unpackStatue(orig, entity.getLevel());
+        // Update the component
+        if (loaded != orig)
+        {
+            var builder = DataComponentMap.builder();
+            comps.keySet().forEach(t -> {
+                var v = comps.get(t);
+                if (t == CopyMob.COPY_STORE.get())
+                {
+                    if (loaded != null)
+                    {
+                        builder.set(CopyMob.COPY_STORE, loaded);
+                    }
+                }
+                else
+                {
+                    DataComponentType _t = t;
+                    Object _v = v;
+                    builder.set(_t, _v);
+                }
+            });
+            entity.setComponents(builder.build());
+        }
+        if (loaded == null) return null;
+        return loaded.copy();
+    }
 
     public int ticks = 0;
 
@@ -72,7 +140,7 @@ public class StatueEntity extends InteractableTile
         // of worldgen, passed in via the block.getShape
         if (!this.hasLevel()) return;
 
-        final ICopyMob copy = ThutCaps.getCopyMob(this);
+        var copy = unpackStatue(this);
         check:
         if (copy != null)
         {
@@ -81,7 +149,7 @@ public class StatueEntity extends InteractableTile
             var after = copy.getCopiedMob();
             if (after == null)
             {
-                copy.setCopiedMob(before = PokecubeCore.createPokemob(Database.missingno, this.level));
+                copy.setCopiedMob(PokecubeCore.createPokemob(Database.missingno, this.level));
                 break check;
             }
             IPokemob pokemob = PokemobCaps.getPokemobFor(after);
@@ -94,30 +162,29 @@ public class StatueEntity extends InteractableTile
             if (after != before)
             {
                 final BlockPos pos = this.getBlockPos();
-                final LivingEntity mob = after;
-                IMobColourable colourable = ThutCaps.getColourable(mob);
+                IMobColourable colourable = ThutCaps.getColourable(after);
                 if (colourable != null) colourable.getRGBA();
-                mob.setUUID(UUID.randomUUID());
-                mob.setPos(pos.getX(), pos.getY(), pos.getZ());
+                after.setUUID(UUID.randomUUID());
+                after.setPos(pos.getX(), pos.getY(), pos.getZ());
                 final Direction dir = this.getBlockState().getValue(HorizontalDirectionalBlock.FACING);
                 switch (dir)
                 {
                 case EAST:
-                    mob.setYRot(mob.yBodyRot = mob.yRotO = mob.yBodyRotO = -90);
+                    after.setYRot(after.yBodyRot = after.yRotO = after.yBodyRotO = -90);
                     break;
                 case NORTH:
-                    mob.setYRot(mob.yBodyRot = mob.yRotO = mob.yBodyRotO = 180);
+                    after.setYRot(after.yBodyRot = after.yRotO = after.yBodyRotO = 180);
                     break;
                 case SOUTH:
-                    mob.setYRot(mob.yBodyRot = mob.yRotO = mob.yBodyRotO = 0);
+                    after.setYRot(after.yBodyRot = after.yRotO = after.yBodyRotO = 0);
                     break;
                 case WEST:
-                    mob.setYRot(mob.yBodyRot = mob.yRotO = mob.yBodyRotO = 90);
+                    after.setYRot(after.yBodyRot = after.yRotO = after.yBodyRotO = 90);
                     break;
                 default:
                     break;
                 }
-                copy.setCopiedMob(mob);
+                copy.setCopiedMob(after);
                 this.requestModelDataUpdate();
             }
         }
@@ -134,19 +201,13 @@ public class StatueEntity extends InteractableTile
     public CompoundTag getUpdateTag(Provider provider)
     {
         this.checkMob();
-        return this.saveCustomOnly(provider);
+        return this.saveWithoutMetadata(provider);
     }
 
     @Override
     public void handleUpdateTag(final CompoundTag tag, Provider provider)
     {
-        this.loadCustomOnly(tag, provider);
-        final ICopyMob copy = ThutCaps.getCopyMob(this);
-        var id = copy.getCopiedID();
-        var _tag = copy.getCopiedNBT();
-        copy.setCopiedMob(null);
-        copy.setCopiedID(id);
-        copy.setCopiedNBT(_tag);
+        this.loadWithComponents(tag, provider);
         this.checkMob();
     }
 
@@ -173,8 +234,7 @@ public class StatueEntity extends InteractableTile
     @SubscribeEvent
     public void onSpawnEventRate(SpawnEvent.Check.Rate event)
     {
-        final ICopyMob copy = ThutCaps.getCopyMob(this);
-
+        var copy = unpackStatue(this);
         if (copy == null || !(this.level instanceof ServerLevel slevel))
         {
             PokecubeAPI.POKEMOB_BUS.unregister(this);
@@ -185,10 +245,8 @@ public class StatueEntity extends InteractableTile
 
         // We need to ensure that everything nearby is loaded, otherwise we can
         // have a freeze from hasNeighborSignal below.
-        Iterator<Direction> iter = Direction.Plane.HORIZONTAL.iterator();
-        while (iter.hasNext())
+        for (Direction d : Direction.Plane.HORIZONTAL)
         {
-            Direction d = iter.next();
             ChunkPos pos = new ChunkPos(this.getBlockPos().relative(d));
             if (slevel.getChunkSource().getChunkNow(pos.x, pos.z) == null) return;
         }
@@ -234,7 +292,7 @@ public class StatueEntity extends InteractableTile
             r0 = r0 > 1 ? 1 : r0;
 
             float d1 = (1 - r0);
-            float s = d1;
+            float s;
 
             boolean sameType1 = pokemob.getType1() != PokeType.unknown && event.entry().isType(pokemob.getType1());
             boolean sameType2 = pokemob.getType2() != PokeType.unknown && event.entry().isType(pokemob.getType2());
@@ -285,7 +343,7 @@ public class StatueEntity extends InteractableTile
         return super.useItemOn(stack, pos, player, hand, hitResult);
     }
 
-    public static LivingEntity initMob(ICopyMob copy, CompoundTag modelTag, Runnable initMob)
+    public static void initMob(ICopyMob copy, CompoundTag modelTag, Runnable initMob)
     {
         String anim = null;
         String over_tex = null;
@@ -300,14 +358,13 @@ public class StatueEntity extends InteractableTile
 
         ResourceLocation e_id;
         // First update ID if present, and refresh the mob
+        copy.setCopiedMob(null);
         if (id != null)
         {
-            copy.setCopiedMob(null);
             copy.setCopiedID(e_id = ResourceLocation.parse(id));
         }
         else
         {
-            copy.setCopiedMob(null);
             copy.setCopiedID(e_id = ResourceLocation.parse("pokecube:missingno"));
         }
         initMob.run();
@@ -338,7 +395,6 @@ public class StatueEntity extends InteractableTile
             anims.setFixed(true);
             anims.overridePlaying(anim);
         }
-        return mob;
     }
 
     @Override
@@ -348,11 +404,11 @@ public class StatueEntity extends InteractableTile
         // The stuff below only matters for when this is placed directly or nbt
         // edited. when loading normally, level is null, so we exit here.
         if (this.level == null) return;
-        final ICopyMob copy = ThutCaps.getCopyMob(this);
-        if (compound.contains("custom_model"))
+        var copy = unpackStatue(this);
+        if (compound.contains("custom_model") && copy != null)
         {
             final CompoundTag modelTag = compound.getCompound("custom_model");
-            initMob(copy, modelTag, () -> this.checkMob());
+            initMob(copy, modelTag, this::checkMob);
         }
         // Server side send packet that it changed
         if (!this.level.isClientSide()) TileUpdate.sendUpdate(this);

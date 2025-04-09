@@ -1,11 +1,6 @@
 package pokecube.adventures.client.render;
 
-import java.util.Map;
-import java.util.UUID;
-
-import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -13,6 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
+import pokecube.adventures.blocks.statue.StatueEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
@@ -20,7 +16,6 @@ import pokecube.core.database.Database;
 import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.PokemobType;
 import thut.api.ThutCaps;
-import thut.api.attachments.CopyMob;
 import thut.api.entity.ICopyMob;
 
 public class StatueItem extends BlockEntityWithoutLevelRenderer implements IClientItemExtensions
@@ -30,31 +25,19 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IClie
         super(null, null);
     }
 
-    public static Map<UUID, LivingEntity> CACHE = Maps.newHashMap();
-
     private LivingEntity getMob(ItemStack stack, final ItemDisplayContext displayContext)
     {
         LivingEntity mob = null;
-        ICopyMob copy = new CopyMob.Impl();
-
-        if (stack.has(CopyMob.COPY_STORE))
-        {
-            var info = stack.get(CopyMob.COPY_STORE);
-            copy = info.copy();
-            copy.recreateMob(Minecraft.getInstance().level);
-            mob = copy.getCopiedMob();
-        }
-        else
-        {
-            Thread.dumpStack();
-        }
+        ICopyMob copy = StatueEntity.unpackStatue(stack, Minecraft.getInstance().level);
+        if(copy!=null) mob = copy.getCopiedMob();
+        if (mob == null) return null;
 
         boolean initMob = false;
 
         final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         if (initMob && pokemob != null)
         {
-            float mobScale = 1;
+            float mobScale;
             if (displayContext == ItemDisplayContext.GUI)
             {
                 final Float value = GuiPokemobHelper.sizeMap.get(pokemob.getPokedexEntry());
@@ -97,6 +80,11 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IClie
             final MultiBufferSource bufs, final int light, final int overlay)
     {
         LivingEntity mob = getMob(stack, displayContext);
+        if (mob == null)
+        {
+            Thread.dumpStack();
+            return;
+        }
         var pokemob = PokemobCaps.getPokemobFor(mob);
         var genes = ThutCaps.getGenetics(mob);
         if (pokemob != null && genes != null)

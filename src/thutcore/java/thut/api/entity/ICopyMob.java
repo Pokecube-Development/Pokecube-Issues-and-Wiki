@@ -41,12 +41,14 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
         this.setCopiedNBT(nbt.getCompound("tag"));
     }
 
-    default void recreateMob(Level level)
+    default boolean recreateMob(Level level)
     {
         if (this.getCopiedMob() == null || this.getCopiedMob().level() != level)
         {
             this.setCopiedMob((LivingEntity) EntityType.loadEntityRecursive(getCopiedNBT(), level, e -> e));
+            return true;
         }
+        return false;
     }
 
     @Override
@@ -214,9 +216,9 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
 
         to.setOnGround(from.onGround());
         // TODO more variable syncing
-//        to.wasTouchingWater = from.wasTouchingWater;
-//        to.fluidHeight = from.fluidHeight;
-//        to.fluidOnEyes.clear();
-//        to.fluidOnEyes.addAll(from.fluidOnEyes);
+        //        to.wasTouchingWater = from.wasTouchingWater;
+        //        to.fluidHeight = from.fluidHeight;
+        //        to.fluidOnEyes.clear();
+        //        to.fluidOnEyes.addAll(from.fluidOnEyes);
     }
 }
