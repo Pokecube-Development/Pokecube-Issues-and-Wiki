@@ -91,7 +91,7 @@ public class CopyMob
 
     // ENTITY/TILE ENTITY ATTACHMENT
 
-    public static class Impl implements ICopyMob
+    public static class Impl implements ICopyMob, TrackedAttachment
     {
         public ResourceLocation copiedID = null;
         public LivingEntity copiedMob = null;
@@ -119,6 +119,7 @@ public class CopyMob
         public void setCopiedID(final ResourceLocation id)
         {
             this.copiedID = id;
+            this.markDirty();
         }
 
         @Override
@@ -140,12 +141,34 @@ public class CopyMob
             {
                 this.setCopiedID(null);
             }
+            this.markDirty();
         }
 
         @Override
         public void setCopiedNBT(final CompoundTag tag)
         {
             this.copiedNBT = tag;
+            this.markDirty();
+        }
+
+        private boolean isDirty = false;
+
+        @Override
+        public void markDirty()
+        {
+            this.isDirty = true;
+        }
+
+        @Override
+        public void markClean()
+        {
+            this.isDirty = false;
+        }
+
+        @Override
+        public boolean isDirty()
+        {
+            return isDirty;
         }
     }
 

@@ -72,6 +72,7 @@ public class DefaultGenetics implements IMobGenetics
         // gene listeners, and ensures they can look it up from our map.
         a.getExpressed();
         a.onChanged();
+        markDirty();
     }
 
     @Override
@@ -82,6 +83,7 @@ public class DefaultGenetics implements IMobGenetics
         a.setExpressed(gexp);
         this.genetics.put(g1.getKey(), a);
         a.onChanged();
+        markDirty();
     }
 
     @SuppressWarnings("unchecked")
@@ -203,5 +205,25 @@ public class DefaultGenetics implements IMobGenetics
         GENE_STORE = registry.register("gene_storage",
                 name -> new DataComponentType.Builder<GeneHolder>().persistent(GeneHolder.CODEC)
                         .networkSynchronized(GeneHolder.STREAM_CODEC).build());
+    }
+
+    private boolean isDirty = false;
+
+    @Override
+    public void markDirty()
+    {
+        this.isDirty = true;
+    }
+
+    @Override
+    public void markClean()
+    {
+        this.isDirty = false;
+    }
+
+    @Override
+    public boolean isDirty()
+    {
+        return isDirty;
     }
 }

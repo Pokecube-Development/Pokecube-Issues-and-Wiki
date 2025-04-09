@@ -145,7 +145,7 @@ public class Ownable
         {
             super.Attach(toWrap);
             if (!this.playerOwned && toWrap.getOwnerUUID() != null && toWrap.getServer() != null)
-                this.playerOwned = toWrap.getServer().getProfileCache().get(this.getOwnerId()) != null;
+                this.playerOwned = toWrap.getServer().getProfileCache().get(this.getOwnerId()).isPresent();
             return this;
         }
 
@@ -205,7 +205,7 @@ public class Ownable
             super.Attach(toWrap);
             this.playerOwned = toWrap.getOwner() instanceof Player;
             if (!this.playerOwned && toWrap.getOwnerUUID() != null && toWrap.getServer() != null)
-                this.playerOwned = toWrap.getServer().getProfileCache().get(this.getOwnerId()) != null;
+                this.playerOwned = toWrap.getServer().getProfileCache().get(this.getOwnerId()).isPresent();
             return this;
         }
 
@@ -257,7 +257,7 @@ public class Ownable
         }
     }
 
-    public static class BaseImpl implements IOwnable
+    public static class BaseImpl implements IOwnable, TrackedAttachment
     {
         UUID ownerId;
         LivingEntity ownerMob;
@@ -295,13 +295,35 @@ public class Ownable
         @Override
         public void setOwner(final UUID id)
         {
+            if (id != this.ownerId) this.markDirty();
             this.ownerId = id;
         }
 
         @Override
         public void setPlayerOwned(boolean playerOwned)
         {
+            if (playerOwned != this.playerOwned) this.markDirty();
             this.playerOwned = playerOwned;
+        }
+
+        private boolean isDirty = false;
+
+        @Override
+        public void markDirty()
+        {
+            this.isDirty = true;
+        }
+
+        @Override
+        public void markClean()
+        {
+            this.isDirty = false;
+        }
+
+        @Override
+        public boolean isDirty()
+        {
+            return isDirty;
         }
     }
 

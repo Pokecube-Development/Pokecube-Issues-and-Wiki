@@ -35,6 +35,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import thut.api.ModelHolder;
 import thut.api.Tracker;
+import thut.api.attachments.TrackedAttachment;
 import thut.api.entity.ICopyMob;
 import thut.api.entity.IHungrymob;
 import thut.api.entity.IMobColourable;
@@ -53,7 +54,7 @@ import java.util.Map;
 /** @author Manchou */
 public interface IPokemob
         extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOwner, IHasStats, IHungrymob, IHasCommands, IMobColourable,
-        IShearable
+        IShearable, TrackedAttachment
 {
     /**
      * Holder object for custom models/textures/etc for a pokemob.

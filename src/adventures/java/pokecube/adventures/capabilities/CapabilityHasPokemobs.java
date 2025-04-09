@@ -784,6 +784,7 @@ public class CapabilityHasPokemobs
         {
             this.type = type;
             this.holder.TYPE.set(type == null ? "" : type.getName());
+            this.markDirty();
         }
 
         @Override
@@ -986,6 +987,26 @@ public class CapabilityHasPokemobs
         {
             this.context = context;
             return context;
+        }
+
+        private boolean isDirty = false;
+
+        @Override
+        public void markDirty()
+        {
+            this.isDirty = true;
+        }
+
+        @Override
+        public void markClean()
+        {
+            this.isDirty = false;
+        }
+
+        @Override
+        public boolean isDirty()
+        {
+            return isDirty;
         }
     }
 

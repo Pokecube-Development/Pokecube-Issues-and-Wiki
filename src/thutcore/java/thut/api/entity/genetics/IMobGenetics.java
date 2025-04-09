@@ -4,6 +4,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.neoforged.neoforge.common.util.INBTSerializable;
+import thut.api.attachments.TrackedAttachment;
 
 import java.util.Collection;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-public interface IMobGenetics extends INBTSerializable<ListTag>
+public interface IMobGenetics extends INBTSerializable<ListTag>, TrackedAttachment
 {
     /**
      * This is a map of Name -> Alleles. this is to be used to sort the Alleles. The keys for this should be the same as

@@ -365,4 +365,24 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
     {
         this.transformed = transform;
     }
+
+    private boolean isDirty = false;
+
+    @Override
+    public void markDirty()
+    {
+        this.isDirty = true;
+    }
+
+    @Override
+    public void markClean()
+    {
+        this.isDirty = false;
+    }
+
+    @Override
+    public boolean isDirty()
+    {
+        return isDirty;
+    }
 }

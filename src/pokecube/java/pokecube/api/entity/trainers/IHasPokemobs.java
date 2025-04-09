@@ -23,6 +23,7 @@ import pokecube.api.entity.trainers.actions.ActionContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.PCEventsHandler;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import thut.api.attachments.TrackedAttachment;
 import thut.api.world.mobs.data.DataSync;
 
 /**
@@ -30,7 +31,7 @@ import thut.api.world.mobs.data.DataSync;
  * mob that has and can control pokemobs.
  *
  */
-public interface IHasPokemobs extends INBTSerializable<CompoundTag>, Container
+public interface IHasPokemobs extends INBTSerializable<CompoundTag>, Container, TrackedAttachment
 {
     void init(LivingEntity npc);
 

@@ -14,18 +14,23 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.attachment.AttachmentHolder;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent.StartTracking;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import thut.api.Tracker;
+import thut.api.attachments.TrackedAttachment;
 import thut.api.world.WorldTickManager;
 import thut.api.world.WorldTickManager.DelayedTask;
 import thut.core.common.ThutCore;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -43,7 +48,8 @@ public class PacketSyncAttachments extends Packet
     public static Map<Predicate<Entity>, ResourceLocation> AUTOADD = new HashMap<>();
     private static final Map<ResourceLocation, Tag> DEFAULTS = new HashMap<>();
 
-    private static Field GETDEF;
+    private static final Field GETDEF;
+    private static final Method ATTCHMAP;
 
     static
     {
@@ -51,35 +57,34 @@ public class PacketSyncAttachments extends Packet
         {
             GETDEF = AttachmentType.class.getDeclaredField("defaultValueSupplier");
             GETDEF.setAccessible(true);
+
+            ATTCHMAP = AttachmentHolder.class.getDeclaredMethod("getAttachmentMap");
+            ATTCHMAP.setAccessible(true);
         }
-        catch (NoSuchFieldException | SecurityException e)
+        catch (Exception e)
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
     /**
      * Syncs wearables to the player when they join a world. This fixes client issues when they use nether portals, etc
-     *
      */
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void joinWorldLast(final EntityJoinLevelEvent event)
     {
-        if(event.getLevel().isClientSide()) return;
+        if (event.getLevel().isClientSide()) return;
         if (event.getEntity() instanceof LivingEntity mob)
         {
             // Delay this execution, so the mob is actually tracked when it
             // runs.
             WorldTickManager.scheduleTask(mob.level().dimension(),
-                    new DelayedTask(Tracker.instance().getTick(),
-                            () -> sendPackets(mob)));
+                    new DelayedTask(Tracker.instance().getTick(), () -> sendPackets(mob)));
         }
     }
 
     /**
      * Syncs wearables to the player when they join a world. This fixes client issues when they use nether portals, etc
-     *
      */
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void joinWorld(final EntityJoinLevelEvent event)
@@ -94,7 +99,6 @@ public class PacketSyncAttachments extends Packet
 
     /**
      * Syncs wearables of other mobs to player when they start tracking them.
-     *
      */
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void startTracking(final StartTracking event)
@@ -108,11 +112,26 @@ public class PacketSyncAttachments extends Packet
         }
     }
 
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void postTick(final EntityTickEvent.Post event)
+            throws InvocationTargetException, IllegalAccessException
+    {
+        if (event.getEntity().level().isClientSide()) return;
+        var mob = event.getEntity();
+        @SuppressWarnings("unchecked")
+        Map<AttachmentType<?>, Object> map = (Map<AttachmentType<?>, Object>) ATTCHMAP.invoke(mob);
+        map.forEach((type, value) -> {
+            if (value instanceof TrackedAttachment tracked && tracked.isDirty())
+            {
+                sendForKey(mob, NeoForgeRegistries.ATTACHMENT_TYPES.getKey(type));
+                tracked.markClean();
+            }
+        });
+    }
+
     public static void syncChange(Entity mob, Collection<ResourceLocation> changes)
     {
-        changes.forEach(key -> {
-            sendForKey(mob, key);
-        });
+        changes.forEach(key -> sendForKey(mob, key));
     }
 
     public static <T> void syncChange(AttachmentType<T> type, Entity mob)
@@ -135,9 +154,6 @@ public class PacketSyncAttachments extends Packet
         var data = mob.getData(type);
         if (!(data instanceof INBTSerializable)) return;
         var tag = ((INBTSerializable) data).serializeNBT(mob.registryAccess());
-        if(key.toString().contains("gene")){
-            int x=0;
-        }
         @SuppressWarnings("unchecked")
         var test = DEFAULTS.computeIfAbsent(key, a -> {
             Function<IAttachmentHolder, ?> _defact;
@@ -154,7 +170,7 @@ public class PacketSyncAttachments extends Packet
             }
             return new CompoundTag();
         });
-        if (tag.equals(test))return;
+        if (tag.equals(test)) return;
         var p = new PacketSyncAttachments(mob, tag, key);
         ThutCore.packets.sendToTrackingAndSelf(p, mob);
     }
@@ -162,9 +178,7 @@ public class PacketSyncAttachments extends Packet
     private static void sendPackets(LivingEntity mob)
     {
         syncChange(mob, SYNCED);
-        SYNCED.forEach(key -> {
-            sendForKey(mob, key);
-        });
+        SYNCED.forEach(key -> sendForKey(mob, key));
     }
 
     CompoundTag data;
