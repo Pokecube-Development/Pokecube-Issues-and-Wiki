@@ -7,9 +7,11 @@ import com.google.common.collect.Lists;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.trainers.IHasPokemobs;
 import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.moves.Battle;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.utils.AITools;
 
 public class ManagePokemobTarget extends BaseBattleTask
@@ -57,6 +59,19 @@ public class ManagePokemobTarget extends BaseBattleTask
                     break enemy_check;
                 }
                 mob.onSetTarget(target, true);
+            }
+            if (enemy != null)
+            {
+                var enemyTarget = BrainUtils.getAttackTarget(enemy);
+                if (enemyTarget == entity)
+                {
+                    BrainUtils.setAttackTarget(enemy, ourMob);
+                    var enemyPokemob = PokemobCaps.getPokemobFor(enemy);
+                    if (enemyPokemob != null)
+                    {
+                        enemyPokemob.getMoveStats().enemyIndex++;
+                    }
+                }
             }
         }
     }

@@ -11,6 +11,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.phys.AABB;
 import pokecube.adventures.blocks.statue.StatueEntity;
 import pokecube.core.client.render.mobs.overlays.Status.StatusTexturer;
 import thut.api.entity.IAnimated.IAnimationHolder;
@@ -94,8 +95,16 @@ public class StatueBlock implements BlockEntityRenderer<StatueEntity>
     public boolean shouldRenderOffScreen(StatueEntity blockEntity)
     {
         final ICopyMob copy = StatueEntity.unpackStatue(blockEntity);
-        if (copy == null) return false;
-        if (copy.getCopiedMob() == null) return false;
+        if (copy == null || copy.getCopiedMob() == null)
+        {
+            return false;
+        }
         return copy.getCopiedMob().getBbWidth() > 1;
+    }
+
+    @Override
+    public AABB getRenderBoundingBox(StatueEntity blockEntity)
+    {
+        return AABB.INFINITE;
     }
 }

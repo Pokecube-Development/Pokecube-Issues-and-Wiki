@@ -60,14 +60,14 @@ public class MessageInfo extends GuiEventComponent
         final int paddingXPos = PokecubeCore.getConfig().messagePadding.get(0);
         final int paddingXNeg = PokecubeCore.getConfig().messagePadding.get(1);
 
-        int x = 0, y = 0;
+        int x, y;
 
         int w = 0;
         int h = 0;
         x = w;
         y = h;
         event.getMat().translate(this.pos.w, texH, 0);
-        int num = -1;
+        int num;
         final boolean inChat = GuiInfoMessages.fullDisplay();
 
         if (inChat)

@@ -464,7 +464,7 @@ public class Battle
         }
     }
 
-    private void end()
+    public void end()
     {
         this.ended = true;
         for (final LivingEntity mob1 : this.side1.values())

@@ -1,9 +1,9 @@
 package pokecube.core.client.gui.components;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.resources.ResourceLocation;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
 import pokecube.api.utils.PokeType;
@@ -11,7 +11,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.client.GuiEvent;
 import pokecube.core.client.gui.GuiDisplayPokecubeInfo;
 import pokecube.core.client.gui.GuiTeleport;
-import pokecube.core.utils.Resources;
 import thut.api.entity.teleporting.TeleDest;
 
 public class TeleportInfo extends GuiEventComponent
@@ -55,7 +54,8 @@ public class TeleportInfo extends GuiEventComponent
         final int yOffset = 0;
         final int dir = GuiTeleport.direction;
         RenderSystem.enableBlend();
-        graphics.blit(Resources.GUI_BATTLE, xOffset + w, yOffset + h, 44, 0, 90, 13);
+        ResourceLocation plate = ICON_MOVE_FRAMES[0];
+        graphics.blitSprite(plate, xOffset + w, yOffset + h, -2, 89, 13);
         graphics.drawString(gui.getFont(), I18n.get("gui.pokemob.teleport"), 2 + xOffset + w, 2 + yOffset + h,
                 GuiTeleport.lightGrey);
 
@@ -67,10 +67,9 @@ public class TeleportInfo extends GuiEventComponent
             int shift = 13 + 12 * i + yOffset + h;
             if (dir == -1) shift -= 25;
             RenderSystem.enableBlend();
-            graphics.blit(Resources.GUI_BATTLE, xOffset + w, shift, 44, 22, 91, 12);
+            graphics.blitSprite(plate, xOffset + w, shift, -2, 89, 13);
             graphics.drawString(gui.getFont(), name, 5 + xOffset + w, shift + 2, PokeType.getType("fire").colour);
         }
-        i++;
         event.getMat().popPose();
     }
 

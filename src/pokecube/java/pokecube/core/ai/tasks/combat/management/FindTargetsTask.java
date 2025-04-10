@@ -76,7 +76,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         if (targetHasMobs)
         {
             mobs.sort((o1, o2) -> (int) (o1.distanceToSqr(aggressor) - o2.distanceToSqr(aggressor)));
-            final Entity mob = mobs.get(0);
+            final Entity mob = mobs.getFirst();
             mobs = PokemobTracker.getMobs(mob, e -> true);
             // No loop diverting
             if (!mobs.isEmpty() || !(mob instanceof LivingEntity entity)) return target;

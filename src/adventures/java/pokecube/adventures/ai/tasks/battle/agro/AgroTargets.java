@@ -23,8 +23,6 @@ public class AgroTargets extends BaseAgroTask
     /**
      * The argument passed into this predicate is the current mob, so it should
      * only consider it for checks!
-     *
-     * @return
      */
     public AgroTargets setRunCondition(final Predicate<LivingEntity> shouldRun)
     {
@@ -38,7 +36,6 @@ public class AgroTargets extends BaseAgroTask
         if (!this.validTargets.test(target)) return false;
         if (!EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(target)) return false;
         if (!this.shouldRun.test(this.entity)) return false;
-        if (!this.trainer.canBattle(target, false).test()) return false;
-        return true;
+        return this.trainer.canBattle(target, false).test();
     }
 }

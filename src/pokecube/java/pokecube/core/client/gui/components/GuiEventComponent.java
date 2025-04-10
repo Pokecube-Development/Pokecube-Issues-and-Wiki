@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.Window;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.resources.ResourceLocation;
 import pokecube.core.client.GuiEvent;
 import pokecube.core.client.gui.GuiDisplayPokecubeInfo;
 import pokecube.core.client.gui.GuiInfoMessages;
@@ -11,6 +12,23 @@ import pokecube.core.client.gui.helper.Rectangle;
 
 public abstract class GuiEventComponent implements Comparable<GuiEventComponent>
 {
+    public static final ResourceLocation ICON_NUMBER_FRAME = ResourceLocation.parse("pokecube:battle/number_frame");
+    public static final ResourceLocation ICON_MOB_FRAME = ResourceLocation.parse("pokecube:battle/mob_frame");
+
+    public static final ResourceLocation[] ICON_MOVE_FRAMES = {
+            ResourceLocation.parse("pokecube:battle/move_unselected"),
+            ResourceLocation.parse("pokecube:battle/move_selected"),
+            ResourceLocation.parse("pokecube:battle/move_disabled") };
+
+    public static final ResourceLocation[] ICON_HEALTH_EXP = { ResourceLocation.parse("pokecube:battle/health_empty"),
+            ResourceLocation.parse("pokecube:battle/health_fill"), ResourceLocation.parse("pokecube:battle/exp_empty"),
+            ResourceLocation.parse("pokecube:battle/exp_fill") };
+
+    public static final ResourceLocation[] STATUS_ICONS = { ResourceLocation.parse("pokecube:battle/burn"),
+            ResourceLocation.parse("pokecube:battle/freeze"), ResourceLocation.parse("pokecube:battle/paralysis"),
+            ResourceLocation.parse("pokecube:battle/poison"), ResourceLocation.parse("pokecube:battle/confuse"),
+            ResourceLocation.parse("pokecube:battle/hunger"), };
+
     public static void applyTransform(GuiEventComponent component)
     {
         final Minecraft minecraft = Minecraft.getInstance();
