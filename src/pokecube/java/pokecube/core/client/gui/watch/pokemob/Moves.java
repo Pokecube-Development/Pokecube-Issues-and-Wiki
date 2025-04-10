@@ -49,10 +49,12 @@ public class Moves extends ListPage<LineEntry>
             final int[] offset = this.moveOffsets[i];
             //this one is being dragged, so ignore it.
             if (offset[2] != 0) continue;
-            final MoveEntry move = MovesUtils.getMove(pokemob.getMove(offset[3]));
-            if (move != null)
+            var name = pokemob.getMove(offset[3]);
+            MoveEntry move = MovesUtils.getMove(name);
+            Component moveName =
+                    move != null ? MovesUtils.getMoveName(move.getName(), pokemob) : Component.literal(name);
+            if (name != null)
             {
-                Component moveName = MovesUtils.getMoveName(move.getName(), pokemob);
                 int length = this.font.width(moveName);
                 boolean mouseOver = mx > 0 && mx < length && my > offset[1] && my < offset[1] + this.font.lineHeight;
                 if (mouseOver) return i;
@@ -79,13 +81,15 @@ public class Moves extends ListPage<LineEntry>
                 held = i;
                 continue;
             }
-            final MoveEntry move = MovesUtils.getMove(pokemob.getMove(offset[3]));
-            if (move != null)
+            var name = pokemob.getMove(offset[3]);
+            MoveEntry move = MovesUtils.getMove(name);
+            Component moveName =
+                    move != null ? MovesUtils.getMoveName(move.getName(), pokemob) : Component.literal(name);
+            int colour = move != null ? move.getType(pokemob).colour : 0x555555;
+            if (name != null)
             {
-                Component moveName = MovesUtils.getMoveName(move.getName(), pokemob);
-                graphics.drawString(this.font, moveName, x + dx, y + dy + offset[1] + offset[4],
-                        move.getType(pokemob).colour, false);
-                if (hovored == i)
+                graphics.drawString(this.font, moveName, x + dx, y + dy + offset[1] + offset[4], colour, false);
+                if (hovored == i && move != null)
                 {
                     Component value = TComponent.literal("-");
                     final int pwr = move.getPWR(this.parent.pokemob, this.watch.player);
@@ -172,8 +176,7 @@ public class Moves extends ListPage<LineEntry>
         };
         IPokemob pokemob = this.parent.pokemob;
 
-        this.list = new ScrollGui<>(this, this.minecraft, width, height, this.font.lineHeight, offsetX,
-                offsetY);
+        this.list = new ScrollGui<>(this, this.minecraft, width, height, this.font.lineHeight, offsetX, offsetY);
 
         final PokedexEntry entry = pokemob.getPokedexEntry();
 
@@ -216,19 +219,11 @@ public class Moves extends ListPage<LineEntry>
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY)
     {
-        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
-        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
-        final int dx = 150;
-        final int dy = 48;
+        int dx = 53; // -30
+        int dy = 18; // 20
+        int index = getHovoredMove(dx, dy, mouseX, mouseY);
 
-        // The top left move corner should be (x + dx, y + dy)
-
-        final int x1 = (int) (mouseX - (x + dx));
-        final int y1 = (int) (mouseY - (y + dy));
-
-        // If we are somewhere in here, we are probably clicking a move
-        final boolean inBox = x1 > 0 && y1 > 48 && x1 < 95 && y1 < 58;
-        if (inBox)
+        if (index == 4)
         {
             int i1 = 9;
             int i2 = 10;

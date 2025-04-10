@@ -26,9 +26,8 @@ import thut.lib.TComponent;
 public interface IHasMoves extends IHasStats
 {
     /**
-     * Changes: {@link IMoveConstants#CHANGE_CONFUSED} for example. The set can
-     * fail because the mob is immune against this change or because it already
-     * has the change. If so, the method returns false.
+     * Changes: {@link IMoveConstants#CHANGE_CONFUSED} for example. The set can fail because the mob is immune against
+     * this change or because it already has the change. If so, the method returns false.
      *
      * @param change the change to add
      * @return whether the change has actually been added
@@ -72,7 +71,8 @@ public interface IHasMoves extends IHasStats
         else
         {
             if (moveIndex0 >= moves.length && moveIndex1 >= moves.length)
-            {}
+            {
+            }
             else if (moveIndex0 >= moves.length || moveIndex1 >= moves.length)
             {
                 final int index = Math.min(moveIndex0, moveIndex1);
@@ -100,9 +100,8 @@ public interface IHasMoves extends IHasStats
     }
 
     /**
-     * Called by attackEntity(Entity entity, float f). Executes the move it's
-     * supposed to do according to his trainer command or a random one if it's
-     * wild.
+     * Called by attackEntity(Entity entity, float f). Executes the move it's supposed to do according to his trainer
+     * command or a random one if it's wild.
      *
      * @param target the Entity to attack
      * @param f      the float parameter of the attackEntity method
@@ -110,8 +109,7 @@ public interface IHasMoves extends IHasStats
     void executeMove(LivingEntity target, Vector3 targetLocation, float f);
 
     /**
-     * Cooldown for attacks, if this is greater than 0, we shouldn't be able to
-     * use any moves.
+     * Cooldown for attacks, if this is greater than 0, we shouldn't be able to use any moves.
      *
      * @return
      */
@@ -142,9 +140,7 @@ public interface IHasMoves extends IHasStats
     }
 
     /**
-     * 
-     * @return a cached selected move to reduce number of times AI classes, etc
-     *         need to look this up.
+     * @return a cached selected move to reduce number of times AI classes, etc need to look this up.
      */
     @Nonnull
     default MoveEntry getSelectedMove()
@@ -189,7 +185,7 @@ public interface IHasMoves extends IHasStats
 
     /**
      * Defaults to 4
-     * 
+     *
      * @return number of moves we can know at a time.
      */
     default int getMovesCount()
@@ -205,8 +201,8 @@ public interface IHasMoves extends IHasStats
     String[] getMoves();
 
     /**
-     * @return PokemobMoveStats object that contains all of our info about
-     *         combat for moves, tracks things like toxic counters, etc
+     * @return PokemobMoveStats object that contains all of our info about combat for moves, tracks things like toxic
+     * counters, etc
      */
     PokemobMoveStats getMoveStats();
 
@@ -221,7 +217,6 @@ public interface IHasMoves extends IHasStats
     int getEnemyNumber();
 
     /**
-     * 
      * @return number of allies in the battle, mostly used for tracking in guis
      */
     int getAllyNumber();
@@ -232,9 +227,7 @@ public interface IHasMoves extends IHasStats
     int getTargetID();
 
     /**
-     * 
-     * @return ID of ally to target for single target moves when fighting
-     *         multiples
+     * @return ID of ally to target for single target moves when fighting multiples
      */
     int getAllyID();
 
@@ -268,8 +261,8 @@ public interface IHasMoves extends IHasStats
     }
 
     /**
-     * The pokemob learns the specified move. It will be set to an available
-     * position or erase an existing one if non are available.
+     * The pokemob learns the specified move. It will be set to an available position or erase an existing one if non
+     * are available.
      *
      * @param moveName an existing move (registered in {@link MovesUtils})
      */
@@ -347,10 +340,10 @@ public interface IHasMoves extends IHasStats
             for (final IOngoingEffect effect : affected.getEffects(NonPersistantStatusEffect.ID))
                 if (effect instanceof NonPersistantStatusEffect
                         && ((NonPersistantStatusEffect) effect).effect == toRemove)
-            {
-                affected.removeEffect(effect);
-                break;
-            }
+                {
+                    affected.removeEffect(effect);
+                    break;
+                }
         }
     }
 
@@ -370,8 +363,8 @@ public interface IHasMoves extends IHasStats
     void setDisableTimer(int index, int timer);
 
     /**
-     * Sets the index of the new move to learn from the list of learnable new
-     * moves, see {@link PokemobMoveStats#newMoves}
+     * Sets the index of the new move to learn from the list of learnable new moves, see
+     * {@link PokemobMoveStats#newMoves}
      *
      * @param num
      */
@@ -396,10 +389,9 @@ public interface IHasMoves extends IHasStats
     public void setMoveIndex(int i);
 
     /**
-     * Statuses: {@link IMoveConstants#STATUS_PSN} for example. The set can fail
-     * because the mob is immune against this status (a fire-type Pokemon can't
-     * be burned for example) or because it already have a status. If so, the
-     * method returns false.
+     * Statuses: {@link IMoveConstants#STATUS_PSN} for example. The set can fail because the mob is immune against this
+     * status (a fire-type Pokemon can't be burned for example) or because it already have a status. If so, the method
+     * returns false.
      *
      * @param status the status to set
      * @return whether the status has actually been set
@@ -410,8 +402,7 @@ public interface IHasMoves extends IHasStats
     }
 
     /**
-     * Same as {@link IHasMoves#setStatus(int)} but also specifies the duration
-     * for the effect.
+     * Same as {@link IHasMoves#setStatus(int)} but also specifies the duration for the effect.
      *
      * @param status the status to set
      * @param turns  How many times attackCooldown should the status apply.
@@ -420,16 +411,16 @@ public interface IHasMoves extends IHasStats
     boolean setStatus(IPokemob source, int status, int turns);
 
     /**
-     * Sets the initial status timer. The timer will be decreased until 0. The
-     * timer for SLP. When reach 0, the mob wakes up.
+     * Sets the initial status timer. The timer will be decreased until 0. The timer for SLP. When reach 0, the mob
+     * wakes up.
      *
      * @param timer the initial value to set
      */
     void setStatusTimer(short timer);
 
     /**
-     * The pokemob will render and have moves according to whatever is set here.
-     * If null is set, then it will use its own moves.
+     * The pokemob will render and have moves according to whatever is set here. If null is set, then it will use its
+     * own moves.
      *
      * @param to
      */

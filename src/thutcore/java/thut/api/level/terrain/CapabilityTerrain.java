@@ -1,14 +1,6 @@
 package thut.api.level.terrain;
 
-import java.util.function.Function;
-import java.util.function.Supplier;
-
-import it.unimi.dsi.fastutil.ints.Int2BooleanArrayMap;
-import it.unimi.dsi.fastutil.ints.Int2IntMap;
-import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
-import it.unimi.dsi.fastutil.ints.IntSet;
+import it.unimi.dsi.fastutil.ints.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.HolderLookup;
@@ -21,6 +13,8 @@ import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import net.neoforged.neoforge.registries.DeferredRegister;
+
+import java.util.function.Supplier;
 
 public class CapabilityTerrain
 {
@@ -71,7 +65,7 @@ public class CapabilityTerrain
                 tags = (ListTag) nbt.get("segs");
                 for (int i = 0; i < tags.size(); i++)
                 {
-                    TerrainSegment t = null;
+                    TerrainSegment t;
                     final CompoundTag terrainTag = tags.getCompound(i);
                     if (!terrainTag.isEmpty() && !TerrainSegment.noLoad)
                     {
@@ -177,10 +171,10 @@ public class CapabilityTerrain
 
         ITerrainProvider setChunk(final ChunkAccess chunk);
     }
-    
+
     public static ITerrainProvider makeProvider(final IAttachmentHolder in)
     {
-        if(!(in instanceof ChunkAccess chunk)) return null;
+        if (!(in instanceof ChunkAccess chunk)) return null;
         return new DefaultProvider(chunk);
     }
 
@@ -188,15 +182,14 @@ public class CapabilityTerrain
     {
         return in.getData(TYPE_SAVE.get());
     }
-    
+
     public static final ResourceLocation LOCSAVEABLE = ResourceLocation.parse("thutcore:terrain");
 
     public static Supplier<AttachmentType<ITerrainProvider>> TYPE_SAVE;
-    
+
     public static void registerAttachment(DeferredRegister<AttachmentType<?>> registry)
     {
-        Function<IAttachmentHolder, ITerrainProvider> func_a = CapabilityTerrain::makeProvider;
-        var attach_a = AttachmentType.serializable(func_a).build();
-        TYPE_SAVE = registry.register(LOCSAVEABLE.getPath(), () -> attach_a);
+        TYPE_SAVE = registry.register(LOCSAVEABLE.getPath(),
+                () -> AttachmentType.serializable(CapabilityTerrain::makeProvider).build());
     }
 }

@@ -59,10 +59,8 @@ public interface ITerrainProvider
     }
 
     /**
-     * This is a cache of loaded chunks, it is used to prevent thread lock
-     * contention when trying to look up a chunk, as it seems that
-     * world.chunkExists returning true does not mean that you can just go and
-     * ask for the chunk...
+     * This is a cache of loaded chunks, it is used to prevent thread lock contention when trying to look up a chunk, as
+     * it seems that world.chunkExists returning true does not mean that you can just go and ask for the chunk...
      */
     public static Map<ResourceKey<Level>, Map<ChunkPos, ChunkAccess>> loadedChunks = new ConcurrentHashMap<>();
 
@@ -108,14 +106,19 @@ public interface ITerrainProvider
         if (!(world instanceof Level level)) return new TerrainSegment(p);
         // Convert the pos to a chunk pos
         final ResourceKey<Level> dim = level.dimension();
-        final ChunkAccess chunk = world.isClientSide() ? world.getChunk(p)
-                : ITerrainProvider.getChunk(dim, new ChunkPos(p));
+        ChunkAccess chunk = world.isClientSide() ? world.getChunk(p) : ITerrainProvider.getChunk(dim, new ChunkPos(p));
+        // can be the case on server side during worldgen, if it isn't in the chunk map yet.
+        if (chunk == null) chunk = world.getChunk(p);
 
         int y = SectionPos.blockToSectionCoord(p.getY());
         if (y < world.getMinSection()) y = world.getMinSection();
         if (y > world.getMaxSection()) y = world.getMaxSection();
 
         final CapabilityTerrain.ITerrainProvider provider = ThutCaps.getTerrainProvider(chunk);
+        if (provider == null)
+        {
+            Thread.dumpStack();
+        }
         provider.setChunk(chunk);
         return provider.getTerrainSegment(y);
     }

@@ -16,7 +16,7 @@
     "max_dy": 5
   },
   "biomes": {
-    "type": "forge:and",
+    "type": "neoforge:and",
     "values": [
       "#minecraft:is_overworld"
     ]

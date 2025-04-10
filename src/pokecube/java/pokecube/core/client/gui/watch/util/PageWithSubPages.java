@@ -106,7 +106,10 @@ public abstract class PageWithSubPages<T extends WatchPage> extends WatchPage
     {
         if (this.font == null) this.font = Minecraft.getInstance().font;
         this.prePageDraw(graphics, mouseX, mouseY, partialTicks);
+        // Render first for the normal buttons/text/etc
         this.current_page.render(graphics, mouseX, mouseY, partialTicks);
+        // Render page next for custom additions
+        this.current_page.renderPage(graphics, mouseX, mouseY, partialTicks);
         this.postPageDraw(graphics, mouseX, mouseY, partialTicks);
     }
 

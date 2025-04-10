@@ -10,6 +10,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
@@ -18,6 +19,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
@@ -25,17 +27,18 @@ import pokecube.core.commands.SecretBase;
 import pokecube.mobs.moves.world.ActionSecretPower;
 import pokecube.world.dimension.SecretBaseDimension;
 import thut.api.ThutCaps;
+import thut.api.attachments.Ownable;
 import thut.api.block.IOwnableTE;
+import thut.api.data.HolderProvider;
 import thut.lib.TComponent;
 
 /**
- * This provides the functionality for Secret Bases. It applies on right click
- * interactions, and acts as the entry point for the secret base. This block
- * stores the original block it was created from, and converts back into it if
- * the base was invalidated.<br>
+ * This provides the functionality for Secret Bases. It applies on right click interactions, and acts as the entry point
+ * for the secret base. This block stores the original block it was created from, and converts back into it if the base
+ * was invalidated.<br>
  * <br>
- * Bases may be invalidated by creating another secret base elsewhere. See
- * {@link SecretBase} and (@link {@link ActionSecretPower} for more information.
+ * Bases may be invalidated by creating another secret base elsewhere. See {@link SecretBase} and (@link
+ * {@link ActionSecretPower} for more information.
  */
 public class BaseTile extends InteractableTile
 {
@@ -91,8 +94,9 @@ public class BaseTile extends InteractableTile
     {
         super.loadAdditional(compound, registries);
         this.any = compound.getBoolean("any_use");
-        if (compound.contains("last_base")) this.last_base = GlobalPos.CODEC
-                .decode(NbtOps.INSTANCE, compound.get("last_base")).result().get().getFirst();
+        if (compound.contains("last_base"))
+            this.last_base = GlobalPos.CODEC.decode(NbtOps.INSTANCE, compound.get("last_base")).result().get()
+                    .getFirst();
         if (compound.contains("revert_to"))
         {
             final CompoundTag tag = compound.getCompound("revert_to");

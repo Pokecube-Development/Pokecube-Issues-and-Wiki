@@ -514,7 +514,6 @@ public class EventsHandlerClient
 
         TextureAtlasSprite textureatlassprite = Minecraft.getInstance().getTextureAtlas(Resources.ICONS_MOB_SHEET).apply(icon);
         guiGraphics.blit(x, y, 0,  width, height, textureatlassprite);
-//        guiGraphics.blitSprite(icon, x, y, width, height);
     }
 
 

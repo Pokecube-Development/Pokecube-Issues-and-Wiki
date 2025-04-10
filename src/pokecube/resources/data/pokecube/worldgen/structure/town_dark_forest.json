@@ -1,12 +1,12 @@
 {
   "type": "pokecube:generic_surface_jigsaw",
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "start_pool": "pokecube:village/hills/town_centers",
+  "start_pool": "pokecube:village/dark_forest/town_centers",
   "terrain_adaptation": "beard_box",
   "step": "surface_structures",
   "use_expansion_hack": true,
   "biome_type": "village",
-  "avoid_range": 6,
+  "avoid_range": 3,
   "size": 6,
   "required_parts": [
     "gym",
@@ -17,10 +17,10 @@
     "minecraft:villages"
   ],
   "biomes": {
-    "type": "forge:or",
+    "type": "neoforge:and",
     "values": [
-      "#minecraft:is_hill",
-      "#minecraft:is_mountain"
+      "#minecraft:is_forest",
+      "#forge:is_spooky"
     ]
   },
   "spawn_overrides": {}

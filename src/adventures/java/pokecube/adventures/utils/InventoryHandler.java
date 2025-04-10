@@ -91,9 +91,9 @@ public class InventoryHandler
             }
         });
 
-        Ownable._REGISTRY.register(new HolderProvider.Provider<IOwnableSerializable>()
+        Ownable._REGISTRY.register(new HolderProvider.Provider<>()
         {
-            ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube_adventures", "afa");
+            final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube_adventures", "afa");
 
             @Override
             public IOwnableSerializable apply(IAttachmentHolder t)

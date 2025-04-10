@@ -1,9 +1,6 @@
 package pokecube.adventures.blocks.siphon;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.HolderLookup.Provider;
@@ -19,21 +16,29 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
-import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.energy.EnergyStorage;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.blocks.InteractableTile;
+import thut.api.ThutCaps;
 import thut.api.attachments.Linkable.ILinkStorage;
 import thut.api.block.ITickTile;
 import thut.api.entity.teleporting.TeleDest;
 import thut.core.common.ThutCore;
 import thut.lib.TComponent;
 
+import java.util.List;
+
 public class SiphonTile extends InteractableTile implements ITickTile
 {
-    public static class EnergyStore implements IEnergyStorage
+    public static class EnergyStore extends EnergyStorage
     {
         public int currentOutput;
         public int theoreticalOutput;
+
+        public EnergyStore()
+        {
+            super(0, 0, Integer.MAX_VALUE);
+        }
 
         @Override
         public int receiveEnergy(final int maxReceive, final boolean simulate)
@@ -93,6 +98,7 @@ public class SiphonTile extends InteractableTile implements ITickTile
     public SiphonTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
     {
         super(tileEntityTypeIn, pos, state);
+        energy = (EnergyStore) ThutCaps.getEnergy(this);
     }
 
     @Override

@@ -1,16 +1,6 @@
 package pokecube.adventures.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.function.Supplier;
-
-import org.jetbrains.annotations.Nullable;
-import org.nfunk.jep.JEP;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
@@ -30,6 +20,8 @@ import net.neoforged.neoforge.capabilities.ICapabilityProvider;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.energy.IEnergyStorage;
+import org.jetbrains.annotations.Nullable;
+import org.nfunk.jep.JEP;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.siphon.SiphonTickEvent;
@@ -47,10 +39,14 @@ import thut.api.attachments.Energy.Wrapping;
 import thut.api.data.HolderProvider;
 import thut.api.maths.Vector3;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.function.Supplier;
+
 public class EnergyHandler
 {
-    public static final ResourceLocation ENERGYCAP = ResourceLocation.parse("pokecube:energy");
-
     public static JEP parser;
 
     public static int getEnergyGain(final int level, final int spAtk, final int atk, final PokedexEntry entry)
@@ -81,13 +77,13 @@ public class EnergyHandler
     {
         EnergyHandler.parser = new JEP();
         EnergyHandler.parser.initFunTab(); // clear the contents of the function
-                                           // table
+        // table
         EnergyHandler.parser.addStandardFunctions();
         EnergyHandler.parser.initSymTab(); // clear the contents of the symbol
-                                           // table
+        // table
         EnergyHandler.parser.addStandardConstants();
         EnergyHandler.parser.addComplex(); // among other things adds i to the
-                                           // symbol
+        // symbol
         // table
         EnergyHandler.parser.addVariable("x", 0);
         EnergyHandler.parser.addVariable("a", 0);
@@ -97,8 +93,8 @@ public class EnergyHandler
     public static int getOutput(final SiphonTile tile, int power, final boolean simulated, Map<UUID, Integer> energyMap)
     {
         if (tile.getLevel() == null || power == 0) return 0;
-        final AABB box = tile.box != null ? tile.box
-                : (tile.box = new Vector3().set(tile).getAABB().inflate(10, 10, 10));
+        final AABB box =
+                tile.box != null ? tile.box : (tile.box = new Vector3().set(tile).getAABB().inflate(10, 10, 10));
         List<Entity> l = tile.mobs;
         if (tile.updateTime == -1 || tile.updateTime < tile.getLevel().getGameTime())
         {
@@ -107,26 +103,28 @@ public class EnergyHandler
             tile.updateTime = tile.getLevel().getGameTime() + PokecubeAdv.config.siphonUpdateRate;
         }
         int ret = 0;
-        for (final Entity entity : l) if (entity != null && entity.isAddedToLevel() && entity.isAlive())
-        {
-            final IEnergyStorage producer = ThutCaps.getEnergy(entity);
-            if (producer != null)
+        for (final Entity entity : l)
+            if (entity != null && entity.isAddedToLevel() && entity.isAlive())
             {
-                final double dSq = Math.max(1, entity.distanceToSqr(tile.getBlockPos().getX() + 0.5,
-                        tile.getBlockPos().getY() + 0.5, tile.getBlockPos().getZ() + 0.5));
-                int toExtract = (int) (PokecubeAdv.config.maxOutput / dSq);
-                toExtract = energyMap.getOrDefault(entity.getUUID(), toExtract);
-                energyMap.put(entity.getUUID(), toExtract);
-                if (toExtract <= 0) continue;
-                final int extract = producer.extractEnergy(toExtract, simulated);
-                ret += extract;
-                if (ret >= power)
+                final IEnergyStorage producer = ThutCaps.getEnergy(entity);
+                if (producer != null)
                 {
-                    ret = power;
-                    break;
+                    final double dSq = Math.max(1,
+                            entity.distanceToSqr(tile.getBlockPos().getX() + 0.5, tile.getBlockPos().getY() + 0.5,
+                                    tile.getBlockPos().getZ() + 0.5));
+                    int toExtract = (int) (PokecubeAdv.config.maxOutput / dSq);
+                    toExtract = energyMap.getOrDefault(entity.getUUID(), toExtract);
+                    energyMap.put(entity.getUUID(), toExtract);
+                    if (toExtract <= 0) continue;
+                    final int extract = producer.extractEnergy(toExtract, simulated);
+                    ret += extract;
+                    if (ret >= power)
+                    {
+                        ret = power;
+                        break;
+                    }
                 }
             }
-        }
         ret = Math.min(ret, PokecubeAdv.config.maxOutput);
         return ret;
     }
@@ -164,18 +162,17 @@ public class EnergyHandler
             final BlockEntity te = world.getBlockEntity(bpos);
             if (te == null) continue;
             IEnergyStorage cap;
-            sides:
             for (final Direction side : Direction.values())
                 if ((cap = ThutCaps.getEnergy(te, side.getOpposite())) != null)
-            {
-                if (!cap.canReceive()) continue;
-                final int toSend = cap.receiveEnergy(output, true);
-                if (toSend > 0)
                 {
-                    tiles.put(cap, toSend);
-                    break sides;
+                    if (!cap.canReceive()) continue;
+                    final int toSend = cap.receiveEnergy(output, true);
+                    if (toSend > 0)
+                    {
+                        tiles.put(cap, toSend);
+                        break;
+                    }
                 }
-            }
         }
         // Nowhere to send power to, so return early.
         if (tiles.isEmpty()) return;
@@ -207,14 +204,12 @@ public class EnergyHandler
         EnergyHandler.getOutput(event.getTile(), extract, false, mobs);
     }
 
-    @SuppressWarnings(
-    { "unchecked", "rawtypes" })
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public static void AttachCaps(final RegisterCapabilitiesEvent event)
     {
         // TODO figure out a good way to support not-pokemobs later.
-        PokecubeCore.typeMap.keySet().forEach(type -> {
-            event.registerEntity(Capabilities.EnergyStorage.ENTITY, type, new ProviderPokemob());
-        });
+        PokecubeCore.typeMap.keySet()
+                .forEach(type -> event.registerEntity(Capabilities.EnergyStorage.ENTITY, type, new ProviderPokemob()));
 
         List<BlockEntityType<?>> TYPES = new ArrayList<>();
         TYPES.add(PokecubeAdv.AFA_TYPE.get());
@@ -225,15 +220,13 @@ public class EnergyHandler
         TYPES.add(PokecubeAdv.EXTRACTOR_TYPE.get());
         TYPES.add(PokecubeAdv.SPLICER_TYPE.get());
 
-        TYPES.forEach(type -> {
-            event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, type, new ProviderTile());
-        });
+        TYPES.forEach(type -> event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, type, new ProviderTile()));
 
         // Now register the attachments
 
-        Energy.DEFAULT().register(new HolderProvider.Provider<EnergyStorage>()
+        Energy.DEFAULT().register(new HolderProvider.Provider<>()
         {
-            ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube", "pokemob");
+            final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube", "pokemob");
 
             @Override
             public EnergyStorage apply(IAttachmentHolder t)
@@ -249,14 +242,32 @@ public class EnergyHandler
             }
         });
 
-        Energy.DEFAULT().register(new HolderProvider.Provider<EnergyStorage>()
+        Energy.DEFAULT().register(new HolderProvider.Provider<>()
         {
-            ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube", "wrapping");
+            final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube", "wrapping");
 
             @Override
             public EnergyStorage apply(IAttachmentHolder t)
             {
                 if (t instanceof IEnergyStorage tile) return new Wrapping(tile);
+                return null;
+            }
+
+            @Override
+            protected ResourceLocation key()
+            {
+                return ID;
+            }
+        });
+
+        Energy.DEFAULT().register(new HolderProvider.Provider<>()
+        {
+            final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube", "siphon");
+
+            @Override
+            public EnergyStorage apply(IAttachmentHolder t)
+            {
+                if (t instanceof SiphonTile) return new SiphonTile.EnergyStore();
                 return null;
             }
 
@@ -314,10 +325,9 @@ public class EnergyHandler
         }
 
         /**
-         * This checks if we are electric type, and also does an update of the
-         * internal power, if this is the first time this is run during a tick.
+         * This checks if we are electric type, and also does an update of the internal power, if this is the first time
+         * this is run during a tick.
          *
-         * @return
          */
         private boolean checkElectricType()
         {

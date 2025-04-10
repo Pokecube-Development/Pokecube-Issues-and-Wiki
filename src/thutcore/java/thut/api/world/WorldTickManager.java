@@ -215,7 +215,7 @@ public class WorldTickManager
     }
 
     @SubscribeEvent
-    public static void onWorldTickPre(final LevelTickEvent.Post event)
+    public static void onWorldTickPost(final LevelTickEvent.Post event)
     {
         if (event.getLevel() instanceof ServerLevel)
         {

@@ -1,32 +1,30 @@
 {
   "type": "pokecube:generic_surface_jigsaw",
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "start_pool": "pokecube:scattered/ancient_tomb",
-  "terrain_adaptation": "beard_thin",
+  "start_pool": "pokecube:village/snowy/town_centers",
+  "terrain_adaptation": "beard_box",
   "step": "surface_structures",
+  "use_expansion_hack": true,
+  "biome_type": "village",
   "avoid_range": 6,
-  "size": 2,
+  "size": 6,
+  "required_parts": [
+    "gym",
+    "pokecenter"
+  ],
   "structures_to_avoid": [
     "minecraft:pillager_outposts",
-    "minecraft:villages",
-    "pokecube:towns",
-    "pokecube:villages",
-    "pokecube_legends:legendary_tree"
+    "minecraft:villages"
   ],
-  "y_settings": {
-    "min_y": 64,
-    "max_dy": 5
-  },
   "biomes": {
-    "type": "forge:and",
+    "type": "neoforge:and",
     "values": [
-      "#minecraft:is_overworld",
+      "#forge:is_snowy",
       {
-        "type": "forge:not",
+        "type": "neoforge:not",
         "value": {
-          "type": "forge:or",
+          "type": "neoforge:or",
           "values": [
-            "#forge:is_mushroom",
             "#minecraft:is_beach",
             "#minecraft:is_ocean",
             "#minecraft:is_river"
@@ -35,5 +33,5 @@
       }
     ]
   },
-  "spawn_overrides":{}
+  "spawn_overrides": {}
 }

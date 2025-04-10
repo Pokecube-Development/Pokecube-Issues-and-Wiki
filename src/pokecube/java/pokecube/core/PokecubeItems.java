@@ -3,13 +3,7 @@ package pokecube.core;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import java.util.Vector;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
@@ -53,6 +47,7 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
+import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -90,6 +85,8 @@ import pokecube.core.items.pokecubes.DispenserBehaviorPokecube;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.items.revive.ItemRevive;
 import pokecube.core.items.vitamins.ItemCandy;
+import thut.api.attachments.Ownable;
+import thut.api.data.HolderProvider;
 import thut.api.item.ItemList;
 import thut.api.util.JsonUtil;
 import thut.lib.RegHelper;
@@ -245,6 +242,28 @@ public class PokecubeItems extends ItemList
         // Menus
         BARREL_MENU = PokecubeCore.MENU.register("barrel_menu",
                 () -> new MenuType<>(GenericBarrelMenu::threeRows, FeatureFlagSet.of()));
+
+        Set<Class<?>> DEFAULT_OWNABLE_TE = new HashSet<>();
+        DEFAULT_OWNABLE_TE.add(BaseTile.class);
+        DEFAULT_OWNABLE_TE.add(HealerTile.class);
+        DEFAULT_OWNABLE_TE.add(PCTile.class);
+
+        Ownable._REGISTRY.register(new HolderProvider.Provider<>()
+        {
+            final ResourceLocation KEY = ResourceLocation.parse("pokecube:ownable_blocks");
+            @Override
+            protected ResourceLocation key()
+            {
+                return KEY;
+            }
+
+            @Override
+            public Ownable.IOwnableSerializable apply(IAttachmentHolder h)
+            {
+                if (DEFAULT_OWNABLE_TE.contains(h.getClass())) return new Ownable.ImplTE();
+                return null;
+            }
+        });
     }
 
     public static void init()

@@ -1,9 +1,5 @@
 package pokecube.core.commands;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.UUID;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.authlib.GameProfile;
@@ -11,7 +7,6 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
-
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -31,7 +26,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.bases.BaseTile;
 import pokecube.world.dimension.SecretBaseDimension;
-import thut.api.ThutCaps;
+import thut.api.attachments.Ownable;
 import thut.api.block.IOwnableTE;
 import thut.api.entity.teleporting.TeleDest;
 import thut.api.entity.teleporting.ThutTeleporter;
@@ -40,6 +35,10 @@ import thut.api.util.PermNodes;
 import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.core.common.commands.CommandTools;
 import thut.lib.TComponent;
+
+import java.util.Collection;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * This command teleports the player to their secret base, another player's
@@ -102,7 +101,7 @@ public class SecretBase
                 pos.setBlock(player.level(), PokecubeItems.SECRET_BASE.get().defaultBlockState());
                 if (player.level().getBlockEntity(pos.getPos()) instanceof BaseTile tile)
                 {
-                    final IOwnableTE ownable = (IOwnableTE) ThutCaps.getOwnable(tile);
+                    final IOwnableTE ownable = (IOwnableTE) tile.getData(Ownable.TYPE);
                     ownable.setPlacer(player);
                     final GlobalPos gpos = GlobalPos.of(loc.dimension(), base_pos);
                     tile.last_base = gpos;

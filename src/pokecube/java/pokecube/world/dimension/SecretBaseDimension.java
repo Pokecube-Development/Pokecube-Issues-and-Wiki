@@ -1,14 +1,8 @@
 package pokecube.world.dimension;
 
-import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-import java.util.function.Supplier;
-
 import com.google.common.collect.Lists;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.SectionPos;
@@ -21,11 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.WorldGenRegion;
-import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelHeightAccessor;
-import net.minecraft.world.level.NoiseColumn;
-import net.minecraft.world.level.StructureManager;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.biome.BiomeSource;
@@ -60,10 +50,17 @@ import thut.api.maths.Vector3;
 import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
+
 public class SecretBaseDimension
 {
     public static void onConstruct(final IEventBus bus)
-    {}
+    {
+        DimensionRegister.CHUNKGEN.register(bus);
+    }
 
     public static void sendToBase(final ServerPlayer player, final UUID baseOwner)
     {
@@ -111,9 +108,9 @@ public class SecretBaseDimension
                             new BlockPos(exito.getInt("x"), exito.getInt("y"), exito.getInt("z")));
                 }
                 final GlobalPos orig = old;
-                PokecubeSerializer.getInstance().bases
-                        .removeIf(c -> orig.dimension().location().equals(c.dimension().location())
-                                && orig.pos().equals(c.pos()));
+                PokecubeSerializer.getInstance().bases.removeIf(
+                        c -> orig.dimension().location().equals(c.dimension().location()) && orig.pos()
+                                .equals(c.pos()));
             }
             tag.put("secret_base_exit", exit);
             PokecubeSerializer.getInstance().bases.add(gpos);
@@ -197,8 +194,8 @@ public class SecretBaseDimension
     public static class SecretChunkGenerator extends ChunkGenerator
     {
         public static final MapCodec<SecretChunkGenerator> CODEC = RecordCodecBuilder.mapCodec((builder) -> {
-            return builder.group(BiomeSource.CODEC.fieldOf("biome_source").forGetter(m -> m.biomeSource)).apply(builder,
-                    SecretChunkGenerator::new);
+            return builder.group(BiomeSource.CODEC.fieldOf("biome_source").forGetter(m -> m.biomeSource))
+                    .apply(builder, SecretChunkGenerator::new);
         });
 
         BlockState[] states = new BlockState[256];
@@ -270,21 +267,24 @@ public class SecretBaseDimension
             BlockState state = Blocks.STONE.defaultBlockState();
             final Heightmap heightmap = chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.OCEAN_FLOOR_WG);
             final Heightmap heightmap1 = chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.WORLD_SURFACE_WG);
-            for (int i = 0; i < 16; i++) for (int k = 0; k < 16; k++)
-            {
-                chunk.setBlockState(blockpos$mutableblockpos.set(i, 0, k), Blocks.BARRIER.defaultBlockState(), false);
-                if (stone) for (int j = 57; j < 64; j++)
+            for (int i = 0; i < 16; i++)
+                for (int k = 0; k < 16; k++)
                 {
-                    state = j < 64 && j > 57 && k > 3 && k < 12 && i > 3 && i < 12 ? Blocks.STONE.defaultBlockState()
-                            : Blocks.AIR.defaultBlockState();
-                    chunk.setBlockState(blockpos$mutableblockpos.set(i, j, k), state, false);
-                    if (j < 64)
+                    chunk.setBlockState(blockpos$mutableblockpos.set(i, 0, k), Blocks.BARRIER.defaultBlockState(),
+                            false);
+                    if (stone) for (int j = 57; j < 64; j++)
                     {
-                        heightmap.update(i, j, k, state);
-                        heightmap1.update(i, j, k, state);
+                        state = j < 64 && j > 57 && k > 3 && k < 12 && i > 3 && i < 12
+                                ? Blocks.STONE.defaultBlockState()
+                                : Blocks.AIR.defaultBlockState();
+                        chunk.setBlockState(blockpos$mutableblockpos.set(i, j, k), state, false);
+                        if (j < 64)
+                        {
+                            heightmap.update(i, j, k, state);
+                            heightmap1.update(i, j, k, state);
+                        }
                     }
                 }
-            }
             return CompletableFuture.completedFuture(chunk);
         }
 
@@ -315,8 +315,8 @@ public class SecretBaseDimension
     @EventBusSubscriber(bus = Bus.MOD, modid = PokecubeCore.MODID)
     public static class DimensionRegister
     {
-        public static final DeferredRegister<MapCodec<? extends ChunkGenerator>> CHUNKGEN = DeferredRegister
-                .create(BuiltInRegistries.CHUNK_GENERATOR, PokecubeCore.MODID);
+        public static final DeferredRegister<MapCodec<? extends ChunkGenerator>> CHUNKGEN = DeferredRegister.create(
+                BuiltInRegistries.CHUNK_GENERATOR, PokecubeCore.MODID);
         public static final Supplier<MapCodec<SecretChunkGenerator>> SECRET_BASE = CHUNKGEN.register("secret_base",
                 () -> SecretChunkGenerator.CODEC);
 
@@ -335,6 +335,7 @@ public class SecretBaseDimension
         public static void onClientTick(final ClientTickEvent.Pre event)
         {
             final Level world = PokecubeCore.proxy.getWorld();
+            var A = DimensionRegister.SECRET_BASE;
             if (world == null) return;
             if (world.getWorldBorder().getSize() != WORLDSIZE
                     && world.dimension().compareTo(SecretBaseDimension.WORLD_KEY) == 0)
@@ -373,7 +374,12 @@ public class SecretBaseDimension
             if (world.dimension() != SecretBaseDimension.WORLD_KEY || !event.didChunkChange() || world.isClientSide)
                 return;
 
-            final SectionPos newPos = event.getNewPos();
+            SectionPos newPos = event.getNewPos();
+            SectionPos oldPos = event.getOldPos();
+
+            boolean moveX = oldPos.getX() != newPos.getX();
+            boolean moveZ = oldPos.getZ() != newPos.getZ();
+            if (!(moveX || moveZ)) return;
 
             int x = newPos.getX() / 16;
             int z = newPos.getZ() / 16;
@@ -400,11 +406,36 @@ public class SecretBaseDimension
             double nx = mob.getX();
             double nz = mob.getZ();
 
-            if (nx <= chunkBox.minX) nx = chunkBox.maxX - 1;
-            if (nx >= chunkBox.maxX) nx = chunkBox.minX + 1;
-            if (nz <= chunkBox.minZ) nz = chunkBox.maxZ - 1;
-            if (nz >= chunkBox.maxZ) nz = chunkBox.minZ + 1;
-
+            if (moveX)
+            {
+                if (nx <= chunkBox.minX + 1)
+                {
+                    nx = chunkBox.maxX - 1;
+                    if (chunkBox.maxX < 0)
+                    {
+                        nx -= 2;
+                    }
+                }
+                else if (nx >= chunkBox.maxX - 1)
+                {
+                    nx = chunkBox.minX + 1;
+                }
+            }
+            if (moveZ)
+            {
+                if (nz <= chunkBox.minZ + 1)
+                {
+                    nz = chunkBox.maxZ - 1;
+                    if (chunkBox.maxZ < 0)
+                    {
+                        nz -= 2;
+                    }
+                }
+                else if (nz >= chunkBox.maxZ - 1)
+                {
+                    nz = chunkBox.minZ + 1;
+                }
+            }
             final BlockPos pos = new BlockPos((int) nx, mob.getY(), (int) nz);
 
             final TeleDest dest = new TeleDest().setPos(GlobalPos.of(world.dimension(), pos));

@@ -17,7 +17,7 @@
     "pokecube:towns"
   ],
   "biomes": {
-    "type": "forge:and",
+    "type": "neoforge:and",
     "values": [
       "#forge:is_spooky",
       "#minecraft:is_forest"

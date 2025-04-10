@@ -17,13 +17,13 @@
     "pokecube:towns"
   ],
   "biomes": {
-    "type": "forge:and",
+    "type": "neoforge:and",
     "values": [
       "#forge:is_snowy",
       {
-        "type": "forge:not",
+        "type": "neoforge:not",
         "value": {
-          "type": "forge:or",
+          "type": "neoforge:or",
           "values": [
             "#minecraft:is_beach",
             "#minecraft:is_ocean",
