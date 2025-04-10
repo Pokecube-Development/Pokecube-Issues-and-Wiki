@@ -8,13 +8,13 @@
   ],
   "key": {
     "G": {
-      "tag": "forge:gems/sapphire"
+      "tag": "c:gems/sapphire"
     },
     "A": {
       "item": "pokecube_legends:grayorb"
     },
     "R": {
-      "tag": "forge:storage_blocks/sapphire"
+      "tag": "c:storage_blocks/sapphire"
     }
   },
   "result": {

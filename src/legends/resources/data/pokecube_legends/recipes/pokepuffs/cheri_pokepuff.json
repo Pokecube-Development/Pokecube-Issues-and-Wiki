@@ -14,7 +14,7 @@
       "item": "minecraft:sugar"
     },
     "P": {
-      "tag": "forge:crops/wheat"
+      "tag": "c:crops/wheat"
     },
     "O": {
       "item": "minecraft:bowl"

@@ -8,7 +8,7 @@
   ],
   "key": {
     "R": {
-      "tag": "forge:storage_blocks/emerald"
+      "tag": "c:storage_blocks/emerald"
     },
     "A": {
       "item": "pokecube_legends:totem_block"
@@ -17,7 +17,7 @@
       "item": "minecraft:end_stone_bricks"
     },
     "G": {
-      "tag": "forge:storage_blocks/gold"
+      "tag": "c:storage_blocks/gold"
     }
   },
   "result": {

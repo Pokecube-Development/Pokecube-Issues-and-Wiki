@@ -8,13 +8,13 @@
   ],
   "key": {
     "R": {
-      "tag": "forge:storage_blocks/redstone"
+      "tag": "c:storage_blocks/redstone"
     },
     "A": {
       "item": "pokecube_legends:totem_block"
     },
     "S": {
-      "tag": "forge:storage_blocks/sapphire"
+      "tag": "c:storage_blocks/sapphire"
     },
     "C": {
       "item": "minecraft:yellow_terracotta"

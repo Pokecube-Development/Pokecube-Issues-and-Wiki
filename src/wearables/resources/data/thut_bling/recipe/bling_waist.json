@@ -2,16 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "group": "thut_bling:bling",
   "pattern": [
-    " L ",
-    "L L",
-    " L "
+    "   ",
+    "LLL",
+    "   "
   ],
   "key": {
     "L": {
-      "tag": "forge:leather"
+      "tag": "c:leathers"
     }
   },
   "result": {
-    "item": "thut_bling:bling_wrist"
+    "id": "thut_bling:bling_waist"
   }
 }

@@ -8,7 +8,7 @@
   ],
   "key": {
     "R": {
-      "tag": "forge:storage_blocks/lapis"
+      "tag": "c:storage_blocks/lapis"
     },
     "A": {
       "item": "pokecube_legends:totem_block"

@@ -23,7 +23,7 @@ public record SmallBagData(UUID uuid, String bagName, String boxName, boolean sh
             UUIDUtil.CODEC.fieldOf("uuid").forGetter(SmallBagData::uuid),
             Codec.STRING.fieldOf("bagName").forGetter(SmallBagData::bagName),
             Codec.STRING.fieldOf("boxName").forGetter(SmallBagData::boxName),
-            Codec.BOOL.optionalFieldOf("show_in_tooltip", Boolean.valueOf(true)).forGetter(SmallBagData::showInTooltip))
+            Codec.BOOL.optionalFieldOf("show_in_tooltip", Boolean.TRUE).forGetter(SmallBagData::showInTooltip))
             .apply(instance, SmallBagData::new));
     public static final StreamCodec<ByteBuf, SmallBagData> STREAM_CODEC = StreamCodec.composite(UUIDUtil.STREAM_CODEC,
             SmallBagData::uuid, ByteBufCodecs.STRING_UTF8, SmallBagData::bagName, ByteBufCodecs.STRING_UTF8,

@@ -8,7 +8,7 @@
   ],
   "key": {
     "R": {
-      "tag": "forge:obsidian"
+      "tag": "c:obsidian"
     },
     "D": {
       "item": "pokecube_legends:meteorite_block"
@@ -17,7 +17,7 @@
       "item": "minecraft:nether_star"
     },
     "C": {
-      "tag": "forge:dusts/cosmic"
+      "tag": "c:dusts/cosmic"
     }
   },
   "result": {

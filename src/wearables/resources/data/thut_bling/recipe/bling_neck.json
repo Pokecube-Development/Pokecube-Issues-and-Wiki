@@ -3,10 +3,13 @@
   "group": "thut_bling:bling",
   "ingredients": [
     {
-      "item": "minecraft:leather_helmet"
+      "item": "thut_bling:bling_ring"
+    },
+    {
+      "tag": "c:strings"
     }
   ],
   "result": {
-    "item": "thut_bling:bling_hat"
+    "id": "thut_bling:bling_neck"
   }
 }

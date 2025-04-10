@@ -8,7 +8,7 @@
   ],
   "key": {
     "~": {
-      "tag": "forge:string"
+      "tag": "c:string"
     },
     "I": {
       "item": "pokecube_legends:temporal_bamboo"

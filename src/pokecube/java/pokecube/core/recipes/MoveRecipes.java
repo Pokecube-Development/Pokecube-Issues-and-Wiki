@@ -55,7 +55,7 @@ public class MoveRecipes
             });
 
     public static final Supplier<Serializer> SERIALIZER = RecipeHandler.RECIPE_SERIALIZERS.register("move_recipe",
-            () -> new Serializer());
+            Serializer::new);
 
     public static Map<String, List<MoveRecipe>> MOVE_TO_RECIPES_MAP = Maps.newHashMap();
 

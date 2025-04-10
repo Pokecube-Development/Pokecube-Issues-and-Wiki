@@ -25,7 +25,9 @@
     "kill_abomasnow": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "entry": "abomasnow"
+        "pokecube:pokedex_entry":{
+          "entry": "abomasnow"
+        }
       }
     }
   },

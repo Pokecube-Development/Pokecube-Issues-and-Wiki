@@ -8,13 +8,13 @@
   ],
   "key": {
     "S": {
-      "tag": "forge:string"
+      "tag": "c:strings"
     },
     "C": {
       "item": "pokecube:pc_top"
     },
     "L": {
-      "tag": "forge:leather"
+      "tag": "c:leathers"
     }
   },
   "result": {

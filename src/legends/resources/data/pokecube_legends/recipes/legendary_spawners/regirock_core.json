@@ -14,7 +14,7 @@
       "item": "pokecube_legends:totem_block"
     },
     "R": {
-      "tag": "forge:storage_blocks/gold"
+      "tag": "c:storage_blocks/gold"
     }
   },
   "result": {

@@ -8,7 +8,7 @@
   ],
   "key": {
     "A": {
-      "tag": "forge:storage_blocks/aquamarine"
+      "tag": "c:storage_blocks/aquamarine"
     },
     "Q": {
       "item": "pokecube_legends:blueorb"
@@ -20,7 +20,7 @@
       "item": "pokecube_legends:greenorb"
     },
     "G": {
-      "tag": "forge:gems/quartz"
+      "tag": "c:gems/quartz"
     }
   },
   "result": {

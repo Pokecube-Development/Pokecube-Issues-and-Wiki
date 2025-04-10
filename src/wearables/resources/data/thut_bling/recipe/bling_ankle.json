@@ -3,10 +3,10 @@
   "group": "thut_bling:bling",
   "ingredients": [
     {
-      "item": "thut_bling:bling_ankle"
+      "item": "thut_bling:bling_wrist"
     }
   ],
   "result": {
-    "item": "thut_bling:bling_wrist"
+    "id": "thut_bling:bling_ankle"
   }
 }

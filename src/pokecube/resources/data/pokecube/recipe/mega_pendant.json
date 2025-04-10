@@ -11,10 +11,10 @@
       "item": "pokecube:megastone"
     },
     "B": {
-      "tag": "c:string"
+      "tag": "c:strings"
     },
     "G": {
-      "tag": "c:leather"
+      "tag": "c:leathers"
     }
   },
   "result": {

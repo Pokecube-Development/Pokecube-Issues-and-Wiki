@@ -1,13 +1,7 @@
 package pokecube.core.init;
 
-import java.util.function.BiConsumer;
-import java.util.function.Supplier;
-
-import org.lwjgl.glfw.GLFW;
-
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.platform.InputConstants.Type;
-
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -37,6 +31,7 @@ import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import net.neoforged.neoforge.client.settings.KeyModifier;
+import org.lwjgl.glfw.GLFW;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.utils.PokeType;
@@ -51,11 +46,7 @@ import pokecube.core.client.gui.blocks.TMs;
 import pokecube.core.client.gui.blocks.Trade;
 import pokecube.core.client.gui.pokemob.GuiPokemob;
 import pokecube.core.client.render.RenderMoves;
-import pokecube.core.client.render.mobs.GenericBoatRenderer;
-import pokecube.core.client.render.mobs.RenderEgg;
-import pokecube.core.client.render.mobs.RenderNPC;
-import pokecube.core.client.render.mobs.RenderPokecube;
-import pokecube.core.client.render.mobs.RenderPokemob;
+import pokecube.core.client.render.mobs.*;
 import pokecube.core.database.Database;
 import pokecube.core.entity.boats.GenericBoat;
 import pokecube.core.entity.boats.GenericBoat.BoatType;
@@ -71,8 +62,10 @@ import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.moves.MovesUtils;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.nbtedit.forge.ClientProxy;
-import thut.api.world.mobs.data.Data;
 import thut.lib.RegHelper;
+
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID, value = Dist.CLIENT)
 public class ClientSetupHandler
@@ -303,7 +296,7 @@ public class ClientSetupHandler
     }
 
     @SubscribeEvent
-    public static void colourItems(final RegisterColorHandlersEvent.Item event)
+    public static void colourItems(RegisterColorHandlersEvent.Item event)
     {
         final Block qualotLeaves = BerryManager.berryLeaves.get(23).get();
         event.register((stack, tintIndex) -> {
@@ -318,75 +311,6 @@ public class ClientSetupHandler
                 return tintIndex == 0 ? entry.getType1().colour | 0xFF000000 : entry.getType2().colour | 0xFF000000;
             return tintIndex == 0 ? type.colour | 0xFF000000 : 0xFFFFFFFF;
         }, PokecubeItems.SPAWN_EGG.get());
-
-        Thread.dumpStack();
-        event.register((stack, tintIndex) -> {
-            int c0 = 0xFFFFFFFF;
-            int c1 = 0xFFFFFFFF;
-            int c2 = 0xFFFFFFFF;
-            int c3 = 0xFFFFFFFF;
-            // TODO mega stone recipe and colours.
-            //            switch (tintIndex)
-            //            {
-            //            case 1:
-            //                if (stack.hasTag() && stack.getTag().contains("c1")) try
-            //                {
-            //                    long l = Long.decode(stack.getTag().getString("c1"));
-            //                    c1 = (int) l;
-            //                }
-            //                catch (Exception e)
-            //                {
-            //                    // Do nothing for not interupting render thread
-            //                }
-            //                return c1;
-            //            case 2:
-            //                if (stack.hasTag() && stack.getTag().contains("c2")) try
-            //                {
-            //                    long l = Long.decode(stack.getTag().getString("c2"));
-            //                    c2 = (int) l;
-            //                }
-            //                catch (Exception e)
-            //                {
-            //                    // Do nothing for not interupting render thread
-            //                }
-            //                return c2;
-            //            case 3:
-            //                if (stack.hasTag() && stack.getTag().contains("c3")) try
-            //                {
-            //                    long l = Long.decode(stack.getTag().getString("c3"));
-            //                    c3 = (int) l;
-            //                }
-            //                catch (Exception e)
-            //                {
-            //                    // Do nothing for not interupting render thread
-            //                }
-            //                return c3;
-            //            }
-            //            if (stack.hasTag() && stack.getTag().contains("c0")) try
-            //            {
-            //                long l = Long.decode(stack.getTag().getString("c0"));
-            //                c0 = (int) l;
-            //            }
-            //            catch (Exception e)
-            //            {
-            //                // Do nothing for not interupting render thread
-            //            }
-            return c0;
-        }, PokecubeItems.getStack("megastone").getItem());
-
-        // TODO see if this was needed, I think the new dyeable stuff covers it now.
-        //        for (Item i : ItemMegawearable.INSTANCES)
-        //        {
-        //            event.register((stack, tintIndex) -> {
-        //                if (!(stack.getItem() instanceof DyeableLeatherItem item)) return 0xFFFFFFFF;
-        //                return tintIndex == 0 ? item.getColor(stack) : 0xFFFFFFFF;
-        //            }, i);
-        //        }
-        //
-        //        event.register((stack, tintIndex) -> {
-        //            if (!(stack.getItem() instanceof DyeableLeatherItem item)) return 0xFFFFFFFF;
-        //            return tintIndex == 0 ? item.getColor(stack) : 0xFFFFFFFF;
-        //        }, PokecubeItems.POKEWATCH.get());
 
         event.register((stack, tintIndex) -> {
             String moveName = ItemTM.getMoveFromStack(stack);

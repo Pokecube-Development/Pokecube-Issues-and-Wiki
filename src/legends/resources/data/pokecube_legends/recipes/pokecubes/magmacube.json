@@ -8,13 +8,13 @@
   ],
   "key": {
     "G": {
-      "tag": "forge:dyes/black"
+      "tag": "c:dyes/black"
     },
     "R": {
-      "tag": "forge:ingots/gold"
+      "tag": "c:ingots/gold"
     },
     "A": {
-      "tag": "forge:dyes/red"
+      "tag": "c:dyes/red"
     },
     "C": {
       "item": "pokecube:premiercube"

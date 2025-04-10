@@ -11,7 +11,7 @@
       "item": "pokecube:premiercube"
     },
     "S": {
-      "tag": "c:string"
+      "tag": "c:strings"
     }
   },
   "result": {

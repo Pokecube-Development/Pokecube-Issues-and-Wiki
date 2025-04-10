@@ -11,7 +11,7 @@
       "tag": "minecraft:logs"
     },
     "S": {
-      "tag": "forge:rods/wooden"
+      "tag": "c:rods/wooden"
     },
     "#": {
       "tag": "pokecube_legends:infected_fire_base_blocks"

@@ -8,16 +8,16 @@
   ],
   "key": {
     "R": {
-      "tag": "forge:gems/diamond"
+      "tag": "c:gems/diamond"
     },
     "T": {
       "item": "pokecube_legends:magnetic_stone"
     },
     "A": {
-      "tag": "forge:glass/tinted"
+      "tag": "c:glass/tinted"
     },
     "X": {
-      "tag": "forge:gems/spectrum"
+      "tag": "c:gems/spectrum"
     }
   },
   "result": {

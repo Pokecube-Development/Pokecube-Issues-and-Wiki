@@ -8,13 +8,13 @@
   ],
   "key": {
     "S": {
-      "tag": "forge:rods/wooden"
+      "tag": "c:rods/wooden"
     },
     "G": {
-      "item": "minecraft:amethyst_shard"
+      "item": "pokecube_legends:aquamarine_shard"
     }
   },
   "result": {
-    "item": "thut_bling:bling_eye"
+    "id": "thut_bling:bling_eye"
   }
 }

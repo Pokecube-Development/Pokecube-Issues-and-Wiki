@@ -11,7 +11,7 @@
       "tag": "minecraft:coals"
     },
     "#": {
-      "tag": "forge:rods/wooden"
+      "tag": "c:rods/wooden"
     },
     "S": {
       "tag": "pokecube_legends:infected_fire_base_blocks"

@@ -1,15 +1,9 @@
 package pokecube.gimmicks.mega;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
-
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.ResourceLocationException;
-import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -17,33 +11,53 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import thut.bling.ThutBling;
+import thut.lib.TCodecs;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.Function;
 
 public class MegaCapability implements IMegaCapability
 {
-    public static record MegaStone(String entry)
+    public static class MegaStone
     {
+        private String entry;
+        private int[] colours;
+
+        public MegaStone()
+        {
+            // Exposed for json use. it is used by the codec.
+        }
+
+        public MegaStone(String entry, int[] colours)
+        {
+        }
+
+        public int[] colours() {return colours;}
+
+        public String entry() {return entry;}
+
         public PokedexEntry getEntry()
         {
             return Database.getEntry(entry);
         }
 
-        public static final Codec<MegaStone> CODEC = Codec.STRING
-                .<MegaStone>comapFlatMap(MegaStone::read, MegaStone::entry).stable();
+        public static final Codec<MegaStone> CODEC = TCodecs.jsonCodec(MegaStone.class);
+        public static final StreamCodec<ByteBuf, MegaStone> STREAM_CODEC = TCodecs.jsonStreamCodec(MegaStone.class);
 
-        public static final StreamCodec<ByteBuf, MegaStone> STREAM_CODEC = ByteBufCodecs.STRING_UTF8.map(MegaStone::new,
-                MegaStone::entry);
-
-        public static DataResult<MegaStone> read(String tag)
+        @Override
+        public int hashCode()
         {
-            try
-            {
-                return DataResult.success(new MegaStone(tag));
-            }
-            catch (ResourceLocationException resourcelocationexception)
-            {
-                return DataResult
-                        .error(() -> "Not a valid pokemob tag: " + tag + " " + resourcelocationexception.getMessage());
-            }
+            return entry.hashCode() ^ Arrays.hashCode(colours);
+        }
+
+        @Override
+        public boolean equals(Object o)
+        {
+            if (!(o instanceof MegaStone megaStone)) return false;
+            return Objects.equals(entry, megaStone.entry) && Objects.deepEquals(colours, megaStone.colours);
         }
     }
 
@@ -59,11 +73,11 @@ public class MegaCapability implements IMegaCapability
             return new MegaWearable(REGISTRY.get(key).apply(stack), key);
         }
 
-        public static final Codec<MegaWearable> CODEC = ResourceLocation.CODEC
-                .<MegaWearable>comapFlatMap(MegaWearable::read, MegaWearable::key).stable();
+        public static final Codec<MegaWearable> CODEC = ResourceLocation.CODEC.comapFlatMap(MegaWearable::read,
+                MegaWearable::key).stable();
 
-        public static final StreamCodec<ByteBuf, MegaWearable> STREAM_CODEC = ResourceLocation.STREAM_CODEC
-                .map(MegaWearable::parse, MegaWearable::key);
+        public static final StreamCodec<ByteBuf, MegaWearable> STREAM_CODEC = ResourceLocation.STREAM_CODEC.map(
+                MegaWearable::parse, MegaWearable::key);
 
         public static DataResult<MegaWearable> read(ResourceLocation tag)
         {
@@ -73,8 +87,8 @@ public class MegaCapability implements IMegaCapability
             }
             catch (ResourceLocationException resourcelocationexception)
             {
-                return DataResult
-                        .error(() -> "Not a valid pokemob tag: " + tag + " " + resourcelocationexception.getMessage());
+                return DataResult.error(
+                        () -> "Not a valid pokemob tag: " + tag + " " + resourcelocationexception.getMessage());
             }
         }
 
@@ -84,7 +98,7 @@ public class MegaCapability implements IMegaCapability
         }
     }
 
-    private static Map<ResourceLocation, Function<ItemStack, IMegaCapability>> REGISTRY = new HashMap<>();
+    private static final Map<ResourceLocation, Function<ItemStack, IMegaCapability>> REGISTRY = new HashMap<>();
 
     public static void RegisterMegaType(ResourceLocation key, Function<ItemStack, IMegaCapability> provider)
     {
@@ -93,8 +107,8 @@ public class MegaCapability implements IMegaCapability
 
     public static boolean matches(final ItemStack stack, final PokedexEntry entry)
     {
-        return stack.has(MegaEvolveHelper.MEGA_WEARABLE)
-                && stack.get(MegaEvolveHelper.MEGA_WEARABLE).withItem(stack).details().isValid(stack, entry);
+        return stack.has(MegaEvolveHelper.MEGA_WEARABLE) && stack.get(MegaEvolveHelper.MEGA_WEARABLE).withItem(stack)
+                .details().isValid(stack, entry);
     }
 
     final ItemStack stack;
@@ -135,8 +149,7 @@ public class MegaCapability implements IMegaCapability
             return stacks == entry;
         }
         // All normal mega wearables are valid at all times
-        if (isMegaWear) return true;
-        return false;
+        return isMegaWear;
     }
 
     protected static PokedexEntry getForStack(final ItemStack stack)

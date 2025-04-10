@@ -8,13 +8,13 @@
   ],
   "key": {
     "X": {
-      "tag": "forge:ingots/iron"
+      "tag": "c:ingots/iron"
     },
     "T": {
       "item": "pokecube_legends:magnetic_stone"
     },
     "R": {
-      "tag": "forge:gems/spectrum"
+      "tag": "c:gems/spectrum"
     }
   },
   "result": {

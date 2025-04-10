@@ -8,10 +8,10 @@
   ],
   "key": {
     "G": {
-      "tag": "forge:glass_panes"
+      "tag": "c:glass_panes"
     },
     "A": {
-      "tag": "forge:gems/spectrum"
+      "tag": "c:gems/spectrum"
     }
   },
   "result": {

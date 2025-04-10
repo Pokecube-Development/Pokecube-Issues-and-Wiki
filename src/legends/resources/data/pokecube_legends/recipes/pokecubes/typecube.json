@@ -8,10 +8,10 @@
   ],
   "key": {
     "R": {
-      "tag": "forge:dyes/blue"
+      "tag": "c:dyes/blue"
     },
     "A": {
-      "tag": "forge:obsidian"
+      "tag": "c:obsidian"
     },
     "D": {
       "item": "pokecube_legends:golden_poppy"

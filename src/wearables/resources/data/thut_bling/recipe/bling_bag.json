@@ -8,16 +8,16 @@
   ],
   "key": {
     "S": {
-      "tag": "forge:string"
+      "tag": "c:strings"
     },
     "C": {
-      "tag": "forge:chests/ender"
+      "tag": "c:chests/wooden"
     },
     "L": {
-      "tag": "forge:leather"
+      "tag": "c:leathers"
     }
   },
   "result": {
-    "item": "thut_bling:bling_bag_ender_vanilla"
+    "id": "thut_bling:bling_bag"
   }
 }
