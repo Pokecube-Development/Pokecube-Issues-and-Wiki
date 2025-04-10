@@ -4,9 +4,9 @@
     "#pokecube_world:meteorites",
     "#pokecube_world:ultraspace_decor",
     "#pokecube_world:ultraspace_temples",
-    "pokecube_legends:raid_sandy",
-    "pokecube_legends:raid_spot",
-    "pokecube_legends:town_ultraspace",
-    "pokecube_legends:village_ultraspace"
+    {"id": "pokecube_legends:raid_sandy", "required": false},
+    {"id": "pokecube_legends:raid_spot", "required": false},
+    {"id": "pokecube_legends:town_ultraspace", "required": false},
+    {"id": "pokecube_legends:village_ultraspace", "required": false}
   ]
 }

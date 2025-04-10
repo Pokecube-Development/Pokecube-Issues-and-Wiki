@@ -2,7 +2,7 @@
   "_comment": " This biome tag can specify the biome directly. Or specify another biome tag by starting with # ",
   "replace": false,
   "values": [
-    "pokecube_legends:mirage_desert",
-    "pokecube_legends:rocky_mirage_desert"
+    {"id": "pokecube_legends:mirage_desert", "required": false},
+    {"id": "pokecube_legends:rocky_mirage_desert", "required": false}
   ]
 }

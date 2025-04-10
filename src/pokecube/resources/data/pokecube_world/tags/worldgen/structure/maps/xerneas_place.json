@@ -1,6 +1,6 @@
 {
     "replace": false,
     "values": [
-      "pokecube_legends:xerneas_tree"
+      {"id": "pokecube_legends:xerneas_tree", "required": false}
     ]
   }

@@ -7,12 +7,12 @@
     "pokecube:oran_door",
     "pokecube:pecha_door",
     "pokecube:sitrus_door",
-    "pokecube_legends:aged_door",
-    "pokecube_legends:concrete_door",
-    "pokecube_legends:corrupted_door",
-    "pokecube_legends:distortic_door",
-    "pokecube_legends:inverted_door",
-    "pokecube_legends:mirage_door",
-    "pokecube_legends:temporal_door"
+    {"id": "pokecube_legends:aged_door", "required": false},
+    {"id": "pokecube_legends:concrete_door", "required": false},
+    {"id": "pokecube_legends:corrupted_door", "required": false},
+    {"id": "pokecube_legends:distortic_door", "required": false},
+    {"id": "pokecube_legends:inverted_door", "required": false},
+    {"id": "pokecube_legends:mirage_door", "required": false},
+    {"id": "pokecube_legends:temporal_door", "required": false}
   ]
 }

@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:distortic_terracotta"
+    {"id": "pokecube_legends:distortic_terracotta", "required": false}
   ]
 }

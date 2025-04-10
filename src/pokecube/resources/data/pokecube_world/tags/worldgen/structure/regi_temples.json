@@ -1,11 +1,11 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:regice_temple",
-    "pokecube_legends:regidrago_temple",
-    "pokecube_legends:regieleki_temple",
-    "pokecube_legends:regigigas_temple",
-    "pokecube_legends:regirock_temple",
-    "pokecube_legends:registeel_temple"
+    {"id": "pokecube_legends:regice_temple", "required": false},
+    {"id": "pokecube_legends:regidrago_temple", "required": false},
+    {"id": "pokecube_legends:regieleki_temple", "required": false},
+    {"id": "pokecube_legends:regigigas_temple", "required": false},
+    {"id": "pokecube_legends:regirock_temple", "required": false},
+    {"id": "pokecube_legends:registeel_temple", "required": false}
   ]
 }

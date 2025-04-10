@@ -296,7 +296,6 @@ public class PokecubeAdv
     public PokecubeAdv(IEventBus modEventBus, ModContainer modContainer)
     {
         PokecubeAdv.init();
-        // Pokeplayer.init();
 
         PokecubeAdv.BLOCKS.register(modEventBus);
         PokecubeAdv.DECORATIONS.register(modEventBus);
@@ -307,6 +306,7 @@ public class PokecubeAdv
         PokecubeAdv.MEMORIES.register(modEventBus);
         PokecubeAdv.ENTITIES.register(modEventBus);
         PokecubeAdv.ATTACHMENTS.register(modEventBus);
+        Triggers.REGISTER.register(modEventBus);
 
         modEventBus.addListener(this::loadComplete);
 

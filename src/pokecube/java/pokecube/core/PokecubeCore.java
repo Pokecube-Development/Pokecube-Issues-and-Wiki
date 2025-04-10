@@ -279,6 +279,7 @@ public class PokecubeCore
         PokecubeCore.PAINTINGS.register(bus);
         PokecubeCore.ATTACHMENTS.register(bus);
         PokecubeCore.ITEM_DATA.register(bus);
+        Triggers.REGISTER.register(bus);
         CoreCreativeTabs.TABS.register(bus);
 
         PokecubeWorld.init(bus);

@@ -1,6 +1,6 @@
 {
     "replace": false,
     "values": [
-      "pokecube_legends:legendary_tree"
+      {"id": "pokecube_legends:legendary_tree", "required": false}
     ]
   }

@@ -4,6 +4,6 @@
     "#pokecube_world:distorted_decor",
     "#pokecube_world:distorted_houses",
     "#pokecube_world:distorted_islands",
-    "pokecube_legends:unown_temple_distortic"
+    {"id": "pokecube_legends:unown_temple_distortic", "required": false}
   ]
 }

@@ -1,6 +1,6 @@
 {
     "replace": false,
     "values": [
-      "pokecube_legends:necrozma_tower"
+      {"id": "pokecube_legends:necrozma_tower", "required": false}
     ]
   }

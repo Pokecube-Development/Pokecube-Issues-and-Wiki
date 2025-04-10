@@ -1,6 +1,6 @@
 {
     "replace": false,
     "values": [
-      "pokecube_legends:unown_temple_distortic"
+      {"id": "pokecube_legends:unown_temple_distortic", "required": false}
     ]
   }

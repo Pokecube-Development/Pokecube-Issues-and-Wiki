@@ -7,11 +7,11 @@
     "pokecube:oran_trapdoor",
     "pokecube:pecha_trapdoor",
     "pokecube:sitrus_trapdoor",
-    "pokecube_legends:aged_trapdoor",
-    "pokecube_legends:distortic_trapdoor",
-    "pokecube_legends:inverted_trapdoor",
-    "pokecube_legends:temporal_trapdoor",
-    "pokecube_legends:mirage_trapdoor",
-    "pokecube_legends:corrupted_trapdoor"
+    {"id": "pokecube_legends:aged_trapdoor", "required": false},
+    {"id": "pokecube_legends:distortic_trapdoor", "required": false},
+    {"id": "pokecube_legends:inverted_trapdoor", "required": false},
+    {"id": "pokecube_legends:temporal_trapdoor", "required": false},
+    {"id": "pokecube_legends:mirage_trapdoor", "required": false},
+    {"id": "pokecube_legends:corrupted_trapdoor", "required": false}
   ]
 }

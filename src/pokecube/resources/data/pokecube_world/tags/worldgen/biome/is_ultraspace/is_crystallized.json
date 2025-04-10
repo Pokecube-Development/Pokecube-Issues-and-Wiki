@@ -2,10 +2,10 @@
   "_comment": " This biome tag can specify the biome directly. Or specify another biome tag by starting with # ",
   "replace": false,
   "values": [
-    "pokecube_legends:aquamarine_caves",
-    "pokecube_legends:crystallized_beach",
-    "pokecube_legends:mirage_desert",
-    "pokecube_legends:rocky_mirage_desert",
-    "pokecube_legends:snowy_crystallized_beach"
+    {"id": "pokecube_legends:aquamarine_caves", "required": false},
+    {"id": "pokecube_legends:crystallized_beach", "required": false},
+    {"id": "pokecube_legends:mirage_desert", "required": false},
+    {"id": "pokecube_legends:rocky_mirage_desert", "required": false},
+    {"id": "pokecube_legends:snowy_crystallized_beach", "required": false}
   ]
 }

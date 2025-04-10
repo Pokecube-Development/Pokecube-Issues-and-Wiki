@@ -5,6 +5,6 @@
     "#pokecube_world:is_ultraspace/is_barrens",
     "#pokecube_world:is_ultraspace/is_burnt",
     "#pokecube_world:is_ultraspace/is_desert",
-    "pokecube_legends:burnt_beach"
+    {"id": "pokecube_legends:burnt_beach", "required": false}
   ]
 }

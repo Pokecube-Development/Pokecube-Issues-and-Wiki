@@ -1,6 +1,6 @@
 {
     "replace": false,
     "values": [
-      "pokecube_legends:team_rocket"
+      {"id": "pokecube_legends:team_rocket", "required": false}
     ]
   }

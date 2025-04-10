@@ -1,6 +1,6 @@
 {
     "replace": false,
     "values": [
-      "pokecube_legends:sky_pillar"
+      {"id": "pokecube_legends:sky_pillar", "required": false}
     ]
   }

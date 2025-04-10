@@ -1,6 +1,6 @@
 {
     "replace": false,
     "values": [
-      "pokecube_legends:celebi_temple"
+      {"id": "pokecube_legends:celebi_temple", "required": false}
     ]
   }

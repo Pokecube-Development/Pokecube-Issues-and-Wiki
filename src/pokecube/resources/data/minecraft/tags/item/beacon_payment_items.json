@@ -1,10 +1,10 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:aquamarine",
-    "pokecube_legends:fractal_shard",
-    "pokecube_legends:ruby",
-    "pokecube_legends:sapphire",
-    "pokecube_legends:spectrum_shard"
+    {"id": "pokecube_legends:aquamarine", "required": false},
+    {"id": "pokecube_legends:fractal_shard", "required": false},
+    {"id": "pokecube_legends:ruby", "required": false},
+    {"id": "pokecube_legends:sapphire", "required": false},
+    {"id": "pokecube_legends:spectrum_shard", "required": false}
   ]
 }

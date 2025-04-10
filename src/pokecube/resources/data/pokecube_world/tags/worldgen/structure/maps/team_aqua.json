@@ -1,6 +1,6 @@
 {
     "replace": false,
     "values": [
-      "pokecube_legends:team_aqua"
+      {"id": "pokecube_legends:team_aqua", "required": false}
     ]
   }

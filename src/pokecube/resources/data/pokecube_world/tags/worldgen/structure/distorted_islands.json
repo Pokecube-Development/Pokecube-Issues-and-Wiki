@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:distorted_island",
-    "pokecube_legends:distorted_tree_island"
+    {"id": "pokecube_legends:distorted_island", "required": false},
+    {"id": "pokecube_legends:distorted_tree_island", "required": false}
   ]
 }

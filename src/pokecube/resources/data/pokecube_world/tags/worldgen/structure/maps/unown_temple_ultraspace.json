@@ -1,6 +1,6 @@
 {
     "replace": false,
     "values": [
-      "pokecube_legends:unown_temple_ultraspace"
+      {"id": "pokecube_legends:unown_temple_ultraspace", "required": false}
     ]
   }

@@ -1,6 +1,6 @@
 {
     "replace": false,
     "values": [
-      "pokecube_legends:nature_place"
+      {"id": "pokecube_legends:nature_place", "required": false}
     ]
   }

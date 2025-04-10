@@ -2,7 +2,7 @@
   "replace": false,
   "values": [
     "pokecube:town_nether",
-    "pokecube_legends:groudon_temple",
-    "pokecube_legends:regidrago_temple"
+    {"id": "pokecube_legends:groudon_temple", "required": false},
+    {"id": "pokecube_legends:regidrago_temple", "required": false}
   ]
 }

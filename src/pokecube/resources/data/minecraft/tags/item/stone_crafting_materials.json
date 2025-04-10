@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:cobbled_dusk_dolerite",
-    "pokecube_legends:ultra_cobblestone",
-    "pokecube_legends:ultra_dark_cobblestone"
+    {"id": "pokecube_legends:cobbled_dusk_dolerite", "required": false},
+    {"id": "pokecube_legends:ultra_cobblestone", "required": false},
+    {"id": "pokecube_legends:ultra_dark_cobblestone", "required": false}
   ]
 }

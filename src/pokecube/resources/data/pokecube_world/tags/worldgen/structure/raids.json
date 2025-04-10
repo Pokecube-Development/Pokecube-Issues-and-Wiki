@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:raid_end",
-    "pokecube_legends:raid_sandy",
-    "pokecube_legends:raid_spot"
+    {"id": "pokecube_legends:raid_end", "required": false},
+    {"id": "pokecube_legends:raid_sandy", "required": false},
+    {"id": "pokecube_legends:raid_spot", "required": false}
   ]
 }

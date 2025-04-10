@@ -1,6 +1,6 @@
 {
     "replace": false,
     "values": [
-      "pokecube_legends:zamazenta_temple"
+      {"id": "pokecube_legends:zamazenta_temple", "required": false}
     ]
   }

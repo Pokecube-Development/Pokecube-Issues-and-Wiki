@@ -2,8 +2,8 @@
   "_comment": " This biome tag can specify the biome directly. Or specify another biome tag by starting with # ",
   "replace": false,
   "values": [
-    "pokecube_legends:burnt_beach",
-    "pokecube_legends:crystallized_beach",
-    "pokecube_legends:snowy_crystallized_beach"
+    {"id": "pokecube_legends:burnt_beach", "required": false},
+    {"id": "pokecube_legends:crystallized_beach", "required": false},
+    {"id": "pokecube_legends:snowy_crystallized_beach", "required": false}
   ]
 }

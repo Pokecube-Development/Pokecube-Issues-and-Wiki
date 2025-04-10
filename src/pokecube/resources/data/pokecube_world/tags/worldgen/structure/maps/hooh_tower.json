@@ -1,6 +1,6 @@
 {
     "replace": false,
     "values": [
-      "pokecube_legends:ho-oh_temple"
+      {"id": "pokecube_legends:ho-oh_temple", "required": false}
     ]
   }

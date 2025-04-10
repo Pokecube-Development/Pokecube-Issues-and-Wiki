@@ -1,6 +1,6 @@
 {
     "replace": false,
     "values": [
-      "pokecube_legends:tapu_center"
+      {"id": "pokecube_legends:tapu_center", "required": false}
     ]
   }

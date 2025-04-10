@@ -4,6 +4,6 @@
   "values": [
     "#pokecube_world:is_ultraspace/is_barrens",
     "#pokecube_world:is_ultraspace/is_deltas",
-    "pokecube_legends:burnt_beach"
+    {"id": "pokecube_legends:burnt_beach", "required": false}
   ]
 }

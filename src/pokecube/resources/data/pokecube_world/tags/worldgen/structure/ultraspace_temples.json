@@ -1,18 +1,18 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:unown_temple_ultraspace",
-    "pokecube_legends:ho-oh_temple",
-    "pokecube_legends:kubfu_dark",
-    "pokecube_legends:kubfu_dojo",
-    "pokecube_legends:kubfu_water",
-    "pokecube_legends:legendary_tree",
-    "pokecube_legends:lugia_tower",
-    "pokecube_legends:necrozma_tower",
-    "pokecube_legends:sky_pillar",
-    "pokecube_legends:xerneas_tree",
-    "pokecube_legends:yveltal_ruins",
-    "pokecube_legends:zacian_temple",
-    "pokecube_legends:zamazenta_temple"
+    {"id": "pokecube_legends:unown_temple_ultraspace", "required": false},
+    {"id": "pokecube_legends:ho-oh_temple", "required": false},
+    {"id": "pokecube_legends:kubfu_dark", "required": false},
+    {"id": "pokecube_legends:kubfu_dojo", "required": false},
+    {"id": "pokecube_legends:kubfu_water", "required": false},
+    {"id": "pokecube_legends:legendary_tree", "required": false},
+    {"id": "pokecube_legends:lugia_tower", "required": false},
+    {"id": "pokecube_legends:necrozma_tower", "required": false},
+    {"id": "pokecube_legends:sky_pillar", "required": false},
+    {"id": "pokecube_legends:xerneas_tree", "required": false},
+    {"id": "pokecube_legends:yveltal_ruins", "required": false},
+    {"id": "pokecube_legends:zacian_temple", "required": false},
+    {"id": "pokecube_legends:zamazenta_temple", "required": false}
   ]
 }

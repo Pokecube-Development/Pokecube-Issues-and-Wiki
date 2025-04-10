@@ -12,6 +12,6 @@
     "pokecube:village_snowy",
     "pokecube:village_swamp",
     "pokecube:village_taiga",
-    "pokecube_legends:village_ultraspace"
+    {"id": "pokecube_legends:village_ultraspace", "required": false}
   ]
 }

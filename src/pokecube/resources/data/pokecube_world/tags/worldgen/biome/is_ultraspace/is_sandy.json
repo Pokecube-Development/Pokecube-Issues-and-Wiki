@@ -2,9 +2,9 @@
   "_comment": " This biome tag can specify the biome directly. Or specify another biome tag by starting with # ",
   "replace": false,
   "values": [
-    "pokecube_legends:azure_badlands",
-    "pokecube_legends:mirage_desert",
-    "pokecube_legends:rocky_mirage_desert",
-    "pokecube_legends:wooded_azure_badlands"
+    {"id": "pokecube_legends:azure_badlands", "required": false},
+    {"id": "pokecube_legends:mirage_desert", "required": false},
+    {"id": "pokecube_legends:rocky_mirage_desert", "required": false},
+    {"id": "pokecube_legends:wooded_azure_badlands", "required": false}
   ]
 }

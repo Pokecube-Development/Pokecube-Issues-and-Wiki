@@ -1,6 +1,6 @@
 {
     "replace": false,
     "values": [
-      "pokecube_legends:mirage_pyramid"
+      {"id": "pokecube_legends:mirage_pyramid", "required": false}
     ]
   }
