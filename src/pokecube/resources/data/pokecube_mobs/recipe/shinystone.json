@@ -8,13 +8,13 @@
   ],
   "key": {
     "S": {
-      "tag": "forge:gems/quartz"
+      "tag": "c:gems/quartz"
     },
     "W": {
-      "tag": "forge:dusts/glowstone"
+      "tag": "c:dusts/glowstone"
     }
   },
   "result": {
-    "item": "pokecube:shinystone"
+    "id": "pokecube:shinystone"
   }
 }

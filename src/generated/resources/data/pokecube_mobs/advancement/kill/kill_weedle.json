@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.weedle"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.weedle"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_weedle": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "weedle"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

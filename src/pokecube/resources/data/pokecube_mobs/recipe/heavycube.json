@@ -11,14 +11,14 @@
       "item": "pokecube:premiercube"
     },
     "I": {
-      "tag": "forge:ingots/iron"
+      "tag": "c:ingots/iron"
     },
     "L": {
-      "tag": "forge:dyes/blue"
+      "tag": "c:dyes/blue"
     }
   },
   "result": {
-    "item": "pokecube:heavycube",
-    "count": 3
+    "count": 3,
+    "id": "pokecube:heavycube"
   }
 }

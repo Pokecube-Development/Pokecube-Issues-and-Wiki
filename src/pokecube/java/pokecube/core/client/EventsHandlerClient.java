@@ -133,10 +133,6 @@ public class EventsHandlerClient
 
     /**
      * Gets all pokemobs owned by owner within the given distance.
-     *
-     * @param owner
-     * @param distance
-     * @return
      */
     public static List<IPokemob> getPokemobs(final LivingEntity owner, final double distance)
     {

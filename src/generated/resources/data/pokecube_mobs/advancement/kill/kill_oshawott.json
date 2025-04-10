@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.oshawott"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.oshawott"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_oshawott": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "oshawott"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

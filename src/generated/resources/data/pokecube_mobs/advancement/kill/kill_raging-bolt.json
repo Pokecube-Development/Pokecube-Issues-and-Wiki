@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.raging-bolt"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.raging-bolt"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_raging-bolt": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "raging-bolt"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

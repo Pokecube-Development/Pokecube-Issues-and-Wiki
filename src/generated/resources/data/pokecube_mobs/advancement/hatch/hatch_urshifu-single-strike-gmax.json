@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.urshifu-single-strike-gmax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.urshifu-single-strike-gmax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_urshifu-single-strike-gmax": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "urshifu-single-strike-gmax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

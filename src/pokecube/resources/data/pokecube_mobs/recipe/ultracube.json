@@ -14,11 +14,11 @@
       "item": "minecraft:flint"
     },
     "G": {
-      "tag": "forge:ingots/gold"
+      "tag": "c:ingots/gold"
     }
   },
   "result": {
-    "item": "pokecube:ultracube",
-    "count": 3
+    "count": 3,
+    "id": "pokecube:ultracube"
   }
 }

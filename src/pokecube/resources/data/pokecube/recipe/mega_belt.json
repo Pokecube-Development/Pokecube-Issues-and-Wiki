@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube:mega_bling",
+  "pattern": [
+    " S ",
+    "L L",
+    " I "
+  ],
+  "key": {
+    "S": {
+      "item": "pokecube:megastone"
+    },
+    "I": {
+      "tag": "c:ingots/iron"
+    },
+    "L": {
+      "tag": "c:leather"
+    }
+  },
+  "result": {
+    "id": "pokecube:mega_belt"
+  }
+}

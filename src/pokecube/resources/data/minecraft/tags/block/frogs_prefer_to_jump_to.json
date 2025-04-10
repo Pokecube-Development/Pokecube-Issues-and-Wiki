@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+	{"id": "pokecube_legends:big_contaminated_dripleaf", "required": false},
+	{"id": "pokecube_legends:pink_blossom_tainted_lily_pad", "required": false},
+	{"id": "pokecube_legends:tainted_lily_pad", "required": false}
+  ]
+}

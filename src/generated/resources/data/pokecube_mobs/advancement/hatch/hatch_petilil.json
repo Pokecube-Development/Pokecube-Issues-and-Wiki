@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.petilil"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.petilil"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_petilil": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "petilil"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube:mega_bling",
+  "pattern": [
+    "   ",
+    "BRB",
+    "GGG"
+  ],
+  "key": {
+    "R": {
+      "item": "pokecube:megastone"
+    },
+    "B": {
+      "tag": "c:gems/diamond"
+    },
+    "G": {
+      "tag": "c:gems/lapis"
+    }
+  },
+  "result": {
+    "id": "pokecube:mega_tiara"
+  }
+}

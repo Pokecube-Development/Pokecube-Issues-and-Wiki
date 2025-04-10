@@ -1,0 +1,9 @@
+{
+    "type": "neoforge:add_features",
+    "biomes": {
+	  "type": "neoforge:and",
+	  "values": ["minecraft:meadow"]
+	},
+    "features": ["pokecube_world:crops_meadows"],
+    "step": "vegetal_decoration"
+  }

@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.skiploom"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.skiploom"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_skiploom": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "skiploom"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

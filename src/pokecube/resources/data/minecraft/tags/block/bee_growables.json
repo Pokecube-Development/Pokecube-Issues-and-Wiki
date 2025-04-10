@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "#pokecube:berry_leaves",
+    {"id": "pokecube_legends:golden_sweet_berry_bush", "required": false},
+    {"id": "pokecube_legends:hanging_tendrils", "required": false},
+    {"id": "pokecube_legends:hanging_tendrils_plant", "required": false},
+    {"id": "pokecube_legends:purple_wisteria_vines", "required": false},
+    {"id": "pokecube_legends:purple_wisteria_vines_plant", "required": false}
+  ]
+}

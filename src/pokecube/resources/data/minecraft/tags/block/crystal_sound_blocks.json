@@ -1,0 +1,25 @@
+{
+  "replace": false,
+  "values": [
+    {"id": "pokecube_legends:aquamarine_block", "required": false},
+    {"id": "pokecube_legends:aquamarine_bricks", "required": false},
+    {"id": "pokecube_legends:aquamarine_brick_slab", "required": false},
+    {"id": "pokecube_legends:aquamarine_brick_stairs", "required": false},
+    {"id": "pokecube_legends:aquamarine_button", "required": false},
+    {"id": "pokecube_legends:aquamarine_cluster", "required": false},
+    {"id": "pokecube_legends:aquamarine_crystal", "required": false},
+    {"id": "pokecube_legends:aquamarine_pressure_plate", "required": false},
+    {"id": "pokecube_legends:aquamarine_slab", "required": false},
+    {"id": "pokecube_legends:aquamarine_stairs", "required": false},
+    {"id": "pokecube_legends:budding_aquamarine", "required": false},
+    {"id": "pokecube_legends:crystallized_bush", "required": false},
+    {"id": "pokecube_legends:crystallized_cactus", "required": false},
+    {"id": "pokecube_legends:large_aquamarine_bud", "required": false},
+    {"id": "pokecube_legends:medium_aquamarine_bud", "required": false},
+    {"id": "pokecube_legends:small_aquamarine_bud", "required": false},
+    {"id": "pokecube_legends:tall_crystallized_bush", "required": false},
+    {"id": "pokecube_legends:unrefined_aquamarine", "required": false},
+    {"id": "pokecube_legends:unrefined_aquamarine_slab", "required": false},
+    {"id": "pokecube_legends:unrefined_aquamarine_stairs", "required": false}
+  ]
+}

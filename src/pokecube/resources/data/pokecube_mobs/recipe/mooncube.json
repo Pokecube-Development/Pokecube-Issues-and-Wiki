@@ -11,20 +11,20 @@
       "item": "pokecube:premiercube"
     },
     "E": {
-      "tag": "forge:ender_pearls"
+      "tag": "c:ender_pearls"
     },
     "Q": {
-      "tag": "forge:gems/quartz"
+      "tag": "c:gems/quartz"
     },
     "S": {
-      "tag": "forge:gunpowder"
+      "tag": "c:gunpowder"
     },
     "T": {
       "item": "minecraft:torch"
     }
   },
   "result": {
-    "item": "pokecube:mooncube",
-    "count": 5
+    "count": 5,
+    "id": "pokecube:mooncube"
   }
 }

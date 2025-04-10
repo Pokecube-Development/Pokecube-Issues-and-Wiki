@@ -1,0 +1,16 @@
+{
+  "group": "wooden_slab",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "000"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube:plank_leppa"
+    }
+  },
+  "result": {
+    "count": 6,
+    "id": "pokecube:leppa_slab"
+  }
+}

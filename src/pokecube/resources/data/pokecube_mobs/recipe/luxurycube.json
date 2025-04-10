@@ -11,17 +11,17 @@
       "item": "pokecube:premiercube"
     },
     "G": {
-      "tag": "forge:ingots/gold"
+      "tag": "c:ingots/gold"
     },
     "R": {
-      "tag": "forge:dusts/redstone"
+      "tag": "c:dusts/redstone"
     },
     "C": {
       "tag": "minecraft:coals"
     }
   },
   "result": {
-    "item": "pokecube:luxurycube",
-    "count": 3
+    "count": 3,
+    "id": "pokecube:luxurycube"
   }
 }

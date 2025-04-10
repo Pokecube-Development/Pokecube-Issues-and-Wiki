@@ -1,0 +1,9 @@
+{
+    "type": "neoforge:add_features",
+    "biomes": {
+	  "type": "neoforge:and",
+	  "values": ["minecraft:end_highlands"]
+	},
+    "features": ["pokecube_world:trees_end_berries"],
+    "step": "vegetal_decoration"
+  }

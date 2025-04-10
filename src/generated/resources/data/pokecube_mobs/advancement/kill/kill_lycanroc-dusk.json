@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.lycanroc-dusk"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.lycanroc-dusk"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_lycanroc-dusk": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "lycanroc-dusk"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

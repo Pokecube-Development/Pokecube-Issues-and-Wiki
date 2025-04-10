@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.durant"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.durant"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_durant": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "durant"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

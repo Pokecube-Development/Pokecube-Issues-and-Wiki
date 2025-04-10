@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube:pokedex",
+  "pattern": [
+    "PRR",
+    "RBR",
+    "RRR"
+  ],
+  "key": {
+    "P": {
+      "item": "pokecube:pokecube"
+    },
+    "B": {
+      "item": "minecraft:book"
+    },
+    "R": {
+      "tag": "c:dusts/redstone"
+    }
+  },
+  "result": {
+    "id": "pokecube:pokedex"
+  }
+}

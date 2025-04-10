@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.quaquaval"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.quaquaval"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_quaquaval": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "quaquaval"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

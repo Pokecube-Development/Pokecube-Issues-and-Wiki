@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.ribombee"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ribombee"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_ribombee": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "ribombee"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

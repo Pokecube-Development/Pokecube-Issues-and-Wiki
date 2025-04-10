@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube:tm",
+  "pattern": [
+    "III",
+    "SRS",
+    "SMS"
+  ],
+  "key": {
+    "R": {
+      "tag": "c:dusts/redstone"
+    },
+    "S": {
+      "tag": "c:stone"
+    },
+    "I": {
+      "tag": "c:ingots/iron"
+    },
+    "M": {
+      "item": "pokecube:tm"
+    }
+  },
+  "result": {
+    "id": "pokecube:tm_machine"
+  }
+}

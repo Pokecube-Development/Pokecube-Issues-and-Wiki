@@ -1,0 +1,6 @@
+{
+  "replace": false,
+  "values": [
+    {"id": "pokecube_legends:spectrum_shard", "required": false}
+  ]
+}

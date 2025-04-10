@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    {"id": "pokecube_legends:dusk_dolerite_spectrum_ore", "required": false},
+    {"id": "pokecube_legends:fractal_block", "required": false},
+    {"id": "pokecube_legends:fractal_ore", "required": false},
+    {"id": "pokecube_legends:spectrum_block", "required": false},
+    {"id": "pokecube_legends:spectrum_ore", "required": false},
+    {"id": "pokecube_legends:spectrum_slab", "required": false},
+    {"id": "pokecube_legends:spectrum_stairs", "required": false}
+  ]
+}

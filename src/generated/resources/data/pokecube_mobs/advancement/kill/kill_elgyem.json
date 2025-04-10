@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.elgyem"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.elgyem"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_elgyem": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "elgyem"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.torkoal"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.torkoal"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_torkoal": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "torkoal"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

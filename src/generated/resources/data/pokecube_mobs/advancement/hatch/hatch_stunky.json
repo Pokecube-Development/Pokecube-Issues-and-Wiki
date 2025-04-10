@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.stunky"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.stunky"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_stunky": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "stunky"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

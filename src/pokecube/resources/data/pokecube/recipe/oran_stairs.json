@@ -1,0 +1,18 @@
+{
+  "group": "wooden_stairs",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "0  ",
+    "00 ",
+    "000"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube:plank_oran"
+    }
+  },
+  "result": {
+    "count": 4,
+    "id": "pokecube:oran_stairs"
+  }
+}

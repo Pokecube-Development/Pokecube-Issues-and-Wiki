@@ -8,13 +8,13 @@
   ],
   "key": {
     "S": {
-      "tag": "forge:stone"
+      "tag": "c:stone"
     },
     "W": {
       "item": "minecraft:water_bucket"
     }
   },
   "result": {
-    "item": "pokecube:waterstone"
+    "id": "pokecube:waterstone"
   }
 }

@@ -11,13 +11,13 @@
       "item": "pokecube:premiercube"
     },
     "C": {
-      "tag": "forge:ingots/gold"
+      "tag": "c:ingots/gold"
     },
     "G": {
-      "tag": "forge:dyes/blue"
+      "tag": "c:dyes/blue"
     }
   },
   "result": {
-    "item": "pokecube:quickcube"
+    "id": "pokecube:quickcube"
   }
 }

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube:bag",
+  "pattern": [
+    "SLS",
+    "LCL",
+    " L "
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:string"
+    },
+    "C": {
+      "item": "pokecube:pc_top"
+    },
+    "L": {
+      "tag": "forge:leather"
+    }
+  },
+  "result": {
+    "id": "pokecube_adventures:bag"
+  }
+}

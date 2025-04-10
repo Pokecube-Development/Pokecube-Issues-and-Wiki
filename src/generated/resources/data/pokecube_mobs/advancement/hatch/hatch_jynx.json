@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.jynx"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.jynx"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_jynx": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "jynx"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

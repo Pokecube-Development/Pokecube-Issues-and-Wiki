@@ -30,7 +30,7 @@ materials_generate_dir = './new/pokemobs/materials/'
 ability_lang_generate_dir = './new/assets/pokecube_abilities/lang/'
 mob_lang_generate_dir = './new/assets/pokecube_mobs/lang/'
 tag_generate_dir = './new/tags/'
-advancements_dir = './new/advancements/'
+advancements_dir = './new/advancement/'
 
 UPDATE_EXAMPLE = False
 WARN_NO_EXP = True

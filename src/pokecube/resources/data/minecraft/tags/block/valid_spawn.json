@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    {"id": "pokecube_legends:aged_grass_block", "required": false},
+    {"id": "pokecube_legends:aged_podzol", "required": false},
+    {"id": "pokecube_legends:azure_grass_block", "required": false},
+    {"id": "pokecube_legends:corrupted_grass_block", "required": false},
+    {"id": "pokecube_legends:distortic_grass_block", "required": false},
+    {"id": "pokecube_legends:fungal_nylium", "required": false},
+    {"id": "pokecube_legends:jungle_grass_block", "required": false},
+    {"id": "pokecube_legends:jungle_podzol", "required": false},
+    {"id": "pokecube_legends:mushroom_grass_block", "required": false}
+  ]
+}

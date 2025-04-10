@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube:pokeseal",
+  "pattern": [
+    "GGG",
+    "RBR",
+    "III"
+  ],
+  "key": {
+    "R": {
+      "tag": "c:dyes/red"
+    },
+    "B": {
+      "item": "minecraft:stone_button"
+    },
+    "G": {
+      "tag": "c:glass"
+    },
+    "I": {
+      "tag": "c:dyes/blue"
+    }
+  },
+  "result": {
+    "count": 6,
+    "id": "pokecube:pokeseal"
+  }
+}

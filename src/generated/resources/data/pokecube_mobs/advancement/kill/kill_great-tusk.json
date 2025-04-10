@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.great-tusk"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.great-tusk"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_great-tusk": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "great-tusk"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

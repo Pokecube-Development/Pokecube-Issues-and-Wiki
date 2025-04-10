@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.tropius"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tropius"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_tropius": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "tropius"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

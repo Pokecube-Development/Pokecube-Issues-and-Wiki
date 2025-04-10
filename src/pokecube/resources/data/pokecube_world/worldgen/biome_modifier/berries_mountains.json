@@ -1,0 +1,13 @@
+{
+    "type": "neoforge:add_features",
+    "biomes": {
+	  "type": "neoforge:or",
+	  "values": [
+	    "#c:is_peak",
+	    "#minecraft:is_mountain",
+	    "#minecraft:is_nether"
+	  ]
+	},
+    "features": ["pokecube_world:crops_mountains"],
+    "step": "vegetal_decoration"
+  }

@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.toxtricity-amped-gmax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.toxtricity-amped-gmax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_toxtricity-amped-gmax": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "toxtricity-amped-gmax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

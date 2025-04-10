@@ -8,13 +8,13 @@
   ],
   "key": {
     "S": {
-      "tag": "forge:stone"
+      "tag": "c:stone"
     },
     "W": {
       "tag": "minecraft:saplings"
     }
   },
   "result": {
-    "item": "pokecube:leafstone"
+    "id": "pokecube:leafstone"
   }
 }

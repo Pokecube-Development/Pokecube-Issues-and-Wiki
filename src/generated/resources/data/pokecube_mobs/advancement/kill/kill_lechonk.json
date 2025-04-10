@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.lechonk"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.lechonk"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_lechonk": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "lechonk"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

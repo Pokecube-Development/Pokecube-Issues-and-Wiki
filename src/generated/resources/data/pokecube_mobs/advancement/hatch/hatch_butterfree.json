@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.butterfree"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.butterfree"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_butterfree": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "butterfree"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

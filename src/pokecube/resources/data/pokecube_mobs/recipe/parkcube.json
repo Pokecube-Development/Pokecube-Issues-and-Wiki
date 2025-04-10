@@ -11,17 +11,17 @@
       "item": "pokecube:mastercube"
     },
     "G": {
-      "tag": "forge:storage_blocks/gold"
+      "tag": "c:storage_blocks/gold"
     },
     "D": {
-      "tag": "forge:storage_blocks/diamond"
+      "tag": "c:storage_blocks/diamond"
     },
     "B": {
       "item": "minecraft:bone_block"
     }
   },
   "result": {
-    "item": "pokecube:parkcube",
-    "count": 1
+    "count": 1,
+    "id": "pokecube:parkcube"
   }
 }

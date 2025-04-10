@@ -14,11 +14,11 @@
       "tag": "minecraft:coals"
     },
     "I": {
-      "tag": "forge:ingots/iron"
+      "tag": "c:ingots/iron"
     }
   },
   "result": {
-    "item": "pokecube:premiercube",
-    "count": 12
+    "count": 12,
+    "id": "pokecube:premiercube"
   }
 }

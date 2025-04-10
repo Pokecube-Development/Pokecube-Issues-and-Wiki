@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.binacle"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.binacle"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_binacle": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "binacle"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

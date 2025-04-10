@@ -1,7 +1,7 @@
 {
   "type": "pokecube:move_recipe",
   "result": {
-    "item": "minecraft:clay"
+    "id": "minecraft:clay"
   },
   "ingredients": [
     {

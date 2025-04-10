@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    {"id": "pokecube_legends:aged_coarse_dirt", "required": false},
+    {"id": "pokecube_legends:aged_dirt", "required": false},
+    {"id": "pokecube_legends:ash_block", "required": false},
+    {"id": "pokecube_legends:azure_coarse_dirt", "required": false},
+    {"id": "pokecube_legends:azure_dirt", "required": false},
+    {"id": "pokecube_legends:corrupted_coarse_dirt", "required": false},
+    {"id": "pokecube_legends:corrupted_dirt", "required": false},
+    {"id": "pokecube_legends:jungle_coarse_dirt", "required": false},
+    {"id": "pokecube_legends:jungle_dirt", "required": false},
+    {"id": "pokecube_legends:mushroom_coarse_dirt", "required": false},
+    {"id": "pokecube_legends:mushroom_dirt", "required": false},
+    {"id": "pokecube_legends:rooted_corrupted_dirt", "required": false},
+    {"id": "pokecube_legends:rooted_mushroom_dirt", "required": false}
+  ]
+}

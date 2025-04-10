@@ -8,13 +8,13 @@
   ],
   "key": {
     "S": {
-      "tag": "forge:dyes/blue"
+      "tag": "c:dyes/blue"
     },
     "W": {
       "item": "minecraft:torch"
     }
   },
   "result": {
-    "item": "pokecube:dawnstone"
+    "id": "pokecube:dawnstone"
   }
 }

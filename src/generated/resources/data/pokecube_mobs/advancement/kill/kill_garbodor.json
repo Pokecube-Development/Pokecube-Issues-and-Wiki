@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.garbodor"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.garbodor"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_garbodor": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "garbodor"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

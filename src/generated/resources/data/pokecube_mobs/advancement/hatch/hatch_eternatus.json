@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.eternatus"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.eternatus"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_eternatus": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "eternatus"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

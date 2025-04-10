@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.floette-eternal"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.floette-eternal"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_floette-eternal": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "floette-eternal"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

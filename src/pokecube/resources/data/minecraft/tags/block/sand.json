@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    {"id": "pokecube_legends:azure_sand", "required": false},
+    {"id": "pokecube_legends:blackened_sand", "required": false},
+    {"id": "pokecube_legends:crystallized_sand", "required": false}
+  ]
+}

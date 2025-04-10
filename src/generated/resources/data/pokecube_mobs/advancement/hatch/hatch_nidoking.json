@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.nidoking"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.nidoking"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_nidoking": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "nidoking"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

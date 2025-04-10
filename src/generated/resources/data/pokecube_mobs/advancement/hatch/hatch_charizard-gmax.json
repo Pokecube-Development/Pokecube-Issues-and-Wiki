@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.charizard-gmax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.charizard-gmax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_charizard-gmax": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "charizard-gmax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

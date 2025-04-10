@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube:repel",
+  "pattern": [
+    "IDI",
+    "JRJ",
+    "III"
+  ],
+  "key": {
+    "I": {
+      "tag": "c:ingots/iron"
+    },
+    "D": {
+      "tag": "c:dusts/redstone"
+    },
+    "R": {
+      "item": "pokecube:berry_rowap"
+    },
+    "J": {
+      "item": "pokecube:berry_jaboca"
+    }
+  },
+  "result": {
+    "id": "pokecube:repel"
+  }
+}

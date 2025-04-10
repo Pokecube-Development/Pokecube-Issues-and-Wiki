@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.swadloon"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.swadloon"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_swadloon": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "swadloon"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

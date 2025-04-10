@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.weedle"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.weedle"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_weedle": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "weedle"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

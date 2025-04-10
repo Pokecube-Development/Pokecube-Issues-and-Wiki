@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube:pc",
+  "pattern": [
+    "GGG",
+    "CRC",
+    "BIB"
+  ],
+  "key": {
+    "R": {
+      "tag": "c:dusts/redstone"
+    },
+    "C": {
+      "tag": "c:storage_blocks/copper"
+    },
+    "B": {
+      "tag": "c:storage_blocks/iron"
+    },
+    "G": {
+      "tag": "c:glass"
+    },
+    "I": {
+      "tag": "c:ingots/iron"
+    }
+  },
+  "result": {
+    "id": "pokecube:pc_top"
+  }
+}

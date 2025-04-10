@@ -1,0 +1,24 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:enigma_stairs",
+    "pokecube:leppa_stairs",
+    "pokecube:nanab_stairs",
+    "pokecube:oran_stairs",
+    "pokecube:pecha_stairs",
+    "pokecube:sitrus_stairs",
+    {"id": "pokecube_legends:aged_stairs", "required": false},
+    {"id": "pokecube_legends:distortic_stairs", "required": false},
+    {"id": "pokecube_legends:inverted_stairs", "required": false},
+    {"id": "pokecube_legends:temporal_stairs", "required": false},
+    {"id": "pokecube_legends:mirage_stairs", "required": false},
+    {"id": "pokecube_legends:corrupted_stairs", "required": false},
+    {"id": "pokecube_legends:distortic_oak_stairs", "required": false},
+    {"id": "pokecube_legends:distortic_dark_oak_stairs", "required": false},
+    {"id": "pokecube_legends:distortic_spruce_stairs", "required": false},
+    {"id": "pokecube_legends:distortic_birch_stairs", "required": false},
+    {"id": "pokecube_legends:distortic_jungle_stairs", "required": false},
+    {"id": "pokecube_legends:distortic_acacia_stairs", "required": false},
+    {"id": "pokecube_legends:distortic_terracotta_stairs", "required": false}
+  ]
+}

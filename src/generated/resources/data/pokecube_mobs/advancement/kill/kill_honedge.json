@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.honedge"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.honedge"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_honedge": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "honedge"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

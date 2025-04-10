@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.mudbray"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.mudbray"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_mudbray": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "mudbray"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

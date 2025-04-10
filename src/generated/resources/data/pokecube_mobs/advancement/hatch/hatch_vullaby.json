@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.vullaby"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.vullaby"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_vullaby": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "vullaby"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

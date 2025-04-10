@@ -14,10 +14,10 @@
       "item": "minecraft:water_bucket"
     },
     "I": {
-      "tag": "forge:dyes/blue"
+      "tag": "c:dyes/blue"
     }
   },
   "result": {
-    "item": "pokecube:divecube"
+    "id": "pokecube:divecube"
   }
 }

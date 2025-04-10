@@ -13,7 +13,8 @@ def _make_root(type):
 f'''{{
   "display": {{
     "icon": {{
-      "item": "pokecube:pokecube"
+      "count": 1,
+      "id": "pokecube:pokecube"
     }},
     "title": {{
       "translate": "achievement.pokecube.{type}.root"
@@ -41,7 +42,8 @@ def _make_advancement(mob, folder, type, parent=None, icon='pokecube'):
 f'''{{
   "display": {{
     "icon": {{
-      "item": "pokecube:{icon}"
+      "count": 1,
+      "id": "pokecube:{icon}"
     }},
     "title": {{
       "translate": "achievement.pokecube.{type}",
@@ -77,7 +79,8 @@ GET_FIRST = \
 f'''{{
   "display": {{
     "icon": {{
-      "item": "pokecube:pokecube"
+      "count": 1,
+      "id": "pokecube:pokecube"
     }},
     "title": {{
       "translate": "achievement.pokecube.get1st"

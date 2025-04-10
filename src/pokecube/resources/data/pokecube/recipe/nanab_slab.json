@@ -1,0 +1,16 @@
+{
+  "group": "wooden_slab",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "000"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube:plank_nanab"
+    }
+  },
+  "result": {
+    "count": 6,
+    "id": "pokecube:nanab_slab"
+  }
+}

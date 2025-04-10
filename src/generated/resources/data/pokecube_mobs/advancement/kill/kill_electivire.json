@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.electivire"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.electivire"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_electivire": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "electivire"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

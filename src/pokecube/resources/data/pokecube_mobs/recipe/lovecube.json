@@ -21,7 +21,7 @@
     }
   },
   "result": {
-    "item": "pokecube:lovecube",
-    "count": 3
+    "count": 3,
+    "id": "pokecube:lovecube"
   }
 }

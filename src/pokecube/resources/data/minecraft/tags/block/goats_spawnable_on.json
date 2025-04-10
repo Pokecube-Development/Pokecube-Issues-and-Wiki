@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    {"id": "pokecube_legends:turquoise_gravel", "required": false},
+    {"id": "pokecube_legends:ultra_stone", "required": false}
+  ]
+}

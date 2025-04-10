@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.delcatty"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.delcatty"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_delcatty": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "delcatty"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

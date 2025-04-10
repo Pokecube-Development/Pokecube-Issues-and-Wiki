@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.pumpkaboo-average"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.pumpkaboo-average"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_pumpkaboo-average": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "pumpkaboo-average"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

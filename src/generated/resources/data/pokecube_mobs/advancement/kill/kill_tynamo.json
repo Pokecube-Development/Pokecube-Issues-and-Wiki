@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.tynamo"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tynamo"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_tynamo": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "tynamo"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

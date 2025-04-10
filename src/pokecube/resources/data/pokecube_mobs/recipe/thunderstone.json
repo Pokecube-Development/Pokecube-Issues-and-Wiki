@@ -8,13 +8,13 @@
   ],
   "key": {
     "S": {
-      "tag": "forge:stone"
+      "tag": "c:stone"
     },
     "W": {
-      "tag": "forge:dusts/redstone"
+      "tag": "c:dusts/redstone"
     }
   },
   "result": {
-    "item": "pokecube:thunderstone"
+    "id": "pokecube:thunderstone"
   }
 }

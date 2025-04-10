@@ -2,16 +2,17 @@ package pokecube.core.blocks.berries;
 
 import java.io.FileNotFoundException;
 import java.io.Reader;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.worldgen.features.TreeFeatures;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.packs.resources.Resource;
@@ -62,11 +63,23 @@ public class BerryGenManager
     private static class TreeProvider
     {
         public List<ResourceLocation> trees = Lists.newArrayList();
+        private Map<ResourceLocation, TreeGrower> growers = new HashMap<>();
 
         public Supplier<TreeGrower> getTree(ServerLevel worldIn, RandomSource random)
         {
-            // TODO Auto-generated method stub
-            return () -> TreeGrower.OAK;
+            if (trees.isEmpty())
+            {
+                PokecubeAPI.LOGGER.error("No Trees?");
+                return () -> TreeGrower.OAK;
+            }
+            int n = trees.size() > 1 ? random.nextInt(trees.size()) : 0;
+            var key = trees.get(n);
+            if (!growers.containsKey(key))
+            {
+                var TREE = ResourceKey.create(Registries.CONFIGURED_FEATURE, key);
+                growers.put(key, new TreeGrower(key.toString(), Optional.empty(), Optional.of(TREE), Optional.empty()));
+            }
+            return () -> growers.get(key);
         }
     }
 
@@ -115,22 +128,22 @@ public class BerryGenManager
         BerryGenManager.berryLocations.clear();
         BerryGenManager.matchers.clear();
         BerryGenManager.loadBerrySpawns();
-        if (BerryGenManager.list != null)
-            for (final SpawnConfig rule : BerryGenManager.list.locations) for (final SpawnRule spawn : rule.spawn)
-        {
-            final SpawnBiomeMatcher matcher = SpawnBiomeMatcher.get(spawn);
-            final List<ItemStack> berries = Lists.newArrayList();
-            if (rule.berry != null) for (final String s : rule.berry.split(","))
+        if (BerryGenManager.list != null) for (final SpawnConfig rule : BerryGenManager.list.locations)
+            for (final SpawnRule spawn : rule.spawn)
             {
-                final Item berry = BerryManager.getBerryItem(s.trim());
-                if (berry != null) berries.add(new ItemStack(berry));
+                final SpawnBiomeMatcher matcher = SpawnBiomeMatcher.get(spawn);
+                final List<ItemStack> berries = Lists.newArrayList();
+                if (rule.berry != null) for (final String s : rule.berry.split(","))
+                {
+                    final Item berry = BerryManager.getBerryItem(s.trim());
+                    if (berry != null) berries.add(new ItemStack(berry));
+                }
+                if (!berries.isEmpty())
+                {
+                    BerryGenManager.matchers.add(matcher);
+                    BerryGenManager.berryLocations.put(matcher, berries);
+                }
             }
-            if (!berries.isEmpty())
-            {
-                BerryGenManager.matchers.add(matcher);
-                BerryGenManager.berryLocations.put(matcher, berries);
-            }
-        }
         if (BerryGenManager.berryLocations.isEmpty() && PokecubeCore.getConfig().autoAddNullBerries)
         {
             final SpawnBiomeMatcher matcher = SpawnBiomeMatcher.ALLMATCHER;
@@ -153,8 +166,7 @@ public class BerryGenManager
                 {
                     int id = item.type.index;
                     TreeProvider prov = trees.computeIfAbsent(id, (i) -> {
-                        TreeProvider t = new TreeProvider();
-                        return t;
+                        return new TreeProvider();
                     });
                     ResourceLocation loc = ResourceLocation.parse(conf.tree);
                     if (!prov.trees.contains(loc)) for (int i = 0; i < conf.weight; i++) prov.trees.add(loc);
@@ -207,18 +219,19 @@ public class BerryGenManager
         }
         SpawnBiomeMatcher toMatch = null;
         final SpawnCheck checker = new SpawnCheck(new Vector3().set(location), level);
-        /**
+        /*
          * Shuffle list, then re-sort it. This allows the values of the same
          * priority to be randomized, but then still respect priority order for
          * specific ones.
          */
         Collections.shuffle(BerryGenManager.matchers);
         BerryGenManager.matchers.sort(BerryGenManager.COMPARE);
-        for (final SpawnBiomeMatcher matcher : BerryGenManager.matchers) if (matcher.matches(checker))
-        {
-            toMatch = matcher;
-            break;
-        }
+        for (final SpawnBiomeMatcher matcher : BerryGenManager.matchers)
+            if (matcher.matches(checker))
+            {
+                toMatch = matcher;
+                break;
+            }
         if (toMatch == null) return ItemStack.EMPTY;
         final List<ItemStack> options = BerryGenManager.berryLocations.get(toMatch);
         if (options == null || options.isEmpty()) return ItemStack.EMPTY;

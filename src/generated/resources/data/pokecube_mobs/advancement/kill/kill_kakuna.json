@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.kakuna"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.kakuna"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_kakuna": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "kakuna"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

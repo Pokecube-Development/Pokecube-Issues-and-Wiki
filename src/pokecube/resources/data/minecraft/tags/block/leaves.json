@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "#pokecube:berry_leaves",
+    {"id": "#pokecube_legends:legends_leaves", "required": false}
+  ]
+}

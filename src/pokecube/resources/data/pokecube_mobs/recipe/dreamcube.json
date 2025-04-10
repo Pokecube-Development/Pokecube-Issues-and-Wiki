@@ -11,23 +11,23 @@
       "item": "pokecube:mastercube"
     },
     "O": {
-      "tag": "forge:obsidian"
+      "tag": "c:obsidian"
     },
     "A": {
       "item": "minecraft:golden_apple"
     },
     "D": {
-      "tag": "forge:storage_blocks/diamond"
+      "tag": "c:storage_blocks/diamond"
     },
     "L": {
-      "tag": "forge:storage_blocks/lapis"
+      "tag": "c:storage_blocks/lapis"
     },
     "R": {
-      "tag": "forge:storage_blocks/redstone"
+      "tag": "c:storage_blocks/redstone"
     }
   },
   "result": {
-    "item": "pokecube:dreamcube",
-    "count": 1
+    "count": 1,
+    "id": "pokecube:dreamcube"
   }
 }

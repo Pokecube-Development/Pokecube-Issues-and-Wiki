@@ -1,0 +1,9 @@
+{
+    "type": "neoforge:add_features",
+    "biomes": {
+	  "type": "neoforge:and",
+	  "values": ["#c:is_mushroom"]
+	},
+    "features": ["pokecube_world:crops_mushrooms"],
+    "step": "vegetal_decoration"
+  }

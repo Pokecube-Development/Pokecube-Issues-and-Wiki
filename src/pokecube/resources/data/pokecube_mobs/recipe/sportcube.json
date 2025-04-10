@@ -11,14 +11,14 @@
       "item": "pokecube:premiercube"
     },
     "Y": {
-      "tag": "forge:dyes/yellow"
+      "tag": "c:dyes/yellow"
     },
     "G": {
-      "tag": "forge:nuggets/gold"
+      "tag": "c:nuggets/gold"
     }
   },
   "result": {
-    "item": "pokecube:sportcube",
-    "count": 3
+    "count": 3,
+    "id": "pokecube:sportcube"
   }
 }

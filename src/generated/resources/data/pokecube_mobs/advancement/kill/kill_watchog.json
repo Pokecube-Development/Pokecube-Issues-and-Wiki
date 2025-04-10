@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.watchog"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.watchog"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_watchog": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "watchog"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

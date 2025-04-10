@@ -1,9 +1,0 @@
-{
-    "type": "forge:add_features",
-    "biomes": {
-      "type": "forge:or",
-      "values": ["#minecraft:is_badlands","#forge:is_sandy","#minecraft:is_river","#minecraft:is_ocean"]
-	  },
-    "features": ["pokecube_world:fossil_ore_small","pokecube_world:fossil_ore_large","pokecube_world:fossil_ore_buried"],
-    "step": "underground_ores"
-  }

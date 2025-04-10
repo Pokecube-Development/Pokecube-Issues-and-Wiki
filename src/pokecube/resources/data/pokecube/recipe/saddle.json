@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "saddle",
+  "pattern": [
+    " L ",
+    "L L",
+    "I I"
+  ],
+  "key": {
+    "I": {
+      "tag": "c:ingots/iron"
+    },
+    "L": {
+      "tag": "c:leather"
+    }
+  },
+  "result": {
+    "id": "minecraft:saddle"
+  }
+}

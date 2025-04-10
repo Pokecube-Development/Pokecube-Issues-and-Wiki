@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.mismagius"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.mismagius"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_mismagius": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "mismagius"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

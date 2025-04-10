@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.dialga-origin"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.dialga-origin"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_dialga-origin": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "dialga-origin"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

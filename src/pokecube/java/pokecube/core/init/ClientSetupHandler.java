@@ -71,6 +71,7 @@ import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.moves.MovesUtils;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.nbtedit.forge.ClientProxy;
+import thut.api.world.mobs.data.Data;
 import thut.lib.RegHelper;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID, value = Dist.CLIENT)
@@ -171,13 +172,11 @@ public class ClientSetupHandler
                 {
                     ItemProperties.register(i,
                             ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID, "rendering_overlay"),
-                            (stack, level, living, id) ->
-                            {
+                            (stack, level, living, id) -> {
                                 if (level != null || !PokecubeManager.isFilled(stack)) return 0.0f;
                                 if (!(living instanceof Player)) return 0.0f;
-                                if (stack.getEntityRepresentation() != null
-                                        && stack.getEntityRepresentation().isAddedToLevel())
-                                    return 0.0f;
+                                if (stack.getEntityRepresentation() != null && stack.getEntityRepresentation()
+                                        .isAddedToLevel()) return 0.0f;
                                 boolean renderingOverlay = Pokecube.renderingOverlay;
                                 return renderingOverlay ? 1.0F : 0.0F;
                             });
@@ -297,7 +296,8 @@ public class ClientSetupHandler
     {
         final Block qualotLeaves = BerryManager.berryLeaves.get(23).get();
         event.register((state, reader, pos, tintIndex) -> {
-            return reader != null && pos != null ? BiomeColors.getAverageFoliageColor(reader, pos)
+            return reader != null && pos != null
+                    ? BiomeColors.getAverageFoliageColor(reader, pos)
                     : FoliageColor.getDefaultColor();
         }, qualotLeaves);
     }
@@ -314,8 +314,9 @@ public class ClientSetupHandler
         event.register((stack, tintIndex) -> {
             final PokeType type = PokeType.unknown;
             final PokedexEntry entry = ItemPokemobEgg.getEntry(stack, PokecubeCore.proxy.getRegistries());
-            if (entry != null) return tintIndex == 0 ? entry.getType1().colour : entry.getType2().colour;
-            return tintIndex == 0 ? type.colour : 0xFFFFFFFF;
+            if (entry != null && entry != Database.missingno)
+                return tintIndex == 0 ? entry.getType1().colour | 0xFF000000 : entry.getType2().colour | 0xFF000000;
+            return tintIndex == 0 ? type.colour | 0xFF000000 : 0xFFFFFFFF;
         }, PokecubeItems.SPAWN_EGG.get());
 
         Thread.dumpStack();
@@ -325,73 +326,73 @@ public class ClientSetupHandler
             int c2 = 0xFFFFFFFF;
             int c3 = 0xFFFFFFFF;
             // TODO mega stone recipe and colours.
-//            switch (tintIndex)
-//            {
-//            case 1:
-//                if (stack.hasTag() && stack.getTag().contains("c1")) try
-//                {
-//                    long l = Long.decode(stack.getTag().getString("c1"));
-//                    c1 = (int) l;
-//                }
-//                catch (Exception e)
-//                {
-//                    // Do nothing for not interupting render thread
-//                }
-//                return c1;
-//            case 2:
-//                if (stack.hasTag() && stack.getTag().contains("c2")) try
-//                {
-//                    long l = Long.decode(stack.getTag().getString("c2"));
-//                    c2 = (int) l;
-//                }
-//                catch (Exception e)
-//                {
-//                    // Do nothing for not interupting render thread
-//                }
-//                return c2;
-//            case 3:
-//                if (stack.hasTag() && stack.getTag().contains("c3")) try
-//                {
-//                    long l = Long.decode(stack.getTag().getString("c3"));
-//                    c3 = (int) l;
-//                }
-//                catch (Exception e)
-//                {
-//                    // Do nothing for not interupting render thread
-//                }
-//                return c3;
-//            }
-//            if (stack.hasTag() && stack.getTag().contains("c0")) try
-//            {
-//                long l = Long.decode(stack.getTag().getString("c0"));
-//                c0 = (int) l;
-//            }
-//            catch (Exception e)
-//            {
-//                // Do nothing for not interupting render thread
-//            }
+            //            switch (tintIndex)
+            //            {
+            //            case 1:
+            //                if (stack.hasTag() && stack.getTag().contains("c1")) try
+            //                {
+            //                    long l = Long.decode(stack.getTag().getString("c1"));
+            //                    c1 = (int) l;
+            //                }
+            //                catch (Exception e)
+            //                {
+            //                    // Do nothing for not interupting render thread
+            //                }
+            //                return c1;
+            //            case 2:
+            //                if (stack.hasTag() && stack.getTag().contains("c2")) try
+            //                {
+            //                    long l = Long.decode(stack.getTag().getString("c2"));
+            //                    c2 = (int) l;
+            //                }
+            //                catch (Exception e)
+            //                {
+            //                    // Do nothing for not interupting render thread
+            //                }
+            //                return c2;
+            //            case 3:
+            //                if (stack.hasTag() && stack.getTag().contains("c3")) try
+            //                {
+            //                    long l = Long.decode(stack.getTag().getString("c3"));
+            //                    c3 = (int) l;
+            //                }
+            //                catch (Exception e)
+            //                {
+            //                    // Do nothing for not interupting render thread
+            //                }
+            //                return c3;
+            //            }
+            //            if (stack.hasTag() && stack.getTag().contains("c0")) try
+            //            {
+            //                long l = Long.decode(stack.getTag().getString("c0"));
+            //                c0 = (int) l;
+            //            }
+            //            catch (Exception e)
+            //            {
+            //                // Do nothing for not interupting render thread
+            //            }
             return c0;
         }, PokecubeItems.getStack("megastone").getItem());
 
         // TODO see if this was needed, I think the new dyeable stuff covers it now.
-//        for (Item i : ItemMegawearable.INSTANCES)
-//        {
-//            event.register((stack, tintIndex) -> {
-//                if (!(stack.getItem() instanceof DyeableLeatherItem item)) return 0xFFFFFFFF;
-//                return tintIndex == 0 ? item.getColor(stack) : 0xFFFFFFFF;
-//            }, i);
-//        }
-//
-//        event.register((stack, tintIndex) -> {
-//            if (!(stack.getItem() instanceof DyeableLeatherItem item)) return 0xFFFFFFFF;
-//            return tintIndex == 0 ? item.getColor(stack) : 0xFFFFFFFF;
-//        }, PokecubeItems.POKEWATCH.get());
+        //        for (Item i : ItemMegawearable.INSTANCES)
+        //        {
+        //            event.register((stack, tintIndex) -> {
+        //                if (!(stack.getItem() instanceof DyeableLeatherItem item)) return 0xFFFFFFFF;
+        //                return tintIndex == 0 ? item.getColor(stack) : 0xFFFFFFFF;
+        //            }, i);
+        //        }
+        //
+        //        event.register((stack, tintIndex) -> {
+        //            if (!(stack.getItem() instanceof DyeableLeatherItem item)) return 0xFFFFFFFF;
+        //            return tintIndex == 0 ? item.getColor(stack) : 0xFFFFFFFF;
+        //        }, PokecubeItems.POKEWATCH.get());
 
         event.register((stack, tintIndex) -> {
             String moveName = ItemTM.getMoveFromStack(stack);
             if (moveName == null) return 0xFFFFFFFF;
             var move = MovesUtils.getMove(moveName);
-            if (move != null) return move.getType(null).colour;
+            if (move != null) return move.getType(null).colour | 0xFF000000;
             return 0xFFFFFFFF;
         }, PokecubeItems.TM.get());
     }

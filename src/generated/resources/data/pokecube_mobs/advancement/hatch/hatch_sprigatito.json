@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.sprigatito"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.sprigatito"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_sprigatito": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "sprigatito"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.talonflame"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.talonflame"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_talonflame": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "talonflame"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.magmar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.magmar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_magmar": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "magmar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

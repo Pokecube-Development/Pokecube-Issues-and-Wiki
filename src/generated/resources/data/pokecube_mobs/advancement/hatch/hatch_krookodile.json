@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.krookodile"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.krookodile"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_krookodile": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "krookodile"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

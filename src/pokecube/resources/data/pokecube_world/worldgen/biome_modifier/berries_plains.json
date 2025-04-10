@@ -1,0 +1,23 @@
+{
+    "type": "neoforge:add_features",
+    "biomes": {
+	  "type": "neoforge:and",
+	  "values": [
+	    "#c:is_plains",
+	    {
+	      "type": "neoforge:not",
+	      "value": "#c:is_snowy"
+	    },
+	    {
+	      "type": "neoforge:not",
+	      "value": "#c:is_cold"
+	    },
+	    {
+	      "type": "neoforge:not",
+	      "value": "#minecraft:is_savanna"
+	    }
+	  ]
+	},
+    "features": ["pokecube_world:trees_plains_berries","pokecube_world:crops_plains"],
+    "step": "vegetal_decoration"
+  }

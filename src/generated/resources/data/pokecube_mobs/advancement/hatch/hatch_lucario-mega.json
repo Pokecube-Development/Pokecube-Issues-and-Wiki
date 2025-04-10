@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.lucario-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.lucario-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_lucario-mega": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "lucario-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

@@ -14,10 +14,10 @@
       "tag": "minecraft:saplings"
     },
     "I": {
-      "tag": "forge:ingots/gold"
+      "tag": "c:ingots/gold"
     }
   },
   "result": {
-    "item": "pokecube:nestcube"
+    "id": "pokecube:nestcube"
   }
 }

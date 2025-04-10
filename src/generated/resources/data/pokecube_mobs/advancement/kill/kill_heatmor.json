@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.heatmor"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.heatmor"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_heatmor": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "heatmor"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

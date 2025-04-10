@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.palkia"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.palkia"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_palkia": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "palkia"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

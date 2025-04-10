@@ -1,0 +1,9 @@
+{
+    "type": "neoforge:add_features",
+    "biomes": {
+	  "type": "neoforge:and",
+	  "values": ["#c:is_swamp"]
+	},
+    "features": ["pokecube_world:crops_swamps"],
+    "step": "vegetal_decoration"
+  }

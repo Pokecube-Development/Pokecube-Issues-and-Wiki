@@ -11,20 +11,20 @@
       "item": "pokecube:premiercube"
     },
     "L": {
-      "tag": "forge:dyes/blue"
+      "tag": "c:dyes/blue"
     },
     "G": {
-      "tag": "forge:ingots/gold"
+      "tag": "c:ingots/gold"
     },
     "F": {
       "tag": "minecraft:fishes"
     },
     "R": {
-      "tag": "forge:dyes/red"
+      "tag": "c:dyes/red"
     }
   },
   "result": {
-    "item": "pokecube:lurecube",
-    "count": 2
+    "count": 2,
+    "id": "pokecube:lurecube"
   }
 }

@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.rampardos"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.rampardos"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_rampardos": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "rampardos"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

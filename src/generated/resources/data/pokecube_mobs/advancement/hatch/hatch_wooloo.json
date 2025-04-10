@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.wooloo"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.wooloo"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_wooloo": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "wooloo"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

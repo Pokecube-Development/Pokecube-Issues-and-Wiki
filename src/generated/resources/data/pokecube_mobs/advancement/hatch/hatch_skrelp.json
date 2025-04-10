@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.skrelp"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.skrelp"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_skrelp": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "skrelp"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

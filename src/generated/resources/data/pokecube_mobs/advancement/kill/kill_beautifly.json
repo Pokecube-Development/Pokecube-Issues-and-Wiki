@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.beautifly"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.beautifly"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_beautifly": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "beautifly"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

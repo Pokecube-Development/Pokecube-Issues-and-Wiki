@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.drowzee"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.drowzee"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_drowzee": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "drowzee"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

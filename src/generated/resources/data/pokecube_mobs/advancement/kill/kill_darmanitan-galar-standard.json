@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.darmanitan-galar-standard"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.darmanitan-galar-standard"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_darmanitan-galar-standard": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "darmanitan-galar-standard"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

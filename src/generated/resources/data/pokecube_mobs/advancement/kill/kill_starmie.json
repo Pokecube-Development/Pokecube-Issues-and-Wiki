@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.starmie"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.starmie"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_starmie": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "starmie"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

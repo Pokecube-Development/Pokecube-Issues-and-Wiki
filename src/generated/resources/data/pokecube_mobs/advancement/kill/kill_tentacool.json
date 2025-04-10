@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.tentacool"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tentacool"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_tentacool": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "tentacool"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

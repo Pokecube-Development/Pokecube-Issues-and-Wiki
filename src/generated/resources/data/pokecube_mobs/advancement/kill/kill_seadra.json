@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.seadra"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.seadra"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_seadra": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "seadra"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

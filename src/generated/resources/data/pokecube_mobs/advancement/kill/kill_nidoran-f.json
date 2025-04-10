@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.nidoran-f"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.nidoran-f"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_nidoran-f": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "nidoran-f"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

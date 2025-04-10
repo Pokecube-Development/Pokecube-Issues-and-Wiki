@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.skarmory"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.skarmory"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_skarmory": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "skarmory"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

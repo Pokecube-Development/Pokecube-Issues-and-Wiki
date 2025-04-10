@@ -1,0 +1,22 @@
+{
+  "replace": false,
+  "values": [
+    "#pokecube:fossil_ores",
+    {"id": "#pokecube_legends:coal_ores", "required": false},
+    {"id": "#pokecube_legends:copper_ores", "required": false},
+    {"id": "#pokecube_legends:cosmic_ores", "required": false},
+    {"id": "#pokecube_legends:diamond_ores", "required": false},
+    {"id": "#pokecube_legends:distorted_world_natural_logs", "required": false},
+    {"id": "#pokecube_legends:emerald_ores", "required": false},
+    {"id": "#pokecube_legends:fractal_ores", "required": false},
+    {"id": "#pokecube_legends:gold_ores", "required": false},
+    {"id": "#pokecube_legends:iron_ores", "required": false},
+    {"id": "#pokecube_legends:lapis_ores", "required": false},
+    {"id": "#pokecube_legends:redstone_ores", "required": false},
+    {"id": "#pokecube_legends:ruby_ores", "required": false},
+    {"id": "#pokecube_legends:sapphire_ores", "required": false},
+    {"id": "#pokecube_legends:spectrum_ores", "required": false},
+    {"id": "#pokecube_legends:ultraspace_natural_logs", "required": false},
+    {"id": "#pokecube_legends:ultra_stones", "required": false}
+  ]
+}

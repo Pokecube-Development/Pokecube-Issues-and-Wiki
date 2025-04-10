@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.comfey"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.comfey"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_comfey": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "comfey"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

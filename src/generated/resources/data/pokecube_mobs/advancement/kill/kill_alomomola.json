@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.alomomola"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.alomomola"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_alomomola": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "alomomola"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    {"id": "pokecube_legends:corrupted_grass", "required": false},
+    {"id": "pokecube_legends:distortic_grass", "required": false},
+    {"id": "pokecube_legends:golden_fern", "required": false},
+    {"id": "pokecube_legends:golden_grass", "required": false},
+    {"id": "pokecube_legends:large_golden_fern", "required": false},
+    {"id": "pokecube_legends:hanging_tendrils", "required": false},
+    {"id": "pokecube_legends:hanging_tendrils_plant", "required": false},
+    {"id": "pokecube_legends:purple_wisteria_vines", "required": false},
+    {"id": "pokecube_legends:purple_wisteria_vines_plant", "required": false},
+    {"id": "pokecube_legends:string_of_pearls", "required": false},
+    {"id": "pokecube_legends:tainted_roots", "required": false},
+    {"id": "pokecube_legends:tall_corrupted_grass", "required": false},
+    {"id": "pokecube_legends:tall_golden_grass", "required": false}
+  ]
+}

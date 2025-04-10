@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.fletchinder"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.fletchinder"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_fletchinder": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "fletchinder"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

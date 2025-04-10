@@ -1,0 +1,17 @@
+{
+  "group": "bark",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "00",
+    "00"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube:log_oran"
+    }
+  },
+  "result": {
+    "count": 3,
+    "id": "pokecube:oran_wood"
+  }
+}

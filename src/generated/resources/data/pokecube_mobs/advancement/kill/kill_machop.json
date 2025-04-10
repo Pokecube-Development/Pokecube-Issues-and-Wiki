@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.machop"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.machop"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_machop": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "machop"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

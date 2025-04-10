@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.drampa"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.drampa"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_drampa": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "drampa"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

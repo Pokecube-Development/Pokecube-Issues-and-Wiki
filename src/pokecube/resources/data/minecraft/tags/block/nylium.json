@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    {"id": "pokecube_legends:fungal_nylium", "required": false},
+    {"id": "pokecube_legends:corrupted_grass_block", "required": false},
+    {"id": "pokecube_legends:distortic_grass_block", "required": false}
+  ]
+}

@@ -14,14 +14,14 @@
       "tag": "minecraft:leaves"
     },
     "G": {
-      "tag": "forge:dusts/glowstone"
+      "tag": "c:dusts/glowstone"
     },
     "R": {
-      "tag": "forge:dusts/redstone"
+      "tag": "c:dusts/redstone"
     }
   },
   "result": {
-    "item": "pokecube:friendcube",
-    "count": 1
+    "count": 1,
+    "id": "pokecube:friendcube"
   }
 }

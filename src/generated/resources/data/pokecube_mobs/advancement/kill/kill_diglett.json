@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.diglett"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.diglett"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_diglett": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "diglett"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

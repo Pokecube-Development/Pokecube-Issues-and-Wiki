@@ -11,17 +11,17 @@
       "item": "pokecube:premiercube"
     },
     "B": {
-      "tag": "forge:ingots/brick"
+      "tag": "c:ingots/brick"
     },
     "R": {
-      "tag": "forge:dusts/redstone"
+      "tag": "c:dusts/redstone"
     },
     "C": {
       "tag": "minecraft:coals"
     }
   },
   "result": {
-    "item": "pokecube:levelcube",
-    "count": 2
+    "count": 2,
+    "id": "pokecube:levelcube"
   }
 }

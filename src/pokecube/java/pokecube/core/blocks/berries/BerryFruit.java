@@ -109,11 +109,10 @@ public class BerryFruit extends BushBlock
       .optimize();
     //@formatter:on
 
-    private static final BlockBehaviour.OffsetType getOffsetType(int ind)
+    private static BlockBehaviour.OffsetType getOffsetType(int ind)
     {
         if (ind == 3 || ind == 6 || ind == 7 || ind == 10 || ind == 18 || ind == 21 || ind == 22 || ind == 23
-                || ind == 24 || ind == 25 || ind == 26 || ind == 60)
-            return BlockBehaviour.OffsetType.XZ;
+                || ind == 24 || ind == 25 || ind == 26 || ind == 60) return BlockBehaviour.OffsetType.XZ;
         return BlockBehaviour.OffsetType.NONE;
     }
 
@@ -202,14 +201,15 @@ public class BerryFruit extends BushBlock
             return world.getBlockState(posAbove).getBlock() instanceof BerryLeaf;
         else return false;
 
-//        return this.mayPlaceOn(world.getBlockState(posBelow), world, posBelow);
+        //        return this.mayPlaceOn(world.getBlockState(posBelow), world, posBelow);
     }
 
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState state1, LevelAccessor world,
             BlockPos pos, BlockPos pos1)
     {
-        return !state.canSurvive(world, pos) ? Blocks.AIR.defaultBlockState()
+        return !state.canSurvive(world, pos)
+                ? Blocks.AIR.defaultBlockState()
                 : super.updateShape(state, direction, state1, world, pos, pos1);
     }
 

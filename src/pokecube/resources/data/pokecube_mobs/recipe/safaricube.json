@@ -21,7 +21,7 @@
     }
   },
   "result": {
-    "item": "pokecube:safaricube",
-    "count": 1
+    "count": 1,
+    "id": "pokecube:safaricube"
   }
 }

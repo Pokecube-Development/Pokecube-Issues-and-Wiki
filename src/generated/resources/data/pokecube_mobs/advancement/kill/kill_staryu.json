@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.staryu"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.staryu"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_staryu": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "staryu"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

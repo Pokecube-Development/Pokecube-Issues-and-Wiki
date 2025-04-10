@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.scolipede"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.scolipede"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_scolipede": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "scolipede"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

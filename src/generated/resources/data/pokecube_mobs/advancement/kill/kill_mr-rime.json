@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.mr-rime"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.mr-rime"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_mr-rime": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "mr-rime"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

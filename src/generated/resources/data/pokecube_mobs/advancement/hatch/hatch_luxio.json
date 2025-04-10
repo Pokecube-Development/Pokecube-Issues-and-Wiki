@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.luxio"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.luxio"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_luxio": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "luxio"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

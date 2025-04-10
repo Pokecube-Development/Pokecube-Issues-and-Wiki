@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {"id": "pokecube_legends:fractal_block", "required": false},
+    {"id": "pokecube_legends:ruby_block", "required": false},
+    {"id": "pokecube_legends:sapphire_block", "required": false},
+    {"id": "pokecube_legends:spectrum_block", "required": false}
+  ]
+}

@@ -11,7 +11,7 @@
       "item": "pokecube:premiercube"
     },
     "Q": {
-      "tag": "forge:gems/quartz"
+      "tag": "c:gems/quartz"
     },
     "C": {
       "tag": "minecraft:coals",
@@ -23,6 +23,6 @@
     }
   },
   "result": {
-    "item": "pokecube:timercube"
+    "id": "pokecube:timercube"
   }
 }

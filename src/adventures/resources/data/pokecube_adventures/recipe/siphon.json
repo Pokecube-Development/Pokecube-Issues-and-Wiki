@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_adventures:siphon",
+  "pattern": [
+    "BBB",
+    "BRB",
+    "BBB"
+  ],
+  "key": {
+    "R": {
+      "item": "pokecube_adventures:afa",
+      "data": 0
+    },
+    "B": {
+      "tag": "forge:storage_blocks/redstone"
+    }
+  },
+  "result": {
+    "id": "pokecube_adventures:siphon"
+  }
+}

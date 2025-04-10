@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    {"id": "pokecube_legends:dusk_dolerite_copper_ore", "required": false},
+    {"id": "pokecube_legends:ultra_copper_ore", "required": false}
+  ]
+}

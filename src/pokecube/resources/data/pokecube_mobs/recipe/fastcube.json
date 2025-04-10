@@ -11,17 +11,17 @@
       "item": "pokecube:premiercube"
     },
     "R": {
-      "tag": "forge:dusts/redstone"
+      "tag": "c:dusts/redstone"
     },
     "G": {
-      "tag": "forge:dusts/glowstone"
+      "tag": "c:dusts/glowstone"
     },
     "F": {
       "item": "minecraft:rabbit_foot"
     }
   },
   "result": {
-    "item": "pokecube:fastcube",
-    "count": 3
+    "count": 3,
+    "id": "pokecube:fastcube"
   }
 }

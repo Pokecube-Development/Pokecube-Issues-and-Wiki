@@ -1,0 +1,21 @@
+{
+  "group": "bookshelf",
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "pokecube:oran_bookshelf_empty"
+    },
+    {
+      "item": "minecraft:book"
+    },
+    {
+      "item": "minecraft:book"
+    },
+    {
+      "item": "minecraft:book"
+    }
+  ],
+  "result": {
+    "id": "pokecube:oran_bookshelf"
+  }
+}

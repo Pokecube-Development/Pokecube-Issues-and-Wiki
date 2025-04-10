@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.drifloon"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.drifloon"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_drifloon": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "drifloon"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

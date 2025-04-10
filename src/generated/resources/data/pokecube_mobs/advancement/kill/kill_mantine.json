@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.mantine"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.mantine"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_mantine": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "mantine"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

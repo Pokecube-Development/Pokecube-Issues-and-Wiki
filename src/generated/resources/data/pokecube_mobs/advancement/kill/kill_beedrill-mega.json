@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.beedrill-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.beedrill-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_beedrill-mega": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "beedrill-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

@@ -1,0 +1,29 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube_adventures:badge_poison"
+    },
+    "title": {
+      "translate": "achievement.pokeadv.get.badgepoison"
+    },
+    "description": {
+      "translate": "achievement.pokeadv.get.badgepoison.desc"
+    }
+  },
+  "criteria": {
+    "get_badge": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "pokecube_adventures:badge_poison"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "pokecube_adventures:trainers/root"
+}

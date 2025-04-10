@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.gothita"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gothita"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_gothita": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "gothita"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

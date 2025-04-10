@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.dodrio"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.dodrio"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_dodrio": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "dodrio"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

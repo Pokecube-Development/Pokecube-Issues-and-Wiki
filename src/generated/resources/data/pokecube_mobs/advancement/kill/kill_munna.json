@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.munna"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.munna"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_munna": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "munna"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

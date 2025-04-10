@@ -11,14 +11,14 @@
       "item": "pokecube:premiercube"
     },
     "R": {
-      "tag": "forge:dusts/redstone"
+      "tag": "c:dusts/redstone"
     },
     "L": {
-      "tag": "forge:dyes/blue"
+      "tag": "c:dyes/blue"
     }
   },
   "result": {
-    "item": "pokecube:greatcube",
-    "count": 3
+    "count": 3,
+    "id": "pokecube:greatcube"
   }
 }

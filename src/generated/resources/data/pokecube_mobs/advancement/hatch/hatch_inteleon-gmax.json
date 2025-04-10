@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.inteleon-gmax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.inteleon-gmax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_inteleon-gmax": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "inteleon-gmax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

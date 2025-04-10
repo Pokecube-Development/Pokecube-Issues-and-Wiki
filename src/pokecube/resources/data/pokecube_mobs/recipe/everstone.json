@@ -8,13 +8,13 @@
   ],
   "key": {
     "S": {
-      "tag": "forge:stone"
+      "tag": "c:stone"
     },
     "W": {
-      "tag": "forge:obsidian"
+      "tag": "c:obsidian"
     }
   },
   "result": {
-    "item": "pokecube:everstone"
+    "id": "pokecube:everstone"
   }
 }

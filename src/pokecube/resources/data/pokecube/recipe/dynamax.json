@@ -1,0 +1,24 @@
+{
+  "group": "pokecube:dynamax",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " W ",
+    "WGW",
+    "BBB"
+  ],
+  "key": {
+    "W": {
+      "item": "pokecube_legends:wishing_piece"
+    },
+    "G": {
+      "item": "pokecube_legends:gigantic_shard"
+    },
+    "B": {
+      "item": "minecraft:polished_basalt"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "pokecube:dynamax"
+  }
+}

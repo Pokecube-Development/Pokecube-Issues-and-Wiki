@@ -1,0 +1,25 @@
+{
+  "type": "neoforge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "neoforge:true"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "group": "planks",
+        "ingredients": [
+          {
+            "tag": "pokecube:enigma_logs"
+          }
+        ],
+        "result": {
+          "count": 4,
+          "id": "pokecube:plank_enigma"
+        }
+      }
+    }
+  ]
+}

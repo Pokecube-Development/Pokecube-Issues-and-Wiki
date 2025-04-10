@@ -11,10 +11,10 @@
       "item": "pokecube:premiercube"
     },
     "S": {
-      "tag": "forge:string"
+      "tag": "c:string"
     }
   },
   "result": {
-    "item": "pokecube:netcube"
+    "id": "pokecube:netcube"
   }
 }

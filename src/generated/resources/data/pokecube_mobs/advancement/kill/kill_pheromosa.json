@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.pheromosa"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.pheromosa"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_pheromosa": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "pheromosa"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.beldum"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.beldum"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_beldum": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "beldum"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}
