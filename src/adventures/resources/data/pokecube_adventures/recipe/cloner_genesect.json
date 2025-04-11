@@ -1,0 +1,38 @@
+{
+  "type": "pokecube_adventures:reviving",
+  "level": 70,
+  "tame": false,
+  "cost": 30000,
+  "priority": 1,
+  "inputs": [
+    {
+      "item": "minecraft:redstone_block"
+    },
+    {
+      "item": "minecraft:iron_block"
+    },
+    {
+      "item": "minecraft:diamond_block"
+    },
+    {
+      "item": "pokecube:fossil_kabuto"
+    },
+    {
+      "type": "neoforge:components",
+      "components": {
+        "minecraft:potion_contents": {
+          "potion": "minecraft:strong_regeneration"
+        }
+      },
+      "items": "minecraft:potion"
+    }
+  ],
+  "genes": [
+    {
+      "id":"pokecube:species",
+      "gene":{
+        "E": "genesect"
+      }
+    }
+  ]
+}
