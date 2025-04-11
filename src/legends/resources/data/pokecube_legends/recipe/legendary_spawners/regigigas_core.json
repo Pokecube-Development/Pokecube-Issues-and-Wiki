@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:spawner",
+  "pattern": [
+    "RGR",
+    "CAC",
+    "RGR"
+  ],
+  "key": {
+    "R": {
+      "tag": "c:storage_blocks/emerald"
+    },
+    "A": {
+      "item": "pokecube_legends:totem_block"
+    },
+    "C": {
+      "item": "minecraft:end_stone_bricks"
+    },
+    "G": {
+      "tag": "c:storage_blocks/gold"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "pokecube_legends:regigiga_spawn"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:rune",
+  "pattern": [
+    "010",
+    "040",
+    "010"
+  ],
+  "key": {
+    "0": {
+      "tag": "c:stone"
+    },
+    "1": {
+      "item": "pokecube_legends:greenorb"
+    },
+    "4": {
+      "tag": "c:gems/emerald"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "pokecube_legends:green_rune"
+  }
+}

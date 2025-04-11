@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:spawner",
+  "pattern": [
+    "RCR",
+    "CAC",
+    "RCR"
+  ],
+  "key": {
+    "C": {
+      "tag": "minecraft:terracotta"
+    },
+    "A": {
+      "item": "pokecube_legends:totem_block"
+    },
+    "R": {
+      "tag": "c:storage_blocks/gold"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "pokecube_legends:regirock_spawn"
+  }
+}

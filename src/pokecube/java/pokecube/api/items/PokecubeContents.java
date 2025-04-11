@@ -19,11 +19,6 @@ import java.util.Optional;
 
 public record PokecubeContents(IPokemob pokemob, LivingEntity entity, CompoundTag tag)
 {
-    public PokecubeContents(IPokemob contents)
-    {
-        this(contents, contents.getEntity(), serializePokemob(contents));
-    }
-
     public PokecubeContents(CompoundTag tag)
     {
         this(null, null, tag);
@@ -101,8 +96,8 @@ public record PokecubeContents(IPokemob pokemob, LivingEntity entity, CompoundTa
         return tag().getFloat("CHP");
     }
 
-    public static final Codec<PokecubeContents> CODEC = CompoundTag.CODEC.<PokecubeContents>comapFlatMap(
-            PokecubeContents::read, PokecubeContents::save).stable();
+    public static final Codec<PokecubeContents> CODEC = CompoundTag.CODEC.comapFlatMap(PokecubeContents::read,
+            PokecubeContents::save).stable();
 
     public static final StreamCodec<ByteBuf, PokecubeContents> STREAM_CODEC = ByteBufCodecs.COMPOUND_TAG.map(
             PokecubeContents::parse, PokecubeContents::save);
@@ -136,6 +131,7 @@ public record PokecubeContents(IPokemob pokemob, LivingEntity entity, CompoundTa
         tag.putString("K", pokemob.serKey().toString());
         return tag;
     }
+
     public static final List<String> TAGSTOREMOVE = Lists.newArrayList();
 
     public static CompoundTag serializeEntity(Entity entity)
@@ -147,9 +143,9 @@ public record PokecubeContents(IPokemob pokemob, LivingEntity entity, CompoundTa
         mob.putString("id", key);
         tag.putString("I", key);
         var customData = mob.getCompound("NeoForgeData");
-        for(String s: TAGSTOREMOVE) customData.remove(s);
+        for (String s : TAGSTOREMOVE) customData.remove(s);
         customData = mob.getCompound("neoforge:attachments");
-        for(String s: TAGSTOREMOVE) customData.remove(s);
+        for (String s : TAGSTOREMOVE) customData.remove(s);
         tag.put("M", mob);
         if (entity instanceof LivingEntity living)
         {

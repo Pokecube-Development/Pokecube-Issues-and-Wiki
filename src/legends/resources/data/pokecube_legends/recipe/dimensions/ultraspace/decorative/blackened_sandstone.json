@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:blackened_sandstone",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "pokecube_legends:blackened_sand"
+    }
+  },
+  "result": {
+    "count": 4,
+    "id": "pokecube_legends:blackened_sandstone"
+  }
+}

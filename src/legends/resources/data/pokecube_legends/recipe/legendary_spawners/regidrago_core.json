@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:spawner",
+  "pattern": [
+    "RCR",
+    "CAC",
+    "RCR"
+  ],
+  "key": {
+    "R": {
+      "tag": "c:obsidian"
+    },
+    "A": {
+      "item": "pokecube_legends:totem_block"
+    },
+    "C": {
+      "item": "minecraft:magma_block"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "pokecube_legends:regidrago_spawn"
+  }
+}

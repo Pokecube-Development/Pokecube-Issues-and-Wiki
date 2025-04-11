@@ -1,0 +1,45 @@
+{
+  "type": "pokecube:move_recipe",
+  "result": {
+    "id": "minecraft:copper_block"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "item": "minecraft:copper_ingot"
+    }
+  ],
+  "move": {
+    "moves": [
+      "wood-hammer",
+      "crabhammer",
+      "dragon-hammer",
+      "hammer-arm",
+      "ice-hammer"
+    ]
+  },
+  "hungerCost": 120
+}

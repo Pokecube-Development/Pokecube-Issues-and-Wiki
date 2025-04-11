@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:spectrum_glass_pane",
+  "pattern": [
+    "GGG",
+    "GAG",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "tag": "c:glass_panes"
+    },
+    "A": {
+      "tag": "c:gems/spectrum"
+    }
+  },
+  "result": {
+    "count": 8,
+    "id": "pokecube_legends:spectrum_glass_pane"
+  }
+}

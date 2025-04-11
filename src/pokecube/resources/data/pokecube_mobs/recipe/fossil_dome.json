@@ -1,0 +1,22 @@
+{
+  "type": "pokecube_adventures:extracting",
+  "input":{
+    "item": "pokecube:fossil_kabuto"
+  },
+  "genes": [
+    {
+        "id":"pokecube:species",
+        "gene":{
+            "E": "kabuto"
+        },
+        "weight":95
+    },
+    {
+        "id":"pokecube:species",
+        "gene":{
+            "E": "genesect"
+        },
+        "weight":5
+    }
+  ]
+}

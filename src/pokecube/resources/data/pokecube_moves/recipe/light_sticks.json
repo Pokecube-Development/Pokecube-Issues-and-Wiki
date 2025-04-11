@@ -1,0 +1,17 @@
+{
+  "type": "pokecube:move_recipe",
+  "result": {
+    "id": "minecraft:torch"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:stick"
+    }
+  ],
+  "move": {
+    "type": "fire",
+    "minPower": 10,
+    "contact": false
+  },
+  "hungerCost": 5
+}

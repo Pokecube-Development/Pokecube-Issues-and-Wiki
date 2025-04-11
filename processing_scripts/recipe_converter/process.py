@@ -8,9 +8,9 @@ def clean_result(vals):
         del result['item']
         result['id'] = old
 
-
-for filename in os.listdir("./recipe"):
-    file = open(f"./recipe/{filename}")
+def process_file(filename):
+    print("Opening ", filename)
+    file = open(filename)
     vals = json.load(file)
     file.close()
     if 'result' in vals:
@@ -19,8 +19,16 @@ for filename in os.listdir("./recipe"):
         recipes = vals['recipes']
         for recipe in recipes:
             clean_result(recipe['recipe'])
-    else:
-        print(filename)
 
-    file = open(f"./recipe/{filename}", 'w')
+    file = open(filename, 'w')
     json.dump(vals, file, indent=2)
+
+def process_dir(dirname):
+    for filename in os.listdir(dirname):
+        path = f"{dirname}/{filename}"
+        if os.path.isdir(path):
+            process_dir(path)
+            continue
+        process_file(path)
+
+process_dir("./recipe")

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:blasting",
+  "group": "gold_nugget",
+  "experience": 0.1,
+  "cookingtime": 100,
+  "ingredient": {
+    "item": "pokecube_legends:golden_shroom"
+  },
+  "result": {
+    "id": "minecraft:gold_nugget"
+  }
+}

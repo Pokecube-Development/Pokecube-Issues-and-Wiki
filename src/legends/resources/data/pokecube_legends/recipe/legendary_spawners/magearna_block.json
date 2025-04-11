@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:spawner",
+  "pattern": [
+    "AAA",
+    "EOE",
+    "EEE"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:pink_terracotta"
+    },
+    "E": {
+      "item": "minecraft:iron_block"
+    },
+    "O": {
+      "item": "minecraft:nether_star"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "pokecube_legends:magearna_spawn"
+  }
+}

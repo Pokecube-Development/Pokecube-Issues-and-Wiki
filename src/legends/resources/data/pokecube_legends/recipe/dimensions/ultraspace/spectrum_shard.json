@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "pokecube_legends:spectrum_shard",
+  "ingredients": [
+    {
+      "item": "pokecube_legends:spectrum_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "id": "pokecube_legends:spectrum_shard"
+  }
+}

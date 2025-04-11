@@ -238,7 +238,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
 
             Collections.shuffle(opts);
 
-            boolean mutated = false;
+            boolean mutated;
             for (String s : opts)
             {
                 if (!s.isEmpty()) s = s + "->";
@@ -275,8 +275,15 @@ public class SpeciesGene implements Gene<SpeciesInfo>
     @Override
     public void load(Provider provider, final CompoundTag tag)
     {
-        this.info.load(tag.getCompound("V"));
         this._transformed = tag.getBoolean("T");
+        if (!tag.contains("V"))
+        {
+            info.load(tag);
+        }
+        else
+        {
+            this.info.load(tag.getCompound("V"));
+        }
     }
 
     @Override
@@ -297,8 +304,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
     @Override
     public CompoundTag save(Provider provider)
     {
-        final CompoundTag tag = new CompoundTag();
-        tag.put("V", this.info.save());
+        final CompoundTag tag = this.info.save();
         if (_transformed) tag.putBoolean("T", true);
         return tag;
     }

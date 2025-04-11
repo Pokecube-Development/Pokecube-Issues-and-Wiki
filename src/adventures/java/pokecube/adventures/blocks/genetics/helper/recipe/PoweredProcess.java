@@ -5,27 +5,41 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import pokecube.adventures.blocks.genetics.helper.BaseGeneticsTile;
+import pokecube.adventures.utils.RecipePokeAdv;
 import thut.core.common.network.TileUpdate;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 public class PoweredProcess
 {
-    public static PoweredRecipe findRecipe(final IPoweredProgress tile, final Level world)
+    public static PoweredRecipe findRecipe(final IPoweredProgress tile, final Level level)
     {
         if (!tile.getItem(tile.getOutputSlot()).isEmpty()) return null;
         PoweredRecipe output = null;
-        final RecipeClone cloneRecipe = new RecipeClone();
-        final RecipeSplice spliceRecipe = new RecipeSplice();
-        final RecipeExtract extractRecipe = new RecipeExtract();
+        var input = tile.getCraftMatrix();
+        var manager = level.getRecipeManager();
         // This one checks if it matches, as has no item output.
-        if (tile.isValid(RecipeClone.class) && cloneRecipe.matches(tile.getCraftMatrix(), world)) output = cloneRecipe;
-
-        // TODO: Check this
+        if (tile.isValid(RecipeClone.class))
+        {
+            var recipes = manager.getRecipesFor(RecipePokeAdv.CLONE_TYPE.get(), input, level);
+            List<RecipeClone> list = new ArrayList<>();
+            recipes.forEach(h -> list.add(h.value()));
+            list.add(RecipeClone.DEFAULT);
+            list.sort(Comparator.comparingInt(o -> o.priority));
+            return list.getFirst();
+        }
         // This checks for item output
-        else if (tile.isValid(RecipeSplice.class) && !spliceRecipe.assemble(tile.getCraftMatrix(), world.registryAccess()).isEmpty())
-            output = spliceRecipe;
+        else if (tile.isValid(RecipeSplice.class))
+        {
+        }
         // This checks for item output also
-        else if (tile.isValid(RecipeExtract.class) && !extractRecipe.assemble(tile.getCraftMatrix(), world.registryAccess()).isEmpty())
-            output = extractRecipe;
+        else if (tile.isValid(RecipeExtract.class))
+        {
+            var recipe = manager.getRecipeFor(RecipePokeAdv.EXTRACT_TYPE.get(), input, level);
+            if (recipe.isPresent()) return recipe.get().value();
+        }
         return output;
     }
 
@@ -36,9 +50,9 @@ public class PoweredProcess
     }
 
     public PoweredRecipe recipe;
-    IPoweredProgress     tile;
-    Level                world;
-    BlockPos             pos;
+    IPoweredProgress tile;
+    Level world;
+    BlockPos pos;
 
     public int needed = 0;
 
@@ -50,15 +64,6 @@ public class PoweredProcess
     {
         if (this.recipe == null || this.tile == null) return false;
         final boolean ret = this.recipe.complete(this.tile, this.world);
-        if (this.tile.getItem(this.tile.getOutputSlot()).isEmpty())
-        {
-            // TODO: Check this
-            this.tile.setItem(this.tile.getOutputSlot(), this.recipe.assemble(this.tile
-                    .getCraftMatrix(), this.world.registryAccess()));
-            if (this.tile.getCraftMatrix().eventHandler != null) this.tile.getCraftMatrix().eventHandler
-                    .slotsChanged(this.tile);
-            TileUpdate.sendUpdate((BlockEntity) this.tile);
-        }
         if (ret)
         {
             this.setTile(this.tile);
@@ -83,9 +88,8 @@ public class PoweredProcess
 
     public CompoundTag save()
     {
-        final CompoundTag tag = new CompoundTag();
-        // TODO save things here
-        return tag;
+        // TODO save things here?
+        return new CompoundTag();
     }
 
     public PoweredProcess setTile(final IPoweredProgress tile)

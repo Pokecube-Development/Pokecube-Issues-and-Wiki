@@ -180,8 +180,8 @@ public class EntityPokemob extends PokemobRidable
         if (pokemob != null)
         {
             final long time = System.nanoTime();
-            int maxXP = 10;
-            int level = 1;
+            int maxXP;
+            int level;
             if (orig_override == -1) level = SpawnHandler.getSpawnLevel(context, variance, overrideLevel);
             else
             {

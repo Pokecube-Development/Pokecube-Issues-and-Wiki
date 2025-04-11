@@ -17,12 +17,13 @@ import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.blocks.genetics.helper.GeneticsTileParentable;
 import pokecube.adventures.blocks.genetics.helper.recipe.PoweredRecipe;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeClone;
+import pokecube.core.PokecubeCore;
 import thut.api.item.ItemList;
 import thut.lib.TComponent;
 
 public class ClonerTile extends GeneticsTileParentable<ClonerTile>
 {
-    public static final ResourceLocation EGGS = ResourceLocation.fromNamespaceAndPath("forge", "eggs");
+    public static final ResourceLocation EGGS = ResourceLocation.fromNamespaceAndPath("c", "eggs");
 
     public ClonerTile(final BlockPos pos, final BlockState state)
     {
@@ -52,22 +53,21 @@ public class ClonerTile extends GeneticsTileParentable<ClonerTile>
     protected boolean saveInv(final BlockState state)
     {
         if (!this.isDummy) return true;
-        final boolean doSave = state.hasProperty(ClonerBlock.HALF)
-                && state.getValue(ClonerBlock.HALF) == ClonerBlockPart.BOTTOM;
-        return doSave;
+        return state.hasProperty(ClonerBlock.HALF) && state.getValue(ClonerBlock.HALF) == ClonerBlockPart.BOTTOM;
     }
 
     @Override
     public boolean canPlaceItem(final int index, final ItemStack stack)
     {
-        switch (index)
+        var access = this.getLevel() != null ? this.getLevel().registryAccess() : PokecubeCore.proxy.getRegistries();
+        return switch (index)
         {
-        case 0:// DNA Container
-            return ClonerHelper.getFromGenes(this.getLevel().registryAccess(), stack) != null;
-        case 1:// Egg
-            return ItemList.is(ClonerTile.EGGS, stack);
-        }
-        return index != this.getOutputSlot();
+            case 0 ->// DNA Container
+                    ClonerHelper.getFromGenes(access, stack) != null;
+            case 1 ->// Egg
+                    ItemList.is(ClonerTile.EGGS, stack);
+            default -> index != this.getOutputSlot();
+        };
     }
 
     @Override
@@ -75,7 +75,7 @@ public class ClonerTile extends GeneticsTileParentable<ClonerTile>
     {
         return recipe == RecipeClone.class;
     }
-    
+
     @Override
     public InteractionResult useWithoutItem(BlockPos pos, Player player, BlockHitResult hit)
     {
@@ -88,8 +88,9 @@ public class ClonerTile extends GeneticsTileParentable<ClonerTile>
             return down.useWithoutItem(this.getLevel(), player, hit);
         }
         final MutableComponent name = TComponent.translatable("block.pokecube_adventures.cloner");
-        player.openMenu(new SimpleMenuProvider((id, playerInventory, playerIn) -> new ClonerContainer(id,
-                playerInventory, ContainerLevelAccess.create(this.getLevel(), pos)), name));
+        player.openMenu(new SimpleMenuProvider(
+                (id, playerInventory, playerIn) -> new ClonerContainer(id, playerInventory,
+                        ContainerLevelAccess.create(this.getLevel(), pos)), name));
         return InteractionResult.SUCCESS;
     }
 

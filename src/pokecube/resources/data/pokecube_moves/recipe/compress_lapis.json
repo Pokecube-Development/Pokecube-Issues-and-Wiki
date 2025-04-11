@@ -1,0 +1,45 @@
+{
+  "type": "pokecube:move_recipe",
+  "result": {
+    "id": "minecraft:lapis_block"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:lapis_lazuli"
+    },
+    {
+      "item": "minecraft:lapis_lazuli"
+    },
+    {
+      "item": "minecraft:lapis_lazuli"
+    },
+    {
+      "item": "minecraft:lapis_lazuli"
+    },
+    {
+      "item": "minecraft:lapis_lazuli"
+    },
+    {
+      "item": "minecraft:lapis_lazuli"
+    },
+    {
+      "item": "minecraft:lapis_lazuli"
+    },
+    {
+      "item": "minecraft:lapis_lazuli"
+    },
+    {
+      "item": "minecraft:lapis_lazuli"
+    }
+  ],
+  "move": {
+    "moves": [
+      "wood-hammer",
+      "crabhammer",
+      "dragon-hammer",
+      "hammer-arm",
+      "ice-hammer"
+    ]
+  },
+  "hungerCost": 120
+}

@@ -1,0 +1,21 @@
+{
+  "group": "wooden_door",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "00",
+    "MM",
+    "00"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube_legends:distortic_planks"
+    },
+    "M": {
+      "item": "pokecube_legends:distortic_mirror"
+    }
+  },
+  "result": {
+    "count": 3,
+    "id": "pokecube_legends:distortic_door"
+  }
+}

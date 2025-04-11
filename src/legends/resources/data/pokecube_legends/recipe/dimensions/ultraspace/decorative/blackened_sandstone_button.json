@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "button",
+  "ingredients": [
+    {
+      "item": "pokecube_legends:blackened_sandstone"
+    }
+  ],
+  "result": {
+    "id": "pokecube_legends:blackened_sandstone_button"
+  }
+}

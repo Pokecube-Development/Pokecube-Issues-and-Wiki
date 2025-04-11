@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:blasting",
+  "group": "pokecube_legends:ruby",
+  "experience": 1,
+  "cookingtime": 100,
+  "ingredient": {
+    "tag": "pokecube_legends:ruby_ores"
+  },
+  "result": {
+    "id": "pokecube_legends:ruby"
+  }
+}

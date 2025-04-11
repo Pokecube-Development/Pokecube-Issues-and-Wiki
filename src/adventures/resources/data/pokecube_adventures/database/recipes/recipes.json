@@ -2,55 +2,6 @@
   "recipes": [
     {
       "shapeless": false,
-      "type": "dna",
-      "inputs": [
-        {
-          "item": "pokecube:fossil_kabuto"
-        }
-      ],
-      "values": {
-        "pokemonE": "Genesect",
-        "lvl": "15",
-        "cost": "10000",
-        "chance": "0.05",
-        "remain": "0",
-        "priority": "-1"
-      }
-    },
-    {
-      "shapeless": false,
-      "type": "dna",
-      "inputs": [
-        {
-          "item": "pokecube:mewhair"
-        }
-      ],
-      "values": {
-        "pokemonE": "Mew",
-        "lvl": "15",
-        "cost": "10000",
-        "chance": "0.1",
-        "priority": "-1"
-      }
-    },
-    {
-      "shapeless": false,
-      "type": "dna",
-      "inputs": [
-        {
-          "item": "pokecube:mewhair"
-        }
-      ],
-      "values": {
-        "pokemonE": "Mewtwo",
-        "lvl": "15",
-        "cost": "10000",
-        "chance": "0.9",
-        "priority": "-1"
-      }
-    },
-    {
-      "shapeless": false,
       "type": "selector",
       "inputs": [
         {

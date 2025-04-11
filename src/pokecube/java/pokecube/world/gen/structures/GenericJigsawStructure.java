@@ -146,13 +146,11 @@ public class GenericJigsawStructure extends Structure
         public static final AvoidanceSettings DEFAULT = new AvoidanceSettings(Lists.newArrayList(),
                 Lists.newArrayList());
 
-        public static final Codec<AvoidanceSettings> CODEC = RecordCodecBuilder.create((instance) -> {
-            return instance.group(
-                    Codec.list(AvoidanceEntry.CODEC).fieldOf("avoidances").orElse(Lists.newArrayList())
-                            .forGetter(s -> s.avoidances),
-                    Codec.list(Codec.STRING).fieldOf("flags").orElse(Lists.newArrayList()).forGetter(s -> s.flags))
-                    .apply(instance, AvoidanceSettings::new);
-        });
+        public static final Codec<AvoidanceSettings> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
+                Codec.list(AvoidanceEntry.CODEC).fieldOf("avoidances").orElse(Lists.newArrayList())
+                        .forGetter(s -> s.avoidances),
+                Codec.list(Codec.STRING).fieldOf("flags").orElse(Lists.newArrayList()).forGetter(s -> s.flags))
+                .apply(instance, AvoidanceSettings::new));
 
         public List<AvoidanceEntry> avoidances;
         public List<String> flags;

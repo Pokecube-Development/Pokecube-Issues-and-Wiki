@@ -1,0 +1,17 @@
+{
+  "type": "pokecube:move_recipe",
+  "result": {
+    "id": "minecraft:glowstone_dust"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:redstone"
+    }
+  ],
+  "move": {
+    "type": "fairy",
+    "minPower": 10,
+    "contact": false
+  },
+  "hungerCost": 150
+}

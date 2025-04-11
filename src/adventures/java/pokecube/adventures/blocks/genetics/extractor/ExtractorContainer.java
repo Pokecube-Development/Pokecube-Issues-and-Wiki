@@ -50,7 +50,7 @@ public class ExtractorContainer extends PoweredContainer<ExtractorTile>
         final int dj = 32;
 
         // DNA Container
-        this.addSlot(new TexturedSlot(this.tile, 0, dj + dj2, di, ResourceLocation.fromNamespaceAndPath("pokecube", "gui/icons/slot_bottle")));
+        this.addSlot(new TexturedSlot(this.tile, 0, dj + dj2, di, Resources.SLOT_ICON_BOTTLE));
         // Stabiliser
         this.addSlot(new TexturedSlot(this.tile, 1, dj + dj2, di + 35, Resources.SLOT_ICON_BOOK));
         // DNA Source

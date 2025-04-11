@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:reveal_glass",
+  "pattern": [
+    " W ",
+    "QAD",
+    "GGG"
+  ],
+  "key": {
+    "A": {
+      "tag": "c:storage_blocks/aquamarine"
+    },
+    "Q": {
+      "item": "pokecube_legends:blueorb"
+    },
+    "W": {
+      "item": "pokecube_legends:redorb"
+    },
+    "D": {
+      "item": "pokecube_legends:greenorb"
+    },
+    "G": {
+      "tag": "c:gems/quartz"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "pokecube_legends:revealglass"
+  }
+}

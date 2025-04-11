@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:orb",
+  "pattern": [
+    "MNM",
+    "MOM",
+    "MBM"
+  ],
+  "key": {
+    "M": {
+      "tag": "c:ender_pearls"
+    },
+    "O": {
+      "item": "pokecube_legends:grayorb"
+    },
+    "N": {
+      "item": "minecraft:nether_star"
+    },
+    "B": {
+      "item": "minecraft:dragon_breath"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "pokecube_legends:lustrousorb"
+  }
+}

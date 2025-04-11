@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:blasting",
+  "group": "pokecube_legends:spectrum_shard",
+  "experience": 1,
+  "cookingtime": 100,
+  "ingredient": {
+    "tag": "pokecube_legends:spectrum_ores"
+  },
+  "result": {
+    "id": "pokecube_legends:spectrum_shard"
+  }
+}

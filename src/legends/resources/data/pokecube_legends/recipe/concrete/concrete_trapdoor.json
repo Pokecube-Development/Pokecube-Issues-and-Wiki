@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_trapdoor",
+  "pattern": [
+    "XXX",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "tag": "pokecube_legends:concrete_planks"
+    }
+  },
+  "result": {
+    "count": 2,
+    "id": "pokecube_legends:concrete_trapdoor"
+  }
+}

@@ -19,7 +19,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.energy.EnergyStorage;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.blocks.InteractableTile;
-import thut.api.ThutCaps;
+import thut.api.attachments.Energy;
 import thut.api.attachments.Linkable.ILinkStorage;
 import thut.api.block.ITickTile;
 import thut.api.entity.teleporting.TeleDest;
@@ -98,7 +98,7 @@ public class SiphonTile extends InteractableTile implements ITickTile
     public SiphonTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
     {
         super(tileEntityTypeIn, pos, state);
-        energy = (EnergyStore) ThutCaps.getEnergy(this);
+        energy = (EnergyStore) Energy.get(this);
     }
 
     @Override

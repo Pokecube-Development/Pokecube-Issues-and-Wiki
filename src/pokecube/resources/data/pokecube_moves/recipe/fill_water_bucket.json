@@ -1,0 +1,17 @@
+{
+  "type": "pokecube:move_recipe",
+  "result": {
+    "id": "minecraft:water_bucket"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:bucket"
+    }
+  ],
+  "move": {
+    "type": "water",
+    "minPower": 10,
+    "contact": false
+  },
+  "hungerCost": 50
+}

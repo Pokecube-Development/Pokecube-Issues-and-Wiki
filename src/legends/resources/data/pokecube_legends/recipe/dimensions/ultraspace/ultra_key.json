@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:ultrakey",
+  "pattern": [
+    "RDR",
+    "CTC",
+    "RDR"
+  ],
+  "key": {
+    "R": {
+      "tag": "c:obsidian"
+    },
+    "D": {
+      "item": "pokecube_legends:meteorite_block"
+    },
+    "T": {
+      "item": "minecraft:nether_star"
+    },
+    "C": {
+      "tag": "c:dusts/cosmic"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "pokecube_legends:ultrakey"
+  }
+}

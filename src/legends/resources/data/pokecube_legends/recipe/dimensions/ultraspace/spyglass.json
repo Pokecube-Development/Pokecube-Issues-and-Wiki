@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "spyglass",
+  "pattern": [
+    "A",
+    "C",
+    "C"
+  ],
+  "key": {
+    "A": {
+      "item": "pokecube_legends:aquamarine_shard"
+    },
+    "C": {
+      "item": "minecraft:copper_ingot"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:spyglass"
+  }
+}

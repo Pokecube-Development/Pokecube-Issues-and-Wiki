@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "group": "pokecube_legends:dusk_dolerite",
+  "experience": 2,
+  "cookingtime": 350,
+  "ingredient": {
+    "item": "pokecube_legends:cobbled_dusk_dolerite"
+  },
+  "result": {
+    "id": "pokecube_legends:dusk_dolerite"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube:cubes",
+  "pattern": [
+    "RDR",
+    "CTC",
+    "DDD"
+  ],
+  "key": {
+    "R": {
+      "item": "pokecube_legends:compreced_mushroom"
+    },
+    "D": {
+      "tag": "c:obsidian"
+    },
+    "T": {
+      "item": "minecraft:ender_eye"
+    },
+    "C": {
+      "item": "pokecube:ultracube"
+    }
+  },
+  "result": {
+    "count": 2,
+    "id": "pokecube:clonecube"
+  }
+}

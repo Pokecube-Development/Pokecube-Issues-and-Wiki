@@ -1,0 +1,19 @@
+{
+  "type": "pokecube:move_recipe",
+  "result": {
+    "id": "minecraft:redstone"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:gunpowder"
+    }
+  ],
+  "move": {
+    "moves": [
+      "flash-cannon",
+      "magnetic-flux",
+      "zap-cannon"
+    ]
+  },
+  "hungerCost": 210
+}

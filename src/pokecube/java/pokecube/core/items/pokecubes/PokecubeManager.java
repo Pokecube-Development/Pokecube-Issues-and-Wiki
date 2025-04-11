@@ -20,6 +20,8 @@ import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import thut.api.entity.genetics.GeneHolder;
+import thut.core.common.genetics.DefaultGenetics;
 import thut.lib.TComponent;
 
 import java.util.UUID;
@@ -40,7 +42,15 @@ public class PokecubeManager
     public static void addToCube(final ItemStack cube, final LivingEntity mob)
     {
         PokecubeContents contents = new PokecubeContents(mob);
-        PokemobCaps.updatePokecube(cube, contents);
+
+        // Try clearing the genes from inside, they are to be stored by the GENE_STORE instead.
+        CompoundTag tag = contents.tag();
+        tag.getCompound("M").getCompound("neoforge:attachments").remove("thutcore:genetics");
+        cube.set(PokemobCaps.POKECUBE_DATA, contents);
+
+        // Now store the GENE_STORE with the genes.
+        GeneHolder holder = new GeneHolder(mob, mob.registryAccess());
+        cube.set(DefaultGenetics.GENE_STORE, holder);
     }
 
     public static String getOwner(final ItemStack itemStack, Level level)
@@ -104,8 +114,8 @@ public class PokecubeManager
     }
 
     /**
-     * Called the heal the mob, it will set health to max health, will reset hurtTime and deathTime, and if a
-     * pokemob, will reset hunger back to full.
+     * Called the heal the mob, it will set health to max health, will reset hurtTime and deathTime, and if a pokemob,
+     * will reset hunger back to full.
      *
      * @param mob mob to heal
      */

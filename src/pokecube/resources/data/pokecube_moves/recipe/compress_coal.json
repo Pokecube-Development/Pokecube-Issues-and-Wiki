@@ -1,0 +1,45 @@
+{
+  "type": "pokecube:move_recipe",
+  "result": {
+    "id": "minecraft:coal_block"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:coal"
+    },
+    {
+      "item": "minecraft:coal"
+    },
+    {
+      "item": "minecraft:coal"
+    },
+    {
+      "item": "minecraft:coal"
+    },
+    {
+      "item": "minecraft:coal"
+    },
+    {
+      "item": "minecraft:coal"
+    },
+    {
+      "item": "minecraft:coal"
+    },
+    {
+      "item": "minecraft:coal"
+    },
+    {
+      "item": "minecraft:coal"
+    }
+  ],
+  "move": {
+    "moves": [
+      "wood-hammer",
+      "crabhammer",
+      "dragon-hammer",
+      "hammer-arm",
+      "ice-hammer"
+    ]
+  },
+  "hungerCost": 120
+}

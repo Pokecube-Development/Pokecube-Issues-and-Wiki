@@ -1,0 +1,45 @@
+{
+  "type": "pokecube:move_recipe",
+  "result": {
+    "id": "minecraft:iron_block"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    }
+  ],
+  "move": {
+    "moves": [
+      "wood-hammer",
+      "crabhammer",
+      "dragon-hammer",
+      "hammer-arm",
+      "ice-hammer"
+    ]
+  },
+  "hungerCost": 120
+}

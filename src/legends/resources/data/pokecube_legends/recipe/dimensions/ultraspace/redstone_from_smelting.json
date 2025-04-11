@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "group": "redstone",
+  "experience": 0.7,
+  "cookingtime": 200,
+  "ingredient": {
+    "tag": "pokecube_legends:redstone_ores"
+  },
+  "result": {
+    "id": "minecraft:redstone"
+  }
+}

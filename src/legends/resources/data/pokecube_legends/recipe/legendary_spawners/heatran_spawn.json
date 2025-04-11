@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:spawner",
+  "pattern": [
+    "ZZZ",
+    "AYA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "tag": "c:netherrack"
+    },
+    "Z": {
+      "item": "minecraft:magma_block"
+    },
+    "Y": {
+      "item": "pokecube_legends:redorb"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "pokecube_legends:heatran_spawn"
+  }
+}

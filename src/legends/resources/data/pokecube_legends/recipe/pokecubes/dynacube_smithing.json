@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "tag": "c:gems/ruby"
+  },
+  "base": {
+    "tag": "pokecube:pokecubes"
+  },
+  "template": {
+    "item": "pokecube_legends:wishing_piece"
+  },
+  "result": {
+    "id": "pokecube:dynacube"
+  }
+}

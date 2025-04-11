@@ -1,14 +1,11 @@
 package pokecube.adventures.blocks.genetics.helper;
 
-import java.util.List;
-
-import org.nfunk.jep.JEP;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
@@ -16,12 +13,16 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandler;
+import org.nfunk.jep.JEP;
 import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInventory;
 import pokecube.adventures.blocks.genetics.helper.recipe.IPoweredProgress;
 import pokecube.adventures.blocks.genetics.helper.recipe.PoweredProcess;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.blocks.InteractableTile;
+import thut.api.attachments.Energy;
 import thut.api.block.ITickTile;
+
+import java.util.List;
 
 public abstract class BaseGeneticsTile extends InteractableTile implements IPoweredProgress, ITickTile, WorldlyContainer
 {
@@ -32,13 +33,13 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     {
         BaseGeneticsTile.parser = new JEP();
         BaseGeneticsTile.parser.initFunTab(); // clear the contents of the
-                                              // function table
+        // function table
         BaseGeneticsTile.parser.addStandardFunctions();
         BaseGeneticsTile.parser.initSymTab(); // clear the contents of the
-                                              // symbol table
+        // symbol table
         BaseGeneticsTile.parser.addStandardConstants();
         BaseGeneticsTile.parser.addComplex(); // among other things adds i to
-                                              // the symbol table
+        // the symbol table
         BaseGeneticsTile.parser.addVariable("x", 0);
         BaseGeneticsTile.parser.parseExpression(function);
     }
@@ -96,6 +97,7 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
             final int size, final int output)
     {
         super(tileEntityTypeIn, pos, state);
+        Energy.get(this);
         this.inventory = NonNullList.<ItemStack>withSize(size, ItemStack.EMPTY);
         this.outputSlot = output;
     }
@@ -148,8 +150,7 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     /**
      * Returns true if automation can extract the given item in the given slot
      * from the given side.
-     */
-    public boolean canTakeItemThroughFace(final int index, final ItemStack stack, final Direction direction)
+     */ public boolean canTakeItemThroughFace(final int index, final ItemStack stack, final Direction direction)
     {
         return !this.canPlaceItem(index, stack);
     }
@@ -158,8 +159,7 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     /**
      * Returns true if automation can insert the given item in the given slot
      * from the given side.
-     */
-    public boolean canPlaceItemThroughFace(final int index, final ItemStack stack, final Direction direction)
+     */ public boolean canPlaceItemThroughFace(final int index, final ItemStack stack, final Direction direction)
     {
         return this.canPlaceItem(index, stack);
     }
@@ -182,10 +182,11 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
         else
         {
             final boolean valid = this.getProcess().valid();
+            var recipe = this.getProcess().recipe;
             boolean done = true;
             if (valid)
             {
-                this.total = this.getProcess().recipe.getEnergyCost(this);
+                this.total = recipe.getEnergyCost(this);
                 try
                 {
                     done = !this.getProcess().tick();
@@ -310,17 +311,24 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
             this.setProcess(PoweredProcess.load(tag, this));
             if (this.getProcess() != null) this.total = this.getProcess().recipe.getEnergyCost(this);
         }
+        if (nbt.contains("inventory"))
+        {
+            ListTag items = nbt.getList("inventory", ListTag.TAG_COMPOUND);
+            for (int i = 0; i < Math.min(items.size(), this.inventory.size()); ++i)
+                this.inventory.set(i, ItemStack.parseOptional(provider, items.getCompound(i)));
+        }
     }
 
     @Override
     public void saveAdditional(CompoundTag nbt, Provider provider)
     {
         super.saveAdditional(nbt, provider);
-
         // saveInv check is needed for multiblock tiles!
         if (!this.saveInv(this.getBlockState())) return;
         if (this.getProcess() != null) nbt.put("progress", this.getProcess().save());
-
+        ListTag inventory = new ListTag();
+        this.inventory.forEach(stack -> inventory.add(stack.isEmpty() ? new CompoundTag() : stack.save(provider)));
+        nbt.put("inventory", inventory);
     }
 
     @Override
@@ -366,8 +374,8 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     }
 
     /**
-     * If true, this will save the inventory. This is optionally false for
-     * multi-block things, where inventory is only stored in the root part!
+     * If true, this will save the inventory. This is optionally false for multi-block things, where inventory is only
+     * stored in the root part!
      *
      * @param state
      * @return

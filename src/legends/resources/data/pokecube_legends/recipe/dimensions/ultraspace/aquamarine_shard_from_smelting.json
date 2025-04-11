@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "group": "pokecube_legends:aquamarine_shard",
+  "experience": 0.5,
+  "cookingtime": 400,
+  "ingredient": {
+    "item": "pokecube_legends:crystallized_cactus"
+  },
+  "result": {
+    "id": "pokecube_legends:aquamarine_shard"
+  }
+}

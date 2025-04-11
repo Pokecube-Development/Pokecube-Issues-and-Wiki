@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:blasting",
+  "group": "gold_ingot",
+  "experience": 1,
+  "cookingtime": 100,
+  "ingredient": {
+    "tag": "pokecube_legends:gold_ores"
+  },
+  "result": {
+    "id": "minecraft:gold_ingot"
+  }
+}

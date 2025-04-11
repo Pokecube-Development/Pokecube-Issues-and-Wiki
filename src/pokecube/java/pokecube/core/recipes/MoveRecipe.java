@@ -271,7 +271,7 @@ public class MoveRecipe implements Recipe<MoveRecipe.WorldCraftInventory>
                 instance -> instance.group(ShapelessRecipe.Serializer.CODEC.forGetter(m -> m.wrapped),
                                 Codec.INT.fieldOf("hungerCost").forGetter(m -> m.hungerCost),
                                 TCodecs.jsonCodec(MoveMatcher.class).fieldOf("move").forGetter(m -> m.match))
-                        .apply(instance, pokecube.core.recipes.MoveRecipe::new));
+                        .apply(instance, MoveRecipe::new));
 
         @Override
         public MapCodec<MoveRecipe> codec()

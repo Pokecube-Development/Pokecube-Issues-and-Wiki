@@ -1,0 +1,14 @@
+{
+    "type": "pokecube_adventures:extracting",
+    "input":{
+      "item": "pokecube:fossil_omanyte"
+    },
+    "genes": [
+      {
+          "id":"pokecube:species",
+          "gene":{
+              "E": "omanyte"
+          }
+      }
+    ]
+  }

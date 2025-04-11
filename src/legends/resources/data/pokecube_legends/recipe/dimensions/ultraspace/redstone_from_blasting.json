@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:blasting",
+  "group": "redstone",
+  "experience": 0.7,
+  "cookingtime": 100,
+  "ingredient": {
+    "tag": "pokecube_legends:redstone_ores"
+  },
+  "result": {
+    "id": "minecraft:redstone"
+  }
+}

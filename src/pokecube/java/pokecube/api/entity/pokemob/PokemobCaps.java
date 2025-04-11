@@ -28,8 +28,11 @@ import pokecube.api.items.EggInfo;
 import pokecube.api.items.IPokemobUseable;
 import pokecube.api.items.PokecubeContents;
 import pokecube.api.items.PokesealContents;
+import pokecube.core.impl.capabilities.DefaultPokemob;
 import pokecube.core.utils.EntityTools;
 import thut.api.data.HolderProvider;
+import thut.api.entity.genetics.IMobGenetics;
+import thut.core.common.genetics.DefaultGenetics;
 import thut.core.common.network.SyncAttachments;
 
 import java.util.function.Supplier;
@@ -114,6 +117,13 @@ public class PokemobCaps
         if (contents == null) return null;
         if ((contents.pokemob() == null || forceNew) && level != null && contents.tag().contains("I"))
         {
+            // We stripped the genes off the mob's tag when we saved it, so re-add them now.
+            if (stack.has(DefaultGenetics.GENE_STORE))
+            {
+                var genesStored = stack.get(DefaultGenetics.GENE_STORE);
+                contents.tag().getCompound("M").getCompound("neoforge:attachments")
+                        .put("thutcore:genetics", genesStored.tag().get("P"));
+            }
             LivingEntity mob = loadContents(contents, level, forceNew);
             IPokemob pokemob = getPokemobFor(mob);
             if (pokemob != null) contents = contents.withPokemob(pokemob);
@@ -149,14 +159,10 @@ public class PokemobCaps
         return stack.has(POKECUBE_DATA);
     }
 
-    public static PokecubeContents storeContents(IPokemob pokemob)
-    {
-        return new PokecubeContents(pokemob);
-    }
-
     public static LivingEntity loadContents(PokecubeContents contents, Level level, boolean forceNew)
     {
-        if (!forceNew && contents.pokemob() != null && contents.pokemob().getEntity() != null) return contents.pokemob().getEntity();
+        if (!forceNew && contents.pokemob() != null && contents.pokemob().getEntity() != null)
+            return contents.pokemob().getEntity();
 
         if (level == null)
         {

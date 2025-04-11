@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:smooth_azure_sandstone_slab",
+  "pattern": [
+    "000"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube_legends:smooth_azure_sandstone"
+    }
+  },
+  "result": {
+    "count": 6,
+    "id": "pokecube_legends:smooth_azure_sandstone_slab"
+  }
+}

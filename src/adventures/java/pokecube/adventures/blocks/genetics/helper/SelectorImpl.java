@@ -26,7 +26,6 @@ import thut.lib.TComponent;
 
 public class SelectorImpl
 {
-
     public static SelectorValue defaultSelector = new SelectorValue(0.0f, 0.9f);
 
     public static class SelectorValue

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:unrefined_aquamarine",
+  "pattern": [
+    "AAA",
+    "AAA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "pokecube_legends:aquamarine_crystal"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "pokecube_legends:unrefined_aquamarine"
+  }
+}

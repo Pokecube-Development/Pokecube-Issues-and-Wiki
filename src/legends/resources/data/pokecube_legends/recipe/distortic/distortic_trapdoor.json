@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_trapdoor",
+  "pattern": [
+    "0M0",
+    "0M0"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube_legends:distortic_planks"
+    },
+    "M": {
+      "item": "pokecube_legends:distortic_mirror"
+    }
+  },
+  "result": {
+    "count": 2,
+    "id": "pokecube_legends:distortic_trapdoor"
+  }
+}

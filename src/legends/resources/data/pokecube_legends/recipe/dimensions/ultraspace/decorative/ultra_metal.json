@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:ultra_metal",
+  "pattern": [
+    "444",
+    "444",
+    "444"
+  ],
+  "key": {
+    "4": {
+      "item": "pokecube_legends:ultra_stone"
+    }
+  },
+  "result": {
+    "count": 4,
+    "id": "pokecube_legends:ultra_metal"
+  }
+}

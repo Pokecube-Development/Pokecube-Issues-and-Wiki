@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:stormy_sky_bricks",
+  "pattern": [
+    " 0 ",
+    "040",
+    " 0 "
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube_legends:sky_bricks"
+    },
+    "4": {
+      "tag": "c:dyes/gray"
+    }
+  },
+  "result": {
+    "count": 4,
+    "id": "pokecube_legends:stormy_sky_bricks"
+  }
+}

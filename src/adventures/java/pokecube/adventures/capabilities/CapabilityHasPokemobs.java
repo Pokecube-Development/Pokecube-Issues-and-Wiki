@@ -34,12 +34,8 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.entity.trainers.IHasMessages;
-import pokecube.api.entity.trainers.IHasNPCAIStates;
+import pokecube.api.entity.trainers.*;
 import pokecube.api.entity.trainers.IHasNPCAIStates.AIState;
-import pokecube.api.entity.trainers.IHasPokemobs;
-import pokecube.api.entity.trainers.IHasRewards;
-import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.entity.trainers.actions.ActionContext;
 import pokecube.api.entity.trainers.actions.MessageState;
 import pokecube.api.events.npcs.TrainerInteractEvent;
@@ -703,7 +699,7 @@ public class CapabilityHasPokemobs
         }
 
         @Override
-        public void setPokemob(final int slot, final ItemStack cube)
+        public void setPokemob(final int slot, ItemStack cube)
         {
             // this.getTrainer() can be null if it occurs during loading.
             if (!cube.isEmpty() && this.getTrainer() != null)
@@ -716,7 +712,7 @@ public class CapabilityHasPokemobs
                     if (pokemob != null)
                     {
                         pokemob.setOwner(this.getTrainer());
-                        cube.set(PokemobCaps.POKECUBE_DATA, PokemobCaps.storeContents(pokemob));
+                        cube = PokecubeManager.pokemobToItem(pokemob);
                     }
                 }
             }

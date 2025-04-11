@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "pokecube_legends:sapphire",
+  "ingredients": [
+    {
+      "item": "pokecube_legends:sapphire_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "id": "pokecube_legends:sapphire"
+  }
+}

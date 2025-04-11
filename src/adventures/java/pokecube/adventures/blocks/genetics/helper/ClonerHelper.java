@@ -42,103 +42,6 @@ import thut.core.common.genetics.DefaultGenetics;
 
 public class ClonerHelper
 {
-    public static class DNAPack
-    {
-        public final String id;
-        public final Alleles<?, ?> alleles;
-        public final float chance;
-
-        public DNAPack(final String id, final Alleles<?, ?> alleles, final float chance)
-        {
-            this.alleles = alleles;
-            this.chance = chance;
-            this.id = id;
-        }
-
-        @Override
-        public String toString()
-        {
-            return this.id;
-        }
-
-        @Override
-        public int hashCode()
-        {
-            return this.id.hashCode();
-        }
-
-        @Override
-        public boolean equals(final Object obj)
-        {
-            if (!(obj instanceof DNAPack)) return false;
-            return this.toString().equals(obj.toString());
-        }
-
-        public CompoundTag save()
-        {
-            final CompoundTag tag = new CompoundTag();
-            tag.putString("id", id);
-            tag.putFloat("chance", chance);
-            if (alleles != null)
-            {
-                tag.put("DNA", alleles.save(PokecubeCore.proxy.getRegistries()));
-                tag.putString("KEY", alleles.getAllele(0).getKey().toString());
-            }
-            return tag;
-        }
-
-        public static final Codec<DNAPack> CODEC = CompoundTag.CODEC.<DNAPack>comapFlatMap(DNAPack::read, DNAPack::save)
-                .stable();
-
-        public static final StreamCodec<ByteBuf, DNAPack> STREAM_CODEC = ByteBufCodecs.COMPOUND_TAG.map(DNAPack::load,
-                DNAPack::save);
-
-        public static DataResult<DNAPack> read(CompoundTag tag)
-        {
-            try
-            {
-                return DataResult.success(load(tag));
-            }
-            catch (ResourceLocationException resourcelocationexception)
-            {
-                return DataResult.error(
-                        () -> "Not a valid itemholder tag: " + tag + " " + resourcelocationexception.getMessage());
-            }
-        }
-
-        public static DNAPack load(final CompoundTag tag)
-        {
-            String id = tag.getString("id");
-            float chance = tag.getFloat("chance");
-            Alleles<?, ?> dna = new Alleles<>();
-            try
-            {
-                dna.load(PokecubeCore.proxy.getRegistries(), tag.getCompound("DNA"),
-                        ResourceLocation.parse(tag.getString("KEY")));
-            }
-            catch (Exception e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            return new DNAPack(id, dna, chance);
-        }
-
-    }
-
-    public static Supplier<DataComponentType<DNAPack>> VALUE_STORE;
-
-    public static void registerItemData(DeferredRegister<DataComponentType<?>> registry)
-    {
-        VALUE_STORE = registry.register("dna_item_store",
-                name -> new DataComponentType.Builder<DNAPack>().persistent(DNAPack.CODEC)
-                        .networkSynchronized(DNAPack.STREAM_CODEC).build());
-    }
-
-    public static final String SELECTORTAG = "DNASelector";
-
-    public static Map<Ingredient, DNAPack> DNAITEMS = Maps.newHashMap();
-
     public static PokedexEntry getFromGenes(Provider provider, final ItemStack stack)
     {
         final IMobGenetics genes = ClonerHelper.getGenes(provider, stack);
@@ -215,7 +118,9 @@ public class ClonerHelper
 
     public static SelectorValue getSelectorValue(final ItemStack selector)
     {
-        return selector.get(SelectorImpl.VALUE_STORE);
+        return selector.has(SelectorImpl.VALUE_STORE)
+                ? selector.get(SelectorImpl.VALUE_STORE)
+                : SelectorImpl.defaultSelector;
     }
 
     private static <T, GENE extends Gene<T>> void merge(Provider provider, final IMobGenetics source,
@@ -235,11 +140,6 @@ public class ClonerHelper
         if (eggs == null) eggs = new DefaultGenetics();
         for (final ResourceLocation loc : genesIn.getKeys()) ClonerHelper.merge(provider, genesIn, eggs, selector, loc);
         ClonerHelper.setGenes(provider, destination, genesIn, eggs, force ? EditType.OTHER : EditType.EXTRACT);
-    }
-
-    public static void registerDNA(final DNAPack entry, final Ingredient stack)
-    {
-        ClonerHelper.DNAITEMS.put(stack, entry);
     }
 
     public static void setGenes(Provider provider, final ItemStack stack, final IMobGenetics sourceGenes,

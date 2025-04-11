@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 
 import com.google.common.collect.Maps;
 
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -58,6 +59,8 @@ import pokecube.adventures.blocks.genetics.cloner.ClonerTile;
 import pokecube.adventures.blocks.genetics.extractor.ExtractorBlock;
 import pokecube.adventures.blocks.genetics.extractor.ExtractorContainer;
 import pokecube.adventures.blocks.genetics.extractor.ExtractorTile;
+import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
+import pokecube.adventures.blocks.genetics.helper.SelectorImpl;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeHandlers;
 import pokecube.adventures.blocks.genetics.splicer.SplicerBlock;
 import pokecube.adventures.blocks.genetics.splicer.SplicerContainer;
@@ -78,6 +81,7 @@ import pokecube.adventures.items.Linker;
 import pokecube.adventures.items.bag.BagContainer;
 import pokecube.adventures.items.bag.BagItem;
 import pokecube.adventures.proxy.CommonProxy;
+import pokecube.adventures.utils.EnergyHandler;
 import pokecube.adventures.utils.RecipePokeAdv;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.SharedAttributes;
@@ -157,6 +161,7 @@ public class PokecubeAdv
     public static final DeferredRegister<MemoryModuleType<?>> MEMORIES;
     public static final DeferredRegister<EntityType<?>> ENTITIES;
     public static final DeferredRegister<AttachmentType<?>> ATTACHMENTS;
+    public static final DeferredRegister<DataComponentType<?>> ITEM_DATA;
 
     public static final Map<PokeType, Item> BADGES = Maps.newHashMap();
     public static final Map<Item, PokeType> BADGEINV = Maps.newHashMap();
@@ -172,6 +177,7 @@ public class PokecubeAdv
         MEMORIES = DeferredRegister.create(BuiltInRegistries.MEMORY_MODULE_TYPE, MODID);
         ENTITIES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, MODID);
         ATTACHMENTS = DeferredRegister.create(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, MODID);
+        ITEM_DATA = DeferredRegister.create(BuiltInRegistries.DATA_COMPONENT_TYPE, MODID);
 
         // Blocks
         AFA = PokecubeAdv.BLOCKS.register("afa",
@@ -306,12 +312,14 @@ public class PokecubeAdv
         PokecubeAdv.MEMORIES.register(modEventBus);
         PokecubeAdv.ENTITIES.register(modEventBus);
         PokecubeAdv.ATTACHMENTS.register(modEventBus);
+        PokecubeAdv.ITEM_DATA.register(modEventBus);
         Triggers.REGISTER.register(modEventBus);
 
         modEventBus.addListener(this::loadComplete);
 
         AdvCreativeTabs.TABS.register(modEventBus);
         RecipePokeAdv.RECIPE_SERIALIZERS.register(modEventBus);
+        RecipePokeAdv.RECIPE_TYPES.register(modEventBus);
         PointsOfInterest.REG.register(modEventBus);
 
         // Register Config stuff
@@ -329,6 +337,9 @@ public class PokecubeAdv
         PokecubeAPI.POKEMOB_BUS.register(this);
 
         InitCaps.registerAttachment(ATTACHMENTS);
+        SelectorImpl.registerItemData(ITEM_DATA);
+
+        modEventBus.addListener(EnergyHandler::AttachCaps);
     }
 
     @SubscribeEvent

@@ -1,0 +1,15 @@
+{
+  "type": "pokecube:move_recipe",
+  "result": {
+    "id": "minecraft:farmland"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:grass_block"
+    }
+  ],
+  "move": {
+    "move": "rototiller"
+  },
+  "hungerCost": 50
+}

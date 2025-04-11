@@ -1,0 +1,19 @@
+{
+  "type": "pokecube:move_recipe",
+  "result": {
+    "id": "minecraft:powder_snow_bucket"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:bucket"
+    }
+  ],
+  "move": {
+    "moves": [
+      "powder-snow",
+      "icy-wind",
+      "blizzard"
+    ]
+  },
+  "hungerCost": 110
+}

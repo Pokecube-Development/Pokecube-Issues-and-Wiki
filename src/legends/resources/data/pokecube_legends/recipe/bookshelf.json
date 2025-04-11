@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "bookshelf",
+  "ingredients": [
+    {
+      "item": "pokecube_legends:bookshelf_empty"
+    },
+    {
+      "item": "minecraft:book"
+    },
+    {
+      "item": "minecraft:book"
+    },
+    {
+      "item": "minecraft:book"
+    }
+  ],
+  "result": {
+    "id": "minecraft:bookshelf"
+  }
+}

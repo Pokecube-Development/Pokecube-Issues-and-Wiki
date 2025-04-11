@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "wooden_button",
+  "ingredients": [
+    {
+      "item": "pokecube_legends:inverted_planks"
+    }
+  ],
+  "result": {
+    "id": "pokecube_legends:inverted_button"
+  }
+}

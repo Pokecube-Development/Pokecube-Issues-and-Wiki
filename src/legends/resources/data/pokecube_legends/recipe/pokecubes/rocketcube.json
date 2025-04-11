@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube:cubes",
+  "pattern": [
+    "GGG",
+    "GRG",
+    "CCC"
+  ],
+  "key": {
+    "G": {
+      "tag": "c:dyes/black"
+    },
+    "R": {
+      "item": "pokecube_legends:inverted_orchid"
+    },
+    "C": {
+      "item": "pokecube:pokecube"
+    }
+  },
+  "result": {
+    "count": 3,
+    "id": "pokecube:rocketcube"
+  }
+}

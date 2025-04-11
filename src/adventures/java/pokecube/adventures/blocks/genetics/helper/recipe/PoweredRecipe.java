@@ -64,15 +64,7 @@ public abstract class PoweredRecipe implements IPoweredRecipe, Recipe<PoweredCra
     @Override
     public boolean matches(final PoweredCraftingInventory inv, final Level worldIn)
     {
-        if (!(inv instanceof PoweredCraftingInventory pinv)) return false;
-        final int energy = pinv.getEnergy();
-
-        // TODO: Check this
-        final ItemStack result = this.assemble(inv, worldIn.registryAccess());
-        if (result.isEmpty()) return false;
-        final int needed = this.getCostFunction().apply(result);
-        if (energy < needed) return false;
-        return true;
+        return !this.assemble(inv, worldIn.registryAccess()).isEmpty();
     }
 
     @Override

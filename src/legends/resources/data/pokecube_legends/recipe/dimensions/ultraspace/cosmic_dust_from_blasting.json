@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:blasting",
+  "group": "pokecube_legends:cosmic_dust",
+  "experience": 0.7,
+  "cookingtime": 100,
+  "ingredient": {
+    "tag": "pokecube_legends:cosmic_ores"
+  },
+  "result": {
+    "id": "pokecube_legends:cosmic_dust"
+  }
+}

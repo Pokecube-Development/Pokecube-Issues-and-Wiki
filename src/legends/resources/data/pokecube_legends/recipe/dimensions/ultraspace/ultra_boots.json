@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:ultra_boots",
+  "pattern": [
+    "A A",
+    "X X"
+  ],
+  "key": {
+    "A": {
+      "item": "pokecube_legends:magnetic_stone"
+    },
+    "X": {
+      "tag": "c:gems/spectrum"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "pokecube_legends:ultra_boots"
+  }
+}

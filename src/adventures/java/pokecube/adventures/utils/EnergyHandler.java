@@ -145,8 +145,16 @@ public class EnergyHandler
         for (final Direction side : Direction.values())
         {
             final BlockEntity te = v.getTileEntity(world, side);
-            IEnergyStorage cap;
-            if (te != null && (cap = ThutCaps.getEnergy(te, side.getOpposite())) != null)
+            IEnergyStorage cap = null;
+            if (te != null && Energy.has(te, side.getOpposite()))
+            {
+                cap = Energy.get(te, side.getOpposite());
+            }
+            else if (te != null && Energy.has(te))
+            {
+                cap = Energy.get(te);
+            }
+            if (cap != null)
             {
                 if (!cap.canReceive()) continue;
                 final int toSend = cap.receiveEnergy(output, true);
@@ -244,6 +252,29 @@ public class EnergyHandler
 
         Energy.DEFAULT().register(new HolderProvider.Provider<>()
         {
+            final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube", "none");
+
+            @Override
+            public EnergyStorage apply(IAttachmentHolder t)
+            {
+                return new EnergyStorage(0);
+            }
+
+            @Override
+            protected ResourceLocation key()
+            {
+                return ID;
+            }
+
+            @Override
+            public int getPriority()
+            {
+                return Integer.MAX_VALUE;
+            }
+        });
+
+        Energy.DEFAULT().register(new HolderProvider.Provider<>()
+        {
             final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube", "wrapping");
 
             @Override
@@ -327,7 +358,6 @@ public class EnergyHandler
         /**
          * This checks if we are electric type, and also does an update of the internal power, if this is the first time
          * this is run during a tick.
-         *
          */
         private boolean checkElectricType()
         {

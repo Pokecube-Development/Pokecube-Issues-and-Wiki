@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:ocean_bricks",
+  "pattern": [
+    " 0 ",
+    "040",
+    " 0 "
+  ],
+  "key": {
+    "0": {
+      "tag": "minecraft:stone_bricks"
+    },
+    "4": {
+      "tag": "c:gems/prismarine"
+    }
+  },
+  "result": {
+    "count": 4,
+    "id": "pokecube_legends:ocean_bricks"
+  }
+}

@@ -8,7 +8,6 @@ import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -19,13 +18,13 @@ import pokecube.adventures.blocks.genetics.helper.SelectorImpl;
 import pokecube.adventures.blocks.genetics.helper.recipe.PoweredRecipe;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeExtract;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector;
-import thut.api.entity.genetics.IMobGenetics;
+import pokecube.core.PokecubeCore;
 import thut.api.item.ItemList;
 import thut.lib.TComponent;
 
 public class ExtractorTile extends BaseGeneticsTile
 {
-    private static ResourceLocation EXTRACT_DEST = ResourceLocation.fromNamespaceAndPath("pokecube_adventures",
+    private static final ResourceLocation EXTRACT_DEST = ResourceLocation.fromNamespaceAndPath("pokecube_adventures",
             "dna_extractor_destination");
 
     public static boolean isDNAContainer(final ItemStack stack)
@@ -48,20 +47,18 @@ public class ExtractorTile extends BaseGeneticsTile
     @Override
     public boolean canPlaceItem(final int index, final ItemStack stack)
     {
+        var access = this.getLevel() != null ? this.getLevel().registryAccess() : PokecubeCore.proxy.getRegistries();
         switch (index)
         {
         case 0:// DNA Container
             return isDNAContainer(stack);
         case 1:// DNA Selector
-            final boolean hasGenes = !ClonerHelper.getGeneSelectors(this.getLevel().registryAccess(), stack).isEmpty();
-            final boolean selector = hasGenes
-                    || RecipeSelector.getSelectorValue(stack) != SelectorImpl.defaultSelector;
+            final boolean hasGenes = !ClonerHelper.getGeneSelectors(access, stack).isEmpty();
+            final boolean selector = hasGenes || RecipeSelector.getSelectorValue(stack) != SelectorImpl.defaultSelector;
             return hasGenes || selector;
         case 2:// DNA Source
-            final IMobGenetics genes = ClonerHelper.getGenes(this.getLevel().registryAccess(), stack);
-            if (genes == null && !stack.isEmpty())
-                for (final Ingredient stack1 : ClonerHelper.DNAITEMS.keySet()) if (stack1.test(stack)) return true;
-            return genes != null;
+            // TODO decide on whether to search recipes to see if it is valid.
+            return true;
         }
         return false;
     }
@@ -76,8 +73,9 @@ public class ExtractorTile extends BaseGeneticsTile
     public InteractionResult useWithoutItem(final BlockPos pos, final Player player, final BlockHitResult hit)
     {
         final MutableComponent name = TComponent.translatable("block.pokecube_adventures.extractor");
-        player.openMenu(new SimpleMenuProvider((id, playerInventory, playerIn) -> new ExtractorContainer(id,
-                playerInventory, ContainerLevelAccess.create(this.getLevel(), pos)), name));
+        player.openMenu(new SimpleMenuProvider(
+                (id, playerInventory, playerIn) -> new ExtractorContainer(id, playerInventory,
+                        ContainerLevelAccess.create(this.getLevel(), pos)), name));
         return InteractionResult.SUCCESS;
     }
 

@@ -1,0 +1,18 @@
+{
+  "type": "pokecube:move_recipe",
+  "result": {
+    "id": "minecraft:gravel"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:cobblestone"
+    }
+  ],
+  "move": {
+    "moves": [
+      "rock-smash",
+      "brick-break"
+    ]
+  },
+  "hungerCost": 50
+}

@@ -193,8 +193,7 @@ public class Energy
     {
         if (d == null) d = Direction.DOWN;
         var TYPE = TYPES[d.ordinal()].get();
-        if (in.hasData(TYPE)) return in.getData(TYPE);
-        return null;
+        return in.getData(TYPE);
     }
 
     public static boolean has(final IAttachmentHolder in, Direction d)
@@ -202,6 +201,16 @@ public class Energy
         if (d == null) d = Direction.DOWN;
         var TYPE = TYPES[d.ordinal()].get();
         return in.hasData(TYPE);
+    }
+
+    public static EnergyStorage get(final IAttachmentHolder in)
+    {
+        return get(in, Direction.DOWN);
+    }
+
+    public static boolean has(final IAttachmentHolder in)
+    {
+        return has(in, Direction.DOWN);
     }
 
     public static void set(final IAttachmentHolder in, Direction d, EnergyStorage storage)

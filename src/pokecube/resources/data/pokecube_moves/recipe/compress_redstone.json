@@ -1,0 +1,45 @@
+{
+  "type": "pokecube:move_recipe",
+  "result": {
+    "id": "minecraft:redstone_block"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:redstone"
+    },
+    {
+      "item": "minecraft:redstone"
+    },
+    {
+      "item": "minecraft:redstone"
+    },
+    {
+      "item": "minecraft:redstone"
+    },
+    {
+      "item": "minecraft:redstone"
+    },
+    {
+      "item": "minecraft:redstone"
+    },
+    {
+      "item": "minecraft:redstone"
+    },
+    {
+      "item": "minecraft:redstone"
+    },
+    {
+      "item": "minecraft:redstone"
+    }
+  ],
+  "move": {
+    "moves": [
+      "wood-hammer",
+      "crabhammer",
+      "dragon-hammer",
+      "hammer-arm",
+      "ice-hammer"
+    ]
+  },
+  "hungerCost": 120
+}

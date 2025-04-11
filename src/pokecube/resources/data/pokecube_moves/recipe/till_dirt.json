@@ -1,0 +1,15 @@
+{
+  "type": "pokecube:move_recipe",
+  "result": {
+    "id": "minecraft:sand"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:dirt"
+    }
+  ],
+  "move": {
+    "move": "rototiller"
+  },
+  "hungerCost": 50
+}

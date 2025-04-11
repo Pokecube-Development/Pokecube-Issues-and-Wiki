@@ -1,0 +1,18 @@
+{
+  "type": "pokecube:move_recipe",
+  "result": {
+    "id": "minecraft:clay"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:podzol"
+    }
+  ],
+  "move": {
+    "moves": [
+      "mud-shot",
+      "mud-slap"
+    ]
+  },
+  "hungerCost": 85
+}

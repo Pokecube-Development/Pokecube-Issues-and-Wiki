@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:pokepuff",
+  "pattern": [
+    "BBB",
+    "PCP",
+    "SOS"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:milk_bucket"
+    },
+    "S": {
+      "item": "minecraft:sugar"
+    },
+    "P": {
+      "tag": "c:crops/wheat"
+    },
+    "O": {
+      "item": "minecraft:bowl"
+    },
+    "B": {
+      "item": "pokecube:berry_leppa"
+    }
+  },
+  "result": {
+    "count": 3,
+    "id": "pokecube_legends:leppa_pokepuff"
+  }
+}

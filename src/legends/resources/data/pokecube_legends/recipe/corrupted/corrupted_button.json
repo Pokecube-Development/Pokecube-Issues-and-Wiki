@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "wooden_button",
+  "ingredients": [
+    {
+      "item": "pokecube_legends:corrupted_planks"
+    }
+  ],
+  "result": {
+    "id": "pokecube_legends:corrupted_button"
+  }
+}

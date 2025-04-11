@@ -55,7 +55,7 @@ public class InventoryHandler
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, PokecubeAdv.DAYCARE_TYPE.get(),
                 new DaycareTileInventory());
 
-        Inventory.DEFAULT().register(new HolderProvider.Provider<ItemCap>()
+        Inventory.DEFAULT().register(new HolderProvider.Provider<>()
         {
             ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube_adventures", "afa");
 
