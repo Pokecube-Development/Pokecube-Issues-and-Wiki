@@ -123,7 +123,7 @@ public interface IPokemob
         {
             if (this.icons[0][0] == null)
             {
-                final String texture = this.key.getPath();
+                final String texture = this.key.toString();
                 this.icons[0][0] = ResourceLocation.parse(texture);
                 this.icons[0][1] = ResourceLocation.parse(texture + "_s");
                 this.icons[1][0] = ResourceLocation.parse(texture);

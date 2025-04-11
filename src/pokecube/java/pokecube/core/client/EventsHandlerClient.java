@@ -11,6 +11,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -20,6 +21,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -392,6 +394,8 @@ public class EventsHandlerClient
             boolean ctrl = Screen.hasControlDown();
             if (alt || ctrl)
             {
+                event.getGuiGraphics().pose().pushPose();
+                event.getGuiGraphics().pose().translate(0, 0, 1000);
                 final List<Slot> slots = gui.getMenu().slots;
                 for (final Slot slot : slots)
                     if (slot.hasItem() && PokecubeManager.isFilled(slot.getItem()))
@@ -404,17 +408,14 @@ public class EventsHandlerClient
                         j = slot.y;
                         final int x = i + gui.getGuiLeft();
                         final int y = j + gui.getGuiTop();
-                        //                    TODO: Fix this
-                        //                    if (ctrl)
-                        //                    {
-                        //                        final float z = Minecraft.getInstance().getItemRenderer().blitOffset;
-                        //                        Minecraft.getInstance().getItemRenderer().blitOffset += 200;
-                        //                        Minecraft.getInstance().getItemRenderer().renderGuiItem(pokemob.getHeldItem(), x, y);
-                        //                        Minecraft.getInstance().getItemRenderer().blitOffset = z;
-                        //                    }
-                        /* else */
-                        EventsHandlerClient.renderIcon(event.getGuiGraphics(), pokemob, x, y, 16, 16);
+                        if (Screen.hasControlDown())
+                        {
+                            ItemStack _stack = pokemob.getHeldItem();
+                            event.getGuiGraphics().renderItem(_stack, x, y);
+                        }
+                        else EventsHandlerClient.renderIcon(event.getGuiGraphics(), pokemob, x, y, 16, 16);
                     }
+                event.getGuiGraphics().pose().popPose();
             }
         }
         catch (final Exception e)
@@ -446,7 +447,7 @@ public class EventsHandlerClient
         final int h = guiGraphics.guiHeight();
         int i, j;
         i = -80;
-        j = -9;
+        j = -10;
         for (int l = 0; l < 9; l++)
         {
             final ItemStack stack = player.getInventory().items.get(l);
@@ -458,17 +459,12 @@ public class EventsHandlerClient
                 x = i + x + 20 * l - 8;
                 int y = h;
                 y = j + y - 9;
-                // TODO: Fix this
-                /*
-                 * if (Screen.hasControlDown()) { final float z =
-                 * Minecraft.getInstance().getItemRenderer().blitOffset;
-                 * Minecraft.getInstance().getItemRenderer().blitOffset += 100;
-                 * Minecraft.getInstance().getItemRenderer().renderGuiItem(
-                 * pokemob.getHeldItem(), x, y);
-                 * Minecraft.getInstance().getItemRenderer().blitOffset = z; }
-                 * else
-                 */
-                EventsHandlerClient.renderIcon(guiGraphics, pokemob, x, y, 16, 16);
+                if (Screen.hasControlDown())
+                {
+                    ItemStack _stack = pokemob.getHeldItem();
+                    guiGraphics.renderItem(_stack, x, y);
+                }
+                else EventsHandlerClient.renderIcon(guiGraphics, pokemob, x, y, 16, 16);
             }
         }
     }
@@ -508,10 +504,10 @@ public class EventsHandlerClient
         ResourceLocation icon = entry.getIcon(!female, shiny);
         if (holder != null) icon = holder.getIcon(!female, shiny, entry);
 
-        TextureAtlasSprite textureatlassprite = Minecraft.getInstance().getTextureAtlas(Resources.ICONS_MOB_SHEET).apply(icon);
-        guiGraphics.blit(x, y, 0,  width, height, textureatlassprite);
+        TextureAtlasSprite textureatlassprite = Minecraft.getInstance().getTextureAtlas(Resources.ICONS_MOB_SHEET)
+                .apply(icon);
+        guiGraphics.blit(x, y, 0, width, height, textureatlassprite);
     }
-
 
     private static void setMostDamagingMove(final IPokemob outMob, final LivingEntity target)
     {

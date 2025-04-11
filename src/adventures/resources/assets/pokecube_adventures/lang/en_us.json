@@ -416,6 +416,7 @@
     "pokecube_adventures.tooltip.gene.expressed.colour": "Colour: %s",
     "pokecube_adventures.tooltip.gene.expressed.evs": "EVs: %s",
     "pokecube_adventures.tooltip.gene.expressed.gmax": "GMax: %s",
+    "pokecube_adventures.tooltip.gene.expressed.tera": "Tera: %s",
 
     "pokecube_adventures.tooltip.gene.expand": "Hold CTRL for more info",
 

@@ -3,8 +3,6 @@
  */
 package pokecube.core.items;
 
-import java.util.Set;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.component.DataComponents;
@@ -32,7 +30,6 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.EventBusSubscriber.Bus;
 import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
-import pokecube.api.PokecubeAPI;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.spawns.SpawnCheck;
@@ -42,6 +39,7 @@ import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
 import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.healer.HealerBlock;
 import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.SpawnHandler;
@@ -55,6 +53,8 @@ import thut.core.common.commands.CommandTools;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.TerrainUpdate;
 import thut.lib.TComponent;
+
+import java.util.Set;
 
 /** @author Manchou */
 @EventBusSubscriber(modid = PokecubeCore.MODID, bus = Bus.MOD)
@@ -75,13 +75,12 @@ public class ItemPokedex extends Item
         interact:
         if (playerIn instanceof ServerPlayer)
         {
-            final Entity entityHit = target;
-            final IPokemob pokemob = PokemobCaps.getPokemobFor(entityHit);
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(target);
 
             // Not a pokemob, or not a stock pokemob, only the watch will do
             // anything on right click, pokedex is for accessing the mob.
-            final boolean doInteract = target instanceof ServerPlayer
-                    || pokemob != null && pokemob.getPokedexEntry().stock && this.watch;
+            final boolean doInteract =
+                    target instanceof ServerPlayer || pokemob != null && pokemob.getPokedexEntry().stock && this.watch;
 
             if (!doInteract) break interact;
             this.showGui(playerIn, target, pokemob);
@@ -141,9 +140,9 @@ public class ItemPokedex extends Item
                 SpawnCheck checker = new SpawnCheck(v, level);
                 for (final PokedexEntry e : Database.spawnables)
                     if (e.getSpawnData().getMatcher(new SpawnContext(player, e), checker, false) != null)
-                {
-                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal(e.getTrimmedName()));
-                }
+                    {
+                        thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal(e.getTrimmedName()));
+                    }
             }
         }
 
@@ -191,8 +190,9 @@ public class ItemPokedex extends Item
             PacketDataSync.syncData(player, "pokecube-stats");
             PacketPokedex.sendSecretBaseInfoPacket(splayer, this.watch);
             PacketPokedex.sendLocalSpawnsPacket(splayer);
-            if (pokemob != null) PlayerDataHandler.getInstance().getPlayerData(player)
-                    .getData(PokecubePlayerStats.class).inspect(player, pokemob);
+            if (pokemob != null)
+                PlayerDataHandler.getInstance().getPlayerData(player).getData(PokecubePlayerStats.class)
+                        .inspect(player, pokemob);
             PacketPokedex.sendOpenPacket(splayer, mob, this.watch);
         }
     }
@@ -200,11 +200,7 @@ public class ItemPokedex extends Item
     @SubscribeEvent
     public static void modifyComponents(ModifyDefaultComponentsEvent event)
     {
-        event.getAllItems().forEach(item -> {
-            if (item instanceof ItemPokedex dex && dex.watch)
-            {
-                event.modify(dex, builder -> builder.set(DataComponents.DYED_COLOR, new DyedItemColor(0xFFB02E26, false)));
-            }
-        });
+        event.modify(PokecubeItems.POKEWATCH,
+                builder -> builder.set(DataComponents.DYED_COLOR, new DyedItemColor(0xFFB02E26, false)));
     }
 }

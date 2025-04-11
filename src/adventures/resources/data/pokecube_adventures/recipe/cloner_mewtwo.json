@@ -1,0 +1,32 @@
+{
+    "type": "pokecube_adventures:reviving",
+    "level": 70,
+    "tame": false,
+    "cost": 30000,
+    "priority": 1,
+    "inputs": [
+        {
+          "item": "pokecube:mewhair"
+        },
+        {
+          "item": "pokecube:pokemobegg"
+        },
+        {
+          "neoforge:ingredient_type": "neoforge:components",
+          "item": "minecraft:potion",
+          "components" : {
+            "potion_contents": {
+              "potion": "strong_regeneration"
+            }
+          }
+        }
+    ],
+    "genes": [
+      {
+          "id":"pokecube:species",
+          "gene":{
+              "E": "mewtwo"
+          }
+      }
+    ]
+  }

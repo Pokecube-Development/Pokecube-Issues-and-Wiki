@@ -6,6 +6,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import pokecube.api.events.init.CompatEvent;
+import pokecube.compat.wearables.sided.Common;
 
 @EventBusSubscriber
 public class Compat
@@ -17,15 +18,15 @@ public class Compat
 
     @OnlyIn(value = Dist.CLIENT)
     @SubscribeEvent
-    public static void register(final CompatEvent event)
+    public static void registerRender(final CompatEvent event)
     {
         if (ModList.get().isLoaded("thut_wearables")) Impl.register();
     }
 
     @SubscribeEvent
-    public static void dummy(final CompatEvent event)
+    public static void registerCommon(final CompatEvent event)
     {
-
+        Common.registerWearable();
     }
 
 }

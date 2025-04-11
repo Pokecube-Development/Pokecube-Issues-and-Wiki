@@ -31,10 +31,6 @@ public class MegaCapability implements IMegaCapability
             // Exposed for json use. it is used by the codec.
         }
 
-        public MegaStone(String entry, int[] colours)
-        {
-        }
-
         public int[] colours() {return colours;}
 
         public String entry() {return entry;}

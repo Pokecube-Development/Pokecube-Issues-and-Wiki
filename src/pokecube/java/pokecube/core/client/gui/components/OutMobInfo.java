@@ -217,10 +217,7 @@ public class OutMobInfo extends GuiEventComponent
             mob.yBodyRot = mob.yBodyRotO = 180.0F + f * 20.0F;
             mob.yHeadRot = mob.yHeadRotO = mob.yBodyRot;
 
-            float maxDim = Math.max(pokemob.getPokedexEntry().height, pokemob.getPokedexEntry().width);
-            maxDim = Math.max(pokemob.getPokedexEntry().length, maxDim);
-            float renderScale = 0.75f / maxDim;
-
+            float renderScale = 1.0f;
             float tick = evt.getTick();
 
             GuiPokemobHelper.renderMob(evt.getMat(), mob, mobOffsetX - 30, mobOffsetY - 25, 0, 0, 0, 0, renderScale,
@@ -244,15 +241,6 @@ public class OutMobInfo extends GuiEventComponent
                 graphics.blitSprite(ICON_MOB_FRAME, mobOffsetX, mobOffsetY, -2, 42, 42);
 
                 mob = ally;
-
-                pokemob = PokemobCaps.getPokemobFor(mob);
-                if (pokemob != null)
-                {
-                    maxDim = Math.max(pokemob.getPokedexEntry().height, pokemob.getPokedexEntry().width);
-                    maxDim = Math.max(pokemob.getPokedexEntry().length, maxDim);
-                }
-                else maxDim = Math.max(mob.getBbWidth(), mob.getBbHeight());
-                renderScale = 0.75f / maxDim;
 
                 f = 30;
                 yBodyRot = mob.yBodyRot;

@@ -1,0 +1,22 @@
+{
+    "type": "pokecube_adventures:reviving",
+    "inputs": [
+        {
+          "item": "pokecube:mewhair"
+        },
+        {
+          "item": "pokecube:pokemobegg"
+        },
+        {
+          "item": "minecraft:potion"
+        }
+    ],
+    "genes": [
+      {
+          "id":"pokecube:species",
+          "gene":{
+              "E": "ditto"
+          }
+      }
+    ]
+  }

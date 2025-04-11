@@ -33,6 +33,8 @@ public class PoweredProcess
         // This checks for item output
         else if (tile.isValid(RecipeSplice.class))
         {
+            // This takes no custom stuff, so just use a new one.
+            return new RecipeSplice();
         }
         // This checks for item output also
         else if (tile.isValid(RecipeExtract.class))

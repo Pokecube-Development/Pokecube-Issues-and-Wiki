@@ -157,7 +157,7 @@ public class TrainerEventHandler
         if (!(event.getEntity() instanceof LivingEntity living)) return;
         if (living instanceof Player player)
         {
-            PlayerPokemobs.register(player);
+            if (player.level().isClientSide()) PlayerPokemobs.register(player);
             return;
         }
 
@@ -582,7 +582,6 @@ public class TrainerEventHandler
 
     /**
      * This manages making of trainers invisible if they have been defeated, if this is enabled for the given trainer.
-     *
      */
     public static void onWatchTrainer(final StartTracking event)
     {

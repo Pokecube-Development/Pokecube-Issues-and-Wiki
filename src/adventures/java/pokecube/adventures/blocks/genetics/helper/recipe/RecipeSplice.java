@@ -71,8 +71,6 @@ public class RecipeSplice extends PoweredRecipe
         if (ClonerHelper.getGeneSelectors(access, selector).isEmpty()) selector = ItemStack.EMPTY;
         if (!selector.isEmpty() && !dna.isEmpty() && !egg.isEmpty())
         {
-            PokedexEntry entry = ClonerHelper.getFromGenes(access, dna);
-            if (entry == null) entry = ClonerHelper.getFromGenes(access, egg);
             egg = egg.copy();
             ClonerHelper.spliceGenes(access, ClonerHelper.getGenes(access, dna), egg, new ItemBasedSelector(selector));
             egg.setCount(1);

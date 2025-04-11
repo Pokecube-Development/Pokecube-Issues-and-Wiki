@@ -1,8 +1,8 @@
 package pokecube.compat.wearables.sided;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -10,15 +10,20 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
 import pokecube.core.items.megastuff.ItemMegawearable;
 import thut.api.ModelHolder;
 import thut.bling.client.render.Util;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.ModelFactory;
 import thut.wearables.EnumWearable;
+import thut.wearables.ThutWearables;
 import thut.wearables.events.WearableDroppedEvent;
+import thut.wearables.impl.WearableData;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.GAME)
 public class Common
@@ -40,7 +45,7 @@ public class Common
 
         String getSlotSt(final ItemStack stack)
         {
-            if (stack.getItem() instanceof ItemMegawearable wearable) return wearable.slot; 
+            if (stack.getItem() instanceof ItemMegawearable wearable) return wearable.slot;
             return "";
         }
 
@@ -119,20 +124,30 @@ public class Common
 
     private static final ResourceLocation WEARABLESKEY = ResourceLocation.parse("pokecube:wearable");
 
-    // TODO wearables for these.
-//    public static void registerCapabilities(final AttachCapabilitiesEvent<ItemStack> event)
-//    {
-//        if (event.getCapabilities().containsKey(Common.WEARABLESKEY)) return;
-//        if (event.getObject().getItem() instanceof ItemMegawearable)
-//            event.addCapability(Common.WEARABLESKEY, new WearableMega());
-//        else if (event.getObject().getItem() == PokecubeItems.POKEWATCH.get())
-//            event.addCapability(Common.WEARABLESKEY, new WearableWatch());
-//    }
+    public static void registerWearable()
+    {
+        ThutWearables.REGISTRY.put(ResourceLocation.parse("pokecube:mega"), stack -> new WearableMega());
+        ThutWearables.REGISTRY.put(ResourceLocation.parse("pokecube:watch"), stack -> new WearableWatch());
+    }
 
     @SubscribeEvent
     public static void onWearablesDrop(WearableDroppedEvent event)
     {
         IPokemob mob = PokemobCaps.getPokemobFor(event.getEntity());
         if (mob != null && mob.getOwnerId() != null) event.setCanceled(true);
+    }
+
+    @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)
+    public static class Regster
+    {
+        @SubscribeEvent
+        public static void modifyComponents(ModifyDefaultComponentsEvent event)
+        {
+            event.modify(PokecubeItems.POKEWATCH, builder -> builder.set(ThutWearables.WEARABLE_DATA.get(),
+                    new WearableData(ResourceLocation.parse("pokecube:watch"))));
+            event.modifyMatching(i -> i instanceof ItemMegawearable,
+                    builder -> builder.set(ThutWearables.WEARABLE_DATA.get(),
+                            new WearableData(ResourceLocation.parse("pokecube:mega"))));
+        }
     }
 }

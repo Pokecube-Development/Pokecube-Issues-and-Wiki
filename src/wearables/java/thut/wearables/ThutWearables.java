@@ -1,10 +1,9 @@
 package thut.wearables;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
-
-import com.google.common.collect.Maps;
 
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.core.component.DataComponentType;
@@ -118,7 +117,7 @@ public class ThutWearables
         }
     }
 
-    public static Map<ResourceLocation, Function<ItemStack, IActiveWearable>> REGISTRY;
+    public static Map<ResourceLocation, Function<ItemStack, IActiveWearable>> REGISTRY = new HashMap<>();
 
     public static IActiveWearable getWearable(final ItemStack in)
     {
@@ -133,14 +132,10 @@ public class ThutWearables
         return data.wearable();
     }
 
-    public static final ResourceLocation WEARABLES_ITEM_TAG = ResourceLocation.fromNamespaceAndPath(Reference.MODID,
-            "wearable");
-
     public static final String MODID = Reference.MODID;
 
     public final static PacketHandler packets = new PacketHandler(Reference.NETVERSION);
 
-    // TODO Check this for crash on server
     public final static CommonProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
     // Holder for our config options
     public static final Config config = new Config();
@@ -180,10 +175,6 @@ public class ThutWearables
         return PlayerWearables.get(wearer);
     }
 
-    private final boolean overworldRules = true;
-
-    Map<ResourceLocation, EnumWearable> configWearables = Maps.newHashMap();
-
     public ThutWearables(IEventBus modEventBus, ModContainer modContainer)
     {
         // Register Config stuff
@@ -210,7 +201,8 @@ public class ThutWearables
     public void dropLoot(final LivingDropsEvent event)
     {
         final LivingEntity mob = event.getEntity();
-        final GameRules rules = this.overworldRules ? mob.getServer().getLevel(Level.OVERWORLD).getGameRules()
+        boolean overworldRules = true;
+        final GameRules rules = overworldRules ? mob.getServer().getLevel(Level.OVERWORLD).getGameRules()
                 : mob.level().getGameRules();
         final PlayerWearables cap = ThutWearables.getWearables(mob);
         if (rules.getBoolean(GameRules.RULE_KEEPINVENTORY) || cap == null) return;
@@ -247,12 +239,11 @@ public class ThutWearables
         }
     }
 
-    @SubscribeEvent
     /**
      * Register the commands.
      *
-     * @param event
      */
+    @SubscribeEvent
     public void onCommandsRegister(final RegisterCommandsEvent event)
     {
         CommandGui.register(event.getDispatcher());

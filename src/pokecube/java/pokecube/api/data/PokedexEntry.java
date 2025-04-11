@@ -97,13 +97,11 @@ public class PokedexEntry
     // formes.
     @Retention(RetentionPolicy.RUNTIME)
     public static @interface CopyToGender
-    {
-    }
+    {}
 
     @Retention(RetentionPolicy.RUNTIME)
     public static @interface Required
-    {
-    }
+    {}
 
     public static class EvolutionData implements Comparable<EvolutionData>
     {
@@ -345,7 +343,8 @@ public class PokedexEntry
                     if (action.lootTable != null)
                     {
                         interaction.lootTable = ResourceKey.create(Registries.LOOT_TABLE,
-                                ResourceLocation.parse(action.lootTable));;
+                                ResourceLocation.parse(action.lootTable));
+                        ;
                     }
                 }
             }
@@ -384,15 +383,16 @@ public class PokedexEntry
             if (action.lootTable != null && player.level() instanceof ServerLevel level)
             {
                 final LootTable loottable = level.getServer().reloadableRegistries().getLootTable(action.lootTable);
-                LootParams params = new LootParams.Builder((ServerLevel) player.level())
-                        .create(loottable.getParamSet());
+                LootParams params = new LootParams.Builder((ServerLevel) player.level()).create(
+                        loottable.getParamSet());
                 // Generate the loot list.
                 final List<ItemStack> list = loottable.getRandomItems(params);
-                for (final ItemStack itemstack : list) if (!itemstack.isEmpty())
-                {
-                    result = itemstack.copy();
-                    break;
-                }
+                for (final ItemStack itemstack : list)
+                    if (!itemstack.isEmpty())
+                    {
+                        result = itemstack.copy();
+                        break;
+                    }
             }
             else
             {
@@ -607,7 +607,7 @@ public class PokedexEntry
          * Only checks one biome type for vailidity
          *
          * b
-         * 
+         *
          * @return
          */
         public boolean isValid(final SpawnContext context, SpawnCheck checker)
@@ -659,21 +659,19 @@ public class PokedexEntry
     public String name = null;
 
     /**
-     * if True, this is considered the "main" form for the type, this is what is
-     * returned from any number based lookups.
+     * if True, this is considered the "main" form for the type, this is what is returned from any number based
+     * lookups.
      */
     public boolean base = false;
     /**
-     * If True, this form won't be registered, this is used for mobs with a
-     * single base template form, and then a bunch of alternate ones for things
-     * to be copied from.
+     * If True, this form won't be registered, this is used for mobs with a single base template form, and then a bunch
+     * of alternate ones for things to be copied from.
      */
     public boolean dummy = false;
 
     /**
-     * This is true for any pokemob which is supposed to be an EntityPokemob,
-     * with a DefaultPokemob IPokemob, this can be set false by addons to make
-     * their own custom pokemob implementations
+     * This is true for any pokemob which is supposed to be an EntityPokemob, with a DefaultPokemob IPokemob, this can
+     * be set false by addons to make their own custom pokemob implementations
      */
     public boolean stock = true;
 
@@ -720,8 +718,7 @@ public class PokedexEntry
     public double mass = -1;
 
     /**
-     * If the forme is supposed to have a custom sound, rather than using base,
-     * it will be set to this.
+     * If the forme is supposed to have a custom sound, rather than using base, it will be set to this.
      */
     public String customSound = null;
     @CopyToGender
@@ -735,26 +732,22 @@ public class PokedexEntry
     @CopyToGender
     public PokedexEntry _childNb = null;
     /**
-     * Default value of specialInfo, used to determine default colour of
-     * recolourable parts
+     * Default value of specialInfo, used to determine default colour of recolourable parts
      */
     @CopyToGender
     public int defaultSpecial = 0;
     /**
-     * Default value of specialInfo for shiny variants, used to determine
-     * default colour of recolourable parts
+     * Default value of specialInfo for shiny variants, used to determine default colour of recolourable parts
      */
     @CopyToGender
     public int defaultSpecials = 0;
     /**
-     * If the IPokemob supports this, then this will be the loot table used for
-     * its drops.
+     * If the IPokemob supports this, then this will be the loot table used for its drops.
      */
     @CopyToGender
     public ResourceKey<LootTable> lootTable = null;
     /**
-     * indicatees of the specified special texture exists. Index 4 is used for
-     * if the mob can be dyed
+     * indicatees of the specified special texture exists. Index 4 is used for if the mob can be dyed
      */
     @CopyToGender
     public boolean dyeable = false;
@@ -782,17 +775,11 @@ public class PokedexEntry
     public String[] food;
 
     /**
-     * light,<br>
-     * rock,<br>
-     * power (near redstone blocks),<br>
-     * grass,<br>
-     * never hungry,<br>
-     * berries,<br>
-     * water (filter feeds from water)
+     * light,<br> rock,<br> power (near redstone blocks),<br> grass,<br> never hungry,<br> berries,<br> water (filter
+     * feeds from water)
      */
     @CopyToGender
-    public boolean[] foods =
-    { false, false, false, false, false, true, false };
+    public boolean[] foods = { false, false, false, false, false, true, false };
 
     @CopyToGender
     public HashMap<ItemStack, FormeItem> formeItems = Maps.newHashMap();
@@ -803,8 +790,7 @@ public class PokedexEntry
     @CopyToGender
     public Map<String, PokedexEntry> forms = new HashMap<>();
     /**
-     * Used to stop gender formes from spawning, spawning rate is done by gender
-     * ratio of base forme instead.
+     * Used to stop gender formes from spawning, spawning rate is done by gender ratio of base forme instead.
      */
     public boolean isGenderForme = false;
 
@@ -818,8 +804,7 @@ public class PokedexEntry
     @CopyToGender
     public boolean ridable = true;
     /**
-     * This is a loot table to be used for held item. if this isn't null, the
-     * above held is ignored.
+     * This is a loot table to be used for held item. if this isn't null, the above held is ignored.
      */
     @CopyToGender
     public ResourceKey<LootTable> heldTable = null;
@@ -869,9 +854,7 @@ public class PokedexEntry
     public String[] particleData;
     /** Offset between top of hitbox and where player sits */
     @CopyToGender
-    public double[][] passengerOffsets =
-    {
-            { 0, 0.75, 0 } };
+    public double[][] passengerOffsets = { { 0, 0.75, 0 } };
 
     /** All possible moves */
     @CopyToGender
@@ -885,8 +868,7 @@ public class PokedexEntry
     private final List<PokedexEntry> prey = new ArrayList<>();
 
     /**
-     * This list will contain all pokemon that are somehow related to this one
-     * via evolution chains
+     * This list will contain all pokemon that are somehow related to this one via evolution chains
      */
     @CopyToGender
     public final List<PokedexEntry> related = new ArrayList<>();
@@ -916,16 +898,12 @@ public class PokedexEntry
     /**
      * This is copied to the gender as it will allow specifying where that
      * gender spawns in pokedex.
-     */
-    private SpawnData spawns;
+     */ private SpawnData spawns;
     /**
-     * Array used for animated or gender based textures. Index 0 is the male
-     * textures, index 1 is the females
+     * Array used for animated or gender based textures. Index 0 is the male textures, index 1 is the females
      */
     @CopyToGender
-    public String[][] textureDetails =
-    {
-            { "" }, null };
+    public String[][] textureDetails = { { "" }, null };
 
     public DefaultFormeHolder _default_holder = null;
     public DefaultFormeHolder _male_holder = null;
@@ -937,10 +915,7 @@ public class PokedexEntry
 
     // Icons for the entry, ordering is male/maleshiny, female/female shiny.
     // genderless fills the male slot.
-    private final ResourceLocation[][] icons =
-    {
-            { null, null },
-            { null, null } };
+    private final ResourceLocation[][] icons = { { null, null }, { null, null } };
 
     @CopyToGender
     public String texturePath = PokedexEntry.TEXTUREPATH;
@@ -1000,8 +975,8 @@ public class PokedexEntry
         this.name = name;
         this.pokedexNb = nb;
         if (Database.getEntry(name) == null) Database.allFormes.add(this);
-        else new NullPointerException("Trying to add another " + name + " " + Database.getEntry(name))
-                .printStackTrace();
+        else
+            new NullPointerException("Trying to add another " + name + " " + Database.getEntry(name)).printStackTrace();
         this.generated = isExtraForm;
     }
 
@@ -1039,8 +1014,9 @@ public class PokedexEntry
                     this.formeItems.put(stack, i);
                     if (output != null)
                     {
-                        if (output.noItemForm != null && output.noItemForm != this) PokecubeAPI.LOGGER
-                                .warn("Changing Base forme of {} from {} to {}", output, output.noItemForm, this);
+                        if (output.noItemForm != null && output.noItemForm != this)
+                            PokecubeAPI.LOGGER.warn("Changing Base forme of {} from {} to {}", output,
+                                    output.noItemForm, this);
                         if (PokecubeCore.getConfig().debug_data)
                             PokecubeAPI.logInfo("Adding Forme with Key " + stack + " To " + output + " for " + this);
                         output.noItemForm = this;
@@ -1070,8 +1046,7 @@ public class PokedexEntry
     }
 
     /**
-     * Applies various things which needed server to be initialized, such as
-     * interactions for tag lists, etc
+     * Applies various things which needed server to be initialized, such as interactions for tag lists, etc
      */
     public void onResourcesReloaded()
     {
@@ -1126,8 +1101,9 @@ public class PokedexEntry
 
         // Breeding whitelist is generally for legends that are explicitly
         // allowed to breed, like manaphy
-        this.breeds = Tags.POKEMOB.isIn("breeding_whitelist", this.getTrimmedName())
-                || !Tags.POKEMOB.isIn("no_breeding", this.getTrimmedName());
+        this.breeds =
+                Tags.POKEMOB.isIn("breeding_whitelist", this.getTrimmedName()) || !Tags.POKEMOB.isIn("no_breeding",
+                        this.getTrimmedName());
 
         this.foods[0] = Tags.POKEMOB.isIn("food_types/light", this.getTrimmedName());
         this.foods[1] = Tags.POKEMOB.isIn("food_types/stone", this.getTrimmedName());
@@ -1329,9 +1305,8 @@ public class PokedexEntry
     /** @return the baseXP */
     public int getBaseXP()
     {
-        if (this.baseXP == -1)
-            this.baseXP = this.getBaseForme() != null && this.getBaseForme() != this ? this.getBaseForme().getBaseXP()
-                    : 0;
+        if (this.baseXP == -1) this.baseXP =
+                this.getBaseForme() != null && this.getBaseForme() != this ? this.getBaseForme().getBaseXP() : 0;
         return this.baseXP;
     }
 
@@ -1388,9 +1363,9 @@ public class PokedexEntry
             }
             MutableComponent descString = typeDesc;
             if (evoString != null) descString = descString.append("\n").append(evoString);
-            if (entry._evolvesFrom != null)
-                descString = descString.append("\n").append(TComponent.translatable("pokemob.description.evolve.from",
-                        entry.getTranslatedName(), entry._evolvesFrom.getTranslatedName()));
+            if (entry._evolvesFrom != null) descString = descString.append("\n")
+                    .append(TComponent.translatable("pokemob.description.evolve.from", entry.getTranslatedName(),
+                            entry._evolvesFrom.getTranslatedName()));
             return descString;
         });
     }
@@ -1469,9 +1444,9 @@ public class PokedexEntry
     {
         if (this.abilitiesHidden.isEmpty()) return this.getAbility(0, pokemob);
         else if (this.abilitiesHidden.size() == 1) return AbilityManager.getAbility(this.abilitiesHidden.get(0));
-        else if (this.abilitiesHidden.size() == 2)
-            return pokemob.getSexe() == IPokemob.MALE ? AbilityManager.getAbility(this.abilitiesHidden.get(0))
-                    : AbilityManager.getAbility(this.abilitiesHidden.get(1));
+        else if (this.abilitiesHidden.size() == 2) return pokemob.getSexe() == IPokemob.MALE
+                ? AbilityManager.getAbility(this.abilitiesHidden.get(0))
+                : AbilityManager.getAbility(this.abilitiesHidden.get(1));
         return null;
 
     }
@@ -1547,16 +1522,17 @@ public class PokedexEntry
         if (this.heldTable != null)
         {
             final LootTable loottable = mob.level().getServer().reloadableRegistries().getLootTable(this.lootTable);
-            LootParams params = new LootParams.Builder((ServerLevel) mob.level())
-                    .withParameter(LootContextParams.THIS_ENTITY, mob)
+            LootParams params = new LootParams.Builder((ServerLevel) mob.level()).withParameter(
+                            LootContextParams.THIS_ENTITY, mob)
                     .withParameter(LootContextParams.DAMAGE_SOURCE, mob.level().damageSources().generic())
                     .withParameter(LootContextParams.ORIGIN, mob.position()).create(loottable.getParamSet());
             // Generate the loot list.
             final List<ItemStack> list = loottable.getRandomItems(params);
-            for (final ItemStack itemstack : list) if (!itemstack.isEmpty())
-            {
-                return itemstack.copy();
-            }
+            for (final ItemStack itemstack : list)
+                if (!itemstack.isEmpty())
+                {
+                    return itemstack.copy();
+                }
         }
         return ItemStack.EMPTY;
     }
@@ -1652,8 +1628,7 @@ public class PokedexEntry
     }
 
     /**
-     * Returns the name in a format that will work for files, ie no . at the
-     * end.
+     * Returns the name in a format that will work for files, ie no . at the end.
      *
      * @return
      */
@@ -1709,11 +1684,12 @@ public class PokedexEntry
         for (final PokedexEntry e : Database.data.values())
         {
             final Set<String> tags = Tags.CREATURES.lookupTags(e.getTrimmedName());
-            for (final String s : tags) if (foodList.contains(s))
-            {
-                this.prey.add(e);
-                continue poke;
-            }
+            for (final String s : tags)
+                if (foodList.contains(s))
+                {
+                    this.prey.add(e);
+                    continue poke;
+                }
         }
     }
 
@@ -1771,20 +1747,20 @@ public class PokedexEntry
             // Already related, skip
             if (this.areRelated(e)) continue;
             final Set<String> theirTags = Tags.BREEDING.lookupTags(e.getTrimmedName());
-            for (final String s : theirTags) if (ourTags.contains(s))
-            {
-                this.addRelation(e);
-                e.addRelation(this);
-                continue entries;
-            }
+            for (final String s : theirTags)
+                if (ourTags.contains(s))
+                {
+                    this.addRelation(e);
+                    e.addRelation(this);
+                    continue entries;
+                }
 
         }
         this.getRelated().sort(Database.COMPARATOR);
     }
 
     /**
-     * returns whether the interaction logic has a response listed for the given
-     * key.
+     * returns whether the interaction logic has a response listed for the given key.
      *
      * @param stack - if false, will not actually do anything.
      * @return
@@ -1795,8 +1771,7 @@ public class PokedexEntry
     }
 
     /**
-     * Call whenever player right clicks a pokemob to run special interaction
-     * logic
+     * Call whenever player right clicks a pokemob to run special interaction logic
      *
      * @param player
      * @param pokemob
@@ -1867,19 +1842,21 @@ public class PokedexEntry
         PokedexEntry newForme = null;
         FormeHolder newHolder = null;
         if (newStack.isEmpty() && this.noItemForm != null) newForme = this.noItemForm;
-        for (final ItemStack key : this.formeItems.keySet()) if (Tools.isSameStack(oldStack, key, true))
-        {
-            newForme = this;
-            newHolder = this.getModel(pokemob.getSexe());
-            break;
-        }
-        for (final ItemStack key : this.formeItems.keySet()) if (Tools.isSameStack(newStack, key, true))
-        {
-            FormeItem forme = this.formeItems.get(key);
-            newForme = forme.getOutput();
-            newHolder = forme.getForme(this);
-            break;
-        }
+        for (final ItemStack key : this.formeItems.keySet())
+            if (Tools.isSameStack(oldStack, key, true))
+            {
+                newForme = this;
+                newHolder = this.getModel(pokemob.getSexe());
+                break;
+            }
+        for (final ItemStack key : this.formeItems.keySet())
+            if (Tools.isSameStack(newStack, key, true))
+            {
+                FormeItem forme = this.formeItems.get(key);
+                newForme = forme.getOutput();
+                newHolder = forme.getForme(this);
+                break;
+            }
         // Set the custom holder regardless incase it was needed.
         if (newHolder != null) pokemob.setCustomHolder(newHolder);
         if (newForme != null && newForme != pokemob.getPokedexEntry())
@@ -1909,8 +1886,9 @@ public class PokedexEntry
      */
     public void setModId(final String modId)
     {
-        if (this.modId != null && !this.modId.equals(modId)) PokecubeAPI.LOGGER
-                .debug("Modid changed to: " + modId + " for " + this + " from " + this.modId, new Exception());
+        if (this.modId != null && !this.modId.equals(modId))
+            PokecubeAPI.LOGGER.debug("Modid changed to: " + modId + " for " + this + " from " + this.modId,
+                    new Exception());
         this.modId = modId;
     }
 
@@ -2003,9 +1981,9 @@ public class PokedexEntry
 
     public ResourceLocation getIcon(final boolean male, final boolean shiny)
     {
-        if (this.icons[0][0] == null)
+//        if (this.icons[0][0] == null)
         {
-            final String texture = this.getTrimmedName();
+            final String texture = this.getModId() + ":" + this.getTrimmedName();
             if (this.isGenderForme)
             {
                 this.icons[0][0] = ResourceLocation.parse(texture);
@@ -2037,8 +2015,8 @@ public class PokedexEntry
 
     public boolean isLegendary()
     {
-        final boolean baseLegend = this.getBaseForme() != null && this.getBaseForme() != this
-                && this.getBaseForme().isLegendary();
+        final boolean baseLegend =
+                this.getBaseForme() != null && this.getBaseForme() != this && this.getBaseForme().isLegendary();
         return baseLegend || this.legendary || SpecialCaseRegister.getCaptureCondition(this) != null
                 || SpecialCaseRegister.getSpawnCondition(this) != null;
     }

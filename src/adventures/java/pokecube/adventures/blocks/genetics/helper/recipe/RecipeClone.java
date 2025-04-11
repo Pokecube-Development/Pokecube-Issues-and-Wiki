@@ -49,7 +49,7 @@ public class RecipeClone extends PoweredRecipe
 {
     public static int ENERGYCOST = 10000;
 
-    public static RecipeClone DEFAULT = new RecipeClone(-1, 20, 100, true, Collections.emptyList(),
+    public static RecipeClone DEFAULT = new RecipeClone(-1, 20, 1000, true, Collections.emptyList(),
             Collections.emptyList(), Collections.emptyList(), ItemStack.EMPTY);
 
     public static class Serializer implements RecipeSerializer<RecipeClone>
@@ -86,7 +86,7 @@ public class RecipeClone extends PoweredRecipe
             n = buffer.readInt();
             List<Ingredient> nonConsumed = n > 0 ? new ArrayList<>() : Collections.emptyList();
             for (int i = 0; i < n; i++) nonConsumed.add(Ingredient.CONTENTS_STREAM_CODEC.decode(buffer));
-            var output = ItemStack.STREAM_CODEC.decode(buffer);
+            var output = buffer.readBoolean() ? ItemStack.STREAM_CODEC.decode(buffer) : ItemStack.EMPTY;
             return new RecipeClone(cost, level, priority, tame, list, inputs, nonConsumed, output);
         }
 
@@ -102,7 +102,8 @@ public class RecipeClone extends PoweredRecipe
             recipe.inputs.forEach(g -> Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, g));
             buffer.writeInt(recipe.nonConsumed.size());
             recipe.nonConsumed.forEach(g -> Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, g));
-            ItemStack.STREAM_CODEC.encode(buffer, recipe.output);
+            buffer.writeBoolean(!recipe.output.isEmpty());
+            if (!recipe.output.isEmpty()) ItemStack.STREAM_CODEC.encode(buffer, recipe.output);
         }
 
         @Override

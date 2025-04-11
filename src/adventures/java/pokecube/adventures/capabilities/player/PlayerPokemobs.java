@@ -1,10 +1,12 @@
 package pokecube.adventures.capabilities.player;
+
 import java.util.Set;
 import java.util.UUID;
 
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -46,7 +48,6 @@ public class PlayerPokemobs extends DefaultPokemobs
     {
         super();
         this.player = player;
-        this.init(player);
     }
 
     @Override
@@ -117,14 +118,13 @@ public class PlayerPokemobs extends DefaultPokemobs
         if (this.getOutID() != null) nbt.putString("outPokemob", this.getOutID().toString());
         if (this.getType() != null) nbt.putString("type", this.getType().getName());
         final ListTag ListNBT = new ListTag();
-        for (int index = 0; index < this.getMaxPokemobCount(); index++)
+        for (int index = 0; index < super.getMaxPokemobCount(); index++)
         {
-            final ItemStack i = this.getPokemob(index);
+            final ItemStack i = super.getPokemob(index);
             if (i.isEmpty()) continue;
             final CompoundTag CompoundNBT = new CompoundTag();
             ListNBT.add(i.save(provider, CompoundNBT));
         }
-
         nbt.put("pokemobs", ListNBT);
         return nbt;
     }
@@ -138,8 +138,8 @@ public class PlayerPokemobs extends DefaultPokemobs
         {
             if (this.clearOnLoad()) this.clearContent();
             final ListTag ListNBT = nbt.getList("pokemobs", 10);
-            if (ListNBT.size() != 0) for (int i = 0; i < Math.min(ListNBT.size(), this.getMaxPokemobCount()); ++i)
-                this.setPokemob(i, ItemStack.parseOptional(provider, ListNBT.getCompound(i)));
+            if (!ListNBT.isEmpty()) for (int i = 0; i < Math.min(ListNBT.size(), this.getMaxPokemobCount()); ++i)
+                super.setPokemob(i, ItemStack.parseOptional(provider, ListNBT.getCompound(i)));
         }
     }
 

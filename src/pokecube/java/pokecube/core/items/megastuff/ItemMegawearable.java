@@ -17,7 +17,7 @@ import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
 
 public class ItemMegawearable extends Item
 {
-    private static Map<String, String> wearables = Maps.newHashMap();
+    private static final Map<String, String> wearables = Maps.newHashMap();
 
     static
     {
@@ -75,11 +75,14 @@ public class ItemMegawearable extends Item
 
     public int getColor()
     {
-        if (name.equals("pendant")) return 0xFFFFFFFF;
-        if (name.equals("tiara")) return 0xFF3c44aa;
-        if (name.equals("earring")) return 0xFFB02E26;
-        if (name.equals("glasses")) return 0xFF282828;
-        if (name.equals("ankletzinnia")) return 0xFF169c9c;
-        return 0xFFA06540;
+        return switch (name)
+        {
+            case "pendant" -> 0xFFFFFFFF;
+            case "tiara" -> 0xFF3c44aa;
+            case "earring" -> 0xFFB02E26;
+            case "glasses" -> 0xFF282828;
+            case "ankletzinnia" -> 0xFF169c9c;
+            default -> 0xFFA06540;
+        };
     }
 }
