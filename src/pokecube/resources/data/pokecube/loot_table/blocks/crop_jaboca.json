@@ -1,19 +1,19 @@
 {
-  "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1,
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "pokecube:berry_jaboca"
-        }
-      ],
       "conditions": [
         {
           "condition": "minecraft:survives_explosion"
         }
-      ]
+      ],
+      "entries": [
+        {
+          "name": "pokecube:berry_jaboca",
+          "type": "minecraft:item"
+        }
+      ],
+      "rolls": 1
     }
-  ]
+  ],
+  "type": "minecraft:block"
 }

@@ -1,146 +1,146 @@
 {
-  "type": "minecraft:entity",
   "pools": [
     {
-      "name": "pool_0",
-      "rolls": 1,
       "entries": [
         {
-          "type": "item",
+          "functions": [
+            {
+              "add": false,
+              "count": 1,
+              "function": "minecraft:set_count"
+            },
+            {
+              "count": {
+                "max": 1.0,
+                "min": 0.0,
+                "type": "minecraft:uniform"
+              },
+              "enchantment": "minecraft:looting",
+              "function": "minecraft:enchanted_count_increase"
+            }
+          ],
           "name": "minecraft:orange_dye",
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 0,
-                "max": 2
-              }
-            },
-            {
-              "function": "looting_enchant",
-              "count": {
-                "min": 0,
-                "max": 1
-              }
-            }
-          ]
+          "type": "minecraft:item"
         }
-      ]
+      ],
+      "name": "pool_0",
+      "rolls": 1
     },
-	{
-      "name": "pool_1",
-      "rolls": 1,
+    {
       "entries": [
         {
-          "type": "item",
+          "functions": [
+            {
+              "add": false,
+              "count": 1,
+              "function": "minecraft:set_count"
+            },
+            {
+              "count": {
+                "max": 1.0,
+                "min": 0.0,
+                "type": "minecraft:uniform"
+              },
+              "enchantment": "minecraft:looting",
+              "function": "minecraft:enchanted_count_increase"
+            }
+          ],
           "name": "minecraft:purple_dye",
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 0,
-                "max": 2
-              }
-            },
-            {
-              "function": "looting_enchant",
-              "count": {
-                "min": 0,
-                "max": 1
-              }
-            }
-          ]
+          "type": "minecraft:item"
         }
-      ]
+      ],
+      "name": "pool_1",
+      "rolls": 1
     },
-	{
-      "name": "pool_2",
-      "rolls": 1,
+    {
       "entries": [
         {
-          "type": "item",
+          "functions": [
+            {
+              "add": false,
+              "count": 1,
+              "function": "minecraft:set_count"
+            },
+            {
+              "count": {
+                "max": 1.0,
+                "min": 0.0,
+                "type": "minecraft:uniform"
+              },
+              "enchantment": "minecraft:looting",
+              "function": "minecraft:enchanted_count_increase"
+            }
+          ],
           "name": "minecraft:lime_dye",
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 0,
-                "max": 2
-              }
-            },
-            {
-              "function": "looting_enchant",
-              "count": {
-                "min": 0,
-                "max": 1
-              }
-            }
-          ]
+          "type": "minecraft:item"
         }
-      ]
+      ],
+      "name": "pool_2",
+      "rolls": 1
     },
-	{
-      "name": "pool_3",
-      "rolls": 1,
+    {
       "entries": [
         {
-          "type": "item",
+          "functions": [
+            {
+              "add": false,
+              "count": 1,
+              "function": "minecraft:set_count"
+            },
+            {
+              "count": {
+                "max": 1.0,
+                "min": 0.0,
+                "type": "minecraft:uniform"
+              },
+              "enchantment": "minecraft:looting",
+              "function": "minecraft:enchanted_count_increase"
+            }
+          ],
           "name": "minecraft:brown_dye",
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 0,
-                "max": 2
-              }
-            },
-            {
-              "function": "looting_enchant",
-              "count": {
-                "min": 0,
-                "max": 1
-              }
-            }
-          ]
+          "type": "minecraft:item"
         }
-      ]
+      ],
+      "name": "pool_3",
+      "rolls": 1
     },
-	{
-      "name": "pool_4",
-      "rolls": 1,
+    {
       "entries": [
         {
-          "type": "item",
+          "functions": [
+            {
+              "add": false,
+              "count": 1,
+              "function": "minecraft:set_count"
+            },
+            {
+              "count": {
+                "max": 1.0,
+                "min": 0.0,
+                "type": "minecraft:uniform"
+              },
+              "enchantment": "minecraft:looting",
+              "function": "minecraft:enchanted_count_increase"
+            }
+          ],
           "name": "minecraft:cyan_dye",
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 0,
-                "max": 2
-              }
-            },
-            {
-              "function": "looting_enchant",
-              "count": {
-                "min": 0,
-                "max": 1
-              }
-            }
-          ]
+          "type": "minecraft:item"
         }
-      ]
+      ],
+      "name": "pool_4",
+      "rolls": 1
     },
-	{
-      "name": "pool_5",
-      "rolls": 1,
+    {
       "entries": [
         {
-          "type": "loot_table",
-          "name": "pokecube:entities/dye_1",
+          "type": "minecraft:loot_table",
+          "value": "pokecube:entities/dye_1",
           "weight": 1
         }
-      ]
+      ],
+      "name": "pool_5",
+      "rolls": 1
     }
-  ]
+  ],
+  "type": "minecraft:entity"
 }

@@ -1,27 +1,27 @@
 {
-  "type": "minecraft:entity",
   "pools": [
     {
-      "name": "pool_0",
-      "rolls": 1,
       "entries": [
         {
-          "type": "loot_table",
-          "name": "pokecube:entities/iron_ore_1",
+          "type": "minecraft:loot_table",
+          "value": "pokecube:entities/iron_ore_1",
           "weight": 1
         }
-      ]
+      ],
+      "name": "pool_0",
+      "rolls": 1
     },
     {
-      "name": "pool_1",
-      "rolls": 1,
       "entries": [
         {
-          "type": "loot_table",
-          "name": "minecraft:entities/creeper",
+          "type": "minecraft:loot_table",
+          "value": "minecraft:entities/creeper",
           "weight": 1
         }
-      ]
+      ],
+      "name": "pool_1",
+      "rolls": 1
     }
-  ]
+  ],
+  "type": "minecraft:entity"
 }

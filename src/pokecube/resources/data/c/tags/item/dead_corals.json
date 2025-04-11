@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#forge:dead_coral_plants",
+    "#c:dead_coral_plants",
     "minecraft:dead_brain_coral_fan",
     "minecraft:dead_bubble_coral_fan",
     "minecraft:dead_fire_coral_fan",

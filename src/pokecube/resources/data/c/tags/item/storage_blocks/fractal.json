@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:fractal_block"
+    {"id": "pokecube_legends:fractal_block", "required": false}
   ]
 }

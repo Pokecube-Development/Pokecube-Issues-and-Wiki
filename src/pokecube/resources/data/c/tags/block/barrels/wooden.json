@@ -7,12 +7,12 @@
     "pokecube:oran_barrel",
     "pokecube:pecha_barrel",
     "pokecube:sitrus_barrel",
-    "pokecube_legends:concrete_barrel",
-    "pokecube_legends:aged_barrel",
-    "pokecube_legends:inverted_barrel",
-    "pokecube_legends:corrupted_barrel",
-    "pokecube_legends:mirage_barrel",
-    "pokecube_legends:distortic_barrel",
-    "pokecube_legends:temporal_barrel"
+    {"id": "pokecube_legends:concrete_barrel", "required": false},
+    {"id": "pokecube_legends:aged_barrel", "required": false},
+    {"id": "pokecube_legends:inverted_barrel", "required": false},
+    {"id": "pokecube_legends:corrupted_barrel", "required": false},
+    {"id": "pokecube_legends:mirage_barrel", "required": false},
+    {"id": "pokecube_legends:distortic_barrel", "required": false},
+    {"id": "pokecube_legends:temporal_barrel", "required": false}
   ]
 }

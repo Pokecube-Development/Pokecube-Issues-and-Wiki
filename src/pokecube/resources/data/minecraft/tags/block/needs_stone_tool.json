@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "#forge:fence_gates/concrete",
-    "#forge:fences/concrete",
+    "#c:fence_gates/concrete",
+    "#c:fences/concrete",
     {"id": "#pokecube_legends:concrete_logs", "required": false},
     {"id": "#pokecube_legends:concrete_planks", "required": false},
     {"id": "#pokecube_legends:concrete_slabs", "required": false},

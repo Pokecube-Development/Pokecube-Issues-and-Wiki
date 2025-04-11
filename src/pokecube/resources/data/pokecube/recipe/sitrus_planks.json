@@ -1,25 +1,13 @@
 {
-  "type": "neoforge:conditional",
-  "recipes": [
+  "type": "minecraft:crafting_shapeless",
+  "group": "planks",
+  "ingredients": [
     {
-      "conditions": [
-        {
-          "type": "neoforge:true"
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shapeless",
-        "group": "planks",
-        "ingredients": [
-          {
-            "tag": "pokecube:sitrus_logs"
-          }
-        ],
-        "result": {
-          "count": 4,
-          "id": "pokecube:plank_sitrus"
-        }
-      }
+      "tag": "pokecube:sitrus_logs"
     }
-  ]
+  ],
+  "result": {
+    "count": 4,
+    "id": "pokecube:plank_sitrus"
+  }
 }

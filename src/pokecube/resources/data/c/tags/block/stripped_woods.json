@@ -7,12 +7,12 @@
     "pokecube:stripped_oran_wood",
     "pokecube:stripped_pecha_wood",
     "pokecube:stripped_sitrus_wood",
-    "pokecube_legends:stripped_aged_wood",
-    "pokecube_legends:stripped_concrete_wood",
-    "pokecube_legends:stripped_corrupted_wood",
-    "pokecube_legends:stripped_distortic_wood",
-    "pokecube_legends:stripped_inverted_wood",
-    "pokecube_legends:stripped_mirage_wood",
-    "pokecube_legends:stripped_temporal_wood"
+    {"id": "pokecube_legends:stripped_aged_wood", "required": false},
+    {"id": "pokecube_legends:stripped_concrete_wood", "required": false},
+    {"id": "pokecube_legends:stripped_corrupted_wood", "required": false},
+    {"id": "pokecube_legends:stripped_distortic_wood", "required": false},
+    {"id": "pokecube_legends:stripped_inverted_wood", "required": false},
+    {"id": "pokecube_legends:stripped_mirage_wood", "required": false},
+    {"id": "pokecube_legends:stripped_temporal_wood", "required": false}
   ]
 }

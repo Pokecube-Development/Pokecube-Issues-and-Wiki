@@ -2,7 +2,7 @@
   "replace": false,
   "values": [
     "#pokecube:berry_logs",
-    "#pokecube_legends:legends_logs",
-    "#pokecube_legends:concrete_logs"
+    {"id": "#pokecube_legends:legends_logs", "required": false},
+    {"id": "#pokecube_legends:concrete_logs", "required": false}
   ]
 }

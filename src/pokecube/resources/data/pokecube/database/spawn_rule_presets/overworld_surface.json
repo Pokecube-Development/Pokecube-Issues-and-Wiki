@@ -36,7 +36,7 @@
       "and_preset":"overworld",
       "matchers":{
         "biome":{
-          "biome_tags":"#forge:is_plains"
+          "biome_tags":"#c:is_plains"
         }
       }
     },
@@ -71,7 +71,7 @@
       "and_preset":"overworld,badlands",
       "matchers":{
         "biome":{
-          "biome_tags":"#forge:is_sparse"
+          "biome_tags":"#c:is_sparse"
         }
       }
     },
@@ -102,7 +102,7 @@
       "and_preset":"overworld",
       "matchers":{
         "biome":{
-          "biome_tags":"#forge:is_mushroom"
+          "biome_tags":"#c:is_mushroom"
         }
       }
     },
@@ -118,7 +118,7 @@
       "and_preset":"overworld",
       "matchers":{
         "biome":{
-          "biome_tags":"#forge:is_swamp"
+          "biome_tags":"#c:is_swamp"
         }
       }
     },

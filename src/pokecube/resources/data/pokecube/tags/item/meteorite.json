@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:meteorite"
+    {"id": "pokecube_legends:meteorite", "required": false}
   ]
 }

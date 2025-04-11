@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:concrete_dense_wall_gate",
-    "pokecube_legends:concrete_fence_gate"
+    {"id": "pokecube_legends:concrete_dense_wall_gate", "required": false},
+    {"id": "pokecube_legends:concrete_fence_gate", "required": false}
   ]
 }

@@ -20,7 +20,7 @@
     "type": "neoforge:and",
     "values": [
       "#minecraft:is_forest",
-      "#forge:is_spooky"
+      "#c:is_spooky"
     ]
   },
   "spawn_overrides": {}

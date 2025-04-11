@@ -1,24 +1,22 @@
 {
-  "type": "minecraft:entity",
   "pools": [
     {
-      "name": "pool_0",
-      "rolls": 1,
       "entries": [
         {
-          "type": "item",
-          "name": "minecraft:honeycomb",
           "functions": [
             {
-              "function": "set_count",
-              "count": {
-                "min": 3,
-                "max": 4
-              }
+              "add": false,
+              "count": 1,
+              "function": "minecraft:set_count"
             }
-          ]
+          ],
+          "name": "minecraft:honeycomb",
+          "type": "minecraft:item"
         }
-      ]
+      ],
+      "name": "pool_0",
+      "rolls": 1
     }
-  ]
+  ],
+  "type": "minecraft:entity"
 }

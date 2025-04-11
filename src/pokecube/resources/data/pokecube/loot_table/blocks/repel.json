@@ -1,19 +1,19 @@
 {
-  "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1,
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "pokecube:repel"
-        }
-      ],
       "conditions": [
         {
           "condition": "minecraft:survives_explosion"
         }
-      ]
+      ],
+      "entries": [
+        {
+          "name": "pokecube:repel",
+          "type": "minecraft:item"
+        }
+      ],
+      "rolls": 1
     }
-  ]
+  ],
+  "type": "minecraft:block"
 }

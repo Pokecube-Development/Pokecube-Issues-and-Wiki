@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -16,6 +17,7 @@ import pokecube.core.database.Database;
 import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.PokemobType;
 import thut.api.ThutCaps;
+import thut.api.attachments.CopyMob;
 import thut.api.entity.ICopyMob;
 
 public class StatueItem extends BlockEntityWithoutLevelRenderer implements IClientItemExtensions
@@ -82,7 +84,9 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IClie
         LivingEntity mob = getMob(stack, displayContext);
         if (mob == null)
         {
-            Thread.dumpStack();
+            var tag = new CompoundTag();
+            tag.putString("id", "pokecube:missingno");
+            stack.set(CopyMob.COPY_STORE, new CopyMob.CopyInfo(tag));
             return;
         }
         var pokemob = PokemobCaps.getPokemobFor(mob);

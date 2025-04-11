@@ -1,12 +1,8 @@
 {
-  "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1,
       "entries": [
         {
-          "type": "minecraft:item",
-          "name": "pokecube:fossil_ore",
           "conditions": [
             {
               "condition": "minecraft:match_tool",
@@ -21,21 +17,43 @@
                 ]
               }
             }
-          ]
+          ],
+          "name": "pokecube:fossil_ore",
+          "type": "minecraft:item"
         },
         {
-          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "minecraft:inverted",
+              "term": {
+                "condition": "minecraft:match_tool",
+                "predicate": {
+                  "enchantments": [
+                    {
+                      "enchantment": "minecraft:silk_touch",
+                      "levels": {
+                        "min": 1
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          "functions": [
+            {
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:uniform_bonus_count",
+              "function": "minecraft:apply_bonus",
+              "parameters": {
+                "bonusMultiplier": 1
+              }
+            }
+          ],
           "name": "pokecube:fossil_omanyte",
-          "functions": [
-            {
-              "function": "minecraft:apply_bonus",
-              "enchantment": "minecraft:fortune",
-              "formula": "minecraft:uniform_bonus_count",
-              "parameters": {
-                "bonusMultiplier": 1
-              }
-            }
-          ],
+          "type": "minecraft:item"
+        },
+        {
           "conditions": [
             {
               "condition": "minecraft:inverted",
@@ -53,21 +71,21 @@
                 }
               }
             }
-          ]
-        },
-        {
-          "type": "minecraft:item",
+          ],
+          "functions": [
+            {
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:uniform_bonus_count",
+              "function": "minecraft:apply_bonus",
+              "parameters": {
+                "bonusMultiplier": 1
+              }
+            }
+          ],
           "name": "pokecube:fossil_tirtouga",
-          "functions": [
-            {
-              "function": "minecraft:apply_bonus",
-              "enchantment": "minecraft:fortune",
-              "formula": "minecraft:uniform_bonus_count",
-              "parameters": {
-                "bonusMultiplier": 1
-              }
-            }
-          ],
+          "type": "minecraft:item"
+        },
+        {
           "conditions": [
             {
               "condition": "minecraft:inverted",
@@ -85,21 +103,21 @@
                 }
               }
             }
-          ]
-        },
-        {
-          "type": "minecraft:item",
+          ],
+          "functions": [
+            {
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:uniform_bonus_count",
+              "function": "minecraft:apply_bonus",
+              "parameters": {
+                "bonusMultiplier": 1
+              }
+            }
+          ],
           "name": "pokecube:fossil_lileep",
-          "functions": [
-            {
-              "function": "minecraft:apply_bonus",
-              "enchantment": "minecraft:fortune",
-              "formula": "minecraft:uniform_bonus_count",
-              "parameters": {
-                "bonusMultiplier": 1
-              }
-            }
-          ],
+          "type": "minecraft:item"
+        },
+        {
           "conditions": [
             {
               "condition": "minecraft:inverted",
@@ -117,21 +135,21 @@
                 }
               }
             }
-          ]
-        },
-        {
-          "type": "minecraft:item",
+          ],
+          "functions": [
+            {
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:uniform_bonus_count",
+              "function": "minecraft:apply_bonus",
+              "parameters": {
+                "bonusMultiplier": 1
+              }
+            }
+          ],
           "name": "pokecube:fossil_archen",
-          "functions": [
-            {
-              "function": "minecraft:apply_bonus",
-              "enchantment": "minecraft:fortune",
-              "formula": "minecraft:uniform_bonus_count",
-              "parameters": {
-                "bonusMultiplier": 1
-              }
-            }
-          ],
+          "type": "minecraft:item"
+        },
+        {
           "conditions": [
             {
               "condition": "minecraft:inverted",
@@ -149,21 +167,21 @@
                 }
               }
             }
-          ]
-        },
-        {
-          "type": "minecraft:item",
+          ],
+          "functions": [
+            {
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:uniform_bonus_count",
+              "function": "minecraft:apply_bonus",
+              "parameters": {
+                "bonusMultiplier": 1
+              }
+            }
+          ],
           "name": "pokecube:fossil_dracovish",
-          "functions": [
-            {
-              "function": "minecraft:apply_bonus",
-              "enchantment": "minecraft:fortune",
-              "formula": "minecraft:uniform_bonus_count",
-              "parameters": {
-                "bonusMultiplier": 1
-              }
-            }
-          ],
+          "type": "minecraft:item"
+        },
+        {
           "conditions": [
             {
               "condition": "minecraft:inverted",
@@ -181,21 +199,21 @@
                 }
               }
             }
-          ]
-        },
-        {
-          "type": "minecraft:item",
+          ],
+          "functions": [
+            {
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:uniform_bonus_count",
+              "function": "minecraft:apply_bonus",
+              "parameters": {
+                "bonusMultiplier": 1
+              }
+            }
+          ],
           "name": "pokecube:fossil_anorith",
-          "functions": [
-            {
-              "function": "minecraft:apply_bonus",
-              "enchantment": "minecraft:fortune",
-              "formula": "minecraft:uniform_bonus_count",
-              "parameters": {
-                "bonusMultiplier": 1
-              }
-            }
-          ],
+          "type": "minecraft:item"
+        },
+        {
           "conditions": [
             {
               "condition": "minecraft:inverted",
@@ -213,21 +231,21 @@
                 }
               }
             }
-          ]
-        },
-        {
-          "type": "minecraft:item",
+          ],
+          "functions": [
+            {
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:uniform_bonus_count",
+              "function": "minecraft:apply_bonus",
+              "parameters": {
+                "bonusMultiplier": 1
+              }
+            }
+          ],
           "name": "pokecube:fossil_arctozolt",
-          "functions": [
-            {
-              "function": "minecraft:apply_bonus",
-              "enchantment": "minecraft:fortune",
-              "formula": "minecraft:uniform_bonus_count",
-              "parameters": {
-                "bonusMultiplier": 1
-              }
-            }
-          ],
+          "type": "minecraft:item"
+        },
+        {
           "conditions": [
             {
               "condition": "minecraft:inverted",
@@ -245,21 +263,21 @@
                 }
               }
             }
-          ]
-        },
-        {
-          "type": "minecraft:item",
+          ],
+          "functions": [
+            {
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:uniform_bonus_count",
+              "function": "minecraft:apply_bonus",
+              "parameters": {
+                "bonusMultiplier": 1
+              }
+            }
+          ],
           "name": "pokecube:fossil_aerodactyl",
-          "functions": [
-            {
-              "function": "minecraft:apply_bonus",
-              "enchantment": "minecraft:fortune",
-              "formula": "minecraft:uniform_bonus_count",
-              "parameters": {
-                "bonusMultiplier": 1
-              }
-            }
-          ],
+          "type": "minecraft:item"
+        },
+        {
           "conditions": [
             {
               "condition": "minecraft:inverted",
@@ -277,21 +295,21 @@
                 }
               }
             }
-          ]
-        },
-        {
-          "type": "minecraft:item",
+          ],
+          "functions": [
+            {
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:uniform_bonus_count",
+              "function": "minecraft:apply_bonus",
+              "parameters": {
+                "bonusMultiplier": 1
+              }
+            }
+          ],
           "name": "pokecube:fossil_shieldon",
-          "functions": [
-            {
-              "function": "minecraft:apply_bonus",
-              "enchantment": "minecraft:fortune",
-              "formula": "minecraft:uniform_bonus_count",
-              "parameters": {
-                "bonusMultiplier": 1
-              }
-            }
-          ],
+          "type": "minecraft:item"
+        },
+        {
           "conditions": [
             {
               "condition": "minecraft:inverted",
@@ -309,21 +327,21 @@
                 }
               }
             }
-          ]
-        },
-        {
-          "type": "minecraft:item",
+          ],
+          "functions": [
+            {
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:uniform_bonus_count",
+              "function": "minecraft:apply_bonus",
+              "parameters": {
+                "bonusMultiplier": 1
+              }
+            }
+          ],
           "name": "pokecube:fossil_arctovish",
-          "functions": [
-            {
-              "function": "minecraft:apply_bonus",
-              "enchantment": "minecraft:fortune",
-              "formula": "minecraft:uniform_bonus_count",
-              "parameters": {
-                "bonusMultiplier": 1
-              }
-            }
-          ],
+          "type": "minecraft:item"
+        },
+        {
           "conditions": [
             {
               "condition": "minecraft:inverted",
@@ -341,21 +359,21 @@
                 }
               }
             }
-          ]
-        },
-        {
-          "type": "minecraft:item",
+          ],
+          "functions": [
+            {
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:uniform_bonus_count",
+              "function": "minecraft:apply_bonus",
+              "parameters": {
+                "bonusMultiplier": 1
+              }
+            }
+          ],
           "name": "pokecube:fossil_cranidos",
-          "functions": [
-            {
-              "function": "minecraft:apply_bonus",
-              "enchantment": "minecraft:fortune",
-              "formula": "minecraft:uniform_bonus_count",
-              "parameters": {
-                "bonusMultiplier": 1
-              }
-            }
-          ],
+          "type": "minecraft:item"
+        },
+        {
           "conditions": [
             {
               "condition": "minecraft:inverted",
@@ -373,21 +391,21 @@
                 }
               }
             }
-          ]
-        },
-        {
-          "type": "minecraft:item",
+          ],
+          "functions": [
+            {
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:uniform_bonus_count",
+              "function": "minecraft:apply_bonus",
+              "parameters": {
+                "bonusMultiplier": 1
+              }
+            }
+          ],
           "name": "pokecube:fossil_amaura",
-          "functions": [
-            {
-              "function": "minecraft:apply_bonus",
-              "enchantment": "minecraft:fortune",
-              "formula": "minecraft:uniform_bonus_count",
-              "parameters": {
-                "bonusMultiplier": 1
-              }
-            }
-          ],
+          "type": "minecraft:item"
+        },
+        {
           "conditions": [
             {
               "condition": "minecraft:inverted",
@@ -405,21 +423,21 @@
                 }
               }
             }
-          ]
-        },
-        {
-          "type": "minecraft:item",
+          ],
+          "functions": [
+            {
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:uniform_bonus_count",
+              "function": "minecraft:apply_bonus",
+              "parameters": {
+                "bonusMultiplier": 1
+              }
+            }
+          ],
           "name": "pokecube:fossil_tyrunt",
-          "functions": [
-            {
-              "function": "minecraft:apply_bonus",
-              "enchantment": "minecraft:fortune",
-              "formula": "minecraft:uniform_bonus_count",
-              "parameters": {
-                "bonusMultiplier": 1
-              }
-            }
-          ],
+          "type": "minecraft:item"
+        },
+        {
           "conditions": [
             {
               "condition": "minecraft:inverted",
@@ -437,21 +455,21 @@
                 }
               }
             }
-          ]
-        },
-        {
-          "type": "minecraft:item",
+          ],
+          "functions": [
+            {
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:uniform_bonus_count",
+              "function": "minecraft:apply_bonus",
+              "parameters": {
+                "bonusMultiplier": 1
+              }
+            }
+          ],
           "name": "pokecube:fossil_dracozolt",
-          "functions": [
-            {
-              "function": "minecraft:apply_bonus",
-              "enchantment": "minecraft:fortune",
-              "formula": "minecraft:uniform_bonus_count",
-              "parameters": {
-                "bonusMultiplier": 1
-              }
-            }
-          ],
+          "type": "minecraft:item"
+        },
+        {
           "conditions": [
             {
               "condition": "minecraft:inverted",
@@ -469,21 +487,21 @@
                 }
               }
             }
-          ]
-        },
-        {
-          "type": "minecraft:item",
+          ],
+          "functions": [
+            {
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:uniform_bonus_count",
+              "function": "minecraft:apply_bonus",
+              "parameters": {
+                "bonusMultiplier": 1
+              }
+            }
+          ],
           "name": "pokecube:fossil_kabuto",
-          "functions": [
-            {
-              "function": "minecraft:apply_bonus",
-              "enchantment": "minecraft:fortune",
-              "formula": "minecraft:uniform_bonus_count",
-              "parameters": {
-                "bonusMultiplier": 1
-              }
-            }
-          ],
+          "type": "minecraft:item"
+        },
+        {
           "conditions": [
             {
               "condition": "minecraft:inverted",
@@ -501,41 +519,23 @@
                 }
               }
             }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:bone",
+          ],
           "functions": [
             {
-              "function": "minecraft:apply_bonus",
               "enchantment": "minecraft:fortune",
-              "formula": "minecraft:ore_drops"
+              "formula": "minecraft:ore_drops",
+              "function": "minecraft:apply_bonus"
             },
             {
               "function": "minecraft:explosion_decay"
             }
           ],
-          "conditions": [
-            {
-              "condition": "minecraft:inverted",
-              "term": {
-                "condition": "minecraft:match_tool",
-                "predicate": {
-                  "enchantments": [
-                    {
-                      "enchantment": "minecraft:silk_touch",
-                      "levels": {
-                        "min": 1
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          ]
+          "name": "minecraft:bone",
+          "type": "minecraft:item"
         }
-      ]
+      ],
+      "rolls": 1
     }
-  ]
+  ],
+  "type": "minecraft:block"
 }

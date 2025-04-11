@@ -1,12 +1,12 @@
 {
   "replace": false,
   "values": [
-    "#forge:gems/aquamarine",
-    "#forge:gems/fractal",
-    "#forge:gems/diamond",
-    "#forge:gems/pink_diamond",
-    "#forge:gems/ruby",
-    "#forge:gems/sapphire",
-    "#forge:gems/spectrum"
+    "#c:gems/aquamarine",
+    "#c:gems/fractal",
+    "#c:gems/diamond",
+    "#c:gems/pink_diamond",
+    "#c:gems/ruby",
+    "#c:gems/sapphire",
+    "#c:gems/spectrum"
   ]
 }

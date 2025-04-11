@@ -472,6 +472,7 @@ public class Tools
         if (!tag.isEmpty())
         {
             // FIXME stack parsing
+            System.out.println(values);
             Thread.dumpStack();
         }
         return stack;

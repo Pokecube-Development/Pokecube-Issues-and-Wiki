@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:crystallized_sand"
+    {"id": "pokecube_legends:crystallized_sand", "required": false}
   ]
 }

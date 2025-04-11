@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#forge:barrels",
+    "#c:barrels",
     { "id": "pokecube_legends:aged_grass_block", "required": false },
     { "id": "pokecube_legends:aged_leaves", "required": false },
     { "id": "pokecube_legends:blackwhite_spawn", "required": false },

@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:dusk_dolerite_emerald_ore",
-    "pokecube_legends:ultra_emerald_ore"
+    {"id": "pokecube_legends:dusk_dolerite_emerald_ore", "required": false},
+    {"id": "pokecube_legends:ultra_emerald_ore", "required": false}
   ]
 }

@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:reins_u"
+    {"id": "pokecube_legends:reins_u", "required": false}
   ]
 }

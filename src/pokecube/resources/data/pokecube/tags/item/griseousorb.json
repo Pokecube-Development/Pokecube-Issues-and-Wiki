@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:griseousorb"
+    {"id": "pokecube_legends:griseousorb", "required": false}
   ]
 }

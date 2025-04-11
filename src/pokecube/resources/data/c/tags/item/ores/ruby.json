@@ -1,9 +1,9 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:deepslate_ruby_ore",
-    "pokecube_legends:dusk_dolerite_ruby_ore",
-    "pokecube_legends:ruby_ore",
-    "pokecube_legends:ultra_ruby_ore"
+    {"id": "pokecube_legends:deepslate_ruby_ore", "required": false},
+    {"id": "pokecube_legends:dusk_dolerite_ruby_ore", "required": false},
+    {"id": "pokecube_legends:ruby_ore", "required": false},
+    {"id": "pokecube_legends:ultra_ruby_ore", "required": false}
   ]
 }

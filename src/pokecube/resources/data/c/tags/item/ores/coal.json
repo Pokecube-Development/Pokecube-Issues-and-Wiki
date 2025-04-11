@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:dusk_dolerite_coal_ore",
-    "pokecube_legends:ultra_coal_ore"
+    {"id": "pokecube_legends:dusk_dolerite_coal_ore", "required": false},
+    {"id": "pokecube_legends:ultra_coal_ore", "required": false}
   ]
 }

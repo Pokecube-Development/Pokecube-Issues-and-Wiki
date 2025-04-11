@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "#pokecube_legends:distortic_water"
+    {"id": "#pokecube_legends:distortic_water", "required": false}
   ]
 }

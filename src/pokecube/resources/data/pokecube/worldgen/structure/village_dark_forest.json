@@ -19,7 +19,7 @@
   "biomes": {
     "type": "neoforge:and",
     "values": [
-      "#forge:is_spooky",
+      "#c:is_spooky",
       "#minecraft:is_forest"
     ]
   },

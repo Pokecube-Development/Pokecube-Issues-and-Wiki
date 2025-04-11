@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:cobbled_dusk_dolerite"
+    {"id": "pokecube_legends:cobbled_dusk_dolerite", "required": false}
   ]
 }

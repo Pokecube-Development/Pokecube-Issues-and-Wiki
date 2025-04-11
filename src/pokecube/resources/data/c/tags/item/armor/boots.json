@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:ultra_boots"
+    {"id": "pokecube_legends:ultra_boots", "required": false}
   ]
 }

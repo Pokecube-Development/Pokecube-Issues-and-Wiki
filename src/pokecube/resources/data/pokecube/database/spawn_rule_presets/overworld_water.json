@@ -50,7 +50,7 @@
       "and_preset":"overworld,in_water",
       "matchers":{
         "biome":{
-          "biome_tags":"#forge:is_swamp"
+          "biome_tags":"#c:is_swamp"
         }
       }
     },

@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:ruby"
+    {"id": "pokecube_legends:ruby", "required": false}
   ]
 }

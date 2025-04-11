@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:crackedpot"
+    {"id": "pokecube_legends:crackedpot", "required": false}
   ]
 }

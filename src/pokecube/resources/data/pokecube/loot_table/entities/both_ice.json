@@ -1,27 +1,27 @@
 {
-  "type": "minecraft:entity",
   "pools": [
     {
-      "name": "pool_0",
-      "rolls": 1,
       "entries": [
         {
-          "type": "loot_table",
-          "name": "pokecube:entities/ice",
+          "type": "minecraft:loot_table",
+          "value": "pokecube:entities/ice",
           "weight": 1
         }
-      ]
+      ],
+      "name": "pool_0",
+      "rolls": 1
     },
     {
-      "name": "pool_1",
-      "rolls": 1,
       "entries": [
         {
-          "type": "loot_table",
-          "name": "pokecube:entities/packed_ice_10",
+          "type": "minecraft:loot_table",
+          "value": "pokecube:entities/packed_ice_10",
           "weight": 1
         }
-      ]
+      ],
+      "name": "pool_1",
+      "rolls": 1
     }
-  ]
+  ],
+  "type": "minecraft:entity"
 }

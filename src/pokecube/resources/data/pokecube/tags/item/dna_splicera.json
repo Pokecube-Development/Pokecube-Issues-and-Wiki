@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:dna_splicera"
+    {"id": "pokecube_legends:dna_splicera", "required": false}
   ]
 }

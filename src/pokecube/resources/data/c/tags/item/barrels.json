@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#forge:barrels/stone",
-    "#forge:barrels/wooden"
+    "#c:barrels/stone",
+    "#c:barrels/wooden"
   ]
 }

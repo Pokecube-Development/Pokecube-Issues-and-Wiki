@@ -5,7 +5,7 @@
       "and_preset":"caves",
       "matchers":{
         "biome":{
-          "biome_tags":"#forge:is_sandy"
+          "biome_tags":"#c:is_sandy"
         }
       }
     },
@@ -33,7 +33,7 @@
       "and_preset":"caves",
       "matchers":{
         "biome":{
-          "biome_tags":"#forge:is_peak"
+          "biome_tags":"#c:is_peak"
         }
       }
     },
@@ -51,7 +51,7 @@
       "and_preset":"caves",
       "matchers":{
         "biome":{
-          "biome_tags":"#forge:is_plains"
+          "biome_tags":"#c:is_plains"
         }
       }
     },

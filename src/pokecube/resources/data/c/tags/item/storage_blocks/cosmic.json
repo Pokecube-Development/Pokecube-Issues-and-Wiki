@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:cosmic_dust_block"
+    {"id": "pokecube_legends:cosmic_dust_block", "required": false}
   ]
 }

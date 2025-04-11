@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    {"id":"concrete:wet_concrete_layer", "required": false},
+    {"id":"concrete:wet_concrete_layer", "required": false},
+    {"id":"concrete:molten_layer", "required": false},
+    {"id":"concrete:molten_block", "required": false},
+    {"id":"concrete:dust_layer", "required": false},
+    {"id":"concrete:dust_block", "required": false}
+  ]
+}

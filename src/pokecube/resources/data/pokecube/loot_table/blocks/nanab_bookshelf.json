@@ -1,15 +1,10 @@
 {
-  "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1,
       "entries": [
         {
-          "type": "minecraft:alternatives",
           "children": [
             {
-              "type": "minecraft:item",
-              "name": "pokecube:nanab_bookshelf",
               "conditions": [
                 {
                   "condition": "minecraft:match_tool",
@@ -24,24 +19,30 @@
                     ]
                   }
                 }
-              ]
+              ],
+              "name": "pokecube:nanab_bookshelf",
+              "type": "minecraft:item"
             },
             {
-              "type": "minecraft:item",
-              "name": "minecraft:book",
               "functions": [
                 {
-                  "function": "minecraft:set_count",
-                  "count": 3
+                  "add": false,
+                  "count": 3,
+                  "function": "minecraft:set_count"
                 },
                 {
                   "function": "minecraft:explosion_decay"
                 }
-              ]
+              ],
+              "name": "minecraft:book",
+              "type": "minecraft:item"
             }
-          ]
+          ],
+          "type": "minecraft:alternatives"
         }
-      ]
+      ],
+      "rolls": 1
     }
-  ]
+  ],
+  "type": "minecraft:block"
 }

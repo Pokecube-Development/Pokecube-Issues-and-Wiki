@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:prisonbottle"
+    {"id": "pokecube_legends:prisonbottle", "required": false}
   ]
 }

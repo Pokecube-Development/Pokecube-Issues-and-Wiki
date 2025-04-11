@@ -3,7 +3,7 @@
   "values": [
     "minecraft:potion",
     "pokecube:pokemobegg",
-    "pokecube_legends:dna_splicera",
-    "pokecube_legends:dna_splicerb"
+    {"id": "pokecube_legends:dna_splicera", "required": false},
+    {"id": "pokecube_legends:dna_splicerb", "required": false}
   ]
 }

@@ -1,19 +1,19 @@
 {
   "replace": false,
   "values": [
-    "#forge:ores/coal",
-    "#forge:ores/copper",
-    "#forge:ores/cosmic",
-    "#forge:ores/diamond",
-    "#forge:ores/emerald",
-    "#forge:ores/fossil",
-    "#forge:ores/fractal",
-    "#forge:ores/gold",
-    "#forge:ores/iron",
-    "#forge:ores/lapis",
-    "#forge:ores/redstone",
-    "#forge:ores/ruby",
-    "#forge:ores/sapphire",
-    "#forge:ores/spectrum"
+    "#c:ores/coal",
+    "#c:ores/copper",
+    "#c:ores/cosmic",
+    "#c:ores/diamond",
+    "#c:ores/emerald",
+    "#c:ores/fossil",
+    "#c:ores/fractal",
+    "#c:ores/gold",
+    "#c:ores/iron",
+    "#c:ores/lapis",
+    "#c:ores/redstone",
+    "#c:ores/ruby",
+    "#c:ores/sapphire",
+    "#c:ores/spectrum"
   ]
 }

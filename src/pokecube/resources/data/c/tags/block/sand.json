@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "#forge:sand/black",
-    "#forge:sand/blue",
-    "#forge:sand/white"
+    "#c:sand/black",
+    "#c:sand/blue",
+    "#c:sand/white"
   ]
 }

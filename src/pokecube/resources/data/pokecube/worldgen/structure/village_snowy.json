@@ -19,7 +19,7 @@
   "biomes": {
     "type": "neoforge:and",
     "values": [
-      "#forge:is_snowy",
+      "#c:is_snowy",
       {
         "type": "neoforge:not",
         "value": {

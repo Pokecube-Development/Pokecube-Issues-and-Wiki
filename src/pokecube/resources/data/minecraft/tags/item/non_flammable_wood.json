@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#pokecube_legends:concrete_logs",
+    {"id": "#pokecube_legends:concrete_logs", "required": false},
     {"id": "pokecube_legends:concrete_barrel", "required": false},
     {"id": "pokecube_legends:concrete_button", "required": false},
     {"id": "pokecube_legends:concrete_dense_button", "required": false},

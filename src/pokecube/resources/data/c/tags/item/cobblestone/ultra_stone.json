@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:ultra_cobblestone"
+    {"id": "pokecube_legends:ultra_cobblestone", "required": false}
   ]
 }

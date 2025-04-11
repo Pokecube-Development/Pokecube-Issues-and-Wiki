@@ -2,7 +2,7 @@
   "replace": false,
   "values": [
     "pokecube:fossil_ore",
-    "pokecube_legends:ruby_ore",
-    "pokecube_legends:sapphire_ore"
+    {"id": "pokecube_legends:ruby_ore", "required": false},
+    {"id": "pokecube_legends:sapphire_ore", "required": false}
   ]
 }

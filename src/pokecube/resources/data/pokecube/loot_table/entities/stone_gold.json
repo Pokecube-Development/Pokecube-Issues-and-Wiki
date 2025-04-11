@@ -1,27 +1,27 @@
 {
-  "type": "minecraft:entity",
   "pools": [
     {
-      "name": "pool_1",
-      "rolls": 3,
       "entries": [
         {
-          "type": "loot_table",
-          "name": "pokecube:entities/gold_nugget",
+          "type": "minecraft:loot_table",
+          "value": "pokecube:entities/gold_nugget",
           "weight": 1
         }
-      ]
+      ],
+      "name": "pool_1",
+      "rolls": 3
     },
     {
-      "name": "pool_1",
-      "rolls": 1,
       "entries": [
         {
-          "type": "loot_table",
-          "name": "pokecube:entities/stone_1",
+          "type": "minecraft:loot_table",
+          "value": "pokecube:entities/stone_1",
           "weight": 1
         }
-      ]
+      ],
+      "name": "pool_1",
+      "rolls": 1
     }
-  ]
+  ],
+  "type": "minecraft:entity"
 }

@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "concrete:volcano",
+    {"id":"concrete:volcano", "required": false},
     "minecraft:barrier",
     "minecraft:bedrock",
     "minecraft:end_portal",

@@ -1,12 +1,12 @@
 {
   "replace": false,
   "values": [
-    "#forge:storage_blocks/aquamarine",
-    "#forge:storage_blocks/cosmic",
-    "#forge:storage_blocks/fractal",
-    "#forge:storage_blocks/ruby",
-    "#forge:storage_blocks/sapphire",
-    "#forge:storage_blocks/spectrum",
-    "#forge:storage_blocks/unrefined_aquamarine"
+    "#c:storage_blocks/aquamarine",
+    "#c:storage_blocks/cosmic",
+    "#c:storage_blocks/fractal",
+    "#c:storage_blocks/ruby",
+    "#c:storage_blocks/sapphire",
+    "#c:storage_blocks/spectrum",
+    "#c:storage_blocks/unrefined_aquamarine"
   ]
 }

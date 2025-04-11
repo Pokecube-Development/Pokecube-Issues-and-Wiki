@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:dusk_dolerite_cosmic_ore",
-    "pokecube_legends:meteorite_cosmic_ore",
-    "pokecube_legends:ultra_cosmic_ore"
+    {"id": "pokecube_legends:dusk_dolerite_cosmic_ore", "required": false},
+    {"id": "pokecube_legends:meteorite_cosmic_ore", "required": false},
+    {"id": "pokecube_legends:ultra_cosmic_ore", "required": false}
   ]
 }

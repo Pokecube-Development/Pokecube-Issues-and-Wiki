@@ -1,39 +1,39 @@
 {
-  "type": "minecraft:block",
   "pools": [
     {
-      "name": "pool_0",
-      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
       "entries": [
         {
-          "type": "minecraft:item",
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "conditions": [
                 {
-                  "condition": "minecraft:block_state_property",
                   "block": "pokecube:nanab_slab",
+                  "condition": "minecraft:block_state_property",
                   "properties": {
                     "type": "double"
                   }
                 }
               ],
               "count": 2.0,
-              "add": false
+              "function": "minecraft:set_count"
             },
             {
               "function": "minecraft:explosion_decay"
             }
           ],
-          "name": "pokecube:nanab_slab"
+          "name": "pokecube:nanab_slab",
+          "type": "minecraft:item"
         }
       ],
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ]
+      "name": "pool_0",
+      "rolls": 1
     }
-  ]
+  ],
+  "type": "minecraft:block"
 }

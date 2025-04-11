@@ -1,38 +1,38 @@
 {
-  "type": "minecraft:entity",
   "pools": [
     {
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "value": "pokecube:entities/bones",
+          "weight": 1
+        }
+      ],
       "name": "pool_0",
-      "rolls": 1,
-      "entries": [
-        {
-          "type": "loot_table",
-          "name": "pokecube:entities/bones",
-          "weight": 1
-        }
-      ]
+      "rolls": 1
     },
     {
-      "name": "pool_1",
-      "rolls": 1,
       "entries": [
         {
-          "type": "loot_table",
-          "name": "pokecube:entities/cobble_1",
+          "type": "minecraft:loot_table",
+          "value": "pokecube:entities/cobble_1",
           "weight": 1
         }
-      ]
+      ],
+      "name": "pool_1",
+      "rolls": 1
     },
     {
-      "name": "pool_1",
-      "rolls": 1,
       "entries": [
         {
-          "type": "loot_table",
-          "name": "pokecube:entities/turtleshells_1",
+          "type": "minecraft:loot_table",
+          "value": "pokecube:entities/turtleshells_1",
           "weight": 1
         }
-      ]
+      ],
+      "name": "pool_1",
+      "rolls": 1
     }
-  ]
+  ],
+  "type": "minecraft:entity"
 }

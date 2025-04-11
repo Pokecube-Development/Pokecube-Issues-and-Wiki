@@ -1,0 +1,23 @@
+{
+  "replace": false,
+  "values": [
+    {"id": "concrete:concrete_layer_black", "required": false},
+    {"id": "concrete:concrete_layer_blue", "required": false},
+    {"id": "concrete:concrete_layer_brown", "required": false},
+    {"id": "concrete:concrete_layer_cyan", "required": false},
+    {"id": "concrete:concrete_layer_gray", "required": false},
+    {"id": "concrete:concrete_layer_green", "required": false},
+    {"id": "concrete:concrete_layer_light_blue", "required": false},
+    {"id": "concrete:concrete_layer_light_gray", "required": false},
+    {"id": "concrete:concrete_layer_lime", "required": false},
+    {"id": "concrete:concrete_layer_magenta", "required": false},
+    {"id": "concrete:concrete_layer_orange", "required": false},
+    {"id": "concrete:concrete_layer_pink", "required": false},
+    {"id": "concrete:concrete_layer_purple", "required": false},
+    {"id": "concrete:concrete_layer_red", "required": false},
+    {"id": "concrete:concrete_layer_white", "required": false},
+    {"id": "concrete:concrete_layer_yellow", "required": false},
+    {"id": "concrete:solid_layer", "required": false},
+    {"id": "concrete:solid_block", "required": false}
+  ]
+}

@@ -1,5 +1,4 @@
 {
-  "type": "minecraft:block",
   "pools": [
     {
       "bonus_rolls": 0.0,
@@ -10,12 +9,13 @@
       ],
       "entries": [
         {
-          "type": "minecraft:item",
-          "name": "pokecube:nanab_hanging_sign"
+          "name": "pokecube:nanab_hanging_sign",
+          "type": "minecraft:item"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "pokecube:blocks/nanab_hanging_sign"
+  "random_sequence": "pokecube:blocks/nanab_hanging_sign",
+  "type": "minecraft:block"
 }

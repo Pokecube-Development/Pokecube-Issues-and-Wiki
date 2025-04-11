@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:unrefined_aquamarine"
+    {"id": "pokecube_legends:unrefined_aquamarine", "required": false}
   ]
 }

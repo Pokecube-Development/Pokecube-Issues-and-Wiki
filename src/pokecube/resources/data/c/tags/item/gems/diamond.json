@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:diamond_gem"
+    {"id": "pokecube_legends:diamond_gem", "required": false}
   ]
 }

@@ -5,11 +5,11 @@
       "matchers":{
         "biome":[
           {
-            "biome_tags":"#forge:is_wet"
+            "biome_tags":"#c:is_wet"
           },
           {
             "negate":true,
-            "biome_tags":"#forge:is_cold,#forge:is_dry"
+            "biome_tags":"#c:is_cold,#forge:is_dry"
           }
         ]
       }
@@ -19,11 +19,11 @@
       "matchers":{
         "biome":[
           {
-            "biome_tags":"#forge:is_dry"
+            "biome_tags":"#c:is_dry"
           },
           {
             "negate":true,
-            "biome_tags":"#forge:is_cold,#forge:is_wet"
+            "biome_tags":"#c:is_cold,#forge:is_wet"
           }
         ]
       }
@@ -33,11 +33,11 @@
       "matchers":{
         "biome":[
           {
-            "biome_tags":"#forge:is_hot"
+            "biome_tags":"#c:is_hot"
           },
           {
             "negate":true,
-            "biome_tags":"#forge:is_cold,#forge:is_wet"
+            "biome_tags":"#c:is_cold,#forge:is_wet"
           }
         ]
       }
@@ -46,7 +46,7 @@
       "preset":"cold_areas",
       "matchers":{
         "biome":{
-          "biome_tags":"#forge:is_cold"
+          "biome_tags":"#c:is_cold"
         }
       }
     },
@@ -54,7 +54,7 @@
       "preset":"sandy_areas",
       "matchers":{
         "biome":{
-          "biome_tags":"#forge:is_sandy"
+          "biome_tags":"#c:is_sandy"
         }
       }
     },
@@ -62,7 +62,7 @@
       "preset":"snowy_areas",
       "matchers":{
         "biome":{
-          "biome_tags":"#forge:is_snowy"
+          "biome_tags":"#c:is_snowy"
         }
       }
     },
@@ -70,7 +70,7 @@
       "preset":"spooky_areas",
       "matchers":{
         "biome":{
-          "biome_tags":"#forge:is_spooky"
+          "biome_tags":"#c:is_spooky"
         }
       }
     },
@@ -78,7 +78,7 @@
       "preset":"underground",
       "matchers":{
         "biome":{
-          "biome_tags":"#forge:is_underground"
+          "biome_tags":"#c:is_underground"
         }
       }
     },

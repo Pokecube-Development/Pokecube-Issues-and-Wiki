@@ -22,6 +22,6 @@
   "clearances": {
     "h_clearance": 0
   },
-  "biomes": "#forge:is_swamp",
+  "biomes": "#c:is_swamp",
   "spawn_overrides": {}
 }

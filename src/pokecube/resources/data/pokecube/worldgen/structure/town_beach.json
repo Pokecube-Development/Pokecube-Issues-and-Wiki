@@ -29,7 +29,7 @@
       "#minecraft:is_beach",
       {
         "type": "neoforge:not",
-        "value": "#forge:is_snowy"
+        "value": "#c:is_snowy"
       }
     ]
   },

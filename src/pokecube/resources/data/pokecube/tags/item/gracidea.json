@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:gracidea"
+    {"id": "pokecube_legends:gracidea", "required": false}
   ]
 }

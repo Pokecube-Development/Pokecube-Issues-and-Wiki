@@ -1,27 +1,27 @@
 {
-  "type": "minecraft:entity",
   "pools": [
     {
-      "name": "pool_0",
-      "rolls": 1,
       "entries": [
         {
-          "type": "loot_table",
-          "name": "pokecube:entities/chicken_1",
+          "type": "minecraft:loot_table",
+          "value": "pokecube:entities/chicken_1",
           "weight": 1
         }
-      ]
+      ],
+      "name": "pool_0",
+      "rolls": 1
     },
     {
-      "name": "pool_1",
-      "rolls": 1,
       "entries": [
         {
-          "type": "loot_table",
-          "name": "minecraft:entities/blaze",
+          "type": "minecraft:loot_table",
+          "value": "minecraft:entities/blaze",
           "weight": 1
         }
-      ]
+      ],
+      "name": "pool_1",
+      "rolls": 1
     }
-  ]
+  ],
+  "type": "minecraft:entity"
 }

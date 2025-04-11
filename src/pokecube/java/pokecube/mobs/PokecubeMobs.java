@@ -233,6 +233,8 @@ public class PokecubeMobs
         ItemGenerator.variants.add("megastone");
         ItemGenerator.variants.add("omegaorb");
 
+        ItemGenerator.variants.add("shiny_charm");
+
         ItemGenerator.misc.add("mewhair");
 
         ItemGenerator.fossilVariants.add("aerodactyl");

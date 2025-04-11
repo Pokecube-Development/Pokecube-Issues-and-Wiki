@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:spectrum_glass_pane"
+    {"id": "pokecube_legends:spectrum_glass_pane", "required": false}
   ]
 }

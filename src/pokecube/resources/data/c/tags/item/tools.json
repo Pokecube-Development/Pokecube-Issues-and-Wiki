@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#forge:tools/shields",
-    "#forge:tools/swords"
+    "#c:tools/shields",
+    "#c:tools/swords"
   ]
 }

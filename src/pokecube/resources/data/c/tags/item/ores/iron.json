@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:ash_iron_ore",
-    "pokecube_legends:dusk_dolerite_iron_ore",
-    "pokecube_legends:ultra_iron_ore"
+    {"id": "pokecube_legends:ash_iron_ore", "required": false},
+    {"id": "pokecube_legends:dusk_dolerite_iron_ore", "required": false},
+    {"id": "pokecube_legends:ultra_iron_ore", "required": false}
   ]
 }

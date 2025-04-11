@@ -51,11 +51,6 @@ public class CopyMob
             return new CopyInfo(contents, this.tag);
         }
 
-        public CopyInfo saveHolder(HolderLookup.Provider context)
-        {
-            return new CopyInfo(copy, copy.serializeNBT(context));
-        }
-
         public static CopyInfo copyOf(LivingEntity mob)
         {
             ICopyMob copy = new CopyMob.Impl();
@@ -70,7 +65,7 @@ public class CopyMob
             return new CopyInfo(null, tag);
         }
 
-        public static final Codec<CopyInfo> CODEC = CompoundTag.CODEC.<CopyInfo>comapFlatMap(CopyInfo::read,
+        public static final Codec<CopyInfo> CODEC = CompoundTag.CODEC.comapFlatMap(CopyInfo::read,
                 CopyInfo::tag).stable();
         public static final StreamCodec<ByteBuf, CopyInfo> STREAM_CODEC = ByteBufCodecs.COMPOUND_TAG.map(
                 CopyInfo::parse, CopyInfo::tag);
