@@ -1,9 +1,5 @@
 package pokecube.core.eventhandlers;
 
-import java.util.Map;
-
-import com.google.common.collect.Maps;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
@@ -23,6 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.EventPriority;
+import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.IOngoingAffected;
@@ -53,11 +50,18 @@ import pokecube.core.moves.world.DefaultElectricAction;
 import pokecube.core.moves.world.DefaultFireAction;
 import pokecube.core.moves.world.DefaultIceAction;
 import pokecube.core.moves.world.DefaultWaterAction;
+import pokecube.core.recipes.MoveRecipe;
 import pokecube.core.utils.Permissions;
 import thut.api.entity.event.BreakTestEvent;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 import thut.core.common.commands.CommandTools;
 import thut.lib.TComponent;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MoveEventsHandler
 {
@@ -80,110 +84,26 @@ public class MoveEventsHandler
         }
     }
 
-    private static class Action implements IMoveWorldEffect
-    {
-        final IMoveWorldEffect wrapped;
-        private IMoveWorldEffect custom;
-        private boolean checked = false;
-
-        public Action(final IMoveWorldEffect wrapped)
-        {
-            this.wrapped = wrapped;
-        }
-
-        @Override
-        public boolean applyOutOfCombat(final IPokemob user, final Vector3 location)
-        {
-            if (!this.checked)
-            {
-                this.checked = true;
-                this.custom = MoveEventsHandler.customActions.get(this.getMoveName());
-            }
-            final boolean customApplied = this.custom != null && this.custom.applyOutOfCombat(user, location);
-            return this.wrapped.applyOutOfCombat(user, location) || customApplied;
-        }
-
-        @Override
-        public boolean applyInCombat(final IPokemob user, final Vector3 location)
-        {
-            if (!this.checked)
-            {
-                this.checked = true;
-                this.custom = MoveEventsHandler.customActions.get(this.getMoveName());
-            }
-            final boolean customApplied = this.custom != null && this.custom.applyInCombat(user, location);
-            return this.wrapped.applyInCombat(user, location) || customApplied;
-        }
-
-        @Override
-        public String getMoveName()
-        {
-            return this.wrapped.getMoveName();
-        }
-
-        @Override
-        public void init()
-        {
-            this.wrapped.init();
-            if (this.custom != null) this.custom.init();
-        }
-    }
-
-    public static class WrappedAction implements IMoveWorldEffect
-    {
-        public IMoveWorldEffect parent;
-        public IMoveWorldEffect other;
-
-        public WrappedAction(final IMoveWorldEffect parent, final IMoveWorldEffect other)
-        {
-            this.parent = parent;
-            this.other = other;
-        }
-
-        @Override
-        public boolean applyOutOfCombat(final IPokemob user, final Vector3 location)
-        {
-            // Only applies other action if parent action failed.
-            return this.parent.applyOutOfCombat(user, location) || this.other.applyOutOfCombat(user, location);
-        }
-
-        @Override
-        public boolean applyInCombat(IPokemob user, Vector3 location)
-        {
-            // Only applies other action if parent action failed.
-            return this.parent.applyInCombat(user, location) || this.other.applyInCombat(user, location);
-        }
-
-        @Override
-        public String getMoveName()
-        {
-            return this.parent.getMoveName();
-        }
-
-        @Override
-        public void init()
-        {
-            this.parent.init();
-            this.other.init();
-        }
-    }
-
     public static void addOrMergeActions(IMoveWorldEffect action)
     {
-        if (MoveEventsHandler.customActions.containsKey(action.getMoveName()))
-        {
-            final IMoveWorldEffect prev = MoveEventsHandler.customActions.get(action.getMoveName());
-            if (prev instanceof WrappedAction edit)
-            {
-                edit.other = action;
-                action = prev;
-            }
-            else action = new WrappedAction(MoveEventsHandler.customActions.get(action.getMoveName()), action);
-        }
-        MoveEventsHandler.customActions.put(action.getMoveName(), action);
+        actionsLists.compute(action.getMoveName(), (name, list) -> {
+            if (list == null) list = new ArrayList<>();
+            list.add(action);
+            return list;
+        });
     }
 
-    public static final Map<String, IMoveWorldEffect> customActions = Maps.newHashMap();
+    private static void removeAction(IMoveWorldEffect action)
+    {
+        actionsLists.computeIfPresent(action.getMoveName(), (name, list) -> {
+            if (list == null) return null;
+            list.remove(action);
+            return list.isEmpty() ? null : list;
+        });
+    }
+
+    private static final Map<String, List<IMoveWorldEffect>> actionsLists = new HashMap<>();
+    private static final List<IMoveWorldEffect> recipeActions = new ArrayList<>();
 
     public static boolean canAffectBlock(final IPokemob user, final Vector3 location, final String move)
     {
@@ -191,12 +111,7 @@ public class MoveEventsHandler
     }
 
     /**
-     * This method should be called before any block setting by any move
-     * effects.
-     *
-     * @param user
-     * @param location
-     * @return
+     * This method should be called before any block setting by any move effects.
      */
     public static boolean canAffectBlock(final IPokemob user, final Vector3 location, final String move,
             final boolean repelWarning, final boolean denyMessage)
@@ -213,8 +128,8 @@ public class MoveEventsHandler
             return false;
         }
         LivingEntity owner = user.getOwner();
-        final boolean repel = SpawnHandler.getNoSpawnReason(user.getEntity().level(), location.intX(),
-                location.intY(), location.intZ()) == ForbidReason.REPEL;
+        final boolean repel = SpawnHandler.getNoSpawnReason(user.getEntity().level(), location.intX(), location.intY(),
+                location.intZ()) == ForbidReason.REPEL;
         if (!(owner instanceof Player)) owner = PokecubeMod.getFakePlayer(user.getEntity().level());
         if (repel)
         {
@@ -236,7 +151,8 @@ public class MoveEventsHandler
             final Vector3 target)
     {
         final ItemStack stack = new ItemStack(toPlace.getBlock());
-        final Player player = user.getOwner() instanceof Player ? (Player) user.getOwner()
+        final Player player = user.getOwner() instanceof Player
+                ? (Player) user.getOwner()
                 : PokecubeMod.getFakePlayer(world);
         final Vector3 origin = new Vector3().set(user.getEntity());
         final Vec3 start = origin.toVec3d();
@@ -262,16 +178,13 @@ public class MoveEventsHandler
 
     public static void register(IMoveWorldEffect move)
     {
-        if (!(move instanceof Action)) move = new Action(move);
-        MoveEventsHandler.actionMap.put(move.getMoveName(), move);
+        addOrMergeActions(move);
     }
 
     public static boolean hasAction(MoveEntry move)
     {
-        return actionMap.containsKey(move.getName());
+        return actionsLists.containsKey(move.getName());
     }
-
-    private static Map<String, IMoveWorldEffect> actionMap = Maps.newHashMap();
 
     public static void register()
     {
@@ -294,6 +207,33 @@ public class MoveEventsHandler
         PokecubeAPI.MOVE_BUS.addListener(EventPriority.LOWEST, false, MoveEventsHandler::onDuringUsePre);
         // This handles application of world actions for the moves.
         PokecubeAPI.MOVE_BUS.addListener(EventPriority.LOWEST, false, MoveEventsHandler::onWorldAction);
+        // Setup recipes for moves that may have loaded in.
+        ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, false, MoveEventsHandler::initServerMoveRecipes);
+    }
+
+    private static void initServerMoveRecipes(ServerAboutToStartEvent event)
+    {
+        // first remove all old recipe actions
+        recipeActions.forEach(MoveEventsHandler::removeAction);
+
+        // Now add the ones from recipes
+        event.getServer().getRecipeManager().getRecipes().forEach(holder -> {
+            if (holder.value() instanceof MoveRecipe recipe)
+            {
+                for (var move : MovesUtils.getKnownMoves())
+                {
+                    if (recipe.match.test(move.getName()))
+                    {
+                        var action = new MoveRecipe.RecipeAction(move.getName(), recipe);
+                        addOrMergeActions(action);
+                        recipeActions.add(action);
+                    }
+                }
+            }
+        });
+
+        // Finally re-init all of the actions
+        actionsLists.values().forEach(l -> l.forEach(IMoveWorldEffect::init));
     }
 
     private static void onDuringUsePost(final MoveUse.DuringUse.Post evt)
@@ -321,9 +261,8 @@ public class MoveEventsHandler
             }
         }
 
-        IPokemob applied = target;
-        if (applied != null && applied.getHeldItem() != null)
-            ItemGenerator.processHeldItemUse(move, applied, applied.getHeldItem());
+        if (target != null && target.getHeldItem() != null)
+            ItemGenerator.processHeldItemUse(move, target, target.getHeldItem());
 
         Ability ab;
         if (target != null && (ab = target.getAbility()) != null) ab.postMoveUse(target, move);
@@ -364,8 +303,9 @@ public class MoveEventsHandler
                     move.pwr, move.getMove(), move.stat_multipliers);
             MovesUtils.sendPairedMessages(attacked, attacker, "pokemob.substitute.absorb");
             target.getMoveStats().substituteHP -= damage;
-            if (target.getMoveStats().substituteHP < 0) MovesUtils.sendPairedMessages(attacked, attacker,
-                    "pokemob.substitute.break", attacked.getDisplayName());
+            if (target.getMoveStats().substituteHP < 0)
+                MovesUtils.sendPairedMessages(attacked, attacker, "pokemob.substitute.break",
+                        attacked.getDisplayName());
             move.failed = true;
             move.pwr = 0;
             move.status = StatusApplier.NOOP;
@@ -410,10 +350,10 @@ public class MoveEventsHandler
         final IPokemob attacker = evt.getUser();
         final Vector3 location = evt.getLocation();
         final MoveEntry move = evt.getMove();
-        IMoveWorldEffect action = MoveEventsHandler.actionMap.get(move.name);
-        if (action == null)
+        var actions = MoveEventsHandler.actionsLists.get(move.name);
+        if (actions == null)
         {
-            DefaultAction _action = null;
+            DefaultAction _action;
             actions:
             {
                 if ((_action = new DefaultWaterAction(move)).isValid()) break actions;
@@ -422,9 +362,9 @@ public class MoveEventsHandler
                 if ((_action = new DefaultFireAction(move)).isValid()) break actions;
                 _action = null;
             }
-            action = _action == null ? new DefaultAction(move) : _action;
-            MoveEventsHandler.register(action);
-            action.init();
+            MoveEventsHandler.register(_action == null ? _action = new DefaultAction(move) : _action);
+            actions = MoveEventsHandler.actionsLists.get(move.name);
+            _action.init();
         }
         if (PokecubeCore.getConfig().permsMoveAction && attacker.getOwner() instanceof ServerPlayer player)
         {
@@ -435,7 +375,7 @@ public class MoveEventsHandler
                 return;
             }
         }
-        if (attacker.inCombat()) action.applyInCombat(attacker, location);
-        else action.applyOutOfCombat(attacker, location);
+        if (attacker.inCombat()) actions.stream().anyMatch(a -> a.applyInCombat(attacker, location));
+        else actions.stream().anyMatch(a -> a.applyOutOfCombat(attacker, location));
     }
 }

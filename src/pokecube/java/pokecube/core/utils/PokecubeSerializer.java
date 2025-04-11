@@ -91,7 +91,7 @@ public class PokecubeSerializer
 
     private PokecubeSerializer(boolean loadData)
     {
-        /** This data is saved to surface world's folder. */
+        /* This data is saved to surface world's folder. */
         this.lastId = 0;
         this.meteors = new ArrayList<>();
         this.bases = new ArrayList<>();
@@ -235,7 +235,7 @@ public class PokecubeSerializer
         temp = tag.get(PokecubeSerializer.METEORS);
         if (temp instanceof ListTag tagListMeteors)
         {
-            if (tagListMeteors.size() > 0) meteors:
+            if (!tagListMeteors.isEmpty()) meteors:
             for (int i = 0; i < tagListMeteors.size(); i++)
             {
                 final CompoundTag pokemobData = tagListMeteors.getCompound(i);
@@ -252,7 +252,7 @@ public class PokecubeSerializer
         temp = tag.get(PokecubeSerializer.BASES);
         if (temp instanceof ListTag tagListBases)
         {
-            if (tagListBases.size() > 0) meteors:
+            if (!tagListBases.isEmpty()) meteors:
             for (int i = 0; i < tagListBases.size(); i++)
             {
                 final CompoundTag pokemobData = tagListBases.getCompound(i);
@@ -274,7 +274,7 @@ public class PokecubeSerializer
         temp = tag.get(PokecubeSerializer.STRUCTS);
         if (temp instanceof ListTag tagListStructs)
         {
-            if (tagListStructs.size() > 0) for (int i = 0; i < tagListStructs.size(); i++)
+            if (!tagListStructs.isEmpty()) for (int i = 0; i < tagListStructs.size(); i++)
             {
                 final CompoundTag pokemobData = tagListStructs.getCompound(i);
                 if (pokemobData != null) try

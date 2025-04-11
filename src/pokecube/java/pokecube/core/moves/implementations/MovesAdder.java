@@ -27,7 +27,6 @@ import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MovesDatabases;
 import pokecube.core.eventhandlers.MoveEventsHandler;
-import pokecube.core.eventhandlers.MoveEventsHandler.WrappedAction;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.animations.AnimationMultiAnimations;
 import pokecube.core.moves.templates.Move_Explode;
@@ -54,8 +53,8 @@ public class MovesAdder implements IMoveConstants
         defaultWorldEffects.add(DefaultElectricAction::new);
         defaultWorldEffects.add(DefaultFireAction::new);
 
-        moveProcessors.add(move -> move.postInit());
-        moveValidators.add(move -> move.checkValid());
+        moveProcessors.add(MoveEntry::postInit);
+        moveValidators.add(MoveEntry::checkValid);
     }
 
     public static void setupMoveAnimations()
@@ -77,11 +76,9 @@ public class MovesAdder implements IMoveConstants
                 IMoveWorldEffect combined = null;
                 for (var func : defaultWorldEffects)
                 {
-                    if (combined == null) combined = func.apply(move);
-                    else combined = new WrappedAction(combined, func.apply(move));
-                    if (!combined.isValid()) combined = null;
+                    combined = func.apply(move);
+                    if (combined != null) MoveEventsHandler.addOrMergeActions(combined);
                 }
-                if (combined != null) MoveEventsHandler.addOrMergeActions(combined);
             }
         }
     }
@@ -254,9 +251,8 @@ public class MovesAdder implements IMoveConstants
     }
 
     /**
-     * Only registers contact and self, as distances moves usually should have
-     * some effect.
-     * 
+     * Only registers contact and self, as distances moves usually should have some effect.
+     *
      * @param list
      */
     private static void registerRemainder(List<MoveEntry> list)

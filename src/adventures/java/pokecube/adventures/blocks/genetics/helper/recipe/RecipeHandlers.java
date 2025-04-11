@@ -247,7 +247,7 @@ public class RecipeHandlers
             final XMLRecipe recipe = this.fromJson(json);
             final List<Ingredient> inputs = XMLRecipeHandler.getInputItems(json);
             if (inputs.size() != 1) throw new NullPointerException("Wrong number of stacks for " + recipe);
-            final Ingredient stack = inputs.get(0);
+            final Ingredient stack = inputs.getFirst();
             if (stack.isEmpty()) throw new NullPointerException("Invalid stack for " + recipe);
             final float dna = Float.parseFloat(recipe.values.get(RecipeHandlers.DNADESTRUCT));
             final float select = Float.parseFloat(recipe.values.get(RecipeHandlers.SELECTORDESTRUCT));
@@ -271,7 +271,7 @@ public class RecipeHandlers
 
             final List<Ingredient> inputs = XMLRecipeHandler.getInputItems(json);
             if (inputs.size() != 1) throw new NullPointerException("Wrong number of stacks for " + recipe);
-            final Ingredient stack = inputs.get(0);
+            final Ingredient stack = inputs.getFirst();
             if (stack.isEmpty()) throw new NullPointerException("Invalid stack for " + recipe);
             PokedexEntry entry = Database.getEntry(recipe.values.get(RecipeHandlers.POKEMOB));
             PokedexEntry entryA = Database.getEntry(recipe.values.get(RecipeHandlers.POKEMOBA));
