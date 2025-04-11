@@ -12,7 +12,6 @@ import pokecube.adventures.utils.TradeEntryLoader.TradePreset;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.utils.Tools;
-import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import thut.api.attachments.CopyMob;
 
@@ -28,12 +27,10 @@ public class SellRandomStatue implements TradePreset
         TrainerTrade recipe;
         ItemStack buy1;
         ItemStack buy2 = ItemStack.EMPTY;
-        values = trade.buys.get(0).getValues();
-        buy1 = Tools.getStack(values);
+        buy1 = Tools.getStack(trade.buys.get(0));
         if (trade.buys.size() > 1)
         {
-            values = trade.buys.get(1).getValues();
-            buy2 = Tools.getStack(values);
+            buy2 = Tools.getStack(trade.buys.get(1));
         }
         var cost = new ItemCost(buy1.getItemHolder(), buy1.getCount(),
                 DataComponentPredicate.allOf(buy1.getComponents()));

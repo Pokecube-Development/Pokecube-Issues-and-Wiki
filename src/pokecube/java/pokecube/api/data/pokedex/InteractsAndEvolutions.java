@@ -1,15 +1,8 @@
 package pokecube.api.data.pokedex;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonElement;
-
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
@@ -23,9 +16,14 @@ import pokecube.api.events.data.PokemobMatchInit;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
-import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 public class InteractsAndEvolutions
 {
@@ -45,8 +43,7 @@ public class InteractsAndEvolutions
          */
         public String name;
         /**
-         * The mob to evolve from, optional if this is part of the
-         * JsonPokedexEntry
+         * The mob to evolve from, optional if this is part of the JsonPokedexEntry
          */
         public String user;
         /**
@@ -102,20 +99,21 @@ public class InteractsAndEvolutions
             if (super.equals(obj)) return true;
             if (obj instanceof Evolution)
             {
-                for (final Field f : this.getClass().getFields()) try
-                {
-                    final Object ours = f.get(this);
-                    final Object theirs = f.get(obj);
-                    if (ours != null && !ours.equals(theirs)) return false;
-                    if (theirs != null && !theirs.equals(ours)) return false;
-                    if (ours == null && theirs != null) return false;
-                    if (theirs == null && ours != null) return false;
-                }
-                catch (final Exception e)
-                {
-                    e.printStackTrace();
-                    return false;
-                }
+                for (final Field f : this.getClass().getFields())
+                    try
+                    {
+                        final Object ours = f.get(this);
+                        final Object theirs = f.get(obj);
+                        if (ours != null && !ours.equals(theirs)) return false;
+                        if (theirs != null && !theirs.equals(ours)) return false;
+                        if (ours == null && theirs != null) return false;
+                        if (theirs == null && ours != null) return false;
+                    }
+                    catch (final Exception e)
+                    {
+                        e.printStackTrace();
+                        return false;
+                    }
                 return true;
             }
 
@@ -143,7 +141,7 @@ public class InteractsAndEvolutions
         public Boolean male = true;
         public Boolean female = true;
         public Boolean isTag = false;
-        public Drop key;
+        public JsonElement key;
 
         public JsonElement condition;
 
@@ -205,7 +203,7 @@ public class InteractsAndEvolutions
         public Map<String, String> values = Maps.newHashMap();
         public String tag;
         public String lootTable;
-        public List<Drop> drops = Lists.newArrayList();
+        public List<JsonElement> drops = Lists.newArrayList();
     }
 
     public static class DyeInfo implements Consumer<PokedexEntry>
@@ -224,28 +222,31 @@ public class InteractsAndEvolutions
             entry.dyeable = true;
             // Parse base colour
             base = ThutCore.trim(base);
-            for (final DyeColor dye : DyeColor.values()) if (ThutCore.trim(dye.name()).equals(base))
-            {
-                entry.defaultSpecial = dye.getId();
-                break;
-            }
+            for (final DyeColor dye : DyeColor.values())
+                if (ThutCore.trim(dye.name()).equals(base))
+                {
+                    entry.defaultSpecial = dye.getId();
+                    break;
+                }
             // Parse shiny colour
             shiny = ThutCore.trim(shiny);
-            for (final DyeColor dye : DyeColor.values()) if (ThutCore.trim(dye.name()).equals(shiny))
-            {
-                entry.defaultSpecials = dye.getId();
-                break;
-            }
+            for (final DyeColor dye : DyeColor.values())
+                if (ThutCore.trim(dye.name()).equals(shiny))
+                {
+                    entry.defaultSpecials = dye.getId();
+                    break;
+                }
             entry.validDyes.clear();
             // Parse any limits on colours
             for (String s : opts)
             {
                 s = ThutCore.trim(s);
-                for (final DyeColor dye : DyeColor.values()) if (ThutCore.trim(dye.name()).equals(s))
-                {
-                    entry.validDyes.add(dye);
-                    break;
-                }
+                for (final DyeColor dye : DyeColor.values())
+                    if (ThutCore.trim(dye.name()).equals(s))
+                    {
+                        entry.validDyes.add(dye);
+                        break;
+                    }
             }
         }
     }

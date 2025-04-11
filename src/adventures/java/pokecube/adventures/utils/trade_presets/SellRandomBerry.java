@@ -1,8 +1,5 @@
 package pokecube.adventures.utils.trade_presets;
 
-import java.util.Map;
-import java.util.Optional;
-
 import net.minecraft.core.component.DataComponentPredicate;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.trading.ItemCost;
@@ -15,6 +12,9 @@ import pokecube.adventures.utils.TradeEntryLoader.TradePreset;
 import pokecube.api.utils.Tools;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.berries.ItemBerry;
+
+import java.util.Map;
+import java.util.Optional;
 
 @TradePresetAn(key = "allBerrySell")
 public class SellRandomBerry implements TradePreset
@@ -33,16 +33,15 @@ public class SellRandomBerry implements TradePreset
                 TrainerTrade recipe;
                 ItemStack buy1 = ItemStack.EMPTY;
                 ItemStack buy2 = ItemStack.EMPTY;
-                values = trade.buys.get(0).getValues();
-                buy1 = Tools.getStack(values);
+                buy1 = Tools.getStack(trade.buys.get(0));
                 if (trade.buys.size() > 1)
                 {
-                    values = trade.buys.get(1).getValues();
-                    buy2 = Tools.getStack(values);
+                    buy2 = Tools.getStack(trade.buys.get(1));
                 }
                 var cost = new ItemCost(buy1.getItemHolder(), buy1.getCount(),
                         DataComponentPredicate.allOf(buy1.getComponents()));
-                var _buy2 = Optional.ofNullable(buy2.isEmpty() ? null
+                var _buy2 = Optional.ofNullable(buy2.isEmpty()
+                        ? null
                         : new ItemCost(buy1.getItemHolder(), buy1.getCount(),
                                 DataComponentPredicate.allOf(buy2.getComponents())));
                 recipe = new TrainerTrade(cost, _buy2, sell, trade);

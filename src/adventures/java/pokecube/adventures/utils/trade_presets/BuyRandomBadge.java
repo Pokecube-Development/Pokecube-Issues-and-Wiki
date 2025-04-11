@@ -27,9 +27,9 @@ public class BuyRandomBadge implements TradePreset
             final ItemStack buy = PokecubeItems.getStack("pokecube_adventures:badge_" + type);
             if (!buy.isEmpty())
             {
-                Map<String, String> values = trade.sell.getValues();
+                Map<String, String> values;
                 TrainerTrade recipe;
-                final ItemStack sell = Tools.getStack(values);
+                final ItemStack sell = Tools.getStack(trade.sell);
                 var cost = new ItemCost(buy.getItemHolder(), buy.getCount(),
                         DataComponentPredicate.allOf(buy.getComponents()));
                 recipe = new TrainerTrade(cost, Optional.empty(), sell, trade);

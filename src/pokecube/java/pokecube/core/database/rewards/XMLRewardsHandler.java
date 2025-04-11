@@ -1,40 +1,36 @@
 package pokecube.core.database.rewards;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import net.minecraft.world.item.component.WrittenBookContent;
-import org.jline.utils.InputStreamReader;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import org.jline.utils.InputStreamReader;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.stats.CaptureStats;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
-import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.handlers.PokedexInspector.IInspectReward;
 import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
 import thut.api.util.JsonUtil;
-import thut.lib.TCodecs;
 import thut.lib.TComponent;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 public class XMLRewardsHandler
 {
@@ -114,7 +110,7 @@ public class XMLRewardsHandler
             boolean percent = false;
             if (reward.condition.values.containsKey(CaptureParser.PERCENT))
                 percent = Boolean.parseBoolean(reward.condition.values.get(CaptureParser.PERCENT));
-            final ItemStack give = Tools.getStack(reward.output.getValues());
+            final ItemStack give = Tools.getStack(reward.output);
             if (give == null || key == null || mess == null)
                 throw new NullPointerException(key + " " + mess + " " + give);
             PokedexInspector.rewards.add(new InspectCapturesReward(give, num, percent, mess, key));
@@ -274,7 +270,7 @@ public class XMLRewardsHandler
     {
         String handler = "default";
         String key = "default";
-        public XMLRewardOutput output;
+        public JsonElement output;
         public XMLRewardCondition condition;
         public Map<String, String> values = Maps.newHashMap();
 
@@ -293,15 +289,6 @@ public class XMLRewardsHandler
         public String toString()
         {
             return "values: " + this.values;
-        }
-    }
-
-    public static class XMLRewardOutput extends Drop
-    {
-        @Override
-        public String toString()
-        {
-            return "values: " + this.values + " tag: " + this.tag;
         }
     }
 

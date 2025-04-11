@@ -3,6 +3,9 @@ package pokecube.api.data;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -59,7 +62,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.JsonPokedexEntry;
-import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.entity.pokemobs.DispenseBehaviourInteract;
 import pokecube.core.entity.pokemobs.PokemobType;
@@ -255,22 +257,24 @@ public class PokedexEntry
         public static void initDefaults()
         {
             final Interact fire = new Interact();
-            fire.key = new Drop();
+            var key = new JsonObject();
             fire.action = new Action();
-            fire.key.values.put("id", "minecraft:stick");
+            key.add("id",new JsonPrimitive("minecraft:stick"));
+            fire.key = key;
             fire.action.values.put("type", "item");
-            final Drop firedrop = new Drop();
-            firedrop.values.put("id", "minecraft:torch");
-            fire.action.drops.add(firedrop);
+            var drop = new JsonObject();
+            drop.add("id", new JsonPrimitive("minecraft:torch"));
+            fire.action.drops.add(drop);
 
             final Interact water = new Interact();
-            water.key = new Drop();
+            key = new JsonObject();
             water.action = new Action();
-            water.key.values.put("id", "minecraft:bucket");
+            key.add("id",new JsonPrimitive("minecraft:bucket"));
+            water.key = key;
             water.action.values.put("type", "item");
-            final Drop waterdrop = new Drop();
-            waterdrop.values.put("id", "minecraft:water_bucket");
-            water.action.drops.add(waterdrop);
+            drop = new JsonObject();
+            drop.add("id", new JsonPrimitive("minecraft:water_bucket"));
+            water.action.drops.add(drop);
 
             if (PokecubeCore.getConfig().defaultInteractions)
             {
@@ -298,22 +302,21 @@ public class PokedexEntry
             for (final Interact interact : data)
             {
                 InteractionLogic.cleanInteract(interact);
-                final Drop key = interact.key;
+                final JsonElement key = interact.key;
                 final Action action = interact.action;
                 final boolean isForme = action.values.get("type").equals("forme");
-                Map<String, String> values = key.getValues();
 
                 final Interaction interaction = new Interaction();
                 if (interact.isTag)
                 {
-                    final ResourceLocation tag = ResourceLocation.parse(key.id);
+                    final ResourceLocation tag = ResourceLocation.parse(key.getAsString());
                     if (!replace && entry.interactionLogic.canInteract(tag)) continue;
                     entry.interactionLogic.tagActions.put(tag, interaction);
                     DispenseBehaviourInteract.registerBehavior(tag);
                 }
                 else
                 {
-                    final ItemStack keyStack = Tools.getStack(values);
+                    final ItemStack keyStack = Tools.getStack(key);
                     if (!replace && entry.interactionLogic.canInteract(keyStack)) continue;
                     entry.interactionLogic.stackActions.put(keyStack, interaction);
                     DispenseBehaviourInteract.registerBehavior(keyStack);
@@ -333,10 +336,9 @@ public class PokedexEntry
                 else
                 {
                     final List<ItemStack> stacks = Lists.newArrayList();
-                    for (final Drop d : action.drops)
+                    for (var d : action.drops)
                     {
-                        values = d.getValues();
-                        final ItemStack stack = Tools.getStack(values);
+                        final ItemStack stack = Tools.getStack(d);
                         if (stack != ItemStack.EMPTY) stacks.add(stack);
                     }
                     interaction.stacks = stacks;

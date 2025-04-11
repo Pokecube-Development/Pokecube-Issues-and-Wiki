@@ -1,5 +1,7 @@
 package pokecube.adventures.events;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import io.netty.buffer.Unpooled;
 import net.minecraft.network.FriendlyByteBuf;
@@ -78,7 +80,6 @@ import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.npc.Activities;
 import pokecube.core.database.Database;
-import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.eventhandlers.SpawnHandler;
@@ -190,11 +191,11 @@ public class TrainerEventHandler
 
     public static ItemStack fromString(final String arg, final Entity sender)
     {
-        Drop drop;
+        JsonElement drop;
         try
         {
-            drop = JsonUtil.gson.fromJson(arg, Drop.class);
-            return Tools.getStack(drop.getValues(), sender.level() instanceof ServerLevel level ? level : null);
+            drop = JsonUtil.gson.fromJson(arg, JsonObject.class);
+            return Tools.getStack(drop, sender.level() instanceof ServerLevel level ? level : null);
         }
         catch (final JsonSyntaxException e)
         {

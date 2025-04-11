@@ -1,17 +1,9 @@
 package pokecube.api.utils;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Random;
-import java.util.function.Predicate;
-
-import javax.annotation.Nullable;
-
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
+import com.google.gson.JsonElement;
+import com.mojang.serialization.JsonOps;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -25,14 +17,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.storage.loot.LootParams;
-import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.*;
 import net.minecraft.world.phys.HitResult.Type;
-import net.minecraft.world.phys.Vec3;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -40,27 +26,31 @@ import pokecube.api.items.IPokecube;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
+import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.EntityTools;
 import thut.api.maths.Cruncher;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
-import thut.lib.RegHelper;
+
+import javax.annotation.Nullable;
+import java.util.Optional;
+import java.util.Random;
+import java.util.function.Predicate;
 
 public class Tools
 {
     public static enum MergeOrder
     {
-        REPLACE, AFTER, BEFORE;
+        REPLACE, AFTER, BEFORE
     }
 
     /**
-     * This is an array of what lvl has what exp for the varying exp modes. This
-     * array came from: http://bulbapedia.bulbagarden.net/wiki/Experience
+     * This is an array of what lvl has what exp for the varying exp modes. This array came from:
+     * http://bulbapedia.bulbagarden.net/wiki/Experience
      */
-    private static final int[][] expMap =
-    {
+    private static final int[][] expMap = {
             //@formatter:off
             { 0, 0, 0, 0, 0, 0, 1 },
             { 15, 6, 8, 9, 10, 4, 2 },
@@ -164,12 +154,11 @@ public class Tools
             { 600000, 800000, 1000000, 1059860, 1250000, 1640000, 100 } };
     //@formatter:on
     // cache these in tables, for easier lookup.
-    public static int[] maxXPs =
-    { 800000, 1000000, 1059860, 1250000, 600000, 1640000 };
+    public static int[] maxXPs = { 800000, 1000000, 1059860, 1250000, 600000, 1640000 };
 
     /**
-     * This is a cache of a radial lookup map, note that it only has +- 4 blocks
-     * along y, and has null for entries outside of that.
+     * This is a cache of a radial lookup map, note that it only has +- 4 blocks along y, and has null for entries
+     * outside of that.
      */
     public static final byte[][] indexArr = new byte[32768][3];
 
@@ -255,11 +244,12 @@ public class Tools
     private static int getLevelFromTable(final int index, final int exp)
     {
         int level = 100;
-        for (int i = 0; i < 99; i++) if (Tools.expMap[i][index] <= exp && Tools.expMap[i + 1][index] > exp)
-        {
-            level = Tools.expMap[i][6];
-            break;
-        }
+        for (int i = 0; i < 99; i++)
+            if (Tools.expMap[i][index] <= exp && Tools.expMap[i + 1][index] > exp)
+            {
+                level = Tools.expMap[i][6];
+                break;
+            }
         return level;
     }
 
@@ -360,8 +350,7 @@ public class Tools
     {
         final HitResult hit = entity.pick(distance, 1.0f, false);
         if (hit == null || hit.getType() != Type.BLOCK || !(hit instanceof BlockHitResult result)) return null;
-        final Vector3 vec = new Vector3().set(result.getLocation());
-        return vec;
+        return new Vector3().set(result.getLocation());
     }
 
     public static int getPower(final String move, final IPokemob user, final LivingEntity target)
@@ -372,7 +361,7 @@ public class Tools
         final IPokemob mob = PokemobCaps.getPokemobFor(target);
         if (mob != null)
         {
-            pwr *= Tools.getAttackEfficiency(attack.getType(user), mob.getType1(), mob.getType2());
+            pwr *= (int) Tools.getAttackEfficiency(attack.getType(user), mob.getType1(), mob.getType2());
             if (mob.getAbility() != null)
             {
                 MoveApplication test = new MoveApplication(attack, user, target);
@@ -390,12 +379,9 @@ public class Tools
     }
 
     /**
-     * Can be {@link IPokemob#MALE}, {@link IPokemob#FEMALE} or
-     * {@link IPokemob#NOSEXE}
+     * Can be {@link IPokemob#MALE}, {@link IPokemob#FEMALE} or {@link IPokemob#NOSEXE}
      *
-     * @param baseValue the sexe ratio of the Pokemon, 254=Only female, 255=no
-     *                  sexe, 0=Only male
-     * @param random
+     * @param baseValue the sexe ratio of the Pokemon, 254=Only female, 255=no sexe, 0=Only male
      * @return the int gender
      */
     public static byte getSexe(final int baseValue, final Random random)
@@ -405,77 +391,34 @@ public class Tools
         return IPokemob.FEMALE;
     }
 
-    public static ItemStack getStack(final Map<String, String> values)
+    public static ItemStack getStack(JsonElement values)
     {
         return Tools.getStack(values, null);
     }
 
-    public static ItemStack getStack(final Map<String, String> values, final ServerLevel world)
+    public static ItemStack getStack(JsonElement values, final ServerLevel world)
     {
-        String id = "";
-        int size = 1;
-        boolean resource = false;
-        String tag = "";
-        boolean isTable = false;
-        String table = "";
-
-        for (final String key : values.keySet()) if (key.toString().equals("id")) id = values.get(key);
-        else if (key.toString().equals("n")) size = Integer.parseInt(values.get(key));
-        else if (key.toString().equals("tag")) tag = values.get(key).trim();
-        else if (key.toString().equals("table"))
+        try
         {
-            table = values.get(key).trim();
-            isTable = true;
-        }
-
-        if (isTable && world != null)
-        {
-            var key = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.parse(table));
-            final LootTable loottable = world.getServer().reloadableRegistries().getLootTable(key);
-            LootParams params = new LootParams.Builder(world).create(loottable.getParamSet());
-            final List<ItemStack> list = loottable.getRandomItems(params);
-//             Shuffle the list.
-            if (!list.isEmpty()) Collections.shuffle(list);
-            for (final ItemStack itemstack : list)
-//                 Pick first valid item in it.
-                if (!itemstack.isEmpty())
+            if (values.isJsonObject() && values.getAsJsonObject().has("values"))
             {
-                final ItemStack stack = itemstack.copy();
-                if (RegHelper.getKey(stack).equals(ResourceLocation.fromNamespaceAndPath("pokecube", "candy")))
-                    PokecubeItems.makeStackValid(stack);
-                return stack;
+                System.out.println("Legacy format for "+values);
+                values = values.getAsJsonObject().get("values");
             }
-        }
 
-        if (id.isEmpty()) return ItemStack.EMPTY;
-        resource = id.contains(":");
-        ItemStack stack = ItemStack.EMPTY;
-        Item item = null;
-        if (resource) item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(id));
-
-        if (!resource || item == null) stack = PokecubeItems.getStack(id, false);
-        if (!stack.isEmpty()) item = stack.getItem();
-        if (item == null)
-            for (final ResourceLocation loc : BuiltInRegistries.ITEM.keySet()) if (loc.getPath().equals(id))
-        {
-            item = BuiltInRegistries.ITEM.get(loc);
-            break;
+            var access = world != null ? world.registryAccess() : PokecubeCore.proxy.getRegistries();
+            ItemStack stack = ItemStack.parseOptional(access,
+                    (CompoundTag) JsonOps.INSTANCE.convertTo(NbtOps.INSTANCE, values));
+            if (stack.isEmpty()) throw new IllegalArgumentException();
+            return stack;
         }
-
-        if (item == null && stack.isEmpty())
+        catch (Exception e)
         {
-            PokecubeAPI.LOGGER.error(id + " not found!");
-            return ItemStack.EMPTY;
-        }
-        if (stack.isEmpty()) stack = new ItemStack(item, 1);
-        stack.setCount(size);
-        if (!tag.isEmpty())
-        {
-            // FIXME stack parsing
             System.out.println(values);
             Thread.dumpStack();
+            PokecubeAPI.LOGGER.error("Error with json {}", values, e);
+            return ItemStack.EMPTY;
         }
-        return stack;
     }
 
     public static int getType(String name)
@@ -484,31 +427,17 @@ public class Tools
 
         switch (name)
         {
-        case "slow_then_very_fast":
+        case "slow_then_very_fast", "slow-then-very-fast", "erratic":
             return 0;
-        case "slow-then-very-fast":
-            return 0;
-        case "erratic":
-            return 0;
-        case "fast":
-            return 1;
-        case "medium_fast":
-            return 1;
-        case "medium-fast":
+        case "fast", "medium-fast", "medium_fast":
             return 1;
         case "medium":
             return 2;
-        case "medium_slow":
-            return 3;
-        case "medium-slow":
+        case "medium_slow", "medium-slow":
             return 3;
         case "slow":
             return 4;
-        case "fast_then_very_slow":
-            return 5;
-        case "fast-then-very-slow":
-            return 5;
-        case "fluctuating":
+        case "fast_then_very_slow", "fast-then-very-slow", "fluctuating":
             return 5;
         }
 
@@ -526,7 +455,7 @@ public class Tools
         final boolean flag = PlayerEntity.getInventory().add(itemstack);
         if (flag)
         {
-            PlayerEntity.level().playSound((Player) null, PlayerEntity.getX(), PlayerEntity.getY(), PlayerEntity.getZ(),
+            PlayerEntity.level().playSound(null, PlayerEntity.getX(), PlayerEntity.getY(), PlayerEntity.getZ(),
                     SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2F,
                     ((PlayerEntity.getRandom().nextFloat() - PlayerEntity.getRandom().nextFloat()) * 0.7F + 1.0F)
                             * 2.0F);
@@ -552,8 +481,8 @@ public class Tools
     public static boolean isAnyPlayerInRange(final double range, final Entity entity)
     {
         final Level world = entity.level();
-        return world.getNearestPlayer(entity.getX(), entity.getY(), entity.getZ(), range,
-                EntitySelector.NO_SPECTATORS) != null;
+        return world.getNearestPlayer(entity.getX(), entity.getY(), entity.getZ(), range, EntitySelector.NO_SPECTATORS)
+                != null;
     }
 
     public static boolean isSameStack(final ItemStack a, final ItemStack b)

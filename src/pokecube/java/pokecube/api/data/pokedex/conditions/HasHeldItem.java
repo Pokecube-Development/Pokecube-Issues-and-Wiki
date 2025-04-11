@@ -2,6 +2,7 @@ package pokecube.api.data.pokedex.conditions;
 
 import java.util.Map;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -19,7 +20,6 @@ import net.minecraft.world.item.ItemStack;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.Tools;
-import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import thut.lib.TComponent;
 
 /**
@@ -56,11 +56,10 @@ public class HasHeldItem implements PokemobCondition
         return false;
     }
 
-    public void initFromDrop(Drop drop, boolean isTag)
+    public void initFromDrop(JsonElement drop, boolean isTag)
     {
-        Map<String, String> values = drop.getValues();
-        if (isTag) tag = drop.id;
-        else _value = Tools.getStack(values);
+        if (isTag) tag = drop.getAsString();
+        else _value = Tools.getStack(drop);
     }
 
     @Override

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import net.minecraft.resources.ResourceLocation;
@@ -19,7 +20,6 @@ import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.entity.npc.NpcType;
 import thut.api.util.JsonUtil;
@@ -28,9 +28,6 @@ import thut.wearables.EnumWearable;
 
 public class TrainerEntryLoader
 {
-    public static class Held extends Drop
-    {}
-
     public static class TrainerSpawn extends SpawnRule
     {
         public float rate = 1.0f;
@@ -39,7 +36,7 @@ public class TrainerEntryLoader
     public static class Worn
     {
         public String key;
-        public List<Drop> options = Lists.newArrayList();
+        public List<JsonElement> options = Lists.newArrayList();
     }
 
     public static class TrainerEntry
@@ -49,8 +46,8 @@ public class TrainerEntryLoader
         String pokemon;
         String gender;
         boolean belt = true;
-        Held held;
-        Held reward;
+        JsonElement held;
+        JsonElement reward;
         Boolean replace;
         String team;
 
@@ -138,9 +135,9 @@ public class TrainerEntryLoader
             for (Worn w : entry.worn)
             {
                 var list = new ArrayList<ItemStack>();
-                for (Drop d : w.options)
+                for (JsonElement d : w.options)
                 {
-                    ItemStack stack = Tools.getStack(d.getValues());
+                    ItemStack stack = Tools.getStack(d);
                     list.add(stack);
                 }
                 if (EnumWearable.slotsNames.containsKey(w.key)) type.wornItems.put(w.key, list);
@@ -155,8 +152,7 @@ public class TrainerEntryLoader
                     : entry.gender.equalsIgnoreCase("female") ? female : male + female;
             if (entry.held != null)
             {
-                final ItemStack held = Tools.getStack(entry.held.getValues());
-                type.held = held;
+                type.held = Tools.getStack(entry.held);
             }
             type.pokelist = entry.pokemon == null ? new String[] {} : entry.pokemon.split(",");
         }

@@ -1,21 +1,9 @@
 package pokecube.adventures.utils;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.BiFunction;
-
-import org.objectweb.asm.Type;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-
 import net.minecraft.core.component.DataComponentPredicate;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -28,6 +16,7 @@ import net.minecraft.world.item.trading.ItemCost;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.moddiscovery.ModFile;
 import net.neoforged.neoforgespi.language.ModFileScanData.AnnotationData;
+import org.objectweb.asm.Type;
 import pokecube.adventures.ai.poi.Professions;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrade;
@@ -36,45 +25,36 @@ import pokecube.adventures.utils.trade_presets.TradePresetAn;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeItems;
-import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.entity.npc.NpcType;
 import thut.api.item.ItemList;
 import thut.api.util.JsonUtil;
 import thut.lib.CompatParser.ClassFinder;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.BiFunction;
+
 public class TradeEntryLoader
 {
-    public static class Buy extends Drop
-    {
-        @Override
-        public String toString()
-        {
-            return this.values + " " + this.tag;
-        }
-    }
-
-    public static class Sell extends Drop
-    {
-        @Override
-        public String toString()
-        {
-            return this.values + " " + this.tag;
-        }
-    }
-
     public static class Trade
     {
         public String custom;
         public String type = "preset";
-        public Sell sell;
+        public JsonElement sell;
         public int maxUses = Integer.MAX_VALUE;
         public int exp = 1;
         public int demand = 0;
         public float multiplier = 0.05f;
         public int count = -1;
 
-        public final List<Buy> buys = Lists.newArrayList();
+        public final List<JsonElement> buys = Lists.newArrayList();
 
         public Map<String, String> values = Maps.newHashMap();
     }
@@ -136,14 +116,14 @@ public class TradeEntryLoader
         BiFunction<ModFile, String, Boolean> validClass = (file, name) -> {
             for (final AnnotationData a : file.getScanResult().getAnnotations())
                 if (name.equals(a.clazz().getClassName()) && a.annotationType().equals(ANNOTE))
-            {
-                if (a.annotationData().containsKey("mod"))
                 {
-                    String modid = (String) a.annotationData().get("mod");
-                    return ModList.get().isLoaded(modid);
+                    if (a.annotationData().containsKey("mod"))
+                    {
+                        String modid = (String) a.annotationData().get("mod");
+                        return ModList.get().isLoaded(modid);
+                    }
+                    return true;
                 }
-                return true;
-            }
             return false;
         };
 
@@ -164,8 +144,8 @@ public class TradeEntryLoader
                             TradeEntryLoader.registeredPresets.put(preset.key(),
                                     (TradePreset) candidateClass.getConstructor().newInstance());
                         }
-                        catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-                                | InvocationTargetException | NoSuchMethodException | SecurityException e)
+                        catch (InstantiationException | IllegalAccessException | IllegalArgumentException |
+                                InvocationTargetException | NoSuchMethodException | SecurityException e)
                         {
                             e.printStackTrace();
                         }
@@ -205,24 +185,22 @@ public class TradeEntryLoader
                 final ItemStack sell = new ItemStack(i);
                 if (!sell.isEmpty())
                 {
-                    Map<String, String> values;
                     TrainerTrade recipe;
                     ItemStack buy1 = ItemStack.EMPTY;
                     ItemStack buy2 = ItemStack.EMPTY;
-                    values = trade.buys.get(0).getValues();
-                    buy1 = Tools.getStack(values);
+                    buy1 = Tools.getStack(trade.buys.get(0));
                     if (trade.buys.size() > 1)
                     {
-                        values = trade.buys.get(1).getValues();
-                        buy2 = Tools.getStack(values);
+                        buy2 = Tools.getStack(trade.buys.get(1));
                     }
                     var cost = new ItemCost(buy1.getItemHolder(), buy1.getCount(),
                             DataComponentPredicate.allOf(buy1.getComponents()));
-                    var _buy2 = Optional.ofNullable(buy2.isEmpty() ? null
+                    var _buy2 = Optional.ofNullable(buy2.isEmpty()
+                            ? null
                             : new ItemCost(buy1.getItemHolder(), buy1.getCount(),
                                     DataComponentPredicate.allOf(buy2.getComponents())));
                     recipe = new TrainerTrade(cost, _buy2, sell, trade);
-                    values = trade.values;
+                    var values = trade.values;
                     if (values.containsKey(TradeEntryLoader.CHANCE))
                         recipe.chance = Float.parseFloat(values.get(TradeEntryLoader.CHANCE));
                     if (values.containsKey(TradeEntryLoader.MIN))
@@ -243,9 +221,9 @@ public class TradeEntryLoader
                 final ItemStack buy = new ItemStack(i);
                 if (!buy.isEmpty())
                 {
-                    Map<String, String> values = trade.sell.getValues();
+                    Map<String, String> values;
                     TrainerTrade recipe;
-                    final ItemStack sell = Tools.getStack(values);
+                    final ItemStack sell = Tools.getStack(trade.sell);
                     var cost = new ItemCost(buy.getItemHolder(), buy.getCount(),
                             DataComponentPredicate.allOf(buy.getComponents()));
                     recipe = new TrainerTrade(cost, Optional.empty(), sell, trade);
@@ -341,14 +319,11 @@ public class TradeEntryLoader
                 ItemStack buy1 = ItemStack.EMPTY;
                 ItemStack buy2 = ItemStack.EMPTY;
 
-                Map<String, String> values = trade.sell.getValues();
-                sell = Tools.getStack(values);
-                values = trade.buys.get(0).getValues();
-                buy1 = Tools.getStack(values);
+                sell = Tools.getStack(trade.sell);
+                buy1 = Tools.getStack(trade.buys.get(0));
                 if (trade.buys.size() > 1)
                 {
-                    values = trade.buys.get(1).getValues();
-                    buy2 = Tools.getStack(values);
+                    buy2 = Tools.getStack(trade.buys.get(1));
                 }
                 if (sell.isEmpty())
                 {
@@ -357,11 +332,12 @@ public class TradeEntryLoader
                 }
                 var cost = new ItemCost(buy1.getItemHolder(), buy1.getCount(),
                         DataComponentPredicate.allOf(buy1.getComponents()));
-                var _buy2 = Optional.ofNullable(buy2.isEmpty() ? null
+                var _buy2 = Optional.ofNullable(buy2.isEmpty()
+                        ? null
                         : new ItemCost(buy1.getItemHolder(), buy1.getCount(),
                                 DataComponentPredicate.allOf(buy2.getComponents())));
                 recipe = new TrainerTrade(cost, _buy2, sell, trade);
-                values = trade.values;
+                var values = trade.values;
                 if (values.containsKey(TradeEntryLoader.CHANCE))
                     recipe.chance = Float.parseFloat(values.get(TradeEntryLoader.CHANCE));
                 if (values.containsKey(TradeEntryLoader.MIN))

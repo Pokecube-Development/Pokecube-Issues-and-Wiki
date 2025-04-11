@@ -34,7 +34,6 @@ import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
@@ -51,9 +50,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.database.pokedex.JsonPokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
-import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
-import pokecube.core.database.recipes.IRecipeParser;
-import pokecube.core.database.recipes.XMLRecipeHandler;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.resources.PackListener;
 import pokecube.core.database.rewards.XMLRewardsHandler;
@@ -70,43 +66,24 @@ import pokecube.core.moves.implementations.MovesAdder;
 import thut.api.data.DataHelpers;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
-import thut.core.xml.bind.annotation.XmlAttribute;
 import thut.core.xml.bind.annotation.XmlElement;
 import thut.core.xml.bind.annotation.XmlRootElement;
 import thut.lib.ResourceHelper;
 
 public class Database
 {
-    @XmlRootElement(name = "Drop")
-    public static class XMLDropEntry extends Drop
-    {
-        @XmlAttribute
-        boolean overwrite = false;
-        @XmlAttribute
-        String name;
-    }
-
     @XmlRootElement(name = "Drops")
     public static class XMLDrops
     {
         @XmlElement(name = "Drop")
-        private final List<XMLDropEntry> pokemon = Lists.newArrayList();
-    }
-
-    @XmlRootElement(name = "Held")
-    public static class XMLHeldEntry extends Drop
-    {
-        @XmlAttribute
-        boolean overwrite = false;
-        @XmlAttribute
-        String name;
+        private final List<JsonElement> pokemon = Lists.newArrayList();
     }
 
     @XmlRootElement(name = "Helds")
     public static class XMLHelds
     {
         @XmlElement(name = "Held")
-        private final List<XMLHeldEntry> pokemon = Lists.newArrayList();
+        private final List<JsonElement> pokemon = Lists.newArrayList();
     }
 
     public static class XMLSpawnEntry extends SpawnRule
@@ -133,7 +110,7 @@ public class Database
     public static class XMLStarterItems
     {
         @XmlElement(name = "Item")
-        private final List<Drop> drops = Lists.newArrayList();
+        private final List<JsonElement> drops = Lists.newArrayList();
     }
 
     public static class ReloadListener implements PreparableReloadListener
@@ -520,38 +497,6 @@ public class Database
             PokecubeAPI.logInfo("Processed Form Lists, found " + dummies + " Dummy Forms.");
     }
 
-    public static void loadRecipes()
-    {
-        for (final IRecipeParser parser : XMLRecipeHandler.recipeParsers.values()) parser.init();
-        final Map<ResourceLocation, Resource> resources = PackFinder.getJsonResources("database/recipes");
-        resources.forEach((file, resource) -> {
-            try
-            {
-                final BufferedReader reader = ResourceHelper.getReader(resource);
-                if (reader == null) throw new FileNotFoundException(file.toString());
-                final JsonObject database = JsonUtil.gson.fromJson(reader, JsonObject.class);
-                reader.close();
-
-                // Handle lists of recipes in the json
-                if (database.has("recipes") && database.get("recipes").isJsonArray())
-                    for (final JsonElement drop : database.get("recipes").getAsJsonArray())
-                        if (drop.isJsonObject()) XMLRecipeHandler.addRecipe(drop.getAsJsonObject());
-
-                // Handle single json as a recipe
-                if (database.has("type") || database.has("handler")) XMLRecipeHandler.addRecipe(database);
-
-            }
-            catch (final FileNotFoundException e)
-            {
-                PokecubeAPI.logInfo("No Custom Recipes of name {}", file);
-            }
-            catch (final Exception e)
-            {
-                PokecubeAPI.LOGGER.error("Error with recipes file " + file, e);
-            }
-        });
-    }
-
     public static void loadRewards(final String input)
     {
         if (XMLRewardsHandler.loadedRecipes.add(input)) Database.loadRewards(new StringReader(input));
@@ -603,7 +548,7 @@ public class Database
                     final XMLStarterItems database = JsonUtil.gson.fromJson(reader, XMLStarterItems.class);
                     reader.close();
                     valid.set(true);
-                    for (final Drop drop : database.drops)
+                    for (final JsonElement drop : database.drops)
                     {
                         final ItemStack stack = PokedexEntryLoader.getStackFromDrop(drop);
                         if (!stack.isEmpty()) kit.add(stack);
@@ -751,7 +696,6 @@ public class Database
         time = System.nanoTime();
 
         Database.loadStarterPack();
-        Database.loadRecipes();
         Database.loadRewards();
 
         dt = System.nanoTime() - time;

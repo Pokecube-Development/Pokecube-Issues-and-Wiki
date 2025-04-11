@@ -33,12 +33,10 @@ public class AllVitamins implements TradePreset
             TrainerTrade recipe;
             ItemStack buy1 = ItemStack.EMPTY;
             ItemStack buy2 = ItemStack.EMPTY;
-            values = trade.buys.get(0).getValues();
-            buy1 = Tools.getStack(values);
+            buy1 = Tools.getStack(trade.buys.get(0));
             if (trade.buys.size() > 1)
             {
-                values = trade.buys.get(1).getValues();
-                buy2 = Tools.getStack(values);
+                buy2 = Tools.getStack(trade.buys.get(1));
             }
             var cost = new ItemCost(buy1.getItemHolder(), buy1.getCount(),
                     DataComponentPredicate.allOf(buy1.getComponents()));

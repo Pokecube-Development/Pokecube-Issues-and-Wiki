@@ -1,9 +1,5 @@
 package pokecube.adventures.utils.trade_presets;
 
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentPredicate;
 import net.minecraft.core.component.DataComponents;
@@ -26,6 +22,10 @@ import thut.api.util.JsonUtil;
 import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+
 @TradePresetAn(key = "sellExplorationMap")
 public class SellStructureMap implements TradePreset
 {
@@ -40,16 +40,15 @@ public class SellStructureMap implements TradePreset
         final ItemStack sell = new ItemStack(Items.MAP);
         ItemStack buy1 = ItemStack.EMPTY;
         ItemStack buy2 = ItemStack.EMPTY;
-        values = trade.buys.get(0).getValues();
-        buy1 = Tools.getStack(values);
+        buy1 = Tools.getStack(trade.buys.get(0));
         if (trade.buys.size() > 1)
         {
-            values = trade.buys.get(1).getValues();
-            buy2 = Tools.getStack(values);
+            buy2 = Tools.getStack(trade.buys.get(1));
         }
         var cost = new ItemCost(buy1.getItemHolder(), buy1.getCount(),
                 DataComponentPredicate.allOf(buy1.getComponents()));
-        var _buy2 = Optional.ofNullable(buy2.isEmpty() ? null
+        var _buy2 = Optional.ofNullable(buy2.isEmpty()
+                ? null
                 : new ItemCost(buy1.getItemHolder(), buy1.getCount(),
                         DataComponentPredicate.allOf(buy2.getComponents())));
         recipe = new TrainerTrade(cost, _buy2, sell, trade);
@@ -77,8 +76,8 @@ public class SellStructureMap implements TradePreset
                             true);
                     MapItem.renderBiomePreviewMap(serverlevel, itemstack);
                     Thread.dumpStack();
-                   //TODO decide on the way to get the map decoration type;
-//                    MapItemSavedData.addTargetDecoration(itemstack, blockpos, "+", MapDecoration.Type.RED_X);
+                    //TODO decide on the way to get the map decoration type;
+                    //                    MapItemSavedData.addTargetDecoration(itemstack, blockpos, "+", MapDecoration.Type.RED_X);
                     itemstack.set(DataComponents.ITEM_NAME,
                             TComponent.translatable("filled_map." + loc.getPath().toLowerCase(Locale.ROOT)));
                     return itemstack;

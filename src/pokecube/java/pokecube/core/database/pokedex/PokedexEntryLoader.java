@@ -16,6 +16,7 @@ import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
 
+import com.google.gson.JsonElement;
 import org.apache.commons.lang3.ClassUtils;
 
 import com.google.common.collect.Maps;
@@ -59,7 +60,7 @@ public class PokedexEntryLoader
 
         default void mergeBasic(T other)
         {
-            Field fields[] = new Field[] {};
+            Field[] fields = new Field[] {};
             try
             {
                 // returns the array of Field objects representing the public
@@ -101,27 +102,6 @@ public class PokedexEntryLoader
         }
     }
 
-    @XmlRootElement(name = "Drop")
-    public static class Drop
-    {
-        @XmlAnyAttribute
-        public Map<String, String> values = Maps.newHashMap();
-        @XmlElement(name = "tag")
-        public String tag;
-        @XmlElement(name = "id")
-        public String id;
-
-        public Map<String, String> getValues()
-        {
-            if (this.values == null) this.values = Maps.newHashMap();
-            final String tagName = new String("tag");
-            final String idName = new String("id");
-            if (this.tag != null && !this.values.containsKey(tagName)) this.values.put(tagName, this.tag);
-            if (this.id != null && !this.values.containsKey(idName)) this.values.put(idName, this.id);
-            return this.values;
-        }
-    }
-
     public static final Gson gson = JsonUtil.gson;
 
     @SuppressWarnings(
@@ -129,7 +109,7 @@ public class PokedexEntryLoader
     public static Object getSerializableCopy(final Class<?> type, final Object original)
             throws InstantiationException, IllegalAccessException
     {
-        Field fields[] = new Field[] {};
+        Field[] fields = new Field[] {};
         try
         {
             // returns the array of Field objects representing the public fields
@@ -218,30 +198,23 @@ public class PokedexEntryLoader
 
     /**
      * This must be called after tags are loaded server side.
-     *
-     * @param d
-     * @return
      */
-    public static ItemStack getStackFromDrop(final Drop drop)
+    public static ItemStack getStackFromDrop(final JsonElement drop)
     {
-        return Tools.getStack(drop.getValues());
+        return Tools.getStack(drop);
     }
 
-    public static final String MIN = new String("min");
-    public static final String MAX = new String("max");
-    public static final String RATE = new String("rate");
-    public static final String LEVEL = new String("level");
-    public static final String VARIANCE = new String("variance");
-    public static final String MINY = new String("minY");
-    public static final String MAXY = new String("maxY");
+    public static final String MIN = "min";
+    public static final String MAX = "max";
+    public static final String RATE = "rate";
+    public static final String LEVEL = "level";
+    public static final String VARIANCE = "variance";
+    public static final String MINY = "minY";
+    public static final String MAXY = "maxY";
 
     /**
      * This is safe to run before tags are loaded.
-     * 
-     * @param entry
      *
-     * @param spawnData
-     * @param rule
      */
     public static SpawnBiomeMatcher handleAddSpawn(PokedexEntry entry, SpawnBiomeMatcher matcher)
     {
@@ -316,7 +289,7 @@ public class PokedexEntryLoader
     {
         if (outOf.getClass() != inTo.getClass())
             throw new IllegalArgumentException("To and From must be of the same class!");
-        Field fields[] = new Field[] {};
+        Field[] fields = new Field[] {};
         try
         {
             fields = outOf.getClass().getDeclaredFields();
