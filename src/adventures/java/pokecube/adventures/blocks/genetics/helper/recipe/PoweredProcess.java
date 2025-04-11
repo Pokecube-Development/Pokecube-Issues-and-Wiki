@@ -24,17 +24,21 @@ public class PoweredProcess
         if (tile.isValid(RecipeClone.class))
         {
             var recipes = manager.getRecipesFor(RecipePokeAdv.CLONE_TYPE.get(), input, level);
-            List<RecipeClone> list = new ArrayList<>();
-            recipes.forEach(h -> list.add(h.value()));
-            list.add(RecipeClone.DEFAULT);
-            list.sort(Comparator.comparingInt(o -> o.priority));
-            return list.getFirst();
+            if (!recipes.isEmpty())
+            {
+                List<RecipeClone> list = new ArrayList<>();
+                recipes.forEach(h -> list.add(h.value()));
+                list.sort(Comparator.comparingInt(o -> o.priority));
+                return list.getFirst();
+            }
+            if (RecipeClone.DEFAULT.matches(input, level)) return RecipeClone.DEFAULT;
         }
         // This checks for item output
         else if (tile.isValid(RecipeSplice.class))
         {
             // This takes no custom stuff, so just use a new one.
-            return new RecipeSplice();
+            var recipe = new RecipeSplice();
+            return recipe.matches(input, level) ? recipe : null;
         }
         // This checks for item output also
         else if (tile.isValid(RecipeExtract.class))

@@ -12,13 +12,13 @@
           "item": "pokecube:pokemobegg"
         },
         {
-          "neoforge:ingredient_type": "neoforge:components",
-          "item": "minecraft:potion",
-          "components" : {
-            "potion_contents": {
-              "potion": "strong_regeneration"
+          "type": "neoforge:components",
+          "components": {
+            "minecraft:potion_contents": {
+              "potion": "minecraft:strong_regeneration"
             }
-          }
+          },
+          "items": "minecraft:potion"
         }
     ],
     "genes": [

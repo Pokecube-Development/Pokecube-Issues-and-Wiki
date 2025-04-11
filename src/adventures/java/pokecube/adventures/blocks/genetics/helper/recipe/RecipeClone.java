@@ -157,6 +157,7 @@ public class RecipeClone extends PoweredRecipe
     {
         ItemStack source = tile.getItem(0);
         IMobGenetics genes = ClonerHelper.getGenes(world.registryAccess(), source);
+        if (genes == null) genes = new DefaultGenetics();
         var inputGenes = genes.getAlleles(GeneticsManager.SPECIESGENE);
 
         var list = _genes.get(GeneticsManager.SPECIESGENE);

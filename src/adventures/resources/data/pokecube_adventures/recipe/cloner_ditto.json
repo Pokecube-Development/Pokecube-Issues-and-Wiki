@@ -11,6 +11,11 @@
           "item": "minecraft:potion"
         }
     ],
+    "nonConsumed": [
+      {
+        "item": "pokecube:mewhair"
+      }
+    ],
     "genes": [
       {
           "id":"pokecube:species",
