@@ -24,7 +24,7 @@ public class BuddingAquamarineBlock extends BuddingAmethystBlock
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random)
     {
-       if (random.nextInt(5) == 0)
+       if (random.nextInt(GROWTH_CHANCE) == 0)
        {
           Direction direction = DIRECTIONS[random.nextInt(DIRECTIONS.length)];
           BlockPos pos1 = pos.relative(direction);
@@ -47,7 +47,7 @@ public class BuddingAquamarineBlock extends BuddingAmethystBlock
           if (block != null)
           {
              BlockState state2 = block.defaultBlockState().setValue(AmethystClusterBlock.FACING, direction)
-                     .setValue(AmethystClusterBlock.WATERLOGGED, Boolean.valueOf(state1.getFluidState().getType() == Fluids.WATER));
+                     .setValue(AmethystClusterBlock.WATERLOGGED, state1.getFluidState().getType() == Fluids.WATER);
              world.setBlockAndUpdate(pos1, state2);
           }
        }

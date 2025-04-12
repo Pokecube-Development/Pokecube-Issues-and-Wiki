@@ -41,7 +41,7 @@ public class BigContaminatedDripleafBlock extends BigDripleafBlock implements Bo
 {
     // Tag
     public static final TagKey<Block> BIG_CONTAMINATED_DRIPLEAF_PLACEABLE = TagKey.create(RegHelper.BLOCK_REGISTRY,
-            ResourceLocation.parse(Reference.ID, "big_contaminated_dripleaf_placeable"));
+            ResourceLocation.fromNamespaceAndPath(Reference.ID, "big_contaminated_dripleaf_placeable"));
     private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     private static final EnumProperty<Tilt> TILT = BlockStateProperties.TILT;
     private static final Map<Tilt, VoxelShape> LEAF_SHAPES = ImmutableMap.of(Tilt.NONE,
@@ -123,9 +123,9 @@ public class BigContaminatedDripleafBlock extends BigDripleafBlock implements Bo
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader worldReader, BlockPos pos, BlockState state, boolean b)
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state)
     {
-        BlockState stateAbove = worldReader.getBlockState(pos.above());
+        BlockState stateAbove = level.getBlockState(pos.above());
         return canReplace(stateAbove);
     }
 

@@ -32,7 +32,7 @@ public class AquamarineClusterFeature extends Feature<DripstoneClusterConfigurat
 {
     // Block Tag
     public static final TagKey<Block> BASE_STONE_ULTRASPACE = TagKey.create(RegHelper.BLOCK_REGISTRY,
-            ResourceLocation.parse(Reference.ID, "base_stone_ultraspace"));
+            ResourceLocation.fromNamespaceAndPath(Reference.ID, "base_stone_ultraspace"));
 
     public AquamarineClusterFeature(final Codec<DripstoneClusterConfiguration> config)
     {

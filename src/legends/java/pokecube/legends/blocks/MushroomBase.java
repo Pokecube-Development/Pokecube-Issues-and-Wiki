@@ -1,7 +1,5 @@
 package pokecube.legends.blocks;
 
-import org.jetbrains.annotations.NotNull;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.BlockGetter;
@@ -13,7 +11,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.PlantType;
 import pokecube.legends.init.PlantsInit;
 
 public class MushroomBase extends MushroomBlock
@@ -25,7 +22,7 @@ public class MushroomBase extends MushroomBlock
 
     public MushroomBase(final BlockBehaviour.Properties properties, ResourceKey<ConfiguredFeature<?, ?>> featureSupplier)
     {
-        super(properties, featureSupplier);
+        super(featureSupplier, properties);
         this.featureSupplier = featureSupplier;
     }
 
@@ -42,14 +39,7 @@ public class MushroomBase extends MushroomBlock
     }
 
     @Override
-    public PlantType getPlantType(final BlockGetter world, final BlockPos pos)
-    {
-        return PlantType.PLAINS;
-    }
-
-    @Override
-    public boolean isValidBonemealTarget(final @NotNull LevelReader worldReader, final BlockPos pos, final BlockState state,
-                                         final boolean b)
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state)
     {
         return this.validBonemealTarget;
     }

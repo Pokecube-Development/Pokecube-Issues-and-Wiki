@@ -69,19 +69,19 @@ public class ZamazentaShieldItem extends ShieldItem {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(final ItemStack stack, final Level worldIn, final List<Component> tooltip,
-         final TooltipFlag flagIn)
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents,
+            TooltipFlag tooltipFlag)
     {
         if (!this.hasTooltip) return;
         if (Screen.hasShiftDown())
         {
-            tooltip.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip"));
+            tooltipComponents.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip"));
             for (int lineAmt = 1; lineAmt <= tooltipLineAmt;)
             {
-                tooltip.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip.line" + lineAmt));
+                tooltipComponents.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip.line" + lineAmt));
                 lineAmt++;
             }
         }
-        else tooltip.add(TComponent.translatable("pokecube.tooltip.advanced"));
+        else tooltipComponents.add(TComponent.translatable("pokecube.tooltip.advanced"));
     }
 }

@@ -1,21 +1,18 @@
 package pokecube.legends.tileentity;
 
-import java.util.List;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.extensions.IForgeBlockEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import pokecube.core.blocks.maxspot.MaxTile;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock.State;
 import pokecube.legends.init.BlockInit;
+
+import java.util.List;
 
 public class RaidSpawn extends MaxTile
 {
@@ -59,12 +56,6 @@ public class RaidSpawn extends MaxTile
         }
 
         return RaidSpawn.empty;
-    }
-
-    @Override
-    public AABB getRenderBoundingBox()
-    {
-        return IForgeBlockEntity.INFINITE_EXTENT_AABB;
     }
 
     public static class BeamSegment

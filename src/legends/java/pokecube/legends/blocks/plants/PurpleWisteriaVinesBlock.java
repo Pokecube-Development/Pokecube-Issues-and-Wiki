@@ -1,5 +1,6 @@
 package pokecube.legends.blocks.plants;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
@@ -13,35 +14,43 @@ import pokecube.legends.init.PlantsInit;
 
 public class PurpleWisteriaVinesBlock extends GrowingPlantHeadBlock implements BonemealableBlock
 {
-   public static final VoxelShape SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 16.0D, 15.0D);
+    public static final MapCodec<PurpleWisteriaVinesBlock> CODEC = simpleCodec(PurpleWisteriaVinesBlock::new);
 
-   public PurpleWisteriaVinesBlock(BlockBehaviour.Properties properties)
-   {
-       super(properties, Direction.DOWN, SHAPE, false, 0.1D);
-       this.registerDefaultState(this.stateDefinition.any().setValue(AGE, Integer.valueOf(0)));
-   }
+    @Override
+    protected MapCodec<? extends GrowingPlantHeadBlock> codec()
+    {
+        return CODEC;
+    }
 
-   @Override
-   protected GrowingPlantHeadBlock getHeadBlock()
-   {
-       return this;
-   }
+    public static final VoxelShape SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 16.0D, 15.0D);
 
-   @Override
-   protected int getBlocksToGrowWhenBonemealed(RandomSource random)
-   {
-      return NetherVines.getBlocksToGrowWhenBonemealed(random);
-   }
-   
-   @Override
-   protected boolean canGrowInto(BlockState state)
-   {
-      return state.isAir();
-   }
-   
-   @Override
-   protected Block getBodyBlock()
-   {
-      return PlantsInit.PURPLE_WISTERIA_VINES_PLANT.get();
-   }
+    public PurpleWisteriaVinesBlock(BlockBehaviour.Properties properties)
+    {
+        super(properties, Direction.DOWN, SHAPE, false, 0.1D);
+        this.registerDefaultState(this.stateDefinition.any().setValue(AGE, Integer.valueOf(0)));
+    }
+
+    @Override
+    protected GrowingPlantHeadBlock getHeadBlock()
+    {
+        return this;
+    }
+
+    @Override
+    protected int getBlocksToGrowWhenBonemealed(RandomSource random)
+    {
+        return NetherVines.getBlocksToGrowWhenBonemealed(random);
+    }
+
+    @Override
+    protected boolean canGrowInto(BlockState state)
+    {
+        return state.isAir();
+    }
+
+    @Override
+    protected Block getBodyBlock()
+    {
+        return PlantsInit.PURPLE_WISTERIA_VINES_PLANT.get();
+    }
 }

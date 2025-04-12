@@ -188,7 +188,7 @@ public class XerneasCore extends Rotates implements SimpleWaterloggedBlock
 
     // Breaking Xerneas Core Spawner breaks both parts and returns one item only
     @Override
-    public void playerWillDestroy(final Level world, final BlockPos pos, final BlockState state,
+    public BlockState playerWillDestroy(final Level world, final BlockPos pos, final BlockState state,
             final Player player)
     {
         final Direction facing = state.getValue(XerneasCore.FACING);
@@ -223,166 +223,112 @@ public class XerneasCore extends Rotates implements SimpleWaterloggedBlock
         XerneasCoreBlockState = world.getBlockState(xerneasCorePartPos);
         if (XerneasCoreBlockState.getBlock() == this && !pos.equals(xerneasCorePartPos)) this.removePart(world,
                 xerneasCorePartPos, XerneasCoreBlockState, player);
-        super.playerWillDestroy(world, pos, state, player);
+        return super.playerWillDestroy(world, pos, state, player);
     }
 
     private BlockPos getXerneasCoreMiddleLeftPos(final BlockPos base, final Direction facing)
     {
-        switch (facing)
+        return switch (facing)
         {
-            case NORTH:
-                return base.above().west();
-            case EAST:
-                return base.above().north();
-            case SOUTH:
-                return base.above().east();
-            case WEST:
-                return base.above().south();
-            default:
-                return base.above().east();
-        }
+            case NORTH -> base.above().west();
+            case EAST -> base.above().north();
+            case SOUTH -> base.above().east();
+            case WEST -> base.above().south();
+            default -> base.above().east();
+        };
     }
 
     private BlockPos getXerneasCoreMiddleRightPos(final BlockPos base, final Direction facing)
     {
-        switch (facing)
+        return switch (facing)
         {
-            case NORTH:
-                return base.above().east();
-            case EAST:
-                return base.above().south();
-            case SOUTH:
-                return base.above().west();
-            case WEST:
-                return base.above().north();
-            default:
-                return base.above().west();
-        }
+            case NORTH -> base.above().east();
+            case EAST -> base.above().south();
+            case SOUTH -> base.above().west();
+            case WEST -> base.above().north();
+            default -> base.above().west();
+        };
     }
 
     private BlockPos getXerneasCoreTopPos(final BlockPos base, final Direction facing)
     {
-        switch (facing)
+        return switch (facing)
         {
-        case NORTH:
-            return base.above();
-        case EAST:
-            return base.above();
-        case SOUTH:
-            return base.above();
-        case WEST:
-            return base.above();
-        default:
-            return base.above();
-        }
+            case NORTH -> base.above();
+            case EAST -> base.above();
+            case SOUTH -> base.above();
+            case WEST -> base.above();
+            default -> base.above();
+        };
     }
 
     private BlockPos getXerneasCoreTopLeftPos(final BlockPos base, final Direction facing)
     {
-        switch (facing)
+        return switch (facing)
         {
-        case NORTH:
-            return base.above(2).west();
-        case EAST:
-            return base.above(2).north();
-        case SOUTH:
-            return base.above(2).east();
-        case WEST:
-            return base.above(2).south();
-        default:
-            return base.above(2).east();
-        }
+            case NORTH -> base.above(2).west();
+            case EAST -> base.above(2).north();
+            case SOUTH -> base.above(2).east();
+            case WEST -> base.above(2).south();
+            default -> base.above(2).east();
+        };
     }
 
     private BlockPos getXerneasCoreTopRightPos(final BlockPos base, final Direction facing)
     {
-        switch (facing)
+        return switch (facing)
         {
-        case NORTH:
-            return base.above(2).east();
-        case EAST:
-            return base.above(2).south();
-        case SOUTH:
-            return base.above(2).west();
-        case WEST:
-            return base.above(2).north();
-        default:
-            return base.above(2).west();
-        }
+            case NORTH -> base.above(2).east();
+            case EAST -> base.above(2).south();
+            case SOUTH -> base.above(2).west();
+            case WEST -> base.above(2).north();
+            default -> base.above(2).west();
+        };
     }
 
     private BlockPos getXerneasCorePos(final BlockPos pos, final XerneasCorePart part, final Direction facing)
     {
         if (part == XerneasCorePart.BOTTOM) return pos;
-        switch (facing)
+        return switch (facing)
         {
-        case NORTH:
-            switch (part)
+            case NORTH -> switch (part)
             {
-                case MIDDLE_LEFT:
-                    return pos.below().west();
-                case MIDDLE_RIGHT:
-                    return pos.below().east();
-                case TOP:
-                    return pos.below();
-                case TOP_LEFT:
-                    return pos.below(2).west();
-                case TOP_RIGHT:
-                    return pos.below(2).east();
-                default:
-                    return null;
-            }
-        case EAST:
-            switch (part)
+                case MIDDLE_LEFT -> pos.below().west();
+                case MIDDLE_RIGHT -> pos.below().east();
+                case TOP -> pos.below();
+                case TOP_LEFT -> pos.below(2).west();
+                case TOP_RIGHT -> pos.below(2).east();
+                default -> null;
+            };
+            case EAST -> switch (part)
             {
-                case MIDDLE_LEFT:
-                    return pos.below().north();
-                case MIDDLE_RIGHT:
-                    return pos.below().south();
-                case TOP:
-                    return pos.below();
-                case TOP_LEFT:
-                    return pos.below(2).north();
-                case TOP_RIGHT:
-                    return pos.below(2).south();
-                default:
-                    return null;
-            }
-        case SOUTH:
-            switch (part)
+                case MIDDLE_LEFT -> pos.below().north();
+                case MIDDLE_RIGHT -> pos.below().south();
+                case TOP -> pos.below();
+                case TOP_LEFT -> pos.below(2).north();
+                case TOP_RIGHT -> pos.below(2).south();
+                default -> null;
+            };
+            case SOUTH -> switch (part)
             {
-                case MIDDLE_LEFT:
-                    return pos.below().east();
-                case MIDDLE_RIGHT:
-                    return pos.below().west();
-                case TOP:
-                    return pos.below();
-                case TOP_LEFT:
-                    return pos.below(2).east();
-                case TOP_RIGHT:
-                    return pos.below(2).west();
-                default:
-                    return null;
-            }
-        case WEST:
-            switch (part)
+                case MIDDLE_LEFT -> pos.below().east();
+                case MIDDLE_RIGHT -> pos.below().west();
+                case TOP -> pos.below();
+                case TOP_LEFT -> pos.below(2).east();
+                case TOP_RIGHT -> pos.below(2).west();
+                default -> null;
+            };
+            case WEST -> switch (part)
             {
-                case MIDDLE_LEFT:
-                    return pos.below().south();
-                case MIDDLE_RIGHT:
-                    return pos.below().north();
-                case TOP:
-                    return pos.below();
-                case TOP_LEFT:
-                    return pos.below(2).south();
-                case TOP_RIGHT:
-                    return pos.below(2).north();
-                default:
-                    return null;
-            }
-        default:
-            return null;
-        }
+                case MIDDLE_LEFT -> pos.below().south();
+                case MIDDLE_RIGHT -> pos.below().north();
+                case TOP -> pos.below();
+                case TOP_LEFT -> pos.below(2).south();
+                case TOP_RIGHT -> pos.below(2).north();
+                default -> null;
+            };
+            default -> null;
+        };
     }
 
     // Breaking the Xerneas Core Spawner leaves water if underwater

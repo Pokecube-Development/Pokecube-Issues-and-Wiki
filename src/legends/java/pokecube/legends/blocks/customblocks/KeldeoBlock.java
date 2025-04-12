@@ -1,9 +1,5 @@
 package pokecube.legends.blocks.customblocks;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Stream;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
@@ -18,6 +14,10 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Stream;
 
 public class KeldeoBlock extends Rotates implements SimpleWaterloggedBlock
 {
@@ -41,7 +41,7 @@ public class KeldeoBlock extends Rotates implements SimpleWaterloggedBlock
 			Block.box(13, 2, 13, 15, 11, 15),
 			Block.box(13, 2, 1, 15, 11, 3),
 			Block.box(3, 2, 2, 13, 11, 14))
-			.reduce((v1, v2) -> {return Shapes.join(v1, v2, BooleanOp.OR);}).get());
+			.reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get());
     	
     	KeldeoBlock.KELDEO.put(Direction.EAST,
 			Stream.of(
@@ -56,7 +56,7 @@ public class KeldeoBlock extends Rotates implements SimpleWaterloggedBlock
 			Block.box(13, 2, 1, 15, 11, 3),
 			Block.box(1, 2, 1, 3, 11, 3),
 			Block.box(2, 2, 3, 14, 11, 13))
-			.reduce((v1, v2) -> {return Shapes.join(v1, v2, BooleanOp.OR);}).get());
+			.reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get());
     	
     	KeldeoBlock.KELDEO.put(Direction.SOUTH,
 			Stream.of(
@@ -71,7 +71,7 @@ public class KeldeoBlock extends Rotates implements SimpleWaterloggedBlock
 			Block.box(13, 2, 13, 15, 11, 15),
 			Block.box(13, 2, 1, 15, 11, 3),
 			Block.box(3, 2, 2, 13, 11, 14))
-			.reduce((v1, v2) -> {return Shapes.join(v1, v2, BooleanOp.OR);}).get());
+			.reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get());
     	
     	KeldeoBlock.KELDEO.put(Direction.WEST,
 			Stream.of(
@@ -86,7 +86,7 @@ public class KeldeoBlock extends Rotates implements SimpleWaterloggedBlock
 			Block.box(13, 2, 1, 15, 11, 3),
 			Block.box(1, 2, 1, 3, 11, 3),
 			Block.box(2, 2, 3, 14, 11, 13))
-			.reduce((v1, v2) -> {return Shapes.join(v1, v2, BooleanOp.OR);}).get());
+			.reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get());
     }// @formatter:on
 
     // Precise selection box

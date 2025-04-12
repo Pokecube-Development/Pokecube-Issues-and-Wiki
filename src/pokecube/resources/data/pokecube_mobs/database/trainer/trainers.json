@@ -50,7 +50,12 @@
       	  "options":[
 	      {
 	        "id": "pokecube_adventures:bag",
-	        "tag": "{\"display\": {\"color\":6192150}}"
+          "components":{
+            "minecraft:dyed_color":{
+              "show_in_tooltip": false,
+              "rgb": 6192150
+            }
+          }
 	      }
 	      ]
 	    }

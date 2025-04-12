@@ -27,7 +27,7 @@ public class HoopaPortalSpawn
     {
         if (!SpawnHandler.canSpawnInWorld(world)) return;
         final List<Object> players = new ArrayList<>(world.players());
-        if (players.size() < 1) return;
+        if (players.isEmpty()) return;
         final Random rand = ThutCore.newRandom();
         final Entity player = (Entity) players.get(rand.nextInt(players.size()));
         final int dx = rand.nextInt(distance) - distance / 2;
@@ -48,10 +48,10 @@ public class HoopaPortalSpawn
             // randomized
             final double rng1 = Math.random();
             final double rng2 = Math.random();
-            if (rng1 < 1 / 3) fakePos.x += 1;
-            if (rng1 > 2 / 3) fakePos.x -= 1;
-            if (rng2 < 1 / 3) fakePos.z += 1;
-            if (rng2 > 2 / 3) fakePos.z -= 1;
+            if (rng1 < 1 / 3f) fakePos.x += 1;
+            if (rng1 > 2 / 3f) fakePos.x -= 1;
+            if (rng2 < 1 / 3f) fakePos.z += 1;
+            if (rng2 > 2 / 3f) fakePos.z -= 1;
 
             final FakePlayer placer = PokecubeMod.getFakePlayer(world);
             fakePos.moveEntity(placer);

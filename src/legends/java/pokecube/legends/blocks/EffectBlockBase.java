@@ -1,6 +1,7 @@
 package pokecube.legends.blocks;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -37,10 +38,10 @@ public class EffectBlockBase extends BlockBase
     public void stepOn(final Level world, final BlockPos pos, final BlockState state, final Entity entity)
     {
         super.stepOn(world, pos, state, entity);
-        EffectBlockBase.applyEffects(entity, this.effect);
+        EffectBlockBase.applyEffects(entity, Holder.direct(this.effect));
     }
 
-    public static void applyEffects(final Entity entity, final MobEffect effects)
+    public static void applyEffects(final Entity entity, final Holder<MobEffect> effects)
     {
         if (entity instanceof ServerPlayer) if (((Player) entity).getInventory().armor.get(3)
                 .getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem() || ((Player) entity)

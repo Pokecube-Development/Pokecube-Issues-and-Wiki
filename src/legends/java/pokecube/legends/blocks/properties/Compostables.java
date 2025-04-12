@@ -2,14 +2,14 @@ package pokecube.legends.blocks.properties;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ComposterBlock;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredBlock;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.PlantsInit;
 
 public class Compostables
 {
 
-    public static void compostableBlocks(final float chance, final RegistryObject<Block> item)
+    public static void compostableBlocks(final float chance, final DeferredBlock<Block> item)
     {
         ComposterBlock.COMPOSTABLES.put(item.get().asItem(), chance);
     }

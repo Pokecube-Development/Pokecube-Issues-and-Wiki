@@ -1,21 +1,16 @@
 package pokecube.legends;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.mojang.serialization.Codec;
-
 import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -24,15 +19,16 @@ import net.minecraft.world.level.levelgen.SurfaceRules.RuleSource;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
@@ -40,6 +36,9 @@ import net.neoforged.neoforge.fluids.DispenseFluidContainer;
 import net.neoforged.neoforge.fluids.FluidInteractionRegistry;
 import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.SharedAttributes;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -92,66 +91,65 @@ public class PokecubeLegends
 {
     public static final Logger LOGGER = LogManager.getLogger();
 
-    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES,
-            Reference.ID);
-    public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Reference.ID);
-    public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(Keys.FLUID_TYPES,
-            Reference.ID);
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(
+            BuiltInRegistries.ENTITY_TYPE, Reference.ID);
+    public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(BuiltInRegistries.FLUID, Reference.ID);
+    public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(
+            NeoForgeRegistries.Keys.FLUID_TYPES, Reference.ID);
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Reference.ID);
     public static final DeferredRegister.Blocks NO_ITEM_BLOCKS = DeferredRegister.createBlocks(Reference.ID);
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Reference.ID);
-    public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister
-            .create(ForgeRegistries.PARTICLE_TYPES, Reference.ID);
+    public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(
+            BuiltInRegistries.PARTICLE_TYPE, Reference.ID);
 
     // Barrels Inventory/Container
-    public static final DeferredRegister<BlockEntityType<?>> TILES = DeferredRegister
-            .create(ForgeRegistries.BLOCK_ENTITY_TYPES, Reference.ID);
-    public static final DeferredRegister<MenuType<?>> MENU = DeferredRegister.create(ForgeRegistries.MENU_TYPES,
+    public static final DeferredRegister<BlockEntityType<?>> TILES = DeferredRegister.create(
+            BuiltInRegistries.BLOCK_ENTITY_TYPE, Reference.ID);
+    public static final DeferredRegister<MenuType<?>> MENU = DeferredRegister.create(BuiltInRegistries.MENU,
             Reference.ID);
 
     // Features, etc
-    public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = DeferredRegister
-            .create(RegHelper.CONFIGURED_FEATURE_REGISTRY, Reference.ID);
-    public static final DeferredRegister<PlacedFeature> PLACED_FEATURES = DeferredRegister
-            .create(RegHelper.PLACED_FEATURE_REGISTRY, Reference.ID);
-    public static final DeferredRegister<Codec<? extends RuleSource>> SURFACE_RULES = DeferredRegister
-            .create(RegHelper.RULE_REGISTRY, Reference.ID);
+    public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = DeferredRegister.create(
+            RegHelper.CONFIGURED_FEATURE_REGISTRY, Reference.ID);
+    public static final DeferredRegister<PlacedFeature> PLACED_FEATURES = DeferredRegister.create(
+            RegHelper.PLACED_FEATURE_REGISTRY, Reference.ID);
+    public static final DeferredRegister<Codec<? extends RuleSource>> SURFACE_RULES = DeferredRegister.create(
+            RegHelper.RULE_REGISTRY, Reference.ID);
 
     // Recipes
-    public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZER = DeferredRegister
-            .create(ForgeRegistries.RECIPE_SERIALIZERS, Reference.ID);
-    public static final DeferredRegister<RecipeType<?>> RECIPE_TYPE = DeferredRegister
-            .create(RegHelper.RECIPE_TYPE_REGISTRY, Reference.ID);
+    public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZER = DeferredRegister.create(
+            BuiltInRegistries.RECIPE_SERIALIZER, Reference.ID);
+    public static final DeferredRegister<RecipeType<?>> RECIPE_TYPE = DeferredRegister.create(
+            RegHelper.RECIPE_TYPE_REGISTRY, Reference.ID);
 
     /** Packs Textures,Tags,etc... */
-    public static ResourceLocation TOTEM_FUEL_TAG = ResourceLocation.parse(Reference.ID, "totem_fuel");
+    public static ResourceLocation TOTEM_FUEL_TAG = ResourceLocation.fromNamespaceAndPath(Reference.ID, "totem_fuel");
 
-    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID)
+    @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = Reference.ID)
     public static class RegistryHandler
     {
         @SubscribeEvent
         public static void onEntityAttributes(final EntityAttributeCreationEvent event)
         {
             final AttributeSupplier.Builder attribs = LivingEntity.createLivingAttributes()
-                    .add(SharedAttributes.MOB_SIZE_SCALE.get());
+                    .add(SharedAttributes.MOB_SIZE_SCALE);
             event.put(EntityInit.WORMHOLE.get(), attribs.build());
         }
     }
 
     public static final Config config = new Config();
 
-    public PokecubeLegends()
+    public PokecubeLegends(IEventBus modEventBus, ModContainer modContainer)
     {
         // Register the data fixer for registry changes.
         ThutCore.FORGE_BUS.register(LegendsRegistryChangeFixer.class);
 
-        thut.core.common.config.Config.setupConfigs(PokecubeLegends.config, PokecubeCore.MODID, Reference.ID);
+        thut.core.common.config.Config.setupConfigs(modContainer, PokecubeLegends.config, PokecubeCore.MODID,
+                Reference.ID);
         ThutCore.FORGE_BUS.register(this);
         PokecubeAPI.POKEMOB_BUS.register(this);
 
         ThutCore.FORGE_BUS.register(new ForgeEventHandlers());
-
-        final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         modEventBus.addListener(this::loadComplete);
         modEventBus.addListener(this::commonSetup);
@@ -213,14 +211,16 @@ public class PokecubeLegends
     private void commonSetup(FMLCommonSetupEvent event)
     {
         // Add Interactions for sources
-        FluidInteractionRegistry.addInteraction(ForgeMod.LAVA_TYPE.get(),
+        FluidInteractionRegistry.addInteraction(NeoForgeMod.LAVA_TYPE.value(),
                 new FluidInteractionRegistry.InteractionInformation(DistorticWaterType.DISTORTIC_WATER_TYPE.get(),
-                        fluidState -> fluidState.isSource() ? Blocks.OBSIDIAN.defaultBlockState()
+                        fluidState -> fluidState.isSource()
+                                ? Blocks.OBSIDIAN.defaultBlockState()
                                 : BlockInit.DISTORTIC_STONE.get().defaultBlockState()));
 
-        FluidInteractionRegistry.addInteraction(ForgeMod.WATER_TYPE.get(),
+        FluidInteractionRegistry.addInteraction(NeoForgeMod.WATER_TYPE.value(),
                 new FluidInteractionRegistry.InteractionInformation(DistorticWaterType.DISTORTIC_WATER_TYPE.get(),
-                        fluidState -> fluidState.isSource() ? Blocks.PACKED_ICE.defaultBlockState()
+                        fluidState -> fluidState.isSource()
+                                ? Blocks.PACKED_ICE.defaultBlockState()
                                 : Blocks.ICE.defaultBlockState()));
 
         FluidInteractionRegistry.addInteraction(DistorticWaterType.DISTORTIC_WATER_TYPE.get(),
@@ -236,11 +236,11 @@ public class PokecubeLegends
                                 && level.getBlockState(relativePos).is(BlockInit.DISTORTIC_GRASS_BLOCK.get()),
                         BlockInit.CRACKED_DISTORTIC_STONE.get().defaultBlockState()));
 
-        FluidInteractionRegistry.addInteraction(ForgeMod.WATER_TYPE.get(),
+        FluidInteractionRegistry.addInteraction(NeoForgeMod.WATER_TYPE.value(),
                 new FluidInteractionRegistry.InteractionInformation(
                         (level, currentPos, relativePos, currentState) -> !level.getFluidState(currentPos).isSource()
-                                && (level.getBlockState(currentPos.below()).is(BlockInit.CORRUPTED_DIRT.get()) || level
-                                        .getBlockState(currentPos.below()).is(BlockInit.CORRUPTED_COARSE_DIRT.get()))
+                                && (level.getBlockState(currentPos.below()).is(BlockInit.CORRUPTED_DIRT.get())
+                                || level.getBlockState(currentPos.below()).is(BlockInit.CORRUPTED_COARSE_DIRT.get()))
                                 && level.getBlockState(relativePos).is(BlockInit.ULTRA_DARKSTONE.get()),
                         BlockInit.DUSK_DOLERITE.get().defaultBlockState()));
     }
@@ -272,7 +272,7 @@ public class PokecubeLegends
                 return helper.dyna(mob);
             }
         }.setName("dyna"));
-        EntityPokecubeBase.CUBE_SIZES.put(ResourceLocation.parse("pokecube", "dynacube"), 0.75f);
+        EntityPokecubeBase.CUBE_SIZES.put(ResourceLocation.fromNamespaceAndPath("pokecube", "dynacube"), 0.75f);
         event.register(new DefaultPokecubeBehaviour()
         {
             @Override
@@ -349,7 +349,7 @@ public class PokecubeLegends
         {
             final State state = ThutCore.newRandom().nextInt(20) == 0 ? State.RARE : State.NORMAL;
             event.getLevel().setBlockAndUpdate(event.getPos(), hit.setValue(RaidSpawnBlock.ACTIVE, state));
-            event.setUseItem(Result.ALLOW);
+            event.setUseItem(TriState.TRUE);
             if (!event.getEntity().isCreative()) event.getItemStack().grow(-1);
         }
     }

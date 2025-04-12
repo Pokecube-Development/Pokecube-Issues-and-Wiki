@@ -259,9 +259,7 @@
       "baseHunger": 100,
       "isTag": false,
       "key": {
-        "values": {
-          "id": "minecraft:wheat"
-        }
+        "id": "minecraft:wheat"
       },
       "action": {
         "values": {
@@ -269,9 +267,7 @@
         },
         "drops": [
           {
-            "values": {
-              "id": "minecraft:ink_sac"
-            }
+            "id": "minecraft:ink_sac"
           }
         ]
       }

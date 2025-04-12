@@ -1,7 +1,5 @@
 package pokecube.legends.blocks.plants;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -27,19 +25,21 @@ import pokecube.legends.Reference;
 import pokecube.legends.init.PlantsInit;
 import thut.lib.RegHelper;
 
+import javax.annotation.Nullable;
+
 public class TemporalBambooStalkBlock extends BambooStalkBlock implements BonemealableBlock
 {
     protected static final VoxelShape SMALL_SHAPE = Block.box(7, 0, 7, 9, 16, 9);
     protected static final VoxelShape LARGE_SHAPE = Block.box(6.5, 0, 6.5, 9.5, 16, 9.5);
     // Tags
     public static TagKey<Block> TEMPORAL_BAMBOO_PLANTABLE_ON = TagKey.create(RegHelper.BLOCK_REGISTRY,
-            ResourceLocation.parse(Reference.ID, "temporal_bamboo_plantable_on"));
+            ResourceLocation.fromNamespaceAndPath(Reference.ID, "temporal_bamboo_plantable_on"));
 
     public TemporalBambooStalkBlock(final BlockBehaviour.Properties properties)
     {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(BambooStalkBlock.AGE, Integer.valueOf(0))
-                .setValue(BambooStalkBlock.LEAVES, BambooLeaves.NONE).setValue(BambooStalkBlock.STAGE, Integer.valueOf(0)));
+        this.registerDefaultState(this.stateDefinition.any().setValue(BambooStalkBlock.AGE, 0)
+                .setValue(BambooStalkBlock.LEAVES, BambooLeaves.NONE).setValue(BambooStalkBlock.STAGE, 0));
     }
 
     @Override
@@ -74,11 +74,11 @@ public class TemporalBambooStalkBlock extends BambooStalkBlock implements Boneme
             if (state.is(TemporalBambooStalkBlock.TEMPORAL_BAMBOO_PLANTABLE_ON) & !state.is(Blocks.BAMBOO_SAPLING))
             {
                 if (state.is(PlantsInit.TEMPORAL_BAMBOO_SHOOT.get()))
-                    return this.defaultBlockState().setValue(BambooStalkBlock.AGE, Integer.valueOf(0));
+                    return this.defaultBlockState().setValue(BambooStalkBlock.AGE, 0);
                 else if (state.is(PlantsInit.TEMPORAL_BAMBOO.get()))
                 {
                     final int i = state.getValue(BambooStalkBlock.AGE) > 0 ? 1 : 0;
-                    return this.defaultBlockState().setValue(BambooStalkBlock.AGE, Integer.valueOf(i));
+                    return this.defaultBlockState().setValue(BambooStalkBlock.AGE, i);
                 }
                 else
                 {
@@ -136,8 +136,8 @@ public class TemporalBambooStalkBlock extends BambooStalkBlock implements Boneme
 
         final int i = state.getValue(BambooStalkBlock.AGE) != 1 && !state2.is(PlantsInit.TEMPORAL_BAMBOO.get()) ? 0 : 1;
         final int j = (x < 11 || !(random.nextFloat() < 0.25F)) && x != 15 ? 0 : 1;
-        world.setBlock(pos.above(), this.defaultBlockState().setValue(BambooStalkBlock.AGE, Integer.valueOf(i))
-                .setValue(BambooStalkBlock.LEAVES, leaves).setValue(BambooStalkBlock.STAGE, Integer.valueOf(j)), 3);
+        world.setBlock(pos.above(), this.defaultBlockState().setValue(BambooStalkBlock.AGE, i)
+                .setValue(BambooStalkBlock.LEAVES, leaves).setValue(BambooStalkBlock.STAGE, j), 3);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package pokecube.legends.blocks.customblocks;
 
-import java.util.List;
-
+import com.mojang.serialization.MapCodec;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
@@ -13,9 +12,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -46,8 +45,18 @@ import pokecube.legends.PokecubeLegends;
 import pokecube.legends.tileentity.RaidSpawn;
 import thut.lib.TComponent;
 
+import java.util.List;
+
 public class RaidSpawnBlock extends InteractableHorizontalBlock implements SimpleWaterloggedBlock, EntityBlock
 {
+    public static final MapCodec<RaidSpawnBlock> CODEC = simpleCodec(RaidSpawnBlock::new);
+
+    @Override
+    protected MapCodec<? extends HorizontalDirectionalBlock> codec()
+    {
+        return CODEC;
+    }
+
     protected static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final EnumProperty<State> ACTIVE = EnumProperty.create("state", State.class);
 
@@ -75,25 +84,24 @@ public class RaidSpawnBlock extends InteractableHorizontalBlock implements Simpl
 
     }
 
-    String  infoname;
-    boolean hasTextInfo = true;
+    String infoname;
 
     // Precise selection box
-    private static final VoxelShape RAID_SPOT = Shapes.or(
-            Block.box(2, 0, 2, 14, 3, 14),
-            Block.box(3, 3, 3, 13, 9, 13)).optimize();
+    private static final VoxelShape RAID_SPOT = Shapes.or(Block.box(2, 0, 2, 14, 3, 14), Block.box(3, 3, 3, 13, 9, 13))
+            .optimize();
 
     public RaidSpawnBlock(final Properties properties)
     {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(RaidSpawnBlock.ACTIVE, State.EMPTY)
-                .setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH).setValue(RaidSpawnBlock.WATERLOGGED, false));
+                .setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH)
+                .setValue(RaidSpawnBlock.WATERLOGGED, false));
     }
 
     // Precise selection box
     @Override
     public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
-                               final CollisionContext context)
+            final CollisionContext context)
     {
         return RaidSpawnBlock.RAID_SPOT;
     }
@@ -116,22 +124,21 @@ public class RaidSpawnBlock extends InteractableHorizontalBlock implements Simpl
     public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
         final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
-        return (super.getStateForPlacement(context)).setValue(HorizontalDirectionalBlock.FACING, context
-                .getHorizontalDirection().getOpposite()).setValue(RaidSpawnBlock.WATERLOGGED, ifluidstate.is(
-                FluidTags.WATER) && ifluidstate.getAmount() == 8);
+        return (super.getStateForPlacement(context)).setValue(HorizontalDirectionalBlock.FACING,
+                        context.getHorizontalDirection().getOpposite())
+                .setValue(RaidSpawnBlock.WATERLOGGED, ifluidstate.is(FluidTags.WATER) && ifluidstate.getAmount() == 8);
     }
 
     @Override
-    @SuppressWarnings("deprecation")
-    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final LevelAccessor world, final BlockPos currentPos,
-                                  final BlockPos facingPos)
+    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState,
+            final LevelAccessor world, final BlockPos currentPos, final BlockPos facingPos)
     {
-        if (state.getValue(RaidSpawnBlock.WATERLOGGED)) world.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+        if (state.getValue(RaidSpawnBlock.WATERLOGGED))
+            world.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
         return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
     }
 
     // Adds Waterlogging State
-    @SuppressWarnings("deprecation")
     @Override
     public FluidState getFluidState(final BlockState state)
     {
@@ -152,41 +159,41 @@ public class RaidSpawnBlock extends InteractableHorizontalBlock implements Simpl
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(final ItemStack stack, final BlockGetter worldIn, final List<Component> tooltip,
-            final TooltipFlag flagIn)
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents,
+            TooltipFlag tooltipFlag)
     {
         String message;
         if (Screen.hasShiftDown()) message = I18n.get("legendblock." + this.infoname + ".tooltip");
         else message = I18n.get("pokecube.tooltip.advanced");
-        tooltip.add(TComponent.translatable(message));
+        tooltipComponents.add(TComponent.translatable(message));
     }
 
     @Override
-    public InteractionResult use(final BlockState state, final Level worldIn, final BlockPos pos,
-            final Player entity, final InteractionHand hand, final BlockHitResult hit)
+    public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
+            BlockHitResult hitResult)
     {
-        if (worldIn instanceof ServerLevel level && entity instanceof ServerPlayer player)
+        if (level instanceof ServerLevel slevel && player instanceof ServerPlayer splayer)
         {
             final boolean active = state.getValue(RaidSpawnBlock.ACTIVE).active();
-            if (active && RaidManager.makeRaid(level, pos, player))
+            if (active && RaidManager.makeRaid(slevel, pos, splayer))
             {
-                worldIn.setBlockAndUpdate(pos, state.setValue(RaidSpawnBlock.ACTIVE, State.EMPTY));
+                slevel.setBlockAndUpdate(pos, state.setValue(RaidSpawnBlock.ACTIVE, State.EMPTY));
             }
         }
-
         return InteractionResult.SUCCESS;
     }
 
     @Override
-    public void randomTick(final BlockState state, final ServerLevel worldIn, final BlockPos pos, final RandomSource random)
+    public void randomTick(final BlockState state, final ServerLevel worldIn, final BlockPos pos,
+            final RandomSource random)
     {
         final boolean active = state.getValue(RaidSpawnBlock.ACTIVE).active();
         if (active) return;
         final double rng = random.nextDouble();
         final boolean reset = rng < PokecubeLegends.config.raidResetChance;
         if (!reset) return;
-        worldIn.setBlockAndUpdate(pos, state.setValue(RaidSpawnBlock.ACTIVE, random
-                .nextDouble() > PokecubeLegends.config.rareRaidChance ? State.NORMAL : State.RARE));
+        worldIn.setBlockAndUpdate(pos, state.setValue(RaidSpawnBlock.ACTIVE,
+                random.nextDouble() > PokecubeLegends.config.rareRaidChance ? State.NORMAL : State.RARE));
 
     }
 

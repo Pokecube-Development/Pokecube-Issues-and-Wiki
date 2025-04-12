@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "#thut_bling:bling",
-    "thut_bling:bling_bag"
+    "thut_bling:bling_bag",
+    {"id": "pokecube:pokewatch", "required":  false},
+    {"id": "#pokecube:mega_wearables", "required":  false}
   ]
 }

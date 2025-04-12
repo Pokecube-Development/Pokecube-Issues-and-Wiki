@@ -751,7 +751,7 @@ public class PortalWarp extends Rotates implements SimpleWaterloggedBlock, Entit
 
     // Breaking Portal breaks both parts and returns one item only
     @Override
-    public void playerWillDestroy(final Level world, final BlockPos pos, final BlockState state, final Player player)
+    public BlockState playerWillDestroy(final Level world, final BlockPos pos, final BlockState state, final Player player)
     {
         final Direction facing = state.getValue(PortalWarp.FACING);
 
@@ -799,143 +799,103 @@ public class PortalWarp extends Rotates implements SimpleWaterloggedBlock, Entit
         PortalWarpBlockState = world.getBlockState(portalWarpPartPos);
         if (PortalWarpBlockState.getBlock() == this && !pos.equals(portalWarpPartPos)) this.removePart(world,
                 portalWarpPartPos, PortalWarpBlockState);
-        super.playerWillDestroy(world, pos, state, player);
+        return super.playerWillDestroy(world, pos, state, player);
     }
 
     private BlockPos getPortalWarpTopPos(final BlockPos base, final Direction facing)
     {
-        switch (facing)
+        return switch (facing)
         {
-        case NORTH:
-            return base.above(2);
-        case EAST:
-            return base.above(2);
-        case SOUTH:
-            return base.above(2);
-        case WEST:
-            return base.above(2);
-        default:
-            return base.above(2);
-        }
+            case NORTH -> base.above(2);
+            case EAST -> base.above(2);
+            case SOUTH -> base.above(2);
+            case WEST -> base.above(2);
+            default -> base.above(2);
+        };
     }
 
     private BlockPos getPortalWarpTopLeftPos(final BlockPos base, final Direction facing)
     {
-        switch (facing)
+        return switch (facing)
         {
-        case NORTH:
-            return base.above(2).west();
-        case EAST:
-            return base.above(2).north();
-        case SOUTH:
-            return base.above(2).east();
-        case WEST:
-            return base.above(2).south();
-        default:
-            return base.above(2).east();
-        }
+            case NORTH -> base.above(2).west();
+            case EAST -> base.above(2).north();
+            case SOUTH -> base.above(2).east();
+            case WEST -> base.above(2).south();
+            default -> base.above(2).east();
+        };
     }
 
     private BlockPos getPortalWarpTopRightPos(final BlockPos base, final Direction facing)
     {
-        switch (facing)
+        return switch (facing)
         {
-        case NORTH:
-            return base.above(2).east();
-        case EAST:
-            return base.above(2).south();
-        case SOUTH:
-            return base.above(2).west();
-        case WEST:
-            return base.above(2).north();
-        default:
-            return base.above(2).west();
-        }
+            case NORTH -> base.above(2).east();
+            case EAST -> base.above(2).south();
+            case SOUTH -> base.above(2).west();
+            case WEST -> base.above(2).north();
+            default -> base.above(2).west();
+        };
     }
 
     private BlockPos getPortalWarpMiddlePos(final BlockPos base, final Direction facing)
     {
-        switch (facing)
+        return switch (facing)
         {
-        case NORTH:
-            return base.above();
-        case EAST:
-            return base.above();
-        case SOUTH:
-            return base.above();
-        case WEST:
-            return base.above();
-        default:
-            return base.above();
-        }
+            case NORTH -> base.above();
+            case EAST -> base.above();
+            case SOUTH -> base.above();
+            case WEST -> base.above();
+            default -> base.above();
+        };
     }
 
     private BlockPos getPortalWarpMiddleLeftPos(final BlockPos base, final Direction facing)
     {
-        switch (facing)
+        return switch (facing)
         {
-        case NORTH:
-            return base.above().west();
-        case EAST:
-            return base.above().north();
-        case SOUTH:
-            return base.above().east();
-        case WEST:
-            return base.above().south();
-        default:
-            return base.above().east();
-        }
+            case NORTH -> base.above().west();
+            case EAST -> base.above().north();
+            case SOUTH -> base.above().east();
+            case WEST -> base.above().south();
+            default -> base.above().east();
+        };
     }
 
     private BlockPos getPortalWarpMiddleRightPos(final BlockPos base, final Direction facing)
     {
-        switch (facing)
+        return switch (facing)
         {
-        case NORTH:
-            return base.above().east();
-        case EAST:
-            return base.above().south();
-        case SOUTH:
-            return base.above().west();
-        case WEST:
-            return base.above().north();
-        default:
-            return base.above().west();
-        }
+            case NORTH -> base.above().east();
+            case EAST -> base.above().south();
+            case SOUTH -> base.above().west();
+            case WEST -> base.above().north();
+            default -> base.above().west();
+        };
     }
 
     private BlockPos getPortalWarpBottomLeftPos(final BlockPos base, final Direction facing)
     {
-        switch (facing)
+        return switch (facing)
         {
-        case NORTH:
-            return base.west();
-        case EAST:
-            return base.north();
-        case SOUTH:
-            return base.east();
-        case WEST:
-            return base.south();
-        default:
-            return base.east();
-        }
+            case NORTH -> base.west();
+            case EAST -> base.north();
+            case SOUTH -> base.east();
+            case WEST -> base.south();
+            default -> base.east();
+        };
     }
 
     private BlockPos getPortalWarpBottomRightPos(final BlockPos base, final Direction facing)
     {
-        switch (facing)
+        return switch (facing)
         {
-        case NORTH:
-            return base.east();
-        case EAST:
-            return base.south();
-        case SOUTH:
-            return base.west();
-        case WEST:
-            return base.north();
-        default:
-            return base.west();
-        }
+            case NORTH -> base.east();
+            case EAST -> base.south();
+            case SOUTH -> base.west();
+            case WEST -> base.north();
+            default -> base.west();
+        };
     }
 
     private BlockPos getPortalWarpPos(final BlockPos pos, final PortalWarpPart part, final Direction facing)
@@ -944,93 +904,57 @@ public class PortalWarp extends Rotates implements SimpleWaterloggedBlock, Entit
         switch (facing)
         {
         case NORTH:
-            switch (part)
+            return switch (part)
             {
-            case TOP:
-                return pos.below(2);
-            case TOP_LEFT:
-                return pos.below(2).west();
-            case TOP_RIGHT:
-                return pos.below(2).east();
-            case MIDDLE:
-                return pos.below();
-            case MIDDLE_LEFT:
-                return pos.below().west();
-            case MIDDLE_RIGHT:
-                return pos.below().east();
-            case BOTTOM_LEFT:
-                return pos.west();
-            case BOTTOM_RIGHT:
-                return pos.east();
-            default:
-                return null;
-            }
+                case TOP -> pos.below(2);
+                case TOP_LEFT -> pos.below(2).west();
+                case TOP_RIGHT -> pos.below(2).east();
+                case MIDDLE -> pos.below();
+                case MIDDLE_LEFT -> pos.below().west();
+                case MIDDLE_RIGHT -> pos.below().east();
+                case BOTTOM_LEFT -> pos.west();
+                case BOTTOM_RIGHT -> pos.east();
+                default -> null;
+            };
         case EAST:
-            switch (part)
+            return switch (part)
             {
-            case TOP:
-                return pos.below(2);
-            case TOP_LEFT:
-                return pos.below(2).north();
-            case TOP_RIGHT:
-                return pos.below(2).south();
-            case MIDDLE:
-                return pos.below();
-            case MIDDLE_LEFT:
-                return pos.below().north();
-            case MIDDLE_RIGHT:
-                return pos.below().south();
-            case BOTTOM_LEFT:
-                return pos.north();
-            case BOTTOM_RIGHT:
-                return pos.south();
-            default:
-                return null;
-            }
+                case TOP -> pos.below(2);
+                case TOP_LEFT -> pos.below(2).north();
+                case TOP_RIGHT -> pos.below(2).south();
+                case MIDDLE -> pos.below();
+                case MIDDLE_LEFT -> pos.below().north();
+                case MIDDLE_RIGHT -> pos.below().south();
+                case BOTTOM_LEFT -> pos.north();
+                case BOTTOM_RIGHT -> pos.south();
+                default -> null;
+            };
         case SOUTH:
-            switch (part)
+            return switch (part)
             {
-            case TOP:
-                return pos.below(2);
-            case TOP_LEFT:
-                return pos.below(2).east();
-            case TOP_RIGHT:
-                return pos.below(2).west();
-            case MIDDLE:
-                return pos.below();
-            case MIDDLE_LEFT:
-                return pos.below().east();
-            case MIDDLE_RIGHT:
-                return pos.below().west();
-            case BOTTOM_LEFT:
-                return pos.east();
-            case BOTTOM_RIGHT:
-                return pos.west();
-            default:
-                return null;
-            }
+                case TOP -> pos.below(2);
+                case TOP_LEFT -> pos.below(2).east();
+                case TOP_RIGHT -> pos.below(2).west();
+                case MIDDLE -> pos.below();
+                case MIDDLE_LEFT -> pos.below().east();
+                case MIDDLE_RIGHT -> pos.below().west();
+                case BOTTOM_LEFT -> pos.east();
+                case BOTTOM_RIGHT -> pos.west();
+                default -> null;
+            };
         case WEST:
-            switch (part)
+            return switch (part)
             {
-            case TOP:
-                return pos.below(2);
-            case TOP_LEFT:
-                return pos.below(2).south();
-            case TOP_RIGHT:
-                return pos.below(2).north();
-            case MIDDLE:
-                return pos.below();
-            case MIDDLE_LEFT:
-                return pos.below().south();
-            case MIDDLE_RIGHT:
-                return pos.below().north();
-            case BOTTOM_LEFT:
-                return pos.south();
-            case BOTTOM_RIGHT:
-                return pos.north();
-            default:
-                return null;
-            }
+                case TOP -> pos.below(2);
+                case TOP_LEFT -> pos.below(2).south();
+                case TOP_RIGHT -> pos.below(2).north();
+                case MIDDLE -> pos.below();
+                case MIDDLE_LEFT -> pos.below().south();
+                case MIDDLE_RIGHT -> pos.below().north();
+                case BOTTOM_LEFT -> pos.south();
+                case BOTTOM_RIGHT -> pos.north();
+                default -> null;
+            };
         default:
             return null;
         }
@@ -1155,17 +1079,17 @@ public class PortalWarp extends Rotates implements SimpleWaterloggedBlock, Entit
     }
 
     @Override
-    public InteractionResult use(final BlockState state, final Level worldIn, final BlockPos pos, final Player entity,
-            final InteractionHand hand, final BlockHitResult hit)
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
+            BlockHitResult hitResult)
     {
         if (!state.getValue(PortalWarp.ACTIVE)) return InteractionResult.FAIL;
-        if (worldIn instanceof ServerLevel)
+        if (level instanceof ServerLevel)
         {
-            PortalActiveFunction.executeProcedure(pos, state, (ServerLevel) worldIn);
-            this.setActiveState(worldIn, pos, state, false);
+            PortalActiveFunction.executeProcedure(pos, state, (ServerLevel) level);
+            this.setActiveState(level, pos, state, false);
             final Direction facing = state.getValue(PortalWarp.FACING);
             final BlockPos middle = this.getPortalWarpPos(pos, state.getValue(PortalWarp.PART), facing).above();
-            final BlockEntity tile = worldIn.getBlockEntity(middle);
+            final BlockEntity tile = level.getBlockEntity(middle);
             if (tile instanceof RingTile) ((RingTile) tile).activatePortal();
         }
         return InteractionResult.SUCCESS;

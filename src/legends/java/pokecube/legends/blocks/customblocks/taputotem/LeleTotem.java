@@ -3,6 +3,7 @@ package pokecube.legends.blocks.customblocks.taputotem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
@@ -19,17 +20,17 @@ public class LeleTotem extends TapuLeleCore{
 	public LeleTotem(final Properties props) {
 		super(props);
 	}
-	
+
 	@Override
-	public InteractionResult use(final BlockState stack, final Level world, final BlockPos pos, final Player entity, final InteractionHand hand,
-			final BlockHitResult hit)
+	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+			Player player, InteractionHand hand, BlockHitResult hitResult)
 	{
-		if (ItemList.is(PokecubeLegends.TOTEM_FUEL_TAG, entity.getMainHandItem()))
+		if (ItemList.is(PokecubeLegends.TOTEM_FUEL_TAG, stack))
 		{
-			LeleTotem.addEffectTotem(entity);
-			return InteractionResult.SUCCESS;
+			addEffectTotem(player);
+			return ItemInteractionResult.SUCCESS;
 		}
-		return InteractionResult.PASS;
+		return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
 	}
 	
 	public static void addEffectTotem(final Player entity) 

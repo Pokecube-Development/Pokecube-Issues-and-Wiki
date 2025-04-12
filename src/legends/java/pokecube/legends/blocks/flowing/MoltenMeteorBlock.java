@@ -1,7 +1,5 @@
 package pokecube.legends.blocks.flowing;
 
-import java.lang.reflect.Array;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -16,32 +14,33 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import pokecube.legends.init.FluidInit;
 import thut.api.block.flowing.FlowingBlock;
 import thut.api.block.flowing.MoltenBlock;
 import thut.api.block.flowing.SolidBlock;
 
+import java.lang.reflect.Array;
+
 public class MoltenMeteorBlock extends MoltenBlock
 {
-    public static RegistryObject<FlowingBlock>[] makeLava(DeferredRegister<Block> BLOCKS, String modid, String layer,
+    public static DeferredBlock<FlowingBlock>[] makeLava(DeferredRegister.Blocks BLOCKS, String modid, String layer,
             String block, BlockBehaviour.Properties layer_props, BlockBehaviour.Properties block_props,
             ResourceLocation solid_layer, ResourceLocation solid_block)
     {
-        ResourceLocation layer_id = ResourceLocation.parse(modid, layer);
-        ResourceLocation block_id = ResourceLocation.parse(modid, block);
+        ResourceLocation layer_id = ResourceLocation.fromNamespaceAndPath(modid, layer);
+        ResourceLocation block_id = ResourceLocation.fromNamespaceAndPath(modid, block);
 
         @SuppressWarnings("unchecked")
-        RegistryObject<FlowingBlock>[] arr = (RegistryObject<FlowingBlock>[]) Array.newInstance(RegistryObject.class,
-                2);
+        DeferredBlock<FlowingBlock>[] arr = (DeferredBlock<FlowingBlock>[]) Array.newInstance(DeferredBlock.class, 2);
 
-        RegistryObject<FlowingBlock> layer_reg = BLOCKS.register(layer,
+        DeferredBlock<FlowingBlock> layer_reg = BLOCKS.register(layer,
                 () -> new PartialMolten(layer_props).solidBlock(() -> SolidBlock.REGMAP.get(solid_layer).get())
                         .alternateBlock(() -> REGMAP.get(block_id).get()));
         REGMAP.put(layer_id, layer_reg);
 
-        RegistryObject<FlowingBlock> block_reg = BLOCKS.register(block,
+        DeferredBlock<FlowingBlock> block_reg = BLOCKS.register(block,
                 () -> new FullMolten(block_props).solidBlock(() -> SolidBlock.REGMAP.get(solid_block).get())
                         .alternateBlock(() -> REGMAP.get(layer_id).get()));
         REGMAP.put(block_id, block_reg);
@@ -71,7 +70,7 @@ public class MoltenMeteorBlock extends MoltenBlock
         if (amt < 2) amt = 2;
         return FluidInit.MOLTEN_METEORITE_FLOWING.get().defaultFluidState().setValue(FlowingFluid.LEVEL, amt / 2);
     }
-    
+
     public static class FullMolten extends MoltenMeteorBlock
     {
 
@@ -96,8 +95,8 @@ public class MoltenMeteorBlock extends MoltenBlock
 
         protected void initStateDefinition()
         {
-            this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.valueOf(false))
-                    .setValue(HEATED, Boolean.valueOf(false)).setValue(VISCOSITY, 4));
+            this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.FALSE)
+                    .setValue(HEATED, Boolean.FALSE).setValue(VISCOSITY, 4));
         }
 
         @Override

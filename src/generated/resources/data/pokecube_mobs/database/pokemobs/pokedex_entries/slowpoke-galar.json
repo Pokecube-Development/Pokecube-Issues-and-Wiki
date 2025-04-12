@@ -226,9 +226,7 @@
       "baseHunger": 500,
       "isTag": false,
       "key": {
-        "values": {
-          "id": "minecraft:shears"
-        }
+        "id": "minecraft:shears"
       },
       "action": {
         "values": {
@@ -236,10 +234,8 @@
         },
         "drops": [
           {
-            "values": {
-              "id": "minecraft:porkchop",
-              "n": "1"
-            }
+            "id": "minecraft:porkchop",
+            "count": 1
           }
         ]
       }

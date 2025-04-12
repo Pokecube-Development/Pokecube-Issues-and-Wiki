@@ -7,7 +7,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -23,41 +22,30 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.common.IForgeShearable;
 
-public class StringOfPearlsBlock extends VineBlock implements BonemealableBlock, IForgeShearable
+public class StringOfPearlsBlock extends VineBlock implements BonemealableBlock
 {
-    public static final float           CHANCE_OF_FLOWERS_ON_GROWTH = 0.11F;
-    public static final BooleanProperty FLOWERS                     = BooleanProperty.create("flowers");
+    public static final float CHANCE_OF_FLOWERS_ON_GROWTH = 0.11F;
+    public static final BooleanProperty FLOWERS = BooleanProperty.create("flowers");
 
     public StringOfPearlsBlock(final BlockBehaviour.Properties properties)
     {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(VineBlock.UP, Boolean.valueOf(false)).setValue(
-                VineBlock.NORTH, Boolean.valueOf(false)).setValue(VineBlock.EAST, Boolean.valueOf(false)).setValue(
-                        VineBlock.SOUTH, Boolean.valueOf(false)).setValue(VineBlock.WEST, Boolean.valueOf(false))
-                .setValue(StringOfPearlsBlock.FLOWERS, Boolean.valueOf(false)));
-    }
-
-    public int getBlocksToGrowWhenBonemealed(final RandomSource random)
-    {
-        return 1;
-    }
-
-    public boolean canGrowInto(final BlockState state)
-    {
-        return state.isAir();
+        this.registerDefaultState(this.stateDefinition.any().setValue(VineBlock.UP, Boolean.FALSE)
+                .setValue(VineBlock.NORTH, Boolean.FALSE).setValue(VineBlock.EAST, Boolean.FALSE)
+                .setValue(VineBlock.SOUTH, Boolean.FALSE).setValue(VineBlock.WEST, Boolean.FALSE)
+                .setValue(StringOfPearlsBlock.FLOWERS, Boolean.FALSE));
     }
 
     @Override
-    public boolean isValidBonemealTarget(final LevelReader worldReader, final BlockPos pos, final BlockState state,
-                                         final boolean b)
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state)
     {
         return !state.getValue(StringOfPearlsBlock.FLOWERS);
     }
 
     @Override
-    public boolean isBonemealSuccess(final Level world, final RandomSource random, final BlockPos pos, final BlockState state)
+    public boolean isBonemealSuccess(final Level world, final RandomSource random, final BlockPos pos,
+            final BlockState state)
     {
         return true;
     }
@@ -66,7 +54,7 @@ public class StringOfPearlsBlock extends VineBlock implements BonemealableBlock,
     public void performBonemeal(final ServerLevel world, final RandomSource random, final BlockPos pos,
             final BlockState state)
     {
-        world.setBlock(pos, state.setValue(StringOfPearlsBlock.FLOWERS, Boolean.valueOf(true)), 2);
+        world.setBlock(pos, state.setValue(StringOfPearlsBlock.FLOWERS, Boolean.TRUE), 2);
     }
 
     public boolean canSupportAtFace(final BlockGetter block, final BlockPos pos, final Direction direction)
@@ -86,9 +74,9 @@ public class StringOfPearlsBlock extends VineBlock implements BonemealableBlock,
         }
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public void randomTick(final BlockState state, final ServerLevel world, final BlockPos pos, final RandomSource random)
+    public void randomTick(final BlockState state, final ServerLevel world, final BlockPos pos,
+            final RandomSource random)
     {
         if (world.random.nextInt(4) == 0 && world.isAreaLoaded(pos, 4))
         {
@@ -108,36 +96,34 @@ public class StringOfPearlsBlock extends VineBlock implements BonemealableBlock,
                         final boolean flag1 = state.getValue(VineBlock.getPropertyForFace(direction4));
                         final BlockPos pos3 = pos2.relative(direction3);
                         final BlockPos pos4 = pos2.relative(direction4);
-                        if (flag && VineBlock.isAcceptableNeighbour(world, pos3, direction3)) world.setBlock(pos2, this
-                                .defaultBlockState().setValue(VineBlock.getPropertyForFace(direction3), Boolean.valueOf(
-                                        true)).setValue(StringOfPearlsBlock.FLOWERS, Boolean.valueOf(random
-                                                .nextFloat() < 0.11F)), 2);
+                        if (flag && VineBlock.isAcceptableNeighbour(world, pos3, direction3)) world.setBlock(pos2,
+                                this.defaultBlockState()
+                                        .setValue(VineBlock.getPropertyForFace(direction3), Boolean.TRUE)
+                                        .setValue(StringOfPearlsBlock.FLOWERS, random.nextFloat() < 0.11F), 2);
                         else if (flag1 && VineBlock.isAcceptableNeighbour(world, pos4, direction4)) world.setBlock(pos2,
-                                this.defaultBlockState().setValue(VineBlock.getPropertyForFace(direction4), Boolean
-                                        .valueOf(true)).setValue(StringOfPearlsBlock.FLOWERS, Boolean.valueOf(random
-                                                .nextFloat() < 0.11F)), 2);
+                                this.defaultBlockState()
+                                        .setValue(VineBlock.getPropertyForFace(direction4), Boolean.TRUE)
+                                        .setValue(StringOfPearlsBlock.FLOWERS, random.nextFloat() < 0.11F), 2);
                         else
                         {
                             final Direction direction1 = direction.getOpposite();
-                            if (flag && world.isEmptyBlock(pos3) && VineBlock.isAcceptableNeighbour(world, pos.relative(
-                                    direction3), direction1)) world.setBlock(pos3, this.defaultBlockState().setValue(
-                                            VineBlock.getPropertyForFace(direction1), Boolean.valueOf(true)).setValue(
-                                                    StringOfPearlsBlock.FLOWERS, Boolean.valueOf(random
-                                                            .nextFloat() < 0.11F)), 2);
-                            else if (flag1 && world.isEmptyBlock(pos4) && VineBlock.isAcceptableNeighbour(world, pos
-                                    .relative(direction4), direction1)) world.setBlock(pos4, this.defaultBlockState()
-                                            .setValue(VineBlock.getPropertyForFace(direction1), Boolean.valueOf(true))
-                                            .setValue(StringOfPearlsBlock.FLOWERS, Boolean.valueOf(random
-                                                    .nextFloat() < 0.11F)), 2);
+                            if (flag && world.isEmptyBlock(pos3) && VineBlock.isAcceptableNeighbour(world,
+                                    pos.relative(direction3), direction1)) world.setBlock(pos3, this.defaultBlockState()
+                                    .setValue(VineBlock.getPropertyForFace(direction1), Boolean.TRUE)
+                                    .setValue(StringOfPearlsBlock.FLOWERS, random.nextFloat() < 0.11F), 2);
+                            else if (flag1 && world.isEmptyBlock(pos4) && VineBlock.isAcceptableNeighbour(world,
+                                    pos.relative(direction4), direction1)) world.setBlock(pos4, this.defaultBlockState()
+                                    .setValue(VineBlock.getPropertyForFace(direction1), Boolean.TRUE)
+                                    .setValue(StringOfPearlsBlock.FLOWERS, random.nextFloat() < 0.11F), 2);
                             else if (random.nextFloat() < 0.05D && VineBlock.isAcceptableNeighbour(world, pos2.above(),
-                                    Direction.UP)) world.setBlock(pos2, this.defaultBlockState().setValue(VineBlock.UP,
-                                            Boolean.valueOf(true)).setValue(StringOfPearlsBlock.FLOWERS, Boolean
-                                                    .valueOf(random.nextFloat() < 0.11F)), 2);
+                                    Direction.UP)) world.setBlock(pos2,
+                                    this.defaultBlockState().setValue(VineBlock.UP, Boolean.TRUE)
+                                            .setValue(StringOfPearlsBlock.FLOWERS, random.nextFloat() < 0.11F), 2);
                         }
                     }
-                    else if (VineBlock.isAcceptableNeighbour(world, pos2, direction)) world.setBlock(pos, state
-                            .setValue(VineBlock.getPropertyForFace(direction), Boolean.valueOf(true)).setValue(
-                                    StringOfPearlsBlock.FLOWERS, Boolean.valueOf(random.nextFloat() < 0.11F)), 2);
+                    else if (VineBlock.isAcceptableNeighbour(world, pos2, direction)) world.setBlock(pos,
+                            state.setValue(VineBlock.getPropertyForFace(direction), Boolean.TRUE)
+                                    .setValue(StringOfPearlsBlock.FLOWERS, random.nextFloat() < 0.11F), 2);
 
                 }
             }
@@ -147,8 +133,8 @@ public class StringOfPearlsBlock extends VineBlock implements BonemealableBlock,
                 {
                     if (this.canSupportAtFace(world, pos, direction))
                     {
-                        world.setBlock(pos, state.setValue(VineBlock.UP, Boolean.valueOf(true)).setValue(
-                                StringOfPearlsBlock.FLOWERS, Boolean.valueOf(random.nextFloat() < 0.11F)), 2);
+                        world.setBlock(pos, state.setValue(VineBlock.UP, Boolean.TRUE)
+                                .setValue(StringOfPearlsBlock.FLOWERS, random.nextFloat() < 0.11F), 2);
                         return;
                     }
 
@@ -159,9 +145,9 @@ public class StringOfPearlsBlock extends VineBlock implements BonemealableBlock,
                         BlockState state2 = state;
 
                         for (final Direction direction2 : Direction.Plane.HORIZONTAL)
-                            if (random.nextBoolean() || !VineBlock.isAcceptableNeighbour(world, pos1.relative(
-                                    direction2), direction2)) state2 = state2.setValue(VineBlock.getPropertyForFace(
-                                            direction2), Boolean.valueOf(false));
+                            if (random.nextBoolean() || !VineBlock.isAcceptableNeighbour(world,
+                                    pos1.relative(direction2), direction2))
+                                state2 = state2.setValue(VineBlock.getPropertyForFace(direction2), Boolean.FALSE);
 
                         if (this.hasHorizontalConnection(state2)) world.setBlock(pos1, state2, 2);
                         return;
@@ -190,9 +176,8 @@ public class StringOfPearlsBlock extends VineBlock implements BonemealableBlock,
             if (random.nextBoolean())
             {
                 final BooleanProperty b = VineBlock.getPropertyForFace(direction);
-                if (state.getValue(b)) state1 = state1.setValue(b, Boolean.valueOf(true)).setValue(
-                        StringOfPearlsBlock.FLOWERS, Boolean.valueOf(random
-                                .nextFloat() < StringOfPearlsBlock.CHANCE_OF_FLOWERS_ON_GROWTH));
+                if (state.getValue(b)) state1 = state1.setValue(b, Boolean.TRUE).setValue(StringOfPearlsBlock.FLOWERS,
+                        random.nextFloat() < StringOfPearlsBlock.CHANCE_OF_FLOWERS_ON_GROWTH);
             }
 
         return state1;
@@ -207,8 +192,8 @@ public class StringOfPearlsBlock extends VineBlock implements BonemealableBlock,
     public boolean canSpread(final BlockGetter block, final BlockPos pos)
     {
         final int i = 4;
-        final Iterable<BlockPos> iterable = BlockPos.betweenClosed(pos.getX() - i, pos.getY() - 1, pos.getZ() - i, pos
-                .getX() + i, pos.getY() + 1, pos.getZ() + i);
+        final Iterable<BlockPos> iterable = BlockPos.betweenClosed(pos.getX() - i, pos.getY() - 1, pos.getZ() - i,
+                pos.getX() + i, pos.getY() + 1, pos.getZ() + i);
         int j = 5;
 
         for (final BlockPos pos1 : iterable)
@@ -221,16 +206,16 @@ public class StringOfPearlsBlock extends VineBlock implements BonemealableBlock,
     }
 
     @Override
-    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos, final Player player,
-            final InteractionHand hand, final BlockHitResult blockHit)
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
+            BlockHitResult hitResult)
     {
         if (state.getValue(StringOfPearlsBlock.FLOWERS))
         {
-            Block.popResource(world, pos, new ItemStack(Items.PINK_DYE, 1));
-            final float f = Mth.randomBetween(world.random, 0.8F, 1.2F);
-            world.playSound((Player) null, pos, SoundEvents.CAVE_VINES_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, f);
-            world.setBlock(pos, state.setValue(StringOfPearlsBlock.FLOWERS, Boolean.valueOf(false)), 2);
-            return InteractionResult.sidedSuccess(world.isClientSide);
+            Block.popResource(level, pos, new ItemStack(Items.PINK_DYE, 1));
+            final float f = Mth.randomBetween(level.random, 0.8F, 1.2F);
+            level.playSound(null, pos, SoundEvents.CAVE_VINES_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, f);
+            level.setBlock(pos, state.setValue(StringOfPearlsBlock.FLOWERS, Boolean.FALSE), 2);
+            return InteractionResult.sidedSuccess(level.isClientSide);
         }
         else return InteractionResult.PASS;
     }

@@ -2,7 +2,7 @@ package pokecube.legends.blocks.customblocks.taputotem;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
@@ -17,30 +17,32 @@ import thut.api.item.ItemList;
 public class BuluTotem extends TapuBuluCore
 {
 
-	public BuluTotem(final Properties props) {
-		super(props);
-	}
-	
-	@Override
-	public InteractionResult use(final BlockState stack, final Level world, final BlockPos pos, final Player entity, final InteractionHand hand,
-			final BlockHitResult hit)
-	{
-		if (ItemList.is(PokecubeLegends.TOTEM_FUEL_TAG, entity.getMainHandItem()))
-		{
-			BuluTotem.addEffectTotem(entity);
-			return InteractionResult.SUCCESS;
-		}
-		return InteractionResult.PASS;
-	}
-	
-	public static void addEffectTotem(final Player entity)
-	{
-		if (ItemList.is(PokecubeLegends.TOTEM_FUEL_TAG, entity.getMainHandItem()))
-		{
-			entity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 400, 1));
-			final ItemStack _stktoremove = entity.getMainHandItem();
-			if (!entity.isCreative()) entity.getInventory().clearOrCountMatchingItems(p -> _stktoremove.getItem() == p.getItem(), 1,
-            	entity.inventoryMenu.getCraftSlots());
-		}
-	}
+    public BuluTotem(final Properties props)
+    {
+        super(props);
+    }
+
+    @Override
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+            Player player, InteractionHand hand, BlockHitResult hitResult)
+    {
+        if (ItemList.is(PokecubeLegends.TOTEM_FUEL_TAG, stack))
+        {
+            addEffectTotem(player);
+            return ItemInteractionResult.SUCCESS;
+        }
+        return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
+    }
+
+    public static void addEffectTotem(final Player entity)
+    {
+        if (ItemList.is(PokecubeLegends.TOTEM_FUEL_TAG, entity.getMainHandItem()))
+        {
+            entity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 400, 1));
+            final ItemStack _stktoremove = entity.getMainHandItem();
+            if (!entity.isCreative()) entity.getInventory()
+                    .clearOrCountMatchingItems(p -> _stktoremove.getItem() == p.getItem(), 1,
+                            entity.inventoryMenu.getCraftSlots());
+        }
+    }
 }

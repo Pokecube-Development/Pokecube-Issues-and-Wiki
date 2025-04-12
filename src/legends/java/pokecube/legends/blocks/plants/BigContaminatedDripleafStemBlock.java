@@ -34,7 +34,7 @@ public class BigContaminatedDripleafStemBlock extends BigDripleafStemBlock
 {
     // Tag
     public static final TagKey<Block> BIG_CONTAMINATED_DRIPLEAF_PLACEABLE = TagKey.create(RegHelper.BLOCK_REGISTRY,
-            ResourceLocation.parse(Reference.ID, "big_contaminated_dripleaf_placeable"));
+            ResourceLocation.fromNamespaceAndPath(Reference.ID, "big_contaminated_dripleaf_placeable"));
     private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     protected static final VoxelShape NORTH_SHAPE = Block.box(4.0D, 0.0D, 8.0D, 12.0D, 16.0D, 16.0D);
     protected static final VoxelShape SOUTH_SHAPE = Block.box(4.0D, 0.0D, 0.0D, 12.0D, 16.0D, 8.0D);
@@ -106,9 +106,9 @@ public class BigContaminatedDripleafStemBlock extends BigDripleafStemBlock
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader worldReader, BlockPos pos, BlockState state, boolean b)
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state)
     {
-        Optional<BlockPos> optional = BlockUtil.getTopConnectedBlock(worldReader, pos, state.getBlock(), Direction.UP,
+        Optional<BlockPos> optional = BlockUtil.getTopConnectedBlock(level, pos, state.getBlock(), Direction.UP,
                 PlantsInit.BIG_CONTAMINATED_DRIPLEAF.get());
         if (!optional.isPresent())
         {
@@ -117,8 +117,8 @@ public class BigContaminatedDripleafStemBlock extends BigDripleafStemBlock
         else
         {
             BlockPos posAbove = optional.get().above();
-            BlockState stateAbove = worldReader.getBlockState(posAbove);
-            return BigContaminatedDripleafBlock.canPlaceAt(worldReader, posAbove, stateAbove);
+            BlockState stateAbove = level.getBlockState(posAbove);
+            return BigContaminatedDripleafBlock.canPlaceAt(level, posAbove, stateAbove);
         }
     }
 
@@ -138,7 +138,7 @@ public class BigContaminatedDripleafStemBlock extends BigDripleafStemBlock
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockGetter block, BlockPos pos, BlockState state)
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state)
     {
         return new ItemStack(PlantsInit.BIG_CONTAMINATED_DRIPLEAF.get());
     }

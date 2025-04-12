@@ -26,7 +26,7 @@ public class TallTaintedSeagrassBlock extends TallSeagrassBlock implements Liqui
     }
 
     @Override
-    public ItemStack getCloneItemStack(final BlockGetter block, final BlockPos pos, final BlockState state)
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state)
     {
         return new ItemStack(PlantsInit.TALL_TAINTED_SEAGRASS.get());
     }
@@ -39,7 +39,7 @@ public class TallTaintedSeagrassBlock extends TallSeagrassBlock implements Liqui
     }
 
     @Override
-    public boolean isValidBonemealTarget(final LevelReader worldReader, final BlockPos pos, final BlockState state, final boolean b)
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state)
     {
         return true;
     }

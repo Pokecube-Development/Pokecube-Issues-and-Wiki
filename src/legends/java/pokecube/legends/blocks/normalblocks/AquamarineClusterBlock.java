@@ -41,10 +41,10 @@ public class AquamarineClusterBlock extends AmethystClusterBlock implements Simp
        return direction == state.getValue(FACING).getOpposite() && !state.canSurvive(world, pos)
                ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, state1, world, pos, pos1);
     }
-    
+
     @Override
-    public boolean isPathfindable(final BlockState state, final BlockGetter worldIn, final BlockPos pos, final PathComputationType path)
+    protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType)
     {
-      return false;
+        return false;
     }
 }

@@ -37,13 +37,13 @@ public class DistortedMirror extends ItemBase
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(final ItemStack stack, final Level worldIn, final List<Component> tooltip,
-            final TooltipFlag flagIn)
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents,
+            TooltipFlag tooltipFlag)
     {
         String message;
         if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltip_id + ".tooltip");
         else message = I18n.get("pokecube.tooltip.advanced");
-        tooltip.add(TComponent.translatable(message));
+        tooltipComponents.add(TComponent.translatable(message));
     }
 
     @Override

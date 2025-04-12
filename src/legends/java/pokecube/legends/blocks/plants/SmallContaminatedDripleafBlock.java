@@ -27,7 +27,7 @@ public class SmallContaminatedDripleafBlock extends SmallDripleafBlock
 {
     // Tag
     public static final TagKey<Block> SMALL_CONTAMINATED_DRIPLEAF_PLACEABLE = TagKey.create(RegHelper.BLOCK_REGISTRY,
-            ResourceLocation.parse(Reference.ID, "small_contaminated_dripleaf_placeable"));
+            ResourceLocation.fromNamespaceAndPath(Reference.ID, "small_contaminated_dripleaf_placeable"));
     protected static final VoxelShape SHAPE_UPPER = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 13.0D, 14.0D);
     protected static final VoxelShape SHAPE_LOWER = Block.box(4.0D, 0.0D, 4.0D, 12.0D, 16.0D, 12.0D);
 

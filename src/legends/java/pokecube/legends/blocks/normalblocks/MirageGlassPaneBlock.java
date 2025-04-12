@@ -15,8 +15,8 @@ public class MirageGlassPaneBlock extends StainedGlassPaneBlock implements Beaco
     }
 
     @Override
-    public float[] getBeaconColorMultiplier(BlockState state, LevelReader world, BlockPos pos, BlockPos beaconPos)
+    public DyeColor getColor()
     {
-        return new float[]{0.00f, 0.95f, 1.00f};
+        return DyeColor.CYAN;
     }
 }

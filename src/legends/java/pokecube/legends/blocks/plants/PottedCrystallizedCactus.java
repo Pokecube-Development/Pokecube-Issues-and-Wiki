@@ -1,7 +1,5 @@
 package pokecube.legends.blocks.plants;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
@@ -10,8 +8,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.PathType;
 import pokecube.core.init.ItemGenerator;
+
+import javax.annotation.Nullable;
 
 public class PottedCrystallizedCactus extends ItemGenerator.GenericPottedPlant
 {
@@ -22,10 +22,10 @@ public class PottedCrystallizedCactus extends ItemGenerator.GenericPottedPlant
 
     @Nullable
     @Override
-    public BlockPathTypes getBlockPathType(final BlockState state, final BlockGetter world, final BlockPos pos,
+    public PathType getBlockPathType(final BlockState state, final BlockGetter world, final BlockPos pos,
             @Nullable final Mob entity)
     {
-        return BlockPathTypes.DAMAGE_OTHER;
+        return PathType.DAMAGE_OTHER;
     }
 
     @Override

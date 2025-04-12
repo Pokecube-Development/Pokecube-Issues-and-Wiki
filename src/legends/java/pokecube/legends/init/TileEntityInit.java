@@ -4,16 +4,12 @@ import java.util.function.Supplier;
 
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import pokecube.legends.PokecubeLegends;
-import pokecube.legends.tileentity.GenericBarrelTile;
-import pokecube.legends.tileentity.GenericBookshelfEmptyTile;
 import pokecube.legends.tileentity.InfectedCampfireBlockEntity;
 
 public class TileEntityInit
 {
     // Tile
     public static final Supplier<BlockEntityType<InfectedCampfireBlockEntity>> CAMPFIRE_ENTITY;
-    public static final Supplier<BlockEntityType<GenericBarrelTile>> BARREL_ENTITY;
-    public static final Supplier<BlockEntityType<GenericBookshelfEmptyTile>> BOOKSHELF_EMPTY_ENTITY;
 
     static
     {

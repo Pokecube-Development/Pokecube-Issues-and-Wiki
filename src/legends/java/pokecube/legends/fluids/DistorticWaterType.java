@@ -1,9 +1,11 @@
 package pokecube.legends.fluids;
 
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
 
+import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
@@ -36,14 +38,14 @@ public class DistorticWaterType extends FluidType
         super(properties);
     }
 
-    public static ForgeFlowingFluid.Properties makeProperties()
+    public static BaseFlowingFluid.Properties makeProperties()
     {
-        return new ForgeFlowingFluid.Properties(DISTORTIC_WATER_TYPE, FluidInit.DISTORTIC_WATER,
+        return new BaseFlowingFluid.Properties(DISTORTIC_WATER_TYPE, FluidInit.DISTORTIC_WATER,
                 FluidInit.DISTORTIC_WATER_FLOWING).bucket(ItemInit.DISTORTIC_WATER_BUCKET)
                         .block(FluidInit.DISTORTIC_WATER_BLOCK);
     }
 
-    public static final RegistryObject<FluidType> DISTORTIC_WATER_TYPE = PokecubeLegends.FLUID_TYPES.register(
+    public static final Supplier<FluidType> DISTORTIC_WATER_TYPE = PokecubeLegends.FLUID_TYPES.register(
             "distortic_water",
             () -> new FluidType(FluidType.Properties.create().descriptionId("block.pokecube_legends.distortic_water")
                     .density(1000).temperature(100).viscosity(1000).lightLevel(0).motionScale(1.5)

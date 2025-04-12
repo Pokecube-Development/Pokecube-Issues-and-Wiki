@@ -5,7 +5,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
@@ -26,7 +25,7 @@ public class TemporalBambooShootBlock extends BambooSaplingBlock implements Bone
 {
     // Tags
     public static TagKey<Block> TEMPORAL_BAMBOO_PLANTABLE_ON = TagKey.create(RegHelper.BLOCK_REGISTRY,
-            ResourceLocation.parse(Reference.ID, "temporal_bamboo_plantable_on"));
+            ResourceLocation.fromNamespaceAndPath(Reference.ID, "temporal_bamboo_plantable_on"));
 
     public TemporalBambooShootBlock(BlockBehaviour.Properties properties)
     {
@@ -67,7 +66,7 @@ public class TemporalBambooShootBlock extends BambooSaplingBlock implements Bone
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockGetter block, BlockPos pos, BlockState state)
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state)
     {
         return new ItemStack(ItemInit.TEMPORAL_BAMBOO.get());
     }

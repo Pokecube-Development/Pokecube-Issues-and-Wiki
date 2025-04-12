@@ -1,7 +1,5 @@
 package pokecube.legends.init;
 
-import java.util.function.Supplier;
-
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -9,13 +7,11 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.registries.RegistryObject;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import pokecube.adventures.PokecubeAdv;
-import pokecube.adventures.init.AdvCreativeTabs;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
@@ -23,15 +19,17 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.init.CoreCreativeTabs;
 import pokecube.legends.Reference;
 
+import java.util.function.Supplier;
+
 @EventBusSubscriber(modid = Reference.ID, bus = EventBusSubscriber.Bus.MOD)
 public class LegendsCreativeTabs extends CoreCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Reference.ID);
 
     public static final Supplier<CreativeModeTab> BUILDING_BLOCKS_TAB = TABS.register("building_blocks_tab", () -> CreativeModeTab.builder()
-            .withBackgroundLocation(ResourceLocation.fromNamespaceAndPath(Reference.ID, "textures/gui/container/tab_item_search.png"))
+           // .withBackgroundLocation(ResourceLocation.fromNamespaceAndPath(Reference.ID, "textures/gui/container/tab_item_search.png"))
             .title(Component.translatable("itemGroup.pokecube_legends.building_blocks"))
             .icon(() -> new ItemStack(BlockInit.DUSK_DOLERITE_BRICKS.get()))
-            .withTabsBefore(AdvCreativeTabs.BADGES_TAB.getId())
+            .withTabsBefore(ResourceLocation.parse("pokecube_adventures:badges_tab"))
             .withSearchBar(71)
             .displayItems((parameters, output) -> {
                 output.accept(BlockInit.AGED_LOG.get());
@@ -420,10 +418,10 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
             }).build());
 
     public static final Supplier<CreativeModeTab> NATURAL_BLOCKS_TAB = TABS.register("natural_blocks_tab", () -> CreativeModeTab.builder()
-            .withBackgroundLocation(ResourceLocation.fromNamespaceAndPath(Reference.ID, "textures/gui/container/tab_item_search.png"))
+//            .withBackgroundLocation(ResourceLocation.fromNamespaceAndPath(Reference.ID, "textures/gui/container/tab_item_search.png"))
             .title(Component.translatable("itemGroup.pokecube_legends.natural_blocks"))
             .icon(() -> new ItemStack(BlockInit.DISTORTIC_GRASS_BLOCK.get()))
-            .withTabsBefore(BUILDING_BLOCKS_TAB.getId())
+            .withTabsBefore(ResourceLocation.parse("pokecube_legends:building_blocks_tab"))
             .withSearchBar(71)
             .displayItems((parameters, output) -> {
                 output.accept(BlockInit.AGED_GRASS_BLOCK.get());
@@ -582,10 +580,10 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
             }).build());
 
     public static final Supplier<CreativeModeTab> FUNCTIONAL_BLOCKS_TAB = TABS.register("functional_blocks_tab", () -> CreativeModeTab.builder()
-            .withBackgroundLocation(ResourceLocation.fromNamespaceAndPath(Reference.ID, "textures/gui/container/tab_item_search_short.png"))
+//            .withBackgroundLocation(ResourceLocation.fromNamespaceAndPath(Reference.ID, "textures/gui/container/tab_item_search_short.png"))
             .title(Component.translatable("itemGroup.pokecube_legends.functional_blocks"))
             .icon(() -> new ItemStack(ItemInit.GIRATINA_MIRROR.get()))
-            .withTabsBefore(NATURAL_BLOCKS_TAB.getId())
+            .withTabsBefore(ResourceLocation.parse("pokecube_legends:natural_blocks_tab"))
             .withSearchBar(53)
             .displayItems((parameters, output) -> {
                 output.accept(ItemInit.ULTRA_KEY.get());
@@ -722,10 +720,10 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
             }).build());
 
     public static final Supplier<CreativeModeTab> ITEMS_TAB = TABS.register("items_tab", () -> CreativeModeTab.builder()
-            .withBackgroundLocation(ResourceLocation.fromNamespaceAndPath(Reference.ID, "textures/gui/container/tab_item_search.png"))
+//            .withBackgroundLocation(ResourceLocation.fromNamespaceAndPath(Reference.ID, "textures/gui/container/tab_item_search.png"))
             .title(Component.translatable("itemGroup.pokecube_legends.items"))
             .icon(() -> new ItemStack(ItemInit.RAINBOW_ORB.get()))
-            .withTabsBefore(FUNCTIONAL_BLOCKS_TAB.getId())
+            .withTabsBefore(ResourceLocation.parse("pokecube_legends:functional_blocks_tab"))
             .withSearchBar(71)
             .displayItems((parameters, output) -> {
                 output.accept(ItemInit.DIAMOND_GEM.get());
@@ -1195,18 +1193,18 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
             addBefore(event, PokecubeItems.getStack("pokecube_legends:bulu_white_totem").getItem(), BlockInit.TAPU_BULU_CORE.get());
         }
         
-        if (event.getTabKey().equals(ITEMS_TAB.getKey()))
+        if (event.getTab().equals(ITEMS_TAB.get()))
         {
             addAfter(event, ItemInit.SPECTRUM_SHARD.get(), PokecubeItems.EMERALDSHARD.get());
         }
 
-        if (event.getTabKey().equals(NATURAL_BLOCKS_TAB.getKey()))
+        if (event.getTab().equals(NATURAL_BLOCKS_TAB.get()))
         {
             addAfter(event, BlockInit.DUSK_COSMIC_ORE.get(), PokecubeItems.FOSSIL_ORE.get());
             addAfter(event, PokecubeItems.FOSSIL_ORE.get(), PokecubeItems.DEEPSLATE_FOSSIL_ORE.get());
         }
         
-        if (event.getTabKey().equals(FUNCTIONAL_BLOCKS_TAB.getKey()))
+        if (event.getTab().equals(FUNCTIONAL_BLOCKS_TAB.get()))
         {
             addAfter(event, ItemInit.ULTRA_BOOTS.get(), PokecubeAdv.BAG.get());
             addAfter(event, PokecubeAdv.BAG.get(), PokecubeAdv.EXPSHARE.get());
@@ -1243,7 +1241,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
             addAfter(event, PokecubeItems.SECRET_BASE.get(), PokecubeItems.REPEL.get());
         }
 
-        if (event.getTabKey().equals(BERRIES_TAB.getKey()))
+        if (event.getTab().equals(BERRIES_TAB.get()))
         {
             addAfter(event, PokecubeItems.getStack("pokecube:berry_rowap").getItem(), ItemInit.NULL_POKEPUFF.get());
             addAfter(event, ItemInit.NULL_POKEPUFF.get(), ItemInit.CHERI_POKEPUFF.get());

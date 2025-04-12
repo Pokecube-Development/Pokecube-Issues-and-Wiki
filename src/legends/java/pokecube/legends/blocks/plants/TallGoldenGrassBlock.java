@@ -8,10 +8,9 @@ import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.TallGrassBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.IForgeShearable;
 import pokecube.legends.init.PlantsInit;
 
-public class TallGoldenGrassBlock extends TallGrassBlock implements BonemealableBlock, IForgeShearable
+public class TallGoldenGrassBlock extends TallGrassBlock implements BonemealableBlock
 {
 
     public TallGoldenGrassBlock(final BlockBehaviour.Properties config)

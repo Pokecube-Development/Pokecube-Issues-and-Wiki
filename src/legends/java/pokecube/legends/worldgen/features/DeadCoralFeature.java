@@ -1,11 +1,9 @@
 package pokecube.legends.worldgen.features;
 
-import java.util.List;
-
 import com.mojang.serialization.Codec;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
@@ -18,22 +16,23 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraftforge.registries.ForgeRegistries;
 import thut.lib.RegHelper;
+
+import java.util.List;
 
 public abstract class DeadCoralFeature extends Feature<NoneFeatureConfiguration>
 {
     // Tags
     public final static TagKey<Block> DEAD_CORAL_BLOCKS = TagKey.create(RegHelper.BLOCK_REGISTRY,
-            ResourceLocation.parse("forge", "dead_coral_blocks"));
+            ResourceLocation.fromNamespaceAndPath("forge", "dead_coral_blocks"));
     public final static TagKey<Block> DEAD_CORALS = TagKey.create(RegHelper.BLOCK_REGISTRY,
-            ResourceLocation.parse("forge", "dead_corals"));
+            ResourceLocation.fromNamespaceAndPath("forge", "dead_corals"));
     public final static TagKey<Block> DEAD_WALL_CORALS = TagKey.create(RegHelper.BLOCK_REGISTRY,
-            ResourceLocation.parse("forge", "dead_wall_corals"));
+            ResourceLocation.fromNamespaceAndPath("forge", "dead_wall_corals"));
 
     private Block getRandom(TagKey<Block> key, RandomSource rand)
     {
-        List<Block> list = ForgeRegistries.BLOCKS.tags().getTag(key).stream().toList();
+        List<Block> list = BuiltInRegistries.BLOCK.stream().toList();
         return list.get(rand.nextInt(list.size()));
     }
 
@@ -59,24 +58,26 @@ public abstract class DeadCoralFeature extends Feature<NoneFeatureConfiguration>
     {
         final BlockPos posAbove = pos.above();
         final BlockState statePos = world.getBlockState(pos);
-        if ((statePos.is(Blocks.WATER) || statePos.is(DeadCoralFeature.DEAD_CORALS))
-                && world.getBlockState(posAbove).is(Blocks.WATER))
+        if ((statePos.is(Blocks.WATER) || statePos.is(DeadCoralFeature.DEAD_CORALS)) && world.getBlockState(posAbove)
+                .is(Blocks.WATER))
         {
             world.setBlock(pos, state, 3);
             if (random.nextFloat() < 0.25F)
                 world.setBlock(posAbove, getRandom(DeadCoralFeature.DEAD_CORALS, random).defaultBlockState(), 2);
 
-            for (final Direction direction : Direction.Plane.HORIZONTAL) if (random.nextFloat() < 0.2F)
-            {
-                final BlockPos posRelative = pos.relative(direction);
-                if (world.getBlockState(posRelative).is(Blocks.WATER))
+            for (final Direction direction : Direction.Plane.HORIZONTAL)
+                if (random.nextFloat() < 0.2F)
                 {
-                    BlockState stateRandom = getRandom(DeadCoralFeature.DEAD_WALL_CORALS, random).defaultBlockState();
-                    if (stateRandom.hasProperty(BaseCoralWallFanBlock.FACING))
-                        stateRandom = stateRandom.setValue(BaseCoralWallFanBlock.FACING, direction);
-                    world.setBlock(posRelative, stateRandom, 2);
+                    final BlockPos posRelative = pos.relative(direction);
+                    if (world.getBlockState(posRelative).is(Blocks.WATER))
+                    {
+                        BlockState stateRandom = getRandom(DeadCoralFeature.DEAD_WALL_CORALS,
+                                random).defaultBlockState();
+                        if (stateRandom.hasProperty(BaseCoralWallFanBlock.FACING))
+                            stateRandom = stateRandom.setValue(BaseCoralWallFanBlock.FACING, direction);
+                        world.setBlock(posRelative, stateRandom, 2);
+                    }
                 }
-            }
             return true;
         }
         else return false;

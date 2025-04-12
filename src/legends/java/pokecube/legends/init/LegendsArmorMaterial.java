@@ -23,7 +23,7 @@ public enum LegendsArmorMaterial implements StringRepresentable, ArmorMaterial
             map.put(ArmorItem.Type.LEGGINGS, 6);
             map.put(ArmorItem.Type.CHESTPLATE, 8);
             map.put(ArmorItem.Type.HELMET, 3);
-        }), 10, SoundEvents.ARMOR_EQUIP_LEATHER, 2.0F, 0.0F,
+        }), 10, SoundEvents.ARMOR_EQUIP_LEATHER.value(), 2.0F, 0.0F,
         () -> { return Ingredient.of(ItemInit.SPECTRUM_SHARD.get()); }),
     IMPRISONMENT_ARMOR("imprisonment", 37, Util.make(new EnumMap<>(ArmorItem.Type.class),
             (map) -> {
@@ -31,7 +31,7 @@ public enum LegendsArmorMaterial implements StringRepresentable, ArmorMaterial
                 map.put(ArmorItem.Type.LEGGINGS, 6);
                 map.put(ArmorItem.Type.CHESTPLATE, 8);
                 map.put(ArmorItem.Type.HELMET, 3);
-            }), 15, SoundEvents.ARMOR_EQUIP_NETHERITE, 3.0F, 0.1F, () -> {
+            }), 15, SoundEvents.ARMOR_EQUIP_NETHERITE.value(), 3.0F, 0.1F, () -> {
         return Ingredient.of(Items.NETHERITE_INGOT);
     });
 

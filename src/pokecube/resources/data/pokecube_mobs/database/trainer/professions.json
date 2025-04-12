@@ -8,16 +8,16 @@
           "trades": [
             {
               "exp": 1,
-              "sell": {"values": {"id": "pokecube:revive", "n": "8"}},
+              "sell": {"id": "pokecube:revive", "n": "8"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "4"}}
+                {"id": "minecraft:emerald", "n": "4"}
               ]
             },
             {
               "exp": 1,
-              "sell": {"values": {"id": "pokecube:berryjuice", "n": "16"}},
+              "sell": {"id": "pokecube:berryjuice", "n": "16"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "4"}}
+                {"id": "minecraft:emerald", "n": "4"}
               ]
             }
           ]
@@ -30,7 +30,7 @@
               "exp": 5,
               "count": 4,
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "12"}}
+                {"id": "minecraft:emerald", "n": "12"}
               ]
             },
             {
@@ -38,7 +38,7 @@
               "exp": 5,
               "values": {"id": "pokecube_world:town"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "4"}}
+                {"id": "minecraft:emerald", "n": "4"}
               ]
             },
             {
@@ -46,7 +46,7 @@
               "exp": 5,
               "values": {"id": "pokecube_world:village"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "4"}}
+                {"id": "minecraft:emerald", "n": "4"}
               ]
             }
           ]
@@ -59,14 +59,14 @@
               "exp": 1,
               "count": 1,
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "3"}}
+                {"id": "minecraft:emerald", "n": "3"}
               ]
             },
             {
               "custom": "allBerryBuy",
               "exp": 1,
               "count": 16,
-              "sell": {"values": {"id": "minecraft:emerald", "n": "1"}}
+              "sell": {"id": "minecraft:emerald", "n": "1"}
             }
           ]
         },
@@ -76,17 +76,17 @@
             {
               "exp": 5,
               "maxUses": 1,
-              "sell": {"values": {"id": "minecraft:glistering_melon_slice", "n": "3"}},
+              "sell": {"id": "minecraft:glistering_melon_slice", "n": "3"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "3"}}
+                {"id": "minecraft:emerald", "n": "3"}
               ]
             },
             {
               "exp": 5,
               "maxUses": 1,
-              "sell": {"values": {"id": "minecraft:golden_carrot", "n": "3"}},
+              "sell": {"id": "minecraft:golden_carrot", "n": "3"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "3"}}
+                {"id": "minecraft:emerald", "n": "3"}
               ]
             }
           ]
@@ -97,9 +97,9 @@
             {
               "exp": 5,
               "maxUses": 1,
-              "sell": {"values": {"id": "minecraft:golden_apple", "n": "1"}},
+              "sell": {"id": "minecraft:golden_apple", "n": "1"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "2"}}
+                {"id": "minecraft:emerald", "n": "2"}
               ]
             }
           ]
@@ -115,17 +115,17 @@
             {
               "exp": 10,
               "maxUses": 1,
-              "sell": {"values": {"id": "pokecube:pokedex", "n": "1"}},
+              "sell": {"id": "pokecube:pokedex", "n": "1"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             },
             {
               "exp": 10,
               "maxUses": 1,
-              "sell": {"values": {"id": "pokecube:pokewatch", "n": "1"}},
+              "sell": {"id": "pokecube:pokewatch", "n": "1"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "20"}}
+                {"id": "minecraft:emerald", "n": "20"}
               ]
             }
           ]
@@ -135,9 +135,9 @@
           "trades": [
             {
               "exp": 5,
-              "sell": {"values": {"id": "pokecube_adventures:exp_share", "n": "1"}},
+              "sell": {"id": "pokecube_adventures:exp_share", "n": "1"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             }
           ]
@@ -147,16 +147,16 @@
           "trades": [
             {
               "exp": 5,
-              "sell": {"values": {"id": "pokecube_adventures:bag", "n": "1"}},
+              "sell": {"id": "pokecube_adventures:bag", "n": "1"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             },
             {
               "exp": 20,
-              "sell": {"values": {"id": "pokecube_adventures:siphon", "n": "1"}},
+              "sell": {"id": "pokecube_adventures:siphon", "n": "1"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "64"}}
+                {"id": "minecraft:emerald", "n": "64"}
               ]
             }
           ]
@@ -166,23 +166,23 @@
           "trades": [
             {
               "exp": 2,
-              "sell": {"values": {"id": "pokecube:pokecube", "n": "16"}},
+              "sell": {"id": "pokecube:pokecube", "n": "16"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "4"}}
+                {"id": "minecraft:emerald", "n": "4"}
               ]
             },
             {
               "exp": 4,
-              "sell": {"values": {"id": "pokecube:greatcube", "n": "8"}},
+              "sell": {"id": "pokecube:greatcube", "n": "8"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "4"}}
+                {"id": "minecraft:emerald", "n": "4"}
               ]
             },
             {
               "exp": 6,
-              "sell": {"values": {"id": "pokecube:ultracube", "n": "4"}},
+              "sell": {"id": "pokecube:ultracube", "n": "4"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "4"}}
+                {"id": "minecraft:emerald", "n": "4"}
               ]
             }
           ]
@@ -192,17 +192,17 @@
           "trades": [
             {
               "exp": 20,
-              "sell": {"values": {"id": "pokecube_adventures:cloner", "n": "1"}},
+              "sell": {"id": "pokecube_adventures:cloner", "n": "1"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "32"}}
+                {"id": "minecraft:emerald", "n": "32"}
               ]
             },
             {
               "exp": 20,
-              "sell": {"values": {"id": "pokecube_adventures:extractor", "n": "1"}},
+              "sell": {"id": "pokecube_adventures:extractor", "n": "1"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "64"}},
-                {"values": {"id": "minecraft:emerald", "n": "32"}}
+                {"id": "minecraft:emerald", "n": "64"},
+                {"id": "minecraft:emerald", "n": "32"}
               ]
             },
             {
@@ -211,7 +211,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/elite_four"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             }
           ]
@@ -228,7 +228,7 @@
               "custom": "allBerryBuy",
               "exp": 1,
               "count": 16,
-              "sell": {"values": {"id": "minecraft:emerald", "n": "1"}}
+              "sell": {"id": "minecraft:emerald", "n": "1"}
             }
           ]
         },
@@ -237,23 +237,23 @@
           "trades": [
             {
               "exp": 2,
-              "sell": {"values": {"id": "pokecube:pokecube", "n": "16"}},
+              "sell": {"id": "pokecube:pokecube", "n": "16"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "4"}}
+                {"id": "minecraft:emerald", "n": "4"}
               ]
             },
             {
               "exp": 4,
-              "sell": {"values": {"id": "pokecube:greatcube", "n": "8"}},
+              "sell": {"id": "pokecube:greatcube", "n": "8"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "4"}}
+                {"id": "minecraft:emerald", "n": "4"}
               ]
             },
             {
               "exp": 6,
-              "sell": {"values": {"id": "pokecube:ultracube", "n": "4"}},
+              "sell": {"id": "pokecube:ultracube", "n": "4"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "4"}}
+                {"id": "minecraft:emerald", "n": "4"}
               ]
             }
           ]
@@ -266,7 +266,7 @@
               "exp": 1,
               "count": 1,
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "3"}}
+                {"id": "minecraft:emerald", "n": "3"}
               ]
             }
           ]
@@ -279,7 +279,7 @@
               "custom": "pokecube_adventures:mega_sales",
               "exp": 5,
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             },
             {
@@ -287,7 +287,7 @@
               "custom": "pokecube:pokemob_evo",
               "exp": 5,
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             }
           ]
@@ -297,10 +297,10 @@
           "trades": [
             {
               "exp": 250,
-              "sell": {"values": {"id": "pokecube:shiny_charm"}},
+              "sell": {"id": "pokecube:shiny_charm"},
               "buys": [
-                {"values": {"id": "minecraft:emerald_block", "n": "64"}},
-                {"values": {"id": "minecraft:emerald_block", "n": "64"}}
+                {"id": "minecraft:emerald_block", "n": "64"},
+                {"id": "minecraft:emerald_block", "n": "64"}
               ]
             },
             {
@@ -308,7 +308,7 @@
               "type": "tag_sell",
               "custom": "pokecube_legends:sells_for_16",
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             },
             {
@@ -316,7 +316,7 @@
               "type": "tag_sell",
               "custom": "pokecube_legends:sells_for_32",
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "32"}}
+                {"id": "minecraft:emerald", "n": "32"}
               ]
             },
             {
@@ -324,7 +324,7 @@
               "type": "tag_sell",
               "custom": "pokecube_legends:sells_for_64",
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "64"}}
+                {"id": "minecraft:emerald", "n": "64"}
               ]
             }
           ]
@@ -343,7 +343,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/ocean_town"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             }
           ]
@@ -357,7 +357,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/lugia_tower"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             }
           ]
@@ -371,7 +371,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/kyogre_temple"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             }
           ]
@@ -385,7 +385,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/tapus_temple"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             }
           ]
@@ -399,7 +399,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/sky_pillar"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             },
             {
@@ -408,7 +408,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/kubfu_water"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             }
           ]
@@ -423,9 +423,9 @@
           "trades": [
             {
               "exp": 1,
-              "sell": {"values": {"id": "pokecube:lurecube", "n": "4"}},
+              "sell": {"id": "pokecube:lurecube", "n": "4"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "2"}}
+                {"id": "minecraft:emerald", "n": "2"}
               ]
             }
           ]
@@ -435,9 +435,9 @@
           "trades": [
             {
               "exp": 1,
-              "sell": {"values": {"id": "pokecube:netcube", "n": "4"}},
+              "sell": {"id": "pokecube:netcube", "n": "4"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "2"}}
+                {"id": "minecraft:emerald", "n": "2"}
               ]
             }
           ]
@@ -447,23 +447,23 @@
           "trades": [
             {
               "exp": 5,
-              "sell": {"values": {"id": "minecraft:fishing_rod", "n": "1"}},
+              "sell": {"id": "minecraft:fishing_rod", "n": "1"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "4"}}
+                {"id": "minecraft:emerald", "n": "4"}
               ]
             },
             {
               "exp": 1,
-              "sell": {"values": {"id": "minecraft:cod", "n": "8"}},
+              "sell": {"id": "minecraft:cod", "n": "8"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "1"}}
+                {"id": "minecraft:emerald", "n": "1"}
               ]
             },
             {
               "exp": 1,
-              "sell": {"values": {"id": "minecraft:salmon", "n": "8"}},
+              "sell": {"id": "minecraft:salmon", "n": "8"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "1"}}
+                {"id": "minecraft:emerald", "n": "1"}
               ]
             }
           ]
@@ -477,7 +477,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/nature_place"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             }
           ]
@@ -491,7 +491,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/zacian_temple"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             },
             {
@@ -500,7 +500,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/zamazenta_temple"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             }
           ]
@@ -515,16 +515,16 @@
           "trades": [
             {
               "exp": 5,
-              "sell": {"values": {"id": "thut_bling:bling_bag", "n": "1"}},
+              "sell": {"id": "thut_bling:bling_bag", "n": "1"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "4"}}
+                {"id": "minecraft:emerald", "n": "4"}
               ]
             },
             {
               "exp": 5,
-              "sell": {"values": {"id": "minecraft:compass", "n": "1"}},
+              "sell": {"id": "minecraft:compass", "n": "1"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "4"}}
+                {"id": "minecraft:emerald", "n": "4"}
               ]
             }
           ]
@@ -537,7 +537,7 @@
               "exp": 5,
               "count": 1,
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "2"}}
+                {"id": "minecraft:emerald", "n": "2"}
               ]
             }
           ]
@@ -547,9 +547,9 @@
           "trades": [
             {
               "exp": 1,
-              "sell": {"values": {"id": "minecraft:emerald", "n": "1"}},
+              "sell": {"id": "minecraft:emerald", "n": "1"},
               "buys": [
-                {"values": {"id": "minecraft:bread", "n": "3"}}
+                {"id": "minecraft:bread", "n": "3"}
               ]
             }
           ]
@@ -559,9 +559,9 @@
           "trades": [
             {
               "exp": 1,
-              "sell": {"values": {"id": "minecraft:emerald", "n": "1"}},
+              "sell": {"id": "minecraft:emerald", "n": "1"},
               "buys": [
-                {"values": {"id": "minecraft:cookie", "n": "4"}}
+                {"id": "minecraft:cookie", "n": "4"}
               ]
             }
           ]
@@ -575,7 +575,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/keldeo_place"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             },
             {
@@ -584,7 +584,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/kubfu_dark"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             }
           ]
@@ -599,9 +599,9 @@
           "trades": [
             {
               "exp": 1,
-              "sell": {"values": {"id": "pokecube:pokemobegg", "n": "4"}},
+              "sell": {"id": "pokecube:pokemobegg", "n": "4"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "1"}}
+                {"id": "minecraft:emerald", "n": "1"}
               ]
             }
           ]
@@ -611,16 +611,16 @@
           "trades": [
             {
               "exp": 5,
-              "sell": {"values": {"id": "minecraft:writable_book", "n": "1"}},
+              "sell": {"id": "minecraft:writable_book", "n": "1"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "8"}}
+                {"id": "minecraft:emerald", "n": "8"}
               ]
             },
             {
               "exp": 5,
-              "sell": {"values": {"id": "minecraft:clock", "n": "1"}},
+              "sell": {"id": "minecraft:clock", "n": "1"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "8"}}
+                {"id": "minecraft:emerald", "n": "8"}
               ]
             }
           ]
@@ -630,9 +630,9 @@
           "trades": [
             {
               "exp": 1,
-              "sell": {"values": {"id": "pokecube:tm", "n": "2"}},
+              "sell": {"id": "pokecube:tm", "n": "2"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "1"}}
+                {"id": "minecraft:emerald", "n": "1"}
               ]
             }
           ]
@@ -646,7 +646,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/castle_n"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             }
           ]
@@ -660,7 +660,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/team_rocket"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             },
             {
@@ -669,7 +669,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/team_magma"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             },
             {
@@ -678,7 +678,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/team_aqua"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             }
           ]
@@ -693,9 +693,9 @@
           "trades": [
             {
               "exp": 1,
-              "sell": {"values": {"id": "pokecube:netcube", "n": "4"}},
+              "sell": {"id": "pokecube:netcube", "n": "4"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "1"}}
+                {"id": "minecraft:emerald", "n": "1"}
               ]
             }
           ]
@@ -705,9 +705,9 @@
           "trades": [
             {
               "exp": 1,
-              "sell": {"values": {"id": "pokecube:nestcube", "n": "4"}},
+              "sell": {"id": "pokecube:nestcube", "n": "4"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "1"}}
+                {"id": "minecraft:emerald", "n": "1"}
               ]
             }
           ]
@@ -717,16 +717,16 @@
           "trades": [
             {
               "exp": 1,
-              "sell": {"values": {"id": "minecraft:string", "n": "4"}},
+              "sell": {"id": "minecraft:string", "n": "4"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "1"}}
+                {"id": "minecraft:emerald", "n": "1"}
               ]
             },
             {
               "exp": 1,
-              "sell": {"values": {"id": "minecraft:spider_eye", "n": "4"}},
+              "sell": {"id": "minecraft:spider_eye", "n": "4"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "1"}}
+                {"id": "minecraft:emerald", "n": "1"}
               ]
             }
           ]
@@ -736,9 +736,9 @@
           "trades": [
             {
               "exp": 1,
-              "sell": {"values": {"id": "minecraft:emerald", "n": "1"}},
+              "sell": {"id": "minecraft:emerald", "n": "1"},
               "buys": [
-                {"values": {"id": "minecraft:bread", "n": "3"}}
+                {"id": "minecraft:bread", "n": "3"}
               ]
             }
           ]
@@ -752,7 +752,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/celebi_temple"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             },
             {
@@ -761,7 +761,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/xerneas_place"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             }
           ]
@@ -776,16 +776,16 @@
           "trades": [
             {
               "exp": 5,
-              "sell": {"values": {"id": "thut_bling:bling_bag", "n": "1"}},
+              "sell": {"id": "thut_bling:bling_bag", "n": "1"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "4"}}
+                {"id": "minecraft:emerald", "n": "4"}
               ]
             },
             {
               "exp": 5,
-              "sell": {"values": {"id": "minecraft:compass", "n": "1"}},
+              "sell": {"id": "minecraft:compass", "n": "1"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "4"}}
+                {"id": "minecraft:emerald", "n": "4"}
               ]
             }
           ]
@@ -798,7 +798,7 @@
               "exp": 5,
               "count": 1,
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "2"}}
+                {"id": "minecraft:emerald", "n": "2"}
               ]
             }
           ]
@@ -808,9 +808,9 @@
           "trades": [
             {
               "exp": 1,
-              "sell": {"values": {"id": "minecraft:emerald", "n": "1"}},
+              "sell": {"id": "minecraft:emerald", "n": "1"},
               "buys": [
-                {"values": {"id": "minecraft:bread", "n": "3"}}
+                {"id": "minecraft:bread", "n": "3"}
               ]
             }
           ]
@@ -820,9 +820,9 @@
           "trades": [
             {
               "exp": 1,
-              "sell": {"values": {"id": "minecraft:emerald", "n": "1"}},
+              "sell": {"id": "minecraft:emerald", "n": "1"},
               "buys": [
-                {"values": {"id": "minecraft:cookie", "n": "4"}}
+                {"id": "minecraft:cookie", "n": "4"}
               ]
             }
           ]
@@ -836,7 +836,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/legendary_tree"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             },
             {
@@ -845,7 +845,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/hooh_tower"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             },
             {
@@ -854,7 +854,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/yveltal_place"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             }
           ]
@@ -869,9 +869,9 @@
           "trades": [
             {
               "exp": 1,
-              "sell": {"values": {"id": "pokecube:pokemobegg", "n": "4"}},
+              "sell": {"id": "pokecube:pokemobegg", "n": "4"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "1"}}
+                {"id": "minecraft:emerald", "n": "1"}
               ]
             }
           ]
@@ -881,16 +881,16 @@
           "trades": [
             {
               "exp": 5,
-              "sell": {"values": {"id": "minecraft:writable_book", "n": "1"}},
+              "sell": {"id": "minecraft:writable_book", "n": "1"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "8"}}
+                {"id": "minecraft:emerald", "n": "8"}
               ]
             },
             {
               "exp": 5,
-              "sell": {"values": {"id": "minecraft:clock", "n": "1"}},
+              "sell": {"id": "minecraft:clock", "n": "1"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "8"}}
+                {"id": "minecraft:emerald", "n": "8"}
               ]
             }
           ]
@@ -900,9 +900,9 @@
           "trades": [
             {
               "exp": 1,
-              "sell": {"values": {"id": "pokecube:tm", "n": "2"}},
+              "sell": {"id": "pokecube:tm", "n": "2"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "1"}}
+                {"id": "minecraft:emerald", "n": "1"}
               ]
             }
           ]
@@ -916,7 +916,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/castle_n"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             }
           ]
@@ -930,7 +930,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/team_rocket"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             },
             {
@@ -939,7 +939,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/team_magma"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             },
             {
@@ -948,7 +948,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/team_aqua"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             }
           ]
@@ -963,16 +963,16 @@
           "trades": [
             {
               "exp": 5,
-              "sell": {"values": {"id": "thut_bling:bling_waist", "n": "1"}},
+              "sell": {"id": "thut_bling:bling_waist", "n": "1"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "5"}}
+                {"id": "minecraft:emerald", "n": "5"}
               ]
             },
             {
               "exp": 3,
-              "sell": {"values": {"id": "thut_bling:bling_wrist", "n": "1"}},
+              "sell": {"id": "thut_bling:bling_wrist", "n": "1"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "3"}}
+                {"id": "minecraft:emerald", "n": "3"}
               ]
             }
           ]
@@ -984,7 +984,7 @@
               "custom": "allBerryBuy",
               "exp": 1,
               "count": 16,
-              "sell": {"values": {"id": "minecraft:emerald", "n": "1"}}
+              "sell": {"id": "minecraft:emerald", "n": "1"}
             }
           ]
         },
@@ -993,9 +993,9 @@
           "trades": [
             {
               "exp": 5,
-              "sell": {"values": {"id": "pokecube:mega_belt", "n": "1"}},
+              "sell": {"id": "pokecube:mega_belt", "n": "1"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "5"}}
+                {"id": "minecraft:emerald", "n": "5"}
               ]
             }
           ]
@@ -1009,7 +1009,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/kubfu_dojo"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             }
           ]
@@ -1023,7 +1023,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/kubfu_dark"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             },
             {
@@ -1032,7 +1032,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/kubfu_water"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             }
           ]
@@ -1047,16 +1047,16 @@
           "trades": [
             {
               "exp": 1,
-              "sell": {"values": {"id": "pokecube:repeatcube", "n": "4"}},
+              "sell": {"id": "pokecube:repeatcube", "n": "4"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "1"}}
+                {"id": "minecraft:emerald", "n": "1"}
               ]
             },
             {
               "exp": 1,
-              "sell": {"values": {"id": "pokecube:timercube", "n": "4"}},
+              "sell": {"id": "pokecube:timercube", "n": "4"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "1"}}
+                {"id": "minecraft:emerald", "n": "1"}
               ]
             }
           ]
@@ -1069,7 +1069,7 @@
               "exp": 2,
               "count": 1,
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "3"}}
+                {"id": "minecraft:emerald", "n": "3"}
               ]
             }
           ]
@@ -1083,7 +1083,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/unown_temple_overworld"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             },
             {
@@ -1092,7 +1092,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/unown_temple_distortic"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             },
             {
@@ -1101,7 +1101,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/unown_temple_ultraspace"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             }
           ]
@@ -1115,7 +1115,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/regice_temple"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             },
             {
@@ -1124,7 +1124,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/regirock_temple"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             },
             {
@@ -1133,7 +1133,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/registeel_temple"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             },
             {
@@ -1142,7 +1142,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/regidrago_temple"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             },
             {
@@ -1151,7 +1151,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/regieleki_temple"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             }
           ]
@@ -1165,7 +1165,7 @@
               "count": 1,
               "values": {"id": "pokecube_world:maps/regigigas_temple"},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "16"}}
+                {"id": "minecraft:emerald", "n": "16"}
               ]
             }
           ]

@@ -228,9 +228,7 @@
       "baseHunger": 250,
       "isTag": false,
       "key": {
-        "values": {
-          "id": "minecraft:shears"
-        }
+        "id": "minecraft:shears"
       },
       "action": {
         "values": {
@@ -238,16 +236,12 @@
         },
         "drops": [
           {
-            "values": {
-              "id": "minecraft:brown_mushroom",
-              "n": "1"
-            }
+            "id": "minecraft:brown_mushroom",
+            "count": 1
           },
           {
-            "values": {
-              "id": "minecraft:red_mushroom",
-              "n": "1"
-            }
+            "id": "minecraft:red_mushroom",
+            "count": 1
           }
         ]
       }

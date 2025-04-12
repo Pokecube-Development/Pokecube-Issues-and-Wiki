@@ -228,9 +228,7 @@
       "baseHunger": 100,
       "isTag": false,
       "key": {
-        "values": {
-          "id": "minecraft:bucket"
-        }
+        "id": "minecraft:bucket"
       },
       "action": {
         "values": {
@@ -238,10 +236,8 @@
         },
         "drops": [
           {
-            "values": {
-              "id": "minecraft:lava_bucket",
-              "n": "1"
-            }
+            "id": "minecraft:lava_bucket",
+            "count": 1
           }
         ]
       }

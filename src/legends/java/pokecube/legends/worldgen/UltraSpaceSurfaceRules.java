@@ -1,14 +1,8 @@
 package pokecube.legends.worldgen;
 
-import java.util.Map;
-import java.util.function.Function;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
-
 import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -16,8 +10,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.minecraft.world.level.levelgen.SurfaceRules.SurfaceRule;
 import net.minecraft.world.level.levelgen.SurfaceSystem;
-import net.minecraftforge.registries.RegistryObject;
 import pokecube.legends.PokecubeLegends;
+
+import javax.annotation.Nullable;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class UltraSpaceSurfaceRules
 {
@@ -26,7 +24,7 @@ public class UltraSpaceSurfaceRules
         Codec<? extends UltraSpaceSurfaceRules.UltraSpaceRuleSource> codec();
     }
 
-    public static final RegistryObject<Codec<Bandlands>> AZURE_BADLANDS = PokecubeLegends.SURFACE_RULES
+    public static final Supplier<Codec<Bandlands>> AZURE_BADLANDS = PokecubeLegends.SURFACE_RULES
             .register("azure_bandlands", () -> UltraSpaceSurfaceRules.Bandlands.CODEC.codec());
 
     private static Map<Block, Block> TERRACOTTA_MAP = Maps.newConcurrentMap();

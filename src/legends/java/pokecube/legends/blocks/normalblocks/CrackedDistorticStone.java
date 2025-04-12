@@ -1,9 +1,8 @@
 package pokecube.legends.blocks.normalblocks;
 
-import net.minecraft.core.BlockPos;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.Mirror;
@@ -11,10 +10,17 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraftforge.common.IPlantable;
 
 public class CrackedDistorticStone extends DirectionalBlock
 {
+    public static final MapCodec<CrackedDistorticStone> CODEC = simpleCodec(CrackedDistorticStone::new);
+
+    @Override
+    protected MapCodec<? extends DirectionalBlock> codec()
+    {
+        return CODEC;
+    }
+
     public CrackedDistorticStone(final BlockBehaviour.Properties properties)
     {
         super(properties);
@@ -44,12 +50,5 @@ public class CrackedDistorticStone extends DirectionalBlock
     public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
         return this.defaultBlockState().setValue(DirectionalBlock.FACING, context.getNearestLookingDirection().getOpposite());
-    }
-
-    @Override
-    public boolean canSustainPlant(final BlockState state, final BlockGetter world, final BlockPos pos,
-            final Direction direction, final IPlantable plantable)
-    {
-        return false;
     }
 }

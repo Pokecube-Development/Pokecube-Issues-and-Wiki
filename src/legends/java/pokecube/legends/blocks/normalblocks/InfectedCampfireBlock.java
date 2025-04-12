@@ -8,7 +8,6 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -36,15 +35,15 @@ public class InfectedCampfireBlock extends CampfireBlock
     @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity)
     {
-       if (!entity.fireImmune() && state.getValue(LIT) && entity instanceof LivingEntity && !EnchantmentHelper.hasFrostWalker((LivingEntity)entity))
-       {
-          entity.hurt(world.damageSources().inFire(), this.fireDamage);
-          if (entity instanceof LivingEntity)
-          {
-              ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.WITHER, 100, 0));
-          }
-       }
-       super.entityInside(state, world, pos, entity);
+        if (!entity.fireImmune() && state.getValue(LIT)) // TODO decide on if we want to re-add frost-walker support
+        {
+            entity.hurt(world.damageSources().inFire(), this.fireDamage);
+            if (entity instanceof LivingEntity)
+            {
+                ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.WITHER, 100, 0));
+            }
+        }
+        super.entityInside(state, world, pos, entity);
     }
 
     @Override
@@ -54,15 +53,19 @@ public class InfectedCampfireBlock extends CampfireBlock
     }
 
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type)
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state,
+            BlockEntityType<T> type)
     {
         if (world.isClientSide)
         {
-            return state.getValue(LIT) ? createTickerHelper(type, TileEntityInit.CAMPFIRE_ENTITY.get(), CampfireBlockEntity::particleTick) : null;
-        } else
+            return state.getValue(LIT) ? createTickerHelper(type, TileEntityInit.CAMPFIRE_ENTITY.get(),
+                    CampfireBlockEntity::particleTick) : null;
+        }
+        else
         {
-            return state.getValue(LIT) ? createTickerHelper(type, TileEntityInit.CAMPFIRE_ENTITY.get(), CampfireBlockEntity::cookTick) :
-                createTickerHelper(type, TileEntityInit.CAMPFIRE_ENTITY.get(), CampfireBlockEntity::cooldownTick);
+            return state.getValue(LIT)
+                    ? createTickerHelper(type, TileEntityInit.CAMPFIRE_ENTITY.get(), CampfireBlockEntity::cookTick)
+                    : createTickerHelper(type, TileEntityInit.CAMPFIRE_ENTITY.get(), CampfireBlockEntity::cooldownTick);
         }
     }
 
@@ -74,12 +77,13 @@ public class InfectedCampfireBlock extends CampfireBlock
             if (source.nextInt(10) == 0)
             {
                 world.playLocalSound(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D,
-                        SoundEvents.CAMPFIRE_CRACKLE, SoundSource.BLOCKS, 0.5F + source.nextFloat(), source.nextFloat() * 0.7F + 0.6F, false);
+                        SoundEvents.CAMPFIRE_CRACKLE, SoundSource.BLOCKS, 0.5F + source.nextFloat(),
+                        source.nextFloat() * 0.7F + 0.6F, false);
             }
 
             if (this.spawnParticles && source.nextInt(5) == 0)
             {
-                for(int i = 0; i < source.nextInt(1) + 1; ++i)
+                for (int i = 0; i < source.nextInt(1) + 1; ++i)
                 {
                     world.addParticle(ParticleInit.INFECTED_SPARK.get(), pos.getX() + 0.5D, pos.getY() + 0.5D,
                             pos.getZ() + 0.5D, source.nextFloat() / 2.0F, 5.0E-5D, source.nextFloat() / 2.0F);

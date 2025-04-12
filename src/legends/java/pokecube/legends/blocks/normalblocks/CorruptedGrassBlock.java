@@ -1,17 +1,13 @@
 package pokecube.legends.blocks.normalblocks;
 
-import java.util.List;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
@@ -27,11 +23,11 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.lighting.LightEngine;
-import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.PlantType;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.PlantsInit;
 import thut.lib.RegHelper;
+
+import java.util.List;
 
 public class CorruptedGrassBlock extends NyliumBlock implements BonemealableBlock
 {
@@ -43,13 +39,12 @@ public class CorruptedGrassBlock extends NyliumBlock implements BonemealableBloc
         this.registerDefaultState(this.stateDefinition.any().setValue(CorruptedGrassBlock.SNOWY, false));
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public BlockState updateShape(final BlockState state, final Direction direction, final BlockState state1,
             final LevelAccessor world, final BlockPos pos, final BlockPos pos1)
     {
         return direction != Direction.UP ? super.updateShape(state, direction, state1, world, pos, pos1)
-                : (BlockState) state.setValue(CorruptedGrassBlock.SNOWY, state1.is(Blocks.SNOW_BLOCK) || state1.is(
+                : state.setValue(CorruptedGrassBlock.SNOWY, state1.is(Blocks.SNOW_BLOCK) || state1.is(
                         Blocks.SNOW));
     }
 
@@ -90,25 +85,6 @@ public class CorruptedGrassBlock extends NyliumBlock implements BonemealableBloc
             world.setBlockAndUpdate(pos, BlockInit.CORRUPTED_DIRT
                     .get().defaultBlockState());
     }
-
-    @Override
-    public boolean canSustainPlant(final BlockState state, final BlockGetter block, final BlockPos pos, final Direction direction, final IPlantable plantable)
-    {
-        final BlockPos plantPos = new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ());
-        final PlantType plantType = plantable.getPlantType(block, plantPos);
-
-        if (plantType == PlantType.PLAINS)
-            return true;
-        else if (plantType == PlantType.WATER)
-            return block.getFluidState(pos).is(FluidTags.WATER) && block.getBlockState(pos) == this.defaultBlockState();
-        else if (plantType == PlantType.BEACH)
-            return ((block.getBlockState(pos.east()).getBlock() == Blocks.WATER || block.getBlockState(pos.east()).hasProperty(BlockStateProperties.WATERLOGGED))
-                    || (block.getBlockState(pos.west()).getBlock() == Blocks.WATER || block.getBlockState(pos.west()).hasProperty(BlockStateProperties.WATERLOGGED))
-                    || (block.getBlockState(pos.north()).getBlock() == Blocks.WATER || block.getBlockState(pos.north()).hasProperty(BlockStateProperties.WATERLOGGED))
-                    || (block.getBlockState(pos.south()).getBlock() == Blocks.WATER || block.getBlockState(pos.south()).hasProperty(BlockStateProperties.WATERLOGGED)));
-        else
-            return super.canSustainPlant(state, block, pos, direction, plantable);
-    }
     
     @Override
     public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state)
@@ -147,7 +123,7 @@ public class CorruptedGrassBlock extends NyliumBlock implements BonemealableBloc
                     continue;
                  }
 
-                 placedFeature = ((RandomPatchConfiguration)list.get(0).config()).feature();
+                 placedFeature = ((RandomPatchConfiguration)list.getFirst().config()).feature();
               } else {
                   placedFeature = world.registryAccess().registryOrThrow(RegHelper.PLACED_FEATURE_REGISTRY)
                           .getHolderOrThrow(ResourceKey.create(RegHelper.PLACED_FEATURE_REGISTRY, ResourceLocation.parse("pokecube_legends:corrupted_grass_bonemeal")));

@@ -71,7 +71,7 @@ public class CrystallizedCactus extends Block implements SimpleWaterloggedBlock
     }
 
 	@Override
-    public boolean isPathfindable(final BlockState state, final BlockGetter worldIn, final BlockPos pos, final PathComputationType path)
+	protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType)
 	{
 		return false;
 	}

@@ -1,11 +1,13 @@
 package pokecube.legends.blocks.plants;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.GrowingPlantBodyBlock;
 import net.minecraft.world.level.block.GrowingPlantHeadBlock;
 import net.minecraft.world.level.block.NetherVines;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -16,6 +18,12 @@ import pokecube.legends.init.PlantsInit;
 
 public class DistortedVinesTopBlock extends GrowingPlantHeadBlock
 {
+   public static final MapCodec<DistortedVinesTopBlock> CODEC = simpleCodec(DistortedVinesTopBlock::new);
+   @Override
+   protected MapCodec<? extends GrowingPlantHeadBlock> codec()
+   {
+      return CODEC;
+   }
    public static final VoxelShape SHAPE = Block.box(4.0D, 0.0D, 4.0D, 12.0D, 6.0D, 12.0D);
 
    public DistortedVinesTopBlock(BlockBehaviour.Properties props)
@@ -42,7 +50,7 @@ public class DistortedVinesTopBlock extends GrowingPlantHeadBlock
    }
 
    @Override
-   public ItemStack getCloneItemStack(BlockGetter block, BlockPos pos, BlockState state)
+   public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state)
    {
       return new ItemStack(ItemInit.DISTORTIC_VINES.get());
    }

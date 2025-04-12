@@ -49,7 +49,7 @@ public class UsableItemGigantShard
         }
     }
 
-    public static final ResourceLocation USABLE = ResourceLocation.parse(Reference.ID, "usables");
+    public static final ResourceLocation USABLE = ResourceLocation.fromNamespaceAndPath(Reference.ID, "usables");
 
     public static void registerCapabilities(final AttachCapabilitiesEvent<ItemStack> event)
     {

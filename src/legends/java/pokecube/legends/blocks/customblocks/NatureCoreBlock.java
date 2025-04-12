@@ -1,7 +1,5 @@
 package pokecube.legends.blocks.customblocks;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -30,6 +28,8 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+
+import javax.annotation.Nullable;
 
 public class NatureCoreBlock extends Rotates implements SimpleWaterloggedBlock
 {
@@ -74,19 +74,14 @@ public class NatureCoreBlock extends Rotates implements SimpleWaterloggedBlock
         final NatureCorePart half = state.getValue(NatureCoreBlock.HALF);
         if (half == NatureCorePart.BOTTOM) return NatureCoreBlock.NATURE_CORE_BOTTOM;
         else // return NATURE_CORE_TOP.get(state.get(FACING));
-            switch (state.getValue(NatureCoreBlock.FACING))
+            return switch (state.getValue(NatureCoreBlock.FACING))
             {
-            case NORTH:
-            return NatureCoreBlock.NATURE_CORE_TOP_NORTH;
-            case EAST:
-            return NatureCoreBlock.NATURE_CORE_TOP_EAST;
-            case SOUTH:
-            return NatureCoreBlock.NATURE_CORE_TOP_SOUTH;
-            case WEST:
-            return NatureCoreBlock.NATURE_CORE_TOP_WEST;
-            default:
-            return NatureCoreBlock.NATURE_CORE_TOP_NORTH;
-            }
+                case NORTH -> NatureCoreBlock.NATURE_CORE_TOP_NORTH;
+                case EAST -> NatureCoreBlock.NATURE_CORE_TOP_EAST;
+                case SOUTH -> NatureCoreBlock.NATURE_CORE_TOP_SOUTH;
+                case WEST -> NatureCoreBlock.NATURE_CORE_TOP_WEST;
+                default -> NatureCoreBlock.NATURE_CORE_TOP_NORTH;
+            };
     }
 
     // Default States
@@ -112,7 +107,7 @@ public class NatureCoreBlock extends Rotates implements SimpleWaterloggedBlock
 
     // Breaking Nature Core Spawner breaks both parts and returns one item only
     @Override
-    public void playerWillDestroy(final Level world, final BlockPos pos, final BlockState state,
+    public BlockState playerWillDestroy(final Level world, final BlockPos pos, final BlockState state,
             final Player player)
     {
         final Direction facing = state.getValue(NatureCoreBlock.FACING);
@@ -124,26 +119,18 @@ public class NatureCoreBlock extends Rotates implements SimpleWaterloggedBlock
         NatureCoreBlockState = world.getBlockState(natureCorePartPos);
         if (NatureCoreBlockState.getBlock() == this && !pos.equals(natureCorePartPos)) this.removeHalf(world,
                 natureCorePartPos, NatureCoreBlockState, player);
-        super.playerWillDestroy(world, pos, state, player);
+        return super.playerWillDestroy(world, pos, state, player);
     }
 
     private BlockPos getNatureCoreTopPos(final BlockPos base, final Direction facing)
     {
-        switch (facing)
-        {
-        default:
-            return base.above();
-        }
+        return base.above();
     }
 
     private BlockPos getNatureCorePos(final BlockPos pos, final NatureCorePart part, final Direction facing)
     {
         if (part == NatureCorePart.BOTTOM) return pos;
-        switch (facing)
-        {
-        default:
-            return pos.below();
-        }
+        return pos.below();
     }
 
     // Breaking the Nature Core Spawner leaves water if underwater
@@ -193,6 +180,6 @@ public class NatureCoreBlock extends Rotates implements SimpleWaterloggedBlock
     public void randomTick(final BlockState state, final ServerLevel worldIn, final BlockPos pos, final RandomSource random)
     {
         if (random.nextInt(100) == 0) worldIn.playLocalSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
-                SoundEvents.AMBIENT_CAVE.get(), SoundSource.BLOCKS, 0.5F, random.nextFloat() * 0.4F + 0.8F, false);
+                SoundEvents.AMBIENT_CAVE.value(), SoundSource.BLOCKS, 0.5F, random.nextFloat() * 0.4F + 0.8F, false);
     }
 }

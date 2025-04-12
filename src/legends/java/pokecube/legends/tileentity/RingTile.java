@@ -3,6 +3,7 @@ package pokecube.legends.tileentity;
 import java.util.Random;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -70,19 +71,19 @@ public class RingTile extends BlockEntity implements ITickTile
     }
 
     @Override
-    public void load(final CompoundTag nbt)
+    public void loadAdditional(final CompoundTag nbt, HolderLookup.Provider registries)
     {
-        super.load(nbt);
+        super.loadAdditional(nbt, registries);
         this.despawns = nbt.getBoolean("despawns");
         this.timer = nbt.getInt("timer");
     }
 
     @Override
-    public void saveAdditional(final CompoundTag compound)
+    public void saveAdditional(final CompoundTag compound, HolderLookup.Provider registries)
     {
         compound.putInt("timer", this.timer);
         compound.putBoolean("despawns", this.despawns);
-        super.saveAdditional(compound);
+        super.saveAdditional(compound, registries);
     }
 
 }

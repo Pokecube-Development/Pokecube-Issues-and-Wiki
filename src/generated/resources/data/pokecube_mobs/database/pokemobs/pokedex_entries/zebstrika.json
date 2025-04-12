@@ -189,9 +189,7 @@
       "baseHunger": 100,
       "isTag": false,
       "key": {
-        "values": {
-          "id": "minecraft:bucket"
-        }
+        "id": "minecraft:bucket"
       },
       "action": {
         "values": {
@@ -199,10 +197,8 @@
         },
         "drops": [
           {
-            "values": {
-              "id": "minecraft:milk_bucket",
-              "n": "1"
-            }
+            "id": "minecraft:milk_bucket",
+            "count": 1
           }
         ]
       }

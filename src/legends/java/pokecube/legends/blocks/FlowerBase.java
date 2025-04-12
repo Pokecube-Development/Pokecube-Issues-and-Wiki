@@ -1,12 +1,12 @@
 package pokecube.legends.blocks;
 
-import java.util.List;
-
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -15,10 +15,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FlowerBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.PlantType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import thut.lib.TComponent;
+
+import java.util.List;
 
 public class FlowerBase extends FlowerBlock
 {
@@ -27,14 +28,14 @@ public class FlowerBase extends FlowerBlock
     boolean hasTooltip = false;
     int tooltipLineAmt = 0;
 
-    public FlowerBase(final MobEffect effects, int seconds, final BlockBehaviour.Properties properties)
+    public FlowerBase(final Holder<MobEffect> effects, int seconds, final BlockBehaviour.Properties properties)
     {
-        super(() -> effects, seconds, properties);
+        super(effects, seconds, properties);
     }
 
 
     // Tooltips with extra lines
-    public FlowerBase(final String tooltipName, final int tooltipExtraLineAmt, final MobEffect effects, int seconds, final BlockBehaviour.Properties properties)
+    public FlowerBase(final String tooltipName, final int tooltipExtraLineAmt, final Holder<MobEffect> effects, int seconds, final BlockBehaviour.Properties properties)
     {
         super(effects, seconds, properties);
         this.hasTooltip = true;
@@ -56,27 +57,21 @@ public class FlowerBase extends FlowerBlock
     }
 
     @Override
-    public PlantType getPlantType(final BlockGetter world, final BlockPos pos)
-    {
-        return PlantType.PLAINS;
-    }
-
-    @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(final ItemStack stack, final BlockGetter worldIn, final List<Component> tooltip,
-                                final TooltipFlag flagIn)
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents,
+            TooltipFlag tooltipFlag)
     {
         if (!this.hasTooltip)
             return;
         if (Screen.hasShiftDown())
         {
-            tooltip.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip"));
+            tooltipComponents.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip"));
             for (int lineAmt = 1; lineAmt <= tooltipLineAmt;)
             {
-                tooltip.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip.line" + lineAmt));
+                tooltipComponents.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip.line" + lineAmt));
                 lineAmt++;
             }
         }
-        else tooltip.add(TComponent.translatable("pokecube.tooltip.advanced"));
+        else tooltipComponents.add(TComponent.translatable("pokecube.tooltip.advanced"));
     }
 }

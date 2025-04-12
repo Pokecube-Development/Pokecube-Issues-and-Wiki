@@ -1,7 +1,6 @@
 package pokecube.legends.blocks.normalblocks;
 
-import javax.annotation.Nullable;
-
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -21,20 +20,28 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.level.pathfinder.PathType;
 import pokecube.legends.Reference;
+
+import javax.annotation.Nullable;
 
 public class InfectedFireBlock extends BaseFireBlock
 {
+    public static final MapCodec<InfectedFireBlock> CODEC = simpleCodec(InfectedFireBlock::new);
+    @Override
+    protected MapCodec<? extends BaseFireBlock> codec()
+    {
+        return CODEC;
+    }
    // Tags
-   public static TagKey<Block> INFECTED_FIRE_BASE_BLOCKS = BlockTags.create(ResourceLocation.parse(Reference.ID, "infected_fire_base_blocks"));
+   public static TagKey<Block> INFECTED_FIRE_BASE_BLOCKS = BlockTags.create(ResourceLocation.fromNamespaceAndPath(Reference.ID, "infected_fire_base_blocks"));
    private final float fireDamage;
 
-   public InfectedFireBlock(float damage, BlockBehaviour.Properties properties)
+   public InfectedFireBlock(BlockBehaviour.Properties properties)
    {
-      super(properties, damage);
-      this.fireDamage = damage;
+      super(properties, 2.0f);
+      this.fireDamage = 2.0f;
    }
 
    @Override
@@ -54,7 +61,7 @@ public class InfectedFireBlock extends BaseFireBlock
       return state.is(INFECTED_FIRE_BASE_BLOCKS);
    }
 
-   @Override
+    @Override
    public boolean canBurn(BlockState state)
    {
       return true;
@@ -68,7 +75,7 @@ public class InfectedFireBlock extends BaseFireBlock
             entity.setRemainingFireTicks(entity.getRemainingFireTicks() + 1);
             if (entity.getRemainingFireTicks() == 0)
             {
-               entity.setSecondsOnFire(8);
+               entity.setRemainingFireTicks(8*20);
             }
             if (entity instanceof LivingEntity)
             {
@@ -80,15 +87,15 @@ public class InfectedFireBlock extends BaseFireBlock
     }
 
     @Override
-    public boolean isPathfindable(final BlockState state, final BlockGetter worldIn, final BlockPos pos, final PathComputationType path)
+    protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType)
     {
         return false;
     }
 
     @Nullable
     @Override
-    public BlockPathTypes getBlockPathType(BlockState state, BlockGetter world, BlockPos pos, @Nullable Mob entity)
+    public PathType getBlockPathType(BlockState state, BlockGetter world, BlockPos pos, @Nullable Mob entity)
     {
-        return BlockPathTypes.DAMAGE_FIRE;
+        return PathType.DAMAGE_FIRE;
     }
 }

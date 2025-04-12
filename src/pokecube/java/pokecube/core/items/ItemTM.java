@@ -1,16 +1,9 @@
 package pokecube.core.items;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.ResourceLocationException;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
@@ -21,11 +14,11 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.DyedItemColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.data.moves.Moves;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.MoveEntry;
@@ -34,6 +27,11 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.moves.MovesUtils;
 import thut.core.common.ThutCore;
 import thut.lib.TComponent;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class ItemTM extends Item
 {
@@ -118,17 +116,29 @@ public class ItemTM extends Item
         return stack;
     }
 
-    public Moves.Move moveEffects;
-
     @Override
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents,
             TooltipFlag tooltipFlag)
     {
         var info = stack.get(TM_DATA);
-        if (Screen.hasShiftDown() && info != null)
+        if (info != null)
         {
-            tooltipComponents.add(TComponent.literal(moveEffects.effect_text_simple));
+            Component name = TComponent.translatable("pokemob.move." + info.moveName());
+            var entry = MovesUtils.getMove(info.moveName());
+            if (!stack.has(DataComponents.CUSTOM_NAME))
+            {
+                stack.set(DataComponents.CUSTOM_NAME, name);
+            }
+            if (!stack.has(DataComponents.DYED_COLOR) && entry != null)
+            {
+                stack.set(DataComponents.DYED_COLOR, new DyedItemColor(entry.type.colour | 0xFF000000, false));
+            }
+            if (tooltipFlag.hasShiftDown())
+            {
+                if (entry != null && entry.root_entry._effect_text_simple != null)
+                    tooltipComponents.add(TComponent.literal(entry.root_entry._effect_text_simple));
+            }
         }
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
@@ -142,12 +152,13 @@ public class ItemTM extends Item
             if (name.contentEquals("")) return false;
             if (mob.knowsMove(name)) return false;
             final String[] learnables = mob.getPokedexEntry().getMoves().toArray(new String[0]);
-            for (final String s : learnables) if (mob.getPokedexNb() == 151
-                    || ThutCore.trim(s).equals(ThutCore.trim(name)) || PokecubeCore.getConfig().debug_misc)
-            {
-                mob.learn(name);
-                return true;
-            }
+            for (final String s : learnables)
+                if (mob.getPokedexNb() == 151 || ThutCore.trim(s).equals(ThutCore.trim(name))
+                        || PokecubeCore.getConfig().debug_misc)
+                {
+                    mob.learn(name);
+                    return true;
+                }
         }
         return false;
     }

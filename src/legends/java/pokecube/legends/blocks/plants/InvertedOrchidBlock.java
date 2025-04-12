@@ -1,6 +1,7 @@
 package pokecube.legends.blocks.plants;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.level.BlockGetter;
@@ -15,7 +16,7 @@ import pokecube.legends.blocks.FlowerBase;
 public class InvertedOrchidBlock extends FlowerBase
 {
     
-   public InvertedOrchidBlock(final MobEffect effects, int seconds, final BlockBehaviour.Properties properties)
+   public InvertedOrchidBlock(final Holder<MobEffect> effects, int seconds, final BlockBehaviour.Properties properties)
    {
       super(effects, seconds, properties.offsetType(BlockBehaviour.OffsetType.XZ));
    }

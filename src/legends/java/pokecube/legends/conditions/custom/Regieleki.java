@@ -23,7 +23,7 @@ public class Regieleki extends AbstractRegiCondition
     @Override
     public void onSpawn(IPokemob mob)
     {
-        mob = mob.setForSpawn(54500);
+        mob.setForSpawn(54500);
         final Vector3 location = new Vector3().set(mob.getEntity()).add(0, -1, 0);
         final ArrayList<Vector3> locations = new ArrayList<>();
         final Level world = mob.getEntity().level();

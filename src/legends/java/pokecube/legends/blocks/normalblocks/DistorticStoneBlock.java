@@ -21,7 +21,7 @@ public class DistorticStoneBlock extends Block implements BonemealableBlock
 {
     // Tag
     public static final TagKey<Block> DISTORTIC_GRASS_SPREADABLE = TagKey.create(RegHelper.BLOCK_REGISTRY,
-            ResourceLocation.parse(Reference.ID, "distortic_grass_spreadable"));
+            ResourceLocation.fromNamespaceAndPath(Reference.ID, "distortic_grass_spreadable"));
     public DistorticStoneBlock(final Properties properties)
     {
         super(properties);

@@ -2,6 +2,7 @@ package pokecube.legends.blocks.normalblocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.TorchBlock;
@@ -13,11 +14,11 @@ import pokecube.legends.init.ParticleInit;
 
 public class InfectedTorch extends TorchBlock
 {
-    protected final ParticleOptions particle;
+    protected final SimpleParticleType particle;
     protected final ParticleOptions smokeParticle;
-    public InfectedTorch(ParticleOptions particle, ParticleOptions smokeParticle, BlockBehaviour.Properties properties)
+    public InfectedTorch(SimpleParticleType particle, ParticleOptions smokeParticle, BlockBehaviour.Properties properties)
     {
-        super(properties, particle);
+        super(particle, properties);
         this.particle = particle;
         this.smokeParticle = smokeParticle;
     }

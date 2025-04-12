@@ -1,10 +1,6 @@
 package pokecube.legends.blocks.flowing;
 
-import java.lang.reflect.Array;
-import java.util.Map;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -31,26 +27,29 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import thut.api.block.flowing.FlowingBlock;
 
+import java.lang.reflect.Array;
+import java.util.Map;
+
 public class AshBlock extends FlowingBlock
 {
-    public static RegistryObject<FlowingBlock>[] makeDust(DeferredRegister<Block> BLOCKS, String modid, String layer,
+    public static DeferredBlock<FlowingBlock>[] makeDust(DeferredRegister.Blocks BLOCKS, String modid, String layer,
             String block, BlockBehaviour.Properties layer_props, BlockBehaviour.Properties block_props)
     {
-        ResourceLocation layer_id = ResourceLocation.parse(modid, layer);
-        ResourceLocation block_id = ResourceLocation.parse(modid, block);
+        ResourceLocation layer_id = ResourceLocation.fromNamespaceAndPath(modid, layer);
+        ResourceLocation block_id = ResourceLocation.fromNamespaceAndPath(modid, block);
 
         @SuppressWarnings("unchecked")
-        RegistryObject<FlowingBlock>[] arr = (RegistryObject<FlowingBlock>[]) Array.newInstance(RegistryObject.class,
+        DeferredBlock<FlowingBlock>[] arr = (DeferredBlock<FlowingBlock>[]) Array.newInstance(DeferredBlock.class,
                 2);
 
-        RegistryObject<FlowingBlock> layer_reg = BLOCKS.register(layer,
+        DeferredBlock<FlowingBlock> layer_reg = BLOCKS.register(layer,
                 () -> new PartialDust(layer_props).alternateBlock(() -> REGMAP.get(block_id).get()));
         REGMAP.put(layer_id, layer_reg);
-        RegistryObject<FlowingBlock> block_reg = BLOCKS.register(block,
+        DeferredBlock<FlowingBlock> block_reg = BLOCKS.register(block,
                 () -> new FullDust(block_props).alternateBlock(() -> REGMAP.get(layer_id).get()));
         REGMAP.put(block_id, block_reg);
 
@@ -61,8 +60,6 @@ public class AshBlock extends FlowingBlock
     }
 
     public static final BooleanProperty WET = BooleanProperty.create("wet");
-
-    public int dustColour = 3816264;
 
     protected AshBlock(Properties properties)
     {
@@ -120,19 +117,17 @@ public class AshBlock extends FlowingBlock
                 return;
             }
         }
-        boolean nearWater = level.isRainingAt(pos.above()) || water > 0;
-        boolean shouldBeWet = nearWater;
+        boolean shouldBeWet = level.isRainingAt(pos.above()) || water > 0;
         boolean nearLava = lava > 0;
         shouldBeWet = shouldBeWet && !nearLava;
         if (wet != shouldBeWet)
         {
-            level.setBlock(pos, state = state.setValue(WET, shouldBeWet), 2);
+            level.setBlock(pos, state.setValue(WET, shouldBeWet), 2);
             return;
         }
         super.tick(state, level, pos, random);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public boolean canBeReplaced(BlockState state, Fluid fluid)
     {
@@ -156,7 +151,7 @@ public class AshBlock extends FlowingBlock
     @Override
     public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random)
     {
-        if (random.nextInt(16) == 0 && state.getValue(WET) == false)
+        if (random.nextInt(16) == 0 && !state.getValue(WET))
         {
             BlockPos posBelow = pos.below();
             if (FallingBlock.isFree(world.getBlockState(posBelow)))
@@ -209,9 +204,9 @@ public class AshBlock extends FlowingBlock
     @Override
     protected void initStateDefinition()
     {
-        this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, Integer.valueOf(1))
-                .setValue(VISCOSITY, Integer.valueOf(7)).setValue(WATERLOGGED, Boolean.valueOf(false))
-                .setValue(FALLING, Boolean.valueOf(false)).setValue(WET, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, 1)
+                .setValue(VISCOSITY, 7).setValue(WATERLOGGED, Boolean.FALSE)
+                .setValue(FALLING, Boolean.FALSE).setValue(WET, false));
     }
 
     @Override
@@ -251,8 +246,8 @@ public class AshBlock extends FlowingBlock
 
         protected void initStateDefinition()
         {
-            this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.valueOf(false))
-                    .setValue(VISCOSITY, Integer.valueOf(7)).setValue(WET, false));
+            this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.FALSE)
+                    .setValue(VISCOSITY, 7).setValue(WET, false));
         }
 
         @Override

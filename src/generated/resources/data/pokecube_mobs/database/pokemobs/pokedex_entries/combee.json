@@ -88,9 +88,7 @@
       "baseHunger": 500,
       "isTag": false,
       "key": {
-        "values": {
-          "id": "minecraft:glass_bottle"
-        }
+        "id": "minecraft:glass_bottle"
       },
       "action": {
         "values": {
@@ -98,10 +96,8 @@
         },
         "drops": [
           {
-            "values": {
-              "id": "minecraft:honey_bottle",
-              "n": "1"
-            }
+            "id": "minecraft:honey_bottle",
+            "count": 1
           }
         ]
       }

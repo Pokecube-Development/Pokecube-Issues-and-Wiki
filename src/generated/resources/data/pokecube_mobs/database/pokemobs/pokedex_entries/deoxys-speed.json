@@ -248,9 +248,7 @@
       "baseHunger": 100,
       "isTag": false,
       "key": {
-        "values": {
-          "id": "meteorite"
-        }
+        "id": "meteorite"
       },
       "action": {
         "values": {

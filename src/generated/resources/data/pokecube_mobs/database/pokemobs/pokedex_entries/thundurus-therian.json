@@ -235,9 +235,7 @@
       "baseHunger": 100,
       "isTag": false,
       "key": {
-        "values": {
-          "id": "revealglass"
-        }
+        "id": "revealglass"
       },
       "action": {
         "values": {

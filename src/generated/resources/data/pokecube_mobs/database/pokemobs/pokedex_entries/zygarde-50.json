@@ -209,9 +209,7 @@
       "baseHunger": 100,
       "isTag": false,
       "key": {
-        "values": {
-          "id": "zygardecube"
-        }
+        "id": "zygardecube"
       },
       "action": {
         "values": {

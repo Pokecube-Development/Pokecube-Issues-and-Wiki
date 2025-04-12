@@ -72,7 +72,6 @@ public class Rotates extends BlockBase implements SimpleWaterloggedBlock
     }
 
     // Adds Waterlogging
-    @SuppressWarnings("deprecation")
     @Override
     public FluidState getFluidState(final BlockState state)
     {
@@ -111,7 +110,6 @@ public class Rotates extends BlockBase implements SimpleWaterloggedBlock
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState,
             final LevelAccessor world, final BlockPos currentPos, final BlockPos facingPos)
     {

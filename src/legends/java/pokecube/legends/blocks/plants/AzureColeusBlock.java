@@ -1,6 +1,7 @@
 package pokecube.legends.blocks.plants;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffect;
@@ -18,10 +19,10 @@ import thut.lib.RegHelper;
 public class AzureColeusBlock extends FlowerBase
 {
    public static final TagKey<Block> AZURE_COLEUS_PLANTABLE = TagKey.create(RegHelper.BLOCK_REGISTRY,
-           ResourceLocation.parse(Reference.ID, "azure_coleus_plantable"));
+           ResourceLocation.fromNamespaceAndPath(Reference.ID, "azure_coleus_plantable"));
    protected static final VoxelShape SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 13.0D, 14.0D);
     
-   public AzureColeusBlock(final MobEffect effects, int seconds, final BlockBehaviour.Properties properties)
+   public AzureColeusBlock(final Holder<MobEffect> effects, int seconds, final BlockBehaviour.Properties properties)
    {
       super(effects, seconds, properties.offsetType(BlockBehaviour.OffsetType.XZ));
    }

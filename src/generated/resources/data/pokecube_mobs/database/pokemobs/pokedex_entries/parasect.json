@@ -209,9 +209,7 @@
       "baseHunger": 100,
       "isTag": false,
       "key": {
-        "values": {
-          "id": "minecraft:bowl"
-        }
+        "id": "minecraft:bowl"
       },
       "action": {
         "values": {
@@ -219,10 +217,8 @@
         },
         "drops": [
           {
-            "values": {
-              "id": "minecraft:mushroom_stew",
-              "n": "1"
-            }
+            "id": "minecraft:mushroom_stew",
+            "count": 1
           }
         ]
       }

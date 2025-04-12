@@ -1,11 +1,10 @@
 package pokecube.legends.blocks;
 
-import java.util.List;
-
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
@@ -21,6 +20,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import thut.lib.TComponent;
+
+import java.util.List;
 
 public class BlockBase extends Block
 {
@@ -107,14 +108,14 @@ public class BlockBase extends Block
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(final ItemStack stack, final BlockGetter worldIn, final List<Component> tooltip,
-            final TooltipFlag flagIn)
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents,
+            TooltipFlag tooltipFlag)
     {
         if (!this.hasTooltip)
             return;
         if (Screen.hasShiftDown())
-            tooltip.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip"));
-        else tooltip.add(TComponent.translatable("pokecube.tooltip.advanced"));
+            tooltipComponents.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip"));
+        else tooltipComponents.add(TComponent.translatable("pokecube.tooltip.advanced"));
     }
 
     public int ticksRandomly()

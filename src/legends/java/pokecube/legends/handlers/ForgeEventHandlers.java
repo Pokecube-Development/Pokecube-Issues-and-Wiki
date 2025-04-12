@@ -1,14 +1,6 @@
 package pokecube.legends.handlers;
 
-import java.util.List;
-import java.util.Set;
-import java.util.function.Supplier;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -43,6 +35,12 @@ import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.api.util.PermNodes.StringSetPermCache;
 import thut.lib.TComponent;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Supplier;
+
 public class ForgeEventHandlers
 {
     private static final ResourceLocation ZMOVECAP = ResourceLocation.parse("pokecube_legends:zmove_check");
@@ -58,8 +56,8 @@ public class ForgeEventHandlers
                 "Arceus approves removal in these structures.", "");
     }
 
-    public static Supplier<BlockState> DUST = () -> Blocks.AIR.defaultBlockState();
-    public static Supplier<BlockState> MOLTEN = () -> Blocks.AIR.defaultBlockState();
+    public static Supplier<BlockState> DUST = Blocks.AIR::defaultBlockState;
+    public static Supplier<BlockState> MOLTEN = Blocks.AIR::defaultBlockState;
 
     private boolean protectTemple(@Nullable final ServerPlayer player, @Nonnull final ServerLevel world,
             @Nullable final BlockState newState, final BlockPos pos)
@@ -192,7 +190,7 @@ public class ForgeEventHandlers
             else
             {
                 boolean noDust;
-                Vec3 diff = event.getBoom().getPosition().subtract(pos.getX(), pos.getY(), pos.getZ()).normalize();
+                Vec3 diff = event.getBoom().center().subtract(pos.getX(), pos.getY(), pos.getZ()).normalize();
                 double dot = diff.dot(new Vec3(0, 1, 0));
                 noDust = dot > 0 || dot < -0.95;
                 if (noDust) return;

@@ -23,7 +23,7 @@ import thut.lib.RegHelper;
 public class BasaltColumnsFeature extends Feature<ColumnFeatureConfiguration>
 {
     public static final TagKey<Block> FEATURES_CANNOT_PLACE_ON = TagKey.create(RegHelper.BLOCK_REGISTRY,
-            ResourceLocation.parse(Reference.ID, "features_cannot_place_on"));
+            ResourceLocation.fromNamespaceAndPath(Reference.ID, "features_cannot_place_on"));
 
     private static final int CLUSTERED_REACH = 5;
     private static final int CLUSTERED_SIZE = 50;

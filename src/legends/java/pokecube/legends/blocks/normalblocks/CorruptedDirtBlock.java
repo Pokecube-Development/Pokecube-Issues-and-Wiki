@@ -18,7 +18,7 @@ public class CorruptedDirtBlock extends Block implements BonemealableBlock
 {
     // Tag
     public static final TagKey<Block> CORRUPTED_GRASS_SPREADABLE = TagKey.create(RegHelper.BLOCK_REGISTRY,
-            ResourceLocation.parse(Reference.ID, "corrupted_grass_spreadable"));
+            ResourceLocation.fromNamespaceAndPath(Reference.ID, "corrupted_grass_spreadable"));
 
     public CorruptedDirtBlock(final Properties properties)
     {
@@ -26,22 +26,19 @@ public class CorruptedDirtBlock extends Block implements BonemealableBlock
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader worldReader, BlockPos pos, BlockState state, boolean b)
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state)
     {
-       if (!worldReader.getBlockState(pos.above()).propagatesSkylightDown(worldReader, pos))
-       {
-          return false;
-       } else
-       {
-          for(BlockPos posOffset : BlockPos.betweenClosed(pos.offset(-1, -1, -1), pos.offset(1, 1, 1)))
-          {
-             if (worldReader.getBlockState(posOffset).is(CORRUPTED_GRASS_SPREADABLE))
-             {
-                return true;
-             }
-          }
-          return false;
-       }
+        if (level.getBlockState(pos.above()).propagatesSkylightDown(level, pos))
+        {
+            for (BlockPos posOffset : BlockPos.betweenClosed(pos.offset(-1, -1, -1), pos.offset(1, 1, 1)))
+            {
+                if (level.getBlockState(posOffset).is(CORRUPTED_GRASS_SPREADABLE))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override

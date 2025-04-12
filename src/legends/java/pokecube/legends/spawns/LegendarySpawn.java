@@ -1,10 +1,6 @@
 package pokecube.legends.spawns;
 
-import java.util.Collections;
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Mob;
@@ -13,6 +9,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
@@ -35,14 +32,17 @@ import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.lib.TComponent;
 
+import java.util.Collections;
+import java.util.List;
+
 public class LegendarySpawn
 {
     private static enum SpawnResult
     {
-        SUCCESS, WRONGITEM, NOCAPTURE, ALREADYHAVE, NOSPAWN, FAIL;
+        SUCCESS, WRONGITEM, NOCAPTURE, ALREADYHAVE, NOSPAWN, FAIL
     }
 
-    private static List<LegendarySpawn> spawns = Lists.newArrayList();
+    private static final List<LegendarySpawn> spawns = Lists.newArrayList();
     public static List<LegendarySpawn> data_spawns = Lists.newArrayList();
 
     private static List<LegendarySpawn> getForBlock(final BlockState state)
@@ -97,8 +97,8 @@ public class LegendarySpawn
                     return SpawnResult.NOCAPTURE;
                 }
                 // This puts player on a cooldown for respawning the mob
-                PokecubePlayerDataHandler.getCustomDataTag(playerIn).putLong("spwned:" + entry.getTrimmedName(),
-                        Tracker.instance().getTick());
+                PokecubePlayerDataHandler.getCustomDataTag(playerIn)
+                        .putLong("spwned:" + entry.getTrimmedName(), Tracker.instance().getTick());
                 // Mob gets spawnedby to prevent others from capturing
                 entity.getPersistentData().putUUID("spwnedby", playerIn.getUUID());
                 // These prevent drops and the mob disappearing when it dies
@@ -111,8 +111,8 @@ public class LegendarySpawn
                 playerIn.getMainHandItem().setCount(0);
                 if (PokecubeLegends.config.singleUseLegendSpawns)
                     worldIn.setBlockAndUpdate(evt.getPos(), Blocks.AIR.defaultBlockState());
-                if (pokemob.getExp() < 100)
-                    entity = pokemob.setForSpawn(Tools.levelToXp(entry.getEvolutionMode(), 50)).getEntity();
+                if (pokemob.getExp() < 100) pokemob.setForSpawn(Tools.levelToXp(entry.getEvolutionMode(), 50));
+                entity = pokemob.getEntity();
                 worldIn.addFreshEntity(entity);
                 evt.setCanceled(true);
                 return SpawnResult.SUCCESS;
@@ -123,10 +123,8 @@ public class LegendarySpawn
     }
 
     /**
-     * Check if we match a spawn condition, and if so, give appropriate
-     * messages.
+     * Check if we match a spawn condition, and if so, give appropriate messages.
      *
-     * @param evt
      */
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
     public static void interactRightClickBlock(final PlayerInteractEvent.RightClickBlock evt)
@@ -150,8 +148,8 @@ public class LegendarySpawn
         if (stack.isEmpty())
         {
             Collections.shuffle(matches);
-            LegendarySpawn match = matches.get(0);
-            PokedexEntry entry = match.entry;
+            LegendarySpawn match = matches.getFirst();
+            PokedexEntry entry;
             for (final LegendarySpawn match1 : matches)
             {
                 match = match1;
@@ -168,7 +166,7 @@ public class LegendarySpawn
         }
 
         boolean worked = false;
-        SpawnResult result = SpawnResult.FAIL;
+        SpawnResult result;
         final List<PokedexEntry> wrong_items = Lists.newArrayList();
         final List<PokedexEntry> wrong_biomes = Lists.newArrayList();
         final List<PokedexEntry> already_spawned = Lists.newArrayList();
@@ -209,30 +207,29 @@ public class LegendarySpawn
         if (worked)
         {
             evt.setCanceled(true);
-            evt.setUseItem(Result.DENY);
-            evt.setUseBlock(Result.DENY);
+            evt.setUseItem(TriState.FALSE);
+            evt.setUseBlock(TriState.FALSE);
             return;
         }
-        if (already_spawned.size() > 0)
+        if (!already_spawned.isEmpty())
         {
             Collections.shuffle(already_spawned);
             evt.getEntity().displayClientMessage(TComponent.translatable("msg.alreadyspawned.info",
-                    TComponent.translatable(already_spawned.get(0).getUnlocalizedName())), true);
+                    TComponent.translatable(already_spawned.getFirst().getUnlocalizedName())), true);
             return;
         }
-        if (wrong_items.size() > 0)
+        if (!wrong_items.isEmpty())
         {
             Collections.shuffle(wrong_items);
             evt.getEntity().displayClientMessage(TComponent.translatable("msg.wrongitem.info",
-                    TComponent.translatable(wrong_items.get(0).getUnlocalizedName())), true);
+                    TComponent.translatable(wrong_items.getFirst().getUnlocalizedName())), true);
             return;
         }
-        if (wrong_biomes.size() > 0)
+        if (!wrong_biomes.isEmpty())
         {
             Collections.shuffle(wrong_biomes);
             evt.getEntity().displayClientMessage(TComponent.translatable("msg.nohere.info",
-                    TComponent.translatable(matches.get(0).entry.getUnlocalizedName())), true);
-            return;
+                    TComponent.translatable(matches.getFirst().entry.getUnlocalizedName())), true);
         }
 
     }

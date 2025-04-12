@@ -135,7 +135,7 @@ public class TimeSpaceCoreBlock extends Rotates implements SimpleWaterloggedBloc
 
     // Breaking Time & Space Spawner breaks both parts and returns one item only
     @Override
-    public void playerWillDestroy(final Level world, final BlockPos pos, final BlockState state, final Player player)
+    public BlockState playerWillDestroy(final Level world, final BlockPos pos, final BlockState state, final Player player)
     {
         final Direction facing = state.getValue(TimeSpaceCoreBlock.FACING);
         final BlockPos timeSpacePos = this.getTimeSpacePos(pos, state.getValue(TimeSpaceCoreBlock.HALF), facing);
@@ -146,7 +146,7 @@ public class TimeSpaceCoreBlock extends Rotates implements SimpleWaterloggedBloc
         TimeSpaceBlockState = world.getBlockState(timeSpacePartPos);
         if (TimeSpaceBlockState.getBlock() == this && !pos.equals(timeSpacePartPos)) this.removeHalf(world,
                 timeSpacePartPos, TimeSpaceBlockState, player);
-        super.playerWillDestroy(world, pos, state, player);
+        return super.playerWillDestroy(world, pos, state, player);
     }
 
     private BlockPos getTimeSpaceTopPos(final BlockPos base, final Direction facing)

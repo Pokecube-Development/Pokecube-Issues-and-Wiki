@@ -21,7 +21,7 @@ import thut.lib.RegHelper;
 public class AquamarineCrystalFeature extends Feature<PointedDripstoneConfiguration>
 {
    // Block Tag
-   public static final TagKey<Block> BASE_STONE_ULTRASPACE = TagKey.create(RegHelper.BLOCK_REGISTRY,ResourceLocation.parse(Reference.ID, "base_stone_ultraspace"));
+   public static final TagKey<Block> BASE_STONE_ULTRASPACE = TagKey.create(RegHelper.BLOCK_REGISTRY,ResourceLocation.fromNamespaceAndPath(Reference.ID, "base_stone_ultraspace"));
    
    public AquamarineCrystalFeature(final Codec<PointedDripstoneConfiguration> config)
    {

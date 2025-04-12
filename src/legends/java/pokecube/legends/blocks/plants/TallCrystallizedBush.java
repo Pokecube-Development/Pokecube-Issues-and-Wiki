@@ -1,7 +1,5 @@
 package pokecube.legends.blocks.plants;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
@@ -25,10 +23,11 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.PlantType;
 import pokecube.legends.init.PlantsInit;
+
+import javax.annotation.Nullable;
 
 public class TallCrystallizedBush extends DoublePlantBlock implements SimpleWaterloggedBlock
 {
@@ -56,9 +55,9 @@ public class TallCrystallizedBush extends DoublePlantBlock implements SimpleWate
 
     @Nullable
     @Override
-    public BlockPathTypes getBlockPathType(BlockState state, BlockGetter world, BlockPos pos, @Nullable Mob entity)
+    public PathType getBlockPathType(BlockState state, BlockGetter world, BlockPos pos, @Nullable Mob entity)
     {
-        return BlockPathTypes.DAMAGE_OTHER;
+        return PathType.DAMAGE_OTHER;
     }
 
     @Override
@@ -107,7 +106,7 @@ public class TallCrystallizedBush extends DoublePlantBlock implements SimpleWate
     }
 
     @Override
-    public void playerWillDestroy(final Level world, final BlockPos pos, final BlockState state,
+    public BlockState playerWillDestroy(final Level world, final BlockPos pos, final BlockState state,
                                   final Player player)
     {
         final BlockPos tallBushPos = this.getTallBushPos(pos, state.getValue(TallCrystallizedBush.HALF));
@@ -119,7 +118,7 @@ public class TallCrystallizedBush extends DoublePlantBlock implements SimpleWate
         tallBushBlockState = world.getBlockState(tallBushPartPos);
         if (tallBushBlockState.getBlock() == this && !pos.equals(tallBushPartPos)) this.removeHalf(world, tallBushPartPos,
             tallBushBlockState, player);
-        super.playerWillDestroy(world, pos, state, player);
+        return super.playerWillDestroy(world, pos, state, player);
     }
 
     private BlockPos getTallBushTopPos(final BlockPos pos)
@@ -147,16 +146,9 @@ public class TallCrystallizedBush extends DoublePlantBlock implements SimpleWate
     }
 
     // Adds Waterlogging
-    @SuppressWarnings("deprecation")
     @Override
     public FluidState getFluidState(final BlockState state)
     {
         return state.getValue(TallCrystallizedBush.WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
-    }
-
-    @Override
-    public PlantType getPlantType(BlockGetter world, BlockPos pos)
-    {
-        return PlantType.DESERT;
     }
 }

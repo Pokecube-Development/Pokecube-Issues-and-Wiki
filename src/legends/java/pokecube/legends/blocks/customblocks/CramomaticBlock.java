@@ -1,20 +1,16 @@
 package pokecube.legends.blocks.customblocks;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -31,7 +27,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import pokecube.legends.Reference;
@@ -39,15 +34,20 @@ import pokecube.legends.blocks.BlockBase;
 import thut.api.item.ItemList;
 import thut.lib.TComponent;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
 public class CramomaticBlock extends Rotates implements SimpleWaterloggedBlock
 {
 
-	private static final Map<Direction, VoxelShape> CRAMOBOT = new HashMap<>();
+    private static final Map<Direction, VoxelShape> CRAMOBOT = new HashMap<>();
     private static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     // Tags
-    public static ResourceLocation CRAMOMATIC_FUEL = ResourceLocation.parse(Reference.ID, "crambot_fuel");
+    public static ResourceLocation CRAMOMATIC_FUEL = ResourceLocation.fromNamespaceAndPath(Reference.ID, "crambot_fuel");
     String infoName;
 
     @Override
@@ -62,15 +62,15 @@ public class CramomaticBlock extends Rotates implements SimpleWaterloggedBlock
     public void appendHoverText(final ItemStack stack, final BlockGetter worldIn, final List<Component> tooltip,
             final TooltipFlag flagIn)
     {
-		if (Screen.hasShiftDown())
-		{
-			tooltip.add(TComponent.translatable("legends." + this.infoName + ".tooltip"));
-			tooltip.add(TComponent.translatable("legends." + this.infoName + ".tooltip.line1"));
-		}
-		else tooltip.add(TComponent.translatable("pokecube.tooltip.advanced"));
+        if (Screen.hasShiftDown())
+        {
+            tooltip.add(TComponent.translatable("legends." + this.infoName + ".tooltip"));
+            tooltip.add(TComponent.translatable("legends." + this.infoName + ".tooltip.line1"));
+        }
+        else tooltip.add(TComponent.translatable("pokecube.tooltip.advanced"));
     }
 
-    // Precise selection box
+    // Precise selection box @formatter:off
     static
     {
     	CramomaticBlock.CRAMOBOT.put(Direction.NORTH, Shapes.or(
@@ -142,53 +142,58 @@ public class CramomaticBlock extends Rotates implements SimpleWaterloggedBlock
 			Block.box(10, 8, 10, 14, 10, 13),
 			Block.box(12, 8, 5, 12.01, 10, 10)).optimize());
     }
+	//@formatter:on
 
-	  @Override
+    @Override
     public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
             final CollisionContext context)
     {
-		    return CramomaticBlock.CRAMOBOT.get(state.getValue(CramomaticBlock.FACING));
+        return CramomaticBlock.CRAMOBOT.get(state.getValue(CramomaticBlock.FACING));
     }
 
-	  public CramomaticBlock(final Properties props)
+    public CramomaticBlock(final Properties props)
     {
         super(props);
         this.registerDefaultState(this.stateDefinition.any().setValue(CramomaticBlock.FACING, Direction.NORTH)
-				.setValue(CramomaticBlock.WATERLOGGED, false));
+                .setValue(CramomaticBlock.WATERLOGGED, false));
     }
 
-	  @Override
-	  public InteractionResult use(BlockState state, Level world, BlockPos pos, Player entity, InteractionHand hand,
-	      BlockHitResult hit)
-	  {
-		  int x = pos.getX();
-		  int y = pos.getY();
-		  int z = pos.getZ();
+    @Override
+	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+			Player player, InteractionHand hand, BlockHitResult hitResult)
+    {
+        int x = pos.getX();
+        int y = pos.getY();
+        int z = pos.getZ();
 
-		  if (ItemList.is(CramomaticBlock.CRAMOMATIC_FUEL, entity.getMainHandItem()))
-		  {
-			  addParticles(world, x, y, z);
-			  world.playLocalSound(x, y, z, Objects.requireNonNull(ForgeRegistries.SOUND_EVENTS.getValue(ResourceLocation.parse(
-					  "entity.player.levelup"))), SoundSource.NEUTRAL, 1, 1, false);
-			  return InteractionResult.SUCCESS;
-		  }
-		  else if (!ItemList.is(CramomaticBlock.CRAMOMATIC_FUEL, entity.getMainHandItem()) && !entity.getItemInHand(hand).isEmpty())
-		  {
-			  entity.displayClientMessage(TComponent.translatable("msg.pokecube_legends.cramomatic.fail"), true);
-			  return InteractionResult.SUCCESS;
-		  }
-		  return InteractionResult.PASS;
-	  }
+        if (ItemList.is(CramomaticBlock.CRAMOMATIC_FUEL, stack))
+        {
+            addParticles(level, x, y, z);
+			level.playLocalSound(x, y, z, Objects.requireNonNull(
+                            BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.player.levelup"))),
+                    SoundSource.NEUTRAL, 1, 1, false);
+            return ItemInteractionResult.SUCCESS;
+        }
+        else if (!ItemList.is(CramomaticBlock.CRAMOMATIC_FUEL, player.getMainHandItem()) && !player.getItemInHand(hand)
+                .isEmpty())
+        {
+			player.displayClientMessage(TComponent.translatable("msg.pokecube_legends.cramomatic.fail"), true);
+            return ItemInteractionResult.SUCCESS;
+        }
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+    }
 
-	public static void addParticles(Level world, int x, int y, int z)
-	{
-		RandomSource random = world.getRandom();
-		if (world.isClientSide) {
-			for (int i = 0; i < 10; ++i) {
-				world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, x + 0.5, y + 1, z + 0.5,
-						(random.nextDouble() - 0.5D) * 1.5D, -random.nextDouble() * 1.5D,
-						(random.nextDouble() - 0.5D) * 1.5D);
-			}
-		}
-	}
+    public static void addParticles(Level world, int x, int y, int z)
+    {
+        RandomSource random = world.getRandom();
+        if (world.isClientSide)
+        {
+            for (int i = 0; i < 10; ++i)
+            {
+                world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, x + 0.5, y + 1, z + 0.5,
+                        (random.nextDouble() - 0.5D) * 1.5D, -random.nextDouble() * 1.5D,
+                        (random.nextDouble() - 0.5D) * 1.5D);
+            }
+        }
+    }
 }

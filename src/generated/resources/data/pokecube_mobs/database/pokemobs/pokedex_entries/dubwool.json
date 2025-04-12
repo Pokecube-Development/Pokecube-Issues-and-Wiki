@@ -142,9 +142,7 @@
       "baseHunger": 250,
       "isTag": false,
       "key": {
-        "values": {
-          "id": "minecraft:shears"
-        }
+        "id": "minecraft:shears"
       },
       "action": {
         "values": {
@@ -152,10 +150,8 @@
         },
         "drops": [
           {
-            "values": {
-              "id": "minecraft:white_wool",
-              "n": "2"
-            }
+            "id": "minecraft:white_wool",
+            "count": 2
           }
         ]
       }
@@ -168,9 +164,7 @@
       "baseHunger": 100,
       "isTag": false,
       "key": {
-        "values": {
-          "id": "minecraft:bucket"
-        }
+        "id": "minecraft:bucket"
       },
       "action": {
         "values": {
@@ -178,10 +172,8 @@
         },
         "drops": [
           {
-            "values": {
-              "id": "minecraft:milk_bucket",
-              "n": "1"
-            }
+            "id": "minecraft:milk_bucket",
+            "count": 1
           }
         ]
       }

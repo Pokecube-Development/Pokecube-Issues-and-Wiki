@@ -79,7 +79,7 @@ public class YveltalEgg extends Rotates implements SimpleWaterloggedBlock
 
     // Breaking Yveltal Egg Spawner breaks both parts and returns one item only
     @Override
-    public void playerWillDestroy(final Level world, final BlockPos pos, final BlockState state,
+    public BlockState playerWillDestroy(final Level world, final BlockPos pos, final BlockState state,
             final Player player)
     {
         final Direction facing = state.getValue(YveltalEgg.FACING);
@@ -91,26 +91,18 @@ public class YveltalEgg extends Rotates implements SimpleWaterloggedBlock
         YveltalEggBlockState = world.getBlockState(yveltalEggPartPos);
         if (YveltalEggBlockState.getBlock() == this && !pos.equals(yveltalEggPartPos)) this.removeHalf(world,
                 yveltalEggPartPos, YveltalEggBlockState, player);
-        super.playerWillDestroy(world, pos, state, player);
+        return super.playerWillDestroy(world, pos, state, player);
     }
 
     private BlockPos getYveltalEggTopPos(final BlockPos base, final Direction facing)
     {
-        switch (facing)
-        {
-        default:
-            return base.above();
-        }
+        return base.above();
     }
 
     private BlockPos getYveltalEggPos(final BlockPos pos, final YveltalEggPart part, final Direction facing)
     {
         if (part == YveltalEggPart.BOTTOM) return pos;
-        switch (facing)
-        {
-        default:
-            return pos.below();
-        }
+        return pos.below();
     }
 
     // Breaking the Yveltal Egg Spawner leaves water if underwater

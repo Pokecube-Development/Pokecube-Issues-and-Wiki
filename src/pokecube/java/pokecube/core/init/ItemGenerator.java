@@ -650,8 +650,7 @@ public class ItemGenerator
                         List<Block> regs = Lists.newArrayList();
                         BARRELS.forEach(r -> regs.add(r.get()));
                         Block[] blocks = regs.toArray(new Block[0]);
-                        var type = BlockEntityType.Builder.of(GenericBookshelfEmptyTile::new, blocks).build(null);
-                        return type;
+                        return BlockEntityType.Builder.of(GenericBookshelfEmptyTile::new, blocks).build(null);
                     });
         }
     }

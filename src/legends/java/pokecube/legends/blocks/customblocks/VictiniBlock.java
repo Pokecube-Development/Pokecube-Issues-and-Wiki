@@ -194,7 +194,7 @@ public class VictiniBlock extends Rotates implements SimpleWaterloggedBlock
 
     // Breaking Victini Spawner breaks both parts and returns one item only
     @Override
-    public void playerWillDestroy(final Level world, final BlockPos pos, final BlockState state, final Player player)
+    public BlockState playerWillDestroy(final Level world, final BlockPos pos, final BlockState state, final Player player)
     {
         final Direction facing = state.getValue(VictiniBlock.FACING);
         final BlockPos victiniPos = this.getVictiniPos(pos, state.getValue(VictiniBlock.HALF), facing);
@@ -206,26 +206,18 @@ public class VictiniBlock extends Rotates implements SimpleWaterloggedBlock
         if (VictiniBlockState.getBlock() == this && !pos.equals(victiniPartPos) && this
                 .asBlock() == BlockInit.VICTINI_CORE.get()) this.removeHalf(world, victiniPartPos, VictiniBlockState,
                         player);
-        super.playerWillDestroy(world, pos, state, player);
+        return super.playerWillDestroy(world, pos, state, player);
     }
 
     private BlockPos getVictiniTopPos(final BlockPos base, final Direction facing)
     {
-        switch (facing)
-        {
-        default:
-            return base.above();
-        }
+        return base.above();
     }
 
     private BlockPos getVictiniPos(final BlockPos pos, final VictiniBlockPart part, final Direction facing)
     {
         if (part == VictiniBlockPart.BOTTOM) return pos;
-        switch (facing)
-        {
-        default:
-            return pos.below();
-        }
+        return pos.below();
     }
 
     // Breaking the Victini Spawner leaves water if underwater

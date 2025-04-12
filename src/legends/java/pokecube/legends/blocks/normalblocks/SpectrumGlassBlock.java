@@ -15,8 +15,8 @@ public class SpectrumGlassBlock extends StainedGlassBlock implements BeaconBeamB
     }
 
     @Override
-    public float[] getBeaconColorMultiplier(BlockState state, LevelReader world, BlockPos pos, BlockPos beaconPos)
+    public DyeColor getColor()
     {
-        return new float[]{0.97f, 0.45f, 0.24f};
+        return DyeColor.ORANGE;
     }
 }

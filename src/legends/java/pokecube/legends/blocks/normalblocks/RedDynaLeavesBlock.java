@@ -6,12 +6,11 @@ import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.IForgeShearable;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import pokecube.legends.init.ParticleInit;
 
-public class RedDynaLeavesBlock extends DynaLeavesBlock implements IForgeShearable
+public class RedDynaLeavesBlock extends DynaLeavesBlock
 {
     int particleSpawnSpeed;
 

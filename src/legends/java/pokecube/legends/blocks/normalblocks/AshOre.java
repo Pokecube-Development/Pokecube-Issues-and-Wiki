@@ -5,13 +5,13 @@ import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.ColorRGBA;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Fallable;
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -21,7 +21,7 @@ public class AshOre extends FallingDirtBlockBase implements Fallable
 {
     public static final BooleanProperty WET = BooleanProperty.create("wet");
 
-    public AshOre(final int particleColor, final Properties properties)
+    public AshOre(final ColorRGBA particleColor, final Properties properties)
     {
         super(particleColor, properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(WET, false));
@@ -36,7 +36,7 @@ public class AshOre extends FallingDirtBlockBase implements Fallable
         }
 
         if (isFree(world.getBlockState(pos.below())) && pos.getY() >= world.getMinBuildHeight()
-                && state.getValue(WET) == false)
+                && !state.getValue(WET))
         {
             FallingBlockEntity.fall(world, pos, world.getBlockState(pos));
         }
@@ -58,21 +58,16 @@ public class AshOre extends FallingDirtBlockBase implements Fallable
 
     public static boolean isNearWater(LevelReader world, BlockPos pos)
     {
-        if (world.getFluidState(pos.above()).is(FluidTags.WATER) || world.getFluidState(pos.below()).is(FluidTags.WATER)
-                || world.getFluidState(pos.north()).is(FluidTags.WATER)
-                || world.getFluidState(pos.south()).is(FluidTags.WATER)
-                || world.getFluidState(pos.east()).is(FluidTags.WATER)
-                || world.getFluidState(pos.west()).is(FluidTags.WATER))
-        {
-            return true;
-        }
-        return false;
+        return world.getFluidState(pos.above()).is(FluidTags.WATER) || world.getFluidState(pos.below())
+                .is(FluidTags.WATER) || world.getFluidState(pos.north()).is(FluidTags.WATER) || world.getFluidState(
+                pos.south()).is(FluidTags.WATER) || world.getFluidState(pos.east()).is(FluidTags.WATER)
+                || world.getFluidState(pos.west()).is(FluidTags.WATER);
     }
 
     @Override
     public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random)
     {
-        if (random.nextInt(16) == 0 && state.getValue(WET) == false)
+        if (random.nextInt(16) == 0 && !state.getValue(WET))
         {
             BlockPos posBelow = pos.below();
             if (isFree(world.getBlockState(posBelow)))

@@ -15,11 +15,10 @@ import net.minecraft.world.level.block.TallSeagrassBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraftforge.common.IForgeShearable;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.PlantsInit;
 
-public class TaintedSeagrassBlock extends SeagrassBlock implements BonemealableBlock, LiquidBlockContainer, IForgeShearable
+public class TaintedSeagrassBlock extends SeagrassBlock implements BonemealableBlock, LiquidBlockContainer
 {
    public TaintedSeagrassBlock(final BlockBehaviour.Properties properties)
    {
