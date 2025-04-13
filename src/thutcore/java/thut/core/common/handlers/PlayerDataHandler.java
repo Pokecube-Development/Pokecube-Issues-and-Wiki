@@ -104,8 +104,8 @@ public class PlayerDataHandler
         }
     }
 
-    private static Set<Class<? extends PlayerData>> dataMap = Sets.newHashSet();
-    private static Set<String> dataIds = Sets.newHashSet();
+    private static final Set<Class<? extends PlayerData>> dataMap = Sets.newHashSet();
+    private static final Set<String> dataIds = Sets.newHashSet();
     private static PlayerDataHandler INSTANCESERVER;
     private static PlayerDataHandler INSTANCECLIENT;
 

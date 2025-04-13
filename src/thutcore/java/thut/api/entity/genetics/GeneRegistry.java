@@ -56,12 +56,13 @@ public class GeneRegistry
     {
         List<Class<? extends Gene<?>>> deferred = new ArrayList<>();
         DEFAULT_GENES.forEach((gene, test) -> {
-            Gene<?> temp1, temp2;
+            Gene<?> temp1, temp2, temp3;
             try
             {
                 // Ensure the gene has a blank constructor for registration
                 temp1 = gene.getConstructor().newInstance();
                 temp2 = gene.getConstructor().newInstance();
+                temp3 = gene.getConstructor().newInstance();
                 var applier = DEFAULT_INITS.get(gene);
                 if (applier != null)
                 {
@@ -79,8 +80,15 @@ public class GeneRegistry
                         deferred.add(gene);
                         return;
                     }
+                    init = new GeneInit(genetics, holder, 2);
+                    applied = applier.apply(init, temp3);
+                    if (!applied)
+                    {
+                        deferred.add(gene);
+                        return;
+                    }
                 }
-                genetics.setGenes(temp1, temp2);
+                genetics.setGenes(temp1, temp2, temp3);
             }
             catch (final Exception e)
             {
@@ -89,12 +97,13 @@ public class GeneRegistry
         });
 
         deferred.forEach(gene -> {
-            Gene<?> temp1, temp2;
+            Gene<?> temp1, temp2, temp3;
             try
             {
                 // Ensure the gene has a blank constructor for registration
                 temp1 = gene.getConstructor().newInstance();
                 temp2 = gene.getConstructor().newInstance();
+                temp3 = gene.getConstructor().newInstance();
                 var applier = DEFAULT_INITS.get(gene);
                 var init = new GeneInit(genetics, holder, 0);
                 boolean applied = applier.apply(init, temp1);
@@ -108,7 +117,13 @@ public class GeneRegistry
                 {
                     throw new RuntimeException("Error processing " + gene + ", it failed twice");
                 }
-                genetics.setGenes(temp1, temp2);
+                init = new GeneInit(genetics, holder, 2);
+                applied = applier.apply(init, temp3);
+                if (!applied)
+                {
+                    throw new RuntimeException("Error processing " + gene + ", it failed twice");
+                }
+                genetics.setGenes(temp1, temp2, temp3);
             }
             catch (final Exception e)
             {

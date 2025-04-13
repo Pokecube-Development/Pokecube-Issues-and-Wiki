@@ -14,8 +14,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.AABB;
 import pokecube.adventures.blocks.statue.StatueEntity;
 import pokecube.core.client.render.mobs.overlays.Status.StatusTexturer;
+import thut.api.attachments.CopyMob;
 import thut.api.entity.IAnimated.IAnimationHolder;
-import thut.api.entity.ICopyMob;
 import thut.core.client.render.animation.AnimationHelper;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.wrappers.ModelWrapper;
@@ -25,28 +25,43 @@ public class StatueBlock implements BlockEntityRenderer<StatueEntity>
     public StatueBlock(final BlockEntityRendererProvider.Context dispatcher)
     {}
 
-    public static void renderStatue(LivingEntity mob, final float partialTicks, final PoseStack mat,
+    public static void renderStatue(CopyMob.CopyInfo info, final float partialTicks, final PoseStack mat,
             final MultiBufferSource bufferIn, final int combinedLightIn, final int combinedOverlayIn)
     {
+        if (info.copy().getCopiedMob() == null)
+        {
+            return;
+        }
+        var mob = info.copy().getCopiedMob();
+
         final Minecraft mc = Minecraft.getInstance();
-        CompoundTag tag = mob.getPersistentData();
+        CompoundTag tag = info.tag();
         if (tag.contains("statue:over_tex") && mc.getEntityRenderDispatcher()
                 .getRenderer(mob) instanceof LivingEntityRenderer<?, ?> _renderer
                 && _renderer.getModel() instanceof ModelWrapper<?> _wrap)
         {
-            ResourceLocation inTag = ResourceLocation.parse(tag.getString("statue:over_tex"));
-            boolean isBlock = BuiltInRegistries.BLOCK.containsKey(inTag);
-            int alpha = tag.contains("statue:over_tex_a") ? tag.getInt("statue:over_tex_a") : 200;
-            final ResourceLocation tex;
-            if (isBlock)
+            ResourceLocation tex;
+            if (tag.contains("statue:tex_cache"))
             {
-                Block b = BuiltInRegistries.BLOCK.get(inTag);
-                @SuppressWarnings("deprecation")
-                ResourceLocation tex_ = mc.getBlockRenderer().getBlockModel(b.defaultBlockState()).getParticleIcon()
-                        .atlasLocation();
-                tex = ResourceLocation.fromNamespaceAndPath(tex_.getNamespace(), "textures/" + tex_.getPath() + ".png");
+                tex = ResourceLocation.parse(tag.getString("statue:tex_cache"));
             }
-            else tex = inTag;
+            else
+            {
+                ResourceLocation inTag = ResourceLocation.parse(tag.getString("statue:over_tex"));
+                boolean isBlock = BuiltInRegistries.BLOCK.containsKey(inTag);
+                if (isBlock)
+                {
+                    Block b = BuiltInRegistries.BLOCK.get(inTag);
+                    @SuppressWarnings("deprecation")
+                    ResourceLocation tex_ = mc.getBlockRenderer().getBlockModel(b.defaultBlockState()).getParticleIcon()
+                            .contents().name();
+                    tex = ResourceLocation.fromNamespaceAndPath(tex_.getNamespace(),
+                            "textures/" + tex_.getPath() + ".png");
+                }
+                else tex = inTag;
+                tag.putString("statue:tex_cache", tex.toString());
+            }
+            int alpha = tag.contains("statue:over_tex_a") ? tag.getInt("statue:over_tex_a") : 200;
 
             StatusTexturer newTexer = new StatusTexturer(tex);
             newTexer.alpha = alpha;
@@ -70,13 +85,13 @@ public class StatueBlock implements BlockEntityRenderer<StatueEntity>
             wrap.renderer.setTexturer(newTexer);
             newTexer.bindObject(mob);
             mc.getEntityRenderDispatcher().setRenderShadow(false);
-            mc.getEntityRenderDispatcher().render(mob, 0.5f, 0, 0.5f, partialTicks, 1, mat, bufferIn, combinedLightIn);
+            mc.getEntityRenderDispatcher().render(mob, 0.5f, 0, 0.5f, 0, 1, mat, bufferIn, combinedLightIn);
             wrap.renderer.setTexturer(texer);
         }
         else
         {
             mc.getEntityRenderDispatcher().setRenderShadow(false);
-            mc.getEntityRenderDispatcher().render(mob, 0.5f, 0, 0.5f, partialTicks, 1, mat, bufferIn, combinedLightIn);
+            mc.getEntityRenderDispatcher().render(mob, 0.5f, 0, 0.5f, 0, 1, mat, bufferIn, combinedLightIn);
         }
     }
 
@@ -84,22 +99,21 @@ public class StatueBlock implements BlockEntityRenderer<StatueEntity>
     public void render(final StatueEntity tile, final float partialTicks, final PoseStack matrixStackIn,
             final MultiBufferSource bufferIn, final int combinedLightIn, final int combinedOverlayIn)
     {
-        final ICopyMob copy = StatueEntity.unpackStatue(tile);
+        var info = StatueEntity.unpackStatue(tile);
         tile.checkMob();
-        if (copy == null || copy.getCopiedMob() == null || tile.ticks++ < 10) return;
-        final LivingEntity copied = copy.getCopiedMob();
-        renderStatue(copied, partialTicks, matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
+        if (info.copy().getCopiedMob() == null || tile.ticks++ < 10) return;
+        renderStatue(info, partialTicks, matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
     }
 
     @Override
     public boolean shouldRenderOffScreen(StatueEntity blockEntity)
     {
-        final ICopyMob copy = StatueEntity.unpackStatue(blockEntity);
-        if (copy == null || copy.getCopiedMob() == null)
+        var info = StatueEntity.unpackStatue(blockEntity);
+        if (info == null || info.copy().getCopiedMob() == null)
         {
             return false;
         }
-        return copy.getCopiedMob().getBbWidth() > 1;
+        return info.copy().getCopiedMob().getBbWidth() > 1;
     }
 
     @Override
