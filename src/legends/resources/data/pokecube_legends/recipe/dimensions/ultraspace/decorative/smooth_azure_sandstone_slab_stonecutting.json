@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "pokecube_legends:smooth_azure_sandstone"
   },
-  "result": "pokecube_legends:smooth_azure_sandstone_slab",
-  "count": 2
+  "result": {
+    "id": "pokecube_legends:smooth_azure_sandstone_slab",
+    "count": 2
+  }
 }

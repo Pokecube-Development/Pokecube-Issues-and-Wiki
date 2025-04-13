@@ -13,7 +13,6 @@ import pokecube.api.utils.Tools;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.berries.ItemBerry;
 
-import java.util.Map;
 import java.util.Optional;
 
 @TradePresetAn(key = "allBerrySell")
@@ -29,9 +28,8 @@ public class SellRandomBerry implements TradePreset
             if (!sell.isEmpty())
             {
                 if (trade.count > 0) sell.setCount(trade.count);
-                Map<String, String> values;
                 TrainerTrade recipe;
-                ItemStack buy1 = ItemStack.EMPTY;
+                ItemStack buy1;
                 ItemStack buy2 = ItemStack.EMPTY;
                 buy1 = Tools.getStack(trade.buys.get(0));
                 if (trade.buys.size() > 1)
@@ -45,13 +43,9 @@ public class SellRandomBerry implements TradePreset
                         : new ItemCost(buy1.getItemHolder(), buy1.getCount(),
                                 DataComponentPredicate.allOf(buy2.getComponents())));
                 recipe = new TrainerTrade(cost, _buy2, sell, trade);
-                values = trade.values;
+                var values = trade.values;
                 if (values.containsKey(TradeEntryLoader.CHANCE))
-                    recipe.chance = Float.parseFloat(values.get(TradeEntryLoader.CHANCE));
-                if (values.containsKey(TradeEntryLoader.MIN))
-                    recipe.min = Integer.parseInt(values.get(TradeEntryLoader.MIN));
-                if (values.containsKey(TradeEntryLoader.MAX))
-                    recipe.max = Integer.parseInt(values.get(TradeEntryLoader.MAX));
+                    recipe.chance = (float) values.get(TradeEntryLoader.CHANCE);
                 trades.tradesList.add(recipe);
             }
         }

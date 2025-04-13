@@ -1,24 +1,12 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "type": "minecraft:crafting_shapeless",
+  "group": "red_dye",
+  "ingredients": [
     {
-      "conditions": [
-        {
-          "type": "forge:true"
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shapeless",
-        "group": "red_dye",
-        "ingredients": [
-          {
-            "item": "pokecube_legends:distortic_vines"
-          }
-        ],
-        "result": {
-          "id": "minecraft:red_dye"
-        }
-      }
+      "item": "pokecube_legends:distortic_vines"
     }
-  ]
+  ],
+  "result": {
+    "id": "minecraft:red_dye"
+  }
 }

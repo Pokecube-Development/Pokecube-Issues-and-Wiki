@@ -1,24 +1,12 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "type": "minecraft:crafting_shapeless",
+  "group": "pink_dye",
+  "ingredients": [
     {
-      "conditions": [
-        {
-          "type": "forge:true"
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shapeless",
-        "group": "pink_dye",
-        "ingredients": [
-          {
-            "item": "pokecube_legends:gracidea"
-          }
-        ],
-        "result": {
-          "id": "minecraft:pink_dye"
-        }
-      }
+      "item": "pokecube_legends:gracidea"
     }
-  ]
+  ],
+  "result": {
+    "id": "minecraft:pink_dye"
+  }
 }

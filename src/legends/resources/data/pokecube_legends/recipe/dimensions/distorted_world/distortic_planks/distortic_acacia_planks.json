@@ -6,6 +6,6 @@
     "item": "minecraft:acacia_planks"
   },
   "output": {
-    "item": "pokecube_legends:distortic_acacia_planks"
+    "id": "pokecube_legends:distortic_acacia_planks"
   }
 }

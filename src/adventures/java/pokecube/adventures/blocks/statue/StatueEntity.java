@@ -35,19 +35,16 @@ import pokecube.api.events.pokemobs.SpawnEvent;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.InteractableTile;
-import pokecube.core.database.Database;
 import pokecube.core.entity.genetics.GeneticsManager;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
 import thut.api.attachments.CopyMob;
 import thut.api.attachments.CopyMob.CopyInfo;
-import thut.api.entity.ICopyMob;
 import thut.api.entity.IMobColourable;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.network.TileUpdate;
 
-import java.awt.image.DataBuffer;
 import java.util.Random;
 import java.util.UUID;
 
@@ -358,20 +355,6 @@ public class StatueEntity extends InteractableTile
         return super.useItemOn(stack, pos, player, hand, hitResult);
     }
 
-    public static void initMob(ICopyMob copy, CompoundTag modelTag, Runnable initMob)
-    {
-        String anim = null;
-        String over_tex = null;
-        int over_tex_a = -1;
-        String id = null;
-        float size = 1;
-        if (modelTag.contains("id")) id = modelTag.getString("id");
-        if (modelTag.contains("over_tex")) over_tex = modelTag.getString("over_tex");
-        if (modelTag.contains("over_tex_a")) over_tex_a = modelTag.getInt("over_tex_a");
-        if (modelTag.contains("anim")) anim = modelTag.getString("anim");
-        if (modelTag.contains("size")) size = modelTag.getFloat("size");
-    }
-
     public static final Codec<DataComponentMap> COMPONENTS_CODEC = DataComponentMap.CODEC.optionalFieldOf("components",
             DataComponentMap.EMPTY).codec();
 
@@ -425,7 +408,5 @@ public class StatueEntity extends InteractableTile
     {
         super.saveAdditional(compound, provider);
         compound.putLong("fuelTimer", fuelTimer);
-        if (!this.level.isClientSide()) this.checkMob();
-
     }
 }

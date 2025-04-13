@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#forge:gems",
-    "#forge:ender_pearls"
+    "#c:gems",
+    "#c:ender_pearls"
   ]
 }

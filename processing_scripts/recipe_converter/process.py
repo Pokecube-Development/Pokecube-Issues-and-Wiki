@@ -7,9 +7,15 @@ def clean_result(vals):
         old = result['item']
         del result['item']
         result['id'] = old
+    if isinstance(result, str) and "count" in vals:
+        _result = {}
+        _result['id'] = result
+        _result['count'] = vals['count']
+        del vals['count']
+        vals['result'] = _result
+
 
 def process_file(filename):
-    print("Opening ", filename)
     file = open(filename)
     vals = json.load(file)
     file.close()

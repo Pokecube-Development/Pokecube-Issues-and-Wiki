@@ -1,24 +1,12 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "type": "minecraft:crafting_shapeless",
+  "group": "magenta_dye",
+  "ingredients": [
     {
-      "conditions": [
-        {
-          "type": "forge:true"
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shapeless",
-        "group": "magenta_dye",
-        "ingredients": [
-          {
-            "item": "pokecube_legends:inverted_orchid"
-          }
-        ],
-        "result": {
-          "id": "minecraft:magenta_dye"
-        }
-      }
+      "item": "pokecube_legends:inverted_orchid"
     }
-  ]
+  ],
+  "result": {
+    "id": "minecraft:magenta_dye"
+  }
 }

@@ -1,24 +1,12 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "type": "minecraft:crafting_shapeless",
+  "group": "purple_dye",
+  "ingredients": [
     {
-      "conditions": [
-        {
-          "type": "forge:true"
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shapeless",
-        "group": "purple_dye",
-        "ingredients": [
-          {
-            "item": "pokecube_legends:purple_wisteria_vines"
-          }
-        ],
-        "result": {
-          "id": "minecraft:purple_dye"
-        }
-      }
+      "item": "pokecube_legends:purple_wisteria_vines"
     }
-  ]
+  ],
+  "result": {
+    "id": "minecraft:purple_dye"
+  }
 }

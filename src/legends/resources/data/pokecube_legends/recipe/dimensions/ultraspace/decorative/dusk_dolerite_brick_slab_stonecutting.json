@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "pokecube_legends:dusk_dolerite_bricks"
   },
-  "result": "pokecube_legends:dusk_dolerite_brick_slab",
-  "count": 2
+  "result": {
+    "id": "pokecube_legends:dusk_dolerite_brick_slab",
+    "count": 2
+  }
 }

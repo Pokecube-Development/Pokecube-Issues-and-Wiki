@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "pokecube_legends:distortic_mirror"
   },
-  "result": "pokecube_legends:chiseled_distortic_mirror",
-  "count": 1
+  "result": {
+    "id": "pokecube_legends:chiseled_distortic_mirror",
+    "count": 1
+  }
 }

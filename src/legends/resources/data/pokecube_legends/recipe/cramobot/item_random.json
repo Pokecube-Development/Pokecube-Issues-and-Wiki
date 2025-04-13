@@ -1,6 +1,7 @@
 {
   "type": "pokecube_legends:legends_looting",
   "blockId": "pokecube_legends:cramomatic_block",
+  "output": "pokecube_legends:cramobot/cramo_drop",
   "input": {
     "tag": "pokecube_legends:crambot_fuel"
   }

@@ -6,6 +6,6 @@
     "tag": "minecraft:terracotta"
   },
   "output": {
-    "item": "pokecube_legends:distortic_terracotta"
+    "id": "pokecube_legends:distortic_terracotta"
   }
 }

@@ -4,6 +4,8 @@
   "ingredient": {
     "item": "pokecube_legends:concrete_planks"
   },
-  "result": "pokecube_legends:concrete_dense_planks",
-  "count": 1
+  "result": {
+    "id": "pokecube_legends:concrete_dense_planks",
+    "count": 1
+  }
 }

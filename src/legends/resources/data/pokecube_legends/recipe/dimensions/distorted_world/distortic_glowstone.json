@@ -6,6 +6,6 @@
     "item": "minecraft:glowstone"
   },
   "output": {
-    "item": "pokecube_legends:distortic_glowstone"
+    "id": "pokecube_legends:distortic_glowstone"
   }
 }

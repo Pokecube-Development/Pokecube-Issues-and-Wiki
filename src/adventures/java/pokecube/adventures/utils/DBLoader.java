@@ -1,17 +1,17 @@
 package pokecube.adventures.utils;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-
 import net.minecraft.resources.ResourceLocation;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.resources.PackFinder;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class DBLoader
 {
@@ -87,7 +87,7 @@ public class DBLoader
         for (final ArrayList<String> row : rows)
         {
             if (row.isEmpty()) continue;
-            final String name = row.get(0);
+            final String name = row.getFirst();
             if (name.equalsIgnoreCase("female:"))
             {
                 for (int i = 1; i < row.size(); i++) TypeTrainer.femaleNames.add(row.get(i));

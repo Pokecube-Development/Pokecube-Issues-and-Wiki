@@ -56,7 +56,7 @@ public class TradeEntryLoader
 
         public final List<JsonElement> buys = Lists.newArrayList();
 
-        public Map<String, String> values = Maps.newHashMap();
+        public Map<String, Object> values = Maps.newHashMap();
     }
 
     public static class TradeEntry
@@ -186,7 +186,7 @@ public class TradeEntryLoader
                 if (!sell.isEmpty())
                 {
                     TrainerTrade recipe;
-                    ItemStack buy1 = ItemStack.EMPTY;
+                    ItemStack buy1;
                     ItemStack buy2 = ItemStack.EMPTY;
                     buy1 = Tools.getStack(trade.buys.get(0));
                     if (trade.buys.size() > 1)
@@ -202,11 +202,7 @@ public class TradeEntryLoader
                     recipe = new TrainerTrade(cost, _buy2, sell, trade);
                     var values = trade.values;
                     if (values.containsKey(TradeEntryLoader.CHANCE))
-                        recipe.chance = Float.parseFloat(values.get(TradeEntryLoader.CHANCE));
-                    if (values.containsKey(TradeEntryLoader.MIN))
-                        recipe.min = Integer.parseInt(values.get(TradeEntryLoader.MIN));
-                    if (values.containsKey(TradeEntryLoader.MAX))
-                        recipe.max = Integer.parseInt(values.get(TradeEntryLoader.MAX));
+                        recipe.chance = (float) values.get(TradeEntryLoader.CHANCE);
                     trades.tradesList.add(recipe);
                 }
             }
@@ -221,19 +217,14 @@ public class TradeEntryLoader
                 final ItemStack buy = new ItemStack(i);
                 if (!buy.isEmpty())
                 {
-                    Map<String, String> values;
                     TrainerTrade recipe;
                     final ItemStack sell = Tools.getStack(trade.sell);
                     var cost = new ItemCost(buy.getItemHolder(), buy.getCount(),
                             DataComponentPredicate.allOf(buy.getComponents()));
                     recipe = new TrainerTrade(cost, Optional.empty(), sell, trade);
-                    values = trade.values;
+                    var values = trade.values;
                     if (values.containsKey(TradeEntryLoader.CHANCE))
-                        recipe.chance = Float.parseFloat(values.get(TradeEntryLoader.CHANCE));
-                    if (values.containsKey(TradeEntryLoader.MIN))
-                        recipe.min = Integer.parseInt(values.get(TradeEntryLoader.MIN));
-                    if (values.containsKey(TradeEntryLoader.MAX))
-                        recipe.max = Integer.parseInt(values.get(TradeEntryLoader.MAX));
+                        recipe.chance = (float) values.get(TradeEntryLoader.CHANCE);
                     trades.tradesList.add(recipe);
                 }
             }
@@ -258,12 +249,12 @@ public class TradeEntryLoader
                 if (loaded.has("trades"))
                 {
                     database = JsonUtil.gson.fromJson(loaded, TradeDatabase.class);
-                    for (final TradeEntry entry : database.trades) full.trades.add(entry);
+                    full.trades.addAll(database.trades);
                 }
                 if (loaded.has("professions"))
                 {
                     if (database == null) database = JsonUtil.gson.fromJson(loaded, TradeDatabase.class);
-                    for (final ProfessionEntry entry : database.professions) full.professions.add(entry);
+                    full.professions.addAll(database.professions);
                 }
             }
             catch (final Exception e)
@@ -315,8 +306,8 @@ public class TradeEntryLoader
             {
                 if (TradeEntryLoader.addTemplatedTrades(trade, trades)) continue;
                 TrainerTrade recipe;
-                ItemStack sell = ItemStack.EMPTY;
-                ItemStack buy1 = ItemStack.EMPTY;
+                ItemStack sell;
+                ItemStack buy1;
                 ItemStack buy2 = ItemStack.EMPTY;
 
                 sell = Tools.getStack(trade.sell);
@@ -339,11 +330,7 @@ public class TradeEntryLoader
                 recipe = new TrainerTrade(cost, _buy2, sell, trade);
                 var values = trade.values;
                 if (values.containsKey(TradeEntryLoader.CHANCE))
-                    recipe.chance = Float.parseFloat(values.get(TradeEntryLoader.CHANCE));
-                if (values.containsKey(TradeEntryLoader.MIN))
-                    recipe.min = Integer.parseInt(values.get(TradeEntryLoader.MIN));
-                if (values.containsKey(TradeEntryLoader.MAX))
-                    recipe.max = Integer.parseInt(values.get(TradeEntryLoader.MAX));
+                    recipe.chance = (float) values.get(TradeEntryLoader.CHANCE);
                 trades.tradesList.add(recipe);
             }
             catch (Throwable t)

@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#forge:obsidian",
+    "#c:obsidians",
     "minecraft:crying_obsidian"
   ]
 }

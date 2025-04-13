@@ -6,6 +6,6 @@
     "item": "minecraft:dark_oak_planks"
   },
   "output": {
-    "item": "pokecube_legends:distortic_dark_oak_planks"
+    "id": "pokecube_legends:distortic_dark_oak_planks"
   }
 }

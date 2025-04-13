@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "pokecube_legends:magma_bricks"
   },
-  "result": "pokecube_legends:magma_brick_slab",
-  "count": 2
+  "result": {
+    "id": "pokecube_legends:magma_brick_slab",
+    "count": 2
+  }
 }

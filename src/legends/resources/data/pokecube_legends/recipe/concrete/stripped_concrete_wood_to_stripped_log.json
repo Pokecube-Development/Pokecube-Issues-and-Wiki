@@ -1,25 +1,13 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "type": "minecraft:crafting_shapeless",
+  "group": "pokecube_legends:concrete_log",
+  "ingredients": [
     {
-      "conditions": [
-        {
-          "type": "forge:true"
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shapeless",
-        "group": "pokecube_legends:concrete_log",
-        "ingredients": [
-          {
-            "item": "pokecube_legends:stripped_concrete_wood"
-          }
-        ],
-        "result": {
-          "count": 1,
-          "id": "pokecube_legends:stripped_concrete_log"
-        }
-      }
+      "item": "pokecube_legends:stripped_concrete_wood"
     }
-  ]
+  ],
+  "result": {
+    "count": 1,
+    "id": "pokecube_legends:stripped_concrete_log"
+  }
 }

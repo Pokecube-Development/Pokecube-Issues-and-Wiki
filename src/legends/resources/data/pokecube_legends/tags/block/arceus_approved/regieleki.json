@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "#forge:storage_blocks/redstone"
+    "#c:storage_blocks/redstone"
   ]
 }

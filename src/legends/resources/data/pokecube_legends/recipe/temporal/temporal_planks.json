@@ -1,25 +1,13 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "type": "minecraft:crafting_shapeless",
+  "group": "planks",
+  "ingredients": [
     {
-      "conditions": [
-        {
-          "type": "forge:true"
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shapeless",
-        "group": "planks",
-        "ingredients": [
-          {
-            "tag": "pokecube_legends:temporal_logs"
-          }
-        ],
-        "result": {
-          "count": 4,
-          "id": "pokecube_legends:temporal_planks"
-        }
-      }
+      "tag": "pokecube_legends:temporal_logs"
     }
-  ]
+  ],
+  "result": {
+    "count": 4,
+    "id": "pokecube_legends:temporal_planks"
+  }
 }

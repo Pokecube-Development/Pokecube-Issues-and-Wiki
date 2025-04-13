@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "pokecube_legends:distortic_stone"
   },
-  "result": "pokecube_legends:distortic_stone_stairs",
-  "count": 1
+  "result": {
+    "id": "pokecube_legends:distortic_stone_stairs",
+    "count": 1
+  }
 }

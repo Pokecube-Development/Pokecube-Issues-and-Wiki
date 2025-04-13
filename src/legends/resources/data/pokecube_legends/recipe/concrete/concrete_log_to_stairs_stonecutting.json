@@ -3,6 +3,8 @@
   "ingredient": {
     "tag": "pokecube_legends:concrete_logs"
   },
-  "result": "pokecube_legends:concrete_stairs",
-  "count": 3
+  "result": {
+    "id": "pokecube_legends:concrete_stairs",
+    "count": 3
+  }
 }

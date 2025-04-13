@@ -1,8 +1,5 @@
 package pokecube.adventures.utils.trade_presets;
 
-import java.util.Map;
-import java.util.Optional;
-
 import net.minecraft.core.component.DataComponentPredicate;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -17,6 +14,8 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.items.vitamins.ItemVitamin;
 
+import java.util.Optional;
+
 @TradePresetAn(key = "allVitamins")
 public class AllVitamins implements TradePreset
 {
@@ -29,9 +28,8 @@ public class AllVitamins implements TradePreset
             ResourceLocation key = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "vitamin_" + s);
             final ItemStack sell = PokecubeItems.getStack(key);
             if (trade.count > 0) sell.setCount(trade.count);
-            Map<String, String> values;
             TrainerTrade recipe;
-            ItemStack buy1 = ItemStack.EMPTY;
+            ItemStack buy1;
             ItemStack buy2 = ItemStack.EMPTY;
             buy1 = Tools.getStack(trade.buys.get(0));
             if (trade.buys.size() > 1)
@@ -44,13 +42,9 @@ public class AllVitamins implements TradePreset
                     : new ItemCost(buy1.getItemHolder(), buy1.getCount(),
                             DataComponentPredicate.allOf(buy2.getComponents())));
             recipe = new TrainerTrade(cost, _buy2, sell, trade);
-            values = trade.values;
+            var values = trade.values;
             if (values.containsKey(TradeEntryLoader.CHANCE))
-                recipe.chance = Float.parseFloat(values.get(TradeEntryLoader.CHANCE));
-            if (values.containsKey(TradeEntryLoader.MIN))
-                recipe.min = Integer.parseInt(values.get(TradeEntryLoader.MIN));
-            if (values.containsKey(TradeEntryLoader.MAX))
-                recipe.max = Integer.parseInt(values.get(TradeEntryLoader.MAX));
+                recipe.chance = (float) values.get(TradeEntryLoader.CHANCE);
             trades.tradesList.add(recipe);
         }
     }

@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "pokecube_legends:purpur_bricks"
   },
-  "result": "minecraft:purpur_stairs",
-  "count": 1
+  "result": {
+    "id": "minecraft:purpur_stairs",
+    "count": 1
+  }
 }

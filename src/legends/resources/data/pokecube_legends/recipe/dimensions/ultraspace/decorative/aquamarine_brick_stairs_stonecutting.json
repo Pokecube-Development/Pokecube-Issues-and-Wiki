@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "pokecube_legends:aquamarine_bricks"
   },
-  "result": "pokecube_legends:aquamarine_brick_stairs",
-  "count": 1
+  "result": {
+    "id": "pokecube_legends:aquamarine_brick_stairs",
+    "count": 1
+  }
 }

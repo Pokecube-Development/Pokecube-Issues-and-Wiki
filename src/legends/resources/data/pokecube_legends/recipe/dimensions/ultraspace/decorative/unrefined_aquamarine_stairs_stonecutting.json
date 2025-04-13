@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "pokecube_legends:unrefined_aquamarine"
   },
-  "result": "pokecube_legends:unrefined_aquamarine_stairs",
-  "count": 1
+  "result": {
+    "id": "pokecube_legends:unrefined_aquamarine_stairs",
+    "count": 1
+  }
 }

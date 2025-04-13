@@ -6,6 +6,6 @@
     "item": "pokecube_adventures:laboratory_glass"
   },
   "output": {
-    "item": "pokecube_legends:mirage_glass"
+    "id": "pokecube_legends:mirage_glass"
   }
 }

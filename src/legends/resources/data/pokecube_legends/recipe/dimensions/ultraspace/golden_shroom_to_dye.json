@@ -1,24 +1,12 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "type": "minecraft:crafting_shapeless",
+  "group": "yellow_dye",
+  "ingredients": [
     {
-      "conditions": [
-        {
-          "type": "forge:true"
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shapeless",
-        "group": "yellow_dye",
-        "ingredients": [
-          {
-            "item": "pokecube_legends:golden_shroom"
-          }
-        ],
-        "result": {
-          "id": "minecraft:yellow_dye"
-        }
-      }
+      "item": "pokecube_legends:golden_shroom"
     }
-  ]
+  ],
+  "result": {
+    "id": "minecraft:yellow_dye"
+  }
 }

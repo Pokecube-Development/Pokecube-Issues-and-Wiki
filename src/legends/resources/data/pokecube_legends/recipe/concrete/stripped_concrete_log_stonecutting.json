@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "pokecube_legends:concrete_log"
   },
-  "result": "pokecube_legends:stripped_concrete_log",
-  "count": 1
+  "result": {
+    "id": "pokecube_legends:stripped_concrete_log",
+    "count": 1
+  }
 }

@@ -124,7 +124,7 @@
       "key": "default",
       "output": {
         "id": "pokecube:shiny_charm",
-        "n": 1
+        "count": 1
       },
       "condition": {
         "values": {

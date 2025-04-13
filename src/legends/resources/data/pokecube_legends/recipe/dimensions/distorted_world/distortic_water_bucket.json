@@ -6,6 +6,6 @@
     "item": "minecraft:water_bucket"
   },
   "output": {
-    "item": "pokecube_legends:distortic_water_bucket"
+    "id": "pokecube_legends:distortic_water_bucket"
   }
 }

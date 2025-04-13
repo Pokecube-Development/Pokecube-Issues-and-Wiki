@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "pokecube_legends:cobbled_dusk_dolerite"
   },
-  "result": "pokecube_legends:cobbled_dusk_dolerite_stairs",
-  "count": 1
+  "result": {
+    "id": "pokecube_legends:cobbled_dusk_dolerite_stairs",
+    "count": 1
+  }
 }

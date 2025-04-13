@@ -25,7 +25,6 @@ import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
 import java.util.Locale;
-import java.util.Map;
 import java.util.Optional;
 
 @TradePresetAn(key = "sellExplorationMap")
@@ -37,7 +36,6 @@ public class SellStructureMap implements TradePreset
     @Override
     public void apply(final Trade trade, final TrainerTrades trades)
     {
-        Map<String, String> values;
         TrainerTrade recipe;
         final ItemStack sell = new ItemStack(Items.MAP);
         ItemStack buy1;
@@ -54,15 +52,13 @@ public class SellStructureMap implements TradePreset
                 : new ItemCost(buy1.getItemHolder(), buy1.getCount(),
                         DataComponentPredicate.allOf(buy2.getComponents())));
         recipe = new TrainerTrade(cost, _buy2, sell, trade);
-        values = trade.values;
+        var values = trade.values;
         if (values.containsKey(TradeEntryLoader.CHANCE))
-            recipe.chance = Float.parseFloat(values.get(TradeEntryLoader.CHANCE));
-        if (values.containsKey(TradeEntryLoader.MIN)) recipe.min = Integer.parseInt(values.get(TradeEntryLoader.MIN));
-        if (values.containsKey(TradeEntryLoader.MAX)) recipe.max = Integer.parseInt(values.get(TradeEntryLoader.MAX));
+            recipe.chance = (float) values.get(TradeEntryLoader.CHANCE);
 
-        ResourceLocation loc = ResourceLocation.parse(trade.values.get(ID));
+        ResourceLocation loc = ResourceLocation.parse((String) trade.values.get(ID));
 
-        boolean newOnly = Boolean.parseBoolean(trade.values.getOrDefault(NEW_ONLY, "false"));
+        boolean newOnly = (boolean) trade.values.getOrDefault(NEW_ONLY, false);
 
         recipe.outputModifier = (entity, random) -> {
             if (!(entity.level instanceof ServerLevel serverlevel)) return ItemStack.EMPTY;

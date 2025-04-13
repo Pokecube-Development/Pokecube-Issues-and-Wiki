@@ -6,6 +6,6 @@
     "item": "minecraft:jungle_planks"
   },
   "output": {
-    "item": "pokecube_legends:distortic_jungle_planks"
+    "id": "pokecube_legends:distortic_jungle_planks"
   }
 }

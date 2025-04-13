@@ -6,6 +6,6 @@
     "item": "pokecube_legends:distortic_grass_block"
   },
   "output": {
-    "item": "pokecube_legends:cracked_distortic_stone"
+    "id": "pokecube_legends:cracked_distortic_stone"
   }
 }

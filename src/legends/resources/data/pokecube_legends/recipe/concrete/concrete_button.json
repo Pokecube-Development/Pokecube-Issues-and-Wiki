@@ -1,25 +1,13 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "type": "minecraft:crafting_shapeless",
+  "group": "wooden_button",
+  "ingredients": [
     {
-      "conditions": [
-        {
-          "type": "forge:true"
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shapeless",
-        "group": "wooden_button",
-        "ingredients": [
-          {
-            "item": "pokecube_legends:concrete_planks"
-          }
-        ],
-        "result": {
-          "count": 1,
-          "id": "pokecube_legends:concrete_button"
-        }
-      }
+      "item": "pokecube_legends:concrete_planks"
     }
-  ]
+  ],
+  "result": {
+    "count": 1,
+    "id": "pokecube_legends:concrete_button"
+  }
 }

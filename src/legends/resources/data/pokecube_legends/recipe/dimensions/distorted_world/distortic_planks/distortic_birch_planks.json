@@ -6,6 +6,6 @@
     "item": "minecraft:birch_planks"
   },
   "output": {
-    "item": "pokecube_legends:distortic_birch_planks"
+    "id": "pokecube_legends:distortic_birch_planks"
   }
 }

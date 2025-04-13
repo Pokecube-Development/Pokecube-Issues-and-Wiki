@@ -1,24 +1,12 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "type": "minecraft:crafting_shapeless",
+  "group": "blue_dye",
+  "ingredients": [
     {
-      "conditions": [
-        {
-          "type": "forge:true"
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shapeless",
-        "group": "blue_dye",
-        "ingredients": [
-          {
-            "item": "pokecube_legends:azure_coleus"
-          }
-        ],
-        "result": {
-          "id": "minecraft:blue_dye"
-        }
-      }
+      "item": "pokecube_legends:azure_coleus"
     }
-  ]
+  ],
+  "result": {
+    "id": "minecraft:blue_dye"
+  }
 }

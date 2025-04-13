@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "pokecube_legends:ultra_metal"
   },
-  "result": "pokecube_legends:ultra_metal_slab",
-  "count": 2
+  "result": {
+    "id": "pokecube_legends:ultra_metal_slab",
+    "count": 2
+  }
 }
