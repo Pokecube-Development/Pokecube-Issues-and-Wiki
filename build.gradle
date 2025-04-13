@@ -3,6 +3,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
+    id 'org.ajoberstar.grgit' version '2.3.0'
     id 'net.neoforged.gradle.userdev' version '7.0.170'
 }
 
@@ -13,6 +14,10 @@ tasks.named('wrapper', Wrapper).configure {
     // file size for Gradle. If you do switch this to ALL, run the Gradle wrapper task twice afterwards.
     // (Verify by checking gradle/wrapper/gradle-wrapper.properties to see if distributionUrl now points to `-all`)
     distributionType = Wrapper.DistributionType.BIN
+}
+
+ext {
+    mod_version = gitVersion()
 }
 
 version = mod_version
@@ -29,14 +34,13 @@ repositories {
 }
 
 base {
-    archivesName = compile_name
+    archivesName = "${compile_name}-${minecraft_version}"
 }
 
 // Mojang ships Java 21 to end users starting in 1.20.5, so mods should target Java 21.
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 minecraft.accessTransformers.file rootProject.file('src/main/resources/META-INF/accesstransformer.cfg')
-//minecraft.accessTransformers.entry public net.minecraft.client.Minecraft textureManager # textureManager
 
 // Default run configurations.
 // These can be tweaked, removed, or duplicated as needed.
@@ -225,4 +229,19 @@ idea {
         downloadSources = true
         downloadJavadoc = true
     }
+}
+
+def gitVersion() {
+    def raw = grgit.describe(longDescr: true) as String
+    if (raw.startsWith("${minecraft_version}-")){
+        raw = raw.replaceFirst("${minecraft_version}-","")
+    }
+    def desc = (raw == null ? 'unknown-offset-hash' : grgit.describe(longDescr: true)).split('-') as List
+    def vars = desc.get(0)
+    def splis = vars.split(/[.]/)
+    def majver = splis[0].toInteger()
+    def subver = splis[1].toInteger()
+    def offset = splis[2].toInteger()
+    def ver = offset + 1
+    return "${majver}.${subver}.${ver}"
 }
