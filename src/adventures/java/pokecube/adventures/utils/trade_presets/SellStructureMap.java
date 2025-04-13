@@ -11,6 +11,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.MapItem;
 import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.saveddata.maps.MapDecorationTypes;
+import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrade;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.adventures.utils.TradeEntryLoader;
@@ -29,8 +31,8 @@ import java.util.Optional;
 @TradePresetAn(key = "sellExplorationMap")
 public class SellStructureMap implements TradePreset
 {
-    public static final String ID = new String("id");
-    public static final String NEW_ONLY = new String("new_only");
+    public static final String ID = "id";
+    public static final String NEW_ONLY = "new_only";
 
     @Override
     public void apply(final Trade trade, final TrainerTrades trades)
@@ -75,9 +77,7 @@ public class SellStructureMap implements TradePreset
                     ItemStack itemstack = MapItem.create(serverlevel, blockpos.getX(), blockpos.getZ(), (byte) 2, true,
                             true);
                     MapItem.renderBiomePreviewMap(serverlevel, itemstack);
-                    Thread.dumpStack();
-                    //TODO decide on the way to get the map decoration type;
-                    //                    MapItemSavedData.addTargetDecoration(itemstack, blockpos, "+", MapDecoration.Type.RED_X);
+                    MapItemSavedData.addTargetDecoration(itemstack, blockpos, "+", MapDecorationTypes.RED_X);
                     itemstack.set(DataComponents.ITEM_NAME,
                             TComponent.translatable("filled_map." + loc.getPath().toLowerCase(Locale.ROOT)));
                     return itemstack;
