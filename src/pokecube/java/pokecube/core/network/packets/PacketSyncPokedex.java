@@ -60,7 +60,7 @@ public class PacketSyncPokedex extends JsonPacket
         list.forEach(JsonPokedexEntry::loadFromJson);
     }
 
-    private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("pokecube:sync_pokedex"));
+    private final static Type<Packet> TYPE = new Type<>(ResourceLocation.parse("pokecube:sync_pokedex"));
 
     @Override
     public Type<? extends CustomPacketPayload> type()

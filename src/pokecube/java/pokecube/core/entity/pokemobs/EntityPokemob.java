@@ -112,8 +112,9 @@ public class EntityPokemob extends PokemobRidable
     @Override
     public boolean canDrownInFluidType(FluidType type)
     {
-        if (type == NeoForgeMod.WATER_TYPE.value()) return !(this.getPokemob().swims() || this.getPokemob().canUseDive()
-                || this.getPokemob().isType(PokeType.getType("water")));
+        if (type == NeoForgeMod.WATER_TYPE.value())
+            return !(this.getPokemob().swims() || this.getPokemob().canUseDive() || this.getPokemob()
+                    .isType(PokeType.getType("water")));
         return super.canDrownInFluidType(type);
     }
 
@@ -142,11 +143,12 @@ public class EntityPokemob extends PokemobRidable
     @Nullable
     protected ResourceKey<LootTable> getDefaultLootTable()
     {
-        if (this.getPersistentData().getBoolean(TagNames.CLONED) && !PokecubeCore.getConfig().clonesDrop) return null;
-        if (this.getPersistentData().getBoolean(TagNames.NODROP)) return null;
-        if (this.level() instanceof ServerLevel level && Config.Rules.dropLoot(level))
-            return this.getPokemob().getPokedexEntry().lootTable;
-        else return null;
+        var def = super.getDefaultLootTable();
+        if (this.getPersistentData().getBoolean(TagNames.CLONED) && !PokecubeCore.getConfig().clonesDrop) return def;
+        if (this.getPersistentData().getBoolean(TagNames.NODROP)) return def;
+        var table = this.getPokemob().getPokedexEntry().lootTable;
+        if (this.level() instanceof ServerLevel level && Config.Rules.dropLoot(level) && table != null) return table;
+        else return def;
     }
 
     @Override
@@ -355,7 +357,8 @@ public class EntityPokemob extends PokemobRidable
     public void readAdditionalSaveData(final CompoundTag compound)
     {
         super.readAdditionalSaveData(compound);
-        if (this.getPokemob().getCustomHolder() != null && this.getPokemob().getCustomHolder()._entry == Database.missingno)
+        if (this.getPokemob().getCustomHolder() != null
+                && this.getPokemob().getCustomHolder()._entry == Database.missingno)
             this.getPokemob().getCustomHolder().setEntry(this.getPokemob().getPokedexEntry());
         if (compound.contains("OwnerUUID")) try
         {
@@ -407,8 +410,8 @@ public class EntityPokemob extends PokemobRidable
     }
 
     /**
-     * Returns true if this entity should move as if it were on a ladder (either
-     * because it's actually on a ladder, or for AI reasons)
+     * Returns true if this entity should move as if it were on a ladder (either because it's actually on a ladder, or
+     * for AI reasons)
      */
     @Override
     public boolean onClimbable()
@@ -417,8 +420,8 @@ public class EntityPokemob extends PokemobRidable
     }
 
     /**
-     * Returns true if the WatchableObject (Byte) is 0x01 otherwise returns
-     * false. The WatchableObject is updated using setBesideClimableBlock.
+     * Returns true if the WatchableObject (Byte) is 0x01 otherwise returns false. The WatchableObject is updated using
+     * setBesideClimableBlock.
      */
     public boolean isBesideClimbableBlock()
     {
@@ -426,8 +429,8 @@ public class EntityPokemob extends PokemobRidable
     }
 
     /**
-     * Updates the WatchableObject (Byte) created in entityInit(), setting it to
-     * 0x01 if par1 is true or 0x00 if it is false.
+     * Updates the WatchableObject (Byte) created in entityInit(), setting it to 0x01 if par1 is true or 0x00 if it is
+     * false.
      */
     public void setBesideClimbableBlock(final boolean climbing)
     {
