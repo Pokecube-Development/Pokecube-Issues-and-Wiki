@@ -1,8 +1,6 @@
 {
   "config": {
     "fossil_processors": "minecraft:fossil_rot",
-    "overlay_processors": "pokecube_legends:fossil_coal",
-    "max_empty_corners_allowed": 4,
     "fossil_structures": [
       "minecraft:fossil/spine_1",
       "minecraft:fossil/spine_2",
@@ -13,6 +11,8 @@
       "minecraft:fossil/skull_3",
       "minecraft:fossil/skull_4"
     ],
+    "max_empty_corners_allowed": 4,
+    "overlay_processors": "pokecube_legends:fossil_coal",
     "overlay_structures": [
       "minecraft:fossil/spine_1_coal",
       "minecraft:fossil/spine_2_coal",

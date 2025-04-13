@@ -1,38 +1,33 @@
 {
   "config": {
-    "tries": 10,
-    "xz_spread": 7,
-    "y_spread": 3,
     "feature": {
       "feature": {
         "config": {
-          "layers": [
-            {
-              "height": {
-                "type": "minecraft:biased_to_bottom",
-                "value": {
-                  "min_inclusive": 1,
-                  "max_inclusive": 5
-                }
-              },
-              "provider": {
-                "state": {
-                  "Properties": {
-                    "waterlogged": "false"
-                  },
-                  "Name": "pokecube_legends:crystallized_cactus"
-                },
-                "type": "minecraft:simple_state_provider"
-              }
-            }
-          ],
-          "direction": "up",
           "allowed_placement": {
             "blocks": [
               "minecraft:air"
             ],
             "type": "minecraft:matching_blocks"
           },
+          "direction": "up",
+          "layers": [
+            {
+              "height": {
+                "max_inclusive": 5,
+                "min_inclusive": 1,
+                "type": "minecraft:biased_to_bottom"
+              },
+              "provider": {
+                "state": {
+                  "Name": "pokecube_legends:crystallized_cactus",
+                  "Properties": {
+                    "waterlogged": "false"
+                  }
+                },
+                "type": "minecraft:simple_state_provider"
+              }
+            }
+          ],
           "prioritize_tip": false
         },
         "type": "minecraft:block_column"
@@ -49,24 +44,24 @@
               },
               {
                 "state": {
+                  "Name": "pokecube_legends:crystallized_cactus",
                   "Properties": {
                     "waterlogged": "false"
-                  },
-                  "Name": "pokecube_legends:crystallized_cactus"
+                  }
                 },
                 "type": "minecraft:would_survive"
               },
               {
-                "offset": [
-                  0,
-                  -1,
-                  0
-                ],
                 "blocks": [
                   "pokecube_legends:crystallized_cactus",
                   "pokecube_legends:crystallized_sand",
                   "pokecube_legends:crystallized_sandstone",
                   "pokecube_legends:unrefined_aquamarine"
+                ],
+                "offset": [
+                  0,
+                  -1,
+                  0
                 ],
                 "type": "minecraft:matching_blocks"
               }
@@ -76,7 +71,10 @@
           "type": "minecraft:block_predicate_filter"
         }
       ]
-    }
+    },
+    "tries": 10,
+    "xz_spread": 7,
+    "y_spread": 3
   },
   "type": "minecraft:random_patch"
 }

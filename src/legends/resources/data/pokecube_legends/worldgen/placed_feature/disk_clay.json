@@ -9,11 +9,11 @@
       "type": "minecraft:heightmap"
     },
     {
-      "type": "minecraft:block_predicate_filter",
       "predicate": {
-        "type": "minecraft:matching_fluids",
-        "fluids": "minecraft:water"
-      }
+        "fluids": "minecraft:water",
+        "type": "minecraft:matching_fluids"
+      },
+      "type": "minecraft:block_predicate_filter"
     },
     {
       "type": "minecraft:biome"

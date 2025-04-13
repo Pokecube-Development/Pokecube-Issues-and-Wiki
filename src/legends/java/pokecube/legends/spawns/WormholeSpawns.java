@@ -1,15 +1,8 @@
 package pokecube.legends.spawns;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-
 import com.google.common.collect.Sets;
-
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
@@ -20,16 +13,11 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.neoforged.bus.api.EventPriority;
-import net.neoforged.neoforge.capabilities.ICapabilityProvider;
-import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import pokecube.core.eventhandlers.SpawnHandler;
+import pokecube.legends.PokecubeLegends;
 import pokecube.legends.Reference;
 import pokecube.legends.entity.WormholeEntity;
 import pokecube.legends.init.EntityInit;
@@ -38,6 +26,13 @@ import thut.api.maths.Vector3;
 import thut.api.world.IWorldTickListener;
 import thut.api.world.WorldTickManager;
 import thut.core.common.ThutCore;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.function.Supplier;
 
 public class WormholeSpawns implements IWorldTickListener
 {
@@ -50,34 +45,31 @@ public class WormholeSpawns implements IWorldTickListener
         void removeWormhole(BlockPos pos);
     }
 
-    public static class Wormholes implements IWormholeWorld, ICapabilityProvider
+    public static class Wormholes implements IWormholeWorld
     {
-        private final LazyOptional<IWormholeWorld> holder = LazyOptional.of(() -> this);
-
         Set<BlockPos> wormholes = Sets.newHashSet();
 
         @Override
-        public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
-        {
-            return WormholeSpawns.WORMHOLES_CAP.orEmpty(cap, this.holder);
-        }
-
-        @Override
-        public CompoundTag serializeNBT()
+        public CompoundTag serializeNBT(HolderLookup.Provider provider)
         {
             final CompoundTag nbt = new CompoundTag();
             final ListTag list = new ListTag();
-            for (final BlockPos pos : this.getWormholes()) list.add(NbtUtils.writeBlockPos(pos));
+            for (final BlockPos pos : this.getWormholes())
+            {
+                CompoundTag tag = new CompoundTag();
+                tag.put("V", NbtUtils.writeBlockPos(pos));
+                list.add(tag);
+            }
             nbt.put("wormholes", list);
             return nbt;
         }
 
         @Override
-        public void deserializeNBT(final CompoundTag nbt)
+        public void deserializeNBT(HolderLookup.Provider provider, final CompoundTag nbt)
         {
             this.getWormholes().clear();
             final ListTag list = nbt.getList("wormholes", 10);
-            for (final Tag tag : list) this.getWormholes().add(NbtUtils.readBlockPos((CompoundTag) tag));
+            for (final Tag tag : list) this.getWormholes().add(NbtUtils.readBlockPos((CompoundTag) tag, "V").get());
         }
 
         @Override
@@ -100,15 +92,12 @@ public class WormholeSpawns implements IWorldTickListener
 
     }
 
-    public static final Capability<IWormholeWorld> WORMHOLES_CAP = CapabilityManager.get(new CapabilityToken<>()
-    {
-    });
-
     public static IWormholeWorld getWormholes(Level level)
     {
-        return level.getCapability(WormholeSpawns.WORMHOLES_CAP).orElse(null);
+        return level.getData(WORMHOLES);
     }
 
+    public static Supplier<AttachmentType<Wormholes>> WORMHOLES;
     static WormholeSpawns INSTANCE = new WormholeSpawns();
 
     public static double randomWormholeChance = 0.00001;
@@ -118,24 +107,17 @@ public class WormholeSpawns implements IWorldTickListener
     public static double teleWormholeChanceNormal = 0.01;
     public static double teleWormholeChanceWorms = 0.75;
 
-    public static final ResourceLocation SPACE_WORMS = ResourceLocation.parse(Reference.ID, "space_worm");
-    public static final ResourceLocation SPACE_ANCHORED = ResourceLocation.parse(Reference.ID, "space_anchored");
+    public static final ResourceLocation SPACE_WORMS = ResourceLocation.fromNamespaceAndPath(Reference.ID,
+            "space_worm");
+    public static final ResourceLocation SPACE_ANCHORED = ResourceLocation.fromNamespaceAndPath(Reference.ID,
+            "space_anchored");
 
     public static void init()
     {
         WorldTickManager.registerStaticData(() -> WormholeSpawns.INSTANCE, p -> true);
-        ThutCore.FORGE_BUS.addGenericListener(Level.class, WormholeSpawns::onWorldCaps);
         ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, WormholeEntity::onTeleport);
-    }
-
-    public static void registerCapabilities(final RegisterCapabilitiesEvent event)
-    {
-        event.register(IWormholeWorld.class);
-    }
-
-    private static void onWorldCaps(final AttachCapabilitiesEvent<Level> event)
-    {
-        event.addCapability(ResourceLocation.parse(Reference.ID, "wormholes"), new Wormholes());
+        WORMHOLES = PokecubeLegends.ATTACHMENTS.register("wormholes",
+                () -> AttachmentType.serializable(Wormholes::new).build());
     }
 
     public static BlockPos getWormholePos(final ServerLevel world, final BlockPos base)

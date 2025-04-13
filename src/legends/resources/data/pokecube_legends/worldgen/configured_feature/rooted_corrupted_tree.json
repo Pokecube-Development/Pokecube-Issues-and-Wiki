@@ -1,16 +1,5 @@
 {
   "config": {
-    "hanging_root_state_provider": {
-      "state": {
-        "Properties": {
-          "waterlogged": "false"
-        },
-        "Name": "minecraft:hanging_roots"
-      },
-      "type": "minecraft:simple_state_provider"
-    },
-    "hanging_root_placement_attempts": 20,
-    "allowed_vertical_water_for_tree": 2,
     "allowed_tree_position": {
       "predicates": [
         {
@@ -47,23 +36,34 @@
       ],
       "type": "minecraft:all_of"
     },
-    "root_column_max_height": 100,
+    "allowed_vertical_water_for_tree": 2,
+    "feature": {
+      "feature": "pokecube_legends:corrupted_tree",
+      "placement": []
+    },
+    "hanging_root_placement_attempts": 20,
     "hanging_root_radius": 3,
+    "hanging_root_state_provider": {
+      "state": {
+        "Name": "minecraft:hanging_roots",
+        "Properties": {
+          "waterlogged": "false"
+        }
+      },
+      "type": "minecraft:simple_state_provider"
+    },
     "hanging_roots_vertical_span": 2,
+    "required_vertical_space_for_tree": 3,
+    "root_column_max_height": 100,
+    "root_placement_attempts": 20,
+    "root_radius": 3,
     "root_replaceable": "#minecraft:azalea_root_replaceable",
     "root_state_provider": {
       "state": {
         "Name": "pokecube_legends:rooted_corrupted_dirt"
       },
       "type": "minecraft:simple_state_provider"
-    },
-    "root_placement_attempts": 20,
-    "feature": {
-      "feature": "pokecube_legends:corrupted_tree",
-      "placement": []
-    },
-    "required_vertical_space_for_tree": 3,
-    "root_radius": 3
+    }
   },
   "type": "minecraft:root_system"
 }

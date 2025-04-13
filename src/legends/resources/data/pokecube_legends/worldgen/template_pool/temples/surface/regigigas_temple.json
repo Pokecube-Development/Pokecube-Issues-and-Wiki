@@ -1,16 +1,18 @@
 {
-  "name": "pokecube_legends:temples/surface_temples/regigigas_temple",
-  "fallback": "minecraft:empty",
   "elements": [
     {
-      "weight": 1,
       "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "int_config": {
+          "y_offset": -6
+        },
         "location": "pokecube_legends:temples/surface/regigigas_temple",
         "processors": "pokecube_legends:regigigas_temple",
-        "element_type": "pokecube:expanded_pool_element",
-        "int_config":{"y_offset": -6},
         "projection": "rigid"
-      }
+      },
+      "weight": 1
     }
-  ]
+  ],
+  "fallback": "minecraft:empty",
+  "name": "pokecube_legends:temples/surface_temples/regigigas_temple"
 }

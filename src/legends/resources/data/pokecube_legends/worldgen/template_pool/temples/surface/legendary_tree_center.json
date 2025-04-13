@@ -1,16 +1,18 @@
 {
-  "name": "pokecube_legends:temples/surface_temples/legendary_tree_center",
-  "fallback": "minecraft:empty",
   "elements": [
     {
-      "weight": 1,
       "element": {
-        "location": "pokecube_legends:temples/surface/legendary_tree_center",
         "element_type": "pokecube:expanded_pool_element",
+        "int_config": {
+          "space_below": 0
+        },
+        "location": "pokecube_legends:temples/surface/legendary_tree_center",
         "processors": "pokecube:generic",
-        "int_config": { "space_below": 0 },
         "projection": "rigid"
-      }
+      },
+      "weight": 1
     }
-  ]
+  ],
+  "fallback": "minecraft:empty",
+  "name": "pokecube_legends:temples/surface_temples/legendary_tree_center"
 }

@@ -2,12 +2,12 @@
   "config": {
     "state_provider": {
       "state": {
+        "Name": "pokecube_legends:ash",
         "Properties": {
           "layers": "4",
-		  "waterlogged": "false",
-		  "wet": "false"
-        },
-        "Name": "pokecube_legends:ash"
+          "waterlogged": "false",
+          "wet": "false"
+        }
       },
       "type": "minecraft:simple_state_provider"
     }

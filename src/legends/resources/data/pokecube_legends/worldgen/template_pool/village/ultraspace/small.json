@@ -1,13 +1,9 @@
 {
-  "name": "pokecube_legends:village/ultraspace/start_pool",
-  "fallback": "minecraft:empty",
   "elements": [
     {
-      "weight": 1,
       "element": {
-        "location": "pokecube_legends:village/ultraspace/town_centers/center_1",
-        "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:village/ultraspace/town_centers/center_1",
         "processors": {
           "processors": [
             {
@@ -20,8 +16,12 @@
               "processor_type": "pokecube:marker_to_air"
             }
           ]
-        }
-      }
+        },
+        "projection": "rigid"
+      },
+      "weight": 1
     }
-  ]
+  ],
+  "fallback": "minecraft:empty",
+  "name": "pokecube_legends:village/ultraspace/start_pool"
 }

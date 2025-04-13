@@ -10,11 +10,9 @@
       "processor_type": "pokecube:marker_to_air"
     },
     {
+      "processor_type": "minecraft:rule",
       "rules": [
         {
-          "output_state": {
-            "Name": "minecraft:cracked_nether_bricks"
-          },
           "input_predicate": {
             "block": "minecraft:nether_bricks",
             "predicate_type": "minecraft:random_block_match",
@@ -22,12 +20,12 @@
           },
           "location_predicate": {
             "predicate_type": "minecraft:always_true"
+          },
+          "output_state": {
+            "Name": "minecraft:cracked_nether_bricks"
           }
         },
         {
-          "output_state": {
-            "Name": "minecraft:red_nether_bricks"
-          },
           "input_predicate": {
             "block": "minecraft:nether_bricks",
             "predicate_type": "minecraft:random_block_match",
@@ -35,10 +33,12 @@
           },
           "location_predicate": {
             "predicate_type": "minecraft:always_true"
+          },
+          "output_state": {
+            "Name": "minecraft:red_nether_bricks"
           }
         }
-      ],
-      "processor_type": "minecraft:rule"
+      ]
     }
   ]
 }

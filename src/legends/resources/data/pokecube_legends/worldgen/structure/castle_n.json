@@ -1,33 +1,14 @@
 {
-  "type": "pokecube:generic_surface_jigsaw",
-  "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "start_pool": "pokecube_legends:team_bases/castle_n",
-  "terrain_adaptation": "beard_box",
-  "step": "surface_structures",
   "avoid_range": 6,
-  "size": 5,
-  "y_settings": {
-    "max_dy": 10,
-    "min_y": 64,
-    "y_check_radius": 2
-  },
-  "structures_to_avoid": [
-    "minecraft:pillager_outposts",
-    "minecraft:villages",
-    "pokecube:towns",
-    "pokecube:villages",
-    "pokecube_legends:towns",
-    "pokecube_legends:villages"
-  ],
   "avoidances": {
     "avoidances": [
       {
-        "name": "team_bases",
-        "distance": 12
+        "distance": 12,
+        "name": "team_bases"
       },
       {
-        "name": "castle_n",
-        "distance": 80
+        "distance": 80,
+        "name": "castle_n"
       }
     ],
     "flags": [
@@ -36,13 +17,13 @@
     ]
   },
   "biomes": {
-    "type": "forge:and",
+    "type": "neoforge:and",
     "values": [
       "#minecraft:is_taiga",
       {
-        "type": "forge:not",
+        "type": "neoforge:not",
         "value": {
-          "type": "forge:or",
+          "type": "neoforge:or",
           "values": [
             "#minecraft:is_beach",
             "#minecraft:is_ocean",
@@ -52,5 +33,24 @@
       }
     ]
   },
-  "spawn_overrides": {}
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "size": 5,
+  "spawn_overrides": {},
+  "start_pool": "pokecube_legends:team_bases/castle_n",
+  "step": "surface_structures",
+  "structures_to_avoid": [
+    "minecraft:pillager_outposts",
+    "minecraft:villages",
+    "pokecube:towns",
+    "pokecube:villages",
+    "pokecube_legends:towns",
+    "pokecube_legends:villages"
+  ],
+  "terrain_adaptation": "beard_box",
+  "type": "pokecube:generic_surface_jigsaw",
+  "y_settings": {
+    "max_dy": 10,
+    "min_y": 64,
+    "y_check_radius": 2
+  }
 }

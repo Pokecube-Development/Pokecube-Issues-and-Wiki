@@ -1,4 +1,10 @@
 {
+  "placement": {
+    "salt": 45665478,
+    "separation": 5,
+    "spacing": 10,
+    "type": "minecraft:random_spread"
+  },
   "structures": [
     {
       "structure": "pokecube_legends:distorted_island",
@@ -8,11 +14,5 @@
       "structure": "pokecube_legends:distorted_tree_island",
       "weight": 1
     }
-  ],
-  "placement": {
-    "type": "minecraft:random_spread",
-    "salt": 45665478,
-    "separation": 5,
-    "spacing": 10
-  }
+  ]
 }

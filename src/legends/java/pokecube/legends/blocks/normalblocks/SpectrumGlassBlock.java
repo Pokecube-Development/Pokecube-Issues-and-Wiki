@@ -17,6 +17,7 @@ public class SpectrumGlassBlock extends StainedGlassBlock implements BeaconBeamB
     @Override
     public DyeColor getColor()
     {
+        // TODO fix this
         return DyeColor.ORANGE;
     }
 }

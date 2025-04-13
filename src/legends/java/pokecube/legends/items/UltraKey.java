@@ -18,6 +18,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -39,16 +40,16 @@ public class UltraKey extends ItemBase
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(final ItemStack stack, final Level worldIn, final List<Component> tooltip,
-            final TooltipFlag flagIn)
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents,
+            TooltipFlag tooltipFlag)
     {
         if (Screen.hasShiftDown())
         {
-            tooltip.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip"));
-            tooltip.add(TComponent.translatable(I18n.get("legends." + this.tooltip_id + ".tooltip.line1",
+            tooltipComponents.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip"));
+            tooltipComponents.add(TComponent.translatable(I18n.get("legends." + this.tooltip_id + ".tooltip.line1",
                     PokecubeLegends.config.ultraKeyRequiredFuelAmount, ChatFormatting.LIGHT_PURPLE, ChatFormatting.BOLD)));
         }
-        else tooltip.add(TComponent.translatable("pokecube.tooltip.advanced"));
+        else tooltipComponents.add(TComponent.translatable("pokecube.tooltip.advanced"));
     }
 
     @Override

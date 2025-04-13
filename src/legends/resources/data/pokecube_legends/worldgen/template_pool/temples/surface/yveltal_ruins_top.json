@@ -1,15 +1,15 @@
 {
-  "name": "pokecube_legends:temples/surface/yveltal_ruins_top",
-  "fallback": "minecraft:empty",
   "elements": [
     {
       "element": {
-        "location": "pokecube_legends:temples/surface/yveltal_ruins_top",
         "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/yveltal_ruins_top",
         "processors": "pokecube:decay_30_percent",
         "projection": "rigid"
       },
       "weight": 1
     }
-  ]
+  ],
+  "fallback": "minecraft:empty",
+  "name": "pokecube_legends:temples/surface/yveltal_ruins_top"
 }

@@ -1,17 +1,21 @@
 {
-  "type": "minecraft:disk",
   "config": {
+    "half_height": 2,
+    "radius": {
+      "max_inclusive": 5,
+      "min_inclusive": 2,
+      "type": "minecraft:uniform"
+    },
     "state_provider": {
       "fallback": {
-        "type": "minecraft:simple_state_provider",
         "state": {
           "Name": "minecraft:gravel"
-        }
+        },
+        "type": "minecraft:simple_state_provider"
       },
       "rules": []
     },
     "target": {
-      "type": "minecraft:matching_blocks",
       "blocks": [
         "minecraft:basalt",
         "pokecube_legends:aged_coarse_dirt",
@@ -33,15 +37,9 @@
         "pokecube_legends:rooted_mushroom_dirt",
         "pokecube_legends:turquoise_gravel",
         "pokecube_legends:ultra_darkstone"
-      ]
-    },
-    "radius": {
-      "type": "minecraft:uniform",
-      "value": {
-        "min_inclusive": 2,
-        "max_inclusive": 5
-      }
-    },
-    "half_height": 2
-  }
+      ],
+      "type": "minecraft:matching_blocks"
+    }
+  },
+  "type": "minecraft:disk"
 }

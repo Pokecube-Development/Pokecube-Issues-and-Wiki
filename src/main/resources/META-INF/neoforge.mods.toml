@@ -18,8 +18,8 @@ license="All rights reserved"
 
 # The [[accessTransformers]] block allows you to declare where your AT file is.
 # If this block is omitted, a fallback attempt will be made to load an AT from META-INF/accesstransformer.cfg
-#[[accessTransformers]]
-#file="META-INF/accesstransformer.cfg"
+[[accessTransformers]]
+    file="META-INF/accesstransformer.cfg"
 
 # The [[mixins]] block allows you to declare your mixin config to FML so that it gets loaded.
 [[mixins]]
@@ -54,14 +54,14 @@ license="All rights reserved"
     Additional Features for Pokécube..
     '''
 
-#[[mods]]
-#    modId="pokecube_legends"
-#    version="${mod_version}"
-#    displayName="Pokécube Legends"
-#    authors="NelkGames, Thutmose"
-#    description='''
-#    Legendary Spawning mechanics for Pokécube..
-#    '''
+[[mods]]
+    modId="pokecube_legends"
+    version="${mod_version}"
+    displayName="Pokécube Legends"
+    authors="NelkGames, Thutmose"
+    description='''
+    Legendary Spawning mechanics for Pokécube..
+    '''
 
 [[mods]]
     modId="thutcore"

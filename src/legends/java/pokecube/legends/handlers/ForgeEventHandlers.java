@@ -5,14 +5,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.level.BlockEvent.BreakEvent;
@@ -22,7 +17,6 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.events.MeteorEvent;
 import pokecube.api.stats.ISpecialCaptureCondition;
 import pokecube.api.stats.SpecialCaseRegister;
-import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.Reference;
 import pokecube.legends.conditions.AbstractCondition;
@@ -103,13 +97,6 @@ public class ForgeEventHandlers
         return false;
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void capabilityEntities(final AttachCapabilitiesEvent<Entity> event)
-    {
-        if (event.getCapabilities().containsKey(EventsHandler.POKEMOBCAP))
-            event.addCapability(ForgeEventHandlers.ZMOVECAP, new ZPowerHandler());
-    }
-
     @SubscribeEvent
     public void detonate(final ExplosionEvent.Detonate evt)
     {
@@ -153,24 +140,25 @@ public class ForgeEventHandlers
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void bucket(final FillBucketEvent evt)
-    {
-        if (!(evt.getEntity() instanceof ServerPlayer player) || !PokecubeLegends.config.protectTemples) return;
-        final ServerLevel world = (ServerLevel) player.level();
-        BlockPos pos = player.blockPosition();
-        if (evt.getTarget() instanceof BlockHitResult && evt.getTarget().getType() != Type.MISS)
-        {
-            final BlockHitResult trace = (BlockHitResult) evt.getTarget();
-            pos = trace.getBlockPos().relative(trace.getDirection());
-        }
-        if (this.protectTemple(player, world, null, pos))
-        {
-            evt.setCanceled(true);
-            player.inventoryMenu.sendAllDataToRemote();
-            player.displayClientMessage(TComponent.translatable("msg.cannot_defile_temple"), true);
-        }
-    }
+    // TODO See if we can protect fluids inside temples again...
+//    @SubscribeEvent(priority = EventPriority.HIGHEST)
+//    public void bucket(final FillBucketEvent evt)
+//    {
+//        if (!(evt.getEntity() instanceof ServerPlayer player) || !PokecubeLegends.config.protectTemples) return;
+//        final ServerLevel world = (ServerLevel) player.level();
+//        BlockPos pos = player.blockPosition();
+//        if (evt.getTarget() instanceof BlockHitResult && evt.getTarget().getType() != Type.MISS)
+//        {
+//            final BlockHitResult trace = (BlockHitResult) evt.getTarget();
+//            pos = trace.getBlockPos().relative(trace.getDirection());
+//        }
+//        if (this.protectTemple(player, world, null, pos))
+//        {
+//            evt.setCanceled(true);
+//            player.inventoryMenu.sendAllDataToRemote();
+//            player.displayClientMessage(TComponent.translatable("msg.cannot_defile_temple"), true);
+//        }
+//    }
 
     @SubscribeEvent
     public void MeteorDestructionEvent(final MeteorEvent event)

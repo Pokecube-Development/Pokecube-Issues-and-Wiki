@@ -34,10 +34,10 @@
     {
       "predicate": {
         "state": {
+          "Name": "pokecube_legends:distortic_sapling",
           "Properties": {
             "stage": "0"
-          },
-          "Name": "pokecube_legends:distortic_sapling"
+          }
         },
         "type": "minecraft:would_survive"
       },

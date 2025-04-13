@@ -1,133 +1,137 @@
 {
-  "name": "pokecube_legends:village/ultraspace/start_pool",
-  "fallback": "minecraft:empty",
   "elements": [
     {
-      "weight": 10,
       "element": {
+        "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube_legends:village/ultraspace/houses/house_1",
-        "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic",
         "projection": "rigid"
-      }
+      },
+      "weight": 10
     },
     {
-      "weight": 10,
       "element": {
+        "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube_legends:village/ultraspace/houses/house_2",
-        "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic",
         "projection": "rigid"
-      }
+      },
+      "weight": 10
     },
     {
-      "weight": 10,
       "element": {
+        "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube_legends:village/ultraspace/houses/house_3",
-        "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic",
         "projection": "rigid"
-      }
+      },
+      "weight": 10
     },
     {
-      "weight": 10,
       "element": {
+        "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube_legends:village/ultraspace/houses/house_4",
-        "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic",
         "projection": "rigid"
-      }
+      },
+      "weight": 10
     },
     {
-      "weight": 10,
       "element": {
+        "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube_legends:village/ultraspace/houses/house_5",
-        "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic",
         "projection": "rigid"
-      }
+      },
+      "weight": 10
     },
     {
-      "weight": 10,
       "element": {
+        "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube_legends:village/ultraspace/houses/house_6",
-        "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic",
         "projection": "rigid"
-      }
+      },
+      "weight": 10
     },
     {
-      "weight": 10,
       "element": {
+        "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube_legends:village/ultraspace/houses/house_7",
-        "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic",
         "projection": "rigid"
-      }
+      },
+      "weight": 10
     },
     {
-      "weight": 10,
       "element": {
+        "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube_legends:village/ultraspace/houses/house_8",
-        "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic",
         "projection": "rigid"
-      }
+      },
+      "weight": 10
     },
     {
-      "weight": 5,
       "element": {
+        "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube_legends:village/ultraspace/houses/capsule_a",
-        "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic",
         "projection": "rigid"
-      }
+      },
+      "weight": 5
     },
     {
-      "weight": 5,
       "element": {
+        "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube_legends:village/ultraspace/houses/capsule_b",
-        "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic",
         "projection": "rigid"
-      }
+      },
+      "weight": 5
     },
     {
-      "weight": 5,
       "element": {
+        "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube_legends:village/ultraspace/houses/capsule_c",
-        "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic",
         "projection": "rigid"
-      }
+      },
+      "weight": 5
     },
     {
-      "weight": 1,
       "element": {
-        "location": "pokecube_legends:village/ultraspace/pokecenter/center_01",
+        "bool_config": {
+          "only_once": true
+        },
         "element_type": "pokecube:expanded_pool_element",
-        "bool_config": {"only_once": true},
-        "processors": "pokecube:generic",
         "flags": "pokecenter",
-        "projection": "rigid"
-      }
-    },
-    {
-      "weight": 1,
-      "element": {
-        "location": "pokecube_legends:village/ultraspace/gym/gym_01",
-        "element_type": "pokecube:expanded_pool_element",
-        "bool_config": {"only_once": true},
+        "location": "pokecube_legends:village/ultraspace/pokecenter/center_01",
         "processors": "pokecube:generic",
-        "projection": "rigid",
-        "flags": "gym"
-      }
+        "projection": "rigid"
+      },
+      "weight": 1
     },
     {
-      "weight": 10,
+      "element": {
+        "bool_config": {
+          "only_once": true
+        },
+        "element_type": "pokecube:expanded_pool_element",
+        "flags": "gym",
+        "location": "pokecube_legends:village/ultraspace/gym/gym_01",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
       "element": {
         "element_type": "minecraft:empty_pool_element"
-      }
+      },
+      "weight": 10
     }
-  ]
+  ],
+  "fallback": "minecraft:empty",
+  "name": "pokecube_legends:village/ultraspace/start_pool"
 }

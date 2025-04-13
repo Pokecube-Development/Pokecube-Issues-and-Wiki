@@ -9,7 +9,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import thut.lib.TComponent;
@@ -22,15 +21,9 @@ public class LegendsSword extends SwordItem
     Item isRepairItem;
     int tooltipLineAmt = 0;
 
-    public LegendsSword(final Tier material, final int bonusDamage, final float attackSpeed, Item repairItem, final Properties properties)
+    public LegendsSword(final Tier material, final Properties properties)
     {
-        super(material, bonusDamage, attackSpeed, properties);
-        this.isRepairItem = repairItem;
-    }
-
-    public LegendsSword(final Tier material, final int bonusDamage, final float attackSpeed, final Properties properties)
-    {
-        super(material, bonusDamage, attackSpeed, properties);
+        super(material, properties);
     }
 
     public LegendsSword setTooltipName(final String tooltipname)
@@ -58,20 +51,20 @@ public class LegendsSword extends SwordItem
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(final ItemStack stack, final Level worldIn, final List<Component> tooltip,
-            final TooltipFlag flagIn)
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents,
+            TooltipFlag tooltipFlag)
     {
         if (!this.hasTooltip) return;
         if (Screen.hasShiftDown())
         {
-            tooltip.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip"));
+            tooltipComponents.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip"));
             for (int lineAmt = 1; lineAmt <= tooltipLineAmt;)
             {
-                tooltip.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip.line" + lineAmt));
+                tooltipComponents.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip.line" + lineAmt));
                 lineAmt++;
             }
         }
-        else tooltip.add(TComponent.translatable("pokecube.tooltip.advanced"));
+        else tooltipComponents.add(TComponent.translatable("pokecube.tooltip.advanced"));
     }
 
     @Override

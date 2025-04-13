@@ -4,41 +4,41 @@
       "entries": [
         {
           "data": {
+            "Name": "pokecube_legends:small_aquamarine_bud",
             "Properties": {
-              "waterlogged": "false",
-              "facing": "up"
-            },
-            "Name": "pokecube_legends:small_aquamarine_bud"
+              "facing": "up",
+              "waterlogged": "false"
+            }
           },
           "weight": 5
         },
         {
           "data": {
+            "Name": "pokecube_legends:medium_aquamarine_bud",
             "Properties": {
-              "waterlogged": "false",
-              "facing": "up"
-            },
-            "Name": "pokecube_legends:medium_aquamarine_bud"
+              "facing": "up",
+              "waterlogged": "false"
+            }
           },
           "weight": 10
         },
         {
           "data": {
+            "Name": "pokecube_legends:large_aquamarine_bud",
             "Properties": {
-              "waterlogged": "false",
-              "facing": "up"
-            },
-            "Name": "pokecube_legends:large_aquamarine_bud"
+              "facing": "up",
+              "waterlogged": "false"
+            }
           },
           "weight": 50
         },
         {
           "data": {
+            "Name": "pokecube_legends:aquamarine_cluster",
             "Properties": {
-              "waterlogged": "false",
-              "facing": "up"
-            },
-            "Name": "pokecube_legends:aquamarine_cluster"
+              "facing": "up",
+              "waterlogged": "false"
+            }
           },
           "weight": 25
         }

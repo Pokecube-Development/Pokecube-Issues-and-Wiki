@@ -1,29 +1,14 @@
 {
-  "type": "pokecube:generic_surface_jigsaw",
-  "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "start_pool": "pokecube_legends:temples/surface/legendary_tree",
-  "terrain_adaptation": "beard_box",
-  "step": "surface_structures",
   "avoid_range": 6,
-  "size": 4,
-  "structures_to_avoid": [
-    "minecraft:pillager_outposts",
-    "minecraft:villages",
-    "pokecube:ruins",
-    "pokecube:towns",
-    "pokecube:villages",
-    "pokecube_legends:towns",
-    "pokecube_legends:villages"
-  ],
   "avoidances": {
     "avoidances": [
       {
-        "name": "temple",
-        "distance": 8
+        "distance": 8,
+        "name": "temple"
       },
       {
-        "name": "legendary_tree",
-        "distance": 256
+        "distance": 256,
+        "name": "legendary_tree"
       }
     ],
     "flags": [
@@ -31,16 +16,11 @@
       "temple"
     ]
   },
-  "y_settings": {
-    "max_dy": 10,
-    "min_y": 64,
-    "y_check_radius": 2
-  },
   "biomes": {
-    "type": "forge:and",
+    "type": "neoforge:and",
     "values": [
       {
-        "type": "forge:or",
+        "type": "neoforge:or",
         "values": [
           "#forge:is_plains",
           "#minecraft:is_forest",
@@ -49,9 +29,9 @@
         ]
       },
       {
-        "type": "forge:not",
+        "type": "neoforge:not",
         "value": {
-          "type": "forge:or",
+          "type": "neoforge:or",
           "values": [
             "#minecraft:is_beach",
             "#minecraft:is_ocean",
@@ -61,5 +41,25 @@
       }
     ]
   },
-  "spawn_overrides": {}
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "size": 4,
+  "spawn_overrides": {},
+  "start_pool": "pokecube_legends:temples/surface/legendary_tree",
+  "step": "surface_structures",
+  "structures_to_avoid": [
+    "minecraft:pillager_outposts",
+    "minecraft:villages",
+    "pokecube:ruins",
+    "pokecube:towns",
+    "pokecube:villages",
+    "pokecube_legends:towns",
+    "pokecube_legends:villages"
+  ],
+  "terrain_adaptation": "beard_box",
+  "type": "pokecube:generic_surface_jigsaw",
+  "y_settings": {
+    "max_dy": 10,
+    "min_y": 64,
+    "y_check_radius": 2
+  }
 }

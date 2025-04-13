@@ -1,4 +1,10 @@
 {
+  "placement": {
+    "salt": 1254832552,
+    "separation": 12,
+    "spacing": 24,
+    "type": "minecraft:random_spread"
+  },
   "structures": [
     {
       "structure": "pokecube_legends:unown_temple_overworld",
@@ -16,11 +22,5 @@
       "structure": "pokecube_legends:groudon_temple",
       "weight": 1
     }
-  ],
-  "placement": {
-    "salt": 1254832552,
-    "spacing": 24,
-    "separation": 12,
-    "type": "minecraft:random_spread"
-  }
+  ]
 }

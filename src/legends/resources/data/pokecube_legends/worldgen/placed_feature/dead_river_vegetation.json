@@ -2,9 +2,9 @@
   "feature": "pokecube_legends:dead_ocean_vegetation",
   "placement": [
     {
-      "noise_to_count_ratio": 10,
       "noise_factor": 200.0,
       "noise_offset": 0.0,
+      "noise_to_count_ratio": 10,
       "type": "minecraft:noise_based_count"
     },
     {

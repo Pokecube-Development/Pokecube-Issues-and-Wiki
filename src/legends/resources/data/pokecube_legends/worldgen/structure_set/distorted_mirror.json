@@ -1,14 +1,14 @@
 {
+  "placement": {
+    "salt": 789987562,
+    "separation": 5,
+    "spacing": 15,
+    "type": "minecraft:random_spread"
+  },
   "structures": [
     {
       "structure": "pokecube_legends:distorted_mirror",
       "weight": 1
     }
-  ],
-  "placement": {
-    "salt": 789987562,
-    "spacing": 15,
-    "separation": 5,
-    "type": "minecraft:random_spread"
-  }
+  ]
 }

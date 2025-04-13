@@ -1,16 +1,16 @@
 {
-  "name": "pokecube_legends:village/ultraspace/gym/path",
-  "fallback": "minecraft:empty",
   "elements": [
     {
-      "weight": 1,
       "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "flags": "gym_path",
         "location": "pokecube_legends:village/ultraspace/gym/path",
         "processors": "pokecube_legends:street_ultraspace",
-        "element_type": "pokecube:expanded_pool_element",
-        "projection": "terrain_matching",
-        "flags": "gym_path"
-      }
+        "projection": "terrain_matching"
+      },
+      "weight": 1
     }
-  ]
+  ],
+  "fallback": "minecraft:empty",
+  "name": "pokecube_legends:village/ultraspace/gym/path"
 }

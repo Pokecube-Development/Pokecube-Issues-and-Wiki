@@ -1,13 +1,11 @@
 {
   "config": {
-    "reach": 1,
     "height": {
-      "type": "minecraft:uniform",
-      "value": {
-        "min_inclusive": 1,
-        "max_inclusive": 4
-      }
-    }
+      "max_inclusive": 4,
+      "min_inclusive": 1,
+      "type": "minecraft:uniform"
+    },
+    "reach": 1
   },
   "type": "pokecube_legends:basalt_columns_feature"
 }

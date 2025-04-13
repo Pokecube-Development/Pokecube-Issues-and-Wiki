@@ -18,6 +18,7 @@ public class OneWaySpectrumGlass extends OneWayStainedGlass
     @Override
     public DyeColor getColor()
     {
+        // TODO fix this
         return DyeColor.ORANGE;
     }
 }

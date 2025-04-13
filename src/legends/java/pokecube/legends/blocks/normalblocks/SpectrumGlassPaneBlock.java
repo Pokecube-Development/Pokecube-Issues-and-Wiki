@@ -17,6 +17,7 @@ public class SpectrumGlassPaneBlock extends StainedGlassPaneBlock implements Bea
     @Override
     public DyeColor getColor()
     {
+        // TODO fix this
         return DyeColor.ORANGE;
     }
 }

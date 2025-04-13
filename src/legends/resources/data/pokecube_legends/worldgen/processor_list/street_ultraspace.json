@@ -8,62 +8,62 @@
             "block": "minecraft:magenta_concrete",
             "predicate_type": "minecraft:block_match"
           },
+          "location_predicate": {
+            "block": "minecraft:water",
+            "predicate_type": "minecraft:block_match"
+          },
           "output_state": {
             "Name": "minecraft:blue_concrete"
+          }
+        },
+        {
+          "input_predicate": {
+            "block": "minecraft:smooth_quartz",
+            "predicate_type": "minecraft:block_match"
           },
           "location_predicate": {
             "block": "minecraft:water",
             "predicate_type": "minecraft:block_match"
-          }
-        },
-        {
-          "input_predicate": {
-            "predicate_type": "minecraft:block_match",
-            "block": "minecraft:smooth_quartz"
           },
           "output_state": {
             "Name": "pokecube_adventures:laboratory_glass"
-          },
-          "location_predicate": {
-            "predicate_type": "minecraft:block_match",
-            "block": "minecraft:water"
           }
         },
         {
           "input_predicate": {
-            "predicate_type": "minecraft:block_match",
-            "block": "minecraft:magenta_concrete"
+            "block": "minecraft:magenta_concrete",
+            "predicate_type": "minecraft:block_match"
+          },
+          "location_predicate": {
+            "block": "minecraft:ice",
+            "predicate_type": "minecraft:block_match"
           },
           "output_state": {
             "Name": "minecraft:blue_concrete"
-          },
-          "location_predicate": {
-            "predicate_type": "minecraft:block_match",
-            "block": "minecraft:ice"
           }
         },
         {
           "input_predicate": {
-            "predicate_type": "minecraft:block_match",
-            "block": "minecraft:smooth_quartz"
+            "block": "minecraft:smooth_quartz",
+            "predicate_type": "minecraft:block_match"
+          },
+          "location_predicate": {
+            "block": "minecraft:ice",
+            "predicate_type": "minecraft:block_match"
           },
           "output_state": {
             "Name": "pokecube_adventures:laboratory_glass"
-          },
-          "location_predicate": {
-            "predicate_type": "minecraft:block_match",
-            "block": "minecraft:ice"
           }
         }
       ]
     },
     {
-      "processor_type": "minecraft:block_ignore",
       "blocks": [
         {
           "Name": "minecraft:air"
         }
-      ]
+      ],
+      "processor_type": "minecraft:block_ignore"
     },
     {
       "processor_type": "pokecube:ladders_to_ground"

@@ -1,17 +1,14 @@
 {
   "config": {
-    "tries": 96,
-    "xz_spread": 7,
-    "y_spread": 3,
     "feature": {
       "feature": {
         "config": {
           "to_place": {
             "state": {
+              "Name": "minecraft:tall_grass",
               "Properties": {
                 "half": "lower"
-              },
-              "Name": "minecraft:tall_grass"
+              }
             },
             "type": "minecraft:simple_state_provider"
           }
@@ -29,15 +26,15 @@
                 "type": "minecraft:matching_blocks"
               },
               {
-                "offset": [
-                  0,
-                  -1,
-                  0
-                ],
                 "blocks": [
                   "pokecube_legends:azure_grass_block",
                   "pokecube_legends:fungal_nylium",
                   "pokecube_legends:mushroom_grass_block"
+                ],
+                "offset": [
+                  0,
+                  -1,
+                  0
                 ],
                 "type": "minecraft:matching_blocks"
               }
@@ -47,7 +44,10 @@
           "type": "minecraft:block_predicate_filter"
         }
       ]
-    }
+    },
+    "tries": 96,
+    "xz_spread": 7,
+    "y_spread": 3
   },
   "type": "minecraft:random_patch"
 }

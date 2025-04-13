@@ -46,12 +46,7 @@ import pokecube.legends.blocks.plants.TallGoldenGrassBlock;
 import pokecube.legends.blocks.plants.TallTaintedSeagrassBlock;
 import pokecube.legends.blocks.plants.TemporalBambooShootBlock;
 import pokecube.legends.blocks.plants.TemporalBambooStalkBlock;
-import pokecube.legends.worldgen.trees.AgedTreeGrower;
-import pokecube.legends.worldgen.trees.CorruptedTreeGrower;
-import pokecube.legends.worldgen.trees.DistorticTreeGrower;
-import pokecube.legends.worldgen.trees.InvertedTreeGrower;
-import pokecube.legends.worldgen.trees.MirageTreeGrower;
-import pokecube.legends.worldgen.trees.TemporalTreeGrower;
+import pokecube.legends.worldgen.trees.Trees;
 
 public class PlantsInit
 {
@@ -112,14 +107,14 @@ public class PlantsInit
     static
     {
         AGED_SAPLING = PokecubeLegends.BLOCKS.register("aged_sapling",
-                () -> new SaplingBlock(AgedTreeGrower::new, BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
+                () -> new SaplingBlock(Trees.AGED_TREE_GROWER, BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
                         .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY).instabreak().noCollission()));
         CORRUPTED_SAPLING = PokecubeLegends.BLOCKS.register("corrupted_sapling",
-                () -> new SaplingBlock(CorruptedTreeGrower::new, BlockBehaviour.Properties.of()
+                () -> new SaplingBlock(Trees.CORRUPTED_TREE_GROWER, BlockBehaviour.Properties.of()
                         .mapColor(MapColor.COLOR_BLACK).sound(SoundType.GRASS)
                         .pushReaction(PushReaction.DESTROY).instabreak().noCollission()));
         DISTORTIC_SAPLING = PokecubeLegends.BLOCKS.register("distortic_sapling",
-                () -> new DistorticSapling(new DistorticTreeGrower(), BlockBehaviour.Properties.of()
+                () -> new DistorticSapling(Trees.DISTORTIC_TREE_GROWER, BlockBehaviour.Properties.of()
                         .mapColor(MapColor.COLOR_PURPLE).sound(SoundType.GRASS)
                         .pushReaction(PushReaction.DESTROY).instabreak().noCollission()));
         DYNA_SHRUB = PokecubeLegends.BLOCKS.register("dyna_shrub",
@@ -127,15 +122,15 @@ public class PlantsInit
                         .sound(SoundType.AZALEA).pushReaction(PushReaction.DESTROY)
                         .instabreak().noOcclusion().forceSolidOff()));
         INVERTED_SAPLING = PokecubeLegends.BLOCKS.register("inverted_sapling",
-                () -> new SaplingBlock(InvertedTreeGrower::new, BlockBehaviour.Properties.of()
+                () -> new SaplingBlock(Trees.INVERTED_TREE_GROWER, BlockBehaviour.Properties.of()
                         .mapColor(MapColor.COLOR_BLUE).sound(SoundType.GRASS)
                         .pushReaction(PushReaction.DESTROY).instabreak().noCollission()));
         MIRAGE_SAPLING = PokecubeLegends.BLOCKS.register("mirage_sapling",
-                () -> new MirageSapling(new MirageTreeGrower(), BlockBehaviour.Properties.of()
+                () -> new MirageSapling(Trees.MIRAGE_TREE_GROWER, BlockBehaviour.Properties.of()
                         .mapColor(MapColor.COLOR_LIGHT_BLUE).sound(SoundType.GRASS)
                         .pushReaction(PushReaction.DESTROY).instabreak().noCollission()));
         TEMPORAL_SAPLING = PokecubeLegends.BLOCKS.register("temporal_sapling",
-                () -> new SaplingBlock(TemporalTreeGrower::new, BlockBehaviour.Properties.of().mapColor(MapColor.PLANT)
+                () -> new SaplingBlock(Trees.TEMPORAL_TREE_GROWER, BlockBehaviour.Properties.of().mapColor(MapColor.PLANT)
                         .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY).instabreak().noCollission()));
 
         TEMPORAL_BAMBOO = PokecubeLegends.NO_ITEM_BLOCKS.register("temporal_bamboo",

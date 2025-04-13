@@ -118,8 +118,6 @@ public class HangingTendrilsBlock extends GrowingPlantHeadBlock implements Bonem
 
     public static ToIntFunction<BlockState> emission(int lightLevel)
     {
-        return (state) -> {
-            return state.getValue(EYES) ? lightLevel : 0;
-        };
+        return (state) -> state.hasProperty(EYES) && state.getValue(EYES) ? lightLevel : 0;
     }
 }

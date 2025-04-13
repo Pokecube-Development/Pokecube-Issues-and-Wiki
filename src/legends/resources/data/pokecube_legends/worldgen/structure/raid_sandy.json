@@ -1,27 +1,10 @@
 {
-  "type": "pokecube:generic_surface_jigsaw",
-  "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "start_pool": "pokecube_legends:temples/raids/raid_sandy",
-  "terrain_adaptation": "beard_thin",
-  "step": "surface_structures",
   "avoid_range": 6,
-  "size": 2,
-  "structures_to_avoid": [
-    "minecraft:pillager_outposts",
-    "minecraft:villages",
-    "pokecube:towns",
-    "pokecube:villages",
-    "pokecube_legends:towns",
-    "pokecube_legends:villages"
-  ],
-  "y_settings": {
-    "min_y": 65
-  },
   "biomes": {
-    "type": "forge:and",
+    "type": "neoforge:and",
     "values": [
       {
-        "type": "forge:or",
+        "type": "neoforge:or",
         "values": [
           "#forge:is_sandy",
           "#minecraft:is_badlands",
@@ -32,9 +15,9 @@
         ]
       },
       {
-        "type": "forge:not",
+        "type": "neoforge:not",
         "value": {
-          "type": "forge:or",
+          "type": "neoforge:or",
           "values": [
             "#minecraft:is_end",
             "#minecraft:is_ocean",
@@ -44,5 +27,22 @@
       }
     ]
   },
-  "spawn_overrides": {}
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "size": 2,
+  "spawn_overrides": {},
+  "start_pool": "pokecube_legends:temples/raids/raid_sandy",
+  "step": "surface_structures",
+  "structures_to_avoid": [
+    "minecraft:pillager_outposts",
+    "minecraft:villages",
+    "pokecube:towns",
+    "pokecube:villages",
+    "pokecube_legends:towns",
+    "pokecube_legends:villages"
+  ],
+  "terrain_adaptation": "beard_thin",
+  "type": "pokecube:generic_surface_jigsaw",
+  "y_settings": {
+    "min_y": 65
+  }
 }

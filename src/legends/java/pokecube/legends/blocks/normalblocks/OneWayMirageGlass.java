@@ -18,6 +18,7 @@ public class OneWayMirageGlass extends OneWayStainedGlass
     @Override
     public DyeColor getColor()
     {
+        // TODO fix this
         return DyeColor.CYAN;
     }
 }

@@ -1,48 +1,45 @@
 {
   "config": {
-    "tries": 96,
-    "xz_spread": 6,
-    "y_spread": 2,
     "feature": {
       "feature": {
         "config": {
           "to_place": {
-            "seed": 6789,
             "noise": {
-              "firstOctave": 0,
               "amplitudes": [
                 1.0
-              ]
+              ],
+              "firstOctave": 0
             },
             "scale": 0.020833334,
+            "seed": 6789,
             "states": [
               {
-		        "Properties": {
-		          "waterlogged": "true",
-		          "facing": "up"
-		        },
-                "Name": "pokecube_legends:small_aquamarine_bud"
+                "Name": "pokecube_legends:small_aquamarine_bud",
+                "Properties": {
+                  "facing": "up",
+                  "waterlogged": "true"
+                }
               },
               {
-		        "Properties": {
-		          "waterlogged": "true",
-		          "facing": "up"
-		        },
-                "Name": "pokecube_legends:medium_aquamarine_bud"
+                "Name": "pokecube_legends:medium_aquamarine_bud",
+                "Properties": {
+                  "facing": "up",
+                  "waterlogged": "true"
+                }
               },
               {
-		        "Properties": {
-		          "waterlogged": "true",
-		          "facing": "up"
-		        },
-                "Name": "pokecube_legends:large_aquamarine_bud"
+                "Name": "pokecube_legends:large_aquamarine_bud",
+                "Properties": {
+                  "facing": "up",
+                  "waterlogged": "true"
+                }
               },
               {
-		        "Properties": {
-		          "waterlogged": "true",
-		          "facing": "up"
-		        },
-                "Name": "pokecube_legends:aquamarine_cluster"
+                "Name": "pokecube_legends:aquamarine_cluster",
+                "Properties": {
+                  "facing": "up",
+                  "waterlogged": "true"
+                }
               }
             ],
             "type": "minecraft:noise_provider"
@@ -61,14 +58,14 @@
                 "type": "minecraft:matching_blocks"
               },
               {
+                "blocks": [
+                  "pokecube_legends:crystallized_cactus",
+                  "pokecube_legends:unrefined_aquamarine"
+                ],
                 "offset": [
                   0,
                   -1,
                   0
-                ],
-                "blocks": [
-                  "pokecube_legends:crystallized_cactus",
-                  "pokecube_legends:unrefined_aquamarine"
                 ],
                 "type": "minecraft:matching_blocks"
               }
@@ -78,7 +75,10 @@
           "type": "minecraft:block_predicate_filter"
         }
       ]
-    }
+    },
+    "tries": 96,
+    "xz_spread": 6,
+    "y_spread": 2
   },
   "type": "minecraft:flower"
 }

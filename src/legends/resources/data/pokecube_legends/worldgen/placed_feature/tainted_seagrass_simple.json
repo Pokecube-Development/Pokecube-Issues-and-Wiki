@@ -13,14 +13,14 @@
       "predicate": {
         "predicates": [
           {
+            "blocks": [
+              "pokecube_legends:ultra_stone"
+            ],
             "offset": [
               0,
               -1,
               0
             ],
-            "blocks": [
-              "pokecube_legends:ultra_stone"
-            ],
             "type": "minecraft:matching_blocks"
           },
           {
@@ -30,13 +30,13 @@
             "type": "minecraft:matching_blocks"
           },
           {
+            "blocks": [
+              "minecraft:water"
+            ],
             "offset": [
               0,
               1,
               0
-            ],
-            "blocks": [
-              "minecraft:water"
             ],
             "type": "minecraft:matching_blocks"
           }

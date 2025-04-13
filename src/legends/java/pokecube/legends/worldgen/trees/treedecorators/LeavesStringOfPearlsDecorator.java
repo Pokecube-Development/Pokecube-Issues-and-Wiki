@@ -1,13 +1,11 @@
 package pokecube.legends.worldgen.trees.treedecorators;
 
-import java.util.function.BiConsumer;
-
-import com.mojang.serialization.Codec;
-
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelSimulatedReader;
 import net.minecraft.world.level.block.VineBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
@@ -16,9 +14,11 @@ import pokecube.legends.blocks.plants.StringOfPearlsBlock;
 import pokecube.legends.init.PlantsInit;
 import pokecube.legends.worldgen.trees.Trees;
 
+import java.util.function.BiConsumer;
+
 public class LeavesStringOfPearlsDecorator extends TreeDecorator
 {
-    public static final Codec<LeavesStringOfPearlsDecorator> CODEC;
+    public static final MapCodec<LeavesStringOfPearlsDecorator> CODEC;
     public static final LeavesStringOfPearlsDecorator INSTANCE = new LeavesStringOfPearlsDecorator();
 
     @Override
@@ -37,25 +37,25 @@ public class LeavesStringOfPearlsDecorator extends TreeDecorator
             if (random.nextInt(4) == 0)
             {
                 final BlockPos pos = listedPos.west();
-                if (world.isStateAtPosition(pos, s -> s.isAir()))
+                if (world.isStateAtPosition(pos, BlockBehaviour.BlockStateBase::isAir))
                     LeavesStringOfPearlsDecorator.addHangingVine(world, pos, VineBlock.EAST, blockSetter, random);
             }
             if (random.nextInt(4) == 0)
             {
                 final BlockPos pos = listedPos.east();
-                if (world.isStateAtPosition(pos, s -> s.isAir()))
+                if (world.isStateAtPosition(pos, BlockBehaviour.BlockStateBase::isAir))
                     LeavesStringOfPearlsDecorator.addHangingVine(world, pos, VineBlock.WEST, blockSetter, random);
             }
             if (random.nextInt(4) == 0)
             {
                 final BlockPos pos = listedPos.north();
-                if (world.isStateAtPosition(pos, s -> s.isAir()))
+                if (world.isStateAtPosition(pos, BlockBehaviour.BlockStateBase::isAir))
                     LeavesStringOfPearlsDecorator.addHangingVine(world, pos, VineBlock.SOUTH, blockSetter, random);
             }
             if (random.nextInt(4) == 0)
             {
                 final BlockPos pos = listedPos.south();
-                if (world.isStateAtPosition(pos, s -> s.isAir()))
+                if (world.isStateAtPosition(pos, BlockBehaviour.BlockStateBase::isAir))
                     LeavesStringOfPearlsDecorator.addHangingVine(world, pos, VineBlock.NORTH, blockSetter, random);
             }
         });
@@ -67,7 +67,7 @@ public class LeavesStringOfPearlsDecorator extends TreeDecorator
         LeavesStringOfPearlsDecorator.placeVine(blockSetter, pos, b, random);
         int i = 4;
 
-        for (BlockPos pos1 = pos.below(); world.isStateAtPosition(pos1, s -> s.isAir()) && i > 0; --i)
+        for (BlockPos pos1 = pos.below(); world.isStateAtPosition(pos1, BlockBehaviour.BlockStateBase::isAir) && i > 0; --i)
         {
             LeavesStringOfPearlsDecorator.placeVine(blockSetter, pos1, b, random);
             pos1 = pos1.below();
@@ -78,14 +78,12 @@ public class LeavesStringOfPearlsDecorator extends TreeDecorator
     public static void placeVine(final BiConsumer<BlockPos, BlockState> blockPos, final BlockPos pos,
             final BooleanProperty b, final RandomSource random)
     {
-        blockPos.accept(pos, PlantsInit.STRING_OF_PEARLS.get().defaultBlockState().setValue(b, Boolean.valueOf(true))
-                .setValue(StringOfPearlsBlock.FLOWERS, Boolean.valueOf(random.nextFloat() < 0.11F)));
+        blockPos.accept(pos, PlantsInit.STRING_OF_PEARLS.get().defaultBlockState().setValue(b, Boolean.TRUE)
+                .setValue(StringOfPearlsBlock.FLOWERS, random.nextFloat() < 0.11F));
     }
 
     static
     {
-        CODEC = Codec.unit(() -> {
-            return LeavesStringOfPearlsDecorator.INSTANCE;
-        });
+        CODEC = MapCodec.unit(() -> LeavesStringOfPearlsDecorator.INSTANCE);
     }
 }

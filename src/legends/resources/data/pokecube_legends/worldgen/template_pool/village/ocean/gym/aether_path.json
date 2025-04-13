@@ -3,9 +3,12 @@
     {
       "element": {
         "element_type": "pokecube:expanded_pool_element",
+        "int_config": {
+          "space_below": 0
+        },
         "location": "pokecube_legends:village/ocean/gym/aether_path",
         "processors": "pokecube:generic_no_waterlog",
-        "int_config": {"space_below":0},"projection": "rigid"
+        "projection": "rigid"
       },
       "weight": 1
     }

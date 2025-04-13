@@ -2,15 +2,15 @@
   "feature": "pokecube_legends:meteorite_crater",
   "placement": [
     {
-      "type": "minecraft:count",
-      "count": 1
+      "count": 1,
+      "type": "minecraft:count"
     },
     {
       "type": "minecraft:in_square"
     },
     {
-      "type": "minecraft:heightmap",
-      "heightmap": "WORLD_SURFACE_WG"
+      "heightmap": "WORLD_SURFACE_WG",
+      "type": "minecraft:heightmap"
     },
     {
       "type": "minecraft:biome"

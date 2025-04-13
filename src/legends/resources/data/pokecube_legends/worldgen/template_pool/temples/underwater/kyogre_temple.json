@@ -1,18 +1,22 @@
 {
-  "name": "pokecube_legends:temples/underwater_temples/kyogre_temple",
-  "fallback": "minecraft:empty",
   "elements": [
     {
-      "weight": 1,
       "element": {
-        "location": "pokecube_legends:temples/underwater/kyogre_temple",
+        "bool_config": {
+          "no_affect_noise": true
+        },
         "element_type": "pokecube:expanded_pool_element",
+        "int_config": {
+          "space_below": 0
+        },
+        "location": "pokecube_legends:temples/underwater/kyogre_temple",
         "processors": "pokecube:generic",
-        "bool_config": { "no_affect_noise": true },
-        "int_config": { "space_below": 0 },
-        "water_terrain_match": true,
-        "projection": "rigid"
-      }
+        "projection": "rigid",
+        "water_terrain_match": true
+      },
+      "weight": 1
     }
-  ]
+  ],
+  "fallback": "minecraft:empty",
+  "name": "pokecube_legends:temples/underwater_temples/kyogre_temple"
 }

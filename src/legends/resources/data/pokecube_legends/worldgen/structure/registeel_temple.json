@@ -1,33 +1,18 @@
 {
-  "type": "pokecube:generic_surface_jigsaw",
-  "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "start_pool": "pokecube_legends:temples/surface/registeel_temple",
-  "terrain_adaptation": "beard_box",
-  "step": "surface_structures",
   "avoid_range": 6,
-  "size": 2,
-  "structures_to_avoid": [
-    "minecraft:pillager_outposts",
-    "minecraft:villages",
-    "pokecube:ruins",
-    "pokecube:towns",
-    "pokecube:villages",
-    "pokecube_legends:towns",
-    "pokecube_legends:villages"
-  ],
   "avoidances": {
     "avoidances": [
       {
-        "name": "regi_temple",
-        "distance": 8
+        "distance": 8,
+        "name": "regi_temple"
       },
       {
-        "name": "temple",
-        "distance": 4
+        "distance": 4,
+        "name": "temple"
       },
       {
-        "name": "registeel_temple",
-        "distance": 160
+        "distance": 160,
+        "name": "registeel_temple"
       }
     ],
     "flags": [
@@ -36,25 +21,20 @@
       "registeel_temple"
     ]
   },
-  "y_settings": {
-    "max_dy": 5,
-    "min_y": 64,
-    "y_check_radius": 1
-  },
   "biomes": {
-    "type": "forge:and",
+    "type": "neoforge:and",
     "values": [
       {
-        "type": "forge:or",
+        "type": "neoforge:or",
         "values": [
           "#minecraft:is_hill",
           "#minecraft:is_taiga"
         ]
       },
       {
-        "type": "forge:not",
+        "type": "neoforge:not",
         "value": {
-          "type": "forge:or",
+          "type": "neoforge:or",
           "values": [
             "#minecraft:is_beach",
             "#minecraft:is_ocean",
@@ -64,5 +44,25 @@
       }
     ]
   },
-  "spawn_overrides": {}
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "size": 2,
+  "spawn_overrides": {},
+  "start_pool": "pokecube_legends:temples/surface/registeel_temple",
+  "step": "surface_structures",
+  "structures_to_avoid": [
+    "minecraft:pillager_outposts",
+    "minecraft:villages",
+    "pokecube:ruins",
+    "pokecube:towns",
+    "pokecube:villages",
+    "pokecube_legends:towns",
+    "pokecube_legends:villages"
+  ],
+  "terrain_adaptation": "beard_box",
+  "type": "pokecube:generic_surface_jigsaw",
+  "y_settings": {
+    "max_dy": 5,
+    "min_y": 64,
+    "y_check_radius": 1
+  }
 }

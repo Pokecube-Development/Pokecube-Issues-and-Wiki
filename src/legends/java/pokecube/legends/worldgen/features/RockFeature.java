@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfiguration;
+import net.neoforged.neoforge.common.Tags;
 
 public class RockFeature extends Feature<BlockStateConfiguration>
 {
@@ -65,11 +66,11 @@ public class RockFeature extends Feature<BlockStateConfiguration>
 
    public static boolean isSandstone(BlockState state)
    {
-      return state.is(Tags.Blocks.SANDSTONE);
+      return state.is(Tags.Blocks.SANDSTONE_BLOCKS);
    }
 
    public static boolean isSand(BlockState state)
    {
-      return state.is(Tags.Blocks.SAND) || state.is(BlockTags.SAND);
+      return state.is(Tags.Blocks.SANDS) || state.is(BlockTags.SAND);
    }
 }

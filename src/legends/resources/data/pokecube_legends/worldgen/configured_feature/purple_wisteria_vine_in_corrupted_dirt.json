@@ -1,26 +1,29 @@
 {
   "config": {
+    "allowed_placement": {
+      "blocks": [
+        "minecraft:air"
+      ],
+      "type": "minecraft:matching_blocks"
+    },
+    "direction": "down",
     "layers": [
       {
         "height": {
           "distribution": [
             {
               "data": {
-                "type": "minecraft:uniform",
-                "value": {
-                  "min_inclusive": 0,
-                  "max_inclusive": 3
-                }
+                "max_inclusive": 3,
+                "min_inclusive": 0,
+                "type": "minecraft:uniform"
               },
               "weight": 5
             },
             {
               "data": {
-                "type": "minecraft:uniform",
-                "value": {
-                  "min_inclusive": 1,
-                  "max_inclusive": 7
-                }
+                "max_inclusive": 7,
+                "min_inclusive": 1,
+                "type": "minecraft:uniform"
               },
               "weight": 1
             }
@@ -42,39 +45,30 @@
       {
         "height": 1,
         "provider": {
+          "property": "age",
           "source": {
             "entries": [
               {
                 "data": {
+                  "Name": "pokecube_legends:purple_wisteria_vines",
                   "Properties": {
                     "age": "0"
-                  },
-                  "Name": "pokecube_legends:purple_wisteria_vines"
+                  }
                 },
                 "weight": 4
               }
             ],
             "type": "minecraft:weighted_state_provider"
           },
-          "property": "age",
+          "type": "minecraft:randomized_int_state_provider",
           "values": {
-            "type": "minecraft:uniform",
-            "value": {
-              "min_inclusive": 23,
-              "max_inclusive": 25
-            }
-          },
-          "type": "minecraft:randomized_int_state_provider"
+            "max_inclusive": 25,
+            "min_inclusive": 23,
+            "type": "minecraft:uniform"
+          }
         }
       }
     ],
-    "direction": "down",
-    "allowed_placement": {
-      "blocks": [
-        "minecraft:air"
-      ],
-      "type": "minecraft:matching_blocks"
-    },
     "prioritize_tip": true
   },
   "type": "minecraft:block_column"

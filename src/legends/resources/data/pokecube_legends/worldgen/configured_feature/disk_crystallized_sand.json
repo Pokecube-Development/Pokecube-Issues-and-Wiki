@@ -1,35 +1,39 @@
 {
-  "type": "minecraft:disk",
   "config": {
+    "half_height": 2,
+    "radius": {
+      "max_inclusive": 6,
+      "min_inclusive": 2,
+      "type": "minecraft:uniform"
+    },
     "state_provider": {
       "fallback": {
-        "type": "minecraft:simple_state_provider",
         "state": {
           "Name": "pokecube_legends:crystallized_sand"
-        }
+        },
+        "type": "minecraft:simple_state_provider"
       },
       "rules": [
         {
           "if_true": {
-            "type": "minecraft:matching_blocks",
+            "blocks": "minecraft:air",
             "offset": [
               0,
               -1,
               0
             ],
-            "blocks": "minecraft:air"
+            "type": "minecraft:matching_blocks"
           },
           "then": {
-            "type": "minecraft:simple_state_provider",
             "state": {
               "Name": "pokecube_legends:crystallized_sandstone"
-            }
+            },
+            "type": "minecraft:simple_state_provider"
           }
         }
       ]
     },
     "target": {
-      "type": "minecraft:matching_blocks",
       "blocks": [
         "minecraft:basalt",
         "minecraft:gravel",
@@ -52,15 +56,9 @@
         "pokecube_legends:rooted_mushroom_dirt",
         "pokecube_legends:turquoise_gravel",
         "pokecube_legends:ultra_darkstone"
-      ]
-    },
-    "radius": {
-      "type": "minecraft:uniform",
-      "value": {
-        "min_inclusive": 2,
-        "max_inclusive": 6
-      }
-    },
-    "half_height": 2
-  }
+      ],
+      "type": "minecraft:matching_blocks"
+    }
+  },
+  "type": "minecraft:disk"
 }

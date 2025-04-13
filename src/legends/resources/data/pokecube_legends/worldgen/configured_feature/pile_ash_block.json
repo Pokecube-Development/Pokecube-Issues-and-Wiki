@@ -2,10 +2,10 @@
   "config": {
     "state_provider": {
       "state": {
+        "Name": "pokecube_legends:ash_block",
         "Properties": {
-		  "wet": "false"
-        },
-        "Name": "pokecube_legends:ash_block"
+          "wet": "false"
+        }
       },
       "type": "minecraft:simple_state_provider"
     }

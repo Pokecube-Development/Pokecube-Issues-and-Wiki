@@ -1,12 +1,6 @@
 {
-  "type": "minecraft:multiface_growth",
   "config": {
     "block": "minecraft:glow_lichen",
-    "search_range": 20,
-    "chance_of_spreading": 0.5,
-    "can_place_on_floor": false,
-    "can_place_on_ceiling": true,
-    "can_place_on_wall": true,
     "can_be_placed_on": [
       "minecraft:basalt",
       "minecraft:blackstone",
@@ -22,6 +16,12 @@
       "pokecube_legends:dusk_dolerite",
       "pokecube_legends:ultra_darkstone",
       "pokecube_legends:ultra_stone"
-    ]
-  }
+    ],
+    "can_place_on_ceiling": true,
+    "can_place_on_floor": false,
+    "can_place_on_wall": true,
+    "chance_of_spreading": 0.5,
+    "search_range": 20
+  },
+  "type": "minecraft:multiface_growth"
 }

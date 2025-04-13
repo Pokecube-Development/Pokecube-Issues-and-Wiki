@@ -1,8 +1,5 @@
 {
   "config": {
-    "tries": 32,
-    "xz_spread": 7,
-    "y_spread": 3,
     "feature": {
       "feature": {
         "config": {
@@ -10,7 +7,7 @@
             "entries": [
               {
                 "data": {
-                  "Name": "minecraft:grass"
+                  "Name": "minecraft:short_grass"
                 },
                 "weight": 3
               },
@@ -38,31 +35,31 @@
               },
               {
                 "predicate": {
-                  "offset": [
-                    0,
-                    -1,
-                    0
-                  ],
                   "blocks": [
                     "minecraft:podzol",
                     "pokecube_legends:aged_podzol",
                     "pokecube_legends:jungle_podzol"
+                  ],
+                  "offset": [
+                    0,
+                    -1,
+                    0
                   ],
                   "type": "minecraft:matching_blocks"
                 },
                 "type": "minecraft:not"
               },
               {
-                "offset": [
-                  0,
-                  -1,
-                  0
-                ],
                 "blocks": [
                   "pokecube_legends:azure_grass_block",
                   "pokecube_legends:fungal_nylium",
                   "pokecube_legends:jungle_grass_block",
                   "pokecube_legends:mushroom_grass_block"
+                ],
+                "offset": [
+                  0,
+                  -1,
+                  0
                 ],
                 "type": "minecraft:matching_blocks"
               }
@@ -72,7 +69,10 @@
           "type": "minecraft:block_predicate_filter"
         }
       ]
-    }
+    },
+    "tries": 32,
+    "xz_spread": 7,
+    "y_spread": 3
   },
   "type": "minecraft:random_patch"
 }

@@ -1,28 +1,13 @@
 {
-  "type": "pokecube:generic_surface_jigsaw",
-  "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "start_pool": "pokecube_legends:temples/ultraspace/necrozma_tower",
-  "terrain_adaptation": "beard_box",
-  "step": "surface_structures",
   "avoid_range": 6,
-  "size": 6,
-  "structures_to_avoid": [
-    "minecraft:pillager_outposts",
-    "minecraft:villages",
-    "pokecube:ruins",
-    "pokecube:towns",
-    "pokecube:villages",
-    "pokecube_legends:towns",
-    "pokecube_legends:villages"
-  ],
   "biomes": {
-    "type": "forge:and",
+    "type": "neoforge:and",
     "values": [
       "#pokecube_world:is_ultraspace/is_deltas",
       {
-        "type": "forge:not",
+        "type": "neoforge:not",
         "value": {
-          "type": "forge:or",
+          "type": "neoforge:or",
           "values": [
             "#minecraft:is_beach",
             "#minecraft:is_ocean",
@@ -32,5 +17,20 @@
       }
     ]
   },
-  "spawn_overrides": {}
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "size": 6,
+  "spawn_overrides": {},
+  "start_pool": "pokecube_legends:temples/ultraspace/necrozma_tower",
+  "step": "surface_structures",
+  "structures_to_avoid": [
+    "minecraft:pillager_outposts",
+    "minecraft:villages",
+    "pokecube:ruins",
+    "pokecube:towns",
+    "pokecube:villages",
+    "pokecube_legends:towns",
+    "pokecube_legends:villages"
+  ],
+  "terrain_adaptation": "beard_box",
+  "type": "pokecube:generic_surface_jigsaw"
 }

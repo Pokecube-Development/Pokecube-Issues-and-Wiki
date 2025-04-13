@@ -1,31 +1,29 @@
 {
   "config": {
-    "vegetation_chance": 0.8,
-    "xz_radius": {
-      "type": "minecraft:uniform",
-      "value": {
-        "min_inclusive": 4,
-        "max_inclusive": 7
-      }
-    },
-    "extra_edge_column_chance": 0.3,
+    "depth": 1,
     "extra_bottom_block_chance": 0.0,
-    "vertical_range": 5,
+    "extra_edge_column_chance": 0.3,
+    "ground_state": {
+      "state": {
+        "Name": "pokecube_legends:corrupted_grass_block",
+        "Properties": {
+          "snowy": "false"
+        }
+      },
+      "type": "minecraft:simple_state_provider"
+    },
+    "replaceable": "#pokecube_legends:corrupted_dirt_replaceable",
+    "surface": "floor",
+    "vegetation_chance": 0.8,
     "vegetation_feature": {
       "feature": "pokecube_legends:corrupted_vegetation",
       "placement": []
     },
-    "surface": "floor",
-    "depth": 1,
-    "replaceable": "#pokecube_legends:corrupted_dirt_replaceable",
-    "ground_state": {
-      "state": {
-        "Properties": {
-          "snowy": "false"
-        },
-        "Name": "pokecube_legends:corrupted_grass_block"
-      },
-      "type": "minecraft:simple_state_provider"
+    "vertical_range": 5,
+    "xz_radius": {
+      "max_inclusive": 7,
+      "min_inclusive": 4,
+      "type": "minecraft:uniform"
     }
   },
   "type": "minecraft:vegetation_patch"

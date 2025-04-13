@@ -1,28 +1,34 @@
 {
   "config": {
     "decorators": [],
-    "ignore_vines": false,
-    "force_dirt": true,
     "dirt_provider": {
       "state": {
         "Name": "pokecube_legends:corrupted_dirt"
       },
       "type": "minecraft:simple_state_provider"
     },
+    "foliage_placer": {
+      "offset": 0,
+      "radius": 2,
+      "type": "minecraft:acacia_foliage_placer"
+    },
+    "foliage_provider": {
+      "state": {
+        "Name": "pokecube_legends:corrupted_leaves",
+        "Properties": {
+          "distance": "7",
+          "persistent": "false"
+        }
+      },
+      "type": "minecraft:simple_state_provider"
+    },
+    "force_dirt": true,
+    "ignore_vines": false,
     "minimum_size": {
       "limit": 0,
       "lower_size": 0,
-      "upper_size": 0,
-      "type": "minecraft:two_layers_feature_size"
-    },
-    "trunk_provider": {
-      "state": {
-        "Properties": {
-          "axis": "y"
-        },
-        "Name": "pokecube_legends:corrupted_log"
-      },
-      "type": "minecraft:simple_state_provider"
+      "type": "minecraft:two_layers_feature_size",
+      "upper_size": 0
     },
     "trunk_placer": {
       "base_height": 1,
@@ -30,20 +36,14 @@
       "height_rand_b": 0,
       "type": "minecraft:straight_trunk_placer"
     },
-    "foliage_provider": {
+    "trunk_provider": {
       "state": {
+        "Name": "pokecube_legends:corrupted_log",
         "Properties": {
-          "persistent": "false",
-          "distance": "7"
-        },
-        "Name": "pokecube_legends:corrupted_leaves"
+          "axis": "y"
+        }
       },
       "type": "minecraft:simple_state_provider"
-    },
-    "foliage_placer": {
-      "radius": 2,
-      "offset": 0,
-      "type": "minecraft:acacia_foliage_placer"
     }
   },
   "type": "minecraft:tree"

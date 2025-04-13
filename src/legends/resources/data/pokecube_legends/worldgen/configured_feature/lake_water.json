@@ -1,17 +1,17 @@
 {
   "config": {
-    "fluid": {
-      "state": {
-        "Properties": {
-          "level": "0"
-        },
-        "Name": "minecraft:water"
-      },
-      "type": "minecraft:simple_state_provider"
-    },
     "barrier": {
       "state": {
         "Name": "pokecube_legends:ultra_darkstone"
+      },
+      "type": "minecraft:simple_state_provider"
+    },
+    "fluid": {
+      "state": {
+        "Name": "minecraft:water",
+        "Properties": {
+          "level": "0"
+        }
       },
       "type": "minecraft:simple_state_provider"
     }

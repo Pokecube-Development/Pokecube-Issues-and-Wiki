@@ -31,10 +31,10 @@
     {
       "predicate": {
         "state": {
+          "Name": "pokecube_legends:inverted_sapling",
           "Properties": {
             "stage": "0"
-          },
-          "Name": "pokecube_legends:inverted_sapling"
+          }
         },
         "type": "minecraft:would_survive"
       },

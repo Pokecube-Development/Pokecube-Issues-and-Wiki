@@ -1,17 +1,15 @@
 {
   "config": {
-    "target": {
-      "Name": "pokecube_legends:ultra_stone"
+    "radius": {
+      "max_inclusive": 7,
+      "min_inclusive": 3,
+      "type": "minecraft:uniform"
     },
     "state": {
       "Name": "pokecube_legends:ultra_darkstone"
     },
-    "radius": {
-      "type": "minecraft:uniform",
-      "value": {
-        "min_inclusive": 3,
-        "max_inclusive": 7
-      }
+    "target": {
+      "Name": "pokecube_legends:ultra_stone"
     }
   },
   "type": "minecraft:netherrack_replace_blobs"

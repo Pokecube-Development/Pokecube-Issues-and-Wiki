@@ -1,7 +1,14 @@
 {
   "config": {
-    "rock_count": 5,
     "hole_count": 1,
+    "requires_block_below": false,
+    "rock_count": 5,
+    "state": {
+      "Name": "minecraft:water",
+      "Properties": {
+        "falling": "true"
+      }
+    },
     "valid_blocks": [
       "minecraft:basalt",
       "minecraft:blackstone",
@@ -25,14 +32,7 @@
       "pokecube_legends:mushroom_dirt",
       "pokecube_legends:ultra_darkstone",
       "pokecube_legends:ultra_stone"
-    ],
-    "state": {
-      "Properties": {
-        "falling": "true"
-      },
-      "Name": "minecraft:water"
-    },
-    "requires_block_below": false
+    ]
   },
   "type": "minecraft:spring_feature"
 }

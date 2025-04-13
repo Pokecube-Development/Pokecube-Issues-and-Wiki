@@ -1,4 +1,10 @@
 {
+  "placement": {
+    "salt": 1234567890,
+    "separation": 4,
+    "spacing": 12,
+    "type": "minecraft:random_spread"
+  },
   "structures": [
     {
       "structure": "pokecube_legends:celebi_temple",
@@ -72,11 +78,5 @@
       "structure": "pokecube_legends:zamazenta_temple",
       "weight": 1
     }
-  ],
-  "placement": {
-    "salt": 1234567890,
-    "spacing": 12,
-    "separation": 4,
-    "type": "minecraft:random_spread"
-  }
+  ]
 }

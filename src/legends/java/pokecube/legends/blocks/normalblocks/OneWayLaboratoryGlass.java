@@ -21,6 +21,7 @@ public class OneWayLaboratoryGlass extends OneWayStainedGlass
     @Override
     public DyeColor getColor()
     {
+        // TODO fix this
         return DyeColor.LIGHT_BLUE;
     }
 }

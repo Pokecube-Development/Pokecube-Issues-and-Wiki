@@ -1,12 +1,35 @@
 {
-  "type": "pokecube:generic_surface_jigsaw",
-  "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "start_pool": "pokecube_legends:temples/surface/kubfu_water",
-  "terrain_adaptation": "beard_box",
-  "step": "surface_structures",
   "avoid_range": 6,
+  "avoidances": {
+    "avoidances": [
+      {
+        "distance": 8,
+        "name": "temple"
+      },
+      {
+        "distance": 256,
+        "name": "kubfu_water"
+      }
+    ],
+    "flags": [
+      "kubfu_water",
+      "temple"
+    ]
+  },
   "biome_room": 1,
+  "biomes": {
+    "type": "neoforge:or",
+    "values": [
+      "#minecraft:is_beach",
+      "#pokecube_world:is_ultraspace/is_beach",
+      "minecraft:stony_shore"
+    ]
+  },
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
   "size": 2,
+  "spawn_overrides": {},
+  "start_pool": "pokecube_legends:temples/surface/kubfu_water",
+  "step": "surface_structures",
   "structures_to_avoid": [
     "minecraft:pillager_outposts",
     "minecraft:villages",
@@ -15,32 +38,9 @@
     "pokecube_legends:towns",
     "pokecube_legends:villages"
   ],
-  "avoidances": {
-    "avoidances": [
-      {
-        "name": "temple",
-        "distance": 8
-      },
-      {
-        "name": "kubfu_water",
-        "distance": 256
-      }
-    ],
-    "flags": [
-      "kubfu_water",
-      "temple"
-    ]
-  },
+  "terrain_adaptation": "beard_box",
+  "type": "pokecube:generic_surface_jigsaw",
   "y_settings": {
     "min_y": 65
-  },
-  "biomes": {
-    "type": "forge:or",
-    "values": [
-      "#minecraft:is_beach",
-      "#pokecube_world:is_ultraspace/is_beach",
-      "minecraft:stony_shore"
-    ]
-  },
-  "spawn_overrides": {}
+  }
 }

@@ -21,12 +21,12 @@ public class EntityTypes
                 () -> EntityType.Builder.of(LeaderNpc::new, MobCategory.CREATURE).build("leader"));
     }
 
-    public static final EntityType<TrainerNpc> getTrainer()
+    public static EntityType<TrainerNpc> getTrainer()
     {
         return TRAINER.get();
     }
 
-    public static final EntityType<LeaderNpc> getLeader()
+    public static EntityType<LeaderNpc> getLeader()
     {
         return LEADER.get();
     }

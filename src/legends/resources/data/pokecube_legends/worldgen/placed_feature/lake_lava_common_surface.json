@@ -2,8 +2,8 @@
   "feature": "pokecube_legends:lake_lava",
   "placement": [
     {
-      "type": "minecraft:rarity_filter",
-      "chance": 25
+      "chance": 25,
+      "type": "minecraft:rarity_filter"
     },
     {
       "type": "minecraft:in_square"

@@ -1,4 +1,10 @@
 {
+  "placement": {
+    "salt": 987321456,
+    "separation": 5,
+    "spacing": 10,
+    "type": "minecraft:random_spread"
+  },
   "structures": [
     {
       "structure": "pokecube_legends:distorted_house",
@@ -8,11 +14,5 @@
       "structure": "pokecube_legends:flipped_distorted_house",
       "weight": 1
     }
-  ],
-  "placement": {
-    "salt": 987321456,
-    "spacing": 10,
-    "separation": 5,
-    "type": "minecraft:random_spread"
-  }
+  ]
 }

@@ -1,19 +1,20 @@
 package pokecube.legends.worldgen.trees;
 
-import java.util.Set;
-import java.util.concurrent.CompletableFuture;
-
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import pokecube.legends.Reference;
 
-@Mod.EventBusSubscriber(modid = Reference.ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+
+@EventBusSubscriber(modid = Reference.ID, bus = EventBusSubscriber.Bus.MOD)
 public class TreesDataGenerator extends DatapackBuiltinEntriesProvider
 {
     public TreesDataGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> provider) {
@@ -21,7 +22,7 @@ public class TreesDataGenerator extends DatapackBuiltinEntriesProvider
     }
 
     public static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
-            .add(Registries.CONFIGURED_FEATURE, c->Trees.bootstrap(c));
+            .add(Registries.CONFIGURED_FEATURE, Trees::bootstrap);
 
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event)

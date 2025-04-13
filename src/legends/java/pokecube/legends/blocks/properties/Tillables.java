@@ -1,14 +1,7 @@
 package pokecube.legends.blocks.properties;
 
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-
-import org.jetbrains.annotations.NotNull;
-
 import com.google.common.collect.Maps;
 import com.mojang.datafixers.util.Pair;
-
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.HoeItem;
@@ -16,10 +9,15 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.ToolAction;
-import net.minecraftforge.common.ToolActions;
+import net.neoforged.neoforge.common.ItemAbilities;
+import net.neoforged.neoforge.common.ItemAbility;
 import net.neoforged.neoforge.event.level.BlockEvent;
+import org.jetbrains.annotations.NotNull;
 import pokecube.legends.init.BlockInit;
+
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class Tillables
 {
@@ -54,15 +52,14 @@ public class Tillables
     public static void tillables(final BlockEvent.BlockToolModificationEvent event)
     {
         final BlockState state = event.getState();
-        final ToolAction toolAction = event.getToolAction();
-        if (!event.isSimulated() && toolAction == ToolActions.HOE_TILL)
+        final ItemAbility toolAction = event.getItemAbility();
+        if (!event.isSimulated() && toolAction == ItemAbilities.HOE_TILL)
         {
             var pair = TILLABLES.get(state.getBlock());
             if (pair != null && pair.getFirst().test(event.getContext()))
             {
                 pair.getSecond().accept(event.getContext());
                 event.getLevel().playSound(event.getPlayer(), event.getPos(), SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
-                event.setResult(Event.Result.ALLOW);
                 event.getPlayer().swing(event.getContext().getHand());
             }
         }

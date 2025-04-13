@@ -1,18 +1,18 @@
 {
   "config": {
+    "discard_chance_on_air_exposure": 0.0,
+    "size": 33,
     "targets": [
       {
-        "target": {
-          "tag": "pokecube_legends:ultra_stone_ore_replaceables",
-          "predicate_type": "minecraft:tag_match"
-        },
         "state": {
           "Name": "pokecube_legends:turquoise_gravel"
+        },
+        "target": {
+          "predicate_type": "minecraft:tag_match",
+          "tag": "pokecube_legends:ultra_stone_ore_replaceables"
         }
       }
-    ],
-    "size": 33,
-    "discard_chance_on_air_exposure": 0.0
+    ]
   },
   "type": "minecraft:ore"
 }

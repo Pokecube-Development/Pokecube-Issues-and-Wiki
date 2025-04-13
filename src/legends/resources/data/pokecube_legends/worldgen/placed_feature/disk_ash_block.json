@@ -2,8 +2,8 @@
   "feature": "pokecube_legends:disk_ash_block",
   "placement": [
     {
-      "type": "minecraft:count",
-      "count": 3
+      "count": 3,
+      "type": "minecraft:count"
     },
     {
       "type": "minecraft:in_square"

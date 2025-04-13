@@ -1,12 +1,7 @@
 package pokecube.core;
 
-import java.util.Map;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Maps;
-import com.mojang.serialization.Codec;
-
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -94,6 +89,9 @@ import thut.core.common.network.PacketHandler;
 import thut.lib.DistExecutor;
 import thut.lib.RegHelper;
 
+import javax.annotation.Nullable;
+import java.util.Map;
+
 @Mod(value = PokecubeCore.MODID)
 public class PokecubeCore
 {
@@ -134,7 +132,7 @@ public class PokecubeCore
     }
 
     public static final DeferredRegister<RecipeType<?>> RECIPETYPE;
-    public static final DeferredRegister<Codec<? extends ChunkGenerator>> CHUNKGENTYPE;
+    public static final DeferredRegister<MapCodec<? extends ChunkGenerator>> CHUNKGENTYPE;
     public static final DeferredRegister<Activity> ACTIVITIES;
     public static final DeferredRegister<Schedule> SCHEDULES;
     public static final DeferredRegister<MemoryModuleType<?>> MEMORIES;
@@ -191,10 +189,6 @@ public class PokecubeCore
 
     /**
      * Generates the mobEntity for the given pokedex entry.
-     *
-     * @param evolution
-     * @param world
-     * @return
      */
     public static Mob createPokemob(final PokedexEntry entry, final Level world)
     {

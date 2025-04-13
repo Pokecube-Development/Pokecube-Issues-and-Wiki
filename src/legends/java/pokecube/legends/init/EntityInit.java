@@ -1,32 +1,41 @@
 package pokecube.legends.init;
 
-import net.minecraft.world.entity.Entity;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import pokecube.adventures.utils.EnergyHandler;
+import net.neoforged.neoforge.attachment.IAttachmentHolder;
+import net.neoforged.neoforge.energy.EnergyStorage;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.entity.WormholeEntity;
-import thut.core.common.ThutCore;
+import thut.api.attachments.Energy;
+import thut.api.data.HolderProvider;
 
 import java.util.function.Supplier;
 
 public class EntityInit
 {
     public static final Supplier<EntityType<WormholeEntity>> WORMHOLE = PokecubeLegends.ENTITIES.register("wormhole",
-            () -> EntityType.Builder.of(WormholeEntity::new, MobCategory.CREATURE).sized(2, 2));
+            () -> EntityType.Builder.of(WormholeEntity::new, MobCategory.CREATURE).sized(2, 2).build("wormhole"));
 
     public static void init()
     {
-        ThutCore.FORGE_BUS.addGenericListener(Entity.class, EntityInit::onEntityCapabilityAttach);
-    }
-
-    public static void onEntityCapabilityAttach(final AttachCapabilitiesEvent<Entity> event)
-    {
-        if (event.getObject() instanceof WormholeEntity wormhole)
+        Energy.DEFAULT().register(new HolderProvider.Provider<>()
         {
-            wormhole.energy = new WormholeEntity.EnergyStore();
-            event.addCapability(EnergyHandler.ENERGYCAP, wormhole.energy);
-        }
+            final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube_legends", "wormhole");
+
+            @Override
+            public EnergyStorage apply(IAttachmentHolder t)
+            {
+                if (t instanceof WormholeEntity)
+                    return new EnergyStorage(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
+                return null;
+            }
+
+            @Override
+            protected ResourceLocation key()
+            {
+                return ID;
+            }
+        });
     }
 }

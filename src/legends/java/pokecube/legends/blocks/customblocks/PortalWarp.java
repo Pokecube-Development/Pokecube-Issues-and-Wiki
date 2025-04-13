@@ -19,6 +19,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -901,10 +902,9 @@ public class PortalWarp extends Rotates implements SimpleWaterloggedBlock, Entit
     private BlockPos getPortalWarpPos(final BlockPos pos, final PortalWarpPart part, final Direction facing)
     {
         if (part == PortalWarpPart.BOTTOM) return pos;
-        switch (facing)
+        return switch (facing)
         {
-        case NORTH:
-            return switch (part)
+            case NORTH -> switch (part)
             {
                 case TOP -> pos.below(2);
                 case TOP_LEFT -> pos.below(2).west();
@@ -916,8 +916,7 @@ public class PortalWarp extends Rotates implements SimpleWaterloggedBlock, Entit
                 case BOTTOM_RIGHT -> pos.east();
                 default -> null;
             };
-        case EAST:
-            return switch (part)
+            case EAST -> switch (part)
             {
                 case TOP -> pos.below(2);
                 case TOP_LEFT -> pos.below(2).north();
@@ -929,8 +928,7 @@ public class PortalWarp extends Rotates implements SimpleWaterloggedBlock, Entit
                 case BOTTOM_RIGHT -> pos.south();
                 default -> null;
             };
-        case SOUTH:
-            return switch (part)
+            case SOUTH -> switch (part)
             {
                 case TOP -> pos.below(2);
                 case TOP_LEFT -> pos.below(2).east();
@@ -942,8 +940,7 @@ public class PortalWarp extends Rotates implements SimpleWaterloggedBlock, Entit
                 case BOTTOM_RIGHT -> pos.west();
                 default -> null;
             };
-        case WEST:
-            return switch (part)
+            case WEST -> switch (part)
             {
                 case TOP -> pos.below(2);
                 case TOP_LEFT -> pos.below(2).south();
@@ -955,9 +952,8 @@ public class PortalWarp extends Rotates implements SimpleWaterloggedBlock, Entit
                 case BOTTOM_RIGHT -> pos.north();
                 default -> null;
             };
-        default:
-            return null;
-        }
+            default -> null;
+        };
     }
 
     public void setActiveState(final Level world, final BlockPos pos, final BlockState state, final boolean active)
@@ -1069,13 +1065,13 @@ public class PortalWarp extends Rotates implements SimpleWaterloggedBlock, Entit
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(final ItemStack stack, final BlockGetter worldIn, final List<Component> tooltip,
-            final TooltipFlag flagIn)
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents,
+            TooltipFlag tooltipFlag)
     {
         String message;
         if (Screen.hasShiftDown()) message = I18n.get("legendblock." + this.infoname + ".tooltip");
         else message = I18n.get("pokecube.tooltip.advanced");
-        tooltip.add(TComponent.translatable(message));
+        tooltipComponents.add(TComponent.translatable(message));
     }
 
     @Override

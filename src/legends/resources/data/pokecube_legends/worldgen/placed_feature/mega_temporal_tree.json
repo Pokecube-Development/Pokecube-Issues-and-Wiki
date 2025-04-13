@@ -4,10 +4,10 @@
     {
       "predicate": {
         "state": {
-	      "Properties": {
-	        "stage": "0"
-	      },
-	      "Name": "pokecube_legends:temporal_sapling"
+          "Name": "pokecube_legends:temporal_sapling",
+          "Properties": {
+            "stage": "0"
+          }
         },
         "type": "minecraft:would_survive"
       },

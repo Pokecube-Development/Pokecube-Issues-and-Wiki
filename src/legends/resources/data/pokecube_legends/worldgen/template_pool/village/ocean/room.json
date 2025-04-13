@@ -3,36 +3,48 @@
     {
       "element": {
         "element_type": "pokecube:expanded_pool_element",
+        "int_config": {
+          "space_below": 0
+        },
         "location": "pokecube_legends:village/ocean/room/room_1",
         "processors": "pokecube:generic_ladders_no_waterlog",
-        "int_config": {"space_below":0},"projection": "rigid"
+        "projection": "rigid"
       },
       "weight": 5
     },
     {
       "element": {
         "element_type": "pokecube:expanded_pool_element",
+        "int_config": {
+          "space_below": 0
+        },
         "location": "pokecube_legends:village/ocean/room/room_2",
         "processors": "pokecube:generic_ladders_no_waterlog",
-        "int_config": {"space_below":0},"projection": "rigid"
+        "projection": "rigid"
       },
       "weight": 5
     },
     {
       "element": {
         "element_type": "pokecube:expanded_pool_element",
+        "int_config": {
+          "space_below": 0
+        },
         "location": "pokecube_legends:village/ocean/room/room_3",
         "processors": "pokecube:generic_ladders_no_waterlog",
-        "int_config": {"space_below":0},"projection": "rigid"
+        "projection": "rigid"
       },
       "weight": 5
     },
     {
       "element": {
         "element_type": "pokecube:expanded_pool_element",
+        "int_config": {
+          "space_below": 0
+        },
         "location": "pokecube_legends:village/ocean/room/room_4",
         "processors": "pokecube:generic_ladders_no_waterlog",
-        "int_config": {"space_below":0},"projection": "rigid"
+        "projection": "rigid"
       },
       "weight": 5
     }

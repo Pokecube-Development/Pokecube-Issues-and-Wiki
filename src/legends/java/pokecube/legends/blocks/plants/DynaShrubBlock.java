@@ -12,11 +12,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import pokecube.legends.worldgen.trees.DynaTreeGrower;
+import pokecube.legends.worldgen.trees.Trees;
 
 public class DynaShrubBlock extends AzaleaBlock implements BonemealableBlock
 {
-    private static final DynaTreeGrower TREE_GROWER = new DynaTreeGrower();
     private static final VoxelShape SHAPE = Shapes.or(Block.box(1.0D, 5.0D, 1.0D, 15.0D, 16.0D, 15.0D), Block.box(6.0D, 0.0D, 6.0D, 10.0D, 8.0D, 10.0D));
 
     public DynaShrubBlock(final BlockBehaviour.Properties properties)
@@ -33,6 +32,6 @@ public class DynaShrubBlock extends AzaleaBlock implements BonemealableBlock
     @Override
     public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state)
     {
-       TREE_GROWER.growTree(world, world.getChunkSource().getGenerator(), pos, state, random);
+       Trees.DYNA_TREE_GROWER.growTree(world, world.getChunkSource().getGenerator(), pos, state, random);
     }
 }

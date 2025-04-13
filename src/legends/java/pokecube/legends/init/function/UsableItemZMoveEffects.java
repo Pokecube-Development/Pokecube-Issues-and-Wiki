@@ -1,14 +1,11 @@
 package pokecube.legends.init.function;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.MoveApplication;
+import pokecube.core.items.UsableItemEffects;
 import pokecube.core.items.UsableItemEffects.BaseUseable;
-import pokecube.legends.Reference;
 import pokecube.legends.items.zmove.ItemZCrystal;
 
 public class UsableItemZMoveEffects
@@ -23,13 +20,8 @@ public class UsableItemZMoveEffects
             return super.onMoveTick(attacker, stack, moveuse, pre);
         }
     }
-
-    public static final ResourceLocation USABLE = ResourceLocation.fromNamespaceAndPath(Reference.ID, "usables");
-
-    public static void registerCapabilities(final AttachCapabilitiesEvent<ItemStack> event)
+    public static void init()
     {
-        if (event.getCapabilities().containsKey(UsableItemZMoveEffects.USABLE)) return;
-        final Item item = event.getObject().getItem();
-        if (item instanceof ItemZCrystal) event.addCapability(UsableItemZMoveEffects.USABLE, new ZMoveUsable());
+        UsableItemEffects.REGISTRY.put(i -> i instanceof ItemZCrystal, ZMoveUsable::new);
     }
 }

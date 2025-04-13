@@ -1,33 +1,31 @@
 {
-  "temperature": 0.7,
-  "downfall": 0.8,
-  "has_precipitation": true,
-  "effects": {
-    "sky_color": 1840429,
-    "fog_color": 3286608,
-    "water_color": 4010074,
-    "water_fog_color": 4010074,
-    "grass_color": 6235691,
-    "foliage_color": 9169902,
-    "mood_sound": {
-      "sound": "minecraft:ambient.cave",
-      "tick_delay": 6000,
-      "block_search_extent": 8,
-      "offset": 2
-    },
-    "particle": {
-      "options": {
-        "type": "minecraft:crimson_spore"
-      },
-      "probability": 0.01
-    }
-  },
   "carvers": {
     "air": [
       "pokecube_legends:canyon",
       "pokecube_legends:cave",
       "pokecube_legends:cave_extra_underground"
     ]
+  },
+  "downfall": 0.8,
+  "effects": {
+    "fog_color": 3286608,
+    "foliage_color": 9169902,
+    "grass_color": 6235691,
+    "mood_sound": {
+      "block_search_extent": 8,
+      "offset": 2,
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000
+    },
+    "particle": {
+      "options": {
+        "type": "minecraft:crimson_spore"
+      },
+      "probability": 0.01
+    },
+    "sky_color": 1840429,
+    "water_color": 4010074,
+    "water_fog_color": 4010074
   },
   "features": [
     [],
@@ -51,7 +49,7 @@
       "pokecube_legends:ore_mushroom_dirt",
       "pokecube_legends:ore_coal_lower",
       "pokecube_legends:ore_coal_upper",
-	  "pokecube_legends:ore_copper",
+      "pokecube_legends:ore_copper",
       "pokecube_legends:ore_cosmic",
       "pokecube_legends:ore_cosmic_buried",
       "pokecube_legends:ore_cosmic_large",
@@ -99,65 +97,67 @@
       "minecraft:freeze_top_layer"
     ]
   ],
+  "has_precipitation": true,
+  "spawn_costs": {},
   "spawners": {
-    "monster": [],
-    "creature": [
-      {
-        "type": "minecraft:mooshroom",
-        "weight": 8,
-        "minCount": 4,
-        "maxCount": 8
-      },
-      {
-        "type": "minecraft:sheep",
-        "weight": 12,
-        "minCount": 4,
-        "maxCount": 4
-      },
-      {
-        "type": "minecraft:pig",
-        "weight": 10,
-        "minCount": 4,
-        "maxCount": 4
-      },
-      {
-        "type": "minecraft:chicken",
-        "weight": 10,
-        "minCount": 4,
-        "maxCount": 4
-      },
-      {
-        "type": "minecraft:cow",
-        "weight": 8,
-        "minCount": 4,
-        "maxCount": 4
-      },
-      {
-        "type": "minecraft:wolf",
-        "weight": 5,
-        "minCount": 4,
-        "maxCount": 4
-      }
-    ],
     "ambient": [
       {
-        "type": "minecraft:bat",
-        "weight": 10,
+        "maxCount": 8,
         "minCount": 8,
-        "maxCount": 8
+        "type": "minecraft:bat",
+        "weight": 10
       }
     ],
+    "creature": [
+      {
+        "maxCount": 8,
+        "minCount": 4,
+        "type": "minecraft:mooshroom",
+        "weight": 8
+      },
+      {
+        "maxCount": 4,
+        "minCount": 4,
+        "type": "minecraft:sheep",
+        "weight": 12
+      },
+      {
+        "maxCount": 4,
+        "minCount": 4,
+        "type": "minecraft:pig",
+        "weight": 10
+      },
+      {
+        "maxCount": 4,
+        "minCount": 4,
+        "type": "minecraft:chicken",
+        "weight": 10
+      },
+      {
+        "maxCount": 4,
+        "minCount": 4,
+        "type": "minecraft:cow",
+        "weight": 8
+      },
+      {
+        "maxCount": 4,
+        "minCount": 4,
+        "type": "minecraft:wolf",
+        "weight": 5
+      }
+    ],
+    "misc": [],
+    "monster": [],
     "underground_water_creature": [
       {
-        "type": "minecraft:glow_squid",
-        "weight": 10,
+        "maxCount": 6,
         "minCount": 4,
-        "maxCount": 6
+        "type": "minecraft:glow_squid",
+        "weight": 10
       }
     ],
-    "water_creature": [],
     "water_ambient": [],
-    "misc": []
+    "water_creature": []
   },
-  "spawn_costs": {}
+  "temperature": 0.7
 }

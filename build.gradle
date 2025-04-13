@@ -114,25 +114,25 @@ sourceSets.main.java { srcDir 'src/thutcore/java' }
 sourceSets.main.resources { srcDir 'src/wearables/resources' }
 sourceSets.main.java { srcDir 'src/wearables/java' }
 
-//** Main Pokecube set
+//* Main Pokecube set
 sourceSets.main.resources { srcDir 'src/pokecube/resources' }
 sourceSets.main.java { srcDir 'src/pokecube/java' }
-//**/
+//*/
 
-//** Pokecube Adventures
+//* Pokecube Adventures
 sourceSets.main.resources { srcDir 'src/adventures/resources' }
 sourceSets.main.java { srcDir 'src/adventures/java' }
-//**/
+//*/
 
-//** Pokecube Compat
+//* Pokecube Compat
 sourceSets.main.resources { srcDir 'src/compat/resources' }
 sourceSets.main.java { srcDir 'src/compat/java' }
-//**/
+//*/
 
-/** Pokecube Legends
+//* Pokecube Legends
 sourceSets.main.resources { srcDir 'src/legends/resources' }
 sourceSets.main.java { srcDir 'src/legends/java' }
-//**/
+//*/
 
 /** Test code
 sourceSets.main.resources { srcDir 'src/test/resources' }

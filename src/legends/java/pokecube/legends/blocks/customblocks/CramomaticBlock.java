@@ -12,6 +12,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
@@ -59,15 +60,15 @@ public class CramomaticBlock extends Rotates implements SimpleWaterloggedBlock
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(final ItemStack stack, final BlockGetter worldIn, final List<Component> tooltip,
-            final TooltipFlag flagIn)
+	public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents,
+			TooltipFlag tooltipFlag)
     {
         if (Screen.hasShiftDown())
         {
-            tooltip.add(TComponent.translatable("legends." + this.infoName + ".tooltip"));
-            tooltip.add(TComponent.translatable("legends." + this.infoName + ".tooltip.line1"));
+			tooltipComponents.add(TComponent.translatable("legends." + this.infoName + ".tooltip"));
+			tooltipComponents.add(TComponent.translatable("legends." + this.infoName + ".tooltip.line1"));
         }
-        else tooltip.add(TComponent.translatable("pokecube.tooltip.advanced"));
+        else tooltipComponents.add(TComponent.translatable("pokecube.tooltip.advanced"));
     }
 
     // Precise selection box @formatter:off

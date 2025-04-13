@@ -5,23 +5,23 @@
       "type": "minecraft:in_square"
     },
     {
-      "type": "minecraft:heightmap",
-      "heightmap": "MOTION_BLOCKING"
+      "heightmap": "MOTION_BLOCKING",
+      "type": "minecraft:heightmap"
     },
     {
-      "type": "minecraft:block_predicate_filter",
       "predicate": {
-        "type": "minecraft:not",
         "predicate": {
-          "type": "minecraft:matching_blocks",
+          "blocks": "pokecube_legends:mushroom_coarse_dirt",
           "offset": [
             0,
             -1,
             0
           ],
-          "blocks": "pokecube_legends:mushroom_coarse_dirt"
-        }
-      }
+          "type": "minecraft:matching_blocks"
+        },
+        "type": "minecraft:not"
+      },
+      "type": "minecraft:block_predicate_filter"
     },
     {
       "type": "minecraft:biome"

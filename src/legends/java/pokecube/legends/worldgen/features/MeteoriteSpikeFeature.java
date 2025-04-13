@@ -1,7 +1,6 @@
 package pokecube.legends.worldgen.features;
 
 import com.mojang.serialization.Codec;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -15,6 +14,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.neoforged.neoforge.common.Tags;
 import pokecube.legends.Reference;
 import pokecube.legends.init.BlockInit;
 import thut.lib.RegHelper;
@@ -151,11 +151,11 @@ public class MeteoriteSpikeFeature extends Feature<NoneFeatureConfiguration>
 
     public static boolean isSand(BlockState state)
     {
-        return state.is(BlockTags.SAND) || state.is(Tags.Blocks.SAND);
+        return state.is(BlockTags.SAND) || state.is(Tags.Blocks.SANDS);
     }
 
     public static boolean isSandstone(BlockState state)
     {
-        return state.is(Tags.Blocks.SANDSTONE);
+        return state.is(Tags.Blocks.SANDSTONE_BLOCKS);
     }
 }

@@ -4,19 +4,15 @@
       {
         "feature": {
           "config": {
-            "chance_of_taller_dripstone": 0.2,
             "chance_of_directional_spread": 0.7,
             "chance_of_spread_radius2": 0.5,
-            "chance_of_spread_radius3": 0.5
+            "chance_of_spread_radius3": 0.5,
+            "chance_of_taller_dripstone": 0.2
           },
           "type": "pokecube_legends:aquamarine_crystal_feature"
         },
         "placement": [
           {
-            "direction_of_search": "down",
-            "target_condition": {
-              "type": "minecraft:solid"
-            },
             "allowed_search_condition": {
               "blocks": [
                 "minecraft:air",
@@ -24,32 +20,32 @@
               ],
               "type": "minecraft:matching_blocks"
             },
+            "direction_of_search": "down",
             "max_steps": 12,
+            "target_condition": {
+              "type": "minecraft:solid"
+            },
             "type": "minecraft:environment_scan"
           },
           {
+            "type": "minecraft:random_offset",
             "xz_spread": 0,
-            "y_spread": 1,
-            "type": "minecraft:random_offset"
+            "y_spread": 1
           }
         ]
       },
       {
         "feature": {
           "config": {
-            "chance_of_taller_dripstone": 0.2,
             "chance_of_directional_spread": 0.7,
             "chance_of_spread_radius2": 0.5,
-            "chance_of_spread_radius3": 0.5
+            "chance_of_spread_radius3": 0.5,
+            "chance_of_taller_dripstone": 0.2
           },
           "type": "pokecube_legends:aquamarine_crystal_feature"
         },
         "placement": [
           {
-            "direction_of_search": "up",
-            "target_condition": {
-              "type": "minecraft:solid"
-            },
             "allowed_search_condition": {
               "blocks": [
                 "minecraft:air",
@@ -57,13 +53,17 @@
               ],
               "type": "minecraft:matching_blocks"
             },
+            "direction_of_search": "up",
             "max_steps": 12,
+            "target_condition": {
+              "type": "minecraft:solid"
+            },
             "type": "minecraft:environment_scan"
           },
           {
+            "type": "minecraft:random_offset",
             "xz_spread": 0,
-            "y_spread": -1,
-            "type": "minecraft:random_offset"
+            "y_spread": -1
           }
         ]
       }

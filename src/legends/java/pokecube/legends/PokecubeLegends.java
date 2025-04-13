@@ -1,6 +1,6 @@
 package pokecube.legends;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -8,7 +8,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Blocks;
@@ -19,7 +18,6 @@ import net.minecraft.world.level.levelgen.SurfaceRules.RuleSource;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -27,6 +25,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
@@ -56,13 +55,11 @@ import pokecube.legends.blocks.properties.Flammables;
 import pokecube.legends.blocks.properties.Strippables;
 import pokecube.legends.blocks.properties.Tillables;
 import pokecube.legends.entity.WormholeEntity;
-import pokecube.legends.fluids.DistorticWaterType;
 import pokecube.legends.handlers.EventsHandler;
 import pokecube.legends.handlers.ForgeEventHandlers;
 import pokecube.legends.handlers.ItemHelperEffect;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.Config;
-import pokecube.legends.init.ContainerInit;
 import pokecube.legends.init.EntityInit;
 import pokecube.legends.init.FeaturesInit;
 import pokecube.legends.init.FluidInit;
@@ -74,9 +71,9 @@ import pokecube.legends.init.TileEntityInit;
 import pokecube.legends.init.function.UsableItemGigantShard;
 import pokecube.legends.init.function.UsableItemNatureEffects;
 import pokecube.legends.init.function.UsableItemZMoveEffects;
-import pokecube.legends.legacy.LegendsRegistryChangeFixer;
 import pokecube.legends.recipes.LegendsDistorticRecipeManager;
 import pokecube.legends.recipes.LegendsLootingRecipeManager;
+import pokecube.legends.spawns.WormholeSpawns;
 import pokecube.legends.worldgen.UltraSpaceSurfaceRules;
 import pokecube.legends.worldgen.WorldgenFeatures;
 import pokecube.legends.worldgen.trees.Trees;
@@ -113,7 +110,7 @@ public class PokecubeLegends
             RegHelper.CONFIGURED_FEATURE_REGISTRY, Reference.ID);
     public static final DeferredRegister<PlacedFeature> PLACED_FEATURES = DeferredRegister.create(
             RegHelper.PLACED_FEATURE_REGISTRY, Reference.ID);
-    public static final DeferredRegister<Codec<? extends RuleSource>> SURFACE_RULES = DeferredRegister.create(
+    public static final DeferredRegister<MapCodec<? extends RuleSource>> SURFACE_RULES = DeferredRegister.create(
             RegHelper.RULE_REGISTRY, Reference.ID);
 
     // Recipes
@@ -121,6 +118,12 @@ public class PokecubeLegends
             BuiltInRegistries.RECIPE_SERIALIZER, Reference.ID);
     public static final DeferredRegister<RecipeType<?>> RECIPE_TYPE = DeferredRegister.create(
             RegHelper.RECIPE_TYPE_REGISTRY, Reference.ID);
+
+    // Data
+
+    public static final DeferredRegister<AttachmentType<?>> ATTACHMENTS = DeferredRegister.create(
+            NeoForgeRegistries.Keys.ATTACHMENT_TYPES, Reference.ID);
+    //    public static final DeferredRegister<DataComponentType<?>> ITEM_DATA= DeferredRegister.create(BuiltInRegistries.DATA_COMPONENT_TYPE, Reference.MODID);
 
     /** Packs Textures,Tags,etc... */
     public static ResourceLocation TOTEM_FUEL_TAG = ResourceLocation.fromNamespaceAndPath(Reference.ID, "totem_fuel");
@@ -141,9 +144,6 @@ public class PokecubeLegends
 
     public PokecubeLegends(IEventBus modEventBus, ModContainer modContainer)
     {
-        // Register the data fixer for registry changes.
-        ThutCore.FORGE_BUS.register(LegendsRegistryChangeFixer.class);
-
         thut.core.common.config.Config.setupConfigs(modContainer, PokecubeLegends.config, PokecubeCore.MODID,
                 Reference.ID);
         ThutCore.FORGE_BUS.register(this);
@@ -167,6 +167,7 @@ public class PokecubeLegends
         PokecubeLegends.RECIPE_TYPE.register(modEventBus);
         PokecubeLegends.PARTICLES.register(modEventBus);
         PokecubeLegends.TILES.register(modEventBus);
+        PokecubeLegends.ATTACHMENTS.register(modEventBus);
 
         PokecubeLegends.CONFIGURED_FEATURES.register(modEventBus);
         PokecubeLegends.PLACED_FEATURES.register(modEventBus);
@@ -175,7 +176,6 @@ public class PokecubeLegends
 
         WorldgenFeatures.init(modEventBus);
         BlockInit.init();
-        ContainerInit.init();
         EntityInit.init();
         FeaturesInit.init(modEventBus);
         FluidInit.init();
@@ -184,6 +184,10 @@ public class PokecubeLegends
         MoveRegister.init();
         TileEntityInit.init();
         Trees.init(modEventBus);
+        WormholeSpawns.init();
+        UsableItemGigantShard.init();
+        UsableItemNatureEffects.init();
+        UsableItemZMoveEffects.init();
 
         LegendsDistorticRecipeManager.init();
         LegendsLootingRecipeManager.init();
@@ -212,24 +216,24 @@ public class PokecubeLegends
     {
         // Add Interactions for sources
         FluidInteractionRegistry.addInteraction(NeoForgeMod.LAVA_TYPE.value(),
-                new FluidInteractionRegistry.InteractionInformation(DistorticWaterType.DISTORTIC_WATER_TYPE.get(),
+                new FluidInteractionRegistry.InteractionInformation(FluidInit.DISTORTIC_WATER_TYPE.get(),
                         fluidState -> fluidState.isSource()
                                 ? Blocks.OBSIDIAN.defaultBlockState()
                                 : BlockInit.DISTORTIC_STONE.get().defaultBlockState()));
 
         FluidInteractionRegistry.addInteraction(NeoForgeMod.WATER_TYPE.value(),
-                new FluidInteractionRegistry.InteractionInformation(DistorticWaterType.DISTORTIC_WATER_TYPE.get(),
+                new FluidInteractionRegistry.InteractionInformation(FluidInit.DISTORTIC_WATER_TYPE.get(),
                         fluidState -> fluidState.isSource()
                                 ? Blocks.PACKED_ICE.defaultBlockState()
                                 : Blocks.ICE.defaultBlockState()));
 
-        FluidInteractionRegistry.addInteraction(DistorticWaterType.DISTORTIC_WATER_TYPE.get(),
+        FluidInteractionRegistry.addInteraction(FluidInit.DISTORTIC_WATER_TYPE.get(),
                 new FluidInteractionRegistry.InteractionInformation(
                         (level, currentPos, relativePos, currentState) -> level.getFluidState(currentPos).isSource()
                                 && level.getBlockState(currentPos.below()).is(Blocks.SNOW_BLOCK),
                         Blocks.BLUE_ICE.defaultBlockState()));
 
-        FluidInteractionRegistry.addInteraction(DistorticWaterType.DISTORTIC_WATER_TYPE.get(),
+        FluidInteractionRegistry.addInteraction(FluidInit.DISTORTIC_WATER_TYPE.get(),
                 new FluidInteractionRegistry.InteractionInformation(
                         (level, currentPos, relativePos, currentState) -> !level.getFluidState(currentPos).isSource()
                                 && level.getBlockState(currentPos.below()).is(BlockInit.DISTORTIC_MIRROR.get())
@@ -243,14 +247,6 @@ public class PokecubeLegends
                                 || level.getBlockState(currentPos.below()).is(BlockInit.CORRUPTED_COARSE_DIRT.get()))
                                 && level.getBlockState(relativePos).is(BlockInit.ULTRA_DARKSTONE.get()),
                         BlockInit.DUSK_DOLERITE.get().defaultBlockState()));
-    }
-
-    @SubscribeEvent
-    public void onItemCapabilityAttach(final AttachCapabilitiesEvent<ItemStack> event)
-    {
-        UsableItemNatureEffects.registerItemComponents(event);
-        UsableItemZMoveEffects.registerItemComponents(event);
-        UsableItemGigantShard.registerItemComponents(event);
     }
 
     @SubscribeEvent
@@ -344,8 +340,7 @@ public class PokecubeLegends
             return;
         }
         final boolean active = hit.getValue(RaidSpawnBlock.ACTIVE).active();
-        if (active) return;
-        else
+        if (!active)
         {
             final State state = ThutCore.newRandom().nextInt(20) == 0 ? State.RARE : State.NORMAL;
             event.getLevel().setBlockAndUpdate(event.getPos(), hit.setValue(RaidSpawnBlock.ACTIVE, state));

@@ -10,11 +10,11 @@
     },
     {
       "height": {
-        "min_inclusive": {
-          "absolute": 0
-        },
         "max_inclusive": {
           "below_top": 0
+        },
+        "min_inclusive": {
+          "absolute": 0
         },
         "type": "minecraft:uniform"
       },
@@ -22,6 +22,7 @@
     },
     {
       "direction_of_search": "down",
+      "max_steps": 32,
       "target_condition": {
         "predicates": [
           {
@@ -44,7 +45,6 @@
         ],
         "type": "minecraft:all_of"
       },
-      "max_steps": 32,
       "type": "minecraft:environment_scan"
     },
     {

@@ -1,119 +1,54 @@
 package pokecube.legends.init;
 
-import java.util.EnumMap;
-import java.util.function.Supplier;
-
 import net.minecraft.Util;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import pokecube.legends.Reference;
 
-public enum LegendsArmorMaterial implements StringRepresentable, ArmorMaterial
+import java.util.EnumMap;
+import java.util.List;
+import java.util.function.Supplier;
+
+public class LegendsArmorMaterial
 {
-    ULTRA_ARMOR("ultraspace_suit", 33, Util.make(new EnumMap<>(ArmorItem.Type.class),
-        (map) -> {
-            map.put(ArmorItem.Type.BOOTS, 3);
-            map.put(ArmorItem.Type.LEGGINGS, 6);
-            map.put(ArmorItem.Type.CHESTPLATE, 8);
-            map.put(ArmorItem.Type.HELMET, 3);
-        }), 10, SoundEvents.ARMOR_EQUIP_LEATHER.value(), 2.0F, 0.0F,
-        () -> { return Ingredient.of(ItemInit.SPECTRUM_SHARD.get()); }),
-    IMPRISONMENT_ARMOR("imprisonment", 37, Util.make(new EnumMap<>(ArmorItem.Type.class),
-            (map) -> {
+    public static final Holder<ArmorMaterial> ULTRA_ARMOR = register("ultraspace_suit",
+            Util.make(new EnumMap<>(ArmorItem.Type.class), (map) -> {
                 map.put(ArmorItem.Type.BOOTS, 3);
                 map.put(ArmorItem.Type.LEGGINGS, 6);
                 map.put(ArmorItem.Type.CHESTPLATE, 8);
                 map.put(ArmorItem.Type.HELMET, 3);
-            }), 15, SoundEvents.ARMOR_EQUIP_NETHERITE.value(), 3.0F, 0.1F, () -> {
-        return Ingredient.of(Items.NETHERITE_INGOT);
-    });
+            }), 10, SoundEvents.ARMOR_EQUIP_LEATHER, 2.0f, 0.0f, () -> Ingredient.of(Items.NETHERITE_INGOT),
+            List.of(new ArmorMaterial.Layer(ResourceLocation.parse("pokecube_legends:ultraspace_suit"))));
 
-    private static final EnumMap<ArmorItem.Type, Integer> HEALTH_FOR_TYPE =
+    public static final Holder<ArmorMaterial> IMPRISONMENT_ARMOR = register("imprisonment",
             Util.make(new EnumMap<>(ArmorItem.Type.class), (map) -> {
-        map.put(ArmorItem.Type.BOOTS, 13);
-        map.put(ArmorItem.Type.LEGGINGS, 15);
-        map.put(ArmorItem.Type.CHESTPLATE, 16);
-        map.put(ArmorItem.Type.HELMET, 11);
-    });
-    private final String name;
-    private final int durabilityMultiplier;
-    private final EnumMap<ArmorItem.Type, Integer> protectionForType;
-    private final int enchantability;
-    private final SoundEvent equipSound;
-    private final float toughness;
-    private final float knockbackResistance;
-    private final Supplier<Ingredient> repairIngredient;
+                map.put(ArmorItem.Type.BOOTS, 3);
+                map.put(ArmorItem.Type.LEGGINGS, 6);
+                map.put(ArmorItem.Type.CHESTPLATE, 8);
+                map.put(ArmorItem.Type.HELMET, 3);
+            }), 15, SoundEvents.ARMOR_EQUIP_NETHERITE, 3.0F, 0.1F, () -> Ingredient.of(Items.NETHERITE_INGOT),
+            List.of(new ArmorMaterial.Layer(ResourceLocation.parse("pokecube_legends:imprisonment"))));
 
-    LegendsArmorMaterial(String name, int durability, EnumMap<ArmorItem.Type, Integer> damageReduction, int enchantability, SoundEvent sound,
-                         float toughness, float knockbackResistance, Supplier<Ingredient> repairIngredient) {
-        this.name = name;
-        this.durabilityMultiplier = durability;
-        this.protectionForType = damageReduction;
-        this.enchantability = enchantability;
-        this.equipSound = sound;
-        this.toughness = toughness;
-        this.knockbackResistance = knockbackResistance;
-        this.repairIngredient = repairIngredient;
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    @Override
-    public String getName()
+    private static Holder<ArmorMaterial> register(String name, EnumMap<ArmorItem.Type, Integer> defense,
+            int enchantmentValue, Holder<SoundEvent> equipSound, float toughness, float knockbackResistance,
+            Supplier<Ingredient> repairIngridient, List<ArmorMaterial.Layer> layers)
     {
-        return Reference.ID + ":" + name;
-    }
+        EnumMap<ArmorItem.Type, Integer> enummap = new EnumMap<>(ArmorItem.Type.class);
 
-    @Override
-    public int getDurabilityForType(ArmorItem.Type slotIn)
-    {
-        return HEALTH_FOR_TYPE.get(slotIn) * durabilityMultiplier;
-    }
+        for (ArmorItem.Type armoritem$type : ArmorItem.Type.values())
+        {
+            enummap.put(armoritem$type, defense.get(armoritem$type));
+        }
 
-    @Override
-    public int getDefenseForType(ArmorItem.Type slotIn)
-    {
-        return protectionForType.get(slotIn);
-    }
-
-    @Override
-    public int getEnchantmentValue()
-    {
-        return enchantability;
-    }
-
-    @Override
-    public SoundEvent getEquipSound()
-    {
-        return equipSound;
-    }
-
-    @Override
-    public float getToughness()
-    {
-        return toughness;
-    }
-
-    @Override
-    public Ingredient getRepairIngredient()
-    {
-        return repairIngredient.get();
-    }
-
-    @Override
-    public float getKnockbackResistance()
-    {
-        return this.knockbackResistance;
-    }
-
-    @Override
-    public String getSerializedName() {
-        return this.name;
+        return Registry.registerForHolder(BuiltInRegistries.ARMOR_MATERIAL, ResourceLocation.withDefaultNamespace(name),
+                new ArmorMaterial(enummap, enchantmentValue, equipSound, repairIngridient, layers, toughness,
+                        knockbackResistance));
     }
 }

@@ -1,4 +1,10 @@
 {
+  "placement": {
+    "salt": 321546981,
+    "separation": 5,
+    "spacing": 6,
+    "type": "minecraft:random_spread"
+  },
   "structures": [
     {
       "structure": "pokecube_legends:aquamarine_statue",
@@ -68,11 +74,5 @@
       "structure": "pokecube_legends:tall_mirage_hut",
       "weight": 3
     }
-  ],
-  "placement": {
-    "type": "minecraft:random_spread",
-    "salt": 321546981,
-    "separation": 5,
-    "spacing": 6
-  }
+  ]
 }

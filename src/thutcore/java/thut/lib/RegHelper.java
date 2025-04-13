@@ -2,6 +2,7 @@ package thut.lib;
 
 import com.mojang.serialization.Codec;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -100,9 +101,9 @@ public class RegHelper
     public static final ResourceKey<Registry<StructureTemplatePool>> TEMPLATE_POOL_REGISTRY = key("worldgen/template_pool");
     public static final ResourceKey<Registry<StructureType<?>>> STRUCTURE_TYPE_REGISTRY = key("worldgen/structure_type");
     public static final ResourceKey<Registry<ConfiguredFeature<?, ?>>> CONFIGURED_FEATURE_REGISTRY = key("worldgen/configured_feature");
-    public static final ResourceKey<Registry<Codec<? extends ChunkGenerator>>> CHUNK_GENERATOR_REGISTRY = key("worldgen/chunk_generator");
+    public static final ResourceKey<Registry<MapCodec<? extends ChunkGenerator>>> CHUNK_GENERATOR_REGISTRY = key("worldgen/chunk_generator");
     public static final ResourceKey<Registry<PlacedFeature>> PLACED_FEATURE_REGISTRY = key("worldgen/placed_feature");
-    public static final ResourceKey<Registry<Codec<? extends SurfaceRules.RuleSource>>> RULE_REGISTRY = key("worldgen/material_rule");
+    public static final ResourceKey<Registry<MapCodec<? extends SurfaceRules.RuleSource>>> RULE_REGISTRY = key("worldgen/material_rule");
     public static final ResourceKey<Registry<StructureProcessorType<?>>> STRUCTURE_PROCESSOR_REGISTRY = key("worldgen/structure_processor");
     public static final ResourceKey<Registry<StructurePoolElementType<?>>> STRUCTURE_POOL_ELEMENT_REGISTRY = key("worldgen/structure_pool_element");
     public static final ResourceKey<Registry<FoliagePlacerType<?>>> FOLIAGE_PLACER_TYPE_REGISTRY = key("worldgen/foliage_placer_type");

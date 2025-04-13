@@ -1,8 +1,8 @@
 {
   "config": {
-    "spread_width": 8,
+    "max_height": 8,
     "spread_height": 4,
-    "max_height": 8
+    "spread_width": 8
   },
   "type": "pokecube_legends:distortic_vines_feature"
 }

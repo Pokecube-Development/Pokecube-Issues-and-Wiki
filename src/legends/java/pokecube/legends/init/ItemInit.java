@@ -409,19 +409,19 @@ public class ItemInit
                         LegendsArmorMaterial.IMPRISONMENT_ARMOR, ArmorItem.Type.HELMET, 1,
                         new Item.Properties()));
         COBALION_SWORD = PokecubeLegends.ITEMS.register("cobalion_sword",
-                () -> new LegendsSword(WeaponTiers.COBALION, 1, -2.6F, new Item.Properties())
+                () -> new LegendsSword(WeaponTiers.COBALION, new Item.Properties())
                         .setTooltipName("cobalion_sword").setTooltipExtraLine(2));
         KELDEO_SWORD = PokecubeLegends.ITEMS.register("keldeo_sword",
-                () -> new LegendsSword(WeaponTiers.KELDEO, 1, -2.4F, new Item.Properties())
+                () -> new LegendsSword(WeaponTiers.KELDEO,  new Item.Properties())
                         .setTooltipName("keldeo_sword").setTooltipExtraLine(2));
         TERRAKION_SWORD = PokecubeLegends.ITEMS.register("terrakion_sword",
-                () -> new LegendsSword(WeaponTiers.TERRAKION, 1, -3.0F, new Item.Properties())
+                () -> new LegendsSword(WeaponTiers.TERRAKION, new Item.Properties())
                         .setTooltipName("terrakion_sword").setTooltipExtraLine(2));
         VIRIZION_SWORD = PokecubeLegends.ITEMS.register("virizion_sword",
-                () -> new LegendsSword(WeaponTiers.VIRIZION, 1, -2.2F, new Item.Properties())
+                () -> new LegendsSword(WeaponTiers.VIRIZION,  new Item.Properties())
                         .setTooltipName("virizion_sword").setTooltipExtraLine(2));
         ZACIAN_SWORD = PokecubeLegends.ITEMS.register("zacian_sword",
-                () -> new LegendsSword(Tiers.NETHERITE, 4, -2.8F, new Item.Properties().fireResistant())
+                () -> new LegendsSword(Tiers.NETHERITE, new Item.Properties().fireResistant())
                         .setTooltipName("zacian_sword").setTooltipExtraLine(1));
 
         // Shields
@@ -469,7 +469,7 @@ public class ItemInit
                 () -> new ItemBase("wishing_piece", 1));
 
         RAINBOW_SWORD = PokecubeLegends.ITEMS.register("rainbow_sword",
-                () -> new RainbowSword(WeaponTiers.RAINBOW_WING, 2, -3.0F));
+                () -> new RainbowSword(WeaponTiers.RAINBOW_WING));
 
         // Dimensions Creative Tab - Sorting depends on the order the items are listed in
         // UltraSpace
@@ -548,7 +548,7 @@ public class ItemInit
                 () -> new DistortedMirror("giratina_mirror", 1));
 
         DISTORTIC_WATER_BUCKET = PokecubeLegends.ITEMS.register("distortic_water_bucket",
-                () -> new BucketItem(FluidInit.DISTORTIC_WATER, new Item.Properties().craftRemainder(Items.BUCKET)
+                () -> new BucketItem(FluidInit.DISTORTIC_WATER.get(), new Item.Properties().craftRemainder(Items.BUCKET)
                         .stacksTo(1).rarity(Rarity.RARE)));
 
         // Decorations Creative Tab - Sorting depends on
@@ -614,7 +614,7 @@ public class ItemInit
     @OnlyIn(Dist.CLIENT)
     public static void addItemModelProperties()
     {
-        RenderPokecube.ModelPokecube.CUBE_SHIFTS.put(ResourceLocation.parse("pokecube", "dynacube"), -0.1875f);
+        RenderPokecube.ModelPokecube.CUBE_SHIFTS.put(ResourceLocation.fromNamespaceAndPath("pokecube", "dynacube"), -0.1875f);
 
         ItemProperties.register(ItemInit.ZAMAZENTA_SHIELD.get(), ResourceLocation.parse("blocking"), (stack, world,
                 entity, intu) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);

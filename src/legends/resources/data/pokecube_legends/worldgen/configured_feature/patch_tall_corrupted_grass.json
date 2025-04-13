@@ -1,17 +1,14 @@
 {
   "config": {
-    "tries": 96,
-    "xz_spread": 7,
-    "y_spread": 3,
     "feature": {
       "feature": {
         "config": {
           "to_place": {
             "state": {
+              "Name": "pokecube_legends:tall_corrupted_grass",
               "Properties": {
                 "half": "lower"
-              },
-              "Name": "pokecube_legends:tall_corrupted_grass"
+              }
             },
             "type": "minecraft:simple_state_provider"
           }
@@ -29,13 +26,13 @@
                 "type": "minecraft:matching_blocks"
               },
               {
+                "blocks": [
+                  "pokecube_legends:corrupted_grass_block"
+                ],
                 "offset": [
                   0,
                   -1,
                   0
-                ],
-                "blocks": [
-                  "pokecube_legends:corrupted_grass_block"
                 ],
                 "type": "minecraft:matching_blocks"
               }
@@ -45,7 +42,10 @@
           "type": "minecraft:block_predicate_filter"
         }
       ]
-    }
+    },
+    "tries": 96,
+    "xz_spread": 7,
+    "y_spread": 3
   },
   "type": "minecraft:random_patch"
 }

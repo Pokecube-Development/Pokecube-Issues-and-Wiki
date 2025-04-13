@@ -7,6 +7,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
@@ -16,13 +17,14 @@ import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.init.CoreCreativeTabs;
 import pokecube.legends.Reference;
 
 import java.util.function.Supplier;
 
+import static pokecube.core.init.CoreCreativeTabs.*;
+
 @EventBusSubscriber(modid = Reference.ID, bus = EventBusSubscriber.Bus.MOD)
-public class LegendsCreativeTabs extends CoreCreativeTabs {
+public class LegendsCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Reference.ID);
 
     public static final Supplier<CreativeModeTab> BUILDING_BLOCKS_TAB = TABS.register("building_blocks_tab", () -> CreativeModeTab.builder()
@@ -878,7 +880,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
                     output.accept(ItemInit.zCrystals.get(type).get());
             }).build());
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {

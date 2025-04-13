@@ -1,28 +1,14 @@
 {
-  "type": "pokecube:generic_surface_jigsaw",
-  "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "start_pool": "pokecube_legends:temples/surface/keldeo_place",
-  "terrain_adaptation": "beard_thin",
-  "step": "surface_structures",
   "avoid_range": 6,
-  "size": 2,
-  "structures_to_avoid": [
-    "minecraft:pillager_outposts",
-    "minecraft:villages",
-    "pokecube:towns",
-    "pokecube:villages",
-    "pokecube_legends:towns",
-    "pokecube_legends:villages"
-  ],
   "avoidances": {
     "avoidances": [
       {
-        "name": "temple",
-        "distance": 8
+        "distance": 8,
+        "name": "temple"
       },
       {
-        "name": "keldeo_place",
-        "distance": 256
+        "distance": 256,
+        "name": "keldeo_place"
       }
     ],
     "flags": [
@@ -31,10 +17,10 @@
     ]
   },
   "biomes": {
-    "type": "forge:and",
+    "type": "neoforge:and",
     "values": [
       {
-        "type": "forge:or",
+        "type": "neoforge:or",
         "values": [
           "#forge:is_coniferous",
           "#minecraft:is_hill",
@@ -43,9 +29,9 @@
         ]
       },
       {
-        "type": "forge:not",
+        "type": "neoforge:not",
         "value": {
-          "type": "forge:or",
+          "type": "neoforge:or",
           "values": [
             "#minecraft:is_beach",
             "#minecraft:is_ocean",
@@ -55,5 +41,19 @@
       }
     ]
   },
-  "spawn_overrides": {}
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "size": 2,
+  "spawn_overrides": {},
+  "start_pool": "pokecube_legends:temples/surface/keldeo_place",
+  "step": "surface_structures",
+  "structures_to_avoid": [
+    "minecraft:pillager_outposts",
+    "minecraft:villages",
+    "pokecube:towns",
+    "pokecube:villages",
+    "pokecube_legends:towns",
+    "pokecube_legends:villages"
+  ],
+  "terrain_adaptation": "beard_thin",
+  "type": "pokecube:generic_surface_jigsaw"
 }

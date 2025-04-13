@@ -1,8 +1,5 @@
 {
   "config": {
-    "tries": 32,
-    "xz_spread": 7,
-    "y_spread": 3,
     "feature": {
       "feature": {
         "config": {
@@ -10,23 +7,23 @@
             "entries": [
               {
                 "data": {
-			      "Properties": {
-			        "layers": "6",
-			        "waterlogged": "true",
-		            "wet": "true"
-			      },
-                  "Name": "pokecube_legends:ash"
+                  "Name": "pokecube_legends:ash",
+                  "Properties": {
+                    "layers": "6",
+                    "waterlogged": "true",
+                    "wet": "true"
+                  }
                 },
                 "weight": 3
               },
               {
                 "data": {
-			      "Properties": {
-			        "layers": "8",
-			        "waterlogged": "true",
-		            "wet": "true"
-			      },
-                  "Name": "pokecube_legends:ash"
+                  "Name": "pokecube_legends:ash",
+                  "Properties": {
+                    "layers": "8",
+                    "waterlogged": "true",
+                    "wet": "true"
+                  }
                 },
                 "weight": 1
               }
@@ -52,7 +49,10 @@
           "type": "minecraft:block_predicate_filter"
         }
       ]
-    }
+    },
+    "tries": 32,
+    "xz_spread": 7,
+    "y_spread": 3
   },
   "type": "minecraft:random_patch"
 }

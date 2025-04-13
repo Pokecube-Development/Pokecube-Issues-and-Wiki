@@ -24,10 +24,10 @@ public class UltraSpaceSurfaceRules
         Codec<? extends UltraSpaceSurfaceRules.UltraSpaceRuleSource> codec();
     }
 
-    public static final Supplier<Codec<Bandlands>> AZURE_BADLANDS = PokecubeLegends.SURFACE_RULES
-            .register("azure_bandlands", () -> UltraSpaceSurfaceRules.Bandlands.CODEC.codec());
+    public static final Supplier<MapCodec<Bandlands>> AZURE_BADLANDS = PokecubeLegends.SURFACE_RULES
+            .register("azure_bandlands", UltraSpaceSurfaceRules.Bandlands.CODEC::codec);
 
-    private static Map<Block, Block> TERRACOTTA_MAP = Maps.newConcurrentMap();
+    private static final Map<Block, Block> TERRACOTTA_MAP = Maps.newConcurrentMap();
 
     public static void init()
     {
@@ -69,15 +69,14 @@ public class UltraSpaceSurfaceRules
         static final KeyDispatchDataCodec<UltraSpaceSurfaceRules.Bandlands> CODEC = KeyDispatchDataCodec
                 .of(MapCodec.unit(INSTANCE));
 
-        public KeyDispatchDataCodec<Bandlands> codec()
+        public KeyDispatchDataCodec<? extends SurfaceRules.RuleSource> codec()
         {
             return CODEC;
         }
 
         public SurfaceRules.SurfaceRule apply(SurfaceRules.Context context)
         {
-            TerracottaReplaceRule rule = new TerracottaReplaceRule(context.system);
-            return rule::tryApply;
+            return new TerracottaReplaceRule(context.system);
         }
     }
 

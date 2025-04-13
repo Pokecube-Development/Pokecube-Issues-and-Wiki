@@ -1,15 +1,15 @@
 {
-  "name": "pokecube_legends:team_bases/castle_n",
-  "fallback": "minecraft:empty",
   "elements": [
     {
-      "weight": 1,
       "element": {
-        "location": "pokecube_legends:team_bases/castle_n/castle_n",
         "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:team_bases/castle_n/castle_n",
         "processors": "pokecube:generic",
         "projection": "rigid"
-      }
+      },
+      "weight": 1
     }
-  ]
+  ],
+  "fallback": "minecraft:empty",
+  "name": "pokecube_legends:team_bases/castle_n"
 }

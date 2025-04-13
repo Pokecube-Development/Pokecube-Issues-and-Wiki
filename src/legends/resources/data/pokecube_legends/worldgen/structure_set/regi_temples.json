@@ -1,4 +1,10 @@
 {
+  "placement": {
+    "salt": 124535665,
+    "separation": 4,
+    "spacing": 12,
+    "type": "minecraft:random_spread"
+  },
   "structures": [
     {
       "structure": "pokecube_legends:regice_temple",
@@ -24,11 +30,5 @@
       "structure": "pokecube_legends:registeel_temple",
       "weight": 1
     }
-  ],
-  "placement": {
-    "salt": 124535665,
-    "spacing": 12,
-    "separation": 4,
-    "type": "minecraft:random_spread"
-  }
+  ]
 }

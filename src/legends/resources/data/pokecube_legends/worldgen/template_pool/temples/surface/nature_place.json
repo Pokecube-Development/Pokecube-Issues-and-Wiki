@@ -1,16 +1,18 @@
 {
-  "name": "pokecube_legends:temples/surface_temples/nature_place",
-  "fallback": "minecraft:empty",
   "elements": [
     {
-      "weight": 1,
       "element": {
-        "location": "pokecube_legends:temples/surface/nature_place",
         "element_type": "pokecube:expanded_pool_element",
+        "int_config": {
+          "y_offset": -3
+        },
+        "location": "pokecube_legends:temples/surface/nature_place",
         "processors": "pokecube:decay_30_percent",
-        "int_config":{"y_offset": -3},
         "projection": "rigid"
-      }
+      },
+      "weight": 1
     }
-  ]
+  ],
+  "fallback": "minecraft:empty",
+  "name": "pokecube_legends:temples/surface_temples/nature_place"
 }

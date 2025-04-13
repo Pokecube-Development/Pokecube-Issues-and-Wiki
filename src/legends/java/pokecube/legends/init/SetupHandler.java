@@ -13,12 +13,10 @@ public class SetupHandler
     @SubscribeEvent
     public static void registerCapabilities(final RegisterCapabilitiesEvent event)
     {
-        WormholeSpawns.registerCapabilities(event);
     }
 
     @SubscribeEvent
     public static void setup(final FMLCommonSetupEvent event)
     {
-        WormholeSpawns.init();
     }
 }

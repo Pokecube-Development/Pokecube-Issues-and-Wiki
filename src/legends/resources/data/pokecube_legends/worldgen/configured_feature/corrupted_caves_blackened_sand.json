@@ -1,11 +1,11 @@
 {
   "config": {
-    "feature_true": {
-      "feature": "pokecube_legends:blackened_sand_with_dripleaves",
-      "placement": []
-    },
     "feature_false": {
       "feature": "pokecube_legends:blackened_sand_pool_with_dripleaves",
+      "placement": []
+    },
+    "feature_true": {
+      "feature": "pokecube_legends:blackened_sand_with_dripleaves",
       "placement": []
     }
   },

@@ -1,4 +1,10 @@
 {
+  "placement": {
+    "salt": 1856246254,
+    "separation": 12,
+    "spacing": 48,
+    "type": "minecraft:random_spread"
+  },
   "structures": [
     {
       "structure": "pokecube_legends:raid_end",
@@ -12,11 +18,5 @@
       "structure": "pokecube_legends:raid_spot",
       "weight": 5
     }
-  ],
-  "placement": {
-    "salt": 1856246254,
-    "spacing": 48,
-    "separation": 12,
-    "type": "minecraft:random_spread"
-  }
+  ]
 }

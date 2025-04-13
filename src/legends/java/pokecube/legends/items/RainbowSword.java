@@ -1,23 +1,27 @@
 package pokecube.legends.items;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.SmallFireball;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 public class RainbowSword extends SwordItem
 {
     public final Tier tier;
-    public RainbowSword(final Tier material, final int bonusDamage, final float attackSpeed)
+    public RainbowSword(final Tier material)
     {
-        super(material, bonusDamage, attackSpeed, new Properties());
+        super(material, new Item.Properties());
         this.tier = material;
     }
 
@@ -38,8 +42,8 @@ public class RainbowSword extends SwordItem
         double z = player.getZ() + (double)(player.getDirection().getStepZ() * 0.3F);
 
         // Get the player's orientation (yaw and pitch)
-        float yaw = player.yRot;
-        float pitch = player.xRot;
+        float yaw = player.getYRot();
+        float pitch = player.getXRot();
 
         // Calculate the direction vector
         double vx = -Math.sin(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch));
@@ -48,17 +52,16 @@ public class RainbowSword extends SwordItem
 
         if (!world.isClientSide)
         {
-            SmallFireball fireball = new SmallFireball(world, x, y + 1.0, z, vx, vy, vz);
+            SmallFireball fireball = new SmallFireball(world, x, y + 1.0, z, new Vec3(vx, vy, vz));
             fireball.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.5F, 1.0F);
             world.addFreshEntity(fireball);
         }
 
         player.awardStat(Stats.ITEM_USED.get(this));
-
-        if (!player.getAbilities().instabuild) {
-            stack.hurtAndBreak(3, player, (entity) ->
+        if (!player.getAbilities().instabuild && world instanceof ServerLevel level) {
+            stack.hurtAndBreak(3, level, player, (item) ->
             {
-                entity.broadcastBreakEvent(hand);
+              player.onEquippedItemBroken(item, hand==InteractionHand.MAIN_HAND?EquipmentSlot.MAINHAND:EquipmentSlot.OFFHAND);
             });
         }
 

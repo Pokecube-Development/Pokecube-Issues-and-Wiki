@@ -1,4 +1,10 @@
 {
+  "placement": {
+    "salt": 1435646292,
+    "separation": 4,
+    "spacing": 24,
+    "type": "minecraft:random_spread"
+  },
   "structures": [
     {
       "structure": "pokecube_legends:castle_n",
@@ -16,11 +22,5 @@
       "structure": "pokecube_legends:team_rocket",
       "weight": 1
     }
-  ],
-  "placement": {
-    "salt": 1435646292,
-    "spacing": 24,
-    "separation": 4,
-    "type": "minecraft:random_spread"
-  }
+  ]
 }

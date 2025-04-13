@@ -1,22 +1,11 @@
 package pokecube.legends.entity;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import java.util.UUID;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.IntTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -38,10 +27,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import net.neoforged.neoforge.capabilities.ICapabilityProvider;
-import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -60,6 +46,13 @@ import thut.api.entity.teleporting.ThutTeleporter;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.core.common.network.EntityUpdate;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+import java.util.UUID;
 
 public class WormholeEntity extends LivingEntity
 {
@@ -129,33 +122,6 @@ public class WormholeEntity extends LivingEntity
         return dim;
     }
 
-    public static class EnergyStore extends EnergyStorage implements ICapabilityProvider
-    {
-        private final LazyOptional<IEnergyStorage> holder = LazyOptional.of(() -> this);
-
-        public EnergyStore()
-        {
-            super(Integer.MAX_VALUE);
-        }
-
-        @Override
-        public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
-        {
-            return ThutCaps.ENERGY.orEmpty(cap, this.holder);
-        }
-
-        @Override
-        public void deserializeNBT(final Tag nbt)
-        {
-            if (!(nbt instanceof IntTag))
-            {
-                PokecubeAPI.LOGGER.error("error loading wormhole energy, this is probably from a version update!");
-                return;
-            }
-            super.deserializeNBT(nbt);
-        }
-    }
-
     public static void onTeleport(final EntityTeleportEvent event)
     {
         Entity entity = event.getEntity();
@@ -192,7 +158,7 @@ public class WormholeEntity extends LivingEntity
             for (int i = 0; i < pokemob.getInventory().getContainerSize(); i++)
             {
                 final ItemStack test = pokemob.getInventory().getItem(i);
-                link = ThutCaps.getLinkStorage(test);
+                link = ThutCaps.getLinkStorage(test).link();
             }
             if (link != null)
             {
@@ -214,7 +180,7 @@ public class WormholeEntity extends LivingEntity
     private TeleDest pos = null;
     private Vec3 dir = null;
 
-    public EnergyStore energy;
+    public EnergyStorage energy;
 
     int timer = 0;
     int uses = 0;
@@ -229,10 +195,10 @@ public class WormholeEntity extends LivingEntity
     }
 
     @Override
-    protected void defineSynchedData()
+    protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
-        super.defineSynchedData();
-        this.entityData.define(WormholeEntity.ACTIVE_STATE, (byte) 0);
+        super.defineSynchedData(builder);
+        builder.define(WormholeEntity.ACTIVE_STATE, (byte) 0);
     }
 
     public boolean isOpening()
@@ -363,8 +329,8 @@ public class WormholeEntity extends LivingEntity
             float yRot = (float) Mth.atan2(this.getDir().x, this.getDir().z) * (180F / (float) Math.PI);
             float xRot = 0;
 
-            this.xRot = this.xRotO = xRot;
-            this.yRot = this.yRotO = yRot;
+            this.setXRot(this.xRotO = xRot);
+            this.setYRot(this.yRotO = yRot);
             this.yBodyRot = this.yBodyRotO = yRot;
             this.yHeadRot = this.yHeadRotO = yRot;
         }
@@ -557,11 +523,11 @@ public class WormholeEntity extends LivingEntity
     {
         if (this.dir == null)
         {
-            this.yRot = new Random(this.getUUID().getLeastSignificantBits()).nextFloat() * 360;
-            this.yRotO = this.yRot;
-            this.yHeadRot = this.yRot;
+            this.setYRot(new Random(this.getUUID().getLeastSignificantBits()).nextFloat() * 360);
+            this.yRotO = this.getYRot();
+            this.yHeadRot = this.getYRot();
             this.yHeadRotO = this.yRotO;
-            this.yBodyRot = this.yRot;
+            this.yBodyRot = this.getYRot();
             this.yBodyRotO = this.yRotO;
             this.dir = this.getLookAngle();
         }

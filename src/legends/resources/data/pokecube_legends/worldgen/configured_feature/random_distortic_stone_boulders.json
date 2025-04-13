@@ -1,12 +1,12 @@
 {
   "config": {
+    "default": "pokecube_legends:rock_distortic_stone",
     "features": [
       {
-        "feature": "pokecube_legends:small_distortic_stone_boulders",
-        "chance": 0.015
+        "chance": 0.015,
+        "feature": "pokecube_legends:small_distortic_stone_boulders"
       }
-    ],
-    "default": "pokecube_legends:rock_distortic_stone"
+    ]
   },
   "type": "minecraft:random_selector"
 }

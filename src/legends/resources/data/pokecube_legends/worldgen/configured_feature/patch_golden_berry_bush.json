@@ -1,17 +1,14 @@
 {
   "config": {
-    "tries": 96,
-    "xz_spread": 7,
-    "y_spread": 3,
     "feature": {
       "feature": {
         "config": {
           "to_place": {
             "state": {
+              "Name": "pokecube_legends:golden_sweet_berry_bush",
               "Properties": {
                 "age": "3"
-              },
-              "Name": "pokecube_legends:golden_sweet_berry_bush"
+              }
             },
             "type": "minecraft:simple_state_provider"
           }
@@ -29,14 +26,14 @@
                 "type": "minecraft:matching_blocks"
               },
               {
+                "blocks": [
+                  "pokecube_legends:aged_grass_block",
+                  "pokecube_legends:aged_podzol"
+                ],
                 "offset": [
                   0,
                   -1,
                   0
-                ],
-                "blocks": [
-                  "pokecube_legends:aged_grass_block",
-                  "pokecube_legends:aged_podzol"
                 ],
                 "type": "minecraft:matching_blocks"
               }
@@ -46,7 +43,10 @@
           "type": "minecraft:block_predicate_filter"
         }
       ]
-    }
+    },
+    "tries": 96,
+    "xz_spread": 7,
+    "y_spread": 3
   },
   "type": "minecraft:random_patch"
 }

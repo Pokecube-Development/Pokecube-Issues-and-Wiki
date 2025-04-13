@@ -1,42 +1,42 @@
 {
-  "name": "pokecube_legends:team_bases/team_rocket",
-  "fallback": "minecraft:empty",
   "elements": [
     {
-      "weight": 1,
       "element": {
+        "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube_legends:team_bases/team_rocket/houses/house_1",
-        "projection": "rigid",
-        "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic_ladders_no_waterlog"
-      }
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "projection": "rigid"
+      },
+      "weight": 1
     },
     {
-      "weight": 1,
       "element": {
+        "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube_legends:team_bases/team_rocket/houses/house_2",
-        "projection": "rigid",
-        "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic_ladders_no_waterlog"
-      }
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "projection": "rigid"
+      },
+      "weight": 1
     },
     {
-      "weight": 1,
       "element": {
+        "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube_legends:team_bases/team_rocket/houses/house_3",
-        "projection": "rigid",
-        "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic_ladders_no_waterlog"
-      }
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "projection": "rigid"
+      },
+      "weight": 1
     },
     {
-      "weight": 1,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/houses/house_4",
-        "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic_ladders_no_waterlog"
-      }
+        "location": "pokecube_legends:team_bases/team_rocket/houses/house_4",
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "projection": "rigid"
+      },
+      "weight": 1
     }
-  ]
+  ],
+  "fallback": "minecraft:empty",
+  "name": "pokecube_legends:team_bases/team_rocket"
 }

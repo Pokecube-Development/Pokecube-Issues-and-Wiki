@@ -1,37 +1,35 @@
 package pokecube.legends.recipes;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraftforge.registries.RegistryObject;
-import net.neoforged.fml.util.ObfuscationReflectionHelper;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import pokecube.legends.PokecubeLegends;
-import pokecube.legends.recipes.LegendsLootingRecipeSerializer.SerializerLooting;
+import pokecube.legends.recipes.LegendsLootingRecipeImpl.SerializerLooting;
 import thut.core.common.ThutCore;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Supplier;
 
 public class LegendsLootingRecipeManager
 {
-    public static final RegistryObject<RecipeType<?>> LEGENDS_LOOTING_RECIPE_TYPE = PokecubeLegends.RECIPE_TYPE
-            .register("legends_looting", () -> new RecipeType<>()
+    public static final Supplier<RecipeType<LegendsLootingRecipeImpl>> LEGENDS_LOOTING_RECIPE_TYPE = PokecubeLegends.RECIPE_TYPE.register(
+            "legends_looting", () -> new RecipeType<>()
             {
                 public String toString()
                 {
                     return "pokecube_legends:legends_looting";
                 }
             });
-    public static final RegistryObject<SerializerLooting> LEGENDS_LOOTING_RECIPE = PokecubeLegends.RECIPE_SERIALIZER
-            .register("legends_looting", () -> new SerializerLooting());
+    public static final Supplier<SerializerLooting> LEGENDS_LOOTING_RECIPE = PokecubeLegends.RECIPE_SERIALIZER.register(
+            "legends_looting", SerializerLooting::new);
 
     public static void onPlayerClickBlock(final PlayerInteractEvent.RightClickBlock event)
     {
@@ -40,44 +38,35 @@ public class LegendsLootingRecipeManager
 
             final ItemStack heldItem = event.getEntity().getItemInHand(event.getHand());
 
-            for (final Recipe<?> recipe : LegendsLootingRecipeManager.getRecipes(
-                    LegendsLootingRecipeManager.LEGENDS_LOOTING_RECIPE_TYPE.get(), event.getLevel().getRecipeManager()).values())
-                if (recipe instanceof LegendsLootingRecipeSerializer)
-            {
-                final LegendsLootingRecipeSerializer blockRecipe = (LegendsLootingRecipeSerializer) recipe;
-
-                if (blockRecipe.isValid(heldItem, event.getLevel().getBlockState(event.getPos()).getBlock()))
+            for (final RecipeHolder<LegendsLootingRecipeImpl> recipe : event.getLevel().getRecipeManager()
+                    .getAllRecipesFor(LegendsLootingRecipeManager.LEGENDS_LOOTING_RECIPE_TYPE.get()))
+                if (recipe.value() instanceof LegendsLootingRecipeImpl blockRecipe)
                 {
-                    final LootTable loottable = event.getEntity().getServer().getLootData().getLootTable(blockRecipe.output);
-                    final LootParams.Builder lootcontext$builder =
-                            new LootParams.Builder((ServerLevel) event.getEntity().level());
-
-                    final List<ItemStack> list = loottable
-                            .getRandomItems(lootcontext$builder.create(loottable.getParamSet()));
-
-                    if (!list.isEmpty()) Collections.shuffle(list);
-
-                    for (final ItemStack itemstack : list)
+                    if (blockRecipe.isValid(heldItem, event.getLevel().getBlockState(event.getPos()).getBlock()))
                     {
-                        ItemHandlerHelper.giveItemToPlayer(event.getEntity(), itemstack);
+                        final LootTable loottable = event.getEntity().getServer().reloadableRegistries()
+                                .getLootTable(ResourceKey.create(Registries.LOOT_TABLE, blockRecipe.output));
+                        final LootParams.Builder lootcontext$builder = new LootParams.Builder(
+                                (ServerLevel) event.getEntity().level());
+
+                        final List<ItemStack> list = loottable.getRandomItems(
+                                lootcontext$builder.create(loottable.getParamSet()));
+
+                        if (!list.isEmpty()) Collections.shuffle(list);
+
+                        for (final ItemStack itemstack : list)
+                        {
+                            ItemHandlerHelper.giveItemToPlayer(event.getEntity(), itemstack);
+                            break;
+                        }
+
+                        heldItem.shrink(1);
+                        ItemHandlerHelper.giveItemToPlayer(event.getEntity(),
+                                blockRecipe.getResultItem(event.getLevel().registryAccess()));
                         break;
                     }
-
-                    heldItem.shrink(1);
-                    ItemHandlerHelper.giveItemToPlayer(event.getEntity(), blockRecipe.getResultItem(event.getLevel().registryAccess()));
-                    break;
                 }
-            }
         }
-    }
-
-    private static Map<ResourceLocation, Recipe<?>> getRecipes(final RecipeType<?> recipeType,
-            final RecipeManager manager)
-    {
-
-        final Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> recipesMap = ObfuscationReflectionHelper
-                .getPrivateValue(RecipeManager.class, manager, "f_44007_");
-        return recipesMap.getOrDefault(recipeType, Collections.emptyMap());
     }
 
     public static void init()

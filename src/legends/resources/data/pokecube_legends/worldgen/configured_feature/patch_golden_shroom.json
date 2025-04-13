@@ -1,8 +1,5 @@
 {
   "config": {
-    "tries": 96,
-    "xz_spread": 7,
-    "y_spread": 3,
     "feature": {
       "feature": {
         "config": {
@@ -26,14 +23,14 @@
                 "type": "minecraft:matching_blocks"
               },
               {
+                "blocks": [
+                  "pokecube_legends:aged_grass_block",
+                  "pokecube_legends:aged_podzol"
+                ],
                 "offset": [
                   0,
                   -1,
                   0
-                ],
-                "blocks": [
-                  "pokecube_legends:aged_grass_block",
-                  "pokecube_legends:aged_podzol"
                 ],
                 "type": "minecraft:matching_blocks"
               }
@@ -43,7 +40,10 @@
           "type": "minecraft:block_predicate_filter"
         }
       ]
-    }
+    },
+    "tries": 96,
+    "xz_spread": 7,
+    "y_spread": 3
   },
   "type": "minecraft:flower"
 }

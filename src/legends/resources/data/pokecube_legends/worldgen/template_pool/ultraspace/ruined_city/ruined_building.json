@@ -1,34 +1,40 @@
 {
-  "name": "pokecube_legends:ultraspace/ruined_city/ruined_building",
-  "fallback": "minecraft:empty",
   "elements": [
     {
-      "weight": 3,
       "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "int_config": {
+          "space_below": 0
+        },
         "location": "pokecube_legends:ultraspace/ruined_city/ruined_building",
-        "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube_legends:building_ruined",
-        "int_config": { "space_below": 0 },
         "projection": "rigid"
-      }
+      },
+      "weight": 3
     },
     {
-      "weight": 1,
       "element": {
-        "location": "pokecube_legends:ultraspace/ruined_city/water_tower",
+        "bool_config": {
+          "only_once": true
+        },
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube_legends:building_ruined",
-        "bool_config": {"only_once": true},
-        "int_config": { "space_below": 0 },
         "flags": "water_tower",
+        "int_config": {
+          "space_below": 0
+        },
+        "location": "pokecube_legends:ultraspace/ruined_city/water_tower",
+        "processors": "pokecube_legends:building_ruined",
         "projection": "rigid"
-      }
+      },
+      "weight": 1
     },
     {
-      "weight": 7,
       "element": {
         "element_type": "minecraft:empty_pool_element"
-      }
+      },
+      "weight": 7
     }
-  ]
+  ],
+  "fallback": "minecraft:empty",
+  "name": "pokecube_legends:ultraspace/ruined_city/ruined_building"
 }

@@ -1,175 +1,239 @@
 {
-  "name": "pokecube_legends:team_bases/team_magma_rooms",
-  "fallback": "pokecube_legends:team_bases/team_magma_terminators",
   "elements": [
     {
-      "weight": 5,
       "element": {
+        "bool_config": {
+          "no_affect_noise": true,
+          "only_once": true
+        },
+        "element_type": "pokecube:expanded_pool_element",
+        "flags": "boss_entrance",
+        "int_config": {
+          "space_below": 0
+        },
         "location": "pokecube_legends:team_bases/team_magma/rooms/boss_entrance",
         "processors": "pokecube:generic_ladders_no_waterlog",
-        "element_type": "pokecube:expanded_pool_element",
-        "bool_config": {"no_affect_noise":true, "only_once": true},
-        "int_config": { "space_below": 0 },
-        "projection": "rigid",
-        "flags": "boss_entrance"
-      }
+        "projection": "rigid"
+      },
+      "weight": 5
     },
     {
-      "weight": 5,
       "element": {
+        "bool_config": {
+          "no_affect_noise": true,
+          "only_once": true
+        },
+        "element_type": "pokecube:expanded_pool_element",
+        "flags": "redstone",
+        "int_config": {
+          "space_below": 0
+        },
         "location": "pokecube_legends:team_bases/team_magma/rooms/redstone_room",
         "processors": "pokecube:generic_ladders_no_waterlog",
-        "element_type": "pokecube:expanded_pool_element",
-        "bool_config": {"no_affect_noise":true, "only_once": true},
-        "int_config": { "space_below": 0 },
-        "projection": "rigid",
-        "flags": "redstone"
-      }
+        "projection": "rigid"
+      },
+      "weight": 5
     },
     {
-      "weight": 5,
       "element": {
+        "bool_config": {
+          "no_affect_noise": true
+        },
+        "element_type": "pokecube:expanded_pool_element",
+        "int_config": {
+          "space_below": 0
+        },
         "location": "pokecube_legends:team_bases/team_magma/rooms/room_1",
         "processors": "pokecube:generic_ladders_no_waterlog",
-        "element_type": "pokecube:expanded_pool_element",
-        "bool_config": { "no_affect_noise": true },
-        "int_config": { "space_below": 0 },
         "projection": "rigid"
-      }
+      },
+      "weight": 5
     },
     {
-      "weight": 5,
       "element": {
+        "bool_config": {
+          "no_affect_noise": true
+        },
+        "element_type": "pokecube:expanded_pool_element",
+        "int_config": {
+          "space_below": 0
+        },
         "location": "pokecube_legends:team_bases/team_magma/rooms/room_2",
         "processors": "pokecube:generic_ladders_no_waterlog",
-        "element_type": "pokecube:expanded_pool_element",
-        "bool_config": { "no_affect_noise": true },
-        "int_config": { "space_below": 0 },
         "projection": "rigid"
-      }
+      },
+      "weight": 5
     },
     {
-      "weight": 5,
       "element": {
+        "bool_config": {
+          "no_affect_noise": true
+        },
+        "element_type": "pokecube:expanded_pool_element",
+        "int_config": {
+          "space_below": 0
+        },
         "location": "pokecube_legends:team_bases/team_magma/rooms/room_3",
         "processors": "pokecube:generic_ladders_no_waterlog",
-        "element_type": "pokecube:expanded_pool_element",
-        "bool_config": { "no_affect_noise": true },
-        "int_config": { "space_below": 0 },
         "projection": "rigid"
-      }
+      },
+      "weight": 5
     },
     {
-      "weight": 5,
       "element": {
+        "bool_config": {
+          "no_affect_noise": true
+        },
+        "element_type": "pokecube:expanded_pool_element",
+        "int_config": {
+          "space_below": 0
+        },
         "location": "pokecube_legends:team_bases/team_magma/rooms/room_4",
         "processors": "pokecube:generic_ladders_no_waterlog",
-        "element_type": "pokecube:expanded_pool_element",
-        "bool_config": { "no_affect_noise": true },
-        "int_config": { "space_below": 0 },
         "projection": "rigid"
-      }
+      },
+      "weight": 5
     },
     {
-      "weight": 5,
       "element": {
+        "bool_config": {
+          "no_affect_noise": true
+        },
+        "element_type": "pokecube:expanded_pool_element",
+        "int_config": {
+          "space_below": 0
+        },
         "location": "pokecube_legends:team_bases/team_magma/rooms/room_5",
         "processors": "pokecube:generic_ladders_no_waterlog",
-        "element_type": "pokecube:expanded_pool_element",
-        "bool_config": { "no_affect_noise": true },
-        "int_config": { "space_below": 0 },
         "projection": "rigid"
-      }
+      },
+      "weight": 5
     },
     {
-      "weight": 5,
       "element": {
+        "bool_config": {
+          "no_affect_noise": true,
+          "only_once": true
+        },
+        "element_type": "pokecube:expanded_pool_element",
+        "flags": "loot_room",
+        "int_config": {
+          "space_below": 0
+        },
         "location": "pokecube_legends:team_bases/team_magma/rooms/room_6",
         "processors": "pokecube:generic_ladders_no_waterlog",
-        "element_type": "pokecube:expanded_pool_element",
-        "bool_config": {"no_affect_noise":true, "only_once": true},
-        "int_config": { "space_below": 0 },
-        "projection": "rigid",
-        "flags": "loot_room"
-      }
+        "projection": "rigid"
+      },
+      "weight": 5
     },
     {
-      "weight": 5,
       "element": {
+        "bool_config": {
+          "no_affect_noise": true
+        },
+        "element_type": "pokecube:expanded_pool_element",
+        "int_config": {
+          "space_below": 0
+        },
         "location": "pokecube_legends:team_bases/team_magma/rooms/room_6",
         "processors": "pokecube:generic_ladders_no_waterlog",
-        "element_type": "pokecube:expanded_pool_element",
-        "bool_config": { "no_affect_noise": true },
-        "int_config": { "space_below": 0 },
         "projection": "rigid"
-      }
+      },
+      "weight": 5
     },
     {
-      "weight": 5,
       "element": {
+        "bool_config": {
+          "no_affect_noise": true,
+          "only_once": true
+        },
+        "element_type": "pokecube:expanded_pool_element",
+        "flags": "secret",
+        "int_config": {
+          "space_below": 0
+        },
         "location": "pokecube_legends:team_bases/team_magma/rooms/secret_room",
         "processors": "pokecube:generic_ladders_no_waterlog",
-        "element_type": "pokecube:expanded_pool_element",
-        "bool_config": {"no_affect_noise":true, "only_once": true},
-        "int_config": { "space_below": 0 },
-        "projection": "rigid",
-        "flags": "secret"
-      }
+        "projection": "rigid"
+      },
+      "weight": 5
     },
     {
-      "weight": 10,
       "element": {
+        "bool_config": {
+          "no_affect_noise": true
+        },
+        "element_type": "pokecube:expanded_pool_element",
+        "int_config": {
+          "space_below": 0
+        },
         "location": "pokecube_legends:team_bases/team_magma/hallways/hallway_1",
         "processors": "pokecube:generic_ladders_no_waterlog",
-        "element_type": "pokecube:expanded_pool_element",
-        "bool_config": { "no_affect_noise": true },
-        "int_config": { "space_below": 0 },
         "projection": "rigid"
-      }
+      },
+      "weight": 10
     },
     {
-      "weight": 7,
       "element": {
+        "bool_config": {
+          "no_affect_noise": true
+        },
+        "element_type": "pokecube:expanded_pool_element",
+        "int_config": {
+          "space_below": 0
+        },
         "location": "pokecube_legends:team_bases/team_magma/hallways/hallway_t",
         "processors": "pokecube:generic_ladders_no_waterlog",
-        "element_type": "pokecube:expanded_pool_element",
-        "bool_config": { "no_affect_noise": true },
-        "int_config": { "space_below": 0 },
         "projection": "rigid"
-      }
+      },
+      "weight": 7
     },
     {
-      "weight": 5,
       "element": {
+        "bool_config": {
+          "no_affect_noise": true
+        },
+        "element_type": "pokecube:expanded_pool_element",
+        "int_config": {
+          "space_below": 0
+        },
         "location": "pokecube_legends:team_bases/team_magma/hallways/hallway_z",
         "processors": "pokecube:generic_ladders_no_waterlog",
-        "element_type": "pokecube:expanded_pool_element",
-        "bool_config": { "no_affect_noise": true },
-        "int_config": { "space_below": 0 },
         "projection": "rigid"
-      }
+      },
+      "weight": 5
     },
     {
-      "weight": 7,
       "element": {
+        "bool_config": {
+          "no_affect_noise": true
+        },
+        "element_type": "pokecube:expanded_pool_element",
+        "int_config": {
+          "space_below": 0
+        },
         "location": "pokecube_legends:team_bases/team_magma/hallways/hallway_lava_tank",
         "processors": "pokecube:generic_ladders_no_waterlog",
-        "element_type": "pokecube:expanded_pool_element",
-        "bool_config": { "no_affect_noise": true },
-        "int_config": { "space_below": 0 },
         "projection": "rigid"
-      }
+      },
+      "weight": 7
     },
     {
-      "weight": 5,
       "element": {
+        "bool_config": {
+          "no_affect_noise": true
+        },
+        "element_type": "pokecube:expanded_pool_element",
+        "int_config": {
+          "space_below": 0
+        },
         "location": "pokecube_legends:team_bases/team_magma/hallways/hallway_lava_tank_t",
         "processors": "pokecube:generic_ladders_no_waterlog",
-        "element_type": "pokecube:expanded_pool_element",
-        "bool_config": { "no_affect_noise": true },
-        "int_config": { "space_below": 0 },
         "projection": "rigid"
-      }
+      },
+      "weight": 5
     }
-  ]
+  ],
+  "fallback": "pokecube_legends:team_bases/team_magma_terminators",
+  "name": "pokecube_legends:team_bases/team_magma_rooms"
 }

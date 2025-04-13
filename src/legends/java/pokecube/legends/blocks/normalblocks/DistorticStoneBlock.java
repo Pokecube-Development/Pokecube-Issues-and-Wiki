@@ -28,10 +28,9 @@ public class DistorticStoneBlock extends Block implements BonemealableBlock
     }
 
     @Override
-    public boolean isValidBonemealTarget(final LevelReader worldReader, final BlockPos pos, final BlockState state,
-                                         final boolean valid)
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state)
     {
-        if (!worldReader.getBlockState(pos.above()).propagatesSkylightDown(worldReader, pos)) return false;
+        if (!level.getBlockState(pos.above()).propagatesSkylightDown(level, pos)) return false;
         else
         {
             final Iterator<BlockPos> var5 = BlockPos.betweenClosed(pos.offset(-1, -1, -1), pos.offset(1, 1, 1))
@@ -44,7 +43,7 @@ public class DistorticStoneBlock extends Block implements BonemealableBlock
 
                 blockpos = var5.next();
             }
-            while (!worldReader.getBlockState(blockpos).is(DISTORTIC_GRASS_SPREADABLE));
+            while (!level.getBlockState(blockpos).is(DISTORTIC_GRASS_SPREADABLE));
 
             return true;
         }

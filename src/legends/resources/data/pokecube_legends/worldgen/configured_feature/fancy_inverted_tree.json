@@ -1,29 +1,36 @@
 {
   "config": {
     "decorators": [],
-    "ignore_vines": true,
-    "force_dirt": false,
     "dirt_provider": {
       "state": {
         "Name": "pokecube_legends:mushroom_dirt"
       },
       "type": "minecraft:simple_state_provider"
     },
+    "foliage_placer": {
+      "height": 4,
+      "offset": 4,
+      "radius": 2,
+      "type": "minecraft:fancy_foliage_placer"
+    },
+    "foliage_provider": {
+      "state": {
+        "Name": "pokecube_legends:inverted_leaves",
+        "Properties": {
+          "distance": "7",
+          "persistent": "false"
+        }
+      },
+      "type": "minecraft:simple_state_provider"
+    },
+    "force_dirt": false,
+    "ignore_vines": true,
     "minimum_size": {
       "limit": 0,
       "lower_size": 0,
-      "upper_size": 0,
       "min_clipped_height": 4,
-      "type": "minecraft:two_layers_feature_size"
-    },
-    "trunk_provider": {
-      "state": {
-        "Properties": {
-          "axis": "y"
-        },
-        "Name": "pokecube_legends:inverted_log"
-      },
-      "type": "minecraft:simple_state_provider"
+      "type": "minecraft:two_layers_feature_size",
+      "upper_size": 0
     },
     "trunk_placer": {
       "base_height": 3,
@@ -31,21 +38,14 @@
       "height_rand_b": 0,
       "type": "minecraft:fancy_trunk_placer"
     },
-    "foliage_provider": {
+    "trunk_provider": {
       "state": {
+        "Name": "pokecube_legends:inverted_log",
         "Properties": {
-          "persistent": "false",
-          "distance": "7"
-        },
-        "Name": "pokecube_legends:inverted_leaves"
+          "axis": "y"
+        }
       },
       "type": "minecraft:simple_state_provider"
-    },
-    "foliage_placer": {
-      "radius": 2,
-      "offset": 4,
-      "height": 4,
-      "type": "minecraft:fancy_foliage_placer"
     }
   },
   "type": "minecraft:tree"

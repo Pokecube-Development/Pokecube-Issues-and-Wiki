@@ -3,11 +3,9 @@
   "placement": [
     {
       "count": {
-        "type": "minecraft:uniform",
-        "value": {
-          "min_inclusive": 96,
-          "max_inclusive": 128
-        }
+        "max_inclusive": 128,
+        "min_inclusive": 96,
+        "type": "minecraft:uniform"
       },
       "type": "minecraft:count"
     },
@@ -16,11 +14,11 @@
     },
     {
       "height": {
-        "min_inclusive": {
-          "above_bottom": 0
-        },
         "max_inclusive": {
           "absolute": 256
+        },
+        "min_inclusive": {
+          "above_bottom": 0
         },
         "type": "minecraft:uniform"
       },
@@ -28,34 +26,28 @@
     },
     {
       "count": {
-        "type": "minecraft:uniform",
-        "value": {
-          "min_inclusive": 1,
-          "max_inclusive": 5
-        }
+        "max_inclusive": 5,
+        "min_inclusive": 1,
+        "type": "minecraft:uniform"
       },
       "type": "minecraft:count"
     },
     {
+      "type": "minecraft:random_offset",
       "xz_spread": {
-        "type": "minecraft:clamped_normal",
-        "value": {
-          "mean": 0.0,
-          "deviation": 3.0,
-          "min_inclusive": -10,
-          "max_inclusive": 10
-        }
+        "deviation": 3.0,
+        "max_inclusive": 10,
+        "mean": 0.0,
+        "min_inclusive": -10,
+        "type": "minecraft:clamped_normal"
       },
       "y_spread": {
-        "type": "minecraft:clamped_normal",
-        "value": {
-          "mean": 0.0,
-          "deviation": 0.6,
-          "min_inclusive": -2,
-          "max_inclusive": 2
-        }
-      },
-      "type": "minecraft:random_offset"
+        "deviation": 0.6,
+        "max_inclusive": 2,
+        "mean": 0.0,
+        "min_inclusive": -2,
+        "type": "minecraft:clamped_normal"
+      }
     },
     {
       "type": "minecraft:biome"

@@ -1,15 +1,15 @@
 {
-  "name": "pokecube_legends:ultraspace/giant_crystal_flower",
-  "fallback": "minecraft:empty",
   "elements": [
     {
-      "weight": 1,
       "element": {
-        "location": "pokecube_legends:ultraspace/giant_crystal_flower",
         "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:ultraspace/giant_crystal_flower",
         "processors": "pokecube:generic",
         "projection": "rigid"
-      }
+      },
+      "weight": 1
     }
-  ]
+  ],
+  "fallback": "minecraft:empty",
+  "name": "pokecube_legends:ultraspace/giant_crystal_flower"
 }

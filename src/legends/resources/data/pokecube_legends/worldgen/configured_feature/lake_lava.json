@@ -1,17 +1,17 @@
 {
   "config": {
-    "fluid": {
-      "state": {
-        "Properties": {
-          "level": "0"
-        },
-        "Name": "minecraft:lava"
-      },
-      "type": "minecraft:simple_state_provider"
-    },
     "barrier": {
       "state": {
         "Name": "pokecube_legends:ultra_stone"
+      },
+      "type": "minecraft:simple_state_provider"
+    },
+    "fluid": {
+      "state": {
+        "Name": "minecraft:lava",
+        "Properties": {
+          "level": "0"
+        }
       },
       "type": "minecraft:simple_state_provider"
     }

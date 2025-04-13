@@ -4,6 +4,9 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import net.neoforged.neoforge.common.ItemAbilities;
+import net.neoforged.neoforge.common.ItemAbility;
+import net.neoforged.neoforge.common.util.TriState;
 import org.jetbrains.annotations.NotNull;
 
 import com.google.common.collect.Maps;
@@ -15,8 +18,6 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.ToolAction;
-import net.minecraftforge.common.ToolActions;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import pokecube.legends.init.BlockInit;
 
@@ -67,16 +68,14 @@ public class Strippables
     public static void strippables(final BlockEvent.BlockToolModificationEvent event)
     {
         final BlockState state = event.getState();
-//        final BlockPlaceContext context = event.getState();
-        final ToolAction toolAction = event.getToolAction();
-        if (!event.isSimulated() && toolAction == ToolActions.AXE_STRIP)
+        final ItemAbility toolAction = event.getItemAbility();
+        if (!event.isSimulated() && toolAction == ItemAbilities.AXE_STRIP)
         {
             var pair = STRIPPABLES.get(state.getBlock());
             if (pair != null && pair.getFirst().test(event.getContext()))
             {
                 pair.getSecond().accept(event.getContext());
                 event.getLevel().playSound(event.getPlayer(), event.getPos(), SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
-                event.setResult(Event.Result.ALLOW);
                 event.getPlayer().swing(event.getContext().getHand());
             }
         }

@@ -17,6 +17,7 @@ public class MirageGlassBlock extends StainedGlassBlock implements BeaconBeamBlo
     @Override
     public DyeColor getColor()
     {
+        // TODO fix this
         return DyeColor.CYAN;
     }
 }

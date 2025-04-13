@@ -193,7 +193,7 @@ public class BeeTasks
         static
         {
             // We copy IGNORED_BEE_TAGS from BeehiveBlockEntity
-            IGNORED_BEE_TAGS = ObfuscationReflectionHelper.getPrivateValue(BeehiveBlockEntity.class, null, "f_155129_");
+            IGNORED_BEE_TAGS = ObfuscationReflectionHelper.getPrivateValue(BeehiveBlockEntity.class, null, "IGNORED_BEE_TAGS");
         }
 
         final BeehiveBlockEntity hive;

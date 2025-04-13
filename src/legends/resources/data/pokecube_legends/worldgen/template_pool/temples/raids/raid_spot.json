@@ -1,15 +1,15 @@
 {
-  "name": "pokecube_legends:temples/raids/raid_spot",
-  "fallback": "minecraft:empty",
   "elements": [
     {
-      "weight": 1,
       "element": {
-        "location": "pokecube_legends:temples/raids/raid_spot",
-        "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic"
-      }
+        "location": "pokecube_legends:temples/raids/raid_spot",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 1
     }
-  ]
+  ],
+  "fallback": "minecraft:empty",
+  "name": "pokecube_legends:temples/raids/raid_spot"
 }

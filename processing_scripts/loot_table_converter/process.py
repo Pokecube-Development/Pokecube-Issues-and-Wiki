@@ -53,12 +53,30 @@ def fix_function(key, value, root, map):
         map['enchantment'] = "minecraft:looting"
 
 
+def fix_uniform_range(key, value, root, map):
+    fix_list = [
+        "minecraft:uniform",
+        "minecraft:trapezoid",
+        "minecraft:clamped",
+        "minecraft:clamped_normal",
+        "minecraft:biased_to_bottom"
+    ]
+
+
+    if value in fix_list:
+        if "value" in map:
+            _val = map["value"]
+            del map["value"]
+            for k, v in _val.items():
+                map[k] = v
+
 def process_file(path):
     file = open(path)
     vals = json.load(file)
     file.close()
-    find_all(vals, "type", "root", fix_loot_table)
-    find_all(vals, "function", "root", fix_function)
+    # find_all(vals, "type", "root", fix_loot_table)
+    # find_all(vals, "function", "root", fix_function)
+    find_all(vals, "type", "root", fix_uniform_range)
     file = open(path, 'w')
     json.dump(vals, file, indent=2, sort_keys=True)
     file.close()
@@ -71,5 +89,5 @@ def process_dir(dir):
         else:
             process_file(path)
 
-process_dir('./loot_table')
-# process_dir('./test')
+# process_dir('./loot_table')
+process_dir('./worldgen')

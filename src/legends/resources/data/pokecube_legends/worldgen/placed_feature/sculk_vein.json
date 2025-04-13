@@ -2,18 +2,16 @@
   "feature": "pokecube_legends:sculk_vein",
   "placement": [
     {
-      "type": "minecraft:rarity_filter",
-      "chance": 35
+      "chance": 35,
+      "type": "minecraft:rarity_filter"
     },
     {
-      "type": "minecraft:count",
       "count": {
-        "type": "minecraft:uniform",
-        "value": {
-          "max_inclusive": 250,
-          "min_inclusive": 204
-        }
-      }
+        "max_inclusive": 250,
+        "min_inclusive": 204,
+        "type": "minecraft:uniform"
+      },
+      "type": "minecraft:count"
     },
     {
       "type": "minecraft:in_square"

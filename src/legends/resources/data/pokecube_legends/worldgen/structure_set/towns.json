@@ -1,4 +1,10 @@
 {
+  "placement": {
+    "salt": 1534767080,
+    "separation": 12,
+    "spacing": 48,
+    "type": "minecraft:random_spread"
+  },
   "structures": [
     {
       "structure": "pokecube_legends:town_ultraspace",
@@ -8,11 +14,5 @@
       "structure": "pokecube_legends:town_ocean",
       "weight": 1
     }
-  ],
-  "placement": {
-    "salt": 1534767080,
-    "spacing": 48,
-    "separation": 12,
-    "type": "minecraft:random_spread"
-  }
+  ]
 }

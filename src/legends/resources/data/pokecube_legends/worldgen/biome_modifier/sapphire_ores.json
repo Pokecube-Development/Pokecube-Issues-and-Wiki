@@ -1,9 +1,15 @@
 {
-  "type": "neoforge:add_features",
   "biomes": {
     "type": "neoforge:or",
-    "values": ["#minecraft:is_overworld"]
+    "values": [
+      "#minecraft:is_overworld"
+    ]
   },
-  "features": ["pokecube_legends:sapphire_ore_small","pokecube_legends:sapphire_ore_large","pokecube_legends:sapphire_ore_buried"],
-  "step": "underground_ores"
+  "features": [
+    "pokecube_legends:sapphire_ore_small",
+    "pokecube_legends:sapphire_ore_large",
+    "pokecube_legends:sapphire_ore_buried"
+  ],
+  "step": "underground_ores",
+  "type": "neoforge:add_features"
 }

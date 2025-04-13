@@ -1,4 +1,10 @@
 {
+  "placement": {
+    "salt": 987654321,
+    "separation": 12,
+    "spacing": 48,
+    "type": "minecraft:random_spread"
+  },
   "structures": [
     {
       "structure": "pokecube_legends:meteorite",
@@ -8,11 +14,5 @@
       "structure": "pokecube_legends:meteorite_buried",
       "weight": 5
     }
-  ],
-  "placement": {
-    "salt": 987654321,
-    "separation": 12,
-    "spacing": 48,
-    "type": "minecraft:random_spread"
-  }
+  ]
 }

@@ -40,10 +40,10 @@
         },
         {
           "data": {
+            "Name": "pokecube_legends:tall_corrupted_grass",
             "Properties": {
               "half": "lower"
-            },
-            "Name": "pokecube_legends:tall_corrupted_grass"
+            }
           },
           "weight": 10
         }
