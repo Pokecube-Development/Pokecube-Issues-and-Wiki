@@ -1,11 +1,8 @@
 package pokecube.core.blocks.tms;
 
-import java.util.Arrays;
-import java.util.Set;
-
 import com.google.common.collect.Sets;
-
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionResult;
@@ -22,6 +19,10 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.inventory.tms.TMContainer;
 import pokecube.core.items.ItemTM;
+import thut.api.attachments.Inventory;
+
+import java.util.Arrays;
+import java.util.Set;
 
 public class TMTile extends InteractableTile
 {
@@ -45,11 +46,11 @@ public class TMTile extends InteractableTile
     public String[] getMoves(final IPokemob mob)
     {
         final PokedexEntry entry = mob.getPokedexEntry();
-        String[] moves = null;
+        String[] moves;
         final Set<String> set = Sets.newHashSet();
         for (final String s : mob.getMoves()) if (s != null) set.add(s);
         for (final String s : entry.getMovesForLevel(mob.getLevel())) if (s != null) set.add(s);
-        set.removeIf(s -> s.isEmpty());
+        set.removeIf(String::isEmpty);
         if (set.isEmpty()) return new String[] {};
         moves = set.toArray(new String[0]);
         Arrays.sort(moves);

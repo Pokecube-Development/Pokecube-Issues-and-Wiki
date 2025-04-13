@@ -40,6 +40,7 @@ import pokecube.legends.spawns.WormholeSpawns;
 import pokecube.legends.spawns.WormholeSpawns.IWormholeWorld;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
+import thut.api.attachments.Energy;
 import thut.api.attachments.Linkable.ILinkStorage;
 import thut.api.entity.teleporting.TeleDest;
 import thut.api.entity.teleporting.ThutTeleporter;
@@ -318,6 +319,7 @@ public class WormholeEntity extends LivingEntity
     public void tick()
     {
         if (this.getDest() == null) return;
+        this.energy = Energy.get(this);
         super.tick();
 
         this.getPos();

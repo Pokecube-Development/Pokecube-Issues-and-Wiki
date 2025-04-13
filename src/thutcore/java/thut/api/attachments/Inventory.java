@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.ResourceLocationException;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.nbt.CompoundTag;
@@ -17,7 +16,6 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import thut.api.data.HolderProvider;
 import thut.api.inventory.InvHelper.ItemCap;
 
-import java.util.Locale;
 import java.util.function.Supplier;
 
 public class Inventory
@@ -36,15 +34,10 @@ public class Inventory
             return new ItemsHolder(contents, this.tag);
         }
 
-        public ItemsHolder saveHolder(HolderLookup.Provider context)
-        {
-            return new ItemsHolder(items, items.serializeNBT(context));
-        }
-
-        public static final Codec<ItemsHolder> CODEC = CompoundTag.CODEC
-                .<ItemsHolder>comapFlatMap(ItemsHolder::read, ItemsHolder::tag).stable();
-        public static final StreamCodec<ByteBuf, ItemsHolder> STREAM_CODEC = ByteBufCodecs.COMPOUND_TAG
-                .map(ItemsHolder::parse, ItemsHolder::tag);
+        public static final Codec<ItemsHolder> CODEC = CompoundTag.CODEC.comapFlatMap(ItemsHolder::read,
+                ItemsHolder::tag).stable();
+        public static final StreamCodec<ByteBuf, ItemsHolder> STREAM_CODEC = ByteBufCodecs.COMPOUND_TAG.map(
+                ItemsHolder::parse, ItemsHolder::tag);
 
         public static DataResult<ItemsHolder> read(CompoundTag tag)
         {
@@ -71,53 +64,31 @@ public class Inventory
 
     public static void registerItemData(DeferredRegister<DataComponentType<?>> registry)
     {
-        INVENTORY_STORE = registry.register("item_storage", name -> new DataComponentType.Builder<ItemsHolder>()
-                .persistent(ItemsHolder.CODEC).networkSynchronized(ItemsHolder.STREAM_CODEC).build());
+        INVENTORY_STORE = registry.register("item_storage",
+                name -> new DataComponentType.Builder<ItemsHolder>().persistent(ItemsHolder.CODEC)
+                        .networkSynchronized(ItemsHolder.STREAM_CODEC).build());
     }
 
     // ENTITY/TILE ENTITY ATTACHMENT
 
-    @SuppressWarnings("unchecked")
-    public static Supplier<AttachmentType<ItemCap>>[] TYPES = (Supplier<AttachmentType<ItemCap>>[]) new Supplier<?>[6];
+    public static Supplier<AttachmentType<ItemCap>> TYPE;
 
-    @SuppressWarnings("unchecked")
-    public static final HolderProvider<ItemCap>[] REGISTRY = (HolderProvider<ItemCap>[]) new HolderProvider<?>[6];
+    public static final HolderProvider<ItemCap> REGISTRY = new HolderProvider<>(
+            ResourceLocation.parse("thutcore:inventory"));
 
-    public static HolderProvider<ItemCap> DEFAULT()
+    public static boolean has(final IAttachmentHolder in)
     {
-        return REGISTRY[0];
-    }
-
-    public static ItemCap makeProvider(final IAttachmentHolder in)
-    {
-        return new ItemCap(0, 0);
-    }
-
-    public static boolean has(final IAttachmentHolder in, Direction d)
-    {
-        if (d == null) d = Direction.DOWN;
-        var TYPE = TYPES[d.ordinal()].get();
         return in.hasData(TYPE);
     }
 
-    public static ItemCap get(final IAttachmentHolder in, Direction d)
+    public static ItemCap get(final IAttachmentHolder in)
     {
-        if (d == null) d = Direction.DOWN;
-        var TYPE = TYPES[d.ordinal()].get();
         return in.getData(TYPE);
     }
 
     public static void registerAttachment(DeferredRegister<AttachmentType<?>> registry)
     {
-        for (Direction d : Direction.values())
-        {
-            var KEY = "items_" + d.getName().toLowerCase(Locale.ROOT);
-            var prov = new HolderProvider<ItemCap>(ResourceLocation.fromNamespaceAndPath("thutcore", KEY));
-            REGISTRY[d.ordinal()] = prov;
-
-            var type = registry.register(KEY, () -> AttachmentType.serializable(prov::make).build());
-            TYPES[d.ordinal()] = type;
-        }
+        TYPE = registry.register("inventory", () -> AttachmentType.serializable(REGISTRY::make).build());
     }
 
 }

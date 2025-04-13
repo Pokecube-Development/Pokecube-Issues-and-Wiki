@@ -1,10 +1,6 @@
 package thut.tech.common.entity;
 
-import java.util.Map;
-import java.util.UUID;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -27,6 +23,9 @@ import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
 import thut.tech.common.TechCore;
 import thut.tech.common.blocks.lift.ControllerTile;
+
+import java.util.Map;
+import java.util.UUID;
 
 public class EntityLift extends BlockEntityBase
 {
@@ -100,9 +99,9 @@ public class EntityLift extends BlockEntityBase
 
     public void updateForce()
     {
-//      TechCore.config.LiftAcceleration = 0.025;
-//      TechCore.config.LiftSpeedUp = 0.3;
-//      TechCore.config.LiftSpeedDown = 0.35;
+        //      TechCore.config.LiftAcceleration = 0.025;
+        //      TechCore.config.LiftSpeedUp = 0.3;
+        //      TechCore.config.LiftSpeedDown = 0.35;
         // Refresh these incase config changed.
         this.entityData.set(EntityLift.SPEEDUP, Float.valueOf((float) TechCore.config.LiftSpeedUp));
         this.entityData.set(EntityLift.SPEEDDOWN, Float.valueOf((float) TechCore.config.LiftSpeedDown));
@@ -184,8 +183,7 @@ public class EntityLift extends BlockEntityBase
         {
             if (!Energy.has(this, null))
             {
-                Energy.set(this, null,
-                        new EnergyStorage(TechCore.config.maxLiftEnergy, TechCore.config.maxLiftEnergy));
+                Energy.set(this, new EnergyStorage(TechCore.config.maxLiftEnergy, TechCore.config.maxLiftEnergy));
             }
             this.energy = ThutCaps.getEnergy(this);
         }
@@ -315,13 +313,14 @@ public class EntityLift extends BlockEntityBase
     {
         super.readAdditionalSaveData(arg0);
         final CompoundTag tag = arg0.getCompound("floors");
-        for (int i = 0; i < this.hasFloors.length; i++) if (tag.contains("" + i))
-        {
-            final int floor = tag.getInt("" + i);
-            final int num = tag.getInt("_" + i);
-            this.hasFloors[i] = num;
-            this.floors[i] = floor;
-        }
+        for (int i = 0; i < this.hasFloors.length; i++)
+            if (tag.contains("" + i))
+            {
+                final int floor = tag.getInt("" + i);
+                final int num = tag.getInt("_" + i);
+                this.hasFloors[i] = num;
+                this.floors[i] = floor;
+            }
         if (arg0.hasUUID("owner")) this.owner = arg0.getUUID("owner");
     }
 
@@ -464,12 +463,14 @@ public class EntityLift extends BlockEntityBase
     public void setTiles(final BlockEntity[][][] tiles)
     {
         super.setTiles(tiles);
-        for (final BlockEntity[][] tileArrArr : tiles) for (final BlockEntity[] tileArr : tileArrArr)
-            for (final BlockEntity tile : tileArr) if (tile instanceof ControllerTile controller)
-        {
-            controller.setLift(this);
-            controller.setLevel((Level) this.getFakeWorld());
-        }
+        for (final BlockEntity[][] tileArrArr : tiles)
+            for (final BlockEntity[] tileArr : tileArrArr)
+                for (final BlockEntity tile : tileArr)
+                    if (tile instanceof ControllerTile controller)
+                    {
+                        controller.setLift(this);
+                        controller.setLevel((Level) this.getFakeWorld());
+                    }
     }
 
     @Override
@@ -477,11 +478,12 @@ public class EntityLift extends BlockEntityBase
     {
         super.addAdditionalSaveData(arg0);
         final CompoundTag tag = new CompoundTag();
-        for (int i = 0; i < this.hasFloors.length; i++) if (this.hasFloors[i] > 0)
-        {
-            tag.putInt("" + i, this.floors[i]);
-            tag.putInt("_" + i, this.hasFloors[i]);
-        }
+        for (int i = 0; i < this.hasFloors.length; i++)
+            if (this.hasFloors[i] > 0)
+            {
+                tag.putInt("" + i, this.floors[i]);
+                tag.putInt("_" + i, this.hasFloors[i]);
+            }
         arg0.put("floors", tag);
         if (this.owner != null) arg0.putUUID("owner", this.owner);
     }

@@ -38,7 +38,7 @@ public class SellStructureMap implements TradePreset
         Map<String, String> values;
         TrainerTrade recipe;
         final ItemStack sell = new ItemStack(Items.MAP);
-        ItemStack buy1 = ItemStack.EMPTY;
+        ItemStack buy1;
         ItemStack buy2 = ItemStack.EMPTY;
         buy1 = Tools.getStack(trade.buys.get(0));
         if (trade.buys.size() > 1)

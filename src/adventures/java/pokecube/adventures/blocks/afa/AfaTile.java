@@ -1,9 +1,5 @@
 package pokecube.adventures.blocks.afa;
 
-import java.util.Random;
-
-import org.nfunk.jep.JEP;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -23,6 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.energy.IEnergyStorage;
+import org.nfunk.jep.JEP;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.network.PacketAFA;
 import pokecube.api.PokecubeAPI;
@@ -40,6 +37,8 @@ import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.network.TileUpdate;
+
+import java.util.Random;
 
 public class AfaTile extends InteractableTile implements ITickTile, IEnergyStorage, ContainerListener
 {
@@ -64,7 +63,7 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
 
         AfaTile.parserS = new JEP();
         AfaTile.parserS.initFunTab(); // clear the contents of the function
-                                      // table
+        // table
         AfaTile.parserS.addStandardFunctions();
         AfaTile.parserS.initSymTab(); // clear the contents of the symbol table
         AfaTile.parserS.addStandardConstants();
@@ -117,13 +116,12 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
 
     };
 
-    public final Container inventory;
-    private final ItemCap itemstore;
+    public Container inventory;
+    private ItemCap itemstore;
 
     public IPokemob pokemob = null;
     boolean shiny = false;
-    public int[] shift =
-    { 0, 0, 0 };
+    public int[] shift = { 0, 0, 0 };
     public int scale = 1000;
     public String animation = "idle";
     public Ability ability = null;
@@ -146,7 +144,7 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
     public AfaTile(final BlockPos pos, final BlockState state)
     {
         super(PokecubeAdv.AFA_TYPE.get(), pos, state);
-        this.itemstore = Inventory.get(this, null);
+        this.itemstore = Inventory.get(this);
         this.inventory = new AfaContainer.InvWrapper(this.itemstore, (IOwnableTE) ThutCaps.getOwnable(this));
         ((AfaContainer.InvWrapper) this.inventory).addListener(this);
     }
@@ -273,6 +271,10 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
         this.animation = nbt.getString("animation");
         this.shiny = ItemList.is(AfaTile.SHINYTAG, this.itemstore.getStackInSlot(0));
         this.orig = this.energy;
+
+        this.itemstore = Inventory.get(this);
+        this.inventory = new AfaContainer.InvWrapper(this.itemstore, (IOwnableTE) ThutCaps.getOwnable(this));
+        ((AfaContainer.InvWrapper) this.inventory).addListener(this);
     }
 
     @Override
@@ -340,8 +342,9 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
                     this.energy -= needed;
                 }
                 evt.pokemob.setShiny(true);
-                if (this.level != null) this.level.playLocalSound(evt.entity.getX(), evt.entity.getY(),
-                        evt.entity.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1.0F, 1.0F, false);
+                if (this.level != null)
+                    this.level.playLocalSound(evt.entity.getX(), evt.entity.getY(), evt.entity.getZ(),
+                            SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1.0F, 1.0F, false);
                 this.level.playLocalSound(this.getBlockPos().getX(), this.getBlockPos().getY(),
                         this.getBlockPos().getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1.0F, 1.0F,
                         false);

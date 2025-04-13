@@ -129,6 +129,7 @@ public class SiphonTile extends InteractableTile implements ITickTile
             this.wirelessLinks.add(GlobalPos.CODEC.decode(NbtOps.INSTANCE, tag).result().get().getFirst());
         }
         super.loadAdditional(compound, provider);
+        energy = (EnergyStore) Energy.get(this);
     }
 
     @Override

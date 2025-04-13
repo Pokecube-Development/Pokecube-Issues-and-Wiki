@@ -101,8 +101,8 @@ public class Config extends ConfigData
     @Configure(category = Config.TRAINER, comment = "See no_battle_near_pokecenter. [Default: 10]")
     public int pokecenter_radius = 10;
 
-    @Configure(category = Config.TRAINER, comment = "Default reward for trainers. [Default: \"minecraft:emerald\",\"n\":\"1\"]")
-    public String trainer_defeat_reward = "{\"values\":{\"id\":\"minecraft:emerald\",\"n\":\"1\"}}";
+    @Configure(category = Config.TRAINER, comment = "Default reward for trainers. [Default: \"minecraft:emerald\",\"count\":\"1\"]")
+    public String trainer_defeat_reward = "{\"id\":\"minecraft:emerald\",\"count\":\"1\"}";
 
     // Energy Sihpon related options
     @Configure(category = Config.MACHINE, comment = "The maximum forge energy per tick from an energy siphon. [Default: 256]")

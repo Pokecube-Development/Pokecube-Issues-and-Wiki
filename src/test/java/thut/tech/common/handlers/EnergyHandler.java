@@ -1,7 +1,5 @@
 package thut.tech.common.handlers;
 
-import org.jetbrains.annotations.Nullable;
-
 import net.minecraft.core.Direction;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -11,6 +9,7 @@ import net.neoforged.neoforge.capabilities.ICapabilityProvider;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.energy.IEnergyStorage;
+import org.jetbrains.annotations.Nullable;
 import thut.api.ThutCaps;
 import thut.api.attachments.Energy;
 import thut.tech.common.TechCore;
@@ -27,8 +26,7 @@ public class EnergyHandler
         {
             if (!Energy.has(object, context))
             {
-                Energy.set(object, context,
-                        new EnergyStorage(TechCore.config.maxLiftEnergy, TechCore.config.maxLiftEnergy));
+                Energy.set(object, new EnergyStorage(TechCore.config.maxLiftEnergy, TechCore.config.maxLiftEnergy));
             }
             return ThutCaps.getEnergy(object, context);
         }
@@ -41,16 +39,15 @@ public class EnergyHandler
         {
             if (!Energy.has(object, context))
             {
-                Energy.set(object, context, new ControllerEnergy(object));
+                Energy.set(object, new ControllerEnergy(object));
             }
             return ThutCaps.getEnergy(object, context);
         }
     }
 
     /**
-     * This is essentially a wrapper for the lift's energy storage capability.
-     * This allows interfacing with the lift's energy via any of the connected
-     * controllers.
+     * This is essentially a wrapper for the lift's energy storage capability. This allows interfacing with the lift's
+     * energy via any of the connected controllers.
      */
     public static class ControllerEnergy extends EnergyStorage
     {
@@ -118,8 +115,8 @@ public class EnergyHandler
         }
     }
 
-    @SubscribeEvent
     /** Adds the energy capability to the lift mobs. */
+    @SubscribeEvent
     public static void onEntityCapabilityAttach(final RegisterCapabilitiesEvent event)
     {
         event.registerEntity(Capabilities.EnergyStorage.ENTITY, TechCore.LIFTTYPE.get(), new ProviderLift());

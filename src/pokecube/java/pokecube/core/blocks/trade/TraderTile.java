@@ -6,6 +6,8 @@ import java.util.UUID;
 import com.google.common.collect.Sets;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
@@ -49,12 +51,23 @@ public class TraderTile extends InteractableTile
     public TraderTile(final BlockPos pos, final BlockState state)
     {
         this(PokecubeItems.TRADE_TYPE.get(), pos, state);
-        this.inventory = new TradeInventory(this);
     }
 
     public TraderTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
     {
         super(tileEntityTypeIn, pos, state);
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
+    {
+        super.saveAdditional(tag, registries);
+    }
+
+    @Override
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries)
+    {
+        super.loadAdditional(tag, registries);
     }
 
     @Override

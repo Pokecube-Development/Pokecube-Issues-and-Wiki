@@ -159,18 +159,6 @@ public class NestTile extends InteractableTile implements ITickTile
         return super.useWithoutItem(pos, player, hit);
     }
 
-    /** Reads a tile entity from NBT. */
-    @Override
-    public void loadAdditional(final CompoundTag nbt, HolderLookup.Provider registries)
-    {
-        super.loadAdditional(nbt, registries);
-        this.time = nbt.getInt("time");
-        this.tag = nbt.getCompound("_data_");
-        this.inventory.deserializeNBT(registries, nbt.getCompound("I"));
-        // Ensure the repel range resets properly.
-        if (this.getWrappedHab() != null) this.setWrappedHab(this.getWrappedHab());
-    }
-
     @Override
     public void setRemoved()
     {
@@ -215,10 +203,20 @@ public class NestTile extends InteractableTile implements ITickTile
         this.addForbiddenSpawningCoord();
     }
 
+    /** Reads a tile entity from NBT. */
+    @Override
+    public void loadAdditional(final CompoundTag nbt, HolderLookup.Provider registries)
+    {
+        super.loadAdditional(nbt, registries);
+        this.time = nbt.getInt("time");
+        this.tag = nbt.getCompound("_data_");
+        this.inventory.deserializeNBT(registries, nbt.getCompound("I"));
+        // Ensure the repel range resets properly.
+        if (this.getWrappedHab() != null) this.setWrappedHab(this.getWrappedHab());
+    }
+
     /**
      * Writes a tile entity to NBT.
-     *
-     * @return
      */
     @Override
     public void saveAdditional(final CompoundTag nbt, HolderLookup.Provider registries)

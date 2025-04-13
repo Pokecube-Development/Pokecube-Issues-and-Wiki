@@ -109,8 +109,7 @@ public class StatueEntity extends InteractableTile
                 else
                 {
                     DataComponentType _t = t;
-                    Object _v = v;
-                    builder.set(_t, _v);
+                    builder.set(_t, v);
                 }
             });
             entity.setComponents(builder.build());

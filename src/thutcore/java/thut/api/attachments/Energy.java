@@ -18,7 +18,6 @@ import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import thut.api.data.HolderProvider;
 
-import java.util.Locale;
 import java.util.function.Supplier;
 
 public class Energy
@@ -173,16 +172,10 @@ public class Energy
 
     // ENTITY/TILE ENTITY ATTACHMENT
 
-    @SuppressWarnings("unchecked")
-    public static Supplier<AttachmentType<EnergyStorage>>[] TYPES = (Supplier<AttachmentType<EnergyStorage>>[]) new Supplier<?>[6];
+    public static Supplier<AttachmentType<EnergyStorage>> TYPE;
 
-    @SuppressWarnings("unchecked")
-    public static final HolderProvider<EnergyStorage>[] REGISTRY = (HolderProvider<EnergyStorage>[]) new HolderProvider<?>[6];
-
-    public static HolderProvider<EnergyStorage> DEFAULT()
-    {
-        return REGISTRY[0];
-    }
+    public static final HolderProvider<EnergyStorage> REGISTRY = new HolderProvider<>(
+            ResourceLocation.parse("thutcore:energy"));
 
     public static EnergyStorage makeProvider(final IAttachmentHolder in)
     {
@@ -191,15 +184,11 @@ public class Energy
 
     public static EnergyStorage get(final IAttachmentHolder in, Direction d)
     {
-        if (d == null) d = Direction.DOWN;
-        var TYPE = TYPES[d.ordinal()].get();
         return in.getData(TYPE);
     }
 
     public static boolean has(final IAttachmentHolder in, Direction d)
     {
-        if (d == null) d = Direction.DOWN;
-        var TYPE = TYPES[d.ordinal()].get();
         return in.hasData(TYPE);
     }
 
@@ -213,22 +202,13 @@ public class Energy
         return has(in, Direction.DOWN);
     }
 
-    public static void set(final IAttachmentHolder in, Direction d, EnergyStorage storage)
+    public static void set(final IAttachmentHolder in, EnergyStorage storage)
     {
-        if (d == null) d = Direction.DOWN;
-        var TYPE = TYPES[d.ordinal()].get();
         in.setData(TYPE, storage);
     }
 
     public static void registerAttachment(DeferredRegister<AttachmentType<?>> registry)
     {
-        for (Direction d : Direction.values())
-        {
-            var KEY = "energy_" + d.getName().toLowerCase(Locale.ROOT);
-            var prov = new HolderProvider<EnergyStorage>(ResourceLocation.fromNamespaceAndPath("thutcore", KEY));
-            REGISTRY[d.ordinal()] = prov;
-            var type = registry.register(KEY, () -> AttachmentType.serializable(prov::make).build());
-            TYPES[d.ordinal()] = type;
-        }
+        TYPE = registry.register("energy", () -> AttachmentType.serializable(REGISTRY::make).build());
     }
 }

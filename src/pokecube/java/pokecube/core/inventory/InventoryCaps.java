@@ -1,7 +1,5 @@
 package pokecube.core.inventory;
 
-import org.jetbrains.annotations.Nullable;
-
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
@@ -9,6 +7,7 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.ICapabilityProvider;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.items.IItemHandler;
+import org.jetbrains.annotations.Nullable;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.blocks.pc.PCTile;
@@ -27,8 +26,7 @@ public class InventoryCaps
         public @Nullable IItemHandler getCapability(TMTile object, Direction context)
         {
             // Only 1 inventory, so mark it as down here.
-            context = Direction.DOWN;
-            return Inventory.get(object, context);
+            return Inventory.get(object);
         }
     }
 
@@ -38,8 +36,7 @@ public class InventoryCaps
         public @Nullable IItemHandler getCapability(TraderTile object, Direction context)
         {
             // Only 1 inventory, so mark it as down here.
-            context = Direction.DOWN;
-            return Inventory.get(object, context);
+            return Inventory.get(object);
         }
     }
 
@@ -49,8 +46,7 @@ public class InventoryCaps
         public @Nullable IItemHandler getCapability(PCTile object, Direction context)
         {
             // Only 1 inventory, so mark it as down here.
-            context = Direction.DOWN;
-            return Inventory.get(object, context);
+            return Inventory.get(object);
         }
     }
 
@@ -60,8 +56,7 @@ public class InventoryCaps
         public @Nullable IItemHandler getCapability(NestTile object, Direction context)
         {
             // Only 1 inventory, so mark it as down here.
-            context = Direction.DOWN;
-            return Inventory.get(object, context);
+            return Inventory.get(object);
         }
     }
 
@@ -76,9 +71,9 @@ public class InventoryCaps
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, PokecubeItems.NEST_TYPE.get(), new NestProvider());
 
         // Register our providers for custom item attachments
-        Inventory.DEFAULT().register(new HolderProvider.Provider<ItemCap>()
+        Inventory.REGISTRY.register(new HolderProvider.Provider<>()
         {
-            ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube", "tms");
+            final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube", "tms");
 
             @Override
             public ItemCap apply(IAttachmentHolder t)
@@ -94,9 +89,9 @@ public class InventoryCaps
             }
         });
 
-        Inventory.DEFAULT().register(new HolderProvider.Provider<ItemCap>()
+        Inventory.REGISTRY.register(new HolderProvider.Provider<>()
         {
-            ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube", "trade");
+            final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube", "trade");
 
             @Override
             public ItemCap apply(IAttachmentHolder t)
@@ -112,9 +107,9 @@ public class InventoryCaps
             }
         });
 
-        Inventory.DEFAULT().register(new HolderProvider.Provider<ItemCap>()
+        Inventory.REGISTRY.register(new HolderProvider.Provider<>()
         {
-            ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube", "pc");
+            final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube", "pc");
 
             @Override
             public ItemCap apply(IAttachmentHolder t)
@@ -130,9 +125,9 @@ public class InventoryCaps
             }
         });
 
-        Inventory.DEFAULT().register(new HolderProvider.Provider<ItemCap>()
+        Inventory.REGISTRY.register(new HolderProvider.Provider<>()
         {
-            ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube", "nest");
+            final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube", "nest");
 
             @Override
             public ItemCap apply(IAttachmentHolder t)

@@ -72,6 +72,7 @@ import pokecube.core.init.ItemGenerator;
 import pokecube.core.init.ItemInit;
 import pokecube.core.init.MenuTypes;
 import pokecube.core.init.Sounds;
+import pokecube.core.inventory.InventoryCaps;
 import pokecube.core.items.ItemTM;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.legacy.RegistryChangeFixer;
@@ -198,13 +199,12 @@ public class PokecubeCore
         if (type == null && entry.getBaseForme() != null) type = entry.getBaseForme().getEntityType();
         if (type != null)
         {
-            Mob mob = null;
+            Mob mob;
             if (entry.stock && type.toString().equals("entity.minecraft.pig"))
             {
                 type = Database.missingno.getEntityType();
-                mob = type.create(world);
             }
-            else mob = type.create(world);
+            mob = type.create(world);
             IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
             pokemob.setBasePokedexEntry(entry);
             pokemob.setPokedexEntry(entry);
@@ -216,7 +216,6 @@ public class PokecubeCore
     /**
      * The config storing all our stuff.
      *
-     * @return
      */
     public static Config getConfig()
     {
@@ -227,8 +226,6 @@ public class PokecubeCore
      * For pokemob type mobs, this returns the pokedex entry for the
      * corresponding entity type, for other mobs it returns null.
      *
-     * @param type
-     * @return
      */
     @Nullable
     public static PokedexEntry getEntryFor(final EntityType<?> type)
@@ -280,6 +277,7 @@ public class PokecubeCore
         CommandManager.init(bus);
 
         bus.addListener(this::loadComplete);
+        bus.addListener(InventoryCaps::AttachCaps);
 
         RecipeHandler.init(bus);
         PointsOfInterest.REG.register(bus);
@@ -322,7 +320,7 @@ public class PokecubeCore
 
         // Register default pokemobs
         ResourceLocation KEY = ResourceLocation.parse("pokecube:pokemob");
-        PokemobCaps._REGISTRY.register(new HolderProvider.Provider<IPokemob>() {
+        PokemobCaps._REGISTRY.register(new HolderProvider.Provider<>() {
             @Override
             protected ResourceLocation key()
             {

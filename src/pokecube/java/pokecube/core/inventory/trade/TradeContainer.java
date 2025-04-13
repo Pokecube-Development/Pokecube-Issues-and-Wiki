@@ -17,6 +17,7 @@ import pokecube.core.init.MenuTypes;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.ThutCaps;
 import thut.api.inventory.BaseContainer;
+import thut.api.inventory.InvHelper;
 
 public class TradeContainer extends BaseContainer
 {
@@ -40,16 +41,16 @@ public class TradeContainer extends BaseContainer
             if (tile instanceof TraderTile)
             {
                 this.tile = (TraderTile) tile;
-                final InvWrapper wrapper = (InvWrapper) ThutCaps.getInventory(this.tile);
-                this.inv = wrapper.getInv();
+                final InvHelper.ItemCap wrapper = (InvHelper.ItemCap) ThutCaps.getInventory(this.tile);
+                this.inv = new thut.api.inventory.InvWrapper(wrapper);
             }
         });
         // Client side
         if (this.inv == null)
         {
             this.tile = new TraderTile(inv.player.blockPosition(), PokecubeItems.TRADER.get().defaultBlockState());
-            final InvWrapper wrapper = (InvWrapper) ThutCaps.getInventory(this.tile);
-            this.inv = wrapper.getInv();
+            final InvHelper.ItemCap wrapper = thut.api.attachments.Inventory.get(this.tile);
+            this.inv = new thut.api.inventory.InvWrapper(wrapper);
         }
 
         this.addSlot(new TradeSlot(this.inv, inv.player, this.tile, 0, 26, 23));

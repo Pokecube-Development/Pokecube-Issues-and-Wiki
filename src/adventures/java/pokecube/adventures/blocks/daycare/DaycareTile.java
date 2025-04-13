@@ -74,7 +74,7 @@ public class DaycareTile extends InteractableTile implements ITickTile
     public DaycareTile(final BlockPos pos, final BlockState state)
     {
         this(PokecubeAdv.DAYCARE_TYPE.get(), pos, state);
-        this.itemstore = Inventory.get(this, null);
+        this.itemstore = Inventory.get(this);
     }
 
     public DaycareTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
@@ -165,6 +165,7 @@ public class DaycareTile extends InteractableTile implements ITickTile
     {
         this.power = compound.getInt("fuel_cache");
         super.loadAdditional(compound, registries);
+        this.itemstore = Inventory.get(this);
     }
 
     @Override

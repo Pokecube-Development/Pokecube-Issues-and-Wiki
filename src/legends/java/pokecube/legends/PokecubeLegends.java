@@ -176,7 +176,7 @@ public class PokecubeLegends
 
         WorldgenFeatures.init(modEventBus);
         BlockInit.init();
-        EntityInit.init();
+        EntityInit.init(modEventBus);
         FeaturesInit.init(modEventBus);
         FluidInit.init();
         ItemHelperEffect.init();

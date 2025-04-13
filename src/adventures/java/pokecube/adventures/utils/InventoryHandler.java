@@ -1,7 +1,5 @@
 package pokecube.adventures.utils;
 
-import org.jetbrains.annotations.Nullable;
-
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -12,6 +10,7 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.ICapabilityProvider;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.items.IItemHandler;
+import org.jetbrains.annotations.Nullable;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.afa.AfaTile;
 import pokecube.adventures.blocks.daycare.DaycareTile;
@@ -30,8 +29,7 @@ public class InventoryHandler
         public @Nullable IItemHandler getCapability(DaycareTile object, Direction context)
         {
             // Only 1 inventory, so mark it as down here.
-            context = Direction.DOWN;
-            return Inventory.get(object, context);
+            return Inventory.get(object);
         }
     }
 
@@ -41,8 +39,7 @@ public class InventoryHandler
         public @Nullable IItemHandler getCapability(AfaTile object, Direction context)
         {
             // Only 1 inventory, so mark it as down here.
-            context = Direction.DOWN;
-            return Inventory.get(object, context);
+            return Inventory.get(object);
         }
     }
 
@@ -55,14 +52,14 @@ public class InventoryHandler
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, PokecubeAdv.DAYCARE_TYPE.get(),
                 new DaycareTileInventory());
 
-        Inventory.DEFAULT().register(new HolderProvider.Provider<>()
+        Inventory.REGISTRY.register(new HolderProvider.Provider<>()
         {
-            ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube_adventures", "afa");
+            final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube_adventures", "afa");
 
             @Override
             public ItemCap apply(IAttachmentHolder t)
             {
-                if (t instanceof AfaTile) return new ItemCap(1,1);
+                if (t instanceof AfaTile) return new ItemCap(1, 1);
                 return null;
             }
 
@@ -73,9 +70,9 @@ public class InventoryHandler
             }
         });
 
-        Inventory.DEFAULT().register(new HolderProvider.Provider<ItemCap>()
+        Inventory.REGISTRY.register(new HolderProvider.Provider<ItemCap>()
         {
-            ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube_adventures", "daycare");
+            final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube_adventures", "daycare");
 
             @Override
             public ItemCap apply(IAttachmentHolder t)

@@ -106,7 +106,6 @@ public class NpcMob extends Villager implements IEntityWithComplexSpawn
     @Override
     protected void defineSynchedData(Builder builder)
     {
-        // TODO Auto-generated method stub
         super.defineSynchedData(builder);
         builder.define(NpcMob.NAMEDW, "");
     }
@@ -128,7 +127,6 @@ public class NpcMob extends Villager implements IEntityWithComplexSpawn
     @Override
     protected Brain<?> makeBrain(Dynamic<?> dynamic)
     {
-        // TODO Auto-generated method stub
         return super.makeBrain(dynamic);
     }
 
@@ -356,6 +354,21 @@ public class NpcMob extends Villager implements IEntityWithComplexSpawn
     }
 
     @Override
+    public void addAdditionalSaveData(final CompoundTag nbt)
+    {
+        super.addAdditionalSaveData(nbt);
+        nbt.putBoolean("gender", this.isMale());
+        nbt.putString("name", this.getNPCName());
+        nbt.putBoolean("stationary", this.stationary);
+        nbt.putString("playerName", this.playerName);
+        nbt.putString("urlSkin", this.urlSkin);
+        nbt.putString("customTex", this.customTex);
+        nbt.putBoolean("fixedTrades", this.fixedTrades);
+        nbt.putString("customTrades", this.customTrades);
+        nbt.putString("type", this.getNpcType().getName());
+    }
+
+    @Override
     public void readSpawnData(final RegistryFriendlyByteBuf additionalData)
     {
         final CompoundTag nbt = additionalData.readNbt();
@@ -375,21 +388,6 @@ public class NpcMob extends Villager implements IEntityWithComplexSpawn
             this.type = (NpcType.byType("professor"));
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void addAdditionalSaveData(final CompoundTag nbt)
-    {
-        super.addAdditionalSaveData(nbt);
-        nbt.putBoolean("gender", this.isMale());
-        nbt.putString("name", this.getNPCName());
-        nbt.putBoolean("stationary", this.stationary);
-        nbt.putString("playerName", this.playerName);
-        nbt.putString("urlSkin", this.urlSkin);
-        nbt.putString("customTex", this.customTex);
-        nbt.putBoolean("fixedTrades", this.fixedTrades);
-        nbt.putString("customTrades", this.customTrades);
-        nbt.putString("type", this.getNpcType().getName());
     }
 
     @Override

@@ -232,7 +232,7 @@ public class EnergyHandler
 
         // Now register the attachments
 
-        Energy.DEFAULT().register(new HolderProvider.Provider<>()
+        Energy.REGISTRY.register(new HolderProvider.Provider<>()
         {
             final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube", "pokemob");
 
@@ -250,7 +250,7 @@ public class EnergyHandler
             }
         });
 
-        Energy.DEFAULT().register(new HolderProvider.Provider<>()
+        Energy.REGISTRY.register(new HolderProvider.Provider<>()
         {
             final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube", "none");
 
@@ -273,7 +273,7 @@ public class EnergyHandler
             }
         });
 
-        Energy.DEFAULT().register(new HolderProvider.Provider<>()
+        Energy.REGISTRY.register(new HolderProvider.Provider<>()
         {
             final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube", "wrapping");
 
@@ -291,7 +291,7 @@ public class EnergyHandler
             }
         });
 
-        Energy.DEFAULT().register(new HolderProvider.Provider<>()
+        Energy.REGISTRY.register(new HolderProvider.Provider<>()
         {
             final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube", "siphon");
 

@@ -1,23 +1,10 @@
 package thut.core.common.config;
 
-import java.io.File;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.nio.file.Path;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Supplier;
-
 import com.electronwill.nightconfig.core.CommentedConfig;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-
-import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.config.ModConfig;
@@ -29,9 +16,20 @@ import net.neoforged.neoforge.common.ModConfigSpec.Builder;
 import net.neoforged.neoforge.common.ModConfigSpec.ConfigValue;
 import thut.core.common.ThutCore;
 
+import java.io.File;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Supplier;
+
 public class Config
 {
-    public static abstract class ConfigData implements IConfigHolder
+    public static abstract class ConfigData
     {
         public final String MODID;
 
@@ -52,7 +50,6 @@ public class Config
             this.MODID = MODID;
         }
 
-        @Override
         public void init(final ModConfig.Type type, final Field field, final ConfigValue<?> val)
         {
             switch (type)
@@ -71,7 +68,6 @@ public class Config
             }
         }
 
-        @SubscribeEvent
         public void onFileChange(final Reloading configEvent)
         {
             ThutCore.LOGGER.debug("{} config belongs to us!", configEvent.getConfig().getFileName());
@@ -80,14 +76,12 @@ public class Config
             this.read(configEvent.getConfig());
         }
 
-        @SubscribeEvent
         public void onLoad(final ModConfigEvent.Loading configEvent)
         {
             ThutCore.LOGGER.info("Loaded {} config file {}", this.MODID, configEvent.getConfig().getFileName());
             this.read(configEvent.getConfig());
         }
 
-        @Override
         public void read(final ModConfig modConfig)
         {
             Map<Field, Supplier<?>> values = Maps.newHashMap();
@@ -161,7 +155,7 @@ public class Config
                     final List<String> list = (List<String>) o;
                     final String[] vars = update instanceof String s ? s.split("``") : (String[]) update;
                     list.clear();
-                    for (final String s : vars) list.add(s);
+                    list.addAll(Arrays.asList(vars));
                 }
                 else if (o instanceof int[])
                 {
@@ -182,7 +176,8 @@ public class Config
             this.write();
         }
 
-        @Override
+        protected abstract void onUpdated();
+
         public void write()
         {
             this.write(this.CLIENT_CONFIG, this.clientValues);
@@ -190,22 +185,19 @@ public class Config
             this.write(this.SERVER_CONFIG, this.serverValues);
         }
 
-        private boolean write(final ModConfig config, final Map<Field, ConfigValue<?>> values)
+        private void write(final ModConfig config, final Map<Field, ConfigValue<?>> values)
         {
-            boolean ret = false;
             for (final Field f : values.keySet()) try
             {
                 final Object ours = f.get(this);
                 final Object val = values.get(f).get();
                 if (ours.equals(val)) continue;
                 config.getLoadedConfig().config().set(values.get(f).getPath(), ours);
-                ret = true;
             }
             catch (final Exception e)
             {
                 ThutCore.LOGGER.error("Error saving config value for " + f, e);
             }
-            return ret;
         }
 
         private void addFromConfig(CommentedConfig config, Map<Field, Supplier<?>> values, Map<String, Field> fields,
@@ -233,7 +225,6 @@ public class Config
             });
         }
 
-        @Override
         public void initRead(ModConfig.Type type, CommentedFileConfig config)
         {
             Map<Field, Supplier<?>> values = Maps.newHashMap();
@@ -249,28 +240,7 @@ public class Config
         }
     }
 
-    public static interface IConfigHolder
-    {
-        void init(ModConfig.Type type, Field field, ConfigValue<?> val);
-
-        /**
-         * This is called whenever the values in this config may have changed.
-         */
-        void onUpdated();
-
-        /**
-         * This is called when this config is read.
-         *
-         * @param spec
-         */
-        void read(ModConfig spec);
-
-        void write();
-
-        void initRead(ModConfig.Type type, CommentedFileConfig config);
-    }
-
-    private static ModConfigSpec[] initConfigSpecs(final IConfigHolder holder)
+    private static ModConfigSpec[] initConfigSpecs(final ConfigData holder)
     {
         final Builder COMMON_BUILDER = new Builder();
         final Builder CLIENT_BUILDER = new Builder();
@@ -310,9 +280,9 @@ public class Config
             if (diff == 0) diff = o1.getName().compareTo(o2.getName());
             return diff;
         };
-        Collections.sort(commonList, comp);
-        Collections.sort(clientList, comp);
-        Collections.sort(serverList, comp);
+        commonList.sort(comp);
+        clientList.sort(comp);
+        serverList.sort(comp);
 
         Config.build(COMMON_BUILDER, commonList, holder, ModConfig.Type.COMMON);
         Config.build(SERVER_BUILDER, serverList, holder, ModConfig.Type.SERVER);
@@ -340,7 +310,7 @@ public class Config
         else builder.comment(" " + input);
     }
 
-    private static void build(final Builder builder, final List<Field> fields, final IConfigHolder holder,
+    private static void build(final Builder builder, final List<Field> fields, final ConfigData holder,
             final ModConfig.Type type)
     {
 
@@ -393,25 +363,12 @@ public class Config
         }
     }
 
-    private static void loadConfig(ModConfig.Type type, IConfigHolder holder, ModConfigSpec spec, Path path)
-    {
-//        ThutCore.LOGGER.debug("Loading config file {}", path);
-//        final CommentedFileConfig configData = CommentedFileConfig.builder(path).sync().autosave()
-//                .writingMode(WritingMode.REPLACE).build();
-//        configData.load();
-//    	var container = ModLoadingContext.get().getActiveContainer();
-//        ConfigTracker.INSTANCE.registerConfig(type, spec, container);
-//        spec.setConfig(configData);
-//        holder.initRead(type, configData);
-    	// TODO see if this is still needed?
-    }
-
     /**
      * @param holder    the object to store the configs.
      * @param subfolder the folder that this config is in.
      * @param prefix    prefix for these config files.
      */
-    public static void setupConfigs(ModContainer container, final IConfigHolder holder, final String subfolder, final String prefix)
+    public static void setupConfigs(ModContainer container, final ConfigData holder, final String subfolder, final String prefix)
     {
         ModConfigSpec COMMON_CONFIG_SPEC;
         ModConfigSpec CLIENT_CONFIG_SPEC;
@@ -426,12 +383,8 @@ public class Config
         // Server is saved to the world itself, so it doesn't go with rest
         final File serverfile = new File(prefix + "-server.toml");
 
-        // Setup paths for each one.
-        final Path common = FMLPaths.CONFIGDIR.get().resolve(subfolder).resolve(prefix + "-common.toml");
-        final Path client = FMLPaths.CONFIGDIR.get().resolve(subfolder).resolve(prefix + "-client.toml");
-        // Server is saved to the world itself, so it doesn't go with rest
-        final Path server = FMLPaths.CONFIGDIR.get().resolve(prefix + "-server.toml");
-
+        // Setup path for testing if dir is needed
+        Path common = FMLPaths.CONFIGDIR.get().resolve(subfolder).resolve(prefix + "-common.toml");
         // Mk dirs as needed
         if (COMMON_CONFIG_SPEC != null || CLIENT_CONFIG_SPEC != null) common.toFile().getParentFile().mkdirs();
 
@@ -443,10 +396,8 @@ public class Config
         if (SERVER_CONFIG__SPEC != null)
         	container.registerConfig(ModConfig.Type.SERVER, SERVER_CONFIG__SPEC, serverfile.toString());
 
-        // Load configs
-        if (COMMON_CONFIG_SPEC != null) Config.loadConfig(ModConfig.Type.COMMON, holder, COMMON_CONFIG_SPEC, common);
-        if (CLIENT_CONFIG_SPEC != null) Config.loadConfig(ModConfig.Type.CLIENT, holder, CLIENT_CONFIG_SPEC, client);
-        if (SERVER_CONFIG__SPEC != null) Config.loadConfig(ModConfig.Type.SERVER, holder, SERVER_CONFIG__SPEC, server);
+        container.getEventBus().addListener(holder::onFileChange);
+        container.getEventBus().addListener(holder::onLoad);
 
         // This ensures the values are initialized, this onUpdated is never
         // called unless the config is different

@@ -28,7 +28,7 @@ public class TileEntityInit
                         BlockInit.INVERTED_BARREL, BlockInit.MIRAGE_BARREL, BlockInit.TEMPORAL_BARREL));
 
         ItemGenerator.FILLABLE_SHELVES.addAll(
-                List.of(BlockInit.AGED_BOOKSHELF_EMPTY, BlockInit.CONCRETE_BOOKSHELF_EMPTY,
+                List.of(BlockInit.BOOKSHELF_EMPTY, BlockInit.AGED_BOOKSHELF_EMPTY, BlockInit.CONCRETE_BOOKSHELF_EMPTY,
                         BlockInit.CONCRETE_DENSE_BOOKSHELF_EMPTY, BlockInit.CORRUPTED_BOOKSHELF_EMPTY,
                         BlockInit.DISTORTIC_BOOKSHELF_EMPTY, BlockInit.INVERTED_BOOKSHELF_EMPTY,
                         BlockInit.MIRAGE_BOOKSHELF_EMPTY, BlockInit.TEMPORAL_BOOKSHELF_EMPTY));

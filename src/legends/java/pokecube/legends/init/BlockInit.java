@@ -10,7 +10,6 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.BarrelBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ColoredFallingBlock;
@@ -41,6 +40,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import pokecube.core.PokecubeItems;
+import pokecube.core.blocks.barrels.GenericBarrelBlock;
 import pokecube.core.blocks.bookshelves.GenericBookshelf;
 import pokecube.core.blocks.bookshelves.GenericBookshelfEmpty;
 import pokecube.core.blocks.hanging_signs.GenericCeilingHangingSign;
@@ -1266,7 +1266,7 @@ public class BlockInit
         STRIP_AGED_WOOD = PokecubeLegends.BLOCKS.register("stripped_aged_wood",
                 () -> Blocks.log(MapColor.TERRACOTTA_GREEN, MapColor.TERRACOTTA_GREEN));
 
-        AGED_BARREL = PokecubeLegends.BLOCKS.register("aged_barrel", () -> new BarrelBlock(
+        AGED_BARREL = PokecubeLegends.BLOCKS.register("aged_barrel", () -> new GenericBarrelBlock(
                 BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_GREEN).sound(SoundType.WOOD)
                         .instrument(NoteBlockInstrument.BASS).strength(2.5F).ignitedByLava()));
         AGED_BOOKSHELF = PokecubeLegends.BLOCKS.register("aged_bookshelf", () -> new GenericBookshelf(
@@ -1331,7 +1331,7 @@ public class BlockInit
         STRIP_CORRUPTED_WOOD = PokecubeLegends.BLOCKS.register("stripped_corrupted_wood",
                 () -> Blocks.log(MapColor.WOOD, MapColor.WOOD, SoundType.STEM));
 
-        CORRUPTED_BARREL = PokecubeLegends.BLOCKS.register("corrupted_barrel", () -> new BarrelBlock(
+        CORRUPTED_BARREL = PokecubeLegends.BLOCKS.register("corrupted_barrel", () -> new GenericBarrelBlock(
                 BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).sound(SoundType.NETHER_WOOD)
                         .instrument(NoteBlockInstrument.BASS).strength(2.5F).ignitedByLava()));
         CORRUPTED_BOOKSHELF = PokecubeLegends.BLOCKS.register("corrupted_bookshelf", () -> new GenericBookshelf(
@@ -1397,7 +1397,7 @@ public class BlockInit
         STRIP_DISTORTIC_WOOD = PokecubeLegends.BLOCKS.register("stripped_distortic_wood",
                 () -> Blocks.log(MapColor.COLOR_BLUE, MapColor.COLOR_BLUE, SoundType.STEM));
 
-        DISTORTIC_BARREL = PokecubeLegends.BLOCKS.register("distortic_barrel", () -> new BarrelBlock(
+        DISTORTIC_BARREL = PokecubeLegends.BLOCKS.register("distortic_barrel", () -> new GenericBarrelBlock(
                 BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLUE).sound(SoundType.NETHER_WOOD)
                         .instrument(NoteBlockInstrument.BASS).strength(2.5F).ignitedByLava()));
         DISTORTIC_BOOKSHELF = PokecubeLegends.BLOCKS.register("distortic_bookshelf", () -> new GenericBookshelf(
@@ -1463,7 +1463,7 @@ public class BlockInit
         STRIP_INVERTED_WOOD = PokecubeLegends.BLOCKS.register("stripped_inverted_wood",
                 () -> Blocks.log(MapColor.TERRACOTTA_LIGHT_BLUE, MapColor.TERRACOTTA_LIGHT_BLUE));
 
-        INVERTED_BARREL = PokecubeLegends.BLOCKS.register("inverted_barrel", () -> new BarrelBlock(
+        INVERTED_BARREL = PokecubeLegends.BLOCKS.register("inverted_barrel", () -> new GenericBarrelBlock(
                 BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_LIGHT_BLUE).sound(SoundType.WOOD)
                         .instrument(NoteBlockInstrument.BASS).strength(2.5F).ignitedByLava()));
         INVERTED_BOOKSHELF = PokecubeLegends.BLOCKS.register("inverted_bookshelf", () -> new GenericBookshelf(
@@ -1529,7 +1529,7 @@ public class BlockInit
         STRIP_MIRAGE_WOOD = PokecubeLegends.BLOCKS.register("stripped_mirage_wood",
                 () -> Blocks.log(MapColor.SNOW, MapColor.SNOW));
 
-        MIRAGE_BARREL = PokecubeLegends.BLOCKS.register("mirage_barrel", () -> new BarrelBlock(
+        MIRAGE_BARREL = PokecubeLegends.BLOCKS.register("mirage_barrel", () -> new GenericBarrelBlock(
                 BlockBehaviour.Properties.of().mapColor(MapColor.SAND).sound(SoundType.WOOD)
                         .instrument(NoteBlockInstrument.BASS).strength(2.5F).ignitedByLava()));
         MIRAGE_BOOKSHELF = PokecubeLegends.BLOCKS.register("mirage_bookshelf", () -> new GenericBookshelf(
@@ -1595,7 +1595,7 @@ public class BlockInit
         STRIP_TEMPORAL_WOOD = PokecubeLegends.BLOCKS.register("stripped_temporal_wood",
                 () -> Blocks.log(MapColor.WARPED_NYLIUM, MapColor.WARPED_NYLIUM));
 
-        TEMPORAL_BARREL = PokecubeLegends.BLOCKS.register("temporal_barrel", () -> new BarrelBlock(
+        TEMPORAL_BARREL = PokecubeLegends.BLOCKS.register("temporal_barrel", () -> new GenericBarrelBlock(
                 BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_NYLIUM).sound(SoundType.WOOD)
                         .instrument(NoteBlockInstrument.BASS).strength(2.5F).ignitedByLava()));
         TEMPORAL_BOOKSHELF = PokecubeLegends.BLOCKS.register("temporal_bookshelf", () -> new GenericBookshelf(
@@ -1796,7 +1796,7 @@ public class BlockInit
                 () -> StoneLogBase.concreteLog(MapColor.SNOW, MapColor.SNOW, SoundType.STONE,
                         NoteBlockInstrument.BASEDRUM, 10.0F, 500.0F));
 
-        CONCRETE_BARREL = PokecubeLegends.BLOCKS.register("concrete_barrel", () -> new BarrelBlock(
+        CONCRETE_BARREL = PokecubeLegends.BLOCKS.register("concrete_barrel", () -> new GenericBarrelBlock(
                 BlockBehaviour.Properties.of().mapColor(MapColor.SNOW).sound(SoundType.STONE)
                         .instrument(NoteBlockInstrument.BASEDRUM).strength(4.5F).requiresCorrectToolForDrops()));
         CONCRETE_BOOKSHELF = PokecubeLegends.BLOCKS.register("concrete_bookshelf", () -> new GenericBookshelf(
@@ -1850,7 +1850,7 @@ public class BlockInit
                                 .instrument(NoteBlockInstrument.BASEDRUM).pushReaction(PushReaction.BLOCK)
                                 .strength(10.0F, 500.0F).noOcclusion().requiresCorrectToolForDrops()));
 
-        CONCRETE_DENSE_BARREL = PokecubeLegends.BLOCKS.register("concrete_dense_barrel", () -> new BarrelBlock(
+        CONCRETE_DENSE_BARREL = PokecubeLegends.BLOCKS.register("concrete_dense_barrel", () -> new GenericBarrelBlock(
                 BlockBehaviour.Properties.of().mapColor(MapColor.SNOW).sound(SoundType.STONE)
                         .instrument(NoteBlockInstrument.BASEDRUM).strength(20.0F, 1200.0F)
                         .requiresCorrectToolForDrops()));
@@ -2049,7 +2049,7 @@ public class BlockInit
         CHISELED_DISTORTIC_STONE_SLAB = PokecubeLegends.BLOCKS.register("chiseled_distortic_stone_brick_slab",
                 () -> new SlabBlock(BlockBehaviour.Properties.ofFullCopy(CHISELED_DISTORTIC_STONE.get())));
 
-        DISTORTIC_STONE_BARREL = PokecubeLegends.BLOCKS.register("distortic_stone_barrel", () -> new BarrelBlock(
+        DISTORTIC_STONE_BARREL = PokecubeLegends.BLOCKS.register("distortic_stone_barrel", () -> new GenericBarrelBlock(
                 BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_BLACK).sound(SoundType.DEEPSLATE_BRICKS)
                         .instrument(NoteBlockInstrument.BASEDRUM).strength(4.5F).requiresCorrectToolForDrops()));
 

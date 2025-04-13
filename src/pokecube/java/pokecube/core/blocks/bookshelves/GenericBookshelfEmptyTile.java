@@ -4,10 +4,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
@@ -26,13 +24,10 @@ import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.ModTags;
-import pokecube.core.init.ItemGenerator;
 import pokecube.core.inventory.bookshelves.GenericBookshelfMenu;
 import thut.lib.TComponent;
 
 import javax.annotation.Nullable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.function.Supplier;
 
 public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity implements WorldlyContainer
@@ -48,13 +43,10 @@ public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity 
         this.items = NonNullList.withSize(9, ItemStack.EMPTY);
     }
 
-    private static final Set<ResourceLocation> CHECKED = new HashSet<>();
-
     @Override
     public boolean isValidBlockState(BlockState state)
     {
-        if (CHECKED.isEmpty()) for (var v : ItemGenerator.FILLABLE_SHELVES) CHECKED.add(v.getId());
-        return super.isValidBlockState(state) || CHECKED.contains(BuiltInRegistries.BLOCK.getKey(state.getBlock()));
+        return super.isValidBlockState(state) || state.getBlock() instanceof GenericBookshelfEmpty;
     }
 
     public GenericBookshelfEmptyTile(final BlockPos pos, final BlockState state)
