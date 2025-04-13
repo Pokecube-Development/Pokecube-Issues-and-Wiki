@@ -1,7 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase headAxis="1" headCap="-50,50" name="global" scale=".125"/>
-  <phase armAngle="50" duration="10" leftArm="Left_arm" leftLeg="" legAngle="45" name="biWalk" rightArm="Right_arm" rightLeg=""/>
+  <phase name="global" scale="0.06"/>
+  <customTex default="foongus">
+   <part name="face" tex="foongus_face"/>
+   <animation diffs="0,0.5" part="face" trigger="random:0.005:2"/>
+  </customTex>
+  <phase type="sitting">
+   <part name="Cube">
+    <component length="10" name="1" posOffset="0,7,0" rotOffset="0,0,0" startKey="0"/>
+   </part>
+   <part name="arm1">
+    <component length="7" name="1" rotChange="0,0,6" rotOffset="0,0,-40" startKey="0"/>
+    <component length="7" name="2" rotChange="0,0,-6" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="7" name="1" rotChange="0,0,-6" rotOffset="0,0,40" startKey="0"/>
+    <component length="7" name="2" rotChange="0,0,6" startKey="10"/>
+   </part>
+   <part name="leg1">
+    <component length="10" name="1" posOffset="0,-2,-12" rotOffset="-80,20,-20" startKey="0"/>
+   </part>
+   <part name="foot1">
+    <component length="10" name="1" rotChange="1,0,0" rotOffset="30,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-1,0,0" startKey="10"/>
+   </part>
+   <part name="leg2">
+    <component length="10" name="1" posOffset="0,-2,-12" rotOffset="-80,-20,20" startKey="0"/>
+   </part>
+   <part name="foot2">
+    <component length="10" name="1" rotChange="1,0,0" rotOffset="30,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-1,0,0" startKey="10"/>
+   </part>
+   <part name="top">
+    <component length="10" name="1" rotChange="0,0,-4" rotOffset="15,0,0" startKey="0"/>
+	<component length="10" name="2" rotChange="0,0,8" startKey="5"/>
+    <component length="10" name="3" rotChange="0,0,-4" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="idle">
+   <part name="body">
+    <component length="10" name="1" posChange="0,-1,0" rotOffset="0,0,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,1,0" startKey="10"/>
+   </part>
+   <part name="arm1">
+    <component length="7" name="1" rotChange="0,0,6" rotOffset="0,0,-25" startKey="0"/>
+    <component length="7" name="2" rotChange="0,0,-6" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="7" name="1" rotChange="0,0,-6" rotOffset="0,0,25" startKey="0"/>
+    <component length="7" name="2" rotChange="0,0,6" startKey="10"/>
+   </part>
+   <part name="cap">
+    <component length="10" name="1" rotChange="-3,0,0" startKey="0"/>
+	<component length="10" name="2" rotChange="6,0,0" startKey="5"/>
+    <component length="10" name="3" rotChange="-3,0,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="body">
+    <component length="10" name="1" posChange="0,-3,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,3,0" startKey="10"/>
+   </part>
+   <part name="arm1">
+    <component length="10" name="1" rotChange="0,10,0" rotOffset="0,0,-10" startKey="0"/>
+	<component length="10" name="2" rotChange="0,-30,0" startKey="5"/>
+    <component length="10" name="3" rotChange="0,15,0" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotChange="0,10,0" rotOffset="0,0,10" startKey="0"/>
+	<component length="10" name="2" rotChange="0,-30,0" startKey="5"/>
+    <component length="10" name="3" rotChange="0,15,0" startKey="10"/>
+   </part>
+   <part name="cap">
+    <component length="7" name="1" rotChange="5,0,0" startKey="0"/>
+	<component length="7" name="2" rotChange="-10,0,0" startKey="4"/>
+    <component length="7" name="3" rotChange="5,0,0" startKey="8"/>
+   </part>
+  </phase>
  </model>
 </ModelAnimator>

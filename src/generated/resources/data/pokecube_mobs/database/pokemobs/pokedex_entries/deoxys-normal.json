@@ -247,11 +247,13 @@
       "baseHunger": 100,
       "isTag": false,
       "key": {
-        "id": "meteorite"
+        "values": {
+          "id": "pokecube_legends:meteorite"
+        }
       },
       "action": {
         "values": {
-          "forme": "deoxysattack",
+          "forme": "deoxys-attack",
           "type": "forme"
         }
       }

@@ -1,9 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
-  <model>
-    <phase name="global" scale="0.9"/>
-    <customTex default="silcoon">
-      <part name="Silcoon Eyes" tex="silcoon_eyes"/>
-    </customTex>
+ <model>
+  <phase name="global" scale="0.4"/>
+  <customTex default="silcoon">
+   <part name="Eye" tex="silcoon_eye"/>
+   <animation diffs="0,0.5" part="Eye" trigger="random:0.005:4"/>
+  </customTex>
+  <phase type="sitting">
+   <part name="body">
+    <component length="10" name="1" rotChange="0.5,0,0" posOffset="0,-5,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-0.5,0,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="idle">
+   <part name="body">
+    <component length="10" name="1" rotChange="0.5,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-0.5,0,0" startKey="10"/>
+   </part>
+   <part name="spikes">
+    <component length="10" name="1" hidden="true" startKey="0"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="body">
+    <component length="10" name="1" posChange="0,-3,0" rotOffset="2,0,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,3,0" startKey="10"/>
+   </part>
+   <part name="spikes">
+    <component length="10" name="1" hidden="false" startKey="0"/>
+	<component length="10" name="2" hidden="true" startKey="150"/>
+	<component length="10" name="3" hidden="false" startKey="300"/>
+   </part>
+  </phase>
   </model>
 </ModelAnimator>

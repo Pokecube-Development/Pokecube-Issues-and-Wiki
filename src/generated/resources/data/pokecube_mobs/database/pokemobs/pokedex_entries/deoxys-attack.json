@@ -249,11 +249,13 @@
       "baseHunger": 100,
       "isTag": false,
       "key": {
-        "id": "meteorite"
+        "values": {
+          "id": "pokecube_legends:meteorite"
+        }
       },
       "action": {
         "values": {
-          "forme": "deoxysdefense",
+          "forme": "deoxys-defense",
           "type": "forme"
         }
       }
