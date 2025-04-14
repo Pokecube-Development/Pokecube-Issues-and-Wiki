@@ -1,14 +1,9 @@
 package pokecube.compat.jei.ingredients;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
-import org.joml.Vector4f;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import mezz.jei.api.ingredients.IIngredientHelper;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import mezz.jei.api.ingredients.IIngredientType;
@@ -17,12 +12,18 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
+import org.joml.Vector4f;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.database.Database;
+import thut.lib.TCodecs;
 import thut.lib.TComponent;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 public class Pokemob implements IIngredientType<PokedexEntry>
 {
@@ -49,7 +50,7 @@ public class Pokemob implements IIngredientType<PokedexEntry>
         @Override
         public ResourceLocation getResourceLocation(Pokemob arg0)
         {
-            return ResourceLocation.parse(arg0.entry.getModId(), arg0.entry.getTrimmedName());
+            return ResourceLocation.fromNamespaceAndPath(arg0.entry.getModId(), arg0.entry.getTrimmedName());
         }
 
         @Override
@@ -69,10 +70,10 @@ public class Pokemob implements IIngredientType<PokedexEntry>
     public static class IngredientRenderer implements IIngredientRenderer<Pokemob>
     {
         @Override
-        public List<Component> getTooltip(final Pokemob pokemob, final TooltipFlag flag)
+        public List<Component> getTooltip(Pokemob pokemob, TooltipFlag flag)
         {
-            final List<Component> list = Lists
-                    .newArrayList(TComponent.translatable(pokemob.entry.getUnlocalizedName()));
+            final List<Component> list = Lists.newArrayList(
+                    TComponent.translatable(pokemob.entry.getUnlocalizedName()));
             if (pokemob.holder != null) list.add(TComponent.literal(pokemob.holder.name));
             return list;
         }
@@ -83,12 +84,12 @@ public class Pokemob implements IIngredientType<PokedexEntry>
             if (pokemob != null)
             {
                 final byte gender = pokemob.gender;
-                Vector4f test = new Vector4f(1, 1, 1, 1);
-                test.mul(graphics.pose().last().pose());
-                int x = (int) test.x();
-                int y = (int) test.y();
-                EventsHandlerClient.renderIcon(pokemob.entry, pokemob.holder, gender == IPokemob.MALE, x, y, 16, 16,
-                        false);
+//                Vector4f test = new Vector4f(1, 1, 1, 1);
+//                test.mul(graphics.pose().last().pose());
+//                int x = (int) test.x();
+//                int y = (int) test.y();
+                EventsHandlerClient.renderIcon(graphics, pokemob.entry, pokemob.holder, gender == IPokemob.FEMALE, 0, 0,
+                        16, 16, false);
             }
         }
     }
@@ -102,6 +103,15 @@ public class Pokemob implements IIngredientType<PokedexEntry>
 
     public static final Map<PokedexEntry, Pokemob> ALLMAP = Maps.newHashMap();
     public static final Map<FormeHolder, Pokemob> FORMMAP = Maps.newHashMap();
+
+    public static final Codec<PokedexEntry> POKEDEX_ENTRY_CODEC = RecordCodecBuilder.create(
+            i -> i.group(Codec.STRING.fieldOf("entry").forGetter(p -> p.name)).apply(i, Database::getEntry));
+    public static final Codec<FormeHolder> FORME_HOLDER_CODEC = TCodecs.jsonCodec(FormeHolder.class);
+
+    public static final Codec<Pokemob> CODEC = RecordCodecBuilder.create(
+            i -> i.group(POKEDEX_ENTRY_CODEC.fieldOf("entry").forGetter(p -> p.entry),
+                    FORME_HOLDER_CODEC.optionalFieldOf("holder", null).forGetter(p -> p.holder),
+                    Codec.BYTE.fieldOf("gender").forGetter(p -> p.gender)).apply(i, Pokemob::new));
 
     public final PokedexEntry entry;
     public final FormeHolder holder;
@@ -125,13 +135,14 @@ public class Pokemob implements IIngredientType<PokedexEntry>
     {
         final List<Pokemob> toAdd = Pokemob.ALL;
         if (!toAdd.isEmpty()) return toAdd;
-        for (final PokedexEntry entry : Database.getSortedFormes()) if (entry != Database.missingno && entry.stock)
-        {
-            byte gender = entry.isFemaleForme ? IPokemob.FEMALE : IPokemob.MALE;
-            Pokemob add = new Pokemob(entry, null, gender);
-            Pokemob.ALLMAP.put(entry, add);
-            toAdd.add(add);
-        }
+        for (final PokedexEntry entry : Database.getSortedFormes())
+            if (entry != Database.missingno && entry.stock)
+            {
+                byte gender = entry.isFemaleForme ? IPokemob.FEMALE : IPokemob.MALE;
+                Pokemob add = new Pokemob(entry, null, gender);
+                Pokemob.ALLMAP.put(entry, add);
+                toAdd.add(add);
+            }
         return toAdd;
     }
 

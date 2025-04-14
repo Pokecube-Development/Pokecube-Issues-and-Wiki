@@ -92,7 +92,7 @@ public class CheckNest extends BaseIdleTask
                         final BlockEntity tile = this.world.getBlockEntity(pos.pos());
                         if (tile instanceof NestTile nest)
                         {
-                            nest.setWrappedHab(new AntHabitat());
+                            nest.setWrappedHab(new AntHabitat(nest));
                             nest.addResident(this.pokemob);
                             // Copy over the old habitat info.
                             nest.setWrappedHab(this.nest.hab);

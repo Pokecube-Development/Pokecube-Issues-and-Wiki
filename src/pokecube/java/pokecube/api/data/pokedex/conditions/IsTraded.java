@@ -10,7 +10,7 @@ import thut.lib.TComponent;
  * Matcher key: "traded" <br>
  */
 @Condition(name="traded")
-public class IsTraded implements PokemobCondition
+public class IsTraded extends PokemobCondition
 {
     @Override
     public boolean matches(IPokemob mobIn)

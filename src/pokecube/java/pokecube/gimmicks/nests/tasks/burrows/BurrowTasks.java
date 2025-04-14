@@ -41,8 +41,7 @@ public class BurrowTasks
         // Only care about bees
         if (!isAnt) return false;
         // Only process stock pokemobs
-        if (!pokemob.getPokedexEntry().stock) return false;
-        return true;
+        return pokemob.getPokedexEntry().stock;
     };
 
     public static AIRoutine BURROWS = new AIRoutine("BURROWS", true, burrows);
@@ -59,15 +58,15 @@ public class BurrowTasks
     public static void init()
     {
         TaskAdders.register(Type.IDLE, BurrowTasks::addTasks);
-        CapabilityInhabitable.Register(BurrowTasks.BURROWLOC, () -> new BurrowHab());
+        CapabilityInhabitable.Register(BurrowTasks.BURROWLOC, BurrowHab::new);
     }
 
-    private static final List<SensorType<?>> getSensors()
+    private static List<SensorType<?>> getSensors()
     {
         return List.of(BurrowTasks.NEST_SENSOR.get(), Sensors.VISIBLE_BLOCKS.get(), Sensors.INTERESTING_ENTITIES.get());
     }
 
-    private static final List<MemoryModuleType<?>> getMemories()
+    private static List<MemoryModuleType<?>> getMemories()
     {
         return List.of(MemoryModules.NEST_POS.get(), MemoryModules.JOB_INFO.get(), MemoryModules.GOING_HOME.get(),
                 MemoryModules.NO_NEST_TIMER.get());

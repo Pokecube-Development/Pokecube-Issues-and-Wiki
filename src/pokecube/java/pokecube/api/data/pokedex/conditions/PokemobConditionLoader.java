@@ -17,7 +17,7 @@ import thut.lib.CompatParser.ClassFinder;
 public class PokemobConditionLoader
 {
 
-    private static Set<Package> packages = Sets.newHashSet();
+    private static final Set<Package> packages = Sets.newHashSet();
 
     public static void registerMatcherPackage(Package pack)
     {

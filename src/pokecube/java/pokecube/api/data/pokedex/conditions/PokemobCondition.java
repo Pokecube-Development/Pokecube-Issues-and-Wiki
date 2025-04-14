@@ -17,11 +17,11 @@ import pokecube.api.events.data.PokemobMatchInit;
 import thut.api.util.JsonUtil;
 import thut.lib.TComponent;
 
-public interface PokemobCondition
+public abstract class PokemobCondition
 {
     public static Map<String, Class<? extends PokemobCondition>> CONDITIONS = new HashMap<>();
 
-    public static class ConditionAndWrapper implements PokemobCondition
+    public static class ConditionAndWrapper extends PokemobCondition
     {
         final PokemobCondition wrapA;
         final PokemobCondition wrapB;
@@ -39,7 +39,7 @@ public interface PokemobCondition
         }
     }
 
-    public static class ConditionOrWrapper implements PokemobCondition
+    public static class ConditionOrWrapper extends PokemobCondition
     {
         final PokemobCondition wrapA;
         final PokemobCondition wrapB;
@@ -57,7 +57,7 @@ public interface PokemobCondition
         }
     }
 
-    public static class ConditionNotWrapper implements PokemobCondition
+    public static class ConditionNotWrapper extends PokemobCondition
     {
         final PokemobCondition wrap;
 
@@ -80,31 +80,39 @@ public interface PokemobCondition
             {
                 return TComponent.translatable("pokemob.description.negate", base);
             }
-            return PokemobCondition.super.makeDescription();
+            return super.makeDescription();
         }
     }
 
-    default PokemobCondition and(PokemobCondition other)
+    public static class ConditionTrue extends PokemobCondition {
+        @Override
+        public boolean matches(IPokemob mobIn)
+        {
+            return true;
+        }
+    }
+
+    public PokemobCondition and(PokemobCondition other)
     {
         return new ConditionAndWrapper(this, other);
     }
 
-    default PokemobCondition or(PokemobCondition other)
+    public PokemobCondition or(PokemobCondition other)
     {
         return new ConditionOrWrapper(this, other);
     }
 
-    default PokemobCondition not()
+    public PokemobCondition not()
     {
         return new ConditionNotWrapper(this);
     }
 
-    boolean matches(IPokemob mobIn);
+    public abstract boolean matches(IPokemob mobIn);
 
-    default void init(HolderLookup.Provider registries)
+    public void init(HolderLookup.Provider registries)
     {}
 
-    default Component makeDescription()
+    public Component makeDescription()
     {
         return TComponent.literal("Missingno");
     }
@@ -130,35 +138,38 @@ public interface PokemobCondition
         return comps;
     }
 
-    public static PokemobCondition makeFromElement(HolderLookup.Provider registries, JsonElement element)
+    public static PokemobCondition makeFromElement(HolderLookup.Provider registries, JsonElement element,
+            List<PokemobCondition> bits)
     {
         if (element.isJsonArray())
         {
             var arr = element.getAsJsonArray();
-            return makeFromArray(registries, arr);
+            return makeFromArray(registries, arr, bits);
         }
         else if (element.isJsonObject())
         {
             JsonObject obj = element.getAsJsonObject();
-            return makeFromObject(registries, obj);
+            return makeFromObject(registries, obj, bits);
         }
         return null;
     }
 
-    public static PokemobCondition makeFromArray(HolderLookup.Provider registries, JsonArray array)
+    public static PokemobCondition makeFromArray(HolderLookup.Provider registries, JsonArray array,
+            List<PokemobCondition> bits)
     {
         PokemobCondition root = null;
         for (int i = 0; i < array.size(); i++)
         {
             JsonElement e = array.get(i);
-            var made = makeFromElement(registries, e);
+            var made = makeFromElement(registries, e, bits);
             if (root == null) root = made;
             else if (made != null) root = root.and(made);
         }
         return root;
     }
 
-    public static PokemobCondition makeFromObject(HolderLookup.Provider registries, JsonObject obj)
+    public static PokemobCondition makeFromObject(HolderLookup.Provider registries, JsonObject obj,
+            List<PokemobCondition> bits)
     {
         if (!obj.has("key"))
         {
@@ -173,6 +184,6 @@ public interface PokemobCondition
             return null;
         }
         PokemobCondition condition =JsonUtil.gson.fromJson(obj, condClass);
-        return  PokemobMatchInit.initMatchChecker(registries, condition);
+        return PokemobMatchInit.initMatchChecker(registries, condition, bits);
     }
 }

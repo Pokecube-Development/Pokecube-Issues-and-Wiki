@@ -91,8 +91,9 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
 
     private boolean attached = false;
 
-    public AntHabitat()
+    public AntHabitat(BlockEntity tile)
     {
+        this.tile = tile;
         for (final AntJob job : AntJob.values()) this.workers.put(job, Sets.newHashSet());
     }
 

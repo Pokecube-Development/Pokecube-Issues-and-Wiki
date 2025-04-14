@@ -27,6 +27,7 @@ public class VanillaPokemob extends PokemobSaves
 
     public VanillaPokemob()
     {
+        super();
         for (final AIRoutine routine : AIRoutine.values()) this.setRoutineState(routine, routine.getDefault());
     }
 

@@ -16,7 +16,7 @@ import thut.lib.TComponent;
  * "chance" - double, probability of the match succeeding
  */
 @Condition(name = "chance")
-public class RandomChance implements PokemobCondition
+public class RandomChance extends PokemobCondition
 {
     public double chance;
 

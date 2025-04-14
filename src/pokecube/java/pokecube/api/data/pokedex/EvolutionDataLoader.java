@@ -47,7 +47,7 @@ public class EvolutionDataLoader extends ResourceData
         final Map<ResourceLocation, Resource> resources = PackFinder.getJsonResources(path);
         RULES.clear();
         preLoad();
-        resources.forEach((l, r) -> this.loadFile(l, r));
+        resources.forEach(this::loadFile);
         if (this.validLoad)
         {
             if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Loaded Pokemob spawns.");
@@ -71,8 +71,7 @@ public class EvolutionDataLoader extends ResourceData
             return;
         }
 
-        List<Evolution> rules = RULES.get(user);
-        if (rules == null) RULES.put(user, rules = new ArrayList<>());
+        List<Evolution> rules = RULES.computeIfAbsent(user, k -> new ArrayList<>());
         rules.add(rule);
     }
 

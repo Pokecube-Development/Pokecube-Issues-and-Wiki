@@ -14,7 +14,7 @@ import thut.lib.TComponent;
  * "move" - string, name of the move to match
  */
 @Condition(name = "move")
-public class HasMove implements PokemobCondition
+public class HasMove extends PokemobCondition
 {
     public String move;
 

@@ -1,35 +1,34 @@
 package pokecube.compat.jei;
 
-import java.util.List;
-import java.util.Map;
-
 import com.google.common.collect.Lists;
-
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.IModIngredientRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.neoforged.api.distmarker.Dist;
 import pokecube.adventures.PokecubeAdv;
+import pokecube.adventures.blocks.genetics.helper.recipe.RecipeClone;
+import pokecube.adventures.utils.RecipePokeAdv;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.api.data.PokedexEntry.InteractionLogic;
 import pokecube.api.data.PokedexEntry.InteractionLogic.Interaction;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.compat.jei.categories.cloner.Wrapper;
 import pokecube.compat.jei.categories.evolution.Evolution;
 import pokecube.compat.jei.categories.interaction.InteractRecipe;
 import pokecube.compat.jei.ingredients.Pokemob;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.database.recipes.PokemobMoveRecipeParser.RecipeMove;
-import pokecube.core.recipes.MoveRecipes.MoveRecipe;
-import thut.lib.DistExecutor;
+import pokecube.core.handlers.RecipeHandler;
+import pokecube.core.recipes.MoveRecipe;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @JeiPlugin
 public class Compat implements IModPlugin
@@ -39,14 +38,14 @@ public class Compat implements IModPlugin
     public static final RecipeType<Evolution> evoType;
     public static final RecipeType<InteractRecipe> interactType;
     public static final RecipeType<MoveRecipe> moveType;
-    public static final RecipeType<Wrapper> clonerType;
+    public static final RecipeType<RecipeClone> clonerType;
 
     static
     {
         evoType = RecipeType.create(PokecubeAdv.MODID, "pokemob_evolution", Evolution.class);
         interactType = RecipeType.create(PokecubeAdv.MODID, "pokemob_interaction", InteractRecipe.class);
         moveType = RecipeType.create(PokecubeAdv.MODID, "pokemob_move", MoveRecipe.class);
-        clonerType = RecipeType.create(PokecubeAdv.MODID, "cloner", Wrapper.class);
+        clonerType = RecipeType.create(PokecubeAdv.MODID, "cloner", RecipeClone.class);
     }
 
     @Override
@@ -58,7 +57,7 @@ public class Compat implements IModPlugin
     @Override
     public void registerIngredients(final IModIngredientRegistration registration)
     {
-        registration.register(Pokemob.TYPE, Pokemob.getIngredients(), Pokemob.HELPER, Pokemob.RENDER);
+        registration.register(Pokemob.TYPE, Pokemob.getIngredients(), Pokemob.HELPER, Pokemob.RENDER, Pokemob.CODEC);
     }
 
     @Override
@@ -69,7 +68,7 @@ public class Compat implements IModPlugin
         final IGuiHelper helper = registration.getJeiHelpers().getGuiHelper();
         // Then register the categories
         registration.addRecipeCategories(
-        //@formatter:off
+                //@formatter:off
                 new pokecube.compat.jei.categories.cloner.Category(helper),
                 new pokecube.compat.jei.categories.evolution.Category(helper),
                 new pokecube.compat.jei.categories.interaction.Category(helper),
@@ -82,11 +81,11 @@ public class Compat implements IModPlugin
     public void registerRecipes(final IRecipeRegistration registration)
     {
         // Run this first so that things are loaded for dedicated servers.
-//        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-//            Database.loadCustomPacks(true);
-//            Database.listener.loaded = true;
-//            Database.onResourcesReloaded();
-//        });
+        //        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+        //            Database.loadCustomPacks(true);
+        //            Database.listener.loaded = true;
+        //            Database.onResourcesReloaded();
+        //        });
 
         final List<Evolution> evos = Lists.newArrayList();
         final List<InteractRecipe> interactions = Lists.newArrayList();
@@ -154,11 +153,16 @@ public class Compat implements IModPlugin
                 }
             }
         }
+        List<MoveRecipe> MOVES = new ArrayList<>();
+        PokecubeCore.proxy.getWorld().getRecipeManager().getAllRecipesFor(RecipeHandler.MOVE_TYPE.get())
+                .forEach(h -> MOVES.add(h.value()));
+        List<RecipeClone> CLONING = new ArrayList<>();
+        PokecubeCore.proxy.getWorld().getRecipeManager().getAllRecipesFor(RecipePokeAdv.CLONE_TYPE.get())
+                .forEach(h -> CLONING.add(h.value()));
 
-        registration.addRecipes(clonerType, Wrapper.getWrapped());
+        registration.addRecipes(clonerType, CLONING);
         registration.addRecipes(evoType, evos);
         registration.addRecipes(interactType, interactions);
-        registration.addRecipes(moveType, RecipeMove.ALLRECIPES);
-        registration.addRecipes(moveType, Lists.newArrayList(RecipeMove.CUSTOM.values()));
+        registration.addRecipes(moveType, MOVES);
     }
 }

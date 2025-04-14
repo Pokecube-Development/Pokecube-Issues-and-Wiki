@@ -54,8 +54,7 @@ public class AntTasks
         // Only care about bees
         if (!isAnt) return false;
         // Only process stock pokemobs
-        if (!pokemob.getPokedexEntry().stock) return false;
-        return true;
+        return pokemob.getPokedexEntry().stock;
     };
 
     public static AIRoutine ANTAI = new AIRoutine("ANTAI", true, isAnt);
@@ -88,19 +87,19 @@ public class AntTasks
 
     public static void init()
     {
-        CapabilityInhabitable.Register(AntTasks.NESTLOC, () -> new AntHabitat());
+        CapabilityInhabitable.Register(AntTasks.NESTLOC, AntHabitat::new);
         TaskAdders.register(Type.IDLE, AntTasks::addTasks);
         
         RaidManager.BANNEDAI.add(ANTAI);
     }
 
-    private static final List<SensorType<?>> getSensors()
+    private static List<SensorType<?>> getSensors()
     {
         return List.of(AntTasks.NEST_SENSOR.get(), AntTasks.WORK_SENSOR.get(), AntTasks.EGG_SENSOR.get(),
                 AntTasks.THREAT_SENSOR.get(), Sensors.VISIBLE_BLOCKS.get(), Sensors.INTERESTING_ENTITIES.get());
     }
 
-    private static final List<MemoryModuleType<?>> getMemories()
+    private static List<MemoryModuleType<?>> getMemories()
     {
         return List.of(MemoryModules.NEST_POS.get(), MemoryModules.WORK_POS.get(),
                 MemoryModules.OUT_OF_NEST_TIMER.get(), MemoryModules.NO_WORK_TIMER.get(),
@@ -139,8 +138,7 @@ public class AntTasks
         int index = 0;
         if (ant.getBrain().hasMemoryValue(MemoryModules.JOB_TYPE.get()))
             index = ant.getBrain().getMemory(MemoryModules.JOB_TYPE.get()).get();
-        final AntJob job = AntJob.values()[index];
-        return job;
+        return AntJob.values()[index];
     }
 
     public static void setJob(final Mob ant, final AntJob job)

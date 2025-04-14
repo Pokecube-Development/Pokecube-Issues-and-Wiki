@@ -1,35 +1,39 @@
 package pokecube.compat.jei.categories.interaction;
 
-import java.awt.Rectangle;
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
+import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeType;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.compat.jei.Compat;
 import pokecube.compat.jei.ingredients.Pokemob;
 import pokecube.core.PokecubeItems;
+import pokecube.core.recipes.MoveRecipe;
 import thut.lib.TComponent;
+
+import java.awt.*;
+import java.util.List;
 
 public class Category implements IRecipeCategory<InteractRecipe>
 {
-    public static final ResourceLocation GUI = ResourceLocation.parse(PokecubeAdv.MODID, "textures/gui/evorecipe.png");
-    public static final ResourceLocation TABS = ResourceLocation.parse(PokecubeAdv.MODID, "textures/gui/jeitabs.png");
-    public static final ResourceLocation GUID = ResourceLocation.parse(PokecubeAdv.MODID, "pokemob_interaction");
+    public static final ResourceLocation GUI = ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID,
+            "textures/gui/evorecipe.png");
+    public static final ResourceLocation TABS = ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID,
+            "textures/gui/jeitabs.png");
+    public static final ResourceLocation GUID = ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID,
+            "pokemob_interaction");
 
     public static final int width = 116;
     public static final int height = 54;
@@ -70,17 +74,15 @@ public class Category implements IRecipeCategory<InteractRecipe>
     }
 
     @Override
-    public List<Component> getTooltipStrings(final InteractRecipe recipe, IRecipeSlotsView recipeSlotsView,
+    public void getTooltip(ITooltipBuilder builder, InteractRecipe recipe, IRecipeSlotsView recipeSlotsView,
             final double mouseX, final double mouseY)
     {
-        final List<Component> tooltips = Lists.newArrayList();
         final Rectangle arrow = new Rectangle(44, 18, 32, 17);
-        if (!arrow.contains(mouseX, mouseY)) return tooltips;
-        if (!recipe.interaction.male) tooltips.add(TComponent.translatable("gui.jei.pokemob.nogender",
+        if (!arrow.contains(mouseX, mouseY)) return;
+        if (!recipe.interaction.male) builder.add(TComponent.translatable("gui.jei.pokemob.nogender",
                 TComponent.translatable("gui.jei.pokemob.gender.male")));
-        if (!recipe.interaction.female) tooltips.add(TComponent.translatable("gui.jei.pokemob.nogender",
+        if (!recipe.interaction.female) builder.add(TComponent.translatable("gui.jei.pokemob.nogender",
                 TComponent.translatable("gui.jei.pokemob.gender.female")));
-        return tooltips;
     }
 
     @Override

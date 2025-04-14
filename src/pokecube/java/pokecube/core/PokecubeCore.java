@@ -126,8 +126,7 @@ public class PokecubeCore
         {
             if (event.getPackType() == PackType.SERVER_DATA)
             {
-                // TODO: Fix this
-                // event.addRepositorySource(PackFinder.DEFAULT_FINDER);
+                event.addRepositorySource(PackFinder.DEFAULT_FINDER);
             }
         }
     }

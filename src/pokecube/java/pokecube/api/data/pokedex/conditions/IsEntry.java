@@ -13,7 +13,7 @@ import pokecube.core.database.Database;
  * "entry" - string, name of the pokedex entry to match
  */
 @Condition(name="entry")
-public class IsEntry implements PokemobCondition
+public class IsEntry extends PokemobCondition
 {
     public String entry;
 

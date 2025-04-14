@@ -51,11 +51,11 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
 {
     public static BurrowHab makeFor(final IPokemob pokemob, final BlockPos pos)
     {
-        final BurrowHab hab = new BurrowHab();
+        final BurrowHab hab = new BurrowHab(null);
         hab.setMaker(pokemob.getPokedexEntry());
         if (hab.related.isEmpty()) return null;
         hab.setPos(pos);
-        final Predicate<Mob> filter = mob -> hab.canEnterHabitat(mob);
+        final Predicate<Mob> filter = hab::canEnterHabitat;
         final List<Mob> mobs = pokemob.getEntity().level().getEntitiesOfClass(Mob.class,
                 hab.burrow.getOutBounds().inflate(10), filter);
         for (final Mob mob : mobs) if (!hab.mobs.contains(mob.getUUID())) hab.mobs.add(mob.getUUID());
@@ -82,6 +82,10 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
     public PokedexEntry getMaker()
     {
         return this.maker;
+    }
+
+    public BurrowHab(BlockEntity block)
+    {
     }
 
     @Override
@@ -244,8 +248,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
                 nest.residents.removeIf(p -> {
                     if (p == null) return true;
                     if (!p.getEntity().isAlive()) return true;
-                    if (!p.getEntity().isAddedToLevel()) return true;
-                    return false;
+                    return !p.getEntity().isAddedToLevel();
                 });
                 nest.residents.forEach(p -> this.mobs.add(p.getEntity().getUUID()));
             }
@@ -259,7 +262,6 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
 
                 Collections.shuffle(types);
                 final Biome b = world.getBiome(this.burrow.getCenter()).value();
-                selection:
                 for (final EntityType<?> t : types)
                 {
                     final IPokemob pokemob = PokemobCaps.getPokemobFor(t.create(world));
@@ -274,7 +276,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
                         if (this.related.contains(entry))
                         {
                             this.setMaker(entry);
-                            break selection;
+                            break;
                         }
                         final Set<PokedexEntry> relations = Sets.newHashSet();
                         this.addRelations(entry, relations);
@@ -285,7 +287,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
                         if (size <= this.burrow.getSize())
                         {
                             this.setMaker(entry);
-                            break selection;
+                            break;
                         }
                     }
                 }

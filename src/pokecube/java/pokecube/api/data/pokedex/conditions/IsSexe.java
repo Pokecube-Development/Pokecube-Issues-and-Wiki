@@ -13,7 +13,7 @@ import thut.lib.TComponent;
  * "sexe" - String, sex to match, "male" or "female"
  */
 @Condition(name="sexe")
-public class IsSexe implements PokemobCondition
+public class IsSexe extends PokemobCondition
 {
     public String sexe;
 
@@ -40,6 +40,6 @@ public class IsSexe implements PokemobCondition
     {
         if (this._gender == 1) return TComponent.translatable("pokemob.description.evolve.male");
         if (this._gender == 2) return TComponent.translatable("pokemob.description.evolve.female");
-        return PokemobCondition.super.makeDescription();
+        return super.makeDescription();
     }
 }

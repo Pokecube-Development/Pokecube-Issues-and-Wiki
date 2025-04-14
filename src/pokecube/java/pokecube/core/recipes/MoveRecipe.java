@@ -97,7 +97,7 @@ public class MoveRecipe implements Recipe<MoveRecipe.WorldCraftInventory>
 
     public static class MoveMatcher implements Predicate<String>
     {
-        List<String> moves = Lists.newArrayList();
+        public List<String> moves = Lists.newArrayList();
 
         String move = "";
         String type = "";

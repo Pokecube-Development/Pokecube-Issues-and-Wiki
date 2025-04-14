@@ -414,8 +414,6 @@ public class Tools
         }
         catch (Exception e)
         {
-            System.out.println(values);
-            Thread.dumpStack();
             PokecubeAPI.LOGGER.error("Error with json {}", values, e);
             return ItemStack.EMPTY;
         }

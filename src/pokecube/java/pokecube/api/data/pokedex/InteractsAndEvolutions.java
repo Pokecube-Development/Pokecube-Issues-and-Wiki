@@ -62,6 +62,8 @@ public class InteractsAndEvolutions
         private PokedexEntry _result = null;
         private PokedexEntry _user = null;
 
+        public List<PokemobCondition> _bits = new ArrayList<>();
+
         public FormeHolder getForme(final PokedexEntry baseEntry)
         {
             if (this.model != null) return this.model.getForme(baseEntry);
@@ -87,8 +89,8 @@ public class InteractsAndEvolutions
             // that, the rest will be left as description information!
             if (condition != null)
             {
-                result = PokemobCondition.makeFromElement(registries, condition);
-                return PokemobMatchInit.initMatchChecker(registries, result);
+                result = PokemobCondition.makeFromElement(registries, condition, _bits);
+                return PokemobMatchInit.initMatchChecker(registries, result, _bits);
             }
             return result;
         }
@@ -172,7 +174,7 @@ public class InteractsAndEvolutions
             List<PokemobCondition> bits = new ArrayList<>();
             if (condition != null)
             {
-                result = PokemobCondition.makeFromElement(registries, condition);
+                result = PokemobCondition.makeFromElement(registries, condition, bits);
                 bits.add(result);
             }
 
@@ -193,8 +195,8 @@ public class InteractsAndEvolutions
                 if (result == null) result = res.not();
                 else result = result.and(res.not());
             }
-            if (result == null) result = e -> true;
-            return PokemobMatchInit.initMatchChecker(registries, result);
+            if (result == null) result = new PokemobCondition.ConditionTrue();
+            return PokemobMatchInit.initMatchChecker(registries, result, bits);
         }
     }
 

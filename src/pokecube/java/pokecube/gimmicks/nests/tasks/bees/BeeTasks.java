@@ -1,13 +1,6 @@
 package pokecube.gimmicks.nests.tasks.bees;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-
 import com.mojang.serialization.Codec;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
@@ -26,6 +19,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.fml.util.ObfuscationReflectionHelper;
@@ -48,6 +42,12 @@ import pokecube.gimmicks.nests.tasks.bees.tasks.GatherNectar;
 import pokecube.gimmicks.nests.tasks.bees.tasks.MakeHive;
 import thut.api.entity.ai.BrainUtil;
 import thut.api.entity.ai.IAIRunnable;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class BeeTasks
 {
@@ -100,7 +100,7 @@ public class BeeTasks
                 BeeTasks.NO_FLOWER_TIME.get(), BeeTasks.HAS_NECTAR.get(), BeeTasks.NO_HIVE_TIMER.get());
     }
 
-    private static final List<SensorType<?>> getSensors()
+    private static List<SensorType<?>> getSensors()
     {
         return List.of(BeeTasks.HIVE_SENSOR.get(), BeeTasks.FLOWER_SENSOR.get(), Sensors.VISIBLE_BLOCKS.get());
     }
@@ -198,9 +198,9 @@ public class BeeTasks
 
         final BeehiveBlockEntity hive;
 
-        public BeeHabitat(final BeehiveBlockEntity tile)
+        public BeeHabitat(final BlockEntity tile)
         {
-            this.hive = tile;
+            this.hive = (BeehiveBlockEntity) tile;
         }
 
         @Override

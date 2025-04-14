@@ -17,7 +17,7 @@ import thut.api.maths.Vector3;
  * "location" - Json Object of spawn rule format
  */
 @Condition(name = "location")
-public class AtLocation implements PokemobCondition
+public class AtLocation extends PokemobCondition
 {
     public SpawnRule location;
 

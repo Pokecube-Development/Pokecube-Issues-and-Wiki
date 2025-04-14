@@ -1,7 +1,5 @@
 package pokecube.core.handlers;
 
-import java.util.function.Supplier;
-
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -19,6 +17,8 @@ import pokecube.core.recipes.RecipePokeseals;
 import pokecube.core.recipes.RecipeRevive;
 import thut.core.common.ThutCore;
 
+import java.util.function.Supplier;
+
 public class RecipeHandler
 {
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(
@@ -31,7 +31,7 @@ public class RecipeHandler
     public static final Supplier<MoveRecipe.Serializer> MOVE_SERIALIZER = RecipeHandler.RECIPE_SERIALIZERS.register(
             "move_recipe", MoveRecipe.Serializer::new);
 
-    public static final Supplier<RecipeType<?>> MOVE_TYPE = PokecubeCore.RECIPETYPE.register("move_recipe",
+    public static final Supplier<RecipeType<MoveRecipe>> MOVE_TYPE = PokecubeCore.RECIPETYPE.register("move_recipe",
             () -> new RecipeType<>()
             {
                 public String toString()

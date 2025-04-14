@@ -12,7 +12,7 @@ import thut.lib.TComponent;
  * "level" - integer, the level to be more or equal to
  */
 @Condition(name = "level")
-public class AtLeastLevel implements PokemobCondition
+public class AtLeastLevel extends PokemobCondition
 {
     public int level;
 

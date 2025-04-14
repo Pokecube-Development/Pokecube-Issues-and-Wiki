@@ -1,10 +1,6 @@
 package pokecube.api.entity;
 
-import java.util.Map;
-import java.util.function.Supplier;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -16,6 +12,9 @@ import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import pokecube.api.blocks.IInhabitable;
 import pokecube.api.blocks.IInhabitable.IHabitat;
+
+import java.util.Map;
+import java.util.function.Function;
 
 public class CapabilityInhabitable
 {
@@ -106,35 +105,33 @@ public class CapabilityInhabitable
                 if (key == null || !nbt.contains(key))
                 {
                     ResourceLocation keyLoc = null;
-                    for (final String s : nbt.getAllKeys()) try
-                    {
-                        keyLoc = ResourceLocation.parse(s);
-                        key = s;
-                        break;
-                    }
-                    catch (final Exception e)
-                    {}
+                    for (final String s : nbt.getAllKeys())
+                        try
+                        {
+                            keyLoc = ResourceLocation.parse(s);
+                            key = s;
+                            break;
+                        }
+                        catch (final Exception e)
+                        {
+                        }
                     if (CapabilityInhabitable.REGISTRY.containsKey(keyLoc))
-                        this.setWrapped(CapabilityInhabitable.REGISTRY.get(keyLoc).get());
+                        this.setWrapped(CapabilityInhabitable.REGISTRY.get(keyLoc).apply(this.tile));
                 }
                 if (this.getWrapped() instanceof INBTSerializable)
                     ((INBTSerializable<Tag>) this.getWrapped()).deserializeNBT(provider, nbt.get(key));
             }
             catch (final Exception e)
-            {}
+            {
+            }
         }
     }
 
-    private static Map<ResourceLocation, Supplier<IInhabitable>> REGISTRY = Maps.newHashMap();
+    private static final Map<ResourceLocation, Function<BlockEntity, IInhabitable>> REGISTRY = Maps.newHashMap();
 
-    public static void Register(final ResourceLocation key, final Supplier<IInhabitable> factory)
+    public static void Register(ResourceLocation key, Function<BlockEntity, IInhabitable> factory)
     {
         REGISTRY.put(key, factory);
-    }
-
-    public static IInhabitable make(final ResourceLocation key)
-    {
-        return REGISTRY.getOrDefault(key, () -> null).get();
     }
 
     /**

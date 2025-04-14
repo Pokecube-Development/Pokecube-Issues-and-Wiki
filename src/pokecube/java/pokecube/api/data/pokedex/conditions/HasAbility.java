@@ -11,7 +11,7 @@ import pokecube.api.entity.pokemob.IPokemob;
  * "ability" - string, name of the ability to match
  */
 @Condition(name = "ability")
-public class HasAbility implements PokemobCondition
+public class HasAbility extends PokemobCondition
 {
     public String ability;
 

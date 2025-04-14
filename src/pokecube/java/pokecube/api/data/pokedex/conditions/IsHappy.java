@@ -13,7 +13,7 @@ import thut.lib.TComponent;
  * "amount" - integer, optional, default: 220, value to consider
  */
 @Condition(name = "happy")
-public class IsHappy implements PokemobCondition
+public class IsHappy extends PokemobCondition
 {
     boolean above = true;
     int amount = 220;
@@ -31,6 +31,6 @@ public class IsHappy implements PokemobCondition
         {
             return TComponent.translatable("pokemob.description.evolve.happy");
         }
-        return PokemobCondition.super.makeDescription();
+        return super.makeDescription();
     }
 }

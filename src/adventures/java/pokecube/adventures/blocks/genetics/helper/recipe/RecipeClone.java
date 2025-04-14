@@ -128,7 +128,7 @@ public class RecipeClone extends PoweredRecipe
     public boolean tame;
     public List<RecipeExtract.WeightedGene> genes;
 
-    private final Map<ResourceLocation, List<Gene<?>>> _genes = new HashMap<>();
+    public final Map<ResourceLocation, List<Gene<?>>> _genes = new HashMap<>();
 
     public RecipeClone(int cost, int level, int priority, boolean tame, List<RecipeExtract.WeightedGene> genes,
             List<Ingredient> inputs, List<Ingredient> nonConsumed, ItemStack output)

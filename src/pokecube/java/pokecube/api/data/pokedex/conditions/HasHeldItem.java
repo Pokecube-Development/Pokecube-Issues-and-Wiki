@@ -1,12 +1,8 @@
 package pokecube.api.data.pokedex.conditions;
 
-import java.util.Map;
-
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-
 import net.minecraft.commands.arguments.item.ItemParser;
 import net.minecraft.commands.arguments.item.ItemParser.ItemResult;
 import net.minecraft.core.HolderLookup;
@@ -29,7 +25,7 @@ import thut.lib.TComponent;
  * String, optional, tag for the item
  */
 @Condition(name = "item")
-public class HasHeldItem implements PokemobCondition
+public class HasHeldItem extends PokemobCondition
 {
     public JsonObject item = null;
     public String tag = "";
@@ -54,12 +50,6 @@ public class HasHeldItem implements PokemobCondition
             return Tools.isSameStack(this._value, mobIn.getEvolutionStack(), true);
         }
         return false;
-    }
-
-    public void initFromDrop(JsonElement drop, boolean isTag)
-    {
-        if (isTag) tag = drop.getAsString();
-        else _value = Tools.getStack(drop);
     }
 
     @Override
