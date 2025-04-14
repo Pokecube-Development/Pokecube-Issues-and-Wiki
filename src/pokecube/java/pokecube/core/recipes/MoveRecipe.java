@@ -97,7 +97,10 @@ public class MoveRecipe implements Recipe<MoveRecipe.WorldCraftInventory>
 
     public static class MoveMatcher implements Predicate<String>
     {
+        // This one is what is actually loaded in from json
         public List<String> moves = Lists.newArrayList();
+        // This one is a cache of moves which matched, for use in JEI, etc
+        public List<String> _moves = Lists.newArrayList();
 
         String move = "";
         String type = "";

@@ -1,6 +1,5 @@
 package pokecube.compat.jei.categories.move;
 
-import com.google.common.collect.Lists;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.builder.ITooltipBuilder;
@@ -24,7 +23,6 @@ import pokecube.core.recipes.MoveRecipe;
 import thut.lib.TComponent;
 
 import java.awt.*;
-import java.util.List;
 
 public class Category implements IRecipeCategory<MoveRecipe>
 {
@@ -82,22 +80,22 @@ public class Category implements IRecipeCategory<MoveRecipe>
         final Rectangle arrow = new Rectangle(44, 18, 32, 17);
         if (!arrow.contains(mouseX, mouseY)) return;
         var match = recipe.match;
-        if (match.moves.isEmpty())
+        if (match._moves.isEmpty())
         {
-            MovesUtils.getKnownMoves().forEach(e -> match.test(e.getName()));
-            if(match.moves.isEmpty()) match.moves.add("????");
+            MovesUtils.getKnownMoves().forEach(e -> {if (match.test(e.getName())) match._moves.add(e.getName());});
+            if (match._moves.isEmpty()) match._moves.add("????");
         }
 
-        if (match.moves.size() > 4)
+        if (match._moves.size() > 4)
         {
             final long time = System.currentTimeMillis() / 500;
             for (int i = 0; i < 4; i++)
             {
-                final String name = match.moves.get((int) ((time - i) % match.moves.size()));
+                final String name = match._moves.get((int) ((time - i) % match._moves.size()));
                 builder.add(MovesUtils.getMoveName(name, null));
             }
         }
-        else for (final String name : match.moves) builder.add(MovesUtils.getMoveName(name, null));
+        else for (final String name : match._moves) builder.add(MovesUtils.getMoveName(name, null));
     }
 
     @Override
