@@ -299,9 +299,9 @@ public abstract class PokemobAI extends PokemobEvolves
         workMems.add(Pair.of(MemoryModuleType.HURT_BY, MemoryStatus.VALUE_ABSENT));
         coreMems.add(Pair.of(MemoryModuleType.HURT_BY, MemoryStatus.VALUE_PRESENT));
 
-        brain.addActivityWithConditions(Activity.IDLE, Tasks.idle(this, 1), idleMems);
-        brain.addActivityWithConditions(Activity.WORK, Tasks.utility(this, 1), workMems);
-        brain.addActivityWithConditions(Activity.CORE, Tasks.combat(this, 1), coreMems);
+        brain.addActivityWithConditions(Activity.IDLE, Tasks.idle(this), idleMems);
+        brain.addActivityWithConditions(Activity.WORK, Tasks.utility(this), workMems);
+        brain.addActivityWithConditions(Activity.CORE, Tasks.combat(this), coreMems);
         brain.setCoreActivities(Sets.newHashSet(Activity.IDLE, Activity.WORK, Activity.CORE));
         brain.setDefaultActivity(Activity.IDLE);
         brain.setActiveActivityIfPossible(Activity.IDLE);

@@ -99,11 +99,13 @@ public abstract class TaskBase extends RootTask<Mob> implements ITask
 
     public static boolean canMove(final IPokemob pokemob)
     {
+        var entity = pokemob.getEntity();
         // Don't allow motion if the mob is actually a passenger, this should
         // help for say gengars riding dragons...
-        if (pokemob.getEntity().isPassenger()) return false;
+        if (entity.isPassenger()) return false;
+        var pose = entity.getPose();
         // Pose check is cheap, so use it
-        if (pokemob.getEntity().getPose() == Pose.SLEEPING) return false;
+        if (pose == Pose.DYING || entity.getPose() == Pose.SLEEPING || pose == Pose.SITTING) return false;
         // Can't move at all in this case
         if (pokemob.getLogicState(LogicStates.CANNOTMOVE)) return false;
         // Don't move while sitting

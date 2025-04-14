@@ -25,18 +25,6 @@ public class Triggers
         
         BEATLEADER = REGISTER.register(BeatLeaderTrigger.ID.getPath(), n -> new BeatLeaderTrigger());
         BEATTRAINER = REGISTER.register(BeatTrainerTrigger.ID.getPath(), n -> new BeatTrainerTrigger());
-
-        try
-        {
-            Field field = DeferredHolder.class.getDeclaredField("holder");
-            field.setAccessible(true);
-            field.set(BEATLEADER, Holder.direct(new BeatLeaderTrigger()));
-            field.set(BEATTRAINER, Holder.direct(new BeatTrainerTrigger()));
-        }
-        catch (Exception e)
-        {
-            throw new RuntimeException(e);
-        }
     }
 
     public static void init()

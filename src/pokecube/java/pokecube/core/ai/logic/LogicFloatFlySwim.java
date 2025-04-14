@@ -24,14 +24,13 @@ import pokecube.core.ai.pathing.ClimbPathNavi;
 import pokecube.core.ai.pathing.FlyPathNavi;
 import pokecube.core.ai.pathing.SwimPathNavi;
 import pokecube.core.ai.pathing.WalkPathNavi;
+import pokecube.core.ai.tasks.TaskBase;
 import thut.api.maths.Vector3;
 
 /**
- * This is used instead of a Swimming AI task. It manages making mobs "jump" to
- * swim while in water. It also manages making floating mobs float a certain
- * distance above the ground, and manages terminating wandering paths for
- * floating, flying and swimming mobs if they get sufficiently close to their
- * destinations.
+ * This is used instead of a Swimming AI task. It manages making mobs "jump" to swim while in water. It also manages
+ * making floating mobs float a certain distance above the ground, and manages terminating wandering paths for floating,
+ * flying and swimming mobs if they get sufficiently close to their destinations.
  */
 public class LogicFloatFlySwim extends LogicBase
 {
@@ -53,7 +52,8 @@ public class LogicFloatFlySwim extends LogicBase
         public void tick()
         {
             if (pokemob.getController().blocksPathing()) return;
-            if(true){
+            if (true)
+            {
                 super.tick();
                 return;
             }
@@ -84,7 +84,7 @@ public class LogicFloatFlySwim extends LogicBase
                 VoxelShape voxelshape = blockstate.getCollisionShape(this.mob.level, blockpos);
                 if (d2 > this.mob.maxUpStep() && d0 * d0 + d1 * d1 < Math.max(1.0F, this.mob.getBbWidth())
                         || !voxelshape.isEmpty() && this.mob.getY() < voxelshape.max(Direction.Axis.Y) + blockpos.getY()
-                                && !blockstate.is(BlockTags.DOORS) && !blockstate.is(BlockTags.FENCES))
+                        && !blockstate.is(BlockTags.DOORS) && !blockstate.is(BlockTags.FENCES))
                 {
                     this.mob.getJumpControl().jump();
                     this.operation = MoveControl.Operation.JUMPING;

@@ -37,6 +37,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
+import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
@@ -59,19 +60,17 @@ import java.util.Random;
 import java.util.UUID;
 
 /**
- * Mostly does visuals updates, such as particle effects, checking that shearing
- * status is reset properly. It also resets stat modifiers when the mob is out
- * of combat.
+ * Mostly does visuals updates, such as particle effects, checking that shearing status is reset properly. It also
+ * resets stat modifiers when the mob is out of combat.
  */
 public class LogicMiscUpdate extends LogicBase
 {
-    public static final int[] FLAVCOLOURS = new int[]
-    { 0xFFFF4932, 0xFF4475ED, 0xFFF95B86, 0xFF2EBC63, 0xFFEBCE36 };
+    public static final int[] FLAVCOLOURS = new int[] { 0xFFFF4932, 0xFF4475ED, 0xFFF95B86, 0xFF2EBC63, 0xFFEBCE36 };
 
     public static int EXITCUBEDURATION = 40;
 
-    public static final boolean holiday = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 25
-            && Calendar.getInstance().get(Calendar.MONTH) == 11;
+    public static final boolean holiday =
+            Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 25 && Calendar.getInstance().get(Calendar.MONTH) == 11;
 
     public static void getStatModifiers(final EquipmentSlot slot, final ItemStack stack, final Map<Stats, Float> vals)
     {
@@ -192,10 +191,9 @@ public class LogicMiscUpdate extends LogicBase
             this.pokemob.setGeneralState(GeneralStates.TAMED, false);
 
         // Check exit cube state.
-        if (this.entity.tickCount > LogicMiscUpdate.EXITCUBEDURATION
-                && this.pokemob.getGeneralState(GeneralStates.EXITINGCUBE))
-            this.pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
-        boolean noMotion = sleepingAI;
+        if (this.entity.tickCount > LogicMiscUpdate.EXITCUBEDURATION && this.pokemob.getGeneralState(
+                GeneralStates.EXITINGCUBE)) this.pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
+        boolean noMotion = !TaskBase.canMove(this.pokemob);
         boolean sitting = this.pokemob.getLogicState(LogicStates.SITTING);
         noMotion |= sitting;
 
@@ -215,9 +213,12 @@ public class LogicMiscUpdate extends LogicBase
         }
 
         // Check if we shouldn't just randomly go to sleep.
-        final boolean ownedSleepCheck = sleepingAI && this.pokemob.getGeneralState(GeneralStates.TAMED)
-                && !this.pokemob.getGeneralState(GeneralStates.STAYING);
-        if (ownedSleepCheck) this.pokemob.setLogicState(LogicStates.SLEEPING, false);
+        final boolean ownedSleepCheck =
+                sleepingAI && this.pokemob.getGeneralState(GeneralStates.TAMED) && !this.pokemob.getGeneralState(
+                        GeneralStates.STAYING);
+        if (ownedSleepCheck) this.pokemob.setLogicState(LogicStates.SLEEPING, sleepingAI = false);
+
+        if (sleepingAI && entity.getPose() != Pose.SLEEPING) entity.setPose(Pose.SLEEPING);
 
         // Ensure sitting status is synced for TameableEntities
         if (this.entity instanceof TamableAnimal animal)
@@ -473,11 +474,11 @@ public class LogicMiscUpdate extends LogicBase
             final Vector3 heart = new Vector3();
             for (int i = 0; i < 3; ++i)
             {
-                heart.set(
-                        this.entity.getX() + rand.nextFloat() * this.entity.getBbWidth() * 2.0F
+                heart.set(this.entity.getX() + rand.nextFloat() * this.entity.getBbWidth() * 2.0F
                                 - this.entity.getBbWidth(),
-                        this.entity.getY() + 0.5D + rand.nextFloat() * this.entity.getBbHeight(), this.entity.getZ()
-                                + rand.nextFloat() * this.entity.getBbWidth() * 2.0F - this.entity.getBbWidth());
+                        this.entity.getY() + 0.5D + rand.nextFloat() * this.entity.getBbHeight(),
+                        this.entity.getZ() + rand.nextFloat() * this.entity.getBbWidth() * 2.0F
+                                - this.entity.getBbWidth());
                 this.entity.level().addParticle(ParticleTypes.HEART, heart.x, heart.y, heart.z, 0, 0, 0);
             }
         }
@@ -520,8 +521,7 @@ public class LogicMiscUpdate extends LogicBase
                             rand.nextDouble() - 0.5);
                     particleVelo.scalarMultBy(0.25);
                 }
-                args = new int[]
-                { LogicMiscUpdate.FLAVCOLOURS[i] };
+                args = new int[] { LogicMiscUpdate.FLAVCOLOURS[i] };
                 this.particle = "powder";
                 PokecubeCore.spawnParticle(this.entity.level(), this.particle, particleLoc, particleVelo, args);
             }
@@ -532,8 +532,8 @@ public class LogicMiscUpdate extends LogicBase
     private void checkPose()
     {
         final Pose old = this.entity.getPose();
-        final boolean sleeping = this.pokemob.getStatus() == IMoveConstants.STATUS_SLP
-                || this.pokemob.getLogicState(LogicStates.SLEEPING);
+        final boolean sleeping = this.pokemob.getStatus() == IMoveConstants.STATUS_SLP || this.pokemob.getLogicState(
+                LogicStates.SLEEPING);
         Pose next = old;
         if (this.entity.deathTime > 0 || this.entity.isDeadOrDying()) next = Pose.DYING;
         else if (sleeping) next = Pose.SLEEPING;
@@ -559,7 +559,7 @@ public class LogicMiscUpdate extends LogicBase
         List<String> anims = animated.getChoices();
         List<String> transients = animated.transientAnimations();
         anims.clear();
-        boolean isRidden = entity.getPassengers().size() > 0;
+        boolean isRidden = !entity.getPassengers().isEmpty();
         final Vec3 velocity = this.entity.getDeltaMovement();
         final float dStep = this.entity.walkAnimation.speed();
         final float walkspeed = (float) (velocity.x * velocity.x + velocity.z * velocity.z + dStep * dStep);

@@ -11,7 +11,6 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.behavior.BehaviorControl;
 import net.minecraft.world.entity.ai.behavior.InteractWithDoor;
-import net.minecraft.world.entity.ai.behavior.MoveToTargetSink;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import pokecube.api.PokecubeAPI;
@@ -88,7 +87,7 @@ public class Tasks
 
     @SuppressWarnings("unchecked")
     public static ImmutableList<Pair<Integer, ? extends BehaviorControl<? super LivingEntity>>> idle(
-            final IPokemob pokemob, final float speed)
+            final IPokemob pokemob)
     {
         final PokedexEntry entry = pokemob.getPokedexEntry();
         // Tasks for idle
@@ -150,8 +149,7 @@ public class Tasks
             list.add(Tasks.lookAtPlayerOrVillager());
         }
         // This one is outside as most things don't get this task.
-        task = new WalkToTask(200);
-        task = new MoveToTargetSink();
+        task = new WalkToTask();
         list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
         if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, InteractWithDoor.create()));
 
@@ -170,7 +168,7 @@ public class Tasks
 
     @SuppressWarnings("unchecked")
     public static ImmutableList<Pair<Integer, ? extends BehaviorControl<? super LivingEntity>>> combat(
-            final IPokemob pokemob, final float speed)
+            final IPokemob pokemob)
     {
         // Tasks for combat
         final List<IAIRunnable> aiList = Lists.newArrayList();
@@ -228,7 +226,7 @@ public class Tasks
 
     @SuppressWarnings("unchecked")
     public static ImmutableList<Pair<Integer, ? extends BehaviorControl<? super LivingEntity>>> utility(
-            final IPokemob pokemob, final float speed)
+            final IPokemob pokemob)
     {
         // Tasks for utilitiy
         final List<IAIRunnable> aiList = Lists.newArrayList();
@@ -267,8 +265,7 @@ public class Tasks
             list.add(Pair.of(0, (Behavior<? super LivingEntity>) task));
         }
         // This one is outside as most things don't get this task.
-        task = new WalkToTask(200);
-        task = new MoveToTargetSink();
+        task = new WalkToTask();
         list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
         if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, InteractWithDoor.create()));
         // Send the event to let anyone edit the tasks if needed.

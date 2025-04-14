@@ -31,7 +31,7 @@ public class StatsCollector
                     .getPlayerData(player.registryAccess(), owner).getData(PokecubePlayerStats.class);
             stats.addCapture(dbe);
             PlayerDataHandler.getInstance().save(player.registryAccess(), owner, stats.getIdentifier());
-            if (!stats.hasFirst()) stats.setHasFirst(player);
+            stats.setHasFirst(player);
             PlayerDataHandler.saveCustomData(player.registryAccess(), stats.getIdentifier());
             Triggers.CATCHPOKEMOB.get().trigger(player, captured);
             PacketDataSync.syncData(player, stats.getIdentifier());

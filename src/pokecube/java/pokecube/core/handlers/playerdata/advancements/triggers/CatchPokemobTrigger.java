@@ -37,7 +37,7 @@ public class CatchPokemobTrigger extends SimpleCriterionTrigger<CatchPokemobTrig
     {
         LootParams lootparams = new LootParams.Builder(player.serverLevel())
                 .withParameter(Triggers.POKEDEX_ENTRY, pokemob.getPokedexEntry())
-                .withParameter(LootContextParams.THIS_ENTITY, pokemob.getEntity())
+                .withParameter(LootContextParams.THIS_ENTITY, player)
                 .create(SimplePokemobTrigger.SIMPLE_POKEMOB_SET);
         return new LootContext.Builder(lootparams).create(Optional.empty());
     }

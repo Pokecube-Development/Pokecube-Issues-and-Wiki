@@ -1,11 +1,7 @@
 package pokecube.core.ai.logic;
 
-import java.util.List;
-import java.util.Set;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -21,17 +17,19 @@ import net.minecraft.world.level.Level;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.init.Config;
 import pokecube.core.utils.Permissions;
 import thut.lib.ChatHelper;
 import thut.lib.TComponent;
 
+import java.util.List;
+import java.util.Set;
+
 /**
- * This manages the ridden controls of the pokemob. The booleans are set on the
- * client side, then sent via a packet to the server, and then the mob is moved
- * accordingly.
+ * This manages the ridden controls of the pokemob. The booleans are set on the client side, then sent via a packet to
+ * the server, and then the mob is moved accordingly.
  */
 public class LogicMountedControl extends LogicBase
 {
@@ -76,8 +74,7 @@ public class LogicMountedControl extends LogicBase
 
     public boolean blocksPathing()
     {
-        if (this.pokemob.getLogicState(LogicStates.SITTING)) return true;
-        if (this.pokemob.getLogicState(LogicStates.SLEEPING)) return true;
+        if (!TaskBase.canMove(this.pokemob)) return true;
         final Entity rider = this.entity.getControllingPassenger();
         if (rider == null) return false;
         return !this.canPathWhileRidden;
@@ -112,7 +109,8 @@ public class LogicMountedControl extends LogicBase
                     this.pokemob.setRoutineState(AIRoutine.AIRBORNE, false);
                     if (rider instanceof ServerPlayer player) ChatHelper.sendSystemMessage(player,
                             TComponent.translatable("pokemob.fly.disabled", pokemob.getDisplayName()));
-                } ;
+                }
+                ;
                 this.canFly = false;
             }
         }
@@ -146,7 +144,8 @@ public class LogicMountedControl extends LogicBase
         }
 
         this.wasRiding = true;
-        this.entity.setYRot(this.pokemob.getHeading());;
+        this.entity.setYRot(this.pokemob.getHeading());
+        ;
 
         shouldControl = this.entity.onGround() || this.pokemob.canUseFly();
         verticalControl = false;
@@ -186,11 +185,12 @@ public class LogicMountedControl extends LogicBase
 
         if (!level.isClientSide() && noGrav != verticalControl) this.entity.setNoGravity(verticalControl);
 
-        for (final Entity e : this.entity.getIndirectPassengers()) if (e instanceof LivingEntity living)
-        {
-            final boolean doBuffs = !buffs.isEmpty();
-            if (doBuffs) for (final MobEffectInstance buff : buffs) living.addEffect(buff);
-        }
+        for (final Entity e : this.entity.getIndirectPassengers())
+            if (e instanceof LivingEntity living)
+            {
+                final boolean doBuffs = !buffs.isEmpty();
+                if (doBuffs) for (final MobEffectInstance buff : buffs) living.addEffect(buff);
+            }
 
         double vx = this.entity.getDeltaMovement().x;
         double vy = this.entity.getDeltaMovement().y;
@@ -209,7 +209,8 @@ public class LogicMountedControl extends LogicBase
         final Config config = PokecubeCore.getConfig();
         float speedFactor = (float) (1 + Math.sqrt(this.pokemob.getPokedexEntry().getStatVIT()) / 10F);
 
-        speedFactor *= airSpeed ? config.flySpeedFactor
+        speedFactor *= airSpeed
+                ? config.flySpeedFactor
                 : waterSpeed ? config.surfSpeedFactor * 0.125f : config.groundSpeedFactor;
 
         float baseSpd = (float) (0.5f * this.throttle * speedFactor);

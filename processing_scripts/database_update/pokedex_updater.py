@@ -21,7 +21,7 @@ def convert(entry_generate_dir, entry_generate_dir_new, dir_not_existing):
             shutil.copy(entry_generate_dir_new + file, dir_not_existing + file)
 
 def make_entry_generate(key):
-    entry_generate_dir = f'../../src/generated/resources/data/pokecube_mobs/database/pokemobs/{key}/'
+    entry_generate_dir = f'../../src/main/resources/data/pokecube_mobs/database/pokemobs/{key}/'
     entry_generate_dir_new = f'./new/pokemobs/{key}/'
     dir_not_existing = f'./new/pokemobs/{key}_new/'
     return entry_generate_dir, entry_generate_dir_new, dir_not_existing

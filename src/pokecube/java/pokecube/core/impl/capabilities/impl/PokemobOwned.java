@@ -195,7 +195,6 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         {
             final MessageServer packet = new MessageServer(MessageServer.RETURN, this.getEntity().getId());
             if (!onDeath) PokecubeCore.packets.sendToServer(packet);
-            return;
         }
         else this.executeRecall(onDeath);
     }
@@ -237,7 +236,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         // Clear the pokemob's motion on recall
         this.getEntity().setDeltaMovement(0, 0, 0);
 
-        /** If this has fainted, status should be reset. */
+        /* If this has fainted, status should be reset. */
         if (this.getHealth() <= 0)
         {
             this.healStatus();
@@ -513,7 +512,8 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
             pokemob.getEntity().getPersistentData().remove("initSpawn");
             maxXP = SpawnHandler.getSpawnXp(new SpawnContext(pokemob));
             final SpawnEvent.PickLevel event = new SpawnEvent.PickLevel(pokemob,
-                    Tools.xpToLevel(pokemob.getPokedexEntry().getEvolutionMode(), maxXP), SpawnHandler.DEFAULT_VARIANCE);
+                    Tools.xpToLevel(pokemob.getPokedexEntry().getEvolutionMode(), maxXP),
+                    SpawnHandler.DEFAULT_VARIANCE);
             PokecubeAPI.POKEMOB_BUS.post(event);
             final int level = event.getLevel();
             maxXP = Tools.levelToXp(pokemob.getPokedexEntry().getEvolutionMode(), level);

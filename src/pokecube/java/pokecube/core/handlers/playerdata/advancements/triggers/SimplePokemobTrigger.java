@@ -56,7 +56,7 @@ public abstract class SimplePokemobTrigger extends SimpleCriterionTrigger<Pokede
 
         public boolean matches(LootContext context)
         {
-            return matches(context, true);
+            return matches(context, false);
         }
 
         public boolean matches(LootContext context, boolean allowEmpty)

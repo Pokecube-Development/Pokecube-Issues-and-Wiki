@@ -18,5 +18,5 @@ To update later, just pull changes into that git repository.
 
 3. Once you have adjusted the values in `./data/pokemobs/`, return to step 1, and repeat steps 1-3 until the json file contains the required information.
 
-4. Now that you have the proper json file, place it in `../../src/generated/resources/data/pokecube_mobs/database/pokemobs/pokedex_entries/`, and it should be ready to add.
+4. Now that you have the proper json file, place it in `../../src/main/resources/data/pokecube_mobs/database/pokemobs/pokedex_entries/`, and it should be ready to add.
 

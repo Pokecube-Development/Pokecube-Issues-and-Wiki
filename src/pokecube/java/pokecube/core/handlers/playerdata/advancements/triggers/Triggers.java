@@ -88,26 +88,6 @@ public class Triggers
         MEGAEVOLVEPOKEMOB = REGISTER.register(MegaEvolvePokemobTrigger.ID.getPath(), MegaEvolvePokemobTrigger::new);
         BREEDPOKEMOB = REGISTER.register(BreedPokemobTrigger.ID.getPath(), BreedPokemobTrigger::new);
         USEMOVE = REGISTER.register(UseMoveTrigger.ID.getPath(), UseMoveTrigger::new);
-
-        try
-        {
-            Field field = DeferredHolder.class.getDeclaredField("holder");
-            field.setAccessible(true);
-            field.set(FIRSTPOKEMOB, Holder.direct(new FirstPokemobTrigger()));
-            field.set(CATCHPOKEMOB, Holder.direct(new CatchPokemobTrigger()));
-            field.set(KILLPOKEMOB, Holder.direct(new KillPokemobTrigger()));
-            field.set(HATCHPOKEMOB, Holder.direct(new HatchPokemobTrigger()));
-            field.set(EVOLVEPOKEMOB, Holder.direct(new EvolvePokemobTrigger()));
-            field.set(INSPECTPOKEMOB, Holder.direct(new InspectPokemobTrigger()));
-            field.set(MEGAEVOLVEPOKEMOB, Holder.direct(new MegaEvolvePokemobTrigger()));
-            field.set(BREEDPOKEMOB, Holder.direct(new BreedPokemobTrigger()));
-            field.set(USEMOVE, Holder.direct(new UseMoveTrigger()));
-        }
-        catch (Exception e)
-        {
-            throw new RuntimeException(e);
-        }
-
     }
 
     public static void init()

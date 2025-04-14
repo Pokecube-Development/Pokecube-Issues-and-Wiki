@@ -248,11 +248,11 @@ public class Health
                 // Decorations
                 mat.pushPose();
                 {
-                    mat.translate(-size, -barHeight1 - 0.5, zlevel);
+                    mat.translate(-size, -barHeight1-2, zlevel);
                     mat.scale(s, s, s);
                     pos = mat.last().pose();
                     // Name
-                    mc.font.drawInBatch(nameComp.getString(), 0, 0, colour, false, pos, buf,
+                    mc.font.drawInBatch(nameComp.getString(), 0, 2, colour, false, pos, buf,
                             Font.DisplayMode.SEE_THROUGH, 0, br);
 
                     int h = config.hpTextHeight;
