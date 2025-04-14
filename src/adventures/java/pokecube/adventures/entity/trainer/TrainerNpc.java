@@ -1,8 +1,5 @@
 package pokecube.adventures.entity.trainer;
 
-import java.util.List;
-import java.util.UUID;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentPredicate;
 import net.minecraft.nbt.CompoundTag;
@@ -17,6 +14,7 @@ import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.Level;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
+import pokecube.adventures.events.TrainerSpawnHandler;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.ICanEvolve;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -28,11 +26,11 @@ import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
+import java.util.List;
+import java.util.UUID;
+
 public class TrainerNpc extends TrainerBase
 {
-    boolean added = false;
-    public long visibleTime = 0;
-
     public TrainerNpc(final EntityType<? extends TrainerBase> type, final Level worldIn)
     {
         super(type, worldIn);
@@ -121,13 +119,7 @@ public class TrainerNpc extends TrainerBase
     {
         super.readAdditionalSaveData(nbt);
         this.fixedMobs = nbt.getBoolean("fixedMobs");
-        this.setTypes();
-    }
-
-    public TrainerNpc setLevel(final int level)
-    {
-        this.initTeam(level);
-        return this;
+        this.setTypes(false);
     }
 
     public TrainerNpc setStationary(final Vector3 location)
@@ -152,14 +144,14 @@ public class TrainerNpc extends TrainerBase
         TypeTrainer.getRandomTeam(this.pokemobsCap, this, level, this.level);
     }
 
-    public void setTypes()
+    public void setTypes(boolean resetName)
     {
         if (this.pokemobsCap.getType() == null)
         {
             this.setNpcType(TypeTrainer.get(this, false));
-            this.initTeam(5);
+            TrainerSpawnHandler.initTrainer(this.pokemobsCap, 5);
         }
-        if (this.getNPCName().isEmpty())
+        if (this.getNPCName().isEmpty() || resetName)
         {
             final List<String> names = this.isMale() ? TypeTrainer.maleNames : TypeTrainer.femaleNames;
             if (!names.isEmpty()) this.setTypedName(names.get(ThutCore.newRandom().nextInt(names.size())));
@@ -170,7 +162,7 @@ public class TrainerNpc extends TrainerBase
     @Override
     public void addAdditionalSaveData(final CompoundTag compound)
     {
-        this.setTypes(); // Ensure types are valid before saving.
+        this.setTypes(false); // Ensure types are valid before saving.
         super.addAdditionalSaveData(compound);
         compound.putBoolean("fixedMobs", this.fixedMobs);
     }

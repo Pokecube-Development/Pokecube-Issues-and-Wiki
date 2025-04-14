@@ -52,7 +52,6 @@ public class PostProcessor implements BiConsumer<GenerationContext, List<PoolEle
                     part.getBoundingBox().maxY() + v_extra, part.getBoundingBox().maxZ() + h_extra);
             part.getBoundingBox().encapsulate(min_corner);
             part.getBoundingBox().encapsulate(max_corner);
-
             ServerLevel level = ExpandedJigsawPacement.getForGen(context);
 
             if (!"none".equals(config.biome_type))

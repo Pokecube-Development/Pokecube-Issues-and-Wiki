@@ -31,11 +31,11 @@ public abstract class MixinLivingEntityInit extends Entity
         ThutCore.FORGE_BUS.post(new BrainInitEvent(living, true));
     }
 
-    @Inject(method = "readAdditionalSaveData", at = @At(value = "RETURN"))
     /**
      * Here we load the brain's memories again, this properly loads in the
      * memories, which seem to be forgotten however vanilla is doing it...
      */
+    @Inject(method = "readAdditionalSaveData", at = @At(value = "RETURN"))
     protected void onPostReadAdditional(final CompoundTag compound, final CallbackInfo cbi)
     {
         if (this.level instanceof ServerLevel)

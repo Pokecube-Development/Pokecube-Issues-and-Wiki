@@ -238,7 +238,7 @@ public class PacketTrainer extends NBTPacket
             final String var = JsonUtil.gson.toJson(thing);
             args = args + var;
             final StructureEvent.ReadTag event = new ReadTag(args, vec.getPos(), player.level(),
-                    (ServerLevel) player.level(), player.getRandom(), BoundingBox.infinite());
+                    (ServerLevel) player.level(), player.getRandom(), BoundingBox.infinite(), false);
             ThutCore.FORGE_BUS.post(event);
             break;
         case UPDATETRAINER:

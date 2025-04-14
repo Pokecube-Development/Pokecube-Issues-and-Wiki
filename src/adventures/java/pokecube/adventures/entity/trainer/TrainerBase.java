@@ -15,6 +15,7 @@ import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasTrades;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
+import pokecube.adventures.events.TrainerSpawnHandler;
 import pokecube.adventures.utils.TrainerTracker;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.trainers.IHasMessages;
@@ -185,8 +186,7 @@ public abstract class TrainerBase extends NpcMob
                 SpawnContext context = new SpawnContext(null, (ServerLevel) level, type.pokemon.get(0),
                         new Vector3().set(this));
                 final int level = SpawnHandler.getSpawnLevel(context);
-                this.initTeam(level);
-                type.initTrainerItems(this);
+                TrainerSpawnHandler.initTrainer(this.pokemobsCap, level);
             }
             if (PokecubeAdv.config.cullNoMobs)
             {

@@ -55,6 +55,7 @@ import pokecube.api.events.init.RegisterMiscItems;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.blocks.barrels.GenericBarrelBlock;
 import pokecube.core.blocks.barrels.GenericBarrelTile;
 import pokecube.core.blocks.berries.BerryCrop;
 import pokecube.core.blocks.berries.BerryFruit;
@@ -478,7 +479,7 @@ public class ItemGenerator
 
             // Barrels
             var barrels = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(20).apply(name),
-                    () -> new BarrelBlock(BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
+                    () -> new GenericBarrelBlock(BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
                             .ignitedByLava().strength(2.5F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS)),
                     block ->
                     {

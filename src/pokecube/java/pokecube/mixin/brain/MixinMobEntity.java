@@ -1,65 +1,48 @@
 package pokecube.mixin.brain;
 
-import java.util.List;
-
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
-
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.behavior.Behavior;
-import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.level.Level;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.ai.brain.DummySetTask;
 import pokecube.core.ai.brain.MemoryModules;
 import thut.api.entity.ai.BrainUtil;
-import thut.api.entity.ai.RootTask;
+
+import java.util.List;
 
 @Mixin(Mob.class)
 public abstract class MixinMobEntity extends LivingEntity
 {
-    public static class DummySetTask extends RootTask<LivingEntity>
-    {
-        public DummySetTask()
-        {
-            super(ImmutableMap.of(MemoryModules.DUMMY.get(), MemoryStatus.REGISTERED));
-        }
-
-        @Override
-        protected boolean checkExtraStartConditions(final ServerLevel worldIn, final LivingEntity owner)
-        {
-            final Brain<?> brain = owner.getBrain();
-            brain.setMemory(MemoryModules.DUMMY.get(), true);
-            return false;
-        }
-    }
-
     public MixinMobEntity(final EntityType<? extends LivingEntity> type, final Level worldIn)
     {
         super(type, worldIn);
     }
 
+    @Unique
     private boolean ticked_default_ai = false;
+    @Unique
     private boolean checked_for_ai = false;
 
-    @SuppressWarnings("deprecation")
-    @Inject(method = "serverAiStep", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiling/ProfilerFiller;push(Ljava/lang/String;)V", args =
-    { "ldc=mob tick" }))
     /**
      * Here, during the first tick, we add a dummy task to the brain, to see if
      * it does get called. If this task is not called, then we need to manually
      * tick the brain itself.
      */
+    @SuppressWarnings("deprecation")
+    @Inject(method = "serverAiStep", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiling/ProfilerFiller;push(Ljava/lang/String;)V", args = {
+            "ldc=mob tick" }))
     protected void onPreUpdateAITasks(final CallbackInfo cbi)
     {
         if (!this.checked_for_ai)
@@ -74,12 +57,11 @@ public abstract class MixinMobEntity extends LivingEntity
         }
     }
 
-    @Inject(method = "serverAiStep", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiling/ProfilerFiller;push(Ljava/lang/String;)V", args =
-    { "ldc=controls" }))
     /**
-     * Here we check if the dummy task above was ticked. If it isn't, we tick
-     * the brain manually ourselves.
+     * Here we check if the dummy task above was ticked. If it isn't, we tick the brain manually ourselves.
      */
+    @Inject(method = "serverAiStep", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiling/ProfilerFiller;push(Ljava/lang/String;)V", args = {
+            "ldc=controls" }))
     protected void onPostUpdateAITasks(final CallbackInfo cbi)
     {
         if (!this.checked_for_ai)

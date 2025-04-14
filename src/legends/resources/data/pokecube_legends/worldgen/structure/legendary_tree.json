@@ -22,7 +22,7 @@
       {
         "type": "neoforge:or",
         "values": [
-          "#forge:is_plains",
+          "#c:is_plains",
           "#minecraft:is_forest",
           "#pokecube_world:is_ultraspace/is_forest",
           "#pokecube_world:is_ultraspace/is_plains"

@@ -1,19 +1,20 @@
 package pokecube.mixin.features;
 
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.server.level.WorldGenRegion;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfiguration;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
-import net.minecraft.world.level.StructureManager;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfiguration;
-import net.minecraft.world.level.levelgen.structure.Structure;
-import pokecube.mixin.accessors.WorldGenRegionAccessor;
 import pokecube.world.WorldgenTags;
-import thut.lib.RegHelper;
+import pokecube.world.utils.GeneralUtils;
+
+import java.util.List;
 
 @SuppressWarnings("deprecation")
 @Mixin(net.minecraft.world.level.levelgen.feature.LakeFeature.class)
@@ -24,23 +25,22 @@ public class NoLakesInStructuresMixin
     private void pokecube$noLakesInStructures(FeaturePlaceContext<BlockStateConfiguration> context,
             CallbackInfoReturnable<Boolean> cir)
     {
-        if (!(context.level() instanceof WorldGenRegionAccessor accessor))
+        if (!(context.level() instanceof WorldGenRegion worldGenRegion))
         {
             return;
         }
 
-        Registry<Structure> configuredStructureFeatureRegistry = context.level().registryAccess()
-                .registryOrThrow(RegHelper.STRUCTURE_REGISTRY);
-        StructureManager structureManager = accessor.getServerLevel().structureManager();
+        Registry<Structure> structureRegistry = worldGenRegion.registryAccess().registry(Registries.STRUCTURE).get();
 
-        for (Holder<Structure> configuredStructureFeature : configuredStructureFeatureRegistry
-                .getOrCreateTag(WorldgenTags.NO_LAKES))
+        List<StructureStart> structureStarts = GeneralUtils.inboundsValidStartsForAllStructure(worldGenRegion,
+                context.origin(),
+                struct -> structureRegistry.getHolderOrThrow(structureRegistry.getResourceKey(struct).get())
+                        .is(WorldgenTags.NO_LAKES));
+
+        if (!structureStarts.isEmpty())
         {
-            if (structureManager.getStructureAt(context.origin(), configuredStructureFeature.value()).isValid())
-            {
-                cir.setReturnValue(false);
-                return;
-            }
+            cir.setReturnValue(false);
+            return;
         }
     }
 }

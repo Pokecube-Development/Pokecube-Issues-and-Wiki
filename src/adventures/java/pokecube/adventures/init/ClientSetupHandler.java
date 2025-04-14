@@ -68,14 +68,10 @@ public class ClientSetupHandler
             {
                 final HitResult pos = Minecraft.getInstance().hitResult;
                 Entity target = null;
-                switch (pos.getType())
+                if (pos.getType() == HitResult.Type.ENTITY)
                 {
-                case ENTITY:
                     target = ((EntityHitResult) pos).getEntity();
                     if (target instanceof PartEntity<?> part) target = part.getParent();
-                    break;
-                default:
-                    break;
                 }
                 PacketTrainer.requestEdit(target);
             }
@@ -265,7 +261,7 @@ public class ClientSetupHandler
     {
         event.register((stack, tintIndex) -> {
             if (!(stack.has(DataComponents.DYED_COLOR))) return 0xFFFFFFFF;
-            return tintIndex == 0 ? stack.get(DataComponents.DYED_COLOR).rgb() : 0xFFFFFFFF;
+            return tintIndex == 0 ? stack.get(DataComponents.DYED_COLOR).rgb()|0xFF000000 : 0xFFFFFFFF;
         }, PokecubeAdv.BAG.get());
     }
 }

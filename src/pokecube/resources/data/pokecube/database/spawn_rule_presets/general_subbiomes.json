@@ -83,7 +83,7 @@
     },
     {
       "preset":"custom_subbiomes",
-      "or_preset":"ruins,industrial,meteors,caves"
+      "or_preset":"ruins,industrial,meteors,caves,village,inside"
     }
   ]
 }

@@ -16,7 +16,7 @@
         "value": {
           "type": "neoforge:or",
           "values": [
-            "#forge:is_snowy",
+            "#c:is_snowy",
             "#minecraft:is_ocean",
             "#minecraft:is_river"
           ]

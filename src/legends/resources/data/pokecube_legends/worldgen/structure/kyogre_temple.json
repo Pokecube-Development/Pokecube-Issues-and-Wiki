@@ -20,7 +20,7 @@
   "biomes": {
     "type": "neoforge:and",
     "values": [
-      "#forge:is_water",
+      "#c:is_aquatic",
       {
         "type": "neoforge:not",
         "value": {

@@ -1,57 +1,71 @@
 package pokecube.mixin.features;
 
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.core.SectionPos;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.StructureManager;
-import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.level.levelgen.feature.BasaltColumnsFeature;
 import net.minecraft.world.level.levelgen.structure.Structure;
-import pokecube.api.PokecubeAPI;
-import pokecube.mixin.accessors.WorldGenRegionAccessor;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
 import pokecube.world.WorldgenTags;
-import thut.lib.RegHelper;
+import pokecube.world.utils.GeneralUtils;
+
+import java.util.List;
 
 @Mixin(BasaltColumnsFeature.class)
 public class NoBasaltColumnsInStructuresMixin
 {
 
-    @Inject(method = "canPlaceAt(Lnet/minecraft/world/level/LevelAccessor;ILnet/minecraft/core/BlockPos$MutableBlockPos;)Z", at = @At(value = "HEAD"), cancellable = true)
-    private static void pokecube$noBasaltColumnsInStructures(LevelAccessor levelAccessor, int seaLevel,
-            BlockPos.MutableBlockPos mutableBlockPos, CallbackInfoReturnable<Boolean> cir)
+    @WrapOperation(method = "place(Lnet/minecraft/world/level/levelgen/feature/FeaturePlaceContext;)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/levelgen/feature/BasaltColumnsFeature;canPlaceAt(Lnet/minecraft/world/level/LevelAccessor;ILnet/minecraft/core/BlockPos$MutableBlockPos;)Z"))
+    private boolean pokecube$noBasaltColumnsInStructures1(LevelAccessor levelAccessor, int sealevel,
+            BlockPos.MutableBlockPos mutableBlockPos, Operation<Boolean> original)
     {
-        if (!(levelAccessor instanceof WorldGenRegionAccessor accessor))
-        {
-            return;
+        if (!original.call(levelAccessor, sealevel, mutableBlockPos))
+        { //canPlaceAt
+            return false;
         }
 
-        SectionPos sectionPos = SectionPos.of(mutableBlockPos);
-        if (!levelAccessor.getChunk(sectionPos.x(), sectionPos.z()).getPersistedStatus()
-                .isOrAfter(ChunkStatus.STRUCTURE_REFERENCES))
+        if (!(levelAccessor instanceof WorldGenRegion worldGenRegion))
         {
-            PokecubeAPI.LOGGER.warn(
-                    "Repurposed Structures: Detected a mod with a broken basalt columns configuredfeature that is trying to place blocks outside the 3x3 safe chunk area for features. Find the broken mod and report to them to fix the placement of their basalt columns feature.");
-            return;
+            return true;
         }
 
-        Registry<Structure> configuredStructureFeatureRegistry = levelAccessor.registryAccess()
-                .registryOrThrow(RegHelper.STRUCTURE_REGISTRY);
-        StructureManager structureManager = accessor.getServerLevel().structureManager();
-        for (Holder<Structure> configuredStructureFeature : configuredStructureFeatureRegistry
-                .getOrCreateTag(WorldgenTags.NO_BASALT))
-        {
-            if (structureManager.getStructureAt(mutableBlockPos, configuredStructureFeature.value()).isValid())
-            {
-                cir.setReturnValue(false);
-                return;
-            }
+        Registry<Structure> structureRegistry = worldGenRegion.registryAccess().registry(Registries.STRUCTURE).get();
+
+        List<StructureStart> structureStarts = GeneralUtils.inboundsValidStartsForAllStructure(worldGenRegion,
+                mutableBlockPos,
+                struct -> structureRegistry.getHolderOrThrow(structureRegistry.getResourceKey(struct).get())
+                        .is(WorldgenTags.NO_BASALT));
+
+        return structureStarts.isEmpty();
+    }
+
+    @WrapOperation(method = "findSurface(Lnet/minecraft/world/level/LevelAccessor;ILnet/minecraft/core/BlockPos$MutableBlockPos;I)Lnet/minecraft/core/BlockPos;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/levelgen/feature/BasaltColumnsFeature;canPlaceAt(Lnet/minecraft/world/level/LevelAccessor;ILnet/minecraft/core/BlockPos$MutableBlockPos;)Z"))
+    private static boolean pokecube$noBasaltColumnsInStructures2(LevelAccessor levelAccessor, int sealevel,
+            BlockPos.MutableBlockPos mutableBlockPos, Operation<Boolean> original)
+    {
+        if (!original.call(levelAccessor, sealevel, mutableBlockPos))
+        { //canPlaceAt
+            return false;
         }
+
+        if (!(levelAccessor instanceof WorldGenRegion worldGenRegion))
+        {
+            return true;
+        }
+
+        Registry<Structure> structureRegistry = worldGenRegion.registryAccess().registry(Registries.STRUCTURE).get();
+
+        List<StructureStart> structureStarts = GeneralUtils.inboundsValidStartsForAllStructure(worldGenRegion,
+                mutableBlockPos,
+                struct -> structureRegistry.getHolderOrThrow(structureRegistry.getResourceKey(struct).get())
+                        .is(WorldgenTags.NO_BASALT));
+
+        return structureStarts.isEmpty();
     }
 }

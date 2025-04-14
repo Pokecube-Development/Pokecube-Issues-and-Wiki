@@ -1,23 +1,11 @@
 package pokecube.core.eventhandlers;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import java.util.stream.Stream;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.SectionPos;
@@ -31,9 +19,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
@@ -41,6 +27,7 @@ import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.EventHooks;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.spawns.SpawnCheck;
@@ -66,6 +53,9 @@ import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 
+import java.util.*;
+import java.util.stream.Stream;
+
 public class SpawnEventsHandler
 {
     public static void register()
@@ -83,10 +73,34 @@ public class SpawnEventsHandler
         // This handles spawning in the NPCs, etc from the structure blocks with
         // appropriate data markers.
         ThutCore.FORGE_BUS.addListener(SpawnEventsHandler::onReadStructTag);
+        ThutCore.FORGE_BUS.addListener(SpawnEventsHandler::onJoinLevel);
         // This handles setting of the subbiomes for structures as they spawn
         // in, it is lowest, and not listening for cancalling incase addons make
         // adjustments first.
         ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, false, SpawnEventsHandler::onStructureSpawn);
+    }
+
+    private static void onJoinLevel(EntityJoinLevelEvent event)
+    {
+        if (!(event.getEntity() instanceof Mob npc)) return;
+        if (event.getEntity().getPersistentData().contains("pokecube:structure_entity"))
+        {
+            JsonObject thing = JsonUtil.gson.fromJson(
+                    event.getEntity().getPersistentData().getString("pokecube:structure_entity"), JsonObject.class);
+            if (!npc.level().isAreaLoaded(npc.getOnPos(), 16))
+            {
+                EventsHandler.Schedule(npc.level(), w -> {
+                    if (!npc.isAddedToLevel()) return true;
+                    if (!npc.level().isAreaLoaded(npc.getOnPos(), 16)) return false;
+                    applyFunction(npc, thing);
+                    event.getEntity().getPersistentData().remove("pokecube:structure_entity");
+                    return true;
+                });
+                return;
+            }
+            applyFunction(npc, thing);
+            event.getEntity().getPersistentData().remove("pokecube:structure_entity");
+        }
     }
 
     private static void CapLevel(final SpawnEvent.PickLevel event)
@@ -98,12 +112,10 @@ public class SpawnEventsHandler
 
     /**
      * This is done here for when pokedex is checked, to compare to blacklist.
-     *
-     * @param event
      */
     private static void onSpawnCheck(final SpawnEvent.Check event)
     {
-        if (!SpawnHandler.canSpawnInWorld(event.level(), event.forSpawn)) event.setCanceled(true);
+        if (SpawnHandler.canNotSpawnInWorld(event.level(), event.forSpawn)) event.setCanceled(true);
     }
 
     private static void PickSpawn(final SpawnEvent.Pick.Pre event)
@@ -128,7 +140,7 @@ public class SpawnEventsHandler
             return weight <= 0;
         });
 
-        if (entries.size() == 0) return;
+        if (entries.isEmpty()) return;
 
         // Now we shuffle it
         Collections.shuffle(entries, rand);
@@ -189,7 +201,7 @@ public class SpawnEventsHandler
         mob.setPersistenceRequired();
         mob.moveTo(event.pos, 0.0F, 0.0F);
         mob.finalizeSpawn((ServerLevelAccessor) event.worldBlocks, event.worldBlocks.getCurrentDifficultyAt(event.pos),
-                MobSpawnType.STRUCTURE, (SpawnGroupData) null);
+                MobSpawnType.STRUCTURE, null);
 
         JsonObject thing = new JsonObject();
         if (!function.isEmpty() && function.contains("{") && function.contains("}")) try
@@ -198,13 +210,13 @@ public class SpawnEventsHandler
             thing = JsonUtil.gson.fromJson(trimmed, JsonObject.class);
             // Check if we specify a preset instead, and if that exists,
             // use that.
-            if (thing.has("preset")
-                    && StructureSpawnPresetLoader.presetMap.containsKey(thing.get("preset").getAsString()))
+            if (thing.has("preset") && StructureSpawnPresetLoader.presetMap.containsKey(
+                    thing.get("preset").getAsString()))
                 thing = StructureSpawnPresetLoader.presetMap.get(thing.get("preset").getAsString());
         }
         catch (final JsonSyntaxException e)
         {
-            PokecubeAPI.LOGGER.error("Error parsing " + function, e);
+            PokecubeAPI.LOGGER.error("Error parsing {}", function, e);
         }
         if (!(thing.has("trainerType") || thing.has("type")))
             thing.add("type", new JsonPrimitive(nurse ? "healer" : trader ? "trader" : "professor"));
@@ -226,8 +238,13 @@ public class SpawnEventsHandler
 
     private static void spawnMob(final StructureEvent.ReadTag event, final Mob mob, final JsonObject thing)
     {
-        EventsHandler.Schedule(event.worldActual, w -> {
-            SpawnEventsHandler.applyFunction(mob, thing);
+        mob.getPersistentData().putString("pokecube:structure_entity", JsonUtil.gson.toJson(thing));
+        if (event.duringWorldgen)
+        {
+            mob.save(event.nbt);
+            event.nbt.putBoolean("pokecube:structure_entity", true);
+        }
+        else EventsHandler.Schedule(event.worldActual, w -> {
             w.addFreshEntity(mob);
             return true;
         });
@@ -241,7 +258,6 @@ public class SpawnEventsHandler
             final JsonArray options = thing.get("options").getAsJsonArray();
             final int num = event.rand.nextInt(options.size());
             SpawnEventsHandler.newSpawns(event, options.get(num).getAsString());
-            return;
         }
         else
         {
@@ -253,7 +269,7 @@ public class SpawnEventsHandler
             if (entity instanceof Mob mob) mob.setPersistenceRequired();
             entity.moveTo(event.pos, 0.0F, 0.0F);
             if (entity instanceof Mob mob) EventHooks.finalizeMobSpawn(mob, (ServerLevelAccessor) event.worldBlocks,
-                    event.worldBlocks.getCurrentDifficultyAt(event.pos), MobSpawnType.STRUCTURE, (SpawnGroupData) null);
+                    event.worldBlocks.getCurrentDifficultyAt(event.pos), MobSpawnType.STRUCTURE, null);
             if (entity instanceof NpcMob npc) SpawnEventsHandler.spawnNpc(event, npc, thing);
             else if (entity instanceof Mob mob) SpawnEventsHandler.spawnMob(event, mob, thing);
             else PokecubeAPI.LOGGER.warn("Unsupported Entity for spawning! {}", function);
@@ -283,12 +299,17 @@ public class SpawnEventsHandler
     private static void onStructureSpawn(final StructureEvent.BuildStructure event)
     {
         if (event.getBiomeType() == null) return;
-        if (event.getWorld() instanceof ServerLevel level)
+        if (event.getWorldGen() != null)
         {
+            var level = event.getWorldGen();
             final BiomeType subbiome = BiomeType.getBiome(event.getBiomeType(), true);
             final BoundingBox box = event.getBoundingBox();
             final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box);
             SpawnEventsHandler.queueForUpdate(poses, subbiome, level);
+        }
+        else if (event.getWorld() instanceof ServerLevel)
+        {
+            Thread.dumpStack();
         }
         else
         {
@@ -297,31 +318,30 @@ public class SpawnEventsHandler
             final BoundingBox box = event.getBoundingBox();
             final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box);
             final LevelAccessor world = event.getWorld();
-            poses.forEach((p) -> {
-                TerrainManager.getInstance().getTerrain(world, p).setBiome(p, subbiome);
-            });
+            poses.forEach((p) -> TerrainManager.getInstance().getTerrain(world, p).setBiome(p, subbiome));
         }
     }
 
-    public static void queueForUpdate(final Stream<BlockPos> poses, final BiomeType subbiome, final Level level)
+    public static void queueForUpdate(final Stream<BlockPos> poses, final BiomeType subbiome,
+            final ServerLevelAccessor level)
     {
         final Map<ChunkPos, Set<BlockPos>> byChunk = Maps.newHashMap();
         poses.forEach((p) -> {
             final ChunkPos pos = new ChunkPos(p);
-            Set<BlockPos> set = byChunk.get(pos);
-            if (set == null) byChunk.put(pos, set = Sets.newHashSet());
-            set.add(p.immutable());
+            if (level.hasChunk(pos.x, pos.z))
+            {
+                Set<BlockPos> set = byChunk.computeIfAbsent(pos, k -> Sets.newHashSet());
+                set.add(p.immutable());
+            }
         });
-        byChunk.forEach((pos, s) -> {
-            EventsHandler.Schedule(level, world -> {
-                s.forEach((p) -> {
-                    TerrainSegment seg = TerrainManager.getInstance().getTerrain(world, p);
-                    if (seg != null) seg.setBiome(p, subbiome);
-                    else PokecubeAPI.LOGGER.error("Error with terrain segment at " + p);
-                });
-                return true;
-            }, false);
-        });
+        byChunk.forEach((pos, s) -> EventsHandler.Schedule(level.getLevel(), world -> {
+            s.forEach((p) -> {
+                TerrainSegment seg = TerrainManager.getInstance().getTerrain(world, p);
+                if (seg != null) seg.setBiome(p, subbiome);
+                else PokecubeAPI.LOGGER.error("Error with terrain segment at {}", p);
+            });
+            return true;
+        }, false));
     }
 
     public static class GuardInfo
@@ -338,7 +358,6 @@ public class SpawnEventsHandler
     public static List<INpcProcessor> processors = Lists.newArrayList((mob, thing) -> {
         if (mob instanceof NpcMob npc)
         {
-            // TODO some of these should handle from IHasPokemobs instead!
             if (thing.has("name")) npc.setNPCName(thing.get("name").getAsString());
             else if (thing.has("names"))
             {
@@ -353,9 +372,8 @@ public class SpawnEventsHandler
             if (thing.has("type")) npc.setNpcType(NpcType.byType(thing.get("type").getAsString()));
             if (thing.has("gender"))
             {
-                final boolean male = thing.get("gender").getAsString().equalsIgnoreCase("male") ? true
-                        : thing.get("gender").getAsString().equalsIgnoreCase("female") ? false
-                                : npc.getRandom().nextBoolean();
+                final boolean male = thing.get("gender").getAsString().equalsIgnoreCase("male") || (
+                        !thing.get("gender").getAsString().equalsIgnoreCase("female") && npc.getRandom().nextBoolean());
                 npc.setMale(male);
             }
         }
@@ -377,7 +395,7 @@ public class SpawnEventsHandler
                     }
                     catch (final CommandSyntaxException e)
                     {
-                        e.printStackTrace();
+                        PokecubeAPI.LOGGER.error("Error parsing copy tag {}", thing, e);
                     }
                 }
             }
@@ -391,7 +409,7 @@ public class SpawnEventsHandler
         }
         catch (final JsonSyntaxException e)
         {
-            PokecubeAPI.LOGGER.error("Error parsing " + thing.get("guard"), e);
+            PokecubeAPI.LOGGER.error("Error parsing {}", thing.get("guard"), e);
             info = new GuardInfo();
         }
         if (info == null) return;

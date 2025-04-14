@@ -24,7 +24,7 @@
   "biomes": {
     "type": "neoforge:or",
     "values": [
-      "#forge:is_swamp",
+      "#c:is_swamp",
       "#minecraft:is_beach"
     ]
   },

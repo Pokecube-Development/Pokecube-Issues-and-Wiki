@@ -6,7 +6,7 @@
       {
         "type": "neoforge:or",
         "values": [
-          "#forge:is_sandy",
+          "#c:is_sandy",
           "#minecraft:is_badlands",
           "#minecraft:is_beach",
           "#pokecube_world:is_ultraspace/is_badlands",

@@ -5,9 +5,10 @@
   "compatibilityLevel": "JAVA_21",
   "refmap": "thutcore.refmap.json",
   "mixins": [
-  	"accessors.WalkAniAccessor",
+    "accessors.WalkAniAccessor",
+    "entity.LevelEntityEventClient",
     "entity.LevelEntityEventServer",
-    "entity.LevelEntityEventClient"
+    "terrain.ChunkAccessTerrain"
   ],
   "client": [
   ],

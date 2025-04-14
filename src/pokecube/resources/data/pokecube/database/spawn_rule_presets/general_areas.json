@@ -9,7 +9,7 @@
           },
           {
             "negate":true,
-            "biome_tags":"#c:is_cold,#forge:is_dry"
+            "biome_tags":"#c:is_cold,#c:is_dry"
           }
         ]
       }
@@ -23,7 +23,7 @@
           },
           {
             "negate":true,
-            "biome_tags":"#c:is_cold,#forge:is_wet"
+            "biome_tags":"#c:is_cold,#c:is_wet"
           }
         ]
       }
@@ -37,7 +37,7 @@
           },
           {
             "negate":true,
-            "biome_tags":"#c:is_cold,#forge:is_wet"
+            "biome_tags":"#c:is_cold,#c:is_wet"
           }
         ]
       }

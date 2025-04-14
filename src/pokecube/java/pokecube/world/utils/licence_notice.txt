@@ -1,0 +1,1 @@
+GeneralUtils.java is copied nearly directly from https://github.com/TelepathicGrunt/RepurposedStructures/blob/1.21-Arch/common/src/main/java/com/telepathicgrunt/repurposedstructures/utils/GeneralUtils.java, with minimal changes for use here.

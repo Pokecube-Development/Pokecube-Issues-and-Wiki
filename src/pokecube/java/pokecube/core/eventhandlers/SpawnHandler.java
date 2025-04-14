@@ -20,7 +20,6 @@ import com.mojang.brigadier.StringReader;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
@@ -36,7 +35,6 @@ import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.NaturalSpawner;
@@ -47,7 +45,6 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -96,17 +93,8 @@ public final class SpawnHandler
         BlockPos getPos();
     }
 
-    public static class CubeRegion implements ForbidRegion
+    public record CubeRegion(int range, BlockPos origin) implements ForbidRegion
     {
-        public final int range;
-        public final BlockPos origin;
-
-        public CubeRegion(final int range, final BlockPos origin)
-        {
-            this.range = range;
-            this.origin = origin;
-        }
-
         @Override
         public boolean isInside(final BlockPos pos)
         {
@@ -247,15 +235,15 @@ public final class SpawnHandler
         }
     }
 
-    private static Object2ObjectOpenHashMap<ResourceKey<Level>, Function> functions = new Object2ObjectOpenHashMap<>();
+    private static final Object2ObjectOpenHashMap<ResourceKey<Level>, Function> functions = new Object2ObjectOpenHashMap<>();
     public static final Object2ObjectOpenHashMap<ResourceKey<Level>, JEP> parsers = new Object2ObjectOpenHashMap<>();
 
     public static Variance DEFAULT_VARIANCE = new Variance();
 
     private static final Map<ResourceKey<Level>, Map<BlockPos, ForbiddenEntry>> forbidReasons = new HashMap<>();
 
-    public static Supplier<BlockState> MELT_GETTER = () -> Blocks.AIR.defaultBlockState();
-    public static Supplier<BlockState> DUST_GETTER = () -> Blocks.AIR.defaultBlockState();
+    public static Supplier<BlockState> MELT_GETTER = Blocks.AIR::defaultBlockState;
+    public static Supplier<BlockState> DUST_GETTER = Blocks.AIR::defaultBlockState;
 
     public static HashMap<BiomeType, Variance> subBiomeLevels = new HashMap<>();
 
@@ -278,8 +266,8 @@ public final class SpawnHandler
     public static boolean addForbiddenSpawningCoord(final BlockPos pos, final Level dim, final int range,
             final ForbidReason reason)
     {
-        Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.get(dim.dimension());
-        if (entries == null) SpawnHandler.forbidReasons.put(dim.dimension(), entries = Maps.newHashMap());
+        Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.computeIfAbsent(dim.dimension(),
+                k -> Maps.newHashMap());
         if (entries.containsKey(pos)) return false;
         entries.put(pos, new ForbiddenEntry(range, reason, pos));
         return true;
@@ -288,8 +276,8 @@ public final class SpawnHandler
     public static boolean addForbiddenSpawningCoord(final Level dim, final ForbidRegion region,
             final ForbidReason reason)
     {
-        Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.get(dim.dimension());
-        if (entries == null) SpawnHandler.forbidReasons.put(dim.dimension(), entries = Maps.newHashMap());
+        Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.computeIfAbsent(dim.dimension(),
+                k -> Maps.newHashMap());
         if (entries.containsKey(region.getPos())) return false;
         entries.put(region.getPos(), new ForbiddenEntry(reason, region));
         return true;
@@ -307,9 +295,7 @@ public final class SpawnHandler
         {
             fluid = Fluids.EMPTY.defaultFluidState();
         }
-        if (NaturalSpawner.isValidEmptySpawnBlock(level, pos, level.getBlockState(pos), fluid, entityTypeIn))
-            return true;
-        return false;
+        return NaturalSpawner.isValidEmptySpawnBlock(level, pos, level.getBlockState(pos), fluid, entityTypeIn);
     }
 
     public static boolean canSpawn(final SpawnData data, final SpawnContext context, final boolean respectDensity)
@@ -326,20 +312,19 @@ public final class SpawnHandler
         return data.isValid(context, check);
     }
 
-    public static boolean canSpawnInWorld(final Level world, final boolean respectDifficulty)
+    public static boolean canNotSpawnInWorld(final Level world, final boolean respectDifficulty)
     {
-        if (!(world instanceof ServerLevel level)) return true;
-        if (respectDifficulty && world.getDifficulty() == Difficulty.PEACEFUL) return false;
-        if (!Config.Rules.doSpawn(level)) return false;
-        if (SpawnHandler.dimensionBlacklist.contains(level.dimension())) return false;
-        if (PokecubeCore.getConfig().spawnWhitelisted && !SpawnHandler.dimensionWhitelist.contains(level.dimension()))
-            return false;
-        return true;
+        if (!(world instanceof ServerLevel level)) return false;
+        if (respectDifficulty && world.getDifficulty() == Difficulty.PEACEFUL) return true;
+        if (!Config.Rules.doSpawn(level)) return true;
+        if (SpawnHandler.dimensionBlacklist.contains(level.dimension())) return true;
+        return PokecubeCore.getConfig().spawnWhitelisted && !SpawnHandler.dimensionWhitelist.contains(
+                level.dimension());
     }
 
-    public static boolean canSpawnInWorld(final Level world)
+    public static boolean canNotSpawnInWorld(final Level world)
     {
-        return SpawnHandler.canSpawnInWorld(world, true);
+        return SpawnHandler.canNotSpawnInWorld(world, true);
     }
 
     public static boolean checkNoSpawnerInArea(final Level world, final int x, final int y, final int z)
@@ -353,12 +338,10 @@ public final class SpawnHandler
         SpawnHandler.forbidReasons.clear();
     }
 
-    public static Mob creatureSpecificInit(final Mob MobEntity, final Level world, final double posX, final double posY,
-            final double posZ, final Vector3 spawnPoint, final SpawnData entry, final SpawnBiomeMatcher matcher,
-            CompoundTag spawnTag)
+    public static Mob creatureSpecificInit(final Mob MobEntity, final Level world, final SpawnBiomeMatcher matcher)
     {
         var spawnData = EventHooks.finalizeMobSpawn(MobEntity, (ServerLevelAccessor) world,
-                world.getCurrentDifficultyAt(world.getSharedSpawnPos()), MobSpawnType.NATURAL, (SpawnGroupData) null);
+                world.getCurrentDifficultyAt(world.getSharedSpawnPos()), MobSpawnType.NATURAL, null);
         // TODO use the spawn data and make the spawngroupdata meaningfull
         if (spawnData == null) return null;
 
@@ -457,7 +440,6 @@ public final class SpawnHandler
         context = new SpawnContext(context, dbe);
         event = new SpawnEvent.Pick.Post(context);
         PokecubeAPI.POKEMOB_BUS.post(event);
-        dbe = event.getPicked();
         if (event.getLocation() == null) context.location().set(0, Double.NaN);
         else context.location().set(event.getLocation());
         return context;
@@ -494,30 +476,9 @@ public final class SpawnHandler
         return event.getLevel();
     }
 
-    public static Vector3 getSpawnSurface(final Level world, final Vector3 loc, final int range)
-    {
-        int tries = 0;
-        FluidState fluid;
-        if (loc.y > 0) while (tries++ <= range)
-        {
-            fluid = world.getFluidState(loc.getPos());
-            if (!fluid.isEmpty()) return loc.copy();
-            final boolean clear = loc.isClearOfBlocks(world);
-            if (clear && !loc.offsetBy(Direction.DOWN).isClearOfBlocks(world)) return loc.copy();
-            loc.offsetBy(Direction.DOWN);
-        }
-        return loc.copy();
-    }
-
     public static int getSpawnXp(SpawnContext context)
     {
         return Tools.levelToXp(context.entry().getEvolutionMode(), SpawnHandler.getSpawnLevel(context));
-    }
-
-    public static int getSpawnXp(SpawnContext context, final Variance variance, final int baseLevel)
-    {
-        return Tools.levelToXp(context.entry().getEvolutionMode(),
-                SpawnHandler.getSpawnLevel(context, variance, baseLevel));
     }
 
     public static boolean isPointValidForSpawn(SpawnContext context)
@@ -526,8 +487,7 @@ public final class SpawnHandler
         final int j = context.location().intY();
         final int k = context.location().intZ();
         if (!SpawnHandler.checkNoSpawnerInArea(context.level(), i, j, k)) return false;
-        final boolean validLocation = SpawnHandler.canPokemonSpawnHere(context);
-        return validLocation;
+        return SpawnHandler.canPokemonSpawnHere(context);
     }
 
     public static void loadFunctionFromString(final String args)
@@ -561,8 +521,8 @@ public final class SpawnHandler
         if (power > 0)
         {
             final ExplosionCustom boom = new ExplosionCustom(world, null, location,
-                    (float) (power * PokecubeCore.getConfig().meteorScale))
-                            .setMaxRadius(PokecubeCore.getConfig().meteorRadius);
+                    (float) (power * PokecubeCore.getConfig().meteorScale)).setMaxRadius(
+                    PokecubeCore.getConfig().meteorRadius);
             boom.breaker = new MeteorBlockBreaker(world);
             final String message = "Meteor at " + location + " with energy of " + power;
             PokecubeAPI.logDebug(message);
@@ -586,7 +546,7 @@ public final class SpawnHandler
         if (!r) SpawnHandler.parseExpression(toUse, location.x - spawn.x, location.z - spawn.z, r);
         else
         {
-            /**
+            /*
              * Set y coordinates equal to ensure only radial function in
              * horizontal plane.
              */
@@ -605,7 +565,7 @@ public final class SpawnHandler
         parser.initSymTab(); // clear the contents of the symbol table
         parser.addStandardConstants();
         parser.addComplex(); // among other things adds i to the symbol
-                             // table
+        // table
         if (!radial)
         {
             parser.addVariable("x", 0);
@@ -632,11 +592,6 @@ public final class SpawnHandler
             parser.setVarValue("r", xValue);
             parser.setVarValue("t", yValue);
         }
-    }
-
-    public static void refreshTerrain(final Vector3 location, final Level world)
-    {
-        SpawnHandler.refreshTerrain(location, world, false);
     }
 
     public static void refreshTerrain(final Vector3 location, final Level world, final boolean precise)
@@ -667,16 +622,16 @@ public final class SpawnHandler
         else for (int i = x1; i < x1 + 16; i += TerrainSegment.GRIDSIZE)
             for (int j = y1; j < y1 + 16; j += TerrainSegment.GRIDSIZE)
                 for (int k = z1; k < z1 + 16; k += TerrainSegment.GRIDSIZE)
-        {
-            temp1.set(i, j, k);
-            BiomeType biome = t.getBiome(i, j, k);
-            if (SpawnHandler.biomeToRefresh.apply(biome))
-            {
-                biome = t.adjustedCaveBiome(world, temp1);
-                if (biome.isNone()) biome = t.adjustedNonCaveBiome(world, temp1);
-                t.setBiome(i, j, k, biome);
-            }
-        }
+                {
+                    temp1.set(i, j, k);
+                    BiomeType biome = t.getBiome(i, j, k);
+                    if (SpawnHandler.biomeToRefresh.apply(biome))
+                    {
+                        biome = t.adjustedCaveBiome(world, temp1);
+                        if (biome.isNone()) biome = t.adjustedNonCaveBiome(world, temp1);
+                        t.setBiome(i, j, k, biome);
+                    }
+                }
     }
 
     public static boolean removeForbiddenSpawningCoord(final BlockPos pos, final Level world)
@@ -699,7 +654,7 @@ public final class SpawnHandler
         if (!world.dimensionType().hasCeiling()) return;
         if (!world.dimensionType().hasSkyLight()) return;
         final List<ServerPlayer> players = world.players();
-        if (players.size() < 1) return;
+        if (players.isEmpty()) return;
         final Random rand = new Random(world.getSeed() + world.getGameTime());
         if (rand.nextInt(100) == 0)
         {
@@ -723,9 +678,8 @@ public final class SpawnHandler
                 final Vector3 location = Vector3.getNextSurfacePoint(world, v, direction, 255);
                 if (location != null)
                 {
-                    if (world.getNearestPlayer(location.x, location.y, location.z, 64,
-                            EntitySelector.NO_SPECTATORS) != null)
-                        return;
+                    if (world.getNearestPlayer(location.x, location.y, location.z, 64, EntitySelector.NO_SPECTATORS)
+                            != null) return;
                     final float energy = (float) Math.abs((rand.nextGaussian() + 1) * 50);
                     SpawnHandler.makeMeteor(world, location, energy);
                 }
@@ -733,42 +687,40 @@ public final class SpawnHandler
         }
     }
 
-    public int doSpawnForContext(@Nullable SpawnContext context)
+    public void doSpawnForContext(@Nullable SpawnContext context)
     {
-        if (context == null) return 0;
-        int ret = 0;
-        int num = 0;
+        if (context == null) return;
+        int num;
         Vector3 v = context.location();
         ServerLevel world = context.level();
-        if (!SpawnHandler.checkNoSpawnerInArea(world, v.intX(), v.intY(), v.intZ())) return ret;
-        if (!world.isLoaded(v.getPos())) return ret;
-        if (!world.isPositionEntityTicking(v.getPos())) return ret;
+        if (!SpawnHandler.checkNoSpawnerInArea(world, v.intX(), v.intY(), v.intZ())) return;
+        if (!world.isLoaded(v.getPos())) return;
+        if (!world.isPositionEntityTicking(v.getPos())) return;
         SpawnHandler.refreshTerrain(v, world, true);
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, v);
-        if (SpawnHandler.onlySubbiomes && t.getBiome(v).isNone()) return ret;
+        if (SpawnHandler.onlySubbiomes && t.getBiome(v).isNone()) return;
         long time = System.nanoTime();
         context = SpawnHandler.getSpawnForLoc(context);
-        if (context == null || context.entry() == Database.missingno) return ret;
-        if (v.isNaN()) return ret;
+        if (context == null || context.entry() == Database.missingno) return;
+        if (v.isNaN()) return;
 
-        if (!SpawnHandler.isPointValidForSpawn(context)) return ret;
+        if (!SpawnHandler.isPointValidForSpawn(context)) return;
         double dt = (System.nanoTime() - time) / 10e3D;
         if (PokecubeCore.getConfig().debug_spawning && dt > 500)
         {
             final Vector3 debug = new Vector3().set(v.getPos());
-            final String toLog = "location: %1$s took: %2$s\u00B5s to find a valid spawn and location";
+            final String toLog = "location: %1$s took: %2$sµs to find a valid spawn and location";
             PokecubeAPI.logInfo(String.format(toLog, debug.getPos(), dt));
         }
         time = System.nanoTime();
-        ret += num = this.doSpawnForType(context, this.parser, t);
+        num = this.doSpawnForType(context, t);
         dt = (System.nanoTime() - time) / 10e3D;
         if (PokecubeCore.getConfig().debug_spawning && dt > 500)
         {
             final Vector3 debug = new Vector3().set(v.getPos());
-            final String toLog = "location: %1$s took: %2$s\u00B5s to find a valid spawn for %3$s %4$s";
+            final String toLog = "location: %1$s took: %2$sµs to find a valid spawn for %3$s %4$s";
             PokecubeAPI.logInfo(String.format(toLog, debug.getPos(), dt, num, context.entry()));
         }
-        return ret;
     }
 
     @Nullable
@@ -794,11 +746,6 @@ public final class SpawnHandler
 
     /**
      * Attempts to spawn mobs near the player.
-     *
-     * @param player
-     * @param level
-     * @param maxRadius
-     * @return number of mobs spawned.
      */
     public void doSpawn(ServerPlayer player, ServerLevel level, final int minRadius, final int maxRadius)
     {
@@ -807,20 +754,17 @@ public final class SpawnHandler
         SpawnContext base = new SpawnContext(player, level, Database.missingno, v);
         SpawnContext context = randomSpawnContext(base, minRadius, maxRadius);
         this.doSpawnForContext(context);
-        return;
     }
 
-    private int doSpawnForType(SpawnContext context, final JEP parser, final TerrainSegment t)
+    private int doSpawnForType(SpawnContext context, final TerrainSegment t)
     {
         final SpawnData entry = context.entry().getSpawnData();
-        CompoundTag spawnTag = null;
         ServerLevel level = context.level();
         Vector3 loc = context.location();
         PokedexEntry dbe = context.entry();
 
         final Vector3 v = new Vector3();
         final Vector3 v2 = new Vector3();
-        final Vector3 v3 = new Vector3();
         int totalSpawnCount = 0;
         final Vector3 point = v2.clear();
         SpawnHandler.refreshTerrain(loc, level, false);
@@ -860,8 +804,7 @@ public final class SpawnHandler
                 if (entity.checkSpawnRules(level, MobSpawnType.NATURAL))
                 {
                     // TODO: Check this
-                    if ((entity = SpawnHandler.creatureSpecificInit(entity, level, x, y, z, v3.set(entity), entry,
-                            matcher, spawnTag)) != null)
+                    if ((entity = SpawnHandler.creatureSpecificInit(entity, level, matcher)) != null)
                     {
                         IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
                         if (!(spawnArgs = event.getSpawnArgs()).isEmpty())
@@ -904,7 +847,7 @@ public final class SpawnHandler
             catch (final Throwable e)
             {
                 if (entity != null) entity.discard();
-                PokecubeAPI.LOGGER.error("Wrong Id while spawn: " + dbe.getName(), e);
+                PokecubeAPI.LOGGER.error("Wrong Id while spawn: {}", dbe.getName(), e);
                 return totalSpawnCount;
             }
         }
@@ -927,7 +870,7 @@ public final class SpawnHandler
 
     public void tick(final ServerLevel world)
     {
-        if (!SpawnHandler.canSpawnInWorld(world)) return;
+        if (SpawnHandler.canNotSpawnInWorld(world)) return;
         if (!Config.Rules.doSpawn(world)) return;
         try
         {

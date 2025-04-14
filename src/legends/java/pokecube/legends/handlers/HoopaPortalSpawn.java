@@ -25,7 +25,7 @@ public class HoopaPortalSpawn
 {
     public static void portalSpawnTick(final Level world, final int distance)
     {
-        if (!SpawnHandler.canSpawnInWorld(world)) return;
+        if (SpawnHandler.canNotSpawnInWorld(world)) return;
         final List<Object> players = new ArrayList<>(world.players());
         if (players.isEmpty()) return;
         final Random rand = ThutCore.newRandom();

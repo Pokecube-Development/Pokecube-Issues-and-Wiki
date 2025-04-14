@@ -1,21 +1,21 @@
 package pokecube.api.events;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelHeightAccessor;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureEntityInfo;
 import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.ICancellableEvent;
 import net.neoforged.neoforge.common.util.TriState;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
 public class StructureEvent extends Event
@@ -53,12 +53,14 @@ public class StructureEvent extends Event
         private final String structure;
         private String structureOverride;
         private final LevelAccessor world;
+        private final WorldGenLevel worldGen;
 
-        public BuildStructure(final BoundingBox bounds, final LevelAccessor world, final String name,
+        public BuildStructure(final BoundingBox bounds, final WorldGenLevel world, final String name,
                 final StructurePlaceSettings settings)
         {
             this.structure = name;
-            this.world = world;
+            this.worldGen = world;
+            this.world = world.getLevel();
             this.settings = settings;
             this.bounds = bounds;
         }
@@ -91,6 +93,11 @@ public class StructureEvent extends Event
         public void setBiomeType(final String structureOverride)
         {
             this.structureOverride = structureOverride;
+        }
+
+        public WorldGenLevel getWorldGen()
+        {
+            return worldGen;
         }
     }
 
@@ -132,9 +139,13 @@ public class StructureEvent extends Event
         public BlockPos pos;
         public BoundingBox sbb;
         public RandomSource rand;
+        public boolean duringWorldgen;
+        public CompoundTag nbt;
+        @Nullable
+        public StructureTemplate.StructureBlockInfo info;
 
-        public ReadTag(final String function, final BlockPos pos, final LevelAccessor worldIn, final ServerLevel world,
-                final RandomSource rand, final BoundingBox sbb)
+        public ReadTag(String function, BlockPos pos, LevelAccessor worldIn, ServerLevel world, RandomSource rand,
+                BoundingBox sbb, boolean duringWorldgen)
         {
             this.function = function;
             this.worldBlocks = worldIn;
@@ -142,6 +153,9 @@ public class StructureEvent extends Event
             this.pos = pos;
             this.sbb = sbb;
             this.rand = rand;
+            this.duringWorldgen = duringWorldgen;
+            this.nbt = new CompoundTag();
+            this.nbt.putString("pokecube:spawn_function", function);
         }
 
         private TriState result = TriState.DEFAULT;

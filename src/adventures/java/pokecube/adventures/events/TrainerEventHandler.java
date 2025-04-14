@@ -334,8 +334,7 @@ public class TrainerEventHandler
         mobs.setType(newType);
         SpawnContext context = new SpawnContext(slevel, Database.missingno, new Vector3().set(mob));
         final int level = SpawnHandler.getSpawnLevel(context);
-        if (mob instanceof TrainerBase npc) npc.initTeam(level);
-        else TypeTrainer.getRandomTeam(mobs, mob, level, mob.level());
+        TrainerSpawnHandler.initTrainer(mobs, level);
         if (mob.isAddedToLevel()) EntityUpdate.sendEntityUpdate(mob);
     }
 

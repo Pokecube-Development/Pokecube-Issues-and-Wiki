@@ -108,11 +108,11 @@ public class Routes extends Tab
 
         this.list.smoothScroll = false;
 
-        this.addRenderableWidget(new Button.Builder(TComponent.literal("\u21e7"), (b) -> {
+        this.addRenderableWidget(new Button.Builder(TComponent.literal("⇧"), (b) -> {
             this.list.scroll(-50);
         }).bounds(xOffset + 45, yOffset + 54, 30, 10).build());
 
-        this.addRenderableWidget(new Button.Builder(TComponent.literal("\u21e9"), (b) -> {
+        this.addRenderableWidget(new Button.Builder(TComponent.literal("⇩"), (b) -> {
             this.list.scroll(50);
         }).bounds(xOffset + 15, yOffset + 54, 30, 10).build());
     }

@@ -24,7 +24,7 @@
   "biomes": {
     "type": "neoforge:and",
     "values": [
-      "#forge:is_cold/overworld",
+      "#c:is_cold/overworld",
       {
         "type": "neoforge:not",
         "value": {

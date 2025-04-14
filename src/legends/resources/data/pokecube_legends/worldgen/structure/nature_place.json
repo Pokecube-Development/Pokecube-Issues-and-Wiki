@@ -19,7 +19,7 @@
   "biomes": {
     "type": "neoforge:and",
     "values": [
-      "#forge:is_swamp",
+      "#c:is_swamp",
       {
         "type": "neoforge:not",
         "value": {

@@ -22,7 +22,7 @@
       {
         "type": "neoforge:or",
         "values": [
-          "#forge:is_lush",
+          "#c:is_lush",
           "#minecraft:is_forest",
           "#minecraft:is_jungle"
         ]
@@ -32,8 +32,8 @@
         "value": {
           "type": "neoforge:or",
           "values": [
-            "#forge:is_cold",
-            "#forge:is_snowy"
+            "#c:is_cold",
+            "#c:is_snowy"
           ]
         }
       }

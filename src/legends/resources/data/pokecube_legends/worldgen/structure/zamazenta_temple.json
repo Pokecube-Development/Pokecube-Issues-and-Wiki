@@ -22,7 +22,7 @@
       {
         "type": "neoforge:or",
         "values": [
-          "#forge:is_spooky",
+          "#c:is_spooky",
           "#pokecube_world:is_ultraspace/is_taiga"
         ]
       },

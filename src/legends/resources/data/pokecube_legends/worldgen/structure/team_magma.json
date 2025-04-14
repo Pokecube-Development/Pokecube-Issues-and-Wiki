@@ -27,7 +27,7 @@
       {
         "type": "neoforge:or",
         "values": [
-          "#forge:is_sandy",
+          "#c:is_sandy",
           "#minecraft:is_badlands"
         ]
       },

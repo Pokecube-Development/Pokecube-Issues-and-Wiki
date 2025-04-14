@@ -22,7 +22,7 @@
       {
         "type": "neoforge:or",
         "values": [
-          "#forge:is_coniferous",
+          "#c:is_taiga",
           "#minecraft:is_hill",
           "#minecraft:is_mountain",
           "#minecraft:is_taiga"

@@ -86,7 +86,7 @@ public class CapabilityHasPokemobs
             }
 
             final String id;
-            short resetKey = 0;
+            short resetKey;
             long time;
 
             public DefeatEntry(final String id, final long time, short resetKey)
@@ -147,8 +147,7 @@ public class CapabilityHasPokemobs
                 if (resetTime <= 0) return true;
                 // Otherwise check the diff.
                 final long diff = Tracker.instance().getTick() - s.time;
-                if (diff > resetTime) return false;
-                return true;
+                return diff <= resetTime;
             }
 
             public void validate(final Entity in, short key)
@@ -534,7 +533,7 @@ public class CapabilityHasPokemobs
         public void onWin(final Entity lost)
         {
             // Only store for players
-            if (lost instanceof Player p)
+            if (lost instanceof Player)
             {
                 DefeatList defeatedList = PokecubePlayerDataHandler.getCustomDataValue(lost.registryAccess(),
                         lost.getStringUUID(), "npcs_defeated_by");
@@ -794,9 +793,12 @@ public class CapabilityHasPokemobs
                 // No cooldown if someone was punching is!
                 if (hitBy == target && hurtTimer < 500) cooldown = 0;
                 this.setAttackCooldown(cooldown);
-                this.messages.sendMessage(MessageState.AGRESS, target, this.user.getDisplayName(),
-                        target.getDisplayName());
-                this.messages.doAction(MessageState.AGRESS, new ActionContext(target, this.getTrainer()));
+                if(target!=null)
+                {
+                    this.messages.sendMessage(MessageState.AGRESS, target, this.user.getDisplayName(),
+                            target.getDisplayName());
+                    this.messages.doAction(MessageState.AGRESS, new ActionContext(target, this.getTrainer()));
+                }
                 this.aiStates.setAIState(AIState.INBATTLE, true);
             }
             // Notify the watchers that a target was actually set.
@@ -976,8 +978,7 @@ public class CapabilityHasPokemobs
             final TriState result = player == this.user || player.isCreative() ? TriState.TRUE : TriState.FALSE;
             event.setResult(result);
             ThutCore.FORGE_BUS.post(event);
-            final boolean allow = event.getResult() == TriState.TRUE;
-            return allow;
+            return event.getResult() == TriState.TRUE;
         }
 
         @Override

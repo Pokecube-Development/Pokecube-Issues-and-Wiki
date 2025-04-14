@@ -48,7 +48,7 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
 
     List<Tab> modules = Lists.newArrayList();
     List<Rectangle> tabs = Lists.newArrayList();
-    public int moduleIndex = 0;
+    public int moduleIndex;
 
     public GuiPokemob(PokemobContainer container, Inventory inv, Component name)
     {
@@ -60,12 +60,12 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
         modules.add(new Storage(this));
     }
 
-    @Override
     /**
-     * @Override to make public for removing widgets
-     */ public void removeWidget(GuiEventListener p_169412_)
+     * Override to make public for removing widgets
+     */
+    @Override public void removeWidget(GuiEventListener listener)
     {
-        super.removeWidget(p_169412_);
+        super.removeWidget(listener);
     }
 
     @Override
@@ -104,9 +104,8 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
         super.renderBackground(graphics, x, y, z);
         super.render(graphics, x, y, z);
         modules.get(moduleIndex).render(graphics, x, y, z);
-        for (int i = 0; i < modules.size(); i++)
+        for (Tab t : modules)
         {
-            Tab t = modules.get(i);
             if (t.isHovored())
             {
                 graphics.renderComponentTooltip(this.font, Lists.newArrayList(TComponent.translatable(t.desc)), x, y);
@@ -149,7 +148,7 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
         RenderSystem.enableBlend();
         Tab t = modules.get(moduleIndex);
         Rectangle r = this.tabs.get(moduleIndex);
-        graphics.blitSprite(UNSELECTED_TOP_TABS[Mth.clamp(moduleIndex, 0, UNSELECTED_TOP_TABS.length)], r.x0, r.y0, r.w, r.h);
+        graphics.blitSprite(SELECTED_TOP_TABS[Mth.clamp(moduleIndex, 0, SELECTED_TOP_TABS.length)], r.x0, r.y0, r.w, r.h);
         if (t.icon != null) graphics.blitSprite(t.icon, r.x0, r.y0+4, 24, 24);
         RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
         modules.get(moduleIndex).renderBg(graphics, tick, mx, my);

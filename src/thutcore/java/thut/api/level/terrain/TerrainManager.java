@@ -2,7 +2,6 @@ package thut.api.level.terrain;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -25,7 +24,6 @@ public class TerrainManager
 {
     public static final String EDIT_SUBBIOMES_PERM = "subbiome.can_edit";
 
-    public static final ResourceLocation TERRAINCAP = ResourceLocation.fromNamespaceAndPath("thutcore", "terrain");
     private static TerrainManager terrain;
 
     public static void init()
@@ -55,12 +53,13 @@ public class TerrainManager
         final int r = (int) distance >> 4;
         final int x = blockPos.getX() >> 4;
         final int z = blockPos.getZ() >> 4;
-        for (int i = -r; i <= r; i++) for (int j = -r; j <= r; j++)
-        {
-            // getChunkNow returns null if the chunk is not a fully loaded
-            // chunk, and on the server thread.
-            if (source.getChunkNow(x + i, z + j) == null) return false;
-        }
+        for (int i = -r; i <= r; i++)
+            for (int j = -r; j <= r; j++)
+            {
+                // getChunkNow returns null if the chunk is not a fully loaded
+                // chunk, and on the server thread.
+                if (source.getChunkNow(x + i, z + j) == null) return false;
+            }
         return true;
     }
 
@@ -96,8 +95,7 @@ public class TerrainManager
     }
 
     public ITerrainProvider provider = new ITerrainProvider()
-    {
-    };
+    {};
 
     public TerrainSegment getTerrain(final LevelAccessor world, final BlockPos p)
     {

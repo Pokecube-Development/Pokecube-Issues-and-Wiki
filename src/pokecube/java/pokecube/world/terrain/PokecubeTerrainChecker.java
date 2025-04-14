@@ -1,7 +1,5 @@
 package pokecube.world.terrain;
 
-import java.util.Set;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
@@ -9,6 +7,7 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.NoiseRouter;
@@ -28,12 +27,13 @@ import thut.api.maths.Vector3;
 import thut.core.common.handlers.ConfigHandler;
 import thut.lib.RegHelper;
 
+import java.util.Set;
+
 public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeChecker
 {
     public static void init()
     {
-        final PokecubeTerrainChecker checker = new PokecubeTerrainChecker();
-        TerrainSegment.defaultChecker = checker;
+        TerrainSegment.defaultChecker = new PokecubeTerrainChecker();
     }
 
     public static TerrainType getTerrain(Vector3 v, LevelAccessor world)
@@ -53,14 +53,12 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
             final boolean caveAdjusted)
     {
         if (!(world instanceof ServerLevel rworld)) return BiomeType.NONE;
+        ChunkAccess chunk = world.getChunk(v.getPos());
         if (caveAdjusted)
         {
             final Set<INamedStructure> set = StructureManager.getFor(rworld.dimension(), v.getPos(), true);
             for (var info : set)
             {
-                String name = info.getName();
-                if (!name.contains(":")) name = "minecraft:" + name;
-
                 String subbiome = null;
                 var obj = info.getWrapped();
                 // first manually check structures to see if they define a
@@ -69,8 +67,7 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
                 {
                     var registry = world.registryAccess().registryOrThrow(RegHelper.STRUCTURE_REGISTRY);
                     var opt_holder = registry.getHolder(registry.getId(feature));
-                    opt_check:
-                    if (!opt_holder.isEmpty())
+                    if (opt_holder.isPresent())
                     {
                         var holder = opt_holder.get();
                         if (holder.value() instanceof GenericJigsawStructure config)
@@ -78,7 +75,6 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
                             if (!config.biome_type.equals("none"))
                             {
                                 subbiome = config.biome_type;
-                                break opt_check;
                             }
                         }
                     }
@@ -98,16 +94,14 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
                     subbiome = "ruin";
                 if (subbiome != null)
                 {
-                    final BiomeType biom = BiomeType.getBiome(subbiome, true);
-                    return biom;
+                    return BiomeType.getBiome(subbiome, true);
                 }
             }
-            if (rworld.dimensionType().hasCeiling() || v.canSeeSky(world)
-                    || !PokecubeCore.getConfig().autoDetectSubbiomes)
-                return BiomeType.NONE;
+            if (rworld.dimensionType().hasCeiling() || v.canSeeSky(chunk)
+                    || !PokecubeCore.getConfig().autoDetectSubbiomes) return BiomeType.NONE;
             boolean sky = false;
             final Vector3 temp1 = new Vector3();
-            final int x0 = segment.chunkX * 16, y0 = segment.chunkY * 16, z0 = segment.chunkZ * 16;
+            final int x0 = segment.chunkX << 4, y0 = segment.chunkY << 4, z0 = segment.chunkZ << 4;
             final int dx = (v.intX() - x0) / TerrainSegment.GRIDSIZE * TerrainSegment.GRIDSIZE;
             final int dy = (v.intY() - y0) / TerrainSegment.GRIDSIZE * TerrainSegment.GRIDSIZE;
             final int dz = (v.intZ() - z0) / TerrainSegment.GRIDSIZE * TerrainSegment.GRIDSIZE;
@@ -118,22 +112,22 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
             for (int x = x1; x < x1 + TerrainSegment.GRIDSIZE; x++)
                 for (int y = y1; y < y1 + TerrainSegment.GRIDSIZE; y++)
                     for (int z = z1; z < z1 + TerrainSegment.GRIDSIZE; z++)
-            {
-                temp1.set(x, y, z);
-                if (segment.isInTerrainSegment(temp1.x, temp1.y, temp1.z))
-                {
-                    final double y2 = temp1.getMaxY(world);
-                    sky = y2 <= temp1.y;
-                }
-                BlockState state;
-                if (PokecubeTerrainChecker.isIndustrial(state = temp1.getBlockState(world))) industrial++;
-                if (industrial > 2) return BiomeType.INDUSTRIAL;
-                if (state.getFluidState().is(FluidTags.WATER)) water++;
-                if (sky) break outer;
-            }
+                    {
+                        temp1.set(x, y, z);
+                        if (segment.isInTerrainSegment(temp1.x, temp1.y, temp1.z))
+                        {
+                            final double y2 = chunk.getHeight(Types.WORLD_SURFACE, x, z);
+                            sky = y2 <= temp1.y;
+                        }
+                        BlockState state = chunk.getBlockState(temp1.getPos());
+                        if (PokecubeTerrainChecker.isIndustrial(state)) industrial++;
+                        if (industrial > 2) return BiomeType.INDUSTRIAL;
+                        if (state.getFluidState().is(FluidTags.WATER)) water++;
+                        if (sky) break outer;
+                    }
             if (sky) return BiomeType.NONE;
             if (water > 4) return BiomeType.CAVE_WATER;
-            else if (this.isCave(v, world)) return BiomeType.CAVE;
+            else if (this.isCave(v, chunk)) return BiomeType.CAVE;
             return PokecubeTerrainChecker.INSIDE;
         }
         BiomeType biome = BiomeType.NONE;
@@ -149,19 +143,21 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
         final int dy = (v.intY() - y0) / TerrainSegment.GRIDSIZE * TerrainSegment.GRIDSIZE;
         final int dz = (v.intZ() - z0) / TerrainSegment.GRIDSIZE * TerrainSegment.GRIDSIZE;
         final int x1 = x0 + dx, y1 = y0 + dy, z1 = z0 + dz;
-        for (int i = x1; i < x1 + TerrainSegment.GRIDSIZE; i++) for (int j = y1; j < y1 + TerrainSegment.GRIDSIZE; j++)
-            for (int k = z1; k < z1 + TerrainSegment.GRIDSIZE; k++)
-        {
-            BlockState state = temp1.set(i, j, k).getBlockState(world);
-            if (state.isAir()) continue;
-            boolean isIndustrial = PokecubeTerrainChecker.isIndustrial(state);
-            boolean isFlower = PokecubeTerrainChecker.isFlower(state);
-            if (isIndustrial) industrial++;
-            if (isFlower) flower++;
-            if (industrial > 2) return BiomeType.INDUSTRIAL;
-            if (flower > 3) return BiomeType.FLOWER;
-            if (state.getFluidState().is(FluidTags.WATER)) water++;
-        }
+        for (int i = x1; i < x1 + TerrainSegment.GRIDSIZE; i++)
+            for (int j = y1; j < y1 + TerrainSegment.GRIDSIZE; j++)
+                for (int k = z1; k < z1 + TerrainSegment.GRIDSIZE; k++)
+                {
+                    temp1.set(i, j, k);
+                    BlockState state = chunk.getBlockState(temp1.getPos());
+                    if (state.isAir()) continue;
+                    boolean isIndustrial = PokecubeTerrainChecker.isIndustrial(state);
+                    boolean isFlower = PokecubeTerrainChecker.isFlower(state);
+                    if (isIndustrial) industrial++;
+                    if (isFlower) flower++;
+                    if (industrial > 2) return BiomeType.INDUSTRIAL;
+                    if (flower > 3) return BiomeType.FLOWER;
+                    if (state.getFluidState().is(FluidTags.WATER)) water++;
+                }
         if (water > 4)
         {
             if (!notLake) biome = BiomeType.LAKE;
@@ -170,8 +166,7 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
         // Check nearby villages, and if in one, define as village type.
         if (world instanceof ServerLevel level)
         {
-            final BlockPos pos = v.getPos();
-            if (level.isVillage(pos)) biome = BiomeType.VILLAGE;
+            if (level.isVillage(v.getPos())) biome = BiomeType.VILLAGE;
         }
         boolean sky = v.canSeeSky(world);
         // lastly check for sky, this goes after village checks so you can have
@@ -179,38 +174,37 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
         if (sky)
         {
             int skyH = 16;
-            sky = v.y >= world.getHeight(Types.WORLD_SURFACE, v.intX(), v.intZ()) + skyH;
+            sky = v.y >= chunk.getHeight(Types.WORLD_SURFACE, v.intX(), v.intZ()) + skyH;
             if (sky) return BiomeType.SKY;
         }
         return biome;
     }
 
-    public boolean isCave(final Vector3 v, final LevelAccessor world)
+    public boolean isCave(final Vector3 v, final ChunkAccess world)
     {
         return this.isCaveFloor(v, world) && this.isCaveCeiling(v, world);
     }
 
-    public boolean isCaveCeiling(final Vector3 v, final LevelAccessor world)
+    public boolean isCaveCeiling(final Vector3 v, final ChunkAccess access)
     {
-        final double y = v.getMaxY(world);
+        int y = access.getHeight(Types.MOTION_BLOCKING_NO_LEAVES, v.intX(), v.intZ());
         if (y <= v.y) return false;
-        BlockState state = v.getBlockState(world);
-        FluidState fluid = world.getFluidState(v.getPos());
-        if (fluid.isEmpty()) return PokecubeTerrainChecker.isCave(state);
-        final Vector3 up = Vector3.getNextSurfacePoint(world, v, Vector3.secondAxis, y - v.y);
+        BlockState state = access.getBlockState(v.getPos());
+        FluidState fluid = access.getFluidState(v.getPos());
+        if (fluid.isEmpty() && !state.isAir()) return PokecubeTerrainChecker.isCave(state);
+        Vector3 up = Vector3.getNextSurfacePoint(access, v, Vector3.secondAxis, y - v.y);
         if (up == null) return false;
-        state = up.getBlockState(world);
-        return PokecubeTerrainChecker.isCave(state);
+        return PokecubeTerrainChecker.isCave(up.getBlockState(access));
     }
 
-    public boolean isCaveFloor(final Vector3 v, final LevelAccessor world)
+    public boolean isCaveFloor(final Vector3 v, final ChunkAccess access)
     {
-        final BlockState state = v.getBlockState(world);
-        FluidState fluid = world.getFluidState(v.getPos());
-        if (fluid.isEmpty()) return PokecubeTerrainChecker.isCave(state);
-        final Vector3 down = Vector3.getNextSurfacePoint(world, v, Vector3.secondAxisNeg,
-                v.y - world.getMinBuildHeight());
+        BlockState state = access.getBlockState(v.getPos());
+        FluidState fluid = access.getFluidState(v.getPos());
+        if (fluid.isEmpty() && !state.isAir()) return PokecubeTerrainChecker.isCave(state);
+        final Vector3 down = Vector3.getNextSurfacePoint(access, v, Vector3.secondAxisNeg,
+                v.y - access.getMinBuildHeight());
         if (down == null) return false;
-        return PokecubeTerrainChecker.isCave(down.getBlockState(world));
+        return PokecubeTerrainChecker.isCave(down.getBlockState(access));
     }
 }

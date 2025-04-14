@@ -12,7 +12,7 @@
             "#minecraft:is_beach",
             "#minecraft:is_ocean",
             "#minecraft:is_river",
-            "#forge:is_mushroom"
+            "#c:is_mushroom"
           ]
         }
       }

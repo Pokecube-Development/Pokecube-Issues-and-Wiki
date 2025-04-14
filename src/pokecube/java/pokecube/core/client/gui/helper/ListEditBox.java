@@ -1,11 +1,11 @@
 package pokecube.core.client.gui.helper;
 
-import java.util.function.Consumer;
-
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+
+import java.util.function.Consumer;
 
 public class ListEditBox extends EditBox
 {

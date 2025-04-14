@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import net.minecraft.server.level.WorldGenRegion;
 import org.apache.commons.lang3.mutable.MutableObject;
 
 import com.google.common.collect.Lists;
@@ -57,7 +58,6 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.api.PokecubeAPI;
 import pokecube.mixin.accessors.ChunkAccessAcessor;
-import pokecube.mixin.accessors.WorldGenRegionAccessor;
 import pokecube.world.gen.structures.GenericJigsawStructure;
 import pokecube.world.gen.structures.pieces.ExpandedPoolElementStructurePiece;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
@@ -87,10 +87,10 @@ public class ExpandedJigsawPacement
         {
             LevelHeightAccessor levelh = access_a.getLevelHeightAccessor();
             if (levelh instanceof ServerLevel level) return level;
-            else if (levelh instanceof WorldGenRegionAccessor access) return access.getServerLevel();
+            else if (levelh instanceof WorldGenRegion access) return access.getLevel();
         }
         // Next try if it was a world gen region
-        if (context.heightAccessor() instanceof WorldGenRegionAccessor access) return access.getServerLevel();
+        if (context.heightAccessor() instanceof WorldGenRegion access) return access.getLevel();
 
         // Finally decide from chunkGenerator.
         ChunkGenerator chunkGen = context.chunkGenerator();

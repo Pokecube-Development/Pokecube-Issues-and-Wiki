@@ -627,9 +627,7 @@ public class AnimationGui extends Screen
             this.onUpdated();
         }).bounds(this.width - 101, yOffset + 85 - yOffset / 2, 10, 10).build());
 
-        modules.forEach(m -> {
-            m.init();
-        });
+        modules.forEach(AnimModule::init);
 
         this.onUpdated();
 
@@ -691,7 +689,7 @@ public class AnimationGui extends Screen
         }
         if (m == 2)
         {
-            this.xRenderAngle = 90 * (((int) (this.xRenderAngle % 360)) / 90);
+            this.xRenderAngle = 90 * (((int) (this.xRenderAngle % 360)) / 90f);
             this.yRenderAngle = 0;
             this.xHeadRenderAngle = 0;
             this.yHeadRenderAngle = 0;

@@ -24,7 +24,7 @@
   "biomes": {
     "type": "neoforge:and",
     "values": [
-      "#forge:is_plains",
+      "#c:is_plains",
       {
         "type": "neoforge:not",
         "value": {

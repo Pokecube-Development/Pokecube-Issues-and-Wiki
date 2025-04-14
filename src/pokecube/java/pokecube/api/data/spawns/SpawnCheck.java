@@ -1,9 +1,8 @@
 package pokecube.api.data.spawns;
 
-import java.util.Set;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -14,7 +13,6 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.material.FluidState;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.utils.TimePeriod;
-import pokecube.mixin.accessors.WorldGenRegionAccessor;
 import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.level.structures.NamedVolumes.INamedStructure;
 import thut.api.level.terrain.BiomeType;
@@ -22,6 +20,8 @@ import thut.api.level.terrain.ITerrainProvider;
 import thut.api.level.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
+
+import java.util.Set;
 
 public class SpawnCheck
 {
@@ -36,8 +36,8 @@ public class SpawnCheck
             if (onlyOutside)
             {
                 boolean outside = world.canSeeSky(position);
-                outside = outside && position.getY() + 1 > world
-                        .getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, position).getY();
+                outside = outside && position.getY() + 1 > world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING,
+                        position).getY();
                 if (!outside) return NONE;
             }
             if (globalRain)
@@ -104,7 +104,7 @@ public class SpawnCheck
         this.state = world.getBlockState(location.getPos());
         Level level;
         if (world instanceof Level l) level = l;
-        else level = ((WorldGenRegionAccessor) world).getServerLevel();
+        else level = ((WorldGenRegion) world).getLevel();
         this.chunk = ITerrainProvider.getChunk(level.dimension(), new ChunkPos(location.getPos()));
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
         this.type = t.getBiome(location);

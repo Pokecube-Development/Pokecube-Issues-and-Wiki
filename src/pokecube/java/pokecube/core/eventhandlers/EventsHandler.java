@@ -70,7 +70,6 @@ import pokecube.core.entity.pokecubes.EntityPokecube;
 import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.impl.capabilities.DefaultPokemob;
 import pokecube.core.impl.capabilities.TextureableCaps;
 import pokecube.core.impl.capabilities.TextureableCaps.NPCCap;
 import pokecube.core.items.pokecubes.PokecubeManager;
@@ -124,7 +123,7 @@ public class EventsHandler
         {
             this.player = player;
             this.start = player.level().getGameTime();
-            if (!SpawnHandler.canSpawnInWorld(player.level(), false)) return;
+            if (SpawnHandler.canNotSpawnInWorld(player.level(), false)) return;
             ThutCore.FORGE_BUS.register(this);
         }
 
@@ -469,7 +468,10 @@ public class EventsHandler
         if (isSubbiomeDebug)
         {
             TerrainSegment seg = TerrainManager.getInstance().getTerrainForEntity(player);
+            PokecubeCore.getConfig().debug_spawning = true;
+            seg.refresh(level);
             BiomeType type = seg.getBiome(v);
+            PokecubeCore.getConfig().debug_spawning = false;
             thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("SubBiome Type: " + type.name));
         }
         if (isStructureDebug)

@@ -1,33 +1,19 @@
 package pokecube.core.client.gui.animation;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.imageio.ImageIO;
-
-import org.lwjgl.BufferUtils;
-import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.mojang.blaze3d.platform.Window;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.fml.loading.FMLPaths;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.glfw.GLFW;
+import org.lwjgl.opengl.GL11;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
@@ -38,6 +24,14 @@ import thut.api.maths.vecmath.Vec3f;
 import thut.api.util.JsonUtil;
 import thut.lib.TComponent;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.*;
+
 public class IconModule extends AnimModule
 {
     private static final Set<PokedexEntry> borked = Sets.newHashSet();
@@ -46,16 +40,16 @@ public class IconModule extends AnimModule
 
     boolean cap = false;
     boolean took = false;
+    int x_min, x_max;
     long transitTime = 0;
 
-    Set<PokedexEntry> doneEntries = Sets.newHashSet();
     Set<ResourceLocation> doneLocs = Sets.newHashSet();
 
     public static void printSizes()
     {
         final Map<String, Float> sizeMap = Maps.newHashMap();
         for (final PokedexEntry e : AnimationGui.sizes.keySet())
-            sizeMap.put(e.getTrimmedName(), Float.valueOf(AnimationGui.sizes.getOrDefault(e, 0f)));
+            sizeMap.put(e.getTrimmedName(), AnimationGui.sizes.getOrDefault(e, 0f));
 
         try
         {
@@ -92,6 +86,7 @@ public class IconModule extends AnimModule
             parent.entries.clear();
             parent.entryIndex = 0;
             this.cap = !this.cap;
+            if (this.cap) this.initWindow();
             if (this.cap) for (var e : Database.getSortedFormes()) e.getModelSize().set(1, 1, 1);
             b.setFGColor(this.cap ? 0xFF00FF00 : 0xFFFF0000);
         }).bounds(0, yOffset + dy, 40, 20).build());
@@ -99,9 +94,9 @@ public class IconModule extends AnimModule
         iconBtn.setFGColor(0xFFFF0000);
 
         dy += 230;
-        this.addRenderableWidget(new Button.Builder(TComponent.literal("WRTSIZE"), (b) -> {
-            IconModule.printSizes();
-        }).bounds(0, yOffset + dy, 40, 10).build());
+        this.addRenderableWidget(
+                new Button.Builder(TComponent.literal("WRTSIZE"), (b) -> IconModule.printSizes()).bounds(0,
+                        yOffset + dy, 40, 10).build());
 
         this.setEnabled(false);
     }
@@ -172,6 +167,8 @@ public class IconModule extends AnimModule
                     }
                     else
                     {
+                        dims.y = Math.abs(dims.y);
+                        dims.y = Math.max(dims.y, 0.01f);
                         dims.y *= 2;
                         dims.z = dims.y;
                         dims.x = dims.y;
@@ -210,13 +207,68 @@ public class IconModule extends AnimModule
         return false;
     }
 
-    private boolean capture(final boolean male, final boolean slowly)
+    private void initWindow()
     {
         final Window window = Minecraft.getInstance().getWindow();
         final int h = window.getScreenHeight();
         final int w = window.getScreenWidth();
 
-        final double scale = window.getGuiScale();
+        GL11.glPixelStorei(3333, 1);
+        GL11.glPixelStorei(3317, 1);
+        ByteBuffer test_buffer = BufferUtils.createByteBuffer(h * w * 4);
+        GL11.glReadPixels(0, 0, w, h, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, test_buffer);
+
+        // find the first column which is empty
+        int i;
+        outer:
+        for (i = 0; i < w; i++)
+        {
+            for (int j = 0; j < h; j++)
+            {
+                final int k = (i + w * j) * 4;
+                final int r = test_buffer.get(k) & 0xFF;
+                final int g = test_buffer.get(k + 1) & 0xFF;
+                final int b = test_buffer.get(k + 2) & 0xFF;
+                if (!(r == 13 && g == 14 && b == 15))
+                {
+                    continue outer;
+                }
+            }
+            break;
+        }
+        int ii;
+        outer:
+        for (ii = w - 20; ii > 0; ii--)
+        {
+            for (int j = 0; j < h; j++)
+            {
+                final int k = (ii + w * j) * 4;
+                final int r = test_buffer.get(k) & 0xFF;
+                final int g = test_buffer.get(k + 1) & 0xFF;
+                final int b = test_buffer.get(k + 2) & 0xFF;
+                if (!(r == 13 && g == 14 && b == 15))
+                {
+                    continue outer;
+                }
+            }
+            break;
+        }
+
+        // Add some padding
+        i += 10;
+        ii -= 10;
+
+        x_min = i;
+        x_max = ii;
+    }
+
+    private boolean capture(final boolean male, final boolean slowly)
+    {
+        final Window window = Minecraft.getInstance().getWindow();
+        final int h = window.getScreenHeight();
+
+        int i;
+
         int x;
         int y;
         PokedexEntry entry = AnimationGui.entry;
@@ -224,12 +276,6 @@ public class IconModule extends AnimModule
 
         // The 140 is for 40 pixels for buttons, and 100 pixels for text boxes
         // then -10 for some padding, related to the 5 + for x and y below
-        int width = (int) (w - scale * 140);
-        int height = width;
-        if (height > h) height = width = h;
-
-        x = w / 2 - width / 2;
-        y = h / 2 - height / 2;
 
         ResourceLocation icon1 = entry.getIcon(male, parent.shiny);
         if (parent.holder != null) icon1 = parent.holder.getIcon(male, parent.shiny, entry);
@@ -238,8 +284,8 @@ public class IconModule extends AnimModule
         if (this.doneLocs.contains(icon1)) return true;
 
         final File outFile = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve("img")
-                .resolve(parent.shiny ? "shiny" : "normal").resolve(icon1.getNamespace()).resolve(icon1.getPath())
-                .toFile();
+                .resolve(parent.shiny ? "shiny" : "normal").resolve(icon1.getNamespace())
+                .resolve(icon1.getPath() + ".png").toFile();
         outFile.getParentFile().mkdirs();
         File outFile2 = null;
         if (parent.shiny && !entry.hasShiny)
@@ -247,30 +293,35 @@ public class IconModule extends AnimModule
             ResourceLocation icon = entry.getIcon(male, false);
             if (parent.holder != null) icon = parent.holder.getIcon(male, false, entry);
             outFile2 = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve("img")
-                    .resolve(parent.shiny ? "shiny" : "normal").resolve(icon.getNamespace()).resolve(icon.getPath())
-                    .toFile();
+                    .resolve(parent.shiny ? "shiny" : "normal").resolve(icon.getNamespace())
+                    .resolve(icon.getPath() + ".png").toFile();
         }
 
         GL11.glPixelStorei(3333, 1);
         GL11.glPixelStorei(3317, 1);
-        final ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * 4);
+        x = x_min;
+        y = 0;
+        int width = x_max - x_min;
+        int height = h;
+        ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * 4);
         GL11.glReadPixels(x, y, width, height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
 
         int x0 = width, y0 = height, xf = 0, yf = 0;
-        for (int i = 0; i < width; i++) for (int j = 0; j < height; j++)
-        {
-            final int k = (i + width * j) * 4;
-            final int r = buffer.get(k) & 0xFF;
-            final int g = buffer.get(k + 1) & 0xFF;
-            final int b = buffer.get(k + 2) & 0xFF;
-            if (!(r == 18 && g == 19 && b == 20))
+        for (i = 0; i < width; i++)
+            for (int j = 0; j < height; j++)
             {
-                x0 = Math.min(i, x0);
-                xf = Math.max(i, xf);
-                y0 = Math.min(j, y0);
-                yf = Math.max(j, yf);
+                final int k = (i + width * j) * 4;
+                final int r = buffer.get(k) & 0xFF;
+                final int g = buffer.get(k + 1) & 0xFF;
+                final int b = buffer.get(k + 2) & 0xFF;
+                if (!(r == 13 && g == 14 && b == 15))
+                {
+                    x0 = Math.min(i, x0);
+                    xf = Math.max(i, xf);
+                    y0 = Math.min(j, y0);
+                    yf = Math.max(j, yf);
+                }
             }
-        }
         int dy = yf - y0;
         int dx = xf - x0;
         final int dr = Math.max(dx, dy);
@@ -292,33 +343,29 @@ public class IconModule extends AnimModule
 
         try
         {
-            for (int i = x0; i < x0 + width; i++) for (int j = y0; j < y0 + height; j++)
-            {
-                final int k = (i + ow * j) * 4;
-                final int r = buffer.get(k) & 0xFF;
-                final int g = buffer.get(k + 1) & 0xFF;
-                final int b = buffer.get(k + 2) & 0xFF;
-                int a = 0xFF;
-                if (r == 18 && g == 19 && b == 20) a = 0;
-
-                if (a != 0)
+            for (i = x0; i < x0 + width; i++)
+                for (int j = y0; j < y0 + height; j++)
                 {
-                    minX = Math.min(minX, i);
-                    maxX = Math.max(maxX, i);
-                    minY = Math.min(minY, j);
-                    maxY = Math.max(maxY, j);
+                    final int k = (i + ow * j) * 4;
+                    final int r = buffer.get(k) & 0xFF;
+                    final int g = buffer.get(k + 1) & 0xFF;
+                    final int b = buffer.get(k + 2) & 0xFF;
+                    int a = 0xFF;
+                    if (r == 13 && g == 14 && b == 15) a = 0;
+                    if (a != 0)
+                    {
+                        minX = Math.min(minX, i);
+                        maxX = Math.max(maxX, i);
+                        minY = Math.min(minY, j);
+                        maxY = Math.max(maxY, j);
+                    }
+                    x = i - x0;
+                    y = height - (j - y0 + 1);
+                    image.setRGB(x, y, a << 24 | r << 16 | g << 8 | b);
                 }
-                x = i - x0;
-                y = height - (j - y0 + 1);
-                image.setRGB(x, y, a << 24 | r << 16 | g << 8 | b);
-            }
         }
         catch (IndexOutOfBoundsException e1)
         {
-            maxX = width;
-            minX = 0;
-            maxY = height;
-            maxY = 0;
             dims.scale(2);
             AnimationGui.sizes.put(entry, dims.y);
             return false;
@@ -326,7 +373,7 @@ public class IconModule extends AnimModule
         dx = maxX - minX;
         dy = maxY - minY;
 
-        if (dx <= 0 || dy <= 0) PokecubeAPI.LOGGER.error("Error with " + entry);
+        if (dx <= 0 || dy <= 0) PokecubeAPI.LOGGER.error("Error with {}", entry);
         else if (!scaled)
         {
             final float target = ow / 3f;
@@ -377,7 +424,7 @@ public class IconModule extends AnimModule
         boolean alphab = !cap;
 
         var entry = AnimationGui.entry;
-        if (alphab) formes.sort((o1, o2) -> o1.name.compareTo(o2.name));
+        if (alphab) formes.sort(Comparator.comparing(o -> o.name));
 
         int i_next = formes.indexOf(entry) - 1;
         i_next = i_next < 0 ? formes.size() - 1 : i_next;
@@ -408,7 +455,7 @@ public class IconModule extends AnimModule
         boolean alphab = !cap;
 
         var entry = AnimationGui.entry;
-        if (alphab) formes.sort((o1, o2) -> o1.name.compareTo(o2.name));
+        if (alphab) formes.sort(Comparator.comparing(o -> o.name));
 
         int i_next = formes.indexOf(entry) + 1;
         i_next = i_next >= formes.size() ? 0 : i_next;

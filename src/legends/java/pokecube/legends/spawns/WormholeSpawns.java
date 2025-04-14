@@ -142,7 +142,7 @@ public class WormholeSpawns implements IWorldTickListener
     @Override
     public void onTickEnd(final ServerLevel world)
     {
-        if (!SpawnHandler.canSpawnInWorld(world)) return;
+        if (SpawnHandler.canNotSpawnInWorld(world)) return;
 
         final IWormholeWorld holes = WormholeSpawns.getWormholes(world);
         if (holes == null) return;

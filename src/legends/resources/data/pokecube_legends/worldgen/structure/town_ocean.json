@@ -10,8 +10,8 @@
         "value": {
           "type": "neoforge:or",
           "values": [
-            "#forge:is_cold",
-            "#forge:is_snowy"
+            "#c:is_cold",
+            "#c:is_snowy"
           ]
         }
       }

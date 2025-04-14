@@ -83,9 +83,7 @@ public abstract class Tab
 
     public final void clear()
     {
-        ours.forEach(widget -> {
-            parent.removeWidget(widget);
-        });
+        ours.forEach(parent::removeWidget);
         ours.clear();
     }
 
@@ -99,7 +97,7 @@ public abstract class Tab
         Collections.reverse(ours);
         ours.forEach(widget -> {
             parent.renderables.remove(widget);
-            parent.renderables.add(0, widget);
+            parent.renderables.addFirst(widget);
         });
     }
 

@@ -2,8 +2,7 @@
   "rules":[
     {
       "preset":"forests",
-      "not_preset": "custom_subbiomes",
-      "and_preset":"overworld",
+      "and_preset":"overworld_surface",
       "matchers":{
         "biome":{
           "biome_tags":"#minecraft:is_forest"
@@ -12,8 +11,7 @@
     },
     {
       "preset":"taigas",
-      "not_preset": "custom_subbiomes",
-      "and_preset":"overworld",
+      "and_preset":"overworld_surface",
       "matchers":{
         "biome":{
           "biome_tags":"#minecraft:is_taiga"
@@ -22,8 +20,7 @@
     },
     {
       "preset":"jungles",
-      "not_preset": "custom_subbiomes",
-      "and_preset":"overworld",
+      "and_preset":"overworld_surface",
       "matchers":{
         "biome":{
           "biome_tags":"#minecraft:is_jungle"
@@ -32,8 +29,7 @@
     },
     {
       "preset":"plains",
-      "not_preset": "custom_subbiomes",
-      "and_preset":"overworld",
+      "and_preset":"overworld_surface",
       "matchers":{
         "biome":{
           "biome_tags":"#c:is_plains"
@@ -42,8 +38,7 @@
     },
     {
       "preset":"savannas",
-      "not_preset": "custom_subbiomes",
-      "and_preset":"overworld",
+      "and_preset":"overworld_surface",
       "matchers":{
         "biome":{
           "biome_tags":"#minecraft:is_savanna"
@@ -52,13 +47,11 @@
     },
     {
       "preset":"deserts",
-      "not_preset": "custom_subbiomes",
-      "and_preset":"overworld,dry_areas,sandy_areas"
+      "and_preset":"overworld_surface,dry_areas,sandy_areas"
     },
     {
       "preset":"badlands",
-      "not_preset": "custom_subbiomes",
-      "and_preset":"overworld",
+      "and_preset":"overworld_surface",
       "matchers":{
         "biome":{
           "biome_tags":"#minecraft:is_badlands"
@@ -67,8 +60,7 @@
     },
     {
       "preset":"mesa_forests",
-      "not_preset": "custom_subbiomes",
-      "and_preset":"overworld,badlands",
+      "and_preset":"overworld_surface,badlands",
       "matchers":{
         "biome":{
           "biome_tags":"#c:is_sparse"
@@ -77,9 +69,8 @@
     },
     {
       "preset":"mountains",
-      "not_preset": "custom_subbiomes",
       "or_preset":"extreme_hills",
-      "and_preset":"overworld",
+      "and_preset":"overworld_surface",
       "matchers":{
         "biome":{
           "biome_tags":"#minecraft:is_mountain"
@@ -88,8 +79,7 @@
     },
     {
       "preset":"extreme_hills",
-      "not_preset": "custom_subbiomes",
-      "and_preset":"overworld",
+      "and_preset":"overworld_surface",
       "matchers":{
         "biome":{
           "biome_tags":"#minecraft:is_hill"
@@ -98,8 +88,7 @@
     },
     {
       "preset":"mushrooms",
-      "not_preset": "custom_subbiomes",
-      "and_preset":"overworld",
+      "and_preset":"overworld_surface",
       "matchers":{
         "biome":{
           "biome_tags":"#c:is_mushroom"
@@ -108,14 +97,12 @@
     },
     {
       "preset":"swamps",
-      "not_preset": "custom_subbiomes",
       "or_preset":"swamp_ground,swamp_water",
-      "and_preset":"overworld"
+      "and_preset":"overworld_surface"
     },
     {
       "preset":"swamp_ground",
-      "not_preset": "custom_subbiomes",
-      "and_preset":"overworld",
+      "and_preset":"overworld_surface",
       "matchers":{
         "biome":{
           "biome_tags":"#c:is_swamp"
@@ -124,8 +111,7 @@
     },
     {
       "preset":"river_ground",
-      "not_preset": "custom_subbiomes",
-      "and_preset":"overworld",
+      "and_preset":"overworld_surface",
       "matchers":{
         "biome":{
           "biome_tags":"#minecraft:is_river"
@@ -138,8 +124,7 @@
     },
     {
       "preset":"lake_ground",
-      "not_preset": "custom_subbiomes",
-      "and_preset":"overworld",
+      "and_preset":"overworld_surface",
       "matchers":{
         "biome":{
           "sub_biomes":"lake"
@@ -152,8 +137,7 @@
     },
     {
       "preset":"beach_ground",
-      "not_preset": "custom_subbiomes",
-      "and_preset":"overworld",
+      "and_preset":"overworld_surface",
       "matchers":{
         "biome":{
           "biome_tags":"#pokecube_world:is_beach"
@@ -166,8 +150,7 @@
     },
     {
       "preset":"ocean_ground",
-      "not_preset": "custom_subbiomes",
-      "and_preset":"overworld",
+      "and_preset":"overworld_surface",
       "matchers":{
         "biome":{
           "biome_tags":"#minecraft:is_ocean"
@@ -188,6 +171,11 @@
           "type":"all"
         }
       }
+    },
+    {
+      "preset":"overworld_surface",
+      "not_preset": "custom_subbiomes",
+      "and_preset":"overworld"
     }
   ]
 }

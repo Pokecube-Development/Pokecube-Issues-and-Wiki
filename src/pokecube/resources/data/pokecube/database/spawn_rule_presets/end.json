@@ -29,7 +29,7 @@
       "preset":"end_cave_b",
       "matchers":{
         "biome":{
-          "biome_tags":"#minecraft:is_end,#forge:is_underground"
+          "biome_tags":"#minecraft:is_end,#c:is_underground"
         }
       }
     }

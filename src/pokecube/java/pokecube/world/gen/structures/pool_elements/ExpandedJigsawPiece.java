@@ -1,11 +1,5 @@
 package pokecube.world.gen.structures.pool_elements;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -13,13 +7,13 @@ import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -40,27 +34,22 @@ import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool.Projection;
-import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.GravityProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.JigsawReplacementProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.LiquidSettings;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+import net.minecraft.world.level.levelgen.structure.templatesystem.*;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 import net.neoforged.neoforge.common.util.TriState;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.events.StructureEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.utils.PokecubeSerializer;
-import pokecube.mixin.accessors.WorldGenRegionAccessor;
+import pokecube.world.gen.structures.ITemplateExtended;
 import pokecube.world.gen.structures.PokecubeStructures;
 import pokecube.world.gen.structures.processors.MarkerToAirProcessor;
 import pokecube.world.gen.structures.processors.NoWaterlogProcessor;
 import thut.api.level.structures.NamedVolumes.INamedPart;
 import thut.core.common.ThutCore;
+
+import java.util.*;
 
 public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
 {
@@ -77,8 +66,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
                     Codec.STRING.fieldOf("needed_flags").orElse("").forGetter(s -> s.needed_flags),
                     Codec.STRING.fieldOf("no_connect_flags").orElse("").forGetter(s -> s.no_connect_flags),
                     ResourceLocation.CODEC.listOf().fieldOf("extra_pools").orElse(new ArrayList<>())
-                            .forGetter(s -> s.extra_pools))
-                    .apply(instance, ExpandedJigsawPiece::new);
+                            .forGetter(s -> s.extra_pools)).apply(instance, ExpandedJigsawPiece::new);
         });
     }
 
@@ -93,8 +81,8 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
 
     private static void apply(final BlockPos pos, final Level worldIn)
     {
-        Set<BlockPos> poses = ExpandedJigsawPiece.sent_events.get(worldIn.dimension());
-        if (poses == null) ExpandedJigsawPiece.sent_events.put(worldIn.dimension(), poses = Sets.newHashSet());
+        Set<BlockPos> poses = ExpandedJigsawPiece.sent_events.computeIfAbsent(worldIn.dimension(),
+                k -> Sets.newHashSet());
         poses.add(pos.immutable());
     }
 
@@ -103,14 +91,12 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
         public static final Ints DEFAULT = new Ints(-1, 10, 0, -1, -1, 100);
 
         public static final Codec<Ints> CODEC = RecordCodecBuilder.create((instance) -> {
-            return instance
-                    .group(Codec.INT.fieldOf("y_offset").orElse(-1).forGetter(s -> s.y_offset),
-                            Codec.INT.fieldOf("space_below").orElse(10).forGetter(s -> s.space_below),
-                            Codec.INT.fieldOf("extra_child_depth").orElse(0).forGetter(s -> s.extra_child_depth),
-                            Codec.INT.fieldOf("h_clearance").orElse(-1).forGetter(s -> s.h_clearance),
-                            Codec.INT.fieldOf("v_clearance").orElse(-1).forGetter(s -> s.v_clearance),
-                            Codec.INT.fieldOf("priority").orElse(100).forGetter(s -> s.priority))
-                    .apply(instance, Ints::new);
+            return instance.group(Codec.INT.fieldOf("y_offset").orElse(-1).forGetter(s -> s.y_offset),
+                    Codec.INT.fieldOf("space_below").orElse(10).forGetter(s -> s.space_below),
+                    Codec.INT.fieldOf("extra_child_depth").orElse(0).forGetter(s -> s.extra_child_depth),
+                    Codec.INT.fieldOf("h_clearance").orElse(-1).forGetter(s -> s.h_clearance),
+                    Codec.INT.fieldOf("v_clearance").orElse(-1).forGetter(s -> s.v_clearance),
+                    Codec.INT.fieldOf("priority").orElse(100).forGetter(s -> s.priority)).apply(instance, Ints::new);
         });
 
         public final int y_offset;
@@ -137,10 +123,8 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
         public static final Bools DEFAULT = new Bools(false, false, true, false, false, false);
 
         public static final Codec<Bools> CODEC = RecordCodecBuilder.create((instance) -> {
-            return instance
-                    .group(Codec.BOOL.fieldOf("ignore_air").orElse(false).forGetter(s -> s.ignore_air),
-                            Codec.BOOL.fieldOf("water_terrain_match").orElse(false)
-                                    .forGetter(s -> s.water_terrain_match),
+            return instance.group(Codec.BOOL.fieldOf("ignore_air").orElse(false).forGetter(s -> s.ignore_air),
+                            Codec.BOOL.fieldOf("water_terrain_match").orElse(false).forGetter(s -> s.water_terrain_match),
                             Codec.BOOL.fieldOf("markers_to_air").orElse(true).forGetter(s -> s.markers_to_air),
                             Codec.BOOL.fieldOf("only_once").orElse(false).forGetter(s -> s.only_once),
                             Codec.BOOL.fieldOf("no_affect_noise").orElse(false).forGetter(s -> s.no_affect_noise),
@@ -205,10 +189,10 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
         this.no_connect_flags = no_connect_flags;
         this.extra_pools = extra_pools;
         this._flags = Lists.newArrayList(flags.split(","));
-        this._flags.removeIf(s -> s.isBlank());
+        this._flags.removeIf(String::isBlank);
         this._needed_flags = needed_flags.split(",");
         this._no_connect_flags = Sets.newHashSet(no_connect_flags.split(","));
-        this._no_connect_flags.removeIf(s -> s.isBlank());
+        this._no_connect_flags.removeIf(String::isBlank);
         this.int_config = int_config;
         this.bool_config = bool_config;
         this._projection = bool_config.rigid_override ? Projection.RIGID : behaviour;
@@ -278,16 +262,15 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
         List<StructureTemplate.StructureBlockInfo> list = placementsettings.getRandomPalette(template.palettes, pos1)
                 .blocks();
 
-        for (StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo : StructureTemplate
-                .processBlockInfos(level, pos1, pos2, placementsettings, list, template))
+        for (StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo : StructureTemplate.processBlockInfos(
+                level, pos1, pos2, placementsettings, list, template))
         {
             BlockPos blockpos = structuretemplate$structureblockinfo.pos();
             BlockState to_place = structuretemplate$structureblockinfo.state();
             if (box == null || box.isInside(blockpos))
             {
-                if (to_place.hasProperty(BlockStateProperties.WATERLOGGED)
-                        && !to_place.getValue(BlockStateProperties.WATERLOGGED))
-                    unWaterlog.put(blockpos, level.getBlockState(blockpos));
+                if (to_place.hasProperty(BlockStateProperties.WATERLOGGED) && !to_place.getValue(
+                        BlockStateProperties.WATERLOGGED)) unWaterlog.put(blockpos, level.getBlockState(blockpos));
             }
         }
     }
@@ -317,8 +300,8 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
             {
                 unWaterlog.forEach((pos, state) -> {
                     BlockState newState = level.getBlockState(pos);
-                    if (newState.hasProperty(BlockStateProperties.WATERLOGGED)
-                            && newState.getValue(BlockStateProperties.WATERLOGGED))
+                    if (newState.hasProperty(BlockStateProperties.WATERLOGGED) && newState.getValue(
+                            BlockStateProperties.WATERLOGGED))
                     {
                         newState = newState.setValue(BlockStateProperties.WATERLOGGED, false);
                         level.setBlock(pos, newState, placeFlags & -2 | 16);
@@ -335,13 +318,13 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
         if (!placed) return false;
         else
         {
-            if (level instanceof WorldGenRegionAccessor accessor)
+            if (level.getLevel() != null)
             {
-                this.world = accessor.getServerLevel();
+                this.world = level.getLevel();
                 if (!"none".equals(this.biome_type))
                 {
                     final BoundingBox realBox = this.getBoundingBox(templates, pos1, rotation);
-                    final StructureEvent.BuildStructure event = new StructureEvent.BuildStructure(realBox, this.world,
+                    final StructureEvent.BuildStructure event = new StructureEvent.BuildStructure(realBox, level,
                             this.name, placementsettings);
                     event.setBiomeType(this.biome_type);
                     ThutCore.FORGE_BUS.post(event);
@@ -353,8 +336,8 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
             // loop later, as this operation is expensive enough anyway.
             if (bool_config.markers_to_air)
             {
-                final List<StructureTemplate.StructureBlockInfo> list = placementsettings
-                        .getRandomPalette(template.palettes, pos1).blocks();
+                final List<StructureTemplate.StructureBlockInfo> list = placementsettings.getRandomPalette(
+                        template.palettes, pos1).blocks();
                 for (final StructureBlockInfo info : list)
                 {
                     String key;
@@ -363,9 +346,9 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
                             && StructureMode.valueOf(key) == StructureMode.DATA;
                     if (isDataMarker)
                     {
-                        final BlockPos blockpos = StructureTemplate
-                                .calculateRelativePosition(placementsettings, info.pos()).offset(pos1);
-                        this.handleDataMarker(level, info, blockpos, rotation, rng, box);
+                        final BlockPos blockpos = StructureTemplate.calculateRelativePosition(placementsettings,
+                                info.pos()).offset(pos1);
+                        this.handleDataMarker(level, info, blockpos, rotation, rng, box, template);
                     }
                 }
             }
@@ -377,7 +360,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
                 {
                     final BlockPos blockpos = StructureTemplate.calculateRelativePosition(placementsettings, info.pos())
                             .offset(pos1);
-                    this.handleDataMarker(level, info, blockpos, rotation, rng, box);
+                    this.handleDataMarker(level, info, blockpos, rotation, rng, box, template);
                 }
             }
             return true;
@@ -388,10 +371,17 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
     public void handleDataMarker(final LevelAccessor worldIn, final StructureBlockInfo info, final BlockPos pos,
             final Rotation rotationIn, final RandomSource rand, final BoundingBox box)
     {
+        Thread.dumpStack();
+    }
 
-        if (worldIn instanceof WorldGenRegionAccessor accessor)
+    public void handleDataMarker(final LevelAccessor worldIn, final StructureBlockInfo info, final BlockPos pos,
+            final Rotation rotationIn, final RandomSource rand, final BoundingBox box, StructureTemplate template)
+    {
+        if (worldIn instanceof WorldGenRegion accessor && template instanceof ITemplateExtended extended)
         {
-            this.world = accessor.getServerLevel();
+            this.world = accessor.getLevel();
+            if (extended.$hasAddedEntity(info)) return;
+
             String function = info.nbt() != null ? info.nbt().getString("metadata") : "";
 
             final boolean toPlaceProf = this.isSpawn && !PokecubeSerializer.getInstance().hasPlacedProf();
@@ -430,10 +420,14 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
             else if (ExpandedJigsawPiece.shouldApply(pos, this.world))
             {
                 final StructureEvent.ReadTag event = new StructureEvent.ReadTag(function.trim(), pos, worldIn,
-                        (ServerLevel) this.world, rand, box);
+                        (ServerLevel) this.world, rand, box, true);
+                event.info = info;
                 if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logDebug(function.trim() + " " + pos);
                 ThutCore.FORGE_BUS.post(event);
-                if (event.getResult() != TriState.FALSE) ExpandedJigsawPiece.apply(pos, this.world);
+                if (event.getResult() != TriState.FALSE)
+                {
+                    extended.$tryAddStructureEntity(event);
+                }
             }
         }
 
@@ -461,6 +455,6 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
     @Override
     public BoundingBox getBounds()
     {
-        return this.getBounds();
+        throw new IllegalStateException("This should always be wrapped.");
     }
 }

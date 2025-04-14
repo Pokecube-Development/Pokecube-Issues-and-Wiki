@@ -20,7 +20,7 @@
             "#minecraft:is_ocean",
             "#minecraft:is_river",
             "#minecraft:is_badlands",
-            "#forge:is_sandy",
+            "#c:is_sandy",
             "#minecraft:is_end"
           ]
         }

@@ -17,7 +17,7 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
     private ResourceLocation SCROLLER_BACKGROUND_SPRITE = ResourceLocation.withDefaultNamespace(
             "widget/scroller_background");
 
-    public boolean smoothScroll = false;
+    public boolean smoothScroll = true;
     private boolean checkedSmooth = false;
     private double scrollAmount;
     public final Screen parent;
@@ -57,9 +57,9 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
 
     /** This override is to make this method public. */
     @Override
-    public int addEntry(final T p_addEntry_1_)
+    public int addEntry(final T entry)
     {
-        return super.addEntry(p_addEntry_1_);
+        return super.addEntry(entry);
     }
 
     @Override

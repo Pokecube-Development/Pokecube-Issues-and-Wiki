@@ -24,7 +24,7 @@
   "biomes": {
     "type": "neoforge:and",
     "values": [
-      "#forge:is_sandy",
+      "#c:is_sandy",
       {
         "type": "neoforge:not",
         "value": {
