@@ -1,9 +1,6 @@
 package pokecube.core.client.gui.blocks;
 
-import org.lwjgl.glfw.GLFW;
-
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -14,6 +11,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import org.lwjgl.glfw.GLFW;
 import pokecube.api.moves.MoveEntry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.impl.PokecubeMod;
@@ -25,20 +23,21 @@ import thut.lib.TComponent;
 
 public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
 {
-    public static ResourceLocation TM_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.GUI_FOLDER + "tm_machine.png");
-    public static ResourceLocation WIDGETS_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.GUI_FOLDER
-            + "widgets/pc_widgets.png");
-    public static ResourceLocation TM_LIGHT_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.GUI_FOLDER
-            + "tm_machine_light.png");
-    public static ResourceLocation WIDGETS_LIGHT_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.GUI_FOLDER
-            + "widgets/pc_widgets_light.png");
-    public static ResourceLocation TM_DARK_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.GUI_FOLDER
-            + "tm_machine_dark.png");
+    public static ResourceLocation TM_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID,
+            Resources.GUI_FOLDER + "tm_machine.png");
+    public static ResourceLocation WIDGETS_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID,
+            Resources.GUI_FOLDER + "widgets/pc_widgets.png");
+    public static ResourceLocation TM_LIGHT_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID,
+            Resources.GUI_FOLDER + "tm_machine_light.png");
+    public static ResourceLocation WIDGETS_LIGHT_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID,
+            Resources.GUI_FOLDER + "widgets/pc_widgets_light.png");
+    public static ResourceLocation TM_DARK_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID,
+            Resources.GUI_FOLDER + "tm_machine_dark.png");
 
-    public static ResourceLocation WIDGETS_DARK_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.GUI_FOLDER
-            + "widgets/pc_widgets_dark.png");
-    public static ResourceLocation WARNING_ICON =
-            ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, Resources.GUI_FOLDER + "icons/warning_icon.png");
+    public static ResourceLocation WIDGETS_DARK_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID,
+            Resources.GUI_FOLDER + "widgets/pc_widgets_dark.png");
+    public static ResourceLocation WARNING_ICON = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID,
+            Resources.GUI_FOLDER + "icons/warning_icon");
 
     private EditBox searchBar;
     Button applyButton;
@@ -59,8 +58,8 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
     @Override
     public boolean keyPressed(final int keyCode, final int b, final int c)
     {
-        if (this.searchBar.isFocused() && (keyCode == GLFW.GLFW_KEY_ESCAPE
-                || keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER))
+        if (this.searchBar.isFocused() && (keyCode == GLFW.GLFW_KEY_ESCAPE || keyCode == GLFW.GLFW_KEY_ENTER
+                || keyCode == GLFW.GLFW_KEY_KP_ENTER))
         {
             this.searchBar.setFocused(false);
             return false;
@@ -72,36 +71,38 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
             return true;
         }
 
-//        if (this.searchBar.isFocused())
-//        {
-//            if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)
-//            {
-//                // TODO search the moves list and go to the one here.
-//            }
-//            this.searchBar.setCanLoseFocus(true);
-//            return true;
-//        }
+        //        if (this.searchBar.isFocused())
+        //        {
+        //            if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)
+        //            {
+        //                // TODO search the moves list and go to the one here.
+        //            }
+        //            this.searchBar.setCanLoseFocus(true);
+        //            return true;
+        //        }
         return super.keyPressed(keyCode, b, c);
     }
 
     @Override
     protected void renderLabels(final GuiGraphics graphics, final int x, final int y)
     {
-        if (this.lightModeButton.visible && PokecubeCore.getConfig().fancyGUI) graphics.drawString(this.font, TComponent.translatable("block.pokecube.tm_machine"),
-                8, 6, 0xB2AFD6, false);
-        else if (PokecubeCore.getConfig().fancyGUI) graphics.drawString(this.font, TComponent.translatable("block.pokecube.tm_machine"),
-                8, 6, 0xFFFFFF, false);
+        if (this.lightModeButton.visible && PokecubeCore.getConfig().fancyGUI)
+            graphics.drawString(this.font, TComponent.translatable("block.pokecube.tm_machine"), 8, 6, 0xB2AFD6, false);
+        else if (PokecubeCore.getConfig().fancyGUI)
+            graphics.drawString(this.font, TComponent.translatable("block.pokecube.tm_machine"), 8, 6, 0xFFFFFF, false);
         else graphics.drawString(this.font, TComponent.translatable("block.pokecube.tm_machine"), 8, 6, 4210752, false);
 
-        graphics.drawString(this.font, this.playerInventoryTitle.getString(),
-                8, this.imageHeight - 94 + 2, 4210752, false);
+        graphics.drawString(this.font, this.playerInventoryTitle.getString(), 8, this.imageHeight - 94 + 2, 4210752,
+                false);
     }
 
     @Override
     protected void renderBg(final GuiGraphics graphics, final float partialTicks, final int mouseX, final int mouseY)
     {
         ResourceLocation WIDGETS_DARK_OR_LIGHT = this.darkModeButton.visible ? WIDGETS_LIGHT_GUI : WIDGETS_DARK_GUI;
-        ResourceLocation WIDGETS_DEFAULT_OR_FANCY = PokecubeCore.getConfig().fancyGUI ? WIDGETS_DARK_OR_LIGHT : WIDGETS_GUI;
+        ResourceLocation WIDGETS_DEFAULT_OR_FANCY = PokecubeCore.getConfig().fancyGUI
+                ? WIDGETS_DARK_OR_LIGHT
+                : WIDGETS_GUI;
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
@@ -110,11 +111,10 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         final int y = (this.height - this.imageHeight) / 2;
 
         // Warning Button
-        graphics.blit(WARNING_ICON, x + 155, y + 4, 8, 8, 17, 17);
+        graphics.blitSprite(WARNING_ICON, x + 155, y + 4, 17, 17);
 
         // Blit format: Texture location, gui x pos, gui y position, texture x pos, texture y pos, texture x size, texture y size
-        if (this.darkModeButton.visible)
-            graphics.blit(TM_LIGHT_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
+        if (this.darkModeButton.visible) graphics.blit(TM_LIGHT_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
         else if (this.lightModeButton.visible)
             graphics.blit(TM_DARK_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
         else graphics.blit(TM_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
@@ -131,31 +131,38 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         if (this.darkModeButton.isHoveredOrFocused() && this.darkModeButton.visible)
         {
             graphics.blit(WIDGETS_DARK_GUI, x - 17, y + 1, 240, 20, 15, 13);
-        } else if (this.darkModeButton.visible) {
+        }
+        else if (this.darkModeButton.visible)
+        {
             graphics.blit(WIDGETS_DARK_GUI, x - 16, y + 1, 240, 0, 14, 13);
         }
 
         if (this.lightModeButton.isHoveredOrFocused() && this.lightModeButton.visible)
         {
             graphics.blit(WIDGETS_LIGHT_GUI, x - 17, y + 1, 240, 20, 15, 13);
-        } else if (this.lightModeButton.visible) {
+        }
+        else if (this.lightModeButton.visible)
+        {
             graphics.blit(WIDGETS_LIGHT_GUI, x - 16, y + 1, 240, 0, 14, 13);
         }
 
         if (this.prevButton.isHoveredOrFocused())
         {
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 57, y + 35, 75, 15, 12, 12);
-        } else {
+        }
+        else
+        {
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 58, y + 36, 75, 0, 11, 11);
         }
 
-        if (this.searchBar.visible)
-            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 70, y + 36, 75, 30, 88, 11);
+        if (this.searchBar.visible) graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 70, y + 36, 75, 30, 88, 11);
 
         if (this.nextButton.isHoveredOrFocused())
         {
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 158, y + 35, 90, 15, 12, 12);
-        } else {
+        }
+        else
+        {
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 159, y + 36, 90, 0, 11, 11);
         }
 
@@ -165,7 +172,9 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
             if (PokecubeCore.getConfig().fancyGUI)
                 graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 104, y + 47, 25, 165, 20, 20);
             else graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 105, y + 48, 25, 165, 20, 20);
-        } else {
+        }
+        else
+        {
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 105, y + 48, 0, 165, 19, 19);
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 105, y + 48, 25, 165, 19, 19);
         }
@@ -201,10 +210,11 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
 
         final String[] moves1 = this.menu.moves;
         final String s = moves1.length > 0 ? moves1[this.index % moves1.length] : "";
-        this.movesSelection = this.addRenderableWidget(new Button.Builder(Component.literal(""), (b) -> {})
-                .bounds( x + 58, y + 16, 111, 18)
-                .tooltip(Tooltip.create(Component.translatable("block.tm_machine.moves_selection.tooltip")))
-                .createNarration(supplier -> TComponent.translatable("block.tm_machine.moves_selection.narrate" + MovesUtils.getMoveName(s, null))).build());
+        this.movesSelection = this.addRenderableWidget(
+                new Button.Builder(Component.literal(""), (b) -> {}).bounds(x + 58, y + 16, 111, 18)
+                        .tooltip(Tooltip.create(Component.translatable("block.tm_machine.moves_selection.tooltip")))
+                        .createNarration(supplier -> TComponent.translatable(
+                                "block.tm_machine.moves_selection.narrate" + MovesUtils.getMoveName(s, null))).build());
         this.movesSelection.setAlpha(0);
         this.movesSelection.active = false;
 
@@ -219,14 +229,15 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
                 .createNarration(supplier -> Component.translatable("block.tm_machine.previous.narrate")).build());
         this.prevButton.setAlpha(0);
 
-        this.searchBar = this.addRenderableWidget(new EditBox(this.font,
-                x + 72, y + 38, 86, 10,
+        this.searchBar = this.addRenderableWidget(new EditBox(this.font, x + 72, y + 38, 86, 10,
                 TComponent.translatable("block.tm_machine.search_bar.narrate")));
         this.searchBar.setTooltip(Tooltip.create(Component.translatable("block.tm_machine.search_bar.tooltip")));
         if (!PokecubeCore.getConfig().fancyGUI) this.searchBar.setPosition(x + 72, y + 37);
-        if (this.lightModeButton.visible) {
+        if (this.lightModeButton.visible)
+        {
             this.searchBar.setTextColor(0xB2AFD6);
-        } else this.searchBar.setTextColor(0xFFFFFF);
+        }
+        else this.searchBar.setTextColor(0xFFFFFF);
         this.searchBar.setBordered(false);
 
         final Component next = TComponent.translatable("block.tm_machine.next");
@@ -250,11 +261,11 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         this.applyButton.setAlpha(0);
     }
 
-    @Override
     /** Draws the screen and all the components in it. */
+    @Override
     public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
-        this.renderBackground(graphics, mouseY, mouseY, partialTicks);
+        this.renderBackground(graphics, mouseX, mouseY, partialTicks);
         super.render(graphics, mouseX, mouseY, partialTicks);
         final String[] moves = this.menu.moves;
         final String s = moves.length > 0 ? moves[this.index % moves.length] : "";
@@ -265,10 +276,10 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
             final int y = (this.height - this.imageHeight) / 2;
             String append = MovesUtils.getMoveName(s, null).getString().length() >= 15 ? "".concat("...") : "";
 
-            graphics.drawString(this.font, MovesUtils.getMoveName(s, null).getString(15) + append, x + 61,
-                    y + 22, move.getType(null).colour);
-            graphics.drawString(this.font, "" + move.getPWR(), x + 167 - this.font.width("" + move.getPWR()),
-                    y + 22, 0xFFFFFF);
+            graphics.drawString(this.font, MovesUtils.getMoveName(s, null).getString(15) + append, x + 61, y + 22,
+                    move.getType(null).colour);
+            graphics.drawString(this.font, "" + move.getPWR(), x + 167 - this.font.width("" + move.getPWR()), y + 22,
+                    0xFFFFFF);
         }
         this.renderTooltip(graphics, mouseX, mouseY);
     }

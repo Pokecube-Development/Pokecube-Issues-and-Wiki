@@ -1,7 +1,5 @@
 package pokecube.api.events;
 
-import java.util.Random;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -18,6 +16,8 @@ import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.ICancellableEvent;
 import net.neoforged.neoforge.common.util.TriState;
 
+import java.util.Random;
+
 public class StructureEvent extends Event
 {
     public static class PickLocation extends StructureEvent implements ICancellableEvent
@@ -28,7 +28,7 @@ public class StructureEvent extends Event
 
         public final LevelHeightAccessor heightAccessor;
 
-        private ResourceKey<Level> key;
+        private final ResourceKey<Level> key;
 
         public PickLocation(final ChunkGenerator chunkGen, final Random rand, final ChunkPos pos,
                 final LevelHeightAccessor heightAccessor)
@@ -96,7 +96,7 @@ public class StructureEvent extends Event
 
     public static class SpawnEntity extends StructureEvent
     {
-        private final StructureEntityInfo info;
+        private StructureEntityInfo info;
         private final StructureEntityInfo raw;
 
         public SpawnEntity(final StructureEntityInfo entity, final StructureEntityInfo raw)
@@ -113,6 +113,11 @@ public class StructureEvent extends Event
         public StructureEntityInfo getInfo()
         {
             return this.info;
+        }
+
+        public void setInfo(StructureEntityInfo info)
+        {
+            this.info = info;
         }
     }
 

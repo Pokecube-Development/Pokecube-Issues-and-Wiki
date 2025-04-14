@@ -1,10 +1,6 @@
 package pokecube.world.gen.structures.processors;
 
-import javax.annotation.Nullable;
-
-import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.MapCodec;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
@@ -15,6 +11,8 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import pokecube.api.events.StructureEvent;
 import thut.core.common.ThutCore;
 
+import javax.annotation.Nullable;
+
 public class PokecubeStructureProcessor extends StructureProcessor
 {
     public static final MapCodec<StructureProcessor> CODEC;
@@ -22,10 +20,6 @@ public class PokecubeStructureProcessor extends StructureProcessor
     public static final StructureProcessor PROCESSOR = new PokecubeStructureProcessor();
 
     public PokecubeStructureProcessor()
-    {
-    }
-
-    public PokecubeStructureProcessor(final Dynamic<?> p_deserialize_1_)
     {
     }
 
@@ -55,9 +49,6 @@ public class PokecubeStructureProcessor extends StructureProcessor
 
     static
     {
-        CODEC = MapCodec.unit(() ->
-        {
-            return PokecubeStructureProcessor.PROCESSOR;
-        });
+        CODEC = MapCodec.unit(() -> PokecubeStructureProcessor.PROCESSOR);
     }
 }

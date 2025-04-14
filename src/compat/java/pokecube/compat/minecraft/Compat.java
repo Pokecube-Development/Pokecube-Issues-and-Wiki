@@ -16,6 +16,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
+import net.neoforged.neoforge.event.entity.EntityEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import pokecube.adventures.Config;
 import pokecube.api.PokecubeAPI;
@@ -105,6 +106,38 @@ public class Compat
         PokecubeAPI.POKEMOB_BUS.addListener(Compat::onKillCommand);
         // Here will will register the handler for making the default datapack
         ThutCore.FORGE_BUS.addListener(Compat::onServerStarted);
+        // And this handles applying the IPokemob to them.
+        ThutCore.FORGE_BUS.addListener(Compat::LivingConstruct);
+
+        CapabilityInhabitable.Register(ResourceLocation.parse("pokecube:vanilla_bees"), BeeTasks.BeeHabitat::new);
+        Ownable._REGISTRY.register(new HolderProvider.Provider<>()
+        {
+            final ResourceLocation KEY = ResourceLocation.parse("pokecube:ownable_blocks");
+
+            @Override
+            protected ResourceLocation key()
+            {
+                return KEY;
+            }
+
+            @Override
+            public Ownable.IOwnableSerializable apply(IAttachmentHolder input)
+            {
+                if (!(input instanceof Mob mob)) return null;
+                // Only consider mobEntity, IPokemob requires that
+                // Do not apply this to trainers!
+                if (Config.instance.shouldBeCustomTrainer(mob)) return null;
+                // This checks blacklists, configs, etc on the pokemob type
+                if (!Compat.makePokemob.test(mob.getType())) return null;
+                return new Ownable.Impl();
+            }
+
+            @Override
+            public int getPriority()
+            {
+                return 1000;
+            }
+        });
 
         if (!PokecubeCore.getConfig().non_vanilla_pokemobs && !PokecubeCore.getConfig().vanilla_pokemobs) return;
         // Register default pokemobs
@@ -121,12 +154,6 @@ public class Compat
             public IPokemob apply(IAttachmentHolder input)
             {
                 if (!(input instanceof Mob mob)) return null;
-                if (input instanceof EntityPokemob) return null;
-                // Only consider mobEntity, IPokemob requires that
-                // Do not apply this to trainers!
-                if (Config.instance.shouldBeCustomTrainer(mob)) return null;
-                // This checks blacklists, configs, etc on the pokemob type
-                if (!Compat.makePokemob.test(mob.getType())) return null;
 
                 final PokedexEntry entry = PokecubeCore.getEntryFor(mob.getType());
                 if (entry == null) try
@@ -158,31 +185,6 @@ public class Compat
 
                 return new VanillaPokemob(mob);
             }
-        });
-
-        CapabilityInhabitable.Register(ResourceLocation.parse("pokecube:vanilla_bees"), BeeTasks.BeeHabitat::new);
-
-        Ownable._REGISTRY.register(new HolderProvider.Provider<>()
-        {
-            final ResourceLocation KEY = ResourceLocation.parse("pokecube:ownable_blocks");
-
-            @Override
-            protected ResourceLocation key()
-            {
-                return KEY;
-            }
-
-            @Override
-            public Ownable.IOwnableSerializable apply(IAttachmentHolder input)
-            {
-                if (!(input instanceof Mob mob)) return null;
-                // Only consider mobEntity, IPokemob requires that
-                // Do not apply this to trainers!
-                if (Config.instance.shouldBeCustomTrainer(mob)) return null;
-                // This checks blacklists, configs, etc on the pokemob type
-                if (!Compat.makePokemob.test(mob.getType())) return null;
-                return new Ownable.Impl();
-            }
 
             @Override
             public int getPriority()
@@ -190,6 +192,19 @@ public class Compat
                 return 1000;
             }
         });
+    }
+
+    private static void LivingConstruct(final EntityEvent.EntityConstructing event)
+    {
+        if (!PokecubeCore.getConfig().non_vanilla_pokemobs && !PokecubeCore.getConfig().vanilla_pokemobs) return;
+        if (!(event.getEntity() instanceof Mob mob)) return;
+        if (mob instanceof EntityPokemob) return;
+        // Only consider mobEntity, IPokemob requires that
+        // Do not apply this to trainers!
+        if (Config.instance.shouldBeCustomTrainer(mob)) return;
+        // This checks blacklists, configs, etc on the pokemob type
+        if (!Compat.makePokemob.test(mob.getType())) return;
+        mob.getData(PokemobCaps.POKEMOB);
     }
 
     private static void onServerStarted(final ServerStartedEvent event)

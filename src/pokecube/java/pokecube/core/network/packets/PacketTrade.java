@@ -1,7 +1,5 @@
 package pokecube.core.network.packets;
 
-import java.util.UUID;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -11,7 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.items.wrapper.InvWrapper;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.items.IPokecube.PokecubeBehaviour;
@@ -22,7 +20,10 @@ import pokecube.core.inventory.trade.TradeContainer;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.recipes.RecipePokeseals;
 import thut.api.ThutCaps;
+import thut.api.inventory.InvWrapper;
 import thut.core.common.network.Packet;
+
+import java.util.UUID;
 
 public class PacketTrade extends Packet
 {
@@ -66,7 +67,7 @@ public class PacketTrade extends Packet
     {
         final AbstractContainerMenu cont = player.containerMenu;
         if (!(cont instanceof TradeContainer container)) return;
-        final InvWrapper inv = (InvWrapper) ThutCaps.getInventory(container.tile);
+        var inv = ThutCaps.getInventory(container.tile);
         if (this.data.contains("r"))
         {
             container.tile.confirmed[0] = false;
@@ -122,7 +123,7 @@ public class PacketTrade extends Packet
                 if (PokecubeManager.isFilled(inv.getStackInSlot(1))) pokecube1 = inv.getStackInSlot(1);
                 else toTrade = false;
 
-                /**
+                /*
                  * We only work on filled cubes, so if none are filled, return
                  * here.
                  */
@@ -141,21 +142,21 @@ public class PacketTrade extends Packet
                     return;
                 }
 
-                /**
+                /*
                  * Check if we are applying a pokeseal first.
                  */
                 if (!toTrade)
                 {
                     if (pokecube0.isEmpty())
                     {
-                        pokeseal = (seal = inv.getStackInSlot(0)).getItem() == PokecubeItems
-                                .getEmptyCube(PokecubeBehaviour.POKESEAL);
+                        pokeseal = (seal = inv.getStackInSlot(0)).getItem() == PokecubeItems.getEmptyCube(
+                                PokecubeBehaviour.POKESEAL);
                         cube = pokecube1;
                     }
                     if (pokecube1.isEmpty())
                     {
-                        pokeseal = (seal = inv.getStackInSlot(1)).getItem() == PokecubeItems
-                                .getEmptyCube(PokecubeBehaviour.POKESEAL);
+                        pokeseal = (seal = inv.getStackInSlot(1)).getItem() == PokecubeItems.getEmptyCube(
+                                PokecubeBehaviour.POKESEAL);
                         cube = pokecube0;
                     }
                 }
@@ -194,16 +195,16 @@ public class PacketTrade extends Packet
                     pokemob1.setOwner(owner0);
                     pokemob0.setTraded(true);
                     pokemob1.setTraded(true);
-                    inv.setStackInSlot(0, PokecubeManager.pokemobToItem(pokemob0));
-                    inv.setStackInSlot(1, PokecubeManager.pokemobToItem(pokemob1));
+                    inv.insertItem(0, PokecubeManager.pokemobToItem(pokemob0), false);
+                    inv.insertItem(1, PokecubeManager.pokemobToItem(pokemob1), false);
                 }
                 else if (pokeseal) RecipePokeseals.process(cube, seal);
                 else if (reskin)
                 {
                     final IPokemob pokemob = PokecubeManager.itemToPokemob(cube, player.level());
                     pokemob.setPokecube(skin);
-                    inv.setStackInSlot(cubeIndex, PokecubeManager.pokemobToItem(pokemob));
-                    inv.setStackInSlot(cubeIndex == 0 ? 1 : 0, ItemStack.EMPTY);
+                    inv.insertItem(cubeIndex, PokecubeManager.pokemobToItem(pokemob), false);
+                    inv.insertItem(cubeIndex == 0 ? 1 : 0, ItemStack.EMPTY, false);
                 }
 
                 // Reset trade gui.
@@ -215,7 +216,7 @@ public class PacketTrade extends Packet
                 {
                     final ServerPlayer user = player.getServer().getPlayerList().getPlayer(id);
                     if (user != null) PokecubeCore.packets.sendTo(trade, user);
-                    container.clearContainer(user, inv.getInv());
+                    container.clearContainer(user, new InvWrapper((IItemHandlerModifiable) inv));
                 }
                 return;
 
@@ -236,7 +237,7 @@ public class PacketTrade extends Packet
         buffer.writeNbt(this.data);
     }
 
-    private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("pokecube:use_trader"));
+    private final static Type<Packet> TYPE = new Type<>(ResourceLocation.parse("pokecube:use_trader"));
 
     @Override
     public Type<? extends CustomPacketPayload> type()
