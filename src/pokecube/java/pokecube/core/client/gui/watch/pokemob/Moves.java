@@ -51,9 +51,10 @@ public class Moves extends ListPage<LineEntry>
             if (offset[2] != 0) continue;
             var name = pokemob.getMove(offset[3]);
             MoveEntry move = MovesUtils.getMove(name);
-            Component moveName =
-                    move != null ? MovesUtils.getMoveName(move.getName(), pokemob) : Component.literal(name);
-            if (name != null)
+            Component moveName = move != null && move.getName() != null
+                    ? MovesUtils.getMoveName(move.getName(), pokemob)
+                    : name != null ? Component.literal(name) : null;
+            if (moveName != null)
             {
                 int length = this.font.width(moveName);
                 boolean mouseOver = mx > 0 && mx < length && my > offset[1] && my < offset[1] + this.font.lineHeight;
