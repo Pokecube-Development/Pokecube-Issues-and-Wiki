@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_wooper_male": {
+      "conditions": {
+        "entry": "wooper_male"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.wooper_male"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.wooper_male"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_wooper_male"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

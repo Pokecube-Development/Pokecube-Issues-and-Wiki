@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_applin": {
+      "conditions": {
+        "entry": "applin"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.applin"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.applin"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_applin"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

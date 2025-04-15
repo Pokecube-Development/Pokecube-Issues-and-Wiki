@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_duraludon-gmax": {
+      "conditions": {
+        "entry": "duraludon-gmax"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.duraludon-gmax"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.duraludon-gmax"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_duraludon-gmax"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

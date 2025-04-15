@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_unown_d": {
+      "conditions": {
+        "entry": "unown_d"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.unown_d"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.unown_d"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_unown_d"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_typhlosion": {
+      "conditions": {
+        "entry": "typhlosion"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.typhlosion"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.typhlosion"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_typhlosion"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

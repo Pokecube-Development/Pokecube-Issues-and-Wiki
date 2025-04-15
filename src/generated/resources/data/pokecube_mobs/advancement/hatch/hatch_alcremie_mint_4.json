@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_alcremie_mint_4": {
+      "conditions": {
+        "entry": "alcremie_mint_4"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.alcremie_mint_4"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.alcremie_mint_4"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_alcremie_mint_4"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

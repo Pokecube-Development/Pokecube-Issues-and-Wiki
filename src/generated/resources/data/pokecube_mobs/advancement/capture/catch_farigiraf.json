@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_farigiraf": {
+      "conditions": {
+        "entry": "farigiraf"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.farigiraf"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.farigiraf"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_farigiraf"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

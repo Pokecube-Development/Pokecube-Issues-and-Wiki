@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_heliolisk": {
+      "conditions": {
+        "entry": "heliolisk"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.heliolisk"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.heliolisk"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_heliolisk"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

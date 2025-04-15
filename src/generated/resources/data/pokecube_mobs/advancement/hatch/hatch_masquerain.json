@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_masquerain": {
+      "conditions": {
+        "entry": "masquerain"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.masquerain"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.masquerain"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_masquerain"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

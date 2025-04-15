@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_honedge": {
+      "conditions": {
+        "entry": "honedge"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.honedge"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.honedge"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_honedge"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_gimmighoul-roaming": {
+      "conditions": {
+        "entry": "gimmighoul-roaming"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gimmighoul-roaming"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.gimmighoul-roaming"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_gimmighoul-roaming"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

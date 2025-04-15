@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_eldegoss": {
+      "conditions": {
+        "entry": "eldegoss"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.eldegoss"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.eldegoss"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_eldegoss"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

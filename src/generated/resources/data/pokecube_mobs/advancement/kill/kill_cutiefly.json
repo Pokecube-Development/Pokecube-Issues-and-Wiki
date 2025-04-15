@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_cutiefly": {
+      "conditions": {
+        "entry": "cutiefly"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.cutiefly"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.cutiefly"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_cutiefly"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

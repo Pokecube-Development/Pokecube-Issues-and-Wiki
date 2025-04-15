@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_basculegion-male": {
+      "conditions": {
+        "entry": "basculegion-male"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.basculegion-male"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.basculegion-male"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_basculegion-male"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

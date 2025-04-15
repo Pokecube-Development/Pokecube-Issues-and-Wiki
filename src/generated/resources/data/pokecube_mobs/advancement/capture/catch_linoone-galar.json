@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_linoone-galar": {
+      "conditions": {
+        "entry": "linoone-galar"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.linoone-galar"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.linoone-galar"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_linoone-galar"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_alcremie1": {
+      "conditions": {
+        "entry": "alcremie1"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.alcremie1"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.alcremie1"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_alcremie1"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

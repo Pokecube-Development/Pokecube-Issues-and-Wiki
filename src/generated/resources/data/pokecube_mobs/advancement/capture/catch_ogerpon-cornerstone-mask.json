@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_ogerpon-cornerstone-mask": {
+      "conditions": {
+        "entry": "ogerpon-cornerstone-mask"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ogerpon-cornerstone-mask"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.ogerpon-cornerstone-mask"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_ogerpon-cornerstone-mask"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

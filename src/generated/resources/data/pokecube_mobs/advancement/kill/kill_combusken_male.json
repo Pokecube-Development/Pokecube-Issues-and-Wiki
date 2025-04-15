@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_combusken_male": {
+      "conditions": {
+        "entry": "combusken_male"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.combusken_male"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.combusken_male"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_combusken_male"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

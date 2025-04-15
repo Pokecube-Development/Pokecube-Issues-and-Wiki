@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_iron-bundle": {
+      "conditions": {
+        "entry": "iron-bundle"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.iron-bundle"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.iron-bundle"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_iron-bundle"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

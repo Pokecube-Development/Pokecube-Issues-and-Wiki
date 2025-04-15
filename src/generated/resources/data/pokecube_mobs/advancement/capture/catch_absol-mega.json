@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_absol-mega": {
+      "conditions": {
+        "entry": "absol-mega"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.absol-mega"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.absol-mega"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_absol-mega"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

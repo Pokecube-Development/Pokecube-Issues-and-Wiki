@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_lucario-mega": {
+      "conditions": {
+        "entry": "lucario-mega"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.lucario-mega"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.lucario-mega"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_lucario-mega"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

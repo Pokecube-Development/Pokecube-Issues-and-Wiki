@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_burmy-trash": {
+      "conditions": {
+        "entry": "burmy-trash"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.burmy-trash"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.burmy-trash"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_burmy-trash"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

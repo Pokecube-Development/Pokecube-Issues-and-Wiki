@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_nidoran-m": {
+      "conditions": {
+        "entry": "nidoran-m"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.nidoran-m"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.nidoran-m"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_nidoran-m"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

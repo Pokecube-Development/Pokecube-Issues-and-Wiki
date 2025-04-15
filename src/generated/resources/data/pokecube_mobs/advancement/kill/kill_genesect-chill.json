@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_genesect-chill": {
+      "conditions": {
+        "entry": "genesect-chill"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.genesect-chill"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.genesect-chill"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_genesect-chill"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

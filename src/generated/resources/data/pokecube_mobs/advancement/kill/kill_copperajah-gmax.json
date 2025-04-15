@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_copperajah-gmax": {
+      "conditions": {
+        "entry": "copperajah-gmax"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.copperajah-gmax"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.copperajah-gmax"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_copperajah-gmax"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

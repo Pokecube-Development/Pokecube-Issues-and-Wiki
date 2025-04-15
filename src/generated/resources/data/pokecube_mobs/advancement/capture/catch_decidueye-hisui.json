@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_decidueye-hisui": {
+      "conditions": {
+        "entry": "decidueye-hisui"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.decidueye-hisui"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.decidueye-hisui"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_decidueye-hisui"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

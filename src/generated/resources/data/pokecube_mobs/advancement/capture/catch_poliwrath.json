@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_poliwrath": {
+      "conditions": {
+        "entry": "poliwrath"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.poliwrath"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.poliwrath"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_poliwrath"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

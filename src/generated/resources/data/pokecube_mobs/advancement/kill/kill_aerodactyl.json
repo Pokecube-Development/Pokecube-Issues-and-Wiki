@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_aerodactyl": {
+      "conditions": {
+        "entry": "aerodactyl"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.aerodactyl"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.aerodactyl"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_aerodactyl"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

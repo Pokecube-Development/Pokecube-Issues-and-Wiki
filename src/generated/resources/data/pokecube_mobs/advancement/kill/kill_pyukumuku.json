@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_pyukumuku": {
+      "conditions": {
+        "entry": "pyukumuku"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.pyukumuku"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.pyukumuku"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_pyukumuku"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

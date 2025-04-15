@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_floette-eternal": {
+      "conditions": {
+        "entry": "floette-eternal"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.floette-eternal"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.floette-eternal"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_floette-eternal"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

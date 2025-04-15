@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_appletun-gmax": {
+      "conditions": {
+        "entry": "appletun-gmax"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.appletun-gmax"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.appletun-gmax"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_appletun-gmax"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

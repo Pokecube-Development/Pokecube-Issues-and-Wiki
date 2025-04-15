@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_floette-orange": {
+      "conditions": {
+        "entry": "floette-orange"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.floette-orange"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.floette-orange"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_floette-orange"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

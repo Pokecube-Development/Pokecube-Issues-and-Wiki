@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_raticate-alola": {
+      "conditions": {
+        "entry": "raticate-alola"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.raticate-alola"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.raticate-alola"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_raticate-alola"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

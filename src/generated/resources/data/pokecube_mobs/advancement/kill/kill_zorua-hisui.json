@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_zorua-hisui": {
+      "conditions": {
+        "entry": "zorua-hisui"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.zorua-hisui"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.zorua-hisui"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_zorua-hisui"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

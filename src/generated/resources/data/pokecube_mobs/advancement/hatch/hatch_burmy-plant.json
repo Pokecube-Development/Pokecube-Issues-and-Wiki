@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_burmy-plant": {
+      "conditions": {
+        "entry": "burmy-plant"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.burmy-plant"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.burmy-plant"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_burmy-plant"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

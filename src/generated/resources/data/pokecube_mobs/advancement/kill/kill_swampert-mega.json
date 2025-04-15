@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_swampert-mega": {
+      "conditions": {
+        "entry": "swampert-mega"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.swampert-mega"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.swampert-mega"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_swampert-mega"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

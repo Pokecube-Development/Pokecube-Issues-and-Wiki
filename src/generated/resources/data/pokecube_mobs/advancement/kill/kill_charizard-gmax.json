@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_charizard-gmax": {
+      "conditions": {
+        "entry": "charizard-gmax"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.charizard-gmax"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.charizard-gmax"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_charizard-gmax"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

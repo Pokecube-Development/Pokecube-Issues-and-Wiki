@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_charizard-mega-x": {
+      "conditions": {
+        "entry": "charizard-mega-x"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.charizard-mega-x"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.charizard-mega-x"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_charizard-mega-x"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

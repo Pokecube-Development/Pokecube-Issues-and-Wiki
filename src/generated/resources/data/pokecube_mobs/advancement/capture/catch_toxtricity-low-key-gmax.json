@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_toxtricity-low-key-gmax": {
+      "conditions": {
+        "entry": "toxtricity-low-key-gmax"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.toxtricity-low-key-gmax"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.toxtricity-low-key-gmax"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_toxtricity-low-key-gmax"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

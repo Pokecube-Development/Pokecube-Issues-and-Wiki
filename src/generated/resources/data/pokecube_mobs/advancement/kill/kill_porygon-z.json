@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_porygon-z": {
+      "conditions": {
+        "entry": "porygon-z"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.porygon-z"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.porygon-z"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_porygon-z"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

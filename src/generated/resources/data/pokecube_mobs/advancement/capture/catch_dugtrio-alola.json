@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_dugtrio-alola": {
+      "conditions": {
+        "entry": "dugtrio-alola"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.dugtrio-alola"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.dugtrio-alola"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_dugtrio-alola"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

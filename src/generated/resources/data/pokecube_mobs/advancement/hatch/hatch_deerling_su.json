@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_deerling_su": {
+      "conditions": {
+        "entry": "deerling_su"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.deerling_su"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.deerling_su"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_deerling_su"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

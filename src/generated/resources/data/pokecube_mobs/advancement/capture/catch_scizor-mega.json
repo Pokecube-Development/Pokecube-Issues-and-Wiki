@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_scizor-mega": {
+      "conditions": {
+        "entry": "scizor-mega"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.scizor-mega"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.scizor-mega"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_scizor-mega"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

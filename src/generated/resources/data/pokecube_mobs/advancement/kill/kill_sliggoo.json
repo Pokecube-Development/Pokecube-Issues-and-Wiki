@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_sliggoo": {
+      "conditions": {
+        "entry": "sliggoo"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.sliggoo"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.sliggoo"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_sliggoo"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

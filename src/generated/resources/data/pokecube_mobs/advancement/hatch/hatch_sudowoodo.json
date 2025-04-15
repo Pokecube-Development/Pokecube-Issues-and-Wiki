@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_sudowoodo": {
+      "conditions": {
+        "entry": "sudowoodo"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.sudowoodo"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.sudowoodo"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_sudowoodo"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

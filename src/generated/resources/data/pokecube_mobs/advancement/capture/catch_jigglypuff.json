@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_jigglypuff": {
+      "conditions": {
+        "entry": "jigglypuff"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.jigglypuff"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.jigglypuff"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_jigglypuff"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

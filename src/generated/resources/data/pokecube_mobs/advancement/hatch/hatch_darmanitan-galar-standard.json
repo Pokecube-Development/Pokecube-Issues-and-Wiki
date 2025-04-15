@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_darmanitan-galar-standard": {
+      "conditions": {
+        "entry": "darmanitan-galar-standard"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.darmanitan-galar-standard"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.darmanitan-galar-standard"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_darmanitan-galar-standard"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

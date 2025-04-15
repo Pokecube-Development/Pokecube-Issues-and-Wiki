@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_centiskorch-gmax": {
+      "conditions": {
+        "entry": "centiskorch-gmax"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.centiskorch-gmax"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.centiskorch-gmax"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_centiskorch-gmax"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

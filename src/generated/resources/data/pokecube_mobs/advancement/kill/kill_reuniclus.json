@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_reuniclus": {
+      "conditions": {
+        "entry": "reuniclus"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.reuniclus"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.reuniclus"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_reuniclus"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

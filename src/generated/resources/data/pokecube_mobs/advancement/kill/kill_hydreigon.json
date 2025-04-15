@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_hydreigon": {
+      "conditions": {
+        "entry": "hydreigon"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.hydreigon"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.hydreigon"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_hydreigon"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

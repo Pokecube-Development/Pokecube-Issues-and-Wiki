@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_fletchinder": {
+      "conditions": {
+        "entry": "fletchinder"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.fletchinder"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.fletchinder"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_fletchinder"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

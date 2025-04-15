@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_squawkabilly-blue-plumage": {
+      "conditions": {
+        "entry": "squawkabilly-blue-plumage"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.squawkabilly-blue-plumage"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.squawkabilly-blue-plumage"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_squawkabilly-blue-plumage"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

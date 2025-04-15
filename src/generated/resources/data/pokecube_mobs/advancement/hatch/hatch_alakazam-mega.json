@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_alakazam-mega": {
+      "conditions": {
+        "entry": "alakazam-mega"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.alakazam-mega"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.alakazam-mega"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_alakazam-mega"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

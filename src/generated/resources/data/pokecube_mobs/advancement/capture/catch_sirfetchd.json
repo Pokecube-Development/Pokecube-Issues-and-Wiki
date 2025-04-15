@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_sirfetchd": {
+      "conditions": {
+        "entry": "sirfetchd"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.sirfetchd"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.sirfetchd"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_sirfetchd"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

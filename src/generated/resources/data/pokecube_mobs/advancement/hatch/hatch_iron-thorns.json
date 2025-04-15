@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_iron-thorns": {
+      "conditions": {
+        "entry": "iron-thorns"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.iron-thorns"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.iron-thorns"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_iron-thorns"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

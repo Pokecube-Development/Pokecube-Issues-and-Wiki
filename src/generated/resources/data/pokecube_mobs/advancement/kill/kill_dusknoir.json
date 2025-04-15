@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_dusknoir": {
+      "conditions": {
+        "entry": "dusknoir"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.dusknoir"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.dusknoir"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_dusknoir"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

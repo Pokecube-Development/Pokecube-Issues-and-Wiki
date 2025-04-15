@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_weezing-galar": {
+      "conditions": {
+        "entry": "weezing-galar"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.weezing-galar"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.weezing-galar"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_weezing-galar"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

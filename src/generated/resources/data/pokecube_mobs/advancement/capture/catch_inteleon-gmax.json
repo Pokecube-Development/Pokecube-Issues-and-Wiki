@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_inteleon-gmax": {
+      "conditions": {
+        "entry": "inteleon-gmax"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.inteleon-gmax"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.inteleon-gmax"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_inteleon-gmax"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

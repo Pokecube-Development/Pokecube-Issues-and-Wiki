@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_meowstic-female": {
+      "conditions": {
+        "entry": "meowstic-female"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.meowstic-female"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.meowstic-female"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_meowstic-female"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_hoopa-unbound": {
+      "conditions": {
+        "entry": "hoopa-unbound"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.hoopa-unbound"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.hoopa-unbound"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_hoopa-unbound"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

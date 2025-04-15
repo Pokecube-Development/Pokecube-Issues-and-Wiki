@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_wishiwashi-solo": {
+      "conditions": {
+        "entry": "wishiwashi-solo"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.wishiwashi-solo"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.wishiwashi-solo"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_wishiwashi-solo"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

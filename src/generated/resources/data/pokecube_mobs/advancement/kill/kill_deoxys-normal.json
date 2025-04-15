@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_deoxys-normal": {
+      "conditions": {
+        "entry": "deoxys-normal"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.deoxys-normal"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.deoxys-normal"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_deoxys-normal"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

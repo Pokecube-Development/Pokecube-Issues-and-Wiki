@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_terapagos-terastal": {
+      "conditions": {
+        "entry": "terapagos-terastal"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.terapagos-terastal"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.terapagos-terastal"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_terapagos-terastal"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

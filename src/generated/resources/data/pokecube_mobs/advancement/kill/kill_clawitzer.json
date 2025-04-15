@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_clawitzer": {
+      "conditions": {
+        "entry": "clawitzer"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.clawitzer"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.clawitzer"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_clawitzer"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

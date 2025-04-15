@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_mamoswine": {
+      "conditions": {
+        "entry": "mamoswine"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.mamoswine"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.mamoswine"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_mamoswine"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

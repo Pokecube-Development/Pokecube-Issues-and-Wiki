@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_kricketune_male": {
+      "conditions": {
+        "entry": "kricketune_male"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.kricketune_male"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.kricketune_male"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_kricketune_male"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

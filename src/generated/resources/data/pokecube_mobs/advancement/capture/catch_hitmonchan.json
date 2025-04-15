@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_hitmonchan": {
+      "conditions": {
+        "entry": "hitmonchan"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.hitmonchan"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.hitmonchan"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_hitmonchan"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

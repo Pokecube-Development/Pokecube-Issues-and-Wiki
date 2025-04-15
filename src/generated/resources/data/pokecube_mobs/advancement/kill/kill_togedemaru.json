@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_togedemaru": {
+      "conditions": {
+        "entry": "togedemaru"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.togedemaru"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.togedemaru"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_togedemaru"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

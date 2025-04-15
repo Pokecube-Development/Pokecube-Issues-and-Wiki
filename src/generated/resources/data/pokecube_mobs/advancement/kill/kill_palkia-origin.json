@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_palkia-origin": {
+      "conditions": {
+        "entry": "palkia-origin"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.palkia-origin"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.palkia-origin"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_palkia-origin"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

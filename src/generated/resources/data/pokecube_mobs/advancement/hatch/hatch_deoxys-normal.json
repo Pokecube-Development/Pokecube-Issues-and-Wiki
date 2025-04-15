@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_deoxys-normal": {
+      "conditions": {
+        "entry": "deoxys-normal"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.deoxys-normal"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.deoxys-normal"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_deoxys-normal"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

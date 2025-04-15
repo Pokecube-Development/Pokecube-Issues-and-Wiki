@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_machamp-gmax": {
+      "conditions": {
+        "entry": "machamp-gmax"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.machamp-gmax"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.machamp-gmax"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_machamp-gmax"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_ogerpon-hearthflame-mask": {
+      "conditions": {
+        "entry": "ogerpon-hearthflame-mask"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ogerpon-hearthflame-mask"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.ogerpon-hearthflame-mask"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_ogerpon-hearthflame-mask"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

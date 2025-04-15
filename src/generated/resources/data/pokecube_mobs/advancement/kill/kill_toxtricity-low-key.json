@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_toxtricity-low-key": {
+      "conditions": {
+        "entry": "toxtricity-low-key"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.toxtricity-low-key"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.toxtricity-low-key"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_toxtricity-low-key"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

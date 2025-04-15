@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_persian-alola": {
+      "conditions": {
+        "entry": "persian-alola"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.persian-alola"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.persian-alola"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_persian-alola"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

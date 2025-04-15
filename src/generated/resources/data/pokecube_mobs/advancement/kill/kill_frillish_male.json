@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_frillish_male": {
+      "conditions": {
+        "entry": "frillish_male"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.frillish_male"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.frillish_male"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_frillish_male"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

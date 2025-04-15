@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_keldeo-resolute": {
+      "conditions": {
+        "entry": "keldeo-resolute"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.keldeo-resolute"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.keldeo-resolute"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_keldeo-resolute"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

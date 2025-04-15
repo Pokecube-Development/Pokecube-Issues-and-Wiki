@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_rillaboom-gmax": {
+      "conditions": {
+        "entry": "rillaboom-gmax"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.rillaboom-gmax"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.rillaboom-gmax"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_rillaboom-gmax"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

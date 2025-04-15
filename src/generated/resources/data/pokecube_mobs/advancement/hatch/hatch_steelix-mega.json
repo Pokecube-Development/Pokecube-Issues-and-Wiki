@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_steelix-mega": {
+      "conditions": {
+        "entry": "steelix-mega"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.steelix-mega"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.steelix-mega"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_steelix-mega"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

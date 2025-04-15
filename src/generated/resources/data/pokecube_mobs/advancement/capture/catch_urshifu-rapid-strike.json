@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_urshifu-rapid-strike": {
+      "conditions": {
+        "entry": "urshifu-rapid-strike"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.urshifu-rapid-strike"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.urshifu-rapid-strike"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_urshifu-rapid-strike"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

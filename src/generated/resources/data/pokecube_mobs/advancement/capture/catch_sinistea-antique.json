@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_sinistea-antique": {
+      "conditions": {
+        "entry": "sinistea-antique"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.sinistea-antique"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.sinistea-antique"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_sinistea-antique"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

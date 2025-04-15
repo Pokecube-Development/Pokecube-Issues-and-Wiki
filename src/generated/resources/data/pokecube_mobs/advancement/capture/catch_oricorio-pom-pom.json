@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_oricorio-pom-pom": {
+      "conditions": {
+        "entry": "oricorio-pom-pom"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.oricorio-pom-pom"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.oricorio-pom-pom"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_oricorio-pom-pom"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

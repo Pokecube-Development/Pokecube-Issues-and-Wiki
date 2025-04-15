@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_poltchageist-artisan": {
+      "conditions": {
+        "entry": "poltchageist-artisan"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.poltchageist-artisan"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.poltchageist-artisan"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_poltchageist-artisan"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

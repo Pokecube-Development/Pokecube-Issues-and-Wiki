@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_blaziken_male": {
+      "conditions": {
+        "entry": "blaziken_male"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.blaziken_male"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.blaziken_male"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_blaziken_male"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

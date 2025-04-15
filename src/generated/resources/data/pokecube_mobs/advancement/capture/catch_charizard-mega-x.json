@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_charizard-mega-x": {
+      "conditions": {
+        "entry": "charizard-mega-x"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.charizard-mega-x"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.charizard-mega-x"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_charizard-mega-x"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

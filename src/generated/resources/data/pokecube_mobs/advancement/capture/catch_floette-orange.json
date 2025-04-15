@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_floette-orange": {
+      "conditions": {
+        "entry": "floette-orange"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.floette-orange"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.floette-orange"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_floette-orange"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

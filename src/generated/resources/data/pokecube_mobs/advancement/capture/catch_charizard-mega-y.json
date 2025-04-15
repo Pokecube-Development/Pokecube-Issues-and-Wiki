@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_charizard-mega-y": {
+      "conditions": {
+        "entry": "charizard-mega-y"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.charizard-mega-y"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.charizard-mega-y"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_charizard-mega-y"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

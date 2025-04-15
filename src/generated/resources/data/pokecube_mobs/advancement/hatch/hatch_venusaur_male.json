@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_venusaur_male": {
+      "conditions": {
+        "entry": "venusaur_male"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.venusaur_male"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.venusaur_male"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_venusaur_male"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

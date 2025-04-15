@@ -1,0 +1,31 @@
+{
+  "parent": "pokecube_mobs:capture/root",
+  "criteria": {
+    "get_a_pokemob": {
+      "conditions": {
+        "entry": "MissingNo"
+      },
+      "trigger": "pokecube:get_first_pokemob"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.get1st.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.get1st"
+    }
+  },
+  "requirements": [
+    [
+      "get_a_pokemob"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

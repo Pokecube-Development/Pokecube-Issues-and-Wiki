@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_fuecoco": {
+      "conditions": {
+        "entry": "fuecoco"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.fuecoco"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.fuecoco"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_fuecoco"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

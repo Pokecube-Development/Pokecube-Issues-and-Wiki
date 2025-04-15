@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_glalie-mega": {
+      "conditions": {
+        "entry": "glalie-mega"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.glalie-mega"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.glalie-mega"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_glalie-mega"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

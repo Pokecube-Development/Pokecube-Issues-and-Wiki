@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_basculegion-female": {
+      "conditions": {
+        "entry": "basculegion-female"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.basculegion-female"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.basculegion-female"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_basculegion-female"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

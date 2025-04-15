@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_vivillon_sandstorm": {
+      "conditions": {
+        "entry": "vivillon_sandstorm"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.vivillon_sandstorm"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.vivillon_sandstorm"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_vivillon_sandstorm"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

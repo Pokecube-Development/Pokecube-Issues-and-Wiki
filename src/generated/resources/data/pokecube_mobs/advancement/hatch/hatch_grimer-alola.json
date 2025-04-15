@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_grimer-alola": {
+      "conditions": {
+        "entry": "grimer-alola"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.grimer-alola"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.grimer-alola"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_grimer-alola"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

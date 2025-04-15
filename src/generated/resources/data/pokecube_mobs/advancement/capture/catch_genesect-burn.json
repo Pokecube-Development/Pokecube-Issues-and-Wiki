@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_genesect-burn": {
+      "conditions": {
+        "entry": "genesect-burn"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.genesect-burn"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.genesect-burn"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_genesect-burn"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

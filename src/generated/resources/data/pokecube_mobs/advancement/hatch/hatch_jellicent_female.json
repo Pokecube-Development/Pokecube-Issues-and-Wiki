@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_jellicent_female": {
+      "conditions": {
+        "entry": "jellicent_female"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.jellicent_female"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.jellicent_female"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_jellicent_female"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

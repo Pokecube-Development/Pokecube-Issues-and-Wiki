@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_zacian-crowned": {
+      "conditions": {
+        "entry": "zacian-crowned"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.zacian-crowned"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.zacian-crowned"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_zacian-crowned"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

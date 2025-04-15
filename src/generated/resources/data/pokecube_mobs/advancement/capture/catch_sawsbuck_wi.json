@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_sawsbuck_wi": {
+      "conditions": {
+        "entry": "sawsbuck_wi"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.sawsbuck_wi"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.sawsbuck_wi"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_sawsbuck_wi"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

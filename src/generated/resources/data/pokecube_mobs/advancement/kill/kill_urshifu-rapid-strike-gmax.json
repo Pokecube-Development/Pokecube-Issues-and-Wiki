@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_urshifu-rapid-strike-gmax": {
+      "conditions": {
+        "entry": "urshifu-rapid-strike-gmax"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.urshifu-rapid-strike-gmax"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.urshifu-rapid-strike-gmax"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_urshifu-rapid-strike-gmax"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

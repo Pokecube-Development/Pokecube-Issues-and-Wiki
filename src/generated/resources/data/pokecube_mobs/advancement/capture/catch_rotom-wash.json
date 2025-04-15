@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_rotom-wash": {
+      "conditions": {
+        "entry": "rotom-wash"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.rotom-wash"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.rotom-wash"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_rotom-wash"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

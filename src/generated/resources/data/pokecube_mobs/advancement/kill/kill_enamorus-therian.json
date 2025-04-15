@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_enamorus-therian": {
+      "conditions": {
+        "entry": "enamorus-therian"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.enamorus-therian"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.enamorus-therian"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_enamorus-therian"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

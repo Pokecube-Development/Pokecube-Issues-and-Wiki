@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_hitmonlee": {
+      "conditions": {
+        "entry": "hitmonlee"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.hitmonlee"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.hitmonlee"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_hitmonlee"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

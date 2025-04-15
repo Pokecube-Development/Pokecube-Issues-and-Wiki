@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_vivillon_meadow": {
+      "conditions": {
+        "entry": "vivillon_meadow"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.vivillon_meadow"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.vivillon_meadow"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_vivillon_meadow"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

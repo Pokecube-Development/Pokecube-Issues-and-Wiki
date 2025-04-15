@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_burmy-sandy": {
+      "conditions": {
+        "entry": "burmy-sandy"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.burmy-sandy"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.burmy-sandy"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_burmy-sandy"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

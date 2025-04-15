@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_kyurem-white": {
+      "conditions": {
+        "entry": "kyurem-white"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.kyurem-white"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.kyurem-white"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_kyurem-white"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

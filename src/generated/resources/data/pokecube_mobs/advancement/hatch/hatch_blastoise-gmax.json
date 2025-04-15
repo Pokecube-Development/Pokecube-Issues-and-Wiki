@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_blastoise-gmax": {
+      "conditions": {
+        "entry": "blastoise-gmax"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.blastoise-gmax"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.blastoise-gmax"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_blastoise-gmax"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

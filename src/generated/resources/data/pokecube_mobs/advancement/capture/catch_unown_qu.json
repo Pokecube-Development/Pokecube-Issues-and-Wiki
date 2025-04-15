@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_unown_qu": {
+      "conditions": {
+        "entry": "unown_qu"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.unown_qu"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.unown_qu"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_unown_qu"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

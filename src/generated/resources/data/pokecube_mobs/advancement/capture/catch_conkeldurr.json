@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_conkeldurr": {
+      "conditions": {
+        "entry": "conkeldurr"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.conkeldurr"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.conkeldurr"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_conkeldurr"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

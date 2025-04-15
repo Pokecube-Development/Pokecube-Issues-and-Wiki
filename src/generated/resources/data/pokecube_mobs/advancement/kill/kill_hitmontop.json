@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_hitmontop": {
+      "conditions": {
+        "entry": "hitmontop"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.hitmontop"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.hitmontop"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_hitmontop"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

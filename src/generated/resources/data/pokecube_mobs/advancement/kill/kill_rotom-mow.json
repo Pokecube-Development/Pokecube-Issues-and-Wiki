@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_rotom-mow": {
+      "conditions": {
+        "entry": "rotom-mow"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.rotom-mow"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.rotom-mow"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_rotom-mow"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

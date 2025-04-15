@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_basculin_red": {
+      "conditions": {
+        "entry": "basculin_red"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.basculin_red"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.basculin_red"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_basculin_red"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

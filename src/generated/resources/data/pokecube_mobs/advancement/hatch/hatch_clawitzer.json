@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_clawitzer": {
+      "conditions": {
+        "entry": "clawitzer"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.clawitzer"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.clawitzer"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_clawitzer"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_xerneas-neutral": {
+      "conditions": {
+        "entry": "xerneas-neutral"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.xerneas-neutral"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.xerneas-neutral"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_xerneas-neutral"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

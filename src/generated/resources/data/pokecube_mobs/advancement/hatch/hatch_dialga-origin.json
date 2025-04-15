@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_dialga-origin": {
+      "conditions": {
+        "entry": "dialga-origin"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.dialga-origin"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.dialga-origin"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_dialga-origin"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

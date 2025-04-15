@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_appletun-gmax": {
+      "conditions": {
+        "entry": "appletun-gmax"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.appletun-gmax"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.appletun-gmax"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_appletun-gmax"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

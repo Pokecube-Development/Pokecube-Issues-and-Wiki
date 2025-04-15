@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_poliwrath": {
+      "conditions": {
+        "entry": "poliwrath"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.poliwrath"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.poliwrath"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_poliwrath"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

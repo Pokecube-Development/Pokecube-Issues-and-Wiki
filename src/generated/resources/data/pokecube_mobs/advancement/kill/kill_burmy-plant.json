@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_burmy-plant": {
+      "conditions": {
+        "entry": "burmy-plant"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.burmy-plant"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.burmy-plant"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_burmy-plant"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

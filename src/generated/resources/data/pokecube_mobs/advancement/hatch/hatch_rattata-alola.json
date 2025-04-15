@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_rattata-alola": {
+      "conditions": {
+        "entry": "rattata-alola"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.rattata-alola"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.rattata-alola"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_rattata-alola"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

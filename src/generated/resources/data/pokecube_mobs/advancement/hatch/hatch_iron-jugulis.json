@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_iron-jugulis": {
+      "conditions": {
+        "entry": "iron-jugulis"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.iron-jugulis"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.iron-jugulis"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_iron-jugulis"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

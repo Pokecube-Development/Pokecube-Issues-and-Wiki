@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_tauros-paldea-combat-breed": {
+      "conditions": {
+        "entry": "tauros-paldea-combat-breed"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tauros-paldea-combat-breed"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.tauros-paldea-combat-breed"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_tauros-paldea-combat-breed"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

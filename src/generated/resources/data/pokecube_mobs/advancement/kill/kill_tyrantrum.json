@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_tyrantrum": {
+      "conditions": {
+        "entry": "tyrantrum"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tyrantrum"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.tyrantrum"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_tyrantrum"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

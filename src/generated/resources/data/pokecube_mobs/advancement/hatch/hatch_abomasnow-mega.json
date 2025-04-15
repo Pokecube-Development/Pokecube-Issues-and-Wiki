@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_abomasnow-mega": {
+      "conditions": {
+        "entry": "abomasnow-mega"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.abomasnow-mega"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.abomasnow-mega"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_abomasnow-mega"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

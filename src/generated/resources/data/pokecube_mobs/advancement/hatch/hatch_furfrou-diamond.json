@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_furfrou-diamond": {
+      "conditions": {
+        "entry": "furfrou-diamond"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.furfrou-diamond"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.furfrou-diamond"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_furfrou-diamond"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

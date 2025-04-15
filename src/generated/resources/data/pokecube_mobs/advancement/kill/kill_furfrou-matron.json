@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_furfrou-matron": {
+      "conditions": {
+        "entry": "furfrou-matron"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.furfrou-matron"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.furfrou-matron"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_furfrou-matron"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

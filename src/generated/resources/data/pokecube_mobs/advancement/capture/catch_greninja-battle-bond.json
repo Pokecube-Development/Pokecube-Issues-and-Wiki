@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_greninja-battle-bond": {
+      "conditions": {
+        "entry": "greninja-battle-bond"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.greninja-battle-bond"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.greninja-battle-bond"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_greninja-battle-bond"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

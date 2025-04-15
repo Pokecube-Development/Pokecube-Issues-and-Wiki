@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_pyroar_f": {
+      "conditions": {
+        "entry": "pyroar_f"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.pyroar_f"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.pyroar_f"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_pyroar_f"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

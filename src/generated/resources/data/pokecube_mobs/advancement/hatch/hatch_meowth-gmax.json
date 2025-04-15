@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_meowth-gmax": {
+      "conditions": {
+        "entry": "meowth-gmax"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.meowth-gmax"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.meowth-gmax"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_meowth-gmax"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

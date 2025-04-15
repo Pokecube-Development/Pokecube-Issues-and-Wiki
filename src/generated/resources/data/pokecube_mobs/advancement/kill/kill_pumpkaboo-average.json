@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_pumpkaboo-average": {
+      "conditions": {
+        "entry": "pumpkaboo-average"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.pumpkaboo-average"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.pumpkaboo-average"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_pumpkaboo-average"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_chien-pao": {
+      "conditions": {
+        "entry": "chien-pao"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.chien-pao"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.chien-pao"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_chien-pao"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

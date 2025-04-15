@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_florges-blue": {
+      "conditions": {
+        "entry": "florges-blue"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.florges-blue"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.florges-blue"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_florges-blue"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

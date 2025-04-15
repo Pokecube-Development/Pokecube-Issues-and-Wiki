@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_altaria-mega": {
+      "conditions": {
+        "entry": "altaria-mega"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.altaria-mega"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.altaria-mega"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_altaria-mega"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

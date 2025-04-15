@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_arrokuda": {
+      "conditions": {
+        "entry": "arrokuda"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.arrokuda"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.arrokuda"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_arrokuda"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

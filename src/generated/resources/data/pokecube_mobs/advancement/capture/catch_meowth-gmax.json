@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_meowth-gmax": {
+      "conditions": {
+        "entry": "meowth-gmax"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.meowth-gmax"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.meowth-gmax"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_meowth-gmax"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

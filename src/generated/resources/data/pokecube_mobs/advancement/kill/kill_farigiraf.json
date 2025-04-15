@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_farigiraf": {
+      "conditions": {
+        "entry": "farigiraf"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.farigiraf"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.farigiraf"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_farigiraf"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

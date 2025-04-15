@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_rotom-fan": {
+      "conditions": {
+        "entry": "rotom-fan"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.rotom-fan"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.rotom-fan"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_rotom-fan"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

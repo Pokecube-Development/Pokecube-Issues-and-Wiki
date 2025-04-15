@@ -6,7 +6,6 @@ import utils
 from utils import get_form, get_pokemon, get_species, default_or_latest, get_pokemon_index, url_to_id
 from moves_converter import convert_old_move_name
 from model_processor import process_model
-from advancements_generator import make_advancments
 import os
 from glob import glob
 import shutil
@@ -917,9 +916,6 @@ def convert_pokedex():
         file = open(file, 'w', newline='\n')
         json.dump(var, file, indent=2,)
         file.close()
-
-        # And also make the advancements
-        make_advancments(var["name"], advancements_dir)
 
         # Now lets make a template file which will remove each entry.
         if UPDATE_EXAMPLE:

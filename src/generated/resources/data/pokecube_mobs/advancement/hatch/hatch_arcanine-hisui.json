@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_arcanine-hisui": {
+      "conditions": {
+        "entry": "arcanine-hisui"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.arcanine-hisui"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.arcanine-hisui"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_arcanine-hisui"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

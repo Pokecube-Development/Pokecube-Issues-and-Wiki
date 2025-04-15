@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_spiritomb": {
+      "conditions": {
+        "entry": "spiritomb"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.spiritomb"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.spiritomb"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_spiritomb"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

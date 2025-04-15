@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_spiritomb": {
+      "conditions": {
+        "entry": "spiritomb"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.spiritomb"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.spiritomb"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_spiritomb"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

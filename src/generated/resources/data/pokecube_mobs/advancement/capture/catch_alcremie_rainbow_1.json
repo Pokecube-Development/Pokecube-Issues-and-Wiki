@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_alcremie_rainbow_1": {
+      "conditions": {
+        "entry": "alcremie_rainbow_1"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.alcremie_rainbow_1"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.alcremie_rainbow_1"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_alcremie_rainbow_1"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

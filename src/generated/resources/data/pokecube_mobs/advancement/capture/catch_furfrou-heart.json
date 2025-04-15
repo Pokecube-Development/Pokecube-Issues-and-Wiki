@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_furfrou-heart": {
+      "conditions": {
+        "entry": "furfrou-heart"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.furfrou-heart"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.furfrou-heart"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_furfrou-heart"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

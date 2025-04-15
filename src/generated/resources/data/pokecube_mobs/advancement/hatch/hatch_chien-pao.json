@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_chien-pao": {
+      "conditions": {
+        "entry": "chien-pao"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.chien-pao"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.chien-pao"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_chien-pao"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

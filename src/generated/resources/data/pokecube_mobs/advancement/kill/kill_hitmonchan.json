@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_hitmonchan": {
+      "conditions": {
+        "entry": "hitmonchan"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.hitmonchan"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.hitmonchan"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_hitmonchan"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

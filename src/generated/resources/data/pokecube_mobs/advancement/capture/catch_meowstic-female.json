@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_meowstic-female": {
+      "conditions": {
+        "entry": "meowstic-female"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.meowstic-female"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.meowstic-female"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_meowstic-female"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

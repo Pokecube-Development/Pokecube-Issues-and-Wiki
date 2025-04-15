@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_flabebe-orange": {
+      "conditions": {
+        "entry": "flabebe-orange"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.flabebe-orange"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.flabebe-orange"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_flabebe-orange"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

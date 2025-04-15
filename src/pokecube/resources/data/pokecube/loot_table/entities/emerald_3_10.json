@@ -12,7 +12,7 @@
           "functions": [
             {
               "add": false,
-              "count": 1,
+              "count": 3,
               "function": "minecraft:set_count"
             }
           ],

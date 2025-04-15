@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_alcremie4": {
+      "conditions": {
+        "entry": "alcremie4"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.alcremie4"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.alcremie4"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_alcremie4"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

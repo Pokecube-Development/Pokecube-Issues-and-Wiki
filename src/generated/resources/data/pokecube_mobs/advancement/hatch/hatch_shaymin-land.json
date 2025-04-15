@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_shaymin-land": {
+      "conditions": {
+        "entry": "shaymin-land"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.shaymin-land"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.shaymin-land"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_shaymin-land"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

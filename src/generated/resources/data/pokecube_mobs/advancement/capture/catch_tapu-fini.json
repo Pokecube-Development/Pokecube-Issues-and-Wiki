@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_tapu-fini": {
+      "conditions": {
+        "entry": "tapu-fini"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tapu-fini"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.tapu-fini"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_tapu-fini"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_tauros-paldea-blaze-breed": {
+      "conditions": {
+        "entry": "tauros-paldea-blaze-breed"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tauros-paldea-blaze-breed"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.tauros-paldea-blaze-breed"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_tauros-paldea-blaze-breed"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_slither-wing": {
+      "conditions": {
+        "entry": "slither-wing"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.slither-wing"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.slither-wing"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_slither-wing"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

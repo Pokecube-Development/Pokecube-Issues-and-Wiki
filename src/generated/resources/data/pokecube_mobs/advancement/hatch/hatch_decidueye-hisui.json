@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_decidueye-hisui": {
+      "conditions": {
+        "entry": "decidueye-hisui"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.decidueye-hisui"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.decidueye-hisui"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_decidueye-hisui"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

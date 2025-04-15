@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_vulpix-alola": {
+      "conditions": {
+        "entry": "vulpix-alola"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.vulpix-alola"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.vulpix-alola"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_vulpix-alola"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

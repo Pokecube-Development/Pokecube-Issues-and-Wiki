@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_charizard-mega-y": {
+      "conditions": {
+        "entry": "charizard-mega-y"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.charizard-mega-y"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.charizard-mega-y"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_charizard-mega-y"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

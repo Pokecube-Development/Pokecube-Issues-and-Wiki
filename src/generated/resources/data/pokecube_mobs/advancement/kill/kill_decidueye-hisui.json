@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_decidueye-hisui": {
+      "conditions": {
+        "entry": "decidueye-hisui"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.decidueye-hisui"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.decidueye-hisui"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_decidueye-hisui"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

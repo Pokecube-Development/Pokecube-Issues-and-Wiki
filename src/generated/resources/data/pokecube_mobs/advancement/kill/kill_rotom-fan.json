@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_rotom-fan": {
+      "conditions": {
+        "entry": "rotom-fan"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.rotom-fan"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.rotom-fan"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_rotom-fan"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

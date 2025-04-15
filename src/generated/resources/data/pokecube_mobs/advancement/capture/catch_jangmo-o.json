@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_jangmo-o": {
+      "conditions": {
+        "entry": "jangmo-o"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.jangmo-o"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.jangmo-o"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_jangmo-o"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

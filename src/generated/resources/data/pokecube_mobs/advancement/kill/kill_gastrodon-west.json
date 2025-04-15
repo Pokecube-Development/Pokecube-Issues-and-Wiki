@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_gastrodon-west": {
+      "conditions": {
+        "entry": "gastrodon-west"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gastrodon-west"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.gastrodon-west"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_gastrodon-west"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

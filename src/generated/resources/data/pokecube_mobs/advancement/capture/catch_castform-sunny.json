@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_castform-sunny": {
+      "conditions": {
+        "entry": "castform-sunny"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.castform-sunny"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.castform-sunny"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_castform-sunny"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

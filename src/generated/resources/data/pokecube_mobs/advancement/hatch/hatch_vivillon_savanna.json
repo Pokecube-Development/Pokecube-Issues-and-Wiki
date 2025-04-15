@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_vivillon_savanna": {
+      "conditions": {
+        "entry": "vivillon_savanna"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.vivillon_savanna"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.vivillon_savanna"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_vivillon_savanna"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

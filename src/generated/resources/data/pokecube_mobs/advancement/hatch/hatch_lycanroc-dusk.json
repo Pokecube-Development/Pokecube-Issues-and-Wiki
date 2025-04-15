@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_lycanroc-dusk": {
+      "conditions": {
+        "entry": "lycanroc-dusk"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.lycanroc-dusk"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.lycanroc-dusk"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_lycanroc-dusk"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

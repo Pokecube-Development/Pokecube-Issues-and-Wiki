@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_maushold-family-of-four": {
+      "conditions": {
+        "entry": "maushold-family-of-four"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.maushold-family-of-four"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.maushold-family-of-four"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_maushold-family-of-four"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

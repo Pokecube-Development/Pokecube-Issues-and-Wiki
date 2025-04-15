@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_mewtwo-mega-y": {
+      "conditions": {
+        "entry": "mewtwo-mega-y"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.mewtwo-mega-y"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.mewtwo-mega-y"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_mewtwo-mega-y"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

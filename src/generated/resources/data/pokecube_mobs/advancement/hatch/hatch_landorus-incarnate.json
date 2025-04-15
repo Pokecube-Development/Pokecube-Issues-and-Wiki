@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_landorus-incarnate": {
+      "conditions": {
+        "entry": "landorus-incarnate"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.landorus-incarnate"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.landorus-incarnate"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_landorus-incarnate"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

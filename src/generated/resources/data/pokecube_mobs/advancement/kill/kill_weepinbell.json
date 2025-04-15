@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_weepinbell": {
+      "conditions": {
+        "entry": "weepinbell"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.weepinbell"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.weepinbell"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_weepinbell"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

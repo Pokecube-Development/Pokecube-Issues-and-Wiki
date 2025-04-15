@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_deerling_wi": {
+      "conditions": {
+        "entry": "deerling_wi"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.deerling_wi"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.deerling_wi"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_deerling_wi"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_solgaleo": {
+      "conditions": {
+        "entry": "solgaleo"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.solgaleo"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.solgaleo"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_solgaleo"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_basculegion-male": {
+      "conditions": {
+        "entry": "basculegion-male"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.basculegion-male"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.basculegion-male"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_basculegion-male"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

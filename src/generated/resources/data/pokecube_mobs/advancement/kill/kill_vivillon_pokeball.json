@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_vivillon_pokeball": {
+      "conditions": {
+        "entry": "vivillon_pokeball"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.vivillon_pokeball"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.vivillon_pokeball"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_vivillon_pokeball"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

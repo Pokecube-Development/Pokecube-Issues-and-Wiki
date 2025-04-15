@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_rillaboom-gmax": {
+      "conditions": {
+        "entry": "rillaboom-gmax"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.rillaboom-gmax"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.rillaboom-gmax"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_rillaboom-gmax"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

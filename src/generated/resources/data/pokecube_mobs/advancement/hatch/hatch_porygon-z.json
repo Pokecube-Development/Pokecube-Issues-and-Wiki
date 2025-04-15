@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_porygon-z": {
+      "conditions": {
+        "entry": "porygon-z"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.porygon-z"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.porygon-z"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_porygon-z"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

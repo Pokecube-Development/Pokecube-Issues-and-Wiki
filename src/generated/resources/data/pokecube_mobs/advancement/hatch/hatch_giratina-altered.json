@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_giratina-altered": {
+      "conditions": {
+        "entry": "giratina-altered"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.giratina-altered"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.giratina-altered"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_giratina-altered"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

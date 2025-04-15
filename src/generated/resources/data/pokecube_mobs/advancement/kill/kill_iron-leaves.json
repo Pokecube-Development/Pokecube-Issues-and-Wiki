@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_iron-leaves": {
+      "conditions": {
+        "entry": "iron-leaves"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.iron-leaves"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.iron-leaves"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_iron-leaves"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_castform-rainy": {
+      "conditions": {
+        "entry": "castform-rainy"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.castform-rainy"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.castform-rainy"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_castform-rainy"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

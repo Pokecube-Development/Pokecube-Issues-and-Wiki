@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_basculegion-female": {
+      "conditions": {
+        "entry": "basculegion-female"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.basculegion-female"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.basculegion-female"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_basculegion-female"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

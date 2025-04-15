@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_gourgeist-small": {
+      "conditions": {
+        "entry": "gourgeist-small"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gourgeist-small"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.gourgeist-small"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_gourgeist-small"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

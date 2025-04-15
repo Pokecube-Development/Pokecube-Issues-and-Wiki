@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_heracross-mega": {
+      "conditions": {
+        "entry": "heracross-mega"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.heracross-mega"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.heracross-mega"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_heracross-mega"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_beedrill-mega": {
+      "conditions": {
+        "entry": "beedrill-mega"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.beedrill-mega"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.beedrill-mega"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_beedrill-mega"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

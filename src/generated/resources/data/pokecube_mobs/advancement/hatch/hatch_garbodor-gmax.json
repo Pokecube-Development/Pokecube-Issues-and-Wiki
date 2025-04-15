@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_garbodor-gmax": {
+      "conditions": {
+        "entry": "garbodor-gmax"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.garbodor-gmax"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.garbodor-gmax"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_garbodor-gmax"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

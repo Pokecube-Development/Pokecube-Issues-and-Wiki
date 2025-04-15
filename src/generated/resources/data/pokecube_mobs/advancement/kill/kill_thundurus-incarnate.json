@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_thundurus-incarnate": {
+      "conditions": {
+        "entry": "thundurus-incarnate"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.thundurus-incarnate"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.thundurus-incarnate"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_thundurus-incarnate"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

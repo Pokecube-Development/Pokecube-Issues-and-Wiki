@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_blaziken_male": {
+      "conditions": {
+        "entry": "blaziken_male"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.blaziken_male"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.blaziken_male"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_blaziken_male"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

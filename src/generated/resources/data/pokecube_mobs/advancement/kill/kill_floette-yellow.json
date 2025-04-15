@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_floette-yellow": {
+      "conditions": {
+        "entry": "floette-yellow"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.floette-yellow"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.floette-yellow"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_floette-yellow"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

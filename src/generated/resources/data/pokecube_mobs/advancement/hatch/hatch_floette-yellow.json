@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_floette-yellow": {
+      "conditions": {
+        "entry": "floette-yellow"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.floette-yellow"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.floette-yellow"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_floette-yellow"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

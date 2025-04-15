@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_palpitoad": {
+      "conditions": {
+        "entry": "palpitoad"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.palpitoad"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.palpitoad"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_palpitoad"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

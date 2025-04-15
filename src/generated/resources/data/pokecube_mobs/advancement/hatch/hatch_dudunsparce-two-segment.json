@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_dudunsparce-two-segment": {
+      "conditions": {
+        "entry": "dudunsparce-two-segment"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.dudunsparce-two-segment"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.dudunsparce-two-segment"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_dudunsparce-two-segment"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_meloetta-pirouette": {
+      "conditions": {
+        "entry": "meloetta-pirouette"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.meloetta-pirouette"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.meloetta-pirouette"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_meloetta-pirouette"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

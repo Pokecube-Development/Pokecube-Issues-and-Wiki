@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_mudsdale": {
+      "conditions": {
+        "entry": "mudsdale"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.mudsdale"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.mudsdale"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_mudsdale"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

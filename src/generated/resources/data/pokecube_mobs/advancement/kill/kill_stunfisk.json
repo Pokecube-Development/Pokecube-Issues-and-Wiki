@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_stunfisk": {
+      "conditions": {
+        "entry": "stunfisk"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.stunfisk"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.stunfisk"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_stunfisk"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

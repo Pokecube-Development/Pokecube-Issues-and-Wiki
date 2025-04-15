@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_guzzlord": {
+      "conditions": {
+        "entry": "guzzlord"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.guzzlord"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.guzzlord"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_guzzlord"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

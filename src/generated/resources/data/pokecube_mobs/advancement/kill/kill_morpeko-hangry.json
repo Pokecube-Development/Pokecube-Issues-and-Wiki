@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_morpeko-hangry": {
+      "conditions": {
+        "entry": "morpeko-hangry"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.morpeko-hangry"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.morpeko-hangry"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_morpeko-hangry"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

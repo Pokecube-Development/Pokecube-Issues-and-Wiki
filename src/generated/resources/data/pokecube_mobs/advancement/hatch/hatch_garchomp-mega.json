@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_garchomp-mega": {
+      "conditions": {
+        "entry": "garchomp-mega"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.garchomp-mega"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.garchomp-mega"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_garchomp-mega"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

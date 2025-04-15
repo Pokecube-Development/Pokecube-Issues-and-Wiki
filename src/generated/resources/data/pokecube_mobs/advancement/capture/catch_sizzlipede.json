@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_sizzlipede": {
+      "conditions": {
+        "entry": "sizzlipede"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.sizzlipede"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.sizzlipede"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_sizzlipede"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

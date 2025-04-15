@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_rotom-frost": {
+      "conditions": {
+        "entry": "rotom-frost"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.rotom-frost"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.rotom-frost"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_rotom-frost"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

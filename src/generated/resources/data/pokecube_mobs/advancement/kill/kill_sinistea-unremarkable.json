@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_sinistea-unremarkable": {
+      "conditions": {
+        "entry": "sinistea-unremarkable"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.sinistea-unremarkable"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.sinistea-unremarkable"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_sinistea-unremarkable"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

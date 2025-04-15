@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_tapu-bulu": {
+      "conditions": {
+        "entry": "tapu-bulu"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tapu-bulu"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.tapu-bulu"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_tapu-bulu"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

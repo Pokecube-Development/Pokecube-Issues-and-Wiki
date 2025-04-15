@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_lapras-gmax": {
+      "conditions": {
+        "entry": "lapras-gmax"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.lapras-gmax"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.lapras-gmax"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_lapras-gmax"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

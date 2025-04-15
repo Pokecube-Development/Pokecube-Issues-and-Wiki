@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_tyrantrum": {
+      "conditions": {
+        "entry": "tyrantrum"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tyrantrum"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.tyrantrum"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_tyrantrum"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_typhlosion-hisui": {
+      "conditions": {
+        "entry": "typhlosion-hisui"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.typhlosion-hisui"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.typhlosion-hisui"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_typhlosion-hisui"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

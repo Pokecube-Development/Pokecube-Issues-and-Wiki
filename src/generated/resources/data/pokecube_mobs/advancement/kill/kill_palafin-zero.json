@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_palafin-zero": {
+      "conditions": {
+        "entry": "palafin-zero"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.palafin-zero"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.palafin-zero"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_palafin-zero"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

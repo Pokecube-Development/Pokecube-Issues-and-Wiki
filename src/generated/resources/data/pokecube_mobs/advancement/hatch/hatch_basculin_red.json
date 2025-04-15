@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_basculin_red": {
+      "conditions": {
+        "entry": "basculin_red"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.basculin_red"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.basculin_red"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_basculin_red"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

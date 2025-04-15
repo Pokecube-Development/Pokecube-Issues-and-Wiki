@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_clobbopus": {
+      "conditions": {
+        "entry": "clobbopus"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.clobbopus"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.clobbopus"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_clobbopus"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_wishiwashi-school": {
+      "conditions": {
+        "entry": "wishiwashi-school"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.wishiwashi-school"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.wishiwashi-school"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_wishiwashi-school"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

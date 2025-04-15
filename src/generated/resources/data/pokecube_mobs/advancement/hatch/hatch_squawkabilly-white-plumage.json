@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_squawkabilly-white-plumage": {
+      "conditions": {
+        "entry": "squawkabilly-white-plumage"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.squawkabilly-white-plumage"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.squawkabilly-white-plumage"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_squawkabilly-white-plumage"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

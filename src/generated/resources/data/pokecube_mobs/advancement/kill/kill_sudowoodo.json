@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_sudowoodo": {
+      "conditions": {
+        "entry": "sudowoodo"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.sudowoodo"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.sudowoodo"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_sudowoodo"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

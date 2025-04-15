@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_wooper-paldea": {
+      "conditions": {
+        "entry": "wooper-paldea"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.wooper-paldea"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.wooper-paldea"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_wooper-paldea"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

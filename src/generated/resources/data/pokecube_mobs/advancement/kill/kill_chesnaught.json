@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_chesnaught": {
+      "conditions": {
+        "entry": "chesnaught"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.chesnaught"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.chesnaught"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_chesnaught"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

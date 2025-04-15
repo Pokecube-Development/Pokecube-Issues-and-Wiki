@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_hakamo-o": {
+      "conditions": {
+        "entry": "hakamo-o"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.hakamo-o"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.hakamo-o"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_hakamo-o"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

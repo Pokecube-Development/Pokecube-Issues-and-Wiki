@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_qwilfish": {
+      "conditions": {
+        "entry": "qwilfish"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.qwilfish"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.qwilfish"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_qwilfish"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

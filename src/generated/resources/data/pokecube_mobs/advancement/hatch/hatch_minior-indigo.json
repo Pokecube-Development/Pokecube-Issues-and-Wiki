@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_minior-indigo": {
+      "conditions": {
+        "entry": "minior-indigo"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.minior-indigo"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.minior-indigo"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_minior-indigo"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

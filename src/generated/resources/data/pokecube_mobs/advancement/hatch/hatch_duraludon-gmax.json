@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_duraludon-gmax": {
+      "conditions": {
+        "entry": "duraludon-gmax"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.duraludon-gmax"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.duraludon-gmax"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_duraludon-gmax"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

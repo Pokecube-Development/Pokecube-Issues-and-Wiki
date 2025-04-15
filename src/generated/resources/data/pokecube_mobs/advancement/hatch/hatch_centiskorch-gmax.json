@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_centiskorch-gmax": {
+      "conditions": {
+        "entry": "centiskorch-gmax"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.centiskorch-gmax"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.centiskorch-gmax"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_centiskorch-gmax"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

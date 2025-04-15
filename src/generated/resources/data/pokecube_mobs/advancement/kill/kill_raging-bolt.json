@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_raging-bolt": {
+      "conditions": {
+        "entry": "raging-bolt"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.raging-bolt"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.raging-bolt"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_raging-bolt"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

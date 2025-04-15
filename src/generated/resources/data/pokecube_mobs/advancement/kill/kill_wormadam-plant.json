@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_wormadam-plant": {
+      "conditions": {
+        "entry": "wormadam-plant"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.wormadam-plant"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.wormadam-plant"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_wormadam-plant"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

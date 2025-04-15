@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_abomasnow-mega": {
+      "conditions": {
+        "entry": "abomasnow-mega"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.abomasnow-mega"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.abomasnow-mega"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_abomasnow-mega"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

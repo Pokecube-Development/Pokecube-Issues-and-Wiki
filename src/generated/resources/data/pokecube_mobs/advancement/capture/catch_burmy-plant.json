@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_burmy-plant": {
+      "conditions": {
+        "entry": "burmy-plant"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.burmy-plant"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.burmy-plant"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_burmy-plant"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

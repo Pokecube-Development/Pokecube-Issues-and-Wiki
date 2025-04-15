@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_sinistea-phony": {
+      "conditions": {
+        "entry": "sinistea-phony"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.sinistea-phony"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.sinistea-phony"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_sinistea-phony"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

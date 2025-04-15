@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_farfetchd": {
+      "conditions": {
+        "entry": "farfetchd"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.farfetchd"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.farfetchd"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_farfetchd"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

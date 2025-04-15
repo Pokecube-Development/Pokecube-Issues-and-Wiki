@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_garbodor-gmax": {
+      "conditions": {
+        "entry": "garbodor-gmax"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.garbodor-gmax"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.garbodor-gmax"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_garbodor-gmax"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

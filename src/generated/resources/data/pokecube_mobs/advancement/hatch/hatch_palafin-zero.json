@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_palafin-zero": {
+      "conditions": {
+        "entry": "palafin-zero"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.palafin-zero"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.palafin-zero"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_palafin-zero"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

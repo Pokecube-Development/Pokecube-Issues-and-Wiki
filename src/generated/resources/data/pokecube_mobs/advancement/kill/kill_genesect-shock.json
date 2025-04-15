@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_genesect-shock": {
+      "conditions": {
+        "entry": "genesect-shock"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.genesect-shock"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.genesect-shock"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_genesect-shock"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

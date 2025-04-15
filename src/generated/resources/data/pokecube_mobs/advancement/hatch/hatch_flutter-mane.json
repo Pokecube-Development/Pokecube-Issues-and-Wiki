@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_flutter-mane": {
+      "conditions": {
+        "entry": "flutter-mane"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.flutter-mane"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.flutter-mane"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_flutter-mane"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_ursaluna-bloodmoon": {
+      "conditions": {
+        "entry": "ursaluna-bloodmoon"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ursaluna-bloodmoon"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.ursaluna-bloodmoon"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_ursaluna-bloodmoon"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

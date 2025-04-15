@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_rotom-mow": {
+      "conditions": {
+        "entry": "rotom-mow"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.rotom-mow"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.rotom-mow"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_rotom-mow"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

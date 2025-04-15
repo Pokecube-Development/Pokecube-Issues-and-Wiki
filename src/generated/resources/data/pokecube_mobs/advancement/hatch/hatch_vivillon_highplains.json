@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_vivillon_highplains": {
+      "conditions": {
+        "entry": "vivillon_highplains"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.vivillon_highplains"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.vivillon_highplains"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_vivillon_highplains"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

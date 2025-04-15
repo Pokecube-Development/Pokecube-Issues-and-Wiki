@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_aegislash-shield": {
+      "conditions": {
+        "entry": "aegislash-shield"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.aegislash-shield"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.aegislash-shield"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_aegislash-shield"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

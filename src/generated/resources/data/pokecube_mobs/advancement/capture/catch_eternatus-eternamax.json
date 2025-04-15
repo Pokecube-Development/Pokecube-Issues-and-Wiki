@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_eternatus-eternamax": {
+      "conditions": {
+        "entry": "eternatus-eternamax"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.eternatus-eternamax"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.eternatus-eternamax"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_eternatus-eternamax"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

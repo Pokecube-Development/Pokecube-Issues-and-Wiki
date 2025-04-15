@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_calyrex-ice": {
+      "conditions": {
+        "entry": "calyrex-ice"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.calyrex-ice"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.calyrex-ice"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_calyrex-ice"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

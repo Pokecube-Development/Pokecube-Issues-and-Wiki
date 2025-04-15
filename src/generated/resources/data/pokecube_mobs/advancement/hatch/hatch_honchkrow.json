@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_honchkrow": {
+      "conditions": {
+        "entry": "honchkrow"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.honchkrow"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.honchkrow"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_honchkrow"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

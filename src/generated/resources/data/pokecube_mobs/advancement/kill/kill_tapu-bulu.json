@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_tapu-bulu": {
+      "conditions": {
+        "entry": "tapu-bulu"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tapu-bulu"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.tapu-bulu"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_tapu-bulu"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_genesect-burn": {
+      "conditions": {
+        "entry": "genesect-burn"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.genesect-burn"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.genesect-burn"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_genesect-burn"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

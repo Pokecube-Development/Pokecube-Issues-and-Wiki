@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_keldeo-ordinary": {
+      "conditions": {
+        "entry": "keldeo-ordinary"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.keldeo-ordinary"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.keldeo-ordinary"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_keldeo-ordinary"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

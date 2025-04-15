@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_polteageist-antique": {
+      "conditions": {
+        "entry": "polteageist-antique"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.polteageist-antique"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.polteageist-antique"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_polteageist-antique"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

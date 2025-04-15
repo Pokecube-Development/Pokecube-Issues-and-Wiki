@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_meloetta-pirouette": {
+      "conditions": {
+        "entry": "meloetta-pirouette"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.meloetta-pirouette"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.meloetta-pirouette"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_meloetta-pirouette"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_ho-oh": {
+      "conditions": {
+        "entry": "ho-oh"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ho-oh"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.ho-oh"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_ho-oh"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

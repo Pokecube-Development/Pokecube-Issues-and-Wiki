@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_maushold-family-of-four": {
+      "conditions": {
+        "entry": "maushold-family-of-four"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.maushold-family-of-four"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.maushold-family-of-four"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_maushold-family-of-four"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

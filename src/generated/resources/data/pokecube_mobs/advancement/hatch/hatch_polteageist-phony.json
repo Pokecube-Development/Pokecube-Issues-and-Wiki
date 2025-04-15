@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_polteageist-phony": {
+      "conditions": {
+        "entry": "polteageist-phony"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.polteageist-phony"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.polteageist-phony"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_polteageist-phony"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

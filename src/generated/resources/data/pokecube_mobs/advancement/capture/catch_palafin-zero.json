@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_palafin-zero": {
+      "conditions": {
+        "entry": "palafin-zero"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.palafin-zero"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.palafin-zero"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_palafin-zero"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

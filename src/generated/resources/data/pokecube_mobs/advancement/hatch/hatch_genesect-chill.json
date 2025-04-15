@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_genesect-chill": {
+      "conditions": {
+        "entry": "genesect-chill"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.genesect-chill"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.genesect-chill"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_genesect-chill"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

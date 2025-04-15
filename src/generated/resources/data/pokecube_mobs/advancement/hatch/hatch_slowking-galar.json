@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_slowking-galar": {
+      "conditions": {
+        "entry": "slowking-galar"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.slowking-galar"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.slowking-galar"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_slowking-galar"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

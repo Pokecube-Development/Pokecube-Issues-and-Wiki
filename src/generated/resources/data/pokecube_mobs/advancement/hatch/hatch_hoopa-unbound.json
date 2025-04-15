@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_hoopa-unbound": {
+      "conditions": {
+        "entry": "hoopa-unbound"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.hoopa-unbound"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.hoopa-unbound"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_hoopa-unbound"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

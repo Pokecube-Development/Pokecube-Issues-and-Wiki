@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_sawsbuck_au": {
+      "conditions": {
+        "entry": "sawsbuck_au"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.sawsbuck_au"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.sawsbuck_au"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_sawsbuck_au"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

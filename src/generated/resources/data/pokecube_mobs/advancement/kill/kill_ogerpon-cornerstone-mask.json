@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_ogerpon-cornerstone-mask": {
+      "conditions": {
+        "entry": "ogerpon-cornerstone-mask"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ogerpon-cornerstone-mask"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.ogerpon-cornerstone-mask"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_ogerpon-cornerstone-mask"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_mewtwo-mega-y": {
+      "conditions": {
+        "entry": "mewtwo-mega-y"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.mewtwo-mega-y"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.mewtwo-mega-y"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_mewtwo-mega-y"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_dudunsparce-two-segment": {
+      "conditions": {
+        "entry": "dudunsparce-two-segment"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.dudunsparce-two-segment"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.dudunsparce-two-segment"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_dudunsparce-two-segment"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

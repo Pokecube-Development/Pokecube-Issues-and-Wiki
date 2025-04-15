@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_flutter-mane": {
+      "conditions": {
+        "entry": "flutter-mane"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.flutter-mane"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.flutter-mane"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_flutter-mane"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

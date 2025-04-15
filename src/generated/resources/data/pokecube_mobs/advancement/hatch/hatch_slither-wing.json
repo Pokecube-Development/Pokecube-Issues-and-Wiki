@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_slither-wing": {
+      "conditions": {
+        "entry": "slither-wing"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.slither-wing"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.slither-wing"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_slither-wing"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

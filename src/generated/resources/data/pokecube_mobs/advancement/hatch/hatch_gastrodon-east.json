@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_gastrodon-east": {
+      "conditions": {
+        "entry": "gastrodon-east"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gastrodon-east"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.gastrodon-east"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_gastrodon-east"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

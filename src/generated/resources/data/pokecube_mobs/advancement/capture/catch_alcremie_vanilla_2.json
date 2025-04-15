@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_alcremie_vanilla_2": {
+      "conditions": {
+        "entry": "alcremie_vanilla_2"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.alcremie_vanilla_2"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.alcremie_vanilla_2"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_alcremie_vanilla_2"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

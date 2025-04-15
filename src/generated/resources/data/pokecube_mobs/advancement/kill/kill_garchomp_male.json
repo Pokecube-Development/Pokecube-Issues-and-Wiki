@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_garchomp_male": {
+      "conditions": {
+        "entry": "garchomp_male"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.garchomp_male"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.garchomp_male"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_garchomp_male"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

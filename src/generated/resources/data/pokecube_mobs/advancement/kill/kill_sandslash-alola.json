@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_sandslash-alola": {
+      "conditions": {
+        "entry": "sandslash-alola"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.sandslash-alola"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.sandslash-alola"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_sandslash-alola"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

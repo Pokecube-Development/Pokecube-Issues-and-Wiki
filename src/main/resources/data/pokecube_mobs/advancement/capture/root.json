@@ -1,22 +1,29 @@
 {
+  "criteria": {
+    "get_a_pokemob": {
+      "conditions": {
+        "entry": "MissingNo"
+      },
+      "trigger": "pokecube:get_first_pokemob"
+    }
+  },
   "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.root.desc"
+    },
     "icon": {
       "count": 1,
       "id": "pokecube:pokecube"
     },
     "title": {
       "translate": "achievement.pokecube.catch.root"
-    },
-    "description": {
-      "translate": "achievement.pokecube.catch.root.desc"
-    },
-    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
-    "show_toast": false,
-    "announce_to_chat": false
-  },
-  "criteria": {
-    "get_first_pokemob": {
-      "trigger": "pokecube:get_first_pokemob"
     }
-  }
+  },
+  "show_toast": false,
+  "announce_to_chat": false,
+  "requirements": [
+    [
+      "get_a_pokemob"
+    ]
+  ]
 }

@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_fezandipiti": {
+      "conditions": {
+        "entry": "fezandipiti"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.fezandipiti"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.fezandipiti"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_fezandipiti"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

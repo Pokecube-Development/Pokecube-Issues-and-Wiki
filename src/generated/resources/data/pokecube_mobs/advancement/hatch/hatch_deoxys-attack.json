@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_deoxys-attack": {
+      "conditions": {
+        "entry": "deoxys-attack"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.deoxys-attack"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.deoxys-attack"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_deoxys-attack"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

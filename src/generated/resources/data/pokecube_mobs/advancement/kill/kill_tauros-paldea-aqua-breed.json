@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_tauros-paldea-aqua-breed": {
+      "conditions": {
+        "entry": "tauros-paldea-aqua-breed"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tauros-paldea-aqua-breed"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.tauros-paldea-aqua-breed"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_tauros-paldea-aqua-breed"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

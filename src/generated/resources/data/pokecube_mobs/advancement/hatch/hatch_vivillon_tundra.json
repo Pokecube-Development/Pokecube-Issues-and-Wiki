@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_vivillon_tundra": {
+      "conditions": {
+        "entry": "vivillon_tundra"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.vivillon_tundra"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.vivillon_tundra"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_vivillon_tundra"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

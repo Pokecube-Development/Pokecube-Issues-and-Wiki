@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_kangaskhan-mega": {
+      "conditions": {
+        "entry": "kangaskhan-mega"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.kangaskhan-mega"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.kangaskhan-mega"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_kangaskhan-mega"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_darmanitan-galar-standard": {
+      "conditions": {
+        "entry": "darmanitan-galar-standard"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.darmanitan-galar-standard"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.darmanitan-galar-standard"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_darmanitan-galar-standard"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_keldeo-resolute": {
+      "conditions": {
+        "entry": "keldeo-resolute"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.keldeo-resolute"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.keldeo-resolute"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_keldeo-resolute"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

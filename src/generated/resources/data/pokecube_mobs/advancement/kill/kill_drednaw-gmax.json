@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_drednaw-gmax": {
+      "conditions": {
+        "entry": "drednaw-gmax"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.drednaw-gmax"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.drednaw-gmax"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_drednaw-gmax"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

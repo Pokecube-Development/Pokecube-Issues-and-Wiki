@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_wobbuffet": {
+      "conditions": {
+        "entry": "wobbuffet"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.wobbuffet"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.wobbuffet"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_wobbuffet"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

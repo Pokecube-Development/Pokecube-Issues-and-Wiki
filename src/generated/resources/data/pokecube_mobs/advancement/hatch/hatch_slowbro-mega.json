@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_slowbro-mega": {
+      "conditions": {
+        "entry": "slowbro-mega"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.slowbro-mega"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.slowbro-mega"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_slowbro-mega"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

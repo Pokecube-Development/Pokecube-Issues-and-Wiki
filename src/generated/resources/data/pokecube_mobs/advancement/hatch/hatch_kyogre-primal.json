@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_kyogre-primal": {
+      "conditions": {
+        "entry": "kyogre-primal"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.kyogre-primal"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.kyogre-primal"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_kyogre-primal"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

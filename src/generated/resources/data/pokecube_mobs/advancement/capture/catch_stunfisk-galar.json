@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
+  "criteria": {
+    "catch_stunfisk-galar": {
+      "conditions": {
+        "entry": "stunfisk-galar"
+      },
+      "trigger": "pokecube:catch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.stunfisk-galar"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.stunfisk-galar"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "catch_stunfisk-galar"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

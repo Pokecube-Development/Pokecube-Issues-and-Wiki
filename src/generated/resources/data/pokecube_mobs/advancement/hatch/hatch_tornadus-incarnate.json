@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_tornadus-incarnate": {
+      "conditions": {
+        "entry": "tornadus-incarnate"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tornadus-incarnate"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.tornadus-incarnate"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_tornadus-incarnate"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

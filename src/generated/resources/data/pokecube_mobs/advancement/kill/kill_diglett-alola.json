@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_diglett-alola": {
+      "conditions": {
+        "entry": "diglett-alola"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.diglett-alola"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.diglett-alola"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_diglett-alola"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

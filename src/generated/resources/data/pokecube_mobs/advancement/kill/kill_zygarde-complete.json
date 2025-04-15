@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_zygarde-complete": {
+      "conditions": {
+        "entry": "zygarde-complete"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.zygarde-complete"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.zygarde-complete"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_zygarde-complete"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

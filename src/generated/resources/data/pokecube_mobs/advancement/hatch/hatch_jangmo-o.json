@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:hatch/root",
+  "criteria": {
+    "hatch_jangmo-o": {
+      "conditions": {
+        "entry": "jangmo-o"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.jangmo-o"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.jangmo-o"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "hatch_jangmo-o"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

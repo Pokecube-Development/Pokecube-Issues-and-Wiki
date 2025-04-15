@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_florges-yellow": {
+      "conditions": {
+        "entry": "florges-yellow"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.florges-yellow"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.florges-yellow"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_florges-yellow"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

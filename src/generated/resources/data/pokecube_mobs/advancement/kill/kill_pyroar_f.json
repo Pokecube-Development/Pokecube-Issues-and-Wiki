@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_pyroar_f": {
+      "conditions": {
+        "entry": "pyroar_f"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.pyroar_f"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.pyroar_f"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_pyroar_f"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

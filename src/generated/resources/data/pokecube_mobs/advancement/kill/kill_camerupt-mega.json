@@ -1,0 +1,42 @@
+{
+  "parent": "pokecube_mobs:kill/root",
+  "criteria": {
+    "kill_camerupt-mega": {
+      "conditions": {
+        "entry": "camerupt-mega"
+      },
+      "trigger": "pokecube:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.camerupt-mega"
+        }
+      ]
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.camerupt-mega"
+        }
+      ]
+    }
+  },
+  "requirements": [
+    [
+      "kill_camerupt-mega"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}
