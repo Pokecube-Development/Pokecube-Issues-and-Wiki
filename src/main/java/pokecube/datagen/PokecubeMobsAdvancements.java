@@ -49,8 +49,8 @@ public class PokecubeMobsAdvancements extends AdvancementProvider
             // or create a placeholder advancement using the static AdvancementSubProvider#createPlaceholder method.
             builder.parent(AdvancementSubProvider.createPlaceholder("pokecube_mobs:" + root));
 
-            var TYPE = AdvancementType.CHALLENGE;
-            if (entry.isLegendary()) TYPE = AdvancementType.GOAL;
+            var TYPE = AdvancementType.TASK;
+            if (entry.isLegendary()) TYPE = AdvancementType.CHALLENGE;
             // Sets the display properties of the advancement. This can either be a DisplayInfo object,
             // or pass in the values directly. If values are passed in directly, a DisplayInfo object will be created for you.
             builder.display(
@@ -82,9 +82,12 @@ public class PokecubeMobsAdvancements extends AdvancementProvider
 
             String name = type + "_" + entry;
             // Adds a criterion with the given name to the advancement. Use the corresponding trigger instance's static method.
-            if (type.equals("catch")) builder.addCriterion(name, CatchPokemobTrigger.withEntry(entry));
-            else if (type.equals("kill")) builder.addCriterion(name, KillPokemobTrigger.withEntry(entry));
-            else if (type.equals("hatch")) builder.addCriterion(name, HatchPokemobTrigger.withEntry(entry));
+            switch (type)
+            {
+            case "catch" -> builder.addCriterion(name, CatchPokemobTrigger.withEntry(entry));
+            case "kill" -> builder.addCriterion(name, KillPokemobTrigger.withEntry(entry));
+            case "hatch" -> builder.addCriterion(name, HatchPokemobTrigger.withEntry(entry));
+            }
 
             // Adds a requirements handler. Minecraft natively provides allOf() and anyOf(), more complex requirements
             // must be implemented manually. Only has an effect with two or more criteria.
@@ -101,55 +104,93 @@ public class PokecubeMobsAdvancements extends AdvancementProvider
                 ExistingFileHelper existingFileHelper)
         {
             // Generate your advancements here.
+
+            // Root advancements
+            Advancement.Builder.recipeAdvancement().display(
+                            // The advancement icon. Can be an ItemStack or an ItemLike.
+                            PokecubeItems.getStack("pokecube"),
+                            // The advancement title and description. Don't forget to add translations for these!
+                            Component.translatable("achievement.pokecube.catch.root"),
+                            Component.translatable("achievement.pokecube.catch.root.desc"),
+                            // The background texture. Use null if you don't want a background texture (for non-root advancements).
+                            ResourceLocation.parse("minecraft:textures/gui/advancements/backgrounds/adventure.png"),
+                            // The frame type. Valid values are AdvancementType.TASK, CHALLENGE, or GOAL.
+                            AdvancementType.TASK,
+                            // Whether to show the advancement toast or not.
+                            false,
+                            // Whether to announce the advancement into chat or not.
+                            false,
+                            // Whether the advancement should be hidden or not.
+                            false).addCriterion("get_a_pokemob", CatchPokemobTrigger.withEntry(Database.missingno))
+                    .requirements(AdvancementRequirements.allOf(List.of("get_a_pokemob")))
+                    .save(saver, ResourceLocation.fromNamespaceAndPath("pokecube_mobs", "capture/root"),
+                            existingFileHelper);
+            Advancement.Builder.recipeAdvancement().display(
+                            // The advancement icon. Can be an ItemStack or an ItemLike.
+                            PokecubeItems.getStack("pokecube"),
+                            // The advancement title and description. Don't forget to add translations for these!
+                            Component.translatable("achievement.pokecube.kill.root"),
+                            Component.translatable("achievement.pokecube.kill.root.desc"),
+                            // The background texture. Use null if you don't want a background texture (for non-root advancements).
+                            ResourceLocation.parse("minecraft:textures/gui/advancements/backgrounds/adventure.png"),
+                            // The frame type. Valid values are AdvancementType.TASK, CHALLENGE, or GOAL.
+                            AdvancementType.TASK,
+                            // Whether to show the advancement toast or not.
+                            false,
+                            // Whether to announce the advancement into chat or not.
+                            false,
+                            // Whether the advancement should be hidden or not.
+                            false).addCriterion("kill_a_pokemob", KillPokemobTrigger.withEntry(Database.missingno))
+                    .requirements(AdvancementRequirements.allOf(List.of("kill_a_pokemob")))
+                    .save(saver, ResourceLocation.fromNamespaceAndPath("pokecube_mobs", "kill/root"),
+                            existingFileHelper);
+            Advancement.Builder.recipeAdvancement().display(
+                            // The advancement icon. Can be an ItemStack or an ItemLike.
+                            PokecubeItems.getStack("pokecube"),
+                            // The advancement title and description. Don't forget to add translations for these!
+                            Component.translatable("achievement.pokecube.hatch.root"),
+                            Component.translatable("achievement.pokecube.hatch.root.desc"),
+                            // The background texture. Use null if you don't want a background texture (for non-root advancements).
+                            ResourceLocation.parse("minecraft:textures/gui/advancements/backgrounds/adventure.png"),
+                            // The frame type. Valid values are AdvancementType.TASK, CHALLENGE, or GOAL.
+                            AdvancementType.TASK,
+                            // Whether to show the advancement toast or not.
+                            false,
+                            // Whether to announce the advancement into chat or not.
+                            false,
+                            // Whether the advancement should be hidden or not.
+                            false).addCriterion("hatch_a_pokemob", HatchPokemobTrigger.withEntry(Database.missingno))
+                    .requirements(AdvancementRequirements.allOf(List.of("hatch_a_pokemob")))
+                    .save(saver, ResourceLocation.fromNamespaceAndPath("pokecube_mobs", "hatch/root"),
+                            existingFileHelper);
+
             // All methods follow the builder pattern, meaning that chaining is possible and encouraged.
             // For better readability of the explanations, chaining will not be done here.
 
-            // Create an advancement builder using the static #advancement() method.
-            // Using #advancement() automatically enables telemetry events. If you do not want this,
-            // #recipeAdvancement() can be used instead, there are no other functional differences.
-            Advancement.Builder builder = Advancement.Builder.recipeAdvancement();
-
-            // Sets the parent of the advancement. You can use another advancement you have already generated,
-            // or create a placeholder advancement using the static AdvancementSubProvider#createPlaceholder method.
-            builder.parent(AdvancementSubProvider.createPlaceholder("pokecube_mobs:capture/root"));
-
-            // Sets the display properties of the advancement. This can either be a DisplayInfo object,
-            // or pass in the values directly. If values are passed in directly, a DisplayInfo object will be created for you.
-            builder.display(
-                    // The advancement icon. Can be an ItemStack or an ItemLike.
-                    PokecubeItems.getStack("pokecube"),
-                    // The advancement title and description. Don't forget to add translations for these!
-                    Component.translatable("achievement.pokecube.get1st"),
-                    Component.translatable("achievement.pokecube.get1st.desc"),
-                    // The background texture. Use null if you don't want a background texture (for non-root advancements).
-                    null,
-                    // The frame type. Valid values are AdvancementType.TASK, CHALLENGE, or GOAL.
-                    AdvancementType.TASK,
-                    // Whether to show the advancement toast or not.
-                    true,
-                    // Whether to announce the advancement into chat or not.
-                    true,
-                    // Whether the advancement should be hidden or not.
-                    false);
-
-            // An advancement reward builder. Can be created with any of the four reward types, and further rewards
-            // can be added using the methods prefixed with add. This can also be built beforehand,
-            // and the resulting AdvancementRewards can then be reused across multiple advancement builders.
-            builder.rewards(
-                    // Alternatively, use addExperience() to add to an existing builder.
-                    AdvancementRewards.Builder.experience(10));
-
-            // Adds a criterion with the given name to the advancement. Use the corresponding trigger instance's static method.
-            builder.addCriterion("get_a_pokemob", FirstPokemobTrigger.withEntry(Database.missingno));
-
-            // Adds a requirements handler. Minecraft natively provides allOf() and anyOf(), more complex requirements
-            // must be implemented manually. Only has an effect with two or more criteria.
-            builder.requirements(AdvancementRequirements.allOf(List.of("get_a_pokemob")));
-
-            // Save the advancement to disk, using the given resource location. This returns an AdvancementHolder,
-            // which may be stored in a variable and used as a parent by other advancement builders.
-            builder.save(saver, ResourceLocation.fromNamespaceAndPath("pokecube_mobs", "capture/get_first_pokemob"),
-                    existingFileHelper);
+            // Get first Pokemob
+            Advancement.Builder.recipeAdvancement()
+                    .parent(AdvancementSubProvider.createPlaceholder("pokecube_mobs:capture/root")).display(
+                            // The advancement icon. Can be an ItemStack or an ItemLike.
+                            PokecubeItems.getStack("pokecube"),
+                            // The advancement title and description. Don't forget to add translations for these!
+                            Component.translatable("achievement.pokecube.get1st"),
+                            Component.translatable("achievement.pokecube.get1st.desc"),
+                            // The background texture. Use null if you don't want a background texture (for non-root advancements).
+                            null,
+                            // The frame type. Valid values are AdvancementType.TASK, CHALLENGE, or GOAL.
+                            AdvancementType.TASK,
+                            // Whether to show the advancement toast or not.
+                            true,
+                            // Whether to announce the advancement into chat or not.
+                            true,
+                            // Whether the advancement should be hidden or not.
+                            false).rewards(
+                            // Alternatively, use addExperience() to add to an existing builder.
+                            AdvancementRewards.Builder.experience(10))
+                    .addCriterion("get_a_pokemob", FirstPokemobTrigger.withEntry(Database.missingno))
+                    .requirements(AdvancementRequirements.allOf(List.of("get_a_pokemob")))
+                    .save(saver, ResourceLocation.fromNamespaceAndPath("pokecube_mobs", "capture/get_first_pokemob"),
+                            existingFileHelper);
 
             for (PokedexEntry e : Database.getSortedFormes())
             {

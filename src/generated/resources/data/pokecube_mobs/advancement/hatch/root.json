@@ -1,0 +1,30 @@
+{
+  "criteria": {
+    "hatch_a_pokemob": {
+      "conditions": {
+        "entry": "MissingNo"
+      },
+      "trigger": "pokecube:hatch"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
+    "description": {
+      "translate": "achievement.pokecube.hatch.root.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "pokecube:pokecube"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "achievement.pokecube.hatch.root"
+    }
+  },
+  "requirements": [
+    [
+      "hatch_a_pokemob"
+    ]
+  ]
+}

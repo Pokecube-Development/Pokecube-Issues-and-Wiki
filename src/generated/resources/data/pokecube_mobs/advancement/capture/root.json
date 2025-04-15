@@ -4,23 +4,24 @@
       "conditions": {
         "entry": "MissingNo"
       },
-      "trigger": "pokecube:get_first_pokemob"
+      "trigger": "pokecube:catch"
     }
   },
   "display": {
+    "announce_to_chat": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
     "description": {
-      "translate": "achievement.pokecube.hatch.root.desc"
+      "translate": "achievement.pokecube.catch.root.desc"
     },
     "icon": {
       "count": 1,
       "id": "pokecube:pokecube"
     },
+    "show_toast": false,
     "title": {
-      "translate": "achievement.pokecube.hatch.root"
+      "translate": "achievement.pokecube.catch.root"
     }
   },
-  "show_toast": false,
-  "announce_to_chat": false,
   "requirements": [
     [
       "get_a_pokemob"

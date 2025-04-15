@@ -44,12 +44,9 @@ public class PokecubeAdvAdvancements extends AdvancementProvider
             Advancement.Builder builder = Advancement.Builder.recipeAdvancement();
             Item badge = PokecubeAdv.BADGES.get(type);
             var type_name = type.name;
-            if(type_name.equals("???")) type_name = "unknown";
+            if (type_name.equals("???")) type_name = "unknown";
 
-            // Sets the parent of the advancement. You can use another advancement you have already generated,
-            // or create a placeholder advancement using the static AdvancementSubProvider#createPlaceholder method.
-//            builder.parent(AdvancementSubProvider.createPlaceholder("pokecube_adventures:trainers/root"));
-            builder.parent(AdvancementSubProvider.createPlaceholder("pokecube_mobs:capture/root"));
+            builder.parent(AdvancementSubProvider.createPlaceholder("pokecube_adventures:trainers/root"));
 
             var TYPE = AdvancementType.CHALLENGE;
             // Sets the display properties of the advancement. This can either be a DisplayInfo object,
@@ -93,11 +90,7 @@ public class PokecubeAdvAdvancements extends AdvancementProvider
                 ExistingFileHelper existingFileHelper)
         {
             Advancement.Builder builder = Advancement.Builder.recipeAdvancement();
-
-            // Sets the parent of the advancement. You can use another advancement you have already generated,
-            // or create a placeholder advancement using the static AdvancementSubProvider#createPlaceholder method.
-//            builder.parent(AdvancementSubProvider.createPlaceholder("pokecube_adventures:trainers/root"));
-            builder.parent(AdvancementSubProvider.createPlaceholder("pokecube_mobs:capture/root"));
+            builder.parent(AdvancementSubProvider.createPlaceholder("pokecube_adventures:trainers/root"));
 
             var TYPE = type.equals("trainer") ? AdvancementType.CHALLENGE : AdvancementType.GOAL;
             // Sets the display properties of the advancement. This can either be a DisplayInfo object,
@@ -150,6 +143,28 @@ public class PokecubeAdvAdvancements extends AdvancementProvider
         public void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver,
                 ExistingFileHelper existingFileHelper)
         {
+
+            Advancement.Builder.recipeAdvancement().display(
+                            // The advancement icon. Can be an ItemStack or an ItemLike.
+                            PokecubeItems.getStack("pokecube"),
+                            // The advancement title and description. Don't forget to add translations for these!
+                            Component.translatable("achievement.pokeadv.trainer.root"),
+                            Component.translatable("achievement.pokeadv.trainer.root.desc"),
+                            // The background texture. Use null if you don't want a background texture (for non-root advancements).
+                            ResourceLocation.parse("minecraft:textures/gui/advancements/backgrounds/adventure.png"),
+                            // The frame type. Valid values are AdvancementType.TASK, CHALLENGE, or GOAL.
+                            AdvancementType.TASK,
+                            // Whether to show the advancement toast or not.
+                            false,
+                            // Whether to announce the advancement into chat or not.
+                            false,
+                            // Whether the advancement should be hidden or not.
+                            false).addCriterion("beat_trainer", Triggers.BEATTRAINER.get()
+                            .createCriterion(new BeatTrainerTrigger.TriggerInstance(Optional.empty())))
+                    .requirements(AdvancementRequirements.allOf(List.of("beat_trainer")))
+                    .save(saver, ResourceLocation.fromNamespaceAndPath("pokecube_adventures", "trainers/root"),
+                            existingFileHelper);
+
             for (PokeType type : PokeType.values()) generateBadges(type, registries, saver, existingFileHelper);
             generateNPC("trainer", registries, saver, existingFileHelper);
             generateNPC("leader", registries, saver, existingFileHelper);
