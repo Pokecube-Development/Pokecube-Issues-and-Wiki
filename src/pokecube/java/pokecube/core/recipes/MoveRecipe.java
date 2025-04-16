@@ -155,6 +155,12 @@ public class MoveRecipe implements Recipe<MoveRecipe.WorldCraftInventory>
     }
 
     @Override
+    public String getGroup()
+    {
+        return "pokecube.move";
+    }
+
+    @Override
     public boolean canCraftInDimensions(final int x, final int y)
     {
         return this.wrapped.canCraftInDimensions(x, y);

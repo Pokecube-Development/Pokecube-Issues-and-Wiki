@@ -1,10 +1,7 @@
 package thut.mixin.terrain;
 
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.chunk.ChunkAccess;
@@ -19,7 +16,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import thut.api.level.terrain.CapabilityTerrain;
-import thut.api.level.terrain.ITerrainProvider;
 
 import javax.annotation.Nullable;
 
@@ -38,16 +34,5 @@ public abstract class ChunkAccessTerrain
         // these wrap a regular level chunk, so we don't need to apply here.
         if (ths instanceof ImposterProtoChunk) return;
         this.getData(CapabilityTerrain.TYPE_SAVE.get());
-        ResourceKey<Level> key = null;
-        if (levelHeightAccessor instanceof Level level)
-        {
-            key = level.dimension();
-        }
-        else if (levelHeightAccessor instanceof WorldGenRegion access)
-        {
-            key = access.getLevel().dimension();
-        }
-        if (key != null) ITerrainProvider.addChunk(key, (ChunkAccess) ths);
-        else Thread.dumpStack();
     }
 }

@@ -1,6 +1,10 @@
 package thut.api.level.terrain;
 
-import it.unimi.dsi.fastutil.ints.*;
+import it.unimi.dsi.fastutil.ints.Int2IntMap;
+import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.HolderLookup;
@@ -25,8 +29,6 @@ public class CapabilityTerrain
 
         Int2ObjectArrayMap<TerrainSegment> segMap = new Int2ObjectArrayMap<>();
 
-        Int2BooleanArrayMap reals = new Int2BooleanArrayMap();
-
         MutableBlockPos mutable = new MutableBlockPos();
 
         public DefaultProvider(final ChunkAccess chunk)
@@ -44,24 +46,23 @@ public class CapabilityTerrain
         @Override
         public void deserializeNBT(HolderLookup.Provider registries, final CompoundTag nbt)
         {
-            final BlockPos pos = this.getChunkPos();
-            final int x = pos.getX();
-            final int z = pos.getZ();
-            final Int2IntMap toUpdate = new Int2IntOpenHashMap();
-            ListTag tags = (ListTag) nbt.get("ids");
-            for (int i = 0; i < tags.size(); i++)
-            {
-                final CompoundTag tag = tags.getCompound(i);
-                final String name = tag.getString("name");
-                final int id = tag.getInt("id");
-                final BiomeType type = BiomeType.getBiome(name, true);
-                final int newId = type.getType();
-                if (newId != id) toUpdate.put(id, type.getType());
-            }
-            final boolean hasReplacements = !toUpdate.isEmpty();
-
             if (nbt.contains("segs"))
             {
+                final BlockPos pos = this.getChunkPos();
+                final int x = pos.getX();
+                final int z = pos.getZ();
+                final Int2IntMap toUpdate = new Int2IntOpenHashMap();
+                ListTag tags = (ListTag) nbt.get("ids");
+                for (int i = 0; i < tags.size(); i++)
+                {
+                    final CompoundTag tag = tags.getCompound(i);
+                    final String name = tag.getString("name");
+                    final int id = tag.getInt("id");
+                    final BiomeType type = BiomeType.getBiome(name, true);
+                    final int newId = type.getType();
+                    if (newId != id) toUpdate.put(id, type.getType());
+                }
+                final boolean hasReplacements = !toUpdate.isEmpty();
                 tags = (ListTag) nbt.get("segs");
                 for (int i = 0; i < tags.size(); i++)
                 {
@@ -75,9 +76,9 @@ public class CapabilityTerrain
                         TerrainSegment.readFromNBT(t, terrainTag);
                         this.setTerrainSegment(t, y);
                         t.idReplacements = null;
-                        this.reals.put(i, true);
                     }
                 }
+                this.chunk.setUnsaved(true);
 
             }
         }
@@ -93,31 +94,23 @@ public class CapabilityTerrain
         public TerrainSegment getTerrainSegment(final BlockPos blockLocation)
         {
             final int chunkY = SectionPos.blockToSectionCoord(blockLocation.getY());
-            final TerrainSegment segment = this.getTerrainSegment(chunkY);
-            return segment;
+            return this.getTerrainSegment(chunkY);
         }
 
         @Override
         public TerrainSegment getTerrainSegment(final int chunkY)
         {
-            if (this.reals.get(chunkY) && this.segMap.containsKey(chunkY))
+            if (this.segMap.containsKey(chunkY))
             {
                 final TerrainSegment ret = this.segMap.get(chunkY);
-                ret.real = true;
                 ret.chunk = this.chunk;
                 return ret;
             }
-
             // The pos for this segment
             this.mutable.set(this.chunk.getPos().x, chunkY, this.chunk.getPos().z);
-            final BlockPos pos = this.mutable;
-
             // Try to pull it from our array
-            TerrainSegment ret = new TerrainSegment(pos.getX(), pos.getY(), pos.getZ());
-
+            TerrainSegment ret = new TerrainSegment(mutable.getX(), mutable.getY(), mutable.getZ());
             ret.chunk = this.chunk;
-            ret.real = true;
-            this.reals.put(chunkY, true);
             this.segMap.put(chunkY, ret);
             return ret;
         }
@@ -132,23 +125,27 @@ public class CapabilityTerrain
             {
                 final TerrainSegment t = this.getTerrainSegment(i);
                 if (t == null) continue;
+                t.checkToSave();
                 if (!t.toSave) continue;
                 for (final int id : t.biomes) ids.add(id);
                 final CompoundTag terrainTag = new CompoundTag();
                 t.saveToNBT(terrainTag);
                 segs.add(terrainTag);
             }
-            nbt.put("segs", segs);
-            final ListTag biomeList = new ListTag();
-            for (final BiomeType t : BiomeType.values())
+            if (!segs.isEmpty())
             {
-                if (!ids.contains(t.getType())) continue;
-                final CompoundTag tag = new CompoundTag();
-                tag.putString("name", t.name);
-                tag.putInt("id", t.getType());
-                biomeList.add(tag);
+                nbt.put("segs", segs);
+                final ListTag biomeList = new ListTag();
+                for (final BiomeType t : BiomeType.values())
+                {
+                    if (!ids.contains(t.getType())) continue;
+                    final CompoundTag tag = new CompoundTag();
+                    tag.putString("name", t.name);
+                    tag.putInt("id", t.getType());
+                    biomeList.add(tag);
+                }
+                if (!ids.isEmpty()) nbt.put("ids", biomeList);
             }
-            nbt.put("ids", biomeList);
             return nbt;
         }
 

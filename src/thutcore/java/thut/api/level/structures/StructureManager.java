@@ -1,14 +1,7 @@
 package thut.api.level.structures;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.function.Predicate;
-
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.resources.ResourceKey;
@@ -23,9 +16,14 @@ import net.neoforged.neoforge.event.level.ChunkEvent;
 import thut.api.level.structures.NamedVolumes.INamedStructure;
 import thut.api.level.structures.NamedVolumes.NamedStructureWrapper;
 import thut.api.level.terrain.GlobalChunkPos;
-import thut.api.level.terrain.ITerrainProvider;
 import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.function.Predicate;
 
 public class StructureManager
 {
@@ -151,6 +149,5 @@ public class StructureManager
     public static void clear()
     {
         StructureManager.map_by_pos.clear();
-        ITerrainProvider.loadedChunks.clear();
     }
 }

@@ -25,13 +25,14 @@ public class PacketSyncPokedex extends JsonPacket
     @SubscribeEvent
     public static void onSyncData(OnDatapackSyncEvent event)
     {
-        if(event.getPlayer().isLocalPlayer()) return;
+        if (event.getPlayer() == null) return;
+        if (event.getPlayer().isLocalPlayer()) return;
         var packet = new PacketSyncPokedex(JsonPokedexEntry.ENTIRE_DATABASE_CACHE);
         ASSEMBLER.sendTo(packet.getData(), event.getPlayer());
     }
 
-    public static final PacketAssembly<PacketSyncPokedex> ASSEMBLER = PacketAssembly
-            .registerAssembler(PacketSyncPokedex.class, PacketSyncPokedex::new, PokecubeCore.packets);
+    public static final PacketAssembly<PacketSyncPokedex> ASSEMBLER = PacketAssembly.registerAssembler(
+            PacketSyncPokedex.class, PacketSyncPokedex::new, PokecubeCore.packets);
 
     public PacketSyncPokedex()
     {}

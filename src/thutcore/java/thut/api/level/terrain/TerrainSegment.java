@@ -22,7 +22,12 @@ import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 
 public class TerrainSegment
@@ -167,7 +172,7 @@ public class TerrainSegment
                 for (int k = -range; k <= range; k++)
                 {
 
-                    boolean bool = true;
+                    boolean bool;
                     final int i1 = Mth.floor(v.intX() + i) >> 4;
                     final int k1 = Mth.floor(v.intZ() + i) >> 4;
 
@@ -208,12 +213,10 @@ public class TerrainSegment
 
     public static boolean isInTerrainColumn(final Vector3 t, final Vector3 point)
     {
-        boolean ret = true;
         final int i = point.intX() >> 4;
         final int k = point.intZ() >> 4;
 
-        ret = i == t.intX() && k == t.intZ();
-        return ret;
+        return i == t.intX() && k == t.intZ();
     }
 
     public static void readFromNBT(final TerrainSegment t, final CompoundTag nbt)
@@ -264,10 +267,6 @@ public class TerrainSegment
     public boolean isSky = false;
 
     public boolean init = true;
-
-    // This is true if this was loaded from the capability, false if during
-    // worldgen
-    public boolean real = false;
 
     Vector3 temp = new Vector3();
 
@@ -391,7 +390,6 @@ public class TerrainSegment
 
     private BiomeType getBiome(final LevelAccessor world, final Vector3 v, final boolean caveAdjust)
     {
-        if (!this.real) return BiomeType.NONE;
         if (this.chunk == null)
         {
             Thread.dumpStack();
@@ -442,7 +440,7 @@ public class TerrainSegment
 
     public boolean isInTerrainSegment(final double x, final double y, final double z)
     {
-        boolean ret = true;
+        boolean ret;
         final int i = Mth.floor(x) >> 4;
         final int j = Mth.floor(y) >> 4;
         final int k = Mth.floor(z) >> 4;
@@ -453,11 +451,6 @@ public class TerrainSegment
     public void refresh(final LevelAccessor world)
     {
         final long time = System.nanoTime();
-        if (!this.real)
-        {
-            this.init = true;
-            return;
-        }
         for (int x = 0; x < TerrainSegment.GRIDSIZE; x++)
             for (int y = 0; y < TerrainSegment.GRIDSIZE; y++)
                 for (int z = 0; z < TerrainSegment.GRIDSIZE; z++)
@@ -489,6 +482,7 @@ public class TerrainSegment
         final double dt = (System.nanoTime() - time) / 10e9;
         // Don't let us take too long!
         if (dt > 0.001) ThutCore.LOGGER.debug("subBiome refresh took " + dt);
+        if (this.chunk != null && this.toSave) this.chunk.setUnsaved(true);
     }
 
     public void saveToNBT(final CompoundTag nbt)
@@ -523,6 +517,7 @@ public class TerrainSegment
         final int index = TerrainSegment.globalToIndex(x, y, z);
         this.biomes[index] = biome.getType();
         if (TerrainSegment.saveChecker.test(biome)) this.toSave = true;
+        if (this.chunk != null && this.toSave) this.chunk.setUnsaved(true);
     }
 
     public void setBiomes(final int[] biomes)
@@ -533,11 +528,6 @@ public class TerrainSegment
             if (i >= this.biomes.length) return;
             this.biomes[i] = biomes[i];
         }
-    }
-
-    public void setBiome(final Vector3 v, final BiomeType i)
-    {
-        this.setBiome(v.intX(), v.intY(), v.intZ(), i);
     }
 
     @Override

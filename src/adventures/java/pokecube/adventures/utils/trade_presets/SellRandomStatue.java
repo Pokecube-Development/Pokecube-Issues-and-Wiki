@@ -38,8 +38,7 @@ public class SellRandomStatue implements TradePreset
                         DataComponentPredicate.allOf(buy2.getComponents())));
         recipe = new TrainerTrade(cost, _buy2, statue, trade);
         var values = trade.values;
-        if (values.containsKey(TradeEntryLoader.CHANCE))
-            recipe.chance = (float) values.get(TradeEntryLoader.CHANCE);
+        if (values.containsKey(TradeEntryLoader.CHANCE)) recipe.chance = (float) values.get(TradeEntryLoader.CHANCE);
         trades.tradesList.add(recipe);
     }
 
@@ -51,7 +50,11 @@ public class SellRandomStatue implements TradePreset
             ItemStack statue = new ItemStack(PokecubeAdv.STATUE.get());
             try
             {
-                statue.set(CopyMob.COPY_STORE, CopyMob.CopyInfo.copyOf(e.getEntityType()));
+                var info = CopyMob.CopyInfo.copyOf(e.getEntityType());
+                var tag = info.tag();
+                tag.putString("statue:over_tex", "minecraft:stone");
+                info = new CopyMob.CopyInfo(tag);
+                statue.set(CopyMob.COPY_STORE, info);
                 addTrade(statue, trade, trades);
             }
             catch (Exception ex)

@@ -1,12 +1,7 @@
 package thut.api.level.terrain;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.chunk.ChunkAccess;
@@ -15,53 +10,18 @@ import thut.api.ThutCaps;
 public interface ITerrainProvider
 {
     /**
-     * This is a cache of loaded chunks, it is used to prevent thread lock contention when trying to look up a chunk, as
-     * it seems that world.chunkExists returning true does not mean that you can just go and ask for the chunk...
-     */
-    public static Map<ResourceKey<Level>, Map<ChunkPos, ChunkAccess>> loadedChunks = new ConcurrentHashMap<>();
-
-    /**
-     * Inserts the chunk into the cache of chunks.
-     */
-    public static void addChunk(final ResourceKey<Level> dim, final ChunkAccess chunk)
-    {
-        Map<ChunkPos, ChunkAccess> chunks = ITerrainProvider.loadedChunks.getOrDefault(dim, null);
-        if (chunks == null) ITerrainProvider.loadedChunks.put(dim, chunks = new ConcurrentHashMap<>());
-        chunks.put(chunk.getPos(), chunk);
-    }
-
-    /**
-     * Removes the chunk from the cache of chunks
-     */
-    public static void removeChunk(final ResourceKey<Level> dim, final ChunkPos cpos)
-    {
-        final Map<ChunkPos, ChunkAccess> chunks = ITerrainProvider.loadedChunks.get(dim);
-        if (chunks != null) chunks.remove(cpos);
-    }
-
-    public static ChunkAccess getChunk(final ResourceKey<Level> dim, final ChunkPos cpos)
-    {
-        final Map<ChunkPos, ChunkAccess> chunks = ITerrainProvider.loadedChunks.get(dim);
-        if (chunks == null) return null;
-        return chunks.get(cpos);
-    }
-
-    /**
      * @param world - world like object to look up for
      * @param p     - position in block coordinates, not chunk coordinates
      * @return - a terrain segement for the given position
      */
     default TerrainSegment getTerrain(final LevelAccessor world, final BlockPos p)
     {
-        if (!(world instanceof Level level)) return new TerrainSegment(p);
-        // Convert the pos to a chunk pos
-        final ResourceKey<Level> dim = level.dimension();
-        ChunkAccess chunk = ITerrainProvider.getChunk(dim, new ChunkPos(p));
-        // can be the case on server side during worldgen, if it isn't in the chunk map yet.
-        if (chunk == null)
+        if (!(world instanceof Level))
         {
-            chunk = world.getChunk(p);
+            return new TerrainSegment(p);
         }
+        // Convert the pos to a chunk pos
+        ChunkAccess chunk = world.getChunk(p);
 
         int y = SectionPos.blockToSectionCoord(p.getY());
         if (y < world.getMinSection()) y = world.getMinSection();
@@ -72,7 +32,6 @@ public interface ITerrainProvider
         {
             Thread.dumpStack();
         }
-        provider.setChunk(chunk);
-        return provider.getTerrainSegment(y);
+        return provider.setChunk(chunk).getTerrainSegment(y);
     }
 }

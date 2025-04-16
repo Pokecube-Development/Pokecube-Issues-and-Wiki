@@ -1,16 +1,13 @@
 package thut.api.level.terrain;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.chunk.ChunkSource;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.level.ChunkEvent;
 import net.neoforged.neoforge.event.level.ChunkWatchEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import thut.api.maths.Vector3;
@@ -61,24 +58,6 @@ public class TerrainManager
                 if (source.getChunkNow(x + i, z + j) == null) return false;
             }
         return true;
-    }
-
-    @SubscribeEvent
-    public static void onChunkLoad(final ChunkEvent.Load evt)
-    {
-        ResourceKey<Level> dim = null;
-        if (evt.getLevel() instanceof Level level && !evt.getLevel().isClientSide()) dim = level.dimension();
-        // This is null when this is loaded off-thread, IE before the chunk is
-        // finished
-        if (dim != null) ITerrainProvider.addChunk(dim, evt.getChunk());
-    }
-
-    @SubscribeEvent
-    public static void onChunkUnload(final ChunkEvent.Unload evt)
-    {
-        ResourceKey<Level> dim = null;
-        if (evt.getLevel() instanceof Level level && !evt.getLevel().isClientSide()) dim = level.dimension();
-        if (dim != null) ITerrainProvider.removeChunk(dim, evt.getChunk().getPos());
     }
 
     @SubscribeEvent

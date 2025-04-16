@@ -314,7 +314,7 @@ public class TrainerEventHandler
         if (holderB != null && holderB.getAIState(AIState.PERMFRIENDLY)) event.setCanceled(true);
     }
 
-    private static void initTrainer(final LivingEntity mob, final MobSpawnType reason)
+    public static void initTrainer(final LivingEntity mob, final MobSpawnType reason)
     {
         if (mob instanceof NpcMob npc)
         {

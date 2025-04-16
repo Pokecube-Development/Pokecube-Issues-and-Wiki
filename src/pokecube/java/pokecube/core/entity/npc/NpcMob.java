@@ -1,17 +1,10 @@
 package pokecube.core.entity.npc;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.function.Consumer;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
-
 import io.netty.buffer.Unpooled;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -66,16 +59,21 @@ import pokecube.core.ai.routes.GuardAI;
 import pokecube.core.ai.routes.GuardTask;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.utils.CapHolders;
-import thut.api.entity.IMobTexturable;
 import thut.api.entity.ai.BrainUtil;
 import thut.api.inventory.npc.NpcContainer;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.lib.TComponent;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.function.Consumer;
+
 public class NpcMob extends Villager implements IEntityWithComplexSpawn
 {
-    static final EntityDataAccessor<String> NAMEDW = SynchedEntityData.<String>defineId(NpcMob.class,
+    static final EntityDataAccessor<String> NAMEDW = SynchedEntityData.defineId(NpcMob.class,
             EntityDataSerializers.STRING);
 
     private NpcType type = NpcType.byType("none");
@@ -147,8 +145,8 @@ public class NpcMob extends Villager implements IEntityWithComplexSpawn
             VillagerProfession profession = this.getVillagerData().getProfession();
             final float f = 0.5f;
 
-            Collection<Pair<Integer, ? extends Behavior<? super LivingEntity>>> args = Lists
-                    .newArrayList(Pair.of(0, new GuardTask<>(this, guardai)));
+            Collection<Pair<Integer, ? extends Behavior<? super LivingEntity>>> args = Lists.newArrayList(
+                    Pair.of(0, new GuardTask<>(this, guardai)));
 
             Set<Activity> acts = brain.activityRequirements.keySet();
             for (Activity act : acts) BrainUtil.addToActivity(brain, act, args);
@@ -222,10 +220,11 @@ public class NpcMob extends Villager implements IEntityWithComplexSpawn
     {
         RandomSource randomsource = level.getRandom();
         AttributeInstance attributeinstance = Objects.requireNonNull(this.getAttribute(Attributes.FOLLOW_RANGE));
-        if (!attributeinstance.hasModifier(RANDOM_SPAWN_BONUS_ID)) {
+        if (!attributeinstance.hasModifier(RANDOM_SPAWN_BONUS_ID))
+        {
             attributeinstance.addPermanentModifier(
-                new AttributeModifier(RANDOM_SPAWN_BONUS_ID, randomsource.triangle(0.0, 0.11485000000000001), AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-            );
+                    new AttributeModifier(RANDOM_SPAWN_BONUS_ID, randomsource.triangle(0.0, 0.11485000000000001),
+                            AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
         }
 
         this.setLeftHanded(randomsource.nextFloat() < 0.05F);
@@ -245,7 +244,8 @@ public class NpcMob extends Villager implements IEntityWithComplexSpawn
     {
         NpcEvent.OpenInventory event = new NpcEvent.OpenInventory(this);
         ThutCore.FORGE_BUS.post(event);
-        if (event.getResult() != TriState.FALSE)
+        if(this.getOffers().isEmpty()) this.offers = null;
+        if (event.getResult() == TriState.TRUE)
         {
             if (player instanceof ServerPlayer sp)
             {
@@ -297,8 +297,8 @@ public class NpcMob extends Villager implements IEntityWithComplexSpawn
             }
         }
 
-        if (this.getVillagerData().getProfession() != VillagerProfession.NONE
-                && this.getNpcType().getName().equals("none"))
+        if (this.getVillagerData().getProfession() != VillagerProfession.NONE && this.getNpcType().getName()
+                .equals("none"))
         {
             String prof = this.getVillagerData().getProfession().toString();
             NpcType type = NpcType.byType(prof);
@@ -447,7 +447,8 @@ public class NpcMob extends Villager implements IEntityWithComplexSpawn
             // Villager type first:
             if (this.getNpcType().getProfession() != VillagerProfession.NITWIT) super.updateTrades();
             // Next try custom ones
-            VillagerData villagerdata = this.getVillagerData();;
+            VillagerData villagerdata = this.getVillagerData();
+            ;
             VillagerTrades.ItemListing[] itemListings = type.getTrades(villagerdata.getLevel());
             if (itemListings != null) this.addOffersFromItemListings(this.offers, itemListings, 2);
         }
