@@ -52,8 +52,7 @@ public record EggInfo(CompoundTag tag)
 
     public Optional<BlockPos> getNest()
     {
-        var posOpt = NbtUtils.readBlockPos(tag, "nestLoc");
-        return posOpt;
+        return NbtUtils.readBlockPos(tag, "nestLoc");
     }
 
     public static final Codec<EggInfo> CODEC = CompoundTag.CODEC.<EggInfo>comapFlatMap(EggInfo::read, EggInfo::tag)

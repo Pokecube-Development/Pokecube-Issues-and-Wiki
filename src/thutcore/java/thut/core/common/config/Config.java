@@ -177,7 +177,7 @@ public class Config
                 }
             }
             this.onUpdated();
-            this.write();
+            if (res != null) this.write();
             return res;
         }
 

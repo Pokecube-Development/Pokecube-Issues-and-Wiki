@@ -359,21 +359,6 @@ public class PokecubeCore
                 PokecubeItems.POKECUBE_BERRIES = new ItemStack(BerryManager.berryCrops.get(0).get());
             if (PokecubeItems.POKECUBE_CUBES.isEmpty())
                 PokecubeItems.POKECUBE_CUBES = PokecubeItems.getStack("pokecube");
-
-//            EntityTools.registerCachedCap(ThutCaps.OWNABLE_CAP);
-//            EntityTools.registerCachedCap(ThutCaps.COLOURABLE);
-//            EntityTools.registerCachedCap(ThutCaps.ANIMATED);
-//            EntityTools.registerCachedCap(ThutCaps.SHEARABLE);
-//            EntityTools.registerCachedCap(ThutCaps.DATASYNC);
-//            EntityTools.registerCachedCap(ThutCaps.COPYMOB);
-//            EntityTools.registerCachedCap(ThutCaps.ANIMCAP);
-//            EntityTools.registerCachedCap(ThutCaps.MOBTEX_CAP);
-//
-//            EntityTools.registerCachedCap(PokemobCaps.POKEMOB_CAP);
-//            EntityTools.registerCachedCap(PokemobCaps.AFFECTED_CAP);
-//
-//            EntityTools.registerCachedCap(ThutWearables.WEARABLE_CAP);
-//            EntityTools.registerCachedCap(ThutWearables.WEARABLES_CAP);
         });
     }
 }

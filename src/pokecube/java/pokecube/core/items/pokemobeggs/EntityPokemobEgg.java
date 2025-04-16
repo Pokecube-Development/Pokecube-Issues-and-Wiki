@@ -1,7 +1,5 @@
 package pokecube.core.items.pokemobeggs;
 
-import java.util.UUID;
-
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -25,6 +23,8 @@ import pokecube.api.moves.Battle;
 import pokecube.core.PokecubeCore;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+
+import java.util.UUID;
 
 /** @author Manchou */
 public class EntityPokemobEgg extends AgeableMob
@@ -54,8 +54,7 @@ public class EntityPokemobEgg extends AgeableMob
     }
 
     @Override
-    /** Called when the entity is attacked. */
-    public boolean hurt(final DamageSource source, final float damage)
+    /** Called when the entity is attacked. */ public boolean hurt(final DamageSource source, final float damage)
     {
         if (this.delayBeforeCanPickup > 0) return false;
         final Entity e = source.getDirectEntity();
@@ -95,7 +94,8 @@ public class EntityPokemobEgg extends AgeableMob
 
     public UUID getMotherId()
     {
-        String s = PokemobCaps.getEggContents(getMainHandItem()).getMotherId();
+        var egg = PokemobCaps.getEggContents(getMainHandItem());
+        String s = egg.getMotherId();
         if (!s.equals(motherCacheS))
         {
             motherCacheS = s;
@@ -115,8 +115,7 @@ public class EntityPokemobEgg extends AgeableMob
      * Called when a user uses the creative pick block button on this entity.
      *
      * @param target The full target the player is looking at
-     * @return A ItemStack to add to the player's inventory, Null if nothing
-     *         should be added.
+     * @return A ItemStack to add to the player's inventory, Null if nothing should be added.
      */
     @Override
     public ItemStack getPickedResult(final HitResult target)
@@ -125,8 +124,8 @@ public class EntityPokemobEgg extends AgeableMob
     }
 
     /**
-     * Returns a generic pokemob instance with the data of the one in the egg,
-     * this is not to be used for spawning into the world.
+     * Returns a generic pokemob instance with the data of the one in the egg, this is not to be used for spawning into
+     * the world.
      *
      * @return
      */
@@ -213,8 +212,8 @@ public class EntityPokemobEgg extends AgeableMob
     }
 
     /**
-     * This is called when Entity's growing age timer reaches 0 (negative values
-     * are considered as a child, positive as an adult)
+     * This is called when Entity's growing age timer reaches 0 (negative values are considered as a child, positive as
+     * an adult)
      */
     @Override
     protected void ageBoundaryReached()

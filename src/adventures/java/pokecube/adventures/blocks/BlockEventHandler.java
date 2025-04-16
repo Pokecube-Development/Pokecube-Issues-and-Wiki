@@ -1,7 +1,5 @@
 package pokecube.adventures.blocks;
 
-import java.util.UUID;
-
 import net.minecraft.core.GlobalPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -27,18 +25,13 @@ import thut.api.block.IOwnableTE;
 import thut.api.data.HolderProvider;
 import thut.lib.TComponent;
 
+import java.util.UUID;
+
 @EventBusSubscriber(bus = Bus.MOD, modid = PokecubeAdv.MODID)
 public class BlockEventHandler
 {
-    private static class WarpPadStore implements ILinkStorage
+    private record WarpPadStore(WarpPadTile tile) implements ILinkStorage
     {
-        final WarpPadTile tile;
-
-        public WarpPadStore(final WarpPadTile tile)
-        {
-            this.tile = tile;
-        }
-
         @Override
         public UUID getLinkedMob(final Entity user)
         {
@@ -61,9 +54,8 @@ public class BlockEventHandler
         public boolean setLinkedPos(GlobalPos pos, final Entity user)
         {
             final IOwnable own = ThutCaps.getOwnable(this.tile);
-            if (pos == null
-                    || user instanceof LivingEntity living && own instanceof IOwnableTE ownTe && !ownTe.canEdit(living))
-                return false;
+            if (pos == null || user instanceof LivingEntity living && own instanceof IOwnableTE ownTe && !ownTe.canEdit(
+                    living)) return false;
             // Assume that we right clicked the top of the block.
             pos = GlobalPos.of(pos.dimension(), pos.pos().above());
             this.tile.getDest().setPos(pos);
@@ -127,19 +119,15 @@ public class BlockEventHandler
         }
     }
 
-    protected static final ResourceLocation ENERGYSTORECAP = ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID,
-            "energystore");
     protected static final ResourceLocation LINKSIPHONCAP = ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID,
             "energy_siphon");
     protected static final ResourceLocation LINKPADCAP = ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID,
             "warp_pad");
-    protected static final ResourceLocation LINKABLECAP = ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID,
-            "linkable");
 
     @SubscribeEvent
     public static void attachCaps(final FMLLoadCompleteEvent event)
     {
-        Linkable.DEFAULT().register(new HolderProvider.Provider<Linkable.ILinkable>()
+        Linkable.DEFAULT().register(new HolderProvider.Provider<>()
         {
 
             @Override
@@ -155,7 +143,7 @@ public class BlockEventHandler
                 return LINKSIPHONCAP;
             }
         });
-        Linkable.DEFAULT().register(new HolderProvider.Provider<Linkable.ILinkable>()
+        Linkable.DEFAULT().register(new HolderProvider.Provider<>()
         {
 
             @Override
@@ -171,15 +159,5 @@ public class BlockEventHandler
                 return LINKPADCAP;
             }
         });
-
-//        if (event.getObject() instanceof WarpPadTile
-//                && !event.getCapabilities().containsKey(BlockEventHandler.LINKABLECAP))
-//            event.addCapability(BlockEventHandler.LINKABLECAP, new WarpPadLink((WarpPadTile) event.getObject()));
-//        if (event.getObject() instanceof SiphonTile
-//                && !event.getCapabilities().containsKey(BlockEventHandler.LINKABLECAP))
-//            event.addCapability(BlockEventHandler.LINKABLECAP, new SiphonLink((SiphonTile) event.getObject()));
-//        if (event.getObject() instanceof StatueEntity && !event.getCapabilities().containsKey(CopyMob.LOC))
-//            event.addCapability(CopyMob.LOC, new CopyMob.Impl());
-
     }
 }

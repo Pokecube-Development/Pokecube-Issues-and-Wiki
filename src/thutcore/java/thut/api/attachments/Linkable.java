@@ -29,14 +29,29 @@ import thut.core.common.ThutCore;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 public class Linkable
 {
+    public static Map<ResourceLocation, BiFunction<CompoundTag, HolderLookup.Provider, ILinkStorage>> LINK_STORAGES = new HashMap<>();
+
     public static record LinkHolder(ILinkStorage link, CompoundTag tag)
     {
+        public static LinkHolder withStorage(HolderLookup.Provider context, ILinkStorage link)
+        {
+            return new LinkHolder(link, link.serializeNBT(context));
+        }
+
+        public LinkHolder()
+        {
+            this(new CompoundTag());
+        }
+
         public LinkHolder(CompoundTag tag)
         {
             this(null, tag);
@@ -44,10 +59,17 @@ public class Linkable
 
         public LinkHolder withContext(HolderLookup.Provider context)
         {
-            if (this.tag.isEmpty()) return this;
-            LinkStorage contents = new LinkStorage();
-            contents.deserializeNBT(context, this.tag());
-            return new LinkHolder(contents, this.tag);
+            BiFunction<CompoundTag, HolderLookup.Provider, ILinkStorage> factory = (tag, cont) -> {
+                var store = new LinkStorage();
+                store.deserializeNBT(cont, tag);
+                return store;
+            };
+            if (this.tag.contains("key"))
+            {
+                ResourceLocation key = ResourceLocation.parse(this.tag.getString("key"));
+                factory = LINK_STORAGES.getOrDefault(key, factory);
+            }
+            return new LinkHolder(factory.apply(this.tag, context), this.tag);
         }
 
         public LinkHolder saveHolder(HolderLookup.Provider context)
@@ -55,8 +77,8 @@ public class Linkable
             return new LinkHolder(link, link.serializeNBT(context));
         }
 
-        public static final Codec<LinkHolder> CODEC = CompoundTag.CODEC.<LinkHolder>comapFlatMap(LinkHolder::read,
-                LinkHolder::tag).stable();
+        public static final Codec<LinkHolder> CODEC = CompoundTag.CODEC.comapFlatMap(LinkHolder::read, LinkHolder::tag)
+                .stable();
         public static final StreamCodec<ByteBuf, LinkHolder> STREAM_CODEC = ByteBufCodecs.COMPOUND_TAG.map(
                 LinkHolder::parse, LinkHolder::tag);
 
@@ -285,6 +307,7 @@ public class Linkable
     {
         if (d == null) d = Direction.DOWN;
         var TYPE = TYPES[d.ordinal()].get();
+        if (!in.hasData(TYPE)) return d == Direction.DOWN ? null : get(in, Direction.DOWN);
         return in.getData(TYPE);
     }
 

@@ -379,13 +379,6 @@ public class TrainerEventHandler
                 evt.setCancellationResult(succeed);
             }
         }
-        if (evt.getItemStack().getItem() instanceof Linker && player instanceof ServerPlayer sp && Linker.interact(sp,
-                target, evt.getItemStack()))
-        {
-            evt.setCanceled(true);
-            evt.setCancellationResult(succeed);
-            return;
-        }
         if (target instanceof NpcMob npc && npc.getNpcType().getInteraction()
                 .processInteract(player, evt.getHand(), npc))
         {

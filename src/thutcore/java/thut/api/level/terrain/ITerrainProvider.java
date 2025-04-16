@@ -29,7 +29,7 @@ public interface ITerrainProvider
         var getter = level.getChunk(x, z, ChunkStatus.LIGHT, false);
         if(!(getter instanceof ChunkAccess chunk))
         {
-            ThutCore.LOGGER.error("ERROR, Umloaded chunk", new IllegalStateException())
+            ThutCore.LOGGER.error("ERROR, Umloaded chunk", new IllegalStateException());
             return new TerrainSegment(p);
         }
 

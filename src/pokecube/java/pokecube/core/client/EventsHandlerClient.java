@@ -11,7 +11,6 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -21,7 +20,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -32,13 +30,9 @@ import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.EventBusSubscriber.Bus;
-import net.neoforged.neoforge.client.event.InputEvent;
+import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.event.InputEvent.Key;
-import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
-import net.neoforged.neoforge.client.event.RegisterMaterialAtlasesEvent;
-import net.neoforged.neoforge.client.event.RenderBlockScreenEffectEvent;
 import net.neoforged.neoforge.client.event.RenderBlockScreenEffectEvent.OverlayType;
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent.Stage;
 import net.neoforged.neoforge.client.event.ScreenEvent.MouseScrolled;
 import net.neoforged.neoforge.client.event.ScreenEvent.Render;
@@ -58,11 +52,7 @@ import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.logic.LogicMountedControl;
-import pokecube.core.client.gui.AnimationGui;
-import pokecube.core.client.gui.GuiArranger;
-import pokecube.core.client.gui.GuiDisplayPokecubeInfo;
-import pokecube.core.client.gui.GuiInfoMessages;
-import pokecube.core.client.gui.GuiTeleport;
+import pokecube.core.client.gui.*;
 import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.client.render.mobs.RenderPokemob;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
@@ -231,7 +221,8 @@ public class EventsHandlerClient
                             break hands;
                         }
         }
-        for (var comp : GuiDisplayPokecubeInfo.COMPONENTS)
+        boolean alt = Screen.hasAltDown();
+        if (alt) for (var comp : GuiDisplayPokecubeInfo.COMPONENTS)
             if (comp.handleClick(evt.getAction(), evt.getButton(), evt.getModifiers())) break;
     }
 

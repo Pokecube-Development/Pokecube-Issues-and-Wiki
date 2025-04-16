@@ -67,15 +67,6 @@ public class ItemPokemobEgg extends Item
     public static HashMap<PokedexEntry, IPokemob> fakeMobs = new HashMap<>();
     public static Item EGG = null;
 
-    public static byte[] getColour(final int[] fatherColours, final int[] motherColours)
-    {
-        final byte[] ret = new byte[]
-        { 127, 127, 127, 127 };
-        if (fatherColours.length < 3 && motherColours.length < 3) return ret;
-        for (int i = 0; i < 3; i++) ret[i] = (byte) ((fatherColours[i] + motherColours[i]) / 2 - 128);
-        return ret;
-    }
-
     public static ItemStack getEggStack(final IPokemob pokemob)
     {
         final ItemStack stack = ItemPokemobEgg.getEggStack(pokemob.getPokedexEntry(), pokemob.getEntity().level());
@@ -157,9 +148,8 @@ public class ItemPokemobEgg extends Item
     private static LivingEntity imprintOwner(final IPokemob mob)
     {
         final Vector3 location = new Vector3().set(mob.getEntity());
-        Player player = mob.getEntity().level().getNearestPlayer(location.x, location.y, location.z,
+        LivingEntity owner = mob.getEntity().level().getNearestPlayer(location.x, location.y, location.z,
                 ItemPokemobEgg.PLAYERDIST, EntitySelector.NO_SPECTATORS);
-        LivingEntity owner = player;
         final AABB box = location.getAABB().inflate(ItemPokemobEgg.MOBDIST, ItemPokemobEgg.MOBDIST,
                 ItemPokemobEgg.MOBDIST);
         if (owner == null)
@@ -278,7 +268,7 @@ public class ItemPokemobEgg extends Item
 
     public ItemPokemobEgg(final Properties props)
     {
-        super(props);
+        super(props.component(PokemobCaps.POKEEGG_DATA, new EggInfo()));
         ItemPokemobEgg.EGG = this;
     }
 
