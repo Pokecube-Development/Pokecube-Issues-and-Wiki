@@ -87,11 +87,11 @@ public class SpawnEventsHandler
         {
             JsonObject thing = JsonUtil.gson.fromJson(
                     event.getEntity().getPersistentData().getString("pokecube:structure_entity"), JsonObject.class);
-            if (!npc.level().isAreaLoaded(npc.getOnPos(), 0))
+            if (!npc.level().isAreaLoaded(npc.getOnPos(), 2))
             {
                 EventsHandler.Schedule(npc.level(), w -> {
                     if (!npc.isAddedToLevel()) return true;
-                    if (!npc.level().isAreaLoaded(npc.getOnPos(), 0)) return false;
+                    if (!npc.level().isAreaLoaded(npc.getOnPos(), 2)) return false;
                     applyFunction(npc, thing);
                     event.getEntity().getPersistentData().remove("pokecube:structure_entity");
                     return true;

@@ -53,7 +53,7 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
             final boolean caveAdjusted)
     {
         if (!(world instanceof ServerLevel rworld)) return BiomeType.NONE;
-        ChunkAccess chunk = world.getChunk(v.getPos());
+        ChunkAccess chunk = segment.chunk;
         if (caveAdjusted)
         {
             final Set<INamedStructure> set = StructureManager.getFor(rworld.dimension(), v.getPos(), true);
@@ -168,7 +168,7 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
         {
             if (level.isVillage(v.getPos())) biome = BiomeType.VILLAGE;
         }
-        boolean sky = v.canSeeSky(world);
+        boolean sky = v.canSeeSky(chunk);
         // lastly check for sky, this goes after village checks so you can have
         // sky villages still be villages.
         if (sky)

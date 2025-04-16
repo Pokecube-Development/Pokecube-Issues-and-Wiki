@@ -5,7 +5,9 @@ import net.minecraft.core.SectionPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
 import thut.api.ThutCaps;
+import thut.core.common.ThutCore;
 
 public interface ITerrainProvider
 {
@@ -16,12 +18,20 @@ public interface ITerrainProvider
      */
     default TerrainSegment getTerrain(final LevelAccessor world, final BlockPos p)
     {
-        if (!(world instanceof Level))
+        if (!(world instanceof Level level))
         {
+            ThutCore.LOGGER.error("ERROR, Umloaded chunk", new IllegalStateException());
             return new TerrainSegment(p);
         }
         // Convert the pos to a chunk pos
-        ChunkAccess chunk = world.getChunk(p);
+        int x = SectionPos.blockToSectionCoord(p.getX());
+        int z = SectionPos.blockToSectionCoord(p.getZ());
+        var getter = level.getChunk(x, z, ChunkStatus.LIGHT, false);
+        if(!(getter instanceof ChunkAccess chunk))
+        {
+            ThutCore.LOGGER.error("ERROR, Umloaded chunk", new IllegalStateException())
+            return new TerrainSegment(p);
+        }
 
         int y = SectionPos.blockToSectionCoord(p.getY());
         if (y < world.getMinSection()) y = world.getMinSection();
