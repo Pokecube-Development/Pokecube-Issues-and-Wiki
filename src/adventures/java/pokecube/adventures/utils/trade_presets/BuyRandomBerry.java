@@ -34,7 +34,7 @@ public class BuyRandomBerry implements TradePreset
                 recipe = new TrainerTrade(cost, Optional.empty(), sell, trade);
                 var values = trade.values;
                 if (values.containsKey(TradeEntryLoader.CHANCE))
-                    recipe.chance = (float) values.get(TradeEntryLoader.CHANCE);
+                    recipe.chance = values.get(TradeEntryLoader.CHANCE).getAsFloat();
                 trades.tradesList.add(recipe);
             }
         }

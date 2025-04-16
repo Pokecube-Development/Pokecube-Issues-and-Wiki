@@ -1,5 +1,6 @@
 package pokecube.adventures.utils.trade_presets;
 
+import com.google.gson.JsonPrimitive;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentPredicate;
 import net.minecraft.core.component.DataComponents;
@@ -54,11 +55,11 @@ public class SellStructureMap implements TradePreset
         recipe = new TrainerTrade(cost, _buy2, sell, trade);
         var values = trade.values;
         if (values.containsKey(TradeEntryLoader.CHANCE))
-            recipe.chance = (float) values.get(TradeEntryLoader.CHANCE);
+            recipe.chance = values.get(TradeEntryLoader.CHANCE).getAsFloat();
 
-        ResourceLocation loc = ResourceLocation.parse((String) trade.values.get(ID));
+        ResourceLocation loc = ResourceLocation.parse(trade.values.get(ID).getAsString());
 
-        boolean newOnly = (boolean) trade.values.getOrDefault(NEW_ONLY, false);
+        boolean newOnly = trade.values.getOrDefault(NEW_ONLY, new JsonPrimitive(false)).getAsBoolean();
 
         recipe.outputModifier = (entity, random) -> {
             if (!(entity.level instanceof ServerLevel serverlevel)) return ItemStack.EMPTY;

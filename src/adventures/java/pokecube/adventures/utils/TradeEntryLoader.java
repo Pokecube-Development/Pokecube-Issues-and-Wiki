@@ -56,7 +56,7 @@ public class TradeEntryLoader
 
         public final List<JsonElement> buys = Lists.newArrayList();
 
-        public Map<String, Object> values = Maps.newHashMap();
+        public Map<String, JsonElement> values = Maps.newHashMap();
     }
 
     public static class TradeEntry
@@ -202,7 +202,7 @@ public class TradeEntryLoader
                     recipe = new TrainerTrade(cost, _buy2, sell, trade);
                     var values = trade.values;
                     if (values.containsKey(TradeEntryLoader.CHANCE))
-                        recipe.chance = (float) values.get(TradeEntryLoader.CHANCE);
+                        recipe.chance = values.get(TradeEntryLoader.CHANCE).getAsFloat();
                     trades.tradesList.add(recipe);
                 }
             }
@@ -224,7 +224,7 @@ public class TradeEntryLoader
                     recipe = new TrainerTrade(cost, Optional.empty(), sell, trade);
                     var values = trade.values;
                     if (values.containsKey(TradeEntryLoader.CHANCE))
-                        recipe.chance = (float) values.get(TradeEntryLoader.CHANCE);
+                        recipe.chance = values.get(TradeEntryLoader.CHANCE).getAsFloat();
                     trades.tradesList.add(recipe);
                 }
             }
@@ -274,6 +274,11 @@ public class TradeEntryLoader
         {
             final TrainerTrades trades = new TrainerTrades();
             processTrades(trades, entry.trades);
+            if (trades.tradesList.isEmpty())
+            {
+                PokecubeAPI.LOGGER.error("Warning, no trades found for {}", entry.template);
+                continue;
+            }
             TypeTrainer.tradesMap.put(entry.template, trades);
         }
         for (ProfessionEntry entry : database.professions)
@@ -283,7 +288,7 @@ public class TradeEntryLoader
                 int level = stage.level;
                 final TrainerTrades trades = new TrainerTrades();
                 processTrades(trades, stage.trades);
-                ItemListing[] arr = trades.tradesList.toArray(new ItemListing[trades.tradesList.size()]);
+                ItemListing[] arr = trades.tradesList.toArray(new ItemListing[0]);
                 if (entry.profession != null)
                 {
                     ResourceLocation id = ResourceLocation.parse(entry.profession);
@@ -330,7 +335,7 @@ public class TradeEntryLoader
                 recipe = new TrainerTrade(cost, _buy2, sell, trade);
                 var values = trade.values;
                 if (values.containsKey(TradeEntryLoader.CHANCE))
-                    recipe.chance = (float) values.get(TradeEntryLoader.CHANCE);
+                    recipe.chance = values.get(TradeEntryLoader.CHANCE).getAsFloat();
                 trades.tradesList.add(recipe);
             }
             catch (Throwable t)

@@ -438,8 +438,7 @@ public class TypeTrainer extends NpcType
                 if (t != null && t.getName().equalsIgnoreCase(name)) return t;
             if (create && !name.isEmpty())
             {
-                final TypeTrainer t = new TypeTrainer(name);
-                return t;
+                return new TypeTrainer(name);
             }
             for (final TypeTrainer t : TypeTrainer.typeMap.values()) if (t != null) return t;
         }
@@ -508,7 +507,7 @@ public class TypeTrainer extends NpcType
             }
             // Remove large pokemobs from their list.
             t.pokemon.removeIf(e -> (e.length > 8 || e.height > 8 || e.width > 8));
-            if (t.pokemon.size() == 0 && t != TypeTrainer.merchant) toRemove.add(t);
+            if (t.pokemon.isEmpty() && t != TypeTrainer.merchant) toRemove.add(t);
         }
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Loaded Trainer Types: " + TypeTrainer.typeMap);
         if (!toRemove.isEmpty()) PokecubeAPI.logInfo("Removing Trainer Types: " + toRemove);
@@ -596,7 +595,7 @@ public class TypeTrainer extends NpcType
     {
         if (!this.loot[0].isEmpty()) return;
 
-        if (!this.drops.equals(""))
+        if (!this.drops.isEmpty())
         {
             final String[] args = this.drops.split(":");
             int num = 0;

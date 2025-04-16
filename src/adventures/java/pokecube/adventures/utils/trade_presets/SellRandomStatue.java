@@ -38,7 +38,7 @@ public class SellRandomStatue implements TradePreset
                         DataComponentPredicate.allOf(buy2.getComponents())));
         recipe = new TrainerTrade(cost, _buy2, statue, trade);
         var values = trade.values;
-        if (values.containsKey(TradeEntryLoader.CHANCE)) recipe.chance = (float) values.get(TradeEntryLoader.CHANCE);
+        if (values.containsKey(TradeEntryLoader.CHANCE)) recipe.chance = values.get(TradeEntryLoader.CHANCE).getAsFloat();
         trades.tradesList.add(recipe);
     }
 
