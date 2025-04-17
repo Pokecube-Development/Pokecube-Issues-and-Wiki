@@ -105,7 +105,7 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
                 return null;
             }
             var opt = builder.level.getStructureManager().get(toMake);
-            if (!opt.isPresent())
+            if (opt.isEmpty())
             {
                 PokecubeAPI.LOGGER.error("No Template for {}!", toMake);
                 return null;
@@ -117,7 +117,7 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
     private boolean done = false;
     private boolean creative = false;
 
-    private Supplier<StructureTemplate> keyProvider;
+    private final Supplier<StructureTemplate> keyProvider;
     private StructureTemplate _template;
 
     protected StructurePlaceSettings settings;
@@ -137,7 +137,7 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
     /**
      * Map of y-coordinate -> list of blocks to place/remove
      */
-    private Map<Integer, List<StructureBlockInfo>> removeOrder = new HashMap<>();
+    private final Map<Integer, List<StructureBlockInfo>> removeOrder = new HashMap<>();
     /**
      * Sorted list of keys for {@link #removeOrder}
      */
@@ -147,7 +147,7 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
      * defines. This order ensures proper placement of torches, redstone wire,
      * etc.
      */
-    private List<StructureBlockInfo> placeOrder = new ArrayList<>();
+    private final List<StructureBlockInfo> placeOrder = new ArrayList<>();
     /**
      * Map of location - itemstack needed to place at that location. The values
      * in this map are not unique.
@@ -157,23 +157,23 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
      * A sorted list of the values from {@link #neededItems}, sorted with
      * largest amount needed first. This is what gets printed in the BoM.
      */
-    private List<ItemStack> sortedNeededItems = new ArrayList<>();
+    private final List<ItemStack> sortedNeededItems = new ArrayList<>();
 
     /**
      * Set of items we don't have to place, by index in
      * {@link #sortedNeededItems}
      */
-    private BitSet missingItems = new BitSet();
+    private final BitSet missingItems = new BitSet();
     /**
      * Set of items we explicitly ignore for placement, set in
      * {@link #checkBoM(pokecube.gimmicks.builders.builders.IBlocksBuilder.BoMRecord)},
      * and by index in {@link #sortedNeededItems}
      */
-    private BitSet ignoredItems = new BitSet();
+    private final BitSet ignoredItems = new BitSet();
 
-    private List<BoMRecord> BoMs = new ArrayList<>();
-    private Set<BlockPos> pendingBuild = new HashSet<>();
-    private Set<BlockPos> pendingClear = new HashSet<>();
+    private final List<BoMRecord> BoMs = new ArrayList<>();
+    private final Set<BlockPos> pendingBuild = new HashSet<>();
+    private final Set<BlockPos> pendingClear = new HashSet<>();
 
     private int passes = 0;
 
@@ -213,36 +213,40 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
     public void checkBoM(BoMRecord BoM)
     {
         ItemStack book = BoM.BoMProvider().get();
-//        if (book.getItem() instanceof WritableBookItem && book.hasTag())
-//        {
-//            CompoundTag nbt = book.getOrCreateTag();
-//            ListTag pages = null;
-//            if (!nbt.contains("pages") || !(nbt.get("pages") instanceof ListTag t2))
-//                nbt.put("pages", pages = new ListTag());
-//            else pages = t2;
-//            Set<String> itemLists = new HashSet<>();
-//            for (int page = 0; page < pages.size(); page++)
-//            {
-//                var entry = pages.get(page);
-//                String string = entry.getAsString();
-//                if (!string.startsWith("{")) string = "{\"text\":\"" + string + "\"}";
-//                var parsed = JsonUtil.gson.fromJson(string, JsonObject.class);
-//                String txt = parsed.get("text").getAsString().strip();
-//                if (!txt.startsWith("Total Cost:")) continue;
-//                var lines = txt.split("\n");
-//                for (int i = 1; i < lines.length; i++)
-//                {
-//                    var line = lines[i];
-//                    if (!line.isBlank() && line.startsWith("-x")) itemLists.add(line.replace("-x", ""));
-//                }
-//            }
-//
-//            ignoredItems.clear();
-//            if (itemLists.size() > 0) for (int i = 0; i < sortedNeededItems.size(); i++)
-//            {
-//                if (itemLists.contains(sortedNeededItems.get(i).getDisplayName().getString())) ignoredItems.set(i);
-//            }
-//        }
+        var writable = book.get(DataComponents.WRITABLE_BOOK_CONTENT);
+        List<String> bookLines = new ArrayList<>();
+        if (writable != null)
+        {
+            writable.getPages(true).forEach(bookLines::add);
+
+            Set<String> itemLists = new HashSet<>();
+            bookLines.forEach(string -> {
+                if (!string.startsWith("{")) string = "{\"text\":\"" + string + "\"}";
+                try
+                {
+                    var parsed = JsonUtil.gson.fromJson(string, JsonObject.class);
+                    String txt = parsed.get("text").getAsString().strip();
+                    if (!txt.startsWith("Total Cost:")) return;
+                    var lines = txt.split("\n");
+                    for (int i = 1; i < lines.length; i++)
+                    {
+                        var line = lines[i];
+                        if (!line.isBlank() && line.startsWith("-x")) itemLists.add(line.replace("-x", ""));
+                    }
+                }
+                catch (Exception e)
+                {
+                    // Some items may have funny nbt tags added, which can
+                    // cause this.
+                }
+            });
+
+            ignoredItems.clear();
+            if (!itemLists.isEmpty()) for (int i = 0; i < sortedNeededItems.size(); i++)
+            {
+                if (itemLists.contains(sortedNeededItems.get(i).getDisplayName().getString())) ignoredItems.set(i);
+            }
+        }
     }
 
     @Override
@@ -394,8 +398,7 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
      * Here we ensure the {@link StructureTemplate} we are using is valid, and
      * populate maps of location - {@link StructureBlockInfo} for
      * removal/construction.
-     * 
-     * @param level
+     *
      */
     public void checkBlueprint(ServerLevel level)
     {
@@ -504,7 +507,7 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
             if (infos == null) continue;
             List<BlockPos> remove = StructureTemplateTools.getNeedsRemoval(level, settings, infos);
             if (remove.isEmpty()) continue;
-            BlockPos pos = remove.get(0);
+            BlockPos pos = remove.getFirst();
             if (level.getMinBuildHeight() >= pos.getY()) continue;
             if (level.getMaxBuildHeight() <= pos.getY()) continue;
             if (pendingClear.contains(pos)) continue;
@@ -699,9 +702,9 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
     {
         int n = 0;
         needed_check:
-        for (int i = 0, max = placeOrder.size(); i < max; i++)
+        for (StructureBlockInfo structureBlockInfo : placeOrder)
         {
-            ItemStack needed = neededItems.get(placeOrder.get(i).pos());
+            ItemStack needed = neededItems.get(structureBlockInfo.pos());
             if (needed == null || needed.isEmpty()) continue;
             int index = sortedNeededItems.indexOf(needed);
             if (index >= 0 && this.ignoredItems.get(index)) continue;

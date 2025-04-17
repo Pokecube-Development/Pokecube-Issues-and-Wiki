@@ -29,9 +29,9 @@ public class BookInstructionsParser
             var args = instruction.contains(",") ? instruction.split(",") : instruction.split(" ");
             if (args.length == 3)
             {
-                double x = 0;
-                double y = 0;
-                double z = 0;
+                double x;
+                double y;
+                double z;
                 x = Double.parseDouble(args[0]);
                 y = Double.parseDouble(args[1]);
                 z = Double.parseDouble(args[2]);
@@ -59,9 +59,9 @@ public class BookInstructionsParser
             var args = instruction.contains(",") ? instruction.split(",") : instruction.split(" ");
             if (args.length == 3)
             {
-                int x = 0;
-                int y = 0;
-                int z = 0;
+                int x;
+                int y;
+                int z;
                 x = Integer.parseInt(args[0]);
                 y = Integer.parseInt(args[1]);
                 z = Integer.parseInt(args[2]);
@@ -80,7 +80,7 @@ public class BookInstructionsParser
     public static List<String> getInstructions(ItemStack source, String start, boolean includeHeader)
     {
         List<String> instructions = new ArrayList<>();
-        List<String> lines = new ArrayList<String>();
+        List<String> lines = new ArrayList<>();
         var written = source.get(DataComponents.WRITTEN_BOOK_CONTENT);
         if (written != null)
         {
@@ -91,9 +91,7 @@ public class BookInstructionsParser
         var writable = source.get(DataComponents.WRITABLE_BOOK_CONTENT);
         if (writable != null)
         {
-            writable.getPages(true).forEach(comp -> {
-                lines.add(comp);
-            });
+            writable.getPages(true).forEach(lines::add);
         }
         // TODO clean this up.
         start = start.strip();
@@ -121,7 +119,7 @@ public class BookInstructionsParser
                 // cause this.
             }
         });
-        if (!includeHeader && !instructions.isEmpty()) instructions.remove(0);
+        if (!includeHeader && !instructions.isEmpty()) instructions.removeFirst();
         return instructions;
     }
 }

@@ -7,7 +7,7 @@ import pokecube.gimmicks.builders.builders.BuilderManager.BuilderClearer;
 
 public class BuilderInstructionsEvent extends Event
 {
-    private List<String> instructions;
+    private final List<String> instructions;
     private BuilderClearer results;
     
     public BuilderInstructionsEvent(List<String> instructions, BuilderClearer results)
