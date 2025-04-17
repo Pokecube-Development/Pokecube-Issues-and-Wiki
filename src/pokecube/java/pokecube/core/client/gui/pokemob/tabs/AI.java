@@ -87,7 +87,6 @@ public class AI extends Tab
                     graphics.pose().pushPose();
                     float s = 10f / 80f;
                     int sx = x + dx;
-                    int sy = y + 0;
                     int tx = 0;
                     int ty = state ? 80 : 0;
                     var icon = state

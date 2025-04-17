@@ -1,11 +1,6 @@
 package pokecube.core.client.gui.pokemob.tabs;
 
-import java.util.List;
-
-import org.lwjgl.glfw.GLFW;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
@@ -18,6 +13,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import org.lwjgl.glfw.GLFW;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.utility.StoreTask;
@@ -30,6 +26,8 @@ import pokecube.core.utils.Resources;
 import thut.api.attachments.Linkable;
 import thut.core.common.ThutCore;
 import thut.lib.TComponent;
+
+import java.util.List;
 
 public class Storage extends Tab
 {
@@ -77,8 +75,9 @@ public class Storage extends Tab
                 TComponent.literal("")));
         this.addRenderableWidget(this.storage = new EditBox(parent.font, xOffset + 10, yOffset + dy + ds * 1, 50, 10,
                 TComponent.literal("")));
-        this.addRenderableWidget(this.storageFace = new EditBox(parent.font, xOffset + 10, yOffset + dy + ds * 2, 50,
-                10, TComponent.literal("")));
+        this.addRenderableWidget(
+                this.storageFace = new EditBox(parent.font, xOffset + 10, yOffset + dy + ds * 2, 50, 10,
+                        TComponent.literal("")));
         this.addRenderableWidget(this.empty = new EditBox(parent.font, xOffset + 10, yOffset + dy + ds * 3, 50, 10,
                 TComponent.literal("")));
         this.addRenderableWidget(this.emptyFace = new EditBox(parent.font, xOffset + 10, yOffset + dy + ds * 4, 50, 10,
@@ -108,8 +107,7 @@ public class Storage extends Tab
         final int l = (this.height - this.imageHeight) / 2;
 
         this.addRenderableWidget(
-                new TooltipArea.Builder(TComponent.translatable("pokemob.gui.slot.storage.off_hand"), (x, y) ->
-                {
+                new TooltipArea.Builder(TComponent.translatable("pokemob.gui.slot.storage.off_hand"), (x, y) -> {
                     Slot offhand_slot = menu.slots.get(3);
                     if (offhand_slot.hasItem()) return false;
                     return PokecubeCore.getConfig().pokemobGuiTooltips;
@@ -129,9 +127,9 @@ public class Storage extends Tab
             this.sendUpdate();
             return true;
         }
-        for (EditBox box : textBoxes) if (box.isFocused() && code != GLFW.GLFW_KEY_BACKSPACE
-                && code != GLFW.GLFW_KEY_ESCAPE && !Screen.hasControlDown())
-            return true;
+        for (EditBox box : textBoxes)
+            if (box.isFocused() && code != GLFW.GLFW_KEY_BACKSPACE && code != GLFW.GLFW_KEY_ESCAPE
+                    && !Screen.hasControlDown()) return true;
         return false;
     }
 
@@ -183,8 +181,7 @@ public class Storage extends Tab
     }
 
     /**
-     * Draw the foreground layer for the ContainerScreen (everything in front of
-     * the items)
+     * Draw the foreground layer for the ContainerScreen (everything in front of the items)
      */
     @Override
     public void renderLabels(final GuiGraphics graphics, final int mouseX, final int mouseY)
@@ -234,7 +231,7 @@ public class Storage extends Tab
         var player = Minecraft.getInstance().player;
         final ItemStack carried = player.containerMenu.getCarried();
         var holder = carried.get(Linkable.LINK_STORE);
-        if (holder != null)
+        if (holder != null && (holder = holder.withContext(player.registryAccess())).link() != null)
         {
             holder.withContext(player.registryAccess());
             var _pos = holder.link().getLinkedPos(player);
@@ -246,8 +243,8 @@ public class Storage extends Tab
         }
         for (final EditBox text : this.textBoxes)
         {
-            if (newLink != null && text.isFocused()
-                    && (text == this.berry || text == this.storage || text == this.empty))
+            if (newLink != null && text.isFocused() && (text == this.berry || text == this.storage
+                    || text == this.empty))
             {
                 text.setValue(newLink.getX() + " " + newLink.getY() + " " + newLink.getZ());
                 effect = true;

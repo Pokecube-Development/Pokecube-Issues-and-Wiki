@@ -1,25 +1,24 @@
 package pokecube.core.ai.tasks.utility;
 
-import java.util.List;
-import java.util.Set;
-import java.util.function.Predicate;
-
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerListener;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.util.INBTSerializable;
@@ -35,11 +34,15 @@ import thut.api.entity.event.BreakTestEvent;
 import thut.api.item.ItemList;
 import thut.lib.ItemStackTools;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Predicate;
+
 /**
- * This IAIRunnable will result in the mob occasionally emptying its inventory
- * into an inventory near its home location. This, along with AIGatherStuff
- * allows using pokemobs for automatic harvesting and storage of berries and
- * dropped items.
+ * This IAIRunnable will result in the mob occasionally emptying its inventory into an inventory near its home location.
+ * This, along with AIGatherStuff allows using pokemobs for automatic harvesting and storage of berries and dropped
+ * items.
  */
 public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>, ContainerListener
 {
@@ -74,7 +77,9 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
     private BlockPos pathTarget = null;
 
     protected ItemStack instructionsCache = ItemStack.EMPTY;
-    protected List<ResourceLocation> keys = Lists.newArrayList();
+    protected List<ResourceLocation> keys = new ArrayList<>();
+    protected List<TagKey<Item>> tags_i = new ArrayList<>();
+    protected List<TagKey<Block>> tags_b = new ArrayList<>();
 
     private IItemHandlerModifiable taskInventory;
     private IItemHandlerModifiable pokeInventory;
@@ -95,13 +100,24 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         {
             this.instructionsCache = stack;
             keys.clear();
+            tags_i.clear();
+            tags_b.clear();
             List<String> instructions = BookInstructionsParser.getInstructions(stack, "item filters", false);
             for (String line : instructions)
             {
                 try
                 {
-                    ResourceLocation res = ResourceLocation.parse(line);
-                    keys.add(res);
+                    if (line.startsWith("#"))
+                    {
+                        ResourceLocation res = ResourceLocation.parse(line.substring(1));
+                        tags_i.add(ItemTags.create(res));
+                        tags_b.add(BlockTags.create(res));
+                    }
+                    else
+                    {
+                        ResourceLocation res = ResourceLocation.parse(line);
+                        keys.add(res);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -114,15 +130,17 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
     protected boolean checkValid(ItemStack item_or_block)
     {
         checkHeldItem();
+        for (var tag : tags_i) if (item_or_block.is(tag)) return true;
         for (ResourceLocation l : keys) if (ItemList.is(l, item_or_block)) return true;
-        return keys.isEmpty();
+        return keys.isEmpty() && tags_i.isEmpty() && tags_b.isEmpty();
     }
 
     protected boolean checkValid(BlockState item_or_block)
     {
         checkHeldItem();
+        for (var tag : tags_b) if (item_or_block.is(tag)) return true;
         for (ResourceLocation l : keys) if (ItemList.is(l, item_or_block)) return true;
-        return keys.isEmpty();
+        return keys.isEmpty() && tags_i.isEmpty() && tags_b.isEmpty();
     }
 
     @Override
@@ -268,7 +286,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         if (inventory == null) inventory = this.getInventory(this.world, this.emptyInventory, this.emptyFace);
         if (inventory == null || inventory.getFirst() == null) return false;
         // No items to empty
-        if (!this.hasItem(i -> checkValid(i), inventory.getFirst())) return false;
+        if (!this.hasItem(this::checkValid, inventory.getFirst())) return false;
 
         // Path to the inventory.
         if (this.pokemob.getEntity().blockPosition().distSqr(this.emptyInventory) > 9)
@@ -290,18 +308,19 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
                 inv:
                 for (int slot = this.firstEmpty; slot < endSlot; slot++)
                     if (taskInventory.getStackInSlot(slot).isEmpty())
-                {
-                    ItemStack stack = container.getItem(i);
-                    if (container.canTakeItemThroughFace(i, stack, emptyFace) && !stack.isEmpty() && checkValid(stack))
                     {
-                        container.setItem(i, ItemStack.EMPTY);
-                        taskInventory.setStackInSlot(slot, stack);
-                        // Collected our item successfully
-                        collected = true;
-                        start = i + 1;
-                        continue inv;
+                        ItemStack stack = container.getItem(i);
+                        if (container.canTakeItemThroughFace(i, stack, emptyFace) && !stack.isEmpty() && checkValid(
+                                stack))
+                        {
+                            container.setItem(i, ItemStack.EMPTY);
+                            taskInventory.setStackInSlot(slot, stack);
+                            // Collected our item successfully
+                            collected = true;
+                            start = i + 1;
+                            continue inv;
+                        }
                     }
-                }
             }
         }
         else
@@ -312,19 +331,19 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
             inv:
             for (int slot = this.firstEmpty; slot < endSlot; slot++)
                 if (taskInventory.getStackInSlot(slot).isEmpty()) for (int i = start; i < imax; i++)
-            {
-                final ItemStack stack = inventory.getFirst().getStackInSlot(i);
-                if (!stack.isEmpty() && checkValid(stack))
                 {
-                    inventory.getFirst().setStackInSlot(i, ItemStack.EMPTY);
-                    taskInventory.setStackInSlot(slot, stack);
-                    // Collected our item successfully
-                    collected = true;
-                    start = i + 1;
-                    if (start >= imax) break inv;
-                    continue inv;
+                    final ItemStack stack = inventory.getFirst().getStackInSlot(i);
+                    if (!stack.isEmpty() && checkValid(stack))
+                    {
+                        inventory.getFirst().setStackInSlot(i, ItemStack.EMPTY);
+                        taskInventory.setStackInSlot(slot, stack);
+                        // Collected our item successfully
+                        collected = true;
+                        start = i + 1;
+                        if (start >= imax) break inv;
+                        continue inv;
+                    }
                 }
-            }
         }
         return collected;
     }
@@ -567,8 +586,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
     public boolean shouldRun()
     {
         if (pathing && this.pokemob.getHome() != null) return true;
-        if (!this.pokemob.isRoutineEnabled(AIRoutine.STORE) || this.pokemob.getHome() == null) return false;
-        return true;
+        return this.pokemob.isRoutineEnabled(AIRoutine.STORE) && this.pokemob.getHome() != null;
     }
 
     @Override
@@ -579,13 +597,11 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
 
     /**
      * Only tame pokemobs set to "stay" should run this AI.
-     *
-     * @return
      */
     private boolean tameCheck()
     {
-        return this.pokemob.getGeneralState(GeneralStates.TAMED)
-                && !this.pokemob.getGeneralState(GeneralStates.STAYING);
+        return this.pokemob.getGeneralState(GeneralStates.TAMED) && !this.pokemob.getGeneralState(
+                GeneralStates.STAYING);
     }
 
     @Override
@@ -614,9 +630,8 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
             if (!stuff) this.searchInventoryCooldown = 50 * StoreTask.COOLDOWN;
         }
         // Berry check uses poke inventory, the others use task inventory
-        if (this.doBerryCheck(getPokeInventory()) || this.doStorageCheck(getTaskInventory())
-                || this.doEmptyCheck(getTaskInventory()))
-            this.doStorageCooldown = 5;
+        if (this.doBerryCheck(getPokeInventory()) || this.doStorageCheck(getTaskInventory()) || this.doEmptyCheck(
+                getTaskInventory())) this.doStorageCooldown = 5;
         else this.doStorageCooldown = 10 * StoreTask.COOLDOWN;
     }
 
