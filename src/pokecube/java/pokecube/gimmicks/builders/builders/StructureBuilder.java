@@ -1,36 +1,23 @@
 package pokecube.gimmicks.builders.builders;
 
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.gson.JsonObject;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.network.Filterable;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.WritableBookItem;
-import net.minecraft.world.item.WrittenBookItem;
+import net.minecraft.world.item.component.WritableBookContent;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
@@ -38,11 +25,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
-import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.JigsawReplacementProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.LiquidSettings;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+import net.minecraft.world.level.levelgen.structure.templatesystem.*;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
@@ -50,14 +33,16 @@ import pokecube.api.PokecubeAPI;
 import pokecube.gimmicks.builders.BuilderTasks;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
 import pokecube.world.gen.structures.processors.MarkerToAirProcessor;
-import thut.api.util.JsonUtil;
 import thut.api.world.StructureTemplateTools;
 import thut.api.world.StructureTemplateTools.PlaceContext;
-import thut.lib.TComponent;
+
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
- * This {@link IBlocksBuilder} and {@link IBlocksClearer} handles constructing a
- * building based on a defined {@link StructureTemplate}.
+ * This {@link IBlocksBuilder} and {@link IBlocksClearer} handles constructing a building based on a defined
+ * {@link StructureTemplate}.
  */
 public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksBuilder, IBlocksClearer
 {
@@ -141,36 +126,30 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
     /**
      * Sorted list of keys for {@link #removeOrder}
      */
-    private List<Integer> ys = new ArrayList<>();
+    private final List<Integer> ys = new ArrayList<>();
     /**
-     * List of blocks to place, in the order that the {@link StructureTemplate}
-     * defines. This order ensures proper placement of torches, redstone wire,
-     * etc.
+     * List of blocks to place, in the order that the {@link StructureTemplate} defines. This order ensures proper
+     * placement of torches, redstone wire, etc.
      */
     private final List<StructureBlockInfo> placeOrder = new ArrayList<>();
     /**
-     * Map of location - itemstack needed to place at that location. The values
-     * in this map are not unique.
+     * Map of location - itemstack needed to place at that location. The values in this map are not unique.
      */
     private Map<BlockPos, ItemStack> neededItems = Maps.newHashMap();
     /**
-     * A sorted list of the values from {@link #neededItems}, sorted with
-     * largest amount needed first. This is what gets printed in the BoM.
+     * A sorted list of the values from {@link #neededItems}, sorted with largest amount needed first. This is what gets
+     * printed in the BoM.
      */
     private final List<ItemStack> sortedNeededItems = new ArrayList<>();
 
     /**
-     * Set of items we don't have to place, by index in
-     * {@link #sortedNeededItems}
-     */
-    private final BitSet missingItems = new BitSet();
-    /**
      * Set of items we explicitly ignore for placement, set in
-     * {@link #checkBoM(pokecube.gimmicks.builders.builders.IBlocksBuilder.BoMRecord)},
-     * and by index in {@link #sortedNeededItems}
+     * {@link #checkBoM(pokecube.gimmicks.builders.builders.IBlocksBuilder.BoMRecord)}, and by index in
+     * {@link #sortedNeededItems}
      */
     private final BitSet ignoredItems = new BitSet();
 
+    protected final List<String> bookPages = new ArrayList<>();
     private final List<BoMRecord> BoMs = new ArrayList<>();
     private final Set<BlockPos> pendingBuild = new HashSet<>();
     private final Set<BlockPos> pendingClear = new HashSet<>();
@@ -214,20 +193,16 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
     {
         ItemStack book = BoM.BoMProvider().get();
         var writable = book.get(DataComponents.WRITABLE_BOOK_CONTENT);
-        List<String> bookLines = new ArrayList<>();
         if (writable != null)
         {
-            writable.getPages(true).forEach(bookLines::add);
-
+            bookPages.clear();
+            writable.getPages(false).forEach(bookPages::add);
             Set<String> itemLists = new HashSet<>();
-            bookLines.forEach(string -> {
-                if (!string.startsWith("{")) string = "{\"text\":\"" + string + "\"}";
+            bookPages.forEach(string -> {
                 try
                 {
-                    var parsed = JsonUtil.gson.fromJson(string, JsonObject.class);
-                    String txt = parsed.get("text").getAsString().strip();
-                    if (!txt.startsWith("Total Cost:")) return;
-                    var lines = txt.split("\n");
+                    if (!string.startsWith("Total Cost:")) return;
+                    var lines = string.split("\n");
                     for (int i = 1; i < lines.length; i++)
                     {
                         var line = lines[i];
@@ -236,11 +211,9 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
                 }
                 catch (Exception e)
                 {
-                    // Some items may have funny nbt tags added, which can
-                    // cause this.
+                    PokecubeAPI.LOGGER.error("Error processing book page {}", string, e);
                 }
             });
-
             ignoredItems.clear();
             if (!itemLists.isEmpty()) for (int i = 0; i < sortedNeededItems.size(); i++)
             {
@@ -257,42 +230,34 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
         {
             // Check first to see if maybe things were denied.
             checkBoM(BoM);
-            var contents = book.get(DataComponents.WRITABLE_BOOK_CONTENT);
+            List<String> pages = new ArrayList<>();
 
-//            for (int i = 0; i < pages.size(); i++)
-//            {
-//                var entry = pages.get(i);
-//            }
-//
-//            pages.clear();
-//
-//            for (var tag : BoMHeader)
-//            {
-//                pages.add(tag);
-//            }
-//
-//            MutableComponent msg = TComponent.literal("Next Items:");
-//            int n = 0;
-//            List<ItemStack> requested = new ArrayList<>();
-//            this.getNextNeeded(requested, 24);
-//            for (var needed : requested)
-//            {
-//                if (needed == null || needed.isEmpty()) continue;
-//                if (n++ > 8) break;
-//                MutableComponent name = (MutableComponent) needed.getDisplayName();
-//                name.setStyle(name.getStyle().withColor(0));
-//                String count = needed.getCount() + "x";
-//                int index = sortedNeededItems.indexOf(needed);
-//                if (index >= 0 && this.ignoredItems.get(index)) continue;
-//                msg = msg.append(TComponent.literal("\n")).append(TComponent.literal(count)).append(name);
-//            }
-//
-//            pages.add(StringTag.valueOf(msg.getString()));
-//
-//            n = 0;
-//            msg = TComponent.literal("Total Cost:");
+            // First extract the header (could be entire book)
+            for (String string : bookPages)
+            {
+                if (string.startsWith("Next Items:")) break;
+                pages.add(string);
+            }
 
-            List<ItemStack> items = this.sortedNeededItems;
+            // Then add page for the next needed items
+            StringBuilder page = new StringBuilder("Next Items:");
+            int n = 0;
+            List<ItemStack> requested = new ArrayList<>();
+            this.getNextNeeded(requested, 24);
+            for (var needed : requested)
+            {
+                if (needed == null || needed.isEmpty()) continue;
+                if (n++ > 10) break;
+                var name = needed.getDisplayName().getString();
+                String count = needed.getCount() + "x";
+                int index = sortedNeededItems.indexOf(needed);
+                if (index >= 0 && this.ignoredItems.get(index)) continue;
+                page.append("\n").append(count).append(name);
+            }
+            pages.add(page.toString());
+
+            // Followed by the rest if not onlyNeeded
+            List<ItemStack> items = new ArrayList<>();
             if (!onlyNeeded)
             {
                 // Otherwise provide to the BoM stacks.
@@ -314,71 +279,52 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
                     var list = stacks.getOrDefault(stack.getItem(), new ArrayList<>());
                     stacks.put(stack.getItem(), list);
                     if (list.isEmpty()) list.add(stack);
-                    // TODO decide on how to do this again.
                     else
                     {
-//                        if (!stack.hasTag())
+                        boolean found = false;
+                        for (ItemStack held : list)
                         {
-                            boolean found = false;
-                            for (ItemStack held : list)
+                            if (ItemStack.isSameItemSameComponents(held, stack))
                             {
-//                                if (!held.hasTag())
-                                {
-                                    held.grow(stack.getCount());
-                                    found = true;
-                                    break;
-                                }
+                                held.grow(stack.getCount());
+                                found = true;
+                                break;
                             }
-                            if (!found) list.add(stack);
                         }
-//                        else
-//                        {
-//                            boolean found = false;
-//                            for (ItemStack held : list)
-//                            {
-//                                if (held.hasTag() && held.getTag().equals(stack.getTag()))
-//                                {
-//                                    held.grow(stack.getCount());
-//                                    found = true;
-//                                    break;
-//                                }
-//                            }
-//                            if (!found) list.add(stack);
-//                        }
+                        if (!found) list.add(stack);
                     }
                 }
                 items.clear();
                 for (var list : stacks.values()) items.addAll(list);
             }
-//            for (int i = 0; i < items.size(); i++)
-//            {
-//                ItemStack s = items.get(i);
-//                if (s == null || s.isEmpty()) continue;
-//                if (n++ > 8)
-//                {
-//                    pages.add(StringTag.valueOf(msg.getString()));
-//                    msg = TComponent.literal("Total Cost:");
-//                    n = 0;
-//                }
-//                MutableComponent name = (MutableComponent) s.getDisplayName();
-//                name.setStyle(name.getStyle().withColor(0));
-//                String count = s.getCount() + "x";
-//                if (onlyNeeded && this.ignoredItems.get(i)) count = "-x";
-//                msg = msg.append(TComponent.literal("\n")).append(TComponent.literal(count)).append(name);
-//            }
-//
-//            if (!msg.getString().isBlank())
-//            {
-//                pages.add(StringTag.valueOf(msg.getString()));
-//            }
-//            book = new ItemStack(Items.WRITABLE_BOOK);
-//            nbt.putString("title", "BoM");
-//            nbt.putString("author", "BoM Generator");
-//            book.setTag(nbt);
-//
-//            if (!compiled) book.setHoverName(TComponent.literal("BoM"));
-//
-//            BoM.BoMConsumer().accept(book);
+
+            page = new StringBuilder("Total Cost:");
+            for (int i = 0; i < items.size(); i++)
+            {
+                ItemStack s = items.get(i);
+                if (s == null || s.isEmpty()) continue;
+                if (n++ > 10)
+                {
+                    pages.add(page.toString());
+                    page = new StringBuilder("Total Cost:");
+                    n = 0;
+                }
+                var name = s.getDisplayName().getString();
+                String count = s.getCount() + "x";
+                if (onlyNeeded && this.ignoredItems.get(i)) count = "-x";
+                page.append("\n").append(count).append(name);
+            }
+            pages.add(page.toString());
+            book = new ItemStack(Items.WRITABLE_BOOK);
+            List<Filterable<String>> _pages = new ArrayList<>();
+            for (String string : pages)
+            {
+                _pages.add(new Filterable<>(string, Optional.of(string)));
+            }
+            WritableBookContent content = new WritableBookContent(_pages);
+            book.set(DataComponents.WRITABLE_BOOK_CONTENT, content);
+            book.set(DataComponents.CUSTOM_NAME, Component.literal("BoM"));
+            BoM.BoMConsumer().accept(book);
         }
     }
 
@@ -395,10 +341,8 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
     }
 
     /**
-     * Here we ensure the {@link StructureTemplate} we are using is valid, and
-     * populate maps of location - {@link StructureBlockInfo} for
-     * removal/construction.
-     *
+     * Here we ensure the {@link StructureTemplate} we are using is valid, and populate maps of location -
+     * {@link StructureBlockInfo} for removal/construction.
      */
     public void checkBlueprint(ServerLevel level)
     {
@@ -449,7 +393,7 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
             sortedNeededItems.sort((a, b) -> b.getCount() - a.getCount());
 
             // Update the BoMs
-            for (var BoM : BoMs) provideBoM(BoM, true);
+            for (var BoM : BoMs) provideBoM(BoM, false);
 
             // Now populate the map of removal positions to check. this is
             // sorted by y value, to allow removal in the approprate order.
@@ -480,7 +424,6 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
             pendingClear.clear();
             placeOrder.clear();
             removeOrder.clear();
-            missingItems.clear();
             ignoredItems.clear();
         }
     }
@@ -577,10 +520,6 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
             {
                 return new PlaceInfo(CanPlace.NO, info, -1);
             }
-            else
-            {
-                missingItems.set(index);
-            }
             return new PlaceInfo(CanPlace.NEED_ITEM, info, -1);
         }
         return new PlaceInfo(CanPlace.NO, info, -1);
@@ -660,8 +599,6 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
 
             switch (type)
             {
-            case NEED_ITEM:
-                break;
             case NO:
                 placeOrder.remove(info);
                 markBuilt(info.pos());
@@ -720,7 +657,7 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
         CompoundTag tag = new CompoundTag();
         if (this._source != null)
         {
-            var contx = StructurePieceSerializationContext.fromLevel(level);;
+            var contx = StructurePieceSerializationContext.fromLevel(level);
             tag.put("source", this._source.createTag(contx));
             tag.putString("rotation", this.rotation.name());
             tag.putString("mirror", this.mirror.name());

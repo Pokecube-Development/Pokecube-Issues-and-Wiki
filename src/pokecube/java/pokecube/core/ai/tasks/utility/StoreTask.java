@@ -102,7 +102,8 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
             keys.clear();
             tags_i.clear();
             tags_b.clear();
-            List<String> instructions = BookInstructionsParser.getInstructions(stack, "item filters", false);
+            List<String> instructions = BookInstructionsParser.getInstructions(stack, "item filters", false,
+                    s -> s.contains(":"));
             for (String line : instructions)
             {
                 try

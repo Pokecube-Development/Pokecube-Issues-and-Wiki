@@ -1,12 +1,6 @@
 package pokecube.gimmicks.builders.builders;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
@@ -24,17 +18,19 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
-import thut.api.level.structures.NamedVolumes.INamedStructure;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 /**
- * This class is effectively a list of {@link StructureBuilder}, which is
- * initialised from the result of a jigsaw structure assembly. We also have the
- * functions for saving/loading the state of the structure, so that we do not
- * reset and randomise when world closes and re-opens.<br>
+ * This class is effectively a list of {@link StructureBuilder}, which is initialised from the result of a jigsaw
+ * structure assembly. We also have the functions for saving/loading the state of the structure, so that we do not reset
+ * and randomise when world closes and re-opens.<br>
  * <br>
- * Our {@link IBlocksBuilder} and {@link IBlocksClearer} methods are forwarded
- * to the appropriate entries in our list of {@link StructureBuilder}.
- *
+ * Our {@link IBlocksBuilder} and {@link IBlocksClearer} methods are forwarded to the appropriate entries in our list of
+ * {@link StructureBuilder}.
  */
 public class JigsawBuilder implements INBTSerializable<CompoundTag>, IBlocksBuilder, IBlocksClearer
 {
@@ -44,34 +40,6 @@ public class JigsawBuilder implements INBTSerializable<CompoundTag>, IBlocksBuil
 
     public JigsawBuilder()
     {}
-
-    public JigsawBuilder(ServerLevel level, INamedStructure structure)
-    {
-        for (var part : structure.getParts())
-        {
-            if (part.getWrapped() instanceof PoolElementStructurePiece pooled)
-            {
-                if (pooled.getElement() instanceof SinglePoolElement elem)
-                {
-                    BlockPos origin = pooled.getPosition();
-                    var builder = new StructureBuilder(origin, pooled.getRotation(), pooled.getMirror());
-
-                    // Now make the settings object
-                    StructurePlaceSettings settings = null;
-                    if (elem instanceof ExpandedJigsawPiece jig)
-                    {
-                        settings = jig.getSettings(pooled.getRotation(), null, LiquidSettings.IGNORE_WATERLOGGING,
-                                false);
-                    }
-                    builder.settings = settings;
-                    builder._source = pooled;
-                    builder._loaded = elem.getTemplate(level.getStructureManager());
-                    builder.checkBlueprint(level);
-                    builders.add(builder);
-                }
-            }
-        }
-    }
 
     public JigsawBuilder(StructurePiecesBuilder pieceBuilder, BlockPos shift, ServerLevel level)
     {
@@ -133,13 +101,13 @@ public class JigsawBuilder implements INBTSerializable<CompoundTag>, IBlocksBuil
 
     private StructureBuilder next()
     {
-        if (builders.size() == 0) return null;
-        while (builders.size() > 0 && !builders.get(0).validBuilder())
+        if (builders.isEmpty()) return null;
+        while (!builders.isEmpty() && !builders.getFirst().validBuilder())
         {
-            builders.remove(0);
+            builders.removeFirst();
         }
-        if (builders.size() == 0) return null;
-        return builders.get(0);
+        if (builders.isEmpty()) return null;
+        return builders.getFirst();
     }
 
     @Override
@@ -222,37 +190,19 @@ public class JigsawBuilder implements INBTSerializable<CompoundTag>, IBlocksBuil
                     var list = stacks.getOrDefault(stack.getItem(), new ArrayList<>());
                     stacks.put(stack.getItem(), list);
                     if (list.isEmpty()) list.add(stack);
-                    // TODO decide on how to do this again.
                     else
                     {
-//                        if (!stack.hasTag())
+                        boolean found = false;
+                        for (ItemStack held : list)
                         {
-                            boolean found = false;
-                            for (ItemStack held : list)
+                            if (ItemStack.isSameItemSameComponents(held, stack))
                             {
-//                                if (!held.hasTag())
-                                {
-                                    held.grow(stack.getCount());
-                                    found = true;
-                                    break;
-                                }
+                                held.grow(stack.getCount());
+                                found = true;
+                                break;
                             }
-                            if (!found) list.add(stack);
                         }
-//                        else
-//                        {
-//                            boolean found = false;
-//                            for (ItemStack held : list)
-//                            {
-//                                if (held.hasTag() && held.getTag().equals(stack.getTag()))
-//                                {
-//                                    held.grow(stack.getCount());
-//                                    found = true;
-//                                    break;
-//                                }
-//                            }
-//                            if (!found) list.add(stack);
-//                        }
+                        if (!found) list.add(stack);
                     }
                 }
                 items.clear();

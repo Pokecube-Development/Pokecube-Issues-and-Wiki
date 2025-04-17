@@ -1,22 +1,10 @@
 package pokecube.gimmicks.builders.builders;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.google.common.base.Predicates;
-
 import net.minecraft.ResourceLocationException;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderSet;
 import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -55,28 +43,30 @@ import pokecube.world.gen.structures.utils.ExpandedJigsawPacement;
 import thut.api.level.structures.NamedVolumes.INamedPart;
 import thut.api.level.structures.StructureManager;
 import thut.core.common.ThutCore;
-import thut.lib.TComponent;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.*;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
- * This class manages organising IBlocksBuilder and IBlocksClearer, and
- * generating them from instructions in books, as well as saving/loading of them
- * to/from nbt.
+ * This class manages organising IBlocksBuilder and IBlocksClearer, and generating them from instructions in books, as
+ * well as saving/loading of them to/from nbt.
  */
 public class BuilderManager
 {
     /**
-     * Record for holding the IBlocksBuilder, IBlocksClearer for a mob to work
-     * with. It also holds a String, saveKey, which is what is used to lookup
-     * the serializer/deserializer.
+     * Record for holding the IBlocksBuilder, IBlocksClearer for a mob to work with. It also holds a String, saveKey,
+     * which is what is used to lookup the serializer/deserializer.
      */
     public static record BuilderClearer(@Nullable IBlocksBuilder builder, @Nullable IBlocksClearer clearer,
             @Nonnull String saveKey)
-    {
-    }
+    {}
 
     /**
-     * Context for starting a build. It includes the involved server level, as
-     * well as the blockpos to consider origin for the build.
+     * Context for starting a build. It includes the involved server level, as well as the blockpos to consider origin
+     * for the build.
      */
     public static record BuildContext(ServerLevel level, BlockPos origin, @Nullable ServerPlayer player)
     {
@@ -87,9 +77,8 @@ public class BuilderManager
     }
 
     /**
-     * Map of saveKey - generator for the BuilderClearer. The saveKey is looked
-     * up based on the instructions, as the text after build: in the
-     * instructions book.<br>
+     * Map of saveKey - generator for the BuilderClearer. The saveKey is looked up based on the instructions, as the
+     * text after build: in the instructions book.<br>
      * <br>
      * The List&ltString&gt is the instructions loaded from the book.
      */
@@ -105,7 +94,7 @@ public class BuilderManager
 
     /**
      * Attempts to save the builder
-     * 
+     *
      * @param build
      * @return nbt containing the saved builder, or empty nbt if no saver.
      */
@@ -123,7 +112,7 @@ public class BuilderManager
 
     /**
      * Attemps to load a builder
-     * 
+     *
      * @param nbt
      * @return either the loaded builder or null
      */
@@ -137,12 +126,11 @@ public class BuilderManager
     }
 
     /**
-     * Default implementation of a saver, this can save any generic
-     * IBlocksBuilder (key of "b") and IBlocksClearer (key of "c") that also
-     * implement INBTSerializable <br>
+     * Default implementation of a saver, this can save any generic IBlocksBuilder (key of "b") and IBlocksClearer (key
+     * of "c") that also implement INBTSerializable <br>
      * <br>
-     * In the case that they are the same object, it only saves it as the
-     * builder, and includes a boolean saved under the key "s"
+     * In the case that they are the same object, it only saves it as the builder, and includes a boolean saved under
+     * the key "s"
      */
     public static class DefaultSaver implements Function<BuilderClearer, CompoundTag>
     {
@@ -162,8 +150,7 @@ public class BuilderManager
     }
 
     /**
-     * Default parser for "jigsaw" and "building" keys, class is private as this
-     * is the hardcoded implementation.
+     * Default parser for "jigsaw" and "building" keys, class is private as this is the hardcoded implementation.
      */
     private static class DefaultParser implements BiFunction<List<String>, BuildContext, BuilderClearer>
     {
@@ -391,7 +378,8 @@ public class BuilderManager
                 nbt.put("pages", pages);
                 String msg = "build:building\n";
 
-                var contx = StructurePieceSerializationContext.fromLevel(level);;
+                var contx = StructurePieceSerializationContext.fromLevel(level);
+                ;
                 var pooled_tag = pooled.createTag(contx);
                 var element_tag = pooled_tag.getCompound("pool_element");
                 msg += element_tag.getString("location") + "\n";
@@ -404,13 +392,14 @@ public class BuilderManager
                 }
 
                 if (dy != 0) msg += "s: 0 " + dy + " 0\n";
-                if (pooled_tag.contains("PosX")) msg += "o: " + pooled_tag.getInt("PosX") + " "
-                        + pooled_tag.getInt("PosY") + " " + pooled_tag.getInt("PosZ") + "\n";
+                if (pooled_tag.contains("PosX"))
+                    msg += "o: " + pooled_tag.getInt("PosX") + " " + pooled_tag.getInt("PosY") + " "
+                            + pooled_tag.getInt("PosZ") + "\n";
                 pages.add(StringTag.valueOf(msg));
 
                 // TODO fix this for if needed for debugging.
-//                book.setTag(nbt);
-//                book.setHoverName(TComponent.literal("Blueprint"));
+                //                book.setTag(nbt);
+                //                book.setHoverName(TComponent.literal("Blueprint"));
                 return true;
             }
         }
@@ -418,8 +407,7 @@ public class BuilderManager
     }
 
     /**
-     * Populates providers, savers and loaders with some defaults if they are
-     * empty.
+     * Populates providers, savers and loaders with some defaults if they are empty.
      */
     public static void defaultInit(Provider provider)
     {
@@ -463,23 +451,21 @@ public class BuilderManager
     }
 
     /**
-     * Attempts to generate a {@link BuilderClearer} from instructions found in
-     * the given itemstack.
-     * 
+     * Attempts to generate a {@link BuilderClearer} from instructions found in the given itemstack.
+     *
      * @param source  - instructions to read
      * @param context - context for the build
-     * @return generated {@link BuilderClearer} or null if not valid
-     *         instructions.
+     * @return generated {@link BuilderClearer} or null if not valid instructions.
      */
     @Nullable
     public static BuilderClearer fromInstructions(ItemStack source, BuildContext context)
     {
         defaultInit(context.level.registryAccess());
-        List<String> instructions = BookInstructionsParser.getInstructions(source, "build", true);
+        List<String> instructions = BookInstructionsParser.getInstructions(source, "build", true, s -> s.contains(":"));
         try
         {
             if (instructions.isEmpty()) return null;
-            String type = instructions.get(0).replace("build:", "").strip();
+            String type = instructions.getFirst().replace("build:", "").strip();
             BuilderClearer initial = null;
             if (providers.containsKey(type)) initial = providers.get(type).apply(instructions, context);
             var event = new BuilderInstructionsEvent(instructions, initial);

@@ -1,18 +1,16 @@
 package pokecube.api.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.google.gson.JsonObject;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
 import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
 
 public class BookInstructionsParser
 {
@@ -76,8 +74,13 @@ public class BookInstructionsParser
         return null;
     }
 
-    @Nonnull
     public static List<String> getInstructions(ItemStack source, String start, boolean includeHeader)
+    {
+        return getInstructions(source, start, includeHeader, s -> true);
+    }
+
+    public static List<String> getInstructions(ItemStack source, String start, boolean includeHeader,
+            Predicate<String> lineStart)
     {
         List<String> instructions = new ArrayList<>();
         List<String> lines = new ArrayList<>();
@@ -108,8 +111,7 @@ public class BookInstructionsParser
                     if (s.isBlank()) continue;
                     // Allow headers, etc in the book
                     if (instructions.isEmpty() && !s.startsWith(start_key)) continue;
-                    if (!instructions.isEmpty() && instructions.get(instructions.size() - 1).startsWith("end:"))
-                        break;
+                    if (!instructions.isEmpty() && instructions.get(instructions.size() - 1).startsWith("end:")) break;
                     instructions.add(s);
                 }
             }
@@ -119,6 +121,17 @@ public class BookInstructionsParser
                 // cause this.
             }
         });
+        // Merge together successive lines if they don't meet the header check
+        for (int i = 1; i < instructions.size() - 1; i++)
+        {
+            String here = instructions.get(i);
+            String next = instructions.get(i + 1);
+            if (!lineStart.test(next))
+            {
+                instructions.remove(i + 1);
+                instructions.set(i, here + next);
+            }
+        }
         if (!includeHeader && !instructions.isEmpty()) instructions.removeFirst();
         return instructions;
     }

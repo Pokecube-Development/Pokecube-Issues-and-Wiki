@@ -267,7 +267,6 @@ public class DoBuild extends UtilTask
 
     private boolean checkSupplies(ServerLevel level)
     {
-//        if (entity.tickCount % 20 == 0) System.out.println("Supplies? ");
         // If we are trying to get to the place to build, first select the
         // spot.
         if (nextPlace == null)
@@ -366,11 +365,10 @@ public class DoBuild extends UtilTask
 
             if (container != null) takeFromContainer(container, requested, minSlot, maxSlot, 0);
 
-            if (requested.size() > 0)
+            if (!requested.isEmpty())
             {
-//                System.out.println(requested);
                 // need item, request it.
-                builder.provideBoM(this.BoM, true);
+                builder.provideBoM(this.BoM, false);
                 if (entity.tickCount % 10 == 0)
                 {
                     double size = 0.1;

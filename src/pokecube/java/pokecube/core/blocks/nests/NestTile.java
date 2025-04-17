@@ -1,8 +1,5 @@
 package pokecube.core.blocks.nests;
 
-import java.util.HashSet;
-import java.util.Random;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.HolderLookup;
@@ -21,7 +18,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
-import net.neoforged.neoforge.items.ItemStackHandler;
 import pokecube.api.blocks.IInhabitable;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.CapabilityInhabitable.HabitatProvider;
@@ -43,6 +39,9 @@ import thut.api.block.ITickTile;
 import thut.api.inventory.InvWrapper;
 import thut.core.common.ThutCore;
 import thut.lib.TComponent;
+
+import java.util.HashSet;
+import java.util.Random;
 
 public class NestTile extends InteractableTile implements ITickTile
 {
@@ -72,7 +71,6 @@ public class NestTile extends InteractableTile implements ITickTile
 
     public CompoundTag tag = new CompoundTag();
 
-    public ItemStackHandler inventory = new ItemStackHandler(54);
     private final IInhabitable habitat;
 
     int time = 0;
@@ -114,16 +112,16 @@ public class NestTile extends InteractableTile implements ITickTile
         return false;
     }
 
-    public boolean addForbiddenSpawningCoord()
+    public void addForbiddenSpawningCoord()
     {
-        if (!(this.level instanceof ServerLevel level)) return false;
+        if (!(this.level instanceof ServerLevel level)) return;
         final BlockPos pos = this.getBlockPos();
         final IInhabitable hab = this.getWrappedHab();
-        if (hab == null) return false;
+        if (hab == null) return;
         hab.setPos(pos);
         final ForbidRegion region = hab.getRepelledRegion(this, level);
-        if (region == null) return false;
-        return SpawnHandler.addForbiddenSpawningCoord(this.level, region, ForbidReason.NEST);
+        if (region == null) return;
+        SpawnHandler.addForbiddenSpawningCoord(this.level, region, ForbidReason.NEST);
     }
 
     public void addResident(final IPokemob resident)
@@ -132,8 +130,8 @@ public class NestTile extends InteractableTile implements ITickTile
         final IInhabitable hab = this.getWrappedHab();
         if (resident.getEntity().getBrain().checkMemory(MemoryModules.NEST_POS.get(), MemoryStatus.REGISTERED))
         {
-            resident.getEntity().getBrain().setMemory(MemoryModules.NEST_POS.get(),
-                    GlobalPos.of(level.dimension(), getBlockPos()));
+            resident.getEntity().getBrain()
+                    .setMemory(MemoryModules.NEST_POS.get(), GlobalPos.of(level.dimension(), getBlockPos()));
         }
         if (hab != null) hab.addResident(resident.getEntity());
     }
@@ -166,16 +164,16 @@ public class NestTile extends InteractableTile implements ITickTile
         this.removeForbiddenSpawningCoord();
     }
 
-    public boolean removeForbiddenSpawningCoord()
+    public void removeForbiddenSpawningCoord()
     {
-        if (!(this.level instanceof ServerLevel level)) return false;
+        if (!(this.level instanceof ServerLevel level)) return;
         final IInhabitable hab = this.getWrappedHab();
-        if (hab == null || this.level.isClientSide()) return false;
+        if (hab == null || this.level.isClientSide()) return;
         final BlockPos pos = this.getBlockPos();
         hab.setPos(pos);
         final ForbidRegion region = hab.getRepelledRegion(this, level);
-        if (region == null) return false;
-        return SpawnHandler.removeForbiddenSpawningCoord(region.getPos(), this.level);
+        if (region == null) return;
+        SpawnHandler.removeForbiddenSpawningCoord(region.getPos(), this.level);
     }
 
     public void removeResident(final IPokemob resident)
@@ -210,7 +208,6 @@ public class NestTile extends InteractableTile implements ITickTile
         super.loadAdditional(nbt, registries);
         this.time = nbt.getInt("time");
         this.tag = nbt.getCompound("_data_");
-        this.inventory.deserializeNBT(registries, nbt.getCompound("I"));
         // Ensure the repel range resets properly.
         if (this.getWrappedHab() != null) this.setWrappedHab(this.getWrappedHab());
     }
@@ -223,7 +220,6 @@ public class NestTile extends InteractableTile implements ITickTile
     {
         super.saveAdditional(nbt, registries);
         nbt.putInt("time", this.time);
-        nbt.put("I", inventory.serializeNBT(registries));
         nbt.put("_data_", this.tag);
     }
 }
