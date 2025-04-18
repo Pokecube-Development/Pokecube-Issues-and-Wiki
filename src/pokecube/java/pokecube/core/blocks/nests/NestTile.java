@@ -33,7 +33,6 @@ import pokecube.core.eventhandlers.SpawnHandler.ForbidRegion;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
-import pokecube.core.utils.CapHolders;
 import thut.api.ThutCaps;
 import thut.api.block.ITickTile;
 import thut.api.inventory.InvWrapper;
@@ -71,7 +70,7 @@ public class NestTile extends InteractableTile implements ITickTile
 
     public CompoundTag tag = new CompoundTag();
 
-    private final IInhabitable habitat;
+    private IInhabitable habitat;
 
     int time = 0;
 
@@ -83,7 +82,7 @@ public class NestTile extends InteractableTile implements ITickTile
     public NestTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
     {
         super(tileEntityTypeIn, pos, state);
-        this.habitat = CapHolders.getInhabitable(this);
+        this.habitat = this.getData(PokemobCaps.INHABITABLE);
     }
 
     public void setWrappedHab(final IInhabitable toWrap)
@@ -208,6 +207,7 @@ public class NestTile extends InteractableTile implements ITickTile
         super.loadAdditional(nbt, registries);
         this.time = nbt.getInt("time");
         this.tag = nbt.getCompound("_data_");
+        this.habitat = this.getData(PokemobCaps.INHABITABLE);
         // Ensure the repel range resets properly.
         if (this.getWrappedHab() != null) this.setWrappedHab(this.getWrappedHab());
     }

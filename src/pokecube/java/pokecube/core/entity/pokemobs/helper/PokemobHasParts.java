@@ -377,10 +377,4 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
     {
         return this.poses;
     }
-
-    //    @Override
-    //    public EntityDimensions getDefaultDimensions(Pose poseIn)
-    //    {
-    //        return this.dimensions;
-    //    }
 }

@@ -199,7 +199,6 @@ public class Health
                 float y1 = -bgHeight;
                 float y2 = barHeight1 + padding;
                 Health.blit(buffer, pos, x1, y1, x2, y2, z_offset, 0, 0, 0, a, br);
-                zlevel += 0.001f;
             }
             buffer = Utils.makeBuilder(RenderType.textBackground(), buf);
 
@@ -207,10 +206,8 @@ public class Health
             // Gray Space
             healthSize = healthSize * 2 - size;
             Health.blit(buffer, pos, healthSize, 0, size, barHeight1, zlevel, 127, 100, 100, barA, br);
-            zlevel += 0.001f;
             // Health Bar Fill
             Health.blit(buffer, pos, -size, 0, healthSize, barHeight1, zlevel, r, g, b, barA, br);
-            zlevel += 0.001f;
 
             // Exp Bar
             r = 64;
@@ -228,11 +225,9 @@ public class Health
             expSize = expSize * 2 - size;
             // Gray Space
             Health.blit(buffer, pos, expSize, barHeight1, size, barHeight1 + 1, zlevel, 100, 100, 127, barA, br);
-            zlevel += 0.001f;
 
             // Exp Bar Fill
             Health.blit(buffer, pos, -size, barHeight1, expSize, barHeight1 + 1, zlevel, r, g, b, barA, br);
-            zlevel += 0.001f;
 
             {
                 int colour = config.unknownNameColour;
@@ -248,26 +243,22 @@ public class Health
                 // Decorations
                 mat.pushPose();
                 {
-                    mat.translate(-size, -barHeight1-2, zlevel);
+                    mat.translate(-size, 0, zlevel);
                     mat.scale(s, s, s);
                     pos = mat.last().pose();
+                    float x = 1, y = mc.font.lineHeight;
                     // Name
-                    mc.font.drawInBatch(nameComp.getString(), 0, 2, colour, false, pos, buf,
+                    mc.font.drawInBatch(nameComp.getString(), x, -mc.font.lineHeight, colour, false, pos, buf,
                             Font.DisplayMode.SEE_THROUGH, 0, br);
 
-                    int h = config.hpTextHeight;
-
                     float s1 = 0.75f;
-                    float x = 1, y = 0;
-
-                    mat.translate(0, h, 0);
 
                     mat.pushPose();
                     {
                         mat.scale(s1, s1, s1);
                         pos = mat.last().pose();
                         colour = 0xFFFFFFFF;
-
+                        y /= (2/s1);
                         // Level
                         final String lvlStr = "L." + pokemob.getLevel();
                         mc.font.drawInBatch(lvlStr, x, y, colour, false, pos, buf, Font.DisplayMode.NORMAL, 0, br);
@@ -296,7 +287,7 @@ public class Health
                         if (PokecubeCore.getConfig().enableDebugInfo && mc.gui.getDebugOverlay().showDebugScreen())
                         {
                             final String entityID = entity.getEncodeId();
-                            mc.font.drawInBatch("ID: \"" + entityID + "\"" + "(" + entity.getId() + ")", 0, h + 16,
+                            mc.font.drawInBatch("ID: \"" + entityID + "\"" + "(" + entity.getId() + ")", 0, 16,
                                     0xFFFFFFFF, false, pos, buf, Font.DisplayMode.NORMAL, 0, br);
                         }
                     }

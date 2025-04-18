@@ -88,6 +88,12 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
+    public void setPose(Pose pose)
+    {
+        super.setPose(pose);
+    }
+
+    @Override
     public AgeableMob getBreedOffspring(final ServerLevel p_241840_1_, final AgeableMob ageable)
     {
         final IPokemob other = PokemobCaps.getPokemobFor(ageable);

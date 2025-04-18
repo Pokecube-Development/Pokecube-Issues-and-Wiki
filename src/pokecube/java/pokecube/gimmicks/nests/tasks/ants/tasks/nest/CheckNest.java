@@ -1,10 +1,6 @@
 package pokecube.gimmicks.nests.tasks.ants.tasks.nest;
 
-import java.util.Map;
-import java.util.Optional;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.core.GlobalPos;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
@@ -22,14 +18,19 @@ import pokecube.gimmicks.nests.tasks.ants.sensors.NestSensor;
 import pokecube.gimmicks.nests.tasks.ants.sensors.NestSensor.AntNest;
 import pokecube.gimmicks.nests.tasks.bees.BeeTasks;
 
+import java.util.Map;
+import java.util.Optional;
+
 public class CheckNest extends BaseIdleTask
 {
     private static final Map<MemoryModuleType<?>, MemoryStatus> mems = Maps.newHashMap();
+
     static
     {
         // Only run if we have a nest
         CheckNest.mems.put(MemoryModules.NEST_POS.get(), MemoryStatus.VALUE_PRESENT);
     }
+
     protected int new_hive_cooldown = 0;
 
     protected AntNest nest;
@@ -54,13 +55,17 @@ public class CheckNest extends BaseIdleTask
         brain.setMemory(BeeTasks.OUT_OF_HIVE_TIMER.get(), time);
         if (this.nest == null) this.nest = NestSensor.getNest(this.entity).orElse(null);
 
-        if (this.new_hive_cooldown % 10 == 0)
+        if (this.new_hive_cooldown % 10 == 0 && this.nest != null && this.nest.hab != null)
         {
+            if (!nest.hab.ants.contains(this.entity.getUUID()))
+            {
+                nest.hab.addResident(this.entity);
+            }
             // Lets sync items with other ants in the nest.
             if (brain.hasMemoryValue(MemoryModules.VISIBLE_ITEMS.get()))
             {
                 var seen = brain.getMemory(MemoryModules.VISIBLE_ITEMS.get());
-                if (seen.isPresent() && this.nest != null && this.nest.hab != null)
+                if (seen.isPresent())
                 {
                     var list = seen.get();
                     for (var item : list) if (!nest.hab.items.contains(item)) nest.hab.items.add(item);

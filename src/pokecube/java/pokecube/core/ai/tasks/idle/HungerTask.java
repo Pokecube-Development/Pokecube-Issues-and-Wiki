@@ -269,6 +269,7 @@ public class HungerTask extends BaseIdleTask
             {
                 this.pokemob.setLogicState(LogicStates.SLEEPING, true);
                 this.pokemob.setCombatState(CombatStates.HUNTING, false);
+                this.entity.startSleeping(this.pokemob.getHome());
                 return true;
             }
             else if (!this.entity.getNavigation().isDone()) this.pokemob.setLogicState(LogicStates.SLEEPING, false);

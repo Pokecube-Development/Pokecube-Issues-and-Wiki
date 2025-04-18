@@ -130,14 +130,12 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                 this.onTick(level);
                 this.ants.removeIf(uuid -> {
                     final Entity mob = level.getEntity(uuid);
-                    if (AntTasks.isValid(mob)) return false;
-                    return true;
+                    return !AntTasks.isValid(mob);
                 });
                 if (this.ants.isEmpty() && this.eggs.isEmpty())
                 {
                     PokecubeAPI.logInfo("Dead Nest!");
                     WorldTickManager.removeWorldData(level.dimension(), this);
-                    return;
                 }
                 else
                 {
@@ -214,7 +212,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         final int existing = this.getRooms(type).size();
         if ((type == AntRoom.NODE || type == AntRoom.EGG) && existing > 1) type = AntRoom.FOOD;
 
-        final Node entrance = this.getRooms(AntRoom.ENTRANCE).get(0);
+        final Node entrance = this.getRooms(AntRoom.ENTRANCE).getFirst();
 
         final Random rng = ThutCore.newRandom();
         final int index = rng.nextInt(nodes.size());
@@ -233,9 +231,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         final int x = rng.nextInt(r * 2) - r;
         final int z = rng.nextInt(r * 2) - r;
 
-        final int dx = x;
-        final int dz = z;
-        final double ds = Math.sqrt(dx * dx + dz * dz);
+        final double ds = Math.sqrt(x * x + z * z);
         int dy = (int) (ds / (1.0 + rng.nextDouble()));
 
         if (dy > 4 && root.depth < 2) return;
@@ -247,12 +243,12 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         final float root_size = root.size - 0.5f;
         final float next_size = 2.5f + rng.nextFloat() * 3;
 
-        BlockPos edgeShift = new BlockPos((int) (root_size * dx / ds), 0, (int) (root_size * dz / ds));
+        BlockPos edgeShift = new BlockPos((int) (root_size * x / ds), 0, (int) (root_size * z / ds));
 
         final BlockPos end1 = root.getCenter().offset(edgeShift);
-        final BlockPos end2 = end1.offset(new BlockPos(dx, dy, dz));
+        final BlockPos end2 = end1.offset(new BlockPos(x, dy, z));
 
-        edgeShift = new BlockPos((int) ((next_size - 0.5) * dx / ds), 0, (int) ((next_size - 0.5) * dz / ds));
+        edgeShift = new BlockPos((int) ((next_size - 0.5) * x / ds), 0, (int) ((next_size - 0.5) * z / ds));
 
         final Vector3 vec2 = new Vector3().set(end1.subtract(end2));
         vec2.y = 0;
@@ -374,7 +370,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
             Optional<BlockPos> room = this.getFreeEggRoom();
             if (this.here != null)
             {
-                if (!room.isPresent()) room = Optional.of(this.here);
+                if (room.isEmpty()) room = Optional.of(this.here);
                 final PokedexEntry entry = Database.getEntry("durant");
                 if (world.isEmptyBlock(room.get().above()))
                 {
@@ -465,7 +461,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         case BUILD:
             build:
             {
-                if (this.rooms.allRooms.size() == 0) break build;
+                if (this.rooms.allRooms.isEmpty()) break build;
                 if (this.hasItems)
                 {
                     // Check for un-finished nodes first
@@ -490,7 +486,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                         final int o2 = !e2.node1.started || !e2.node2.started ? 0 : 1;
                         return Integer.compare(o1, o2);
                     });
-                    final Edge a = edges.get(0);
+                    final Edge a = edges.getFirst();
                     if (!a.shouldBuild(time)) break build;
                     final BlockPos pos = n == a.node1 ? a.getEnd1() : a.getEnd2();
                     final String info = a.node1.type + "<->" + a.node2.type;
@@ -506,7 +502,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         case DIG:
             dig:
             {
-                if (this.rooms.allRooms.size() == 0) break dig;
+                if (this.rooms.allRooms.isEmpty()) break dig;
                 // Check for un-finished nodes first
                 for (final Node n : this.rooms.allRooms)
                 {
@@ -545,7 +541,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                         final int o2 = !e2.node1.started || !e2.node2.started ? 0 : 1;
                         return Integer.compare(o1, o2);
                     });
-                    final Edge a = edges.get(0);
+                    final Edge a = edges.getFirst();
                     a.started = true;
                     if (!a.shouldDig(time)) break dig;
                     final BlockPos pos = n == a.node1 ? a.getEnd1() : a.getEnd2();
@@ -589,9 +585,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                 }
             }
             break;
-        case NONE:
 
-            break;
         default:
             break;
 
@@ -703,7 +697,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
             Optional<BlockPos> room = this.getFreeEggRoom();
             if (poke != null && this.here != null)
             {
-                if (!room.isPresent()) room = Optional.of(this.here);
+                if (room.isEmpty()) room = Optional.of(this.here);
                 final PokedexEntry entry = poke.getPokedexEntry();
                 if (level.isEmptyBlock(room.get().above()))
                 {
@@ -761,8 +755,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
     public boolean canEnterHabitat(final Mob mob)
     {
         if (!AntTasks.isValid(mob)) return false;
-        if (!(mob.level() instanceof ServerLevel)) return false;
-        return true;
+        return mob.level() instanceof ServerLevel;
     }
 
     @Override

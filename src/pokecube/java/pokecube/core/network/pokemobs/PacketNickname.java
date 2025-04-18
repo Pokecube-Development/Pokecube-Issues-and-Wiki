@@ -33,7 +33,7 @@ public class PacketNickname extends Packet
     {
         final FriendlyByteBuf buffer = new FriendlyByteBuf(buf);
         this.entityId = buffer.readInt();
-        this.name = buffer.readUtf(48);
+        this.name = buffer.readUtf();
     }
 
     @Override
@@ -43,7 +43,7 @@ public class PacketNickname extends Packet
         final Entity mob = PokecubeAPI.getEntityProvider().getEntity(player.level(), this.entityId, true);
         final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         if (pokemob == null) return;
-        final String name = StringUtil.filterText(new String(this.name));
+        final String name = StringUtil.filterText(this.name);
         if (pokemob.getDisplayName().getString().equals(name)) return;
         boolean OT = pokemob.getOwnerId() == null || pokemob.getOriginalOwnerUUID() == null
                 || pokemob.getOwnerId().equals(pokemob.getOriginalOwnerUUID());
@@ -68,7 +68,7 @@ public class PacketNickname extends Packet
         buffer.writeUtf(this.name);
     }
 
-    private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("pokecube:pokemob_set_nickname"));
+    private final static Type<Packet> TYPE = new Type<>(ResourceLocation.parse("pokecube:pokemob_set_nickname"));
 
     @Override
     public Type<? extends CustomPacketPayload> type()

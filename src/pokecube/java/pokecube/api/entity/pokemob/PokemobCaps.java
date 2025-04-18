@@ -28,10 +28,8 @@ import pokecube.api.items.EggInfo;
 import pokecube.api.items.IPokemobUseable;
 import pokecube.api.items.PokecubeContents;
 import pokecube.api.items.PokesealContents;
-import pokecube.core.impl.capabilities.DefaultPokemob;
 import pokecube.core.utils.EntityTools;
 import thut.api.data.HolderProvider;
-import thut.api.entity.genetics.IMobGenetics;
 import thut.core.common.genetics.DefaultGenetics;
 import thut.core.common.network.SyncAttachments;
 
@@ -59,7 +57,10 @@ public class PokemobCaps
     public static IInhabitor getInhabitorFor(IAttachmentHolder entityIn)
     {
         if (entityIn == null) return null;
-        if (entityIn.hasData(INHABITOR)) return entityIn.getData(INHABITOR);
+        if (entityIn.hasData(INHABITOR) || CapabilityInhabitor._REGISTRY.make(entityIn) != null)
+        {
+            return entityIn.getData(INHABITOR);
+        }
         return null;
     }
 

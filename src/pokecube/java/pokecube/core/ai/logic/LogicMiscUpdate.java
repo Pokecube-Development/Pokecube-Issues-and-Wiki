@@ -69,8 +69,8 @@ public class LogicMiscUpdate extends LogicBase
 
     public static int EXITCUBEDURATION = 40;
 
-    public static final boolean holiday =
-            Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 25 && Calendar.getInstance().get(Calendar.MONTH) == 11;
+    public static final boolean holiday = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 25
+            && Calendar.getInstance().get(Calendar.MONTH) == Calendar.DECEMBER;
 
     public static void getStatModifiers(final EquipmentSlot slot, final ItemStack stack, final Map<Stats, Float> vals)
     {
@@ -95,8 +95,6 @@ public class LogicMiscUpdate extends LogicBase
     }
 
     private final int[] flavourAmounts = new int[5];
-
-    private PokedexEntry entry;
 
     private String particle = null;
     private boolean initHome = false;
@@ -216,9 +214,7 @@ public class LogicMiscUpdate extends LogicBase
         final boolean ownedSleepCheck =
                 sleepingAI && this.pokemob.getGeneralState(GeneralStates.TAMED) && !this.pokemob.getGeneralState(
                         GeneralStates.STAYING);
-        if (ownedSleepCheck) this.pokemob.setLogicState(LogicStates.SLEEPING, sleepingAI = false);
-
-        if (sleepingAI && entity.getPose() != Pose.SLEEPING) entity.setPose(Pose.SLEEPING);
+        if (ownedSleepCheck) this.pokemob.setLogicState(LogicStates.SLEEPING, false);
 
         // Ensure sitting status is synced for TameableEntities
         if (this.entity instanceof TamableAnimal animal)
@@ -295,7 +291,7 @@ public class LogicMiscUpdate extends LogicBase
     {
         super.tick(world);
 
-        this.entry = this.pokemob.getPokedexEntry();
+        PokedexEntry entry1 = this.pokemob.getPokedexEntry();
         Random rand = new Random(this.pokemob.getRNGValue());
         final int timer = 100;
 
@@ -418,18 +414,18 @@ public class LogicMiscUpdate extends LogicBase
         int particleIntensity = 100;
         if (this.pokemob.isShadow()) this.particle = "portal";
         particles:
-        if (this.particle == null && this.entry.particleData != null)
+        if (this.particle == null && entry1.particleData != null)
         {
             pokedex = true;
-            final double intensity = Double.parseDouble(this.entry.particleData[1]);
+            final double intensity = Double.parseDouble(entry1.particleData[1]);
             int val = (int) intensity;
             if (intensity < 1) if (rand.nextDouble() <= intensity) val = 1;
             if (val == 0) break particles;
-            this.particle = this.entry.particleData[0];
+            this.particle = entry1.particleData[0];
             particleIntensity = val;
-            if (this.entry.particleData.length > 2)
+            if (entry1.particleData.length > 2)
             {
-                final String[] args = this.entry.particleData[2].split(",");
+                final String[] args = entry1.particleData[2].split(",");
                 double dx = 0, dy = 0, dz = 0;
                 if (args.length == 1) dy = Double.parseDouble(args[0]) * this.entity.getBbHeight();
                 else
@@ -440,9 +436,9 @@ public class LogicMiscUpdate extends LogicBase
                 }
                 particleLoc.addTo(dx, dy, dz);
             }
-            if (this.entry.particleData.length > 3)
+            if (entry1.particleData.length > 3)
             {
-                final String[] args = this.entry.particleData[3].split(",");
+                final String[] args = entry1.particleData[3].split(",");
                 double dx = 0, dy = 0, dz = 0;
                 if (args.length == 1) switch (args[0])
                 {
@@ -540,7 +536,14 @@ public class LogicMiscUpdate extends LogicBase
         else if (this.entity.isInWater() || this.entity.isInLava()) next = Pose.SWIMMING;
         else if (this.floatTimer < 2) next = Pose.STANDING;
         else next = Pose.FALL_FLYING;
-        if (next != old) this.entity.setPose(next);
+        if (next != old)
+        {
+            if (next == Pose.SLEEPING)
+            {
+                entity.startSleeping(entity.getOnPos().above());
+            }
+            else entity.setPose(next);
+        }
     }
 
     private void addAnimation(List<String> anims, String key, boolean isRidden)
