@@ -135,7 +135,7 @@ public class PacketCommand extends Packet
         this.handler.writeToBuf(buf);
     }
 
-    private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("pokecube:pokemob_command"));
+    private final static Type<Packet> TYPE = new Type<>(ResourceLocation.parse("pokecube:pokemob_command"));
 
     @Override
     public Type<? extends CustomPacketPayload> type()

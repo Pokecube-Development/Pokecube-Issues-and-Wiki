@@ -24,6 +24,7 @@ import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import thut.api.Tracker;
 import thut.api.attachments.TrackedAttachment;
+import thut.api.entity.EntityProvider;
 import thut.api.world.WorldTickManager;
 import thut.api.world.WorldTickManager.DelayedTask;
 import thut.core.common.ThutCore;
@@ -31,7 +32,13 @@ import thut.core.common.ThutCore;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -151,7 +158,7 @@ public class SyncAttachments extends Packet
         var data = mob.getData(type);
         if (!(data instanceof INBTSerializable)) return;
         var tag = ((INBTSerializable) data).serializeNBT(mob.registryAccess());
-        if(!UNCHECKED_SYNC.contains(key))
+        if (!UNCHECKED_SYNC.contains(key))
         {
             @SuppressWarnings("unchecked")
             var test = DEFAULTS.computeIfAbsent(key, a -> {
@@ -207,7 +214,7 @@ public class SyncAttachments extends Packet
     public void handleClient(Player player)
     {
         final Level world = player.level;
-        final Entity p = world.getEntity(this.data.getInt("I"));
+        final Entity p = EntityProvider.provider.getEntity(world, this.data.getInt("I"));
         if (p != null)
         {
             ResourceLocation key = ResourceLocation.parse(this.data.getString("K"));

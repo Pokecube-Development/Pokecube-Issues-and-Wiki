@@ -156,10 +156,10 @@ sourceSets.main.resources { srcDir 'src/legends/resources' }
 sourceSets.main.java { srcDir 'src/legends/java' }
 //*/
 
-/** Test code
+/* Test code
 sourceSets.main.resources { srcDir 'src/test/resources' }
 sourceSets.main.java { srcDir 'src/test/java' }
-//**/
+//*/
 
 // Sets up a dependency configuration called 'localRuntime'.
 // This configuration should be used instead of 'runtimeOnly' to declare
