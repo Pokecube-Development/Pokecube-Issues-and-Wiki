@@ -85,7 +85,7 @@ public class TerrainManager
     {
         final BlockPos pos = new BlockPos((int) x, (int) y, (int) z);
         final TerrainSegment ret = this.getTerrain(world, pos);
-        if (world instanceof ServerLevel) ret.initBiomes(world);
+        if (world instanceof ServerLevel && ret.chunk != null) ret.initBiomes(world);
         return ret;
     }
 

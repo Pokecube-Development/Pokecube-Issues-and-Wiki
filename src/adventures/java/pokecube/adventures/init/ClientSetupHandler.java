@@ -1,6 +1,7 @@
 package pokecube.adventures.init;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -22,8 +23,12 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.*;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderers;
+import net.neoforged.neoforge.client.event.InputEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.entity.PartEntity;
@@ -34,6 +39,7 @@ import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.blocks.genetics.helper.PoweredContainer;
 import pokecube.adventures.blocks.genetics.helper.SelectorImpl;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector;
+import pokecube.adventures.blocks.statue.StatueEntity;
 import pokecube.adventures.client.gui.blocks.AFA;
 import pokecube.adventures.client.gui.blocks.Cloner;
 import pokecube.adventures.client.gui.blocks.Extractor;
@@ -88,34 +94,13 @@ public class ClientSetupHandler
 
             if (stack.getItem() == PokecubeAdv.STATUE.get().asItem())
             {
-                //                final boolean flag = stack.getTagElement("BlockEntityTag") != null;
-                //                if (flag)
-                //                {
-                //                    final CompoundTag blockTag = stack.getTagElement("BlockEntityTag");
-                //                    CompoundTag modelTag = blockTag.getCompound("custom_model");
-                //                    if (modelTag.contains("id"))
-                //                    {
-                //                        ResourceLocation id = ResourceLocation.parse(modelTag.getString("id"));
-                //                        final EntityType<?> type = ForgeRegistries.ENTITY_TYPES.getValue(id);
-                //                        evt.getToolTip().add(1, type.getDescription().copy().withStyle(ChatFormatting.GOLD)
-                //                                .withStyle(ChatFormatting.BOLD));
-                //                    }
-                //                    else if (blockTag.contains("ForgeCaps"))
-                //                    {
-                //                        CompoundTag capsTag = blockTag.getCompound("ForgeCaps");
-                //                        if (capsTag.contains("thutcore:copymob"))
-                //                        {
-                //                            capsTag = capsTag.getCompound("thutcore:copymob");
-                //                            if (capsTag.contains("id"))
-                //                            {
-                //                                ResourceLocation id = ResourceLocation.parse(capsTag.getString("id"));
-                //                                final EntityType<?> type = ForgeRegistries.ENTITY_TYPES.getValue(id);
-                //                                evt.getToolTip().add(1, type.getDescription().copy().withStyle(ChatFormatting.GOLD)
-                //                                        .withStyle(ChatFormatting.BOLD));
-                //                            }
-                //                        }
-                //                    }
-                //                }
+                var info = StatueEntity.unpackStatue(stack, Minecraft.getInstance().level);
+                if (info != null && info.copy() != null)
+                {
+                    final EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.get(info.copy().getCopiedID());
+                    evt.getToolTip().add(1,
+                            type.getDescription().copy().withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD));
+                }
             }
             if (player == null || player.containerMenu == null) return;
             if (player.containerMenu instanceof PoweredContainer
@@ -261,7 +246,7 @@ public class ClientSetupHandler
     {
         event.register((stack, tintIndex) -> {
             if (!(stack.has(DataComponents.DYED_COLOR))) return 0xFFFFFFFF;
-            return tintIndex == 0 ? stack.get(DataComponents.DYED_COLOR).rgb()|0xFF000000 : 0xFFFFFFFF;
+            return tintIndex == 0 ? stack.get(DataComponents.DYED_COLOR).rgb() | 0xFF000000 : 0xFFFFFFFF;
         }, PokecubeAdv.BAG.get());
     }
 }
