@@ -1,15 +1,9 @@
 package pokecube.world.gen.structures;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
@@ -30,13 +24,18 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.world.gen.structures.GenericJigsawStructure.AvoidanceSettings.AvoidanceEntry;
 import pokecube.world.gen.structures.utils.ExpandedJigsawPacement;
+import pokecube.world.utils.GeneralUtils;
 import thut.lib.RegHelper;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 public class GenericJigsawStructure extends Structure
 {
     public static final MapCodec<GenericJigsawStructure> CODEC = RecordCodecBuilder.mapCodec((instance) -> {
-        return instance
-                .group(//@formatter:off
+        return instance.group(//@formatter:off
                 Structure.settingsCodec(instance),
                 Codec.STRING.fieldOf("start_pool").orElse("").forGetter(s -> s.name),
                 StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(s -> s.startPool),
@@ -62,8 +61,7 @@ public class GenericJigsawStructure extends Structure
                 Integer.MAX_VALUE, Integer.MIN_VALUE, 0, "surface");
 
         public static final Codec<YSettings> CODEC = RecordCodecBuilder.create((instance) -> {
-            return instance
-                    .group(Codec.INT.fieldOf("vertical_offset").orElse(0).forGetter(s -> s.vertical_offset),
+            return instance.group(Codec.INT.fieldOf("vertical_offset").orElse(0).forGetter(s -> s.vertical_offset),
                             Codec.INT.fieldOf("y_check_radius").orElse(0).forGetter(s -> s.y_check_radius),
                             Codec.INT.fieldOf("min_y").orElse(Integer.MIN_VALUE).forGetter(s -> s.min_y),
                             Codec.INT.fieldOf("max_y").orElse(Integer.MAX_VALUE).forGetter(s -> s.max_y),
@@ -102,12 +100,10 @@ public class GenericJigsawStructure extends Structure
         public static final ClearanceSettings DEFAULT = new ClearanceSettings(0, 0, 100);
 
         public static final Codec<ClearanceSettings> CODEC = RecordCodecBuilder.create((instance) -> {
-            return instance
-                    .group(Codec.INT.fieldOf("h_clearance").orElse(0).forGetter(s -> s.h_clearance),
-                            Codec.INT.fieldOf("v_clearance").orElse(0).forGetter(s -> s.v_clearance),
-                            Codec.INT.fieldOf("max_distance_from_center").orElse(100)
-                                    .forGetter(s -> s.max_distance_from_center))
-                    .apply(instance, ClearanceSettings::new);
+            return instance.group(Codec.INT.fieldOf("h_clearance").orElse(0).forGetter(s -> s.h_clearance),
+                    Codec.INT.fieldOf("v_clearance").orElse(0).forGetter(s -> s.v_clearance),
+                    Codec.INT.fieldOf("max_distance_from_center").orElse(100)
+                            .forGetter(s -> s.max_distance_from_center)).apply(instance, ClearanceSettings::new);
         });
 
         public int h_clearance;
@@ -127,8 +123,7 @@ public class GenericJigsawStructure extends Structure
         public static class AvoidanceEntry
         {
             public static final Codec<AvoidanceEntry> CODEC = RecordCodecBuilder.create((instance) -> {
-                return instance
-                        .group(Codec.INT.fieldOf("distance").orElse(0).forGetter(s -> s.distance),
+                return instance.group(Codec.INT.fieldOf("distance").orElse(0).forGetter(s -> s.distance),
                                 Codec.STRING.fieldOf("name").orElse("").forGetter(s -> s.name))
                         .apply(instance, AvoidanceEntry::new);
             });
@@ -147,9 +142,9 @@ public class GenericJigsawStructure extends Structure
                 Lists.newArrayList());
 
         public static final Codec<AvoidanceSettings> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
-                Codec.list(AvoidanceEntry.CODEC).fieldOf("avoidances").orElse(Lists.newArrayList())
-                        .forGetter(s -> s.avoidances),
-                Codec.list(Codec.STRING).fieldOf("flags").orElse(Lists.newArrayList()).forGetter(s -> s.flags))
+                        Codec.list(AvoidanceEntry.CODEC).fieldOf("avoidances").orElse(Lists.newArrayList())
+                                .forGetter(s -> s.avoidances),
+                        Codec.list(Codec.STRING).fieldOf("flags").orElse(Lists.newArrayList()).forGetter(s -> s.flags))
                 .apply(instance, AvoidanceSettings::new));
 
         public List<AvoidanceEntry> avoidances;
@@ -309,7 +304,8 @@ public class GenericJigsawStructure extends Structure
         if (this.biome_room > 0)
         {
             BlockPos p = pos.getMiddleBlockPosition(0);
-            int y = generator.getBaseHeight(p.getX(), p.getZ(), this.height_type, context.heightAccessor(), rng);
+            int y = GeneralUtils.getCachedFreeHeight(generator, p.getX(), p.getZ(), this.height_type,
+                    context.heightAccessor(), rng);
             Set<Holder<Biome>> biome_set = biomes.getBiomesWithin(p.getX(), y, p.getZ(), this.biome_room,
                     rng.sampler());
             for (var holder : biome_set) if (!context.validBiome().test(holder)) return false;
@@ -322,14 +318,14 @@ public class GenericJigsawStructure extends Structure
         {
             for (int x = pos.x - this.y_settings.y_check_radius; x <= pos.x + this.y_settings.y_check_radius; x++)
                 for (int z = pos.z - this.y_settings.y_check_radius; z <= pos.z + this.y_settings.y_check_radius; z++)
-            {
-                int height = context.chunkGenerator().getBaseHeight((x << 4) + 7, (z << 4) + 7, this.height_type,
-                        context.heightAccessor(), rng);
-                max_y = Math.max(max_y, height);
-                min_y = Math.min(min_y, height);
-                if (min_y < this.y_settings.min_y) return false;
-                if (max_y > this.y_settings.max_y) return false;
-            }
+                {
+                    int height = GeneralUtils.getCachedFreeHeight(generator, (x << 4) + 7, (z << 4) + 7,
+                            this.height_type, context.heightAccessor(), rng);
+                    max_y = Math.max(max_y, height);
+                    min_y = Math.min(min_y, height);
+                    if (min_y < this.y_settings.min_y) return false;
+                    if (max_y > this.y_settings.max_y) return false;
+                }
             if (max_y - min_y > this.y_settings.max_dy)
             {
                 return false;
