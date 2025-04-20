@@ -10,18 +10,20 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 
 public class PacketHandler
 {
-    private String version;
+    private final String version;
 
-    private List<Class<Packet>> TO_SERVER = new ArrayList<>();
-    private List<Class<Packet>> TO_CLIENT = new ArrayList<>();
-    private List<Class<Packet>> TO_BOTHCS = new ArrayList<>();
+    private final List<Class<Packet>> TO_SERVER = new ArrayList<>();
+    private final List<Class<Packet>> TO_CLIENT = new ArrayList<>();
+    private final List<Class<Packet>> TO_BOTHCS = new ArrayList<>();
 
     public PacketHandler(final String version)
     {
@@ -33,6 +35,8 @@ public class PacketHandler
     private void onPayloadRegister(RegisterPayloadHandlersEvent event)
     {
         var reg = event.registrar(version);
+        if(FMLEnvironment.dist == Dist.CLIENT) reg = reg.optional();
+        var registery = reg;
 
         TO_SERVER.forEach((packet) -> {
             try
@@ -40,7 +44,7 @@ public class PacketHandler
                 var inst = packet.getConstructor().newInstance();
                 @SuppressWarnings("unchecked")
                 CustomPacketPayload.Type<Packet> type = (Type<Packet>) inst.type();
-                reg.commonToServer(type, inst, inst);
+                registery.commonToServer(type, inst, inst);
 
             }
             catch (Exception e)
@@ -55,7 +59,7 @@ public class PacketHandler
                 var inst = packet.getConstructor().newInstance();
                 @SuppressWarnings("unchecked")
                 CustomPacketPayload.Type<Packet> type = (Type<Packet>) inst.type();
-                reg.commonToClient(type, inst, inst);
+                registery.commonToClient(type, inst, inst);
 
             }
             catch (Exception e)
@@ -70,7 +74,7 @@ public class PacketHandler
                 var inst = packet.getConstructor().newInstance();
                 @SuppressWarnings("unchecked")
                 CustomPacketPayload.Type<Packet> type = (Type<Packet>) inst.type();
-                reg.commonBidirectional(type, inst, inst);
+                registery.commonBidirectional(type, inst, inst);
 
             }
             catch (Exception e)
@@ -122,8 +126,7 @@ public class PacketHandler
     {
         if (tracked instanceof LevelChunk)
         {
-            var chunk = tracked;
-            PacketDistributor.sendToPlayersTrackingChunk((ServerLevel) chunk.getLevel(), chunk.getPos(), message);
+            PacketDistributor.sendToPlayersTrackingChunk((ServerLevel) tracked.getLevel(), tracked.getPos(), message);
         }
     }
 }
