@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.EventPriority;
+import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.abilities.Ability;
@@ -27,12 +28,14 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.pokemobs.combat.MoveUse;
 import pokecube.api.events.pokemobs.combat.MoveUse.MoveWorldAction;
+import pokecube.api.events.pokemobs.combat.StatusEvent;
 import pokecube.api.items.IPokemobUseable;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveNames;
 import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.moves.utils.MoveApplication.StatusApplier;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.eventhandlers.SpawnHandler.ForbidReason;
@@ -45,6 +48,7 @@ import pokecube.core.impl.entity.impl.PersistantStatusEffect.Status;
 import pokecube.core.init.Config;
 import pokecube.core.init.ItemGenerator;
 import pokecube.core.moves.MovesUtils;
+import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.moves.world.DefaultAction;
 import pokecube.core.moves.world.DefaultElectricAction;
 import pokecube.core.moves.world.DefaultFireAction;
@@ -207,6 +211,8 @@ public class MoveEventsHandler
         PokecubeAPI.MOVE_BUS.addListener(EventPriority.LOWEST, false, MoveEventsHandler::onDuringUsePre);
         // This handles application of world actions for the moves.
         PokecubeAPI.MOVE_BUS.addListener(EventPriority.LOWEST, false, MoveEventsHandler::onWorldAction);
+        // This handles application of world actions for the moves.
+        PokecubeAPI.MOVE_BUS.addListener(EventPriority.LOWEST, false, MoveEventsHandler::preStatusAdded);
         // Setup recipes for moves that may have loaded in.
         ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, false, MoveEventsHandler::initServerMoveRecipes);
     }
@@ -234,6 +240,41 @@ public class MoveEventsHandler
 
         // Finally re-init all of the actions
         actionsLists.values().forEach(l -> l.forEach(IMoveWorldEffect::init));
+    }
+
+    private static void preStatusAdded(StatusEvent.PreAdd event)
+    {
+        var pokemob = event.getPokemob();
+        if (pokemob == null || event.getResult() != TriState.DEFAULT) return;
+        var status = event.getStatus();
+        if (status == StatusEffects.BURN)
+        {
+            if (pokemob.isType(PokeType.getType("fire")))
+            {
+                event.setResult(TriState.FALSE);
+            }
+        }
+        else if (status == StatusEffects.PARALYSIS)
+        {
+            if (pokemob.isType(PokeType.getType("electric")))
+            {
+                event.setResult(TriState.FALSE);
+            }
+        }
+        else if (status == StatusEffects.FREEZE)
+        {
+            if (pokemob.isType(PokeType.getType("ice")))
+            {
+                event.setResult(TriState.FALSE);
+            }
+        }
+        else if (status == StatusEffects.POISON)
+        {
+            if (pokemob.isType(PokeType.getType("poison")) || pokemob.isType(PokeType.getType("steel")))
+            {
+                event.setResult(TriState.FALSE);
+            }
+        }
     }
 
     private static void onDuringUsePost(final MoveUse.DuringUse.Post evt)

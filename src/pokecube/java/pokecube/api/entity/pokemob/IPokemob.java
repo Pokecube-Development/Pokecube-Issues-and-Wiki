@@ -27,12 +27,12 @@ import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.moves.Battle;
-import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.utils.PokeType;
 import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
+import pokecube.core.moves.damage.effects.StatusEffects;
 import thut.api.ModelHolder;
 import thut.api.Tracker;
 import thut.api.attachments.TrackedAttachment;
@@ -200,7 +200,7 @@ public interface IPokemob
         public static void applyHappiness(final IPokemob mob, final HappinessType type)
         {
             final int current = mob.getHappiness();
-            if (type == BERRY && mob.getStatus() != IMoveConstants.STATUS_NON) return;
+            if (type == BERRY && StatusEffects.hasAnyStatusEffects(mob.getEntity())) return;
             if (type != TRADE)
             {
                 if (current < 100) mob.addHappiness(type.low);
@@ -540,20 +540,6 @@ public interface IPokemob
     {
         return this.getPokedexEntry().getSoundEvent();
     }
-
-    /**
-     * Statuses: {@link IMoveConstants#STATUS_PSN} for example.
-     *
-     * @return the status
-     */
-    int getStatus();
-
-    /**
-     * The timer for SLP. When reach 0, the mob wakes up.
-     *
-     * @return the actual value of the timer.
-     */
-    short getStatusTimer();
 
     /**
      * @return whether we have a valid {@link #getHome()}

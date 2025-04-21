@@ -1,7 +1,5 @@
 package pokecube.mobs.abilities.complex;
 
-import java.util.List;
-
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -9,7 +7,10 @@ import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
+import pokecube.core.moves.damage.effects.StatusEffects;
 import thut.api.maths.Vector3;
+
+import java.util.List;
 
 @AbilityProvider(name = "flame-body", singleton = false)
 public class FlameBody extends Ability
@@ -35,15 +36,15 @@ public class FlameBody extends Ability
         final MoveEntry attack = move.getMove();
         final IPokemob attacker = move.getUser();
         if (move.hit && attack.isContact(attacker) && Math.random() > 0.7)
-            attacker.setStatus(mob, IMoveConstants.STATUS_BRN);
+            StatusEffects.setStatus(attacker, mob, IMoveConstants.STATUS_BRN);
     }
 
     @Override
     public void onUpdate(IPokemob mob)
     {
         final Vector3 v = new Vector3().set(mob.getEntity());
-        final List<EntityPokemobEgg> eggs = mob.getEntity().level().getEntitiesOfClass(
-                EntityPokemobEgg.class, v.getAABB().expandTowards(this.range, this.range, this.range));
+        final List<EntityPokemobEgg> eggs = mob.getEntity().level().getEntitiesOfClass(EntityPokemobEgg.class,
+                v.getAABB().expandTowards(this.range, this.range, this.range));
         for (final EntityPokemobEgg egg : eggs)
             egg.incubateEgg();
     }

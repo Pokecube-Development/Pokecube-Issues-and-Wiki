@@ -2,10 +2,10 @@ package pokecube.mobs.moves.attacks;
 
 import pokecube.api.data.moves.MoveProvider;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.moves.utils.MoveApplication.Damage;
 import pokecube.api.moves.utils.MoveApplication.HealProvider;
+import pokecube.core.moves.damage.effects.StatusEffects;
 
 @MoveProvider(name = "rest")
 public class Rest implements HealProvider
@@ -18,6 +18,6 @@ public class Rest implements HealProvider
         IPokemob attacker = packet.getUser();
         attacker.healStatus();
         attacker.healChanges();
-        attacker.setStatus(attacker, IMoveConstants.STATUS_SLP, 2);
+        StatusEffects.setStatus(attacker.getEntity(), attacker.getEntity(), StatusEffects.SLEEP, 2, 1);
     }
 }

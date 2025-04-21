@@ -8,6 +8,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.memory.WalkTarget;
@@ -16,7 +17,6 @@ import net.minecraft.world.level.Level;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.LogicStates;
-import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.core.inventory.pokemob.PokemobInventory;
 import thut.api.entity.ai.IAIRunnable;
 import thut.api.entity.ai.ITask;
@@ -110,11 +110,8 @@ public abstract class TaskBase extends RootTask<Mob> implements ITask
         if (pokemob.getLogicState(LogicStates.CANNOTMOVE)) return false;
         // Don't move while sitting
         if (pokemob.getLogicState(LogicStates.SITTING)) return false;
-        final boolean sleeping =
-                pokemob.getLogicState(LogicStates.SLEEPING) || (pokemob.getStatus() & IMoveConstants.STATUS_SLP) > 0;
-        final boolean frozen = (pokemob.getStatus() & IMoveConstants.STATUS_FRZ) > 0;
         // DOLATER add other checks for things like bind, etc
-        return !(sleeping || frozen);
+        return entity.getAttribute(Attributes.MOVEMENT_SPEED).getValue() > 0;
     }
 
     protected final IPokemob pokemob;
@@ -161,10 +158,6 @@ public abstract class TaskBase extends RootTask<Mob> implements ITask
         this.priority = prior;
         return this;
     }
-
-    @Override
-    public void tick()
-    {}
 
     @Override
     protected boolean checkExtraStartConditions(final ServerLevel worldIn, final Mob owner)

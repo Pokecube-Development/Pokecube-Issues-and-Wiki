@@ -85,7 +85,7 @@ public class PokecubeSerializer
 
     public Map<String, List<GlobalPos>> structs;
 
-    private int lastId = 1;
+    private int lastId;
 
     public CompoundTag customData = new CompoundTag();
 
@@ -266,7 +266,7 @@ public class PokecubeSerializer
                 }
                 catch (final Exception e)
                 {
-                    PokecubeAPI.LOGGER.error("Error loading base from tag: " + pokemobData);
+                    PokecubeAPI.LOGGER.error("Error loading base from tag: {}", pokemobData);
                 }
             }
         }
@@ -288,7 +288,7 @@ public class PokecubeSerializer
                 }
                 catch (final Exception e)
                 {
-                    PokecubeAPI.LOGGER.error("Error loading structure from tag: " + pokemobData);
+                    PokecubeAPI.LOGGER.error("Error loading structure from tag: {}", pokemobData);
                 }
             }
         }
@@ -338,7 +338,7 @@ public class PokecubeSerializer
         }
         catch (final Exception e)
         {
-            PokecubeAPI.LOGGER.error("Error setting has starter state for " + player, e);
+            PokecubeAPI.LOGGER.error("Error setting has starter state for {}", player, e);
         }
         if (ThutCore.proxy.isServerSide())
             PlayerDataHandler.getInstance().save(player.registryAccess(), player.getStringUUID());

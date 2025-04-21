@@ -1,18 +1,6 @@
 package pokecube.api.moves.utils;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-import java.util.function.Function;
-import java.util.function.Supplier;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Sets;
-
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
@@ -42,48 +30,53 @@ import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.MovesUtils.StatDiff;
 import pokecube.core.moves.animations.AnimationMultiAnimations;
 import pokecube.core.moves.damage.PokemobDamageSource;
+import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.utils.EntityTools;
 import thut.api.level.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.function.Function;
+import java.util.function.Supplier;
+
 public class MoveApplication implements Comparable<MoveApplication>
 {
     public static record Accuracy(MoveApplication move, float efficiency)
-    {
-    }
+    {}
 
     public static record Damage(MoveApplication move, float efficiency, int dealt, int healthBefore, int healthAfter)
-    {
-    }
+    {}
 
     public static interface PreApplyTests
     {
         public static PreApplyTests DEFAULT = new PreApplyTests()
-        {
-        };
+        {};
 
         default boolean checkPreApply(MoveApplication t)
         {
             final IPokemob attackedMob = PokemobCaps.getPokemobFor(t.getTarget());
-            if ((t.getUser().getStatus() & IMoveConstants.STATUS_SLP) > 0)
+            if (t.getUser().getEntity().hasEffect(StatusEffects.SLEEP))
             {
-                if (attackedMob != null) MovesUtils.displayStatusMessages(attackedMob, t.getUser().getEntity(),
-                        IMoveConstants.STATUS_SLP, false);
-                else MovesUtils.displayStatusMessages(null, t.getUser().getEntity(), IMoveConstants.STATUS_SLP, false);
+                MovesUtils.displayStatusMessages(attackedMob, t.getUser().getEntity(), IMoveConstants.STATUS_SLP,
+                        false);
                 return false;
             }
-            if ((t.getUser().getStatus() & IMoveConstants.STATUS_FRZ) > 0)
+            if (t.getUser().getEntity().hasEffect(StatusEffects.FREEZE))
             {
-                if (attackedMob != null) MovesUtils.displayStatusMessages(attackedMob, t.getUser().getEntity(),
-                        IMoveConstants.STATUS_FRZ, false);
-                else MovesUtils.displayStatusMessages(null, t.getUser().getEntity(), IMoveConstants.STATUS_FRZ, false);
+                MovesUtils.displayStatusMessages(attackedMob, t.getUser().getEntity(), IMoveConstants.STATUS_FRZ,
+                        false);
                 return false;
             }
-            if ((t.getUser().getStatus() & IMoveConstants.STATUS_PAR) > 0 && Math.random() > 0.75)
+            if (t.getUser().getEntity().hasEffect(StatusEffects.PARALYSIS) && Math.random() > 0.75)
             {
-                if (attackedMob != null) MovesUtils.displayStatusMessages(attackedMob, t.getUser().getEntity(),
-                        IMoveConstants.STATUS_PAR, false);
-                else MovesUtils.displayStatusMessages(null, t.getUser().getEntity(), IMoveConstants.STATUS_PAR, false);
+                MovesUtils.displayStatusMessages(attackedMob, t.getUser().getEntity(), IMoveConstants.STATUS_PAR,
+                        false);
                 return false;
             }
             return true;
@@ -93,8 +86,7 @@ public class MoveApplication implements Comparable<MoveApplication>
     public static interface StatusApplier
     {
         public static StatusApplier DEFAULT = new StatusApplier()
-        {
-        };
+        {};
         public static StatusApplier NOOP = new StatusApplier()
         {
             @Override
@@ -120,8 +112,7 @@ public class MoveApplication implements Comparable<MoveApplication>
     public static interface StatApplier
     {
         public static StatApplier DEFAULT = new StatApplier()
-        {
-        };
+        {};
         public static StatApplier NOOP = new StatApplier()
         {
             @Override
@@ -151,8 +142,7 @@ public class MoveApplication implements Comparable<MoveApplication>
     public static interface DamageApplier
     {
         public static DamageApplier DEFAULT = new DamageApplier()
-        {
-        };
+        {};
 
         default Damage applyDamage(MoveApplication t)
         {
@@ -195,7 +185,7 @@ public class MoveApplication implements Comparable<MoveApplication>
             // Additional scaler for super effective moves
             float superEffectScale = t.superEffectMult;
 
-            int critcalRate = 16;
+            int critcalRate;
 
             // Convert from crit number to crit chance
             if (t.crit == 1) critcalRate = 16;
@@ -259,15 +249,14 @@ public class MoveApplication implements Comparable<MoveApplication>
             {
                 final boolean owner = target == user.getOwner();
                 if (!owner || PokecubeCore.getConfig().pokemobsDamageOwner)
-                    scaleFactor = PokecubeCore.getConfig().pokemobsDamagePlayers
-                            ? wild ? PokecubeCore.getConfig().wildPlayerDamageRatio
-                                    : PokecubeCore.getConfig().ownedPlayerDamageRatio
-                            : 0;
+                    scaleFactor = PokecubeCore.getConfig().pokemobsDamagePlayers ? wild
+                            ? PokecubeCore.getConfig().wildPlayerDamageRatio
+                            : PokecubeCore.getConfig().ownedPlayerDamageRatio : 0;
                 else scaleFactor = 0;
             }
-            else if (targetPokemob == null)
-                scaleFactor = target instanceof Npc ? PokecubeCore.getConfig().pokemobToNPCDamageRatio
-                        : PokecubeCore.getConfig().pokemobToOtherMobDamageRatio;
+            else if (targetPokemob == null) scaleFactor = target instanceof Npc
+                    ? PokecubeCore.getConfig().pokemobToNPCDamageRatio
+                    : PokecubeCore.getConfig().pokemobToOtherMobDamageRatio;
             finalAttackStrength *= scaleFactor;
 
             if (targetPokemob != null) if (targetPokemob.getAbility() != null)
@@ -275,9 +264,8 @@ public class MoveApplication implements Comparable<MoveApplication>
 
             boolean self = user == targetPokemob;
 
-            if (self && move.defrosts && targetPokemob != null
-                    && (targetPokemob.getStatus() & IMoveConstants.STATUS_FRZ) > 0)
-                targetPokemob.healStatus();
+            if (self && move.defrosts && targetPokemob != null && t.getUser().getEntity()
+                    .hasEffect(StatusEffects.FREEZE)) targetPokemob.healStatus();
 
             if (finalAttackStrength > 0 && !target.isInvulnerable())
             {
@@ -291,16 +279,15 @@ public class MoveApplication implements Comparable<MoveApplication>
                     float d1, d2;
                     if (wild)
                     {
-                        d2 = (float) (finalAttackStrength
-                                * Math.min(1, PokecubeCore.getConfig().wildPlayerDamageMagic));
-                        d1 = finalAttackStrength - d2;
+                        d2 = (float) (finalAttackStrength * Math.min(1,
+                                PokecubeCore.getConfig().wildPlayerDamageMagic));
                     }
                     else
                     {
-                        d2 = (float) (finalAttackStrength
-                                * Math.min(1, PokecubeCore.getConfig().ownedPlayerDamageMagic));
-                        d1 = finalAttackStrength - d2;
+                        d2 = (float) (finalAttackStrength * Math.min(1,
+                                PokecubeCore.getConfig().ownedPlayerDamageMagic));
                     }
+                    d1 = finalAttackStrength - d2;
                     target.hurt(source1, d1);
                     target.hurt(source2, d2);
                     if (PokecubeCore.getConfig().debug_moves)
@@ -378,8 +365,7 @@ public class MoveApplication implements Comparable<MoveApplication>
     public static interface OngoingApplier
     {
         OngoingApplier NOOP = new OngoingApplier()
-        {
-        };
+        {};
 
         public static OngoingApplier fromFunction(Function<Damage, IOngoingEffect> provider)
         {
@@ -395,20 +381,20 @@ public class MoveApplication implements Comparable<MoveApplication>
                     if (targetAffected != null) targetAffected.getEffects().add(provider.apply(t));
                 }
             };
-        };
+        }
 
         default void applyOngoingEffects(Damage t)
         {
-            if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.LOGGER
-                    .info("No Ongoing Effects for move {} used on {}", t.move().getName(), t.move().getTarget());
+            if (PokecubeCore.getConfig().debug_moves)
+                PokecubeAPI.LOGGER.info("No Ongoing Effects for move {} used on {}", t.move().getName(),
+                        t.move().getTarget());
         }
     }
 
     public static interface RecoilApplier
     {
         RecoilApplier DEFAULT = new RecoilApplier()
-        {
-        };
+        {};
 
         default void applyRecoil(Damage t)
         {
@@ -423,8 +409,9 @@ public class MoveApplication implements Comparable<MoveApplication>
                 // This means the move heals as recoil.
                 if (recoil > 0)
                 {
-                    if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.LOGGER
-                            .info("Applying recoil healing for move {} of amount {}", t.move().getName(), recoil);
+                    if (PokecubeCore.getConfig().debug_moves)
+                        PokecubeAPI.LOGGER.info("Applying recoil healing for move {} of amount {}", t.move().getName(),
+                                recoil);
                     recoil = Math.min(recoil, moveAppl.getUser().getMaxHealth() - moveAppl.getUser().getHealth());
                     if (recoil > 0) moveAppl.getUser().getEntity().heal(recoil);
                     MovesUtils.sendPairedMessages(moveAppl.getUser().getEntity(), other, "pokemob.move.recoil.heal");
@@ -433,8 +420,9 @@ public class MoveApplication implements Comparable<MoveApplication>
                 else
                 {
                     Mob entity = moveAppl.getUser().getEntity();
-                    if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.LOGGER
-                            .info("Applying recoil damage for move {} of amount {}", t.move().getName(), recoil);
+                    if (PokecubeCore.getConfig().debug_moves)
+                        PokecubeAPI.LOGGER.info("Applying recoil damage for move {} of amount {}", t.move().getName(),
+                                recoil);
                     entity.hurt(entity.damageSources().fall(), -recoil);
                     MovesUtils.sendPairedMessages(moveAppl.getUser().getEntity(), other, "pokemob.move.recoil.damage");
                 }
@@ -446,8 +434,7 @@ public class MoveApplication implements Comparable<MoveApplication>
     {
 
         HealProvider DEFAULT = new HealProvider()
-        {
-        };
+        {};
 
         default void applyHealing(Damage t)
         {
@@ -472,8 +459,7 @@ public class MoveApplication implements Comparable<MoveApplication>
     public static interface AccuracyProvider
     {
         public static AccuracyProvider DEFAULT = new AccuracyProvider()
-        {
-        };
+        {};
 
         default Accuracy applyAccuracy(Accuracy t)
         {
@@ -508,8 +494,7 @@ public class MoveApplication implements Comparable<MoveApplication>
     public static interface PostMoveUse
     {
         PostMoveUse DEFAULT = new PostMoveUse()
-        {
-        };
+        {};
 
         default void applyPostMove(Damage t)
         {
@@ -520,8 +505,7 @@ public class MoveApplication implements Comparable<MoveApplication>
     public static interface OnMoveFail
     {
         OnMoveFail DEFAULT = new OnMoveFail()
-        {
-        };
+        {};
 
         default void onMoveFail(MoveApplication t)
         {
@@ -563,8 +547,7 @@ public class MoveApplication implements Comparable<MoveApplication>
     // These are scaling factors on the stat to apply during the move use.
     // Abilities, etc can use these to adjust particular stats when being
     // checked.
-    public float[] stat_multipliers =
-    { 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+    public float[] stat_multipliers = { 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 
     // Things set during the move applications
     public boolean didCrit = false;
@@ -584,31 +567,27 @@ public class MoveApplication implements Comparable<MoveApplication>
     public Damage dealt;
 
     /**
-     * Replace this if you want to adjust status effects, for things like
-     * freeze, burn, par, etc.
+     * Replace this if you want to adjust status effects, for things like freeze, burn, par, etc.
      */
     public StatusApplier status = StatusApplier.DEFAULT;
 
     /**
-     * Replace this if you want to adjust stat effects, like for evasion, attack
-     * increases, etc.
+     * Replace this if you want to adjust stat effects, like for evasion, attack increases, etc.
      */
     public StatApplier stats = StatApplier.DEFAULT;
 
     /**
-     * Replace this if you want to adjust accuracy of the move, otherwise it
-     * uses whatever the move had in data.
+     * Replace this if you want to adjust accuracy of the move, otherwise it uses whatever the move had in data.
      */
     public AccuracyProvider accuracy = AccuracyProvider.DEFAULT;
 
     /**
-     * This deals the damage, and returns info regarding damage dealt. Replace
-     * this if you want to adjust damage itself, and the events are not enough.
+     * This deals the damage, and returns info regarding damage dealt. Replace this if you want to adjust damage itself,
+     * and the events are not enough.
      */
     public DamageApplier damage = DamageApplier.DEFAULT;
     /**
-     * This applies recoil after damage is dealt. Replace this if you want to
-     * adjust recoil mechanics.
+     * This applies recoil after damage is dealt. Replace this if you want to adjust recoil mechanics.
      */
     public RecoilApplier recoil = RecoilApplier.DEFAULT;
     /**
@@ -616,18 +595,18 @@ public class MoveApplication implements Comparable<MoveApplication>
      */
     public HealProvider healer = HealProvider.DEFAULT;
     /**
-     * This should return true if the move is attempted at all. By default this
-     * handles things like checking status effects, etc.
+     * This should return true if the move is attempted at all. By default this handles things like checking status
+     * effects, etc.
      */
     public PreApplyTests doRun = PreApplyTests.DEFAULT;
     /**
-     * Applies ongoing effects, ie things which are liable to apply to damage
-     * over a longer duration, or later in time in general.
+     * Applies ongoing effects, ie things which are liable to apply to damage over a longer duration, or later in time
+     * in general.
      */
     public OngoingApplier applyOngoing = OngoingApplier.NOOP;
     /**
-     * Post move application, default is no operation, but this can be used for
-     * incrementing timers after move use, etc.
+     * Post move application, default is no operation, but this can be used for incrementing timers after move use,
+     * etc.
      */
     public PostMoveUse afterUse = PostMoveUse.DEFAULT;
     /**
@@ -636,23 +615,20 @@ public class MoveApplication implements Comparable<MoveApplication>
     public OnMoveFail onFail = OnMoveFail.DEFAULT;
 
     /**
-     * Sounds played on the move use, if this is null, it will use whatever was
-     * loaded in.
+     * Sounds played on the move use, if this is null, it will use whatever was loaded in.
      */
     public MoveSounds sounds;
 
     /**
-     * Flags that can be assigned to the MoveApplication, for purposes of
-     * tracking changes, etc in sub-applications. See Move_Explode for an
-     * example of using this.
+     * Flags that can be assigned to the MoveApplication, for purposes of tracking changes, etc in sub-applications. See
+     * Move_Explode for an example of using this.
      */
     public Map<String, Object> customFlags = new HashMap<>();
 
     /**
-     * Collection of UUIDs of mobs this has already applied to. This is used by
-     * the EntityMoveUse to decide what mobs to hit. This is also populated with
-     * entity uuids for mobs which are invalid targets for the move, such as the
-     * user for melee moves.
+     * Collection of UUIDs of mobs this has already applied to. This is used by the EntityMoveUse to decide what mobs to
+     * hit. This is also populated with entity uuids for mobs which are invalid targets for the move, such as the user
+     * for melee moves.
      */
     public Set<UUID> alreadyHit = Sets.newHashSet();
 
@@ -712,8 +688,9 @@ public class MoveApplication implements Comparable<MoveApplication>
             // Fire the post event, we did not hit, this is apparent in the
             // from didHit == false.
             PokecubeAPI.MOVE_BUS.post(postEvent);
-            if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Move Failed or Cancelled!: {} used by {}",
-                    getMove().name, this.getUser().getDisplayName().getString());
+            if (PokecubeCore.getConfig().debug_moves)
+                PokecubeAPI.logInfo("Move Failed or Cancelled!: {} used by {}", getMove().name,
+                        this.getUser().getDisplayName().getString());
             return;
         }
 
@@ -781,11 +758,9 @@ public class MoveApplication implements Comparable<MoveApplication>
     }
 
     /**
-     * This will set the user, but will then also update pwr, type and stab
-     * accordingly, so if you do not intend those to change, ensure to reset
-     * them after!
-     * 
-     * @param user
+     * This will set the user, but will then also update pwr, type and stab accordingly, so if you do not intend those
+     * to change, ensure to reset them after!
+     *
      */
     public void setUser(@Nonnull IPokemob user)
     {

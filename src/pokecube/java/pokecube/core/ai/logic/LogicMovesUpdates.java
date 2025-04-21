@@ -3,31 +3,23 @@ package pokecube.core.ai.logic;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import pokecube.api.PokecubeAPI;
-import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.items.IPokemobUseable;
 import pokecube.api.moves.Battle;
-import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.IMoveNames;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.entity.genetics.epigenes.MovesGene;
-import pokecube.core.impl.entity.impl.PersistantStatusEffect;
 import thut.api.ThutCaps;
 import thut.api.entity.genetics.Alleles;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -39,7 +31,6 @@ public class LogicMovesUpdates extends LogicBase
 {
     Vector3 v = new Vector3();
     int index = -1;
-    int statusTick = 0;
 
     public LogicMovesUpdates(final IPokemob entity)
     {
@@ -66,12 +57,6 @@ public class LogicMovesUpdates extends LogicBase
         }
     }
 
-    public boolean hasMove(final String move)
-    {
-        for (final String s : this.pokemob.getMoves()) if (s != null && s.equalsIgnoreCase(move)) return true;
-        return false;
-    }
-
     @Override
     public void tick(final Level world)
     {
@@ -92,7 +77,6 @@ public class LogicMovesUpdates extends LogicBase
             if (this.pokemob.getMoveStats().DEFENSECURLCOUNTER > 0) this.pokemob.getMoveStats().DEFENSECURLCOUNTER--;
             if (this.pokemob.getMoveStats().SPECIALCOUNTER > 0) this.pokemob.getMoveStats().SPECIALCOUNTER--;
 
-            this.updateStatusEffect();
             this.doExplosionChecks();
 
             // Reset move specific counters if the move index has changed.
@@ -112,7 +96,7 @@ public class LogicMovesUpdates extends LogicBase
                 Alleles<String[], MovesGene> genesMoves = genes.getAlleles(GeneticsManager.MOVESGENE);
                 pokemob.getMoveStats().setBaseMoves(genesMoves.getExpressed().getValue());
                 pokemob.getMoveStats().reset();
-                if(this.pokemob.getMove(0) != null) break learn_moves;
+                if (this.pokemob.getMove(0) != null) break learn_moves;
                 String move = IMoveNames.MOVE_TACKLE;
                 final List<String> moves = this.pokemob.getPokedexEntry().getMovesForLevel(this.pokemob.getLevel());
                 if (!moves.isEmpty()) move = moves.get(ThutCore.newRandom().nextInt(moves.size()));
@@ -193,39 +177,6 @@ public class LogicMovesUpdates extends LogicBase
             final InteractionResultHolder<ItemStack> result = usable.onTick(this.pokemob, held);
             if (result.getResult() == InteractionResult.SUCCESS) this.pokemob.setHeldItem(result.getObject());
             if (this.pokemob.getHeldItem().isEmpty()) this.pokemob.setHeldItem(ItemStack.EMPTY);
-        }
-    }
-
-    protected void updateStatusEffect()
-    {
-        final int status = this.pokemob.getStatus();
-        if (status == IMoveConstants.STATUS_NON)
-        {
-            if (this.pokemob.getLogicState(LogicStates.SLEEPING))
-            {
-                final int duration = 10;
-                this.entity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, duration * 2, 100));
-                this.entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, duration * 2, 100));
-            }
-            return;
-        }
-        else
-        {
-            /**
-             * Heals the status effects if the capability is soemhow removed,
-             * yet it still thinks it has a status.
-             */
-            final IOngoingAffected affected = PokemobCaps.getAffected(this.pokemob.getEntity());
-            if (affected == null) return;
-            final Collection<?> set = affected.getEffects(PersistantStatusEffect.ID);
-            if (set.isEmpty() && this.statusTick++ > 20)
-            {
-                PokecubeAPI.LOGGER.error(
-                        "Fixed Broken Status " + this.pokemob.getStatus() + " for " + this.pokemob.getEntity());
-                this.statusTick = 0;
-                this.pokemob.healStatus();
-            }
-            else if (!set.isEmpty()) this.statusTick = 0;
         }
     }
 }

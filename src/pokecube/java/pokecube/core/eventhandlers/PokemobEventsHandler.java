@@ -93,13 +93,16 @@ import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.network.packets.PacketDataSync;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.network.pokemobs.PacketSyncNewMoves;
-import pokecube.core.utils.*;
+import pokecube.core.utils.AITools;
+import pokecube.core.utils.CapHolders;
+import pokecube.core.utils.EntityTools;
+import pokecube.core.utils.Permissions;
+import pokecube.core.utils.PokemobTracker;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
 import thut.api.entity.ai.RootTask;
 import thut.api.entity.blockentity.BlockEntityUpdater;
 import thut.api.entity.event.CopyUpdateEvent;
-import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.item.ItemList;
 import thut.api.level.terrain.TerrainManager;
@@ -112,7 +115,11 @@ import thut.core.common.network.SyncAttachments;
 import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 public class PokemobEventsHandler
 {
@@ -1022,8 +1029,7 @@ public class PokemobEventsHandler
         final IPokemob pokemob = PokemobCaps.getPokemobFor(target);
         if (pokemob == null) return;
 
-        final InteractionHand hand = evt.getHand();
-        final ItemStack held = player.getItemInHand(hand);
+        final ItemStack held = evt.getItemStack();
         final Mob entity = pokemob.getEntity();
 
         final InteractEvent event = new InteractEvent(pokemob, player, evt);
@@ -1036,7 +1042,7 @@ public class PokemobEventsHandler
         }
 
         // Item has custom entity interaction, let that run instead.
-        if (held.getItem().interactLivingEntity(held, player, entity, hand) != InteractionResult.PASS)
+        if (held.getItem().interactLivingEntity(held, player, entity, evt.getHand()) != InteractionResult.PASS)
         {
             evt.setCanceled(true);
             evt.setCancellationResult(InteractionResult.SUCCESS);
@@ -1056,10 +1062,10 @@ public class PokemobEventsHandler
         // If not alled to interact with the mob, exit here, this prevents
         // opening pokemob inventory while holding empty cubes, etc.
         if (ItemList.is(ResourceLocation.fromNamespaceAndPath("pokecube", "pokemob_no_interact"), held)) return;
-        // check of other hand is holding a blackisted item as well.
-        final InteractionHand other = InteractionHand.values()[(hand.ordinal() + 1) % 2];
-        final ItemStack otherheld = player.getItemInHand(other);
-        if (ItemList.is(ResourceLocation.fromNamespaceAndPath("pokecube", "pokemob_no_interact"), otherheld)) return;
+
+        final InteractionHand hand = evt.getHand();
+        // only accept mainhand past here.
+        if (hand != InteractionHand.MAIN_HAND) return;
 
         boolean isOwner = false;
         if (pokemob.getOwnerId() != null) isOwner = pokemob.getOwnerId().equals(player.getUUID());

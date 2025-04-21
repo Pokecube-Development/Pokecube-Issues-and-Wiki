@@ -5,11 +5,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.GuiEvent;
 import pokecube.core.client.gui.GuiDisplayPokecubeInfo;
 import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
+import pokecube.core.moves.damage.effects.StatusEffects;
 
 public class TargetInfo extends GuiEventComponent
 {
@@ -45,8 +45,8 @@ public class TargetInfo extends GuiEventComponent
         final int nameOffsetY = dir == 1 ? 0 : 23;
         final int hpOffsetX = 42;
         final int hpOffsetY = 13;
-        final int statusOffsetX = 2;
-        final int statusOffsetY = 27;
+        final int statusOffsetX = 4;
+        final int statusOffsetY = 30;
         final int confuseOffsetX = 14;
         final int confuseOffsetY = 1;
         IPokemob pokemob = info.getCurrentPokemob();
@@ -61,6 +61,10 @@ public class TargetInfo extends GuiEventComponent
             evt.getMat().translate(this.pos.x0, this.pos.y0, 0);
             // Now translate us to the box itself
             evt.getMat().translate(18, 0, 0);
+
+            RenderSystem.enableBlend();
+            // Render Box behind Mob
+            graphics.blitSprite(ICON_MOB_FRAME, 1, 0, -2, 42, 42);
 
             // Render HP
             graphics.blitSprite(ICON_HEALTH_EXP[0], hpOffsetX, hpOffsetY, 89, 7);
@@ -78,7 +82,7 @@ public class TargetInfo extends GuiEventComponent
                 String txt = n == 1 ? n + "" : n2 + "/" + n;
                 int num = gui.getFont().width(txt);
 
-                graphics.blitSprite(ICON_NUMBER_FRAME, -num+2, 0, 1, num + 4, 15);
+                graphics.blitSprite(ICON_NUMBER_FRAME, -num + 2, 0, 1, num + 4, 15);
                 graphics.drawString(gui.getFont(), txt, nameOffsetX - 39 - num, nameOffsetY + 4,
                         GuiDisplayPokecubeInfo.lightGrey);
             }
@@ -86,19 +90,22 @@ public class TargetInfo extends GuiEventComponent
             pokemob = PokemobCaps.getPokemobFor(entity);
             if (pokemob != null)
             {
-                final int status = pokemob.getStatus();
-                if (status != IMoveConstants.STATUS_NON)
+                RenderSystem.enableBlend();
+                var status = StatusEffects.getStatusEffect(pokemob.getEntity());
+                int dv = 0;
+                if (status != null && status.getDuration() != 0)
                 {
-                    int dv = 0;
-                    if ((status & IMoveConstants.STATUS_BRN) != 0) dv = 0;
-                    if ((status & IMoveConstants.STATUS_FRZ) != 0) dv = 1;
-                    if ((status & IMoveConstants.STATUS_PAR) != 0) dv = 2;
-                    if ((status & IMoveConstants.STATUS_PSN) != 0) dv = 3;
-                    graphics.blitSprite(STATUS_ICONS[dv], statusOffsetX, statusOffsetY, -1, 13, 13);
+                    if (StatusEffects.BURN.is(status.getEffect().getKey())) dv = 0;
+                    if (StatusEffects.FREEZE.is(status.getEffect().getKey())) dv = 1;
+                    if (StatusEffects.PARALYSIS.is(status.getEffect().getKey())) dv = 2;
+                    if (StatusEffects.POISON.is(status.getEffect().getKey())) dv = 3;
+                    if (StatusEffects.SLEEP.is(status.getEffect().getKey())) dv = 4;
+                    graphics.blitSprite(STATUS_ICONS[dv], statusOffsetX, statusOffsetY, 0, 10, 10);
                 }
-                if ((pokemob.getChanges() & IMoveConstants.CHANGE_CONFUSED) != 0)
+                if (pokemob.getEntity().hasEffect(StatusEffects.CONFUSE))
                 {
-                    graphics.blitSprite(STATUS_ICONS[4], confuseOffsetX, confuseOffsetY, 100, 20, 14);
+                    dv = 5;
+                    graphics.blitSprite(STATUS_ICONS[dv], confuseOffsetX, confuseOffsetY, 100, 20, 14);
                 }
             }
 
@@ -116,8 +123,6 @@ public class TargetInfo extends GuiEventComponent
                     GuiDisplayPokecubeInfo.lightGrey);
 
             RenderSystem.enableBlend();
-            // Render Box behind Mob
-            graphics.blitSprite(ICON_MOB_FRAME, 1, 0, -2, 42, 42);
             // Render Mob
 
             float f = 30;

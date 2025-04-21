@@ -36,8 +36,6 @@ public class StatusEffectDamageSource extends DamageSource implements IPokedamag
     public IPokemob user;
 
     /**
-     * @param par1Str
-     * @param mob
      */
     public StatusEffectDamageSource(final LivingEntity mob)
     {

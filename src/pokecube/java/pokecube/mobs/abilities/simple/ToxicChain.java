@@ -5,6 +5,7 @@ import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
+import pokecube.core.moves.damage.effects.StatusEffects;
 
 @AbilityProvider(name = "toxic-chain")
 public class ToxicChain extends Ability
@@ -14,7 +15,6 @@ public class ToxicChain extends Ability
     {
         if (!areWeUser(mob, move)) return;
         final IPokemob attacker = move.getUser();
-        if (move.hit && Math.random() > 0.7)
-            attacker.setStatus(mob, IMoveConstants.STATUS_PSN2);
+        if (move.hit && Math.random() > 0.7) StatusEffects.setStatus(attacker, mob, IMoveConstants.STATUS_PSN2);
     }
 }

@@ -1,19 +1,6 @@
 package pokecube.core.moves;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-import java.util.UUID;
-import java.util.function.Predicate;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -23,6 +10,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AnvilMenu;
 import net.minecraft.world.item.ItemStack;
@@ -37,7 +25,6 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.moves.MoveApplicationRegistry;
 import pokecube.api.entity.CapabilityAffected;
 import pokecube.api.entity.IOngoingAffected;
-import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -55,11 +42,11 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect.Effect;
-import pokecube.core.impl.entity.impl.PersistantStatusEffect;
 import pokecube.core.impl.entity.impl.PersistantStatusEffect.Status;
 import pokecube.core.impl.entity.impl.StatEffect;
 import pokecube.core.moves.MoveQueue.MoveQueuer;
 import pokecube.core.moves.damage.EntityMoveUse;
+import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.network.pokemobs.PacketPokemobMessage;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
 import thut.api.boom.ExplosionCustom;
@@ -67,6 +54,17 @@ import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.lib.TComponent;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.UUID;
+import java.util.function.Predicate;
 
 public class MovesUtils implements IMoveConstants
 {
@@ -92,10 +90,11 @@ public class MovesUtils implements IMoveConstants
     {
         String key = baseKey + ".user";
         final IPokemob attacked = PokemobCaps.getPokemobFor(target);
-        final Component targName = target != null ? target.getDisplayName()
+        final Component targName = target != null
+                ? target.getDisplayName()
                 : attacker != null ? attacker.getDisplayName() : TComponent.literal("ERR PLS REPORT");
-        Component msg = arg == null ? TComponent.translatable(key, targName)
-                : TComponent.translatable(key, targName, arg);
+        Component msg =
+                arg == null ? TComponent.translatable(key, targName) : TComponent.translatable(key, targName, arg);
         if (attacker != null) attacker.displayMessageToOwner(msg);
         key = baseKey + ".target";
         if (target != null && (attacker == null || target != attacker.getEntity()))
@@ -128,7 +127,6 @@ public class MovesUtils implements IMoveConstants
     }
 
     /**
-     * @param attacker
      * @return can attacker use its currently selected move.
      */
     public static boolean canUseMove(final IPokemob attacker)
@@ -200,10 +198,8 @@ public class MovesUtils implements IMoveConstants
     }
 
     /**
-     * @param attacker
-     * @param attacked
-     * @param efficiency    -1 = missed, -2 = failed, 0 = no effect, <1 = not
-     *                      effective, 1 = normal effecive, >1 = supereffective
+     * @param efficiency    -1 = missed, -2 = failed, 0 = no effect, <1 = not effective, 1 = normal effecive, >1 =
+     *                      supereffective
      * @param criticalRatio >1 = critical hit.
      */
     public static void displayEfficiencyMessages(final IPokemob attacker, final Entity attacked, final float efficiency,
@@ -293,7 +289,8 @@ public class MovesUtils implements IMoveConstants
             if (PokecubeCore.getConfig().debug_moves)
                 PokecubeAPI.logInfo("Move Message Send: {} on {}", baseKey, target);
             final IPokemob attacked = PokemobCaps.getPokemobFor(target);
-            final Component targName = target != null ? target.getDisplayName()
+            final Component targName = target != null
+                    ? target.getDisplayName()
                     : attacker != null ? attacker.getDisplayName() : TComponent.literal("ERR PLS REPORT");
             if (attacker != null) attacker.displayMessageToOwner(TComponent.translatable(key, targName, otherArg));
             key = baseKey + ".target";
@@ -365,9 +362,9 @@ public class MovesUtils implements IMoveConstants
 
         if (PWR <= 0) return 0;
 
-        float statusMultiplier = 1F;
-        if (attacker.getStatus() == IMoveConstants.STATUS_PAR || attacker.getStatus() == IMoveConstants.STATUS_BRN)
-            statusMultiplier = 0.5F;
+        var attackAttribute = attacker.getEntity().getAttribute(Attributes.ATTACK_DAMAGE);
+        float statusMultiplier = attackAttribute.getBaseValue() > 0 ? (float) (attackAttribute.getValue()
+                / attackAttribute.getBaseValue()) : 0f;
 
         final int level = attacker.getLevel();
         int ATT;
@@ -394,15 +391,19 @@ public class MovesUtils implements IMoveConstants
     }
 
     /**
-     * Computes the delay between two moves in a fight from move and status
-     * effects.
+     * Computes the delay between two moves in a fight from move and status effects.
      *
      * @return muliplier on attack delay
      */
     public static float getDelayMultiplier(final IPokemob attacker, final String moveName)
     {
         float moveCooldownFactor = PokecubeCore.getConfig().attackCooldown / 20F;
-        if (attacker.getStatus() == IMoveConstants.STATUS_PAR) moveCooldownFactor *= 4F;
+
+        var attackAttribute = attacker.getEntity().getAttribute(Attributes.ATTACK_SPEED);
+        float statusMultiplier = attackAttribute.getBaseValue() > 0 ? (float) (attackAttribute.getValue()
+                / attackAttribute.getBaseValue()) : 0f;
+
+        moveCooldownFactor *= statusMultiplier;
         final MoveEntry move = MovesUtils.getMove(moveName);
         if (move == null) return 1;
         if (move.isContact(attacker))
@@ -487,8 +488,7 @@ public class MovesUtils implements IMoveConstants
     }
 
     public static record StatDiff(byte[] diffs, boolean applied)
-    {
-    };
+    {}
 
     public static StatDiff handleStats(final IPokemob attacker, final Entity target, final int[] stats,
             final float chance)
@@ -536,10 +536,11 @@ public class MovesUtils implements IMoveConstants
     {
         if (diffs.applied)
         {
-            for (byte i = 0; i < diffs.diffs.length; i++) if (diffs.diffs[i] != 0)
-            {
-                MovesUtils.displayStatsMessage(attacker, target, 0, i, diffs.diffs[i]);
-            }
+            for (byte i = 0; i < diffs.diffs.length; i++)
+                if (diffs.diffs[i] != 0)
+                {
+                    MovesUtils.displayStatsMessage(attacker, target, 0, i, diffs.diffs[i]);
+                }
         }
     }
 
@@ -566,23 +567,23 @@ public class MovesUtils implements IMoveConstants
         if (ret)
         {
             final IPokemob targetMob = targetPokemob;
-            for (byte i = 0; i < diff.length; i++) if (diff[i] != 0 && attacker != null)
-                MovesUtils.displayStatsMessage(targetMob, attacker, 0, i, diff[i]);
+            for (byte i = 0; i < diff.length; i++)
+                if (diff[i] != 0 && attacker != null)
+                    MovesUtils.displayStatsMessage(targetMob, attacker, 0, i, diff[i]);
             PacketSyncModifier.sendUpdate(StatModifiers.DEFAULT, targetMob);
         }
         return ret;
     }
 
     /**
-     * @param attacker
-     * @return is attacker able to use any moves, this doesn't check attack
-     *         cooldown, instead checks things like status or ai
+     * @return is attacker able to use any moves, this doesn't check attack cooldown, instead checks things like status
+     * or ai
      */
     public static AbleStatus isAbleToUseMoves(final IPokemob attacker)
     {
         if (!attacker.isRoutineEnabled(AIRoutine.AGRESSIVE)) return AbleStatus.AIOFF;
-        if ((attacker.getStatus() & IMoveConstants.STATUS_SLP) > 0) return AbleStatus.SLEEP;
-        if ((attacker.getStatus() & IMoveConstants.STATUS_FRZ) > 0) return AbleStatus.FREEZE;
+        if (attacker.getEntity().hasEffect(StatusEffects.SLEEP)) return AbleStatus.SLEEP;
+        if (attacker.getEntity().hasEffect(StatusEffects.FREEZE)) return AbleStatus.FREEZE;
         return AbleStatus.ABLE;
     }
 
@@ -597,8 +598,8 @@ public class MovesUtils implements IMoveConstants
     public static ExplosionCustom newExplosion(final LivingEntity entity, final double x, final double y,
             final double z, final float power)
     {
-        final ExplosionCustom var11 = new ExplosionCustom((ServerLevel) entity.level(), entity, x, y, z, power)
-                .setMaxRadius(PokecubeCore.getConfig().blastRadius);
+        final ExplosionCustom var11 = new ExplosionCustom((ServerLevel) entity.level(), entity, x, y, z,
+                power).setMaxRadius(PokecubeCore.getConfig().blastRadius);
         final IPokemob poke = PokemobCaps.getPokemobFor(entity);
         if (poke != null) if (poke.getOwner() instanceof Player) var11.owner = (Player) poke.getOwner();
         else var11.owner = null;
@@ -620,21 +621,16 @@ public class MovesUtils implements IMoveConstants
             status = Status.values()[j].getMask();
             if (attackedPokemob != null)
             {
-                final boolean apply = attackedPokemob.setStatus(source, status);
+                final boolean apply = StatusEffects.setStatus(attackedPokemob, source, status);
                 applied = applied || apply;
                 if (apply) attackedPokemob.getEntity().getNavigation().stop();
                 return true;
             }
             else if (attacked != null)
             {
-                final IOngoingAffected affected = PokemobCaps.getAffected(attacked);
-                if (affected != null)
-                {
-                    applied = true;
-                    final IOngoingEffect effect = new PersistantStatusEffect(status, 5);
-                    if (source != null) effect.setSource(source.getEntity().getUUID());
-                    affected.addEffect(effect);
-                }
+                // 0 here means to apply a regular turn timer, 2-5 for statuses which heal themselves, -1 for permanent ones.
+                final boolean apply = StatusEffects.setStatus(attacked, source.getEntity(), status, 0);
+                applied = applied || apply;
             }
         }
         return applied;
@@ -650,8 +646,7 @@ public class MovesUtils implements IMoveConstants
             if (attacker.is(e)) return false;
             if (!PokecubeCore.getConfig().pokemobsDamagePlayers && e instanceof Player) return false;
             if (!PokecubeCore.getConfig().pokemobsDamageOwner && e.getUUID().equals(pokemob.getOwnerId())) return false;
-            if (PokecubeAPI.getEntityProvider().getEntity(attacker.level(), e.getId(), true) == attacker)
-                return false;
+            if (PokecubeAPI.getEntityProvider().getEntity(attacker.level(), e.getId(), true) == attacker) return false;
             return true;
         };
     }
@@ -673,11 +668,12 @@ public class MovesUtils implements IMoveConstants
                 matcher);
         double closest = 16;
 
-        if (targets != null) for (final Entity e : targets) if (attacker.distanceTo(e) < closest)
-        {
-            closest = attacker.distanceTo(e);
-            target = e;
-        }
+        if (targets != null) for (final Entity e : targets)
+            if (attacker.distanceTo(e) < closest)
+            {
+                closest = attacker.distanceTo(e);
+                target = e;
+            }
         return target;
     }
 
@@ -747,15 +743,17 @@ public class MovesUtils implements IMoveConstants
                 apply.setTarget(s);
                 if (target_test.test(apply) && applied.add(s.getUUID()))
                 {
-                    if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, move, s)).isCanceled()) continue;
+                    if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, move, s)).isCanceled())
+                        continue;
                     // In this case, we had selected a new target from the
                     // battle, so we want to change our end for when the move is
                     // fired.
                     Vector3 use = new Vector3(end);
                     if (s != target) use.set(s);
                     final EntityMoveUse moveUse = EntityMoveUse.create(level, apply, use);
-                    if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Queuing move: {} used by {} on {}",
-                            move.name, user.getDisplayName().getString(), s.getDisplayName().getString());
+                    if (PokecubeCore.getConfig().debug_moves)
+                        PokecubeAPI.logInfo("Queuing move: {} used by {} on {}", move.name,
+                                user.getDisplayName().getString(), s.getDisplayName().getString());
                     MoveQueuer.queueMove(moveUse);
                     if (s == user) notUser = false;
                     if (!move.isMultiTarget()) break;
@@ -775,8 +773,8 @@ public class MovesUtils implements IMoveConstants
                     apply.setTarget(target);
                     if (target_test.test(apply) && applied.add(target.getUUID()))
                     {
-                        if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, move, target)).isCanceled())
-                            break apply_test;
+                        if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, move, target))
+                                .isCanceled()) break apply_test;
                         final EntityMoveUse moveUse = EntityMoveUse.create(level, apply, end);
                         MoveQueuer.queueMove(moveUse);
                         did = true;

@@ -3,6 +3,7 @@ package pokecube.core.init;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -54,14 +55,25 @@ public class SetupHandler
         });
     }
 
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onEntityAttributes(final EntityAttributeModificationEvent event)
+    {
+        event.getTypes().forEach((type) -> {
+            // We use this for attack cooldown scaling.
+            if (!event.has(type, Attributes.ATTACK_SPEED)) event.add(type, Attributes.ATTACK_SPEED);
+            // We use this for attack damage scaling.
+            if (!event.has(type, Attributes.ATTACK_DAMAGE)) event.add(type, Attributes.ATTACK_DAMAGE);
+        });
+    }
+
     @SubscribeEvent
     public static void onEntityAttributes(final EntityAttributeCreationEvent event)
     {
         if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logInfo("Registering Pokecube Attributes");
 
         final AttributeSupplier.Builder attribs = LivingEntity.createLivingAttributes()
-                .add(Attributes.FOLLOW_RANGE, 16.0D).add(Attributes.ATTACK_KNOCKBACK).add(Attributes.MAX_HEALTH, 10.0D)
-                .add(Attributes.FLYING_SPEED, 0.6).add(SharedAttributes.MOB_SIZE_SCALE);
+                .add(Attributes.FOLLOW_RANGE, 16.0D).add(Attributes.FLYING_SPEED, 0.6)
+                .add(SharedAttributes.MOB_SIZE_SCALE);
         event.put(EntityTypes.getPokecube(), attribs.build());
         event.put(EntityTypes.getEgg(), attribs.build());
         event.put(EntityTypes.getNpc(), attribs.build());

@@ -1,12 +1,7 @@
 package pokecube.core.impl.capabilities.impl;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -15,7 +10,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.entity.CapabilityAffected;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -26,11 +20,9 @@ import pokecube.api.moves.Battle;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.utils.PokeType;
-import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.impl.entity.impl.PersistantStatusEffect;
-import pokecube.core.impl.entity.impl.PersistantStatusEffect.Status;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.pokemobs.PacketSyncMoveUse;
@@ -40,6 +32,9 @@ import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
 import thut.core.common.network.SyncAttachments;
 import thut.lib.RegHelper;
+
+import java.util.List;
+import java.util.Set;
 
 public abstract class PokemobMoves extends PokemobStats
 {
@@ -180,12 +175,6 @@ public abstract class PokemobMoves extends PokemobStats
     }
 
     @Override
-    public int getStatus()
-    {
-        return Math.max(0, this.params.STATUSDW.get());
-    }
-
-    @Override
     public int getEnemyNumber()
     {
         return this.params.ENEMYNUMDW.get();
@@ -254,7 +243,7 @@ public abstract class PokemobMoves extends PokemobStats
                     if (b2 == null)
                     {
                         var mobs = b.getEnemies(entity);
-                        if (!mobs.isEmpty()) Battle.createOrAddToBattle(owner, mobs.get(0));
+                        if (!mobs.isEmpty()) Battle.createOrAddToBattle(owner, mobs.getFirst());
                     }
                     else if (b == null)
                     {
@@ -262,7 +251,7 @@ public abstract class PokemobMoves extends PokemobStats
                         // battle
                         b = b2;
                         var mobs = b.getEnemies(owner);
-                        if (!mobs.isEmpty()) Battle.createOrAddToBattle(entity, mobs.get(0));
+                        if (!mobs.isEmpty()) Battle.createOrAddToBattle(entity, mobs.getFirst());
                     }
                 }
             }
@@ -354,16 +343,16 @@ public abstract class PokemobMoves extends PokemobStats
                 if (owner != null) this.setAllyID(owner.getId());
             }
             // Otherwise if in bounds, set ally.
-            else if (mobs.size() > 0)
+            else if (!mobs.isEmpty())
             {
                 this.setAllyID(mobs.get(allyIndex).getId());
             }
-            break battle_check;
         }
         // Client side we pull them from the ids.
         else
         {
-            Entity e = entity.level().getEntity(this.getTargetID());
+            int id = this.getTargetID();
+            Entity e = entity.level().getEntity(id);
             if (e instanceof LivingEntity living) target = living;
         }
 
@@ -385,12 +374,6 @@ public abstract class PokemobMoves extends PokemobStats
         // Cull down in this case
         if (this.getMoveStats().enemyIndex >= num) this.getMoveStats().enemyIndex = 0;
         else if (this.getMoveStats().enemyIndex < 0) this.getMoveStats().enemyIndex = num - 1;
-    }
-
-    @Override
-    public short getStatusTimer()
-    {
-        return this.params.STATUSTIMERDW.get().shortValue();
     }
 
     @Override
@@ -443,54 +426,6 @@ public abstract class PokemobMoves extends PokemobStats
             this.getMoveStats().selectedMove = null;
         }
     }
-
-    @Override
-    public boolean setStatus(IPokemob source, int status, int turns)
-    {
-        non:
-        if (this.getStatus() != IMoveConstants.STATUS_NON)
-        {
-            // Check if we actually have a status, if we do not, then we can
-            // apply one.
-            final IOngoingAffected affected = PokemobCaps.getAffected(this.getEntity());
-            if (affected != null) if (affected.getEffects(PersistantStatusEffect.ID) == null) break non;
-            return false;
-        }
-        else if (status == IMoveConstants.STATUS_NON)
-        {
-            final IOngoingAffected affected = PokemobCaps.getAffected(this.getEntity());
-            affected.removeEffects(PersistantStatusEffect.ID);
-            this.params.STATUSDW.set(status);
-            return true;
-        }
-        final Status actual = Status.getStatus(status);
-        if (actual == null)
-        {
-            final List<Status> options = Lists.newArrayList();
-            for (final Status temp : Status.values()) if ((temp.getMask() & status) != 0) options.add(temp);
-            if (options.isEmpty()) return false;
-            if (options.size() > 1) Collections.shuffle(options);
-            status = options.get(0).getMask();
-        }
-        if (status == IMoveConstants.STATUS_BRN && this.isType(PokeType.getType("fire"))) return false;
-        if (status == IMoveConstants.STATUS_PAR && this.isType(PokeType.getType("electric"))) return false;
-        if (status == IMoveConstants.STATUS_FRZ && this.isType(PokeType.getType("ice"))) return false;
-        if ((status == IMoveConstants.STATUS_PSN || status == IMoveConstants.STATUS_PSN2) && (
-                this.isType(PokeType.getType("poison")) || this.isType(PokeType.getType("steel")))) return false;
-        this.params.STATUSDW.set(status);
-        if ((status == IMoveConstants.STATUS_SLP || status == IMoveConstants.STATUS_FRZ) && turns == -1) turns = 5;
-        final short timer = (short) (turns == -1
-                ? PokecubeCore.getConfig().attackCooldown * 5
-                : turns * PokecubeCore.getConfig().attackCooldown);
-        this.setStatusTimer(timer);
-        PersistantStatusEffect statusEffect;
-        statusEffect = new PersistantStatusEffect(status, turns);
-        if (source != null) statusEffect.setSource(source.getEntity().getUUID());
-        return CapabilityAffected.addEffect(this.getEntity(), statusEffect);
-    }
-
-    @Override
-    public void setStatusTimer(final short timer) {this.params.STATUSTIMERDW.set((int) timer);}
 
     @Override
     public void setTransformedTo(LivingEntity to)

@@ -5,6 +5,7 @@ import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
+import pokecube.core.moves.damage.effects.StatusEffects;
 
 @AbilityProvider(name = "limber")
 public class Limber extends Ability
@@ -19,7 +20,7 @@ public class Limber extends Ability
     @Override
     public void onUpdate(IPokemob mob)
     {
-        if (mob.getStatus() == IMoveConstants.STATUS_PAR) mob.healStatus();
+        if (mob.getEntity().hasEffect(StatusEffects.PARALYSIS)) mob.healStatus();
     }
 
 }

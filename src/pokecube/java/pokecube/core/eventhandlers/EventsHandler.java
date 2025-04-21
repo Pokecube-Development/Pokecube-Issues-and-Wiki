@@ -9,7 +9,11 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.boss.EnderDragonPart;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
@@ -78,6 +82,7 @@ import pokecube.core.network.packets.PacketChoose;
 import pokecube.core.network.packets.PacketDataSync;
 import pokecube.core.network.packets.PacketPokecube;
 import pokecube.core.network.packets.PacketPokedex;
+import pokecube.core.network.pokemobs.PacketSyncStatus;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.nbtedit.NBTEdit;
@@ -107,8 +112,12 @@ import thut.core.common.handlers.PlayerDataHandler.PlayerDataManager;
 import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.function.Predicate;
 
 public class EventsHandler
@@ -754,6 +763,7 @@ public class EventsHandler
 
     private static void onStartTracking(final StartTracking event)
     {
+        if (event.getTarget() instanceof LivingEntity mob) PacketSyncStatus.sendUpdate(mob);
         // Check if the pokecube is loot, and is not collectable by the player,
         // if this is the case, it should be set invisible.
         if (event.getTarget() instanceof EntityPokecube pokecube && event.getEntity() instanceof ServerPlayer player)
@@ -862,6 +872,7 @@ public class EventsHandler
         PacketDataSync.syncData(player, "pokecube-data");
         PacketDataSync.syncData(player, "pokecube-stats");
         PacketPokedex.sendLoginPacket(player);
+        PacketSyncStatus.sendUpdate(player);
         if (PokecubeCore.getConfig().guiOnLogin) new ChooseFirst(player);
         else if (!PokecubeSerializer.getInstance().hasStarter(player) && PokecubeCore.getConfig().msgAboutProfessor)
             thut.lib.ChatHelper.sendSystemMessage(player,

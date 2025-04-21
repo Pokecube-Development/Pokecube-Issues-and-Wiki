@@ -6,6 +6,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
+import pokecube.core.moves.damage.effects.StatusEffects;
 
 @AbilityProvider(name = "static")
 public class Static extends Ability
@@ -18,6 +19,6 @@ public class Static extends Ability
         final IPokemob attacker = move.getUser();
         if (move.hit
                 && attack.isContact(attacker) && Math.random() > 0.7)
-            attacker.setStatus(mob, IMoveConstants.STATUS_PAR);
+            StatusEffects.setStatus(attacker, mob, IMoveConstants.STATUS_PAR);
     }
 }

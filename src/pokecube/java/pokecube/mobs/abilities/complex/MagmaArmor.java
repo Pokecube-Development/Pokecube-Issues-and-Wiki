@@ -1,14 +1,15 @@
 package pokecube.mobs.abilities.complex;
 
-import java.util.List;
-
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
+import pokecube.core.moves.damage.effects.StatusEffects;
 import thut.api.maths.Vector3;
+
+import java.util.List;
 
 @AbilityProvider(name = "magma-armor", singleton = false)
 public class MagmaArmor extends Ability
@@ -38,10 +39,10 @@ public class MagmaArmor extends Ability
     @Override
     public void onUpdate(IPokemob mob)
     {
-        if (mob.getStatus() == IMoveConstants.STATUS_FRZ) mob.healStatus();
+        if (mob.getEntity().hasEffect(StatusEffects.FREEZE)) StatusEffects.healStatusEffects(mob.getEntity());
         final Vector3 v = new Vector3().set(mob.getEntity());
-        final List<EntityPokemobEgg> eggs = mob.getEntity().level().getEntitiesOfClass(
-                EntityPokemobEgg.class, v.getAABB().expandTowards(this.range, this.range, this.range));
+        final List<EntityPokemobEgg> eggs = mob.getEntity().level().getEntitiesOfClass(EntityPokemobEgg.class,
+                v.getAABB().expandTowards(this.range, this.range, this.range));
         for (final EntityPokemobEgg egg : eggs)
             egg.incubateEgg();
     }

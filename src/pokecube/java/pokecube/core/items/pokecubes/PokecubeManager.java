@@ -16,10 +16,10 @@ import pokecube.api.events.pokemobs.HealEvent;
 import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.items.PokecubeContents;
 import pokecube.api.items.PokesealContents;
-import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.moves.damage.effects.StatusEffects;
 import thut.api.entity.genetics.GeneHolder;
 import thut.core.common.genetics.DefaultGenetics;
 import thut.lib.TComponent;
@@ -85,13 +85,6 @@ public class PokecubeManager
     {
         PokesealContents contents = PokemobCaps.getPokeseal(stack);
         return contents == null ? null : contents.tag();
-    }
-
-    public static int getStatus(final ItemStack itemStack, Level level)
-    {
-        PokecubeContents contents = PokemobCaps.getPokemobIn(itemStack, level);
-        if (contents == null || contents.pokemob() == null) return 0;
-        return contents.pokemob().getStatus();
     }
 
     public static int getTilt(final ItemStack itemStack, Level level)
@@ -197,14 +190,17 @@ public class PokecubeManager
         PokecubeManager.addToCube(itemStack, pokemob.getEntity());
         itemStack.setCount(1);
         PokecubeManager.setColor(itemStack);
-        final int status = pokemob.getStatus();
+        var statusIns = StatusEffects.getStatusEffect(pokemob.getEntity());
         Component name = pokemob.getDisplayName();
-        if (status == IMoveConstants.STATUS_BRN) name = TComponent.translatable("pokecube.filled.brn", name);
-        else if (status == IMoveConstants.STATUS_FRZ) name = TComponent.translatable("pokecube.filled.frz", name);
-        else if (status == IMoveConstants.STATUS_PAR) name = TComponent.translatable("pokecube.filled.par", name);
-        else if (status == IMoveConstants.STATUS_SLP) name = TComponent.translatable("pokecube.filled.slp", name);
-        else if (status == IMoveConstants.STATUS_PSN || status == IMoveConstants.STATUS_PSN2)
-            name = TComponent.translatable("pokecube.filled.psn", name);
+        if (statusIns != null)
+        {
+            var status = statusIns.getEffect();
+            if (status == StatusEffects.BURN) name = TComponent.translatable("pokecube.filled.brn", name);
+            else if (status == StatusEffects.FREEZE) name = TComponent.translatable("pokecube.filled.frz", name);
+            else if (status == StatusEffects.PARALYSIS) name = TComponent.translatable("pokecube.filled.par", name);
+            else if (status == StatusEffects.SLEEP) name = TComponent.translatable("pokecube.filled.slp", name);
+            else if (status == StatusEffects.POISON) name = TComponent.translatable("pokecube.filled.psn", name);
+        }
         itemStack.set(DataComponents.ITEM_NAME, name);
         return itemStack;
     }

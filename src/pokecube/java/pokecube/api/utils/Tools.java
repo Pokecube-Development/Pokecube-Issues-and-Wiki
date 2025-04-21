@@ -17,18 +17,22 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.*;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.HitResult.Type;
+import net.minecraft.world.phys.Vec3;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.items.IPokecube;
 import pokecube.api.moves.MoveEntry;
-import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.moves.MovesUtils;
+import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.utils.EntityTools;
 import thut.api.maths.Cruncher;
 import thut.api.maths.Vector3;
@@ -48,7 +52,7 @@ public class Tools
 
     /**
      * This is an array of what lvl has what exp for the varying exp modes. This array came from:
-     * http://bulbapedia.bulbagarden.net/wiki/Experience
+     * <a href="http://bulbapedia.bulbagarden.net/wiki/Experience">...</a>
      */
     private static final int[][] expMap = {
             //@formatter:off
@@ -197,9 +201,9 @@ public class Tools
         final Random rand = ThutCore.newRandom();
         final float HP = pokemob.getHealth();
         float statusBonus = 1F;
-        final int status = pokemob.getStatus();
-        if (status == IMoveConstants.STATUS_FRZ || status == IMoveConstants.STATUS_SLP) statusBonus = 2F;
-        else if (status != IMoveConstants.STATUS_NON) statusBonus = 1.5F;
+        if (pokemob.getEntity().hasEffect(StatusEffects.FREEZE) || pokemob.getEntity().hasEffect(StatusEffects.SLEEP))
+            statusBonus = 2F;
+        else if (StatusEffects.hasAnyStatusEffects(pokemob.getEntity())) statusBonus = 1.5F;
         final int catchRate = pokemob.getCatchRate();
 
         final double a = Tools.getCatchRate(HPmax, HP, catchRate, cubeBonus, statusBonus) + cubeBonus2;
@@ -402,7 +406,7 @@ public class Tools
         {
             if (values.isJsonObject() && values.getAsJsonObject().has("values"))
             {
-                System.out.println("Legacy format for "+values);
+                System.out.println("Legacy format for " + values);
                 values = values.getAsJsonObject().get("values");
             }
 

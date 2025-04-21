@@ -26,20 +26,6 @@ import thut.lib.TComponent;
 public interface IHasMoves extends IHasStats
 {
     /**
-     * Changes: {@link IMoveConstants#CHANGE_CONFUSED} for example. The set can fail because the mob is immune against
-     * this change or because it already has the change. If so, the method returns false.
-     *
-     * @param change the change to add
-     * @return whether the change has actually been added
-     */
-    default boolean addChange(final int change)
-    {
-        final int old = this.getMoveStats().changes;
-        this.getMoveStats().changes |= change;
-        return this.getMoveStats().changes != old;
-    }
-
-    /**
      * Used by Gui Pokedex. Exchange the two moves.
      *
      * @param moveIndex0 index of 1st move
@@ -158,7 +144,7 @@ public interface IHasMoves extends IHasStats
     /**
      * Gets the {@link String} id of the specified move.
      *
-     * @param i from 0 to {@link #getMovesCount()}-1
+     * @param index from 0 to {@link #getMovesCount()}-1
      * @return the String name of the move
      */
     @Nullable
@@ -387,36 +373,6 @@ public interface IHasMoves extends IHasStats
      * @param i must be a value from 0 to 3
      */
     public void setMoveIndex(int i);
-
-    /**
-     * Statuses: {@link IMoveConstants#STATUS_PSN} for example. The set can fail because the mob is immune against this
-     * status (a fire-type Pokemon can't be burned for example) or because it already have a status. If so, the method
-     * returns false.
-     *
-     * @param status the status to set
-     * @return whether the status has actually been set
-     */
-    default boolean setStatus(IPokemob source, int status)
-    {
-        return this.setStatus(source, status, -1);
-    }
-
-    /**
-     * Same as {@link IHasMoves#setStatus(int)} but also specifies the duration for the effect.
-     *
-     * @param status the status to set
-     * @param turns  How many times attackCooldown should the status apply.
-     * @return whether the status has actually been set
-     */
-    boolean setStatus(IPokemob source, int status, int turns);
-
-    /**
-     * Sets the initial status timer. The timer will be decreased until 0. The timer for SLP. When reach 0, the mob
-     * wakes up.
-     *
-     * @param timer the initial value to set
-     */
-    void setStatusTimer(short timer);
 
     /**
      * The pokemob will render and have moves according to whatever is set here. If null is set, then it will use its

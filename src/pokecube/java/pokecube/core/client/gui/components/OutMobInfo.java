@@ -6,9 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.MoveEntry;
-import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.GuiEvent;
@@ -16,6 +14,7 @@ import pokecube.core.client.gui.GuiDisplayPokecubeInfo;
 import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.MovesUtils.AbleStatus;
+import pokecube.core.moves.damage.effects.StatusEffects;
 
 public class OutMobInfo extends GuiEventComponent
 {
@@ -61,8 +60,8 @@ public class OutMobInfo extends GuiEventComponent
             final int hpOffsetY = 13;
             final int xpOffsetX = 42;
             final int xpOffsetY = 19;
-            final int statusOffsetX = 0;
-            final int statusOffsetY = 27;
+            final int statusOffsetX = 3;
+            final int statusOffsetY = 29;
             final int confuseOffsetX = 12;
             final int confuseOffsetY = 1;
 
@@ -83,6 +82,10 @@ public class OutMobInfo extends GuiEventComponent
             final int currentMoveIndex = pokemob.getMoveIndex();
             evt.getMat().pushPose();
             evt.getMat().translate(this.pos.x0, this.pos.y0, 0);
+
+            RenderSystem.enableBlend();
+            // Render Box behind Mob
+            graphics.blitSprite(ICON_MOB_FRAME, 1, 0, -2, 42, 42);
 
             // If gui is upwards, translate accordingly
             if (!PokecubeCore.getConfig().guiDown)
@@ -119,24 +122,27 @@ public class OutMobInfo extends GuiEventComponent
             current_hunger = Math.min(1, current_hunger);
             if (current_hunger < 0.5)
             {
-                int dv = 5;
-                graphics.blitSprite(STATUS_ICONS[dv], statusOffsetX, statusOffsetY, -1, 13, 13);
+                int dv = 6;
+                graphics.blitSprite(STATUS_ICONS[dv], statusOffsetX, statusOffsetY, -1, 10, 10);
             }
 
             // Render Status
-            final int status = pokemob.getStatus();
-            if (status != IMoveConstants.STATUS_NON)
+            var status = StatusEffects.getStatusEffect(pokemob.getEntity());
+            int dv = 0;
+            if (status != null && status.getDuration() != 0)
             {
-                int dv = 0;
-                if ((status & IMoveConstants.STATUS_BRN) != 0) dv = 0;
-                if ((status & IMoveConstants.STATUS_FRZ) != 0) dv = 1;
-                if ((status & IMoveConstants.STATUS_PAR) != 0) dv = 2;
-                if ((status & IMoveConstants.STATUS_PSN) != 0) dv = 3;
-                graphics.blitSprite(STATUS_ICONS[dv], statusOffsetX, statusOffsetY, -1, 13, 13);
+                if (StatusEffects.BURN.is(status.getEffect().getKey())) dv = 0;
+                if (StatusEffects.FREEZE.is(status.getEffect().getKey())) dv = 1;
+                if (StatusEffects.PARALYSIS.is(status.getEffect().getKey())) dv = 2;
+                if (StatusEffects.POISON.is(status.getEffect().getKey())) dv = 3;
+                if (StatusEffects.SLEEP.is(status.getEffect().getKey())) dv = 4;
+                RenderSystem.setShaderColor(1, 1, 1, 1);
+                graphics.blitSprite(STATUS_ICONS[dv], statusOffsetX, statusOffsetY, 0, 10, 10);
             }
-            if ((pokemob.getChanges() & IMoveConstants.CHANGE_CONFUSED) != 0)
+            if (pokemob.getEntity().hasEffect(StatusEffects.CONFUSE))
             {
-                graphics.blitSprite(STATUS_ICONS[4], confuseOffsetX, confuseOffsetY, 100, 20, 14);
+                dv = 5;
+                graphics.blitSprite(STATUS_ICONS[dv], confuseOffsetX, confuseOffsetY, 100, 20, 14);
             }
 
             // Render Name
@@ -202,8 +208,6 @@ public class OutMobInfo extends GuiEventComponent
             int mobOffsetX = 0;
             int mobOffsetY = 0;
             RenderSystem.enableBlend();
-            // Render Box behind Mob
-            graphics.blitSprite(ICON_MOB_FRAME, 1, 0, -2, 42, 42);
             // Render Mob
 
             LivingEntity mob = pokemob.getEntity();
@@ -232,8 +236,8 @@ public class OutMobInfo extends GuiEventComponent
             if (ally != null && ally != pokemob.getEntity())
             {
                 evt.getMat().pushPose();
-
-                evt.getMat().scale(0.5f, 0.5f, 0.5f);
+                float allyScale = 0.5f;
+                evt.getMat().scale(allyScale, allyScale, allyScale);
 
                 mobOffsetX = 45;
                 mobOffsetY = 80;
@@ -251,8 +255,8 @@ public class OutMobInfo extends GuiEventComponent
                 mob.yBodyRot = mob.yBodyRotO = 180.0F + f * 20.0F;
                 mob.yHeadRot = mob.yHeadRotO = mob.yBodyRot;
 
-                GuiPokemobHelper.renderMob(evt.getMat(), mob, mobOffsetX - 30, mobOffsetY - 25, 0, 0, 0, 0, renderScale,
-                        tick);
+                GuiPokemobHelper.renderMob(evt.getMat(), mob, mobOffsetX - 30, mobOffsetY - 25, 0, 0, 0, 0,
+                        renderScale * allyScale, tick);
 
                 mob.yBodyRot = yBodyRot;
                 mob.yBodyRotO = yBodyRotO;

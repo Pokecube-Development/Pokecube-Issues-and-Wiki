@@ -233,9 +233,6 @@ public class UsableItemEffects
          * clicking the pokemob with the itemstack. It can also be called via
          * onTick or onMoveTick, in which case user will be pokemob.getEntity()
          *
-         * @param user
-         * @param pokemob
-         * @param stack
          * @return something happened
          */
         @Override

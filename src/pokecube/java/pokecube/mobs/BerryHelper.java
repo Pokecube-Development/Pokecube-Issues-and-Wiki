@@ -10,17 +10,15 @@ import pokecube.api.entity.pokemob.IPokemob.HappinessType;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.core.items.UsableItemEffects.BerryUsable.BerryEffect;
 import pokecube.core.items.berries.ItemBerry;
+import pokecube.core.moves.damage.effects.StatusEffects;
 
 public class BerryHelper implements IMoveConstants
 {
     public static class DefaultBerryEffect implements BerryEffect
     {
         /**
-         * Called every tick while this item is the active held item for the
-         * pokemob.
+         * Called every tick while this item is the active held item for the pokemob.
          *
-         * @param pokemob
-         * @param stack
          * @return something happened
          */
         @Override
@@ -30,17 +28,14 @@ public class BerryHelper implements IMoveConstants
         }
 
         /**
-         * Called when this item is "used". Normally this means via right
-         * clicking the pokemob with the itemstack. It can also be called via
-         * onTick or onMoveTick, in which case user will be pokemob.getEntity()
+         * Called when this item is "used". Normally this means via right clicking the pokemob with the itemstack. It
+         * can also be called via onTick or onMoveTick, in which case user will be pokemob.getEntity()
          *
-         * @param user
-         * @param pokemob
-         * @param stack
          * @return something happened
          */
         @Override
-        public InteractionResultHolder<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack, final LivingEntity user)
+        public InteractionResultHolder<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack,
+                final LivingEntity user)
         {
             return BerryHelper.applyEffect(pokemob, user, stack);
         }
@@ -57,8 +52,7 @@ public class BerryHelper implements IMoveConstants
                 pokemob.setFlavourAmount(i, pokemob.getFlavourAmount(i) + flavours[i]);
         }
         boolean useStack = applied;
-        if (useStack && user instanceof Player && ((Player) user).getAbilities().instabuild)
-            useStack = false;
+        if (useStack && user instanceof Player && ((Player) user).getAbilities().instabuild) useStack = false;
         if (useStack) stack.split(1);
         return new InteractionResultHolder<>(applied ? InteractionResult.SUCCESS : InteractionResult.FAIL, stack);
     }
@@ -76,45 +70,50 @@ public class BerryHelper implements IMoveConstants
     public static boolean berryEffect(final IPokemob pokemob, final LivingEntity user, final ItemStack berry)
     {
         if (!(berry.getItem() instanceof ItemBerry)) return false;
-        final int status = pokemob.getStatus();
         final int berryId = ((ItemBerry) berry.getItem()).type.index;
         if (berryId >= 21 && berryId <= 26) return BerryHelper.handleEVBerry(pokemob, berryId - 21);
-        if (status == IMoveConstants.STATUS_PAR && berryId == 1)
+        var statusInst = StatusEffects.getStatusEffect(pokemob.getEntity());
+
+        if (statusInst != null)
         {
-            pokemob.healStatus();
-            return true;
-        }
-        if (status == IMoveConstants.STATUS_SLP && berryId == 2)
-        {
-            pokemob.healStatus();
-            return true;
-        }
-        if ((status == IMoveConstants.STATUS_PSN || status == IMoveConstants.STATUS_PSN2) && berryId == 3)
-        {
-            pokemob.healStatus();
-            return true;
-        }
-        if (status == IMoveConstants.STATUS_BRN && berryId == 4)
-        {
-            pokemob.healStatus();
-            return true;
-        }
-        if (status == IMoveConstants.STATUS_FRZ && berryId == 5)
-        {
-            pokemob.healStatus();
-            return true;
-        }
-        if (status != IMoveConstants.STATUS_NON && berryId == 9)
-        {
-            pokemob.healStatus();
-            return true;
+            var status = statusInst.getEffect();
+            if (status == StatusEffects.PARALYSIS && berryId == 1)
+            {
+                pokemob.healStatus();
+                return true;
+            }
+            if (status == StatusEffects.SLEEP && berryId == 2)
+            {
+                pokemob.healStatus();
+                return true;
+            }
+            if ((status == StatusEffects.POISON) && berryId == 3)
+            {
+                pokemob.healStatus();
+                return true;
+            }
+            if (status == StatusEffects.BURN && berryId == 4)
+            {
+                pokemob.healStatus();
+                return true;
+            }
+            if (status == StatusEffects.FREEZE && berryId == 5)
+            {
+                pokemob.healStatus();
+                return true;
+            }
+            if (berryId == 9)
+            {
+                pokemob.healStatus();
+                return true;
+            }
         }
         final LivingEntity entity = pokemob.getEntity();
         final float HP = entity.getHealth();
         final float HPmax = entity.getMaxHealth();
 
-        final boolean apply = (berryId == 7 || berryId == 10 || berryId == 60) && user instanceof Player
-                && HP < HPmax || HP < HPmax / 3;
+        final boolean apply = (berryId == 7 || berryId == 10 || berryId == 60) && user instanceof Player && HP < HPmax
+                || HP < HPmax / 3;
         if (apply) if (berryId == 7)
         {
             entity.heal(10);
@@ -151,7 +150,9 @@ public class BerryHelper implements IMoveConstants
         ItemBerry.registerBerryType("tamato", effect, 26, 20, 10, 0, 0, 0);// EV Berry
         ItemBerry.registerBerryType("cornn", effect, 27, 0, 20, 10, 0, 0);// Pokeblock ingredient
         ItemBerry.registerBerryType("enigma", effect, 60, 40, 10, 0, 0, 0);// Restores 1/4 of HP
-        ItemBerry.registerBerryType("jaboca", effect, 63, 0, 0, 0, 40, 10);// 4th gen. Causes recoil damage on foe if holder is hit by a physical move
-        ItemBerry.registerBerryType("rowap", effect, 64, 10, 0, 0, 0, 40);// 4th gen. Causes recoil damage on foe if holder is hit by a special move
+        ItemBerry.registerBerryType("jaboca", effect, 63, 0, 0, 0, 40,
+                10);// 4th gen. Causes recoil damage on foe if holder is hit by a physical move
+        ItemBerry.registerBerryType("rowap", effect, 64, 10, 0, 0, 0,
+                40);// 4th gen. Causes recoil damage on foe if holder is hit by a special move
     }
 }

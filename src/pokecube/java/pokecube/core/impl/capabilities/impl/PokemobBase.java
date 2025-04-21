@@ -67,7 +67,6 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
         public Data<Integer> STATUSDW;
         public Data<Integer> EXP;
         public Data<Byte> MOVEINDEXDW;
-        public Data<Integer> STATUSTIMERDW;
         public Data<Integer> ATTACKCOOLDOWN;
         public Data<Integer> DYECOLOUR;
         public Data<String> ABILITYNAMEID;
@@ -113,7 +112,6 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
             this.STATUSDW = sync.register(new Data_Int("status", -1));
             this.EXP = sync.register(new Data_Int("exp", 0));
             this.MOVEINDEXDW = sync.register(new Data_Byte("move_index", (byte) -1).setRealtime());
-            this.STATUSTIMERDW = sync.register(new Data_Int("status_timer").setRealtime());
             this.ATTACKCOOLDOWN = sync.register(new Data_Int("attack_cd").setRealtime());
 
             this.DYECOLOUR = sync.register(new Data_Int("dye", -1));

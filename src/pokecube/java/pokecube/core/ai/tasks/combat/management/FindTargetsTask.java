@@ -1,12 +1,6 @@
 package pokecube.core.ai.tasks.combat.management;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.function.Predicate;
-
 import com.google.common.collect.ImmutableMap;
-
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -38,6 +32,11 @@ import thut.api.entity.ai.IAICombat;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.function.Predicate;
+
 /** This IAIRunnable is to find targets for the pokemob to try to kill. */
 public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinder
 {
@@ -52,6 +51,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
     int forgetTimer = 0;
 
     public static boolean handleDamagedTargets = true;
+
     static
     {
         ThutCore.FORGE_BUS.addListener(FindTargetsTask::onBrainSetTarget);
@@ -61,6 +61,9 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
 
     private static LivingEntity divertTarget(LivingEntity aggressor, LivingEntity aggressed)
     {
+        // We don't handle diverting self agression here.
+        if (aggressed == aggressor) return aggressor;
+
         List<Entity> mobs = PokemobTracker.getMobs(aggressed,
                 e -> PokemobCaps.getPokemobFor(e) != null && e.distanceToSqr(aggressed) < 4096);
 
@@ -116,7 +119,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         if (newTarget == null) return;
         LivingEntity target = divertTarget(rootMob, newTarget);
         // Make sure they are marked as in a battle with each other.
-        Battle.createOrAddToBattle(rootMob, target);
+        if (target != rootMob) Battle.createOrAddToBattle(rootMob, target);
     }
 
     private static void onLivingHurt(final LivingDamageEvent.Post event)
@@ -143,8 +146,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
     }
 
     /**
-     * Checks the validTargts as well as team settings, will not allow
-     * targetting things on the same team.
+     * Checks the validTargts as well as team settings, will not allow targetting things on the same team.
      */
     final Predicate<Entity> validGuardTarget;
 
@@ -189,9 +191,9 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
 
         // Only allow valid guard targets.
         final Optional<LivingEntity> pokemobs = this.entity.getBrain()
-                .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get()
-                .findClosest(e -> this.validGuardTarget.test(e)
-                        && e.distanceTo(this.entity) <= PokecubeCore.getConfig().guardSearchDistance);
+                .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findClosest(
+                        e -> this.validGuardTarget.test(e)
+                                && e.distanceTo(this.entity) <= PokecubeCore.getConfig().guardSearchDistance);
         if (pokemobs.isEmpty()) return false;
 
         // This is already sorted by distance!
@@ -227,9 +229,9 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         if (rate <= 0 || this.entity.tickCount % rate != 0) return false;
 
         final Iterable<LivingEntity> pokemobs = this.entity.getBrain()
-                .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get()
-                .findAll(e -> AITools.validAgroTarget.test(e)
-                        && e.distanceTo(this.entity) <= PokecubeCore.getConfig().guardSearchDistance);
+                .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findAll(
+                        e -> AITools.validAgroTarget.test(e)
+                                && e.distanceTo(this.entity) <= PokecubeCore.getConfig().guardSearchDistance);
         if (!pokemobs.iterator().hasNext()) return false;
 
         final Entity old = BrainUtils.getAttackTarget(this.entity);
@@ -251,11 +253,9 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
     }
 
     /**
-     * If the pokemob is "not alive", but it didn't faint, then it is most
-     * likely that the mob has been recalled, and a new one is sent out. In this
-     * case, we will switch target to either the new pokemob, if it has been a
-     * short time, or the owner of the old pokemob, if it has been a longer
-     * time.
+     * If the pokemob is "not alive", but it didn't faint, then it is most likely that the mob has been recalled, and a
+     * new one is sent out. In this case, we will switch target to either the new pokemob, if it has been a short time,
+     * or the owner of the old pokemob, if it has been a longer time.
      *
      * @return if switched to a new target
      */
@@ -270,9 +270,9 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
             if (this.switchTargetTimer++ < 2 * FindTargetsTask.DEAGROTIMER)
             {
                 final Iterable<LivingEntity> pokemobs = this.entity.getBrain()
-                        .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get()
-                        .findAll(e -> AITools.validAgroTarget.test(e)
-                                && e.distanceTo(this.entity) <= PokecubeCore.getConfig().guardSearchDistance);
+                        .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findAll(
+                                e -> AITools.validAgroTarget.test(e)
+                                        && e.distanceTo(this.entity) <= PokecubeCore.getConfig().guardSearchDistance);
 
                 for (final LivingEntity entity : pokemobs)
                 {
@@ -317,9 +317,8 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         if (this.targetId != null)
         {
             final Entity mob = this.world.getEntity(this.targetId);
-            if (!(mob instanceof LivingEntity entity)
-                    || (!BrainUtils.canSee(this.entity, entity) && !this.initiateBattle(entity)))
-                this.clear();
+            if (!(mob instanceof LivingEntity entity) || (!BrainUtils.canSee(this.entity, entity)
+                    && !this.initiateBattle(entity))) this.clear();
 
             // Reset target ID here, so we don't keep looking for it.
             if (this.forgetTimer-- <= 0) this.clear();

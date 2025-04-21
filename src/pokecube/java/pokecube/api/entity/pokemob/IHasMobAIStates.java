@@ -26,10 +26,10 @@ public interface IHasMobAIStates extends IMoveConstants
     /** the value of the AI state state. */
     default boolean getLogicState(LogicStates state)
     {
-        return (this.getTotalLogicState() & state.getMask()) != 0;
+        return (this.getTotalLogicState() & state.getMask()) > 0;
     }
 
-    ////////////////////////////////////////////////////////////
+    /// /////////////////////////////////////////////////////////
     List<Logic> getTickLogic();
 
     ///////////////////////////////////////////////////
@@ -48,8 +48,8 @@ public interface IHasMobAIStates extends IMoveConstants
     void postInitAI();
 
     /**
-     * First stage of brain initialisation, This calls early in the LivingEntity
-     * constructor, so some things may not be available yet
+     * First stage of brain initialisation, This calls early in the LivingEntity constructor, so some things may not be
+     * available yet
      */
     void preInitAI();
 
@@ -60,8 +60,7 @@ public interface IHasMobAIStates extends IMoveConstants
     }
 
     /**
-     * This should default to whatever the routine defaults to, see
-     * {@link AIRoutine#getDefault()}
+     * This should default to whatever the routine defaults to, see {@link AIRoutine#getDefault()}
      */
     boolean isRoutineEnabled(AIRoutine routine);
 
@@ -70,7 +69,7 @@ public interface IHasMobAIStates extends IMoveConstants
     {
         final int byte0 = this.getTotalCombatState();
         if (flag == ((byte0 & state.getMask()) != 0)) return;
-        final int newState = flag ? byte0 | state.getMask() : byte0 & -state.getMask() - 1;
+        final int newState = flag ? byte0 | state.getMask() : byte0 & ~state.getMask();
         this.setTotalCombatState(newState);
     }
 
@@ -79,7 +78,7 @@ public interface IHasMobAIStates extends IMoveConstants
     {
         final int byte0 = this.getTotalGeneralState();
         if (flag == ((byte0 & state.getMask()) != 0)) return;
-        final int newState = flag ? byte0 | state.getMask() : byte0 & -state.getMask() - 1;
+        final int newState = flag ? byte0 | state.getMask() : byte0 & ~state.getMask();
         this.setTotalGeneralState(newState);
     }
 
@@ -88,13 +87,11 @@ public interface IHasMobAIStates extends IMoveConstants
     {
         final int byte0 = this.getTotalLogicState();
         if (flag == ((byte0 & state.getMask()) != 0)) return;
-        final int newState = flag ? byte0 | state.getMask() : byte0 & -state.getMask() - 1;
+        final int newState = flag ? byte0 | state.getMask() : byte0 & ~state.getMask();
         this.setTotalLogicState(newState);
     }
 
     /**
-     * @param routine
-     * @param enabled
      */
     void setRoutineState(AIRoutine routine, boolean enabled);
 

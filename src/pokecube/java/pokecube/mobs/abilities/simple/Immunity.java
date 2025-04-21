@@ -5,6 +5,7 @@ import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
+import pokecube.core.moves.damage.effects.StatusEffects;
 
 @AbilityProvider(name = "immunity")
 public class Immunity extends Ability
@@ -22,7 +23,7 @@ public class Immunity extends Ability
     @Override
     public void onUpdate(IPokemob mob)
     {
-        if ((mob.getStatus() & IMoveConstants.STATUS_PSN) != 0) mob.healStatus();
+        if (mob.getEntity().hasEffect(StatusEffects.POISON)) mob.healStatus();
     }
 
 }

@@ -52,7 +52,7 @@ public class PersistantStatusEffect extends BaseEffect
             final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
             if (pokemob != null && this.status != Status.BADPOISON) pokemob.getMoveStats().TOXIC_COUNTER = 0;
 
-            boolean toRemove = pokemob != null ? false : Math.random() > 0.8;
+            boolean toRemove = pokemob == null && Math.random() > 0.8;
             if (effect.getDuration() == 0) toRemove = true;
             final int duration = PokecubeCore.getConfig().attackCooldown * 5;
 
@@ -239,22 +239,23 @@ public class PersistantStatusEffect extends BaseEffect
     @Override
     public void affectTarget(final IOngoingAffected target)
     {
-        if (this.status == null)
-        {
-            final IPokemob pokemob = PokemobCaps.getPokemobFor(target.getEntity());
-            if (pokemob.getStatus() == IMoveConstants.STATUS_NON) this.setDuration(0);
-            else if (pokemob != null) this.status = Status.getStatus(pokemob.getStatus());
-        }
-        final IStatusEffect effect = PersistantStatusEffect.EFFECTMAP.get(this.status);
-        if (effect != null)
-        {
-            final StatusEvent event = new StatusEvent(target.getEntity(), this.status);
-            if (!PokecubeAPI.MOVE_BUS.post(event).isCanceled())
-            {
-                effect.setTick(this.getDuration());
-                effect.affectTarget(target, this);
-            }
-        }
+//        if (this.status == null)
+//        {
+//            final IPokemob pokemob = PokemobCaps.getPokemobFor(target.getEntity());
+//            if (pokemob.getStatus() == IMoveConstants.STATUS_NON) this.setDuration(0);
+//            else if (pokemob != null) this.status = Status.getStatus(pokemob.getStatus());
+//        }
+//        final IStatusEffect effect = PersistantStatusEffect.EFFECTMAP.get(this.status);
+//        if (effect != null)
+//        {
+//            final StatusEvent event = new StatusEvent(target.getEntity(), this.status);
+//            if (!PokecubeAPI.MOVE_BUS.post(event).isCanceled())
+//            {
+//                effect.setTick(this.getDuration());
+//                effect.affectTarget(target, this);
+//            }
+//        }
+        Thread.dumpStack();
     }
 
     @Override

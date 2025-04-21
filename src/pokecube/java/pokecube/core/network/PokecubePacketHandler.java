@@ -27,6 +27,7 @@ import pokecube.core.network.pokemobs.PacketPokemobMessage;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
 import pokecube.core.network.pokemobs.PacketSyncMoveUse;
 import pokecube.core.network.pokemobs.PacketSyncNewMoves;
+import pokecube.core.network.pokemobs.PacketSyncStatus;
 import pokecube.core.network.pokemobs.PacketTeleport;
 import pokecube.core.network.pokemobs.PacketUpdateAI;
 import pokecube.core.network.pokemobs.PokemobPacketHandler;
@@ -61,6 +62,7 @@ public class PokecubePacketHandler
         PokecubeCore.packets.registerToServerMessage(PacketPokemobGui.class);
         PokecubeCore.packets.registerToClientMessage(PacketPokemobMessage.class);
         PokecubeCore.packets.registerToClientMessage(PacketSyncModifier.class);
+        PokecubeCore.packets.registerToClientMessage(PacketSyncStatus.class);
         PokecubeCore.packets.registerToClientMessage(PacketSyncMoveUse.class);
         PokecubeCore.packets.registerToClientMessage(PacketSyncNewMoves.class);
         PokecubeCore.packets.registerToServerMessage(PacketTeleport.class);

@@ -30,7 +30,6 @@ import pokecube.api.events.pokemobs.ai.AnimationSelectionEvent;
 import pokecube.api.items.IPokecube;
 import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.moves.MoveEntry;
-import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.IMoveConstants.AttackCategory;
 import pokecube.api.moves.utils.IMoveConstants.ContactCategory;
 import pokecube.core.PokecubeCore;
@@ -41,6 +40,8 @@ import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
+import pokecube.core.moves.damage.effects.Sleep;
+import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.PokemobTracker.MobEntry;
@@ -52,6 +53,7 @@ import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
@@ -133,7 +135,16 @@ public class LogicMiscUpdate extends LogicBase
     private void checkAIStates(UUID ownerID)
     {
         boolean angry = this.pokemob.inCombat();
+
         boolean sleepingAI = this.pokemob.getLogicState(LogicStates.SLEEPING);
+        if (entity.hasEffect(StatusEffects.SLEEP))
+        {
+            var inst = entity.getEffect(StatusEffects.SLEEP);
+            var _sleepingAI = inst.getAmplifier() == Sleep.NATURAL_SLEEP;
+            if (sleepingAI != _sleepingAI) this.pokemob.setLogicState(LogicStates.SLEEPING, _sleepingAI);
+            sleepingAI = _sleepingAI;
+        }
+        else if(sleepingAI) this.pokemob.setLogicState(LogicStates.SLEEPING, sleepingAI = false);
 
         if (this.pokemob.getGeneralState(GeneralStates.MATING) && !BrainUtils.hasMateTarget((AgeableMob) this.entity))
             this.pokemob.setGeneralState(GeneralStates.MATING, false);
@@ -405,6 +416,15 @@ public class LogicMiscUpdate extends LogicBase
             return;
         }
 
+        var effects = new ArrayList<>(entity.getActiveEffects());
+        for (var e : effects)
+        {
+            if (e.getDuration() == 0)
+            {
+                entity.removeEffect(e.getEffect());
+            }
+        }
+
         // Particle stuff below here, WARNING, RESETTING RNG HERE
         rand = ThutCore.newRandom();
         final Vector3 particleLoc = new Vector3().set(this.entity);
@@ -528,9 +548,8 @@ public class LogicMiscUpdate extends LogicBase
     private void checkPose()
     {
         final Pose old = this.entity.getPose();
-        final boolean sleeping = this.pokemob.getStatus() == IMoveConstants.STATUS_SLP || this.pokemob.getLogicState(
-                LogicStates.SLEEPING);
-        Pose next = old;
+        final boolean sleeping = this.pokemob.getLogicState(LogicStates.SLEEPING);
+        Pose next;
         if (this.entity.deathTime > 0 || this.entity.isDeadOrDying()) next = Pose.DYING;
         else if (sleeping) next = Pose.SLEEPING;
         else if (this.entity.isInWater() || this.entity.isInLava()) next = Pose.SWIMMING;

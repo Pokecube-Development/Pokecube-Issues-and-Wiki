@@ -1,7 +1,6 @@
 package pokecube.core.client.gui.components;
 
 import com.mojang.blaze3d.platform.Window;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.resources.ResourceLocation;
@@ -26,8 +25,8 @@ public abstract class GuiEventComponent implements Comparable<GuiEventComponent>
 
     public static final ResourceLocation[] STATUS_ICONS = { ResourceLocation.parse("pokecube:battle/burn"),
             ResourceLocation.parse("pokecube:battle/freeze"), ResourceLocation.parse("pokecube:battle/paralysis"),
-            ResourceLocation.parse("pokecube:battle/poison"), ResourceLocation.parse("pokecube:battle/confuse"),
-            ResourceLocation.parse("pokecube:battle/hunger"), };
+            ResourceLocation.parse("pokecube:battle/poison"), ResourceLocation.parse("pokecube:battle/sleep"),
+            ResourceLocation.parse("pokecube:battle/confuse"), ResourceLocation.parse("pokecube:battle/hunger"), };
 
     public static void applyTransform(GuiEventComponent component)
     {

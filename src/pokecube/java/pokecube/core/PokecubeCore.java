@@ -76,6 +76,7 @@ import pokecube.core.inventory.InventoryCaps;
 import pokecube.core.items.ItemTM;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.legacy.RegistryChangeFixer;
+import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.proxy.CommonProxy;
 import pokecube.core.utils.Permissions;
 import pokecube.world.PokecubeWorld;
@@ -271,6 +272,7 @@ public class PokecubeCore
         PokecubeCore.ITEM_DATA.register(bus);
         Triggers.REGISTER.register(bus);
         CoreCreativeTabs.TABS.register(bus);
+        StatusEffects.REGISTER.register(bus);
 
         PokecubeWorld.init(bus);
         CommandManager.init(bus);

@@ -30,20 +30,21 @@ public class PacketDataSync extends Packet
         PacketDataSync packet = new PacketDataSync();
         packet.data = list;
         packet.id = entity_id;
-        packet.type = (byte) (init ? 1 : 0);
+        packet.type = (byte) (all || init ? 1 : 0);
         ThutCore.packets.sendToTrackingAndSelf(packet, tracked);
     }
 
     public static void sync(ServerPlayer syncTo, DataSync data, int entity_id, boolean all)
     {
         boolean init = data.needInit();
+        data.clearNeedInit();
         List<Data<?>> list = all || init ? data.getAll() : data.getDirty();
         // Nothing to sync.
         if (list == null || list.isEmpty()) return;
         PacketDataSync packet = new PacketDataSync();
         packet.data = list;
         packet.id = entity_id;
-        packet.type = (byte) (init ? 1 : 0);
+        packet.type = (byte) (all || init ? 1 : 0);
         ThutCore.packets.sendTo(packet, syncTo);
     }
 
@@ -66,7 +67,8 @@ public class PacketDataSync extends Packet
         {
             int uid = buf.readInt();
             String tag = "", name = "";
-            if(type==1){
+            if (type == 1)
+            {
                 tag = buf.readUtf();
                 name = buf.readUtf();
             }

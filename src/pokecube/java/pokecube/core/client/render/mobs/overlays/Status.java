@@ -1,13 +1,7 @@
 package pokecube.core.client.render.mobs.overlays;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.function.Function;
-
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -17,13 +11,18 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Mob;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.utils.Resources;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.wrappers.ModelWrapper;
 import thut.lib.AxisAngles;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Function;
 
 public class Status
 {
@@ -51,17 +50,13 @@ public class Status
             {
                 ResourceLocation wrap = default_;
                 if (wrapped.hasMapping(part)) wrap = wrapped.getTexture(part, default_);
-                if (wrap != null)
-                {
-                    wrap = ResourceLocation.fromNamespaceAndPath(wrap.getNamespace(), wrap.getPath() + "--sep--"
-                            + tex.getNamespace() + "--sep--" + tex.getPath() + "--sep--" + alpha);
-                }
-                else
+                if (wrap == null)
                 {
                     wrap = default_;
-                    wrap = ResourceLocation.fromNamespaceAndPath(wrap.getNamespace(), wrap.getPath() + "--sep--"
-                            + tex.getNamespace() + "--sep--" + tex.getPath() + "--sep--" + alpha);
                 }
+                wrap = ResourceLocation.fromNamespaceAndPath(wrap.getNamespace(),
+                        wrap.getPath() + "--sep--" + tex.getNamespace() + "--sep--" + tex.getPath() + "--sep--"
+                                + alpha);
                 return wrap;
             }
             return this.tex;
@@ -106,8 +101,7 @@ public class Status
     public static final Set<String> EXCLUDED_PARTS = Sets.newHashSet();
 
     public static record StatusOverlay(StatusTexturer texturer, float scale)
-    {
-    };
+    {}
 
     public static final StatusOverlay FRZTEX = new StatusOverlay(new StatusTexturer(Resources.STATUS_FRZ), 0.05f);
     public static final StatusOverlay PARTEX = new StatusOverlay(new StatusTexturer(Resources.STATUS_PAR), 0.05f);
@@ -117,11 +111,9 @@ public class Status
     static
     {
         PROVIDERS.add(pokemob -> {
-            int status = pokemob.getStatus();
-            status = (status & IMoveConstants.STATUS_PAR) > 0 ? IMoveConstants.STATUS_PAR
-                    : (status & IMoveConstants.STATUS_FRZ) > 0 ? IMoveConstants.STATUS_FRZ : 0;
-            if (status == 0) return null;
-            return status == IMoveConstants.STATUS_FRZ ? FRZTEX : PARTEX;
+            if (pokemob.getEntity().hasEffect(StatusEffects.PARALYSIS)) return PARTEX;
+            if (pokemob.getEntity().hasEffect(StatusEffects.FREEZE)) return FRZTEX;
+            return null;
         });
     }
 
@@ -142,9 +134,7 @@ public class Status
 
             final float f6 = Mth.lerp(partialTicks, mob.xRotO, mob.getXRot());
 
-            final float f7 = mob.tickCount + partialTicks;
-            float f8 = 0.0F;
-            float f5 = 0.0F;
+            float f7 = mob.tickCount + partialTicks, f8, f5;
             {
                 f8 = mob.walkAnimation.speed(partialTicks);
                 f5 = mob.walkAnimation.position(partialTicks);
@@ -184,8 +174,8 @@ public class Status
             {
                 p.setPostScale(scale);
             }
-            renderer.getModel().renderToBuffer(mat, buf.getBuffer(wrap.renderType(default_)), light,
-                    OverlayTexture.NO_OVERLAY);
+            renderer.getModel()
+                    .renderToBuffer(mat, buf.getBuffer(wrap.renderType(default_)), light, OverlayTexture.NO_OVERLAY);
             if (texer != null)
             {
                 final ResourceLocation orig_ = renderer.getTextureLocation(mob);
