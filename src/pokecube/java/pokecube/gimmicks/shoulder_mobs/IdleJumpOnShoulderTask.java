@@ -1,9 +1,6 @@
-package pokecube.core.ai.tasks.idle;
-
-import java.util.Map;
+package pokecube.gimmicks.shoulder_mobs;
 
 import com.google.common.collect.Maps;
-
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.player.Player;
@@ -12,7 +9,11 @@ import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.core.ai.brain.MemoryModules;
+import pokecube.core.ai.tasks.idle.BaseIdleTask;
+import pokecube.core.ai.tasks.idle.IdleWalkTask;
 import thut.api.maths.Vector3;
+
+import java.util.Map;
 
 public class IdleJumpOnShoulderTask extends BaseIdleTask
 {
@@ -80,11 +81,14 @@ public class IdleJumpOnShoulderTask extends BaseIdleTask
         // Wander disabled, so don't run.
         if (!this.pokemob.isRoutineEnabled(AIRoutine.WANDER)) return false;
 
+        // Shoulder disabled, so don't run.
+        if (!this.pokemob.isRoutineEnabled(ShoulderMobs.SHOULDER)) return false;
+
         // Only happy mobs do this!
         if (this.pokemob.getHappiness() < 200) return false;
 
-        final boolean tameFactor = this.pokemob.getOwner() instanceof Player
-                && !this.pokemob.getGeneralState(GeneralStates.STAYING);
+        final boolean tameFactor =
+                this.pokemob.getOwner() instanceof Player && !this.pokemob.getGeneralState(GeneralStates.STAYING);
         return tameFactor;
     }
 }
