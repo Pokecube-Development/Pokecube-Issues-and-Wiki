@@ -164,19 +164,6 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
     }
 
     @Override
-    public boolean moveToShoulder(final Player player)
-    {
-        final float scale = this.getSize();
-        final float width = this.getPokedexEntry().width * scale;
-        final float height = this.getPokedexEntry().height * scale;
-        final float length = this.getPokedexEntry().length * scale;
-        boolean rightSize = width < 1 && height < 1 && length < 1;
-        rightSize |= this.getPokedexEntry().canSitShoulder;
-        if (!rightSize) return false;
-        return super.moveToShoulder(player);
-    }
-
-    @Override
     public void containerChanged(final Container inventory)
     {}
 

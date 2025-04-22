@@ -61,9 +61,6 @@ public interface TagNames
     // Tag names for Pokecubes
     public static final String POKEMOB  = "Pokemob";
 
-    public static final String ON_SHOULDER        = "pokecube:on_shoulder";
-    public static final String ON_SHOULDER_TIMER  = "pokecube:on_shoulder_timer";
-
     public static final String SHEARTIME = "pokecube:shearedtime";
 
     public static final String REMOVED = "pokecube:removed";

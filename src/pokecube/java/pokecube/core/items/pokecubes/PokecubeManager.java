@@ -34,8 +34,6 @@ public class PokecubeManager
         PokecubeContents.TAGSTOREMOVE.clear();
         PokecubeContents.TAGSTOREMOVE.add(TagNames.CAPTURING);
         PokecubeContents.TAGSTOREMOVE.add(TagNames.REMOVED);
-        PokecubeContents.TAGSTOREMOVE.add(TagNames.ON_SHOULDER);
-        PokecubeContents.TAGSTOREMOVE.add(TagNames.ON_SHOULDER_TIMER);
         PokecubeContents.TAGSTOREMOVE.addAll(PokecubeCore.getConfig().persistent_tag_blacklist);
     }
 

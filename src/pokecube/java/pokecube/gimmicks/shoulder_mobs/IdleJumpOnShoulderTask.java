@@ -1,13 +1,16 @@
 package pokecube.gimmicks.shoulder_mobs;
 
 import com.google.common.collect.Maps;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.entity.animal.ShoulderRidingEntity;
 import net.minecraft.world.entity.player.Player;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
+import pokecube.api.utils.TagNames;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
 import pokecube.core.ai.tasks.idle.IdleWalkTask;
@@ -19,7 +22,7 @@ public class IdleJumpOnShoulderTask extends BaseIdleTask
 {
     private static final Map<MemoryModuleType<?>, MemoryStatus> _MEMS = Maps.newHashMap();
 
-    private static final Map<MemoryModuleType<?>, MemoryStatus> _getMems()
+    private static Map<MemoryModuleType<?>, MemoryStatus> _getMems()
     {
         if (_MEMS.isEmpty())
         {
@@ -62,7 +65,7 @@ public class IdleJumpOnShoulderTask extends BaseIdleTask
         }
         else if (pokemob.getEntity().distanceTo(player) < 1)
         {
-            pokemob.moveToShoulder(player);
+            moveToShoulder(player, pokemob);
             reset();
             restTimer *= 5;
         }
@@ -70,6 +73,34 @@ public class IdleJumpOnShoulderTask extends BaseIdleTask
         {
             this.setWalkTo(new Vector3(player), 1, 1);
         }
+    }
+
+    public static boolean moveToShoulder(Player player, IPokemob pokemob)
+    {
+        var entity = pokemob.getEntity();
+        final float scale = pokemob.getSize();
+        final float width = pokemob.getPokedexEntry().width * scale;
+        final float height = pokemob.getPokedexEntry().height * scale;
+        final float length = pokemob.getPokedexEntry().length * scale;
+        boolean rightSize = width < 1 && height < 1 && length < 1;
+        rightSize |= pokemob.getPokedexEntry().canSitShoulder;
+        if (!rightSize) return false;
+
+        if (entity instanceof ShoulderRidingEntity mob)
+        {
+            if (player instanceof ServerPlayer splayer) return mob.setEntityOnShoulder(splayer);
+        }
+        else
+        {
+            if (entity.isAlive() && !entity.isPassenger() && player.getPassengers().isEmpty())
+            {
+                entity.getPersistentData().putBoolean(ShoulderMobs.ON_SHOULDER, true);
+                pokemob.setLogicState(LogicStates.SITTING, true);
+                entity.startRiding(player, true);
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -87,8 +118,6 @@ public class IdleJumpOnShoulderTask extends BaseIdleTask
         // Only happy mobs do this!
         if (this.pokemob.getHappiness() < 200) return false;
 
-        final boolean tameFactor =
-                this.pokemob.getOwner() instanceof Player && !this.pokemob.getGeneralState(GeneralStates.STAYING);
-        return tameFactor;
+        return this.pokemob.getOwner() instanceof Player && !this.pokemob.getGeneralState(GeneralStates.STAYING);
     }
 }

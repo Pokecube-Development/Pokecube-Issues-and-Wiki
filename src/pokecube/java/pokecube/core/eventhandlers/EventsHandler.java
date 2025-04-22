@@ -59,7 +59,6 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.events.pokemobs.FaintEvent;
 import pokecube.api.moves.Battle;
 import pokecube.api.utils.PokeType;
@@ -536,18 +535,8 @@ public class EventsHandler
         }
         // Forge workaround for this not being called server side!
         if (!entity.isAddedToLevel()) entity.onAddedToLevel();
-
-        if (entity instanceof NpcMob)
-        {
-            entity.getData(IMobTexturable.Defaults.TYPE);
-        }
-
+        if (entity instanceof NpcMob) entity.getData(IMobTexturable.Defaults.TYPE);
         IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
-        if (pokemob != null && entity.getPersistentData().getBoolean(TagNames.ON_SHOULDER))
-        {
-            pokemob.setLogicState(LogicStates.SITTING, false);
-            entity.getPersistentData().remove(TagNames.ON_SHOULDER);
-        }
         if (entity instanceof Creeper creeper)
         {
             final AvoidEntityGoal<?> avoidAI = new AvoidEntityGoal<>(creeper, EntityPokemob.class, 6.0F, 1.0D, 1.2D,

@@ -863,52 +863,6 @@ public class PokemobEventsHandler
                 pokemob.getEntity().remove(RemovalReason.DISCARDED);
                 return;
             }
-
-            if (living.getVehicle() instanceof Player)
-            {
-                if (!pokemob.getLogicState(LogicStates.SITTING))
-                {
-                    living.getPersistentData().remove(TagNames.ON_SHOULDER);
-                    living.getPersistentData().remove(TagNames.ON_SHOULDER_TIMER);
-                    living.stopRiding();
-                }
-            }
-
-            if (living.getVehicle() instanceof ServerPlayer player)
-            {
-                CompoundTag tag = PokecubePlayerDataHandler.getCustomDataTag(player);
-                int[] rid = tag.getIntArray("rider");
-                boolean alreadyKnown = false;
-                for (int i : rid) alreadyKnown |= i == living.getId();
-                if (!alreadyKnown)
-                {
-                    int[] rid2 = new int[rid.length + 1];
-                    System.arraycopy(rid, 0, rid2, 0, rid.length);
-                    rid2[rid.length] = living.getId();
-                    tag.putIntArray("rider", rid2);
-                    PacketDataSync.syncData(player, "pokecube-custom");
-                }
-            }
-            else if (living.level() instanceof ServerLevel && living.getPersistentData()
-                    .getBoolean(TagNames.ON_SHOULDER) && pokemob.getLogicState(LogicStates.SITTING))
-            {
-                int remountTimer = living.getPersistentData().getInt(TagNames.ON_SHOULDER_TIMER);
-                if (pokemob.getOwner() instanceof Player player)
-                {
-                    pokemob.moveToShoulder(player);
-                    living.getPersistentData().remove(TagNames.ON_SHOULDER_TIMER);
-                }
-                else if (remountTimer > 10)
-                {
-                    pokemob.setLogicState(LogicStates.SITTING, false);
-                    living.getPersistentData().remove(TagNames.ON_SHOULDER);
-                    living.getPersistentData().remove(TagNames.ON_SHOULDER_TIMER);
-                }
-                else
-                {
-                    living.getPersistentData().putInt(TagNames.ON_SHOULDER_TIMER, remountTimer + 1);
-                }
-            }
             if (pokemob.getBossInfo() != null)
                 pokemob.getBossInfo().setProgress(living.getHealth() / living.getMaxHealth());
             // Reset death time if we are not dead.
@@ -1064,16 +1018,6 @@ public class PokemobEventsHandler
             // on shoulder
             if (held.getItem() == Items.STICK || held.getItem() == Blocks.TORCH.asItem())
             {
-                if (player.isShiftKeyDown())
-                {
-                    if (held.getDisplayName().getString().contains("poke")) pokemob.moveToShoulder(player);
-                    return;
-                }
-                else if (pokemob.getEntity().isPassenger())
-                {
-                    pokemob.getEntity().stopRiding();
-                    return;
-                }
                 if (held.getDisplayName().getString().contains("poke"))
                 {
                     final Vector3 look = new Vector3().set(player.getLookAngle()).scalarMultBy(0.5);

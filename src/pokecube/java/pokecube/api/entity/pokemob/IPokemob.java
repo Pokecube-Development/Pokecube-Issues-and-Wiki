@@ -8,15 +8,12 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerBossEvent;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.animal.ShoulderRidingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -25,10 +22,8 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.pokedex.DefaultFormeHolder;
 import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.pokemob.ai.CombatStates;
-import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.moves.Battle;
 import pokecube.api.utils.PokeType;
-import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
@@ -583,31 +578,6 @@ public interface IPokemob
      * @return the {@link FormeHolder} which we presently have.
      */
     FormeHolder getCustomHolder();
-
-    /**
-     * Moves us to the player's shoulder.
-     *
-     * @param player - player to put us on
-     * @return whether we ended up on the shoulder.
-     */
-    default boolean moveToShoulder(final Player player)
-    {
-        if (this.getEntity() instanceof ShoulderRidingEntity mob)
-        {
-            if (player instanceof ServerPlayer splayer) return mob.setEntityOnShoulder(splayer);
-        }
-        else
-        {
-            if (this.getEntity().isAlive() && !this.getEntity().isPassenger() && player.getPassengers().isEmpty())
-            {
-                this.getEntity().getPersistentData().putBoolean(TagNames.ON_SHOULDER, true);
-                this.setLogicState(LogicStates.SITTING, true);
-                this.getEntity().startRiding(player, true);
-                return true;
-            }
-        }
-        return false;
-    }
 
     /**
      * This method should only be used to update any Alleles objects that are stored for the mob's genes.
