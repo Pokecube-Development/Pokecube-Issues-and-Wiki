@@ -72,6 +72,8 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         mobs.removeIf(c -> {
             final IPokemob poke = PokemobCaps.getPokemobFor(c);
             if (poke == null) return true;
+            // Also prevent staying ones
+            if (poke.getGeneralState(GeneralStates.STAYING)) return true;
             return !poke.isRoutineEnabled(AIRoutine.AGRESSIVE);
         });
         final boolean targetHasMobs = !mobs.isEmpty();
@@ -91,15 +93,12 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
     public static void onMobTick(final LivingEntity living)
     {
         if (!FindTargetsTask.handleDamagedTargets) return;
-        // Only run this every 10 ticks
-        if (living.tickCount % 10 != 0) return;
+        // Only run this every 20 ticks
+        if (living.tickCount % 20 != 0) return;
         LivingEntity target = BrainUtils.getAttackTarget(living);
         if (target == null) return;
         LivingEntity diverted = divertTarget(living, target);
-        if (diverted != target)
-        {
-            BrainUtils.setAttackTarget(living, diverted);
-        }
+        if (diverted != target) BrainUtils.setAttackTarget(living, diverted);
     }
 
     private static void onBrainSetTarget(final SetAttackTargetEvent event)
@@ -114,6 +113,9 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
 
         LivingEntity newTarget = event.getNewAboutToBeSetTarget();
         LivingEntity rootMob = event.getEntity();
+
+        var oldTarget = BrainUtils.getAttackTarget(rootMob);
+        if (newTarget == oldTarget) return;
 
         // Don't manage this.
         if (newTarget == null) return;
@@ -223,6 +225,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         if (owner == null) return false;
 
         if (this.pokemob.getGeneralState(GeneralStates.STAYING)) return false;
+        if (!this.pokemob.isRoutineEnabled(AIRoutine.AGRESSIVE)) return false;
 
         final int rate = PokecubeCore.getConfig().guardTickRate;
         // Disable via rate out of bounds, or not correct time in the rate.
@@ -256,8 +259,6 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
      * If the pokemob is "not alive", but it didn't faint, then it is most likely that the mob has been recalled, and a
      * new one is sent out. In this case, we will switch target to either the new pokemob, if it has been a short time,
      * or the owner of the old pokemob, if it has been a longer time.
-     *
-     * @return if switched to a new target
      */
     protected void checkSwitchedMob()
     {
