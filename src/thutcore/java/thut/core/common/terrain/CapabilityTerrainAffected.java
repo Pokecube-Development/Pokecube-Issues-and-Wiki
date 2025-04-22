@@ -69,7 +69,8 @@ public class CapabilityTerrainAffected
                     && mobPos.z() == this.terrain.chunkZ;
             if (!samePos)
             {
-                var terrain = TerrainManager.getInstance().getTerrainForEntity(this.theMob);
+                if (!theMob.level().isAreaLoaded(this.theMob.getOnPos(), 1)) return;
+                var terrain = TerrainManager.getInstance().getTerrain(this.theMob.level(), this.theMob.getOnPos());
                 this.onTerrainEntry(terrain);
                 return;
             }

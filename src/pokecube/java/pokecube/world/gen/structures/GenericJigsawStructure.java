@@ -326,10 +326,7 @@ public class GenericJigsawStructure extends Structure
                     if (min_y < this.y_settings.min_y) return false;
                     if (max_y > this.y_settings.max_y) return false;
                 }
-            if (max_y - min_y > this.y_settings.max_dy)
-            {
-                return false;
-            }
+            return max_y - min_y <= this.y_settings.max_dy;
         }
         return true;
     }

@@ -92,7 +92,9 @@ public class TerrainManager
     public TerrainSegment getTerrainForEntity(final Entity e)
     {
         if (e == null) return null;
-        return this.getTerrain(e.level(), e.getX(), e.getY(), e.getZ());
+        final TerrainSegment ret = this.getTerrain(e.level(), e.getOnPos());
+        if (e.level() instanceof ServerLevel) ret.initBiomes(e.level());
+        return ret;
     }
 
     public TerrainSegment getTerrian(final LevelAccessor world, final Vector3 v)
