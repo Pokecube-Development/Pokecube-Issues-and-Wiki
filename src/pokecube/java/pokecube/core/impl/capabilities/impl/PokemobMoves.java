@@ -12,7 +12,9 @@ import net.minecraft.world.entity.player.Player;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.moves.PokemobMoveStats;
 import pokecube.api.events.pokemobs.combat.MoveUse.ActualMoveUse;
 import pokecube.api.moves.Battle;
@@ -233,7 +235,8 @@ public abstract class PokemobMoves extends PokemobStats
         {
             Battle b = Battle.getBattle(entity);
 
-            if (owner != null)
+            if (owner != null && !this.getGeneralState(GeneralStates.STAYING) && this.isRoutineEnabled(
+                    AIRoutine.AGRESSIVE))
             {
                 Battle b2 = Battle.getBattle(owner);
                 if (b2 != b)

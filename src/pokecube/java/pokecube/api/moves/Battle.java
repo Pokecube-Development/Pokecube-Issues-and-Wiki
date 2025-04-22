@@ -252,8 +252,8 @@ public class Battle
     private void sortSides()
     {
         // Remove removed mobs.
-        s1.removeIf(v -> v.isRemoved());
-        s2.removeIf(v -> v.isRemoved());
+        s1.removeIf(Entity::isRemoved);
+        s2.removeIf(Entity::isRemoved);
 
         Set<LivingEntity> mask = Sets.newHashSet();
         // Remove duplicates
@@ -423,9 +423,7 @@ public class Battle
         changed = checkStale(side2, s2, stale) || changed;
 
         // Remove anything that is stale from the battle.
-        stale.forEach(mob -> {
-            this.removeFromBattle(mob);
-        });
+        stale.forEach(this::removeFromBattle);
 
         // We have changed if stale is not empty
         changed = changed || !stale.isEmpty();
