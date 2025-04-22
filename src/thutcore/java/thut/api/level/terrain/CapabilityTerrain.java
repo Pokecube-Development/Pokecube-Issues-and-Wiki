@@ -18,6 +18,7 @@ import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class CapabilityTerrain
@@ -41,6 +42,12 @@ public class CapabilityTerrain
         {
             if (this.chunk == null && chunk != null) this.chunk = chunk;
             return this;
+        }
+
+        @Override
+        public void apply(Consumer<TerrainSegment> applier)
+        {
+            segMap.values().forEach(applier);
         }
 
         @Override
@@ -170,6 +177,8 @@ public class CapabilityTerrain
         void setTerrainSegment(TerrainSegment segment, int chunkY);
 
         ITerrainProvider setChunk(final ChunkAccess chunk);
+
+        void apply(Consumer<TerrainSegment> applier);
     }
 
     public static ITerrainProvider makeProvider(final IAttachmentHolder in)

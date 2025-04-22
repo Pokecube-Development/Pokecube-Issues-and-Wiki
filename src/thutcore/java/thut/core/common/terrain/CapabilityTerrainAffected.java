@@ -60,7 +60,7 @@ public class CapabilityTerrainAffected
             if (this.terrain == null)
             {
                 if (!theMob.level().isAreaLoaded(this.theMob.getOnPos(), 1)) return;
-                var terrain = TerrainManager.getInstance().getTerrainForEntity(this.theMob);
+                var terrain = TerrainManager.getInstance().getTerrain(this.theMob.level(), this.theMob.getOnPos());
                 this.onTerrainEntry(terrain);
                 return;
             }

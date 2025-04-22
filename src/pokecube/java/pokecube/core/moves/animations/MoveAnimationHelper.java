@@ -12,10 +12,12 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.loading.moddiscovery.ModFile;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent.Stage;
+import net.neoforged.neoforge.event.level.ChunkEvent;
 import net.neoforged.neoforgespi.language.ModFileScanData.AnnotationData;
 import org.objectweb.asm.Type;
 import pokecube.api.moves.utils.IMoveAnimation;
 import pokecube.core.moves.PokemobTerrainEffects;
+import thut.api.level.terrain.CapabilityTerrain;
 import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
@@ -119,8 +121,23 @@ public class MoveAnimationHelper
     public void addForRender(PokemobTerrainEffects effect)
     {
         mutex.lock();
+        this.effects.removeIf(e -> e.segment.pos.equals(effect.segment.pos));
         effects.add(effect);
         mutex.unlock();
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @SubscribeEvent
+    public void chunkUnload(final ChunkEvent.Unload evt)
+    {
+        if (!evt.getLevel().isClientSide()) return;
+        var provider = evt.getChunk().getData(CapabilityTerrain.TYPE_SAVE);
+        if (provider != null) provider.apply(segment -> {
+            var eff = segment.geTerrainEffect("pokemob_effects");
+            mutex.lock();
+            if (eff instanceof PokemobTerrainEffects effect) effects.remove(effect);
+            mutex.unlock();
+        });
     }
 
     @OnlyIn(Dist.CLIENT)

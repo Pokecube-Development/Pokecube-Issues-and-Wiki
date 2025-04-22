@@ -1,7 +1,6 @@
 package pokecube.core.moves;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -18,6 +17,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -174,17 +174,13 @@ public class PokemobTerrainEffects implements ITerrainEffect
 
     public static TerrainDamageSource createHailSource(final IPokemob mobIn)
     {
-        Holder<DamageType> type;
-        if (mobIn != null) type = mobIn.getEntity().damageSources().generic().typeHolder();
-        else type = PokecubeCore.proxy.getWorld().damageSources().generic().typeHolder();
+        Holder<DamageType> type = PokecubeCore.proxy.getRegistries().holderOrThrow(DamageTypes.GENERIC);
         return new TerrainDamageSource(type, WeatherEffectType.HAIL, TerrainType.TERRAIN, mobIn);
     }
 
     public static TerrainDamageSource createSandstormSource(final IPokemob mobIn)
     {
-        Holder<DamageType> type;
-        if (mobIn != null) type = mobIn.getEntity().damageSources().generic().typeHolder();
-        else type = PokecubeCore.proxy.getWorld().damageSources().generic().typeHolder();
+        Holder<DamageType> type = PokecubeCore.proxy.getRegistries().holderOrThrow(DamageTypes.GENERIC);
         return new TerrainDamageSource(type, WeatherEffectType.SAND, TerrainType.TERRAIN, mobIn);
     }
 
@@ -483,7 +479,6 @@ public class PokemobTerrainEffects implements ITerrainEffect
             if (this.effects.containsKey(WeatherEffectType.SAND.getIndex()))
                 this.renderEffect(builder, pos, origin, direction, tick, 0.86f, 0.82f, 0.75f, 1, j);
 
-            GlStateManager._disableDepthTest();
             mat.popPose();
         }
     }
