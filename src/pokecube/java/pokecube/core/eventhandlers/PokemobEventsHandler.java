@@ -80,7 +80,6 @@ import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.Logic;
 import pokecube.core.ai.tasks.combat.management.FindTargetsTask;
 import pokecube.core.entity.pokemobs.EntityPokemob;
-import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
 import pokecube.core.impl.capabilities.DefaultPokemob;
@@ -89,7 +88,6 @@ import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
 import pokecube.core.moves.damage.IPokedamage;
 import pokecube.core.moves.damage.PokemobDamageSource;
-import pokecube.core.network.packets.PacketDataSync;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.network.pokemobs.PacketSyncNewMoves;
 import pokecube.core.utils.AITools;
@@ -776,35 +774,6 @@ public class PokemobEventsHandler
 
         // Have this tick to manage the target's target.
         FindTargetsTask.onMobTick(living);
-
-        // Server side check if still have a rider, sync that.
-        if (living instanceof ServerPlayer player)
-        {
-            CompoundTag tag = PokecubePlayerDataHandler.getCustomDataTag(player);
-            int[] rid = tag.getIntArray("rider");
-            for (int i : rid)
-            {
-                Entity e = player.level.getEntity(i);
-                if (e == null || e.getVehicle() != player)
-                {
-                    tag.remove("rider");
-                    PacketDataSync.syncData(player, "pokecube-custom");
-                }
-            }
-        }
-        else if (living instanceof Player player)
-        {
-            CompoundTag tag = PokecubePlayerDataHandler.getCustomDataTag(player);
-            int[] rid = tag.getIntArray("rider");
-            for (int i : rid)
-            {
-                Entity e = player.level.getEntity(i);
-                if (e != null && e.getVehicle() != player)
-                {
-                    e.startRiding(player);
-                }
-            }
-        }
 
         // This prevents double ticking when a mob is both a copy and ticking
         // elsewhere, say in a custom pokeplayer like implementation

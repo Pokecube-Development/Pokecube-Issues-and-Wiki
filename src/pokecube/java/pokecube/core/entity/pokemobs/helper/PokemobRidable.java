@@ -474,34 +474,6 @@ public abstract class PokemobRidable extends PokemobHasParts
     @Override
     public void setPos(double x, double y, double z)
     {
-        if (this.getVehicle() instanceof Player player)
-        {
-            final float yaw = -player.yBodyRot * 0.017453292F;
-            final float pitch = 0;
-            final float sinYaw = Mth.sin(yaw);
-            final float cosYaw = Mth.cos(yaw);
-            final float sinPitch = Mth.sin(pitch);
-            final float cosPitch = Mth.cos(pitch);
-            final Mat3f matrixYaw = new Mat3f(cosYaw, 0, sinYaw, 0, 1, 0, -sinYaw, 0, cosYaw);
-            final Mat3f matrixPitch = new Mat3f(cosPitch, -sinPitch, 0, sinPitch, cosPitch, 0, 0, 0, 1);
-            final Mat3f transform = new Mat3f();
-            transform.mul(matrixYaw, matrixPitch);
-
-            float dx = this == player.getPassengers().getFirst()
-                    ? 0.2f + this.getBbWidth() / 2
-                    : -(0.4f + this.getBbWidth() / 2);
-
-            this.setOrderedToSit(true);
-
-            Vec3f v = new Vec3f(dx, -0.1f, 0);
-            transform.transform(v);
-            x += v.x;
-            y += v.y;
-            z += v.z;
-
-            this.yBodyRot = player.yBodyRot;
-            this.yBodyRotO = player.yBodyRotO;
-        }
         super.setPos(x, y, z);
     }
 }
