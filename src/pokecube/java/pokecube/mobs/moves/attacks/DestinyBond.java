@@ -1,14 +1,7 @@
 package pokecube.mobs.moves.attacks;
 
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-
-import org.apache.commons.lang3.NotImplementedException;
-
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
@@ -16,6 +9,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
+import org.apache.commons.lang3.NotImplementedException;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.moves.MoveProvider;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -26,11 +20,16 @@ import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.moves.utils.MoveApplication.PreApplyTests;
 import pokecube.core.moves.damage.PokemobDamageSource;
 
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
 @MoveProvider(name = "destiny-bond")
 public class DestinyBond implements PreApplyTests
 {
     static Map<UUID, Set<UUID>> usedOn = Maps.newHashMap();
     static MoveEntry dbond = null;
+
     static
     {
         PokecubeAPI.POKEMOB_BUS.register(DestinyBond.class);
@@ -50,14 +49,13 @@ public class DestinyBond implements PreApplyTests
             }
         }
 
-        final UUID killed = event.killed.getEntity().getUUID();
+        final UUID killed = event.killedEntity.getUUID();
         final Set<UUID> targets = usedOn.remove(killed);
 
-        if (targets != null && event.killed.getEntity().level() instanceof ServerLevel)
+        if (targets != null && event.killedEntity.level() instanceof ServerLevel world)
         {
             PokecubeAPI.LOGGER.error(new NotImplementedException("destiny-bond"));
-            final ServerLevel world = (ServerLevel) event.killed.getEntity().level();
-            final DamageSource source = new PokemobDamageSource(event.killed.getEntity(), dbond);
+            final DamageSource source = new PokemobDamageSource(event.killedEntity, dbond);
             source.is(DamageTypeTags.BYPASSES_ENCHANTMENTS);
             source.is(DamageTypeTags.BYPASSES_ARMOR);
             for (final UUID id : targets)

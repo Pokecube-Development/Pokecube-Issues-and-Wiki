@@ -27,7 +27,7 @@ public class OngoingMoveEffect extends BaseEffect
     {
         if (this.move != null) this.move.doOngoingEffect(this.user, target, this);
         final IPokemob pokemob = PokemobCaps.getPokemobFor(target.getEntity());
-        final boolean toRemove = pokemob != null ? false : Math.random() > 0.8;
+        final boolean toRemove = pokemob == null && Math.random() > 0.8;
         if (toRemove) this.setDuration(0);
     }
 

@@ -952,11 +952,14 @@ public class PokemobEventsHandler
                 attacker.setExp(
                         attacker.getExp() + Tools.getExp(coef, attacked, attackedMob, level, attacker.getEntity()),
                         true);
-                final byte[] evsToAdd = attackedMob.getPokedexEntry().getEVs();
-                attacker.addEVs(evsToAdd);
+                if (attackedMob != null)
+                {
+                    final byte[] evsToAdd = attackedMob.getPokedexEntry().getEVs();
+                    attacker.addEVs(evsToAdd);
+                }
             }
             final Entity targetOwner = ownable != null ? ownable.getOwner() : null;
-            Component faintMsg = TComponent.translatable("pokemob.action.faint.enemy", attackedMob.getDisplayName());
+            Component faintMsg = TComponent.translatable("pokemob.action.faint.enemy", attacked.getDisplayName());
             attacker.displayMessageToOwner(faintMsg);
 
             // If the target has an owner, divert agro over to that, as the
@@ -964,10 +967,9 @@ public class PokemobEventsHandler
             if (targetOwner instanceof Player player && attacker.getOwner() != targetOwner)
                 Battle.createOrAddToBattle(pokemob, player);
 
-            if (attackedMob != null && attacker.getPokedexEntry().isFood(attackedMob.getPokedexEntry())
-                    && attacker.getCombatState(CombatStates.HUNTING))
+            if (attacker.getCombatState(CombatStates.HUNTING))
             {
-                attacker.eat(attackedMob.getEntity());
+                attacker.eat(attacked);
                 attacker.setCombatState(CombatStates.HUNTING, false);
                 pokemob.getNavigation().stop();
             }

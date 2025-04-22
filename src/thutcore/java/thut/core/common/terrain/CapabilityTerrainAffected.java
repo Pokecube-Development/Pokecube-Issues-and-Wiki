@@ -59,8 +59,8 @@ public class CapabilityTerrainAffected
             if (this.theMob == null) return;
             if (this.terrain == null)
             {
-                if (!theMob.level().isAreaLoaded(this.theMob.getOnPos(), 1)) return;
-                var terrain = TerrainManager.getInstance().getTerrain(this.theMob.level(), this.theMob.getOnPos());
+                if (!theMob.level().isAreaLoaded(this.theMob.getOnPos(), 4)) return;
+                var terrain = TerrainManager.getInstance().getTerrainForEntity(this.theMob);
                 this.onTerrainEntry(terrain);
                 return;
             }
@@ -69,8 +69,8 @@ public class CapabilityTerrainAffected
                     && mobPos.z() == this.terrain.chunkZ;
             if (!samePos)
             {
-                if (!theMob.level().isAreaLoaded(this.theMob.getOnPos(), 1)) return;
-                var terrain = TerrainManager.getInstance().getTerrain(this.theMob.level(), this.theMob.getOnPos());
+                if (!theMob.level().isAreaLoaded(this.theMob.getOnPos(), 4)) return;
+                var terrain = TerrainManager.getInstance().getTerrainForEntity(this.theMob);
                 this.onTerrainEntry(terrain);
                 return;
             }

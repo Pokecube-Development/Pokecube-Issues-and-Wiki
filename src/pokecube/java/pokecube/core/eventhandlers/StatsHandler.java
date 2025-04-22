@@ -134,7 +134,7 @@ public class StatsHandler
 
     private static void recordKill(final KillEvent evt)
     {
-        if (!evt.killed.isShadow()) StatsCollector.addKill(evt.killed, evt.killer);
+        if (evt.killed != null && !evt.killed.isShadow()) StatsCollector.addKill(evt.killed, evt.killer);
     }
 
     private static void recordTrade(final TradeEvent evt)
