@@ -589,6 +589,7 @@ public class LogicMiscUpdate extends LogicBase
             addAnimation(anims, "dead", isRidden);
             noBlink = true;
         }
+        if (entity.getVehicle() != null) addAnimation(anims, "sitting", isRidden);
         for (final LogicStates state : LogicStates.values())
         {
             final String anim = ThutCore.trim(state.toString());

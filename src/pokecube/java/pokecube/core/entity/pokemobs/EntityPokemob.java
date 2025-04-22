@@ -387,10 +387,6 @@ public class EntityPokemob extends PokemobRidable
     public void tick()
     {
         super.tick();
-        if (!this.isOrderedToSit())
-        {
-            this.stopRiding();
-        }
         if (!this.level.isClientSide)
         {
             boolean climb = this.horizontalCollision;

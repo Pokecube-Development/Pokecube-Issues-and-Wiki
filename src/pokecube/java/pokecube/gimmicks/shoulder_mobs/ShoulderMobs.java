@@ -1,6 +1,7 @@
 package pokecube.gimmicks.shoulder_mobs;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundSetPassengersPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
@@ -54,7 +55,6 @@ public class ShoulderMobs
         ThutCore.FORGE_BUS.addListener(ShoulderMobs::onPokeStick);
 
         PokecubeContents.TAGSTOREMOVE.add(ShoulderMobs.ON_SHOULDER);
-        PokecubeContents.TAGSTOREMOVE.add(ShoulderMobs.ON_SHOULDER_TIMER);
     }
 
     private static void addAI(InitAIEvent.Init event)
@@ -140,11 +140,15 @@ public class ShoulderMobs
             var living = pokemob.getEntity();
             if (living.getVehicle() instanceof Player player)
             {
-                if (!pokemob.getLogicState(LogicStates.SITTING))
+                if (!living.getPersistentData().getBoolean(ShoulderMobs.ON_SHOULDER))
                 {
-                    living.getPersistentData().remove(ShoulderMobs.ON_SHOULDER);
-                    living.getPersistentData().remove(ShoulderMobs.ON_SHOULDER_TIMER);
-                    living.stopRiding();
+                    if (living.getVehicle() instanceof ServerPlayer serverPlayer)
+                    {
+                        living.getPersistentData().remove(ShoulderMobs.ON_SHOULDER);
+                        living.stopRiding();
+                        serverPlayer.connection.send(new ClientboundSetPassengersPacket(serverPlayer));
+                    }
+                    return;
                 }
                 // Ensure attachments are correct
                 {
@@ -190,6 +194,7 @@ public class ShoulderMobs
                     }
                 }
             }
+
             if (living.getVehicle() instanceof ServerPlayer player)
             {
                 CompoundTag tag = PokecubePlayerDataHandler.getCustomDataTag(player);
@@ -206,24 +211,9 @@ public class ShoulderMobs
                 }
             }
             else if (living.level() instanceof ServerLevel && living.getPersistentData()
-                    .getBoolean(ShoulderMobs.ON_SHOULDER) && pokemob.getLogicState(LogicStates.SITTING))
+                    .getBoolean(ShoulderMobs.ON_SHOULDER))
             {
-                int remountTimer = living.getPersistentData().getInt(ShoulderMobs.ON_SHOULDER_TIMER);
-                if (pokemob.getOwner() instanceof Player player)
-                {
-                    IdleJumpOnShoulderTask.moveToShoulder(player, pokemob);
-                    living.getPersistentData().remove(ShoulderMobs.ON_SHOULDER_TIMER);
-                }
-                else if (remountTimer > 10)
-                {
-                    pokemob.setLogicState(LogicStates.SITTING, false);
-                    living.getPersistentData().remove(ShoulderMobs.ON_SHOULDER);
-                    living.getPersistentData().remove(ShoulderMobs.ON_SHOULDER_TIMER);
-                }
-                else
-                {
-                    living.getPersistentData().putInt(ShoulderMobs.ON_SHOULDER_TIMER, remountTimer + 1);
-                }
+                living.getPersistentData().remove(ShoulderMobs.ON_SHOULDER);
             }
         }
     }

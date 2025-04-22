@@ -3,6 +3,7 @@ package pokecube.core.impl.capabilities.impl;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundSetPassengersPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
@@ -188,8 +189,14 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
 
     protected void executeRecall(boolean onDeath)
     {
-        final UUID id = this.getEntity().getUUID();
-        final Entity mob = this.getEntity();
+        if (!onDeath && this.getOwner() instanceof ServerPlayer serverPlayer
+                && this.getEntity().getVehicle() == this.getOwner())
+        {
+            this.getEntity().stopRiding();
+            serverPlayer.connection.send(new ClientboundSetPassengersPacket(serverPlayer));
+            return;
+        }
+
         final Level world = this.getEntity().level();
         final BlockPos pos = this.getEntity().blockPosition();
         // Ensures the chunk is actually still loaded here.
