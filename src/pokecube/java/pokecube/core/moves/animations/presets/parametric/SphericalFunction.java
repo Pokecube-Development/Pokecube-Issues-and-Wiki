@@ -62,7 +62,7 @@ public class SphericalFunction extends MoveAnimationBase
     }
 
     @Override
-    public void spawnClientEntities(MovePacketInfo info)
+    public void spawnClientEntities(MovePacketInfo info, float partialTicks)
     {
         final Vector3 source = values.reverse ? info.source : info.target;
         this.initColour(info.attacker.level().getDayTime() * 20, 0, info.move);

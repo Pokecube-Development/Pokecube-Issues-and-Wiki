@@ -12,7 +12,6 @@ import pokecube.core.network.packets.PacketPokecube;
 import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.network.packets.PacketSyncPokedex;
 import pokecube.core.network.packets.PacketSyncRoutes;
-import pokecube.core.network.packets.PacketSyncTerrain;
 import pokecube.core.network.packets.PacketTMs;
 import pokecube.core.network.packets.PacketTrade;
 import pokecube.core.network.pokemobs.PacketAIRoutine;
@@ -39,7 +38,6 @@ public class PokecubePacketHandler
     public static void init()
     {
         // General Pokecube Packets
-        PokecubeCore.packets.registerToClientMessage(PacketSyncTerrain.class);
         PokecubeCore.packets.registerBiDirectionalMessage(PacketSyncRoutes.class);
         PokecubeCore.packets.registerToClientMessage(PacketPokecube.class);
         PokecubeCore.packets.registerBiDirectionalMessage(PacketPokedex.class);

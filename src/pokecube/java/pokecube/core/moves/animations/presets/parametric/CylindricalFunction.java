@@ -54,7 +54,7 @@ public class CylindricalFunction extends MoveAnimationBase
     }
 
     @Override
-    public void spawnClientEntities(MovePacketInfo info)
+    public void spawnClientEntities(MovePacketInfo info, float partialTicks)
     {
         final Vector3 source = info.source;
         final Vector3 target = info.target;

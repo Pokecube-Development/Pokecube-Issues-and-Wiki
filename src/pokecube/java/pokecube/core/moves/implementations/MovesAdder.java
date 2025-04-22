@@ -77,7 +77,7 @@ public class MovesAdder implements IMoveConstants
                 for (var func : defaultWorldEffects)
                 {
                     combined = func.apply(move);
-                    if (combined != null) MoveEventsHandler.addOrMergeActions(combined);
+                    if (combined != null && combined.isValid()) MoveEventsHandler.addOrMergeActions(combined);
                 }
             }
         }

@@ -1,14 +1,8 @@
 package pokecube.core.ai.tasks.utility;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Random;
-
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -50,22 +44,25 @@ import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.IRunnable;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.inventory.pokemob.PokemobInventory;
-import pokecube.mixin.accessors.BlockItemAccessor;
+import pokecube.core.utils.mixin.IBlockItem;
 import thut.api.entity.ai.VectorPosWrapper;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.lib.ItemStackTools;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Random;
+
 /**
- * This IAIRunnable gets the mob to look for and collect dropped items and
- * berries. It requires an AIStoreStuff to have located a suitable storage
- * before it will run.
+ * This IAIRunnable gets the mob to look for and collect dropped items and berries. It requires an AIStoreStuff to have
+ * located a suitable storage before it will run.
  */
 public class GatherTask extends UtilTask
 {
     /**
-     * All things which inherit from BlockCrops, if not on this list, will be
-     * valid options if at max age.
+     * All things which inherit from BlockCrops, if not on this list, will be valid options if at max age.
      */
     public static final ResourceLocation BLACKLIST = ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID,
             "harvest_blacklist");
@@ -100,8 +97,7 @@ public class GatherTask extends UtilTask
 
     public static record HarvestContext(ServerLevel level, BlockState state, BlockPos pos,
             IItemHandlerModifiable destination, boolean isPokemobInventory)
-    {
-    }
+    {}
 
     public static interface IHarvester
     {
@@ -109,7 +105,8 @@ public class GatherTask extends UtilTask
         {
             final HarvestCheckEvent event = new HarvestCheckEvent(pokemob, context.state(), context.pos());
             PokecubeAPI.POKEMOB_BUS.post(event);
-            final boolean gatherable = event.getResult() == TriState.TRUE ? true
+            final boolean gatherable = event.getResult() == TriState.TRUE
+                    ? true
                     : event.getResult() == TriState.FALSE ? false : GatherTask.harvestMatcher.apply(context.state());
             return gatherable;
         }
@@ -122,7 +119,8 @@ public class GatherTask extends UtilTask
             boolean replanted = false;
 
             int startSlot = context.isPokemobInventory() ? 2 : 0;
-            int endSlot = context.isPokemobInventory() ? PokemobInventory.MAIN_INVENTORY_SIZE
+            int endSlot = context.isPokemobInventory()
+                    ? PokemobInventory.MAIN_INVENTORY_SIZE
                     : context.destination().getSlots();
             // See if anything dropped was a seed for the thing we
             // picked.
@@ -135,13 +133,13 @@ public class GatherTask extends UtilTask
             if (!replanted) for (int i = startSlot; i < endSlot; i++)
             {
                 final ItemStack stack = pokemob.getInventory().getItem(i);
-                if (!stack.isEmpty() && stack.getItem() instanceof BlockItemAccessor plantable)
+                if (!stack.isEmpty() && stack.getItem() instanceof IBlockItem plantable)
                 {
                     Vec3 mid = context.pos().getBottomCenter();
                     BlockHitResult hit = new BlockHitResult(mid, Direction.DOWN, context.pos(), true);
                     BlockPlaceContext _context = new BlockPlaceContext(context.level(), null, InteractionHand.MAIN_HAND,
                             stack, hit);
-                    final BlockState plantState = plantable.getPlacementState(_context);
+                    final BlockState plantState = plantable.getPlacement(_context);
                     if (plantState.getBlock() == context.state().getBlock() && !replanted)
                     {
                         replanted = new ReplantTask(stack, context.state(), context.pos()).run(context.level());
@@ -229,8 +227,7 @@ public class GatherTask extends UtilTask
     static
     {
         GatherTask.REGISTRY.put(ResourceLocation.parse("pokecube:crops"), new IHarvester()
-        {
-        });
+        {});
         GatherTask.REGISTRY.put(ResourceLocation.parse("pokecube:sweet_berries"), new IHarvester()
         {
             @Override
@@ -251,7 +248,8 @@ public class GatherTask extends UtilTask
             {
                 final HarvestCheckEvent event = new HarvestCheckEvent(pokemob, context.state(), context.pos());
                 PokecubeAPI.POKEMOB_BUS.post(event);
-                final boolean gatherable = event.getResult() == TriState.TRUE ? true
+                final boolean gatherable = event.getResult() == TriState.TRUE
+                        ? true
                         : event.getResult() == TriState.FALSE ? false : GatherTask.sweetBerry.apply(context.state());
                 return gatherable;
             }
@@ -314,7 +312,8 @@ public class GatherTask extends UtilTask
             final BlockState state = this.entity.level().getBlockState(this.targetBlock.getPos());
             final HarvestCheckEvent event = new HarvestCheckEvent(this.pokemob, state, this.targetBlock.getPos());
             PokecubeAPI.POKEMOB_BUS.post(event);
-            final boolean gatherable = event.getResult() == TriState.TRUE ? true
+            final boolean gatherable = event.getResult() == TriState.TRUE
+                    ? true
                     : event.getResult() == TriState.FALSE ? false : GatherTask.harvestMatcher.apply(state);
             if (!gatherable) this.targetBlock = null;
         }
@@ -333,11 +332,12 @@ public class GatherTask extends UtilTask
         if (this.items != null)
         {
             // Check for items to possibly gather.
-            for (final ItemEntity e : this.items) if (!GatherTask.deaditemmatcher.apply(e))
-            {
-                this.targetItem = e;
-                return;
-            }
+            for (final ItemEntity e : this.items)
+                if (!GatherTask.deaditemmatcher.apply(e))
+                {
+                    this.targetItem = e;
+                    return;
+                }
             if (this.targetItem != null) return;
         }
         if (this.blocks != null && this.blocks.size() > 0)
@@ -459,13 +459,14 @@ public class GatherTask extends UtilTask
         // We are going after something.
         if (this.hasStuff()) return true;
 
-        final boolean wildCheck = !PokecubeCore.getConfig().wildGather
-                && !this.pokemob.getGeneralState(GeneralStates.TAMED);
+        final boolean wildCheck =
+                !PokecubeCore.getConfig().wildGather && !this.pokemob.getGeneralState(GeneralStates.TAMED);
         // Check if this should be doing something else instead, if so return
         // false.
         if (this.tameCheck() || BrainUtils.hasAttackTarget(this.entity) || wildCheck) return false;
 
-        final int rate = this.pokemob.getGeneralState(GeneralStates.TAMED) ? PokecubeCore.getConfig().tameGatherDelay
+        final int rate = this.pokemob.getGeneralState(GeneralStates.TAMED)
+                ? PokecubeCore.getConfig().tameGatherDelay
                 : PokecubeCore.getConfig().wildGatherDelay;
         final Random rand = new Random(this.pokemob.getRNGValue());
         // Check if it has a location, if so, apply a delay and return false if
@@ -509,8 +510,8 @@ public class GatherTask extends UtilTask
      */
     private boolean tameCheck()
     {
-        return this.pokemob.getGeneralState(GeneralStates.TAMED)
-                && (!this.pokemob.getGeneralState(GeneralStates.STAYING) || !PokecubeCore.getConfig().tameGather);
+        return this.pokemob.getGeneralState(GeneralStates.TAMED) && (
+                !this.pokemob.getGeneralState(GeneralStates.STAYING) || !PokecubeCore.getConfig().tameGather);
     }
 
     @Override

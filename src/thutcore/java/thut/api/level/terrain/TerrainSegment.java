@@ -124,12 +124,8 @@ public class TerrainSegment
     {
         /**
          * Called when the terrain effect is assigned to the terrain segment
-         *
-         * @param x chunkX of terrainsegment
-         * @param y chunkY of terrainsegment
-         * @param z chunkZ of terrainsegement
          */
-        void bindToTerrain(int x, int y, int z);
+        void bindToTerrain(TerrainSegment segment);
 
         void doEffect(LivingEntity entity, boolean firstEntry);
 
@@ -312,7 +308,7 @@ public class TerrainSegment
 
     private void addEffect(final ITerrainEffect effect, final String name)
     {
-        effect.bindToTerrain(this.chunkX, this.chunkY, this.chunkZ);
+        effect.bindToTerrain(this);
         this.effects.put(name, effect);
     }
 
@@ -487,13 +483,6 @@ public class TerrainSegment
 
     public void saveToNBT(final CompoundTag nbt)
     {
-        if (!this.toSave) return;
-        nbt.putIntArray("biomes", this.biomes);
-        nbt.putInt("x", this.chunkX);
-        nbt.putInt("y", this.chunkY);
-        nbt.putInt("z", this.chunkZ);
-        nbt.putBoolean("toSave", this.toSave);
-
         if (!this.effects.isEmpty())
         {
             CompoundTag effects = new CompoundTag();
@@ -503,8 +492,18 @@ public class TerrainSegment
                 entry.getValue().writeToNBT(tag);
                 if (!tag.isEmpty()) effects.put(entry.getKey(), tag);
             }
-            if (!effects.isEmpty()) nbt.put("effects", effects);
+            if (!effects.isEmpty())
+            {
+                nbt.put("effects", effects);
+                this.toSave = true;
+            }
         }
+        if (!this.toSave) return;
+        nbt.putIntArray("biomes", this.biomes);
+        nbt.putInt("x", this.chunkX);
+        nbt.putInt("y", this.chunkY);
+        nbt.putInt("z", this.chunkZ);
+        nbt.putBoolean("toSave", this.toSave);
     }
 
     public void setBiome(final BlockPos p, final BiomeType type)

@@ -7,12 +7,12 @@ import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.moves.PokemobTerrainEffects;
-import pokecube.core.network.packets.PacketSyncTerrain;
 import thut.api.Tracker;
 import thut.api.level.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+import thut.core.common.network.TerrainUpdate;
 
 @AbilityProvider(name = "sand-spit")
 public class SandSpit extends Ability
@@ -28,17 +28,14 @@ public class SandSpit extends Ability
         final Level world = mob.getEntity().level();
 
         final TerrainSegment segment = TerrainManager.getInstance().getTerrian(world, new Vector3());
-        final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemobEffects");
+        final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemob_effects");
 
         if (move.hit)
         {
-            // terrain.doWorldAction(mob, location);
             int duration = 300 + ThutCore.newRandom().nextInt(600);
             teffect.setEffectDuration(PokemobTerrainEffects.WeatherEffectType.SAND,
                     duration + Tracker.instance().getTick(), mob);
-
-            if (world instanceof ServerLevel level)
-                PacketSyncTerrain.sendTerrainEffects(level, segment.chunkX, segment.chunkY, segment.chunkZ, teffect);
+            if (world instanceof ServerLevel) TerrainUpdate.sendTerrainToWatching(segment);
         }
     }
 }

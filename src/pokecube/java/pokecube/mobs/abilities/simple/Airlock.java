@@ -17,7 +17,7 @@ public class Airlock extends Ability
         if (!rain)
         {
            /* final TerrainSegment t = TerrainManager.getInstance().getTerrainForEntity(mob.getEntity());
-            final PokemobTerrainEffects teffect = (PokemobTerrainEffects) t.geTerrainEffect("pokemobEffects");
+            final PokemobTerrainEffects teffect = (PokemobTerrainEffects) t.geTerrainEffect("pokemob_effects");
             teffect.*/
         }
     }

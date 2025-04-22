@@ -13,6 +13,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import thut.api.ThutCaps;
 import thut.api.level.terrain.CapabilityTerrain.ITerrainProvider;
+import thut.api.level.terrain.TerrainSegment;
 import thut.core.common.ThutCore;
 import thut.core.common.network.nbtpacket.NBTPacket;
 import thut.core.common.network.nbtpacket.PacketAssembly;
@@ -33,6 +34,7 @@ public class TerrainUpdate extends NBTPacket
             return;
         }
         final CompoundTag terrainData = provider.serializeNBT(player.registryAccess());
+        if (terrainData.isEmpty()) return;
         terrainData.putInt("c_x", pos.x);
         terrainData.putInt("c_z", pos.z);
         TerrainUpdate.ASSEMBLER.sendTo(terrainData, player);
@@ -41,6 +43,17 @@ public class TerrainUpdate extends NBTPacket
     public TerrainUpdate()
     {
         super();
+    }
+
+    public static void sendTerrainToWatching(TerrainSegment segment)
+    {
+        var chunk = segment.chunk;
+        if (!(chunk instanceof LevelChunk lchunk)) return;
+        final ITerrainProvider provider = ThutCaps.getTerrainProvider(chunk);
+        final CompoundTag terrainData = provider.serializeNBT(chunk.getLevel().registryAccess());
+        terrainData.putInt("c_x", segment.chunkX);
+        terrainData.putInt("c_z", segment.chunkZ);
+        TerrainUpdate.ASSEMBLER.sendToTracking(terrainData, lchunk);
     }
 
     @Override

@@ -30,13 +30,12 @@ public class Thunder extends MoveAnimationBase
 
     @Override
     @OnlyIn(value = Dist.CLIENT)
-    public void spawnClientEntities(final MovePacketInfo info)
+    public void spawnClientEntities(final MovePacketInfo info, float partialTicks)
     {
-        final net.minecraft.client.multiplayer.ClientLevel theRealWorld = (net.minecraft.client.multiplayer.ClientLevel) info.attacker
-                .level();
+        var theRealWorld = info.attacker.level();
         final LightningBolt lightning = new LightningBolt(EntityType.LIGHTNING_BOLT, theRealWorld);
         info.target.moveEntity(lightning);
-        lightning.setVisualOnly(false);
+        lightning.setVisualOnly(true);
         theRealWorld.addFreshEntity(lightning);
     }
 }

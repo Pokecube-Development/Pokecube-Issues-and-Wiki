@@ -28,7 +28,7 @@ public class Synthesis implements HealProvider
     public float getSelfHealRatio(IPokemob user)
     {
         final TerrainSegment terrain = TerrainManager.getInstance().getTerrainForEntity(user.getEntity());
-        final PokemobTerrainEffects effects = (PokemobTerrainEffects) terrain.geTerrainEffect("pokemobEffects");
+        final PokemobTerrainEffects effects = (PokemobTerrainEffects) terrain.geTerrainEffect("pokemob_effects");
         if (effects.isEffectActive(PokemobTerrainEffects.WeatherEffectType.RAIN)
                 || effects.isEffectActive(PokemobTerrainEffects.WeatherEffectType.HAIL)
                 || effects.isEffectActive(PokemobTerrainEffects.WeatherEffectType.SAND))

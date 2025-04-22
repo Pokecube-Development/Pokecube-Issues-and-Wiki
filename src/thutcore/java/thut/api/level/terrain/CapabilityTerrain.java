@@ -72,6 +72,7 @@ public class CapabilityTerrain
                     {
                         final int y = terrainTag.getInt("y");
                         t = new TerrainSegment(x, y, z);
+                        t.chunk = this.chunk;
                         if (hasReplacements) t.idReplacements = toUpdate;
                         TerrainSegment.readFromNBT(t, terrainTag);
                         this.setTerrainSegment(t, y);
@@ -126,11 +127,13 @@ public class CapabilityTerrain
                 final TerrainSegment t = this.getTerrainSegment(i);
                 if (t == null) continue;
                 t.checkToSave();
-                if (!t.toSave) continue;
-                for (final int id : t.biomes) ids.add(id);
                 final CompoundTag terrainTag = new CompoundTag();
                 t.saveToNBT(terrainTag);
-                segs.add(terrainTag);
+                if (!terrainTag.isEmpty())
+                {
+                    for (final int id : t.biomes) ids.add(id);
+                    segs.add(terrainTag);
+                }
             }
             if (!segs.isEmpty())
             {

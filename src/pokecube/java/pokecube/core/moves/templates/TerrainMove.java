@@ -1,9 +1,6 @@
 package pokecube.core.moves.templates;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import pokecube.api.data.moves.IMove;
@@ -13,12 +10,14 @@ import pokecube.api.moves.utils.MoveApplication.PostMoveUse;
 import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.moves.PokemobTerrainEffects.EffectType;
 import pokecube.core.moves.PokemobTerrainEffects.EntryEffectType;
-import pokecube.core.network.packets.PacketSyncTerrain;
 import thut.api.Tracker;
 import thut.api.level.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+import thut.core.common.network.TerrainUpdate;
+
+import java.util.Map;
 
 public class TerrainMove implements IMove
 {
@@ -26,7 +25,7 @@ public class TerrainMove implements IMove
 
     public static TerrainMove forEffect(EffectType type)
     {
-        return DEFAULTS.computeIfAbsent(type, t -> new TerrainMove(t));
+        return DEFAULTS.computeIfAbsent(type, TerrainMove::new);
     }
 
     private final EffectType effect;
@@ -38,8 +37,7 @@ public class TerrainMove implements IMove
     }
 
     PostMoveUse postUse = new PostMoveUse()
-    {
-    };
+    {};
 
     @Override
     public PostMoveUse getPostUse(MoveApplication t)
@@ -53,7 +51,7 @@ public class TerrainMove implements IMove
         final TerrainSegment segment = TerrainManager.getInstance().getTerrian(world, new Vector3(user.getEntity()));
 
         EffectType apply = this.effect;
-        final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemobEffects");
+        final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemob_effects");
         // TODO check if effect already exists, and send message if so.
         // Otherwise send the it starts to effect messaged
 
@@ -64,8 +62,7 @@ public class TerrainMove implements IMove
         }
 
         teffect.setEffectDuration(apply, this.duration + Tracker.instance().getTick(), user);
-        if (world instanceof ServerLevel) PacketSyncTerrain.sendTerrainEffects((ServerLevel) world, segment.chunkX,
-                segment.chunkY, segment.chunkZ, teffect);
+        if (world instanceof ServerLevel) TerrainUpdate.sendTerrainToWatching(segment);
         return postUse;
     }
 

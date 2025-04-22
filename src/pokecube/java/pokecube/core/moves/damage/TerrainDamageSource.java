@@ -7,6 +7,7 @@ import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.core.moves.PokemobTerrainEffects;
 import thut.lib.TComponent;
 
 public class TerrainDamageSource extends DamageSource implements IPokedamage
@@ -17,18 +18,21 @@ public class TerrainDamageSource extends DamageSource implements IPokedamage
     }
 
     public final TerrainType type;
+    public final PokemobTerrainEffects.EffectType effect;
 
     public final IPokemob user;
 
-    public TerrainDamageSource(Holder<DamageType> damageType, final TerrainType type, final IPokemob user)
+    public TerrainDamageSource(Holder<DamageType> damageType, PokemobTerrainEffects.EffectType effect,
+            final TerrainType type, final IPokemob user)
     {
         super(damageType);
         this.type = type;
+        this.effect = effect;
         this.user = user;
     }
 
-    @Override
     /** Gets the death message that is displayed when the player dies */
+    @Override
     public Component getLocalizedDeathMessage(final LivingEntity LivingEntityIn)
     {
         final String s = "death.attack." + this.getMsgId();

@@ -36,7 +36,7 @@ public class Forecast extends Ability
         // base and return early.
 
         final TerrainSegment terrain = TerrainManager.getInstance().getTerrainForEntity(pokemob);
-        final PokemobTerrainEffects effect = (PokemobTerrainEffects) terrain.geTerrainEffect("pokemobEffects");
+        final PokemobTerrainEffects effect = (PokemobTerrainEffects) terrain.geTerrainEffect("pokemob_effects");
 
         if (effect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.RAIN))
         {

@@ -1,9 +1,5 @@
 package thut.core.common.terrain;
 
-import java.util.Collection;
-import java.util.function.Function;
-import java.util.function.Supplier;
-
 import net.minecraft.core.SectionPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,6 +14,10 @@ import thut.api.level.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
 import thut.api.level.terrain.TerrainSegment.ITerrainEffect;
 import thut.core.common.ThutCore;
+
+import java.util.Collection;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class CapabilityTerrainAffected
 {
@@ -59,13 +59,14 @@ public class CapabilityTerrainAffected
             if (this.theMob == null) return;
             if (this.terrain == null)
             {
+                if (!theMob.level().isAreaLoaded(this.theMob.getOnPos(), 1)) return;
                 var terrain = TerrainManager.getInstance().getTerrainForEntity(this.theMob);
                 this.onTerrainEntry(terrain);
                 return;
             }
             var mobPos = SectionPos.of(this.theMob.blockPosition());
             boolean samePos = mobPos.x() == this.terrain.chunkX && mobPos.y() == this.terrain.chunkY
-                    && mobPos.y() == this.terrain.chunkY;
+                    && mobPos.z() == this.terrain.chunkZ;
             if (!samePos)
             {
                 var terrain = TerrainManager.getInstance().getTerrainForEntity(this.theMob);
@@ -82,10 +83,10 @@ public class CapabilityTerrainAffected
         }
 
     }
-    
+
     public static ITerrainAffected makeProvider(final IAttachmentHolder in)
     {
-        if(!(in instanceof LivingEntity living)) return null;
+        if (!(in instanceof LivingEntity living)) return null;
         var affected = new DefaultAffected();
         affected.attach(living);
         return affected;
@@ -93,14 +94,13 @@ public class CapabilityTerrainAffected
 
     public static ITerrainAffected get(final IAttachmentHolder in)
     {
-        if (in.hasData(TYPE_SAVE.get())) return in.getData(TYPE_SAVE.get());
-        return null;
+        return in.getData(TYPE_SAVE.get());
     }
-    
+
     public static final ResourceLocation LOCSAVEABLE = ResourceLocation.parse("thutcore:terrain_effects");
 
     public static Supplier<AttachmentType<ITerrainAffected>> TYPE_SAVE;
-    
+
     public static void registerAttachment(DeferredRegister<AttachmentType<?>> registry)
     {
         Function<IAttachmentHolder, ITerrainAffected> func_a = CapabilityTerrainAffected::makeProvider;
@@ -115,7 +115,7 @@ public class CapabilityTerrainAffected
 
     private static void EntityUpdate(final EntityTickEvent.Post evt)
     {
-        if(!(evt.getEntity() instanceof LivingEntity)) return;
+        if (!(evt.getEntity() instanceof LivingEntity)) return;
         final ITerrainAffected effects = ThutCaps.getTerrainAffected(evt.getEntity());
         if (effects != null) effects.onTerrainTick();
     }

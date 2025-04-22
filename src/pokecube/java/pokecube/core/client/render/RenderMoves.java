@@ -1,7 +1,6 @@
 package pokecube.core.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -22,8 +21,8 @@ public class RenderMoves extends EntityRenderer<EntityMoveUse>
     }
 
     @Override
-    public void render(final EntityMoveUse entity, final float entityYaw, final float partialTicks,
-            final PoseStack mat, final MultiBufferSource bufferIn, final int packedLightIn)
+    public void render(final EntityMoveUse entity, final float entityYaw, final float partialTicks, final PoseStack mat,
+            final MultiBufferSource bufferIn, final int packedLightIn)
     {
         if (entity.getStartTick() > 0) return;
         final MoveEntry move = entity.getMove();
@@ -34,6 +33,11 @@ public class RenderMoves extends EntityRenderer<EntityMoveUse>
             mat.pushPose();
             final MovePacketInfo info = entity.getMoveInfo();
             animation.clientAnimation(mat, bufferIn, info, partialTicks);
+            if (info.lastApplyTimer != entity.tickCount)
+            {
+                info.lastApplyTimer = entity.tickCount;
+                animation.spawnClientEntities(info, partialTicks);
+            }
             mat.popPose();
         }
     }

@@ -16,7 +16,7 @@ public class Mimicry extends Ability
     public void onUpdate(final IPokemob mob)
     {
         final TerrainSegment terrain = TerrainManager.getInstance().getTerrainForEntity(mob.getEntity());
-        final PokemobTerrainEffects effects = (PokemobTerrainEffects) terrain.geTerrainEffect("pokemobEffects");
+        final PokemobTerrainEffects effects = (PokemobTerrainEffects) terrain.geTerrainEffect("pokemob_effects");
 
         final PokedexEntry mobs = mob.getPokedexEntry();
         if (!mob.inCombat()) mob.setPokedexEntry(mobs);

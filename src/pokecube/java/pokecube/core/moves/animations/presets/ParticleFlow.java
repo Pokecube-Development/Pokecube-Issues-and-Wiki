@@ -1,12 +1,12 @@
 package pokecube.core.moves.animations.presets;
 
-import java.util.Random;
-
 import pokecube.core.PokecubeCore;
 import pokecube.core.moves.animations.AnimPreset;
 import pokecube.core.moves.animations.MoveAnimationBase;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+
+import java.util.Random;
 
 @AnimPreset(getPreset = "flow")
 public class ParticleFlow extends MoveAnimationBase
@@ -15,15 +15,16 @@ public class ParticleFlow extends MoveAnimationBase
     {}
 
     @Override
-    public void spawnClientEntities(final MovePacketInfo info)
+    public void spawnClientEntities(final MovePacketInfo info, float partialTicks)
     {
         final Vector3 source = values.reverse ? info.target : info.source;
         final Vector3 target = values.reverse ? info.source : info.target;
-        this.initColour(info.attacker.level().getDayTime() * 20, 0, info.move);
+        this.initColour(info.currentTick, partialTicks, info.move);
         final double dist = source.distanceTo(target);
-        final double frac2 = info.currentTick / (float) this.getDuration();
+        float time = info.currentTick + partialTicks;
+        final double frac2 = time / (float) this.getDuration();
         final double frac = dist * frac2;
-        final double frac3 = dist * (info.currentTick + 1) / this.getDuration();
+        final double frac3 = dist * time / this.getDuration();
         final Vector3 temp = new Vector3().set(target).subtractFrom(source).norm();
         final Random rand = ThutCore.newRandom();
         final Vector3 temp1 = new Vector3();

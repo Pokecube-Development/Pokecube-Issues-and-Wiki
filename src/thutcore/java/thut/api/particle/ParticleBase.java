@@ -155,8 +155,7 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
     protected int getLightColor(float partialTick)
     {
         // TODO add a configuration for the particle lightmap, vanilla has the particles aware of their location and level
-        final int j = 15 << 20 | 15 << 4;
-        return j;
+        return 15 << 20 | 15 << 4;
     }
 
     @Override

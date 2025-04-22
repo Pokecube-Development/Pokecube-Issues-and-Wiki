@@ -108,6 +108,7 @@ public class Battle
     {
         if (mobB == null || !AITools.validCombatTargets.test(mobB)) return false;
         if (mobA == null || !(mobA.level() instanceof ServerLevel level)) return false;
+        if(TeamManager.sameTeam(mobA, mobB)) return false;
 
         final Battle existingA = Battle.getBattle(mobA);
         final Battle existingB = Battle.getBattle(mobB);
@@ -116,10 +117,11 @@ public class Battle
         ThutCore.FORGE_BUS.post(event);
         if (event.isCanceled()) return false;
 
-        IPokemob pokemob = PokemobCaps.getPokemobFor(mobA);
-        if (pokemob != null) pokemob.setCombatState(CombatStates.BATTLING, true);
-        pokemob = PokemobCaps.getPokemobFor(mobB);
-        if (pokemob != null) pokemob.setCombatState(CombatStates.BATTLING, true);
+        var pokeA = PokemobCaps.getPokemobFor(mobA);
+        var pokeB = PokemobCaps.getPokemobFor(mobB);
+
+        if (pokeA != null) pokeA.setCombatState(CombatStates.BATTLING, true);
+        if (pokeB != null) pokeB.setCombatState(CombatStates.BATTLING, true);
 
         if (existingA != null && existingB != null)
         {

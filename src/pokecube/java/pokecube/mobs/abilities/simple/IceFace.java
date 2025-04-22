@@ -34,7 +34,7 @@ public class IceFace extends Ability
         
         final MoveEntry attack = move.getMove();
         final TerrainSegment terrain = TerrainManager.getInstance().getTerrainForEntity(mob.getEntity());
-        final PokemobTerrainEffects effects = (PokemobTerrainEffects) terrain.geTerrainEffect("pokemobEffects");
+        final PokemobTerrainEffects effects = (PokemobTerrainEffects) terrain.geTerrainEffect("pokemob_effects");
         final PokedexEntry mobs = mob.getPokedexEntry();
        
         if ((mobs == IceFace.Ice || mobs == IceFace.noIce))

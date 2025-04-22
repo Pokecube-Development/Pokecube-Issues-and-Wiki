@@ -22,11 +22,10 @@ public class DefaultIceAction extends DefaultAction
         super(move);
     }
 
-    @Override
     /**
-     * This will have the following effects, for ice type moves: Place snow
-     * Freeze water
+     * This will have the following effects, for ice type moves: Place snow Freeze water
      */
+    @Override
     public boolean applyOutOfCombat(IPokemob user, Vector3 location)
     {
         if (!PokecubeCore.getConfig().defaultIceActions) return false;

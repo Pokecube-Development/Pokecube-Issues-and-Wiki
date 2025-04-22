@@ -16,10 +16,10 @@ public class ParticlesOnTarget extends MoveAnimationBase
     {}
 
     @Override
-    public void spawnClientEntities(MovePacketInfo info)
+    public void spawnClientEntities(MovePacketInfo info, float partialTicks)
     {
         if (Math.random() > values.density) return;
-        this.initColour(info.attacker.level().getDayTime(), 0, info.move);
+        this.initColour(info.currentTick, partialTicks, info.move);
         final Vector3 temp = new Vector3().set(info.target);
         final Random rand = ThutCore.newRandom();
         float dw = 0.25f;

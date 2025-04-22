@@ -127,8 +127,8 @@ public class PokemobCaps
             }
             LivingEntity mob = loadContents(contents, level, forceNew);
             IPokemob pokemob = getPokemobFor(mob);
-            if (pokemob != null) contents = contents.withPokemob(pokemob);
-            else if (mob != null) contents = contents.withEntity(mob);
+            if (pokemob != null) contents = new PokecubeContents(pokemob, pokemob.getEntity(), contents.tag());
+            else if (mob != null) contents = new PokecubeContents(null, mob, contents.tag());
             else
             {
                 var tag = contents.tag().copy();

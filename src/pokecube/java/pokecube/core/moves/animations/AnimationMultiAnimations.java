@@ -106,7 +106,7 @@ public class AnimationMultiAnimations extends MoveAnimationBase
     }
 
     @Override
-    public void spawnClientEntities(final MovePacketInfo info)
+    public void spawnClientEntities(final MovePacketInfo info, float partialTicks)
     {
         final int tick = info.currentTick;
         final float scale = (float) PokecubeCore.getConfig().moveVolumeEffect;
@@ -119,7 +119,7 @@ public class AnimationMultiAnimations extends MoveAnimationBase
             if (tick > toRun.start + toRun.wrapped.getDuration()) continue;
             if (toRun.start > tick) continue;
             info.currentTick = tick - toRun.start;
-            toRun.wrapped.spawnClientEntities(info);
+            toRun.wrapped.spawnClientEntities(info, partialTicks);
             final float volume = toRun.volume * scale;
             final float pitch = toRun.pitch;
             sound:

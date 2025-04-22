@@ -1,11 +1,6 @@
 package pokecube.core.moves.damage;
 
-import java.util.List;
-import java.util.UUID;
-import java.util.function.Predicate;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -40,6 +35,10 @@ import pokecube.core.init.EntityTypes;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.EntityTools;
 import thut.api.maths.Vector3;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.function.Predicate;
 
 public class EntityMoveUse extends ThrowableProjectile
 {
@@ -112,6 +111,7 @@ public class EntityMoveUse extends ThrowableProjectile
 
     private final Vector3 size = new Vector3();
 
+    private MovePacketInfo info;
     private MoveApplication apply;
 
     Predicate<Entity> valid = e -> {
@@ -223,13 +223,6 @@ public class EntityMoveUse extends ThrowableProjectile
         return size;
     }
 
-//    TODO: No longer needed?
-//    @Override
-//    public Packet<?> getAddEntityPacket()
-//    {
-//        return NetworkHooks.getEntitySpawningPacket(this);
-//    }
-
     private void doMoveUse(LivingEntity target)
     {
         final MoveEntry attack = this.getMove();
@@ -316,8 +309,10 @@ public class EntityMoveUse extends ThrowableProjectile
 
     public MovePacketInfo getMoveInfo()
     {
-        final MovePacketInfo info = new MovePacketInfo(this.getMove(), this.getUser(), this.getTarget(),
-                this.getStart(), this.getEnd());
+        if (this.info == null)
+        {
+            info = new MovePacketInfo(this.getMove(), this.getUser(), this.getTarget(), this.getStart(), this.getEnd());
+        }
         final IPokemob userMob = PokemobCaps.getPokemobFor(info.attacker);
         info.currentTick = info.move.getAnimation(userMob).getDuration() - this.getDuration();
         return info;
@@ -554,9 +549,6 @@ public class EntityMoveUse extends ThrowableProjectile
             hitboxes.add(testBox);
         }
 
-        if (this.level.isClientSide && attack.getAnimation(userMob) != null)
-            attack.getAnimation(userMob).spawnClientEntities(this.getMoveInfo());
-
         // Not ready to apply yet
         if (this.getApplicationTick() < age) return;
 
@@ -567,11 +559,12 @@ public class EntityMoveUse extends ThrowableProjectile
 
         hits.removeIf(e -> {
             boolean hit = hitboxes.size() > 1;
-            if (!hit) for (final AABB box : hitboxes) if (box.intersects(e.getBoundingBox()))
-            {
-                hit = true;
-                break;
-            }
+            if (!hit) for (final AABB box : hitboxes)
+                if (box.intersects(e.getBoundingBox()))
+                {
+                    hit = true;
+                    break;
+                }
             if (!hit) return true;
             if (!e.isMultipartEntity()) return false;
             if (!(EntityTools.getCoreEntity(e) instanceof LivingEntity)) return true;
