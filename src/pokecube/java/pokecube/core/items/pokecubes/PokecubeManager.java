@@ -119,6 +119,7 @@ public class PokecubeManager
         if (pokemob != null)
         {
             pokemob.revive(true);
+            StatusEffects.healStatusEffects(mob);
             maxHP = pokemob.getStat(Stats.HP, false);
             pokemob.setHungerTime(-PokecubeCore.getConfig().pokemobLifeSpan / 4);
         }
@@ -133,7 +134,7 @@ public class PokecubeManager
         {
             try
             {
-                final LivingEntity mob = PokecubeManager.itemToMob(stack, world);
+                final LivingEntity mob = PokecubeManager.itemToMob(stack, world, true);
                 PokecubeAPI.POKEMOB_BUS.post(new HealEvent.Pre(mob, fromHealer));
                 PokecubeManager.heal(mob);
                 PokecubeAPI.POKEMOB_BUS.post(new HealEvent.Post(mob, fromHealer));

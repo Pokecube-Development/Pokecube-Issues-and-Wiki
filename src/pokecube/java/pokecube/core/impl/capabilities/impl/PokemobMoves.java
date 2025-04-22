@@ -10,7 +10,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
@@ -22,9 +21,9 @@ import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.utils.PokeType;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.entity.npc.NpcMob;
-import pokecube.core.impl.entity.impl.PersistantStatusEffect;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.moves.MovesUtils;
+import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.network.pokemobs.PacketSyncMoveUse;
 import pokecube.core.utils.AITools;
 import thut.api.entity.ICopyMob;
@@ -388,9 +387,7 @@ public abstract class PokemobMoves extends PokemobStats
         // Ensure max health, etc are correct.
         this.updateHealth();
         // Clear off any persistant effects.
-        final IOngoingAffected affected = PokemobCaps.getAffected(this.getEntity());
-        if (affected != null) affected.removeEffects(PersistantStatusEffect.ID);
-        this.params.STATUSDW.set(0);
+        StatusEffects.healStatusEffects(this.getEntity());
     }
 
     @Override

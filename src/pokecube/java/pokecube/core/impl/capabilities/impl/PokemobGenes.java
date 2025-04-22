@@ -1,6 +1,5 @@
 package pokecube.core.impl.capabilities.impl;
 
-import net.minecraft.server.level.ServerLevel;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.abilities.Ability;
@@ -12,8 +11,14 @@ import pokecube.core.database.Database;
 import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.entity.genetics.epigenes.EVsGene;
 import pokecube.core.entity.genetics.epigenes.MovesGene;
-import pokecube.core.entity.genetics.genes.*;
+import pokecube.core.entity.genetics.genes.AbilityGene;
 import pokecube.core.entity.genetics.genes.AbilityGene.AbilityObject;
+import pokecube.core.entity.genetics.genes.ColourGene;
+import pokecube.core.entity.genetics.genes.IVsGene;
+import pokecube.core.entity.genetics.genes.NatureGene;
+import pokecube.core.entity.genetics.genes.ShinyGene;
+import pokecube.core.entity.genetics.genes.SizeGene;
+import pokecube.core.entity.genetics.genes.SpeciesGene;
 import pokecube.core.entity.genetics.genes.SpeciesGene.SpeciesInfo;
 import pokecube.core.network.pokemobs.PacketChangeForme;
 import thut.api.entity.IMobColourable;
@@ -308,8 +313,8 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     @Override
     public void setMove(final int i, final String moveName)
     {
-        // do not blanket set moves on client, or when transformed.
-        if (!(this.getEntity().level() instanceof ServerLevel) || this.getTransformedTo() != null) return;
+        // do not blanket set moves when transformed.
+        if (this.getTransformedTo() != null) return;
         // Ensures the gene is synced and valid
         this.getMoves();
         // Then apply it to the base moves
@@ -322,19 +327,19 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     @Override
     public void setMoves(final String[] moves)
     {
-        // do not blanket set moves on client, or when transformed.
-        if (!(this.getEntity().level() instanceof ServerLevel) || this.getTransformedTo() != null) return;
+        // do not blanket set moves when transformed.
+        if (this.getTransformedTo() != null) return;
         Alleles<String[], MovesGene> genesMoves = getGenes().getAlleles(GeneticsManager.MOVESGENE);
         if (moves != null && moves.length == 4)
         {
             if (genesMoves == null || genesMoves.getExpressed() == null || this.getMoveStats() == null)
             {
-                PokecubeAPI.LOGGER.error("Error in setMoves " + this.getEntity(), new NullPointerException());
-                PokecubeAPI.LOGGER.error("AllGenes: " + this.getGenes());
-                PokecubeAPI.LOGGER.error("Genes: " + genesMoves);
-                if (genesMoves != null) PokecubeAPI.LOGGER.error("Gene: " + genesMoves.getExpressed());
-                else PokecubeAPI.LOGGER.error("Gene: " + genesMoves);
-                PokecubeAPI.LOGGER.error("stats: " + this.getMoveStats());
+                PokecubeAPI.LOGGER.error("Error in setMoves {}", this.getEntity(), new NullPointerException());
+                PokecubeAPI.LOGGER.error("AllGenes: {}", this.getGenes());
+                PokecubeAPI.LOGGER.error("Genes: {}", genesMoves);
+                if (genesMoves != null) PokecubeAPI.LOGGER.error("Expressed Gene: {}", genesMoves.getExpressed());
+                else PokecubeAPI.LOGGER.error("Gene: {}", genesMoves);
+                PokecubeAPI.LOGGER.error("stats: {}", this.getMoveStats());
                 return;
             }
             final MovesGene gene = genesMoves.getExpressed();
@@ -423,6 +428,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         final int[] rgba = this.getRGBA();
         for (int i = 0; i < colours.length && i < rgba.length; i++) rgba[i] = colours[i];
         Alleles<int[], ColourGene> genesColour = getGenes().getAlleles(GeneticsManager.COLOURGENE);
+        genesColour.getExpressed().setValue(rgba);
         this.getGenes().markDirty();
     }
 
@@ -461,7 +467,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         final PokedexEntry entry = this.getPokedexEntry();
         if (entry != null && _sizeChanged)
         {
-            float a = 1, b = 1, c = 1;
+            float a, b, c;
             a = entry.width * size;
             b = entry.height * size;
             c = entry.length * size;

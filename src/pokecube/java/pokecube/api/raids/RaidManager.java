@@ -70,7 +70,7 @@ public class RaidManager
 
     private static void postBossCapture(CaptureEvent.Post event)
     {
-        LivingEntity mob = PokecubeManager.itemToMob(event.getFilledCube(), event.pokecube.level);
+        LivingEntity mob = PokecubeManager.itemToMob(event.getFilledCube(), event.pokecube.level, true);
 
         if (mob.getPersistentData().contains("pokecube:raid_boss"))
         {

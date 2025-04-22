@@ -9,15 +9,15 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 
 public class Sleep extends StatusEffect
 {
-    public static int NATURAL_SLEEP = 128;
+    public static int NATURAL_SLEEP = 64;
 
     public static ResourceLocation MODIFIER = ResourceLocation.parse("pokecube:effect.sleep");
 
     public Sleep(int color)
     {
         super(MobEffectCategory.HARMFUL, color, StatusEffects.SLEEP);
-        this.addAttributeModifier(Attributes.MOVEMENT_SPEED, MODIFIER, -1,
-                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+        this.addAttributeModifier(Attributes.MOVEMENT_SPEED, MODIFIER, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL,
+                NEGATIVE_ONE);
     }
 
     @Override

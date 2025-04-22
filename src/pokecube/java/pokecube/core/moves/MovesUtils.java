@@ -23,7 +23,6 @@ import net.neoforged.neoforge.common.util.FakePlayer;
 import net.neoforged.neoforge.entity.PartEntity;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.moves.MoveApplicationRegistry;
-import pokecube.api.entity.CapabilityAffected;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
@@ -40,12 +39,10 @@ import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.impl.entity.impl.NonPersistantStatusEffect;
-import pokecube.core.impl.entity.impl.NonPersistantStatusEffect.Effect;
-import pokecube.core.impl.entity.impl.PersistantStatusEffect.Status;
 import pokecube.core.impl.entity.impl.StatEffect;
 import pokecube.core.moves.MoveQueue.MoveQueuer;
 import pokecube.core.moves.damage.EntityMoveUse;
+import pokecube.core.moves.damage.effects.Poison;
 import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.network.pokemobs.PacketPokemobMessage;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
@@ -70,7 +67,7 @@ public class MovesUtils implements IMoveConstants
 {
     public static enum AbleStatus
     {
-        ABLE, SLEEP, FREEZE, AIOFF, GENERICUNABLE;
+        ABLE, SLEEP, FREEZE, AIOFF, GENERICUNABLE
     }
 
     public static Random rand = ThutCore.newRandom();
@@ -107,23 +104,6 @@ public class MovesUtils implements IMoveConstants
     public static void sendPairedMessages(final Entity target, final IPokemob attacker, final String baseKey)
     {
         sendPairedMessages(target, attacker, baseKey, null);
-    }
-
-    public static void addChange(final Entity target, final IPokemob attacker, final int change)
-    {
-        final IPokemob attacked = PokemobCaps.getPokemobFor(target);
-        final boolean effect = CapabilityAffected.addEffect(target,
-                new NonPersistantStatusEffect(Effect.getStatus(change)));
-        if (attacked != null) if (change == IMoveConstants.CHANGE_CONFUSED) if (effect)
-        {
-            MovesUtils.sendPairedMessages(target, attacker, "pokemob.status.confuse.add");
-            attacked.getEntity().playSound(SoundEvents.PLAYER_ATTACK_NODAMAGE, 1, 1);
-        }
-        else
-        {
-            MovesUtils.sendPairedMessages(target, attacker, "pokemob.move.stat.fail");
-            attacked.getEntity().playSound(SoundEvents.PLAYER_ATTACK_NODAMAGE, 1, 1);
-        }
     }
 
     /**
@@ -500,13 +480,12 @@ public class MovesUtils implements IMoveConstants
         {
             final DefaultModifiers modifiers = affected.getModifiers().getDefaultMods();
             mods = modifiers.values;
-            old = mods.clone();
         }
         else
         {
             mods = new float[Stats.values().length];
-            old = mods.clone();
         }
+        old = mods.clone();
         // We start at 1, as there are not modifies for stat 0 (HP)
         for (int i = 1; i < mods.length; i++)
             if (chance > Math.random()) mods[i] = (byte) Math.max(-6, Math.min(6, mods[i] + stats[i]));
@@ -566,11 +545,10 @@ public class MovesUtils implements IMoveConstants
         }
         if (ret)
         {
-            final IPokemob targetMob = targetPokemob;
             for (byte i = 0; i < diff.length; i++)
                 if (diff[i] != 0 && attacker != null)
-                    MovesUtils.displayStatsMessage(targetMob, attacker, 0, i, diff[i]);
-            PacketSyncModifier.sendUpdate(StatModifiers.DEFAULT, targetMob);
+                    MovesUtils.displayStatsMessage(targetPokemob, attacker, 0, i, diff[i]);
+            PacketSyncModifier.sendUpdate(StatModifiers.DEFAULT, targetPokemob);
         }
         return ret;
     }
@@ -610,19 +588,29 @@ public class MovesUtils implements IMoveConstants
     {
         final IPokemob attackedPokemob = PokemobCaps.getPokemobFor(attacked);
 
+        var IDS = Lists.newArrayList(StatusEffects.EFFECT_BY_ID.keySet());
+        List<Integer> ST = new ArrayList<>();
         boolean applied = false;
-        final boolean[] statuses = new boolean[Status.values().length];
-        for (final Status test : Status.values()) statuses[test.ordinal()] = (test.getMask() & status) != 0;
+
+        // Prioritise bad posion if it exists, over regular
+        if ((status & IMoveConstants.STATUS_PSN2) != 0) IDS.removeIf(i -> i == IMoveConstants.STATUS_PSN);
+        else IDS.removeIf(i -> i == IMoveConstants.STATUS_PSN2);
+
+        for (var s : IDS) if ((s & status) != 0) ST.add(s);
+
         final int start = ThutCore.newRandom().nextInt(1000);
-        for (int i = 0; i < statuses.length; i++)
+        for (int i = 0; i < ST.size(); i++)
         {
-            final int j = (i + start) % statuses.length;
-            if (!statuses[j]) continue;
-            status = Status.values()[j].getMask();
+            final int j = (i + start) % ST.size();
+            status = ST.get(j);
+            var effect = StatusEffects.getForId(status);
             if (attackedPokemob != null)
             {
-                final boolean apply = StatusEffects.setStatus(attackedPokemob, source, status);
-                applied = applied || apply;
+                int amplifier = 1;
+                // Set bad poison amplifier if applicable
+                if (status == IMoveConstants.STATUS_PSN2) amplifier = Poison.BAD_POISON_AMPLIFIER;
+                // 0 here means to apply a regular turn timer, 2-5 for statuses which heal themselves, -1 for permanent ones.
+                final boolean apply = StatusEffects.setStatus(attacked, source.getEntity(), effect, 0, amplifier);
                 if (apply) attackedPokemob.getEntity().getNavigation().stop();
                 return true;
             }
@@ -634,66 +622,6 @@ public class MovesUtils implements IMoveConstants
             }
         }
         return applied;
-    }
-
-    public static Predicate<Entity> targetMatcher(final LivingEntity attacker)
-    {
-        final IPokemob pokemob = PokemobCaps.getPokemobFor(attacker);
-        return e -> {
-            if (pokemob == null || e == attacker) return false;
-            if (!(e instanceof LivingEntity)) return false;
-            if (attacker.is(e.getVehicle())) return false;
-            if (attacker.is(e)) return false;
-            if (!PokecubeCore.getConfig().pokemobsDamagePlayers && e instanceof Player) return false;
-            if (!PokecubeCore.getConfig().pokemobsDamageOwner && e.getUUID().equals(pokemob.getOwnerId())) return false;
-            if (PokecubeAPI.getEntityProvider().getEntity(attacker.level(), e.getId(), true) == attacker) return false;
-            return true;
-        };
-    }
-
-    public static Entity targetHit(final LivingEntity attacker, final Vector3 dest)
-    {
-        final Vector3 source = new Vector3().set(attacker, false);
-        final boolean ignoreAllies = false;
-        return MovesUtils.targetHit(source, dest.subtract(source), 16, attacker.level(), attacker, ignoreAllies,
-                MovesUtils.targetMatcher(attacker));
-    }
-
-    public static Entity targetHit(final Vector3 source, final Vector3 dir, final int distance, final Level world,
-            final LivingEntity attacker, final boolean ignoreAllies, final Predicate<Entity> matcher)
-    {
-        Entity target = null;
-
-        final List<Entity> targets = source.allEntityLocationExcluding(distance, 0.5, dir, source, world, attacker,
-                matcher);
-        double closest = 16;
-
-        if (targets != null) for (final Entity e : targets)
-            if (attacker.distanceTo(e) < closest)
-            {
-                closest = attacker.distanceTo(e);
-                target = e;
-            }
-        return target;
-    }
-
-    public static List<LivingEntity> targetsHit(final LivingEntity attacker, final Vector3 dest)
-    {
-        final Vector3 source = new Vector3().set(attacker);
-        final List<Entity> targets = source.allEntityLocationExcluding(16, 0.5, dest.subtract(source), source,
-                attacker.level(), attacker);
-        final List<LivingEntity> ret = new ArrayList<>();
-        if (targets != null) for (final Entity e : targets) if (e instanceof LivingEntity) ret.add((LivingEntity) e);
-        return ret;
-    }
-
-    public static List<LivingEntity> targetsHit(final LivingEntity attacker, final Vector3 dest, final double area)
-    {
-        final Vector3 source = new Vector3().set(attacker);
-        final List<Entity> targets = attacker.level().getEntities(attacker, source.getAABB().inflate(area));
-        final List<LivingEntity> ret = new ArrayList<>();
-        if (targets != null) for (final Entity e : targets) if (e instanceof LivingEntity) ret.add((LivingEntity) e);
-        return ret;
     }
 
     public static void useMove(@Nonnull MoveEntry move, @Nonnull Mob user, @Nullable LivingEntity target,
@@ -800,7 +728,6 @@ public class MovesUtils implements IMoveConstants
                     apply.setTarget(null);
                     final EntityMoveUse moveUse = EntityMoveUse.create(level, apply, end);
                     MoveQueuer.queueMove(moveUse);
-                    did = true;
                 }
             }
         }

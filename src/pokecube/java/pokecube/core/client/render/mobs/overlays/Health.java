@@ -193,12 +193,12 @@ public class Health
             {
                 buffer = Utils.makeBuilder(RenderType.textBackgroundSeeThrough(), buf);
                 int a = 32;
-                float z_offset = zlevel + .006f;
                 float x1 = -size - padding;
                 float x2 = size + padding;
                 float y1 = -bgHeight;
                 float y2 = barHeight1 + padding;
-                Health.blit(buffer, pos, x1, y1, x2, y2, z_offset, 0, 0, 0, a, br);
+                Health.blit(buffer, pos, x1, y1, x2, y2, zlevel, 0, 0, 0, a, br);
+                zlevel += 0.001f;
             }
             buffer = Utils.makeBuilder(RenderType.textBackground(), buf);
 
@@ -206,8 +206,10 @@ public class Health
             // Gray Space
             healthSize = healthSize * 2 - size;
             Health.blit(buffer, pos, healthSize, 0, size, barHeight1, zlevel, 127, 100, 100, barA, br);
+            zlevel += 0.001f;
             // Health Bar Fill
             Health.blit(buffer, pos, -size, 0, healthSize, barHeight1, zlevel, r, g, b, barA, br);
+            zlevel += 0.001f;
 
             // Exp Bar
             r = 64;
@@ -225,9 +227,11 @@ public class Health
             expSize = expSize * 2 - size;
             // Gray Space
             Health.blit(buffer, pos, expSize, barHeight1, size, barHeight1 + 1, zlevel, 100, 100, 127, barA, br);
+            zlevel += 0.001f;
 
             // Exp Bar Fill
             Health.blit(buffer, pos, -size, barHeight1, expSize, barHeight1 + 1, zlevel, r, g, b, barA, br);
+            zlevel += 0.001f;
 
             {
                 int colour = config.unknownNameColour;

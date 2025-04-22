@@ -5,8 +5,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.npc.Npc;
 import net.minecraft.world.entity.player.Player;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -16,18 +14,12 @@ import pokecube.core.moves.damage.StatusEffectDamageSource;
 
 public class Poison extends StatusEffect
 {
-    public static int BAD_POISON_AMPLIFIER = 128;
+    public static int BAD_POISON_AMPLIFIER = 64;
     public static ResourceLocation MODIFIER = ResourceLocation.parse("pokecube:effect.freeze");
 
     public Poison(int color)
     {
         super(MobEffectCategory.HARMFUL, color, StatusEffects.POISON);
-        this.addAttributeModifier(Attributes.MOVEMENT_SPEED, MODIFIER, -1,
-                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
-        this.addAttributeModifier(Attributes.ATTACK_DAMAGE, MODIFIER, -1,
-                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
-        this.addAttributeModifier(Attributes.ATTACK_SPEED, MODIFIER, -1,
-                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
     }
 
     @Override

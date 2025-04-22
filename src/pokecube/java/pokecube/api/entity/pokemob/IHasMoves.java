@@ -1,8 +1,5 @@
 package pokecube.api.entity.pokemob;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.IOngoingAffected;
@@ -22,6 +19,9 @@ import pokecube.core.network.pokemobs.PacketSyncNewMoves;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
 import thut.lib.TComponent;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public interface IHasMoves extends IHasStats
 {
@@ -48,6 +48,28 @@ public interface IHasMoves extends IHasStats
             {
                 PacketCommand.sendCommand((IPokemob) this, Command.SWAPMOVES,
                         new SwapMovesHandler((byte) moveIndex0, (byte) moveIndex1));
+                // Apply it client side as well so it shows in the watch properly.
+                if (moveIndex0 >= moves.length && moveIndex1 >= moves.length)
+                {
+                }
+                else if (moveIndex0 >= moves.length || moveIndex1 >= moves.length)
+                {
+                    final int index = Math.min(moveIndex0, moveIndex1);
+                    if (this.getMove(4) == null || index > 3) return;
+                    final String move = this.getMove(4);
+                    this.setMove(index, move);
+                }
+                else
+                {
+                    final String move0 = moves[moveIndex0];
+                    final String move1 = moves[moveIndex1];
+                    if (move0 != null && move1 != null)
+                    {
+                        moves[moveIndex0] = move1;
+                        moves[moveIndex1] = move0;
+                    }
+                    this.setMoves(moves);
+                }
             }
             catch (final Exception ex)
             {

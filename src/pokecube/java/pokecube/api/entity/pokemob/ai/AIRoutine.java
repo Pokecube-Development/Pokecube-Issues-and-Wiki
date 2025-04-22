@@ -12,7 +12,7 @@ public class AIRoutine
 {
 
     private static AIRoutine[] values = new AIRoutine[0];
-    private static Map<String, AIRoutine> names = Maps.newHashMap();
+    private static final Map<String, AIRoutine> names = Maps.newHashMap();
 
     //@formatter:off
     public static final AIRoutine 
@@ -71,7 +71,7 @@ public class AIRoutine
         this.name = name;
         this.ordinal = values.length;
         values = Arrays.copyOf(values, values.length + 1);
-        values[values.length - 1] = this;;
+        values[values.length - 1] = this;
         names.put(name, this);
     }
 

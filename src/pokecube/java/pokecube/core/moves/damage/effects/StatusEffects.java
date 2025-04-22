@@ -47,7 +47,6 @@ public class StatusEffects
     public static final DeferredHolder<MobEffect, Flinch> FLINCH;
 
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<EffectHolder>> EFFECT_SOURCES;
-    //    public static final DeferredHolder<AttachmentType<?>, AttachmentType<StatusHolder>> STATUS_HOLDER;
 
     public static final Map<Holder<MobEffect>, Set<Holder<MobEffect>>> EXCLUSIVE_EFFECTS = new HashMap<>();
     public static final Map<Integer, Holder<MobEffect>> EFFECT_BY_ID = new HashMap<>();
@@ -55,10 +54,10 @@ public class StatusEffects
 
     static
     {
-        BURN = REGISTER.register("burn", () -> new Burn(0xFF555555));
-        FREEZE = REGISTER.register("freeze", () -> new Freeze(0xFF555555));
-        PARALYSIS = REGISTER.register("paralysis", () -> new Paralysis(0xFF555555));
-        POISON = REGISTER.register("poison", () -> new Poison(0xFF555555));
+        BURN = REGISTER.register("burn", () -> new Burn(0xFFAA3333));
+        FREEZE = REGISTER.register("freeze", () -> new Freeze(0xFF3333AA));
+        PARALYSIS = REGISTER.register("paralysis", () -> new Paralysis(0xFFAAAA33));
+        POISON = REGISTER.register("poison", () -> new Poison(0xFF33AA33));
         SLEEP = REGISTER.register("sleep", () -> new Sleep(0xFF555555));
 
         CONFUSE = REGISTER.register("confuse", () -> new Confusion(0xFF555555));
@@ -67,8 +66,6 @@ public class StatusEffects
 
         EFFECT_SOURCES = PokecubeCore.ATTACHMENTS.register("effect_sources",
                 () -> AttachmentType.serializable(i -> new EffectHolder()).build());
-        //        STATUS_HOLDER = PokecubeCore.ATTACHMENTS.register("status_cache",
-        //                () -> AttachmentType.serializable(i -> new StatusHolder()).build());
 
         registerDefaultExclusions();
         initDefaultIDs();
@@ -195,11 +192,12 @@ public class StatusEffects
     public static boolean setStatus(LivingEntity mob, LivingEntity source, Holder<MobEffect> status, int turns,
             int amplifier)
     {
+        // If it already has the status, skip
+        if (mob.hasEffect(status)) return false;
         if (turns == 0 && TEMPORARY.contains(status)) turns = mob.getRandom().nextInt(2, 5);
         // make and apply the status.
         int duration = turns * PokecubeCore.getConfig().attackCooldown;
         if (duration <= 0) duration = -1;
-        System.out.println("Adding with duration " + duration + " to " + mob);
         var instance = new MobEffectInstance(status, duration, amplifier);
         return setStatus(mob, source, instance);
     }
@@ -248,23 +246,6 @@ public class StatusEffects
         // Otherwise return affected.
         return affected;
     }
-
-    //    public static class StatusHolder implements INBTSerializable<IntTag>
-    //    {
-    //        public int status;
-    //
-    //        @Override
-    //        public @UnknownNullability IntTag serializeNBT(HolderLookup.Provider provider)
-    //        {
-    //            return IntTag.valueOf(status);
-    //        }
-    //
-    //        @Override
-    //        public void deserializeNBT(HolderLookup.Provider provider, IntTag nbt)
-    //        {
-    //            this.status = nbt.getAsInt();
-    //        }
-    //    }
 
     public static record EffectHolder(Map<Holder<MobEffect>, UUID> effectSources) implements INBTSerializable<ListTag>
     {

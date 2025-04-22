@@ -1,17 +1,11 @@
 package pokecube.core.client.render.mobs;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import com.mojang.math.Axis;
-
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
@@ -56,6 +50,10 @@ import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.TextureHelper;
 import thut.core.client.render.wrappers.ModelWrapper;
 import thut.core.common.ThutCore;
+
+import javax.xml.namespace.QName;
+import java.util.List;
+import java.util.Map;
 
 public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 {
@@ -149,7 +147,8 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         public Map<String, List<Animation>> animations = new Object2ObjectOpenHashMap<>();
         private final List<String> toRunNames = Lists.newArrayList();
         private final List<Animation> toRun = Lists.newArrayList();
-        private Vector3 offset = new Vector3();;
+        private Vector3 offset = new Vector3();
+        ;
         private Vector3 scale = new Vector3();
         PokedexEntry entry;
 
@@ -186,11 +185,11 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             }
             if (entry.getBaseForme() != null)
             {
-                String newRes = entry.animation().toString().replace(entry.getTrimmedName(),
-                        entry.getBaseForme().getTrimmedName());
+                String newRes = entry.animation().toString()
+                        .replace(entry.getTrimmedName(), entry.getBaseForme().getTrimmedName());
                 this.backupAnimations.add(ResourceLocation.parse(newRes));
-                newRes = entry.model().toString().replace(entry.getTrimmedName(),
-                        entry.getBaseForme().getTrimmedName());
+                newRes = entry.model().toString()
+                        .replace(entry.getTrimmedName(), entry.getBaseForme().getTrimmedName());
                 this.backupModels.add(ResourceLocation.parse(newRes));
             }
         }
@@ -286,7 +285,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         public void scaleEntity(final PoseStack mat, final Entity entity, final IModel model, final float partialTick)
         {
             final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
-            float s = 1/pokemob.getSize();
+            float s = 1 / pokemob.getSize();
             if (pokemob != null && pokemob.getGeneralState(GeneralStates.EXITINGCUBE))
             {
                 float scale = Math.min(1, (entity.tickCount + 1 + partialTick) / LogicMiscUpdate.EXITCUBEDURATION);
@@ -377,11 +376,12 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             if (holder.wrapper != null) holder.wrapper.lastInit = Long.MIN_VALUE;
             holder.init();
         }
-        for (final Holder custom : RenderPokemob.customs.values()) if (custom.entry == entry)
-        {
-            if (custom.wrapper != null) custom.wrapper.lastInit = Long.MIN_VALUE;
-            custom.init();
-        }
+        for (final Holder custom : RenderPokemob.customs.values())
+            if (custom.entry == entry)
+            {
+                if (custom.wrapper != null) custom.wrapper.lastInit = Long.MIN_VALUE;
+                custom.init();
+            }
     }
 
     public static final Map<ResourceLocation, Holder> customs = new Object2ObjectOpenHashMap<>();
@@ -425,8 +425,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     final Holder holder;
     Holder activeHolder = null;
 
-    @SuppressWarnings(
-    { "unchecked", "rawtypes" })
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public RenderPokemob(final PokedexEntry entry, final EntityRendererProvider.Context p_i50961_1_)
     {
         super(p_i50961_1_, new ModelWrapper(RenderPokemob.getMissingNo(), RenderPokemob.getMissingNo()), 1);
@@ -504,8 +503,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         holder.loadTimer = 0;
         holder.failTimer = 0;
         if (holder.wrapper == null || holder.wrapper.getModel() == null || !holder.wrapper.isValid()
-                || holder.model == null || holder.texture == null)
-            holder = RenderPokemob.getMissingNo();
+                || holder.model == null || holder.texture == null) holder = RenderPokemob.getMissingNo();
 
         this.model = holder.wrapper;
         this.shadowRadius = entity.getBbWidth();
@@ -521,8 +519,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     {
         final RenderType.CompositeState rendertype$state = RenderType.CompositeState.builder()
                 .setTextureState(new RenderStateShard.TextureStateShard(this.getTextureLocation(entity), false, false))
-                .setTransparencyState(new RenderStateShard.TransparencyStateShard("translucent_transparency", () ->
-                {
+                .setTransparencyState(new RenderStateShard.TransparencyStateShard("translucent_transparency", () -> {
                     RenderSystem.enableBlend();
                     RenderSystem.defaultBlendFunc();
                 }, () -> {
@@ -635,6 +632,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             }
             else
             {
+                stack.translate(entity.getBbHeight() / 2, entity.getBbWidth() / 2, 0);
                 stack.mulPose(Axis.ZP.rotationDegrees(90));
             }
         }

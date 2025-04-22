@@ -199,7 +199,7 @@ public class CaptureManager
     {
         cube.setNoCollisionRelease();
         PokecubeManager.setTilt(cube.getItem(), -2, cube.level());
-        final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.level());
+        final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.level(), true);
         IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         final IOwnable ownable = ThutCaps.getOwnable(mob);
         if (mob == null || cube.shooter == null)

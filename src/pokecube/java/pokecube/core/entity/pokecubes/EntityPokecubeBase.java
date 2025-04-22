@@ -264,7 +264,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
         ItemStack stack = getItem();
         if (_capturingEntity == null && PokecubeManager.isFilled(stack))
         {
-            _capturingEntity = PokecubeManager.itemToMob(stack, level);
+            _capturingEntity = PokecubeManager.itemToMob(stack, level, true);
             if (_capturingEntity != null)
             {
                 var pos = PokemobCaps.getPokemobIn(stack).getCapturePos();

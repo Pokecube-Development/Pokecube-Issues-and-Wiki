@@ -21,8 +21,8 @@ public class Burn extends StatusEffect
     public Burn(int color)
     {
         super(MobEffectCategory.HARMFUL, color, StatusEffects.BURN);
-        this.addAttributeModifier(Attributes.ATTACK_DAMAGE, MODIFIER, -0.5,
-                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+        this.addAttributeModifier(Attributes.ATTACK_DAMAGE, MODIFIER, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL,
+                NEGATIVE_PTFIVE);
     }
 
     @Override

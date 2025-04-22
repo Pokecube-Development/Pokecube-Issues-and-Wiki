@@ -20,13 +20,11 @@ import pokecube.api.entity.pokemob.stats.StatModifiers;
 import pokecube.core.ai.logic.Logic;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.routes.IGuardAICapability;
-import pokecube.core.moves.damage.EntityMoveUse;
 import pokecube.core.network.pokemobs.PacketPingBoss;
 import pokecube.core.utils.PokemobTracker;
 import thut.api.attachments.CopyMob;
 import thut.api.attachments.IOwnable;
 import thut.api.attachments.Ownable;
-import thut.api.entity.IBreedingMob;
 import thut.api.entity.ICopyMob;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.IMobGenetics;
@@ -35,12 +33,16 @@ import thut.api.world.mobs.data.Data;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.genetics.DefaultGenetics;
 import thut.core.common.world.mobs.data.DataSync_Impl;
-import thut.core.common.world.mobs.data.types.*;
+import thut.core.common.world.mobs.data.types.Data_Byte;
+import thut.core.common.world.mobs.data.types.Data_Float;
+import thut.core.common.world.mobs.data.types.Data_Int;
+import thut.core.common.world.mobs.data.types.Data_ItemStack;
+import thut.core.common.world.mobs.data.types.Data_Long;
+import thut.core.common.world.mobs.data.types.Data_String;
 
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.Vector;
 import java.util.function.Consumer;
 
 public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
@@ -64,7 +66,6 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
         public Data<Integer> ALLYNUMDW;
         public Data<Integer> ENEMYNUMDW;
         public Data<Integer> EVOLTICKDW;
-        public Data<Integer> STATUSDW;
         public Data<Integer> EXP;
         public Data<Byte> MOVEINDEXDW;
         public Data<Integer> ATTACKCOOLDOWN;
@@ -109,7 +110,6 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
             this.EVOLTICKDW = sync.register(new Data_Int("evo_timer").setRealtime());
 
             // From EntityMovesPokemb
-            this.STATUSDW = sync.register(new Data_Int("status", -1));
             this.EXP = sync.register(new Data_Int("exp", 0));
             this.MOVEINDEXDW = sync.register(new Data_Byte("move_index", (byte) -1).setRealtime());
             this.ATTACKCOOLDOWN = sync.register(new Data_Int("attack_cd").setRealtime());
@@ -140,7 +140,6 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
     protected boolean players = false;
     /** Cached Team for this Pokemob */
     protected String team = "";
-    protected double moveSpeed;
 
     /** The happiness value of the pokemob */
     protected int bonusHappiness = 0;
@@ -156,19 +155,12 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
      * Timer for determining whether wants to breed, will only do so if this is greater than 0
      */
     protected int loveTimer;
-    /** List of nearby male mobs to breed with */
-    protected Vector<IBreedingMob> males = new Vector<>();
     /** Simpler UID for some client sync things. */
     protected int uid = -1;
     /** The pokecube this mob is "in" */
     protected ItemStack pokecube = ItemStack.EMPTY;
     /** Tracker for things related to moves. */
     protected PokemobMoveStats moveInfo = new PokemobMoveStats();
-    /**
-     * The current move being used, this is used to track whether the mob can launch a new move, only allows sending a
-     * new move if this returns true for isDone()
-     */
-    protected EntityMoveUse activeMove;
     /** Used for size when pathing */
     protected Vector3 sizes = new Vector3();
     /** Cooldown for hunger AI */

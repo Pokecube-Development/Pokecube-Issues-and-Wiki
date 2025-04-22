@@ -1,14 +1,12 @@
 package pokecube.core.client.gui.pokemob.tabs;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSelectionList.Entry;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.MutableComponent;
@@ -31,7 +29,8 @@ import java.util.Locale;
 
 public class AI extends Tab
 {
-    private static final ResourceLocation CHECK_TEXTURE = ResourceLocation.parse("icon/checkmark");
+    private static final ResourceLocation SELECTED = ResourceLocation.parse("widget/checkbox_selected");
+    private static final ResourceLocation UNSELECTED = ResourceLocation.parse("widget/checkbox");
 
     private static record AIButton(Button button, AIRoutine routine)
     {}
@@ -81,17 +80,12 @@ public class AI extends Tab
                     dx += button.getWidth();
                     final boolean state = this.pokemob.isRoutineEnabled(routine);
 
-                    RenderSystem.setShader(GameRenderer::getPositionTexShader);
-                    RenderSystem.setShaderTexture(0, CHECK_TEXTURE);
-
                     graphics.pose().pushPose();
                     float s = 10f / 80f;
                     int sx = x + dx;
                     int tx = 0;
                     int ty = state ? 80 : 0;
-                    var icon = state
-                            ? ResourceLocation.parse("widget/checkbox_selected")
-                            : ResourceLocation.parse("widget/checkbox");
+                    var icon = state ? SELECTED : UNSELECTED;
                     graphics.blitSprite(icon, x + dx, y, 8, 8);
                     graphics.pose().popPose();
                     dx += texW;

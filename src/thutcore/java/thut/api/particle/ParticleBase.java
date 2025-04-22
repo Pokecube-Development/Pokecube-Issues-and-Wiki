@@ -1,13 +1,10 @@
 package thut.api.particle;
 
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
-
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.brigadier.StringReader;
 import com.mojang.serialization.MapCodec;
-
 import net.minecraft.client.Camera;
+import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.FriendlyByteBuf;
@@ -17,12 +14,16 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import thut.api.maths.Vector3;
+import thut.api.maths.vecmath.Vec3f;
 import thut.core.common.ThutCore;
 
 public class ParticleBase extends ParticleType<ParticleBase> implements IParticle, IAnimatedParticle, ParticleOptions
 {
-    private static class Codec implements StreamCodec<RegistryFriendlyByteBuf, ParticleBase>{
+    private static class Codec implements StreamCodec<RegistryFriendlyByteBuf, ParticleBase>
+    {
 
         @Override
         public ParticleBase decode(RegistryFriendlyByteBuf buffer)
@@ -35,23 +36,24 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
         {
             value.writeToNetwork(buffer);
         }
-        
+
     }
 
-    public static ResourceLocation TEXTUREMAP = ResourceLocation.fromNamespaceAndPath(ThutCore.MODID, "textures/particles.png");
+    public static ResourceLocation TEXTUREMAP = ResourceLocation.fromNamespaceAndPath(ThutCore.MODID,
+            "textures/particles.png");
 
-    public int     duration  = 10;
-    public int     lifetime  = 10;
-    public int     initTime  = 0;
-    public long    lastTick  = 0;
-    public int     animSpeed = 2;
-    public float   size      = 1;
-    public int     rgba      = 0xFFFFFFFF;
+    public int duration = 10;
+    public int lifetime = 10;
+    public int initTime = 0;
+    public long lastTick = 0;
+    public int animSpeed = 2;
+    public float size = 1;
+    public int rgba = 0xFFFFFFFF;
     public boolean billboard = true;
-    public String  name      = "";
-    public Vector3 velocity  = Vector3.empty;
-    public Vector3 position  = Vector3.empty;
-    public int[][] tex       = new int[1][2];
+    public String name = "";
+    public Vector3 velocity = Vector3.empty;
+    public Vector3 position = Vector3.empty;
+    public int[][] tex = new int[1][2];
 
     public ParticleBase(final int x, final int y)
     {
@@ -102,23 +104,76 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
         return this;
     }
 
+    protected float rCol = 1.0F;
+    protected float gCol = 1.0F;
+    protected float bCol = 1.0F;
+    protected float alpha = 1.0F;
+
     protected ParticleBase read(final StringReader reader)
     {// TODO finish this?
         return this;
     }
 
-    protected void render(final VertexConsumer buffer, final Quaternionf quaternion,
-            final thut.api.maths.vecmath.Vec3f offset)
+    protected void renderRotatedQuad(VertexConsumer buffer, Vec3f source, Quaternionf quaternion, float partialTicks)
     {
+        this.renderRotatedQuad(buffer, quaternion, source.getX(), source.getY(), source.getZ(), partialTicks);
+    }
+
+    protected void renderRotatedQuad(VertexConsumer buffer, Quaternionf quaternion, float x, float y, float z,
+            float partialTicks)
+    {
+        final int num = this.getDuration() / this.animSpeed % this.tex.length;
+        final int u = this.tex[num][0], v = this.tex[num][1];
+        final float u0 = u * 1f / 16f, v0 = v * 1f / 16f;
+        final float u1 = (u + 1) * 1f / 16f, v1 = (v + 1) * 1f / 16f;
+        float f = this.size;
+        int i = this.getLightColor(partialTicks);
+        this.renderVertex(buffer, quaternion, x, y, z, 1.0F, -1.0F, f, u1, v1, i);
+        this.renderVertex(buffer, quaternion, x, y, z, 1.0F, 1.0F, f, u1, v0, i);
+        this.renderVertex(buffer, quaternion, x, y, z, -1.0F, 1.0F, f, u0, v0, i);
+        this.renderVertex(buffer, quaternion, x, y, z, -1.0F, -1.0F, f, u0, v1, i);
+    }
+
+    private void renderVertex(VertexConsumer buffer, Quaternionf quaternion, float x, float y, float z, float xOffset,
+            float yOffset, float quadSize, float u, float v, int packedLight)
+    {
+        Vector3f vector3f = new Vector3f(xOffset, yOffset, 0.0F).rotate(quaternion).mul(quadSize).add(x, y, z);
+        buffer.addVertex(vector3f.x(), vector3f.y(), vector3f.z()).setUv(u, v)
+                .setColor(this.rCol, this.gCol, this.bCol, this.alpha).setLight(packedLight);
+    }
+
+    public Quaternionf getQuat(Camera renderInfo, float partialTicks)
+    {
+        var quaternion = new Quaternionf();
+        var mode = this.billboard
+                ? SingleQuadParticle.FacingCameraMode.LOOKAT_Y
+                : SingleQuadParticle.FacingCameraMode.LOOKAT_XYZ;
+        mode.setRotation(quaternion, renderInfo, partialTicks);
+        return quaternion;
+    }
+
+    protected int getLightColor(float partialTick)
+    {
+        // TODO add a configuration for the particle lightmap, vanilla has the particles aware of their location and level
+        final int j = 15 << 20 | 15 << 4;
+        return j;
+    }
+
+    @Override
+    @OnlyIn(value = Dist.CLIENT)
+    public void renderParticle(final VertexConsumer buffer, final Camera renderInfo, final float partialTicks,
+            final Vec3f offset)
+    {
+        Quaternionf quaternion = getQuat(renderInfo, partialTicks);
+
         final Vector3f vector3f1 = new Vector3f(-1.0F, -1.0F, 0.0F);
-        // TODO: check this
         quaternion.transform(vector3f1);
         final Vector3f[] verts = new Vector3f[] { //@formatter:off
                 new Vector3f(-1.0F, -1.0F, 0.0F),
                 new Vector3f(-1.0F, 1.0F, 0.0F),
                 new Vector3f(1.0F, 1.0F, 0.0F),
                 new Vector3f(1.0F, -1.0F, 0.0F)
-                };//@formatter:on
+        };//@formatter:on
         final float f4 = this.size;
 
         for (int i = 0; i < 4; ++i)
@@ -130,32 +185,12 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
         }
         this.setColour();
 
-        final float a = (this.rgba >> 24 & 255) / 255f;
-        final float r = (this.rgba >> 16 & 255) / 255f;
-        final float g = (this.rgba >> 8 & 255) / 255f;
-        final float b = (this.rgba & 255) / 255f;
-        // DOLATER add a configuration for the particle lightmap
-        final int j = 15 << 20 | 15 << 4;
+        alpha = (this.rgba >> 24 & 255) / 255f;
+        rCol = (this.rgba >> 16 & 255) / 255f;
+        gCol = (this.rgba >> 8 & 255) / 255f;
+        bCol = (this.rgba & 255) / 255f;
 
-        final int num = this.getDuration() / this.animSpeed % this.tex.length;
-        final int u = this.tex[num][0], v = this.tex[num][1];
-        final float u1 = u * 1f / 16f, v1 = v * 1f / 16f;
-        final float u2 = (u + 1) * 1f / 16f, v2 = (v + 1) * 1f / 16f;
-
-        buffer.addVertex(verts[0].x(), verts[0].y(), verts[0].z()).setColor(r, g, b, a).setUv(u1, v2).setLight(j);
-        buffer.addVertex(verts[1].x(), verts[1].y(), verts[1].z()).setColor(r, g, b, a).setUv(u2, v2).setLight(j);
-        buffer.addVertex(verts[2].x(), verts[2].y(), verts[2].z()).setColor(r, g, b, a).setUv(u2, v1).setLight(j);
-        buffer.addVertex(verts[3].x(), verts[3].y(), verts[3].z()).setColor(r, g, b, a).setUv(u1, v1).setLight(j);
-    }
-
-    @Override
-    @OnlyIn(value = Dist.CLIENT)
-    public void renderParticle(final VertexConsumer buffer, final Camera renderInfo, final float partialTicks,
-            final thut.api.maths.vecmath.Vec3f offset)
-    {
-        Quaternionf quaternion;
-        quaternion = renderInfo.rotation();
-        this.render(buffer, quaternion, offset);
+        this.renderRotatedQuad(buffer, offset, quaternion, partialTicks);
     }
 
     @Override
@@ -245,13 +280,14 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
     }
 
     private final MapCodec<ParticleBase> codec = MapCodec.unit(this::getType);
-    private static Codec CODEC = new Codec();
+    private static final Codec CODEC = new Codec();
 
     @Override
     public MapCodec<ParticleBase> codec()
     {
         return codec;
     }
+
     @Override
     public StreamCodec<? super RegistryFriendlyByteBuf, ParticleBase> streamCodec()
     {

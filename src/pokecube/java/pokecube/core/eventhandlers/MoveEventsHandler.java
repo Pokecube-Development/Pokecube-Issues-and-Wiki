@@ -43,8 +43,6 @@ import pokecube.core.impl.PokecubeMod;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect.Effect;
 import pokecube.core.impl.entity.impl.OngoingMoveEffect;
-import pokecube.core.impl.entity.impl.PersistantStatusEffect;
-import pokecube.core.impl.entity.impl.PersistantStatusEffect.Status;
 import pokecube.core.init.Config;
 import pokecube.core.init.ItemGenerator;
 import pokecube.core.moves.MovesUtils;
@@ -194,9 +192,7 @@ public class MoveEventsHandler
     {
         // In initialize some effect types
         IOngoingAffected.EFFECTS.put(NonPersistantStatusEffect.ID, NonPersistantStatusEffect.class);
-        IOngoingAffected.EFFECTS.put(PersistantStatusEffect.ID, PersistantStatusEffect.class);
         IOngoingAffected.EFFECTS.put(OngoingMoveEffect.ID, OngoingMoveEffect.class);
-        Status.initDefaults();
         Effect.initDefaults();
 
         // These are all lowest, and false so that addons can override the

@@ -144,7 +144,7 @@ public class LogicMiscUpdate extends LogicBase
             if (sleepingAI != _sleepingAI) this.pokemob.setLogicState(LogicStates.SLEEPING, _sleepingAI);
             sleepingAI = _sleepingAI;
         }
-        else if(sleepingAI) this.pokemob.setLogicState(LogicStates.SLEEPING, sleepingAI = false);
+        else if (sleepingAI) this.pokemob.setLogicState(LogicStates.SLEEPING, sleepingAI = false);
 
         if (this.pokemob.getGeneralState(GeneralStates.MATING) && !BrainUtils.hasMateTarget((AgeableMob) this.entity))
             this.pokemob.setGeneralState(GeneralStates.MATING, false);
@@ -555,14 +555,7 @@ public class LogicMiscUpdate extends LogicBase
         else if (this.entity.isInWater() || this.entity.isInLava()) next = Pose.SWIMMING;
         else if (this.floatTimer < 2) next = Pose.STANDING;
         else next = Pose.FALL_FLYING;
-        if (next != old)
-        {
-            if (next == Pose.SLEEPING)
-            {
-                entity.startSleeping(entity.getOnPos().above());
-            }
-            else entity.setPose(next);
-        }
+        if (next != old) entity.setPose(next);
     }
 
     private void addAnimation(List<String> anims, String key, boolean isRidden)

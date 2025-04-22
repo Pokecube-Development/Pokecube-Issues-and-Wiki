@@ -103,7 +103,7 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
     @Override
     protected int getScrollbarPosition()
     {
-        return this.getRowLeft() + this.getRowWidth() + this.scrollBarOffset;
+        return this.getRowLeft() + this.getRowWidth() + this.scrollBarOffset + this.scrollBarDx;
     }
 
     @Override
@@ -147,8 +147,8 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
             }
 
             RenderSystem.enableBlend();
-            guiGraphics.blitSprite(SCROLLER_BACKGROUND_SPRITE, l, this.getY(), 6, this.getHeight());
-            guiGraphics.blitSprite(SCROLLER_SPRITE, l, k, 6, i1);
+            guiGraphics.blitSprite(SCROLLER_BACKGROUND_SPRITE, l, this.getY() + scrollBarDy, 6, this.getHeight());
+            guiGraphics.blitSprite(SCROLLER_SPRITE, l, k + scrollBarDy, 6, i1);
             RenderSystem.disableBlend();
         }
 

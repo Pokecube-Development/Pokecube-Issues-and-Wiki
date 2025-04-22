@@ -1,17 +1,11 @@
 package thut.api.particle;
 
-import org.joml.Quaternionf;
-
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-
 import net.minecraft.client.Camera;
 import net.minecraft.network.FriendlyByteBuf;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import org.joml.Quaternionf;
 import thut.api.maths.Vector4;
-import thut.api.maths.vecmath.Vec3f;
 
 public class ParticleOrientable extends ParticleBase
 {
@@ -29,13 +23,13 @@ public class ParticleOrientable extends ParticleBase
         super.read(reader);
         try
         {
-            this.orientation = new Vector4(reader.readFloat(), reader.readFloat(), reader.readFloat(), reader
-                    .readFloat());
+            this.orientation = new Vector4(reader.readFloat(), reader.readFloat(), reader.readFloat(),
+                    reader.readFloat());
         }
         catch (final CommandSyntaxException e)
         {
             this.orientation = new Vector4();
-//            ThutCore.LOGGER.error(e);
+            //            ThutCore.LOGGER.error(e);
         }
         return this;
     }
@@ -49,20 +43,17 @@ public class ParticleOrientable extends ParticleBase
     }
 
     @Override
-    @OnlyIn(value = Dist.CLIENT)
-    public void renderParticle(final VertexConsumer buffer, final Camera renderInfo, final float partialTicks,
-            final Vec3f offset)
+    public Quaternionf getQuat(Camera renderInfo, float partialTicks)
     {
         Quaternionf quaternion;
         quaternion = new Quaternionf(renderInfo.rotation());
         quaternion.mul(this.orientation.toMCQ());
-        this.render(buffer, quaternion, offset);
+        return quaternion;
     }
 
-    public ParticleOrientable setOrientation(final Vector4 orientation)
+    public void setOrientation(final Vector4 orientation)
     {
         this.orientation = orientation;
-        return this;
     }
 
     @Override

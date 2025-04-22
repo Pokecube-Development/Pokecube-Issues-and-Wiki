@@ -262,7 +262,7 @@ public class HungerTask extends BaseIdleTask
         final boolean ownedSleepCheck =
                 this.pokemob.getGeneralState(GeneralStates.TAMED) && !this.pokemob.getGeneralState(
                         GeneralStates.STAYING);
-        if (this.sleepy && this.hitThreshold(HungerTask.EATTHRESHOLD) && !ownedSleepCheck)
+        if (this.sleepy && !this.hitThreshold(HungerTask.EATTHRESHOLD) && !ownedSleepCheck)
         {
             final double moveSpeed = 1;
             if (!this.isGoodSleepingSpot(c)) this.setWalkTo(this.pokemob.getHome(), moveSpeed, 0);
