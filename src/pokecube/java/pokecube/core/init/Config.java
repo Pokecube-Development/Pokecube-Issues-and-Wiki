@@ -1,11 +1,6 @@
 package pokecube.core.init;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -21,6 +16,7 @@ import net.neoforged.fml.common.EventBusSubscriber.Bus;
 import net.neoforged.fml.config.ModConfig.Type;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
+import org.nfunk.jep.JEP;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.events.pokemobs.SpawnEvent.FunctionVariance;
@@ -41,6 +37,9 @@ import thut.api.data.DataHelpers;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
 import thut.lib.RegHelper;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class Config extends ConfigData
 {
@@ -157,7 +156,7 @@ public class Config extends ConfigData
 
     public static Config instance;
 
-    private static Config defaults = new Config();
+    private static final Config defaults = new Config();
 
     private static SoundEvent getRegisteredSoundEvent(final String id)
     {
@@ -178,8 +177,6 @@ public class Config extends ConfigData
     public boolean defaultInteractions = true;
     @Configure(category = Config.misc, comment = "The mob's favourite berry can be used to speed up breeding. [Default: true]")
     public boolean berryBreeding = true;
-    @Configure(category = Config.misc, comment = "Legendary pokemobs can breed. [Default: false]")
-    public boolean legendsBreed = false;
     @Configure(category = Config.misc, comment = "Using a bed will heal your pokemobs. [Default: true]")
     public boolean bedsHeal = true;
     @Configure(category = Config.misc, comment = "Defeating an NPC's pokemobs gives exp. [Default: true]")
@@ -379,8 +376,6 @@ public class Config extends ConfigData
     public double interactHungerScale = 1;
     @Configure(category = Config.mobAI, comment = "Scaling factor on time delay between pokemob interactions, such as lighting torches, milking, etc. [Default: 1.0]")
     public double interactDelayScale = 1;
-    @Configure(category = Config.mobAI, comment = "Shift-right-clicking a valid pokemob with a stick will place it on your shoulder. [Default: true]")
-    public boolean pokemobsOnShoulder = true;
     @Configure(category = Config.mobAI, comment = "Fish-like pokemobs will occasionally look for fishing bobbers in this range. [Default: 16]")
     public int fishHookBaitRange = 16;
 
@@ -447,10 +442,6 @@ public class Config extends ConfigData
     public int leafBerryTicks = 75;
     @Configure(category = Config.world, comment = "If false, subbiomes will not auto-detect, meaning they need to be placed manually, useful for adventure maps, etc. [Default: true]")
     public boolean autoDetectSubbiomes = true;
-    @Configure(category = Config.world, comment = "Fossil ores will generate in certain biomes. [Default: true]")
-    public boolean generateFossils = true;
-    @Configure(category = Config.world, comment = "Berry trees/crops will be added to certain biomes, based on datapack settings. [Default: true]")
-    public boolean generateBerries = true;
 
     @Configure(category = Config.world, comment = "Any structure not in structure_subbiomes will apply as ruins, unless something else sets it first (like the structure's spawn settings). [Default: true]")
     public boolean structs_default_ruins = true;
@@ -497,8 +488,7 @@ public class Config extends ConfigData
     public int nestSpacing = 64;
 
     @Configure(category = Config.spawning, comment = "These determine what lvl pokemobs spawn based on location. If central is true, then the origin for the function is 0,0, otherwise it is world spawn. if radial is true, then the function takes the variable r, which is horizontal distance from the origin. Otherwise it takes x and y, which are the horizontal coordinates with respect to the origin.")
-    public List<String> dimensionSpawnLevels = Lists.newArrayList(new String[]
-    {
+    public List<String> dimensionSpawnLevels = Lists.newArrayList(new String[] {
             //@formatter:off
             "{\"dim\":\"the_nether\",\"func\":\"abs((25)*(sin(x*8*10^-3)^3 + sin(y*8*10^-3)^3))\",\"radial\":false,\"central\":false}",
             "{\"dim\":\"overworld\",\"func\":\"abs((25)*(sin(x*10^-3)^3 + sin(y*10^-3)^3))\",\"radial\":false,\"central\":false}",
@@ -540,20 +530,15 @@ public class Config extends ConfigData
     public String teleRef = "top_right";
 
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the tamed pokemob GUI based on the position of guiRef. [Default: [0, 0]]")
-    public List<Integer> guiSelectedPos = Lists.newArrayList(new Integer[]
-    { 0, 0 });
+    public List<Integer> guiSelectedPos = Lists.newArrayList(new Integer[] { 0, 0 });
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the teleport pokemob GUI based on the position of teleRef. [Default: [-150, 0]]")
-    public List<Integer> guiTeleportPos = Lists.newArrayList(new Integer[]
-    { -150, 0 });
+    public List<Integer> guiTeleportPos = Lists.newArrayList(new Integer[] { -150, 0 });
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the target pokemob GUI based on the position of targetRef. [Default: [0, 0]]")
-    public List<Integer> guiTargetPos = Lists.newArrayList(new Integer[]
-    { 0, 0 });
+    public List<Integer> guiTargetPos = Lists.newArrayList(new Integer[] { 0, 0 });
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the pokemob message GUI based on the position of messageRef. [Default: [0, 0]]")
-    public List<Integer> guiMessagePos = Lists.newArrayList(new Integer[]
-    { 0, 0 });
+    public List<Integer> guiMessagePos = Lists.newArrayList(new Integer[] { 0, 0 });
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Padding of the pokemob message GUI based on the position of messageRef. [Default: [0, 0]]")
-    public List<Integer> messagePadding = Lists.newArrayList(new Integer[]
-    { 0, 0 });
+    public List<Integer> messagePadding = Lists.newArrayList(new Integer[] { 0, 0 });
 
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Scale of the GUI. [Default: 1.0]")
     public double guiSize = 1;
@@ -591,7 +576,8 @@ public class Config extends ConfigData
     public boolean showTargetBox = false;
 
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Width of the pokemob message GUI. [Default: 150]")
-    public int messageWidth = 150;;
+    public int messageWidth = 150;
+    ;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Auto recall distance of Pokemobs. [Default: 32]")
     public int autoRecallDistance = 32;
 
@@ -600,17 +586,20 @@ public class Config extends ConfigData
 
     @Configure(category = Config.advanced, comment = "Randomness. Changing not recommended.")
     // DOLATER find more internal variables to add to this.
-    public List<String> extraVars = Lists.newArrayList(new String[]
-    { "jc:" + EventsHandler.juiceChance, "rc:" + EventsHandler.candyChance, "eggDpl:" + ItemPokemobEgg.PLAYERDIST,
-            "eggDpm:" + ItemPokemobEgg.MOBDIST });
+    public List<String> extraVars = Lists.newArrayList(
+            new String[] { "jc:" + EventsHandler.juiceChance, "rc:" + EventsHandler.candyChance,
+                    "eggDpl:" + ItemPokemobEgg.PLAYERDIST, "eggDpm:" + ItemPokemobEgg.MOBDIST });
 
     @Configure(category = Config.advanced, comment = "Moves in here will ignore pokemobsDamageBlocks, and apply their effects regardless.")
-    public List<String> damageBlocksWhitelist = Lists.newArrayList(new String[]
-    { "flash", "teleport", "dig", "cut", "rock-smash", "secret-power", "nature-power", "hyperspace-hole", "nest_dig" });
+    public List<String> damageBlocksWhitelist = Lists.newArrayList(
+            new String[] { "flash", "teleport", "dig", "cut", "rock-smash", "secret-power", "nature-power",
+                    "hyperspace-hole", "nest_dig" });
     @Configure(category = Config.advanced, comment = "Moves in here will ignore pokemobsDamageBlocks and never apply their effects.")
     public List<String> damageBlocksBlacklist = Lists.newArrayList();
     @Configure(category = Config.advanced, comment = "This is how much exp is given for killing a non-pokemob, h is the max health of the mob, and a is the amount of armour it had. [Default: \"h*(a+1)^2\"]")
     public String nonPokemobExpFunction = "h*(a+1)^2";
+    @Configure(category = Config.advanced, comment = "This is how much exp is given for killing a pokemob, h is the max health of the mob, and a is the amount of armour it had. [Default: \"h*(a+1)^2\"]")
+    public String pokemobExpFunction = "s*b*l/7";
     @Configure(category = Config.advanced, comment = "If true, killing non-pokemobs will provide exp to pokemobs. [Default: false]")
     public boolean nonPokemobExp = false;
     @Configure(category = Config.advanced, comment = "Teleporting via the move teleport will not work in any dimensions listed here.")
@@ -712,8 +701,7 @@ public class Config extends ConfigData
     public double groundSpeedFactor = 1;
 
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Flying will not be allowed in these dimensions.")
-    public List<String> blackListedFlyDims = Lists.newArrayList(new String[]
-    { "the_end", "the_nether" });
+    public List<String> blackListedFlyDims = Lists.newArrayList(new String[] { "the_end", "the_nether" });
 
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Approximate cooldown for attacks in ticks, larger values will slow down combat. [Default: 20]")
     public int attackCooldown = 20;
@@ -771,6 +759,9 @@ public class Config extends ConfigData
     @Configure(category = Config.debug_modes, comment = "Debug output for uncatogorised things. [Default: false]")
     public boolean debug_misc = false;
 
+    public JEP _nonPokemobEXP;
+    public JEP _pokemobEXP;
+
     public Config()
     {
         super(PokecubeCore.MODID);
@@ -786,6 +777,9 @@ public class Config extends ConfigData
         if (this.hungerTickRate == 0) this.hungerTickRate = 1;
         if (this.nearBlockUpdateRate <= 0) this.nearBlockUpdateRate = 1;
         if (this.huntUpdateRate <= 0) this.huntUpdateRate = 1;
+
+        _pokemobEXP = makeExpJEP(this.pokemobExpFunction);
+        _nonPokemobEXP = makeExpJEP(this.nonPokemobExpFunction);
 
         IdleWalkTask.IDLETIMER = this.idleTickRate;
         HungerTask.TICKRATE = this.hungerTickRate;
@@ -848,25 +842,12 @@ public class Config extends ConfigData
             final String[] args = s.split(":");
             final String key = args[0];
             final String value = args[1];
-            if (key.equals("jc"))
+            switch (key)
             {
-                EventsHandler.juiceChance = Double.parseDouble(value);
-                continue;
-            }
-            if (key.equals("rc"))
-            {
-                EventsHandler.candyChance = Double.parseDouble(value);
-                continue;
-            }
-            if (key.equals("eggDpl"))
-            {
-                ItemPokemobEgg.PLAYERDIST = Double.parseDouble(value);
-                continue;
-            }
-            if (key.equals("eggDpm"))
-            {
-                ItemPokemobEgg.MOBDIST = Double.parseDouble(value);
-                continue;
+            case "jc" -> EventsHandler.juiceChance = Double.parseDouble(value);
+            case "rc" -> EventsHandler.candyChance = Double.parseDouble(value);
+            case "eggDpl" -> ItemPokemobEgg.PLAYERDIST = Double.parseDouble(value);
+            case "eggDpm" -> ItemPokemobEgg.MOBDIST = Double.parseDouble(value);
             }
         }
 
@@ -933,7 +914,7 @@ public class Config extends ConfigData
         }
 
         boolean failed = false;
-        if (this.dodgeSounds.size() == 0) failed = true;
+        if (this.dodgeSounds.isEmpty()) failed = true;
         else
         {
             this.dodges = new SoundEvent[this.dodgeSounds.size()];
@@ -954,11 +935,10 @@ public class Config extends ConfigData
             }
         }
 
-        if (failed) this.dodges = new SoundEvent[]
-        { SoundEvents.GENERIC_SMALL_FALL };
+        if (failed) this.dodges = new SoundEvent[] { SoundEvents.GENERIC_SMALL_FALL };
 
         failed = false;
-        if (this.leapSounds.size() == 0) failed = true;
+        if (this.leapSounds.isEmpty()) failed = true;
         else
         {
             this.leaps = new SoundEvent[this.leapSounds.size()];
@@ -979,9 +959,31 @@ public class Config extends ConfigData
             }
         }
 
-        if (failed) this.leaps = new SoundEvent[]
-        { SoundEvents.GENERIC_SMALL_FALL };
+        if (failed) this.leaps = new SoundEvent[] { SoundEvents.GENERIC_SMALL_FALL };
 
         PokecubeManager.init();
+    }
+
+    private JEP makeExpJEP(String function)
+    {
+        final JEP parser = new JEP();
+        parser.initFunTab(); // clear the contents of the function table
+        parser.addStandardFunctions();
+        parser.initSymTab(); // clear the contents of the symbol table
+        parser.addStandardConstants();
+        parser.addComplex();
+        parser.addVariable("s", 0);  // config based scale
+        parser.addVariable("l", 0);  // level (for pokemobs)
+        parser.addVariable("b", 0);  // base xp (for pokemobs)
+        parser.addVariable("h", 0);  // Max health
+        parser.addVariable("a", 0);  // armour amount
+        parser.addVariable("at", 0); // armour toughness
+        parser.addVariable("kr", 0); // knockback resistance
+        parser.addVariable("d", 0);  // attack damage
+        parser.addVariable("k", 0);  // attack knockback
+        parser.addVariable("ds", 0); // attack speed
+        parser.addVariable("bxp", 0);// base experience drop (non pokemobs)
+        parser.parseExpression(function);
+        return parser;
     }
 }

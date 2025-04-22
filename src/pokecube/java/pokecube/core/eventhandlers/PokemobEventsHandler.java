@@ -53,7 +53,6 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent.EntityInte
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
-import org.nfunk.jep.JEP;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.ai.IInhabitor;
 import pokecube.api.blocks.IInhabitable;
@@ -100,6 +99,8 @@ import pokecube.core.utils.Permissions;
 import pokecube.core.utils.PokemobTracker;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
+import thut.api.attachments.IOwnable;
+import thut.api.attachments.Ownable;
 import thut.api.entity.ai.RootTask;
 import thut.api.entity.blockentity.BlockEntityUpdater;
 import thut.api.entity.event.CopyUpdateEvent;
@@ -568,17 +569,18 @@ public class PokemobEventsHandler
      */
     private static void onKillEvent(final KillEvent evt)
     {
-        final IPokemob killer = evt.killer;
-        final IPokemob killed = evt.killed;
+        IPokemob killer = evt.killer;
+        IPokemob killed = evt.killed;
+        LivingEntity killedMob = evt.killedEntity;
         // Handles extra EXP gain from lucky egg and exp share.
-        if (killer != null && evt.giveExp)
+        if (killer != null && evt.giveExp && killedMob.level() instanceof ServerLevel level)
         {
+            int exp = killer.getExp() + Tools.getExp((float) PokecubeCore.getConfig().expScaleFactor, killedMob, killed,
+                    level, killer.getEntity());
             final LivingEntity owner = killer.getOwner();
             final ItemStack stack = killer.getHeldItem();
             if (ItemList.is(ResourceLocation.fromNamespaceAndPath("pokecube", "luckyegg"), stack))
             {
-                final int exp = killer.getExp() + Tools.getExp((float) PokecubeCore.getConfig().expScaleFactor,
-                        killed.getBaseXP(), killed.getLevel());
                 killer.setExp(exp, true);
             }
             if (owner != null)
@@ -592,8 +594,6 @@ public class PokemobEventsHandler
                             ResourceLocation.fromNamespaceAndPath("pokecube", "exp_share"), poke.getHeldItem())
                             && !poke.getLogicState(LogicStates.SITTING))
                     {
-                        final int exp = poke.getExp() + Tools.getExp((float) PokecubeCore.getConfig().expScaleFactor,
-                                killed.getBaseXP(), killed.getLevel());
                         poke.setExp(exp, true);
                     }
                 }
@@ -930,47 +930,32 @@ public class PokemobEventsHandler
 
     private static void handleExp(final Mob pokemob, final IPokemob attacker, final LivingEntity attacked)
     {
+        if (!(attacked.level() instanceof ServerLevel level)) return;
         final IPokemob attackedMob = PokemobCaps.getPokemobFor(attacked);
-        if (PokecubeCore.getConfig().nonPokemobExp && attackedMob == null)
-        {
-            final JEP parser = new JEP();
-            parser.initFunTab(); // clear the contents of the function table
-            parser.addStandardFunctions();
-            parser.initSymTab(); // clear the contents of the symbol table
-            parser.addStandardConstants();
-            parser.addComplex();
-            parser.addVariable("h", 0);
-            parser.addVariable("a", 0);
-            parser.parseExpression(PokecubeCore.getConfig().nonPokemobExpFunction);
-            parser.setVarValue("h", attacked.getMaxHealth());
-            parser.setVarValue("a", attacked.getArmorValue());
-            int exp = (int) parser.getValue();
-            if (parser.hasError()) exp = 0;
-            attacker.setExp(attacker.getExp() + exp, true);
-            return;
-        }
-        if (attackedMob != null && attacked.getHealth() <= 0
-                && attacked.getPersistentData().getInt("lastDeathTick") != attacked.tickCount)
+        if (attacked.getHealth() <= 0 && attacked.getPersistentData().getInt("lastDeathTick") != attacked.tickCount)
         {
             attacked.getPersistentData().putInt("lastDeathTick", attacked.tickCount);
             boolean giveExp = !attacker.isShadow();
-            final boolean pvp =
-                    attackedMob.getGeneralState(GeneralStates.TAMED) && attackedMob.getOwner() instanceof Player;
+            IOwnable ownable = Ownable.get(attacked);
+
+            final boolean pvp = ownable != null && ownable.isPlayerOwned();
             if (pvp && !PokecubeCore.getConfig().pvpExp) giveExp = false;
-            if (attackedMob.getGeneralState(GeneralStates.TAMED) && !PokecubeCore.getConfig().trainerExp)
-                giveExp = false;
-            final KillEvent event = new KillEvent(attacker, attackedMob, giveExp);
+            if (attackedMob != null && attackedMob.getGeneralState(GeneralStates.TAMED)
+                    && !PokecubeCore.getConfig().trainerExp) giveExp = false;
+            final KillEvent event = new KillEvent(attacker, attackedMob, attacked, giveExp);
             PokecubeAPI.POKEMOB_BUS.post(event);
             if (!event.isCanceled() && event.giveExp)
             {
-                attacker.setExp(attacker.getExp() + Tools.getExp((float) (pvp
-                                ? PokecubeCore.getConfig().pvpExpMultiplier
-                                : PokecubeCore.getConfig().expScaleFactor), attackedMob.getBaseXP(), attackedMob.getLevel()),
+                float coef = (float) (pvp
+                        ? PokecubeCore.getConfig().pvpExpMultiplier
+                        : PokecubeCore.getConfig().expScaleFactor);
+                attacker.setExp(
+                        attacker.getExp() + Tools.getExp(coef, attacked, attackedMob, level, attacker.getEntity()),
                         true);
                 final byte[] evsToAdd = attackedMob.getPokedexEntry().getEVs();
                 attacker.addEVs(evsToAdd);
             }
-            final Entity targetOwner = attackedMob.getOwner();
+            final Entity targetOwner = ownable != null ? ownable.getOwner() : null;
             Component faintMsg = TComponent.translatable("pokemob.action.faint.enemy", attackedMob.getDisplayName());
             attacker.displayMessageToOwner(faintMsg);
 
@@ -979,8 +964,8 @@ public class PokemobEventsHandler
             if (targetOwner instanceof Player player && attacker.getOwner() != targetOwner)
                 Battle.createOrAddToBattle(pokemob, player);
 
-            if (attacker.getPokedexEntry().isFood(attackedMob.getPokedexEntry()) && attacker.getCombatState(
-                    CombatStates.HUNTING))
+            if (attackedMob != null && attacker.getPokedexEntry().isFood(attackedMob.getPokedexEntry())
+                    && attacker.getCombatState(CombatStates.HUNTING))
             {
                 attacker.eat(attackedMob.getEntity());
                 attacker.setCombatState(CombatStates.HUNTING, false);

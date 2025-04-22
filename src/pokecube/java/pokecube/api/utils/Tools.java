@@ -2,6 +2,7 @@ package pokecube.api.utils;
 
 import com.google.gson.JsonElement;
 import com.mojang.serialization.JsonOps;
+import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.ResourceLocation;
@@ -12,6 +13,8 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -23,6 +26,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
+import org.nfunk.jep.JEP;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -240,9 +244,26 @@ public class Tools
         return (3D * hPmax - 2D * hP) * catchRate * cubeBonus * statusBonus / (3D * hPmax);
     }
 
-    public static int getExp(final float coef, final int baseXP, final int level)
+    private static double get(LivingEntity entity, Holder<Attribute> attribute, double _def)
     {
-        return Mth.floor(coef * baseXP * level / 7F);
+        return entity.getAttributes().hasAttribute(attribute) ? entity.getAttributeValue(attribute) : _def;
+    }
+
+    public static int getExp(final float coef, LivingEntity entity, IPokemob pokemob, ServerLevel level, Entity killer)
+    {
+        JEP parser = pokemob == null ? PokecubeCore.getConfig()._nonPokemobEXP : PokecubeCore.getConfig()._pokemobEXP;
+        parser.setVarValue("s", coef);
+        parser.setVarValue("l", pokemob == null ? 0 : pokemob.getLevel());
+        parser.setVarValue("b", pokemob == null ? 0 : pokemob.getBaseXP());
+        parser.setVarValue("h", get(entity, Attributes.MAX_HEALTH, 0));
+        parser.setVarValue("a", get(entity, Attributes.ARMOR, 0));
+        parser.setVarValue("at", get(entity, Attributes.ARMOR_TOUGHNESS, 0));
+        parser.setVarValue("kr", get(entity, Attributes.KNOCKBACK_RESISTANCE, 0));
+        parser.setVarValue("d", get(entity, Attributes.ATTACK_DAMAGE, 0));
+        parser.setVarValue("k", get(entity, Attributes.ATTACK_KNOCKBACK, 0));
+        parser.setVarValue("ds", get(entity, Attributes.ATTACK_SPEED, 0));
+        parser.setVarValue("bxp", entity.getExperienceReward(level, killer));
+        return Mth.floor(parser.getValue());
     }
 
     private static int getLevelFromTable(final int index, final int exp)
