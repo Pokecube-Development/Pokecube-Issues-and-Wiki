@@ -93,7 +93,7 @@ public class IdleJumpOnShoulderTask extends BaseIdleTask
         }
         else
         {
-            if (entity.isAlive() && !entity.isPassenger() && player.getPassengers().isEmpty())
+            if (entity.isAlive() && !entity.isPassenger() && player.getPassengers().size() < 2)
             {
                 entity.getPersistentData().putBoolean(ShoulderMobs.ON_SHOULDER, true);
                 entity.startRiding(player, true);

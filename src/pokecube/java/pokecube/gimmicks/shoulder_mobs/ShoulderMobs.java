@@ -169,7 +169,9 @@ public class ShoulderMobs
                     transform.mul(matrixYaw, matrixPitch);
 
                     boolean left = living == player.getPassengers().getFirst();
-                    float dx = left ? 0.2f + living.getBbWidth() / 2 : -(0.4f + living.getBbWidth() / 2);
+                    float dx = left
+                            ? player.getBbWidth() / 3 + living.getBbWidth() / 2
+                            : -(player.getBbWidth() / 3 + living.getBbWidth() / 2);
 
                     Vec3f v = new Vec3f(dx, player.getBbHeight() * 0.75f, 0);
                     transform.transform(v);
