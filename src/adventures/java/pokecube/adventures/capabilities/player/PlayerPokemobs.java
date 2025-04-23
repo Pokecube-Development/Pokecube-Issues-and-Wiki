@@ -1,20 +1,13 @@
 package pokecube.adventures.capabilities.player;
 
-import java.util.Set;
-import java.util.UUID;
-
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
-import pokecube.adventures.capabilities.CapabilityHasRewards.DefaultRewards;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates.DefaultAIStates;
-import pokecube.adventures.capabilities.CapabilityNPCMessages.DefaultMessager;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.trainers.IHasPokemobs;
@@ -22,11 +15,12 @@ import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.ThutCaps;
 import thut.api.world.mobs.data.DataSync;
-import thut.core.common.world.mobs.data.types.Data_ItemStack;
-import thut.core.common.world.mobs.data.types.Data_String;
 import thut.wearables.EnumWearable;
 import thut.wearables.ThutWearables;
 import thut.wearables.inventory.PlayerWearables;
+
+import java.util.Set;
+import java.util.UUID;
 
 public class PlayerPokemobs extends DefaultPokemobs
 {
@@ -46,7 +40,7 @@ public class PlayerPokemobs extends DefaultPokemobs
 
     public PlayerPokemobs(final Player player)
     {
-        super();
+        super(player);
         this.player = player;
     }
 
@@ -152,7 +146,7 @@ public class PlayerPokemobs extends DefaultPokemobs
         final Set<ITargetWatcher> watchers = this.getTargetWatchers();
         this.target = target;
         // Notify the watchers that a target was actually set.
-        for (final ITargetWatcher watcher : watchers) watcher.onSet(target);
+        for (final ITargetWatcher watcher : watchers) watcher.onSet(this, target);
     }
 
     @Override

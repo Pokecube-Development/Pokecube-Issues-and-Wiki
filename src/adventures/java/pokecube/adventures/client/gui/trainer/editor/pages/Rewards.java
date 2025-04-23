@@ -78,6 +78,8 @@ public class Rewards extends ListPage<RewardOption>
 
             this.reward.setMaxLength(1024);
 
+            this.rewards.getRewards().removeIf(r -> r.stack.isEmpty());
+
             if (index < this.rewards.getRewards().size())
             {
                 final Reward r = this.rewards.getRewards().get(index);

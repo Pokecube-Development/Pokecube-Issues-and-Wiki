@@ -15,12 +15,11 @@ public class ChooseAttacks extends BaseBattleTask
     }
 
     /**
-     * Searches for pokemobs most damaging move against the target, and sets it
-     * as current attack
+     * Searches for pokemobs most damaging move against the target, and sets it as current attack
      */
-    private void setMostDamagingMove()
+    private void setMostDamagingMove(LivingEntity trainer)
     {
-        final IPokemob outMob = this.trainer.getOutMob();
+        final IPokemob outMob = this.getTrainer(trainer).getOutMob();
         int index = outMob.getMoveIndex();
         int max = 0;
         final LivingEntity target = BrainUtils.getAttackTarget(outMob.getEntity());
@@ -40,10 +39,10 @@ public class ChooseAttacks extends BaseBattleTask
         outMob.setMoveIndex(index);
     }
 
-    private void considerSwapMove()
+    private void considerSwapMove(LivingEntity trainer)
     {
         // TODO choose between damaging/stats/status moves
-        this.setMostDamagingMove();
+        this.setMostDamagingMove(trainer);
     }
 
     @Override
@@ -53,21 +52,21 @@ public class ChooseAttacks extends BaseBattleTask
         // Check if pokemob has a valid Pokemob as a target.
         if (PokemobCaps.getPokemobFor(this.target) != null)
             // using best move for target.
-            this.considerSwapMove();
-        // Otherwise just pick whatever does most damage
-        else this.setMostDamagingMove();
+            this.considerSwapMove(owner);
+            // Otherwise just pick whatever does most damage
+        else this.setMostDamagingMove(owner);
     }
 
     @Override
     protected boolean canStillUse(final ServerLevel worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
-        return this.trainer.getOutMob() != null;
+        return this.getTrainer(entityIn).getOutMob() != null;
     }
 
     @Override
     protected boolean checkExtraStartConditions(final ServerLevel worldIn, final LivingEntity owner)
     {
         if (!super.checkExtraStartConditions(worldIn, owner)) return false;
-        return this.trainer.getOutMob() != null;
+        return this.getTrainer(owner).getOutMob() != null;
     }
 }

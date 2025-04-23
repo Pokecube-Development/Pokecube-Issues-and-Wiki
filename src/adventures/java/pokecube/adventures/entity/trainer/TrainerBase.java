@@ -18,10 +18,8 @@ import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.events.TrainerSpawnHandler;
 import pokecube.adventures.utils.TrainerTracker;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.trainers.IHasMessages;
 import pokecube.api.entity.trainers.IHasNPCAIStates;
 import pokecube.api.entity.trainers.IHasNPCAIStates.AIState;
-import pokecube.api.entity.trainers.IHasRewards;
 import pokecube.api.entity.trainers.IHasTrades;
 import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
@@ -40,11 +38,8 @@ public abstract class TrainerBase extends NpcMob
     public static final ResourceLocation BRIBE = ResourceLocation.parse(PokecubeAdv.MODID + ":trainer_bribe");
 
     public List<IPokemob> currentPokemobs = new ArrayList<>();
-    public DefaultPokemobs pokemobsCap;
-    public IHasMessages messages;
-    public IHasRewards rewardsCap;
-    public IHasNPCAIStates aiStates;
-    public IHasTrades trades;
+
+    private IHasTrades trades;
 
     int despawncounter = 0;
     boolean fixedMobs = false;
@@ -52,14 +47,16 @@ public abstract class TrainerBase extends NpcMob
     protected TrainerBase(final EntityType<? extends TrainerBase> type, final Level worldIn)
     {
         super(type, worldIn);
-        this.pokemobsCap = (DefaultPokemobs) TrainerCaps.getHasPokemobs(this);
-        this.rewardsCap = TrainerCaps.getHasRewards(this);
-        this.messages = TrainerCaps.getMessages(this);
-        this.aiStates = TrainerCaps.getNPCAIStates(this);
-        if (this.pokemobsCap == null)
-        {
-            Thread.dumpStack();
-        }
+    }
+
+    public DefaultPokemobs getPokemobs()
+    {
+        return (DefaultPokemobs) this.getData(TrainerCaps.TRAINER);
+    }
+
+    public IHasNPCAIStates getAIStates()
+    {
+        return this.getData(TrainerCaps.AISTATES);
     }
 
     protected IHasTrades getTradesHolder()
@@ -73,11 +70,11 @@ public abstract class TrainerBase extends NpcMob
 
     public boolean canTrade(final Player player)
     {
-        final boolean friend = this.pokemobsCap.friendlyCooldown >= 0;
-        final boolean pity = this.pokemobsCap.defeated(player);
-        final boolean lost = this.pokemobsCap.defeatedBy(player);
+        final boolean friend = this.getPokemobs().friendlyCooldown >= 0;
+        final boolean pity = this.getPokemobs().defeated(player);
+        final boolean lost = this.getPokemobs().defeatedBy(player);
         final boolean trades =
-                this.aiStates.getAIState(AIState.TRADES_ITEMS) || this.aiStates.getAIState(AIState.TRADES_MOBS);
+                this.getAIStates().getAIState(AIState.TRADES_ITEMS) || this.getAIStates().getAIState(AIState.TRADES_MOBS);
         return trades && (friend || pity || lost);
     }
 
@@ -88,17 +85,17 @@ public abstract class TrainerBase extends NpcMob
         if (player.getAbilities().instabuild && player.isCrouching())
         {
             if (!this.level().isClientSide && player.isCrouching() && player.getMainHandItem().getItem() == Items.STICK)
-                this.pokemobsCap.throwCubeAt(player);
+                this.getPokemobs().throwCubeAt(player);
             return InteractionResult.sidedSuccess(this.level.isClientSide);
         }
-        else if (ItemList.is(TrainerBase.BRIBE, stack) && this.pokemobsCap.friendlyCooldown <= 0 && !this.getOffers()
+        else if (ItemList.is(TrainerBase.BRIBE, stack) && this.getPokemobs().friendlyCooldown <= 0 && !this.getOffers()
                 .isEmpty())
         {
             stack.split(1);
             player.setItemInHand(hand, stack);
-            this.pokemobsCap.onSetTarget(null);
+            this.getPokemobs().onSetTarget(null);
             for (final IPokemob pokemob : this.currentPokemobs) pokemob.onRecall(false);
-            this.pokemobsCap.friendlyCooldown = 2400;
+            this.getPokemobs().friendlyCooldown = 2400;
             this.playCelebrateSound();
             return InteractionResult.sidedSuccess(this.level.isClientSide);
         }
@@ -120,7 +117,7 @@ public abstract class TrainerBase extends NpcMob
             if (!this.level.isClientSide)
             {
                 // This adds in pokemobs to trade.
-                if (this.aiStates.getAIState(AIState.TRADES_MOBS) && !fixedTrades) this.addMobTrades(player, stack);
+                if (this.getAIStates().getAIState(AIState.TRADES_MOBS) && !fixedTrades) this.addMobTrades(player, stack);
 
                 if (!this.getOffers().isEmpty())
                     this.openTradingScreen(player, this.getDisplayName(), this.getVillagerData().getLevel());
@@ -128,8 +125,8 @@ public abstract class TrainerBase extends NpcMob
             }
             return InteractionResult.sidedSuccess(this.level.isClientSide);
         }
-        else if (this.pokemobsCap.getCooldown() <= 0 && stack.getItem() == Items.STICK)
-            this.pokemobsCap.onSetTarget(player);
+        else if (this.getPokemobs().getCooldown() <= 0 && stack.getItem() == Items.STICK)
+            this.getPokemobs().onSetTarget(player);
 
         return InteractionResult.PASS;
     }
@@ -172,16 +169,16 @@ public abstract class TrainerBase extends NpcMob
     {
         super.aiStep();
         if (!this.isEffectiveAi()) return;
-        if (this.pokemobsCap.countPokemon() == 0 && !this.fixedMobs)
+        if (this.getPokemobs().countPokemon() == 0 && !this.fixedMobs)
         {
-            final TypeTrainer type = this.pokemobsCap.getType();
+            final TypeTrainer type = this.getPokemobs().getType();
             if (type != null && !type.pokemon.isEmpty() && !this.checkedMobs)
             {
                 this.checkedMobs = true;
                 SpawnContext context = new SpawnContext(null, (ServerLevel) level, type.pokemon.getFirst(),
                         new Vector3().set(this));
                 final int level = SpawnHandler.getSpawnLevel(context);
-                TrainerSpawnHandler.initTrainer(this.pokemobsCap, level);
+                TrainerSpawnHandler.initTrainer(this.getPokemobs(), level);
             }
             if (PokecubeAdv.config.cullNoMobs)
             {
@@ -249,7 +246,7 @@ public abstract class TrainerBase extends NpcMob
     @Override
     public boolean isMale()
     {
-        return this.pokemobsCap.getGender() == 1;
+        return this.getPokemobs().getGender() == 1;
     }
 
     /**
@@ -259,6 +256,6 @@ public abstract class TrainerBase extends NpcMob
     public void setMale(final boolean male)
     {
         super.setMale(male);
-        this.pokemobsCap.setGender((byte) (male ? 1 : 2));
+        this.getPokemobs().setGender((byte) (male ? 1 : 2));
     }
 }

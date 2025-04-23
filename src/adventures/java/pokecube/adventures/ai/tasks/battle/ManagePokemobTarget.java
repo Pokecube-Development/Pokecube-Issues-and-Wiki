@@ -1,9 +1,6 @@
 package pokecube.adventures.ai.tasks.battle;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -13,6 +10,8 @@ import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.moves.Battle;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.utils.AITools;
+
+import java.util.List;
 
 public class ManagePokemobTarget extends BaseBattleTask
 {
@@ -28,7 +27,7 @@ public class ManagePokemobTarget extends BaseBattleTask
         final IHasPokemobs other = TrainerCaps.getHasPokemobs(this.target);
         if (other != null) other.onSetTarget(this.entity, true);
 
-        final IPokemob mob = this.trainer.getOutMob();
+        final IPokemob mob = this.getTrainer(owner).getOutMob();
 
         if (mob == null || this.target == null) return;
         LivingEntity ourMob = mob.getEntity();

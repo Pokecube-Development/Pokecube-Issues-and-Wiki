@@ -393,7 +393,7 @@ public class TrainerEventHandler
         {
             MessageState state = MessageState.INTERACT;
 
-            if (filled_cube)
+            if (filled_cube && player.isShiftKeyDown())
             {
                 final AllowedBattle test = pokemobs.canBattle(player, true);
                 switch (test)
@@ -410,6 +410,8 @@ public class TrainerEventHandler
                 default:
                     break;
                 }
+                evt.setCanceled(true);
+                evt.setCancellationResult(succeed);
             }
             // Check if a trade would have been possible, if so, and it is
             // no_battle, set it to interact instead. This prevents duplicated

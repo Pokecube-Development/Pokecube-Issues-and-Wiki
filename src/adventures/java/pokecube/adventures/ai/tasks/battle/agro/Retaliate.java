@@ -1,16 +1,16 @@
 package pokecube.adventures.ai.tasks.battle.agro;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import pokecube.api.entity.trainers.IHasPokemobs;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
+
+import java.util.Map;
 
 public class Retaliate extends BaseAgroTask
 {
@@ -24,11 +24,11 @@ public class Retaliate extends BaseAgroTask
     public Retaliate(final LivingEntity trainer)
     {
         super(trainer, 1, -1);
-        this.trainer.addTargetWatcher(this);
+        this.getTrainer(trainer).addTargetWatcher(this);
     }
 
     @Override
-    public boolean ignoreHasBattled(final LivingEntity target)
+    public boolean ignoreHasBattled(IHasPokemobs trainer, LivingEntity target)
     {
         final Brain<?> brain = this.entity.getBrain();
         if (!brain.hasMemoryValue(MemoryModuleType.HURT_BY_ENTITY)) return false;
@@ -36,7 +36,7 @@ public class Retaliate extends BaseAgroTask
     }
 
     @Override
-    public boolean isValidTarget(final LivingEntity target)
+    public boolean isValidTarget(IHasPokemobs trainer, LivingEntity target)
     {
         if (target == null) return false;
         final Brain<?> brain = this.entity.getBrain();

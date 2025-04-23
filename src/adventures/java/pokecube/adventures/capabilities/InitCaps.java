@@ -1,15 +1,16 @@
 package pokecube.adventures.capabilities;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasRewards.DefaultRewards;
+import pokecube.adventures.capabilities.CapabilityHasTrades.DefaultTrades;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.DefaultAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.DefaultMessager;
-import pokecube.adventures.capabilities.CapabilityHasTrades.DefaultTrades;
 import pokecube.adventures.capabilities.player.PlayerPokemobs;
 import pokecube.api.entity.trainers.IHasMessages;
 import pokecube.api.entity.trainers.IHasNPCAIStates;
@@ -45,7 +46,8 @@ public class InitCaps
             @Override
             public IHasPokemobs apply(IAttachmentHolder t)
             {
-                return new DefaultPokemobs();
+                if (!(t instanceof LivingEntity living)) return null;
+                return new DefaultPokemobs(living);
             }
 
             @Override

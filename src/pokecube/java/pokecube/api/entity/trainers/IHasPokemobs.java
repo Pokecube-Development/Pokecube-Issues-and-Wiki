@@ -87,13 +87,13 @@ public interface IHasPokemobs extends INBTSerializable<CompoundTag>, Container, 
          * @param target - mob to check
          * @return Whether would want to battle this.
          */
-        boolean isValidTarget(LivingEntity target);
+        boolean isValidTarget(IHasPokemobs pokemobs, LivingEntity target);
 
         /**
          * @param target - mob to check
          * @return Whether we should ignore whether we have already battled the target.
          */
-        default boolean ignoreHasBattled(final LivingEntity target)
+        default boolean ignoreHasBattled(IHasPokemobs pokemobs, LivingEntity target)
         {
             return false;
         }
@@ -103,7 +103,7 @@ public interface IHasPokemobs extends INBTSerializable<CompoundTag>, Container, 
          *
          * @param target - mob we are trying to battle.
          */
-        default void onSet(final LivingEntity target)
+        default void onSet(IHasPokemobs pokemobs, LivingEntity target)
         {}
     }
 

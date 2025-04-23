@@ -23,13 +23,13 @@ public class CaptureMob extends BaseBattleTask
     @Override
     protected void start(final ServerLevel worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
-        final IPokemob targ = PokemobCaps.getPokemobFor(this.trainer.getTarget());
+        final IPokemob targ = PokemobCaps.getPokemobFor(this.getTrainer(entityIn).getTarget());
         if (targ != null && targ.getOwnerId() == null && gameTimeIn - this.lastTry > CaptureMob.COOLDOWN)
         {
             this.lastTry = gameTimeIn;
             final ItemStack itemStack = new ItemStack(PokecubeItems.getFilledCube(PokecubeBehaviour.DEFAULTCUBE), 1);
-            ((IPokecube) itemStack.getItem()).throwPokecubeAt(this.world, this.entity, itemStack, null, this.trainer
-                    .getTarget());
+            ((IPokecube) itemStack.getItem()).throwPokecubeAt(worldIn, this.entity, itemStack, null,
+                    this.getTrainer(entityIn).getTarget());
         }
     }
 
@@ -37,6 +37,6 @@ public class CaptureMob extends BaseBattleTask
     protected boolean checkExtraStartConditions(final ServerLevel worldIn, final LivingEntity owner)
     {
         if (!super.checkExtraStartConditions(worldIn, owner)) return false;
-        return this.trainer.countPokemon() < this.trainer.getMaxPokemobCount() / 2;
+        return this.getTrainer(owner).countPokemon() < this.getTrainer(owner).getMaxPokemobCount() / 2;
     }
 }

@@ -1,7 +1,5 @@
 package pokecube.adventures.ai.tasks.battle.agro;
 
-import java.util.List;
-
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -17,10 +15,12 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.eventhandlers.PCEventsHandler;
 
+import java.util.List;
+
 public class DeAgro extends BaseBattleTask
 {
     int deagroTimer = 0;
-    int noSeeTicks  = 0;
+    int noSeeTicks = 0;
 
     public DeAgro(final LivingEntity trainer)
     {
@@ -36,7 +36,7 @@ public class DeAgro extends BaseBattleTask
 
         // Check if trainer has any pokemobs, if not, cancel agression, no
         // reward.
-        if (this.trainer.getPokemob(0).isEmpty()) deagro = true;
+        if (this.getTrainer(owner).getPokemob(0).isEmpty()) deagro = true;
 
         if (!deagro)
         {
@@ -100,16 +100,15 @@ public class DeAgro extends BaseBattleTask
         {
             if (won)
             {
-                this.trainer.onWin(this.target);
+                this.getTrainer(owner).onWin(this.target);
                 if (other.getTarget() == this.entity) other.onLose(this.entity);
             }
-            this.trainer.deAgro(TrainerCaps.getHasPokemobs(this.target));
+            this.getTrainer(owner).deAgro(TrainerCaps.getHasPokemobs(this.target));
         }
     }
 
     @Override
-    protected boolean canStillUse(final ServerLevel worldIn, final LivingEntity entityIn,
-            final long gameTimeIn)
+    protected boolean canStillUse(final ServerLevel worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
         return this.checkExtraStartConditions(worldIn, entityIn);
     }

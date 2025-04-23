@@ -27,8 +27,9 @@ public class ManageOutMob extends BaseBattleTask
         super(trainer);
     }
 
-    void doAggression()
+    void doAggression(LivingEntity living, ServerLevel level)
     {
+        var trainer = this.getTrainer(living);
         // Check if maybe mob was sent out, but just not seen
         final List<Entity> mobs = PCEventsHandler.getOutMobs(this.entity, false);
         if (!mobs.isEmpty())
@@ -42,38 +43,39 @@ public class ManageOutMob extends BaseBattleTask
                     final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
                     if (pokemob != null && !found)
                     {
-                        this.trainer.setOutMob(pokemob);
+                        trainer.setOutMob(pokemob);
                         found = true;
                     }
                 }
             return;
         }
-        if (this.aiTracker.getAIState(AIState.THROWING)) return;
+        if (this.getAIStates(living).getAIState(AIState.THROWING)) return;
 
-        final int cooldown = this.trainer.getTarget() instanceof Player ? this.trainer.getAttackCooldown() : 0;
+        final int cooldown = trainer.getTarget() instanceof Player ? trainer
+                .getAttackCooldown() : 0;
 
         // If no mob was found, then it means trainer was not throwing cubes, as
         // those are counted along with active pokemobs.
-        this.aiTracker.setAIState(AIState.THROWING, false);
+        this.getAIStates(living).setAIState(AIState.THROWING, false);
         // If the trainer is on attack cooldown, then check if to send message
         // about next pokemob, or to return early.
         if (cooldown > 0)
         {
             // If no next pokemob, reset trainer and return early.
-            if (this.trainer.getNextPokemob().isEmpty())
+            if (trainer.getNextPokemob().isEmpty())
             {
-                this.aiTracker.setAIState(AIState.INBATTLE, false);
-                this.trainer.onLose(this.trainer.getTarget());
+                this.getAIStates(living).setAIState(AIState.INBATTLE, false);
+                trainer.onLose(trainer.getTarget());
                 return;
             }
             // If cooldown is at specific number, send the message for sending
             // out next pokemob.
             if (cooldown == Config.instance.trainerSendOutDelay / 2)
             {
-                final ItemStack nextStack = this.trainer.getNextPokemob();
+                final ItemStack nextStack = trainer.getNextPokemob();
                 if (!nextStack.isEmpty())
                 {
-                    IPokemob next = PokecubeManager.itemToPokemob(nextStack, this.world);
+                    IPokemob next = PokecubeManager.itemToPokemob(nextStack, level);
                     if (next != null)
                     {
                         // check if our mob should evolve, if so, do so
@@ -84,11 +86,13 @@ public class ManageOutMob extends BaseBattleTask
                                     PokemobCaps.getPokemobIn(nextStack).withPokemob(next));
                             if (!evolved) break;
                         }
-                        this.messages.sendMessage(MessageState.ABOUTSEND, this.trainer.getTarget(),
-                                this.entity.getDisplayName(), next.getDisplayName(),
-                                this.trainer.getTarget().getDisplayName());
-                        this.messages.doAction(MessageState.ABOUTSEND, this.trainer.setLatestContext(
-                                new ActionContext(this.trainer.getTarget(), this.entity)));
+                        this.getMessages(living)
+                                .sendMessage(MessageState.ABOUTSEND, trainer.getTarget(),
+                                        this.entity.getDisplayName(), next.getDisplayName(),
+                                        trainer.getTarget().getDisplayName());
+                        this.getMessages(living).doAction(MessageState.ABOUTSEND, trainer
+                                .setLatestContext(
+                                        new ActionContext(trainer.getTarget(), this.entity)));
                         if (entity.getItemInHand(InteractionHand.MAIN_HAND).isEmpty())
                             entity.setItemInHand(InteractionHand.MAIN_HAND, nextStack);
                     }
@@ -97,17 +101,17 @@ public class ManageOutMob extends BaseBattleTask
             return;
         }
         // Send next cube at the target.
-        this.trainer.throwCubeAt(this.trainer.getTarget());
+        trainer.throwCubeAt(trainer.getTarget());
     }
 
-    private boolean considerSwapPokemob()
+    private boolean considerSwapPokemob(LivingEntity living)
     {
         // TODO check if the target pokemob is bad matchup, consider swapping to
         // better choice.
 
         // check if can mega evolve
-        final IPokemob out = this.trainer.getOutMob();
-        if (this.trainer.canMegaEvolve() && out != null)
+        final IPokemob out = this.getTrainer(living).getOutMob();
+        if (this.getTrainer(living).canMegaEvolve() && out != null)
         {
             final List<PokedexEntry> formes = Database.getFormes(out.getPokedexEntry());
             if (!formes.isEmpty())
@@ -130,12 +134,12 @@ public class ManageOutMob extends BaseBattleTask
     @Override
     protected void tick(final ServerLevel worldIn, final LivingEntity owner, final long gameTime)
     {
-        final boolean hasMob = this.trainer.getOutMob() != null;
+        final boolean hasMob = this.getTrainer(owner).getOutMob() != null;
 
         BehaviorUtils.lookAtEntity(this.entity, this.target);
 
-        if (hasMob) this.considerSwapPokemob();
-        else this.doAggression();
+        if (hasMob) this.considerSwapPokemob(owner);
+        else this.doAggression(owner, worldIn);
     }
 
     @Override

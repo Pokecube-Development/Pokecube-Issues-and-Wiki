@@ -184,9 +184,9 @@ public class TrainerSpawnHandler
         final int level = SpawnHandler.getSpawnLevel(new SpawnContext(w, Database.missingno, v));
         final TrainerNpc trainer = new TrainerNpc(EntityTypes.getTrainer(), w);
         trainer.setNpcType(ttype);
-        trainer.aiStates.setAIState(AIState.MATES, true);
-        trainer.aiStates.setAIState(AIState.TRADES_ITEMS, true);
-        initTrainer(trainer.pokemobsCap, level);
+        trainer.getAIStates().setAIState(AIState.MATES, true);
+        trainer.getAIStates().setAIState(AIState.TRADES_ITEMS, true);
+        initTrainer(trainer.getPokemobs(), level);
         return trainer;
     }
 
@@ -203,7 +203,7 @@ public class TrainerSpawnHandler
             level += 10;
             // Randomize badge for leader.
 
-            final IHasRewards rewardsCap = npc.rewardsCap;
+            final IHasRewards rewardsCap = npc.getData(TrainerCaps.REWARDS);
             final PokeType type = PokeType.values()[ThutCore.newRandom().nextInt(PokeType.values().length)];
             final Item item = BuiltInRegistries.ITEM.get(
                     ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID, ":badge_" + type));
@@ -267,7 +267,7 @@ public class TrainerSpawnHandler
             // Not valid spawning spot, so deny the spawn here.
             if (!fluid.isEmpty() && fluid.getType() != Fluids.WATER) return;
 
-            if (t.pokemobsCap.countPokemon() > 0 && SpawnHandler.checkNoSpawnerInArea(w, (int) t.getX(), (int) t.getY(),
+            if (t.getPokemobs().countPokemon() > 0 && SpawnHandler.checkNoSpawnerInArea(w, (int) t.getX(), (int) t.getY(),
                     (int) t.getZ()))
             {
                 w.addFreshEntity(t);

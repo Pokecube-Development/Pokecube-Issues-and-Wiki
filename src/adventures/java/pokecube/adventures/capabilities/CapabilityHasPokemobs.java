@@ -24,9 +24,6 @@ import net.neoforged.neoforge.common.util.TriState;
 import pokecube.adventures.Config;
 import pokecube.adventures.advancements.Triggers;
 import pokecube.adventures.ai.brain.MemoryTypes;
-import pokecube.adventures.capabilities.CapabilityHasRewards.DefaultRewards;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates.DefaultAIStates;
-import pokecube.adventures.capabilities.CapabilityNPCMessages.DefaultMessager;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerBase;
@@ -247,9 +244,10 @@ public class CapabilityHasPokemobs
         public final DataParamHolder holder = new DataParamHolder();
         private DataSync datasync;
 
-        public DefaultPokemobs()
+        public DefaultPokemobs(LivingEntity user)
         {
             this.initSync(new DataSync_Impl());
+            this.init(user);
         }
 
         private void initSync(DataSync sync)
@@ -273,7 +271,7 @@ public class CapabilityHasPokemobs
         {
             boolean ignoreBattled = false;
             if (checkWatcher && target != null) for (final ITargetWatcher w : this.watchers)
-                ignoreBattled = ignoreBattled || w.ignoreHasBattled(target);
+                ignoreBattled = ignoreBattled || w.ignoreHasBattled(this, target);
 
             // No battling if we have defeated or been defeated
             if (!ignoreBattled) if (this.defeatedBy(target) || this.defeated(target)) return AllowedBattle.NOTNOW;
@@ -284,7 +282,7 @@ public class CapabilityHasPokemobs
             // Not checking watchers, return true
             if (!checkWatcher) return AllowedBattle.YES;
             // Valid if any watchers say so
-            for (final ITargetWatcher w : this.watchers) if (w.isValidTarget(target)) return AllowedBattle.YES;
+            for (final ITargetWatcher w : this.watchers) if (w.isValidTarget(this, target)) return AllowedBattle.YES;
             // Otherwise false.
             return AllowedBattle.NOTNOW;
         }
@@ -452,19 +450,22 @@ public class CapabilityHasPokemobs
         {
             this.user = user;
 
-            if (user.hasData(TrainerCaps.AISTATES)) this.aiStates = user.getData(TrainerCaps.AISTATES);
-            if (user.hasData(TrainerCaps.MESSAGES)) this.messages = user.getData(TrainerCaps.MESSAGES);
-            if (user.hasData(TrainerCaps.REWARDS)) this.rewards = user.getData(TrainerCaps.REWARDS);
-
-            if (aiStates == null) user.setData(TrainerCaps.AISTATES, aiStates = new DefaultAIStates());
-            if (messages == null) user.setData(TrainerCaps.MESSAGES, messages = new DefaultMessager());
-            if (rewards == null) user.setData(TrainerCaps.REWARDS, rewards = new DefaultRewards());
+            this.aiStates = user.getData(TrainerCaps.AISTATES);
+            this.messages = user.getData(TrainerCaps.MESSAGES);
+            this.rewards = user.getData(TrainerCaps.REWARDS);
 
             if (this.battleCooldown < 0)
             {
                 this.battleCooldown = Config.instance.trainerCooldown;
                 this.resetTimeWin = this.battleCooldown;
                 this.resetTimeLose = this.battleCooldown;
+            }
+
+            // Sync target watchers over from old if present (that can be populated before this is set correctly)
+            if (user.hasData(TrainerCaps.TRAINER))
+            {
+                var old = user.getData(TrainerCaps.TRAINER);
+                if (old != this) old.getTargetWatchers().forEach(this::addTargetWatcher);
             }
         }
 
@@ -782,7 +783,7 @@ public class CapabilityHasPokemobs
             if (target != null && this.getPokemob(0).isEmpty())
             {
                 // Notify the watchers that a target was actually set.
-                for (final ITargetWatcher watcher : watchers) watcher.onSet(null);
+                for (final ITargetWatcher watcher : watchers) watcher.onSet(this, null);
                 this.aiStates.setAIState(AIState.THROWING, false);
                 this.aiStates.setAIState(AIState.INBATTLE, false);
                 BrainUtils.deagro(this.getTrainer());
@@ -813,7 +814,7 @@ public class CapabilityHasPokemobs
                 this.aiStates.setAIState(AIState.INBATTLE, true);
             }
             // Notify the watchers that a target was actually set.
-            for (final ITargetWatcher watcher : watchers) watcher.onSet(target);
+            for (final ITargetWatcher watcher : watchers) watcher.onSet(this, target);
 
             this.getTrainer().getBrain().setActiveActivityIfPossible(Activities.BATTLE.get());
         }

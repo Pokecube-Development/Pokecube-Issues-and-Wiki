@@ -4,6 +4,7 @@ import java.util.function.Predicate;
 
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
+import pokecube.api.entity.trainers.IHasPokemobs;
 
 public class AgroTargets extends BaseAgroTask
 {
@@ -31,11 +32,11 @@ public class AgroTargets extends BaseAgroTask
     }
 
     @Override
-    public boolean isValidTarget(final LivingEntity target)
+    public boolean isValidTarget(IHasPokemobs trainer, final LivingEntity target)
     {
         if (!this.validTargets.test(target)) return false;
         if (!EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(target)) return false;
         if (!this.shouldRun.test(this.entity)) return false;
-        return this.trainer.canBattle(target, false).test();
+        return trainer.canBattle(target, false).test();
     }
 }

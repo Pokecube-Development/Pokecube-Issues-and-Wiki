@@ -19,6 +19,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.ICanEvolve;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.trainers.IHasNPCAIStates.AIState;
+import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.stats.SpecialCaseRegister;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.TimePeriod;
@@ -36,7 +37,7 @@ public class TrainerNpc extends TrainerBase
         super(type, worldIn);
         // This can be null in the case where fake worlds are used to initialize
         // us for testing.
-        if (this.pokemobsCap != null) this.pokemobsCap.setType(TypeTrainer.get(this, true));
+        this.getPokemobs().setType(TypeTrainer.get(this, true));
         this.setPersistenceRequired();
     }
 
@@ -52,9 +53,10 @@ public class TrainerNpc extends TrainerBase
         final IPokemob mon1 = PokecubeManager.itemToPokemob(buy1, this.level());
         if (mon1 == null) return;
         final int stat1 = this.getBaseStats(mon1);
-        for (int i = 0; i < this.pokemobsCap.getMaxPokemobCount(); i++)
+        for (int i = 0; i < this.getPokemobs().getMaxPokemobCount(); i++)
         {
-            ItemStack stack = this.pokemobsCap.getPokemob(i);
+            ItemStack stack = this.getPokemobs().getPokemob(i);
+            System.out.println(stack+" "+this+" "+this.getPokemobs()+" "+this.getData(TrainerCaps.TRAINER));
             if (PokecubeManager.isFilled(stack))
             {
                 final IPokemob mon = PokecubeManager.itemToPokemob(stack, this.level());
@@ -84,9 +86,9 @@ public class TrainerNpc extends TrainerBase
         if (!(PokecubeManager.isFilled(poke1) && PokecubeManager.isFilled(poke2))) return;
         UUID id = PokecubeManager.getUUID(poke2, level);
         int num = -1;
-        for (int i = 0; i < this.pokemobsCap.getMaxPokemobCount(); i++)
+        for (int i = 0; i < this.getPokemobs().getMaxPokemobCount(); i++)
         {
-            UUID test = PokecubeManager.getUUID(this.pokemobsCap.getItem(i), level);
+            UUID test = PokecubeManager.getUUID(this.getPokemobs().getItem(i), level);
             if (id.equals(test))
             {
                 num = i;
@@ -98,7 +100,7 @@ public class TrainerNpc extends TrainerBase
         final UUID trader2 = player2.getUUID();
         mon1.setOwner(trader2);
         poke1 = PokecubeManager.pokemobToItem(mon1);
-        this.pokemobsCap.setPokemob(num, poke1);
+        this.getPokemobs().setPokemob(num, poke1);
     }
 
     @Override
@@ -127,23 +129,23 @@ public class TrainerNpc extends TrainerBase
         this.location = location;
         if (location == null)
         {
-            this.aiStates.setAIState(AIState.STATIONARY, false);
+            this.getAIStates().setAIState(AIState.STATIONARY, false);
             this.guardAI.setPos(new BlockPos(0, 0, 0));
             this.guardAI.setTimePeriod(new TimePeriod(0, 0));
             return this;
         }
         this.guardAI.setTimePeriod(TimePeriod.fullDay);
         this.guardAI.setPos(this.blockPosition());
-        this.aiStates.setAIState(AIState.STATIONARY, true);
+        this.getAIStates().setAIState(AIState.STATIONARY, true);
         return this;
     }
 
     public void setTypes(boolean resetName)
     {
-        if (this.pokemobsCap.getType() == null)
+        if (this.getPokemobs().getType() == null)
         {
             this.setNpcType(TypeTrainer.get(this, false));
-            TrainerSpawnHandler.initTrainer(this.pokemobsCap, 5);
+            TrainerSpawnHandler.initTrainer(this.getPokemobs(), 5);
         }
         if (this.getNPCName().isEmpty() || resetName)
         {
