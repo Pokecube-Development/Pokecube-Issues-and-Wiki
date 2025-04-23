@@ -40,7 +40,7 @@ import thut.wearables.IWearable;
 
 public class BlingItem extends Item implements IWearable
 {
-    private static Set<ResourceLocation> errored = Sets.newHashSet();
+    private static final Set<ResourceLocation> errored = Sets.newHashSet();
     public static Map<String, EnumWearable> wearables = Maps.newHashMap();
     public static Map<String, DeferredItem<Item>> blingWearables = Maps.newHashMap();
     public static Map<Item, EnumWearable> defaults = Maps.newHashMap();
@@ -133,12 +133,6 @@ public class BlingItem extends Item implements IWearable
         ClientSetupHandler.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
     }
 
-    @Override
-    public boolean dyeable(final ItemStack stack)
-    {
-        return true;
-    }
-
     public static ItemStack getStack(final ResourceLocation loc)
     {
         return BlingItem.getStack(loc, true);
@@ -164,7 +158,7 @@ public class BlingItem extends Item implements IWearable
         if (item != null) return new ItemStack(item);
         if (stacktrace && BlingItem.errored.add(loc))
         {
-            ThutCore.LOGGER.error(loc + " Not found in list of items.");
+            ThutCore.LOGGER.error("{} Not found in list of items.", loc);
         }
         return ItemStack.EMPTY;
     }
@@ -198,7 +192,7 @@ public class BlingItem extends Item implements IWearable
     public static ResourceLocation toResource(final String name, final String modid)
     {
         ResourceLocation loc;
-        if (!name.contains(":")) loc = ResourceLocation.fromNamespaceAndPath(ThutBling.MODID, name);
+        if (!name.contains(":")) loc = ResourceLocation.fromNamespaceAndPath(modid, name);
         else loc = ResourceLocation.parse(name);
         return loc;
     }

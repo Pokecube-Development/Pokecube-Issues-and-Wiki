@@ -23,24 +23,6 @@ public class DefaultActiveWearable implements IActiveWearable
         return null;
     }
 
-    @Override
-    public void onPutOn(final LivingEntity player, final ItemStack itemstack, final EnumWearable slot,
-            final int subIndex)
-    {
-    }
-
-    @Override
-    public void onTakeOff(final LivingEntity player, final ItemStack itemstack, final EnumWearable slot,
-            final int subIndex)
-    {
-    }
-
-    @Override
-    public void onUpdate(final LivingEntity player, final ItemStack itemstack, final EnumWearable slot,
-            final int subIndex)
-    {
-    }
-
     @OnlyIn(value = Dist.CLIENT)
     @Override
     public void renderWearable(final PoseStack mat, final MultiBufferSource buff, final EnumWearable slot,

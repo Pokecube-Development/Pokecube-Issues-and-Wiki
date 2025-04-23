@@ -2,7 +2,6 @@ package pokecube.core.items.pokecubes;
 
 import com.google.common.collect.Lists;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -17,6 +16,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -35,7 +35,6 @@ import pokecube.api.items.PokecubeContents;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.entity.pokecubes.EntityPokecube;
 import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
@@ -46,7 +45,6 @@ import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.Permissions;
 import thut.api.Tracker;
-import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vec3f;
 import thut.core.common.ThutCore;
@@ -126,7 +124,6 @@ public class Pokecube extends Item implements IPokecube
         {
             var contents = PokemobCaps.getPokemobIn(item, PokecubeCore.proxy.getWorld());
             Entity mob = contents.entity();
-//            if (mob == null) mob = PokemobCaps.loadContents(contents, PokecubeCore.proxy.getWorld(), true);
             if (mob == null)
             {
                 list.add(TComponent.translatable("pokecube.filled.error"));
@@ -295,16 +292,6 @@ public class Pokecube extends Item implements IPokecube
         return 255;
     }
 
-    @Override
-    public boolean isValidRepairItem(ItemStack cube, ItemStack item)
-    {
-        if (PokecubeManager.isFilled(cube))
-        {
-            return ItemList.is(HungerTask.FOODTAG, item);
-        }
-        return super.isValidRepairItem(cube, item);
-    }
-
     /**
      * returns the action that specifies what animation to play when the items is being used
      */
@@ -342,6 +329,14 @@ public class Pokecube extends Item implements IPokecube
     {
         player.startUsingItem(hand);
         return new InteractionResultHolder<>(InteractionResult.SUCCESS, player.getItemInHand(hand));
+    }
+
+    @Override
+    public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration)
+    {
+        // Stops using pokecube when opening an inventory, this makes them not immediately fire if you exit a trade window.
+        if (livingEntity instanceof Player player && !(player.containerMenu instanceof InventoryMenu))
+            player.stopUsingItem();
     }
 
     /**

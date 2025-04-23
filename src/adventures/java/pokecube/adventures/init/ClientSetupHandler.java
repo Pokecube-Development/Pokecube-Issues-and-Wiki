@@ -246,7 +246,7 @@ public class ClientSetupHandler
     {
         event.register((stack, tintIndex) -> {
             if (!(stack.has(DataComponents.DYED_COLOR))) return 0xFFFFFFFF;
-            return tintIndex == 0 ? stack.get(DataComponents.DYED_COLOR).rgb() | 0xFF000000 : 0xFFFFFFFF;
+            return tintIndex == 0 ? stack.get(DataComponents.DYED_COLOR).rgb() | 0xFF000000 : 0xFFF8F855;
         }, PokecubeAdv.BAG.get());
     }
 }

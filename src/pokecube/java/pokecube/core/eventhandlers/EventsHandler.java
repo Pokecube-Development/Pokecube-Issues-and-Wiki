@@ -258,7 +258,7 @@ public class EventsHandler
         EventsHandler.MONSTERMATCHER = EventsHandler.NOTVANILLAANIMALORMOB.and(EventsHandler.MONSTERMATCHER);
     }
 
-    private static Map<ResourceKey<Level>, List<IRunnable>> scheduledTasks = Maps.newConcurrentMap();
+    private static final Map<ResourceKey<Level>, List<IRunnable>> scheduledTasks = Maps.newConcurrentMap();
 
     public static void Schedule(final Level world, final IRunnable task)
     {

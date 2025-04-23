@@ -21,6 +21,7 @@ import pokecube.api.events.init.RegisterMiscItems;
 import pokecube.compat.wearables.sided.Common.WearablesRenderer;
 import pokecube.core.PokecubeCore;
 import pokecube.core.impl.PokecubeMod;
+import thut.bling.client.render.Back;
 import thut.bling.client.render.Finger;
 import thut.bling.client.render.Hat;
 import thut.bling.client.render.Waist;
@@ -108,6 +109,20 @@ public class Client
                         if (slot != EnumWearable.HAT) return;
                         super.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
                         Hat.renderHat(mat, buff, wearer, stack, this.model, brightness, overlay, IS_OVERLAY);
+                    }
+                });
+        Client.renderers.put("bag",
+                new WearablesRenderer(ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "models/worn/bag"))
+                {
+                    @OnlyIn(Dist.CLIENT)
+                    @Override
+                    public void renderWearable(final PoseStack mat, final MultiBufferSource buff,
+                            final EnumWearable slot, final int index, final LivingEntity wearer, final ItemStack stack,
+                            final float partialTicks, final int brightness, final int overlay)
+                    {
+                        if (slot != EnumWearable.BACK) return;
+                        super.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
+                        Back.renderBack(mat, buff, wearer, stack, this.model, brightness, overlay, IS_OVERLAY);
                     }
                 });
     }

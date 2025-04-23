@@ -17,7 +17,6 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.events.combat.SetAttackTargetEvent;
 import pokecube.api.moves.Battle;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
@@ -40,6 +39,8 @@ import java.util.function.Predicate;
 /** This IAIRunnable is to find targets for the pokemob to try to kill. */
 public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinder
 {
+    public static LivingChangeTargetEvent.ILivingTargetType AGROREDIRECT = new LivingChangeTargetEvent.ILivingTargetType() {};
+
     public static int DEAGROTIMER = 50;
 
     UUID targetId = null;
@@ -54,7 +55,6 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
 
     static
     {
-        ThutCore.FORGE_BUS.addListener(FindTargetsTask::onBrainSetTarget);
         ThutCore.FORGE_BUS.addListener(FindTargetsTask::onLivingSetTarget);
         ThutCore.FORGE_BUS.addListener(FindTargetsTask::onLivingHurt);
     }
@@ -101,18 +101,19 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         if (diverted != target) BrainUtils.setAttackTarget(living, diverted);
     }
 
-    private static void onBrainSetTarget(final SetAttackTargetEvent event)
-    {
-        if (!FindTargetsTask.handleDamagedTargets) return;
-        event.newTarget = divertTarget(event.mob, event.originalTarget);
-    }
-
     private static void onLivingSetTarget(final LivingChangeTargetEvent event)
     {
         if (!FindTargetsTask.handleDamagedTargets) return;
-
         LivingEntity newTarget = event.getNewAboutToBeSetTarget();
         LivingEntity rootMob = event.getEntity();
+
+        // We handle it inside the re-direct.
+        if (event.getTargetType() == AGROREDIRECT)
+        {
+            // Make sure they are marked as in a battle with each other.
+            Battle.createOrAddToBattle(rootMob, newTarget);
+            return;
+        }
 
         var oldTarget = BrainUtils.getAttackTarget(rootMob);
         if (newTarget == oldTarget) return;
@@ -120,8 +121,9 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         // Don't manage this.
         if (newTarget == null) return;
         LivingEntity target = divertTarget(rootMob, newTarget);
-        // Make sure they are marked as in a battle with each other.
-        if (target != rootMob) Battle.createOrAddToBattle(rootMob, target);
+        // Now fire our re-direct event
+        LivingChangeTargetEvent event2 = new LivingChangeTargetEvent(rootMob, target, AGROREDIRECT);
+        ThutCore.FORGE_BUS.post(event2);
     }
 
     private static void onLivingHurt(final LivingDamageEvent.Post event)
@@ -303,7 +305,6 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         {
             this.initiateBattle(living);
             this.clear();
-            return;
         }
     }
 

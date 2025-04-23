@@ -296,7 +296,20 @@ public class TrainerSpawnHandler
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onJoinLevel(EntityJoinLevelEvent event)
     {
-        if (event.getEntity() instanceof NpcMob npc) TrainerEventHandler.initTrainer(npc, null);
+        if (event.getEntity() instanceof NpcMob npc)
+        {
+            if (!npc.level().isAreaLoaded(npc.getOnPos(), 2) && npc.level() instanceof ServerLevel)
+            {
+                EventsHandler.Schedule(npc.level(), w -> {
+                    if (!npc.isAddedToLevel()) return true;
+                    if (!npc.level().isAreaLoaded(npc.getOnPos(), 2)) return false;
+                    TrainerEventHandler.initTrainer(npc, null);
+                    return true;
+                });
+                return;
+            }
+            TrainerEventHandler.initTrainer(npc, null);
+        }
     }
 
     /**

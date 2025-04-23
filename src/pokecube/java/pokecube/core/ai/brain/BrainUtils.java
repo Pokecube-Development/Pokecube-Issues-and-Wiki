@@ -1,8 +1,5 @@
 package pokecube.core.ai.brain;
 
-import java.util.List;
-import java.util.Optional;
-
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -12,16 +9,19 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
-import pokecube.api.events.combat.SetAttackTargetEvent;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.utils.AITools;
 import thut.api.entity.ai.BrainUtil;
 import thut.api.entity.ai.VectorPosWrapper;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+
+import java.util.List;
+import java.util.Optional;
 
 public class BrainUtils extends BrainUtil
 {
@@ -190,10 +190,11 @@ public class BrainUtils extends BrainUtil
         // No target dead
         if (!target.isAlive() || target.getHealth() <= 0) return;
 
-        final SetAttackTargetEvent event = new SetAttackTargetEvent(mob, target);
+        LivingChangeTargetEvent event = new LivingChangeTargetEvent(mob, target,
+                LivingChangeTargetEvent.LivingTargetType.MOB_TARGET);
         ThutCore.FORGE_BUS.post(event);
-
-        target = event.newTarget;
+        if (event.isCanceled()) return;
+        target = event.getNewAboutToBeSetTarget();
 
         // No target self
         if (mob == target) return;

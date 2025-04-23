@@ -15,7 +15,6 @@ public class BagItem extends Item
     public BagItem(final Properties properties)
     {
         super(properties);
-        // TODO default colours and whatnot for bag
     }
 
     @Override
@@ -25,11 +24,4 @@ public class BagItem extends Item
         if (!worldIn.isClientSide) PacketBag.sendOpenPacket(playerIn, playerIn.getUUID());
         return new InteractionResultHolder<>(InteractionResult.SUCCESS, playerIn.getItemInHand(handIn));
     }
-
-//    @Override
-//    public int getColor(ItemStack stack)
-//    {
-//        CompoundTag compoundtag = stack.getTagElement("display");
-//        return compoundtag != null && compoundtag.contains("color", 99) ? compoundtag.getInt("color") : 0xFFB02E26;
-//    }
 }

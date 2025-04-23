@@ -23,7 +23,7 @@ public record WearableData(ResourceLocation key, IActiveWearable wearable)
     }
 
     @Override
-    public final String toString()
+    public String toString()
     {
         return key.toString();
     }

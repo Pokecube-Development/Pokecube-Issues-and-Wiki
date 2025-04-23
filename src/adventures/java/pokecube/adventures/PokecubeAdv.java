@@ -1,11 +1,6 @@
 package pokecube.adventures;
 
-import java.util.Locale;
-import java.util.Map;
-import java.util.function.Supplier;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
@@ -59,7 +54,6 @@ import pokecube.adventures.blocks.genetics.cloner.ClonerTile;
 import pokecube.adventures.blocks.genetics.extractor.ExtractorBlock;
 import pokecube.adventures.blocks.genetics.extractor.ExtractorContainer;
 import pokecube.adventures.blocks.genetics.extractor.ExtractorTile;
-import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.blocks.genetics.helper.SelectorImpl;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeHandlers;
 import pokecube.adventures.blocks.genetics.splicer.SplicerBlock;
@@ -80,7 +74,6 @@ import pokecube.adventures.inventory.trainer.ContainerTrainer;
 import pokecube.adventures.items.Linker;
 import pokecube.adventures.items.bag.BagContainer;
 import pokecube.adventures.items.bag.BagItem;
-import pokecube.adventures.proxy.CommonProxy;
 import pokecube.adventures.utils.EnergyHandler;
 import pokecube.adventures.utils.RecipePokeAdv;
 import pokecube.api.PokecubeAPI;
@@ -93,7 +86,10 @@ import thut.api.attachments.CopyMob;
 import thut.core.common.ThutCore;
 import thut.core.common.commands.CommandConfigs;
 import thut.core.common.network.PacketHandler;
-import thut.lib.DistExecutor;
+
+import java.util.Locale;
+import java.util.Map;
+import java.util.function.Supplier;
 
 @Mod(value = PokecubeAdv.MODID)
 public class PokecubeAdv
@@ -180,32 +176,33 @@ public class PokecubeAdv
         ITEM_DATA = DeferredRegister.create(BuiltInRegistries.DATA_COMPONENT_TYPE, MODID);
 
         // Blocks
-        AFA = PokecubeAdv.BLOCKS.register("afa",
-                () -> new AfaBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN)
-                        .strength(5.0F, 6.0F).sound(SoundType.NETHERITE_BLOCK).requiresCorrectToolForDrops()));
-        COMMANDER = PokecubeAdv.BLOCKS.register("commander",
-                () -> new CommanderBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
-                        .strength(5.0F, 6.0F).sound(SoundType.NETHERITE_BLOCK).requiresCorrectToolForDrops()));
-        DAYCARE = PokecubeAdv.BLOCKS.register("daycare",
-                () -> new DaycareBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK)
-                        .strength(5.0F, 6.0F).sound(SoundType.NETHERITE_BLOCK).requiresCorrectToolForDrops()));
-        CLONER = PokecubeAdv.BLOCKS.register("cloner",
-                () -> new ClonerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE)
-                        .strength(5.0F, 6.0F).sound(SoundType.NETHERITE_BLOCK).requiresCorrectToolForDrops()));
-        EXTRACTOR = PokecubeAdv.BLOCKS.register("extractor",
-                () -> new ExtractorBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN)
-                        .strength(5.0F, 6.0F).sound(SoundType.NETHERITE_BLOCK).requiresCorrectToolForDrops()));
-        SPLICER = PokecubeAdv.BLOCKS.register("splicer",
-                () -> new SplicerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN).strength(5.0F, 6.0F)
+        AFA = PokecubeAdv.BLOCKS.register("afa", () -> new AfaBlock(
+                BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).strength(5.0F, 6.0F)
                         .sound(SoundType.NETHERITE_BLOCK).requiresCorrectToolForDrops()));
-        SIPHON = PokecubeAdv.BLOCKS.register("siphon", () -> new SiphonBlock(BlockBehaviour.Properties.of()
-                .mapColor(MapColor.TERRACOTTA_GREEN).strength(5.0F, 6.0F).sound(SoundType.NETHERITE_BLOCK)));
-        WARP_PAD = PokecubeAdv.BLOCKS.register("warp_pad",
-                () -> new WarpPadBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN)
-                        .strength(5.0F, 6.0F).sound(SoundType.NETHERITE_BLOCK).requiresCorrectToolForDrops()));
-        STATUE = PokecubeAdv.BLOCKS.register("statue",
-                () -> new PokemobStatue(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(5.0F, 6.0F)
-                        .sound(SoundType.STONE).dynamicShape().noOcclusion().requiresCorrectToolForDrops()));
+        COMMANDER = PokecubeAdv.BLOCKS.register("commander", () -> new CommanderBlock(
+                BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(5.0F, 6.0F)
+                        .sound(SoundType.NETHERITE_BLOCK).requiresCorrectToolForDrops()));
+        DAYCARE = PokecubeAdv.BLOCKS.register("daycare", () -> new DaycareBlock(
+                BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).strength(5.0F, 6.0F)
+                        .sound(SoundType.NETHERITE_BLOCK).requiresCorrectToolForDrops()));
+        CLONER = PokecubeAdv.BLOCKS.register("cloner", () -> new ClonerBlock(
+                BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(5.0F, 6.0F)
+                        .sound(SoundType.NETHERITE_BLOCK).requiresCorrectToolForDrops()));
+        EXTRACTOR = PokecubeAdv.BLOCKS.register("extractor", () -> new ExtractorBlock(
+                BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN).strength(5.0F, 6.0F)
+                        .sound(SoundType.NETHERITE_BLOCK).requiresCorrectToolForDrops()));
+        SPLICER = PokecubeAdv.BLOCKS.register("splicer", () -> new SplicerBlock(
+                BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN).strength(5.0F, 6.0F)
+                        .sound(SoundType.NETHERITE_BLOCK).requiresCorrectToolForDrops()));
+        SIPHON = PokecubeAdv.BLOCKS.register("siphon", () -> new SiphonBlock(
+                BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_GREEN).strength(5.0F, 6.0F)
+                        .sound(SoundType.NETHERITE_BLOCK)));
+        WARP_PAD = PokecubeAdv.BLOCKS.register("warp_pad", () -> new WarpPadBlock(
+                BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).strength(5.0F, 6.0F)
+                        .sound(SoundType.NETHERITE_BLOCK).requiresCorrectToolForDrops()));
+        STATUE = PokecubeAdv.BLOCKS.register("statue", () -> new PokemobStatue(
+                BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(5.0F, 6.0F).sound(SoundType.STONE)
+                        .dynamicShape().noOcclusion().requiresCorrectToolForDrops()));
         LAB_GLASS = PokecubeAdv.DECORATIONS.register("laboratory_glass",
                 () -> new LaboratoryGlassBlock(DyeColor.LIGHT_BLUE,
                         BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).strength(0.3f).noOcclusion()
@@ -286,13 +283,6 @@ public class PokecubeAdv
 
     public static final String TRAINERTEXTUREPATH = PokecubeAdv.MODID + ":textures/trainer/";
 
-    // This proxy is used for the following:
-    //
-    // Server vs client implementations of Wearable, the client one has extended
-    // rendering functions.
-    public static final CommonProxy proxy = DistExecutor.runForDist(() -> pokecube.adventures.proxy.ClientProxy::new,
-            () -> pokecube.adventures.proxy.CommonProxy::new);
-
     private static final String NETVERSION = "2.0.0";
     // Handler for network stuff.
     public static final PacketHandler packets = new PacketHandler(PokecubeAdv.NETVERSION);
@@ -364,21 +354,13 @@ public class PokecubeAdv
             Professions.postInit();
             CopyMob.register(EntityTypes.getTrainer());
             CopyMob.register(EntityTypes.getLeader());
-
-//            EntityTools.registerCachedCap(TrainerCaps.AISTATES_CAP);
-//            EntityTools.registerCachedCap(TrainerCaps.HASPOKEMOBS_CAP);
-//            EntityTools.registerCachedCap(TrainerCaps.MESSAGES_CAP);
-//            EntityTools.registerCachedCap(TrainerCaps.REWARDS_CAP);
-//            EntityTools.registerCachedCap(TrainerCaps.TRADES_CAP);
         });
     }
 
-    @SubscribeEvent
     /**
      * Register the commands.
-     *
-     * @param event
      */
+    @SubscribeEvent
     public void registerCommands(final RegisterCommandsEvent event)
     {
         CommandConfigs.register(PokecubeAdv.config, event.getDispatcher(), "pokeadvsettings");
