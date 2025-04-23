@@ -6,6 +6,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.network.syncher.SynchedEntityData.Builder;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -237,14 +238,14 @@ public class EntityMoveUse extends ThrowableProjectile
         // Self move should only hit user.
         if (selfMove && target != user) return;
 
+        this.addIgnoredEntity(target);
+
+        // Only hit multipart entities once
+        // Only can hit our valid target!
         final UUID targetID = living.getUUID();
         final Entity targ = this.getTarget();
         final UUID targId = targ == null ? null : targ.getUUID();
 
-        this.addIgnoredEntity(targ);
-
-        // Only hit multipart entities once
-        // Only can hit our valid target!
         if (targId != null && !attack.canHitNonTarget() && !targId.equals(targetID)) return;
         if (!this.level.isClientSide)
         {
@@ -265,10 +266,8 @@ public class EntityMoveUse extends ThrowableProjectile
                 target.setLastHurtByMob(user);
                 user.setLastHurtByMob(target);
             }
-
             MovesUtils.doAttack(attack.name, userMob, target);
             this.applied = true;
-
             // Don't penetrate through blocking mobs, so end the move here.
             if (selfMove || (living.isBlocking() && !this.getMove().isAoE()))
             {

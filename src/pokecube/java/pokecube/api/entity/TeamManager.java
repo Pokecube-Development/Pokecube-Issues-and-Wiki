@@ -1,13 +1,12 @@
 package pokecube.api.entity;
 
-import java.util.UUID;
-
-import javax.annotation.Nonnull;
-
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.scores.Team;
 import thut.api.ThutCaps;
 import thut.api.attachments.IOwnable;
+
+import javax.annotation.Nonnull;
+import java.util.UUID;
 
 public class TeamManager
 {
@@ -24,6 +23,10 @@ public class TeamManager
             {
                 final UUID id = ownable.getOwnerId();
                 if (id != null) name = id.toString();
+                if (ownable.getOwner() != null)
+                {
+                    return getTeam(ownable.getOwner());
+                }
             }
             return name;
         }
