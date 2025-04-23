@@ -36,7 +36,7 @@
     "pokemob.status.confuse.remove.user": "%1$s §ais no longer confused",
     "pokemob.status.confusion.user": "%1$s §churt itself in confusion",
     "pokemob.status.infatuate.user": "%1$s §cis immobilized by love",
-    "pokemob.move.stat.fail.user": "§cThe status effect failed!",
+    "pokemob.status.fail.user": "§cThe status effect failed!",
 
     "pokemob.status.curse.target": "%1$s §awas hurt by the curse",
     "pokemob.status.flinch.target": "%1$s §aflinched",
@@ -44,7 +44,7 @@
     "pokemob.status.confuse.remove.target": "%1$s §cis no longer confused",
     "pokemob.status.confusion.target": "%1$s §ahurt itself in confusion",
     "pokemob.status.infatuate.target": "%1$s §ais immobilized by love",
-    "pokemob.move.stat.fail.target": "§aThe status effect failed!",
+    "pokemob.status.fail.target": "§aThe status effect failed!",
 
     "pokemob.move.super.effective.user": "§aIt's super effective!",
     "pokemob.move.not.very.effective.user": "§cIt's not very effective!",
@@ -324,6 +324,7 @@
     "pokemob.gui.ai.usedoors.desc": "Enable opening doors",
     "pokemob.gui.ai.poofs.desc": "Enable returning to cube on fainting",
     "pokemob.gui.ai.build.desc": "Enable building from instructions",
+    "pokemob.gui.ai.shoulder.desc": "Enable sitting on shoulder",
 
     "pokemob.gui.ai.gather": "Gather",
     "pokemob.gui.ai.beeai": "Bee AI",
@@ -338,6 +339,7 @@
     "pokemob.gui.ai.usedoors": "Doors",
     "pokemob.gui.ai.poofs": "Poofs",
     "pokemob.gui.ai.build": "Builds",
+    "pokemob.gui.ai.shoulder": "Shoulder",
 
     "pokemob.gui.storage.berry": "Berry inventory location",
     "pokemob.gui.storage.storage": "Item dropoff inventory location",

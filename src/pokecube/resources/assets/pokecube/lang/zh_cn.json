@@ -36,7 +36,7 @@
     "pokemob.status.confuse.remove.user": "%1$s §a从混乱中解除了。",
     "pokemob.status.confusion.user": "%1$s §c混乱了，自己受伤害了！",
     "pokemob.status.infatuate.user": "%1$s §c被迷倒了。",
-    "pokemob.move.stat.fail.user": "§c但是它失败了。",
+    "pokemob.status.fail.user": "§c但是它失败了。",
 
     "pokemob.status.curse.target": "%1$s §c被诅咒伤害了！",
     "pokemob.status.flinch.target": "%1$s §c退缩了！",
@@ -44,7 +44,7 @@
     "pokemob.status.confuse.remove.target": "%1$s §a从混乱中解除了。",
     "pokemob.status.confusion.target": "%1$s §c混乱了，自己受伤害了！",
     "pokemob.status.infatuate.target": "%1$s §c被迷倒了。",
-    "pokemob.move.stat.fail.target": "§c但是它失败了。",
+    "pokemob.status.fail.target": "§c但是它失败了。",
 
     "pokemob.move.super.effective.user": "§a效果绝佳！",
     "pokemob.move.not.very.effective.user": "§c效果不好...",

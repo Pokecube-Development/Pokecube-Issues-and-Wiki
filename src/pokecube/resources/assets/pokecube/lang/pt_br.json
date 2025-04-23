@@ -25,7 +25,7 @@
     "pokemob.status.confuse.remove.user": "%1$s §anão está mais confuso",
     "pokemob.status.confusion.user": "%1$s §cmachucou-se com confusão",
     "pokemob.status.infatuate.user": "%1$s §cé imobilizado pelo amor",
-    "pokemob.move.stat.fail.user": "§cO efeito de status falhou!",
+    "pokemob.status.fail.user": "§cO efeito de status falhou!",
 
     "pokemob.status.curse.target": "%1$s §aestá afetado pela maldição",
     "pokemob.status.flinch.target": "%1$s §aestremecido",
@@ -33,7 +33,7 @@
     "pokemob.status.confuse.remove.target": "%1$s §cnão está mais confuso",
     "pokemob.status.confusion.target": "%1$s §amachucou-se com confusão",
     "pokemob.status.infatuate.target": "%1$s §aé imobilizado pelo amor",
-    "pokemob.move.stat.fail.target": "§aO efeito de status falhou!",
+    "pokemob.status.fail.target": "§aO efeito de status falhou!",
 
     "pokemob.move.super.effective.user": "§aÉ super efetivo!",
     "pokemob.move.not.very.effective.user": "§cNão é super efetivo!",
