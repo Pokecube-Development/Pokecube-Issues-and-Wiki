@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
@@ -20,6 +21,7 @@ public class PokemobMoveStats
 
     private static final PokemobMoveStats defaults = new PokemobMoveStats();
     private static final Set<String> IGNORE = Sets.newHashSet();
+
     static
     {
         PokemobMoveStats.IGNORE.add("baseMoves");
@@ -60,17 +62,15 @@ public class PokemobMoveStats
     public int changes = IMoveConstants.CHANGE_NONE;
 
     /**
-     * Time when this creeper was last in an active state (Messed up code here,
-     * probably causes creeper animation to go weird)
+     * Time when this creeper was last in an active state (Messed up code here, probably causes creeper animation to go
+     * weird)
      */
     public int lastActiveTime;
 
     /**
-     * The amount of time since the creeper was close enough to the player to
-     * ignite
+     * The amount of time since the creeper was close enough to the player to ignite
      */
     public int timeSinceIgnited;
-    public int fuseTime = 30;
 
     /** The Previous lvl, used to determine which moves to try to learn. */
     public int oldLevel = 0;
@@ -84,11 +84,10 @@ public class PokemobMoveStats
     /** Cache of currently selected move */
     public MoveEntry selectedMove;
     /** The moves we are currently using */
-    public List<MoveApplication> movesInProgress = Lists.newArrayList();
+    public final List<MoveApplication> movesInProgress = Lists.newArrayList();
     public boolean targettingSelf = false;
     /**
-     * This is the ability to apply in battle, out of battle it will be reset to
-     * whatever the mob's normal ability was.
+     * This is the ability to apply in battle, out of battle it will be reset to whatever the mob's normal ability was.
      */
     public Ability battleAbility = null;
 
@@ -110,14 +109,15 @@ public class PokemobMoveStats
     public void reset()
     {
         System.arraycopy(baseMoves, 0, movesToUse, 0, movesToUse.length);
-        for (final Field f : this.getClass().getFields()) try
-        {
-            if (!PokemobMoveStats.IGNORE.contains(f.getName())) f.set(this, f.get(PokemobMoveStats.defaults));
-        }
-        catch (final Exception e)
-        {
-            e.printStackTrace();
-        }
+        for (final Field f : this.getClass().getFields())
+            try
+            {
+                if (!PokemobMoveStats.IGNORE.contains(f.getName())) f.set(this, f.get(PokemobMoveStats.defaults));
+            }
+            catch (final Exception e)
+            {
+                PokecubeAPI.LOGGER.error("Error resetting move stats", e);
+            }
     }
 
     public void checkMovesInProgress(IPokemob user)
@@ -137,19 +137,6 @@ public class PokemobMoveStats
         }
     }
 
-    public void changeMovesUser(IPokemob newUser)
-    {
-        PokemobMoveStats from = newUser.getMoveStats();
-        synchronized (movesInProgress)
-        {
-            synchronized (from.movesInProgress)
-            {
-                from.movesInProgress.addAll(this.movesInProgress);
-                from.movesInProgress.forEach(m -> m.setUser(newUser));
-            }
-        }
-    }
-
     public void addMoveInProgress(IPokemob user, MoveApplication application)
     {
         this.targettingSelf |= application.getTarget() == user.getEntity();
@@ -164,14 +151,13 @@ public class PokemobMoveStats
         return !movesInProgress.isEmpty();
     }
 
-    public boolean addPendingMove(String move, IPokemob notify)
+    public void addPendingMove(String move, IPokemob notify)
     {
-        if (move == null) return false;
-        if (newMoves.contains(move)) return false;
+        if (move == null) return;
+        if (newMoves.contains(move)) return;
         newMoves.add(move);
         newMoves.sort(null);
         if (notify != null) PacketSyncNewMoves.sendUpdatePacket(notify);
-        return true;
     }
 
     public void removePendingMove(String move)
@@ -204,15 +190,27 @@ public class PokemobMoveStats
         return movesToUse;
     }
 
+    public void changeMovesUser(IPokemob newUser)
+    {
+        PokemobMoveStats from = newUser.getMoveStats();
+        synchronized (movesInProgress)
+        {
+            synchronized (from.movesInProgress)
+            {
+                from.movesInProgress.addAll(this.movesInProgress);
+                from.movesInProgress.forEach(m -> m.setUser(newUser));
+            }
+        }
+    }
+
     public String[] getBaseMoves()
     {
         return baseMoves;
     }
 
-    public String[] setBaseMoves(String[] baseMoves)
+    public void setBaseMoves(String[] baseMoves)
     {
         if (baseMoves == movesToUse) Thread.dumpStack();
         this.baseMoves = baseMoves;
-        return baseMoves;
     }
 }

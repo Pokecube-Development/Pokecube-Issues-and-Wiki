@@ -32,12 +32,14 @@ public class RenderMoves extends EntityRenderer<EntityMoveUse>
         {
             mat.pushPose();
             final MovePacketInfo info = entity.getMoveInfo();
-            animation.clientAnimation(mat, bufferIn, info, partialTicks);
-            if (info.lastApplyTimer != entity.tickCount)
+            info.currentTick += partialTicks;
+            float timer = entity.tickCount + partialTicks;
+            if (Math.abs(timer - info.lastApplyTimer) >= 1)
             {
-                info.lastApplyTimer = entity.tickCount;
+                info.lastApplyTimer = timer;
                 animation.spawnClientEntities(info, partialTicks);
             }
+            animation.clientAnimation(mat, bufferIn, info, partialTicks, packedLightIn);
             mat.popPose();
         }
     }

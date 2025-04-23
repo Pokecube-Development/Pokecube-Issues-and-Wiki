@@ -44,7 +44,6 @@ import java.util.Random;
 
 public class NestTile extends InteractableTile implements ITickTile
 {
-    public static int NESTSPAWNTYPES = 1;
 
     public static EntityPokemobEgg spawnEgg(final PokedexEntry entry, final BlockPos pos, final ServerLevel world,
             final boolean spawnNow)
@@ -144,9 +143,7 @@ public class NestTile extends InteractableTile implements ITickTile
             if (player instanceof ServerPlayer sendTo)
             {
                 final InvWrapper wrapper = new InvWrapper(mhandler);
-                wrapper.addListener(c -> {
-                    this.getLevel().getChunk(getBlockPos()).setUnsaved(true);
-                });
+                wrapper.addListener(c -> this.getLevel().getChunk(getBlockPos()).setUnsaved(true));
                 final SimpleMenuProvider provider = new SimpleMenuProvider(
                         (i, p, e) -> ChestMenu.sixRows(i, p, wrapper), TComponent.translatable("block.pokecube.nest"));
                 sendTo.openMenu(provider);

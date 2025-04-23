@@ -31,7 +31,7 @@ public class AnimationPowder extends MoveAnimationBase
     public void spawnClientEntities(MovePacketInfo info, float partialTicks)
     {
         final Vector3 target = info.target;
-        this.initColour(info.currentTick, partialTicks, info.move);
+        this.initColour(info.currentTick, info.move);
         final Vector3 temp = new Vector3();
         final Random rand = ThutCore.newRandom();
         for (int i = 0; i < 100 * values.density; i++)

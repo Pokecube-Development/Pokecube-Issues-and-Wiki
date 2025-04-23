@@ -23,7 +23,7 @@ public class Thunder extends MoveAnimationBase
     }
 
     @Override
-    public void initColour(final long time, final float partialTicks, final MoveEntry move)
+    public void initColour(final float time, final MoveEntry move)
     {
         // No colouring for thunder.
     }

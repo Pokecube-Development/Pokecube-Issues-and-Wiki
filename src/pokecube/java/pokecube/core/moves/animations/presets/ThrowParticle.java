@@ -1,95 +1,108 @@
 package pokecube.core.moves.animations.presets;
 
-import java.util.Random;
-
 import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
-
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.util.Mth;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import org.joml.Vector3f;
+import pokecube.core.client.render.mobs.overlays.Utils;
 import pokecube.core.moves.animations.AnimPreset;
 import pokecube.core.moves.animations.MoveAnimationBase;
-import thut.api.maths.Vector3;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @AnimPreset(getPreset = "throw")
 public class ThrowParticle extends MoveAnimationBase
 {
+    private static final List<Vector3f> SPHERECACHE = new ArrayList<>();
+    private static final RenderType RENDER_TYPE = RenderType.create("thrown_particle",
+            DefaultVertexFormat.POSITION_COLOR_LIGHTMAP, Mode.TRIANGLES, 1536, false, true,
+            RenderType.CompositeState.builder().setShaderState(RenderType.RENDERTYPE_TEXT_BACKGROUND_SHADER)
+                    .setTextureState(RenderType.NO_TEXTURE).setTransparencyState(RenderType.TRANSLUCENT_TRANSPARENCY)
+                    .setLightmapState(RenderType.LIGHTMAP).createCompositeState(false));
+
+    static
+    {
+        float x, y, z;
+        int n_phi = 6;
+        int n_theta = 6;
+        float dtheta = (float) (Math.PI / n_theta);
+        float dphi = (float) (2 * Math.PI / n_phi);
+        float r = 1;
+        for (int p = 0; p < n_phi; p++)
+            for (int t = -n_theta; t < n_theta; t++)
+            {
+                float theta = t * dtheta;
+                float phi = p * dphi;
+                float nextt = theta + dtheta;
+                float nextp = phi + dphi;
+
+                y = r * Mth.sin(theta);
+                x = y * Mth.cos(phi);
+                z = y * Mth.sin(phi);
+                y = r * Mth.cos(theta);
+                SPHERECACHE.add(new Vector3f(x, y, z));
+                y = r * Mth.sin(theta);
+                x = y * Mth.cos(nextp);
+                z = y * Mth.sin(nextp);
+                y = r * Mth.cos(theta);
+                SPHERECACHE.add(new Vector3f(x, y, z));
+                y = r * Mth.sin(nextt);
+                x = y * Mth.cos(nextp);
+                z = y * Mth.sin(nextp);
+                y = r * Mth.cos(nextt);
+                SPHERECACHE.add(new Vector3f(x, y, z));
+
+                y = r * Mth.sin(nextt);
+                x = y * Mth.cos(nextp);
+                z = y * Mth.sin(nextp);
+                y = r * Mth.cos(nextt);
+                SPHERECACHE.add(new Vector3f(x, y, z));
+                y = r * Mth.sin(nextt);
+                x = y * Mth.cos(phi);
+                z = y * Mth.sin(phi);
+                y = r * Mth.cos(nextt);
+                SPHERECACHE.add(new Vector3f(x, y, z));
+                y = r * Mth.sin(theta);
+                x = y * Mth.cos(phi);
+                z = y * Mth.sin(phi);
+                y = r * Mth.cos(theta);
+                SPHERECACHE.add(new Vector3f(x, y, z));
+            }
+    }
+
     public ThrowParticle()
     {}
 
     @OnlyIn(Dist.CLIENT)
     @Override
     public void clientAnimation(final PoseStack mat, final MultiBufferSource buffer, final MovePacketInfo info,
-            final float partialTick)
+            final float partialTick, int packedLightIn)
     {
-        final Vector3 source = info.source;
-        final Vector3 target = info.target;
-        final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath("pokecube", "textures/blank.png");
-
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
-        RenderSystem.setShaderTexture(0, texture);
-
-        final double dist = source.distanceTo(target);
-        final Vector3 temp = new Vector3().set(source).subtractFrom(target);
-
-        double factor = (info.currentTick + partialTick) / (double) this.getDuration();
-        factor = Math.min(1, factor);
-        temp.norm();
-        temp.scalarMultBy(-dist * factor);
-        final Vector3 temp2 = temp.copy();
-        final Tesselator tessellator = Tesselator.getInstance();
-        final BufferBuilder tez = tessellator.begin(Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
+        var buf = Utils.makeBuilder(RENDER_TYPE, buffer);
 
         mat.pushPose();
         GlStateManager._enableDepthTest();
 
-        this.initColour(info.currentTick * 300, partialTick, info.move);
+        this.initColour(info.currentTick, info.move);
         final float alpha = (this.values.rgba >> 24 & 255) / 255f;
         final float red = (this.values.rgba >> 16 & 255) / 255f;
         final float green = (this.values.rgba >> 8 & 255) / 255f;
         final float blue = (this.values.rgba & 255) / 255f;
 
-        final long hash = (long) (temp.x * 1000000l + temp.z * 1000000000000l);
-        final Random rand = new Random(hash);
-        factor = values.width * 0.2;
+        float r = values.width * 0.2f;
         var pos = mat.last().pose();
-
-        float x1, x2, y1, y2, z1, z2;
-
-        for (int i = 0; i < 500; i++)
-        {
-            temp.set(rand.nextGaussian() * factor, rand.nextGaussian() * factor, rand.nextGaussian() * factor);
-            temp.scalarMult(0.010);
-            temp.addTo(temp2);
-            final double size = 0.01;
-            x1 = (float) (temp.x - size);
-            y1 = (float) (temp.y - size);
-            z1 = (float) (temp.z - size);
-            x2 = (float) temp.x;
-            y2 = (float) (temp.y + size);
-            z2 = (float) temp.z;
-
-            tez.addVertex(pos, x2, y2, z2).setColor(red, green, blue, alpha);
-            tez.addVertex(pos, x1, y1, z1).setColor(red, green, blue, alpha);
-            tez.addVertex(pos, x1, y2, z1).setColor(red, green, blue, alpha);
-            tez.addVertex(pos, x2, y1, z2).setColor(red, green, blue, alpha);
-        }
-
+        SPHERECACHE.forEach(v -> {
+            buf.addVertex(pos, v.x() * r, v.y() * r, v.z() * r).setColor(red, green, blue, alpha)
+                    .setLight(packedLightIn);
+        });
         GlStateManager._disableDepthTest();
         mat.popPose();
-    }
-
-    @Override
-    public int getDuration()
-    {
-        return this.values.duration;
     }
 }

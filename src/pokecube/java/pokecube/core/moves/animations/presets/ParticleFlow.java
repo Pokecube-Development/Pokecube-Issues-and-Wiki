@@ -19,9 +19,9 @@ public class ParticleFlow extends MoveAnimationBase
     {
         final Vector3 source = values.reverse ? info.target : info.source;
         final Vector3 target = values.reverse ? info.source : info.target;
-        this.initColour(info.currentTick, partialTicks, info.move);
+        this.initColour(info.currentTick, info.move);
         final double dist = source.distanceTo(target);
-        float time = info.currentTick + partialTicks;
+        float time = info.currentTick;
         final double frac2 = time / (float) this.getDuration();
         final double frac = dist * frac2;
         final double frac3 = dist * time / this.getDuration();

@@ -6,7 +6,6 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.network.syncher.SynchedEntityData.Builder;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -58,18 +57,18 @@ public class EntityMoveUse extends ThrowableProjectile
 
     static
     {
-        MOVENAME = SynchedEntityData.<String>defineId(EntityMoveUse.class, EntityDataSerializers.STRING);
-        ENDX = SynchedEntityData.<Float>defineId(EntityMoveUse.class, EntityDataSerializers.FLOAT);
-        ENDY = SynchedEntityData.<Float>defineId(EntityMoveUse.class, EntityDataSerializers.FLOAT);
-        ENDZ = SynchedEntityData.<Float>defineId(EntityMoveUse.class, EntityDataSerializers.FLOAT);
-        STARTX = SynchedEntityData.<Float>defineId(EntityMoveUse.class, EntityDataSerializers.FLOAT);
-        STARTY = SynchedEntityData.<Float>defineId(EntityMoveUse.class, EntityDataSerializers.FLOAT);
-        STARTZ = SynchedEntityData.<Float>defineId(EntityMoveUse.class, EntityDataSerializers.FLOAT);
-        USER = SynchedEntityData.<Integer>defineId(EntityMoveUse.class, EntityDataSerializers.INT);
-        TARGET = SynchedEntityData.<Integer>defineId(EntityMoveUse.class, EntityDataSerializers.INT);
-        TICK = SynchedEntityData.<Integer>defineId(EntityMoveUse.class, EntityDataSerializers.INT);
-        STARTTICK = SynchedEntityData.<Integer>defineId(EntityMoveUse.class, EntityDataSerializers.INT);
-        APPLYTICK = SynchedEntityData.<Integer>defineId(EntityMoveUse.class, EntityDataSerializers.INT);
+        MOVENAME = SynchedEntityData.defineId(EntityMoveUse.class, EntityDataSerializers.STRING);
+        ENDX = SynchedEntityData.defineId(EntityMoveUse.class, EntityDataSerializers.FLOAT);
+        ENDY = SynchedEntityData.defineId(EntityMoveUse.class, EntityDataSerializers.FLOAT);
+        ENDZ = SynchedEntityData.defineId(EntityMoveUse.class, EntityDataSerializers.FLOAT);
+        STARTX = SynchedEntityData.defineId(EntityMoveUse.class, EntityDataSerializers.FLOAT);
+        STARTY = SynchedEntityData.defineId(EntityMoveUse.class, EntityDataSerializers.FLOAT);
+        STARTZ = SynchedEntityData.defineId(EntityMoveUse.class, EntityDataSerializers.FLOAT);
+        USER = SynchedEntityData.defineId(EntityMoveUse.class, EntityDataSerializers.INT);
+        TARGET = SynchedEntityData.defineId(EntityMoveUse.class, EntityDataSerializers.INT);
+        TICK = SynchedEntityData.defineId(EntityMoveUse.class, EntityDataSerializers.INT);
+        STARTTICK = SynchedEntityData.defineId(EntityMoveUse.class, EntityDataSerializers.INT);
+        APPLYTICK = SynchedEntityData.defineId(EntityMoveUse.class, EntityDataSerializers.INT);
     }
 
     public static EntityMoveUse create(Level level, MoveApplication apply, Vector3 endpoint)
@@ -170,7 +169,7 @@ public class EntityMoveUse extends ThrowableProjectile
 
         this.size.clear();
         this.contact = move.isContact(userMob);
-        float s = 0;
+        float s;
         if (this.move.isAoE())
         {
             s = 8;
@@ -220,7 +219,6 @@ public class EntityMoveUse extends ThrowableProjectile
     {
         final EntityDimensions size = super.getDimensions(poseIn);
         this.getMove();
-        if (this.move == null) return size;
         return size;
     }
 
@@ -391,11 +389,6 @@ public class EntityMoveUse extends ThrowableProjectile
         this.getEntityData().set(EntityMoveUse.APPLYTICK, tick);
     }
 
-    protected void setStartTick(final int tick)
-    {
-        this.getEntityData().set(EntityMoveUse.STARTTICK, tick);
-    }
-
     public EntityMoveUse setEnd(final Vector3 location)
     {
         this.end.set(location);
@@ -496,7 +489,7 @@ public class EntityMoveUse extends ThrowableProjectile
 
         this.prev.set(this.here);
 
-        AABB testBox = this.getBoundingBox();
+        AABB testBox;
         final MoveEntry attack = this.getMove();
 
         final List<AABB> hitboxes = Lists.newArrayList();
@@ -603,7 +596,6 @@ public class EntityMoveUse extends ThrowableProjectile
         {
             userMob.setCombatState(CombatStates.EXECUTINGMOVE, false);
             BrainUtils.clearMoveUseTarget(userMob.getEntity());
-            this.remove(RemovalReason.DISCARDED);
             if (!this.applied)
             {
                 // Send message about having missed the target

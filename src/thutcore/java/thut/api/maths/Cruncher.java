@@ -39,7 +39,7 @@ public class Cruncher
         final float grid = 0.5f;
         float N = (float) Math.ceil(area / grid);
         int n = 0;
-        for (; n < Cruncher.SPHERECACHE.length;)
+        while (n < Cruncher.SPHERECACHE.length)
         {
             final int[] rads = Cruncher.RADII[(int) radius];
             if (rads[0] == 0 && n != 0) rads[0] = n;

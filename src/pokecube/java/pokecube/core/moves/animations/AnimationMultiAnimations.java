@@ -1,10 +1,7 @@
 package pokecube.core.moves.animations;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -18,6 +15,9 @@ import pokecube.api.moves.utils.IMoveAnimation;
 import pokecube.core.PokecubeCore;
 import pokecube.core.moves.animations.presets.Thunder;
 import thut.api.maths.Vector3;
+
+import java.util.Comparator;
+import java.util.List;
 
 public class AnimationMultiAnimations extends MoveAnimationBase
 {
@@ -75,22 +75,22 @@ public class AnimationMultiAnimations extends MoveAnimationBase
             wrapped.start = start;
             this.components.add(wrapped);
         }
-        this.components.sort((arg0, arg1) -> arg0.start - arg1.start);
+        this.components.sort(Comparator.comparingInt(arg0 -> arg0.start));
     }
 
     @Override
     public void clientAnimation(final PoseStack mat, final MultiBufferSource buffer, final MovePacketInfo info,
-            final float partialTick)
+            final float partialTick, int packedLightIn)
     {
-        final int tick = info.currentTick;
-        for (final WrappedAnimation toRun : this.components)
+        float tick = info.currentTick;
+        for (WrappedAnimation toRun : this.components)
         {
-            info.currentTick = tick;
             if (tick > toRun.start + toRun.wrapped.getDuration()) continue;
             if (toRun.start > tick) continue;
             info.currentTick = tick - toRun.start;
-            toRun.wrapped.clientAnimation(mat, buffer, info, partialTick);
+            toRun.wrapped.clientAnimation(mat, buffer, info, partialTick, packedLightIn);
         }
+        info.currentTick = tick;
     }
 
     @Override
@@ -100,7 +100,7 @@ public class AnimationMultiAnimations extends MoveAnimationBase
     }
 
     @Override
-    public void initColour(final long time, final float partialTicks, final MoveEntry move)
+    public void initColour(float time, final MoveEntry move)
     {
         // We don't do this.
     }
@@ -108,47 +108,48 @@ public class AnimationMultiAnimations extends MoveAnimationBase
     @Override
     public void spawnClientEntities(final MovePacketInfo info, float partialTicks)
     {
-        final int tick = info.currentTick;
+        final float tick = info.currentTick;
         final float scale = (float) PokecubeCore.getConfig().moveVolumeEffect;
         final Level world = PokecubeCore.proxy.getWorld();
         final Vector3 pos = new Vector3();
-        for (int i = 0; i < this.components.size(); i++)
+        for (WrappedAnimation component : this.components)
         {
-            info.currentTick = tick;
-            final WrappedAnimation toRun = this.components.get(i);
-            if (tick > toRun.start + toRun.wrapped.getDuration()) continue;
-            if (toRun.start > tick) continue;
-            info.currentTick = tick - toRun.start;
-            toRun.wrapped.spawnClientEntities(info, partialTicks);
-            final float volume = toRun.volume * scale;
-            final float pitch = toRun.pitch;
+            if (component.start > tick) continue;
+            if (tick > component.start + component.wrapped.getDuration()) continue;
+            info.currentTick = tick - component.start;
+            component.wrapped.spawnClientEntities(info, partialTicks);
+            final float volume = component.volume * scale;
+            final float pitch = component.pitch;
             sound:
-            if (info.currentTick == 0 && toRun.sound != null)
+            if (info.currentTick < 1 && component.sound != null)
             {
-                if (toRun.soundEvent == null)
+                if (component.soundEvent == null)
                 {
-                    toRun.soundEvent = BuiltInRegistries.SOUND_EVENT.get(toRun.sound);
-                    if (toRun.soundEvent == null)
+                    component.soundEvent = BuiltInRegistries.SOUND_EVENT.get(component.sound);
+                    if (component.soundEvent == null)
                     {
-                        PokecubeAPI.LOGGER.error("No Registered Sound for " + toRun.sound);
-                        toRun.sound = null;
+                        PokecubeAPI.LOGGER.error("No Registered Sound for {}", component.sound);
+                        component.sound = null;
                         break sound;
                     }
                 }
-                boolean valid = toRun.soundSource;
+                boolean valid = component.soundSource;
                 // Check source sounds.
-                if (valid = info.source != null || info.attacker != null)
+                if (valid &= (info.source != null || info.attacker != null))
                     pos.set(info.source != null ? info.source : info.attacker);
-                if (valid) world.playLocalSound(pos.x, pos.y, pos.z, toRun.soundEvent, SoundSource.HOSTILE, volume,
-                        pitch, true);
+                if (valid)
+                    world.playLocalSound(pos.x, pos.y, pos.z, component.soundEvent, SoundSource.HOSTILE, volume, pitch,
+                            true);
                 // Check target sounds.
-                valid = toRun.soundTarget;
-                if (valid = info.target != null || info.attacked != null)
+                valid = component.soundTarget;
+                if (valid &= (info.target != null || info.attacked != null))
                     pos.set(info.target != null ? info.target : info.attacked);
-                if (valid) world.playLocalSound(pos.x, pos.y, pos.z, toRun.soundEvent, SoundSource.HOSTILE, volume,
-                        pitch, true);
+                if (valid)
+                    world.playLocalSound(pos.x, pos.y, pos.z, component.soundEvent, SoundSource.HOSTILE, volume, pitch,
+                            true);
             }
         }
+        info.currentTick = tick;
     }
 
 }

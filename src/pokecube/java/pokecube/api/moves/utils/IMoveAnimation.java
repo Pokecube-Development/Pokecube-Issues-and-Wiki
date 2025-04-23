@@ -17,9 +17,9 @@ public interface IMoveAnimation
         public final Entity attacked;
         public final Vector3 source;
         public final Vector3 target;
-        public int currentTick;
+        public float currentTick;
 
-        public long lastApplyTimer = 0;
+        public float lastApplyTimer = -1;
 
         public MovePacketInfo(final MoveEntry move, final Entity attacker, final Entity attacked, final Vector3 source,
                 final Vector3 target)
@@ -38,7 +38,7 @@ public interface IMoveAnimation
      */
     @OnlyIn(Dist.CLIENT)
     default public void clientAnimation(final PoseStack mat, final MultiBufferSource buffer, final MovePacketInfo info,
-            final float partialTick)
+            final float partialTick, int packedLightIn)
     {}
 
     /**

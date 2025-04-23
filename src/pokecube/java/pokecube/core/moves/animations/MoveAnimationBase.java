@@ -1,15 +1,14 @@
 package pokecube.core.moves.animations;
 
-import java.util.Random;
-
 import com.google.gson.JsonObject;
-
 import net.minecraft.world.item.DyeColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveAnimation;
 import thut.api.util.JsonUtil;
+
+import java.util.Random;
 
 public abstract class MoveAnimationBase implements IMoveAnimation
 {
@@ -84,7 +83,7 @@ public abstract class MoveAnimationBase implements IMoveAnimation
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void initColour(final long time, final float partialTicks, final MoveEntry move)
+    public void initColour(float time, final MoveEntry move)
     {
         this.reallyInitRGBA();
         if (this.values.customColour) return;
@@ -96,7 +95,7 @@ public abstract class MoveAnimationBase implements IMoveAnimation
         if (this.values.particle.equals("airbubble")) this.values.rgba = 0x78000000 + DyeColor.CYAN.getTextColor();
         else if (this.values.particle.equals("aurora"))
         {
-            final DyeColor colour = DyeColor.values()[new Random(time / 10).nextInt(DyeColor.values().length)];
+            final DyeColor colour = DyeColor.values()[new Random(((int) time) / 10).nextInt(DyeColor.values().length)];
             final int rand = colour.getTextColor();
             this.values.rgba = 0x61000000 + rand;
         }
@@ -126,11 +125,12 @@ public abstract class MoveAnimationBase implements IMoveAnimation
             }
             catch (final Exception e1)
             {
-                for (final DyeColor col : DyeColor.values()) if (col.getSerializedName().equals(val))
-                {
-                    colour = col;
-                    break;
-                }
+                for (final DyeColor col : DyeColor.values())
+                    if (col.getSerializedName().equals(val))
+                    {
+                        colour = col;
+                        break;
+                    }
             }
         }
         if (colour == null)
