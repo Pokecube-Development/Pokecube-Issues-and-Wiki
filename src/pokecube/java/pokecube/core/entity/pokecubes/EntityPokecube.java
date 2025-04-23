@@ -100,8 +100,7 @@ public class EntityPokecube extends EntityPokecubeBase
             if (resetTime <= 0) return true;
             // Otherwise check the diff.
             final long diff = Tracker.instance().getTick() - s.time;
-            if (diff > resetTime) return false;
-            return true;
+            return diff <= resetTime;
         }
 
         public void validate(final Entity in, short key)
@@ -202,7 +201,7 @@ public class EntityPokecube extends EntityPokecubeBase
 
     public boolean cannotCollect(final Entity e)
     {
-        if (e == null || !(e instanceof Player)) return false;
+        if (!(e instanceof Player)) return false;
         final String name = e.getStringUUID();
         CollectList collected = PokecubePlayerDataHandler.getCustomDataValue(this.registryAccess(), name,
                 "loot_pokecubes");

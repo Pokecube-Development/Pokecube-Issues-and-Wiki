@@ -18,12 +18,14 @@ public abstract class GeneFloat implements Gene<Float>
     public void load(Provider provider, final CompoundTag tag)
     {
         this.value = tag.getFloat("V");
+        if (this.value.isNaN()) this.value = 0f;
     }
 
     @Override
     public CompoundTag save(Provider provider)
     {
         final CompoundTag tag = new CompoundTag();
+        if (this.value.isNaN()) this.value = 0f;
         tag.putFloat("V", this.value);
         return tag;
     }

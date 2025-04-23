@@ -1,15 +1,10 @@
 package pokecube.compat.wearables.layers;
 
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -20,8 +15,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderLivingEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent.Init;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -46,6 +41,11 @@ import thut.wearables.client.gui.GuiWearables;
 import thut.wearables.inventory.PlayerWearables;
 import thut.wearables.network.PacketGui;
 
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
 public class WearableWrapper
 {
     public static final Map<EquipmentSlot, String> EQUIP_SLOTS = Maps.newHashMap();
@@ -130,8 +130,8 @@ public class WearableWrapper
             mat.scale(sx, -sy, -sz);
 
             final MultiBufferSource buff = Minecraft.getInstance().renderBuffers().bufferSource();
-            Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer().renderItem(mob, stack,
-                    ItemDisplayContext.GROUND, false, mat, buff, this.brightness);
+            Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer()
+                    .renderItem(mob, stack, ItemDisplayContext.GROUND, false, mat, buff, this.brightness);
             this.postRender(mat);
             mat.popPose();
         }
@@ -217,7 +217,6 @@ public class WearableWrapper
     private static int lastID = -1;
     private static UUID lastUUID = null;
 
-    @OnlyIn(value = Dist.CLIENT)
     @SubscribeEvent
     public static void guiPostInit(final Init.Post event)
     {
@@ -226,9 +225,10 @@ public class WearableWrapper
         {
             int x = pokegui.getGuiLeft() + ThutWearables.config.buttonPos.get(0) - 18;
             int y = pokegui.getGuiTop() + ThutWearables.config.buttonPos.get(1) + 10;
-            event.getScreen().addRenderableWidget(button = new GuiWearableButton(x, y, 9, 9,
-                    TComponent.translatable("button.wearables.on"), b -> openPokemobWearables(pokegui),
-                    supplier -> TComponent.translatable("button.wearables.on"), pokegui));
+            event.getScreen().addRenderableWidget(
+                    button = new GuiWearableButton(x, y, 9, 9, TComponent.translatable("button.wearables.on"),
+                            b -> openPokemobWearables(pokegui),
+                            supplier -> TComponent.translatable("button.wearables.on"), pokegui));
             button.stillVisible = () -> pokegui.moduleIndex == 0;
             button.setFGColor(0xFFFF00FF);
         }
@@ -238,9 +238,10 @@ public class WearableWrapper
             {
                 int x = wear.getGuiLeft() + ThutWearables.config.buttonPos.get(0);
                 int y = wear.getGuiTop() + ThutWearables.config.buttonPos.get(1);
-                event.getScreen().addRenderableWidget(button = new GuiWearableButton(x, y, 9, 9,
-                        TComponent.translatable("button.wearables.off"), b -> openPokemobGui(),
-                        supplier -> TComponent.translatable("button.wearables.off"), wear));
+                event.getScreen().addRenderableWidget(
+                        button = new GuiWearableButton(x, y, 9, 9, TComponent.translatable("button.wearables.off"),
+                                b -> openPokemobGui(), supplier -> TComponent.translatable("button.wearables.off"),
+                                wear));
                 button.setFGColor(0xFFFF00FF);
             }
             else
@@ -251,7 +252,6 @@ public class WearableWrapper
         }
     }
 
-    @OnlyIn(value = Dist.CLIENT)
     private static void openPokemobWearables(final GuiPokemob pokegui)
     {
         IPokemob pokemob = pokegui.getMenu().pokemob;
@@ -261,7 +261,6 @@ public class WearableWrapper
         ThutWearables.packets.sendToServer(packet);
     }
 
-    @OnlyIn(value = Dist.CLIENT)
     private static void openPokemobGui()
     {
         Entity e = null;

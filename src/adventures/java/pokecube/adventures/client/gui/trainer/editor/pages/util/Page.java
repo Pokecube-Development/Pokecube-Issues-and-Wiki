@@ -59,12 +59,12 @@ public abstract class Page extends Screen implements GuiEventListener
     public void onPageClosed()
     {
         this.parent.children().remove(this);
-        this.children.clear();
+        this.clearWidgets();
     }
 
     public void onPageOpened()
     {
-        this.children.clear();
+        this.clearWidgets();
         this.renderables.add(this::renderPage);
     }
 

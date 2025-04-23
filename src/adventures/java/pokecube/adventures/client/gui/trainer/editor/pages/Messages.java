@@ -75,9 +75,9 @@ public class Messages extends ListPage<MessageOption>
                 this.onUpdated();
             }).bounds(0, 0, 50, 10).build();
 
-            parent.addRenderableWidget(this.apply);
-            parent.addRenderableWidget(this.message);
-            parent.addRenderableWidget(this.action);
+            parent.addWidget(this.apply);
+            parent.addWidget(this.message);
+            parent.addWidget(this.action);
 
             this.action.moveCursorToStart(false);
             this.message.moveCursorToStart(false);
@@ -114,8 +114,7 @@ public class Messages extends ListPage<MessageOption>
             this.action.setX(x - 2);
             this.action.setY(y - 4 + dy + 12);
 
-            // TODO: Fix this
-            // this.parent.font.draw(graphics, MessageState.values()[this.index].name(), x, y - 5, 0xFFFFFF);
+            graphics.drawString(this.parent.font, MessageState.values()[this.index].name(), x, y - 5, 0xFFFFFF);
             this.message.render(graphics, mouseX, mouseY, partialTicks);
             this.action.render(graphics, mouseX, mouseY, partialTicks);
             this.apply.render(graphics, mouseX, mouseY, partialTicks);
@@ -160,13 +159,20 @@ public class Messages extends ListPage<MessageOption>
         int y = (this.parent.height - 160) / 2;
         final int height = 120;
         final int width = 245;
-        this.list = new ScrollGui<>(this, this.minecraft, width, height, 40, x + 10, y + 24);
+        this.list = new ScrollGui<>(this, this.minecraft, width, height, 40, x + 10, y + 12);
+        // Add the list first
+        this.addRenderableWidget(this.list);
+        // Then add the buttons, otherwise buttons can't be clicked as are "behind" the list
         for (int i = 0; i < MessageState.values().length; i++)
-            this.list.addEntry(new MessageOption(this.minecraft, this, height, y + 24, i));
-        this.children.add(this.list);
-        x = this.width / 2;
-        y = this.height / 2;
+            this.list.addEntry(new MessageOption(this.minecraft, this, height, y + 12, i));
+    }
 
+    @Override
+    public void onPageOpened()
+    {
+        super.onPageOpened();
+        int x = this.width / 2;
+        int y = this.height / 2;
         this.addRenderableWidget(new Button.Builder(TComponent.translatable("traineredit.button.home"),
                 (b) -> this.closeCallback.run()).bounds(x + 73, y + 64, 50, 12).build());
     }

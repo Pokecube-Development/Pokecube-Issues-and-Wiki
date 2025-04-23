@@ -1,23 +1,17 @@
 package pokecube.compat.wearables.sided;
 
-import java.util.Map;
-import java.util.function.Predicate;
-
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
-import pokecube.api.PokecubeAPI;
-import pokecube.api.events.init.RegisterMiscItems;
+import pokecube.adventures.PokecubeAdv;
 import pokecube.compat.wearables.sided.Common.WearablesRenderer;
 import pokecube.core.PokecubeCore;
 import pokecube.core.impl.PokecubeMod;
@@ -29,31 +23,24 @@ import thut.bling.client.render.Wrist;
 import thut.core.client.render.model.parts.Material;
 import thut.wearables.EnumWearable;
 
+import java.util.Map;
+import java.util.function.Predicate;
+
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID, value = Dist.CLIENT)
 public class Client
 {
-    static
-    {
-        PokecubeAPI.POKEMOB_BUS.addListener(EventPriority.LOW, Client::initWearables);
-    }
-
-    @SubscribeEvent
-    public static void Dummy(FMLLoadCompleteEvent evt)
-    {
-
-    }
-
     public static Map<String, WearablesRenderer> renderers = Maps.newHashMap();
 
     @OnlyIn(Dist.CLIENT)
     public static Predicate<Material> IS_KEYSTONE = m -> (m.name.contains("keystone")
-            || m.tex != null && m.tex.getPath().contains("keystone")
-            || m.tex != null && m.tex.getPath().contains("_overlay"));
+            || m.tex != null && m.tex.getPath().contains("keystone") || m.tex != null && m.tex.getPath()
+            .contains("_overlay"));
     @OnlyIn(Dist.CLIENT)
-    public static Predicate<Material> IS_OVERLAY = m -> (m.name.contains("_overlay")
-            || m.tex != null && m.tex.getPath().contains("_overlay"));
+    public static Predicate<Material> IS_OVERLAY = m -> (m.name.contains("_overlay") || m.tex != null && m.tex.getPath()
+            .contains("_overlay"));
 
-    public static void initWearables(final RegisterMiscItems event)
+    @SubscribeEvent
+    public static void loadComplete(FMLLoadCompleteEvent evt)
     {
         Client.renderers.put("pokewatch",
                 new WearablesRenderer(ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "models/worn/pokewatch"))
@@ -112,7 +99,7 @@ public class Client
                     }
                 });
         Client.renderers.put("bag",
-                new WearablesRenderer(ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "models/worn/bag"))
+                new WearablesRenderer(ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID, "models/worn/bag"))
                 {
                     @OnlyIn(Dist.CLIENT)
                     @Override

@@ -8,6 +8,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.Brain;
@@ -34,8 +35,12 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.entity.trainers.*;
+import pokecube.api.entity.trainers.IHasMessages;
+import pokecube.api.entity.trainers.IHasNPCAIStates;
 import pokecube.api.entity.trainers.IHasNPCAIStates.AIState;
+import pokecube.api.entity.trainers.IHasPokemobs;
+import pokecube.api.entity.trainers.IHasRewards;
+import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.entity.trainers.actions.ActionContext;
 import pokecube.api.entity.trainers.actions.MessageState;
 import pokecube.api.events.npcs.TrainerInteractEvent;
@@ -44,6 +49,7 @@ import pokecube.api.items.IPokecube;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.npc.Activities;
+import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
@@ -59,6 +65,9 @@ import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 import thut.core.common.world.mobs.data.types.Data_ItemStack;
 import thut.core.common.world.mobs.data.types.Data_String;
+import thut.wearables.EnumWearable;
+import thut.wearables.ThutWearables;
+import thut.wearables.inventory.PlayerWearables;
 
 import java.util.Map;
 import java.util.Set;
@@ -295,35 +304,6 @@ public class CapabilityHasPokemobs
         }
 
         @Override
-        public void deserializeNBT(Provider provider, final CompoundTag nbt)
-        {
-            if (nbt.contains("pokemobs", 9))
-            {
-                if (this.clearOnLoad()) this.clearContent();
-                final ListTag ListNBT = nbt.getList("pokemobs", 10);
-                if (!ListNBT.isEmpty()) for (int i = 0; i < Math.min(ListNBT.size(), this.getMaxPokemobCount()); ++i)
-                    this.setPokemob(i, ItemStack.parseOptional(provider, ListNBT.getCompound(i)));
-            }
-            this.initCount();
-            this.setType(TypeTrainer.getTrainer(nbt.getString("type"), true));
-            this.setCooldown(nbt.getLong("nextBattle"));
-            if (nbt.contains("outPokemob")) this.setOutID(UUID.fromString(nbt.getString("outPokemob")));
-            this.setNextSlot(nbt.getInt("nextSlot"));
-            this.setCanMegaEvolve(nbt.getBoolean("megaevolves"));
-            if (nbt.contains("gender")) this.setGender(nbt.getByte("gender"));
-            if (this.getNextSlot() >= this.getMaxPokemobCount()) this.setNextSlot(0);
-            this.sight = nbt.contains("sight") ? nbt.getInt("sight") : -1;
-            if (nbt.contains("battleCD")) this.battleCooldown = nbt.getInt("battleCD");
-            if (this.battleCooldown < 0) this.battleCooldown = Config.instance.trainerCooldown;
-            this.defeatResetKey = nbt.getShort("defeatResetKey");
-            if (nbt.contains("resetTime")) this.resetTimeLose = nbt.getLong("resetTime");
-            if (nbt.contains("resetTimeWin")) this.resetTimeWin = nbt.getLong("resetTimeWin");
-            this.notifyDefeat = nbt.getBoolean("notifyDefeat");
-            this.friendlyCooldown = nbt.getInt("friendly");
-            if (nbt.contains("levelMode")) this.setLevelMode(LevelMode.valueOf(nbt.getString("levelMode")));
-        }
-
-        @Override
         public int getAgressDistance()
         {
             return this.sight <= 0 ? Config.instance.trainerSightRange : this.sight;
@@ -480,9 +460,12 @@ public class CapabilityHasPokemobs
             if (messages == null) user.setData(TrainerCaps.MESSAGES, messages = new DefaultMessager());
             if (rewards == null) user.setData(TrainerCaps.REWARDS, rewards = new DefaultRewards());
 
-            this.battleCooldown = Config.instance.trainerCooldown;
-            this.resetTimeWin = this.battleCooldown;
-            this.resetTimeLose = this.battleCooldown;
+            if (this.battleCooldown < 0)
+            {
+                this.battleCooldown = Config.instance.trainerCooldown;
+                this.resetTimeWin = this.battleCooldown;
+                this.resetTimeLose = this.battleCooldown;
+            }
         }
 
         @Override
@@ -645,6 +628,35 @@ public class CapabilityHasPokemobs
         }
 
         @Override
+        public void deserializeNBT(Provider provider, final CompoundTag nbt)
+        {
+            if (nbt.contains("pokemobs", 9))
+            {
+                if (this.clearOnLoad()) this.clearContent();
+                final ListTag ListNBT = nbt.getList("pokemobs", 10);
+                if (!ListNBT.isEmpty()) for (int i = 0; i < Math.min(ListNBT.size(), this.getMaxPokemobCount()); ++i)
+                    this.setPokemob(i, ItemStack.parseOptional(provider, ListNBT.getCompound(i)));
+            }
+            this.initCount();
+            this.setType(TypeTrainer.getTrainer(nbt.getString("type"), true));
+            this.setCooldown(nbt.getLong("nextBattle"));
+            if (nbt.contains("outPokemob")) this.setOutID(UUID.fromString(nbt.getString("outPokemob")));
+            this.setNextSlot(nbt.getInt("nextSlot"));
+            this.setCanMegaEvolve(nbt.getBoolean("megaevolves"));
+            if (nbt.contains("gender")) this.setGender(nbt.getByte("gender"));
+            if (this.getNextSlot() >= this.getMaxPokemobCount()) this.setNextSlot(0);
+            this.sight = nbt.contains("sight") ? nbt.getInt("sight") : -1;
+            if (nbt.contains("battleCD")) this.battleCooldown = nbt.getInt("battleCD");
+            if (this.battleCooldown < 0) this.battleCooldown = Config.instance.trainerCooldown;
+            this.defeatResetKey = nbt.getShort("defeatResetKey");
+            if (nbt.contains("resetTime")) this.resetTimeLose = nbt.getLong("resetTime");
+            if (nbt.contains("resetTimeWin")) this.resetTimeWin = nbt.getLong("resetTimeWin");
+            this.notifyDefeat = nbt.getBoolean("notifyDefeat");
+            this.friendlyCooldown = nbt.getInt("friendly");
+            if (nbt.contains("levelMode")) this.setLevelMode(LevelMode.valueOf(nbt.getString("levelMode")));
+        }
+
+        @Override
         public CompoundTag serializeNBT(Provider provider)
         {
             final CompoundTag nbt = new CompoundTag();
@@ -655,7 +667,6 @@ public class CapabilityHasPokemobs
                 if (i.isEmpty()) continue;
                 ListNBT.add(i.save(provider, new CompoundTag()));
             }
-
             nbt.put("pokemobs", ListNBT);
             nbt.putInt("nextSlot", this.getNextSlot());
             if (this.getOutID() != null) nbt.putString("outPokemob", this.getOutID().toString());
@@ -793,7 +804,7 @@ public class CapabilityHasPokemobs
                 // No cooldown if someone was punching is!
                 if (hitBy == target && hurtTimer < 500) cooldown = 0;
                 this.setAttackCooldown(cooldown);
-                if(target!=null)
+                if (target != null)
                 {
                     this.messages.sendMessage(MessageState.AGRESS, target, this.user.getDisplayName(),
                             target.getDisplayName());
@@ -810,8 +821,63 @@ public class CapabilityHasPokemobs
         @Override
         public void setType(TypeTrainer type)
         {
+            var old = this.type;
             this.type = type;
             this.holder.TYPE.set(type == null ? "" : type.getName());
+            if (this.getTrainer() instanceof NpcMob npc)
+            {
+                npc.setNpcType(type);
+
+                this.getType().initTrainerItems(npc);
+
+                // Check worn/held items
+                final PlayerWearables worn = ThutWearables.getWearables(npc);
+                ItemStack belt = PokecubeItems.getStack("mega_belt");
+
+                // Remove old items if they exist
+                if (old != null)
+                {
+                    // Offhand slot
+                    if (ItemStack.isSameItemSameComponents(old.held, npc.getItemInHand(InteractionHand.OFF_HAND)))
+                        npc.setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
+                    // Belt
+                    if (old.hasBelt && ItemStack.isSameItemSameComponents(belt, worn.getWearable(EnumWearable.WAIST)))
+                        worn.setWearable(EnumWearable.WAIST, ItemStack.EMPTY);
+                    // Others
+                    for (var entry : old.wornItems.entrySet())
+                    {
+                        var key = entry.getKey();
+                        var stack = entry.getValue().getFirst();
+                        if (entry.getValue().size() > 1)
+                            stack = entry.getValue().get(npc.getRandom().nextInt(entry.getValue().size()));
+                        var slot = EnumWearable.wearableNames.get(key);
+                        var subSlot = EnumWearable.slotsNames.get(key);
+                        ItemStack _old = worn.getWearable(slot, subSlot);
+                        if (ItemStack.isSameItemSameComponents(_old, stack))
+                            worn.setWearable(slot, ItemStack.EMPTY, subSlot);
+                    }
+                }
+                // Now add in the new items
+
+                // Offhand
+                if (npc.getItemInHand(InteractionHand.OFF_HAND).isEmpty() && !type.held.isEmpty())
+                    npc.setItemInHand(InteractionHand.OFF_HAND, type.held.copy());
+                // Belt
+                if (type.hasBelt && worn.getWearable(EnumWearable.WAIST).isEmpty())
+                    worn.setWearable(EnumWearable.WAIST, belt);
+                // Others
+                for (var entry : type.wornItems.entrySet())
+                {
+                    var key = entry.getKey();
+                    var stack = entry.getValue().getFirst();
+                    if (entry.getValue().size() > 1)
+                        stack = entry.getValue().get(npc.getRandom().nextInt(entry.getValue().size()));
+                    var slot = EnumWearable.wearableNames.get(key);
+                    var subSlot = EnumWearable.slotsNames.get(key);
+                    ItemStack _old = worn.getWearable(slot, subSlot);
+                    if (_old.isEmpty()) worn.setWearable(slot, stack, subSlot);
+                }
+            }
             this.markDirty();
         }
 
@@ -823,11 +889,11 @@ public class CapabilityHasPokemobs
             final ItemStack i = this.getNextPokemob();
             if (!i.isEmpty())
             {
+                if (ItemStack.isSameItemSameComponents(this.getTrainer().getItemInHand(InteractionHand.MAIN_HAND), i))
+                    this.getTrainer().setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
+
                 this.aiStates.setAIState(AIState.INBATTLE, true);
                 final IPokecube cube = (IPokecube) i.getItem();
-                final Vector3 here = new Vector3().set(this.user);
-                final Vector3 t = new Vector3().set(target);
-                t.set(t.subtractFrom(here).scalarMultBy(0.5).addTo(here));
                 PokecubeManager.heal(i, user.level, false);
 
                 LivingEntity mob = PokecubeManager.itemToMob(i, this.user.level);
@@ -851,6 +917,9 @@ public class CapabilityHasPokemobs
 
                 this.setItem(getNextSlot(), i);
 
+                final Vector3 here = new Vector3().set(this.user);
+                final Vector3 t = new Vector3().set(target.getEyePosition());
+                t.set(t.subtractFrom(here).scalarMultBy(0.5).addTo(here));
                 final EntityPokecubeBase thrown = cube.throwPokecubeAt(this.user.level, this.user, i, t, null);
                 if (thrown != null)
                 {

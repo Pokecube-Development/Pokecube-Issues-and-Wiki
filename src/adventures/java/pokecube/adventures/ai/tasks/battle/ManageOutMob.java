@@ -1,8 +1,7 @@
 package pokecube.adventures.ai.tasks.battle;
 
-import java.util.List;
-
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
@@ -18,6 +17,8 @@ import pokecube.api.entity.trainers.actions.MessageState;
 import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.PCEventsHandler;
 import pokecube.core.items.pokecubes.PokecubeManager;
+
+import java.util.List;
 
 public class ManageOutMob extends BaseBattleTask
 {
@@ -37,14 +38,14 @@ public class ManageOutMob extends BaseBattleTask
                 // Ones not added to chunk are in pokecubes, so wait for them to
                 // exit.
                 if (mob.isAddedToLevel())
-            {
-                final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
-                if (pokemob != null && !found)
                 {
-                    this.trainer.setOutMob(pokemob);
-                    found = true;
+                    final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
+                    if (pokemob != null && !found)
+                    {
+                        this.trainer.setOutMob(pokemob);
+                        found = true;
+                    }
                 }
-            }
             return;
         }
         if (this.aiTracker.getAIState(AIState.THROWING)) return;
@@ -86,8 +87,10 @@ public class ManageOutMob extends BaseBattleTask
                         this.messages.sendMessage(MessageState.ABOUTSEND, this.trainer.getTarget(),
                                 this.entity.getDisplayName(), next.getDisplayName(),
                                 this.trainer.getTarget().getDisplayName());
-                        this.messages.doAction(MessageState.ABOUTSEND, this.trainer
-                                .setLatestContext(new ActionContext(this.trainer.getTarget(), this.entity)));
+                        this.messages.doAction(MessageState.ABOUTSEND, this.trainer.setLatestContext(
+                                new ActionContext(this.trainer.getTarget(), this.entity)));
+                        if (entity.getItemInHand(InteractionHand.MAIN_HAND).isEmpty())
+                            entity.setItemInHand(InteractionHand.MAIN_HAND, nextStack);
                     }
                 }
             }

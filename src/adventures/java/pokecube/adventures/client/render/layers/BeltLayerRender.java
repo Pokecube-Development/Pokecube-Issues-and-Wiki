@@ -49,7 +49,6 @@ public class BeltLayerRender<T extends LivingEntity, M extends HumanoidModel<T>>
         theModel.body.translateAndRotate(mat);
         mat.translate(0, 0.785, -.125);
 
-        // TODO: Check this
         mat.mulPose(Axis.XP.rotationDegrees(180));
         mat.mulPose(Axis.YP.rotationDegrees(180));
         mat.scale(0.6f, 0.6f, 0.6f);
@@ -104,7 +103,6 @@ public class BeltLayerRender<T extends LivingEntity, M extends HumanoidModel<T>>
             mat.translate(x, y, z);
             float[] rots = rotates[i];
 
-            // TODO: Check this
             if (rots[0] != 0) mat.mulPose(Axis.XP.rotationDegrees(rots[0]));
             if (rots[1] != 0) mat.mulPose(Axis.YP.rotationDegrees(rots[1]));
             if (rots[2] != 0) mat.mulPose(Axis.ZP.rotationDegrees(rots[2]));

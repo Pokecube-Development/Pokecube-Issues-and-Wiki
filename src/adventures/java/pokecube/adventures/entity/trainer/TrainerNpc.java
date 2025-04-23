@@ -138,12 +138,6 @@ public class TrainerNpc extends TrainerBase
         return this;
     }
 
-    @Override
-    public void initTeam(final int level)
-    {
-        TypeTrainer.getRandomTeam(this.pokemobsCap, this, level, this.level);
-    }
-
     public void setTypes(boolean resetName)
     {
         if (this.pokemobsCap.getType() == null)

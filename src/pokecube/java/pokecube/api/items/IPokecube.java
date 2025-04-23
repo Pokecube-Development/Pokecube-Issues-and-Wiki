@@ -66,8 +66,6 @@ public interface IPokecube
         /**
          * Adds it to the list of behaviours to run when a pokecube is used.
          *
-         * @param cubeId
-         * @param behavior
          */
         public static void addCubeBehavior(final PokecubeBehaviour behaviour)
         {
@@ -93,8 +91,6 @@ public interface IPokecube
          * Additional flat bonus to capture rate, this is mostly used for
          * HeavyCube's flat adjustment rate.
          *
-         * @param mob
-         * @return
          */
         public int getAdditionalBonus(final IPokemob mob)
         {
@@ -105,10 +101,6 @@ public interface IPokecube
          * this is the capture strength of the cube, 0 is never capture, 255 is
          * always capture. Override this and place something other than -1 if
          * you wish to use it.
-         *
-         * @param mob
-         * @param pokecubeId
-         * @return
          */
         public abstract double getCaptureModifier(IPokemob mob);
 
@@ -117,15 +109,12 @@ public interface IPokecube
         /**
          * Called before the pokemob is captured, cancel the event to prevent
          * capture from occuring.
-         *
-         * @param evt
          */
         public abstract void onPreCapture(CaptureEvent.Pre evt);
 
         /**
          * Allows modifications of updates for the pokemob.
          *
-         * @param mob
          */
         public void onUpdate(final IPokemob mob)
         {
@@ -147,10 +136,6 @@ public interface IPokecube
     /**
      * this is the capture strength of the cube, 0 is never capture, 255 is
      * always capture.
-     *
-     * @param mob
-     * @param pokecubeId
-     * @return
      */
     double getCaptureModifier(IPokemob mob, ResourceLocation pokecubeId);
 
@@ -162,25 +147,11 @@ public interface IPokecube
 
     /**
      * Used for throwing cubes out into the air without a specific target.
-     *
-     * @param world
-     * @param player
-     * @param cube
-     * @param direction
-     * @param power
-     * @return
      */
     EntityPokecubeBase throwPokecube(Level world, LivingEntity thrower, ItemStack cube, Vector3 direction, float power);
 
     /**
      * Used to throw the pokecube at a specific target
-     *
-     * @param world
-     * @param player
-     * @param cube
-     * @param targetLocation
-     * @param target
-     * @return
      */
     EntityPokecubeBase throwPokecubeAt(Level world, LivingEntity thrower, ItemStack cube,
             @Nullable Vector3 targetLocation, @Nullable Entity target);

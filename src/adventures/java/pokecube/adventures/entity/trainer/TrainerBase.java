@@ -26,16 +26,11 @@ import pokecube.api.entity.trainers.IHasTrades;
 import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.api.utils.Tools;
-import pokecube.core.PokecubeItems;
 import pokecube.core.entity.npc.NpcMob;
-import pokecube.core.entity.npc.NpcType;
 import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.eventhandlers.SpawnHandler;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
-import thut.wearables.EnumWearable;
-import thut.wearables.ThutWearables;
-import thut.wearables.inventory.PlayerWearables;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -183,7 +178,7 @@ public abstract class TrainerBase extends NpcMob
             if (type != null && !type.pokemon.isEmpty() && !this.checkedMobs)
             {
                 this.checkedMobs = true;
-                SpawnContext context = new SpawnContext(null, (ServerLevel) level, type.pokemon.get(0),
+                SpawnContext context = new SpawnContext(null, (ServerLevel) level, type.pokemon.getFirst(),
                         new Vector3().set(this));
                 final int level = SpawnHandler.getSpawnLevel(context);
                 TrainerSpawnHandler.initTrainer(this.pokemobsCap, level);
@@ -228,39 +223,6 @@ public abstract class TrainerBase extends NpcMob
         super.setTradingPlayer(player);
     }
 
-    @Override
-    public void setNpcType(final NpcType type)
-    {
-        super.setNpcType(type);
-        if (this.pokemobsCap != null && type instanceof TypeTrainer ttype)
-        {
-            this.pokemobsCap.setType(ttype);
-            this.pokemobsCap.getType().initTrainerItems(this);
-
-            if (this.getItemInHand(InteractionHand.OFF_HAND).isEmpty() && !this.pokemobsCap.getType().held.isEmpty())
-                this.setItemInHand(InteractionHand.OFF_HAND, this.pokemobsCap.getType().held.copy());
-            final PlayerWearables worn = ThutWearables.getWearables(this);
-            if (this.pokemobsCap.getType().hasBelt)
-            {
-                if (worn.getWearable(EnumWearable.WAIST).isEmpty())
-                    worn.setWearable(EnumWearable.WAIST, PokecubeItems.getStack("mega_belt"));
-            }
-            for (var entry : this.pokemobsCap.getType().wornItems.entrySet())
-            {
-                var key = entry.getKey();
-                var stack = entry.getValue().get(0);
-                if (entry.getValue().size() > 1)
-                    stack = entry.getValue().get(this.getRandom().nextInt(entry.getValue().size()));
-                var slot = EnumWearable.wearableNames.get(key);
-                var subSlot = EnumWearable.slotsNames.get(key);
-                ItemStack old = worn.getWearable(slot, subSlot);
-                if (old.isEmpty()) worn.setWearable(slot, stack, subSlot);
-            }
-        }
-    }
-
-    public abstract void initTeam(int level);
-
     protected abstract void addMobTrades(final Player player, final ItemStack stack);
 
     @Override
@@ -283,12 +245,6 @@ public abstract class TrainerBase extends NpcMob
         super.notifyTradeUpdated(stack);
     }
 
-    @Override
-    public boolean canRestock()
-    {
-        return true;
-    }
-
     /** @return the male */
     @Override
     public boolean isMale()
@@ -304,12 +260,5 @@ public abstract class TrainerBase extends NpcMob
     {
         super.setMale(male);
         this.pokemobsCap.setGender((byte) (male ? 1 : 2));
-    }
-
-    @Override
-    public NpcType getNpcType()
-    {
-        if (this.pokemobsCap == null) return super.getNpcType();
-        return this.pokemobsCap.getType();
     }
 }

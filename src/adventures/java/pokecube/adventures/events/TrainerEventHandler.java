@@ -33,6 +33,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
 import net.neoforged.neoforge.common.util.TriState;
+import net.neoforged.neoforge.event.entity.EntityEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent.StartTracking;
@@ -49,7 +50,6 @@ import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.adventures.entity.trainer.TrainerBase;
 import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.adventures.inventory.trainer.ContainerTrainer;
-import pokecube.adventures.items.Linker;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.adventures.utils.DBLoader;
 import pokecube.api.PokecubeAPI;
@@ -153,7 +153,7 @@ public class TrainerEventHandler
         }
     }
 
-    public static void entityLivingConstruct(BrainInitEvent event)
+    public static void entityLivingConstruct(EntityEvent.EntityConstructing event)
     {
         if (!(event.getEntity() instanceof LivingEntity living)) return;
         if (living instanceof Player player)

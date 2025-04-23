@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
@@ -30,7 +31,6 @@ import java.util.function.Predicate;
 
 public class Pokemob extends Page
 {
-    EditBox name;
     EditBox type;
 
     EditBox nature;
@@ -156,7 +156,7 @@ public class Pokemob extends Page
         String nature = "";
         String ability = "";
         String name = "none";
-        PokedexEntry entry = null;
+        PokedexEntry entry;
         if (this.pokemob != null)
         {
             this.abilIndex = this.pokemob.getAbilityIndex();
@@ -225,13 +225,12 @@ public class Pokemob extends Page
             this.onChanged();
         }).bounds(xOffset - 52, yOffset + 62, 12, 12).build());
 
-        this.addRenderableWidget(new Button.Builder(TComponent.translatable("traineredit.button.home"), (b) -> {
-            this.closeCallback.run();
-        }).bounds(xOffset + 73, yOffset + 64, 50, 12).build());
+        this.addRenderableWidget(new Button.Builder(TComponent.translatable("traineredit.button.home"),
+                (b) -> this.closeCallback.run()).bounds(xOffset + 73, yOffset + 64, 50, 12).build());
 
-        this.addRenderableWidget(new Button.Builder(TComponent.translatable("traineredit.button.apply"), (b) -> {
-            this.onChanged();
-        }).bounds(xOffset + 73, yOffset + 52, 50, 12).build());
+        this.addRenderableWidget(
+                new Button.Builder(TComponent.translatable("traineredit.button.apply"), (b) -> this.onChanged()).bounds(
+                        xOffset + 73, yOffset + 52, 50, 12).build());
 
         // Live pokemob editing doesn't have this option, so the deleteCallback
         // will be null in that case.
@@ -266,7 +265,7 @@ public class Pokemob extends Page
             }
         }).bounds(xOffset - 122, yOffset - 67, 10, 10).build());
 
-        this.addRenderableWidget(new Button.Builder(TComponent.literal(this.shiny ? "Yes" : "No"), (b) -> {
+        this.addRenderableWidget(new Button.Builder(TComponent.literal(this.shiny ? "Y" : "N"), (b) -> {
             if (this.pokemob != null)
             {
                 this.shiny = !this.pokemob.isShiny();
@@ -430,16 +429,15 @@ public class Pokemob extends Page
         super.renderPage(graphics, mouseX, mouseY, partialTicks);
         final int x = this.parent.width / 2;
         final int y = this.parent.height / 2 - 70;
-        //        TODO: Fix these
-        //        this.font.draw(graphics, I18n.get("traineredit.info.pokemob"), x - 110, y + 5, 0xFFFFFFFF);
-        //        this.font.draw(graphics, I18n.get("traineredit.info.moves"), x - 120, y + 30, 0xFFFFFFFF);
-        //        this.font.draw(graphics, I18n.get("traineredit.info.shiny"), x - 60, y + 30, 0xFFFFFFFF);
-        //        this.font.draw(graphics, I18n.get("traineredit.info.level"), x - 120, y + 85, 0xFFFFFFFF);
-        //        this.font.draw(graphics, I18n.get("traineredit.info.size"), x - 90, y + 85, 0xFFFFFFFF);
-        //        this.font.draw(graphics, I18n.get("traineredit.info.nature"), x - 120, y + 110, 0xFFFFFFFF);
-        //        this.font.draw(graphics, I18n.get("traineredit.info.ability"), x - 60, y + 110, 0xFFFFFFFF);
-        //        this.font.draw(graphics, I18n.get("traineredit.info.evs"), x + 90, y, 0xFFFFFFFF);
-        //        this.font.draw(graphics, I18n.get("traineredit.info.ivs"), x + 60, y, 0xFFFFFFFF);
+        graphics.drawString(font, I18n.get("traineredit.info.pokemob"), x - 110, y + 5, 0xFFFFFFFF);
+        graphics.drawString(font, I18n.get("traineredit.info.moves"), x - 120, y + 30, 0xFFFFFFFF);
+        graphics.drawString(font, I18n.get("traineredit.info.shiny"), x - 60, y + 30, 0xFFFFFFFF);
+        graphics.drawString(font, I18n.get("traineredit.info.level"), x - 120, y + 85, 0xFFFFFFFF);
+        graphics.drawString(font, I18n.get("traineredit.info.size"), x - 90, y + 85, 0xFFFFFFFF);
+        graphics.drawString(font, I18n.get("traineredit.info.nature"), x - 120, y + 110, 0xFFFFFFFF);
+        graphics.drawString(font, I18n.get("traineredit.info.ability"), x - 60, y + 110, 0xFFFFFFFF);
+        graphics.drawString(font, I18n.get("traineredit.info.evs"), x + 90, y, 0xFFFFFFFF);
+        graphics.drawString(font, I18n.get("traineredit.info.ivs"), x + 60, y, 0xFFFFFFFF);
 
         if (this.pokemob != null)
         {

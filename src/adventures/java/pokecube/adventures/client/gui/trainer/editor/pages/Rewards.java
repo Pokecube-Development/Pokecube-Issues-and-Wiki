@@ -1,9 +1,6 @@
 package pokecube.adventures.client.gui.trainer.editor.pages;
 
-import java.util.function.Predicate;
-
 import com.mojang.brigadier.StringReader;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSelectionList;
@@ -23,6 +20,8 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.helper.INotifiedEntry;
 import pokecube.core.client.gui.helper.ScrollGui;
 import thut.lib.TComponent;
+
+import java.util.function.Predicate;
 
 public class Rewards extends ListPage<RewardOption>
 {
@@ -134,9 +133,9 @@ public class Rewards extends ListPage<RewardOption>
         }
 
         @Override
-        public void render(final GuiGraphics graphics, final int slotIndex, final int y, final int x, final int listWidth,
-                           final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
-                           final float partialTicks)
+        public void render(final GuiGraphics graphics, final int slotIndex, final int y, final int x,
+                final int listWidth, final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
+                final float partialTicks)
         {
             this.confirm.visible = true;
             this.delete.visible = true;
@@ -201,6 +200,9 @@ public class Rewards extends ListPage<RewardOption>
             nbt.put("__rewards__", tag);
             nbt.putInt("I", this.parent.parent.entity.getId());
             PacketTrainer.ASSEMBLER.sendToServer(message.getTag());
+            this.parent.onPageClosed();
+            this.parent.onPageOpened();
+            this.parent.parent.children.add(this.parent);
         }
     }
 
@@ -224,14 +226,20 @@ public class Rewards extends ListPage<RewardOption>
         final int height = 120;
         final int width = 245;
         this.list = new ScrollGui<>(this, this.minecraft, width, height, 10, x + 10, y + 24);
+        // Add the list first
+        this.addRenderableWidget(this.list);
+        // Then add the buttons, otherwise buttons can't be clicked as are "behind" the list
         for (int i = 0; i < this.parent.rewards.getRewards().size() + 1; i++)
             this.list.addEntry(new RewardOption(this.minecraft, this, height, y + 24, i));
+    }
 
-        x = this.width / 2;
-        y = this.height / 2;
-
-        this.addRenderableWidget(new Button.Builder(TComponent.translatable("traineredit.button.home"), (b) -> {
-            this.closeCallback.run();
-        }).bounds(x + 73, y + 64, 50, 12).build());
+    @Override
+    public void onPageOpened()
+    {
+        super.onPageOpened();
+        int x = this.width / 2;
+        int y = this.height / 2;
+        this.addRenderableWidget(new Button.Builder(TComponent.translatable("traineredit.button.home"),
+                (b) -> this.closeCallback.run()).bounds(x + 73, y + 64, 50, 12).build());
     }
 }

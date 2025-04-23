@@ -471,8 +471,23 @@ public class Pokecube extends Item implements IPokecube
                 || thrower instanceof FakePlayer)
         {
             if (target instanceof LivingEntity living) entity.setSeeking(living);
-            if (target == null && targetLocation == null && PokecubeManager.isFilled(cube))
-                targetLocation = Vector3.secondAxisNeg;
+            boolean hasTarget = target != null || targetLocation != null;
+            if (!hasTarget && PokecubeManager.isFilled(cube)) targetLocation = Vector3.secondAxisNeg;
+            if (hasTarget)
+            {
+                Vec3 v;
+                if (targetLocation != null)
+                {
+                    v = targetLocation.toVec3d().subtract(thrower.getEyePosition()).scale(0.1);
+                }
+                else
+                {
+                    v = target.getEyePosition().subtract(thrower.getEyePosition()).scale(0.1);
+                }
+                v.add(0,thrower.getGravity(), 0);
+                System.out.println(targetLocation+" "+v);
+                entity.setDeltaMovement(v);
+            }
             entity.targetLocation.set(targetLocation);
             final Vector3 temp = new Vector3().set(thrower).add(0, thrower.getEyeHeight(), 0);
             temp.moveEntity(entity);

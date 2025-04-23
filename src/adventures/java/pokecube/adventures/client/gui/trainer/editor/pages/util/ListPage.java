@@ -25,15 +25,13 @@ public abstract class ListPage<T extends AbstractSelectionList.Entry<T>> extends
 
     protected void postInitList()
     {
-        this.addRenderableWidget(this.list);
+        if (!this.children().contains(this.list)) this.addRenderableWidget(this.list);
     }
 
     @Override
     public void init()
     {
         super.init();
-        this.initList();
-        postInitList();
     }
 
     public void initList()
@@ -50,8 +48,9 @@ public abstract class ListPage<T extends AbstractSelectionList.Entry<T>> extends
     @Override
     public void onPageOpened()
     {
-        this.initList();
         super.onPageOpened();
+        this.initList();
+        postInitList();
     }
 
     @Override
