@@ -7,8 +7,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 
-import java.util.List;
-
 public abstract class Page extends Screen implements GuiEventListener
 {
     public final EditorGui parent;
@@ -61,13 +59,12 @@ public abstract class Page extends Screen implements GuiEventListener
     public void onPageClosed()
     {
         this.parent.children().remove(this);
+        this.children.clear();
     }
 
     public void onPageOpened()
     {
-        @SuppressWarnings("unchecked")
-        final List<GuiEventListener> list = (List<GuiEventListener>) this.parent.children();
-        list.add(this);
+        this.children.clear();
         this.renderables.add(this::renderPage);
     }
 

@@ -12,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.attachment.AttachmentType;
@@ -127,7 +128,11 @@ public class PokemobCaps
             }
             LivingEntity mob = loadContents(contents, level, forceNew);
             IPokemob pokemob = getPokemobFor(mob);
-            if (pokemob != null) contents = new PokecubeContents(pokemob, pokemob.getEntity(), contents.tag());
+            if (pokemob != null)
+            {
+                if (mob instanceof Mob m) pokemob.setEntity(m);
+                contents = new PokecubeContents(pokemob, pokemob.getEntity(), contents.tag());
+            }
             else if (mob != null) contents = new PokecubeContents(null, mob, contents.tag());
             else
             {

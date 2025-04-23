@@ -1,9 +1,6 @@
 package pokecube.adventures.client.gui.trainer.editor.pages;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.Util;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -14,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.adventures.client.gui.trainer.editor.pages.util.Page;
 import pokecube.adventures.network.PacketTrainer;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
@@ -21,6 +19,8 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.ThutCaps;
 import thut.api.entity.ICopyMob;
 import thut.lib.TComponent;
+
+import java.util.List;
 
 public class Trainer extends Page
 {
@@ -37,7 +37,7 @@ public class Trainer extends Page
     boolean male;
     boolean typename;
 
-    int index = 0;
+    int index = 0, _index;
 
     public Trainer(final EditorGui parent)
     {
@@ -112,10 +112,10 @@ public class Trainer extends Page
         else this.tradeList.setEditable(false);
 
         // this.addRenderableWidget(this.urlSkin);
-        int index = 0;
+        int index;
         for (index = 0; index < EditorGui.PAGELIST.size(); index++)
             if (EditorGui.PAGELIST.get(index) == Trainer.class) break;
-        final int ourIndex = index;
+        this._index = index;
         if (this.parent.trainer != null)
         {
             for (index = 0; index < EditorGui.PAGELIST.size(); index++)
@@ -139,7 +139,7 @@ public class Trainer extends Page
                     // have changed
                     PacketTrainer.requestEdit(this.parent.entity);
                 };
-                page.closeCallback = () -> this.parent.changePage(ourIndex);
+                page.closeCallback = this::reOpenUs;
                 // Re-call this to init the gui properly
                 page.onPageOpened();
                 Trainer.lastMobIndex = -1;
@@ -153,8 +153,8 @@ public class Trainer extends Page
                 this.addRenderableWidget(new Button.Builder(TComponent.literal("mob " + (i + 1)), (b) -> {
                     this.parent.changePage(pokemobIndex);
                     if (!(this.parent.current_page instanceof Pokemob page)) return;
-                    page.pokemob = PokecubeManager.itemToPokemob(this.parent.trainer.getPokemob(i2),
-                            this.parent.entity.level());
+                    page.pokemob = PokemobCaps.getPokemobIn(this.parent.trainer.getPokemob(i2),
+                            this.parent.entity.level(), true).pokemob();
                     page.index = i2;
                     page.deleteCallback = () -> {
                         final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATEMOB);
@@ -166,7 +166,7 @@ public class Trainer extends Page
                         // have changed
                         PacketTrainer.requestEdit(this.parent.entity);
                     };
-                    page.closeCallback = () -> this.parent.changePage(ourIndex);
+                    page.closeCallback = this::reOpenUs;
                     // Re-call this to init the gui properly
                     page.onPageOpened();
                 }).bounds(x + 20 + 50 * (i / 3), y - 10 + 20 * (i % 3), 50, 20).build());
@@ -185,9 +185,9 @@ public class Trainer extends Page
                         message.getTag().putInt("I", this.parent.entity.getId());
                         message.getTag().putInt("__trainers__", page.index);
                         PacketTrainer.ASSEMBLER.sendToServer(message.getTag());
-                        this.parent.changePage(ourIndex);
+                        this.reOpenUs();
                     };
-                    page.closeCallback = () -> this.parent.changePage(ourIndex);
+                    page.closeCallback = this::reOpenUs;
                     // Re-call this to init the gui properly
                     page.onPageOpened();
                 }).bounds(x + 20 + 50 * (i2 / 3), y - 10 + 20 * (i2 % 3), 50, 20).build());
@@ -246,7 +246,7 @@ public class Trainer extends Page
             // Change to a rewards page
             this.parent.changePage(rewardIndex);
             if (!(this.parent.current_page instanceof Rewards page)) return;
-            page.closeCallback = () -> this.parent.changePage(ourIndex);
+            page.closeCallback = this::reOpenUs;
             page.onPageOpened();
         }).bounds(x - 123, y + yOff, 60, 20).build());
 
@@ -259,7 +259,7 @@ public class Trainer extends Page
             // Change to a ai page
             this.parent.changePage(messIndex);
             if (!(this.parent.current_page instanceof Messages page)) return;
-            page.closeCallback = () -> this.parent.changePage(ourIndex);
+            page.closeCallback = this::reOpenUs;
             page.onPageOpened();
         }).bounds(x - 123, y + yOff - 20, 60, 20).build());
 
@@ -271,9 +271,15 @@ public class Trainer extends Page
             // Change to a ai page
             this.parent.changePage(aiIndex);
             if (!(this.parent.current_page instanceof AI page)) return;
-            page.closeCallback = () -> this.parent.changePage(ourIndex);
+            page.closeCallback = this::reOpenUs;
             page.onPageOpened();
         }).bounds(x - 123, y + yOff + 20, 60, 20).build());
+    }
+
+    private void reOpenUs()
+    {
+        this.parent.changePage(this._index);
+        this.parent.current_page.onPageOpened();
     }
 
     private void onUpdated()

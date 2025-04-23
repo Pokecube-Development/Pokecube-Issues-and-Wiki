@@ -1,9 +1,5 @@
 package pokecube.adventures.client.gui.trainer.editor.pages;
 
-import java.util.function.Predicate;
-
-import org.lwjgl.glfw.GLFW;
-
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -13,6 +9,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
+import org.lwjgl.glfw.GLFW;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.adventures.client.gui.trainer.editor.pages.util.Page;
 import pokecube.adventures.network.PacketTrainer;
@@ -28,6 +25,8 @@ import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.database.Database;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.lib.TComponent;
+
+import java.util.function.Predicate;
 
 public class Pokemob extends Page
 {
@@ -73,8 +72,6 @@ public class Pokemob extends Page
         final int xOffset = this.width / 2;
 
         this.type = new EditBox(this.font, xOffset - 120, yOffset - 55, 100, 10, TComponent.literal(""));
-        this.name = new EditBox(this.font, xOffset - 120, yOffset - 65, 100, 10, TComponent.literal(""));
-        // this.addRenderableWidget(this.name);
         this.addRenderableWidget(this.type);
 
         final Predicate<String> intValid = input -> {
@@ -240,14 +237,13 @@ public class Pokemob extends Page
         // will be null in that case.
         if (this.deleteCallback != null)
         {
-            this.addRenderableWidget(new Button.Builder(
-                    TComponent.translatable(this.pokemob == null ? "traineredit.button.newpokemob" : "traineredit.button.delete"), (b) -> {
+            this.addRenderableWidget(new Button.Builder(TComponent.translatable(
+                    this.pokemob == null ? "traineredit.button.newpokemob" : "traineredit.button.delete"), (b) -> {
                 if (this.pokemob != null) this.deleteCallback.run();
                 else
                 {
                     this.onChanged();
-                    if (this.pokemob != null)
-                        b.setMessage(TComponent.translatable("traineredit.button.delete"));
+                    if (this.pokemob != null) b.setMessage(TComponent.translatable("traineredit.button.delete"));
                 }
             }).bounds(xOffset + 73, yOffset + 40, 50, 12).build());
         }
@@ -258,11 +254,12 @@ public class Pokemob extends Page
                 final byte old = this.pokemob.getSexe();
                 if (old == IPokemob.MALE || old == IPokemob.FEMALE)
                 {
-                    this.gender = old == IPokemob.MALE ? IPokemob.FEMALE
+                    this.gender = old == IPokemob.MALE
+                            ? IPokemob.FEMALE
                             : old == IPokemob.FEMALE ? IPokemob.MALE : this.gender;
                     this.pokemob.setSexe(this.gender);
-                    final String newgender = this.gender == IPokemob.MALE ? "♂"
-                            : this.gender == IPokemob.FEMALE ? "♀" : "o";
+                    final String newgender =
+                            this.gender == IPokemob.MALE ? "♂" : this.gender == IPokemob.FEMALE ? "♀" : "o";
                     b.setMessage(TComponent.literal(newgender));
                     this.onChanged();
                 }
@@ -295,8 +292,8 @@ public class Pokemob extends Page
                 PokecubeAPI.logDebug("Creating new mob for trainer");
                 if (entry == null || entry == Database.missingno)
                 {
-                    Minecraft.getInstance().player
-                            .displayClientMessage(TComponent.translatable("traineredit.info.invalidentry"), true);
+                    Minecraft.getInstance().player.displayClientMessage(
+                            TComponent.translatable("traineredit.info.invalidentry"), true);
                     this.type.setValue("");
                     return;
                 }
@@ -307,8 +304,8 @@ public class Pokemob extends Page
                     newMob = true;
                     if (this.pokemob == null)
                     {
-                        Minecraft.getInstance().player
-                                .displayClientMessage(TComponent.translatable("traineredit.info.invalidentry"), true);
+                        Minecraft.getInstance().player.displayClientMessage(
+                                TComponent.translatable("traineredit.info.invalidentry"), true);
                         this.type.setValue("");
                         return;
                     }
@@ -433,16 +430,16 @@ public class Pokemob extends Page
         super.renderPage(graphics, mouseX, mouseY, partialTicks);
         final int x = this.parent.width / 2;
         final int y = this.parent.height / 2 - 70;
-//        TODO: Fix these
-//        this.font.draw(graphics, I18n.get("traineredit.info.pokemob"), x - 110, y + 5, 0xFFFFFFFF);
-//        this.font.draw(graphics, I18n.get("traineredit.info.moves"), x - 120, y + 30, 0xFFFFFFFF);
-//        this.font.draw(graphics, I18n.get("traineredit.info.shiny"), x - 60, y + 30, 0xFFFFFFFF);
-//        this.font.draw(graphics, I18n.get("traineredit.info.level"), x - 120, y + 85, 0xFFFFFFFF);
-//        this.font.draw(graphics, I18n.get("traineredit.info.size"), x - 90, y + 85, 0xFFFFFFFF);
-//        this.font.draw(graphics, I18n.get("traineredit.info.nature"), x - 120, y + 110, 0xFFFFFFFF);
-//        this.font.draw(graphics, I18n.get("traineredit.info.ability"), x - 60, y + 110, 0xFFFFFFFF);
-//        this.font.draw(graphics, I18n.get("traineredit.info.evs"), x + 90, y, 0xFFFFFFFF);
-//        this.font.draw(graphics, I18n.get("traineredit.info.ivs"), x + 60, y, 0xFFFFFFFF);
+        //        TODO: Fix these
+        //        this.font.draw(graphics, I18n.get("traineredit.info.pokemob"), x - 110, y + 5, 0xFFFFFFFF);
+        //        this.font.draw(graphics, I18n.get("traineredit.info.moves"), x - 120, y + 30, 0xFFFFFFFF);
+        //        this.font.draw(graphics, I18n.get("traineredit.info.shiny"), x - 60, y + 30, 0xFFFFFFFF);
+        //        this.font.draw(graphics, I18n.get("traineredit.info.level"), x - 120, y + 85, 0xFFFFFFFF);
+        //        this.font.draw(graphics, I18n.get("traineredit.info.size"), x - 90, y + 85, 0xFFFFFFFF);
+        //        this.font.draw(graphics, I18n.get("traineredit.info.nature"), x - 120, y + 110, 0xFFFFFFFF);
+        //        this.font.draw(graphics, I18n.get("traineredit.info.ability"), x - 60, y + 110, 0xFFFFFFFF);
+        //        this.font.draw(graphics, I18n.get("traineredit.info.evs"), x + 90, y, 0xFFFFFFFF);
+        //        this.font.draw(graphics, I18n.get("traineredit.info.ivs"), x + 60, y, 0xFFFFFFFF);
 
         if (this.pokemob != null)
         {

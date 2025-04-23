@@ -1,15 +1,9 @@
 package pokecube.adventures.client.gui.trainer.editor;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import pokecube.adventures.PokecubeAdv;
@@ -33,28 +27,10 @@ import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.utils.CapHolders;
 import thut.lib.TComponent;
 
+import java.util.List;
+
 public class EditorGui extends Screen
 {
-    public static class MissingPage extends Page
-    {
-
-        public MissingPage(final EditorGui watch)
-        {
-            super(TComponent.translatable("pokewatch.title.blank"), watch);
-            this.font = Minecraft.getInstance().font;
-        }
-
-        @Override
-        public void renderPage(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
-        {
-            final int x = (this.parent.width - 160) / 2 + 80;
-            final int y = (this.parent.height - 160) / 2 + 70;
-            graphics.drawCenteredString(this.font, I18n.get("pokewatch.title.blank"), x, y, 0xFFFFFFFF);
-            super.renderPage(graphics, mouseX, mouseY, partialTicks);
-        }
-
-    }
-
     public static List<Class<? extends Page>> PAGELIST = Lists.newArrayList();
 
     static
@@ -106,26 +82,6 @@ public class EditorGui extends Screen
         this.pokemob = PokemobCaps.getPokemobFor(mob);
         if (this.entity != null) this.guard = CapHolders.getGuardAI(entity);
         else this.guard = null;
-    }
-
-    @Override
-    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
-    {
-        final int j2 = (this.width - 256) / 2;
-        final int k2 = (this.height - 160) / 2;
-        this.renderBlurredBackground(partialTick);
-        guiGraphics.blit(ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID, "textures/gui/traineredit.png"), j2, k2, 0, 0, 256, 160);
-    }
-
-    @Override
-    public void init()
-    {
-        EditorGui.lastPage = 0;
-        super.init();
-        // Here we just init current, it will then decide on what to do.
-        this.current_page = this.createPage(EditorGui.lastPage);
-        this.current_page.init(mc, width, height);
-        this.current_page.onPageOpened();
 
         this.renderables.add((graphics, mouseX, mouseY, partialTicks) -> {
             try
@@ -139,6 +95,33 @@ public class EditorGui extends Screen
         });
     }
 
+    @Override
+    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
+    {
+        final int j2 = (this.width - 256) / 2;
+        final int k2 = (this.height - 160) / 2;
+        this.renderBlurredBackground(partialTick);
+        guiGraphics.blit(ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID, "textures/gui/traineredit.png"), j2,
+                k2, 0, 0, 256, 160);
+    }
+
+    @Override
+    public void init()
+    {
+        EditorGui.lastPage = 0;
+        super.init();
+        if (this.current_page != null)
+        {
+            this.children.remove(this.current_page);
+            this.current_page.onPageClosed();
+        }
+        // Here we just init current, it will then decide on what to do.
+        this.current_page = this.createPage(EditorGui.lastPage);
+        this.current_page.init(mc, width, height);
+        this.current_page.onPageOpened();
+        this.children.add(this.current_page);
+    }
+
     private void handleError(final Exception e)
     {
         if (this.current_page != null) PokecubeAPI.LOGGER.warn("Error with page {}", this.current_page.getTitle(), e);
@@ -147,9 +130,14 @@ public class EditorGui extends Screen
             PokecubeAPI.LOGGER.warn("Error with null page", e);
             return;
         }
-        this.current_page.onPageClosed();
+        if (this.current_page != null)
+        {
+            this.children.remove(this.current_page);
+            this.current_page.onPageClosed();
+        }
         this.current_page.init();
         this.current_page.onPageOpened();
+        this.children.add(this.current_page);
     }
 
     public void changePage(final int newIndex)
@@ -160,11 +148,15 @@ public class EditorGui extends Screen
         {
             return;
         }
-        if (this.current_page != null) this.current_page.onPageClosed();
+        if (this.current_page != null)
+        {
+            this.children.remove(this.current_page);
+            this.current_page.onPageClosed();
+        }
         this.index = newIndex;
         this.current_page = newPage;
         this.current_page.init(this.minecraft, this.width, this.height);
-        this.current_page.onPageOpened();
+        this.children.add(this.current_page);
     }
 
     public Page createPage(final int index)
@@ -173,5 +165,4 @@ public class EditorGui extends Screen
         if (this.pokemob != null) return new LivePokemob(this);
         return EditorGui.makePage(EditorGui.PAGELIST.get(index), this);
     }
-
 }

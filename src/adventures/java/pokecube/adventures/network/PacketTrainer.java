@@ -1,7 +1,6 @@
 package pokecube.adventures.network;
 
 import com.google.gson.JsonObject;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -18,6 +17,7 @@ import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import pokecube.adventures.PokecubeAdv;
+import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.abilities.AbilityManager;
@@ -96,9 +96,13 @@ public class PacketTrainer extends NBTPacket
     public static void sendEditOpenPacket(final Entity target, final ServerPlayer editor)
     {
         final String node = target == editor || target == null
-                ? editor.isCrouching() ? PacketTrainer.EDITSELF : PacketTrainer.SPAWNTRAINER
-                : target instanceof ServerPlayer ? PacketTrainer.EDITOTHER
-                        : TrainerCaps.getHasPokemobs(target) != null ? PacketTrainer.EDITTRAINER
+                ? editor.isCrouching()
+                ? PacketTrainer.EDITSELF
+                : PacketTrainer.SPAWNTRAINER
+                : target instanceof ServerPlayer
+                        ? PacketTrainer.EDITOTHER
+                        : TrainerCaps.getHasPokemobs(target) != null
+                                ? PacketTrainer.EDITTRAINER
                                 : PacketTrainer.EDITMOB;
         final boolean canEdit = !editor.getServer().isDedicatedServer() || PermNodes.getBooleanPerm(editor, node);
 
@@ -325,14 +329,15 @@ public class PacketTrainer extends NBTPacket
                     final String res = this.getTag().getString("fM");
                     copied.setCopiedID(res.isEmpty() ? null : ResourceLocation.parse(res));
                 }
-                if (mob instanceof NpcMob)
+                if (mob instanceof NpcMob npc)
                 {
-                    final NpcMob npc = (NpcMob) mob;
                     final NpcType newType = NpcType.byType(type);
                     npc.setNpcType(newType);
                     npc.setMale(male);
                     if (this.getTag().getBoolean("rawName")) npc.setNPCName(name);
                     else npc.setTypedName(name);
+                    TypeTrainer _type = TypeTrainer.getTrainer(type, false);
+                    if (_type != null && mobHolder != null) mobHolder.setType(_type);
                     npc.urlSkin = this.getTag().getString("uS");
                     npc.playerName = this.getTag().getString("pS");
                     npc.customTex = this.getTag().getString("cS");
