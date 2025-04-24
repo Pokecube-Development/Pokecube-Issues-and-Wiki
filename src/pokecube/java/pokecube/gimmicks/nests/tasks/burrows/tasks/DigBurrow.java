@@ -9,7 +9,9 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.behavior.BlockPosTracker;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
@@ -73,7 +75,7 @@ public class DigBurrow extends AbstractBurrowTask
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {
         this.entity.getBrain().eraseMemory(MemoryModules.JOB_INFO.get());
         this.work_pos = null;
@@ -119,7 +121,7 @@ public class DigBurrow extends AbstractBurrowTask
     }
 
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob owner)
     {
         if (this.dig)
         {

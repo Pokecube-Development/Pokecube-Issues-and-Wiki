@@ -1,23 +1,15 @@
 package thut.api.entity.ai;
 
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Mob;
+
 public interface IAIRunnable
 {
     /** Last stage of tick, called after tick() */
-    void finish();
+    void finish(ServerLevel level, Mob owner);
 
     /**
-     * Should the task start running. if true, will call run next.
-     *
-     * @return
-     */
-    default void firstRun()
-    {
-
-    }
-
-    /**
-     * @return an identifier for use with saving this if it is supposed to be
-     *         saved to capability data.
+     * @return an identifier for use with saving this if it is supposed to be saved to capability data.
      */
     default String getIdentifier()
     {
@@ -28,38 +20,25 @@ public interface IAIRunnable
     int getPriority();
 
     /** Resets the task. */
-    void reset();
+    void reset(Mob entityIn);
 
     /** runs the task */
-    void run();
+    void run(ServerLevel level, Mob owner);
 
     /**
      * Sets the priority.
-     *
-     * @param prior
-     * @return
      */
     IAIRunnable setPriority(int prior);
 
+    default boolean sync() {return false;}
+
     /**
      * Should the task start running. if true, will call run next.
-     *
-     * @return
      */
-    boolean shouldRun();
-
-    /**
-     * If this is saveable, should tag be synced to clients.
-     *
-     * @return
-     */
-    default boolean sync()
-    {
-        return false;
-    }
+    boolean shouldRun(Mob entityIn);
 
     /** second stage of tick code, called after run(). */
-    default void tick()
+    default void runTick(ServerLevel level, Mob owner)
     {
 
     }

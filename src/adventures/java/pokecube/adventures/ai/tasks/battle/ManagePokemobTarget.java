@@ -3,6 +3,7 @@ package pokecube.adventures.ai.tasks.battle;
 import com.google.common.collect.Lists;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
+import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.trainers.IHasPokemobs;
@@ -16,20 +17,22 @@ import java.util.List;
 public class ManagePokemobTarget extends BaseBattleTask
 {
 
-    public ManagePokemobTarget(final LivingEntity trainer)
+    public ManagePokemobTarget()
     {
-        super(trainer);
+        super();
     }
 
     @Override
     protected void tick(final ServerLevel worldIn, final LivingEntity owner, final long gameTime)
     {
-        final IHasPokemobs other = TrainerCaps.getHasPokemobs(this.target);
-        if (other != null) other.onSetTarget(this.entity, true);
+        var brain = owner.getBrain();
+        var target = brain.getMemory(MemoryTypes.BATTLETARGET.get()).get();
+        final IHasPokemobs other = TrainerCaps.getHasPokemobs(target);
+        if (other != null) other.onSetTarget(owner, true);
 
         final IPokemob mob = this.getTrainer(owner).getOutMob();
 
-        if (mob == null || this.target == null) return;
+        if (mob == null || target == null) return;
         LivingEntity ourMob = mob.getEntity();
 
         Battle ourBattle = Battle.getBattle(owner);
@@ -44,15 +47,15 @@ public class ManagePokemobTarget extends BaseBattleTask
         {
             LivingEntity enemy = mob.getMoveStats().targetEnemy;
             enemy_check:
-            if (enemy == this.target)
+            if (enemy == target)
             {
-                List<LivingEntity> mobs = Lists.newArrayList(battle.getEnemies(entity));
+                List<LivingEntity> mobs = Lists.newArrayList(battle.getEnemies(owner));
                 // Ensure that the mobs are valid targets.
                 mobs.removeIf(t2 -> !AITools.shouldBeAbleToAgro(ourMob, t2));
                 for (int i = 0; i < mobs.size(); i++)
                 {
                     enemy = mobs.get(i);
-                    if (enemy == this.target) continue;
+                    if (enemy == target) continue;
                     mob.getMoveStats().enemyIndex = i;
                     mob.updateBattleInfo();
                     break enemy_check;
@@ -62,7 +65,7 @@ public class ManagePokemobTarget extends BaseBattleTask
             if (enemy != null)
             {
                 var enemyTarget = BrainUtils.getAttackTarget(enemy);
-                if (enemyTarget == entity)
+                if (enemyTarget == owner)
                 {
                     BrainUtils.setAttackTarget(enemy, ourMob);
                     var enemyPokemob = PokemobCaps.getPokemobFor(enemy);

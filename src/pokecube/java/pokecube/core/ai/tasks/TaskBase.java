@@ -141,7 +141,7 @@ public abstract class TaskBase extends RootTask<Mob> implements ITask
     }
 
     @Override
-    public void finish()
+    public void finish(ServerLevel level, Mob owner)
     {
 
     }
@@ -160,34 +160,34 @@ public abstract class TaskBase extends RootTask<Mob> implements ITask
     }
 
     @Override
-    protected boolean checkExtraStartConditions(final ServerLevel worldIn, final Mob owner)
+    protected boolean checkExtraStartConditions(final ServerLevel level, final Mob owner)
     {
-        if (this.isPaused(owner)) return this.tempRun;
-        return this.tempRun = this.shouldRun();
+        if (this.isPaused(level, owner)) return this.tempRun;
+        return this.tempRun = this.shouldRun(owner);
     }
 
     @Override
-    protected void stop(final ServerLevel worldIn, final Mob entityIn, final long gameTimeIn)
+    protected void stop(final ServerLevel level, final Mob entityIn, final long gameTimeIn)
     {
         // Incase this is called when paused, we don't want to accept it, so
         // return early.
-        if (this.isPaused(entityIn)) return;
-        this.reset();
+        if (this.isPaused(level, entityIn)) return;
+        this.reset(entityIn);
     }
 
     @Override
-    protected boolean canStillUse(final ServerLevel worldIn, final Mob entityIn, final long gameTimeIn)
+    protected boolean canStillUse(final ServerLevel level, final Mob entityIn, final long gameTimeIn)
     {
-        if (this.isPaused(entityIn)) return this.tempCont;
-        return this.tempCont = this.shouldRun();
+        if (this.isPaused(level, entityIn)) return this.tempCont;
+        return this.tempCont = this.shouldRun(entityIn);
     }
 
     @Override
-    protected void tick(final ServerLevel worldIn, final Mob owner, final long gameTime)
+    protected void tick(final ServerLevel level, final Mob owner, final long gameTime)
     {
-        if (this.isPaused(owner)) return;
-        this.run();
-        this.tick();
-        this.finish();
+        if (this.isPaused(level, owner)) return;
+        this.run(level, owner);
+        this.runTick(level, owner);
+        this.finish(level, owner);
     }
 }

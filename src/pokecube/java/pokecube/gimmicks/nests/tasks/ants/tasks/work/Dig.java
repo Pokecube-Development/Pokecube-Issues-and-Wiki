@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.behavior.BlockPosTracker;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -125,7 +126,7 @@ public class Dig extends AbstractConstructTask
     }
 
     @Override
-    protected boolean selectJobSite()
+    protected boolean selectJobSite(Mob owner)
     {
         final boolean edge = this.e != null;
         dig_select:
@@ -142,7 +143,7 @@ public class Dig extends AbstractConstructTask
             if (!this.divert(part))
             {
                 if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Job Done!");
-                this.endTask();
+                this.endTask(owner);
             }
             return false;
         }
@@ -167,7 +168,7 @@ public class Dig extends AbstractConstructTask
     }
 
     @Override
-    protected void doWork()
+    protected void doWork(Mob owner)
     {
         final boolean dug = this.tryHarvest(this.work_pos, true);
         BrainUtils.setLeapTarget(this.entity, new BlockPosTracker(this.work_pos));

@@ -10,6 +10,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -83,7 +84,7 @@ public class DoBuild extends UtilTask
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {
         hasInstructions = false;
         builder = null;
@@ -97,14 +98,14 @@ public class DoBuild extends UtilTask
         return false;
     }
 
-    public void setBuilder(BuilderClearer build, ServerLevel level)
+    public void setBuilder(BuilderClearer build, ServerLevel level, Mob owner)
     {
         if (build == this.build) return;
 
         var pair = storage.getInventory(level, storage.storageLoc, Direction.UP);
         if (pair == null || build == null)
         {
-            reset();
+            reset(owner);
             return;
         }
         this.builder = build.builder();
@@ -119,7 +120,7 @@ public class DoBuild extends UtilTask
             builder.provideBoM(this.BoM, true);
             hasInstructions = true;
             builder.setCreative(pokemob.getOwner() instanceof ServerPlayer player && player.isCreative());
-            if (!builder.validBuilder()) reset();
+            if (!builder.validBuilder()) reset(owner);
         }
     }
 
@@ -406,13 +407,13 @@ public class DoBuild extends UtilTask
         return false;
     }
 
-    private void buildBlocks(ServerLevel level)
+    private void buildBlocks(ServerLevel level, Mob entityIn)
     {
 //        if (entity.tickCount % 20 == 0) System.out.println("Building");
         // This is always called after checkSupplies, which would have set this.
         if (nextPlace == null)
         {
-            this.reset();
+            this.reset(entityIn);
 //            System.out.println("Reset :(");
             return;
         }
@@ -447,11 +448,11 @@ public class DoBuild extends UtilTask
     }
 
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob owner)
     {
         var storeLoc = storage.storageLoc;
         // Only run if we actually have storage (and are server side)
-        if (storeLoc == null || !(entity.level instanceof ServerLevel level)) return;
+        if (storeLoc == null) return;
 
         // Refresh blueprint if needed
         if (builder != null && !builder.validBuilder()) builder.update(level);
@@ -459,7 +460,7 @@ public class DoBuild extends UtilTask
         // If refresh failed, we are done, so reset.
         if (builder == null || !builder.validBuilder())
         {
-            reset();
+            reset(owner);
             return;
         }
 
@@ -491,11 +492,11 @@ public class DoBuild extends UtilTask
         }
 
 //        if (entity.tickCount % 20 == 0) System.out.println("Building!");
-        buildBlocks(level);
+        buildBlocks(level, owner);
     }
 
     @Override
-    public boolean shouldRun()
+    public boolean shouldRun(Mob entityIn)
     {
         return hasInstructions && pokemob.isRoutineEnabled(BuilderTasks.BUILD);
     }

@@ -8,6 +8,7 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -45,14 +46,14 @@ public class GuardEggTask extends TaskBase
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {
         this.egg = null;
         entity.getBrain().eraseMemory(MemoryModules.EGG.get());
     }
 
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob owner)
     {
         double eggDist = this.entity.distanceToSqr(this.egg);
         // No breeding while guarding egg.
@@ -64,7 +65,7 @@ public class GuardEggTask extends TaskBase
     }
 
     @Override
-    public boolean shouldRun()
+    public boolean shouldRun(Mob entityIn)
     {
         Optional<EntityPokemobEgg> eggOpt = entity.getBrain().getMemory(MemoryModules.EGG.get());
         if (!eggOpt.isPresent()) return false;

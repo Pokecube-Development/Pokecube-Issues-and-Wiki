@@ -6,8 +6,10 @@ import java.util.Optional;
 
 import com.google.common.collect.Maps;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.player.Player;
@@ -53,7 +55,7 @@ public class HerdTask extends BaseIdleTask
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {
         herdMid.clear();
     }
@@ -113,7 +115,7 @@ public class HerdTask extends BaseIdleTask
     }
 
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob owner)
     {
         if (this.pokemob.getPokedexEntry().flys()) this.doFlyingIdle();
         else if (this.pokemob.getPokedexEntry().floats()) this.doFloatingIdle();
@@ -127,7 +129,7 @@ public class HerdTask extends BaseIdleTask
     }
 
     @Override
-    public boolean shouldRun()
+    public boolean shouldRun(Mob entityIn)
     {
         // Configs can set this to -1 to disable idle movement entirely.
         if (IdleWalkTask.IDLETIMER <= 0) return false;

@@ -1,22 +1,21 @@
 package pokecube.core.ai.tasks.combat;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.ai.tasks.TaskBase;
+import pokecube.core.ai.tasks.PokemobBehaviour;
 import thut.api.entity.ai.IAICombat;
 import thut.api.entity.ai.RootTask;
 
-public abstract class CombatTask extends TaskBase implements IAICombat
-{
+import java.util.Map;
 
+public abstract class CombatTask extends PokemobBehaviour implements IAICombat
+{
     private static final Map<MemoryModuleType<?>, MemoryStatus> MEMS = Maps.newHashMap();
 
     static
@@ -24,26 +23,20 @@ public abstract class CombatTask extends TaskBase implements IAICombat
         CombatTask.MEMS.put(MemoryModules.ATTACKTARGET.get(), MemoryStatus.VALUE_PRESENT);
     }
 
-    protected LivingEntity target = null;
-
-    public CombatTask(final IPokemob pokemob)
+    public CombatTask()
     {
-        super(pokemob, CombatTask.MEMS);
+        super(CombatTask.MEMS);
     }
 
-    public CombatTask(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryStatus> mems)
+    public CombatTask(final Map<MemoryModuleType<?>, MemoryStatus> mems)
     {
-        super(pokemob, RootTask.merge(CombatTask.MEMS, mems));
+        super(RootTask.merge(CombatTask.MEMS, mems));
     }
 
-    public void checkAttackTarget()
+    public final LivingEntity getAttackTarget(Mob entityIn)
     {
-        this.target = getAttackTarget();
-    }
-
-    public final LivingEntity getAttackTarget()
-    {
-        if (this.pokemob.getMoveStats().targetEnemy != null) return this.pokemob.getMoveStats().targetEnemy;
-        return BrainUtils.getAttackTarget(this.entity);
+        var pokemob = PokemobCaps.getPokemobFor(entityIn);
+        if (pokemob.getMoveStats().targetEnemy != null) return pokemob.getMoveStats().targetEnemy;
+        return BrainUtils.getAttackTarget(entityIn);
     }
 }

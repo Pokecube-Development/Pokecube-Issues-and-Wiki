@@ -1,13 +1,11 @@
 package pokecube.core.ai.tasks.idle;
 
-import java.util.List;
-import java.util.Map;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.behavior.EntityTracker;
 import net.minecraft.world.entity.ai.behavior.PositionTracker;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
@@ -25,14 +23,17 @@ import pokecube.core.ai.brain.sensors.InterestingMobs;
 import thut.api.entity.IBreedingMob;
 import thut.api.entity.ai.PosWrapWrap;
 
+import java.util.List;
+import java.util.Map;
+
 /**
- * This IAIRunnable is responsible for most of the breeding AI for the pokemobs.
- * It finds the mates, initiates the fighting over a mate (if applicable), then
- * tells the mobs to breed if they should.
+ * This IAIRunnable is responsible for most of the breeding AI for the pokemobs. It finds the mates, initiates the
+ * fighting over a mate (if applicable), then tells the mobs to breed if they should.
  */
 public class MateTask extends BaseIdleTask
 {
     private static final Map<MemoryModuleType<?>, MemoryStatus> mems = Maps.newHashMap();
+
     static
     {
         // only run this if we have mate targets.
@@ -59,7 +60,7 @@ public class MateTask extends BaseIdleTask
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {
         this.spawnBabyDelay = -1;
         this.mate = null;
@@ -70,7 +71,7 @@ public class MateTask extends BaseIdleTask
     }
 
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob owner)
     {
         // already have a mate, lets return early from this
         if (this.mate != null) return;
@@ -80,7 +81,7 @@ public class MateTask extends BaseIdleTask
         // Only one mate, we can choose it
         if (this.mates.size() == 1)
         {
-            this.mate = this.mates.get(0);
+            this.mate = this.mates.getFirst();
             return;
         }
         if (this.startSpot != null) this.setWalkTo(this.startSpot);
@@ -109,7 +110,7 @@ public class MateTask extends BaseIdleTask
     }
 
     @Override
-    public boolean shouldRun()
+    public boolean shouldRun(Mob entityIn)
     {
         if (!InterestingMobs.canPokemobMate(this.pokemob)) return false;
         // This AI is only run on the female side.
@@ -124,8 +125,9 @@ public class MateTask extends BaseIdleTask
         this.mates = BrainUtils.getMates(this.entity);
         if (this.mates != null)
         {
-            int mateNum = PokecubeCore.getConfig().mobSpawnNumber;
-            mateNum *= this.pokemob.isPlayerOwned() ? PokecubeCore.getConfig().mateDensityPlayer
+            double mateNum = PokecubeCore.getConfig().mobSpawnNumber;
+            mateNum *= this.pokemob.isPlayerOwned()
+                    ? PokecubeCore.getConfig().mateDensityPlayer
                     : PokecubeCore.getConfig().mateDensityWild;
             this.mates.removeIf(e -> !e.isAlive());
             if (this.mates.size() > mateNum) return false;
@@ -134,7 +136,7 @@ public class MateTask extends BaseIdleTask
     }
 
     @Override
-    public void tick()
+    public void runTick(ServerLevel level, Mob owner)
     {
         // No chosen mate, return early
         if (this.mate == null) return;
@@ -151,7 +153,7 @@ public class MateTask extends BaseIdleTask
         if (this.spawnBabyDelay <= 0) this.spawnBabyDelay = this.entity.tickCount + 100;
         if (this.spawnBabyDelay > this.entity.tickCount) return;
         if (other instanceof IBreedingMob mate) this.pokemob.mateWith(mate);
-        this.reset();
+        this.reset(owner);
         other.resetLoveStatus();
         this.pokemob.resetLoveStatus();
     }

@@ -39,10 +39,9 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
 
     LivingEntity target = null;
 
-    public BaseAgroTask(final LivingEntity trainer, final float agressionProbability, final int battleTime)
+    public BaseAgroTask(final float agressionProbability, final int battleTime)
     {
-        super(trainer, BaseAgroTask.MEMS);
-        this.getTrainer(trainer).addTargetWatcher(this);
+        super(BaseAgroTask.MEMS);
         this.maxTimer = battleTime;
         this.chance = agressionProbability;
     }
@@ -50,7 +49,7 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
     @Override
     protected boolean canStillUse(final ServerLevel worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
-        final Brain<?> brain = this.entity.getBrain();
+        final Brain<?> brain = entityIn.getBrain();
         if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET.get())) return false;
         final LivingEntity targ = brain.getMemory(MemoryTypes.BATTLETARGET.get()).get();
         if (targ != this.target)
@@ -73,7 +72,7 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
         var trainer = this.getTrainer(entityIn);
         if (trainer.getCooldown() > gameTimeIn) return;
         if (worldIn.getRandom().nextDouble() > this.chance) return;
-        final NearestVisibleLivingEntities mobs = this.entity.getBrain()
+        final NearestVisibleLivingEntities mobs = entityIn.getBrain()
                 .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get();
 
         // Count tame mobs as their owners, rather than seperately mobs
@@ -96,10 +95,10 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
 
         for (LivingEntity mob : mobs.findAll(mob -> this.isValidTarget(trainer, mob) && tameChecker.test(mob)))
         {
-            if (mob instanceof Player player && this.entity instanceof Villager villager)
+            if (mob instanceof Player player && entityIn instanceof Villager villager)
             {
                 int rawRep = TeamManager.sameTeam(player, villager) ? rep_cap : villager.getPlayerReputation(player);
-                int rep = rawRep + rep_base;
+                double rep = rawRep + rep_base;
                 double s1 = s;
                 if (rep > rep_cap) s1 = 0;
                 else if (rep < rep_base) s1 *= 2;
@@ -111,7 +110,7 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
             final boolean lookingAt = mob.getBoundingBox().clip(start, end).isPresent();
             if (!lookingAt)
             {
-                BehaviorUtils.lookAtEntity(this.entity, mob);
+                BehaviorUtils.lookAtEntity(entityIn, mob);
                 return;
             }
             final IOwnable owned = ThutCaps.getOwnable(mob);
@@ -133,7 +132,7 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
         final Brain<?> brain = owner.getBrain();
         if (brain.hasMemoryValue(MemoryTypes.BATTLETARGET.get())) return false;
         if (owner.tickCount % PokecubeAdv.config.trainerAgroRate != 0) return false;
-        return this.entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES);
+        return owner.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES);
     }
 
     @Override

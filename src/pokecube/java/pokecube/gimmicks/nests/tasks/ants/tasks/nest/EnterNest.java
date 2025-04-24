@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.level.pathfinder.Path;
 import pokecube.api.blocks.IInhabitable;
@@ -28,7 +30,7 @@ public class EnterNest extends AbstractAntTask
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {
         this.homePos.clear();
         this.entity.getNavigation().resetMaxVisitedNodesMultiplier();
@@ -36,7 +38,7 @@ public class EnterNest extends AbstractAntTask
     }
 
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob owner)
     {
         final Brain<?> brain = this.entity.getBrain();
         this.homePos.set(this.nest.nest.getBlockPos());

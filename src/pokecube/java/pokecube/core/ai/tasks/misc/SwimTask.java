@@ -1,24 +1,21 @@
 package pokecube.core.ai.tasks.misc;
 
 import com.google.common.collect.ImmutableMap;
-
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import thut.api.entity.ai.RootTask;
 
 public class SwimTask extends RootTask<Mob>
 {
     private final float jumpChance;
 
-    private final IPokemob pokemob;
-
     public SwimTask(final IPokemob pokemob, final float jumpChance)
     {
         super(ImmutableMap.of());
         this.jumpChance = jumpChance;
-        this.pokemob = pokemob;
     }
 
     public SwimTask(final float jumpChance)
@@ -35,9 +32,11 @@ public class SwimTask extends RootTask<Mob>
     @Override
     protected boolean checkExtraStartConditions(final ServerLevel worldIn, final Mob owner)
     {
-        if (this.pokemob != null && this.pokemob.swims()) return false;
-        final boolean belowDepth = owner.getFluidTypeHeight(NeoForgeMod.WATER_TYPE.value()) > owner
-                .getFluidJumpThreshold() || owner.isEyeInFluidType(NeoForgeMod.WATER_TYPE.value());
+        var pokemob = PokemobCaps.getPokemobFor(owner);
+        if (pokemob != null && pokemob.swims()) return false;
+        final boolean belowDepth =
+                owner.getFluidTypeHeight(NeoForgeMod.WATER_TYPE.value()) > owner.getFluidJumpThreshold()
+                        || owner.isEyeInFluidType(NeoForgeMod.WATER_TYPE.value());
         return owner.isInWater() && belowDepth || owner.isInLava();
     }
 

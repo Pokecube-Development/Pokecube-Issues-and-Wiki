@@ -1,10 +1,6 @@
 package pokecube.core.ai.tasks.idle;
 
-import java.util.Map;
-import java.util.Random;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,6 +11,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
@@ -26,9 +23,11 @@ import thut.api.level.terrain.TerrainManager;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
+import java.util.Map;
+import java.util.Random;
+
 /**
- * This IAIRunnable makes the mobs randomly wander around if they have nothing
- * better to do.
+ * This IAIRunnable makes the mobs randomly wander around if they have nothing better to do.
  */
 public class IdleWalkTask extends BaseIdleTask
 {
@@ -61,7 +60,7 @@ public class IdleWalkTask extends BaseIdleTask
 
     private static final Map<MemoryModuleType<?>, MemoryStatus> _MEMS = Maps.newHashMap();
 
-    private static final Map<MemoryModuleType<?>, MemoryStatus> _getMems()
+    private static Map<MemoryModuleType<?>, MemoryStatus> _getMems()
     {
         if (_MEMS.isEmpty())
         {
@@ -108,15 +107,14 @@ public class IdleWalkTask extends BaseIdleTask
     }
 
     /**
-     * Flying things will path to air, so long as not airborne, somethimes they
-     * will decide to path downwards, the height they path to will be centered
-     * around players, to prevent them from all flying way up, or way down
+     * Flying things will path to air, so long as not airborne, somethimes they will decide to path downwards, the
+     * height they path to will be centered around players, to prevent them from all flying way up, or way down
      */
     protected void doFlyingIdle()
     {
         final boolean grounded = !this.pokemob.isRoutineEnabled(AIRoutine.AIRBORNE);
-        final boolean tamed = this.pokemob.getGeneralState(GeneralStates.TAMED)
-                && !this.pokemob.getGeneralState(GeneralStates.STAYING);
+        final boolean tamed = this.pokemob.getGeneralState(GeneralStates.TAMED) && !this.pokemob.getGeneralState(
+                GeneralStates.STAYING);
         final boolean up = Math.random() < 0.9;
         if (grounded && up && !tamed) this.pokemob.setRoutineState(AIRoutine.AIRBORNE, true);
         else if (!tamed) this.doGroundIdle();
@@ -159,8 +157,8 @@ public class IdleWalkTask extends BaseIdleTask
 
     protected boolean getLocation()
     {
-        final boolean tameFactor = this.pokemob.getGeneralState(GeneralStates.TAMED)
-                && !this.pokemob.getGeneralState(GeneralStates.STAYING);
+        final boolean tameFactor = this.pokemob.getGeneralState(GeneralStates.TAMED) && !this.pokemob.getGeneralState(
+                GeneralStates.STAYING);
         if (this.entry != pokemob.getPokedexEntry()) this.entry = pokemob.getPokedexEntry();
         int distance = tameFactor ? PokecubeCore.getConfig().idleMaxPathTame : PokecubeCore.getConfig().idleMaxPathWild;
         boolean goHome = false;
@@ -173,9 +171,8 @@ public class IdleWalkTask extends BaseIdleTask
             }
             distance = (int) Math.min(distance, this.pokemob.getHomeDistance());
             this.v.set(this.pokemob.getHome());
-            if (this.entity.blockPosition().distSqr(this.pokemob.getHome()) > this.pokemob.getHomeDistance()
-                    * this.pokemob.getHomeDistance() * 0.75)
-                goHome = true;
+            if (this.entity.blockPosition().distSqr(this.pokemob.getHome())
+                    > this.pokemob.getHomeDistance() * this.pokemob.getHomeDistance() * 0.75) goHome = true;
         }
         else
         {
@@ -211,60 +208,60 @@ public class IdleWalkTask extends BaseIdleTask
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {}
 
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob owner)
     {
         if (!this.getLocation()) return;
         if (this.entry.flys()) this.doFlyingIdle();
         else if (this.entry.floats()) this.doFloatingIdle();
-        else if (this.entry.swims() && this.entity.isInWater()) this.doWaterIdle();
+        else if (this.entry.swims() && owner.isInWater()) this.doWaterIdle();
         else if (this.entry.isStationary) this.doStationaryIdle();
         else this.doGroundIdle();
-        this.v1.set(this.entity);
+        this.v1.set(owner);
         this.v.set(this.x, this.y, this.z);
         if (this.v1.distToSq(this.v) <= 1) return;
         this.setWalkTo(this.v, 1, 3);
     }
 
     @Override
-    protected void start(final ServerLevel worldIn, final Mob entityIn, final long gameTimeIn)
+    protected void start(final ServerLevel level, final Mob owner, final long gameTimeIn)
     {
-        this.run();
+        this.run(level, owner);
     }
 
     @Override
-    public boolean shouldRun()
+    public boolean shouldRun(Mob entity)
     {
         // Configs can set this to -1 to disable idle movement entirely.
         if (IdleWalkTask.IDLETIMER <= 0) return false;
+        IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
 
         // Not currently able to move.
-        if (!TaskBase.canMove(this.pokemob)) return false;
+        if (!TaskBase.canMove(pokemob)) return false;
 
         // Check a random number as well
-        if (this.entity.getRandom().nextInt(IdleWalkTask.IDLETIMER) != 0) return false;
+        if (entity.getRandom().nextInt(IdleWalkTask.IDLETIMER) != 0) return false;
 
         // Wander disabled, so don't run.
-        if (!this.pokemob.isRoutineEnabled(AIRoutine.WANDER)) return false;
+        if (!pokemob.isRoutineEnabled(AIRoutine.WANDER)) return false;
 
         // Pokedex entry says it doesn't wander.
-        if (this.pokemob.getPokedexEntry().isStationary) return false;
+        if (pokemob.getPokedexEntry().isStationary) return false;
 
         // Angry at something
-        if (this.pokemob.getCombatState(CombatStates.BATTLING)) return false;
+        if (pokemob.getCombatState(CombatStates.BATTLING)) return false;
 
         // Owner is controlling us.
-        if (this.pokemob.getGeneralState(GeneralStates.CONTROLLED)) return false;
-        if (this.entity.getBrain().hasMemoryValue(MemoryModules.WALK_TARGET)) return false;
-        return true;
+        if (pokemob.getGeneralState(GeneralStates.CONTROLLED)) return false;
+        return !entity.getBrain().hasMemoryValue(MemoryModules.WALK_TARGET);
     }
 
     @Override
     protected boolean canStillUse(final ServerLevel worldIn, final Mob entityIn, final long gameTimeIn)
     {
-        return !this.entity.getBrain().hasMemoryValue(MemoryModules.WALK_TARGET);
+        return !entityIn.getBrain().hasMemoryValue(MemoryModules.WALK_TARGET);
     }
 }

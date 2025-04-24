@@ -4,6 +4,8 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -31,13 +33,13 @@ public class Idle extends AbstractAntTask
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {
         this.timer = 0;
     }
 
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob owner)
     {
         if (this.entity.getNavigation().isInProgress()) return;
         final int num = this.nest.hab.rooms.allRooms.size();

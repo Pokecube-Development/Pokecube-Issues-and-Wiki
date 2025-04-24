@@ -31,6 +31,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
+import pokecube.adventures.ai.tasks.BaseTask;
 import pokecube.adventures.ai.tasks.Tasks;
 import pokecube.adventures.ai.tasks.battle.CaptureMob;
 import pokecube.adventures.ai.tasks.battle.agro.AgroTargets;
@@ -136,6 +137,8 @@ public class TypeTrainer extends NpcType
         return e -> e instanceof Zombie;
     }
 
+    public static BaseTask CAPTURE_MOBS = new CaptureMob(1);
+
     // Register default instance.
     static
     {
@@ -235,32 +238,30 @@ public class TypeTrainer extends NpcType
             };
 
             final List<Pair<Integer, Behavior<? super LivingEntity>>> list = Lists.newArrayList();
-            Behavior<? super LivingEntity> task = new AgroTargets(npc, 1, 0, validZombieTarget(npc));
+            Behavior<? super LivingEntity> task = new AgroTargets(1, 0, validZombieTarget(npc));
             list.add(Pair.of(1, task));
 
             // Only trainers specifically target players.
             if (npc instanceof TrainerBase)
             {
                 final Predicate<LivingEntity> validPlayer = onlyIfHasMobs.and(validPlayerTarget(npc));
-                task = new AgroTargets(npc, 1, 0, validPlayer.and(notNearHealer)).setRunCondition(noRunWhileRest);
+                task = new AgroTargets(1, 0, validPlayer.and(notNearHealer)).setRunCondition(noRunWhileRest);
                 list.add(Pair.of(1, task));
             }
 
             // 5% chance of battling a random nearby pokemob if they see it.
             if (Config.instance.trainersBattlePokemobs)
             {
-                task = new AgroTargets(npc, 0.005f, 1200, validPokemobTarget(npc)).setRunCondition(noRunWhileRest);
+                task = new AgroTargets(0.005f, 1200, validPokemobTarget(npc)).setRunCondition(noRunWhileRest);
                 list.add(Pair.of(1, task));
-                task = new CaptureMob(npc, 1);
-                list.add(Pair.of(1, task));
+                list.add(Pair.of(1, CAPTURE_MOBS));
             }
             // 1% chance of battling another of same class if seen
             // Also this will stop the battle after 1200 ticks.
             if (Config.instance.trainersBattleEachOther)
             {
                 final Predicate<LivingEntity> shouldRun = noRunWhileMeet.and(noRunWhileRest);
-                task = new AgroTargets(npc, 0.0015f, 1200, z -> z.getClass() == npc.getClass()).setRunCondition(
-                        shouldRun);
+                task = new AgroTargets(0.0015f, 1200, z -> z.getClass() == npc.getClass()).setRunCondition(shouldRun);
                 list.add(Pair.of(1, task));
             }
             return list;

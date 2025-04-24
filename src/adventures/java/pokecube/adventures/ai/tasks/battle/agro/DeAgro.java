@@ -1,11 +1,13 @@
 package pokecube.adventures.ai.tasks.battle.agro;
 
+import com.google.common.collect.Maps;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import pokecube.adventures.Config;
+import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.adventures.ai.tasks.battle.BaseBattleTask;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -16,22 +18,32 @@ import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.eventhandlers.PCEventsHandler;
 
 import java.util.List;
+import java.util.Map;
 
 public class DeAgro extends BaseBattleTask
 {
-    int deagroTimer = 0;
-    int noSeeTicks = 0;
+    private static final Map<MemoryModuleType<?>, MemoryStatus> MEMS = Maps.newHashMap();
 
-    public DeAgro(final LivingEntity trainer)
+    static
     {
-        super(trainer);
+        MEMS.put(MemoryTypes.BATTLETARGET.get(), MemoryStatus.VALUE_PRESENT);
+        MEMS.put(MemoryTypes.NO_SEEN_TARGET_TIMER.get(), MemoryStatus.REGISTERED);
+        MEMS.put(MemoryTypes.DE_AGRO_TIMER.get(), MemoryStatus.REGISTERED);
+    }
+
+    public DeAgro()
+    {
+        super(MEMS);
     }
 
     @Override
     protected void tick(final ServerLevel worldIn, final LivingEntity owner, final long gameTime)
     {
-        boolean deagro = !this.target.isAlive() || this.target.getHealth() <= 0;
-
+        var brain = owner.getBrain();
+        var target = brain.getMemory(MemoryTypes.BATTLETARGET.get()).get();
+        boolean deagro = !target.isAlive() || target.getHealth() <= 0;
+        int noSeeTicks = brain.getMemory(MemoryTypes.NO_SEEN_TARGET_TIMER.get()).orElse(0);
+        int deagroTimer = brain.getMemory(MemoryTypes.DE_AGRO_TIMER.get()).orElse(20);
         boolean won = false;
 
         // Check if trainer has any pokemobs, if not, cancel agression, no
@@ -40,26 +52,25 @@ public class DeAgro extends BaseBattleTask
 
         if (!deagro)
         {
-            final double distance = this.entity.distanceToSqr(this.target);
+            final double distance = owner.distanceToSqr(target);
             if (distance > PokecubeCore.getConfig().chaseDistance * PokecubeCore.getConfig().chaseDistance)
                 deagro = true;
         }
 
-        if (!deagro && !BrainUtils.canSee(this.entity, this.target))
+        if (!deagro && !BrainUtils.canSee(owner, target))
         {
-            final boolean timeout = this.noSeeTicks++ > Config.instance.trainerDeAgressTicks;
+            final boolean timeout = noSeeTicks++ > Config.instance.trainerDeAgressTicks;
             if (timeout) deagro = true;
-            else this.noSeeTicks = 0;
+            else noSeeTicks = 0;
         }
 
-        final IHasPokemobs other = TrainerCaps.getHasPokemobs(this.target);
+        final IHasPokemobs other = TrainerCaps.getHasPokemobs(target);
 
-        final Brain<?> brain = this.entity.getBrain();
         final LivingEntity lastHitBy = brain.hasMemoryValue(MemoryModuleType.HURT_BY_ENTITY) ? brain.getMemory(
                 MemoryModuleType.HURT_BY_ENTITY).get() : null;
-        boolean hitUs = lastHitBy == this.target;
+        boolean hitUs = lastHitBy == target;
 
-        hitUs = hitUs && this.entity.tickCount - this.entity.getLastHurtMobTimestamp() > 20;
+        hitUs = hitUs && owner.tickCount - owner.getLastHurtMobTimestamp() > 20;
 
         if (!deagro && !hitUs && other != null && other.getNextPokemob().isEmpty())
         {
@@ -75,12 +86,12 @@ public class DeAgro extends BaseBattleTask
             }
             if (other.getOutID() == null)
             {
-                final List<Entity> mobs = PCEventsHandler.getOutMobs(this.target, false);
+                final List<Entity> mobs = PCEventsHandler.getOutMobs(target, false);
                 if (!mobs.isEmpty())
                 {
                     boolean found = false;
                     for (final Entity mob : mobs)
-                        if (mob.isAddedToLevel() && mob.distanceToSqr(this.target) < 32 * 32)
+                        if (mob.isAddedToLevel() && mob.distanceToSqr(target) < 32 * 32)
                         {
                             final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
                             if (pokemob != null && !found)
@@ -90,9 +101,9 @@ public class DeAgro extends BaseBattleTask
                                 break;
                             }
                         }
-                    if (found) this.deagroTimer = 20;
+                    if (found) deagroTimer = 20;
                 }
-                if (this.deagroTimer-- < 0) deagro = true;
+                if (deagroTimer-- < 0) deagro = true;
             }
         }
 
@@ -100,10 +111,17 @@ public class DeAgro extends BaseBattleTask
         {
             if (won)
             {
-                this.getTrainer(owner).onWin(this.target);
-                if (other.getTarget() == this.entity) other.onLose(this.entity);
+                this.getTrainer(owner).onWin(target);
+                if (other.getTarget() == owner) other.onLose(owner);
             }
-            this.getTrainer(owner).deAgro(TrainerCaps.getHasPokemobs(this.target));
+            this.getTrainer(owner).deAgro(TrainerCaps.getHasPokemobs(target));
+            brain.eraseMemory(MemoryTypes.DE_AGRO_TIMER.get());
+            brain.eraseMemory(MemoryTypes.NO_SEEN_TARGET_TIMER.get());
+        }
+        else
+        {
+            brain.setMemory(MemoryTypes.NO_SEEN_TARGET_TIMER.get(), noSeeTicks);
+            brain.setMemory(MemoryTypes.DE_AGRO_TIMER.get(), deagroTimer);
         }
     }
 
@@ -112,12 +130,4 @@ public class DeAgro extends BaseBattleTask
     {
         return this.checkExtraStartConditions(worldIn, entityIn);
     }
-
-    @Override
-    protected void start(final ServerLevel worldIn, final LivingEntity entityIn, final long gameTimeIn)
-    {
-        this.deagroTimer = 20;
-        this.noSeeTicks = 0;
-    }
-
 }

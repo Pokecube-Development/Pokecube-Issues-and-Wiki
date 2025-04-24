@@ -478,7 +478,7 @@ public abstract class PokemobMoves extends PokemobStats
     @Override
     public ITargetFinder getTargetFinder()
     {
-        if (this.targetFinder == null) return () -> {};
+        if (this.targetFinder == null) return (mob) -> {};
         return this.targetFinder;
     }
 

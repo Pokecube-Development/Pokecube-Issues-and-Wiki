@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -34,7 +35,7 @@ public abstract class AbstractBeeTask extends BaseIdleTask
     public abstract boolean doTask();
 
     @Override
-    public boolean shouldRun()
+    public boolean shouldRun(Mob entityIn)
     {
         final boolean tameCheck = this.pokemob.getOwnerId() == null || this.pokemob.getGeneralState(
                 GeneralStates.STAYING);

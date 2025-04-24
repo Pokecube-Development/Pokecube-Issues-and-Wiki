@@ -9,6 +9,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
@@ -349,7 +350,7 @@ public class Build extends AbstractConstructTask
     }
 
     @Override
-    protected boolean selectJobSite()
+    protected boolean selectJobSite(Mob owner)
     {
         select:
         if (this.work_pos == null)
@@ -360,7 +361,7 @@ public class Build extends AbstractConstructTask
             if (this.buildPart(part)) break select;
             if (!part.shouldBuild(time))
             {
-                if (!this.divert(part)) this.endTask();
+                if (!this.divert(part)) this.endTask(owner);
                 return false;
             }
         }
@@ -370,7 +371,7 @@ public class Build extends AbstractConstructTask
     }
 
     @Override
-    protected void doWork()
+    protected void doWork(Mob owner)
     {
         if (!this.to_place.isEmpty() && this.to_place.getItem() instanceof BlockItem item && this.storeInd != -1)
         {

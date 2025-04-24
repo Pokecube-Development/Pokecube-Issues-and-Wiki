@@ -3,6 +3,8 @@ package pokecube.gimmicks.nests.tasks.bees.tasks;
 import java.util.Optional;
 
 import net.minecraft.core.GlobalPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.level.Level;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -20,13 +22,13 @@ public class CheckHive extends AbstractBeeTask
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {
         this.new_hive_cooldown = 0;
     }
 
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob owner)
     {
         final Brain<?> brain = this.entity.getBrain();
         final Optional<Integer> hiveTimer = brain.getMemory(BeeTasks.OUT_OF_HIVE_TIMER.get());

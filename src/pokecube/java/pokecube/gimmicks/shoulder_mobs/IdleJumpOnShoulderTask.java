@@ -1,7 +1,9 @@
 package pokecube.gimmicks.shoulder_mobs;
 
 import com.google.common.collect.Maps;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.animal.ShoulderRidingEntity;
@@ -43,13 +45,13 @@ public class IdleJumpOnShoulderTask extends BaseIdleTask
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {
         restTimer = 6000 + this.entity.getRandom().nextInt(IdleWalkTask.IDLETIMER);
     }
 
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob owner)
     {
         boolean sitting = this.entity.getPersistentData().getBoolean(ShoulderMobs.ON_SHOULDER);
         restTimer--;
@@ -58,13 +60,13 @@ public class IdleJumpOnShoulderTask extends BaseIdleTask
         if (sitting)
         {
             entity.getPersistentData().remove(ShoulderMobs.ON_SHOULDER);
-            reset();
+            reset(owner);
             restTimer *= 5;
         }
         else if (pokemob.getEntity().distanceTo(player) < 1)
         {
             moveToShoulder(player, pokemob);
-            reset();
+            reset(owner);
             restTimer *= 5;
         }
         else
@@ -102,7 +104,7 @@ public class IdleJumpOnShoulderTask extends BaseIdleTask
     }
 
     @Override
-    public boolean shouldRun()
+    public boolean shouldRun(Mob entityIn)
     {
         if (!(this.pokemob.getOwner() instanceof Player player)) return false;
         // Always allow running if we are already on shoulder, incase

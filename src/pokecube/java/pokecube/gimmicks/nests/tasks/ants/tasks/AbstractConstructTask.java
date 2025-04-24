@@ -10,7 +10,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
@@ -85,7 +87,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
     }
 
     @Override
-    public final void reset()
+    public final void reset(Mob entityIn)
     {
         this.progressTimer = 0;
         this.progressDistance = 0;
@@ -99,19 +101,19 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
         brain.setMemory(MemoryModules.NO_WORK_TIMER.get(), -20);
     }
 
-    protected final void endTask()
+    protected final void endTask(Mob entityIn)
     {
         if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Need New Work Site " + this.progressTimer);
         if (this.progressTimer > 700) this.entity.getBrain().setMemory(MemoryModules.GOING_HOME.get(), true);
-        this.reset();
+        this.reset(entityIn);
     }
 
-    private final boolean checkJob()
+    private boolean checkJob(Mob entityIn)
     {
         if (this.storage.firstEmpty == -1)
         {
             this.progressTimer = 1000;
-            this.endTask();
+            this.endTask(entityIn);
             return false;
         }
         // First check if we have items to place, if not, go pick them up,
@@ -128,14 +130,14 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
         if (edge && this.e.getTree() == null)
         {
             PokecubeAPI.LOGGER.error("No Edge Tree! " + this.job + " " + this.e);
-            this.reset();
+            this.reset(entityIn);
             return false;
         }
 
         if (node && this.n.getTree() == null)
         {
             PokecubeAPI.LOGGER.error("No Node Tree!" + this.job + " " + this.n);
-            this.reset();
+            this.reset(entityIn);
             return false;
         }
         
@@ -156,7 +158,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
                     tag.remove("type");
                     tag.remove("data");
                     PokecubeAPI.LOGGER.error("Corrupted Dig Edge Info!");
-                    this.reset();
+                    this.reset(entityIn);
                     return false;
                 }
                 this.e.node1 = this.nest.hab.rooms.map.get(this.e.node1.getCenter());
@@ -167,7 +169,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
                     tag.remove("type");
                     tag.remove("data");
                     PokecubeAPI.LOGGER.error("No Edge Tree!");
-                    this.reset();
+                    this.reset(entityIn);
                     return false;
                 }
             }
@@ -183,7 +185,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
                         tag.remove("type");
                         tag.remove("data");
                         PokecubeAPI.LOGGER.error("No Node Tree!");
-                        this.reset();
+                        this.reset(entityIn);
                         return false;
                     }
                 }
@@ -193,7 +195,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
                     tag.remove("type");
                     tag.remove("data");
                     PokecubeAPI.LOGGER.error("Corrupted Dig Node Info!");
-                    this.reset();
+                    this.reset(entityIn);
                     return false;
                 }
             }
@@ -201,15 +203,15 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
         if (!(edge || node))
         {
             if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Invalid Dig Info!");
-            this.reset();
+            this.reset(entityIn);
             return false;
         }
         return true;
     }
 
-    protected abstract boolean selectJobSite();
+    protected abstract boolean selectJobSite(Mob owner);
 
-    protected abstract void doWork();
+    protected abstract void doWork(Mob owner);
 
     protected void onTimeout(final Part part)
     {
@@ -231,16 +233,16 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
     }
 
     @Override
-    public final void run()
+    public final void run(ServerLevel level, Mob owner)
     {
-        if (!this.checkJob()) return;
+        if (!this.checkJob(owner)) return;
         final Part part = this.e == null ? this.n : this.e;
         if (PokecubeCore.getConfig().debug_ai) this.pokemob.setPokemonNickname(this.job + " " + part);
         this.progressTimer++;
-        if (!this.selectJobSite())
+        if (!this.selectJobSite(owner))
         {
             // We give up
-            if (this.progressTimer > 700) this.endTask();
+            if (this.progressTimer > 700) this.endTask(owner);
             return;
         }
 
@@ -268,7 +270,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
         if (this.progressTimer > 0 && dr < this.ds2Max)
         {
             this.progressTimer = -10;
-            this.doWork();
+            this.doWork(owner);
             if (PokecubeCore.getConfig().debug_ai)
                 PokecubeAPI.logInfo("Work Done! " + this.job + " " + this.n + " " + this.e);
             if (PokecubeCore.getConfig().debug_ai) this.pokemob.setPokemonNickname(this.job + " IDLE");

@@ -2,6 +2,8 @@ package pokecube.gimmicks.nests.tasks.ants.tasks.nest;
 
 import com.google.common.collect.Maps;
 import net.minecraft.core.GlobalPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
@@ -41,13 +43,13 @@ public class CheckNest extends BaseIdleTask
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {
         this.new_hive_cooldown = 0;
     }
 
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob owner)
     {
         final Brain<?> brain = this.entity.getBrain();
         final Optional<Integer> hiveTimer = brain.getMemory(MemoryModules.OUT_OF_NEST_TIMER.get());
@@ -115,7 +117,7 @@ public class CheckNest extends BaseIdleTask
     }
 
     @Override
-    public boolean shouldRun()
+    public boolean shouldRun(Mob entityIn)
     {
         // This always runs, as we use the memory present requirement to decide
         // if it would have been valid anyway

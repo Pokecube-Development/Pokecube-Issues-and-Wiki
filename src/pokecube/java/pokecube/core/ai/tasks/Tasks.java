@@ -37,7 +37,6 @@ import pokecube.core.ai.tasks.combat.movement.LeapTask;
 import pokecube.core.ai.tasks.idle.ForgetHuntedByTask;
 import pokecube.core.ai.tasks.idle.HerdTask;
 import pokecube.core.ai.tasks.idle.HungerTask;
-import pokecube.gimmicks.shoulder_mobs.IdleJumpOnShoulderTask;
 import pokecube.core.ai.tasks.idle.IdleRestTask;
 import pokecube.core.ai.tasks.idle.IdleWalkTask;
 import pokecube.core.ai.tasks.idle.MateTask;
@@ -73,11 +72,14 @@ public class Tasks
     private static List<MemoryModuleType<?>> getMemories()
     {
         return List.of(MemoryModules.ATTACKTARGET.get(), MemoryModules.HUNTTARGET.get(), MemoryModules.HUNTED_BY.get(),
-                MemoryModules.MOVE_TARGET.get(), MemoryModules.LEAP_TARGET.get(), MemoryModules.PATH,
-                MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModules.MATE_TARGET, MemoryModules.WALK_TARGET,
-                MemoryModules.LOOK_TARGET, MemoryModules.EGG.get(), MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES,
-                MemoryModules.NOT_FOUND_PATH, MemoryModuleType.DOORS_TO_CLOSE,
-                MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER);
+                MemoryModules.MOVE_TARGET.get(), MemoryModules.LEAP_TARGET.get(), MemoryModules.COMBAT_CENTRE.get(),
+                MemoryModules.TIMER_LEAP.get(), MemoryModules.TIMER_DODGE.get(), MemoryModules.TIMER_SWAPMOVE.get(),
+                MemoryModules.ATTACKDELAY.get(), MemoryModules.TARGETOWNER.get(), MemoryModules.ATTACKTARGETID.get(),
+                MemoryModules.TIMER_FORGETTARGET.get(), MemoryModules.TIMER_SWAPTARGET.get(),
+                MemoryModules.CALLED_HELP.get(), MemoryModules.PATH, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
+                MemoryModules.MATE_TARGET, MemoryModules.WALK_TARGET, MemoryModules.LOOK_TARGET,
+                MemoryModules.EGG.get(), MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryModules.NOT_FOUND_PATH,
+                MemoryModuleType.DOORS_TO_CLOSE, MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER);
     }
 
     public static void initBrain(final Brain<?> brain)
@@ -140,7 +142,7 @@ public class Tasks
                 task = new RunAway(MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER, 1.5f);
                 list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
             }
-            task = new SwimTask(pokemob, 0.8F);
+            task = new SwimTask(0.8F);
             list.add(Pair.of(0, (Behavior<? super LivingEntity>) task));
             list.add(Tasks.lookAtMany());
             list.add(Tasks.lookAtPlayerOrVillager());
@@ -163,6 +165,19 @@ public class Tasks
         return ImmutableList.copyOf(list);
     }
 
+    public static class CombatBehaviours
+    {
+        public static CallForHelpTask CALL_HELP = null;
+        public static PokemobBehaviour SELECT_MOVE = new SelectMoveTask();
+        public static PokemobBehaviour USE_ATTACKS = new UseAttacksTask();
+        public static PokemobBehaviour DODGE = new DodgeTask();
+        public static PokemobBehaviour LEAP = new LeapTask();
+        public static PokemobBehaviour CIRCLE = new CicleTask();
+
+        public static PokemobBehaviour FORGET_TARGETS = new ForgetTargetTask();
+        public static FindTargetsTask FIND_TARGETS = new FindTargetsTask();
+    }
+
     @SuppressWarnings("unchecked")
     public static ImmutableList<Pair<Integer, ? extends BehaviorControl<? super LivingEntity>>> combat(
             final IPokemob pokemob)
@@ -175,25 +190,26 @@ public class Tasks
         if (entry.stock)
         {
             // combat tasks
-            aiList.add(new SelectMoveTask(pokemob));
+            aiList.add(CombatBehaviours.SELECT_MOVE);
             // Attack stuff
-            aiList.add(new UseAttacksTask(pokemob));
+            aiList.add(CombatBehaviours.USE_ATTACKS);
             // Dodge attacks
-            aiList.add(new DodgeTask(pokemob));
+            aiList.add(CombatBehaviours.DODGE);
             // Leap at things
-            aiList.add(new LeapTask(pokemob));
+            aiList.add(CombatBehaviours.LEAP);
             // Move around in combat
-            aiList.add(new CicleTask(pokemob));
+            aiList.add(CombatBehaviours.CIRCLE);
         }
         // Attack stuff
-        aiList.add(new ForgetTargetTask(pokemob));
+        aiList.add(CombatBehaviours.FORGET_TARGETS);
         // Call for help task
-        aiList.add(new CallForHelpTask(pokemob, (float) PokecubeCore.getConfig().hordeRateFactor));
+        if (CombatBehaviours.CALL_HELP == null)
+            CombatBehaviours.CALL_HELP = new CallForHelpTask((float) PokecubeCore.getConfig().hordeRateFactor);
+        aiList.add(CombatBehaviours.CALL_HELP);
 
         // Look for targets to kill
-        final FindTargetsTask targetFind = new FindTargetsTask(pokemob);
-        aiList.add(targetFind);
-        pokemob.setTargetFinder(targetFind);
+        aiList.add(CombatBehaviours.FIND_TARGETS);
+        pokemob.setTargetFinder(CombatBehaviours.FIND_TARGETS);
 
         final List<Pair<Integer, ? extends BehaviorControl<? super LivingEntity>>> list = Lists.newArrayList();
         if (entry.stock)
@@ -204,7 +220,7 @@ public class Tasks
             task = new RunAway(MemoryModules.HUNTED_BY.get(), 1.5f);
             list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
 
-            task = new SwimTask(pokemob, 0.8F);
+            task = new SwimTask(0.8F);
             list.add(Pair.of(0, (Behavior<? super LivingEntity>) task));
         }
         if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, InteractWithDoor.create()));
@@ -258,7 +274,7 @@ public class Tasks
             list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
             task = new RunAway(MemoryModules.HUNTED_BY.get(), 1.5f);
             list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
-            task = new SwimTask(pokemob, 0.8F);
+            task = new SwimTask(0.8F);
             list.add(Pair.of(0, (Behavior<? super LivingEntity>) task));
         }
         // This one is outside as most things don't get this task.

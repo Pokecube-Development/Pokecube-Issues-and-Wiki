@@ -1,5 +1,7 @@
 package pokecube.gimmicks.nests.tasks.ants.tasks.work;
 
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Mob;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.tasks.utility.GatherTask;
 import pokecube.gimmicks.nests.tasks.ants.AntTasks.AntJob;
@@ -19,13 +21,13 @@ public class Gather extends AbstractWorkTask
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {
         this.gather_timer = 0;
     }
 
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob owner)
     {
         if (this.task == null)
         {

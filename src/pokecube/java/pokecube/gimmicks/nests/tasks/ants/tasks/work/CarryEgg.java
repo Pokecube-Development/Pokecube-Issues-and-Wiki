@@ -7,6 +7,8 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
@@ -39,14 +41,14 @@ public class CarryEgg extends AbstractWorkTask
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {
         this.egg = null;
         this.entity.getNavigation().resetMaxVisitedNodesMultiplier();
     }
 
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob owner)
     {
         this.egg.getPersistentData().putLong("__carried__", Tracker.instance().getTick() + 100);
         AntTasks.setJob(this.entity, AntJob.NONE);

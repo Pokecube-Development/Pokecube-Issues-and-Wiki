@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -45,7 +46,7 @@ public abstract class AbstractAntTask extends BaseIdleTask
     abstract protected boolean doTask();
 
     @Override
-    public boolean shouldRun()
+    public boolean shouldRun(Mob entityIn)
     {
         this.job = AntTasks.getJob(this.entity);
         if (this.nest == null || this.check_timer-- < 0)

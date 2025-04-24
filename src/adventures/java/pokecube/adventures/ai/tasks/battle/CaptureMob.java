@@ -15,9 +15,9 @@ public class CaptureMob extends BaseBattleTask
 
     long lastTry = 0;
 
-    public CaptureMob(final LivingEntity trainer, final float chance)
+    public CaptureMob(final float chance)
     {
-        super(trainer);
+        super();
     }
 
     @Override
@@ -28,7 +28,7 @@ public class CaptureMob extends BaseBattleTask
         {
             this.lastTry = gameTimeIn;
             final ItemStack itemStack = new ItemStack(PokecubeItems.getFilledCube(PokecubeBehaviour.DEFAULTCUBE), 1);
-            ((IPokecube) itemStack.getItem()).throwPokecubeAt(worldIn, this.entity, itemStack, null,
+            ((IPokecube) itemStack.getItem()).throwPokecubeAt(worldIn, entityIn, itemStack, null,
                     this.getTrainer(entityIn).getTarget());
         }
     }

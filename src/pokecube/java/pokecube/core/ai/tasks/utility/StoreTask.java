@@ -15,6 +15,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.ContainerListener;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -523,14 +524,14 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {
         this.pathing = false;
         this.pathTarget = null;
     }
 
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob owner)
     {
         if (this.pathing)
         {
@@ -584,7 +585,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
     }
 
     @Override
-    public boolean shouldRun()
+    public boolean shouldRun(Mob entityIn)
     {
         if (pathing && this.pokemob.getHome() != null) return true;
         return this.pokemob.isRoutineEnabled(AIRoutine.STORE) && this.pokemob.getHome() != null;
@@ -606,7 +607,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
     }
 
     @Override
-    public void tick()
+    public void runTick(ServerLevel level, Mob owner)
     {
         if (this.pathing) return;
         if (!this.initialised)

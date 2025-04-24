@@ -8,6 +8,7 @@ import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.Config;
+import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -22,16 +23,16 @@ import java.util.List;
 
 public class ManageOutMob extends BaseBattleTask
 {
-    public ManageOutMob(final LivingEntity trainer)
+    public ManageOutMob()
     {
-        super(trainer);
+        super();
     }
 
     void doAggression(LivingEntity living, ServerLevel level)
     {
         var trainer = this.getTrainer(living);
         // Check if maybe mob was sent out, but just not seen
-        final List<Entity> mobs = PCEventsHandler.getOutMobs(this.entity, false);
+        final List<Entity> mobs = PCEventsHandler.getOutMobs(living, false);
         if (!mobs.isEmpty())
         {
             boolean found = false;
@@ -51,8 +52,7 @@ public class ManageOutMob extends BaseBattleTask
         }
         if (this.getAIStates(living).getAIState(AIState.THROWING)) return;
 
-        final int cooldown = trainer.getTarget() instanceof Player ? trainer
-                .getAttackCooldown() : 0;
+        final int cooldown = trainer.getTarget() instanceof Player ? trainer.getAttackCooldown() : 0;
 
         // If no mob was found, then it means trainer was not throwing cubes, as
         // those are counted along with active pokemobs.
@@ -87,14 +87,12 @@ public class ManageOutMob extends BaseBattleTask
                             if (!evolved) break;
                         }
                         this.getMessages(living)
-                                .sendMessage(MessageState.ABOUTSEND, trainer.getTarget(),
-                                        this.entity.getDisplayName(), next.getDisplayName(),
-                                        trainer.getTarget().getDisplayName());
-                        this.getMessages(living).doAction(MessageState.ABOUTSEND, trainer
-                                .setLatestContext(
-                                        new ActionContext(trainer.getTarget(), this.entity)));
-                        if (entity.getItemInHand(InteractionHand.MAIN_HAND).isEmpty())
-                            entity.setItemInHand(InteractionHand.MAIN_HAND, nextStack);
+                                .sendMessage(MessageState.ABOUTSEND, trainer.getTarget(), living.getDisplayName(),
+                                        next.getDisplayName(), trainer.getTarget().getDisplayName());
+                        this.getMessages(living).doAction(MessageState.ABOUTSEND,
+                                trainer.setLatestContext(new ActionContext(trainer.getTarget(), living)));
+                        if (living.getItemInHand(InteractionHand.MAIN_HAND).isEmpty())
+                            living.setItemInHand(InteractionHand.MAIN_HAND, nextStack);
                     }
                 }
             }
@@ -116,7 +114,7 @@ public class ManageOutMob extends BaseBattleTask
             final List<PokedexEntry> formes = Database.getFormes(out.getPokedexEntry());
             if (!formes.isEmpty())
             {
-                final int start = this.entity.getRandom().nextInt(formes.size());
+                final int start = living.getRandom().nextInt(formes.size());
                 for (int i = 0; i < formes.size(); i++)
                 {
                     final PokedexEntry mega = formes.get((i + start) % formes.size());
@@ -136,7 +134,8 @@ public class ManageOutMob extends BaseBattleTask
     {
         final boolean hasMob = this.getTrainer(owner).getOutMob() != null;
 
-        BehaviorUtils.lookAtEntity(this.entity, this.target);
+        var target = owner.getBrain().getMemory(MemoryTypes.BATTLETARGET.get()).get();
+        BehaviorUtils.lookAtEntity(owner, target);
 
         if (hasMob) this.considerSwapPokemob(owner);
         else this.doAggression(owner, worldIn);

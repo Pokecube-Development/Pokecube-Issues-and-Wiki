@@ -1,15 +1,8 @@
 package pokecube.core.impl.capabilities.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
-
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -35,7 +28,13 @@ import pokecube.api.moves.Battle;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.ai.logic.*;
+import pokecube.core.ai.logic.Logic;
+import pokecube.core.ai.logic.LogicFloatFlySwim;
+import pokecube.core.ai.logic.LogicInLiquid;
+import pokecube.core.ai.logic.LogicInMaterials;
+import pokecube.core.ai.logic.LogicMiscUpdate;
+import pokecube.core.ai.logic.LogicMountedControl;
+import pokecube.core.ai.logic.LogicMovesUpdates;
 import pokecube.core.ai.tasks.Tasks;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.utils.AITools;
@@ -47,12 +46,18 @@ import thut.api.entity.ai.IAIRunnable;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 public abstract class PokemobAI extends PokemobEvolves
 {
     private final boolean[] routineStates = new boolean[AIRoutine.values().length];
 
     private List<IAIRunnable> tasks = new ArrayList<>();
-    private Map<String, IAIRunnable> namedTasks = new HashMap<>();
+    private final Map<String, IAIRunnable> namedTasks = new HashMap<>();
 
     private Battle battle;
 
@@ -143,17 +148,15 @@ public abstract class PokemobAI extends PokemobEvolves
             final Vector3 particleLoc = new Vector3();
             for (int i = 0; i < 20; ++i)
             {
-                particleLoc.set(
-                        this.getEntity().getX()
-                                + this.getEntity().getRandom().nextFloat() * this.getEntity().getBbWidth() * 2.0F
-                                - this.getEntity().getBbWidth(),
-                        this.getEntity().getY() + 0.5D
-                                + this.getEntity().getRandom().nextFloat() * this.getEntity().getBbHeight(),
-                        this.getEntity().getZ()
-                                + this.getEntity().getRandom().nextFloat() * this.getEntity().getBbWidth() * 2.0F
-                                - this.getEntity().getBbWidth());
-                this.getEntity().level().addParticle(ParticleTypes.HAPPY_VILLAGER, particleLoc.x, particleLoc.y,
-                        particleLoc.z, 0, 0, 0);
+                particleLoc.set(this.getEntity().getX() + this.getEntity().getRandom().nextFloat() * this.getEntity()
+                                .getBbWidth() * 2.0F - this.getEntity().getBbWidth(),
+                        this.getEntity().getY() + 0.5D + this.getEntity().getRandom().nextFloat() * this.getEntity()
+                                .getBbHeight(),
+                        this.getEntity().getZ() + this.getEntity().getRandom().nextFloat() * this.getEntity()
+                                .getBbWidth() * 2.0F - this.getEntity().getBbWidth());
+                this.getEntity().level()
+                        .addParticle(ParticleTypes.HAPPY_VILLAGER, particleLoc.x, particleLoc.y, particleLoc.z, 0, 0,
+                                0);
             }
         }
 
@@ -249,11 +252,11 @@ public abstract class PokemobAI extends PokemobEvolves
         this.guardCap = CapHolders.getGuardAI(entity);
 
         if (this.getOwnerHolder() == null)
-            PokecubeAPI.LOGGER.warn("Pokemob without ownable cap, this is a bug! " + this.getPokedexEntry());
+            PokecubeAPI.LOGGER.warn("Pokemob without ownable cap, this is a bug! {}", this.getPokedexEntry());
         if (this.guardCap == null)
-            PokecubeAPI.LOGGER.warn("Pokemob without guard cap, this is a bug! " + this.getPokedexEntry());
+            PokecubeAPI.LOGGER.warn("Pokemob without guard cap, this is a bug! {}", this.getPokedexEntry());
         if (this.getGenes() == null)
-            PokecubeAPI.LOGGER.warn("Pokemob without genetics cap, this is a bug! " + this.getPokedexEntry());
+            PokecubeAPI.LOGGER.warn("Pokemob without genetics cap, this is a bug! {}", this.getPokedexEntry());
 
         this.getTickLogic().clear();
 
@@ -309,8 +312,8 @@ public abstract class PokemobAI extends PokemobEvolves
 
         if (this.loadedTasks != null) for (final IAIRunnable task : this.tasks)
             if (this.loadedTasks.contains(task.getIdentifier()) && task instanceof INBTSerializable)
-                INBTSerializable.class.cast(task).deserializeNBT(this.getEntity().registryAccess(),
-                        this.loadedTasks.get(task.getIdentifier()));
+                INBTSerializable.class.cast(task)
+                        .deserializeNBT(this.getEntity().registryAccess(), this.loadedTasks.get(task.getIdentifier()));
         // Send notification event of AI initilization, incase anyone wants to
         // affect it.
         PokecubeAPI.POKEMOB_BUS.post(new InitAIEvent.Post(this));
@@ -349,7 +352,7 @@ public abstract class PokemobAI extends PokemobEvolves
         if (remote) return;
         if (entity == null)
         {
-            if (forced && this.targetFinder != null) this.targetFinder.clear();
+            if (forced && this.targetFinder != null) this.targetFinder.clear(this.getEntity());
             if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Null Target Set for " + this.getEntity());
             this.setTargetID(-1);
             this.getEntity().getPersistentData().putString("lastMoveHitBy", "");
@@ -360,7 +363,7 @@ public abstract class PokemobAI extends PokemobEvolves
             final boolean mateFight = this.getCombatState(CombatStates.MATEFIGHT);
             if (PokecubeCore.getConfig().debug_ai)
                 PokecubeAPI.logInfo("Target Set: {} -> {} ", this.getEntity(), entity);
-            /**
+            /*
              * Ensure that the target being set is actually a valid target.
              */
             if (entity == this.getEntity())

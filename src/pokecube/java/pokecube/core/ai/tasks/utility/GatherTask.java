@@ -320,7 +320,7 @@ public class GatherTask extends UtilTask
         return this.targetItem != null || this.targetBlock != null;
     }
 
-    private void findStuff()
+    private void findStuff(Mob owner)
     {
         // Only mobs that are standing with homes should look for stuff.
         if (this.pokemob.getHome() == null
@@ -362,7 +362,7 @@ public class GatherTask extends UtilTask
         this.collectCooldown = GatherTask.COOLDOWN_SEARCH;
     }
 
-    private void gatherStuff()
+    private void gatherStuff(Mob owner)
     {
         if (!this.hasStuff()) return;
 
@@ -395,7 +395,7 @@ public class GatherTask extends UtilTask
                 this.targetItem.discard();
             }
             else this.setWalkTo(stuffLoc, speed, 0);
-            this.reset();
+            this.reset(owner);
             return;
         }
         double diff = 2.5;
@@ -425,7 +425,7 @@ public class GatherTask extends UtilTask
                 if (harvest.isHarvestable(this.entity, this.pokemob, context))
                     harvest.harvest(this.entity, this.pokemob, context);
             }
-            this.reset();
+            this.reset(owner);
         }
         else if (!jump)
         {
@@ -434,7 +434,7 @@ public class GatherTask extends UtilTask
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {
         this.targetItem = null;
         this.targetBlock = null;
@@ -442,13 +442,14 @@ public class GatherTask extends UtilTask
     }
 
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob owner)
     {
-        this.findStuff();
+        this.findStuff(owner);
+        this.gatherStuff(owner);
     }
 
     @Override
-    public boolean shouldRun()
+    public boolean shouldRun(Mob entityIn)
     {
         // Check if gather is enabled first.
         if (!this.pokemob.isRoutineEnabled(AIRoutine.GATHER)) return false;
@@ -512,11 +513,5 @@ public class GatherTask extends UtilTask
     {
         return this.pokemob.getGeneralState(GeneralStates.TAMED) && (
                 !this.pokemob.getGeneralState(GeneralStates.STAYING) || !PokecubeCore.getConfig().tameGather);
-    }
-
-    @Override
-    public void tick()
-    {
-        this.gatherStuff();
     }
 }

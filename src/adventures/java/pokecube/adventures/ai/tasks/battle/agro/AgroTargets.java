@@ -1,10 +1,10 @@
 package pokecube.adventures.ai.tasks.battle.agro;
 
-import java.util.function.Predicate;
-
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.trainers.IHasPokemobs;
+
+import java.util.function.Predicate;
 
 public class AgroTargets extends BaseAgroTask
 {
@@ -14,16 +14,15 @@ public class AgroTargets extends BaseAgroTask
     // This is whether the ai should run for the current task holder
     private Predicate<LivingEntity> shouldRun = e -> true;
 
-    public AgroTargets(final LivingEntity trainer, final float agressionProbability, final int battleTime,
+    public AgroTargets(final float agressionProbability, final int battleTime,
             final Predicate<LivingEntity> validTargets)
     {
-        super(trainer, agressionProbability, battleTime);
+        super(agressionProbability, battleTime);
         this.validTargets = validTargets;
     }
 
     /**
-     * The argument passed into this predicate is the current mob, so it should
-     * only consider it for checks!
+     * The argument passed into this predicate is the current mob, so it should only consider it for checks!
      */
     public AgroTargets setRunCondition(final Predicate<LivingEntity> shouldRun)
     {
@@ -36,7 +35,7 @@ public class AgroTargets extends BaseAgroTask
     {
         if (!this.validTargets.test(target)) return false;
         if (!EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(target)) return false;
-        if (!this.shouldRun.test(this.entity)) return false;
+        if (!this.shouldRun.test(trainer.getTrainer())) return false;
         return trainer.canBattle(target, false).test();
     }
 }

@@ -3,6 +3,8 @@ package pokecube.gimmicks.nests.tasks.bees.tasks;
 import java.util.Optional;
 
 import net.minecraft.core.GlobalPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.level.Level;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -21,13 +23,13 @@ public class EnterHive extends AbstractBeeTask
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {
         this.homePos.clear();
     }
 
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob owner)
     {
         final Brain<?> brain = this.entity.getBrain();
         final Optional<GlobalPos> pos_opt = brain.getMemory(BeeTasks.HIVE_POS.get());

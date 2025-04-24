@@ -8,6 +8,8 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
@@ -53,13 +55,13 @@ public class CheckBurrow extends BaseIdleTask
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {
         this.burrowCheckTimer = -10;
     }
 
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob owner)
     {
         if (this.burrowCheckTimer++ < 100) return;
 
@@ -135,7 +137,7 @@ public class CheckBurrow extends BaseIdleTask
     }
 
     @Override
-    public boolean shouldRun()
+    public boolean shouldRun(Mob entityIn)
     {
         // Check this incase the AI is disabled at runtime, say be the owner
         return BurrowTasks.isValid(this.entity);

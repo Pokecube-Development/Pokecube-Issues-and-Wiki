@@ -1,57 +1,48 @@
 package pokecube.core.ai.tasks.combat.movement;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
-
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.behavior.PositionTracker;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
+import pokecube.core.ai.tasks.PokemobBehaviour;
 import pokecube.core.ai.tasks.TaskBase;
 import thut.api.entity.ai.IAICombat;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
+import java.util.Map;
+
 /**
- * This one extends TaskBase, rather than FightTask, as it can apply when just a
- * move target, ie attacking blocks, so it doesn't need to actually have a
- * living target to apply.
+ * This one extends TaskBase, rather than FightTask, as it can apply when just a move target, ie attacking blocks, so it
+ * doesn't need to actually have a living target to apply.
  */
-public class LeapTask extends TaskBase implements IAICombat
+public class LeapTask extends PokemobBehaviour implements IAICombat
 {
     private static final Map<MemoryModuleType<?>, MemoryStatus> MEMS = Maps.newHashMap();
 
     static
     {
+        LeapTask.MEMS.put(MemoryModules.TIMER_LEAP.get(), MemoryStatus.REGISTERED);
         LeapTask.MEMS.put(MemoryModules.LEAP_TARGET.get(), MemoryStatus.VALUE_PRESENT);
         LeapTask.MEMS.put(MemoryModules.PATH, MemoryStatus.VALUE_ABSENT);
     }
 
-    int leapTick = -1;
-
-    double leapSpeed = 1;
-
-    PositionTracker pos = null;
-
-    Vector3 leapTarget = new Vector3();
-    Vector3 leapOrigin = new Vector3();
-
-    public LeapTask(final IPokemob mob)
+    public LeapTask()
     {
-        super(mob, LeapTask.MEMS);
+        super(LeapTask.MEMS);
     }
 
     /**
-     * Gets a random sound to play on leaping, selects from the options in
-     * config.
+     * Gets a random sound to play on leaping, selects from the options in config.
      */
     private SoundEvent getLeapSound()
     {
@@ -60,29 +51,32 @@ public class LeapTask extends TaskBase implements IAICombat
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {
         // Set the timer so we don't leap again rapidly
-        this.leapTick = -1;
+        entityIn.getBrain().eraseMemory(MemoryModules.TIMER_LEAP.get());
+        entityIn.getBrain().eraseMemory(MemoryModules.LEAP_TARGET.get());
     }
 
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob entity)
     {
-        final LivingEntity target = BrainUtils.getAttackTarget(this.entity);
-        this.pokemob.setCombatState(CombatStates.LEAPING, true);
-
+        var brain = entity.getBrain();
+        var pokemob = PokemobCaps.getPokemobFor(entity);
+        final LivingEntity target = BrainUtils.getAttackTarget(entity);
+        pokemob.setCombatState(CombatStates.LEAPING, true);
+        var pos = brain.getMemory(MemoryModules.LEAP_TARGET.get()).get();
         // Target loc could just be a position
-        this.leapTarget.set(this.pos.currentPosition());
+        Vector3 leapTarget = new Vector3(pos.currentPosition());
 
-        final Vector3 location = new Vector3().set(this.entity);
-        final Vector3 diff = this.leapTarget.subtract(location);
+        final Vector3 location = new Vector3().set(entity);
+        final Vector3 diff = leapTarget.subtract(location);
 
         /* Don't leap up if too far. */
         if (diff.y > 5)
         {
             // Instead path to target quickly
-            setWalkTo(leapTarget, 1.8, 0);
+            setWalkTo(entity, leapTarget, 1.8, 0);
             return;
         }
 
@@ -93,21 +87,21 @@ public class LeapTask extends TaskBase implements IAICombat
         if (dist >= 16.0D)
         {
             // Instead path to target quickly
-            setWalkTo(leapTarget, 1.8, 0);
+            setWalkTo(entity, leapTarget, 1.8, 0);
             return;
         }
         // Not close enough horizontally for a leap
         else if (dh > 1)
         {
             // Instead path to target quickly
-            setWalkTo(leapTarget, 1.8, 0);
+            setWalkTo(entity, leapTarget, 1.8, 0);
             return;
         }
 
-        this.leapSpeed = 1.0;
+        double leapSpeed = 1.0;
 
         final Vector3 dir = diff.normalize();
-        dir.scalarMultBy(this.leapSpeed * PokecubeCore.getConfig().leapSpeedFactor);
+        dir.scalarMultBy(leapSpeed * PokecubeCore.getConfig().leapSpeedFactor);
         if (dir.isNaN())
         {
             new Exception().printStackTrace();
@@ -117,7 +111,7 @@ public class LeapTask extends TaskBase implements IAICombat
 
         // Compute differences in velocities, and then account for that during
         // the leap.
-        final Vector3 v_a = new Vector3().setToVelocity(this.entity);
+        final Vector3 v_a = new Vector3().setToVelocity(entity);
         final Vector3 v_t = new Vector3();
         if (target != null) v_t.setToVelocity(target);
         // Compute velocity differential.
@@ -125,12 +119,12 @@ public class LeapTask extends TaskBase implements IAICombat
         // Adjust for existing velocity differential.
         dir.subtractFrom(dv);
 
-        final boolean airborne = this.pokemob.floats() || this.pokemob.flys();
+        final boolean airborne = pokemob.floats() || pokemob.flys();
         // Increase leap speed for airborne things, they have a bit more
         // friction while in the air.
         if (airborne) dir.scalarMultBy(1.1);
-        // Otherwise, if it is on the ground, it should jump a bit if leaping
-        // but not downwards
+            // Otherwise, if it is on the ground, it should jump a bit if leaping
+            // but not downwards
         else if (dir.y >= 0) dir.y = Math.max(dir.y, 0.25);
 
         if (!airborne && !pokemob.onGround()) return;
@@ -144,27 +138,30 @@ public class LeapTask extends TaskBase implements IAICombat
             dir.z *= 0.1 / dh;
         }
         // Now apply the actual leap
-        dir.addVelocities(this.entity);
+        dir.addVelocities(entity);
         // Then play leap sound
-        new PlaySound(this.entity.level().dimension(), new Vector3().set(this.entity), this.getLeapSound(),
-                SoundSource.HOSTILE, 1, 1).run(this.world);
+        new TaskBase.PlaySound(entity.level().dimension(), new Vector3().set(entity), this.getLeapSound(),
+                SoundSource.HOSTILE, 1, 1).run(level);
 
         // Then reset things so we don't immediately re-leap.
-        BrainUtils.setLeapTarget(this.entity, null);
-        this.reset();
+        BrainUtils.setLeapTarget(entity, null);
+        this.reset(entity);
     }
 
     @Override
-    public boolean shouldRun()
+    public boolean shouldRun(Mob entity)
     {
+        var pokemob = PokemobCaps.getPokemobFor(entity);
         // Can't move, no leap
-        if (!TaskBase.canMove(this.pokemob)) return false;
-
-        if (leapTick++ > 10) BrainUtils.setLeapTarget(this.entity, null);
+        if (!TaskBase.canMove(pokemob)) return false;
+        var brain = entity.getBrain();
+        int leapTick = brain.getMemory(MemoryModules.TIMER_LEAP.get()).orElse(0);
+        if (leapTick++ > 10) BrainUtils.setLeapTarget(entity, null);
+        brain.setMemory(MemoryModules.TIMER_LEAP.get(), leapTick);
         // Update the leap target here.
-        this.pos = BrainUtils.getLeapTarget(this.entity);
+        var pos = BrainUtils.getLeapTarget(entity);
         // Leap may have been interupted, so clear this state if so.
-        if (this.pos == null) pokemob.setCombatState(CombatStates.LEAPING, false);
+        if (pos == null) pokemob.setCombatState(CombatStates.LEAPING, false);
         // Executing the leap, so return true.
         if (pokemob.getCombatState(CombatStates.LEAPING)) return true;
         // Leap if we have a target pos

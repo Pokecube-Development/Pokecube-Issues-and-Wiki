@@ -1,6 +1,7 @@
 package pokecube.core.ai.tasks.combat.management;
 
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,7 +21,8 @@ import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.moves.Battle;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.ai.tasks.TaskBase;
+import pokecube.core.ai.brain.MemoryModules;
+import pokecube.core.ai.tasks.PokemobBehaviour;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.PokemobTracker;
@@ -28,28 +30,34 @@ import thut.api.ThutCaps;
 import thut.api.attachments.IOwnable;
 import thut.api.attachments.Ownable;
 import thut.api.entity.ai.IAICombat;
+import thut.api.entity.ai.IAIRunnable;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
-import java.util.function.Predicate;
+import java.util.function.BiFunction;
 
 /** This IAIRunnable is to find targets for the pokemob to try to kill. */
-public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinder
+public class FindTargetsTask extends PokemobBehaviour implements IAICombat, ITargetFinder
 {
     public static LivingChangeTargetEvent.ILivingTargetType AGROREDIRECT = new LivingChangeTargetEvent.ILivingTargetType() {};
 
     public static int DEAGROTIMER = 50;
 
-    UUID targetId = null;
+    private static final Map<MemoryModuleType<?>, MemoryStatus> MEMS = Maps.newHashMap();
 
-    LivingEntity target = null;
-    LivingEntity targetOwner = null;
-
-    int switchTargetTimer = 0;
-    int forgetTimer = 0;
+    static
+    {
+        MEMS.put(MemoryModules.ATTACKTARGETID.get(), MemoryStatus.REGISTERED);
+        MEMS.put(MemoryModules.TIMER_SWAPTARGET.get(), MemoryStatus.REGISTERED);
+        MEMS.put(MemoryModules.TIMER_FORGETTARGET.get(), MemoryStatus.REGISTERED);
+        MEMS.put(MemoryModules.TARGETOWNER.get(), MemoryStatus.REGISTERED);
+        MEMS.put(MemoryModules.ATTACKTARGET.get(), MemoryStatus.REGISTERED);
+        MEMS.put(MemoryModules.TRACKEDTARGET.get(), MemoryStatus.REGISTERED);
+        MEMS.put(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryStatus.VALUE_PRESENT);
+    }
 
     public static boolean handleDamagedTargets = true;
 
@@ -152,52 +160,53 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
     /**
      * Checks the validTargts as well as team settings, will not allow targetting things on the same team.
      */
-    final Predicate<Entity> validGuardTarget;
+    final BiFunction<Mob, Entity, Boolean> validGuardTarget;
 
-    public FindTargetsTask(final IPokemob mob)
+    public FindTargetsTask()
     {
-        super(mob, ImmutableMap.of(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryStatus.VALUE_PRESENT));
-        this.validGuardTarget = input -> AITools.shouldBeAbleToAgro(this.entity, input);
+        super(MEMS);
+        this.validGuardTarget = AITools::shouldBeAbleToAgro;
     }
 
     @Override
-    public void clear()
+    public void clear(Mob entityIn)
     {
-        this.targetId = null;
-        this.target = null;
-        this.forgetTimer = 0;
-        this.switchTargetTimer = 0;
+        entityIn.getBrain().eraseMemory(MemoryModules.ATTACKTARGETID.get());
+        entityIn.getBrain().eraseMemory(MemoryModules.TIMER_SWAPTARGET.get());
+        entityIn.getBrain().eraseMemory(MemoryModules.TIMER_FORGETTARGET.get());
+        entityIn.getBrain().eraseMemory(MemoryModules.TARGETOWNER.get());
+        entityIn.getBrain().eraseMemory(MemoryModules.TRACKEDTARGET.get());
     }
 
     /**
      * Check for and agress any guard targets. <br>
      * <br>
-     * This is called from {@link FindTargetsTask#run()}
+     * This is called from {@link IAIRunnable#run(ServerLevel, Mob)}
      *
      * @return a guard target was found
      */
-    protected boolean checkGuard()
+    protected boolean checkGuard(IPokemob pokemob)
     {
         // Disabled via the boolean config.
         if (!PokecubeCore.getConfig().guardModeEnabled) return false;
 
+        var entity = pokemob.getEntity();
         final int rate = PokecubeCore.getConfig().guardTickRate;
         // Disable via rate out of bounds, or not correct time in the rate.
-        if (rate <= 0 || this.entity.tickCount % rate != 0) return false;
+        if (rate <= 0 || entity.tickCount % rate != 0) return false;
 
         // Select either owner or home position as the centre of the check,
         // this results in it guarding either its home or its owner. Home is
         // used if it is on stay, or it has no owner.
         final Vector3 centre = new Vector3();
-        if (this.pokemob.getGeneralState(GeneralStates.STAYING) || this.pokemob.getOwner() == null)
-            centre.set(this.pokemob.getHome());
-        else centre.set(this.pokemob.getOwner());
+        if (pokemob.getGeneralState(GeneralStates.STAYING) || pokemob.getOwner() == null) centre.set(pokemob.getHome());
+        else centre.set(pokemob.getOwner());
 
         // Only allow valid guard targets.
-        final Optional<LivingEntity> pokemobs = this.entity.getBrain()
+        final Optional<LivingEntity> pokemobs = entity.getBrain()
                 .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findClosest(
-                        e -> this.validGuardTarget.test(e)
-                                && e.distanceTo(this.entity) <= PokecubeCore.getConfig().guardSearchDistance);
+                        e -> this.validGuardTarget.apply(entity, e)
+                                && e.distanceTo(entity) <= PokecubeCore.getConfig().guardSearchDistance);
         if (pokemobs.isEmpty()) return false;
 
         // This is already sorted by distance!
@@ -205,7 +214,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         // Agro the target.
         if (newtarget != null)
         {
-            this.initiateBattle(newtarget);
+            this.initiateBattle(newtarget, entity);
             if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Selecting Guard Target.");
             return true;
         }
@@ -215,41 +224,43 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
     /**
      * Check if owner is under attack, if so, agress the attacker. <br>
      * <br>
-     * This is called from {@link FindTargetsTask#run()}
+     * This is called from {@link IAIRunnable#run(ServerLevel, Mob)}
      *
      * @return if target was found.
      */
-    protected boolean checkOwner()
+    protected boolean checkOwner(IPokemob pokemob)
     {
-        final Entity owner = this.pokemob.getOwner();
+        final Entity owner = pokemob.getOwner();
 
         // Only apply if has owner.
         if (owner == null) return false;
 
-        if (this.pokemob.getGeneralState(GeneralStates.STAYING)) return false;
-        if (!this.pokemob.isRoutineEnabled(AIRoutine.AGRESSIVE)) return false;
+        if (pokemob.getGeneralState(GeneralStates.STAYING)) return false;
+        if (!pokemob.isRoutineEnabled(AIRoutine.AGRESSIVE)) return false;
 
+        var entity = pokemob.getEntity();
         final int rate = PokecubeCore.getConfig().guardTickRate;
         // Disable via rate out of bounds, or not correct time in the rate.
-        if (rate <= 0 || this.entity.tickCount % rate != 0) return false;
+        if (rate <= 0 || entity.tickCount % rate != 0) return false;
 
-        final Iterable<LivingEntity> pokemobs = this.entity.getBrain()
+        final Iterable<LivingEntity> pokemobs = entity.getBrain()
                 .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findAll(
                         e -> AITools.validAgroTarget.test(e)
-                                && e.distanceTo(this.entity) <= PokecubeCore.getConfig().guardSearchDistance);
+                                && e.distanceTo(entity) <= PokecubeCore.getConfig().guardSearchDistance);
         if (!pokemobs.iterator().hasNext()) return false;
 
-        final Entity old = BrainUtils.getAttackTarget(this.entity);
+        final Entity old = BrainUtils.getAttackTarget(entity);
         final IOwnable oldOwnable = ThutCaps.getOwnable(old);
-        final Entity oldOwner = oldOwnable != null ? oldOwnable.getOwner(this.world) : null;
+        final Entity oldOwner = oldOwnable != null ? oldOwnable.getOwner((ServerLevel) entity.level()) : null;
 
-        for (final LivingEntity entity : pokemobs)
+        for (final LivingEntity _entity : pokemobs)
         {
-            if (oldOwner != null && entity == oldOwner) continue;
-            final LivingEntity targ = BrainUtils.getAttackTarget(entity);
-            if (entity instanceof Mob && targ != null && targ.equals(owner) && this.validGuardTarget.test(entity))
+            if (oldOwner != null && _entity == oldOwner) continue;
+            final LivingEntity targ = BrainUtils.getAttackTarget(_entity);
+            if (_entity instanceof Mob && targ != null && targ.equals(owner) && this.validGuardTarget.apply(entity,
+                    _entity))
             {
-                this.initiateBattle(entity);
+                this.initiateBattle(_entity, entity);
                 if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Selecting target who hit owner.");
                 return true;
             }
@@ -262,82 +273,98 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
      * new one is sent out. In this case, we will switch target to either the new pokemob, if it has been a short time,
      * or the owner of the old pokemob, if it has been a longer time.
      */
-    protected void checkSwitchedMob()
+    protected void checkSwitchedMob(IPokemob pokemob, LivingEntity target, LivingEntity targetOwner)
     {
-        final boolean switched = this.target != null && !this.target.isAlive();
-        if (!switched) return;
+        final boolean switched = target != null && !target.isAlive();
+        var entity = pokemob.getEntity();
+        if (!switched || !(entity.level() instanceof ServerLevel level)) return;
+        var brain = entity.getBrain();
         // This means it either fainted, or died.
-        if (this.targetOwner != null)
+        if (targetOwner != null)
         {
+            int switchTargetTimer = brain.getMemory(MemoryModules.TIMER_SWAPTARGET.get()).orElse(0);
             // Give some time to look for a new pokemob
-            if (this.switchTargetTimer++ < 2 * FindTargetsTask.DEAGROTIMER)
+            if (switchTargetTimer++ < 2 * FindTargetsTask.DEAGROTIMER)
             {
-                final Iterable<LivingEntity> pokemobs = this.entity.getBrain()
-                        .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findAll(
-                                e -> AITools.validAgroTarget.test(e)
-                                        && e.distanceTo(this.entity) <= PokecubeCore.getConfig().guardSearchDistance);
+                final Iterable<LivingEntity> pokemobs = brain.getMemory(
+                        MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findAll(
+                        e -> AITools.validAgroTarget.test(e)
+                                && e.distanceTo(entity) <= PokecubeCore.getConfig().guardSearchDistance);
 
-                for (final LivingEntity entity : pokemobs)
+                for (final LivingEntity _entity : pokemobs)
                 {
-                    final LivingEntity owner = Ownable.getOwner(entity);
-                    if (owner == this.targetOwner)
+                    final LivingEntity owner = Ownable.getOwner(_entity);
+                    if (owner == targetOwner)
                     {
-                        this.initiateBattle(entity);
-                        this.clear();
+                        this.initiateBattle(_entity, entity);
+                        this.clear(entity);
                         return;
                     }
                 }
+                brain.setMemory(MemoryModules.TIMER_SWAPTARGET.get(), switchTargetTimer);
             }
             // Otherwise agro the owner
             else
             {
-                this.initiateBattle(this.targetOwner);
-                this.clear();
+                this.initiateBattle(targetOwner, entity);
+                this.clear(entity);
                 return;
             }
         }
-
-        // Lets check if the target say was failed to capture. If this was the
-        // case, then the UUID is still the same, but the entity itself has
-        // changed.
-        final Entity newMob = this.world.getEntity(this.targetId);
-        if (newMob instanceof LivingEntity living)
+        if (brain.hasMemoryValue(MemoryModules.ATTACKTARGETID.get()))
         {
-            this.initiateBattle(living);
-            this.clear();
+            // Lets check if the target say was failed to capture. If this was the
+            // case, then the UUID is still the same, but the entity itself has
+            // changed.
+            final Entity newMob = level.getEntity(brain.getMemory(MemoryModules.ATTACKTARGETID.get()).get());
+            if (newMob instanceof LivingEntity living)
+            {
+                this.initiateBattle(living, entity);
+                this.clear(entity);
+            }
         }
+        else
+        {
+            this.clear(entity);
+        }
+
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {}
 
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob entity)
     {
+        var brain = entity.getBrain();
+        var pokemob = PokemobCaps.getPokemobFor(entity);
         // Check if pokemob can see the target, if yes start battle
-        if (this.targetId != null)
+        if (brain.hasMemoryValue(MemoryModules.ATTACKTARGETID.get()))
         {
-            final Entity mob = this.world.getEntity(this.targetId);
-            if (!(mob instanceof LivingEntity entity) || (!BrainUtils.canSee(this.entity, entity)
-                    && !this.initiateBattle(entity))) this.clear();
-
+            var targetId = brain.getMemory(MemoryModules.ATTACKTARGETID.get()).get();
+            final Entity mob = level.getEntity(targetId);
+            if (!(mob instanceof LivingEntity living) || (!BrainUtils.canSee(entity, living) && !this.initiateBattle(
+                    living, entity))) this.clear(entity);
+            int forgetTimer = brain.getMemory(MemoryModules.TIMER_FORGETTARGET.get())
+                    .orElse(FindTargetsTask.DEAGROTIMER);
             // Reset target ID here, so we don't keep looking for it.
-            if (this.forgetTimer-- <= 0) this.clear();
+            if (forgetTimer-- <= 0) this.clear(entity);
+            else brain.setMemory(MemoryModules.TIMER_FORGETTARGET.get(), forgetTimer);
             return;
         }
 
         // If pokemob is hurt by someone, for example players
-        final Optional<LivingEntity> hurtBy = this.entity.getBrain().getMemory(MemoryModuleType.HURT_BY_ENTITY);
+        final Optional<LivingEntity> hurtBy = entity.getBrain().getMemory(MemoryModuleType.HURT_BY_ENTITY);
         if (hurtBy != null && hurtBy.isPresent())
         {
             final LivingEntity target = hurtBy.get();
             // This will ensure that the target isn't on our team
-            if (!this.validGuardTarget.test(target)) return;
+            if (!this.validGuardTarget.apply(entity, target)) return;
 
-            if (BrainUtils.canSee(this.entity, target))
+            if (BrainUtils.canSee(entity, target))
             {
-                this.initiateBattle(target);
+                this.initiateBattle(target, entity);
                 if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Selecting Target who hit us.");
                 return;
             }
@@ -345,62 +372,71 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
 
         // If guarding, look for mobs not on the same team as you, and if you
         // find them, try to agress them.
-        if (this.pokemob.getCombatState(CombatStates.GUARDING)) if (this.checkGuard()) return;
+        if (pokemob.getCombatState(CombatStates.GUARDING)) if (this.checkGuard(pokemob)) return;
 
         // Ensure the correct owner is tracked.
-        this.pokemob.getOwner(this.world);
+        pokemob.getOwner(level);
 
         // Check if the pokemob is set to follow, and if so, look for mobs
         // nearby trying to attack the owner of the pokemob, if any such are
         // found, try to aggress them immediately.
-        if (!this.pokemob.getGeneralState(GeneralStates.STAYING)) if (this.checkOwner()) return;
+        if (!pokemob.getGeneralState(GeneralStates.STAYING)) if (this.checkOwner(pokemob)) return;
 
-        final boolean playerNear = this.entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_PLAYER);
+        final boolean playerNear = entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_PLAYER);
 
         // If wild, randomly decided to agro a nearby player instead.
-        if (playerNear && AITools.shouldAgroNearestPlayer.test(this.pokemob))
+        if (playerNear && AITools.shouldAgroNearestPlayer.test(pokemob))
         {
-            int aggroDistance = Tags.POKEMOB.isIn(AITools.HOSTILE, this.pokemob.getPokedexEntry().getTrimmedName())
+            int aggroDistance = Tags.POKEMOB.isIn(AITools.HOSTILE, pokemob.getPokedexEntry().getTrimmedName())
                     ? PokecubeCore.getConfig().hostileAggroRadius
                     : PokecubeCore.getConfig().aggressiveAggroRadius;
-            Player player = this.entity.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_PLAYER).get();
-            if (player != null && player.distanceTo(this.entity) > aggroDistance) player = null;
+            Player player = entity.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_PLAYER).get();
+            if (player != null && player.distanceTo(entity) > aggroDistance) player = null;
             if (player != null && AITools.validAgroTarget.test(player))
             {
-                this.initiateBattle(player);
+                this.initiateBattle(player, entity);
                 if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Found player to be angry with, agressing.");
             }
         }
     }
 
-    private boolean initiateBattle(final LivingEntity target)
+    private boolean initiateBattle(final LivingEntity target, Mob entity)
     {
-        if (!Battle.createOrAddToBattle(this.entity, target))
+        if (!Battle.createOrAddToBattle(entity, target))
         {
-            this.clear();
+            this.clear(entity);
             return false;
         }
         return true;
     }
 
     @Override
-    public boolean shouldRun()
+    public boolean shouldRun(Mob entity)
     {
-        if (!this.pokemob.isRoutineEnabled(AIRoutine.AGRESSIVE)) return false;
-        if (!this.entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES)) return false;
-        if (BrainUtils.hasAttackTarget(this.entity))
+        var pokemob = PokemobCaps.getPokemobFor(entity);
+        if (!pokemob.isRoutineEnabled(AIRoutine.AGRESSIVE)) return false;
+        if (!entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES)) return false;
+        if (BrainUtils.hasAttackTarget(entity))
         {
-            final LivingEntity target = BrainUtils.getAttackTarget(this.entity);
-            this.forgetTimer = FindTargetsTask.DEAGROTIMER;
-            if (!target.getUUID().equals(this.targetId))
+            var brain = entity.getBrain();
+            final LivingEntity target = BrainUtils.getAttackTarget(entity);
+            var targetOwner = Ownable.getOwner(target);
+
+            if (!brain.hasMemoryValue(MemoryModules.ATTACKTARGETID.get()))
             {
-                this.target = target;
-                this.targetOwner = Ownable.getOwner(target);
-                this.targetId = this.target.getUUID();
-                if (PokecubeCore.getConfig().debug_ai)
-                    PokecubeAPI.logInfo("Found Target {} {}", this.target, this.targetOwner);
+                brain.setMemory(MemoryModules.ATTACKTARGETID.get(), target.getUUID());
             }
-            this.checkSwitchedMob();
+            else
+            {
+                var targetId = brain.getMemory(MemoryModules.ATTACKTARGETID.get()).get();
+                if (!target.getUUID().equals(targetId))
+                {
+                    brain.setMemory(MemoryModules.ATTACKTARGETID.get(), target.getUUID());
+                    if (PokecubeCore.getConfig().debug_ai)
+                        PokecubeAPI.logInfo("Found Target {} {}", target, targetOwner);
+                }
+            }
+            this.checkSwitchedMob(pokemob, target, targetOwner);
             return false;
         }
         return true;

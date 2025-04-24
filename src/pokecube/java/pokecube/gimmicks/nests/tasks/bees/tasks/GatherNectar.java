@@ -7,6 +7,7 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.core.GlobalPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
@@ -44,14 +45,14 @@ public class GatherNectar extends AbstractBeeTask
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {
         this.gather_timer = 0;
         this.gatherSpot.clear();
     }
 
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob owner)
     {
         final Optional<GlobalPos> pos_opt = this.entity.getBrain().getMemory(BeeTasks.FLOWER_POS.get());
         if (pos_opt.isPresent())
@@ -67,7 +68,7 @@ public class GatherNectar extends AbstractBeeTask
             if (clearPos)
             {
                 this.entity.getBrain().eraseMemory(BeeTasks.FLOWER_POS.get());
-                this.reset();
+                this.reset(owner);
                 return;
             }
             final Brain<?> brain = this.entity.getBrain();
@@ -77,7 +78,7 @@ public class GatherNectar extends AbstractBeeTask
             {
                 brain.eraseMemory(BeeTasks.FLOWER_POS.get());
                 brain.setMemory(BeeTasks.HAS_NECTAR.get(), true);
-                this.reset();
+                this.reset(owner);
                 return;
             }
 

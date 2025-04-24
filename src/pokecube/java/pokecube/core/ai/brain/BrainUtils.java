@@ -4,6 +4,7 @@ import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.entity.ai.behavior.EntityTracker;
 import net.minecraft.world.entity.ai.behavior.PositionTracker;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
@@ -110,6 +111,11 @@ public class BrainUtils extends BrainUtil
         brain.setMemory(MemoryModules.MOVE_TARGET.get(), pos);
     }
 
+    public static void setMoveUseTarget(final LivingEntity mobIn, final LivingEntity target)
+    {
+        BrainUtils.setMoveUseTarget(mobIn, new EntityTracker(target, true));
+    }
+
     public static void clearMoveUseTarget(final LivingEntity mobIn)
     {
         final Brain<?> brain = mobIn.getBrain();
@@ -123,20 +129,20 @@ public class BrainUtils extends BrainUtil
 
     public static PositionTracker getMoveUseTarget(final LivingEntity mobIn)
     {
+        if (mobIn == null) return null;
         final Brain<?> brain = mobIn.getBrain();
         if (!brain.hasMemoryValue(MemoryModules.MOVE_TARGET.get())) return null;
         final Optional<PositionTracker> pos = brain.getMemory(MemoryModules.MOVE_TARGET.get());
-        if (pos == null || !pos.isPresent()) return null;
-        return pos.get();
+        return pos.orElse(null);
     }
 
     public static PositionTracker getLeapTarget(final LivingEntity mobIn)
     {
+        if (mobIn == null) return null;
         final Brain<?> brain = mobIn.getBrain();
         if (!brain.hasMemoryValue(MemoryModules.LEAP_TARGET.get())) return null;
         final Optional<PositionTracker> pos = brain.getMemory(MemoryModules.LEAP_TARGET.get());
-        if (pos == null || !pos.isPresent()) return null;
-        return pos.get();
+        return pos.orElse(null);
     }
 
     public static void setLeapTarget(final LivingEntity mobIn, final PositionTracker target)
@@ -153,32 +159,28 @@ public class BrainUtils extends BrainUtil
     {
         final Brain<?> brain = mobIn.getBrain();
         final Optional<List<NearBlock>> pos = brain.getMemory(MemoryModules.VISIBLE_BLOCKS.get());
-        if (pos == null || !pos.isPresent()) return null;
-        return pos.get();
+        return pos.orElse(null);
     }
 
     public static List<ItemEntity> getNearItems(final LivingEntity mobIn)
     {
         final Brain<?> brain = mobIn.getBrain();
         final Optional<List<ItemEntity>> pos = brain.getMemory(MemoryModules.VISIBLE_ITEMS.get());
-        if (pos == null || !pos.isPresent()) return null;
-        return pos.get();
+        return pos.orElse(null);
     }
 
     public static List<Projectile> getNearProjectiles(final LivingEntity mobIn)
     {
         final Brain<?> brain = mobIn.getBrain();
         final Optional<List<Projectile>> pos = brain.getMemory(MemoryModules.VISIBLE_PROJECTILES.get());
-        if (pos == null || !pos.isPresent()) return null;
-        return pos.get();
+        return pos.orElse(null);
     }
 
     public static List<AgeableMob> getMates(final AgeableMob entity)
     {
         final Brain<?> brain = entity.getBrain();
         final Optional<List<AgeableMob>> pos = brain.getMemory(MemoryModules.POSSIBLE_MATES.get());
-        if (pos == null || !pos.isPresent()) return null;
-        return pos.get();
+        return pos.orElse(null);
     }
 
     public static void initiateCombat(final Mob mob, LivingEntity target)
@@ -229,7 +231,7 @@ public class BrainUtils extends BrainUtil
         final LivingEntity oldTarget = BrainUtils.getAttackTarget(mob);
         if (aggressor != null)
         {
-            aggressor.getTargetFinder().clear();
+            aggressor.getTargetFinder().clear(aggressor.getEntity());
             if (oldTarget != null) aggressor.onSetTarget(null, true);
             aggressor.setCombatState(CombatStates.MATEFIGHT, false);
         }

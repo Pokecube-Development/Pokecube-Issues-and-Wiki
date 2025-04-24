@@ -72,9 +72,7 @@ public interface IPokemob
             PokedexEntry entry = Database.getEntry(entry_name);
             if (entry == null) entry = Database.missingno;
 
-            final FormeHolder holder = FormeHolder.get(entry, _model, _tex, _anim,
-                    PokecubeItems.toPokecubeResource(name));
-            return holder;
+            return FormeHolder.get(entry, _model, _tex, _anim, PokecubeItems.toPokecubeResource(name));
         }
 
         public static FormeHolder get(PokedexEntry entry, final ResourceLocation model, final ResourceLocation texture,
@@ -225,7 +223,7 @@ public interface IPokemob
         /**
          * Clears any tracking for our combat target.
          */
-        void clear();
+        void clear(Mob mob);
     }
 
     public static enum Stats
@@ -276,7 +274,9 @@ public interface IPokemob
 
     /*
      * Genders of pokemobs
-     */ byte MALE = 1;
+     */
+
+    byte MALE = 1;
 
     byte FEMALE = 2;
 
@@ -288,8 +288,6 @@ public interface IPokemob
 
     /**
      * Sets our {@link ITargetFinder} instance
-     *
-     * @param tracker
      */
     void setTargetFinder(ITargetFinder tracker);
 
@@ -368,8 +366,6 @@ public interface IPokemob
 
     /**
      * See IMultiplePassengerEntity.getPitch()
-     *
-     * @return
      */
     float getPitch();
 
@@ -422,7 +418,6 @@ public interface IPokemob
     }
 
     /**
-     * @param index
      * @return the value of the flavour amount for this mob, this will be used for particle effects, and possibly for
      * boosts based on how much the mob likes the flavour
      */
@@ -495,8 +490,7 @@ public interface IPokemob
         if (swimming && !hasSwimBoost) iattributeinstance.addTransientModifier(IPokemob.SWIMSPEEDFACTOR);
         else if (hasSwimBoost && !swimming) iattributeinstance.removeModifier(IPokemob.SWIMSPEEDFACTOR_ID);
 
-        final double speed = iattributeinstance.getValue();
-        return speed;
+        return iattributeinstance.getValue();
     }
 
     /**
@@ -508,16 +502,12 @@ public interface IPokemob
 
     /**
      * Note: This only returns a unique number for player owned pokemobs. All other pokemobs will return -1
-     *
-     * @return
      */
     int getPokemonUID();
 
     /**
      * The personality value for the pokemob, used to determine nature, ability, etc.<br>
-     * http://bulbapedia.bulbagarden.net/wiki/Personality_value
-     *
-     * @return
+     * <a href="http://bulbapedia.bulbagarden.net/wiki/Personality_value">...</a>
      */
     int getRNGValue();
 
@@ -556,27 +546,22 @@ public interface IPokemob
 
     /**
      * Returns the texture path.
-     *
-     * @return
      */
     @OnlyIn(Dist.CLIENT)
     ResourceLocation getTexture();
 
     /**
      * Returns modified texture to account for shininess, animation, etc.
-     *
-     * @return
      */
     @OnlyIn(Dist.CLIENT)
     ResourceLocation modifyTexture(ResourceLocation texture);
 
     void setCustomHolder(FormeHolder holder);
 
-    @Nullable
     /**
-     *
      * @return the {@link FormeHolder} which we presently have.
      */
+    @Nullable
     FormeHolder getCustomHolder();
 
     /**
@@ -614,30 +599,21 @@ public interface IPokemob
 
     /**
      * Sets our {@link DataSync} object used to synchronize values between client and server
-     *
-     * @param sync
      */
     void setDataSync(DataSync sync);
 
     /**
      * Sets our pitch heading direction.
-     *
-     * @param pitch
      */
     void setDirectionPitch(float pitch);
 
     /**
      * 1 for about to explode, -1 for reset.
-     *
-     * @param i
      */
     void setExplosionState(int i);
 
     /**
      * Sets the flavour amount for that index.
-     *
-     * @param index
-     * @param amount
      */
     void setFlavourAmount(int index, int amount);
 
@@ -645,7 +621,6 @@ public interface IPokemob
      * Sets the experience.
      *
      * @param exp - exp to set
-     * @return The IPokemob after the exp setting, may not be this if we evolved.
      */
     default void setForSpawn(final int exp)
     {
@@ -683,11 +658,6 @@ public interface IPokemob
 
     /**
      * Sets the default home location and roam distance. This is probably better managed via the IGuardAICapability.
-     *
-     * @param x
-     * @param y
-     * @param z
-     * @param distance
      */
     void setHome(int x, int y, int z, int distance);
 
@@ -703,8 +673,6 @@ public interface IPokemob
 
     /**
      * Sets if we are a "shiny" pokemob, ie return value of {@link #isShiny()}
-     *
-     * @param shiny
      */
     void setShiny(boolean shiny);
 
@@ -720,8 +688,6 @@ public interface IPokemob
     /**
      * This is called when the mob is added to the world, it can return a different pokemob if it evolves, in that case,
      * this will have markRemoved() called for it.
-     *
-     * @return
      */
     default IPokemob onAddedInit()
     {
@@ -736,8 +702,6 @@ public interface IPokemob
 
     /**
      * Returns true if markRemoved() was called!
-     *
-     * @return
      */
     boolean isRemoved();
 
@@ -759,9 +723,6 @@ public interface IPokemob
 
     /**
      * Returns the held item this pokemob should have when found wild.
-     *
-     * @param mob
-     * @return
      */
     default ItemStack wildHeldItem(final Mob mob)
     {
@@ -795,8 +756,6 @@ public interface IPokemob
 
     /**
      * Sets the time of death, if revived, this should be set to 0;
-     *
-     * @param time
      */
     void setDeathTime(long time);
 
@@ -822,8 +781,6 @@ public interface IPokemob
 
     /**
      * Sets the return value of {@link #getBossInfo()}
-     *
-     * @param event
      */
     void setBossInfo(ServerBossEvent event);
 

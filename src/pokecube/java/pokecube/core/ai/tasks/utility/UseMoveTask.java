@@ -5,6 +5,8 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 
 import net.minecraft.core.Vec3i;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.behavior.PositionTracker;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
@@ -50,13 +52,13 @@ public class UseMoveTask extends UtilTask implements IMoveUseAI
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {
         this.running = false;
     }
 
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob owner)
     {
         this.destination.set(this.pos.currentPosition());
         final MoveEntry move = this.pokemob.getSelectedMove();
@@ -113,7 +115,7 @@ public class UseMoveTask extends UtilTask implements IMoveUseAI
     }
 
     @Override
-    public boolean shouldRun()
+    public boolean shouldRun(Mob entityIn)
     {
         return (this.pos = BrainUtils.getMoveUseTarget(this.entity)) != null;
     }
@@ -125,7 +127,7 @@ public class UseMoveTask extends UtilTask implements IMoveUseAI
     }
 
     @Override
-    public void tick()
+    public void runTick(ServerLevel level, Mob owner)
     {
         // If the move was ranged, check that it is visible, if so, execute
         // move, otherwise path to location.

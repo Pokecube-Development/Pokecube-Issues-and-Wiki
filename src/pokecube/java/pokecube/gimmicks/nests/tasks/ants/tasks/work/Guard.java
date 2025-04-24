@@ -7,8 +7,10 @@ import java.util.function.Predicate;
 
 import com.google.common.collect.Maps;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import pokecube.api.PokecubeAPI;
@@ -16,10 +18,10 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.Battle;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.ai.tasks.combat.management.FindTargetsTask;
 import pokecube.core.utils.AITools;
 import pokecube.gimmicks.nests.tasks.ants.AntTasks.AntJob;
 import pokecube.gimmicks.nests.tasks.ants.tasks.AbstractWorkTask;
+import thut.api.entity.ai.IAIRunnable;
 import thut.api.maths.Vector3;
 
 public class Guard extends AbstractWorkTask
@@ -50,7 +52,7 @@ public class Guard extends AbstractWorkTask
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {
         this.patrolTimer = 0;
     }
@@ -64,7 +66,7 @@ public class Guard extends AbstractWorkTask
     /**
      * Check for and agress any guard targets. <br>
      * <br>
-     * This is called from {@link FindTargetsTask#run()}
+     * This is called from {@link IAIRunnable#run(ServerLevel, Mob)}
      *
      * @return a guard target was found
      */
@@ -105,7 +107,7 @@ public class Guard extends AbstractWorkTask
     }
 
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob owner)
     {
         if (this.patrolTimer++ > PokecubeCore.getConfig().guardTickRate)
         {

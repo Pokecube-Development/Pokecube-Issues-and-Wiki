@@ -21,16 +21,15 @@ public class Retaliate extends BaseAgroTask
         Retaliate.MEMS.put(MemoryModules.ATTACKTARGET.get(), MemoryStatus.VALUE_ABSENT);
     }
 
-    public Retaliate(final LivingEntity trainer)
+    public Retaliate()
     {
-        super(trainer, 1, -1);
-        this.getTrainer(trainer).addTargetWatcher(this);
+        super(1, -1);
     }
 
     @Override
     public boolean ignoreHasBattled(IHasPokemobs trainer, LivingEntity target)
     {
-        final Brain<?> brain = this.entity.getBrain();
+        final Brain<?> brain = trainer.getTrainer().getBrain();
         if (!brain.hasMemoryValue(MemoryModuleType.HURT_BY_ENTITY)) return false;
         return brain.getMemory(MemoryModuleType.HURT_BY_ENTITY).get() == target;
     }
@@ -39,10 +38,10 @@ public class Retaliate extends BaseAgroTask
     public boolean isValidTarget(IHasPokemobs trainer, LivingEntity target)
     {
         if (target == null) return false;
-        final Brain<?> brain = this.entity.getBrain();
+        final Brain<?> brain = trainer.getTrainer().getBrain();
         if (!EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(target)) return false;
         if (!brain.hasMemoryValue(MemoryModuleType.HURT_BY_ENTITY)) return false;
-        if (!(target.isAlive() && BrainUtils.canSee(this.entity, target))) return false;
+        if (!(target.isAlive() && BrainUtils.canSee(trainer.getTrainer(), target))) return false;
         return brain.getMemory(MemoryModuleType.HURT_BY_ENTITY).get() == target;
     }
 

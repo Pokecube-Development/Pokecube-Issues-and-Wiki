@@ -1,8 +1,5 @@
 package pokecube.gimmicks.builders.tasks;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup.Provider;
@@ -12,6 +9,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.util.INBTSerializable;
@@ -28,23 +26,18 @@ import pokecube.gimmicks.builders.builders.BuilderManager.BuildContext;
 import pokecube.gimmicks.builders.builders.BuilderManager.BuilderClearer;
 import pokecube.gimmicks.builders.builders.IBlocksBuilder.BoMRecord;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * This IAIRunnable assigns building tasks based on the instructions in a book
- * in the offhand slot.<br>
+ * This IAIRunnable assigns building tasks based on the instructions in a book in the offhand slot.<br>
  * <br>
- * Format for the instructions is as follows:<br>
- * First page of a writable book should say:<br>
- * first line: t:key where key is jigsaw or building<br>
- * second line: resource location to look up<br>
- * following lines (optional):<br>
- * p: x y z - coordinates to shift by r: ROTATION - rotates the structure,
- * ROTATION is NONE, CLOCKWISE_90, CLOCKWISE_180 or COUNTERCLOCKWISE_90 <br>
+ * Format for the instructions is as follows:<br> First page of a writable book should say:<br> first line: t:key where
+ * key is jigsaw or building<br> second line: resource location to look up<br> following lines (optional):<br> p: x y z
+ * - coordinates to shift by r: ROTATION - rotates the structure, ROTATION is NONE, CLOCKWISE_90, CLOCKWISE_180 or
+ * COUNTERCLOCKWISE_90 <br>
  * <br>
- * Example book:<br>
- * build:jigsaw<br>
- * pokecube_legends:temples/surface/sky_pillar<br>
- * p: 0 1 0<br>
- * r: CLOCKWISE_90<br>
+ * Example book:<br> build:jigsaw<br> pokecube_legends:temples/surface/sky_pillar<br> p: 0 1 0<br> r: CLOCKWISE_90<br>
  * m: NONE<br>
  */
 public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTag>
@@ -67,15 +60,14 @@ public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTa
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {
         hasInstructions = false;
         build = null;
     }
 
     /**
-     * Swaps the book to the main hand, so it is no longer read for
-     * instructions.
+     * Swaps the book to the main hand, so it is no longer read for instructions.
      */
     private void swapHands()
     {
@@ -107,16 +99,16 @@ public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTa
                         _book -> pokemob.getEntity().setItemInHand(InteractionHand.OFF_HAND, _book));
             }
             if (!minions.contains(pokemob)) minions.add(pokemob);
-            build.setBuilder(builder, level);
+            build.setBuilder(builder, level, this.entity);
         }
     }
 
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob owner)
     {
         var storeLoc = storage.storageLoc;
         // Only run if we actually have storage (and are server side)
-        if (storeLoc == null || !(entity.level instanceof ServerLevel level) || build == null) return;
+        if (storeLoc == null || build == null) return;
 
         // Only run this every 2.5 seconds or so
         if (entity.tickCount - timer < 50) return;
@@ -125,8 +117,8 @@ public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTa
         var builder = build.builder();
         var clearer = build.clearer();
 
-        boolean creative = pokemob.getOwner() instanceof ServerPlayer player
-                && (player.isCreative() || player.isSpectator());
+        boolean creative =
+                pokemob.getOwner() instanceof ServerPlayer player && (player.isCreative() || player.isSpectator());
         // Initialise the level, this ensures that it loads properly from nbt if
         // saved. This also calls an initial init for all of the builders
         if (builder != null && builder.getLevel() == null)
@@ -146,13 +138,13 @@ public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTa
             // Swap held items in this case. This prevents us immediately
             // trying to make a jigsaw again.
             swapHands();
-            reset();
+            reset(owner);
             return;
         }
 
         // Debug prints for jigsaws
-//        System.out.println(this.jigsaw + " " + (this.jigsaw != null ? this.jigsaw.builders.size() : 0));
-//        if (jigsaw != null && jigsaw.builders.size() > 0) System.out.println(this.jigsaw.builders.get(0).workers);
+        //        System.out.println(this.jigsaw + " " + (this.jigsaw != null ? this.jigsaw.builders.size() : 0));
+        //        if (jigsaw != null && jigsaw.builders.size() > 0) System.out.println(this.jigsaw.builders.get(0).workers);
 
         // Building managers sit down near their storage.
         if (storeLoc.distManhattan(entity.getOnPos()) > 3)
@@ -171,8 +163,7 @@ public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTa
         if (this.entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES))
         {
             Iterable<LivingEntity> visible = this.entity.getBrain()
-                    .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findAll(e ->
-                    {
+                    .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findAll(e -> {
                         IPokemob p = PokemobCaps.getPokemobFor(e);
                         if (p == null) return false;
                         if (!TeamManager.sameTeam(e, entity)) return false;
@@ -195,7 +186,7 @@ public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTa
             for (var m : minions) if (!pokemobs.contains(m) && m.getEntity().isAddedToLevel()) pokemobs.add(m);
         }
 
-        if (pokemobs.size() > 1 && pokemobs.contains(pokemob)) pokemobs.remove(pokemob);
+        if (pokemobs.size() > 1) pokemobs.remove(pokemob);
 
         // No workers?? (maybe we are not allowed to build via AI button)
         if (pokemobs.isEmpty()) return;
@@ -214,7 +205,7 @@ public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTa
     }
 
     @Override
-    public boolean shouldRun()
+    public boolean shouldRun(Mob entityIn)
     {
         if (loadedBuild)
         {
@@ -250,7 +241,7 @@ public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTa
                 {
                     var task = m.getNamedTaskes().get(DoBuild.KEY);
                     if (!(task instanceof DoBuild build) || build.builder == null) continue;
-                    build.reset();
+                    build.reset(entityIn);
                 }
             }
             timer = entity.tickCount;
@@ -276,7 +267,7 @@ public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTa
     }
 
     @Override
-    public void deserializeNBT(Provider provider,CompoundTag nbt)
+    public void deserializeNBT(Provider provider, CompoundTag nbt)
     {
         if (nbt.contains("builder", Tag.TAG_COMPOUND))
         {

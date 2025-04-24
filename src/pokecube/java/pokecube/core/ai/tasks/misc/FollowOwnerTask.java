@@ -2,6 +2,7 @@ package pokecube.core.ai.tasks.misc;
 
 import com.google.common.collect.Maps;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -69,7 +70,7 @@ public class FollowOwnerTask extends TaskBase
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {
         this.ownerPos.set(this.theOwner);
         this.entity.setSprinting(false);
@@ -81,7 +82,7 @@ public class FollowOwnerTask extends TaskBase
     }
 
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob owner)
     {
         if (this.theOwner == null)
         {
@@ -136,7 +137,7 @@ public class FollowOwnerTask extends TaskBase
     }
 
     @Override
-    public boolean shouldRun()
+    public boolean shouldRun(Mob entityIn)
     {
         // In a battle, so no follow, do battle
         if (this.pokemob.inCombat()) return false;

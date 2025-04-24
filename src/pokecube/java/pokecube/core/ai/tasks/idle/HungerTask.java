@@ -3,7 +3,9 @@ package pokecube.core.ai.tasks.idle;
 import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -294,7 +296,7 @@ public class HungerTask extends BaseIdleTask
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {}
 
     @Override
@@ -304,7 +306,7 @@ public class HungerTask extends BaseIdleTask
     }
 
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob owner)
     {
         this.v.set(this.entity);
 
@@ -325,7 +327,7 @@ public class HungerTask extends BaseIdleTask
     }
 
     @Override
-    public boolean shouldRun()
+    public boolean shouldRun(Mob entityIn)
     {
         final int hungerTicks = HungerTask.TICKRATE;
         // This can be set in configs to disable.
@@ -375,7 +377,7 @@ public class HungerTask extends BaseIdleTask
     }
 
     @Override
-    public void tick()
+    public void runTick(ServerLevel level, Mob owner)
     {
 
         this.v.set(this.entity);

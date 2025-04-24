@@ -1,6 +1,8 @@
 package pokecube.gimmicks.nests.tasks.burrows.tasks;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.level.pathfinder.Path;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -21,7 +23,7 @@ public class ReturnHome extends AbstractBurrowTask
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {
         this.entity.getBrain().eraseMemory(MemoryModules.GOING_HOME.get());
         this.homePos.clear();
@@ -30,7 +32,7 @@ public class ReturnHome extends AbstractBurrowTask
     }
 
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob owner)
     {
         // This should path the mob over to the center of the home room, maybe
         // call "enter" for it as well?{

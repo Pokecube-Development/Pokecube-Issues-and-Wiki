@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.Brain;
@@ -108,7 +109,7 @@ public class RootTask<E extends LivingEntity> extends Behavior<E>
         }
     }
 
-    protected boolean runTick(final E mobIn)
+    protected boolean shouldRunTick(ServerLevel level, final E mobIn)
     {
         int rate = Math.max(runRate, _run_rate);
         return mobIn.tickCount % rate == mobIn.getId() % rate;
@@ -151,10 +152,10 @@ public class RootTask<E extends LivingEntity> extends Behavior<E>
         this.entity.getBrain().setMemory(MemoryModuleTypes.WALK_TARGET, target);
     }
 
-    protected final boolean isPaused(final E mobIn)
+    protected final boolean isPaused(ServerLevel level, E mobIn)
     {
         if (!this.loadThrottle() || !RootTask.doLoadThrottling) return false;
-        return !runTick(mobIn);
+        return !shouldRunTick(level, mobIn);
     }
 
     @Override
@@ -191,11 +192,10 @@ public class RootTask<E extends LivingEntity> extends Behavior<E>
         boolean ret = true;
         check:
         {
-            this.entity = mobIn;
-
+            ServerLevel level = (ServerLevel) mobIn.level();
             // if we are a "simple" check, we only run every so often, as we
             // will run everything immediately.
-            if (this.simpleRun() && !this.runTick(mobIn))
+            if (this.simpleRun() && !this.shouldRunTick(level, mobIn))
             {
                 ret = false;
                 break check;
@@ -210,7 +210,7 @@ public class RootTask<E extends LivingEntity> extends Behavior<E>
             }
 
             // If we are paused, return early here.
-            if (this.isPaused(mobIn))
+            if (this.isPaused(level, mobIn))
             {
                 ret = this.tempCont;
                 break check;

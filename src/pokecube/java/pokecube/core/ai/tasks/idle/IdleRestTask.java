@@ -1,12 +1,11 @@
 package pokecube.core.ai.tasks.idle;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import pokecube.api.data.PokedexEntry;
@@ -19,11 +18,13 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
 import thut.api.maths.Vector3;
 
+import java.util.Map;
+
 public class IdleRestTask extends BaseIdleTask
 {
     private static final Map<MemoryModuleType<?>, MemoryStatus> _MEMS = Maps.newHashMap();
 
-    private static final Map<MemoryModuleType<?>, MemoryStatus> _getMems()
+    private static Map<MemoryModuleType<?>, MemoryStatus> _getMems()
     {
         if (_MEMS.isEmpty())
         {
@@ -37,7 +38,7 @@ public class IdleRestTask extends BaseIdleTask
         return _MEMS;
     }
 
-    private int restTimer = 0;
+    private int restTimer;
     private BlockPos restPos;
     PokedexEntry entry;
 
@@ -51,7 +52,7 @@ public class IdleRestTask extends BaseIdleTask
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {}
 
     /** Grounded things will path to surface points. */
@@ -73,8 +74,8 @@ public class IdleRestTask extends BaseIdleTask
 
     protected BlockPos getLocation()
     {
-        final boolean tameFactor = this.pokemob.getGeneralState(GeneralStates.TAMED)
-                && !this.pokemob.getGeneralState(GeneralStates.STAYING);
+        final boolean tameFactor = this.pokemob.getGeneralState(GeneralStates.TAMED) && !this.pokemob.getGeneralState(
+                GeneralStates.STAYING);
         if (this.entry != pokemob.getPokedexEntry()) this.entry = pokemob.getPokedexEntry();
         int distance = tameFactor ? PokecubeCore.getConfig().idleMaxPathTame : PokecubeCore.getConfig().idleMaxPathWild;
         boolean goHome = false;
@@ -87,8 +88,8 @@ public class IdleRestTask extends BaseIdleTask
             }
             distance = (int) Math.min(distance, this.pokemob.getHomeDistance());
             this.v.set(this.pokemob.getHome());
-            if (this.entity.blockPosition().distSqr(this.pokemob.getHome()) > this.pokemob.getHomeDistance()
-                    * this.pokemob.getHomeDistance() * 0.75 || pokemob.onGround())
+            if (this.entity.blockPosition().distSqr(this.pokemob.getHome())
+                    > this.pokemob.getHomeDistance() * this.pokemob.getHomeDistance() * 0.75 || pokemob.onGround())
                 goHome = true;
         }
         else
@@ -111,7 +112,7 @@ public class IdleRestTask extends BaseIdleTask
             diff = Math.max(2, diff);
             if (this.v1.distToSq(v) < diff) return null;
         }
-        BlockPos pos = this.v.getPos();
+        BlockPos pos;
         if (this.entry.swims() && this.entity.isInWater()) pos = this.doWaterIdle();
         else pos = this.doGroundIdle();
 
@@ -119,7 +120,7 @@ public class IdleRestTask extends BaseIdleTask
     }
 
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob owner)
     {
         restTimer--;
         if (restTimer > 0) return;
@@ -127,9 +128,9 @@ public class IdleRestTask extends BaseIdleTask
         if (sitting)
         {
             pokemob.setLogicState(LogicStates.SITTING, false);
-            reset();
-            restTimer = 20 + this.entity.getRandom().nextInt(IdleWalkTask.IDLETIMER)
-                    + this.entity.getRandom().nextInt(100);
+            reset(owner);
+            restTimer =
+                    20 + this.entity.getRandom().nextInt(IdleWalkTask.IDLETIMER) + this.entity.getRandom().nextInt(100);
             restTimer *= 10;
         }
         else
@@ -137,8 +138,8 @@ public class IdleRestTask extends BaseIdleTask
             if (restTimer < -400)
             {
                 restPos = null;
-                restTimer = 20 + this.entity.getRandom().nextInt(IdleWalkTask.IDLETIMER)
-                        + this.entity.getRandom().nextInt(100);
+                restTimer = 20 + this.entity.getRandom().nextInt(IdleWalkTask.IDLETIMER) + this.entity.getRandom()
+                        .nextInt(100);
             }
             if (restPos == null) restPos = getLocation();
             else
@@ -156,14 +157,15 @@ public class IdleRestTask extends BaseIdleTask
                 else
                 {
                     v.set(entity);
-                    BlockPos pos = v.getPos();
+                    BlockPos pos;
                     if (this.entry.swims() && this.entity.isInWater()) pos = this.doWaterIdle();
                     else pos = this.doGroundIdle();
                     if (pos != null)
                     {
                         pokemob.setLogicState(LogicStates.SITTING, true);
-                        restTimer = 20 + this.entity.getRandom().nextInt(IdleWalkTask.IDLETIMER)
-                                + this.entity.getRandom().nextInt(100);
+                        restTimer =
+                                20 + this.entity.getRandom().nextInt(IdleWalkTask.IDLETIMER) + this.entity.getRandom()
+                                        .nextInt(100);
                     }
                     restPos = null;
                 }
@@ -172,7 +174,7 @@ public class IdleRestTask extends BaseIdleTask
     }
 
     @Override
-    public boolean shouldRun()
+    public boolean shouldRun(Mob entityIn)
     {
         // Configs can set this to -1 to disable idle movement entirely.
         if (IdleWalkTask.IDLETIMER <= 0) return false;

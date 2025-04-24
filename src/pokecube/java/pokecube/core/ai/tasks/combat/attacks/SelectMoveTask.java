@@ -1,79 +1,90 @@
 package pokecube.core.ai.tasks.combat.attacks;
 
-import java.util.Random;
-
+import com.google.common.collect.Maps;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.combat.CombatTask;
 import pokecube.core.moves.MovesUtils;
 import thut.api.entity.ai.IAICombat;
 import thut.core.common.ThutCore;
 
-public class SelectMoveTask extends CombatTask implements IAICombat
-{
-    private int moveIndexCounter = 0;
+import java.util.Map;
+import java.util.Random;
 
-    public SelectMoveTask(final IPokemob mob)
+public class SelectMoveTask extends CombatTask
+{
+    private static final Map<MemoryModuleType<?>, MemoryStatus> MEMS = Maps.newHashMap();
+
+    static
     {
-        super(mob);
+        MEMS.put(MemoryModules.TIMER_SWAPMOVE.get(), MemoryStatus.REGISTERED);
+    }
+
+    public SelectMoveTask()
+    {
+        super(MEMS);
     }
 
     @Override
-    public void reset()
+    public void reset(Mob entityIn)
     {
-        this.target = null;
-        this.moveIndexCounter = 0;
+        entityIn.getBrain().eraseMemory(MemoryModules.TIMER_SWAPMOVE.get());
     }
 
     /** If in combat, select a move to use. */
     @Override
-    public void run()
+    public void run(ServerLevel level, Mob owner)
     {
+        var pokemob = PokemobCaps.getPokemobFor(owner);
         // Pokemobs hunting or guarding will always select whatever is strongest
-        if (this.pokemob.getCombatState(CombatStates.GUARDING) || this.pokemob.getCombatState(CombatStates.HUNTING)
-                || this.pokemob.getCombatState(CombatStates.MATEFIGHT))
+        if (pokemob.getCombatState(CombatStates.GUARDING) || pokemob.getCombatState(CombatStates.HUNTING)
+                || pokemob.getCombatState(CombatStates.MATEFIGHT))
         {
-            this.selectHighestDamage();
+            this.selectHighestDamage(pokemob);
             return;
         }
 
         // Tame pokemobs only run this if they are on guard, otherwise their
         // owner is selecting moves for them, staying pokemobs however behave
         // wild, so this doesn't apply to them.
-        if (this.pokemob.getGeneralState(GeneralStates.TAMED) && !this.pokemob.getGeneralState(GeneralStates.STAYING))
-            return;
+        if (pokemob.getGeneralState(GeneralStates.TAMED) && !pokemob.getGeneralState(GeneralStates.STAYING)) return;
 
         // Select a random move to use.
-        this.selectRandomMove();
+        this.selectRandomMove(pokemob);
     }
 
     /**
-     * Determine which move to use based on whatever should apply the most
-     * damage to the current target.
-     *
-     * @return if move swapped
+     * Determine which move to use based on whatever should apply the most damage to the current target.
      */
-    protected boolean selectHighestDamage()
+    protected void selectHighestDamage(IPokemob pokemob)
     {
-        int index = this.pokemob.getMoveIndex();
-        int max = 0;
-        final double dist = this.entity.distanceToSqr(this.target.getX(), this.target.getY(), this.target.getZ());
+        var entity = pokemob.getEntity();
+        int index = pokemob.getMoveIndex();
+        float max = 0;
+        var target = this.getAttackTarget(pokemob.getEntity());
+        final double dist = entity.distanceToSqr(target.getX(), target.getY(), target.getZ());
         for (int i = 0; i < 4; i++)
         {
             final String s = pokemob.getMove(i);
             // Cannot select a disabled move.
-            if (this.pokemob.getDisableTimer(i) > 0) continue;
+            if (pokemob.getDisableTimer(i) > 0) continue;
             if (s != null)
             {
                 final MoveEntry m = MovesUtils.getMove(s);
                 if (m == null) continue;
-                int temp = Tools.getPower(s, this.pokemob, this.target);
-                if (dist > 5 && m.isRanged(this.pokemob)) temp *= 1.5;
+                float temp = Tools.getPower(s, pokemob, target);
+                if (dist > 5 && m.isRanged(pokemob)) temp *= 1.5f;
                 if (temp > max)
                 {
                     index = i;
@@ -82,62 +93,57 @@ public class SelectMoveTask extends CombatTask implements IAICombat
             }
         }
         // Update index if it changed.
-        if (index != this.pokemob.getMoveIndex())
+        if (index != pokemob.getMoveIndex())
         {
-            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Move Swap to Highest Damage, "
-                    + this.pokemob.getEntity() + " g:" + this.pokemob.getCombatState(CombatStates.GUARDING) + " h:"
-                    + this.pokemob.getCombatState(CombatStates.HUNTING));
-            this.pokemob.setMoveIndex(index);
-            return true;
+            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo(
+                    "Move Swap to Highest Damage, " + pokemob.getEntity() + " g:" + pokemob.getCombatState(
+                            CombatStates.GUARDING) + " h:" + pokemob.getCombatState(CombatStates.HUNTING));
+            pokemob.setMoveIndex(index);
         }
-        return false;
     }
 
     /**
      * Pick a random move on a bit of a random timer.
-     *
-     * @return if move swapped
      */
-    protected boolean selectRandomMove()
+    protected void selectRandomMove(IPokemob pokemob)
     {
         final Random rand = ThutCore.newRandom();
-        if (this.moveIndexCounter++ > rand.nextInt(30))
+        int timer = pokemob.getEntity().getBrain().getMemory(MemoryModules.TIMER_SWAPMOVE.get()).orElse(0);
+        if (timer++ > rand.nextInt(30))
         {
             final int nb = rand.nextInt(5);
             int index = 0;
             for (int i = 0; i < 4; i++)
             {
                 index = (nb + i) % 4;
-                if (this.pokemob.getDisableTimer(index) > 0) continue;
-                if (this.pokemob.getMove(index) == null) continue;
+                if (pokemob.getDisableTimer(index) > 0) continue;
+                if (pokemob.getMove(index) == null) continue;
                 break;
             }
-            this.moveIndexCounter = 0;
-            if (index != this.pokemob.getMoveIndex())
+            timer = 0;
+            if (index != pokemob.getMoveIndex())
             {
-                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Move Swap to Random Move, "
-                        + this.pokemob.getEntity() + " g:" + this.pokemob.getCombatState(CombatStates.GUARDING) + " h:"
-                        + this.pokemob.getCombatState(CombatStates.HUNTING));
-                this.pokemob.setMoveIndex(index);
-                return true;
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo(
+                        "Move Swap to Random Move, " + pokemob.getEntity() + " g:" + pokemob.getCombatState(
+                                CombatStates.GUARDING) + " h:" + pokemob.getCombatState(CombatStates.HUNTING));
+                pokemob.setMoveIndex(index);
             }
         }
-        return false;
+        pokemob.getEntity().getBrain().setMemory(MemoryModules.TIMER_SWAPMOVE.get(), timer);
     }
 
     /**
      * Check if the mob is in combat.
-     *
-     * @return
      */
     @Override
-    public boolean shouldRun()
+    public boolean shouldRun(Mob entityIn)
     {
+        var pokemob = PokemobCaps.getPokemobFor(entityIn);
         // Should not swap moves if this is set.
-        if (this.pokemob.getCombatState(CombatStates.NOMOVESWAP)) return false;
+        if (pokemob.getCombatState(CombatStates.NOMOVESWAP)) return false;
         // Only swap moves during combat.
-        if (!this.pokemob.getCombatState(CombatStates.BATTLING)) return false;
-        this.checkAttackTarget();
-        return this.target != null;
+        if (!pokemob.getCombatState(CombatStates.BATTLING)) return false;
+        var target = this.getAttackTarget(entityIn);
+        return target != null;
     }
 }

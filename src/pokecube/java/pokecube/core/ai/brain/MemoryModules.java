@@ -1,11 +1,6 @@
 package pokecube.core.ai.brain;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Supplier;
-
 import com.mojang.serialization.Codec;
-
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.AgeableMob;
@@ -18,15 +13,34 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import thut.api.entity.ai.MemoryModuleTypes;
+import thut.api.maths.Vector3;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.function.Supplier;
 
 public class MemoryModules extends MemoryModuleTypes
 {
     // Used for combat
     public static final Supplier<MemoryModuleType<LivingEntity>> ATTACKTARGET;
+    public static final Supplier<MemoryModuleType<LivingEntity>> TARGETOWNER;
+    public static final Supplier<MemoryModuleType<LivingEntity>> TRACKEDTARGET;
+    public static final Supplier<MemoryModuleType<UUID>> ATTACKTARGETID;
     public static final Supplier<MemoryModuleType<LivingEntity>> HUNTTARGET;
     public static final Supplier<MemoryModuleType<PositionTracker>> MOVE_TARGET;
     public static final Supplier<MemoryModuleType<PositionTracker>> LEAP_TARGET;
     public static final Supplier<MemoryModuleType<LivingEntity>> HUNTED_BY;
+    public static final Supplier<MemoryModuleType<Vector3>> COMBAT_CENTRE;
+
+    public static final Supplier<MemoryModuleType<Integer>> TIMER_SWAPMOVE;
+    public static final Supplier<MemoryModuleType<Integer>> TIMER_SWAPTARGET;
+    public static final Supplier<MemoryModuleType<Integer>> TIMER_FORGETTARGET;
+
+    public static final Supplier<MemoryModuleType<Boolean>> ATTACKDELAY;
+    public static final Supplier<MemoryModuleType<Integer>> TIMER_LEAP;
+    public static final Supplier<MemoryModuleType<Integer>> TIMER_DODGE;
+    public static final Supplier<MemoryModuleType<Boolean>> CALLED_HELP;
 
     // Used for idle tasks
     public static final Supplier<MemoryModuleType<GlobalPos>> NEST_POS;
@@ -56,10 +70,28 @@ public class MemoryModules extends MemoryModuleTypes
     {
         // Used for combat
         ATTACKTARGET = PokecubeCore.MEMORIES.register("attack_target", () -> new MemoryModuleType<>(Optional.empty()));
+        TARGETOWNER = PokecubeCore.MEMORIES.register("attack_target_owner",
+                () -> new MemoryModuleType<>(Optional.empty()));
+        TRACKEDTARGET = PokecubeCore.MEMORIES.register("attack_target_tracked",
+                () -> new MemoryModuleType<>(Optional.empty()));
+        ATTACKTARGETID = PokecubeCore.MEMORIES.register("attack_target_id",
+                () -> new MemoryModuleType<>(Optional.empty()));
         HUNTTARGET = PokecubeCore.MEMORIES.register("hunt_target", () -> new MemoryModuleType<>(Optional.empty()));
         HUNTED_BY = PokecubeCore.MEMORIES.register("hunted_by", () -> new MemoryModuleType<>(Optional.empty()));
         MOVE_TARGET = PokecubeCore.MEMORIES.register("move_target", () -> new MemoryModuleType<>(Optional.empty()));
         LEAP_TARGET = PokecubeCore.MEMORIES.register("leap_target", () -> new MemoryModuleType<>(Optional.empty()));
+        COMBAT_CENTRE = PokecubeCore.MEMORIES.register("combat_centre", () -> new MemoryModuleType<>(Optional.empty()));
+        ATTACKDELAY = PokecubeCore.MEMORIES.register("no_attack_timer", () -> new MemoryModuleType<>(Optional.empty()));
+        TIMER_SWAPMOVE = PokecubeCore.MEMORIES.register("same_attack_timer",
+                () -> new MemoryModuleType<>(Optional.empty()));
+        TIMER_LEAP = PokecubeCore.MEMORIES.register("leap_timer", () -> new MemoryModuleType<>(Optional.empty()));
+        TIMER_DODGE = PokecubeCore.MEMORIES.register("dodge_timer", () -> new MemoryModuleType<>(Optional.empty()));
+        CALLED_HELP = PokecubeCore.MEMORIES.register("called_help", () -> new MemoryModuleType<>(Optional.empty()));
+
+        TIMER_SWAPTARGET = PokecubeCore.MEMORIES.register("swap_target_timer",
+                () -> new MemoryModuleType<>(Optional.empty()));
+        TIMER_FORGETTARGET = PokecubeCore.MEMORIES.register("forget_target_timer",
+                () -> new MemoryModuleType<>(Optional.empty()));
 
         // Used for idle tasks
         NEST_POS = PokecubeCore.MEMORIES.register("nest_pos",
