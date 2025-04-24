@@ -1,18 +1,8 @@
 package pokecube.core.entity.npc;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.core.Direction;
@@ -38,6 +28,15 @@ import pokecube.core.network.packets.PacketChoose;
 import pokecube.core.utils.PokecubeSerializer;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 public class NpcType
 {
@@ -103,11 +102,9 @@ public class NpcType
         };
         final IInteract heal = (player, hand, mob) -> {
             if (player.isShiftKeyDown()) return false;
-            if (player instanceof ServerPlayer) player
-                    .openMenu(new SimpleMenuProvider(
-                            (id, playerInventory, playerIn) -> new HealerContainer(id, playerInventory,
-                                    ContainerLevelAccess.create(mob.level, mob.blockPosition())),
-                            player.getDisplayName()));
+            if (player instanceof ServerPlayer) player.openMenu(new SimpleMenuProvider(
+                    (id, playerInventory, playerIn) -> new HealerContainer(id, playerInventory,
+                            ContainerLevelAccess.create(mob.level, mob.blockPosition())), player.getDisplayName()));
             return true;
         };
         // Initialize the interactions for these defaults.
@@ -127,8 +124,7 @@ public class NpcType
     {
         ItemListing[] old = getOldTrades(type, level);
         if (old != null && !replace) trades = NpcType.join(old, trades);
-        Int2ObjectMap<ItemListing[]> trade_map = TRADE_MAP.get(type);
-        if (trade_map == null) TRADE_MAP.put(type, trade_map = new Int2ObjectOpenHashMap<>());
+        Int2ObjectMap<ItemListing[]> trade_map = TRADE_MAP.computeIfAbsent(type, k -> new Int2ObjectOpenHashMap<>());
         trade_map.put(level, trades);
     }
 
@@ -142,8 +138,8 @@ public class NpcType
     public static ItemListing[] join(ItemListing[]... listings)
     {
         List<ItemListing> list = new ArrayList<>();
-        for (ItemListing[] listing : listings) for (ItemListing l : listing) list.add(l);
-        return list.toArray(new ItemListing[list.size()]);
+        for (ItemListing[] listing : listings) list.addAll(Arrays.asList(listing));
+        return list.toArray(new ItemListing[0]);
     }
 
     // TODO: Check if this still works
@@ -205,19 +201,17 @@ public class NpcType
     /**
      * @param maleTex the maleTex to set
      */
-    public NpcType setMaleTex(final ResourceLocation maleTex)
+    public void setMaleTex(final ResourceLocation maleTex)
     {
         this.maleTex = maleTex;
-        return this;
     }
 
     /**
      * @param femaleTex the femaleTex to set
      */
-    public NpcType setFemaleTex(final ResourceLocation femaleTex)
+    public void setFemaleTex(final ResourceLocation femaleTex)
     {
         this.femaleTex = femaleTex;
-        return this;
     }
 
     /**
@@ -227,6 +221,11 @@ public class NpcType
     {
         this.interaction = interaction;
         return this;
+    }
+
+    public String toString()
+    {
+        return "NPC Type [" + this.name + "]" + super.toString();
     }
 
     /** @return the name */
@@ -273,17 +272,16 @@ public class NpcType
     {
         if (VillagerTrades.TRADES.containsKey(this.getProfession())
                 && VillagerTrades.TRADES.get(this.getProfession()).get(level) != null
-                && VillagerTrades.TRADES.get(this.getProfession()).get(level).length > 0)
-            return true;
+                && VillagerTrades.TRADES.get(this.getProfession()).get(level).length > 0) return true;
 
         if (TRADE_MAP.get(name) == null) return false;
         /*
          * We have trades in the following cases:
-         * 
+         *
          * our TRADE_MAP tells us we have trades
-         * 
+         *
          * The vanilla TRADES map tells us we have trades
-         * 
+         *
          */
         return TRADE_MAP.get(name).get(level).length > 0;
     }

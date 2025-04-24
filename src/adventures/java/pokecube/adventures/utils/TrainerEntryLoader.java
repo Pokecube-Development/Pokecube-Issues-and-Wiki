@@ -1,16 +1,9 @@
 package pokecube.adventures.utils;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.item.ItemStack;
@@ -25,6 +18,12 @@ import pokecube.core.entity.npc.NpcType;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 import thut.wearables.EnumWearable;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class TrainerEntryLoader
 {
@@ -121,8 +120,7 @@ public class TrainerEntryLoader
         {
             final String name = entry.type;
             if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Loaded Type: " + name);
-            final TypeTrainer type = TypeTrainer.typeMap.containsKey(name) ? TypeTrainer.typeMap.get(name)
-                    : new TypeTrainer(name);
+            final TypeTrainer type = TypeTrainer.getTrainer(name, true);
             type.spawns.clear();
             type.pokemon.clear();
             type.wornItems.clear();
@@ -148,7 +146,8 @@ public class TrainerEntryLoader
                 type.spawns.put(matcher, rule.rate);
             });
             type.hasBelt = entry.belt;
-            if (entry.gender != null) type.genders = entry.gender.equalsIgnoreCase("male") ? male
+            if (entry.gender != null) type.genders = entry.gender.equalsIgnoreCase("male")
+                    ? male
                     : entry.gender.equalsIgnoreCase("female") ? female : male + female;
             if (entry.held != null)
             {

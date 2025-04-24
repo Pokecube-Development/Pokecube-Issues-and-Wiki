@@ -183,6 +183,7 @@ public class TrainerSpawnHandler
         if (ttype == null) return null;
         final int level = SpawnHandler.getSpawnLevel(new SpawnContext(w, Database.missingno, v));
         final TrainerNpc trainer = new TrainerNpc(EntityTypes.getTrainer(), w);
+        v.moveEntity(trainer);
         trainer.setNpcType(ttype);
         trainer.getAIStates().setAIState(AIState.MATES, true);
         trainer.getAIStates().setAIState(AIState.TRADES_ITEMS, true);
@@ -267,8 +268,8 @@ public class TrainerSpawnHandler
             // Not valid spawning spot, so deny the spawn here.
             if (!fluid.isEmpty() && fluid.getType() != Fluids.WATER) return;
 
-            if (t.getPokemobs().countPokemon() > 0 && SpawnHandler.checkNoSpawnerInArea(w, (int) t.getX(), (int) t.getY(),
-                    (int) t.getZ()))
+            if (t.getPokemobs().countPokemon() > 0 && SpawnHandler.checkNoSpawnerInArea(w, (int) t.getX(),
+                    (int) t.getY(), (int) t.getZ()))
             {
                 w.addFreshEntity(t);
                 TrainerSpawnHandler.randomizeTrainerTeam(t, cap);

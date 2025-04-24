@@ -145,7 +145,7 @@ public class TypeTrainer extends NpcType
         TypeTrainer.registerTypeMapper((mob, forSpawn) -> {
             if (!forSpawn)
             {
-                if (mob instanceof TrainerBase) return TypeTrainer.merchant;
+                if (mob instanceof NpcMob npc) return TypeTrainer.getTrainer(npc.getNpcType());
                 if (Config.instance.shouldBeCustomTrainer(mob)) return TypeTrainer.merchant;
                 return null;
             }
@@ -156,7 +156,7 @@ public class TypeTrainer extends NpcType
                 if (type != null) return type;
                 return TypeTrainer.merchant;
             }
-            else if (mob instanceof NpcMob) return TypeTrainer.merchant;
+            else if (mob instanceof NpcMob npc) return TypeTrainer.getTrainer(npc.getNpcType());
             else if (Config.instance.npcsAreTrainers && mob instanceof Villager villager)
             {
                 final String type = villager.getVillagerData().getProfession().toString();
@@ -266,6 +266,12 @@ public class TypeTrainer extends NpcType
             }
             return list;
         });
+    }
+
+    private static TypeTrainer getTrainer(NpcType npcType)
+    {
+        if (npcType == null) return merchant;
+        return getTrainer(npcType.getName(), true);
     }
 
     public static class TrainerTrade extends MerchantOffer implements ItemListing
@@ -419,6 +425,8 @@ public class TypeTrainer extends NpcType
                 if (t != null && t.getName().equalsIgnoreCase(name)) return t;
             if (create && !name.isEmpty())
             {
+                NpcType existing = NpcType.byType(name);
+                if (existing.getName().equalsIgnoreCase(name)) return new TypeTrainer(existing);
                 return new TypeTrainer(name);
             }
             for (final TypeTrainer t : TypeTrainer.typeMap.values()) if (t != null) return t;
@@ -517,7 +525,17 @@ public class TypeTrainer extends NpcType
     // Temporary array used to load in the allowed mobs.
     public String[] pokelist;
 
-    public TypeTrainer(final String name)
+    private TypeTrainer(NpcType wrapped)
+    {
+        super(wrapped.getName());
+        TypeTrainer.addTrainer(wrapped.getName(), this);
+        this.setFemaleTex(wrapped.getFemaleTex());
+        this.setMaleTex(wrapped.getMaleTex());
+        this.setProfession(wrapped.getProfession());
+        this.setInteraction(wrapped.getInteraction());
+    }
+
+    private TypeTrainer(String name)
     {
         super(name);
         TypeTrainer.addTrainer(name, this);

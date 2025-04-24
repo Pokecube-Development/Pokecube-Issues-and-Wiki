@@ -584,7 +584,6 @@ public class LogicMiscUpdate extends LogicBase
             walkspeed = entity.walkAnimation.speed();
             walkspeed *= walkspeed;
         }
-        System.out.println(walkspeed);
         float stationary = 5e-4f;
         boolean moving = walkspeed > stationary;
         Pose pose = this.entity.getPose();
