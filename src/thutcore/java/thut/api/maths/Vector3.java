@@ -502,6 +502,11 @@ public class Vector3
         return world.getBiome(this.getPos());
     }
 
+    public Holder<Biome> getBiomeHolder(final ChunkAccess chunk)
+    {
+        return chunk.getNoiseBiome(this.intX(), this.intY(),this.intZ());
+    }
+
     public Biome getBiome(final LevelAccessor world)
     {
         return this.getBiomeHolder(world).value();
@@ -545,6 +550,20 @@ public class Vector3
     public int getMaxY(final LevelAccessor world, final int x, final int z)
     {
         final ChunkAccess chunk = world.getChunk(this.getPos());
+        return getMaxY(chunk, x, z);
+    }
+
+    public int getMaxY(final ChunkAccess chunk, final int x, final int z)
+    {
+        final int y1 = chunk.getHeight(Types.OCEAN_FLOOR, x & 15, z & 15);
+        final int y2 = chunk.getHeight(Types.MOTION_BLOCKING_NO_LEAVES, x & 15, z & 15);
+        return Math.min(y1, y2);
+    }
+
+    public int getMaxY(final ChunkAccess chunk)
+    {
+        int x = this.intX();
+        int z = this.intZ();
         final int y1 = chunk.getHeight(Types.OCEAN_FLOOR, x & 15, z & 15);
         final int y2 = chunk.getHeight(Types.MOTION_BLOCKING_NO_LEAVES, x & 15, z & 15);
         return Math.min(y1, y2);

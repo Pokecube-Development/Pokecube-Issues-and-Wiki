@@ -1,23 +1,10 @@
 package pokecube.core.eventhandlers;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.function.Supplier;
-
-import javax.annotation.Nullable;
-
-import org.nfunk.jep.JEP;
-
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.brigadier.StringReader;
-
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
@@ -50,6 +37,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.event.EventHooks;
+import org.nfunk.jep.JEP;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.SpawnData;
@@ -82,6 +70,15 @@ import thut.api.maths.Vector4;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
+
+import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.function.Supplier;
 
 /** @author Manchou Heavily modified by Thutmose */
 public final class SpawnHandler
@@ -197,8 +194,7 @@ public final class SpawnHandler
             super(world);
         }
 
-        private BlockState _applyBreak(ExplosionCustom boom, BlockPos pos, BlockState state, float power,
-                boolean destroy, ServerLevel level)
+        private BlockState _applyBreak(BlockPos pos, BlockState state, float power, boolean destroy, ServerLevel level)
         {
             if (!destroy) return state;
             BlockState to = Blocks.AIR.defaultBlockState();
@@ -223,7 +219,7 @@ public final class SpawnHandler
         public BlockState applyBreak(ExplosionCustom boom, BlockPos pos, BlockState state, float power,
                 boolean applyBreak, ServerLevel level)
         {
-            BlockState to = _applyBreak(boom, pos, state, power, applyBreak, level);
+            BlockState to = _applyBreak(pos, state, power, applyBreak, level);
             if (applyBreak)
             {
                 final MeteorEvent event = new MeteorEvent(state, to, pos, power, boom);
@@ -273,14 +269,12 @@ public final class SpawnHandler
         return true;
     }
 
-    public static boolean addForbiddenSpawningCoord(final Level dim, final ForbidRegion region,
-            final ForbidReason reason)
+    public static void addForbiddenSpawningCoord(final Level dim, final ForbidRegion region, final ForbidReason reason)
     {
         Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.computeIfAbsent(dim.dimension(),
                 k -> Maps.newHashMap());
-        if (entries.containsKey(region.getPos())) return false;
+        if (entries.containsKey(region.getPos())) return;
         entries.put(region.getPos(), new ForbiddenEntry(reason, region));
-        return true;
     }
 
     public static boolean canPokemonSpawnHere(SpawnContext context)
@@ -594,10 +588,10 @@ public final class SpawnHandler
         }
     }
 
-    public static void refreshTerrain(final Vector3 location, final Level world, final boolean precise)
+    public static void refreshTerrain(final Vector3 location, final Level level, final boolean precise)
     {
         if (!PokecubeCore.getConfig().autoDetectSubbiomes) return;
-        final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
+        final TerrainSegment t = TerrainManager.getInstance().getTerrian(level, location);
         final Vector3 temp1 = new Vector3();
         final int x0 = t.chunkX * 16, y0 = t.chunkY * 16, z0 = t.chunkZ * 16;
         final int dx = TerrainSegment.GRIDSIZE / 2;
@@ -614,8 +608,8 @@ public final class SpawnHandler
             if (SpawnHandler.biomeToRefresh.apply(biome))
             {
                 temp1.set(i, j, k);
-                biome = t.adjustedCaveBiome(world, temp1);
-                if (biome.isNone()) biome = t.adjustedNonCaveBiome(world, temp1);
+                biome = t.adjustedCaveBiome(level, temp1);
+                if (biome.isNone()) biome = t.adjustedNonCaveBiome(level, temp1);
                 t.setBiome(i, j, k, biome);
             }
         }
@@ -627,8 +621,8 @@ public final class SpawnHandler
                     BiomeType biome = t.getBiome(i, j, k);
                     if (SpawnHandler.biomeToRefresh.apply(biome))
                     {
-                        biome = t.adjustedCaveBiome(world, temp1);
-                        if (biome.isNone()) biome = t.adjustedNonCaveBiome(world, temp1);
+                        biome = t.adjustedCaveBiome(level, temp1);
+                        if (biome.isNone()) biome = t.adjustedNonCaveBiome(level, temp1);
                         t.setBiome(i, j, k, biome);
                     }
                 }
@@ -803,7 +797,6 @@ public final class SpawnHandler
                 entity.moveTo(x, y, z, level.random.nextFloat() * 360.0F, 0.0F);
                 if (entity.checkSpawnRules(level, MobSpawnType.NATURAL))
                 {
-                    // TODO: Check this
                     if ((entity = SpawnHandler.creatureSpecificInit(entity, level, matcher)) != null)
                     {
                         IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
@@ -823,7 +816,7 @@ public final class SpawnHandler
                                 }
                                 catch (Exception e)
                                 {
-                                    e.printStackTrace();
+                                    PokecubeAPI.LOGGER.error("Error on parsing spawn args {}", spawnArgs, e);
                                 }
                             }
                             else
@@ -886,7 +879,7 @@ public final class SpawnHandler
         }
         catch (final Exception e)
         {
-            e.printStackTrace();
+            PokecubeAPI.LOGGER.error("Error on mob spawn tick", e);
         }
     }
 }

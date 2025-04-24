@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
@@ -39,6 +40,7 @@ public class TerrainSegment
         public BiomeType getSubBiome(final LevelAccessor world, final Vector3 v, final TerrainSegment segment,
                 final boolean caveAdjusted)
         {
+            var chunk = segment.chunk;
             if (caveAdjusted)
             {
                 // Do not return this for cave worlds
@@ -60,7 +62,7 @@ public class TerrainSegment
                             temp1.set(i, j, k);
                             if (segment.isInTerrainSegment(temp1.x, temp1.y, temp1.z))
                             {
-                                final double y = temp1.getMaxY(world);
+                                final double y = temp1.getMaxY(chunk);
                                 sky = y <= temp1.y;
                             }
                             if (sky) break outer;
@@ -76,7 +78,7 @@ public class TerrainSegment
             {
                 BiomeType biome = BiomeType.NONE;
 
-                final Holder<Biome> b = v.getBiomeHolder(world);
+                final Holder<Biome> b = v.getBiomeHolder(chunk);
 
                 // Do not define lakes on watery biomes.
                 final boolean notLake = this.isWatery(b);
@@ -84,7 +86,7 @@ public class TerrainSegment
                 {
                     // If it isn't a water biome, define it as a lake if more
                     // than a certain amount of water.
-                    final int water = TerrainSegment.count(world, Blocks.WATER, v, 3);
+                    final int water = TerrainSegment.count(chunk, Blocks.WATER, v, 3);
                     if (water > 4)
                     {
                         biome = BiomeType.LAKE;
@@ -158,7 +160,7 @@ public class TerrainSegment
     public static Predicate<BiomeType> saveChecker = BiomeType::shouldSave;
     //@formatter:on
 
-    public static int count(final LevelAccessor world, final Block b, final Vector3 v, final int range)
+    public static int count(final BlockGetter getter, final Block b, final Vector3 v, final int range)
     {
         final Vector3 temp = new Vector3();
         temp.set(v);
@@ -177,7 +179,7 @@ public class TerrainSegment
                     if (bool)
                     {
                         temp.set(v).addTo(i, j, k);
-                        final BlockState state = world.getBlockState(temp.getPos());
+                        final BlockState state = getter.getBlockState(temp.getPos());
                         if (state.getBlock() == b || b == null && state.getBlock() == null) ret++;
                     }
                 }
