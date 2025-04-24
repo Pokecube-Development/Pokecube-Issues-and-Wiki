@@ -330,7 +330,6 @@ public interface IHasMoves extends IHasStats
     /**
      * Called to notify the pokemob that a new target has been set.
      *
-     * @param entity
      * @param force  - if true will clear tracked target for ai.
      */
     void onSetTarget(LivingEntity entity, boolean force);

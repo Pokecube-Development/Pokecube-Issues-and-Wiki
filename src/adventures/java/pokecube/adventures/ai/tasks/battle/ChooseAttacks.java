@@ -48,20 +48,21 @@ public class ChooseAttacks extends BaseBattleTask
 
     @Override
     protected void tick(final ServerLevel worldIn, final LivingEntity owner, final long gameTime)
-    {
-        var target = owner.getBrain().getMemory(MemoryTypes.BATTLETARGET.get()).get();
-        // If trainer has a living, real mob out, tell it to do stuff.
-        // Check if pokemob has a valid Pokemob as a target.
-        if (PokemobCaps.getPokemobFor(target) != null)
-            // using best move for target.
-            this.considerSwapMove(owner);
-            // Otherwise just pick whatever does most damage
-        else this.setMostDamagingMove(owner);
+    {   // If trainer has a living, real mob out, tell it to do stuff.
+        owner.getBrain().getMemory(MemoryTypes.BATTLETARGET.get()).ifPresent(target -> {
+            // Check if pokemob has a valid Pokemob as a target.
+            if (PokemobCaps.getPokemobFor(target) != null)
+                // using best move for target.
+                this.considerSwapMove(owner);
+                // Otherwise just pick whatever does most damage
+            else this.setMostDamagingMove(owner);
+        });
     }
 
     @Override
     protected boolean canStillUse(final ServerLevel worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
+        if (!super.checkExtraStartConditions(worldIn, entityIn)) return false;
         return this.getTrainer(entityIn).getOutMob() != null;
     }
 

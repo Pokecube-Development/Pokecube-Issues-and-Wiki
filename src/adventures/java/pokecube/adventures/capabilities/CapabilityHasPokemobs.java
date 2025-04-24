@@ -366,7 +366,8 @@ public class CapabilityHasPokemobs
         @Override
         public IPokemob getOutMob()
         {
-            if (this.outMob != null && this.outMob.getEntity().getHealth() <= 0) this.setOutMob(null);
+            if (this.outMob != null &&(this.outMob.getEntity().getHealth() <= 0 || !this.outMob.getEntity()
+                    .isAddedToLevel())) this.setOutMob(null);
             return this.outMob;
         }
 

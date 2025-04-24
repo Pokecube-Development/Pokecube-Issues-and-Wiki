@@ -48,7 +48,7 @@ public class ManageOutMob extends BaseBattleTask
                         found = true;
                     }
                 }
-            if(!found) trainer.setOutMob(null);
+            if (!found) trainer.setOutMob(null);
             return;
         }
         if (this.getAIStates(living).getAIState(AIState.THROWING)) return;
@@ -135,8 +135,8 @@ public class ManageOutMob extends BaseBattleTask
     {
         final boolean hasMob = this.getTrainer(owner).getOutMob() != null;
 
-        var target = owner.getBrain().getMemory(MemoryTypes.BATTLETARGET.get()).get();
-        BehaviorUtils.lookAtEntity(owner, target);
+        owner.getBrain().getMemory(MemoryTypes.BATTLETARGET.get())
+                .ifPresent(target -> BehaviorUtils.lookAtEntity(owner, target));
 
         if (hasMob) this.considerSwapPokemob(owner);
         else this.doAggression(owner, worldIn);

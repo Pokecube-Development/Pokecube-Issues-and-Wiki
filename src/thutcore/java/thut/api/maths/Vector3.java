@@ -2,8 +2,13 @@ package thut.api.maths;
 
 import com.mojang.authlib.GameProfile;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.core.*;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Direction8;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.QuartPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket;
@@ -13,8 +18,13 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
-import net.minecraft.world.level.*;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.ClipContext.Fluid;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -68,7 +78,6 @@ public class Vector3
 
     /**
      * determines whether the source can see out as far as range in the given direction.
-     *
      */
     public static Vector3 getNextSurfacePoint(final BlockGetter world, final Vector3 source, Vector3 direction,
             final double range)
@@ -124,7 +133,6 @@ public class Vector3
 
     /**
      * determines whether the source can see out as far as range in the givenhasLineOfSight direction.
-     *
      */
     public static boolean isVisibleRange(final BlockGetter world, final Vector3 source, Vector3 direction,
             final double range)
@@ -192,7 +200,6 @@ public class Vector3
 
     /**
      * This takes degrees then converts to radians, as it seems most people like to work with degrees.
-     *
      */
     public Vector3(final double pitch, final double yaw)
     {
@@ -260,7 +267,6 @@ public class Vector3
 
     /**
      * Adds vectorA to vectorB
-     *
      */
     public Vector3 add(final Vector3 vectorB)
     {
@@ -279,7 +285,6 @@ public class Vector3
 
     /**
      * Adds vectorA to vectorB
-     *
      */
     public Vector3 addTo(final Vector3 b)
     {
@@ -414,7 +419,6 @@ public class Vector3
 
     /**
      * Returns the dot (scalar) product of the two vectors
-     *
      */
     public double dot(final Vector3 vector2)
     {
@@ -661,7 +665,6 @@ public class Vector3
 
     /**
      * Returns the magnitude of vector
-     *
      */
     public double mag()
     {
@@ -670,7 +673,6 @@ public class Vector3
 
     /**
      * Returns the magnitude of vector squared
-     *
      */
     public double magSq()
     {
@@ -729,7 +731,6 @@ public class Vector3
 
     /**
      * Rotates the given vector by the given amounts of pitch and yaw.
-     *
      */
     public Vector3 rotateAboutAngles(final double pitch, final double yaw, final Vector3 temp, final Vector3 temp1)
     {
@@ -751,25 +752,25 @@ public class Vector3
     {
         if (line.magSq() != 1) line = line.normalize();
 
-        if (ret == null) ret = new Vector3();
         final double[][] mat = Vector3.rotBox;
+        float a = (float) angle;
 
-        mat[0][0] = line.get(0) * line.get(0) * (1 - Mth.cos((float) angle)) + Mth.cos((float) angle);
-        mat[0][1] = line.get(0) * line.get(1) * (1 - Mth.cos((float) angle)) - line.get(2) * Mth.sin((float) angle);
-        mat[0][2] = line.get(0) * line.get(2) * (1 - Mth.cos((float) angle)) + line.get(1) * Mth.sin((float) angle);
+        mat[0][0] = line.x * line.x * (1 - Mth.cos(a)) + Mth.cos(a);
+        mat[0][1] = line.x * line.y * (1 - Mth.cos(a)) - line.z * Mth.sin(a);
+        mat[0][2] = line.x * line.z * (1 - Mth.cos(a)) + line.y * Mth.sin(a);
 
-        mat[1][0] = line.get(1) * line.get(0) * (1 - Mth.cos((float) angle)) + line.get(2) * Mth.sin((float) angle);
-        mat[1][1] = line.get(1) * line.get(1) * (1 - Mth.cos((float) angle)) + Mth.cos((float) angle);
-        mat[1][2] = line.get(1) * line.get(2) * (1 - Mth.cos((float) angle)) - line.get(0) * Mth.sin((float) angle);
+        mat[1][0] = line.y * line.x * (1 - Mth.cos(a)) + line.z * Mth.sin(a);
+        mat[1][1] = line.y * line.y * (1 - Mth.cos(a)) + Mth.cos(a);
+        mat[1][2] = line.y * line.z * (1 - Mth.cos(a)) - line.x * Mth.sin(a);
 
-        mat[2][0] = line.get(2) * line.get(0) * (1 - Mth.cos((float) angle)) - line.get(1) * Mth.sin((float) angle);
-        mat[2][1] = line.get(2) * line.get(1) * (1 - Mth.cos((float) angle)) + line.get(0) * Mth.sin((float) angle);
-        mat[2][2] = line.get(2) * line.get(2) * (1 - Mth.cos((float) angle)) + Mth.cos((float) angle);
+        mat[2][0] = line.z * line.x * (1 - Mth.cos(a)) - line.y * Mth.sin(a);
+        mat[2][1] = line.z * line.y * (1 - Mth.cos(a)) + line.x * Mth.sin(a);
+        mat[2][2] = line.z * line.z * (1 - Mth.cos(a)) + Mth.cos(a);
 
-        ret.x = Math.fma(mat[0][0], this.x, Math.fma(mat[0][1], this.y, mat[0][2] * this.z));
-        ret.y = Math.fma(mat[1][0], this.x, Math.fma(mat[1][1], this.y, mat[1][2] * this.z));
-        ret.z = Math.fma(mat[2][0], this.x, Math.fma(mat[2][1], this.y, mat[2][2] * this.z));
-
+        double x = Math.fma(mat[0][0], this.x, Math.fma(mat[0][1], this.y, mat[0][2] * this.z));
+        double y = Math.fma(mat[1][0], this.x, Math.fma(mat[1][1], this.y, mat[1][2] * this.z));
+        double z = Math.fma(mat[2][0], this.x, Math.fma(mat[2][1], this.y, mat[2][2] * this.z));
+        ret.set(x, y, z);
     }
 
     public boolean sameBlock(final Vector3 vec)
@@ -779,7 +780,6 @@ public class Vector3
 
     /**
      * Multiplies the vector by the constant.
-     *
      */
     public Vector3 scalarMult(final double constant)
     {
@@ -954,7 +954,8 @@ public class Vector3
         if (old == biome) return;
 
         ResourceKey<Biome> key = ResourceKey.create(Registries.BIOME, RegHelper.getKey(biome));
-        biomes.set(qx & 3, l & 3, qz & 3, level.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(key));
+        biomes.set(qx & 3, l & 3, qz & 3,
+                level.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(key));
 
         if (chunk instanceof LevelChunk lchunk)
         {
@@ -987,7 +988,6 @@ public class Vector3
 
     /**
      * Subtracts vectorB from vectorA
-     *
      */
     public Vector3 subtract(final Vector3 vectorB)
     {
@@ -998,7 +998,6 @@ public class Vector3
 
     /**
      * Subtracts vectorB from vectorA
-     *
      */
     public Vector3 subtractFrom(final Vector3 b)
     {

@@ -35,8 +35,7 @@ public abstract class BaseBattleTask extends BaseTask
     protected boolean checkExtraStartConditions(final ServerLevel worldIn, final LivingEntity owner)
     {
         final Brain<?> brain = owner.getBrain();
-        if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET.get())) return false;
-        return true;
+        return brain.hasMemoryValue(MemoryTypes.BATTLETARGET.get());
     }
 
 }

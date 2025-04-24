@@ -158,7 +158,7 @@ public class TrainerEventHandler
         if (!(event.getEntity() instanceof LivingEntity living)) return;
         if (living instanceof Player player)
         {
-            if (player.level().isClientSide()) PlayerPokemobs.register(player);
+            PlayerPokemobs.register(player);
             return;
         }
 
@@ -508,7 +508,6 @@ public class TrainerEventHandler
      */
     public static void onRecalledPokemob(final RecallEvent.Pre evt)
     {
-        if (evt.recalled.isPlayerOwned()) return;
         final IPokemob recalled = evt.recalled;
         final LivingEntity owner = recalled.getOwner();
         if (owner == null) return;
@@ -516,6 +515,7 @@ public class TrainerEventHandler
         if (pokemobHolder != null)
         {
             if (recalled == pokemobHolder.getOutMob()) pokemobHolder.setOutMob(null);
+            if (evt.recalled.isPlayerOwned()) return;
 
             // If the npc was battling, we need to ensure that the target
             // pokemob has a cooldown set, otherwise it might auto-switch to us

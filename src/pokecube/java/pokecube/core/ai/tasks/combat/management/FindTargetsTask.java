@@ -1,5 +1,6 @@
 package pokecube.core.ai.tasks.combat.management;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -30,7 +31,6 @@ import thut.api.ThutCaps;
 import thut.api.attachments.IOwnable;
 import thut.api.attachments.Ownable;
 import thut.api.entity.ai.IAICombat;
-import thut.api.entity.ai.IAIRunnable;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
@@ -106,7 +106,25 @@ public class FindTargetsTask extends PokemobBehaviour implements IAICombat, ITar
         LivingEntity target = BrainUtils.getAttackTarget(living);
         if (target == null) return;
         LivingEntity diverted = divertTarget(living, target);
-        if (diverted != target) BrainUtils.setAttackTarget(living, diverted);
+        if (diverted != target)
+        {
+            Battle battle = Battle.getBattle(living);
+            var mob = PokemobCaps.getPokemobFor(living);
+            BrainUtils.setAttackTarget(living, diverted);
+            if (battle != null && mob != null)
+            {
+                List<LivingEntity> mobs = Lists.newArrayList(battle.getEnemies(living));
+                for (int i = 0; i < mobs.size(); i++)
+                {
+                    var enemy = mobs.get(i);
+                    if (enemy != diverted) continue;
+                    mob.getMoveStats().enemyIndex = i;
+                    mob.updateBattleInfo();
+                    mob.onSetTarget(diverted, true);
+                    break;
+                }
+            }
+        }
     }
 
     private static void onLivingSetTarget(final LivingChangeTargetEvent event)

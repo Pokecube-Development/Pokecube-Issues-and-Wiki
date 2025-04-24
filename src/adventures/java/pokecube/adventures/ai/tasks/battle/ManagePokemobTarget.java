@@ -25,10 +25,18 @@ public class ManagePokemobTarget extends BaseBattleTask
     @Override
     protected void tick(final ServerLevel worldIn, final LivingEntity owner, final long gameTime)
     {
+        // Only run this every 10 ticks
+        if (gameTime % 10 != 0) return;
+
         var brain = owner.getBrain();
         var target = brain.getMemory(MemoryTypes.BATTLETARGET.get()).get();
         final IHasPokemobs other = TrainerCaps.getHasPokemobs(target);
-        if (other != null) other.onSetTarget(owner, true);
+        if (other != null)
+        {
+            other.onSetTarget(owner, true);
+            var mob = other.getOutMob();
+            if (mob != null && mob.getEntity().isAddedToLevel()) target = mob.getEntity();
+        }
 
         final IPokemob mob = this.getTrainer(owner).getOutMob();
 
@@ -38,16 +46,13 @@ public class ManagePokemobTarget extends BaseBattleTask
         Battle ourBattle = Battle.getBattle(owner);
         Battle battle = mob.getBattle();
         // Ensure we are still in battle with the target.
-        if (ourBattle == null)
-        {
-            if (Battle.createOrAddToBattle(owner, target)) ourBattle = Battle.getBattle(owner);
-        }
+        if (ourBattle == null) Battle.createOrAddToBattle(owner, target);
 
         if (battle != null)
         {
             LivingEntity enemy = mob.getMoveStats().targetEnemy;
             enemy_check:
-            if (enemy == target)
+            if (enemy != target)
             {
                 List<LivingEntity> mobs = Lists.newArrayList(battle.getEnemies(owner));
                 // Ensure that the mobs are valid targets.
@@ -55,13 +60,14 @@ public class ManagePokemobTarget extends BaseBattleTask
                 for (int i = 0; i < mobs.size(); i++)
                 {
                     enemy = mobs.get(i);
-                    if (enemy == target) continue;
+                    if (enemy != target) continue;
                     mob.getMoveStats().enemyIndex = i;
                     mob.updateBattleInfo();
                     break enemy_check;
                 }
-                mob.onSetTarget(target, true);
             }
+            BrainUtils.setAttackTarget(mob.getEntity(), target);
+            mob.onSetTarget(target, true);
             if (enemy != null)
             {
                 var enemyTarget = BrainUtils.getAttackTarget(enemy);

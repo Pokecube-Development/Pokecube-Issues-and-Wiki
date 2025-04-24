@@ -78,10 +78,12 @@ public class DodgeTask extends CombatTask
         /*
          * Compute a random perpendicular direction.
          */
-        Vector3 loc = new Vector3().set(entity);
-        Vector3 target = new Vector3().set(pos.currentPosition());
+        Vector3 loc = new Vector3(entity);
+        Vector3 target = new Vector3(pos.currentPosition());
+        Vector3 diff = target.subtract(loc);
         Vector3 temp = new Vector3();
-        target.subtractFrom(loc).rotateAboutLine(Vector3.secondAxis, Math.PI / 2, temp);
+        diff.rotateAboutLine(Vector3.secondAxis, Math.PI / 2, temp);
+        temp.y = 0;
         if (Math.random() > 0.5) temp.scalarMultBy(-1);
         Vector3 perp = temp.normalize();
         if (perp.isNaN())
