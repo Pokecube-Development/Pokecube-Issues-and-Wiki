@@ -16,6 +16,7 @@ import thut.api.Tracker;
 import thut.api.Tracker.UpdateHandler;
 import thut.core.common.network.GeneralUpdate;
 import thut.core.common.network.Packet;
+import thut.core.common.network.SyncAttachments;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -48,6 +49,7 @@ public class PacketUpdateAI extends Packet
     static
     {
         ALLOWED_SYNC.add("pokecube:storage_ai");
+        SyncAttachments.SYNCED.add(ResourceLocation.parse("pokecube:storage_ai"));
     }
 
     public static MegaModeHandler MODE_HANDLER = new MegaModeHandler();
@@ -102,7 +104,7 @@ public class PacketUpdateAI extends Packet
         {
             for (String key : data.getAllKeys())
             {
-                if (ALLOWED_SYNC.contains(key)) continue;
+                if (!ALLOWED_SYNC.contains(key)) continue;
                 try
                 {
                     ResourceLocation loc = ResourceLocation.parse(key);
@@ -111,6 +113,8 @@ public class PacketUpdateAI extends Packet
                     {
                         var _data = e.getData(type);
                         if (_data instanceof INBTSerializable ser) ser.deserializeNBT(reg, data.get(key));
+                        // Sync change back to client.
+                        SyncAttachments.syncChange(type, e);
                     }
                 }
                 catch (Exception ex)

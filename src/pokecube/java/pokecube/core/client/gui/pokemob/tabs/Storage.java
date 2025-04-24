@@ -122,7 +122,7 @@ public class Storage extends Tab
     @Override
     public boolean keyPressed(int code, int unk1, int unk2)
     {
-        if (code == GLFW.GLFW_KEY_ENTER)
+        if (code == GLFW.GLFW_KEY_ENTER || code == GLFW.GLFW_KEY_KP_ENTER)
         {
             this.sendUpdate();
             return true;
@@ -137,7 +137,7 @@ public class Storage extends Tab
     public boolean charTyped(final char typedChar, final int keyCode)
     {
         final boolean ret = super.charTyped(typedChar, keyCode);
-        if (keyCode == GLFW.GLFW_KEY_ENTER)
+        if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)
         {
             this.sendUpdate();
             return true;
@@ -238,7 +238,7 @@ public class Storage extends Tab
             if (_pos != null)
             {
                 var pos = _pos.pos();
-                newLink = new BlockPos((int) (pos.getX() - 0.5), (int) pos.getY(), (int) (pos.getZ() - 0.5));
+                newLink = new BlockPos((int) (pos.getX() - 0.5), pos.getY(), (int) (pos.getZ() - 0.5));
             }
         }
         for (final EditBox text : this.textBoxes)
@@ -275,7 +275,7 @@ public class Storage extends Tab
         this.ai.storageFace = storageFace;
         this.ai.emptyFace = emptyFace;
         this.ai.emptyInventory = emptyInventory;
-        PacketUpdateAI.sendUpdatePacket(this.pokemob, this.ai, "pokecube:storage_aias");
+        PacketUpdateAI.sendUpdatePacket(this.pokemob, this.ai, "pokecube:storage_ai");
 
         // Send status message thingy
         this.parent.getMinecraft().player.displayClientMessage(TComponent.translatable("pokemob.gui.updatestorage"),
