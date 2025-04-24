@@ -112,7 +112,7 @@ public class LogicMiscUpdate extends LogicBase
 
     private int cacheTimer = 0;
 
-    BlockPos lastCache = null;
+    BlockPos lastCache;
 
     Vector3 v = new Vector3();
 
@@ -446,7 +446,7 @@ public class LogicMiscUpdate extends LogicBase
             if (entry1.particleData.length > 2)
             {
                 final String[] args = entry1.particleData[2].split(",");
-                double dx = 0, dy = 0, dz = 0;
+                double dx = 0, dy, dz = 0;
                 if (args.length == 1) dy = Double.parseDouble(args[0]) * this.entity.getBbHeight();
                 else
                 {
@@ -459,7 +459,7 @@ public class LogicMiscUpdate extends LogicBase
             if (entry1.particleData.length > 3)
             {
                 final String[] args = entry1.particleData[3].split(",");
-                double dx = 0, dy = 0, dz = 0;
+                double dx, dy, dz;
                 if (args.length == 1) switch (args[0])
                 {
                 case "r":
@@ -575,13 +575,24 @@ public class LogicMiscUpdate extends LogicBase
         List<String> transients = animated.transientAnimations();
         anims.clear();
         boolean isRidden = !entity.getPassengers().isEmpty();
-        final Vec3 velocity = this.entity.getDeltaMovement();
-        final float dStep = this.entity.walkAnimation.speed();
-        final float walkspeed = (float) (velocity.x * velocity.x + velocity.z * velocity.z + dStep * dStep);
-        final float stationary = 1e-5f;
-        final boolean moving = walkspeed > stationary;
-        final Pose pose = this.entity.getPose();
-        final boolean walking = this.floatTimer < 2 && moving;
+        Vec3 velocity = entity.getDeltaMovement();
+        float walkspeed = (float) (velocity.x * velocity.x + velocity.z * velocity.z);
+        boolean onGround = entity.onGround();
+        if (onGround)
+        {
+            // This includes bouncing up/down for flying mobs, so we only want to account for it when walking.
+            walkspeed = entity.walkAnimation.speed();
+            walkspeed *= walkspeed;
+        }
+        System.out.println(walkspeed);
+        float stationary = 5e-4f;
+        boolean moving = walkspeed > stationary;
+        Pose pose = this.entity.getPose();
+        if (pose == Pose.STANDING && !onGround)
+        {
+            pose = Pose.FALL_FLYING;
+        }
+        boolean walking = this.floatTimer < 2 && moving;
         boolean noBlink = false;
         boolean guarding = pokemob.getCombatState(CombatStates.GUARDING);
         if (pose == Pose.DYING || entity.deathTime > 0)
@@ -597,10 +608,6 @@ public class LogicMiscUpdate extends LogicBase
         }
         switch (pose)
         {
-        case DYING:
-            break;
-        case CROUCHING:
-            break;
         case FALL_FLYING:
             if (!moving) addAnimation(anims, "floating", isRidden);
             addAnimation(anims, "flying", isRidden);
@@ -609,10 +616,6 @@ public class LogicMiscUpdate extends LogicBase
         case SLEEPING:
             noBlink = true;
             addAnimation(anims, "sleeping", isRidden);
-            break;
-        case SPIN_ATTACK:
-            break;
-        case STANDING:
             break;
         case SWIMMING:
             if (!moving) addAnimation(anims, "in_water", isRidden);
