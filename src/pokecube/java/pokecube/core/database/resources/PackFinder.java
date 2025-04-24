@@ -1,21 +1,7 @@
 package pokecube.core.database.resources;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -37,6 +23,17 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import thut.lib.ResourceHelper;
 
+import javax.annotation.Nullable;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+
 public class PackFinder implements RepositorySource
 {
     public static long time_listing = 0;
@@ -44,6 +41,7 @@ public class PackFinder implements RepositorySource
     public static long time_getting_2 = 0;
 
     static final PackSource DECORATOR;
+
     static
     {
         DECORATOR = PackSource.create(component_in -> {
@@ -110,17 +108,7 @@ public class PackFinder implements RepositorySource
         return ret;
     }
 
-    public static List<Resource> getResources(ResourceLocation l) throws IOException
-    {
-        if (l.toString().contains("//")) l = ResourceLocation.parse(l.toString().replace("//", "/"));
-
-        long start = System.nanoTime();
-        List<Resource> ret = Database.resourceManager.getResourceStack(l);
-        long end = System.nanoTime();
-        time_getting_2 += (end - start);
-
-        return ret;
-    }
+    public static boolean PRE_REG_INIT = true;
 
     public static final PackFinder DEFAULT_FINDER = new PackFinder();
 
@@ -151,26 +139,40 @@ public class PackFinder implements RepositorySource
         try
         {
             PackRepository packs = new PackRepository();
-            ResourcePackLoader.populatePackRepository(packs, PackType.SERVER_DATA, false);
-
+            ResourcePackLoaderQuiet.populatePackRepository(packs, PackType.SERVER_DATA);
             ModList.get().forEachModFile(modfile -> {
-                modfile.getModInfos().forEach(info -> {
-                    var modid = info.getModId();
-                    if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("modinfo: " + modid);
-                    this.allPacks.add(() -> {
-                        var opt = ResourcePackLoader.getPackFor(modid);
-                        if (!opt.isPresent())
+                try
+                {
+                    modfile.getModInfos().forEach(info -> {
+                        try
                         {
-                            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("No data for " + modid);
-                            return null;
+                            var modid = info.getModId();
+                            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("modinfo: " + modid);
+                            this.allPacks.add(() -> {
+                                var opt = ResourcePackLoader.getPackFor(modid);
+                                if (opt.isEmpty())
+                                {
+                                    if (PokecubeCore.getConfig().debug_data)
+                                        PokecubeAPI.logInfo("No data for " + modid);
+                                    return null;
+                                }
+                                return opt.get().openPrimary(
+                                        new PackLocationInfo("mod/" + modid, Component.empty(), PackSource.BUILT_IN,
+                                                Optional.empty()));
+                            });
                         }
-                        return opt.get().openPrimary(new PackLocationInfo("mod/" + modid, Component.empty(),
-                                PackSource.BUILT_IN, Optional.empty()));
+                        catch (Exception e)
+                        {
+                            PokecubeAPI.LOGGER.error("Error scanning info {}", info, e);
+                        }
                     });
-                });
-                if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Adding data packs: " + modfile);
+                    if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Adding data packs: " + modfile);
+                }
+                catch (Exception e)
+                {
+                    PokecubeAPI.LOGGER.error("Error scanning modfile {}", modfile, e);
+                }
             });
-
         }
         catch (final Exception e)
         {
