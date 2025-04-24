@@ -26,6 +26,12 @@ public abstract class PokemobBehaviour extends Behavior<Mob> implements ITask
     }
 
     @Override
+    public void run(ServerLevel level, Mob owner)
+    {
+
+    }
+
+    @Override
     protected void tick(final ServerLevel level, final Mob owner, final long gameTime)
     {
         this.run(level, owner);

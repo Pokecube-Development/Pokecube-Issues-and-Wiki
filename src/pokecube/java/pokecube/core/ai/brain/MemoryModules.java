@@ -11,6 +11,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
+import pokecube.core.ai.tasks.utility.GatherItems;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import thut.api.entity.ai.MemoryModuleTypes;
 import thut.api.maths.Vector3;
@@ -45,6 +46,8 @@ public class MemoryModules extends MemoryModuleTypes
     // Used for idle tasks
     public static final Supplier<MemoryModuleType<GlobalPos>> NEST_POS;
     public static final Supplier<MemoryModuleType<GlobalPos>> WORK_POS;
+
+    public static final Supplier<MemoryModuleType<GatherItems.GatherDetails>> GATHER_DETAILS;
 
     public static final Supplier<MemoryModuleType<Integer>> OUT_OF_NEST_TIMER;
     public static final Supplier<MemoryModuleType<Integer>> NO_NEST_TIMER;
@@ -98,6 +101,9 @@ public class MemoryModules extends MemoryModuleTypes
                 () -> new MemoryModuleType<>(Optional.of(GlobalPos.CODEC)));
         WORK_POS = PokecubeCore.MEMORIES.register("work_pos",
                 () -> new MemoryModuleType<>(Optional.of(GlobalPos.CODEC)));
+
+        GATHER_DETAILS = PokecubeCore.MEMORIES.register("gather_details",
+                () -> new MemoryModuleType<>(Optional.empty()));
 
         OUT_OF_NEST_TIMER = PokecubeCore.MEMORIES.register("out_of_nest_timer",
                 () -> new MemoryModuleType<>(Optional.of(Codec.INT)));

@@ -49,6 +49,7 @@ import pokecube.core.ai.npc.Activities;
 import pokecube.core.ai.npc.Schedules;
 import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.ai.routes.GuardAICapability;
+import pokecube.core.ai.tasks.utility.StoreItems;
 import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.commands.CommandManager;
 import pokecube.core.database.Database;
@@ -215,7 +216,6 @@ public class PokecubeCore
 
     /**
      * The config storing all our stuff.
-     *
      */
     public static Config getConfig()
     {
@@ -223,9 +223,8 @@ public class PokecubeCore
     }
 
     /**
-     * For pokemob type mobs, this returns the pokedex entry for the
-     * corresponding entity type, for other mobs it returns null.
-     *
+     * For pokemob type mobs, this returns the pokedex entry for the corresponding entity type, for other mobs it
+     * returns null.
      */
     @Nullable
     public static PokedexEntry getEntryFor(final EntityType<?> type)
@@ -307,6 +306,7 @@ public class PokecubeCore
         Sounds.init();
         PaintingsHandler.init();
         RaidManager.init();
+        StoreItems.StoreBehaviour.init();
 
         // Register the battle managers
         Battle.register();
@@ -321,7 +321,8 @@ public class PokecubeCore
 
         // Register default pokemobs
         ResourceLocation KEY = ResourceLocation.parse("pokecube:pokemob");
-        PokemobCaps._REGISTRY.register(new HolderProvider.Provider<>() {
+        PokemobCaps._REGISTRY.register(new HolderProvider.Provider<>()
+        {
             @Override
             protected ResourceLocation key()
             {
@@ -331,7 +332,7 @@ public class PokecubeCore
             @Override
             public IPokemob apply(IAttachmentHolder iAttachmentHolder)
             {
-                if(iAttachmentHolder instanceof EntityPokemob pokemob) return new DefaultPokemob(pokemob);
+                if (iAttachmentHolder instanceof EntityPokemob pokemob) return new DefaultPokemob(pokemob);
                 return null;
             }
         });

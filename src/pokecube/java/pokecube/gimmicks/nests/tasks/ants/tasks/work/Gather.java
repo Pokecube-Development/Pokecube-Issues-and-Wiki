@@ -40,9 +40,9 @@ public class Gather extends AbstractWorkTask
                 }
             }
         }
-        else if (this.task.targetItem == null && this.gather_timer++ % 20 == 0)
+        else if (this.task.details.targetItem == null && this.gather_timer++ % 20 == 0)
         {
-            if (!this.nest.hab.items.isEmpty()) this.task.targetItem = this.nest.hab.items
+            if (!this.nest.hab.items.isEmpty()) this.task.details.targetItem = this.nest.hab.items
                     .get(ThutCore.newRandom().nextInt(this.nest.hab.items.size()));
         }
     }
