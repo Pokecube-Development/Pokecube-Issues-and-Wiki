@@ -48,6 +48,7 @@ public class ManageOutMob extends BaseBattleTask
                         found = true;
                     }
                 }
+            if(!found) trainer.setOutMob(null);
             return;
         }
         if (this.getAIStates(living).getAIState(AIState.THROWING)) return;

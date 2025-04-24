@@ -1,13 +1,10 @@
 package pokecube.gimmicks.nests.tasks.ants.tasks;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.ai.brain.MemoryModules;
@@ -18,9 +15,12 @@ import pokecube.gimmicks.nests.tasks.ants.sensors.NestSensor;
 import pokecube.gimmicks.nests.tasks.ants.sensors.NestSensor.AntNest;
 import thut.api.entity.ai.RootTask;
 
+import java.util.Map;
+
 public abstract class AbstractAntTask extends BaseIdleTask
 {
     private static final Map<MemoryModuleType<?>, MemoryStatus> mems = Maps.newHashMap();
+
     static
     {
         // Don't run if we don't have a hive
@@ -33,32 +33,32 @@ public abstract class AbstractAntTask extends BaseIdleTask
 
     private int check_timer = 0;
 
-    public AbstractAntTask(final IPokemob pokemob)
+    public AbstractAntTask()
     {
-        super(pokemob, AbstractAntTask.mems);
+        super(AbstractAntTask.mems);
     }
 
-    public AbstractAntTask(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryStatus> mems)
+    public AbstractAntTask(final Map<MemoryModuleType<?>, MemoryStatus> mems)
     {
-        super(pokemob, RootTask.merge(AbstractAntTask.mems, mems));
+        super(RootTask.merge(AbstractAntTask.mems, mems));
     }
 
-    abstract protected boolean doTask();
+    abstract protected boolean doTask(Mob entity);
 
     @Override
-    public boolean shouldRun(Mob entityIn)
+    public boolean shouldRun(Mob entity)
     {
-        this.job = AntTasks.getJob(this.entity);
+        this.job = AntTasks.getJob(entity);
         if (this.nest == null || this.check_timer-- < 0)
         {
-            this.nest = NestSensor.getNest(this.entity).orElse(null);
+            this.nest = NestSensor.getNest(entity).orElse(null);
             this.check_timer = 1200;
         }
         if (this.nest == null) return false;
-        this.pokemob.setRoutineState(AIRoutine.MATE, false);
-        final boolean tameCheck = this.pokemob.getOwnerId() == null
-                || this.pokemob.getGeneralState(GeneralStates.STAYING);
-        final boolean aiEnabled = this.pokemob.isRoutineEnabled(AntTasks.ANTAI);
-        return tameCheck && aiEnabled && this.doTask();
+        var pokemob = PokemobCaps.getPokemobFor(entity);
+        pokemob.setRoutineState(AIRoutine.MATE, false);
+        final boolean tameCheck = pokemob.getOwnerId() == null || pokemob.getGeneralState(GeneralStates.STAYING);
+        final boolean aiEnabled = pokemob.isRoutineEnabled(AntTasks.ANTAI);
+        return tameCheck && aiEnabled && this.doTask(entity);
     }
 }

@@ -49,113 +49,111 @@ public class MateTask extends BaseIdleTask
     AgeableMob mobA = null;
     AgeableMob mobB = null;
 
-    AgeableMob entity;
-
     WalkTarget startSpot = null;
 
-    public MateTask(final IPokemob mob)
+    public MateTask()
     {
-        super(mob, MateTask.mems);
-        this.entity = (AgeableMob) mob.getEntity();
+        super(MateTask.mems);
     }
 
     @Override
-    public void reset(Mob entityIn)
+    public void reset(Mob entity)
     {
         this.spawnBabyDelay = -1;
         this.mate = null;
         this.mobA = null;
         this.mobB = null;
         this.startSpot = null;
-        BrainUtils.setMateTarget(this.entity, null);
+        BrainUtils.setMateTarget((AgeableMob) entity, null);
     }
 
     @Override
-    public void run(ServerLevel level, Mob owner)
+    protected void tick(final ServerLevel level, final Mob entity, final long gameTime)
     {
-        // already have a mate, lets return early from this
-        if (this.mate != null) return;
-        // No options, return.
-        if (this.mates == null || this.mates.isEmpty()) return;
-
-        // Only one mate, we can choose it
-        if (this.mates.size() == 1)
+        IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
+        pre:
         {
-            this.mate = this.mates.getFirst();
-            return;
+            // already have a mate, lets return early from this
+            if (this.mate != null) break pre;
+            // No options, return.
+            if (this.mates == null || this.mates.isEmpty()) break pre;
+
+            // Only one mate, we can choose it
+            if (this.mates.size() == 1)
+            {
+                this.mate = this.mates.getFirst();
+                break pre;
+            }
+            if (this.startSpot != null) this.setWalkTo(entity, this.startSpot);
+
+            if (this.mobA != null && this.mobB != null && this.mates.contains(this.mobA) && this.mates.contains(
+                    this.mobB)) break pre;
+
+            // Flag them all as valid mates
+            for (final AgeableMob mob : this.mates) BrainUtils.setMateTarget(mob, (AgeableMob) entity);
+
+            // Battle between the first two on the list.
+            this.mobA = this.mates.get(0);
+            this.mobB = this.mates.get(1);
+
+            final IPokemob pokeA = PokemobCaps.getPokemobFor(this.mobA);
+            final IPokemob pokeB = PokemobCaps.getPokemobFor(this.mobB);
+
+            if (pokeA != null) pokeA.setCombatState(CombatStates.MATEFIGHT, true);
+            if (pokeB != null) pokeB.setCombatState(CombatStates.MATEFIGHT, true);
+
+            // This fight should end when one gets below half health, which would
+            // then be invalid for the next selection round of mating targets.
+            Battle.createOrAddToBattle(this.mobA, this.mobB);
+
+            this.startSpot = new WalkTarget(entity.position(), 1, 0);
         }
-        if (this.startSpot != null) this.setWalkTo(this.startSpot);
 
-        if (this.mobA != null && this.mobB != null && this.mates.contains(this.mobA) && this.mates.contains(this.mobB))
-            return;
+        // No chosen mate, return here
+        if (this.mate == null) return;
 
-        // Flag them all as valid mates
-        for (final AgeableMob mob : this.mates) BrainUtils.setMateTarget(mob, this.entity);
+        // Make them walk to each other
+        this.approachEachOther(entity, this.mate, 1);
 
-        // Battle between the first two on the list.
-        this.mobA = this.mates.get(0);
-        this.mobB = this.mates.get(1);
+        BrainUtils.setMateTarget((AgeableMob) entity, this.mate);
+        BrainUtils.setMateTarget(this.mate, (AgeableMob) entity);
 
-        final IPokemob pokeA = PokemobCaps.getPokemobFor(this.mobA);
-        final IPokemob pokeB = PokemobCaps.getPokemobFor(this.mobB);
-
-        if (pokeA != null) pokeA.setCombatState(CombatStates.MATEFIGHT, true);
-        if (pokeB != null) pokeB.setCombatState(CombatStates.MATEFIGHT, true);
-
-        // This fight should end when one gets below half health, which would
-        // then be invalid for the next selection round of mating targets.
-        Battle.createOrAddToBattle(this.mobA, this.mobB);
-
-        this.startSpot = new WalkTarget(this.entity.position(), 1, 0);
+        pokemob.setGeneralState(GeneralStates.MATING, true);
+        final IPokemob other = PokemobCaps.getPokemobFor(this.mate);
+        if (other != null) other.setGeneralState(GeneralStates.MATING, true);
+        if (this.spawnBabyDelay <= 0) this.spawnBabyDelay = entity.tickCount + 100;
+        if (this.spawnBabyDelay > entity.tickCount) return;
+        if (other instanceof IBreedingMob mate) pokemob.mateWith(mate);
+        this.reset(entity);
+        other.resetLoveStatus();
+        pokemob.resetLoveStatus();
     }
 
     @Override
-    public boolean shouldRun(Mob entityIn)
+    public boolean shouldRun(Mob entity)
     {
-        if (!InterestingMobs.canPokemobMate(this.pokemob)) return false;
+        var pokemob = PokemobCaps.getPokemobFor(entity);
+        if (!InterestingMobs.canPokemobMate(pokemob)) return false;
         // This AI is only run on the female side.
-        if (this.pokemob.getSexe() == IPokemob.MALE) return false;
-        this.mate = BrainUtils.getMateTarget(this.entity);
+        if (pokemob.getSexe() == IPokemob.MALE) return false;
+        this.mate = BrainUtils.getMateTarget((AgeableMob) entity);
         if (this.mate != null && !this.mate.isAlive())
         {
-            BrainUtils.setMateTarget(this.entity, null);
+            BrainUtils.setMateTarget((AgeableMob) entity, null);
             this.mate = null;
         }
         if (this.mate != null) return true;
-        this.mates = BrainUtils.getMates(this.entity);
+        this.mates = BrainUtils.getMates((AgeableMob) entity);
         if (this.mates != null)
         {
             double mateNum = PokecubeCore.getConfig().mobSpawnNumber;
-            mateNum *= this.pokemob.isPlayerOwned()
+            mateNum *= pokemob.isPlayerOwned()
                     ? PokecubeCore.getConfig().mateDensityPlayer
                     : PokecubeCore.getConfig().mateDensityWild;
             this.mates.removeIf(e -> !e.isAlive());
             if (this.mates.size() > mateNum) return false;
         }
         return this.mates != null;
-    }
-
-    @Override
-    public void runTick(ServerLevel level, Mob owner)
-    {
-        // No chosen mate, return early
-        if (this.mate == null) return;
-
-        // Make them walk to each other
-        this.approachEachOther(this.entity, this.mate, 1);
-
-        BrainUtils.setMateTarget(this.entity, this.mate);
-        BrainUtils.setMateTarget(this.mate, this.entity);
-
-        this.pokemob.setGeneralState(GeneralStates.MATING, true);
-        final IPokemob other = PokemobCaps.getPokemobFor(this.mate);
-        if (other != null) other.setGeneralState(GeneralStates.MATING, true);
-        if (this.spawnBabyDelay <= 0) this.spawnBabyDelay = this.entity.tickCount + 100;
-        if (this.spawnBabyDelay > this.entity.tickCount) return;
-        if (other instanceof IBreedingMob mate) this.pokemob.mateWith(mate);
-        this.reset(owner);
-        other.resetLoveStatus();
-        this.pokemob.resetLoveStatus();
     }
 
     void approachEachOther(final LivingEntity firstEntity, final LivingEntity secondEntity, final float speed)

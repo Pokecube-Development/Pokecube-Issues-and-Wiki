@@ -11,10 +11,9 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.utility.StoreTask;
+import pokecube.core.ai.tasks.utility.StoreItems;
 import pokecube.core.inventory.pokemob.PokemobContainer;
 import pokecube.core.network.packets.PacketSyncRoutes;
-import thut.api.entity.ai.IAIRunnable;
 import thut.core.common.network.Packet;
 
 public class PacketPokemobGui extends Packet
@@ -39,10 +38,8 @@ public class PacketPokemobGui extends Packet
         if (pokemob != null && !(player.containerMenu instanceof PokemobContainer))
         {
             var access = player.registryAccess();
-            StoreTask ai = null;
-            for (final IAIRunnable run : pokemob.getTasks()) if (run instanceof StoreTask task) ai = task;
-            final StoreTask toSend = ai;
-            buffer.writeNbt(toSend.serializeNBT(access));
+            StoreItems ai = pokemob.getEntity().getData(StoreItems.StoreBehaviour.TYPE);
+            buffer.writeNbt(ai.serializeNBT(access));
             String megaMode = target.getPersistentData().getString("pokecube:mega_mode");
             buffer.writeUtf(megaMode);
             PacketSyncRoutes.sendUpdateClientPacket(target, player, false);
@@ -51,7 +48,7 @@ public class PacketPokemobGui extends Packet
             player.openMenu(provider, buf -> {
                 buf.writeInt(target.getId());
                 buf.writeByte(mode);
-                buf.writeNbt(toSend.serializeNBT(access));
+                buf.writeNbt(ai.serializeNBT(access));
                 buf.writeUtf(megaMode);
             });
         }

@@ -1,15 +1,12 @@
 package pokecube.gimmicks.nests.tasks.ants.tasks.nest;
 
-import java.util.List;
-import java.util.Optional;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.level.pathfinder.Path;
 import pokecube.api.blocks.IInhabitable;
-import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.gimmicks.nests.tasks.ants.AntTasks;
@@ -18,32 +15,36 @@ import pokecube.gimmicks.nests.tasks.ants.nest.Node;
 import pokecube.gimmicks.nests.tasks.ants.tasks.AbstractAntTask;
 import thut.api.maths.Vector3;
 
+import java.util.List;
+import java.util.Optional;
+
 public class EnterNest extends AbstractAntTask
 {
     final Vector3 homePos = new Vector3();
 
     int enterTimer = 0;
 
-    public EnterNest(final IPokemob pokemob)
+    public EnterNest()
     {
-        super(pokemob);
+        super();
     }
 
     @Override
-    public void reset(Mob entityIn)
+    public void reset(Mob entity)
     {
         this.homePos.clear();
-        this.entity.getNavigation().resetMaxVisitedNodesMultiplier();
+        entity.getNavigation().resetMaxVisitedNodesMultiplier();
         this.enterTimer = 0;
     }
 
     @Override
-    public void run(ServerLevel level, Mob owner)
+    protected void tick(final ServerLevel level, final Mob entity, final long gameTime)
     {
-        final Brain<?> brain = this.entity.getBrain();
+        final Brain<?> brain = entity.getBrain();
         this.homePos.set(this.nest.nest.getBlockPos());
-        this.entity.getNavigation().setMaxVisitedNodesMultiplier(10);
-        if (PokecubeCore.getConfig().debug_ai) this.pokemob.setPokemonNickname(this.job + " GO HOME");
+        entity.getNavigation().setMaxVisitedNodesMultiplier(10);
+        var pokemob = PokemobCaps.getPokemobFor(entity);
+        if (PokecubeCore.getConfig().debug_ai) pokemob.setPokemonNickname(this.job + " GO HOME");
 
         // Ensures no jobs for 5s after this is decided
         brain.setMemory(MemoryModules.NO_WORK_TIMER.get(), -100);
@@ -51,20 +52,19 @@ public class EnterNest extends AbstractAntTask
         brain.eraseMemory(MemoryModules.JOB_INFO.get());
 
         // If we take more than 30s to progress, just tp there
-        if (this.enterTimer++ > 6000) this.entity.setPos(this.homePos.x + 0.5, this.homePos.y + 1, this.homePos.z
-                + 0.5);
+        if (this.enterTimer++ > 6000) entity.setPos(this.homePos.x + 0.5, this.homePos.y + 1, this.homePos.z + 0.5);
 
         final List<Node> entrances = this.nest.hab.getRooms(AntRoom.ENTRANCE);
         if (entrances.isEmpty()) return;
 
-        final Node room = entrances.get(0);
-        final BlockPos pos = this.entity.blockPosition();
+        final Node room = entrances.getFirst();
+        final BlockPos pos = entity.blockPosition();
         // If too far, lets path over.
         if (!room.isInside(pos))
         {
-            final Path p = this.entity.getNavigation().getPath();
+            final Path p = entity.getNavigation().getPath();
             final boolean targ = p != null && p.canReach();
-            if (!targ) this.setWalkTo(room.getCenter().above(), 1, 1);
+            if (!targ) this.setWalkTo(entity, room.getCenter().above(), 1, 1);
         }
         else
         {
@@ -73,11 +73,11 @@ public class EnterNest extends AbstractAntTask
             // if (habitat instanceof HabitatProvider) ((HabitatProvider)
             // habitat).wrapped = new AntHabitat();
 
-            if (habitat.canEnterHabitat(this.entity))
+            if (habitat.canEnterHabitat(entity))
             {
                 brain.setMemory(MemoryModules.OUT_OF_NEST_TIMER.get(), 0);
                 brain.eraseMemory(MemoryModules.GOING_HOME.get());
-                habitat.onEnterHabitat(this.entity);
+                habitat.onEnterHabitat(entity);
             }
             // Set the out of hive timer, so we don't try to re-enter
             // immediately!
@@ -86,25 +86,25 @@ public class EnterNest extends AbstractAntTask
     }
 
     @Override
-    protected boolean doTask()
+    protected boolean doTask(Mob entity)
     {
         // We were already heading home, so keep doing that.
         if (!this.homePos.isEmpty()) return true;
-        final Brain<?> brain = this.entity.getBrain();
+        final Brain<?> brain = entity.getBrain();
         if (brain.hasMemoryValue(MemoryModules.GOING_HOME.get())) return true;
         final Optional<Integer> hiveTimer = brain.getMemory(MemoryModules.OUT_OF_NEST_TIMER.get());
         final int timer = hiveTimer.orElseGet(() -> 0);
         // This is our counter for if something angered us, and made is leave
         // the hive, if so, we don't return to hive.
         if (timer > 0) return false;
-        if (AntTasks.shouldAntBeInNest(this.world, this.nest.nest.getBlockPos()))
+        if (AntTasks.shouldAntBeInNest((ServerLevel) entity.level(), this.nest.nest.getBlockPos()))
         {
             brain.setMemory(MemoryModules.GOING_HOME.get(), true);
             return true;
         }
         // Been out too long, we want to return!
-        if (timer < -12000 || timer < -2500 && this.entity.getRandom().nextInt(200) == 0) brain.setMemory(
-                MemoryModules.GOING_HOME.get(), true);
+        if (timer < -12000 || timer < -2500 && entity.getRandom().nextInt(200) == 0)
+            brain.setMemory(MemoryModules.GOING_HOME.get(), true);
         return brain.hasMemoryValue(MemoryModules.GOING_HOME.get());
     }
 

@@ -181,7 +181,6 @@ public class FindTargetsTask extends PokemobBehaviour implements IAICombat, ITar
     /**
      * Check for and agress any guard targets. <br>
      * <br>
-     * This is called from {@link IAIRunnable#run(ServerLevel, Mob)}
      *
      * @return a guard target was found
      */
@@ -224,7 +223,6 @@ public class FindTargetsTask extends PokemobBehaviour implements IAICombat, ITar
     /**
      * Check if owner is under attack, if so, agress the attacker. <br>
      * <br>
-     * This is called from {@link IAIRunnable#run(ServerLevel, Mob)}
      *
      * @return if target was found.
      */
@@ -331,11 +329,7 @@ public class FindTargetsTask extends PokemobBehaviour implements IAICombat, ITar
     }
 
     @Override
-    public void reset(Mob entityIn)
-    {}
-
-    @Override
-    public void run(ServerLevel level, Mob entity)
+    protected void tick(final ServerLevel level, final Mob entity, final long gameTime)
     {
         var brain = entity.getBrain();
         var pokemob = PokemobCaps.getPokemobFor(entity);

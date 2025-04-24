@@ -1,11 +1,7 @@
 package pokecube.gimmicks.nests.tasks.ants.tasks.nest;
 
-import java.util.List;
-import java.util.Map;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
@@ -15,6 +11,7 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -30,9 +27,13 @@ import pokecube.gimmicks.nests.tasks.ants.nest.AntHabitat;
 import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
 
+import java.util.List;
+import java.util.Map;
+
 public class MakeNest extends BaseIdleTask
 {
     private static final Map<MemoryModuleType<?>, MemoryStatus> mems = Maps.newHashMap();
+
     static
     {
         // Don't run if we have a hive, we will make one if needed.
@@ -43,25 +44,26 @@ public class MakeNest extends BaseIdleTask
         MakeNest.mems.put(MemoryModules.VISIBLE_BLOCKS.get(), MemoryStatus.VALUE_PRESENT);
     }
 
-    public MakeNest(final IPokemob pokemob)
+    public MakeNest()
     {
-        super(pokemob, MakeNest.mems);
+        super(MakeNest.mems);
     }
 
-    private boolean placeNest(final NearBlock b)
+    private boolean placeNest(ServerLevel level, IPokemob pokemob, final NearBlock b)
     {
         final BlockPos pos = b.getPos();
+        var entity = pokemob.getEntity();
         if (!MoveEventsHandler.canAffectBlock(pokemob, new Vector3(pos), "nest_building")) return false;
-        final PoiManager pois = this.world.getPoiManager();
+        final PoiManager pois = level.getPoiManager();
         final long num = pois.getCountInRange(PointsOfInterest.NEST, pos, PokecubeCore.getConfig().nestSpacing,
                 PoiManager.Occupancy.ANY);
         if (num > 0) return false;
-        final Brain<?> brain = this.entity.getBrain();
-        this.world.setBlockAndUpdate(pos, PokecubeItems.NEST.get().defaultBlockState());
-        final BlockEntity tile = this.world.getBlockEntity(pos);
+        final Brain<?> brain = entity.getBrain();
+        level.setBlockAndUpdate(pos, PokecubeItems.NEST.get().defaultBlockState());
+        final BlockEntity tile = level.getBlockEntity(pos);
         if (!(tile instanceof NestTile nest)) return false;
         nest.setWrappedHab(new AntHabitat(nest));
-        nest.addResident(this.pokemob);
+        nest.addResident(pokemob);
         brain.eraseMemory(MemoryModules.NO_NEST_TIMER.get());
         return true;
     }
@@ -73,7 +75,7 @@ public class MakeNest extends BaseIdleTask
     }
 
     @Override
-    public void run(ServerLevel level, Mob owner)
+    protected void tick(final ServerLevel level, final Mob entity, final long gameTime)
     {
         // We need to do the following:
         //
@@ -82,7 +84,7 @@ public class MakeNest extends BaseIdleTask
         // 3. Place the new hive block down
 
         // Lets see if we can find any leaves to place a hive under
-        final List<NearBlock> blocks = BrainUtils.getNearBlocks(this.entity);
+        final List<NearBlock> blocks = BrainUtils.getNearBlocks(entity);
         if (blocks == null) return;
 
         // Otherwise on the ground
@@ -94,25 +96,26 @@ public class MakeNest extends BaseIdleTask
         // last we check the terrain
         if (!surfaces.isEmpty())
         {
-            final NearBlock block = surfaces.get(0);
-            if (this.placeNest(block)) return;
+            var pokemob = PokemobCaps.getPokemobFor(entity);
+            final NearBlock block = surfaces.getFirst();
+            if (this.placeNest(level, pokemob, block)) return;
         }
 
-        final Brain<?> brain = this.entity.getBrain();
+        final Brain<?> brain = entity.getBrain();
         // partially Reset this if we failed
         brain.setMemory(MemoryModules.NO_NEST_TIMER.get(), 0);
 
     }
 
     @Override
-    public boolean shouldRun(Mob entityIn)
+    public boolean shouldRun(Mob entity)
     {
-        final boolean tameCheck = this.pokemob.getOwnerId() == null
-                || this.pokemob.getGeneralState(GeneralStates.STAYING);
+        var pokemob = PokemobCaps.getPokemobFor(entity);
+        final boolean tameCheck = pokemob.getOwnerId() == null || pokemob.getGeneralState(GeneralStates.STAYING);
         // Could be disabled by owner at runtime
-        if (!AntTasks.isValid(this.entity)) return false;
+        if (!AntTasks.isValid(entity)) return false;
         if (!tameCheck) return false;
-        final Brain<?> brain = this.entity.getBrain();
+        final Brain<?> brain = entity.getBrain();
         int timer = 0;
         if (brain.hasMemoryValue(MemoryModules.NO_NEST_TIMER.get()))
             timer = brain.getMemory(MemoryModules.NO_NEST_TIMER.get()).get();

@@ -44,9 +44,9 @@ public class SelectMoveTask extends CombatTask
 
     /** If in combat, select a move to use. */
     @Override
-    public void run(ServerLevel level, Mob owner)
+    protected void tick(final ServerLevel level, final Mob entity, final long gameTime)
     {
-        var pokemob = PokemobCaps.getPokemobFor(owner);
+        var pokemob = PokemobCaps.getPokemobFor(entity);
         // Pokemobs hunting or guarding will always select whatever is strongest
         if (pokemob.getCombatState(CombatStates.GUARDING) || pokemob.getCombatState(CombatStates.HUNTING)
                 || pokemob.getCombatState(CombatStates.MATEFIGHT))

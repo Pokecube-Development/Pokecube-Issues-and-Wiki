@@ -11,7 +11,6 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import net.minecraft.world.entity.ai.memory.WalkTarget;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -114,36 +113,16 @@ public abstract class TaskBase extends RootTask<Mob> implements ITask
         return entity.getAttribute(Attributes.MOVEMENT_SPEED).getValue() > 0;
     }
 
-    protected final IPokemob pokemob;
-
-    protected final ServerLevel world;
-
     int priority = 0;
 
-    public TaskBase(final IPokemob pokemob)
+    public TaskBase()
     {
-        this(pokemob, ImmutableMap.of());
+        this(ImmutableMap.of());
     }
 
-    public TaskBase(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryStatus> neededMems)
+    public TaskBase(final Map<MemoryModuleType<?>, MemoryStatus> neededMems)
     {
-        super(pokemob.getEntity(), neededMems);
-        this.pokemob = pokemob;
-        if (this.entity.level() instanceof ServerLevel) this.world = (ServerLevel) this.entity.level();
-        else this.world = null;
-    }
-
-    @Override
-    protected void setWalkTo(final WalkTarget target)
-    {
-        this.pokemob.setLogicState(LogicStates.SITTING, false);
-        super.setWalkTo(target);
-    }
-
-    @Override
-    public void finish(ServerLevel level, Mob owner)
-    {
-
+        super(neededMems);
     }
 
     @Override
@@ -180,14 +159,5 @@ public abstract class TaskBase extends RootTask<Mob> implements ITask
     {
         if (this.isPaused(level, entityIn)) return this.tempCont;
         return this.tempCont = this.shouldRun(entityIn);
-    }
-
-    @Override
-    protected void tick(final ServerLevel level, final Mob owner, final long gameTime)
-    {
-        if (this.isPaused(level, owner)) return;
-        this.run(level, owner);
-        this.runTick(level, owner);
-        this.finish(level, owner);
     }
 }

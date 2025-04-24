@@ -1,20 +1,19 @@
 package pokecube.core.ai.routes;
 
 import com.google.common.collect.ImmutableMap;
-
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.schedule.Activity;
 import pokecube.core.ai.npc.Activities;
-import thut.api.entity.ai.RootTask;
 
-public class GuardTask<T extends LivingEntity> extends RootTask<T>
+public class GuardTask<T extends LivingEntity> extends Behavior<T>
 {
     final GuardAI goal;
 
-    public GuardTask(final T mob, final GuardAI goal)
+    public GuardTask(final GuardAI goal)
     {
-        super(mob, ImmutableMap.of());
+        super(ImmutableMap.of());
         this.goal = goal;
     }
 

@@ -1,10 +1,6 @@
 package pokecube.gimmicks.nests.tasks.bees.tasks;
 
-import java.util.Map;
-import java.util.Optional;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.core.GlobalPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
@@ -13,7 +9,6 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.gimmicks.nests.tasks.bees.AbstractBeeTask;
 import pokecube.gimmicks.nests.tasks.bees.BeeTasks;
@@ -21,9 +16,13 @@ import pokecube.gimmicks.nests.tasks.bees.sensors.FlowerSensor;
 import thut.api.entity.ai.VectorPosWrapper;
 import thut.api.maths.Vector3;
 
+import java.util.Map;
+import java.util.Optional;
+
 public class GatherNectar extends AbstractBeeTask
 {
     private static final Map<MemoryModuleType<?>, MemoryStatus> mems = Maps.newHashMap();
+
     static
     {
         // No gathering nectar if we have it
@@ -39,9 +38,9 @@ public class GatherNectar extends AbstractBeeTask
     Vector3 gatherSpot = new Vector3();
     Vector3 flowerSpot = new Vector3();
 
-    public GatherNectar(final IPokemob pokemob)
+    public GatherNectar()
     {
-        super(pokemob, GatherNectar.mems);
+        super(GatherNectar.mems);
     }
 
     @Override
@@ -52,33 +51,33 @@ public class GatherNectar extends AbstractBeeTask
     }
 
     @Override
-    public void run(ServerLevel level, Mob owner)
+    protected void tick(final ServerLevel level, final Mob entity, final long gameTime)
     {
-        final Optional<GlobalPos> pos_opt = this.entity.getBrain().getMemory(BeeTasks.FLOWER_POS.get());
+        final Optional<GlobalPos> pos_opt = entity.getBrain().getMemory(BeeTasks.FLOWER_POS.get());
         if (pos_opt.isPresent())
         {
-            final Level world = this.entity.level();
+            final Level world = entity.level();
             final GlobalPos pos = pos_opt.get();
             boolean clearPos = pos.dimension() != world.dimension();
             // Once a second check if flower is still valid.
-            if (!clearPos && this.entity.tickCount % 20 == 0)
+            if (!clearPos && entity.tickCount % 20 == 0)
                 clearPos = !FlowerSensor.flowerPredicate.test(world.getBlockState(pos.pos()));
             // If flower not still around, clear the memory and return early.
             // The FlowerSensor will find a new flower for us later.
             if (clearPos)
             {
-                this.entity.getBrain().eraseMemory(BeeTasks.FLOWER_POS.get());
-                this.reset(owner);
+                entity.getBrain().eraseMemory(BeeTasks.FLOWER_POS.get());
+                this.reset(entity);
                 return;
             }
-            final Brain<?> brain = this.entity.getBrain();
+            final Brain<?> brain = entity.getBrain();
 
             // We have gathered enough, lets go home now
             if (this.gather_timer++ > 400)
             {
                 brain.eraseMemory(BeeTasks.FLOWER_POS.get());
                 brain.setMemory(BeeTasks.HAS_NECTAR.get(), true);
-                this.reset(owner);
+                this.reset(entity);
                 return;
             }
 
@@ -88,39 +87,38 @@ public class GatherNectar extends AbstractBeeTask
 
             // Find a random spot near the flower to move to, to fly around it
             // while gathering.
-            if (this.gatherSpot.isEmpty() || this.entity.getRandom().nextInt(25) == 0)
+            if (this.gatherSpot.isEmpty() || entity.getRandom().nextInt(25) == 0)
             {
                 this.gatherSpot.set(this.flowerSpot);
-                this.gatherSpot.addTo(this.getRandomOffset(), 0, this.getRandomOffset());
+                this.gatherSpot.addTo(this.getRandomOffset(entity), 0, this.getRandomOffset(entity));
             }
 
             // If too far, we path normally over to the flower, otherwise, use
             // MoveHelper directly.
-            if (this.entity.distanceToSqr(this.gatherSpot.x, this.gatherSpot.y, this.gatherSpot.z) < 4)
+            if (entity.distanceToSqr(this.gatherSpot.x, this.gatherSpot.y, this.gatherSpot.z) < 4)
             {
                 final BlockState state = this.flowerSpot.getBlockState(world);
-                if (state.isRandomlyTicking() && this.entity.getRandom().nextInt(10) == 0)
-                    state.randomTick((ServerLevel) world, pos.pos(), this.entity.getRandom());
-                this.entity.getMoveControl().setWantedPosition(this.gatherSpot.x, this.gatherSpot.y, this.gatherSpot.z,
-                        0.35F);
+                if (state.isRandomlyTicking() && entity.getRandom().nextInt(10) == 0)
+                    state.randomTick((ServerLevel) world, pos.pos(), entity.getRandom());
+                entity.getMoveControl()
+                        .setWantedPosition(this.gatherSpot.x, this.gatherSpot.y, this.gatherSpot.z, 0.35F);
             }
-            else this.setWalkTo(this.gatherSpot, 1, 0);
+            else this.setWalkTo(entity, this.gatherSpot, 1, 0);
         }
     }
 
     /**
-     * @return a random number from 0 to 0.333 for an offset from the flower
-     *         position.
+     * @return a random number from 0 to 0.333 for an offset from the flower position.
      */
-    private float getRandomOffset()
+    private float getRandomOffset(Mob entity)
     {
-        return (this.entity.getRandom().nextFloat() * 2.0F - 1.0F) * 0.33333334F;
+        return (entity.getRandom().nextFloat() * 2.0F - 1.0F) * 0.33333334F;
     }
 
     @Override
-    public boolean doTask()
+    public boolean doTask(Mob entity)
     {
-        final Brain<?> brain = this.entity.getBrain();
+        final Brain<?> brain = entity.getBrain();
         final Optional<Boolean> hasNectar = brain.getMemory(BeeTasks.HAS_NECTAR.get());
         final boolean nectar = hasNectar.isPresent() && hasNectar.get();
         return !nectar;

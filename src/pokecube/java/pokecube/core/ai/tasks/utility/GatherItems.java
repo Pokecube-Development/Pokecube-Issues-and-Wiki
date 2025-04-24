@@ -239,8 +239,9 @@ public class GatherItems extends PokemobBehaviour
                 context.level().setBlockAndUpdate(context.pos(), context.state().setValue(SweetBerryBushBlock.AGE, 1));
                 final int j = 1 + context.level().random.nextInt(2);
                 final ItemStack stack = new ItemStack(Items.SWEET_BERRIES, j + (flag ? 1 : 0));
-                context.level().playSound((Player) null, context.pos(), SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES,
-                        SoundSource.BLOCKS, 1.0F, 0.8F + context.level().random.nextFloat() * 0.4F);
+                context.level()
+                        .playSound(null, context.pos(), SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS,
+                                1.0F, 0.8F + context.level().random.nextFloat() * 0.4F);
                 new TaskBase.InventoryChange(entity, 2, stack, true).run(context.level());
             }
 
@@ -278,8 +279,6 @@ public class GatherItems extends PokemobBehaviour
 
     final double distance;
 
-    public GatherDetails details;
-
     public GatherItems(final double distance)
     {
         super(MEMS);
@@ -305,7 +304,7 @@ public class GatherItems extends PokemobBehaviour
         return canHarvest;
     }
 
-    private boolean hasStuff(StoreItems storage)
+    private boolean hasStuff(StoreItems storage, GatherDetails details)
     {
         if (details.targetItem != null && GatherItems.deaditemmatcher.apply(details.targetItem))
             details.targetItem = null;
@@ -321,14 +320,14 @@ public class GatherItems extends PokemobBehaviour
         return details.targetItem != null || details.targetBlock != null;
     }
 
-    private void findStuff(StoreItems storage)
+    private void findStuff(StoreItems storage, GatherDetails details)
     {
         // Only mobs that are standing with homes should look for stuff.
         if (storage.pokemob.getHome() == null
                 || storage.pokemob.getGeneralState(GeneralStates.TAMED) && storage.pokemob.getLogicState(
                 LogicStates.SITTING)) return;
         // This means we have stuff
-        if (this.hasStuff(storage)) return;
+        if (this.hasStuff(storage, details)) return;
 
         if (details.items != null)
         {
@@ -364,9 +363,9 @@ public class GatherItems extends PokemobBehaviour
         details.collectCooldown = GatherItems.COOLDOWN_SEARCH;
     }
 
-    private void gatherStuff(StoreItems storage)
+    private void gatherStuff(StoreItems storage, GatherDetails details)
     {
-        if (!this.hasStuff(storage)) return;
+        if (!this.hasStuff(storage, details)) return;
 
         final Vector3 stuffLoc = new Vector3();
         if (details.targetItem != null) stuffLoc.set(details.targetItem);
@@ -450,13 +449,20 @@ public class GatherItems extends PokemobBehaviour
     @Override
     protected void tick(ServerLevel level, Mob owner, long gameTime)
     {
-        var details = owner.getData(StoreItems.StoreBehaviour.TYPE);
-        this.findStuff(details);
-        this.gatherStuff(details);
+        var storage = owner.getData(StoreItems.StoreBehaviour.TYPE);
+        GatherDetails details;
+        var detailsOpt = owner.getBrain().getMemory(MemoryModules.GATHER_DETAILS.get());
+        if (detailsOpt.isEmpty())
+        {
+            owner.getBrain().setMemory(MemoryModules.GATHER_DETAILS.get(), details = new GatherDetails());
+        }
+        else details = detailsOpt.get();
+        this.findStuff(storage, details);
+        this.gatherStuff(storage, details);
     }
 
     @Override
-    protected boolean checkExtraStartConditions(ServerLevel level, Mob entity)
+    public boolean shouldRun(Mob entity)
     {
         IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob == null) return false;
@@ -468,8 +474,16 @@ public class GatherItems extends PokemobBehaviour
         // Dont run if the storage is currently trying to path somewhere
         if (storage.pathing) return false;
 
+        GatherDetails details;
+        var detailsOpt = entity.getBrain().getMemory(MemoryModules.GATHER_DETAILS.get());
+        if (detailsOpt.isEmpty())
+        {
+            entity.getBrain().setMemory(MemoryModules.GATHER_DETAILS.get(), details = new GatherDetails());
+        }
+        else details = detailsOpt.get();
+
         // We are going after something.
-        if (this.hasStuff(storage)) return true;
+        if (this.hasStuff(storage, details)) return true;
 
         final boolean wildCheck = !PokecubeCore.getConfig().wildGather && !pokemob.getGeneralState(GeneralStates.TAMED);
         // Check if this should be doing something else instead, if so return

@@ -59,7 +59,7 @@ public class LeapTask extends PokemobBehaviour implements IAICombat
     }
 
     @Override
-    public void run(ServerLevel level, Mob entity)
+    protected void tick(final ServerLevel level, final Mob entity, final long gameTime)
     {
         var brain = entity.getBrain();
         var pokemob = PokemobCaps.getPokemobFor(entity);

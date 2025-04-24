@@ -101,7 +101,7 @@ public class CallForHelpTask extends CombatTask
     }
 
     @Override
-    public void run(ServerLevel level, Mob owner)
+    protected void tick(final ServerLevel level, final Mob owner, final long gameTime)
     {
         var brain = owner.getBrain();
         if (brain.getMemory(MemoryModules.CALLED_HELP.get()).orElse(false)) return;

@@ -9,12 +9,13 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.animal.ShoulderRidingEntity;
 import net.minecraft.world.entity.player.Player;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
 import pokecube.core.ai.tasks.idle.IdleWalkTask;
-import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 import java.util.Map;
 
@@ -38,40 +39,41 @@ public class IdleJumpOnShoulderTask extends BaseIdleTask
 
     private int restTimer;
 
-    public IdleJumpOnShoulderTask(IPokemob pokemob)
+    public IdleJumpOnShoulderTask()
     {
-        super(pokemob, _getMems());
-        restTimer = 6000 + this.entity.getRandom().nextInt(IdleWalkTask.IDLETIMER);
+        super(_getMems());
+        restTimer = 6000 + ThutCore.newRandom().nextInt(IdleWalkTask.IDLETIMER);
     }
 
     @Override
     public void reset(Mob entityIn)
     {
-        restTimer = 6000 + this.entity.getRandom().nextInt(IdleWalkTask.IDLETIMER);
+        restTimer = 6000 + entityIn.getRandom().nextInt(IdleWalkTask.IDLETIMER);
     }
 
     @Override
-    public void run(ServerLevel level, Mob owner)
+    protected void tick(final ServerLevel level, final Mob entity, final long gameTime)
     {
-        boolean sitting = this.entity.getPersistentData().getBoolean(ShoulderMobs.ON_SHOULDER);
+        var pokemob = PokemobCaps.getPokemobFor(entity);
+        boolean sitting = entity.getPersistentData().getBoolean(ShoulderMobs.ON_SHOULDER);
         restTimer--;
         if (restTimer > 0 || !(pokemob.getOwner() instanceof Player player)) return;
 
         if (sitting)
         {
             entity.getPersistentData().remove(ShoulderMobs.ON_SHOULDER);
-            reset(owner);
+            reset(entity);
             restTimer *= 5;
         }
         else if (pokemob.getEntity().distanceTo(player) < 1)
         {
             moveToShoulder(player, pokemob);
-            reset(owner);
+            reset(entity);
             restTimer *= 5;
         }
         else
         {
-            this.setWalkTo(new Vector3(player), 1, 1);
+            this.setWalkTo(entity, player, 1, 1);
         }
     }
 
@@ -104,25 +106,26 @@ public class IdleJumpOnShoulderTask extends BaseIdleTask
     }
 
     @Override
-    public boolean shouldRun(Mob entityIn)
+    public boolean shouldRun(Mob entity)
     {
-        if (!(this.pokemob.getOwner() instanceof Player player)) return false;
+        var pokemob = PokemobCaps.getPokemobFor(entity);
+        if (!(pokemob.getOwner() instanceof Player player)) return false;
         // Always allow running if we are already on shoulder, incase
         // happiness changes to prevent the check below from suceeding.
-        if (this.entity.getVehicle() == player) return true;
+        if (entity.getVehicle() == player) return true;
         // Configs can set this to -1 to disable idle movement entirely.
         if (IdleWalkTask.IDLETIMER <= 0) return false;
 
         // Wander disabled, so don't run.
-        if (!this.pokemob.isRoutineEnabled(AIRoutine.WANDER)) return false;
+        if (!pokemob.isRoutineEnabled(AIRoutine.WANDER)) return false;
 
         // Shoulder disabled, so don't run.
-        if (!this.pokemob.isRoutineEnabled(ShoulderMobs.SHOULDER)) return false;
+        if (!pokemob.isRoutineEnabled(ShoulderMobs.SHOULDER)) return false;
 
         // Only happy mobs do this!
-        if (this.pokemob.getHappiness() < 200) return false;
+        if (pokemob.getHappiness() < 200) return false;
 
         // Mobs set to stay do not run this.
-        return !this.pokemob.getGeneralState(GeneralStates.STAYING);
+        return !pokemob.getGeneralState(GeneralStates.STAYING);
     }
 }

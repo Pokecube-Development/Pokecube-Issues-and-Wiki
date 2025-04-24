@@ -1,19 +1,7 @@
 package pokecube.mobs.moves.world;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Predicate;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.QuartPos;
 import net.minecraft.resources.ResourceKey;
@@ -33,7 +21,6 @@ import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.eventhandlers.MoveEventsHandler;
-import thut.api.Tracker;
 import thut.api.data.DataHelpers;
 import thut.api.data.DataHelpers.ResourceData;
 import thut.api.item.ItemList;
@@ -41,6 +28,17 @@ import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
 import thut.lib.RegHelper;
 import thut.lib.ResourceHelper;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Predicate;
 
 public class ActionNaturePower implements IMoveWorldEffect
 {
@@ -214,24 +212,20 @@ public class ActionNaturePower implements IMoveWorldEffect
     }
 
     /**
-     * Implementers of this interface must have a public constructor that takes
-     * no arguments.
+     * Implementers of this interface must have a public constructor that takes no arguments.
      */
     public abstract interface IBiomeChanger
     {
         /**
-         * This method should check whether it should apply a biome change, and
-         * if it should, it should do so, then return true. It should return
-         * false if it does not change anything. Only the first of these to
-         * return true will be used, so if you need to re-order things, reorder
-         * ActionNaturePower.changer_classes accordingly.
+         * This method should check whether it should apply a biome change, and if it should, it should do so, then
+         * return true. It should return false if it does not change anything. Only the first of these to return true
+         * will be used, so if you need to re-order things, reorder ActionNaturePower.changer_classes accordingly.
          */
         public boolean apply(BlockPos pos, ServerLevel world);
     }
 
     /**
-     * Very basic tree finder, it finds all connected blocks that match the
-     * validCheck predicate.
+     * Very basic tree finder, it finds all connected blocks that match the validCheck predicate.
      */
     public static class PointChecker
     {
@@ -272,29 +266,30 @@ public class ActionNaturePower implements IMoveWorldEffect
             // Check the connected blocks, see if they match predicate, if they
             // do, add them to the list. This also checks diagonally connected
             // blocks.
-            for (int i = -1; i <= 1; i++) for (int j = -1; j <= 1; j++)
-                // If yaxis, also check vertical connections, for
-                // naturepower, we usually only care about horizontal.
-                if (this.yaxis) for (int k = -1; k <= 1; k++)
-            {
-                temp.set(prev).addTo(i, k, j);
-                if (this.validCheck.test(temp.getPos())) if (temp.distToSq(this.centre) <= this.maxRSq)
-                {
-                    tempList.add(temp.copy());
-                    this.states.add(temp.getBlockState(this.world));
-                    ret = true;
-                }
-            }
-                else
-            {
-                temp.set(prev).addTo(i, 0, j);
-                if (this.validCheck.test(temp.getPos())) if (temp.distToSq(this.centre) <= this.maxRSq)
-                {
-                    tempList.add(temp.copy());
-                    this.states.add(temp.getBlockState(this.world));
-                    ret = true;
-                }
-            }
+            for (int i = -1; i <= 1; i++)
+                for (int j = -1; j <= 1; j++)
+                    // If yaxis, also check vertical connections, for
+                    // naturepower, we usually only care about horizontal.
+                    if (this.yaxis) for (int k = -1; k <= 1; k++)
+                    {
+                        temp.set(prev).addTo(i, k, j);
+                        if (this.validCheck.test(temp.getPos())) if (temp.distToSq(this.centre) <= this.maxRSq)
+                        {
+                            tempList.add(temp.copy());
+                            this.states.add(temp.getBlockState(this.world));
+                            ret = true;
+                        }
+                    }
+                    else
+                    {
+                        temp.set(prev).addTo(i, 0, j);
+                        if (this.validCheck.test(temp.getPos())) if (temp.distToSq(this.centre) <= this.maxRSq)
+                        {
+                            tempList.add(temp.copy());
+                            this.states.add(temp.getBlockState(this.world));
+                            ret = true;
+                        }
+                    }
             this.checked.add(prev);
             return ret;
         }
@@ -317,9 +312,8 @@ public class ActionNaturePower implements IMoveWorldEffect
     }
 
     /**
-     * This class will reset the biomes back to whatever worldgen says they
-     * should be, it goes out 8 blocks, and checks what the biome is, what it
-     * should be, and sets it back. It must be used on a diamond block.
+     * This class will reset the biomes back to whatever worldgen says they should be, it goes out 8 blocks, and checks
+     * what the biome is, what it should be, and sets it back. It must be used on a diamond block.
      */
     public static class ResetChanger implements IBiomeChanger
     {
@@ -335,21 +329,23 @@ public class ActionNaturePower implements IMoveWorldEffect
 
             Climate.Sampler sampler = world.getChunkSource().randomState().sampler();
 
-            for (int i = -8; i <= 8; i++) for (int j = -8; j <= 8; j++) for (int k = -8; k <= 8; k++)
-            {
-                vec.set(pos).addTo(i, j, k);
-                final Biome here = vec.getBiome(world);
-                int qx = QuartPos.fromBlock(vec.intX());
-                int qy = QuartPos.fromBlock(vec.intY());
-                int qz = QuartPos.fromBlock(vec.intZ());
-                final Biome natural = world.getChunkSource().getGenerator().getBiomeSource()
-                        .getNoiseBiome(qx, qy, qz, sampler).value();
-                if (natural != here)
-                {
-                    vec.setBiome(natural, world);
-                    mod = true;
-                }
-            }
+            for (int i = -8; i <= 8; i++)
+                for (int j = -8; j <= 8; j++)
+                    for (int k = -8; k <= 8; k++)
+                    {
+                        vec.set(pos).addTo(i, j, k);
+                        final Biome here = vec.getBiome(world);
+                        int qx = QuartPos.fromBlock(vec.intX());
+                        int qy = QuartPos.fromBlock(vec.intY());
+                        int qz = QuartPos.fromBlock(vec.intZ());
+                        final Biome natural = world.getChunkSource().getGenerator().getBiomeSource()
+                                .getNoiseBiome(qx, qy, qz, sampler).value();
+                        if (natural != here)
+                        {
+                            vec.setBiome(natural, world);
+                            mod = true;
+                        }
+                    }
             final ServerLevel sWorld = world;
             sWorld.getChunkSource().blockChanged(pos);
             return mod;
@@ -384,9 +380,8 @@ public class ActionNaturePower implements IMoveWorldEffect
     }
 
     /**
-     * This is filled with new instances of whatever is in changer_classes. It
-     * will have same ordering as changer_classes, and the first of these to
-     * return true for a location is the only one that will be used.
+     * This is filled with new instances of whatever is in changer_classes. It will have same ordering as
+     * changer_classes, and the first of these to return true for a location is the only one that will be used.
      */
     private final List<IBiomeChanger> changers = Lists.newArrayList();
 
@@ -401,9 +396,6 @@ public class ActionNaturePower implements IMoveWorldEffect
         if (!(attacker.getOwner() instanceof ServerPlayer)) return false;
         if (!(attacker.getEntity().level() instanceof ServerLevel level)) return false;
         if (!MoveEventsHandler.canAffectBlock(attacker, location, this.getMoveName())) return false;
-        final long time = attacker.getEntity().getPersistentData().getLong("lastAttackTick");
-        final long now = Tracker.instance().getTick();
-        if (time + 20 * 3 > now) return false;
         final BlockPos pos = location.getPos();
         if (this.changers.isEmpty()) this.init();
         // Check the changers in order, and apply the first one that returns

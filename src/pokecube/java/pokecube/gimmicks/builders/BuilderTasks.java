@@ -14,7 +14,6 @@ import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.events.pokemobs.InitAIEvent;
 import pokecube.api.events.pokemobs.InitAIEvent.Init.Type;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.gimmicks.builders.tasks.DoBuild;
 import pokecube.gimmicks.builders.tasks.ManageBuild;
 
@@ -48,13 +47,9 @@ public class BuilderTasks
     private static void onAIInit(InitAIEvent.Init event)
     {
         if (event.type != Type.UTILITY) return;
-        var task = event.namedTasks.get(StoreTask.KEY);
-        StoreTask storage = task instanceof StoreTask store ? store : null;
-        if (storage == null) return;
-        IPokemob pokemob = event.getPokemob();
         // Add manager for building
-        event.add(new ManageBuild(pokemob, storage));
+        event.add(new ManageBuild());
         // Add worker for building
-        event.add(new DoBuild(pokemob, storage));
+        event.add(new DoBuild());
     }
 }

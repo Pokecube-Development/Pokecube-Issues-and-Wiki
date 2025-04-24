@@ -75,16 +75,18 @@ public class StoreItems implements INBTSerializable<CompoundTag>, ContainerListe
 
         private static final Map<MemoryModuleType<?>, MemoryStatus> MEMS = Maps.newHashMap();
 
-        static
+        // Done this way instead of a static block so that we can register the attachment above.
+        static Map<MemoryModuleType<?>, MemoryStatus> getMems()
         {
-            MEMS.put(MemoryModules.ATTACKTARGET.get(), MemoryStatus.VALUE_ABSENT);
+            if (MEMS.isEmpty()) MEMS.put(MemoryModules.ATTACKTARGET.get(), MemoryStatus.VALUE_ABSENT);
+            return MEMS;
         }
 
         public static void init() {}
 
         public StoreBehaviour()
         {
-            super(MEMS);
+            super(getMems());
         }
 
         @Override
@@ -142,9 +144,9 @@ public class StoreItems implements INBTSerializable<CompoundTag>, ContainerListe
         }
 
         @Override
-        protected boolean checkExtraStartConditions(ServerLevel level, Mob owner)
+        public boolean shouldRun(Mob entity)
         {
-            IPokemob pokemob = PokemobCaps.getPokemobFor(owner);
+            IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
             if (pokemob == null) return false;
             return pokemob.isRoutineEnabled(AIRoutine.STORE) && pokemob.getHome() != null;
         }
@@ -582,7 +584,7 @@ public class StoreItems implements INBTSerializable<CompoundTag>, ContainerListe
             final Direction side)
     {
         if (pos == null) return null;
-        if (!this.canBreak(world, pos)) return null;
+        if (this.canNotBreak(world, pos)) return null;
         final BlockEntity tile = world.getBlockEntity(pos);
         if (tile == null) return null;
 
@@ -594,17 +596,16 @@ public class StoreItems implements INBTSerializable<CompoundTag>, ContainerListe
     }
 
     @SuppressWarnings("deprecation")
-    public boolean canBreak(final ServerLevel world, final BlockPos pos)
+    public boolean canNotBreak(final ServerLevel world, final BlockPos pos)
     {
-        if (!world.hasChunkAt(pos)) return false;
-        if (!this.pokemob.isPlayerOwned()) return true;
-        if (this.knownValid.contains(pos)) return true;
-        // TODO decide on what to do here later, for now, only let this run if
-        // owner is online.
-        if (!(pokemob.getOwner() instanceof Player player)) return false;
-        if (!BreakTestEvent.testBreak(player.level(), pos, world.getBlockState(pos), player)) return false;
+        if (!world.hasChunkAt(pos)) return true;
+        if (!this.pokemob.isPlayerOwned()) return false;
+        if (this.knownValid.contains(pos)) return false;
+        // TODO decide on what to do here later, for now, only let this run if owner is online.
+        if (!(pokemob.getOwner() instanceof Player player)) return true;
+        if (!BreakTestEvent.testBreak(player.level(), pos, world.getBlockState(pos), player)) return true;
         this.knownValid.add(pos.immutable());
-        return true;
+        return false;
     }
 
     private boolean noItem(Predicate<ItemStack> valid, final IItemHandlerModifiable inventory)

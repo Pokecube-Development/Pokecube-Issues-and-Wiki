@@ -1,16 +1,16 @@
 package pokecube.gimmicks.nests.tasks.ants.tasks.work;
 
-import java.util.Optional;
-import java.util.function.Predicate;
-
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.behavior.BlockPosTracker;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.ai.tasks.utility.UtilTask;
+import pokecube.core.ai.tasks.utility.StoreItems;
+import pokecube.core.ai.tasks.utility.UtilBehaviour;
 import pokecube.gimmicks.nests.tasks.ants.AntTasks.AntJob;
 import pokecube.gimmicks.nests.tasks.ants.nest.Edge;
 import pokecube.gimmicks.nests.tasks.ants.nest.Node;
@@ -18,14 +18,17 @@ import pokecube.gimmicks.nests.tasks.ants.nest.Part;
 import pokecube.gimmicks.nests.tasks.ants.tasks.AbstractConstructTask;
 import thut.api.Tracker;
 
+import java.util.Optional;
+import java.util.function.Predicate;
+
 public class Dig extends AbstractConstructTask
 {
-    public Dig(final IPokemob pokemob)
+    public Dig()
     {
-        super(pokemob, j -> j == AntJob.DIG, 3);
+        super(j -> j == AntJob.DIG, 3);
     }
 
-    private boolean digPart(final Part part)
+    private boolean digPart(final Part part, ServerLevel level, Mob entity)
     {
         final long time = Tracker.instance().getTick();
         if (!part.shouldDig(time)) return false;
@@ -35,20 +38,18 @@ public class Dig extends AbstractConstructTask
         Predicate<BlockPos> isValid = p -> part.getTree().shouldCheckDig(p, time);
         // If it is inside, and not diggable, we notify the node of the
         // dug spot, finally we check if there is space nearby to stand.
-        isValid = isValid.and(p ->
-        {
-            if (UtilTask.diggable.test(this.world.getBlockState(p)))
+        isValid = isValid.and(p -> {
+            if (UtilBehaviour.diggable.test(level.getBlockState(p)))
             {
                 this.valids.getAndIncrement();
-                return this.hasEmptySpace.test(p);
+                return this.hasEmptySpace.apply(level, p);
             }
             return false;
         });
-        final BlockPos pos = this.entity.blockPosition();
+        final BlockPos pos = entity.blockPosition();
         // Stream -> filter gets us only the valid postions.
         // Min then gets us the one closest to the ant.
-        final Optional<BlockPos> valid = part.getDigBlocks().keySet().stream().filter(isValid).min((p1, p2) ->
-        {
+        final Optional<BlockPos> valid = part.getDigBlocks().keySet().stream().filter(isValid).min((p1, p2) -> {
             final double d1 = p1.distSqr(pos);
             final double d2 = p2.distSqr(pos);
             return Double.compare(d1, d2);
@@ -126,15 +127,17 @@ public class Dig extends AbstractConstructTask
     }
 
     @Override
-    protected boolean selectJobSite(Mob owner)
+    protected boolean selectJobSite(IPokemob pokemob, StoreItems storage)
     {
         final boolean edge = this.e != null;
         dig_select:
         if (this.work_pos == null && (this.progressTimer % 5 == 0 || this.progressTimer < 0))
         {
+            var entity = pokemob.getEntity();
+            ServerLevel level = (ServerLevel) entity.level();
             final Part part = edge ? this.e : this.n;
             if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Selecting dig site: " + part);
-            if (this.digPart(part))
+            if (this.digPart(part, level, entity))
             {
                 if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Selected dig site");
                 break dig_select;
@@ -143,7 +146,7 @@ public class Dig extends AbstractConstructTask
             if (!this.divert(part))
             {
                 if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Job Done!");
-                this.endTask(owner);
+                this.endTask(pokemob.getEntity());
             }
             return false;
         }
@@ -151,14 +154,14 @@ public class Dig extends AbstractConstructTask
     }
 
     @Override
-    protected void onTimeout(final Part part)
+    protected void onTimeout(final Part part, ServerLevel level)
     {
         // Mark the block as on cooldown for a few seconds, and the room as
         // well. This gives them some time to look for a different spot to dig,
         // before trying again here.
         part.markDug(this.work_pos, Tracker.instance().getTick() + 240);
-        part.setDigDone(this.world.getGameTime() + 120);
-        super.onTimeout(part);
+        part.setDigDone(level.getGameTime() + 120);
+        super.onTimeout(part, level);
     }
 
     @Override
@@ -168,10 +171,12 @@ public class Dig extends AbstractConstructTask
     }
 
     @Override
-    protected void doWork(Mob owner)
+    protected void doWork(Mob entity)
     {
-        final boolean dug = this.tryHarvest(this.work_pos, true);
-        BrainUtils.setLeapTarget(this.entity, new BlockPosTracker(this.work_pos));
+        var pokemob = PokemobCaps.getPokemobFor(entity);
+        ServerLevel level = (ServerLevel) entity.level();
+        final boolean dug = this.tryHarvest(level, pokemob, this.work_pos, true);
+        BrainUtils.setLeapTarget(entity, new BlockPosTracker(this.work_pos));
         final Part part = this.n == null ? this.e : this.n;
         // Mark it as done for the next few seconds or so
         part.markDug(this.work_pos, Tracker.instance().getTick() + 2400);

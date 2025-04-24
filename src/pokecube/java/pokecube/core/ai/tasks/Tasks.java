@@ -48,9 +48,9 @@ import pokecube.core.ai.tasks.misc.LookAtTask;
 import pokecube.core.ai.tasks.misc.RunAway;
 import pokecube.core.ai.tasks.misc.SwimTask;
 import pokecube.core.ai.tasks.misc.WalkToTask;
-import pokecube.core.ai.tasks.utility.GatherTask;
-import pokecube.core.ai.tasks.utility.StoreTask;
-import pokecube.core.ai.tasks.utility.UseMoveTask;
+import pokecube.core.ai.tasks.utility.GatherItems;
+import pokecube.core.ai.tasks.utility.StoreItems;
+import pokecube.core.ai.tasks.utility.UseMoves;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.CapHolders;
@@ -59,6 +59,7 @@ import thut.api.entity.ai.BrainUtil;
 import thut.api.entity.ai.IAIRunnable;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class Tasks
 {
@@ -76,10 +77,11 @@ public class Tasks
                 MemoryModules.TIMER_LEAP.get(), MemoryModules.TIMER_DODGE.get(), MemoryModules.TIMER_SWAPMOVE.get(),
                 MemoryModules.ATTACKDELAY.get(), MemoryModules.TARGETOWNER.get(), MemoryModules.ATTACKTARGETID.get(),
                 MemoryModules.TIMER_FORGETTARGET.get(), MemoryModules.TIMER_SWAPTARGET.get(),
-                MemoryModules.CALLED_HELP.get(), MemoryModules.PATH, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
-                MemoryModules.MATE_TARGET, MemoryModules.WALK_TARGET, MemoryModules.LOOK_TARGET,
-                MemoryModules.EGG.get(), MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryModules.NOT_FOUND_PATH,
-                MemoryModuleType.DOORS_TO_CLOSE, MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER);
+                MemoryModules.GATHER_DETAILS.get(), MemoryModules.CALLED_HELP.get(), MemoryModules.PATH,
+                MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModules.MATE_TARGET, MemoryModules.WALK_TARGET,
+                MemoryModules.LOOK_TARGET, MemoryModules.EGG.get(), MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES,
+                MemoryModules.NOT_FOUND_PATH, MemoryModuleType.DOORS_TO_CLOSE,
+                MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER);
     }
 
     public static void initBrain(final Brain<?> brain)
@@ -102,21 +104,21 @@ public class Tasks
         {
             // Idle tasks
             // Guard your egg
-            aiList.add(new GuardEggTask(pokemob).setPriority(3));
+            aiList.add(new GuardEggTask().setPriority(3));
             // Mate with things
-            if (pokemob instanceof IBreedingMob) aiList.add(new MateTask(pokemob).setPriority(2));
+            if (pokemob instanceof IBreedingMob) aiList.add(new MateTask().setPriority(2));
             // Eat things
-            aiList.add(new HungerTask(pokemob).setPriority(1));
+            aiList.add(new HungerTask().setPriority(1));
             // Wander around
-            aiList.add(new HerdTask(pokemob, 6).setPriority(8));
+            aiList.add(new HerdTask(6).setPriority(8));
             // Wander around
-            aiList.add(new IdleWalkTask(pokemob).setPriority(10));
+            aiList.add(new IdleWalkTask().setPriority(10));
             // ocassionally sit down
-            aiList.add(new IdleRestTask(pokemob).setPriority(20));
+            aiList.add(new IdleRestTask().setPriority(20));
         }
         // Owner related tasks
         if (!pokemob.getPokedexEntry().isStationary) // Follow owner around
-            aiList.add(new FollowOwnerTask(pokemob, 3 + entity.getBbWidth() + pokemob.getPokedexEntry().length,
+            aiList.add(new FollowOwnerTask(3 + entity.getBbWidth() + pokemob.getPokedexEntry().length,
                     8 + entity.getBbWidth() + pokemob.getPokedexEntry().length));
 
         final List<Pair<Integer, ? extends BehaviorControl<? super LivingEntity>>> list = Lists.newArrayList();
@@ -128,7 +130,7 @@ public class Tasks
         };
 
         final Pair<Integer, ? extends BehaviorControl<? super LivingEntity>> pair = Pair.of(0,
-                new GuardTask<>(entity, guardai));
+                new GuardTask<>(guardai));
         list.add(pair);
 
         if (entry.stock)
@@ -167,15 +169,16 @@ public class Tasks
 
     public static class CombatBehaviours
     {
-        public static CallForHelpTask CALL_HELP = null;
-        public static PokemobBehaviour SELECT_MOVE = new SelectMoveTask();
-        public static PokemobBehaviour USE_ATTACKS = new UseAttacksTask();
-        public static PokemobBehaviour DODGE = new DodgeTask();
-        public static PokemobBehaviour LEAP = new LeapTask();
-        public static PokemobBehaviour CIRCLE = new CicleTask();
+        public static Supplier<CallForHelpTask> CALL_HELP = () -> new CallForHelpTask(
+                (float) PokecubeCore.getConfig().hordeRateFactor);
+        public static Supplier<PokemobBehaviour> SELECT_MOVE = SelectMoveTask::new;
+        public static Supplier<PokemobBehaviour> USE_ATTACKS = UseAttacksTask::new;
+        public static Supplier<PokemobBehaviour> DODGE = DodgeTask::new;
+        public static Supplier<PokemobBehaviour> LEAP = LeapTask::new;
+        public static Supplier<PokemobBehaviour> CIRCLE = CicleTask::new;
 
-        public static PokemobBehaviour FORGET_TARGETS = new ForgetTargetTask();
-        public static FindTargetsTask FIND_TARGETS = new FindTargetsTask();
+        public static Supplier<PokemobBehaviour> FORGET_TARGETS = ForgetTargetTask::new;
+        public static Supplier<FindTargetsTask> FIND_TARGETS = FindTargetsTask::new;
     }
 
     @SuppressWarnings("unchecked")
@@ -190,26 +193,25 @@ public class Tasks
         if (entry.stock)
         {
             // combat tasks
-            aiList.add(CombatBehaviours.SELECT_MOVE);
+            aiList.add(CombatBehaviours.SELECT_MOVE.get());
             // Attack stuff
-            aiList.add(CombatBehaviours.USE_ATTACKS);
+            aiList.add(CombatBehaviours.USE_ATTACKS.get());
             // Dodge attacks
-            aiList.add(CombatBehaviours.DODGE);
+            aiList.add(CombatBehaviours.DODGE.get());
             // Leap at things
-            aiList.add(CombatBehaviours.LEAP);
+            aiList.add(CombatBehaviours.LEAP.get());
             // Move around in combat
-            aiList.add(CombatBehaviours.CIRCLE);
+            aiList.add(CombatBehaviours.CIRCLE.get());
         }
         // Attack stuff
-        aiList.add(CombatBehaviours.FORGET_TARGETS);
+        aiList.add(CombatBehaviours.FORGET_TARGETS.get());
         // Call for help task
-        if (CombatBehaviours.CALL_HELP == null)
-            CombatBehaviours.CALL_HELP = new CallForHelpTask((float) PokecubeCore.getConfig().hordeRateFactor);
-        aiList.add(CombatBehaviours.CALL_HELP);
+        aiList.add(CombatBehaviours.CALL_HELP.get());
 
         // Look for targets to kill
-        aiList.add(CombatBehaviours.FIND_TARGETS);
-        pokemob.setTargetFinder(CombatBehaviours.FIND_TARGETS);
+        var finder = CombatBehaviours.FIND_TARGETS.get();
+        aiList.add(finder);
+        pokemob.setTargetFinder(finder);
 
         final List<Pair<Integer, ? extends BehaviorControl<? super LivingEntity>>> list = Lists.newArrayList();
         if (entry.stock)
@@ -246,16 +248,14 @@ public class Tasks
         final PokedexEntry entry = pokemob.getPokedexEntry();
         Behavior<?> task;
 
-        // combat tasks
-        final StoreTask ai = new StoreTask(pokemob);
         // Store things in chests
-        aiList.add(ai);
+        aiList.add(new StoreItems.StoreBehaviour());
         // Gather things from ground
-        aiList.add(new GatherTask(pokemob, 32, ai));
+        aiList.add(new GatherItems(32));
         // Execute moves when told to
-        aiList.add(new UseMoveTask(pokemob));
+        aiList.add(new UseMoves());
         // forget we were being hunted
-        aiList.add(new ForgetHuntedByTask(pokemob, 100));
+        aiList.add(new ForgetHuntedByTask(100));
 
         final List<Pair<Integer, ? extends BehaviorControl<? super LivingEntity>>> list = Lists.newArrayList();
 
@@ -265,8 +265,7 @@ public class Tasks
             if (!pokemob.getGeneralState(GeneralStates.TAMED)) return true;
             return pokemob.getGeneralState(GeneralStates.STAYING);
         };
-        final Pair<Integer, ? extends Behavior<? super LivingEntity>> pair = Pair.of(0,
-                new GuardTask<>(pokemob.getEntity(), guardai));
+        final Pair<Integer, ? extends Behavior<? super LivingEntity>> pair = Pair.of(0, new GuardTask<>(guardai));
         list.add(pair);
         if (entry.stock)
         {

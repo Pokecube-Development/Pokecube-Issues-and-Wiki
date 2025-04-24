@@ -32,11 +32,9 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.entity.trainers.IHasMessages;
 import pokecube.api.entity.trainers.IHasNPCAIStates;
 import pokecube.api.entity.trainers.IHasNPCAIStates.AIState;
 import pokecube.api.entity.trainers.IHasPokemobs;
-import pokecube.api.entity.trainers.IHasRewards;
 import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.entity.trainers.actions.ActionContext;
 import pokecube.api.entity.trainers.actions.MessageState;
@@ -220,9 +218,6 @@ public class CapabilityHasPokemobs
         private byte gender = 0;
         private int number = Integer.MAX_VALUE;
         private LivingEntity user;
-        public IHasNPCAIStates aiStates;
-        public IHasMessages messages;
-        public IHasRewards rewards;
         private int nextSlot;
         // Cooldown between sending out pokemobs
         private int attackCooldown = 0;
@@ -248,6 +243,11 @@ public class CapabilityHasPokemobs
         {
             this.initSync(new DataSync_Impl());
             this.init(user);
+        }
+
+        protected IHasNPCAIStates getAIStates()
+        {
+            return user.getData(TrainerCaps.AISTATES);
         }
 
         private void initSync(DataSync sync)
@@ -450,10 +450,6 @@ public class CapabilityHasPokemobs
         {
             this.user = user;
 
-            this.aiStates = user.getData(TrainerCaps.AISTATES);
-            this.messages = user.getData(TrainerCaps.MESSAGES);
-            this.rewards = user.getData(TrainerCaps.REWARDS);
-
             if (this.battleCooldown < 0)
             {
                 this.battleCooldown = Config.instance.trainerCooldown;
@@ -480,7 +476,7 @@ public class CapabilityHasPokemobs
         {
             // If someone punches us, we will retaliate, so no permafriendly
             // then.
-            if (this.aiStates.getAIState(AIState.PERMFRIENDLY) && this.user.getKillCredit() == null)
+            if (this.getAIStates().getAIState(AIState.PERMFRIENDLY) && this.user.getKillCredit() == null)
             {
                 this.friendlyCooldown = 10;
                 return;
@@ -490,11 +486,13 @@ public class CapabilityHasPokemobs
             final boolean done = this.getAttackCooldown() <= 0;
             if (done)
             {
-                this.setAttackCooldown(-1);
-                this.setNextSlot(0);
+                if (this.getAttackCooldown() != -1) this.setAttackCooldown(-1);
+                if (this.getNextSlot() != 0) this.setNextSlot(0);
             }
-            else if (this.getOutMob() == null && !this.aiStates.getAIState(AIState.THROWING))
+            else if (this.getOutMob() == null && !this.getAIStates().getAIState(AIState.THROWING))
+            {
                 this.setAttackCooldown(this.getAttackCooldown() - 1);
+            }
             if (this.isInBattle()) return;
             if (!done && this.getTarget() != null) this.onSetTarget(null);
         }
@@ -502,10 +500,11 @@ public class CapabilityHasPokemobs
         @Override
         public void onAddMob()
         {
-            if (this.getTarget() == null || this.aiStates.getAIState(AIState.THROWING) || this.getOutMob() != null
+            var AI = getAIStates();
+            if (this.getTarget() == null || AI.getAIState(AIState.THROWING) || this.getOutMob() != null
                     || !this.getNextPokemob().isEmpty()) return;
-            this.aiStates.setAIState(AIState.INBATTLE, false);
-            if (this.getOutMob() == null && !this.aiStates.getAIState(AIState.THROWING))
+            AI.setAIState(AIState.INBATTLE, false);
+            if (this.getOutMob() == null && !AI.getAIState(AIState.THROWING))
                 if (this.getCooldown() <= Tracker.instance().getTick())
                 {
                     this.onLose(this.getTarget());
@@ -563,6 +562,7 @@ public class CapabilityHasPokemobs
             // TODO possible have alternate message for invalid defeat?
             if (!reward) return;
 
+            var rewards = this.getTrainer().getData(TrainerCaps.REWARDS);
             // Only store for players
             if (won instanceof Player player)
             {
@@ -577,7 +577,7 @@ public class CapabilityHasPokemobs
                 }
                 defeatedList.validate(this.user, defeatResetKey);
 
-                if (this.rewards.getRewards() != null) this.checkDefeatAchievement(player);
+                if (rewards.getRewards() != null) this.checkDefeatAchievement(player);
 
                 // If applicable, increase reputation for winning the battle.
                 if (this.user instanceof Villager villager)
@@ -585,14 +585,12 @@ public class CapabilityHasPokemobs
             }
 
             // Give the item rewards on defeat.
-            if (this.rewards.getRewards() != null && won instanceof LivingEntity mob)
-            {
-                this.rewards.giveReward(mob, this.user);
-            }
+            if (rewards.getRewards() != null && won instanceof LivingEntity mob) rewards.giveReward(mob, this.user);
 
             if (won != null)
             {
-                this.messages.sendMessage(MessageState.DEFEAT, won, this.user.getDisplayName(), won.getDisplayName());
+                var messages = this.getTrainer().getData(TrainerCaps.MESSAGES);
+                messages.sendMessage(MessageState.DEFEAT, won, this.user.getDisplayName(), won.getDisplayName());
                 if (this.notifyDefeat && won instanceof ServerPlayer player)
                 {
                     final PacketTrainer packet = new PacketTrainer(PacketTrainer.NOTIFYDEFEAT);
@@ -601,7 +599,7 @@ public class CapabilityHasPokemobs
                     PacketTrainer.ASSEMBLER.sendTo(packet.getTag(), player);
                 }
                 if (won instanceof LivingEntity living)
-                    this.messages.doAction(MessageState.DEFEAT, new ActionContext(living, this.getTrainer()));
+                    messages.doAction(MessageState.DEFEAT, new ActionContext(living, this.getTrainer()));
             }
         }
 
@@ -622,8 +620,8 @@ public class CapabilityHasPokemobs
         public void resetPokemob()
         {
             this.setNextSlot(0);
-            this.aiStates.setAIState(AIState.THROWING, false);
-            this.aiStates.setAIState(AIState.INBATTLE, false);
+            this.getAIStates().setAIState(AIState.THROWING, false);
+            this.getAIStates().setAIState(AIState.INBATTLE, false);
             EventsHandler.recallAllPokemobs(this.user);
             this.setOutMob(null);
         }
@@ -784,8 +782,8 @@ public class CapabilityHasPokemobs
             {
                 // Notify the watchers that a target was actually set.
                 for (final ITargetWatcher watcher : watchers) watcher.onSet(this, null);
-                this.aiStates.setAIState(AIState.THROWING, false);
-                this.aiStates.setAIState(AIState.INBATTLE, false);
+                this.getAIStates().setAIState(AIState.THROWING, false);
+                this.getAIStates().setAIState(AIState.INBATTLE, false);
                 BrainUtils.deagro(this.getTrainer());
                 this.getTrainer().getBrain().eraseMemory(MemoryTypes.BATTLETARGET.get());
                 this.getTrainer().getBrain().setActiveActivityIfPossible(Activity.IDLE);
@@ -807,11 +805,12 @@ public class CapabilityHasPokemobs
                 this.setAttackCooldown(cooldown);
                 if (target != null)
                 {
-                    this.messages.sendMessage(MessageState.AGRESS, target, this.user.getDisplayName(),
+                    var messages = this.getTrainer().getData(TrainerCaps.MESSAGES);
+                    messages.sendMessage(MessageState.AGRESS, target, this.user.getDisplayName(),
                             target.getDisplayName());
-                    this.messages.doAction(MessageState.AGRESS, new ActionContext(target, this.getTrainer()));
+                    messages.doAction(MessageState.AGRESS, new ActionContext(target, this.getTrainer()));
                 }
-                this.aiStates.setAIState(AIState.INBATTLE, true);
+                this.getAIStates().setAIState(AIState.INBATTLE, true);
             }
             // Notify the watchers that a target was actually set.
             for (final ITargetWatcher watcher : watchers) watcher.onSet(this, target);
@@ -885,7 +884,7 @@ public class CapabilityHasPokemobs
         @Override
         public void throwCubeAt(final Entity target)
         {
-            if (target == null || this.aiStates.getAIState(AIState.THROWING)
+            if (target == null || this.getAIStates().getAIState(AIState.THROWING)
                     || !(target.level() instanceof ServerLevel)) return;
             final ItemStack i = this.getNextPokemob();
             if (!i.isEmpty())
@@ -893,7 +892,7 @@ public class CapabilityHasPokemobs
                 if (ItemStack.isSameItemSameComponents(this.getTrainer().getItemInHand(InteractionHand.MAIN_HAND), i))
                     this.getTrainer().setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
 
-                this.aiStates.setAIState(AIState.INBATTLE, true);
+                this.getAIStates().setAIState(AIState.INBATTLE, true);
                 final IPokecube cube = (IPokecube) i.getItem();
                 PokecubeManager.heal(i, user.level, false);
 
@@ -926,12 +925,13 @@ public class CapabilityHasPokemobs
                 {
                     thrown.autoRelease = 20;
                     thrown.canBePickedUp = false;
-                    this.aiStates.setAIState(AIState.THROWING, true);
+                    this.getAIStates().setAIState(AIState.THROWING, true);
                     this.setAttackCooldown(Config.instance.trainerSendOutDelay);
-                    this.messages.sendMessage(MessageState.SENDOUT, target, this.user.getDisplayName(),
-                            i.getHoverName(), target.getDisplayName());
-                    if (target instanceof LivingEntity) this.messages.doAction(MessageState.SENDOUT,
-                            new ActionContext((LivingEntity) target, this.getTrainer()));
+                    var messages = this.getTrainer().getData(TrainerCaps.MESSAGES);
+                    messages.sendMessage(MessageState.SENDOUT, target, this.user.getDisplayName(), i.getHoverName(),
+                            target.getDisplayName());
+                    if (target instanceof LivingEntity living)
+                        messages.doAction(MessageState.SENDOUT, new ActionContext(living, this.getTrainer()));
                 }
                 this.nextSlot++;
                 if (this.nextSlot >= this.getMaxPokemobCount() || this.getNextPokemob() == null) this.nextSlot = -1;
@@ -980,7 +980,7 @@ public class CapabilityHasPokemobs
         @Override
         public boolean isInBattle()
         {
-            return this.aiStates.getAIState(AIState.INBATTLE);
+            return this.getAIStates().getAIState(AIState.INBATTLE);
         }
 
         // Things below are from IInventory

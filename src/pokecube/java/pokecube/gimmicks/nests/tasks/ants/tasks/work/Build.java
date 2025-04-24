@@ -1,11 +1,6 @@
 package pokecube.gimmicks.nests.tasks.ants.tasks.work;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.Predicate;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
@@ -19,8 +14,10 @@ import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.utility.UtilTask;
+import pokecube.core.ai.tasks.utility.StoreItems;
+import pokecube.core.ai.tasks.utility.UtilBehaviour;
 import pokecube.gimmicks.nests.tasks.ants.AntTasks.AntJob;
 import pokecube.gimmicks.nests.tasks.ants.AntTasks.AntRoom;
 import pokecube.gimmicks.nests.tasks.ants.nest.Edge;
@@ -32,29 +29,33 @@ import pokecube.gimmicks.nests.tasks.ants.tasks.AbstractWorkTask;
 import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.Tracker;
 
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Predicate;
+
 public class Build extends AbstractConstructTask
 {
     public static interface IRoomHandler
     {
-        default boolean validWall(final Tree tree, final ServerLevel world, final BlockPos pos,
+        default boolean validWall(final Tree tree, final ServerLevel level, IPokemob pokemob, final BlockPos pos,
                 final AbstractWorkTask task, final boolean checkAir)
         {
             final Node node = tree.getEffectiveNode(pos, null);
             // No node, everything is a valid wall!
             if (node == null) return true;
-            return this.validWall(node, world, pos, task, checkAir);
+            return this.validWall(node, level, pokemob, pos, task, checkAir);
         }
 
-        default boolean place(final Tree tree, final ServerLevel world, final BlockPos pos, final BlockState state,
-                final AbstractWorkTask task)
+        default boolean place(final Tree tree, final ServerLevel level, IPokemob pokemob, final BlockPos pos,
+                final BlockState state, final AbstractWorkTask task)
         {
             final Node node = tree.getEffectiveNode(pos, null);
             // No node, don't place
             if (node == null) return false;
-            return this.place(node, world, state, pos, task);
+            return this.place(node, level, pokemob, state, pos, task);
         }
 
-        default boolean validWall(final Node node, final ServerLevel world, final BlockPos pos,
+        default boolean validWall(final Node node, final ServerLevel world, IPokemob pokemob, final BlockPos pos,
                 final AbstractWorkTask task, final boolean checkAir)
         {
             final BlockState state = world.getBlockState(pos);
@@ -90,11 +91,12 @@ public class Build extends AbstractConstructTask
                 if (edge && !light)
                 {
                     edge = false;
-                    for (final Edge e : node.edges) if (e.isOnShell(pos))
-                    {
-                        edge = true;
-                        break;
-                    }
+                    for (final Edge e : node.edges)
+                        if (e.isOnShell(pos))
+                        {
+                            edge = true;
+                            break;
+                        }
                     if (!edge) valid = world.isEmptyBlock(pos);
                 }
                 break;
@@ -112,13 +114,13 @@ public class Build extends AbstractConstructTask
                 boolean wouldBeValid = false;
                 if (task != null)
                 {
-                    task.tryHarvest(pos, true);
-                    wouldBeValid = this.validWall(node, world, pos, null, false);
+                    task.tryHarvest(world, pokemob, pos, true);
+                    wouldBeValid = this.validWall(node, world, pokemob, pos, null, false);
                 }
-                else if (UtilTask.diggable.test(state))
+                else if (UtilBehaviour.diggable.test(state))
                 {
                     world.setBlock(pos, Blocks.AIR.defaultBlockState(), 48);
-                    wouldBeValid = this.validWall(node, world, pos, null, false);
+                    wouldBeValid = this.validWall(node, world, pokemob, pos, null, false);
                     world.setBlock(pos, state, 48);
                 }
                 valid = wouldBeValid;
@@ -126,8 +128,8 @@ public class Build extends AbstractConstructTask
             return valid;
         }
 
-        default boolean place(final Node node, final ServerLevel world, BlockState state, final BlockPos pos,
-                final AbstractWorkTask task)
+        default boolean place(final Node node, final ServerLevel world, IPokemob pokemob, BlockState state,
+                final BlockPos pos, final AbstractWorkTask task)
         {
             final BlockPos mid = node.getCenter();
             final int dy = pos.getY() - mid.getY();
@@ -151,19 +153,18 @@ public class Build extends AbstractConstructTask
             final double dh2 = dx * dx + dz * dz;
             switch (node.type)
             {
-            case EGG:
-                break;
             case ENTRANCE:
                 boolean edge = dy >= 0 && dy < 2;
                 edge = edge && (dx == 0 && dz > 1 && dz <= 4 || dz == 0 && dx > 1 && dx <= 4);
                 if (edge && !light)
                 {
                     edge = false;
-                    for (final Edge e : node.edges) if (e.isOnShell(pos))
-                    {
-                        edge = true;
-                        break;
-                    }
+                    for (final Edge e : node.edges)
+                        if (e.isOnShell(pos))
+                        {
+                            edge = true;
+                            break;
+                        }
                     if (!edge) state = Blocks.AIR.defaultBlockState();
                 }
                 break;
@@ -172,20 +173,17 @@ public class Build extends AbstractConstructTask
                 else if (dx == 0 && dz == 0 && dy == -2) state = Blocks.SHROOMLIGHT.defaultBlockState();
                 else if (dy == -1 && dh2 <= node.size * node.size) state = Blocks.FARMLAND.defaultBlockState();
                 break;
-            case NODE:
-                break;
             default:
                 break;
             }
             if (state.getBlock() == Blocks.AIR)
-                return task == null ? world.destroyBlock(pos, true) : task.tryHarvest(pos, true);
+                return task == null ? world.destroyBlock(pos, true) : task.tryHarvest(world, pokemob, pos, true);
             else return world.setBlockAndUpdate(pos, state);
         }
     }
 
     private static final IRoomHandler DEFAULT = new IRoomHandler()
-    {
-    };
+    {};
 
     public static final Map<AntRoom, IRoomHandler> ROOMHANLDERS = Maps.newHashMap();
 
@@ -195,12 +193,12 @@ public class Build extends AbstractConstructTask
 
     boolean going_to_nest = false;
 
-    public Build(final IPokemob pokemob)
+    public Build()
     {
-        super(pokemob, j -> j == AntJob.BUILD, 5);
+        super(j -> j == AntJob.BUILD, 5);
     }
 
-    private boolean buildPart(final Part part)
+    private boolean buildPart(final Part part, ServerLevel level, IPokemob pokemob)
     {
         final long time = Tracker.instance().getTick();
         if (!part.shouldBuild(time)) return false;
@@ -210,7 +208,7 @@ public class Build extends AbstractConstructTask
         // Start with a check of if the pos is on the shell, this check is done
         // as it ensures that this is actually on the shell, and not say on a
         // border between rooms.
-        Predicate<BlockPos> isValid = pos -> tree.isOnShell(pos);
+        Predicate<BlockPos> isValid = tree::isOnShell;
         // If it is inside, and not diggable, we notify the node of the
         // dug spot, finally we check if there is space nearby to stand.
         isValid = isValid.and(pos -> {
@@ -221,11 +219,11 @@ public class Build extends AbstractConstructTask
             final Node node = part.getTree().getEffectiveNode(pos, part);
             final IRoomHandler handler = Build.ROOMHANLDERS.getOrDefault(node == part ? node.type : type,
                     Build.DEFAULT);
-            final boolean wall = handler.validWall(tree, this.world, pos, null, true);
+            final boolean wall = handler.validWall(tree, level, pokemob, pos, null, true);
             if (!wall) this.valids.getAndIncrement();
             return !wall;
         });// .and(this.canStandNear);
-           // For some reason, parallel stream fails here?
+        // For some reason, parallel stream fails here?
         final Optional<BlockPos> pos = part.getBuildBounds().stream().filter(isValid).findAny();
         if (pos.isPresent())
         {
@@ -263,11 +261,12 @@ public class Build extends AbstractConstructTask
         else if (old instanceof Node node)
         {
             Edge next = null;
-            for (final Edge e : node.edges) if (e.shouldBuild(time))
-            {
-                next = e;
-                break;
-            }
+            for (final Edge e : node.edges)
+                if (e.shouldBuild(time))
+                {
+                    next = e;
+                    break;
+                }
             if (next != null)
             {
                 this.n = null;
@@ -277,22 +276,24 @@ public class Build extends AbstractConstructTask
             }
         }
         // Try to find another open node or edge
-        for (final Node n : this.nest.hab.rooms.allRooms) if (n.shouldBuild(time))
-        {
-            this.n = n;
-            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Switching to a node 3 b " + this.n.type);
-            return true;
-        }
-        for (final Edge e : this.nest.hab.rooms.allEdges) if (e.shouldBuild(time))
-        {
-            this.e = e;
-            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Switching to an edge 2 b");
-            return true;
-        }
+        for (final Node n : this.nest.hab.rooms.allRooms)
+            if (n.shouldBuild(time))
+            {
+                this.n = n;
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Switching to a node 3 b " + this.n.type);
+                return true;
+            }
+        for (final Edge e : this.nest.hab.rooms.allEdges)
+            if (e.shouldBuild(time))
+            {
+                this.e = e;
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Switching to an edge 2 b");
+                return true;
+            }
         return false;
     }
 
-    private boolean hasItem()
+    private boolean hasItem(IPokemob pokemob, StoreItems storage)
     {
         // First. we need to check our own inventory, see if we have any blocks.
         // If so, we will place one of those. Otherwise, we need to go to the
@@ -300,10 +301,10 @@ public class Build extends AbstractConstructTask
         items:
         if (this.to_place.isEmpty())
         {
-            for (int i = 2; i < this.pokemob.getInventory().getContainerSize(); i++)
+            for (int i = 2; i < pokemob.getInventory().getContainerSize(); i++)
             {
 
-                final ItemStack stack = this.pokemob.getInventory().getItem(i);
+                final ItemStack stack = pokemob.getInventory().getItem(i);
                 if (!stack.isEmpty() && stack.getItem() instanceof BlockItem item)
                 {
                     if (!PokecubeTerrainChecker.isTerrain(item.getBlock().defaultBlockState())) continue;
@@ -317,8 +318,9 @@ public class Build extends AbstractConstructTask
             {
                 this.progressTimer = -60;
                 final BlockPos pos = this.nest.nest.getBlockPos();
-                final var inv = this.storage.getInventory(this.world, pos, this.storage.storageFace);
-                if (pos.distSqr(this.entity.blockPosition()) > 9) this.setWalkTo(pos, 1, 1);
+                var entity = pokemob.getEntity();
+                final var inv = storage.getInventory((ServerLevel) entity.level(), pos, storage.storageFace);
+                if (pos.distSqr(entity.blockPosition()) > 9) this.setWalkTo(entity, pos, 1, 1);
                 else if (inv != null && inv.getFirst() != null)
                 {
                     IItemHandlerModifiable cont = inv.getFirst();
@@ -329,14 +331,14 @@ public class Build extends AbstractConstructTask
                         {
                             if (!PokecubeTerrainChecker.isTerrain(item.getBlock().defaultBlockState())) continue;
                             this.to_place = inv.getFirst().extractItem(i, Math.min(stack.getCount(), 5), false);
-                            this.storeInd = this.storage.firstEmpty;
-                            this.pokemob.getInventory().setItem(this.storage.firstEmpty, this.to_place);
+                            this.storeInd = storage.firstEmpty;
+                            pokemob.getInventory().setItem(storage.firstEmpty, this.to_place);
                             return false;
                         }
                     }
                     this.to_place = new ItemStack(Blocks.PODZOL, 5);
-                    this.storeInd = this.storage.firstEmpty;
-                    this.pokemob.getInventory().setItem(this.storage.firstEmpty, this.to_place);
+                    this.storeInd = storage.firstEmpty;
+                    pokemob.getInventory().setItem(storage.firstEmpty, this.to_place);
                 }
             }
             this.going_to_nest = this.to_place.isEmpty();
@@ -350,7 +352,7 @@ public class Build extends AbstractConstructTask
     }
 
     @Override
-    protected boolean selectJobSite(Mob owner)
+    protected boolean selectJobSite(IPokemob pokemob, StoreItems storage)
     {
         select:
         if (this.work_pos == null)
@@ -358,16 +360,16 @@ public class Build extends AbstractConstructTask
             final boolean edge = this.e != null;
             final Part part = edge ? this.e : this.n;
             final long time = Tracker.instance().getTick();
-            if (this.buildPart(part)) break select;
+            if (this.buildPart(part, (ServerLevel) pokemob.getEntity().level(), pokemob)) break select;
             if (!part.shouldBuild(time))
             {
-                if (!this.divert(part)) this.endTask(owner);
+                if (!this.divert(part)) this.endTask(pokemob.getEntity());
                 return false;
             }
         }
         // Check item after selecting a postion, this way we can decide if the
         // item is the correct one to place at this location.
-        return this.work_pos != null && this.hasItem();
+        return this.work_pos != null && this.hasItem(pokemob, storage);
     }
 
     @Override
@@ -376,7 +378,9 @@ public class Build extends AbstractConstructTask
         if (!this.to_place.isEmpty() && this.to_place.getItem() instanceof BlockItem item && this.storeInd != -1)
         {
             final BlockState state = item.getBlock().defaultBlockState();
-            boolean wall = false;
+            ServerLevel level = (ServerLevel) owner.level();
+            IPokemob pokemob = PokemobCaps.getPokemobFor(owner);
+            boolean wall;
             final Part part = this.n == null ? this.e : this.n;
             final BlockPos pos = this.work_pos;
             final AntRoom type = AntRoom.NODE;
@@ -384,14 +388,14 @@ public class Build extends AbstractConstructTask
             final Node node = tree.getEffectiveNode(pos, part);
             final IRoomHandler handler = Build.ROOMHANLDERS.getOrDefault(node == part ? node.type : type,
                     Build.DEFAULT);
-            wall = handler.validWall(tree, this.world, pos, this, true);
+            wall = handler.validWall(tree, level, pokemob, pos, this, true);
             if (!wall)
             {
-                handler.place(tree, this.world, this.work_pos, state, this);
-                if (!this.world.isEmptyBlock(pos)) this.to_place.shrink(1);
+                handler.place(tree, level, pokemob, this.work_pos, state, this);
+                if (!level.isEmptyBlock(pos)) this.to_place.shrink(1);
             }
             part.markBuilt(this.work_pos, Tracker.instance().getTick() + 1200);
-            this.pokemob.getInventory().setItem(this.storeInd, this.to_place);
+            pokemob.getInventory().setItem(this.storeInd, this.to_place);
         }
     }
 }

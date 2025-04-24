@@ -1,10 +1,6 @@
 package pokecube.core.ai.tasks.idle.hunger;
 
-import java.util.List;
-import java.util.function.Predicate;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
@@ -15,10 +11,13 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.TaskBase.InventoryChange;
-import pokecube.core.ai.tasks.utility.GatherTask.ReplantTask;
+import pokecube.core.ai.tasks.utility.GatherItems.ReplantTask;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
+
+import java.util.List;
+import java.util.function.Predicate;
 
 public class EatPlant extends EatBlockBase
 {
@@ -27,7 +26,7 @@ public class EatPlant extends EatBlockBase
         return PokecubeTerrainChecker.isFruit(state) || PokecubeTerrainChecker.isEdiblePlant(state);
     }
 
-    private static final Predicate<BlockState> checker = (b2) -> EatPlant.isHerb(b2);
+    private static final Predicate<BlockState> checker = EatPlant::isHerb;
 
     @Override
     public EatResult eat(final IPokemob pokemob, final NearBlock block)
@@ -51,10 +50,10 @@ public class EatPlant extends EatBlockBase
 
         // Copy the list incase the original was immutable.
         list = Lists.newArrayList(list);
-        final ItemStack first = list.get(0);
+        final ItemStack first = list.getFirst();
         pokemob.eat(first);
         first.grow(-1);
-        if (first.isEmpty()) list.remove(0);
+        if (first.isEmpty()) list.removeFirst();
         boolean replanted = false;
         // See if anything dropped was a seed for the thing we
         // picked.

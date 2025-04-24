@@ -64,7 +64,7 @@ public class ShoulderMobs
             var pokemob = event.getPokemob();
             // Jump on shoulder if able to
             if (pokemob.getPokedexEntry().canSitShoulder)
-                event.add(new IdleJumpOnShoulderTask(pokemob).setPriority(15));
+                event.add(new IdleJumpOnShoulderTask().setPriority(15));
         }
     }
 

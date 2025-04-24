@@ -41,7 +41,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
-import pokecube.core.ai.tasks.utility.GatherTask;
+import pokecube.core.ai.tasks.utility.GatherItems;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.SpawnHandler;
@@ -424,7 +424,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
             }
         }
 
-        this.items.removeIf(GatherTask.deaditemmatcher);
+        this.items.removeIf(GatherItems.deaditemmatcher);
         // Workers should only contain actual live ants! so if they are not
         // found here, remove them from the list
         this.workers.forEach((j, s) -> s.removeIf(uuid -> {

@@ -122,22 +122,20 @@ public class HungerTask extends BaseIdleTask
 
     Vector3 v = new Vector3();
     Vector3 v1 = new Vector3();
-    Random rand;
 
-    public HungerTask(final IPokemob pokemob)
+    public HungerTask()
     {
-        super(pokemob);
+        super();
     }
 
     /**
      * Swimming things look for fish hooks to try to go eat.
-     *
-     * @return found a hook.
      */
-    protected boolean checkBait()
+    protected void checkBait(ServerLevel level, IPokemob pokemob)
     {
-        if (this.pokemob.getPokedexEntry().swims())
+        if (pokemob.getPokedexEntry().swims())
         {
+            var entity = pokemob.getEntity();
             final List<FishingHook> hooks = new ArrayList<>();
             List<Projectile> projectiles = BrainUtils.getNearProjectiles(entity);
             if (projectiles != null) for (var p : projectiles) if (p instanceof FishingHook hook) hooks.add(hook);
@@ -146,55 +144,51 @@ public class HungerTask extends BaseIdleTask
                 final double moveSpeed = 1.5;
                 Collections.shuffle(hooks);
                 final FishingHook hook = hooks.getFirst();
-                if (this.v.isVisible(this.world, this.v1.set(hook)))
+                if (this.v.isVisible(level, this.v1.set(hook)))
                 {
-                    this.setWalkTo(hook.position(), moveSpeed, 0);
-                    if (this.entity.distanceToSqr(hook) < 2)
+                    this.setWalkTo(entity, hook.position(), moveSpeed, 0);
+                    if (entity.distanceToSqr(hook) < 2)
                     {
-                        hook.setHookedEntity(this.entity);
-                        this.pokemob.eat(hook);
+                        hook.setHookedEntity(entity);
+                        pokemob.eat(hook);
                     }
-                    return true;
                 }
             }
         }
-        return false;
     }
 
     /**
      * Checks for a variety of nearby food supplies, returns true if it finds food.
-     *
-     * @return found food
      */
-    protected boolean checkHunt()
+    protected void checkHunt(ServerLevel level, IPokemob pokemob)
     {
-        if (!this.hitThreshold(HungerTask.HUNTTHRESHOLD)) return false;
-        if (this.pokemob.isPhototroph()) if (this.checkPhotoeat()) return true;
-        if (this.entity.tickCount % PokecubeCore.getConfig().huntUpdateRate != 0) return false;
+        if (!this.hitThreshold(HungerTask.HUNTTHRESHOLD)) return;
+        if (pokemob.isPhototroph()) if (this.checkPhotoeat(level, pokemob)) return;
+        var entity = pokemob.getEntity();
+        if (entity.tickCount % PokecubeCore.getConfig().huntUpdateRate != 0) return;
         for (final IBlockEatTask task : HungerTask.EATTASKS)
-            if (task.tryEat(this.pokemob, this.blocks).test()) return true;
+            if (task.tryEat(pokemob, this.blocks).test()) return;
         // If none of these, then lets actually try to hunt.
-        if (this.pokemob.getPokedexEntry().hasPrey() && this.entity.getBrain()
+        if (pokemob.getPokedexEntry().hasPrey() && entity.getBrain()
                 .hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES))
         {
-            final Iterable<LivingEntity> targets = this.entity.getBrain()
+            final Iterable<LivingEntity> targets = entity.getBrain()
                     .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findAll(e -> true);
             for (final LivingEntity mob : targets)
             {
                 final IPokemob other = PokemobCaps.getPokemobFor(mob);
-                if (other != null && this.pokemob.getPokedexEntry().isFood(other.getPokedexEntry()))
+                if (other != null && pokemob.getPokedexEntry().isFood(other.getPokedexEntry()))
                 {
-                    final boolean isValid = other.getLevel() - this.pokemob.getLevel() < 5;
+                    final boolean isValid = other.getLevel() - pokemob.getLevel() < 5;
                     if (isValid)
                     {
-                        this.pokemob.setCombatState(CombatStates.HUNTING, true);
-                        BrainUtils.setHuntTarget(this.entity, mob);
-                        return true;
+                        pokemob.setCombatState(CombatStates.HUNTING, true);
+                        BrainUtils.setHuntTarget(entity, mob);
+                        return;
                     }
                 }
             }
         }
-        return false;
     }
 
     private boolean hitThreshold(final float threshold)
@@ -207,20 +201,20 @@ public class HungerTask extends BaseIdleTask
      *
      * @return found any berries to eat in inventory.
      */
-    protected boolean checkInventory()
+    protected boolean checkInventory(IPokemob pokemob)
     {
         // Too hungry to check inventory.
         if (this.hitThreshold(HungerTask.DEATH)) return false;
 
-        for (int i = 2; i < this.pokemob.getInventory().getContainerSize(); i++)
+        for (int i = 2; i < pokemob.getInventory().getContainerSize(); i++)
         {
-            final ItemStack stack = this.pokemob.getInventory().getItem(i);
+            final ItemStack stack = pokemob.getInventory().getItem(i);
             if (ItemList.is(HungerTask.FOODTAG, stack))
             {
                 final int size = stack.getCount();
-                this.pokemob.eat(stack);
+                pokemob.eat(stack);
                 if (size == stack.getCount()) stack.shrink(1);
-                if (stack.isEmpty()) this.pokemob.getInventory().setItem(i, ItemStack.EMPTY);
+                if (stack.isEmpty()) pokemob.getInventory().setItem(i, ItemStack.EMPTY);
                 return true;
             }
         }
@@ -232,12 +226,12 @@ public class HungerTask extends BaseIdleTask
      *
      * @return found light
      */
-    protected boolean checkPhotoeat()
+    protected boolean checkPhotoeat(ServerLevel level, IPokemob pokemob)
     {
-        if (this.entity.level().isDay() && this.v.canSeeSky(this.world))
+        if (level.isDay() && this.v.canSeeSky(level))
         {
-            this.pokemob.applyHunger(-PokecubeCore.getConfig().pokemobLifeSpan / 4);
-            this.pokemob.setCombatState(CombatStates.HUNTING, false);
+            pokemob.applyHunger(-PokecubeCore.getConfig().pokemobLifeSpan / 4);
+            pokemob.setCombatState(CombatStates.HUNTING, false);
             return true;
         }
         return false;
@@ -246,53 +240,48 @@ public class HungerTask extends BaseIdleTask
     /**
      * Check for places and times to sleep, this sets path to sleeping place and returns false if it finds somewhere,
      * but doesn't set sleep.
-     *
-     * @return went to sleep.
      */
-    protected boolean checkSleep()
+    protected void checkSleep(IPokemob pokemob)
     {
-        boolean sleeping = this.entity.hasEffect(StatusEffects.SLEEP);
+        var entity = pokemob.getEntity();
+        boolean sleeping = entity.hasEffect(StatusEffects.SLEEP);
         this.sleepy = true;
-        for (final TimePeriod p : this.pokemob.getPokedexEntry().activeTimes())
-            if (p != null && p.contains(TimePeriod.getTime(this.entity.level())))
+        for (final TimePeriod p : pokemob.getPokedexEntry().activeTimes())
+            if (p != null && p.contains(TimePeriod.getTime(entity.level())))
             {
                 this.sleepy = false;
-                if (sleeping) this.entity.removeEffect(StatusEffects.SLEEP);
+                if (sleeping) entity.removeEffect(StatusEffects.SLEEP);
                 break;
             }
         final BlockPos c = this.v.getPos();
         final boolean ownedSleepCheck =
-                this.pokemob.getGeneralState(GeneralStates.TAMED) && !this.pokemob.getGeneralState(
-                        GeneralStates.STAYING);
+                pokemob.getGeneralState(GeneralStates.TAMED) && !pokemob.getGeneralState(GeneralStates.STAYING);
         if (this.sleepy && !this.hitThreshold(HungerTask.EATTHRESHOLD) && !ownedSleepCheck)
         {
             final double moveSpeed = 1;
-            if (!this.isGoodSleepingSpot(c)) this.setWalkTo(this.pokemob.getHome(), moveSpeed, 0);
-            else if (this.entity.getNavigation().isDone())
+            if (!this.isGoodSleepingSpot(c, pokemob)) this.setWalkTo(entity, pokemob.getHome(), moveSpeed, 0);
+            else if (entity.getNavigation().isDone())
             {
                 StatusEffects.setStatus(entity, entity, StatusEffects.SLEEP, 30, Sleep.NATURAL_SLEEP);
-                this.pokemob.setCombatState(CombatStates.HUNTING, false);
-                return true;
+                pokemob.setCombatState(CombatStates.HUNTING, false);
+                return;
             }
-            else if (!this.entity.getNavigation().isDone()) if (sleeping) this.entity.removeEffect(StatusEffects.SLEEP);
+            else if (!entity.getNavigation().isDone()) if (sleeping) entity.removeEffect(StatusEffects.SLEEP);
         }
-        else if (!this.pokemob.getLogicState(LogicStates.TIRED))
-            if (sleeping) this.entity.removeEffect(StatusEffects.SLEEP);
-        if (ownedSleepCheck) if (sleeping) this.entity.removeEffect(StatusEffects.SLEEP);
-        return false;
+        else if (!pokemob.getLogicState(LogicStates.TIRED)) if (sleeping) entity.removeEffect(StatusEffects.SLEEP);
+        if (ownedSleepCheck) if (sleeping) entity.removeEffect(StatusEffects.SLEEP);
     }
 
     // 0 is sunrise, 6000 noon, 12000 dusk, 18000 midnight, 23999
-    public boolean isGoodSleepingSpot(final BlockPos c)
+    public boolean isGoodSleepingSpot(final BlockPos c, IPokemob pokemob)
     {
-        if (this.pokemob.getHome() == null || this.pokemob.getHome().equals(BlockPos.ZERO))
+        if (pokemob.getHome() == null || pokemob.getHome().equals(BlockPos.ZERO))
         {
-            this.v1.set(this.entity);
-            this.pokemob.setHome(this.v1.intX(), this.v1.intY(), this.v1.intZ(), 16);
+            this.v1.set(c);
+            pokemob.setHome(this.v1.intX(), this.v1.intY(), this.v1.intZ(), 16);
         }
-        if (this.pokemob.hasHomeArea() && this.entity.blockPosition().distSqr(this.pokemob.getHome()) > 9) return false;
         // TODO search for possible better place to sleep
-        return true;
+        return !pokemob.hasHomeArea() || !(c.distSqr(pokemob.getHome()) > 9);
     }
 
     @Override
@@ -306,59 +295,143 @@ public class HungerTask extends BaseIdleTask
     }
 
     @Override
-    public void run(ServerLevel level, Mob owner)
+    protected void tick(final ServerLevel level, final Mob entity, final long gameTime)
     {
-        this.v.set(this.entity);
+        var pokemob = PokemobCaps.getPokemobFor(entity);
+        this.v.set(entity);
 
-        // Check if we should go after bait. The Math.random() > 0.99 is to
-        // allow non-hungry fish to also try to get bait.
-        if (Math.random() > 0.99) this.checkBait();
+        label:
+        {        // Check if we should go after bait. The Math.random() > 0.99 is to
+            // allow non-hungry fish to also try to get bait.
+            if (Math.random() > 0.99) this.checkBait(level, pokemob);
 
-        // Do not run this if not really hungry
+            // Do not run this if not really hungry
+            if (!this.hitThreshold(HungerTask.EATTHRESHOLD)) break label;
+
+            // Check if we are hunting or should be
+            // Reset hunting status if we are not actually hungry
+            if (this.hitThreshold(HungerTask.HUNTTHRESHOLD)) this.checkHunt(level, pokemob);
+
+            final boolean hunting = pokemob.getCombatState(CombatStates.HUNTING);
+            if (pokemob.getLogicState(LogicStates.SLEEPING) && hunting)
+                pokemob.setCombatState(CombatStates.HUNTING, false);
+        }
+
+        this.v.set(entity);
+        final int hungerTicks = HungerTask.TICKRATE;
+
+        // Check if we should go to sleep instead.
+        this.checkSleep(pokemob);
+
+        final Random rand = new Random(pokemob.getRNGValue());
+        final int cur = entity.tickCount / hungerTicks;
+        final int tick = rand.nextInt(10);
+
         if (!this.hitThreshold(HungerTask.EATTHRESHOLD)) return;
+        /*
+         * Check the various hunger types if it is hunting. And if so, refresh
+         * the hunger time counter.
+         */
+        this.getHunger(pokemob);
 
-        // Check if we are hunting or should be
-        // Reset hunting status if we are not actually hungry
-        if (this.hitThreshold(HungerTask.HUNTTHRESHOLD)) this.checkHunt();
+        // Everything after here only applies about once per second.
+        if (entity.tickCount % hungerTicks != 0) return;
 
-        final boolean hunting = this.pokemob.getCombatState(CombatStates.HUNTING);
-        if (this.pokemob.getLogicState(LogicStates.SLEEPING) && hunting)
-            this.pokemob.setCombatState(CombatStates.HUNTING, false);
+        // Check own inventory for berries to eat, and then if the mob is
+        // allowed to, collect berries if none to eat.
+        if (this.hitThreshold(HungerTask.EATTHRESHOLD) && !this.checkInventory(pokemob))
+        {
+            // Pokemobs set to stay can collect berries, or wild ones,
+            boolean tameCheck = pokemob.getGeneralState(GeneralStates.STAYING) || pokemob.getOwnerId() == null;
+            if (entity.getPersistentData().contains("lastInteract"))
+            {
+                final long time = entity.getPersistentData().getLong("lastInteract");
+                final long diff = Tracker.instance().getTick() - time;
+                if (diff < PokecubeCore.getConfig().pokemobLifeSpan) tameCheck = false;
+            }
+            // If they are allowed to, find the berries.
+            // Only run this if we are getting close to hurt damage, mostly
+            // to allow trying other food sources first.
+            if (tameCheck && this.hitThreshold(HungerTask.BERRYGEN)) new GenBerries(pokemob).run(level);
+
+            // Otherwise take damage.
+            if (this.hitThreshold(HungerTask.DAMAGE))
+            {
+                final float ratio = (HungerTask.DAMAGE - this.hungerValue) / HungerTask.DAMAGE;
+                final boolean dead =
+                        pokemob.getMaxHealth() * ratio > pokemob.getHealth() || this.hitThreshold(HungerTask.DEATH);
+                // Ensure it dies if it should.
+                final float damage = dead ? pokemob.getMaxHealth() * 20 : pokemob.getMaxHealth() * ratio;
+                if (damage >= 1 && ratio >= 0.0625 && entity.getHealth() > 0)
+                {
+                    entity.hurt(entity.damageSources().starve(), damage);
+                    if (!dead)
+                    {
+                        if (this.lastMessageTick1 < entity.level().getGameTime())
+                        {
+                            this.lastMessageTick1 = (int) (entity.level().getGameTime() + 100);
+                            pokemob.displayMessageToOwner(
+                                    TComponent.translatable("pokemob.hungry.hurt", pokemob.getDisplayName()));
+                        }
+                    }
+                    else if (this.lastMessageTick2 < entity.level().getGameTime())
+                    {
+                        this.lastMessageTick2 = (int) (entity.level().getGameTime() + 100);
+                        pokemob.displayMessageToOwner(
+                                TComponent.translatable("pokemob.hungry.dead", pokemob.getDisplayName()));
+                    }
+                }
+            }
+        }
+
+        // cap hunger.
+        final int hungerTime = pokemob.getHungerTime();
+        final int hunger = Math.max(hungerTime, -PokecubeCore.getConfig().pokemobLifeSpan / 4);
+        if (hunger != hungerTime) pokemob.setHungerTime(hunger);
+
+        // Regenerate health if out of battle.
+        if (!BrainUtils.hasAttackTarget(entity) && pokemob.getHealth() > 0 && pokemob.getHungerCooldown() < 0
+                && pokemob.getHungerTime() < 0 && cur % 10 == tick)
+        {
+            final float dh = Math.max(1, pokemob.getMaxHealth() * 0.05f);
+            final float toHeal = pokemob.getHealth() + dh;
+            pokemob.setHealth(Math.min(toHeal, pokemob.getMaxHealth()));
+        }
     }
 
     @Override
-    public boolean shouldRun(Mob entityIn)
+    public boolean shouldRun(Mob entity)
     {
         final int hungerTicks = HungerTask.TICKRATE;
         // This can be set in configs to disable.
         if (hungerTicks < 0) return false;
-
+        var pokemob = PokemobCaps.getPokemobFor(entity);
         // Ensure we are not set to hunt if we shouldn't be
-        if (!this.hitThreshold(HungerTask.EATTHRESHOLD) && this.pokemob.getCombatState(CombatStates.HUNTING))
-            this.pokemob.setCombatState(CombatStates.HUNTING, false);
+        if (!this.hitThreshold(HungerTask.EATTHRESHOLD) && pokemob.getCombatState(CombatStates.HUNTING))
+            pokemob.setCombatState(CombatStates.HUNTING, false);
 
         // Do not run if the mob is in battle.
-        if (this.pokemob.getCombatState(CombatStates.BATTLING)) return false;
+        if (pokemob.getCombatState(CombatStates.BATTLING)) return false;
 
-        if (this.pokemob.neverHungry())
+        if (pokemob.neverHungry())
         {
-            this.pokemob.setHungerTime(0);
-            this.pokemob.setCombatState(CombatStates.HUNTING, false);
+            pokemob.setHungerTime(0);
+            pokemob.setCombatState(CombatStates.HUNTING, false);
             return false;
         }
 
         // Apply cooldowns and increment hunger.
-        this.pokemob.setHungerCooldown(this.pokemob.getHungerCooldown() - hungerTicks);
-        this.pokemob.applyHunger(hungerTicks);
+        pokemob.setHungerCooldown(pokemob.getHungerCooldown() - hungerTicks);
+        pokemob.applyHunger(hungerTicks);
 
-        this.calculateHunger();
+        this.getHunger(pokemob);
 
         // Do not run this if on cooldown
-        if (this.pokemob.getHungerCooldown() > 0) return false;
+        if (pokemob.getHungerCooldown() > 0) return false;
         // We are already hunting something!
-        if (BrainUtils.hasHuntTarget(this.entity)) return false;
+        if (BrainUtils.hasHuntTarget(entity)) return false;
 
-        final List<NearBlock> blocks = BrainUtils.getNearBlocks(this.entity);
+        final List<NearBlock> blocks = BrainUtils.getNearBlocks(entity);
 
         if (blocks != null) if (this.blocks == null) this.blocks = Lists.newArrayList(blocks);
         else
@@ -371,97 +444,8 @@ public class HungerTask extends BaseIdleTask
         return true;
     }
 
-    private void calculateHunger()
+    private void getHunger(IPokemob pokemob)
     {
-        this.hungerValue = HungerTask.calculateHunger(this.pokemob);
-    }
-
-    @Override
-    public void runTick(ServerLevel level, Mob owner)
-    {
-
-        this.v.set(this.entity);
-        final int hungerTicks = HungerTask.TICKRATE;
-
-        // Check if we should go to sleep instead.
-        this.checkSleep();
-
-        final Random rand = new Random(this.pokemob.getRNGValue());
-        final int cur = this.entity.tickCount / hungerTicks;
-        final int tick = rand.nextInt(10);
-
-        if (!this.hitThreshold(HungerTask.EATTHRESHOLD)) return;
-        /*
-         * Check the various hunger types if it is hunting. And if so, refresh
-         * the hunger time counter.
-         */
-        this.calculateHunger();
-
-        // Everything after here only applies about once per second.
-        if (this.entity.tickCount % hungerTicks != 0) return;
-
-        // Check own inventory for berries to eat, and then if the mob is
-        // allowed to, collect berries if none to eat.
-        if (this.hitThreshold(HungerTask.EATTHRESHOLD) && !this.checkInventory())
-        {
-            // Pokemobs set to stay can collect berries, or wild ones,
-            boolean tameCheck =
-                    this.pokemob.getGeneralState(GeneralStates.STAYING) || this.pokemob.getOwnerId() == null;
-            if (this.entity.getPersistentData().contains("lastInteract"))
-            {
-                final long time = this.entity.getPersistentData().getLong("lastInteract");
-                final long diff = Tracker.instance().getTick() - time;
-                if (diff < PokecubeCore.getConfig().pokemobLifeSpan) tameCheck = false;
-            }
-            // If they are allowed to, find the berries.
-            // Only run this if we are getting close to hurt damage, mostly
-            // to allow trying other food sources first.
-            if (tameCheck && this.hitThreshold(HungerTask.BERRYGEN)) new GenBerries(this.pokemob).run(this.world);
-
-            // Otherwise take damage.
-            if (this.hitThreshold(HungerTask.DAMAGE))
-            {
-                final float ratio = (HungerTask.DAMAGE - this.hungerValue) / HungerTask.DAMAGE;
-                final boolean dead =
-                        this.pokemob.getMaxHealth() * ratio > this.pokemob.getHealth() || this.hitThreshold(
-                                HungerTask.DEATH);
-                // Ensure it dies if it should.
-                final float damage = dead ? this.pokemob.getMaxHealth() * 20 : this.pokemob.getMaxHealth() * ratio;
-                if (damage >= 1 && ratio >= 0.0625 && this.entity.getHealth() > 0)
-                {
-                    this.entity.hurt(this.entity.damageSources().starve(), damage);
-                    if (!dead)
-                    {
-                        if (this.lastMessageTick1 < this.entity.level().getGameTime())
-                        {
-                            this.lastMessageTick1 = (int) (this.entity.level().getGameTime() + 100);
-                            this.pokemob.displayMessageToOwner(
-                                    TComponent.translatable("pokemob.hungry.hurt", this.pokemob.getDisplayName()));
-                        }
-                    }
-                    else if (this.lastMessageTick2 < this.entity.level().getGameTime())
-                    {
-                        this.lastMessageTick2 = (int) (this.entity.level().getGameTime() + 100);
-                        this.pokemob.displayMessageToOwner(
-                                TComponent.translatable("pokemob.hungry.dead", this.pokemob.getDisplayName()));
-                    }
-                }
-            }
-        }
-
-        // cap hunger.
-        final int hungerTime = this.pokemob.getHungerTime();
-        final int hunger = Math.max(hungerTime, -PokecubeCore.getConfig().pokemobLifeSpan / 4);
-        if (hunger != hungerTime) this.pokemob.setHungerTime(hunger);
-
-        // Regenerate health if out of battle.
-        if (!BrainUtils.hasAttackTarget(this.entity) && this.pokemob.getHealth() > 0
-                && !this.entity.level().isClientSide && this.pokemob.getHungerCooldown() < 0
-                && this.pokemob.getHungerTime() < 0 && cur % 10 == tick)
-        {
-            final float dh = Math.max(1, this.pokemob.getMaxHealth() * 0.05f);
-            final float toHeal = this.pokemob.getHealth() + dh;
-            this.pokemob.setHealth(Math.min(toHeal, this.pokemob.getMaxHealth()));
-        }
+        this.hungerValue = HungerTask.calculateHunger(pokemob);
     }
 }

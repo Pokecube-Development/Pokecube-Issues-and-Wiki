@@ -177,7 +177,7 @@ public class TrainerEventHandler
             PokecubeAPI.LOGGER.warn("Error with default trainer rewards {}", Config.instance.trainer_defeat_reward, e);
         }
         pmobs.init(mob);
-        var rewards = pmobs.rewards;
+        var rewards = mob.getData(TrainerCaps.REWARDS);
         if (!stack.isEmpty() && rewards.getRewards().isEmpty()) rewards.getRewards().add(new Reward(stack));
 
         mob.setData(TrainerCaps.TRAINER, mobs);

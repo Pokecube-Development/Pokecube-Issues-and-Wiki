@@ -1,10 +1,5 @@
 package pokecube.gimmicks.builders.tasks;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.function.Consumer;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -17,10 +12,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.LogicStates;
-import pokecube.core.ai.tasks.utility.StoreTask;
-import pokecube.core.ai.tasks.utility.UtilTask;
+import pokecube.core.ai.tasks.utility.StoreItems;
+import pokecube.core.ai.tasks.utility.UtilBehaviour;
 import pokecube.core.inventory.pokemob.PokemobInventory;
 import pokecube.gimmicks.builders.BuilderTasks;
 import pokecube.gimmicks.builders.builders.BuilderManager.BuilderClearer;
@@ -31,31 +27,29 @@ import pokecube.gimmicks.builders.builders.IBlocksBuilder.PlaceInfo;
 import pokecube.gimmicks.builders.builders.IBlocksClearer;
 import pokecube.gimmicks.builders.builders.StructureBuilder;
 import thut.api.ThutCaps;
-import thut.api.maths.Vector3;
 import thut.api.world.StructureTemplateTools;
 import thut.core.common.ThutCore;
 import thut.lib.ItemStackTools;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.function.Consumer;
+
 /**
- * This IAIRunnable builds a structure based on the set
- * {@link StructureBuilder}, and then provides feedback on it via a book in the
- * offhand slot.
+ * This IAIRunnable builds a structure based on the set {@link StructureBuilder}, and then provides feedback on it via a
+ * book in the offhand slot.
  */
-public class DoBuild extends UtilTask
+public class DoBuild extends UtilBehaviour
 {
     public static final String KEY = "build_buildings";
 
-    public final StoreTask storage;
-
     boolean hasInstructions = false;
-    ItemStack last = ItemStack.EMPTY;
 
     BuilderClearer build;
 
     IBlocksBuilder builder;
     IBlocksClearer clearer;
-
-    IItemHandlerModifiable ourInventory;
 
     boolean findingSpot = false;
     boolean gettingPart = false;
@@ -64,17 +58,11 @@ public class DoBuild extends UtilTask
     BlockPos nextClear = null;
     int pathTimeout = -1;
 
-    Vector3 seeking = new Vector3();
-
-    Vector3 v = new Vector3();
-    Vector3 v1 = new Vector3();
-
     BoMRecord BoM = null;
 
-    public DoBuild(IPokemob pokemob, StoreTask storage)
+    public DoBuild()
     {
-        super(pokemob);
-        this.storage = storage;
+        super();
     }
 
     @Override
@@ -98,14 +86,14 @@ public class DoBuild extends UtilTask
         return false;
     }
 
-    public void setBuilder(BuilderClearer build, ServerLevel level, Mob owner)
+    public void setBuilder(BuilderClearer build, ServerLevel level, IPokemob pokemob, StoreItems storage)
     {
         if (build == this.build) return;
-
+        var entity = pokemob.getEntity();
         var pair = storage.getInventory(level, storage.storageLoc, Direction.UP);
         if (pair == null || build == null)
         {
-            reset(owner);
+            reset(entity);
             return;
         }
         this.builder = build.builder();
@@ -120,38 +108,39 @@ public class DoBuild extends UtilTask
             builder.provideBoM(this.BoM, true);
             hasInstructions = true;
             builder.setCreative(pokemob.getOwner() instanceof ServerPlayer player && player.isCreative());
-            if (!builder.validBuilder()) reset(owner);
+            if (!builder.validBuilder()) reset(entity);
         }
     }
 
-    private boolean blocksClear(ServerLevel level)
+    private boolean blocksClear(ServerLevel level, IPokemob pokemob, StoreItems storage)
     {
         if (clearer == null) return true;
         if (nextClear == null) nextClear = clearer.nextRemoval();
         boolean isClear = nextClear == null;
         pathTimeout--;
+        var entity = pokemob.getEntity();
 
         // First check for blocks to remove
         if (!isClear)
         {
-//            if (entity.tickCount % 20 == 0) System.out.println("Clearing " + nextClear);
+            //            if (entity.tickCount % 20 == 0) System.out.println("Clearing " + nextClear);
             double diff = 5;
-            diff = Math.max(diff, this.entity.getBbWidth());
+            diff = Math.max(diff, entity.getBbWidth());
             if (entity.getOnPos().distSqr(nextClear) > diff)
             {
-                this.setWalkTo(nextClear, 1, 0);
+                this.setWalkTo(entity, nextClear, 1, 0);
                 if (pathTimeout < 0) pathTimeout = 150;
                 clearer.markPendingClear(nextClear);
             }
             if (pathTimeout < 20 || clearer.isCreative())
             {
-                if (!storage.canBreak(level, nextClear))
+                if (storage.canNotBreak(level, nextClear))
                 {
                     // Notify that we can't actually break this.
                     double size = 0.1;
-                    double x = this.entity.getX();
-                    double y = this.entity.getY() + entity.getBbHeight();
-                    double z = this.entity.getZ();
+                    double x = entity.getX();
+                    double y = entity.getY() + entity.getBbHeight();
+                    double z = entity.getZ();
                     Random r = ThutCore.newRandom();
                     double i = r.nextGaussian() * size;
                     double j = r.nextGaussian() * size;
@@ -196,7 +185,7 @@ public class DoBuild extends UtilTask
                     level.destroyBlock(nextClear, false);
                     // Then remove the mutex flag for this location
                     clearer.markCleared(nextClear);
-                    nextClear = null;;
+                    nextClear = null;
 
                     if (!clearer.isCreative())
                     {
@@ -212,8 +201,8 @@ public class DoBuild extends UtilTask
         return true;
     }
 
-    private void takeFromContainer(IItemHandlerModifiable container, List<ItemStack> requested, int minSlot,
-            int maxSlot, int depth)
+    private void takeFromContainer(StoreItems storage, IItemHandlerModifiable container, List<ItemStack> requested,
+            int minSlot, int maxSlot, int depth)
     {
         if (requested.isEmpty()) return;
         List<IItemHandlerModifiable> subs = new ArrayList<>();
@@ -244,12 +233,13 @@ public class DoBuild extends UtilTask
                 }
                 if (collected)
                 {
-                    for (var stack2 : requested) if (ItemStack.isSameItem(stack, stack2))
-                    {
-                        requested.remove(stack2);
-                        if (requested.isEmpty()) return;
-                        break;
-                    }
+                    for (var stack2 : requested)
+                        if (ItemStack.isSameItem(stack, stack2))
+                        {
+                            requested.remove(stack2);
+                            if (requested.isEmpty()) return;
+                            break;
+                        }
                 }
                 continue;
             }
@@ -261,13 +251,14 @@ public class DoBuild extends UtilTask
         }
         for (var subContainer : subs)
         {
-            takeFromContainer(subContainer, requested, minSlot, maxSlot, depth + 1);
+            takeFromContainer(storage, subContainer, requested, minSlot, maxSlot, depth + 1);
             if (requested.isEmpty()) return;
         }
     }
 
-    private boolean checkSupplies(ServerLevel level)
+    private boolean checkSupplies(ServerLevel level, IPokemob pokemob, StoreItems storage)
     {
+        var entity = pokemob.getEntity();
         // If we are trying to get to the place to build, first select the
         // spot.
         if (nextPlace == null)
@@ -318,20 +309,21 @@ public class DoBuild extends UtilTask
                         break;
                     }
                 }
-                if (!has) requested.add(0, stack);
+                if (!has) requested.addFirst(stack);
             }
         }
 
         for (int i = 0; i < storage.getTaskInventory().getSlots(); i++)
         {
             ItemStack stack = storage.getTaskInventory().getStackInSlot(i);
-            for (var stack2 : requested) if (ItemStack.isSameItem(stack, stack2))
-            {
-                requested.remove(stack2);
-                break;
-            }
+            for (var stack2 : requested)
+                if (ItemStack.isSameItem(stack, stack2))
+                {
+                    requested.remove(stack2);
+                    break;
+                }
         }
-//        if (entity.tickCount % 20 == 0) System.out.println(requested);
+        //        if (entity.tickCount % 20 == 0) System.out.println(requested);
 
         // This means we already had the next set of items on the list.
         if (requested.isEmpty())
@@ -344,10 +336,10 @@ public class DoBuild extends UtilTask
         // Otherwise we need to go collect them
         double diff = 1;
         var storeLoc = storage.storageLoc;
-        diff = Math.max(diff, this.entity.getBbWidth());
+        diff = Math.max(diff, entity.getBbWidth());
         if (entity.getOnPos().distSqr(storeLoc) > diff)
         {
-            this.setWalkTo(storeLoc, 1, 0);
+            this.setWalkTo(entity, storeLoc, 1, 0);
             if (pathTimeout < 0) pathTimeout = 150;
         }
 
@@ -364,7 +356,7 @@ public class DoBuild extends UtilTask
                 maxSlot = PokemobInventory.MAIN_INVENTORY_SIZE;
             }
 
-            if (container != null) takeFromContainer(container, requested, minSlot, maxSlot, 0);
+            if (container != null) takeFromContainer(storage, container, requested, minSlot, maxSlot, 0);
 
             if (!requested.isEmpty())
             {
@@ -373,9 +365,9 @@ public class DoBuild extends UtilTask
                 if (entity.tickCount % 10 == 0)
                 {
                     double size = 0.1;
-                    double x = this.entity.getX();
-                    double y = this.entity.getY() + this.entity.getBbHeight();
-                    double z = this.entity.getZ();
+                    double x = entity.getX();
+                    double y = entity.getY() + entity.getBbHeight();
+                    double z = entity.getZ();
 
                     Random r = ThutCore.newRandom();
                     double i = r.nextGaussian() * size;
@@ -386,7 +378,7 @@ public class DoBuild extends UtilTask
                 if (storeLoc.distManhattan(entity.getOnPos()) > 3)
                 {
                     // Path to it if too far.
-                    setWalkTo(storeLoc, 1, 1);
+                    setWalkTo(entity, storeLoc, 1, 1);
                 }
                 else
                 {
@@ -407,14 +399,13 @@ public class DoBuild extends UtilTask
         return false;
     }
 
-    private void buildBlocks(ServerLevel level, Mob entityIn)
+    private void buildBlocks(ServerLevel level, IPokemob pokemob, StoreItems storage)
     {
-//        if (entity.tickCount % 20 == 0) System.out.println("Building");
+        var entity = pokemob.getEntity();
         // This is always called after checkSupplies, which would have set this.
         if (nextPlace == null)
         {
-            this.reset(entityIn);
-//            System.out.println("Reset :(");
+            this.reset(entity);
             return;
         }
 
@@ -429,17 +420,17 @@ public class DoBuild extends UtilTask
 
         var pos = nextPlace.info().pos();
         double diff = 5;
-        diff = Math.max(diff, this.entity.getBbWidth());
+        diff = Math.max(diff, entity.getBbWidth());
         if (entity.getOnPos().distSqr(pos) > diff)
         {
-            this.setWalkTo(pos, 1, 0);
+            this.setWalkTo(entity, pos, 1, 0);
             if (pathTimeout < 0) pathTimeout = 150;
         }
         if (pathTimeout < 20 || builder.isCreative())
         {
             gettingPart = true;
             findingSpot = false;
-            if (checkSupplies(level))
+            if (checkSupplies(level, pokemob, storage))
             {
                 builder.tryPlace(nextPlace, storage.getTaskInventory());
                 nextPlace = null;
@@ -448,8 +439,10 @@ public class DoBuild extends UtilTask
     }
 
     @Override
-    public void run(ServerLevel level, Mob owner)
+    protected void tick(final ServerLevel level, final Mob owner, final long gameTime)
     {
+        var storage = owner.getData(StoreItems.StoreBehaviour.TYPE);
+        var pokemob = PokemobCaps.getPokemobFor(owner);
         var storeLoc = storage.storageLoc;
         // Only run if we actually have storage (and are server side)
         if (storeLoc == null) return;
@@ -464,46 +457,32 @@ public class DoBuild extends UtilTask
             return;
         }
 
-        if (storage.pathing)
-        {
-//            System.out.println("Dumping items!");
-//            return;
-        }
-
         builder.markPendingBuild(storeLoc);
         if (clearer != null) clearer.markPendingClear(storeLoc);
 
-        if (entity.tickCount % 40 == 0) builder.checkBoM(this.BoM);
+        if (owner.tickCount % 40 == 0) builder.checkBoM(this.BoM);
 
         pathTimeout--;
 
         // first check if the blocks are clear, if so, return.
-        if (!blocksClear(level))
+        if (!blocksClear(level, pokemob, storage))
         {
-//            if (entity.tickCount % 20 == 0) System.out.println("Clearing Blocks Still");
             return;
         }
 
         // Check that we have needed supplies
-        if (!checkSupplies(level))
+        if (!checkSupplies(level, pokemob, storage))
         {
-//            if (entity.tickCount % 20 == 0) System.out.println("Need Supplies");
             return;
         }
 
-//        if (entity.tickCount % 20 == 0) System.out.println("Building!");
-        buildBlocks(level, owner);
+        buildBlocks(level, pokemob, storage);
     }
 
     @Override
     public boolean shouldRun(Mob entityIn)
     {
+        var pokemob = PokemobCaps.getPokemobFor(entityIn);
         return hasInstructions && pokemob.isRoutineEnabled(BuilderTasks.BUILD);
-    }
-
-    @Override
-    public boolean loadThrottle()
-    {
-        return false;
     }
 }

@@ -53,7 +53,7 @@ public class RunAway extends RootTask<PathfinderMob>
             final Vec3 vec3d1 = LandRandomPos.getPosAway(mob, 16, 7, vec3d);
             if (vec3d1 != null)
             {
-                this.setWalkTo(vec3d1, speedIn, 0);
+                this.setWalkTo(mob, vec3d1, speedIn, 0);
                 return;
             }
         }

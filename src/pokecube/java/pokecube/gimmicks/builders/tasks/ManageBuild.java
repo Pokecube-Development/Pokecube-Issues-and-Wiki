@@ -18,8 +18,8 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
-import pokecube.core.ai.tasks.utility.StoreTask;
-import pokecube.core.ai.tasks.utility.UtilTask;
+import pokecube.core.ai.tasks.utility.StoreItems;
+import pokecube.core.ai.tasks.utility.UtilBehaviour;
 import pokecube.gimmicks.builders.BuilderTasks;
 import pokecube.gimmicks.builders.builders.BuilderManager;
 import pokecube.gimmicks.builders.builders.BuilderManager.BuildContext;
@@ -40,11 +40,9 @@ import java.util.List;
  * Example book:<br> build:jigsaw<br> pokecube_legends:temples/surface/sky_pillar<br> p: 0 1 0<br> r: CLOCKWISE_90<br>
  * m: NONE<br>
  */
-public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTag>
+public class ManageBuild extends UtilBehaviour implements INBTSerializable<CompoundTag>
 {
     public static final String KEY = "builder_manager";
-
-    final StoreTask storage;
 
     boolean hasInstructions = false;
     boolean loadedBuild = false;
@@ -53,10 +51,9 @@ public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTa
     int timer = 0;
     List<IPokemob> minions = new ArrayList<>();
 
-    public ManageBuild(IPokemob pokemob, StoreTask storage)
+    public ManageBuild()
     {
-        super(pokemob);
-        this.storage = storage;
+        super();
     }
 
     @Override
@@ -69,8 +66,9 @@ public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTa
     /**
      * Swaps the book to the main hand, so it is no longer read for instructions.
      */
-    private void swapHands()
+    private void swapHands(IPokemob pokemob)
     {
+        var entity = pokemob.getEntity();
         ItemStack main = entity.getMainHandItem();
         ItemStack off = entity.getOffhandItem();
         entity.setItemInHand(InteractionHand.MAIN_HAND, off);
@@ -78,34 +76,39 @@ public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTa
         pokemob.getInventory().setChanged();
     }
 
-    public void setBuilder(BuilderClearer builder, ServerLevel level, List<IPokemob> pokemobs)
+    public void setBuilder(BuilderClearer builder, ServerLevel level, IPokemob pokemob, StoreItems storage,
+            List<IPokemob> pokemobs)
     {
         var pair = storage.getInventory(level, storage.storageLoc, Direction.UP);
         if (pair == null) return;
 
         this.build = builder;
 
-        for (var pokemob : pokemobs)
+        for (var iPokemob : pokemobs)
         {
-            var task = pokemob.getNamedTaskes().get(DoBuild.KEY);
+            var task = iPokemob.getNamedTaskes().get(DoBuild.KEY);
             if (!(task instanceof DoBuild build) || build.builder != null) continue;
 
-            build.storage.storageLoc = storage.storageLoc;
-            build.storage.storageFace = storage.storageFace;
+            var _storage = iPokemob.getEntity().getData(StoreItems.StoreBehaviour.TYPE);
 
-            if (pokemob != this.pokemob)
+            _storage.storageLoc = storage.storageLoc;
+            _storage.storageFace = storage.storageFace;
+
+            if (iPokemob != pokemob)
             {
-                build.BoM = new BoMRecord(() -> pokemob.getEntity().getOffhandItem(),
-                        _book -> pokemob.getEntity().setItemInHand(InteractionHand.OFF_HAND, _book));
+                build.BoM = new BoMRecord(() -> iPokemob.getEntity().getOffhandItem(),
+                        _book -> iPokemob.getEntity().setItemInHand(InteractionHand.OFF_HAND, _book));
             }
-            if (!minions.contains(pokemob)) minions.add(pokemob);
-            build.setBuilder(builder, level, this.entity);
+            if (!minions.contains(iPokemob)) minions.add(iPokemob);
+            build.setBuilder(builder, level, pokemob, storage);
         }
     }
 
     @Override
-    public void run(ServerLevel level, Mob owner)
+    protected void tick(final ServerLevel level, final Mob entity, final long gameTime)
     {
+        var storage = entity.getData(StoreItems.StoreBehaviour.TYPE);
+        var pokemob = PokemobCaps.getPokemobFor(entity);
         var storeLoc = storage.storageLoc;
         // Only run if we actually have storage (and are server side)
         if (storeLoc == null || build == null) return;
@@ -137,8 +140,8 @@ public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTa
         {
             // Swap held items in this case. This prevents us immediately
             // trying to make a jigsaw again.
-            swapHands();
-            reset(owner);
+            swapHands(pokemob);
+            reset(entity);
             return;
         }
 
@@ -150,7 +153,7 @@ public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTa
         if (storeLoc.distManhattan(entity.getOnPos()) > 3)
         {
             // Path to it if too far.
-            setWalkTo(storeLoc, 1, 1);
+            setWalkTo(entity, storeLoc, 1, 1);
         }
         else
         {
@@ -160,9 +163,9 @@ public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTa
 
         // Here we find a set of minions to make do the work
         List<IPokemob> pokemobs = new ArrayList<>();
-        if (this.entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES))
+        if (entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES))
         {
-            Iterable<LivingEntity> visible = this.entity.getBrain()
+            Iterable<LivingEntity> visible = entity.getBrain()
                     .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findAll(e -> {
                         IPokemob p = PokemobCaps.getPokemobFor(e);
                         if (p == null) return false;
@@ -201,12 +204,14 @@ public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTa
                 build.builder = null;
             }
         }
-        this.setBuilder(build, level, pokemobs);
+        this.setBuilder(build, level, pokemob, storage, pokemobs);
     }
 
     @Override
-    public boolean shouldRun(Mob entityIn)
+    public boolean shouldRun(Mob entity)
     {
+        var pokemob = PokemobCaps.getPokemobFor(entity);
+        var storage = entity.getData(StoreItems.StoreBehaviour.TYPE);
         if (loadedBuild)
         {
             loadedBuild = false;
@@ -231,7 +236,7 @@ public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTa
             hasInstructions = this.build != null;
             if (hasInstructions && build.saveKey().equals("save"))
             {
-                swapHands();
+                swapHands(pokemob);
                 hasInstructions = false;
             }
 
@@ -241,7 +246,7 @@ public class ManageBuild extends UtilTask implements INBTSerializable<CompoundTa
                 {
                     var task = m.getNamedTaskes().get(DoBuild.KEY);
                     if (!(task instanceof DoBuild build) || build.builder == null) continue;
-                    build.reset(entityIn);
+                    build.reset(entity);
                 }
             }
             timer = entity.tickCount;

@@ -110,14 +110,14 @@ public class BeeTasks
     {
         if (!pokemob.getEntity().getType().is(EntityTypeTags.BEEHIVE_INHABITORS)) return;
         // Gather Nectar from found flower
-        list.add(new GatherNectar(pokemob));
+        list.add(new GatherNectar());
         // Return to hive with the Nectar from the flower
-        list.add(new EnterHive(pokemob));
+        list.add(new EnterHive());
         // Locate and update our current hive, run this one last, as it clears
         // hive status
-        list.add(new CheckHive(pokemob).setPriority(200));
+        list.add(new CheckHive().setPriority(200));
         // Try to make a hive if we don't have one for too long
-        list.add(new MakeHive(pokemob));
+        list.add(new MakeHive());
 
         BrainUtil.addToBrain(pokemob.getEntity().getBrain(), BeeTasks.getMemories(), BeeTasks.getSensors());
     }

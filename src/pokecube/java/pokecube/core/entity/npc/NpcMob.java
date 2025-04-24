@@ -112,7 +112,7 @@ public class NpcMob extends Villager implements IEntityWithComplexSpawn
             final ImmutableList<Pair<Integer, ? extends BehaviorControl<? super Villager>>> addTo)
     {
         final List<Pair<Integer, ? extends BehaviorControl<? super Villager>>> temp = Lists.newArrayList(addTo);
-        final Pair<Integer, GuardTask<Villager>> pair = Pair.of(0, new GuardTask<>(this, guardai));
+        final Pair<Integer, GuardTask<Villager>> pair = Pair.of(0, new GuardTask<>(guardai));
         temp.addFirst(pair);
         return ImmutableList.copyOf(temp);
     }
@@ -146,7 +146,7 @@ public class NpcMob extends Villager implements IEntityWithComplexSpawn
             final float f = 0.5f;
 
             Collection<Pair<Integer, ? extends Behavior<? super LivingEntity>>> args = Lists.newArrayList(
-                    Pair.of(0, new GuardTask<>(this, guardai)));
+                    Pair.of(0, new GuardTask<>(guardai)));
 
             Set<Activity> acts = brain.activityRequirements.keySet();
             for (Activity act : acts) BrainUtil.addToActivity(brain, act, args);

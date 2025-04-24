@@ -18,7 +18,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.TaskBase.InventoryChange;
-import pokecube.core.ai.tasks.utility.GatherTask.ReplantTask;
+import pokecube.core.ai.tasks.utility.GatherItems.ReplantTask;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.item.ItemList;
@@ -28,7 +28,7 @@ public class EatRock extends EatBlockBase
 {
     public static record CobbleConversion(ResourceLocation tag, Supplier<BlockState> cobble)
     {
-    };
+    }
 
     public static List<CobbleConversion> toCobble = new ArrayList<>();
 
@@ -57,7 +57,7 @@ public class EatRock extends EatBlockBase
 
 //    private static final ResourceLocation COBBLE = ResourceLocation.parse("forge", "cobblestone");
 
-    private static final Predicate<BlockState> checker = (b2) -> PokecubeTerrainChecker.isRock(b2);
+    private static final Predicate<BlockState> checker = PokecubeTerrainChecker::isRock;
 
     @Override
     public EatResult eat(final IPokemob pokemob, final NearBlock block)
@@ -81,16 +81,16 @@ public class EatRock extends EatBlockBase
         // Clear immutability if some mod makes an immutable list...
         list = Lists.newArrayList(list);
 
-        final ItemStack first = list.get(0);
+        final ItemStack first = list.getFirst();
         final boolean isOre = ItemList.is(EatRock.ORE, first);
         final boolean isDeepslateOre = ItemList.is(EatRock.DEEPSLATE_ORE, first);
         final boolean isNetherOre = ItemList.is(EatRock.NETHER_ORE, first);
         pokemob.eat(first);
         first.grow(-1);
-        if (first.isEmpty()) list.remove(0);
-        if (isOre) list.add(0, new ItemStack(Blocks.COBBLESTONE));
-        else if (isDeepslateOre) list.add(0, new ItemStack(Blocks.COBBLED_DEEPSLATE));
-        else if (isNetherOre) list.add(0, new ItemStack(Blocks.NETHERRACK));
+        if (first.isEmpty()) list.removeFirst();
+        if (isOre) list.addFirst(new ItemStack(Blocks.COBBLESTONE));
+        else if (isDeepslateOre) list.addFirst(new ItemStack(Blocks.COBBLED_DEEPSLATE));
+        else if (isNetherOre) list.addFirst(new ItemStack(Blocks.NETHERRACK));
         boolean replanted = false;
 
         // See if anything dropped was a seed for the thing we

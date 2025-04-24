@@ -59,7 +59,7 @@ public class DodgeTask extends CombatTask
      * dodgeable, and has a thin enough radius of effect. It also make a sound when it occurs.
      */
     @Override
-    public void run(ServerLevel level, Mob entity)
+    protected void tick(final ServerLevel level, final Mob entity, final long gameTime)
     {
         var pokemob = PokemobCaps.getPokemobFor(entity);
         /*

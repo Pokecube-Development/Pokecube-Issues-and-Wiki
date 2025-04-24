@@ -113,15 +113,15 @@ public class AntTasks
         if (!PokecubeCore.getConfig().pokemobsMakeNests) return;
         if (!AntTasks.ANTAI.isAllowed(pokemob)) return;
 
-        list.add(new CheckNest(pokemob).setPriority(200));
-        list.add(new MakeNest(pokemob));
-        list.add(new EnterNest(pokemob).setPriority(0));
-        list.add(new CarryEgg(pokemob).setPriority(0));
-        list.add(new Guard(pokemob).setPriority(1));
-        list.add(new Gather(pokemob).setPriority(2));
-        list.add(new Build(pokemob).setPriority(2));
-        list.add(new Dig(pokemob).setPriority(3));
-        list.add(new Idle(pokemob).setPriority(4));
+        list.add(new CheckNest().setPriority(200));
+        list.add(new MakeNest());
+        list.add(new EnterNest().setPriority(0));
+        list.add(new CarryEgg().setPriority(0));
+        list.add(new Guard().setPriority(1));
+        list.add(new Gather().setPriority(2));
+        list.add(new Build().setPriority(2));
+        list.add(new Dig().setPriority(3));
+        list.add(new Idle().setPriority(4));
 
         BrainUtil.addToBrain(pokemob.getEntity().getBrain(), AntTasks.getMemories(), AntTasks.getSensors());
     }

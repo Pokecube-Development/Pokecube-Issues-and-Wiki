@@ -1,11 +1,7 @@
 package pokecube.gimmicks.nests.tasks.burrows.tasks;
 
-import java.util.List;
-import java.util.Map;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.server.level.ServerLevel;
@@ -16,6 +12,7 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -24,7 +21,7 @@ import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
-import pokecube.core.ai.tasks.utility.StoreTask;
+import pokecube.core.ai.tasks.utility.StoreItems;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.gimmicks.nests.tasks.burrows.BurrowTasks;
@@ -32,8 +29,10 @@ import pokecube.gimmicks.nests.tasks.burrows.burrow.BurrowHab;
 import pokecube.gimmicks.nests.tasks.burrows.sensors.BurrowSensor;
 import pokecube.gimmicks.nests.tasks.burrows.sensors.BurrowSensor.Burrow;
 import pokecube.world.terrain.PokecubeTerrainChecker;
-import thut.api.entity.ai.IAIRunnable;
 import thut.api.maths.Vector3;
+
+import java.util.List;
+import java.util.Map;
 
 public class CheckBurrow extends BaseIdleTask
 {
@@ -49,9 +48,9 @@ public class CheckBurrow extends BaseIdleTask
 
     Burrow burrow = null;
 
-    public CheckBurrow(final IPokemob pokemob)
+    public CheckBurrow()
     {
-        super(pokemob);
+        super(mems);
     }
 
     @Override
@@ -61,19 +60,19 @@ public class CheckBurrow extends BaseIdleTask
     }
 
     @Override
-    public void run(ServerLevel level, Mob owner)
+    protected void tick(final ServerLevel level, final Mob entity, final long gameTime)
     {
         if (this.burrowCheckTimer++ < 100) return;
 
         this.burrowCheckTimer = 0;
-        if (this.burrow == null) this.burrow = BurrowSensor.getNest(this.entity).orElse(null);
+        if (this.burrow == null) this.burrow = BurrowSensor.getNest(entity).orElse(null);
 
         if (this.burrow == null)
         {
             // Ensure these are cleared.
-            this.entity.getBrain().eraseMemory(MemoryModules.NEST_POS.get());
-            this.entity.getBrain().eraseMemory(MemoryModules.GOING_HOME.get());
-            this.entity.getBrain().eraseMemory(MemoryModules.JOB_INFO.get());
+            entity.getBrain().eraseMemory(MemoryModules.NEST_POS.get());
+            entity.getBrain().eraseMemory(MemoryModules.GOING_HOME.get());
+            entity.getBrain().eraseMemory(MemoryModules.JOB_INFO.get());
 
             // We need to do the following:
             //
@@ -82,10 +81,10 @@ public class CheckBurrow extends BaseIdleTask
             // 3. Place the new hive block down
 
             // Lets see if we can find any leaves to place a hive under
-            final List<NearBlock> blocks = BrainUtils.getNearBlocks(this.entity);
+            final List<NearBlock> blocks = BrainUtils.getNearBlocks(entity);
 
-            final PoiManager pois = this.world.getPoiManager();
-            final long num = pois.getCountInRange(PointsOfInterest.NEST, this.entity.blockPosition(),
+            final PoiManager pois = level.getPoiManager();
+            final long num = pois.getCountInRange(PointsOfInterest.NEST, entity.blockPosition(),
                     PokecubeCore.getConfig().nestSpacing, PoiManager.Occupancy.ANY);
 
             if (blocks == null || num != 0) return;
@@ -100,47 +99,45 @@ public class CheckBurrow extends BaseIdleTask
             // last we check the terrain
             if (!surfaces.isEmpty())
             {
-                final NearBlock block = surfaces.get(0);
-                if (this.placeNest(block)) return;
+                var pokemob = PokemobCaps.getPokemobFor(entity);
+                final NearBlock block = surfaces.getFirst();
+                this.placeNest(level, pokemob, block);
             }
         }
         else
         {
+            var pokemob = PokemobCaps.getPokemobFor(entity);
+            var storage = entity.getData(StoreItems.StoreBehaviour.TYPE);
             // Here we might want to check if the burrow is still valid?
-            for (final IAIRunnable run : this.pokemob.getTasks()) if (run instanceof StoreTask storage)
-            {
-                this.pokemob.setRoutineState(AIRoutine.STORE, true);
-                storage.storageLoc = this.burrow.nest.getBlockPos();
-                storage.berryLoc = this.burrow.nest.getBlockPos();
-                break;
-            }
+            pokemob.setRoutineState(AIRoutine.STORE, true);
+            storage.storageLoc = this.burrow.nest.getBlockPos();
+            storage.berryLoc = this.burrow.nest.getBlockPos();
         }
     }
 
-    private boolean placeNest(final NearBlock block)
+    private void placeNest(ServerLevel level, IPokemob pokemob, NearBlock block)
     {
         BlockPos pos = block.getPos();
-        if (!MoveEventsHandler.canAffectBlock(pokemob, new Vector3(pos), "nest_building")) return false;
+        if (!MoveEventsHandler.canAffectBlock(pokemob, new Vector3(pos), "nest_building")) return;
         // Then pick and make a new burrow.
-        final BurrowHab hab = BurrowHab.makeFor(this.pokemob, pos);
-        if (hab == null) return false;
+        final BurrowHab hab = BurrowHab.makeFor(pokemob, pos);
+        if (hab == null) return;
         pos = hab.burrow.getCenter();
-        final Brain<?> brain = this.entity.getBrain();
-        this.world.setBlockAndUpdate(pos, PokecubeItems.NEST.get().defaultBlockState());
-        final BlockEntity tile = this.world.getBlockEntity(pos);
-        if (!(tile instanceof NestTile nest)) return false;
+        final Brain<?> brain = pokemob.getEntity().getBrain();
+        level.setBlockAndUpdate(pos, PokecubeItems.NEST.get().defaultBlockState());
+        final BlockEntity tile = level.getBlockEntity(pos);
+        if (!(tile instanceof NestTile nest)) return;
         nest.setWrappedHab(hab);
-        nest.addResident(this.pokemob);
-        brain.setMemory(MemoryModules.NEST_POS.get(), GlobalPos.of(this.world.dimension(), pos));
+        nest.addResident(pokemob);
+        brain.setMemory(MemoryModules.NEST_POS.get(), GlobalPos.of(level.dimension(), pos));
         brain.eraseMemory(MemoryModules.NO_NEST_TIMER.get());
-        return true;
     }
 
     @Override
-    public boolean shouldRun(Mob entityIn)
+    public boolean shouldRun(Mob entity)
     {
         // Check this incase the AI is disabled at runtime, say be the owner
-        return BurrowTasks.isValid(this.entity);
+        return BurrowTasks.isValid(entity);
     }
 
 }

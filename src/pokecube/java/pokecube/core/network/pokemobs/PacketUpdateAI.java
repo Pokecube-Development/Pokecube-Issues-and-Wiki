@@ -1,22 +1,24 @@
 package pokecube.core.network.pokemobs;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import thut.api.Tracker;
 import thut.api.Tracker.UpdateHandler;
-import thut.api.entity.ai.IAIRunnable;
 import thut.core.common.network.GeneralUpdate;
 import thut.core.common.network.Packet;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class PacketUpdateAI extends Packet
 {
@@ -41,6 +43,13 @@ public class PacketUpdateAI extends Packet
         }
     }
 
+    public static final Set<String> ALLOWED_SYNC = new HashSet<>();
+
+    static
+    {
+        ALLOWED_SYNC.add("pokecube:storage_ai");
+    }
+
     public static MegaModeHandler MODE_HANDLER = new MegaModeHandler();
 
     public static void init()
@@ -57,11 +66,10 @@ public class PacketUpdateAI extends Packet
         GeneralUpdate.sendToServer(nbt, key);
     }
 
-    public static void sendUpdatePacket(IPokemob pokemob, IAIRunnable ai)
+    public static void sendUpdatePacket(IPokemob pokemob, INBTSerializable<?> ai, String key)
     {
         final CompoundTag tag = new CompoundTag();
-        final Tag base = INBTSerializable.class.cast(ai).serializeNBT(pokemob.getEntity().registryAccess());
-        tag.put(ai.getIdentifier(), base);
+        tag.put(key, ai.serializeNBT(pokemob.getEntity().registryAccess()));
         final PacketUpdateAI packet = new PacketUpdateAI();
         packet.data = tag;
         packet.entityId = pokemob.getEntity().getId();
@@ -81,7 +89,7 @@ public class PacketUpdateAI extends Packet
         this.data = buffer.readNbt();
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     public void handleServer(final ServerPlayer player)
     {
@@ -90,11 +98,26 @@ public class PacketUpdateAI extends Packet
         final Entity e = PokecubeAPI.getEntityProvider().getEntity(player.level(), id, true);
         final IPokemob pokemob = PokemobCaps.getPokemobFor(e);
         var reg = player.registryAccess();
-        if (pokemob != null) for (final IAIRunnable runnable : pokemob.getTasks())
-            if (runnable instanceof INBTSerializable && data.contains(runnable.getIdentifier()))
+        if (pokemob != null)
         {
-            INBTSerializable.class.cast(runnable).deserializeNBT(reg, data.get(runnable.getIdentifier()));
-            break;
+            for (String key : data.getAllKeys())
+            {
+                if (ALLOWED_SYNC.contains(key)) continue;
+                try
+                {
+                    ResourceLocation loc = ResourceLocation.parse(key);
+                    var type = NeoForgeRegistries.ATTACHMENT_TYPES.get(loc);
+                    if (type != null)
+                    {
+                        var _data = e.getData(type);
+                        if (_data instanceof INBTSerializable ser) ser.deserializeNBT(reg, data.get(key));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    PokecubeAPI.LOGGER.error("Error loading tag {}", key, ex);
+                }
+            }
         }
     }
 
@@ -105,7 +128,7 @@ public class PacketUpdateAI extends Packet
         buffer.writeNbt(this.data);
     }
 
-    private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("pokecube:pokemob_ai_update"));
+    private final static Type<Packet> TYPE = new Type<>(ResourceLocation.parse("pokecube:pokemob_ai_update"));
 
     @Override
     public Type<? extends CustomPacketPayload> type()

@@ -1,10 +1,5 @@
 package pokecube.gimmicks.nests.tasks.burrows;
 
-import java.util.List;
-import java.util.Map;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -31,6 +26,11 @@ import thut.api.entity.ai.BrainUtil;
 import thut.api.entity.ai.IAIRunnable;
 import thut.api.item.ItemList;
 
+import java.util.List;
+import java.util.Map;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+
 public class BurrowTasks
 {
     public static ResourceLocation _BURROWS = ResourceLocation.fromNamespaceAndPath(PokecubeAPI.MODID, "burrowers");
@@ -53,7 +53,8 @@ public class BurrowTasks
         NEST_SENSOR = PokecubeCore.SENSORS.register("burrow", () -> new SensorType<>(BurrowSensor::new));
     }
 
-    public static final ResourceLocation BURROWLOC = ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID, "burrow");
+    public static final ResourceLocation BURROWLOC = ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID,
+            "burrow");
 
     public static void init()
     {
@@ -78,9 +79,9 @@ public class BurrowTasks
         if (!PokecubeCore.getConfig().pokemobsMakeNests) return;
         if (!BurrowTasks.isValid(pokemob.getEntity())) return;
 
-        list.add(new CheckBurrow(pokemob));
-        list.add(new DigBurrow(pokemob));
-        list.add(new ReturnHome(pokemob));
+        list.add(new CheckBurrow());
+        list.add(new DigBurrow());
+        list.add(new ReturnHome());
 
         BrainUtil.addToBrain(pokemob.getEntity().getBrain(), BurrowTasks.getMemories(), BurrowTasks.getSensors());
     }

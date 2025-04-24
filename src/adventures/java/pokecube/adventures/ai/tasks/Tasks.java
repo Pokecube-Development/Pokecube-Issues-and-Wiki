@@ -26,6 +26,7 @@ import pokecube.core.ai.npc.Activities;
 import thut.api.entity.ai.BrainUtil;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class Tasks
 {
@@ -49,11 +50,11 @@ public class Tasks
                 MemoryTypes.DE_AGRO_TIMER.get(), MemoryTypes.NO_SEEN_TARGET_TIMER.get());
     }
 
-    public static BaseBattleTask DEAGRO = new DeAgro();
-    public static BaseBattleTask CHOOSE_ATTACKS = new ChooseAttacks();
-    public static BaseBattleTask MANAGE_SENT_POKEMOBS = new ManageOutMob();
-    public static BaseBattleTask MANAGE_POKEMOB_TARGETS = new ManagePokemobTarget();
-    public static BaseAgroTask RETALIATE = new Retaliate();
+    public static Supplier<BaseBattleTask> DEAGRO = DeAgro::new;
+    public static Supplier<BaseBattleTask> CHOOSE_ATTACKS = ChooseAttacks::new;
+    public static Supplier<BaseBattleTask> MANAGE_SENT_POKEMOBS = ManageOutMob::new;
+    public static Supplier<BaseBattleTask> MANAGE_POKEMOB_TARGETS = ManagePokemobTarget::new;
+    public static Supplier<BaseAgroTask> RETALIATE = Retaliate::new;
 
     @SuppressWarnings("deprecation")
     public static void addBattleTasks(final LivingEntity mob,
@@ -77,13 +78,13 @@ public class Tasks
                 other_list.add(task_pair);
             }
             else battle_list.add(task_pair);
-        trainer.addTargetWatcher(RETALIATE);
+        trainer.addTargetWatcher(RETALIATE.get());
 
-        battle_list.add(Pair.of(1, DEAGRO));
-        other_list.add(Pair.of(1, RETALIATE));
-        battle_list.add(Pair.of(1, CHOOSE_ATTACKS));
-        battle_list.add(Pair.of(1, MANAGE_SENT_POKEMOBS));
-        battle_list.add(Pair.of(1, MANAGE_POKEMOB_TARGETS));
+        battle_list.add(Pair.of(1, DEAGRO.get()));
+        other_list.add(Pair.of(1, RETALIATE.get()));
+        battle_list.add(Pair.of(1, CHOOSE_ATTACKS.get()));
+        battle_list.add(Pair.of(1, MANAGE_SENT_POKEMOBS.get()));
+        battle_list.add(Pair.of(1, MANAGE_POKEMOB_TARGETS.get()));
 
         brain.addActivityWithConditions(Activities.BATTLE.get(), ImmutableList.copyOf(battle_list),
                 ImmutableSet.of(Pair.of(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryStatus.VALUE_PRESENT)));

@@ -1,23 +1,22 @@
 package pokecube.gimmicks.nests.tasks.ants.tasks.work;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.gimmicks.nests.tasks.ants.AntTasks;
 import pokecube.gimmicks.nests.tasks.ants.nest.Node;
 import pokecube.gimmicks.nests.tasks.ants.tasks.AbstractAntTask;
 import thut.core.common.ThutCore;
 
+import java.util.Map;
+
 public class Idle extends AbstractAntTask
 {
     private static final Map<MemoryModuleType<?>, MemoryStatus> mems = Maps.newHashMap();
+
     static
     {
         Idle.mems.put(MemoryModules.WORK_POS.get(), MemoryStatus.VALUE_ABSENT);
@@ -27,9 +26,9 @@ public class Idle extends AbstractAntTask
 
     int timer = 0;
 
-    public Idle(final IPokemob pokemob)
+    public Idle()
     {
-        super(pokemob, Idle.mems);
+        super(Idle.mems);
     }
 
     @Override
@@ -39,9 +38,9 @@ public class Idle extends AbstractAntTask
     }
 
     @Override
-    public void run(ServerLevel level, Mob owner)
+    protected void tick(final ServerLevel level, final Mob entity, final long gameTime)
     {
-        if (this.entity.getNavigation().isInProgress()) return;
+        if (entity.getNavigation().isInProgress()) return;
         final int num = this.nest.hab.rooms.allRooms.size();
         if (num == 0) return;
         if (this.timer-- > 0) return;
@@ -51,14 +50,13 @@ public class Idle extends AbstractAntTask
         if (!room.started) return;
         // PokecubeAPI.logDebug("wander to {} ({})", room.center,
         // room.type);
-        this.setWalkTo(room.getCenter(), 1, 1);
+        this.setWalkTo(entity, room.getCenter(), 1, 1);
     }
 
     @Override
-    protected boolean doTask()
+    protected boolean doTask(Mob entity)
     {
-        if (AntTasks.shouldAntBeInNest(this.world, this.nest.nest.getBlockPos())) return false;
-        return true;
+        return !AntTasks.shouldAntBeInNest((ServerLevel) entity.level(), this.nest.nest.getBlockPos());
     }
 
 }

@@ -73,7 +73,7 @@ public class CicleTask extends CombatTask
     }
 
     @Override
-    public void run(ServerLevel level, Mob entity)
+    protected void tick(final ServerLevel level, final Mob entity, final long gameTime)
     {
         var pokemob = PokemobCaps.getPokemobFor(entity);
         var target = this.getAttackTarget(entity);

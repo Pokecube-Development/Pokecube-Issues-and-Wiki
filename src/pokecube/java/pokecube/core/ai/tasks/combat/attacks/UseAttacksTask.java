@@ -24,7 +24,6 @@ import pokecube.core.ai.tasks.IMoveUseAI;
 import pokecube.core.ai.tasks.combat.CombatTask;
 import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.moves.MovesUtils;
-import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.lib.TComponent;
 
@@ -65,7 +64,7 @@ public class UseAttacksTask extends CombatTask implements IMoveUseAI
     }
 
     @Override
-    public void run(ServerLevel level, Mob entity)
+    protected void tick(final ServerLevel level, final Mob entity, final long gameTime)
     {
         var brain = entity.getBrain();
         var pokemob = PokemobCaps.getPokemobFor(entity);
@@ -223,11 +222,5 @@ public class UseAttacksTask extends CombatTask implements IMoveUseAI
         // If either us, or target is dead, or about to be so (0 health) return
         // false
         return target.isAlive() && !(target.getHealth() <= 0) && !(pokemob.getHealth() <= 0) && entity.isAlive();
-    }
-
-    @Override
-    public void runTick(ServerLevel level, Mob owner)
-    {
-        owner.getPersistentData().putLong("lastAttackTick", Tracker.instance().getTick());
     }
 }

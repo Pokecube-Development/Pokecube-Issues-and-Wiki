@@ -16,7 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import org.lwjgl.glfw.GLFW;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.utility.StoreTask;
+import pokecube.core.ai.tasks.utility.StoreItems;
 import pokecube.core.client.gui.helper.TooltipArea;
 import pokecube.core.client.gui.pokemob.GuiPokemob;
 import pokecube.core.impl.PokecubeMod;
@@ -38,7 +38,7 @@ public class Storage extends Tab
     EditBox storage;
     EditBox storageFace;
     EditBox empty;
-    StoreTask ai;
+    StoreItems ai;
     EditBox emptyFace;
     List<EditBox> textBoxes = Lists.newArrayList();
 
@@ -46,7 +46,7 @@ public class Storage extends Tab
     {
         super(parent, "storage");
         this.pokemob = menu.pokemob;
-        this.ai = new StoreTask(this.pokemob);
+        this.ai = pokemob.getEntity().getData(StoreItems.StoreBehaviour.TYPE);
         final CompoundTag tag = this.menu.data;
         this.ai.deserializeNBT(Minecraft.getInstance().level.registryAccess(), tag);
         this.icon = Resources.TAB_ICON_STORAGE;
@@ -275,7 +275,7 @@ public class Storage extends Tab
         this.ai.storageFace = storageFace;
         this.ai.emptyFace = emptyFace;
         this.ai.emptyInventory = emptyInventory;
-        PacketUpdateAI.sendUpdatePacket(this.pokemob, this.ai);
+        PacketUpdateAI.sendUpdatePacket(this.pokemob, this.ai, "pokecube:storage_aias");
 
         // Send status message thingy
         this.parent.getMinecraft().player.displayClientMessage(TComponent.translatable("pokemob.gui.updatestorage"),

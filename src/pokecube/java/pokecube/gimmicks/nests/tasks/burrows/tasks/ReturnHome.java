@@ -17,52 +17,53 @@ public class ReturnHome extends AbstractBurrowTask
 
     int enterTimer = 0;
 
-    public ReturnHome(final IPokemob pokemob)
+    public ReturnHome()
     {
-        super(pokemob);
+        super();
     }
 
     @Override
-    public void reset(Mob entityIn)
+    public void reset(Mob entity)
     {
-        this.entity.getBrain().eraseMemory(MemoryModules.GOING_HOME.get());
+        entity.getBrain().eraseMemory(MemoryModules.GOING_HOME.get());
         this.homePos.clear();
-        this.entity.getNavigation().resetMaxVisitedNodesMultiplier();
+        entity.getNavigation().resetMaxVisitedNodesMultiplier();
         this.enterTimer = 0;
     }
 
     @Override
-    public void run(ServerLevel level, Mob owner)
+    protected void tick(final ServerLevel level, final Mob entity, final long gameTime)
     {
         // This should path the mob over to the center of the home room, maybe
         // call "enter" for it as well?{
-        this.entity.getBrain().eraseMemory(MemoryModules.JOB_INFO.get());
+        entity.getBrain().eraseMemory(MemoryModules.JOB_INFO.get());
         this.homePos.set(this.burrow.nest.getBlockPos());
-        if (this.enterTimer++ > 6000) this.entity.setPos(this.homePos.x + 0.5, this.homePos.y + 1, this.homePos.z
-                + 0.5);
-        final BlockPos pos = this.entity.blockPosition();
-        this.burrow.hab.onEnterHabitat(this.entity);
+        if (this.enterTimer++ > 6000) entity.setPos(this.homePos.x + 0.5, this.homePos.y + 1, this.homePos.z + 0.5);
+        final BlockPos pos = entity.blockPosition();
+        this.burrow.hab.onEnterHabitat(entity);
         if (pos.distSqr(this.homePos.getPos()) > this.burrow.hab.burrow.getSize())
         {
-            final Path p = this.entity.getNavigation().getPath();
+            final Path p = entity.getNavigation().getPath();
             final boolean targ = p != null && p.canReach();
-            if (!targ) this.setWalkTo(this.homePos, 1, 1);
+            if (!targ) this.setWalkTo(entity, this.homePos, 1, 1);
         }
         else
         {
-            final Brain<?> brain = this.entity.getBrain();
+            final Brain<?> brain = entity.getBrain();
             brain.setMemory(MemoryModules.GOING_HOME.get(), false);
         }
     }
 
     @Override
-    protected boolean doTask()
+    protected boolean doTask(IPokemob pokemob)
     {
         // We were already heading home, so keep doing that.
         if (!this.homePos.isEmpty()) return true;
-        final Brain<?> brain = this.entity.getBrain();
+        var entity = pokemob.getEntity();
+        var level = entity.level();
+        final Brain<?> brain = entity.getBrain();
         if (brain.hasMemoryValue(MemoryModules.GOING_HOME.get())) return true;
-        if (BurrowTasks.shouldBeInside(this.world, this.burrow))
+        if (BurrowTasks.shouldBeInside((ServerLevel) level, this.burrow))
         {
             brain.setMemory(MemoryModules.GOING_HOME.get(), true);
             return true;

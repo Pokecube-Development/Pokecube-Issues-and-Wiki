@@ -9,7 +9,6 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
-import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
@@ -76,8 +75,6 @@ public class IdleWalkTask extends BaseIdleTask
         return _MEMS;
     }
 
-    PokedexEntry entry;
-
     private double x;
     private double y;
     private double z;
@@ -85,10 +82,9 @@ public class IdleWalkTask extends BaseIdleTask
     Vector3 v = new Vector3();
     Vector3 v1 = new Vector3();
 
-    public IdleWalkTask(final IPokemob pokemob)
+    public IdleWalkTask()
     {
-        super(pokemob, IdleWalkTask._getMems());
-        this.entry = pokemob.getPokedexEntry();
+        super(IdleWalkTask._getMems());
     }
 
     @Override
@@ -98,27 +94,27 @@ public class IdleWalkTask extends BaseIdleTask
     }
 
     /** Floating things try to stay their preferedHeight from the ground. */
-    protected void doFloatingIdle()
+    protected void doFloatingIdle(ServerLevel level, IPokemob pokemob)
     {
         this.v.set(this.x, this.y, this.z);
-        final Vector3 temp = Vector3.getNextSurfacePoint(this.world, this.v, Vector3.secondAxisNeg, this.v.y);
-        if (temp == null || !this.pokemob.isRoutineEnabled(AIRoutine.AIRBORNE)) return;
-        this.y = temp.y + this.pokemob.getFloatHeight();
+        final Vector3 temp = Vector3.getNextSurfacePoint(level, this.v, Vector3.secondAxisNeg, this.v.y);
+        if (temp == null || !pokemob.isRoutineEnabled(AIRoutine.AIRBORNE)) return;
+        this.y = temp.y + pokemob.getFloatHeight();
     }
 
     /**
      * Flying things will path to air, so long as not airborne, somethimes they will decide to path downwards, the
      * height they path to will be centered around players, to prevent them from all flying way up, or way down
      */
-    protected void doFlyingIdle()
+    protected void doFlyingIdle(ServerLevel level, IPokemob pokemob)
     {
-        final boolean grounded = !this.pokemob.isRoutineEnabled(AIRoutine.AIRBORNE);
-        final boolean tamed = this.pokemob.getGeneralState(GeneralStates.TAMED) && !this.pokemob.getGeneralState(
-                GeneralStates.STAYING);
+        final boolean grounded = !pokemob.isRoutineEnabled(AIRoutine.AIRBORNE);
+        final boolean tamed =
+                pokemob.getGeneralState(GeneralStates.TAMED) && !pokemob.getGeneralState(GeneralStates.STAYING);
         final boolean up = Math.random() < 0.9;
-        if (grounded && up && !tamed) this.pokemob.setRoutineState(AIRoutine.AIRBORNE, true);
-        else if (!tamed) this.doGroundIdle();
-        final Player player = this.world.getNearestPlayer(this.entity, Config.Rules.despawnDistance(world));
+        if (grounded && up && !tamed) pokemob.setRoutineState(AIRoutine.AIRBORNE, true);
+        else if (!tamed) this.doGroundIdle(level, pokemob);
+        final Player player = level.getNearestPlayer(pokemob.getEntity(), Config.Rules.despawnDistance(level));
         if (player != null)
         {
             final double diff = Math.abs(player.getY() - this.y);
@@ -127,57 +123,60 @@ public class IdleWalkTask extends BaseIdleTask
     }
 
     /** Grounded things will path to surface points. */
-    protected void doGroundIdle()
+    protected void doGroundIdle(ServerLevel level, IPokemob pokemob)
     {
         this.v.set(this.x, this.y, this.z);
-        this.v.set(Vector3.getNextSurfacePoint(this.world, this.v, Vector3.secondAxisNeg,
-                this.v.y - entity.level.getMinBuildHeight()));
+        this.v.set(Vector3.getNextSurfacePoint(level, this.v, Vector3.secondAxisNeg,
+                this.v.y - level.getMinBuildHeight()));
         if (this.v != null) this.y = this.v.y;
     }
 
     /** Stationary things will not idle path at all */
-    protected void doStationaryIdle()
+    protected void doStationaryIdle(ServerLevel level, IPokemob pokemob)
     {
-        this.x = this.entity.getX();
-        this.y = this.entity.getY();
-        this.z = this.entity.getZ();
+        var entity = pokemob.getEntity();
+        this.x = entity.getX();
+        this.y = entity.getY();
+        this.z = entity.getZ();
     }
 
     /** Water things will not idle path out of water. */
-    protected void doWaterIdle()
+    protected void doWaterIdle(ServerLevel level, IPokemob pokemob)
     {
         this.v.set(this.x, this.y, this.z);
-        if (!this.world.getFluidState(this.v.getPos()).is(FluidTags.WATER))
+        if (!level.getFluidState(this.v.getPos()).is(FluidTags.WATER))
         {
-            this.x = this.entity.getX();
-            this.y = this.entity.getY();
-            this.z = this.entity.getZ();
+            var entity = pokemob.getEntity();
+            this.x = entity.getX();
+            this.y = entity.getY();
+            this.z = entity.getZ();
         }
     }
 
-    protected boolean getLocation()
+    protected boolean getLocation(ServerLevel level, IPokemob pokemob)
     {
-        final boolean tameFactor = this.pokemob.getGeneralState(GeneralStates.TAMED) && !this.pokemob.getGeneralState(
-                GeneralStates.STAYING);
-        if (this.entry != pokemob.getPokedexEntry()) this.entry = pokemob.getPokedexEntry();
+        final boolean tameFactor =
+                pokemob.getGeneralState(GeneralStates.TAMED) && !pokemob.getGeneralState(GeneralStates.STAYING);
+        var entry = pokemob.getPokedexEntry();
+        var entity = pokemob.getEntity();
         int distance = tameFactor ? PokecubeCore.getConfig().idleMaxPathTame : PokecubeCore.getConfig().idleMaxPathWild;
         boolean goHome = false;
         if (!tameFactor)
         {
-            if (this.pokemob.getHome() == null)
+            if (pokemob.getHome() == null)
             {
-                this.v1.set(this.entity);
-                this.pokemob.setHome(this.v1.intX(), this.v1.intY(), this.v1.intZ(), 16);
+                this.v1.set(entity);
+                pokemob.setHome(this.v1.intX(), this.v1.intY(), this.v1.intZ(), 16);
             }
-            distance = (int) Math.min(distance, this.pokemob.getHomeDistance());
-            this.v.set(this.pokemob.getHome());
-            if (this.entity.blockPosition().distSqr(this.pokemob.getHome())
-                    > this.pokemob.getHomeDistance() * this.pokemob.getHomeDistance() * 0.75) goHome = true;
+            distance = (int) Math.min(distance, pokemob.getHomeDistance());
+            this.v.set(pokemob.getHome());
+            if (entity.blockPosition().distSqr(pokemob.getHome())
+                    > pokemob.getHomeDistance() * pokemob.getHomeDistance() * 0.75) goHome = true;
         }
         else
         {
-            LivingEntity setTo = this.entity;
-            if (this.pokemob.getOwner() != null) setTo = this.pokemob.getOwner();
+            LivingEntity setTo = entity;
+            if (pokemob.getOwner() != null) setTo = pokemob.getOwner();
             this.v.set(setTo);
         }
         if (goHome)
@@ -194,10 +193,9 @@ public class IdleWalkTask extends BaseIdleTask
             boolean verticalMotion = entry.flys() || entry.floats() || (entry.swims() && entity.isInWater());
             if (verticalMotion) minDy = -2;
 
-            final Vector3 v = IdleWalkTask.getRandomPointNear(this.world, this.pokemob, this.v, distance, minDy, maxDy);
+            final Vector3 v = IdleWalkTask.getRandomPointNear(level, pokemob, this.v, distance, minDy, maxDy);
             if (v == null) return false;
-            double diff = Math.max(this.entry.length * this.pokemob.getSize(),
-                    this.entry.width * this.pokemob.getSize());
+            double diff = Math.max(entry.length * pokemob.getSize(), entry.width * pokemob.getSize());
             diff = Math.max(2, diff);
             if (this.v1.distToSq(v) < diff) return false;
             this.x = v.x;
@@ -212,24 +210,20 @@ public class IdleWalkTask extends BaseIdleTask
     {}
 
     @Override
-    public void run(ServerLevel level, Mob owner)
+    protected void tick(final ServerLevel level, final Mob entity, final long gameTime)
     {
-        if (!this.getLocation()) return;
-        if (this.entry.flys()) this.doFlyingIdle();
-        else if (this.entry.floats()) this.doFloatingIdle();
-        else if (this.entry.swims() && owner.isInWater()) this.doWaterIdle();
-        else if (this.entry.isStationary) this.doStationaryIdle();
-        else this.doGroundIdle();
-        this.v1.set(owner);
+        var pokemob = PokemobCaps.getPokemobFor(entity);
+        if (!this.getLocation(level, pokemob)) return;
+        var entry = pokemob.getPokedexEntry();
+        if (entry.flys()) this.doFlyingIdle(level, pokemob);
+        else if (entry.floats()) this.doFloatingIdle(level, pokemob);
+        else if (entry.swims() && entity.isInWater()) this.doWaterIdle(level, pokemob);
+        else if (entry.isStationary) this.doStationaryIdle(level, pokemob);
+        else this.doGroundIdle(level, pokemob);
+        this.v1.set(entity);
         this.v.set(this.x, this.y, this.z);
         if (this.v1.distToSq(this.v) <= 1) return;
-        this.setWalkTo(this.v, 1, 3);
-    }
-
-    @Override
-    protected void start(final ServerLevel level, final Mob owner, final long gameTimeIn)
-    {
-        this.run(level, owner);
+        this.setWalkTo(entity, this.v, 1, 3);
     }
 
     @Override

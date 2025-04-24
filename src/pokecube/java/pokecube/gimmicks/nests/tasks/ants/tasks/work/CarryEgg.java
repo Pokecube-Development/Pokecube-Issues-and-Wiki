@@ -1,10 +1,6 @@
 package pokecube.gimmicks.nests.tasks.ants.tasks.work;
 
-import java.util.Map;
-import java.util.function.Predicate;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.server.level.ServerLevel;
@@ -12,7 +8,6 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.gimmicks.nests.tasks.ants.AntTasks;
@@ -20,9 +15,13 @@ import pokecube.gimmicks.nests.tasks.ants.AntTasks.AntJob;
 import pokecube.gimmicks.nests.tasks.ants.tasks.AbstractWorkTask;
 import thut.api.Tracker;
 
+import java.util.Map;
+import java.util.function.Predicate;
+
 public class CarryEgg extends AbstractWorkTask
 {
     private static final Map<MemoryModuleType<?>, MemoryStatus> mems = Maps.newHashMap();
+
     static
     {
         // Only run this if we have an egg to carry
@@ -35,42 +34,41 @@ public class CarryEgg extends AbstractWorkTask
 
     EntityPokemobEgg egg;
 
-    public CarryEgg(final IPokemob pokemob)
+    public CarryEgg()
     {
-        super(pokemob, CarryEgg.mems, CarryEgg.EGG_CARRY);
+        super(CarryEgg.mems, CarryEgg.EGG_CARRY);
     }
 
     @Override
-    public void reset(Mob entityIn)
+    public void reset(Mob entity)
     {
         this.egg = null;
-        this.entity.getNavigation().resetMaxVisitedNodesMultiplier();
+        entity.getNavigation().resetMaxVisitedNodesMultiplier();
     }
 
     @Override
-    public void run(ServerLevel level, Mob owner)
+    protected void tick(final ServerLevel level, final Mob entity, final long gameTime)
     {
         this.egg.getPersistentData().putLong("__carried__", Tracker.instance().getTick() + 100);
-        AntTasks.setJob(this.entity, AntJob.NONE);
-        final Brain<?> brain = this.entity.getBrain();
+        AntTasks.setJob(entity, AntJob.NONE);
+        final Brain<?> brain = entity.getBrain();
         final GlobalPos dropOff = brain.getMemory(MemoryModules.WORK_POS.get()).get();
-        this.entity.getNavigation().setMaxVisitedNodesMultiplier(10);
-        if (!this.entity.hasPassenger(this.egg))
+        entity.getNavigation().setMaxVisitedNodesMultiplier(10);
+        if (!entity.hasPassenger(this.egg))
         {
-            final double d = this.entity.distanceToSqr(this.egg);
+            final double d = entity.distanceToSqr(this.egg);
             if (d > 2)
             {
-                this.setWalkTo(this.egg, 1, 0);
-                return;
+                this.setWalkTo(entity, this.egg, 1, 0);
             }
-            else this.egg.startRiding(this.entity, true);
+            else this.egg.startRiding(entity, true);
         }
         else
         {
-            if (!this.nest.hab.eggs.contains(this.egg.getUUID())) this.nest.hab.eggs.add(this.egg.getUUID());
+            this.nest.hab.eggs.add(this.egg.getUUID());
             final BlockPos p = dropOff.pos();
-            final double d = p.distSqr(this.entity.blockPosition());
-            if (d > 3) this.setWalkTo(p, 1, 0);
+            final double d = p.distSqr(entity.blockPosition());
+            if (d > 3) this.setWalkTo(entity, p, 1, 0);
             else
             {
                 this.egg.stopRiding();
@@ -82,9 +80,9 @@ public class CarryEgg extends AbstractWorkTask
     }
 
     @Override
-    protected boolean shouldWork()
+    protected boolean shouldWork(Mob entity)
     {
-        this.egg = this.entity.getBrain().getMemory(MemoryModules.EGG.get()).orElse(null);
+        this.egg = entity.getBrain().getMemory(MemoryModules.EGG.get()).orElse(null);
         return this.egg != null;
     }
 }
