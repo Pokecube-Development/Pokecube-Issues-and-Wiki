@@ -88,7 +88,7 @@ public class SpawnBiomeMatcher
         final SpawnRule orig = rule;
         rule = RULES.computeIfAbsent(rule.toString(), s -> orig.copy());
         rule.loadMatchers();
-        return MATCHERS.computeIfAbsent(rule, r -> new SpawnBiomeMatcher(r));
+        return MATCHERS.computeIfAbsent(rule, SpawnBiomeMatcher::new);
     }
 
     @Nullable
@@ -98,7 +98,7 @@ public class SpawnBiomeMatcher
         if (rule == null) return null;
         final SpawnRule orig = rule;
         rule = RULES.computeIfAbsent(rule.toString(), s -> orig.copy());
-        return MATCHERS.computeIfAbsent(rule, r -> new SpawnBiomeMatcher(r));
+        return MATCHERS.computeIfAbsent(rule, SpawnBiomeMatcher::new);
     }
 
     static
@@ -278,8 +278,7 @@ public class SpawnBiomeMatcher
 
     /**
      * Do not call this, use the static method instead!
-     * 
-     * @param rules
+     *
      */
     private SpawnBiomeMatcher(final SpawnRule rules)
     {
@@ -311,10 +310,8 @@ public class SpawnBiomeMatcher
     /**
      * This is a check for just a single biome, it doesn't factor in the other
      * values such as subbiome (unless flagged all), lighting, time, etc.
-     * 
      * This is synchronised as it is run during worldgen, on multiple threads.
      *
-     * @param biome
      * @return true if the biome matches us
      */
     public synchronized boolean checkBiome(final Holder<Biome> biome)
@@ -366,9 +363,7 @@ public class SpawnBiomeMatcher
     /**
      * This is a check for just a single biome type, it doesn't factor in the
      * other values such as biome, lighting, time, etc.
-     * 
      *
-     * @param subbiome to check
      * @return true if the biome matches us
      */
     public boolean checkSubBiome(final BiomeType biome)
@@ -414,8 +409,7 @@ public class SpawnBiomeMatcher
 
         if (this._blackListSubBiomes.stream().anyMatch(biome::equals)) return false;
         if (this._validSubBiomes.contains(BiomeType.ALL)) return true;
-        if (this._validSubBiomes.stream().anyMatch(biome::equals)) return true;
-        return false;
+        return this._validSubBiomes.stream().anyMatch(biome::equals);
     }
 
     public synchronized boolean matches(final SpawnCheck checker)
@@ -474,8 +468,7 @@ public class SpawnBiomeMatcher
                 if (!subCondition) return false;
                 var event = new SpawnCheckEvent.Check(this, checker);
                 ThutCore.FORGE_BUS.post(event);
-                boolean eventResult = !event.isCanceled();
-                return eventResult;
+                return !event.isCanceled();
             }
             return false;
         }
@@ -564,10 +557,9 @@ public class SpawnBiomeMatcher
 
         // We are the correct subbiome if we either don't need one, or the valid
         // subbiomes has out current one.
-        final boolean rightSubBiome = noSubbiome || type.anyMatch(this._validSubBiomes);
 
         // Return true if both correct biome and subbiome.
-        return rightSubBiome;
+        return noSubbiome || type.anyMatch(this._validSubBiomes);
     }
 
     private boolean conditionsMatch(final SpawnCheck checker)
@@ -777,12 +769,12 @@ public class SpawnBiomeMatcher
                     this._not_children.add(child);
                 }
                 else if (!__client__)
-                    PokecubeAPI.LOGGER.error("No preset found for and_preset {} in {}", s, and_presets);
+                    PokecubeAPI.LOGGER.error("No preset found for not_preset {} in {}", s, and_presets);
             }
         }
     }
 
-    private boolean initRawLists()
+    private void initRawLists()
     {
         final String typeString = spawnRule.getString(SpawnBiomeMatcher.TYPES);
         final String typeBlacklistString = spawnRule.getString(SpawnBiomeMatcher.TYPESBLACKLIST);
@@ -850,12 +842,10 @@ public class SpawnBiomeMatcher
             _validTerrain = valid;
         }
         this._validBiomes.removeAll(this._blackListBiomes);
-        return !this._validBiomes.isEmpty() || !this._blackListBiomes.isEmpty();
     }
 
     /**
      * This sets up the lists of valid biomes and types.
-     * 
      * This is synchronised as it is run during worldgen, on multiple threads.
      */
     public synchronized void parse()
@@ -955,11 +945,11 @@ public class SpawnBiomeMatcher
             this._usesMatchers = true;
         }
 
-        if (this._or_children.size() > 0 || this._and_children.size() > 0 || this._usesMatchers
-                || this._not_children.size() > 0)
+        if (!this._or_children.isEmpty() || !this._and_children.isEmpty() || this._usesMatchers
+                || !this._not_children.isEmpty())
         {
-            boolean or_valid = this._or_children.size() > 0;
-            boolean and_valid = this._and_children.size() > 0;
+            boolean or_valid = !this._or_children.isEmpty();
+            boolean and_valid = !this._and_children.isEmpty();
 
             for (final SpawnBiomeMatcher child : this._and_children) and_valid = and_valid && child._valid;
             for (final SpawnBiomeMatcher child : this._or_children) or_valid = or_valid || child._valid;
@@ -1053,7 +1043,7 @@ public class SpawnBiomeMatcher
     {
         if (!this._valid) return false;
         // First check children
-        if (this._not_children.isEmpty())
+        if (!this._not_children.isEmpty())
         {
             boolean any = _not_children.stream().anyMatch(m -> m.valid(f));
             if (any) return false;
@@ -1103,7 +1093,6 @@ public class SpawnBiomeMatcher
     /**
      * This resets the lists for if they need to be recomputed for resource
      * reloading/etc.
-     * 
      * This is synchronised as it may be run during worldgen, on multiple
      * threads.
      */
@@ -1161,31 +1150,32 @@ public class SpawnBiomeMatcher
 
     public String debugPrint(int depth)
     {
-        String header = "\n";
-        for (int i = 0; i < depth; i++) header += " ";
-        String ret = header;
+        StringBuilder header = new StringBuilder("\n");
+        header.append(" ".repeat(Math.max(0, depth)));
+        StringBuilder ret = new StringBuilder(header.toString());
         if (!_not_children.isEmpty())
         {
-            ret += header + "Not: ";
-            for (SpawnBiomeMatcher m : _not_children) ret += header + m.debugPrint(depth + 1);
+            ret.append(header).append("Not: ");
+            for (SpawnBiomeMatcher m : _not_children) ret.append(header).append(m.debugPrint(depth + 1));
         }
         if (!_or_children.isEmpty())
         {
-            ret += header + "Or: ";
-            for (SpawnBiomeMatcher m : _or_children) ret += header + m.debugPrint(depth + 1);
+            ret.append(header).append("Or: ");
+            for (SpawnBiomeMatcher m : _or_children) ret.append(header).append(m.debugPrint(depth + 1));
         }
         if (!_and_children.isEmpty())
         {
-            ret += header + "And: ";
-            for (SpawnBiomeMatcher m : _and_children) ret += header + m.debugPrint(depth + 1);
-            return ret;
+            ret.append(header).append("And: ");
+            for (SpawnBiomeMatcher m : _and_children) ret.append(header).append(m.debugPrint(depth + 1));
+            return ret.toString();
         }
-        if (!_or_children.isEmpty()) return ret;
-        if (!_validBiomes.isEmpty()) ret += header + "biomes: " + this._validBiomes;
-        if (!_validSubBiomes.isEmpty()) ret += header + "subbiomes: " + this._validSubBiomes;
-        if (!_validStructures.isEmpty()) ret += header + "structures: " + this._validStructures;
-        if (!_blackListBiomes.isEmpty()) ret += header + "not-biomes: " + this._blackListBiomes;
-        if (!_blackListSubBiomes.isEmpty()) ret += header + "not-subbiomes: " + this._blackListSubBiomes;
-        return ret;
+        if (!_or_children.isEmpty()) return ret.toString();
+        if (!_validBiomes.isEmpty()) ret.append(header).append("biomes: ").append(this._validBiomes);
+        if (!_validSubBiomes.isEmpty()) ret.append(header).append("subbiomes: ").append(this._validSubBiomes);
+        if (!_validStructures.isEmpty()) ret.append(header).append("structures: ").append(this._validStructures);
+        if (!_blackListBiomes.isEmpty()) ret.append(header).append("not-biomes: ").append(this._blackListBiomes);
+        if (!_blackListSubBiomes.isEmpty()) ret.append(header).append("not-subbiomes: ")
+                .append(this._blackListSubBiomes);
+        return ret.toString();
     }
 }

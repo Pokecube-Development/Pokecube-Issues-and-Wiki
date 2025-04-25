@@ -1,79 +1,97 @@
 package pokecube.api.events.pokemobs;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.nfunk.jep.JEP;
-
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.level.material.FluidState;
 import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.ICancellableEvent;
 import net.neoforged.neoforge.common.util.TriState;
+import org.nfunk.jep.JEP;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.utils.PokeType;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.function.Predicate;
 
 /** These events are all fired on the PokecubeAPI.POKEMOB_BUS */
 public class SpawnEvent extends Event implements ICancellableEvent
 {
+    public static record SpawnSurface(boolean air, Predicate<FluidState> fluidMatch)
+    {
+        public static SpawnSurface of(PokedexEntry entry)
+        {
+            boolean air = entry.flys();
+            Predicate<FluidState> fluidMatch = fluid -> {
+                if (fluid.is(FluidTags.WATER) && entry.swims()) return true;
+                if (fluid.is(FluidTags.LAVA) && entry.isType(PokeType.getType("fire"))) return true;
+                return fluid.isEmpty();
+            };
+            return new SpawnSurface(air, fluidMatch);
+        }
+
+        public static SpawnSurface any()
+        {
+            return new SpawnSurface(true, fluid -> true);
+        }
+    }
 
     public static record SpawnContext(@Nullable ServerPlayer player, @Nonnull ServerLevel level,
-            @Nonnull PokedexEntry entry, @Nonnull Vector3 location)
+            @Nonnull PokedexEntry entry, @Nonnull Vector3 location, SpawnSurface surface)
     {
         public SpawnContext(@Nonnull IPokemob pokemob_)
         {
             this(pokemob_.getOwner() instanceof ServerPlayer player ? player : null,
                     (ServerLevel) pokemob_.getEntity().level, pokemob_.getPokedexEntry(),
-                    new Vector3().set(pokemob_.getEntity()));
+                    new Vector3().set(pokemob_.getEntity()), SpawnSurface.of(pokemob_.getPokedexEntry()));
         }
 
         public SpawnContext(@Nonnull ServerPlayer player, PokedexEntry entry)
         {
-            this(player, (ServerLevel) player.level, entry, new Vector3().set(player));
+            this(player, (ServerLevel) player.level, entry, new Vector3().set(player), SpawnSurface.of(entry));
         }
 
         public SpawnContext(SpawnContext context, PokedexEntry entry)
         {
-            this(context.player, context.level, entry, context.location);
+            this(context.player, context.level, entry, context.location, SpawnSurface.of(entry));
         }
 
         public SpawnContext(SpawnContext context, Vector3 location)
         {
-            this(context.player, context.level, context.entry, location);
+            this(context.player, context.level, context.entry, location, SpawnSurface.of(context.entry));
         }
 
         public SpawnContext(ServerLevel level, PokedexEntry entry, Vector3 location)
         {
-            this(null, level, entry, location);
+            this(null, level, entry, location, SpawnSurface.of(entry));
         }
 
         /**
-         * 
-         * @return either the player associated with this context, or the
-         *         nearest one to the location.
+         * @return either the player associated with this context, or the nearest one to the location.
          */
         public ServerPlayer getPlayer()
         {
-            return player != null ? player
+            return player != null
+                    ? player
                     : (ServerPlayer) level.getNearestPlayer(TargetingConditions.DEFAULT, location.x, location.y,
                             location.x);
         }
     }
 
     /**
-     * Called before the pokemob is spawned into the world, during the checks
-     * for a valid location. <br>
-     * Cancelling this will prevent the spawn.
+     * Called before the pokemob is spawned into the world, during the checks for a valid location. <br> Cancelling this
+     * will prevent the spawn.
      */
     public static class Check extends SpawnEvent implements ICancellableEvent
     {
         /**
-         * Is this even actually for spawning, or just checking if something can
-         * spawn, say in pokedex
+         * Is this even actually for spawning, or just checking if something can spawn, say in pokedex
          */
         public final boolean forSpawn;
 
@@ -96,13 +114,11 @@ public class SpawnEvent extends Event implements ICancellableEvent
         }
 
         /**
-         * This event is called when checking what the spawn rate for a mob is
-         * at that location. getOriginalRate() will return the un-modified rate.
-         * getRate() is what will be used for the actual value.
-         * 
-         * There is a listener for this in SpawnRateMask set to HIGHEST
-         * priority, which will apply the mask over this if forSpawn is true.
+         * This event is called when checking what the spawn rate for a mob is at that location. getOriginalRate() will
+         * return the un-modified rate. getRate() is what will be used for the actual value.
          *
+         * There is a listener for this in SpawnRateMask set to HIGHEST priority, which will apply the mask over this if
+         * forSpawn is true.
          */
         public static class Rate extends Check
         {
@@ -162,7 +178,7 @@ public class SpawnEvent extends Event implements ICancellableEvent
         {
             this.parser = new JEP();
             this.parser.initFunTab(); // clear the contents of the function
-                                      // table
+            // table
             this.parser.addStandardFunctions();
             this.parser.initSymTab(); // clear the contents of the symbol table
             this.parser.addStandardConstants();
@@ -181,8 +197,7 @@ public class SpawnEvent extends Event implements ICancellableEvent
     }
 
     /**
-     * Called after spawn lvl for a mob is chosen, use setLevel if you wish to
-     * change the level that it spawns at.
+     * Called after spawn lvl for a mob is chosen, use setLevel if you wish to change the level that it spawns at.
      */
     public static class PickLevel extends SpawnEvent
     {
@@ -246,8 +261,8 @@ public class SpawnEvent extends Event implements ICancellableEvent
     public static class Pick extends SpawnEvent
     {
         /**
-         * This is used to edit the pokedex entry directly before the mob is
-         * constructed. It allows bypassing all of the rest of the spawn
+         * This is used to edit the pokedex entry directly before the mob is constructed. It allows bypassing all of the
+         * rest of the spawn
          */
         public static class Final extends Pick
         {
@@ -271,9 +286,8 @@ public class SpawnEvent extends Event implements ICancellableEvent
         }
 
         /**
-         * This is called after Pre is called, but only if the result from Pre
-         * was not null. This one allows modifying the spawn based on the spawn
-         * that was chosen before.
+         * This is called after Pre is called, but only if the result from Pre was not null. This one allows modifying
+         * the spawn based on the spawn that was chosen before.
          */
         public static class Post extends Pick
         {
@@ -284,10 +298,9 @@ public class SpawnEvent extends Event implements ICancellableEvent
         }
 
         /**
-         * Called when a location is initially chosen for spawn. The initial
-         * entry handed here will be null, it will be filled in by Pokecube with
-         * an appropriate spawn (if is chosen), with event priority of HIGHEST.
-         * anything that sets this afterwards will override default pick.
+         * Called when a location is initially chosen for spawn. The initial entry handed here will be null, it will be
+         * filled in by Pokecube with an appropriate spawn (if is chosen), with event priority of HIGHEST. anything that
+         * sets this afterwards will override default pick.
          */
         public static class Pre extends Pick
         {
@@ -329,9 +342,8 @@ public class SpawnEvent extends Event implements ICancellableEvent
     }
 
     /**
-     * Called right before the pokemob is spawned into the world. Cancelling
-     * this does nothing.<br>
-     * pokemob is the pokemob entity which is about to spawn.
+     * Called right before the pokemob is spawned into the world. Cancelling this does nothing.<br> pokemob is the
+     * pokemob entity which is about to spawn.
      */
     public static class Post extends SpawnEvent
     {
@@ -347,9 +359,8 @@ public class SpawnEvent extends Event implements ICancellableEvent
     }
 
     /**
-     * Called before the pokemob is spawned into the world, during the checks
-     * for a valid location. <br>
-     * Cancelling this will prevent the spawn.
+     * Called before the pokemob is spawned into the world, during the checks for a valid location. <br> Cancelling this
+     * will prevent the spawn.
      */
     public static class Pre extends SpawnEvent implements ICancellableEvent
     {
@@ -371,10 +382,8 @@ public class SpawnEvent extends Event implements ICancellableEvent
         }
 
         /**
-         * Called before sending out, cancelling this will result in the cube
-         * either sitting on the ground, or trying to return to sender's
-         * inventory. This is called right before spawning the pokemob into the
-         * world.
+         * Called before sending out, cancelling this will result in the cube either sitting on the ground, or trying to
+         * return to sender's inventory. This is called right before spawning the pokemob into the world.
          */
         public static class Pre extends SendOut implements ICancellableEvent
         {

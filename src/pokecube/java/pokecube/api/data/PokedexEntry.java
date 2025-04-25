@@ -19,7 +19,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
@@ -259,7 +258,7 @@ public class PokedexEntry
             final Interact fire = new Interact();
             var key = new JsonObject();
             fire.action = new Action();
-            key.add("id",new JsonPrimitive("minecraft:stick"));
+            key.add("id", new JsonPrimitive("minecraft:stick"));
             fire.key = key;
             fire.action.values.put("type", "item");
             var drop = new JsonObject();
@@ -269,7 +268,7 @@ public class PokedexEntry
             final Interact water = new Interact();
             key = new JsonObject();
             water.action = new Action();
-            key.add("id",new JsonPrimitive("minecraft:bucket"));
+            key.add("id", new JsonPrimitive("minecraft:bucket"));
             water.key = key;
             water.action.values.put("type", "item");
             drop = new JsonObject();
@@ -346,7 +345,6 @@ public class PokedexEntry
                     {
                         interaction.lootTable = ResourceKey.create(Registries.LOOT_TABLE,
                                 ResourceLocation.parse(action.lootTable));
-                        ;
                     }
                 }
             }
@@ -385,7 +383,7 @@ public class PokedexEntry
             if (action.lootTable != null && player.level() instanceof ServerLevel level)
             {
                 final LootTable loottable = level.getServer().reloadableRegistries().getLootTable(action.lootTable);
-                LootParams params = new LootParams.Builder((ServerLevel) player.level()).create(
+                LootParams params = new LootParams.Builder(level).create(
                         loottable.getParamSet());
                 // Generate the loot list.
                 final List<ItemStack> list = loottable.getRandomItems(params);
@@ -538,7 +536,7 @@ public class PokedexEntry
         public SpawnBiomeMatcher getMatcher(final ServerLevel world, final Vector3 location,
                 @Nullable ServerPlayer player)
         {
-            SpawnContext context = new SpawnContext(player, world, entry, location);
+            SpawnContext context = new SpawnContext(player, world, entry, location, SpawnEvent.SpawnSurface.of(entry));
             final SpawnCheck checker = new SpawnCheck(location, world);
             return this.getMatcher(context, checker);
         }
@@ -607,10 +605,6 @@ public class PokedexEntry
 
         /**
          * Only checks one biome type for vailidity
-         *
-         * b
-         *
-         * @return
          */
         public boolean isValid(final SpawnContext context, SpawnCheck checker)
         {
@@ -896,11 +890,11 @@ public class PokedexEntry
     @CopyToGender
     public ResourceLocation sound;
 
-    @CopyToGender
     /**
-     * This is copied to the gender as it will allow specifying where that
-     * gender spawns in pokedex.
-     */ private SpawnData spawns;
+     * This is copied to the gender as it will allow specifying where that gender spawns in pokedex.
+     */
+    @CopyToGender
+    private SpawnData spawns;
     /**
      * Array used for animated or gender based textures. Index 0 is the male textures, index 1 is the females
      */
@@ -940,8 +934,8 @@ public class PokedexEntry
     /** Cached trimmed name. */
     private String trimmedName;
 
-    private ResourceLocation _base_description = ResourceLocation.parse("null");
-    private Map<ResourceLocation, MutableComponent> _descriptions = new HashMap<>();
+    private final ResourceLocation _base_description = ResourceLocation.parse("null");
+    private final Map<ResourceLocation, MutableComponent> _descriptions = new HashMap<>();
 
     // "" for automatic assignment
     public String modelExt = "";
@@ -1033,7 +1027,6 @@ public class PokedexEntry
                 {
                     PokecubeAPI.LOGGER.error("Error loading forme " + output + " for " + this);
                     PokecubeAPI.LOGGER.error(e);
-                    e.printStackTrace();
                 }
             }
         }
@@ -1069,7 +1062,7 @@ public class PokedexEntry
             if (c != null) try
             {
                 f.setAccessible(true);
-                if (this.isSame(f, this, PokedexEntry.BLANK))
+                if (this.isSame(f, this))
                 {
                     boolean fixed = false;
                     PokedexEntry base = this.getBaseForme();
@@ -1077,7 +1070,7 @@ public class PokedexEntry
                     if (base != null)
                     {
                         f.set(this, f.get(base));
-                        fixed = !this.isSame(f, this, PokedexEntry.BLANK);
+                        fixed = !this.isSame(f, this);
                     }
                     if (!fixed) PokecubeAPI.LOGGER.error("Unfilled value {} for {}!", f.getName(), this);
                 }
@@ -1183,7 +1176,7 @@ public class PokedexEntry
 
     public boolean canEvolve()
     {
-        return this.evolutions.size() > 0;
+        return !this.evolutions.isEmpty();
     }
 
     public void copyFieldsToGenderForm(final PokedexEntry forme)
@@ -1196,7 +1189,7 @@ public class PokedexEntry
             if (c != null) try
             {
                 f.setAccessible(true);
-                if (this.isSame(f, forme, PokedexEntry.BLANK)) f.set(forme, f.get(this));
+                if (this.isSame(f, forme)) f.set(forme, f.get(this));
             }
             catch (final Exception e)
             {
@@ -1225,7 +1218,7 @@ public class PokedexEntry
         if (e.type1 == null) e.type1 = this.type1;
         if (e.type2 == null) e.type2 = this.type2;
         if (e.mass == -1) e.mass = this.mass;
-        for (int i = 0; i < this.foods.length; i++) e.foods[i] = this.foods[i];
+        System.arraycopy(this.foods, 0, e.foods, 0, this.foods.length);
         e.breeds = this.breeds;
         e.legendary = this.legendary;
         e.setBaseForme(this);
@@ -1485,7 +1478,7 @@ public class PokedexEntry
         for (int i = 0; i <= level; i++)
         {
             if (this.lvlUpMoves.get(i) == null) continue;
-            for (final String s : this.lvlUpMoves.get(i)) ret.add(s);
+            ret.addAll(this.lvlUpMoves.get(i));
         }
 
         return ret;
@@ -1502,7 +1495,7 @@ public class PokedexEntry
         for (int i = oldLevel; i < level; i++)
         {
             if (this.lvlUpMoves.get(i + 1) == null) continue;
-            for (final String s : this.lvlUpMoves.get(i + 1)) ret.add(s);
+            ret.addAll(this.lvlUpMoves.get(i + 1));
         }
 
         return ret;
@@ -1631,8 +1624,6 @@ public class PokedexEntry
 
     /**
      * Returns the name in a format that will work for files, ie no . at the end.
-     *
-     * @return
      */
     public String getTrimmedName()
     {
@@ -1657,8 +1648,7 @@ public class PokedexEntry
     {
         String name = this.getTrimmedName();
         if (this.generated) name = this.getBaseName();
-        final String translated = "entity.pokecube." + name;
-        return translated;
+        return "entity.pokecube." + name;
     }
 
     public boolean hasForm(final String form)
@@ -1673,7 +1663,7 @@ public class PokedexEntry
 
     public boolean hasPrey()
     {
-        return this.prey.size() > 0;
+        return !this.prey.isEmpty();
     }
 
     public void initPrey()
@@ -1765,7 +1755,6 @@ public class PokedexEntry
      * returns whether the interaction logic has a response listed for the given key.
      *
      * @param stack - if false, will not actually do anything.
-     * @return
      */
     public boolean interact(final ItemStack stack)
     {
@@ -1775,10 +1764,7 @@ public class PokedexEntry
     /**
      * Call whenever player right clicks a pokemob to run special interaction logic
      *
-     * @param player
-     * @param pokemob
      * @param doInteract - if false, will not actually do anything.
-     * @return
      */
     public boolean interact(final Player player, final IPokemob pokemob, final boolean doInteract)
     {
@@ -1790,12 +1776,12 @@ public class PokedexEntry
         return this.prey.contains(toTest);
     }
 
-    private boolean isSame(final Field field, final Object one, final Object two) throws Exception
+    private boolean isSame(final Field field, final Object one) throws Exception
     {
-        if (one == two) return true;
+        if (one == PokedexEntry.BLANK) return true;
         field.setAccessible(true);
         final Object a = field.get(one);
-        final Object b = field.get(two);
+        final Object b = field.get(PokedexEntry.BLANK);
         if (a == b) return true;
         if (a != null) return a.equals(b);
         return false;
@@ -1813,10 +1799,6 @@ public class PokedexEntry
 
     /**
      * to be called after the new stack is applied as held item.
-     *
-     * @param oldStack
-     * @param newStack
-     * @param pokemob
      */
     public void onHeldItemChange(final ItemStack oldStack, final ItemStack newStack, final IPokemob pokemob)
     {
@@ -1895,11 +1877,11 @@ public class PokedexEntry
     }
 
     /**
-     * @param sound
+     *
      */
     public void setSound(String sound)
     {
-        boolean mobs = false;
+        boolean mobs;
         if (mobs = sound.startsWith("mobs.")) sound = sound.replaceFirst("mobs.", "");
         // Replace all non word chars.
         sound = ThutCore.trim(sound);
@@ -1925,8 +1907,7 @@ public class PokedexEntry
     @Override
     public String toString()
     {
-        final String ret = this.name;
-        return ret;
+        return this.name;
     }
 
     public void updateMoves()
@@ -1949,14 +1930,13 @@ public class PokedexEntry
         {
             moves.clear();
             final List<String> lvls = this.lvlUpMoves.get(level);
-            for (int i = 0; i < lvls.size(); i++)
+            for (final String s : lvls)
             {
-                final String s = lvls.get(i);
                 if (MovesUtils.isMoveImplemented(s)) moves.add(s);
             }
             lvls.clear();
             lvls.addAll(moves);
-            if (lvls.size() == 0) toRemove.add(level);
+            if (lvls.isEmpty()) toRemove.add(level);
 
         }
         for (final int i : toRemove) this.lvlUpMoves.remove(i);
@@ -1983,7 +1963,7 @@ public class PokedexEntry
 
     public ResourceLocation getIcon(final boolean male, final boolean shiny)
     {
-//        if (this.icons[0][0] == null)
+        if (this.icons[0][0] == null)
         {
             final String texture = this.getModId() + ":" + this.getTrimmedName();
             if (this.isGenderForme)

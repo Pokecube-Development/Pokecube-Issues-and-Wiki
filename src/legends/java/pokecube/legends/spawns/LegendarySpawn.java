@@ -15,6 +15,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.events.pokemobs.SpawnEvent;
 import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.api.stats.ISpecialCaptureCondition;
 import pokecube.api.stats.ISpecialSpawnCondition;
@@ -124,7 +125,6 @@ public class LegendarySpawn
 
     /**
      * Check if we match a spawn condition, and if so, give appropriate messages.
-     *
      */
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
     public static void interactRightClickBlock(final PlayerInteractEvent.RightClickBlock evt)
@@ -156,7 +156,8 @@ public class LegendarySpawn
                 entry = match1.entry;
                 final ISpecialSpawnCondition spawnCondition = SpecialCaseRegister.getSpawnCondition(entry);
                 if (spawnCondition == null) continue;
-                SpawnContext context = new SpawnContext((ServerPlayer) evt.getEntity(), level, entry, location);
+                SpawnContext context = new SpawnContext((ServerPlayer) evt.getEntity(), level, entry, location,
+                        SpawnEvent.SpawnSurface.of(entry));
                 if (spawnCondition.canSpawn(context, false).test()) break;
             }
             evt.getEntity().displayClientMessage(TComponent.translatable("msg.noitem.info",
@@ -173,7 +174,8 @@ public class LegendarySpawn
 
         for (final LegendarySpawn match : matches)
         {
-            SpawnContext context = new SpawnContext((ServerPlayer) evt.getEntity(), level, match.entry, location);
+            SpawnContext context = new SpawnContext((ServerPlayer) evt.getEntity(), level, match.entry, location,
+                    SpawnEvent.SpawnSurface.of(match.entry));
             result = LegendarySpawn.trySpawn(match, stack, evt, context, false);
             worked = result == SpawnResult.SUCCESS;
             if (worked) break;

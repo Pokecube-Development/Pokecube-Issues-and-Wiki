@@ -22,6 +22,7 @@ import pokecube.api.entity.trainers.IHasNPCAIStates;
 import pokecube.api.entity.trainers.IHasNPCAIStates.AIState;
 import pokecube.api.entity.trainers.IHasTrades;
 import pokecube.api.entity.trainers.TrainerCaps;
+import pokecube.api.events.pokemobs.SpawnEvent;
 import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.api.utils.Tools;
 import pokecube.core.entity.npc.NpcMob;
@@ -73,8 +74,8 @@ public abstract class TrainerBase extends NpcMob
         final boolean friend = this.getPokemobs().friendlyCooldown >= 0;
         final boolean pity = this.getPokemobs().defeated(player);
         final boolean lost = this.getPokemobs().defeatedBy(player);
-        final boolean trades =
-                this.getAIStates().getAIState(AIState.TRADES_ITEMS) || this.getAIStates().getAIState(AIState.TRADES_MOBS);
+        final boolean trades = this.getAIStates().getAIState(AIState.TRADES_ITEMS) || this.getAIStates()
+                .getAIState(AIState.TRADES_MOBS);
         return trades && (friend || pity || lost);
     }
 
@@ -117,7 +118,8 @@ public abstract class TrainerBase extends NpcMob
             if (!this.level.isClientSide)
             {
                 // This adds in pokemobs to trade.
-                if (this.getAIStates().getAIState(AIState.TRADES_MOBS) && !fixedTrades) this.addMobTrades(player, stack);
+                if (this.getAIStates().getAIState(AIState.TRADES_MOBS) && !fixedTrades)
+                    this.addMobTrades(player, stack);
 
                 if (!this.getOffers().isEmpty())
                     this.openTradingScreen(player, this.getDisplayName(), this.getVillagerData().getLevel());
@@ -176,7 +178,7 @@ public abstract class TrainerBase extends NpcMob
             {
                 this.checkedMobs = true;
                 SpawnContext context = new SpawnContext(null, (ServerLevel) level, type.pokemon.getFirst(),
-                        new Vector3().set(this));
+                        new Vector3().set(this), SpawnEvent.SpawnSurface.of(type.pokemon.getFirst()));
                 final int level = SpawnHandler.getSpawnLevel(context);
                 TrainerSpawnHandler.initTrainer(this.getPokemobs(), level);
             }

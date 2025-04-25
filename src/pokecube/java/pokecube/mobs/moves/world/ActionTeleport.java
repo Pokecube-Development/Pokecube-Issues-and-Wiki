@@ -7,8 +7,10 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
+import pokecube.api.events.pokemobs.SpawnEvent;
 import pokecube.api.events.pokemobs.TeleportEvent;
 import pokecube.api.moves.Battle;
 import pokecube.api.moves.utils.IMoveWorldEffect;
@@ -20,32 +22,35 @@ import thut.api.maths.Vector3;
 public class ActionTeleport implements IMoveWorldEffect
 {
     /** Teleport the entity to a random nearby position */
-    public static boolean teleportRandomly(final LivingEntity toTeleport)
+    public static void teleportRandomly(final LivingEntity toTeleport)
     {
+        var pokemob = PokemobCaps.getPokemobFor(toTeleport);
+        var surface = SpawnEvent.SpawnSurface.any();
+        if (pokemob != null) surface = SpawnEvent.SpawnSurface.of(pokemob.getPokedexEntry());
         double destX;
         double destY;
         double destZ;
-        Vector3 v = SpawnHandler.getRandomPointNear(toTeleport, 32);
+        Vector3 v = SpawnHandler.getRandomPointNear(toTeleport, 32, surface);
         if (v == null) // Try a few more times to get a point.
             for (int i = 0; i < 32; i++)
-        {
-            v = SpawnHandler.getRandomPointNear(toTeleport, 32);
-            if (v != null) break;
-        }
-        if (v == null) return false;
+            {
+                v = SpawnHandler.getRandomPointNear(toTeleport, 32, surface);
+                if (v != null) break;
+            }
+        if (v == null) return;
         v = Vector3.getNextSurfacePoint(toTeleport.level(), v, Vector3.secondAxisNeg, 20);
-        if (v == null) return false;
+        if (v == null) return;
         destX = v.x;
         destY = v.y + 1;
         destZ = v.z;
-        return ActionTeleport.teleportTo(toTeleport, destX, destY, destZ);
+        ActionTeleport.teleportTo(toTeleport, destX, destY, destZ);
     }
 
     /** Teleport the entity */
-    protected static boolean teleportTo(final LivingEntity toTeleport, double posX, double posY, double posZ)
+    protected static void teleportTo(final LivingEntity toTeleport, double posX, double posY, double posZ)
     {
         final TeleportEvent event = TeleportEvent.onUseTeleport(toTeleport, posX, posY, posZ);
-        if (event.isCanceled()) return false;
+        if (event.isCanceled()) return;
 
         posX = event.getTargetX();
         posY = event.getTargetY();
@@ -70,10 +75,10 @@ public class ActionTeleport implements IMoveWorldEffect
                     + (toTeleport.getRandom().nextDouble() - 0.5D) * toTeleport.getBbWidth() * 2.0D;
             toTeleport.level().addParticle(ParticleTypes.PORTAL, var24, var26, var28, var21, var22, var23);
         }
-        toTeleport.level().playLocalSound(posX, posY, posZ, SoundEvents.ENDERMAN_TELEPORT, SoundSource.HOSTILE, 1.0F,
-                1.0F, false);
+        toTeleport.level()
+                .playLocalSound(posX, posY, posZ, SoundEvents.ENDERMAN_TELEPORT, SoundSource.HOSTILE, 1.0F, 1.0F,
+                        false);
         toTeleport.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
-        return true;
     }
 
     public ActionTeleport()
