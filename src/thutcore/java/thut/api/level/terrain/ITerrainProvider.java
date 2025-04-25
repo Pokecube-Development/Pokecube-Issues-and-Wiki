@@ -20,16 +20,22 @@ public interface ITerrainProvider
     {
         if (!(world instanceof Level level))
         {
-            ThutCore.LOGGER.error("ERROR, Umloaded chunk", new IllegalStateException());
+            if (!world.isClientSide())
+            {
+                ThutCore.LOGGER.error("ERROR, Unloaded chunk", new IllegalStateException());
+            }
             return new TerrainSegment(p);
         }
         // Convert the pos to a chunk pos
         int x = SectionPos.blockToSectionCoord(p.getX());
         int z = SectionPos.blockToSectionCoord(p.getZ());
         var getter = level.getChunk(x, z, ChunkStatus.LIGHT, false);
-        if(!(getter instanceof ChunkAccess chunk))
+        if (!(getter instanceof ChunkAccess chunk))
         {
-            ThutCore.LOGGER.error("ERROR, Umloaded chunk", new IllegalStateException());
+            if (!world.isClientSide())
+            {
+                ThutCore.LOGGER.error("ERROR, Unloaded chunk", new IllegalStateException());
+            }
             return new TerrainSegment(p);
         }
 

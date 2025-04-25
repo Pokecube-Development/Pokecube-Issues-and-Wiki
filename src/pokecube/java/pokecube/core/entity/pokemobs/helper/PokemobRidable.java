@@ -1,12 +1,6 @@
 package pokecube.core.entity.pokemobs.helper;
 
-import java.util.List;
-import java.util.UUID;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -33,9 +27,13 @@ import pokecube.core.PokecubeCore;
 import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
 import thut.api.entity.multipart.GenericPartEntity.BodyPart;
-import thut.api.maths.vecmath.Mat3f;
 import thut.api.maths.vecmath.Vec3f;
+import thut.core.common.world.mobs.data.DataSync_Impl;
 import thut.core.common.world.mobs.data.types.Data_Seat;
+
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.UUID;
 
 public abstract class PokemobRidable extends PokemobHasParts
         implements IMultiplePassengerEntity, PlayerRideableJumping, Saddleable
@@ -44,10 +42,11 @@ public abstract class PokemobRidable extends PokemobHasParts
     public PokemobRidable(final EntityType<? extends TamableAnimal> type, final Level worldIn)
     {
         super(type, worldIn);
-        this.getPokemob().dataSync().setRegisterTag("seats");
+        var data = this.getData(DataSync_Impl.TYPE);
+        data.setRegisterTag("seats");
         // Define the seats
         for (int i = 0; i < SEAT.length; i++)
-            SEAT[i] = (Data_Seat) this.getPokemob().dataSync().register(new Data_Seat("seat_" + i).setRealtime());
+            SEAT[i] = (Data_Seat) data.register(new Data_Seat("seat_" + i).setRealtime());
     }
 
     @Override
@@ -55,7 +54,7 @@ public abstract class PokemobRidable extends PokemobHasParts
     {
         final List<Entity> passengers = this.getPassengers();
         if (passengers.isEmpty()) return null;
-        return this.getPassengers().getFirst().getUUID().equals(this.getPokemob().getOwnerId())
+        return this.getPassengers().getFirst().getUUID().equals(this.getOwnerUUID())
                 ? (LivingEntity) this.getPassengers().getFirst()
                 : null;
     }
@@ -152,8 +151,7 @@ public abstract class PokemobRidable extends PokemobHasParts
         {
             float f = Mth.sin(this.getYRot() * ((float) Math.PI / 180F));
             float f1 = Mth.cos(this.getYRot() * ((float) Math.PI / 180F));
-            this.setDeltaMovement(this.getDeltaMovement()
-                    .add((double) (-0.4F * f * p_248808_), 0.0D, (double) (0.4F * f1 * p_248808_)));
+            this.setDeltaMovement(this.getDeltaMovement().add(-0.4F * f * p_248808_, 0.0D, 0.4F * f1 * p_248808_));
         }
 
     }
@@ -218,7 +216,7 @@ public abstract class PokemobRidable extends PokemobHasParts
             {
                 f1 *= 0.25F;
             }
-            return new Vec3((double) f, this.getPokemob().getController().moveUp, (double) f1);
+            return new Vec3(f, this.getPokemob().getController().moveUp, f1);
         }
 
         float f = player.xxa * 0.5F;
@@ -227,7 +225,7 @@ public abstract class PokemobRidable extends PokemobHasParts
         {
             f1 *= 0.25F;
         }
-        return new Vec3((double) f, 0.0D, (double) f1);
+        return new Vec3(f, 0.0D, f1);
     }
 
     /**
@@ -246,7 +244,7 @@ public abstract class PokemobRidable extends PokemobHasParts
     public void equipSaddle(ItemStack stack, @Nullable final SoundSource sound)
     {
         this.getPokemob().getInventory().setItem(0, stack);
-        if (sound != null) this.level.playSound((Player) null, this, SoundEvents.HORSE_SADDLE, sound, 0.5F, 1.0F);
+        if (sound != null) this.level.playSound(null, this, SoundEvents.HORSE_SADDLE, sound, 0.5F, 1.0F);
     }
 
     @Override
@@ -317,7 +315,7 @@ public abstract class PokemobRidable extends PokemobHasParts
     @Override
     protected void initSizes(final float size)
     {
-        float a = 1, b = 1, c = 1;
+        float a, b, c;
         final PokedexEntry entry = getPokemob().getPokedexEntry();
         float h = size;
         if (entry != null)
@@ -424,7 +422,8 @@ public abstract class PokemobRidable extends PokemobHasParts
     protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float partialTick)
     {
         var v = this.getSeat(entity);
-        if (v != null) return this.getPosition(partialTick).add(v.x, v.y, v.z);
+        float yaw = this.yBodyRot;
+        if (v != null) return new Vec3(v.x, v.y, v.z).yRot(-yaw * (float) (Math.PI / 180.0));
         return super.getPassengerAttachmentPoint(entity, dimensions, partialTick);
     }
 

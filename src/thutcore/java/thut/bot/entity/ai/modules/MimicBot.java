@@ -5,7 +5,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
@@ -13,10 +12,8 @@ import net.neoforged.neoforge.event.EventHooks;
 import thut.api.ThutCaps;
 import thut.api.attachments.CopyMob;
 import thut.api.entity.ICopyMob;
-import thut.api.entity.event.CopyUpdateEvent;
 import thut.bot.entity.BotPlayer;
 import thut.bot.entity.ai.BotAI;
-import thut.core.common.ThutCore;
 import thut.core.common.network.SyncAttachments;
 import thut.lib.RegHelper;
 
@@ -74,8 +71,6 @@ public class MimicBot extends AbstractBot
         if (copy.getCopiedMob() instanceof PathfinderMob mob)
         {
             this.mob = mob;
-            this.mob.setOldPosAndRot();
-            this.mob.tickCount = this.player.tickCount;
         }
         else super.preBotTick(level);
     }
@@ -97,6 +92,8 @@ public class MimicBot extends AbstractBot
         copy.setCopiedMob(mob);
         copy.setCopiedNBT(nbt);
 
+        EventHooks.fireEntityTickPost(this.player);
+
         if (!(this.player.level instanceof final ServerLevel level)) return;
 
         preBotTick(level);
@@ -108,31 +105,7 @@ public class MimicBot extends AbstractBot
     public void botTick(ServerLevel level)
     {
         final ICopyMob copy = ThutCaps.getCopyMob(player);
-        copy.baseInit(level, player);
-        LivingEntity living = copy.getCopiedMob();
-
-        ICopyMob.copyEntityTransforms(living, player);
-        ICopyMob.copyPositions(living, player);
-
-        living.setId(-(player.getId() + 100));
-        living.noPhysics = false;
-
-        living.onAddedToLevel();
-        living.tick();
-        living.onRemovedFromLevel();
-
-        living.setItemInHand(InteractionHand.MAIN_HAND, player.getItemInHand(InteractionHand.MAIN_HAND));
-        living.setItemInHand(InteractionHand.OFF_HAND, player.getItemInHand(InteractionHand.OFF_HAND));
-
-        living.level = player.level;
-
-        var event = new CopyUpdateEvent(living, player);
-        ThutCore.FORGE_BUS.post(event);
-        if (!event.isCanceled())
-        {
-            living.setHealth(player.getHealth());
-            living.setAirSupply(player.getAirSupply());
-        }
+        copy.setFullTick(true);
     }
 
     @Override

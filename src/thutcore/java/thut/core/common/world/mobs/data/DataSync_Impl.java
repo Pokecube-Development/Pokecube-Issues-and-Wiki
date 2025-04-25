@@ -128,6 +128,7 @@ public class DataSync_Impl implements DataSync
         DataSync_Impl.initID(data);
         this.data.add(data);
         needInit = true;
+        for (int i = 0; i < this.data.size(); i++) this.data.get(i).setID(i);
         return data;
     }
 
