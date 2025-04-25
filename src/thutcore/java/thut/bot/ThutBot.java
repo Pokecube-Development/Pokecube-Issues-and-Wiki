@@ -29,8 +29,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.dimension.DimensionType;
-import net.neoforged.fml.LogicalSide;
-import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.fml.util.ObfuscationReflectionHelper;
@@ -65,7 +63,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-@Mod(value = "thutbot")
+@Mod(value = "thutcore")
 public class ThutBot
 {
     public static final Logger LOGGER = LogManager.getLogger("thutbot");
@@ -89,8 +87,9 @@ public class ThutBot
             {
                 final DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
                 Files.move(FMLPaths.GAMEDIR.get().resolve("logs").resolve("thutbot" + ".log"),
-                        FMLPaths.GAMEDIR.get().resolve("logs").resolve("old").resolve(String.format("%s_%s%s",
-                                "thutbot", LocalDateTime.now().format(dtf).replace(":", "-"), ".log")));
+                        FMLPaths.GAMEDIR.get().resolve("logs").resolve("old").resolve(
+                                String.format("%s_%s%s", "thutbot", LocalDateTime.now().format(dtf).replace(":", "-"),
+                                        ".log")));
             }
             catch (final IOException e)
             {
@@ -108,8 +107,8 @@ public class ThutBot
 
         IBotAI.MODULEPACKAGES.add(IBotAI.class.getPackageName());
 
-//        ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class,
-//                () -> new IExtensionPoint.DisplayTest(() -> NetworkConstants.IGNORESERVERONLY, (ver, remote) -> true));
+        //        ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class,
+        //                () -> new IExtensionPoint.DisplayTest(() -> NetworkConstants.IGNORESERVERONLY, (ver, remote) -> true));
 
     }
 
@@ -140,9 +139,8 @@ public class ThutBot
             return PermNodes.getBooleanPerm(player, PERMBOT);
         });
 
-        final LiteralArgumentBuilder<CommandSourceStack> summon_bot = command_base
-                .then(Commands.literal("summon").requires(s ->
-                {
+        final LiteralArgumentBuilder<CommandSourceStack> summon_bot = command_base.then(
+                Commands.literal("summon").requires(s -> {
                     if (!(s.getEntity() instanceof ServerPlayer player)) return true;
                     return PermNodes.getBooleanPerm(player, PERMBOTSUMMON);
                 }).then(Commands.argument("name", StringArgumentType.string()).executes(ctx -> {
@@ -173,9 +171,8 @@ public class ThutBot
                     return 0;
                 })));
 
-        final LiteralArgumentBuilder<CommandSourceStack> kill_bot = command_base
-                .then(Commands.literal("kill").requires(s ->
-                {
+        final LiteralArgumentBuilder<CommandSourceStack> kill_bot = command_base.then(
+                Commands.literal("kill").requires(s -> {
                     if (!(s.getEntity() instanceof ServerPlayer player)) return true;
                     return PermNodes.getBooleanPerm(player, PERMBOTKILL);
                 }).then(Commands.argument("name", StringArgumentType.string()).executes(ctx -> {
@@ -358,12 +355,11 @@ public class ThutBot
         final Optional<GameProfile> optional = gameprofilecache.get(gameprofile.getId());
         final String s = optional.map(GameProfile::getName).orElse(gameprofile.getName());
         gameprofilecache.add(gameprofile);
-        final CompoundTag compoundtag = list.load(player).get();
+        Optional<CompoundTag> optional1 = list.load(player);
         @SuppressWarnings("deprecation")
-        final ResourceKey<Level> resourcekey = compoundtag != null
-                ? DimensionType.parseLegacy(new Dynamic<>(NbtOps.INSTANCE, compoundtag.get("Dimension")))
-                        .resultOrPartial(ThutBot.LOGGER::error).orElse(Level.OVERWORLD)
-                : Level.OVERWORLD;
+        ResourceKey<Level> resourcekey = optional1.<ResourceKey<Level>>flatMap(
+                tag -> DimensionType.parseLegacy(new Dynamic<>(NbtOps.INSTANCE, tag.get("Dimension")))
+                        .resultOrPartial(LOGGER::error)).orElse(Level.OVERWORLD);
         final ServerLevel serverlevel = server.getLevel(resourcekey);
         ServerLevel serverlevel1;
         if (serverlevel == null)
@@ -379,19 +375,19 @@ public class ThutBot
 
         ThutBot.LOGGER.info("{}[{}] logged in with entity id {} at ({}, {}, {})", player.getName().getString(), s1,
                 player.getId(), player.getX(), player.getY(), player.getZ());
-        player.loadGameTypes(compoundtag);
+        player.loadGameTypes(optional1.orElse(null));
         final ServerGamePacketListenerImpl servergamepacketlistenerimpl = player.connection;
         server.invalidateStatus();
         MutableComponent mutablecomponent;
         if (player.getGameProfile().getName().equalsIgnoreCase(s))
             mutablecomponent = TComponent.translatable("multiplayer.player.joined", player.getDisplayName());
-        else mutablecomponent = TComponent.translatable("multiplayer.player.joined.renamed", player.getDisplayName(),
-                s);
+        else
+            mutablecomponent = TComponent.translatable("multiplayer.player.joined.renamed", player.getDisplayName(), s);
 
         list.broadcastSystemMessage(mutablecomponent.withStyle(ChatFormatting.YELLOW), false);
         servergamepacketlistenerimpl.teleport(player.getX(), player.getY(), player.getZ(), player.getYRot(),
                 player.getXRot());
-        
+
         List<ServerPlayer> players = ObfuscationReflectionHelper.getPrivateValue(PlayerList.class, list, "players");
         Map<UUID, ServerPlayer> playerMap = ObfuscationReflectionHelper.getPrivateValue(PlayerList.class, list,
                 "playersByUUID");
@@ -405,14 +401,11 @@ public class ThutBot
         server.getCustomBossEvents().onPlayerConnect(player);
         list.sendLevelInfo(player, serverlevel1);
 
-        if (compoundtag != null && compoundtag.contains("RootVehicle", 10))
+        if (optional1.isPresent() && optional1.get().contains("RootVehicle", 10))
         {
-            final CompoundTag compoundtag1 = compoundtag.getCompound("RootVehicle");
+            CompoundTag compoundtag1 = optional1.get().getCompound("RootVehicle");
             final Entity entity1 = EntityType.loadEntityRecursive(compoundtag1.getCompound("Entity"), serverlevel1,
-                    (p_11223_) ->
-                    {
-                        return !serverlevel1.addWithUUID(p_11223_) ? null : p_11223_;
-                    });
+                    (entity) -> !serverlevel1.addWithUUID(entity) ? null : entity);
             if (entity1 != null)
             {
                 UUID uuid;
@@ -420,11 +413,12 @@ public class ThutBot
                 else uuid = null;
 
                 if (entity1.getUUID().equals(uuid)) player.startRiding(entity1, true);
-                else for (final Entity entity : entity1.getIndirectPassengers()) if (entity.getUUID().equals(uuid))
-                {
-                    player.startRiding(entity, true);
-                    break;
-                }
+                else for (final Entity entity : entity1.getIndirectPassengers())
+                    if (entity.getUUID().equals(uuid))
+                    {
+                        player.startRiding(entity, true);
+                        break;
+                    }
 
                 if (!player.isPassenger())
                 {
