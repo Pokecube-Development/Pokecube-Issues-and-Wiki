@@ -1,9 +1,7 @@
 package pokecube.core.ai.logic;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -13,11 +11,9 @@ import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
@@ -25,7 +21,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.pathing.ClimbPathNavi;
 import pokecube.core.ai.pathing.FlyPathNavi;
 import pokecube.core.ai.pathing.SwimPathNavi;
-import pokecube.core.ai.pathing.WalkPathNavi;
 import thut.api.maths.Vector3;
 
 /**
@@ -40,7 +35,6 @@ public class LogicFloatFlySwim extends LogicBase
 
     private static class WalkController extends MoveControl
     {
-
         final IPokemob pokemob;
 
         public WalkController(final IPokemob mob)
@@ -48,52 +42,6 @@ public class LogicFloatFlySwim extends LogicBase
             super(mob.getEntity());
             this.pokemob = mob;
         }
-
-        @Override
-        public void tick()
-        {
-            if (pokemob.getController().blocksPathing()) return;
-            if (true)
-            {
-                super.tick();
-                return;
-            }
-
-            if (this.operation == MoveControl.Operation.MOVE_TO)
-            {
-                this.operation = MoveControl.Operation.WAIT;
-                double d0 = this.wantedX - this.mob.getX();
-                double d1 = this.wantedZ - this.mob.getZ();
-                double d2 = this.wantedY - this.mob.getY();
-                double d3 = d0 * d0 + d2 * d2 + d1 * d1;
-
-                if (d3 < 0.001F)
-                {
-                    this.mob.setYya(0.0F);
-                    this.mob.setXxa(0.0F);
-                    this.mob.setSpeed(0.0F);
-                    Path path = this.mob.getNavigation().getPath();
-                    if (path != null) path.advance();
-                    return;
-                }
-
-                float f9 = (float) (Mth.atan2(d1, d0) * (180F / (float) Math.PI)) - 90.0F;
-                this.mob.setYRot(this.rotlerp(this.mob.getYRot(), f9, 90.0F));
-                this.mob.setSpeed((float) (this.speedModifier * this.mob.getAttributeValue(Attributes.MOVEMENT_SPEED)));
-                BlockPos blockpos = this.mob.blockPosition();
-                BlockState blockstate = this.mob.level.getBlockState(blockpos);
-                VoxelShape voxelshape = blockstate.getCollisionShape(this.mob.level, blockpos);
-                if (d2 > this.mob.maxUpStep() && d0 * d0 + d1 * d1 < Math.max(1.0F, this.mob.getBbWidth())
-                        || !voxelshape.isEmpty() && this.mob.getY() < voxelshape.max(Direction.Axis.Y) + blockpos.getY()
-                        && !blockstate.is(BlockTags.DOORS) && !blockstate.is(BlockTags.FENCES))
-                {
-                    this.mob.getJumpControl().jump();
-                    this.operation = MoveControl.Operation.JUMPING;
-                }
-            }
-            else super.tick();
-        }
-
     }
 
     private static class SwimController extends MoveControl
@@ -221,7 +169,6 @@ public class LogicFloatFlySwim extends LogicBase
     // Navigators
     private final FlyingPathNavigation flyPather;
 
-    private final WalkPathNavi walkPather;
     private final ClimbPathNavi climbPather;
     private final SwimPathNavi swimPather;
 
@@ -240,7 +187,6 @@ public class LogicFloatFlySwim extends LogicBase
     {
         super(entity);
         this.flyPather = new FlyPathNavi(entity.getEntity(), entity.getEntity().level());
-        this.walkPather = new WalkPathNavi(entity.getEntity(), entity.getEntity().level());
         this.climbPather = new ClimbPathNavi(entity.getEntity(), entity.getEntity().level());
         this.swimPather = new SwimPathNavi(entity.getEntity(), entity.getEntity().level());
 
@@ -250,9 +196,6 @@ public class LogicFloatFlySwim extends LogicBase
 
         this.swimPather.setCanOpenDoors(false);
         this.swimPather.setCanFloat(true);
-
-        this.walkPather.setCanOpenDoors(false);
-        this.walkPather.setCanFloat(true);
 
         this.climbPather.setCanOpenDoors(false);
         this.climbPather.setCanFloat(true);
