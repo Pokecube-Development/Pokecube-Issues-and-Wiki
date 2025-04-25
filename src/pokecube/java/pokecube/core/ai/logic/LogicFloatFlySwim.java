@@ -11,9 +11,11 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -24,7 +26,6 @@ import pokecube.core.ai.pathing.ClimbPathNavi;
 import pokecube.core.ai.pathing.FlyPathNavi;
 import pokecube.core.ai.pathing.SwimPathNavi;
 import pokecube.core.ai.pathing.WalkPathNavi;
-import pokecube.core.ai.tasks.TaskBase;
 import thut.api.maths.Vector3;
 
 /**
@@ -270,9 +271,9 @@ public class LogicFloatFlySwim extends LogicBase
     }
 
     @Override
-    public void tick(final Level world)
+    public void tick(final Level level)
     {
-        super.tick(world);
+        super.tick(level);
 
         final Path path = this.entity.getNavigation().getPath();
         boolean hasPath = path != null && !path.isDone();
@@ -306,11 +307,12 @@ public class LogicFloatFlySwim extends LogicBase
         if (floats && !hasPath && !this.pokemob.isGrounded())
         {
             hereVec.set(this.entity);
-            nextVec.set(0, -1, 0);
-            Vector3 next = Vector3.getNextSurfacePoint(world, hereVec, nextVec, pokemob.getFloatHeight());
-            double vy = entity.getDeltaMovement().y;
+            nextVec.set(hereVec).addTo(0, -pokemob.getFloatHeight(), 0);
+            var hit = level.clip(new ClipContext(hereVec.toVec3d(), nextVec.toVec3d(), ClipContext.Block.COLLIDER,
+                    ClipContext.Fluid.ANY, this.entity));
             Vector3 push = hereVec.set(0, 0.01, 0);
-            if (next == null) push.set(0, -0.01, 0);
+            if (hit.getType() == HitResult.Type.MISS) push.set(0, -0.01, 0);
+            double vy = entity.getDeltaMovement().y;
             if (Math.signum(vy) != Math.signum(push.y)) push.addVelocities(entity);
         }
 
