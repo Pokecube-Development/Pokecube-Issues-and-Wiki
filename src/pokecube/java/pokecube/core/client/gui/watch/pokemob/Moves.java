@@ -1,7 +1,12 @@
 package pokecube.core.client.gui.watch.pokemob;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.chat.*;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.HoverEvent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -83,6 +88,7 @@ public class Moves extends ListPage<LineEntry>
                 continue;
             }
             var name = pokemob.getMove(offset[3]);
+            if (name == null) continue;
             MoveEntry move = MovesUtils.getMove(name);
             Component moveName =
                     move != null ? MovesUtils.getMoveName(move.getName(), pokemob) : Component.literal(name);

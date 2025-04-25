@@ -372,7 +372,7 @@ public class RouteMaker extends AbstractBot
     }
 
     @Override
-    public void botTick(final ServerLevel world)
+    public void botTick(final ServerLevel level)
     {
         if (this.getMap() == null) return;
 
@@ -439,7 +439,7 @@ public class RouteMaker extends AbstractBot
                         BlockPos test_end = end.offset((int) (-i * dir.x), 0, (int) (-i * dir.z));
                         player.level.getBlockState(test_end);
                         test_end = player.level.getHeightmapPos(Types.OCEAN_FLOOR_WG, test_end);
-                        if (StructureManager.getNear(world.dimension(), test_end, 8, false).isEmpty())
+                        if (StructureManager.getNear(level.dimension(), test_end, 8, false).isEmpty())
                         {
                             road_maker.end = new Vec3(test_end.getX(), test_end.getY(), test_end.getZ());
                             if (road_maker.next != null) break;
@@ -450,7 +450,7 @@ public class RouteMaker extends AbstractBot
                         BlockPos text_next = next.offset((int) (i * dir.x), 0, (int) (i * dir.z));
                         player.level.getBlockState(text_next);
                         text_next = player.level.getHeightmapPos(Types.OCEAN_FLOOR_WG, text_next);
-                        if (StructureManager.getNear(world.dimension(), text_next, 8, false).isEmpty())
+                        if (StructureManager.getNear(level.dimension(), text_next, 8, false).isEmpty())
                         {
                             road_maker.next = new Vec3(text_next.getX(), text_next.getY(), text_next.getZ());
                             if (road_maker.end != null) break;
@@ -478,7 +478,7 @@ public class RouteMaker extends AbstractBot
         {
             road_maker.mob = this.mob;
             road_maker.setKey(getKey());
-            road_maker.botTick(world);
+            road_maker.botTick(level);
         }
 
         if (this.mob.isInWater()) this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0, 0.05, 0));

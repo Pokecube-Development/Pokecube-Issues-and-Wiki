@@ -13,6 +13,7 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.LogicStates;
@@ -52,9 +53,9 @@ public abstract class TaskBase extends RootTask<Mob> implements ITask
         }
 
         @Override
-        public boolean run(final Level world)
+        public boolean run(final Level level)
         {
-            final Entity e = world.getEntity(this.entity);
+            final Entity e = PokecubeAPI.getEntity(level, this.entity);
             final IPokemob pokemob = PokemobCaps.getPokemobFor(e);
             if (e == null || pokemob == null) return false;
             if (this.slot > 0) pokemob.getInventory().setItem(this.slot, this.stack);

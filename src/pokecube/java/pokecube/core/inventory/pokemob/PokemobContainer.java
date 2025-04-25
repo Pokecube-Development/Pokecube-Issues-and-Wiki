@@ -10,6 +10,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeItems;
@@ -38,7 +39,7 @@ public class PokemobContainer extends BaseContainer
         super(MenuTypes.POKEMOB.get(), id);
         LivingEntity entity = playerInv.player;
         final int num = data.readInt();
-        Entity mob = entity.level().getEntity(num);
+        Entity mob = PokecubeAPI.getEntity(entity.level(), num);
         mob = EntityTools.getCoreEntity(mob);
         if (mob instanceof LivingEntity) entity = (LivingEntity) mob;
         this.pokemob = PokemobCaps.getPokemobFor(entity);
@@ -92,18 +93,19 @@ public class PokemobContainer extends BaseContainer
             }
         });
         this.addSlot(new TexturedSlot(this.pokemobInv, offhand, 63, 54, Resources.SLOT_ICON_BOOK));
-        for (int k = 0; k < 5; ++k) this.addSlot(new CustomSlot(this.pokemobInv, 2 + k, 83 + k * 18, 18)
-        {
-            /**
-             * Check if the stack is a valid item for this slot. Always true
-             * beside for the armor slots.
-             */
-            @Override
-            public boolean mayPlace(final ItemStack stack)
+        for (int k = 0; k < 5; ++k)
+            this.addSlot(new CustomSlot(this.pokemobInv, 2 + k, 83 + k * 18, 18)
             {
-                return true;// ItemList.isValidHeldItem(stack);
-            }
-        });
+                /**
+                 * Check if the stack is a valid item for this slot. Always true
+                 * beside for the armor slots.
+                 */
+                @Override
+                public boolean mayPlace(final ItemStack stack)
+                {
+                    return true;// ItemList.isValidHeldItem(stack);
+                }
+            });
 
         this.bindPlayerInventory(this.playerInv, -19);
     }
@@ -146,8 +148,8 @@ public class PokemobContainer extends BaseContainer
     @Override
     public boolean stillValid(final Player user)
     {
-        float dh = pokemob.getSize()
-                * (Math.max(pokemob.getBasePokedexEntry().width, pokemob.getPokedexEntry().length));
+        float dh =
+                pokemob.getSize() * (Math.max(pokemob.getBasePokedexEntry().width, pokemob.getPokedexEntry().length));
         return this.pokemobInv.stillValid(user) && this.pokemob.getEntity().isAlive()
                 && this.pokemob.getEntity().distanceTo(user) < (8.0F + dh);
     }
@@ -183,7 +185,7 @@ public class PokemobContainer extends BaseContainer
         if (list.size() > this.slots.size())
         {
             list = Lists.newArrayList(list);
-            while (list.size() > this.slots.size()) list.remove(list.size() - 1);
+            while (list.size() > this.slots.size()) list.removeLast();
         }
         super.initializeContents(stateId, list, carried);
     }

@@ -682,8 +682,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
     public Entity getReleased()
     {
         final int id = this.getEntityData().get(EntityPokecubeBase.ENTITYID);
-        final Entity ret = this.level().getEntity(id);
-        return ret;
+        return this.level().getEntity(id);
     }
 
     public int getTime()

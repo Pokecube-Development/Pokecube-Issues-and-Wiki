@@ -229,7 +229,7 @@ public class RoadBuilder extends AbstractBot
     }
 
     @Override
-    public void botTick(ServerLevel world)
+    public void botTick(ServerLevel level)
     {
         if (this.done) return;
 

@@ -135,7 +135,8 @@ public class GuiPokemobHelper
         // Disable the face culling that occurs if too far away
         double bak = ThutCore.getConfig().modelCullThreshold;
         ThutCore.getConfig().modelCullThreshold = -1;
-        if (pokemob != null && !pokemob.getEntity().isAddedToLevel())
+        // If it is an ICopyMob, the entity id is negative, so we want to not do a gui render in that case.
+        if (pokemob != null && !pokemob.getEntity().isAddedToLevel() && pokemob.getEntity().getId() >= 0)
         {
             var animated = ThutCaps.getAnimated(pokemob.getEntity());
             animated.getChoices().clear();

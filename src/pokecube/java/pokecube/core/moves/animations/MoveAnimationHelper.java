@@ -9,11 +9,11 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.loading.moddiscovery.ModFile;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent.Stage;
 import net.neoforged.neoforge.event.level.ChunkEvent;
 import net.neoforged.neoforgespi.language.ModFileScanData.AnnotationData;
+import net.neoforged.neoforgespi.locating.IModFile;
 import org.objectweb.asm.Type;
 import pokecube.api.moves.utils.IMoveAnimation;
 import pokecube.core.moves.PokemobTerrainEffects;
@@ -37,7 +37,7 @@ public class MoveAnimationHelper
 
     static Map<String, Class<? extends MoveAnimationBase>> presets = Maps.newHashMap();
 
-    private static final BiFunction<ModFile, String, Boolean> validClass = (file, name) -> {
+    private static final BiFunction<IModFile, String, Boolean> validClass = (file, name) -> {
         for (final AnnotationData a : file.getScanResult().getAnnotations())
             if (name.equals(a.clazz().getClassName()) && a.annotationType()
                     .equals(MoveAnimationHelper.PRESETANNOTATION)) return true;

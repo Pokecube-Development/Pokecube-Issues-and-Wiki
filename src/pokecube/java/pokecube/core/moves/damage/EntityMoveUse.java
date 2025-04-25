@@ -34,6 +34,7 @@ import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.EntityTools;
+import thut.api.attachments.CopyMob;
 import thut.api.maths.Vector3;
 
 import java.util.List;
@@ -264,6 +265,7 @@ public class EntityMoveUse extends ThrowableProjectile
                 target.setLastHurtByMob(user);
                 user.setLastHurtByMob(target);
             }
+
             MovesUtils.doAttack(attack.name, userMob, target);
             this.applied = true;
             // Don't penetrate through blocking mobs, so end the move here.
@@ -331,7 +333,8 @@ public class EntityMoveUse extends ThrowableProjectile
     public LivingEntity getTarget()
     {
         if (this.target != null) return this.target;
-        if (this.level.getEntity(this.getEntityData().get(EntityMoveUse.TARGET)) instanceof LivingEntity target)
+        // We use vanilla level as target is always the real mob.
+        if (level().getEntity(this.getEntityData().get(EntityMoveUse.TARGET)) instanceof Mob target)
             this.target = target;
         return this.target;
     }
@@ -339,7 +342,9 @@ public class EntityMoveUse extends ThrowableProjectile
     public Mob getUser()
     {
         if (this.user != null) return this.user;
-        if (this.level.getEntity(this.getEntityData().get(EntityMoveUse.USER)) instanceof Mob user) this.user = user;
+        // We use api entity, incase it is the copy mob using the attack.
+        if (PokecubeAPI.getEntity(level(), this.getEntityData().get(EntityMoveUse.USER)) instanceof Mob user)
+            this.user = user;
         return this.user;
     }
 
@@ -565,6 +570,10 @@ public class EntityMoveUse extends ThrowableProjectile
             return true;
         });
 
+        if (!CopyMob.isCopy(user))
+        {
+            System.out.println(user + " " + hits + " " + attack.getName());
+        }
         for (final Entity e : hits) if (e instanceof LivingEntity living) this.doMoveUse(living);
 
         if (this.getMove() != null && userMob != null && !this.finished && !this.level.isClientSide)

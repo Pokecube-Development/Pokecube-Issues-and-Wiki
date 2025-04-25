@@ -62,8 +62,8 @@ public abstract class PokemobMoves extends PokemobStats
         // If the move is somehow null, report it and return early.
         if (move == null)
         {
-            PokecubeAPI.LOGGER.error(
-                    this.getDisplayName().getString() + " Has Used Unregistered Move: " + attack + " " + index);
+            PokecubeAPI.LOGGER.error("{} Has Used Unregistered Move: {} {}", this.getDisplayName().getString(), attack,
+                    index);
             return;
         }
 
@@ -354,13 +354,13 @@ public abstract class PokemobMoves extends PokemobStats
         else
         {
             int id = this.getTargetID();
-            Entity e = entity.level().getEntity(id);
+            Entity e = PokecubeAPI.getEntity(entity.level(), id);
             if (e instanceof LivingEntity living) target = living;
         }
 
         // Then both sides update targetEnemy and targetAlly
         this.getMoveStats().targetEnemy = target;
-        Entity e = entity.level().getEntity(this.getAllyID());
+        Entity e = PokecubeAPI.getEntity(entity.level(), this.getAllyID());
         this.getMoveStats().targetAlly = e instanceof LivingEntity living ? living : null;
 
         // Only owned mobs process beyond here.

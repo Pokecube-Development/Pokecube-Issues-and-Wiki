@@ -46,7 +46,7 @@ public class MimicBot extends AbstractBot
                 if (type == null || !RegHelper.getKey(type).equals(loc)) return false;
                 final ICopyMob copy = ThutCaps.getCopyMob(player);
                 copy.setCopiedID(loc);
-                SyncAttachments.syncChange(CopyMob.TYPE_COPY, this.mob);
+                SyncAttachments.syncChange(CopyMob.TYPE_COPY, this.player);
                 this.getTag().putString("id", loc.toString());
                 return true;
             }
@@ -63,11 +63,12 @@ public class MimicBot extends AbstractBot
     {
         final ICopyMob copy = ThutCaps.getCopyMob(player);
         copy.setCopiedID(null);
+        SyncAttachments.syncChange(CopyMob.TYPE_COPY, this.player);
         getTag().remove("id");
     }
 
     @Override
-    protected void preBotTick(ServerLevel world)
+    protected void preBotTick(ServerLevel level)
     {
         final ICopyMob copy = ThutCaps.getCopyMob(player);
         if (copy.getCopiedMob() instanceof PathfinderMob mob)
@@ -76,7 +77,7 @@ public class MimicBot extends AbstractBot
             this.mob.setOldPosAndRot();
             this.mob.tickCount = this.player.tickCount;
         }
-        else super.preBotTick(world);
+        else super.preBotTick(level);
     }
 
     @Override
@@ -96,18 +97,18 @@ public class MimicBot extends AbstractBot
         copy.setCopiedMob(mob);
         copy.setCopiedNBT(nbt);
 
-        if (!(this.player.level instanceof final ServerLevel world)) return;
+        if (!(this.player.level instanceof final ServerLevel level)) return;
 
-        preBotTick(world);
-        botTick(world);
-        postBotTick(world);
+        preBotTick(level);
+        botTick(level);
+        postBotTick(level);
     }
 
     @Override
-    public void botTick(ServerLevel world)
+    public void botTick(ServerLevel level)
     {
         final ICopyMob copy = ThutCaps.getCopyMob(player);
-        copy.baseInit(world, player);
+        copy.baseInit(level, player);
         LivingEntity living = copy.getCopiedMob();
 
         ICopyMob.copyEntityTransforms(living, player);
@@ -135,7 +136,7 @@ public class MimicBot extends AbstractBot
     }
 
     @Override
-    protected void postBotTick(ServerLevel world)
+    protected void postBotTick(ServerLevel level)
     {
         ICopyMob.copyEntityTransforms(this.player, this.mob);
         ICopyMob.copyPositions(this.player, this.mob);

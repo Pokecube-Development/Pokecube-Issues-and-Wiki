@@ -1,5 +1,18 @@
 package thut.bot.entity.ai;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
+import net.neoforged.fml.ModList;
+import net.neoforged.neoforgespi.language.ModFileScanData;
+import net.neoforged.neoforgespi.locating.IModFile;
+import org.objectweb.asm.Type;
+import thut.bot.ThutBot;
+import thut.bot.entity.BotPlayer;
+import thut.lib.CompatParser.ClassFinder;
+
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -7,22 +20,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
-
-import javax.annotation.Nullable;
-
-import net.neoforged.fml.ModList;
-import net.neoforged.fml.loading.moddiscovery.ModFile;
-import net.neoforged.neoforgespi.language.ModFileScanData;
-import org.objectweb.asm.Type;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerPlayer;
-import thut.bot.ThutBot;
-import thut.bot.entity.BotPlayer;
-import thut.lib.CompatParser.ClassFinder;
 
 public interface IBotAI
 {
@@ -81,17 +78,17 @@ public interface IBotAI
     {
         REGISTRY.clear();
         Type ANNOTE = Type.getType("Lthut/bot/entity/ai/BotAI;");
-        BiFunction<ModFile, String, Boolean> validClass = (file, name) -> {
+        BiFunction<IModFile, String, Boolean> validClass = (file, name) -> {
             for (final ModFileScanData.AnnotationData a : file.getScanResult().getAnnotations())
                 if (name.equals(a.clazz().getClassName()) && a.annotationType().equals(ANNOTE))
-            {
-                if (a.annotationData().containsKey("mod"))
                 {
-                    String modid = (String) a.annotationData().get("mod");
-                    return ModList.get().isLoaded(modid);
+                    if (a.annotationData().containsKey("mod"))
+                    {
+                        String modid = (String) a.annotationData().get("mod");
+                        return ModList.get().isLoaded(modid);
+                    }
+                    return true;
                 }
-                return true;
-            }
             return false;
         };
 
@@ -116,8 +113,8 @@ public interface IBotAI
                                 {
                                     return construct.newInstance(owner);
                                 }
-                                catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-                                        | InvocationTargetException e)
+                                catch (InstantiationException | IllegalAccessException | IllegalArgumentException |
+                                        InvocationTargetException e)
                                 {
                                     e.printStackTrace();
                                 }

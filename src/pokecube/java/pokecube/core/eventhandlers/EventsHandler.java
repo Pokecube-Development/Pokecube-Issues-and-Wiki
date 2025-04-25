@@ -497,7 +497,7 @@ public class EventsHandler
         // Calling get here sets it up.
         if (!ItemList.is(NOGENESTAG, living)) ThutCaps.getGenetics(living);
 
-        if (living instanceof EntityPokemob mob)
+        if (living instanceof EntityPokemob)
         {
             // Init data, genes, copy
             ThutCaps.getDataSync(living);

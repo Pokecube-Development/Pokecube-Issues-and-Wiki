@@ -15,7 +15,7 @@ public class RandomWalk extends AbstractBot
     }
 
     @Override
-    public void botTick(final ServerLevel world)
+    public void botTick(final ServerLevel level)
     {
         if (mob.getNavigation().isDone())
         {

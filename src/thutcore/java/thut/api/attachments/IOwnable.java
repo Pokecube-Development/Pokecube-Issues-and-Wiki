@@ -1,26 +1,24 @@
 package thut.api.attachments;
 
-import java.util.UUID;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+
+import javax.annotation.Nullable;
+import java.util.UUID;
 
 public interface IOwnable
 {
 
     /**
-     * Gets the owner as an LivingEntity, may be null if not in world, or if no
-     * owner.
+     * Gets the owner as an LivingEntity, may be null if not in world, or if no owner.
      */
     @Nullable
     LivingEntity getOwner();
 
     /**
-     * Gets the owner as an LivingEntity, may be null if not in world, or if no
-     * owner, this method will look up the owner as an entity in the world.
+     * Gets the owner as an LivingEntity, may be null if not in world, or if no owner, this method will look up the
+     * owner as an entity in the world.
      */
     @Nullable
     default LivingEntity getOwner(final ServerLevel world)
@@ -42,8 +40,8 @@ public interface IOwnable
         return _default;
     }
 
-    @Nullable
     /** Gets the UUID of the owner, might be null */
+    @Nullable
     UUID getOwnerId();
 
     /** @return Is our owner a player. */

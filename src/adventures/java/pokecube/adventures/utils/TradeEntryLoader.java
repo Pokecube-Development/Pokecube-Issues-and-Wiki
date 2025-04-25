@@ -14,8 +14,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.trading.ItemCost;
 import net.neoforged.fml.ModList;
-import net.neoforged.fml.loading.moddiscovery.ModFile;
 import net.neoforged.neoforgespi.language.ModFileScanData.AnnotationData;
+import net.neoforged.neoforgespi.locating.IModFile;
 import org.objectweb.asm.Type;
 import pokecube.adventures.ai.poi.Professions;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
@@ -113,7 +113,7 @@ public class TradeEntryLoader
         if (!registeredPresets.isEmpty()) return;
 
         Type ANNOTE = Type.getType(TradePresetAn.class);
-        BiFunction<ModFile, String, Boolean> validClass = (file, name) -> {
+        BiFunction<IModFile, String, Boolean> validClass = (file, name) -> {
             for (final AnnotationData a : file.getScanResult().getAnnotations())
                 if (name.equals(a.clazz().getClassName()) && a.annotationType().equals(ANNOTE))
                 {

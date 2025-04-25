@@ -1,13 +1,8 @@
 package thut.api.attachments;
 
-import java.util.Set;
-import java.util.function.Function;
-import java.util.function.Supplier;
-
 import com.google.common.collect.Sets;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.ResourceLocationException;
 import net.minecraft.core.HolderLookup;
@@ -32,6 +27,10 @@ import thut.api.entity.ICopyMob;
 import thut.api.entity.animation.CapabilityAnimation.DefaultImpl;
 import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
+
+import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class CopyMob
 {
@@ -65,8 +64,8 @@ public class CopyMob
             return new CopyInfo(null, tag);
         }
 
-        public static final Codec<CopyInfo> CODEC = CompoundTag.CODEC.comapFlatMap(CopyInfo::read,
-                CopyInfo::tag).stable();
+        public static final Codec<CopyInfo> CODEC = CompoundTag.CODEC.comapFlatMap(CopyInfo::read, CopyInfo::tag)
+                .stable();
         public static final StreamCodec<ByteBuf, CopyInfo> STREAM_CODEC = ByteBufCodecs.COMPOUND_TAG.map(
                 CopyInfo::parse, CopyInfo::tag);
 
@@ -162,7 +161,19 @@ public class CopyMob
             this.markDirty();
         }
 
-        private boolean isDirty = false;
+        @Override
+        public void setFullTick(boolean fullTick)
+        {
+            this.isFullTick = fullTick;
+        }
+
+        @Override
+        public boolean isFullTick()
+        {
+            return this.isFullTick;
+        }
+
+        private boolean isDirty = false, isFullTick = false;
 
         @Override
         public void markDirty()
@@ -181,6 +192,11 @@ public class CopyMob
         {
             return isDirty;
         }
+    }
+
+    public static boolean isCopy(Entity entity)
+    {
+        return entity.getId() <= -100;
     }
 
     public static final ResourceLocation LOC = ResourceLocation.parse("thutcore:copymob");

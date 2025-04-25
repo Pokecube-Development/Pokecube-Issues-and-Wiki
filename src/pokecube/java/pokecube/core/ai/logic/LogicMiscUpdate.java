@@ -302,7 +302,7 @@ public class LogicMiscUpdate extends LogicBase
     {
         super.tick(world);
 
-        PokedexEntry entry1 = this.pokemob.getPokedexEntry();
+        PokedexEntry entry = this.pokemob.getPokedexEntry();
         Random rand = new Random(this.pokemob.getRNGValue());
         final int timer = 100;
 
@@ -310,19 +310,19 @@ public class LogicMiscUpdate extends LogicBase
         // client side
         final UUID uuid = this.pokemob.getEntity().getUUID();
         final UUID ownerID = this.pokemob.getOwnerId();
-        final MobEntry entry = PokemobTracker.getMobEntry(uuid, world);
+        final MobEntry mobEntry = PokemobTracker.getMobEntry(uuid, world);
 
-        boolean shouldUpdate = entry == null;
+        boolean shouldUpdate = mobEntry == null;
         shouldUpdate = shouldUpdate || this.prevOwner == null && ownerID != null;
         shouldUpdate = shouldUpdate || this.prevOwner != null && !this.prevOwner.equals(ownerID);
-        shouldUpdate = shouldUpdate || entry.pokemob != this.pokemob;
+        shouldUpdate = shouldUpdate || mobEntry.pokemob != this.pokemob;
         shouldUpdate = shouldUpdate || !uuid.equals(this.prevID);
 
         shouldUpdate = shouldUpdate && this.pokemob.getEntity().isAddedToLevel();
 
         if (shouldUpdate)
         {
-            if (entry != null) PokemobTracker.removeMobEntry(entry.getUUID(), world);
+            if (mobEntry != null) PokemobTracker.removeMobEntry(mobEntry.getUUID(), world);
             if (!uuid.equals(this.prevID) && this.prevID != null) PokemobTracker.removeMobEntry(this.prevID, world);
             PokemobTracker.addPokemob(this.pokemob);
         }
@@ -434,18 +434,18 @@ public class LogicMiscUpdate extends LogicBase
         int particleIntensity = 100;
         if (this.pokemob.isShadow()) this.particle = "portal";
         particles:
-        if (this.particle == null && entry1.particleData != null)
+        if (this.particle == null && entry.particleData != null)
         {
             pokedex = true;
-            final double intensity = Double.parseDouble(entry1.particleData[1]);
+            final double intensity = Double.parseDouble(entry.particleData[1]);
             int val = (int) intensity;
             if (intensity < 1) if (rand.nextDouble() <= intensity) val = 1;
             if (val == 0) break particles;
-            this.particle = entry1.particleData[0];
+            this.particle = entry.particleData[0];
             particleIntensity = val;
-            if (entry1.particleData.length > 2)
+            if (entry.particleData.length > 2)
             {
-                final String[] args = entry1.particleData[2].split(",");
+                final String[] args = entry.particleData[2].split(",");
                 double dx = 0, dy, dz = 0;
                 if (args.length == 1) dy = Double.parseDouble(args[0]) * this.entity.getBbHeight();
                 else
@@ -456,9 +456,9 @@ public class LogicMiscUpdate extends LogicBase
                 }
                 particleLoc.addTo(dx, dy, dz);
             }
-            if (entry1.particleData.length > 3)
+            if (entry.particleData.length > 3)
             {
-                final String[] args = entry1.particleData[3].split(",");
+                final String[] args = entry.particleData[3].split(",");
                 double dx, dy, dz;
                 if (args.length == 1) switch (args[0])
                 {

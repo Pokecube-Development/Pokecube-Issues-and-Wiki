@@ -61,6 +61,7 @@ import thut.core.common.commands.CommandTools;
 import thut.lib.TComponent;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -183,11 +184,6 @@ public class MoveEventsHandler
         addOrMergeActions(move);
     }
 
-    public static boolean hasAction(MoveEntry move)
-    {
-        return actionsLists.containsKey(move.getName());
-    }
-
     public static void register()
     {
         // In initialize some effect types
@@ -227,7 +223,7 @@ public class MoveEventsHandler
                     if (recipe.match.test(move.getName()))
                     {
                         var action = new MoveRecipe.RecipeAction(move.getName(), recipe);
-                        addOrMergeActions(action);
+                        register(action);
                         recipeActions.add(action);
                     }
                 }
@@ -387,22 +383,7 @@ public class MoveEventsHandler
         final IPokemob attacker = evt.getUser();
         final Vector3 location = evt.getLocation();
         final MoveEntry move = evt.getMove();
-        var actions = MoveEventsHandler.actionsLists.get(move.name);
-        if (actions == null)
-        {
-            DefaultAction _action;
-            actions:
-            {
-                if ((_action = new DefaultWaterAction(move)).isValid()) break actions;
-                if ((_action = new DefaultIceAction(move)).isValid()) break actions;
-                if ((_action = new DefaultElectricAction(move)).isValid()) break actions;
-                if ((_action = new DefaultFireAction(move)).isValid()) break actions;
-                _action = null;
-            }
-            MoveEventsHandler.register(_action == null ? _action = new DefaultAction(move) : _action);
-            actions = MoveEventsHandler.actionsLists.get(move.name);
-            _action.init();
-        }
+        var actions = MoveEventsHandler.actionsLists.getOrDefault(move.name, Collections.emptyList());
         if (PokecubeCore.getConfig().permsMoveAction && attacker.getOwner() instanceof ServerPlayer player)
         {
             if (!Permissions.canUseWorldAction(player, move.name))
@@ -414,5 +395,22 @@ public class MoveEventsHandler
         }
         if (attacker.inCombat()) actions.stream().anyMatch(a -> a.applyInCombat(attacker, location));
         else actions.stream().anyMatch(a -> a.applyOutOfCombat(attacker, location));
+
+        // Now apply defaults if they exist
+        DefaultAction _action;
+        actions:
+        {
+            if ((_action = new DefaultWaterAction(move)).isValid()) break actions;
+            if ((_action = new DefaultIceAction(move)).isValid()) break actions;
+            if ((_action = new DefaultElectricAction(move)).isValid()) break actions;
+            if ((_action = new DefaultFireAction(move)).isValid()) break actions;
+            _action = null;
+        }
+        if (_action != null)
+        {
+            _action.init();
+            if (attacker.inCombat()) _action.applyInCombat(attacker, location);
+            else _action.applyOutOfCombat(attacker, location);
+        }
     }
 }

@@ -236,6 +236,7 @@ public class Ownable
         @Override
         public void setOwner(final LivingEntity e)
         {
+            if (e == this.owner) return;
             this.setOwner(e == null ? null : e.getUUID());
             this.owner = e;
             this.playerOwned = e instanceof Player;

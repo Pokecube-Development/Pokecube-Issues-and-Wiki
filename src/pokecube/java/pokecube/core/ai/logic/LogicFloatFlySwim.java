@@ -46,7 +46,7 @@ public class LogicFloatFlySwim extends LogicBase
 
     private static class SwimController extends MoveControl
     {
-        private AttributeModifier speed_boost = null;
+        private AttributeModifier speed_boost;
         final IPokemob pokemob;
 
         public SwimController(final IPokemob mob)
@@ -134,7 +134,7 @@ public class LogicFloatFlySwim extends LogicBase
 
     private static class FlyController extends FlyingMoveControl
     {
-        private AttributeModifier speed_boost = null;
+        private final AttributeModifier speed_boost;
         final IPokemob pokemob;
 
         public FlyController(final IPokemob mob)
@@ -159,12 +159,10 @@ public class LogicFloatFlySwim extends LogicBase
 
     private static enum NaviState
     {
-        FLY, SWIM, WALK;
+        FLY, SWIM, WALK
     }
 
     NaviState state = null;
-
-    Vector3 here = new Vector3();
 
     // Navigators
     private final FlyingPathNavigation flyPather;

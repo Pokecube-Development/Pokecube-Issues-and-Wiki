@@ -53,6 +53,7 @@ import pokecube.core.network.pokemobs.PacketPokemobMessage;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.CapHolders;
 import thut.api.Tracker;
+import thut.api.attachments.CopyMob;
 import thut.api.attachments.Ownable;
 import thut.api.entity.genetics.Alleles;
 import thut.core.common.ThutCore;
@@ -159,7 +160,6 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
                 final ItemStack itemstack = animalchest.getItem(j);
                 if (itemstack != ItemStack.EMPTY) this.pokeChest.setItem(j, itemstack.copy());
             }
-            animalchest = null;
         }
         this.pokeChest.addListener(this);
     }
@@ -171,6 +171,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
     @Override
     public void onRecall(boolean onDeath)
     {
+        if (CopyMob.isCopy(this.getEntity())) return;
         // We use this directly as isAlive() also checks hp!
         final boolean removed = this.getEntity().isRemoved();
         if (removed) return;
@@ -533,8 +534,6 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         }
         return pokemob;
     }
-
-    ;
 
     @Override
     public void markRemoved()

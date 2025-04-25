@@ -1,21 +1,10 @@
 package pokecube.core.moves.implementations;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-
-import org.objectweb.asm.Type;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-
-import net.neoforged.fml.loading.moddiscovery.ModFile;
 import net.neoforged.neoforgespi.language.ModFileScanData.AnnotationData;
+import net.neoforged.neoforgespi.locating.IModFile;
+import org.objectweb.asm.Type;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.moves.IMove;
 import pokecube.api.data.moves.LoadedMove;
@@ -35,6 +24,15 @@ import pokecube.core.moves.world.DefaultFireAction;
 import pokecube.core.moves.world.DefaultIceAction;
 import pokecube.core.moves.world.DefaultWaterAction;
 import thut.lib.CompatParser.ClassFinder;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class MovesAdder implements IMoveConstants
 {
@@ -70,15 +68,11 @@ public class MovesAdder implements IMoveConstants
                 continue;
             }
             // Now register auto-generated actions for moves which were not
-            // manually defined.
-            if (!MoveEventsHandler.hasAction(move))
+            IMoveWorldEffect combined;
+            for (var func : defaultWorldEffects)
             {
-                IMoveWorldEffect combined = null;
-                for (var func : defaultWorldEffects)
-                {
-                    combined = func.apply(move);
-                    if (combined != null && combined.isValid()) MoveEventsHandler.addOrMergeActions(combined);
-                }
+                combined = func.apply(move);
+                if (combined != null && combined.isValid()) MoveEventsHandler.register(combined);
             }
         }
     }
@@ -100,7 +94,7 @@ public class MovesAdder implements IMoveConstants
             }
             catch (final Exception e)
             {
-                e.printStackTrace();
+                PokecubeAPI.LOGGER.error("Error scanning {}", pack, e);
             }
         }
         // Register Move Actions.
@@ -115,7 +109,7 @@ public class MovesAdder implements IMoveConstants
                 }
                 catch (final Exception e)
                 {
-                    e.printStackTrace();
+                    PokecubeAPI.LOGGER.error("Error registering effect for {}", candidateClass, e);
                 }
             }
         }
@@ -124,7 +118,7 @@ public class MovesAdder implements IMoveConstants
         foundClasses.clear();
 
         Type ANNOTE = Type.getType("Lpokecube/api/data/moves/MoveProvider;");
-        BiFunction<ModFile, String, Boolean> validClass = (file, name) -> {
+        BiFunction<IModFile, String, Boolean> validClass = (file, name) -> {
             for (final AnnotationData a : file.getScanResult().getAnnotations())
                 if (name.equals(a.clazz().getClassName()) && a.annotationType().equals(ANNOTE)) return true;
             return false;
@@ -139,7 +133,7 @@ public class MovesAdder implements IMoveConstants
             }
             catch (final Exception e)
             {
-                e.printStackTrace();
+                PokecubeAPI.LOGGER.error("Error scanning {}", pack, e);
             }
         }
 
@@ -223,7 +217,7 @@ public class MovesAdder implements IMoveConstants
                             }
                             catch (final Exception e)
                             {
-                                e.printStackTrace();
+                                PokecubeAPI.LOGGER.error("Error handling move for {}", key, e);
                             }
                         }
                     }
@@ -233,7 +227,7 @@ public class MovesAdder implements IMoveConstants
         }
         catch (final Exception e)
         {
-            e.printStackTrace();
+            PokecubeAPI.LOGGER.error("Error autodetecting move classes", e);
         }
         return moves;
     }
@@ -252,8 +246,6 @@ public class MovesAdder implements IMoveConstants
 
     /**
      * Only registers contact and self, as distances moves usually should have some effect.
-     *
-     * @param list
      */
     private static void registerRemainder(List<MoveEntry> list)
     {

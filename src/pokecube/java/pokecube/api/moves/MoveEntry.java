@@ -1,12 +1,6 @@
 package pokecube.api.moves;
 
-import java.util.HashMap;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -28,6 +22,10 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.tags.Tags;
 import thut.api.maths.Vector3;
 
+import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.List;
+
 public class MoveEntry implements IMoveConstants
 {
     public static interface TypeProvider
@@ -47,8 +45,9 @@ public class MoveEntry implements IMoveConstants
     }
 
     public static record MoveSounds(SoundEvent onSource, SoundEvent onTarget)
-    {
-    };
+    {}
+
+    ;
 
     private static HashMap<String, MoveEntry> movesNames = new HashMap<>();
     private static HashMap<String, MoveEntry> legacyMoveNames = new HashMap<>();
@@ -163,7 +162,8 @@ public class MoveEntry implements IMoveConstants
         boolean contact = Tags.MOVE.isIn("contact-moves", this.getName());
         boolean ranged = Tags.MOVE.isIn("ranged-moves", this.getName());
         this.ohko = root_entry._ohko;
-        this.attackCategory = contact ? ContactCategory.CONTACT
+        this.attackCategory = contact
+                ? ContactCategory.CONTACT
                 : ranged ? ContactCategory.RANGED : ContactCategory.OTHER;
         PokecubeAPI.MOVE_BUS.post(new InitMoveEntry(this));
     }
@@ -200,8 +200,6 @@ public class MoveEntry implements IMoveConstants
     /**
      * Sets the move animation
      *
-     * @param anim
-     * @return
      */
     public MoveEntry setAnimation(final IMoveAnimation anim)
     {
@@ -212,7 +210,6 @@ public class MoveEntry implements IMoveConstants
     /**
      * Gets the {@link IMoveAnimation} for this move.
      *
-     * @return
      */
     public IMoveAnimation getAnimation()
     {
@@ -222,8 +219,6 @@ public class MoveEntry implements IMoveConstants
     /**
      * User sensitive version of {@link Move_Base#getAnimation()}
      *
-     * @param user
-     * @return
      */
     public IMoveAnimation getAnimation(final IPokemob user)
     {
@@ -238,15 +233,15 @@ public class MoveEntry implements IMoveConstants
      */
     public void doWorldAction(IPokemob attacker, Vector3 location)
     {
-        final Vector3 origin = new Vector3().set(attacker.getEntity().getEyePosition(0));
-        final Vector3 direction = location.subtract(origin).norm().scalarMultBy(0.5);
+        Vector3 origin = new Vector3().set(attacker.getEntity().getEyePosition(0));
+        Vector3 direction = location.subtract(origin).norm().scalarMultBy(0.5);
         location = location.add(direction);
-        final MoveWorldAction.PreAction preEvent = new MoveWorldAction.PreAction(this, attacker, location);
+        MoveWorldAction.PreAction preEvent = new MoveWorldAction.PreAction(this, attacker, location);
         if (!PokecubeAPI.MOVE_BUS.post(preEvent).isCanceled())
         {
-            final MoveWorldAction.OnAction onEvent = new MoveWorldAction.OnAction(this, attacker, location);
+            MoveWorldAction.OnAction onEvent = new MoveWorldAction.OnAction(this, attacker, location);
             PokecubeAPI.MOVE_BUS.post(onEvent);
-            final MoveWorldAction.PostAction postEvent = new MoveWorldAction.PostAction(this, attacker, location);
+            MoveWorldAction.PostAction postEvent = new MoveWorldAction.PostAction(this, attacker, location);
             PokecubeAPI.MOVE_BUS.post(postEvent);
         }
     }
@@ -263,10 +258,8 @@ public class MoveEntry implements IMoveConstants
     }
 
     /**
-     * Applies hunger cost to attacker when this move is used. Hunger is used
-     * instead of PP in pokecube
+     * Applies hunger cost to attacker when this move is used. Hunger is used instead of PP in pokecube
      *
-     * @param attacker
      */
     public void applyHungerCost(final IPokemob attacker)
     {
@@ -378,15 +371,17 @@ public class MoveEntry implements IMoveConstants
             if (this.soundEffectSource != null)
             {
                 user = BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse(this.soundEffectSource));
-                if (user == null) PokecubeAPI.LOGGER
-                        .error("No Sound found for `" + this.soundEffectSource + "` for attack " + this.getName());
+                if (user == null)
+                    PokecubeAPI.LOGGER.error("No Sound found for `{}` for attack on source {}", this.soundEffectSource,
+                            this.getName());
                 this.soundEffectSource = null;
             }
             if (this.soundEffectTarget != null)
             {
                 target = BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse(this.soundEffectTarget));
-                if (target == null) PokecubeAPI.LOGGER
-                        .error("No Sound found for `" + this.soundEffectTarget + "` for attack " + this.getName());
+                if (target == null)
+                    PokecubeAPI.LOGGER.error("No Sound found for `{}` for attack on target {}", this.soundEffectTarget,
+                            this.getName());
                 this.soundEffectTarget = null;
             }
             sounds = new MoveSounds(user, target);

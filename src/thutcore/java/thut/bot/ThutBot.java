@@ -106,18 +106,24 @@ public class ThutBot
                 "Allowed to give orders to thutbots");
 
         IBotAI.MODULEPACKAGES.add(IBotAI.class.getPackageName());
-
-        //        ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class,
-        //                () -> new IExtensionPoint.DisplayTest(() -> NetworkConstants.IGNORESERVERONLY, (ver, remote) -> true));
-
     }
 
-    private static ArrayList<BotEntry> ALL_BOTS = Lists.newArrayList();
+    private static final ArrayList<BotEntry> ALL_BOTS = Lists.newArrayList();
     public static Map<UUID, BotEntry> BOT_MAP = Maps.newHashMap();
 
     public static final String PERMBOT = "thutbot.perm";
     public static final String PERMBOTSUMMON = "thutbot.perm.summon";
     public static final String PERMBOTKILL = "thutbot.perm.kill";
+
+    static
+    {
+        PermNodes.registerBooleanNode(ThutCore.MODID, PERMBOT, DefaultPermissionLevel.OP,
+                "Allowed to use base bot commants");
+        PermNodes.registerBooleanNode(ThutCore.MODID, PERMBOTSUMMON, DefaultPermissionLevel.OP,
+                "Allowed to make a new thutbot");
+        PermNodes.registerBooleanNode(ThutCore.MODID, PERMBOTKILL, DefaultPermissionLevel.OP,
+                "Allowed to remove a thutbot");
+    }
 
     private static final SimpleCommandExceptionType NO_SUMMON_2 = new SimpleCommandExceptionType(
             TComponent.translatable("Cannot summon a second bot of the same name!"));
@@ -127,13 +133,6 @@ public class ThutBot
 
     private static void onCommandRegister(final RegisterCommandsEvent event)
     {
-        PermNodes.registerBooleanNode(ThutCore.MODID, PERMBOT, DefaultPermissionLevel.OP,
-                "Allowed to use base bot commants");
-        PermNodes.registerBooleanNode(ThutCore.MODID, PERMBOTSUMMON, DefaultPermissionLevel.OP,
-                "Allowed to make a new thutbot");
-        PermNodes.registerBooleanNode(ThutCore.MODID, PERMBOTKILL, DefaultPermissionLevel.OP,
-                "Allowed to remove a thutbot");
-
         final LiteralArgumentBuilder<CommandSourceStack> command_base = Commands.literal("thutbot").requires(s -> {
             if (!(s.getEntity() instanceof ServerPlayer player)) return true;
             return PermNodes.getBooleanPerm(player, PERMBOT);

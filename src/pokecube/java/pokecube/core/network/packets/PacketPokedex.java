@@ -189,7 +189,7 @@ public class PacketPokedex extends NBTPacket
         final CompoundTag spawns = new CompoundTag();
 
         Map<PokedexEntry, Float> rates;
-        ArrayList<PokedexEntry> names = new ArrayList<>();
+        ArrayList<PokedexEntry> names;
         float total = 0;
         ServerLevel level = player.serverLevel().getLevel();
         Vector3 pos = new Vector3().set(player);
@@ -436,8 +436,8 @@ public class PacketPokedex extends NBTPacket
     protected void onCompleteClient(Player player)
     {
         this.message = this.getTag().getByte("__message__");
-        int n = 0;
-        int num = 0;
+        int n;
+        int num;
         CompoundTag data;
         switch (this.message)
         {
@@ -619,7 +619,7 @@ public class PacketPokedex extends NBTPacket
             PokecubePlayerDataHandler.getCustomDataTag(player).putString("WEntry", this.getTag().getString("E"));
     }
 
-    private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("pokecube:use_pokedex"));
+    private final static Type<Packet> TYPE = new Type<>(ResourceLocation.parse("pokecube:use_pokedex"));
 
     @Override
     public Type<? extends CustomPacketPayload> type()

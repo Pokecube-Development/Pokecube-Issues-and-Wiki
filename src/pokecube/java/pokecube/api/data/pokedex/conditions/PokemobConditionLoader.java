@@ -1,18 +1,16 @@
 package pokecube.api.data.pokedex.conditions;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import net.neoforged.neoforgespi.language.ModFileScanData.AnnotationData;
+import net.neoforged.neoforgespi.locating.IModFile;
+import org.objectweb.asm.Type;
+import pokecube.api.data.pokedex.EvolutionDataLoader;
+import thut.lib.CompatParser.ClassFinder;
+
 import java.util.List;
 import java.util.Set;
 import java.util.function.BiFunction;
-
-import org.objectweb.asm.Type;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-
-import net.neoforged.fml.loading.moddiscovery.ModFile;
-import net.neoforged.neoforgespi.language.ModFileScanData.AnnotationData;
-import pokecube.api.data.pokedex.EvolutionDataLoader;
-import thut.lib.CompatParser.ClassFinder;
 
 public class PokemobConditionLoader
 {
@@ -34,11 +32,11 @@ public class PokemobConditionLoader
     {
         // Initialise this here to ensure it loads
         EvolutionDataLoader.INSTANCE.getKey();
-        
+
         List<Class<?>> foundClasses = Lists.newArrayList();
 
         Type ANNOTE = Type.getType("Lpokecube/api/data/pokedex/conditions/Condition;");
-        BiFunction<ModFile, String, Boolean> validClass = (file, name) -> {
+        BiFunction<IModFile, String, Boolean> validClass = (file, name) -> {
             for (final AnnotationData a : file.getScanResult().getAnnotations())
                 if (name.equals(a.clazz().getClassName()) && a.annotationType().equals(ANNOTE)) return true;
             return false;

@@ -1,10 +1,6 @@
 package thut.api.entity;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -13,11 +9,15 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.event.EventHooks;
 import thut.api.entity.event.CopySetEvent;
 import thut.api.entity.event.CopyUpdateEvent;
 import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 import thut.mixin.accessors.WalkAniAccessor;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public interface ICopyMob extends INBTSerializable<CompoundTag>
 {
@@ -33,12 +33,23 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
 
     void setCopiedNBT(CompoundTag tag);
 
+    void setFullTick(boolean fullTick);
+
+    /**
+     * @return whether we run living.tick(), if false we run living.baseTick() instead
+     */
+    boolean isFullTick();
+
     @Override
     default void deserializeNBT(HolderLookup.Provider provider, final CompoundTag nbt)
     {
+        var oldId = this.getCopiedID();
+        var oldMob = this.getCopiedMob();
         if (nbt.contains("id")) this.setCopiedID(ResourceLocation.parse(nbt.getString("id")));
         else this.setCopiedID(null);
+        var tag = nbt.getCompound("tag");
         this.setCopiedNBT(nbt.getCompound("tag"));
+        if (oldId != null && oldId.equals(this.getCopiedID()) && oldMob != null) oldMob.load(tag);
     }
 
     default boolean recreateMob(Level level)
@@ -56,18 +67,19 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
     {
         final CompoundTag nbt = new CompoundTag();
         if (this.getCopiedID() != null) nbt.putString("id", this.getCopiedID().toString());
+        CompoundTag tag = this.getCopiedNBT();
         if (this.getCopiedMob() != null)
         {
             var mob = this.getCopiedMob();
             CompoundTag ret = new CompoundTag();
             String id = mob.getEncodeId();
-            if (id != null)
-            {
-                ret.putString("id", id);
-            }
-            this.setCopiedNBT(mob.saveWithoutId(ret));
+            if (id != null) ret.putString("id", id);
+            tag.merge(mob.saveWithoutId(ret));
         }
-        else if (!this.getCopiedNBT().isEmpty()) nbt.put("tag", this.getCopiedNBT());
+        if (!tag.isEmpty())
+        {
+            nbt.put("tag", tag);
+        }
         return nbt;
     }
 
@@ -103,8 +115,9 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
         }
         if (this.getCopiedMob() == null || !this.getCopiedID().equals(RegHelper.getKey(this.getCopiedMob().getType())))
         {
-            final EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.get(this.getCopiedID());
-            final Entity entity = type.create(level);
+            var tag = getCopiedNBT();
+            tag.putString("id", getCopiedID().toString());
+            final Entity entity = EntityType.loadEntityRecursive(tag, level, e -> e);
             if (entity instanceof LivingEntity mob)
             {
                 var event = new CopySetEvent(holder, null, mob);
@@ -115,28 +128,12 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
                     this.setCopiedNBT(new CompoundTag());
                     return;
                 }
-                try
-                {
-                    CompoundTag ret = this.getCopiedNBT();
-                    String id = this.getCopiedID().toString();
-                    if (id != null)
-                    {
-                        ret.putString("id", id);
-                    }
-                    this.setCopiedNBT(mob.saveWithoutId(ret));
-                    mob.load(ret);
-                }
-                catch (final Exception e)
-                {
-                    e.printStackTrace();
-                }
                 this.setCopiedMob(mob);
             }
             else
             {
                 this.setCopiedID(null);
                 this.setCopiedNBT(new CompoundTag());
-                return;
             }
         }
     }
@@ -155,7 +152,13 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
             ICopyMob.copyPositions(living, holder);
 
             living.onAddedToLevel();
-            living.baseTick();
+            if (isFullTick())
+            {
+                EventHooks.fireEntityTickPre(living);
+                living.tick();
+                EventHooks.fireEntityTickPost(living);
+            }
+            else living.baseTick();
             living.onRemovedFromLevel();
 
             // TODO eye height check?
@@ -172,6 +175,7 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
                 living.setHealth(holder.getHealth());
                 living.setAirSupply(holder.getAirSupply());
             }
+
         }
     }
 
@@ -202,10 +206,7 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
     public static void copyEntityTransforms(final LivingEntity to, final LivingEntity from)
     {
         ICopyMob.copyRotations(to, from);
-
-        to.yHeadRotO = from.yHeadRotO;
-        to.yBodyRotO = from.yBodyRotO;
-        to.yBodyRot = from.yBodyRot;
+        ICopyMob.copyPositions(to, from);
 
         WalkAniAccessor toWalk = (WalkAniAccessor) to.walkAnimation;
         WalkAniAccessor fromWalk = (WalkAniAccessor) from.walkAnimation;
@@ -215,10 +216,6 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
         toWalk.copyCap$setSpeed(fromWalk.copyCap$speed());
 
         to.setOnGround(from.onGround());
-        // TODO more variable syncing
-        //        to.wasTouchingWater = from.wasTouchingWater;
-        //        to.fluidHeight = from.fluidHeight;
-        //        to.fluidOnEyes.clear();
-        //        to.fluidOnEyes.addAll(from.fluidOnEyes);
+        // TODO more variable syncing, used to do fluids, etc
     }
 }

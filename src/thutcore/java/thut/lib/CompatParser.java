@@ -1,24 +1,23 @@
 package thut.lib;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.neoforgespi.language.ModFileScanData.ClassData;
+import net.neoforged.neoforgespi.locating.IModFile;
+import thut.core.common.ThutCore;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiFunction;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
-import net.neoforged.fml.loading.FMLLoader;
-import net.neoforged.fml.loading.moddiscovery.ModFile;
-import net.neoforged.neoforgespi.language.ModFileScanData.ClassData;
-import thut.core.common.ThutCore;
-
 public class CompatParser
 {
     public static class ClassFinder
     {
-        private static final Map<String, ModFile> OPTIONS = Maps.newConcurrentMap();
+        private static final Map<String, IModFile> OPTIONS = Maps.newConcurrentMap();
 
         private static void checkOptions()
         {
@@ -40,7 +39,7 @@ public class CompatParser
             return ClassFinder.find(packageName, (i, n) -> true);
         }
 
-        public static List<Class<?>> find(final String packageName, final BiFunction<ModFile, String, Boolean> valid)
+        public static List<Class<?>> find(final String packageName, final BiFunction<IModFile, String, Boolean> valid)
                 throws IOException
         {
             ClassFinder.checkOptions();

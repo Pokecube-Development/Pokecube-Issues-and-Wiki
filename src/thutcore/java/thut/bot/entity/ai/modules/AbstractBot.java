@@ -60,14 +60,14 @@ public abstract class AbstractBot implements IBotAI
         this.key = key;
     }
 
-    protected void preBotTick(final ServerLevel world)
+    protected void preBotTick(final ServerLevel level)
     {
         this.player.setGameMode(GameType.CREATIVE);
         this.player.setInvulnerable(true);
 
         if (this.mob == null || mob.level != player.level)
         {
-            this.mob = new PathMob(world);
+            this.mob = new PathMob(level);
             this.mob.setInvulnerable(true);
             this.mob.setInvisible(true);
 
@@ -86,7 +86,7 @@ public abstract class AbstractBot implements IBotAI
         this.mob.tickCount = this.player.tickCount;
     }
 
-    protected void postBotTick(final ServerLevel world)
+    protected void postBotTick(final ServerLevel level)
     {
         this.mob.tick();
 
@@ -98,7 +98,7 @@ public abstract class AbstractBot implements IBotAI
         ICopyMob.copyRotations(this.player, this.mob);
     }
 
-    public abstract void botTick(final ServerLevel world);
+    public abstract void botTick(final ServerLevel level);
 
     @Override
     public void tick()

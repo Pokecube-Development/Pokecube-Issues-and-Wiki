@@ -158,6 +158,7 @@ public class GuiPokeWatch extends Screen
 
     public boolean canEdit(final IPokemob pokemob)
     {
+        if (pokemob.getEntity().getId() == -(player.getId() + 100)) return true;
         // Not a real mob
         if (!pokemob.getEntity().isAddedToLevel()) return false;
         // Otherwise, check if owned, or if player is creative mode

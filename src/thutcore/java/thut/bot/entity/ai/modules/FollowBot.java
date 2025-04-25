@@ -21,7 +21,7 @@ public class FollowBot extends AbstractBot
     }
 
     @Override
-    public void botTick(final ServerLevel world)
+    public void botTick(final ServerLevel level)
     {
         if (toFollow != null)
         {

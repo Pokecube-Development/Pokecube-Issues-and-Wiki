@@ -16,17 +16,22 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.HitResult;
@@ -232,13 +237,6 @@ public class EntityPokemob extends PokemobRidable
     {}
 
     @Override
-    protected void jumpInLiquid(final TagKey<Fluid> fluidTag)
-    {
-        this.setDeltaMovement(
-                this.getDeltaMovement().add(0.0D, 0.04F * this.getAttribute(NeoForgeMod.SWIM_SPEED).getValue(), 0.0D));
-    }
-
-    @Override
     protected SoundEvent getAmbientSound()
     {
         return this.getPokemob().getSound();
@@ -269,6 +267,15 @@ public class EntityPokemob extends PokemobRidable
         if (this.getPokemob().isPlayerOwned() && this.getPokemob().getOwnerId() != null)
             PlayerPokemobCache.UpdateCache(this.getPokemob());
         super.onRemovedFromLevel();
+    }
+
+    @Override
+    public void onAddedToLevel()
+    {
+        PokemobTracker.addPokemob(this.getPokemob());
+        if (this.getPokemob().isPlayerOwned() && this.getPokemob().getOwnerId() != null)
+            PlayerPokemobCache.UpdateCache(this.getPokemob());
+        super.onAddedToLevel();
     }
 
     @Override
@@ -319,8 +326,7 @@ public class EntityPokemob extends PokemobRidable
         if (Config.Rules.doDespawn(level, distanceToClosestPlayer))
         {
             this.despawntimer--;
-            if (this.despawntimer <= 0) return true;
-            return false;
+            return this.despawntimer <= 0;
         }
         this.despawntimer = PokecubeCore.getConfig().despawnTimer;
         return false;

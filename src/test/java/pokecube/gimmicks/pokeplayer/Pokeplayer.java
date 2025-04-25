@@ -11,26 +11,36 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.phys.HitResult;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.database.Database;
+import pokecube.core.items.ItemPokedex;
 import pokecube.core.utils.PokemobTracker;
 import thut.api.ThutCaps;
+import thut.api.attachments.CopyMob;
+import thut.api.attachments.TrackedAttachment;
 import thut.api.entity.ICopyMob;
 import thut.api.entity.event.CopySetEvent;
 import thut.api.entity.event.CopyUpdateEvent;
+import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
-import thut.core.common.genetics.DefaultGenetics;
 import thut.core.common.network.SyncAttachments;
+import thut.lib.RegHelper;
 import thut.lib.TComponent;
+import thut.wearables.inventory.PlayerWearables;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)
 public class Pokeplayer
@@ -49,6 +59,9 @@ public class Pokeplayer
         ThutCore.FORGE_BUS.addListener(Pokeplayer::onCopySet);
         // This syncs step height for the mob over
         ThutCore.FORGE_BUS.addListener(Pokeplayer::onPlayerTick);
+
+        // interaction with self with items
+        ThutCore.FORGE_BUS.addListener(Pokeplayer::onRightClickItem);
     }
 
     private static final SimpleCommandExceptionType ERROR_FAILED = new SimpleCommandExceptionType(
@@ -58,14 +71,19 @@ public class Pokeplayer
     {
         final LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal("pokeplayer")
                 .then(Commands.argument("val", StringArgumentType.string()).executes(ctx -> {
-                    final String wrd = StringArgumentType.getString(ctx, "val");
-
-                    final PokedexEntry var = Database.getEntry(wrd);
-                    final ICopyMob copy = ThutCaps.getCopyMob(ctx.getSource().getEntity());
+                    var wrd = StringArgumentType.getString(ctx, "val");
+                    var player = ctx.getSource().getEntity();
+                    var copy = ThutCaps.getCopyMob(player);
                     if (copy == null) throw Pokeplayer.ERROR_FAILED.create();
-                    System.out.println(var);
-                    // TODO apply the species gene here.
-
+                    if (wrd.equals("none"))
+                    {
+                        copy.setCopiedID(null);
+                        SyncAttachments.syncChange(CopyMob.TYPE_COPY, player);
+                        return 0;
+                    }
+                    final PokedexEntry var = Database.getEntry(wrd);
+                    copy.setCopiedID(RegHelper.getKey(var.getEntityType()));
+                    SyncAttachments.syncChange(CopyMob.TYPE_COPY, player);
                     return 0;
                 }));
         event.getDispatcher().register(command);
@@ -73,9 +91,38 @@ public class Pokeplayer
 
     private static final ResourceLocation STEP = ResourceLocation.parse("pokeplayer:step_adjust");
 
+    private static void onRightClickItem(PlayerInteractEvent.RightClickItem evt)
+    {
+        // Try using it on self if it is a usable item or a pokedex
+        final ICopyMob copy = ThutCaps.getCopyMob(evt.getEntity());
+        if (copy != null && copy.getCopiedMob() != null)
+        {
+            var stack = evt.getItemStack();
+            if (stack.getItem() instanceof ItemPokedex && evt.getEntity().isShiftKeyDown())
+            {
+                stack.interactLivingEntity(evt.getEntity(), copy.getCopiedMob(), evt.getHand());
+                evt.setCanceled(true);
+                return;
+            }
+            var usable = PokemobCaps.getPokemobUsable(stack);
+            var pokemob = PokemobCaps.getPokemobFor(copy.getCopiedMob());
+            if (usable != null && pokemob != null)
+            {
+                var res = usable.onUse(pokemob, stack, evt.getEntity());
+                if (res.getResult().indicateItemUse())
+                {
+                    evt.setCancellationResult(res.getResult());
+                    evt.setCanceled(true);
+                }
+            }
+            if (copy instanceof TrackedAttachment tracked) tracked.markDirty();
+        }
+    }
+
     private static void onPlayerTick(final PlayerTickEvent.Pre event)
     {
         final ICopyMob copy = ThutCaps.getCopyMob(event.getEntity());
+        copy.setFullTick(true);
 
         // If we are copied, then just use the mob's step height.
         if (copy != null && copy.getCopiedMob() != null)
@@ -85,7 +132,7 @@ public class Pokeplayer
             AttributeModifier mod = new AttributeModifier(STEP, dStep, AttributeModifier.Operation.ADD_VALUE);
             event.getEntity().getAttribute(Attributes.STEP_HEIGHT).addOrUpdateTransientModifier(mod);
         }
-        else if(event.getEntity().getAttribute(Attributes.STEP_HEIGHT).hasModifier(STEP))
+        else if (event.getEntity().getAttribute(Attributes.STEP_HEIGHT).hasModifier(STEP))
         {
             event.getEntity().getAttribute(Attributes.STEP_HEIGHT).removeModifier(STEP);
         }
@@ -93,21 +140,13 @@ public class Pokeplayer
 
     private static void onCopySet(final CopySetEvent event)
     {
-        if (event.newCopy == null && event.getEntity() instanceof Player player)
+        if (event.getEntity() instanceof Player player)
         {
-            if (!player.getAbilities().instabuild)
-            {
-                player.getAbilities().mayfly = false;
-                player.onUpdateAbilities();
-            }
+            ResourceLocation FLYID = ResourceLocation.parse("pokeplayer:fly_sync");
+            player.getAttribute(NeoForgeMod.CREATIVE_FLIGHT).removeModifier(FLYID);
 
-            IPokemob newMob = PokemobCaps.getPokemobFor(event.newCopy);
-            if (player.level.isClientSide())
-            {
-                IPokemob oldMob = PokemobCaps.getPokemobFor(event.oldCopy);
-                if (newMob != null) PokemobTracker.addPokemob(newMob);
-                if (oldMob != null) PokemobTracker.removePokemob(oldMob);
-            }
+            IPokemob oldMob = PokemobCaps.getPokemobFor(event.oldCopy);
+            if (oldMob != null) PokemobTracker.removePokemob(oldMob);
         }
     }
 
@@ -115,24 +154,48 @@ public class Pokeplayer
     {
         if (!(event.realEntity instanceof Player player)) return;
         final Pose pose = event.realEntity.getPose();
+        var entity = event.getEntity();
         // Short mobs need to be able to walk properly in small spaces, so force
         // standing pose if not in water
-        if (event.getEntity().getBbHeight() < 1 && pose == Pose.SWIMMING && !event.realEntity.isInWaterOrBubble())
+        if (entity.getBbHeight() < 1 && pose == Pose.SWIMMING && !event.realEntity.isInWaterOrBubble())
             event.realEntity.setPose(Pose.STANDING);
 
-        final IPokemob pokemob = PokemobCaps.getPokemobFor(event.getEntity());
+        entity.setData(PlayerWearables.TYPE, player.getData(PlayerWearables.TYPE));
+
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob != null)
         {
+            var hunger = pokemob.getHungerTime();
+            var foodData = player.getFoodData();
+            int food = foodData.getFoodLevel();
+            float pokeHunger = HungerTask.calculateHunger(pokemob);
+            int hungerRate = PokecubeCore.getConfig().pokemobLifeSpan / 25;
+            if (pokeHunger < 0.8)
+            {
+                if (food > 0)
+                {
+                    foodData.setFoodLevel(food - 1);
+                    pokemob.setHungerTime(hunger - hungerRate);
+                }
+            }
+            else if (foodData.needsFood() && pokeHunger > 0.9)
+            {
+                foodData.setFoodLevel(food + 1);
+                pokemob.setHungerTime(hunger + hungerRate);
+            }
+
+            pokemob.setOwner(player);
+            pokemob.setDataSync(ThutCaps.getDataSync(player));
             Pokeplayer.setFlying(player, pokemob);
             Pokeplayer.updateFloating(player, pokemob);
             Pokeplayer.updateFlying(player, pokemob);
             Pokeplayer.updateSwimming(player, pokemob);
 
-            if (player instanceof ServerPlayer splayer && splayer.tickCount % 20 == 0)
+            final ICopyMob copy = ThutCaps.getCopyMob(player);
+            if (copy instanceof TrackedAttachment tracked)
             {
-                pokemob.getEntity().onAddedToLevel();
-                SyncAttachments.syncChange(DefaultGenetics.TYPE, pokemob.getEntity());
-                pokemob.getEntity().onRemovedFromLevel();
+                if (pokemob.isDirty()) tracked.markDirty();
+                if (pokemob.getGenes().isDirty()) tracked.markDirty();
             }
         }
     }
@@ -141,9 +204,13 @@ public class Pokeplayer
     {
         if (pokemob == null) return;
         final boolean fly = pokemob.floats() || pokemob.flys();
-        if (!player.getAbilities().instabuild && player.getAbilities().mayfly != fly)
+        if (player.mayFly() != fly)
         {
-            player.getAbilities().mayfly = fly;
+            ResourceLocation FLYID = ResourceLocation.parse("pokeplayer:fly_sync");
+            if (fly) player.getAttribute(NeoForgeMod.CREATIVE_FLIGHT).addOrReplacePermanentModifier(
+                    new AttributeModifier(FLYID, 1, AttributeModifier.Operation.ADD_VALUE));
+            else player.getAttribute(NeoForgeMod.CREATIVE_FLIGHT).addOrReplacePermanentModifier(
+                    new AttributeModifier(FLYID, -1, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
             player.onUpdateAbilities();
         }
     }
@@ -160,11 +227,28 @@ public class Pokeplayer
 
     private static void updateFloating(final Player player, final IPokemob pokemob)
     {
-        if (pokemob == null) return;
-        if (!player.isShiftKeyDown() && pokemob.floats() && !player.isFallFlying())
+        if (pokemob == null || !pokemob.floats()) return;
+        if (!player.isShiftKeyDown())
         {
-            // TODO fix floating effects
+            player.setNoGravity(false);
+            double gravity = player.getGravity();
+            player.setNoGravity(true);
+            var level = player.level();
+            Vector3 hereVec = new Vector3(player);
+            Vector3 nextVec = new Vector3(hereVec).addTo(0, -pokemob.getFloatHeight(), 0);
+            var hit = level.clip(new ClipContext(hereVec.toVec3d(), nextVec.toVec3d(), ClipContext.Block.COLLIDER,
+                    ClipContext.Fluid.ANY, player));
+            Vector3 push = new Vector3(0, gravity, 0);
+            if (hit.getType() == HitResult.Type.MISS) push.scalarMultBy(-1);
+            else
+            {
+                double offset = 1 - (player.getY() - hit.getLocation().y()) / pokemob.getFloatHeight();
+                push.scalarMultBy(offset);
+            }
+            double vy = player.getDeltaMovement().y;
+            if (Math.signum(vy) != Math.signum(push.y)) push.addVelocities(player);
         }
+        else player.setNoGravity(false);
     }
 
     private static void updateSwimming(final Player player, final IPokemob pokemob)
