@@ -406,6 +406,7 @@ public class AnimationGui extends Screen
             // Sometimes things go bad and this happens
             if (l <= 0.0001 || l > 1e10) AnimationGui.entry.getModelSize().set(1, 1, 1);
             GuiPokemobHelper.autoScale = false;
+            partialTicks = Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true);
             GuiPokemobHelper.renderMob(graphics.pose(), entity, j, k, this.yRenderAngle, this.xRenderAngle,
                     this.yHeadRenderAngle, this.xHeadRenderAngle, zoom, partialTicks);
             GuiPokemobHelper.autoScale = true;

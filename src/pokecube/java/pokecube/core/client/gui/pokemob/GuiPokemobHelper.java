@@ -1,13 +1,5 @@
 package pokecube.core.client.gui.pokemob;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.joml.Matrix3f;
-
 import com.google.common.collect.Maps;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -15,13 +7,13 @@ import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
+import org.joml.Matrix3f;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -34,9 +26,16 @@ import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 import thut.lib.ResourceHelper;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Map;
+import java.util.Map.Entry;
+
 public class GuiPokemobHelper
 {
-    public static ResourceLocation SIZEMAP = ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID, "pokemobs_gui_sizes.json");
+    public static ResourceLocation SIZEMAP = ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID,
+            "pokemobs_gui_sizes.json");
 
     public static boolean autoScale = true;
 
@@ -80,13 +79,10 @@ public class GuiPokemobHelper
     }
 
     public static void renderMob(final PoseStack mat, final LivingEntity entity, final int dx, final int dy,
-                                 final float pitch, final float yaw, final float headPitch, final float headYaw, float scale,
-                                 float partialTicks)
+            final float pitch, final float yaw, final float headPitch, final float headYaw, float scale,
+            float partialTicks)
     {
         IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
-        LivingEntity renderMob = entity;
-        final int j = dx;
-        final int k = dy;
         scale *= 30;
         if (pokemob != null)
         {
@@ -104,7 +100,7 @@ public class GuiPokemobHelper
                         var dims = pokemob.getPokedexEntry().getModelSize();
                         mobScale = Math.max(dims.z, Math.max(dims.y, dims.x));
                     }
-                    else mobScale = Math.max(renderMob.getBbHeight(), renderMob.getBbWidth());
+                    else mobScale = Math.max(entity.getBbHeight(), entity.getBbWidth());
                 }
             }
             else
@@ -116,7 +112,7 @@ public class GuiPokemobHelper
             scale /= pokemob.getSize();
         }
         mat.pushPose();
-        mat.translate(j + 55, k + 60, 50.0F);
+        mat.translate(dx + 55, dy + 60, 50.0F);
         mat.scale(scale, scale, scale);
         var quaternion = Axis.ZP.rotationDegrees(180.0F);
         var quaternion1 = Axis.YP.rotationDegrees(180 - yaw);
@@ -145,7 +141,8 @@ public class GuiPokemobHelper
             animated.getChoices().clear();
             animated.getChoices().add("gui_render");
         }
-        entityrenderermanager.render(renderMob, 0.0D, 0.0D, 0.0D, 0.0F, -0.1F, mat, irendertypebuffer$impl, LightTexture.FULL_BRIGHT);
+        entityrenderermanager.render(entity, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks, mat, irendertypebuffer$impl,
+                LightTexture.FULL_BRIGHT);
         // Re-enable the face culling that occurs if too far away
         ThutCore.getConfig().modelCullThreshold = bak;
         RenderMobOverlays.enabled = true;

@@ -53,7 +53,7 @@ public class GuiEvent extends Event
         this.grap = grap;
         this.deltas = deltas;
         this.mat = grap.pose();
-        this.tick = deltas.getGameTimeDeltaTicks();
+        this.tick = deltas.getGameTimeDeltaPartialTick(true);
     }
 
     public DeltaTracker getGui()
