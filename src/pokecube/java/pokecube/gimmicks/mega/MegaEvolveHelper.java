@@ -1,7 +1,5 @@
 package pokecube.gimmicks.mega;
 
-import java.util.function.Supplier;
-
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -14,6 +12,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.EventBusSubscriber.Bus;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
@@ -24,6 +23,7 @@ import pokecube.api.events.pokemobs.ChangeForm;
 import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.inventory.pc.PCContainer;
+import pokecube.core.items.megastuff.ItemMegawearable;
 import pokecube.gimmicks.mega.MegaCapability.MegaStone;
 import pokecube.gimmicks.mega.MegaCapability.MegaWearable;
 import thut.api.Tracker;
@@ -31,14 +31,13 @@ import thut.lib.TComponent;
 import thut.wearables.ThutWearables;
 import thut.wearables.inventory.PlayerWearables;
 
+import java.util.function.Supplier;
+
 /**
- * This class handles the mega evolution mechanic. Primarily via the
- * following:<br>
+ * This class handles the mega evolution mechanic. Primarily via the following:<br>
  * <br>
- * - Registers a handler for commands to mega-evolve<br>
- * - Ensures that pokemobs are able to mega-evolve<br>
- * - Ensures that they un-mega-evolve when recalled<br>
- *
+ * - Registers a handler for commands to mega-evolve<br> - Ensures that pokemobs are able to mega-evolve<br> - Ensures
+ * that they un-mega-evolve when recalled<br>
  */
 @EventBusSubscriber(bus = Bus.MOD, modid = PokecubeCore.MODID)
 public class MegaEvolveHelper
@@ -54,15 +53,22 @@ public class MegaEvolveHelper
         MEGA_WEARABLE = PokecubeCore.ITEM_DATA.register("mega_item",
                 name -> new DataComponentType.Builder<MegaWearable>().persistent(MegaWearable.CODEC)
                         .networkSynchronized(MegaWearable.STREAM_CODEC).build());
-        MEGA_STONE = PokecubeCore.ITEM_DATA.register("mega_stone", name -> new DataComponentType.Builder<MegaStone>()
-                .persistent(MegaStone.CODEC).networkSynchronized(MegaStone.STREAM_CODEC).build());
-        
+        MEGA_STONE = PokecubeCore.ITEM_DATA.register("mega_stone",
+                name -> new DataComponentType.Builder<MegaStone>().persistent(MegaStone.CODEC)
+                        .networkSynchronized(MegaStone.STREAM_CODEC).build());
+
         MegaCapability.RegisterMegaType(ResourceLocation.parse("pokecube:default"), MegaCapability::new);
     }
 
-    /**
-     * Setup and register tera type stuff.
-     */
+    @SubscribeEvent
+    public static void initMegaItems(ModifyDefaultComponentsEvent event)
+    {
+        var KEY = ResourceLocation.parse("pokecube:mega_wearables");
+        MegaCapability.RegisterMegaType(KEY, MegaCapability::new);
+        event.modifyMatching(item -> item instanceof ItemMegawearable,
+                builder -> builder.set(MEGA_WEARABLE.get(), new MegaWearable(KEY)));
+    }
+
     @SubscribeEvent
     public static void init(FMLLoadCompleteEvent event)
     {
@@ -76,10 +82,8 @@ public class MegaEvolveHelper
         // datapacks load during world load.
         MegaEvoData.init();
 
-        PCContainer.CUSTOMPCWHILTELIST.add(stack -> {
-            return stack.has(MEGA_WEARABLE)
-                    && stack.get(MEGA_WEARABLE).withItem(stack).details().getEntry(stack) != null;
-        });
+        PCContainer.CUSTOMPCWHILTELIST.add(stack -> stack.has(MEGA_WEARABLE)
+                && stack.get(MEGA_WEARABLE).withItem(stack).details().getEntry(stack) != null);
 
         ChangeFormHandler.checker = (player, toEvolve) -> {
             PokedexEntry entry = toEvolve.getPokedexEntry();
@@ -91,19 +95,17 @@ public class MegaEvolveHelper
 
     /**
      * Class for implementing the mega evolution via owner command
-     *
      */
     private static class MegaEvolver implements IChangeHandler
     {
         @Override
         public boolean handleChange(IPokemob pokemob)
         {
-            final PokedexEntry entry = pokemob.getPokedexEntry();
             final Component oldName = pokemob.getDisplayName();
             boolean isMega = MegaEvolveHelper.isMega(pokemob);
             final LivingEntity owner = pokemob.getOwner();
             Player player = owner instanceof Player p ? p : null;
-            PokedexEntry newEntry = entry;
+            PokedexEntry newEntry;
             newEntry = MegaEvoData.getMegaEvo(pokemob);
 
             if (isMega)
@@ -124,7 +126,7 @@ public class MegaEvolveHelper
                 MegaEvolveHelper.megaEvolve(pokemob, newEntry, mess);
             }
             else thut.lib.ChatHelper.sendSystemMessage(player,
-                    TComponent.translatable("pokemob.megaevolve.failed", pokemob.getDisplayName()));
+                        TComponent.translatable("pokemob.megaevolve.failed", pokemob.getDisplayName()));
             return true;
         }
 
