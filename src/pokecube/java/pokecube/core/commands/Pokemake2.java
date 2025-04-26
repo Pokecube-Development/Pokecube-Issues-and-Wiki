@@ -1,13 +1,7 @@
 package pokecube.core.commands;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -39,6 +33,11 @@ import thut.api.entity.IMobColourable;
 import thut.api.util.PermNodes;
 import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.core.common.commands.CommandTools;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 public class Pokemake2
 {
@@ -216,9 +215,9 @@ public class Pokemake2
         boolean asWild = nbt.getBoolean("wild");
 
         // Then process level
-        if (nbt.getTagType("level") == Tag.TAG_INT)
+        if (nbt.getTagType("level") == Tag.TAG_INT || nbt.getTagType("l") == Tag.TAG_INT)
         {
-            int level = nbt.getInt("level");
+            int level = nbt.contains("level") ? nbt.getInt("level") : nbt.getInt("l");
             int exp = Tools.levelToXp(pokemob.getExperienceMode(), level);
             if (asWild) pokemob.setForSpawn(exp);
             else

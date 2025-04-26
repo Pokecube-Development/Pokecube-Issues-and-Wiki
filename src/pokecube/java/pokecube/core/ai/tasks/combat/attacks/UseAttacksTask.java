@@ -70,6 +70,8 @@ public class UseAttacksTask extends CombatTask implements IMoveUseAI
         var pokemob = PokemobCaps.getPokemobFor(entity);
         // Check if the pokemob has an active move being used, if so return
         if (pokemob.getMoveStats().isExecutingMoves()) return;
+        // If no move is selected, don't bother running the below code.
+        if (pokemob.getMoveIndex() > 3) return;
 
         var attack = pokemob.getSelectedMove();
         final boolean self = "user".equals(attack.root_entry._target_type);
@@ -163,15 +165,11 @@ public class UseAttacksTask extends CombatTask implements IMoveUseAI
         // use, allowing easier dodging.
         if (!isTargetDodging) BrainUtils.setMoveUseTarget(entity, targetLoc);
 
-        boolean delay = false;
+        boolean offCooldown = pokemob.getAttackCooldown() <= 0 && entity.isAddedToLevel();
         // Check if the attack should, applying a new delay if this is the
         // case..
         if (inRange && canSee || self)
         {
-            if (pokemob.getAttackCooldown() <= 0 && entity.isAddedToLevel())
-            {
-                delay = true;
-            }
             if (!self) this.setUseMove(pokemob, targetLoc);
             else this.clearUseMove(pokemob);
         }
@@ -185,8 +183,10 @@ public class UseAttacksTask extends CombatTask implements IMoveUseAI
             }
         }
 
+        System.out.println(offCooldown + " " + inRange + " " + pokemob.getAttackCooldown());
+
         // If all the conditions match, queue up an attack.
-        if (!targetLoc.isEmpty() && delay && inRange)
+        if (!targetLoc.isEmpty() && offCooldown && inRange)
         {
             // Tell the target no need to try to dodge anymore, move is fired.
             if (pokemobTarget != null) pokemobTarget.setCombatState(CombatStates.DODGING, false);

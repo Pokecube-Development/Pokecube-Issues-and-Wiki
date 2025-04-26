@@ -8,6 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.core.PokecubeCore;
@@ -51,26 +52,37 @@ public class LeapTask extends PokemobBehaviour implements IAICombat
     }
 
     @Override
-    public void reset(Mob entityIn)
+    public void reset(Mob entity)
     {
+        var brain = entity.getBrain();
+        int leapTick = brain.getMemory(MemoryModules.TIMER_LEAP.get()).orElse(0);
         // Set the timer so we don't leap again rapidly
-        entityIn.getBrain().eraseMemory(MemoryModules.TIMER_LEAP.get());
-        entityIn.getBrain().eraseMemory(MemoryModules.LEAP_TARGET.get());
+        brain.eraseMemory(MemoryModules.TIMER_LEAP.get());
+        brain.eraseMemory(MemoryModules.LEAP_TARGET.get());
     }
 
     @Override
     protected void tick(final ServerLevel level, final Mob entity, final long gameTime)
     {
         var brain = entity.getBrain();
+        int leapTick = brain.getMemory(MemoryModules.TIMER_LEAP.get()).orElse(0);
+        if (leapTick > 0)
+        {
+            leapTick++;
+            if (leapTick > PokecubeCore.getConfig().attackCooldown) reset(entity);
+            else brain.setMemory(MemoryModules.TIMER_LEAP.get(), leapTick);
+            return;
+        }
+
         var pokemob = PokemobCaps.getPokemobFor(entity);
-        final LivingEntity target = BrainUtils.getAttackTarget(entity);
+        LivingEntity target = BrainUtils.getAttackTarget(entity);
         pokemob.setCombatState(CombatStates.LEAPING, true);
         var pos = brain.getMemory(MemoryModules.LEAP_TARGET.get()).get();
         // Target loc could just be a position
         Vector3 leapTarget = new Vector3(pos.currentPosition());
 
-        final Vector3 location = new Vector3().set(entity);
-        final Vector3 diff = leapTarget.subtract(location);
+        Vector3 location = new Vector3().set(entity);
+        Vector3 diff = leapTarget.subtract(location);
 
         /* Don't leap up if too far. */
         if (diff.y > 5)
@@ -80,7 +92,7 @@ public class LeapTask extends PokemobBehaviour implements IAICombat
             return;
         }
 
-        final double dist = diff.magSq();
+        double dist = diff.magSq();
         double dh = Math.fma(diff.x, diff.x, diff.x * diff.z);
 
         // Wait till it is a bit closer than this...
@@ -100,52 +112,56 @@ public class LeapTask extends PokemobBehaviour implements IAICombat
 
         double leapSpeed = 1.0;
 
-        final Vector3 dir = diff.normalize();
+        Vector3 dir = diff.normalize();
         dir.scalarMultBy(leapSpeed * PokecubeCore.getConfig().leapSpeedFactor);
         if (dir.isNaN())
         {
-            new Exception().printStackTrace();
+            PokecubeAPI.LOGGER.error("Leap direction was NaN", new IllegalStateException());
             dir.clear();
         }
         if (dist < 9) dir.scalarMultBy(dist / 9);
 
         // Compute differences in velocities, and then account for that during
         // the leap.
-        final Vector3 v_a = new Vector3().setToVelocity(entity);
-        final Vector3 v_t = new Vector3();
+        Vector3 v_a = new Vector3().setToVelocity(entity);
+        Vector3 v_t = new Vector3();
         if (target != null) v_t.setToVelocity(target);
         // Compute velocity differential.
-        final Vector3 dv = v_a.subtractFrom(v_t);
+        Vector3 dv = v_a.subtractFrom(v_t);
         // Adjust for existing velocity differential.
         dir.subtractFrom(dv);
 
-        final boolean airborne = pokemob.floats() || pokemob.flys();
+        double g = entity.getGravity() * 20;
+
+        boolean airborne = pokemob.floats() || pokemob.flys();
         // Increase leap speed for airborne things, they have a bit more
         // friction while in the air.
         if (airborne) dir.scalarMultBy(1.1);
             // Otherwise, if it is on the ground, it should jump a bit if leaping
             // but not downwards
-        else if (dir.y >= 0) dir.y = Math.max(dir.y, 0.25);
+        else if (dir.y >= 0)
+        {
+            dir.y = Math.max(dir.y, 0.05);
+            dir.y = Math.sqrt(2 * dir.y * g);
+        }
 
         if (!airborne && !pokemob.onGround()) return;
 
         dh = Math.fma(dir.x, dir.x, dir.x * dir.z);
         // If too close, then put a minimum horizontal distance for the leap.
-        if (dh > 0 && dh < 0.01)
+        if (dh > 0 && dh < 0.5)
         {
             dh = Math.sqrt(dh);
-            dir.x *= 0.1 / dh;
-            dir.z *= 0.1 / dh;
+            dh = Math.max(dh, 0.1);
+            dir.x *= 0.5 / dh;
+            dir.z *= 0.5 / dh;
         }
         // Now apply the actual leap
         dir.addVelocities(entity);
+        brain.setMemory(MemoryModules.TIMER_LEAP.get(), 1);
         // Then play leap sound
         new TaskBase.PlaySound(entity.level().dimension(), new Vector3().set(entity), this.getLeapSound(),
                 SoundSource.HOSTILE, 1, 1).run(level);
-
-        // Then reset things so we don't immediately re-leap.
-        BrainUtils.setLeapTarget(entity, null);
-        this.reset(entity);
     }
 
     @Override
@@ -154,10 +170,6 @@ public class LeapTask extends PokemobBehaviour implements IAICombat
         var pokemob = PokemobCaps.getPokemobFor(entity);
         // Can't move, no leap
         if (!TaskBase.canMove(pokemob)) return false;
-        var brain = entity.getBrain();
-        int leapTick = brain.getMemory(MemoryModules.TIMER_LEAP.get()).orElse(0);
-        if (leapTick++ > 10) BrainUtils.setLeapTarget(entity, null);
-        brain.setMemory(MemoryModules.TIMER_LEAP.get(), leapTick);
         // Update the leap target here.
         var pos = BrainUtils.getLeapTarget(entity);
         // Leap may have been interupted, so clear this state if so.
