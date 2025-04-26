@@ -30,9 +30,13 @@ import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.EventBusSubscriber.Bus;
-import net.neoforged.neoforge.client.event.*;
+import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.InputEvent.Key;
+import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
+import net.neoforged.neoforge.client.event.RegisterMaterialAtlasesEvent;
+import net.neoforged.neoforge.client.event.RenderBlockScreenEffectEvent;
 import net.neoforged.neoforge.client.event.RenderBlockScreenEffectEvent.OverlayType;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent.Stage;
 import net.neoforged.neoforge.client.event.ScreenEvent.MouseScrolled;
 import net.neoforged.neoforge.client.event.ScreenEvent.Render;
@@ -52,7 +56,11 @@ import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.logic.LogicMountedControl;
-import pokecube.core.client.gui.*;
+import pokecube.core.client.gui.AnimationGui;
+import pokecube.core.client.gui.GuiArranger;
+import pokecube.core.client.gui.GuiDisplayPokecubeInfo;
+import pokecube.core.client.gui.GuiInfoMessages;
+import pokecube.core.client.gui.GuiTeleport;
 import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.client.render.mobs.RenderPokemob;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
@@ -386,7 +394,7 @@ public class EventsHandlerClient
             if (alt || ctrl)
             {
                 event.getGuiGraphics().pose().pushPose();
-                event.getGuiGraphics().pose().translate(0, 0, 1000);
+                event.getGuiGraphics().pose().translate(0, 0, 300);
                 final List<Slot> slots = gui.getMenu().slots;
                 for (final Slot slot : slots)
                     if (slot.hasItem() && PokecubeManager.isFilled(slot.getItem()))
