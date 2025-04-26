@@ -30,6 +30,7 @@ import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.EventBusSubscriber.Bus;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.InputEvent.Key;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
@@ -107,6 +108,7 @@ public class EventsHandlerClient
 
         // Here we handle the various keybindings for the mod
         ThutCore.FORGE_BUS.addListener(EventsHandlerClient::onKeyInput);
+        ThutCore.FORGE_BUS.addListener(EventsHandlerClient::postClientTick);
 
         // This renders the pokemob's icons over the pokecubes when alt is held
         // in an inventory.
@@ -141,7 +143,7 @@ public class EventsHandlerClient
         for (final Entity e : PokemobTracker.getMobs(owner, e -> !(e instanceof EntityPokecubeBase)))
         {
             final IPokemob mob = PokemobCaps.getPokemobFor(e);
-            if (mob != null) ret.add(mob);
+            if (mob != null && e.distanceTo(owner) < distance) ret.add(mob);
         }
         return ret;
     }
@@ -220,14 +222,11 @@ public class EventsHandlerClient
                 Minecraft.getInstance().hitResult == null || Minecraft.getInstance().hitResult.getType() == Type.MISS))
         {
             final Entity entity = Tools.getPointedEntity(player, 6);
-            if (entity != null) hands:
-                    for (final InteractionHand hand : InteractionHand.values())
-                        if (Minecraft.getInstance().gameMode.interact(player, entity, hand)
-                                == InteractionResult.SUCCESS)
-                        {
-                            evt.setCanceled(true);
-                            break hands;
-                        }
+            if (entity != null) for (final InteractionHand hand : InteractionHand.values())
+                if (Minecraft.getInstance().gameMode.interact(player, entity, hand) == InteractionResult.SUCCESS)
+                {
+                    evt.setCanceled(true);
+                }
         }
         boolean alt = Screen.hasAltDown();
         if (alt) for (var comp : GuiDisplayPokecubeInfo.COMPONENTS)
@@ -299,26 +298,11 @@ public class EventsHandlerClient
         }
     }
 
-    private static void onKeyInput(final Key evt)
+    private static void postClientTick(ClientTickEvent.Post evt)
     {
         final Player player = Minecraft.getInstance().player;
         // We only handle these ingame anyway.
         if (player == null) return;
-        if (InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_F3)
-                && evt.getKey() == GLFW.GLFW_KEY_D) GuiInfoMessages.clear();
-        if (evt.getKey() == GLFW.GLFW_KEY_F5)
-        {
-            if (AnimationGui.entry != null && Minecraft.getInstance().screen instanceof AnimationGui)
-            {
-                PokedexEntryLoader.updateEntry(AnimationGui.entry);
-                RenderPokemob.reloadModel(AnimationGui.entry);
-            }
-            else if (player.getVehicle() != null && Minecraft.getInstance().screen != null)
-            {
-                final IPokemob pokemob = PokemobCaps.getPokemobFor(player.getVehicle());
-                if (pokemob != null) PokedexEntryLoader.updateEntry(pokemob.getPokedexEntry());
-            }
-        }
         if (ClientSetupHandler.animateGui.consumeClick() && Minecraft.getInstance().screen == null)
             Minecraft.getInstance().setScreen(new AnimationGui());
         if (ClientSetupHandler.mobMegavolve.consumeClick())
@@ -370,6 +354,29 @@ public class EventsHandlerClient
                         new StanceHandler(true, StanceHandler.MODE).setFromOwner(true));
             }
         }
+        ClientSetupHandler.clearKeyUse();
+    }
+
+    private static void onKeyInput(final Key evt)
+    {
+        final Player player = Minecraft.getInstance().player;
+        // We only handle these ingame anyway.
+        if (player == null) return;
+        if (InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_F3)
+                && evt.getKey() == GLFW.GLFW_KEY_D) GuiInfoMessages.clear();
+        if (evt.getKey() == GLFW.GLFW_KEY_F5)
+        {
+            if (AnimationGui.entry != null && Minecraft.getInstance().screen instanceof AnimationGui)
+            {
+                PokedexEntryLoader.updateEntry(AnimationGui.entry);
+                RenderPokemob.reloadModel(AnimationGui.entry);
+            }
+            else if (player.getVehicle() != null && Minecraft.getInstance().screen != null)
+            {
+                final IPokemob pokemob = PokemobCaps.getPokemobFor(player.getVehicle());
+                if (pokemob != null) PokedexEntryLoader.updateEntry(pokemob.getPokedexEntry());
+            }
+        }
     }
 
     private static void onRenderFluidOverlay(RenderBlockScreenEffectEvent event)
@@ -386,40 +393,33 @@ public class EventsHandlerClient
 
     private static void onRenderGUIScreenPre(final Render.Post event)
     {
-        try
+        if (!(event.getScreen() instanceof AbstractContainerScreen<?> gui)) return;
+        boolean alt = Screen.hasAltDown();
+        boolean ctrl = Screen.hasControlDown();
+        if (alt || ctrl)
         {
-            if (!(event.getScreen() instanceof AbstractContainerScreen<?> gui)) return;
-            boolean alt = Screen.hasAltDown();
-            boolean ctrl = Screen.hasControlDown();
-            if (alt || ctrl)
-            {
-                event.getGuiGraphics().pose().pushPose();
-                event.getGuiGraphics().pose().translate(0, 0, 300);
-                final List<Slot> slots = gui.getMenu().slots;
-                for (final Slot slot : slots)
-                    if (slot.hasItem() && PokecubeManager.isFilled(slot.getItem()))
+            event.getGuiGraphics().pose().pushPose();
+            event.getGuiGraphics().pose().translate(0, 0, 300);
+            final List<Slot> slots = gui.getMenu().slots;
+            for (final Slot slot : slots)
+                if (slot.hasItem() && PokecubeManager.isFilled(slot.getItem()))
+                {
+                    final IPokemob pokemob = EventsHandlerClient.getPokemobForRender(slot.getItem(),
+                            gui.getMinecraft().level);
+                    if (pokemob == null) continue;
+                    int i, j;
+                    i = slot.x;
+                    j = slot.y;
+                    final int x = i + gui.getGuiLeft();
+                    final int y = j + gui.getGuiTop();
+                    if (Screen.hasControlDown())
                     {
-                        final IPokemob pokemob = EventsHandlerClient.getPokemobForRender(slot.getItem(),
-                                gui.getMinecraft().level);
-                        if (pokemob == null) continue;
-                        int i, j;
-                        i = slot.x;
-                        j = slot.y;
-                        final int x = i + gui.getGuiLeft();
-                        final int y = j + gui.getGuiTop();
-                        if (Screen.hasControlDown())
-                        {
-                            ItemStack _stack = pokemob.getHeldItem();
-                            event.getGuiGraphics().renderItem(_stack, x, y);
-                        }
-                        else EventsHandlerClient.renderIcon(event.getGuiGraphics(), pokemob, x, y, 16, 16);
+                        ItemStack _stack = pokemob.getHeldItem();
+                        event.getGuiGraphics().renderItem(_stack, x, y);
                     }
-                event.getGuiGraphics().pose().popPose();
-            }
-        }
-        catch (final Exception e)
-        {
-            e.printStackTrace();
+                    else EventsHandlerClient.renderIcon(event.getGuiGraphics(), pokemob, x, y, 16, 16);
+                }
+            event.getGuiGraphics().pose().popPose();
         }
     }
 

@@ -46,7 +46,11 @@ import pokecube.core.client.gui.blocks.TMs;
 import pokecube.core.client.gui.blocks.Trade;
 import pokecube.core.client.gui.pokemob.GuiPokemob;
 import pokecube.core.client.render.RenderMoves;
-import pokecube.core.client.render.mobs.*;
+import pokecube.core.client.render.mobs.GenericBoatRenderer;
+import pokecube.core.client.render.mobs.RenderEgg;
+import pokecube.core.client.render.mobs.RenderNPC;
+import pokecube.core.client.render.mobs.RenderPokecube;
+import pokecube.core.client.render.mobs.RenderPokemob;
 import pokecube.core.database.Database;
 import pokecube.core.entity.boats.GenericBoat;
 import pokecube.core.entity.boats.GenericBoat.BoatType;
@@ -64,6 +68,8 @@ import pokecube.nbtedit.NBTEdit;
 import pokecube.nbtedit.forge.ClientProxy;
 import thut.lib.RegHelper;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
@@ -178,9 +184,17 @@ public class ClientSetupHandler
         });
     }
 
+    private static final List<KeyMapping> KEYS = new ArrayList<>();
+
     private static void registerKey(KeyMapping key, RegisterKeyMappingsEvent event)
     {
+        KEYS.add(key);
         event.register(key);
+    }
+
+    public static void clearKeyUse()
+    {
+        KEYS.forEach(k -> {while (k.consumeClick()) ;});
     }
 
     @SubscribeEvent
@@ -234,9 +248,7 @@ public class ClientSetupHandler
 
         ClientSetupHandler.registerLayerDefinition(ClientHooks::registerLayerDefinition);
 
-        event.enqueueWork(() -> {
-            BerriesWoodType.register();
-        });
+        event.enqueueWork(BerriesWoodType::register);
     }
 
     @SubscribeEvent
@@ -288,11 +300,9 @@ public class ClientSetupHandler
     public static void colourBlocks(final RegisterColorHandlersEvent.Block event)
     {
         final Block qualotLeaves = BerryManager.berryLeaves.get(23).get();
-        event.register((state, reader, pos, tintIndex) -> {
-            return reader != null && pos != null
-                    ? BiomeColors.getAverageFoliageColor(reader, pos)
-                    : FoliageColor.getDefaultColor();
-        }, qualotLeaves);
+        event.register(
+                (state, reader, pos, tintIndex) -> reader != null && pos != null ? BiomeColors.getAverageFoliageColor(
+                        reader, pos) : FoliageColor.getDefaultColor(), qualotLeaves);
     }
 
     @SubscribeEvent
