@@ -183,8 +183,6 @@ public class UseAttacksTask extends CombatTask implements IMoveUseAI
             }
         }
 
-        System.out.println(offCooldown + " " + inRange + " " + pokemob.getAttackCooldown());
-
         // If all the conditions match, queue up an attack.
         if (!targetLoc.isEmpty() && offCooldown && inRange)
         {

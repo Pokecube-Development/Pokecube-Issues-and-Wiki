@@ -1,12 +1,13 @@
 package pokecube.gimmicks.pokeplayer;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
-import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -20,9 +21,11 @@ import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.events.pokemobs.EvolveEvent;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.idle.HungerTask;
@@ -30,14 +33,13 @@ import pokecube.core.database.Database;
 import pokecube.core.items.ItemPokedex;
 import pokecube.core.utils.PokemobTracker;
 import thut.api.ThutCaps;
-import thut.api.attachments.CopyMob;
 import thut.api.attachments.TrackedAttachment;
 import thut.api.entity.ICopyMob;
 import thut.api.entity.event.CopySetEvent;
 import thut.api.entity.event.CopyUpdateEvent;
 import thut.api.maths.Vector3;
+import thut.api.util.PermNodes;
 import thut.core.common.ThutCore;
-import thut.core.common.network.SyncAttachments;
 import thut.lib.RegHelper;
 import thut.lib.TComponent;
 import thut.wearables.inventory.PlayerWearables;
@@ -62,31 +64,73 @@ public class Pokeplayer
 
         // interaction with self with items
         ThutCore.FORGE_BUS.addListener(Pokeplayer::onRightClickItem);
+
+        // Events for ensuring pokeplayers behave properly
+
+        // Evolution
+        PokecubeAPI.POKEMOB_BUS.addListener(Pokeplayer::onEvolve);
     }
 
     private static final SimpleCommandExceptionType ERROR_FAILED = new SimpleCommandExceptionType(
             TComponent.translatable("not copy?"));
 
+    public static final String PERMSELF = "pokeplayer.self";
+    public static final String PERMOTHER = "pokeplayer.other";
+
+    static
+    {
+        PermNodes.registerBooleanNode(PokecubeCore.MODID, PERMSELF, PermNodes.DefaultPermissionLevel.OP,
+                "Allowed to use pokeplayer command on self");
+        PermNodes.registerBooleanNode(PokecubeCore.MODID, PERMOTHER, PermNodes.DefaultPermissionLevel.OP,
+                "Allowed to use pokeplayer command on other");
+    }
+
+    private static int doPokeplayerCommand(String argument, Entity player) throws CommandSyntaxException
+    {
+        var copy = ThutCaps.getCopyMob(player);
+        if (copy == null) throw Pokeplayer.ERROR_FAILED.create();
+        if (argument.equals("none"))
+        {
+            copy.setCopiedID(null);
+            // Reset the no gravity rules
+            player.setNoGravity(false);
+            return 0;
+        }
+        final PokedexEntry var = Database.getEntry(argument);
+        copy.setCopiedID(RegHelper.getKey(var.getEntityType()));
+        return 0;
+    }
+
     private static void onCommandRegister(final RegisterCommandsEvent event)
     {
-        final LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal("pokeplayer")
-                .then(Commands.argument("val", StringArgumentType.string()).executes(ctx -> {
-                    var wrd = StringArgumentType.getString(ctx, "val");
-                    var player = ctx.getSource().getEntity();
-                    var copy = ThutCaps.getCopyMob(player);
-                    if (copy == null) throw Pokeplayer.ERROR_FAILED.create();
-                    if (wrd.equals("none"))
-                    {
-                        copy.setCopiedID(null);
-                        SyncAttachments.syncChange(CopyMob.TYPE_COPY, player);
-                        return 0;
-                    }
-                    final PokedexEntry var = Database.getEntry(wrd);
-                    copy.setCopiedID(RegHelper.getKey(var.getEntityType()));
-                    SyncAttachments.syncChange(CopyMob.TYPE_COPY, player);
-                    return 0;
-                }));
+        var command = Commands.literal("pokeplayer").requires(s -> {
+            if (!(s.getEntity() instanceof ServerPlayer player)) return true;
+            return PermNodes.getBooleanPerm(player, PERMSELF);
+        }).then(Commands.argument("entry_or_none", StringArgumentType.string()).executes(
+                        ctx -> doPokeplayerCommand(StringArgumentType.getString(ctx, "entry_or_none"),
+                                ctx.getSource().getEntity()))
+                .then(Commands.argument("player", EntityArgument.player()).requires(s -> {
+                    if (!(s.getEntity() instanceof ServerPlayer player)) return true;
+                    return PermNodes.getBooleanPerm(player, PERMOTHER);
+                }).executes(ctx -> doPokeplayerCommand(StringArgumentType.getString(ctx, "entry_or_none"),
+                        ctx.getSource().getEntity()))));
         event.getDispatcher().register(command);
+    }
+
+    private static void onEvolve(EvolveEvent.Post event)
+    {
+        var entity = event.mob.getEntity();
+        if (entity.getPersistentData().hasUUID("copy_parent"))
+        {
+            var id = entity.getPersistentData().getUUID("copy_parent");
+            var player = entity.level().getPlayerByUUID(id);
+            var copy = ThutCaps.getCopyMob(player);
+            if (copy != null)
+            {
+                copy.setCopiedMob(entity);
+                event.setCanceled(true);
+            }
+        }
     }
 
     private static final ResourceLocation STEP = ResourceLocation.parse("pokeplayer:step_adjust");
@@ -147,6 +191,7 @@ public class Pokeplayer
 
             IPokemob oldMob = PokemobCaps.getPokemobFor(event.oldCopy);
             if (oldMob != null) PokemobTracker.removePokemob(oldMob);
+            if (event.newCopy != null) event.newCopy.getPersistentData().putUUID("copy_parent", player.getUUID());
         }
     }
 
@@ -183,6 +228,8 @@ public class Pokeplayer
                 foodData.setFoodLevel(food + 1);
                 pokemob.setHungerTime(hunger + hungerRate);
             }
+            // TODO find appropriate places to do this instead of once per second.
+            if (player.tickCount % 20 == 0) pokemob.markDirty();
 
             pokemob.setOwner(player);
             pokemob.setDataSync(ThutCaps.getDataSync(player));
@@ -192,7 +239,7 @@ public class Pokeplayer
             Pokeplayer.updateSwimming(player, pokemob);
 
             final ICopyMob copy = ThutCaps.getCopyMob(player);
-            if (copy instanceof TrackedAttachment tracked)
+            if (copy instanceof TrackedAttachment tracked && !(player.level().isClientSide()))
             {
                 if (pokemob.isDirty()) tracked.markDirty();
                 if (pokemob.getGenes().isDirty()) tracked.markDirty();

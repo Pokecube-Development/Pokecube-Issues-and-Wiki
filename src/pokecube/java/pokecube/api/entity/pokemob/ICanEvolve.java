@@ -98,8 +98,8 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         final IPokemob thisMob = (IPokemob) this;
         if (thisEntity == null) return false;
 
-        PokedexEntry evol = null;
-        EvolutionData data = null;
+        PokedexEntry evol;
+        EvolutionData data;
 
         List<EvolutionData> valid = new ArrayList<>();
 
@@ -146,7 +146,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             if (this.getEntity().isAddedToLevel() && this.getEntity().level() instanceof ServerLevel level)
                 immediate = !level.isHandlingTick();
             // change to new forme.
-            boolean evolved = this.changeForm(((EvolveEvent.Pre) evt).forme, immediate, true);
+            this.changeForm(((EvolveEvent.Pre) evt).forme, immediate, true);
             // Remove held item if it had one.
             if (needed_items.contains(data) && ItemStack.isSameItem(stack, thisMob.getHeldItem()))
                 thisMob.setHeldItem(ItemStack.EMPTY);

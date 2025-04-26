@@ -1,5 +1,6 @@
 package pokecube.api.events.pokemobs;
 
+import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.ICancellableEvent;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.EvolutionData;
@@ -10,14 +11,14 @@ import pokecube.api.entity.pokemob.IPokemob;
  *
  * @author Thutmose
  */
-public class EvolveEvent extends LevelUpEvent
+public abstract class EvolveEvent extends Event implements ICancellableEvent
 {
+
     /** Called after the evolution. */
     public static class Post extends EvolveEvent
     {
         /**
-         * @param mob
-         *            - the result of the evolution.
+         * @param mob - the result of the evolution.
          */
         public Post(final IPokemob mob)
         {
@@ -26,16 +27,14 @@ public class EvolveEvent extends LevelUpEvent
     }
 
     /** Called before the evolution, if canceled, it will not evolve. */
-    public static class Pre extends EvolveEvent implements ICancellableEvent
+    public static class Pre extends EvolveEvent
     {
-        public PokedexEntry  forme;
+        public PokedexEntry forme;
         public EvolutionData evol_info;
 
         /**
-         * @param mob
-         *            - The mob doing the evolving.
-         * @param evolvingTo
-         *            - the mob to be evolved to.
+         * @param mob        - The mob doing the evolving.
+         * @param evolvingTo - the mob to be evolved to.
          */
         public Pre(final IPokemob mob, final PokedexEntry evolvingTo, final EvolutionData evolInfo)
         {
@@ -45,9 +44,11 @@ public class EvolveEvent extends LevelUpEvent
         }
     }
 
+    public final IPokemob mob;
+
     public EvolveEvent(final IPokemob mob)
     {
-        super(mob, mob.getLevel(), mob.getLevel());
+        this.mob = mob;
     }
 
 }

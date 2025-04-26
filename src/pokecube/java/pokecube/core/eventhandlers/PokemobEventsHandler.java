@@ -775,12 +775,6 @@ public class PokemobEventsHandler
         // Have this tick to manage the target's target.
         FindTargetsTask.onMobTick(living);
 
-        // This prevents double ticking when a mob is both a copy and ticking
-        // elsewhere, say in a custom pokeplayer like implementation
-        long tick = living.getPersistentData().getLong("__i__");
-        if (tick == Tracker.instance().getTick()) return;
-        living.getPersistentData().putLong("__i__", Tracker.instance().getTick());
-
         // Tick the genes
         IMobGenetics genes = ThutCaps.getGenetics(living);
         if (genes != null) genes.onUpdateTick(living);
