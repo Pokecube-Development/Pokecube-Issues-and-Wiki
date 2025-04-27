@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.deerling"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.deerling"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_deerling_su": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "deerling_su"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

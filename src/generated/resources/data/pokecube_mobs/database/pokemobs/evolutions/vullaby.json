@@ -1,9 +1,0 @@
-{
-  "name": "mandibuzz",
-  "user": "vullaby",
-  "condition": {
-    "key": "level",
-    "level": 54
-  },
-  "evoMoves": "bone-rush"
-}

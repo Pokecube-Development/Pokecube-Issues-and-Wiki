@@ -1,8 +1,0 @@
-{
-  "name": "machamp",
-  "user": "machoke",
-  "condition": {
-    "key": "traded"
-  },
-  "evoMoves": "strength"
-}

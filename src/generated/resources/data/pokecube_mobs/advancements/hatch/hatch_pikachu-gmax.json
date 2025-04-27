@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "entity.pokecube.pikachu-gmax"
+          "translate": "entity.pokecube.pikachu"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "entity.pokecube.pikachu-gmax"
+          "translate": "entity.pokecube.pikachu"
         }
       ]
     }

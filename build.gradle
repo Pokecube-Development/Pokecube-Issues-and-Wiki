@@ -157,6 +157,7 @@ sourceSets {
     main.java.srcDirs += 'src/thutcore/java'
     main.resources.srcDirs += 'src/thutcore/resources'
     main.resources.srcDirs += 'src/generated/resources'
+    main.resources.srcDirs += 'PokecubeMobs/pokecube_mobs'
 }
 
 jar {

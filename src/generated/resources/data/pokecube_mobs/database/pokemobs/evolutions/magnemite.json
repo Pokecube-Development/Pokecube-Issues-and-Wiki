@@ -1,9 +1,0 @@
-{
-  "name": "magneton",
-  "user": "magnemite",
-  "condition": {
-    "key": "level",
-    "level": 30
-  },
-  "evoMoves": "tri-attack"
-}

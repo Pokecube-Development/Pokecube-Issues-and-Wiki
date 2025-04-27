@@ -1,9 +1,0 @@
-{
-  "name": "slaking",
-  "user": "vigoroth",
-  "condition": {
-    "key": "level",
-    "level": 36
-  },
-  "evoMoves": "swagger"
-}

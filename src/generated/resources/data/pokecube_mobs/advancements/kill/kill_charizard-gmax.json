@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "entity.pokecube.charizard-gmax"
+          "translate": "entity.pokecube.charizard"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "entity.pokecube.charizard-gmax"
+          "translate": "entity.pokecube.charizard"
         }
       ]
     }

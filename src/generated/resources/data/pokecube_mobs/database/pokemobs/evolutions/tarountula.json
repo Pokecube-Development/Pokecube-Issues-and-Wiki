@@ -1,9 +1,0 @@
-{
-  "name": "spidops",
-  "user": "tarountula",
-  "condition": {
-    "key": "level",
-    "level": 15
-  },
-  "evoMoves": "silk-trap"
-}

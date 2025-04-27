@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.unfezant"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.unfezant"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_unfezant_female": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "unfezant_female"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

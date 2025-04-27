@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.flabebe"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.flabebe"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_flabebe-blue": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "flabebe-blue"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

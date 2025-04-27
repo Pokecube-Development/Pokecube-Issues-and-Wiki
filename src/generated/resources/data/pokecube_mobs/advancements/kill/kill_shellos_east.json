@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.shellos"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.shellos"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_shellos_east": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "shellos_east"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

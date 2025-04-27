@@ -1,9 +1,0 @@
-{
-  "name": "shelgon",
-  "user": "bagon",
-  "condition": {
-    "key": "level",
-    "level": 30
-  },
-  "evoMoves": "protect"
-}
