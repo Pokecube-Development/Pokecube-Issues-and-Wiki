@@ -426,9 +426,14 @@ public class Tools
         try
         {
             if (values.isJsonObject() && values.getAsJsonObject().has("values"))
-            {
-                System.out.println("Legacy format for " + values);
                 values = values.getAsJsonObject().get("values");
+
+            // Convert id -> item, n-> count
+            if (values.isJsonObject())
+            {
+                var obj = values.getAsJsonObject();
+                if (obj.has("item")) obj.add("id", obj.get("item"));
+                if (obj.has("n")) obj.add("count", obj.get("n"));
             }
 
             var access = world != null ? world.registryAccess() : PokecubeCore.proxy.getRegistries();
