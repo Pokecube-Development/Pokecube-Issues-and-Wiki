@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "entity.pokecube.pumpkaboo-super"
+          "translate": "entity.pokecube.pumpkaboo-average"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "entity.pokecube.pumpkaboo-super"
+          "translate": "entity.pokecube.pumpkaboo-average"
         }
       ]
     }

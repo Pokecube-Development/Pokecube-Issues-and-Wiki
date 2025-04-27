@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.venusaur"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.venusaur"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_venusaur_female": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "venusaur_female"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

@@ -1,8 +1,0 @@
-{
-  "name": "garganacl",
-  "user": "naclstack",
-  "condition": {
-    "key": "level",
-    "level": 38
-  }
-}

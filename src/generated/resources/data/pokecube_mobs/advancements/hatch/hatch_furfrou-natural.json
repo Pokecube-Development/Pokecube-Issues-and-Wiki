@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.furfrou"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.furfrou"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_furfrou-natural": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "furfrou-natural"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

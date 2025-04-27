@@ -1,9 +1,0 @@
-{
-  "name": "garchomp",
-  "user": "gabite",
-  "condition": {
-    "key": "level",
-    "level": 48
-  },
-  "evoMoves": "crunch"
-}

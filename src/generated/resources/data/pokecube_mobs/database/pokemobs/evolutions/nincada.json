@@ -1,9 +1,0 @@
-{
-  "name": "ninjask",
-  "user": "nincada",
-  "condition": {
-    "key": "level",
-    "level": 20
-  },
-  "evoMoves": "double-team, fury-cutter, screech"
-}

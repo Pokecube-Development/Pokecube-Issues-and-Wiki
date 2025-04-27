@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "entity.pokecube.greninja-battle-bond"
+          "translate": "entity.pokecube.greninja"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "entity.pokecube.greninja-battle-bond"
+          "translate": "entity.pokecube.greninja"
         }
       ]
     }

@@ -1,7 +1,7 @@
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
-        jcenter()
+        gradlePluginPortal()
         mavenCentral()
         flatDir {
           dirs 'libs'
@@ -144,6 +144,7 @@ sourceSets {
     main.java.srcDirs += 'src/thutcore/java'
     main.resources.srcDirs += 'src/thutcore/resources'
     main.resources.srcDirs += 'src/generated/resources'
+    main.resources.srcDirs += 'PokecubeMobs/pokecube_mobs'
 }
 
 jar {

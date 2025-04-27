@@ -420,14 +420,20 @@ public class Tools
         boolean isTable = false;
         String table = "";
 
-        for (final String key : values.keySet()) if (key.toString().equals("id")) id = values.get(key);
-        else if (key.toString().equals("n")) size = Integer.parseInt(values.get(key));
-        else if (key.toString().equals("tag")) tag = values.get(key).trim();
-        else if (key.toString().equals("table"))
-        {
-            table = values.get(key).trim();
-            isTable = true;
-        }
+        for (final String key : values.keySet())
+            switch (key)
+            {
+            case "id" -> id = values.get(key);
+            case "item" -> id = values.get(key);
+            case "n" -> size = Integer.parseInt(values.get(key));
+            case "count" -> size = Integer.parseInt(values.get(key));
+            case "tag" -> tag = values.get(key).trim();
+            case "table" ->
+            {
+                table = values.get(key).trim();
+                isTable = true;
+            }
+            }
 
         if (isTable && world != null)
         {

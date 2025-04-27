@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "entity.pokecube.rotom-fan"
+          "translate": "entity.pokecube.rotom"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "entity.pokecube.rotom-fan"
+          "translate": "entity.pokecube.rotom"
         }
       ]
     }

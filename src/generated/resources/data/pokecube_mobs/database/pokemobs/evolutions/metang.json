@@ -1,9 +1,0 @@
-{
-  "name": "metagross",
-  "user": "metang",
-  "condition": {
-    "key": "level",
-    "level": 45
-  },
-  "evoMoves": "hammer-arm"
-}

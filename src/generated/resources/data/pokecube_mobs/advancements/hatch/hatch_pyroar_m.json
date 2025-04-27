@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.pyroar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.pyroar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_pyroar_m": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "pyroar_m"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

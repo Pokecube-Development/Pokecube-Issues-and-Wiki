@@ -1,9 +1,0 @@
-{
-  "name": "monferno",
-  "user": "chimchar",
-  "condition": {
-    "key": "level",
-    "level": 14
-  },
-  "evoMoves": "mach-punch"
-}

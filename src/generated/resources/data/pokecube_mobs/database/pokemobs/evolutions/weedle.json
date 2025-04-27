@@ -1,9 +1,0 @@
-{
-  "name": "kakuna",
-  "user": "weedle",
-  "condition": {
-    "key": "level",
-    "level": 7
-  },
-  "evoMoves": "harden"
-}

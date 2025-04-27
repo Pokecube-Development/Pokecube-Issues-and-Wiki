@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "entity.pokecube.minior-blue"
+          "translate": "entity.pokecube.minior-meteor"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "entity.pokecube.minior-blue"
+          "translate": "entity.pokecube.minior-meteor"
         }
       ]
     }

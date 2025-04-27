@@ -1,9 +1,0 @@
-{
-  "name": "infernape",
-  "user": "monferno",
-  "condition": {
-    "key": "level",
-    "level": 36
-  },
-  "evoMoves": "close-combat"
-}
