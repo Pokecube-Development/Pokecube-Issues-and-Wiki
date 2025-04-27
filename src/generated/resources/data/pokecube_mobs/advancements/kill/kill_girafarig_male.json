@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.girafarig"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.girafarig"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_girafarig_male": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "girafarig_male"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

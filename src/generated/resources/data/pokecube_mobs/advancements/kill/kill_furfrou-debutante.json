@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.furfrou"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.furfrou"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_furfrou-debutante": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "furfrou-debutante"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

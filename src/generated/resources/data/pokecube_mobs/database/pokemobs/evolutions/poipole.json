@@ -1,9 +1,0 @@
-{
-  "name": "naganadel",
-  "user": "poipole",
-  "condition": {
-    "key": "move",
-    "move": "dragon-pulse"
-  },
-  "evoMoves": "air-cutter"
-}

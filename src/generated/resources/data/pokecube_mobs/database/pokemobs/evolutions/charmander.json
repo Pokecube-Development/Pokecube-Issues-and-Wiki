@@ -1,9 +1,0 @@
-{
-  "name": "charmeleon",
-  "user": "charmander",
-  "condition": {
-    "key": "level",
-    "level": 16
-  },
-  "animation": "55"
-}

@@ -1,9 +1,0 @@
-{
-  "name": "loudred",
-  "user": "whismur",
-  "condition": {
-    "key": "level",
-    "level": 20
-  },
-  "evoMoves": "bite"
-}

@@ -1,9 +1,0 @@
-{
-  "name": "metang",
-  "user": "beldum",
-  "condition": {
-    "key": "level",
-    "level": 20
-  },
-  "evoMoves": "confusion, metal-claw"
-}

@@ -1,9 +1,0 @@
-{
-  "name": "sudowoodo",
-  "user": "bonsly",
-  "condition": {
-    "key": "move",
-    "move": "mimic"
-  },
-  "evoMoves": "slam"
-}

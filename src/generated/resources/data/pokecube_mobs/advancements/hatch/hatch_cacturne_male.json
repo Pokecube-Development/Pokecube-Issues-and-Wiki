@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.cacturne"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.cacturne"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_cacturne_male": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "cacturne_male"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

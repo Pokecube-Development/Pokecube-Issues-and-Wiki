@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "entity.pokecube.gourgeist-large"
+          "translate": "entity.pokecube.gourgeist-average"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "entity.pokecube.gourgeist-large"
+          "translate": "entity.pokecube.gourgeist-average"
         }
       ]
     }

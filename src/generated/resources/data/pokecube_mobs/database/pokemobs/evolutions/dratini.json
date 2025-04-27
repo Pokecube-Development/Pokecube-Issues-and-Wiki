@@ -1,8 +1,0 @@
-{
-  "name": "dragonair",
-  "user": "dratini",
-  "condition": {
-    "key": "level",
-    "level": 30
-  }
-}

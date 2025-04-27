@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.furfrou"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.furfrou"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_furfrou-pharaoh": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "furfrou-pharaoh"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

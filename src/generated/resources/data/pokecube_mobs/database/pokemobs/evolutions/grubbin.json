@@ -1,9 +1,0 @@
-{
-  "name": "charjabug",
-  "user": "grubbin",
-  "condition": {
-    "key": "level",
-    "level": 20
-  },
-  "evoMoves": "charge"
-}

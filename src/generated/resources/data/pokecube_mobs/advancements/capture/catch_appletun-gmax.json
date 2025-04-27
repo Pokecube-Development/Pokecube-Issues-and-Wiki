@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "entity.pokecube.appletun-gmax"
+          "translate": "entity.pokecube.appletun"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "entity.pokecube.appletun-gmax"
+          "translate": "entity.pokecube.appletun"
         }
       ]
     }

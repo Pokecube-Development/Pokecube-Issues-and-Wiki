@@ -1,8 +1,0 @@
-{
-  "name": "houndoom",
-  "user": "houndour",
-  "condition": {
-    "key": "level",
-    "level": 24
-  }
-}

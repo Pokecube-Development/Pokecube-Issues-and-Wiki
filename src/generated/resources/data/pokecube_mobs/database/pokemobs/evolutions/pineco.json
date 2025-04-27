@@ -1,9 +1,0 @@
-{
-  "name": "forretress",
-  "user": "pineco",
-  "condition": {
-    "key": "level",
-    "level": 31
-  },
-  "evoMoves": "autotomize, mirror-shot"
-}

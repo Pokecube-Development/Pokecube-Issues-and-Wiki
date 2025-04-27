@@ -1,9 +1,0 @@
-{
-  "name": "venomoth",
-  "user": "venonat",
-  "condition": {
-    "key": "level",
-    "level": 31
-  },
-  "evoMoves": "gust"
-}

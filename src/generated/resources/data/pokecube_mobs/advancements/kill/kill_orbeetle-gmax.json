@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "entity.pokecube.orbeetle-gmax"
+          "translate": "entity.pokecube.orbeetle"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "entity.pokecube.orbeetle-gmax"
+          "translate": "entity.pokecube.orbeetle"
         }
       ]
     }

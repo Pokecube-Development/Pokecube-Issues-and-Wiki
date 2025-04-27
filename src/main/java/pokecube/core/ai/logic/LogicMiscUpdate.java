@@ -564,7 +564,7 @@ public class LogicMiscUpdate extends LogicBase
         final Vec3 velocity = this.entity.getDeltaMovement();
         final float dStep = this.entity.walkAnimation.speed();
         final float walkspeed = (float) (velocity.x * velocity.x + velocity.z * velocity.z + dStep * dStep);
-        final float stationary = 1e-5f;
+        final float stationary = 1e-2f;
         final boolean moving = walkspeed > stationary;
         final Pose pose = this.entity.getPose();
         final boolean walking = this.floatTimer < 2 && moving;

@@ -1,9 +1,0 @@
-{
-  "name": "zoroark",
-  "user": "zorua",
-  "condition": {
-    "key": "level",
-    "level": 30
-  },
-  "evoMoves": "night-slash"
-}

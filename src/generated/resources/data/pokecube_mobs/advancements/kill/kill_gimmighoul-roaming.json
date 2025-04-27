@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "entity.pokecube.gimmighoul-roaming"
+          "translate": "entity.pokecube.gimmighoul"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "entity.pokecube.gimmighoul-roaming"
+          "translate": "entity.pokecube.gimmighoul"
         }
       ]
     }
