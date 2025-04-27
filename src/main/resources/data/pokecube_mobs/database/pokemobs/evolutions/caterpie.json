@@ -1,9 +1,0 @@
-{
-  "name": "metapod",
-  "user": "caterpie",
-  "condition": {
-    "key": "level",
-    "level": 7
-  },
-  "evoMoves": "harden"
-}

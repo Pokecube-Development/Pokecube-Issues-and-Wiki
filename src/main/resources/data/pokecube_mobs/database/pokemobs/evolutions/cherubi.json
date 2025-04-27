@@ -1,9 +1,0 @@
-{
-  "name": "cherrim",
-  "user": "cherubi",
-  "condition": {
-    "key": "level",
-    "level": 25
-  },
-  "evoMoves": "petal-dance"
-}

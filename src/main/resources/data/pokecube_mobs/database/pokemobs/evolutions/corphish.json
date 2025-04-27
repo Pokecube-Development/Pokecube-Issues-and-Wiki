@@ -1,9 +1,0 @@
-{
-  "name": "crawdaunt",
-  "user": "corphish",
-  "condition": {
-    "key": "level",
-    "level": 30
-  },
-  "evoMoves": "swift"
-}

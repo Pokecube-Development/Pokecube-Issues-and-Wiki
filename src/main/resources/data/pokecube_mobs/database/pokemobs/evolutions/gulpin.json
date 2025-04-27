@@ -1,9 +1,0 @@
-{
-  "name": "swalot",
-  "user": "gulpin",
-  "condition": {
-    "key": "level",
-    "level": 26
-  },
-  "evoMoves": "body-slam"
-}

@@ -1,8 +1,0 @@
-{
-  "name": "golduck",
-  "user": "psyduck",
-  "condition": {
-    "key": "level",
-    "level": 33
-  }
-}

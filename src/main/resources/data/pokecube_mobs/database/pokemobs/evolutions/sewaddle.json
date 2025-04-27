@@ -1,9 +1,0 @@
-{
-  "name": "swadloon",
-  "user": "sewaddle",
-  "condition": {
-    "key": "level",
-    "level": 20
-  },
-  "evoMoves": "protect"
-}

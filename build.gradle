@@ -141,6 +141,10 @@ sourceSets.main.resources { srcDir 'src/pokecube/resources' }
 sourceSets.main.java { srcDir 'src/pokecube/java' }
 //*/
 
+//* Main Pokecube models and data
+sourceSets.main.resources { srcDir 'PokecubeMobs/pokecube_mobs' }
+//*/
+
 //* Pokecube Adventures
 sourceSets.main.resources { srcDir 'src/adventures/resources' }
 sourceSets.main.java { srcDir 'src/adventures/java' }

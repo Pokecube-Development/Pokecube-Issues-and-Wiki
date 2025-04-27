@@ -1,8 +1,0 @@
-{
-  "name": "mamoswine",
-  "user": "piloswine",
-  "condition": {
-    "key": "move",
-    "move": "ancient-power"
-  }
-}

@@ -1,9 +1,0 @@
-{
-  "name": "muk-alola",
-  "user": "grimer-alola",
-  "condition": {
-    "key": "level",
-    "level": 38
-  },
-  "evoMoves": "venom-drench"
-}

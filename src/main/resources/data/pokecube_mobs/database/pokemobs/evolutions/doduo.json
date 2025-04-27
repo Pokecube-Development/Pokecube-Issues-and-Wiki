@@ -1,9 +1,0 @@
-{
-  "name": "dodrio",
-  "user": "doduo",
-  "condition": {
-    "key": "level",
-    "level": 31
-  },
-  "evoMoves": "tri-attack"
-}

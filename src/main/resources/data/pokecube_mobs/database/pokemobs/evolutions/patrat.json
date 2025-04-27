@@ -1,9 +1,0 @@
-{
-  "name": "watchog",
-  "user": "patrat",
-  "condition": {
-    "key": "level",
-    "level": 20
-  },
-  "evoMoves": "confuse-ray"
-}
