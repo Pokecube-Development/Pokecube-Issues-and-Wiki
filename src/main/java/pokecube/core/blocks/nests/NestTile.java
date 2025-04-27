@@ -23,6 +23,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.network.NetworkHooks;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.blocks.IInhabitable;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.CapabilityInhabitable.HabitatProvider;
@@ -122,8 +123,17 @@ public class NestTile extends InteractableTile implements ITickTile
         final BlockPos pos = this.getBlockPos();
         final IInhabitable hab = this.getWrappedHab();
         if (hab == null) return false;
-        hab.setPos(pos);
-        final ForbidRegion region = hab.getRepelledRegion(this, level);
+        final ForbidRegion region;
+        try
+        {
+            hab.setPos(pos);
+            region = hab.getRepelledRegion(this, level);
+        }
+        catch (java.lang.Exception e)
+        {
+            PokecubeAPI.LOGGER.error("Error loading nest at {}", pos, e);
+            return false;
+        }
         if (region == null) return false;
         return SpawnHandler.addForbiddenSpawningCoord(this.level, region, ForbidReason.NEST);
     }
@@ -134,8 +144,8 @@ public class NestTile extends InteractableTile implements ITickTile
         final IInhabitable hab = this.getWrappedHab();
         if (resident.getEntity().getBrain().checkMemory(MemoryModules.NEST_POS.get(), MemoryStatus.REGISTERED))
         {
-            resident.getEntity().getBrain().setMemory(MemoryModules.NEST_POS.get(),
-                    GlobalPos.of(level.dimension(), getBlockPos()));
+            resident.getEntity().getBrain()
+                    .setMemory(MemoryModules.NEST_POS.get(), GlobalPos.of(level.dimension(), getBlockPos()));
         }
         if (hab != null) hab.addResident(resident.getEntity());
     }
