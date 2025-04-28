@@ -82,6 +82,22 @@
       }
     },
     {
+      "preset":"village",
+      "matchers":{
+        "biome":{
+          "sub_biomes":"village"
+        }
+      }
+    },
+    {
+      "preset":"inside",
+      "matchers":{
+        "biome":{
+          "sub_biomes":"inside"
+        }
+      }
+    },
+    {
       "preset":"custom_subbiomes",
       "or_preset":"ruins,industrial,meteors,caves,village,inside"
     }

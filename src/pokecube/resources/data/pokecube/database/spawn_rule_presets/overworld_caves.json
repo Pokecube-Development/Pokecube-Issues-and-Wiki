@@ -56,6 +56,15 @@
       }
     },
     {
+      "preset":"lush_caves",
+      "and_preset":"caves",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#c:is_lush"
+        }
+      }
+    },
+    {
       "preset":"caves",
       "or_preset":"underground,cave_subbiome",
       "and_preset":"overworld"
