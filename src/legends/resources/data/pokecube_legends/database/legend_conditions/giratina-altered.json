@@ -1,0 +1,8 @@
+{
+  "name": "giratina-altered",
+  "preset": "entry_based",
+  "options": {
+    "entries": "dialga,palkia"
+  },
+  "spawn": {}
+}

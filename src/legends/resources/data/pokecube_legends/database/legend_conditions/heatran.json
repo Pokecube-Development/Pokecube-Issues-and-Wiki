@@ -1,0 +1,19 @@
+{
+  "name": "heatran",
+  "preset": "type_based",
+  "options": {
+    "threshold": "0.5",
+    "type": "fire"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:magmacore"
+    },
+    "target": {
+      "id": "pokecube_legends:heatran_spawn"
+    },
+    "location": {
+      "and_preset": "nether"
+    }
+  }
+}

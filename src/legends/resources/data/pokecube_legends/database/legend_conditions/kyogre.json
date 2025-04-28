@@ -1,0 +1,17 @@
+{
+  "name": "kyogre",
+  "preset": "spawns_only",
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:blueorb"
+    },
+    "target": {
+      "id": "pokecube_legends:legendary_spawn"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:kyogre_temple"
+      }
+    }
+  }
+}

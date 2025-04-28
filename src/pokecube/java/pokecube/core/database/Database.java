@@ -1,29 +1,9 @@
 package pokecube.core.database;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.Reader;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Supplier;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackResources;
@@ -69,6 +49,23 @@ import thut.core.common.ThutCore;
 import thut.core.xml.bind.annotation.XmlElement;
 import thut.core.xml.bind.annotation.XmlRootElement;
 import thut.lib.ResourceHelper;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.Reader;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Supplier;
 
 public class Database
 {
@@ -161,6 +158,7 @@ public class Database
     public static Int2ObjectOpenHashMap<List<PokedexEntry>> formLists = new Int2ObjectOpenHashMap<>();
 
     public static List<PokedexEntry> spawnables = new ArrayList<>();
+    public static Map<PokeType, List<PokedexEntry>> spawnablesByType = new HashMap<>();
 
     public static final PokedexEntry missingno = new PokedexEntry(0, "MissingNo", false);
 
@@ -185,6 +183,7 @@ public class Database
         }
         return diff;
     };
+
     // Init some stuff for the missignno entry.
     static
     {
@@ -232,25 +231,26 @@ public class Database
         if (entry.dummy)
         {
             Database.dummyMap.put(vars.getKey(), entry);
-            for (final PokedexEntry entry1 : formes) if (!entry1.dummy)
-            {
-                entry1.base = true;
-                entry.base = false;
-                Database.data.put(entry1.getPokedexNb(), entry1);
-                Database.data2.put(entry.getTrimmedName(), entry1);
-                Database.data2.put(entry.getName(), entry1);
-                // Set all the subformes base to this new one.
-                for (final PokedexEntry e : formes)
+            for (final PokedexEntry entry1 : formes)
+                if (!entry1.dummy)
                 {
-                    if (e.generated) continue;
-                    // Set the forme.
-                    e.setBaseForme(entry1);
-                    // Initialize some things.
-                    e.getBaseForme();
+                    entry1.base = true;
+                    entry.base = false;
+                    Database.data.put(entry1.getPokedexNb(), entry1);
+                    Database.data2.put(entry.getTrimmedName(), entry1);
+                    Database.data2.put(entry.getName(), entry1);
+                    // Set all the subformes base to this new one.
+                    for (final PokedexEntry e : formes)
+                    {
+                        if (e.generated) continue;
+                        // Set the forme.
+                        e.setBaseForme(entry1);
+                        // Initialize some things.
+                        e.getBaseForme();
+                    }
+                    vars.setValue(entry1);
+                    break;
                 }
-                vars.setValue(entry1);
-                break;
-            }
         }
     }
 
@@ -361,8 +361,7 @@ public class Database
     }
 
     /**
-     * This loads in the various databases, merges them then makes pokedex
-     * entries as needed
+     * This loads in the various databases, merges them then makes pokedex entries as needed
      */
     public static void init()
     {
@@ -389,8 +388,9 @@ public class Database
             PokecubeAPI.logInfo(builder.toString());
         }
 
-        if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Loaded " + Database.data.size()
-                + " by number, and " + Database.allFormes.size() + " by formes from databases.");
+        if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo(
+                "Loaded " + Database.data.size() + " by number, and " + Database.allFormes.size()
+                        + " by formes from databases.");
     }
 
     /**
@@ -579,15 +579,16 @@ public class Database
         final List<PokedexEntry> removed = Lists.newArrayList();
         for (final PokedexEntry e : Pokedex.getInstance().getRegisteredEntries()) if (e.base) Database.addEntry(e);
         int dummies = 0;
-        /** find non-registered entries to remove later. */
-        for (final PokedexEntry p : Database.allFormes) if (!Pokedex.getInstance().getRegisteredEntries().contains(p))
-        {
-            if (p.dummy) dummies++;
-            else removedNums.add(p.getPokedexNb());
-            toRemove.add(p);
-            removed.add(p);
-        }
-        Collections.sort(toRemove, Database.COMPARATOR);
+        /* find non-registered entries to remove later. */
+        for (final PokedexEntry p : Database.allFormes)
+            if (!Pokedex.getInstance().getRegisteredEntries().contains(p))
+            {
+                if (p.dummy) dummies++;
+                else removedNums.add(p.getPokedexNb());
+                toRemove.add(p);
+                removed.add(p);
+            }
+        toRemove.sort(Database.COMPARATOR);
         final List<PokedexEntry> messageList = Lists.newArrayList(toRemove);
         messageList.removeIf(t -> t.dummy);
         if (PokecubeCore.getConfig().debug_data)
@@ -597,13 +598,13 @@ public class Database
             for (final PokedexEntry e : messageList) builder.append("\n-   ").append(e.getName());
             PokecubeAPI.logDebug(builder.toString());
         }
-        /** Remove the non-registered entries found earlier */
+        /* Remove the non-registered entries found earlier */
         for (final PokedexEntry p : toRemove)
         {
             if (p == Database.getEntry(p.pokedexNb) && !p.dummy)
             {
-                if (p.dummy) PokecubeAPI
-                        .logInfo("Error with " + p + ", It is still listed as base forme, as well as being dummy.");
+                if (p.dummy) PokecubeAPI.logInfo(
+                        "Error with " + p + ", It is still listed as base forme, as well as being dummy.");
                 Database.data.remove(p.pokedexNb);
                 Database.baseFormes.remove(p.pokedexNb);
                 Database.formLists.remove(p.pokedexNb);
@@ -612,7 +613,7 @@ public class Database
             Database.spawnables.remove(p);
         }
 
-        /** Cleanup evolutions which are not actually in game. */
+        /* Cleanup evolutions which are not actually in game. */
         for (final PokedexEntry e : Database.allFormes)
         {
             final List<EvolutionData> invalidEvos = Lists.newArrayList();
@@ -621,12 +622,28 @@ public class Database
             e.evolutions.removeAll(invalidEvos);
         }
 
-        Database.allFormes.removeAll(toRemove);
+        Database.spawnablesByType.clear();
+        Database.spawnables.forEach(entry -> {
+            var type = entry.type1;
+            if (type != PokeType.unknown)
+            {
+                var list = spawnablesByType.computeIfAbsent(type, key -> new ArrayList<>());
+                list.add(entry);
+            }
+            type = entry.type2;
+            if (type != PokeType.unknown)
+            {
+                var list = spawnablesByType.computeIfAbsent(type, key -> new ArrayList<>());
+                list.add(entry);
+            }
+        });
+
+        toRemove.forEach(Database.allFormes::remove);
         if (PokecubeCore.getConfig().debug_data)
         {
             PokecubeAPI.logInfo("Removed " + removedNums.size() + " Missing Pokemon and " + (toRemove.size() - dummies)
                     + " missing Formes");
-            if (removedNums.size() > 0) PokecubeAPI.logInfo("Removed " + toRemove);
+            if (!removedNums.isEmpty()) PokecubeAPI.logInfo("Removed " + toRemove);
         }
 
         toRemove.clear();
@@ -724,8 +741,9 @@ public class Database
                 if (Tags.BREEDING.validLoad && entry.breeds && ourTags.isEmpty() && !entry.generated)
                     PokecubeAPI.logInfo("No egg group assigned for {}", entry.getTrimmedName());
             }
-            for (final PokedexEntry entry : Database.getSortedFormes()) if (entry.lootTable == null && !entry.generated)
-                PokecubeAPI.logInfo("Missing loot table for {}", entry.getTrimmedName());
+            for (final PokedexEntry entry : Database.getSortedFormes())
+                if (entry.lootTable == null && !entry.generated)
+                    PokecubeAPI.logInfo("Missing loot table for {}", entry.getTrimmedName());
         }
 
         // This gets re-set to true if listener hears a reload
@@ -736,8 +754,8 @@ public class Database
     }
 
     /**
-     * Loads in spawns, drops, held items and starter packs, as well as
-     * initializing things like children, evolutions, etc
+     * Loads in spawns, drops, held items and starter packs, as well as initializing things like children, evolutions,
+     * etc
      */
     public static void onLoadComplete()
     {
@@ -780,40 +798,41 @@ public class Database
     public static void loadCustomPacks(final boolean applyToManager)
     {
         Database.customPacks.clear();
-//        TODO: Fix
-        List<Supplier<PackResources>> packs = applyToManager ? PackFinder.DEFAULT_FINDER.allPacks
+        //        TODO: Fix
+        List<Supplier<PackResources>> packs = applyToManager
+                ? PackFinder.DEFAULT_FINDER.allPacks
                 : PackFinder.DEFAULT_FINDER.folderPacks;
-        for (final Supplier<PackResources> infoS : packs) try
-        {
-            var info = infoS.get();
-            if (info == null)
+        for (final Supplier<PackResources> infoS : packs)
+            try
             {
-                continue;
-            }
-            // This initialises the info, for the caching system.
-            info.getNamespaces(PackType.SERVER_DATA);
-            if (applyToManager)
-            {
-                if (PokecubeCore.getConfig().debug_data)
+                var info = infoS.get();
+                if (info == null)
                 {
-                    PokecubeAPI.logInfo("Loading Pack: " + info.getClass().getName());
-                    PokecubeAPI.logInfo("Namespaces: " + info.getNamespaces(PackType.SERVER_DATA));
+                    continue;
                 }
-                PackListener.addPack(info, Database.resourceManager);
+                // This initialises the info, for the caching system.
+                info.getNamespaces(PackType.SERVER_DATA);
+                if (applyToManager)
+                {
+                    if (PokecubeCore.getConfig().debug_data)
+                    {
+                        PokecubeAPI.logInfo("Loading Pack: " + info.getClass().getName());
+                        PokecubeAPI.logInfo("Namespaces: " + info.getNamespaces(PackType.SERVER_DATA));
+                    }
+                    PackListener.addPack(info, Database.resourceManager);
+                }
+                // Only add the zips or folders here, jars get properly added by
+                // forge to the real resourcemanager later
+                else if (!info.getClass().getName().endsWith(".jar")) Database.customPacks.add(info);
             }
-            // Only add the zips or folders here, jars get properly added by
-            // forge to the real resourcemanager later
-            else if (!info.getClass().getName().endsWith(".jar")) Database.customPacks.add(info);
-        }
-        catch (final Exception e)
-        {
-            PokecubeAPI.LOGGER.fatal("Error with pack " + infoS, e);
-        }
+            catch (final Exception e)
+            {
+                PokecubeAPI.LOGGER.fatal("Error with pack " + infoS, e);
+            }
     }
 
     /**
-     * This is called before generating any items. This ensures that the types
-     * are loaded correctly.
+     * This is called before generating any items. This ensures that the types are loaded correctly.
      */
     public static void preInit()
     {

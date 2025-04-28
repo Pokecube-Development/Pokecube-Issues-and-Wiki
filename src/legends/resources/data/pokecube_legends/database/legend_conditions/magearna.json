@@ -1,0 +1,19 @@
+{
+  "name": "magearna",
+  "preset": "type_based",
+  "options": {
+    "threshold": "0.2",
+    "type": "ghost"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:soul_heart"
+    },
+    "target": {
+      "id": "pokecube_legends:magearna_spawn"
+    },
+    "location": {
+      "and_preset": "villages"
+    }
+  }
+}

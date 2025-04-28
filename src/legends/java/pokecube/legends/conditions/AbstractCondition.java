@@ -1,12 +1,6 @@
 package pokecube.legends.conditions;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.function.Predicate;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -38,6 +32,12 @@ import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.lib.TComponent;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+
 public abstract class AbstractCondition implements ISpecialCaptureCondition, ISpecialSpawnCondition
 {
 
@@ -54,6 +54,9 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     }
 
     private Spawn spawnRules = null;
+
+    public String customFailMesg = null;
+    public Consumer<IPokemob> onFail = p -> {};
 
     public void setSpawnRule(Spawn spawn)
     {
@@ -92,11 +95,12 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
 
     protected int spawnNumber(final PokeType type)
     {
-        return SpecialCaseRegister.countSpawnableTypes(type);
+        return SpecialCaseRegister.countSpawnableTypes(type == PokeType.unknown ? null : type);
     }
 
     protected int caughtNumber(final Entity trainer, final PokeType type)
     {
+        if (type == PokeType.unknown) return CaptureStats.getNumberUniqueCaughtBy(trainer.getUUID());
         return CaptureStats.getUniqueOfTypeCaughtBy(trainer.getUUID(), type);
     }
 
@@ -127,12 +131,13 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
 
     private boolean alreadyHas(final Entity trainer)
     {
-        if (CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUUID(), this.getEntry()) > 0) return true;
-        return false;
+        return CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUUID(), this.getEntry()) > 0;
     }
 
     protected void onCapureFail(final IPokemob pokemob)
-    {}
+    {
+        this.onFail.accept(pokemob);
+    }
 
     @Override
     public final boolean canCapture(final Entity trainer)
@@ -188,8 +193,8 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
         }
         if (canSpawnHere)
         {
-            final boolean here = PokemobTracker.countPokemobs(context.location(), context.level(), 32,
-                    this.getEntry()) > 0;
+            final boolean here =
+                    PokemobTracker.countPokemobs(context.location(), context.level(), 32, this.getEntry()) > 0;
             return here ? CanSpawn.ALREADYHERE : CanSpawn.YES;
         }
         if (message) this.sendNoHere(context.player());
@@ -220,9 +225,7 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     public MutableComponent sendNoTrust(final Entity trainer)
     {
         final String message = "msg.notrust.info";
-        final MutableComponent component = TComponent.translatable(message,
-                TComponent.translatable(this.getEntry().getUnlocalizedName()));
-        return component;
+        return TComponent.translatable(message, TComponent.translatable(this.getEntry().getUnlocalizedName()));
     }
 
     public MutableComponent sendNoHere(final Entity trainer)
@@ -239,8 +242,7 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     {
         final String message = "msg.infolegend.info";
         final Component typeMess = TComponent.translatable(PokeType.getUnlocalizedName(PokeType.getType(type)));
-        final MutableComponent component = TComponent.translatable(message, typeMess, numA + 1, numB);
-        return component;
+        return TComponent.translatable(message, typeMess, numA + 1, numB);
     }
 
     // Duo Type Legend
@@ -250,9 +252,7 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
         final String message = "msg.infolegendduo.info";
         final Component typeMess = TComponent.translatable(PokeType.getUnlocalizedName(PokeType.getType(type)));
         final Component killMess = TComponent.translatable(PokeType.getUnlocalizedName(PokeType.getType(kill)));
-        final MutableComponent component = TComponent.translatable(message, typeMess, killMess, numA + 1, numB,
-                killa + 1, killb);
-        return component;
+        return TComponent.translatable(message, typeMess, killMess, numA + 1, numB, killa + 1, killb);
     }
 
     // Catch specific Legend
@@ -268,8 +268,7 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
             if (namemes == null) namemes = TComponent.translatable(entry.getUnlocalizedName());
             else namemes = namemes.append(", ").append(TComponent.translatable(entry.getUnlocalizedName()));
         }
-        final MutableComponent component = TComponent.translatable(message, namemes);
-        return component;
+        return TComponent.translatable(message, namemes);
     }
 
     // Build Legend
@@ -284,8 +283,6 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     public MutableComponent sendAngered(final Entity trainer)
     {
         final String message = "msg.angeredlegend.json";
-        final MutableComponent component = TComponent.translatable(message,
-                TComponent.translatable(this.getEntry().getUnlocalizedName()));
-        return component;
+        return TComponent.translatable(message, TComponent.translatable(this.getEntry().getUnlocalizedName()));
     }
 }

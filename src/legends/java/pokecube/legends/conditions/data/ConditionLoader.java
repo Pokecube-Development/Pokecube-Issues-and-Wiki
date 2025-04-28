@@ -1,19 +1,15 @@
 package pokecube.legends.conditions.data;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
+import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.database.resources.PackFinder;
+import pokecube.legends.conditions.data.Conditions.AndPreset;
 import pokecube.legends.conditions.data.Conditions.EntriedCondition;
+import pokecube.legends.conditions.data.Conditions.OrPreset;
 import pokecube.legends.conditions.data.Conditions.PresetCondition;
 import pokecube.legends.conditions.data.Conditions.TypedCondition;
 import pokecube.legends.spawns.LegendarySpawn;
@@ -21,6 +17,12 @@ import thut.api.data.DataHelpers;
 import thut.api.data.DataHelpers.ResourceData;
 import thut.api.util.JsonUtil;
 import thut.lib.ResourceHelper;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ConditionLoader extends ResourceData
 {
@@ -32,6 +34,8 @@ public class ConditionLoader extends ResourceData
         ConditionLoader.__presets__.put("entry_based", EntriedCondition.class);
         ConditionLoader.__presets__.put("type_based", TypedCondition.class);
         ConditionLoader.__presets__.put("spawns_only", PresetCondition.class);
+        ConditionLoader.__presets__.put("and", AndPreset.class);
+        ConditionLoader.__presets__.put("or", OrPreset.class);
     }
 
     private final String tagPath;
@@ -57,7 +61,7 @@ public class ConditionLoader extends ResourceData
         this.conditions.clear();
         LegendarySpawn.data_spawns.clear();
         this.preLoad();
-        resources.forEach((l, r) -> this.loadFile(l, r));
+        resources.forEach(this::loadFile);
         if (this.validLoad) valid.set(true);
     }
 
@@ -65,16 +69,26 @@ public class ConditionLoader extends ResourceData
     public void postReload()
     {
         LegendarySpawn.data_spawns.clear();
-        this.conditions.forEach(c -> c.register());
+        this.conditions.forEach(PresetCondition::register);
         this.conditions.clear();
+    }
+
+    public static PresetCondition fromJson(JsonObject json)
+    {
+        final String preset = json.get("preset").getAsString();
+        final Class<? extends PresetCondition> preset_class = ConditionLoader.__presets__.get(preset);
+        if (preset_class == null)
+        {
+            PokecubeAPI.LOGGER.error("No preset found for {}", preset);
+            return null;
+        }
+        return JsonUtil.gson.fromJson(json, preset_class);
     }
 
     private void loadFile(final ResourceLocation l, Resource r)
     {
         try
         {
-            final List<Conditions> loaded = Lists.newArrayList();
-
             // This one we just take the first resourcelocation. If someone
             // wants to edit an existing one, it means they are most likely
             // trying to remove default behaviour. They can add new things by
@@ -83,14 +97,35 @@ public class ConditionLoader extends ResourceData
             if (reader == null) throw new FileNotFoundException(l.toString());
             try
             {
-                final Conditions temp = JsonUtil.gson.fromJson(reader, Conditions.class);
+                var temp = JsonUtil.gson.fromJson(reader, JsonObject.class);
                 if (!confirmNew(temp, l))
                 {
                     reader.close();
                     return;
                 }
-                if (temp.replace) loaded.clear();
-                loaded.add(temp);
+                if (!temp.has("preset"))
+                {
+                    PokecubeAPI.LOGGER.error("No preset in {}", temp);
+                    reader.close();
+                    return;
+                }
+
+                try
+                {
+                    final PresetCondition actual = fromJson(temp);
+                    if (actual == null)
+                    {
+                        reader.close();
+                        return;
+                    }
+                    this.conditions.add(actual);
+                }
+                catch (final Exception e)
+                {
+                    // Might not be valid, so log and skip in that case.
+                    PokecubeAPI.LOGGER.error("Error processing a preset in {}", l);
+                    PokecubeAPI.LOGGER.error(e);
+                }
             }
             catch (final Exception e)
             {
@@ -99,36 +134,6 @@ public class ConditionLoader extends ResourceData
                 PokecubeAPI.LOGGER.error(e);
             }
             reader.close();
-
-            for (final Conditions m : loaded)
-            {
-                final List<PresetCondition> conds = m.conditions;
-                for (final PresetCondition cond : conds)
-                {
-                    final String preset = cond.preset;
-                    final Class<? extends PresetCondition> preset_class = ConditionLoader.__presets__.get(preset);
-                    if (preset_class == null)
-                    {
-                        PokecubeAPI.LOGGER.error("No preset found for {}", preset);
-                        continue;
-                    }
-                    try
-                    {
-                        final PresetCondition actual = preset_class.getConstructor().newInstance();
-                        actual.name = cond.name;
-                        actual.options = cond.options;
-                        actual.preset = cond.preset;
-                        actual.spawn = cond.spawn;
-                        this.conditions.add(actual);
-                    }
-                    catch (final Exception e)
-                    {
-                        // Might not be valid, so log and skip in that case.
-                        PokecubeAPI.LOGGER.error("Error processing a preset in {}", l);
-                        PokecubeAPI.LOGGER.error(e);
-                    }
-                }
-            }
         }
         catch (final Exception e)
         {

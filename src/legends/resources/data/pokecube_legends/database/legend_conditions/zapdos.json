@@ -1,0 +1,21 @@
+{
+  "name": "zapdos",
+  "preset": "type_based",
+  "options": {
+    "threshold": "0.3",
+    "type": "electric"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:electric_wing"
+    },
+    "target": {
+      "id": "pokecube_legends:legendary_spawn"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:lugia_tower"
+      }
+    }
+  }
+}

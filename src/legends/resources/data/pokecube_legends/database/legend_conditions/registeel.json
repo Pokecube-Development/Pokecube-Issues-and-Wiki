@@ -1,0 +1,17 @@
+{
+  "name": "registeel",
+  "preset": "spawns_only",
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:steelcore"
+    },
+    "target": {
+      "id": "pokecube_legends:registeel_spawn"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:registeel_temple"
+      }
+    }
+  }
+}

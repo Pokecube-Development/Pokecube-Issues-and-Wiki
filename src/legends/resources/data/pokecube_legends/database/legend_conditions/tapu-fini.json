@@ -1,0 +1,21 @@
+{
+  "name": "tapu-fini",
+  "preset": "type_based",
+  "options": {
+    "threshold": "0.3",
+    "type": "water"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:fini_orb"
+    },
+    "target": {
+      "id": "pokecube_legends:fini_core"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:tapu_center"
+      }
+    }
+  }
+}

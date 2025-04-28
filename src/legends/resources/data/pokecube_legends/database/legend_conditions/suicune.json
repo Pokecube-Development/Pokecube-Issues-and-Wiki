@@ -1,0 +1,21 @@
+{
+  "name": "suicune",
+  "preset": "type_based",
+  "options": {
+    "threshold": "0.5",
+    "type": "water"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:water_gem"
+    },
+    "target": {
+      "id": "pokecube_legends:legendary_spawn"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:ho-oh_temple"
+      }
+    }
+  }
+}

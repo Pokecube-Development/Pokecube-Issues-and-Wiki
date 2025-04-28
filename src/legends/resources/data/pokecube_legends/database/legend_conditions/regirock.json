@@ -1,0 +1,17 @@
+{
+  "name": "regirock",
+  "preset": "spawns_only",
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:rockcore"
+    },
+    "target": {
+      "id": "pokecube_legends:regirock_spawn"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:regirock_temple"
+      }
+    }
+  }
+}

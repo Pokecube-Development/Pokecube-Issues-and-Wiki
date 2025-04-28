@@ -1,12 +1,8 @@
 package pokecube.legends.conditions.data;
 
-import java.util.List;
-import java.util.Map;
-import java.util.function.Predicate;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
+import com.google.gson.JsonObject;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -17,17 +13,34 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.spawns.SpawnRule;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.stats.ISpecialCaptureCondition;
 import pokecube.api.stats.ISpecialSpawnCondition;
 import pokecube.api.stats.SpecialCaseRegister;
 import pokecube.core.PokecubeCore;
+import pokecube.legends.conditions.AbstractCondition;
 import pokecube.legends.conditions.AbstractEntriedCondition;
 import pokecube.legends.conditions.AbstractTypedCondition;
+import pokecube.legends.conditions.AndCondition;
+import pokecube.legends.conditions.OrCondition;
 import pokecube.legends.spawns.LegendarySpawn;
+import pokecube.mobs.moves.world.ActionTeleport;
 import thut.api.item.ItemList;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class Conditions
 {
+    public static Map<String, Consumer<IPokemob>> FAILURE_EFFECTS = new HashMap<>();
+
+    static
+    {
+        FAILURE_EFFECTS.put("random_teleport", pokemob -> ActionTeleport.teleportRandomly(pokemob.getEntity()));
+    }
 
     public static class Spawn
     {
@@ -80,18 +93,65 @@ public class Conditions
         public String name;
         public String preset;
 
-        public Map<String, String> options = Maps.newHashMap();
+        public JsonObject options = new JsonObject();
 
         public Spawn spawn;
 
+        public AbstractCondition init()
+        {
+            return null;
+        }
+
         public void register()
         {
-            if (this.spawn != null && !this.spawn.key.isEmpty() && !this.spawn.target.isEmpty())
+            var cond = this.init();
+            if (cond == null) return;
+            final PokedexEntry e = cond.getEntry();
+            if (Pokedex.getInstance().isRegistered(e))
             {
-                final LegendarySpawn spawn = new LegendarySpawn(this.name, this.spawn, true);
-                LegendarySpawn.data_spawns.add(spawn);
+                SpecialCaseRegister.register(e.getName(), (ISpecialCaptureCondition) cond);
+                SpecialCaseRegister.register(e.getName(), (ISpecialSpawnCondition) cond);
+                if (this.spawn != null && !this.spawn.key.isEmpty() && !this.spawn.target.isEmpty())
+                {
+                    final LegendarySpawn spawn = new LegendarySpawn(this.name, this.spawn, true);
+                    LegendarySpawn.data_spawns.add(spawn);
+                }
             }
-        };
+        }
+    }
+
+    public static class OrPreset extends PresetCondition
+    {
+        JsonObject A;
+        JsonObject B;
+
+        @Override
+        public AbstractCondition init()
+        {
+            var _A = ConditionLoader.fromJson(A).init();
+            var _B = ConditionLoader.fromJson(B).init();
+            var cond = new OrCondition(_A, _B);
+            cond.onFail = FAILURE_EFFECTS.getOrDefault(options.get("on_fail").getAsString(), cond.onFail);
+            cond.customFailMesg = options.get("failure_message").getAsString();
+            return super.init();
+        }
+    }
+
+    public static class AndPreset extends PresetCondition
+    {
+        JsonObject A;
+        JsonObject B;
+
+        @Override
+        public AbstractCondition init()
+        {
+            var _A = ConditionLoader.fromJson(A).init();
+            var _B = ConditionLoader.fromJson(B).init();
+            var cond = new AndCondition(_A, _B);
+            cond.onFail = FAILURE_EFFECTS.getOrDefault(options.get("on_fail").getAsString(), cond.onFail);
+            cond.customFailMesg = options.get("failure_message").getAsString();
+            return super.init();
+        }
     }
 
     public static class EntriedCondition extends PresetCondition
@@ -105,24 +165,20 @@ public class Conditions
         }
 
         @Override
-        public void register()
+        public AbstractCondition init()
         {
-            final String names = this.options.get("entries");
+            final String names = this.options.get("entries").getAsString();
             if (names == null)
             {
-                PokecubeAPI.LOGGER
-                        .error(String.format("Warning, No entries found for legendary condition for {}", this.name));
-                return;
+                PokecubeAPI.LOGGER.error("Warning, No entries found for legendary condition for {}", this.name);
+                return null;
             }
             final String[] list = names.split(",");
             final Condition cond = new Condition(this.name, list);
-            final PokedexEntry e = cond.getEntry();
-            if (Pokedex.getInstance().isRegistered(e))
-            {
-                SpecialCaseRegister.register(e.getName(), (ISpecialCaptureCondition) cond);
-                SpecialCaseRegister.register(e.getName(), (ISpecialSpawnCondition) cond);
-                super.register();
-            }
+            if (this.options.has("on_fail"))
+                cond.onFail = FAILURE_EFFECTS.getOrDefault(options.get("on_fail").getAsString(), cond.onFail);
+            cond.customFailMesg = options.get("failure_message").getAsString();
+            return cond;
         }
     }
 
@@ -137,32 +193,29 @@ public class Conditions
         }
 
         @Override
-        public void register()
+        public AbstractCondition init()
         {
-            final String type = this.options.get("type");
+            final String type = this.options.get("type").getAsString();
             if (type == null)
             {
-                PokecubeAPI.LOGGER
-                        .error(String.format("Warning, No type found for legendary condition for {}", this.name));
-                return;
+                PokecubeAPI.LOGGER.error("Warning, No type found for legendary condition for {}", this.name);
+                return null;
             }
             float threshold = 0.5f;
             try
             {
-                if (this.options.containsKey("threshold")) threshold = Float.parseFloat(this.options.get("threshold"));
+                if (this.options.has("threshold"))
+                    threshold = Float.parseFloat(this.options.get("threshold").getAsString());
             }
             catch (final NumberFormatException e1)
             {
-                PokecubeAPI.LOGGER.error(String.format("Warning, Error with threshold for {}", this.name));
+                PokecubeAPI.LOGGER.error("Warning, Error with threshold for {}", this.name);
             }
             final Condition cond = new Condition(this.name, type, threshold);
-            final PokedexEntry e = cond.getEntry();
-            if (Pokedex.getInstance().isRegistered(e))
-            {
-                SpecialCaseRegister.register(e.getName(), (ISpecialCaptureCondition) cond);
-                SpecialCaseRegister.register(e.getName(), (ISpecialSpawnCondition) cond);
-                super.register();
-            }
+            if (this.options.has("on_fail"))
+                cond.onFail = FAILURE_EFFECTS.getOrDefault(options.get("on_fail").getAsString(), cond.onFail);
+            cond.customFailMesg = options.get("failure_message").getAsString();
+            return cond;
         }
     }
 

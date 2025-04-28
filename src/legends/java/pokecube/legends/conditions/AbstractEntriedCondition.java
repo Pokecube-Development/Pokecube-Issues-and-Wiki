@@ -40,6 +40,7 @@ public abstract class AbstractEntriedCondition extends AbstractCondition
     @Override
     public MutableComponent getFailureMessage(final Entity trainer)
     {
+        if (customFailMesg != null) return super.getFailureMessage(trainer);
         if (this.names == null)
         {
             this.names = "";

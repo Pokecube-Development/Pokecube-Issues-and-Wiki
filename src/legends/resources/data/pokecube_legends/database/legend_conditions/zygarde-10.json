@@ -1,0 +1,21 @@
+{
+  "name": "zygarde-10",
+  "preset": "type_based",
+  "options": {
+    "threshold": "0.2",
+    "type": "ground"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:zygardecube"
+    },
+    "target": {
+      "id": "pokecube_legends:xerneas_spawn"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:xerneas_tree"
+      }
+    }
+  }
+}

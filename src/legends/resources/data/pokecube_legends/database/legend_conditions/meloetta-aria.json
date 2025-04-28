@@ -1,0 +1,21 @@
+{
+  "name": "meloetta-aria",
+  "preset": "type_based",
+  "options": {
+    "threshold": "0.4",
+    "type": "normal"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:meloetta_ocarina"
+    },
+    "target": {
+      "id": "pokecube_legends:nature_spawn"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:nature_place"
+      }
+    }
+  }
+}

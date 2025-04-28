@@ -1,0 +1,21 @@
+{
+  "name": "entei",
+  "preset": "type_based",
+  "options": {
+    "threshold": "0.6",
+    "type": "fire"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:flame_gem"
+    },
+    "target": {
+      "id": "pokecube_legends:legendary_spawn"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:ho-oh_temple"
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "raikou",
+  "preset": "type_based",
+  "options": {
+    "threshold": "0.4",
+    "type": "electric"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:thunder_gem"
+    },
+    "target": {
+      "id": "pokecube_legends:legendary_spawn"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:ho-oh_temple"
+      }
+    }
+  }
+}

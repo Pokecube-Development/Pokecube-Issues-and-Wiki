@@ -1,0 +1,20 @@
+{
+  "name": "keldeo-ordinary",
+  "preset": "entry_based",
+  "options": {
+    "entries": "virizion,terrakion,cobalion"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:keldeo_sword"
+    },
+    "target": {
+      "id": "pokecube_legends:keldeo_spawn"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:keldeo_place"
+      }
+    }
+  }
+}

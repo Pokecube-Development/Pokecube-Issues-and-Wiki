@@ -1,0 +1,18 @@
+{
+  "name": "glastrier",
+  "preset": "entry_based",
+  "options": {
+    "entries": "calyrex"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:ice_carrot"
+    },
+    "target": {
+      "id": "pokecube_legends:trough_spawn"
+    },
+    "location": {
+      "and_preset": "snowy_areas"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "necrozma",
+  "preset": "entry_based",
+  "options": {
+    "entries": "solgaleo,lunala"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:lighting_crystal"
+    },
+    "target": {
+      "id": "pokecube_legends:legendary_spawn"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:necrozma_tower"
+      }
+    }
+  }
+}

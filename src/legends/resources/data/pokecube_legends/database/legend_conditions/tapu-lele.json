@@ -1,0 +1,21 @@
+{
+  "name": "tapu-lele",
+  "preset": "type_based",
+  "options": {
+    "threshold": "0.2",
+    "type": "psychic"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:lele_orb"
+    },
+    "target": {
+      "id": "pokecube_legends:lele_core"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:tapu_center"
+      }
+    }
+  }
+}

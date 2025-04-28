@@ -1,0 +1,19 @@
+{
+  "name": "victini",
+  "preset": "type_based",
+  "options": {
+    "threshold": "0.5",
+    "type": "psychic"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:emblem"
+    },
+    "target": {
+      "id": "pokecube_legends:victini_spawn"
+    },
+    "location": {
+      "and_preset": "villages"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "tapu-bulu",
+  "preset": "type_based",
+  "options": {
+    "threshold": "0.3",
+    "type": "grass"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:bulu_orb"
+    },
+    "target": {
+      "id": "pokecube_legends:bulu_core"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:tapu_center"
+      }
+    }
+  }
+}

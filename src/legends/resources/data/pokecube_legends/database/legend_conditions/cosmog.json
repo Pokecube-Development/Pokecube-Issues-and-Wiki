@@ -1,0 +1,21 @@
+{
+  "name": "cosmog",
+  "preset": "type_based",
+  "options": {
+    "threshold": "0.3",
+    "type": "psychic"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:cosmic_orb"
+    },
+    "target": {
+      "id": "pokecube_legends:timerspace_spawn"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:space_temple"
+      }
+    }
+  }
+}

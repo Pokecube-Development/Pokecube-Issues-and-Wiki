@@ -1,0 +1,21 @@
+{
+  "name": "reshiram",
+  "preset": "type_based",
+  "options": {
+    "threshold": "0.5",
+    "type": "dragon"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:lightstone"
+    },
+    "target": {
+      "id": "pokecube_legends:blackwhite_spawn"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:castle_n"
+      }
+    }
+  }
+}

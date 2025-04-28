@@ -1,0 +1,19 @@
+{
+  "name": "hoopa",
+  "preset": "type_based",
+  "options": {
+    "threshold": "0.3",
+    "type": "ghost"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:prisonbottle"
+    },
+    "target": {
+      "id": "pokecube_legends:legendary_spawn"
+    },
+    "location": {
+      "and_preset": "ruins"
+    }
+  }
+}

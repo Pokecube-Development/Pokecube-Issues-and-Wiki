@@ -1,0 +1,21 @@
+{
+  "name": "zamazenta",
+  "preset": "type_based",
+  "options": {
+    "threshold": "0.6",
+    "type": "steel"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:rustedshield"
+    },
+    "target": {
+      "id": "pokecube_legends:legendary_spawn"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:zamazenta_temple,pokecube_legends:zacian_temple"
+      }
+    }
+  }
+}

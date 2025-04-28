@@ -1,0 +1,19 @@
+{
+  "name": "calyrex",
+  "preset": "type_based",
+  "options": {
+    "threshold": "0.4",
+    "type": "grass"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:wooden_crown"
+    },
+    "target": {
+      "id": "pokecube_legends:trough_spawn"
+    },
+    "location": {
+      "and_preset": "taigas"
+    }
+  }
+}

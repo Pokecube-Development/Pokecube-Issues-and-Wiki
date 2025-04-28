@@ -1,0 +1,21 @@
+{
+  "name": "zapdos-galar",
+  "preset": "type_based",
+  "options": {
+    "threshold": "0.2",
+    "type": "fighting"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:static_wing"
+    },
+    "target": {
+      "id": "pokecube_legends:legendary_spawn"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:legendary_tree"
+      }
+    }
+  }
+}

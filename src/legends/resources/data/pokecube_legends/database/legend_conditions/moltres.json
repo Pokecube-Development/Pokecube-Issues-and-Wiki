@@ -1,0 +1,21 @@
+{
+  "name": "moltres",
+  "preset": "type_based",
+  "options": {
+    "threshold": "0.3",
+    "type": "fire"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:fire_wing"
+    },
+    "target": {
+      "id": "pokecube_legends:legendary_spawn"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:lugia_tower"
+      }
+    }
+  }
+}

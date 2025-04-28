@@ -1,0 +1,17 @@
+{
+  "name": "regigigas",
+  "preset": "spawns_only",
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:regisorb"
+    },
+    "target": {
+      "id": "pokecube_legends:regigiga_spawn"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:regigigas_temple"
+      }
+    }
+  }
+}

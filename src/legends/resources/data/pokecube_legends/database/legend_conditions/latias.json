@@ -1,0 +1,19 @@
+{
+  "name": "latias",
+  "preset": "type_based",
+  "options": {
+    "threshold": "0.3",
+    "type": "dragon"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:soul_dew"
+    },
+    "target": {
+      "id": "pokecube_legends:legendary_spawn"
+    },
+    "location": {
+      "and_preset": "beaches"
+    }
+  }
+}

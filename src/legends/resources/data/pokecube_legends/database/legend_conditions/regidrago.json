@@ -1,0 +1,17 @@
+{
+  "name": "regidrago",
+  "preset": "spawns_only",
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:dragocore"
+    },
+    "target": {
+      "id": "pokecube_legends:regidrago_spawn"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:regidrago_temple"
+      }
+    }
+  }
+}

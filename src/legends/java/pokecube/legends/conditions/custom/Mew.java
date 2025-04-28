@@ -22,8 +22,7 @@ public class Mew extends AbstractCondition
     protected boolean hasRequirements(final Entity trainer)
     {
         final int caught = CaptureStats.getNumberUniqueCaughtBy(trainer.getUUID());
-        if (caught < Database.spawnables.size() - 1) return false;
-        return true;
+        return caught >= Database.spawnables.size() - 1;
     }
 
     @Override

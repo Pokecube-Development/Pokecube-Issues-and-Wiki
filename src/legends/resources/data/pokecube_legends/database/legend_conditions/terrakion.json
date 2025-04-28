@@ -1,0 +1,21 @@
+{
+  "name": "terrakion",
+  "preset": "type_based",
+  "options": {
+    "threshold": "0.3",
+    "type": "rock"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:terrakion_sword"
+    },
+    "target": {
+      "id": "pokecube_legends:keldeo_spawn"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:keldeo_place"
+      }
+    }
+  }
+}

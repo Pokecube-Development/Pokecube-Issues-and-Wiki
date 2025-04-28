@@ -6,22 +6,20 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.utils.PokeType;
 import pokecube.core.database.Database;
 
+import java.util.Collections;
+import java.util.List;
+
 public abstract class AbstractTypedCondition extends AbstractCondition
 {
-    public final String type;
-    public final String name;
-    public final float threshold;
+    public PokeType type;
+    public String name;
+    public float threshold;
 
     protected AbstractTypedCondition(final String name, final String type, final float threshold)
     {
-        this.type = type;
+        this.type = PokeType.getType(type);
         this.threshold = threshold;
         this.name = name;
-    }
-
-    protected AbstractTypedCondition(final String name, final String type)
-    {
-        this(name, type, 0.5f);
     }
 
     @Override
@@ -33,22 +31,37 @@ public abstract class AbstractTypedCondition extends AbstractCondition
     @Override
     protected boolean hasRequirements(final Entity trainer)
     {
-        final int count1 = this.caughtNumber(trainer, PokeType.getType(this.type));
-        final int count2 = this.spawnNumber(PokeType.getType(this.type));
+        int count1 = this.caughtNumber(trainer, this.type);
+
+        // special case for abolute number requirements
+        if (Math.abs(this.threshold) > 1)
+        {
+            int n = (int) this.threshold;
+            List<PokedexEntry> entries = type == PokeType.unknown
+                    ? Database.spawnables
+                    : Database.spawnablesByType.getOrDefault(type, Collections.emptyList());
+            if (n < 0) n = entries.size() + n;
+            if (n >= 0 && n < entries.size())
+            {
+                return count1 > n;
+            }
+            return false;
+        }
+
+        int count2 = this.spawnNumber(this.type);
         final double captureFactor = (double) count1 / (double) count2;
         final double roundOff = Math.round(captureFactor * 100.0) / 100.0;
-        final float numTotal = this.threshold;
-        if (roundOff >= numTotal) return true;
-        return false;
+        return roundOff >= this.threshold;
     }
 
     @Override
     public MutableComponent getFailureMessage(final Entity trainer)
     {
-        final int count1 = this.caughtNumber(trainer, PokeType.getType(this.type));
-        final int count2 = this.spawnNumber(PokeType.getType(this.type));
-        final float numTotal = this.threshold;
-        return this.sendNoTrust(trainer).append("\n").append(this.sendLegend(trainer, this.type, (int) (count2 * numTotal), count1));
+        if (customFailMesg != null) return super.getFailureMessage(trainer);
+        final int count1 = this.caughtNumber(trainer, this.type);
+        final int count2 = this.spawnNumber(this.type);
+        return this.sendNoTrust(trainer).append("\n")
+                .append(this.sendLegend(trainer, this.type.name, (int) (count2 * this.threshold), count1));
     }
 
 }

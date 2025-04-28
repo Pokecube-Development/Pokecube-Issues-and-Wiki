@@ -1,0 +1,17 @@
+{
+  "name": "regieleki",
+  "preset": "spawns_only",
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:thundercore"
+    },
+    "target": {
+      "id": "pokecube_legends:regieleki_spawn"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:regieleki_temple"
+      }
+    }
+  }
+}

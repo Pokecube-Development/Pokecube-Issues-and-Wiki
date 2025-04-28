@@ -1,0 +1,21 @@
+{
+  "name": "deoxys-normal",
+  "preset": "type_based",
+  "options": {
+    "threshold": "0.2",
+    "type": "psychic"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:meteor_shard"
+    },
+    "target": {
+      "id": "pokecube_legends:legendary_spawn"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:sky_pillar"
+      }
+    }
+  }
+}

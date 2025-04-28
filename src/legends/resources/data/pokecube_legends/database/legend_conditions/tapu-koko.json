@@ -1,0 +1,21 @@
+{
+  "name": "tapu-koko",
+  "preset": "type_based",
+  "options": {
+    "threshold": "0.2",
+    "type": "electric"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:koko_orb"
+    },
+    "target": {
+      "id": "pokecube_legends:koko_core"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:tapu_center"
+      }
+    }
+  }
+}

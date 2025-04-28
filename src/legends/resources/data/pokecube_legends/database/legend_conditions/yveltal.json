@@ -1,0 +1,21 @@
+{
+  "name": "yveltal",
+  "preset": "type_based",
+  "options": {
+    "threshold": "0.5",
+    "type": "dark"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:destructorb"
+    },
+    "target": {
+      "id": "pokecube_legends:yveltal_spawn"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:yveltal_ruins"
+      }
+    }
+  }
+}

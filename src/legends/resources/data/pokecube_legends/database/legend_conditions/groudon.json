@@ -1,0 +1,17 @@
+{
+  "name": "groudon",
+  "preset": "spawns_only",
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:redorb"
+    },
+    "target": {
+      "id": "pokecube_legends:legendary_spawn"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:groudon_temple"
+      }
+    }
+  }
+}

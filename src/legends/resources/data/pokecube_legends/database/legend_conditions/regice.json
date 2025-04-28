@@ -1,0 +1,17 @@
+{
+  "name": "regice",
+  "preset": "spawns_only",
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:icecore"
+    },
+    "target": {
+      "id": "pokecube_legends:regice_spawn"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:regice_temple"
+      }
+    }
+  }
+}

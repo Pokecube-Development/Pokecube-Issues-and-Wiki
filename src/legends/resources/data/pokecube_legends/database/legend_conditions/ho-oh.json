@@ -1,0 +1,20 @@
+{
+  "name": "ho-oh",
+  "preset": "entry_based",
+  "options": {
+    "entries": "raikou,suicune,entei"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:legendaryorb"
+    },
+    "target": {
+      "id": "pokecube_legends:legendary_spawn"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:ho-oh_temple"
+      }
+    }
+  }
+}

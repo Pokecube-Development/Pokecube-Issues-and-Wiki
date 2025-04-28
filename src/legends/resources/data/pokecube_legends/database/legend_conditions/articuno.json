@@ -1,0 +1,21 @@
+{
+  "name": "articuno",
+  "preset": "type_based",
+  "options": {
+    "threshold": "0.3",
+    "type": "ice"
+  },
+  "spawn": {
+    "key": {
+      "id": "pokecube_legends:ice_wing"
+    },
+    "target": {
+      "id": "pokecube_legends:legendary_spawn"
+    },
+    "location": {
+      "values": {
+        "structures": "pokecube_legends:lugia_tower"
+      }
+    }
+  }
+}
