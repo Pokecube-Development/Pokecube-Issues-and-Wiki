@@ -310,6 +310,13 @@ public class PokedexEntry
                 final boolean isForme = action.values.get("type").equals("forme");
                 Map<String, String> values = key.getValues();
 
+                if (key.values.containsKey("id")) key.id = key.values.get("id");
+                if (key.id.startsWith("#"))
+                {
+                    interact.isTag = true;
+                    key.id = key.id.substring(1);
+                }
+
                 final Interaction interaction = new Interaction();
                 if (interact.isTag)
                 {
