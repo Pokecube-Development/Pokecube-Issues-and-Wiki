@@ -62,6 +62,7 @@ public class PokecubeAttributes
     {
         var mob = pokemob.getEntity();
         AttributeInstance attr;
+        float beforeDamage = mob.getMaxHealth() - mob.getHealth();
         for (int i = 0; i < ATTRIBUTES.length; i++)
         {
             // Checked like this to support possibly partial attributes on non pokemobs.
@@ -93,6 +94,7 @@ public class PokecubeAttributes
                 }
             }
         }
+        mob.setHealth(mob.getMaxHealth() - beforeDamage);
         PacketSyncModifier.sendUpdate(pokemob.getEntity());
     }
 
@@ -119,10 +121,6 @@ public class PokecubeAttributes
         if (attr != null)
         {
             attr.setBaseValue(value);
-            // TODO instead of removing modifiers, make a new one that applies the same effect
-            // Until we do that, there are some exploity things regarding power trick/split and guard split
-            attr.removeModifier(STAT_MOD);
-            attr.removeModifier(NATURE);
             PacketSyncModifier.sendUpdate(entity);
         }
     }
@@ -137,6 +135,18 @@ public class PokecubeAttributes
             return ratioToModifier(stat_mod.amount(), stat.ordinal());
         }
         return 0;
+    }
+
+    public static double getNatureModifier(LivingEntity entity, IPokemob.Stats stat)
+    {
+        var hold = ATTRIBUTES[stat.ordinal()];
+        var attr = entity.getAttribute(hold);
+        if (attr != null && attr.hasModifier(NATURE))
+        {
+            var stat_mod = attr.getModifier(NATURE);
+            return stat_mod.amount();
+        }
+        return 1;
     }
 
     public static double getModifierValue(LivingEntity entity, IPokemob.Stats stat)

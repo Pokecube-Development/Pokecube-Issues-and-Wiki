@@ -21,7 +21,12 @@ public class Powertrick implements PostMoveUse
         final int def = attacker.getStat(Stats.DEFENSE, true);
         final int atk = attacker.getStat(Stats.ATTACK, true);
 
-        PokecubeAttributes.setStat(attacker.getEntity(), Stats.DEFENSE, atk);
-        PokecubeAttributes.setStat(attacker.getEntity(), Stats.ATTACK, def);
+        var defModAtker = PokecubeAttributes.getModifierValue(attacker.getEntity(), Stats.DEFENSE)
+                * PokecubeAttributes.getNatureModifier(attacker.getEntity(), Stats.DEFENSE);
+        var atkModAtker = PokecubeAttributes.getModifierValue(attacker.getEntity(), Stats.ATTACK)
+                * PokecubeAttributes.getNatureModifier(attacker.getEntity(), Stats.ATTACK);
+
+        PokecubeAttributes.setStat(attacker.getEntity(), Stats.DEFENSE, atk / defModAtker);
+        PokecubeAttributes.setStat(attacker.getEntity(), Stats.ATTACK, def / atkModAtker);
     }
 }

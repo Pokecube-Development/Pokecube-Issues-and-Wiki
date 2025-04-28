@@ -30,11 +30,21 @@ public class GuardSplit implements PostMoveUse
             final int averageDef = (def + def2) / 2;
             final int averageSpdef = (spdef + spdef2) / 2;
 
-            PokecubeAttributes.setStat(attacker.getEntity(), Stats.DEFENSE, averageDef);
-            PokecubeAttributes.setStat(attacked.getEntity(), Stats.DEFENSE, averageDef);
+            var defModAtker = PokecubeAttributes.getModifierValue(attacker.getEntity(), Stats.DEFENSE)
+                    * PokecubeAttributes.getNatureModifier(attacker.getEntity(), Stats.DEFENSE);
+            var defModAtked = PokecubeAttributes.getModifierValue(attacked.getEntity(), Stats.DEFENSE)
+                    * PokecubeAttributes.getNatureModifier(attacked.getEntity(), Stats.DEFENSE);
 
-            PokecubeAttributes.setStat(attacker.getEntity(), Stats.SPDEFENSE, averageSpdef);
-            PokecubeAttributes.setStat(attacked.getEntity(), Stats.SPDEFENSE, averageSpdef);
+            var spdefModAtker = PokecubeAttributes.getModifierValue(attacker.getEntity(), Stats.SPDEFENSE)
+                    * PokecubeAttributes.getNatureModifier(attacker.getEntity(), Stats.SPDEFENSE);
+            var spdefModAtked = PokecubeAttributes.getModifierValue(attacked.getEntity(), Stats.SPDEFENSE)
+                    * PokecubeAttributes.getNatureModifier(attacked.getEntity(), Stats.SPDEFENSE);
+
+            PokecubeAttributes.setStat(attacker.getEntity(), Stats.DEFENSE, averageDef / defModAtker);
+            PokecubeAttributes.setStat(attacked.getEntity(), Stats.DEFENSE, averageDef / defModAtked);
+
+            PokecubeAttributes.setStat(attacker.getEntity(), Stats.SPDEFENSE, averageSpdef / spdefModAtker);
+            PokecubeAttributes.setStat(attacked.getEntity(), Stats.SPDEFENSE, averageSpdef / spdefModAtked);
         }
     }
 }
