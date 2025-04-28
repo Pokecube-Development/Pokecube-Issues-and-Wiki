@@ -1,11 +1,12 @@
 package pokecube.core.handlers.playerdata.advancements.triggers;
 
 import com.google.gson.JsonObject;
-
+import com.google.gson.JsonPrimitive;
 import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
 import net.minecraft.advancements.critereon.DeserializationContext;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.EntityPredicate.Composite;
+import net.minecraft.advancements.critereon.SerializationContext;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -33,6 +34,17 @@ public class CatchPokemobTrigger extends SimpleCriterionTrigger<CatchPokemobTrig
             this.lenient = lenient;
             this.number = number;
             this.sign = sign;
+        }
+
+        @Override
+        public JsonObject serializeToJson(SerializationContext context)
+        {
+            JsonObject obj = super.serializeToJson(context);
+            if (this.number != -1) obj.add("number", new JsonPrimitive(this.number));
+            if (this.sign != 0) obj.add("sign", new JsonPrimitive(this.sign));
+            if (this.lenient) obj.add("lenient", new JsonPrimitive(true));
+            obj.add("entry", new JsonPrimitive(this.entry.getTrimmedName()));
+            return obj;
         }
 
         public boolean test(final ServerPlayer player, final IPokemob pokemob)

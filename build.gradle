@@ -115,6 +115,19 @@ minecraft {
                 MainMods { sources sourceSets.main }
             }
         }
+
+        data {
+            // example of overriding the workingDirectory set in configureEach above
+            workingDirectory project.file('run/data')
+
+            // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
+            args '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+        }
+
+        data_mobs {
+            parent runs.data
+            args '--mod', "pokecube_mobs"
+        }
     }
 }
 
