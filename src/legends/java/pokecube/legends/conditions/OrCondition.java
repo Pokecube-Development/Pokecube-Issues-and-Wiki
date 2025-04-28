@@ -2,6 +2,7 @@ package pokecube.legends.conditions;
 
 import net.minecraft.world.entity.Entity;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.SpawnEvent;
 import pokecube.legends.conditions.data.Conditions;
 
@@ -54,6 +55,13 @@ public class OrCondition extends AbstractCondition
             if (test.test()) return test;
         }
         return CanSpawn.NO;
+    }
+
+    @Override
+    public void onSpawn(IPokemob mob)
+    {
+        super.onSpawn(mob);
+        list.forEach(e -> e.onSpawn(mob));
     }
 
     @Override

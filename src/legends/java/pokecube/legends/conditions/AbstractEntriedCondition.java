@@ -1,18 +1,20 @@
 package pokecube.legends.conditions;
 
 import com.google.common.collect.Lists;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.Entity;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.database.Database;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractEntriedCondition extends AbstractCondition
 {
     public final List<String> needed;
 
-    String names;
+    MutableComponent names;
 
     public AbstractEntriedCondition(final String... needed)
     {
@@ -33,15 +35,14 @@ public abstract class AbstractEntriedCondition extends AbstractCondition
         if (customFailMesg != null) return super.getFailureMessage(trainer);
         if (this.names == null)
         {
-            this.names = "";
-            PokedexEntry entry = Database.getEntry(this.needed.getFirst());
-            this.names = entry.getName();
-            for (int i = 1; i < this.needed.size(); i++)
-            {
-                entry = Database.getEntry(this.needed.get(i));
-                this.names = this.names + ", " + entry.getTranslatedName().getString();
-            }
+            this.names = Component.literal("[");
+            List<PokedexEntry> needed = new ArrayList<>();
+            this.needed.forEach(name -> needed.add(Database.getEntry(name)));
+            names = names.append(Component.translatable(needed.removeFirst().getUnlocalizedName()));
+            while (!needed.isEmpty())
+                names = names.append(", ").append(Component.translatable(needed.removeFirst().getUnlocalizedName()));
+            names = names.append("]");
         }
-        return this.sendNoTrust(trainer).append("\n").append(this.sendLegendExtra(trainer, this.names));
+        return this.sendNoTrust(trainer).append("\n").append(this.sendLegendExtra(this.names));
     }
 }

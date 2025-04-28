@@ -3,6 +3,7 @@ package pokecube.legends.conditions;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.Entity;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.SpawnEvent;
 import pokecube.legends.conditions.data.Conditions;
 
@@ -41,7 +42,7 @@ public class AndCondition extends AbstractCondition
             test = entry.canSpawn(context, message);
             if (!test.test()) return test;
         }
-        return CanSpawn.NO;
+        return CanSpawn.YES;
     }
 
     @Override
@@ -61,6 +62,13 @@ public class AndCondition extends AbstractCondition
     protected boolean hasRequirements(final Entity trainer)
     {
         return list.stream().allMatch(entry -> entry.hasRequirements(trainer));
+    }
+
+    @Override
+    public void onSpawn(IPokemob mob)
+    {
+        super.onSpawn(mob);
+        list.forEach(e -> e.onSpawn(mob));
     }
 
     @Override

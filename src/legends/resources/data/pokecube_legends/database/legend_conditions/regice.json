@@ -20,7 +20,7 @@
         "key":{
           "C": {"block":"pokecube_legends:regice_spawn"},
           "G": {"block":"pokecube_legends:golem_stone"},
-          "I": {"tag":"ice"}
+          "I": {"tag":"pokecube_legends:arceus_approved/regice"}
         },
         "root_key": "C"
       }

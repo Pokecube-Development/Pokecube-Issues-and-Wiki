@@ -26,7 +26,9 @@ import pokecube.api.events.pokemobs.EvolveEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.PokemobEventsHandler.EvoTicker;
+import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.MovesUtils;
+import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.EntityTools;
 import thut.api.item.ItemList;
@@ -256,6 +258,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             final Component mess = TComponent.translatable("pokemob.info.levelup", theMob.getDisplayName(), level + "");
             theMob.displayMessageToOwner(mess);
         }
+        PokecubeAttributes.resetToEntry((IPokemob) this);
         HappinessType.applyHappiness(theMob, HappinessType.LEVEL);
         if (moves != null)
         {

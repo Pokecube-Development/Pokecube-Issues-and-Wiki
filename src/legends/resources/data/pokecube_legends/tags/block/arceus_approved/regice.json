@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "#minecraft:ice",
-    "#minecraft:snow"
+    "#minecraft:snow",
+    "minecraft:quartz_block"
   ]
 }

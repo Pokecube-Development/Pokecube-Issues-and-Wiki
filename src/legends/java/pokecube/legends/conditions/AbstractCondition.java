@@ -21,7 +21,6 @@ import pokecube.api.stats.ISpecialSpawnCondition;
 import pokecube.api.stats.KillStats;
 import pokecube.api.stats.SpecialCaseRegister;
 import pokecube.api.utils.PokeType;
-import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.utils.PokemobTracker;
@@ -30,7 +29,6 @@ import pokecube.legends.conditions.data.Conditions.Spawn;
 import thut.api.Tracker;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
-import thut.api.util.JsonUtil;
 import thut.lib.TComponent;
 
 import java.util.ArrayList;
@@ -208,8 +206,7 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
         else canSpawnHere = data == null;
         if (canSpawnHere)
         {
-            final boolean here =
-                    PokemobTracker.countPokemobs(context.location(), context.level(), 32, this.getEntry()) > 0;
+            boolean here = PokemobTracker.countPokemobs(context.location(), context.level(), 32, this.getEntry()) > 0;
             return here ? CanSpawn.ALREADYHERE : CanSpawn.YES;
         }
         if (message) this.sendNoHere(context.player());
@@ -260,30 +257,11 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
         return TComponent.translatable(message, typeMess, numA + 1, numB);
     }
 
-    // Duo Type Legend
-    public MutableComponent sendLegendDuo(final Entity trainer, final String type, final String kill, final int numA,
-            final int numB, final int killa, final int killb)
-    {
-        final String message = "msg.infolegendduo.info";
-        final Component typeMess = TComponent.translatable(PokeType.getUnlocalizedName(PokeType.getType(type)));
-        final Component killMess = TComponent.translatable(PokeType.getUnlocalizedName(PokeType.getType(kill)));
-        return TComponent.translatable(message, typeMess, killMess, numA + 1, numB, killa + 1, killb);
-    }
-
     // Catch specific Legend
-    public MutableComponent sendLegendExtra(final Entity trainer, final String names)
+    public MutableComponent sendLegendExtra(final Object names)
     {
         final String message = "msg.infolegendextra.info";
-        final String[] split = names.split(", ");
-        MutableComponent namemes = null;
-        for (final String s : split)
-        {
-            PokedexEntry entry = Database.getEntry(s);
-            if (entry == null) entry = Database.missingno;
-            if (namemes == null) namemes = TComponent.translatable(entry.getUnlocalizedName());
-            else namemes = namemes.append(", ").append(TComponent.translatable(entry.getUnlocalizedName()));
-        }
-        return TComponent.translatable(message, namemes);
+        return TComponent.translatable(message, names);
     }
 
     // Build Legend

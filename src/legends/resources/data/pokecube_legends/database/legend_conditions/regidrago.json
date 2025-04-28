@@ -1,6 +1,31 @@
 {
   "name": "regidrago",
-  "preset": "spawns_only",
+  "preset": "and",
+  "conditions": [
+    {
+      "preset": "entry_based",
+      "entries": [
+        "relicanth",
+        "wailord"
+      ]
+    },
+    {
+      "preset": "build",
+      "build": {
+        "pattern":[
+          {"rows":["ICI"]},
+          {"rows":["GGG"]},
+          {"rows":[" G "]}
+        ],
+        "key":{
+          "C": {"block":"pokecube_legends:regidrago_spawn"},
+          "G": {"block":"pokecube_legends:golem_stone"},
+          "I": {"tag":"pokecube_legends:arceus_approved/regidrago"}
+        },
+        "root_key": "C"
+      }
+    }
+  ],
   "spawn": {
     "key": {
       "id": "pokecube_legends:dragocore"

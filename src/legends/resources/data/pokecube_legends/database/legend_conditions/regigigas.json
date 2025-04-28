@@ -1,6 +1,34 @@
 {
   "name": "regigigas",
-  "preset": "spawns_only",
+  "preset": "and",
+  "conditions": [
+    {
+      "preset": "entry_based",
+      "entries": [
+        "regice",
+        "registeel",
+        "regirock",
+        "regieleki",
+        "regidrago"
+      ]
+    },
+    {
+      "preset": "build",
+      "build": {
+        "pattern":[
+          {"rows":["ICI"]},
+          {"rows":["GGG"]},
+          {"rows":[" G "]}
+        ],
+        "key":{
+          "C": {"block":"pokecube_legends:regigiga_spawn"},
+          "G": {"block":"pokecube_legends:golem_stone"},
+          "I": {"tag":"pokecube_legends:arceus_approved/regigigas"}
+        },
+        "root_key": "C"
+      }
+    }
+  ],
   "spawn": {
     "key": {
       "id": "pokecube_legends:regisorb"

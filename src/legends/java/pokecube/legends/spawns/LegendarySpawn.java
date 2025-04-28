@@ -76,12 +76,11 @@ public class LegendarySpawn
 
             final CanSpawn test = spawnCondition.canSpawn(context, message);
 
-            System.out.println(test);
             // Priority of errors:
             //
             // Wrong location
             // Wrong item
-            // Already have
+            // Already havet
 
             if (test == CanSpawn.NOTHERE) return SpawnResult.NOSPAWN;
             if (result == SpawnResult.WRONGITEM) return result;
@@ -96,7 +95,6 @@ public class LegendarySpawn
                     if (message && captureCondition instanceof AbstractCondition cond)
                         cond.canCapture(playerIn, message);
                     evt.setCanceled(true);
-                    System.out.println("No Capture");
                     return SpawnResult.NOCAPTURE;
                 }
                 // This puts player on a cooldown for respawning the mob
@@ -169,7 +167,7 @@ public class LegendarySpawn
         }
 
         boolean worked = false;
-        SpawnResult result;
+        SpawnResult result = SpawnResult.FAIL;
         final List<PokedexEntry> wrong_items = Lists.newArrayList();
         final List<PokedexEntry> wrong_biomes = Lists.newArrayList();
         final List<PokedexEntry> already_spawned = Lists.newArrayList();
@@ -220,6 +218,9 @@ public class LegendarySpawn
             Collections.shuffle(already_spawned);
             evt.getEntity().displayClientMessage(TComponent.translatable("msg.alreadyspawned.info",
                     TComponent.translatable(already_spawned.getFirst().getUnlocalizedName())), true);
+            evt.setCanceled(true);
+            evt.setUseItem(TriState.FALSE);
+            evt.setUseBlock(TriState.FALSE);
             return;
         }
         if (!wrong_items.isEmpty())
@@ -227,6 +228,9 @@ public class LegendarySpawn
             Collections.shuffle(wrong_items);
             evt.getEntity().displayClientMessage(TComponent.translatable("msg.wrongitem.info",
                     TComponent.translatable(wrong_items.getFirst().getUnlocalizedName())), true);
+            evt.setCanceled(true);
+            evt.setUseItem(TriState.FALSE);
+            evt.setUseBlock(TriState.FALSE);
             return;
         }
         if (!wrong_biomes.isEmpty())
@@ -234,8 +238,10 @@ public class LegendarySpawn
             Collections.shuffle(wrong_biomes);
             evt.getEntity().displayClientMessage(TComponent.translatable("msg.nohere.info",
                     TComponent.translatable(matches.getFirst().entry.getUnlocalizedName())), true);
+            evt.setCanceled(true);
+            evt.setUseItem(TriState.FALSE);
+            evt.setUseBlock(TriState.FALSE);
         }
-
     }
 
     private final Spawn spawn;
