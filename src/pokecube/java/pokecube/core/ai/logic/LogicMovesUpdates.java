@@ -103,6 +103,13 @@ public class LogicMovesUpdates extends LogicBase
                 this.pokemob.learn(move);
             }
 
+            // Update move cooldowns.
+            final int num = this.pokemob.getAttackCooldown();
+
+            // Only reduce cooldown if the pokemob does not currently have a
+            // move being fired.
+            if (num > 0 && !this.pokemob.getMoveStats().isExecutingMoves()) this.pokemob.setAttackCooldown(num - 1);
+
             // Server side if transformed checks
 
             LivingEntity transformed = this.pokemob.getTransformedTo();
@@ -156,14 +163,7 @@ public class LogicMovesUpdates extends LogicBase
 
         // Run tasks that can be on server or client.
 
-        // Update move cooldowns.
-        final int num = this.pokemob.getAttackCooldown();
-
         this.pokemob.getMoveStats().checkMovesInProgress(this.pokemob);
-
-        // Only reduce cooldown if the pokemob does not currently have a
-        // move being fired.
-        if (num > 0 && !this.pokemob.getMoveStats().isExecutingMoves()) this.pokemob.setAttackCooldown(num - 1);
 
         // Update abilities.
         if (this.pokemob.getAbility() != null && this.entity.isEffectiveAi())
