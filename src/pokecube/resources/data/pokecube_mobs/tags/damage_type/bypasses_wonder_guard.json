@@ -1,0 +1,9 @@
+{
+  "values": [
+    "#minecraft:bypasses_invulnerability",
+    "#minecraft:is_fire",
+    "pokecube:pokemob_status",
+    "pokecube:pokemob_ongoing",
+    "pokecube:pokemob_terrain"
+  ]
+}

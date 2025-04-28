@@ -29,7 +29,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.MovesUtils.StatDiff;
 import pokecube.core.moves.animations.AnimationMultiAnimations;
-import pokecube.core.moves.damage.PokemobDamageSource;
+import pokecube.core.moves.damage.sources.PokemobDamageSource;
 import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.utils.EntityTools;
 import thut.api.level.terrain.TerrainManager;

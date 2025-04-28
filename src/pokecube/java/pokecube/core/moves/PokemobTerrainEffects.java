@@ -9,15 +9,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.ParticleStatus;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.core.Holder;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -32,9 +29,9 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.client.render.mobs.overlays.Utils;
 import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.moves.animations.MoveAnimationHelper;
-import pokecube.core.moves.damage.TerrainDamageSource;
-import pokecube.core.moves.damage.TerrainDamageSource.TerrainType;
 import pokecube.core.moves.damage.effects.StatusEffects;
+import pokecube.core.moves.damage.sources.TerrainDamageSource;
+import pokecube.core.moves.damage.sources.TerrainDamageSource.TerrainType;
 import pokecube.core.utils.AITools;
 import thut.api.Tracker;
 import thut.api.level.terrain.TerrainSegment;
@@ -174,14 +171,12 @@ public class PokemobTerrainEffects implements ITerrainEffect
 
     public static TerrainDamageSource createHailSource(final IPokemob mobIn)
     {
-        Holder<DamageType> type = PokecubeCore.proxy.getRegistries().holderOrThrow(DamageTypes.GENERIC);
-        return new TerrainDamageSource(type, WeatherEffectType.HAIL, TerrainType.TERRAIN, mobIn);
+        return new TerrainDamageSource(WeatherEffectType.HAIL, TerrainType.TERRAIN, mobIn);
     }
 
     public static TerrainDamageSource createSandstormSource(final IPokemob mobIn)
     {
-        Holder<DamageType> type = PokecubeCore.proxy.getRegistries().holderOrThrow(DamageTypes.GENERIC);
-        return new TerrainDamageSource(type, WeatherEffectType.SAND, TerrainType.TERRAIN, mobIn);
+        return new TerrainDamageSource(WeatherEffectType.SAND, TerrainType.TERRAIN, mobIn);
     }
 
     private final Int2ObjectArrayMap<Effect> effects = new Int2ObjectArrayMap<>();

@@ -1,20 +1,18 @@
-package pokecube.core.moves.damage;
+package pokecube.core.moves.damage.sources;
 
-import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.moves.PokemobTerrainEffects;
 import thut.lib.TComponent;
 
-public class TerrainDamageSource extends DamageSource implements IPokedamage
+public class TerrainDamageSource extends DamageSource
 {
     public static enum TerrainType
     {
-        MATERIAL, TERRAIN;
+        MATERIAL, TERRAIN
     }
 
     public final TerrainType type;
@@ -22,10 +20,9 @@ public class TerrainDamageSource extends DamageSource implements IPokedamage
 
     public final IPokemob user;
 
-    public TerrainDamageSource(Holder<DamageType> damageType, PokemobTerrainEffects.EffectType effect,
-            final TerrainType type, final IPokemob user)
+    public TerrainDamageSource(PokemobTerrainEffects.EffectType effect, final TerrainType type, final IPokemob user)
     {
-        super(damageType);
+        super(PokecubeDamageSources.pokemobTerrain(), user != null ? user.getEntity() : null);
         this.type = type;
         this.effect = effect;
         this.user = user;

@@ -61,6 +61,10 @@ public abstract class Ability
     public void destroy(@Nullable IPokemob mob)
     {}
 
+    /**
+     *
+     * @return unlocalised name of the ability, ie "ability.${name}.name"
+     */
     public String getName()
     {
         return "ability." + this.toString() + ".name";

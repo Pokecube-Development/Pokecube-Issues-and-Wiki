@@ -309,7 +309,6 @@ public class PokecubeCore
         PaintingsHandler.init();
         RaidManager.init();
         StoreItems.StoreBehaviour.init();
-        PokecubeAttributes.init();
 
         // Register the battle managers
         Battle.register();

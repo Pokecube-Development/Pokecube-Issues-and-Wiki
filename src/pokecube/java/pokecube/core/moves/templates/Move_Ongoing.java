@@ -1,18 +1,16 @@
 package pokecube.core.moves.templates;
 
-import java.util.Random;
-import java.util.function.Function;
-
-import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
-import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.utils.MoveApplication.Damage;
 import pokecube.core.impl.entity.impl.OngoingMoveEffect;
-import pokecube.core.moves.damage.GenericDamageSource;
+import pokecube.core.moves.damage.sources.PokecubeDamageSources;
 import thut.core.common.ThutCore;
+
+import java.util.Random;
+import java.util.function.Function;
 
 public class Move_Ongoing implements Function<Damage, IOngoingEffect>
 {
@@ -20,8 +18,7 @@ public class Move_Ongoing implements Function<Damage, IOngoingEffect>
     @Override
     public IOngoingEffect apply(Damage t)
     {
-        OngoingMoveEffect effect = this.makeEffect(t.move().getUser().getEntity());
-        return effect;
+        return this.makeEffect(t.move().getUser().getEntity());
     }
 
     protected float damageTarget(final LivingEntity mob, final LivingEntity user, final float damage)
@@ -39,9 +36,8 @@ public class Move_Ongoing implements Function<Damage, IOngoingEffect>
     }
 
     /**
-     * I have these attacks affecting the target roughly once per 40 ticks, this
-     * duration is how many times it occurs -1 can be used for a move that
-     * occurs until the mob dies or returns to cube.
+     * I have these attacks affecting the target roughly once per 40 ticks, this duration is how many times it occurs -1
+     * can be used for a move that occurs until the mob dies or returns to cube.
      *
      * @return the number of times this can affect the target
      */
@@ -54,14 +50,7 @@ public class Move_Ongoing implements Function<Damage, IOngoingEffect>
 
     protected DamageSource getOngoingDamage(final LivingEntity user)
     {
-        final DamageSource source = GenericDamageSource.causeMobDamage(user);
-        if (PokemobCaps.getPokemobFor(user) != null)
-        {
-            // TODO: Same as .bypassMagic?
-            source.is(DamageTypeTags.BYPASSES_ENCHANTMENTS);
-            source.is(DamageTypeTags.BYPASSES_ARMOR);
-        }
-        return source;
+        return new DamageSource(PokecubeDamageSources.pokemobOngoing(), user);
     }
 
     public OngoingMoveEffect makeEffect(final LivingEntity user)

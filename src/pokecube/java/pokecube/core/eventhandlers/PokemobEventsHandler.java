@@ -86,9 +86,9 @@ import pokecube.core.impl.capabilities.DefaultPokemob;
 import pokecube.core.init.Config;
 import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
-import pokecube.core.moves.damage.IPokedamage;
-import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.moves.damage.attributes.PokecubeAttributes;
+import pokecube.core.moves.damage.sources.PokecubeDamageSources;
+import pokecube.core.moves.damage.sources.PokemobDamageSource;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.network.pokemobs.PacketSyncNewMoves;
 import pokecube.core.utils.AITools;
@@ -523,7 +523,8 @@ public class PokemobEventsHandler
          * No harming invalid targets, only apply this to pokemob related damage
          * sources
          */
-        if (evt.getSource() instanceof IPokedamage && !AITools.validCombatTargets.test(evt.getEntity()))
+        if (evt.getSource().is(PokecubeDamageSources.POKEMOB_DAMAGE) && !AITools.validCombatTargets.test(
+                evt.getEntity()))
         {
             evt.setInvulnerable(true);
         }

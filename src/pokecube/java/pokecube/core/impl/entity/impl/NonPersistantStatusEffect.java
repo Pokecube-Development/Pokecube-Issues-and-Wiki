@@ -25,7 +25,7 @@ import pokecube.api.events.pokemobs.combat.EffectEvent;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.core.PokecubeCore;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.moves.damage.StatusEffectDamageSource;
+import pokecube.core.moves.damage.sources.StatusEffectDamageSource;
 import thut.lib.TComponent;
 
 public class NonPersistantStatusEffect extends BaseEffect

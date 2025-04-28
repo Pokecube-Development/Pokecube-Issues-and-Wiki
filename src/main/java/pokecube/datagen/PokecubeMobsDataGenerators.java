@@ -15,15 +15,14 @@ import java.util.concurrent.CompletableFuture;
 public class PokecubeMobsDataGenerators
 {
     @SubscribeEvent
-    public static void gatherData(GatherDataEvent event) {
+    public static void gatherData(GatherDataEvent event)
+    {
         DataGenerator generator = event.getGenerator();
         PackOutput output = generator.getPackOutput();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
         // other providers here
-        generator.addProvider(
-                event.includeServer(),
-                new PokecubeMobsAdvancements(output, lookupProvider, existingFileHelper)
-        );
+        generator.addProvider(event.includeServer(),
+                new PokecubeMobsAdvancements(output, lookupProvider, existingFileHelper));
     }
 }

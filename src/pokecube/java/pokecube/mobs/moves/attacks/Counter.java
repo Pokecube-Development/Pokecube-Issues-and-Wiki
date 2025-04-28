@@ -7,7 +7,7 @@ import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.moves.utils.MoveApplication.Damage;
 import pokecube.api.moves.utils.MoveApplication.PostMoveUse;
 import pokecube.core.PokecubeCore;
-import pokecube.core.moves.damage.PokemobDamageSource;
+import pokecube.core.moves.damage.sources.PokemobDamageSource;
 import thut.api.Tracker;
 
 @MoveProvider(name = "counter")

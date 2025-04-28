@@ -13,7 +13,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.event.EventHooks;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.core.PokecubeCore;
-import pokecube.core.moves.damage.PokemobDamageSource;
+import pokecube.core.moves.damage.sources.PokemobDamageSource;
 
 public abstract class PokemobCombat extends PokemobBase
 {

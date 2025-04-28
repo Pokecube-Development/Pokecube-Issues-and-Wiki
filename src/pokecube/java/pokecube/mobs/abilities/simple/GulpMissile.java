@@ -9,7 +9,7 @@ import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.database.Database;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.moves.damage.GenericDamageSource;
+import pokecube.core.moves.damage.sources.GenericDamageSource;
 
 @AbilityProvider(name = "gulp-missile")
 public class GulpMissile extends Ability
@@ -40,17 +40,16 @@ public class GulpMissile extends Ability
         final PokedexEntry mobs = mob.getPokedexEntry();
         if (mobs == GulpMissile.baseNormal) if (name.equals("surf") || name.equals("dive"))
             if (mob.getEntity().getHealth() < mob.getEntity().getMaxHealth() / 2)
-        {
-            if (mobs == GulpMissile.baseNormal) mob.setPokedexEntry(GulpMissile.pikachu);
-        }
+            {
+                if (mobs == GulpMissile.baseNormal) mob.setPokedexEntry(GulpMissile.pikachu);
+            }
             else if (mob.getEntity().getHealth() > mob.getEntity().getMaxHealth() / 2)
                 if (mobs == GulpMissile.baseNormal) mob.setPokedexEntry(GulpMissile.arrakuda);
 
         final IPokemob attacker = move.getUser();
         final float amount = attacker.getEntity().getMaxHealth() / 4;
-        // TODO: Fix this
-        final DamageSource source = new GenericDamageSource(mob.getEntity().damageSources().generic().typeHolder(), mob.getEntity())
-                /*.bypassMagic().setProjectile()*/;
+
+        final DamageSource source = GenericDamageSource.causeMobDamage(mob.getEntity());
         // Hit for Arrakuda
         if (mobs == GulpMissile.arrakuda)
         {

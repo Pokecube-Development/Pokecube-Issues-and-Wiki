@@ -26,7 +26,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
-import pokecube.core.moves.damage.IPokedamage;
+import pokecube.core.moves.damage.sources.PokecubeDamageSources;
 import thut.api.Tracker;
 import thut.api.world.WorldTickManager;
 import thut.core.common.ThutCore;
@@ -143,7 +143,7 @@ public class AITools
         public boolean test(final DamageSource t)
         {
             if (!PokecubeCore.getConfig().onlyPokemobsDamagePokemobs) return true;
-            return t instanceof IPokedamage;
+            return t.is(PokecubeDamageSources.POKEMOB_DAMAGE);
         }
     }
 

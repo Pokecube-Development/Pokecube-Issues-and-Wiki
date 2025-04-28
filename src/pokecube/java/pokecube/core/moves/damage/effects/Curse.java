@@ -9,7 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
-import pokecube.core.moves.damage.StatusEffectDamageSource;
+import pokecube.core.moves.damage.sources.StatusEffectDamageSource;
 
 public class Curse extends StatusEffect
 {

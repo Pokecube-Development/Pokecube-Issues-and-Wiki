@@ -4,8 +4,8 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.core.moves.PokemobTerrainEffects;
-import pokecube.core.moves.damage.TerrainDamageSource;
-import pokecube.core.moves.damage.TerrainDamageSource.TerrainType;
+import pokecube.core.moves.damage.sources.TerrainDamageSource;
+import pokecube.core.moves.damage.sources.TerrainDamageSource.TerrainType;
 
 public class DamageAction implements IEffectAction
 {
@@ -23,8 +23,7 @@ public class DamageAction implements IEffectAction
     public void applyEffect(LivingEntity mob)
     {
         float damage = relative ? amount * mob.getMaxHealth() : amount;
-        _damage = new TerrainDamageSource(mob.damageSources().generic().typeHolder(),
-                PokemobTerrainEffects.NoEffects.NO_EFFECTS, TerrainType.MATERIAL, null);
+        _damage = new TerrainDamageSource(PokemobTerrainEffects.NoEffects.NO_EFFECTS, TerrainType.MATERIAL, null);
         mob.hurt(_damage, damage);
     }
 

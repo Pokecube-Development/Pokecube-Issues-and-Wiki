@@ -18,7 +18,7 @@ import pokecube.api.events.pokemobs.combat.KillEvent;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.moves.utils.MoveApplication.PreApplyTests;
-import pokecube.core.moves.damage.PokemobDamageSource;
+import pokecube.core.moves.damage.sources.PokemobDamageSource;
 
 import java.util.Map;
 import java.util.Set;
