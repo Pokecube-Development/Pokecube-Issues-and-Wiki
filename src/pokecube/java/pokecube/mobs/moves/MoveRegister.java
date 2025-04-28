@@ -1,9 +1,6 @@
 package pokecube.mobs.moves;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.EventPriority;
 import pokecube.api.PokecubeAPI;
@@ -12,7 +9,6 @@ import pokecube.api.data.moves.MoveApplicationRegistry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.entity.pokemob.stats.DefaultModifiers;
 import pokecube.api.events.init.InitMoveEntry;
 import pokecube.api.events.pokemobs.combat.MoveUse.DuringUse;
 import pokecube.api.moves.MoveEntry.MoveSounds;
@@ -23,6 +19,7 @@ import pokecube.api.utils.Tools.MergeOrder;
 import pokecube.core.moves.PokemobTerrainEffects.EntryEffectType;
 import pokecube.core.moves.PokemobTerrainEffects.TerrainEffectType;
 import pokecube.core.moves.PokemobTerrainEffects.WeatherEffectType;
+import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import pokecube.core.moves.implementations.MovesAdder;
 import pokecube.core.moves.templates.Move_Ongoing;
 import pokecube.core.moves.templates.TerrainMove;
@@ -34,6 +31,8 @@ import pokecube.mobs.moves.attacks.Taunt;
 import pokecube.mobs.moves.attacks.Whirlpool;
 import pokecube.mobs.moves.attacks.Yawn;
 import thut.core.common.ThutCore;
+
+import java.util.Map;
 
 public class MoveRegister
 {
@@ -64,14 +63,13 @@ public class MoveRegister
             {
                 if (user == null) return PokeType.unknown;
 
-                if (types == null) types = new PokeType[]
-                { PokeType.getType("fighting"), PokeType.getType("flying"), PokeType.getType("poison"),
-                        PokeType.getType("ground"), PokeType.getType("rock"), PokeType.getType("bug"),
-                        PokeType.getType("ghost"), PokeType.getType("steel"), PokeType.getType("fire"),
-                        PokeType.getType("water"), PokeType.getType("grass"), PokeType.getType("electric"),
-                        PokeType.getType("psychic"), PokeType.getType("ice"), PokeType.getType("dragon"),
-                        PokeType.getType("dark") };
-                int index = 0;
+                if (types == null) types = new PokeType[] { PokeType.getType("fighting"), PokeType.getType("flying"),
+                        PokeType.getType("poison"), PokeType.getType("ground"), PokeType.getType("rock"),
+                        PokeType.getType("bug"), PokeType.getType("ghost"), PokeType.getType("steel"),
+                        PokeType.getType("fire"), PokeType.getType("water"), PokeType.getType("grass"),
+                        PokeType.getType("electric"), PokeType.getType("psychic"), PokeType.getType("ice"),
+                        PokeType.getType("dragon"), PokeType.getType("dark") };
+                int index;
                 final byte[] ivs = user.getIVs();
                 final int a = ivs[0] & 1;
                 final int b = ivs[1] & 1;
@@ -111,19 +109,16 @@ public class MoveRegister
             return pwr;
         });
 
-        POWER.put("super-fang", (IPokemob user, LivingEntity target, int pwr) -> {
-            return (int) Math.ceil(target.getHealth() / 2);
-        });
+        POWER.put("super-fang",
+                (IPokemob user, LivingEntity target, int pwr) -> (int) Math.ceil(target.getHealth() / 2));
 
         PowerProvider FURY_CUTTER = (IPokemob user, LivingEntity target, int pwr) -> {
             final double rollOut = user.getMoveStats().FURYCUTTERCOUNTER;
-            final int PWR = (int) Math.max(pwr, Math.min(160, rollOut * 2 * pwr));
-            return PWR;
+            return (int) Math.max(pwr, Math.min(160, rollOut * 2 * pwr));
         };
         PowerProvider ECHO_VOICE = (IPokemob user, LivingEntity target, int pwr) -> {
             final double rollOut = user.getMoveStats().FURYCUTTERCOUNTER;
-            final int PWR = (int) Math.max(pwr, Math.min(200, rollOut * 2 * pwr));
-            return PWR;
+            return (int) Math.max(pwr, Math.min(200, rollOut * 2 * pwr));
         };
 
         POWER.put("echoed-voice", ECHO_VOICE);
@@ -134,7 +129,6 @@ public class MoveRegister
             if (targetMob == null) return 50;
             final int targetSpeed = targetMob.getStat(Stats.VIT, true);
             final int userSpeed = user.getStat(Stats.VIT, true);
-            pwr = 60;
             final double var = (double) targetSpeed / (double) userSpeed;
             if (var < 0.25) pwr = 150;
             else if (var < 0.33) pwr = 120;
@@ -190,13 +184,9 @@ public class MoveRegister
             return 40;
         });
 
-        POWER.put("night-shade", (IPokemob user, LivingEntity target, int pwr) -> {
-            return user.getLevel();
-        });
+        POWER.put("night-shade", (IPokemob user, LivingEntity target, int pwr) -> user.getLevel());
 
-        POWER.put("seismic-toss", (IPokemob user, LivingEntity target, int pwr) -> {
-            return user.getLevel();
-        });
+        POWER.put("seismic-toss", (IPokemob user, LivingEntity target, int pwr) -> user.getLevel());
 
         POWER.put("acrobatics", (IPokemob user, LivingEntity target, int pwr) -> {
             int bonus = 1;
@@ -205,7 +195,6 @@ public class MoveRegister
         });
 
         POWER.put("magnitude", (IPokemob user, LivingEntity target, int pwr) -> {
-            pwr = 0;
             final int rand = ThutCore.newRandom().nextInt(20);
             if (rand == 0) pwr = 10;
             else if (rand <= 2) pwr = 30;
@@ -240,10 +229,9 @@ public class MoveRegister
         });
 
         POWER.put("stored-power", (IPokemob user, LivingEntity target, int pwr) -> {
-            final DefaultModifiers mods = user.getModifiers().getDefaultMods();
             for (final Stats stat : Stats.values())
             {
-                final float b = mods.getModifierRaw(stat);
+                int b = PokecubeAttributes.getModifier(user.getEntity(), stat);
                 if (b > 0) pwr += 20 * b;
             }
             return pwr;

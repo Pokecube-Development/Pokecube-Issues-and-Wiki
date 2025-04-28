@@ -570,10 +570,6 @@ public class EntityMoveUse extends ThrowableProjectile
             return true;
         });
 
-        if (!CopyMob.isCopy(user))
-        {
-            System.out.println(user + " " + hits + " " + attack.getName());
-        }
         for (final Entity e : hits) if (e instanceof LivingEntity living) this.doMoveUse(living);
 
         if (this.getMove() != null && userMob != null && !this.finished && !this.level.isClientSide)

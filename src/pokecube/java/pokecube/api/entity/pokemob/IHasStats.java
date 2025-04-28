@@ -4,10 +4,10 @@ import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob.HappinessType;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.entity.pokemob.stats.StatModifiers;
-import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.entity.pokemob.moves.PokemobMoveStats;
 import pokecube.api.utils.PokeType;
 import pokecube.api.utils.Tools;
+import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 
 public interface IHasStats extends IHasEntry
 {
@@ -21,9 +21,10 @@ public interface IHasStats extends IHasEntry
         final byte[] evs = this.getEVs().clone();
 
         // Assign the values, cap the EVs at Byte.MAX_VALUE
-        for (int i = 0; i < 6; i++) if (evs[i] + 128 + evsToAdd[i] <= 255 && evs[i] + 128 + evsToAdd[i] >= 0)
-            evs[i] = (byte) (evs[i] + evsToAdd[i]);
-        else evs[i] = Byte.MAX_VALUE;
+        for (int i = 0; i < 6; i++)
+            if (evs[i] + 128 + evsToAdd[i] <= 255 && evs[i] + 128 + evsToAdd[i] >= 0)
+                evs[i] = (byte) (evs[i] + evsToAdd[i]);
+            else evs[i] = Byte.MAX_VALUE;
 
         int sum = 0;
 
@@ -45,8 +46,7 @@ public interface IHasStats extends IHasEntry
     String getAbilityName();
 
     /**
-     * @return Index of ability, 0 and 1 are "normal" abilities, above 1 are
-     *         "hidden" abilities.
+     * @return Index of ability, 0 and 1 are "normal" abilities, above 1 are "hidden" abilities.
      */
     int getAbilityIndex();
 
@@ -91,7 +91,8 @@ public interface IHasStats extends IHasEntry
      */
     default int getCatchRate()
     {
-        return this.getPokedexEntry().isShadowForme ? 0
+        return this.getPokedexEntry().isShadowForme
+                ? 0
                 : this.getGeneralState(GeneralStates.DENYCAPTURE) ? 0 : this.getPokedexEntry().getCatchRate();
     }
 
@@ -116,16 +117,13 @@ public interface IHasStats extends IHasEntry
     }
 
     /**
-     * Gets the stat as a float, this is used for things like evasion/accuracy
-     * which are not integer values.
+     * Gets the stat as a float, this is used for things like evasion/accuracy which are not integer values.
      *
-     * @param stat
-     * @param modified
      * @return the stat
      */
-    default float getFloatStat(final Stats stat, final boolean modified)
+    default double getFloatStat(final Stats stat)
     {
-        return this.getModifiers().getStat(this, stat, modified);
+        return PokecubeAttributes.getStatValue(this.getEntity(), stat);
     }
 
     default float getHealth()
@@ -154,19 +152,19 @@ public interface IHasStats extends IHasEntry
         return this.getEntity().getMaxHealth();
     }
 
-    /** @return the Modifiers on stats */
-    StatModifiers getModifiers();
+    /**
+     * @return PokemobMoveStats object that contains all of our info about combat for moves, tracks things like toxic
+     * counters, etc
+     */
+    PokemobMoveStats getMoveStats();
 
     /**
-     * {@link IMoveConstants#HARDY} for an example of a nature byte
-     *
      * @return the nature
      */
     Nature getNature();
 
     /**
-     * @return Scale factor for this mob, this is applied linearly to each
-     *         dimension of the mob.
+     * @return Scale factor for this mob, this is applied linearly to each dimension of the mob.
      */
     float getSize();
 
@@ -177,7 +175,10 @@ public interface IHasStats extends IHasEntry
      */
     default int getStat(final Stats stat, final boolean modified)
     {
-        return Math.max(1, (int) this.getModifiers().getStat(this, stat, modified));
+        double value = modified
+                ? PokecubeAttributes.getStatValue(this.getEntity(), stat)
+                : PokecubeAttributes.getBaseValue(this.getEntity(), stat);
+        return Math.max(1, (int) value);
     }
 
     /**
@@ -199,38 +200,35 @@ public interface IHasStats extends IHasEntry
     /**
      * Returns 1st type.
      *
-     * @see PokeType
      * @return the first type
+     * @see PokeType
      */
     default PokeType getType1()
     {
-        if (this.getModifiers().type1 == null)
+        if (this.getMoveStats().type1 == null)
         {
-            this.getModifiers().type1 = originalType1();
+            this.getMoveStats().type1 = originalType1();
         }
-        return this.getModifiers().type1;
+        return this.getMoveStats().type1;
     }
 
     /**
      * Returns 2nd type.
      *
-     * @see PokeType
      * @return the second type
+     * @see PokeType
      */
     default PokeType getType2()
     {
-        if (this.getModifiers().type2 == null)
+        if (this.getMoveStats().type2 == null)
         {
-            this.getModifiers().type2 = originalType2();
+            this.getMoveStats().type2 = originalType2();
         }
-        return this.getModifiers().type2;
+        return this.getMoveStats().type2;
     }
 
     /**
-     * Gets the weight of the pokemob, this scaled by the value from
-     * {@link IHasStats#getSize()}
-     *
-     * @return
+     * Gets the weight of the pokemob, this scaled by the value from {@link IHasStats#getSize()}
      */
     default double getWeight()
     {
@@ -239,7 +237,6 @@ public interface IHasStats extends IHasEntry
     }
 
     /**
-     * @param typeIn
      * @return Are we typeIn
      */
     default boolean isType(final PokeType typeIn)
@@ -248,26 +245,19 @@ public interface IHasStats extends IHasEntry
     }
 
     /**
-     * Sets the ability object for the pokemob, this is for use in general/in
-     * combat, if used in combat, this is temporary
-     *
-     * @param ability
+     * Sets the ability object for the pokemob, this is for use in general/in combat, if used in combat, this is
+     * temporary
      */
     void setAbility(Ability ability);
 
     /**
-     * Sets the ability object for the pokemob, This is for use if the
-     * underlying ability needs to be force changed, such as during evolution
-     *
-     * @param ability
+     * Sets the ability object for the pokemob, This is for use if the underlying ability needs to be force changed,
+     * such as during evolution
      */
     void setAbilityRaw(Ability ability);
 
     /**
-     * Sets the ability index for the pokemob, see
-     * {@link IHasStats#getAbilityIndex()}
-     *
-     * @param index
+     * Sets the ability index for the pokemob, see {@link IHasStats#getAbilityIndex()}
      */
     void setAbilityIndex(int index);
 
@@ -281,17 +271,14 @@ public interface IHasStats extends IHasEntry
     /**
      * Sets the experience.
      *
-     * @param exp
-     * @param notifyLevelUp should be false in an initialize step and true in a
-     *                      true exp earning
+     * @param notifyLevelUp should be false in an initialize step and true in a true exp earning
      */
     void setExp(int exp, boolean notifyLevelUp);
 
     /**
      * Sets current health for our mob.
-     * 
-     * @param health - value to set for health, should be at most
-     *               {@link #getMaxHealth()}
+     *
+     * @param health - value to set for health, should be at most {@link #getMaxHealth()}
      */
     default void setHealth(final float health)
     {
@@ -301,7 +288,7 @@ public interface IHasStats extends IHasEntry
     /**
      * {HP, ATT, DEF, ATTSPE, DEFSPE, VIT}
      *
-     * @param evs the Individual Values
+     * @param ivs the Individual Values
      */
     void setIVs(byte[] ivs);
 
@@ -309,44 +296,28 @@ public interface IHasStats extends IHasEntry
     void setMoves(String[] moves);
 
     /**
-     * Sets the pokemobs's nature {@link IMoveConstants#HARDY} for an example of
-     * a nature byte
      *
-     * @param nature
      */
     void setNature(Nature nature);
 
     /**
      * Sets the size for this mob, see {@link IHasStats#getSize()}
-     *
-     * @param size
      */
     void setSize(float size);
 
-    /** Sets ability index to 2. */
-    default void setToHiddenAbility()
-    {
-        this.setAbilityIndex(2);
-        this.setAbilityRaw(this.getPokedexEntry().getHiddenAbility(PokemobCaps.getPokemobFor(this.getEntity())));
-    }
-
     /**
      * Sets first type
-     *
-     * @param type1
      */
     default void setType1(final PokeType type1)
     {
-        this.getModifiers().type1 = type1;
+        this.getMoveStats().type1 = type1;
     }
 
     /**
      * Sets second type
-     *
-     * @param type2
      */
     default void setType2(final PokeType type2)
     {
-        this.getModifiers().type2 = type2;
+        this.getMoveStats().type2 = type2;
     }
 }

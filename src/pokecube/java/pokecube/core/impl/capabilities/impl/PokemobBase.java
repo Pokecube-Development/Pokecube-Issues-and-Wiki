@@ -16,7 +16,6 @@ import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.moves.PokemobMoveStats;
-import pokecube.api.entity.pokemob.stats.StatModifiers;
 import pokecube.core.ai.logic.Logic;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.routes.IGuardAICapability;
@@ -147,8 +146,7 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
     protected boolean wasShadow = false;
     /** Number used as seed for various RNG things. */
     protected int personalityValue = 0;
-    /** Modifiers on stats. */
-    protected StatModifiers modifiers = new StatModifiers();
+
     /** Egg we are trying to protect. */
     protected Entity egg = null;
     /**

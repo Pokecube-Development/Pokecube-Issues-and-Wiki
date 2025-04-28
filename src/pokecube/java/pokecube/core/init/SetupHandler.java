@@ -1,7 +1,6 @@
 package pokecube.core.init;
 
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -17,6 +16,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.moves.PokemobTerrainEffects;
+import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import pokecube.core.network.PokecubePacketHandler;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.world.terrain.PokecubeTerrainChecker;
@@ -71,12 +71,15 @@ public class SetupHandler
     {
         if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logInfo("Registering Pokecube Attributes");
 
-        final AttributeSupplier.Builder attribs = LivingEntity.createLivingAttributes()
-                .add(Attributes.FOLLOW_RANGE, 16.0D).add(Attributes.FLYING_SPEED, 0.6)
-                .add(SharedAttributes.MOB_SIZE_SCALE);
+        var attribs = LivingEntity.createLivingAttributes().add(Attributes.FOLLOW_RANGE, 16.0D)
+                .add(Attributes.FLYING_SPEED, 0.6).add(SharedAttributes.MOB_SIZE_SCALE);
+
         event.put(EntityTypes.getPokecube(), attribs.build());
         event.put(EntityTypes.getEgg(), attribs.build());
         event.put(EntityTypes.getNpc(), attribs.build());
+
+        // Now add the pokemob attributes
+        for (var a : PokecubeAttributes.ATTRIBUTES) attribs.add(a);
 
         for (final PokedexEntry entry : Database.getSortedFormes())
         {

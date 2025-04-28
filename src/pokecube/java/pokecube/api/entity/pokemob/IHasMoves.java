@@ -119,7 +119,6 @@ public interface IHasMoves extends IHasStats
     /**
      * Cooldown for attacks, if this is greater than 0, we shouldn't be able to use any moves.
      *
-     * @return
      */
     int getAttackCooldown();
 
@@ -207,12 +206,6 @@ public interface IHasMoves extends IHasStats
      * @return an array of 4 {@link String}
      */
     String[] getMoves();
-
-    /**
-     * @return PokemobMoveStats object that contains all of our info about combat for moves, tracks things like toxic
-     * counters, etc
-     */
-    PokemobMoveStats getMoveStats();
 
     /**
      * Updates trackers for target ID, ally ID, enemy number, ally number, etc.

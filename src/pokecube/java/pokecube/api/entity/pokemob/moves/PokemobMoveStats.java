@@ -10,6 +10,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
+import pokecube.api.utils.PokeType;
 import pokecube.core.network.pokemobs.PacketSyncNewMoves;
 
 import java.lang.reflect.Field;
@@ -58,6 +59,8 @@ public class PokemobMoveStats
     public boolean biding = false;
 
     public float substituteHP = 0;
+    /** This are types which may be modified via abilities or moves. */
+    public PokeType type1, type2;
 
     public int changes = IMoveConstants.CHANGE_NONE;
 

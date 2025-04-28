@@ -7,8 +7,7 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.moves.utils.MoveApplication.Damage;
 import pokecube.api.moves.utils.MoveApplication.PostMoveUse;
-import pokecube.core.network.pokemobs.PacketSyncModifier;
-import pokecube.mobs.moves.attacks.Powersplit.Modifier;
+import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 
 @MoveProvider(name = "guard-split")
 public class GuardSplit implements PostMoveUse
@@ -30,16 +29,12 @@ public class GuardSplit implements PostMoveUse
 
             final int averageDef = (def + def2) / 2;
             final int averageSpdef = (spdef + spdef2) / 2;
-            final Modifier mods = attacker.getModifiers().getModifiers("power-split", Modifier.class);
-            final Modifier mods2 = attacked.getModifiers().getModifiers("power-split", Modifier.class);
 
-            mods.setModifier(Stats.DEFENSE, -def + averageDef);
-            mods2.setModifier(Stats.DEFENSE, -def2 + averageDef);
+            PokecubeAttributes.setStat(attacker.getEntity(), Stats.DEFENSE, averageDef);
+            PokecubeAttributes.setStat(attacked.getEntity(), Stats.DEFENSE, averageDef);
 
-            mods.setModifier(Stats.SPDEFENSE, -spdef + averageSpdef);
-            mods2.setModifier(Stats.SPDEFENSE, -spdef2 + averageSpdef);
-            PacketSyncModifier.sendUpdate("power-split", attacker);
-            PacketSyncModifier.sendUpdate("power-split", attacked);
+            PokecubeAttributes.setStat(attacker.getEntity(), Stats.SPDEFENSE, averageSpdef);
+            PokecubeAttributes.setStat(attacked.getEntity(), Stats.SPDEFENSE, averageSpdef);
         }
     }
 }

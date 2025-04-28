@@ -1,13 +1,10 @@
 package pokecube.core.ai.logic;
 
-import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.item.ItemStack;
@@ -19,13 +16,10 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.ICanEvolve;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.HappinessType;
-import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
-import pokecube.api.entity.pokemob.stats.IStatsModifiers;
-import pokecube.api.entity.pokemob.stats.StatModifiers;
 import pokecube.api.events.pokemobs.ai.AnimationSelectionEvent;
 import pokecube.api.items.IPokecube;
 import pokecube.api.items.IPokecube.PokecubeBehaviour;
@@ -40,9 +34,9 @@ import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
+import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import pokecube.core.moves.damage.effects.Sleep;
 import pokecube.core.moves.damage.effects.StatusEffects;
-import pokecube.core.network.pokemobs.PacketSyncModifier;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.PokemobTracker.MobEntry;
 import thut.api.ThutCaps;
@@ -56,7 +50,6 @@ import thut.core.common.ThutCore;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
@@ -74,28 +67,6 @@ public class LogicMiscUpdate extends LogicBase
     public static final boolean holiday = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 25
             && Calendar.getInstance().get(Calendar.MONTH) == Calendar.DECEMBER;
 
-    public static void getStatModifiers(final EquipmentSlot slot, final ItemStack stack, final Map<Stats, Float> vals)
-    {
-        if (stack.isEmpty()) return;
-        switch (slot)
-        {
-        case CHEST:
-            break;
-        case FEET:
-            break;
-        case HEAD:
-            break;
-        case LEGS:
-            break;
-        case MAINHAND:
-            break;
-        case OFFHAND:
-            break;
-        default:
-            break;
-        }
-    }
-
     private final int[] flavourAmounts = new int[5];
 
     private String particle = null;
@@ -104,8 +75,6 @@ public class LogicMiscUpdate extends LogicBase
 
     private int floatTimer = 0;
 
-    private IStatsModifiers mods;
-
     boolean inCombat = false;
 
     int combatTimer = 0;
@@ -113,8 +82,6 @@ public class LogicMiscUpdate extends LogicBase
     private int cacheTimer = 0;
 
     BlockPos lastCache;
-
-    Vector3 v = new Vector3();
 
     UUID prevOwner = null;
 
@@ -160,15 +127,14 @@ public class LogicMiscUpdate extends LogicBase
             final boolean resetCombat = this.combatTimer == 0;
             if (resetCombat)
             {
-                this.pokemob.getModifiers().outOfCombatReset();
                 this.pokemob.getMoveStats().reset();
                 this.pokemob.setCombatState(CombatStates.NOITEMUSE, false);
-                if (this.pokemob.getOwner() instanceof ServerPlayer)
-                    PacketSyncModifier.sendUpdate(StatModifiers.DEFAULT, this.pokemob);
+                // Then reset stat multipliers here.
+                PokecubeAttributes.resetToEntry(this.pokemob);
             }
-            this.combatTimer--;
+            this.combatTimer++;
 
-            if (this.combatTimer < -50 && this.combatTimer % 100 == 0 && PokecubeCore.getConfig().outOfCombatHealing)
+            if (this.combatTimer > 50 && this.combatTimer % 100 == 0 && PokecubeCore.getConfig().outOfCombatHealing)
             {
                 float health = this.pokemob.getHealth();
                 final float max = this.pokemob.getMaxHealth();
@@ -177,6 +143,8 @@ public class LogicMiscUpdate extends LogicBase
                     health = Math.min(max, health + max / 16);
                     this.pokemob.setHealth(health);
                 }
+                // Then reset stat multipliers here as well incase field move use applied stats.
+                PokecubeAttributes.resetToEntry(this.pokemob);
             }
         }
         /*
@@ -186,7 +154,7 @@ public class LogicMiscUpdate extends LogicBase
         {
             this.pokemob.setRoutineState(AIRoutine.AIRBORNE, true);
             // Much longer cooldown if actually, really in combat
-            this.combatTimer = 50;
+            this.combatTimer = -50;
 
             // Ensure we are not sleeping state while in combat
             if (sleepingAI) this.pokemob.setLogicState(LogicStates.SLEEPING, sleepingAI = false);
@@ -328,17 +296,6 @@ public class LogicMiscUpdate extends LogicBase
         }
         this.prevOwner = ownerID;
         this.prevID = uuid;
-
-        // Here we apply worn/held equipment modifiers
-        final Map<Stats, Float> vals = new Object2FloatOpenHashMap<IPokemob.Stats>();
-        for (final EquipmentSlot type : EquipmentSlot.values())
-            LogicMiscUpdate.getStatModifiers(type, this.entity.getItemBySlot(type), vals);
-        if (this.mods == null) this.mods = this.pokemob.getModifiers().getModifiers(StatModifiers.ARMOUR);
-        for (final Stats stat : Stats.values())
-        {
-            final Float val = vals.getOrDefault(stat, (float) 0);
-            this.mods.setModifier(stat, val);
-        }
 
         if (this.entity.onGround()) this.floatTimer = 0;
         else this.floatTimer++;

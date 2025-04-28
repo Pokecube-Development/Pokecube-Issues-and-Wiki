@@ -77,6 +77,7 @@ import pokecube.core.inventory.InventoryCaps;
 import pokecube.core.items.ItemTM;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.legacy.RegistryChangeFixer;
+import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.proxy.CommonProxy;
 import pokecube.core.utils.Permissions;
@@ -272,6 +273,7 @@ public class PokecubeCore
         Triggers.REGISTER.register(bus);
         CoreCreativeTabs.TABS.register(bus);
         StatusEffects.REGISTER.register(bus);
+        PokecubeAttributes.REGISTER.register(bus);
 
         PokecubeWorld.init(bus);
         CommandManager.init(bus);
@@ -307,6 +309,7 @@ public class PokecubeCore
         PaintingsHandler.init();
         RaidManager.init();
         StoreItems.StoreBehaviour.init();
+        PokecubeAttributes.init();
 
         // Register the battle managers
         Battle.register();

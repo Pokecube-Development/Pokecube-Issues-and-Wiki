@@ -33,8 +33,7 @@ import java.util.UUID;
 
 public class StatusEffects
 {
-    public static final DeferredRegister<MobEffect> REGISTER = DeferredRegister.create(Registries.MOB_EFFECT,
-            PokecubeCore.MODID);
+    public static final DeferredRegister<MobEffect> REGISTER;
 
     public static final DeferredHolder<MobEffect, Burn> BURN;
     public static final DeferredHolder<MobEffect, Freeze> FREEZE;
@@ -54,6 +53,8 @@ public class StatusEffects
 
     static
     {
+        REGISTER = DeferredRegister.create(Registries.MOB_EFFECT, PokecubeCore.MODID);
+
         BURN = REGISTER.register("burn", () -> new Burn(0xFFAA3333));
         FREEZE = REGISTER.register("freeze", () -> new Freeze(0xFF3333AA));
         PARALYSIS = REGISTER.register("paralysis", () -> new Paralysis(0xFFAAAA33));

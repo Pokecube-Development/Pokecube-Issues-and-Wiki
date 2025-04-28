@@ -7,7 +7,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.stats.StatModifiers;
 import pokecube.api.events.pokemobs.LevelUpEvent;
 import pokecube.api.utils.PokeType;
 import pokecube.api.utils.Tools;
@@ -37,12 +36,6 @@ public abstract class PokemobStats extends PokemobGenes
         this.bonusHappiness = Math.max(this.bonusHappiness, -this.getPokedexEntry().getHappiness());
         this.bonusHappiness = Math.min(this.bonusHappiness, 255 - this.getPokedexEntry().getHappiness());
         return this.bonusHappiness + this.getPokedexEntry().getHappiness();
-    }
-
-    @Override
-    public StatModifiers getModifiers()
-    {
-        return this.modifiers;
     }
 
     @Override

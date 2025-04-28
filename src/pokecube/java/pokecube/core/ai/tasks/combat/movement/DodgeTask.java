@@ -92,7 +92,7 @@ public class DodgeTask extends CombatTask
             perp.clear();
         }
 
-        final double evasionMod = pokemob.getFloatStat(Stats.EVASION, true);
+        final double evasionMod = pokemob.getFloatStat(Stats.EVASION);
         /*
          * Scale by evasion modifier
          */
@@ -151,7 +151,7 @@ public class DodgeTask extends CombatTask
         /*
          * Scale amount jumped by evasion stat.
          */
-        final double evasionMod = pokemob.getFloatStat(Stats.EVASION, true) / 30d;
+        final double evasionMod = pokemob.getFloatStat(Stats.EVASION) / 30d;
         final boolean dodge = Math.random() > 1 - evasionMod;
         if (dodge) dodgeCooldown = 10;
         brain.setMemory(MemoryModules.TIMER_DODGE.get(), dodgeCooldown);

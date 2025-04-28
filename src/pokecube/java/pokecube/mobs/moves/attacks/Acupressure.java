@@ -3,9 +3,9 @@ package pokecube.mobs.moves.attacks;
 import pokecube.api.data.moves.LoadedMove.PreProcessor;
 import pokecube.api.data.moves.MoveProvider;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.stats.DefaultModifiers;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
+import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 
 @MoveProvider(name = "acupressure")
 public class Acupressure implements PreProcessor
@@ -15,18 +15,20 @@ public class Acupressure implements PreProcessor
     {
         IPokemob attacker = t.getUser();
 
-        final DefaultModifiers modifiers = attacker.getModifiers().getDefaultMods();
-
         var r = attacker.getEntity().getRandom();
         int rand = r.nextInt(7);
         for (int i = 0; i < 8; i++)
         {
-            final int stat = rand;
-            boolean valid = modifiers.values[stat] < 6;
-            if (valid)
+            IPokemob.Stats stat = IPokemob.Stats.values()[rand];
+            if (stat != IPokemob.Stats.HP)
             {
-                t.stat_effects[stat] = IMoveConstants.SHARP;
-                return;
+                boolean valid = PokecubeAttributes.getModifier(attacker.getEntity(), stat) < 6;
+                if (valid)
+                {
+                    t.stat_chance = 1;
+                    t.stat_effects[rand] = IMoveConstants.SHARP;
+                    return;
+                }
             }
             rand = (rand + 1) % 7;
         }

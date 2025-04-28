@@ -88,6 +88,7 @@ import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
 import pokecube.core.moves.damage.IPokedamage;
 import pokecube.core.moves.damage.PokemobDamageSource;
+import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.network.pokemobs.PacketSyncNewMoves;
 import pokecube.core.utils.AITools;
@@ -401,8 +402,8 @@ public class PokemobEventsHandler
         if (pokemob != null)
         {
             // Initialise these when added to world.
-            pokemob.getModifiers().outOfCombatReset();
             pokemob.getMoveStats().reset();
+            PokecubeAttributes.resetToEntry(pokemob);
         }
 
         if (mob.level().isClientSide()) return;
@@ -792,11 +793,6 @@ public class PokemobEventsHandler
         if (pokemob instanceof DefaultPokemob pokemobCap && living instanceof EntityPokemob mob
                 && dim instanceof ServerLevel level)
         {
-            //            if (pokemobCap.returning)
-            //            {
-            //                evt.setCanceled(true);
-            //                return;
-            //            }
             if (pokemobCap.getOwnerId() != null) mob.setPersistenceRequired();
             final Player near = mob.level().getNearestPlayer(mob, -1);
             if (near != null && pokemob.getOwnerId() == null)

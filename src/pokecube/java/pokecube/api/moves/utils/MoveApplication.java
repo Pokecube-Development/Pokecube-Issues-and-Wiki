@@ -472,8 +472,8 @@ public class MoveApplication implements Comparable<MoveApplication>
                 var rand = t.move().getTarget().getRandom();
                 if (moveAcc > 0)
                 {
-                    final double accuracy = user.getFloatStat(Stats.ACCURACY, true);
-                    final double evasion = targetPokemob.getFloatStat(Stats.EVASION, true);
+                    final double accuracy = user.getFloatStat(Stats.ACCURACY );
+                    final double evasion = targetPokemob.getFloatStat(Stats.EVASION);
                     final double moveAccuracy = moveAcc / 100d;
                     final double hitModifier = moveAccuracy * accuracy / evasion;
                     if (hitModifier < rand.nextDouble()) efficiency = -1;

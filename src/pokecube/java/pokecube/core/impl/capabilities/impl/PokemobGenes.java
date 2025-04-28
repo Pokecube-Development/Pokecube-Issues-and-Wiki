@@ -409,10 +409,6 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         genesSpecies.getExpressed().getValue().setForme(form);
         _sizeChanged = true;
         this.getGenes().markDirty();
-
-        // Reset the types cache
-        this.getModifiers().type1 = null;
-        this.getModifiers().type2 = null;
     }
 
     @Override

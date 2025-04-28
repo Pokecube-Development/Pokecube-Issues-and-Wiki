@@ -23,14 +23,11 @@ import net.neoforged.neoforge.common.util.FakePlayer;
 import net.neoforged.neoforge.entity.PartEntity;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.moves.MoveApplicationRegistry;
-import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.CombatStates;
-import pokecube.api.entity.pokemob.stats.DefaultModifiers;
-import pokecube.api.entity.pokemob.stats.StatModifiers;
 import pokecube.api.events.pokemobs.combat.MoveUse;
 import pokecube.api.moves.Battle;
 import pokecube.api.moves.MoveEntry;
@@ -39,13 +36,12 @@ import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.impl.entity.impl.StatEffect;
 import pokecube.core.moves.MoveQueue.MoveQueuer;
 import pokecube.core.moves.damage.EntityMoveUse;
+import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import pokecube.core.moves.damage.effects.Poison;
 import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.network.pokemobs.PacketPokemobMessage;
-import pokecube.core.network.pokemobs.PacketSyncModifier;
 import thut.api.boom.ExplosionCustom;
 import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
@@ -255,7 +251,6 @@ public class MovesUtils implements IMoveConstants
                 if (attacked != null) attacked.displayMessageToOwner(message);
                 else if (target instanceof Player player) PacketPokemobMessage.sendMessage(player, message);
             }
-            return;
         }
         else
         {
@@ -320,15 +315,15 @@ public class MovesUtils implements IMoveConstants
     {
         int cd = PokecubeCore.getConfig().attackCooldown;
         if (playerTarget) cd *= 2;
-        final double accuracyMod = attacker.getModifiers().getDefaultMods().getModifier(Stats.ACCURACY);
-        final double moveMod = MovesUtils.getDelayMultiplier(attacker, moveName);
+        double accuracyMod = PokecubeAttributes.getModifierValue(attacker.getEntity(), Stats.ACCURACY);
+        double moveMod = MovesUtils.getDelayMultiplier(attacker, moveName);
 
-        final int index = Stats.VIT.ordinal();
-        final double nat = (attacker.getNature().stats[index] * 10f + 100f) / 100f;
-        final int bs = attacker.getPokedexEntry().getStatVIT();
-        final int ev = attacker.getEVs()[index];
-        final int iv = attacker.getIVs()[index];
-        final float mod = attacker.getModifiers().getDefaultMods().values[index];
+        int index = Stats.VIT.ordinal();
+        double nat = (attacker.getNature().stats[index] * 10f + 100f) / 100f;
+        int bs = attacker.getPokedexEntry().getStatVIT();
+        int ev = attacker.getEVs()[index];
+        int iv = attacker.getIVs()[index];
+        double mod = PokecubeAttributes.getModifierValue(attacker.getEntity(), Stats.VIT);
 
         final double stat_based_cd = cd * (1 - nat * (bs / 100f + ev / 200f + iv / 50f + mod / 2f) / 10f);
 
@@ -363,7 +358,7 @@ public class MovesUtils implements IMoveConstants
 
         // If this is a fight over a mate, the strength is reduced.
         if (attacker.getCombatState(CombatStates.MATEFIGHT) || attacked.getCombatState(CombatStates.MATEFIGHT))
-            statusMultiplier *= 0.125;
+            statusMultiplier *= 0.125f;
 
         ATT = (int) (statusMultiplier * ATT);
 
@@ -377,7 +372,7 @@ public class MovesUtils implements IMoveConstants
      */
     public static float getDelayMultiplier(final IPokemob attacker, final String moveName)
     {
-        float moveCooldownFactor = PokecubeCore.getConfig().attackCooldown / 20F;
+        double moveCooldownFactor = PokecubeCore.getConfig().attackCooldown / 20f;
 
         var attackAttribute = attacker.getEntity().getAttribute(Attributes.ATTACK_SPEED);
         float statusMultiplier = attackAttribute.getBaseValue() > 0 ? (float) (attackAttribute.getValue()
@@ -395,7 +390,7 @@ public class MovesUtils implements IMoveConstants
             moveCooldownFactor *= PokecubeCore.getConfig().attackCooldownRangedScale;
         }
         moveCooldownFactor *= move.getPostDelayFactor(attacker);
-        return moveCooldownFactor;
+        return (float) moveCooldownFactor;
     }
 
     public static MoveEntry getMove(final String moveName)
@@ -473,42 +468,28 @@ public class MovesUtils implements IMoveConstants
     public static StatDiff handleStats(final IPokemob attacker, final Entity target, final int[] stats,
             final float chance)
     {
-        final IPokemob affected = PokemobCaps.getPokemobFor(target);
+        IPokemob affected = PokemobCaps.getPokemobFor(target);
         float[] mods;
-        float[] old;
-        if (affected != null)
-        {
-            final DefaultModifiers modifiers = affected.getModifiers().getDefaultMods();
-            mods = modifiers.values;
-        }
-        else
-        {
-            mods = new float[Stats.values().length];
-        }
-        old = mods.clone();
+        mods = new float[Stats.values().length];
         // We start at 1, as there are not modifies for stat 0 (HP)
         for (int i = 1; i < mods.length; i++)
             if (chance > Math.random()) mods[i] = (byte) Math.max(-6, Math.min(6, mods[i] + stats[i]));
-
+        byte[] diffs = new byte[stats.length];
         boolean ret = false;
-        final byte[] diff = new byte[old.length];
-        for (int i = 0; i < old.length; i++)
+        if (target instanceof LivingEntity targetLiving) for (int i = 0; i < stats.length; i++)
         {
-            diff[i] = (byte) (mods[i] - old[i]);
-            if (diff[i] != 0) ret = true;
-        }
-
-        if (ret)
-        {
-            final IOngoingAffected affect = PokemobCaps.getAffected(target);
-            if (affect != null)
+            var stat = Stats.values()[i];
+            int statEffect = stats[i];
+            int oldValue = PokecubeAttributes.getModifier(targetLiving, stat);
+            int newValue = Math.max(-6, Math.min(oldValue + statEffect, 6));
+            if (oldValue != newValue)
             {
-                for (byte i = 0; i < diff.length; i++)
-                    if (diff[i] != 0) affect.addEffect(new StatEffect(Stats.values()[i], diff[i]));
-                PacketSyncModifier.sendUpdate(StatModifiers.DEFAULT, affected);
+                PokecubeAttributes.applyStatModifier(targetLiving, stat, newValue);
+                diffs[i] = (byte) (newValue - oldValue);
+                ret = true;
             }
         }
-        return new StatDiff(diff, ret);
+        return new StatDiff(diffs, ret);
     }
 
     public static void sendStatDiffsMessages(final IPokemob attacker, final Entity target, StatDiff diffs)
@@ -526,29 +507,24 @@ public class MovesUtils implements IMoveConstants
     public static boolean handleStats2(final IPokemob targetPokemob, final Entity attacker, final int statEffect,
             final int statEffectAmount)
     {
-        final DefaultModifiers modifiers = targetPokemob.getModifiers().getDefaultMods();
-        final float[] mods = modifiers.values;
-        final float[] old = mods.clone();
-        mods[1] = (byte) Math.max(-6, Math.min(6, mods[1] + statEffectAmount * (statEffect & 1)));
-        mods[2] = (byte) Math.max(-6, Math.min(6, mods[2] + statEffectAmount * (statEffect & 2) / 2));
-        mods[3] = (byte) Math.max(-6, Math.min(6, mods[3] + statEffectAmount * (statEffect & 4) / 4));
-        mods[4] = (byte) Math.max(-6, Math.min(6, mods[4] + statEffectAmount * (statEffect & 8) / 8));
-        mods[5] = (byte) Math.max(-6, Math.min(6, mods[5] + statEffectAmount * (statEffect & 16) / 16));
-        mods[6] = (byte) Math.max(-6, Math.min(6, mods[6] + statEffectAmount * (statEffect & 32) / 32));
-        mods[7] = (byte) Math.max(-6, Math.min(6, mods[7] + statEffectAmount * (statEffect & 64) / 64));
-        boolean ret = false;
-        final byte[] diff = new byte[old.length];
-        for (int i = 0; i < old.length; i++)
+        List<Stats> affected = new ArrayList<>();
+        for (int i = 0; i < 8; i++)
         {
-            diff[i] = (byte) (old[i] - mods[i]);
-            if (old[i] != mods[i]) ret = true;
+            boolean test = (statEffect & (1 << i)) > 0;
+            if (test) affected.add(Stats.values()[i]);
         }
-        if (ret)
+        boolean ret = false;
+        for (var stat : affected)
         {
-            for (byte i = 0; i < diff.length; i++)
-                if (diff[i] != 0 && attacker != null)
-                    MovesUtils.displayStatsMessage(targetPokemob, attacker, 0, i, diff[i]);
-            PacketSyncModifier.sendUpdate(StatModifiers.DEFAULT, targetPokemob);
+            int oldValue = PokecubeAttributes.getModifier(targetPokemob.getEntity(), stat);
+            int newValue = Math.max(-6, Math.min(oldValue + statEffectAmount, 6));
+            if (oldValue != newValue)
+            {
+                PokecubeAttributes.applyStatModifier(targetPokemob.getEntity(), stat, newValue);
+                ret = true;
+                MovesUtils.displayStatsMessage(targetPokemob, attacker, 0, stat.ordinal(),
+                        (byte) (newValue - oldValue));
+            }
         }
         return ret;
     }
