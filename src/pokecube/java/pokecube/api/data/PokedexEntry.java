@@ -18,6 +18,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
@@ -245,7 +246,7 @@ public class PokedexEntry
                 }
                 catch (IllegalArgumentException | IllegalAccessException e)
                 {
-                    e.printStackTrace();
+                    PokecubeAPI.LOGGER.error("Error processing interact {}", interact, e);
                 }
             }
         }
@@ -298,9 +299,23 @@ public class PokedexEntry
             for (final Interact interact : data)
             {
                 InteractionLogic.cleanInteract(interact);
-                final JsonElement key = interact.key;
-                final Action action = interact.action;
-                final boolean isForme = action.values.get("type").equals("forme");
+                JsonElement key = interact.key;
+                Action action = interact.action;
+                boolean isForme = action.values.get("type").equals("forme");
+
+                if (key.isJsonObject() && key.getAsJsonObject().has("values"))
+                {
+                    var values = key.getAsJsonObject().get("values");
+                    if (values.isJsonObject() && values.getAsJsonObject().has("id"))
+                    {
+                        var id = values.getAsJsonObject().get("id").getAsString();
+                        if (id.startsWith("#"))
+                        {
+                            interact.isTag = true;
+                            key = new JsonPrimitive(id.substring(1));
+                        }
+                    }
+                }
 
                 final Interaction interaction = new Interaction();
                 if (interact.isTag)
@@ -370,10 +385,11 @@ public class PokedexEntry
             return null;
         }
 
-        public boolean applyInteraction(final Player player, final IPokemob pokemob, final boolean consumeInput)
+        public boolean applyInteraction(final Player player, InteractionHand hand, final IPokemob pokemob,
+                final boolean consumeInput)
         {
             final Mob entity = pokemob.getEntity();
-            final ItemStack held = player.getMainHandItem();
+            final ItemStack held = player.getItemInHand(hand);
             final CompoundTag data = entity.getPersistentData();
             final Interaction action = this.getFor(held);
             ItemStack result = null;
@@ -411,10 +427,10 @@ public class PokedexEntry
             return true;
         }
 
-        boolean interact(final Player player, final IPokemob pokemob, final boolean doInteract)
+        boolean interact(final Player player, InteractionHand hand, final IPokemob pokemob, final boolean doInteract)
         {
             final Mob entity = pokemob.getEntity();
-            final ItemStack held = player.getMainHandItem();
+            final ItemStack held = player.getItemInHand(hand);
             final Interaction action = this.getFor(held);
             if (action == null || action.stacks.isEmpty())
             {
@@ -442,7 +458,7 @@ public class PokedexEntry
                 return true;
             }
             if (!doInteract) return true;
-            return this.applyInteraction(player, pokemob, true);
+            return this.applyInteraction(player, hand, pokemob, true);
         }
     }
 
@@ -948,8 +964,8 @@ public class PokedexEntry
         this.name = Database.trim(name);
         this.pokedexNb = nb;
         if (Database.checkEntryExists(this.name) == null) Database.allFormes.add(this);
-        else new NullPointerException(
-                "Trying to add another " + name + " " + Database.checkEntryExists(this.name)).printStackTrace();
+        else PokecubeAPI.LOGGER.error("Trying to add another {} {}", name, Database.checkEntryExists(this.name),
+                new IllegalStateException());
         this.generated = isExtraForm;
     }
 
@@ -1054,7 +1070,7 @@ public class PokedexEntry
             }
             catch (final Exception e)
             {
-                e.printStackTrace();
+                PokecubeAPI.LOGGER.error("Error cleaning values for {}", this, e);
             }
         }
 
@@ -1165,7 +1181,7 @@ public class PokedexEntry
             }
             catch (final Exception e)
             {
-                e.printStackTrace();
+                PokecubeAPI.LOGGER.error("Error parsing gener forms for {}, {}", this, forme, e);
             }
         }
     }
@@ -1721,9 +1737,9 @@ public class PokedexEntry
      *
      * @param doInteract - if false, will not actually do anything.
      */
-    public boolean interact(final Player player, final IPokemob pokemob, final boolean doInteract)
+    public boolean interact(final Player player, InteractionHand hand, final IPokemob pokemob, final boolean doInteract)
     {
-        return this.interactionLogic.interact(player, pokemob, doInteract);
+        return this.interactionLogic.interact(player, hand, pokemob, doInteract);
     }
 
     public boolean isFood(final PokedexEntry toTest)

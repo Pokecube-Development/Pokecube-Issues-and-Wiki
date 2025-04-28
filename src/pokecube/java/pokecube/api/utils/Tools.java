@@ -434,6 +434,8 @@ public class Tools
                 var obj = values.getAsJsonObject();
                 if (obj.has("item")) obj.add("id", obj.get("item"));
                 if (obj.has("n")) obj.add("count", obj.get("n"));
+                obj.remove("item");
+                obj.remove("n");
             }
 
             var access = world != null ? world.registryAccess() : PokecubeCore.proxy.getRegistries();

@@ -932,6 +932,7 @@ public class PokemobEventsHandler
 
         final ItemStack held = evt.getItemStack();
         final Mob entity = pokemob.getEntity();
+        final InteractionHand hand = evt.getHand();
 
         final InteractEvent event = new InteractEvent(pokemob, player, evt);
         ThutCore.FORGE_BUS.post(event);
@@ -953,7 +954,7 @@ public class PokemobEventsHandler
         final PokedexEntry entry = pokemob.getPokedexEntry();
 
         // Check Pokedex Entry defined Interaction for player.
-        if (entry.interact(player, pokemob, true))
+        if (entry.interact(player, hand, pokemob, true))
         {
             evt.setCanceled(true);
             evt.setCancellationResult(InteractionResult.SUCCESS);
@@ -964,7 +965,6 @@ public class PokemobEventsHandler
         // opening pokemob inventory while holding empty cubes, etc.
         if (ItemList.is(ResourceLocation.fromNamespaceAndPath("pokecube", "pokemob_no_interact"), held)) return;
 
-        final InteractionHand hand = evt.getHand();
         // only accept mainhand past here.
         if (hand != InteractionHand.MAIN_HAND) return;
 

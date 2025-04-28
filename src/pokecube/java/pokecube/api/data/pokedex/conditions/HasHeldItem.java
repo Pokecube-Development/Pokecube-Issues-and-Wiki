@@ -1,10 +1,6 @@
 package pokecube.api.data.pokedex.conditions;
 
 import com.google.gson.JsonObject;
-import com.mojang.brigadier.StringReader;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.commands.arguments.item.ItemParser;
-import net.minecraft.commands.arguments.item.ItemParser.ItemResult;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -13,7 +9,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.Tools;
 import thut.lib.TComponent;
@@ -55,34 +50,17 @@ public class HasHeldItem extends PokemobCondition
     @Override
     public void init(HolderLookup.Provider registries)
     {
-        if (item != null && item.has("id"))
+        if (item != null)
         {
-            String id = item.get("id").getAsString();
-            if (id.contains("#"))
-            {
-                this.tag = id;
-                this.item = null;
-            }
-            else
-            {
-                ResourceLocation loc = ResourceLocation.parse(id);
-                if (!BuiltInRegistries.ITEM.containsKey(loc))
-                {
-                    this.item = null;
-                    this.tag = id;
-                }
-                else
-                {
-                    if (item.has("item"))
-                        PokecubeAPI.LOGGER.warn("Warning: Replacing {} with {} in a item match!", item.get("item"), id);
-                    item.addProperty("item", id);
-                }
-            }
+            if (item.has("item")) item.add("id", item.get("item"));
+            if (item.has("n")) item.add("count", item.get("n"));
+            item.remove("item");
+            item.remove("n");
         }
         check:
-        if (item != null && item.has("item"))
+        if (item != null && item.has("id"))
         {
-            var element = item.get("item");
+            var element = item.get("id");
             if (!element.isJsonPrimitive()) break check;
             String id = element.getAsString();
             if (id.contains("#"))
@@ -102,24 +80,7 @@ public class HasHeldItem extends PokemobCondition
         }
         if (item != null)
         {
-            var parser = new ItemParser(registries);
-            ItemResult result;
-            try
-            {
-                String toStr = item.toString();
-                // Simple item case
-                if (item.size() == 1 && item.has("item"))
-                {
-                    toStr = item.get("item").getAsString();
-                }
-                StringReader reader = new StringReader(toStr);
-                result = parser.parse(reader);
-                _value = new ItemStack(result.item(), 1, result.components());
-            }
-            catch (CommandSyntaxException e)
-            {
-                PokecubeAPI.LOGGER.error("Error loading item {}, {}", item.get("item").getAsString(), item, e);
-            }
+            _value = Tools.getStack(item);
         }
         if (!tag.isEmpty())
         {
