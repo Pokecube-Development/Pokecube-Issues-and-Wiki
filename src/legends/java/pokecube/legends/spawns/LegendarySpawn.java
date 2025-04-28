@@ -76,6 +76,7 @@ public class LegendarySpawn
 
             final CanSpawn test = spawnCondition.canSpawn(context, message);
 
+            System.out.println(test);
             // Priority of errors:
             //
             // Wrong location
@@ -95,6 +96,7 @@ public class LegendarySpawn
                     if (message && captureCondition instanceof AbstractCondition cond)
                         cond.canCapture(playerIn, message);
                     evt.setCanceled(true);
+                    System.out.println("No Capture");
                     return SpawnResult.NOCAPTURE;
                 }
                 // This puts player on a cooldown for respawning the mob

@@ -1,0 +1,8 @@
+{
+  "name": "mew",
+  "preset": "type_based",
+  "poketype": "unknown",
+  "threshold": -1,
+  "failure_message":"pokecube_legends.mew.badges",
+  "failure_effect":"random_teleport"
+}

@@ -1,9 +1,6 @@
 {
   "name": "lugia",
   "preset": "entry_based",
-  "options": {
-    "entries": "articuno,zapdos,moltres"
-  },
   "spawn": {
     "key": {
       "id": "pokecube_legends:oceanorb"
@@ -16,5 +13,10 @@
         "structures": "pokecube_legends:lugia_tower"
       }
     }
-  }
+  },
+  "entries": [
+    "articuno",
+    "zapdos",
+    "moltres"
+  ]
 }

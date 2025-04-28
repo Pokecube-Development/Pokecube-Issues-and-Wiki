@@ -1,10 +1,6 @@
 {
   "name": "cobalion",
   "preset": "type_based",
-  "options": {
-    "threshold": "0.3",
-    "type": "steel"
-  },
   "spawn": {
     "key": {
       "id": "pokecube_legends:cobalion_sword"
@@ -17,5 +13,7 @@
         "structures": "pokecube_legends:keldeo_place"
       }
     }
-  }
+  },
+  "poketype": "steel",
+  "threshold": 0.3
 }

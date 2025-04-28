@@ -1,9 +1,6 @@
 {
   "name": "landorus-incarnate",
   "preset": "entry_based",
-  "options": {
-    "entries": "meloetta_aria"
-  },
   "spawn": {
     "key": {
       "id": "pokecube_legends:orange_rune"
@@ -16,5 +13,8 @@
         "structures": "pokecube_legends:nature_place"
       }
     }
-  }
+  },
+  "entries": [
+    "meloetta_aria"
+  ]
 }

@@ -30,6 +30,7 @@ import pokecube.legends.conditions.data.Conditions.Spawn;
 import thut.api.Tracker;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
+import thut.api.util.JsonUtil;
 import thut.lib.TComponent;
 
 import java.util.ArrayList;
@@ -71,11 +72,13 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
         return false;
     }
 
+    @SuppressWarnings("unchecked")
     protected void setRelevant(final Object block)
     {
         if (block instanceof Block) this.setRelevant((Block) block);
         if (block instanceof BlockState) this.setRelevant((BlockState) block);
         if (block instanceof ResourceLocation) this.setRelevant(b -> ItemList.is((ResourceLocation) block, b));
+        if (block instanceof Predicate<?> check) this.setRelevant((Predicate<BlockState>) check);
     }
 
     protected void setRelevant(final BlockState state)
@@ -106,6 +109,7 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
 
     protected int killedNumber(final Entity trainer, final PokeType type)
     {
+        if (type == PokeType.unknown) return KillStats.getNumberUniqueKilledBy(trainer.getUUID());
         return KillStats.getUniqueOfTypeKilledBy(trainer.getUUID(), type);
     }
 
@@ -113,8 +117,6 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     {
         return CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUUID(), entry);
     }
-
-    public abstract PokedexEntry getEntry();
 
     protected abstract boolean hasRequirements(Entity trainer);
 
@@ -132,6 +134,18 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     private boolean alreadyHas(final Entity trainer)
     {
         return CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUUID(), this.getEntry()) > 0;
+    }
+
+    protected PokedexEntry entry;
+
+    public void setEntry(PokedexEntry entry)
+    {
+        this.entry = entry;
+    }
+
+    public final PokedexEntry getEntry()
+    {
+        return this.entry;
     }
 
     protected void onCapureFail(final IPokemob pokemob)
@@ -183,7 +197,7 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
         if (!test.test()) return test;
 
         SpawnData data = this.getEntry().getSpawnData();
-        boolean canSpawnHere = data == null;
+        boolean canSpawnHere;
         if (spawnRules != null && spawnRules.location != null)
         {
             data = new SpawnData(context.entry());
@@ -191,6 +205,7 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
             data.matchers.put(SpawnBiomeMatcher.get(spawnRules.location), entry);
             canSpawnHere = SpawnHandler.canSpawn(data, context, false);
         }
+        else canSpawnHere = data == null;
         if (canSpawnHere)
         {
             final boolean here =
@@ -272,17 +287,10 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     }
 
     // Build Legend
-    public MutableComponent sendLegendBuild(final Entity trainer, final String name)
+    public void sendLegendBuild(final Entity trainer, final Object name)
     {
         final String message = "msg.reginotlookright.info";
         final MutableComponent component = TComponent.translatable(message, name);
         if (trainer instanceof Player player) player.displayClientMessage(component, true);
-        return component;
-    }
-
-    public MutableComponent sendAngered(final Entity trainer)
-    {
-        final String message = "msg.angeredlegend.json";
-        return TComponent.translatable(message, TComponent.translatable(this.getEntry().getUnlocalizedName()));
     }
 }

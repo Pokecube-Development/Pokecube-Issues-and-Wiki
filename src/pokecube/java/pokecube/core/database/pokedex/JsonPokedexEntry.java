@@ -1,22 +1,11 @@
 package pokecube.core.database.pokedex;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
-
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -44,19 +33,26 @@ import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 import thut.lib.ResourceHelper;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+
 /**
- * This class is the primary data structure used to load the pokedex entries
- * from json files, and to convert them back into json.
- *
+ * This class is the primary data structure used to load the pokedex entries from json files, and to convert them back
+ * into json.
  */
 public class JsonPokedexEntry
         implements Consumer<PokedexEntry>, IMergeable<JsonPokedexEntry>, Comparable<JsonPokedexEntry>
 {
     /**
-     * Holder for the physical size of the pokemob, this is intended as the
-     * outer extent of their hitboxes, and should be generally based on their
-     * pokedex listed size.
-     *
+     * Holder for the physical size of the pokemob, this is intended as the outer extent of their hitboxes, and should
+     * be generally based on their pokedex listed size.
      */
     public static class Sizes implements Consumer<PokedexEntry>
     {
@@ -78,7 +74,6 @@ public class JsonPokedexEntry
 
     /**
      * Holder for stats for the pokemob, standard pokemon stats listings.
-     *
      */
     public static class Stats implements Consumer<PokedexEntry>
     {
@@ -92,9 +87,7 @@ public class JsonPokedexEntry
         @Override
         public void accept(PokedexEntry t)
         {
-            int[] stats =
-            { hp, attack, defense, special_attack, special_defense, speed };
-            t.stats = stats;
+            t.stats = new int[] { hp, attack, defense, special_attack, special_defense, speed };
         }
 
         public void set(int[] stats)
@@ -110,16 +103,14 @@ public class JsonPokedexEntry
 
     /**
      * Holder for EVs provided by the pokemob on death, same format as Stats.
-     *
      */
     public static class EVs extends Stats
     {
         @Override
         public void accept(PokedexEntry t)
         {
-            byte[] stats =
-            { (byte) hp, (byte) attack, (byte) defense, (byte) special_attack, (byte) special_defense, (byte) speed };
-            t.evs = stats;
+            t.evs = new byte[] { (byte) hp, (byte) attack, (byte) defense, (byte) special_attack,
+                    (byte) special_defense, (byte) speed };
         }
 
         public void set(byte[] stats)
@@ -134,10 +125,8 @@ public class JsonPokedexEntry
     }
 
     /**
-     * Abilities for the pokemon, split into lists for normal abilities and
-     * hidden abilities. Normal abilities have higher probability of occuring
-     * naturally.
-     *
+     * Abilities for the pokemon, split into lists for normal abilities and hidden abilities. Normal abilities have
+     * higher probability of occuring naturally.
      */
     public static class Abilities implements Consumer<PokedexEntry>
     {
@@ -155,10 +144,8 @@ public class JsonPokedexEntry
     }
 
     /**
-     * moves listings holder, this contains level up moves, which the mob learns
-     * while levelling, and misc moves, which are all other moves the mob should
-     * be able to know, via breeding, move tutor, tm, etc.
-     *
+     * moves listings holder, this contains level up moves, which the mob learns while levelling, and misc moves, which
+     * are all other moves the mob should be able to know, via breeding, move tutor, tm, etc.
      */
     public static class Moves implements Consumer<PokedexEntry>
     {
@@ -196,7 +183,7 @@ public class JsonPokedexEntry
 
     public static JsonPokedexEntry fromPokedexEntry(PokedexEntry e)
     {
-        JsonPokedexEntry made = null;
+        JsonPokedexEntry made;
 
         if (e._root_json != null)
         {
@@ -367,13 +354,15 @@ public class JsonPokedexEntry
         if (this.base_happiness != -1) entry.baseHappiness = this.base_happiness;
         if (this.gender_rate != -1) entry.sexeRatio = this.gender_rate;
         if (this.growth_rate != null) entry.evolutionMode = Tools.getType(this.growth_rate);
-        if (this.loot_table != null) entry.lootTable = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.parse(loot_table));
-        if (this.held_table != null) entry.heldTable = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.parse(held_table));
+        if (this.loot_table != null)
+            entry.lootTable = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.parse(loot_table));
+        if (this.held_table != null)
+            entry.heldTable = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.parse(held_table));
         if (this.types != null)
         {
             entry.type1 = null;
             entry.type2 = null;
-            if (types.size() > 0) entry.type1 = PokeType.getType(types.get(0));
+            if (!types.isEmpty()) entry.type1 = PokeType.getType(types.get(0));
             if (types.size() > 1) entry.type2 = PokeType.getType(types.get(1));
 
             if (entry.type1 == null) entry.type1 = PokeType.unknown;
@@ -413,7 +402,8 @@ public class JsonPokedexEntry
             entry.texturePath = tex;
             entry.modelPath = model;
 
-            entry.model = ResourceLocation.fromNamespaceAndPath(this.modid, model + entry.getTrimmedName() + entry.modelExt);
+            entry.model = ResourceLocation.fromNamespaceAndPath(this.modid,
+                    model + entry.getTrimmedName() + entry.modelExt);
             entry.texture = ResourceLocation.fromNamespaceAndPath(this.modid, tex + entry.getTrimmedName() + ".png");
             entry.animation = ResourceLocation.fromNamespaceAndPath(this.modid, anim + entry.getTrimmedName() + ".xml");
 
@@ -523,14 +513,12 @@ public class JsonPokedexEntry
             {
                 if (!valid.test(l)) return;
                 List<JsonPokedexEntry> entries = loadDatabase(ResourceHelper.getStream(r), l);
-                entries.forEach(entry -> {
-                    toLoad.compute(entry.name, (key, list) -> {
-                        var ret = list;
-                        if (ret == null) ret = Lists.newArrayList();
-                        ret.add(entry);
-                        return ret;
-                    });
-                });
+                entries.forEach(entry -> toLoad.compute(entry.name, (key, list) -> {
+                    var ret = list;
+                    if (ret == null) ret = Lists.newArrayList();
+                    ret.add(entry);
+                    return ret;
+                }));
             }
             catch (Exception e)
             {
@@ -581,7 +569,7 @@ public class JsonPokedexEntry
 
     public static void populateFromArray(JsonArray array, List<JsonPokedexEntry> list, ResourceLocation source)
     {
-        JsonPokedexEntry database = null;
+        JsonPokedexEntry database;
         int priorities = Integer.MIN_VALUE;
         int start_i = 0;
         var firstEntry = array.get(0).getAsJsonObject();
@@ -623,8 +611,7 @@ public class JsonPokedexEntry
         }
         else
         {
-            JsonPokedexEntry entry = null;
-            entry = JsonUtil.gson.fromJson(json, JsonPokedexEntry.class);
+            JsonPokedexEntry entry = JsonUtil.gson.fromJson(json, JsonPokedexEntry.class);
             entry.__loaded_from.add(source);
             list.add(entry);
         }

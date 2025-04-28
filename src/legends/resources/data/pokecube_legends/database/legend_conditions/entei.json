@@ -1,10 +1,6 @@
 {
   "name": "entei",
   "preset": "type_based",
-  "options": {
-    "threshold": "0.6",
-    "type": "fire"
-  },
   "spawn": {
     "key": {
       "id": "pokecube_legends:flame_gem"
@@ -17,5 +13,7 @@
         "structures": "pokecube_legends:ho-oh_temple"
       }
     }
-  }
+  },
+  "poketype": "fire",
+  "threshold": 0.6
 }

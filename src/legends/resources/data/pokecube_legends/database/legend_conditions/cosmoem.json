@@ -1,8 +1,6 @@
 {
   "name": "cosmoem",
   "preset": "type_based",
-  "options": {
-    "threshold": "0.5",
-    "type": "psychic"
-  }
+  "poketype": "psychic",
+  "threshold": 0.5
 }

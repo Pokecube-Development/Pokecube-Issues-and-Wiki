@@ -12,29 +12,23 @@ import java.util.List;
 public abstract class AbstractTypedCondition extends AbstractCondition
 {
     public PokeType type;
-    public String name;
     public float threshold;
+    boolean capture;
 
-    protected AbstractTypedCondition(final String name, final String type, final float threshold)
+    protected AbstractTypedCondition(final String type, final float threshold, boolean capture)
     {
         this.type = PokeType.getType(type);
         this.threshold = threshold;
-        this.name = name;
-    }
-
-    @Override
-    public final PokedexEntry getEntry()
-    {
-        return Database.getEntry(this.name);
+        this.capture = capture;
     }
 
     @Override
     protected boolean hasRequirements(final Entity trainer)
     {
-        int count1 = this.caughtNumber(trainer, this.type);
+        int count1 = capture ? this.caughtNumber(trainer, this.type) : this.killedNumber(trainer, this.type);
 
         // special case for abolute number requirements
-        if (Math.abs(this.threshold) > 1)
+        if (Math.abs(this.threshold) >= 1 || threshold < 0)
         {
             int n = (int) this.threshold;
             List<PokedexEntry> entries = type == PokeType.unknown
@@ -58,7 +52,7 @@ public abstract class AbstractTypedCondition extends AbstractCondition
     public MutableComponent getFailureMessage(final Entity trainer)
     {
         if (customFailMesg != null) return super.getFailureMessage(trainer);
-        final int count1 = this.caughtNumber(trainer, this.type);
+        int count1 = capture ? this.caughtNumber(trainer, this.type) : this.killedNumber(trainer, this.type);
         final int count2 = this.spawnNumber(this.type);
         return this.sendNoTrust(trainer).append("\n")
                 .append(this.sendLegend(trainer, this.type.name, (int) (count2 * this.threshold), count1));

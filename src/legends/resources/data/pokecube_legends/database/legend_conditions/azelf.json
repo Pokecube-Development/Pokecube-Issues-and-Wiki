@@ -1,10 +1,6 @@
 {
   "name": "azelf",
   "preset": "type_based",
-  "options": {
-    "threshold": "0.3",
-    "type": "psychic"
-  },
   "spawn": {
     "key": {
       "id": "pokecube_legends:azelf_gem"
@@ -17,5 +13,7 @@
         "structures": "pokecube_legends:zamazenta_temple,pokecube_legends:zacian_temple"
       }
     }
-  }
+  },
+  "poketype": "psychic",
+  "threshold": 0.3
 }

@@ -5,9 +5,17 @@ import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.stats.ISpecialCaptureCondition;
+import pokecube.api.stats.ISpecialSpawnCondition;
 import pokecube.core.database.resources.PackFinder;
+import pokecube.legends.Reference;
+import pokecube.legends.conditions.AbstractCondition;
 import pokecube.legends.conditions.data.Conditions.AndPreset;
+import pokecube.legends.conditions.data.Conditions.BuiltCondition;
 import pokecube.legends.conditions.data.Conditions.EntriedCondition;
 import pokecube.legends.conditions.data.Conditions.OrPreset;
 import pokecube.legends.conditions.data.Conditions.PresetCondition;
@@ -20,10 +28,13 @@ import thut.lib.ResourceHelper;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = Reference.ID)
 public class ConditionLoader extends ResourceData
 {
 
@@ -34,8 +45,17 @@ public class ConditionLoader extends ResourceData
         ConditionLoader.__presets__.put("entry_based", EntriedCondition.class);
         ConditionLoader.__presets__.put("type_based", TypedCondition.class);
         ConditionLoader.__presets__.put("spawns_only", PresetCondition.class);
+        ConditionLoader.__presets__.put("build", BuiltCondition.class);
         ConditionLoader.__presets__.put("and", AndPreset.class);
         ConditionLoader.__presets__.put("or", OrPreset.class);
+    }
+
+    private static boolean POST_LOAD = false;
+
+    @SubscribeEvent
+    public static void loadComplete(FMLLoadCompleteEvent event)
+    {
+        POST_LOAD = true;
     }
 
     private final String tagPath;
@@ -50,13 +70,19 @@ public class ConditionLoader extends ResourceData
     }
 
     List<PresetCondition> conditions = Lists.newArrayList();
+    List<AbstractCondition> _added = new ArrayList<>();
 
     @Override
     public void reload(final AtomicBoolean valid)
     {
         this.validLoad = false;
+        if (!POST_LOAD) return;
         final String path = ResourceLocation.parse(this.tagPath).getPath();
         final Map<ResourceLocation, Resource> resources = PackFinder.getJsonResources(path);
+        _added.forEach(e -> {
+            ISpecialCaptureCondition.captureMap.remove(e.getEntry());
+            ISpecialSpawnCondition.spawnMap.remove(e.getEntry());
+        });
         this.validLoad = !resources.isEmpty();
         this.conditions.clear();
         LegendarySpawn.data_spawns.clear();
@@ -69,7 +95,8 @@ public class ConditionLoader extends ResourceData
     public void postReload()
     {
         LegendarySpawn.data_spawns.clear();
-        this.conditions.forEach(PresetCondition::register);
+        this.conditions.forEach(e -> _added.add(e.register()));
+        _added.removeIf(Objects::isNull);
         this.conditions.clear();
     }
 

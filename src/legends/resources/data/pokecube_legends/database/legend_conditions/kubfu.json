@@ -1,10 +1,6 @@
 {
   "name": "kubfu",
   "preset": "type_based",
-  "options": {
-    "threshold": "0.3",
-    "type": "fighting"
-  },
   "spawn": {
     "key": {
       "id": "pokecube_legends:kubfu_spawn"
@@ -17,5 +13,7 @@
         "structures": "pokecube_legends:kubfu_dojo"
       }
     }
-  }
+  },
+  "poketype": "fighting",
+  "threshold": 0.3
 }

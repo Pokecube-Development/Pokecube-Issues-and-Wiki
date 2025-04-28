@@ -1,9 +1,6 @@
 {
   "name": "volcanion",
   "preset": "entry_based",
-  "options": {
-    "entries": "magearna"
-  },
   "spawn": {
     "key": {
       "id": "pokecube_legends:steam_core"
@@ -14,5 +11,8 @@
     "location": {
       "and_preset": "villages"
     }
-  }
+  },
+  "entries": [
+    "magearna"
+  ]
 }

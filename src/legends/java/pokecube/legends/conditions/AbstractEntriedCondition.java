@@ -1,32 +1,22 @@
 package pokecube.legends.conditions;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.Entity;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.database.Database;
 
+import java.util.List;
+
 public abstract class AbstractEntriedCondition extends AbstractCondition
 {
     public final List<String> needed;
 
-    public final String name;
-
     String names;
 
-    public AbstractEntriedCondition(final String entry, final String... needed)
+    public AbstractEntriedCondition(final String... needed)
     {
         this.needed = Lists.newArrayList(needed);
-        this.name = entry;
-    }
-
-    @Override
-    public final PokedexEntry getEntry()
-    {
-        return Database.getEntry(this.name);
     }
 
     @Override
@@ -44,7 +34,7 @@ public abstract class AbstractEntriedCondition extends AbstractCondition
         if (this.names == null)
         {
             this.names = "";
-            PokedexEntry entry = Database.getEntry(this.needed.get(0));
+            PokedexEntry entry = Database.getEntry(this.needed.getFirst());
             this.names = entry.getName();
             for (int i = 1; i < this.needed.size(); i++)
             {

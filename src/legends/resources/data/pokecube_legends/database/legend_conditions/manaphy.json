@@ -1,10 +1,6 @@
 {
   "name": "manaphy",
   "preset": "type_based",
-  "options": {
-    "threshold": "0.4",
-    "type": "water"
-  },
   "spawn": {
     "key": {
       "id": "pokecube_legends:manaphy_necklace"
@@ -17,5 +13,7 @@
         "structures": "pokecube_legends:kyogre_temple"
       }
     }
-  }
+  },
+  "poketype": "water",
+  "threshold": 0.4
 }

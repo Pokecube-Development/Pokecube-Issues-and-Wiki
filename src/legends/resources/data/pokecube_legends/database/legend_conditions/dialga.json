@@ -1,9 +1,6 @@
 {
   "name": "dialga",
   "preset": "entry_based",
-  "options": {
-    "entries": "uxie,mesprit,azelf"
-  },
   "spawn": {
     "key": {
       "id": "pokecube_legends:adamantorb"
@@ -16,5 +13,10 @@
         "structures": "pokecube_legends:space_temple"
       }
     }
-  }
+  },
+  "entries": [
+    "uxie",
+    "mesprit",
+    "azelf"
+  ]
 }

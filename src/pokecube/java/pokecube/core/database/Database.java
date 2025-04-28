@@ -66,9 +66,21 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
 
 public class Database
 {
+    private static final Pattern ALLOWED = Pattern.compile("([^a-z0-9])");
+
+    public static String trim_loose(String name)
+    {
+        // ROOT locale to prevent issues with turkish letters.
+        name = name.toLowerCase(Locale.ROOT).trim();
+        // Replace all non-alphanumeric
+        name = ALLOWED.matcher(name).replaceAll("");
+        return name;
+    }
+
     @XmlRootElement(name = "Drops")
     public static class XMLDrops
     {
@@ -280,6 +292,17 @@ public class Database
     public static PokedexEntry getEntry(final IPokemob mob)
     {
         return mob.getPokedexEntry();
+    }
+
+
+    public static PokedexEntry checkEntryExists(String name){
+        final PokedexEntry ret = null;
+        if (name == null) return null;
+        name = ThutCore.trim(name);
+        if (name.trim().isEmpty()) return null;
+        final PokedexEntry test = Database.data2.get(name);
+        if (test != null) return test;
+        return ret;
     }
 
     public static PokedexEntry getEntry(String name)
@@ -853,15 +876,6 @@ public class Database
         AbilityManager.init();
 
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Loaded all databases");
-    }
-
-    public static String trim_loose(String name)
-    {
-        // ROOT locale to prevent issues with turkish letters.
-        name = name.toLowerCase(Locale.ROOT).trim();
-        // Replace all non-alphanumeric
-        name = name.replaceAll("([^a-z0-9])", "");
-        return name;
     }
 
     public static String trim(final String name)

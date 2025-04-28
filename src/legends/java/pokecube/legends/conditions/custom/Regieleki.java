@@ -17,7 +17,7 @@ public class Regieleki extends AbstractRegiCondition
     private static final ResourceLocation VALID_BLOCKS = ResourceLocation.fromNamespaceAndPath(Reference.ID, "arceus_approved/regieleki");
     public Regieleki()
     {
-        super("regieleki", BlockInit.GOLEM_STONE.get(), BlockInit.REGIELEKI_CORE.get(), VALID_BLOCKS);
+        super(BlockInit.GOLEM_STONE.get(), BlockInit.REGIELEKI_CORE.get(), VALID_BLOCKS);
     }
 
     @Override

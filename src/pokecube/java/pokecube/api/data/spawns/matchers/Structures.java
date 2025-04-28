@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.data.spawns.SpawnCheck.MatchResult;
 import thut.api.level.structures.NamedVolumes.INamedStructure;
 import thut.api.level.structures.StructureManager;
+
+import javax.annotation.Nullable;
 
 /**
  * 
@@ -47,5 +50,11 @@ public class Structures extends BaseMatcher
             s = s.strip();
             this._validStructures.add(s.replace("#", ""));
         }
+    }
+
+    @Nullable
+    public Component makeDescription()
+    {
+        return Component.literal(_validStructures.toString());
     }
 }

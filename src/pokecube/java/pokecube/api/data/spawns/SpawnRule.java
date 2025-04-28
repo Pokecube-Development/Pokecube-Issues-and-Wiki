@@ -140,8 +140,7 @@ public class SpawnRule
 
     public SpawnRule copy()
     {
-        SpawnRule copy = JsonUtil.gson.fromJson(JsonUtil.gson.toJson(this), getClass());
-        return copy;
+        return JsonUtil.gson.fromJson(JsonUtil.gson.toJson(this), getClass());
     }
 
     @Nullable

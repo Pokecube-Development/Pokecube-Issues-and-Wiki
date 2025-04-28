@@ -1,17 +1,5 @@
 package thut.core.common;
 
-import java.io.File;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Random;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.appender.FileAppender;
-
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleType;
@@ -46,6 +34,9 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent.RightClick
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.appender.FileAppender;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
 import thut.api.attachments.CopyMob;
@@ -57,8 +48,14 @@ import thut.api.level.structures.StructureManager;
 import thut.api.util.PermNodes;
 import thut.core.common.config.Config;
 import thut.core.common.handlers.ConfigHandler;
-import thut.core.common.network.*;
+import thut.core.common.network.EntityUpdate;
+import thut.core.common.network.GeneralUpdate;
+import thut.core.common.network.PacketHandler;
+import thut.core.common.network.PartInteract;
+import thut.core.common.network.PartSync;
 import thut.core.common.network.SyncAttachments;
+import thut.core.common.network.TerrainUpdate;
+import thut.core.common.network.TileUpdate;
 import thut.core.common.terrain.CapabilityTerrainAffected;
 import thut.core.common.world.mobs.data.PacketDataSync;
 import thut.core.init.RegistryObjects;
@@ -67,26 +64,45 @@ import thut.crafts.ThutCrafts;
 import thut.lib.DistExecutor;
 import thut.lib.RegHelper;
 
+import java.io.File;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Random;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
+
 @Mod(ThutCore.MODID)
 public class ThutCore
 {
+
+    private static final Pattern ALLOWED = Pattern.compile("([^a-z0-9 /_-])");
+    private static final Map<String, String> trimmed = new Object2ObjectOpenHashMap<String, String>();
+
+    public static synchronized String trim(final String name)
+    {
+        if (name == null) return null;
+        return trimmed.computeIfAbsent(name, ThutCore::_trim);
+    }
+
     // You can use EventBusSubscriber to automatically subscribe events on the
     // contained class (this is subscribing to the main event bus, as it gets
     // generic minecraft events.)
     public static class MobEvents
     {
-//        private static final ResourceLocation CAPID = ResourceLocation.fromNamespaceAndPath(ThutCore.MODID,
-//                "inventory");
-//
-//        @SubscribeEvent
-//        public static void onMobCapabilityAttach(final NewRegistryEvent event)
-//        {
-//          // TODO fixme
-//        	event.registerEntity(null, null, null);
-//            if (event.getCapabilities().containsKey(MobEvents.CAPID)) return;
-//            if (!(event.getObject() instanceof IBlockEntity)) return;
-//            event.addCapability(MobEvents.CAPID, new BlockEntityInventory((IBlockEntity) event.getObject()));
-//        }
+        //        private static final ResourceLocation CAPID = ResourceLocation.fromNamespaceAndPath(ThutCore.MODID,
+        //                "inventory");
+        //
+        //        @SubscribeEvent
+        //        public static void onMobCapabilityAttach(final NewRegistryEvent event)
+        //        {
+        //          // TODO fixme
+        //        	event.registerEntity(null, null, null);
+        //            if (event.getCapabilities().containsKey(MobEvents.CAPID)) return;
+        //            if (!(event.getObject() instanceof IBlockEntity)) return;
+        //            event.addCapability(MobEvents.CAPID, new BlockEntityInventory((IBlockEntity) event.getObject()));
+        //        }
 
         public static EntityHitResult rayTraceEntities(final Entity shooter, final Vec3 startVec, final Vec3 endVec,
                 final AABB boundingBox, final Predicate<Entity> filter, final double distance)
@@ -115,19 +131,19 @@ public class ThutCore
                     final double d1 = startVec.distanceToSqr(vector3d1);
                     if (d1 < d0 || d0 == 0.0D)
                         if (entity1.getRootVehicle() == shooter.getRootVehicle() && !entity1.canRiderInteract())
-                    {
-                        if (d0 == 0.0D)
+                        {
+                            if (d0 == 0.0D)
+                            {
+                                entity = entity1;
+                                vector3d = vector3d1;
+                            }
+                        }
+                        else
                         {
                             entity = entity1;
                             vector3d = vector3d1;
+                            d0 = d1;
                         }
-                    }
-                    else
-                    {
-                        entity = entity1;
-                        vector3d = vector3d1;
-                        d0 = d1;
-                    }
                 }
             }
             return entity == null ? null : new EntityHitResult(entity, vector3d);
@@ -148,14 +164,16 @@ public class ThutCore
                 if (var != null && var.getType() == HitResult.Type.ENTITY)
                 {
                     final IBlockEntity entity = (IBlockEntity) var.getEntity();
-                    if (entity.getInteractor().processInitialInteract(event.getEntity(), event.getItemStack(),
-                            event.getHand()) != InteractionResult.PASS)
+                    if (entity.getInteractor()
+                            .processInitialInteract(event.getEntity(), event.getItemStack(), event.getHand())
+                            != InteractionResult.PASS)
                     {
                         event.setCanceled(true);
                         return;
                     }
-                    if (entity.getInteractor().interactInternal(event.getEntity(), event.getPos(), event.getItemStack(),
-                            event.getHand()) != InteractionResult.PASS)
+                    if (entity.getInteractor()
+                            .interactInternal(event.getEntity(), event.getPos(), event.getItemStack(), event.getHand())
+                            != InteractionResult.PASS)
                     {
                         event.setCanceled(true);
                         return;
@@ -171,20 +189,20 @@ public class ThutCore
     @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = ThutCore.MODID)
     public static class RegistryEvents
     {
-        public static final DeferredRegister<RecipeType<?>> RECIPETYPE = DeferredRegister
-                .create(RegHelper.RECIPE_TYPE_REGISTRY, ThutCore.MODID);
-        public static final DeferredRegister<LootItemFunctionType<?>> LOOTTYPE = DeferredRegister
-                .create(RegHelper.LOOT_FUNCTION_REGISTRY, ThutCore.MODID);
-        public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister
-                .create(BuiltInRegistries.PARTICLE_TYPE, ThutCore.MODID);
+        public static final DeferredRegister<RecipeType<?>> RECIPETYPE = DeferredRegister.create(
+                RegHelper.RECIPE_TYPE_REGISTRY, ThutCore.MODID);
+        public static final DeferredRegister<LootItemFunctionType<?>> LOOTTYPE = DeferredRegister.create(
+                RegHelper.LOOT_FUNCTION_REGISTRY, ThutCore.MODID);
+        public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(
+                BuiltInRegistries.PARTICLE_TYPE, ThutCore.MODID);
         public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(BuiltInRegistries.MENU,
                 ThutCore.MODID);
         public static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(Registries.ATTRIBUTE,
                 MODID);
-        public static final DeferredRegister<AttachmentType<?>> ATTACHMENTS = DeferredRegister
-                .create(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, MODID);
-        public static final DeferredRegister<DataComponentType<?>> ITEM_DATA = DeferredRegister
-                .create(BuiltInRegistries.DATA_COMPONENT_TYPE, MODID);
+        public static final DeferredRegister<AttachmentType<?>> ATTACHMENTS = DeferredRegister.create(
+                NeoForgeRegistries.Keys.ATTACHMENT_TYPES, MODID);
+        public static final DeferredRegister<DataComponentType<?>> ITEM_DATA = DeferredRegister.create(
+                BuiltInRegistries.DATA_COMPONENT_TYPE, MODID);
 
         @SubscribeEvent
         public static void registerCapabilities(final RegisterCapabilitiesEvent event)
@@ -212,21 +230,13 @@ public class ThutCore
     // Bus for Forge Events
     public static final IEventBus FORGE_BUS = NeoForge.EVENT_BUS;
 
-    private static Map<String, String> trimmed = new Object2ObjectOpenHashMap<String, String>();
-
-    public static synchronized String trim(final String name)
-    {
-        if (name == null) return null;
-        return trimmed.computeIfAbsent(name, ThutCore::_trim);
-    }
-
     private static String _trim(String name)
     {
         String trim = name;
         // ROOT locale to prevent issues with turkish letters.
         trim = trim.toLowerCase(Locale.ROOT).trim();
         // Replace all not-resourcelocation chars
-        trim = trim.replaceAll("([^a-z0-9 /_-])", "");
+        trim = ALLOWED.matcher(trim).replaceAll("");
         // Replace these too.
         trim = trim.replaceAll(" ", "_");
         return trim;
@@ -317,7 +327,7 @@ public class ThutCore
         ThutCore.packets.registerBiDirectionalMessage(GeneralUpdate.class);
 
         GeneralUpdate.init();
-//        CapabilitySync.init();
+        //        CapabilitySync.init();
 
         // Register capabilities.
 

@@ -16,7 +16,6 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
@@ -65,13 +64,11 @@ import pokecube.core.database.tags.Tags;
 import pokecube.core.entity.pokemobs.DispenseBehaviourInteract;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
-import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.TimePeriod;
 import thut.api.Tracker;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
 import thut.api.item.ItemList;
 import thut.api.level.terrain.BiomeType;
-import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vec3f;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
@@ -383,8 +380,7 @@ public class PokedexEntry
             if (action.lootTable != null && player.level() instanceof ServerLevel level)
             {
                 final LootTable loottable = level.getServer().reloadableRegistries().getLootTable(action.lootTable);
-                LootParams params = new LootParams.Builder(level).create(
-                        loottable.getParamSet());
+                LootParams params = new LootParams.Builder(level).create(loottable.getParamSet());
                 // Generate the loot list.
                 final List<ItemStack> list = loottable.getRandomItems(params);
                 for (final ItemStack itemstack : list)
@@ -533,14 +529,6 @@ public class PokedexEntry
             return null;
         }
 
-        public SpawnBiomeMatcher getMatcher(final ServerLevel world, final Vector3 location,
-                @Nullable ServerPlayer player)
-        {
-            SpawnContext context = new SpawnContext(player, world, entry, location, SpawnEvent.SpawnSurface.of(entry));
-            final SpawnCheck checker = new SpawnCheck(location, world);
-            return this.getMatcher(context, checker);
-        }
-
         public int getMax(final SpawnBiomeMatcher matcher)
         {
             final SpawnEntry entry = this.matchers.get(matcher);
@@ -557,12 +545,6 @@ public class PokedexEntry
         {
             final SpawnEntry entry = this.matchers.get(matcher);
             return entry == null ? new Variance() : entry.variance;
-        }
-
-        public float getWeight(final SpawnBiomeMatcher matcher)
-        {
-            final SpawnEntry entry = this.matchers.get(matcher);
-            return entry == null ? 0 : entry.rate;
         }
 
         public float getWeight(final SpawnContext context, SpawnCheck checker, boolean forSpawn)
@@ -870,9 +852,6 @@ public class PokedexEntry
     public final List<PokedexEntry> related = new ArrayList<>();
 
     @CopyToGender
-    public PokedexEntry shadowForme = null;
-
-    @CopyToGender
     public boolean shouldDive = false;
 
     @CopyToGender
@@ -958,21 +937,19 @@ public class PokedexEntry
 
     /**
      * This constructor is used for making blank entry for copy comparisons.
-     *
-     * @param blank
      */
-    private PokedexEntry(final boolean blank)
+    private PokedexEntry(final boolean ignored)
     {
         // Nothing
     }
 
     public PokedexEntry(final int nb, final String name, boolean isExtraForm)
     {
-        this.name = name;
+        this.name = Database.trim(name);
         this.pokedexNb = nb;
-        if (Database.getEntry(name) == null) Database.allFormes.add(this);
-        else
-            new NullPointerException("Trying to add another " + name + " " + Database.getEntry(name)).printStackTrace();
+        if (Database.checkEntryExists(this.name) == null) Database.allFormes.add(this);
+        else new NullPointerException(
+                "Trying to add another " + name + " " + Database.checkEntryExists(this.name)).printStackTrace();
         this.generated = isExtraForm;
     }
 
@@ -995,7 +972,7 @@ public class PokedexEntry
                 PokedexEntry output = i.getOutput();
                 if (output == null && i.getForme(this) == null)
                 {
-                    PokecubeAPI.LOGGER.error("Error loading output forme for " + this);
+                    PokecubeAPI.LOGGER.error("Error loading output forme for {}", this);
                     continue;
                 }
                 try
@@ -1003,7 +980,7 @@ public class PokedexEntry
                     ItemStack stack = i.getKey();
                     if (stack.isEmpty())
                     {
-                        PokecubeAPI.LOGGER.error("Error with key  for " + this);
+                        PokecubeAPI.LOGGER.error("Error with key for {}", this);
                         continue;
                     }
                     PokecubeItems.ADDED_HELD.add(RegHelper.getKey(stack));
@@ -1025,7 +1002,7 @@ public class PokedexEntry
                 }
                 catch (Exception e)
                 {
-                    PokecubeAPI.LOGGER.error("Error loading forme " + output + " for " + this);
+                    PokecubeAPI.LOGGER.error("Error loading forme {} for {}", output, this);
                     PokecubeAPI.LOGGER.error(e);
                 }
             }
@@ -1133,11 +1110,6 @@ public class PokedexEntry
         return this.activeTimes;
     }
 
-    public void addEvolution(final EvolutionData toAdd)
-    {
-        this.evolutions.add(toAdd);
-    }
-
     public void addForm(final PokedexEntry form)
     {
         if (this.forms.containsValue(form)) return;
@@ -1207,7 +1179,7 @@ public class PokedexEntry
         if (e.possibleMoves == null) e.possibleMoves = this.possibleMoves;
         if (e.lvlUpMoves == null) e.lvlUpMoves = this.lvlUpMoves;
         if (e.stats == null) e.stats = this.stats.clone();
-        if (this.evs == null) PokecubeAPI.LOGGER.error(this + " " + this.baseForme, new IllegalArgumentException());
+        if (this.evs == null) PokecubeAPI.LOGGER.error("{} {}", this, this.baseForme, new IllegalArgumentException());
         if (e.evs == null) e.evs = this.evs.clone();
         if (e.height == -1) e.height = this.height;
         if (e.width == -1) e.width = this.width;
@@ -1292,7 +1264,7 @@ public class PokedexEntry
             if (this.getBaseForme() != null && this.getBaseForme() != this)
                 this.baseName = this.getBaseForme().getTrimmedName();
             else this.baseName = this.getTrimmedName();
-            if (this.getBaseForme() == this) PokecubeAPI.LOGGER.error("Error with " + this);
+            if (this.getBaseForme() == this) PokecubeAPI.LOGGER.error("Error with {}", this);
         }
         return this.baseName;
     }
@@ -1363,18 +1335,6 @@ public class PokedexEntry
                             entry._evolvesFrom.getTranslatedName()));
             return descString;
         });
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public MutableComponent getDescription(@Nullable IPokemob pokemob)
-    {
-        return getDescription(pokemob, null);
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public MutableComponent getDescription(@Nullable FormeHolder holder)
-    {
-        return getDescription(null, holder);
     }
 
     public EntityType<? extends Mob> getEntityType()
@@ -1651,11 +1611,6 @@ public class PokedexEntry
         return "entity.pokecube." + name;
     }
 
-    public boolean hasForm(final String form)
-    {
-        return this.forms.containsKey(Database.trim(form));
-    }
-
     public Collection<PokedexEntry> getFormes()
     {
         return this.forms.values();
@@ -1871,8 +1826,7 @@ public class PokedexEntry
     public void setModId(final String modId)
     {
         if (this.modId != null && !this.modId.equals(modId))
-            PokecubeAPI.LOGGER.debug("Modid changed to: " + modId + " for " + this + " from " + this.modId,
-                    new Exception());
+            PokecubeAPI.LOGGER.debug("Modid changed to: {} for {} from {}", modId, this, this.modId, new Exception());
         this.modId = modId;
     }
 
@@ -1908,38 +1862,6 @@ public class PokedexEntry
     public String toString()
     {
         return this.name;
-    }
-
-    public void updateMoves()
-    {
-        final List<String> moves = new ArrayList<>();
-
-        if (this.possibleMoves == null)
-        {
-            this.possibleMoves = this.getBaseForme().possibleMoves;
-            this.possibleMoves.isEmpty();
-        }
-        if (this.lvlUpMoves == null) this.lvlUpMoves = this.getBaseForme().lvlUpMoves;
-
-        for (final String s : this.possibleMoves)
-            if (MovesUtils.isMoveImplemented(s) && !moves.contains(s)) moves.add(s);
-        this.possibleMoves.clear();
-        this.possibleMoves.addAll(moves);
-        final List<Integer> toRemove = new ArrayList<>();
-        for (final int level : this.lvlUpMoves.keySet())
-        {
-            moves.clear();
-            final List<String> lvls = this.lvlUpMoves.get(level);
-            for (final String s : lvls)
-            {
-                if (MovesUtils.isMoveImplemented(s)) moves.add(s);
-            }
-            lvls.clear();
-            lvls.addAll(moves);
-            if (lvls.isEmpty()) toRemove.add(level);
-
-        }
-        for (final int i : toRemove) this.lvlUpMoves.remove(i);
     }
 
     public boolean genderDiffers(final byte sexe)

@@ -1,8 +1,9 @@
 {
   "name": "eternatus",
   "preset": "entry_based",
-  "options": {
-    "entries": "zacian,zamazenta"
-  },
-  "spawn": {}
+  "spawn": {},
+  "entries": [
+    "zacian",
+    "zamazenta"
+  ]
 }

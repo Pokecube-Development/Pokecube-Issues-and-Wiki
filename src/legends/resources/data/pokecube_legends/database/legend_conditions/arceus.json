@@ -1,9 +1,6 @@
 {
   "name": "arceus",
   "preset": "entry_based",
-  "options": {
-    "entries": "dialga,palkia,giratina-altered"
-  },
   "spawn": {
     "key": {
       "id": "pokecube_legends:azure_flute"
@@ -16,5 +13,10 @@
         "structures": "pokecube_legends:space_temple"
       }
     }
-  }
+  },
+  "entries": [
+    "dialga",
+    "palkia",
+    "giratina-altered"
+  ]
 }

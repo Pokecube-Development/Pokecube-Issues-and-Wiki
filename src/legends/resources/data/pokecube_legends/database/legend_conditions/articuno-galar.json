@@ -1,10 +1,6 @@
 {
   "name": "articuno-galar",
   "preset": "type_based",
-  "options": {
-    "threshold": "0.3",
-    "type": "flying"
-  },
   "spawn": {
     "key": {
       "id": "pokecube_legends:ice_dark_wing"
@@ -17,5 +13,7 @@
         "structures": "pokecube_legends:legendary_tree"
       }
     }
-  }
+  },
+  "poketype": "flying",
+  "threshold": 0.3
 }

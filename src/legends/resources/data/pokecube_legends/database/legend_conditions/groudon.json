@@ -1,6 +1,19 @@
 {
   "name": "groudon",
-  "preset": "spawns_only",
+  "preset": "and",
+  "conditions":[
+    {
+      "preset": "type_based",
+      "poketype": "water",
+      "threshold": 0.5,
+      "capture": false
+    },
+    {
+      "preset": "type_based",
+      "poketype": "ground",
+      "threshold": 0.5
+    }
+  ],
   "spawn": {
     "key": {
       "id": "pokecube_legends:redorb"

@@ -79,7 +79,7 @@ public class PokemobMoveStats
     public int oldLevel = 0;
 
     /** Moves it is trying to learn. */
-    public List<String> newMoves = Lists.newArrayList();
+    public final List<String> newMoves = Lists.newArrayList();
     /** Index of new move to learn from newMoves. */
     public int num = 0;
     /** The last move we used. */
@@ -115,7 +115,11 @@ public class PokemobMoveStats
         for (final Field f : this.getClass().getFields())
             try
             {
-                if (!PokemobMoveStats.IGNORE.contains(f.getName())) f.set(this, f.get(PokemobMoveStats.defaults));
+                if (!PokemobMoveStats.IGNORE.contains(f.getName()))
+                {
+                    if (f.get(this) instanceof List<?> l) l.clear();
+                    else f.set(this, f.get(PokemobMoveStats.defaults));
+                }
             }
             catch (final Exception e)
             {
@@ -191,19 +195,6 @@ public class PokemobMoveStats
         if (baseMoves == movesToUse) Thread.dumpStack();
         this.movesToUse = movesToUse;
         return movesToUse;
-    }
-
-    public void changeMovesUser(IPokemob newUser)
-    {
-        PokemobMoveStats from = newUser.getMoveStats();
-        synchronized (movesInProgress)
-        {
-            synchronized (from.movesInProgress)
-            {
-                from.movesInProgress.addAll(this.movesInProgress);
-                from.movesInProgress.forEach(m -> m.setUser(newUser));
-            }
-        }
     }
 
     public String[] getBaseMoves()

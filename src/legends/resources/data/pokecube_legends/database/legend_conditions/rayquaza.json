@@ -1,9 +1,6 @@
 {
   "name": "rayquaza",
   "preset": "entry_based",
-  "options": {
-    "entries": "kyogre,groudon"
-  },
   "spawn": {
     "key": {
       "id": "pokecube_legends:ancient_stone"
@@ -16,5 +13,9 @@
         "structures": "pokecube_legends:sky_pillar"
       }
     }
-  }
+  },
+  "entries": [
+    "kyogre",
+    "groudon"
+  ]
 }

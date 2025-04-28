@@ -1,10 +1,6 @@
 {
   "name": "virizion",
   "preset": "type_based",
-  "options": {
-    "threshold": "0.3",
-    "type": "grass"
-  },
   "spawn": {
     "key": {
       "id": "pokecube_legends:virizion_sword"
@@ -17,5 +13,7 @@
         "structures": "pokecube_legends:keldeo_place"
       }
     }
-  }
+  },
+  "poketype": "grass",
+  "threshold": 0.3
 }

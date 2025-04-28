@@ -17,7 +17,7 @@ import pokecube.core.database.Database;
 import pokecube.gimmicks.dynamax.DynamaxRaid;
 import pokecube.gimmicks.terastal.TerastalRaid;
 import pokecube.legends.Reference;
-import pokecube.legends.conditions.custom.LegendaryConditions;
+import pokecube.legends.conditions.LegendaryConditions;
 import pokecube.legends.entity.WormholeEntity;
 import pokecube.legends.spawns.WormholeSpawns;
 import thut.core.common.config.Config.ConfigData;

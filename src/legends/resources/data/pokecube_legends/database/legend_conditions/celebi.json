@@ -1,10 +1,6 @@
 {
   "name": "celebi",
   "preset": "type_based",
-  "options": {
-    "threshold": "0.7",
-    "type": "grass"
-  },
   "spawn": {
     "key": {
       "id": "pokecube_legends:greenorb"
@@ -17,5 +13,7 @@
         "structures": "pokecube_legends:celebi_temple"
       }
     }
-  }
+  },
+  "poketype": "grass",
+  "threshold": 0.7
 }

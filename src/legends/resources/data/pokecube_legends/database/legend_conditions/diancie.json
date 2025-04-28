@@ -1,10 +1,6 @@
 {
   "name": "diancie",
   "preset": "type_based",
-  "options": {
-    "threshold": "0.3",
-    "type": "fairy"
-  },
   "spawn": {
     "key": {
       "id": "pokecube_legends:diamond_gem"
@@ -15,5 +11,7 @@
     "location": {
       "and_preset": "extreme_hills"
     }
-  }
+  },
+  "poketype": "fairy",
+  "threshold": 0.3
 }

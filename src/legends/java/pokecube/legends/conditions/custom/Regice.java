@@ -20,7 +20,7 @@ public class Regice extends AbstractRegiCondition
 
     public Regice()
     {
-        super("regice", BlockInit.GOLEM_STONE.get(), BlockInit.REGICE_CORE.get(), Regice.VALID_BLOCKS);
+        super( BlockInit.GOLEM_STONE.get(), BlockInit.REGICE_CORE.get(), Regice.VALID_BLOCKS);
     }
 
     @Override

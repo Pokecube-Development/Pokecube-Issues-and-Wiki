@@ -1,9 +1,6 @@
 {
   "name": "palkia",
   "preset": "entry_based",
-  "options": {
-    "entries": "uxie,mesprit,azelf"
-  },
   "spawn": {
     "key": {
       "id": "pokecube_legends:lustrousorb"
@@ -16,5 +13,10 @@
         "structures": "pokecube_legends:space_temple"
       }
     }
-  }
+  },
+  "entries": [
+    "uxie",
+    "mesprit",
+    "azelf"
+  ]
 }

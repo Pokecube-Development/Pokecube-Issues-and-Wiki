@@ -1,9 +1,6 @@
 {
   "name": "kyurem",
   "preset": "entry_based",
-  "options": {
-    "entries": "reshiram,zekrom"
-  },
   "spawn": {
     "key": {
       "id": "pokecube_legends:kyurem_core"
@@ -14,5 +11,9 @@
     "location": {
       "and_preset": "snowy_areas"
     }
-  }
+  },
+  "entries": [
+    "reshiram",
+    "zekrom"
+  ]
 }

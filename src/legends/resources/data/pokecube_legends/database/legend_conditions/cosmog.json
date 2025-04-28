@@ -1,10 +1,6 @@
 {
   "name": "cosmog",
   "preset": "type_based",
-  "options": {
-    "threshold": "0.3",
-    "type": "psychic"
-  },
   "spawn": {
     "key": {
       "id": "pokecube_legends:cosmic_orb"
@@ -17,5 +13,7 @@
         "structures": "pokecube_legends:space_temple"
       }
     }
-  }
+  },
+  "poketype": "psychic",
+  "threshold": 0.3
 }

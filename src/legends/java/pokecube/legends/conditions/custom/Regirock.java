@@ -17,7 +17,7 @@ public class Regirock extends AbstractRegiCondition
     private static final ResourceLocation VALID_BLOCKS = ResourceLocation.fromNamespaceAndPath(Reference.ID, "arceus_approved/regirock");
     public Regirock()
     {
-        super("regirock", BlockInit.GOLEM_STONE.get(), BlockInit.REGIROCK_CORE.get(), VALID_BLOCKS);
+        super( BlockInit.GOLEM_STONE.get(), BlockInit.REGIROCK_CORE.get(), VALID_BLOCKS);
     }
 
     @Override

@@ -17,7 +17,7 @@ public class Regigigas extends AbstractEntriedCondition
     private static final ResourceLocation VALID_BLOCKS = ResourceLocation.fromNamespaceAndPath(Reference.ID, "arceus_approved/regigigas");
     public Regigigas()
     {
-        super("regigigas", "regice", "registeel", "regirock", "regieleki", "regidrago");
+        super( "regice", "registeel", "regirock", "regieleki", "regidrago");
         final Object[] blocks = { BlockInit.GOLEM_STONE.get(), BlockInit.REGIGIGA_CORE.get(), VALID_BLOCKS };
         for (final Object block : blocks)
             this.setRelevant(block);

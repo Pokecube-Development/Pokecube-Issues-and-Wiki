@@ -1,10 +1,6 @@
 {
   "name": "zekrom",
   "preset": "type_based",
-  "options": {
-    "threshold": "0.5",
-    "type": "dragon"
-  },
   "spawn": {
     "key": {
       "id": "pokecube_legends:darkstone"
@@ -17,5 +13,7 @@
         "structures": "pokecube_legends:castle_n"
       }
     }
-  }
+  },
+  "poketype": "dragon",
+  "threshold": 0.5
 }

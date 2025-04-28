@@ -16,10 +16,31 @@ public class Cruncher
 
     public static boolean useCache = false;
 
+    private static final Thread CACHEGEN = new Thread(Cruncher::_doInit);
+
     public static void init()
     {
         // already initialized!
         if (Cruncher.useCache) return;
+        CACHEGEN.setDaemon(true);
+        CACHEGEN.setName("cruncher_cache_generator");
+        CACHEGEN.start();
+    }
+
+    public static short[][] CUBECACHE()
+    {
+        while (Cruncher.CUBECACHE == null) CACHEGEN.isAlive();
+        return CUBECACHE;
+    }
+
+    public static short[][] SPHERECACHE()
+    {
+        while (Cruncher.SPHERECACHE == null) CACHEGEN.isAlive();
+        return SPHERECACHE;
+    }
+
+    private static void _doInit()
+    {
         Cruncher.CUBECACHE = new short[128 * 128 * 128][];
         final Vector3 temp = new Vector3();
         for (int i = 0; i < Cruncher.CUBECACHE.length; i++)
@@ -50,9 +71,8 @@ public class Cruncher
             {
                 final float h_k = -1 + 2 * (k - 1) / (N - 1);
                 final float sin_theta = (float) Math.sqrt(1 - h_k * h_k);
-                final float phi_k = (float) (k > 1 && k < N
-                        ? (phi_k_1 + C / Math.sqrt(N * (1 - h_k * h_k))) % (2 * Math.PI)
-                        : 0);
+                final float phi_k = (float) (k > 1 && k < N ? (phi_k_1 + C / Math.sqrt(N * (1 - h_k * h_k))) % (2
+                        * Math.PI) : 0);
                 phi_k_1 = phi_k;
                 final double x = sin_theta * Mth.cos(phi_k) * radius;
                 final double y = h_k * radius;
@@ -104,7 +124,6 @@ public class Cruncher
             final Vector3 toFill)
     {
         toFill.x = 0;
-        toFill.y = 0;
         toFill.z = 0;
         final int layerSize = (2 * radius + 1) * (2 * radius + 1);
         if (index == 0)
@@ -120,7 +139,7 @@ public class Cruncher
             {
                 int temp = (index - layerSize) / diffSq + 1;
                 temp -= radius;
-                temp = temp > radius ? radius : temp < -radius ? -radius : temp;
+                temp = temp > radius ? radius : Math.max(temp, -radius);
                 toFill.y = temp;
             }
             else if (index > layerSize) toFill.y = -radius;
@@ -182,9 +201,9 @@ public class Cruncher
     {
         if (index > 0)
         {
-            if (Cruncher.useCache && index < Cruncher.CUBECACHE.length)
+            if (Cruncher.useCache && index < Cruncher.CUBECACHE().length)
             {
-                toFill.set(Cruncher.CUBECACHE[index]);
+                toFill.set(Cruncher.CUBECACHE()[index]);
                 return;
             }
             int cr, rsd, rcd;
@@ -206,8 +225,8 @@ public class Cruncher
 
     public static void indexToVals(final int index, final Vector3 toFill, final boolean cube)
     {
-        if (cube || !Cruncher.useCache || index >= Cruncher.SPHERECACHE.length) Cruncher.indexToVals(index, toFill);
-        else if (index < Cruncher.SPHERECACHE.length) toFill.set(Cruncher.SPHERECACHE[index]);
+        if (cube || !Cruncher.useCache || index >= Cruncher.SPHERECACHE().length) Cruncher.indexToVals(index, toFill);
+        else if (index < Cruncher.SPHERECACHE().length) toFill.set(Cruncher.SPHERECACHE()[index]);
     }
 
     public static class SquareLoopCruncher

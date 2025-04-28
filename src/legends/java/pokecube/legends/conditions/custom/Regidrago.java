@@ -17,7 +17,7 @@ public class Regidrago extends AbstractRegiCondition
     private static final ResourceLocation VALID_BLOCKS = ResourceLocation.fromNamespaceAndPath(Reference.ID, "arceus_approved/regidrago");
     public Regidrago()
     {
-        super("regidrago", BlockInit.GOLEM_STONE.get(), BlockInit.REGIDRAGO_CORE.get(), VALID_BLOCKS);
+        super( BlockInit.GOLEM_STONE.get(), BlockInit.REGIDRAGO_CORE.get(), VALID_BLOCKS);
     }
 
     @Override
