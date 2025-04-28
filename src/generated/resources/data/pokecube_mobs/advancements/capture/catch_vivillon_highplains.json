@@ -1,13 +1,15 @@
 {
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
   "display": {
     "icon": {
-      "item": "pokecube:pokecube"
+      "item": "pokecube:pokecube",
+      "nbt": "{Damage:0}"
     },
     "title": {
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "entity.pokecube.vivillon"
+          "translate": "entity.pokecube.vivillon_highplains"
         }
       ]
     },
@@ -15,10 +17,14 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "entity.pokecube.vivillon"
+          "translate": "entity.pokecube.vivillon_highplains"
         }
       ]
-    }
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
   },
   "criteria": {
     "catch_vivillon_highplains": {
@@ -28,5 +34,9 @@
       }
     }
   },
-  "parent": "pokecube_mobs:capture/get_first_pokemob"
+  "requirements": [
+    [
+      "catch_vivillon_highplains"
+    ]
+  ]
 }

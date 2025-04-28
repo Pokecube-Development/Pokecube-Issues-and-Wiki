@@ -1,7 +1,9 @@
 {
+  "parent": "pokecube_mobs:capture/get_first_pokemob",
   "display": {
     "icon": {
-      "item": "pokecube:pokecube"
+      "item": "pokecube:pokecube",
+      "nbt": "{Damage:0}"
     },
     "title": {
       "translate": "achievement.pokecube.catch",
@@ -18,7 +20,11 @@
           "translate": "entity.pokecube.kangaskhan"
         }
       ]
-    }
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
   },
   "criteria": {
     "catch_kangaskhan": {
@@ -28,5 +34,9 @@
       }
     }
   },
-  "parent": "pokecube_mobs:capture/get_first_pokemob"
+  "requirements": [
+    [
+      "catch_kangaskhan"
+    ]
+  ]
 }

@@ -1,11 +1,12 @@
 package pokecube.core.handlers.playerdata.advancements.triggers;
 
 import com.google.gson.JsonObject;
-
+import com.google.gson.JsonPrimitive;
 import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
 import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.DeserializationContext;
 import net.minecraft.advancements.critereon.EntityPredicate;
+import net.minecraft.advancements.critereon.SerializationContext;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -24,6 +25,14 @@ public class KillPokemobTrigger extends SimpleCriterionTrigger<KillPokemobTrigge
         {
             super(KillPokemobTrigger.ID, predicate);
             this.entry = entry != null ? entry : Database.missingno;
+        }
+
+        @Override
+        public JsonObject serializeToJson(SerializationContext context)
+        {
+            JsonObject obj = super.serializeToJson(context);
+            obj.add("entry", new JsonPrimitive(this.entry.getTrimmedName()));
+            return obj;
         }
 
         public boolean test(final ServerPlayer player, final IPokemob pokemob)
