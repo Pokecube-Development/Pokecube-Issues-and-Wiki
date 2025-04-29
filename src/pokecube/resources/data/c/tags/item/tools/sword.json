@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    {"id": "pokecube_legends:cobalion_sword", "required": false},
+    {"id": "pokecube_legends:keldeo_sword", "required": false},
+    {"id": "pokecube_legends:rainbow_sword", "required": false},
+    {"id": "pokecube_legends:terrakion_sword", "required": false},
+    {"id": "pokecube_legends:virizion_sword", "required": false},
+    {"id": "pokecube_legends:zacian_sword", "required": false}
+  ]
+}
