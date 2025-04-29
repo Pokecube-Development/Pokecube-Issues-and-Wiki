@@ -1,18 +1,11 @@
 package pokecube.core.client.render.mobs;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -53,24 +46,31 @@ import thut.core.client.render.wrappers.ModelWrapper;
 import thut.lib.AxisAngles;
 import thut.lib.ResourceHelper;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, EntityModel<EntityPokecube>>
         implements IModelRenderer<EntityPokecube>
 {
-    static final ResourceLocation MODEL = ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID, "models/pokecubes/");
-    static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID, "textures/item/pokecubefront.png");
+    static final ResourceLocation MODEL = ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID,
+            "models/pokecubes/");
+    static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID,
+            "textures/item/pokecubefront.png");
 
     public static record ModelSet(IAnimationChanger changer, IPartTexturer texer, ModelWrapper<EntityPokecube> model,
             Vector3 offset, Vector3 scale, HashMap<String, List<Animation>> anims)
-    {
-    }
+    {}
 
-    private Set<ResourceLocation> noModel = new HashSet<>();
-    private Map<ResourceLocation, ModelSet> models = new HashMap<>();
+    private final Set<ResourceLocation> noModel = new HashSet<>();
+    private final Map<ResourceLocation, ModelSet> models = new HashMap<>();
 
     // holder is set per entity, so doesn't need to be in the ModelSet
     private IAnimationHolder holder = null;
     // This one is used as a temporary holder
-    private Vector3 rotPoint = new Vector3();
+    private final Vector3 rotPoint = new Vector3();
 
     // Temp listes for presently running animations
     private final List<String> toRunNames = Lists.newArrayList();
@@ -94,7 +94,7 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
         for (ResourceLocation l : PokecubeItems.pokecubes.keySet())
         {
             var model = this.makeModel(l);
-            if (model != null) RenderPokecube.pokecubeRenderers.computeIfAbsent(l, l2 -> this);
+            if (model != null) RenderPokecube.pokecubeRenderers.putIfAbsent(l, this);
         }
     }
 
@@ -107,13 +107,13 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
             var holder = new ModelHolder(modelKey);
             var model = new ModelWrapper<EntityPokecube>(holder, this);
             IModel m2 = ModelFactory.create(model.model, m -> {
+                model.setModel(m);
+                this.changer = null;
+                this.texer = null;
+                this.anims = Maps.newHashMap();
+                AnimationLoader.parse(holder, model, this);
                 synchronized (models)
                 {
-                    model.setModel(m);
-                    this.changer = null;
-                    this.texer = null;
-                    this.anims = Maps.newHashMap();
-                    AnimationLoader.parse(holder, model, this);
                     this.models.put(cube,
                             new ModelSet(getAnimationChanger(), getTexturer(), model, offset, scale, anims));
                 }
@@ -123,7 +123,8 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
         // Next lets try just the xml
         xml:
         {
-            var animKey = ResourceLocation.fromNamespaceAndPath(cube.getNamespace(), MODEL.getPath() + cube.getPath() + ".xml");
+            var animKey = ResourceLocation.fromNamespaceAndPath(cube.getNamespace(),
+                    MODEL.getPath() + cube.getPath() + ".xml");
 
             if (!ResourceHelper.exists(animKey, Minecraft.getInstance().getResourceManager())) break xml;
 
@@ -132,13 +133,13 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
             holder.animation = animKey;
             var model = new ModelWrapper<EntityPokecube>(holder, this);
             IModel m2 = ModelFactory.create(model.model, m -> {
+                model.setModel(m);
+                this.changer = null;
+                this.texer = null;
+                this.anims = Maps.newHashMap();
+                AnimationLoader.parse(holder, model, this);
                 synchronized (models)
                 {
-                    model.setModel(m);
-                    this.changer = null;
-                    this.texer = null;
-                    this.anims = Maps.newHashMap();
-                    AnimationLoader.parse(holder, model, this);
                     this.models.put(cube,
                             new ModelSet(getAnimationChanger(), getTexturer(), model, offset, scale, anims));
                 }
@@ -210,7 +211,7 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
                 stack.translate(capt.x - entity.getX(), capt.y - entity.getY(), capt.z - entity.getZ());
                 if (pokemob != null)
                 {
-                    float scaleShift = 0;
+                    float scaleShift;
                     final PokedexEntry entry = pokemob.getPokedexEntry();
                     var dims = entry.getModelSize();
                     scaleShift = dims.y * pokemob.getSize() * scale / 2;
@@ -231,13 +232,11 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     {
         final RenderType.CompositeState rendertype$state = RenderType.CompositeState.builder()
                 .setTextureState(new RenderStateShard.TextureStateShard(this.getTextureLocation(entity), false, false))
-                .setTransparencyState(new RenderStateShard.TransparencyStateShard("translucent_transparency", () ->
-                {
+                .setTransparencyState(new RenderStateShard.TransparencyStateShard("translucent_transparency", () -> {
                     RenderSystem.enableBlend();
                     RenderSystem.defaultBlendFunc();
-                }, () -> {
-                    RenderSystem.disableBlend();
-                })).setShaderState(RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER)
+                }, RenderSystem::disableBlend))
+                .setShaderState(RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER)
                 .setCullState(new RenderStateShard.CullStateShard(false))
                 .setLightmapState(new RenderStateShard.LightmapStateShard(true))
                 .setOverlayState(new RenderStateShard.OverlayStateShard(true)).createCompositeState(false);

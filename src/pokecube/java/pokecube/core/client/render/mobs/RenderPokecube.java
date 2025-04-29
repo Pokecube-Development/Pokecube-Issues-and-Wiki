@@ -159,7 +159,7 @@ public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPo
                 stack.translate(capt.x - entity.getX(), capt.y - entity.getY(), capt.z - entity.getZ());
                 if (pokemob != null)
                 {
-                    float scaleShift = 0;
+                    float scaleShift;
                     final PokedexEntry entry = pokemob.getPokedexEntry();
                     var dims = entry.getModelSize();
                     scaleShift = dims.y * pokemob.getSize() * scale / 2;

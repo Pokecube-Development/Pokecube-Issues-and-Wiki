@@ -477,7 +477,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
             if (test != null)
             {
                 dh = test.getBbWidth();
-                if(!test.isAddedToLevel()) this.discard();
+                if (!test.isAddedToLevel() && !this.level().isClientSide()) this.discard();
             }
 
             double dx = this.capturePos.x - this.getX();
@@ -621,7 +621,6 @@ public abstract class EntityPokecubeBase extends LivingEntity
         if (contents == null)
             stack.set(PokemobCaps.POKECUBE_DATA, new PokecubeContents(new CompoundTag()).withCapturePos(capturePos));
         else stack.set(PokemobCaps.POKECUBE_DATA, contents.withCapturePos(capturePos));
-        System.out.println(stack.get(PokemobCaps.POKECUBE_DATA));
         this.setItem(stack);
 
         final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);

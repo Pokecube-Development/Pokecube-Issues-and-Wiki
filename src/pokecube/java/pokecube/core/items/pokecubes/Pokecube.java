@@ -485,7 +485,6 @@ public class Pokecube extends Item implements IPokecube
                     v = target.getEyePosition().subtract(thrower.getEyePosition()).scale(0.1);
                 }
                 v.add(0,thrower.getGravity(), 0);
-                System.out.println(targetLocation+" "+v);
                 entity.setDeltaMovement(v);
             }
             entity.targetLocation.set(targetLocation);
