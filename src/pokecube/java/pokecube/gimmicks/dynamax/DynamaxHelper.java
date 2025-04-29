@@ -134,13 +134,12 @@ public class DynamaxHelper
                     return true;
                 }
             }
-            PokedexEntry newEntry = entry;
             if (isDyna)
             {
                 Component mess = TComponent.translatable("pokemob.dynamax.command.revert", oldName);
                 pokemob.displayMessageToOwner(mess);
                 mess = TComponent.translatable("pokemob.dynamax.revert", oldName);
-                MegaEvoTicker.scheduleRevert(newEntry, pokemob, mess);
+                MegaEvoTicker.scheduleRevert(entry, pokemob, mess);
                 return true;
             }
             return false;
@@ -229,9 +228,6 @@ public class DynamaxHelper
      * Applies the modifiers for when the mob has dynamaxed, This includes the
      * health boost and the size boost. Then also marks the duration and start
      * time for the dynamaxing.
-     * 
-     * @param pokemob
-     * @param duration
      */
     private static void onDynamax(IPokemob pokemob, int duration)
     {

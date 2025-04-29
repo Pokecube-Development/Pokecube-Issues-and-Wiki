@@ -46,8 +46,7 @@ public class ForgetTargetTask extends CombatTask
 
         boolean isValid(final long gameTime)
         {
-            if (gameTime - this.forgotTime > 100) return false;
-            return true;
+            return gameTime - this.forgotTime <= 100;
         }
 
         @Override
@@ -80,10 +79,6 @@ public class ForgetTargetTask extends CombatTask
     {
         super();
     }
-
-    @Override
-    public void reset(Mob entityIn)
-    {}
 
     @Override
     protected void tick(final ServerLevel level, final Mob entity, final long gameTime)

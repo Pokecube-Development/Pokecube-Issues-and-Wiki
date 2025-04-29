@@ -20,7 +20,7 @@ public class EatFromChest extends EatBlockBase
         return state.getBlock() == Blocks.TRAPPED_CHEST;
     }
 
-    private static final Predicate<BlockState> checker = (b2) -> EatFromChest.isTrappedChest(b2);
+    private static final Predicate<BlockState> checker = EatFromChest::isTrappedChest;
 
     @Override
     public EatResult eat(final IPokemob pokemob, final NearBlock block)

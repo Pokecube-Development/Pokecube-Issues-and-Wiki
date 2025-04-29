@@ -56,7 +56,6 @@ import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.Data;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.ThutCore;
-import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 import thut.core.common.world.mobs.data.types.Data_ItemStack;
 import thut.core.common.world.mobs.data.types.Data_String;
@@ -200,7 +199,7 @@ public class CapabilityHasPokemobs
             }
         }
 
-        static
+        public static void init()
         {
             PokecubePlayerCustomData.registerDataType("npcs_defeated", DefeatList::new);
             PokecubePlayerCustomData.registerDataType("npcs_defeated_by", DefeatList::new);
@@ -366,7 +365,7 @@ public class CapabilityHasPokemobs
         @Override
         public IPokemob getOutMob()
         {
-            if (this.outMob != null &&(this.outMob.getEntity().getHealth() <= 0 || !this.outMob.getEntity()
+            if (this.outMob != null && (this.outMob.getEntity().getHealth() <= 0 || !this.outMob.getEntity()
                     .isAddedToLevel())) this.setOutMob(null);
             return this.outMob;
         }
@@ -412,17 +411,10 @@ public class CapabilityHasPokemobs
         public boolean defeated(final Entity e)
         {
             boolean defeated = false;
-            if (e instanceof Player p)
+            if (e instanceof Player)
             {
                 DefeatList defeatedList = PokecubePlayerDataHandler.getCustomDataValue(e.registryAccess(),
                         e.getStringUUID(), "npcs_defeated_by");
-                if (defeatedList == null)
-                {
-                    PlayerDataHandler.PlayerDataManager manager = PlayerDataHandler.getInstance()
-                            .getPlayerData(p.registryAccess(), p.getStringUUID());
-                    PokecubePlayerCustomData data = manager.getData(PokecubePlayerCustomData.class);
-                    data.customValues.put("npcs_defeated_by", defeatedList = new DefeatList());
-                }
                 defeated = defeated || defeatedList.isValid(this.user, resetTimeLose, this.defeatResetKey);
             }
             return defeated;
@@ -431,17 +423,10 @@ public class CapabilityHasPokemobs
         public boolean defeatedBy(final Entity e)
         {
             boolean defeated = false;
-            if (e instanceof Player p)
+            if (e instanceof Player)
             {
                 DefeatList defeatedList = PokecubePlayerDataHandler.getCustomDataValue(e.registryAccess(),
                         e.getStringUUID(), "npcs_defeated");
-                if (defeatedList == null)
-                {
-                    PlayerDataHandler.PlayerDataManager manager = PlayerDataHandler.getInstance()
-                            .getPlayerData(p.registryAccess(), p.getStringUUID());
-                    PokecubePlayerCustomData data = manager.getData(PokecubePlayerCustomData.class);
-                    data.customValues.put("npcs_defeated", defeatedList = new DefeatList());
-                }
                 defeated = defeated || defeatedList.isValid(this.user, resetTimeLose, this.defeatResetKey);
             }
             return defeated;
@@ -521,13 +506,6 @@ public class CapabilityHasPokemobs
             {
                 DefeatList defeatedList = PokecubePlayerDataHandler.getCustomDataValue(lost.registryAccess(),
                         lost.getStringUUID(), "npcs_defeated_by");
-                if (defeatedList == null)
-                {
-                    PlayerDataHandler.PlayerDataManager manager = PlayerDataHandler.getInstance()
-                            .getPlayerData(lost.registryAccess(), lost.getStringUUID());
-                    PokecubePlayerCustomData data = manager.getData(PokecubePlayerCustomData.class);
-                    data.customValues.put("npcs_defeated_by", defeatedList = new DefeatList());
-                }
                 defeatedList.validate(this.user, defeatResetKey);
                 // If available, we will increase reputation out of pity
                 if (this.user instanceof Villager villager)
@@ -569,13 +547,6 @@ public class CapabilityHasPokemobs
             {
                 DefeatList defeatedList = PokecubePlayerDataHandler.getCustomDataValue(won.registryAccess(),
                         won.getStringUUID(), "npcs_defeated");
-                if (defeatedList == null)
-                {
-                    PlayerDataHandler.PlayerDataManager manager = PlayerDataHandler.getInstance()
-                            .getPlayerData(player.registryAccess(), player.getStringUUID());
-                    PokecubePlayerCustomData data = manager.getData(PokecubePlayerCustomData.class);
-                    data.customValues.put("npcs_defeated", defeatedList = new DefeatList());
-                }
                 defeatedList.validate(this.user, defeatResetKey);
 
                 if (rewards.getRewards() != null) this.checkDefeatAchievement(player);

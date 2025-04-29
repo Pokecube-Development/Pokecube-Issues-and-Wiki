@@ -396,7 +396,19 @@ public class PokedexEntry
             if (action.lootTable != null && player.level() instanceof ServerLevel level)
             {
                 final LootTable loottable = level.getServer().reloadableRegistries().getLootTable(action.lootTable);
-                LootParams params = new LootParams.Builder(level).create(loottable.getParamSet());
+                // Forge lets us stuff in a bunch of random params and not crash, so stuff all that are valid
+                LootParams params = new LootParams.Builder(level).withParameter(LootContextParams.THIS_ENTITY,
+                                pokemob.getEntity())
+                        // Add generic damage source for entity loot tables
+                        .withParameter(LootContextParams.DAMAGE_SOURCE, player.damageSources().generic())
+                        // Add position for entity loot tables
+                        .withParameter(LootContextParams.ORIGIN, pokemob.getEntity().position())
+                        // Now some player specific params
+                        .withParameter(LootContextParams.ATTACKING_ENTITY, player)
+                        .withParameter(LootContextParams.DIRECT_ATTACKING_ENTITY, player)
+                        .withParameter(LootContextParams.TOOL, held)
+                        .withParameter(LootContextParams.LAST_DAMAGE_PLAYER, player).withLuck(player.getLuck())
+                        .create(loottable.getParamSet());
                 // Generate the loot list.
                 final List<ItemStack> list = loottable.getRandomItems(params);
                 for (final ItemStack itemstack : list)

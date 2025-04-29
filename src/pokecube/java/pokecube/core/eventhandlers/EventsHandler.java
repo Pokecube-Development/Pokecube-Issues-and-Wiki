@@ -761,8 +761,10 @@ public class EventsHandler
         // if this is the case, it should be set invisible.
         if (event.getTarget() instanceof EntityPokecube pokecube && event.getEntity() instanceof ServerPlayer player)
         {
+            // 0 or less means never reset.
+            long timer = pokecube.resetTime > 0 ? Tracker.instance().getTick() + pokecube.resetTime : Long.MAX_VALUE;
             if (pokecube.isLoot && pokecube.cannotCollect(event.getEntity()))
-                PacketPokecube.sendMessage(player, pokecube.getId(), Tracker.instance().getTick() + pokecube.resetTime);
+                PacketPokecube.sendMessage(player, pokecube.getId(), timer);
         }
         if (event.getTarget() instanceof ServerPlayer player1 && event.getEntity() instanceof ServerPlayer player2)
         {

@@ -1,12 +1,7 @@
 package pokecube.core.entity.pokecubes;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Random;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
@@ -43,6 +38,10 @@ import pokecube.core.network.packets.PacketPokecube;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Random;
 
 public class EntityPokecube extends EntityPokecubeBase
 {
@@ -175,7 +174,7 @@ public class EntityPokecube extends EntityPokecubeBase
 
     }
 
-    static
+    public static void init()
     {
         PokecubePlayerCustomData.registerDataType("loot_pokecubes", CollectList::new);
     }
@@ -223,8 +222,8 @@ public class EntityPokecube extends EntityPokecubeBase
         final ItemStack stack = player.getItemInHand(hand);
         if (player instanceof ServerPlayer && this.canBePickedUp)
         {
-            if (player.isCrouching() && PokecubeManager.isFilled(this.getItem()) && player.getAbilities().instabuild)
-                if (!stack.isEmpty())
+            if (player.isCrouching() && !PokecubeManager.isFilled(this.getItem()) && player.getAbilities().instabuild
+                    && !stack.isEmpty())
             {
                 this.isLoot = true;
                 this.addLoot(new LootEntry(stack, 1));
@@ -248,7 +247,7 @@ public class EntityPokecube extends EntityPokecubeBase
                     CollectList collected = PokecubePlayerDataHandler.getCustomDataValue(this.registryAccess(), name,
                             "loot_pokecubes");
                     collected.validate(this, resetKey);
-                    ItemStack loot = ItemStack.EMPTY;
+                    ItemStack loot;
                     boolean did = false;
                     if (!this.lootStacks.isEmpty())
                     {
@@ -264,14 +263,26 @@ public class EntityPokecube extends EntityPokecubeBase
                         var lootTable = ResourceKey.create(Registries.LOOT_TABLE, this.lootTable);
                         final LootTable loottable = this.level().getServer().reloadableRegistries()
                                 .getLootTable(lootTable);
-                        LootParams params = new LootParams.Builder((ServerLevel) this.level())
-                                .withParameter(LootContextParams.THIS_ENTITY, this).create(loottable.getParamSet());
+                        // Forge lets us stuff in a bunch of random params and not crash, so stuff all that are valid
+                        var builder = new LootParams.Builder((ServerLevel) this.level()).withParameter(
+                                        LootContextParams.THIS_ENTITY, this)
+                                // Add generic damage source for entity loot tables
+                                .withParameter(LootContextParams.DAMAGE_SOURCE, player.damageSources().generic())
+                                // Add position for entity loot tables
+                                .withParameter(LootContextParams.ORIGIN, this.position())
+                                // Now some player specific params
+                                .withParameter(LootContextParams.ATTACKING_ENTITY, player)
+                                .withParameter(LootContextParams.DIRECT_ATTACKING_ENTITY, player)
+                                .withParameter(LootContextParams.TOOL, stack)
+                                .withParameter(LootContextParams.LAST_DAMAGE_PLAYER, player).withLuck(player.getLuck());
+                        LootParams params = builder.create(loottable.getParamSet());
                         for (final ItemStack itemstack : loottable.getRandomItems(params))
                             if (!itemstack.isEmpty()) Tools.giveItem(player, itemstack.copy());
                         did = true;
                     }
-                    if (did)
-                        PacketPokecube.sendMessage(player, this.getId(), Tracker.instance().getTick() + this.resetTime);
+                    // 0 or less means never reset.
+                    long timer = this.resetTime > 0 ? Tracker.instance().getTick() + this.resetTime : Long.MAX_VALUE;
+                    if (did) PacketPokecube.sendMessage(player, this.getId(), timer);
                     return InteractionResult.SUCCESS;
                 }
                 Tools.giveItem(player, this.getItem());
@@ -309,7 +320,7 @@ public class EntityPokecube extends EntityPokecubeBase
     public void shoot(final double x, final double y, final double z, final float velocity, final float inaccuracy)
     {
         final Vec3 vec3d = new Vec3(x, y, z).normalize().add(this.random.nextGaussian() * 0.0075F * inaccuracy,
-                this.random.nextGaussian() * 0.0075F * inaccuracy, this.random.nextGaussian() * 0.0075F * inaccuracy)
+                        this.random.nextGaussian() * 0.0075F * inaccuracy, this.random.nextGaussian() * 0.0075F * inaccuracy)
                 .scale(velocity);
         this.setDeltaMovement(vec3d);
         final float f = (float) vec3d.horizontalDistance();

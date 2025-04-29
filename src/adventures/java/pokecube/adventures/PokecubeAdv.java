@@ -66,6 +66,7 @@ import pokecube.adventures.blocks.statue.StatueEntity;
 import pokecube.adventures.blocks.statue.StatueItem;
 import pokecube.adventures.blocks.warp_pad.WarpPadBlock;
 import pokecube.adventures.blocks.warp_pad.WarpPadTile;
+import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.InitCaps;
 import pokecube.adventures.init.AdvCreativeTabs;
 import pokecube.adventures.init.EntityTypes;
@@ -322,6 +323,7 @@ public class PokecubeAdv
         Professions.init();
         EntityTypes.init();
         MemoryTypes.init();
+        CapabilityHasPokemobs.DefaultPokemobs.init();
 
         ThutCore.FORGE_BUS.register(this);
         PokecubeAPI.POKEMOB_BUS.register(this);

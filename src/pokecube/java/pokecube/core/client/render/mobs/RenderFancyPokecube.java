@@ -91,11 +91,7 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     {
         super(renderManager, new ModelPokecube(), 0.0f);
         baseModel = this.getModel();
-        for (ResourceLocation l : PokecubeItems.pokecubes.keySet())
-        {
-            var model = this.makeModel(l);
-            if (model != null) RenderPokecube.pokecubeRenderers.putIfAbsent(l, this);
-        }
+        for (ResourceLocation l : PokecubeItems.pokecubes.keySet()) this.makeModel(l);
     }
 
     private ModelWrapper<EntityPokecube> makeModel(ResourceLocation cube)
@@ -116,6 +112,7 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
                 {
                     this.models.put(cube,
                             new ModelSet(getAnimationChanger(), getTexturer(), model, offset, scale, anims));
+                    RenderPokecube.pokecubeRenderers.putIfAbsent(cube, this);
                 }
             });
             if (m2.isValid()) return model;
@@ -160,12 +157,12 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
             noModel.clear();
             models.clear();
         }
-        final ResourceLocation num = PokecubeItems.getCubeId(item);
+        final ResourceLocation cubeId = PokecubeItems.getCubeId(item);
         synchronized (models)
         {
-            if (models.containsKey(num))
+            if (models.containsKey(cubeId))
             {
-                var m = models.get(num);
+                var m = models.get(cubeId);
                 this.model = m.model();
                 this.setTexturer(m.texer());
                 this.setAnimationChanger(m.changer());
@@ -173,13 +170,13 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
                 this.scale = m.scale();
                 this.anims = m.anims();
             }
-            else if (!noModel.contains(num))
+            else if (!noModel.contains(cubeId))
             {
-                var model = makeModel(num);
-                if (model == null) noModel.add(num);
+                var model = makeModel(cubeId);
+                if (model == null) noModel.add(cubeId);
                 else
                 {
-                    var m = models.get(num);
+                    var m = models.get(cubeId);
                     if (m == null) return;
                     this.model = m.model();
                     this.setTexturer(m.texer());

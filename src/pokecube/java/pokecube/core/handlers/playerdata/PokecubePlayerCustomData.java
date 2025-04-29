@@ -1,22 +1,21 @@
 package pokecube.core.handlers.playerdata;
 
-import java.util.Map;
-import java.util.function.Supplier;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import thut.core.common.handlers.PlayerDataHandler.PlayerData;
 
+import java.util.Map;
+import java.util.function.Supplier;
+
 /**
- * Generic data to store for each player, this gives another place besides in
- * the player's entity data to store information.
+ * Generic data to store for each player, this gives another place besides in the player's entity data to store
+ * information.
  */
 public class PokecubePlayerCustomData extends PlayerData
 {
-    private static Map<String, Supplier<INBTSerializable<CompoundTag>>> VALUES = Maps.newHashMap();
+    private static final Map<String, Supplier<INBTSerializable<CompoundTag>>> VALUES = Maps.newHashMap();
 
     public static void registerDataType(String id, Supplier<INBTSerializable<CompoundTag>> data)
     {
@@ -32,9 +31,7 @@ public class PokecubePlayerCustomData extends PlayerData
 
     public PokecubePlayerCustomData()
     {
-        VALUES.forEach((key, suppl) -> {
-            customValues.put(key, suppl.get());
-        });
+        VALUES.forEach((key, suppl) -> customValues.put(key, suppl.get()));
     }
 
     @Override

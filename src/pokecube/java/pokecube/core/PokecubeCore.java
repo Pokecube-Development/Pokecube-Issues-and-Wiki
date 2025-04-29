@@ -54,6 +54,7 @@ import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.commands.CommandManager;
 import pokecube.core.database.Database;
 import pokecube.core.database.resources.PackFinder;
+import pokecube.core.entity.pokecubes.EntityPokecube;
 import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.handlers.DispenseBehaviors;
@@ -309,6 +310,7 @@ public class PokecubeCore
         PaintingsHandler.init();
         RaidManager.init();
         StoreItems.StoreBehaviour.init();
+        EntityPokecube.init();
 
         // Register the battle managers
         Battle.register();
