@@ -56,7 +56,7 @@ public interface IGeneSelector
         GENE geneSource = source.getExpressed();
         GENE geneDest = destination.getExpressed();
 
-        // Applie epigenetics if needed
+        // This should, by default, be true, and use a random parent gene from each
         if (geneSource.getEpigeneticRate() < rand.nextFloat()) geneSource = source.getAllele(rand.nextInt(2));
         if (geneDest.getEpigeneticRate() < rand.nextFloat()) geneDest = destination.getAllele(rand.nextInt(2));
 

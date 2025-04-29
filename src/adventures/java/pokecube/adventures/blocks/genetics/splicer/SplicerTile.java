@@ -48,8 +48,7 @@ public class SplicerTile extends BaseGeneticsTile
             final boolean selector = hasGenes || RecipeSelector.getSelectorValue(stack) != SelectorImpl.defaultSelector;
             return hasGenes || selector;
         case 2:// DNA Destination
-            final IMobGenetics genes = ClonerHelper.getGenes(access, stack);
-            return genes != null;
+            return ClonerHelper.getGenes(access, stack) != null;
         }
         return false;
     }

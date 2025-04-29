@@ -51,7 +51,9 @@ public class ExtractorTile extends BaseGeneticsTile
         switch (index)
         {
         case 0:// DNA Container
-            return isDNAContainer(stack);
+            if (!isDNAContainer(stack)) return false;
+            var genes = ClonerHelper.getGenes(access, stack);
+            return genes == null || genes.getAlleles().isEmpty();
         case 1:// DNA Selector
             final boolean hasGenes = !ClonerHelper.getGeneSelectors(access, stack).isEmpty();
             final boolean selector = hasGenes || RecipeSelector.getSelectorValue(stack) != SelectorImpl.defaultSelector;

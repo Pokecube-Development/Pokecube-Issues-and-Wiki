@@ -35,8 +35,11 @@ import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.core.common.genetics.DefaultGenetics;
 
-import java.util.*;
-import java.util.function.Function;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class RecipeExtract extends PoweredRecipe
 {
@@ -180,10 +183,30 @@ public class RecipeExtract extends PoweredRecipe
         return true;
     }
 
+    /** Used to check if a recipe matches current crafting inventory */
     @Override
-    public Function<ItemStack, Integer> getCostFunction()
+    public boolean matches(final PoweredCraftingInventory inv, final Level worldIn)
     {
-        return i -> cost < 0 ? RecipeExtract.ENERGYCOST : cost;
+        if (!(inv.inventory instanceof ExtractorTile tile)) return false;
+        var access = worldIn.registryAccess();
+
+        ItemStack source = inv.getItem(2);
+        if (!this.input.isEmpty() && !this.input.test(source)) return false;
+        IMobGenetics genes = ClonerHelper.getGenes(access, source);
+        if (genes == null) genes = new DefaultGenetics();
+
+        ItemStack selector = tile.override_selector.isEmpty() ? inv.getItem(1) : tile.override_selector;
+        if (ClonerHelper.getGeneSelectors(access, selector).isEmpty()) selector = ItemStack.EMPTY;
+        if (!this._genes.isEmpty())
+        {
+            IMobGenetics finalGenes = genes;
+            this._genes.forEach((k, list) -> {
+                var gene_1 = list.get(tile.getLevel().getRandom().nextInt(list.size()));
+                var gene_2 = list.get(tile.getLevel().getRandom().nextInt(list.size()));
+                finalGenes.setGenes(gene_1, gene_2);
+            });
+        }
+        return !source.isEmpty() && !genes.getAlleles().isEmpty() && !selector.isEmpty();
     }
 
     @Override
@@ -203,7 +226,7 @@ public class RecipeExtract extends PoweredRecipe
         if (!this._genes.isEmpty())
         {
             IMobGenetics finalGenes = genes;
-            this._genes.forEach((k, list)->{
+            this._genes.forEach((k, list) -> {
                 var gene_1 = list.get(tile.getLevel().getRandom().nextInt(list.size()));
                 var gene_2 = list.get(tile.getLevel().getRandom().nextInt(list.size()));
                 finalGenes.setGenes(gene_1, gene_2);

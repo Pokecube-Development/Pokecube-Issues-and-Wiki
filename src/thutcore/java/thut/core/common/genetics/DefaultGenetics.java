@@ -2,7 +2,6 @@ package thut.core.common.genetics;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.nbt.CompoundTag;
@@ -24,7 +23,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -32,7 +30,6 @@ public class DefaultGenetics implements IMobGenetics
 {
     Random rand = ThutCore.newRandom();
     Map<ResourceLocation, Alleles<?, ?>> genetics = Maps.newHashMap();
-    Set<Alleles<?, ?>> epigenes;
 
     public DefaultGenetics()
     {}
@@ -91,18 +88,6 @@ public class DefaultGenetics implements IMobGenetics
     public <T, GENE extends Gene<T>> Alleles<T, GENE> getAlleles(final ResourceLocation key)
     {
         return (Alleles<T, GENE>) this.genetics.get(key);
-    }
-
-    @Override
-    public Set<Alleles<?, ?>> getEpigenes()
-    {
-        if (this.epigenes == null)
-        {
-            this.epigenes = Sets.newHashSet();
-            for (final Alleles<?, ?> a : this.genetics.values())
-                if (a.getExpressed().getEpigeneticRate() > 0) this.epigenes.add(a);
-        }
-        return this.epigenes;
     }
 
     @Override

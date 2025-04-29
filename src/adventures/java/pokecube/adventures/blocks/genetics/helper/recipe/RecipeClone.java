@@ -42,8 +42,11 @@ import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.core.common.genetics.DefaultGenetics;
 
-import java.util.*;
-import java.util.function.Function;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class RecipeClone extends PoweredRecipe
 {
@@ -246,12 +249,6 @@ public class RecipeClone extends PoweredRecipe
         }
         if (tile.getCraftMatrix().eventHandler != null) tile.getCraftMatrix().eventHandler.broadcastChanges();
         return true;
-    }
-
-    @Override
-    public Function<ItemStack, Integer> getCostFunction()
-    {
-        return i -> this.cost >= 0 ? this.cost : ENERGYCOST;
     }
 
     @Override

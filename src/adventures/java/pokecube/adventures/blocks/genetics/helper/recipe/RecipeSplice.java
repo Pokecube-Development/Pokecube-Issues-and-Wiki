@@ -1,10 +1,6 @@
 package pokecube.adventures.blocks.genetics.helper.recipe;
 
-import java.util.List;
-import java.util.function.Function;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
@@ -17,12 +13,13 @@ import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInvent
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.ItemBasedSelector;
 import pokecube.adventures.blocks.genetics.splicer.SplicerTile;
 import pokecube.adventures.utils.RecipePokeAdv;
-import pokecube.api.data.PokedexEntry;
+
+import java.util.List;
+import java.util.function.Function;
 
 public class RecipeSplice extends PoweredRecipe
 {
     public static int ENERGYCOST = 10000;
-    public static Function<ItemStack, Integer> ENERGYNEED = (s) -> RecipeSplice.ENERGYCOST;
 
     public RecipeSplice()
     {
@@ -51,10 +48,19 @@ public class RecipeSplice extends PoweredRecipe
         return true;
     }
 
+    /** Used to check if a recipe matches current crafting inventory */
     @Override
-    public Function<ItemStack, Integer> getCostFunction()
+    public boolean matches(final PoweredCraftingInventory inv, final Level worldIn)
     {
-        return RecipeSplice.ENERGYNEED;
+        if (!(inv.inventory instanceof SplicerTile tile)) return false;
+        var access = worldIn.registryAccess();
+        ItemStack dna = inv.getItem(0);
+        ItemStack egg = inv.getItem(2);
+        ItemStack selector = tile.override_selector.isEmpty() ? inv.getItem(1) : tile.override_selector;
+        if (ClonerHelper.getGenes(access, dna) == null) dna = ItemStack.EMPTY;
+        if (ClonerHelper.getGenes(access, egg) == null) egg = ItemStack.EMPTY;
+        if (ClonerHelper.getGeneSelectors(access, selector).isEmpty()) selector = ItemStack.EMPTY;
+        return !selector.isEmpty() && !dna.isEmpty() && !egg.isEmpty();
     }
 
     @Override

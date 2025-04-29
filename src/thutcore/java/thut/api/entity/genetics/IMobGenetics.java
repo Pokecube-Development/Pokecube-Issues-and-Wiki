@@ -17,8 +17,6 @@ public interface IMobGenetics extends INBTSerializable<ListTag>, TrackedAttachme
     /**
      * This is a map of Name -> Alleles. this is to be used to sort the Alleles. The keys for this should be the same as
      * they key registed in GeneRegistry
-     *
-     * @return
      */
     Map<ResourceLocation, Alleles<?, ?>> getAlleles();
 
@@ -26,22 +24,12 @@ public interface IMobGenetics extends INBTSerializable<ListTag>, TrackedAttachme
 
     <T, GENE extends Gene<T>> Alleles<T, GENE> getAlleles(ResourceLocation key);
 
-    /**
-     * This should return a set of genes which are epigenetic, this allows the holder to edit them before saving them if
-     * needed.
-     *
-     * @return
-     */
-    Set<Alleles<?, ?>> getEpigenes();
-
     <GENE extends Gene<?>> void setGenes(GENE g1, GENE g2);
 
     <GENE extends Gene<?>> void setGenes(GENE g1, GENE g2, GENE gexp);
 
     /**
      * This is called whenever the mob associated with this gene ticks.
-     *
-     * @param entity
      */
     default void onUpdateTick(final Entity entity)
     {
