@@ -1,11 +1,8 @@
 package pokecube.core.moves.animations.presets;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.util.Mth;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -21,11 +18,6 @@ import java.util.List;
 public class ThrowParticle extends MoveAnimationBase
 {
     private static final List<Vector3f> SPHERECACHE = new ArrayList<>();
-    private static final RenderType RENDER_TYPE = RenderType.create("thrown_particle",
-            DefaultVertexFormat.POSITION_COLOR_LIGHTMAP, Mode.TRIANGLES, 1536, false, true,
-            RenderType.CompositeState.builder().setShaderState(RenderType.RENDERTYPE_TEXT_BACKGROUND_SHADER)
-                    .setTextureState(RenderType.NO_TEXTURE).setTransparencyState(RenderType.TRANSLUCENT_TRANSPARENCY)
-                    .setLightmapState(RenderType.LIGHTMAP).createCompositeState(false));
 
     static
     {
@@ -85,7 +77,7 @@ public class ThrowParticle extends MoveAnimationBase
     public void clientAnimation(final PoseStack mat, final MultiBufferSource buffer, final MovePacketInfo info,
             final float partialTick, int packedLightIn)
     {
-        var buf = Utils.makeBuilder(RENDER_TYPE, buffer);
+        var buf = Utils.makeBuilder(ClientSide.RENDER_TYPE, buffer);
 
         mat.pushPose();
         GlStateManager._enableDepthTest();
@@ -98,10 +90,8 @@ public class ThrowParticle extends MoveAnimationBase
 
         float r = values.width * 0.2f;
         var pos = mat.last().pose();
-        SPHERECACHE.forEach(v -> {
-            buf.addVertex(pos, v.x() * r, v.y() * r, v.z() * r).setColor(red, green, blue, alpha)
-                    .setLight(packedLightIn);
-        });
+        SPHERECACHE.forEach(v -> buf.addVertex(pos, v.x() * r, v.y() * r, v.z() * r).setColor(red, green, blue, alpha)
+                .setLight(packedLightIn));
         GlStateManager._disableDepthTest();
         mat.popPose();
     }
