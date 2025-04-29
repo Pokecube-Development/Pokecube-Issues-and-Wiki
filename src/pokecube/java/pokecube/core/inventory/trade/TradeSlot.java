@@ -9,7 +9,7 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 
 public class TradeSlot extends Slot
 {
-    public Player validCheck = null;
+    public Player validCheck;
 
     TraderTile tile;
 
