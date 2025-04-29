@@ -73,7 +73,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
 
     public enum TerrainEffectType implements EffectType
     {
-        MUD(5), WATER(6), GRASS(7), ELECTRIC(8), MISTY(9), PHYSIC(16);
+        MUD(5), WATER(6), GRASS(7), ELECTRIC(8), MISTY(9), PSYCHIC(16);
 
         final int index;
 

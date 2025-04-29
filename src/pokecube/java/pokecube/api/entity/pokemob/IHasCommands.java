@@ -1,11 +1,10 @@
 package pokecube.api.entity.pokemob;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
-
 import io.netty.buffer.ByteBuf;
 import pokecube.api.PokecubeAPI;
+
+import java.util.Map;
 
 public interface IHasCommands
 {
@@ -28,7 +27,7 @@ public interface IHasCommands
         /** Sent to swap moves */
         SWAPMOVES,
         /** Sent to initiate teleport */
-        TELEPORT;
+        TELEPORT
     }
 
     public static interface IMobCommandHandler
@@ -38,16 +37,12 @@ public interface IHasCommands
         /**
          * Handles the command for the pokemob
          *
-         * @param pokemob
-         * @throws Exception
-         *             - Something goes wrong, throw this, it will be logged.
+         * @throws Exception - Something goes wrong, throw this, it will be logged.
          */
         void handleCommand(IPokemob pokemob) throws Exception;
 
         /**
          * Read message on server.
-         *
-         * @param buf
          */
         void readFromBuf(ByteBuf buf);
 
@@ -55,8 +50,6 @@ public interface IHasCommands
 
         /**
          * Write message to server.
-         *
-         * @param buf
          */
         void writeToBuf(ByteBuf buf);
     }
@@ -66,9 +59,6 @@ public interface IHasCommands
 
     /**
      * Handles the given command
-     *
-     * @param command
-     * @param handler
      */
     default void handleCommand(Command command, IMobCommandHandler handler)
     {
@@ -79,9 +69,8 @@ public interface IHasCommands
         }
         catch (final Exception e)
         {
-            PokecubeAPI.LOGGER.error("Error Handling command for type " + command + " for mob " + pokemob.getEntity(),
-                    e);
-            PokecubeAPI.LOGGER.error("Owner: " + pokemob.getOwner());
+            PokecubeAPI.LOGGER.error("Error Handling command for type {} for mob {}", command, pokemob.getEntity(), e);
+            PokecubeAPI.LOGGER.error("Owner: {}", pokemob.getOwner());
         }
     }
 }

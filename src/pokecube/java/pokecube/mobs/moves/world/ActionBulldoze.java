@@ -27,7 +27,7 @@ public class ActionBulldoze implements IMoveWorldEffect
     public boolean applyOutOfCombat(final IPokemob user, final Vector3 location)
     {
         boolean used = false;
-        int count = 10;
+        int count;
         final int level = user.getLevel();
         final int hungerValue = PokecubeCore.getConfig().pokemobLifeSpan / 8;
         if (!MoveEventsHandler.canAffectBlock(user, location, this.getMoveName())) return false;
@@ -49,7 +49,7 @@ public class ActionBulldoze implements IMoveWorldEffect
         final LivingEntity owner = digger.getOwner();
         final Level world = digger.getEntity().level();
         ItemStack pickaxe = new ItemStack(Items.DIAMOND_PICKAXE);
-        ServerPlayer player = null;
+        ServerPlayer player;
         if (owner instanceof ServerPlayer splayer) player = splayer;
         else player = PokecubeMod.getFakePlayer(world);
         final Vector3 temp = new Vector3();

@@ -272,7 +272,7 @@ public class MoveRegister
         CUSTOM.put("grassy-terrain", TerrainMove.forEffect(TerrainEffectType.GRASS));
         CUSTOM.put("misty-terrain", TerrainMove.forEffect(TerrainEffectType.MISTY));
         CUSTOM.put("electric-terrain", TerrainMove.forEffect(TerrainEffectType.ELECTRIC));
-        CUSTOM.put("psychic-terrain", TerrainMove.forEffect(TerrainEffectType.PHYSIC));
+        CUSTOM.put("psychic-terrain", TerrainMove.forEffect(TerrainEffectType.PSYCHIC));
 
         // Entry hazards
         CUSTOM.put("spikes", TerrainMove.forEffect(EntryEffectType.SPIKES));

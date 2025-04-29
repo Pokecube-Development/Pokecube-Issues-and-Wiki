@@ -10,6 +10,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.genes.Mutations.Mutation;
@@ -24,7 +25,11 @@ import thut.api.entity.genetics.Gene;
 import thut.core.common.ThutCore;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class SpeciesGene implements Gene<SpeciesInfo>
 {
@@ -112,6 +117,11 @@ public class SpeciesGene implements Gene<SpeciesInfo>
 
         public byte getSexe()
         {
+            if (value == -5 && this.entry != null)
+            {
+                this.value = Tools.getSexe(this.entry.getSexeRatio(), ThutCore.newRandom());
+                this.setEntry(this.entry.getForGender(this.value));
+            }
             return value;
         }
 
@@ -177,7 +187,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
     /** The value here is of format {gender, ratio}. */
     public SpeciesGene()
     {
-        this.info.setSexe((byte) 0);
+        this.info.setSexe((byte) -5);
     }
 
     @Override

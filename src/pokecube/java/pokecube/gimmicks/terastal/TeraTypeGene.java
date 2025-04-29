@@ -1,9 +1,5 @@
 package pokecube.gimmicks.terastal;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
@@ -28,9 +24,12 @@ import thut.wearables.EnumWearable;
 import thut.wearables.ThutWearables;
 import thut.wearables.inventory.IWearableInventory;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
 /**
- * Gene based implementation for storing Terastal types. This also keeps track
- * of the silly hats that they wear.
+ * Gene based implementation for storing Terastal types. This also keeps track of the silly hats that they wear.
  */
 public class TeraTypeGene implements Gene<TeraTypeGene.TeraType>
 {
@@ -40,8 +39,8 @@ public class TeraTypeGene implements Gene<TeraTypeGene.TeraType>
     public static final Map<PokeType, ItemStack> SILLY_HATS = new HashMap<>();
 
     /**
-     * Ensure that the SILLY_HATS map is populated, by default we fill it with
-     * bling hats with custom models specified, and alpha of 196.
+     * Ensure that the SILLY_HATS map is populated, by default we fill it with bling hats with custom models specified,
+     * and alpha of 196.
      */
     protected static void checkHats()
     {
@@ -56,7 +55,7 @@ public class TeraTypeGene implements Gene<TeraTypeGene.TeraType>
 
                 var tex = "pokecube:textures/worn/tera_hats/tera-hat-" + name + ".png";
                 var model = "pokecube:models/worn/tera_hats/tera-" + name;
-                ModelData modelData = new ModelData(model, tex, "", false);
+                ModelData modelData = new ModelData(tex, model, "", false);
                 GemData gemData = new GemData(196, ZCRYSTAL, false, provider);
                 DyedItemColor colourData = new DyedItemColor(type.colour, false);
 
@@ -70,9 +69,7 @@ public class TeraTypeGene implements Gene<TeraTypeGene.TeraType>
     }
 
     /**
-     * Holder for the mob's terastallize information, holds type and present
-     * state.
-     *
+     * Holder for the mob's terastallize information, holds type and present state.
      */
     public static class TeraType implements INBTSerializable<CompoundTag>
     {
@@ -107,7 +104,6 @@ public class TeraTypeGene implements Gene<TeraTypeGene.TeraType>
     private TeraType value = new TeraType();
     private IPokemob holder = null;
     private IWearableInventory worn = null;
-    private boolean hadHat = false;
 
     @Override
     public ResourceLocation getKey()
@@ -130,8 +126,7 @@ public class TeraTypeGene implements Gene<TeraTypeGene.TeraType>
     }
 
     /**
-     * We interpolate by just selecting a random one, us or other, and making a
-     * copy.
+     * We interpolate by just selecting a random one, us or other, and making a copy.
      */
     @Override
     public Gene<TeraType> interpolate(Gene<TeraType> other)
@@ -150,9 +145,8 @@ public class TeraTypeGene implements Gene<TeraTypeGene.TeraType>
     /**
      * On update, we check the following each second (20ticks):<br>
      * <br>
-     * - If terastallized, we ensure the user is monotype our type<br>
-     * - if terastallized and client side, we ensure user is wearing a silly
-     * hat.<br>
+     * - If terastallized, we ensure the user is monotype our type<br> - if terastallized and client side, we ensure
+     * user is wearing a silly hat.<br>
      */
     @Override
     public void onUpdateTick(Entity entity)
@@ -183,10 +177,10 @@ public class TeraTypeGene implements Gene<TeraTypeGene.TeraType>
                 ItemStack HAT = SILLY_HATS.get(this.getValue().teraType);
                 if (!HAT.isEmpty())
                 {
-                    hadHat = living.getPersistentData().getBoolean("pokecube:silly_hat");
+                    boolean hadHat = living.getPersistentData().getBoolean("pokecube:silly_hat");
                     if (this.getValue().isTera)
                     {
-                        worn.setWearable(EnumWearable.HAT, HAT, 0);
+                        worn.setWearable(EnumWearable.HAT, HAT.copy(), 0);
                         if (!hadHat) living.getPersistentData().putBoolean("pokecube:silly_hat", true);
                     }
                     else if (hadHat)

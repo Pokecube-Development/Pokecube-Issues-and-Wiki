@@ -2,6 +2,7 @@ package pokecube.mobs.moves.world;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.QuartPos;
 import net.minecraft.resources.ResourceKey;
@@ -16,6 +17,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.core.PokecubeCore;
@@ -33,6 +35,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -42,9 +45,25 @@ import java.util.function.Predicate;
 
 public class ActionNaturePower implements IMoveWorldEffect
 {
-    private static final List<ConfigChanger> CHANGERS = Lists.newArrayList();
+    private static final List<ConfigChanger> CHANGERS = new ArrayList<>();
+    public static List<NatureRule> NATURE_RULES = new ArrayList<>();
+    public static Map<String, NatureRule> BY_TERRAIN = new HashMap<>();
+
+    public static class NatureRule extends SpawnRule
+    {
+        public String move;
+        public int priority = 100;
+        public String terrain = null;
+    }
+
+    public static class NatureRules
+    {
+        public List<NatureRule> rules = new ArrayList<>();
+    }
 
     public static final NatureData INSTANCE = new NatureData("database/nature_power/");
+
+    public static void initData() {}
 
     public static class NatureData extends ResourceData
     {
@@ -67,8 +86,10 @@ public class ActionNaturePower implements IMoveWorldEffect
             final Map<ResourceLocation, Resource> resources = PackFinder.getJsonResources(path);
             this.validLoad = !resources.isEmpty();
             CHANGERS.clear();
+            NATURE_RULES.clear();
+            BY_TERRAIN.clear();
             preLoad();
-            resources.forEach((l, r) -> this.loadFile(l, r));
+            resources.forEach(this::loadFile);
             CHANGERS.sort(Comparator.comparingInt(c -> c.priority));
             if (this.validLoad)
             {
@@ -89,14 +110,33 @@ public class ActionNaturePower implements IMoveWorldEffect
                 final BufferedReader reader = ResourceHelper.getReader(r);
                 if (reader == null) throw new FileNotFoundException(l.toString());
 
-                final ConfigChanger temp = JsonUtil.gson.fromJson(reader, ConfigChanger.class);
+                var temp = JsonUtil.gson.fromJson(reader, JsonObject.class);
                 if (!confirmNew(temp, l))
                 {
                     reader.close();
                     return;
                 }
-                CHANGERS.add(temp);
                 reader.close();
+                // Is a changer rule
+                if (temp.has("biome"))
+                {
+                    CHANGERS.add(JsonUtil.gson.fromJson(temp, ConfigChanger.class));
+                }
+                else if (temp.has("rules"))
+                {
+                    var rules = JsonUtil.gson.fromJson(temp, NatureRules.class);
+                    rules.rules.removeIf(rule -> {
+                        if (rule.terrain != null)
+                        {
+                            BY_TERRAIN.put(rule.terrain, rule);
+                            return true;
+                        }
+                        return false;
+                    });
+                    NATURE_RULES.addAll(rules.rules);
+                    NATURE_RULES.sort(Comparator.comparingInt(rule -> rule.priority));
+                }
+
             }
             catch (final Exception e)
             {
@@ -175,7 +215,7 @@ public class ActionNaturePower implements IMoveWorldEffect
         };
 
         final Predicate<PointChecker> _has_required_ = c -> {
-            if (_required_.size() == 0) return true;
+            if (_required_.isEmpty()) return true;
 
             for (Vector3 v : c.blocks)
             {
@@ -260,9 +300,8 @@ public class ActionNaturePower implements IMoveWorldEffect
             this.checked.clear();
         }
 
-        private boolean nextPoint(final Vector3 prev, final List<Vector3> tempList)
+        private void nextPoint(final Vector3 prev, final List<Vector3> tempList)
         {
-            boolean ret = false;
             // Check the connected blocks, see if they match predicate, if they
             // do, add them to the list. This also checks diagonally connected
             // blocks.
@@ -277,7 +316,6 @@ public class ActionNaturePower implements IMoveWorldEffect
                         {
                             tempList.add(temp.copy());
                             this.states.add(temp.getBlockState(this.world));
-                            ret = true;
                         }
                     }
                     else
@@ -287,11 +325,9 @@ public class ActionNaturePower implements IMoveWorldEffect
                         {
                             tempList.add(temp.copy());
                             this.states.add(temp.getBlockState(this.world));
-                            ret = true;
                         }
                     }
             this.checked.add(prev);
-            return ret;
         }
 
         private void populateList(final Vector3 base)
@@ -346,8 +382,7 @@ public class ActionNaturePower implements IMoveWorldEffect
                             mod = true;
                         }
                     }
-            final ServerLevel sWorld = world;
-            sWorld.getChunkSource().blockChanged(pos);
+            world.getChunkSource().blockChanged(pos);
             return mod;
         }
     }

@@ -54,6 +54,8 @@ import pokecube.mobs.abilities.AbilityRegister;
 import pokecube.mobs.data.DataGenerator;
 import pokecube.mobs.init.PokemobSounds;
 import pokecube.mobs.moves.MoveRegister;
+import pokecube.mobs.moves.attacks.NaturePower;
+import pokecube.mobs.moves.world.ActionNaturePower;
 import thut.core.common.ThutCore;
 import thut.lib.TComponent;
 
@@ -78,6 +80,7 @@ public class PokecubeMobs
         new BerryGenManager(PokecubeMobs.MODID);
         MoveRegister.init();
         AbilityRegister.init();
+        NaturePower.init();
     }
 
     private void loadComplete(final FMLLoadCompleteEvent event)

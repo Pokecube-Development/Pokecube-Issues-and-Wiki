@@ -15,7 +15,13 @@ import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.entity.genetics.epigenes.EVsGene;
 import pokecube.core.entity.genetics.epigenes.MovesGene;
-import pokecube.core.entity.genetics.genes.*;
+import pokecube.core.entity.genetics.genes.AbilityGene;
+import pokecube.core.entity.genetics.genes.ColourGene;
+import pokecube.core.entity.genetics.genes.IVsGene;
+import pokecube.core.entity.genetics.genes.NatureGene;
+import pokecube.core.entity.genetics.genes.ShinyGene;
+import pokecube.core.entity.genetics.genes.SizeGene;
+import pokecube.core.entity.genetics.genes.SpeciesGene;
 import pokecube.core.impl.PokecubeMod;
 import thut.api.ThutCaps;
 import thut.api.entity.genetics.Gene;
@@ -118,8 +124,11 @@ public class GeneticsManager
             if (!(gene instanceof SpeciesGene sgene)) return true;
             var info = sgene.getValue();
             info.setEntry(PokecubeCore.getEntryFor(entity.getType()));
-            info.setSexe(Tools.getSexe(info.getEntry().getSexeRatio(), ThutCore.newRandom()));
-            info.setEntry(info.getEntry().getForGender(info.getSexe()));
+            if (info.getEntry() != null)
+            {
+                info.setSexe(Tools.getSexe(info.getEntry().getSexeRatio(), ThutCore.newRandom()));
+                info.setEntry(info.getEntry().getForGender(info.getSexe()));
+            }
             return true;
         });
     }

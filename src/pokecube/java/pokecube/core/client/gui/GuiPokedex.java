@@ -3,12 +3,9 @@
  */
 package pokecube.core.client.gui;
 
-import org.lwjgl.glfw.GLFW;
-
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -23,6 +20,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.player.Player;
+import org.lwjgl.glfw.GLFW;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -93,6 +91,8 @@ public class GuiPokedex extends Screen
     public void init()
     {
         super.init();
+
+        this.renderables.add(this::_render);
 
         int yOffset = this.height / 2 + 1;
         int xOffset = this.width / 2;
@@ -171,8 +171,7 @@ public class GuiPokedex extends Screen
         final int offsetY = (this.height - 160) / 2 + 22;
         final int height = 15 * this.font.lineHeight;
 
-        this.list = new ScrollGui<>(this, this.minecraft, 108, height, this.font.lineHeight, offsetX,
-                offsetY + 1);
+        this.list = new ScrollGui<>(this, this.minecraft, 108, height, this.font.lineHeight, offsetX, offsetY + 1);
 
         MutableComponent page;
         String key = "entity.pokecube." + GuiPokedex.pokedexEntry.getTrimmedName() + ".dexDesc";
@@ -286,8 +285,7 @@ public class GuiPokedex extends Screen
         return super.keyPressed(key, unk1, unk2);
     }
 
-    @Override
-    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTick)
+    public void _render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTick)
     {
         // Draw background
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
@@ -321,8 +319,7 @@ public class GuiPokedex extends Screen
         final float yaw = Util.getMillis() / 20;
         final float pitch = 0;
         final float hx = 0;
-        final float hy = yaw;
-        GuiPokemobHelper.renderMob(renderMob.getEntity(), j2 + 5, k2 + 50, pitch, yaw, hx, hy, 2.0F, partialTick);
+        GuiPokemobHelper.renderMob(renderMob.getEntity(), j2 + 5, k2 + 50, pitch, yaw, hx, yaw, 2.0F, partialTick);
 
         // Draw info about mob
         final int yOffset = this.height / 2 - 82;
@@ -337,22 +334,16 @@ public class GuiPokedex extends Screen
                 : GuiPokedex.pokedexEntry != null ? GuiPokedex.pokedexEntry.getType2() : PokeType.unknown;
         graphics.drawCenteredString(this.font, pokemobNum, xOffset - 28 - pokemobNum.length() / 2, yOffset + 8,
                 0xffffff);
-        try
-        {
-            graphics.drawCenteredString(this.font, PokeType.getTranslatedName(type1), xOffset - 88, yOffset + 140,
-                    type1.colour);
-            graphics.drawCenteredString(this.font, PokeType.getTranslatedName(type2), xOffset - 44, yOffset + 140,
-                    type2.colour);
-        }
-        catch (final Exception e)
-        {
-        }
+
+        graphics.drawCenteredString(this.font, PokeType.getTranslatedName(type1), xOffset - 88, yOffset + 140,
+                type1.colour);
+        graphics.drawCenteredString(this.font, PokeType.getTranslatedName(type2), xOffset - 44, yOffset + 140,
+                type2.colour);
 
         // Draw default gui stuff.
         final int length = this.font.width(this.pokemobSearchBox.getValue()) / 2;
         xOffset = this.width / 2 - 65;
         this.pokemobSearchBox.setX(xOffset - length);
-        super.render(graphics, mouseX, mouseY, partialTick);
 
         // Draw description
         this.list.render(graphics, mouseX, mouseY, partialTick);

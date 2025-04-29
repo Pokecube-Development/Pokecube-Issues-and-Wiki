@@ -17,7 +17,6 @@ import thut.api.maths.Vector3;
 
 public class ActionDig implements IMoveWorldEffect
 {
-    final ItemStack pickaxe = new ItemStack(Items.DIAMOND_PICKAXE);
 
     public ActionDig()
     {}
@@ -48,7 +47,7 @@ public class ActionDig implements IMoveWorldEffect
         final LivingEntity owner = digger.getOwner();
         final Level world = digger.getEntity().level();
         ItemStack pickaxe = new ItemStack(Items.DIAMOND_PICKAXE);
-        ServerPlayer player = null;
+        ServerPlayer player;
         if (owner instanceof ServerPlayer splayer) player = splayer;
         else player = PokecubeMod.getFakePlayer(world);
         final Vector3 temp = new Vector3();

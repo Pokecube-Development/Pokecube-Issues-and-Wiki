@@ -1,24 +1,11 @@
 package thut.core.client.render.animation;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.xml.namespace.QName;
-
-import org.joml.Vector3f;
-import org.w3c.dom.Node;
-
 import com.google.common.collect.Sets;
-
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
+import org.joml.Vector3f;
+import org.w3c.dom.Node;
 import thut.api.ModelHolder;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
@@ -43,6 +30,17 @@ import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.TextureHelper;
 import thut.core.common.ThutCore;
 import thut.lib.ResourceHelper;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.xml.namespace.QName;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class AnimationLoader
 {
@@ -111,10 +109,8 @@ public class AnimationLoader
             int headDir2 = meta.headDir2;
             int headAxis = meta.headAxis;
             int headAxis2 = meta.headAxis2;
-            final float[] headCaps =
-            { -100, 100 };
-            final float[] headCaps1 =
-            { -30, 70 };
+            final float[] headCaps = { -100, 100 };
+            final float[] headCaps1 = { -30, 70 };
 
             if (file.model.customTex != null) file.model.customTex.init();
 
@@ -156,45 +152,46 @@ public class AnimationLoader
             for (final Phase phase : file.model.phases)
                 // Handle global, merges and presets
                 if (phase.name != null)
-            {
-                final String name = ThutCore.trim(phase.name);
-                if (name.equals("global"))
                 {
-                    offset = AnimationLoader.getVector3(phase.values.get(new QName("offset")), offset);
-                    scale = AnimationLoader.getVector3(phase.values.get(new QName("scale")), scale);
-                    rotation = AnimationLoader.getRotation(phase.values.get(new QName("rotation")), rotation);
-                }
-                else if (name.equals("textures")) texPhases.add(phase);
-                else if (AnimationRegistry.animations.containsKey(name))
-                {
-                    if (ThutCore.conf.debug_models) ThutCore.LOGGER.debug("Loading " + name + " for " + holder.name);
-                    try
+                    final String name = ThutCore.trim(phase.name);
+                    if (name.equals("global"))
                     {
-                        final Animation anim = AnimationRegistry.make(phase, null);
-                        if (anim != null) xmlAnimations.add(anim);
+                        offset = AnimationLoader.getVector3(phase.values.get(new QName("offset")), offset);
+                        scale = AnimationLoader.getVector3(phase.values.get(new QName("scale")), scale);
+                        rotation = AnimationLoader.getRotation(phase.values.get(new QName("rotation")), rotation);
                     }
-                    catch (final Exception e)
+                    else if (name.equals("textures")) texPhases.add(phase);
+                    else if (AnimationRegistry.animations.containsKey(name))
                     {
-                        ThutCore.LOGGER.error("Error with animation for model: " + holder.name + " Anim: " + name, e);
+                        if (ThutCore.conf.debug_models)
+                            ThutCore.LOGGER.debug("Loading " + name + " for " + holder.name);
+                        try
+                        {
+                            final Animation anim = AnimationRegistry.make(phase, null);
+                            if (anim != null) xmlAnimations.add(anim);
+                        }
+                        catch (final Exception e)
+                        {
+                            ThutCore.LOGGER.error("Error with animation for model: " + holder.name + " Anim: " + name,
+                                    e);
+                        }
                     }
                 }
-            }
                 // Handle manual animations
                 else if (phase.type != null)
-            {
-                if (ThutCore.conf.debug_models)
-                    ThutCore.LOGGER.debug("Building Animation " + phase.type + " for " + holder.name);
-                final Animation anim = AnimationBuilder.build(phase, model.getParts().keySet(), null);
-                if (anim != null) xmlAnimations.add(anim);
-            }
+                {
+                    if (ThutCore.conf.debug_models)
+                        ThutCore.LOGGER.debug("Building Animation " + phase.type + " for " + holder.name);
+                    final Animation anim = AnimationBuilder.build(phase, model.getParts().keySet(), null);
+                    if (anim != null) xmlAnimations.add(anim);
+                }
 
             // Handle merges
             for (final Merge merge : file.model.merges)
             {
                 final String[] merges = merge.merge.split("->");
                 String key = ThutCore.trim(merges[0]);
-                List<String> toList = mergedAnimations.get(key);
-                if (toList == null) mergedAnimations.put(key, toList = new ArrayList<>());
+                List<String> toList = mergedAnimations.computeIfAbsent(key, k -> new ArrayList<>());
                 toList.add(ThutCore.trim(merges[1]));
                 if (merge.limbs != null)
                 {
@@ -247,7 +244,7 @@ public class AnimationLoader
             }
             holder.setLoadedOffset(offset);
             holder.setLoadedScale(scale);
-            
+
             if (file.model.particles != null) model.getParts().values().forEach(part -> {
                 for (var m : file.model.particles)
                 {
@@ -326,14 +323,17 @@ public class AnimationLoader
 
                 // Finalize animation initialization
                 final List<Animation> allAnims = new ArrayList<>();
+                Map<String, List<Animation>> newAnims = new HashMap<>(renderer.getAnimations());
                 // Process the animations
-                for (final List<Animation> anims : renderer.getAnimations().values())
+                for (var entry : newAnims.entrySet())
                 {
-                    AnimationBuilder.processAnimations(anims);
+                    List<Animation> copy = entry.getValue();
+                    AnimationBuilder.processAnimations(copy);
                     // Processing edits the list, so we need to re-add them
                     // here.
-                    allAnims.addAll(anims);
+                    allAnims.addAll(copy);
                 }
+                renderer.getAnimations().putAll(newAnims);
 
                 // Pre-process the animations via the model
                 model.preProcessAnimations(allAnims);
@@ -398,7 +398,8 @@ public class AnimationLoader
                     for (TexPart part : texs.parts)
                     {
 
-                        ResourceLocation tex = part.tex.contains(":") ? ResourceLocation.parse(part.tex)
+                        ResourceLocation tex = part.tex.contains(":")
+                                ? ResourceLocation.parse(part.tex)
                                 : ResourceLocation.fromNamespaceAndPath(holder.model.getNamespace(), part.tex);
                         if (p.getName().equals(part.name))
                         {

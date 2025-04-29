@@ -79,16 +79,13 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
         @Override
         public int get(final int index)
         {
-            switch (index)
+            return switch (index)
             {
-            case 0:
-                return AfaTile.this.orig;
-            case 1:
-                return AfaTile.this.distance;
-            case 2:
-                return AfaTile.this.cost;
-            }
-            return 0;
+                case 0 -> AfaTile.this.orig;
+                case 1 -> AfaTile.this.distance;
+                case 2 -> AfaTile.this.cost;
+                default -> 0;
+            };
         }
 
         @Override
@@ -235,7 +232,6 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
             // Mark has having changed something
             this.setChanged();
         }
-        shouldUseEnergy = shouldUseEnergy || this.shiny;
     }
 
     @Override
@@ -309,8 +305,7 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
     @Override
     public int extractEnergy(final int maxExtract, final boolean simulate)
     {
-        int var = maxExtract;
-        if (maxExtract < this.energy) var = this.energy;
+        int var = Math.max(maxExtract, this.energy);
         if (!simulate) this.energy -= var;
         this.energy = Math.max(0, this.energy);
         this.energy = Math.min(this.getMaxEnergyStored(), this.energy);

@@ -49,8 +49,8 @@ public class MoveEntry implements IMoveConstants
 
     ;
 
-    private static HashMap<String, MoveEntry> movesNames = new HashMap<>();
-    private static HashMap<String, MoveEntry> legacyMoveNames = new HashMap<>();
+    private static final HashMap<String, MoveEntry> movesNames = new HashMap<>();
+    private static final HashMap<String, MoveEntry> legacyMoveNames = new HashMap<>();
 
     public static int TOTALHP = 1;
     public static int DAMAGEDEALT = 2;

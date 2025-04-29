@@ -104,8 +104,7 @@ public class SiphonTile extends InteractableTile implements ITickTile
     @Override
     public InteractionResult useWithoutItem(BlockPos pos, Player player, BlockHitResult hit)
     {
-        Component message = null;
-        message = TComponent.translatable("block.rfsiphon.info",
+        Component message = TComponent.translatable("block.rfsiphon.info",
                 this.energy.theoreticalOutput - this.energy.currentOutput, this.energy.theoreticalOutput);
         player.displayClientMessage(message, true);
         return super.useWithoutItem(pos, player, hit);
@@ -155,7 +154,7 @@ public class SiphonTile extends InteractableTile implements ITickTile
         {
             if (this.wirelessLinks.remove(pos))
             {
-                if (user != null && user instanceof ServerPlayer player)
+                if (user instanceof ServerPlayer player)
                 {
                     player.displayClientMessage(TComponent.translatable("block.pokecube_adventures.siphon.unlink",
                             new TeleDest().setPos(pos).getInfoName()), true);
@@ -163,7 +162,7 @@ public class SiphonTile extends InteractableTile implements ITickTile
                 return true;
             }
             this.wirelessLinks.add(pos);
-            if (user != null && user instanceof ServerPlayer player)
+            if (user instanceof ServerPlayer player)
             {
                 player.displayClientMessage(TComponent.translatable("block.pokecube_adventures.siphon.link",
                         new TeleDest().setPos(pos).getInfoName()), true);

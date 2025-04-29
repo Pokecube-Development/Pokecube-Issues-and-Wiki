@@ -63,6 +63,12 @@ public class ModelFactory
         else
         {
             final IFactory<?> factory = ModelFactory.modelFactories.get(ext);
+            if (factory == null)
+            {
+                System.out.println("No Model factory for " + location);
+                ThutCore.LOGGER.error("No Model factory for {}, {}", ext, location);
+                return null;
+            }
             model.extension = ext;
             return factory.create(location).init(callback);
         }

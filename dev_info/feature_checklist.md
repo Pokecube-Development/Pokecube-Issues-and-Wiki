@@ -242,6 +242,9 @@
 
 # Items
 ## Pokewatch
+- [ ] Shift right click on pokecenter block to add as a teleport location
+- [ ] Right click on a pokemob to open for that pokemob (if owned)
+   - [ ] Marks the pokemob as insepcted otheriwse, clearing obfuscated name
 ### Start
 - [ ] Selectable pokemob to render
   - [ ] Button for sound playing
@@ -324,6 +327,9 @@
 ## Pokedex
 - [ ] Lookup of pokemob by name
 - [ ] Displays description of pokemob, similar to watch Pokemob Info description page
+- [ ] Shift right click on pokecenter block to add as a teleport location
+- [ ] Right click on a pokemob to open for that pokemob
+   - [ ] Marks the pokemob as insepcted, clearing obfuscated name
 ## Bag
 - [ ] Only allows configured items
 - [ ] Pages can be renamed
@@ -341,3 +347,8 @@
 ## Revive
 - [ ] Craftable with dead pokemob to revive it
 - [ ] Right click on a fainted wild pokemob to revive it (in time before it poofs)
+
+# Moves Effects
+See [Moves](move_effects_checklist.md) 
+# Ability Effects
+See [Abilities](ability_effects_checklist.md)

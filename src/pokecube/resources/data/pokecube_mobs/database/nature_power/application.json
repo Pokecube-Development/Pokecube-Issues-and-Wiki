@@ -1,0 +1,40 @@
+{
+  "rules": [
+    {
+      "move": "tri-attack",
+      "and_preset": "inside"
+    },
+    {
+      "move": "rock-slide",
+      "and_preset": "caves"
+    },
+    {
+      "move": "blizzard",
+      "and_preset": "snowy_areas"
+    },
+    {
+      "move": "earthquake",
+      "or_preset": "deserts,badlands"
+    },
+    {
+      "move": "hydro-pump",
+      "or_preset": "oceans,beaches,rivers,swamps"
+    },
+    {
+      "move": "seed-bomb",
+      "or_preset": "plains,forests,jungles"
+    },
+    {
+      "move": "thunderbolt",
+      "terrain": "electric"
+    },
+    {
+      "move": "energy-ball",
+      "terrain": "grassy"
+    },
+    {
+      "move": "moonblast",
+      "terrain": "misty"
+    }
+  ]
+}
