@@ -38,7 +38,7 @@ public class ItemInit
         final Item.Properties props = new Item.Properties();
         PokecubeCore.ITEMS.register("pokeseal", () -> {
             final Pokecube pokeseal = new Pokecube(props);
-            PokecubeBehaviour.POKESEAL = ResourceLocation.parse("pokecube:seal");
+            PokecubeBehaviour.POKESEAL = ResourceLocation.parse("pokecube:pokeseal");
             PokecubeItems.addCube(PokecubeBehaviour.POKESEAL, new Item[]
             { pokeseal });
             return pokeseal;
