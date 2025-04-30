@@ -1,18 +1,9 @@
 package thut.core.client.render.bbmodel;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import thut.api.maths.Vector4;
 import thut.core.client.render.bbmodel.BBModelTemplate.Element;
 import thut.core.client.render.bbmodel.BBModelTemplate.IBBPart;
@@ -26,6 +17,13 @@ import thut.core.client.render.texturing.TextureCoordinate;
 import thut.core.client.render.x3d.X3dMesh;
 import thut.core.common.ThutCore;
 import thut.lib.AxisAngles;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class BBModelPart extends Part
 {

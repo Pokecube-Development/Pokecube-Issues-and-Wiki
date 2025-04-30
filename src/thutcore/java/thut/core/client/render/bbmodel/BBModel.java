@@ -48,7 +48,6 @@ public class BBModel extends BaseModel
                 this.valid = false;
                 return;
             }
-            System.out.println(model);
             BBModelTemplate t = JsonUtil.gson.fromJson(reader, BBModelTemplate.class);
             reader.close();
             this.template = t;
@@ -101,7 +100,12 @@ public class BBModel extends BaseModel
             float[] parentOffsets = new float[] { 0, 0, 0 };
             BBModelPart.makeParts(t, b, parts, new ArrayList<>(), new HashSet<>(), parentOffsets);
         }
-        for (BBModelPart p : parts) this.parts.put(p.getName(), p);
+        for (BBModelPart p : parts)
+        {
+            this.parts.put(p.getName(), p);
+            // Ensure the part is set to initial state
+            p.resetToInit();
+        }
     }
 
     @Override

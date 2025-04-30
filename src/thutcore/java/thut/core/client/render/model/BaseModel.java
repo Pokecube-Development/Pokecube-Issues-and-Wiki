@@ -239,7 +239,6 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         {
             anims.addAll(holder.getTransientPlaying());
             anims.addAll(holder.getPlaying());
-            anim = !anims.isEmpty();
         }
         else if (anim) anims.addAll(renderer.getAnimations().get(currentPhase));
         this.updateAnimation(entity, renderer, anims, currentPhase, partialTicks, holder, limbSwing);
