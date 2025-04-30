@@ -239,7 +239,16 @@
 - [ ] Tells pokemob to attack location
 - [ ] Tells pokemob to move to location
 - [ ] Tells pokemob to set move index
-
+## Raid Spawner
+- [ ] Right click with wishing piece to make active
+  - [ ] Alternately wait for it to randomly activate
+- [ ] Raid mob shows a boss bar to nearby players
+- [ ] Raid boss stays dead on ground when fainted, allows capture
+- [ ] Raid boss drops random loot from appropriate loot table
+## Mirage Spot
+- [ ] right click middle to spwan a random mob
+  - [ ] Resets after configured delay
+  - [ ] If nbt has despawns set to true, despawns after configured delay (Middle tile needs the nbt)
 # Items
 ## Pokewatch
 - [ ] Shift right click on pokecenter block to add as a teleport location

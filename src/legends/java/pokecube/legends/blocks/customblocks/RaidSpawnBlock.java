@@ -175,7 +175,8 @@ public class RaidSpawnBlock extends InteractableHorizontalBlock implements Simpl
         if (level instanceof ServerLevel slevel && player instanceof ServerPlayer splayer)
         {
             final boolean active = state.getValue(RaidSpawnBlock.ACTIVE).active();
-            if (active && RaidManager.makeRaid(slevel, pos, splayer))
+            var entity = level.getBlockEntity(pos);
+            if (active && entity instanceof RaidSpawn raid && RaidManager.makeRaid(slevel, pos, splayer, raid.type))
             {
                 slevel.setBlockAndUpdate(pos, state.setValue(RaidSpawnBlock.ACTIVE, State.EMPTY));
             }

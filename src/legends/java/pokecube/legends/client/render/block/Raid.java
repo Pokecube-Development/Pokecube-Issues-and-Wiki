@@ -1,131 +1,72 @@
 package pokecube.legends.client.render.block;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.blockentity.BeaconRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
-import org.joml.Matrix4f;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.entity.BeaconBlockEntity;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import pokecube.legends.tileentity.RaidSpawn;
 
 import java.util.List;
 
 public class Raid implements BlockEntityRenderer<RaidSpawn>
 {
-    public static final ResourceLocation TEXTURE_BEACON_BEAM = ResourceLocation
-            .parse("textures/entity/beacon_beam.png");
-
-    public Raid(final BlockEntityRendererProvider.Context context)
+    public Raid(final BlockEntityRendererProvider.Context ignored)
     {}
 
     @Override
-    public void render(final RaidSpawn tileEntityIn, final float partialTicks, final PoseStack matrixStackIn,
-            final MultiBufferSource bufferIn, final int combinedLightIn, final int combinedOverlayIn)
+    public void render(final RaidSpawn blockEntity, float partialTick, PoseStack poseStack,
+            MultiBufferSource bufferSource, int packedLight, int packedOverlay)
     {
-        final long i = tileEntityIn.getLevel().getGameTime();
-        final List<RaidSpawn.BeamSegment> list = tileEntityIn.getBeamSegments();
+        long i = blockEntity.getLevel().getGameTime();
+        List<BeaconBlockEntity.BeaconBeamSection> list = blockEntity.getBeamSections();
         int j = 0;
 
-        for (int k = 0; k < list.size(); ++k)
+        for (int k = 0; k < list.size(); k++)
         {
-            final RaidSpawn.BeamSegment RaidSpawn$beamsegment = list.get(k);
-            Raid.renderBeamSegment(matrixStackIn, bufferIn, partialTicks, i, j,
-                    k == list.size() - 1 ? 1024 : RaidSpawn$beamsegment.getHeight(), RaidSpawn$beamsegment.getColors());
-            j += RaidSpawn$beamsegment.getHeight();
+            BeaconBlockEntity.BeaconBeamSection beaconblockentity$beaconbeamsection = list.get(k);
+            renderBeaconBeam(poseStack, bufferSource, partialTick, i, j,
+                    k == list.size() - 1 ? 1024 : beaconblockentity$beaconbeamsection.getHeight(),
+                    beaconblockentity$beaconbeamsection.getColor());
+            j += beaconblockentity$beaconbeamsection.getHeight();
         }
-
     }
 
-    private static void renderBeamSegment(final PoseStack matrixStackIn, final MultiBufferSource bufferIn,
-            final float partialTicks, final long totalWorldTime, final int yOffset, final int height,
-            final float[] colors)
+    private static void renderBeaconBeam(PoseStack poseStack, MultiBufferSource bufferSource, float partialTick,
+            long gameTime, int yOffset, int height, int color)
     {
-        Raid.renderBeamSegment(matrixStackIn, bufferIn, Raid.TEXTURE_BEACON_BEAM, partialTicks, 1.0F, totalWorldTime,
-                yOffset, height, colors, 0.2F, 0.25F);
-    }
-
-    public static void renderBeamSegment(final PoseStack matrixStackIn, final MultiBufferSource bufferIn,
-            final ResourceLocation textureLocation, final float partialTicks, final float textureScale,
-            final long totalWorldTime, final int yOffset, final int height, final float[] colors,
-            final float beamRadius, final float glowRadius)
-    {
-        final int i = yOffset + height;
-        matrixStackIn.pushPose();
-        matrixStackIn.translate(0.5D, 0.0D, 0.5D);
-        final float f = Math.floorMod(totalWorldTime, 40L) + partialTicks;
-        final float f1 = height < 0 ? f : -f;
-        final float f2 = Mth.frac(f1 * 0.2F - Mth.floor(f1 * 0.1F));
-        final float f3 = colors[0];
-        final float f4 = colors[1];
-        final float f5 = colors[2];
-        matrixStackIn.pushPose();
-        matrixStackIn.mulPose(Axis.YP.rotationDegrees(f * 2.25F - 45.0F));
-        float f6 = 0.0F;
-        float f8 = 0.0F;
-        float f9 = -beamRadius;
-        final float f12 = -beamRadius;
-        float f15 = -1.0F + f2;
-        float f16 = height * textureScale * (0.5F / beamRadius) + f15;
-        Raid.renderPart(matrixStackIn, bufferIn.getBuffer(RenderType.beaconBeam(textureLocation, false)), f3, f4, f5,
-                1.0F, yOffset, i, 0.0F, beamRadius, beamRadius, 0.0F, f9, 0.0F, 0.0F, f12, 0.0F, 1.0F, f16, f15);
-        matrixStackIn.popPose();
-        f6 = -glowRadius;
-        final float f7 = -glowRadius;
-        f8 = -glowRadius;
-        f9 = -glowRadius;
-        f15 = -1.0F + f2;
-        f16 = height * textureScale + f15;
-        Raid.renderPart(matrixStackIn, bufferIn.getBuffer(RenderType.beaconBeam(textureLocation, true)), f3, f4, f5,
-                0.125F, yOffset, i, f6, f7, glowRadius, f8, f9, glowRadius, glowRadius, glowRadius, 0.0F, 1.0F, f16,
-                f15);
-        matrixStackIn.popPose();
-    }
-
-    private static void renderPart(final PoseStack matrixStackIn, final VertexConsumer bufferIn, final float red,
-            final float green, final float blue, final float alpha, final int yMin, final int yMax,
-            final float p_228840_8_, final float p_228840_9_, final float p_228840_10_, final float p_228840_11_,
-            final float p_228840_12_, final float p_228840_13_, final float p_228840_14_, final float p_228840_15_,
-            final float u1, final float u2, final float v1, final float v2)
-    {
-        final PoseStack.Pose matrixstack$entry = matrixStackIn.last();
-        final Matrix4f matrix4f = matrixstack$entry.pose();
-        Raid.addQuad(matrix4f, matrixstack$entry, bufferIn, red, green, blue, alpha, yMin, yMax, p_228840_8_,
-                p_228840_9_, p_228840_10_, p_228840_11_, u1, u2, v1, v2);
-        Raid.addQuad(matrix4f, matrixstack$entry, bufferIn, red, green, blue, alpha, yMin, yMax, p_228840_14_,
-                p_228840_15_, p_228840_12_, p_228840_13_, u1, u2, v1, v2);
-        Raid.addQuad(matrix4f, matrixstack$entry, bufferIn, red, green, blue, alpha, yMin, yMax, p_228840_10_,
-                p_228840_11_, p_228840_14_, p_228840_15_, u1, u2, v1, v2);
-        Raid.addQuad(matrix4f, matrixstack$entry, bufferIn, red, green, blue, alpha, yMin, yMax, p_228840_12_,
-                p_228840_13_, p_228840_8_, p_228840_9_, u1, u2, v1, v2);
-    }
-
-    private static void addQuad(final Matrix4f matrixPos, final PoseStack.Pose matrixNormal,
-            final VertexConsumer bufferIn, final float red, final float green, final float blue, final float alpha,
-            final int yMin, final int yMax, final float x1, final float z1, final float x2, final float z2,
-            final float u1, final float u2, final float v1, final float v2)
-    {
-        Raid.addVertex(matrixPos, matrixNormal, bufferIn, red, green, blue, alpha, yMax, x1, z1, u2, v1);
-        Raid.addVertex(matrixPos, matrixNormal, bufferIn, red, green, blue, alpha, yMin, x1, z1, u2, v2);
-        Raid.addVertex(matrixPos, matrixNormal, bufferIn, red, green, blue, alpha, yMin, x2, z2, u1, v2);
-        Raid.addVertex(matrixPos, matrixNormal, bufferIn, red, green, blue, alpha, yMax, x2, z2, u1, v1);
-    }
-
-    private static void addVertex(final Matrix4f matrixPos, final PoseStack.Pose matrixNormal,
-            final VertexConsumer bufferIn, final float red, final float green, final float blue, final float alpha,
-            final int y, final float x, final float z, final float texU, final float texV)
-    {
-        bufferIn.addVertex(matrixPos, x, y, z).setColor(red, green, blue, alpha).setUv(texU, texV)
-                .setOverlay(OverlayTexture.NO_OVERLAY).setLight(15728880).setNormal(matrixNormal, 0.0F, 1.0F, 0.0F);
+        BeaconRenderer.renderBeaconBeam(poseStack, bufferSource, BeaconRenderer.BEAM_LOCATION, partialTick, 1.0F,
+                gameTime, yOffset, height, color, 0.2F, 0.25F);
     }
 
     @Override
     public boolean shouldRenderOffScreen(final RaidSpawn te)
     {
         return true;
+    }
+
+    @Override
+    public int getViewDistance()
+    {
+        return 256;
+    }
+
+    @Override
+    public boolean shouldRender(RaidSpawn blockEntity, Vec3 cameraPos)
+    {
+        return Vec3.atCenterOf(blockEntity.getBlockPos()).multiply(1.0, 0.0, 1.0)
+                .closerThan(cameraPos.multiply(1.0, 0.0, 1.0), this.getViewDistance());
+    }
+
+    @Override
+    public AABB getRenderBoundingBox(RaidSpawn blockEntity)
+    {
+        BlockPos pos = blockEntity.getBlockPos();
+        return new AABB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1.0, BeaconRenderer.MAX_RENDER_Y,
+                pos.getZ() + 1.0);
     }
 }

@@ -36,11 +36,11 @@ public class MaxTile extends InteractableTile
         super(tileEntityTypeIn, pos, state);
     }
 
-    public boolean addForbiddenSpawningCoord()
+    public void addForbiddenSpawningCoord()
     {
-        if (this.getLevel() == null || this.getLevel().isClientSide || !this.enabled) return false;
+        if (this.getLevel() == null || this.getLevel().isClientSide || !this.enabled) return;
         final BlockPos pos = this.getBlockPos();
-        return SpawnHandler.addForbiddenSpawningCoord(pos, this.level, this.range, MaxTile.MAXSPOT);
+        SpawnHandler.addForbiddenSpawningCoord(pos, this.level, this.range, MaxTile.MAXSPOT);
     }
 
     @Override
@@ -83,10 +83,10 @@ public class MaxTile extends InteractableTile
         this.removeForbiddenSpawningCoord();
     }
 
-    public boolean removeForbiddenSpawningCoord()
+    public void removeForbiddenSpawningCoord()
     {
-        if (this.getLevel() == null || this.getLevel().isClientSide) return false;
-        return SpawnHandler.removeForbiddenSpawningCoord(this.getBlockPos(), this.level);
+        if (this.getLevel() == null || this.getLevel().isClientSide) return;
+        SpawnHandler.removeForbiddenSpawningCoord(this.getBlockPos(), this.level);
     }
 
     @Override
@@ -98,8 +98,6 @@ public class MaxTile extends InteractableTile
 
     /**
      * Writes a tile entity to NBT.
-     *
-     * @return
      */
     @Override
     public void saveAdditional(final CompoundTag nbt, HolderLookup.Provider registries)

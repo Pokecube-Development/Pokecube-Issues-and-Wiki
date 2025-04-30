@@ -1,8 +1,5 @@
 package pokecube.gimmicks.terastal;
 
-import java.util.Collections;
-import java.util.List;
-
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -33,6 +30,9 @@ import pokecube.gimmicks.terastal.TeraTypeGene.TeraType;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+
+import java.util.Collections;
+import java.util.List;
 
 public class TerastalRaid implements IBossProvider
 {
@@ -106,13 +106,12 @@ public class TerastalRaid implements IBossProvider
             hpAttr.addPermanentModifier(hpBoost);
             float toAdd = entity.getMaxHealth() - health;
             entity.heal(toAdd);
-
             // Scale mob larger if tiny, so easier to see/fight
-            if (pokemob.getMobSizes().magSq() < 12
-                    && entity.getAttributes().hasAttribute(SharedAttributes.MOB_SIZE_SCALE))
+            if (pokemob.getMobSizes().magSq() < 9 && entity.getAttributes()
+                    .hasAttribute(SharedAttributes.MOB_SIZE_SCALE))
             {
                 var scaleAttr = entity.getAttribute(SharedAttributes.MOB_SIZE_SCALE);
-                var sizeBoost = new AttributeModifier(TERAMOD, Math.sqrt(12 / pokemob.getMobSizes().magSq()),
+                var sizeBoost = new AttributeModifier(TERAMOD, Math.sqrt(9 / pokemob.getMobSizes().magSq()),
                         Operation.ADD_MULTIPLIED_BASE);
                 scaleAttr.removeModifier(TERAMOD);
                 scaleAttr.addPermanentModifier(sizeBoost);
