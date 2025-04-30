@@ -1,25 +1,13 @@
 package thut.core.client.render.model.parts;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Predicate;
-
-import javax.annotation.Nullable;
-
-import org.joml.Quaternionf;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
+import org.joml.Quaternionf;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.api.maths.Vector3;
@@ -32,6 +20,15 @@ import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.common.ThutCore;
 import thut.lib.AxisAngles;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Predicate;
 
 public abstract class Part implements IExtendedModelPart, IRetexturableModel
 {
@@ -67,8 +64,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public float ds1 = 1;
     private float ds2 = 1;
 
-    public float[] colour_scales =
-    { 1f, 1f, 1f, 1f };
+    public float[] colour_scales = { 1f, 1f, 1f, 1f };
 
     Vector3 min = new Vector3();
     Vector3 max = new Vector3();
@@ -99,17 +95,18 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     private void initBounds()
     {
         if (!(this.max.isEmpty() && this.min.isEmpty())) return;
-        for (final Mesh shape : this.shapes) for (final Vertex v : shape.vertices)
-        {
+        for (final Mesh shape : this.shapes)
+            for (final Vertex v : shape.vertices)
+            {
 
-            this.min.x = Math.min(this.min.x, v.x);
-            this.min.y = Math.min(this.min.y, v.y);
-            this.min.z = Math.min(this.min.z, v.z);
+                this.min.x = Math.min(this.min.x, v.x);
+                this.min.y = Math.min(this.min.y, v.y);
+                this.min.z = Math.min(this.min.z, v.z);
 
-            this.max.x = Math.max(this.max.x, v.x);
-            this.max.y = Math.max(this.max.y, v.y);
-            this.max.z = Math.max(this.max.z, v.z);
-        }
+                this.max.x = Math.max(this.max.x, v.x);
+                this.max.y = Math.max(this.max.y, v.y);
+                this.max.z = Math.max(this.max.z, v.z);
+            }
     }
 
     @Override
@@ -282,11 +279,8 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     {
         boolean skip = this.isHidden();
         if (skip || excludedGroupNames.contains(this.name)) return;
-        if (!skip)
-        {
-            for (var part : this.order) part.renderAllExcept(mat, buffer, excludedGroupNames);
-            this.render(mat, buffer);
-        }
+        for (var part : this.order) part.renderAllExcept(mat, buffer, excludedGroupNames);
+        this.render(mat, buffer);
     }
 
     @Override
@@ -460,14 +454,15 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         {
             for (final Mesh mesh : this.shapes) mesh.setMaterial(material);
         }
-        else for (final String s : parts) for (final Mesh mesh : this.shapes)
-        {
-            if (mesh.name == null) mesh.name = this.getName();
-            if (mesh.name.equals(ThutCore.trim(s)) || mesh.name.equals(mat.name) || this.getName().equals(s))
+        else for (final String s : parts)
+            for (final Mesh mesh : this.shapes)
             {
-                mesh.setMaterial(material);
+                if (mesh.name == null) mesh.name = this.getName();
+                if (mesh.name.equals(ThutCore.trim(s)) || mesh.name.equals(mat.name) || this.getName().equals(s))
+                {
+                    mesh.setMaterial(material);
+                }
             }
-        }
         if (material == null)
         {
             ThutCore.LOGGER.error("Error loading a material, trying to set it to null: {}", JsonUtil.gson.toJson(mat));

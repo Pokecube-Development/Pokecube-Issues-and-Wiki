@@ -1,20 +1,12 @@
 package thut.core.client.render.bbmodel;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
 import com.mojang.math.Axis;
-
 import net.minecraft.core.Direction;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import thut.api.maths.vecmath.Vec3f;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.model.Vertex;
@@ -22,6 +14,12 @@ import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.texturing.TextureCoordinate;
 import thut.core.common.ThutCore;
 import thut.lib.AxisAngles;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class BBModelTemplate
 {
@@ -98,10 +96,8 @@ public class BBModelTemplate
             v2.sub(v1);
             v3.sub(v1);
             // This happens for faces with no area.
-            if (v2.dot(v3) == 0) return false;
-
             // Otherwise, we are valid
-            return true;
+            return v2.dot(v3) != 0;
         }
     }
 
@@ -111,14 +107,10 @@ public class BBModelTemplate
 
         public BBCubeElement(BBModelTemplate template, Element b)
         {
-            float[] from = new float[]
-            { 0, 0, 0 };
-            float[] to = new float[]
-            { 0, 0, 0 };
-            float[] origin_offset = new float[]
-            { 0, 0, 0 };
-            float[] mid_offset = new float[]
-            { 0, 0, 0 };
+            float[] from = new float[] { 0, 0, 0 };
+            float[] to = new float[] { 0, 0, 0 };
+            float[] origin_offset = new float[] { 0, 0, 0 };
+            float[] mid_offset = new float[] { 0, 0, 0 };
 
             float f = b.inflate;
 
@@ -274,12 +266,7 @@ public class BBModelTemplate
             Vector3f origin = new Vector3f(origin_offset);
             Vector3f shift = new Vector3f(mid_offset);
 
-            int[][] tex_order =
-            {
-                    { 0, 1 },
-                    { 0, 3 },
-                    { 2, 3 },
-                    { 2, 1 } };
+            int[][] tex_order = { { 0, 1 }, { 0, 3 }, { 2, 3 }, { 2, 1 } };
 
             for (var face : quads)
             {
@@ -287,9 +274,7 @@ public class BBModelTemplate
 
                 for (int j = 0; j < 4; j++)
                 {
-                    int index = j;
-
-                    Vertex v = face.points[index];
+                    Vertex v = face.points[j];
                     // This should be a point on a box with a corner at 0,0,0.
                     Vector3f vec = new Vector3f(v.x, v.y, v.z);
 
@@ -303,10 +288,10 @@ public class BBModelTemplate
                     vec.add(shift);
 
                     v.set(vec.x() / 16, -vec.z() / 16, vec.y() / 16);
-                    int i = (index + face.rotation / 90) % 4;
+                    int i = (j + face.rotation / 90) % 4;
                     int u0 = tex_order[i][0];
                     int v0 = tex_order[i][1];
-                    face.tex[index] = new TextureCoordinate(face.uvs[u0] / us, face.uvs[v0] / vs);
+                    face.tex[j] = new TextureCoordinate(face.uvs[u0] / us, face.uvs[v0] / vs);
                 }
             }
         }
@@ -336,8 +321,7 @@ public class BBModelTemplate
             double angleOpp = toNext.angle(toOpp);
             double anglePrevOpp = toPrev.angle(toOpp);
 
-            var broken = angleOpp > angleNext || anglePrevOpp > angleNext;
-            return broken;
+            return angleOpp > angleNext || anglePrevOpp > angleNext;
         }
 
         public BBMeshElement(BBModelTemplate template, Element b)
@@ -428,7 +412,7 @@ public class BBModelTemplate
                 else if (map_order.size() == 3) this.tris.add(quad);
                 else
                 {
-                    ThutCore.LOGGER.error("Unsupported vertex count: " + map_order.size());
+                    ThutCore.LOGGER.error("Unsupported vertex count: {}", map_order.size());
                 }
             }
         }
@@ -474,10 +458,9 @@ public class BBModelTemplate
                     }
                     for (int i = 0; i < 4; i++)
                     {
-                        int index = i;
                         Integer o = order.size();
-                        Vertex v = face.points[index];
-                        var tx = face.tex[index];
+                        Vertex v = face.points[i];
+                        var tx = face.tex[i];
                         order.add(o);
                         verts.add(v);
                         tex.add(tx);
@@ -504,10 +487,9 @@ public class BBModelTemplate
                     }
                     for (int i = 0; i < 4; i++)
                     {
-                        int index = i;
                         Integer o = order.size();
-                        Vertex v = face.points[index];
-                        var tx = face.tex[index];
+                        Vertex v = face.points[i];
+                        var tx = face.tex[i];
                         order.add(o);
                         verts.add(v);
                         tex.add(tx);
@@ -530,10 +512,9 @@ public class BBModelTemplate
                     }
                     for (int i = 0; i < 3; i++)
                     {
-                        int index = i;
                         Integer o = order.size();
-                        Vertex v = face.points[index];
-                        var tx = face.tex[index];
+                        Vertex v = face.points[i];
+                        var tx = face.tex[i];
                         order.add(o);
                         verts.add(v);
                         tex.add(tx);
