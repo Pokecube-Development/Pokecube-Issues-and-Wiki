@@ -21,6 +21,7 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.database.Database;
+import pokecube.core.entity.genetics.genes.SizeGene;
 import thut.api.ThutCaps;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
@@ -86,7 +87,7 @@ public class GuiPokemobHelper
         scale *= 30;
         if (pokemob != null)
         {
-            if (!entity.isAddedToLevel()) pokemob.setSize(1);
+            if (!entity.isAddedToLevel()) SizeGene.setScale(pokemob, 1);
             float mobScale = 1;
             if (GuiPokemobHelper.autoScale)
             {
@@ -109,7 +110,7 @@ public class GuiPokemobHelper
                 mobScale = Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
             }
             scale /= mobScale;
-            scale /= pokemob.getSize();
+            scale /= pokemob.getEntity().getScale();
         }
         mat.pushPose();
         mat.translate(dx + 55, dy + 60, 50.0F);

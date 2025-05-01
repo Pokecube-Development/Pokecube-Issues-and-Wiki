@@ -285,7 +285,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         public void scaleEntity(final PoseStack mat, final Entity entity, final IModel model, final float partialTick)
         {
             final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
-            float s = 1 / pokemob.getSize();
+            float s = 1;
             if (pokemob != null && pokemob.getGeneralState(GeneralStates.EXITINGCUBE))
             {
                 float scale = Math.min(1, (entity.tickCount + 1 + partialTick) / LogicMiscUpdate.EXITCUBEDURATION);
@@ -506,7 +506,6 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
                 || holder.model == null || holder.texture == null) holder = RenderPokemob.getMissingNo();
 
         this.model = holder.wrapper;
-        this.shadowRadius = entity.getBbWidth();
         this.activeHolder = holder;
         this.shadowRadius = 0;
 
@@ -536,7 +535,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     public ResourceLocation getTextureLocation(final Mob entity)
     {
         ResourceLocation texture = Database.missingno.texture;
-        Holder holder = this.holder;
+        Holder holder;
         final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob == null) return texture;
         holder = RenderPokemob.holders.getOrDefault(pokemob.getPokedexEntry(), this.holder);
@@ -564,19 +563,14 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 
     private static float sleepDirectionToRotation(Direction bedDir)
     {
-        switch (bedDir)
+        return switch (bedDir)
         {
-        case SOUTH:
-            return 90.0F;
-        case WEST:
-            return 0.0F;
-        case NORTH:
-            return 270.0F;
-        case EAST:
-            return 180.0F;
-        default:
-            return 0.0F;
-        }
+            case SOUTH -> 90.0F;
+            case WEST -> 0.0F;
+            case NORTH -> 270.0F;
+            case EAST -> 180.0F;
+            default -> 0.0F;
+        };
     }
 
     @Override

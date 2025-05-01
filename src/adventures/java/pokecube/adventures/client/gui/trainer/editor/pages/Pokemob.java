@@ -24,6 +24,7 @@ import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.database.Database;
+import pokecube.core.entity.genetics.genes.SizeGene;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.lib.TComponent;
 
@@ -167,7 +168,7 @@ public class Pokemob extends Page
             level = this.pokemob.getLevel();
             nature = this.pokemob.getNature() + "";
             if (this.pokemob.getAbility() != null) ability = this.pokemob.getAbility().toString();
-            size = this.pokemob.getSize();
+            size = SizeGene.getScale(this.pokemob);
             this.shiny = this.pokemob.isShiny();
         }
         final String gender = this.gender == IPokemob.MALE ? "♂" : this.gender == IPokemob.FEMALE ? "♀" : "o";
@@ -321,7 +322,7 @@ public class Pokemob extends Page
                         nature = this.pokemob.getNature() + "";
                         this.nat = this.pokemob.getNature();
                         if (this.pokemob.getAbility() != null) ability = this.pokemob.getAbility().toString();
-                        size = this.pokemob.getSize();
+                        size = SizeGene.getScale(this.pokemob);
                         this.shiny = this.pokemob.isShiny();
                         this.gender = this.pokemob.getSexe();
                         this.abilIndex = this.pokemob.getAbilityIndex();
@@ -367,7 +368,7 @@ public class Pokemob extends Page
                         false);
                 info.putInt("l", Integer.parseInt(this.level.getValue()));
 
-                this.pokemob.setSize(Float.parseFloat(this.size.getValue()));
+                SizeGene.setScale(this.pokemob, Float.parseFloat(this.size.getValue()));
                 info.putFloat("s", Float.parseFloat(this.size.getValue()));
 
                 this.pokemob.setNature(this.nat);

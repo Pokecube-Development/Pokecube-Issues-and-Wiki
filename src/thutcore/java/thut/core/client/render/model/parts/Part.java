@@ -327,7 +327,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         this.colour_scales[2] = 1;
         this.colour_scales[3] = 1;
         this.hidden = false;
-        ds0 = ds = ds2 = 1;
+        ds0 = ds = 1;
     }
 
     @Override

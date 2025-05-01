@@ -21,21 +21,21 @@ public class EntityScaleMixin
     @Inject(method = "getScale", at = @At(value = "RETURN"), cancellable = true)
     public void pokecube$getScale(CallbackInfoReturnable<Float> cbr)
     {
-        if (!_checkedPokemob)
-        {
-            _this = LivingEntity.class.cast(this);
-            _pokemob = PokemobCaps.getPokemobFor(_this);
-            _checkedPokemob = true;
-        }
-        float size = cbr.getReturnValueF();
-        size *= SharedAttributes.getScale(_this);
-        if (_pokemob != null)
-        {
-            size *= PokecubeCore.getConfig().scalefactor;
-            // Reset this if we set it from dynamaxing
-            if (_this.getParts() != null && _this.getParts().length == 0) _this.noCulling = false;
-            if (size > 3) _this.noCulling = true;
-        }
-        cbr.setReturnValue(size);
+//        if (!_checkedPokemob)
+//        {
+//            _this = LivingEntity.class.cast(this);
+//            _pokemob = PokemobCaps.getPokemobFor(_this);
+//            _checkedPokemob = true;
+//        }
+//        float size = cbr.getReturnValueF();
+//        size *= SharedAttributes.getScale(_this);
+//        if (_pokemob != null)
+//        {
+//            size *= PokecubeCore.getConfig().scalefactor;
+//            // Reset this if we set it from dynamaxing
+//            if (_this.getParts() != null && _this.getParts().length == 0) _this.noCulling = false;
+//            if (size > 3) _this.noCulling = true;
+//        }
+//        cbr.setReturnValue(size);
     }
 }

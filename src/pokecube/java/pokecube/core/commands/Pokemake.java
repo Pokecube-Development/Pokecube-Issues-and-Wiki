@@ -23,6 +23,7 @@ import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
+import pokecube.core.entity.genetics.genes.SizeGene;
 import thut.api.entity.IMobColourable;
 import thut.api.maths.Vector3;
 import thut.api.util.PermNodes;
@@ -161,7 +162,7 @@ public class Pokemake
                 mob.setIVs(ivs);
             }
             else if (arg.equalsIgnoreCase("w")) asWild = true;
-            else if (arg.equalsIgnoreCase("h")) mob.setSize(Float.parseFloat(val));
+            else if (arg.equalsIgnoreCase("h")) SizeGene.setScale(mob, Float.parseFloat(val));
             else if (arg.equalsIgnoreCase("p"))
             {
                 Nature nature = null;

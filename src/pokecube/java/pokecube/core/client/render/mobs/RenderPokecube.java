@@ -1,11 +1,8 @@
 package pokecube.core.client.render.mobs;
 
-import java.util.HashMap;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
@@ -38,8 +35,12 @@ import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 
+import java.util.HashMap;
+
 public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPokecube>
 {
+    public static final ResourceLocation EXITCUBE = ResourceLocation.parse("pokecube:pokecube_entry_exit");
+
     public static class ModelPokecube extends EntityModel<EntityPokecube>
     {
         public static Object2FloatOpenHashMap<ResourceLocation> CUBE_SHIFTS = new Object2FloatOpenHashMap<>();
@@ -134,8 +135,8 @@ public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPo
         final ResourceLocation num = PokecubeItems.getCubeId(entity.getItem());
         if (RenderPokecube.pokecubeRenderers.containsKey(num))
         {
-            RenderPokecube.pokecubeRenderers.get(num).render(entity, entityYaw, partialTicks, stack, bufferIn,
-                    packedLightIn);
+            RenderPokecube.pokecubeRenderers.get(num)
+                    .render(entity, entityYaw, partialTicks, stack, bufferIn, packedLightIn);
             return;
         }
         super.render(entity, entityYaw, partialTicks, stack, bufferIn, packedLightIn);
@@ -149,10 +150,7 @@ public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPo
             float scale = dt / duration;
             if (scale > 0)
             {
-                if (capturing.getAttributes().hasAttribute(SharedAttributes.MOB_SIZE_SCALE))
-                {
-                    capturing.getAttribute(SharedAttributes.MOB_SIZE_SCALE).setBaseValue(scale);
-                }
+                SharedAttributes.adjustScale(entity, scale, EXITCUBE, false);
                 IPokemob pokemob = PokemobCaps.getPokemobFor(capturing);
                 stack.pushPose();
                 Vector3 capt = entity.capturePos;
@@ -162,8 +160,8 @@ public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPo
                     float scaleShift;
                     final PokedexEntry entry = pokemob.getPokedexEntry();
                     var dims = entry.getModelSize();
-                    scaleShift = dims.y * pokemob.getSize() * scale / 2;
-                    float mobScale = pokemob.getSize();
+                    scaleShift = dims.y * pokemob.getEntity().getScale() * scale / 2;
+                    float mobScale = pokemob.getEntity().getScale();
                     scale = 0.1f * Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
                     Evolution.renderEffect(pokemob, stack, bufferIn, partialTicks, (int) dt, duration, scale,
                             scaleShift, true);

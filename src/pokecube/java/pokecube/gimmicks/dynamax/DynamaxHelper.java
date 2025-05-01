@@ -1,7 +1,5 @@
 package pokecube.gimmicks.dynamax;
 
-import java.util.List;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -40,9 +38,10 @@ import thut.api.Tracker;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.lib.TComponent;
 
+import java.util.List;
+
 /**
  * This class handles the dynamax mechanic
- *
  */
 @EventBusSubscriber(bus = Bus.MOD, modid = PokecubeCore.MODID)
 public class DynamaxHelper
@@ -106,7 +105,6 @@ public class DynamaxHelper
                     newEntry = pokemob.getBasePokedexEntry();
                     mess = TComponent.translatable("pokemob.dynamax.revert", oldName);
                     MegaEvoTicker.scheduleRevert(newEntry, pokemob, mess);
-                    return true;
                 }
                 else
                 {
@@ -131,8 +129,8 @@ public class DynamaxHelper
                     mess = TComponent.translatable("pokemob.dynamax.success", oldName);
                     PokecubePlayerDataHandler.getCustomDataTag(reg, owner.getUUID()).putLong("pokecube:dynatime", time);
                     doDynamax(pokemob, newEntry, PokecubeCore.getConfig().dynamax_duration, mess);
-                    return true;
                 }
+                return true;
             }
             if (isDyna)
             {
@@ -196,12 +194,7 @@ public class DynamaxHelper
             hpAttr.removeModifier(DYNAMOD);
             // Reset health to clip to new maximum.
             entity.setHealth(Math.min(entity.getHealth(), entity.getMaxHealth()));
-
-            if (entity.getAttributes().hasAttribute(SharedAttributes.MOB_SIZE_SCALE))
-            {
-                var scaleAttr = entity.getAttribute(SharedAttributes.MOB_SIZE_SCALE);
-                scaleAttr.removeModifier(DYNAMOD);
-            }
+            SharedAttributes.clearScale(pokemob.getEntity(), DYNAMOD);
         }
     }
 
@@ -225,9 +218,8 @@ public class DynamaxHelper
     }
 
     /**
-     * Applies the modifiers for when the mob has dynamaxed, This includes the
-     * health boost and the size boost. Then also marks the duration and start
-     * time for the dynamaxing.
+     * Applies the modifiers for when the mob has dynamaxed, This includes the health boost and the size boost. Then
+     * also marks the duration and start time for the dynamaxing.
      */
     private static void onDynamax(IPokemob pokemob, int duration)
     {
@@ -246,14 +238,8 @@ public class DynamaxHelper
         float toAdd = entity.getMaxHealth() - health;
         entity.heal(toAdd);
 
-        if (!info.gigantamax && entity.getAttributes().hasAttribute(SharedAttributes.MOB_SIZE_SCALE))
-        {
-            var scaleAttr = entity.getAttribute(SharedAttributes.MOB_SIZE_SCALE);
-            var sizeBoost = new AttributeModifier(DYNAMOD, PokecubeCore.getConfig().dynamax_scale,
-                    Operation.ADD_MULTIPLIED_BASE);
-            scaleAttr.removeModifier(DYNAMOD);
-            scaleAttr.addPermanentModifier(sizeBoost);
-        }
+        if (!info.gigantamax)
+            SharedAttributes.adjustScale(entity, PokecubeCore.getConfig().dynamax_scale, DYNAMOD, true);
     }
 
     public static boolean isDynamax(IPokemob pokemob)

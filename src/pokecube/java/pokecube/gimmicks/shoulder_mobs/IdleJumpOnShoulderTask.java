@@ -80,7 +80,7 @@ public class IdleJumpOnShoulderTask extends BaseIdleTask
     public static void moveToShoulder(Player player, IPokemob pokemob)
     {
         var entity = pokemob.getEntity();
-        final float scale = pokemob.getSize();
+        final float scale = pokemob.getEntity().getScale();
         final float width = pokemob.getPokedexEntry().width * scale;
         final float height = pokemob.getPokedexEntry().height * scale;
         final float length = pokemob.getPokedexEntry().length * scale;

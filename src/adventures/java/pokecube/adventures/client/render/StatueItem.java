@@ -13,6 +13,7 @@ import pokecube.adventures.blocks.statue.StatueEntity;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.entity.genetics.GeneticsManager;
+import pokecube.core.entity.genetics.genes.SizeGene;
 import thut.api.ThutCaps;
 import thut.api.attachments.CopyMob;
 
@@ -68,7 +69,7 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IClie
             if (!tag.contains("pokecube:__gui__size"))
             {
                 tag = tag.copy();
-                tag.putFloat("pokecube:__gui__size", pokemob.getSize());
+                tag.putFloat("pokecube:__gui__size", SizeGene.getScale(pokemob));
                 info = new CopyMob.CopyInfo(tag);
                 stack.set(CopyMob.COPY_STORE, info);
                 mob = getMob(stack, displayContext);
@@ -80,9 +81,9 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IClie
             if (displayContext != ItemDisplayContext.GROUND)
             {
                 float size = GuiPokemobHelper.sizeMap.getOrDefault(pokemob.getPokedexEntry(), 1.0f);
-                pokemob.setSize(0.15f / size);
+                SizeGene.setScale(pokemob, 0.15f / size);
             }
-            else pokemob.setSize(tag.getFloat("pokecube:__gui__size"));
+            else SizeGene.setScale(pokemob, tag.getFloat("pokecube:__gui__size"));
             var size_gene = genes.getAlleles(GeneticsManager.SIZEGENE);
             if (size_gene != null) size_gene.getExpressed().onUpdateTick(mob);
         }

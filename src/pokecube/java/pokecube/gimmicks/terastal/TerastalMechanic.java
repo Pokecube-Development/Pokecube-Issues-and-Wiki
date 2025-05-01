@@ -1,7 +1,5 @@
 package pokecube.gimmicks.terastal;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -44,13 +42,12 @@ import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.lib.TComponent;
 
+import javax.annotation.Nullable;
+
 /**
- * Implementation of the Terastallizing mechanic. This is tracked per pokemob
- * via genes, and this class contains the required code for attaching the genes,
- * managing the types, etc. This is all arranged via calling
- * {@link TerastalMechanic#init(FMLLoadCompleteEvent)}, and via the
- * EventBusSubscriber
- *
+ * Implementation of the Terastallizing mechanic. This is tracked per pokemob via genes, and this class contains the
+ * required code for attaching the genes, managing the types, etc. This is all arranged via calling
+ * {@link TerastalMechanic#init(FMLLoadCompleteEvent)}, and via the EventBusSubscriber
  */
 @EventBusSubscriber(bus = Bus.MOD, modid = PokecubeCore.MODID)
 public class TerastalMechanic
@@ -79,6 +76,8 @@ public class TerastalMechanic
 
         var attr = Attributes.MAX_HEALTH;
         if (attr instanceof AttributeMaxAccessor acc && acc.maxValue() < 1e8) acc.setMaxValue(1e8);
+        attr = Attributes.SCALE;
+        if (attr instanceof AttributeMaxAccessor acc && acc.maxValue() < 1e3) acc.setMaxValue(1e3);
     }
 
     private static class Terastallizer implements IChangeHandler
@@ -110,7 +109,7 @@ public class TerastalMechanic
                 else if (teraCooldown > 0) thut.lib.ChatHelper.sendSystemMessage(player,
                         TComponent.translatable("pokemob.terastal.on_cooldown"));
                 else thut.lib.ChatHelper.sendSystemMessage(player,
-                        TComponent.translatable("pokemob.terastal.not_yet", pokemob.getDisplayName()));
+                            TComponent.translatable("pokemob.terastal.not_yet", pokemob.getDisplayName()));
             }
         }
 
@@ -135,7 +134,6 @@ public class TerastalMechanic
     }
 
     /**
-     * 
      * @param entity - to get tera genes for
      * @return the tera genes for the entity, null if not present
      */
@@ -189,8 +187,7 @@ public class TerastalMechanic
         mess = TComponent.translatable("pokemob.terastal.success", pokemob.getDisplayName());
 
         MegaEvoTicker.scheduleChange(PokecubeCore.getConfig().evolutionTicks, pokemob.getPokedexEntry(), pokemob, mess,
-                () ->
-                {
+                () -> {
                     // Flag as evolving for animation effects
                     pokemob.setGeneralState(GeneralStates.EVOLVING, true);
                     pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
@@ -213,11 +210,10 @@ public class TerastalMechanic
     }
 
     /**
-     * Marks the use of terastallization. This sets the pokemob's owner's
-     * cooldown for using tera to 1, meaning they need to reset it somehow, say
-     * via healing at a pokecenter, sleeping in a bed, or whatever else we set
-     * to reset it.
-     * 
+     * Marks the use of terastallization. This sets the pokemob's owner's cooldown for using tera to 1, meaning they
+     * need to reset it somehow, say via healing at a pokecenter, sleeping in a bed, or whatever else we set to reset
+     * it.
+     *
      * @param pokemob - the pokemob trying to terastallize
      * @return whether we did terastallize
      */
@@ -232,8 +228,7 @@ public class TerastalMechanic
             pokemob.displayMessageToOwner(mess);
             mess = TComponent.translatable("pokemob.terastal.revert", pokemob.getDisplayName());
             MegaEvoTicker.scheduleChange(PokecubeCore.getConfig().evolutionTicks, pokemob.getPokedexEntry(), pokemob,
-                    mess, () ->
-                    {
+                    mess, () -> {
                         // Flag as evolving for animation effects
                         pokemob.setGeneralState(GeneralStates.EVOLVING, true);
                         pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
@@ -264,9 +259,8 @@ public class TerastalMechanic
     }
 
     /**
-     * This handles processing the tera type from the nbt in the pokemake
-     * arguments.
-     * 
+     * This handles processing the tera type from the nbt in the pokemake arguments.
+     *
      * @param event
      */
     private static final void onPokemake(PokemakeArgumentEvent event)
@@ -293,8 +287,7 @@ public class TerastalMechanic
     }
 
     /**
-     * This clears the isTera state for the pokemob, ie breaks the
-     * terastallization when recalled.
+     * This clears the isTera state for the pokemob, ie breaks the terastallization when recalled.
      */
     private static final void onHeal(HealEvent.Post event)
     {
@@ -307,8 +300,7 @@ public class TerastalMechanic
     }
 
     /**
-     * This clears the isTera state for the pokemob, ie breaks the
-     * terastallization when recalled.
+     * This clears the isTera state for the pokemob, ie breaks the terastallization when recalled.
      */
     private static final void onRecall(RecallEvent.Post event)
     {
@@ -320,9 +312,8 @@ public class TerastalMechanic
     }
 
     /**
-     * This applies the bonus STAB, and the damage boost for low powered moves.
-     * It also increments a counter for the owner (if present), which is used to
-     * determine if the owner can terastallize their pokemob.
+     * This applies the bonus STAB, and the damage boost for low powered moves. It also increments a counter for the
+     * owner (if present), which is used to determine if the owner can terastallize their pokemob.
      */
     private static final void duringPreMoveUse(MoveUse.DuringUse.Pre evt)
     {

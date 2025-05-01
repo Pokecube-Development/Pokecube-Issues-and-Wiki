@@ -195,7 +195,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
     @Override
     public void initParts()
     {
-        float size = this.getPokemob().getSize();
+        float size = this.getScale();
         this.initSizes(size);
     }
 

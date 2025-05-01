@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
+import pokecube.core.entity.genetics.genes.SizeGene;
 import thut.lib.TComponent;
 
 public class Bonus extends PokeInfoPage
@@ -64,7 +65,7 @@ public class Bonus extends PokeInfoPage
 
         // Draw size
         dy += 12; // 52
-        message = TComponent.translatable("pokewatch.size", "%.2f".formatted(this.parent.pokemob.getSize()));
+        message = TComponent.translatable("pokewatch.size", "%.2f".formatted(SizeGene.getScale(this.parent.pokemob)));
         this.splitRenderer = MultiLineLabel.create(this.fontRender, message, 112);
         this.splitRenderer.renderLeftAlignedNoShadow(graphics, x + dx, y + dy, 12, sizeColour);
 

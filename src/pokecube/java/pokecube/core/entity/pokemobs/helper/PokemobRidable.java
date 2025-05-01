@@ -350,7 +350,7 @@ public abstract class PokemobRidable extends PokemobHasParts
         BodyNode body;
         if (entry.poseShapes != null && (body = entry.poseShapes.get(this.lastPose)) != null)
             for (final BodyPart part : body.parts) if (part.__ride__ != null) bodySeats.add(part);
-        final float size = this.getPokemob().getSize();
+        final float size = this.getPokemob().getEntity().getScale();
         if (!bodySeats.isEmpty())
         {
             this.seatCount = bodySeats.size();

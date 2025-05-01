@@ -3,7 +3,6 @@ package pokecube.core.client.gui;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -30,6 +29,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.database.Database;
+import pokecube.core.entity.genetics.genes.SizeGene;
 import pokecube.core.network.packets.PacketChoose;
 import pokecube.core.utils.Resources;
 import thut.lib.TComponent;
@@ -37,7 +37,6 @@ import thut.lib.TComponent;
 public class GuiChooseFirstPokemob extends Screen
 {
 
-    public final static float POKEDEX_RENDER = 1.5f;
     public static boolean special = false;
     public static boolean pick = false;
 
@@ -48,7 +47,7 @@ public class GuiChooseFirstPokemob extends Screen
 
     private boolean gotSpecial = true;
 
-    protected Player player = null;
+    protected Player player;
     protected PokedexEntry pokedexEntry = null;
     int index = 0;
 
@@ -107,26 +106,28 @@ public class GuiChooseFirstPokemob extends Screen
             }).bounds(this.width / 2 - xOffset - 115, this.height / 2 - yOffset, 50, 20).build());
         }
 
-        this.addRenderableWidget(this.choose = new Button.Builder(TComponent.translatable("gui.pokemob.select"), (b) -> {
-            this.sendMessage(this.pokedexEntry);
-            this.player.closeContainer();
-        }).bounds(this.width / 2 - xOffset - 25, this.height / 2 - yOffset + 160, 50, 20).build());
+        this.addRenderableWidget(
+                this.choose = new Button.Builder(TComponent.translatable("gui.pokemob.select"), (b) -> {
+                    this.sendMessage(this.pokedexEntry);
+                    this.player.closeContainer();
+                }).bounds(this.width / 2 - xOffset - 25, this.height / 2 - yOffset + 160, 50, 20).build());
 
-        this.addRenderableWidget(this.accept = new Button.Builder(TComponent.translatable("gui.pokemob.accept"), (b) -> {
-            this.gotSpecial = true;
+        this.addRenderableWidget(
+                this.accept = new Button.Builder(TComponent.translatable("gui.pokemob.accept"), (b) -> {
+                    this.gotSpecial = true;
 
-            this.next.visible = true;
-            this.prev.visible = true;
-            this.choose.visible = true;
-            this.accept.visible = false;
-            this.deny.visible = false;
-            GuiChooseFirstPokemob.special = false;
-            if (!GuiChooseFirstPokemob.pick)
-            {
-                this.sendMessage((PokedexEntry) null);
-                this.player.closeContainer();
-            }
-        }).bounds(this.width / 2 - xOffset + 64, this.height / 2 - yOffset + 30, 50, 20).build());
+                    this.next.visible = true;
+                    this.prev.visible = true;
+                    this.choose.visible = true;
+                    this.accept.visible = false;
+                    this.deny.visible = false;
+                    GuiChooseFirstPokemob.special = false;
+                    if (!GuiChooseFirstPokemob.pick)
+                    {
+                        this.sendMessage(null);
+                        this.player.closeContainer();
+                    }
+                }).bounds(this.width / 2 - xOffset + 64, this.height / 2 - yOffset + 30, 50, 20).build());
 
         this.addRenderableWidget(this.deny = new Button.Builder(TComponent.translatable("gui.pokemob.deny"), (b) -> {
             this.next.visible = true;
@@ -159,13 +160,12 @@ public class GuiChooseFirstPokemob extends Screen
 
         if (GuiChooseFirstPokemob.special)
         {
-            graphics.drawCenteredString(this.font, I18n.get("gui.pokemob.choose1st.override"), this.width / 2,
-                    17, 0xffffff);
+            graphics.drawCenteredString(this.font, I18n.get("gui.pokemob.choose1st.override"), this.width / 2, 17,
+                    0xffffff);
             return;
         }
         if (GuiChooseFirstPokemob.starters == null || GuiChooseFirstPokemob.starters.length == 0)
-            GuiChooseFirstPokemob.starters = new PokedexEntry[]
-            { Pokedex.getInstance().getFirstEntry() };
+            GuiChooseFirstPokemob.starters = new PokedexEntry[] { Pokedex.getInstance().getFirstEntry() };
 
         this.pokedexEntry = GuiChooseFirstPokemob.starters[this.index % GuiChooseFirstPokemob.starters.length];
 
@@ -176,11 +176,10 @@ public class GuiChooseFirstPokemob extends Screen
             return;
         }
 
-        graphics.drawCenteredString(this.font, I18n.get("gui.pokemob.choose1st"), this.width / 2, 17,
-                0xffffff);
+        graphics.drawCenteredString(this.font, I18n.get("gui.pokemob.choose1st"), this.width / 2, 17, 0xffffff);
 
-        graphics.drawCenteredString(this.font, I18n.get(this.pokedexEntry.getUnlocalizedName()),
-                this.width / 2, 45, 0xffffff);
+        graphics.drawCenteredString(this.font, I18n.get(this.pokedexEntry.getUnlocalizedName()), this.width / 2, 45,
+                0xffffff);
 
         int n = 0;
         int m = 0;
@@ -260,8 +259,9 @@ public class GuiChooseFirstPokemob extends Screen
             final boolean flag = !model.usesBlockLight();
             if (flag) Lighting.setupForFlatItems();
 
-            Minecraft.getInstance().getItemRenderer().render(item, ItemDisplayContext.GUI, false, matrixstack,
-                    irendertypebuffer$impl, 15728880, OverlayTexture.NO_OVERLAY, model);
+            Minecraft.getInstance().getItemRenderer()
+                    .render(item, ItemDisplayContext.GUI, false, matrixstack, irendertypebuffer$impl, 15728880,
+                            OverlayTexture.NO_OVERLAY, model);
             RenderSystem.enableDepthTest();
             if (flag) Lighting.setupFor3DItems();
             matrixstack.popPose();
@@ -277,19 +277,18 @@ public class GuiChooseFirstPokemob extends Screen
 
             final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
             pokemob.setShiny(false);
-            pokemob.setSize(1);
+            SizeGene.setScale(pokemob, 1);
             pokemob.setRGBA(255, 255, 255, 255);
             //@formatter:off
             final int dx =-50 + (this.width - this.xSize)/2;
             final int dy = 50 + (this.height - this.ySize)/2;
             final float size = 1.5f;
-            final float yaw =  Util.getMillis() / 20;
+            final float yaw =  Util.getMillis() / 20f;
             final float hx = 0;
-            final float hy = yaw;
             //@formatter:on
             stack.pushPose();
             stack.translate(0, 0, 100);
-            GuiPokemobHelper.renderMob(entity, dx, dy, 0, yaw, hx, hy, size, partialTicks);
+            GuiPokemobHelper.renderMob(entity, dx, dy, 0, yaw, hx, yaw, size, partialTicks);
             stack.popPose();
         }
         catch (final Throwable e)

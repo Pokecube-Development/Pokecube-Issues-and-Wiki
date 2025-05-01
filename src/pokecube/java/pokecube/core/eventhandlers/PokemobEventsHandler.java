@@ -917,7 +917,7 @@ public class PokemobEventsHandler
         {
             if (!Permissions.canRide(pokemob, player)) return false;
         }
-        final float scale = pokemob.getSize();
+        final float scale = pokemob.getEntity().getScale();
         final Vec3f dims = pokemob.getPokedexEntry().getModelSize();
         return dims.y * scale + dims.x * scale > rider.getBbWidth()
                 && Math.max(dims.x, dims.z) * scale > rider.getBbWidth() * 1.4;

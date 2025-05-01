@@ -107,7 +107,8 @@ public class IdleRestTask extends BaseIdleTask
             if (verticalMotion) minDy = -2;
             final Vector3 v = IdleWalkTask.getRandomPointNear(level, pokemob, this.v, distance, minDy, maxDy);
             if (v == null) return null;
-            double diff = Math.max(entry.length * pokemob.getSize(), entry.width * pokemob.getSize());
+            double diff = Math.max(entry.length * pokemob.getEntity().getScale(),
+                    entry.width * pokemob.getEntity().getScale());
             diff = Math.max(2, diff);
             if (this.v1.distToSq(v) < diff) return null;
         }

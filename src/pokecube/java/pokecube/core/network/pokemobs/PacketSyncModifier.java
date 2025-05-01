@@ -8,6 +8,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.SharedAttributes;
 import pokecube.core.PokecubeCore;
 import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import thut.core.common.network.Packet;
@@ -47,6 +48,7 @@ public class PacketSyncModifier extends Packet
             var list = this.tag.getList("L", 10);
             // Ensure we clear the old ones
             for (var a : PokecubeAttributes.ATTRIBUTES) living.getAttribute(a).removeModifiers();
+            living.getAttribute(SharedAttributes.MOB_SIZE_SCALE).removeModifiers();
             // Then update the new ones
             living.getAttributes().load(list);
         }

@@ -115,7 +115,7 @@ public abstract class PokemobHungry extends PokemobMoves
     @Override
     public Vector3 getMobSizes()
     {
-        float size = this.getSize();
+        float size = this.getEntity().getScale();
         if (size != _last_size)
         {
             _last_size = size;

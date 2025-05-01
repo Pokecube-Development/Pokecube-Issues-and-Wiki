@@ -134,9 +134,9 @@ public class MovesUtils implements IMoveConstants
         final float dr = 0.5f;
         final Entity entity = attacker.getEntity();
         final PartEntity<?>[] parts = attacked.getParts();
-        float attackerLength = attacker.getPokedexEntry().length * attacker.getSize() + dr;
-        final float attackerHeight = attacker.getPokedexEntry().height * attacker.getSize() + dr;
-        float attackerWidth = attacker.getPokedexEntry().height * attacker.getSize() + dr;
+        float attackerLength = attacker.getPokedexEntry().length * attacker.getEntity().getScale() + dr;
+        final float attackerHeight = attacker.getPokedexEntry().height * attacker.getEntity().getScale() + dr;
+        float attackerWidth = attacker.getPokedexEntry().height * attacker.getEntity().getScale() + dr;
         attackerLength = Math.max(attackerLength, attackerHeight);
         attackerWidth = Math.max(attackerWidth, attackerHeight);
         attackerLength = Math.max(attackerLength, attackerWidth);

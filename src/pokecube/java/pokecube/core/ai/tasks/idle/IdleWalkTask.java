@@ -195,7 +195,8 @@ public class IdleWalkTask extends BaseIdleTask
 
             final Vector3 v = IdleWalkTask.getRandomPointNear(level, pokemob, this.v, distance, minDy, maxDy);
             if (v == null) return false;
-            double diff = Math.max(entry.length * pokemob.getSize(), entry.width * pokemob.getSize());
+            double diff = Math.max(entry.length * pokemob.getEntity().getScale(),
+                    entry.width * pokemob.getEntity().getScale());
             diff = Math.max(2, diff);
             if (this.v1.distToSq(v) < diff) return false;
             this.x = v.x;

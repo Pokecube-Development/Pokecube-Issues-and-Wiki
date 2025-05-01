@@ -14,6 +14,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeItems;
+import pokecube.core.entity.genetics.genes.SizeGene;
 import pokecube.core.init.MenuTypes;
 import pokecube.core.inventory.CustomSlot;
 import pokecube.core.inventory.TexturedSlot;
@@ -148,8 +149,8 @@ public class PokemobContainer extends BaseContainer
     @Override
     public boolean stillValid(final Player user)
     {
-        float dh =
-                pokemob.getSize() * (Math.max(pokemob.getBasePokedexEntry().width, pokemob.getPokedexEntry().length));
+        float dh = SizeGene.getScale(this.pokemob) * (Math.max(pokemob.getBasePokedexEntry().width,
+                pokemob.getPokedexEntry().length));
         return this.pokemobInv.stillValid(user) && this.pokemob.getEntity().isAlive()
                 && this.pokemob.getEntity().distanceTo(user) < (8.0F + dh);
     }

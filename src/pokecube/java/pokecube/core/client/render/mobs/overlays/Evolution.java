@@ -59,11 +59,11 @@ public class Evolution
         if (scaleMob)
         {
             final PokedexEntry entry = pokemob.getPokedexEntry();
-            float mobScale = pokemob.getSize();
+            float mobScale = pokemob.getEntity().getScale();
             var dims = entry.getModelSize();
             scale = 0.1f * Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
             float scale2 = Math.min(1, (pokemob.getEntity().tickCount + 1 + partialTick) / duration);
-            scaleShift = dims.y * pokemob.getSize() * scale2 / 2;
+            scaleShift = dims.y * pokemob.getEntity().getScale() * scale2 / 2;
         }
         renderEffect(pokemob, mat, bufferIn, partialTick, ticks, duration, scale, scaleShift, scaleMob);
     }
@@ -143,6 +143,6 @@ public class Evolution
     private static void transp_point_c(final VertexConsumer builder, final Matrix4f posmat, final float dy,
             final float dz, final Color col)
     {
-        builder.addVertex(posmat, 0.0F, dy, 1.0F * dz).setColor(col.getRed(), col.getGreen(), col.getBlue(), 0);
+        builder.addVertex(posmat, 0.0F, dy, dz).setColor(col.getRed(), col.getGreen(), col.getBlue(), 0);
     }
 }

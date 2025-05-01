@@ -107,14 +107,11 @@ public class TerastalRaid implements IBossProvider
             float toAdd = entity.getMaxHealth() - health;
             entity.heal(toAdd);
             // Scale mob larger if tiny, so easier to see/fight
-            if (pokemob.getMobSizes().magSq() < 9 && entity.getAttributes()
-                    .hasAttribute(SharedAttributes.MOB_SIZE_SCALE))
+            if (pokemob.getEntity().getBbHeight() < 3)
             {
-                var scaleAttr = entity.getAttribute(SharedAttributes.MOB_SIZE_SCALE);
-                var sizeBoost = new AttributeModifier(TERAMOD, Math.sqrt(9 / pokemob.getMobSizes().magSq()),
-                        Operation.ADD_MULTIPLIED_BASE);
-                scaleAttr.removeModifier(TERAMOD);
-                scaleAttr.addPermanentModifier(sizeBoost);
+                double sizeScale = 3 / pokemob.getEntity().getBbHeight();
+                SharedAttributes.adjustScale(pokemob.getEntity(), sizeScale, TERAMOD, true);
+                System.out.println(sizeScale);
             }
             if (newMob)
             {
@@ -159,11 +156,7 @@ public class TerastalRaid implements IBossProvider
     {
         var hpAttr = fromCube.getAttribute(Attributes.MAX_HEALTH);
         hpAttr.removeModifier(TERAMOD);
-        if (fromCube.getAttributes().hasAttribute(SharedAttributes.MOB_SIZE_SCALE))
-        {
-            var scaleAttr = fromCube.getAttribute(SharedAttributes.MOB_SIZE_SCALE);
-            scaleAttr.removeModifier(TERAMOD);
-        }
+        SharedAttributes.clearScale(fromCube, TERAMOD);
         TeraType type = TerastalMechanic.getTera(fromCube);
         type.isTera = false;
         PokecubeManager.addToCube(event.getFilledCube(), fromCube);

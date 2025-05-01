@@ -177,11 +177,11 @@ public class ClientInit
         {
             final LivingEntity entity = copied.getCopiedMob();
             var accessor = event.getRenderer().entityRenderDispatcher;
-            final boolean backup =accessor.camera.isInitialized();
+            boolean oldShadow = accessor.shouldRenderShadow;
             accessor.setRenderShadow(false);
             accessor.render(entity, 0, 0, 0, 0, event.getPartialTick(),
                     event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight());
-            accessor.setRenderShadow(backup);
+            accessor.setRenderShadow(oldShadow);
             event.setCanceled(true);
         }
 

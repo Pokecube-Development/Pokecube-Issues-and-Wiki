@@ -180,7 +180,6 @@ public class DynamaxRaid implements IBossProvider
     @Override
     public void onBossFaint(FaintEvent event)
     {
-
         if (event.pokemob.getEntity().getLastHurtByMob() instanceof ServerPlayer player)
             thut.lib.ChatHelper.sendSystemMessage(player,
                     TComponent.translatable("pokecube.raid.capture.dynamax", event.pokemob.getDisplayName()));

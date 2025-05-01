@@ -1,7 +1,6 @@
 package pokecube.adventures.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -17,6 +16,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.client.render.mobs.overlays.Status.StatusTexturer;
 import pokecube.core.entity.genetics.GeneticsManager;
+import pokecube.core.entity.genetics.genes.SizeGene;
 import thut.api.ThutCaps;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.core.client.render.animation.AnimationHelper;
@@ -33,8 +33,8 @@ public class AFABlock implements BlockEntityRenderer<AfaTile>
     {
         final Minecraft mc = Minecraft.getInstance();
         CompoundTag tag = mob.getPersistentData();
-        if (tag.contains("statue:over_tex")
-                && mc.getEntityRenderDispatcher().getRenderer(mob) instanceof LivingEntityRenderer<?, ?> _renderer
+        if (tag.contains("statue:over_tex") && mc.getEntityRenderDispatcher()
+                .getRenderer(mob) instanceof LivingEntityRenderer<?, ?> _renderer
                 && _renderer.getModel() instanceof ModelWrapper<?> _wrap)
         {
             ResourceLocation inTag = ResourceLocation.parse(tag.getString("statue:over_tex"));
@@ -45,7 +45,8 @@ public class AFABlock implements BlockEntityRenderer<AfaTile>
             {
                 Block b = BuiltInRegistries.BLOCK.get(inTag);
                 @SuppressWarnings("deprecation")
-                ResourceLocation tex_ = mc.getBlockRenderer().getBlockModel(b.defaultBlockState()).getParticleIcon().atlasLocation();
+                ResourceLocation tex_ = mc.getBlockRenderer().getBlockModel(b.defaultBlockState()).getParticleIcon()
+                        .atlasLocation();
                 tex = ResourceLocation.fromNamespaceAndPath(tex_.getNamespace(), "textures/" + tex_.getPath() + ".png");
             }
             else tex = inTag;
@@ -93,11 +94,11 @@ public class AFABlock implements BlockEntityRenderer<AfaTile>
         matrixStackIn.pushPose();
 
         float size = 0.15f / GuiPokemobHelper.sizeMap.getOrDefault(pokemob.getPokedexEntry(), 1.0f);
-        float oldSize = pokemob.getSize();
+        float oldSize = SizeGene.getScale(pokemob);
         if (size != oldSize)
         {
             pokemob.setRGBA(255, 255, 255, 128);
-            pokemob.setSize(size);
+            SizeGene.setScale(pokemob, size);
             var genes = ThutCaps.getGenetics(copied);
             var size_gene = genes.getAlleles(GeneticsManager.SIZEGENE);
             if (size_gene != null) size_gene.getExpressed().onUpdateTick(copied);

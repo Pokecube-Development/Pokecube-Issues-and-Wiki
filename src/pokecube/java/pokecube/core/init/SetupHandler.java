@@ -11,7 +11,6 @@ import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
-import pokecube.api.entity.SharedAttributes;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.EventsHandler;
@@ -72,7 +71,7 @@ public class SetupHandler
         if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logInfo("Registering Pokecube Attributes");
 
         var attribs = LivingEntity.createLivingAttributes().add(Attributes.FOLLOW_RANGE, 16.0D)
-                .add(Attributes.FLYING_SPEED, 0.6).add(SharedAttributes.MOB_SIZE_SCALE);
+                .add(Attributes.FLYING_SPEED, 0.6);
 
         event.put(EntityTypes.getPokecube(), attribs.build());
         event.put(EntityTypes.getEgg(), attribs.build());
@@ -100,9 +99,6 @@ public class SetupHandler
     @SubscribeEvent
     public static void onEntityAttributesModify(final EntityAttributeModificationEvent event)
     {
-        event.getTypes().forEach(e -> {
-            if (!event.has(e, SharedAttributes.MOB_SIZE_SCALE)) event.add(e, SharedAttributes.MOB_SIZE_SCALE);
-        });
     }
 
 }

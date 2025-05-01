@@ -1,18 +1,9 @@
 package pokecube.core.client.gui;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import org.joml.Vector3f;
-import org.lwjgl.glfw.GLFW;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -24,6 +15,8 @@ import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Mob;
+import org.joml.Vector3f;
+import org.lwjgl.glfw.GLFW;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
@@ -42,6 +35,7 @@ import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.client.render.mobs.RenderPokemob;
 import pokecube.core.client.render.mobs.RenderPokemob.Holder;
 import pokecube.core.database.Database;
+import pokecube.core.entity.genetics.genes.SizeGene;
 import pokecube.core.impl.capabilities.DefaultPokemob;
 import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.EntityTools;
@@ -56,6 +50,11 @@ import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
 import thut.lib.RegHelper;
 import thut.lib.TComponent;
+
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 public class AnimationGui extends Screen
 {
@@ -105,8 +104,8 @@ public class AnimationGui extends Screen
                     }
                     catch (final Exception e)
                     {
-                        PokecubeAPI.LOGGER
-                                .error("Error with syncing tag for " + RegHelper.getKey(realMob.getEntity().getType()));
+                        PokecubeAPI.LOGGER.error(
+                                "Error with syncing tag for " + RegHelper.getKey(realMob.getEntity().getType()));
                         e.printStackTrace();
                     }
                 }
@@ -164,16 +163,14 @@ public class AnimationGui extends Screen
     int prevY = 0;
     public float scale = 1;
 
-    int[] shift =
-    { 0, 0 };
+    int[] shift = { 0, 0 };
 
     public boolean ground = true;
     public boolean bg = false;
     public byte sexe = IPokemob.NOSEXE;
     public boolean shiny = false;
 
-    public boolean[] genders =
-    { false, false };
+    public boolean[] genders = { false, false };
 
     List<AnimModule> modules = Lists.newArrayList();
     int moduleIndex = -1;
@@ -233,7 +230,8 @@ public class AnimationGui extends Screen
             this.toRender.setDyeColour(dye);
         }
         catch (final NumberFormatException e1)
-        {}
+        {
+        }
 
         this.dyeColour.setValue("" + this.toRender.getDyeColour());
         this.renderHolder = RenderPokemob.holders.get(AnimationGui.entry);
@@ -246,14 +244,15 @@ public class AnimationGui extends Screen
 
         Set<Object> states = Sets.newHashSet();
         String[] args = this.state_g.getValue().split(" ");
-        for (final String s : args) try
-        {
-            states.add(GeneralStates.valueOf(s.toUpperCase(Locale.ENGLISH)));
-        }
-        catch (final Exception e)
-        {
+        for (final String s : args)
+            try
+            {
+                states.add(GeneralStates.valueOf(s.toUpperCase(Locale.ENGLISH)));
+            }
+            catch (final Exception e)
+            {
 
-        }
+            }
         for (final GeneralStates state : GeneralStates.values())
         {
             final boolean value = states.contains(state);
@@ -261,14 +260,15 @@ public class AnimationGui extends Screen
         }
         states = Sets.newHashSet();
         args = this.state_l.getValue().split(" ");
-        for (final String s : args) try
-        {
-            states.add(LogicStates.valueOf(s.toUpperCase(Locale.ENGLISH)));
-        }
-        catch (final Exception e)
-        {
+        for (final String s : args)
+            try
+            {
+                states.add(LogicStates.valueOf(s.toUpperCase(Locale.ENGLISH)));
+            }
+            catch (final Exception e)
+            {
 
-        }
+            }
         for (final LogicStates state : LogicStates.values())
         {
             final boolean value = states.contains(state);
@@ -276,14 +276,15 @@ public class AnimationGui extends Screen
         }
         states = Sets.newHashSet();
         args = this.state_c.getValue().split(" ");
-        for (final String s : args) try
-        {
-            states.add(CombatStates.valueOf(s.toUpperCase(Locale.ENGLISH)));
-        }
-        catch (final Exception e)
-        {
+        for (final String s : args)
+            try
+            {
+                states.add(CombatStates.valueOf(s.toUpperCase(Locale.ENGLISH)));
+            }
+            catch (final Exception e)
+            {
 
-        }
+            }
         for (final CombatStates state : CombatStates.values())
         {
             final boolean value = states.contains(state);
@@ -320,7 +321,7 @@ public class AnimationGui extends Screen
         {
             final Mob entity = this.toRender.getEntity();
             final IPokemob pokemob = this.toRender;
-            pokemob.setSize(1);
+            SizeGene.setScale(pokemob, 1);
             pokemob.setRGBA(255, 255, 255, 255);
 
             modules.forEach(m -> {

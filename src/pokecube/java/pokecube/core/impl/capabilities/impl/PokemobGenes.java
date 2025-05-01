@@ -6,7 +6,6 @@ import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.Nature;
-import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.entity.genetics.epigenes.EVsGene;
@@ -17,7 +16,6 @@ import pokecube.core.entity.genetics.genes.ColourGene;
 import pokecube.core.entity.genetics.genes.IVsGene;
 import pokecube.core.entity.genetics.genes.NatureGene;
 import pokecube.core.entity.genetics.genes.ShinyGene;
-import pokecube.core.entity.genetics.genes.SizeGene;
 import pokecube.core.entity.genetics.genes.SpeciesGene;
 import pokecube.core.entity.genetics.genes.SpeciesGene.SpeciesInfo;
 import pokecube.core.network.pokemobs.PacketChangeForme;
@@ -30,21 +28,12 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     private boolean changing = false;
     private Boolean _shinyCache = null;
     private boolean _movesChanged = true;
-    private boolean _sizeChanged = true;
     private boolean _abilityChanged = true;
 
     @Override
     public void accept(Gene<?> t)
     {
-        if (t.getKey().equals(GeneticsManager.SPECIESGENE))
-        {
-            _sizeChanged = true;
-        }
-        else if (t.getKey().equals(GeneticsManager.SIZEGENE))
-        {
-            _sizeChanged = true;
-        }
-        else if (t.getKey().equals(GeneticsManager.SHINYGENE))
+        if (t.getKey().equals(GeneticsManager.SHINYGENE))
         {
             _shinyCache = null;
         }
@@ -198,18 +187,6 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         return info.getSexe();
     }
 
-    public float getSizeRaw()
-    {
-        Alleles<Float, SizeGene> genesSize = getGenes().getAlleles(GeneticsManager.SIZEGENE);
-        return genesSize.getExpressed().getValue();
-    }
-
-    @Override
-    public float getSize()
-    {
-        return this.getSizeRaw();
-    }
-
     @Override
     public boolean isShiny()
     {
@@ -238,7 +215,6 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
 
         this._shinyCache = null;
         this._movesChanged = true;
-        this._sizeChanged = true;
         this._abilityChanged = true;
     }
 
@@ -381,7 +357,6 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
                 if (holder != null) info.setForme(holder);
             }
             info.setEntry(newEntry);
-            _sizeChanged = true;
             this.changing = false;
             return;
         }
@@ -392,10 +367,8 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         // These need to be set after change form call, as that also does a
         // validation of old entry.
         info.setTmpEntry(newEntry);
-        _sizeChanged = true;
         if (info.getTmpForme() == entry.default_holder) info.setTmpForme(newEntry.default_holder);
 
-        ret.setSize(ret.getSize());
         PacketChangeForme.sendPacketToTracking(ret.getEntity(), newEntry);
     }
 
@@ -407,7 +380,6 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         FormeHolder form = Database.formeHoldersByKey.getOrDefault(newEntry.getTrimmedName(),
                 newEntry.getModel(this.getSexe()));
         genesSpecies.getExpressed().getValue().setForme(form);
-        _sizeChanged = true;
         this.getGenes().markDirty();
     }
 
@@ -455,42 +427,6 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         gene.setValue(shiny);
         this._shinyCache = shiny;
         this.getGenes().markDirty();
-    }
-
-    @Override
-    public void setSize(float size)
-    {
-        final PokedexEntry entry = this.getPokedexEntry();
-        if (entry != null && _sizeChanged)
-        {
-            float a, b, c;
-            a = entry.width * size;
-            b = entry.height * size;
-            c = entry.length * size;
-
-            final double minS = PokecubeCore.getConfig().minMobSize;
-            final double maxS = PokecubeCore.getConfig().maxMobSize;
-
-            // Do not allow them to be smaller than the configured min size.
-            if (a < minS || b < minS || c < minS)
-            {
-                final float min = (float) (minS / Math.min(a, Math.min(c, b)));
-                size *= min;
-            }
-            // Do not allow them to be larger than the configured max size
-            if (a > maxS || b > maxS || c > maxS)
-            {
-                final float max = (float) (maxS / Math.max(a, Math.max(c, b)));
-                size *= max;
-            }
-            // Un-set this first, else infinte loop from refresh checking this.
-            _sizeChanged = false;
-            this.getEntity().refreshDimensions();
-        }
-        Alleles<Float, SizeGene> genesSize = getGenes().getAlleles(GeneticsManager.SIZEGENE);
-        final SizeGene gene = genesSize.getExpressed();
-        _sizeChanged = size != gene.getValue();
-        gene.setValue(size);
     }
 
     @Override

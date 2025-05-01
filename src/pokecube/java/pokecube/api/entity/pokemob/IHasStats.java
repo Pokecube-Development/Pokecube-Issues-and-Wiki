@@ -164,11 +164,6 @@ public interface IHasStats extends IHasEntry
     Nature getNature();
 
     /**
-     * @return Scale factor for this mob, this is applied linearly to each dimension of the mob.
-     */
-    float getSize();
-
-    /**
      * {HP, ATT, DEF, ATTSPE, DEFSPE, VIT}
      *
      * @return the pokedex stat
@@ -228,12 +223,14 @@ public interface IHasStats extends IHasEntry
     }
 
     /**
-     * Gets the weight of the pokemob, this scaled by the value from {@link IHasStats#getSize()}
+     * Gets the weight of the pokemob, this scaled by the value from
+     * {@link net.minecraft.world.entity.LivingEntity#getScale()}
      */
     default double getWeight()
     {
         double mass = this.getPokedexEntry().mass;
-        return this.getSize() * this.getSize() * this.getSize() * mass;
+        float scale = this.getEntity().getScale();
+        return scale * scale * scale * mass;
     }
 
     /**
@@ -299,11 +296,6 @@ public interface IHasStats extends IHasEntry
      *
      */
     void setNature(Nature nature);
-
-    /**
-     * Sets the size for this mob, see {@link IHasStats#getSize()}
-     */
-    void setSize(float size);
 
     /**
      * Sets first type

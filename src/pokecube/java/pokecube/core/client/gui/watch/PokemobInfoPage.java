@@ -39,6 +39,7 @@ import pokecube.core.client.gui.watch.pokemob.StatsInfo;
 import pokecube.core.client.gui.watch.util.PageWithSubPages;
 import pokecube.core.client.gui.watch.util.WatchPage;
 import pokecube.core.database.Database;
+import pokecube.core.entity.genetics.genes.SizeGene;
 import pokecube.core.eventhandlers.StatsCollector;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
@@ -368,7 +369,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             else if (stats.hasInspected(pokedexEntry)) pokemob.setRGBA(127, 127, 127, 255);
             else pokemob.setRGBA(15, 15, 15, 255);
 
-            pokemob.setSize(1);
+            SizeGene.setScale(pokemob, 1);
 
             final float yaw = Util.getMillis() / 20f;
             dx = -80; // 90

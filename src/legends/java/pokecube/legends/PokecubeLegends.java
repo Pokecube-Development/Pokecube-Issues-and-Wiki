@@ -39,7 +39,6 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.entity.SharedAttributes;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.init.RegisterMiscItems;
 import pokecube.api.events.init.RegisterPokecubes;
@@ -134,8 +133,7 @@ public class PokecubeLegends
         @SubscribeEvent
         public static void onEntityAttributes(final EntityAttributeCreationEvent event)
         {
-            final AttributeSupplier.Builder attribs = LivingEntity.createLivingAttributes()
-                    .add(SharedAttributes.MOB_SIZE_SCALE);
+            final AttributeSupplier.Builder attribs = LivingEntity.createLivingAttributes();
             event.put(EntityInit.WORMHOLE.get(), attribs.build());
         }
     }
@@ -216,14 +214,14 @@ public class PokecubeLegends
     {
         // Add Interactions for sources
         FluidInteractionRegistry.addInteraction(NeoForgeMod.LAVA_TYPE.value(),
-                new FluidInteractionRegistry.InteractionInformation(FluidInit.DISTORTIC_WATER_TYPE.get(),
-                        fluidState -> fluidState.isSource()
+                new FluidInteractionRegistry.InteractionInformation(FluidInit.DISTORTIC_WATER_TYPE.get(), fluidState ->
+                        fluidState.isSource()
                                 ? Blocks.OBSIDIAN.defaultBlockState()
                                 : BlockInit.DISTORTIC_STONE.get().defaultBlockState()));
 
         FluidInteractionRegistry.addInteraction(NeoForgeMod.WATER_TYPE.value(),
-                new FluidInteractionRegistry.InteractionInformation(FluidInit.DISTORTIC_WATER_TYPE.get(),
-                        fluidState -> fluidState.isSource()
+                new FluidInteractionRegistry.InteractionInformation(FluidInit.DISTORTIC_WATER_TYPE.get(), fluidState ->
+                        fluidState.isSource()
                                 ? Blocks.PACKED_ICE.defaultBlockState()
                                 : Blocks.ICE.defaultBlockState()));
 

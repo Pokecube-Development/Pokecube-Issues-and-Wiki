@@ -34,6 +34,7 @@ import pokecube.api.events.StructureEvent;
 import pokecube.api.events.StructureEvent.ReadTag;
 import pokecube.api.utils.Tools;
 import pokecube.core.ai.routes.IGuardAICapability;
+import pokecube.core.entity.genetics.genes.SizeGene;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.eventhandlers.SpawnEventsHandler.GuardInfo;
@@ -428,7 +429,7 @@ public class PacketTrainer extends NBTPacket
         if (!nature.isEmpty()) pokemob.setNature(Nature.valueOf(nature));
         pokemob.setAbilityRaw(AbilityManager.getAbility(ability));
         pokemob.setShiny(shiny);
-        pokemob.setSize(size);
+        SizeGene.setScale(pokemob, size);
         pokemob.setExp(Tools.levelToXp(pokemob.getExperienceMode(), level), false);
     }
 

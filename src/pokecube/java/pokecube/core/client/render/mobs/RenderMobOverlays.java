@@ -1,20 +1,16 @@
 package pokecube.core.client.render.mobs;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityAttachment;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.event.RenderLivingEvent;
 import net.neoforged.neoforge.client.event.RenderNameTagEvent;
 import net.neoforged.neoforge.common.util.TriState;
-import pokecube.api.entity.SharedAttributes;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
@@ -28,7 +24,7 @@ public class RenderMobOverlays
 {
     public static boolean enabled = true;
 
-    public static void renderPost(final RenderLivingEvent.Post<Mob, EntityModel<Mob>> event)
+    public static void renderPost(RenderLivingEvent.Post<Mob, EntityModel<Mob>> event)
     {
         if (!RenderMobOverlays.enabled) return;
         Minecraft mc = Minecraft.getInstance();
@@ -41,25 +37,18 @@ public class RenderMobOverlays
             final PoseStack mat = event.getPoseStack();
             Evolution.render(pokemob, mat, event.getMultiBufferSource(), partialTicks);
             ExitCube.render(pokemob, mat, event.getMultiBufferSource(), partialTicks);
-            final MultiBufferSource buf = event.getMultiBufferSource();
-            if (pokemob != null)
-                Status.render(event.getRenderer(), mat, buf, pokemob, partialTicks, event.getPackedLight());
+            if (pokemob != null) Status.render(event, pokemob);
         }
     }
 
     public static void renderPre(final RenderLivingEvent.Pre<Mob, EntityModel<Mob>> event)
     {
-        float scale = (float) SharedAttributes.getScale(event.getEntity());
-        if (scale != 1) event.getPoseStack().scale(scale, scale, scale);
     }
 
     public static void renderNameplate(final RenderNameTagEvent event)
     {
         if (event.getEntity() instanceof LivingEntity living && event.getPartialTick() >= 0)
         {
-            float scale = 1 / (float) SharedAttributes.getScale(living);
-            if (scale != 1) event.getPoseStack().scale(scale, scale, scale);
-
             if (PokecubeCore.getConfig().doHealthBars)
             {
                 MultiBufferSource buf = event.getMultiBufferSource();

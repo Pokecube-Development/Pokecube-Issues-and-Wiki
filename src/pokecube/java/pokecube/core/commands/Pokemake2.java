@@ -27,6 +27,7 @@ import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.commands.arguments.PokemobArgument;
 import pokecube.core.commands.arguments.PokemobArgument.PokemobInput;
+import pokecube.core.entity.genetics.genes.SizeGene;
 import pokecube.core.impl.PokecubeMod;
 import thut.api.ThutCaps;
 import thut.api.entity.IMobColourable;
@@ -119,7 +120,7 @@ public class Pokemake2
 
         // Process size
         float size = nbt.getFloat("size");
-        if (size > 0) pokemob.setSize(size);
+        if (size > 0) SizeGene.setScale(pokemob, size);
 
         // Process sex
         String sexe = nbt.getString("sex");

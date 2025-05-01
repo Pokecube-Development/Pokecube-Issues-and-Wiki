@@ -36,6 +36,7 @@ import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.entity.genetics.GeneticsManager;
+import pokecube.core.entity.genetics.genes.SizeGene;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
 import thut.api.attachments.CopyMob;
@@ -143,7 +144,7 @@ public class StatueEntity extends InteractableTile
             IPokemob pokemob = PokemobCaps.getPokemobFor(after);
             if (pokemob != null)
             {
-                pokemob.setSize(size);
+                SizeGene.setScale(pokemob, size);
                 pokemob.getGenes().getAlleles(GeneticsManager.SIZEGENE).getExpressed().onUpdateTick(after);
             }
             after.setYHeadRot(after.yBodyRot);
