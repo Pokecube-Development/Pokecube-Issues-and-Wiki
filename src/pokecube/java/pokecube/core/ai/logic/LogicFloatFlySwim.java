@@ -247,12 +247,21 @@ public class LogicFloatFlySwim extends LogicBase
 
         if (floats && !hasPath && !this.pokemob.isGrounded())
         {
+            entity.setNoGravity(false);
+            double gravity = entity.getGravity();
+            entity.setNoGravity(true);
+            double fy = -pokemob.getFloatHeight() * entity.getScale();
             hereVec.set(this.entity);
-            nextVec.set(hereVec).addTo(0, -pokemob.getFloatHeight(), 0);
+            nextVec.set(hereVec).addTo(0, fy, 0);
             var hit = level.clip(new ClipContext(hereVec.toVec3d(), nextVec.toVec3d(), ClipContext.Block.COLLIDER,
                     ClipContext.Fluid.ANY, this.entity));
-            Vector3 push = hereVec.set(0, 0.01, 0);
-            if (hit.getType() == HitResult.Type.MISS) push.set(0, -0.01, 0);
+            Vector3 push = new Vector3(0, gravity, 0);
+            if (hit.getType() == HitResult.Type.MISS) push.scalarMultBy(-1);
+            else
+            {
+                double offset = 1 + (entity.getY() - hit.getLocation().y()) / fy;
+                push.scalarMultBy(offset);
+            }
             double vy = entity.getDeltaMovement().y;
             if (Math.signum(vy) != Math.signum(push.y)) push.addVelocities(entity);
         }
