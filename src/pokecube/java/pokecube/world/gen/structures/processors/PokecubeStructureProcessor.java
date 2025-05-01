@@ -25,18 +25,23 @@ public class PokecubeStructureProcessor extends StructureProcessor
 
     @Override
     @Nullable
-    public StructureTemplate.StructureBlockInfo process(final LevelReader world, final BlockPos pos1, final BlockPos pos2,
-            final StructureTemplate.StructureBlockInfo rawInfo, final StructureTemplate.StructureBlockInfo modInfo, final StructurePlaceSettings settings,
+    public StructureTemplate.StructureBlockInfo process(final LevelReader world, final BlockPos pos1,
+            final BlockPos pos2, final StructureTemplate.StructureBlockInfo rawInfo,
+            final StructureTemplate.StructureBlockInfo modInfo, final StructurePlaceSettings settings,
             @Nullable final StructureTemplate template)
     {
         return modInfo;
     }
 
     @Override
-    public StructureEntityInfo processEntity(final LevelReader world, final BlockPos seedPos, final StructureEntityInfo rawEntityInfo,
-            final StructureEntityInfo entityInfo, final StructurePlaceSettings placementSettings, final StructureTemplate template)
+    public StructureEntityInfo processEntity(final LevelReader world, final BlockPos seedPos,
+            final StructureEntityInfo rawEntityInfo, final StructureEntityInfo entityInfo,
+            final StructurePlaceSettings placementSettings, final StructureTemplate template)
     {
-        final StructureEvent.SpawnEntity event = new StructureEvent.SpawnEntity(entityInfo, rawEntityInfo);
+        final BlockPos blockpos = StructureTemplate.calculateRelativePosition(placementSettings, rawEntityInfo.blockPos)
+                .offset(seedPos);
+        final StructureEvent.SpawnEntity event = new StructureEvent.SpawnEntity(entityInfo, rawEntityInfo, world,
+                blockpos);
         ThutCore.FORGE_BUS.post(event);
         return event.getInfo();
     }

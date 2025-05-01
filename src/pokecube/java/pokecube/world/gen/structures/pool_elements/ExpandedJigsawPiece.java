@@ -34,8 +34,15 @@ import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool.Projection;
-import net.minecraft.world.level.levelgen.structure.templatesystem.*;
+import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.GravityProcessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.JigsawReplacementProcessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.LiquidSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 import net.neoforged.neoforge.common.util.TriState;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.events.StructureEvent;
@@ -49,7 +56,11 @@ import pokecube.world.gen.structures.processors.NoWaterlogProcessor;
 import thut.api.level.structures.NamedVolumes.INamedPart;
 import thut.core.common.ThutCore;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
 {
@@ -380,17 +391,20 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
         if (worldIn instanceof WorldGenRegion accessor && template instanceof ITemplateExtended extended)
         {
             this.world = accessor.getLevel();
-            if (extended.$hasAddedEntity(info)) return;
+            if (extended.$hasAddedEntity(info))
+            {
+                return;
+            }
 
             String function = info.nbt() != null ? info.nbt().getString("metadata") : "";
+            var profPlaced = PokecubeSerializer.getInstance().hasPlacedProf();
 
-            final boolean toPlaceProf = this.isSpawn && !PokecubeSerializer.getInstance().hasPlacedProf();
+            final boolean toPlaceProf = this.isSpawn && profPlaced.isEmpty();
             final boolean toPlaceSpawn = this.isSpawn && !this.placedSpawn;
             if (toPlaceProf && info.pos().equals(this.profPos))
             {
                 PokecubeAPI.logInfo("Overriding an entry as a professor at " + pos);
-                function = PokecubeCore.getConfig().professor_override;
-                PokecubeSerializer.getInstance().setPlacedProf();
+                PokecubeSerializer.getInstance().setPlacedProf(pos);
             }
             if (toPlaceSpawn && info.pos().equals(this.spawnPos))
             {
@@ -417,17 +431,14 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
                 if (box.isInside(blockpos) && blockentity instanceof RandomizableContainerBlockEntity rng)
                     rng.setLootTable(ResourceKey.create(Registries.LOOT_TABLE, key));
             }
-            else if (ExpandedJigsawPiece.shouldApply(pos, this.world))
+            else
             {
                 final StructureEvent.ReadTag event = new StructureEvent.ReadTag(function.trim(), pos, worldIn,
                         (ServerLevel) this.world, rand, box, true);
                 event.info = info;
                 if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logDebug(function.trim() + " " + pos);
                 ThutCore.FORGE_BUS.post(event);
-                if (event.getResult() != TriState.FALSE)
-                {
-                    extended.$tryAddStructureEntity(event);
-                }
+                if (event.getResult() != TriState.FALSE) extended.$tryAddStructureEntity(event);
             }
         }
 

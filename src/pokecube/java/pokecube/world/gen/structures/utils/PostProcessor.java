@@ -1,9 +1,5 @@
 package pokecube.world.gen.structures.utils;
 
-import java.util.List;
-import java.util.function.BiConsumer;
-import java.util.stream.Stream;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
@@ -25,6 +21,10 @@ import pokecube.core.utils.PokecubeSerializer;
 import pokecube.world.gen.structures.GenericJigsawStructure;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
 import thut.api.level.terrain.BiomeType;
+
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.stream.Stream;
 
 public class PostProcessor implements BiConsumer<GenerationContext, List<PoolElementStructurePiece>>
 {
@@ -69,8 +69,8 @@ public class PostProcessor implements BiConsumer<GenerationContext, List<PoolEle
                 // Check if we should place a professor.
 
                 final StructureTemplate t = piece.getTemplate(context.structureTemplateManager());
-                StructurePlaceSettings settings = piece.getSettings(part.getRotation(), part.getBoundingBox(), LiquidSettings.IGNORE_WATERLOGGING, false);
-                components:
+                StructurePlaceSettings settings = piece.getSettings(part.getRotation(), part.getBoundingBox(),
+                        LiquidSettings.IGNORE_WATERLOGGING, false);
                 for (final Palette list : t.palettes)
                 {
                     boolean foundWorldspawn = false;
@@ -78,17 +78,17 @@ public class PostProcessor implements BiConsumer<GenerationContext, List<PoolEle
                     BlockPos localTrader = null;
                     for (final StructureBlockInfo i : list.blocks())
                         if (i != null && i.nbt() != null && i.state().getBlock() == Blocks.STRUCTURE_BLOCK)
-                    {
-                        final StructureMode structuremode = StructureMode.valueOf(i.nbt().getString("mode"));
-                        if (structuremode == StructureMode.DATA)
                         {
-                            final String meta = i.nbt().getString("metadata");
-                            foundWorldspawn = foundWorldspawn || meta.startsWith("pokecube:worldspawn");
-                            if (localSpawn == null && foundWorldspawn) localSpawn = i.pos();
-                            if (meta.contains("pokecube:mob:trader") || meta.contains("pokecube:mob:pokemart_merchant"))
-                                localTrader = i.pos();
+                            final StructureMode structuremode = StructureMode.valueOf(i.nbt().getString("mode"));
+                            if (structuremode == StructureMode.DATA)
+                            {
+                                final String meta = i.nbt().getString("metadata");
+                                foundWorldspawn = foundWorldspawn || meta.startsWith("pokecube:worldspawn");
+                                if (localSpawn == null && foundWorldspawn) localSpawn = i.pos();
+                                if (meta.contains("pokecube:mob:trader") || meta.contains(
+                                        "pokecube:mob:pokemart_merchant")) localTrader = i.pos();
+                            }
                         }
-                    }
                     if (localTrader != null && localSpawn != null)
                     {
                         final int x = pos.getBlockX(7);
@@ -97,8 +97,7 @@ public class PostProcessor implements BiConsumer<GenerationContext, List<PoolEle
                         final BlockPos blockpos = new BlockPos(x, chunkGenerator.getSeaLevel(), z);
                         final BlockPos spos = StructureTemplate.calculateRelativePosition(settings, localSpawn)
                                 .offset(blockpos).offset(0, part.getBoundingBox().minY(), 0);
-                        PokecubeAPI.logInfo("Setting spawn to {} {}, professor at {}", spos, localSpawn,
-                                localTrader);
+                        PokecubeAPI.logInfo("Setting spawn to {} {}, professor at {}", spos, localSpawn, localTrader);
                         PokecubeSerializer.getInstance().setPlacedSpawn();
                         sworld.getServer().execute(() -> {
                             sworld.setDefaultSpawnPos(spos, 0);
@@ -107,7 +106,7 @@ public class PostProcessor implements BiConsumer<GenerationContext, List<PoolEle
                         piece.isSpawn = true;
                         piece.spawnPos = localSpawn;
                         piece.profPos = localTrader;
-                        break components;
+                        break;
                     }
                 }
             }

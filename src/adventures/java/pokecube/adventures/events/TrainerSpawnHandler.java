@@ -354,11 +354,12 @@ public class TrainerSpawnHandler
             if (!checkEvent.isCanceled())
             {
                 event.setResult(TriState.TRUE);
-                mob.getPersistentData().putString("pokecube:structure_entity", JsonUtil.gson.toJson(thing));
+                var _serThing = JsonUtil.gson.toJson(thing);
+                mob.getPersistentData().putString("pokecube:structure_entity", _serThing);
                 if (event.duringWorldgen)
                 {
                     mob.save(event.nbt);
-                    event.nbt.putBoolean("pokecube:structure_entity", true);
+                    event.nbt.putString("pokecube:structure_entity", _serThing);
                 }
                 else
                 {

@@ -3,18 +3,8 @@
  */
 package pokecube.core.utils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
@@ -22,6 +12,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtAccounter;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
@@ -42,6 +33,16 @@ import pokecube.core.handlers.playerdata.PokecubePlayerData;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Vector;
 
 /** @author Manchou */
 public class PokecubeSerializer
@@ -140,15 +141,19 @@ public class PokecubeSerializer
         this.save();
     }
 
-    public void setPlacedProf()
+    public void setPlacedProf(BlockPos pos)
     {
-        this.customData.putBoolean("set_professor", true);
+        this.customData.put("set_professor", NbtUtils.writeBlockPos(pos));
+        profPos = Optional.of(pos);
         this.save();
     }
 
-    public boolean hasPlacedProf()
+    private Optional<BlockPos> profPos = Optional.empty();
+
+    public Optional<BlockPos> hasPlacedProf()
     {
-        return this.customData.contains("set_professor");
+        if (profPos.isEmpty()) profPos = NbtUtils.readBlockPos(this.customData, "set_professor");
+        return profPos;
     }
 
     public boolean hasPlacedSpawn()
@@ -236,39 +241,39 @@ public class PokecubeSerializer
         if (temp instanceof ListTag tagListMeteors)
         {
             if (!tagListMeteors.isEmpty()) meteors:
-            for (int i = 0; i < tagListMeteors.size(); i++)
-            {
-                final CompoundTag pokemobData = tagListMeteors.getCompound(i);
-                if (pokemobData != null)
-                {
-                    final GlobalPos location = GlobalPos.CODEC.decode(NbtOps.INSTANCE, pokemobData).result().get()
-                            .getFirst();
-                    for (final GlobalPos v : this.meteors)
-                        if (PokecubeSerializer.distSq(location, v) < 4) continue meteors;
-                    this.meteors.add(location);
-                }
-            }
+                    for (int i = 0; i < tagListMeteors.size(); i++)
+                    {
+                        final CompoundTag pokemobData = tagListMeteors.getCompound(i);
+                        if (pokemobData != null)
+                        {
+                            final GlobalPos location = GlobalPos.CODEC.decode(NbtOps.INSTANCE, pokemobData).result()
+                                    .get().getFirst();
+                            for (final GlobalPos v : this.meteors)
+                                if (PokecubeSerializer.distSq(location, v) < 4) continue meteors;
+                            this.meteors.add(location);
+                        }
+                    }
         }
         temp = tag.get(PokecubeSerializer.BASES);
         if (temp instanceof ListTag tagListBases)
         {
             if (!tagListBases.isEmpty()) meteors:
-            for (int i = 0; i < tagListBases.size(); i++)
-            {
-                final CompoundTag pokemobData = tagListBases.getCompound(i);
-                if (pokemobData != null) try
-                {
-                    final GlobalPos location = GlobalPos.CODEC.decode(NbtOps.INSTANCE, pokemobData).result().get()
-                            .getFirst();
-                    for (final GlobalPos v : this.bases)
-                        if (PokecubeSerializer.distSq(location, v) < 4) continue meteors;
-                    this.bases.add(location);
-                }
-                catch (final Exception e)
-                {
-                    PokecubeAPI.LOGGER.error("Error loading base from tag: {}", pokemobData);
-                }
-            }
+                    for (int i = 0; i < tagListBases.size(); i++)
+                    {
+                        final CompoundTag pokemobData = tagListBases.getCompound(i);
+                        if (pokemobData != null) try
+                        {
+                            final GlobalPos location = GlobalPos.CODEC.decode(NbtOps.INSTANCE, pokemobData).result()
+                                    .get().getFirst();
+                            for (final GlobalPos v : this.bases)
+                                if (PokecubeSerializer.distSq(location, v) < 4) continue meteors;
+                            this.bases.add(location);
+                        }
+                        catch (final Exception e)
+                        {
+                            PokecubeAPI.LOGGER.error("Error loading base from tag: {}", pokemobData);
+                        }
+                    }
         }
 
         temp = tag.get(PokecubeSerializer.STRUCTS);

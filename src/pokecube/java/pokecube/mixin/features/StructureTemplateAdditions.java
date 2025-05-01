@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.events.StructureEvent;
 import pokecube.world.gen.structures.ITemplateExtended;
 
@@ -32,11 +33,16 @@ public abstract class StructureTemplateAdditions implements ITemplateExtended
     {
         if (event.nbt.contains("pokecube:structure_entity") && event.info != null)
         {
-            if ($hasAddedEntity(event.info)) return;
+            if ($hasAddedEntity(event.info))
+            {
+                PokecubeAPI.logInfo("Not replacing info at {}", event.info.pos());
+                return;
+            }
             Vec3 v = event.info.pos().getBottomCenter();
             StructureEntityInfo info = new StructureEntityInfo(v, event.info.pos(), event.nbt);
             $customEntityInfos.put(event.info.pos(), info);
             entityInfoList.add(info);
+            PokecubeAPI.logInfo("Added info {} at {}", event.nbt, event.info.pos());
         }
     }
 

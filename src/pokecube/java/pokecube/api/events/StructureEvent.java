@@ -5,7 +5,12 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.*;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelHeightAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
@@ -105,11 +110,16 @@ public class StructureEvent extends Event
     {
         private StructureEntityInfo info;
         private final StructureEntityInfo raw;
+        public final LevelReader worldBlocks;
+        public final BlockPos pos;
 
-        public SpawnEntity(final StructureEntityInfo entity, final StructureEntityInfo raw)
+        public SpawnEntity(final StructureEntityInfo entity, final StructureEntityInfo raw, LevelReader world,
+                BlockPos pos)
         {
             this.info = entity;
             this.raw = raw;
+            this.worldBlocks = world;
+            this.pos = pos;
         }
 
         public StructureEntityInfo getRawInfo()

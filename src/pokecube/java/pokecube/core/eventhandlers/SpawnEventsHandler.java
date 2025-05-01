@@ -3,7 +3,11 @@ package pokecube.core.eventhandlers;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.gson.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSyntaxException;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.core.BlockPos;
@@ -14,6 +18,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -24,6 +29,8 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.EventHooks;
@@ -43,6 +50,7 @@ import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.utils.CapHolders;
+import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.TimePeriod;
 import thut.api.ThutCaps;
 import thut.api.entity.ICopyMob;
@@ -53,7 +61,11 @@ import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 import java.util.stream.Stream;
 
 public class SpawnEventsHandler
@@ -73,6 +85,7 @@ public class SpawnEventsHandler
         // This handles spawning in the NPCs, etc from the structure blocks with
         // appropriate data markers.
         ThutCore.FORGE_BUS.addListener(SpawnEventsHandler::onReadStructTag);
+        ThutCore.FORGE_BUS.addListener(SpawnEventsHandler::onEntitySpawn);
         ThutCore.FORGE_BUS.addListener(SpawnEventsHandler::onJoinLevel);
         // This handles setting of the subbiomes for structures as they spawn
         // in, it is lowest, and not listening for cancalling incase addons make
@@ -82,24 +95,14 @@ public class SpawnEventsHandler
 
     private static void onJoinLevel(EntityJoinLevelEvent event)
     {
-        if (!(event.getEntity() instanceof Mob npc)) return;
+        if (!(event.getEntity() instanceof Mob npc) || !(npc.level() instanceof ServerLevel)) return;
         if (event.getEntity().getPersistentData().contains("pokecube:structure_entity"))
         {
             JsonObject thing = JsonUtil.gson.fromJson(
                     event.getEntity().getPersistentData().getString("pokecube:structure_entity"), JsonObject.class);
-            if (!npc.level().isAreaLoaded(npc.getOnPos(), 2))
-            {
-                EventsHandler.Schedule(npc.level(), w -> {
-                    if (!npc.isAddedToLevel()) return true;
-                    if (!npc.level().isAreaLoaded(npc.getOnPos(), 2)) return false;
-                    applyFunction(npc, thing);
-                    event.getEntity().getPersistentData().remove("pokecube:structure_entity");
-                    return true;
-                });
-                return;
-            }
+            PokecubeAPI.logInfo("Spawn at {}, {} {}", npc.position(), thing.isEmpty() ? "None" : thing,
+                    npc.getPersistentData().getBoolean("pokecube:spawn_professor"));
             applyFunction(npc, thing);
-            event.getEntity().getPersistentData().remove("pokecube:structure_entity");
         }
     }
 
@@ -238,11 +241,12 @@ public class SpawnEventsHandler
 
     private static void spawnMob(final StructureEvent.ReadTag event, final Mob mob, final JsonObject thing)
     {
-        mob.getPersistentData().putString("pokecube:structure_entity", JsonUtil.gson.toJson(thing));
+        var _serThing = JsonUtil.gson.toJson(thing);
+        mob.getPersistentData().putString("pokecube:structure_entity", _serThing);
         if (event.duringWorldgen)
         {
             mob.save(event.nbt);
-            event.nbt.putBoolean("pokecube:structure_entity", true);
+            event.nbt.putString("pokecube:structure_entity", _serThing);
         }
         else EventsHandler.Schedule(event.worldActual, w -> {
             w.addFreshEntity(mob);
@@ -257,10 +261,13 @@ public class SpawnEventsHandler
         {
             final JsonArray options = thing.get("options").getAsJsonArray();
             final int num = event.rand.nextInt(options.size());
+            if (PokecubeCore.getConfig().debug_misc)
+                PokecubeAPI.logInfo("forwarding to handling for {}", options.get(num));
             SpawnEventsHandler.newSpawns(event, options.get(num).getAsString());
         }
         else
         {
+            if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logInfo("Handling for {}", thing);
             final ResourceLocation mobId = ResourceLocation.parse(thing.get("mob").getAsString());
             final EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.get(mobId);
 
@@ -281,7 +288,6 @@ public class SpawnEventsHandler
         if (event.function.startsWith("pokecube:mob:"))
         {
             final String function = event.function.replaceFirst("pokecube:mob:", "");
-
             if (StructureSpawnPresetLoader.presetMap.containsKey(function)) try
             {
                 SpawnEventsHandler.newSpawns(event, function);
@@ -293,6 +299,32 @@ public class SpawnEventsHandler
             else if (SpawnEventsHandler.oldSpawns(event, function))
                 PokecubeAPI.logInfo("Handled spawn for {}, {}", function, event.pos);
             else PokecubeAPI.LOGGER.warn("Warning, no preset found for {}", function);
+        }
+    }
+
+    private static void onEntitySpawn(StructureEvent.SpawnEntity event)
+    {
+        var optProf = PokecubeSerializer.getInstance().hasPlacedProf();
+        if (optProf.isPresent())
+        {
+            var pos = optProf.get();
+            if (pos.equals(event.pos) && event.worldBlocks instanceof WorldGenRegion access)
+            {
+                var ser = PokecubeCore.getConfig().professor_override;
+                var event2 = new StructureEvent.ReadTag(ser, pos, access, access.getLevel(), access.getRandom(),
+                        BoundingBox.infinite(), true);
+                ThutCore.FORGE_BUS.post(event2);
+                if (event2.getResult() != TriState.FALSE)
+                {
+                    pos = event.getInfo().blockPos;
+                    Vec3 v = event.getInfo().pos;
+                    var nbt = event.getInfo().nbt.copy();
+                    nbt.getCompound("NeoForgeData").putBoolean("pokecube:spawn_professor", true);
+                    var info = new StructureTemplate.StructureEntityInfo(v, pos, nbt);
+                    event.setInfo(info);
+                    PokecubeAPI.logInfo("I would be putting a professor at {} {}", v, pos);
+                }
+            }
         }
     }
 
@@ -430,6 +462,7 @@ public class SpawnEventsHandler
     public static void applyFunction(final Mob npc, final JsonObject thing)
     {
         SpawnEventsHandler.processors.forEach(i -> i.process(npc, thing));
+        npc.getPersistentData().remove("pokecube:structure_entity");
     }
 
 }
