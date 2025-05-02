@@ -48,7 +48,6 @@ public class TrainerEntryLoader
         boolean belt = true;
         boolean holdReward = true;
         JsonElement held;
-        JsonElement reward;
         Boolean replace;
         String team;
 
@@ -75,7 +74,6 @@ public class TrainerEntryLoader
             {
                 this.trainers.add(entry);
                 this._trainer_map.put(entry.type, entry);
-                return;
             }
         }
     }
@@ -105,6 +103,15 @@ public class TrainerEntryLoader
                         if (entry.gender != null) entry.gender = entry.gender.trim();
                         full.addEntry(entry);
                     }
+                }
+                // Try loading it directly as a trainer?
+                else if (loaded.has("type"))
+                {
+                    var entry = JsonUtil.gson.fromJson(loaded, TrainerEntry.class);
+                    entry.type = ThutCore.trim(entry.type);
+                    if (entry.pokemon != null) entry.pokemon = entry.pokemon.trim();
+                    if (entry.gender != null) entry.gender = entry.gender.trim();
+                    full.addEntry(entry);
                 }
             }
             catch (final Exception e)
