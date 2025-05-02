@@ -279,8 +279,8 @@ public class SpawnEventsHandler
                     {
                         mob.finalizeSpawn(level, level.getCurrentDifficultyAt(BlockPos.containing(vec31)),
                                 MobSpawnType.STRUCTURE, null);
+                        level.addFreshEntityWithPassengers(entity);
                     }
-                    level.addFreshEntityWithPassengers(entity);
                 });
             });
             data.remove(event.getChunk().getPos());

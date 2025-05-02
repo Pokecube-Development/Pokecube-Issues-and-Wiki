@@ -358,7 +358,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
                     _transformed = true;
                 }
             }
-            if (this.info.getEntry() == null && mob != null)
+            if (this.info.getEntry() == null && mob != null && _transformed)
             {
                 ThutCore.FORGE_BUS.post(new CopySetEvent(living, mob, null));
                 _copy.setCopiedMob(null);
