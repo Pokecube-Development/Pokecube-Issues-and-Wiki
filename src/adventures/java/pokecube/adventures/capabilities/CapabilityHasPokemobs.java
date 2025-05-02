@@ -796,7 +796,7 @@ public class CapabilityHasPokemobs
             var old = this.type;
             this.type = type;
             this.holder.TYPE.set(type == null ? "" : type.getName());
-            if (this.getTrainer() instanceof NpcMob npc)
+            if (this.getTrainer() instanceof TrainerBase npc)
             {
                 npc.setNpcType(type);
 
@@ -813,7 +813,7 @@ public class CapabilityHasPokemobs
                     if (ItemStack.isSameItemSameComponents(old.held, npc.getItemInHand(InteractionHand.OFF_HAND)))
                         npc.setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
                     // Belt
-                    if (old.hasBelt && ItemStack.isSameItemSameComponents(belt, worn.getWearable(EnumWearable.WAIST)))
+                    if (ItemStack.isSameItemSameComponents(belt, worn.getWearable(EnumWearable.WAIST)))
                         worn.setWearable(EnumWearable.WAIST, ItemStack.EMPTY);
                     // Others
                     for (var entry : old.wornItems.entrySet())

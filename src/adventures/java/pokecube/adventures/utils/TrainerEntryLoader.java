@@ -14,6 +14,7 @@ import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.resources.PackFinder;
+import pokecube.core.database.tags.Tags;
 import pokecube.core.entity.npc.NpcType;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
@@ -45,6 +46,7 @@ public class TrainerEntryLoader
         String pokemon;
         String gender;
         boolean belt = true;
+        boolean holdReward = true;
         JsonElement held;
         JsonElement reward;
         Boolean replace;
@@ -146,6 +148,7 @@ public class TrainerEntryLoader
                 type.spawns.put(matcher, rule.rate);
             });
             type.hasBelt = entry.belt;
+            type.holdsReward = entry.holdReward;
             if (entry.gender != null) type.genders = entry.gender.equalsIgnoreCase("male")
                     ? male
                     : entry.gender.equalsIgnoreCase("female") ? female : male + female;
@@ -153,7 +156,24 @@ public class TrainerEntryLoader
             {
                 type.held = Tools.getStack(entry.held);
             }
-            type.pokelist = entry.pokemon == null ? new String[] {} : entry.pokemon.split(",");
+            if (entry.pokemon == null) type.pokelist = new String[] {};
+            else
+            {
+                var arr = entry.pokemon.split(",");
+                var list = new ArrayList<String>();
+                for (var _entry : arr)
+                {
+                    if (_entry.startsWith("#"))
+                    {
+                        _entry = _entry.substring(1);
+                        if (!_entry.contains(":")) _entry = "pokecube:" + _entry;
+                        var tag = Tags.POKEMOB.getValues(_entry);
+                        tag.forEach(v -> list.add(v.name));
+                    }
+                    else list.add(_entry);
+                }
+                type.pokelist = list.toArray(new String[0]);
+            }
         }
     }
 }

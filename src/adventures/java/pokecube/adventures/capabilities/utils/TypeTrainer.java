@@ -429,7 +429,7 @@ public class TypeTrainer extends NpcType
                 if (existing.getName().equalsIgnoreCase(name)) return new TypeTrainer(existing);
                 return new TypeTrainer(name);
             }
-            for (final TypeTrainer t : TypeTrainer.typeMap.values()) if (t != null) return t;
+            return merchant;
         }
         return ret;
     }
@@ -507,7 +507,7 @@ public class TypeTrainer extends NpcType
     /** 1 = male, 2 = female, 3 = both */
     public byte genders = 1;
 
-    public boolean hasBelt = false;
+    public boolean hasBelt = true, holdsReward = true;
 
     public Map<String, List<ItemStack>> wornItems = Maps.newHashMap();
 
@@ -533,6 +533,7 @@ public class TypeTrainer extends NpcType
         this.setMaleTex(wrapped.getMaleTex());
         this.setProfession(wrapped.getProfession());
         this.setInteraction(wrapped.getInteraction());
+        hasBelt = holdsReward = false;
     }
 
     private TypeTrainer(String name)
@@ -623,6 +624,7 @@ public class TypeTrainer extends NpcType
         this.initLoot();
         for (int i = 1; i < 5; i++)
         {
+            if (i == 1 && !this.holdsReward) continue;
             final EquipmentSlot slotIn = EquipmentSlot.values()[i];
             trainer.setItemSlot(slotIn, this.loot[i - 1]);
         }

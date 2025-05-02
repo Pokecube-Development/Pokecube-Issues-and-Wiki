@@ -367,6 +367,20 @@
           ]
         }
       ]
+    },
+    {
+      "type": "healer",
+      "belt": false,
+      "holdReward": false,
+      "pokemon": "chansey",
+      "gender": "female"
+    },
+    {
+      "type": "professor",
+      "belt": false,
+      "holdReward": false,
+      "pokemon": "#starters",
+      "gender": "both"
     }
   ]
 }
