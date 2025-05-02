@@ -26,7 +26,7 @@ public class NBTEdit
     public static class ConfigHolder extends ConfigData
     {
         @Configure(category = "misc")
-        private final boolean opOnly = true;
+        public boolean opOnly = true;
 
         public ConfigHolder()
         {
@@ -42,11 +42,8 @@ public class NBTEdit
     }
 
     public static final String MODID = "pceditmod";
-    public static final String NAME = "NBTEdit - Pokecube Edition";
 
-    public static final String VERSION = "1.0.0";
     public static final NBTNodeSorter SORTER = new NBTNodeSorter();
-
     public static final PacketHandler NETWORK = new PacketHandler();
 
     public static Logger LOGGER = LogManager.getLogger();
@@ -61,7 +58,7 @@ public class NBTEdit
 
     private static SaveStates saves;
 
-    static final String SEP = System.getProperty("line.separator");
+    static final String SEP = System.lineSeparator();
 
     public static SaveStates getSaveStates()
     {
@@ -76,21 +73,18 @@ public class NBTEdit
     public static void logTag(final CompoundTag tag)
     {
         final NBTTree tree = new NBTTree(tag);
-        String sb = "";
-        for (final String s : tree.toStrings()) sb += NBTEdit.SEP + "\t\t\t" + s;
-        NBTEdit.log(Level.TRACE, sb);
+        StringBuilder sb = new StringBuilder();
+        for (final String s : tree.toStrings()) sb.append(NBTEdit.SEP).append("\t\t\t").append(s);
+        NBTEdit.log(Level.TRACE, sb.toString());
     }
 
     public static void registerCommands(final RegisterCommandsEvent event)
     {
         CommandNBTEdit.register(event.getDispatcher());
-        NBTEdit.LOGGER.trace("Server Starting -- Added \"/pcedit\" command");
     }
 
     public static void setup(final FMLCommonSetupEvent event)
     {
-        NBTEdit.LOGGER.trace("NBTEdit Initalized");
-        NBTEdit.saves = new SaveStates(new File(new File(FMLPaths.GAMEDIR.get().toFile(), "saves"), "NBTEditpqb.dat").toPath());
         // DISPATCHER.initialize();
         NBTEdit.NETWORK.initialize();
     }

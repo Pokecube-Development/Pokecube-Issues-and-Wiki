@@ -11,19 +11,13 @@ public class GuiNBTButton extends Button
 
     public static final int WIDTH = 9, HEIGHT = 9;
 
-    private final byte id;
-
     private long hoverTime;
+    int id;
 
-    public GuiNBTButton(final byte id, final int x, final int y, final OnPress onPress, CreateNarration narration)
+    public GuiNBTButton(int id, final int x, final int y, final OnPress onPress, CreateNarration narration)
     {
         super(x, y, GuiNBTButton.WIDTH, GuiNBTButton.HEIGHT, TComponent.translatable(""), onPress, narration);
         this.id = id;
-    }
-
-    public byte getId()
-    {
-        return this.id;
     }
 
     @Override
@@ -33,7 +27,8 @@ public class GuiNBTButton extends Button
         if (this.isHoveredOrFocused())
         {
             // Draw a background
-            graphics.fill(this.getX(), this.getY(), this.getX() + GuiNBTButton.WIDTH, this.getY() + GuiNBTButton.HEIGHT, 0x80ffffff);
+            graphics.fill(this.getX(), this.getY(), this.getX() + GuiNBTButton.WIDTH, this.getY() + GuiNBTButton.HEIGHT,
+                    0x80ffffff);
             if (this.hoverTime == -1) this.hoverTime = System.currentTimeMillis();
         }
         else this.hoverTime = -1;
@@ -44,8 +39,8 @@ public class GuiNBTButton extends Button
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             RenderSystem.setShaderTexture(0, GuiNBTNode.WIDGET_TEXTURE);
-            // TODO: Check this
-            graphics.blit(GuiNBTNode.WIDGET_TEXTURE, this.getX(), this.getY(), (this.id - 1) * 9, 18, GuiNBTButton.WIDTH, GuiNBTButton.HEIGHT);
+            graphics.blit(GuiNBTNode.WIDGET_TEXTURE, this.getX(), this.getY(), (this.id - 1) * 9, 18,
+                    GuiNBTButton.WIDTH, GuiNBTButton.HEIGHT);
         }
     }
 }
