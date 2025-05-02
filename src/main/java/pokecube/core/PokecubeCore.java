@@ -1,12 +1,7 @@
 package pokecube.core;
 
-import java.util.Map;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;
-
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.resources.ResourceLocation;
@@ -86,6 +81,9 @@ import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.PacketHandler;
 import thut.wearables.ThutWearables;
+
+import javax.annotation.Nullable;
+import java.util.Map;
 
 @Mod(value = PokecubeCore.MODID)
 public class PokecubeCore
@@ -219,8 +217,8 @@ public class PokecubeCore
     }
 
     /**
-     * For pokemob type mobs, this returns the pokedex entry for the
-     * corresponding entity type, for other mobs it returns null.
+     * For pokemob type mobs, this returns the pokedex entry for the corresponding entity type, for other mobs it
+     * returns null.
      *
      * @param type
      * @return
@@ -307,6 +305,14 @@ public class PokecubeCore
 
     private void loadComplete(final FMLLoadCompleteEvent event)
     {
+        var version = Runtime.version();
+        if (version.feature() == 17 && version.update() >= 8 && version.update() <= 10) throw new RuntimeException(
+                "\nBroken Java Detected: " + version + ", Refusing to start.\n"
+                        + "This version of Java has a major memory flaw, and will randomly crash.\n"
+                        + "Please update to a newer version of Java 17, at least after 17.0.10\n"
+                        + "If you need assistance with this, see the #faq channel in the Thut's Mods discord server.\n"
+                        + "https://discord.gg/sXCpFaAh2x\n");
+
         ItemGenerator.strippableBlocks(event);
         ItemGenerator.compostables(event);
         ItemGenerator.flammables(event);
