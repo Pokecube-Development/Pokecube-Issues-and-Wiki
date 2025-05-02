@@ -2,7 +2,7 @@
   "trainers": [
     {
       "type": "bug_catcher",
-      "pokemon": "weedle,caterpie,ledyba,wurmple,kricketot,paras,nincada,burmy,venonat,yanma,spinarak,volbeat,illumise,pinsir,scyther,heracross,surskit",
+      "pokemon": "#pokecube_mobs:trainer/bug_catcher",
       "spawns": [
         {
           "not_preset": "cold_areas",
@@ -14,7 +14,7 @@
     },
     {
       "type": "youngster",
-      "pokemon": "rattata,zubat,nidoranm,poochyena,taillow,zigzagoon,starly,kricketot,magikarp,bidoof,ekans,sandshrew,wooper,seedot,geodude,lotad,electrike,burmy,slowpoke,spearow,mankey,diglett,machop,bellsprout,growlithe,aron,trapinch,shroomish,onix,gastly,gligar,buizel",
+      "pokemon": "#pokecube_mobs:trainer/youngster",
       "spawns": [
         {
           "preset": "all_not_caves",
@@ -349,7 +349,7 @@
     },
     {
       "type": "red",
-      "pokemon": "omanyte,pidgey,lapras,nidoranm,venonat,zapdos",
+      "pokemon": "#pokecube_mobs:trainer/red",
       "spawns": [
         {
           "preset": "all",
