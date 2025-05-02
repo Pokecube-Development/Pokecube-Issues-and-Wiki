@@ -20,22 +20,22 @@ public class StatsInfo extends PokeInfoPage
     // Default
     private void drawBaseStats(final GuiGraphics graphics, final int x, final int y)
     {
-        final int HP = this.parent.pokemob.getPokedexEntry().getStatHP();
-        final int ATT = this.parent.pokemob.getPokedexEntry().getStatATT();
-        final int DEF = this.parent.pokemob.getPokedexEntry().getStatDEF();
-        final int ATTSPE = this.parent.pokemob.getPokedexEntry().getStatATTSPE();
-        final int DEFSPE = this.parent.pokemob.getPokedexEntry().getStatDEFSPE();
-        final int VIT = this.parent.pokemob.getPokedexEntry().getStatVIT();
-        final int statYOffSet = y + 35; // 0 //45
-        final int offsetX = 120; // -50 //135
+        int HP = this.parent.pokemob.getPokedexEntry().getStatHP();
+        int ATT = this.parent.pokemob.getPokedexEntry().getStatATT();
+        int DEF = this.parent.pokemob.getPokedexEntry().getStatDEF();
+        int ATTSPE = this.parent.pokemob.getPokedexEntry().getStatATTSPE();
+        int DEFSPE = this.parent.pokemob.getPokedexEntry().getStatDEFSPE();
+        int VIT = this.parent.pokemob.getPokedexEntry().getStatVIT();
+        int statYOffSet = y + 35; // 0 //45
+        int offsetX = 120; // -50 //135
         int dx = 15 + offsetX; // 20
 
-        final String H = I18n.get("pokewatch.HP");
-        final String A = I18n.get("pokewatch.ATT");
-        final String D = I18n.get("pokewatch.DEF");
-        final String AS = I18n.get("pokewatch.ATTSP");
-        final String DS = I18n.get("pokewatch.DEFSP");
-        final String S = I18n.get("pokewatch.VIT");
+        String H = I18n.get("pokewatch.HP");
+        String A = I18n.get("pokewatch.ATT");
+        String D = I18n.get("pokewatch.DEF");
+        String AS = I18n.get("pokewatch.ATTSP");
+        String DS = I18n.get("pokewatch.DEFSP");
+        String S = I18n.get("pokewatch.VIT");
 
         graphics.drawString(this.font, H, x + dx, statYOffSet + 18, 0xFFFF0000, false);
         graphics.drawString(this.font, A, x + dx, statYOffSet + 27, 0xF08030FF, false);
@@ -72,14 +72,12 @@ public class StatsInfo extends PokeInfoPage
             colours[n] = 0;
             if (nature[n] == -1)
             {
-                // up arrow
-                nat[n] = "\u2b07";
+                nat[n] = "⬇";
                 colours[n] = 0x4400FF00;
             }
             if (nature[n] == 1)
             {
-                // down arrow
-                nat[n] = "\u2b06";
+                nat[n] = "⬆";
                 colours[n] = 0x44FF0000;
             }
         }
@@ -108,13 +106,20 @@ public class StatsInfo extends PokeInfoPage
         graphics.drawString(this.font, DS, x + dx, statYOffSet + 54, 0x78C850, false);
         graphics.drawString(this.font, S, x + dx, statYOffSet + 63, 0xF85888, false);
 
-        dx = 50 + offsetX;
-        graphics.drawString(this.font, nat[0] + ": " + HP, x + dx, statYOffSet + 18, 0xFF0000, false);
-        graphics.drawString(this.font, nat[1] + ": " + ATT, x + dx, statYOffSet + 27, 0xF08030, false);
-        graphics.drawString(this.font, nat[2] + ": " + DEF, x + dx, statYOffSet + 36, 0xF8D030, false);
-        graphics.drawString(this.font, nat[3] + ": " + ATTSPE, x + dx, statYOffSet + 45, 0x6890F0, false);
-        graphics.drawString(this.font, nat[4] + ": " + DEFSPE, x + dx, statYOffSet + 54, 0x78C850, false);
-        graphics.drawString(this.font, nat[5] + ": " + VIT, x + dx, statYOffSet + 63, 0xF85888, false);
+        String _HP = HP >= 1e3 ? "999⬆" : HP + "";
+        String _ATT = ATT >= 1e3 ? "999⬆" : ATT + "";
+        String _DEF = DEF >= 1e3 ? "999⬆" : DEF + "";
+        String _ATTSPE = ATTSPE >= 1e3 ? "999⬆" : ATTSPE + "";
+        String _DEFSPE = DEFSPE >= 1e3 ? "999⬆" : DEFSPE + "";
+        String _VIT = VIT >= 1e3 ? "999⬆" : VIT + "";
+
+        dx = 48 + offsetX;
+        graphics.drawString(this.font, nat[0] + ": " + _HP, x + dx, statYOffSet + 18, 0xFF0000, false);
+        graphics.drawString(this.font, nat[1] + ": " + _ATT, x + dx, statYOffSet + 27, 0xF08030, false);
+        graphics.drawString(this.font, nat[2] + ": " + _DEF, x + dx, statYOffSet + 36, 0xF8D030, false);
+        graphics.drawString(this.font, nat[3] + ": " + _ATTSPE, x + dx, statYOffSet + 45, 0x6890F0, false);
+        graphics.drawString(this.font, nat[4] + ": " + _DEFSPE, x + dx, statYOffSet + 54, 0x78C850, false);
+        graphics.drawString(this.font, nat[5] + ": " + _VIT, x + dx, statYOffSet + 63, 0xF85888, false);
 
         dx = 15 + offsetX;
         byte[] stats2 = this.parent.pokemob.getIVs();

@@ -262,7 +262,7 @@ public class Health
                         mat.scale(s1, s1, s1);
                         pos = mat.last().pose();
                         colour = 0xFFFFFFFF;
-                        y /= (2/s1);
+                        y /= (2 / s1);
                         // Level
                         final String lvlStr = "L." + pokemob.getLevel();
                         mc.font.drawInBatch(lvlStr, x, y, colour, false, pos, buf, Font.DisplayMode.NORMAL, 0, br);
@@ -307,6 +307,8 @@ public class Health
                     {
                         int ironArmor = armor % 5;
                         int diamondArmor = armor / 5;
+                        if (diamondArmor > 10) ironArmor = 4;
+                        diamondArmor = Math.min(diamondArmor, 10);
                         stack = new ItemStack(Items.IRON_CHESTPLATE);
                         int zOrder = 0;
                         x -= 16;
