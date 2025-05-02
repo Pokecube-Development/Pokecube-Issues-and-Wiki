@@ -27,7 +27,10 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.phys.Vec3;
@@ -35,6 +38,7 @@ import net.neoforged.bus.api.EventPriority;
 import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.level.ChunkEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.spawns.SpawnCheck;
@@ -50,6 +54,7 @@ import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.utils.CapHolders;
+import pokecube.core.utils.LevelSpawnData;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.TimePeriod;
 import thut.api.ThutCaps;
@@ -64,6 +69,7 @@ import thut.core.common.ThutCore;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -87,6 +93,7 @@ public class SpawnEventsHandler
         ThutCore.FORGE_BUS.addListener(SpawnEventsHandler::onReadStructTag);
         ThutCore.FORGE_BUS.addListener(SpawnEventsHandler::onEntitySpawn);
         ThutCore.FORGE_BUS.addListener(SpawnEventsHandler::onJoinLevel);
+        ThutCore.FORGE_BUS.addListener(SpawnEventsHandler::onChunkLoad);
         // This handles setting of the subbiomes for structures as they spawn
         // in, it is lowest, and not listening for cancalling incase addons make
         // adjustments first.
@@ -95,13 +102,12 @@ public class SpawnEventsHandler
 
     private static void onJoinLevel(EntityJoinLevelEvent event)
     {
-        if (!(event.getEntity() instanceof Mob npc) || !(npc.level() instanceof ServerLevel)) return;
+        if (!(event.getEntity() instanceof Mob npc) || !(npc.level() instanceof ServerLevel level)) return;
         if (event.getEntity().getPersistentData().contains("pokecube:structure_entity"))
         {
             JsonObject thing = JsonUtil.gson.fromJson(
                     event.getEntity().getPersistentData().getString("pokecube:structure_entity"), JsonObject.class);
-            PokecubeAPI.logInfo("Spawn at {}, {} {}", npc.position(), thing.isEmpty() ? "None" : thing,
-                    npc.getPersistentData().getBoolean("pokecube:spawn_professor"));
+            LevelSpawnData.getForLevel(level).remove(BlockPos.containing(npc.position()));
             applyFunction(npc, thing);
         }
     }
@@ -254,6 +260,45 @@ public class SpawnEventsHandler
         });
     }
 
+    private static void onChunkLoad(ChunkEvent.Load event)
+    {
+        if (event.getLevel() instanceof ServerLevel level && event.getChunk() instanceof LevelChunk)
+        {
+            var data = LevelSpawnData.getForLevel(level);
+            var map = data.getFor(event.getChunk().getPos());
+
+            map.forEach((pos, nbt) -> {
+                Vec3 vec31 = new Vec3(nbt.getDouble("__x"), nbt.getDouble("__y"), nbt.getDouble("__z"));
+                var rotation = Rotation.values()[nbt.getInt("__rot")];
+                var mirror = Mirror.values()[nbt.getInt("__mir")];
+                createEntityIgnoreException(level, nbt).ifPresent(entity -> {
+                    float f = entity.rotate(rotation);
+                    f += entity.mirror(mirror) - entity.getYRot();
+                    entity.moveTo(vec31.x, vec31.y, vec31.z, f, entity.getXRot());
+                    if (entity instanceof Mob mob)
+                    {
+                        mob.finalizeSpawn(level, level.getCurrentDifficultyAt(BlockPos.containing(vec31)),
+                                MobSpawnType.STRUCTURE, null);
+                    }
+                    level.addFreshEntityWithPassengers(entity);
+                });
+            });
+            data.remove(event.getChunk().getPos());
+        }
+    }
+
+    private static Optional<Entity> createEntityIgnoreException(ServerLevelAccessor level, CompoundTag tag)
+    {
+        try
+        {
+            return EntityType.create(tag, level.getLevel());
+        }
+        catch (Exception exception)
+        {
+            return Optional.empty();
+        }
+    }
+
     private static void newSpawns(final StructureEvent.ReadTag event, final String function)
     {
         final JsonObject thing = StructureSpawnPresetLoader.presetMap.get(function);
@@ -297,7 +342,10 @@ public class SpawnEventsHandler
                 PokecubeAPI.LOGGER.warn("Error processing for {}", function, e);
             }
             else if (SpawnEventsHandler.oldSpawns(event, function))
-                PokecubeAPI.logInfo("Handled spawn for {}, {}", function, event.pos);
+            {
+                if (PokecubeCore.getConfig().debug_misc)
+                    PokecubeAPI.logInfo("Handled spawn for {}, {}", function, event.pos);
+            }
             else PokecubeAPI.LOGGER.warn("Warning, no preset found for {}", function);
         }
     }
@@ -318,11 +366,9 @@ public class SpawnEventsHandler
                 {
                     pos = event.getInfo().blockPos;
                     Vec3 v = event.getInfo().pos;
-                    var nbt = event.getInfo().nbt.copy();
-                    nbt.getCompound("NeoForgeData").putBoolean("pokecube:spawn_professor", true);
+                    var nbt = event2.nbt;
                     var info = new StructureTemplate.StructureEntityInfo(v, pos, nbt);
                     event.setInfo(info);
-                    PokecubeAPI.logInfo("I would be putting a professor at {} {}", v, pos);
                 }
             }
         }

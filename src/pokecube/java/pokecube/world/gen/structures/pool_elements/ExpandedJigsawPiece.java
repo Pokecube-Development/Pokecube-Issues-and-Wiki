@@ -81,22 +81,6 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
         });
     }
 
-    public static final Map<ResourceKey<Level>, Set<BlockPos>> sent_events = Maps.newConcurrentMap();
-
-    private static boolean shouldApply(final BlockPos pos, final Level worldIn)
-    {
-        final Set<BlockPos> poses = ExpandedJigsawPiece.sent_events.get(worldIn.dimension());
-        if (poses == null) return true;
-        return !poses.contains(pos.immutable());
-    }
-
-    private static void apply(final BlockPos pos, final Level worldIn)
-    {
-        Set<BlockPos> poses = ExpandedJigsawPiece.sent_events.computeIfAbsent(worldIn.dimension(),
-                k -> Sets.newHashSet());
-        poses.add(pos.immutable());
-    }
-
     public static class Ints
     {
         public static final Ints DEFAULT = new Ints(-1, 10, 0, -1, -1, 100);
@@ -178,7 +162,6 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
     public final String[] _needed_flags;
 
     public boolean isSpawn;
-    public String spawnReplace;
     public BlockPos spawnPos;
     public BlockPos profPos;
     public boolean placedSpawn = false;
@@ -220,7 +203,6 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
             matching.retainAll(Sets.newHashSet(piece._flags));
             if (!matching.isEmpty()) return true;
             if (piece._no_connect_flags.isEmpty()) return false;
-            matching.clear();
             matching.addAll(piece._no_connect_flags);
             matching.retainAll(Sets.newHashSet(this._flags));
             return !matching.isEmpty();
@@ -391,10 +373,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
         if (worldIn instanceof WorldGenRegion accessor && template instanceof ITemplateExtended extended)
         {
             this.world = accessor.getLevel();
-            if (extended.$hasAddedEntity(info))
-            {
-                return;
-            }
+            if (extended.$hasAddedEntity(info)) return;
 
             String function = info.nbt() != null ? info.nbt().getString("metadata") : "";
             var profPlaced = PokecubeSerializer.getInstance().hasPlacedProf();

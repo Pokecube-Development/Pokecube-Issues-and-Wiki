@@ -786,7 +786,6 @@ public class EventsHandler
         // Reset this.
         PokecubeSerializer.clearInstance();
         EventsHandler.RUNNING = false;
-        ExpandedJigsawPiece.sent_events.clear();
         EventsHandler.scheduledTasks.clear();
     }
 

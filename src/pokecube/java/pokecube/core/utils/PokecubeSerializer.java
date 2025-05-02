@@ -144,16 +144,16 @@ public class PokecubeSerializer
     public void setPlacedProf(BlockPos pos)
     {
         this.customData.put("set_professor", NbtUtils.writeBlockPos(pos));
-        profPos = Optional.of(pos);
+        profPos = pos;
         this.save();
     }
 
-    private Optional<BlockPos> profPos = Optional.empty();
+    private BlockPos profPos = null;
 
     public Optional<BlockPos> hasPlacedProf()
     {
-        if (profPos.isEmpty()) profPos = NbtUtils.readBlockPos(this.customData, "set_professor");
-        return profPos;
+        if (profPos == null) profPos = NbtUtils.readBlockPos(this.customData, "set_professor").orElse(null);
+        return Optional.ofNullable(profPos);
     }
 
     public boolean hasPlacedSpawn()
