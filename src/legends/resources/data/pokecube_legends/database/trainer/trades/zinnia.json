@@ -1,0 +1,48 @@
+{
+  "template": "zinnia",
+  "trades": [
+    {
+      "sell": {
+        "count": 8,
+        "id": "pokecube:ultracube"
+      },
+      "buys": [
+        {
+          "count": 8,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "sell": {
+        "count": 2,
+        "id": "pokecube:revive"
+      },
+      "buys": [
+        {
+          "count": 5,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "type": "tag_sell",
+      "custom": "pokecube_adventures:mega_sales",
+      "buys": [
+        {
+          "count": 20,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "type": "aqua",
+  "team": "Team Aqua",
+  "pokemon": [
+    "poochyena",
+    "carvanha",
+    "zubat",
+    "wailmer",
+    "grimer",
+    "psyduck",
+    "krabby",
+    "seaking",
+    "corphish",
+    "buizel",
+    "basculin",
+    "arrokuda"
+  ],
+  "gender": "Both"
+}

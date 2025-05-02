@@ -1,0 +1,35 @@
+{
+  "template": "n",
+  "trades": [
+    {
+      "sell": {
+        "count": 3,
+        "id": "pokecube:friendcube"
+      },
+      "buys": [
+        {
+          "count": 12,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "sell": {
+        "count": 2,
+        "id": "pokecube:revive"
+      },
+      "buys": [
+        {
+          "count": 5,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    }
+  ]
+}

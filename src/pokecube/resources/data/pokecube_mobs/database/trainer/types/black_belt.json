@@ -1,0 +1,13 @@
+{
+  "type": "black_belt",
+  "pokemon": [
+    "-Fighting"
+  ],
+  "spawns": [
+    {
+      "and_preset": "caves,mountains",
+      "rate": "0.75"
+    }
+  ],
+  "gender": "Male"
+}

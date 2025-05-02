@@ -1,0 +1,16 @@
+{
+  "type": "burglar",
+  "pokemon": [
+    "koffing",
+    "magmar",
+    "growlithe",
+    "vulpix"
+  ],
+  "spawns": [
+    {
+      "preset": "all",
+      "rate": "0.05"
+    }
+  ],
+  "gender": "Male"
+}

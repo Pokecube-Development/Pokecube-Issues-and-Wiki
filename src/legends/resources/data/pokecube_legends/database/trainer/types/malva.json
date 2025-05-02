@@ -1,0 +1,12 @@
+{
+  "type": "malva",
+  "pokemon": [
+    "pyroar",
+    "torkoal",
+    "chandelure",
+    "talonflame",
+    "camerupt",
+    "camerupt_mega"
+  ],
+  "gender": "Female"
+}

@@ -1,0 +1,115 @@
+{
+  "template": "default",
+  "trades": [
+    {
+      "sell": {
+        "id": "pokecube:pokecube",
+        "count": 8
+      },
+      "buys": [
+        {
+          "id": "minecraft:emerald",
+          "count": 2
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "sell": {
+        "id": "pokecube:greatcube",
+        "count": 8
+      },
+      "buys": [
+        {
+          "id": "minecraft:emerald",
+          "count": 4
+        }
+      ],
+      "values": {
+        "chance": 0.5
+      }
+    },
+    {
+      "sell": {
+        "id": "pokecube:ultracube",
+        "count": 8
+      },
+      "buys": [
+        {
+          "id": "minecraft:emerald",
+          "count": 8
+        }
+      ],
+      "values": {
+        "chance": 0.25
+      }
+    },
+    {
+      "sell": {
+        "id": "pokecube:revive",
+        "count": 2
+      },
+      "buys": [
+        {
+          "id": "minecraft:emerald",
+          "count": 2
+        }
+      ],
+      "values": {
+        "chance": 0.25
+      }
+    },
+    {
+      "custom": "allTMs",
+      "buys": [
+        {
+          "id": "minecraft:emerald",
+          "count": 16
+        }
+      ],
+      "values": {
+        "chance": 0.05
+      }
+    },
+    {
+      "type": "tag_sell",
+      "custom": "pokecube_adventures:mega_sales",
+      "buys": [
+        {
+          "id": "minecraft:emerald",
+          "count": 16
+        }
+      ],
+      "values": {
+        "chance": 0.05
+      }
+    },
+    {
+      "type": "tag_sell",
+      "custom": "pokecube:pokemob_evo",
+      "buys": [
+        {
+          "id": "minecraft:emerald",
+          "count": 16
+        }
+      ],
+      "values": {
+        "chance": 0.05
+      }
+    },
+    {
+      "custom": "sellRandomBadge",
+      "buys": [
+        {
+          "id": "minecraft:emerald",
+          "count": 32
+        }
+      ],
+      "values": {
+        "chance": 0.025
+      }
+    }
+  ]
+}

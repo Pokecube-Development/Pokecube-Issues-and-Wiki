@@ -1,0 +1,21 @@
+{
+  "type": "super_nerd",
+  "pokemon": [
+    "grimer",
+    "magnemite",
+    "voltorb",
+    "koffing",
+    "growlithe",
+    "vulpix",
+    "porygon",
+    "slowpoke",
+    "ponyta"
+  ],
+  "spawns": [
+    {
+      "preset": "all",
+      "rate": "0.05"
+    }
+  ],
+  "gender": "Male"
+}

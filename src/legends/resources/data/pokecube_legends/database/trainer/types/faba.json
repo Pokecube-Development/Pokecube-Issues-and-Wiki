@@ -1,0 +1,16 @@
+{
+  "type": "faba",
+  "pokemon": [
+    "slowbro",
+    "bruxish",
+    "hypno",
+    "raichu_alola",
+    "alakazam",
+    "claydol",
+    "raticate_alola",
+    "magnezone",
+    "toxel",
+    "typenull"
+  ],
+  "gender": "Male"
+}

@@ -1,0 +1,17 @@
+{
+  "type": "gentleman",
+  "pokemon": [
+    "growlithe",
+    "pikachu",
+    "electrike",
+    "zigzagoon",
+    "chatot"
+  ],
+  "spawns": [
+    {
+      "preset": "all",
+      "rate": "0.05"
+    }
+  ],
+  "gender": "Male"
+}

@@ -1,0 +1,13 @@
+{
+  "type": "dragon_tamer",
+  "pokemon": [
+    "-dragon"
+  ],
+  "spawns": [
+    {
+      "preset": "all",
+      "rate": "0.05"
+    }
+  ],
+  "gender": "male"
+}

@@ -1,0 +1,16 @@
+{
+  "type": "roughneck",
+  "pokemon": [
+    "machop",
+    "mankey",
+    "sandile",
+    "scraggy"
+  ],
+  "spawns": [
+    {
+      "preset": "all",
+      "rate": "0.05"
+    }
+  ],
+  "gender": "Male"
+}

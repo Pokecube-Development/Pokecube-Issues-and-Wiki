@@ -1,0 +1,14 @@
+{
+  "type": "tamer",
+  "pokemon": [
+    "ekans",
+    "sandshrew"
+  ],
+  "spawns": [
+    {
+      "preset": "all",
+      "rate": "0.05"
+    }
+  ],
+  "gender": "Male"
+}

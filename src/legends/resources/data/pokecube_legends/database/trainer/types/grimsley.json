@@ -1,0 +1,17 @@
+{
+  "type": "grimsley",
+  "pokemon": [
+    "scrafty",
+    "krookodile",
+    "liepard",
+    "bisharp",
+    "sharpedo",
+    "drapion",
+    "honchkrow",
+    "houndoom",
+    "absol",
+    "tyranitar",
+    "tyranitar_mega"
+  ],
+  "gender": "Male"
+}

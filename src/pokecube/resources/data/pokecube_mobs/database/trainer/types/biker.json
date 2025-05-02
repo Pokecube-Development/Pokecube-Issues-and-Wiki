@@ -1,0 +1,21 @@
+{
+  "type": "biker",
+  "pokemon": [
+    "grimer",
+    "koffing",
+    "voltorb",
+    "magmar",
+    "gulpin",
+    "ekans",
+    "seviper",
+    "croagunk",
+    "skorupi"
+  ],
+  "spawns": [
+    {
+      "preset": "all",
+      "rate": "0.05"
+    }
+  ],
+  "gender": "Male"
+}

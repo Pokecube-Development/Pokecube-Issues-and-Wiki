@@ -1,0 +1,103 @@
+{
+  "template": "miner",
+  "trades": [
+    {
+      "sell": {
+        "count": 2,
+        "id": "pokecube:ultracube"
+      },
+      "buys": [
+        {
+          "count": 6,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "sell": {
+        "count": 1,
+        "id": "minecraft:stone_pickaxe"
+      },
+      "buys": [
+        {
+          "count": 2,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "sell": {
+        "count": 2,
+        "id": "pokecube:duskcube"
+      },
+      "buys": [
+        {
+          "count": 15,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 0.8
+      }
+    },
+    {
+      "sell": {
+        "count": 2,
+        "id": "pokecube:revive"
+      },
+      "buys": [
+        {
+          "count": 6,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 0.8
+      }
+    },
+    {
+      "custom": "allVitamins",
+      "buys": [
+        {
+          "count": 12,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 0.9
+      }
+    },
+    {
+      "type": "tag_sell",
+      "custom": "pokecube:pokemob_evo",
+      "buys": [
+        {
+          "count": 16,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 0.5
+      }
+    },
+    {
+      "type": "tag_sell",
+      "custom": "pokecube_legends:sells_for_64",
+      "buys": [
+        {
+          "count": 64,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 0.05
+      }
+    }
+  ]
+}

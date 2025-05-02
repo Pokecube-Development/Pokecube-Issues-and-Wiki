@@ -1,0 +1,121 @@
+{
+  "type": "hiker",
+  "stages": [
+    {
+      "level": 1,
+      "trades": [
+        {
+          "exp": 5,
+          "sell": {
+            "id": "thut_bling:bling_bag",
+            "count": 1
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 4
+            }
+          ]
+        },
+        {
+          "exp": 5,
+          "sell": {
+            "id": "minecraft:compass",
+            "count": 1
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "trades": [
+        {
+          "custom": "allBerrySell",
+          "exp": 5,
+          "count": 1,
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 3,
+      "trades": [
+        {
+          "exp": 1,
+          "sell": {
+            "id": "minecraft:emerald",
+            "count": 1
+          },
+          "buys": [
+            {
+              "id": "minecraft:bread",
+              "count": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 4,
+      "trades": [
+        {
+          "exp": 1,
+          "sell": {
+            "id": "minecraft:emerald",
+            "count": 1
+          },
+          "buys": [
+            {
+              "id": "minecraft:cookie",
+              "count": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 5,
+      "trades": [
+        {
+          "custom": "sellExplorationMap",
+          "exp": 10,
+          "count": 1,
+          "values": {
+            "id": "pokecube_world:maps/keldeo_place"
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 16
+            }
+          ]
+        },
+        {
+          "custom": "sellExplorationMap",
+          "exp": 10,
+          "count": 1,
+          "values": {
+            "id": "pokecube_world:maps/kubfu_dark"
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 16
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

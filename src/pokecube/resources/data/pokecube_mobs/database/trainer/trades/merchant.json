@@ -1,0 +1,228 @@
+{
+  "template": "merchant",
+  "trades": [
+    {
+      "sell": {
+        "id": "pokecube:pokecube",
+        "count": 4
+      },
+      "buys": [
+        {
+          "id": "minecraft:emerald",
+          "count": 1
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "sell": {
+        "id": "pokecube:greatcube",
+        "count": 2
+      },
+      "buys": [
+        {
+          "id": "minecraft:emerald",
+          "count": 1
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "sell": {
+        "id": "pokecube:ultracube",
+        "count": 1
+      },
+      "buys": [
+        {
+          "id": "minecraft:emerald",
+          "count": 1
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "sell": {
+        "id": "pokecube:mastercube"
+      },
+      "buys": [
+        {
+          "id": "minecraft:emerald_block",
+          "count": 64
+        },
+        {
+          "id": "minecraft:emerald_block",
+          "count": 64
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "sell": {
+        "id": "pokecube:revive",
+        "count": 2
+      },
+      "buys": [
+        {
+          "id": "minecraft:emerald",
+          "count": 1
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "type": "tag_sell",
+      "custom": "pokecube_adventures:mega_sales",
+      "buys": [
+        {
+          "id": "minecraft:emerald",
+          "count": 16
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "custom": "allVitamins",
+      "buys": [
+        {
+          "id": "minecraft:emerald",
+          "count": 8
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "custom": "allTMs",
+      "buys": [
+        {
+          "id": "minecraft:emerald",
+          "count": 16
+        }
+      ],
+      "values": {
+        "chance": 0.005
+      }
+    },
+    {
+      "sell": {
+        "id": "pokecube_adventures:exp_share",
+        "count": 1
+      },
+      "buys": [
+        {
+          "id": "minecraft:emerald",
+          "count": 32
+        }
+      ],
+      "values": {
+        "chance": 0.1
+      }
+    },
+    {
+      "sell": {
+        "id": "pokecube:shiny_charm"
+      },
+      "buys": [
+        {
+          "id": "minecraft:emerald_block",
+          "count": 64
+        },
+        {
+          "id": "minecraft:emerald_block",
+          "count": 64
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "custom": "buyRandomBadge",
+      "sell": {
+        "id": "minecraft:emerald",
+        "count": 16
+      },
+      "buys": [],
+      "values": {
+        "chance": 0.05
+      }
+    },
+    {
+      "custom": "sellRandomStatue",
+      "buys": [
+        {
+          "id": "minecraft:emerald",
+          "count": 8
+        }
+      ],
+      "values": {
+        "chance": 0.005
+      }
+    },
+    {
+      "type": "tag_sell",
+      "custom": "pokecube:pokemob_evo",
+      "buys": [
+        {
+          "id": "minecraft:emerald",
+          "count": 16
+        }
+      ],
+      "values": {
+        "chance": 0.5
+      }
+    },
+    {
+      "type": "tag_sell",
+      "custom": "pokecube_legends:sells_for_16",
+      "buys": [
+        {
+          "id": "minecraft:emerald",
+          "count": 16
+        }
+      ],
+      "values": {
+        "chance": 0.25
+      }
+    },
+    {
+      "type": "tag_sell",
+      "custom": "pokecube_legends:sells_for_32",
+      "buys": [
+        {
+          "id": "minecraft:emerald",
+          "count": 32
+        }
+      ],
+      "values": {
+        "chance": 0.04
+      }
+    },
+    {
+      "type": "tag_sell",
+      "custom": "pokecube_legends:sells_for_64",
+      "buys": [
+        {
+          "id": "minecraft:emerald",
+          "count": 64
+        }
+      ],
+      "values": {
+        "chance": 0.03
+      }
+    }
+  ]
+}

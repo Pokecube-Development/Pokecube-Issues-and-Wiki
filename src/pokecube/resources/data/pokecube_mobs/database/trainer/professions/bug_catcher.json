@@ -1,0 +1,123 @@
+{
+  "type": "bug_catcher",
+  "stages": [
+    {
+      "level": 1,
+      "trades": [
+        {
+          "exp": 1,
+          "sell": {
+            "id": "pokecube:netcube",
+            "count": 4
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "trades": [
+        {
+          "exp": 1,
+          "sell": {
+            "id": "pokecube:nestcube",
+            "count": 4
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 3,
+      "trades": [
+        {
+          "exp": 1,
+          "sell": {
+            "id": "minecraft:string",
+            "count": 4
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "exp": 1,
+          "sell": {
+            "id": "minecraft:spider_eye",
+            "count": 4
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 4,
+      "trades": [
+        {
+          "exp": 1,
+          "sell": {
+            "id": "minecraft:emerald",
+            "count": 1
+          },
+          "buys": [
+            {
+              "id": "minecraft:bread",
+              "count": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 5,
+      "trades": [
+        {
+          "custom": "sellExplorationMap",
+          "exp": 10,
+          "count": 1,
+          "values": {
+            "id": "pokecube_world:maps/celebi_temple"
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 16
+            }
+          ]
+        },
+        {
+          "custom": "sellExplorationMap",
+          "exp": 10,
+          "count": 1,
+          "values": {
+            "id": "pokecube_world:maps/xerneas_place"
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 16
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

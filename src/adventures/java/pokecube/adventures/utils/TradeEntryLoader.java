@@ -246,15 +246,25 @@ public class TradeEntryLoader
                 loaded = JsonUtil.gson.fromJson(reader, JsonObject.class);
                 TradeDatabase database = null;
                 reader.close();
-                if (loaded.has("trades"))
+                if (loaded.has("trades") && !loaded.has("template"))
                 {
                     database = JsonUtil.gson.fromJson(loaded, TradeDatabase.class);
                     full.trades.addAll(database.trades);
+                }
+                else if (loaded.has("template"))
+                {
+                    var entry = JsonUtil.gson.fromJson(loaded, TradeEntry.class);
+                    full.trades.add(entry);
                 }
                 if (loaded.has("professions"))
                 {
                     if (database == null) database = JsonUtil.gson.fromJson(loaded, TradeDatabase.class);
                     full.professions.addAll(database.professions);
+                }
+                else if (loaded.has("stages"))
+                {
+                    var entry = JsonUtil.gson.fromJson(loaded, ProfessionEntry.class);
+                    full.professions.add(entry);
                 }
             }
             catch (final Exception e)

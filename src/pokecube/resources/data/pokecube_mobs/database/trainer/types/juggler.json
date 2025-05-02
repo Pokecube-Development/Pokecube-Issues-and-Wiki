@@ -1,0 +1,16 @@
+{
+  "type": "juggler",
+  "pokemon": [
+    "abra",
+    "drowzee",
+    "mrmime",
+    "voltorb"
+  ],
+  "spawns": [
+    {
+      "preset": "all",
+      "rate": "0.05"
+    }
+  ],
+  "gender": "Male"
+}

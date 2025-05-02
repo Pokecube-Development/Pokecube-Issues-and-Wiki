@@ -1,0 +1,114 @@
+{
+  "type": "sailor",
+  "stages": [
+    {
+      "level": 1,
+      "trades": [
+        {
+          "custom": "sellExplorationMap",
+          "exp": 10,
+          "count": 1,
+          "values": {
+            "id": "pokecube_world:maps/ocean_town"
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 16
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "trades": [
+        {
+          "custom": "sellExplorationMap",
+          "exp": 10,
+          "count": 1,
+          "values": {
+            "id": "pokecube_world:maps/lugia_tower"
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 16
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 3,
+      "trades": [
+        {
+          "custom": "sellExplorationMap",
+          "exp": 10,
+          "count": 1,
+          "values": {
+            "id": "pokecube_world:maps/kyogre_temple"
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 16
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 4,
+      "trades": [
+        {
+          "custom": "sellExplorationMap",
+          "exp": 10,
+          "count": 1,
+          "values": {
+            "id": "pokecube_world:maps/tapus_temple"
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 16
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 5,
+      "trades": [
+        {
+          "custom": "sellExplorationMap",
+          "exp": 10,
+          "count": 1,
+          "values": {
+            "id": "pokecube_world:maps/sky_pillar"
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 16
+            }
+          ]
+        },
+        {
+          "custom": "sellExplorationMap",
+          "exp": 10,
+          "count": 1,
+          "values": {
+            "id": "pokecube_world:maps/kubfu_water"
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 16
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "type": "thutmose",
+  "pokemon": [
+    "ferrothorn",
+    "shuckle",
+    "gardevoir",
+    "gardevoir-mega",
+    "toxapex",
+    "drednaw",
+    "toxtricity-amped",
+    "bulbasaur",
+    "mew",
+    "magnezone",
+    "magikarp"
+  ],
+  "gender": "Male"
+}

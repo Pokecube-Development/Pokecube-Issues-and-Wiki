@@ -1,0 +1,50 @@
+{
+  "template": "faba",
+  "trades": [
+    {
+      "sell": {
+        "count": 1,
+        "id": "pokecube:clonecube"
+      },
+      "buys": [
+        {
+          "count": 32,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "sell": {
+        "count": 2,
+        "id": "pokecube:revive"
+      },
+      "buys": [
+        {
+          "count": 10,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "sell": {
+        "count": 1,
+        "id": "pokecube_legends:imprisonment_helmet"
+      },
+      "buys": [
+        {
+          "count": 64,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    }
+  ]
+}

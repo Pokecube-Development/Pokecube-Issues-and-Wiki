@@ -1,0 +1,14 @@
+{
+  "type": "aaron",
+  "pokemon": [
+    "dustox",
+    "heracross",
+    "vespiquen",
+    "beautifly",
+    "drapion",
+    "yanmega",
+    "scizor",
+    "scizor_mega"
+  ],
+  "gender": "Male"
+}

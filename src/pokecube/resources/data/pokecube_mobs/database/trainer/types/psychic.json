@@ -1,0 +1,13 @@
+{
+  "type": "psychic",
+  "pokemon": [
+    "-psychic"
+  ],
+  "spawns": [
+    {
+      "preset": "all",
+      "rate": "0.05"
+    }
+  ],
+  "gender": "Both"
+}

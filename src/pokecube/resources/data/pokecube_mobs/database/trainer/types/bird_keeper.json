@@ -1,0 +1,26 @@
+{
+  "type": "bird_keeper",
+  "pokemon": [
+    "pidgey",
+    "spearow",
+    "taillow",
+    "wingull",
+    "starly",
+    "pidove",
+    "fletchling",
+    "natu",
+    "skarmory",
+    "doduo",
+    "farfetch'd",
+    "swablu",
+    "hoothoot",
+    "murkrow"
+  ],
+  "spawns": [
+    {
+      "preset": "all",
+      "rate": "0.05"
+    }
+  ],
+  "gender": "Both"
+}

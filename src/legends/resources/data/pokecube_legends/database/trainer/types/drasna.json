@@ -1,0 +1,12 @@
+{
+  "type": "drasna",
+  "pokemon": [
+    "dragalge",
+    "druddigon",
+    "altaria",
+    "noivern",
+    "charizard_mega_y",
+    "tyranitar"
+  ],
+  "gender": "Female"
+}

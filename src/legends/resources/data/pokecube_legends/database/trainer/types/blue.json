@@ -1,0 +1,17 @@
+{
+  "type": "blue",
+  "pokemon": [
+    "aerodactyl",
+    "exeggutor",
+    "gyarados",
+    "alakazam",
+    "arcanine",
+    "machamp",
+    "pidgeot",
+    "tyranitar",
+    "rhyperior",
+    "tauros",
+    "charizard-mega-y"
+  ],
+  "gender": "Male"
+}

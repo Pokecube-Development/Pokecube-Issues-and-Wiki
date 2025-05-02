@@ -1,0 +1,14 @@
+{
+  "type": "glacia",
+  "pokemon": [
+    "glalie",
+    "glalie_mega",
+    "walrein",
+    "sealeo",
+    "froslass",
+    "abomasnow",
+    "beartic",
+    "vanilluxe"
+  ],
+  "gender": "Female"
+}

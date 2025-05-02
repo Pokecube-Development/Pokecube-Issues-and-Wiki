@@ -1,0 +1,16 @@
+{
+  "type": "maxie",
+  "team": "Team Magma",
+  "pokemon": [
+    "mightyena",
+    "golbat",
+    "camerupt",
+    "crobat",
+    "weezing",
+    "groudon",
+    "camerupt_mega",
+    "swellow",
+    "houndoom"
+  ],
+  "gender": "Male"
+}

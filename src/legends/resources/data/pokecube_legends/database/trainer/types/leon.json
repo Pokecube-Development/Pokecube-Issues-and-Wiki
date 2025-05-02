@@ -1,0 +1,16 @@
+{
+  "type": "leon",
+  "pokemon": [
+    "aegislash-shield",
+    "dragapult",
+    "haxorus",
+    "seismitoad",
+    "cinderace",
+    "charizard-gmax",
+    "mr-rime",
+    "inteleon",
+    "rhyperior",
+    "rillaboom"
+  ],
+  "gender": "Male"
+}

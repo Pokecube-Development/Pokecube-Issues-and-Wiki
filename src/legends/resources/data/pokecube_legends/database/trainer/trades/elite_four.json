@@ -1,0 +1,155 @@
+{
+  "template": "elite_four",
+  "trades": [
+    {
+      "sell": {
+        "count": 3,
+        "id": "pokecube:lovecube"
+      },
+      "buys": [
+        {
+          "count": 12,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "sell": {
+        "count": 3,
+        "id": "pokecube:heavycube"
+      },
+      "buys": [
+        {
+          "count": 12,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "sell": {
+        "count": 3,
+        "id": "pokecube:duskcube"
+      },
+      "buys": [
+        {
+          "count": 12,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "sell": {
+        "count": 3,
+        "id": "pokecube:rocketcube"
+      },
+      "buys": [
+        {
+          "count": 12,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "sell": {
+        "count": 3,
+        "id": "pokecube:fastcube"
+      },
+      "buys": [
+        {
+          "count": 12,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "sell": {
+        "count": 3,
+        "id": "pokecube:mooncube"
+      },
+      "buys": [
+        {
+          "count": 12,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "sell": {
+        "count": 3,
+        "id": "pokecube:ultracube"
+      },
+      "buys": [
+        {
+          "count": 12,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "sell": {
+        "count": 3,
+        "id": "pokecube:repeatcube"
+      },
+      "buys": [
+        {
+          "count": 12,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "sell": {
+        "count": 3,
+        "id": "pokecube:divecube"
+      },
+      "buys": [
+        {
+          "count": 12,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "sell": {
+        "count": 2,
+        "id": "pokecube:revive"
+      },
+      "buys": [
+        {
+          "count": 5,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "type": "james",
+  "team": "Team Rocket",
+  "pokemon": [
+    "mime-jr",
+    "carnivine",
+    "inkay",
+    "cacnea",
+    "growlithe",
+    "chimecho",
+    "weezing",
+    "gyarados",
+    "victreebel",
+    "mareanie",
+    "yamask",
+    "amoonguss"
+  ],
+  "gender": "Male"
+}

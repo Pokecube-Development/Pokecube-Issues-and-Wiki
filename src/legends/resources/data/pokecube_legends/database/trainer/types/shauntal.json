@@ -1,0 +1,15 @@
+{
+  "type": "shauntal",
+  "pokemon": [
+    "cofagrigus",
+    "jellicent",
+    "golurk",
+    "chandelure",
+    "froslass",
+    "drifblim",
+    "mismagius",
+    "banette",
+    "gengar"
+  ],
+  "gender": "Female"
+}

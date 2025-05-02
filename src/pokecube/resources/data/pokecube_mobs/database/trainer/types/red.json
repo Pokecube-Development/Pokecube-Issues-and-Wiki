@@ -1,0 +1,23 @@
+{
+  "type": "red",
+  "pokemon": [
+    "#pokecube_mobs:trainer/red"
+  ],
+  "spawns": [
+    {
+      "preset": "all",
+      "rate": "0.05"
+    }
+  ],
+  "gender": "Male",
+  "worn": [
+    {
+      "key": "__BACK__",
+      "options": [
+        {
+          "id": "pokecube_adventures:bag"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "type": "beauty",
+  "pokemon": [
+    "bellsprout",
+    "oddish",
+    "exeggcute",
+    "rattata",
+    "clefairy",
+    "meowth",
+    "jigglypuff",
+    "goldeen",
+    "poliwag",
+    "staryu",
+    "horsea",
+    "cloyster",
+    "paras",
+    "corsola",
+    "hoppip",
+    "sentret",
+    "marill",
+    "wailmer",
+    "kecleon",
+    "seviper",
+    "lotad",
+    "shroomish",
+    "numel",
+    "carvanha",
+    "clamperl",
+    "corphish",
+    "luvdisc",
+    "glameow",
+    "burmy",
+    "skitty",
+    "finneon",
+    "buneary",
+    "fletchling",
+    "espurr",
+    "roserade",
+    "blitzle",
+    "mareep"
+  ],
+  "spawns": [
+    {
+      "preset": "all",
+      "rate": "0.05"
+    }
+  ],
+  "gender": "Female"
+}

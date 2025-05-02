@@ -1,0 +1,17 @@
+{
+  "type": "mustard",
+  "pokemon": [
+    "mienshao",
+    "luxray",
+    "corviknight",
+    "lycanroc-midday",
+    "kommo-o",
+    "urshifu-single-strike",
+    "urshifu-rapid-strike",
+    "lucario-mega",
+    "sawk",
+    "hitmonlee",
+    "hawlucha"
+  ],
+  "gender": "Male"
+}

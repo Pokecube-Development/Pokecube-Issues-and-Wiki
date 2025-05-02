@@ -1,0 +1,16 @@
+{
+  "type": "karen",
+  "pokemon": [
+    "umbreon",
+    "vileplume",
+    "murkrow",
+    "gengar",
+    "houndoom",
+    "weavile",
+    "spiritomb",
+    "absol",
+    "honchkrow",
+    "houndoom_mega"
+  ],
+  "gender": "Female"
+}

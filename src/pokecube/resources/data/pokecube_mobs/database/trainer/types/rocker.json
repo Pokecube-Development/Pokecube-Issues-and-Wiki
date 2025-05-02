@@ -1,0 +1,18 @@
+{
+  "type": "rocker",
+  "pokemon": [
+    "voltorb",
+    "magnemite",
+    "mareep",
+    "zigzagoongalar",
+    "toxel",
+    "grookey"
+  ],
+  "spawns": [
+    {
+      "preset": "all",
+      "rate": "0.05"
+    }
+  ],
+  "gender": "Male"
+}

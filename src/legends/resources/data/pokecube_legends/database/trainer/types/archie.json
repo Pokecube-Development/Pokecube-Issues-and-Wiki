@@ -1,0 +1,16 @@
+{
+  "type": "archie",
+  "team": "Team Aqua",
+  "pokemon": [
+    "mightyena",
+    "golbat",
+    "sharpedo",
+    "crobat",
+    "muk",
+    "kyogre",
+    "sharpedo_mega",
+    "walrein",
+    "tentacruel"
+  ],
+  "gender": "Male"
+}

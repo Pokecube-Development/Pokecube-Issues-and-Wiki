@@ -1,0 +1,13 @@
+{
+  "type": "will",
+  "pokemon": [
+    "xatu",
+    "jynx",
+    "exeggutor",
+    "slowbro",
+    "grumpig",
+    "gardevoir",
+    "bronzong"
+  ],
+  "gender": "Male"
+}

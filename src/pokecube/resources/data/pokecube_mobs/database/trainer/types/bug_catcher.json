@@ -1,0 +1,14 @@
+{
+  "type": "bug_catcher",
+  "pokemon": [
+    "#pokecube_mobs:trainer/bug_catcher"
+  ],
+  "spawns": [
+    {
+      "not_preset": "cold_areas",
+      "and_preset": "forests",
+      "rate": "0.05"
+    }
+  ],
+  "gender": "Male"
+}

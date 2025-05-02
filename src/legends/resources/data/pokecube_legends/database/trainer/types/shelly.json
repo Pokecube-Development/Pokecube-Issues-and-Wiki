@@ -1,0 +1,17 @@
+{
+  "type": "shelly",
+  "pokemon": [
+    "carvanha",
+    "mightyena",
+    "sharpedo",
+    "sharpedo_mega",
+    "grimer",
+    "crawdaunt",
+    "walrein",
+    "lombre",
+    "ludicolo",
+    "vibrava",
+    "nincada"
+  ],
+  "gender": "Female"
+}

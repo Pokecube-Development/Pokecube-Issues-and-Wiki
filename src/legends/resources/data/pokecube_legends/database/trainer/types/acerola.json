@@ -1,0 +1,14 @@
+{
+  "type": "acerola",
+  "pokemon": [
+    "sableye",
+    "dhelmise",
+    "froslass",
+    "palossand",
+    "drifblim",
+    "gengar",
+    "gengar_mega",
+    "banette"
+  ],
+  "gender": "Female"
+}

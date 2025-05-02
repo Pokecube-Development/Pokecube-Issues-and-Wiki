@@ -1,0 +1,65 @@
+{
+  "template": "giovanni",
+  "trades": [
+    {
+      "sell": {
+        "count": 4,
+        "id": "pokecube:ultracube"
+      },
+      "buys": [
+        {
+          "count": 17,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "sell": {
+        "count": 2,
+        "id": "pokecube:rocketcube"
+      },
+      "buys": [
+        {
+          "count": 17,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 0.9
+      }
+    },
+    {
+      "sell": {
+        "count": 2,
+        "id": "pokecube:revive"
+      },
+      "buys": [
+        {
+          "count": 12,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 0.8
+      }
+    },
+    {
+      "sell": {
+        "count": 1,
+        "id": "pokecube:mewhair"
+      },
+      "buys": [
+        {
+          "count": 32,
+          "id": "minecraft:emerald_block"
+        }
+      ],
+      "values": {
+        "chance": 0.1
+      }
+    }
+  ]
+}

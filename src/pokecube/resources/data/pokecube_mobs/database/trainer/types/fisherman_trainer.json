@@ -1,0 +1,33 @@
+{
+  "type": "fisherman_trainer",
+  "pokemon": [
+    "tentacool",
+    "magikarp",
+    "goldeen",
+    "poliwag",
+    "staryu",
+    "shellder",
+    "horsea",
+    "qwilfish",
+    "remoraid",
+    "carvanha",
+    "feebas",
+    "barboach",
+    "wailmer",
+    "finneon",
+    "basculin",
+    "stunfisk",
+    "frillish",
+    "krabby"
+  ],
+  "spawns": [
+    {
+      "or_preset": "lake_ground,river_ground,beach_ground,ocean_ground",
+      "rate": "0.25"
+    }
+  ],
+  "gender": "Male",
+  "held": {
+    "id": "minecraft:fishing_rod"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "type": "flint",
+  "pokemon": [
+    "rapidash",
+    "infernape",
+    "steelix",
+    "flareon",
+    "magmortar",
+    "drifblim",
+    "lopunny",
+    "houndoom",
+    "steelix_mega"
+  ],
+  "gender": "Male"
+}

@@ -1,0 +1,13 @@
+{
+  "type": "youngster",
+  "pokemon": [
+    "#pokecube_mobs:trainer/youngster"
+  ],
+  "spawns": [
+    {
+      "preset": "all_not_caves",
+      "rate": "0.5"
+    }
+  ],
+  "gender": "Male"
+}

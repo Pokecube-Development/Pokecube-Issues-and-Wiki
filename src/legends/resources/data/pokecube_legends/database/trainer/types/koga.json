@@ -1,0 +1,14 @@
+{
+  "type": "koga",
+  "pokemon": [
+    "ariados",
+    "forretress",
+    "muk",
+    "venomoth",
+    "crobat",
+    "skuntank",
+    "toxicroak",
+    "swalot"
+  ],
+  "gender": "Male"
+}

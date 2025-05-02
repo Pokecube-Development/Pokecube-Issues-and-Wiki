@@ -1,0 +1,50 @@
+{
+  "template": "lusamine",
+  "trades": [
+    {
+      "sell": {
+        "count": 1,
+        "id": "pokecube:beastcube"
+      },
+      "buys": [
+        {
+          "count": 32,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "sell": {
+        "count": 2,
+        "id": "pokecube:revive"
+      },
+      "buys": [
+        {
+          "count": 10,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "sell": {
+        "count": 1,
+        "id": "pokecube_legends:ultrakey"
+      },
+      "buys": [
+        {
+          "count": 5,
+          "id": "minecraft:emerald_block"
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "type": "lance",
+  "pokemon": [
+    "seadra",
+    "aerodactyl",
+    "gyarados",
+    "exeggutor_alola",
+    "charizard",
+    "dragonite",
+    "kingdra",
+    "charizard_mega_x"
+  ],
+  "gender": "Male"
+}

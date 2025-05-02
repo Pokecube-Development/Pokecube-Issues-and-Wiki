@@ -1,0 +1,20 @@
+{
+  "type": "lusamine",
+  "pokemon": [
+    "clefable",
+    "lilligant",
+    "mismagius",
+    "milotic",
+    "bewear",
+    "lopunny",
+    "nihilego",
+    "magmar",
+    "starmie",
+    "salazzle",
+    "granbull",
+    "absol",
+    "solrock",
+    "lunatone"
+  ],
+  "gender": "Female"
+}

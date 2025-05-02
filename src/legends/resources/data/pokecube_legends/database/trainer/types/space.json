@@ -1,0 +1,29 @@
+{
+  "type": "space",
+  "pokemon": [
+    "poipole",
+    "naganadel",
+    "nihilego",
+    "buzzwole",
+    "kartana",
+    "pheromosa",
+    "gardevoir",
+    "scolipede",
+    "cofagrigus",
+    "zoroark",
+    "klinklang",
+    "elgyem",
+    "beheeyem",
+    "golurk",
+    "inkay",
+    "malamar",
+    "trevenant",
+    "vikavolt",
+    "araquanid",
+    "oranguru",
+    "xurkitree",
+    "hatterene",
+    "grimmsnarl"
+  ],
+  "gender": "Both"
+}

@@ -1,0 +1,15 @@
+{
+  "type": "marshal",
+  "pokemon": [
+    "sawk",
+    "throh",
+    "mienshao",
+    "conkeldurr",
+    "toxicroak",
+    "breloom",
+    "medicham",
+    "lucario",
+    "machamp"
+  ],
+  "gender": "Male"
+}

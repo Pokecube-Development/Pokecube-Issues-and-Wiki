@@ -1,0 +1,155 @@
+{
+  "profession": "pokecube_adventures:healer",
+  "stages": [
+    {
+      "level": 1,
+      "trades": [
+        {
+          "exp": 1,
+          "sell": {
+            "id": "pokecube:revive",
+            "count": 8
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 4
+            }
+          ]
+        },
+        {
+          "exp": 1,
+          "sell": {
+            "id": "pokecube:berryjuice",
+            "count": 16
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "trades": [
+        {
+          "custom": "allVitamins",
+          "exp": 5,
+          "count": 4,
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 12
+            }
+          ]
+        },
+        {
+          "custom": "sellExplorationMap",
+          "exp": 5,
+          "values": {
+            "id": "pokecube_world:town"
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 4
+            }
+          ]
+        },
+        {
+          "custom": "sellExplorationMap",
+          "exp": 5,
+          "values": {
+            "id": "pokecube_world:village"
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 3,
+      "trades": [
+        {
+          "custom": "allBerrySell",
+          "exp": 1,
+          "count": 1,
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 3
+            }
+          ]
+        },
+        {
+          "custom": "allBerryBuy",
+          "exp": 1,
+          "count": 16,
+          "sell": {
+            "id": "minecraft:emerald",
+            "count": 1
+          }
+        }
+      ]
+    },
+    {
+      "level": 4,
+      "trades": [
+        {
+          "exp": 5,
+          "maxUses": 1,
+          "sell": {
+            "id": "minecraft:glistering_melon_slice",
+            "count": 3
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 3
+            }
+          ]
+        },
+        {
+          "exp": 5,
+          "maxUses": 1,
+          "sell": {
+            "id": "minecraft:golden_carrot",
+            "count": 3
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 5,
+      "trades": [
+        {
+          "exp": 5,
+          "maxUses": 1,
+          "sell": {
+            "id": "minecraft:golden_apple",
+            "count": 1
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 2
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -43,7 +43,7 @@ public class TrainerEntryLoader
     {
         String tradeTemplate = "default";
         String type;
-        String pokemon;
+        List<String> pokemon;
         String gender;
         boolean belt = true;
         boolean holdReward = true;
@@ -99,7 +99,6 @@ public class TrainerEntryLoader
                     {
                         if (entry.type != null) entry.type = ThutCore.trim(entry.type);
                         else continue;
-                        if (entry.pokemon != null) entry.pokemon = entry.pokemon.trim();
                         if (entry.gender != null) entry.gender = entry.gender.trim();
                         full.addEntry(entry);
                     }
@@ -109,7 +108,6 @@ public class TrainerEntryLoader
                 {
                     var entry = JsonUtil.gson.fromJson(loaded, TrainerEntry.class);
                     entry.type = ThutCore.trim(entry.type);
-                    if (entry.pokemon != null) entry.pokemon = entry.pokemon.trim();
                     if (entry.gender != null) entry.gender = entry.gender.trim();
                     full.addEntry(entry);
                 }
@@ -166,9 +164,8 @@ public class TrainerEntryLoader
             if (entry.pokemon == null) type.pokelist = new String[] {};
             else
             {
-                var arr = entry.pokemon.split(",");
                 var list = new ArrayList<String>();
-                for (var _entry : arr)
+                for (var _entry : entry.pokemon)
                 {
                     if (_entry.startsWith("#"))
                     {

@@ -1,0 +1,16 @@
+{
+  "type": "sidney",
+  "pokemon": [
+    "absol",
+    "absol_mega",
+    "mightyena",
+    "shiftry",
+    "cacturne",
+    "sharpedo",
+    "crawdaunt",
+    "scrafty",
+    "zoroark",
+    "mandibuzz"
+  ],
+  "gender": "Male"
+}

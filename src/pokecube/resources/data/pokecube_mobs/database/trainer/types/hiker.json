@@ -1,0 +1,44 @@
+{
+  "type": "hiker",
+  "pokemon": [
+    "geodude",
+    "onix",
+    "machop",
+    "diglett",
+    "sandshrew",
+    "swinub",
+    "nosepass",
+    "numel",
+    "baltoy",
+    "zubat",
+    "bronzor",
+    "dunsparce",
+    "woobat",
+    "timburr",
+    "roggenrola",
+    "aron"
+  ],
+  "spawns": [
+    {
+      "and_preset": "caves,mountains",
+      "rate": "1.0"
+    }
+  ],
+  "gender": "Male",
+  "worn": [
+    {
+      "key": "__BACK__",
+      "options": [
+        {
+          "id": "pokecube_adventures:bag",
+          "components": {
+            "minecraft:dyed_color": {
+              "show_in_tooltip": false,
+              "rgb": 6192150
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

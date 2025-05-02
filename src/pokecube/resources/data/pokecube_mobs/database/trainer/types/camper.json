@@ -1,0 +1,24 @@
+{
+  "type": "camper",
+  "pokemon": [
+    "diglett",
+    "rattata",
+    "sandshrew",
+    "ekans",
+    "mankey",
+    "zubat",
+    "zigzagoon",
+    "taillow",
+    "seedot",
+    "baltoy",
+    "spearow",
+    "nidoranM"
+  ],
+  "spawns": [
+    {
+      "preset": "all",
+      "rate": "0.05"
+    }
+  ],
+  "gender": "Male"
+}

@@ -1,0 +1,50 @@
+{
+  "template": "archie",
+  "trades": [
+    {
+      "sell": {
+        "count": 4,
+        "id": "pokecube:ultracube"
+      },
+      "buys": [
+        {
+          "count": 17,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 1.0
+      }
+    },
+    {
+      "sell": {
+        "count": 2,
+        "id": "pokecube:teamaquacube"
+      },
+      "buys": [
+        {
+          "count": 17,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 0.9
+      }
+    },
+    {
+      "sell": {
+        "count": 2,
+        "id": "pokecube:revive"
+      },
+      "buys": [
+        {
+          "count": 12,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 0.8
+      }
+    }
+  ]
+}

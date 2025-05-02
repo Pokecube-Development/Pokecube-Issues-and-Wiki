@@ -1,0 +1,17 @@
+{
+  "type": "engineer",
+  "pokemon": [
+    "magnemite"
+  ],
+  "spawns": [
+    {
+      "preset": "industrial",
+      "rate": "0.05"
+    },
+    {
+      "preset": "villages",
+      "rate": "0.05"
+    }
+  ],
+  "gender": "Male"
+}

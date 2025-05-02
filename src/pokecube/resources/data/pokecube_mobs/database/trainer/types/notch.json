@@ -1,0 +1,13 @@
+{
+  "type": "notch",
+  "pokemon": [
+    "arceus"
+  ],
+  "spawns": [
+    {
+      "preset": "end",
+      "rate": "0.05"
+    }
+  ],
+  "gender": "Male"
+}

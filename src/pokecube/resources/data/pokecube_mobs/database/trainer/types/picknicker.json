@@ -1,0 +1,34 @@
+{
+  "type": "picknicker",
+  "pokemon": [
+    "goldeen",
+    "pidgey",
+    "rattata",
+    "pikachu",
+    "poliwag",
+    "meowth",
+    "oddish",
+    "ponyta",
+    "hoppip",
+    "bellsprout",
+    "shroomish",
+    "marill",
+    "swablu",
+    "lotad",
+    "clefairy",
+    "nidoranF",
+    "paras",
+    "pachirisu",
+    "bidoof",
+    "psyduck",
+    "shinx",
+    "cherubi"
+  ],
+  "spawns": [
+    {
+      "preset": "all",
+      "rate": "0.05"
+    }
+  ],
+  "gender": "Female"
+}

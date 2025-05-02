@@ -1,0 +1,14 @@
+{
+  "type": "drake",
+  "pokemon": [
+    "shelgon",
+    "altaria",
+    "flygon",
+    "salamence",
+    "kingdra",
+    "dragalge",
+    "haxorus",
+    "salamence_mega"
+  ],
+  "gender": "Male"
+}

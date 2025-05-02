@@ -1,0 +1,9 @@
+{
+  "type": "healer",
+  "belt": false,
+  "holdReward": false,
+  "pokemon": [
+    "chansey"
+  ],
+  "gender": "female"
+}

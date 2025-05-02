@@ -1,0 +1,9 @@
+{
+  "type": "professor",
+  "belt": false,
+  "holdReward": false,
+  "pokemon": [
+    "#starters"
+  ],
+  "gender": "both"
+}

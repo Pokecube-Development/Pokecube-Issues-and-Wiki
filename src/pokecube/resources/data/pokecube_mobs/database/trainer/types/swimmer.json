@@ -1,0 +1,38 @@
+{
+  "type": "swimmer",
+  "pokemon": [
+    "horsea",
+    "cloyster",
+    "goldeen",
+    "staryu",
+    "poliwag",
+    "tentacool",
+    "psyduck",
+    "remoraid",
+    "magikarp",
+    "wingull",
+    "wailmer",
+    "marill",
+    "carvanha",
+    "luvdisc",
+    "spheal",
+    "chinchou",
+    "mantine",
+    "seel",
+    "finneon",
+    "buizel",
+    "qwilfish",
+    "bidoof",
+    "lapras",
+    "frillish",
+    "clamperl",
+    "skrelp"
+  ],
+  "spawns": [
+    {
+      "or_preset": "lakes,beaches,oceans,rivers",
+      "rate": "0.25"
+    }
+  ],
+  "gender": "Both"
+}

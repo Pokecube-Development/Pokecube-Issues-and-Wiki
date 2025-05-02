@@ -1,0 +1,18 @@
+{
+  "type": "wallace",
+  "pokemon": [
+    "milotic",
+    "sharpedo",
+    "walrein",
+    "ludicolo",
+    "swampert",
+    "starmie",
+    "luvdisc",
+    "whiscash",
+    "seaking",
+    "wailord",
+    "tentacruel",
+    "gyarados"
+  ],
+  "gender": "Male"
+}

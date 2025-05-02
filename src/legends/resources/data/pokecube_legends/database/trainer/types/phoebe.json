@@ -1,0 +1,14 @@
+{
+  "type": "phoebe",
+  "pokemon": [
+    "dusclops",
+    "banette",
+    "sableye",
+    "dusknoir",
+    "mismagius",
+    "drifblim",
+    "chandelure",
+    "sableye_mega"
+  ],
+  "gender": "Female"
+}

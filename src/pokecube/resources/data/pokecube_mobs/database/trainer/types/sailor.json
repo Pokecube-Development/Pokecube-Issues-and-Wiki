@@ -1,0 +1,27 @@
+{
+  "type": "sailor",
+  "pokemon": [
+    "machop",
+    "tentacool",
+    "cloyster",
+    "horsea",
+    "krabby",
+    "poliwag",
+    "rattata",
+    "wingull",
+    "spheal",
+    "wailmer",
+    "mantine",
+    "shellos",
+    "magikarp",
+    "marill",
+    "wooper"
+  ],
+  "spawns": [
+    {
+      "or_preset": "beach_ground,ocean_ground",
+      "rate": "0.25"
+    }
+  ],
+  "gender": "Male"
+}

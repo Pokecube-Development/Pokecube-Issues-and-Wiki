@@ -1,0 +1,20 @@
+{
+  "type": "poke_maniac",
+  "pokemon": [
+    "cubone",
+    "slowpoke",
+    "kangaskhan",
+    "lickitung",
+    "nidoranM",
+    "nidoranF",
+    "rhyhorn",
+    "aron"
+  ],
+  "spawns": [
+    {
+      "preset": "all",
+      "rate": "0.05"
+    }
+  ],
+  "gender": "Male"
+}

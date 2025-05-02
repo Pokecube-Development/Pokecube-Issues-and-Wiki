@@ -1,0 +1,17 @@
+{
+  "type": "magma",
+  "team": "Team Magma",
+  "pokemon": [
+    "poochyena",
+    "numel",
+    "zubat",
+    "baltoy",
+    "koffing",
+    "houndoom",
+    "magcargo",
+    "sandslash",
+    "bagon",
+    "shuppet"
+  ],
+  "gender": "Both"
+}

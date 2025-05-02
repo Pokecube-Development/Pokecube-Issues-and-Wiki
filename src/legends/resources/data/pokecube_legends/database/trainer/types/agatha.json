@@ -1,0 +1,14 @@
+{
+  "type": "agatha",
+  "pokemon": [
+    "arbok",
+    "gengar_mega",
+    "golbat",
+    "weezing",
+    "gengar",
+    "marowak_alola",
+    "crobat",
+    "misdreavus"
+  ],
+  "gender": "Female"
+}

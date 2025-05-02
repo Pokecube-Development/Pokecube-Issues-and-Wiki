@@ -1,0 +1,193 @@
+{
+  "type": "poke_maniac",
+  "stages": [
+    {
+      "level": 1,
+      "trades": [
+        {
+          "exp": 1,
+          "sell": {
+            "id": "pokecube:repeatcube",
+            "count": 4
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "exp": 1,
+          "sell": {
+            "id": "pokecube:timercube",
+            "count": 4
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "trades": [
+        {
+          "custom": "allBerrySell",
+          "exp": 2,
+          "count": 1,
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 3,
+      "trades": [
+        {
+          "custom": "sellExplorationMap",
+          "exp": 10,
+          "count": 1,
+          "values": {
+            "id": "pokecube_world:maps/unown_temple_overworld"
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 16
+            }
+          ]
+        },
+        {
+          "custom": "sellExplorationMap",
+          "exp": 10,
+          "count": 1,
+          "values": {
+            "id": "pokecube_world:maps/unown_temple_distortic"
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 16
+            }
+          ]
+        },
+        {
+          "custom": "sellExplorationMap",
+          "exp": 10,
+          "count": 1,
+          "values": {
+            "id": "pokecube_world:maps/unown_temple_ultraspace"
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 16
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 4,
+      "trades": [
+        {
+          "custom": "sellExplorationMap",
+          "exp": 10,
+          "count": 1,
+          "values": {
+            "id": "pokecube_world:maps/regice_temple"
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 16
+            }
+          ]
+        },
+        {
+          "custom": "sellExplorationMap",
+          "exp": 10,
+          "count": 1,
+          "values": {
+            "id": "pokecube_world:maps/regirock_temple"
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 16
+            }
+          ]
+        },
+        {
+          "custom": "sellExplorationMap",
+          "exp": 10,
+          "count": 1,
+          "values": {
+            "id": "pokecube_world:maps/registeel_temple"
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 16
+            }
+          ]
+        },
+        {
+          "custom": "sellExplorationMap",
+          "exp": 10,
+          "count": 1,
+          "values": {
+            "id": "pokecube_world:maps/regidrago_temple"
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 16
+            }
+          ]
+        },
+        {
+          "custom": "sellExplorationMap",
+          "exp": 10,
+          "count": 1,
+          "values": {
+            "id": "pokecube_world:maps/regieleki_temple"
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 16
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 5,
+      "trades": [
+        {
+          "custom": "sellExplorationMap",
+          "exp": 10,
+          "count": 1,
+          "values": {
+            "id": "pokecube_world:maps/regigigas_temple"
+          },
+          "buys": [
+            {
+              "id": "minecraft:emerald",
+              "count": 16
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

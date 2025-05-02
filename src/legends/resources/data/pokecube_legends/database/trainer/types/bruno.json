@@ -1,0 +1,16 @@
+{
+  "type": "bruno",
+  "pokemon": [
+    "onix",
+    "steelix",
+    "hitmonlee",
+    "hitmonchan",
+    "poliwrath",
+    "machamp",
+    "golem_alola",
+    "lucario",
+    "hitmontop",
+    "hariyama"
+  ],
+  "gender": "Male"
+}

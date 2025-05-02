@@ -1,0 +1,50 @@
+{
+  "template": "rocket",
+  "trades": [
+    {
+      "sell": {
+        "count": 2,
+        "id": "pokecube:rocketcube"
+      },
+      "buys": [
+        {
+          "count": 17,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 0.9
+      }
+    },
+    {
+      "sell": {
+        "count": 2,
+        "id": "pokecube:revive"
+      },
+      "buys": [
+        {
+          "count": 12,
+          "id": "minecraft:emerald"
+        }
+      ],
+      "values": {
+        "chance": 0.8
+      }
+    },
+    {
+      "sell": {
+        "count": 1,
+        "id": "minecraft:emerald"
+      },
+      "buys": [
+        {
+          "count": 2,
+          "id": "minecraft:diamond"
+        }
+      ],
+      "values": {
+        "chance": 0.8
+      }
+    }
+  ]
+}

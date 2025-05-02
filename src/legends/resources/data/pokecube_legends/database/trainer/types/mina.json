@@ -1,0 +1,16 @@
+{
+  "type": "mina",
+  "pokemon": [
+    "spiritomb",
+    "roserade",
+    "gastrodon",
+    "lucario",
+    "milotic",
+    "garchomp",
+    "togekiss",
+    "eelektross",
+    "braviary",
+    "glaceon"
+  ],
+  "gender": "Female"
+}

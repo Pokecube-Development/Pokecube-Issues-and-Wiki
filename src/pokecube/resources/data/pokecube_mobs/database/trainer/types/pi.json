@@ -1,0 +1,16 @@
+{
+  "type": "pi",
+  "pokemon": [
+    "poliwag",
+    "growlithe",
+    "vulpix",
+    "goldeen"
+  ],
+  "spawns": [
+    {
+      "preset": "all",
+      "rate": "0.05"
+    }
+  ],
+  "gender": "Male"
+}

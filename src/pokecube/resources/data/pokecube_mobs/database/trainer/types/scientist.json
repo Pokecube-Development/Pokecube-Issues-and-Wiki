@@ -1,0 +1,29 @@
+{
+  "type": "scientist",
+  "pokemon": [
+    "grimer",
+    "magnemite",
+    "voltorb",
+    "koffing",
+    "porygon",
+    "ditto",
+    "abra",
+    "ralts",
+    "munna",
+    "drowzee",
+    "klink",
+    "deerling",
+    "elgyem"
+  ],
+  "spawns": [
+    {
+      "preset": "industrial",
+      "rate": "0.05"
+    },
+    {
+      "preset": "villages",
+      "rate": "0.05"
+    }
+  ],
+  "gender": "Male"
+}

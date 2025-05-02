@@ -1,0 +1,12 @@
+{
+  "type": "wikstrom",
+  "pokemon": [
+    "klefki",
+    "probopass",
+    "scizor",
+    "aegislash_shield",
+    "sirfetchd",
+    "escavalier"
+  ],
+  "gender": "Male"
+}

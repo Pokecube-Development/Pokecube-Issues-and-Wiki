@@ -1,0 +1,22 @@
+{
+  "type": "miner",
+  "pokemon": [
+    "geodude",
+    "diglett",
+    "phanpy",
+    "trapinch",
+    "hippopotas",
+    "drilbur",
+    "mudbray",
+    "silicobra",
+    "baltoy",
+    "gliscor",
+    "sandile",
+    "yamask_galar",
+    "nincada",
+    "numel",
+    "palpitoad",
+    "sandygast"
+  ],
+  "gender": "Both"
+}

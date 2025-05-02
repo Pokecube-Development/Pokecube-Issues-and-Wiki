@@ -1,0 +1,13 @@
+{
+  "type": "cooltrainer",
+  "pokemon": [
+    "-all"
+  ],
+  "spawns": [
+    {
+      "preset": "all",
+      "rate": "0.05"
+    }
+  ],
+  "gender": "Both"
+}

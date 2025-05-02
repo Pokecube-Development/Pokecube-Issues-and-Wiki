@@ -1,0 +1,12 @@
+{
+  "type": "lorelei",
+  "pokemon": [
+    "dewgong",
+    "jynx",
+    "cloyster",
+    "slowbro",
+    "sandslash_alola",
+    "lapras"
+  ],
+  "gender": "Female"
+}

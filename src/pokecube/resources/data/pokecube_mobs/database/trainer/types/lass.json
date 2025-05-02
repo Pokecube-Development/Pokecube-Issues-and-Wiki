@@ -1,0 +1,46 @@
+{
+  "type": "lass",
+  "pokemon": [
+    "nidoranm",
+    "nidoranf",
+    "pidgey",
+    "rattata",
+    "pikachu",
+    "meowth",
+    "bellsprout",
+    "oddish",
+    "clefairy",
+    "jigglypuff",
+    "paras",
+    "chingling",
+    "buneary",
+    "pachirisu",
+    "budew",
+    "abra",
+    "starly",
+    "psyduck",
+    "bidoof",
+    "hoppip",
+    "luvdisc",
+    "wailmer",
+    "lotad",
+    "shroomish",
+    "marill",
+    "skitty",
+    "purrloin",
+    "woobat",
+    "seedot",
+    "deerling",
+    "gothita",
+    "ducklett",
+    "vulpix",
+    "lillipup"
+  ],
+  "spawns": [
+    {
+      "preset": "all_not_caves",
+      "rate": "0.5"
+    }
+  ],
+  "gender": "Female"
+}

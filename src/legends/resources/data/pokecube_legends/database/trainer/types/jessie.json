@@ -1,0 +1,18 @@
+{
+  "type": "jessie",
+  "team": "Team Rocket",
+  "pokemon": [
+    "wobbuffet",
+    "morpeko-full-belly",
+    "seviper",
+    "yanmega",
+    "pumpkaboo-average",
+    "gourgeist-average",
+    "arbok",
+    "dustox",
+    "mimikyu-disguised",
+    "lickitung",
+    "frillish"
+  ],
+  "gender": "Female"
+}
