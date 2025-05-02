@@ -85,7 +85,7 @@ public class PokecubeMobs
     {
         if (PokecubeCore.getConfig().debug_misc && !FMLLoader.isProduction())
         {
-            DataGenerator.execute(false);
+//            DataGenerator.execute(false);
         }
     }
 
