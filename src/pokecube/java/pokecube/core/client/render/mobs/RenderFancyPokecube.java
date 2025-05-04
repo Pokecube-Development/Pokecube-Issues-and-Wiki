@@ -196,7 +196,6 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
         if (capturing != null)
         {
             int duration = CaptureManager.CAPTURE_SHRINK_TIMER;
-            var renderer = this.entityRenderDispatcher.getRenderer(capturing);
             float dt = (duration - (capturing.tickCount + partialTicks));
             float scale = dt / duration;
             if (scale > 0)
@@ -211,13 +210,15 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
                     float scaleShift;
                     final PokedexEntry entry = pokemob.getPokedexEntry();
                     var dims = entry.getModelSize();
-                    scaleShift = dims.y * pokemob.getEntity().getScale() * scale / 2;
+                    scaleShift = dims.y * pokemob.getEntity().getScale() / 2;
                     float mobScale = pokemob.getEntity().getScale();
                     scale = 0.1f * Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
                     Evolution.renderEffect(pokemob, stack, bufferIn, partialTicks, (int) dt, duration, scale,
                             scaleShift, true);
                 }
-                renderer.render(capturing, entityYaw, partialTicks, stack, bufferIn, packedLightIn);
+                // TODO decide on whether we want to render the mob shrinking as well?
+//                var renderer = this.entityRenderDispatcher.getRenderer(capturing);
+//                renderer.render(capturing, entityYaw, partialTicks, stack, bufferIn, packedLightIn);
                 stack.popPose();
             }
         }
