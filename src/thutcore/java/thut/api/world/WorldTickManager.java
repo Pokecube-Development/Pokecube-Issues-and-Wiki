@@ -1,14 +1,7 @@
 package thut.api.world;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
@@ -18,6 +11,12 @@ import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import thut.api.Tracker;
 import thut.core.common.ThutCore;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 @EventBusSubscriber
 public class WorldTickManager
@@ -52,6 +51,7 @@ public class WorldTickManager
 
         private final List<IWorldTickListener> pendingRemove = Lists.newArrayList();
         private final List<IWorldTickListener> pendingAdd = Lists.newArrayList();
+        private final List<DelayedTask> pendingDelayed = new ArrayList<>();
         private final List<DelayedTask> delayed = new ArrayList<>();
 
         private boolean ticking = false;
@@ -82,21 +82,24 @@ public class WorldTickManager
             this.pendingRemove.clear();
             this.pendingAdd.clear();
 
-            synchronized (delayed)
+            synchronized (pendingDelayed)
             {
-                delayed.removeIf(task -> {
-                    if (task.getTick() > Tracker.instance().getTick()) return false;
-                    try
-                    {
-                        task.run();
-                    }
-                    catch (Exception e)
-                    {
-                        ThutCore.LOGGER.error("Error running a delayed task!", e);
-                    }
-                    return true;
-                });
+                this.delayed.addAll(pendingDelayed);
+                pendingDelayed.clear();
             }
+
+            delayed.removeIf(task -> {
+                if (task.getTick() > Tracker.instance().getTick()) return false;
+                try
+                {
+                    task.run();
+                }
+                catch (Exception e)
+                {
+                    ThutCore.LOGGER.error("Error running a delayed task!", e);
+                }
+                return true;
+            });
         }
 
         public void addData(final IWorldTickListener data)
@@ -119,9 +122,9 @@ public class WorldTickManager
 
         public void addDelayedTask(DelayedTask task)
         {
-            synchronized (this.delayed)
+            synchronized (pendingDelayed)
             {
-                this.delayed.add(task);
+                this.pendingDelayed.add(task);
             }
         }
 
