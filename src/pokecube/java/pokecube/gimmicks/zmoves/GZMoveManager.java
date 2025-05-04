@@ -1,12 +1,6 @@
 package pokecube.gimmicks.zmoves;
 
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.regex.Pattern;
-
 import com.google.common.collect.Maps;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -27,6 +21,7 @@ import pokecube.api.entity.pokemob.commandhandlers.StanceHandler.ModeInfo;
 import pokecube.api.events.pokemobs.combat.MoveUse.DuringUse;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.MoveEntry.PowerProvider;
+import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.tags.Tags;
@@ -40,6 +35,12 @@ import thut.api.Tracker.UpdateHandler;
 import thut.core.common.ThutCore;
 import thut.core.common.network.GeneralUpdate;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.Consumer;
+import java.util.regex.Pattern;
+
 @EventBusSubscriber(bus = Bus.MOD, modid = PokecubeCore.MODID)
 public class GZMoveManager
 {
@@ -47,12 +48,12 @@ public class GZMoveManager
 
     public static Map<String, String> zmoves_map = Maps.newHashMap();
     public static Map<String, List<String>> z_sig_moves_map = Maps.newHashMap();
-    private static Map<String, String> gmoves_map = Maps.newHashMap();
-    private static Map<String, String> g_max_moves_map = Maps.newHashMap();
+    private static final Map<String, String> gmoves_map = Maps.newHashMap();
+    private static final Map<String, String> g_max_moves_map = Maps.newHashMap();
 
-    private static Map<PokeType, MoveEntry> physical_z_moves_by_type = Maps.newHashMap();
-    private static Map<PokeType, MoveEntry> special_z_moves_by_type = Maps.newHashMap();
-    private static Map<PokeType, MoveEntry> d_moves_by_type = Maps.newHashMap();
+    private static final Map<PokeType, MoveEntry> physical_z_moves_by_type = Maps.newHashMap();
+    private static final Map<PokeType, MoveEntry> special_z_moves_by_type = Maps.newHashMap();
+    private static final Map<PokeType, MoveEntry> d_moves_by_type = Maps.newHashMap();
 
     static final Pattern GMAXENTRY = Pattern.compile("(that_gigantamax_)(\\w+)(_use)");
 
@@ -227,32 +228,26 @@ public class GZMoveManager
                 gmoves_map.put(move.name, zmove.name);
                 return zmove;
             });
-            switch (move.category)
+            if (Objects.requireNonNull(move.category) == IMoveConstants.AttackCategory.PHYSICAL)
             {
-            case PHYSICAL:
                 physical_z_moves_by_type.computeIfPresent(move.type, (type, zmove) -> {
                     zmoves_map.put(move.name, zmove.name);
                     return zmove;
                 });
-                break;
-            default:
+            }
+            else
+            {
                 special_z_moves_by_type.computeIfPresent(move.type, (type, zmove) -> {
                     zmoves_map.put(move.name, zmove.name);
                     return zmove;
                 });
-                break;
             }
         });
     }
 
     /**
-     * Returns a Z move based on the current selected attack of the user, if no
-     * zmove available, or not able to use one (ie no crystal held), or the mob
-     * is on cooldown for zmoves, then this will return null.
-     *
-     * @param user
-     * @param index - move index to check
-     * @return
+     * Returns a Z move based on the current selected attack of the user, if no zmove available, or not able to use one
+     * (ie no crystal held), or the mob is on cooldown for zmoves, then this will return null.
      */
     public static String getZMove(final IPokemob user, final String base_move)
     {
@@ -275,14 +270,8 @@ public class GZMoveManager
     }
 
     /**
-     * Returns a Z move based on the current selected attack of the user, if no
-     * zmove available, or not able to use one (ie no crystal held), or the mob
-     * is on cooldown for zmoves, then this will return null.
-     *
-     * @param user
-     * @param gigant
-     * @param index  - move index to check
-     * @return
+     * Returns a Z move based on the current selected attack of the user, if no zmove available, or not able to use one
+     * (ie no crystal held), or the mob is on cooldown for zmoves, then this will return null.
      */
     public static String getGMove(final IPokemob user, final String base_move, boolean gigant)
     {

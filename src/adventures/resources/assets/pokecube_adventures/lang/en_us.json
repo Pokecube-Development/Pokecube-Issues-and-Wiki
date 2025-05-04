@@ -430,6 +430,7 @@
     "pokecube_adventures.tooltip.gene.parent.colour": "%1$s/%2$s",
     "pokecube_adventures.tooltip.gene.parent.evs": "%1$s/%2$s",
     "pokecube_adventures.tooltip.gene.parent.gmax": "%1$s/%2$s",
+    "pokecube_adventures.tooltip.gene.parent.tera": "%1$s/%2$s",
 
     "pokecube_adventures.tooltip.selector.gene.shiny": "Shiny",
     "pokecube_adventures.tooltip.selector.gene.ivs": "IVs",

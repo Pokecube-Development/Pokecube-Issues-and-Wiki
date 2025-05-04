@@ -30,6 +30,7 @@ import net.neoforged.neoforge.common.util.FakePlayer;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.events.PokecubeTooltipEvent;
 import pokecube.api.items.IPokecube;
 import pokecube.api.items.PokecubeContents;
 import pokecube.api.utils.Tools;
@@ -188,12 +189,11 @@ public class Pokecube extends Item implements IPokecube
                         TComponent.translatable("pokecube.tooltip.evs", arg.toString()).withStyle(ChatFormatting.GRAY));
 
                 byte sexe = pokemob.getSexe();
-                final String gender = sexe == IPokemob.MALE ? "♂" : sexe == IPokemob.FEMALE ? "♀" : "";
-                if (!gender.isBlank())
-                    if (sexe == IPokemob.MALE) list.add(TComponent.translatable("pokecube.tooltip.male"));
+                if (sexe == IPokemob.MALE) list.add(TComponent.translatable("pokecube.tooltip.male"));
                 if (sexe == IPokemob.FEMALE) list.add(TComponent.translatable("pokecube.tooltip.female"));
             }
             else list.add(TComponent.translatable("pokecube.tooltip.advanced"));
+            ThutCore.FORGE_BUS.post(new PokecubeTooltipEvent(item, contents, context, list, advanced));
         }
         else
         {
@@ -484,7 +484,7 @@ public class Pokecube extends Item implements IPokecube
                 {
                     v = target.getEyePosition().subtract(thrower.getEyePosition()).scale(0.1);
                 }
-                v.add(0,thrower.getGravity(), 0);
+                v.add(0, thrower.getGravity(), 0);
                 entity.setDeltaMovement(v);
             }
             entity.targetLocation.set(targetLocation);
