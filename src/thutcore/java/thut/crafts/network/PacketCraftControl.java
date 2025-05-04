@@ -58,7 +58,7 @@ public class PacketCraftControl extends Packet
     public void handleServer(ServerPlayer player)
     {
         final Entity mob = player.level().getEntity(this.entityId);
-        if (mob != null && mob instanceof EntityCraft craft)
+        if (mob instanceof EntityCraft craft)
         {
             final CraftController controller = craft.controller;
             controller.forwardInputDown = (this.message & PacketCraftControl.FORWARD) > 0;

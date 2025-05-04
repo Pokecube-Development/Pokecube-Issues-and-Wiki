@@ -26,10 +26,7 @@ public class CraftStickApplier implements ICustomStickHandler
         final AABB box = AABB.encapsulatingFullBlocks(min, max);
         min = new BlockPos((int) box.minX, (int) box.minY, (int) box.minZ);
         max = new BlockPos((int) box.maxX, (int) box.maxY, (int) box.maxZ);
-        final BlockPos mid = min;
-        min = min.subtract(mid);
-        max = max.subtract(mid);
-        final EntityCraft craft = IBlockEntity.BlockEntityFormer.makeBlockEntity(level, min, max, mid,
+        final EntityCraft craft = IBlockEntity.BlockEntityFormer.makeBlockEntity(level, min, max,
                 ThutCrafts.CRAFTTYPE.get());
         final String message = craft != null ? "msg.craft.create" : "msg.craft.fail";
         thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(message));

@@ -1,10 +1,6 @@
 package thut.crafts.entity;
 
-import java.util.List;
-import java.util.UUID;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -31,6 +27,9 @@ import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vec3f;
 import thut.core.common.ThutCore;
 import thut.core.common.world.mobs.data.types.Data_Seat;
+
+import java.util.List;
+import java.util.UUID;
 
 public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEntity
 {
@@ -472,7 +471,8 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float partialTick)
     {
         var v = this.getSeat(entity);
-        if (v != null) return this.getPosition(partialTick).add(v.x, v.y, v.z);
+        float yaw = this.getYaw();
+        if (v != null) return new Vec3(v.x, v.y, v.z).yRot(-yaw * (float) (Math.PI / 180.0));
         return super.getPassengerAttachmentPoint(entity, dimensions, partialTick);
     }
 

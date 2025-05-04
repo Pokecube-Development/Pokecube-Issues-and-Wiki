@@ -1,11 +1,7 @@
 package thut.api.entity.blockentity;
 
-import java.util.List;
-import java.util.Set;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.resources.ResourceLocation;
@@ -27,6 +23,9 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import thut.core.common.ThutCore;
+
+import java.util.List;
+import java.util.Set;
 
 public class BlockEntityUpdater
 {
@@ -84,17 +83,20 @@ public class BlockEntityUpdater
         final double dx = xMin;
         final double dz = zMin;
 
-        for (int i = 0; i < sizeX; i++) for (int j = 0; j < sizeY; j++) for (int k = 0; k < sizeZ; k++)
-        {
-            pos.set(i, j, k);
-            final BlockState state = this.blockEntity.getBlocks()[i][j][k];
-            pos.set(i + min.getX() + origin.getX(), j + min.getY() + origin.getY(), k + min.getZ() + origin.getZ());
-            VoxelShape shape;
-            if (state == null || (shape = state.getShape(world, pos)) == null) continue;
-            if (shape.isEmpty()) continue;
-            shape = shape.move(mob.getX() + i - dx, mob.getY() + j + min.getY(), mob.getZ() + k - dz);
-            this.totalShape = Shapes.join(this.totalShape, shape, BooleanOp.OR);
-        }
+        for (int i = 0; i < sizeX; i++)
+            for (int j = 0; j < sizeY; j++)
+                for (int k = 0; k < sizeZ; k++)
+                {
+                    pos.set(i, j, k);
+                    final BlockState state = this.blockEntity.getBlocks()[i][j][k];
+                    pos.set(i + min.getX() + origin.getX(), j + min.getY() + origin.getY(),
+                            k + min.getZ() + origin.getZ());
+                    VoxelShape shape;
+                    if (state == null || (shape = state.getShape(world, pos)) == null) continue;
+                    if (shape.isEmpty()) continue;
+                    shape = shape.move(mob.getX() + i - dx, mob.getY() + j + min.getY(), mob.getZ() + k - dz);
+                    this.totalShape = Shapes.join(this.totalShape, shape, BooleanOp.OR);
+                }
         return this.totalShape;
     }
 
@@ -335,13 +337,13 @@ public class BlockEntityUpdater
         yMin = y0;
         zMin = z0;
 
-        xMax = x0 + size.getX() + 1;
-        yMax = y0 + size.getY() + 1;
-        zMax = z0 + size.getZ() + 1;
+        xMax = x0 + size.getX()-1;
+        yMax = y0 + size.getY()-1;
+        zMax = z0 + size.getZ()-1;
 
         if (size.getY() <= 1) yMax += 1;
 
-        return new AABB(xMin, yMin, zMin, xMax, yMax, zMax).inflate(0.0);
+        return new AABB(xMin, yMin, zMin, xMax, yMax, zMax);
     }
 
     public void onUpdate()
@@ -364,28 +366,30 @@ public class BlockEntityUpdater
 
         final Level world = this.blockEntity.getFakeWorld() instanceof Level level ? level : this.theEntity.level();
 
-        for (int i = 0; i < sizeX; i++) for (int j = 0; j < sizeY; j++) for (int k = 0; k < sizeZ; k++)
-        {
-            pos.set(i + this.theEntity.getX(), j + this.theEntity.getY(), k + this.theEntity.getZ());
+        for (int i = 0; i < sizeX; i++)
+            for (int j = 0; j < sizeY; j++)
+                for (int k = 0; k < sizeZ; k++)
+                {
+                    pos.set(i + this.theEntity.getX(), j + this.theEntity.getY(), k + this.theEntity.getZ());
 
-            // TODO rotate here by entity rotation.
-            final BlockEntity tile = this.blockEntity.getTiles()[i][j][k];
-            if (tile != null) tile.setLevel(world);
-            if (tile instanceof TickingBlockEntity tick)
-            {
-                if (this.erroredSet.contains(tile) || !BlockEntityUpdater.isWhitelisted(tile)) continue;
-                try
-                {
-                    tick.tick();
+                    // TODO rotate here by entity rotation.
+                    final BlockEntity tile = this.blockEntity.getTiles()[i][j][k];
+                    if (tile != null) tile.setLevel(world);
+                    if (tile instanceof TickingBlockEntity tick)
+                    {
+                        if (this.erroredSet.contains(tile) || !BlockEntityUpdater.isWhitelisted(tile)) continue;
+                        try
+                        {
+                            tick.tick();
+                        }
+                        catch (final Throwable e)
+                        {
+                            ThutCore.LOGGER.error("Error with Tile Entity " + tile, e);
+                            this.erroredSet.add(tile);
+                            if (BlockEntityUpdater.autoBlacklist && BlockEntityType.getKey(tile.getType()) != null)
+                                IBlockEntity.TEBLACKLIST.add(BlockEntityType.getKey(tile.getType()).toString());
+                        }
+                    }
                 }
-                catch (final Throwable e)
-                {
-                    ThutCore.LOGGER.error("Error with Tile Entity " + tile, e);
-                    this.erroredSet.add(tile);
-                    if (BlockEntityUpdater.autoBlacklist && BlockEntityType.getKey(tile.getType()) != null)
-                        IBlockEntity.TEBLACKLIST.add(BlockEntityType.getKey(tile.getType()).toString());
-                }
-            }
-        }
     }
 }

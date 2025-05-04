@@ -26,10 +26,7 @@ public class LiftStickApplier implements ICustomStickHandler
         final AABB box = AABB.encapsulatingFullBlocks(min, max);
         min = new BlockPos((int) box.minX, (int) box.minY, (int) box.minZ);
         max = new BlockPos((int) box.maxX, (int) box.maxY, (int) box.maxZ);
-        final BlockPos mid = min;
-        min = min.subtract(mid);
-        max = max.subtract(mid);
-        final EntityLift lift = IBlockEntity.BlockEntityFormer.makeBlockEntity(level, min, max, mid,
+        final EntityLift lift = IBlockEntity.BlockEntityFormer.makeBlockEntity(level, min, max,
                 TechCore.LIFTTYPE.get());
         final String message = lift != null ? "msg.lift.create" : "msg.lift.fail";
         thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(message));
@@ -52,9 +49,6 @@ public class LiftStickApplier implements ICustomStickHandler
         final AABB box = AABB.encapsulatingFullBlocks(min, max);
         min = new BlockPos((int) box.minX, (int) box.minY, (int) box.minZ);
         max = new BlockPos((int) box.maxX, (int) box.maxY, (int) box.maxZ);
-        final BlockPos mid = min;
-        min = min.subtract(mid);
-        max = max.subtract(mid);
         final int dw = Math.max(max.getX() - min.getX(), max.getZ() - min.getZ());
         if (max.getY() - min.getY() > TechCore.config.maxHeight || dw > 2 * TechCore.config.maxRadius + 1)
         {

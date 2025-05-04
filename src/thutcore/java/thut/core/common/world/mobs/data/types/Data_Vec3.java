@@ -1,10 +1,10 @@
 package thut.core.common.world.mobs.data.types;
 
-import java.util.Optional;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.world.phys.Vec3;
 import thut.api.world.mobs.data.Data;
+
+import java.util.Optional;
 
 public class Data_Vec3 extends Data_Base<Optional<Vec3>>
 {
@@ -24,7 +24,8 @@ public class Data_Vec3 extends Data_Base<Optional<Vec3>>
     public void read(ByteBuf buf)
     {
         super.read(buf);
-        if (!buf.isReadable()) this.value = Optional.empty();
+        var isEmpty = buf.readBoolean();
+        if (isEmpty) this.value = Optional.empty();
         else this.value = Optional.of(new Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble()));
     }
 
@@ -48,6 +49,7 @@ public class Data_Vec3 extends Data_Base<Optional<Vec3>>
     public void write(ByteBuf buf)
     {
         super.write(buf);
+        buf.writeBoolean(this.value.isEmpty());
         if (this.value.isPresent())
         {
             var value = this.value.get();

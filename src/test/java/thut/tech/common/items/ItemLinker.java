@@ -1,7 +1,5 @@
 package thut.tech.common.items;
 
-import java.util.UUID;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
@@ -20,6 +18,8 @@ import thut.tech.common.TechCore;
 import thut.tech.common.blocks.lift.ControllerTile;
 import thut.tech.common.entity.EntityLift;
 
+import java.util.UUID;
+
 public class ItemLinker extends Item
 {
     public ItemLinker(final Item.Properties props)
@@ -37,8 +37,12 @@ public class ItemLinker extends Item
         final BlockState state = worldIn.getBlockState(pos);
         final Direction face = context.getClickedFace();
 
-        CompoundTag data = stack.has(DataComponents.CUSTOM_DATA)?stack.get(DataComponents.CUSTOM_DATA).copyTag():null;
-        final boolean linked = data!=null && data.contains("lift");
+        System.out.println(playerIn + " " + context.isSecondaryUseActive());
+
+        CompoundTag data = stack.has(DataComponents.CUSTOM_DATA)
+                ? stack.get(DataComponents.CUSTOM_DATA).copyTag()
+                : null;
+        final boolean linked = data != null && data.contains("lift");
         if (!linked && state.getBlock() == TechCore.LIFTCONTROLLER.get())
         {
             final ControllerTile te = (ControllerTile) worldIn.getBlockEntity(pos);
@@ -46,7 +50,7 @@ public class ItemLinker extends Item
             return InteractionResult.SUCCESS;
         }
 
-        if (data==null) return InteractionResult.PASS;
+        if (data == null) return InteractionResult.PASS;
         else
         {
             if (state.getBlock() == TechCore.LIFTCONTROLLER.get() && !playerIn.isShiftKeyDown())
@@ -66,8 +70,7 @@ public class ItemLinker extends Item
             {
                 liftID = new UUID(0000, 0000);
             }
-            
-            
+
             final EntityLift lift = EntityLift.getLiftFromUUID(liftID, worldIn);
             if (playerIn.isShiftKeyDown() && lift != null && state.getBlock() == TechCore.LIFTCONTROLLER.get())
             {
@@ -102,7 +105,9 @@ public class ItemLinker extends Item
 
     public void setLift(final EntityLift lift, final ItemStack stack)
     {
-        CompoundTag data = stack.has(DataComponents.CUSTOM_DATA)?stack.get(DataComponents.CUSTOM_DATA).copyTag():null;
+        CompoundTag data = stack.has(DataComponents.CUSTOM_DATA)
+                ? stack.get(DataComponents.CUSTOM_DATA).copyTag()
+                : null;
         if (data == null) data = new CompoundTag();
         data.putString("lift", lift.getStringUUID());
         stack.set(DataComponents.CUSTOM_DATA, CustomData.of(data));
@@ -111,9 +116,10 @@ public class ItemLinker extends Item
     @Override
     public Component getName(final ItemStack stack)
     {
-        CompoundTag data = stack.has(DataComponents.CUSTOM_DATA)?stack.get(DataComponents.CUSTOM_DATA).copyTag():null;
-        if (data!=null && data.contains("lift"))
-            return TComponent.translatable("item.thuttech.linker.linked");
+        CompoundTag data = stack.has(DataComponents.CUSTOM_DATA)
+                ? stack.get(DataComponents.CUSTOM_DATA).copyTag()
+                : null;
+        if (data != null && data.contains("lift")) return TComponent.translatable("item.thuttech.linker.linked");
         return super.getName(stack);
     }
 }
