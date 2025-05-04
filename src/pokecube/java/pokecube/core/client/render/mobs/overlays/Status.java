@@ -32,6 +32,9 @@ public class Status
         public float time = 0;
         public float rate = 1;
         public int alpha = 128;
+        public int red = 255;
+        public int green = 255;
+        public int blue = 255;
 
         public boolean animated = true;
 
@@ -90,7 +93,13 @@ public class Status
         @Override
         public void modifiyRGBA(final String part, final int[] rgbaIn)
         {
-            if (wrapped == null) rgbaIn[3] = this.alpha;
+            if (wrapped == null)
+            {
+                rgbaIn[0] = red;
+                rgbaIn[1] = green;
+                rgbaIn[2] = blue;
+                rgbaIn[3] = this.alpha;
+            }
         }
 
     }
@@ -142,9 +151,8 @@ public class Status
             wrap.getParts().forEach((n, p) -> {
                 p.applyTexture(buf, default_, statusTexturer);
                 if (EXCLUDED_PARTS.contains(p.getName())) p.setDisabled(true);
+                p.setPostScale(scale);
             });
-
-            for (var p : wrap.getParts().values()) p.setPostScale(scale);
 
             boolean oldRenderOverlay = RenderMobOverlays.enabled;
             RenderMobOverlays.enabled = false;

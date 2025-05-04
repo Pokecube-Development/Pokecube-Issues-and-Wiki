@@ -261,9 +261,8 @@ public class TerastalMechanic
     /**
      * This handles processing the tera type from the nbt in the pokemake arguments.
      *
-     * @param event
      */
-    private static final void onPokemake(PokemakeArgumentEvent event)
+    private static void onPokemake(PokemakeArgumentEvent event)
     {
         String type = event.getNbt().getString("tera_type");
         var tera = getTera(event.getPokemob().getEntity());
@@ -289,7 +288,7 @@ public class TerastalMechanic
     /**
      * This clears the isTera state for the pokemob, ie breaks the terastallization when recalled.
      */
-    private static final void onHeal(HealEvent.Post event)
+    private static void onHeal(HealEvent.Post event)
     {
         if (event.getContext().owner() instanceof ServerPlayer player && event.getContext().fromHealer())
         {
@@ -302,7 +301,7 @@ public class TerastalMechanic
     /**
      * This clears the isTera state for the pokemob, ie breaks the terastallization when recalled.
      */
-    private static final void onRecall(RecallEvent.Post event)
+    private static void onRecall(RecallEvent.Post event)
     {
         TeraType type = getTera(event.recalled.getEntity());
         if (type != null && type.isTera)
@@ -315,7 +314,7 @@ public class TerastalMechanic
      * This applies the bonus STAB, and the damage boost for low powered moves. It also increments a counter for the
      * owner (if present), which is used to determine if the owner can terastallize their pokemob.
      */
-    private static final void duringPreMoveUse(MoveUse.DuringUse.Pre evt)
+    private static void duringPreMoveUse(MoveUse.DuringUse.Pre evt)
     {
         final MoveApplication move = evt.getPacket();
         final IPokemob attacker = move.getUser();
