@@ -144,7 +144,7 @@ public class GatherItems extends PokemobBehaviour
                     BlockPlaceContext _context = new BlockPlaceContext(context.level(), null, InteractionHand.MAIN_HAND,
                             stack, hit);
                     final BlockState plantState = plantable.getPlacement(_context);
-                    if (plantState.getBlock() == context.state().getBlock() && !replanted)
+                    if (plantState != null && !replanted)
                     {
                         new ReplantTask(stack, context.state(), context.pos()).run(context.level());
                         break;
