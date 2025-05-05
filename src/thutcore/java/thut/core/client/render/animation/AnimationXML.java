@@ -1,6 +1,7 @@
 package thut.core.client.render.animation;
 
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -49,13 +50,13 @@ public class AnimationXML
         public Set<String> _requiredStates = new HashSet<>();
         public Set<String> _bannedStates = new HashSet<>();
 
-        private Set<String> _parts = new HashSet<>();
+        private final Set<String> _parts = new HashSet<>();
 
-        private Vector3f _particlePosition = new Vector3f();
-        private Vector3f _particleVelocity = new Vector3f();
+        private final Vector3f _particlePosition = new Vector3f();
+        private final Vector3f _particleVelocity = new Vector3f();
 
         private ResourceLocation _particleType = null;
-        private Vector3f _place = new Vector3f();
+        private final Vector3f _place = new Vector3f();
         private ParticleOptions _type = null;
 
         private void init()
@@ -63,7 +64,7 @@ public class AnimationXML
             _particleType = ResourceLocation.parse(particle);
             var parts = this.parts.split(":");
             _parts.clear();
-            for (var p : parts) _parts.add(p);
+            _parts.addAll(Arrays.asList(parts));
             var _particle = BuiltInRegistries.PARTICLE_TYPE.get(_particleType);
             if (_particle instanceof ParticleOptions type) _type = type;
 

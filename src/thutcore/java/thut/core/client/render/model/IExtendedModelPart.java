@@ -1,22 +1,13 @@
 package thut.core.client.render.model;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Predicate;
-
-import javax.annotation.Nullable;
-
-import org.joml.Vector3f;
-import org.joml.Vector4f;
-
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
@@ -24,6 +15,12 @@ import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel.Holder;
+
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Predicate;
 
 public interface IExtendedModelPart extends IModelCustom
 {
@@ -115,29 +112,17 @@ public interface IExtendedModelPart extends IModelCustom
         test.mul(mat2.last().pose());
 
         // Distance left/right
-        double dx = test.x() / 1;
+        double dx = test.x();
         // Distance up/down, this one is inverted it seems
-        double dy = -test.y() / 1;
+        double dy = test.y();
         // Distance centered
-        double dz = test.z() / 1;
+        double dz = test.z();
 
         var camera = Minecraft.getInstance().gameRenderer.getMainCamera();
 
-        // Directions of camera
-        var left = camera.getLeftVector();
-        var up = camera.getUpVector();
-        var fwd = camera.getLookVector();
-
         var pos = camera.getPosition();
-
-        double x, y, z;
-        // Now transform back from camera coordinates
-        x = left.x() * dx + up.x() * dy + fwd.x() * dz;
-        y = left.y() * dx + up.y() * dy + fwd.y() * dz;
-        z = left.z() * dx + up.z() * dy + fwd.z() * dz;
-
         // And subtract from camera location.
-        fill.set((float) (-x + pos.x()), (float) (-y + pos.y()), (float) (-z + pos.z()));
+        fill.set((float) (dx + pos.x()), (float) (dy + pos.y()), (float) (dz + pos.z()));
 
         return e;
     }
@@ -250,7 +235,7 @@ public interface IExtendedModelPart extends IModelCustom
 
     /**
      * Sets the colour for this part
-     * 
+     *
      * @param material - predicate to check if material is valid
      * @param r
      * @param g

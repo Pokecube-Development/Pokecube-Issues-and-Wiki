@@ -103,7 +103,6 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     @Override
     public Map<String, IExtendedModelPart> getParts()
     {
-        if (!this.isLoaded()) return Collections.emptyMap();
         return this.getModel().getParts();
     }
 

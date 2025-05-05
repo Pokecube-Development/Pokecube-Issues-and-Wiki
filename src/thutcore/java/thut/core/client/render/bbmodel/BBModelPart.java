@@ -20,6 +20,7 @@ import thut.lib.AxisAngles;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +51,14 @@ public class BBModelPart extends Part
             if (o instanceof Element b)
             {
                 List<Mesh> shapes = makeShapes(t, b, group.origin);
-                allShapes.addAll(shapes);
+                if (!shapes.isEmpty()) allShapes.addAll(shapes);
+                else if (b.type.equals("locator"))
+                {
+                    // Then also add the locators
+                    BBModelPart part = make(t, Collections.emptyList(), nextName(names, b), b, -1, parentOffsets);
+                    ours.add(part);
+                    parts.add(part);
+                }
             }
         }
         BBModelPart root = make(t, allShapes, nextName(names, group), group, -1, parentOffsets);
@@ -124,7 +132,7 @@ public class BBModelPart extends Part
             float y = b.getRotation()[1];
             float z = b.getRotation()[2];
 
-            if (b.type.equals("cube"))
+            if (b.type.equals("cube") || b.type.equals("locator"))
             {
                 if (y != 0) quat.mul(AxisAngles.YP.rotationDegrees(y));
                 if (x != 0) quat.mul(AxisAngles.XP.rotationDegrees(x));
@@ -192,7 +200,7 @@ public class BBModelPart extends Part
 
     public BBModelPart(String name)
     {
-        super(name + "");
+        super(name);
     }
 
     @Override

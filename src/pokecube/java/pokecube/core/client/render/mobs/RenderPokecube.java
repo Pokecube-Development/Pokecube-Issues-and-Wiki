@@ -32,6 +32,7 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
+import thut.bling.client.render.Util;
 import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 
@@ -128,6 +129,14 @@ public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPo
     public void render(final EntityPokecube entity, final float entityYaw, final float partialTicks,
             final PoseStack stack, final MultiBufferSource bufferIn, final int packedLightIn)
     {
+        if (Util.shouldReloadModel())
+        {
+            pokecubeRenderers.clear();
+            ThutCore.FORGE_BUS.post(new RegisterCubeRenderer());
+            new RenderFancyPokecube(
+                    new EntityRendererProvider.Context(this.entityRenderDispatcher, null, null, null, null, null,
+                            this.getFont()));
+        }
         final long time = entity.reset;
         final long world = Tracker.instance().getTick();
         if (time > world) return;

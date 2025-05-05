@@ -45,9 +45,7 @@ public class BBModelTemplate
 
     public void init()
     {
-        elements.forEach(e -> {
-            _by_uuid.put(e.uuid, e);
-        });
+        elements.forEach(e -> _by_uuid.put(e.uuid, e));
         textures.forEach(e -> _by_uuid.put(e.uuid, e));
         outliner.forEach(e -> e.init(this));
     }
@@ -425,8 +423,9 @@ public class BBModelTemplate
         public String uuid;
         public float[] from;
         public float[] to;
-        public float[] origin;
+        public float[] origin;   // Used by mesh and cube types
         public float[] rotation;
+        public float[] position; // Used by locator types
         public int color;
         public boolean box_uv = false;
         public boolean visibility = true;
@@ -533,6 +532,7 @@ public class BBModelTemplate
         @Override
         public float[] getOrigin()
         {
+            if (this.position != null) return this.position;
             return origin;
         }
 
@@ -550,15 +550,18 @@ public class BBModelTemplate
 
         public void shift(float[] origin)
         {
-            if (this.type.equals("cube")) for (int i = 0; i < 3; i++)
+            if (this.type.equals("cube"))
             {
-                this.origin[i] -= origin[i];
-                this.from[i] -= origin[i];
-                this.to[i] -= origin[i];
+                for (int i = 0; i < 3; i++)
+                {
+                    this.origin[i] -= origin[i];
+                    this.from[i] -= origin[i];
+                    this.to[i] -= origin[i];
+                }
             }
-            else if (this.type.equals("mesh"))
+            else
             {
-                for (int i = 0; i < 3; i++) this.origin[i] -= origin[i];
+                for (int i = 0; i < 3; i++) this.getOrigin()[i] -= origin[i];
             }
         }
     }

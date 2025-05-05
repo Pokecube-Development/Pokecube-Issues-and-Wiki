@@ -107,7 +107,10 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
                 this.changer = null;
                 this.texer = null;
                 this.anims = Maps.newHashMap();
+                var old = this.model;
+                this.model = model; // copy this over for the animation parser to handle properly
                 AnimationLoader.parse(holder, model, this);
+                this.model = old;
                 synchronized (models)
                 {
                     this.models.put(cube,
@@ -142,6 +145,7 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
                 {
                     this.models.put(cube,
                             new ModelSet(getAnimationChanger(), getTexturer(), model, offset, scale, anims));
+                    RenderPokecube.pokecubeRenderers.putIfAbsent(cube, this);
                 }
             });
             if (m2.isValid()) return model;

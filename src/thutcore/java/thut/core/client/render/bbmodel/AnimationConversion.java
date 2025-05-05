@@ -23,7 +23,7 @@ public class AnimationConversion
 
         if (molang.contains("NaN"))
         {
-            ThutCore.LOGGER.error("Warning, NaN in molang " + molang);
+            ThutCore.LOGGER.error("Warning, NaN in molang {}", molang);
             jep = jep.replace("NaN", "0");
         }
         // Ignore case
@@ -54,7 +54,7 @@ public class AnimationConversion
 
         if (jep.contains("query.") || jep.contains("q."))
         {
-            ThutCore.LOGGER.error("Error with molang to jep conversion, was not complete! " + molang + " " + jep);
+            ThutCore.LOGGER.error("Error with molang to jep conversion, was not complete! {} {}", molang, jep);
             jep = "0";
         }
         return jep;
@@ -66,10 +66,6 @@ public class AnimationConversion
         { -1 / 16f, -1 / 16f, 1 / 16f };
         static float[] _rotFuncScales =
         { -1, -1, 1 };
-
-        public String rotFuncs = "";
-        public String scaleFuncs = "";
-        public String posFuncs = "";
 
         public XMLAnimationSegment(float length, float start_time)
         {
@@ -108,14 +104,14 @@ public class AnimationConversion
             String channel = keyframe.channel;
             List<BBDataPoint> points = keyframe.data_points;
 
-            BBDataPoint data = points.get(0);
+            BBDataPoint data = points.getFirst();
 
             Object x = data.x, y = data.y, z = data.z;
             try
             {
                 if (data.x instanceof Double || data.x instanceof Integer)
                 {
-                    x = (double) data.x;
+                    x = data.x;
                 }
                 else if (data.x instanceof String)
                 {
@@ -128,7 +124,7 @@ public class AnimationConversion
             {
                 if (data.y instanceof Double || data.y instanceof Integer)
                 {
-                    y = (double) data.y;
+                    y = data.y;
                 }
                 else if (data.y instanceof String)
                 {
@@ -141,7 +137,7 @@ public class AnimationConversion
             {
                 if (data.z instanceof Double || data.z instanceof Integer)
                 {
-                    z = (double) data.z;
+                    z = data.z;
                 }
                 else if (data.z instanceof String)
                 {
@@ -255,13 +251,6 @@ public class AnimationConversion
                 segment.rotOffset[0] = -old[0];
                 segment.rotOffset[1] = -old[1];
                 segment.rotOffset[2] = +old[2];
-
-                if (has_scale)
-                {
-                    segment.scaleOffset[0] = segment.scaleOffset[0];
-                    segment.scaleOffset[1] = segment.scaleOffset[1];
-                    segment.scaleOffset[2] = segment.scaleOffset[2];
-                }
             }
 
             if (next_frame != first_frame)
@@ -291,8 +280,6 @@ public class AnimationConversion
                 {
                     all_not_func = this.setDiff(segment.scaleChange, this.scales, next_frame.scales,
                             segment._scaleFunctions) & all_not_func;
-                    segment.scaleChange[0] = segment.scaleChange[0];
-                    segment.scaleChange[1] = segment.scaleChange[1];
                     segment.scaleChange[2] = -segment.scaleChange[2];
                 }
             }
@@ -335,11 +322,11 @@ public class AnimationConversion
                     double time = keyframe.time;
                     var frame = new BBModelAnimationSegment(time, limb);
                     frame.process(keyframe);
-                    Map<String, List<BBModelAnimationSegment>> part_frames_map = frames_map.get(part.name);
-                    if (part_frames_map == null) frames_map.put(part.name, part_frames_map = new HashMap<>());
+                    Map<String, List<BBModelAnimationSegment>> part_frames_map = frames_map.computeIfAbsent(part.name,
+                            k -> new HashMap<>());
 
-                    List<BBModelAnimationSegment> frames_list = part_frames_map.get(keyframe.channel);
-                    if (frames_list == null) part_frames_map.put(keyframe.channel, frames_list = new ArrayList<>());
+                    List<BBModelAnimationSegment> frames_list = part_frames_map.computeIfAbsent(keyframe.channel,
+                            k -> new ArrayList<>());
                     frames_list.add(frame);
                 }
 
@@ -362,13 +349,13 @@ public class AnimationConversion
                         }
                         if (frames.size() == 1)
                         {
-                            var frame = frames.get(0);
+                            var frame = frames.getFirst();
                             var xml = frame.toXML(frame, frame, animation.length);
                             xml_parts.add(xml);
                         }
                         else
                         {
-                            var first_frame = frames.get(0);
+                            var first_frame = frames.getFirst();
                             var last_frame = first_frame;
                             for (int i = 0; i < frames.size() - 1; i++)
                             {
@@ -394,9 +381,7 @@ public class AnimationConversion
             anmation.name = name;
 
             anmation.loops = animation.loop.equals("loop");
-            List<Animation> anims = map.computeIfAbsent(animation.name, (k) -> {
-                return new ArrayList<>();
-            });
+            List<Animation> anims = map.computeIfAbsent(animation.name, (k) -> new ArrayList<>());
             anims.add(anmation);
             for (var entry : parts.entrySet())
             {
@@ -405,7 +390,7 @@ public class AnimationConversion
                 KeyframeAnimator animator = new KeyframeAnimator(list, true, (float) (animation.length * 20));
                 if (anmation.sets.containsKey(part))
                 {
-                    ThutCore.LOGGER.warn("Unsupported double part for animation " + animation.name + " " + part);
+                    ThutCore.LOGGER.warn("Unsupported double part for animation {} {}", animation.name, part);
                 }
                 else anmation.sets.put(part, animator);
             }
