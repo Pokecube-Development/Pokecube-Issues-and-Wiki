@@ -247,12 +247,10 @@ public class AnimationLoader
 
             if (file.model.particles != null)
             {
-                model.getParts().values().forEach(part -> {
-                    for (var m : file.model.particles)
-                    {
+                for (var m : file.model.particles)
+                    model.getParts().values().forEach(part -> {
                         part.addPartRenderAdder(m);
-                    }
-                });
+                    });
             }
 
             if (renderer != null) synchronized (renderer)
