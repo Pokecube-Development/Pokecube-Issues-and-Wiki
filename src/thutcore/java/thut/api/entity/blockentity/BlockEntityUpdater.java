@@ -337,9 +337,9 @@ public class BlockEntityUpdater
         yMin = y0;
         zMin = z0;
 
-        xMax = x0 + size.getX()-1;
-        yMax = y0 + size.getY()-1;
-        zMax = z0 + size.getZ()-1;
+        xMax = x0 + size.getX();
+        yMax = y0 + size.getY();
+        zMax = z0 + size.getZ();
 
         if (size.getY() <= 1) yMax += 1;
 

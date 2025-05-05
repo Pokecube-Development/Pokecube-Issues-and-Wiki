@@ -13,6 +13,7 @@ import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import thut.api.entity.blockentity.block.TempTile;
 import thut.lib.TComponent;
 import thut.tech.common.TechCore;
 import thut.tech.common.blocks.lift.ControllerTile;
@@ -37,8 +38,6 @@ public class ItemLinker extends Item
         final BlockState state = worldIn.getBlockState(pos);
         final Direction face = context.getClickedFace();
 
-        System.out.println(playerIn + " " + context.isSecondaryUseActive());
-
         CompoundTag data = stack.has(DataComponents.CUSTOM_DATA)
                 ? stack.get(DataComponents.CUSTOM_DATA).copyTag()
                 : null;
@@ -50,7 +49,16 @@ public class ItemLinker extends Item
             return InteractionResult.SUCCESS;
         }
 
-        if (data == null) return InteractionResult.PASS;
+        if (data == null)
+        {
+            var tile = worldIn.getBlockEntity(pos);
+            if (tile instanceof TempTile temp && temp.blockEntity instanceof EntityLift lift)
+            {
+                setLift(lift, stack);
+                return InteractionResult.SUCCESS;
+            }
+            return InteractionResult.PASS;
+        }
         else
         {
             if (state.getBlock() == TechCore.LIFTCONTROLLER.get() && !playerIn.isShiftKeyDown())

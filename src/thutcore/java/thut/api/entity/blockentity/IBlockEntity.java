@@ -25,7 +25,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import thut.api.entity.blockentity.world.IBlockEntityWorld;
 import thut.lib.RegHelper;
 
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -90,7 +90,8 @@ public interface IBlockEntity
             // This enforces that min is the lower corner, and max is the upper.
             final AABB box = AABB.encapsulatingFullBlocks(min, max);
             min = new BlockPos((int) box.minX, (int) box.minY, (int) box.minZ);
-            max = new BlockPos((int) box.maxX, (int) box.maxY, (int) box.maxZ);
+            // The encapsulatingFullBlocks adds 1 internally, so we remove it here.
+            max = new BlockPos((int) box.maxX - 1, (int) box.maxY - 1, (int) box.maxZ - 1);
             final IBlockEntity entity = (IBlockEntity) ret;
 
             ret.setPos(min.getX(), min.getY(), min.getZ());
@@ -246,7 +247,7 @@ public interface IBlockEntity
     {
         IBlockEntity.CUSTOMREMOVERS.put(clas, remover);
         IBlockEntity.SORTEDREMOVERS.add(remover);
-        Collections.sort(IBlockEntity.SORTEDREMOVERS, (o1, o2) -> o1.getPriority() - o2.getPriority());
+        IBlockEntity.SORTEDREMOVERS.sort(Comparator.comparingInt(ITileRemover::getPriority));
     }
 
     static ITileRemover getRemover(final BlockEntity tile)

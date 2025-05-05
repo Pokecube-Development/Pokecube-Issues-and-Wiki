@@ -1,23 +1,17 @@
 package thut.tech.client.render;
 
-import java.awt.Color;
-
-import org.joml.Matrix4f;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.blaze3d.vertex.VertexFormat.Mode;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.RenderStateShard.TextureStateShard;
 import net.minecraft.client.renderer.RenderStateShard.TransparencyStateShard;
-import net.minecraft.client.renderer.RenderStateShard.WriteMaskStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -27,14 +21,16 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.model.data.ModelData;
+import org.joml.Matrix4f;
 import thut.api.entity.blockentity.world.IBlockEntityWorld;
 import thut.tech.common.TechCore;
 import thut.tech.common.blocks.lift.ControllerTile;
 import thut.tech.common.entity.EntityLift;
+
+import java.awt.*;
 
 public class ControllerRenderer implements BlockEntityRenderer<ControllerTile>
 {
@@ -69,31 +65,23 @@ public class ControllerRenderer implements BlockEntityRenderer<ControllerTile>
     }
 
     private static final TransparencyStateShard TRANSP = new RenderStateShard.TransparencyStateShard(
-            "translucent_transparency", () ->
-            {
-                RenderSystem.enableBlend();
-                RenderSystem.defaultBlendFunc();
-            }, () -> {
-                RenderSystem.disableBlend();
-            });
-
-    private static final WriteMaskStateShard MASK = new RenderStateShard.WriteMaskStateShard(true, true);
-
-    private static RenderType.CompositeState getState(final ResourceLocation texture)
-    {
-        return RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_COLOR_TEX_LIGHTMAP_SHADER)
-                .setTextureState(new TextureStateShard(texture, false, true))
-                .setTransparencyState(ControllerRenderer.TRANSP).setWriteMaskState(ControllerRenderer.MASK)
-                .createCompositeState(false);
-    }
+            "translucent_transparency", () -> {
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+    }, RenderSystem::disableBlend);
+    public static final RenderStateShard.ShaderStateShard SHADER = new RenderStateShard.ShaderStateShard(
+            GameRenderer::getPositionTexColorShader);
 
     public static RenderType makeType(final ResourceLocation tex)
     {
-        return RenderType.create(tex.toString(), DefaultVertexFormat.POSITION_TEX_COLOR, Mode.QUADS, 256, false, true,
-                ControllerRenderer.getState(tex));
+        return RenderType.create(tex.toString(), DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS, 256,
+                RenderType.CompositeState.builder().setShaderState(SHADER)
+                        .setTextureState(new RenderStateShard.TextureStateShard(tex, false, true))
+                        .setTransparencyState(ControllerRenderer.TRANSP).setOutputState(RenderType.TRANSLUCENT_TARGET)
+                        .createCompositeState(true));
     }
 
-    private static RenderType NUMBERS = ControllerRenderer.makeType(ControllerRenderer.font);
+    private static final RenderType NUMBERS = ControllerRenderer.makeType(ControllerRenderer.font);
     private static final RenderType OVERLAY_1 = ControllerRenderer.makeType(ControllerRenderer.overlay_1);
     private static final RenderType OVERLAY = ControllerRenderer.makeType(ControllerRenderer.overlay);
 
@@ -215,7 +203,7 @@ public class ControllerRenderer implements BlockEntityRenderer<ControllerTile>
             int floor, final Color colour, final Direction side, final boolean wide, final int order)
     {
         if (!wide) floor = floor - monitor.getSidePage(side) * 16;
-        final RenderType type = wide ? ControllerRenderer.OVERLAY_1 : ControllerRenderer.OVERLAY;
+        RenderType type = wide ? ControllerRenderer.OVERLAY_1 : ControllerRenderer.OVERLAY;
         this.drawOverLay(mat, buffer, monitor, floor, colour, side, order, wide ? 0.25f : 0, type);
     }
 
@@ -241,31 +229,28 @@ public class ControllerRenderer implements BlockEntityRenderer<ControllerTile>
     public void render(final ControllerTile tileentity, final float partialTicks, final PoseStack mat,
             final MultiBufferSource buff, final int combinedLightIn, final int combinedOverlayIn)
     {
-        final ControllerTile monitor = tileentity;
-
         int calledFloor = 0;
         int currentFloor = 0;
         boolean hasLinker = Screen.hasShiftDown();
         hasLinker = hasLinker && (Minecraft.getInstance().player.getMainHandItem().getItem() == TechCore.LINKER.get()
                 || Minecraft.getInstance().player.getOffhandItem().getItem() == TechCore.LINKER.get());
 
-        final EntityLift lift = monitor.getLift();
+        final EntityLift lift = tileentity.getLift();
         if (lift != null)
         {
             calledFloor = lift.getCalled() ? lift.getDestinationFloor() : -1;
             currentFloor = lift.getCurrentFloor();
         }
 
-        final BlockState copied = monitor.copiedState;
+        final BlockState copied = tileentity.copiedState;
         if (copied != null)
         {
             mat.pushPose();
-            Level world = monitor.getLevel();
-            final BlockPos pos = monitor.getBlockPos();
+            Level world = tileentity.getLevel();
+            final BlockPos pos = tileentity.getBlockPos();
             BlockPos randPos = pos;
-            if (world instanceof IBlockEntityWorld)
+            if (world instanceof IBlockEntityWorld w)
             {
-                final IBlockEntityWorld w = (IBlockEntityWorld) world;
                 world = w.getWorld();
                 randPos = BlockPos.ZERO;
             }
@@ -273,9 +258,10 @@ public class ControllerRenderer implements BlockEntityRenderer<ControllerTile>
             var model = dispatcher.getBlockModel(copied);
             for (var renderType : model.getRenderTypes(copied, RandomSource.create(copied.getSeed(randPos)),
                     ModelData.EMPTY))
-                dispatcher.getModelRenderer().tesselateBlock((BlockAndTintGetter) world, model, copied, pos, mat,
-                        buff.getBuffer(renderType), false, RandomSource.create(), copied.getSeed(pos),
-                        OverlayTexture.NO_OVERLAY, ModelData.EMPTY, renderType);
+                dispatcher.getModelRenderer()
+                        .tesselateBlock(world, model, copied, pos, mat, buff.getBuffer(renderType), false,
+                                RandomSource.create(), copied.getSeed(pos), OverlayTexture.NO_OVERLAY, ModelData.EMPTY,
+                                renderType);
             mat.popPose();
         }
 
@@ -284,7 +270,7 @@ public class ControllerRenderer implements BlockEntityRenderer<ControllerTile>
         {
             final Direction dir = Direction.from3DDataValue(i);
 
-            if (!monitor.isSideOn(dir)) continue;
+            if (!tileentity.isSideOn(dir)) continue;
             mat.pushPose();
             final float f = dir.toYRot();
             mat.translate(0.5D, 0.5D, 0.5D);
@@ -292,57 +278,57 @@ public class ControllerRenderer implements BlockEntityRenderer<ControllerTile>
             mat.translate(-0.5D, -0.5D, -0.5D);
 
             int a = 64;
-            if (monitor.isEditMode(dir)) this.drawEditOverlay(mat, buff, monitor, dir);
-            else if (monitor.isFloorDisplay(dir))
+            if (tileentity.isEditMode(dir)) this.drawEditOverlay(mat, buff, tileentity, dir);
+            else if (tileentity.isFloorDisplay(dir))
             {
                 // Draw the white background
                 final Color colour = new Color(255, 255, 255, 255);
                 mat.translate(-0.5, -0.095, 0);
-                this.drawOverLay(mat, buff, monitor, 1, colour, dir, true, 0);
+                this.drawOverLay(mat, buff, tileentity, 1, colour, dir, true, 0);
 
                 mat.pushPose();
                 mat.translate(0.4, 0.0, 0);
                 this.drawNumber(mat, buff, currentFloor, 1, true);
                 mat.popPose();
             }
-            else if (monitor.isCallPanel(dir))
+            else if (tileentity.isCallPanel(dir))
             {
                 // Draw the white background
                 Color colour = new Color(255, 255, 255, 255);
 
                 mat.translate(-0.5, -0.095, 0);
-                this.drawOverLay(mat, buff, monitor, 1, colour, dir, true, 0);
+                this.drawOverLay(mat, buff, tileentity, 1, colour, dir, true, 0);
 
                 // Draw highlight over the background.
-                if (calledFloor == monitor.floor)
+                if (calledFloor == tileentity.floor)
                 {
                     colour = new Color(255, 255, 0, a);
-                    this.drawOverLay(mat, buff, monitor, 1, colour, dir, true, 1);
+                    this.drawOverLay(mat, buff, tileentity, 1, colour, dir, true, 1);
                 }
-                else if (currentFloor == monitor.floor)
+                else if (currentFloor == tileentity.floor)
                 {
                     colour = new Color(0, 128, 255, a);
-                    this.drawOverLay(mat, buff, monitor, 1, colour, dir, true, 2);
+                    this.drawOverLay(mat, buff, tileentity, 1, colour, dir, true, 2);
                 }
 
                 mat.pushPose();
                 mat.translate(0.4, 0.0, 0);
-                this.drawNumber(mat, buff, monitor.floor, 1, true);
+                this.drawNumber(mat, buff, tileentity.floor, 1, true);
                 mat.popPose();
             }
             else
             {
-                final int page = monitor.getSidePage(dir);
+                final int page = tileentity.getSidePage(dir);
                 final int pageShift = page * 16;
 
                 // Draw numbers on top
                 if (lift == null)
                 {
-                    this.drawFloorNumbers(mat, buff, monitor.getSidePage(dir));
+                    this.drawFloorNumbers(mat, buff, tileentity.getSidePage(dir));
                     // Draw background slots
                     final Color colour = new Color(255, 255, 255, 255);
                     for (int j = pageShift + 1; j <= 16 + pageShift; j++)
-                        this.drawOverLay(mat, buff, monitor, j, colour, dir, false, 0);
+                        this.drawOverLay(mat, buff, tileentity, j, colour, dir, false, 0);
                     this.drawFloorNumbers(mat, buff, page);
                     mat.popPose();
                     continue dirs;
@@ -357,23 +343,25 @@ public class ControllerRenderer implements BlockEntityRenderer<ControllerTile>
                     if (hasFloor)
                     {
                         this.drawNumber(mat, buff, realFloor, floor);
-                        this.drawOverLay(mat, buff, monitor, realFloor, mapped, dir, false, 0);
+                        this.drawOverLay(mat, buff, tileentity, realFloor, mapped, dir, false, 0);
                     }
                     else if (hasLinker)
                     {
                         this.drawNumber(mat, buff, realFloor, floor);
-                        this.drawOverLay(mat, buff, monitor, realFloor, unmapped, dir, false, 0);
+                        this.drawOverLay(mat, buff, tileentity, realFloor, unmapped, dir, false, 0);
                     }
                 }
 
                 a = 128;
                 Color colour = new Color(0, 255, 0, a);
-                this.drawOverLay(mat, buff, monitor, monitor.floor, colour, dir, false, 0);
-                colour = new Color(255, 255, 0, a);
-                this.drawOverLay(mat, buff, monitor, monitor.getLift().getDestinationFloor(), colour, dir, false, 0);
-                colour = new Color(0, 128, 255, a);
+                this.drawOverLay(mat, buff, tileentity, tileentity.floor, colour, dir, false, 0);
 
-                this.drawOverLay(mat, buff, monitor, monitor.getLift().getCurrentFloor(), colour, dir, false, 0);
+                colour = new Color(255, 255, 0, a);
+                this.drawOverLay(mat, buff, tileentity, tileentity.getLift().getDestinationFloor(), colour, dir, false,
+                        0);
+
+                colour = new Color(0, 128, 255, a);
+                this.drawOverLay(mat, buff, tileentity, tileentity.getLift().getCurrentFloor(), colour, dir, false, 0);
 
             }
             mat.popPose();

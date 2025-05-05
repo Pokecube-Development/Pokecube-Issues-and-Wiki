@@ -23,9 +23,6 @@ public class CraftStickApplier implements ICustomStickHandler
     @Override
     public void apply(ServerPlayer player, ServerLevel level, ItemStack held, BlockPos min, BlockPos max)
     {
-        final AABB box = AABB.encapsulatingFullBlocks(min, max);
-        min = new BlockPos((int) box.minX, (int) box.minY, (int) box.minZ);
-        max = new BlockPos((int) box.maxX, (int) box.maxY, (int) box.maxZ);
         final EntityCraft craft = IBlockEntity.BlockEntityFormer.makeBlockEntity(level, min, max,
                 ThutCrafts.CRAFTTYPE.get());
         final String message = craft != null ? "msg.craft.create" : "msg.craft.fail";
@@ -38,9 +35,6 @@ public class CraftStickApplier implements ICustomStickHandler
         final AABB box = AABB.encapsulatingFullBlocks(min, max);
         min = new BlockPos((int) box.minX, (int) box.minY, (int) box.minZ);
         max = new BlockPos((int) box.maxX, (int) box.maxY, (int) box.maxZ);
-        final BlockPos mid = min;
-        min = min.subtract(mid);
-        max = max.subtract(mid);
         final int dw = Math.max(max.getX() - min.getX(), max.getZ() - min.getZ());
         if (max.getY() - min.getY() > 30 || dw > 2 * 20 + 1)
         {

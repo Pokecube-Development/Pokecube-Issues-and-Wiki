@@ -13,6 +13,9 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -22,6 +25,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.Nullable;
 import thut.api.block.ITickTile;
 import thut.api.entity.blockentity.IBlockEntity;
 import thut.api.entity.blockentity.world.IBlockEntityWorld;
@@ -98,9 +102,9 @@ public class ControllerTile extends BlockEntity implements ITickTile// ,
                 new AABB(this.getBlockPos().getX() + 0.5 - 1, this.getBlockPos().getY(),
                         this.getBlockPos().getZ() + 0.5 - 1, this.getBlockPos().getX() + 0.5 + 1,
                         this.getBlockPos().getY() + 1, this.getBlockPos().getZ() + 0.5 + 1));
-        if (check != null && check.size() > 0)
+        if (check != null && !check.isEmpty())
         {
-            this.setLift(check.get(0));
+            this.setLift(check.getFirst());
             this.liftID = this.getLift().getUUID();
         }
         return !(check == null || check.isEmpty());
@@ -472,4 +476,21 @@ public class ControllerTile extends BlockEntity implements ITickTile// ,
         return this.lift;
     }
 
+    @Override
+    public @Nullable Packet<ClientGamePacketListener> getUpdatePacket()
+    {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(Provider registries)
+    {
+        return this.saveWithFullMetadata(registries);
+    }
+
+    @Override
+    public void handleUpdateTag(CompoundTag tag, Provider lookupProvider)
+    {
+        super.handleUpdateTag(tag, lookupProvider);
+    }
 }
