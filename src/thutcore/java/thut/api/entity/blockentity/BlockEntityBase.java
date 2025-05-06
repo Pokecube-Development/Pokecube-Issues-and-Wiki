@@ -15,7 +15,11 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.level.Level;
@@ -149,9 +153,9 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
     public void push(final Entity entity)
     {}
 
+    /** Applies the given player interaction to this Entity. */
     @Override
-    /** Applies the given player interaction to this Entity. */ public InteractionResult interactAt(final Player player,
-            final Vec3 vec, final InteractionHand hand)
+    public InteractionResult interactAt(final Player player, final Vec3 vec, final InteractionHand hand)
     {
         return super.interactAt(player, vec, hand);
     }
@@ -256,33 +260,25 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
             var eBounds = entity.getBoundingBox()
                     .inflate(Math.abs(entityV.x()), Math.abs(entityV.y()), Math.abs(entityV.z()));
             boolean stillHit = eBounds.intersects(usBounds);
+            var timer = entry.getValue().lastSeen().get();
+            // Ignore the first tick
+            if (timer == this.tickCount + 20) continue;
 
             boolean valid = stillHit;// || entity.distanceToSqr(this) < 64;
-            valid = valid && entry.getValue().lastSeen().get() >= tickCount;
+            valid = valid && timer >= tickCount;
             if (!valid) stale.add(entity);
 
             if (valid) entry.getValue().lastSeen.set(this.tickCount + 20);
 
             if (valid && tileV.y() != 0)
             {
-                double newVy = tileV.y() > 0 ? Math.max(tileV.y(), entityV.y()) : Math.min(tileV.y(), entityV.y());
+                double oldDy = entry.getValue().relativePos.y();
 
-                // Ensure the mob has same vertical velocity as us.
-                entity.setDeltaMovement(entityV.x(), newVy, entityV.z());
-
-                var entityR = this.position().add(pos.x(), pos.y(), pos.z());
-
-                double dvy = newVy > 0 ? newVy : 0;
-                entityR = entityR.add(0, dvy, 0);
-
-                var entityO = this.position().subtract(xo, yo, zo);
-                double x = entity.getX();
-                double y = entityR.y();
-                double z = entity.getZ();
-
-                entity.setPos(x, y, z);
-                entityO = entity.position().subtract(entityO);
-                entity.yo = entity.yOld = entityO.y();
+                // No jumping if it is going up
+                if (tileV.y() > 0) oldDy += tileV.y();
+                    // Allow jumping if it is going down
+                else if (tileV.y() < entityV.y()) oldDy += entityV.y();
+                entity.setPos(entity.getX(), this.getY() + oldDy, entity.getZ());
 
                 entity.setOnGround(true);
                 entity.fallDistance = 0;

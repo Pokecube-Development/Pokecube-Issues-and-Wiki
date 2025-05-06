@@ -41,8 +41,9 @@ public class TempBlock extends AirBlock implements EntityBlock
 
     public static TempBlock make()
     {
-        return new TempBlock(BlockBehaviour.Properties.of().isRedstoneConductor(TempBlock::solidCheck).replaceable()
-                .dynamicShape().noOcclusion().lightLevel(s -> s.getValue(TempBlock.LIGHTLEVEL)));
+        return new TempBlock(
+                BlockBehaviour.Properties.of().isRedstoneConductor(TempBlock::solidCheck).replaceable().dynamicShape()
+                        .noOcclusion().lightLevel(s -> s.getValue(TempBlock.LIGHTLEVEL)));
     }
 
     private static boolean solidCheck(final BlockState state, final BlockGetter reader, final BlockPos pos)
@@ -98,12 +99,10 @@ public class TempBlock extends AirBlock implements EntityBlock
     }
 
     /**
-     * The type of render function called. MODEL for mixed tesr and static
-     * model, MODELBLOCK_ANIMATED for TESR-only, LIQUID for vanilla liquids,
-     * INVISIBLE to skip all rendering
+     * The type of render function called. MODEL for mixed tesr and static model, MODELBLOCK_ANIMATED for TESR-only,
+     * LIQUID for vanilla liquids, INVISIBLE to skip all rendering
      *
-     * @deprecated call via {@link BlockState#getRenderShape()} whenever
-     *             possible. Implementing/overriding is fine.
+     * @deprecated call via {@link BlockState#getRenderShape()} whenever possible. Implementing/overriding is fine.
      */
     @Deprecated
     @Override
@@ -113,14 +112,14 @@ public class TempBlock extends AirBlock implements EntityBlock
     }
 
     @Override
-    public InteractionResult useWithoutItem(final BlockState state, final Level world, final BlockPos pos, final Player player,
-    		final BlockHitResult hit)
+    public InteractionResult useWithoutItem(final BlockState state, final Level world, final BlockPos pos,
+            final Player player, final BlockHitResult hit)
     {
         final BlockEntity tile = world.getBlockEntity(pos);
         if (tile instanceof TempTile temp) return temp.useWithoutItem(state, world, pos, player, hit);
         return InteractionResult.PASS;
     }
-    
+
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
             Player player, InteractionHand hand, BlockHitResult hitResult)
@@ -140,7 +139,7 @@ public class TempBlock extends AirBlock implements EntityBlock
     public void entityInside(final BlockState state, final Level level, final BlockPos pos, final Entity entity)
     {
         final BlockEntity be = level.getBlockEntity(pos);
-        if (be instanceof TempTile temp)
+        if (be instanceof TempTile temp && entity != temp.blockEntity)
         {
             temp.onVerticalCollide(entity, 0);
             if (temp.getEffectiveState() != null && temp.getEffectiveState().getBlock() != state.getBlock())
@@ -154,7 +153,7 @@ public class TempBlock extends AirBlock implements EntityBlock
     public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float distance)
     {
         final BlockEntity te = level.getBlockEntity(pos);
-        if (te instanceof TempTile tile)
+        if (te instanceof TempTile tile && entity != tile.blockEntity)
         {
             distance = tile.onVerticalCollide(entity, distance);
             if (tile.getEffectiveState() != null && tile.getEffectiveState().getBlock() != state.getBlock())
@@ -170,7 +169,7 @@ public class TempBlock extends AirBlock implements EntityBlock
     public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity)
     {
         final BlockEntity te = level.getBlockEntity(pos);
-        if (te instanceof TempTile tile)
+        if (te instanceof TempTile tile && entity != tile.blockEntity)
         {
             tile.onVerticalCollide(entity, 0);
             if (tile.getEffectiveState() != null && tile.getEffectiveState().getBlock() != state.getBlock())
@@ -211,8 +210,8 @@ public class TempBlock extends AirBlock implements EntityBlock
             {
                 boolean collider = false;
 
-                forCollision = temp.blockEntity == null
-                        || (collider = temp.blockEntity.recentCollides.containsKey(c.getEntity()));
+                forCollision = temp.blockEntity == null || (collider = temp.blockEntity.recentCollides.containsKey(
+                        c.getEntity()));
 
                 // If it has already collided, we need to check if it
                 // intersects our bounds, if not, we are not colliding, so

@@ -1,13 +1,9 @@
 package thut.api.entity.blockentity.block;
 
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import org.joml.Vector3f;
-
 import com.google.common.collect.Sets;
-
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
@@ -23,11 +19,15 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.joml.Vector3f;
 import thut.api.block.ITickTile;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.BlockEntityBase.RelativeEntityPos;
 import thut.api.maths.Vector3;
 import thut.crafts.ThutCrafts;
+
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class TempTile extends BlockEntity implements ITickTile
 {
@@ -91,8 +91,8 @@ public class TempTile extends BlockEntity implements ITickTile
         return null;
     }
 
-    public InteractionResult useWithoutItem(final BlockState state, final Level world, final BlockPos pos, final Player player,
-             final BlockHitResult hit)
+    public InteractionResult useWithoutItem(final BlockState state, final Level world, final BlockPos pos,
+            final Player player, final BlockHitResult hit)
     {
         final BlockState eff = this.getEffectiveState();
         if (eff != null && !NO_INTERACT.contains(eff) && blockEntity.getFakeWorld() instanceof Level level)
@@ -113,9 +113,9 @@ public class TempTile extends BlockEntity implements ITickTile
         }
         return blockEntity.interactAtFromTile(player, hit.getLocation(), player.getUsedItemHand());
     }
-    
-    public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos,
-            Player player, InteractionHand hand, BlockHitResult hitResult)
+
+    public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos, Player player,
+            InteractionHand hand, BlockHitResult hitResult)
     {
         final BlockState eff = this.getEffectiveState();
         if (eff != null && !NO_INTERACT.contains(eff) && blockEntity.getFakeWorld() instanceof Level level)
@@ -138,14 +138,14 @@ public class TempTile extends BlockEntity implements ITickTile
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
-//    TODO figure out how to sync these now...
-//    @Override
-//    public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
-//    {
-//        final BlockEntity effective = this.getEffectiveTile();
-//        if (effective != null && !(effective instanceof TempTile)) return effective.getCapability(cap, side);
-//        return super.getCapability(cap, side);
-//    }
+    //    TODO figure out how to sync these now...
+    //    @Override
+    //    public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
+    //    {
+    //        final BlockEntity effective = this.getEffectiveTile();
+    //        if (effective != null && !(effective instanceof TempTile)) return effective.getCapability(cap, side);
+    //        return super.getCapability(cap, side);
+    //    }
 
     public VoxelShape getShape(boolean forCollide)
     {
@@ -176,16 +176,34 @@ public class TempTile extends BlockEntity implements ITickTile
     {
         if (entity == this.blockEntity) return distance;
         if (this.blockEntity == null) return distance;
-        this.blockEntity.recentCollides.computeIfAbsent(entity, (e) -> {
-            var v = new RelativeEntityPos(e, new AtomicInteger(), new Vector3f());
-            v.lastSeen().set(this.blockEntity.tickCount + 20);
-            float dx = (float) (entity.getX() - this.blockEntity.getX());
-            float dy = (float) (entity.getY() - this.blockEntity.getY());
-            float dz = (float) (entity.getZ() - this.blockEntity.getZ());
-            if (v.relativePos().y() > 0) dy = v.relativePos().y();
-            v.relativePos().set(dx, dy, dz);
-            return v;
-        });
+        double y = this.getShape(false).max(Direction.Axis.Y);
+        if (Double.isFinite(y))
+        {
+            if (!(entity instanceof ServerPlayer serverplayer))
+            {
+                y += this.getBlockPos().getY();
+                double _dy = this.blockEntity.getDeltaMovement().y();
+                var velocity = entity.getDeltaMovement();
+                velocity = new Vec3(velocity.x(), _dy, velocity.z());
+                entity.setDeltaMovement(velocity);
+                entity.setPos(entity.getX(), y, entity.getZ());
+                this.blockEntity.recentCollides.compute(entity, (e, _v) -> {
+                    var v = new RelativeEntityPos(e, new AtomicInteger(), new Vector3f());
+                    v.lastSeen().set(this.blockEntity.tickCount + 20);
+                    float dx = (float) (entity.getX() - this.blockEntity.getX());
+                    double dy = entity.getY() - this.blockEntity.getY();
+                    float dz = (float) (entity.getZ() - this.blockEntity.getZ());
+                    v.relativePos().set(dx, dy, dz);
+                    return v;
+                });
+            }
+            else
+            {
+                // Meed to set floatingTickCount to prevent being kicked
+                serverplayer.connection.aboveGroundVehicleTickCount = 0;
+                serverplayer.connection.aboveGroundTickCount = 0;
+            }
+        }
         return distance;
     }
 

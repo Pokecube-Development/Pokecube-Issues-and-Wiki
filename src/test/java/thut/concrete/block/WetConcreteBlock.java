@@ -92,8 +92,8 @@ public abstract class WetConcreteBlock extends MoltenBlock
     @Override
     protected void initStateDefinition()
     {
-        this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, Integer.valueOf(1))
-                .setValue(WATERLOGGED, Boolean.valueOf(false)).setValue(FALLING, Boolean.valueOf(false)));
+        this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, 1)
+                .setValue(WATERLOGGED, Boolean.FALSE).setValue(FALLING, Boolean.FALSE));
     }
 
     @Override
@@ -134,7 +134,7 @@ public abstract class WetConcreteBlock extends MoltenBlock
         // Below is super from SimpleWaterloggedBlock
         if (state.getValue(BlockStateProperties.WATERLOGGED))
         {
-            level.setBlock(pos, state.setValue(BlockStateProperties.WATERLOGGED, Boolean.valueOf(false)), 3);
+            level.setBlock(pos, state.setValue(BlockStateProperties.WATERLOGGED, Boolean.FALSE), 3);
             if (!state.canSurvive(level, pos))
             {
                 level.destroyBlock(pos, true);
@@ -223,7 +223,7 @@ public abstract class WetConcreteBlock extends MoltenBlock
 
         protected void initStateDefinition()
         {
-            this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.valueOf(false)));
+            this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.FALSE));
         }
 
         @Override

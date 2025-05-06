@@ -118,7 +118,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         float destZ = this.toMoveZ ? this.controller.forwardInputDown ? 30 : -30 : 0;
 
         // debug movement
-        final boolean dbug_move = false;
+        final boolean dbug_move = true;
 
         if (dbug_move)
         {

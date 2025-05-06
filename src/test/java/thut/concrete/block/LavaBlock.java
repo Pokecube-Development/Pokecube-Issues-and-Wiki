@@ -1,7 +1,5 @@
 package thut.concrete.block;
 
-import java.lang.reflect.Array;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -23,6 +21,8 @@ import thut.api.maths.Vector3;
 import thut.concrete.Concrete;
 import thut.lib.RegHelper;
 
+import java.lang.reflect.Array;
+
 public abstract class LavaBlock extends MoltenBlock
 {
     public static DeferredBlock<FlowingBlock>[] makeLava(DeferredRegister.Blocks BLOCKS, String modid, String layer,
@@ -33,8 +33,7 @@ public abstract class LavaBlock extends MoltenBlock
         ResourceLocation block_id = ResourceLocation.fromNamespaceAndPath(modid, block);
 
         @SuppressWarnings("unchecked")
-        DeferredBlock<FlowingBlock>[] arr = (DeferredBlock<FlowingBlock>[]) Array.newInstance(DeferredBlock.class,
-                2);
+        DeferredBlock<FlowingBlock>[] arr = (DeferredBlock<FlowingBlock>[]) Array.newInstance(DeferredBlock.class, 2);
 
         DeferredBlock<FlowingBlock> layer_reg = BLOCKS.register(layer,
                 () -> new PartialMolten(layer_props).solidBlock(() -> SolidBlock.REGMAP.get(solid_layer).get())
@@ -89,8 +88,9 @@ public abstract class LavaBlock extends MoltenBlock
 
         protected void initStateDefinition()
         {
-            this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.valueOf(false))
-                    .setValue(HEATED, Boolean.valueOf(false)).setValue(VISCOSITY, 4));
+            this.registerDefaultState(
+                    this.stateDefinition.any().setValue(WATERLOGGED, Boolean.FALSE).setValue(HEATED, Boolean.FALSE)
+                            .setValue(VISCOSITY, 4));
         }
 
         @Override

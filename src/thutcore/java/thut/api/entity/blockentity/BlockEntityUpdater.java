@@ -34,7 +34,7 @@ public class BlockEntityUpdater
     public static boolean isWhitelisted(final BlockEntity tile)
     {
         final ResourceLocation id = BlockEntityType.getKey(tile.getType());
-        return id == null ? true : !IBlockEntity.TEBLACKLIST.contains(id.toString());
+        return id == null || !IBlockEntity.TEBLACKLIST.contains(id.toString());
     }
 
     final IBlockEntity blockEntity;
@@ -154,7 +154,7 @@ public class BlockEntityUpdater
     }
 
     /**
-     * Checks if the bounding box intersects with another.
+     * Checks if the bounding box i ntersects with another.
      */
     public static boolean intersectsOrAdjacent(final AABB boxA, final AABB boxB)
     {
@@ -185,7 +185,6 @@ public class BlockEntityUpdater
         if (isPlayer) serverSide = entity instanceof ServerPlayer;
 
         final Vec3 diffV = ref_motion.subtract(motion_b);
-        final AABB boundingBox = entityBox;
         if (isPlayer && serverSide)
         {
             final ServerPlayer player = (ServerPlayer) entity;
@@ -194,8 +193,8 @@ public class BlockEntityUpdater
             dz = player.zCloak - player.zCloakO;
             motion_b = new Vec3(dx, dy, dz).scale(0.5);
         }
-        /** Expanded box by velocities to test for collision with. */
-        final AABB testBox = boundingBox.expandTowards(diffV.x, diffV.y, diffV.z);// .grow(0.1);
+        /* Expanded box by velocities to test for collision with. */
+        final AABB testBox = entityBox.expandTowards(diffV.x, diffV.y, diffV.z);// .grow(0.1);
 
         dx = 0;
         dy = 0;
@@ -337,9 +336,9 @@ public class BlockEntityUpdater
         yMin = y0;
         zMin = z0;
 
-        xMax = x0 + size.getX();
-        yMax = y0 + size.getY();
-        zMax = z0 + size.getZ();
+        xMax = x0 + size.getX() + 1;
+        yMax = y0 + size.getY() + 1;
+        zMax = z0 + size.getZ() + 1;
 
         if (size.getY() <= 1) yMax += 1;
 

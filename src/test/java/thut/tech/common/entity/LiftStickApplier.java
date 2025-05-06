@@ -23,9 +23,6 @@ public class LiftStickApplier implements ICustomStickHandler
     @Override
     public void apply(ServerPlayer player, ServerLevel level, ItemStack held, BlockPos min, BlockPos max)
     {
-        final AABB box = AABB.encapsulatingFullBlocks(min, max);
-        min = new BlockPos((int) box.minX, (int) box.minY, (int) box.minZ);
-        max = new BlockPos((int) box.maxX, (int) box.maxY, (int) box.maxZ);
         final EntityLift lift = IBlockEntity.BlockEntityFormer.makeBlockEntity(level, min, max,
                 TechCore.LIFTTYPE.get());
         final String message = lift != null ? "msg.lift.create" : "msg.lift.fail";
