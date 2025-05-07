@@ -49,7 +49,7 @@ public class LiftInteractHandler extends BlockEntityInteractHandler
         final boolean shouldLinkLift = player.isShiftKeyDown() && isLinker && canEdit;
         final boolean shouldKillLiftUnowned = this.lift.owner == null;
         final boolean shouldDisplayOwner = isLinker && canEdit;
-        final boolean shouldKillLiftOwned = player.isShiftKeyDown() && isElevatorItemOrStick && canEdit;
+        final boolean shouldKillLiftOwned = isElevatorItemOrStick && canEdit;
 
         if (shouldKillLiftUnowned)
         {

@@ -1,19 +1,18 @@
 package thut.concrete.block;
 
-import java.util.function.Supplier;
-
-import org.joml.Vector3f;
-
 import com.mojang.serialization.MapCodec;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -33,13 +32,16 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.joml.Vector3f;
 import thut.api.block.flowing.IFlowingBlock;
 import thut.concrete.Concrete;
+
+import java.util.function.Supplier;
 
 public class RebarBlock extends PipeBlock implements SimpleWaterloggedBlock, IFlowingBlock
 {
     public static final MapCodec<RebarBlock> CODEC = simpleCodec(RebarBlock::new);
-    
+
     public static final IntegerProperty LEVEL = IntegerProperty.create("level", 0, 16);
     public static final BooleanProperty RUSTY = BooleanProperty.create("rusty");
 
@@ -123,8 +125,9 @@ public class RebarBlock extends PipeBlock implements SimpleWaterloggedBlock, IFl
         Level blockgetter = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
         FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-        BlockState prev = super.getStateForPlacement(context).setValue(IFlowingBlock.WATERLOGGED,
-                Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+        BlockState prev = super.getStateForPlacement(context)
+                .setValue(IFlowingBlock.WATERLOGGED, fluidstate.getType() == Fluids.WATER);
+        // scoped for the dir variable below.
         {
             var dir = context.getClickedFace().getOpposite();
 
@@ -155,54 +158,66 @@ public class RebarBlock extends PipeBlock implements SimpleWaterloggedBlock, IFl
 
         return prev;
     }
-    
+
+    @Override
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+            Player player, InteractionHand hand, BlockHitResult hitResult)
+    {
+
+        if (stack.getItem() == Items.STICK)
+        {
+            var relPos = hitResult.getLocation().subtract(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+            var dir = hitResult.getDirection();
+            float size = 0.1875f;// This is in the constructor for this class.
+            var r = new Vector3f((float) relPos.x, (float) relPos.y, (float) relPos.z);
+            var r_hat = dir.step().mul(size);
+            // Get location along the face
+            r_hat.absolute();
+            r.setComponent(r_hat.maxComponent(), 0);
+            // If it is inside the central square, we are adding a segment.
+            var r_abs = new Vector3f();
+            r.absolute(r_abs);
+            if (r_abs.get(r_abs.maxComponent()) < size)
+            {
+                if (player.isShiftKeyDown()) dir = dir.getOpposite();
+                var prop = PROPERTY_BY_DIRECTION.get(dir);
+                boolean value = state.getValue(prop);
+                level.setBlockAndUpdate(pos, state.setValue(prop, !value));
+                return ItemInteractionResult.SUCCESS;
+            }
+            Direction max = dir;
+            float max_dot = 0;
+
+            {
+                // Otherwise find which face we are
+                for (Direction d : Direction.values())
+                {
+                    if (d == dir || d == dir.getOpposite()) continue;
+                    float dot = r.dot(d.step());
+                    if (dot > max_dot)
+                    {
+                        max_dot = dot;
+                        max = d;
+                    }
+                }
+                if (max != dir)
+                {
+                    if (player.isShiftKeyDown()) max = max.getOpposite();
+                    var prop = PROPERTY_BY_DIRECTION.get(max);
+                    boolean value = state.getValue(prop);
+                    level.setBlockAndUpdate(pos, state.setValue(prop, !value));
+                    return ItemInteractionResult.SUCCESS;
+                }
+            }
+        }
+        return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
+    }
+
     @Override
     public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
             BlockHitResult hitResult)
     {
-        var relPos = hitResult.getLocation().subtract(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-        var dir = hitResult.getDirection();
-        float size = 0.1875f;// This is in the constructor for this class.
-        var r = new Vector3f((float) relPos.x, (float) relPos.y, (float) relPos.z);
-        var r_hat = dir.step().mul(size);
-        // Get location along the face
-        r_hat.absolute();
-        r.setComponent(r_hat.maxComponent(), 0);
-        // If it is inside the central square, we are adding a segment.
-        var r_abs = new Vector3f();
-        r.absolute(r_abs);
-        if (r_abs.get(r_abs.maxComponent()) < size)
-        {
-            if (player.isShiftKeyDown()) dir = dir.getOpposite();
-            var prop = PROPERTY_BY_DIRECTION.get(dir);
-            boolean value = state.getValue(prop);
-            level.setBlockAndUpdate(pos, state.setValue(prop, !value));
-            return InteractionResult.SUCCESS;
-        }
-        Direction max = dir;
-        float max_dot = 0;
-
-        // Otherwise find which face we are
-        for (Direction d : Direction.values())
-        {
-            if (d == dir || d == dir.getOpposite()) continue;
-            float dot = r.dot(d.step());
-            if (dot > max_dot)
-            {
-                max_dot = dot;
-                max = d;
-            }
-        }
-        if (max != dir)
-        {
-            if (player.isShiftKeyDown()) max = max.getOpposite();
-            var prop = PROPERTY_BY_DIRECTION.get(max);
-            boolean value = state.getValue(prop);
-            level.setBlockAndUpdate(pos, state.setValue(prop, !value));
-            return InteractionResult.SUCCESS;
-        }
-
-        return InteractionResult.PASS;
+        return super.useWithoutItem(state, level, pos, player, hitResult);
     }
 
     @Override
@@ -359,7 +374,6 @@ public class RebarBlock extends PipeBlock implements SimpleWaterloggedBlock, IFl
     public boolean isLadder(BlockState state, LevelReader world, BlockPos pos, LivingEntity entity)
     {
         int i = this.getAABBIndex(state);
-        if (i == 0) return false;
-        return true;
+        return i != 0;
     }
 }
