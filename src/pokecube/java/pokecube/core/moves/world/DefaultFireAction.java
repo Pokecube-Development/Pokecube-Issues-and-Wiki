@@ -1,7 +1,5 @@
 package pokecube.core.moves.world;
 
-import java.util.List;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ExperienceOrb;
@@ -16,8 +14,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.SnowLayerBlock;
-import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
-import net.minecraft.world.level.block.entity.FurnaceBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
@@ -26,6 +22,8 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.eventhandlers.MoveEventsHandler.UseContext;
 import thut.api.maths.Vector3;
+
+import java.util.List;
 
 public class DefaultFireAction extends DefaultAction
 {
@@ -38,16 +36,11 @@ public class DefaultFireAction extends DefaultAction
         if (!items.isEmpty())
         {
             boolean smelt = false;
-            final AbstractFurnaceBlockEntity tile = new FurnaceBlockEntity(pos.getPos(), pos.getBlockState(world));
             var quickCheck = RecipeManager.createCheck(RecipeType.SMELTING);
-            tile.setLevel(world);
             for (final ItemEntity item2 : items)
             {
-                final ItemEntity item = item2;
-                final ItemStack stack = item.getItem();
+                final ItemStack stack = item2.getItem();
                 final int num = stack.getCount();
-                tile.setItem(0, stack);
-                tile.setItem(1, stack);
                 var recipeHolder = quickCheck.getRecipeFor(new SingleRecipeInput(stack), world).orElse(null);
                 if (recipeHolder == null) continue;
                 var recipe = recipeHolder.value();
@@ -77,8 +70,8 @@ public class DefaultFireAction extends DefaultAction
                     hunger = (int) Math.max(1, hunger / (float) attacker.getLevel());
                     if (f > 0) hunger *= f;
                     attacker.applyHunger(hunger);
-                    item.setItem(newstack);
-                    item.lifespan += 6000;
+                    item2.setItem(newstack);
+                    item2.lifespan += 6000;
                     smelt = true;
                 }
             }
@@ -92,12 +85,12 @@ public class DefaultFireAction extends DefaultAction
         super(move);
     }
 
-    @Override
     /**
      * This will have the following effects, for fire type moves: Ignite
      * flamable blocks Melt snow If strong, melt obsidian to lava If none of the
      * above, attempt to cook items nearby
      */
+    @Override
     public boolean applyOutOfCombat(IPokemob user, Vector3 location)
     {
         if (move.getPWR() <= 0 || !PokecubeCore.getConfig().defaultFireActions) return false;
