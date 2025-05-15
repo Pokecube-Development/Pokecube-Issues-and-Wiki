@@ -195,8 +195,10 @@ public class PacketTrade extends Packet
                     pokemob1.setOwner(owner0);
                     pokemob0.setTraded(true);
                     pokemob1.setTraded(true);
-                    inv.insertItem(0, PokecubeManager.pokemobToItem(pokemob0), false);
-                    inv.insertItem(1, PokecubeManager.pokemobToItem(pokemob1), false);
+                    inv.extractItem(0, 1, false);
+                    inv.extractItem(1, 1, false);
+                    inv.insertItem(0, PokecubeManager.pokemobToItem(pokemob1), false);
+                    inv.insertItem(1, PokecubeManager.pokemobToItem(pokemob0), false);
                 }
                 else if (pokeseal) RecipePokeseals.process(cube, seal);
                 else if (reskin)
