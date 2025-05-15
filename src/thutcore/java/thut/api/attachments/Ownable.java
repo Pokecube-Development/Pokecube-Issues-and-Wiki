@@ -2,11 +2,9 @@ package thut.api.attachments;
 
 import com.google.common.collect.Sets;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.TamableAnimal;
@@ -42,63 +40,6 @@ public class Ownable
 {
     public static interface IOwnableSerializable extends IOwnable, INBTSerializable<CompoundTag>
     {
-
-    }
-
-    public static class WrapperImpl implements IOwnableSerializable
-    {
-        final IOwnable wrapped;
-
-        public WrapperImpl(IOwnable wrap)
-        {
-            this.wrapped = wrap;
-        }
-
-        @Override
-        public LivingEntity getOwner()
-        {
-            return wrapped.getOwner();
-        }
-
-        @Override
-        public UUID getOwnerId()
-        {
-            return wrapped.getOwnerId();
-        }
-
-        @Override
-        public boolean isPlayerOwned()
-        {
-            return wrapped.isPlayerOwned();
-        }
-
-        @Override
-        public void setOwner(LivingEntity e)
-        {
-            wrapped.setOwner(e);
-        }
-
-        @Override
-        public void setOwner(UUID id)
-        {
-            wrapped.setOwner(id);
-        }
-
-        @Override
-        public CompoundTag serializeNBT(Provider provider)
-        {
-            return null;
-        }
-
-        @Override
-        public void deserializeNBT(Provider provider, CompoundTag nbt)
-        {}
-
-        @Override
-        public void setPlayerOwned(boolean playerOwned)
-        {
-            wrapped.setPlayerOwned(playerOwned);
-        }
 
     }
 
@@ -364,7 +305,6 @@ public class Ownable
     public static class ImplTE extends Impl implements IOwnableTE
     {}
 
-    public static final Set<EntityType<?>> MOBS = Sets.newHashSet();
     public static final Set<BlockEntityType<?>> TILES = Sets.newHashSet();
 
     public static final ResourceLocation ID = ResourceLocation.parse("thutcore:ownable");
@@ -377,6 +317,7 @@ public class Ownable
     {
         if (in == null) return null;
         if (in.hasData(TYPE.get())) return in.getData(TYPE.get());
+        if(in instanceof BlockEntity e && TILES.contains(e.getType())) return in.getData(TYPE.get());
         return null;
     }
 
@@ -398,6 +339,7 @@ public class Ownable
             {
                 if (mob instanceof TamableAnimal animal) return new TameWrapper().Attach(animal);
                 else if (mob instanceof AbstractHorse horse) return new HorseWrapper().Attach(horse);
+                else if (mob instanceof BlockEntity) return new ImplTE();
                 return null;
             }
 
