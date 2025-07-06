@@ -153,14 +153,14 @@ public class CaptureManager
             else cube.setTime(CAPTURE_SHAKE_TIME * n + CAPTURE_SHRINK_TIMER);
             ItemStack mobsCube = cube.getItem().copy();
             mobsCube.remove(PokemobCaps.POKECUBE_DATA);
-            hitten.setPokecube(mobsCube);
-            ItemStack stack = PokecubeManager.pokemobToItem(hitten);
+            if(hitten!=null) hitten.setPokecube(mobsCube);
+            ItemStack stack = mobsCube.copy();
+            PokecubeManager.addToCube(stack, mob);
             PokecubeManager.setTilt(stack, n, cube.level());
             v.set(cube).addTo(0, mob.getBbHeight() / 2, 0).moveEntity(cube);
             removeMob = true;
             cube.setCapturing(mob);
         }
-
         if (removeMob) mob.discard();
     }
 
@@ -172,6 +172,7 @@ public class CaptureManager
             // Just drop the cube? something went wrong
             cube.spawnAtLocation(cube.getItem());
             PokecubeAPI.LOGGER.error("Error with capture failure for {}", cube.getItem());
+            cube.discard();
             return;
         }
         final IPokemob pokemob = PokemobCaps.getPokemobFor(living);
