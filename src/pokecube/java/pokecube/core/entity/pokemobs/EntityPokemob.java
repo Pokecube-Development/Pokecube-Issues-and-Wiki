@@ -344,7 +344,7 @@ public class EntityPokemob extends PokemobRidable
         {
             Entity entity = level.getNearestPlayer(this, -1.0D);
             var notDefault = EventHooks.checkMobDespawn(this);
-            if (notDefault)
+            if (notDefault && entity != null)
             {
                 double d0 = entity.distanceToSqr(this);
                 if (this.removeWhenFarAway(d0))
