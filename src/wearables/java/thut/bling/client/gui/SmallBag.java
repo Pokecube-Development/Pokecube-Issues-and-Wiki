@@ -32,11 +32,11 @@ public class SmallBag<T extends ChestMenu> extends AbstractContainerScreen<T>
     @Override
     protected void renderLabels(final GuiGraphics graphics, final int par1, final int par2)
     {
-        if (ThutCore.getConfig().fancyGUI) graphics.drawString(this.font, this.getTitle().getString(), 8, 6, 0x330001, false);
-        else graphics.drawString(this.font, this.getTitle().getString(), 8, 6, 4210752, false);
+        if (ThutCore.getConfig().fancyGUI) graphics.drawString(this.font, this.getTitle().getString(), 8, 2, 0x330001, false);
+        else graphics.drawString(this.font, this.getTitle().getString(), 8, 2, 4210752, false);
 
         graphics.drawString(this.font, this.playerInventoryTitle.getString(),
-                8, this.imageHeight - 94 + 2, 4210752, false);
+                8, this.imageHeight - 96, 4210752, false);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class SmallBag<T extends ChestMenu> extends AbstractContainerScreen<T>
         final int y = (this.height - this.imageHeight) / 2;
 
         // Blit format: Texture location, gui x pos, gui y position, texture x pos, texture y pos, texture x size, texture y size
-        if (ThutCore.getConfig().fancyGUI) graphics.blit(BAG_GUI_BROWN, x, y, 0, 0, this.imageWidth, this.imageHeight);
+        if (ThutCore.getConfig().fancyGUI) graphics.blit(BAG_GUI_BROWN, x, y-5, 0, 0, this.imageWidth, this.imageHeight);
         else  graphics.blit(BAG_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
     }
 

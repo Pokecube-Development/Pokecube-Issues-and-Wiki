@@ -52,7 +52,7 @@ public class SmallContainer extends ChestMenu
             for (int k = 0; k < 9; ++k)
             {
                 int i = k + j * 9;
-                var replacement = new BagSlot(this.inv, i, 8 + k * 18, 18 + j * 18);
+                var replacement = new BagSlot(this.inv, i, 8 + k * 18, 13 + j * 18);
                 replacement.index = i;
                 this.slots.set(i, replacement);
             }
