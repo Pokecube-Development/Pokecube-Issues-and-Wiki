@@ -16,23 +16,31 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import pokecube.api.PokecubeAPI;
 import thut.lib.RegHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class DeadCoralFeature extends Feature<NoneFeatureConfiguration>
 {
     // Tags
     public final static TagKey<Block> DEAD_CORAL_BLOCKS = TagKey.create(RegHelper.BLOCK_REGISTRY,
-            ResourceLocation.fromNamespaceAndPath("forge", "dead_coral_blocks"));
+            ResourceLocation.fromNamespaceAndPath("c", "dead_coral_blocks"));
     public final static TagKey<Block> DEAD_CORALS = TagKey.create(RegHelper.BLOCK_REGISTRY,
-            ResourceLocation.fromNamespaceAndPath("forge", "dead_corals"));
+            ResourceLocation.fromNamespaceAndPath("c", "dead_corals"));
     public final static TagKey<Block> DEAD_WALL_CORALS = TagKey.create(RegHelper.BLOCK_REGISTRY,
-            ResourceLocation.fromNamespaceAndPath("forge", "dead_wall_corals"));
+            ResourceLocation.fromNamespaceAndPath("c", "dead_wall_corals"));
 
     private Block getRandom(TagKey<Block> key, RandomSource rand)
     {
-        List<Block> list = BuiltInRegistries.BLOCK.stream().toList();
+        var tagged = BuiltInRegistries.BLOCK.getTagOrEmpty(key);
+        List<Block> list = new ArrayList<>();
+        tagged.iterator().forEachRemaining(b->list.add(b.value()));
+        if(list.isEmpty()){
+            PokecubeAPI.LOGGER.error("No blocks found for {}", key);
+            return Blocks.AIR;
+        }
         return list.get(rand.nextInt(list.size()));
     }
 

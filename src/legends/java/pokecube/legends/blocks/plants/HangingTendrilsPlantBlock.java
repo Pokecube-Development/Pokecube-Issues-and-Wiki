@@ -8,7 +8,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -21,7 +20,6 @@ import net.minecraft.world.level.block.GrowingPlantHeadBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.legends.init.PlantsInit;
@@ -37,29 +35,28 @@ public class HangingTendrilsPlantBlock extends GrowingPlantBodyBlock implements 
     }
 
     public static final VoxelShape SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 16.0D, 15.0D);
-    public static final BooleanProperty EYES = BooleanProperty.create("eyes");
 
     public HangingTendrilsPlantBlock(BlockBehaviour.Properties properties)
     {
         super(properties, Direction.DOWN, SHAPE, false);
-        this.registerDefaultState(this.stateDefinition.any().setValue(EYES, Boolean.FALSE));
+        this.registerDefaultState(this.stateDefinition.any().setValue(HangingTendrilsBlock.EYES, Boolean.FALSE));
     }
 
     @Override
     public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
     {
-        builder.add(EYES);
+        builder.add(HangingTendrilsBlock.EYES);
     }
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
             BlockHitResult hitResult)
     {
-        if (state.getValue(EYES))
+        if (state.getValue(HangingTendrilsBlock.EYES))
         {
             float f = Mth.randomBetween(level.random, 0.8F, 1.2F);
-            level.playSound((Player) null, pos, SoundEvents.CAVE_VINES_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, f);
-            level.setBlock(pos, state.setValue(EYES, Boolean.FALSE), 2);
+            level.playSound(null, pos, SoundEvents.CAVE_VINES_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, f);
+            level.setBlock(pos, state.setValue(HangingTendrilsBlock.EYES, Boolean.FALSE), 2);
             return InteractionResult.sidedSuccess(level.isClientSide);
         }
         else
@@ -71,19 +68,19 @@ public class HangingTendrilsPlantBlock extends GrowingPlantBodyBlock implements 
     @Override
     public BlockState updateHeadAfterConvertedFromBody(BlockState state, BlockState state1)
     {
-        return state1.setValue(EYES, state.getValue(EYES));
+        return state1.setValue(HangingTendrilsBlock.EYES, state.getValue(HangingTendrilsBlock.EYES));
     }
 
     @Override
     public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state)
     {
-        return !state.getValue(EYES);
+        return !state.getValue(HangingTendrilsBlock.EYES);
     }
 
     @Override
     public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state)
     {
-        world.setBlock(pos, state.setValue(EYES, Boolean.TRUE), 2);
+        world.setBlock(pos, state.setValue(HangingTendrilsBlock.EYES, Boolean.TRUE), 2);
     }
 
     @Override
