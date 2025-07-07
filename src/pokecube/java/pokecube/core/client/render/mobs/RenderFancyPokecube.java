@@ -91,7 +91,6 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     {
         super(renderManager, new ModelPokecube(), 0.0f);
         baseModel = this.getModel();
-        for (ResourceLocation l : PokecubeItems.pokecubes.keySet()) this.makeModel(l);
     }
 
     private ModelWrapper<EntityPokecube> makeModel(ResourceLocation cube)
@@ -118,7 +117,10 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
                     RenderPokecube.pokecubeRenderers.putIfAbsent(cube, this);
                 }
             });
-            if (m2.isValid()) return model;
+            if (m2.isValid())
+            {
+                return model;
+            }
         }
         // Next lets try just the xml
         xml:
@@ -133,22 +135,25 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
             holder.animation = animKey;
             var model = new ModelWrapper<EntityPokecube>(holder, this);
             IModel m2 = ModelFactory.create(model.model, m -> {
-                model.setModel(m);
-                this.changer = null;
-                this.texer = null;
-                this.anims = Maps.newHashMap();
-                var old = this.model;
-                this.model = model; // copy this over for the animation parser to handle properly
-                AnimationLoader.parse(holder, model, this);
-                this.model = old;
                 synchronized (models)
                 {
+                    model.setModel(m);
+                    this.changer = null;
+                    this.texer = null;
+                    this.anims = Maps.newHashMap();
+                    var old = this.model;
+                    this.model = model; // copy this over for the animation parser to handle properly
+                    AnimationLoader.parse(holder, model, this);
+                    this.model = old;
                     this.models.put(cube,
                             new ModelSet(getAnimationChanger(), getTexturer(), model, offset, scale, anims));
                     RenderPokecube.pokecubeRenderers.putIfAbsent(cube, this);
                 }
             });
-            if (m2.isValid()) return model;
+            if (m2.isValid())
+            {
+                return model;
+            }
         }
         return ret;
     }
