@@ -55,7 +55,7 @@ public class EventsHandler
             String key = RegHelper.getKey(biome).toString();
 
             if (key.equals("pokecube_legends:aquamarine_caves") && !player.isCreative() && !player.isSpectator()
-                    && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.DIG_SLOWDOWN))
+                    && player.getActiveEffects().stream().noneMatch(e -> e.getEffect() == MobEffects.DIG_SLOWDOWN))
             {
                 effect = new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 480, 2);
             }
@@ -63,7 +63,7 @@ public class EventsHandler
             if ((key.equals("pokecube_legends:azure_badlands") || key.equals("pokecube_legends:eroded_azure_badlands")
                     || key.equals("pokecube_legends:wooded_azure_badlands")) && !player.isCreative()
                     && !player.isSpectator()
-                    && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.WEAKNESS))
+                    && player.getActiveEffects().stream().noneMatch(e -> e.getEffect() == MobEffects.WEAKNESS))
             {
                 effect = new MobEffectInstance(MobEffects.WEAKNESS, 480, 1);
             }
@@ -73,14 +73,14 @@ public class EventsHandler
                     || key.equals("pokecube_legends:shattered_blinding_deltas")
                     || key.equals("pokecube_legends:volcanic_blinding_deltas")) && !player.isCreative()
                     && !player.isSpectator()
-                    && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.BLINDNESS))
+                    && player.getActiveEffects().stream().noneMatch(e -> e.getEffect() == MobEffects.BLINDNESS))
             {
                 effect = new MobEffectInstance(MobEffects.BLINDNESS, 480, 0);
             }
 
             if ((key.equals("pokecube_legends:burnt_beach") || key.equals("pokecube_legends:meteorite_spikes"))
                     && !player.isCreative() && !player.isSpectator()
-                    && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.UNLUCK))
+                    && player.getActiveEffects().stream().noneMatch(e -> e.getEffect() == MobEffects.UNLUCK))
             {
                 effect = new MobEffectInstance(MobEffects.UNLUCK, 480, 1);
 
@@ -98,7 +98,7 @@ public class EventsHandler
                     || key.equals("pokecube_legends:polluted_ocean") || key.equals("pokecube_legends:polluted_river")
                     || key.equals("pokecube_legends:shattered_tainted_barrens")
                     || key.equals("pokecube_legends:tainted_barrens")) && !player.isCreative() && !player.isSpectator()
-                    && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.CONFUSION))
+                    && player.getActiveEffects().stream().noneMatch(e -> e.getEffect() == MobEffects.CONFUSION))
             {
                 effect = new MobEffectInstance(MobEffects.CONFUSION, 480, 1);
             }
@@ -107,7 +107,7 @@ public class EventsHandler
                     || key.equals("pokecube_legends:rocky_mirage_desert")
                     || key.equals("pokecube_legends:snowy_crystallized_beach")) && !player.isCreative()
                     && !player.isSpectator()
-                    && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.LEVITATION))
+                    && player.getActiveEffects().stream().noneMatch(e -> e.getEffect() == MobEffects.LEVITATION))
             {
                 effect = new MobEffectInstance(MobEffects.LEVITATION, 120, 0);
             }
@@ -118,7 +118,7 @@ public class EventsHandler
                     || key.equals("pokecube_legends:frozen_dead_ocean")
                     || key.equals("pokecube_legends:frozen_dead_river")) && !player.isCreative()
                     && !player.isSpectator()
-                    && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.HUNGER))
+                    && player.getActiveEffects().stream().noneMatch(e -> e.getEffect() == MobEffects.HUNGER))
             {
                 effect = new MobEffectInstance(MobEffects.HUNGER, 480, 2);
             }
@@ -126,7 +126,7 @@ public class EventsHandler
             if ((key.equals("pokecube_legends:distorted_lands")
                     || key.equals("pokecube_legends:small_distorted_islands")) && !player.isCreative()
                     && !player.isSpectator()
-                    && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.MOVEMENT_SPEED))
+                    && player.getActiveEffects().stream().noneMatch(e -> e.getEffect() == MobEffects.MOVEMENT_SPEED))
             {
                 effect = new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 480, 2);
             }
@@ -148,7 +148,7 @@ public class EventsHandler
                     || key.equals("pokecube_legends:snowy_forbidden_taiga")
                     || key.equals("pokecube_legends:windswept_forbidden_taiga")) && !player.isCreative()
                     && !player.isSpectator()
-                    && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.WITHER))
+                    && player.getActiveEffects().stream().noneMatch(e -> e.getEffect() == MobEffects.WITHER))
             {
                 effect = new MobEffectInstance(MobEffects.WITHER, 480, 1);
             }
@@ -156,7 +156,7 @@ public class EventsHandler
             if ((key.equals("pokecube_legends:frozen_peaks") || key.equals("pokecube_legends:jagged_peaks")
                     || key.equals("pokecube_legends:snowy_slopes") || key.equals("pokecube_legends:ultra_stony_peaks"))
                     && !player.isCreative() && !player.isSpectator()
-                    && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.MOVEMENT_SLOWDOWN))
+                    && player.getActiveEffects().stream().noneMatch(e -> e.getEffect() == MobEffects.MOVEMENT_SLOWDOWN))
             {
                 effect = new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 480, 2);
             }
@@ -166,7 +166,7 @@ public class EventsHandler
                     || key.equals("pokecube_legends:fungal_sunflower_plains")
                     || key.equals("pokecube_legends:snowy_fungal_plains")) && !player.isCreative()
                     && !player.isSpectator()
-                    && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.MOVEMENT_SLOWDOWN))
+                    && player.getActiveEffects().stream().noneMatch(e -> e.getEffect() == MobEffects.MOVEMENT_SLOWDOWN))
             {
                 effect = new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 480, 0);
             }
@@ -176,13 +176,13 @@ public class EventsHandler
                     || key.equals("pokecube_legends:temporal_jungle")
                     || key.equals("pokecube_legends:windswept_temporal_jungle")) && !player.isCreative()
                     && !player.isSpectator()
-                    && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.POISON))
+                    && player.getActiveEffects().stream().noneMatch(e -> e.getEffect() == MobEffects.POISON))
             {
                 effect = new MobEffectInstance(MobEffects.POISON, 480, 1);
             }
 
             if (key.equals("pokecube_legends:ultra_stony_shore") && !player.isCreative() && !player.isSpectator()
-                    && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.UNLUCK))
+                    && player.getActiveEffects().stream().noneMatch(e -> e.getEffect() == MobEffects.UNLUCK))
             {
                 effect = new MobEffectInstance(MobEffects.UNLUCK, 480, 0);
             }
