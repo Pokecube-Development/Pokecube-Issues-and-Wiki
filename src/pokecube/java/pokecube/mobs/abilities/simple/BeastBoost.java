@@ -20,7 +20,7 @@ public class BeastBoost extends Ability
         if (targetMob == null) return;
         if (!targetMob.inCombat())
         {
-            byte boost = IMoveConstants.ATTACK;
+            int boost = IMoveConstants.ATTACK;
             int stat = mob.getStat(Stats.ATTACK, true);
             int tmp;
             if ((tmp = mob.getStat(Stats.SPATTACK, true)) > stat)

@@ -78,14 +78,14 @@ public interface IMoveConstants extends IMoveNames
     /*
      * Stats Modifiers
      */
-    byte ATTACK = 1;
-    byte DEFENSE = 2;
-    byte SPATACK = 4;
-    byte SPDEFENSE = 8;
-    byte VIT = 16;
-    byte ACCURACY = 32;
+    int ATTACK = 2;
+    int DEFENSE = 4;
+    int SPATACK = 8;
+    int SPDEFENSE = 16;
+    int VIT = 32;
+    int ACCURACY = 64;
 
-    byte EVASION = 64;
+    int EVASION = 128;
     /*
      * Stats Changes
      */
