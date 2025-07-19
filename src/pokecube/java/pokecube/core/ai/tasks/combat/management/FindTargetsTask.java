@@ -45,6 +45,7 @@ public class FindTargetsTask extends PokemobBehaviour implements IAICombat, ITar
     public static LivingChangeTargetEvent.ILivingTargetType AGROREDIRECT = new LivingChangeTargetEvent.ILivingTargetType() {};
 
     public static int DEAGROTIMER = 50;
+    public static double MAX_AGRO_DISTANCE = 64;
 
     private static final Map<MemoryModuleType<?>, MemoryStatus> MEMS = Maps.newHashMap();
 
@@ -70,7 +71,9 @@ public class FindTargetsTask extends PokemobBehaviour implements IAICombat, ITar
     private static LivingEntity divertTarget(LivingEntity aggressor, LivingEntity aggressed)
     {
         // We don't handle diverting self agression here.
-        if (aggressed == aggressor) return aggressor;
+        if (aggressed == aggressor) return aggressed;
+        // Don't divert if the two mobs are too far away
+        if(aggressed.distanceTo(aggressor) > MAX_AGRO_DISTANCE) return aggressed;
 
         List<Entity> mobs = PokemobTracker.getMobs(aggressed,
                 e -> PokemobCaps.getPokemobFor(e) != null && e.distanceToSqr(aggressed) < 4096);
@@ -82,6 +85,8 @@ public class FindTargetsTask extends PokemobBehaviour implements IAICombat, ITar
             if (poke == null) return true;
             // Also prevent staying ones
             if (poke.getGeneralState(GeneralStates.STAYING)) return true;
+            // And ones which are too far away
+            if (c.distanceTo(aggressor) > MAX_AGRO_DISTANCE) return true;
             return !poke.isRoutineEnabled(AIRoutine.AGRESSIVE);
         });
         final boolean targetHasMobs = !mobs.isEmpty();
