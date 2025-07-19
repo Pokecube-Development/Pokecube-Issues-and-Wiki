@@ -1,6 +1,8 @@
 package pokecube.adventures.blocks.genetics.helper.recipe;
 
 import net.neoforged.neoforge.event.entity.player.PlayerEvent.ItemCraftedEvent;
+import pokecube.adventures.PokecubeAdv;
+import pokecube.core.PokecubeCore;
 import thut.core.common.ThutCore;
 
 public class RecipeHandlers
@@ -37,7 +39,7 @@ public class RecipeHandlers
 
     private static void onCrafted(final ItemCraftedEvent event)
     {
-        Thread.dumpStack();
+        if(PokecubeCore.getConfig().debug_data) Thread.dumpStack();
         //        if (!(event.getInventory() instanceof CraftingContainer inv)) return;
         //        final BookCloningRecipe test = new BookCloningRecipe(CraftingBookCategory.MISC);
         //
