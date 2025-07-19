@@ -84,13 +84,13 @@ public class ForgetTargetTask extends CombatTask
     protected void tick(final ServerLevel level, final Mob entity, final long gameTime)
     {
         var pokemob = PokemobCaps.getPokemobFor(entity);
-        pokemob.timeSinceCombat();
         this.battleTime++;
 
         // Check if we should be cancelling due to wild mobs
         this.mutualDeagro = true;
         final IPokemob mobA = pokemob;
         final IPokemob mobB = this.pokemobTarget;
+        Battle b = pokemob.getBattle();
 
         LivingEntity mate = null;
         if (entity instanceof AgeableMob ageable)
@@ -112,7 +112,7 @@ public class ForgetTargetTask extends CombatTask
         var target = this.getAttackTarget(entity);
 
         boolean deAgro = mate == target;
-        boolean exitBattle = false;
+        boolean exitBattle = b != null && b.getAllies(mobA.getEntity()).size()<=1;
 
         final ForgetEntry entry = new ForgetEntry(level.getGameTime(), target);
         if (this.forgotten.containsKey(entry.mob.getUUID()))
@@ -200,7 +200,6 @@ public class ForgetTargetTask extends CombatTask
 
                 // Check if we are in a battle, and if so, divert to another
                 // member
-                Battle b = pokemob.getBattle();
                 if (b != null)
                 {
                     var targets = b.getEnemies(entity);
@@ -343,8 +342,10 @@ public class ForgetTargetTask extends CombatTask
         // switch over to that one.
         if (exitBattle)
         {
+            Battle b = pokemob.getBattle();
+            if(b!=null) b.removeFromBattle(pokemob.getEntity());
+
             pokemob.setAttackCooldown(PokecubeCore.getConfig().pokemobagressticks);
-            pokemob.getTargetFinder().clear(entity);
             pokemob.onSetTarget(null, true);
             if (this.pokemobTarget != null && this.mutualDeagro)
             {
@@ -358,15 +359,13 @@ public class ForgetTargetTask extends CombatTask
         }
         else
         {
-            // Clear target finder anyway, to let it reset
-            pokemob.getTargetFinder().clear(entity);
-
             // Clear these as well.
             BrainUtils.deagro(entity, this.mutualDeagro);
             this.pokemobTarget = null;
             this.battleTime = 0;
             this.ticksSinceSeen = 0;
-
         }
+        // Clear target finder anyway, to let it reset
+        pokemob.getTargetFinder().clear(entity);
     }
 }
