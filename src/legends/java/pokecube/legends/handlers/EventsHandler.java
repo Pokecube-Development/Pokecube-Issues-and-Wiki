@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biome;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import pokecube.core.PokecubeCore;
 import pokecube.legends.blocks.properties.Strippables;
 import pokecube.legends.blocks.properties.Tillables;
 import pokecube.legends.init.ItemInit;
@@ -189,7 +190,7 @@ public class EventsHandler
 
             if (takesBiomeDamage(player) && effect != null)
             {
-                Thread.dumpStack();
+                if(PokecubeCore.getConfig().debug_misc) Thread.dumpStack();
 //                effect.setCurativeItems(Lists.newArrayList(new ItemStack(ItemInit.ULTRA_HELMET.get()),
 //                        new ItemStack(ItemInit.ULTRA_CHESTPLATE.get()), new ItemStack(ItemInit.ULTRA_LEGGINGS.get()),
 //                        new ItemStack(ItemInit.ULTRA_BOOTS.get())));
@@ -198,7 +199,7 @@ public class EventsHandler
 
             if (!takesBiomeDamage(player))
             {
-                Thread.dumpStack();
+                if(PokecubeCore.getConfig().debug_misc) Thread.dumpStack();
                 player.clearFire();
 //                player.curePotionEffects(new ItemStack(ItemInit.ULTRA_HELMET.get()));
                 player.setIsInPowderSnow(false);
