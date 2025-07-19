@@ -390,7 +390,7 @@ public class TerrainSegment
     {
         if (this.chunk == null)
         {
-            Thread.dumpStack();
+            if(ThutCore.conf.debug) Thread.dumpStack();
             return BiomeType.NONE;
         }
         if (!TerrainSegment.biomeCheckers.isEmpty()) for (final ISubBiomeChecker checker : TerrainSegment.biomeCheckers)
