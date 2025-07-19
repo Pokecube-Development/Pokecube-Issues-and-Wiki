@@ -575,13 +575,13 @@ public class PokemobEventsHandler
         // Handles extra EXP gain from lucky egg and exp share.
         if (killer != null && evt.giveExp && killedMob.level() instanceof ServerLevel level)
         {
-            int exp = killer.getExp() + Tools.getExp((float) PokecubeCore.getConfig().expScaleFactor, killedMob, killed,
+            int exp = Tools.getExp((float) PokecubeCore.getConfig().expScaleFactor, killedMob, killed,
                     level, killer.getEntity());
             final LivingEntity owner = killer.getOwner();
             final ItemStack stack = killer.getHeldItem();
             if (ItemList.is(ResourceLocation.fromNamespaceAndPath("pokecube", "luckyegg"), stack))
             {
-                killer.setExp(exp, true);
+                killer.setExp(killer.getExp() + exp, true);
             }
             if (owner != null)
             {
@@ -594,7 +594,7 @@ public class PokemobEventsHandler
                             ResourceLocation.fromNamespaceAndPath("pokecube", "exp_share"), poke.getHeldItem())
                             && !poke.getLogicState(LogicStates.SITTING))
                     {
-                        poke.setExp(exp, true);
+                        poke.setExp(poke.getExp() + exp, true);
                     }
                 }
             }
