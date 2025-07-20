@@ -79,6 +79,9 @@ public class CicleTask extends CombatTask
         var target = this.getAttackTarget(entity);
         // Figure out where centre of combat is
         var centre = calculateCentre(target, entity, pokemob);
+        int combatDistance = PokecubeCore.getConfig().combatDistance;
+        Vector3 here = new Vector3().set(entity);
+
         float movementSpeed = 1.5f;
         Node point;
         // If the mob has a path already, check if it is near the end, if not,
@@ -86,10 +89,15 @@ public class CicleTask extends CombatTask
         if (!entity.getNavigation().isDone() && (point = entity.getNavigation().getPath().getEndNode()) != null)
         {
             final Vector3 end = new Vector3().set(point);
-            final Vector3 here = new Vector3().set(entity);
             float f = entity.getBbWidth();
             f = Math.max(f, 0.5f);
             if (here.distTo(end) > f) return;
+        }
+
+        if (here.distTo(centre) > 3 * combatDistance)
+        {
+            this.setWalkTo(entity, centre, movementSpeed, combatDistance);
+            return;
         }
 
         // Check if we can see the target, if not, try pathing directly to it.
@@ -101,7 +109,6 @@ public class CicleTask extends CombatTask
 
         MoveEntry attack = pokemob.getSelectedMove();
 
-        final Vector3 here = new Vector3().set(entity);
         boolean meleeCombat = !attack.isRanged(pokemob) && !pokemob.getMoveStats().targettingSelf;
         // melee mobs will instead try to be closer to the target, instead of
         // centre of battlefield
@@ -109,7 +116,6 @@ public class CicleTask extends CombatTask
 
         final Vector3 diff = here.subtract(centre);
         if (diff.magSq() < 1) diff.norm();
-        int combatDistance = PokecubeCore.getConfig().combatDistance;
 
         // If we are using a melee move, try to stay closer to the target!
         if (meleeCombat)

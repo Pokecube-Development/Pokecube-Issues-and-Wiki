@@ -85,7 +85,6 @@ public class AttackEntityHandler extends DefaultHandler
             if(b!=null) {
                 var enemies = b.getEnemies(pokemob.getEntity());
                 if(enemies.contains(living)) pokemob.getMoveStats().enemyIndex = enemies.indexOf(living);
-                System.out.println(enemies.indexOf(living));
             }
         }
         else if (PokecubeCore.getConfig().debug_commands)

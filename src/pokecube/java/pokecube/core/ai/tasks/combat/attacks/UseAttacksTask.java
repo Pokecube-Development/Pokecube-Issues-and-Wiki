@@ -137,7 +137,7 @@ public class UseAttacksTask extends CombatTask implements IMoveUseAI
 
         final boolean canUseMove = MovesUtils.canUseMove(pokemob);
         if (!canUseMove) return;
-        boolean inRange = false;
+        boolean inRange;
 
         // Checks to see if the target is in range.
         if (distanced) inRange = dist < var1;

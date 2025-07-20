@@ -416,6 +416,8 @@ public class Battle
         final List<LivingEntity> stale = Lists.newArrayList();
         boolean changed = false;
 
+        int numBefore = this.side1.size()+this.side2.size();
+
         // check if we have any stale mobs, this checks if they have revived
         // somehow using a timer. The function calls are before || so that both
         // sets get checked, and not optimised out.
@@ -431,6 +433,16 @@ public class Battle
         if (this.side1.isEmpty() || this.side2.isEmpty()) this.end();
         // Otherwise If we did change, sort the sides
         else if (changed) this.sortSides();
+
+        int numAfter = this.side1.size()+this.side2.size();
+
+        if(Math.abs(numAfter-numBefore) > 3 && numAfter > 1){
+            // Recalculate centre
+            centre.set(0,0,0);
+            for(var a: this.side1.values()) centre.addTo(a.getX(), a.getY(), a.getZ());
+            for(var a: this.side2.values()) centre.addTo(a.getX(), a.getY(), a.getZ());
+            centre.scalarMultBy(1.0/numAfter);
+        }
     }
 
     private void start()

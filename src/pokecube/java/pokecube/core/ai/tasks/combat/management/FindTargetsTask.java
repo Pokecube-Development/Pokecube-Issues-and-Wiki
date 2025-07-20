@@ -45,7 +45,6 @@ public class FindTargetsTask extends PokemobBehaviour implements IAICombat, ITar
     public static LivingChangeTargetEvent.ILivingTargetType AGROREDIRECT = new LivingChangeTargetEvent.ILivingTargetType() {};
 
     public static int DEAGROTIMER = 50;
-    public static double MAX_AGRO_DISTANCE = 64;
 
     private static final Map<MemoryModuleType<?>, MemoryStatus> MEMS = Maps.newHashMap();
 
@@ -73,7 +72,7 @@ public class FindTargetsTask extends PokemobBehaviour implements IAICombat, ITar
         // We don't handle diverting self agression here.
         if (aggressed == aggressor) return aggressed;
         // Don't divert if the two mobs are too far away
-        if(aggressed.distanceTo(aggressor) > MAX_AGRO_DISTANCE) return aggressed;
+        if(aggressed.distanceTo(aggressor) > PokecubeCore.getConfig().maxCombatDistance) return aggressed;
 
         List<Entity> mobs = PokemobTracker.getMobs(aggressed,
                 e -> PokemobCaps.getPokemobFor(e) != null && e.distanceToSqr(aggressed) < 4096);
@@ -86,7 +85,7 @@ public class FindTargetsTask extends PokemobBehaviour implements IAICombat, ITar
             // Also prevent staying ones
             if (poke.getGeneralState(GeneralStates.STAYING)) return true;
             // And ones which are too far away
-            if (c.distanceTo(aggressor) > MAX_AGRO_DISTANCE) return true;
+            if (c.distanceTo(aggressor) > PokecubeCore.getConfig().maxCombatDistance) return true;
             return !poke.isRoutineEnabled(AIRoutine.AGRESSIVE);
         });
         final boolean targetHasMobs = !mobs.isEmpty();
@@ -137,6 +136,9 @@ public class FindTargetsTask extends PokemobBehaviour implements IAICombat, ITar
         if (!FindTargetsTask.handleDamagedTargets) return;
         LivingEntity newTarget = event.getNewAboutToBeSetTarget();
         LivingEntity rootMob = event.getEntity();
+
+        // Don't divert if the two mobs are too far away
+        if(newTarget!=null && newTarget.distanceTo(rootMob) > PokecubeCore.getConfig().maxCombatDistance) return;
 
         // We handle it inside the re-direct.
         if (event.getTargetType() == AGROREDIRECT)

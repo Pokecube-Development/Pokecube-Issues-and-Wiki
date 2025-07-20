@@ -23,6 +23,7 @@ import pokecube.api.events.pokemobs.SpawnEvent.FunctionVariance;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.logic.LogicMountedControl;
+import pokecube.core.ai.tasks.combat.management.FindTargetsTask;
 import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.ai.tasks.idle.IdleWalkTask;
 import pokecube.core.entity.genetics.GeneticsManager;
@@ -331,6 +332,8 @@ public class Config extends ConfigData
 
     @Configure(category = Config.mobAI, comment = "Pokemobs will forget their target if they get more than this far away. [Default: 32]")
     public int chaseDistance = 32;
+    @Configure(category = Config.mobAI, comment = "Auto agro will not occur further than this distance [Default: 32]")
+    public int maxCombatDistance = 32;
     @Configure(category = Config.mobAI, comment = "This is the target distance between two pokemobs during a fight. [Default: 4]")
     public int combatDistance = 4;
     @Configure(category = Config.mobAI, comment = "This is how often tamed pokemobs look for items to collect, smaller values are faster. [Min: 1] [Default: 20]")
@@ -577,7 +580,7 @@ public class Config extends ConfigData
 
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Width of the pokemob message GUI. [Default: 150]")
     public int messageWidth = 150;
-    ;
+
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Auto recall distance of Pokemobs. [Default: 32]")
     public int autoRecallDistance = 32;
 
