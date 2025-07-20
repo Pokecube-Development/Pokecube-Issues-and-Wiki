@@ -149,7 +149,7 @@ public class UseAttacksTask extends CombatTask implements IMoveUseAI
             BrainUtils.setMoveUseTarget(entity, entity);
         }
 
-        final boolean canSee = BrainUtils.canSee(entity, target);
+        final boolean canSee = BrainUtils.canSee(entity, target) || self;
         Vector3 targetLoc = new Vector3(target).addTo(0, target.getBbHeight() / 2, 0);
 
         // If we have not set a move executing, we update target location. If we
@@ -184,7 +184,7 @@ public class UseAttacksTask extends CombatTask implements IMoveUseAI
         }
 
         // If all the conditions match, queue up an attack.
-        if (!targetLoc.isEmpty() && offCooldown && inRange)
+        if (!targetLoc.isEmpty() && offCooldown && inRange && canSee)
         {
             // Tell the target no need to try to dodge anymore, move is fired.
             if (pokemobTarget != null) pokemobTarget.setCombatState(CombatStates.DODGING, false);

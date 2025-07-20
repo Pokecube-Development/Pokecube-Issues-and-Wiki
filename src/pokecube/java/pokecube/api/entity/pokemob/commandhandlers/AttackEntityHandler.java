@@ -81,10 +81,16 @@ public class AttackEntityHandler extends DefaultHandler
             if (this.fromOwner()) pokemob.displayMessageToOwner(mess);
             if (PokecubeCore.getConfig().debug_commands) PokecubeAPI.logInfo("Starting Combat");
             Battle.createOrAddToBattle(pokemob.getEntity(), living);
+            Battle b = Battle.getBattle(pokemob.getEntity());
+            if(b!=null) {
+                var enemies = b.getEnemies(pokemob.getEntity());
+                if(enemies.contains(living)) pokemob.getMoveStats().enemyIndex = enemies.indexOf(living);
+                System.out.println(enemies.indexOf(living));
+            }
         }
         else if (PokecubeCore.getConfig().debug_commands)
             PokecubeAPI.LOGGER.warn("Command to Attack {} for {} was denied event: {}, no move: {}, not-yet: {}",
-                    target, pokemob.getEntity(), event.isCanceled(), event.isCanceled(), currentMove == 5,
+                    target, pokemob.getEntity(), event.isCanceled(), currentMove == 5,
                     !MovesUtils.canUseMove(pokemob));
     }
 
