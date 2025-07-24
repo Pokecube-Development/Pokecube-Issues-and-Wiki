@@ -17,6 +17,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
@@ -114,6 +115,7 @@ public class StatueEntity extends InteractableTile
         {
             var tag = orig.tag();
             var after = copy.getCopiedMob();
+            if (after == null) after = EntityType.PIG.create(level);
             IMobColourable colourable = ThutCaps.getColourable(after);
             if (colourable != null) colourable.getRGBA();
             after.setUUID(UUID.randomUUID());

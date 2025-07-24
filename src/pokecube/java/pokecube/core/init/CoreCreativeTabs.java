@@ -48,34 +48,34 @@ public class CoreCreativeTabs
     {
         if (event.getTab().equals(BLOCKS_ITEMS_TAB.get()))
         {
-            add(event, PokecubeItems.POKEDEX.get());
-            add(event, PokecubeItems.POKEWATCH.get());
+            add(event, PokecubeItems.POKEDEX);
+            add(event, PokecubeItems.POKEWATCH);
 
-            add(event, PokecubeItems.NEST.get());
-            add(event, PokecubeItems.FOSSIL_ORE.get());
-            add(event, PokecubeItems.DEEPSLATE_FOSSIL_ORE.get());
-            add(event, PokecubeItems.SECRET_BASE.get());
-            add(event, PokecubeItems.REPEL.get());
+            add(event, PokecubeItems.NEST);
+            add(event, PokecubeItems.FOSSIL_ORE);
+            add(event, PokecubeItems.DEEPSLATE_FOSSIL_ORE);
+            add(event, PokecubeItems.SECRET_BASE);
+            add(event, PokecubeItems.REPEL);
 
-            add(event, PokecubeItems.HEALER.get());
-            add(event, PokecubeItems.PC_TOP.get());
-            add(event, PokecubeItems.PC_BASE.get());
-            add(event, PokecubeItems.TRADER.get());
-            add(event, PokecubeItems.TM_MACHINE.get());
-            add(event, PokecubeItems.TM.get());
-            add(event, PokecubeItems.DYNAMAX.get());
+            add(event, PokecubeItems.HEALER);
+            add(event, PokecubeItems.PC_TOP);
+            add(event, PokecubeItems.PC_BASE);
+            add(event, PokecubeItems.TRADER);
+            add(event, PokecubeItems.TM_MACHINE);
+            add(event, PokecubeItems.TM);
+            add(event, PokecubeItems.DYNAMAX);
 
-            add(event, PokecubeItems.BERRYJUICE.get());
-            add(event, PokecubeItems.CANDY.get());
-            add(event, PokecubeItems.REVIVE.get());
-            add(event, PokecubeItems.LUCKYEGG.get());
-            add(event, PokecubeItems.EMERALDSHARD.get());
-            add(event, PokecubeItems.SPAWN_EGG.get());
+            add(event, PokecubeItems.BERRYJUICE);
+            add(event, PokecubeItems.CANDY);
+            add(event, PokecubeItems.REVIVE);
+            add(event, PokecubeItems.LUCKYEGG);
+            add(event, PokecubeItems.EMERALDSHARD);
+            add(event, PokecubeItems.SPAWN_EGG);
 
             for (String type : ItemVitamin.vitamins) add(event, PokecubeItems.getStack("vitamin_" + type));
-            for (String type : ItemGenerator.fossilVariants) add(event, ItemGenerator.fossils.get(type).get());
-            for (String type : ItemGenerator.misc) add(event, ItemGenerator.miscItems.get(type).get());
-            for (String type : ItemGenerator.variants) add(event, ItemGenerator.variantItems.get(type).get());
+            for (String type : ItemGenerator.fossilVariants) add(event, ItemGenerator.fossils.get(type));
+            for (String type : ItemGenerator.misc) add(event, ItemGenerator.miscItems.get(type));
+            for (String type : ItemGenerator.variants) add(event, ItemGenerator.variantItems.get(type));
         }
 
         if (event.getTab().equals(POKECUBES_TAB.get()))
@@ -85,22 +85,22 @@ public class CoreCreativeTabs
 
         if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
-            addBefore(event, Items.MILK_BUCKET, PokecubeItems.BERRYJUICE.get());
-            addAfter(event, Items.PUMPKIN_PIE, PokecubeItems.CANDY.get());
+            addBefore(event, Items.MILK_BUCKET, PokecubeItems.BERRYJUICE);
+            addAfter(event, Items.PUMPKIN_PIE, PokecubeItems.CANDY);
         }
 
         if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
-            addAfter(event, Items.BLAST_FURNACE, PokecubeItems.REPEL.get());
-            addAfter(event, PokecubeItems.REPEL.get(), PokecubeItems.HEALER.get());
-            addAfter(event, PokecubeItems.HEALER.get(), PokecubeItems.PC_TOP.get());
-            addAfter(event, PokecubeItems.PC_TOP.get(), PokecubeItems.PC_BASE.get());
-            addAfter(event, PokecubeItems.PC_BASE.get(), PokecubeItems.TRADER.get());
-            addAfter(event, PokecubeItems.TRADER.get(), PokecubeItems.TM_MACHINE.get());
-            addAfter(event, PokecubeItems.TM_MACHINE.get(), PokecubeItems.TM.get());
-            addAfter(event, PokecubeItems.TM.get(), PokecubeItems.DYNAMAX.get());
-            addAfter(event, Items.LODESTONE, PokecubeItems.SECRET_BASE.get());
-            addBefore(event, Items.BEE_NEST, PokecubeItems.NEST.get());
+            addAfter(event, Items.BLAST_FURNACE, PokecubeItems.REPEL);
+            addAfter(event, PokecubeItems.REPEL, PokecubeItems.HEALER);
+            addAfter(event, PokecubeItems.HEALER, PokecubeItems.PC_TOP);
+            addAfter(event, PokecubeItems.PC_TOP, PokecubeItems.PC_BASE);
+            addAfter(event, PokecubeItems.PC_BASE, PokecubeItems.TRADER);
+            addAfter(event, PokecubeItems.TRADER, PokecubeItems.TM_MACHINE);
+            addAfter(event, PokecubeItems.TM_MACHINE, PokecubeItems.TM);
+            addAfter(event, PokecubeItems.TM, PokecubeItems.DYNAMAX);
+            addAfter(event, Items.LODESTONE, PokecubeItems.SECRET_BASE);
+            addBefore(event, Items.BEE_NEST, PokecubeItems.NEST);
 
             addAfter(event, Items.BOOKSHELF, PokecubeItems.getStack("enigma_bookshelf").getItem());
             addAfter(event, PokecubeItems.getStack("enigma_bookshelf").getItem(),
@@ -165,9 +165,9 @@ public class CoreCreativeTabs
 
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
-            addAfter(event, Items.WARPED_FUNGUS_ON_A_STICK, PokecubeItems.REVIVE.get());
-            addAfter(event, PokecubeItems.REVIVE.get(), PokecubeItems.LUCKYEGG.get());
-            addAfter(event, PokecubeItems.LUCKYEGG.get(), PokecubeItems.TM.get());
+            addAfter(event, Items.WARPED_FUNGUS_ON_A_STICK, PokecubeItems.REVIVE);
+            addAfter(event, PokecubeItems.REVIVE.get(), PokecubeItems.LUCKYEGG);
+            addAfter(event, PokecubeItems.LUCKYEGG.get(), PokecubeItems.TM);
 
             addAfter(event, Items.BAMBOO_CHEST_RAFT, PokecubeItems.getStack("enigma_boat").getItem());
             addAfter(event, PokecubeItems.getStack("enigma_boat").getItem(),
@@ -196,31 +196,31 @@ public class CoreCreativeTabs
 
         if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
-            addAfter(event, Items.DEEPSLATE_COAL_ORE, PokecubeItems.FOSSIL_ORE.get());
-            addAfter(event, PokecubeItems.FOSSIL_ORE.get(), PokecubeItems.DEEPSLATE_FOSSIL_ORE.get());
-            addBefore(event, Items.BEE_NEST, PokecubeItems.NEST.get());
+            addAfter(event, Items.DEEPSLATE_COAL_ORE, PokecubeItems.FOSSIL_ORE);
+            addAfter(event, PokecubeItems.FOSSIL_ORE, PokecubeItems.DEEPSLATE_FOSSIL_ORE);
+            addBefore(event, Items.BEE_NEST, PokecubeItems.NEST);
         }
 
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
-            addAfter(event, Items.EMERALD, PokecubeItems.EMERALDSHARD.get());
+            addAfter(event, Items.EMERALD, PokecubeItems.EMERALDSHARD);
         }
 
         if (event.getTabKey() == CreativeModeTabs.REDSTONE_BLOCKS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
-            addAfter(event, Items.REDSTONE_LAMP, PokecubeItems.REPEL.get());
+            addAfter(event, Items.REDSTONE_LAMP, PokecubeItems.REPEL);
         }
 
         if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS)
         {
-            add(event, PokecubeItems.SPAWN_EGG.get());
+            add(event, PokecubeItems.SPAWN_EGG);
         }
 
         if (event.getTab().equals(BERRIES_TAB.get()))
         {
             for (var berry : BerryManager.berryItems.values())
             {
-                add(event, berry.get());
+                add(event, berry);
             }
 
             add(event, PokecubeItems.getStack("enigma_boat"));
@@ -251,28 +251,28 @@ public class CoreCreativeTabs
 
             for (final String type : ItemGenerator.onlyBerryLeaves.keySet())
             {
-                add(event, ItemGenerator.leaves.get(type).get());
+                add(event, ItemGenerator.leaves.get(type));
             }
 
             for (final String type : ItemGenerator.berryWoods.keySet())
             {
-                add(event, ItemGenerator.leaves.get(type).get());
-                add(event, ItemGenerator.logs.get(type).get());
-                add(event, ItemGenerator.woods.get(type).get());
-                add(event, ItemGenerator.stripped_logs.get(type).get());
-                add(event, ItemGenerator.stripped_woods.get(type).get());
-                add(event, ItemGenerator.barrels.get(type).get());
-                add(event, ItemGenerator.bookshelves.get(type).get());
-                add(event, ItemGenerator.fillable_shelves.get(type).get());
-                add(event, ItemGenerator.planks.get(type).get());
-                add(event, ItemGenerator.stairs.get(type).get());
-                add(event, ItemGenerator.slabs.get(type).get());
-                add(event, ItemGenerator.fences.get(type).get());
-                add(event, ItemGenerator.fence_gates.get(type).get());
-                add(event, ItemGenerator.doors.get(type).get());
-                add(event, ItemGenerator.trapdoors.get(type).get());
-                add(event, ItemGenerator.pressure_plates.get(type).get());
-                add(event, ItemGenerator.buttons.get(type).get());
+                add(event, ItemGenerator.leaves.get(type));
+                add(event, ItemGenerator.logs.get(type));
+                add(event, ItemGenerator.woods.get(type));
+                add(event, ItemGenerator.stripped_logs.get(type));
+                add(event, ItemGenerator.stripped_woods.get(type));
+                add(event, ItemGenerator.barrels.get(type));
+                add(event, ItemGenerator.bookshelves.get(type));
+                add(event, ItemGenerator.fillable_shelves.get(type));
+                add(event, ItemGenerator.planks.get(type));
+                add(event, ItemGenerator.stairs.get(type));
+                add(event, ItemGenerator.slabs.get(type));
+                add(event, ItemGenerator.fences.get(type));
+                add(event, ItemGenerator.fence_gates.get(type));
+                add(event, ItemGenerator.doors.get(type));
+                add(event, ItemGenerator.trapdoors.get(type));
+                add(event, ItemGenerator.pressure_plates.get(type));
+                add(event, ItemGenerator.buttons.get(type));
             }
         }
 
@@ -299,15 +299,23 @@ public class CoreCreativeTabs
         }
     }
 
+    public static void add(BuildCreativeModeTabContentsEvent event, Supplier<ItemLike> item)
+    {
+        if(item == null) return;
+        ItemStack stack = new ItemStack(item.get());
+        add(event, stack);
+    }
+
     public static void add(BuildCreativeModeTabContentsEvent event, ItemLike item)
     {
+        if(item == null) return;
         ItemStack stack = new ItemStack(item);
         add(event, stack);
     }
 
     public static void add(BuildCreativeModeTabContentsEvent event, ItemStack stack)
     {
-        if (stack.isEmpty())
+        if (stack.isEmpty() || stack==null)
         {
             PokecubeAPI.LOGGER.error("Warning, Attempting to register an empty stack to tab!",
                     new IllegalArgumentException());
