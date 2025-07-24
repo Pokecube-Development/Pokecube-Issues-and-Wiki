@@ -658,7 +658,7 @@ public final class SpawnHandler
         if (rand.nextInt(PokecubeCore.getConfig().meteorRate) == 0)
         {
             final Entity player = players.get(rand.nextInt(players.size()));
-            int dr = PokecubeCore.getConfig().meteorPlayerDistance;
+            int dr = PokecubeCore.getConfig().meteorMaxPlayerDistance;
             final int dx = rand.nextInt(2 * dr) - dr;
             final int dz = rand.nextInt(2 * dr) - dr;
             final Vector3 v = new Vector3();
@@ -678,7 +678,7 @@ public final class SpawnHandler
                 final Vector3 location = Vector3.getNextSurfacePoint(world, v, direction, 255);
                 if (location != null)
                 {
-                    if (world.getNearestPlayer(location.x, location.y, location.z, 64, EntitySelector.NO_SPECTATORS)
+                    if (world.getNearestPlayer(location.x, location.y, location.z, PokecubeCore.getConfig().meteorMinPlayerDistance, EntitySelector.NO_SPECTATORS)
                             != null) return;
                     final float energy = (float) Math.abs((rand.nextGaussian() + 1) * 50);
                     SpawnHandler.makeMeteor(world, location, energy);
