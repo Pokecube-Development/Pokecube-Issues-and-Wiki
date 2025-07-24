@@ -202,7 +202,7 @@ public final class SpawnHandler
                 if (PokecubeTerrainChecker.isLeaves(state)) to = Blocks.FIRE.defaultBlockState();
                 else if (PokecubeTerrainChecker.isCutablePlant(state)) to = Blocks.FIRE.defaultBlockState();
             }
-            else if (power > 100)
+            else //if (power > 100)
             {
                 if (PokecubeTerrainChecker.isRock(state)) to = MELT_GETTER.get();
             }
@@ -648,16 +648,19 @@ public final class SpawnHandler
     public void doMeteor(final ServerLevel world)
     {
         if (!PokecubeCore.getConfig().meteors) return;
-        if (!world.dimensionType().hasCeiling()) return;
+
+        if (world.dimensionType().hasCeiling()) return;
         if (!world.dimensionType().hasSkyLight()) return;
+
         final List<ServerPlayer> players = world.players();
         if (players.isEmpty()) return;
         final Random rand = new Random(world.getSeed() + world.getGameTime());
-        if (rand.nextInt(100) == 0)
+        if (rand.nextInt(PokecubeCore.getConfig().meteorRate) == 0)
         {
             final Entity player = players.get(rand.nextInt(players.size()));
-            final int dx = rand.nextInt(200) - 100;
-            final int dz = rand.nextInt(200) - 100;
+            int dr = PokecubeCore.getConfig().meteorPlayerDistance;
+            final int dx = rand.nextInt(2 * dr) - dr;
+            final int dz = rand.nextInt(2 * dr) - dr;
             final Vector3 v = new Vector3();
             final Vector3 v1 = new Vector3();
             v.set(player).add(dx, 0, dz);
@@ -867,11 +870,10 @@ public final class SpawnHandler
     public void tick(final ServerLevel level)
     {
         if (SpawnHandler.canNotSpawnInWorld(level)) return;
-        if (!Config.Rules.doSpawn(level)) return;
         try
         {
             final int rate = PokecubeCore.getConfig().spawnRate;
-            if (level.getGameTime() % rate == 0)
+            if (level.getGameTime() % rate == 0 && !Database.spawnables.isEmpty() && Config.Rules.doSpawn(level))
             {
                 final long time = System.nanoTime();
                 this.spawn(level);

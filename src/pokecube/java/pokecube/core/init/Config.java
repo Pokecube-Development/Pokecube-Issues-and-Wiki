@@ -431,6 +431,10 @@ public class Config extends ConfigData
     public int meteorRadius = 64;
     @Configure(category = Config.world, comment = "Scaling factor on blast yield of explosive meteors. [Default: 1.0]")
     public double meteorScale = 1.0;
+    @Configure(category = Config.world, comment = "Scaling factor for how often meteors attempt to fall, this is average number of ticks between falls. [Default: 100]")
+    public int meteorRate = 100;
+    @Configure(category = Config.world, comment = "Maximum distance from a player for a meteor to land. [Default: 100]")
+    public int meteorPlayerDistance = 100;
     @Configure(category = Config.world, comment = "Attempts to ensure there is a pokecenter at spawn, this can still fail however depending on worldgen specifics. [Default: true]")
     public boolean doSpawnBuilding = true;
     @Configure(category = Config.world, comment = "Attempts to ensure the player spawns inside the spawn building. [Default: true]")

@@ -197,7 +197,7 @@ public class EventsHandler
                 tasks.removeAll(done);
             }
             // Call spawner tick at end of world tick.
-            if (!Database.spawnables.isEmpty()) PokecubeCore.spawner.tick(world);
+            PokecubeCore.spawner.tick(world);
         }
     }
 
