@@ -50,6 +50,7 @@ public class StatusEffects
     public static final Map<Holder<MobEffect>, Set<Holder<MobEffect>>> EXCLUSIVE_EFFECTS = new HashMap<>();
     public static final Map<Integer, Holder<MobEffect>> EFFECT_BY_ID = new HashMap<>();
     public static final Set<Holder<MobEffect>> TEMPORARY = new HashSet<>();
+    public static final Set<Holder<MobEffect>> CURE_ON_RECALL = new HashSet<>();
 
     static
     {
@@ -77,6 +78,10 @@ public class StatusEffects
 
         TEMPORARY.add(CONFUSE);
         TEMPORARY.add(FLINCH);
+
+        CURE_ON_RECALL.add(CURSE);
+        CURE_ON_RECALL.add(CONFUSE);
+        CURE_ON_RECALL.add(FLINCH);
     }
 
     @SuppressWarnings("unchecked")
@@ -117,6 +122,11 @@ public class StatusEffects
             _exclusions.add(effect);
             exclusions.add(holder);
         }
+    }
+
+    public static void cureEffectsOnRecall(LivingEntity mob)
+    {
+        CURE_ON_RECALL.forEach(effect->removeEffect(mob, effect));
     }
 
     private static boolean removeEffect(LivingEntity mob, Holder<MobEffect> effect)

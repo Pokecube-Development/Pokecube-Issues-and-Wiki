@@ -49,6 +49,7 @@ import pokecube.core.impl.capabilities.DefaultPokemob;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.inventory.pokemob.PokemobInventory;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.network.pokemobs.PacketPokemobMessage;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.CapHolders;
@@ -242,6 +243,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         final Entity owner = this.getOwner();
 
         this.setCombatState(CombatStates.NOMOVESWAP, false);
+        StatusEffects.cureEffectsOnRecall(this.getEntity());
 
         // Reset this so that the ability shows correctly on the cube.
         this.timeSinceCombat = -50;
