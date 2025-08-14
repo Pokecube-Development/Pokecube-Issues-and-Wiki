@@ -9,6 +9,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -30,7 +31,9 @@ import pokecube.api.items.IPokemobUseable;
 import pokecube.api.items.PokecubeContents;
 import pokecube.api.items.PokesealContents;
 import pokecube.core.utils.EntityTools;
+import thut.api.attachments.Breedable;
 import thut.api.data.HolderProvider;
+import thut.api.entity.IBreedingMob;
 import thut.core.common.genetics.DefaultGenetics;
 import thut.core.common.network.SyncAttachments;
 
@@ -250,6 +253,22 @@ public class PokemobCaps
         SyncAttachments.SYNCED.add(ResourceLocation.parse("pokecube:pokemob"));
         SyncAttachments.SYNCED.add(ResourceLocation.parse("pokecube:ongoing_affected"));
         SyncAttachments.UNCHECKED_SYNC.add(ResourceLocation.parse("pokecube:pokemob"));
+
+        Breedable._REGISTRY.register(new HolderProvider.Provider<>()
+        {
+            @Override
+            public IBreedingMob apply(IAttachmentHolder t)
+            {
+                if (t.hasData(POKEMOB) && t.getData(POKEMOB) instanceof IBreedingMob breeds) return breeds;
+                return null;
+            }
+
+            @Override
+            protected ResourceLocation key()
+            {
+                return ResourceLocation.parse("pokecube:pokemob");
+            }
+        });
     }
 
     public static void registerComponents(DeferredRegister<DataComponentType<?>> registry)

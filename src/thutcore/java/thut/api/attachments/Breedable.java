@@ -96,7 +96,8 @@ public class Breedable
     public static IBreedingMob get(final IAttachmentHolder in)
     {
         if (in.hasData(TYPE.get())) return in.getData(TYPE.get());
-        return null;
+        var resp = _REGISTRY.make(in);
+        return resp==null?resp:in.getData(TYPE.get());
     }
 
     public static final ResourceLocation ID = ResourceLocation.parse("thutcore:breedable");
@@ -106,7 +107,7 @@ public class Breedable
     public static void registerAttachment(DeferredRegister<AttachmentType<?>> registry)
     {
         TYPE = registry.register(ID.getPath(), () -> AttachmentType.builder(_REGISTRY::make).build());
-        _REGISTRY.register(new HolderProvider.Provider<IBreedingMob>()
+        _REGISTRY.register(new HolderProvider.Provider<>()
         {
             @Override
             public IBreedingMob apply(IAttachmentHolder t)
