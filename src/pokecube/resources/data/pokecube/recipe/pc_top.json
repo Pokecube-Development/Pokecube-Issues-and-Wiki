@@ -17,7 +17,7 @@
       "tag": "c:storage_blocks/iron"
     },
     "G": {
-      "tag": "c:glass"
+      "tag": "c:glass_blocks"
     },
     "I": {
       "tag": "c:ingots/iron"
