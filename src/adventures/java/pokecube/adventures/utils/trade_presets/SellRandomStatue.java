@@ -1,8 +1,6 @@
 package pokecube.adventures.utils.trade_presets;
 
-import net.minecraft.core.component.DataComponentPredicate;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.trading.ItemCost;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrade;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
@@ -30,12 +28,10 @@ public class SellRandomStatue implements TradePreset
         {
             buy2 = Tools.getStack(trade.buys.get(1));
         }
-        var cost = new ItemCost(buy1.getItemHolder(), buy1.getCount(),
-                DataComponentPredicate.allOf(buy1.getComponents()));
+        var cost = TradeHelper.getCost(buy1);
         var _buy2 = Optional.ofNullable(buy2.isEmpty()
                 ? null
-                : new ItemCost(buy1.getItemHolder(), buy1.getCount(),
-                        DataComponentPredicate.allOf(buy2.getComponents())));
+                : TradeHelper.getCost(buy2));
         recipe = new TrainerTrade(cost, _buy2, statue, trade);
         var values = trade.values;
         if (values.containsKey(TradeEntryLoader.CHANCE)) recipe.chance = values.get(TradeEntryLoader.CHANCE).getAsFloat();

@@ -1,8 +1,6 @@
 package pokecube.adventures.utils.trade_presets;
 
-import net.minecraft.core.component.DataComponentPredicate;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.trading.ItemCost;
 import net.neoforged.neoforge.registries.DeferredItem;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrade;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
@@ -36,12 +34,10 @@ public class SellRandomBerry implements TradePreset
                 {
                     buy2 = Tools.getStack(trade.buys.get(1));
                 }
-                var cost = new ItemCost(buy1.getItemHolder(), buy1.getCount(),
-                        DataComponentPredicate.allOf(buy1.getComponents()));
+                var cost = TradeHelper.getCost(buy1);
                 var _buy2 = Optional.ofNullable(buy2.isEmpty()
                         ? null
-                        : new ItemCost(buy1.getItemHolder(), buy1.getCount(),
-                                DataComponentPredicate.allOf(buy2.getComponents())));
+                        : TradeHelper.getCost(buy2));
                 recipe = new TrainerTrade(cost, _buy2, sell, trade);
                 var values = trade.values;
                 if (values.containsKey(TradeEntryLoader.CHANCE))

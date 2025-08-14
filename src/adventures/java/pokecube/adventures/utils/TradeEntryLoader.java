@@ -21,6 +21,7 @@ import pokecube.adventures.ai.poi.Professions;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrade;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
+import pokecube.adventures.utils.trade_presets.TradeHelper;
 import pokecube.adventures.utils.trade_presets.TradePresetAn;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.utils.Tools;
@@ -193,12 +194,10 @@ public class TradeEntryLoader
                     {
                         buy2 = Tools.getStack(trade.buys.get(1));
                     }
-                    var cost = new ItemCost(buy1.getItemHolder(), buy1.getCount(),
-                            DataComponentPredicate.allOf(buy1.getComponents()));
+                    var cost = TradeHelper.getCost(buy1);
                     var _buy2 = Optional.ofNullable(buy2.isEmpty()
                             ? null
-                            : new ItemCost(buy1.getItemHolder(), buy1.getCount(),
-                                    DataComponentPredicate.allOf(buy2.getComponents())));
+                            : TradeHelper.getCost(buy2));
                     recipe = new TrainerTrade(cost, _buy2, sell, trade);
                     var values = trade.values;
                     if (values.containsKey(TradeEntryLoader.CHANCE))
@@ -219,8 +218,7 @@ public class TradeEntryLoader
                 {
                     TrainerTrade recipe;
                     final ItemStack sell = Tools.getStack(trade.sell);
-                    var cost = new ItemCost(buy.getItemHolder(), buy.getCount(),
-                            DataComponentPredicate.allOf(buy.getComponents()));
+                    var cost = TradeHelper.getCost(buy);
                     recipe = new TrainerTrade(cost, Optional.empty(), sell, trade);
                     var values = trade.values;
                     if (values.containsKey(TradeEntryLoader.CHANCE))
@@ -336,12 +334,10 @@ public class TradeEntryLoader
                     PokecubeAPI.LOGGER.error("No Sell:" + trade.sell + " " + trade.buys);
                     continue;
                 }
-                var cost = new ItemCost(buy1.getItemHolder(), buy1.getCount(),
-                        DataComponentPredicate.allOf(buy1.getComponents()));
+                var cost = TradeHelper.getCost(buy1);
                 var _buy2 = Optional.ofNullable(buy2.isEmpty()
                         ? null
-                        : new ItemCost(buy1.getItemHolder(), buy1.getCount(),
-                                DataComponentPredicate.allOf(buy2.getComponents())));
+                        : TradeHelper.getCost(buy2));
                 recipe = new TrainerTrade(cost, _buy2, sell, trade);
                 var values = trade.values;
                 if (values.containsKey(TradeEntryLoader.CHANCE))

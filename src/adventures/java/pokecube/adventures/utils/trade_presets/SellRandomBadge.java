@@ -1,6 +1,5 @@
 package pokecube.adventures.utils.trade_presets;
 
-import net.minecraft.core.component.DataComponentPredicate;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.trading.ItemCost;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrade;
@@ -35,12 +34,10 @@ public class SellRandomBadge implements TradePreset
                     {
                         buy2 = Tools.getStack(trade.buys.get(1));
                     }
-                    var cost = new ItemCost(buy1.getItemHolder(), buy1.getCount(),
-                            DataComponentPredicate.allOf(buy1.getComponents()));
+                    var cost = new ItemCost(buy1.getItem(), buy1.getCount());
                     var _buy2 = Optional.ofNullable(buy2.isEmpty()
                             ? null
-                            : new ItemCost(buy1.getItemHolder(), buy1.getCount(),
-                                    DataComponentPredicate.allOf(buy2.getComponents())));
+                            : new ItemCost(buy2.getItem(), buy2.getCount()));
                     recipe = new TrainerTrade(cost, _buy2, sell, trade);
                     var values = trade.values;
                     if (values.containsKey(TradeEntryLoader.CHANCE))

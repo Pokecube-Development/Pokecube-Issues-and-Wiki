@@ -1,9 +1,7 @@
 package pokecube.adventures.utils.trade_presets;
 
 import com.google.common.collect.Lists;
-import net.minecraft.core.component.DataComponentPredicate;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.trading.ItemCost;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrade;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.adventures.utils.TradeEntryLoader;
@@ -42,15 +40,11 @@ public class AllTMs implements TradePreset
             ItemStack buy1;
             ItemStack buy2 = ItemStack.EMPTY;
             buy1 = Tools.getStack(trade.buys.get(0));
-            if (trade.buys.size() > 1)
-            {
-                buy2 = Tools.getStack(trade.buys.get(1));
-            }
-            var cost = new ItemCost(buy1.getItemHolder(), buy1.getCount(),
-                    DataComponentPredicate.allOf(buy1.getComponents()));
-            var _buy2 = Optional.ofNullable(buy2.isEmpty() ? null
-                    : new ItemCost(buy1.getItemHolder(), buy1.getCount(),
-                            DataComponentPredicate.allOf(buy2.getComponents())));
+            if (trade.buys.size() > 1) buy2 = Tools.getStack(trade.buys.get(1));
+            var cost = TradeHelper.getCost(buy1);
+            var _buy2 = Optional.ofNullable(buy2.isEmpty()
+                    ? null
+                    : TradeHelper.getCost(buy2));
             recipe = new TrainerTrade(cost, _buy2, sell, trade);
             var values = trade.values;
             if (values.containsKey(TradeEntryLoader.CHANCE))
