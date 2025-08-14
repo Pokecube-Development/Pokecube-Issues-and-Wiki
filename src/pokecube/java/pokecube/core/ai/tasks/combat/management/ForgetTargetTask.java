@@ -112,7 +112,7 @@ public class ForgetTargetTask extends CombatTask
         var target = this.getAttackTarget(entity);
 
         boolean deAgro = mate == target;
-        boolean exitBattle = b != null && b.getAllies(mobA.getEntity()).size()<=1;
+        boolean exitBattle = b != null && (b.getAllies(mobA.getEntity()).size()<=1 || b.getEnemies(mobA.getEntity()).size()<=1);
 
         final ForgetEntry entry = new ForgetEntry(level.getGameTime(), target);
         if (this.forgotten.containsKey(entry.mob.getUUID()))
@@ -324,7 +324,10 @@ public class ForgetTargetTask extends CombatTask
             }
         }
         // All we do is deagro if needed.
-        if (deAgro) this.doDeAgro(pokemob, exitBattle);
+        if (deAgro)
+        {
+            this.doDeAgro(pokemob, exitBattle);
+        }
     }
 
     @Override
