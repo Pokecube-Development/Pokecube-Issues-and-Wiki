@@ -204,9 +204,9 @@ public class EntityPokemobEgg extends AgeableMob
 
     public EntityPokemobEgg setStackByParents(final Entity placer, final IPokemob father)
     {
-        final IPokemob pokemob = PokemobCaps.getPokemobFor(placer);
-        final ItemStack itemstack = ItemPokemobEgg.getEggStack(pokemob);
-        ItemPokemobEgg.initStack(placer, father, itemstack);
+        IPokemob pokemob = PokemobCaps.getPokemobFor(placer);
+        if(pokemob == null) pokemob = father;
+        final ItemStack itemstack = ItemPokemobEgg.getEggStack(pokemob, father);
         this.setItemInHand(InteractionHand.MAIN_HAND, itemstack);
         return this;
     }

@@ -67,11 +67,16 @@ public class ItemPokemobEgg extends Item
     public static HashMap<PokedexEntry, IPokemob> fakeMobs = new HashMap<>();
     public static Item EGG = null;
 
+    public static ItemStack getEggStack(final IPokemob mother, IPokemob father)
+    {
+        final ItemStack stack = ItemPokemobEgg.getEggStack(mother.getPokedexEntry(), mother.getEntity().level());
+        ItemPokemobEgg.initStack(mother.getEntity(), father, stack);
+        return stack;
+    }
+
     public static ItemStack getEggStack(final IPokemob pokemob)
     {
-        final ItemStack stack = ItemPokemobEgg.getEggStack(pokemob.getPokedexEntry(), pokemob.getEntity().level());
-        ItemPokemobEgg.initStack(pokemob.getEntity(), pokemob, stack);
-        return stack;
+        return getEggStack(pokemob, pokemob);
     }
 
     public static ItemStack getEggStack(final PokedexEntry entry, Level level)
@@ -117,24 +122,18 @@ public class ItemPokemobEgg extends Item
     {
         IMobGenetics eggs = GeneticsManager.getGenes(stack, access);
         boolean existing = eggs != null;
-        if (!existing)
-        {
-            eggs = new DefaultGenetics();
-            existing = false;
-        }
+        if (!existing) eggs = new DefaultGenetics();
         IMobGenetics mothers = ThutCaps.getGenetics(mother.getEntity());
         IMobGenetics fathers = ThutCaps.getGenetics(father.getEntity());
         GeneticsManager.initEgg(eggs, mothers, fathers);
-//        nbt.putString("motherId", mother.getEntity().getStringUUID());
-        return;
+        stack.set(DefaultGenetics.GENE_STORE, new GeneHolder(eggs, access));
     }
 
     public static IPokemob getPokemob(final Level world, final ItemStack stack)
     {
         final PokedexEntry entry = ItemPokemobEgg.getEntry(stack, world.registryAccess());
         if (entry == null) return null;
-        final IPokemob ret = PokemobCaps.getPokemobFor(PokecubeCore.createPokemob(entry, world));
-        return ret;
+        return PokemobCaps.getPokemobFor(PokecubeCore.createPokemob(entry, world));
     }
 
     public static float getSize(final float fatherSize, final float motherSize)
