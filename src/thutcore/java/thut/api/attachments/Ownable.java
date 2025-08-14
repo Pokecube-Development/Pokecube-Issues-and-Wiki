@@ -376,8 +376,12 @@ public class Ownable
                 BlockState state = level.getBlockState(event.getPos());
                 List<ItemStack> drops = Block.getDrops(state, level, event.getPos(), tile, event.getEntity(),
                         event.getItemStack());
-                if (drops.isEmpty()) state.onDestroyedByPlayer(level, event.getPos(), event.getEntity(), true,
-                        level.getFluidState(event.getPos()));
+                if (drops.isEmpty())
+                {
+                    state = state.getBlock().playerWillDestroy(level, event.getPos(), state, event.getEntity());
+                    state.onDestroyedByPlayer(level, event.getPos(), event.getEntity(), true,
+                            level.getFluidState(event.getPos()));
+                }
                 else event.getLevel().destroyBlock(event.getPos(), true);
                 event.setUseBlock(TriState.FALSE);
             }
