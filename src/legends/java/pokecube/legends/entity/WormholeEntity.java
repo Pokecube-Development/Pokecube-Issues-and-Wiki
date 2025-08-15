@@ -156,10 +156,11 @@ public class WormholeEntity extends LivingEntity
         if (pokemob != null)
         {
             ILinkStorage link = null;
-            for (int i = 0; i < pokemob.getInventory().getContainerSize(); i++)
+            for (int i = 0; i < pokemob.getInventory().getContainerSize() && link == null; i++)
             {
                 final ItemStack test = pokemob.getInventory().getItem(i);
-                link = ThutCaps.getLinkStorage(test).link();
+                var storage = ThutCaps.getLinkStorage(test);
+                if (storage != null) link = ThutCaps.getLinkStorage(test).link();
             }
             if (link != null)
             {
