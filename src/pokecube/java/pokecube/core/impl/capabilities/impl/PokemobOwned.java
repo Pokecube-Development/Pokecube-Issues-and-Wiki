@@ -83,6 +83,9 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
     @Override
     public LogicMountedControl getController()
     {
+        // This can be the case in some client side situations
+        // where the logic is cleaned up while player is still riding it.
+        if (this.controller == null) return controller = new LogicMountedControl(this);
         return this.controller;
     }
 
