@@ -492,6 +492,8 @@
     "pokemob.killed.tame": "%1$s §cwas slain by %2$s's %3$s",
     "pokemob.killed.wild": "%1$s §cwas slain by a wild %2$s",
 
+    "death.attack.perish_song": "%s's PERISH count fell to 0",
+
     "pokemob.info.berrybrew": "A sweet smell is coming from %1$s.",
     "pokemob.info.berrybrewtwice": "The smell coming from %1$s has changed!",
 
