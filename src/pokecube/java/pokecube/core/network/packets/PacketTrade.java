@@ -205,8 +205,13 @@ public class PacketTrade extends Packet
                 {
                     final IPokemob pokemob = PokecubeManager.itemToPokemob(cube, player.level());
                     pokemob.setPokecube(skin);
-                    inv.insertItem(cubeIndex, PokecubeManager.pokemobToItem(pokemob), false);
-                    inv.insertItem(cubeIndex == 0 ? 1 : 0, ItemStack.EMPTY, false);
+                    cube = PokecubeManager.pokemobToItem(pokemob);
+
+                    // Take both out
+                    inv.extractItem(0, 1, false);
+                    inv.extractItem(1, 1, false);
+                    // Re-add the reskined cube
+                    inv.insertItem(cubeIndex, cube, false);
                 }
 
                 // Reset trade gui.
