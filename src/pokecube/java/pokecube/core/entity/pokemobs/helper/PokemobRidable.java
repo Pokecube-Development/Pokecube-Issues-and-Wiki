@@ -194,7 +194,7 @@ public abstract class PokemobRidable extends PokemobHasParts
     protected float getRiddenSpeed(Player p_278286_)
     {
         double scale = PokecubeCore.getConfig().groundSpeedFactor;
-        double base = this.getAttribute(Attributes.MOVEMENT_SPEED).getValue();
+        double base = this.getAttribute(Attributes.MOVEMENT_SPEED).getValue() * this.getPokemob().getController().throttle;
         if (this.getPokemob().getController().inFluid) scale = PokecubeCore.getConfig().surfSpeedFactor;
         else if (this.getPokemob().getController().canFly && !this.getPokemob().onGround())
         {
