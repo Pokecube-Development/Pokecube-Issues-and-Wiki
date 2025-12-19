@@ -166,7 +166,7 @@ public abstract class Mesh
     private final Vector3f dummy_1 = new Vector3f();
     private final Vector4f dummy4 = new Vector4f();
 
-    protected void doRender(final PoseStack mat, final VertexConsumer buffer, final IPartTexturer texturer)
+    protected void doRender(final PoseStack mat, final VertexConsumer buffer)
     {
         final PoseStack.Pose matrixstack$entry = mat.last();
         final Matrix4f pos = matrixstack$entry.pose();
@@ -346,13 +346,13 @@ public abstract class Mesh
             texturer.modifiyRGBA(this.material.name, material.rgbabro);
             if (!same_mat) texturer.modifiyRGBA(this.name, material.rgbabro);
         }
-        buffer = this.material.preRender(mat, buffer, this.vertexMode);
         if (this.material.emissiveMagnitude > 0)
         {
             final int j = (int) (this.material.emissiveMagnitude * 15);
             material.rgbabro[4] = j << 20 | j << 4;
         }
-        this.doRender(mat, buffer, texturer);
+        buffer = this.material.preRender(mat, buffer, this.vertexMode);
+        this.doRender(mat, buffer);
     }
 
     public void setMaterial(final Material material)

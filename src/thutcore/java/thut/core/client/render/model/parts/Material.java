@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderStateShard.DepthTestStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.fml.ModList;
 import thut.api.maths.vecmath.Vec3f;
 import thut.core.client.render.model.parts.textures.BaseTexture;
 
@@ -44,6 +45,11 @@ public class Material
         SHADERS.put("alpha_shader", RenderStateShard.RENDERTYPE_ENTITY_ALPHA_SHADER);
         SHADERS.put("eyes_shader", RenderStateShard.RENDERTYPE_EYES_SHADER);
         SHADERS.put("swirl_shader", RenderStateShard.RENDERTYPE_ENERGY_SWIRL_SHADER);
+    }
+
+    public static boolean HAS_IRIS;
+    static{
+        HAS_IRIS = ModList.get().isLoaded("iris");
     }
 
     public static final DepthTestStateShard LESSTHAN = new DepthTestStateShard("<", 513);
@@ -114,8 +120,7 @@ public class Material
 
     private RenderType makeRenderType(final ResourceLocation tex, Mode mode)
     {
-        RenderType type = renderType.makeRenderType(this, tex, mode);
-        return type;
+        return renderType.makeRenderType(this, tex, mode);
     }
 
     public VertexConsumer preRender(final PoseStack mat, final VertexConsumer buffer)
@@ -125,12 +130,26 @@ public class Material
 
     public VertexConsumer preRender(final PoseStack mat, final VertexConsumer buffer, Mode mode)
     {
+        if(HAS_IRIS){
+            var trace = Thread.currentThread().getStackTrace();
+            for (int n=3;n<trace.length;n++){
+                var x = trace[n];
+                if(x.getMethodName().contains("Shadows")){
+                    rgbabro[0] = 0;
+                    rgbabro[1] = 0;
+                    rgbabro[2] = 0;
+                    rgbabro[3] = 0;
+                    rgbabro[4] = 0;
+                    rgbabro[5] = 0;
+                    return buffer;
+                }
+            }
+        }
         if (bufferSource == null) bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
         if (this.tex == null || bufferSource == null) return buffer;
         this.vertexMode = mode;
         final RenderType type = this.makeRenderType(this.tex, mode);
-        VertexConsumer newBuffer = bufferSource.getBuffer(type);
-        return newBuffer;
+        return bufferSource.getBuffer(type);
     }
 
     public BaseTexture getTexture()
