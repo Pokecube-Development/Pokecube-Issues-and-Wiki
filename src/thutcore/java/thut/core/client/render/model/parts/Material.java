@@ -131,19 +131,9 @@ public class Material
     public VertexConsumer preRender(final PoseStack mat, final VertexConsumer buffer, Mode mode)
     {
         if(HAS_IRIS){
-            var trace = Thread.currentThread().getStackTrace();
-            for (int n=3;n<trace.length;n++){
-                var x = trace[n];
-                if(x.getMethodName().contains("Shadows")){
-                    rgbabro[0] = 0;
-                    rgbabro[1] = 0;
-                    rgbabro[2] = 0;
-                    rgbabro[3] = 0;
-                    rgbabro[4] = 0;
-                    rgbabro[5] = 0;
-                    return buffer;
-                }
-            }
+            var s = RenderSystem.getShader();
+            boolean is_shadow = s!=null&&s.getName().contains("shadow_terrain");
+            if(is_shadow) return buffer;
         }
         if (bufferSource == null) bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
         if (this.tex == null || bufferSource == null) return buffer;
