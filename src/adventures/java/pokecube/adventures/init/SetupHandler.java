@@ -31,6 +31,8 @@ public class SetupHandler
         ThutCore.FORGE_BUS.addListener(TrainerEventHandler::processInteract);
         // This one handles npcs being invulnerable to pokemobs, as well as some
         // damage target allocation
+        ThutCore.FORGE_BUS.addListener(TrainerEventHandler::onEntityInvulnerabilityCheckEvent);
+        // This one handles starting battles when hurt
         ThutCore.FORGE_BUS.addListener(TrainerEventHandler::onLivingHurt);
         // Increases reputation for nearby NPCs if the player defeats wild
         // pokemobs

@@ -34,6 +34,7 @@ import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
 import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.entity.EntityEvent;
+import net.neoforged.neoforge.event.entity.EntityInvulnerabilityCheckEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent.StartTracking;
@@ -211,20 +212,24 @@ public class TrainerEventHandler
         if (ai != null && !ai.getAIState(AIState.MATES)) evt.setCanceled(true);
     }
 
+    public static void onEntityInvulnerabilityCheckEvent(EntityInvulnerabilityCheckEvent evt)
+    {
+        if (evt.getEntity() instanceof Npc && !Config.instance.pokemobsHarmNPCs && (
+                evt.getSource() instanceof PokemobDamageSource || evt.getSource() instanceof TerrainDamageSource))
+        {
+            evt.setInvulnerable(true);
+        }
+    }
+
     /**
      * This manages invulnerability of npcs to pokemobs, as well as managing the target allocation for trainers.
      */
     public static void onLivingHurt(final LivingDamageEvent.Pre evt)
     {
-        final IHasPokemobs pokemobHolder = TrainerCaps.getHasPokemobs(evt.getEntity());
-        final IHasMessages messages = TrainerCaps.getMessages(evt.getEntity());
-
-        if (evt.getEntity() instanceof Npc && !Config.instance.pokemobsHarmNPCs && (
-                evt.getSource() instanceof PokemobDamageSource || evt.getSource() instanceof TerrainDamageSource))
-            evt.setNewDamage(0);
-
         if (evt.getSource().getEntity() instanceof LivingEntity mob)
         {
+            final IHasPokemobs pokemobHolder = TrainerCaps.getHasPokemobs(evt.getEntity());
+            final IHasMessages messages = TrainerCaps.getMessages(evt.getEntity());
             if (messages != null)
             {
                 messages.sendMessage(MessageState.HURT, mob, evt.getEntity().getDisplayName(),
