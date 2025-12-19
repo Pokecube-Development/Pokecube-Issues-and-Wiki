@@ -132,8 +132,17 @@ public class Material
     {
         if(HAS_IRIS){
             var s = RenderSystem.getShader();
-            boolean is_shadow = s!=null&&s.getName().contains("shadow_terrain");
-            if(is_shadow) return buffer;
+            boolean is_shadow = s != null && s.getName().startsWith("shadow_terrain");
+            if(is_shadow)
+            {
+                rgbabro[0] = 0;
+                rgbabro[1] = 0;
+                rgbabro[2] = 0;
+                rgbabro[3] = 0;
+                rgbabro[4] = 0;
+                rgbabro[5] = 0;
+                return buffer;
+            }
         }
         if (bufferSource == null) bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
         if (this.tex == null || bufferSource == null) return buffer;
