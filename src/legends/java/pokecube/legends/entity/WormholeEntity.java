@@ -86,6 +86,7 @@ public class WormholeEntity extends LivingEntity
         {
             WormholeEntity._sorted.clear();
             WormholeEntity._mapped.clear();
+            lastCheck = worlds.size();
             float total = 0;
             for (final ResourceKey<Level> world : WormholeEntity.WEIGHTED_DIM_MAP.keySet())
             {
@@ -108,7 +109,7 @@ public class WormholeEntity extends LivingEntity
             }
         }
         if (WormholeEntity._sorted.isEmpty()) return source.dimension();
-        ResourceKey<Level> dim = WormholeEntity._sorted.get(0);
+        ResourceKey<Level> dim = WormholeEntity._sorted.getFirst();
         for (int i = 1; i < WormholeEntity._sorted.size(); i++)
         {
             dim = WormholeEntity._sorted.get(i - 1);
@@ -160,7 +161,11 @@ public class WormholeEntity extends LivingEntity
             {
                 final ItemStack test = pokemob.getInventory().getItem(i);
                 var storage = ThutCaps.getLinkStorage(test);
-                if (storage != null) link = ThutCaps.getLinkStorage(test).link();
+                if (storage != null)
+                {
+                    link = ThutCaps.getLinkStorage(test).withContext(entity.registryAccess()).link();
+                    if(link != null) break;
+                }
             }
             if (link != null)
             {

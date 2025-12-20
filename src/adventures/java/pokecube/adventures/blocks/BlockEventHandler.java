@@ -1,6 +1,8 @@
 package pokecube.adventures.blocks;
 
 import net.minecraft.core.GlobalPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -94,6 +96,19 @@ public class BlockEventHandler
         }
     }
 
+    private static class ImmutableLinkStore extends LinkStorage{
+        @Override
+        public CompoundTag serializeNBT(HolderLookup.Provider provider)
+        {
+            return new CompoundTag();
+        }
+
+        @Override
+        public void deserializeNBT(HolderLookup.Provider provider, CompoundTag nbt)
+        {
+        }
+    }
+
     private static class SiphonLink extends LinkableImpl
     {
         final SiphonTile tile;
@@ -102,7 +117,7 @@ public class BlockEventHandler
         public SiphonLink(final SiphonTile tile)
         {
             this.tile = tile;
-            this.pos = new LinkStorage();
+            this.pos = new ImmutableLinkStore();
             this.pos.setLinkedPos(GlobalPos.of(Level.OVERWORLD, this.tile.getBlockPos()), null);
         }
 
@@ -117,6 +132,17 @@ public class BlockEventHandler
         {
             return this.pos;
         }
+
+        @Override
+        public CompoundTag serializeNBT(HolderLookup.Provider provider)
+        {
+            return new CompoundTag();
+        }
+
+        @Override
+        public void deserializeNBT(HolderLookup.Provider provider, CompoundTag nbt)
+        {
+        }
     }
 
     protected static final ResourceLocation LINKSIPHONCAP = ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID,
@@ -129,18 +155,21 @@ public class BlockEventHandler
     {
         Linkable.DEFAULT().register(new HolderProvider.Provider<>()
         {
-
             @Override
             public ILinkable apply(IAttachmentHolder t)
             {
                 if (t instanceof SiphonTile tile) return new SiphonLink(tile);
                 return null;
             }
-
             @Override
             protected ResourceLocation key()
             {
                 return LINKSIPHONCAP;
+            }
+
+            public int getPriority()
+            {
+                return 99;
             }
         });
         Linkable.DEFAULT().register(new HolderProvider.Provider<>()
@@ -157,6 +186,11 @@ public class BlockEventHandler
             protected ResourceLocation key()
             {
                 return LINKPADCAP;
+            }
+
+            public int getPriority()
+            {
+                return 99;
             }
         });
     }

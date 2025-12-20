@@ -36,6 +36,7 @@ import pokecube.core.entity.pokemobs.EntityPokemob;
 import thut.api.ThutCaps;
 import thut.api.attachments.Energy;
 import thut.api.attachments.Energy.Wrapping;
+import thut.api.attachments.Linkable;
 import thut.api.data.HolderProvider;
 import thut.api.maths.Vector3;
 
@@ -132,16 +133,27 @@ public class EnergyHandler
     @SubscribeEvent
     public static void SiphonEvent(final SiphonTickEvent event)
     {
-        if (!(event.getTile().getLevel() instanceof ServerLevel world)) return;
+        var tile = event.getTile();
+        if (!(tile.getLevel() instanceof ServerLevel world)) return;
+        // Ensure links exist
+        if(Linkable.get(tile, null) == null)
+        {
+            var data = Linkable.DEFAULT().make(tile);
+            for (Direction d : Direction.values())
+            {
+                var id = d.ordinal();
+                tile.setData(Linkable.TYPES[id], data);
+            }
+        }
 
         final Map<IEnergyStorage, Integer> tiles = Maps.newHashMap();
         Map<UUID, Integer> mobs = Maps.newHashMap();
-        int output = EnergyHandler.getOutput(event.getTile(), PokecubeAdv.config.maxOutput, true, mobs);
-        event.getTile().energy.theoreticalOutput = output;
-        event.getTile().energy.currentOutput = output;
-        final IEnergyStorage producer = ThutCaps.getEnergy(event.getTile());
+        int output = EnergyHandler.getOutput(tile, PokecubeAdv.config.maxOutput, true, mobs);
+        tile.energy.theoreticalOutput = output;
+        tile.energy.currentOutput = output;
+        final IEnergyStorage producer = ThutCaps.getEnergy(tile);
         final int start = output;
-        final Vector3 v = new Vector3().set(event.getTile());
+        final Vector3 v = new Vector3().set(tile);
         for (final Direction side : Direction.values())
         {
             final BlockEntity te = v.getTileEntity(world, side);
@@ -161,7 +173,7 @@ public class EnergyHandler
                 if (toSend > 0) tiles.put(cap, toSend);
             }
         }
-        if (PokecubeAdv.config.wirelessSiphons) for (final GlobalPos pos : event.getTile().wirelessLinks)
+        if (PokecubeAdv.config.wirelessSiphons) for (final GlobalPos pos : tile.wirelessLinks)
         {
             final BlockPos bpos = pos.pos();
             final ResourceKey<Level> dim = pos.dimension();
@@ -202,14 +214,14 @@ public class EnergyHandler
             output -= request;
             h.receiveEnergy(request, false);
         }
-        boolean powered = world.getDirectSignalTo(event.getTile().getBlockPos()) >= 15;
+        boolean powered = world.getDirectSignalTo(tile.getBlockPos()) >= 15;
         int extract = start - output;
         // If we are powered, try to extract all of the energy, this still
         // limits it to PokecubeAdv.config.maxOutput per mob, but allows
         // extracting that much from multiples.
         if (powered) extract = Integer.MAX_VALUE;
         producer.extractEnergy(extract, false);
-        EnergyHandler.getOutput(event.getTile(), extract, false, mobs);
+        EnergyHandler.getOutput(tile, extract, false, mobs);
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
