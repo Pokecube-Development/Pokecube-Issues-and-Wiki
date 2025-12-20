@@ -9,6 +9,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.PokecubeCore;
+import pokecube.core.inventory.TexturedSlot;
+import pokecube.core.utils.Resources;
 import thut.api.ThutCaps;
 import thut.api.block.IOwnableTE;
 import thut.api.inventory.BaseContainer;
@@ -60,7 +62,7 @@ public class AfaContainer extends BaseContainer
         final int i = 0;
         final int j = 0;
 
-        this.addSlot(new Slot(this.inv, 0, dj + j * 18, di + i * 18));
+        this.addSlot(new TexturedSlot(this.inv, 0, dj + j * 18, di + i * 18, Resources.SLOT_ICON_CUBE));
         this.bindPlayerInventory(invIn, -19);
         this.addDataSlots(this.tile.syncValues);
     }

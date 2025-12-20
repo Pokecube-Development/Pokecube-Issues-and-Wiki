@@ -52,8 +52,8 @@ public class AFA extends AbstractContainerScreen<AfaContainer>
         final int y = (this.height - this.imageHeight) / 2;
         graphics.blit(ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID,
                 "textures/gui/afa.png"), x, y, 0, 0, this.imageWidth, this.imageHeight);
-
-        this.slotIcons.render(this.menu, graphics, partialTicks, x, y);
+// TODO fix cycling slots
+//        this.slotIcons.render(this.menu, graphics, partialTicks, x, y);
     }
 
     @Override
