@@ -507,6 +507,6 @@ public class PokemobTerrainEffects implements ITerrainEffect
             }
         }
         else this.effects.clear();
-        this.segment.chunk.setUnsaved(true);
+        if(this.segment.chunk != null) this.segment.chunk.setUnsaved(true);
     }
 }
