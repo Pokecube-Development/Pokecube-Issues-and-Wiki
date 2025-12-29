@@ -170,11 +170,17 @@ public class ItemBerry extends BlockItem implements IMoveConstants
         // Only if we can place it
         if (!playerIn.mayUseItemAt(pos.relative(side), side, stack)) return InteractionResult.FAIL;
 
+	// Is this placeable on the location
         TriState placeable = block.canSustainPlant(state, worldIn, pos, Direction.UP,
                 this.getPlacementState(new BlockPlaceContext(context)));
-        if (placeable != TriState.FALSE)
+
+        // Does this survive at the location
+        BlockState cropState = BerryManager.getCrop(this).defaultBlockState();
+        BlockPos plantPos = pos.above();
+
+        if (placeable != TriState.FALSE && cropState.canSurvive(worldIn, plantPos))
         {
-            worldIn.setBlockAndUpdate(pos.above(), BerryManager.getCrop(this).defaultBlockState());
+            worldIn.setBlockAndUpdate(plantPos, cropState);
             stack.split(1);
             return InteractionResult.SUCCESS;
         }

@@ -163,7 +163,13 @@ public class EventsHandlerClient
             final IPokemob mob = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
             if (mob != null && mob.getEntity().isAlive() && mob.getEntity().isAddedToLevel()
                     && event.getEntity().distanceTo(mob.getEntity()) > PokecubeCore.getConfig().autoRecallDistance)
-                mob.onRecall();
+            {
+                // Only auto-recall if the Pokemon should be following
+                // Don't auto-recall Pokemon that are staying, guarding, or not set to follow
+                if (!mob.getGeneralState(GeneralStates.STAYING)
+                        && !mob.inCombat())
+                    mob.onRecall();
+            }
         }
         control:
         if (event.getEntity().isPassenger() && Minecraft.getInstance().screen == null
