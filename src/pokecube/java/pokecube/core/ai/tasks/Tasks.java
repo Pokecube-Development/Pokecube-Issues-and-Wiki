@@ -76,7 +76,7 @@ public class Tasks
                 MemoryModules.MOVE_TARGET.get(), MemoryModules.LEAP_TARGET.get(), MemoryModules.COMBAT_CENTRE.get(),
                 MemoryModules.TIMER_LEAP.get(), MemoryModules.TIMER_DODGE.get(), MemoryModules.TIMER_SWAPMOVE.get(),
                 MemoryModules.ATTACKDELAY.get(), MemoryModules.TARGETOWNER.get(), MemoryModules.ATTACKTARGETID.get(),
-                MemoryModules.TIMER_FORGETTARGET.get(), MemoryModules.TIMER_SWAPTARGET.get(),
+                MemoryModules.TIMER_FORGETTARGET.get(), MemoryModules.TIMER_SWAPTARGET.get(), MemoryModules.TRACKEDTARGET.get(),
                 MemoryModules.GATHER_DETAILS.get(), MemoryModules.CALLED_HELP.get(), MemoryModules.PATH,
                 MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModules.MATE_TARGET, MemoryModules.WALK_TARGET,
                 MemoryModules.LOOK_TARGET, MemoryModules.EGG.get(), MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES,
