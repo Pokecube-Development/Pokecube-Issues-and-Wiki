@@ -255,7 +255,6 @@ public class MoveRegister
         ONGOING.put("whirlpool", new Whirlpool());
         ONGOING.put("yawn", new Yawn());
         ONGOING.put("taunt", new Taunt());
-        ONGOING.put("encore", new Encore());
     }
 
     private static void terrainMoves()
