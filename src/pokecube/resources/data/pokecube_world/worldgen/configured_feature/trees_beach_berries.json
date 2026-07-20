@@ -4,22 +4,21 @@
       "features": [
         {
           "chance": 0.2,
-          "feature": "pokecube_world:nanab_tree"
+          "feature": "pokecube_world:nanab_tree_dirt"
         },
         {
           "chance": 0.1,
-          "feature": "pokecube_world:nanab_tree_bent"
+          "feature": "pokecube_world:nanab_tree_bent_dirt"
         },
         {
           "chance": 0.3,
-          "feature": "pokecube_world:pecha_tree"
+          "feature": "pokecube_world:pecha_tree_dirt"
         },
         {
           "chance": 0.5,
-          "feature": "pokecube_world:pecha_tree_bent"
+          "feature": "pokecube_world:pecha_tree_bent_dirt"
         }
       ],
-      "default": "pokecube_world:nanab_tree"
+      "default": "pokecube_world:nanab_tree_dirt"
     }
   }
-  
