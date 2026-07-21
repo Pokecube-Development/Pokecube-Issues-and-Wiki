@@ -42,6 +42,7 @@ import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.events.pokemobs.ai.HarvestCheckEvent;
 import pokecube.core.PokecubeCore;
+import pokecube.core.blocks.berries.BerryFruit;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
@@ -79,7 +80,9 @@ public class GatherItems extends PokemobBehaviour
             "harvest_extra");
 
     private static final Predicate<BlockState> fullCropNormal = input -> input.getBlock() instanceof CropBlock crop
-            && input.hasProperty(CropBlock.AGE) && input.getValue(CropBlock.AGE) >= crop.getMaxAge();
+            && crop.isMaxAge(input);
+
+    private static final Predicate<BlockState> fullCropPokeBerry = input -> input.getBlock() instanceof BerryFruit;
 
     private static final Predicate<BlockState> fullCropBeet = input -> input.getBlock() instanceof CropBlock crop
             && input.hasProperty(BeetrootBlock.AGE) && input.getValue(BeetrootBlock.AGE) >= crop.getMaxAge();
@@ -97,7 +100,8 @@ public class GatherItems extends PokemobBehaviour
         final boolean blacklisted = ItemList.is(GatherItems.BLACKLIST, input);
         if (blacklisted) return false;
         final boolean fullCrop = GatherItems.fullCropNormal.test(input) || GatherItems.fullCropBeet.test(input)
-                || GatherItems.fullCropNetherWart.test(input);
+                || GatherItems.fullCropNetherWart.test(input)
+                || GatherItems.fullCropPokeBerry.test(input);
         return fullCrop || ItemList.is(GatherItems.HARVEST, input);
     };
 
@@ -107,19 +111,25 @@ public class GatherItems extends PokemobBehaviour
 
     public static interface IHarvester
     {
+        default boolean isAvailable(BlockState state) {
+            return GatherItems.harvestMatcher.apply(state);
+        }
+
         default boolean isHarvestable(Mob entity, IPokemob pokemob, HarvestContext context)
         {
             final HarvestCheckEvent event = new HarvestCheckEvent(pokemob, context.state(), context.pos());
             PokecubeAPI.POKEMOB_BUS.post(event);
             return event.getResult() == TriState.TRUE || (event.getResult() != TriState.FALSE
-                    && GatherItems.harvestMatcher.apply(context.state()));
+                    && this.isAvailable(context.state()));
         }
 
         default void harvest(Mob entity, IPokemob pokemob, HarvestContext context)
         {
-            context.level().setBlockAndUpdate(context.pos(), Blocks.AIR.defaultBlockState());
             final List<ItemStack> list = Block.getDrops(context.state(), context.level(), context.pos(),
                     context.level().getBlockEntity(context.pos()));
+
+            context.level().setBlockAndUpdate(context.pos(), Blocks.AIR.defaultBlockState());
+
             boolean replanted = false;
 
             int startSlot = context.isPokemobInventory() ? 2 : 0;
@@ -246,12 +256,9 @@ public class GatherItems extends PokemobBehaviour
             }
 
             @Override
-            public boolean isHarvestable(final Mob entity, final IPokemob pokemob, HarvestContext context)
+            public boolean isAvailable(final BlockState state)
             {
-                final HarvestCheckEvent event = new HarvestCheckEvent(pokemob, context.state(), context.pos());
-                PokecubeAPI.POKEMOB_BUS.post(event);
-                return event.getResult() == TriState.TRUE
-                        || event.getResult() != TriState.FALSE && GatherItems.sweetBerry.apply(context.state());
+                return GatherItems.sweetBerry.apply(state);
             }
         });
     }
@@ -313,9 +320,21 @@ public class GatherItems extends PokemobBehaviour
             final BlockState state = storage.entity.level().getBlockState(details.targetBlock.getPos());
             final HarvestCheckEvent event = new HarvestCheckEvent(storage.pokemob, state, details.targetBlock.getPos());
             PokecubeAPI.POKEMOB_BUS.post(event);
-            final boolean gatherable = event.getResult() == TriState.TRUE
-                    || event.getResult() != TriState.FALSE && GatherItems.harvestMatcher.apply(state);
-            if (!gatherable) details.targetBlock = null;
+            boolean canHarvest = false;
+            final boolean blacklisted = ItemList.is(GatherItems.BLACKLIST, state);
+            if (blacklisted) {
+                details.targetBlock = null;
+            }
+            else {
+                for (final Entry<ResourceLocation, IHarvester> entry : GatherItems.REGISTRY.entrySet())
+                {
+                    canHarvest = entry.getValue().isAvailable(state);
+                    if (canHarvest) break;
+                }
+                final boolean gatherable = event.getResult() == TriState.TRUE
+                        || event.getResult() != TriState.FALSE && canHarvest;
+                if (!gatherable) details.targetBlock = null;
+            }
         }
         return details.targetItem != null || details.targetBlock != null;
     }
