@@ -354,24 +354,31 @@ public class MoveEventsHandler
         if (target != null && (ab = target.getAbility()) != null) ab.preMoveUse(target, move);
 
         if (attack.getName().equals(IMoveNames.MOVE_FALSESWIPE)) move.noFaint = true;
-        boolean blockMove = Tags.MOVE.isIn("block-move", move.getName());
+        boolean blockMove = Tags.MOVE.isIn("block-moves", move.getName());
 
         if (!blockMove && target.getMoveStats().blocked && target.getMoveStats().blockTimer-- <= 0)
         {
+            MovesUtils.sendPairedMessages(attacker.getEntity(), target, "" + target.getMoveStats().BLOCKCOUNTER);
             target.getMoveStats().blocked = false;
             target.getMoveStats().blockTimer = 0;
             target.getMoveStats().BLOCKCOUNTER = 0;
         }
-        boolean unblockable = Tags.MOVE.isIn("no-block-move", move.getName());
-        if (attacker != target && !unblockable && target.getMoveStats().BLOCKCOUNTER > 0)
+        boolean unblockable = Tags.MOVE.isIn("no-block-moves", move.getName());
+        if (attacker != target && !unblockable)
         {
             final float count = Math.max(0, target.getMoveStats().BLOCKCOUNTER - 2);
             final float chance = count != 0 ? Math.max(0.125f, 1 / count) : 1;
-            if (chance > Math.random()) move.failed = true;
+            if (chance > Math.random()) {
+                move.failed = true;
+                MovesUtils.sendPairedMessages(target.getEntity(), attacker, "pokemob.move.protect");
+            }
+            else {
+                MovesUtils.sendPairedMessages(target.getEntity(), attacker, "pokemob.move.failed");
+            }
         }
         if (blockMove)
         {
-            target.getMoveStats().blockTimer = PokecubeCore.getConfig().attackCooldown * 2;
+            target.getMoveStats().blockTimer = PokecubeCore.getConfig().attackCooldown;
             target.getMoveStats().blocked = true;
             target.getMoveStats().BLOCKCOUNTER += 2;
         }

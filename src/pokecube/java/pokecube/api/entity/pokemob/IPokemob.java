@@ -286,6 +286,7 @@ public interface IPokemob
 
     int TYPE_CRIT = 2;
 
+
     /**
      * Sets our {@link ITargetFinder} instance
      */
