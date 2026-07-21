@@ -1,6 +1,7 @@
 package pokecube.gimmicks.mega;
 
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -27,10 +28,13 @@ import pokecube.core.items.megastuff.ItemMegawearable;
 import pokecube.gimmicks.mega.MegaCapability.MegaStone;
 import pokecube.gimmicks.mega.MegaCapability.MegaWearable;
 import thut.api.Tracker;
+import thut.api.item.ItemList;
 import thut.lib.TComponent;
 import thut.wearables.ThutWearables;
 import thut.wearables.inventory.PlayerWearables;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Supplier;
 
 /**
@@ -46,6 +50,8 @@ public class MegaEvolveHelper
     public static final DeferredRegister<DataComponentType<?>> ITEM_DATA_REG;
     public static final Supplier<DataComponentType<MegaWearable>> MEGA_WEARABLE;
     public static final Supplier<DataComponentType<MegaStone>> MEGA_STONE;
+
+    public static final ResourceLocation BLANK_MEGASTONE = ResourceLocation.fromNamespaceAndPath("pokecube", "blank_megastone");
 
     static
     {
@@ -125,8 +131,27 @@ public class MegaEvolveHelper
                         TComponent.translatable(newEntry.getUnlocalizedName()));
                 MegaEvolveHelper.megaEvolve(pokemob, newEntry, mess);
             }
-            else thut.lib.ChatHelper.sendSystemMessage(player,
+            else{
+                // First, try transforming the item if it is a blank mega stone, if so, recall this function again.
+                var stack = pokemob.getHeldItem();
+                if (ItemList.is(BLANK_MEGASTONE, stack) && !stack.has(MEGA_STONE) && stack.getCount() == 1)
+                {
+                    List<MegaEvoData.MegaRule> rules = MegaEvoData.RULES.getOrDefault(pokemob.getPokedexEntry(), Collections.emptyList());
+                    if(!rules.isEmpty()&&pokemob.getHappiness()>250)
+                    {
+                        Collections.shuffle(rules);
+                        newEntry = rules.getFirst().getResult();
+                        var stone = new MegaStone();
+                        stone.entry = newEntry.getTrimmedName();
+                        stone.colours = MegaCapability.COLOUR_MAPPER.apply(pokemob.getPokedexEntry(), newEntry);
+                        stack.set(MEGA_STONE, stone);
+                        stack.set(DataComponents.CUSTOM_NAME, newEntry.getTranslatedName());
+                        return handleChange(pokemob);
+                    }
+                }
+                thut.lib.ChatHelper.sendSystemMessage(player,
                         TComponent.translatable("pokemob.megaevolve.failed", pokemob.getDisplayName()));
+            }
             return true;
         }
 

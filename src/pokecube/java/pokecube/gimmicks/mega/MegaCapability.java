@@ -1,5 +1,6 @@
 package pokecube.gimmicks.mega;
 
+import com.mojang.datafixers.types.Func;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import io.netty.buffer.ByteBuf;
@@ -8,23 +9,27 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import thut.bling.ThutBling;
 import thut.lib.TCodecs;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class MegaCapability implements IMegaCapability
 {
     public static class MegaStone
     {
-        private String entry;
-        private int[] colours;
+        public String entry;
+        public int[] colours;
 
         public MegaStone()
         {
@@ -106,6 +111,26 @@ public class MegaCapability implements IMegaCapability
         return stack.has(MegaEvolveHelper.MEGA_WEARABLE) && stack.get(MegaEvolveHelper.MEGA_WEARABLE).withItem(stack)
                 .details().isValid(stack, entry);
     }
+
+    private static int[] randomColor(PokedexEntry base, PokedexEntry mega){
+        int[] ret = {0xFF000000,0xFF000000,0xFF000000,0xFF000000};
+        ArrayList<PokeType> types = new ArrayList<>();
+        types.add(base.type1);
+        types.add(base.type2);
+        types.add(mega.type1);
+        types.add(mega.type2);
+        Collections.shuffle(types);
+        ret[1]|=types.get(0).colour;
+        ret[2]|=types.get(1).colour;
+        ret[3]|=types.get(2).colour;
+        return ret;
+    }
+    public static Map<PokedexEntry, Function<PokedexEntry,int[]>> DEFAULT_COLOURERS = new HashMap<>();
+    public static BiFunction<PokedexEntry, PokedexEntry, int[]> COLOUR_MAPPER = (base,mega)->{
+        var custom = DEFAULT_COLOURERS.get(base);
+        if(custom!=null) return custom.apply(mega);
+        return randomColor(base, mega);
+    };
 
     final ItemStack stack;
 
