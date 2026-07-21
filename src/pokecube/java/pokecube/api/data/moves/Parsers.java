@@ -245,6 +245,14 @@ public class Parsers
 
     }
 
+    public class TwoTurnParser extends DamageParser //TODO: write a parser for two turn moves
+    {
+        @Override
+        public void process (MoveEntry entry){
+            super.process(entry);
+        }
+    }
+
     public static class SwaggerParser extends BaseParser
     {
 
