@@ -20,7 +20,7 @@
         },
         {
           "chance": 0.5,
-          "feature": "pokecube_world:pecha_tree"
+          "feature": "pokecube_world:pecha_tree_dirt"
         },
         {
           "chance": 0.5,
@@ -42,4 +42,3 @@
       "default": "pokecube_world:oran_tree"
     }
   }
-  
