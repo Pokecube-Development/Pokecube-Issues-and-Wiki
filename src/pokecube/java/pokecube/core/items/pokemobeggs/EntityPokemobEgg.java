@@ -19,6 +19,7 @@ import net.minecraft.world.phys.Vec3;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.EggEvent;
+import pokecube.api.items.EggInfo;
 import pokecube.api.moves.Battle;
 import pokecube.core.PokecubeCore;
 import thut.api.maths.Vector3;
@@ -60,7 +61,7 @@ public class EntityPokemobEgg extends AgeableMob
         final Entity e = source.getDirectEntity();
         if (!this.level().isClientSide && e instanceof Player player)
         {
-            final ItemStack itemstack = this.getMainHandItem();
+            final ItemStack itemstack = this.syncEggTime();
             final int i = itemstack.getCount();
             if (this.mother != null && this.mother.getOwner() != player)
                 Battle.createOrAddToBattle(this.mother.getEntity(), player);
@@ -120,7 +121,7 @@ public class EntityPokemobEgg extends AgeableMob
     @Override
     public ItemStack getPickedResult(final HitResult target)
     {
-        return this.getMainHandItem().copy();
+        return this.syncEggTime().copy();
     }
 
     /**
@@ -165,7 +166,7 @@ public class EntityPokemobEgg extends AgeableMob
     public InteractionResult interactAt(final Player player, final Vec3 pos, final InteractionHand hand)
     {
         if (this.delayBeforeCanPickup > 0) return InteractionResult.FAIL;
-        final ItemStack itemstack = this.getMainHandItem();
+        final ItemStack itemstack = this.syncEggTime();
         final int i = itemstack.getCount();
         if (this.mother != null && this.mother.getOwner() != player)
             Battle.createOrAddToBattle(this.mother.getEntity(), player);
@@ -198,8 +199,18 @@ public class EntityPokemobEgg extends AgeableMob
     public EntityPokemobEgg setStack(final ItemStack stack)
     {
         this.setItemInHand(InteractionHand.MAIN_HAND, stack);
-        this.setAge(PokemobCaps.getEggContents(stack).getTime());
+        final EggInfo contents = PokemobCaps.getEggContents(stack);
+        if (contents.tag().contains("time")) this.setAge(contents.getTime());
+        else this.syncEggTime();
         return this;
+    }
+
+    private ItemStack syncEggTime()
+    {
+        final ItemStack stack = this.getMainHandItem();
+        final EggInfo contents = PokemobCaps.getEggContents(stack);
+        stack.set(PokemobCaps.POKEEGG_DATA, new EggInfo(contents.tag().copy()).withTime(this.getAge()));
+        return stack;
     }
 
     public EntityPokemobEgg setStackByParents(final Entity placer, final IPokemob father)
@@ -264,7 +275,7 @@ public class EntityPokemobEgg extends AgeableMob
         if (te instanceof HopperBlockEntity hopper)
         {
             final ItemEntity item = new ItemEntity(this.level(), this.getX(), this.getY(), this.getZ(),
-                    this.getMainHandItem());
+                    this.syncEggTime());
             if (HopperBlockEntity.addItem(hopper, item)) this.discard();
         }
     }
