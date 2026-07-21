@@ -58,6 +58,16 @@ public class PokemobCaps
         return null;
     }
 
+    public static IHabitat getHabitatFor(IAttachmentHolder entityIn, ResourceLocation defaultHabitat)
+    {
+        if (entityIn == null) return null;
+        if (!entityIn.hasData(INHABITABLE) && defaultHabitat != null) {
+            entityIn.setData(INHABITABLE, CapabilityInhabitable.makeProviderFromResource(entityIn, defaultHabitat));
+        }
+        if (entityIn.hasData(INHABITABLE)) return entityIn.getData(INHABITABLE);
+        return null;
+    }
+
     public static IInhabitor getInhabitorFor(IAttachmentHolder entityIn)
     {
         if (entityIn == null) return null;

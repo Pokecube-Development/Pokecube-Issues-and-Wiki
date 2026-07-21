@@ -13,6 +13,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.gimmicks.nests.tasks.ants.AntTasks;
 import pokecube.gimmicks.nests.tasks.ants.AntTasks.AntInhabitor;
 import pokecube.gimmicks.nests.tasks.bees.BeeTasks;
+import pokecube.gimmicks.nests.tasks.bees.BeeTasks.BeeInhabitor;
 import pokecube.gimmicks.nests.tasks.burrows.BurrowTasks;
 import thut.api.data.HolderProvider;
 import thut.api.item.ItemList;
@@ -68,7 +69,7 @@ public class NestTasks
             {
                 if (!(t instanceof Mob mob)) return null;
                 if (!mob.getType().is(EntityTypeTags.BEEHIVE_INHABITORS)) return null;
-                return new AntInhabitor(mob);
+                return new BeeInhabitor(mob);
             }
 
             @Override

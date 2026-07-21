@@ -161,4 +161,13 @@ public class CapabilityInhabitable
         if (!(in instanceof BlockEntity tile)) return null;
         return new HabitatProvider(tile);
     }
+
+    public static IHabitat makeProviderFromResource(final IAttachmentHolder in, ResourceLocation defaultResource)
+    {
+        if (!(in instanceof BlockEntity tile)) return null;
+        if (CapabilityInhabitable.REGISTRY.containsKey(defaultResource)) {
+            return new HabitatProvider(tile, REGISTRY.get(defaultResource).apply(tile));
+        }
+        return new HabitatProvider(tile);
+    }
 }
