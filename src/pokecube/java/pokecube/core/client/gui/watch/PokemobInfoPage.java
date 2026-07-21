@@ -121,6 +121,32 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         this.pokemob = watch.pokemob;
     }
 
+    private static String getEntryDisplayName(final PokedexEntry entry)
+    {
+        final String name = I18n.get(entry.getUnlocalizedName());
+        final String baseName = entry.getBaseName();
+        String formeName = entry.getTrimmedName();
+        if (formeName.equals(baseName)) return name;
+        if (formeName.startsWith(baseName)) formeName = formeName.substring(baseName.length());
+        formeName = formeName.replace('_', ' ').replace('-', ' ').trim();
+        if (formeName.isEmpty()) return name;
+
+        final StringBuilder formatted = new StringBuilder();
+        for (final String part : formeName.split("\\s+"))
+        {
+            if (!formatted.isEmpty()) formatted.append(' ');
+            formatted.append(Character.toUpperCase(part.charAt(0))).append(part.substring(1));
+        }
+        return name + " (" + formatted + ")";
+    }
+
+    public void updateEntryField(final PokedexEntry entry)
+    {
+        this.searchBox.setValue(PokemobInfoPage.getEntryDisplayName(entry));
+        PacketPokedex.sendSpecificSpawnsRequest(entry);
+        PacketPokedex.updateWatchEntry(entry);
+    }
+
     @Override
     public boolean keyPressed(final int keyCode, final int b, final int c)
     {
@@ -158,21 +184,23 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             if (!ret.isEmpty()) this.searchBox.setValue(ret.get(0));
             return true;
         }
-            else if (keyCode == GLFW.GLFW_KEY_ENTER)
+        else if (keyCode == GLFW.GLFW_KEY_ENTER)
         {
             PokedexEntry entry = this.pokemob.getPokedexEntry();
             PokedexEntry newEntry = Database.getEntry(this.searchBox.getValue());
+            if (PokemobInfoPage.getEntryDisplayName(entry).equalsIgnoreCase(this.searchBox.getValue()))
+                newEntry = entry;
             // Search to see if maybe it was a translated name put into the
             // search.
             if (newEntry == null)
             {
                 for (final PokedexEntry e : Database.getSortedFormes())
                 {
-                    final String translated = I18n.get(e.getUnlocalizedName());
+                    final String translated = PokemobInfoPage.getEntryDisplayName(e);
                     if (translated.equalsIgnoreCase(this.searchBox.getValue()))
                     {
                         Database.data2.put(translated, e);
-                        entry = e;
+                        newEntry = e;
                         break;
                     }
                 }
@@ -240,9 +268,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         this.addRenderableWidget(this.searchBox);
         this.searchBox.setVisible(!this.watch.canEdit(pokemob));
         this.searchBox.setEditable(!this.watch.canEdit(pokemob));;
-        this.searchBox.setValue(I18n.get(entry.getUnlocalizedName()));
-        PacketPokedex.sendSpecificSpawnsRequest(entry);
-        PacketPokedex.updateWatchEntry(entry);
+        this.updateEntryField(entry);
         // Force close and open the page to update.
         this.changePage(this.index);
     }

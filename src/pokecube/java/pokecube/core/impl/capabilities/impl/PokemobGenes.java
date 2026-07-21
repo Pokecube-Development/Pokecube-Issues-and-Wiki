@@ -380,6 +380,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         FormeHolder form = Database.formeHoldersByKey.getOrDefault(newEntry.getTrimmedName(),
                 newEntry.getModel(this.getSexe()));
         genesSpecies.getExpressed().getValue().setForme(form);
+        this.onGenesChanged();
         this.getGenes().markDirty();
     }
 
@@ -435,6 +436,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         Alleles<SpeciesInfo, SpeciesGene> genesSpecies = getGenes().getAlleles(GeneticsManager.SPECIESGENE);
         // Ensures the species gene is initialised
         genesSpecies.getExpressed().getValue().setForme(holder);
+        this.onGenesChanged();
         this.getGenes().markDirty();
     }
 
