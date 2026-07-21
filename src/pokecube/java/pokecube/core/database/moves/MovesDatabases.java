@@ -138,6 +138,10 @@ public class MovesDatabases
             // Create and assign a root entry.
             entry.root_entry = holder;
 
+            //In the case the json does not specify the move category (e.g. gen 9 moves), set to damage if not status.
+            if (json.power > 0)
+                json.move_category = "damage";
+
             var parser = Parsers.getParser(json.move_category);
 
             if (parser == null) parser = Parsers.getCustomParser(entry.name);
