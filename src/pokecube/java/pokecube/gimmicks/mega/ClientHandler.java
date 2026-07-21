@@ -16,7 +16,7 @@ public class ClientHandler
     {
         event.register((stack, tintIndex) -> {
             MegaStone stone = stack.get(MegaEvolveHelper.MEGA_STONE);
-            if (stone == null) return 0xFF888888;
+            if (stone == null || stone.colours()==null) return 0xFF888888;
             return stone.colours()[tintIndex];
         }, PokecubeItems.getStack("megastone").getItem());
     }

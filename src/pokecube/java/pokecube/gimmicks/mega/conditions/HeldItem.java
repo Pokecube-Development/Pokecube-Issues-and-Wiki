@@ -18,6 +18,11 @@ public class HeldItem extends HasHeldItem implements MegaCondition
             if (!rightStack) rightStack = MegaCapability.matches(mobIn.getHeldItem(), entryTo);
             return rightStack;
         }
+        // Check for backwards compat with old mega items
+        if(_tag.location().getNamespace().contains("pokecube")&&_tag.location().getPath().contains("mega"))
+        {
+            return MegaCapability.getForStack(mobIn.getHeldItem())==entryTo;
+        }
         return false;
     }
 }

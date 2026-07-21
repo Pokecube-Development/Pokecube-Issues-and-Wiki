@@ -148,7 +148,7 @@ public class MegaCapability implements IMegaCapability
         return isMegaWear;
     }
 
-    protected static PokedexEntry getForStack(final ItemStack stack)
+    public static PokedexEntry getForStack(final ItemStack stack)
     {
         final boolean isMegaWear = stack.has(MegaEvolveHelper.MEGA_WEARABLE);
         if (isMegaWear) return Database.missingno;
