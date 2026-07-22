@@ -145,7 +145,13 @@ public class MegaEvolveHelper
                         stone.entry = newEntry.getTrimmedName();
                         stone.colours = MegaCapability.COLOUR_MAPPER.apply(pokemob.getPokedexEntry(), newEntry);
                         stack.set(MEGA_STONE, stone);
-                        stack.set(DataComponents.CUSTOM_NAME, newEntry.getTranslatedName());
+                        final Component customName = stack.get(DataComponents.CUSTOM_NAME);
+                        if (customName == null || "Mega Stone".equalsIgnoreCase(customName.getString().trim()))
+                        {
+                            final String stoneName = MegaStoneColours.getName(newEntry);
+                            stack.set(DataComponents.CUSTOM_NAME,
+                                    stoneName == null ? newEntry.getTranslatedName() : Component.literal(stoneName));
+                        }
                         return handleChange(pokemob);
                     }
                 }
