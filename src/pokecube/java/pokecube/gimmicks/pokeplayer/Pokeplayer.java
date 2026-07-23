@@ -5,6 +5,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -26,6 +27,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.pokemobs.EvolveEvent;
+import pokecube.api.items.IPokecube;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.idle.HungerTask;
@@ -43,6 +45,8 @@ import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 import thut.lib.TComponent;
 import thut.wearables.inventory.PlayerWearables;
+
+import java.util.Locale;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)
 public class Pokeplayer
@@ -89,16 +93,50 @@ public class Pokeplayer
     {
         var copy = ThutCaps.getCopyMob(player);
         if (copy == null) throw Pokeplayer.ERROR_FAILED.create();
-        if (argument.equals("none"))
+
+        // Putting none or player into entry arg reverts a transformed player.
+        if (argument.toLowerCase().equals("none") || argument.toLowerCase().equals("player"))
         {
-            copy.setCopiedID(null);
+            player.sendSystemMessage(Component.literal("Reverted " + player.getName().getString() + " back into a player"));
+            copy.setCopiedID(RegHelper.getKey(player.getType())); // Sets player
             // Reset the no gravity rules
             player.setNoGravity(false);
             return 0;
         }
+
         final PokedexEntry var = Database.getEntry(argument);
         copy.setCopiedID(RegHelper.getKey(var.getEntityType()));
+        player.sendSystemMessage(Component.literal("Transformed " + player.getName().getString() + " into " + var.name));
         return 0;
+    }
+
+    //Eventual implementation of the command with nbt data etc
+    private static int doPokeplayerCommand(IPokemob argument, Entity player) throws CommandSyntaxException
+    {
+        if (argument != null)
+        {
+            var copy = ThutCaps.getCopyMob(player);
+            if (copy == null) throw Pokeplayer.ERROR_FAILED.create();
+
+            // Putting none or player into entry arg reverts a transformed player.
+            if (argument.getDisplayName().getString().toLowerCase().equals("none") || argument.getDisplayName().getString().toLowerCase().equals("player"))
+            {
+                player.sendSystemMessage(Component.literal("Reverted " + player.getName().getString() + " back into a player"));
+                copy.setCopiedID(RegHelper.getKey(player.getType())); // Sets player
+                // Reset the no gravity rules
+                player.setNoGravity(false);
+                return 0;
+            }
+
+            final PokedexEntry var = Database.getEntry(argument);
+            copy.setCopiedID(RegHelper.getKey(var.getEntityType()));
+            player.sendSystemMessage(Component.literal("Transformed " + player.getName().getString() + " into " + var.name));
+            return 0;
+        }
+        else {
+            player.sendSystemMessage(Component.literal("Cannot change " + player.getName().getString() + " into a pokemob: argument was null"));
+            return -1;
+        }
     }
 
     private static void onCommandRegister(final RegisterCommandsEvent event)
