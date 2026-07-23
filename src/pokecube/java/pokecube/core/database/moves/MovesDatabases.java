@@ -132,6 +132,15 @@ public class MovesDatabases
             holder.setMove(json);
             holder.animation = loadedAnimations.get(json.name);
 
+            if (json.effect_text_simple != null) { // Most moves
+                holder._effect_text_simple = json.effect_text_simple;
+            }
+            else if (json.flavor_text != null) { // If there is no effect text, use the flavor text to indicate what the move does.
+                holder._effect_text_simple = json.flavor_text;
+            }
+            else
+                PokecubeAPI.logInfo(json.name + " has neither effect text nor flavor text!");
+
             // Initialises preset/cleans up text.
             holder.preParse();
 

@@ -101,6 +101,9 @@
     "pokemob.move.encore.end.user": "%1$s §c's encore ended!",
     "pokemob.move.encore.end.target": "%1$s §a's encore ended!",
 
+    "pokemob.move.bellydrum.user": "%1$s §ccut its own HP and maximised attack!",
+    "pokemob.move.bellydrum.target": "%1$s §acut its own HP and maximised attack!",
+
     "pokemob.move.failed.user": "%1$s's §cattack failed!",
     "pokemob.move.failed.target": "%1$s's §aattack failed!",
 

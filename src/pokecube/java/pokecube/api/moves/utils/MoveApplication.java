@@ -220,7 +220,7 @@ public class MoveApplication implements Comparable<MoveApplication>
 
             // Apply all of the scalings
             attackStrength *= efficiency * criticalRatio * terrainDamageModifier * stabRatio * superEffectScale;
-            // Here is the damage will will actually do.
+            // Here is what the damage will actually do.
             int finalAttackStrength = Math.max(0, Math.round(attackStrength));
 
             int beforeHealth = 0;

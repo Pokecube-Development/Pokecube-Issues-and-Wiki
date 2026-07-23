@@ -168,12 +168,6 @@ public class Parsers
             entry.root_entry._ohko = OHKO.stream()
                     .anyMatch(p -> Parsers.matches(entry.root_entry._effect_text_simple, p));
 
-            // If statement for extendability (e.g. if a healing move is created that heals 1/4th of the user's health)
-            if (entry.root_entry._effect_text_simple.contains("Heals the user") || entry.root_entry._effect_text_simple.contains("restores the user's hp"))
-            {
-                if (entry.root_entry._effect_text_simple.contains("half its max hp"))
-                    entry.root_entry._healing = 50;
-            }
             parseCategory(entry);
         }
     }
@@ -258,7 +252,7 @@ public class Parsers
         }
     }
 
-    // This class seems to do nothing but I cannot remove it as then the game cannot read swagger's type
+    // This class seems to do nothing but I cannot remove it as then the game cannot read swagger's type.
     public static class SwaggerParser extends BaseParser
     {
 
