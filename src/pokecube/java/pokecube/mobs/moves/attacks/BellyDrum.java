@@ -13,9 +13,10 @@ import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.damage.effects.StatusEffects;
+import thut.lib.TComponent;
 
-@MoveProvider(name = "swagger")
-public class Swagger implements PostMoveUse
+@MoveProvider(name = "belly-drum")
+public class BellyDrum implements PostMoveUse
 {
     @Override
     public void applyPostMove(Damage t) {
@@ -27,11 +28,15 @@ public class Swagger implements PostMoveUse
 
         if (target != null)
         {
-            packet.stat_effects[IPokemob.Stats.ATTACK.ordinal()] = 2;
+            if (attacker.getHealth() > (attacker.getMaxHealth() / 2.0f))
+            {
+                packet.stat_effects[IPokemob.Stats.ATTACK.ordinal()] = 6;
 
-            MovesUtils.displayStatsMessage(attacker, packet.getTarget(), 0, 1, (byte)2);
-            StatusEffects.setStatus(packet.getTarget(), attacker.getEntity(), StatusEffects.CONFUSE, attacker.getEntity().getRandom().nextInt(2, 6), 1);
-            MovesUtils.displayStatusMessages(attacker, target.getEntity(), IMoveConstants.CHANGE_CONFUSED, false);
+                attacker.setHealth(attacker.getHealth() - (attacker.getMaxHealth() / 2.0f));
+                attacker.displayMessageToOwner(TComponent.translatable("pokemob.move.bellydrum.user", target.getDisplayName()));
+            }
+            else
+                attacker.displayMessageToOwner(TComponent.translatable("pokemob.move.failed.user", target.getDisplayName()));
         }
     }
 }

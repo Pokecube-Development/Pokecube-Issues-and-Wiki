@@ -7,6 +7,7 @@ import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
+import pokecube.api.utils.PokeType;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.GuiEvent;
@@ -200,7 +201,7 @@ public class OutMobInfo extends GuiEventComponent
                     }
                     // Finally draw the name
                     graphics.drawString(gui.getFont(), MovesUtils.getMoveName(move.getName(), pokemob).getString(),
-                            5 + movesOffsetX, moveIndex * 13 + movesOffsetY + 3 + h, move.getType(pokemob).colour);
+                            5 + movesOffsetX, moveIndex * 13 + movesOffsetY + 3 + h, (move.getType(pokemob) == null ? PokeType.unknown : move.getType(pokemob)).colour);
                 }
             }
 

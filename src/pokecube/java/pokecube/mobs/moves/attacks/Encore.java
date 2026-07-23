@@ -34,13 +34,20 @@ public class Encore implements PostMoveUse
             final int timer = attacker.getEntity().getRandom().nextInt(7); // Same as Disable
 
             // (lastMoveIndex + 1) % targetMoves.length selects a move that is sure to not be the last move.
-            if (target.getDisableTimer((lastMoveIndex + 1) % targetMoves.length) <= 0 && timer > 0) { // Applies timer if the disabled moves are not yet disabled.
+            if (target.getDisableTimer((lastMoveIndex + 1) % targetMoves.length) <= 0 && timer > 0) // Applies timer if the disabled moves are not yet disabled.
+            {
+                MovesUtils.sendPairedMessages(target.getEntity(), attacker, "pokemob.move.encore.start");
                 for (int i = 0; i < targetMoves.length; i++) {
                     if (i != lastMoveIndex) target.setDisableTimer(lastMoveIndex, PokecubeCore.getConfig().attackCooldown * timer);
                 }
             }
+            else if (target.getDisableTimer((lastMoveIndex + 1) % targetMoves.length) <= 0) // Displays that encore has ended if the disable timer is zero.
+            {
+                MovesUtils.sendPairedMessages(target.getEntity(), attacker, "pokemob.move.encore.end");
+            }
 
             else MovesUtils.displayEfficiencyMessages(attacker, packet.getTarget(), -2, 0);
+
         }
     }
 }

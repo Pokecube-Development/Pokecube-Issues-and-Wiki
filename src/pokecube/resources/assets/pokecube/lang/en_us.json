@@ -89,8 +89,20 @@
     "pokemob.move.missed.user": "§cIt missed§r %1$s!",
     "pokemob.move.missed.target": "§aIt missed§r %1$s!",
 
+    "pokemob.move.hprestore.user": "%1$s §c's HP was restored.",
+    "pokemob.move.hprestore.target": "%1$s §a's HP was restored.",
+
     "pokemob.move.protect.user": "%1$s §cprotected itself!",
     "pokemob.move.protect.target": "%1$s §aprotected itself!",
+
+    "pokemob.move.encore.start.user": "%1$s §cmust do an encore!",
+    "pokemob.move.encore.start.target": "%1$s §amust do an encore",
+
+    "pokemob.move.encore.end.user": "%1$s §c's encore ended!",
+    "pokemob.move.encore.end.target": "%1$s §a's encore ended!",
+
+    "pokemob.move.bellydrum.user": "%1$s §ccut its own HP and maximised attack!",
+    "pokemob.move.bellydrum.target": "%1$s §acut its own HP and maximised attack!",
 
     "pokemob.move.failed.user": "%1$s's §cattack failed!",
     "pokemob.move.failed.target": "%1$s's §aattack failed!",
