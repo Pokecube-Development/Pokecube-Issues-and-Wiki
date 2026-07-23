@@ -96,7 +96,7 @@ public interface IMoveConstants extends IMoveNames
     byte DRASTICALLY = 3;
 
     // Special Moves, ie ones needed for specific logic
-    // No move move for just sitting there
+    // No move for just sitting there
     String MOVE_NONE = "none";
 
     String DEFAULT_MOVE = "tackle";

@@ -89,6 +89,9 @@
     "pokemob.move.missed.user": "§cIt missed§r %1$s!",
     "pokemob.move.missed.target": "§aIt missed§r %1$s!",
 
+    "pokemob.move.hprestore.user": "%1$s §c's HP was restored.",
+    "pokemob.move.hprestore.target": "%1$s §a's HP was restored.",
+
     "pokemob.move.protect.user": "%1$s §cprotected itself!",
     "pokemob.move.protect.target": "%1$s §aprotected itself!",
 

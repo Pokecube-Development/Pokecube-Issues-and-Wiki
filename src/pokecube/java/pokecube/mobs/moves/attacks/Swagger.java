@@ -5,9 +5,11 @@ import net.minecraft.world.effect.MobEffects;
 import pokecube.api.data.moves.MoveProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.moves.utils.MoveApplication.Damage;
 import pokecube.api.moves.utils.MoveApplication.PostMoveUse;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.damage.effects.StatusEffects;
@@ -26,7 +28,10 @@ public class Swagger implements PostMoveUse
         if (target != null)
         {
             packet.stat_effects[IPokemob.Stats.ATTACK.ordinal()] = 2;
-            target.getEntity().addEffect(new MobEffectInstance(MobEffects.CONFUSION, 200, 1));
+
+            MovesUtils.displayStatsMessage(attacker, packet.getTarget(), 0, 1, (byte)2);
+            StatusEffects.setStatus(packet.getTarget(), attacker.getEntity(), StatusEffects.CONFUSE, attacker.getEntity().getRandom().nextInt(2, 6), 1);
+            MovesUtils.displayStatusMessages(attacker, target.getEntity(), IMoveConstants.CHANGE_CONFUSED, false);
         }
     }
 }

@@ -405,7 +405,8 @@ public class MovesUtils implements IMoveConstants
         MutableComponent name = TComponent.translatable("pokemob.move." + attack);
         if (move != null)
         {
-            name.setStyle(name.getStyle().withColor(move.getType(user).colour));
+            // Ternary statement prevents a crash where game doesn't know what type the move is
+            name.setStyle(name.getStyle().withColor((move.getType(user) == null ? PokeType.unknown : move.getType(user)).colour));
         }
         return name;
     }
