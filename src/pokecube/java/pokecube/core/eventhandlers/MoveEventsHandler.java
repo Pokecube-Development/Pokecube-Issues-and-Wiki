@@ -354,35 +354,43 @@ public class MoveEventsHandler
         if (target != null && (ab = target.getAbility()) != null) ab.preMoveUse(target, move);
 
         if (attack.getName().equals(IMoveNames.MOVE_FALSESWIPE)) move.noFaint = true;
-        boolean blockMove = Tags.MOVE.isIn("block-moves", move.getName());
+        boolean blockMove = Tags.MOVE.isIn("block-moves", move.getName()); // If we are using a "block" move (e.g. protect)
+        boolean unblockable = Tags.MOVE.isIn("no-block-moves", move.getName()); // If we are using a move that goes through protect (e.g. phantom force)
 
-        if (!blockMove && target.getMoveStats().blocked && target.getMoveStats().blockTimer-- <= 0)
+        // Reset protect parameters if the target is set to block moves when they did not use protect
+        if (target.getLastMoveUsed() != null && target.getMoveStats().blocked && target.getMoveStats().blockTimer-- <= 0)
         {
-            MovesUtils.sendPairedMessages(attacker.getEntity(), target, "" + target.getMoveStats().BLOCKCOUNTER);
-            target.getMoveStats().blocked = false;
-            target.getMoveStats().blockTimer = 0;
-            target.getMoveStats().BLOCKCOUNTER = 0;
+            if (Tags.MOVE.isIn("block-moves", target.getLastMoveUsed()))
+            {
+                target.getMoveStats().blocked = false;
+                target.getMoveStats().blockTimer = 0;
+                target.getMoveStats().BLOCKCOUNTER = 0;
+            }
         }
-        boolean unblockable = Tags.MOVE.isIn("no-block-moves", move.getName());
-        if (attacker != target && !unblockable)
+
+        // Sets protect parameters if we are using protect and it has not already failed.
+        if (blockMove && attacker.getMoveStats().blockTimer != -1)
+        {
+            attacker.getMoveStats().blockTimer = PokecubeCore.getConfig().attackCooldown;
+            attacker.getMoveStats().blocked = true;
+            attacker.getMoveStats().BLOCKCOUNTER += 2;
+        }
+
+        // Perform protect checks if target is set to block moves and we are not using an unblockable move.
+        if (attacker != target && !unblockable && target.getMoveStats().blocked)
         {
             final float count = Math.max(0, target.getMoveStats().BLOCKCOUNTER - 2);
             final float chance = count != 0 ? Math.max(0.125f, 1 / count) : 1;
-            if (chance > Math.random()) {
+            if (chance > Math.random()) { // When the move is successful.
                 move.failed = true;
                 MovesUtils.sendPairedMessages(target.getEntity(), attacker, "pokemob.move.protect");
             }
-            else {
+            else { // When the move fails due to successive use.
+                target.getMoveStats().blocked = false;
+                target.getMoveStats().blockTimer = -1; // blockTimer is set to -1 to show protect has previously failed.
                 MovesUtils.sendPairedMessages(target.getEntity(), attacker, "pokemob.move.failed");
             }
         }
-        if (blockMove)
-        {
-            target.getMoveStats().blockTimer = PokecubeCore.getConfig().attackCooldown;
-            target.getMoveStats().blocked = true;
-            target.getMoveStats().BLOCKCOUNTER += 2;
-        }
-        if (target.getMoveStats().BLOCKCOUNTER > 0) target.getMoveStats().BLOCKCOUNTER--;
     }
 
     private static void onWorldAction(final MoveWorldAction.OnAction evt)

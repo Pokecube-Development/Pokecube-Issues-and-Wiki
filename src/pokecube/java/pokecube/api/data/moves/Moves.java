@@ -37,6 +37,7 @@ public class Moves
         public float cooldown = 1.0f;
         public String effect_text_extend;
         public String effect_text_simple;
+        public String flavor_text; // Gen 9 moves have this instead of effect text.
         public int effect_chance;
         public String preset;
 
@@ -110,6 +111,7 @@ public class Moves
 
         public String _effect_text_extend = "";
         public String _effect_text_simple = "";
+        public String _flavor_text = ""; // Gen 9 moves have this instead of effect text.
 
         public String _sound_effect_source = null;
         public String _sound_effect_target = null;

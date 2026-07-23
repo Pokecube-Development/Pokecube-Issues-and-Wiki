@@ -2,9 +2,11 @@ package pokecube.mobs.moves.attacks;
 
 import pokecube.api.data.moves.MoveProvider;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.moves.utils.MoveApplication.Damage;
 import pokecube.api.moves.utils.MoveApplication.HealProvider;
+import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.damage.effects.StatusEffects;
 
 @MoveProvider(name = "rest")
@@ -15,9 +17,14 @@ public class Rest implements HealProvider
     {
         MoveApplication packet = t.move();
         if (packet.canceled || packet.failed) return;
+
         IPokemob attacker = packet.getUser();
+        IPokemob target = PokemobCaps.getPokemobFor(packet.getTarget());
+
         attacker.healStatus();
         attacker.healChanges();
+        attacker.getEntity().heal(attacker.getEntity().getMaxHealth() - attacker.getEntity().getHealth());
+        MovesUtils.sendPairedMessages(attacker.getEntity(), target, "pokemob.move.hprestore");
         StatusEffects.setStatus(attacker.getEntity(), attacker.getEntity(), StatusEffects.SLEEP, 2, 1);
     }
 }
