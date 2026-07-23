@@ -46,8 +46,12 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -81,6 +85,7 @@ import pokecube.core.items.berries.BerryManager.BerryType;
 import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.items.megastuff.ItemMegawearable;
 
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)
 public class ItemGenerator
 {
 
@@ -613,31 +618,33 @@ public class ItemGenerator
         });
     }
 
-    public static void makeSigns()
+    @SubscribeEvent
+    public static void makeSigns(BlockEntityTypeAddBlocksEvent event)
     {
         if (!SIGN_BLOCKS.isEmpty())
         {
-            GenericSignBlockEntity.SIGN_TYPE = PokecubeCore.TILES.register("sign", () -> {
-                List<Block> regs = Lists.newArrayList();
-                SIGN_BLOCKS.forEach(r -> regs.add(r.get()));
-                Block[] blocks = regs.toArray(new Block[0]);
-                var type = BlockEntityType.Builder.of(GenericSignBlockEntity::new, blocks).build(null);
-                return type;
-            });
+            Block[] blocks = (Block[]) SIGN_BLOCKS.stream().map(DeferredHolder::get).toList().toArray(new Block[0]);
+            event.modify(BlockEntityType.SIGN, blocks);
         }
     }
 
-    public static void makeHangingSigns()
+    @SubscribeEvent
+    public static void makeHangingSigns(BlockEntityTypeAddBlocksEvent event)
     {
         if (!HANGING_SIGN_BLOCKS.isEmpty())
         {
-            GenericHangingSignBlockEntity.SIGN_TYPE = PokecubeCore.TILES.register("hanging_sign", () -> {
-                List<Block> regs = Lists.newArrayList();
-                HANGING_SIGN_BLOCKS.forEach(r -> regs.add(r.get()));
-                Block[] blocks = regs.toArray(new Block[0]);
-                var type = BlockEntityType.Builder.of(GenericHangingSignBlockEntity::new, blocks).build(null);
-                return type;
-            });
+            Block[] blocks = (Block[]) HANGING_SIGN_BLOCKS.stream().map(DeferredHolder::get).toList().toArray(new Block[0]);
+            event.modify(BlockEntityType.HANGING_SIGN, blocks);
+        }
+    }
+
+    @SubscribeEvent
+    public static void makeBarrels(BlockEntityTypeAddBlocksEvent event)
+    {
+        if (!BARRELS.isEmpty())
+        {
+            Block[] barrels = (Block[]) BARRELS.stream().map(DeferredHolder::get).toList().toArray(new Block[0]);
+            event.modify(BlockEntityType.BARREL, barrels);
         }
     }
 
@@ -653,20 +660,6 @@ public class ItemGenerator
                         Block[] blocks = regs.toArray(new Block[0]);
                         return BlockEntityType.Builder.of(GenericBookshelfEmptyTile::new, blocks).build(null);
                     });
-        }
-    }
-
-    public static void makeBarrels()
-    {
-        if (!BARRELS.isEmpty())
-        {
-            PokecubeItems.BARREL_TYPE = PokecubeCore.TILES.register("generic_barrel", () -> {
-                List<Block> regs = Lists.newArrayList();
-                BARRELS.forEach(r -> regs.add(r.get()));
-                Block[] blocks = regs.toArray(new Block[0]);
-                var type = BlockEntityType.Builder.of(GenericBarrelTile::new, blocks).build(null);
-                return type;
-            });
         }
     }
 
@@ -863,9 +856,6 @@ public class ItemGenerator
         ItemGenerator.makeBerryBlocks();
 
         // Register after berry blocks
-        ItemGenerator.makeBarrels();
         ItemGenerator.makeFillableShelves();
-        ItemGenerator.makeHangingSigns();
-        ItemGenerator.makeSigns();
     }
 }
