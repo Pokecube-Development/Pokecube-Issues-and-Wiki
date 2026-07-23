@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "powered=false": { "model": "pokecube_pokeplayer:block/pokeplayer_pressure_plate" },
+        "powered=true": { "model": "pokecube_pokeplayer:block/pokeplayer_pressure_down" }
+    }
+}
