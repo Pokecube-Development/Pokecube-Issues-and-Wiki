@@ -1,14 +1,10 @@
 package pokecube.gimmicks.pokeplayer.blocks;
 
-
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
@@ -21,11 +17,8 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.gimmicks.pokeplayer.Pokeplayer;
 import thut.api.ThutCaps;
-import thut.api.Tracker;
 
 public class TransformPR extends BedBlock {
-
-    private final long transformWait = 30; // Number of ticks between two transforms
 
     public TransformPR(Properties properties) {
         super(DyeColor.PURPLE, properties);
