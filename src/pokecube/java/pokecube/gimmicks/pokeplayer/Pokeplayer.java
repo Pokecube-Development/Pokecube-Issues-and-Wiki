@@ -13,6 +13,8 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -29,6 +31,8 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredItem;
+import net.neoforged.neoforge.registries.RegisterEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -56,8 +60,9 @@ import thut.wearables.inventory.PlayerWearables;
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)
 public class Pokeplayer
 {
-
     public static final DeferredBlock<Block> TRANSFORM_PR_PLATE;
+    public static final DeferredItem<BlockItem> TRANSFORM_PR_PLATE_ITEM;
+
     /**
      * Setup and register pokeplayer stuff.
      */
@@ -98,10 +103,12 @@ public class Pokeplayer
         TRANSFORM_PR_PLATE  = PokecubeCore.BLOCKS.register("transform_pressure_plate",
                 () -> new TransformPR(
                         BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+        TRANSFORM_PR_PLATE_ITEM = PokecubeCore.ITEMS.register("transform_pressure_plate",
+                () -> new BlockItem(TRANSFORM_PR_PLATE.get(), new Item.Properties()));
     }
 
     @SubscribeEvent
-    public static void registerBedblockEntity(BlockEntityTypeAddBlocksEvent event)
+    public static void registerBedBlockEntity(BlockEntityTypeAddBlocksEvent event)
     {
         event.modify(BlockEntityType.BED, TRANSFORM_PR_PLATE.get());
     }
@@ -117,7 +124,7 @@ public class Pokeplayer
             if (argument.equalsIgnoreCase("none") || argument.equalsIgnoreCase("player"))
             {
                 player.sendSystemMessage(Component.literal("Reverted " + player.getName().getString() + " back into a player"));
-                copy.setCopiedID(RegHelper.getKey(player.getType())); // Sets player
+                copy.setCopiedMob(null); // Changes player back into a player
                 // Reset the no gravity rules
                 player.setNoGravity(false);
                 return 0;
@@ -134,10 +141,12 @@ public class Pokeplayer
     public static int transformPlayer(IPokemob pokemob, Entity player)
     {
         var copy = ThutCaps.getCopyMob(player);
-        if(copy==null) return -2;
-        if(pokemob==null) {
+        if (copy == null) return -2;
+
+
+        if (pokemob == null) {
             player.sendSystemMessage(Component.literal("Reverted " + player.getName().getString() + " back into a player"));
-            copy.setCopiedID(RegHelper.getKey(player.getType())); // Sets player
+            copy.setCopiedMob(null); // Changes player back into a player
             player.setNoGravity(false);
             return 0;
         }
