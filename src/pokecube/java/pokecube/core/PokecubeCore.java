@@ -20,8 +20,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.material.MapColor;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -31,6 +34,8 @@ import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
+import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent;
+import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.neoforged.neoforge.registries.NewRegistryEvent;
@@ -51,6 +56,8 @@ import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.ai.routes.GuardAICapability;
 import pokecube.core.ai.tasks.utility.StoreItems;
 import pokecube.core.blocks.berries.BerryGenManager;
+import pokecube.core.blocks.pokeplayer.TransformPR;
+import pokecube.core.blocks.pokeplayer.TransformPRContainer;
 import pokecube.core.commands.CommandManager;
 import pokecube.core.database.Database;
 import pokecube.core.database.resources.PackFinder;
@@ -143,6 +150,7 @@ public class PokecubeCore
     public static final DeferredRegister<SensorType<?>> SENSORS;
     public static final DeferredRegister<Block> BERRY_BLOCKS;
     public static final DeferredRegister.Blocks BLOCKS;
+
     public static final DeferredRegister.Items ITEMS;
     public static final DeferredRegister<BlockEntityType<?>> TILES;
     public static final DeferredRegister<EntityType<?>> ENTITIES;
@@ -151,6 +159,8 @@ public class PokecubeCore
     public static final DeferredRegister<PaintingVariant> PAINTINGS;
     public static final DeferredRegister<DataComponentType<?>> ITEM_DATA;
     public static final DeferredRegister<AttachmentType<?>> ATTACHMENTS;
+
+    public static final DeferredBlock<Block> TRANSFORM_PR_PLATE;
 
     static
     {
@@ -162,6 +172,10 @@ public class PokecubeCore
         SENSORS = DeferredRegister.create(RegHelper.SENSOR_TYPE_REGISTRY, PokecubeCore.MODID);
         BERRY_BLOCKS = DeferredRegister.create(RegHelper.BLOCK_REGISTRY, PokecubeCore.MODID);
         BLOCKS = DeferredRegister.createBlocks(PokecubeCore.MODID);
+
+        TRANSFORM_PR_PLATE  = PokecubeCore.BLOCKS.register("transform_pressure_plate",
+                () -> new TransformPR(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+
         ITEMS = DeferredRegister.createItems(PokecubeCore.MODID);
         TILES = DeferredRegister.create(RegHelper.BLOCK_ENTITY_TYPE_REGISTRY, PokecubeCore.MODID);
         ENTITIES = DeferredRegister.create(RegHelper.ENTITY_TYPE_REGISTRY, PokecubeCore.MODID);

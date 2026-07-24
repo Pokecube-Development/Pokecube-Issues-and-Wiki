@@ -89,37 +89,15 @@ public class Pokeplayer
                 "Allowed to use pokeplayer command on other");
     }
 
-    private static int doPokeplayerCommand(String argument, Entity player) throws CommandSyntaxException
+    public static int doPokeplayerCommand(String argument, Entity player) throws CommandSyntaxException
     {
-        var copy = ThutCaps.getCopyMob(player);
-        if (copy == null) throw Pokeplayer.ERROR_FAILED.create();
-
-        // Putting none or player into entry arg reverts a transformed player.
-        if (argument.toLowerCase().equals("none") || argument.toLowerCase().equals("player"))
-        {
-            player.sendSystemMessage(Component.literal("Reverted " + player.getName().getString() + " back into a player"));
-            copy.setCopiedID(RegHelper.getKey(player.getType())); // Sets player
-            // Reset the no gravity rules
-            player.setNoGravity(false);
-            return 0;
-        }
-
-        final PokedexEntry var = Database.getEntry(argument);
-        copy.setCopiedID(RegHelper.getKey(var.getEntityType()));
-        player.sendSystemMessage(Component.literal("Transformed " + player.getName().getString() + " into " + var.name));
-        return 0;
-    }
-
-    //Eventual implementation of the command with nbt data etc
-    private static int doPokeplayerCommand(IPokemob argument, Entity player) throws CommandSyntaxException
-    {
-        if (argument != null)
+        try
         {
             var copy = ThutCaps.getCopyMob(player);
             if (copy == null) throw Pokeplayer.ERROR_FAILED.create();
 
             // Putting none or player into entry arg reverts a transformed player.
-            if (argument.getDisplayName().getString().toLowerCase().equals("none") || argument.getDisplayName().getString().toLowerCase().equals("player"))
+            if (argument.toLowerCase().equals("none") || argument.toLowerCase().equals("player"))
             {
                 player.sendSystemMessage(Component.literal("Reverted " + player.getName().getString() + " back into a player"));
                 copy.setCopiedID(RegHelper.getKey(player.getType())); // Sets player
@@ -133,11 +111,13 @@ public class Pokeplayer
             player.sendSystemMessage(Component.literal("Transformed " + player.getName().getString() + " into " + var.name));
             return 0;
         }
-        else {
-            player.sendSystemMessage(Component.literal("Cannot change " + player.getName().getString() + " into a pokemob: argument was null"));
+        catch (CommandSyntaxException c)
+        {
+            player.sendSystemMessage(Component.literal("Transform command has failed! Check command syntax."));
             return -1;
         }
     }
+
 
     private static void onCommandRegister(final RegisterCommandsEvent event)
     {
