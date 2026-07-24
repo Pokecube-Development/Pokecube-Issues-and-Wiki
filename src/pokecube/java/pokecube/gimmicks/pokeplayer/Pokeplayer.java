@@ -14,26 +14,33 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.neoforged.neoforge.registries.DeferredBlock;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.pokemobs.EvolveEvent;
-import pokecube.api.items.IPokecube;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.database.Database;
 import pokecube.core.items.ItemPokedex;
 import pokecube.core.utils.PokemobTracker;
+import pokecube.gimmicks.pokeplayer.blocks.TransformPR;
 import thut.api.ThutCaps;
 import thut.api.attachments.TrackedAttachment;
 import thut.api.entity.ICopyMob;
@@ -46,11 +53,11 @@ import thut.lib.RegHelper;
 import thut.lib.TComponent;
 import thut.wearables.inventory.PlayerWearables;
 
-import java.util.Locale;
-
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)
 public class Pokeplayer
 {
+
+    public static final DeferredBlock<Block> TRANSFORM_PR_PLATE;
     /**
      * Setup and register pokeplayer stuff.
      */
@@ -87,6 +94,16 @@ public class Pokeplayer
                 "Allowed to use pokeplayer command on self");
         PermNodes.registerBooleanNode(PokecubeCore.MODID, PERMOTHER, PermNodes.DefaultPermissionLevel.OP,
                 "Allowed to use pokeplayer command on other");
+
+        TRANSFORM_PR_PLATE  = PokecubeCore.BLOCKS.register("transform_pressure_plate",
+                () -> new TransformPR(
+                        BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+    }
+
+    @SubscribeEvent
+    public static void registerBedblockEntity(BlockEntityTypeAddBlocksEvent event)
+    {
+        event.modify(BlockEntityType.BED, TRANSFORM_PR_PLATE.get());
     }
 
     public static int doPokeplayerCommand(String argument, Entity player) throws CommandSyntaxException
@@ -97,7 +114,7 @@ public class Pokeplayer
             if (copy == null) throw Pokeplayer.ERROR_FAILED.create();
 
             // Putting none or player into entry arg reverts a transformed player.
-            if (argument.toLowerCase().equals("none") || argument.toLowerCase().equals("player"))
+            if (argument.equalsIgnoreCase("none") || argument.equalsIgnoreCase("player"))
             {
                 player.sendSystemMessage(Component.literal("Reverted " + player.getName().getString() + " back into a player"));
                 copy.setCopiedID(RegHelper.getKey(player.getType())); // Sets player
@@ -105,17 +122,28 @@ public class Pokeplayer
                 player.setNoGravity(false);
                 return 0;
             }
-
-            final PokedexEntry var = Database.getEntry(argument);
-            copy.setCopiedID(RegHelper.getKey(var.getEntityType()));
-            player.sendSystemMessage(Component.literal("Transformed " + player.getName().getString() + " into " + var.name));
-            return 0;
+            return transformPlayer(PokemobCaps.getPokemobFor(PokecubeCore.createPokemob(Database.getEntry(argument), player.level())),player);
         }
         catch (CommandSyntaxException c)
         {
             player.sendSystemMessage(Component.literal("Transform command has failed! Check command syntax."));
             return -1;
         }
+    }
+
+    public static int transformPlayer(IPokemob pokemob, Entity player)
+    {
+        var copy = ThutCaps.getCopyMob(player);
+        if(copy==null) return -2;
+        if(pokemob==null) {
+            player.sendSystemMessage(Component.literal("Reverted " + player.getName().getString() + " back into a player"));
+            copy.setCopiedID(RegHelper.getKey(player.getType())); // Sets player
+            player.setNoGravity(false);
+            return 0;
+        }
+        copy.setCopiedMob(pokemob.getEntity());
+        player.sendSystemMessage(Component.literal("Transformed " + player.getName().getString() + " into " + pokemob.getDisplayName().getString()));
+        return 0;
     }
 
 
