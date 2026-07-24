@@ -10,18 +10,20 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BedBlock;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.neoforged.neoforge.common.property.Properties;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeItems;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.gimmicks.pokeplayer.Pokeplayer;
 import thut.api.ThutCaps;
 
-public class TransformPR extends BedBlock {
+public class TransformPR extends Block {
 
     public TransformPR(Properties properties) {
-        super(DyeColor.PURPLE, properties);
+        super(properties);
     }
 
     @Override

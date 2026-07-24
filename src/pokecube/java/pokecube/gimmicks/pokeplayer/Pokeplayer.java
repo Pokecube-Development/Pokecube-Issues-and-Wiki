@@ -102,15 +102,9 @@ public class Pokeplayer
 
         TRANSFORM_PR_PLATE  = PokecubeCore.BLOCKS.register("transform_pressure_plate",
                 () -> new TransformPR(
-                        BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+                        BlockBehaviour.Properties.of().sound(SoundType.STONE).requiresCorrectToolForDrops()));
         TRANSFORM_PR_PLATE_ITEM = PokecubeCore.ITEMS.register("transform_pressure_plate",
                 () -> new BlockItem(TRANSFORM_PR_PLATE.get(), new Item.Properties()));
-    }
-
-    @SubscribeEvent
-    public static void registerBedBlockEntity(BlockEntityTypeAddBlocksEvent event)
-    {
-        event.modify(BlockEntityType.BED, TRANSFORM_PR_PLATE.get());
     }
 
     public static int doPokeplayerCommand(String argument, Entity player) throws CommandSyntaxException
