@@ -42,6 +42,7 @@ public class TransformPR extends BedBlock {
         // Not transformed, and holding a filled cube, transform the player
         if(notTransformed&&isFilled){
             var pokemob = PokemobCaps.getPokemobIn(stack, level).pokemob();
+            if(pokemob!=null) pokemob.setPokecube(stack);
             Pokeplayer.transformPlayer(pokemob, player);
             player.setItemInHand(hand, ItemStack.EMPTY);
             return ItemInteractionResult.CONSUME;
