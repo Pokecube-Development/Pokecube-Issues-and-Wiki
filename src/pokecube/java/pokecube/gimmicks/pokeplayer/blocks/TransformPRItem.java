@@ -1,6 +1,5 @@
 package pokecube.gimmicks.pokeplayer.blocks;
 
-
 import net.minecraft.world.item.BedItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.BlockPlaceContext;

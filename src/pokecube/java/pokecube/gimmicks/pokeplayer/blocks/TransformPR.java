@@ -20,7 +20,7 @@ import thut.api.Tracker;
 
 public class TransformPR extends BedBlock {
 
-    private final long transformWait = 15; // Number of ticks between two transforms
+    private final long transformWait = 30; // Number of ticks between two transforms
     public long lastStep; // The tick number of the last time the player stepped on the pressure plate.
 
     public TransformPR(Properties properties) {
