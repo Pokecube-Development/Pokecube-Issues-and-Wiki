@@ -45,7 +45,6 @@ import pokecube.core.database.Database;
 import pokecube.core.items.ItemPokedex;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.gimmicks.pokeplayer.blocks.TransformPR;
-import pokecube.gimmicks.pokeplayer.blocks.TransformPRItem;
 import thut.api.ThutCaps;
 import thut.api.attachments.TrackedAttachment;
 import thut.api.entity.ICopyMob;

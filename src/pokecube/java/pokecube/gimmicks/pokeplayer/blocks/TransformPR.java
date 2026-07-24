@@ -10,9 +10,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BedBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.gimmicks.pokeplayer.Pokeplayer;
 import thut.api.ThutCaps;
@@ -21,7 +19,6 @@ import thut.api.Tracker;
 public class TransformPR extends BedBlock {
 
     private final long transformWait = 30; // Number of ticks between two transforms
-    public long lastStep; // The tick number of the last time the player stepped on the pressure plate.
 
     public TransformPR(Properties properties) {
         super(DyeColor.PURPLE, properties);
@@ -36,7 +33,7 @@ public class TransformPR extends BedBlock {
         if (entity instanceof Player player)
         {
             long currentTick = Tracker.instance().getTick();
-            lastStep = player.getPersistentData().getLong("pokeplayer:last_transform_block_use");
+            long lastStep = player.getPersistentData().getLong("pokeplayer:last_transform_block_use");
 
             if (currentTick - lastStep > transformWait) {
                 //Player is transformed
