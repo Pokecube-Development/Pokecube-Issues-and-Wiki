@@ -143,7 +143,6 @@ public class Pokeplayer
         var copy = ThutCaps.getCopyMob(player);
         if (copy == null) return -2;
 
-
         if (pokemob == null) {
             player.sendSystemMessage(Component.literal("Reverted " + player.getName().getString() + " back into a player"));
             copy.setCopiedMob(null); // Changes player back into a player
@@ -233,7 +232,15 @@ public class Pokeplayer
         }
         else if (event.getEntity().getAttribute(Attributes.STEP_HEIGHT).hasModifier(STEP))
         {
-            event.getEntity().getAttribute(Attributes.STEP_HEIGHT).removeModifier(STEP);
+            var player = event.getEntity();
+            // first reset the step height
+            player.getAttribute(Attributes.STEP_HEIGHT).removeModifier(STEP);
+            // Here we also reset the hitbox, eye pos, etc
+            player.setPose(Pose.STANDING);
+            player.setNoGravity(false); // Stop them floating if they were
+            player.refreshDimensions();// Ensure dimensions start to reset
+            // Make them sneak for a tick to ensure this applies
+            player.setShiftKeyDown(true);
         }
     }
 
