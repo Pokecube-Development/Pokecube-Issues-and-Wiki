@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "stone_pressure_plate",
+  "group": "pokecube:transform_block",
   "pattern": [
     "RGR",
     "GSG",
@@ -11,14 +11,14 @@
       "item": "pokecube_legends:ruby_block"
     },
     "G": {
-      "tag": "minecraft:gold_block"
+      "item": "minecraft:gold_block"
     },
     "S": {
-      "tag": "pokecube:snagcube"
-    },
+      "item": "pokecube:snagcube"
+    }
   },
   "result": {
     "count": 1,
-    "id": "pokecube:transform_pressure_plate"
+    "id": "pokecube:transform_block"
   }
 }

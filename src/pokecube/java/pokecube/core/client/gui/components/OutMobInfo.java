@@ -201,7 +201,7 @@ public class OutMobInfo extends GuiEventComponent
                     }
                     // Finally draw the name
                     graphics.drawString(gui.getFont(), MovesUtils.getMoveName(move.getName(), pokemob).getString(),
-                            5 + movesOffsetX, moveIndex * 13 + movesOffsetY + 3 + h, (move.getType(pokemob) == null ? PokeType.unknown : move.getType(pokemob)).colour);
+                            5 + movesOffsetX, moveIndex * 13 + movesOffsetY + 3 + h, move.getType(pokemob).colour);
                 }
             }
 
