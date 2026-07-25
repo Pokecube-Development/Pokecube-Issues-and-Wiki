@@ -96,7 +96,7 @@ public class Pokeplayer
 
         TRANSFORM_BLOCK  = PokecubeCore.BLOCKS.register("transform_block",
                 () -> new TransformBlock(
-                        BlockBehaviour.Properties.of().sound(SoundType.STONE).requiresCorrectToolForDrops()));
+                        BlockBehaviour.Properties.of().sound(SoundType.STONE)));
         TRANSFORM_BLOCK_ITEM = PokecubeCore.ITEMS.register("transform_block",
                 () -> new BlockItem(TRANSFORM_BLOCK.get(), new Item.Properties()));
     }
@@ -129,7 +129,6 @@ public class Pokeplayer
     public static int transformPlayer(IPokemob pokemob, Entity player)
     {
         var copy = ThutCaps.getCopyMob(player);
-        if (copy == null) return -2;
 
         if (pokemob == null) {
             player.sendSystemMessage(Component.literal("Reverted " + player.getName().getString() + " back into a player"));

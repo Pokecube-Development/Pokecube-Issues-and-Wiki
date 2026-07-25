@@ -32,19 +32,19 @@ public class TransformBlock extends Block {
         boolean notTransformed = copy == null || copy.getCopiedID() == null;
         boolean isFilled = PokemobCaps.isFilled(stack);
         // Not transformed, and holding a filled cube, transform the player
-        if(notTransformed&&isFilled){
+        if(notTransformed && isFilled) {
             var pokemob = PokemobCaps.getPokemobIn(stack, level).pokemob();
-            if(pokemob!=null) pokemob.setPokecube(stack);
+            if(pokemob != null) pokemob.setPokecube(stack);
             Pokeplayer.transformPlayer(pokemob, player);
             player.setItemInHand(hand, ItemStack.EMPTY);
             return ItemInteractionResult.CONSUME;
         }
         // If transformed, revert the player
-        if(!notTransformed){
+        if(!notTransformed) {
             var mob = copy.getCopiedMob();
             var pokemob = PokemobCaps.getPokemobFor(mob);
             var cube = new ItemStack(PokecubeItems.getEmptyCube(ResourceLocation.parse("pokecube:pokecube")));
-            if(pokemob!=null&&!pokemob.getPokecube().isEmpty()) cube = pokemob.getPokecube();
+            if(pokemob != null && !pokemob.getPokecube().isEmpty()) cube = pokemob.getPokecube();
             PokecubeManager.addToCube(cube, mob);
             if(!player.addItem(cube));// Should drop in here instead.
             Pokeplayer.transformPlayer(null, player);
