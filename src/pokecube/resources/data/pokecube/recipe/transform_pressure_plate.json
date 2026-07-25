@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "group": "pokecube:transform_pressure_plate",
   "pattern": [
     "RGR",
     "GSG",
@@ -14,7 +15,7 @@
     },
     "S": {
       "item": "pokecube:snagcube"
-    },
+    }
   },
   "result": {
     "count": 1,
