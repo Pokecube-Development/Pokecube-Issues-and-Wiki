@@ -299,6 +299,16 @@ public class Parsers
 
     }
 
+    public static class StatusParser extends BaseParser
+    {
+        @Override
+        public void process(MoveEntry entry) {
+            super.process(entry);
+            parseStatModifiers(entry.root_entry._effect_text_simple, entry, 100);
+            parseStatusEffects(entry.root_entry._effect_text_simple, entry, 100);
+        }
+    }
+
     private static final Map<String, BaseParser> PARSERS = Maps.newHashMap();
 
     private static final Map<String, BaseParser> CUSTOM_PARSERS = Maps.newHashMap();
@@ -310,16 +320,23 @@ public class Parsers
         PARSERS.put("net-good-stats", new NetGoodStatsParser());
         PARSERS.put("heal", new HealParser());
         PARSERS.put("damage+ailment", new DamageAlimentParser());
+        PARSERS.put("damage-ailment", new DamageAlimentParser());
         PARSERS.put("two-turn", new TwoTurnParser());
         PARSERS.put("swagger", new SwaggerParser());
         PARSERS.put("damage+lower", new DamageLowerParser());
+        PARSERS.put("damage-lower", new DamageLowerParser());
         PARSERS.put("damage+raise", new DamageRaiseParser());
+        PARSERS.put("damage-raise", new DamageRaiseParser());
         PARSERS.put("damage+heal", new DamageHealParser());
+        PARSERS.put("damage-heal", new DamageHealParser());
         PARSERS.put("ohko", new OHKOParser());
         PARSERS.put("whole-field-effect", new WholeFieldEffectParser());
         PARSERS.put("field-effect", new FieldEffectParser());
         PARSERS.put("force-switch", new ForceSwitchParser());
         PARSERS.put("unique", new UniqueParser());
+        PARSERS.put("status", new StatusParser());
+        PARSERS.put("physical", new DamageAlimentParser());
+        PARSERS.put("special", new DamageAlimentParser());
     }
 
     /**
