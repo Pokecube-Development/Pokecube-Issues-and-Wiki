@@ -244,10 +244,11 @@ public class Parsers
 
     }
 
-    public class TwoTurnParser extends DamageParser //TODO: write a parser for two turn moves
+    public static class TwoTurnParser extends NetGoodStatsParser // Child of NetGoodStats as some moves raise stats on the first turn
     {
         @Override
-        public void process (MoveEntry entry){
+        public void process (MoveEntry entry)
+        {
             super.process(entry);
         }
     }
@@ -309,6 +310,7 @@ public class Parsers
         PARSERS.put("net-good-stats", new NetGoodStatsParser());
         PARSERS.put("heal", new HealParser());
         PARSERS.put("damage+ailment", new DamageAlimentParser());
+        PARSERS.put("two-turn", new TwoTurnParser());
         PARSERS.put("swagger", new SwaggerParser());
         PARSERS.put("damage+lower", new DamageLowerParser());
         PARSERS.put("damage+raise", new DamageRaiseParser());
