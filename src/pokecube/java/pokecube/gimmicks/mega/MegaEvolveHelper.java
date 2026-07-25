@@ -87,6 +87,7 @@ public class MegaEvolveHelper
         // Init mega evo data, this will then load in mega evos when the
         // datapacks load during world load.
         MegaEvoData.init();
+        MegaStoneColours.init();
 
         PCContainer.CUSTOMPCWHILTELIST.add(stack -> stack.has(MEGA_WEARABLE)
                 && stack.get(MEGA_WEARABLE).withItem(stack).details().getEntry(stack) != null);
