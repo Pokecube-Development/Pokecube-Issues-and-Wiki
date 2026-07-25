@@ -1,8 +1,12 @@
 package pokecube.adventures.blocks.genetics.helper.recipe;
 
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent.ItemCraftedEvent;
-import pokecube.adventures.PokecubeAdv;
-import pokecube.core.PokecubeCore;
+import pokecube.adventures.blocks.genetics.helper.SelectorImpl;
+import pokecube.adventures.blocks.genetics.helper.SelectorImpl.SelectorValue;
 import thut.core.common.ThutCore;
 
 public class RecipeHandlers
@@ -34,18 +38,30 @@ public class RecipeHandlers
 
     public static void init()
     {
+        RecipeSelector.clear();
+        RecipeSelector.addSelector(Ingredient.of(Items.NETHER_STAR), new SelectorValue(0.25f, 0.0f));
         ThutCore.FORGE_BUS.addListener(RecipeHandlers::onCrafted);
     }
 
     private static void onCrafted(final ItemCraftedEvent event)
     {
-        if(PokecubeCore.getConfig().debug_data) Thread.dumpStack();
-        //        if (!(event.getInventory() instanceof CraftingContainer inv)) return;
-        //        final BookCloningRecipe test = new BookCloningRecipe(CraftingBookCategory.MISC);
-        //
-        //        if (!test.matches(inv, event.getEntity().level())) return;
-        //        final SelectorValue value = ClonerHelper.getSelectorValue(event.getCrafting());
-        //        if (value == SelectorImpl.defaultSelector) return;
-        //        event.getCrafting().getTag().remove(ClonerHelper.SELECTORTAG);
+        final ItemStack result = event.getCrafting();
+        if (result.has(SelectorImpl.VALUE_STORE) && isBookCopy(event.getInventory()))
+            result.remove(SelectorImpl.VALUE_STORE);
+    }
+
+    private static boolean isBookCopy(final Container inventory)
+    {
+        int writtenBooks = 0;
+        int writableBooks = 0;
+        for (int i = 0; i < inventory.getContainerSize(); i++)
+        {
+            final ItemStack stack = inventory.getItem(i);
+            if (stack.isEmpty()) continue;
+            if (stack.is(Items.WRITTEN_BOOK)) writtenBooks++;
+            else if (stack.is(Items.WRITABLE_BOOK)) writableBooks += stack.getCount();
+            else return false;
+        }
+        return writtenBooks == 1 && writableBooks > 0;
     }
 }

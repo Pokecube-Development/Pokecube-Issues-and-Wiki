@@ -133,6 +133,8 @@ public class Config extends ConfigData
     public boolean autoAddFossilDNA = true;
     @Configure(category = Config.MACHINE, comment = "Used to scale the energy cost of genetics machines, x is the original energy input. [Default: x]")
     public String clonerEfficiencyFunction = "x";
+    @Configure(category = Config.MACHINE, comment = "Clones devolve to base species. [Default: false]")
+    public boolean clonesDevolveToBaseSpecies = false;
 
     // Options related to warp pad
     @Configure(category = Config.MACHINE, comment = "Energy cost of Warp Pad teleportation, dw is 0 for the same dimension, varies otherwise. [Default: (dx)*(dx) + (dy)*(dy) + (dz)*(dz) + (5*dw)^4]")

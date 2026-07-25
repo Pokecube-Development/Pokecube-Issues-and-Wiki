@@ -42,13 +42,14 @@ public class SplicerTile extends BaseGeneticsTile
         switch (index)
         {
         case 0:// DNA Container
-            return ClonerHelper.getGenes(access, stack) != null;
+            var sourceGenes = ClonerHelper.getGenes(access, stack);
+            return sourceGenes != null && !sourceGenes.getAlleles().isEmpty();
         case 1:// DNA Selector
             final boolean hasGenes = !ClonerHelper.getGeneSelectors(access, stack).isEmpty();
-            final boolean selector = hasGenes || RecipeSelector.getSelectorValue(stack) != SelectorImpl.defaultSelector;
-            return hasGenes || selector;
+            return hasGenes || !RecipeSelector.getSelectorValue(stack).equals(SelectorImpl.defaultSelector);
         case 2:// DNA Destination
-            return ClonerHelper.getGenes(access, stack) != null;
+            var destinationGenes = ClonerHelper.getGenes(access, stack);
+            return destinationGenes != null && !destinationGenes.getAlleles().isEmpty();
         }
         return false;
     }
