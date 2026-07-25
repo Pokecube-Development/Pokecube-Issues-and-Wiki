@@ -18,23 +18,18 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.common.NeoForgeMod;
-import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
-import net.neoforged.neoforge.registries.RegisterEvent;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.pokemobs.EvolveEvent;
@@ -44,7 +39,7 @@ import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.database.Database;
 import pokecube.core.items.ItemPokedex;
 import pokecube.core.utils.PokemobTracker;
-import pokecube.gimmicks.pokeplayer.blocks.TransformPR;
+import pokecube.gimmicks.pokeplayer.blocks.TransformBlock;
 import thut.api.ThutCaps;
 import thut.api.attachments.TrackedAttachment;
 import thut.api.entity.ICopyMob;
@@ -53,15 +48,14 @@ import thut.api.entity.event.CopyUpdateEvent;
 import thut.api.maths.Vector3;
 import thut.api.util.PermNodes;
 import thut.core.common.ThutCore;
-import thut.lib.RegHelper;
 import thut.lib.TComponent;
 import thut.wearables.inventory.PlayerWearables;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)
 public class Pokeplayer
 {
-    public static final DeferredBlock<Block> TRANSFORM_PR_PLATE;
-    public static final DeferredItem<BlockItem> TRANSFORM_PR_PLATE_ITEM;
+    public static final DeferredBlock<Block> TRANSFORM_BLOCK;
+    public static final DeferredItem<BlockItem> TRANSFORM_BLOCK_ITEM;
 
     /**
      * Setup and register pokeplayer stuff.
@@ -100,11 +94,11 @@ public class Pokeplayer
         PermNodes.registerBooleanNode(PokecubeCore.MODID, PERMOTHER, PermNodes.DefaultPermissionLevel.OP,
                 "Allowed to use pokeplayer command on other");
 
-        TRANSFORM_PR_PLATE  = PokecubeCore.BLOCKS.register("transform_pressure_plate",
-                () -> new TransformPR(
+        TRANSFORM_BLOCK  = PokecubeCore.BLOCKS.register("transform_block",
+                () -> new TransformBlock(
                         BlockBehaviour.Properties.of().sound(SoundType.STONE).requiresCorrectToolForDrops()));
-        TRANSFORM_PR_PLATE_ITEM = PokecubeCore.ITEMS.register("transform_pressure_plate",
-                () -> new BlockItem(TRANSFORM_PR_PLATE.get(), new Item.Properties()));
+        TRANSFORM_BLOCK_ITEM = PokecubeCore.ITEMS.register("transform_block",
+                () -> new BlockItem(TRANSFORM_BLOCK.get(), new Item.Properties()));
     }
 
     public static int doPokeplayerCommand(String argument, Entity player) throws CommandSyntaxException

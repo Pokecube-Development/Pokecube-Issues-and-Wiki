@@ -1,5 +1,5 @@
 {
-    "parent": "pokecube:block/transform_pressure_plate",
+    "parent": "pokecube:block/transform_block",
     "display": {
        "thirdperson": {
            "rotation": [ 10, -45, 170 ],

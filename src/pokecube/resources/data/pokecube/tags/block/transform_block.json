@@ -1,0 +1,6 @@
+{
+  "replace": false,
+  "values": [
+    {"id": "pokecube:transform_block", "required": false}
+  ]
+}

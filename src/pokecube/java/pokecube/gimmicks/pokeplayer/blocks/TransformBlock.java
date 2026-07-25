@@ -6,23 +6,20 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.neoforged.neoforge.common.property.Properties;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeItems;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.gimmicks.pokeplayer.Pokeplayer;
 import thut.api.ThutCaps;
 
-public class TransformPR extends Block {
+public class TransformBlock extends Block {
 
-    public TransformPR(Properties properties) {
+    public TransformBlock(Properties properties) {
         super(properties);
     }
 

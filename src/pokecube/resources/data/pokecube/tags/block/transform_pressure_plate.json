@@ -1,6 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    {"id": "pokecube:transform_pressure_plate", "required": false}
-  ]
-}

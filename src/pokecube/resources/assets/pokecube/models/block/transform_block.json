@@ -1,6 +1,6 @@
 {
     "parent": "block/cube_all",
     "textures": {
-        "all": "pokecube:block/transform_pressure_plate"
+        "all": "pokecube:block/transform_block"
     }
 }
