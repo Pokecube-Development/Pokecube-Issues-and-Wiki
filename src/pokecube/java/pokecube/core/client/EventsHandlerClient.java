@@ -11,6 +11,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -506,12 +507,71 @@ public class EventsHandlerClient
     public static void renderIcon(GuiGraphics guiGraphics, final PokedexEntry entry, final FormeHolder holder,
             final boolean female, int x, int y, final int width, final int height, final boolean shiny)
     {
-        ResourceLocation icon = entry.getIcon(!female, shiny);
-        if (holder != null) icon = holder.getIcon(!female, shiny, entry);
+        final boolean male = !female;
+        final List<ResourceLocation> icons = new ArrayList<>();
+        if (holder != null)
+        {
+            final ResourceLocation holderBase = holder.getIcon(male, false, entry);
+            EventsHandlerClient.addIconCandidate(icons, holder.getIcon(male, shiny, entry));
+            EventsHandlerClient.addFormeIconCandidates(icons, holderBase, male, shiny);
+        }
+        EventsHandlerClient.addIconCandidate(icons, entry.getIcon(male, shiny));
 
-        TextureAtlasSprite textureatlassprite = Minecraft.getInstance().getTextureAtlas(Resources.ICONS_MOB_SHEET)
-                .apply(icon);
+        final ResourceLocation entryBase = ResourceLocation.fromNamespaceAndPath(entry.getModId(),
+                entry.getTrimmedName());
+        EventsHandlerClient.addFormeIconCandidates(icons, entryBase, male, shiny);
+        EventsHandlerClient.addIconCandidate(icons, entryBase);
+
+        final var atlas = Minecraft.getInstance().getTextureAtlas(Resources.ICONS_MOB_SHEET);
+        final TextureAtlasSprite missing = atlas.apply(MissingTextureAtlasSprite.getLocation());
+        TextureAtlasSprite textureatlassprite = missing;
+        for (final ResourceLocation icon : icons)
+        {
+            final TextureAtlasSprite candidate = atlas.apply(icon);
+            if (candidate != missing)
+            {
+                textureatlassprite = candidate;
+                break;
+            }
+        }
         guiGraphics.blit(x, y, 0, width, height, textureatlassprite);
+    }
+
+    private static void addFormeIconCandidates(final List<ResourceLocation> icons, final ResourceLocation base,
+            final boolean male, final boolean shiny)
+    {
+        final String gender = male ? "_male" : "_female";
+        final String alternateGender = male ? "_female" : "_male";
+        if (shiny)
+        {
+            EventsHandlerClient.addIconCandidate(icons,
+                    ResourceLocation.fromNamespaceAndPath(base.getNamespace(), base.getPath() + "s"));
+            EventsHandlerClient.addIconCandidate(icons,
+                    ResourceLocation.fromNamespaceAndPath(base.getNamespace(), base.getPath() + gender + "s"));
+            EventsHandlerClient.addIconCandidate(icons,
+                    ResourceLocation.fromNamespaceAndPath(base.getNamespace(), base.getPath() + gender + "_s"));
+            EventsHandlerClient.addIconCandidate(icons,
+                    ResourceLocation.fromNamespaceAndPath(base.getNamespace(), base.getPath() + alternateGender + "s"));
+            EventsHandlerClient.addIconCandidate(icons, ResourceLocation.fromNamespaceAndPath(base.getNamespace(),
+                    base.getPath() + alternateGender + "_s"));
+        }
+        else
+        {
+            EventsHandlerClient.addIconCandidate(icons,
+                    ResourceLocation.fromNamespaceAndPath(base.getNamespace(), base.getPath() + gender));
+            EventsHandlerClient.addIconCandidate(icons, ResourceLocation.fromNamespaceAndPath(base.getNamespace(),
+                    base.getPath() + alternateGender));
+        }
+    }
+
+    private static void addIconCandidate(final List<ResourceLocation> icons, final ResourceLocation icon)
+    {
+        if (icon == null || icons.contains(icon)) return;
+        icons.add(icon);
+        final String normalized = icon.getPath().replace('-', '_');
+        if (!normalized.equals(icon.getPath()))
+            EventsHandlerClient.addIconCandidate(icons,
+                    ResourceLocation.fromNamespaceAndPath(icon.getNamespace(), normalized));
     }
 
     private static void setMostDamagingMove(final IPokemob outMob, final LivingEntity target)

@@ -116,7 +116,10 @@ public interface IPokemob
         {
             if (this.icons[0][0] == null)
             {
-                final String texture = this.key.toString();
+                ResourceLocation icon = this.key;
+                if (base != null && PokecubeCore.MODID.equals(icon.getNamespace()) && base.getModId() != null)
+                    icon = ResourceLocation.fromNamespaceAndPath(base.getModId(), icon.getPath());
+                final String texture = icon.toString();
                 this.icons[0][0] = ResourceLocation.parse(texture);
                 this.icons[0][1] = ResourceLocation.parse(texture + "_s");
                 this.icons[1][0] = ResourceLocation.parse(texture);

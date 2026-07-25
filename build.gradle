@@ -145,6 +145,10 @@ sourceSets.main.java { srcDir 'src/pokecube/java' }
 sourceSets.main.resources { srcDir 'PokecubeMobs/pokecube_mobs' }
 //*/
 
+//* Configurable resource definitions
+sourceSets.main.resources { srcDir 'src/config/resources' }
+//*/
+
 //* Pokecube Adventures
 sourceSets.main.resources { srcDir 'src/adventures/resources' }
 sourceSets.main.java { srcDir 'src/adventures/java' }
@@ -154,6 +158,160 @@ sourceSets.main.java { srcDir 'src/adventures/java' }
 sourceSets.main.resources { srcDir 'src/compat/resources' }
 sourceSets.main.java { srcDir 'src/compat/java' }
 //*/
+
+def xaeroPokemobIconSource = file('PokecubeMobs/pokecube_mobs/assets/pokecube_mobs/textures/entity_icon/pokemob')
+def xaeroPokedexEntrySource = file('PokecubeMobs/pokecube_mobs/data/pokecube_mobs/database/pokemobs/pokedex_entries')
+def xaeroIconDefinitionOutput = layout.buildDirectory.dir('generated/resources/xaero-pokemob-icons')
+
+def generateXaeroPokemobIconResources = tasks.register('generateXaeroPokemobIconResources') {
+    inputs.files(fileTree(xaeroPokedexEntrySource) { include '*.json' })
+    inputs.files(fileTree(xaeroPokemobIconSource) { include '*.png' })
+    outputs.dir(xaeroIconDefinitionOutput)
+
+    doFirst {
+        final def pokedexEntries = fileTree(xaeroPokedexEntrySource) { include '*.json' }.files
+        final def pokemobIcons = fileTree(xaeroPokemobIconSource) { include '*.png' }.files
+        if (pokedexEntries.isEmpty() || pokemobIcons.isEmpty()) {
+            throw new GradleException(
+                    'PokecubeMobs sources are missing or empty. Initialize the split source repository with ' +
+                            '`git submodule update --init --recursive` before building Pokecube AIO.')
+        }
+    }
+
+    doLast {
+        final File outputRoot = xaeroIconDefinitionOutput.get().asFile
+        final File definitionRoot = new File(outputRoot, 'assets/xaerominimap/entity/icon/definition/pokecube')
+        final File spriteRoot = new File(outputRoot, 'assets/xaerominimap/entity/icon/sprite/pokecube')
+        delete(outputRoot)
+        definitionRoot.mkdirs()
+        spriteRoot.mkdirs()
+
+        final def json = new groovy.json.JsonSlurper()
+        final List<Map<String, Object>> entries = fileTree(xaeroPokedexEntrySource) {
+            include '*.json'
+        }.files.collect { File entryFile ->
+            final Map<String, Object> entry = json.parse(entryFile) as Map<String, Object>
+            return [name: entry.name as String, id: entry.id as Integer]
+        }
+
+        final Map<String, Map<String, Object>> entriesByName = entries.collectEntries { Map<String, Object> entry ->
+            [(entry.name): entry]
+        }
+        final Map<Integer, List<Map<String, Object>>> entriesById = entries.groupBy { Map<String, Object> entry ->
+            entry.id
+        }
+        final List<String> entryNames = entriesByName.keySet().sort { String first, String second ->
+            final int lengthOrder = second.length() <=> first.length()
+            return lengthOrder != 0 ? lengthOrder : first <=> second
+        }
+        final Map<Integer, List<String>> iconNamesById = entriesById.collectEntries { Integer id, List ignored ->
+            [(id): []]
+        }
+        final List<String> unassignedIcons = []
+
+        fileTree(xaeroPokemobIconSource) {
+            include '*.png'
+        }.files.sort { File first, File second -> first.name <=> second.name }.each { File iconFile ->
+            final String iconName = iconFile.name.substring(0, iconFile.name.length() - '.png'.length())
+            final String entryName = entryNames.find { String candidate ->
+                iconName.startsWith(candidate) || iconName.startsWith(candidate.replace('-', '_'))
+            }
+            if (entryName == null) unassignedIcons.add(iconName)
+            else iconNamesById[entriesByName[entryName].id].add(iconName)
+        }
+
+        if (!unassignedIcons.isEmpty()) {
+            throw new GradleException("Pokecube icons do not match a Pokedex entry: ${unassignedIcons.join(', ')}")
+        }
+
+        fileTree(xaeroPokemobIconSource) {
+            include '*.png'
+        }.files.each { File iconFile ->
+            final java.awt.image.BufferedImage source = javax.imageio.ImageIO.read(iconFile)
+            if (source == null) throw new GradleException("Could not read Pokecube icon ${iconFile}")
+
+            final java.awt.image.BufferedImage padded = new java.awt.image.BufferedImage(source.width * 2,
+                    source.height * 2, java.awt.image.BufferedImage.TYPE_INT_ARGB)
+            final java.awt.Graphics2D graphics = padded.createGraphics()
+            try {
+                graphics.drawImage(source, source.width.intdiv(2), source.height.intdiv(2), null)
+            }
+            finally {
+                graphics.dispose()
+            }
+
+            if (!javax.imageio.ImageIO.write(padded, 'png', new File(spriteRoot, iconFile.name))) {
+                throw new GradleException("Could not write Xaero sprite for Pokecube icon ${iconFile}")
+            }
+        }
+
+        entries.each { Map<String, Object> entry ->
+            final List<Map<String, Object>> relatedEntries = entriesById[entry.id]
+            final List<String> iconNames = iconNamesById[entry.id].unique().sort()
+            final Map<String, String> variants = new TreeMap<>()
+            if (iconNames.isEmpty()) variants['default'] = 'dot'
+            else {
+                final def addVariant = { String iconKey, String sprite ->
+                    variants["pokecube_mobs:${iconKey}"] = sprite
+                    variants["pokecube:${iconKey}"] = sprite
+                }
+                iconNames.each { String iconName ->
+                    final String sprite = "normal_sprite:pokecube/${iconName}.png"
+                    addVariant(iconName, sprite)
+
+                    if (iconName.endsWith('s')) {
+                        final String normalName = iconName.substring(0, iconName.length() - 1)
+                        if (iconNames.contains(normalName)) addVariant("${normalName}_s", sprite)
+                    }
+
+                    relatedEntries.each { Map<String, Object> relatedEntry ->
+                        final String normalizedName = (relatedEntry.name as String).replace('-', '_')
+                        if (normalizedName != relatedEntry.name && iconName.startsWith(normalizedName)) {
+                            final String suffix = iconName.substring(normalizedName.length())
+                            addVariant("${relatedEntry.name}${suffix}", sprite)
+                        }
+                    }
+                }
+
+                final String defaultName = entry.name as String
+                final String normalizedDefaultName = defaultName.replace('-', '_')
+                final List<String> otherFormNames = relatedEntries.findAll { Map<String, Object> candidate ->
+                    candidate.name != defaultName
+                }.collectMany { Map<String, Object> candidate ->
+                    final String name = candidate.name as String
+                    return [name, name.replace('-', '_')]
+                }
+                final String defaultIcon = iconNames.find { String iconName -> iconName == defaultName }
+                        ?: iconNames.find { String iconName -> iconName == normalizedDefaultName }
+                        ?: iconNames.find { String iconName -> iconName == "${defaultName}_male" }
+                        ?: iconNames.find { String iconName -> iconName == "${normalizedDefaultName}_male" }
+                        ?: iconNames.find { String iconName -> iconName == "${defaultName}_female" }
+                        ?: iconNames.find { String iconName -> iconName == "${normalizedDefaultName}_female" }
+                        ?: iconNames.find { String iconName ->
+                            iconName.startsWith(defaultName) && !otherFormNames.any { iconName.startsWith(it) }
+                        }
+                        ?: iconNames.find { String iconName ->
+                            iconName.startsWith(normalizedDefaultName) && !otherFormNames.any { iconName.startsWith(it) }
+                        }
+                        ?: iconNames.first()
+                variants['default'] = "normal_sprite:pokecube/${defaultIcon}.png"
+            }
+
+            final Map<String, Object> definition = [
+                    variants     : variants,
+                    variantMethod: 'pokecube.compat.xaero.XaeroIconHandler.getVariant'
+            ]
+            final File outputFile = new File(definitionRoot, "${entry.name}.json")
+            outputFile.text = groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(definition)) + System.lineSeparator()
+        }
+
+        final Map<String, Object> eggDefinition = [variants: [default: 'item:pokecube:pokemobegg']]
+        final File eggOutputFile = new File(definitionRoot, 'egg.json')
+        eggOutputFile.text = groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(eggDefinition)) + System.lineSeparator()
+    }
+}
+
+sourceSets.main.resources { srcDir xaeroIconDefinitionOutput }
 
 //* Pokecube Legends
 sourceSets.main.resources { srcDir 'src/legends/resources' }
@@ -212,6 +370,8 @@ dependencies {
 // When "copyIdeResources" is enabled, this will also run before the game launches in IDE environments.
 // See https://docs.gradle.org/current/dsl/org.gradle.language.jvm.tasks.ProcessResources.html
 tasks.withType(ProcessResources).configureEach {
+    dependsOn generateXaeroPokemobIconResources
+
     var replaceProperties = [
             minecraft_version      : minecraft_version,
             minecraft_version_range: minecraft_version_range,

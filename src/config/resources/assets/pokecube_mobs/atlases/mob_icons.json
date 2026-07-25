@@ -1,0 +1,120 @@
+{
+  "sources": [
+    {
+      "type": "directory",
+      "source": "entity_icon/pokemob",
+      "prefix": ""
+    },
+
+    {
+      "type": "single",
+      "resource": "pokecube_mobs:entity_icon/pokemob/vivillon_mod_male",
+      "sprite": "pokecube_mobs:vivillon_modern"
+    },
+    {
+      "type": "single",
+      "resource": "pokecube_mobs:entity_icon/pokemob/vivillon_male",
+      "sprite": "pokecube_mobs:vivillon_savanna"
+    },
+    {
+      "type": "single",
+      "resource": "pokecube_mobs:entity_icon/pokemob/vivillon_de_male",
+      "sprite": "pokecube_mobs:vivillon_highplains"
+    },
+    {
+      "type": "single",
+      "resource": "pokecube_mobs:entity_icon/pokemob/vivillon_male",
+      "sprite": "pokecube_mobs:vivillon_archipelago"
+    },
+    {
+      "type": "single",
+      "resource": "pokecube_mobs:entity_icon/pokemob/vivillon_male",
+      "sprite": "pokecube_mobs:vivillon_continental"
+    },
+    {
+      "type": "single",
+      "resource": "pokecube_mobs:entity_icon/pokemob/vivillon_male",
+      "sprite": "pokecube_mobs:vivillon_fancy"
+    },
+    {
+      "type": "single",
+      "resource": "pokecube_mobs:entity_icon/pokemob/vivillon_male",
+      "sprite": "pokecube_mobs:vivillon_garden"
+    },
+    {
+      "type": "single",
+      "resource": "pokecube_mobs:entity_icon/pokemob/vivillon_male",
+      "sprite": "pokecube_mobs:vivillon_jungle"
+    },
+    {
+      "type": "single",
+      "resource": "pokecube_mobs:entity_icon/pokemob/vivillon_male",
+      "sprite": "pokecube_mobs:vivillon_marine"
+    },
+    {
+      "type": "single",
+      "resource": "pokecube_mobs:entity_icon/pokemob/vivillon_male",
+      "sprite": "pokecube_mobs:vivillon_pokeball"
+    },
+    {
+      "type": "single",
+      "resource": "pokecube_mobs:entity_icon/pokemob/vivillon_male",
+      "sprite": "pokecube_mobs:vivillon_river"
+    },
+    {
+      "type": "single",
+      "resource": "pokecube_mobs:entity_icon/pokemob/vivillon_male",
+      "sprite": "pokecube_mobs:vivillon_tundra"
+    },
+    {
+      "type": "single",
+      "resource": "pokecube_mobs:entity_icon/pokemob/vivillon_el_male",
+      "sprite": "pokecube_mobs:vivillon_elegant"
+    },
+    {
+      "type": "single",
+      "resource": "pokecube_mobs:entity_icon/pokemob/vivillon_oc_male",
+      "sprite": "pokecube_mobs:vivillon_ocean"
+    },
+    {
+      "type": "single",
+      "resource": "pokecube_mobs:entity_icon/pokemob/vivillon_sa_male",
+      "sprite": "pokecube_mobs:vivillon_sandstorm"
+    },
+    {
+      "type": "single",
+      "resource": "pokecube_mobs:entity_icon/pokemob/vivillon_he_male",
+      "sprite": "pokecube_mobs:vivillon_hell"
+    },
+    {
+      "type": "single",
+      "resource": "pokecube_mobs:entity_icon/pokemob/vivillon_en_male",
+      "sprite": "pokecube_mobs:vivillon_end"
+    },
+    {
+      "type": "single",
+      "resource": "pokecube_mobs:entity_icon/pokemob/vivillon_po_male",
+      "sprite": "pokecube_mobs:vivillon_polar"
+    },
+    {
+      "type": "single",
+      "resource": "pokecube_mobs:entity_icon/pokemob/vivillon_ic_male",
+      "sprite": "pokecube_mobs:vivillon_icysnow"
+    },
+    {
+      "type": "single",
+      "resource": "pokecube_mobs:entity_icon/pokemob/vivillon_mon_male",
+      "sprite": "pokecube_mobs:vivillon_monsoon"
+    },
+    {
+      "type": "single",
+      "resource": "pokecube_mobs:entity_icon/pokemob/vivillon_su_male",
+      "sprite": "pokecube_mobs:vivillon_sun"
+    },
+    {
+      "type": "single",
+      "resource": "pokecube_mobs:entity_icon/pokemob/vivillon_male",
+      "sprite": "pokecube_mobs:vivillon_meadow"
+    }
+  ]
+}

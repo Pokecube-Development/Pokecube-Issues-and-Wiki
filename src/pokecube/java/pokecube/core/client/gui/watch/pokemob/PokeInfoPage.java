@@ -124,7 +124,7 @@ public abstract class PokeInfoPage extends WatchPage
             if (nextE == entry) nextE = Pokedex.getInstance().getFirstForm(entry);
             this.parent.pokemob.setPokedexEntry(nextE);
             this.parent.pokemob.setBasePokedexEntry(nextE);
-            this.parent.initPages(this.parent.pokemob);
+            this.parent.updateEntryField(nextE);
         }).bounds(x - 79, y + 40, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
         		.setRender(new UVImgRender(241, 72, 12, 12))
                 .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.forms.narrate")).build());
