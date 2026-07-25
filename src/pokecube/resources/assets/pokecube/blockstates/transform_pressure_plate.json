@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "":  { "model": "pokecube:block/transform_pressure_plate"}
+    }
+}
