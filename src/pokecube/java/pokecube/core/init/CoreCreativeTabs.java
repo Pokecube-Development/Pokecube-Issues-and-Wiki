@@ -18,7 +18,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.vitamins.ItemVitamin;
-import pokecube.gimmicks.pokeplayer.Pokeplayer;
 import thut.bling.BlingItem;
 import thut.wearables.ThutWearables;
 
@@ -72,7 +71,6 @@ public class CoreCreativeTabs
             add(event, PokecubeItems.LUCKYEGG);
             add(event, PokecubeItems.EMERALDSHARD);
             add(event, PokecubeItems.SPAWN_EGG);
-            add(event, Pokeplayer.TRANSFORM_BLOCK);
 
             for (String type : ItemVitamin.vitamins) add(event, PokecubeItems.getStack("vitamin_" + type));
             for (String type : ItemGenerator.fossilVariants) add(event, ItemGenerator.fossils.get(type));
