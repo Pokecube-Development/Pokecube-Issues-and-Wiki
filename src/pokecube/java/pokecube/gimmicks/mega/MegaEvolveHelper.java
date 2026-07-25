@@ -87,6 +87,7 @@ public class MegaEvolveHelper
         // Init mega evo data, this will then load in mega evos when the
         // datapacks load during world load.
         MegaEvoData.init();
+        MegaStoneColours.init();
 
         PCContainer.CUSTOMPCWHILTELIST.add(stack -> stack.has(MEGA_WEARABLE)
                 && stack.get(MEGA_WEARABLE).withItem(stack).details().getEntry(stack) != null);
@@ -145,7 +146,13 @@ public class MegaEvolveHelper
                         stone.entry = newEntry.getTrimmedName();
                         stone.colours = MegaCapability.COLOUR_MAPPER.apply(pokemob.getPokedexEntry(), newEntry);
                         stack.set(MEGA_STONE, stone);
-                        stack.set(DataComponents.CUSTOM_NAME, newEntry.getTranslatedName());
+                        final Component customName = stack.get(DataComponents.CUSTOM_NAME);
+                        if (customName == null || "Mega Stone".equalsIgnoreCase(customName.getString().trim()))
+                        {
+                            final String stoneName = MegaStoneColours.getName(newEntry);
+                            stack.set(DataComponents.CUSTOM_NAME,
+                                    stoneName == null ? newEntry.getTranslatedName() : Component.literal(stoneName));
+                        }
                         return handleChange(pokemob);
                     }
                 }
