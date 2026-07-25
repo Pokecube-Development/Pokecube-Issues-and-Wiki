@@ -5,6 +5,7 @@
       "source": "entity_icon/pokemob",
       "prefix": ""
     },
+
     {
       "type": "single",
       "resource": "pokecube_mobs:entity_icon/pokemob/vivillon_mod_male",
