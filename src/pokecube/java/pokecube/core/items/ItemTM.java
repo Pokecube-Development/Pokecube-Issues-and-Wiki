@@ -132,7 +132,12 @@ public class ItemTM extends Item
             }
             if (!stack.has(DataComponents.DYED_COLOR) && entry != null)
             {
-                stack.set(DataComponents.DYED_COLOR, new DyedItemColor(entry.type.colour | 0xFF000000, false));
+                try {
+                    stack.set(DataComponents.DYED_COLOR, new DyedItemColor(entry.type.colour | 0xFF000000, false));
+                }
+                catch (NullPointerException e) {
+                    stack.set(DataComponents.DYED_COLOR, new DyedItemColor(0x00000000, false));
+                }
             }
             if (tooltipFlag.hasShiftDown())
             {

@@ -326,7 +326,7 @@ public class ClientSetupHandler
             String moveName = ItemTM.getMoveFromStack(stack);
             if (moveName == null) return 0xFFFFFFFF;
             var move = MovesUtils.getMove(moveName);
-            if (move != null) return move.getType(null).colour | 0xFF000000;
+            if (move != null) return (move.getType(null) == null ? PokeType.unknown : move.getType(null)).colour | 0xFF000000;
             return 0xFFFFFFFF;
         }, PokecubeItems.TM.get());
     }
