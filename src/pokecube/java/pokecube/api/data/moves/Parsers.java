@@ -213,7 +213,7 @@ public class Parsers
         {
             super.process(entry);
             var json = entry.root_entry.getMove();
-            int rate = json.ailment_chance>0?json.ailment_chance:Math.max(json.effect_chance, 0);
+            int rate = json.ailment_chance>0?json.ailment_chance:json.effect_chance>0?json.effect_chance:100;
             parseStatusEffects(entry.root_entry._effect_text_simple, entry, rate);
         }
     }
@@ -225,7 +225,7 @@ public class Parsers
         {
             super.process(entry);
             var json = entry.root_entry.getMove();
-            int rate = json.ailment_chance>0?json.ailment_chance:Math.max(json.effect_chance, 0);
+            int rate = json.ailment_chance>0?json.ailment_chance:json.effect_chance>0?json.effect_chance:100;
             parseStatModifiers(entry.root_entry._effect_text_simple, entry, rate);
         }
     }
@@ -247,7 +247,7 @@ public class Parsers
         {
             super.process(entry);
             var json = entry.root_entry.getMove();
-            int rate = json.ailment_chance>0?json.ailment_chance:Math.max(json.effect_chance, 0);
+            int rate = json.ailment_chance>0?json.ailment_chance:json.effect_chance>0?json.effect_chance:100;
             parseStatusEffects(entry.root_entry._effect_text_simple, entry, rate);
         }
     }
@@ -313,7 +313,7 @@ public class Parsers
         public void process(MoveEntry entry) {
             super.process(entry);
             var json = entry.root_entry.getMove();
-            int rate = json.ailment_chance>0?json.ailment_chance:Math.max(json.effect_chance, 0);
+            int rate = json.ailment_chance>0?json.ailment_chance:json.effect_chance>0?json.effect_chance:100;
             parseStatModifiers(entry.root_entry._effect_text_simple, entry, rate);
             parseStatusEffects(entry.root_entry._effect_text_simple, entry, rate);
         }
