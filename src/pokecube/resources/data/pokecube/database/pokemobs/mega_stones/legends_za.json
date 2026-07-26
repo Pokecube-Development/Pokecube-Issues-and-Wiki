@@ -1,0 +1,373 @@
+{
+  "replace": false,
+  "values": {
+    "abomasnow-mega": {
+      "name": "Abomasite",
+      "colours": ["#FFBAD7CF", "#FF3C9CA7", "#FFFDFDFD", "#FF84AEDF"]
+    },
+    "absol-mega": {
+      "name": "Absolite",
+      "colours": ["#FF698BB4", "#FF315B91", "#FFE6EEF1", "#FFB3CDEA"]
+    },
+    "aerodactyl-mega": {
+      "name": "Aerodactylite",
+      "colours": ["#FF5B166D", "#FF6243A4", "#FF47494B", "#FFBAB2D3"]
+    },
+    "aggron-mega": {
+      "name": "Aggronite",
+      "colours": ["#FF918E8F", "#FFD1D1C7", "#FF646163", "#FFC8D4EE"]
+    },
+    "alakazam-mega": {
+      "name": "Alakazite",
+      "colours": ["#FFCB92A0", "#FFE4D967", "#FF843553", "#FFD2E1D1"]
+    },
+    "altaria-mega": {
+      "name": "Altarianite",
+      "colours": ["#FF97E0FE", "#FFE7E7E7", "#FF69D5FF", "#FFEDAADD"]
+    },
+    "ampharos-mega": {
+      "name": "Ampharosite",
+      "colours": ["#FFFF6E6A", "#FFFDDF4B", "#FFED1A24", "#FFB3CFEE"]
+    },
+    "audino-mega": {
+      "name": "Audinite",
+      "colours": ["#FFE7A4A6", "#FFFFF7D6", "#FFEE6A8C", "#FFFFDEE8"]
+    },
+    "banette-mega": {
+      "name": "Banettite",
+      "colours": ["#FFF49A2F", "#FF646263", "#FFF7EC6E", "#FFF6ADCC"]
+    },
+    "beedrill-mega": {
+      "name": "Beedrillite",
+      "colours": ["#FFCCA208", "#FF393939", "#FFF8C719", "#FFC4BCE6"]
+    },
+    "blastoise-mega": {
+      "name": "Blastoisinite",
+      "colours": ["#FF44B2D1", "#FF4B96CD", "#FF624A28", "#FFD3D2C7"]
+    },
+    "blaziken-mega": {
+      "name": "Blazikenite",
+      "colours": ["#FF88280F", "#FFEF2F2C", "#FF221F20", "#FFFDF1EC"]
+    },
+    "camerupt-mega": {
+      "name": "Cameruptite",
+      "colours": ["#FFC65A48", "#FF4B4A44", "#FFEC7159", "#FFBBAC9C"]
+    },
+    "charizard-mega-x": {
+      "name": "Charizardite X",
+      "colours": ["#FF22618C", "#FF484A4D", "#FF45BDE8", "#FF6EC2EC"]
+    },
+    "charizard-mega-y": {
+      "name": "Charizardite Y",
+      "colours": ["#FFFE9A15", "#FFED1A2E", "#FFE6EC21", "#FFF68648"]
+    },
+    "diancie-mega": {
+      "name": "Diancite",
+      "colours": ["#FFE0B572", "#FFE68AAB", "#FFF9EFA5", "#FFF4E4E5"]
+    },
+    "gallade-mega": {
+      "name": "Galladite",
+      "colours": ["#FFDA99A2", "#FF59A392", "#FFDB6273", "#FFEAEBD9"]
+    },
+    "garchomp-mega": {
+      "name": "Garchompite",
+      "colours": ["#FFF78613", "#FFEF2F2C", "#FFFAB30A", "#FF444868"]
+    },
+    "gardevoir-mega": {
+      "name": "Gardevoirite",
+      "colours": ["#FFD93670", "#FF94D87C", "#FFF263AF", "#FFB3CDEB"]
+    },
+    "gengar-mega": {
+      "name": "Gengarite",
+      "colours": ["#FFC1144C", "#FF493D61", "#FFEA1F3B", "#FFA3A9CF"]
+    },
+    "glalie-mega": {
+      "name": "Glalitite",
+      "colours": ["#FF3A6070", "#FF499ABA", "#FF3B3B3A", "#FFD4DAEC"]
+    },
+    "gyarados-mega": {
+      "name": "Gyaradosite",
+      "colours": ["#FF821976", "#FF3286CE", "#FFD7144B", "#FFCA922C"]
+    },
+    "heracross-mega": {
+      "name": "Heracronite",
+      "colours": ["#FFEA1F3A", "#FF27598F", "#FFF38351", "#FFF9DB3A"]
+    },
+    "houndoom-mega": {
+      "name": "Houndoominite",
+      "colours": ["#FFBF1C2C", "#FF303D39", "#FFEB2034", "#FFA25E7E"]
+    },
+    "kangaskhan-mega": {
+      "name": "Kangaskhanite",
+      "colours": ["#FFA57F9F", "#FFA3A9CE", "#FF515758", "#FFF8DE82"]
+    },
+    "latias-mega": {
+      "name": "Latiasite",
+      "colours": ["#FFC6509B", "#FF8B63D5", "#FFFF3138", "#FFBEC6FB"]
+    },
+    "latios-mega": {
+      "name": "Latiosite",
+      "colours": ["#FF5E73EB", "#FF8B63D6", "#FF2884F7", "#FFBDC6FC"]
+    },
+    "lopunny-mega": {
+      "name": "Lopunnite",
+      "colours": ["#FF6A423C", "#FFA16355", "#FF493A3B", "#FFF9F4BD"]
+    },
+    "lucario-mega": {
+      "name": "Lucarionite",
+      "colours": ["#FF752763", "#FF067891", "#FFB00D2E", "#FFF68536"]
+    },
+    "manectric-mega": {
+      "name": "Manectite",
+      "colours": ["#FFA5185A", "#FF4EB1CB", "#FFEB1F33", "#FFEDF588"]
+    },
+    "mawile-mega": {
+      "name": "Mawilite",
+      "colours": ["#FFB47226", "#FF4F4C4E", "#FFF9ED9A", "#FFF595CB"]
+    },
+    "medicham-mega": {
+      "name": "Medichamite",
+      "colours": ["#FFEE702E", "#FFEF3494", "#FFF8E082", "#FF6FC1ED"]
+    },
+    "metagross-mega": {
+      "name": "Metagrossite",
+      "colours": ["#FFB7B3B9", "#FFDA9B5B", "#FFCCCCCC", "#FF86BCD4"]
+    },
+    "mewtwo-mega-x": {
+      "name": "Mewtwonite X",
+      "colours": ["#FF27588F", "#FF8F6CA0", "#FF2E82B2", "#FFD1D1D2"]
+    },
+    "mewtwo-mega-y": {
+      "name": "Mewtwonite Y",
+      "colours": ["#FFB479C2", "#FF8F6CA0", "#FFE2C2E6", "#FFD1D1D2"]
+    },
+    "pidgeot-mega": {
+      "name": "Pidgeotite",
+      "colours": ["#FFAF879D", "#FFF7EF7C", "#FFDD4173", "#FFF79549"]
+    },
+    "pinsir-mega": {
+      "name": "Pinsirite",
+      "colours": ["#FFB04427", "#FFA1706A", "#FFF06F39", "#FFF8DC39"]
+    },
+    "sableye-mega": {
+      "name": "Sablenite",
+      "colours": ["#FFAE4076", "#FFE7285A", "#FF795A9C", "#FFFEDE7A"]
+    },
+    "salamence-mega": {
+      "name": "Salamencite",
+      "colours": ["#FF2B728B", "#FFE2595F", "#FF2A92BA", "#FFC4C5C6"]
+    },
+    "sceptile-mega": {
+      "name": "Sceptilite",
+      "colours": ["#FF97734A", "#FFDE6353", "#FF274928", "#FF74BC71"]
+    },
+    "scizor-mega": {
+      "name": "Scizorite",
+      "colours": ["#FF432629", "#FFEB1F3B", "#FF222D3B", "#FFC7ECF1"]
+    },
+    "sharpedo-mega": {
+      "name": "Sharpedonite",
+      "colours": ["#FFCFC490", "#FF3070A9", "#FFFBDD81", "#FFCDCCE5"]
+    },
+    "slowbro-mega": {
+      "name": "Slowbronite",
+      "colours": ["#FFDBC188", "#FFF4808C", "#FFF3EE89", "#FFBACDBC"]
+    },
+    "steelix-mega": {
+      "name": "Steelixite",
+      "colours": ["#FFB3CADA", "#FF3499E3", "#FFCCECF4", "#FF939AB3"]
+    },
+    "swampert-mega": {
+      "name": "Swampertite",
+      "colours": ["#FFAE6A6C", "#FFEF6A5B", "#FF49535B", "#FF72B4DB"]
+    },
+    "tyranitar-mega": {
+      "name": "Tyranitarite",
+      "colours": ["#FF5E1F27", "#FF1F1F26", "#FFB3193E", "#FFA0CA80"]
+    },
+    "venusaur-mega": {
+      "name": "Venusaurite",
+      "colours": ["#FFDB346F", "#FF1C7B74", "#FFF364A8", "#FF60B8CC"]
+    },
+    "absol-mega-z": {
+      "name": "Absolite Z",
+      "colours": ["#FF111014", "#FF2E6195", "#FFDB015A", "#FF00243C"]
+    },
+    "barbaracle-mega": {
+      "name": "Barbaracite",
+      "colours": ["#FFFCFEFE", "#FFCED1DE", "#FFF57757", "#FF2B3236"]
+    },
+    "baxcalibur-mega": {
+      "name": "Baxcalibrite",
+      "colours": ["#FFBA3E41", "#FF2F5E89", "#FFB0A4E6", "#FFC8EEEE"]
+    },
+    "chandelure-mega": {
+      "name": "Chandelurite",
+      "colours": ["#FFD7B179", "#FF302F30", "#FFDDEEFA", "#FF7447F9"]
+    },
+    "chesnaught-mega": {
+      "name": "Chesnaughtite",
+      "colours": ["#FFD9B638", "#FF467019", "#FF87112C", "#FFE9EADB"]
+    },
+    "chimecho-mega": {
+      "name": "Chimechite",
+      "colours": ["#FF367799", "#FFE54262", "#FFBADDE9", "#FFF4DB70"]
+    },
+    "clefable-mega": {
+      "name": "Clefablite",
+      "colours": ["#FFFFFEFE", "#FFFBE1D5", "#FFE45386", "#FFF78B9F"]
+    },
+    "crabominable-mega": {
+      "name": "Crabominite",
+      "colours": ["#FFE7CE42", "#FF4DC9EA", "#FF585478", "#FFFFFFFF"]
+    },
+    "darkrai-mega": {
+      "name": "Darkranite",
+      "colours": ["#FF000000", "#FFEDEDED", "#FFFF22DC", "#FF313031"]
+    },
+    "delphox-mega": {
+      "name": "Delphoxite",
+      "colours": ["#FFFDFDF8", "#FFE1523D", "#FFFBE67B", "#FF413146"]
+    },
+    "dragalge-mega": {
+      "name": "Dragalgite",
+      "colours": ["#FF6D7A4D", "#FF603731", "#FFC65065", "#FF996BE0"]
+    },
+    "dragonite-mega": {
+      "name": "Dragoninite",
+      "colours": ["#FFE256C3", "#FFF7F1D2", "#FF2CA796", "#FFEEBB6C"]
+    },
+    "drampa-mega": {
+      "name": "Drampanite",
+      "colours": ["#FFE3ECDD", "#FF3C4551", "#FF1C916D", "#FF67758E"]
+    },
+    "eelektross-mega": {
+      "name": "Eelektrossite",
+      "colours": ["#FFDE726D", "#FF1F5D74", "#FFF4DF64", "#FFFEFEFE"]
+    },
+    "emboar-mega": {
+      "name": "Emboarite",
+      "colours": ["#FFD2794A", "#FF454545", "#FFE6C550", "#FFDC5756"]
+    },
+    "excadrill-mega": {
+      "name": "Excadrite",
+      "colours": ["#FFA25457", "#FF5B4E4A", "#FFF9624C", "#FFBABDBD"]
+    },
+    "falinks-mega": {
+      "name": "Falinksite",
+      "colours": ["#FF02A3FF", "#FFE00200", "#FF2D2927", "#FFFFD302"]
+    },
+    "feraligatr-mega": {
+      "name": "Feraligite",
+      "colours": ["#FF4C7188", "#FFDB3B5C", "#FFFBE1A5", "#FF68BCE8"]
+    },
+    "floette-eternal-mega": {
+      "name": "Floettite",
+      "colours": ["#FFFFFFFF", "#FFDA0F3D", "#FF3E5BA9", "#FF383B3B"]
+    },
+    "froslass-mega": {
+      "name": "Froslassite",
+      "colours": ["#FFDC7164", "#FFFDFDFD", "#FF8677DC", "#FF8BC5E7"]
+    },
+    "garchomp-mega-z": {
+      "name": "Garchompite Z",
+      "colours": ["#FFFDCE5B", "#FFE73E0B", "#FFFFFFFF", "#FF484461"]
+    },
+    "glimmora-mega": {
+      "name": "Glimmoranite",
+      "colours": ["#FF6E76DC", "#FF4AD3C7", "#FF1B368F", "#FF2172EA"]
+    },
+    "golisopod-mega": {
+      "name": "Golisopite",
+      "colours": ["#FFE7DE70", "#FF873D99", "#FF000000", "#FF737A80"]
+    },
+    "golurk-mega": {
+      "name": "Golurkite",
+      "colours": ["#FF007097", "#FFEFD484", "#FFA05BAC", "#FF7CA8B0"]
+    },
+    "greninja-mega": {
+      "name": "Greninjite",
+      "colours": ["#FFF4F1B5", "#FF201F1F", "#FFDE6E82", "#FF68ACD6"]
+    },
+    "hawlucha-mega": {
+      "name": "Hawluchanite",
+      "colours": ["#FF363634", "#FF66B99A", "#FFE7C252", "#FFBF4131"]
+    },
+    "heatran-mega": {
+      "name": "Heatranite",
+      "colours": ["#FFFFE200", "#FFC9C9C9", "#FFFFA801", "#FFCF2C0E"]
+    },
+    "lucario-mega-z": {
+      "name": "Lucarionite Z",
+      "colours": ["#FF5B5F64", "#FF409CAA", "#FFAEBDC2", "#FFE3EB8A"]
+    },
+    "magearna-mega": {
+      "name": "Magearnite",
+      "colours": ["#FFFFFFFF", "#FFF9E27F", "#FFFF98ED", "#FFA91B2D"]
+    },
+    "malamar-mega": {
+      "name": "Malamarite",
+      "colours": ["#FFEFE77F", "#FFCD468A", "#FF58EBF5", "#FF787AA4"]
+    },
+    "meganium-mega": {
+      "name": "Meganiumite",
+      "colours": ["#FFFFFFFF", "#FFE14D52", "#FFE97EA7", "#FFC5FF9C"]
+    },
+    "meowstic-mega": {
+      "name": "Meowsticite",
+      "colours": ["#FF7DCBDC", "#FFFFFFFF", "#FFFFCD00", "#FF00528C"]
+    },
+    "pyroar-mega": {
+      "name": "Pyroarite",
+      "colours": ["#FF2689AB", "#FFF4E465", "#FF5D504F", "#FFCF192D"]
+    },
+    "raichu-mega-x": {
+      "name": "Raichunite X",
+      "colours": ["#FFE40029", "#FF393939", "#FF8B4A2D", "#FFFDDA00"]
+    },
+    "raichu-mega-y": {
+      "name": "Raichunite Y",
+      "colours": ["#FF020000", "#FFFEDB00", "#FF5B452B", "#FFF2A900"]
+    },
+    "scolipede-mega": {
+      "name": "Scolipite",
+      "colours": ["#FF29E1B0", "#FFAB599B", "#FF474C4B", "#FF897E90"]
+    },
+    "scovillain-mega": {
+      "name": "Scovillainite",
+      "colours": ["#FF292A28", "#FF406E50", "#FFDF4F32", "#FF5EAA5D"]
+    },
+    "scrafty-mega": {
+      "name": "Scraftinite",
+      "colours": ["#FF5F5F62", "#FFEC9E69", "#FFDA5957", "#FFEEECEE"]
+    },
+    "skarmory-mega": {
+      "name": "Skarmorite",
+      "colours": ["#FF5D6F90", "#FF3C4E6F", "#FFEA3D2C", "#FFE5C13B"]
+    },
+    "staraptor-mega": {
+      "name": "Staraptite",
+      "colours": ["#FFFCAD04", "#FFF96038", "#FF574F48", "#FFC7BEBD"]
+    },
+    "starmie-mega": {
+      "name": "Starminite",
+      "colours": ["#FF3B71C1", "#FFF7DB39", "#FFBF1636", "#FF7D79D1"]
+    },
+    "tatsugiri-mega": {
+      "name": "Tatsugirinite",
+      "colours": ["#FFFF692B", "#FFFFDE00", "#FFFF497A", "#FF00DE63"]
+    },
+    "victreebel-mega": {
+      "name": "Victreebelite",
+      "colours": ["#FFDC9AA4", "#FF9AC45C", "#FFF89669", "#FFE6DD55"]
+    },
+    "zeraora-mega": {
+      "name": "Zeraorite",
+      "colours": ["#FF6F7176", "#FFEEDB5A", "#FF80C5E6", "#FF363835"]
+    },
+    "zygarde-mega": {
+      "name": "Zygardite",
+      "colours": ["#FF346DC5", "#FF8BE044", "#FFD02228", "#FF504A41"]
+    }
+  }
+}

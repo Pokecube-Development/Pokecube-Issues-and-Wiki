@@ -181,6 +181,11 @@ public class DataSync_Impl implements DataSync
             this.setRegisterTag(data.getTag());
             var key = data.getTag() + data.getName();
             var _data = old.getOrDefault(key, data);
+            if (_data != data)
+            {
+                // Preserve references held by capabilities while still applying the initial value from the server.
+                _data.setRaw(data.get());
+            }
             this.register(_data);
         });
         needInit = false;

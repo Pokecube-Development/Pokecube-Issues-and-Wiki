@@ -84,11 +84,12 @@ public class Pokemob implements IIngredientType<PokedexEntry>
             if (pokemob != null)
             {
                 final byte gender = pokemob.gender;
+                final FormeHolder holder = pokemob.holder == null ? pokemob.entry.getModel(gender) : pokemob.holder;
 //                Vector4f test = new Vector4f(1, 1, 1, 1);
 //                test.mul(graphics.pose().last().pose());
 //                int x = (int) test.x();
 //                int y = (int) test.y();
-                EventsHandlerClient.renderIcon(graphics, pokemob.entry, pokemob.holder, gender == IPokemob.FEMALE, 0, 0,
+                EventsHandlerClient.renderIcon(graphics, pokemob.entry, holder, gender == IPokemob.FEMALE, 0, 0,
                         16, 16, false);
             }
         }

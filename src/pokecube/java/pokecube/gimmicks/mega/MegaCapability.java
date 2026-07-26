@@ -129,6 +129,8 @@ public class MegaCapability implements IMegaCapability
     public static BiFunction<PokedexEntry, PokedexEntry, int[]> COLOUR_MAPPER = (base,mega)->{
         var custom = DEFAULT_COLOURERS.get(base);
         if(custom!=null) return custom.apply(mega);
+        var canonical = MegaStoneColours.get(mega);
+        if(canonical!=null) return canonical;
         return randomColor(base, mega);
     };
 
