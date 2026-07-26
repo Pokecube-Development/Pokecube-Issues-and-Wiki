@@ -6,6 +6,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -139,12 +140,6 @@ public class MegaEvolveHelper
                 var stack = pokemob.getHeldItem();
                 if (ItemList.is(BLANK_MEGASTONE, stack) && !stack.has(MEGA_STONE) && stack.getCount() == 1)
                 {
-                    if (pokemob.getDisplayName().getString().equalsIgnoreCase("rayquaza")) { // Rayquaza learns dragon ascent when mega evolve is attempted (Thanks for the idea Gliched!)
-                        ItemStack dragonAscentTM = new ItemStack(PokecubeItems.TM.get());
-                        ItemTM.addMoveToStack(dragonAscentTM, "dragon-ascent");
-                        if (ItemTM.feedToPokemob(dragonAscentTM, pokemob.getEntity())) pokemob.setHeldItem(ItemStack.EMPTY);
-                        return true;
-                    }
                     List<MegaEvoData.MegaRule> rules = MegaEvoData.RULES.getOrDefault(pokemob.getPokedexEntry(), Collections.emptyList());
                     if(!rules.isEmpty()&&pokemob.getHappiness()>250)
                     {
