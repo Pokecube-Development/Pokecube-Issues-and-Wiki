@@ -38,8 +38,8 @@ public class ItemMoveLearn implements MegaCondition
     public boolean matches(IPokemob mobIn, PokedexEntry entryTo)
     {
         // If both the main item and offhand are there, learn the move, consume both items required
-        boolean correct_mainhand = mobIn.getHeldItem().is(_tag_mainhand);
-        boolean correct_offhand = mobIn.getEntity().getOffhandItem().is(_tag_offhand);
+        boolean correct_mainhand = ItemStack.isSameItem(mobIn.getHeldItem(), _value_mainhand);
+        boolean correct_offhand = ItemStack.isSameItem(mobIn.getEntity().getOffhandItem(), _value_offhand);
         if (correct_mainhand && correct_offhand)
         {
             ItemStack learntMoveTM = new ItemStack(PokecubeItems.TM.get());
