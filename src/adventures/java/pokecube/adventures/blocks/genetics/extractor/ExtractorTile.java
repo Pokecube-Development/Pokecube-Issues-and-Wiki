@@ -1,6 +1,7 @@
 package pokecube.adventures.blocks.genetics.extractor;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
@@ -32,6 +33,13 @@ public class ExtractorTile extends BaseGeneticsTile
         return ItemList.is(EXTRACT_DEST, stack);
     }
 
+    public static boolean isValidDestination(final Provider access, final ItemStack stack)
+    {
+        if (stack.isEmpty() || !isDNAContainer(stack)) return false;
+        var genes = ClonerHelper.getGenes(access, stack);
+        return genes == null || genes.getAlleles().isEmpty();
+    }
+
     public ItemStack override_selector = ItemStack.EMPTY;
 
     public ExtractorTile(final BlockPos pos, final BlockState state)
@@ -51,13 +59,10 @@ public class ExtractorTile extends BaseGeneticsTile
         switch (index)
         {
         case 0:// DNA Container
-            if (!isDNAContainer(stack)) return false;
-            var genes = ClonerHelper.getGenes(access, stack);
-            return genes == null || genes.getAlleles().isEmpty();
+            return isValidDestination(access, stack);
         case 1:// DNA Selector
             final boolean hasGenes = !ClonerHelper.getGeneSelectors(access, stack).isEmpty();
-            final boolean selector = hasGenes || RecipeSelector.getSelectorValue(stack) != SelectorImpl.defaultSelector;
-            return hasGenes || selector;
+            return hasGenes || !RecipeSelector.getSelectorValue(stack).equals(SelectorImpl.defaultSelector);
         case 2:// DNA Source
             // TODO decide on whether to search recipes to see if it is valid.
             return true;

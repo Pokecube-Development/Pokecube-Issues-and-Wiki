@@ -119,7 +119,7 @@ public class RecipeSelector extends CustomRecipe
                 book = test;
                 continue;
             }
-            final boolean isModifier = RecipeSelector.getSelectorValue(test) != SelectorImpl.defaultSelector;
+            final boolean isModifier = !RecipeSelector.getSelectorValue(test).equals(SelectorImpl.defaultSelector);
             if (isModifier)
             {
                 if (!modifier.isEmpty()) return ItemStack.EMPTY;
@@ -130,7 +130,6 @@ public class RecipeSelector extends CustomRecipe
         }
         if (book.isEmpty() || modifier.isEmpty()) return ItemStack.EMPTY;
         final SelectorValue value = RecipeSelector.getSelectorValue(modifier);
-        ClonerHelper.getSelectorValue(book);
         final ItemStack ret = book.copy();
         ret.setCount(1);
         ret.set(SelectorImpl.VALUE_STORE, value);
@@ -158,7 +157,7 @@ public class RecipeSelector extends CustomRecipe
                 book = test;
                 continue;
             }
-            final boolean isModifier = RecipeSelector.getSelectorValue(test) != SelectorImpl.defaultSelector;
+            final boolean isModifier = !RecipeSelector.getSelectorValue(test).equals(SelectorImpl.defaultSelector);
             if (isModifier)
             {
                 if (!modifier.isEmpty()) return false;
