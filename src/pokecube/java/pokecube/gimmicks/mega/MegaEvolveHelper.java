@@ -53,7 +53,6 @@ public class MegaEvolveHelper
     public static final DeferredRegister<DataComponentType<?>> ITEM_DATA_REG;
     public static final Supplier<DataComponentType<MegaWearable>> MEGA_WEARABLE;
     public static final Supplier<DataComponentType<MegaStone>> MEGA_STONE;
-
     public static final ResourceLocation BLANK_MEGASTONE = ResourceLocation.fromNamespaceAndPath("pokecube", "blank_megastone");
 
     static
@@ -136,30 +135,6 @@ public class MegaEvolveHelper
                 MegaEvolveHelper.megaEvolve(pokemob, newEntry, mess);
             }
             else {
-                // First, try transforming the item if it is a blank mega stone, if so, recall this function again.
-                var stack = pokemob.getHeldItem();
-                if (ItemList.is(BLANK_MEGASTONE, stack) && !stack.has(MEGA_STONE) && stack.getCount() == 1)
-                {
-                    List<MegaEvoData.MegaRule> rules = MegaEvoData.RULES.getOrDefault(pokemob.getPokedexEntry(), Collections.emptyList());
-                    if(!rules.isEmpty()&&pokemob.getHappiness()>250)
-                    {
-                        PokecubeAPI.logInfo(pokemob.getDisplayName().getString());
-                        Collections.shuffle(rules);
-                        newEntry = rules.getFirst().getResult();
-                        var stone = new MegaStone();
-                        stone.entry = newEntry.getTrimmedName();
-                        stone.colours = MegaCapability.COLOUR_MAPPER.apply(pokemob.getPokedexEntry(), newEntry);
-                        stack.set(MEGA_STONE, stone);
-                        final Component customName = stack.get(DataComponents.CUSTOM_NAME);
-                        if (customName == null || "Mega Stone".equalsIgnoreCase(customName.getString().trim()))
-                        {
-                            final String stoneName = MegaStoneColours.getName(newEntry);
-                            stack.set(DataComponents.CUSTOM_NAME,
-                                    stoneName == null ? newEntry.getTranslatedName() : Component.literal(stoneName));
-                        }
-                        return handleChange(pokemob);
-                    }
-                }
                 thut.lib.ChatHelper.sendSystemMessage(player,
                         TComponent.translatable("pokemob.megaevolve.failed", pokemob.getDisplayName()));
 
