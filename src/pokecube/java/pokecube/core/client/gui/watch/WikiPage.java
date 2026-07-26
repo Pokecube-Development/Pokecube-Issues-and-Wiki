@@ -5,7 +5,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.core.component.DataComponents;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.ClickEvent.Action;
 import net.minecraft.network.chat.Component;
@@ -13,6 +13,8 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
+import net.minecraft.world.item.ItemStack;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
@@ -26,6 +28,7 @@ import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.handlers.PokedexInspector.IInspectReward;
 import thut.lib.TComponent;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
@@ -76,7 +79,15 @@ public class WikiPage extends ListPage<LineEntry>
                 }
                 else
                 {
-                    int page = Integer.parseInt(clickevent.getValue());
+                    int page = 0;
+                    try
+                    {
+                        page = Integer.parseInt(clickevent.getValue());
+                    }
+                    catch (NumberFormatException e)
+                    {
+                        PokecubeAPI.LOGGER.error(e);
+                    }
 
                     for (int i = 0; i < this.list.getSize(); i++)
                     {
@@ -99,15 +110,19 @@ public class WikiPage extends ListPage<LineEntry>
     @Override
     public void initList()
     {
-        super.initList();
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2;
         final Component next = TComponent.literal("");
         final Component prev = TComponent.literal("");
 
+        super.initList();
+        this.setList();
+
         final TexButton prevBtn = this.addRenderableWidget(new TexButton.Builder(prev, b -> {
             this.index--;
+            super.initList();
             this.setList();
+            this.postInitList();
         }).bounds(x - 116, y - 79, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
                 .setRender(new UVImgRender(229, 108, 12, 12))
                 .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.prev_wiki.tooltip")))
@@ -116,13 +131,14 @@ public class WikiPage extends ListPage<LineEntry>
 
         final TexButton nextBtn = this.addRenderableWidget(new TexButton.Builder(next, b -> {
             this.index++;
+            super.initList();
             this.setList();
+            this.postInitList();
         }).bounds(x + 104, y - 79, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
                 .setRender(new UVImgRender(241, 108, 12, 12))
                 .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.next_wiki.tooltip")))
                 .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.next_wiki.narrate"))
                 .build());
-        this.setList();
 
         nextBtn.setFGColor(0x444444);
         prevBtn.setFGColor(0x444444);
@@ -133,15 +149,19 @@ public class WikiPage extends ListPage<LineEntry>
         this.refs.clear();
         final List<FreeTranslatedReward> books = Lists.newArrayList();
         for (final IInspectReward reward : PokedexInspector.rewards)
-            if (reward instanceof FreeTranslatedReward) books.add((FreeTranslatedReward) reward);
+            // TODO decide on if to include the item books as well
+            if (reward instanceof FreeTranslatedReward book && book.page_file) {
+                // Check if the book is valid, if not skip it.
+                books.add(book);
+            }
 
         books.sort(Comparator.comparing(o -> o.key));
         final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 16;
         final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 37;
         final int height = this.font.lineHeight * 11; // 100
-
-        if (this.list != null) this.children.remove(this.list);
-
+        List<GuiEventListener> entries = new ArrayList<>();
+        for(var v: this.children()) if(v instanceof ScrollGui)entries.add(v);
+        entries.forEach(this::removeWidget);
         this.list = new ScrollGui<>(this, this.minecraft, 228, height, this.font.lineHeight, offsetX, offsetY);
 
         // x - 5 / y
@@ -166,24 +186,11 @@ public class WikiPage extends ListPage<LineEntry>
         final String lang = this.minecraft.getLanguageManager().getSelected().toLowerCase(Locale.ROOT);
         if (item_book)
         {
-            System.out.println(books.get(this.index).getInfoStack(lang).get(DataComponents.WRITTEN_BOOK_CONTENT));
+            var stack = books.get(this.index).getInfoStack(lang);
+            System.out.println(stack);
+            System.out.println(stack.getComponents().keySet());
             Thread.dumpStack();
             // TODO item book pages rendered here.
-            //            final ItemStack bookStack = books.get(this.index).getInfoStack(lang);
-            //            if (!bookStack.hasTag()) return;
-            //            final CompoundTag tag = bookStack.getTag();
-            //            final ListTag bookPages = tag.getList("pages", 8);
-            //            for (int i = 0; i < bookPages.size(); i++)
-            //            {
-            //                final MutableComponent page = Component.Serializer.fromJsonLenient(bookPages.getString(i));
-            //                var list = this.font.split(page, 215);
-            //                for (var line : list)
-            //                {
-            //                    final LineEntry wikiline = new WikiLine(this.list, -5, 0, this.font, line, i)
-            //                            .setClickListner(listener);
-            //                    this.list.addEntry(wikiline);
-            //                }
-            //            }
         }
         else
         {
@@ -279,8 +286,6 @@ public class WikiPage extends ListPage<LineEntry>
                 this.list.addEntry(wikiline);
                 pagenum++;
             }
-
         }
-        this.children.add(this.list);
     }
 }
