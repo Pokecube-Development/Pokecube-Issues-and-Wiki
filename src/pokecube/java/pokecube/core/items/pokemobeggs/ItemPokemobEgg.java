@@ -71,6 +71,7 @@ public class ItemPokemobEgg extends Item
     {
         final ItemStack stack = ItemPokemobEgg.getEggStack(mother.getPokedexEntry(), mother.getEntity().level());
         ItemPokemobEgg.initStack(mother.getEntity(), father, stack);
+        stack.set(PokemobCaps.POKEEGG_DATA, stack.get(PokemobCaps.POKEEGG_DATA).withMother(mother.getEntity().getStringUUID()));
         return stack;
     }
 
