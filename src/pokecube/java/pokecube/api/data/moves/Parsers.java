@@ -212,7 +212,8 @@ public class Parsers
         public void process(MoveEntry entry)
         {
             super.process(entry);
-            int rate = 100;
+            var json = entry.root_entry.getMove();
+            int rate = json.ailment_chance>0?json.ailment_chance:Math.max(json.effect_chance, 0);
             parseStatusEffects(entry.root_entry._effect_text_simple, entry, rate);
         }
     }
@@ -223,8 +224,8 @@ public class Parsers
         public void process(MoveEntry entry)
         {
             super.process(entry);
-
-            int rate = 100;
+            var json = entry.root_entry.getMove();
+            int rate = json.ailment_chance>0?json.ailment_chance:Math.max(json.effect_chance, 0);
             parseStatModifiers(entry.root_entry._effect_text_simple, entry, rate);
         }
     }
@@ -241,7 +242,14 @@ public class Parsers
 
     public static class DamageAlimentParser extends DamageParser
     {
-
+        @Override
+        public void process(MoveEntry entry)
+        {
+            super.process(entry);
+            var json = entry.root_entry.getMove();
+            int rate = json.ailment_chance>0?json.ailment_chance:Math.max(json.effect_chance, 0);
+            parseStatusEffects(entry.root_entry._effect_text_simple, entry, rate);
+        }
     }
 
     public static class TwoTurnParser extends NetGoodStatsParser // Child of NetGoodStats as some moves raise stats on the first turn
@@ -304,8 +312,10 @@ public class Parsers
         @Override
         public void process(MoveEntry entry) {
             super.process(entry);
-            parseStatModifiers(entry.root_entry._effect_text_simple, entry, 100);
-            parseStatusEffects(entry.root_entry._effect_text_simple, entry, 100);
+            var json = entry.root_entry.getMove();
+            int rate = json.ailment_chance>0?json.ailment_chance:Math.max(json.effect_chance, 0);
+            parseStatModifiers(entry.root_entry._effect_text_simple, entry, rate);
+            parseStatusEffects(entry.root_entry._effect_text_simple, entry, rate);
         }
     }
 

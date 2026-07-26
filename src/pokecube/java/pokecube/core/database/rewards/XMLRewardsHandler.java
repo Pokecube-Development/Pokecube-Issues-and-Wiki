@@ -5,12 +5,17 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.WrittenBookContent;
 import org.jline.utils.InputStreamReader;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.stats.CaptureStats;
@@ -159,14 +164,14 @@ public class XMLRewardsHandler
             public ItemStack getInfoStack(String lang)
             {
                 lang = lang.toLowerCase(Locale.ROOT);
-                if (!this.lang_stacks.containsKey(lang)) this.initLangBook(lang);
+                if (!this.lang_stacks.containsKey(lang)||true) this.initLangBook(lang);
                 return this.lang_stacks.getOrDefault(lang, ItemStack.EMPTY).copy();
             }
 
             public PagesFile getInfoBook(String lang)
             {
                 lang = lang.toLowerCase(Locale.ROOT);
-                if (!this.lang_books.containsKey(lang)) this.initLangBook(lang);
+                if (!this.lang_books.containsKey(lang)||true) this.initLangBook(lang);
                 return this.lang_books.getOrDefault(lang, null);
             }
 
@@ -216,9 +221,17 @@ public class XMLRewardsHandler
                         ItemStack stack = new ItemStack(Items.WRITTEN_BOOK);
                         try
                         {
-                            Thread.dumpStack();
-                            // TODO written book parsing from json
-                            //                            stack.setTag(TagParser.parseTag(json));
+                            try
+                            {
+                                var tag = NbtUtils.snbtToStructure(json);
+                                var thing = WrittenBookContent.CODEC.parse(NbtOps.INSTANCE,tag);
+                                stack.set(DataComponents.WRITTEN_BOOK_CONTENT, thing.getOrThrow());
+                                System.out.println(stack.getComponents().keySet());
+                            }
+                            catch (Exception e)
+                            {
+                                PokecubeAPI.LOGGER.error("Error with parsing book for " + this.tagKey + " " + json, e);
+                            }
                             this.lang_stacks.put(key, stack);
                         }
                         catch (final Exception e)

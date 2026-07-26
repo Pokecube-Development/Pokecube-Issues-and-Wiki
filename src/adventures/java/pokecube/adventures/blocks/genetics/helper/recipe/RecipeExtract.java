@@ -8,6 +8,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.ResourceLocationException;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -190,12 +191,17 @@ public class RecipeExtract extends PoweredRecipe
         if (!(inv.inventory instanceof ExtractorTile tile)) return false;
         var access = worldIn.registryAccess();
 
+        ItemStack destination = inv.getItem(0);
+        if (!ExtractorTile.isValidDestination(access, destination)) return false;
+
         ItemStack source = inv.getItem(2);
         if (!this.input.isEmpty() && !this.input.test(source)) return false;
         IMobGenetics genes = ClonerHelper.getGenes(access, source);
         if (genes == null) genes = new DefaultGenetics();
 
-        ItemStack selector = tile.override_selector.isEmpty() ? inv.getItem(1) : tile.override_selector;
+        ItemStack slottedSelector = inv.getItem(1);
+        if (ClonerHelper.getGeneSelectors(access, slottedSelector).isEmpty()) return false;
+        ItemStack selector = tile.override_selector.isEmpty() ? slottedSelector : tile.override_selector;
         if (ClonerHelper.getGeneSelectors(access, selector).isEmpty()) selector = ItemStack.EMPTY;
         if (!this._genes.isEmpty())
         {
@@ -215,12 +221,15 @@ public class RecipeExtract extends PoweredRecipe
         if (!(inv.inventory instanceof ExtractorTile tile)) return ItemStack.EMPTY;
 
         final ItemStack destination = inv.getItem(0);
+        if (!ExtractorTile.isValidDestination(access, destination)) return ItemStack.EMPTY;
         ItemStack source = inv.getItem(2);
         if (!this.input.isEmpty() && !this.input.test(source)) return ItemStack.EMPTY;
         IMobGenetics genes = ClonerHelper.getGenes(access, source);
         if (genes == null) genes = new DefaultGenetics();
 
-        ItemStack selector = tile.override_selector.isEmpty() ? inv.getItem(1) : tile.override_selector;
+        ItemStack slottedSelector = inv.getItem(1);
+        if (ClonerHelper.getGeneSelectors(access, slottedSelector).isEmpty()) return ItemStack.EMPTY;
+        ItemStack selector = tile.override_selector.isEmpty() ? slottedSelector : tile.override_selector;
         if (ClonerHelper.getGeneSelectors(access, selector).isEmpty()) selector = ItemStack.EMPTY;
         boolean forcedGenes = false;
         if (!this._genes.isEmpty())
@@ -282,16 +291,21 @@ public class RecipeExtract extends PoweredRecipe
                 else if (potion) nonnulllist.set(i, new ItemStack(Items.GLASS_BOTTLE));
                 else if (!multiple)
                 {
-                    item = item.copy();
-                    var comp1 = item.remove(PokemobCaps.POKECUBE_DATA);
-                    var comp2 = item.remove(DefaultGenetics.GENE_STORE);
-                    if (comp1 != null || comp2 != null) nonnulllist.set(i, item);
-                    else nonnulllist.set(i, ItemStack.EMPTY);
+                    nonnulllist.set(i, clearDNA(item));
                 }
             }
             if (item.hasCraftingRemainingItem()) nonnulllist.set(i, item.getCraftingRemainingItem());
         }
         tile.override_selector = ItemStack.EMPTY;
         return nonnulllist;
+    }
+
+    static ItemStack clearDNA(final ItemStack stack)
+    {
+        final ItemStack cleared = stack.copy();
+        final var pokemob = cleared.remove(PokemobCaps.POKECUBE_DATA);
+        final var genes = cleared.remove(DefaultGenetics.GENE_STORE);
+        if (pokemob != null) cleared.remove(DataComponents.ITEM_NAME);
+        return pokemob != null || genes != null ? cleared : ItemStack.EMPTY;
     }
 }

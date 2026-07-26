@@ -57,6 +57,7 @@ public abstract class ListPage<T extends AbstractSelectionList.Entry<T>> extends
             this.list.children().forEach(entry -> {
                 if (entry instanceof INotifiedEntry notified) notified.addOrRemove(this::removeWidget);
             });
+            this.list = null;
         }
     }
 

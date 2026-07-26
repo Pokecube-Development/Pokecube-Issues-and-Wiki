@@ -15,7 +15,6 @@ import pokecube.adventures.blocks.genetics.splicer.SplicerTile;
 import pokecube.adventures.utils.RecipePokeAdv;
 
 import java.util.List;
-import java.util.function.Function;
 
 public class RecipeSplice extends PoweredRecipe
 {
@@ -56,9 +55,11 @@ public class RecipeSplice extends PoweredRecipe
         var access = worldIn.registryAccess();
         ItemStack dna = inv.getItem(0);
         ItemStack egg = inv.getItem(2);
-        ItemStack selector = tile.override_selector.isEmpty() ? inv.getItem(1) : tile.override_selector;
-        if (ClonerHelper.getGenes(access, dna) == null) dna = ItemStack.EMPTY;
-        if (ClonerHelper.getGenes(access, egg) == null) egg = ItemStack.EMPTY;
+        ItemStack slottedSelector = inv.getItem(1);
+        if (ClonerHelper.getGeneSelectors(access, slottedSelector).isEmpty()) return false;
+        ItemStack selector = tile.override_selector.isEmpty() ? slottedSelector : tile.override_selector;
+        if (!hasGenes(access, dna)) dna = ItemStack.EMPTY;
+        if (!hasGenes(access, egg)) egg = ItemStack.EMPTY;
         if (ClonerHelper.getGeneSelectors(access, selector).isEmpty()) selector = ItemStack.EMPTY;
         return !selector.isEmpty() && !dna.isEmpty() && !egg.isEmpty();
     }
@@ -71,9 +72,11 @@ public class RecipeSplice extends PoweredRecipe
         ItemStack output = ItemStack.EMPTY;
         ItemStack dna = inv.getItem(0);
         ItemStack egg = inv.getItem(2);
-        ItemStack selector = tile.override_selector.isEmpty() ? inv.getItem(1) : tile.override_selector;
-        if (ClonerHelper.getGenes(access, dna) == null) dna = ItemStack.EMPTY;
-        if (ClonerHelper.getGenes(access, egg) == null) egg = ItemStack.EMPTY;
+        ItemStack slottedSelector = inv.getItem(1);
+        if (ClonerHelper.getGeneSelectors(access, slottedSelector).isEmpty()) return ItemStack.EMPTY;
+        ItemStack selector = tile.override_selector.isEmpty() ? slottedSelector : tile.override_selector;
+        if (!hasGenes(access, dna)) dna = ItemStack.EMPTY;
+        if (!hasGenes(access, egg)) egg = ItemStack.EMPTY;
         if (ClonerHelper.getGeneSelectors(access, selector).isEmpty()) selector = ItemStack.EMPTY;
         if (!selector.isEmpty() && !dna.isEmpty() && !egg.isEmpty())
         {
@@ -115,13 +118,19 @@ public class RecipeSplice extends PoweredRecipe
                 else if (item.getItem() == Items.POTION) nonnulllist.set(i, new ItemStack(Items.GLASS_BOTTLE));
                 else if (!multiple)
                 {
-                    nonnulllist.set(i, item.copyAndClear());
+                    nonnulllist.set(i, RecipeExtract.clearDNA(item));
                 }
             }
             if (item.hasCraftingRemainingItem()) nonnulllist.set(i, item.getCraftingRemainingItem());
         }
         tile.override_selector = ItemStack.EMPTY;
         return nonnulllist;
+    }
+
+    private static boolean hasGenes(final Provider access, final ItemStack stack)
+    {
+        final var genes = ClonerHelper.getGenes(access, stack);
+        return genes != null && !genes.getAlleles().isEmpty();
     }
 
     @Override

@@ -28,6 +28,7 @@ public class Moves
         public int max_hits = -1;
         public String type;
         public String ailment = "none";
+        public int ailment_chance;
         public int accuracy;
         public String target;
         public String damage_class;

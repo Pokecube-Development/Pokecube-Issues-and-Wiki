@@ -19,6 +19,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import pokecube.adventures.Config;
 import pokecube.adventures.blocks.genetics.cloner.ClonerTile;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInventory;
@@ -188,6 +189,7 @@ public class RecipeClone extends PoweredRecipe
     {
         final BlockPos pos = ((BlockEntity) tile).getBlockPos();
         Alleles<SpeciesGene.SpeciesInfo, SpeciesGene> alleles = getEntry(tile, world);
+        if (Config.instance.clonesDevolveToBaseSpecies) alleles = toBaseSpecies(alleles);
         if (alleles == null) return false;
         PokedexEntry entry = alleles.getExpressed().getValue().getEntry();
         if (entry == Database.missingno) return false;
@@ -200,7 +202,7 @@ public class RecipeClone extends PoweredRecipe
             IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
 
             var genes = ClonerHelper.getGenes(world.registryAccess(), dnaSource);
-            IMobGenetics sourceGenes = genes == null ? new DefaultGenetics() : genes;
+            IMobGenetics sourceGenes = copyGenes(world.registryAccess(), genes);
 
             this._genes.forEach((k, list2) -> {
                 var gene_1 = list2.get(world.getRandom().nextInt(list2.size()));
@@ -249,6 +251,38 @@ public class RecipeClone extends PoweredRecipe
         }
         if (tile.getCraftMatrix().eventHandler != null) tile.getCraftMatrix().eventHandler.broadcastChanges();
         return true;
+    }
+
+    private static IMobGenetics copyGenes(final Provider access, final IMobGenetics genes)
+    {
+        final IMobGenetics copy = new DefaultGenetics();
+        if (genes != null) copy.deserializeNBT(access, genes.serializeNBT(access));
+        return copy;
+    }
+
+    private static Alleles<SpeciesGene.SpeciesInfo, SpeciesGene> toBaseSpecies(
+            final Alleles<SpeciesGene.SpeciesInfo, SpeciesGene> source)
+    {
+        if (source == null) return null;
+        final SpeciesGene first = toBaseSpecies(source.getAllele(0));
+        final SpeciesGene second = toBaseSpecies(source.getAllele(1));
+        final SpeciesGene expressed = toBaseSpecies(source.getExpressed());
+        final Alleles<SpeciesGene.SpeciesInfo, SpeciesGene> result = new Alleles<>(first, second);
+        result.setExpressed(expressed);
+        return result;
+    }
+
+    private static SpeciesGene toBaseSpecies(final SpeciesGene source)
+    {
+        final SpeciesGene.SpeciesInfo sourceInfo = source.getValue();
+        final SpeciesGene.SpeciesInfo resultInfo = new SpeciesGene.SpeciesInfo();
+        final byte sex = sourceInfo.getSexe();
+        final PokedexEntry child = sourceInfo.getEntry().getChild();
+        resultInfo.setSexe(sex);
+        resultInfo.setEntry(child.getForGender(sex));
+        final SpeciesGene result = new SpeciesGene();
+        result.setValue(resultInfo);
+        return result;
     }
 
     @Override
