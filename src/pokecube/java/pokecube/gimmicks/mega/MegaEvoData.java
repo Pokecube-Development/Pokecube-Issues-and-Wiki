@@ -20,10 +20,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.resources.PackFinder;
-import pokecube.gimmicks.mega.conditions.Ability;
-import pokecube.gimmicks.mega.conditions.HeldItem;
-import pokecube.gimmicks.mega.conditions.MegaCondition;
-import pokecube.gimmicks.mega.conditions.Move;
+import pokecube.gimmicks.mega.conditions.*;
 import thut.api.data.DataHelpers;
 import thut.api.data.DataHelpers.ResourceData;
 import thut.api.util.JsonUtil;
@@ -115,6 +112,7 @@ public class MegaEvoData extends ResourceData
         MegaCondition.CONDITIONS.put("item", HeldItem.class);
         MegaCondition.CONDITIONS.put("ability", Ability.class);
         MegaCondition.CONDITIONS.put("move", Move.class);
+        MegaCondition.CONDITIONS.put("item_move_learn", ItemMoveLearn.class);
     }
 
     public static PokedexEntry getMegaEvo(IPokemob pokemob)

@@ -1,21 +1,29 @@
 package pokecube.gimmicks.pokeplayer.blocks;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeItems;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.gimmicks.pokeplayer.Pokeplayer;
 import thut.api.ThutCaps;
+import thut.lib.TComponent;
+
+import java.util.List;
 
 public class TransformBlock extends Block {
 
@@ -50,5 +58,15 @@ public class TransformBlock extends Block {
             Pokeplayer.transformPlayer(null, player);
         }
         return ItemInteractionResult.SUCCESS;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents,
+                                TooltipFlag tooltipFlag)
+    {
+        tooltipComponents.clear();
+        tooltipComponents.add(TComponent.translatable("item.pokecube.transform_block"));
+        tooltipComponents.add(TComponent.translatable("item.pokecube.transform_block.desc"));
     }
 }

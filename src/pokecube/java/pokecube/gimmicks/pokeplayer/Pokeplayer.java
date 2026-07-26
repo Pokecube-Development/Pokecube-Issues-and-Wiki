@@ -134,6 +134,7 @@ public class Pokeplayer
             player.sendSystemMessage(Component.literal("Reverted " + player.getName().getString() + " back into a player"));
             copy.setCopiedMob(null); // Changes player back into a player
             player.setNoGravity(false);
+            if (player instanceof Player localPlayer) localPlayer.getAttribute(NeoForgeMod.CREATIVE_FLIGHT).removeModifiers();
             return 0;
         }
         copy.setCopiedMob(pokemob.getEntity());

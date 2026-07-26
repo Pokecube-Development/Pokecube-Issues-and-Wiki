@@ -6,6 +6,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -22,8 +23,10 @@ import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler;
 import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler.IChangeHandler;
 import pokecube.api.events.pokemobs.ChangeForm;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.inventory.pc.PCContainer;
+import pokecube.core.items.ItemTM;
 import pokecube.core.items.megastuff.ItemMegawearable;
 import pokecube.gimmicks.mega.MegaCapability.MegaStone;
 import pokecube.gimmicks.mega.MegaCapability.MegaWearable;
@@ -132,7 +135,7 @@ public class MegaEvolveHelper
                         TComponent.translatable(newEntry.getUnlocalizedName()));
                 MegaEvolveHelper.megaEvolve(pokemob, newEntry, mess);
             }
-            else{
+            else {
                 // First, try transforming the item if it is a blank mega stone, if so, recall this function again.
                 var stack = pokemob.getHeldItem();
                 if (ItemList.is(BLANK_MEGASTONE, stack) && !stack.has(MEGA_STONE) && stack.getCount() == 1)
@@ -140,6 +143,7 @@ public class MegaEvolveHelper
                     List<MegaEvoData.MegaRule> rules = MegaEvoData.RULES.getOrDefault(pokemob.getPokedexEntry(), Collections.emptyList());
                     if(!rules.isEmpty()&&pokemob.getHappiness()>250)
                     {
+                        PokecubeAPI.logInfo(pokemob.getDisplayName().getString());
                         Collections.shuffle(rules);
                         newEntry = rules.getFirst().getResult();
                         var stone = new MegaStone();
@@ -158,6 +162,7 @@ public class MegaEvolveHelper
                 }
                 thut.lib.ChatHelper.sendSystemMessage(player,
                         TComponent.translatable("pokemob.megaevolve.failed", pokemob.getDisplayName()));
+
             }
             return true;
         }
