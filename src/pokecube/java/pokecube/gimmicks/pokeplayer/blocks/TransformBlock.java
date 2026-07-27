@@ -51,6 +51,7 @@ public class TransformBlock extends Block {
         if(!notTransformed) {
             var mob = copy.getCopiedMob();
             var pokemob = PokemobCaps.getPokemobFor(mob);
+            pokemob.setHealth(pokemob.getMaxHealth());
             var cube = new ItemStack(PokecubeItems.getEmptyCube(ResourceLocation.parse("pokecube:pokecube")));
             if(pokemob != null && !pokemob.getPokecube().isEmpty()) cube = pokemob.getPokecube();
             PokecubeManager.addToCube(cube, mob);
