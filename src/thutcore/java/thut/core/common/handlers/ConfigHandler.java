@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import com.google.common.collect.Lists;
 
+import com.google.gson.JsonSyntaxException;
 import net.minecraft.resources.ResourceLocation;
 import thut.api.boom.ExplosionCustom;
 import thut.api.data.StringTag;
@@ -13,11 +14,15 @@ import thut.api.entity.blockentity.IBlockEntity;
 import thut.api.level.terrain.TerrainChecker;
 import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Cruncher;
+import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
+import thut.core.common.config.Config;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
 import thut.core.common.terrain.ConfigTerrainBuilder;
 import thut.core.common.terrain.ConfigTerrainChecker;
+
+import static thut.core.common.config.Config.registerValidator;
 
 public class ConfigHandler extends ConfigData
 {
@@ -27,18 +32,32 @@ public class ConfigHandler extends ConfigData
     private static final String BLOCKENTITY = "blockentity";
     private static final String MISC = "misc";
     private static final String CLIENT = "client";
-    private static final String WORLD = "generation";
     private static final String DEBUG = "debug";
 
-    @Configure(category = WORLD, comment = "Structures listed here will have the relevant subbiome applied for if minecraft thinks that the block is inside the structure.")
+    static
+    {
+        Config.registerRange("thutcore.explosions.maxMsPerTick",1,50);
+        Config.registerRange("thutcore.explosions.explosionRadius",0,1024);
+        Config.registerRange("thutcore.explosions.minBlastEffect",0.0,1024.0);
+        registerValidator("thutcore.biomes.structure_subbiomes",t-> {
+            try
+            {
+                JsonUtil.gson.fromJson(t, TerrainChecker.StructInfo.class);
+            }
+            catch (JsonSyntaxException e)
+            {
+                return false;
+            }
+            return true;
+        });
+    }
+
+    @Configure(category = BIOMES, comment = "Structures listed here will have the relevant subbiome applied for if minecraft thinks that the block is inside the structure.")
     public List<String> structure_subbiomes = Lists.newArrayList(
     //@formatter:off pokecube_world:meteorites
             "{\"struct\":\"#minecraft:on_ocean_explorer_maps\",\"subbiome\":\"monument\"}"
             );
     //@formatter:on
-
-    @Configure(category = WORLD, comment = "Does a blanket \"plant material\" check for cuttable and edible plants, rather than relying entirely on the block tags. [Default: true]")
-    public boolean autoPopulateLists = true;
 
     @Configure(category = ConfigHandler.BOOMS)
     public int maxMsPerTick = 25;

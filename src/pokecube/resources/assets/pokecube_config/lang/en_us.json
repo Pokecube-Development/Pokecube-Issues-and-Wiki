@@ -2,7 +2,7 @@
     "_comment": "Config Option Descriptions and Names",
 
     "_comment": "Misc",
-    "pokecube.config.misc": "Misc Options",
+    "pokecube.configuration.misc": "Misc Options",
     "pokecube.config.misc.tooltip": "Misc Options",
     "pokecube.config.defaultStarters.tooltip": "Override starters for specific players.",
     "pokecube.config.contributorStarters.tooltip": "Do Contributors have the option to get their special starter.",
@@ -20,7 +20,7 @@
     "pokecube.config.pcHoldsOnlyPokecubes.tooltip": "Can PC hold only pokecubes and eggs?",
 
     "_comment": "AI",
-    "pokecube.config.ai": "Pokemob AI Options",
+    "pokecube.configuration.ai": "Pokemob AI Options",
     "pokecube.config.ai.tooltip": "Pokemob AI Options",
     "pokecube.config.contactAttackDistance.tooltip": "Distance considered \"In Range\" for contact attacks, 0 means contact is required.",
     "pokecube.config.rangedAttackDistance.tooltip": "Distance considered \"In Range\" for ranged attacks, 0 means contact is required.",
@@ -73,7 +73,7 @@
     "pokecube.config.interactDelayScale.tooltip": "Scaling factor of time between item interactions.",
 
     "_comment": "World",
-    "pokecube.config.generation": "World Generation and Interaction",
+    "pokecube.configuration.generation": "World Generation and Interaction",
     "pokecube.config.generation.tooltip": "World Generation and Interaction",
     "pokecube.config.meteors.tooltip": "Do random meteors blow up sections of the world.",
     "pokecube.config.meteorDistance.tooltip": "Minimum distance between two meteors.",
@@ -97,7 +97,7 @@
     "pokecube.config.spawnDimension.tooltip": "DimensionID for the Spawn Pokecenter to generate in.",
 
     "_comment": "Spawning",
-    "pokecube.config.spawning": "Spawning Options",
+    "pokecube.configuration.spawning": "Spawning Options",
     "pokecube.config.spawning.tooltip": "Spawning Options",
     "pokecube.config.deactivateMonsters.tooltip": "Are vanilla hostile mobs removed from spawn lists.",
     "pokecube.config.disableVanillaMonsters.tooltip": "Are Vanilla hostile mobs prevented from spawning entirely (including spawn eggs and spawners)",
@@ -122,7 +122,7 @@
     "pokecube.config.dimensionWhitelist.tooltip": "If whiteListEnabled pokemobs will only spawn in dimensions listed here.",
 
     "_comment": "Client",
-    "pokecube.config.client": "Client Only Options",
+    "pokecube.configuration.client": "Client Only Options",
     "pokecube.config.client.tooltip": "Client Only Options",
     "pokecube.config.guiRef.tooltip": "Reference location for pokemob info gui on screen.",
     "pokecube.config.messageRef.tooltip": "Reference location for combat log gui on screen.",
@@ -145,7 +145,7 @@
     "pokecube.config.autoRecallDistance.tooltip": "Distance away to automatically recall pokemobs.",
 
     "_comment": "Advanced",
-    "pokecube.config.advanced": "Advanced Options",
+    "pokecube.configuration.advanced": "Advanced Options",
     "pokecube.config.advanced.tooltip": "Advanced Options",
     "pokecube.config.mystLocs.tooltip": "Additional URLs to check for mystergifts, used for servers.",
     "pokecube.config.resetTags.tooltip": "Resets some additional tags used for time sensitive items.",
@@ -159,13 +159,13 @@
     "pokecube.config.nonPokemobExp.tooltip": "If true, Pokemobs get exp based on nonPokemobExpFunction for defeating other types of mobs.",
 
     "_comment": "Genetics",
-    "pokecube.config.genetics": "Genetics Options",
+    "pokecube.configuration.genetics": "Genetics Options",
     "pokecube.config.genetics.tooltip": "Options related to Pokemob Genetics",
     "pokecube.config.epigeneticEVFunction.tooltip": "Relation between EVs and IVs of the egg.",
     "pokecube.config.mutationRates.tooltip": "The Probability of mutations occuring in the genes.",
 
     "_comment": "Database",
-    "pokecube.config.database": "Database Options",
+    "pokecube.configuration.database": "Database Options",
     "pokecube.config.database.tooltip": "Database Options",
     "pokecube.config.forceDatabase.tooltip": "Are the default moves and pokemobs databases overwritten each startup.  This defaults to true, to allow syncing changes.",
     "pokecube.config.forceRecipes.tooltip": "Is the default recipes database overwritten each startup.  This defaults to true, to allow syncing changes.",
@@ -175,7 +175,7 @@
     "pokecube.config.rewardDatabases.tooltip": "Database files for rewards, additional files will not be overwritten.",
 
     "_comment": "Healthbars",
-    "pokecube.config.healthbars": "Health Bar Options",
+    "pokecube.configuration.healthbars": "Health Bar Options",
     "pokecube.config.healthbars.tooltip": "Health Bar Options",
     "pokecube.config.doHealthBars.tooltip": "Should pokemob health bars render over their heads.",
     "pokecube.config.maxDistance.tooltip": "Max distance from player to render healthbars.",

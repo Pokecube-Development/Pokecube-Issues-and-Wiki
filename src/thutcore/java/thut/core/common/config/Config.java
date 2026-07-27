@@ -20,8 +20,10 @@ import java.lang.reflect.Modifier;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public class Config
@@ -322,15 +324,16 @@ public class Config
                     cat = conf.category();
                     // Push the category
                     builder.push(cat);
-                    builder.translation(ModLoadingContext.get().getActiveNamespace() + ".config." + cat);
                     if (cat_comments.containsKey(cat)) Config.addComment(builder, cat_comments.get(cat));
+                    builder.translation(ModLoadingContext.get().getActiveNamespace() + ".config." + cat);
                 }
                 if (!conf.comment().isEmpty()) Config.addComment(builder, conf.comment());
                 else Config.addComment(builder, "sets " + field.getName());
                 builder.translation(
                         ModLoadingContext.get().getActiveNamespace() + ".config." + field.getName() + ".tooltip");
                 final Object o = field.get(holder);
-                holder.init(type, field, builder.define(field.getName(), o));
+                ModConfigSpec.ConfigValue<?> spec = makeValue(field, cat, holder.MODID, builder, o);
+                holder.init(type, field, spec);
             }
             catch (final Exception e)
             {
@@ -378,5 +381,65 @@ public class Config
         // This ensures the values are initialized, this onUpdated is never
         // called unless the config is different
         holder.onUpdated();
+    }
+
+    private static Map<String, Predicate<Object>> VALIDATORS = new HashMap<>();
+    private static Map<String, Integer> MIN_RANGES_INT = new HashMap<>();
+    private static Map<String, Integer> MAX_RANGES_INT = new HashMap<>();
+    private static Map<String, Double> MIN_RANGES_DBL = new HashMap<>();
+    private static Map<String, Double> MAX_RANGES_DBL = new HashMap<>();
+
+    /**
+     * Registers a validator for testing whether a string is valid for entry in the list
+     * @param key - format should be `[modid].[category].[fieldname]`
+     * @param validator - Returns true if format is correct
+     */
+    public static void registerValidator(String key, Predicate<String> validator)
+    {
+        VALIDATORS.put(key, o-> o instanceof String s && validator.test(s));
+    }
+
+    /**
+     * Registers valid range of inputs
+     * @param key - format should be `[modid].[category].[fieldname]`
+     */
+    public static void registerRange(String key, int min, int max)
+    {
+        MIN_RANGES_INT.put(key, min);
+        MAX_RANGES_INT.put(key, max);
+    }
+
+    /**
+     * Registers valid range of inputs
+     * @param key - format should be `[modid].[category].[fieldname]`
+     */
+    public static void registerRange(String key, double min, double max)
+    {
+        MIN_RANGES_DBL.put(key, min);
+        MAX_RANGES_DBL.put(key, max);
+    }
+
+    private static ModConfigSpec.ConfigValue<?> makeValue(Field field, String cat, String modid, Builder builder, Object o)
+    {
+        String key = modid+"."+cat+"."+field.getName();
+        System.out.println(key+"   \n"+VALIDATORS.containsKey(key));
+        return switch (o)
+        {
+            case Boolean b -> builder.define(field.getName(), (boolean) b);
+            case Integer i -> {
+                if(MIN_RANGES_INT.containsKey(key)){
+                    yield builder.defineInRange(field.getName(), i, MIN_RANGES_INT.get(key), MAX_RANGES_INT.get(key));
+                }
+                else yield builder.define(field.getName(), i);
+            }
+            case Double v -> {
+                if(MIN_RANGES_DBL.containsKey(key)){
+                    yield builder.defineInRange(field.getName(), v, MIN_RANGES_DBL.get(key), MAX_RANGES_DBL.get(key));
+                }
+                else yield builder.define(field.getName(), v);
+            }
+            case List<?> l-> builder.defineListAllowEmpty(field.getName(), l, ()->l.isEmpty()?"":l.getLast(), VALIDATORS.getOrDefault(key, o1->true));
+            case null, default -> builder.define(field.getName(), o, VALIDATORS.getOrDefault(key, o1->true));
+        };
     }
 }

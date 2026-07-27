@@ -12,7 +12,6 @@ public class ClientMod
 {
     public ClientMod(ModContainer container)
     {
-        container.registerExtensionPoint(IConfigScreenFactory.class,
-                (mc, parent) -> new ConfigurationScreen(container, parent));
+        container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
     }
 }

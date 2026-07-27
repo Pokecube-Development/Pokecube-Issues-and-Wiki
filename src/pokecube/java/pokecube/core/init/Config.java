@@ -1,6 +1,7 @@
 package pokecube.core.init;
 
 import com.google.common.collect.Lists;
+import com.google.gson.JsonSyntaxException;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -12,18 +13,17 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.GameRules.Category;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.EventBusSubscriber.Bus;
 import net.neoforged.fml.config.ModConfig.Type;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.nfunk.jep.JEP;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
+import pokecube.api.events.pokemobs.SpawnEvent;
 import pokecube.api.events.pokemobs.SpawnEvent.FunctionVariance;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.logic.LogicMountedControl;
-import pokecube.core.ai.tasks.combat.management.FindTargetsTask;
 import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.ai.tasks.idle.IdleWalkTask;
 import pokecube.core.entity.genetics.GeneticsManager;
@@ -35,6 +35,8 @@ import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.PokecubeSerializer;
 import thut.api.data.DataHelpers;
+import thut.api.entity.genetics.Gene;
+import thut.api.util.JsonUtil;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
 import thut.lib.RegHelper;
@@ -42,9 +44,11 @@ import thut.lib.RegHelper;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import static thut.core.common.config.Config.registerValidator;
+
 public class Config extends ConfigData
 {
-    @EventBusSubscriber(bus = Bus.MOD, modid = PokecubeCore.MODID)
+    @EventBusSubscriber(modid = PokecubeCore.MODID)
     public static class Rules
     {
         private static GameRules.Key<GameRules.BooleanValue> POKEMOBS_SPAWN;
@@ -156,6 +160,53 @@ public class Config extends ConfigData
     public static final String debug_modes = "debug";
 
     public static Config instance;
+
+    static
+    {
+        registerValidator("pokecube.spawning.dimensionSpawnLevels",t-> {
+            try
+            {
+                var func = JsonUtil.gson.fromJson(t, SpawnEvent.Function.class);
+                return !SpawnHandler.initJEP(new JEP(), func.func, func.radial).hasError();
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        });
+        registerValidator("pokecube.spawning.spawnLevelVariance", t->{
+            var func = new FunctionVariance(t);
+            return !func.parser.hasError();
+        });
+        registerValidator("pokecube.advanced.nonPokemobExpFunction", t->{
+            var func = makeExpJEP(t);
+            return !func.hasError();
+        });
+        registerValidator("pokecube.advanced.pokemobExpFunction", t->{
+            var func = makeExpJEP(t);
+            return !func.hasError();
+        });
+        registerValidator("pokecube.genetics.epigeneticEVFunction", t->{
+            var jep = new JEP();
+            GeneticsManager.initJEP(jep, t);
+            return !jep.hasError();
+        });
+        registerValidator("pokecube.genetics.mutationRates", t->{
+            var args = t.split(" ");
+            if(args.length!=2) return false;
+            try
+            {
+                Double.parseDouble(args[1]);
+            }
+            catch (NumberFormatException e)
+            {
+                return false;
+            }
+            return ResourceLocation.tryParse(args[0])!=null;
+        });
+        registerValidator("pokecube.spawning.softSpawnBiomeBlacklist",t->ResourceLocation.tryParse(t)!=null);
+        registerValidator("pokecube.spawning.deactivateWhitelist",t->ResourceLocation.tryParse(t)!=null);
+    }
 
     private static final Config defaults = new Config();
 
@@ -595,14 +646,12 @@ public class Config extends ConfigData
 
     @Configure(category = Config.advanced, comment = "Randomness. Changing not recommended.")
     // DOLATER find more internal variables to add to this.
-    public List<String> extraVars = Lists.newArrayList(
-            new String[] { "jc:" + EventsHandler.juiceChance, "rc:" + EventsHandler.candyChance,
-                    "eggDpl:" + ItemPokemobEgg.PLAYERDIST, "eggDpm:" + ItemPokemobEgg.MOBDIST });
+    public List<String> extraVars = Lists.newArrayList("jc:" + EventsHandler.juiceChance, "rc:" + EventsHandler.candyChance,
+            "eggDpl:" + ItemPokemobEgg.PLAYERDIST, "eggDpm:" + ItemPokemobEgg.MOBDIST);
 
     @Configure(category = Config.advanced, comment = "Moves in here will ignore pokemobsDamageBlocks, and apply their effects regardless.")
-    public List<String> damageBlocksWhitelist = Lists.newArrayList(
-            new String[] { "flash", "teleport", "dig", "cut", "rock-smash", "secret-power", "nature-power",
-                    "hyperspace-hole", "nest_dig" });
+    public List<String> damageBlocksWhitelist = Lists.newArrayList("flash", "teleport", "dig", "cut", "rock-smash",
+            "secret-power", "nature-power", "hyperspace-hole", "nest_dig");
     @Configure(category = Config.advanced, comment = "Moves in here will ignore pokemobsDamageBlocks and never apply their effects.")
     public List<String> damageBlocksBlacklist = Lists.newArrayList();
     @Configure(category = Config.advanced, comment = "This is how much exp is given for killing a non-pokemob, h is the max health of the mob, and a is the amount of armour it had. [Default: \"h*(a+1)^2\"]")
@@ -710,7 +759,7 @@ public class Config extends ConfigData
     public double groundSpeedFactor = 1;
 
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Flying will not be allowed in these dimensions.")
-    public List<String> blackListedFlyDims = Lists.newArrayList(new String[] { "the_end", "the_nether" });
+    public List<String> blackListedFlyDims = Lists.newArrayList("the_end", "the_nether");
 
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Approximate cooldown for attacks in ticks, larger values will slow down combat. [Default: 20]")
     public int attackCooldown = 20;
@@ -896,6 +945,8 @@ public class Config extends ConfigData
                 PokecubeAPI.LOGGER.error("Error with mutation rate for " + s, e);
             }
         }
+        GeneticsManager.epigeneticFunction = epigeneticEVFunction;
+        GeneticsManager.initJEP();
 
         Pokecube.clearSnagBlacklist();
         Pokecube.registerSnagBlacklist("#pokecube:no_snag");
@@ -973,7 +1024,7 @@ public class Config extends ConfigData
         PokecubeManager.init();
     }
 
-    private JEP makeExpJEP(String function)
+    private static JEP makeExpJEP(String function)
     {
         final JEP parser = new JEP();
         parser.initFunTab(); // clear the contents of the function table

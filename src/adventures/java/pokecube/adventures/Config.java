@@ -8,15 +8,19 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.npc.Npc;
 import net.neoforged.fml.config.ModConfig.Type;
+import org.nfunk.jep.JEP;
 import pokecube.adventures.blocks.afa.AfaTile;
 import pokecube.adventures.blocks.daycare.DaycareTile;
 import pokecube.adventures.blocks.genetics.helper.BaseGeneticsTile;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeClone;
 import pokecube.adventures.blocks.warp_pad.WarpPadTile;
 import pokecube.adventures.utils.EnergyHandler;
+import thut.api.util.JsonUtil;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
 import thut.lib.RegHelper;
+
+import static thut.core.common.config.Config.registerValidator;
 
 public class Config extends ConfigData
 {
@@ -27,6 +31,24 @@ public class Config extends ConfigData
     @Configure(comment = "Configs related to trainer AI, trainer spawning, etc.")
     private static final String TRAINER = "trainers";
     private static final String BAG = "bag";
+
+    static
+    {
+        registerValidator("pokecube_adventures.trainers.custom_trainers",t->ResourceLocation.tryParse(t)!=null);
+        registerValidator("pokecube_adventures.trainers.trainer_defeat_reward",t->{
+            try{ JsonUtil.gson.toJsonTree(t);}
+            catch (Exception e){return false;}
+            return true;
+        });
+        registerValidator("pokecube_adventures.machine.dayCarePowerPerExp",t->{
+            try{ return DaycareTile.initParser(new JEP(), t);}
+            catch (Exception e){return false;}
+        });
+        registerValidator("pokecube_adventures.machine.dayCareExpFunction",t->{
+            try{ return DaycareTile.initParser(new JEP(), t);}
+            catch (Exception e){return false;}
+        });
+    }
 
     @Configure(category = Config.TRAINER, comment = "Anything that is an INPC will be made into a trainer. [Default: true]")
     public boolean npcsAreTrainers = true;

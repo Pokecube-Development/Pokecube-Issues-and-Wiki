@@ -172,7 +172,7 @@ public class SpawnEvent extends Event implements ICancellableEvent
 
     public static class FunctionVariance extends Variance
     {
-        final JEP parser;
+        public JEP parser;
 
         public FunctionVariance(final String function)
         {

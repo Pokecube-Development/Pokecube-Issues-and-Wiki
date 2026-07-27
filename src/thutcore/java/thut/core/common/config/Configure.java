@@ -2,6 +2,7 @@ package thut.core.common.config;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.function.Predicate;
 
 import net.neoforged.fml.config.ModConfig;
 

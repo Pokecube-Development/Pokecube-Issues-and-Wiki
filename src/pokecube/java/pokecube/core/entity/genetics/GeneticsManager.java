@@ -146,18 +146,23 @@ public class GeneticsManager
         if (genes != mobs) mobs.getAlleles().putAll(genes.getAlleles());
     }
 
+    public static void initJEP(JEP jep, String func)
+    {
+        jep.initFunTab();
+        jep.addStandardFunctions();
+        jep.initSymTab(); // clear the contents of
+        // the symbol table
+        jep.addStandardConstants();
+        jep.addComplex();
+        // table
+        jep.addVariable("v", 0);
+        jep.parseExpression(func);
+    }
+
     public static void initJEP()
     {
         GeneticsManager.epigeneticParser = new JEP();
-        GeneticsManager.epigeneticParser.initFunTab();
-        GeneticsManager.epigeneticParser.addStandardFunctions();
-        GeneticsManager.epigeneticParser.initSymTab(); // clear the contents of
-        // the symbol table
-        GeneticsManager.epigeneticParser.addStandardConstants();
-        GeneticsManager.epigeneticParser.addComplex();
-        // table
-        GeneticsManager.epigeneticParser.addVariable("v", 0);
-        GeneticsManager.epigeneticParser.parseExpression(GeneticsManager.epigeneticFunction);
+        initJEP(epigeneticParser, epigeneticFunction);
     }
 
     @Nullable

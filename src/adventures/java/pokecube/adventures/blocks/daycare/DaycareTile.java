@@ -30,39 +30,26 @@ public class DaycareTile extends InteractableTile implements ITickTile
     public static JEP expToGive;
     public static JEP pwrPerExp;
 
+    public static boolean initParser(JEP jep, String func)
+    {
+        jep.initFunTab(); // clear the contents of the function table
+        jep.addStandardFunctions();
+        jep.initSymTab(); // clear the contents of the symbol table
+        jep.addStandardConstants();
+        jep.addComplex(); // among other things adds i to the symbol table
+        jep.addVariable("x", 0); // Exp
+        jep.addVariable("l", 0); // Level
+        jep.addVariable("n", 0); // total needed this level
+        jep.parseExpression(func);
+        return !jep.hasError();
+    }
+
     public static void initParser(final String pwr, final String exp)
     {
-        DaycareTile.pwrPerExp = new JEP();
-        DaycareTile.pwrPerExp.initFunTab(); // clear the contents of the
-                                            // function
-                                            // table
-        DaycareTile.pwrPerExp.addStandardFunctions();
-        DaycareTile.pwrPerExp.initSymTab(); // clear the contents of the symbol
-                                            // table
-        DaycareTile.pwrPerExp.addStandardConstants();
-        DaycareTile.pwrPerExp.addComplex(); // among other things adds i to the
-                                            // symbol
-        // table
-        DaycareTile.pwrPerExp.addVariable("x", 0); // Exp
-        DaycareTile.pwrPerExp.addVariable("l", 0); // Level
-        DaycareTile.pwrPerExp.addVariable("n", 0); // total needed this level
-        DaycareTile.pwrPerExp.parseExpression(pwr);
-
-        DaycareTile.expToGive = new JEP();
-        DaycareTile.expToGive.initFunTab(); // clear the contents of the
-                                            // function
-                                            // table
-        DaycareTile.expToGive.addStandardFunctions();
-        DaycareTile.expToGive.initSymTab(); // clear the contents of the symbol
-                                            // table
-        DaycareTile.expToGive.addStandardConstants();
-        DaycareTile.expToGive.addComplex(); // among other things adds i to the
-                                            // symbol
-        // table
-        DaycareTile.expToGive.addVariable("x", 0); // Exp
-        DaycareTile.expToGive.addVariable("l", 0); // Level
-        DaycareTile.expToGive.addVariable("n", 0); // total needed this level
-        DaycareTile.expToGive.parseExpression(exp);
+        pwrPerExp = new JEP();
+        initParser(pwrPerExp, pwr);
+        expToGive = new JEP();
+        initParser(expToGive, exp);
     }
 
     private ItemCap itemstore;

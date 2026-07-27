@@ -11,7 +11,7 @@ import thut.core.common.handlers.ConfigHandler;
 
 public class TerrainChecker
 {
-    private static class StructInfo
+    public static class StructInfo
     {
         public String struct;
         public String subbiome;
