@@ -51,6 +51,8 @@ import thut.core.common.ThutCore;
 import thut.lib.TComponent;
 import thut.wearables.inventory.PlayerWearables;
 
+import java.util.UUID;
+
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)
 public class Pokeplayer
 {
@@ -250,6 +252,7 @@ public class Pokeplayer
         if (!(event.realEntity instanceof Player player)) return;
         final Pose pose = event.realEntity.getPose();
         var entity = event.getEntity();
+        entity.getPersistentData().putUUID("copy_parent", player.getUUID());
         // Short mobs need to be able to walk properly in small spaces, so force
         // standing pose if not in water
         if (entity.getBbHeight() < 1 && pose == Pose.SWIMMING && !event.realEntity.isInWaterOrBubble())
