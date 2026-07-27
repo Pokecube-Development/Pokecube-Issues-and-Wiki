@@ -3,6 +3,7 @@ package thut.core.common.config;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.config.ModConfig;
@@ -28,6 +29,9 @@ import java.util.function.Supplier;
 
 public class Config
 {
+    public static Predicate<String> VALID_RESOURCE = s->ResourceLocation.tryParse(s)!=null;
+    public static Predicate<String> VALID_RESOURCE_OR_TAG = s->VALID_RESOURCE.test(s.startsWith("#")?s.substring(1):s);
+
     public static abstract class ConfigData
     {
         public final String MODID;

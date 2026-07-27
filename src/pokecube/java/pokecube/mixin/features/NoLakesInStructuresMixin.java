@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import pokecube.core.PokecubeCore;
 import pokecube.world.WorldgenTags;
 import pokecube.world.utils.GeneralUtils;
 
@@ -25,7 +26,7 @@ public class NoLakesInStructuresMixin
     private void pokecube$noLakesInStructures(FeaturePlaceContext<BlockStateConfiguration> context,
             CallbackInfoReturnable<Boolean> cir)
     {
-        if (!(context.level() instanceof WorldGenRegion worldGenRegion))
+        if (!(context.level() instanceof WorldGenRegion worldGenRegion)||!PokecubeCore.getConfig().lakeFeatureMixin)
         {
             return;
         }

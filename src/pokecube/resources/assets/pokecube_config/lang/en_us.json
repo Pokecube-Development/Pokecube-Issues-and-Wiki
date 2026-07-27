@@ -191,5 +191,14 @@
     "pokecube.config.groupArmor.tooltip": "Should iron armour icons be compressed down into diamond ones (5 iron -> 1 diamond).",
     "pokecube.config.hpTextHeight.tooltip": "Height of the text in the bar.",
     "pokecube.config.showOnlyFocused.tooltip": "Should it only show for the pokemob directly being looked at.",
-    "pokecube.config.enableDebugInfo.tooltip": "Is extra info shown when f3 is active."
+    "pokecube.config.enableDebugInfo.tooltip": "Is extra info shown when f3 is active.",
+
+    "pokecube.configuration.debug": "Debug Options",
+    "pokecube.configuration.nests": "Nests Options",
+    "pokecube.configuration.dynamax": "Dynamax Options",
+    "pokecube.configuration.moves": "Moves Options",
+    "pokecube.configuration.permissions": "Permissions Options",
+    "pokecube.configuration.section.pokecube.pokecube.common.toml": "Main Configuration Options",
+    "pokecube.configuration.section.pokecube.pokecube.client.toml": "Client Only Options",
+    "pokecube.configuration.section.pokecube.server.toml": "Server Synced Options"
 }

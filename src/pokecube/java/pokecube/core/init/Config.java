@@ -1,7 +1,6 @@
 package pokecube.core.init;
 
 import com.google.common.collect.Lists;
-import com.google.gson.JsonSyntaxException;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -35,7 +34,6 @@ import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.PokecubeSerializer;
 import thut.api.data.DataHelpers;
-import thut.api.entity.genetics.Gene;
 import thut.api.util.JsonUtil;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
@@ -45,6 +43,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 import static thut.core.common.config.Config.registerValidator;
+import static thut.core.common.config.Config.VALID_RESOURCE;
+import static thut.core.common.config.Config.VALID_RESOURCE_OR_TAG;
 
 public class Config extends ConfigData
 {
@@ -204,8 +204,30 @@ public class Config extends ConfigData
             }
             return ResourceLocation.tryParse(args[0])!=null;
         });
-        registerValidator("pokecube.spawning.softSpawnBiomeBlacklist",t->ResourceLocation.tryParse(t)!=null);
-        registerValidator("pokecube.spawning.deactivateWhitelist",t->ResourceLocation.tryParse(t)!=null);
+        registerValidator("pokecube.spawning.softSpawnBiomeBlacklist",VALID_RESOURCE_OR_TAG);
+
+        registerValidator("pokecube.spawning.spawnDimBlacklist",VALID_RESOURCE);
+        registerValidator("pokecube.spawning.spawnDimWhitelist",VALID_RESOURCE);
+
+        registerValidator("pokecube.spawning.deactivateWhitelist",VALID_RESOURCE);
+
+        registerValidator("pokecube.ai.blackListedFlyDims",VALID_RESOURCE);
+        registerValidator("pokecube.ai.aggroBlacklist",VALID_RESOURCE_OR_TAG);
+
+        List<String> VAR_KEYS = Lists.newArrayList("jc","rc","eggDpl","eggDpm");
+        registerValidator("pokecube.advanced.extraVars", t->{
+            var args = t.split(":");
+            if(args.length!=2) return false;
+            try
+            {
+                Double.parseDouble(args[1]);
+            }
+            catch (NumberFormatException e)
+            {
+                return false;
+            }
+            return VAR_KEYS.contains(args[0]);
+        });
     }
 
     private static final Config defaults = new Config();
@@ -548,12 +570,10 @@ public class Config extends ConfigData
     public int nestSpacing = 64;
 
     @Configure(category = Config.spawning, comment = "These determine what lvl pokemobs spawn based on location. If central is true, then the origin for the function is 0,0, otherwise it is world spawn. if radial is true, then the function takes the variable r, which is horizontal distance from the origin. Otherwise it takes x and y, which are the horizontal coordinates with respect to the origin.")
-    public List<String> dimensionSpawnLevels = Lists.newArrayList(new String[] {
-            //@formatter:off
+    public List<String> dimensionSpawnLevels = Lists.newArrayList(//@formatter:off
             "{\"dim\":\"the_nether\",\"func\":\"abs((25)*(sin(x*8*10^-3)^3 + sin(y*8*10^-3)^3))\",\"radial\":false,\"central\":false}",
             "{\"dim\":\"overworld\",\"func\":\"abs((25)*(sin(x*10^-3)^3 + sin(y*10^-3)^3))\",\"radial\":false,\"central\":false}",
-            "{\"dim\":\"the_end\",\"func\":\"1+r/200\",\"radial\":true,\"central\":true}"
-            });//@formatter:on
+            "{\"dim\":\"the_end\",\"func\":\"1+r/200\",\"radial\":true,\"central\":true}");//@formatter:on
 
     @Configure(category = Config.spawning, comment = "This is an additional function applied to spawn lvl's after dimensionSpawnLevels, here x is the level chosen by dimensionSpawnLevels, and the output is the actual spawn lvl. [Default: \"x + ceil(5*rand())\"]")
     public String spawnLevelVariance = "x + ceil(5*rand())";
@@ -590,15 +610,15 @@ public class Config extends ConfigData
     public String teleRef = "top_right";
 
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the tamed pokemob GUI based on the position of guiRef. [Default: [0, 0]]")
-    public List<Integer> guiSelectedPos = Lists.newArrayList(new Integer[] { 0, 0 });
+    public List<Integer> guiSelectedPos = Lists.newArrayList(0, 0);
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the teleport pokemob GUI based on the position of teleRef. [Default: [-150, 0]]")
-    public List<Integer> guiTeleportPos = Lists.newArrayList(new Integer[] { -150, 0 });
+    public List<Integer> guiTeleportPos = Lists.newArrayList(-150, 0);
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the target pokemob GUI based on the position of targetRef. [Default: [0, 0]]")
-    public List<Integer> guiTargetPos = Lists.newArrayList(new Integer[] { 0, 0 });
+    public List<Integer> guiTargetPos = Lists.newArrayList(0, 0);
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the pokemob message GUI based on the position of messageRef. [Default: [0, 0]]")
-    public List<Integer> guiMessagePos = Lists.newArrayList(new Integer[] { 0, 0 });
+    public List<Integer> guiMessagePos = Lists.newArrayList(0, 0);
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Padding of the pokemob message GUI based on the position of messageRef. [Default: [0, 0]]")
-    public List<Integer> messagePadding = Lists.newArrayList(new Integer[] { 0, 0 });
+    public List<Integer> messagePadding = Lists.newArrayList(0, 0);
 
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Scale of the GUI. [Default: 1.0]")
     public double guiSize = 1;

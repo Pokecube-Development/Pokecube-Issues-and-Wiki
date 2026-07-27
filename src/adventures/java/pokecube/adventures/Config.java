@@ -21,6 +21,7 @@ import thut.core.common.config.Configure;
 import thut.lib.RegHelper;
 
 import static thut.core.common.config.Config.registerValidator;
+import static thut.core.common.config.Config.VALID_RESOURCE;
 
 public class Config extends ConfigData
 {
@@ -34,7 +35,7 @@ public class Config extends ConfigData
 
     static
     {
-        registerValidator("pokecube_adventures.trainers.custom_trainers",t->ResourceLocation.tryParse(t)!=null);
+        registerValidator("pokecube_adventures.trainers.custom_trainers",VALID_RESOURCE);
         registerValidator("pokecube_adventures.trainers.trainer_defeat_reward",t->{
             try{ JsonUtil.gson.toJsonTree(t);}
             catch (Exception e){return false;}

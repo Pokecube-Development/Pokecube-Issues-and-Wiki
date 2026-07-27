@@ -24,8 +24,33 @@ import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
 import thut.lib.RegHelper;
 
+import static thut.core.common.config.Config.registerValidator;
+import static thut.core.common.config.Config.VALID_RESOURCE;
+
 public class Config extends ConfigData
 {
+    static
+    {
+        registerValidator("pokecube_legends.general.arceus_protected_structures",t->{
+            if(VALID_RESOURCE.test(t))return true;
+            if(t.contains("->")){
+                var args = t.split("->");
+                return VALID_RESOURCE.test(args[0]);
+            }
+            return false;
+        });
+        registerValidator("pokecube_legends.wormholes.wormhole_destination_weights",t->{
+            if(VALID_RESOURCE.test(t))return true;
+            if(t.contains("->")){
+                var args = t.split("->");
+                try{Float.valueOf(args[1]);}catch (Exception e){return false;}
+                return VALID_RESOURCE.test(args[0]);
+            }
+            return false;
+        });
+        registerValidator("pokecube_legends.wormholes.wormhole_destination_blacklist", VALID_RESOURCE);
+    }
+
     // Enable Condition Legendary
     @Configure(category = "general")
     public boolean enabledcondition = true;
@@ -37,8 +62,6 @@ public class Config extends ConfigData
     public boolean singleUseLegendSpawns = false;
     @Configure(category = "general", comment = "Delay in ticks for legends to respawn. [Default: 36000]")
     public int respawnLegendDelay = 36000;
-    @Configure(category = "general", comment = "Should ores generate. [Default: true]")
-    public boolean generateOres = true;
     @Configure(category = "general", comment = "Arceus will protect these structures.")
     public List<String> arceus_protected_structures = Lists.newArrayList();
 
