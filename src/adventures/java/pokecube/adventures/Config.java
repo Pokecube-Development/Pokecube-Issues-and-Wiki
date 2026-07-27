@@ -40,12 +40,32 @@ public class Config extends ConfigData
             catch (Exception e){return false;}
             return true;
         });
+        registerValidator("pokecube_adventures.machine.powerFunction",t->{
+            try{ return EnergyHandler.initParser(new JEP(), t);}
+            catch (Exception e){return false;}
+        });
+        registerValidator("pokecube_adventures.machine.clonerEfficiencyFunction",t->{
+            try{ return BaseGeneticsTile.initParser(new JEP(), t);}
+            catch (Exception e){return false;}
+        });
+        registerValidator("pokecube_adventures.machine.warpPadCostFunction",t->{
+            try{ return WarpPadTile.initParser(new JEP(), t);}
+            catch (Exception e){return false;}
+        });
         registerValidator("pokecube_adventures.machine.dayCarePowerPerExp",t->{
             try{ return DaycareTile.initParser(new JEP(), t);}
             catch (Exception e){return false;}
         });
         registerValidator("pokecube_adventures.machine.dayCareExpFunction",t->{
             try{ return DaycareTile.initParser(new JEP(), t);}
+            catch (Exception e){return false;}
+        });
+        registerValidator("pokecube_adventures.machine.afaCostFunction",t->{
+            try{ return AfaTile.initParser(new JEP(), t);}
+            catch (Exception e){return false;}
+        });
+        registerValidator("pokecube_adventures.machine.afaCostFunctionShiny",t->{
+            try{ return AfaTile.initParserS(new JEP(), t);}
             catch (Exception e){return false;}
         });
     }
@@ -142,7 +162,7 @@ public class Config extends ConfigData
     @Configure(category = Config.MACHINE, comment = "How much energy you get of a pokemob. [Default: a*x/10]\n"
             + " a is the max of spatk and atk.\n" + " x is the level of the pokemob.")
     public String powerFunction = "a*x/10";
-    
+
     @Configure(category = Config.MACHINE, comment = "How many ticks each statue fuel item lasts [Default: 600]")
     public int statueFuelDuration = 600;
 

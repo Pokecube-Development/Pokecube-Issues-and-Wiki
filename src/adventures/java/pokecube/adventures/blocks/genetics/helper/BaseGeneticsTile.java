@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandler;
 import org.nfunk.jep.JEP;
+import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInventory;
 import pokecube.adventures.blocks.genetics.helper.recipe.IPoweredProgress;
 import pokecube.adventures.blocks.genetics.helper.recipe.PoweredProcess;
@@ -26,22 +27,24 @@ import java.util.List;
 
 public abstract class BaseGeneticsTile extends InteractableTile implements IPoweredProgress, ITickTile, WorldlyContainer
 {
-
     public static JEP parser;
+
+    public static boolean initParser(JEP jep, String func)
+    {
+        jep.initFunTab(); // clear the contents of the function table
+        jep.addStandardFunctions();
+        jep.initSymTab(); // clear the contents of the symbol table
+        jep.addStandardConstants();
+        jep.addComplex(); // among other things adds i to the symbol table
+        jep.addVariable("x", 0);
+        jep.parseExpression(func);
+        return !jep.hasError();
+    }
 
     public static void initParser(final String function)
     {
-        BaseGeneticsTile.parser = new JEP();
-        BaseGeneticsTile.parser.initFunTab(); // clear the contents of the
-        // function table
-        BaseGeneticsTile.parser.addStandardFunctions();
-        BaseGeneticsTile.parser.initSymTab(); // clear the contents of the
-        // symbol table
-        BaseGeneticsTile.parser.addStandardConstants();
-        BaseGeneticsTile.parser.addComplex(); // among other things adds i to
-        // the symbol table
-        BaseGeneticsTile.parser.addVariable("x", 0);
-        BaseGeneticsTile.parser.parseExpression(function);
+        parser = new JEP();
+        initParser(parser, function);
     }
 
     private final NonNullList<ItemStack> inventory;

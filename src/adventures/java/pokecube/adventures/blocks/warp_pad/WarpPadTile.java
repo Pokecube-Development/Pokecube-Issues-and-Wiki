@@ -31,23 +31,25 @@ public class WarpPadTile extends InteractableTile implements IEnergyStorage
     public static List<ResourceKey<Level>> invalidSources = Lists.newArrayList();
     public static JEP parser;
 
+    public static boolean initParser(JEP jep, String func)
+    {
+        jep.initFunTab(); // clear the contents of the function table
+        jep.addStandardFunctions();
+        jep.initSymTab(); // clear the contents of the symbol table
+        jep.addStandardConstants();
+        jep.addComplex(); // among other things adds i to the symbol table
+        jep.addVariable("dw", 0);
+        jep.addVariable("dx", 0);
+        jep.addVariable("dy", 0);
+        jep.addVariable("dz", 0);
+        jep.parseExpression(func);
+        return !jep.hasError();
+    }
+
     public static void initParser(final String function)
     {
-        WarpPadTile.parser = new JEP();
-        WarpPadTile.parser.initFunTab(); // clear the contents of the function
-                                         // table
-        WarpPadTile.parser.addStandardFunctions();
-        WarpPadTile.parser.initSymTab(); // clear the contents of the symbol
-                                         // table
-        WarpPadTile.parser.addStandardConstants();
-        WarpPadTile.parser.addComplex(); // among other things adds i to the
-                                         // symbol
-        // table
-        WarpPadTile.parser.addVariable("dw", 0);
-        WarpPadTile.parser.addVariable("dx", 0);
-        WarpPadTile.parser.addVariable("dy", 0);
-        WarpPadTile.parser.addVariable("dz", 0);
-        WarpPadTile.parser.parseExpression(function);
+        parser = new JEP();
+        initParser(parser, function);
     }
 
     public static double MAXRANGE = 64;

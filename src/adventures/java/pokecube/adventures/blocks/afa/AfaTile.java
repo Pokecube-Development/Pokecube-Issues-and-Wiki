@@ -48,29 +48,37 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
     public static JEP parser;
     public static JEP parserS;
 
+    public static boolean initParser(JEP jep, String func)
+    {
+        jep.initFunTab(); // clear the contents of the function table
+        jep.addStandardFunctions();
+        jep.initSymTab(); // clear the contents of the symbol table
+        jep.addStandardConstants();
+        jep.addComplex(); // among other things adds i to the symbol table
+        jep.addVariable("d", 0);
+        jep.addVariable("l", 0);
+        jep.parseExpression(func);
+        return !jep.hasError();
+    }
+    public static boolean initParserS(JEP jep, String func)
+    {
+        jep.initFunTab(); // clear the contents of the function table
+        jep.addStandardFunctions();
+        jep.initSymTab(); // clear the contents of the symbol table
+        jep.addStandardConstants();
+        jep.addComplex(); // among other things adds i to the symbol table
+        jep.addVariable("d", 0);
+        jep.parseExpression(func);
+        return !jep.hasError();
+    }
+
     public static void initParser(final String function, final String functionS)
     {
-        AfaTile.parser = new JEP();
-        AfaTile.parser.initFunTab(); // clear the contents of the function table
-        AfaTile.parser.addStandardFunctions();
-        AfaTile.parser.initSymTab(); // clear the contents of the symbol table
-        AfaTile.parser.addStandardConstants();
-        AfaTile.parser.addComplex(); // among other things adds i to the symbol
-        // table
-        AfaTile.parser.addVariable("d", 0);
-        AfaTile.parser.addVariable("l", 0);
-        AfaTile.parser.parseExpression(function);
+        parser = new JEP();
+        initParser(parser, function);
 
-        AfaTile.parserS = new JEP();
-        AfaTile.parserS.initFunTab(); // clear the contents of the function
-        // table
-        AfaTile.parserS.addStandardFunctions();
-        AfaTile.parserS.initSymTab(); // clear the contents of the symbol table
-        AfaTile.parserS.addStandardConstants();
-        AfaTile.parserS.addComplex(); // among other things adds i to the symbol
-        // table
-        AfaTile.parserS.addVariable("d", 0);
-        AfaTile.parserS.parseExpression(functionS);
+        parserS = new JEP();
+        initParserS(parserS, functionS);
     }
 
     public final ContainerData syncValues = new ContainerData()

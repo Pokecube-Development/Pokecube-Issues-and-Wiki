@@ -74,21 +74,22 @@ public class EnergyHandler
         return EnergyHandler.getEnergyGain(level, spAtk, atk, entry);
     }
 
+    public static boolean initParser(JEP jep, String func)
+    {
+        jep.initFunTab(); // clear the contents of the function table
+        jep.addStandardFunctions();
+        jep.initSymTab(); // clear the contents of the symbol table
+        jep.addStandardConstants();
+        jep.addComplex(); // among other things adds i to the symbol table
+        jep.addVariable("x", 0);
+        jep.addVariable("a", 0);
+        jep.parseExpression(func);
+        return !jep.hasError();
+    }
     public static void initParser()
     {
-        EnergyHandler.parser = new JEP();
-        EnergyHandler.parser.initFunTab(); // clear the contents of the function
-        // table
-        EnergyHandler.parser.addStandardFunctions();
-        EnergyHandler.parser.initSymTab(); // clear the contents of the symbol
-        // table
-        EnergyHandler.parser.addStandardConstants();
-        EnergyHandler.parser.addComplex(); // among other things adds i to the
-        // symbol
-        // table
-        EnergyHandler.parser.addVariable("x", 0);
-        EnergyHandler.parser.addVariable("a", 0);
-        EnergyHandler.parser.parseExpression(PokecubeAdv.config.powerFunction);
+        parser = new JEP();
+        initParser(parser, PokecubeAdv.config.powerFunction);
     }
 
     public static int getOutput(final SiphonTile tile, int power, final boolean simulated, Map<UUID, Integer> energyMap)
