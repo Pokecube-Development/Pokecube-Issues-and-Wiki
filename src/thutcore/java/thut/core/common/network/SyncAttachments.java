@@ -158,7 +158,7 @@ public class SyncAttachments extends Packet
         var data = mob.getData(type);
         if (!(data instanceof INBTSerializable)) return;
         var tag = ((INBTSerializable) data).serializeNBT(mob.registryAccess());
-        if (!UNCHECKED_SYNC.contains(key))
+        if(!(data instanceof TrackedAttachment tracked && tracked.isDirty())&&!UNCHECKED_SYNC.contains(key))
         {
             @SuppressWarnings("unchecked")
             var test = DEFAULTS.computeIfAbsent(key, a -> {

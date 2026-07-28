@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -51,9 +52,7 @@ import thut.core.common.ThutCore;
 import thut.lib.TComponent;
 import thut.wearables.inventory.PlayerWearables;
 
-import java.util.UUID;
-
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)
+@EventBusSubscriber(modid = PokecubeCore.MODID)
 public class Pokeplayer
 {
     public static final DeferredBlock<Block> TRANSFORM_BLOCK;
@@ -103,8 +102,9 @@ public class Pokeplayer
                 () -> new BlockItem(TRANSFORM_BLOCK.get(), new Item.Properties()));
     }
 
-    public static int doPokeplayerCommand(String argument, Entity player) throws CommandSyntaxException
+    public static int doPokeplayerCommand(String argument, Entity entity)
     {
+        if(!(entity instanceof LivingEntity player)) return -1;
         try
         {
             var copy = ThutCaps.getCopyMob(player);
@@ -114,7 +114,7 @@ public class Pokeplayer
             if (argument.equalsIgnoreCase("none") || argument.equalsIgnoreCase("player"))
             {
                 player.sendSystemMessage(Component.literal("Reverted " + player.getName().getString() + " back into a player"));
-                copy.setCopiedMob(null); // Changes player back into a player
+                copy.setCopiedMob(player,null); // Changes player back into a player
                 // Reset the no gravity rules
                 player.setNoGravity(false);
                 return 0;
@@ -128,22 +128,19 @@ public class Pokeplayer
         }
     }
 
-    public static int transformPlayer(IPokemob pokemob, Entity player)
+    public static int transformPlayer(IPokemob pokemob, LivingEntity player)
     {
         var copy = ThutCaps.getCopyMob(player);
 
         if (pokemob == null) {
             player.sendSystemMessage(Component.literal("Reverted " + player.getName().getString() + " back into a player"));
-            copy.setCopiedMob(null); // Changes player back into a player
-            player.setNoGravity(false);
-            if (player instanceof Player localPlayer) localPlayer.getAttribute(NeoForgeMod.CREATIVE_FLIGHT).removeModifiers();
+            copy.setCopiedMob(player, null); // Changes player back into a player
             return 0;
         }
-        copy.setCopiedMob(pokemob.getEntity());
+        copy.setCopiedMob(player, pokemob.getEntity());
         player.sendSystemMessage(Component.literal("Transformed " + player.getName().getString() + " into " + pokemob.getDisplayName().getString()));
         return 0;
     }
-
 
     private static void onCommandRegister(final RegisterCommandsEvent event)
     {
@@ -213,24 +210,12 @@ public class Pokeplayer
         copy.setFullTick(true);
 
         // If we are copied, then just use the mob's step height.
-        if (copy != null && copy.getCopiedMob() != null)
+        if (copy.getCopiedMob() != null)
         {
             double dStep = copy.getCopiedMob().getAttribute(Attributes.STEP_HEIGHT).getValue() - event.getEntity()
                     .getAttribute(Attributes.STEP_HEIGHT).getValue();
             AttributeModifier mod = new AttributeModifier(STEP, dStep, AttributeModifier.Operation.ADD_VALUE);
             event.getEntity().getAttribute(Attributes.STEP_HEIGHT).addOrUpdateTransientModifier(mod);
-        }
-        else if (event.getEntity().getAttribute(Attributes.STEP_HEIGHT).hasModifier(STEP))
-        {
-            var player = event.getEntity();
-            // first reset the step height
-            player.getAttribute(Attributes.STEP_HEIGHT).removeModifier(STEP);
-            // Here we also reset the hitbox, eye pos, etc
-            player.setPose(Pose.STANDING);
-            player.setNoGravity(false); // Stop them floating if they were
-            player.refreshDimensions();// Ensure dimensions start to reset
-            // Make them sneak for a tick to ensure this applies
-            player.setShiftKeyDown(true);
         }
     }
 
@@ -240,6 +225,15 @@ public class Pokeplayer
         {
             ResourceLocation FLYID = ResourceLocation.parse("pokeplayer:fly_sync");
             player.getAttribute(NeoForgeMod.CREATIVE_FLIGHT).removeModifier(FLYID);
+
+            // first reset the step height
+            player.getAttribute(Attributes.STEP_HEIGHT).removeModifier(STEP);
+            // Here we also reset the hitbox, eye pos, etc
+            player.setPose(Pose.STANDING);
+            player.setNoGravity(false); // Stop them floating if they were
+            player.refreshDimensions();// Ensure dimensions start to reset
+            // Make them sneak for a tick to ensure this applies
+            player.setShiftKeyDown(true);
 
             IPokemob oldMob = PokemobCaps.getPokemobFor(event.oldCopy);
             if (oldMob != null) PokemobTracker.removePokemob(oldMob);

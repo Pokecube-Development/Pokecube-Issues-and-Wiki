@@ -349,22 +349,19 @@ public class SpeciesGene implements Gene<SpeciesInfo>
                 {
                     _pokemob = PokemobCaps.getPokemobFor(e);
                     if (_pokemob != null) _pokemob.setOwner(living);
-                    ThutCore.FORGE_BUS.post(new CopySetEvent(living, null, e));
+                    _copy.setCopiedMob(living, e);
+                    // mark entity id as something invalid for real mobs
                     e.setId(-(living.getId() + 100));
-                    _copy.setCopiedMob(e);
                     var genes = ThutCaps.getGenetics(e);
                     if (genes != null && e.getId() < 100) genes.markDirty();
-                    if (living instanceof Player) System.out.println("New Mob");
-                    _transformed = true;
+                    _transformed = _copy.getCopiedMob()!=null;//Event could have been canceled
                 }
             }
             if (this.info.getEntry() == null && mob != null && _transformed)
             {
-                ThutCore.FORGE_BUS.post(new CopySetEvent(living, mob, null));
-                _copy.setCopiedMob(null);
-                if (living instanceof Player) System.out.println("No Mob");
+                _copy.setCopiedMob(living,null);
                 entity.refreshDimensions();
-                _transformed = false;
+                _transformed = _copy.getCopiedMob()==null;//Event could have been cancelled
             }
         }
     }

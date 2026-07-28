@@ -25,6 +25,7 @@ import thut.api.ThutCaps;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.ICopyMob;
 import thut.api.entity.animation.CapabilityAnimation.DefaultImpl;
+import thut.api.entity.event.CopySetEvent;
 import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 
@@ -50,10 +51,10 @@ public class CopyMob
             return new CopyInfo(contents, this.tag);
         }
 
-        public static CopyInfo copyOf(LivingEntity mob)
+        public static CopyInfo copyOf(LivingEntity user, LivingEntity mob)
         {
             ICopyMob copy = new CopyMob.Impl();
-            copy.setCopiedMob(mob);
+            copy.setCopiedMob(user, mob);
             return new CopyInfo(copy, copy.serializeNBT(mob.registryAccess()));
         }
 
@@ -133,8 +134,14 @@ public class CopyMob
         }
 
         @Override
-        public void setCopiedMob(final LivingEntity mob)
+        public void setCopiedMob(LivingEntity user, LivingEntity mob)
         {
+            if(user != null)
+            {
+                var event = new CopySetEvent(user, this.copiedMob, mob);
+                ThutCore.FORGE_BUS.post(event);
+                if(event.isCanceled()) return;
+            }
             this.copiedMob = mob;
             if (mob != null)
             {
@@ -150,6 +157,7 @@ public class CopyMob
             else
             {
                 this.setCopiedID(null);
+                this.setCopiedNBT(null);
             }
             this.markDirty();
         }
@@ -157,7 +165,7 @@ public class CopyMob
         @Override
         public void setCopiedNBT(final CompoundTag tag)
         {
-            this.copiedNBT = tag;
+            this.copiedNBT = tag == null ? new CompoundTag():tag;
             this.markDirty();
         }
 

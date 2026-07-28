@@ -29,7 +29,17 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
 
     void setCopiedID(ResourceLocation id);
 
-    void setCopiedMob(LivingEntity mob);
+    /**
+     * Use for cases where event is not needed to cancel the set, or where the copy is not applied to a mob
+     */
+    default void setCopiedMob( LivingEntity mob){setCopiedMob(null, mob);};
+
+    /**
+     * Use for cases which may be cancelled via events listing for onCopySet
+     * @param user - who is transforming
+     * @param mob - who it is transformed to
+     */
+    void setCopiedMob(LivingEntity user, LivingEntity mob);
 
     void setCopiedNBT(CompoundTag tag);
 
@@ -43,15 +53,25 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
     @Override
     default void deserializeNBT(HolderLookup.Provider provider, final CompoundTag nbt)
     {
-        var oldId = this.getCopiedID();
-        var oldMob = this.getCopiedMob();
-        if (nbt.contains("id")) this.setCopiedID(ResourceLocation.parse(nbt.getString("id")));
-        else this.setCopiedID(null);
-        var tag = nbt.getCompound("tag");
-        this.setCopiedNBT(nbt.getCompound("tag"));
-        if (oldId != null && oldId.equals(this.getCopiedID()) && oldMob != null) oldMob.load(tag);
+        if (nbt.contains("id"))
+        {
+            this.setCopiedID(ResourceLocation.parse(nbt.getString("id")));
+            var tag = nbt.getCompound("tag");
+            this.setCopiedNBT(nbt.getCompound("tag"));
+            var oldId = this.getCopiedID();
+            var oldMob = this.getCopiedMob();
+            if (oldId != null && oldId.equals(this.getCopiedID()) && oldMob != null) oldMob.load(tag);
+        }
+        else
+        {
+            this.setCopiedID(null);
+            this.setCopiedMob(null);
+        }
     }
 
+    /**
+     * Called during world load for cases where we are not associated with an entity, such as statues
+     */
     default boolean recreateMob(Level level)
     {
         if (this.getCopiedMob() == null || this.getCopiedMob().level() != level)
@@ -89,29 +109,9 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
         {
             if (this.getCopiedMob() != null)
             {
-                if (holder != null)
-                {
-                    final LivingEntity mob = this.getCopiedMob();
-                    var event = new CopySetEvent(holder, mob, null);
-                    ThutCore.FORGE_BUS.post(event);
-                    if (event.isCanceled())
-                    {
-                        this.setCopiedID(RegHelper.getKey(this.getCopiedMob().getType()));
-                        this.setCopiedMob(mob);
-                        CompoundTag ret = new CompoundTag();
-                        String id = mob.getEncodeId();
-                        if (id != null)
-                        {
-                            ret.putString("id", id);
-                        }
-                        this.setCopiedNBT(mob.saveWithoutId(ret));
-                        return;
-                    }
-                }
-                this.setCopiedMob(null);
-                this.setCopiedNBT(new CompoundTag());
+                this.setCopiedMob(holder, getCopiedMob());
             }
-            return;
+            else return;
         }
         if (this.getCopiedMob() == null || !this.getCopiedID().equals(RegHelper.getKey(this.getCopiedMob().getType())))
         {
@@ -120,20 +120,7 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
             final Entity entity = EntityType.loadEntityRecursive(tag, level, e -> e);
             if (entity instanceof LivingEntity mob)
             {
-                var event = new CopySetEvent(holder, null, mob);
-                ThutCore.FORGE_BUS.post(event);
-                if (event.isCanceled())
-                {
-                    this.setCopiedID(null);
-                    this.setCopiedNBT(new CompoundTag());
-                    return;
-                }
-                this.setCopiedMob(mob);
-            }
-            else
-            {
-                this.setCopiedID(null);
-                this.setCopiedNBT(new CompoundTag());
+                this.setCopiedMob(holder, mob);
             }
         }
     }
