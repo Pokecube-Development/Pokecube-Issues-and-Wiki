@@ -827,8 +827,9 @@ public class PokemobEventsHandler
                 pokemob.getBossInfo().setProgress(living.getHealth() / living.getMaxHealth());
             // Reset death time if we are not dead.
             if (living.getHealth() > 0) living.deathTime = 0;
-            // Tick the logic stuff for this mob.
-            for (final Logic l : pokemob.getTickLogic()) if (l.shouldRun()) l.tick(living.level());
+            // Tick the logic stuff for this mob, this loop is most of the time spent in this function...
+//            for (final Logic l : pokemob.getTickLogic()) if (l.shouldRun()) l.tick(dim);
+            pokemob.getTickLogic().stream().filter(Logic::shouldRun).forEach(logic -> logic.tick(dim));
         }
     }
 
