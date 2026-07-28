@@ -267,10 +267,10 @@ public class Config extends ConfigData
     public boolean pvpExp = false;
     @Configure(category = Config.misc, comment = "Mobs marked as \"cloned\" will drop items on death. [Default: false]")
     public boolean clonesDrop = false;
-    @Configure(category = Config.misc, comment = "Add items to vanilla tabs. [Default: true]")
+    @Configure(category = Config.misc, comment = "Add items to vanilla tabs. [Default: true]", gameRestart = true)
     public boolean itemsInVanillaTabs = true;
 
-    @Configure(category = Config.misc, comment = "A list of custom sounds to register")
+    @Configure(category = Config.misc, comment = "A list of custom sounds to register", gameRestart = true)
     public List<String> customSounds = Lists.newArrayList();
 
     @Configure(category = Config.misc, comment = "A list of NBT tags to remove before saving the pokemob in its pokecube")
@@ -527,7 +527,7 @@ public class Config extends ConfigData
 
     @Configure(category = Config.world, comment = "Any structure not in structure_subbiomes will apply as ruins, unless something else sets it first (like the structure's spawn settings). [Default: true]")
     public boolean structs_default_ruins = true;
-    @Configure(category = Config.world, comment = "This is what the value in the structure data block will be replaced with to generate the professor.")
+    @Configure(category = Config.world, comment = "This is what the value in the structure data block will be replaced with to generate the professor.", worldRestart = true)
     public String professor_override = "pokecube:mob:spawn_professor";
 
     // Mob Spawning settings

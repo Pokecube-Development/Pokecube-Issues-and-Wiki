@@ -71,7 +71,7 @@ public class ConfigHandler extends ConfigData
     @Configure(category = ConfigHandler.BOOMS)
     public boolean generateCache = true;
 
-    @Configure(category = ConfigHandler.BIOMES)
+    @Configure(category = ConfigHandler.BIOMES, worldRestart = true)
     public boolean resetAllTerrain = false;
     @Configure(category = ConfigHandler.BIOMES)
     public List<String> customBiomeMappings = Lists.newArrayList();
@@ -85,7 +85,7 @@ public class ConfigHandler extends ConfigData
     public boolean autoBlacklistErroredTEs = true;
     @Configure(category = ConfigHandler.MISC)
     public boolean supress_warns = false;
-    @Configure(category = ConfigHandler.MISC, comment = "Add items to vanilla tabs. [Default: true]")
+    @Configure(category = ConfigHandler.MISC, comment = "Add items to vanilla tabs. [Default: true]", gameRestart = true)
     public boolean itemsInCreativeTabs = true;
 
     @Configure(category = ConfigHandler.CLIENT, comment = "Fancy style GUIs. Set to false for vanilla style GUIs. [Default: true]")

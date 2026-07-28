@@ -71,12 +71,12 @@ public class Config extends ConfigData
         });
     }
 
-    @Configure(category = Config.TRAINER, comment = "Anything that is an INPC will be made into a trainer. [Default: true]")
+    @Configure(category = Config.TRAINER, comment = "Anything that is an INPC will be made into a trainer. [Default: true]", worldRestart = true)
     public boolean npcsAreTrainers = true;
     @Configure(category = Config.TRAINER, comment = "Trainers can go in snag cubes. [Default: false]")
     public boolean canSnagTrainers = false;
     @Configure(category = Config.TRAINER, comment = "MobIDs listed here will be added as custom trainers if npcsAreTrainers is true.\n"
-            + "this is for mobs that are not INPCs, but should be.")
+            + "this is for mobs that are not INPCs, but should be.", worldRestart = true)
     public List<String> custom_trainers = Lists.newArrayList("player_mobs:player_mob");
 
     @Configure(category = Config.TRAINER, comment = "This is the time in ticks, in which a trainer will go on cooldown"

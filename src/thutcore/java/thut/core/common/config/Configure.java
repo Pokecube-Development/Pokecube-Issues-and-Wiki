@@ -17,5 +17,15 @@ public @interface Configure
 
     String comment() default "";
 
+    /**
+     * This requires the game application to reboot entirely
+     */
+    boolean gameRestart() default false;
+
+    /**
+     * This requires the world to be reloaded, ie exit and re-enter the world
+     */
+    boolean worldRestart() default false;
+
     ModConfig.Type type() default ModConfig.Type.COMMON;
 }

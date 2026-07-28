@@ -333,6 +333,8 @@ public class Config
                 }
                 if (!conf.comment().isEmpty()) Config.addComment(builder, conf.comment());
                 else Config.addComment(builder, "sets " + field.getName());
+                if(conf.gameRestart()) builder.gameRestart();
+                if(conf.worldRestart()) builder.worldRestart();
                 builder.translation(
                         ModLoadingContext.get().getActiveNamespace() + ".config." + field.getName() + ".tooltip");
                 final Object o = field.get(holder);
