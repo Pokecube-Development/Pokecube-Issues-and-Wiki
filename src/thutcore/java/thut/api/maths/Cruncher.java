@@ -21,7 +21,7 @@ public class Cruncher
     public static void init()
     {
         // already initialized!
-        if (Cruncher.useCache) return;
+        if (Cruncher.useCache||CACHEGEN.isAlive()) return;
         CACHEGEN.setDaemon(true);
         CACHEGEN.setName("cruncher_cache_generator");
         CACHEGEN.start();
