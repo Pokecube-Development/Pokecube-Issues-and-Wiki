@@ -350,6 +350,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         @Override
         public IPartTexturer getTexturer()
         {
+            if (this.wrapper == null) return null;
             if (this.wrapper.texChangeHolder.get() == null) this.setTexturer(new PokemobTexHelper(entry));
             return this.wrapper.texChangeHolder.get();
         }
