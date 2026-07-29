@@ -166,7 +166,7 @@ public class Pokeplayer
             var id = entity.getPersistentData().getUUID("copy_parent");
             var player = entity.level().getPlayerByUUID(id);
             var copy = ThutCaps.getCopyMob(player);
-            if (copy != null)
+            if (copy != null && copy.getCopiedMob() != null)
             {
                 copy.setCopiedMob(entity);
                 event.setCanceled(true);

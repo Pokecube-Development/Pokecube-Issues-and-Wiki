@@ -779,6 +779,9 @@
     "block.pokecube.pecha_wall_hanging_sign": "Pecha Wall Hanging Sign",
     "block.pokecube.sitrus_wall_hanging_sign": "Sitrus Wall Hanging Sign",
 
+    "block.pokecube.transform_block": "Transform Block",
+    "block.pokecube.transform_block.desc":"§7Transform into a Pokemob.",
+
     "item.pokecube.enigma_boat": "Enigma Boat",
     "item.pokecube.leppa_boat": "Leppa Boat",
     "item.pokecube.nanab_boat": "Nanab Boat",

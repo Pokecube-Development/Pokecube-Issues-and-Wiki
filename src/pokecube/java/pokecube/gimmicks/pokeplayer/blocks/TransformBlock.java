@@ -67,7 +67,7 @@ public class TransformBlock extends Block {
                                 TooltipFlag tooltipFlag)
     {
         tooltipComponents.clear();
-        tooltipComponents.add(TComponent.translatable("item.pokecube.transform_block"));
-        tooltipComponents.add(TComponent.translatable("item.pokecube.transform_block.desc"));
+        tooltipComponents.add(TComponent.translatable("block.pokecube.transform_block"));
+        tooltipComponents.add(TComponent.translatable("block.pokecube.transform_block.desc"));
     }
 }
