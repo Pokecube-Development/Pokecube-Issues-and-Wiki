@@ -141,6 +141,7 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
             living.onAddedToLevel();
             if (isFullTick())
             {
+                living.revive(); // Ensure the copy is marked as not removed
                 EventHooks.fireEntityTickPre(living);
                 living.tick();
                 EventHooks.fireEntityTickPost(living);
