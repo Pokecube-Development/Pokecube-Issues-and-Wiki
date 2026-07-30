@@ -3,6 +3,7 @@ package pokecube.gimmicks.pokeplayer;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
@@ -185,7 +186,7 @@ public class Pokeplayer
         if (copy != null && copy.getCopiedMob() != null)
         {
             var stack = evt.getItemStack();
-            if (stack.getItem() instanceof ItemPokedex && evt.getEntity().isShiftKeyDown())
+            if (stack.getItem() instanceof ItemPokedex && Screen.hasAltDown())
             {
                 stack.interactLivingEntity(evt.getEntity(), copy.getCopiedMob(), evt.getHand());
                 evt.setCanceled(true);
