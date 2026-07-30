@@ -3,7 +3,6 @@ package pokecube.gimmicks.pokeplayer;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
@@ -290,7 +289,6 @@ public class Pokeplayer
             Pokeplayer.updateFireResistance(player, pokemob);
 
             final ICopyMob copy = ThutCaps.getCopyMob(player);
-            if (copy == null || copy.getCopiedMob() == null) player.removeEffect(MobEffects.FIRE_RESISTANCE);
             if (copy instanceof TrackedAttachment tracked && !(player.level().isClientSide()))
             {
                 if (pokemob.isDirty()) tracked.markDirty();
