@@ -188,7 +188,7 @@ public class Pokeplayer
         if (copy != null && copy.getCopiedMob() != null)
         {
             var stack = evt.getItemStack();
-            if (stack.getItem() instanceof ItemPokedex && Screen.hasAltDown())
+            if (stack.getItem() instanceof ItemPokedex && evt.getEntity().isShiftKeyDown())
             {
                 stack.interactLivingEntity(evt.getEntity(), copy.getCopiedMob(), evt.getHand());
                 evt.setCanceled(true);
