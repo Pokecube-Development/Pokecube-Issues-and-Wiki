@@ -159,7 +159,7 @@ public class ItemPokedex extends Item
             return InteractionResult.SUCCESS;
         }
 
-        if (playerIn.isCrouching() && !worldIn.isClientSide)
+        if (playerIn.isCrouching() && !worldIn.isClientSide && context.getHand() != InteractionHand.OFF_HAND)
         {
             Component message = CommandTools.makeTranslatedMessage("pokedex.locationinfo1", "green",
                     Database.spawnables.size());

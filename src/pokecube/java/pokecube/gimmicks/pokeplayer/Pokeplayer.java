@@ -357,6 +357,6 @@ public class Pokeplayer
     private static void updateFireResistance(final Player player, final IPokemob pokemob)
     {
         if (pokemob == null) return;
-        if (pokemob.getPokedexEntry().isHeatProof || pokemob.isType(PokeType.getType("fire"))) player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE));
+        if (pokemob.getPokedexEntry().isHeatProof || pokemob.isType(PokeType.getType("fire"))) player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 60, 1, true, false));
     }
 }
