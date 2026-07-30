@@ -8,6 +8,8 @@ import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
@@ -284,6 +286,7 @@ public class Pokeplayer
             Pokeplayer.updateFloating(player, pokemob);
             Pokeplayer.updateFlying(player, pokemob);
             Pokeplayer.updateSwimming(player, pokemob);
+            Pokeplayer.updateFireResistance(player, pokemob);
 
             final ICopyMob copy = ThutCaps.getCopyMob(player);
             if (copy instanceof TrackedAttachment tracked && !(player.level().isClientSide()))
@@ -349,5 +352,11 @@ public class Pokeplayer
     {
         if (pokemob == null) return;
         if (pokemob.getPokedexEntry().swims() || pokemob.isType(PokeType.getType("water"))) player.setAirSupply(300);
+    }
+
+    private static void updateFireResistance(final Player player, final IPokemob pokemob)
+    {
+        if (pokemob == null) return;
+        if (pokemob.getPokedexEntry().isHeatProof || pokemob.isType(PokeType.getType("fire"))) player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE));
     }
 }
