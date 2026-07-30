@@ -120,7 +120,6 @@ public class Pokeplayer
                 copy.setCopiedMob(player,null); // Changes player back into a player
                 // Reset the no gravity rules
                 player.setNoGravity(false);
-                player.removeEffect(MobEffects.FIRE_RESISTANCE);
                 return 0;
             }
             return transformPlayer(PokemobCaps.getPokemobFor(PokecubeCore.createPokemob(Database.getEntry(argument), player.level())),player);
@@ -139,7 +138,6 @@ public class Pokeplayer
         if (pokemob == null) {
             player.sendSystemMessage(Component.literal("Reverted " + player.getName().getString() + " back into a player"));
             copy.setCopiedMob(player, null); // Changes player back into a player
-            player.removeEffect(MobEffects.FIRE_RESISTANCE);
             return 0;
         }
         copy.setCopiedMob(player, pokemob.getEntity());
@@ -361,6 +359,6 @@ public class Pokeplayer
     private static void updateFireResistance(final Player player, final IPokemob pokemob)
     {
         if (pokemob == null) return;
-        if (pokemob.getPokedexEntry().isHeatProof || pokemob.isType(PokeType.getType("fire"))) player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE));
+        if (pokemob.getPokedexEntry().isHeatProof || pokemob.isType(PokeType.getType("fire"))) player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 60, 1, true, false));
     }
 }
