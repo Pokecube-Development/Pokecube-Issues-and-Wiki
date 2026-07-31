@@ -39,7 +39,7 @@ public class WearableEventHandler
     static KeyMapping toggleGui;
     static KeyMapping[] keys = new KeyMapping[13];
 
-    @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = Reference.MODID, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = Reference.MODID, value = Dist.CLIENT)
     public static class RegistryEvents
     {
         @SuppressWarnings(

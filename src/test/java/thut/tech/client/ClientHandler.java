@@ -30,7 +30,7 @@ import thut.tech.client.render.ControllerRenderer;
 import thut.tech.client.render.RenderLift;
 import thut.tech.common.TechCore;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = Reference.MOD_ID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Reference.MOD_ID, value = Dist.CLIENT)
 public class ClientHandler
 {
     public static class BoundRenderer

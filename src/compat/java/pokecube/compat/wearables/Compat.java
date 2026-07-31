@@ -6,7 +6,7 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import pokecube.compat.wearables.sided.Common;
 import thut.wearables.ThutWearables;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = ThutWearables.MODID)
+@EventBusSubscriber(modid = ThutWearables.MODID)
 public class Compat
 {
     @SubscribeEvent

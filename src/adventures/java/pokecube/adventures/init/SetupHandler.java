@@ -22,7 +22,7 @@ import pokecube.compat.Compat;
 import thut.api.attachments.Ownable;
 import thut.core.common.ThutCore;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = PokecubeAdv.MODID)
+@EventBusSubscriber(modid = PokecubeAdv.MODID)
 public class SetupHandler
 {
     public static void registerListeners()

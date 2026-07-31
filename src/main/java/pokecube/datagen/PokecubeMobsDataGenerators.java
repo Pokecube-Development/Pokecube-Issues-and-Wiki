@@ -11,7 +11,7 @@ import pokecube.mobs.PokecubeMobs;
 
 import java.util.concurrent.CompletableFuture;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = PokecubeMobs.MODID)
+@EventBusSubscriber(modid = PokecubeMobs.MODID)
 public class PokecubeMobsDataGenerators
 {
     @SubscribeEvent

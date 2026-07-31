@@ -85,7 +85,7 @@ import pokecube.core.items.berries.BerryManager.BerryType;
 import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.items.megastuff.ItemMegawearable;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)
+@EventBusSubscriber(modid = PokecubeCore.MODID)
 public class ItemGenerator
 {
 

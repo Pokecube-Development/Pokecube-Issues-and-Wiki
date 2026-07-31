@@ -26,7 +26,7 @@ import thut.wearables.EnumWearable;
 import java.util.Map;
 import java.util.function.Predicate;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = PokecubeCore.MODID, value = Dist.CLIENT)
 public class Client
 {
     public static Map<String, WearablesRenderer> renderers = Maps.newHashMap();

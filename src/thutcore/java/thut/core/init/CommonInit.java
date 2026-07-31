@@ -18,7 +18,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.EventBusSubscriber.Bus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent.StartTracking;
@@ -40,13 +39,13 @@ import thut.core.common.world.mobs.data.SyncHandler;
 import thut.crafts.entity.EntityCraft;
 import thut.lib.TComponent;
 
-@EventBusSubscriber(bus = Bus.GAME)
+@EventBusSubscriber
 public class CommonInit
 {
     public static final String SET_SUBBIOME = "thutcore.subbiome.set";
     public static final String SET_STRUCTURE = "thutcore.structure.edit";
 
-    @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = ThutCore.MODID)
+    @EventBusSubscriber(modid = ThutCore.MODID)
     public static class RegistryEvents
     {
         @SubscribeEvent

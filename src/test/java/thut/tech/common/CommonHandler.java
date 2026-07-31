@@ -8,7 +8,7 @@ import thut.tech.Reference;
 import thut.tech.common.entity.LiftStickApplier;
 import thut.tech.common.network.PacketLift;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = Reference.MOD_ID)
+@EventBusSubscriber(modid = Reference.MOD_ID)
 public class CommonHandler
 {
     @SubscribeEvent

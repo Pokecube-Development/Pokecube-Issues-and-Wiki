@@ -98,7 +98,7 @@ public class PokecubeAdv
     // the
     // contained class (this is subscribing to the MOD
     // Event bus for receiving Registry Events)
-    @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = PokecubeAdv.MODID)
+    @EventBusSubscriber(modid = PokecubeAdv.MODID)
     public static class RegistryEvents
     {
         @SubscribeEvent

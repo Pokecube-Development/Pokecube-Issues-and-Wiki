@@ -23,7 +23,7 @@ import thut.wearables.ThutWearables;
 
 import java.util.function.Supplier;
 
-@EventBusSubscriber(modid = PokecubeCore.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = PokecubeCore.MODID)
 public class CoreCreativeTabs
 {
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB,

@@ -29,7 +29,7 @@ import thut.bling.client.render.Util;
 import thut.core.client.render.model.IModel;
 import thut.wearables.EnumWearable;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = ThutBling.MODID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = ThutBling.MODID, value = Dist.CLIENT)
 public class ClientSetupHandler
 {
     @SubscribeEvent

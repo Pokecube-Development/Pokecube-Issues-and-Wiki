@@ -140,7 +140,7 @@ public class Common
         if (mob != null && mob.getOwnerId() != null) event.setCanceled(true);
     }
 
-    @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)
+    @EventBusSubscriber(modid = PokecubeCore.MODID)
     public static class Regster
     {
         @SubscribeEvent

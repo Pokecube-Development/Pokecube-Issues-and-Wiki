@@ -10,7 +10,7 @@ import pokecube.core.PokecubeCore;
 import static pokecube.core.init.CoreCreativeTabs.BLOCKS_ITEMS_TAB;
 import static pokecube.core.init.CoreCreativeTabs.add;
 
-@EventBusSubscriber(modid = PokecubeCore.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = PokecubeCore.MODID)
 public class PokeplayerCreativeTabs
 {
 

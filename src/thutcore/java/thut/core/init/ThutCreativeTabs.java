@@ -14,7 +14,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NewRegistryEvent;
 import thut.core.common.ThutCore;
 
-@EventBusSubscriber(modid = ThutCore.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = ThutCore.MODID)
 public class ThutCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, ThutCore.MODID);
 

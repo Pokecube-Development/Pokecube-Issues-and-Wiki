@@ -8,7 +8,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.gimmicks.mega.MegaCapability.MegaStone;
 
-@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)
+@EventBusSubscriber(value = Dist.CLIENT, modid = PokecubeCore.MODID)
 public class ClientHandler
 {
     @SubscribeEvent

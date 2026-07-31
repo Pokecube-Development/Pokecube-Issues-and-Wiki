@@ -7,7 +7,7 @@ import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.core.database.Database;
 import pokecube.mobs.PokecubeMobs;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = PokecubeMobs.MODID)
+@EventBusSubscriber(modid = PokecubeMobs.MODID)
 public class SetupHandler
 {
     @SubscribeEvent

@@ -45,7 +45,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = Reference.ID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Reference.ID, value = Dist.CLIENT)
 public class ClientSetupHandler
 {
     @SubscribeEvent

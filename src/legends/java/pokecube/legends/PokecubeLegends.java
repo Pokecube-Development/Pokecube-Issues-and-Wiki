@@ -127,7 +127,7 @@ public class PokecubeLegends
     /** Packs Textures,Tags,etc... */
     public static ResourceLocation TOTEM_FUEL_TAG = ResourceLocation.fromNamespaceAndPath(Reference.ID, "totem_fuel");
 
-    @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = Reference.ID)
+    @EventBusSubscriber(modid = Reference.ID)
     public static class RegistryHandler
     {
         @SubscribeEvent

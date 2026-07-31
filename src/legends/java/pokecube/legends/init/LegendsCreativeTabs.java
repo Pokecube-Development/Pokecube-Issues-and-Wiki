@@ -23,7 +23,7 @@ import java.util.function.Supplier;
 
 import static pokecube.core.init.CoreCreativeTabs.*;
 
-@EventBusSubscriber(modid = Reference.ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = Reference.ID)
 public class LegendsCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Reference.ID);
 

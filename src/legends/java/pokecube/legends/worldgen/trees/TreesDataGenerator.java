@@ -14,7 +14,7 @@ import pokecube.legends.Reference;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
-@EventBusSubscriber(modid = Reference.ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = Reference.ID)
 public class TreesDataGenerator extends DatapackBuiltinEntriesProvider
 {
     public TreesDataGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> provider) {

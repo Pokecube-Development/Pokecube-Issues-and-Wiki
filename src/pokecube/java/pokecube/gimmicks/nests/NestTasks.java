@@ -18,7 +18,7 @@ import pokecube.gimmicks.nests.tasks.burrows.BurrowTasks;
 import thut.api.data.HolderProvider;
 import thut.api.item.ItemList;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)
+@EventBusSubscriber(modid = PokecubeCore.MODID)
 public class NestTasks
 {
     static

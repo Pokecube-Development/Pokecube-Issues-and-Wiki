@@ -30,7 +30,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.EventBusSubscriber.Bus;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.InputEvent.Key;
@@ -82,7 +81,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-@EventBusSubscriber(bus = Bus.MOD, modid = PokecubeCore.MODID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = PokecubeCore.MODID, value = Dist.CLIENT)
 public class EventsHandlerClient
 {
     public static HashMap<PokedexEntry, IPokemob> renderMobs = new HashMap<>();

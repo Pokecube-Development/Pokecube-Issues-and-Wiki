@@ -7,7 +7,7 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import pokecube.legends.Reference;
 import pokecube.legends.spawns.WormholeSpawns;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = Reference.ID)
+@EventBusSubscriber(modid = Reference.ID)
 public class SetupHandler
 {
     @SubscribeEvent

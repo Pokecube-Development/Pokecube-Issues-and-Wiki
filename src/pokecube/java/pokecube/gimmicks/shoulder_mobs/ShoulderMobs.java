@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)
+@EventBusSubscriber(modid = PokecubeCore.MODID)
 public class ShoulderMobs
 {
     public static final String ON_SHOULDER = "pokecube:on_shoulder";

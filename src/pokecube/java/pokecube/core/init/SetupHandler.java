@@ -21,7 +21,7 @@ import pokecube.nbtedit.NBTEdit;
 import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.level.terrain.TerrainSegment;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)
+@EventBusSubscriber(modid = PokecubeCore.MODID)
 public class SetupHandler
 {
     @SubscribeEvent

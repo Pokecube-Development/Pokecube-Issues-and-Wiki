@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = Reference.ID)
+@EventBusSubscriber(modid = Reference.ID)
 public class ConditionLoader extends ResourceData
 {
 

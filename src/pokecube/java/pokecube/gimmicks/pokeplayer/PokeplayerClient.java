@@ -13,7 +13,7 @@ import pokecube.core.client.gui.GuiDisplayPokecubeInfo;
 import pokecube.core.client.gui.components.OutMobInfo;
 import thut.api.ThutCaps;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = PokecubeCore.MODID, value = Dist.CLIENT)
 public class PokeplayerClient
 {
     public static class PokePlayerComponent extends OutMobInfo

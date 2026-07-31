@@ -27,7 +27,7 @@ import thut.bling.BlingItem;
 import thut.core.init.ThutCreativeTabs;
 import thut.wearables.ThutWearables;
 
-@EventBusSubscriber(modid = PokecubeAdv.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = PokecubeAdv.MODID)
 public class AdvCreativeTabs
 {
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB,

@@ -9,7 +9,7 @@ import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.Reference;
 
-@EventBusSubscriber(modid = Reference.ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = Reference.ID)
 public class ParticleInit
 {
     public static final Supplier<SimpleParticleType> AGED_LEAF;

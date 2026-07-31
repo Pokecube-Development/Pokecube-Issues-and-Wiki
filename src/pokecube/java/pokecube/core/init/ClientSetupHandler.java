@@ -73,7 +73,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = PokecubeCore.MODID, value = Dist.CLIENT)
 public class ClientSetupHandler
 {
     public static KeyMapping nextMob;

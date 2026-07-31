@@ -14,7 +14,7 @@ import pokecube.mobs.PokecubeMobs;
 import pokecube.mobs.client.smd.SMDModel;
 import thut.core.client.render.model.ModelFactory;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = PokecubeMobs.MODID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = PokecubeMobs.MODID, value = Dist.CLIENT)
 public class ClientSetupHandler
 {
     @SubscribeEvent

@@ -11,7 +11,7 @@ import pokecube.adventures.PokecubeAdv;
 
 import java.util.concurrent.CompletableFuture;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = PokecubeAdv.MODID)
+@EventBusSubscriber(modid = PokecubeAdv.MODID)
 public class PokecubeAdvDataGenerators
 {
     @SubscribeEvent

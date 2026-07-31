@@ -16,7 +16,7 @@ import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.core.common.ThutCore;
 import thut.core.common.network.TerrainUpdate;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber
 public class TerrainManager
 {
     public static final String EDIT_SUBBIOMES_PERM = "subbiome.can_edit";

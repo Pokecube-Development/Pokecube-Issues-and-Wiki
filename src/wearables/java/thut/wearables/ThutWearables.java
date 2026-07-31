@@ -58,7 +58,7 @@ import thut.wearables.network.PacketHandler;
 @Mod(ThutWearables.MODID)
 public class ThutWearables
 {
-    @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = ThutWearables.MODID, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = ThutWearables.MODID, value = Dist.CLIENT)
     public static class ClientProxy extends CommonProxy
     {
         @Override

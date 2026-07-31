@@ -35,7 +35,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber
 public class Ownable
 {
     public static interface IOwnableSerializable extends IOwnable, INBTSerializable<CompoundTag>

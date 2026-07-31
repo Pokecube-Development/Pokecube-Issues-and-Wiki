@@ -67,10 +67,10 @@ import thut.core.client.render.wrappers.ModelWrapper;
 import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
+@EventBusSubscriber(value = Dist.CLIENT)
 public class ClientInit
 {
-    @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = ThutCore.MODID, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = ThutCore.MODID, value = Dist.CLIENT)
     public static class ModInit
     {
         public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(BuiltInRegistries.MENU,

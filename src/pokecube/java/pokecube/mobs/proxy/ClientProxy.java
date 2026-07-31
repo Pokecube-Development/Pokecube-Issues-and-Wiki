@@ -25,7 +25,7 @@ import thut.bling.client.render.Hat;
 import thut.bling.client.render.Neck;
 import thut.wearables.EnumWearable;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = PokecubeMobs.MODID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = PokecubeMobs.MODID, value = Dist.CLIENT)
 public class ClientProxy
 {
     static

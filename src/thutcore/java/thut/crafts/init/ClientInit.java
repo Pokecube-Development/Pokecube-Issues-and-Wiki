@@ -22,7 +22,6 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.EventBusSubscriber.Bus;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
@@ -37,7 +36,7 @@ import thut.crafts.entity.CraftController;
 import thut.crafts.entity.EntityCraft;
 import thut.crafts.network.PacketCraftControl;
 
-@EventBusSubscriber(bus = Bus.GAME, value = Dist.CLIENT)
+@EventBusSubscriber(value = Dist.CLIENT)
 public class ClientInit
 {
     static KeyMapping UP;
@@ -45,7 +44,7 @@ public class ClientInit
     static KeyMapping ROTATERIGHT;
     static KeyMapping ROTATELEFT;
 
-    @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = Reference.MODID, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = Reference.MODID, value = Dist.CLIENT)
     public static class RegistryEvents
     {
         @SubscribeEvent
