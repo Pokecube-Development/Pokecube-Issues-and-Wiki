@@ -527,7 +527,8 @@ public class Config extends ConfigData
 
     @Configure(category = Config.world, comment = "Any structure not in structure_subbiomes will apply as ruins, unless something else sets it first (like the structure's spawn settings). [Default: true]")
     public boolean structs_default_ruins = true;
-    @Configure(category = Config.world, comment = "This is what the value in the structure data block will be replaced with to generate the professor.", worldRestart = true)
+//    @Configure(category = Config.world, comment = "This is what the value in the structure data block will be replaced with to generate the professor.", worldRestart = true)
+    // TODO Find why this breaks config reloading for comment in ModConfigSpec.correct
     public String professor_override = "pokecube:mob:spawn_professor";
 
     // Mob Spawning settings
