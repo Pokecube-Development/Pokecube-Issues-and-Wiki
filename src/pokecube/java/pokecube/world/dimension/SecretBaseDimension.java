@@ -33,7 +33,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.EventBusSubscriber.Bus;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.event.entity.EntityEvent;
@@ -312,7 +311,7 @@ public class SecretBaseDimension
 
     public static final double WORLDSIZE = 2 * 2999984;
 
-    @EventBusSubscriber(bus = Bus.MOD, modid = PokecubeCore.MODID)
+    @EventBusSubscriber(modid = PokecubeCore.MODID)
     public static class DimensionRegister
     {
         public static final DeferredRegister<MapCodec<? extends ChunkGenerator>> CHUNKGEN = DeferredRegister.create(

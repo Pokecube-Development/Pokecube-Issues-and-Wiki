@@ -10,7 +10,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.EventBusSubscriber.Bus;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import pokecube.adventures.PokecubeAdv;
@@ -29,7 +28,7 @@ import thut.lib.TComponent;
 
 import java.util.UUID;
 
-@EventBusSubscriber(bus = Bus.MOD, modid = PokecubeAdv.MODID)
+@EventBusSubscriber(modid = PokecubeAdv.MODID)
 public class BlockEventHandler
 {
     private record WarpPadStore(WarpPadTile tile) implements ILinkStorage

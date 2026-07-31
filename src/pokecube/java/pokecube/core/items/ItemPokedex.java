@@ -28,7 +28,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.EventBusSubscriber.Bus;
 import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
@@ -57,7 +56,7 @@ import thut.lib.TComponent;
 import java.util.Set;
 
 /** @author Manchou */
-@EventBusSubscriber(modid = PokecubeCore.MODID, bus = Bus.MOD)
+@EventBusSubscriber(modid = PokecubeCore.MODID)
 public class ItemPokedex extends Item
 {
     public final boolean watch;

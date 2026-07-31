@@ -4,7 +4,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.EventBusSubscriber.Bus;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.ICapabilityProvider;
@@ -20,7 +19,7 @@ import thut.api.attachments.Ownable.IOwnableSerializable;
 import thut.api.data.HolderProvider;
 import thut.api.inventory.InvHelper.ItemCap;
 
-@EventBusSubscriber(bus = Bus.MOD, modid = PokecubeAdv.MODID)
+@EventBusSubscriber(modid = PokecubeAdv.MODID)
 public class InventoryHandler
 {
     static class DaycareTileInventory implements ICapabilityProvider<DaycareTile, Direction, IItemHandler>

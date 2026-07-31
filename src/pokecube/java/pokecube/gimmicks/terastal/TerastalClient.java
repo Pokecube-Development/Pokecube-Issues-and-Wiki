@@ -6,7 +6,6 @@ import net.minecraft.util.FastColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.EventBusSubscriber.Bus;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import pokecube.api.events.PokecubeTooltipEvent;
 import pokecube.core.PokecubeCore;
@@ -17,7 +16,7 @@ import pokecube.core.utils.Resources;
 import pokecube.gimmicks.terastal.TeraTypeGene.TeraType;
 import thut.core.common.ThutCore;
 
-@EventBusSubscriber(bus = Bus.MOD, modid = PokecubeCore.MODID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = PokecubeCore.MODID, value = Dist.CLIENT)
 public class TerastalClient
 {
     private static final Int2ObjectArrayMap<StatusOverlay> TERA_TEX = new Int2ObjectArrayMap<>();

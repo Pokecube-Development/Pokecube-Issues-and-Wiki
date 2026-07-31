@@ -1,18 +1,15 @@
 package pokecube.gimmicks.mega;
 
 import net.minecraft.core.component.DataComponentType;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.EventBusSubscriber.Bus;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -23,21 +20,16 @@ import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler;
 import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler.IChangeHandler;
 import pokecube.api.events.pokemobs.ChangeForm;
 import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.inventory.pc.PCContainer;
-import pokecube.core.items.ItemTM;
 import pokecube.core.items.megastuff.ItemMegawearable;
 import pokecube.gimmicks.mega.MegaCapability.MegaStone;
 import pokecube.gimmicks.mega.MegaCapability.MegaWearable;
 import thut.api.Tracker;
-import thut.api.item.ItemList;
 import thut.lib.TComponent;
 import thut.wearables.ThutWearables;
 import thut.wearables.inventory.PlayerWearables;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.function.Supplier;
 
 /**
@@ -46,7 +38,7 @@ import java.util.function.Supplier;
  * - Registers a handler for commands to mega-evolve<br> - Ensures that pokemobs are able to mega-evolve<br> - Ensures
  * that they un-mega-evolve when recalled<br>
  */
-@EventBusSubscriber(bus = Bus.MOD, modid = PokecubeCore.MODID)
+@EventBusSubscriber(modid = PokecubeCore.MODID)
 public class MegaEvolveHelper
 {
 

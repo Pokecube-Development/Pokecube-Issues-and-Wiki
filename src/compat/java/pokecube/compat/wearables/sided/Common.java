@@ -26,7 +26,7 @@ import thut.wearables.ThutWearables;
 import thut.wearables.events.WearableDroppedEvent;
 import thut.wearables.impl.WearableData;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber
 public class Common
 {
     public static class WearableMega implements IActiveWearable

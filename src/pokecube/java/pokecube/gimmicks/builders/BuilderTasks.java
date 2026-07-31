@@ -6,10 +6,8 @@ import java.util.List;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.EventBusSubscriber.Bus;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.events.pokemobs.InitAIEvent;
 import pokecube.api.events.pokemobs.InitAIEvent.Init.Type;
@@ -22,7 +20,7 @@ import pokecube.gimmicks.builders.tasks.ManageBuild;
  * in their offhand slot
  *
  */
-@EventBusSubscriber(bus = Bus.MOD, modid = PokecubeCore.MODID)
+@EventBusSubscriber(modid = PokecubeCore.MODID)
 public class BuilderTasks
 {
     public static AIRoutine BUILD = new AIRoutine("BUILD", true, e -> true);

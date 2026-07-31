@@ -11,7 +11,6 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.EventBusSubscriber.Bus;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.ICanEvolve;
@@ -49,7 +48,7 @@ import javax.annotation.Nullable;
  * required code for attaching the genes, managing the types, etc. This is all arranged via calling
  * {@link TerastalMechanic#init(FMLLoadCompleteEvent)}, and via the EventBusSubscriber
  */
-@EventBusSubscriber(bus = Bus.MOD, modid = PokecubeCore.MODID)
+@EventBusSubscriber(modid = PokecubeCore.MODID)
 public class TerastalMechanic
 {
 
