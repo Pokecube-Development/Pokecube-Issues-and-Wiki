@@ -103,6 +103,8 @@ public class ClientSetupHandler
     public static KeyMapping nextAlly;
     public static KeyMapping previousAlly;
 
+    public static KeyMapping yieldBattle;
+
     static
     {
         int unk = InputConstants.UNKNOWN.getValue();
@@ -159,6 +161,9 @@ public class ClientSetupHandler
                 GLFW.GLFW_KEY_RIGHT, "key.categories.pokecube");
         previousAlly = new KeyMapping("key.pokemob.ally.prev", KeyConflictContext.IN_GAME, KeyModifier.ALT, Type.KEYSYM,
                 GLFW.GLFW_KEY_LEFT, "key.categories.pokecube");
+
+        yieldBattle = new KeyMapping("key.pokemob.yield", KeyConflictContext.IN_GAME, KeyModifier.ALT, Type.KEYSYM,
+                GLFW.GLFW_KEY_Y, "key.categories.pokecube");
     }
 
     @SubscribeEvent
@@ -226,6 +231,8 @@ public class ClientSetupHandler
         registerKey(ClientSetupHandler.previousTarget, event);
         registerKey(ClientSetupHandler.nextAlly, event);
         registerKey(ClientSetupHandler.previousAlly, event);
+
+        registerKey(ClientSetupHandler.yieldBattle, event);
 
         ClientProxy.NBTEditKey = new KeyMapping("key.nbt.edit", InputConstants.UNKNOWN.getValue(),
                 "key.categories.pokecube");

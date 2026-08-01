@@ -5,10 +5,14 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.events.combat.ExitBattleEvent;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
+import thut.core.common.ThutCore;
 import thut.core.common.network.Packet;
 
 public class PacketBattleTargets extends Packet
@@ -27,8 +31,15 @@ public class PacketBattleTargets extends Packet
         PokecubeCore.packets.sendToServer(new PacketBattleTargets(pokemob.getEntity().getId(), TYPE_ENEMY, index));
     }
 
+    public static void yieldBattle(IPokemob pokemob)
+    {
+        int index = pokemob.getMoveStats().enemyIndex;
+        PokecubeCore.packets.sendToServer(new PacketBattleTargets(pokemob.getEntity().getId(), TYPE_YIELD, index));
+    }
+
     private static final byte TYPE_ALLY = 1;
     private static final byte TYPE_ENEMY = 2;
+    private static final byte TYPE_YIELD = 3;
 
     public int entityId;
     public byte type;
@@ -54,8 +65,8 @@ public class PacketBattleTargets extends Packet
     @Override
     public void handleServer(final ServerPlayer player)
     {
-        final int id = this.entityId;
-        final Entity e = PokecubeAPI.getEntityProvider().getEntity(player.level(), id, true);
+        int id = this.entityId;
+        Entity e = PokecubeAPI.getEntityProvider().getEntity(player.level(), id, true);
         final IPokemob pokemob = PokemobCaps.getPokemobFor(e);
         if (pokemob == null || player != pokemob.getOwner()) return;
         switch (type)
@@ -67,6 +78,25 @@ public class PacketBattleTargets extends Packet
             break;
         case TYPE_ENEMY:
             pokemob.getMoveStats().enemyIndex = order;
+            break;
+        case TYPE_YIELD:
+            // Attempt to remove the target from the battle
+            var battle = pokemob.getBattle();
+            if(battle!=null)
+            {
+                id = pokemob.getTargetID();
+                e = PokecubeAPI.getEntity(e.level(), id);
+                if(e instanceof LivingEntity living)
+                {
+                    ExitBattleEvent event = new ExitBattleEvent(pokemob.getEntity(), living, battle);
+                    ThutCore.FORGE_BUS.post(event);
+                    if(!event.isCanceled())
+                    {
+                        BrainUtils.clearAttackTarget(pokemob.getEntity());
+                        battle.removeFromBattle(living);
+                    }
+                }
+            }
             break;
         default:
             return;

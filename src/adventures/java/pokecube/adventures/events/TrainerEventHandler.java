@@ -67,6 +67,7 @@ import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.entity.trainers.actions.ActionContext;
 import pokecube.api.entity.trainers.actions.MessageState;
 import pokecube.api.events.PCEvent;
+import pokecube.api.events.combat.ExitBattleEvent;
 import pokecube.api.events.combat.JoinBattleEvent;
 import pokecube.api.events.npcs.NpcBreedEvent;
 import pokecube.api.events.npcs.NpcEvent;
@@ -317,6 +318,13 @@ public class TrainerEventHandler
         final IHasNPCAIStates holderB = TrainerCaps.getNPCAIStates(event.mobB);
         if (holderA != null && holderA.getAIState(AIState.PERMFRIENDLY)) event.setCanceled(true);
         if (holderB != null && holderB.getAIState(AIState.PERMFRIENDLY)) event.setCanceled(true);
+    }
+
+    public static void onBattleExit(ExitBattleEvent event)
+    {
+        if(event.isCanceled()) return;
+        IHasPokemobs trainer = TrainerCaps.getHasPokemobs(event.mob);
+        if(trainer!=null) trainer.onSetTarget(null, true);
     }
 
     public static void initTrainer(final LivingEntity mob, final MobSpawnType reason)

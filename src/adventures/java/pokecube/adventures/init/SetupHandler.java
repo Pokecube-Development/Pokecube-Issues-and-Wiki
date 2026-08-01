@@ -56,6 +56,8 @@ public class SetupHandler
         // Manages npcs joining battles, such as preventing always friendly ones
         // from doing so.
         ThutCore.FORGE_BUS.addListener(TrainerEventHandler::onBattleJoin);
+        // Remove combat target if we have been removed from a battle
+        ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, TrainerEventHandler::onBattleExit);
         // Prevent trainer's pokemobs going to the PC
         PokecubeAPI.POKEMOB_BUS.addListener(TrainerEventHandler::onSentToPC);
         // Prevents normal processing for recalling pokemobs, this re-adds it to

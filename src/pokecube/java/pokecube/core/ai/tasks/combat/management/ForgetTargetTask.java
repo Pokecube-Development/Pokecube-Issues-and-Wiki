@@ -318,7 +318,7 @@ public class ForgetTargetTask extends CombatTask
                 {
                     PokecubeAPI.LOGGER.log(Level.WARN, "Error with message for " + target, e);
                 }
-                deAgro = true;
+                deAgro = exitBattle = true;
                 if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Too far from target.");
                 break agroCheck;
             }

@@ -353,6 +353,7 @@ public class EventsHandlerClient
             if (ClientSetupHandler.nextAlly.consumeClick()) PacketBattleTargets.cycleAlly(current, false);
             if (ClientSetupHandler.previousTarget.consumeClick()) PacketBattleTargets.cycleEnemy(current, true);
             if (ClientSetupHandler.nextTarget.consumeClick()) PacketBattleTargets.cycleEnemy(current, false);
+            if (ClientSetupHandler.yieldBattle.consumeClick()) PacketBattleTargets.yieldBattle(current);
 
             if (ClientSetupHandler.gzmove.consumeClick())
             {
