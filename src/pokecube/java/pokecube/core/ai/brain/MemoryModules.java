@@ -7,6 +7,7 @@ import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.behavior.PositionTracker;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.NearestVisibleLivingEntities;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import pokecube.core.PokecubeCore;
@@ -33,6 +34,7 @@ public class MemoryModules extends MemoryModuleTypes
     public static final Supplier<MemoryModuleType<PositionTracker>> LEAP_TARGET;
     public static final Supplier<MemoryModuleType<LivingEntity>> HUNTED_BY;
     public static final Supplier<MemoryModuleType<Vector3>> COMBAT_CENTRE;
+    public static final Supplier<MemoryModuleType<NearestVisibleLivingEntities>> POSSIBLE_TARGETS;
 
     public static final Supplier<MemoryModuleType<Integer>> TIMER_SWAPMOVE;
     public static final Supplier<MemoryModuleType<Integer>> TIMER_SWAPTARGET;
@@ -130,6 +132,7 @@ public class MemoryModules extends MemoryModuleTypes
         POSSIBLE_MATES = PokecubeCore.MEMORIES.register("mate_options", () -> new MemoryModuleType<>(Optional.empty()));
 
         HERD_MEMBERS = PokecubeCore.MEMORIES.register("herd_members", () -> new MemoryModuleType<>(Optional.empty()));
+        POSSIBLE_TARGETS = PokecubeCore.MEMORIES.register("combat_options", () -> new MemoryModuleType<>(Optional.empty()));
 
         DUMMY = PokecubeCore.MEMORIES.register("dummy", () -> new MemoryModuleType<>(Optional.empty()));
 

@@ -87,7 +87,7 @@ public class Tasks
         battle_list.add(Pair.of(1, MANAGE_POKEMOB_TARGETS.get()));
 
         brain.addActivityWithConditions(Activities.BATTLE.get(), ImmutableList.copyOf(battle_list),
-                ImmutableSet.of(Pair.of(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryStatus.VALUE_PRESENT)));
+                ImmutableSet.of(Pair.of(MemoryModules.POSSIBLE_TARGETS.get(), MemoryStatus.VALUE_PRESENT)));
 
         brain.getActiveActivities().forEach(a -> BrainUtil.addToActivity(brain, a, other_list));
     }

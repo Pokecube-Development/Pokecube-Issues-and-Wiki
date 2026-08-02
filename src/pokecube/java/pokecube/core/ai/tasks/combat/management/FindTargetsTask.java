@@ -56,7 +56,7 @@ public class FindTargetsTask extends PokemobBehaviour implements IAICombat, ITar
         MEMS.put(MemoryModules.TARGETOWNER.get(), MemoryStatus.REGISTERED);
         MEMS.put(MemoryModules.ATTACKTARGET.get(), MemoryStatus.REGISTERED);
         MEMS.put(MemoryModules.TRACKEDTARGET.get(), MemoryStatus.REGISTERED);
-        MEMS.put(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryStatus.VALUE_PRESENT);
+        MEMS.put(MemoryModules.POSSIBLE_TARGETS.get(), MemoryStatus.VALUE_PRESENT);
     }
 
     public static boolean handleDamagedTargets = true;
@@ -104,7 +104,7 @@ public class FindTargetsTask extends PokemobBehaviour implements IAICombat, ITar
 
     public static void onMobTick(final LivingEntity living)
     {
-        if (!FindTargetsTask.handleDamagedTargets) return;
+        if (!FindTargetsTask.handleDamagedTargets||true) return;
         // Only run this every 20 ticks
         if (living.tickCount % 20 != 0) return;
         LivingEntity target = BrainUtils.getAttackTarget(living);
@@ -227,9 +227,8 @@ public class FindTargetsTask extends PokemobBehaviour implements IAICombat, ITar
         else centre.set(pokemob.getOwner());
 
         // Only allow valid guard targets.
-        final Optional<LivingEntity> pokemobs = entity.getBrain()
-                .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findClosest(
-                        e -> this.validGuardTarget.apply(entity, e)
+        final Optional<LivingEntity> pokemobs = entity.getBrain().getMemory(MemoryModules.POSSIBLE_TARGETS.get()).get()
+                .findClosest(e -> this.validGuardTarget.apply(entity, e)
                                 && e.distanceTo(entity) <= PokecubeCore.getConfig().guardSearchDistance);
         if (pokemobs.isEmpty()) return false;
 
@@ -267,7 +266,7 @@ public class FindTargetsTask extends PokemobBehaviour implements IAICombat, ITar
         if (rate <= 0 || entity.tickCount % rate != 0) return false;
 
         final Iterable<LivingEntity> pokemobs = entity.getBrain()
-                .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findAll(
+                .getMemory(MemoryModules.POSSIBLE_TARGETS.get()).get().findAll(
                         e -> AITools.validAgroTarget.test(e)
                                 && e.distanceTo(entity) <= PokecubeCore.getConfig().guardSearchDistance);
         if (!pokemobs.iterator().hasNext()) return false;
@@ -434,7 +433,7 @@ public class FindTargetsTask extends PokemobBehaviour implements IAICombat, ITar
     {
         var pokemob = PokemobCaps.getPokemobFor(entity);
         if (!pokemob.isRoutineEnabled(AIRoutine.AGRESSIVE)) return false;
-        if (!entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES)) return false;
+        if (!entity.getBrain().hasMemoryValue(MemoryModules.POSSIBLE_TARGETS.get())) return false;
         if (BrainUtils.hasAttackTarget(entity))
         {
             var brain = entity.getBrain();

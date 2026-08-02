@@ -58,6 +58,8 @@ public class SetupHandler
         ThutCore.FORGE_BUS.addListener(TrainerEventHandler::onBattleJoin);
         // Remove combat target if we have been removed from a battle
         ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, TrainerEventHandler::onBattleExit);
+        // Remove combat target if target is npc, and npcs are not allowed to be agressed
+        ThutCore.FORGE_BUS.addListener(TrainerEventHandler::onAgroTest);
         // Prevent trainer's pokemobs going to the PC
         PokecubeAPI.POKEMOB_BUS.addListener(TrainerEventHandler::onSentToPC);
         // Prevents normal processing for recalling pokemobs, this re-adds it to

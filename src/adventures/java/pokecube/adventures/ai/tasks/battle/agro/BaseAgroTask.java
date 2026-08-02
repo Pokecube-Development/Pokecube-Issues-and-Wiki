@@ -16,6 +16,7 @@ import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.adventures.ai.tasks.BaseTask;
 import pokecube.api.entity.TeamManager;
 import pokecube.api.entity.trainers.IHasPokemobs.ITargetWatcher;
+import pokecube.core.ai.brain.MemoryModules;
 import thut.api.ThutCaps;
 import thut.api.attachments.IOwnable;
 
@@ -29,6 +30,7 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
     static
     {
         BaseAgroTask.MEMS.put(MemoryTypes.BATTLETARGET.get(), MemoryStatus.VALUE_ABSENT);
+        BaseAgroTask.MEMS.put(MemoryModules.POSSIBLE_TARGETS.get(), MemoryStatus.VALUE_PRESENT);
     }
 
     private int timer = 0;
@@ -73,7 +75,7 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
         if (trainer.getCooldown() > gameTimeIn) return;
         if (worldIn.getRandom().nextDouble() > this.chance) return;
         final NearestVisibleLivingEntities mobs = entityIn.getBrain()
-                .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get();
+                .getMemory(MemoryModules.POSSIBLE_TARGETS.get()).get();
 
         // Count tame mobs as their owners, rather than seperately mobs
         final Predicate<LivingEntity> tameChecker = mob -> {
@@ -132,7 +134,8 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
         final Brain<?> brain = owner.getBrain();
         if (brain.hasMemoryValue(MemoryTypes.BATTLETARGET.get())) return false;
         if (owner.tickCount % PokecubeAdv.config.trainerAgroRate != 0) return false;
-        return owner.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES);
+//        return owner.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES);
+        return true;
     }
 
     @Override
