@@ -95,7 +95,7 @@ public class ConfigHandler extends ConfigData
     public boolean asyncModelLoads = true;
 
     @Configure(category = ConfigHandler.CLIENT)
-    public double modelCullThreshold = 1e-1;
+    public double modelCullThreshold = 1e-2;
 
     @Configure(category = ConfigHandler.DEBUG)
     public boolean debug = false;

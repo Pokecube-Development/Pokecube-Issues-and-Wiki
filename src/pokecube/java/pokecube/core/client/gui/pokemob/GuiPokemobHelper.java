@@ -13,7 +13,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
-import org.joml.Matrix3f;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -24,7 +23,6 @@ import pokecube.core.database.Database;
 import pokecube.core.entity.genetics.genes.SizeGene;
 import thut.api.ThutCaps;
 import thut.api.util.JsonUtil;
-import thut.core.common.ThutCore;
 import thut.lib.ResourceHelper;
 
 import java.io.BufferedReader;
@@ -118,9 +116,7 @@ public class GuiPokemobHelper
         var quaternion = Axis.ZP.rotationDegrees(180.0F);
         var quaternion1 = Axis.YP.rotationDegrees(180 - yaw);
 
-        Matrix3f norms = new Matrix3f(mat.last().normal());
         mat.scale(1, 1, -1);
-        mat.last().normal().set(norms);
 
         quaternion.mul(quaternion1);
         quaternion.mul(Axis.XP.rotationDegrees(pitch));
@@ -133,9 +129,6 @@ public class GuiPokemobHelper
         final MultiBufferSource.BufferSource irendertypebuffer$impl = Minecraft.getInstance().renderBuffers()
                 .bufferSource();
         RenderMobOverlays.enabled = false;
-        // Disable the face culling that occurs if too far away
-        double bak = ThutCore.getConfig().modelCullThreshold;
-        ThutCore.getConfig().modelCullThreshold = -1;
         // If it is an ICopyMob, the entity id is negative, so we want to not do a gui render in that case.
         if (pokemob != null && !pokemob.getEntity().isAddedToLevel() && pokemob.getEntity().getId() >= 0)
         {
@@ -145,8 +138,6 @@ public class GuiPokemobHelper
         }
         entityrenderermanager.render(entity, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks, mat, irendertypebuffer$impl,
                 LightTexture.FULL_BRIGHT);
-        // Re-enable the face culling that occurs if too far away
-        ThutCore.getConfig().modelCullThreshold = bak;
         RenderMobOverlays.enabled = true;
         irendertypebuffer$impl.endBatch();
         entityrenderermanager.setRenderShadow(true);
