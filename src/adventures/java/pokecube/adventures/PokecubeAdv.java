@@ -317,7 +317,7 @@ public class PokecubeAdv
                 PokecubeAdv.MODID);
 
         // Register event handlers
-        SetupHandler.registerListeners();
+        SetupHandler.registerListeners(modEventBus);
 
         Professions.init();
         EntityTypes.init();

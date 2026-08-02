@@ -31,6 +31,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
+import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.entity.EntityEvent;
 import net.neoforged.neoforge.event.entity.EntityInvulnerabilityCheckEvent;
@@ -501,7 +502,7 @@ public class TrainerEventHandler
         }
     }
 
-    public static void onPostServerStart(final ServerAboutToStartEvent event)
+    public static void loadTrades(final FMLLoadCompleteEvent event)
     {
         DBLoader.load();
         TypeTrainer.postInitTrainers();

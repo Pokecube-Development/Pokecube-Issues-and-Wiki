@@ -1,6 +1,7 @@
 package pokecube.adventures.init;
 
 import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -25,7 +26,7 @@ import thut.core.common.ThutCore;
 @EventBusSubscriber(modid = PokecubeAdv.MODID)
 public class SetupHandler
 {
-    public static void registerListeners()
+    public static void registerListeners(IEventBus modEventBus)
     {
         // These two interact ones handle right click custom effects on npcs
         ThutCore.FORGE_BUS.addListener(TrainerEventHandler::processInteract);
@@ -52,7 +53,7 @@ public class SetupHandler
         // This initializes the mob's brain for use.
         ThutCore.FORGE_BUS.addListener(EventPriority.LOW, TrainerEventHandler::onBrainInit);
         // Loads the trades for the trainers.
-        ThutCore.FORGE_BUS.addListener(EventPriority.HIGH, TrainerEventHandler::onPostServerStart);
+        modEventBus.addListener(EventPriority.HIGH, TrainerEventHandler::loadTrades);
         // Manages npcs joining battles, such as preventing always friendly ones
         // from doing so.
         ThutCore.FORGE_BUS.addListener(TrainerEventHandler::onBattleJoin);

@@ -1,5 +1,6 @@
 package pokecube.adventures.ai.poi;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -60,7 +61,7 @@ public class Professions
         {
             override.forEach((i, arr) -> {
                 List<ItemListing> trades = event.getTrades().get(i.intValue());
-                for (ItemListing l : arr) trades.add(l);
+                trades.addAll(Arrays.asList(arr));
             });
         }
     }
@@ -71,8 +72,7 @@ public class Professions
     {
         ItemListing[] old = getOldTrades(profession, level);
         if (old != null && !replace) trades = NpcType.join(old, trades);
-        Int2ObjectMap<ItemListing[]> trade_map = CACHE.get(profession);
-        if (trade_map == null) CACHE.put(profession, trade_map = new Int2ObjectOpenHashMap<>());
+        Int2ObjectMap<ItemListing[]> trade_map = CACHE.computeIfAbsent(profession, k -> new Int2ObjectOpenHashMap<>());
         trade_map.put(level, trades);
     }
 
