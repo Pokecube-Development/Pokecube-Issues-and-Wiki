@@ -21,7 +21,6 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.gossip.GossipType;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.NearestVisibleLivingEntities;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.npc.Npc;
@@ -316,8 +315,8 @@ public class TrainerEventHandler
 
     public static void onBattleJoin(JoinBattleEvent event)
     {
-        final IHasNPCAIStates holderA = TrainerCaps.getNPCAIStates(event.mobA);
-        final IHasNPCAIStates holderB = TrainerCaps.getNPCAIStates(event.mobB);
+        final IHasNPCAIStates holderA = TrainerCaps.getNPCAIStates(event.agressor);
+        final IHasNPCAIStates holderB = TrainerCaps.getNPCAIStates(event.target);
         if (holderA != null && holderA.getAIState(AIState.PERMFRIENDLY)) event.setCanceled(true);
         if (holderB != null && holderB.getAIState(AIState.PERMFRIENDLY)) event.setCanceled(true);
     }

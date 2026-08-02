@@ -16,6 +16,7 @@ import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.moves.PokemobMoveStats;
+import pokecube.api.events.combat.SwitchTargetEvent;
 import pokecube.api.events.pokemobs.combat.MoveUse.ActualMoveUse;
 import pokecube.api.moves.Battle;
 import pokecube.api.moves.MoveEntry;
@@ -30,6 +31,7 @@ import pokecube.core.network.pokemobs.PacketSyncMoveUse;
 import pokecube.core.utils.AITools;
 import thut.api.entity.ICopyMob;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 import thut.core.common.commands.CommandTools;
 import thut.core.common.network.SyncAttachments;
 import thut.lib.RegHelper;
@@ -244,15 +246,16 @@ public abstract class PokemobMoves extends PokemobStats
                     // If owner has no battle, but we do, owner joins our battle
                     if (b2 == null)
                     {
-                        var mobs = b.getEnemies(entity);
-                        if (!mobs.isEmpty()) Battle.createOrAddToBattle(owner, mobs.getFirst());
+                        // We just add the owner to the list directly, don't call the addToBattle as
+                        // we don't want to interrupt the existing target selections
+                        b.addAlly(entity, owner);
                     }
                     else if (b == null)
                     {
                         // If we have no battle, but owner does, we join owner's
-                        // battle
                         b = b2;
                         var mobs = b.getEnemies(owner);
+                        // we use createoradd here to ensure that we are agressed.
                         if (!mobs.isEmpty()) Battle.createOrAddToBattle(entity, mobs.getFirst());
                     }
                 }
@@ -322,22 +325,32 @@ public abstract class PokemobMoves extends PokemobStats
                     target = brainTarget;
                     break brains;
                 }
-                BrainUtils.setAttackTarget(entity, target);
+                // Fire an event to check if we should switch back
+                SwitchTargetEvent event = new SwitchTargetEvent(this, target, brainTarget);
+                ThutCore.FORGE_BUS.post(event);
+                if(!event.isCanceled())
+                {
+                    BrainUtils.setAttackTarget(entity, target = event.getNewTarget());
+                }
+                else
+                {
+                    target = brainTarget;
+                    this.getMoveStats().enemyIndex = i;
+                }
             }
             this.setTargetID(target == null ? -1 : target.getId());
 
             // Allies are simple
-
             mobs = b.getAllies(entity);
             // Update how many allies we have
             this.params.ALLYNUMDW.set(mobs.size());
             // Get the number for modulo, as we also include owner here if
             // present.
-            int allyN = mobs.size() + ownerOffset;
+            int allyN = mobs.size();
 
             int allyIndex = (allyN != 0) ? this.getMoveStats().allyIndex % allyN : 0;
             // If less than 0, wrap
-            if (allyIndex < 0) allyIndex = mobs.size();
+            if (allyIndex < 0 && allyN > 0) allyIndex = mobs.size()-1;
             // If max suze, and have owner, we set it as owner
             if (allyIndex == mobs.size() && ownerOffset > 0)
             {

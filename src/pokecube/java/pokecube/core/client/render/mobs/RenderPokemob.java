@@ -601,13 +601,14 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         if (entity.deathTime > 0)
         {
             if (activeHolder.hasDeathAnim) return;
-            float f = (entity.deathTime + yBodyRot - 1.0F) / 20.0F * 1.6F;
-            f = Mth.sqrt(f);
-            if (f > 1.0F)
-            {
-                f = 1.0F;
-            }
-            stack.mulPose(Axis.ZP.rotationDegrees(f * this.getFlipDegrees(entity)));
+            // TODO decide on if to fix this?
+//            float f = (entity.deathTime + yBodyRot - 1.0F) / 20.0F * 1.6F;
+//            f = Mth.sqrt(f);
+//            if (f > 1.0F)
+//            {
+//                f = 1.0F;
+//            }
+//            stack.mulPose(Axis.YP.rotationDegrees(f * this.getFlipDegrees(entity)));
         }
         else if (entity.isAutoSpinAttack())
         {

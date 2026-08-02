@@ -1,6 +1,5 @@
 package pokecube.core.ai.tasks.combat.management;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -19,6 +18,8 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.events.combat.JoinBattleEvent;
+import pokecube.api.events.combat.SwitchTargetEvent;
 import pokecube.api.moves.Battle;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
@@ -65,9 +66,11 @@ public class FindTargetsTask extends PokemobBehaviour implements IAICombat, ITar
     {
         ThutCore.FORGE_BUS.addListener(FindTargetsTask::onLivingSetTarget);
         ThutCore.FORGE_BUS.addListener(FindTargetsTask::onLivingHurt);
+        ThutCore.FORGE_BUS.addListener(FindTargetsTask::onJoinBattle);
+        ThutCore.FORGE_BUS.addListener(FindTargetsTask::onSwitchTarget);
     }
 
-    private static LivingEntity divertTarget(LivingEntity aggressor, LivingEntity aggressed)
+    private static LivingEntity chooseNewTarget(LivingEntity aggressor, LivingEntity aggressed)
     {
         // We don't handle diverting self agression here.
         if (aggressed == aggressor) return aggressed;
@@ -102,32 +105,19 @@ public class FindTargetsTask extends PokemobBehaviour implements IAICombat, ITar
         return target;
     }
 
-    public static void onMobTick(final LivingEntity living)
+    private static void onJoinBattle(JoinBattleEvent event)
     {
-        if (!FindTargetsTask.handleDamagedTargets||true) return;
-        // Only run this every 20 ticks
-        if (living.tickCount % 20 != 0) return;
-        LivingEntity target = BrainUtils.getAttackTarget(living);
-        if (target == null) return;
-        LivingEntity diverted = divertTarget(living, target);
-        if (diverted != target)
+        if(event.agressor != null && event.getNewTarget() != null)
         {
-            Battle battle = Battle.getBattle(living);
-            var mob = PokemobCaps.getPokemobFor(living);
-            BrainUtils.setAttackTarget(living, diverted);
-            if (battle != null && mob != null)
-            {
-                List<LivingEntity> mobs = Lists.newArrayList(battle.getEnemies(living));
-                for (int i = 0; i < mobs.size(); i++)
-                {
-                    var enemy = mobs.get(i);
-                    if (enemy != diverted) continue;
-                    mob.getMoveStats().enemyIndex = i;
-                    mob.updateBattleInfo();
-                    mob.onSetTarget(diverted, true);
-                    break;
-                }
-            }
+            event.setNewTarget(chooseNewTarget(event.agressor, event.getNewTarget()));
+        }
+    }
+
+    private static void onSwitchTarget(SwitchTargetEvent event)
+    {
+        if(event.agressor != null && event.getNewTarget() != null)
+        {
+            if(chooseNewTarget(event.agressor, event.getNewTarget()) != event.getNewTarget()) event.setCanceled(true);
         }
     }
 
@@ -153,7 +143,7 @@ public class FindTargetsTask extends PokemobBehaviour implements IAICombat, ITar
 
         // Don't manage this.
         if (newTarget == null) return;
-        LivingEntity target = divertTarget(rootMob, newTarget);
+        LivingEntity target = chooseNewTarget(rootMob, newTarget);
         // Now fire our re-direct event
         LivingChangeTargetEvent event2 = new LivingChangeTargetEvent(rootMob, target, AGROREDIRECT);
         ThutCore.FORGE_BUS.post(event2);
@@ -440,6 +430,18 @@ public class FindTargetsTask extends PokemobBehaviour implements IAICombat, ITar
             final LivingEntity target = BrainUtils.getAttackTarget(entity);
             var targetOwner = Ownable.getOwner(target);
 
+            // Try to see if we need to divert
+
+            LivingEntity newTarget = chooseNewTarget(entity, target);
+            // Now fire our re-direct event
+            if(newTarget!=target)
+            {
+                BrainUtils.setAttackTarget(entity, newTarget);
+                if(newTarget!=null)
+                    brain.setMemory(MemoryModules.ATTACKTARGETID.get(), newTarget.getUUID());
+                System.out.println("Target Validation Failed "+target+" "+newTarget+"\n     "+entity);
+                return false;
+            }
             if (!brain.hasMemoryValue(MemoryModules.ATTACKTARGETID.get()))
             {
                 brain.setMemory(MemoryModules.ATTACKTARGETID.get(), target.getUUID());

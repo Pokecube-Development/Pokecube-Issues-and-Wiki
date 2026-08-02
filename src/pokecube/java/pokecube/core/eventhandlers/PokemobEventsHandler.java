@@ -774,9 +774,6 @@ public class PokemobEventsHandler
 
         if (living.isRemoved()) return;
 
-        // Have this tick to manage the target's target.
-        FindTargetsTask.onMobTick(living);
-
         // Tick the genes
         IMobGenetics genes = ThutCaps.getGenetics(living);
         if (genes != null) genes.onUpdateTick(living);
