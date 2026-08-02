@@ -35,7 +35,7 @@ public class LadderToGround extends StructureProcessor
             final StructureTemplate ref)
     {
         boolean isLadder = ItemList.is(LADDER, blockInfo.state());
-        boolean isVine = ItemList.is(LADDER, blockInfo.state());
+        boolean isVine = ItemList.is(VINE, blockInfo.state());
         if (!(isLadder || isVine)) return blockInfo;
         BlockPos p1 = blockInfo.pos();
         boolean isAir = level.isEmptyBlock(p1);
@@ -55,8 +55,6 @@ public class LadderToGround extends StructureProcessor
 
     static
     {
-        CODEC = MapCodec.unit(() -> {
-            return LadderToGround.PROCESSOR;
-        });
+        CODEC = MapCodec.unit(() -> LadderToGround.PROCESSOR);
     }
 }
