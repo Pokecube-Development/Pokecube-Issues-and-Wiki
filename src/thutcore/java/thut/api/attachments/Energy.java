@@ -1,5 +1,6 @@
 package thut.api.attachments;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import io.netty.buffer.ByteBuf;
@@ -11,8 +12,11 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -182,13 +186,34 @@ public class Energy
         return new EnergyStorage(1);
     }
 
-    public static EnergyStorage get(final IAttachmentHolder in, Direction d)
+    public static EnergyStorage get_raw(final IAttachmentHolder in, Direction d)
     {
         return in.getData(TYPE);
     }
 
+    public static EnergyStorage get(final IAttachmentHolder in, Direction d)
+    {
+        IEnergyStorage toWrap = null;
+        if(in instanceof Entity e){
+            toWrap =e.getCapability(Capabilities.EnergyStorage.ENTITY, d);
+        }
+        if(in instanceof BlockEntity b && b.getLevel()!=null){
+            toWrap = b.getLevel().getCapability(Capabilities.EnergyStorage.BLOCK, b.getBlockPos(), d);
+        }
+        if(toWrap!=null) return new Wrapping(toWrap);
+        return get_raw(in, d);
+    }
+
     public static boolean has(final IAttachmentHolder in, Direction d)
     {
+        IEnergyStorage toWrap = null;
+        if(in instanceof Entity e){
+            toWrap =e.getCapability(Capabilities.EnergyStorage.ENTITY, d);
+        }
+        if(in instanceof BlockEntity b){
+            toWrap =b.getLevel().getCapability(Capabilities.EnergyStorage.BLOCK, b.getBlockPos(), d);
+        }
+        if(toWrap!=null) return true;
         return in.hasData(TYPE);
     }
 

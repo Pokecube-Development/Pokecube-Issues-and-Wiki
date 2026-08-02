@@ -100,7 +100,7 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
             final int size, final int output)
     {
         super(tileEntityTypeIn, pos, state);
-        Energy.get(this);
+        Energy.get_raw(this, Direction.DOWN);
         this.inventory = NonNullList.<ItemStack>withSize(size, ItemStack.EMPTY);
         this.outputSlot = output;
     }

@@ -169,6 +169,7 @@ public class EnergyHandler
             }
             if (cap != null)
             {
+                System.out.println(cap.canExtract()+" "+cap.canReceive()+" "+cap.getEnergyStored()+" "+cap.getMaxEnergyStored()+" "+te);
                 if (!cap.canReceive()) continue;
                 final int toSend = cap.receiveEnergy(output, true);
                 if (toSend > 0) tiles.put(cap, toSend);
@@ -330,7 +331,7 @@ public class EnergyHandler
         public @Nullable IEnergyStorage getCapability(T object, Direction context)
         {
             context = Direction.DOWN;
-            return Energy.get(object, context);
+            return Energy.get_raw(object, context);
         }
     }
 
@@ -340,7 +341,7 @@ public class EnergyHandler
         public @Nullable IEnergyStorage getCapability(Mob object, Direction context)
         {
             context = Direction.DOWN;
-            return Energy.get(object, context);
+            return Energy.get_raw(object, context);
         }
     }
 
