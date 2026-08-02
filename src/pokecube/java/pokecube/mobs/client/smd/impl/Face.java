@@ -77,11 +77,8 @@ public class Face
         final Vector3f dn = this.dummy3;
         int argb = FastColor.ARGB32.color(alpha, red, green, blue);
 
-        Vector3f camera_view = ZP;
-
-        boolean cull = ThutCore.getConfig().modelCullThreshold > 0 && alpha >= 1;
-        // TODO ghive this a material to check for culling!
-        cull = false;
+        boolean cull = ThutCore.getConfig().modelCullThreshold > 0;
+        // TODO give this a material to check for culling!
         if (cull)
         {
             // TODO use face centre instead here!
@@ -108,7 +105,7 @@ public class Face
             // Similar to Mesh, except we only have to check the 1 face, as we
             // only have 1 face! so only apply on i==0. Then, apply a similar
             // threshold to what is used in Mesh
-            final boolean tryCull = cull && i == 0 && dn.dot(camera_view) < (smoothShading ? -0.2 : 0.0);
+            final boolean tryCull = cull && i == 0 && dn.dot(ZP) < (smoothShading ? -0.2 : 0.0);
             if (tryCull) break;
 
             final float x = vert.x;

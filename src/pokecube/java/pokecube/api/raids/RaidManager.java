@@ -6,6 +6,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.entity.LivingEntity;
+import net.neoforged.neoforge.common.util.TriState;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -57,6 +58,8 @@ public class RaidManager
     {
         if (event.mob.getPersistentData().contains("pokecube:raid_boss"))
         {
+            // Set state to default if it was set false by the mob being fainted
+            if(event.orig == event.getResult()) event.setResult(TriState.DEFAULT);
             String key = event.mob.getPersistentData().getString("pokecube:raid_boss");
             IBossProvider bossMaker = RAID_TYPES.get(key);
             if (bossMaker != null)

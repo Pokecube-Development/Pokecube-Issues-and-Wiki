@@ -47,7 +47,7 @@ public class CallForHelpTask extends CombatTask
     {
         var entity = pokemob.getEntity();
         // No need to get help against null
-        if (from == null || !entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES))
+        if (from == null || !entity.getBrain().hasMemoryValue(MemoryModules.POSSIBLE_TARGETS.get()))
             return false;
 
         // Not social. doesn't do this.
@@ -82,7 +82,7 @@ public class CallForHelpTask extends CombatTask
         };
         // Only allow valid guard targets.
         final Iterable<LivingEntity> pokemobs = entity.getBrain()
-                .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findAll(relationCheck);
+                .getMemory(MemoryModules.POSSIBLE_TARGETS.get()).get().findAll(relationCheck);
 
         pokemobs.forEach(o -> {
             if (relationCheck.test(o)) ret.add(o);
@@ -117,7 +117,7 @@ public class CallForHelpTask extends CombatTask
     public boolean shouldRun(Mob entityIn)
     {
         var target = this.getAttackTarget(entityIn);
-        return target != null && entityIn.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES);
+        return target != null && entityIn.getBrain().hasMemoryValue(MemoryModules.POSSIBLE_TARGETS.get());
     }
 
 }

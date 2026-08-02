@@ -21,7 +21,6 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.gossip.GossipType;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.NearestVisibleLivingEntities;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.npc.Npc;
@@ -69,6 +68,7 @@ import pokecube.api.entity.trainers.actions.MessageState;
 import pokecube.api.events.PCEvent;
 import pokecube.api.events.combat.ExitBattleEvent;
 import pokecube.api.events.combat.JoinBattleEvent;
+import pokecube.api.events.combat.ValidBattleTarget;
 import pokecube.api.events.npcs.NpcBreedEvent;
 import pokecube.api.events.npcs.NpcEvent;
 import pokecube.api.events.npcs.NpcSpawn;
@@ -80,6 +80,7 @@ import pokecube.api.events.pokemobs.ai.BrainInitEvent;
 import pokecube.api.moves.Battle;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.npc.Activities;
 import pokecube.core.database.Database;
 import pokecube.core.entity.npc.NpcMob;
@@ -260,11 +261,11 @@ public class TrainerEventHandler
             final LivingEntity mob = event.getEntity();
             // Check if the target was a wild pokemob.
             final int repGain = TrainerEventHandler.goodKill.apply(mob);
-            if (repGain != 0 && mob.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES))
+            if (repGain != 0 && mob.getBrain().hasMemoryValue(MemoryModules.POSSIBLE_TARGETS.get()))
             {
                 final GossipType type = repGain > 0 ? GossipType.MINOR_POSITIVE : GossipType.MINOR_NEGATIVE;
                 final Optional<NearestVisibleLivingEntities> optional = mob.getBrain()
-                        .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES);
+                        .getMemory(MemoryModules.POSSIBLE_TARGETS.get());
                 if (optional.isPresent())
                 {
                     final Iterable<LivingEntity> mobs = optional.get().findAll(seen -> seen instanceof Villager);
@@ -314,8 +315,8 @@ public class TrainerEventHandler
 
     public static void onBattleJoin(JoinBattleEvent event)
     {
-        final IHasNPCAIStates holderA = TrainerCaps.getNPCAIStates(event.mobA);
-        final IHasNPCAIStates holderB = TrainerCaps.getNPCAIStates(event.mobB);
+        final IHasNPCAIStates holderA = TrainerCaps.getNPCAIStates(event.agressor);
+        final IHasNPCAIStates holderB = TrainerCaps.getNPCAIStates(event.target);
         if (holderA != null && holderA.getAIState(AIState.PERMFRIENDLY)) event.setCanceled(true);
         if (holderB != null && holderB.getAIState(AIState.PERMFRIENDLY)) event.setCanceled(true);
     }
@@ -325,6 +326,14 @@ public class TrainerEventHandler
         if(event.isCanceled()) return;
         IHasPokemobs trainer = TrainerCaps.getHasPokemobs(event.mob);
         if(trainer!=null) trainer.onSetTarget(null, true);
+    }
+
+    public static void onAgroTest(ValidBattleTarget event)
+    {
+        // Prevent targetting npcs that are trainers
+        if(PokecubeAdv.config.pokemobsHarmNPCs || event.target instanceof Player) return;
+        IHasPokemobs trainer = TrainerCaps.getHasPokemobs(event.target);
+        if(trainer!=null) event.setCanceled(true);
     }
 
     public static void initTrainer(final LivingEntity mob, final MobSpawnType reason)

@@ -6,7 +6,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.events.combat.ValidBattleTarget;
 import pokecube.api.moves.Battle;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
@@ -22,9 +25,24 @@ import java.util.Random;
  * This IAIRunnable results in the mother of an egg always staying within 4 blocks of it. It also prevents the mother
  * from breeding, as well as prevents the mother's breeding cooldown from dropping while an egg is being guarded.
  */
+@EventBusSubscriber
 public class GuardEggTask extends TaskBase
 {
     private static final Map<MemoryModuleType<?>, MemoryStatus> _MEMS = Maps.newHashMap();
+
+    // Allow disabling this via addons, etc
+    public static boolean NO_AGRO_MOTHER = true;
+
+    @SubscribeEvent
+    public static void onValidTargetCheck(ValidBattleTarget event)
+    {
+        var entity = event.target;
+        if(!NO_AGRO_MOTHER||!entity.getBrain().hasMemoryValue(MemoryModules.EGG.get())) return;
+        if(entity.getBrain().getMemory(MemoryModules.EGG.get()).isPresent()) event.setCanceled(true);
+        entity = event.agressor;
+        if(!entity.getBrain().hasMemoryValue(MemoryModules.EGG.get())) return;
+        if(entity.getBrain().getMemory(MemoryModules.EGG.get()).isPresent()) event.setCanceled(true);
+    }
 
     private static Map<MemoryModuleType<?>, MemoryStatus> _getMems()
     {

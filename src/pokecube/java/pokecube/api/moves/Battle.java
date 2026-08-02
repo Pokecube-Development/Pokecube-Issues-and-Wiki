@@ -104,21 +104,25 @@ public class Battle
         return b;
     }
 
-    public static boolean createOrAddToBattle(final LivingEntity mobA, final LivingEntity mobB)
+    public static boolean createOrAddToBattle(LivingEntity agressor, LivingEntity target)
     {
-        if (mobB == null || !AITools.validCombatTargets.test(mobB)) return false;
-        if (mobA == null || !(mobA.level() instanceof ServerLevel level)) return false;
-        if(TeamManager.sameTeam(mobA, mobB)) return false;
+        if (target == null || !AITools.validCombatTargets.test(target)) return false;
+        if (agressor == null || !(agressor.level() instanceof ServerLevel level)) return false;
+        if(TeamManager.sameTeam(agressor, target)) return false;
 
-        final Battle existingA = Battle.getBattle(mobA);
-        final Battle existingB = Battle.getBattle(mobB);
+        final Battle existingA = Battle.getBattle(agressor);
+        final Battle existingB = Battle.getBattle(target);
 
-        var event = new JoinBattleEvent(mobA, mobB, existingA, existingB);
+        var event = new JoinBattleEvent(agressor, target, existingA, existingB);
         ThutCore.FORGE_BUS.post(event);
         if (event.isCanceled()) return false;
+        target = event.getNewTarget();
 
-        var pokeA = PokemobCaps.getPokemobFor(mobA);
-        var pokeB = PokemobCaps.getPokemobFor(mobB);
+        if (target == null || !AITools.validCombatTargets.test(target)) return false;
+        if(TeamManager.sameTeam(agressor, target)) return false;
+
+        var pokeA = PokemobCaps.getPokemobFor(agressor);
+        var pokeB = PokemobCaps.getPokemobFor(target);
 
         if (pokeA != null) pokeA.setCombatState(CombatStates.BATTLING, true);
         if (pokeB != null) pokeB.setCombatState(CombatStates.BATTLING, true);
@@ -132,17 +136,17 @@ public class Battle
                 // Already in battle, no need to proceed.
                 return true;
             }
-            existingA.mergeFrom(mobA, mobB, existingB, level);
+            existingA.mergeFrom(agressor, target, existingB, level);
             return false;
         }
-        if (existingA != null) existingA.addToBattle(mobA, mobB);
-        else if (existingB != null) existingB.addToBattle(mobA, mobB);
+        if (existingA != null) existingA.addToBattle(agressor, target);
+        else if (existingB != null) existingB.addToBattle(agressor, target);
         else
         {
             final BattleManager manager = BattleManager.managers.get(level.dimension());
             final Battle battle = new Battle(level, manager);
-            battle.addToBattle(mobA, mobB);
-            Vector3 centre = new Vector3(mobA).addTo(mobB.getX(), mobB.getY(), mobB.getZ()).scalarMultBy(0.5);
+            battle.addToBattle(agressor, target);
+            Vector3 centre = new Vector3(agressor).addTo(target.getX(), target.getY(), target.getZ()).scalarMultBy(0.5);
             battle.setCentre(centre);
             manager.addBattle(battle);
             battle.start();
@@ -192,6 +196,35 @@ public class Battle
         if (side1.containsKey(mob.getUUID())) return s2;
         if (side2.containsKey(mob.getUUID())) return s1;
         return Lists.newArrayList();
+    }
+
+    /**
+     * Adds the given entity onto our allied side of a battle, without triggering agression
+     * @param entity
+     * @param toAdd
+     */
+    public void addAlly(LivingEntity entity, LivingEntity toAdd)
+    {
+        var sideMap = side1.containsKey(entity.getUUID())?side1:side2;
+        var sideList = sideMap==side1?s1:s2;
+        sideList.add(toAdd);
+        sideMap.put(toAdd.getUUID(),toAdd);
+        final BattleManager manager = BattleManager.managers.get(world.dimension());
+        manager.battlesById.put(toAdd.getUUID(), this);
+    }
+    /**
+     * Adds the given entity onto the enemy side of a battle, without triggering agression
+     * @param entity
+     * @param toAdd
+     */
+    public void addEnemy(LivingEntity entity, LivingEntity toAdd)
+    {
+        var sideMap = side1.containsKey(entity.getUUID())?side2:side1;
+        var sideList = sideMap==side1?s1:s2;
+        sideList.add(toAdd);
+        sideMap.put(toAdd.getUUID(),toAdd);
+        final BattleManager manager = BattleManager.managers.get(world.dimension());
+        manager.battlesById.put(toAdd.getUUID(), this);
     }
 
     private void addToSide(final Map<UUID, LivingEntity> side, final Set<String> teams, final LivingEntity mob,

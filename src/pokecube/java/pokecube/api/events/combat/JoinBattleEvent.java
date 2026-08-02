@@ -21,17 +21,29 @@ import pokecube.api.moves.Battle;
  */
 public class JoinBattleEvent extends Event implements ICancellableEvent
 {
-    public final LivingEntity mobA;
-    public final LivingEntity mobB;
+    public final LivingEntity agressor, target;
+
+    private LivingEntity newTarget;
 
     public final @Nullable Battle existingA;
     public final @Nullable Battle existingB;
 
-    public JoinBattleEvent(LivingEntity mobA, LivingEntity mobB, @Nullable Battle existingA, @Nullable Battle existingB)
+    public JoinBattleEvent(LivingEntity agressor, LivingEntity target, @Nullable Battle existingA, @Nullable Battle existingB)
     {
-        this.mobA = mobA;
-        this.mobB = mobB;
+        this.agressor = agressor;
+        this.target = target;
         this.existingA = existingA;
         this.existingB = existingB;
+        setNewTarget(target);
+    }
+
+    public LivingEntity getNewTarget()
+    {
+        return newTarget;
+    }
+
+    public void setNewTarget(LivingEntity newTarget)
+    {
+        this.newTarget = newTarget;
     }
 }

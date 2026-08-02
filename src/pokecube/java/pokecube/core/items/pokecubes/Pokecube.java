@@ -31,6 +31,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.PokecubeTooltipEvent;
+import pokecube.api.events.pokemobs.CaptureEvent;
 import pokecube.api.items.IPokecube;
 import pokecube.api.items.PokecubeContents;
 import pokecube.api.utils.Tools;

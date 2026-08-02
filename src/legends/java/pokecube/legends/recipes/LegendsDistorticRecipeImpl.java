@@ -23,9 +23,9 @@ public class LegendsDistorticRecipeImpl implements Recipe<CraftingInput>
 
     public static final SerializerDistortic SERIALIZER_DISTORTIC = new SerializerDistortic();
 
-    private final Ingredient input;
-    private final ItemStack output;
-    private final Block block;
+    public final Ingredient input;
+    public final ItemStack output;
+    public final Block block;
     public final ResourceKey<Level> dimId;
 
     public LegendsDistorticRecipeImpl(final Ingredient input, final ItemStack output, final ResourceLocation blockId,

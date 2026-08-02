@@ -93,6 +93,7 @@ public class PacketBattleTargets extends Packet
                     if(!event.isCanceled())
                     {
                         BrainUtils.clearAttackTarget(pokemob.getEntity());
+                        BrainUtils.clearAttackTarget(living);
                         battle.removeFromBattle(living);
                     }
                 }

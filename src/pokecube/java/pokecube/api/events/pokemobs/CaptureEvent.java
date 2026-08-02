@@ -27,7 +27,11 @@ public class CaptureEvent extends Event implements ICancellableEvent
 
     /**
      * Pre is sent before the capture is completed, canceling it will prevent
-     * capture.
+     * capture. Setting the result to TriState.FALSE will prevent capture.
+     *
+     * Setting the result to TriState.TRUE will result in a successful capture.
+     *
+     * the default result state is set to FALSE if the mob is at 0 hp
      */
     public static class Pre extends CaptureEvent
     {
@@ -36,9 +40,11 @@ public class CaptureEvent extends Event implements ICancellableEvent
         public Pre(final IPokemob hit, final EntityPokecubeBase entityPokecubeBase, final LivingEntity mob)
         {
             super(hit, entityPokecubeBase);
+            if (mob!=null && mob.getHealth()<=0) setResult(TriState.FALSE);
+            orig = result;
             this.mob = mob;
         }
-
+        public final TriState orig;
         private TriState result = TriState.DEFAULT;
 
         public void setResult(TriState result)
