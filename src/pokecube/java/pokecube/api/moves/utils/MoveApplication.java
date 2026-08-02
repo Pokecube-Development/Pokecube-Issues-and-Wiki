@@ -420,6 +420,7 @@ public class MoveApplication implements Comparable<MoveApplication>
                 else
                 {
                     Mob entity = moveAppl.getUser().getEntity();
+                    recoil = -Math.min(Math.abs(recoil), moveAppl.getUser().getMaxHealth() / 2.0f);
                     if (PokecubeCore.getConfig().debug_moves)
                         PokecubeAPI.LOGGER.info("Applying recoil damage for move {} of amount {}", t.move().getName(),
                                 recoil);
