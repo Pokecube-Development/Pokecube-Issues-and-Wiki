@@ -110,13 +110,17 @@ public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPo
     }
 
     public static HashMap<ResourceLocation, EntityRenderer<EntityPokecube>> pokecubeRenderers = new HashMap<>();
-
+    private EntityRendererProvider.Context context;
     public RenderPokecube(final EntityRendererProvider.Context renderManager)
     {
         super(renderManager, new ModelPokecube(), 0);
+        this.context = renderManager;
         pokecubeRenderers.clear();
-        ThutCore.FORGE_BUS.post(new RegisterCubeRenderer());
-        new RenderFancyPokecube(renderManager);
+        // Generate fancy cubes first
+        var fancy = new RenderFancyPokecube(this.context);
+        PokecubeItems.pokecubes.keySet().forEach(fancy::makeModel);
+        // Addons can then replace rendering as needed via event
+        ThutCore.FORGE_BUS.post(new RegisterCubeRenderer(this.context));
     }
 
     @Override
@@ -132,10 +136,11 @@ public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPo
         if (Util.shouldReloadModel())
         {
             pokecubeRenderers.clear();
-            ThutCore.FORGE_BUS.post(new RegisterCubeRenderer());
-            new RenderFancyPokecube(
-                    new EntityRendererProvider.Context(this.entityRenderDispatcher, null, null, null, null, null,
-                            this.getFont()));
+            // Generate fancy cubes first
+            var fancy = new RenderFancyPokecube(this.context);
+            PokecubeItems.pokecubes.keySet().forEach(fancy::makeModel);
+            // Addons can then replace rendering as needed via event
+            ThutCore.FORGE_BUS.post(new RegisterCubeRenderer(this.context));
         }
         final long time = entity.reset;
         final long world = Tracker.instance().getTick();

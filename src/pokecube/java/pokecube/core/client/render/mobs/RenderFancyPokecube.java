@@ -93,7 +93,7 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
         baseModel = this.getModel();
     }
 
-    private ModelWrapper<EntityPokecube> makeModel(ResourceLocation cube)
+    public ModelWrapper<EntityPokecube> makeModel(ResourceLocation cube)
     {
         // First try to find a unique model for the name
         ModelWrapper<EntityPokecube> ret = null;
@@ -225,9 +225,6 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
                     Evolution.renderEffect(pokemob, stack, bufferIn, partialTicks, (int) dt, duration, scale,
                             scaleShift, true);
                 }
-                // TODO decide on whether we want to render the mob shrinking as well?
-//                var renderer = this.entityRenderDispatcher.getRenderer(capturing);
-//                renderer.render(capturing, entityYaw, partialTicks, stack, bufferIn, packedLightIn);
                 stack.popPose();
             }
         }
