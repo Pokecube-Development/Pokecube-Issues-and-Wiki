@@ -428,7 +428,6 @@ public class Config
     private static ModConfigSpec.ConfigValue<?> makeValue(Field field, String cat, String modid, Builder builder, Object o)
     {
         String key = modid+"."+cat+"."+field.getName();
-        System.out.println(key+"   \n"+VALIDATORS.containsKey(key));
         return switch (o)
         {
             case Boolean b -> builder.define(field.getName(), (boolean) b);
