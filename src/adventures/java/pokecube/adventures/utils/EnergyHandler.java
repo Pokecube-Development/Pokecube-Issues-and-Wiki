@@ -169,7 +169,6 @@ public class EnergyHandler
             }
             if (cap != null)
             {
-                System.out.println(cap.canExtract()+" "+cap.canReceive()+" "+cap.getEnergyStored()+" "+cap.getMaxEnergyStored()+" "+te);
                 if (!cap.canReceive()) continue;
                 final int toSend = cap.receiveEnergy(output, true);
                 if (toSend > 0) tiles.put(cap, toSend);

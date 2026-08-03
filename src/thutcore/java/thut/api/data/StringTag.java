@@ -288,6 +288,7 @@ public class StringTag<T> implements IResourceData
                     if (temp.replace)
                     {
                         tagged.values.clear();
+                        tagged._values.clear();
                     }
                     temp._values.forEach((k, v) -> {
                         if (!tagged._values.containsKey(k))

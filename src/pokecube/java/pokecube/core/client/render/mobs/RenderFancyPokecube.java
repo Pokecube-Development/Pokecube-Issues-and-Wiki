@@ -133,26 +133,26 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
             var modelKey = ResourceLocation.fromNamespaceAndPath(cube.getNamespace(), MODEL.getPath() + "pokecube");
             var holder = new ModelHolder(modelKey);
             holder.animation = animKey;
-            var model = new ModelWrapper<EntityPokecube>(holder, this);
-            IModel m2 = ModelFactory.create(model.model, m -> {
+            var _model = new ModelWrapper<EntityPokecube>(holder, this);
+            IModel m2 = ModelFactory.create(_model.model, m -> {
                 synchronized (models)
                 {
-                    model.setModel(m);
+                    _model.setModel(m);
                     this.changer = null;
                     this.texer = null;
                     this.anims = Maps.newHashMap();
                     var old = this.model;
-                    this.model = model; // copy this over for the animation parser to handle properly
-                    AnimationLoader.parse(holder, model, this);
+                    this.model = _model; // copy this over for the animation parser to handle properly
+                    AnimationLoader.parse(holder, _model, this);
                     this.model = old;
                     this.models.put(cube,
-                            new ModelSet(getAnimationChanger(), getTexturer(), model, offset, scale, anims));
+                            new ModelSet(getAnimationChanger(), getTexturer(), _model, offset, scale, anims));
                     RenderPokecube.pokecubeRenderers.putIfAbsent(cube, this);
                 }
             });
             if (m2.isValid())
             {
-                return model;
+                return _model;
             }
         }
         return ret;

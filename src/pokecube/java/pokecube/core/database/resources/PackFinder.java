@@ -3,6 +3,7 @@ package pokecube.core.database.resources;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackLocationInfo;
@@ -13,14 +14,17 @@ import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackRepository;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.server.packs.repository.RepositorySource;
+import net.minecraft.server.packs.resources.MultiPackResourceManager;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.level.validation.DirectoryValidator;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.resource.ResourcePackLoader;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
+import thut.api.world.mobs.data.Data;
 import thut.lib.ResourceHelper;
 
 import javax.annotation.Nullable;
@@ -75,8 +79,22 @@ public class PackFinder implements RepositorySource
     {
         if (path.endsWith("/")) path = path.substring(0, path.length() - 1);
         long start = System.nanoTime();
-        Map<ResourceLocation, List<Resource>> ret = Database.resourceManager.listResourceStacks(path,
-                p -> match.test(p.toString()));
+        Map<ResourceLocation, List<Resource>> ret = Maps.newHashMap();
+        if(ServerLifecycleHooks.getCurrentServer() != null)
+        {
+            // If a server exists, our data was added to the packs it uses,
+            // so we should use it for data, this allows getting world specific
+            // datapacks loaded in, as well as our custom ones.
+            var server = ServerLifecycleHooks.getCurrentServer();
+            var packRepo = server.getPackRepository();
+            var packs = packRepo.openAllSelected();
+            var vanilla = new MultiPackResourceManager(PackType.SERVER_DATA, packs);
+            ret.putAll(vanilla.listResourceStacks(path, p -> match.test(p.toString())));
+        }
+        if(ret.isEmpty()) // Otherwise use our early load fallback
+        {
+            ret = Database.resourceManager.listResourceStacks(path, p -> match.test(p.toString()));
+        }
         long end = System.nanoTime();
         time_listing += (end - start);
         return ret;

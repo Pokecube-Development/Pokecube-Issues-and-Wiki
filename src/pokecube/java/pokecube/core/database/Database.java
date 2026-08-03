@@ -379,7 +379,7 @@ public class Database
             Database.checkedStarts = true;
             final List<PokedexEntry> starts = Lists.newArrayList();
             for (final PokedexEntry e : Database.getSortedFormes()) if (e.isStarter) starts.add(e);
-            Database.starters = starts.toArray(Database.starters);
+            Database.starters = starts.toArray(new PokedexEntry[0]);
         }
         return Database.starters;
     }
@@ -677,24 +677,11 @@ public class Database
 
     public static void onResourcesReloaded()
     {
-        // If this was not done, then lisener never reloaded correctly, so we
-        // don't want to do anything here.
-        if (!Database.listener.loaded) return;
-
-        if (!needs_reload)
-        {
-            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Skipping Load, too soon since last load.");
-            return;
-        }
-
         long time = System.nanoTime();
         StructureSpawnPresetLoader.loadDatabase();
         long dt = System.nanoTime() - time;
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Resource Stage 1: {}s", dt / 1e9d);
 
-        // In this case, we are not acually a real datapack load, just an
-        // initial world check thing.
-        if (!StructureSpawnPresetLoader.validLoad) return;
         time = System.nanoTime();
 
         // Load these first, as they do some checks for full data loading, and
@@ -707,9 +694,6 @@ public class Database
         dt = System.nanoTime() - time;
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Resource Stage 2: {}s", dt / 1e9d);
 
-        // In this case, we are not acually a real datapack load, just an
-        // initial world check thing.
-        if (!Tags.BREEDING.validLoad) return;
         time = System.nanoTime();
 
         BerryGenManager.parseConfig();
@@ -774,22 +758,6 @@ public class Database
                     PokecubeAPI.logInfo("Missing loot table for {}", entry.getTrimmedName());
         }
 
-        // This gets re-set to true if listener hears a reload
-        Database.listener.loaded = false;
-        Database.needs_reload = false;
-        dt = System.nanoTime() - time;
-        if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Resource Stage 5: {}s", dt / 1e9d);
-    }
-
-    /**
-     * Loads in spawns, drops, held items and starter packs, as well as initializing things like children, evolutions,
-     * etc
-     */
-    public static void onLoadComplete()
-    {
-        Database.listener.loaded = true;
-        Database.needs_reload = true;
-        Database.onResourcesReloaded();
         // Process custom forme models, etc
         for (final PokedexEntry entry : Database.getSortedFormes())
         {
@@ -816,6 +784,23 @@ public class Database
                 if (holder != null) Database.registerFormeHolder(data.evolution, holder);
             }
         }
+
+        // This gets re-set to true if listener hears a reload
+        Database.listener.loaded = false;
+        Database.needs_reload = false;
+        dt = System.nanoTime() - time;
+        if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Resource Stage 5: {}s", dt / 1e9d);
+    }
+
+    /**
+     * Loads in spawns, drops, held items and starter packs, as well as initializing things like children, evolutions,
+     * etc
+     */
+    public static void onLoadComplete()
+    {
+        Database.listener.loaded = true;
+        Database.needs_reload = true;
+//        Database.onResourcesReloaded();
         DefaultFormeHolder._main_init_ = true;
     }
 

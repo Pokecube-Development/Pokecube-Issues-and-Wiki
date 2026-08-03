@@ -777,6 +777,7 @@ public class EventsHandler
     private static void onServerStarting(final ServerStartingEvent event)
     {
         PokecubeAPI.logInfo("Server Starting");
+        Database.onResourcesReloaded();
         PokecubeItems.init(event.getServer());
         EventsHandler.RUNNING = true;
     }
