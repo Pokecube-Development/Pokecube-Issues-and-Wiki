@@ -170,7 +170,8 @@ public class Linkable
         default CompoundTag serializeNBT(Provider provider)
         {
             CompoundTag nbt = new CompoundTag();
-            if (this.getLink(null) != null) nbt.put("link", nbt);
+            ILinkStorage storage = this.getLink(null);
+            if (storage != null) nbt.put("link", storage.serializeNBT(provider));
             return nbt;
         }
 
