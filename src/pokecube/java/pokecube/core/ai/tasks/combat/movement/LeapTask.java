@@ -55,7 +55,6 @@ public class LeapTask extends PokemobBehaviour implements IAICombat
     public void reset(Mob entity)
     {
         var brain = entity.getBrain();
-        int leapTick = brain.getMemory(MemoryModules.TIMER_LEAP.get()).orElse(0);
         // Set the timer so we don't leap again rapidly
         brain.eraseMemory(MemoryModules.TIMER_LEAP.get());
         brain.eraseMemory(MemoryModules.LEAP_TARGET.get());
@@ -110,16 +109,15 @@ public class LeapTask extends PokemobBehaviour implements IAICombat
             return;
         }
 
-        double leapSpeed = 1.0;
+        double leapSpeed = PokecubeCore.getConfig().leapSpeedFactor;
 
         Vector3 dir = diff.normalize();
-        dir.scalarMultBy(leapSpeed * PokecubeCore.getConfig().leapSpeedFactor);
         if (dir.isNaN())
         {
             PokecubeAPI.LOGGER.error("Leap direction was NaN", new IllegalStateException());
             dir.clear();
         }
-        if (dist < 9) dir.scalarMultBy(dist / 9);
+        if (dist < 9) leapSpeed *= dist/9;
 
         // Compute differences in velocities, and then account for that during
         // the leap.
@@ -128,6 +126,7 @@ public class LeapTask extends PokemobBehaviour implements IAICombat
         if (target != null) v_t.setToVelocity(target);
         // Compute velocity differential.
         Vector3 dv = v_a.subtractFrom(v_t);
+        dir.scalarMultBy(leapSpeed);
         // Adjust for existing velocity differential.
         dir.subtractFrom(dv);
 
@@ -155,6 +154,11 @@ public class LeapTask extends PokemobBehaviour implements IAICombat
             dh = Math.max(dh, 0.1);
             dir.x *= 0.5 / dh;
             dir.z *= 0.5 / dh;
+        }
+        // Limit velocity to 1.3m/t, which is ~26m/s
+        if(dir.magSq()>1.69)
+        {
+            dir.norm().scalarMultBy(1.3);
         }
         // Now apply the actual leap
         dir.addVelocities(entity);
