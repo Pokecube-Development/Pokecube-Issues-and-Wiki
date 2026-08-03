@@ -149,7 +149,7 @@ public class PokemobEventsHandler
             if (this.done) return;
             this.done = true;
             final ServerLevel world = (ServerLevel) this.thisEntity.level();
-            final IPokemob old = PokemobCaps.getPokemobFor(this.thisEntity);
+            final IPokemob oldPokemob = PokemobCaps.getPokemobFor(this.thisEntity);
 
             if (this.thisEntity != this.evolution)
             {
@@ -159,7 +159,7 @@ public class PokemobEventsHandler
                 for (final Entity e : riders) e.startRiding(this.evolution, true);
 
                 // remove the IPokemob, then kill it.
-                if (old != null) thisEntity.removeData(PokemobCaps.POKEMOB);
+                if (oldPokemob != null) thisEntity.removeData(PokemobCaps.POKEMOB);
                 // Remove old mob
                 this.thisEntity.discard();
                 // Add new mob

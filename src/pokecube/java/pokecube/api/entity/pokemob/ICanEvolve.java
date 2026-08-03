@@ -310,10 +310,11 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
     }
 
     /**
-     * Converts us to the given entry
+     * Converts us to the given entry. If this succeeds, the result of getEntity() may differ after
+     * the evolution.
      *
      * @param newEntry new pokedex entry to have
-     * @return the new pokemob, return this if it fails
+     * @return whether we did change.
      */
     default boolean changeForm(PokedexEntry newEntry, boolean immediate, boolean permanent)
     {

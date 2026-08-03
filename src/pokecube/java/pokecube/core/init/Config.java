@@ -693,9 +693,9 @@ public class Config extends ConfigData
     @Configure(category = Config.advanced, comment = "If true, lakes will be removed from pokecube structure spawns, disable this if that interferes with other mod's worldgen! [Default: true]")
     public boolean lakeFeatureMixin = true;
 
-    @Configure(category = Config.advanced, comment = "Maximum size of a pokemob, in blocks. [Default: 20.0]")
+    @Configure(category = Config.advanced, comment = "Maximum size of a mob, in blocks. [Default: 20.0]")
     public double maxMobSize = 20.0;
-    @Configure(category = Config.advanced, comment = "Minimum size of a pokemob, in blocks. [Default: 0.01]")
+    @Configure(category = Config.advanced, comment = "Minimum size of a mob, in blocks. [Default: 0.01]")
     public double minMobSize = 0.01;
 
     @Configure(category = Config.genetics, comment = "Function to get IVs from EVs when breeding. [Default: \"rand()*(((2*v + 256) * 31) / 512)\"]")
