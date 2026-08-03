@@ -149,6 +149,7 @@ public class Database
         protected void apply(final Object objectIn, final ResourceManager resourceManagerIn,
                 final ProfilerFiller profilerIn)
         {
+            Database.listener.loaded = needs_reload = true;
             Database.listener.add(resourceManagerIn);
             Database.onResourcesReloaded();
         }
@@ -742,7 +743,7 @@ public class Database
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Resource Stage 4: {}s", dt / 1e9d);
         time = System.nanoTime();
 
-        /** Initialize relations, prey, children. */
+        /* Initialize relations, prey, children. */
         for (final PokedexEntry p : Database.getSortedFormes())
             p.initRelations(PokecubeCore.proxy.getRegistries());
         // Finally prey and children, as they depend on relations
@@ -754,6 +755,10 @@ public class Database
 
         // Final setup of things
         for (final PokedexEntry entry : Database.getSortedFormes()) entry.onResourcesReloaded();
+
+        // Regenerate the starter array
+        Database.checkedStarts = false;
+        Database.getStarters();
 
         // Some debug messages
         if (PokecubeCore.getConfig().debug_data)

@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.Reader;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -68,8 +69,9 @@ public class StringTag<T> implements IResourceData
 
         private Map<String, StringValue<T>> _values = Maps.newHashMap();
 
-        void postProcess()
+        boolean postProcess()
         {
+            if (this.values.isEmpty() && !this.replace) return false;
             this.values.replaceAll(s -> {
                 boolean tag = false;
                 String name = s.name;
@@ -82,6 +84,7 @@ public class StringTag<T> implements IResourceData
             this.values.forEach(s -> {
                 _values.put(s.name, s);
             });
+            return !this.values.isEmpty();
         }
 
         public StringValue<T> isIn(final String value)
@@ -271,20 +274,29 @@ public class StringTag<T> implements IResourceData
         try
         {
             final TagHolder<T> tagged = new TagHolder<T>();
+            // Avoid duplicate processing for multiple mods in same jar
+            Set<Object> uniqueValidator = new HashSet<>();
             for (final Resource resource : resources)
             {
+                if (!uniqueValidator.add(resource.sourcePackId())) continue;
+                if (!uniqueValidator.add(resource.source().location().source())) continue;
                 final Reader reader = READER_PROVIDER.apply(resource);
                 @SuppressWarnings("unchecked")
                 final TagHolder<T> temp = gson.fromJson(reader, TagHolder.class);
-                temp.postProcess();
-                if (temp.replace) tagged.values.clear();
-                temp._values.forEach((k, v) -> {
-                    if (!tagged._values.containsKey(k))
+                if(temp.postProcess())
+                {
+                    if (temp.replace)
                     {
-                        tagged.values.add(v);
-                        tagged._values.put(k, v);
+                        tagged.values.clear();
                     }
-                });
+                    temp._values.forEach((k, v) -> {
+                        if (!tagged._values.containsKey(k))
+                        {
+                            tagged.values.add(v);
+                            tagged._values.put(k, v);
+                        }
+                    });
+                }
                 reader.close();
                 // If we were replacing, we want to exit here.
                 if (temp.replace) break;
