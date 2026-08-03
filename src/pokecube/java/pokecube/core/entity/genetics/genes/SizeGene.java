@@ -6,7 +6,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import pokecube.api.entity.SharedAttributes;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.core.PokecubeCore;
 import pokecube.core.entity.genetics.GeneticsManager;
+import pokecube.core.network.pokemobs.PacketSyncModifier;
 import thut.api.entity.genetics.Gene;
 import thut.core.common.ThutCore;
 import thut.core.common.genetics.genes.GeneFloat;
@@ -19,9 +21,30 @@ public class SizeGene extends GeneFloat
 
     public static void setScale(IPokemob pokemob, float size)
     {
-        pokemob.getGenes().getAlleles(GeneticsManager.SIZEGENE).getExpressed().setValue(size);
-        pokemob.getEntity().getAttributes().getInstance(SharedAttributes.MOB_SIZE_SCALE).addOrReplacePermanentModifier(
+        var gene = pokemob.getGenes().getAlleles(GeneticsManager.SIZEGENE).getExpressed();
+        gene.setValue(size);
+        // The gene will then call the below setScale when it next ticks.
+    }
+
+    public static double setScale(LivingEntity entity, double size)
+    {
+        double before = SharedAttributes.getScale(entity);
+
+        double baseSizeMax = Math.max(entity.getType().getHeight(), entity.getType().getWidth());
+        double baseSizeMin = Math.min(entity.getType().getHeight(), entity.getType().getWidth());
+
+        double maxSize = PokecubeCore.getConfig().maxMobSize / baseSizeMax;
+        double minSize = PokecubeCore.getConfig().minMobSize / baseSizeMin;
+        size = Math.max(minSize, Math.min(maxSize, size));
+
+        entity.getAttributes().getInstance(SharedAttributes.MOB_SIZE_SCALE).addOrReplacePermanentModifier(
                 new AttributeModifier(SIZE_GENE, size - 1, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+        if (SharedAttributes.getScale(entity) != before)
+        {
+            entity.refreshDimensions();
+            PacketSyncModifier.sendUpdate(entity);
+        }
+        return size;
     }
 
     public static float getScale(IPokemob pokemob)
@@ -76,13 +99,7 @@ public class SizeGene extends GeneFloat
         if (value > 100f) value = 100f;
         if (entity instanceof LivingEntity living && _last_set != this.value)
         {
-            //            double oldScale = SharedAttributes.getScale(living);
-            //            double height = living.getBbHeight() / oldScale;
-            //
-            // TODO insert sanity checks on min/max sizes here, using configured values
-            living.getAttributes().getInstance(SharedAttributes.MOB_SIZE_SCALE).addOrReplacePermanentModifier(
-                    new AttributeModifier(SIZE_GENE, value - 1, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
-            living.refreshDimensions();
+            value = (float) setScale(living, value);
             this._last_set = this.value;
         }
     }
