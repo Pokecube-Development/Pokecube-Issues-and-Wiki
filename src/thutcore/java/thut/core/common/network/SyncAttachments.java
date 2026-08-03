@@ -222,7 +222,13 @@ public class SyncAttachments extends Packet
             if (p.hasData(type))
             {
                 INBTSerializable ser = (INBTSerializable) p.getData(type);
-                ser.deserializeNBT(p.registryAccess(), data.get("V"));
+                if(ser instanceof TrackedAttachment tracked)
+                {
+                    tracked.preSyncClientSide();
+                    ser.deserializeNBT(p.registryAccess(), data.get("V"));
+                    tracked.postSyncClientSide();
+                }
+                else ser.deserializeNBT(p.registryAccess(), data.get("V"));
             }
         }
     }

@@ -5,4 +5,6 @@ public interface TrackedAttachment
     void markDirty();
     void markClean();
     boolean isDirty();
+    default void preSyncClientSide(){}
+    default void postSyncClientSide(){}
 }

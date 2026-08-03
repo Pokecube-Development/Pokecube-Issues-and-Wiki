@@ -1,6 +1,8 @@
 package pokecube.core.impl.capabilities.impl;
 
 import net.minecraft.world.item.ItemStack;
+import pokecube.api.data.PokedexEntry;
+import pokecube.core.utils.PokemobTracker;
 
 public abstract class PokemobEvolves extends PokemobHungry
 {
@@ -32,5 +34,19 @@ public abstract class PokemobEvolves extends PokemobHungry
     public void setEvolutionTicks(final int evolutionTicks)
     {
         this.params.EVOLTICKDW.set(evolutionTicks);
+    }
+
+    PokedexEntry _evo_test;
+    @Override
+    public void preSyncClientSide()
+    {
+        super.preSyncClientSide();
+        _evo_test = this.getPokedexEntry();
+    }
+    @Override
+    public void postSyncClientSide()
+    {
+        super.postSyncClientSide();
+        PokemobTracker.addPokemob(this);
     }
 }
