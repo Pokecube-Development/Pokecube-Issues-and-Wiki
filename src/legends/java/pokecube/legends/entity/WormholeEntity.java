@@ -24,6 +24,8 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.border.WorldBorder;
@@ -538,9 +540,13 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
                 System.out.println(newV+" "+oldEntityFwd);
 
                 float yRot = (float) -Mth.atan2(newV.x, newV.z) * (180F / (float) Math.PI);
-                entity.setYRot(yRot);
+                float oldRot = entity.getYRot();
+                float dy = yRot - oldRot;
                 entity.setYBodyRot(yRot);
-                entity.setYHeadRot(yRot);
+                entity.setYHeadRot(entity.getYHeadRot()+dy);
+                entity.setYRot(yRot);
+                entity.yRotO += dy;
+                entity.hasImpulse = true;
             }
             else entity.setDeltaMovement(0, 0, 0);
 
@@ -608,6 +614,14 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
     public boolean isInvulnerableTo(final DamageSource source)
     {
         return true;
+    }
+
+    public static final ProjectileDeflection WORMHOLE = (projectile, wormhole, rng) -> {
+    };
+    @Override
+    public ProjectileDeflection deflection(Projectile projectile)
+    {
+        return WORMHOLE;
     }
 
     @Override
