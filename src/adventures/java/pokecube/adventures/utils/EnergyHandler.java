@@ -111,9 +111,10 @@ public class EnergyHandler
                 final IEnergyStorage producer = ThutCaps.getEnergy(entity);
                 if (producer != null)
                 {
-                    final double dSq = Math.max(1,
+                    double eScale = (entity.getBbHeight()*entity.getBbWidth());
+                    double dSq = Math.max(1,
                             entity.distanceToSqr(tile.getBlockPos().getX() + 0.5, tile.getBlockPos().getY() + 0.5,
-                                    tile.getBlockPos().getZ() + 0.5));
+                                    tile.getBlockPos().getZ() + 0.5)) / eScale;
                     int toExtract = (int) (PokecubeAdv.config.maxOutput / dSq);
                     toExtract = energyMap.getOrDefault(entity.getUUID(), toExtract);
                     energyMap.put(entity.getUUID(), toExtract);

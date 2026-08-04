@@ -104,8 +104,8 @@ public class Config extends ConfigData
     // Wormholes
     @Configure(category = "wormholes", comment = "Wormholes break when they exceed this much energy. [Default: 1000000]")
     public int maxWormholeEnergy = 1000000;
-    @Configure(category = "wormholes", comment = "Wormholes gain this much energy every tick. [Default: 1000]")
-    public int wormholeEnergyPerTick = 1000;
+    @Configure(category = "wormholes", comment = "Wormholes gain this much energy every tick. [Default: 1024]")
+    public int wormholeEnergyPerTick = 1024;
     @Configure(category = "wormholes", comment = "Wormholes gain this much energy for each mob that passed through. [Default: 100000]")
     public int wormholeEntityPerTP = 10000;
     @Configure(category = "wormholes", comment = "Minimum number of ticks before you can use a wormhole after using one. [Default: 100]")

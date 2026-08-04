@@ -25,6 +25,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.border.WorldBorder;
+import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.energy.EnergyStorage;
@@ -48,12 +49,15 @@ import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.core.common.network.EntityUpdate;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class WormholeEntity extends LivingEntity
 {
@@ -189,10 +193,10 @@ public class WormholeEntity extends LivingEntity
 
     public EnergyStorage energy;
 
-    int timer = 0;
-    int uses = 0;
+    int timer = 0, uses = 0, exit_id=0;
 
     private boolean stable = false;
+    WormholeEntity exit_entity = null;
 
     public WormholeEntity(final EntityType<? extends LivingEntity> type, final Level level)
     {
@@ -400,13 +404,59 @@ public class WormholeEntity extends LivingEntity
         final double s = 0.01;
         this.setDeltaMovement(v.x + diff.x * s, v.y + diff.y * s, v.z + diff.z * s);
 
+        // Below is server processing only
+        if(!(level() instanceof ServerLevel serverLevel)) return;
+
+        // Check if destination hole exists, if so, we will average our energy with theirs.
+        WormholeEntity other = exit_entity;
+        if(other!=null && !other.isAlive())
+        {
+            other = exit_entity = null;
+            exit_id = 0;
+        }
+        if(other == null)
+        {
+            var dest = getDest();
+            ServerLevel otherLevel = serverLevel.getServer().getLevel(dest.getPos().dimension());
+            if (exit_id > 0)
+            {
+                var test = otherLevel.getEntity(exit_id);
+                if (test instanceof WormholeEntity e) other = e;
+            }
+            else if (otherLevel.isAreaLoaded(dest.getTeleLoc().getPos(), 5))
+            {
+                var box = dest.getTeleLoc().getAABB();
+                var _box = box.inflate(5);
+                Predicate<WormholeEntity> valid = h-> h.getPos().withinDist(dest, 5) && h!=this;
+                EntityTypeTest<Entity, WormholeEntity> test = EntityInit.WORMHOLE.get();
+                List<WormholeEntity> opts = new ArrayList<>();
+                otherLevel.getEntities(test, _box, valid, opts, 10);
+                if (!opts.isEmpty())
+                {
+                    other = opts.getFirst();
+                    exit_id = other.getId();
+                }
+            }
+        }
+
+        if(other != null && other.energy != null)
+        {
+            int avg_e = (other.energy.getEnergyStored()+this.energy.getEnergyStored()) / 2;
+            int our_diff = avg_e - this.energy.getEnergyStored();
+            int their_diff = avg_e - other.energy.getEnergyStored();
+            System.out.println(our_diff+" "+their_diff);
+            this.energy.receiveEnergy(our_diff, false);
+            other.energy.receiveEnergy(their_diff, false);
+        }
+        else exit_id = 0;
+        exit_entity = other;
+
         // Collapse at full energy
         if (!this.stable && this.energy.getEnergyStored() >= WormholeEntity.maxWormholeEnergy && !this.isClosing())
         {
-            if (this.level() instanceof ServerLevel) this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 4);
+            this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 4);
             this.timer = 0;
         }
-
     }
 
     @Override
