@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "pokecube_legends:wormhole",
-    "minecraft:ender_dragon"
+    "minecraft:ender_dragon",
+    "c:teleporting_not_supported"
   ]
 }

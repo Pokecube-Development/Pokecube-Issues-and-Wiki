@@ -22,7 +22,7 @@ import java.util.function.Supplier;
 public class EntityInit
 {
     public static final Supplier<EntityType<WormholeEntity>> WORMHOLE = PokecubeLegends.ENTITIES.register("wormhole",
-            () -> EntityType.Builder.of(WormholeEntity::new, MobCategory.CREATURE).sized(2, 2).build("wormhole"));
+            () -> EntityType.Builder.of(WormholeEntity::new, MobCategory.CREATURE).sized(5, 5).build("wormhole"));
 
     public static void init(IEventBus modBus)
     {

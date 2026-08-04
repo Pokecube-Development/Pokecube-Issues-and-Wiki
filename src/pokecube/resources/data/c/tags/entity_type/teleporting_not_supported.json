@@ -1,0 +1,9 @@
+{
+  "values": [
+    "pokecube:move_use",
+    {
+      "id": "pokecube_legends:wormhole",
+      "required": false
+    }
+  ]
+}

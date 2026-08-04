@@ -116,6 +116,8 @@ public class WormholeSpawns implements IWorldTickListener
     {
         WorldTickManager.registerStaticData(() -> WormholeSpawns.INSTANCE, p -> true);
         ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, WormholeEntity::onTeleport);
+        ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, WormholeEntity::onItemUseGeneral);
+        ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, WormholeEntity::onItemUseSpecfic);
         WORMHOLES = PokecubeLegends.ATTACHMENTS.register("wormholes",
                 () -> AttachmentType.serializable(Wormholes::new).build());
     }
