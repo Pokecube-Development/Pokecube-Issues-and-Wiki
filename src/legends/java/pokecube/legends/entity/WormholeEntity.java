@@ -6,10 +6,12 @@ import com.google.common.collect.Sets;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -27,8 +29,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.energy.EnergyStorage;
+import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -59,7 +63,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-public class WormholeEntity extends LivingEntity
+public class WormholeEntity extends LivingEntity implements IEntityWithComplexSpawn
 {
     private static final List<ResourceKey<Level>> _sorted = Lists.newArrayList();
 
@@ -320,9 +324,17 @@ public class WormholeEntity extends LivingEntity
     }
 
     @Override
-    public InteractionResult interact(final Player p_184230_1_, final InteractionHand p_184230_2_)
+    public InteractionResult interact(final Player player, final InteractionHand hand)
     {
-        return super.interact(p_184230_1_, p_184230_2_);
+        ResourceLocation LINKER = ResourceLocation.parse("pokecube_adventures:linker");
+        ResourceLocation ENDERPEARL = ResourceLocation.parse("minecraft:ender_pearl");
+        // Allow rotating the wormhole
+        if (ItemList.is(LINKER, player.getItemInHand(InteractionHand.MAIN_HAND)) && ItemList.is(ENDERPEARL, player.getItemInHand(hand)))
+        {
+            this.setDir(player.position().subtract(this.position()).normalize());
+            return InteractionResult.CONSUME;
+        }
+        return super.interact(player, hand);
     }
 
     @Override
@@ -337,14 +349,19 @@ public class WormholeEntity extends LivingEntity
 
         if (!this.level.isClientSide())
         {
+            float old_rot = this.yRotO;
             // Only do this rotation server side, let it sync to client.
-            float yRot = (float) Mth.atan2(this.getDir().x, this.getDir().z) * (180F / (float) Math.PI);
+            float yRot = (float) -Mth.atan2(this.getDir().x, this.getDir().z) * (180F / (float) Math.PI);
             float xRot = 0;
 
-            this.setXRot(this.xRotO = xRot);
-            this.setYRot(this.yRotO = yRot);
-            this.yBodyRot = this.yBodyRotO = yRot;
-            this.yHeadRot = this.yHeadRotO = yRot;
+            if(yRot != old_rot)
+            {
+                this.setXRot(this.xRotO = xRot);
+                this.setYRot(this.yRotO = yRot);
+                this.yBodyRot = this.yBodyRotO = yRot;
+                this.yHeadRot = this.yHeadRotO = yRot;
+                EntityUpdate.sendEntityUpdate(this);
+            }
         }
 
         this.setNoGravity(true);
@@ -401,13 +418,28 @@ public class WormholeEntity extends LivingEntity
         final Vec3 here = this.position();
         final Vec3 diff = origin.subtract(here);
         final Vec3 v = this.getDeltaMovement();
-        final double s = 0.01;
+        final double s = 0.05;
         this.setDeltaMovement(v.x + diff.x * s, v.y + diff.y * s, v.z + diff.z * s);
 
-        // Below is server processing only
-        if(!(level() instanceof ServerLevel serverLevel)) return;
-
         // Check if destination hole exists, if so, we will average our energy with theirs.
+        var other = this.getExitEntity();
+        if(other != null && other.energy != null)
+        {
+            other.energy = this.energy;
+            Energy.set(other, this.energy);
+        }
+
+        // Collapse at full energy
+        if (!this.stable && this.energy.getEnergyStored() >= WormholeEntity.maxWormholeEnergy && !this.isClosing())
+        {
+            this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 4);
+            this.timer = 0;
+        }
+    }
+
+    public WormholeEntity getExitEntity()
+    {
+        if(!(this.level() instanceof ServerLevel serverLevel)) return null;
         WormholeEntity other = exit_entity;
         if(other!=null && !other.isAlive())
         {
@@ -434,35 +466,29 @@ public class WormholeEntity extends LivingEntity
                 if (!opts.isEmpty())
                 {
                     other = opts.getFirst();
-                    exit_id = other.getId();
                 }
             }
         }
-
-        if(other != null && other.energy != null)
-        {
-            int avg_e = (other.energy.getEnergyStored()+this.energy.getEnergyStored()) / 2;
-            int our_diff = avg_e - this.energy.getEnergyStored();
-            int their_diff = avg_e - other.energy.getEnergyStored();
-            System.out.println(our_diff+" "+their_diff);
-            this.energy.receiveEnergy(our_diff, false);
-            other.energy.receiveEnergy(their_diff, false);
-        }
-        else exit_id = 0;
         exit_entity = other;
-
-        // Collapse at full energy
-        if (!this.stable && this.energy.getEnergyStored() >= WormholeEntity.maxWormholeEnergy && !this.isClosing())
+        exit_id = other==null?0:other.getId();
+        if (other != null)
         {
-            this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 4);
-            this.timer = 0;
+            // Sync destinations
+            other.dest = this.getPos();
+            this.dest = other.getPos();
+
+            other.exit_entity = this;
+            other.exit_id = this.getId();
+            // If any are stable, both are stable
+            other.stable = this.stable = this.stable|other.stable;
         }
+        return exit_entity;
     }
 
     @Override
     protected void pushEntities()
     {
-        if (!this.isIdle()) return;
+        if (!this.isIdle()||this.level().isClientSide()) return;
 
         final List<Entity> list = this.level.getEntities(this, this.getBoundingBox(),
                 e -> (e.getVehicle() == null && !e.level.isClientSide()));
@@ -483,10 +509,45 @@ public class WormholeEntity extends LivingEntity
             tpd.add(uuid);
             entity.getPersistentData().putLong("pokecube_legends:uwh_use", now);
 
+            WormholeEntity other = getExitEntity();
+            TeleDest dest = this.getDest();
+            if (other!=null)
+            {
+                var shift = other.getDir();
+                dest = new TeleDest().setPos(dest.getPos());
+                dest.shift(2*shift.x, 0, 2*shift.z);
+
+                // Eject target in direction wormhole faces.
+                Vec3 oldV = entity.getDeltaMovement(), UP = new Vec3(0,1,0), newV;
+                // Construct the two orthonormal coordinate systems
+                Vec3 oldFwd = this.getDir().normalize();
+                Vec3 oldLeft = oldFwd.cross(UP).normalize();
+                oldFwd = oldLeft.cross(UP).normalize();
+
+                Vec3 newFwd = other.getDir().normalize();
+                Vec3 newLeft = newFwd.cross(UP).scale(-1).normalize();
+                newFwd = newLeft.cross(UP).normalize(); // New direction is flipped
+
+                // Project velocity onto it
+                newV = newFwd.scale(oldFwd.dot(oldV)).add(newLeft.scale(oldLeft.dot(oldV))).add(UP.scale(UP.dot(oldV)));
+                entity.setDeltaMovement(newV);
+
+                // Project rotation
+                Vec3 oldEntityFwd = entity.getForward();
+                newV = newFwd.scale(oldFwd.dot(oldEntityFwd)).add(newLeft.scale(oldLeft.dot(oldEntityFwd))).add(UP.scale(UP.dot(oldEntityFwd)));
+                System.out.println(newV+" "+oldEntityFwd);
+
+                float yRot = (float) -Mth.atan2(newV.x, newV.z) * (180F / (float) Math.PI);
+                entity.setYRot(yRot);
+                entity.setYBodyRot(yRot);
+                entity.setYHeadRot(yRot);
+            }
+            else entity.setDeltaMovement(0, 0, 0);
+
             final List<Entity> passengers = entity.getPassengers();
             this.energy.receiveEnergy(WormholeEntity.wormholeEntityPerTP * passengers.size(), false);
-            ThutTeleporter.transferTo(entity, this.getDest(), true);
-            entity.setDeltaMovement(0, 0, 0);
+            ThutTeleporter.transferTo(entity, dest, true);
+
             this.uses++;
             this.energy.receiveEnergy(WormholeEntity.wormholeEntityPerTP, false);
         }
@@ -539,7 +600,8 @@ public class WormholeEntity extends LivingEntity
     @Override
     public boolean hurt(final DamageSource source, final float amount)
     {
-        return false;
+        // Allow a /kill command to work
+        return amount == Float.MAX_VALUE;
     }
 
     @Override
@@ -547,13 +609,6 @@ public class WormholeEntity extends LivingEntity
     {
         return true;
     }
-
-//    TODO: Check if removed
-//    @Override
-//    public Packet<?> getAddEntityPacket()
-//    {
-//        return NetworkHooks.getEntitySpawningPacket(this);
-//    }
 
     @Override
     public Iterable<ItemStack> getArmorSlots()
@@ -597,4 +652,18 @@ public class WormholeEntity extends LivingEntity
         this.dir = dir;
     }
 
+    @Override
+    public void writeSpawnData(RegistryFriendlyByteBuf buffer)
+    {
+        var tag = new CompoundTag();
+        this.addAdditionalSaveData(tag);
+        buffer.writeNbt(tag);
+    }
+
+    @Override
+    public void readSpawnData(RegistryFriendlyByteBuf additionalData)
+    {
+        var tag = additionalData.readNbt();
+        this.readAdditionalSaveData(tag);
+    }
 }

@@ -1,5 +1,6 @@
 package thut.api.entity.teleporting;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
@@ -125,6 +126,24 @@ public class TeleDest
         this.subLoc.x += dx;
         this.subLoc.y += dy;
         this.subLoc.z += dz;
+
+        if (Math.abs(dx)>1)
+        {
+            int shift = (int) dx;
+            BlockPos pos = this.getPos().pos().offset(shift, 0, 0);
+            this.setPos(GlobalPos.of(this.getPos().dimension(), pos));
+        }
+        if (dy>1)
+        {
+            BlockPos pos = this.getPos().pos().offset(0, dy, 0);
+            this.setPos(GlobalPos.of(this.getPos().dimension(), pos));
+        }
+        if (Math.abs(dz)>1)
+        {
+            int shift = (int) dz;
+            BlockPos pos = this.getPos().pos().offset(0, 0, shift);
+            this.setPos(GlobalPos.of(this.getPos().dimension(), pos));
+        }
     }
 
     public Component getInfoName()

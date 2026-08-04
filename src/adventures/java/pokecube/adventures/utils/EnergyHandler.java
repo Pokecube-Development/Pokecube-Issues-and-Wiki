@@ -48,48 +48,69 @@ import java.util.function.Supplier;
 
 public class EnergyHandler
 {
-    public static JEP parser;
+    public static JEP powerParser, hungerParser;
 
-    public static int getEnergyGain(final int level, final int spAtk, final int atk, final PokedexEntry entry)
+    public static int getEnergyGain(final int level, final int spAtk, final int atk)
     {
         int power = Math.max(atk, spAtk);
-        if (EnergyHandler.parser == null) EnergyHandler.initParser();
-        EnergyHandler.parser.setVarValue("x", level);
-        EnergyHandler.parser.setVarValue("a", power);
-        double value = EnergyHandler.parser.getValue();
+        EnergyHandler.powerParser.setVarValue("x", level);
+        EnergyHandler.powerParser.setVarValue("a", power);
+        double value = EnergyHandler.powerParser.getValue();
         if (Double.isNaN(value))
         {
-            EnergyHandler.initParser();
-            EnergyHandler.parser.setVarValue("x", level);
-            EnergyHandler.parser.setVarValue("a", power);
-            value = EnergyHandler.parser.getValue();
-            if (Double.isNaN(value)) value = 0;
+            value = 0;
         }
         power = (int) value;
         return Math.max(1, power);
     }
 
-    public static int getMaxEnergy(final int level, final int spAtk, final int atk, final PokedexEntry entry)
+    public static int getHungerCost(final int level, final int spAtk, final int atk, double relativeGain)
     {
-        return EnergyHandler.getEnergyGain(level, spAtk, atk, entry);
+        int power = Math.max(atk, spAtk);
+        EnergyHandler.hungerParser.setVarValue("x", level);
+        EnergyHandler.hungerParser.setVarValue("a", power);
+        EnergyHandler.hungerParser.setVarValue("r", relativeGain);
+        double value = EnergyHandler.hungerParser.getValue();
+        if (Double.isNaN(value))
+        {
+            value = 0;
+        }
+        power = (int) value;
+        return Math.max(0, power);
     }
 
-    public static boolean initParser(JEP jep, String func)
+    public static boolean initPowerParser(JEP jep, String func)
     {
         jep.initFunTab(); // clear the contents of the function table
         jep.addStandardFunctions();
         jep.initSymTab(); // clear the contents of the symbol table
         jep.addStandardConstants();
         jep.addComplex(); // among other things adds i to the symbol table
-        jep.addVariable("x", 0);
-        jep.addVariable("a", 0);
+        jep.addVariable("x", 0); // Level
+        jep.addVariable("a", 0); // Max of atk and spatk
         jep.parseExpression(func);
         return !jep.hasError();
     }
-    public static void initParser()
+
+    public static boolean initHungerParser(JEP jep, String func)
     {
-        parser = new JEP();
-        initParser(parser, PokecubeAdv.config.powerFunction);
+        jep.initFunTab(); // clear the contents of the function table
+        jep.addStandardFunctions();
+        jep.initSymTab(); // clear the contents of the symbol table
+        jep.addStandardConstants();
+        jep.addComplex(); // among other things adds i to the symbol table
+        jep.addVariable("x", 0); // Level
+        jep.addVariable("r", 0); // Power draw / Production of mob
+        jep.addVariable("a", 0); // Max of atk and spatk
+        jep.parseExpression(func);
+        return !jep.hasError();
+    }
+    public static void initPowerParser()
+    {
+        powerParser = new JEP();
+        initPowerParser(powerParser, PokecubeAdv.config.siphonPowerFuncion);
+        hungerParser = new JEP();
+        initHungerParser(hungerParser, PokecubeAdv.config.siphonHungerFunction);
     }
 
     public static int getOutput(final SiphonTile tile, int power, final boolean simulated, Map<UUID, Integer> energyMap)
@@ -109,13 +130,13 @@ public class EnergyHandler
             if (entity != null && entity.isAddedToLevel() && entity.isAlive())
             {
                 final IEnergyStorage producer = ThutCaps.getEnergy(entity);
-                if (producer != null)
+                if (producer != null && producer.canExtract() && producer.getEnergyStored() > 0)
                 {
                     double eScale = (entity.getBbHeight()*entity.getBbWidth());
                     double dSq = Math.max(1,
                             entity.distanceToSqr(tile.getBlockPos().getX() + 0.5, tile.getBlockPos().getY() + 0.5,
                                     tile.getBlockPos().getZ() + 0.5)) / eScale;
-                    int toExtract = (int) (PokecubeAdv.config.maxOutput / dSq);
+                    int toExtract = (int) (PokecubeAdv.config.siphonMaxOutput / dSq);
                     toExtract = energyMap.getOrDefault(entity.getUUID(), toExtract);
                     energyMap.put(entity.getUUID(), toExtract);
                     if (toExtract <= 0) continue;
@@ -128,7 +149,7 @@ public class EnergyHandler
                     }
                 }
             }
-        ret = Math.min(ret, PokecubeAdv.config.maxOutput);
+        ret = Math.min(ret, PokecubeAdv.config.siphonMaxOutput);
         return ret;
     }
 
@@ -150,7 +171,7 @@ public class EnergyHandler
 
         final Map<IEnergyStorage, Integer> tiles = Maps.newHashMap();
         Map<UUID, Integer> mobs = Maps.newHashMap();
-        int output = EnergyHandler.getOutput(tile, PokecubeAdv.config.maxOutput, true, mobs);
+        int output = EnergyHandler.getOutput(tile, PokecubeAdv.config.siphonMaxOutput, true, mobs);
         tile.energy.theoreticalOutput = output;
         tile.energy.currentOutput = output;
         final IEnergyStorage producer = ThutCaps.getEnergy(tile);
@@ -294,7 +315,7 @@ public class EnergyHandler
             @Override
             public EnergyStorage apply(IAttachmentHolder t)
             {
-                if (t instanceof IEnergyStorage tile) return new Wrapping(tile);
+                if (t instanceof IEnergyStorage tile) Wrapping.wrap(tile);
                 return null;
             }
 
@@ -387,17 +408,17 @@ public class EnergyHandler
                 final int spAtk = pokemob.getStat(Stats.SPATTACK, true);
                 final int atk = pokemob.getStat(Stats.ATTACK, true);
                 final int level = pokemob.getLevel();
-                this.capacity = EnergyHandler.getMaxEnergy(level, spAtk, atk, pokemob.getPokedexEntry());
+                this.capacity = EnergyHandler.getEnergyGain(level, spAtk, atk);
                 this.energy = living.getPersistentData().getInt("pokecube:energy");
                 final int dE = this.capacity - this.energy;
                 this.maxReceive = this.capacity / 5;
                 this.maxExtract = this.capacity;
-                final double regen = Math.min(this.capacity / 10d, dE) / this.capacity;
                 if (dE > 0)
                 {
+                    double regen = dE / this.capacity;
                     this.energy += dE;
-                    pokemob.applyHunger(
-                            (int) (Config.instance.energyHungerCost + regen * Config.instance.energyHungerCost));
+                    int hunger = EnergyHandler.getHungerCost(level, spAtk, atk, regen);
+                    pokemob.applyHunger(hunger);
                     living.getPersistentData().putInt("pokecube:energy", this.energy);
                 }
             }

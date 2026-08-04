@@ -41,8 +41,12 @@ public class Config extends ConfigData
             catch (Exception e){return false;}
             return true;
         });
-        registerValidator("pokecube_adventures.machine.powerFunction",t->{
-            try{ return EnergyHandler.initParser(new JEP(), t);}
+        registerValidator("pokecube_adventures.machine.siphonPowerFuncion",t->{
+            try{ return EnergyHandler.initPowerParser(new JEP(), t);}
+            catch (Exception e){return false;}
+        });
+        registerValidator("pokecube_adventures.machine.siphonHungerFunction",t->{
+            try{ return EnergyHandler.initHungerParser(new JEP(), t);}
             catch (Exception e){return false;}
         });
         registerValidator("pokecube_adventures.machine.clonerEfficiencyFunction",t->{
@@ -148,21 +152,18 @@ public class Config extends ConfigData
     public String trainer_defeat_reward = "{\"id\":\"minecraft:emerald\",\"count\":\"1\"}";
 
     // Energy Sihpon related options
-    @Configure(category = Config.MACHINE, comment = "The maximum forge energy per tick from an energy siphon. [Default: 256]")
-    public int maxOutput = 256;
-
-    // Energy Sihpon related options
+    @Configure(category = Config.MACHINE, comment = "The maximum forge energy per tick from an energy siphon. [Default: 512]")
+    public int siphonMaxOutput = 512;
     @Configure(category = Config.MACHINE, comment = "How often in ticks the siphon will search for new pokemobs to pull energy. [Default: 100]")
     public int siphonUpdateRate = 100;
-    @Configure(category = Config.MACHINE, comment = "This scales the amount of hunger produced by pulling energy out of a pokemob. [Default: 5]")
-    public int energyHungerCost = 5;
+    @Configure(category = Config.MACHINE, comment = "This scales the amount of hunger produced by pulling energy out of a pokemob.")
+    public String siphonHungerFunction = "1000*r/(a*x)";
+    @Configure(category = Config.MACHINE, comment = "How much energy you get of a pokemob. [Default: a*x/10]\n"
+            + " a is the max of spatk and atk.\n" + " x is the level of the pokemob.")
+    public String siphonPowerFuncion = "a*x/10";
 
     @Configure(category = Config.MACHINE, comment = "Energy siphons can be linked to receiving blocks with the device linker. [Default: true]")
     public boolean wirelessSiphons = true;
-
-    @Configure(category = Config.MACHINE, comment = "How much energy you get of a pokemob. [Default: a*x/10]\n"
-            + " a is the max of spatk and atk.\n" + " x is the level of the pokemob.")
-    public String powerFunction = "a*x/10";
 
     @Configure(category = Config.MACHINE, comment = "How many ticks each statue fuel item lasts [Default: 600]")
     public int statueFuelDuration = 600;
@@ -246,7 +247,7 @@ public class Config extends ConfigData
         this.customTrainerTypes.clear();
         this.custom_trainers.forEach(s -> this.customTrainerTypes.add(ResourceLocation.parse(s)));
 
-        EnergyHandler.initParser();
+        EnergyHandler.initPowerParser();
         BaseGeneticsTile.initParser(this.clonerEfficiencyFunction);
         WarpPadTile.initParser(this.warpPadCostFunction);
         DaycareTile.initParser(this.dayCarePowerPerExp, this.dayCareExpFunction);

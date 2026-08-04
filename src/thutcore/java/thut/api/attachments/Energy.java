@@ -65,9 +65,14 @@ public class Energy
     {
         final IEnergyStorage wrapped;
 
-        public Wrapping(IEnergyStorage wrap)
+        public static Wrapping wrap(IEnergyStorage toWrap)
         {
-            super(0);
+            return toWrap instanceof Wrapping wrapped?wrapped:new Wrapping(toWrap);
+        }
+
+        private Wrapping(IEnergyStorage wrap)
+        {
+            super(wrap.getMaxEnergyStored());
             wrapped = wrap;
         }
 
@@ -193,14 +198,19 @@ public class Energy
 
     public static EnergyStorage get(final IAttachmentHolder in, Direction d)
     {
-        IEnergyStorage toWrap = null;
-        if(in instanceof Entity e){
-            toWrap =e.getCapability(Capabilities.EnergyStorage.ENTITY, d);
+        IEnergyStorage toWrap = in instanceof IEnergyStorage store?store: null;
+        if(toWrap == null)
+        {
+            if(in instanceof Entity e)
+            {
+                toWrap =e.getCapability(Capabilities.EnergyStorage.ENTITY, d);
+            }
+            if(in instanceof BlockEntity b && b.getLevel()!=null)
+            {
+                toWrap = b.getLevel().getCapability(Capabilities.EnergyStorage.BLOCK, b.getBlockPos(), d);
+            }
         }
-        if(in instanceof BlockEntity b && b.getLevel()!=null){
-            toWrap = b.getLevel().getCapability(Capabilities.EnergyStorage.BLOCK, b.getBlockPos(), d);
-        }
-        if(toWrap!=null) return new Wrapping(toWrap);
+        if(toWrap != null) return Wrapping.wrap(toWrap);
         return get_raw(in, d);
     }
 
