@@ -130,7 +130,7 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
 
             if (!ResourceHelper.exists(animKey, Minecraft.getInstance().getResourceManager())) break xml;
 
-            var modelKey = ResourceLocation.fromNamespaceAndPath(cube.getNamespace(), MODEL.getPath() + "pokecube");
+            var modelKey = ResourceLocation.fromNamespaceAndPath(cube.getNamespace(), MODEL.getPath() + "cube");
             var holder = new ModelHolder(modelKey);
             holder.animation = animKey;
             var _model = new ModelWrapper<EntityPokecube>(holder, this);
