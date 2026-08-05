@@ -666,7 +666,6 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
                 Vec3 _dMidV = entityCentre.subtract(this.getAnchorPos().getTeleLoc().toVec3d());
                 Vec3 shift = transform(_dMidV, localFwd, localUp, localLeft, newFwd, newUp, newLeft).add(newFwd);
                 dest.shift(shift.x, shift.y, shift.z);
-                //                entity.setPos(entity.position().add(shift));
 
                 // Project velocity onto it
                 newV = transform(entityV, localFwd, localUp, localLeft, newFwd, newUp, newLeft);
@@ -680,25 +679,28 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
 
                 float yRot = (float) -Mth.atan2(newV.x, newV.z) * (180F / (float) Math.PI);
                 float oldRot = entity.getYRot();
-                float dy = yRot - oldRot;
-                entity.setYBodyRot(yRot);
-                entity.setYHeadRot(entity.getYHeadRot() + dy);
-                entity.setYRot(yRot);
-                entity.yRotO += dy;
-                entity.hasImpulse = true;
-                dYaw = dy;
+                dYaw = yRot - oldRot;
             }
             else entity.setDeltaMovement(0, 0, 0);
             Vec3 _postV = postV;
             float dy = dYaw;
             Consumer<Entity> postTransfer = (e2)-> {
                 if(e2==entity) e2.setDeltaMovement(_postV);
-                float yRot = e2.getYRot() + dy;
-                e2.setYBodyRot(yRot);
-                e2.setYHeadRot(e2.getYHeadRot() + dy);
-                e2.setYRot(yRot);
-                e2.yRotO += dy;
                 e2.hasImpulse = true;
+                if(e2 instanceof Projectile)
+                {
+                    // Recomputes from velocity
+                    e2.setXRot(0.0f);
+                    e2.setYRot(0.0f);
+                }
+                else
+                {
+                    float yRot = e2.getYRot() + dy;
+                    e2.setYBodyRot(yRot);
+                    e2.setYHeadRot(e2.getYHeadRot() + dy);
+                    e2.setYRot(yRot);
+                    e2.yRotO += dy;
+                }
             };
 
             Set<Entity> involved = new HashSet<>();
