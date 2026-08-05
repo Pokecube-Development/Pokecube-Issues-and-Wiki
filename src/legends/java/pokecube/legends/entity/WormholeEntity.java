@@ -680,6 +680,24 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
                 float yRot = (float) -Mth.atan2(newV.x, newV.z) * (180F / (float) Math.PI);
                 float oldRot = entity.getYRot();
                 dYaw = yRot - oldRot;
+
+                if(other.level()==this.level())
+                {
+                    entity.hasImpulse = true;
+                    if(entity instanceof Projectile)
+                    {
+                        // Recomputes from velocity
+                        entity.setXRot(0.0f);
+                        entity.setYRot(0.0f);
+                    }
+                    else
+                    {
+                        entity.setYBodyRot(oldRot+dYaw);
+                        entity.setYHeadRot(entity.getYHeadRot() + dYaw);
+                        entity.setYRot(yRot);
+                        entity.yRotO += dYaw;
+                    }
+                }
             }
             else entity.setDeltaMovement(0, 0, 0);
             Vec3 _postV = postV;
@@ -693,7 +711,7 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
                     e2.setXRot(0.0f);
                     e2.setYRot(0.0f);
                 }
-                else
+                else if(other.level()!=this.level())
                 {
                     float yRot = e2.getYRot() + dy;
                     e2.setYBodyRot(yRot);
