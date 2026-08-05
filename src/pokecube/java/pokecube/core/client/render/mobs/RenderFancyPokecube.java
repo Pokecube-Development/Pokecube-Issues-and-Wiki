@@ -102,16 +102,16 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
             var holder = new ModelHolder(modelKey);
             var model = new ModelWrapper<EntityPokecube>(holder, this);
             IModel m2 = ModelFactory.create(model.model, m -> {
-                model.setModel(m);
-                this.changer = null;
-                this.texer = null;
-                this.anims = Maps.newHashMap();
-                var old = this.model;
-                this.model = model; // copy this over for the animation parser to handle properly
-                AnimationLoader.parse(holder, model, this);
-                this.model = old;
                 synchronized (models)
                 {
+                    model.setModel(m);
+                    this.changer = null;
+                    this.texer = null;
+                    this.anims = Maps.newHashMap();
+                    var old = this.model;
+                    this.model = model; // copy this over for the animation parser to handle properly
+                    AnimationLoader.parse(holder, model, this);
+                    this.model = old;
                     this.models.put(cube,
                             new ModelSet(getAnimationChanger(), getTexturer(), model, offset, scale, anims));
                     RenderPokecube.pokecubeRenderers.putIfAbsent(cube, this);
@@ -135,16 +135,16 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
             holder.animation = animKey;
             var _model = new ModelWrapper<EntityPokecube>(holder, this);
             IModel m2 = ModelFactory.create(_model.model, m -> {
-                _model.setModel(m);
-                this.changer = null;
-                this.texer = null;
-                this.anims = Maps.newHashMap();
-                var old = this.model;
-                this.model = _model; // copy this over for the animation parser to handle properly
-                AnimationLoader.parse(holder, _model, this);
-                this.model = old;
                 synchronized (models)
                 {
+                    _model.setModel(m);
+                    this.changer = null;
+                    this.texer = null;
+                    this.anims = Maps.newHashMap();
+                    var old = this.model;
+                    this.model = _model; // copy this over for the animation parser to handle properly
+                    AnimationLoader.parse(holder, _model, this);
+                    this.model = old;
                     this.models.put(cube,new ModelSet(getAnimationChanger(), getTexturer(), _model, offset, scale, anims));
                     RenderPokecube.pokecubeRenderers.putIfAbsent(cube, this);
                 }
