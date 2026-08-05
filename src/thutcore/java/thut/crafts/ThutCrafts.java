@@ -71,7 +71,7 @@ public class ThutCrafts
 
         CRAFTTYPE = ENTITIES.register("craft", () -> new BlockEntityBase.BlockEntityType<>(EntityCraft::new));
         CRAFTMAKER = ITEMS.register("craftmaker", () -> new Item(new Item.Properties()));
-        CRAFTBLOCK = BLOCKS.register("craft", () -> TempBlock.make());
+        CRAFTBLOCK = BLOCKS.register("craft", TempBlock::make);
         CRAFTTE = TILES.register("craft",
                 () -> BlockEntityType.Builder.of(TempTile::new, ThutCrafts.CRAFTBLOCK.get()).build(null));
     }
@@ -101,7 +101,7 @@ public class ThutCrafts
     }
 
     public void addCreative(BuildCreativeModeTabContentsEvent event) {
-
+        if(!ThutCore.conf.craftMakerInTabs) return;
         if (event.getTabKey() == CreativeModeTabs.OP_BLOCKS)
         {
             ThutCreativeTabs.addFront(event, ThutCrafts.CRAFTMAKER.get());
