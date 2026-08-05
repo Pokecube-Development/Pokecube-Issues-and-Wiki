@@ -43,12 +43,14 @@ import thut.core.common.ThutCore;
 @EventBusSubscriber(modid = ThutCore.MODID, value = Dist.CLIENT)
 public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IModel
 {
-    private static final Set<ModelWrapper<?>> WRAPPERS = Sets.newHashSet();
+    // This used to be done to allow reloading reosurcepacks properly, need to test if it still is needed.
+//    private static final Set<ModelWrapper<?>> WRAPPERS = Sets.newHashSet();
 
     @SubscribeEvent
     public static void onTextureReload(final TextureAtlasStitchedEvent event)
     {
-        ModelWrapper.WRAPPERS.forEach(w -> w.setModel(null));
+        // This used to be done to allow reloading reosurcepacks properly, need to test if it still is needed.
+//        ModelWrapper.WRAPPERS.forEach(w -> w.setModel(null));
     }
 
     public final ModelHolder model;
@@ -74,7 +76,8 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     {
         this.model = model;
         this.renderer = renderer;
-        ModelWrapper.WRAPPERS.add(this);
+        // This used to be done to allow reloading reosurcepacks properly, need to test if it still is needed.
+//        ModelWrapper.WRAPPERS.add(this);
         Arrays.fill(this.tmp, 255);
     }
 
@@ -312,6 +315,9 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
                 p.setAnimationChanger(animChangeHolder);
                 p.setTexturerChanger(texChangeHolder);
             }
+        }
+        else{
+            Thread.dumpStack();
         }
         if (imodel instanceof IModelCustom m) renderModel = m;
         return imodel;
