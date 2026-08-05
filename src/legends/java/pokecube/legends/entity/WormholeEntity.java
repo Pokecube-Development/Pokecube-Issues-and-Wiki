@@ -27,12 +27,19 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.world.chunk.LoadingValidationCallback;
+import net.neoforged.neoforge.common.world.chunk.RegisterTicketControllersEvent;
+import net.neoforged.neoforge.common.world.chunk.TicketController;
 import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
@@ -43,6 +50,8 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.utils.EntityTools;
+import pokecube.legends.PokecubeLegends;
+import pokecube.legends.Reference;
 import pokecube.legends.init.EntityInit;
 import pokecube.legends.spawns.WormholeSpawns;
 import pokecube.legends.spawns.WormholeSpawns.IWormholeWorld;
@@ -58,13 +67,16 @@ import thut.core.common.network.EntityUpdate;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+@EventBusSubscriber(modid = Reference.ID)
 public class WormholeEntity extends LivingEntity implements IEntityWithComplexSpawn
 {
     private static final List<ResourceKey<Level>> _sorted = Lists.newArrayList();
@@ -82,7 +94,7 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
     public static int maxWormholeEnergy = 1000000;
     public static int wormholeEnergyPerTick = 1000;
     public static int wormholeEntityPerTP = 100000;
-    public static int wormholeReUseDelay = 100;
+    public static int wormholeReUseDelay = 10;
 
     public static void clear()
     {
@@ -134,6 +146,7 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
         return dim;
     }
 
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onItemUseGeneral(PlayerInteractEvent.EntityInteract event)
     {
         // Cancel interaction if wormhole is on cooldown
@@ -142,6 +155,7 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
             if(wormhole.interact_timer>0) event.setCanceled(true);
         }
     }
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onItemUseSpecfic(PlayerInteractEvent.EntityInteractSpecific event)
     {
         // Cancel interaction if wormhole is on cooldown
@@ -151,6 +165,7 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
         }
     }
 
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onTeleport(final EntityTeleportEvent event)
     {
         Entity entity = event.getEntity();
@@ -173,10 +188,10 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
         final RandomSource rand = world.getRandom();
         if (rand.nextDouble() > chance) return;
 
-        final Vector3 pos = new Vector3().set(event.getPrevX(), event.getPrevY() + 2, event.getPrevZ());
+        final Vector3 pos = new Vector3().set(event.getPrevX(), event.getPrevY()+1, event.getPrevZ());
         final WormholeEntity wormhole = EntityInit.WORMHOLE.get().create(world);
         pos.moveEntity(wormhole);
-        holes.addWormhole(wormhole.getPos().getPos().pos());
+        holes.addWormhole(wormhole.getAnchorPos().getPos().pos());
 
         // If it is a pokemob, check if holding a location linker, if so, use
         // that for destination of the wormhole!
@@ -199,7 +214,7 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
                 GlobalPos linked_pos = link.getLinkedPos(entity);
                 if (linked_pos != null)
                 {
-                    linked_pos = GlobalPos.of(linked_pos.dimension(), linked_pos.pos().above(2));
+                    linked_pos = GlobalPos.of(linked_pos.dimension(), linked_pos.pos());
                     wormhole.setDest(new TeleDest().setPos(linked_pos));
                 }
             }
@@ -207,18 +222,34 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
         world.addFreshEntity(wormhole);
     }
 
+    public static final LoadingValidationCallback TICKET_VALIDATOR = (level, helper)->{
+        for(UUID uuid: helper.getEntityTickets().keySet().stream().toList()){
+            if(level.getEntity(uuid)==null||!PokecubeLegends.config.wormholesChunkload)
+            {
+                helper.removeAllTickets(uuid);
+            }
+        }
+    };
+    public static final TicketController WORMHOLETICKETS = new TicketController(ResourceLocation.fromNamespaceAndPath(Reference.ID,"wormholes"), TICKET_VALIDATOR);
+
+    @SubscribeEvent
+    public static void onRegisterTicketControllersEvent(RegisterTicketControllersEvent event)
+    {
+        if(PokecubeLegends.config.wormholesChunkload) event.register(WORMHOLETICKETS);
+    }
+
     private static final EntityDataAccessor<Byte> ACTIVE_STATE = SynchedEntityData.defineId(WormholeEntity.class,
             EntityDataSerializers.BYTE);
 
     private TeleDest dest = null;
-    private TeleDest pos = null;
+    private TeleDest anchorPos = null;
     private Vec3 dir = null;
 
     public EnergyStorage energy;
 
     int timer = 0, uses = 0, exit_id=0, interact_timer;
 
-    private boolean stable = false;
+    private boolean stable = false, forced=false;
     WormholeEntity exit_entity = null;
 
     public WormholeEntity(final EntityType<? extends LivingEntity> type, final Level level)
@@ -261,7 +292,7 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
         if (nbt.contains("anchor_pos"))
         {
             final CompoundTag tag = nbt.getCompound("anchor_pos");
-            this.pos = TeleDest.readFromNBT(tag);
+            this.anchorPos = TeleDest.readFromNBT(tag);
         }
         if (nbt.contains("face_dir"))
         {
@@ -286,8 +317,8 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
             this.dest = d;
             final WormholeEntity wormhole = EntityInit.WORMHOLE.get().create(dest);
             wormhole.moveTo(this.dest.getPos().pos(), 0, 0);
-            wormhole.dest = this.getPos();
-            wormhole.pos = this.dest;
+            wormhole.dest = this.getAnchorPos();
+            wormhole.anchorPos = this.dest;
             holes.addWormhole(this.dest.getPos().pos());
             dest.addFreshEntity(wormhole);
             EntityUpdate.sendEntityUpdate(this);
@@ -321,8 +352,8 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
 
                 final WormholeEntity wormhole = EntityInit.WORMHOLE.get().create(world);
                 wormhole.moveTo(this.dest.getPos().pos(), 0, 0);
-                wormhole.dest = this.getPos();
-                wormhole.pos = this.dest;
+                wormhole.dest = this.getAnchorPos();
+                wormhole.anchorPos = this.dest;
                 holes.addWormhole(this.dest.getPos().pos());
                 world.addFreshEntity(wormhole);
 
@@ -335,26 +366,29 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
         return this.dest;
     }
 
-    public TeleDest getPos()
+    public TeleDest getAnchorPos()
     {
-        if (this.pos == null) this.pos = new TeleDest()
+        if (this.anchorPos == null) this.anchorPos = new TeleDest()
                 .setPos(GlobalPos.of(this.level != null ? this.level.dimension() : Level.OVERWORLD, this.getOnPos()));
-        return this.pos;
+        return this.anchorPos;
     }
 
     @Override
     public InteractionResult interact(final Player player, final InteractionHand hand)
     {
-        // 3s delay before another interaction, this allows placing blocks in the space of the wormhole
-        interact_timer = 60;
         ResourceLocation LINKER = ResourceLocation.parse("pokecube_adventures:linker");
         ResourceLocation ENDERPEARL = ResourceLocation.parse("minecraft:ender_pearl");
+        ItemStack stack = player.getItemInHand(InteractionHand.OFF_HAND);
+        boolean pearl = ItemList.is(ENDERPEARL, stack);
+        boolean linker = ItemList.is(LINKER, player.getItemInHand(InteractionHand.MAIN_HAND));
         // Allow rotating the wormhole
-        if (ItemList.is(LINKER, player.getItemInHand(InteractionHand.MAIN_HAND)) && ItemList.is(ENDERPEARL, player.getItemInHand(hand)))
+        if (linker && pearl)
         {
             this.setDir(player.position().subtract(this.position()).normalize());
             return InteractionResult.CONSUME;
         }
+        // 3s delay before another interaction, this allows placing blocks in the space of the wormhole
+        interact_timer = 60;
         return super.interact(player, hand);
     }
 
@@ -362,6 +396,18 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
     public boolean startRiding(Entity vehicle, boolean force)
     {
         return false;
+    }
+
+    @Override
+    public boolean hurt(final DamageSource source, final float amount)
+    {
+        this.interact_timer = 60;
+        // Allow a /kill command to work
+        if (amount == Float.MAX_VALUE)
+        {
+            this.discard();
+        }
+        return amount == Float.MAX_VALUE;
     }
 
     @Override
@@ -375,12 +421,12 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
         // When on cooldown, allow building inside the hitbox
         this.blocksBuilding = interact_timer<0;
 
-        this.getPos();
+        this.getAnchorPos();
         this.getDir();
 
         if(this.getVehicle()!=null)
         {
-            var _pos = this.getPos().getPos().pos();
+            var _pos = this.getAnchorPos().getPos().pos();
             int x = _pos.getX(), y = _pos.getY(), z = _pos.getZ();
             this.dismountTo(x, y, z);
         }
@@ -418,7 +464,7 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
             if (this.level instanceof ServerLevel)
             {
                 final IWormholeWorld holes = WormholeSpawns.getWormholes(level);
-                holes.removeWormhole(this.getPos().getPos().pos());
+                holes.removeWormhole(this.getAnchorPos().getPos().pos());
                 holes.getWormholes().clear();
 
                 final ServerLevel dest = this.getServer().getLevel(this.getDest().getPos().dimension());
@@ -451,9 +497,8 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
             this.timer = 0;
         }
 
-        final Vector3 anchor = this.getPos().getTeleLoc();
+        final Vector3 anchor = this.getAnchorPos().getTeleLoc();
         // Uses width, as we have smaller height for block placements
-//        float height = this.getBbWidth() / 2;
         final Vec3 origin = new Vec3(anchor.x, anchor.y, anchor.z);
         final Vec3 here = this.position();
         final Vec3 diff = origin.subtract(here);
@@ -467,6 +512,9 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
         {
             other.energy = this.energy;
             Energy.set(other, this.energy);
+            // Once per second update the wormholes
+            if(Tracker.instance().getTick()%20==this.getRandom().nextInt(20))
+                EntityUpdate.sendEntityUpdate(other);
         }
 
         // Collapse at full energy
@@ -480,6 +528,7 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
     public WormholeEntity getExitEntity()
     {
         if(!(this.level() instanceof ServerLevel serverLevel)) return null;
+
         WormholeEntity other = exit_entity;
         if(other!=null && !other.isAlive())
         {
@@ -490,6 +539,16 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
         {
             var dest = getDest();
             ServerLevel otherLevel = serverLevel.getServer().getLevel(dest.getPos().dimension());
+            if(!forced&&PokecubeLegends.config.wormholesChunkload)
+            {
+                var pos = new ChunkPos(dest.getPos().pos());
+                forced = true;
+                int loadR = PokecubeLegends.config.wormholesChunkloadRadius;
+                // Load chunks around the wormhole
+                for(int i = -loadR; i<=loadR;i++)
+                    for(int j = -loadR; j<=loadR;j++)
+                        forced = WORMHOLETICKETS.forceChunk(otherLevel, this, pos.x+i, pos.z+j, true, true) && forced;
+            }
             if (exit_id > 0)
             {
                 var test = otherLevel.getEntity(exit_id);
@@ -499,7 +558,7 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
             {
                 var box = dest.getTeleLoc().getAABB();
                 var _box = box.inflate(5);
-                Predicate<WormholeEntity> valid = h-> h.getPos().withinDist(dest, 5) && h!=this;
+                Predicate<WormholeEntity> valid = h-> h.getAnchorPos().withinDist(dest, 5) && h!=this;
                 EntityTypeTest<Entity, WormholeEntity> test = EntityInit.WORMHOLE.get();
                 List<WormholeEntity> opts = new ArrayList<>();
                 otherLevel.getEntities(test, _box, valid, opts, 10);
@@ -514,19 +573,22 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
         if (other != null)
         {
             // Sync destinations
-            other.dest = this.getPos();
-            this.dest = other.getPos();
+            other.dest = this.getAnchorPos();
+            this.dest = other.getAnchorPos();
 
             other.exit_entity = this;
             other.exit_id = this.getId();
             // If any are stable, both are stable
             other.stable = this.stable = this.stable|other.stable;
+            other.uses = this.uses = Math.max(this.uses, other.uses);
+            other.timer = this.timer = Math.max(other.timer, this.timer);
         }
         return exit_entity;
     }
 
     @Override
-    public PushReaction getPistonPushReaction() {
+    public PushReaction getPistonPushReaction()
+    {
         return PushReaction.IGNORE;
     }
 
@@ -536,32 +598,42 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
         if (!this.isIdle()||this.level().isClientSide()) return;
 
         AABB box = this.getBoundingBox();
-        Vec3 centre = box.getCenter(), // Up is 0,1,0 for now, later we can add pitch if needed
+        Vec3 _centre = box.getCenter(), // Up is 0,1,0 for now, later we can add pitch if needed
                 localUp = new Vec3(0,1,0),
-                localFwd = this.getDir().normalize(),
-                localLeft = localFwd.cross(localUp).normalize();
-        localFwd = localLeft.cross(localUp).normalize();
+                _localFwd = this.getDir().normalize(),
+                localLeft = _localFwd.cross(localUp).normalize();
+        Vec3 localFwd = localLeft.cross(localUp).normalize();
         // move the teleport plane back a bit from centre
-        centre = centre.add(localFwd.scale(box.getXsize()/4));
+        Vec3 centre = _centre.add(localFwd.scale(box.getXsize()/4));
 
         final List<Entity> list = this.level.getEntities(this, box,
                 e -> (e.getVehicle() == null));
         final Set<UUID> tpd = Sets.newHashSet();
 
-        if (!list.isEmpty()) for (Entity entity : list)
+        if (!list.isEmpty()) for (Entity _entity : list)
         {
-            entity = EntityTools.getCoreEntity(entity);
+            Entity entity = EntityTools.getCoreEntity(_entity);
 
             // These cannot go through a wormhole.
             if (ItemList.is(WormholeSpawns.SPACE_ANCHORED, entity)) continue;
+            // These could be ones teleported as riders of existing things
+            if (entity.level() != this.level() || !entity.isAddedToLevel())
+            {
+                continue;
+            }
+
+            var track = ThutCaps.getPositionTracker(entity);
 
             var entityBox = entity.getBoundingBox();
-            Vec3 entityCentre = entityBox.getCenter();
-            Vec3 dMidV = entityCentre.subtract(centre), dMidVNext=dMidV.add(entity.getDeltaMovement());
+            final Vec3 entityCentre = entityBox.getCenter(), entityV = track.getVelocity();
+            final Vec3 dMidV = entityCentre.subtract(centre), dMidVNext=dMidV.add(entityV);
             // Ensure the middle of intersects our midplane, plus or minus a block
             double dMid = dMidV.dot(localFwd)+1, dMidNext=dMidVNext.dot(localFwd)+1;
             // If we are not within 1 block of the centre, and will pass it next tick, skip
             if(Math.abs(dMid) > 1 && Math.signum(dMidNext)==Math.signum(dMid)) continue;
+            // Only transport things going the correct direction
+            if(entityV.dot(localFwd)<=0) continue;
+
 
             final long lastTp = entity.getPersistentData().getLong("pokecube_legends:uwh_use")
                     + WormholeEntity.wormholeReUseDelay;
@@ -572,51 +644,85 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
             tpd.add(uuid);
             entity.getPersistentData().putLong("pokecube_legends:uwh_use", now);
 
-            WormholeEntity other = getExitEntity();
             TeleDest dest = this.getDest();
-            if (other!=null)
-            {
-                var shift = other.getDir();
-                dest = new TeleDest().setPos(dest.getPos());
-                dest.shift(2*shift.x, 0, 2*shift.z);
+            dest = new TeleDest().setLoc(dest.getPos(), dest.getLoc().copy());
 
+            Vec3 postV = Vec3.ZERO;
+            // Recompute this post transfer, so we are probably loaded if a player went through at least?
+            WormholeEntity other = getExitEntity();
+            float dYaw = 0;
+            if (other != null)
+            {
                 // Eject target in direction wormhole faces.
-                Vec3 oldV = entity.getDeltaMovement(), newV;
+                Vec3 newV;
                 // Construct the two orthonormal coordinate systems
 
                 Vec3 newFwd = other.getDir().normalize(),
-                        newUp = new Vec3(0,1,0),
+                        newUp = new Vec3(0, 1, 0),
                         newLeft = newFwd.cross(newUp).scale(-1).normalize();
                 newFwd = newLeft.cross(newUp).normalize(); // New direction is flipped
 
+                // Initial shift is forwards 1 block, no vertical shift
+                Vec3 _dMidV = entityCentre.subtract(this.getAnchorPos().getTeleLoc().toVec3d());
+                Vec3 shift = transform(_dMidV, localFwd, localUp, localLeft, newFwd, newUp, newLeft).add(newFwd);
+                dest.shift(shift.x, shift.y, shift.z);
+                //                entity.setPos(entity.position().add(shift));
+
                 // Project velocity onto it
-                newV = newFwd.scale(localFwd.dot(oldV)).add(newLeft.scale(localLeft.dot(oldV))).add(newUp.scale(localUp.dot(oldV)));
-                if(newV.lengthSqr()<0.06)
+                newV = transform(entityV, localFwd, localUp, localLeft, newFwd, newUp, newLeft);
+                if (newV.lengthSqr() < 0.06)
                     newV.add(newFwd.scale(0.25)); // Then add some ejection speed if too slow
-                entity.setDeltaMovement(newV);
+                entity.setDeltaMovement(postV=newV);
 
                 // Project rotation
                 Vec3 oldEntityFwd = entity.getForward();
-                newV = newFwd.scale(localFwd.dot(oldEntityFwd)).add(newLeft.scale(localLeft.dot(oldEntityFwd))).add(localUp.scale(localUp.dot(oldEntityFwd)));
+                newV = transform(oldEntityFwd, localFwd, localUp, localLeft, newFwd, newUp, newLeft);
 
                 float yRot = (float) -Mth.atan2(newV.x, newV.z) * (180F / (float) Math.PI);
                 float oldRot = entity.getYRot();
                 float dy = yRot - oldRot;
                 entity.setYBodyRot(yRot);
-                entity.setYHeadRot(entity.getYHeadRot()+dy);
+                entity.setYHeadRot(entity.getYHeadRot() + dy);
                 entity.setYRot(yRot);
                 entity.yRotO += dy;
                 entity.hasImpulse = true;
+                dYaw = dy;
             }
             else entity.setDeltaMovement(0, 0, 0);
+            Vec3 _postV = postV;
+            float dy = dYaw;
+            Consumer<Entity> postTransfer = (e2)-> {
+                if(e2==entity) e2.setDeltaMovement(_postV);
+                float yRot = e2.getYRot() + dy;
+                e2.setYBodyRot(yRot);
+                e2.setYHeadRot(e2.getYHeadRot() + dy);
+                e2.setYRot(yRot);
+                e2.yRotO += dy;
+                e2.hasImpulse = true;
+            };
 
-            final List<Entity> passengers = entity.getPassengers();
-            this.energy.receiveEnergy(WormholeEntity.wormholeEntityPerTP * passengers.size(), false);
-            ThutTeleporter.transferTo(entity, dest, true);
+            Set<Entity> involved = new HashSet<>();
+            getRecursivePassengers(entity, involved);
+            this.energy.receiveEnergy(WormholeEntity.wormholeEntityPerTP * involved.size(), false);
+            ThutTeleporter.transferTo(entity, dest, true, postTransfer);
+            for(Entity e2:involved) e2.getPersistentData().putLong("pokecube_legends:uwh_use", now);
 
             this.uses++;
             this.energy.receiveEnergy(WormholeEntity.wormholeEntityPerTP, false);
         }
+    }
+
+    void getRecursivePassengers(Entity entity, Set<Entity> found)
+    {
+        if(found.add(entity)) for(var e: entity.getPassengers())
+        {
+            if(!found.contains(e)) getRecursivePassengers(e, found);
+        }
+    }
+
+    public Vec3 transform(Vec3 v, Vec3 fwdO, Vec3 upO, Vec3 leftO, Vec3 fwd, Vec3 up, Vec3 left)
+    {
+        return fwd.scale(fwdO.dot(v)).add(left.scale(leftO.dot(v))).add(up.scale(upO.dot(v)));
     }
 
     @Override
@@ -626,7 +732,7 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
         this.getDest().writeToNBT(tag);
         nbt.put("warp_dest", tag);
         tag = new CompoundTag();
-        this.getPos().writeToNBT(tag);
+        this.getAnchorPos().writeToNBT(tag);
         nbt.put("anchor_pos", tag);
         tag = new CompoundTag();
         tag.putDouble("x", this.getDir().x);
@@ -675,14 +781,6 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
     public boolean isDeadOrDying()
     {
         return false;
-    }
-
-    @Override
-    public boolean hurt(final DamageSource source, final float amount)
-    {
-        this.interact_timer = 60;
-        // Allow a /kill command to work
-        return amount == Float.MAX_VALUE;
     }
 
     @Override

@@ -24,6 +24,7 @@ import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
 import thut.lib.RegHelper;
 
+import static thut.core.common.config.Config.registerRange;
 import static thut.core.common.config.Config.registerValidator;
 import static thut.core.common.config.Config.VALID_RESOURCE;
 
@@ -49,6 +50,7 @@ public class Config extends ConfigData
             return false;
         });
         registerValidator("pokecube_legends.wormholes.wormhole_destination_blacklist", VALID_RESOURCE);
+        registerRange("pokecube_legends.wormholes.wormholesChunkloadRadius", 0, 2);
     }
 
     // Enable Condition Legendary
@@ -108,8 +110,12 @@ public class Config extends ConfigData
     public int wormholeEnergyPerTick = 1024;
     @Configure(category = "wormholes", comment = "Wormholes gain this much energy for each mob that passed through. [Default: 100000]")
     public int wormholeEntityPerTP = 10000;
-    @Configure(category = "wormholes", comment = "Minimum number of ticks before you can use a wormhole after using one. [Default: 100]")
-    public int wormholeReUseDelay = 100;
+    @Configure(category = "wormholes", comment = "Minimum number of ticks before you can use a wormhole after using one. [Default: 10]")
+    public int wormholeReUseDelay = 10;
+    @Configure(category = "wormholes", comment = "Whether wormholes act as chunk loaders. [Default: true]", gameRestart = true)
+    public boolean wormholesChunkload = true;
+    @Configure(category = "wormholes", comment = "Number of chunks around the one the wormhole is in that it loads, 0 is just current chunk. [Default: 0]")
+    public int wormholesChunkloadRadius = 0;
     @Configure(category = "wormholes", comment = "Chance per tick of a wormhole spawning randomly near a player. [Default: 0.00001]")
     public double randomWormholeChance = 0.00001;
     @Configure(category = "wormholes", comment = "Maximum distance from a player of a random wormhole spawn. [Default: 64]")

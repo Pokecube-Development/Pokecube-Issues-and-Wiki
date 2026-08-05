@@ -2,6 +2,7 @@ package thut.api;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.attachment.AttachmentType;
@@ -20,6 +21,7 @@ import thut.api.attachments.Linkable;
 import thut.api.attachments.Linkable.ILinkable;
 import thut.api.attachments.Linkable.LinkHolder;
 import thut.api.attachments.Ownable;
+import thut.api.attachments.PositionTracker;
 import thut.api.attachments.Shearable;
 import thut.api.entity.IAnimated;
 import thut.api.entity.IAnimated.IAnimationHolder;
@@ -58,6 +60,7 @@ public class ThutCaps
         AnimatedCaps.registerAttachment(registry);
         DataSync_Impl.registerAttachment(registry);
         Energy.registerAttachment(registry);
+        PositionTracker.registerAttachment(registry);
 
         IMobTexturable.Defaults.registerAttachment(registry);
 
@@ -192,5 +195,10 @@ public class ThutCaps
     public static IItemHandler getInventory(BlockEntity tile)
     {
         return getInventory(tile, null);
+    }
+
+    public static PositionTracker.ITrackedPosition getPositionTracker(Entity entity)
+    {
+        return entity.getData(PositionTracker.TYPE);
     }
 }

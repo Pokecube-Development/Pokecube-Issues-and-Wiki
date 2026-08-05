@@ -121,7 +121,7 @@ public class TeleDest
         nbt.putInt("_v_", this.version);
     }
 
-    public void shift(final double dx, final int dy, final double dz)
+    public void shift(final double dx, final double dy, final double dz)
     {
         this.subLoc.x += dx;
         this.subLoc.y += dy;
@@ -131,18 +131,19 @@ public class TeleDest
         {
             int shift = (int) dx;
             BlockPos pos = this.getPos().pos().offset(shift, 0, 0);
-            this.setPos(GlobalPos.of(this.getPos().dimension(), pos));
+            this.loc = GlobalPos.of(this.getPos().dimension(), pos);
         }
-        if (dy>1)
+        if (Math.abs(dy)>1)
         {
-            BlockPos pos = this.getPos().pos().offset(0, dy, 0);
-            this.setPos(GlobalPos.of(this.getPos().dimension(), pos));
+            int shift = (int) dy;
+            BlockPos pos = this.getPos().pos().offset(0, shift, 0);
+            this.loc = GlobalPos.of(this.getPos().dimension(), pos);
         }
         if (Math.abs(dz)>1)
         {
             int shift = (int) dz;
             BlockPos pos = this.getPos().pos().offset(0, 0, shift);
-            this.setPos(GlobalPos.of(this.getPos().dimension(), pos));
+            this.loc = GlobalPos.of(this.getPos().dimension(), pos);
         }
     }
 
