@@ -57,7 +57,6 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.items.IPokecube;
 import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.utils.Tools;
-import pokecube.core.blocks.barrels.GenericBarrelTile;
 import pokecube.core.blocks.bases.BaseBlock;
 import pokecube.core.blocks.bases.BaseTile;
 import pokecube.core.blocks.healer.HealerBlock;
@@ -139,8 +138,6 @@ public class PokecubeItems extends ItemList
     public static final Supplier<BlockEntityType<?>> REPEL_TYPE;
     public static final Supplier<BlockEntityType<TMTile>> TM_TYPE;
     public static final Supplier<BlockEntityType<TraderTile>> TRADE_TYPE;
-    // This one not final, as generated later
-    public static Supplier<BlockEntityType<GenericBarrelTile>> BARREL_TYPE;
 
     // Containers
     public static final Supplier<MenuType<GenericBarrelMenu>> BARREL_MENU;
@@ -305,8 +302,6 @@ public class PokecubeItems extends ItemList
      * pokecube block, and pokecubeFilled is the filled one. defaults are: 0 -
      * pokecube 1 - greatcube 2 - ultracube 3 - mastercube
      *
-     * @param id
-     * @param cubes
      */
     public static void addCube(final ResourceLocation id, final Item[] cubes)
     {
@@ -320,8 +315,6 @@ public class PokecubeItems extends ItemList
      * pokecube block, and pokecubeFilled is the filled one. defaults are: 0 -
      * pokecube 1 - greatcube 2 - ultracube 3 - mastercube
      *
-     * @param id
-     * @param cubes
      */
     public static void addCube(final ResourceLocation id, Item[] cubes, final boolean defaultRenderer)
     {
@@ -359,8 +352,6 @@ public class PokecubeItems extends ItemList
      * defaults are: 0 - pokecube 1 - greatcube 2 - ultracube 3 - mastercube if
      * you pass in a non- pokecube stack, it returns 0, defaults to a pokecube.
      *
-     * @param stack
-     * @return
      */
     public static ResourceLocation getCubeId(final ItemStack stack)
     {
@@ -662,7 +653,7 @@ public class PokecubeItems extends ItemList
         PokecubeItems.times.clear();
         final int num = nbt.getInt("count");
         for (int i = 0; i < num; i++)
-            if (Long.valueOf(nbt.getLong("" + i)) != 0) PokecubeItems.times.add(Long.valueOf(nbt.getLong("" + i)));
+            if (nbt.getLong("" + i) != 0) PokecubeItems.times.add(nbt.getLong("" + i));
     }
 
     public static ItemStack makeCandyStack()
@@ -702,7 +693,7 @@ public class PokecubeItems extends ItemList
         }
         for (final Long l : i) if (l != null)
         {
-            nbt.putLong("" + num, l.longValue());
+            nbt.putLong("" + num, l);
             num++;
         }
         nbt.putInt("count", num);

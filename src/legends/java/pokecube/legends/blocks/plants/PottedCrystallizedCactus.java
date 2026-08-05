@@ -6,14 +6,14 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
-import pokecube.core.init.ItemGenerator;
 
 import javax.annotation.Nullable;
 
-public class PottedCrystallizedCactus extends ItemGenerator.GenericPottedPlant
+public class PottedCrystallizedCactus extends FlowerPotBlock
 {
     public PottedCrystallizedCactus(final Block pottedPlant, final BlockBehaviour.Properties properties)
     {

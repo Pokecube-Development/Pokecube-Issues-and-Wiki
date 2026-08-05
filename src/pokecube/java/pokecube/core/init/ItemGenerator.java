@@ -26,6 +26,7 @@ import net.minecraft.world.level.block.BarrelBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ButtonBlock;
+import net.minecraft.world.level.block.CeilingHangingSignBlock;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FenceBlock;
@@ -37,10 +38,12 @@ import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.StandingSignBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
+import net.minecraft.world.level.block.WallHangingSignBlock;
+import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.properties.WoodType;
@@ -59,20 +62,12 @@ import pokecube.api.events.init.RegisterMiscItems;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.blocks.barrels.GenericBarrelBlock;
-import pokecube.core.blocks.barrels.GenericBarrelTile;
 import pokecube.core.blocks.berries.BerryCrop;
 import pokecube.core.blocks.berries.BerryFruit;
 import pokecube.core.blocks.berries.BerryLeaf;
 import pokecube.core.blocks.bookshelves.GenericBookshelf;
 import pokecube.core.blocks.bookshelves.GenericBookshelfEmpty;
 import pokecube.core.blocks.bookshelves.GenericBookshelfEmptyTile;
-import pokecube.core.blocks.hanging_signs.GenericCeilingHangingSign;
-import pokecube.core.blocks.hanging_signs.GenericHangingSignBlockEntity;
-import pokecube.core.blocks.hanging_signs.GenericWallHangingSign;
-import pokecube.core.blocks.signs.GenericSignBlockEntity;
-import pokecube.core.blocks.signs.GenericStandingSign;
-import pokecube.core.blocks.signs.GenericWallSign;
 import pokecube.core.database.Database;
 import pokecube.core.entity.boats.GenericBoat;
 import pokecube.core.entity.boats.GenericBoat.BoatRegister;
@@ -180,43 +175,31 @@ public class ItemGenerator
 
     private static void makeBerryCrop(int id, int index, String name)
     {
-        var reg = PokecubeCore.BLOCKS.register("crop_" + name, () -> {
-            Block b = new BerryCrop(BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryFruits.get(name))
-                    .strength(0.0F).noCollission().noOcclusion().randomTicks().sound(SoundType.CROP)
-                    .pushReaction(PushReaction.DESTROY), index);
-            return b;
-        });
+        var reg = PokecubeCore.BLOCKS.register("crop_" + name, () -> (Block) new BerryCrop(BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryFruits.get(name))
+                .strength(0.0F).noCollission().noOcclusion().randomTicks().sound(SoundType.CROP)
+                .pushReaction(PushReaction.DESTROY), index));
         BerryManager.berryCrops.put(id, reg);
     }
 
     private static void makeBerryFruit(int id, int index, String name)
     {
-        var reg = PokecubeCore.BLOCKS.register("fruit_" + name, () -> {
-            Block b = new BerryFruit(BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryCrops.get(name))
-                    .strength(0.0F).noCollission().noOcclusion().randomTicks().sound(SoundType.SWEET_BERRY_BUSH)
-                    .pushReaction(PushReaction.DESTROY), index);
-            return b;
-        });
+        var reg = PokecubeCore.BLOCKS.register("fruit_" + name, () -> (Block) new BerryFruit(BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryCrops.get(name))
+                .strength(0.0F).noCollission().noOcclusion().randomTicks().sound(SoundType.SWEET_BERRY_BUSH)
+                .pushReaction(PushReaction.DESTROY), index));
         BerryManager.berryFruits.put(id, reg);
     }
 
     private static void makePottedBerry(int id, int index, String name)
     {
-        var reg = PokecubeCore.BLOCKS.register("potted_" + name + "_berry", () -> {
-            Block b = new GenericPottedPlant(BerryManager.berryCrops.get(index).get(),
-                    BlockBehaviour.Properties.of().noOcclusion().instabreak().pushReaction(PushReaction.DESTROY));
-            return b;
-        });
+        var reg = PokecubeCore.BLOCKS.register("potted_" + name + "_berry", () -> (Block) new FlowerPotBlock(BerryManager.berryCrops.get(index).get(),
+                BlockBehaviour.Properties.of().noOcclusion().instabreak().pushReaction(PushReaction.DESTROY)));
         BerryManager.pottedBerries.put(id, reg);
     }
 
     private static DeferredBlock<Block> makeBerryWoodThing(String name, int index, String regName,
             Supplier<Block> block_source, Consumer<DeferredBlock<Block>> after)
     {
-        var reg = PokecubeCore.BLOCKS.register(regName, () -> {
-            Block block = block_source.get();
-            return block;
-        });
+        var reg = PokecubeCore.BLOCKS.register(regName, block_source::get);
         after.accept(reg);
         ItemGenerator.berry_wood_things.put(regName, reg);
         return reg;
@@ -230,7 +213,7 @@ public class ItemGenerator
         Collections.sort(ids);
         for (final Integer id : ids)
         {
-            final int index = id.intValue();
+            final int index = id;
             final String name = BerryManager.berryNames.get(index);
             // Crop
             makeBerryCrop(id, index, name);
@@ -300,36 +283,24 @@ public class ItemGenerator
             // Woods
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(2).apply(name), () -> Blocks
                     .log(ItemGenerator.berryWoods.get(name), ItemGenerator.berryWoods.get(name), SoundType.WOOD),
-                    block ->
-                    {
-                        ItemGenerator.woods.put(name, block);
-                    });
+                    block -> ItemGenerator.woods.put(name, block));
 
             // Stripped Logs
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(3).apply(name), () -> Blocks
                     .log(ItemGenerator.berryWoods.get(name), ItemGenerator.berryWoods.get(name), SoundType.WOOD),
-                    block ->
-                    {
-                        ItemGenerator.stripped_logs.put(name, block);
-                    });
+                    block -> ItemGenerator.stripped_logs.put(name, block));
 
             // Stripped Woods
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(4).apply(name), () -> Blocks
                     .log(ItemGenerator.berryWoods.get(name), ItemGenerator.berryWoods.get(name), SoundType.WOOD),
-                    block ->
-                    {
-                        ItemGenerator.stripped_woods.put(name, block);
-                    });
+                    block -> ItemGenerator.stripped_woods.put(name, block));
 
             // Bookshelves
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(5).apply(name),
                     () -> new GenericBookshelf(
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name)).ignitedByLava()
                                     .strength(1.5F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS)),
-                    block ->
-                    {
-                        ItemGenerator.bookshelves.put(name, block);
-                    });
+                    block -> ItemGenerator.bookshelves.put(name, block));
 
             // Planks
             var plank_block = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(6).apply(name),
@@ -346,33 +317,24 @@ public class ItemGenerator
 
             // Stairs
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(7).apply(name),
-                    () -> new GenericStairs(Blocks.OAK_PLANKS.defaultBlockState(),
+                    () -> new StairBlock(Blocks.OAK_PLANKS.defaultBlockState(),
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name)).ignitedByLava()
                                     .strength(2.0F, 3.0F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS)),
-                    block ->
-                    {
-                        ItemGenerator.stairs.put(name, block);
-                    });
+                    block -> ItemGenerator.stairs.put(name, block));
 
             // Slabs
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(8).apply(name),
                     () -> new SlabBlock(
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name)).ignitedByLava()
                                     .strength(2.0F, 3.0F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS)),
-                    block ->
-                    {
-                        ItemGenerator.slabs.put(name, block);
-                    });
+                    block -> ItemGenerator.slabs.put(name, block));
 
             // Fences
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(9).apply(name),
                     () -> new FenceBlock(
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name)).ignitedByLava()
                                     .strength(2.0F, 3.0F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS)),
-                    block ->
-                    {
-                        ItemGenerator.fences.put(name, block);
-                    });
+                    block -> ItemGenerator.fences.put(name, block));
 
             // Fence Gates
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(10).apply(name),
@@ -380,116 +342,83 @@ public class ItemGenerator
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name)).ignitedByLava()
                                     .forceSolidOn().strength(2.0F, 3.0F).sound(SoundType.WOOD)
                                     .instrument(NoteBlockInstrument.BASS)),
-                    block ->
-                    {
-                        ItemGenerator.fence_gates.put(name, block);
-                    });
+                    block -> ItemGenerator.fence_gates.put(name, block));
 
             // Buttons
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(11).apply(name),
-                    () -> new GenericButton(woodType.setType(), 30, BlockBehaviour.Properties.of().strength(0.5f)
+                    () -> new ButtonBlock(woodType.setType(), 30, BlockBehaviour.Properties.of().strength(0.5f)
                             .ignitedByLava().noCollission().sound(SoundType.WOOD).pushReaction(PushReaction.DESTROY)),
-                    block ->
-                    {
-                        ItemGenerator.buttons.put(name, block);
-                    });
+                    block -> ItemGenerator.buttons.put(name, block));
 
             // Pressure Plates
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(12).apply(name),
-                    () -> new GenericPressurePlate(woodType.setType(),
+                    () -> new PressurePlateBlock(woodType.setType(),
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name)).strength(0.5F)
                                     .ignitedByLava().forceSolidOn().noCollission().sound(SoundType.WOOD)
                                     .instrument(NoteBlockInstrument.BASS).pushReaction(PushReaction.DESTROY)),
-                    block ->
-                    {
-                        ItemGenerator.pressure_plates.put(name, block);
-                    });
+                    block -> ItemGenerator.pressure_plates.put(name, block));
 
             // Trapdoors
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(13).apply(name),
-                    () -> new GenericTrapDoor(woodType.setType(),
+                    () -> new TrapDoorBlock(woodType.setType(),
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name)).strength(3.0F)
                                     .ignitedByLava().noOcclusion().isValidSpawn(PokecubeItems::never)
                                     .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS)),
-                    block ->
-                    {
-                        ItemGenerator.trapdoors.put(name, block);
-                    });
+                    block -> ItemGenerator.trapdoors.put(name, block));
 
             // Doors
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(14).apply(name),
-                    () -> new GenericDoor(woodType.setType(),
+                    () -> new DoorBlock(woodType.setType(),
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name)).strength(3.0F)
                                     .ignitedByLava().noOcclusion().sound(SoundType.WOOD)
                                     .instrument(NoteBlockInstrument.BASS).pushReaction(PushReaction.DESTROY)),
-                    block ->
-                    {
-                        ItemGenerator.doors.put(name, block);
-                    });
+                    block -> ItemGenerator.doors.put(name, block));
 
             // Sign Blocks
             var standing_sign = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(16).apply(name),
-                    () -> new GenericStandingSign(woodType,
+                    () -> new StandingSignBlock(woodType,
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
                                     .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).strength(1.0F)
                                     .ignitedByLava().noCollission().noOcclusion().forceSolidOn()),
-                    block ->
-                    {
-                        ItemGenerator.berry_signs.put(name, block);
-                    });
+                    block -> ItemGenerator.berry_signs.put(name, block));
             // Wall Sign Blocks
             var wall_sign = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(15).apply(name),
-                    () -> new GenericWallSign(woodType,
+                    () -> new WallSignBlock(woodType,
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
                                     .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).strength(1.0F)
                                     .ignitedByLava().noCollission().noOcclusion().forceSolidOn()
                                     .lootFrom(standing_sign)),
-                    block ->
-                    {
-                        ItemGenerator.berry_wall_signs.put(name, block);
-                    });
+                    block -> ItemGenerator.berry_wall_signs.put(name, block));
 
             // Hanging Sign Blocks
             var ceiling_hanging_sign = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(17).apply(name),
-                    () -> new GenericCeilingHangingSign(woodType,
+                    () -> new CeilingHangingSignBlock(woodType,
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
                                     .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).strength(1.0F)
                                     .ignitedByLava().noCollission().forceSolidOn()),
-                    block ->
-                    {
-                        ItemGenerator.berry_hanging_signs.put(name, block);
-                    });
+                    block -> ItemGenerator.berry_hanging_signs.put(name, block));
 
             // Wall Hanging Sign Blocks
             var wall_hanging_sign = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(18).apply(name),
-                    () -> new GenericWallHangingSign(woodType,
+                    () -> new WallHangingSignBlock(woodType,
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
                                     .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).strength(1.0F)
                                     .ignitedByLava().noCollission().forceSolidOn().lootFrom(ceiling_hanging_sign)),
-                    block ->
-                    {
-                        ItemGenerator.berry_wall_hanging_signs.put(name, block);
-                    });
+                    block -> ItemGenerator.berry_wall_hanging_signs.put(name, block));
 
             // Fillable Bookshelves
             var fillable_shelves = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(19).apply(name),
                     () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of()
                             .mapColor(ItemGenerator.berryWoods.get(name)).ignitedByLava().strength(1.5F)
                             .sound(SoundType.CHISELED_BOOKSHELF).instrument(NoteBlockInstrument.BASS)),
-                    block ->
-                    {
-                        ItemGenerator.fillable_shelves.put(name, block);
-                    });
+                    block -> ItemGenerator.fillable_shelves.put(name, block));
             ItemGenerator.FILLABLE_SHELVES.add(fillable_shelves);
 
             // Barrels
             var barrels = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(20).apply(name),
-                    () -> new GenericBarrelBlock(BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
+                    () -> new BarrelBlock(BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
                             .ignitedByLava().strength(2.5F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS)),
-                    block ->
-                    {
-                        ItemGenerator.barrels.put(name, block);
-                    });
+                    block -> ItemGenerator.barrels.put(name, block));
             ItemGenerator.BARRELS.add(barrels);
 
             NO_ITEMS.add(BERRY_WOOD_THINGS.get(15).apply(name));
@@ -536,10 +465,7 @@ public class ItemGenerator
                 PokecubeAPI.LOGGER.error("No Pokedex entry for {}", type);
                 continue;
             }
-            var reg = PokecubeCore.ITEMS.register("fossil_" + type, () -> {
-                final ItemFossil item = new ItemFossil(props, Database.trim(type));
-                return item;
-            });
+            var reg = PokecubeCore.ITEMS.register("fossil_" + type, () -> new ItemFossil(props, Database.trim(type)));
             ItemGenerator.fossils.put(type, reg);
         }
     }
@@ -623,7 +549,7 @@ public class ItemGenerator
     {
         if (!SIGN_BLOCKS.isEmpty())
         {
-            Block[] blocks = (Block[]) SIGN_BLOCKS.stream().map(DeferredHolder::get).toList().toArray(new Block[0]);
+            Block[] blocks = SIGN_BLOCKS.stream().map(DeferredHolder::get).toList().toArray(new Block[0]);
             event.modify(BlockEntityType.SIGN, blocks);
         }
     }
@@ -633,7 +559,7 @@ public class ItemGenerator
     {
         if (!HANGING_SIGN_BLOCKS.isEmpty())
         {
-            Block[] blocks = (Block[]) HANGING_SIGN_BLOCKS.stream().map(DeferredHolder::get).toList().toArray(new Block[0]);
+            Block[] blocks = HANGING_SIGN_BLOCKS.stream().map(DeferredHolder::get).toList().toArray(new Block[0]);
             event.modify(BlockEntityType.HANGING_SIGN, blocks);
         }
     }
@@ -643,7 +569,7 @@ public class ItemGenerator
     {
         if (!BARRELS.isEmpty())
         {
-            Block[] barrels = (Block[]) BARRELS.stream().map(DeferredHolder::get).toList().toArray(new Block[0]);
+            Block[] barrels = BARRELS.stream().map(DeferredHolder::get).toList().toArray(new Block[0]);
             event.modify(BlockEntityType.BARREL, barrels);
         }
     }
@@ -656,80 +582,10 @@ public class ItemGenerator
                     () ->
                     {
                         List<Block> regs = Lists.newArrayList();
-                        BARRELS.forEach(r -> regs.add(r.get()));
+                        FILLABLE_SHELVES.forEach(r -> regs.add(r.get()));
                         Block[] blocks = regs.toArray(new Block[0]);
                         return BlockEntityType.Builder.of(GenericBookshelfEmptyTile::new, blocks).build(null);
                     });
-        }
-    }
-
-    public static class GenericStairs extends StairBlock
-    {
-        @SuppressWarnings("deprecation")
-        public GenericStairs(final BlockState blockForStairs, final Properties properties)
-        {
-            super(blockForStairs, properties);
-        }
-    }
-
-    public static RotatedPillarBlock stoneLog(final MapColor mapColorSide, final MapColor mapColorTop,
-            NoteBlockInstrument instrument, float destroyTIme, float blastResistance)
-    {
-        return new RotatedPillarBlock(BlockBehaviour.Properties.of().strength(destroyTIme, blastResistance)
-                .sound(SoundType.STONE).instrument(instrument).requiresCorrectToolForDrops().mapColor((state) ->
-                {
-                    return state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? mapColorSide : mapColorTop;
-                }));
-    }
-
-    public static RotatedPillarBlock stoneLog(final MapColor mapColorSide, final MapColor mapColorTop, SoundType sound,
-            NoteBlockInstrument instrument, float destroyTime, float blastResistance)
-    {
-        return new RotatedPillarBlock(BlockBehaviour.Properties.of().strength(destroyTime, blastResistance).sound(sound)
-                .instrument(instrument).requiresCorrectToolForDrops().mapColor((state) ->
-                {
-                    return state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? mapColorSide : mapColorTop;
-                }));
-    }
-
-    public static class GenericTrapDoor extends TrapDoorBlock
-    {
-        public GenericTrapDoor(final BlockSetType setType, final Properties properties)
-        {
-            super(setType, properties);
-        }
-    }
-
-    public static class GenericDoor extends DoorBlock
-    {
-        public GenericDoor(final BlockSetType setType, final Properties properties)
-        {
-            super(setType, properties);
-        }
-    }
-
-    public static class GenericPressurePlate extends PressurePlateBlock
-    {
-        public GenericPressurePlate(final BlockSetType setType, final Properties properties)
-        {
-            super(setType, properties);
-        }
-    }
-
-    public static class GenericButton extends ButtonBlock
-    {
-        public GenericButton(BlockSetType setType, int ticksPressed, final Properties properties)
-        {
-            super(setType, ticksPressed, properties);
-        }
-    }
-
-    public static class GenericPottedPlant extends FlowerPotBlock
-    {
-        @SuppressWarnings("deprecation")
-        public GenericPottedPlant(final Block pottedPlant, final Properties properties)
-        {
-            super(pottedPlant, properties);
         }
     }
 

@@ -7,8 +7,6 @@ import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.BiomeColors;
-import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
-import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -37,8 +35,6 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.blocks.hanging_signs.GenericHangingSignBlockEntity;
-import pokecube.core.blocks.signs.GenericSignBlockEntity;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.gui.blocks.Healer;
 import pokecube.core.client.gui.blocks.PC;
@@ -283,11 +279,6 @@ public class ClientSetupHandler
         event.registerEntityRenderer(EntityTypes.getEgg(), RenderEgg::new);
         event.registerEntityRenderer(EntityTypes.getBoat(), context -> new GenericBoatRenderer(context, false));
         event.registerEntityRenderer(EntityTypes.getChestBoat(), context -> new GenericBoatRenderer(context, true));
-
-        if (GenericSignBlockEntity.SIGN_TYPE != null)
-            event.registerBlockEntityRenderer(GenericSignBlockEntity.SIGN_TYPE.get(), SignRenderer::new);
-        if (GenericHangingSignBlockEntity.SIGN_TYPE != null)
-            event.registerBlockEntityRenderer(GenericHangingSignBlockEntity.SIGN_TYPE.get(), HangingSignRenderer::new);
     }
 
     public static void registerLayerDefinition(final BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> consumer)
