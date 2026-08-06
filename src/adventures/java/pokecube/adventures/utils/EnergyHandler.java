@@ -34,6 +34,7 @@ import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.entity.pokemobs.EntityPokemob;
 import thut.api.ThutCaps;
+import thut.api.Tracker;
 import thut.api.attachments.Energy;
 import thut.api.attachments.Energy.Wrapping;
 import thut.api.attachments.Linkable;
@@ -266,7 +267,6 @@ public class EnergyHandler
         TYPES.forEach(type -> event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, type, new ProviderTile()));
 
         // Now register the attachments
-
         Energy.REGISTRY.register(new HolderProvider.Provider<>()
         {
             final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube", "pokemob");
@@ -282,29 +282,6 @@ public class EnergyHandler
             protected ResourceLocation key()
             {
                 return ID;
-            }
-        });
-
-        Energy.REGISTRY.register(new HolderProvider.Provider<>()
-        {
-            final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube", "none");
-
-            @Override
-            public EnergyStorage apply(IAttachmentHolder t)
-            {
-                return new EnergyStorage(0);
-            }
-
-            @Override
-            protected ResourceLocation key()
-            {
-                return ID;
-            }
-
-            @Override
-            public int getPriority()
-            {
-                return Integer.MAX_VALUE;
             }
         });
 
@@ -374,45 +351,49 @@ public class EnergyHandler
 
         public PokemobEnergy(final Supplier<IPokemob> pokemob)
         {
-            super(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, 0);
+            super(0);
             this.pokemob = pokemob;
         }
 
         @Override
         public boolean canReceive()
         {
-            return this.checkElectricType();
+            return this.getMaxEnergyStored() > 0;
         }
 
         @Override
         public boolean canExtract()
         {
-            return this.checkElectricType();
+            return this.getMaxEnergyStored() > 0;
         }
 
-        /**
-         * This checks if we are electric type, and also does an update of the internal power, if this is the first time
-         * this is run during a tick.
-         */
-        private boolean checkElectricType()
+        @Override
+        public int getEnergyStored()
+        {
+            return super.getEnergyStored();
+        }
+
+        @Override
+        public int getMaxEnergyStored()
         {
             IPokemob pokemob = this.pokemob.get();
             // Not electric type, no energy to extract.
-            if (!pokemob.isType(PokeType.getType("electric"))) return false;
+            if (!pokemob.isType(PokeType.getType("electric"))) return 0;
 
             final Mob living = pokemob.getEntity();
             // We will update our energy when this is called, as that
-            if (living.level().getGameTime() != this.lastTickCheck)
+            if (Tracker.instance().getTick() != this.lastTickCheck)
             {
-                this.lastTickCheck = living.level().getGameTime();
+                this.lastTickCheck = Tracker.instance().getTick();
                 final int spAtk = pokemob.getStat(Stats.SPATTACK, true);
                 final int atk = pokemob.getStat(Stats.ATTACK, true);
                 final int level = pokemob.getLevel();
                 this.capacity = EnergyHandler.getEnergyGain(level, spAtk, atk);
                 this.energy = living.getPersistentData().getInt("pokecube:energy");
-                final int dE = this.capacity - this.energy;
+                int dE = this.capacity - this.energy;
                 this.maxReceive = this.capacity / 5;
                 this.maxExtract = this.capacity;
+                dE = Math.min(dE, this.maxReceive);
                 if (dE > 0)
                 {
                     double regen = dE / this.capacity;
@@ -422,7 +403,7 @@ public class EnergyHandler
                     living.getPersistentData().putInt("pokecube:energy", this.energy);
                 }
             }
-            return true;
+            return this.capacity;
         }
     }
 

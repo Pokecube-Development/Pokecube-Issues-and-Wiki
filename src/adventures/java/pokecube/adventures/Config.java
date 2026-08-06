@@ -168,6 +168,9 @@ public class Config extends ConfigData
     @Configure(category = Config.MACHINE, comment = "How many ticks each statue fuel item lasts [Default: 600]")
     public int statueFuelDuration = 600;
 
+    @Configure(category = Config.MACHINE, comment = "Scaling factor for converting forge energy to statue fuel [Default: 0.1]")
+    public double statueEnergyToFuelScale = 0.1;
+
     // Cloning related options
     @Configure(type = Type.CLIENT, category = Config.MACHINE, comment = "Displays additional tooltips in the genetics blocks. [Default: true]")
     public boolean expandedDNATooltips = true;

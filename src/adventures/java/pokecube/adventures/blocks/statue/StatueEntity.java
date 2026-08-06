@@ -27,6 +27,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
@@ -47,10 +48,11 @@ import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.network.TileUpdate;
 
+import javax.sound.midi.Track;
 import java.util.Random;
 import java.util.UUID;
 
-public class StatueEntity extends InteractableTile
+public class StatueEntity extends InteractableTile implements IEnergyStorage
 {
     private static final ResourceLocation FUELTAG = ResourceLocation.fromNamespaceAndPath("pokecube_adventures",
             "statue_fuel");
@@ -411,5 +413,47 @@ public class StatueEntity extends InteractableTile
     {
         super.saveAdditional(compound, provider);
         compound.putLong("fuelTimer", fuelTimer);
+    }
+
+    @Override
+    public int receiveEnergy(int toReceive, boolean simulate)
+    {
+        toReceive = (int) (Math.max(0, toReceive) * PokecubeAdv.config.statueEnergyToFuelScale);
+        if(!simulate)
+        {
+            long tick = Tracker.instance().getTick();
+            this.fuelTimer = Math.max(this.fuelTimer, tick) + toReceive;
+        }
+        return toReceive;
+    }
+
+    @Override
+    public int extractEnergy(final int maxExtract, final boolean simulate)
+    {
+        return 0;
+    }
+
+    @Override
+    public int getEnergyStored()
+    {
+        return Math.max(0, (int)(this.fuelTimer - Tracker.instance().getTick()));
+    }
+
+    @Override
+    public int getMaxEnergyStored()
+    {
+        return PokecubeAdv.config.statueFuelDuration;
+    }
+
+    @Override
+    public boolean canExtract()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean canReceive()
+    {
+        return true;
     }
 }

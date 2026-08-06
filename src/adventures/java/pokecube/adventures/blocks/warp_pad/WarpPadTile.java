@@ -61,7 +61,6 @@ public class WarpPadTile extends InteractableTile implements IEnergyStorage
     }
 
     private TeleDest dest = null;
-    public int energy = 0;
     boolean noEnergyNeed = false;
 
     public WarpPadTile(final BlockPos pos, final BlockState state)
@@ -146,6 +145,8 @@ public class WarpPadTile extends InteractableTile implements IEnergyStorage
         super.saveAdditional(compound, provider);
     }
 
+    private int energy = 0;
+
     @Override
     public int receiveEnergy(final int maxReceive, final boolean simulate)
     {
@@ -160,8 +161,7 @@ public class WarpPadTile extends InteractableTile implements IEnergyStorage
     @Override
     public int extractEnergy(final int maxExtract, final boolean simulate)
     {
-        int var = maxExtract;
-        if (maxExtract < this.energy) var = this.energy;
+        int var = Math.max(maxExtract, this.energy);
         if (!simulate) this.energy -= var;
         this.energy = Math.max(0, this.energy);
         this.energy = Math.min(this.getMaxEnergyStored(), this.energy);

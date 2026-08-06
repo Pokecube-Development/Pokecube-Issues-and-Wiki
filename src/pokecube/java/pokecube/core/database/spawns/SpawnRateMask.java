@@ -135,9 +135,9 @@ public class SpawnRateMask
         // BlockPos p = world.
         final Vector3 spawn = new Vector3().set(level.getSharedSpawnPos());
         final boolean r = _function.radial;
-        double old_t = this.phase_t;
-        double old_x = this.phase_x;
-        double old_y = this.phase_y;
+        double old_t;
+        double old_x;
+        double old_y;
 
         Random rand = new Random(level.getSeed());
         old_t = this.phase_t;
