@@ -506,10 +506,12 @@ public class Config extends ConfigData
     public double meteorScale = 1.0;
     @Configure(category = Config.world, comment = "Scaling factor for how often meteors attempt to fall, this is average number of ticks between falls. [Default: 100]")
     public int meteorRate = 100;
-    @Configure(category = Config.world, comment = "Maximum distance from a player for a meteor to land. (will not land further than this) [Default: 100]")
-    public int meteorMaxPlayerDistance = 100;
-    @Configure(category = Config.world, comment = "Minimum distance from a player for a meteor to land. (Will not land closer than this) [Default: 64]")
-    public int meteorMinPlayerDistance = 64;
+    @Configure(category = Config.world, comment = "Maximum distance from a player for a meteor to land. (will not land further than this) [Default: 128]")
+    public int meteorMaxPlayerDistance = 128;
+    @Configure(category = Config.world, comment = "Minimum distance from a player for a meteor to land. (Will not land closer than this) [Default: 16]")
+    public int meteorMinPlayerDistance = 16;
+    @Configure(category = Config.world, comment = "Minimum distance from world spawn for a meteor to land. (Will not land closer than this) [Default: 128]")
+    public int meteorMinWorldSpawnDistance = 128;
     @Configure(category = Config.world, comment = "Attempts to ensure there is a pokecenter at spawn, this can still fail however depending on worldgen specifics. [Default: true]")
     public boolean doSpawnBuilding = true;
     @Configure(category = Config.world, comment = "Attempts to ensure the player spawns inside the spawn building. [Default: true]")

@@ -513,8 +513,15 @@ public final class SpawnHandler
         for (final String s : PokecubeCore.getConfig().dimensionSpawnLevels) SpawnHandler.loadFunctionFromString(s);
     }
 
-    public static void makeMeteor(final ServerLevel world, final Vector3 location, final float power)
+    public static void makeMeteor(ServerLevel world, Vector3 location, float power)
     {
+        makeMeteor(world, location, power, Vector3.secondAxisNeg);
+    }
+
+    public static void makeMeteor(ServerLevel world, Vector3 location, float power, Vector3 direction)
+    {
+        Vector3 test = location.getTopBlockPos(world);
+        if(test.y < location.y) location = test;
         if (power > 0)
         {
             final ExplosionCustom boom = new ExplosionCustom(world, null, location,
@@ -523,8 +530,7 @@ public final class SpawnHandler
             boom.breaker = new MeteorBlockBreaker(world);
             final String message = "Meteor at " + location + " with energy of " + power;
             PokecubeAPI.logDebug(message);
-
-            boom.doKineticImpactor(world, new Vector3().set(0, -1, 0), location, null, 0.1f, power);
+            boom.doKineticImpactor(world, new Vector3(direction), location, null, 0.1f, power);
         }
         PokecubeSerializer.getInstance().addMeteorLocation(GlobalPos.of(world.dimension(), location.getPos()));
     }
@@ -661,28 +667,31 @@ public final class SpawnHandler
             int dr = PokecubeCore.getConfig().meteorMaxPlayerDistance;
             final int dx = rand.nextInt(2 * dr) - dr;
             final int dz = rand.nextInt(2 * dr) - dr;
-            final Vector3 v = new Vector3();
-            final Vector3 v1 = new Vector3();
-            v.set(player).add(dx, 0, dz);
-            final Vector4 loc = new Vector4(player);
-            loc.x += dx;
-            loc.z += dz;
+            dr = PokecubeCore.getConfig().meteorMinPlayerDistance + PokecubeCore.getConfig().meteorRadius;
+            int dr2 = dx*dx + dz*dz;
+            // Ensure it is at least the minimum distance from the player that this spawned for
+            if(dr2 > dr * dr) return;
+
+            Vector3 v = new Vector3(), v1 = new Vector3(), v2 = new Vector3();
+            v.set(player).addTo(dx, 0, dz);
+            v2.set(world.getSharedSpawnPos()); v2.y = 0;
+            v1.set(v); v1.y = 0;
+            if(v2.distanceTo(v1) < PokecubeCore.getConfig().meteorMinWorldSpawnDistance) return;
+
+            final Vector4 loc = new Vector4();
+            loc.x = (float) v.x;
+            loc.z = (float) v.z;
             if (!TerrainManager.isAreaLoaded(world, v, 0)) return;
-            // This getHeight can block if the above check doesn't work out!
-            loc.y = world.getHeight(Types.WORLD_SURFACE, (int) loc.x, (int) loc.z);
+            loc.y = world.getHeight();
             final GlobalPos pos = GlobalPos.of(world.dimension(), new BlockPos((int) loc.x, (int) loc.y, (int) loc.z));
             if (PokecubeSerializer.getInstance().canMeteorLand(pos, world))
             {
                 final Vector3 direction = v1.set(rand.nextGaussian() / 2, -1, rand.nextGaussian() / 2);
                 v.set(loc.x, loc.y, loc.z);
-                final Vector3 location = Vector3.getNextSurfacePoint(world, v, direction, 255);
-                if (location != null)
-                {
-                    if (world.getNearestPlayer(location.x, location.y, location.z, PokecubeCore.getConfig().meteorMinPlayerDistance, EntitySelector.NO_SPECTATORS)
-                            != null) return;
-                    final float energy = (float) Math.abs((rand.nextGaussian() + 1) * 50);
-                    SpawnHandler.makeMeteor(world, location, energy);
-                }
+                // ensure no other players are nearby
+                if (world.getNearestPlayer(v.x, v.y, v.z, dr, EntitySelector.NO_SPECTATORS) != null) return;
+                final float energy = (float) Math.abs((rand.nextGaussian() + 1) * 50);
+                SpawnHandler.makeMeteor(world, v, energy, direction);
             }
         }
     }
