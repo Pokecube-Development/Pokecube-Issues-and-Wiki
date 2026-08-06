@@ -389,7 +389,11 @@ public class BotPlayer extends ServerPlayer implements Npc
         public void handleMovePlayer(ServerboundMovePlayerPacket packet) {}
 
         @Override
-        public void teleport(double x, double y, double z, float yaw, float pitch) {}
+        public void teleport(double x, double y, double z, float yaw, float pitch)
+        {
+            this.player.setPos(x, y, z);
+            player.setYHeadRot(yaw);
+        }
 
         @Override
         public void handlePlayerAction(ServerboundPlayerActionPacket packet) {}
