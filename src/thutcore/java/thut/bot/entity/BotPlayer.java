@@ -473,7 +473,11 @@ public class BotPlayer extends ServerPlayer implements Npc
         public void handleLockDifficulty(ServerboundLockDifficultyPacket packet) {}
 
         @Override
-        public void teleport(double x, double y, double z, float yaw, float pitch, Set<RelativeMovement> relativeSet) {}
+        public void teleport(double x, double y, double z, float yaw, float pitch, Set<RelativeMovement> relativeSet)
+        {
+            this.player.setPos(x, y, z);
+            player.setYHeadRot(yaw);
+        }
 
         @Override
         public void ackBlockChangesUpTo(int sequence) {}
