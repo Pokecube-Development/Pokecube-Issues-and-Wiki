@@ -414,17 +414,22 @@ idea {
 }
 
 def gitVersion() {
-    def raw = grgit.describe(longDescr: true) as String
-    if (raw.startsWith("${minecraft_version}-")){
-        raw = raw.replaceFirst("${minecraft_version}-","")
+    try {
+        def raw = grgit.describe(longDescr: true) as String
+        if (raw.startsWith("${minecraft_version}-")){
+            raw = raw.replaceFirst("${minecraft_version}-","")
+        }
+        else return mod_version
+        def desc = (raw == null ? 'unknown-offset-hash' : raw.split('-')) as List
+        def vars = desc.get(0)
+        def splis = vars.split(/[.]/)
+        def majver = splis[0].toInteger()
+        def subver = splis[1].toInteger()
+        def offset = splis[2].toInteger()
+        def ver = offset + 1
+        return "${majver}.${subver}.${ver}"
     }
-    else return mod_version
-    def desc = (raw == null ? 'unknown-offset-hash' : raw.split('-')) as List
-    def vars = desc.get(0)
-    def splis = vars.split(/[.]/)
-    def majver = splis[0].toInteger()
-    def subver = splis[1].toInteger()
-    def offset = splis[2].toInteger()
-    def ver = offset + 1
-    return "${majver}.${subver}.${ver}"
+    catch (Exception ignored) {
+        return mod_version
+    }
 }
