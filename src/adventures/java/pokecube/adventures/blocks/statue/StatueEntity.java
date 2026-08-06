@@ -418,11 +418,13 @@ public class StatueEntity extends InteractableTile implements IEnergyStorage
     @Override
     public int receiveEnergy(int toReceive, boolean simulate)
     {
-        toReceive = (int) (Math.max(0, toReceive) * PokecubeAdv.config.statueEnergyToFuelScale);
+        if(PokecubeAdv.config.statueEnergyPerTick < 0) return 0;
+        if(toReceive < PokecubeAdv.config.statueEnergyPerTick) return 0;
+        toReceive = toReceive - PokecubeAdv.config.statueEnergyPerTick;
         if(!simulate)
         {
             long tick = Tracker.instance().getTick();
-            this.fuelTimer = Math.max(this.fuelTimer, tick) + toReceive;
+            this.fuelTimer = tick + toReceive;
         }
         return toReceive;
     }
@@ -442,7 +444,7 @@ public class StatueEntity extends InteractableTile implements IEnergyStorage
     @Override
     public int getMaxEnergyStored()
     {
-        return PokecubeAdv.config.statueFuelDuration;
+        return PokecubeAdv.config.statueEnergyPerTick;
     }
 
     @Override
