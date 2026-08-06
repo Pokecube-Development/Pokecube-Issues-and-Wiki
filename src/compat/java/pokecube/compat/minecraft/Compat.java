@@ -112,7 +112,7 @@ public class Compat
         CapabilityInhabitable.Register(ResourceLocation.parse("pokecube:vanilla_bees"), BeeTasks.BeeHabitat::new);
         Ownable._REGISTRY.register(new HolderProvider.Provider<>()
         {
-            final ResourceLocation KEY = ResourceLocation.parse("pokecube:ownable_blocks");
+            final ResourceLocation KEY = ResourceLocation.parse("pokecube:ownable_mobs");
 
             @Override
             protected ResourceLocation key()

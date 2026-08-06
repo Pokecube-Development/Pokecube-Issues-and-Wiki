@@ -40,6 +40,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -197,19 +198,19 @@ public class PokecubeItems extends ItemList
                         .requiresCorrectToolForDrops().ignitedByLava().isValidSpawn(PokecubeItems::never)
                         .strength(2.0F, 2.5F).requiresCorrectToolForDrops().sound(SoundType.NETHERITE_BLOCK)));
         HEALER = PokecubeCore.BLOCKS.register("pokecenter",
-                () -> new HealerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(2000)
+                () -> new HealerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(10)
                         .requiresCorrectToolForDrops().sound(SoundType.NETHERITE_BLOCK)));
         PC_TOP = PokecubeCore.BLOCKS.register("pc_top",
-                () -> new PCBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(2000)
+                () -> new PCBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(10)
                         .requiresCorrectToolForDrops().sound(SoundType.NETHERITE_BLOCK), true));
         PC_BASE = PokecubeCore.BLOCKS.register("pc_base",
-                () -> new PCBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(2000)
+                () -> new PCBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(10)
                         .requiresCorrectToolForDrops().sound(SoundType.NETHERITE_BLOCK), false));
         TM_MACHINE = PokecubeCore.BLOCKS.register("tm_machine",
-                () -> new TMBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).strength(2000)
+                () -> new TMBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).strength(10)
                         .requiresCorrectToolForDrops().sound(SoundType.NETHERITE_BLOCK)));
         TRADER = PokecubeCore.BLOCKS.register("trade_machine",
-                () -> new TraderBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).strength(2000)
+                () -> new TraderBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).strength(10)
                         .requiresCorrectToolForDrops().sound(SoundType.NETHERITE_BLOCK)));
         DYNAMAX = PokecubeCore.BLOCKS.register("dynamax",
                 () -> new MaxBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA).strength(0.8F)
@@ -244,6 +245,7 @@ public class PokecubeItems extends ItemList
         DEFAULT_OWNABLE_TE.add(BaseTile.class);
         DEFAULT_OWNABLE_TE.add(HealerTile.class);
         DEFAULT_OWNABLE_TE.add(PCTile.class);
+        DEFAULT_OWNABLE_TE.add(TraderTile.class);
 
         Ownable._REGISTRY.register(new HolderProvider.Provider<>()
         {
@@ -257,7 +259,7 @@ public class PokecubeItems extends ItemList
             @Override
             public Ownable.IOwnableSerializable apply(IAttachmentHolder h)
             {
-                if (DEFAULT_OWNABLE_TE.contains(h.getClass())) return new Ownable.ImplTE();
+                if (DEFAULT_OWNABLE_TE.contains(h.getClass())) return new Ownable.ImplTE(PokecubeCore.getConfig().allowRaidingPokecenters, false);
                 return null;
             }
         });

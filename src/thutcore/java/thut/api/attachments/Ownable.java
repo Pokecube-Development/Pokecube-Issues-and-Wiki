@@ -303,7 +303,32 @@ public class Ownable
     }
 
     public static class ImplTE extends Impl implements IOwnableTE
-    {}
+    {
+        boolean canEditUnowned;
+        boolean dropWithSitck;
+        public ImplTE(boolean edit, boolean drop)
+        {
+            canEditUnowned = edit;
+            dropWithSitck = drop;
+        }
+
+        public ImplTE()
+        {
+            this(true, true);
+        }
+
+        @Override
+        public boolean dropWithStick()
+        {
+            return dropWithSitck;
+        }
+
+        @Override
+        public boolean canEditUnowned()
+        {
+            return canEditUnowned;
+        }
+    }
 
     public static final Set<BlockEntityType<?>> TILES = Sets.newHashSet();
 
@@ -348,6 +373,13 @@ public class Ownable
             {
                 return ID;
             }
+
+            @Override
+            public int getPriority()
+            {
+                // Allow any others to replace this.
+                return Integer.MAX_VALUE;
+            }
         });
     }
 
@@ -370,8 +402,8 @@ public class Ownable
         if (tile != null && tile.getLevel() instanceof ServerLevel level)
         {
             final IOwnable ownable = ThutCaps.getOwnable(tile);
-            if (ownable instanceof IOwnableTE te && te.canEdit(event.getEntity()) && ItemList.is(Ownable.STICKTAG,
-                    event.getItemStack()) && te.getOwnerId() != null)
+            if (ownable instanceof IOwnableTE te && te.dropWithStick() && te.canEdit(event.getEntity())
+                    && ItemList.is(Ownable.STICKTAG, event.getItemStack()) && te.getOwnerId() != null)
             {
                 BlockState state = level.getBlockState(event.getPos());
                 List<ItemStack> drops = Block.getDrops(state, level, event.getPos(), tile, event.getEntity(),

@@ -527,6 +527,8 @@ public class Config extends ConfigData
     @Configure(category = Config.world, comment = "If false, subbiomes will not auto-detect, meaning they need to be placed manually, useful for adventure maps, etc. [Default: true]")
     public boolean autoDetectSubbiomes = true;
 
+    @Configure(category = Config.world, comment = "If true, players can break important blocks found in natural pokecenters. [Default: false]", gameRestart = true)
+    public boolean allowRaidingPokecenters = false;
     @Configure(category = Config.world, comment = "Any structure not in structure_subbiomes will apply as ruins, unless something else sets it first (like the structure's spawn settings). [Default: true]")
     public boolean structs_default_ruins = true;
 //    @Configure(category = Config.world, comment = "This is what the value in the structure data block will be replaced with to generate the professor.", worldRestart = true)
