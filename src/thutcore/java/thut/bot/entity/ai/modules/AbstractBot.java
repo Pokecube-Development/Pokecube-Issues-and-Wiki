@@ -145,6 +145,7 @@ public abstract class AbstractBot implements IBotAI
             readd.add(player);
         }
         // Move us to the nearest village to the target.
+        this.player.setPos(tpTo.getX(), tpTo.getY(), tpTo.getZ());
         this.player.teleportTo(tpTo.getX(), tpTo.getY(), tpTo.getZ());
 
         if (ThutCore.conf.debug) ThutCore.LOGGER.info("Teleprted bot to " + tpTo);
