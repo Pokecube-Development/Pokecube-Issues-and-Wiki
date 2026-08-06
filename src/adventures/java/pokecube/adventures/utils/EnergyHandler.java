@@ -259,6 +259,7 @@ public class EnergyHandler
         TYPES.add(PokecubeAdv.AFA_TYPE.get());
         TYPES.add(PokecubeAdv.SIPHON_TYPE.get());
         TYPES.add(PokecubeAdv.WARP_PAD_TYPE.get());
+        TYPES.add(PokecubeAdv.STATUE_TYPE.get());
 
         TYPES.add(PokecubeAdv.CLONER_TYPE.get());
         TYPES.add(PokecubeAdv.EXTRACTOR_TYPE.get());
