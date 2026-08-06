@@ -34,6 +34,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.core.inventory.healer.HealerContainer;
+import thut.api.Tracker;
 import thut.api.block.ITickTile;
 
 public class HealerBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock
@@ -159,6 +160,13 @@ public class HealerBlock extends HorizontalDirectionalBlock implements SimpleWat
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
             BlockHitResult hitResult)
     {
+        var entity = level.getBlockEntity(pos);
+        // Check delay for use after placement
+        if(entity instanceof HealerTile tile && Tracker.instance().getTick() < tile.placeTime)
+        {
+            // TODO message or warning saying why you can't interact with it yet?
+            return InteractionResult.PASS;
+        }
         player.openMenu(new SimpleMenuProvider((id, playerInventory, playerIn) -> new HealerContainer(id,
                 playerInventory, ContainerLevelAccess.create(level, pos)), player.getDisplayName()));
         return InteractionResult.SUCCESS;
