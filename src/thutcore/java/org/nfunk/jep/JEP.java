@@ -26,6 +26,7 @@ import org.nfunk.jep.function.ComplexPFMC;
 import org.nfunk.jep.function.Cosine;
 import org.nfunk.jep.function.CosineDeg;
 import org.nfunk.jep.function.CosineH;
+import org.nfunk.jep.function.Erf;
 import org.nfunk.jep.function.Exp;
 import org.nfunk.jep.function.Floor;
 import org.nfunk.jep.function.If;
@@ -277,6 +278,7 @@ public class JEP
         this.funTab.put("log", new Logarithm());
         this.funTab.put("ln", new NaturalLogarithm());
         this.funTab.put("exp", new Exp());
+        this.funTab.put("erf", new Erf() );
 
         this.funTab.put("sqrt", new SquareRoot());
         this.funTab.put("abs", new Abs());
