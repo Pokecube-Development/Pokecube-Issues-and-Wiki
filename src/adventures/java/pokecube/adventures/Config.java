@@ -157,7 +157,7 @@ public class Config extends ConfigData
     @Configure(category = Config.MACHINE, comment = "How often in ticks the siphon will search for new pokemobs to pull energy. [Default: 100]")
     public int siphonUpdateRate = 100;
     @Configure(category = Config.MACHINE, comment = "This scales the amount of hunger produced by pulling energy out of a pokemob.")
-    public String siphonHungerFunction = "1000*r/(a*x)";
+    public String siphonHungerFunction = "2e1*r*a/x";
     @Configure(category = Config.MACHINE, comment = "How much energy you get of a pokemob. [Default: a*x/10]\n"
             + " a is the max of spatk and atk.\n" + " x is the level of the pokemob.")
     public String siphonPowerFuncion = "a*x/10";

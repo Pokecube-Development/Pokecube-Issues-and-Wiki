@@ -193,7 +193,10 @@ public class Energy
 
     public static EnergyStorage get_raw(final IAttachmentHolder in, Direction d)
     {
-        return in.getData(TYPE);
+        if(in.hasData(TYPE)) return in.getData(TYPE);
+        var tst = REGISTRY.make(in);
+        if (tst != null) set(in, tst);
+        return tst;
     }
 
     public static EnergyStorage get(final IAttachmentHolder in, Direction d)

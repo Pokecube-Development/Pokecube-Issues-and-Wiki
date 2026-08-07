@@ -293,7 +293,7 @@ public class EnergyHandler
             @Override
             public EnergyStorage apply(IAttachmentHolder t)
             {
-                if (t instanceof IEnergyStorage tile) Wrapping.wrap(tile);
+                if (t instanceof IEnergyStorage tile) return Wrapping.wrap(tile);
                 return null;
             }
 
@@ -353,6 +353,7 @@ public class EnergyHandler
         public PokemobEnergy(final Supplier<IPokemob> pokemob)
         {
             super(0);
+            this.energy = -1;
             this.pokemob = pokemob;
         }
 
@@ -390,8 +391,8 @@ public class EnergyHandler
                 final int atk = pokemob.getStat(Stats.ATTACK, true);
                 final int level = pokemob.getLevel();
                 this.capacity = EnergyHandler.getEnergyGain(level, spAtk, atk);
-                this.energy = living.getPersistentData().getInt("pokecube:energy");
-                int dE = this.capacity - this.energy;
+                if(this.energy < 0) this.energy = living.getPersistentData().getInt("pokecube:energy");
+                double dE = this.capacity - this.energy;
                 this.maxReceive = this.capacity / 5;
                 this.maxExtract = this.capacity;
                 dE = Math.min(dE, this.maxReceive);
@@ -400,9 +401,10 @@ public class EnergyHandler
                     double regen = dE / this.capacity;
                     this.energy += dE;
                     int hunger = EnergyHandler.getHungerCost(level, spAtk, atk, regen);
+                    System.out.println(hunger);
                     pokemob.applyHunger(hunger);
-                    living.getPersistentData().putInt("pokecube:energy", this.energy);
                 }
+                living.getPersistentData().putInt("pokecube:energy", this.energy);
             }
             return this.capacity;
         }
