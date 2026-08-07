@@ -1,7 +1,11 @@
 package pokecube.adventures.blocks.warp_pad;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 
+import net.minecraft.server.level.ServerLevel;
 import org.nfunk.jep.JEP;
 
 import com.google.common.collect.Lists;
@@ -24,6 +28,7 @@ import thut.api.Tracker;
 import thut.api.entity.teleporting.TeleDest;
 import thut.api.entity.teleporting.ThutTeleporter;
 import thut.api.maths.Vector3;
+import thut.lib.RegHelper;
 
 public class WarpPadTile extends InteractableTile implements IEnergyStorage
 {
@@ -50,6 +55,42 @@ public class WarpPadTile extends InteractableTile implements IEnergyStorage
     {
         parser = new JEP();
         initParser(parser, function);
+    }
+
+    public static record WarpDetails(ServerLevel source, GlobalPos pad, TeleDest dest){}
+
+    public static Map<ResourceKey<Level>, Function<WarpDetails, Double>> METRIC_MAP = new HashMap<>();
+    public static Function<WarpDetails, Double> METRIC;
+
+    static
+    {
+        METRIC = (details)->{
+            GlobalPos a = details.pad();
+            GlobalPos b = details.dest().getPos();
+            if(METRIC_MAP.containsKey(a.dimension()))
+            {
+                var _METRIC = METRIC_MAP.get(a.dimension());
+                if(_METRIC != METRIC)
+                {
+                    return _METRIC.apply(details);
+                }
+            }
+            BlockPos _a = a.pos(), _b = b.pos();
+            parser.setVarValue("dx", _a.getX() - _b.getX());
+            parser.setVarValue("dy", _a.getY() - _b.getY());
+            parser.setVarValue("dz", _a.getZ() - _b.getZ());
+            double dw = 0;
+            // Default case, sort dimensions and pick difference in index in list.
+            var registry = details.source().registryAccess().registry(RegHelper.DIMENSION_REGISTRY);
+            if(registry.isPresent()){
+                List<ResourceKey<Level>> list = registry.get().registryKeySet().stream().toList();
+                int __a = list.indexOf(a.dimension());
+                int __b = list.indexOf(b.dimension());
+                dw = Math.abs(__a-__b);
+            }
+            parser.setVarValue("dw", dw);
+            return parser.getValue();
+        };
     }
 
     public static double MAXRANGE = 64;
@@ -94,20 +135,14 @@ public class WarpPadTile extends InteractableTile implements IEnergyStorage
         // No step now, too soon.
         if (lastStepped - WarpPadTile.COOLDOWN > time) return;
         entityIn.getPersistentData().putLong("lastWarpPadUse", time);
-        if (!this.noEnergyNeed && PokecubeAdv.config.warpPadEnergy)
+        if (!this.noEnergyNeed && PokecubeAdv.config.warpPadEnergy && getLevel() instanceof ServerLevel level)
         {
-
-            double cost = 0;
             final Vector3 here = new Vector3().set(this);
-            WarpPadTile.parser.setVarValue("dx", link.getX() - here.x);
-            WarpPadTile.parser.setVarValue("dy", link.getY() - here.y + 0.5);
-            WarpPadTile.parser.setVarValue("dz", link.getZ() - here.z);
-            // TODO Decide on distance between dimensions
-            WarpPadTile.parser.setVarValue("dw", 0);
-            cost = WarpPadTile.parser.getValue();
+            GlobalPos posHere = GlobalPos.of(level.dimension(), here.getPos());
+            double cost = METRIC.apply(new WarpDetails(level, posHere, dest));
             if (!this.noEnergyNeed && this.energy < cost)
             {
-                this.getLevel().playSound(null, this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 0.5,
+                level.playSound(null, this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 0.5,
                         this.getBlockPos().getZ() + 0.5, SoundEvents.NOTE_BLOCK_BASEDRUM, SoundSource.BLOCKS, 1, 1);
                 return;
             }
