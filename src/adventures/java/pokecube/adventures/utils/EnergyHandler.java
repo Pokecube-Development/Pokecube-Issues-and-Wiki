@@ -401,7 +401,6 @@ public class EnergyHandler
                     double regen = dE / this.capacity;
                     this.energy += dE;
                     int hunger = EnergyHandler.getHungerCost(level, spAtk, atk, regen);
-                    System.out.println(hunger);
                     pokemob.applyHunger(hunger);
                 }
                 living.getPersistentData().putInt("pokecube:energy", this.energy);
