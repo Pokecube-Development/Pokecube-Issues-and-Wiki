@@ -56,11 +56,11 @@ public class TrainerNpc extends TrainerBase
         for (int i = 0; i < this.getPokemobs().getMaxPokemobCount(); i++)
         {
             ItemStack stack = this.getPokemobs().getPokemob(i);
-            System.out.println(stack+" "+this+" "+this.getPokemobs()+" "+this.getData(TrainerCaps.TRAINER));
             if (PokecubeManager.isFilled(stack))
             {
                 final IPokemob mon = PokecubeManager.itemToPokemob(stack, this.level());
                 final int stat = this.getBaseStats(mon);
+                // Mob has to be "Better" ie level and stats, as well as cannot be a restricted legend
                 if (stat > stat1 || mon.getLevel() > mon1.getLevel()
                         || SpecialCaseRegister.getCaptureCondition(mon.getEvolutionEntry()) != null
                         || SpecialCaseRegister.getSpawnCondition(mon.getEvolutionEntry()) != null)

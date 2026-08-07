@@ -539,7 +539,7 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
         {
             var dest = getDest();
             ServerLevel otherLevel = serverLevel.getServer().getLevel(dest.getPos().dimension());
-            if(!forced&&PokecubeLegends.config.wormholesChunkload)
+            if(!forced && PokecubeLegends.config.wormholesChunkload)
             {
                 var pos = new ChunkPos(dest.getPos().pos());
                 forced = true;
