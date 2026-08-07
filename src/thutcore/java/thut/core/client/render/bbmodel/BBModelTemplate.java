@@ -158,7 +158,7 @@ public class BBModelTemplate
                 face.points[2] = new Vertex(to[0], from[1], from[2]);
                 face.points[3] = new Vertex(to[0], from[1], to[2]);
                 face.rotation = down.rotation;
-                face.texture = down.texture;
+                face.texture = down.getTexture();
                 face.uvs = down.uv;
                 if (face.isValid()) quads[Direction.DOWN.ordinal()] = face;
             }
@@ -171,7 +171,7 @@ public class BBModelTemplate
                 face.points[2] = new Vertex(to[0], to[1], to[2]);
                 face.points[3] = new Vertex(to[0], to[1], from[2]);
                 face.rotation = up.rotation;
-                face.texture = up.texture;
+                face.texture = up.getTexture();
                 face.uvs = up.uv;
                 if (face.isValid()) quads[Direction.UP.ordinal()] = face;
             }
@@ -184,7 +184,7 @@ public class BBModelTemplate
                 face.points[2] = new Vertex(from[0], from[1], to[2]);
                 face.points[3] = new Vertex(from[0], to[1], to[2]);
                 face.rotation = west.rotation;
-                face.texture = west.texture;
+                face.texture = west.getTexture();
                 face.uvs = west.uv;
                 if (face.isValid()) quads[Direction.WEST.ordinal()] = face;
             }
@@ -197,7 +197,7 @@ public class BBModelTemplate
                 face.points[2] = new Vertex(to[0], from[1], from[2]);
                 face.points[3] = new Vertex(to[0], to[1], from[2]);
                 face.rotation = east.rotation;
-                face.texture = east.texture;
+                face.texture = east.getTexture();
                 face.uvs = east.uv;
                 if (face.isValid()) quads[Direction.EAST.ordinal()] = face;
             }
@@ -210,7 +210,7 @@ public class BBModelTemplate
                 face.points[2] = new Vertex(from[0], from[1], from[2]);
                 face.points[3] = new Vertex(from[0], to[1], from[2]);
                 face.rotation = north.rotation;
-                face.texture = north.texture;
+                face.texture = north.getTexture();
                 face.uvs = north.uv;
                 if (face.isValid()) quads[Direction.NORTH.ordinal()] = face;
             }
@@ -223,7 +223,7 @@ public class BBModelTemplate
                 face.points[2] = new Vertex(to[0], from[1], to[2]);
                 face.points[3] = new Vertex(to[0], to[1], to[2]);
                 face.rotation = south.rotation;
-                face.texture = south.texture;
+                face.texture = south.getTexture();
                 face.uvs = south.uv;
                 if (face.isValid()) quads[Direction.SOUTH.ordinal()] = face;
             }
@@ -401,7 +401,7 @@ public class BBModelTemplate
                     String vert_key = map_order.get(i);
                     Vertex v = verts.get(vert_key);
                     float[] uv = uv_order.get(vert_key);
-                    quad.texture = face.texture;
+                    quad.texture = face.getTexture();
                     quad.points[j] = v;
                     quad.tex[j] = new TextureCoordinate(uv[0] / us, uv[1] / vs);
                 }
@@ -569,15 +569,25 @@ public class BBModelTemplate
     public static class CubeFace
     {
         public float[] uv;
-        public Integer texture = 0;
+        public Object texture = 0;
         public int rotation = 0;
+
+        public int getTexture()
+        {
+            return texture instanceof Number n? n.intValue():0;
+        }
     }
 
     public static class MeshFace
     {
         public Map<String, float[]> uv;
         public List<String> vertices;
-        public Integer texture = 0;
+        public Object texture = 0;
+
+        public int getTexture()
+        {
+            return texture instanceof Number n? n.intValue():0;
+        }
     }
 
     public static class JsonGroup implements IBBPart
