@@ -23,7 +23,6 @@ import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidType;
 import pokecube.api.data.PokedexEntry;
-import pokecube.core.PokecubeCore;
 import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
 import thut.api.entity.multipart.GenericPartEntity.BodyPart;
@@ -193,34 +192,40 @@ public abstract class PokemobRidable extends PokemobHasParts
     @Override
     protected float getRiddenSpeed(Player p_278286_)
     {
-        double scale = PokecubeCore.getConfig().groundSpeedFactor;
+        var controller = this.getPokemob().getController();
+        double scale;
         double base = this.getAttribute(Attributes.MOVEMENT_SPEED).getValue() * this.getPokemob().getController().throttle;
-        if (this.getPokemob().getController().inFluid) scale = PokecubeCore.getConfig().surfSpeedFactor;
+        if (this.getPokemob().getController().inFluid)
+            scale = controller.getSurfSpeedScale();
         else if (this.getPokemob().getController().canFly && !this.getPokemob().onGround())
         {
-            scale = PokecubeCore.getConfig().flySpeedFactor;
+            scale = controller.getFlightSpeedScale();
             base = this.getAttribute(Attributes.FLYING_SPEED).getValue();
         }
+        else scale = controller.getWalkSpeedScale();
         return (float) (scale * base);
     }
 
     @Override
     protected Vec3 getRiddenInput(Player player, Vec3 original_v)
     {
-        boolean shouldFly = this.getPokemob().getController().verticalControl;
+        var controller = this.getPokemob().getController();
+        boolean shouldFly = controller.verticalControl;
+        float fwdScale = controller.moveFwd;
+        float sideScale = controller.moveSide;
         if (shouldFly)
         {
-            float f = player.xxa * 0.5F;
-            float f1 = player.zza;
+            float f = player.xxa * sideScale;
+            float f1 = player.zza * fwdScale;
             if (f1 <= 0.0F)
             {
                 f1 *= 0.25F;
             }
-            return new Vec3(f, this.getPokemob().getController().moveUp, f1);
+            return new Vec3(f, controller.moveUp, f1);
         }
 
-        float f = player.xxa * 0.5F;
-        float f1 = player.zza;
+        float f = player.xxa * sideScale;
+        float f1 = player.zza * fwdScale;
         if (f1 <= 0.0F)
         {
             f1 *= 0.25F;

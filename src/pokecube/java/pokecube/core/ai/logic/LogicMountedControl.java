@@ -19,8 +19,8 @@ import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.TaskBase;
-import pokecube.core.init.Config;
 import pokecube.core.utils.Permissions;
+import thut.api.maths.Interpolator1d;
 import thut.lib.ChatHelper;
 import thut.lib.TComponent;
 
@@ -37,6 +37,9 @@ public class LogicMountedControl extends LogicBase
     private AttributeModifier riddenStep = null;
 
     public static Set<ResourceKey<Level>> BLACKLISTED = Sets.newHashSet();
+    public static Interpolator1d FLYVITSCALER;
+    public static Interpolator1d WALKVITSCALER;
+    public static Interpolator1d SURFVITSCALER;
 
     public boolean leftInputDown = false;
     public boolean rightInputDown = false;
@@ -116,6 +119,34 @@ public class LogicMountedControl extends LogicBase
         }
     }
 
+    // TODO decide if these need an acceleration component
+    public float getFlightSpeedScale()
+    {
+        if(FLYVITSCALER != null)
+        {
+            return (float) FLYVITSCALER.interpolate(this.pokemob.getStat(IPokemob.Stats.VIT, true));
+        }
+        return 1;
+    }
+
+    public float getWalkSpeedScale()
+    {
+        if(WALKVITSCALER != null)
+        {
+            return (float) WALKVITSCALER.interpolate(this.pokemob.getStat(IPokemob.Stats.VIT, true));
+        }
+        return 1;
+    }
+
+    public float getSurfSpeedScale()
+    {
+        if(SURFVITSCALER != null)
+        {
+            return (float) SURFVITSCALER.interpolate(this.pokemob.getStat(IPokemob.Stats.VIT, true));
+        }
+        return 1;
+    }
+
     public boolean hasInput()
     {
         return this.input;
@@ -163,7 +194,6 @@ public class LogicMountedControl extends LogicBase
             shouldControl = verticalControl = PokecubeCore.getConfig().surfEnabled || shouldControl;
         if (waterSpeed) airSpeed = false;
 
-        final Entity controller = rider;
         final List<MobEffectInstance> buffs = Lists.newArrayList();
 
         if (waterSpeed && this.pokemob.getPokedexEntry().shouldDive)
@@ -206,12 +236,20 @@ public class LogicMountedControl extends LogicBase
         }
 
         if (!shouldControl) return;
-        final Config config = PokecubeCore.getConfig();
-        float speedFactor = (float) (1 + Math.sqrt(this.pokemob.getPokedexEntry().getStatVIT()) / 10F);
+        float speedFactor;
 
-        speedFactor *= airSpeed
-                ? config.flySpeedFactor
-                : waterSpeed ? config.surfSpeedFactor * 0.125f : config.groundSpeedFactor;
+        if(airSpeed)
+        {
+            speedFactor = getFlightSpeedScale();
+        }
+        else if (waterSpeed)
+        {
+            speedFactor = getSurfSpeedScale();
+        }
+        else
+        {
+            speedFactor = getWalkSpeedScale();
+        }
 
         float baseSpd = (float) (0.5f * this.throttle * speedFactor);
 
@@ -220,7 +258,7 @@ public class LogicMountedControl extends LogicBase
         moveFwd = this.backInputDown ? -baseSpd / 2 : this.forwardInputDown ? baseSpd : 0;
         moveSide = this.leftInputDown ? baseSpd : this.rightInputDown ? -baseSpd : 0;
         moveUp = this.upInputDown ? baseSpd : this.downInputDown ? -baseSpd : 0;
-        float pitch = controller.getXRot();
+        float pitch = rider.getXRot();
 
         if (Math.abs(pitch) > 45 && this.followOwnerLook && verticalControl)
         {
@@ -243,7 +281,7 @@ public class LogicMountedControl extends LogicBase
 
         if (!this.entity.getPassengers().isEmpty())
         {
-            this.pokemob.setHeading(controller.getYRot());
+            this.pokemob.setHeading(rider.getYRot());
         }
     }
 

@@ -34,6 +34,7 @@ import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.PokecubeSerializer;
 import thut.api.data.DataHelpers;
+import thut.api.maths.Interpolator1d;
 import thut.api.util.JsonUtil;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
@@ -228,6 +229,9 @@ public class Config extends ConfigData
             }
             return VAR_KEYS.contains(args[0]);
         });
+        registerValidator("pokecube.ai.flySpeedVitScale", t-> Interpolator1d.validJEP(new JEP(), t, "vit"));
+        registerValidator("pokecube.ai.walkSpeedVitScale", t-> Interpolator1d.validJEP(new JEP(), t, "vit"));
+        registerValidator("pokecube.ai.flySpeedVitScale", t-> Interpolator1d.validJEP(new JEP(), t, "vit"));
     }
 
     private static final Config defaults = new Config();
@@ -776,12 +780,12 @@ public class Config extends ConfigData
     public int noPoofReviveTimer = 600;
 
     // ridden Speed multipliers
-    @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor of the riding speed while flying. [Default: 0.3]")
-    public double flySpeedFactor = 0.3;
-    @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor of the riding speed while in water. [Default: 1.0]")
-    public double surfSpeedFactor = 1;
-    @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor of the riding speed while on the ground. [Default: 1.0]")
-    public double groundSpeedFactor = 1;
+    @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor of the riding speed while flying.")
+    public String flySpeedVitScale = "0.3+2*erf(vit/100)";
+    @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor of the riding speed while walking.")
+    public String walkSpeedVitScale = "1.0+3*erf(vit/100)";
+    @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor of the riding speed while surfing.")
+    public String surfSpeedVitScale = "0.3+2*erf(vit/100)";
 
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Flying will not be allowed in these dimensions.")
     public List<String> blackListedFlyDims = Lists.newArrayList("the_end", "the_nether");
@@ -996,6 +1000,24 @@ public class Config extends ConfigData
         {
             final ResourceLocation key = ResourceLocation.parse(i);
             LogicMountedControl.BLACKLISTED.add(ResourceKey.create(RegHelper.DIMENSION_REGISTRY, key));
+        }
+        LogicMountedControl.FLYVITSCALER = new Interpolator1d(this.flySpeedVitScale, "vit", 0, 2000,1000);
+        if(!LogicMountedControl.FLYVITSCALER.init())
+        {
+            PokecubeAPI.LOGGER.error("Error with loading fly speed vit scale, disabling it.");
+            LogicMountedControl.FLYVITSCALER = null;
+        }
+        LogicMountedControl.WALKVITSCALER = new Interpolator1d(this.walkSpeedVitScale, "vit", 0, 2000,1000);
+        if(!LogicMountedControl.WALKVITSCALER.init())
+        {
+            PokecubeAPI.LOGGER.error("Error with loading walk speed vit scale, disabling it.");
+            LogicMountedControl.WALKVITSCALER = null;
+        }
+        LogicMountedControl.SURFVITSCALER = new Interpolator1d(this.surfSpeedVitScale, "vit", 0, 2000,1000);
+        if(!LogicMountedControl.SURFVITSCALER.init())
+        {
+            PokecubeAPI.LOGGER.error("Error with loading surf speed vit scale, disabling it.");
+            LogicMountedControl.SURFVITSCALER = null;
         }
 
         boolean failed = false;
