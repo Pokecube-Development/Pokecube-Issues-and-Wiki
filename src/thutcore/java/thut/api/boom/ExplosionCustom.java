@@ -266,14 +266,12 @@ public class ExplosionCustom extends Explosion
     {
         final boolean ret = !ItemList.is(EXPLOSION_BLOCKING, state);
         if (!ret) return false;
-        if (this.owner != null && !BreakTestEvent.testBreak(this.level, location.getPos(), state, this.owner))
-            return false;
-        return true;
+        return BreakTestEvent.testBreak(this.level, location.getPos(), state, this.owner);
     }
 
     public void doExplosion()
     {
-        this.level.playSound((Player) null, this.centre.x, this.centre.y, this.centre.z, SoundEvents.GENERIC_EXPLODE,
+        this.level.playSound(null, this.centre.x, this.centre.y, this.centre.z, SoundEvents.GENERIC_EXPLODE,
                 SoundSource.BLOCKS, 4.0F,
                 (1.0F + (this.level.random.nextFloat() - this.level.random.nextFloat()) * 0.2F) * 0.7F);
         this.level.addParticle(ParticleTypes.EXPLOSION, this.centre.x, this.centre.y, this.centre.z, 1.0D, 0.0D, 0.0D);
@@ -306,7 +304,7 @@ public class ExplosionCustom extends Explosion
         final int max = 63;
         if (acceleration == null) acceleration = Vector3.empty;
 
-        int n = 0;
+        int n;
         final List<Vector3> locations = new ArrayList<>();
         final List<Float> blasts = new ArrayList<>();
 
@@ -342,7 +340,7 @@ public class ExplosionCustom extends Explosion
                 break;
             }
             energy -= energy * (resist / density);
-            density -= resist + 0.1;
+            density -= resist + 0.1f;
         }
 
         n = locations.size();

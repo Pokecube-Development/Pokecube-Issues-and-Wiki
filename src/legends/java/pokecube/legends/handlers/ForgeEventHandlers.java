@@ -20,6 +20,7 @@ import pokecube.api.stats.SpecialCaseRegister;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.Reference;
 import pokecube.legends.conditions.AbstractCondition;
+import thut.api.entity.event.BreakTestEvent;
 import thut.api.item.ItemList;
 import thut.api.level.structures.NamedVolumes.INamedStructure;
 import thut.api.level.structures.StructureManager;
@@ -116,27 +117,47 @@ public class ForgeEventHandlers
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void placeBlocks(final EntityPlaceEvent evt)
     {
-        if (!(evt.getEntity() instanceof ServerPlayer player) || !PokecubeLegends.config.protectTemples) return;
-        final ServerLevel world = (ServerLevel) player.level();
+        if (!(evt.getLevel() instanceof ServerLevel world)  || !PokecubeLegends.config.protectTemples) return;
+        var player = evt.getEntity() instanceof ServerPlayer p?p:null;
+
         if (this.protectTemple(player, world, evt.getPlacedBlock(), evt.getPos()))
         {
             evt.setCanceled(true);
-            player.inventoryMenu.sendAllDataToRemote();
-            player.displayClientMessage(TComponent.translatable("msg.cannot_defile_temple"), true);
+            if (player != null)
+            {
+                player.inventoryMenu.sendAllDataToRemote();
+                player.displayClientMessage(TComponent.translatable("msg.cannot_defile_temple"), true);
+            }
         }
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void BreakBlock(final BreakEvent evt)
     {
-        if (!(evt.getPlayer() instanceof ServerPlayer player) || !PokecubeLegends.config.protectTemples) return;
+        if (!(evt.getLevel() instanceof ServerLevel world) || !PokecubeLegends.config.protectTemples) return;
+        var player = evt.getPlayer() instanceof ServerPlayer p?p:null;
 
-        final ServerLevel world = (ServerLevel) player.level();
         if (this.protectTemple(player, world, null, evt.getPos()))
         {
             evt.setCanceled(true);
-            player.inventoryMenu.sendAllDataToRemote();
-            player.displayClientMessage(TComponent.translatable("msg.cannot_defile_temple"), true);
+            if (player != null)
+            {
+                player.inventoryMenu.sendAllDataToRemote();
+                player.displayClientMessage(TComponent.translatable("msg.cannot_defile_temple"), true);
+            }
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public void BreakBlock(final BreakTestEvent evt)
+    {
+        if (!(evt.getLevel() instanceof ServerLevel world) || !PokecubeLegends.config.protectTemples) return;
+        var player = evt.getPlayer() instanceof ServerPlayer p?p:null;
+
+        if (this.protectTemple(player, world, null, evt.getPos()))
+        {
+            evt.setCanceled(true);
+            evt.setPreCancelled();
         }
     }
 
@@ -169,7 +190,7 @@ public class ForgeEventHandlers
                 && level.getRandom().nextDouble() < PokecubeLegends.config.meteorChanceForAny)
         {
             BlockPos pos = event.getPos();
-            BlockState set = Blocks.AIR.defaultBlockState();
+            BlockState set;
 
             if (event.getPower() > PokecubeLegends.config.meteorPowerThreshold)
             {
