@@ -162,6 +162,7 @@
     {"id": "pokecube_legends:magnetic_stone", "required": false},
     {"id": "pokecube_legends:medium_aquamarine_bud", "required": false},
     {"id": "pokecube_legends:meteorite_block", "required": false},
+    {"id": "pokecube_legends:meteorite_layer", "required": false},
     {"id": "pokecube_legends:meteorite_cosmic_ore", "required": false},
     {"id": "pokecube_legends:meteorite_slab", "required": false},
     {"id": "pokecube_legends:meteorite_stairs", "required": false},
