@@ -34,23 +34,27 @@ public class Mesh
         if(!Arrays.stream(meshs).allMatch(mesh -> mesh.GL_FORMAT==meshs[0].GL_FORMAT)) return null;
         List<Vertex> verts = new ArrayList<>();
         List<Vertex> norms = new ArrayList<>();
-        List<Integer> order = new ArrayList<>();
+        List<Vertex> normsList = new ArrayList<>();
         List<TextureCoordinate> texs = new ArrayList<>();
-        Arrays.stream(meshs).forEach(mesh->{
+        float len = 0;
+        for(var mesh:meshs)
+        {
             verts.addAll(Arrays.stream(mesh.vertices).toList());
             norms.addAll(Arrays.stream(mesh.normals).toList());
+            normsList.addAll(Arrays.stream(mesh.normalList).toList());
             texs.addAll(Arrays.stream(mesh.textureCoordinates).toList());
-            order.addAll(Arrays.stream(mesh.order).boxed().toList());
-        });
-        Mesh merged = new Mesh(order.toArray(new Integer[0]), verts.toArray(new Vertex[0]), norms.toArray(new Vertex[0]), texs.toArray(new TextureCoordinate[0]), meshs[0].GL_FORMAT);
-        merged.material = meshs[0].material;
-        return merged;
+            // TODO see if we need to recompute this better?
+            len = Math.max(len, mesh.len);
+        }
+        return new Mesh(verts.toArray(new Vertex[0]),
+                norms.toArray(new Vertex[0]),normsList.toArray(new Vertex[0]),
+                texs.toArray(new TextureCoordinate[0]), meshs[0].GL_FORMAT,len, meshs[0].material);
     }
 
     public final Vertex[] vertices;
     public final Vertex[] normals;
     public final TextureCoordinate[] textureCoordinates;
-    public final int[] order;
+
     Material material;
     public String name;
     public boolean overrideColour = false;
@@ -70,7 +74,7 @@ public class Mesh
 
     final int iter;
 
-    private final float len;
+    protected final float len;
     public float cullScale = 1;
     public float renderScale = 1;
 
@@ -92,14 +96,31 @@ public class Mesh
         }
     }
 
+    private Mesh(final Vertex[] vert, final Vertex[] norm, final Vertex[] normList, final TextureCoordinate[] tex,
+            final int GL_FORMAT, float len, Material material){
+        this.vertices= vert;
+        this.normals = norm;
+        this.normalList = normList;
+        this.textureCoordinates = tex;
+        this.GL_FORMAT = GL_FORMAT;
+        this.iter = GL_FORMAT == GL11.GL_TRIANGLES ? 3 : 4;
+        vertexMode = GL_FORMAT == GL11.GL_TRIANGLES ? Mode.TRIANGLES : Mode.QUADS;
+        this.material = material;
+        this.len = len;
+    }
+
     public Mesh(final Integer[] order, final Vertex[] vert, final Vertex[] norm, final TextureCoordinate[] tex,
             final int GL_FORMAT)
     {
-        this.order = new int[order.length];
-        this.vertices = vert;
-        this.normalList = new Vertex[this.order.length];
-        this.normals = norm != null ? new Vertex[this.order.length] : this.normalList;
-        this.textureCoordinates = tex != null ? tex : new TextureCoordinate[order.length];
+        List<Vertex> vertTmp = new ArrayList<>(Arrays.stream(vert).toList());
+        List<Vertex> normATmp = new ArrayList<>(order.length);
+        List<Vertex> normBTmp = new ArrayList<>(order.length);
+        for(int i = 0; i< order.length;i++) {normBTmp.add(null);normATmp.add(null);}
+        List<TextureCoordinate> texTmp = tex==null? new ArrayList<>(): Arrays.stream(tex).toList();
+        // In this case, just fill all with dummy tex.
+        TextureCoordinate dummyTex = new TextureCoordinate(0, 0);
+        if(tex==null) for(int i=0; i<order.length;i++) texTmp.add(dummyTex);
+
         this.GL_FORMAT = GL_FORMAT;
         Vertex vertex;
         Vertex normal;
@@ -111,26 +132,20 @@ public class Mesh
         Vec3f maxs = new Vec3f(Float.MIN_VALUE, Float.MIN_VALUE, Float.MIN_VALUE);
         final Vec3f c = new Vec3f();
 
-        // In this case, just fill all with dummy tex.
-        TextureCoordinate dummyTex = new TextureCoordinate(0, 0);
-        if (tex == null) Arrays.fill(textureCoordinates, dummyTex);
-        // Fill the order array first.
-        for (int i = 0; i < order.length; i++) this.order[i] = order[i];
-
-        int i_1, i_2, i_3, i_4 = 0;
+        int i_1, i_2, i_3, i_4;
         // Calculate the normals for each triangle.
-        for (int i = 0; i < this.order.length; i += iter)
+        for (int i = 0; i < order.length; i += iter)
         {
-            i_1 = this.order[i + 0];
-            i_2 = this.order[i + 1];
-            i_3 = this.order[i + 2];
+            i_1 = order[i + 0];
+            i_2 = order[i + 1];
+            i_3 = order[i + 2];
 
             Vec3f v1, v2, v3;
-            vertex = this.vertices[i_1];
+            vertex = vertTmp.get(i_1);
             v1 = new Vec3f(vertex.x, vertex.y, vertex.z);
-            vertex = this.vertices[i_2];
+            vertex = vertTmp.get(i_2);
             v2 = new Vec3f(vertex.x, vertex.y, vertex.z);
-            vertex = this.vertices[i_3];
+            vertex = vertTmp.get(i_3);
             v3 = new Vec3f(vertex.x, vertex.y, vertex.z);
 
             clip(mins, v1, false);
@@ -143,8 +158,8 @@ public class Mesh
 
             if (iter == 4)
             {
-                i_4 = this.order[i + 3];
-                vertex = this.vertices[i_4];
+                i_4 = order[i + 3];
+                vertex = vertTmp.get(i_4);
                 Vec3f v4 = new Vec3f(vertex.x, vertex.y, vertex.z);
 
                 clip(mins, v4, false);
@@ -166,9 +181,9 @@ public class Mesh
             normal = new Vertex(c.x, c.y, c.z);
             for (int j = i; j < i + iter; j++)
             {
-                int i_0 = this.order[j];
-                this.normalList[j] = normal;
-                if (norm != null) this.normals[j] = norm[i_0];
+                int i_0 = order[j];
+                normBTmp.set(j, normal);
+                if (norm != null) normATmp.set(j, norm[i_0]);
             }
         }
 
@@ -178,6 +193,26 @@ public class Mesh
         Vector3f dummy_1 = new Vector3f();
         dummy_1.set(max.x - min.x, max.y - min.y, max.z - min.z);
         len = (float) Math.sqrt(dummy_1.dot(dummy_1));
+
+        // Now sort everything to no longer need the "order" array
+        List<Vertex> _verts = new ArrayList<>();
+        List<Vertex> _norms  = new ArrayList<>();
+        List<Vertex> _normsL  = new ArrayList<>();
+        List<TextureCoordinate> _tex = new ArrayList<>();
+
+        for (int i0 = 0; i0 < order.length; i0++)
+        {
+            int i = order[i0];
+            _norms.add(normATmp.get(i0));
+            _normsL.add(normBTmp.get(i0));
+            _verts.add(vertTmp.get(i));
+            _tex.add(texTmp.get(i));
+        }
+
+        this.vertices = _verts.toArray(new Vertex[0]);
+        this.normalList = _normsL.toArray(new Vertex[0]);
+        this.normals = norm!=null?_norms.toArray(new Vertex[0]):normalList;
+        this.textureCoordinates = _tex.toArray(new TextureCoordinate[0]);
 
         // Initialize a "default" material for us
         this.material = new Material("auto:" + this.name);
@@ -269,13 +304,14 @@ public class Mesh
 
             // This loop is copied here vs below for performance reasons, we
             // can't guarentee compiler flags are set properly.
-            for (int i0 = 0; i0 < this.order.length; i0++)
+            for(int i = 0; i<this.vertices.length; i++)
             {
-                int i = this.order[i0];
+                normal = normals[i];
+                // Next we can pull out the coordinates if not culled.
+                textureCoordinate = this.textureCoordinates[i];
+                vertex = this.vertices[i];
 
                 verts++;
-
-                normal = normals[i0];
 
                 // Normals first, as they define culling.
                 nx = normal.x;
@@ -284,10 +320,6 @@ public class Mesh
 
                 dn.set(nx, ny, nz);
                 dn.mul(norms);
-
-                // Next we can pull out the coordinates if not culled.
-                textureCoordinate = this.textureCoordinates[i];
-                vertex = this.vertices[i];
 
                 x = Math.fma(this.renderScale, (vertex.x - mx), mx);
                 y = Math.fma(this.renderScale, (vertex.y - my), my);
@@ -312,13 +344,14 @@ public class Mesh
                 //@formatter:on
             }
         }
-        else for (int i0 = 0; i0 < this.order.length; i0++)
+        else for(int i = 0; i<this.vertices.length; i++)
         {
-            int i = this.order[i0];
+            normal = normals[i];
+            // Next we can pull out the coordinates if not culled.
+            textureCoordinate = this.textureCoordinates[i];
+            vertex = this.vertices[i];
 
             verts++;
-
-            normal = normals[i0];
 
             // Normals first, as they define culling.
             nx = normal.x;
@@ -327,10 +360,6 @@ public class Mesh
 
             dn.set(nx, ny, nz);
             dn.mul(norms);
-
-            // Next we can pull out the coordinates if not culled.
-            textureCoordinate = this.textureCoordinates[i];
-            vertex = this.vertices[i];
 
             x = vertex.x;
             y = vertex.y;

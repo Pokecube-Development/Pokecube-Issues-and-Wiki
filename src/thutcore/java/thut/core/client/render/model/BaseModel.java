@@ -350,5 +350,16 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
             animatedParts.addAll(a.sets.keySet());
         });
         for(var s: animatedParts) if(this.parts.containsKey(s)) this.parts.get(s).markAsAnimated();
+        for(var name: this.getHeadParts()) if(this.parts.containsKey(name)) this.getParts().get(name).markAsAnimated();
+        for(var s: animatedParts) if(this.parts.containsKey(s)) this.parts.get(s).markAsAnimated();
+        var copy = new Object2ObjectOpenHashMap<String, IExtendedModelPart>();
+        this.parts.values().forEach(part->{
+            part.tryCombineChildren();
+            if(!(part.getMaterials().isEmpty() && part.getSubParts().isEmpty())) {
+                copy.put(part.getName(), part);
+            }
+        });
+        this.renderOrder.clear();
+        this.parts = copy;
     }
 }

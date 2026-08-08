@@ -131,6 +131,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     @Override
     public void tryCombineChildren()
     {
+        this.renderShapes.clear();
         List<Part> unanimated = new ArrayList<>();
         for(var p: this.parts.values())
         {
@@ -145,7 +146,9 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                 &&part.offset.magSq()==0
                 &&part.rotations.isEmpty()
                 )
-                    unanimated.add(part);
+            {
+                unanimated.add(part);
+            }
         }
         for(var p: unanimated)
         {
@@ -154,8 +157,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
             boolean allMatch = mats.allMatch(this.namedMaterials::containsKey);
             if(allMatch)
             {
-                p.preProcess();
-
                 for(var mesh: p.shapes)
                 {
                     this.addShape(mesh);
@@ -172,6 +173,21 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                 p.materials.clear();
             }
         }
+        Map<String, List<Mesh>> allShapes = new HashMap<>();
+        for(var mesh: this.shapes)
+        {
+            var key = mesh.material.name;
+            allShapes.computeIfAbsent(key, m->new ArrayList<>()).add(mesh);
+        }
+        for(var pair: allShapes.entrySet())
+        {
+            if(pair.getValue().size()==1) {
+                renderShapes.add(pair.getValue().getFirst());
+                continue;
+            }
+            Mesh mesh = Mesh.merge(pair.getValue().toArray(new Mesh[0]));
+            renderShapes.add(mesh);
+        }
     }
 
     @Override
@@ -184,7 +200,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public void addShape(final Mesh shape)
     {
         this.shapes.add(shape);
-        this.renderShapes.add(shape);
         if (shape.material == null) return;
         if (this.matcache.add(shape.material))
         {
@@ -199,7 +214,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public void setShapes(final List<Mesh> shapes)
     {
         this.shapes.clear();
-        this.renderShapes.clear();
         for (final Mesh shape : shapes) this.addShape(shape);
     }
 
