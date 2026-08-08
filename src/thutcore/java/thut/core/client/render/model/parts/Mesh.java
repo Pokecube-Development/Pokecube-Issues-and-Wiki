@@ -228,7 +228,7 @@ public class Mesh
         final Matrix4f pos = matrixstack$entry.pose();
         final Vector4f dp = this.dummy4;
 
-        float x, y, z, nx, ny, nz, u, v;
+        float x, y, z, u, v;
         if (modelCullThreshold > 0)
         {
             float a = windowScale;
@@ -313,12 +313,8 @@ public class Mesh
 
                 verts++;
 
-                // Normals first, as they define culling.
-                nx = normal.x;
-                ny = normal.y;
-                nz = normal.z;
-
-                dn.set(nx, ny, nz);
+                // Normals first, as they define culling.=
+                dn.set(normal.x, normal.y, normal.z);
                 dn.mul(norms);
 
                 x = Math.fma(this.renderScale, (vertex.x - mx), mx);
@@ -354,18 +350,11 @@ public class Mesh
             verts++;
 
             // Normals first, as they define culling.
-            nx = normal.x;
-            ny = normal.y;
-            nz = normal.z;
-
-            dn.set(nx, ny, nz);
+            dn.set(normal.x, normal.y, normal.z);
             dn.mul(norms);
 
-            x = vertex.x;
-            y = vertex.y;
-            z = vertex.z;
-
-            dp.set(x, y, z, 1);
+            // Then the vertex
+            dp.set(vertex.x,  vertex.y, vertex.z, 1);
             dp.mul(pos);
 
             // This results in u * su + du
