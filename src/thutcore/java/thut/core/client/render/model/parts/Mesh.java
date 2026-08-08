@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
@@ -17,7 +18,6 @@ import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import net.minecraft.util.FastColor;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.IPartTexturer;
-import thut.core.client.render.texturing.TextureCoordinate;
 
 public class Mesh
 {
@@ -34,7 +34,7 @@ public class Mesh
         List<Vertex> verts = new ArrayList<>();
         List<Vertex> norms = new ArrayList<>();
         List<Vertex> normsList = new ArrayList<>();
-        List<TextureCoordinate> texs = new ArrayList<>();
+        List<Vector2f> texs = new ArrayList<>();
         float len = 0;
         for(var mesh:meshs)
         {
@@ -47,12 +47,12 @@ public class Mesh
         }
         return new Mesh(verts.toArray(new Vertex[0]),
                 norms.toArray(new Vertex[0]),normsList.toArray(new Vertex[0]),
-                texs.toArray(new TextureCoordinate[0]), meshs[0].GL_FORMAT,len, meshs[0].material);
+                texs.toArray(new Vector2f[0]), meshs[0].GL_FORMAT,len, meshs[0].material);
     }
 
     public final Vertex[] vertices;
     public final Vertex[] normals;
-    public final TextureCoordinate[] textureCoordinates;
+    public final Vector2f[] textureCoordinates;
 
     Material material;
     public String name;
@@ -95,7 +95,7 @@ public class Mesh
         }
     }
 
-    private Mesh(final Vertex[] vert, final Vertex[] norm, final Vertex[] normList, final TextureCoordinate[] tex,
+    private Mesh(final Vertex[] vert, final Vertex[] norm, final Vertex[] normList, final Vector2f[] tex,
             final int GL_FORMAT, float len, Material material){
         this.vertices= vert;
         this.normals = norm;
@@ -108,16 +108,16 @@ public class Mesh
         this.len = len;
     }
 
-    public Mesh(final Integer[] order, final Vertex[] vert, final Vertex[] norm, final TextureCoordinate[] tex,
+    public Mesh(final Integer[] order, final Vertex[] vert, final Vertex[] norm, final Vector2f[] tex,
             final int GL_FORMAT)
     {
         List<Vertex> vertTmp = new ArrayList<>(Arrays.stream(vert).toList());
         List<Vertex> normATmp = new ArrayList<>(order.length);
         List<Vertex> normBTmp = new ArrayList<>(order.length);
         for(int i = 0; i< order.length;i++) {normBTmp.add(null);normATmp.add(null);}
-        List<TextureCoordinate> texTmp = tex==null? new ArrayList<>(): Arrays.stream(tex).toList();
+        List<Vector2f> texTmp = tex==null? new ArrayList<>(): Arrays.stream(tex).toList();
         // In this case, just fill all with dummy tex.
-        TextureCoordinate dummyTex = new TextureCoordinate(0, 0);
+        Vector2f dummyTex = new Vector2f(0, 0);
         if(tex==null) for(int i=0; i<order.length;i++) texTmp.add(dummyTex);
 
         this.GL_FORMAT = GL_FORMAT;
@@ -195,7 +195,7 @@ public class Mesh
         List<Vertex> _verts = new ArrayList<>();
         List<Vertex> _norms  = new ArrayList<>();
         List<Vertex> _normsL  = new ArrayList<>();
-        List<TextureCoordinate> _tex = new ArrayList<>();
+        List<Vector2f> _tex = new ArrayList<>();
 
         for (int i0 = 0; i0 < order.length; i0++)
         {
@@ -209,7 +209,7 @@ public class Mesh
         this.vertices = _verts.toArray(new Vertex[0]);
         this.normalList = _normsL.toArray(new Vertex[0]);
         this.normals = norm!=null?_norms.toArray(new Vertex[0]):normalList;
-        this.textureCoordinates = _tex.toArray(new TextureCoordinate[0]);
+        this.textureCoordinates = _tex.toArray(new Vector2f[0]);
 
         // Initialize a "default" material for us
         this.material = new Material("auto:" + this.name);
@@ -218,6 +218,7 @@ public class Mesh
 
     private final Vector3f dummy3 = new Vector3f();
     private final Vector4f dummy4 = new Vector4f();
+    private final Vector2f texdR = new Vector2f(), texdS = new Vector2f(), texUV =new Vector2f();
 
     protected void doRender(final PoseStack mat, final VertexConsumer buffer)
     {
@@ -225,7 +226,6 @@ public class Mesh
         final Matrix4f pos = matrixstack$entry.pose();
         final Vector4f dp = this.dummy4;
 
-        float x, y, z, u, v;
         if (modelCullThreshold > 0)
         {
             float a = windowScale;
@@ -269,8 +269,6 @@ public class Mesh
         final Matrix3f norms = matrixstack$entry.normal();
 
         Vertex vertex;
-        Vertex normal;
-        TextureCoordinate textureCoordinate;
 
         float du = (float) this.uvShift[0];
         float dv = (float) this.uvShift[1];
@@ -287,9 +285,12 @@ public class Mesh
             su *= suv[0];
             sv *= suv[1];
         }
+        texdR.set(du, dv);
+        texdS.set(su, sv);
 
         if (this.renderScale != 1)
         {
+            float x, y, z;
             float dx = (max.x - min.x) / 2;
             float mx = min.x + dx;
 
@@ -304,14 +305,12 @@ public class Mesh
             for(int i = 0; i<this.vertices.length; i++)
             {
                 // Next we can pull out the coordinates if not culled.
-                textureCoordinate = this.textureCoordinates[i];
                 vertex = this.vertices[i];
 
                 verts++;
 
                 // Normals first, as they define culling.=
-                dn.set(normals[i]);
-                dn.mul(norms);
+                normals[i].mul(norms, dn);
 
                 x = Math.fma(this.renderScale, (vertex.x - mx), mx);
                 y = Math.fma(this.renderScale, (vertex.y - my), my);
@@ -321,49 +320,41 @@ public class Mesh
                 dp.mul(pos);
 
                 // This results in u * su + du
-                u = Math.fma(textureCoordinate.u, su, du);
-                v = Math.fma(textureCoordinate.v, sv, dv);
+                texdR.fma(this.textureCoordinates[i], texdS, texUV);
 
                 // We use the default mob format, since that is what mobs use.
                 // This means we need these in this order!
                 buffer.addVertex(
                 //@formatter:off
-                    dp.x(), dp.y(), dp.z(),
+                    dp.x, dp.y, dp.z,
                     argb,
-                    u, v,
+                    texUV.x, texUV.y,
                     overlayUV, lightmapUV,
-                    dn.x(), dn.y(), dn.z());
+                    dn.x, dn.y, dn.z);
                 //@formatter:on
             }
         }
         else for(int i = 0; i<this.vertices.length; i++)
         {
-            // Next we can pull out the coordinates if not culled.
-            textureCoordinate = this.textureCoordinates[i];
-
             verts++;
-
             // Normals first, as they define culling.
-            dn.set(normals[i]);
-            dn.mul(norms);
-
+            normals[i].mul(norms, dn);
             // Then the vertex
             dp.set(this.vertices[i], 1);
             dp.mul(pos);
 
             // This results in u * su + du
-            u = Math.fma(textureCoordinate.u, su, du);
-            v = Math.fma(textureCoordinate.v, sv, dv);
+            texdR.fma(this.textureCoordinates[i], texdS, texUV);
 
             // We use the default mob format, since that is what mobs use.
             // This means we need these in this order!
             buffer.addVertex(
             //@formatter:off
-                dp.x(), dp.y(), dp.z(),
+                dp.x, dp.y, dp.z,
                 argb,
-                u, v,
+                texUV.x, texUV.y,
                 overlayUV, lightmapUV,
-                dn.x(), dn.y(), dn.z());
+                dn.x, dn.y, dn.z);
             //@formatter:on
         }
     }

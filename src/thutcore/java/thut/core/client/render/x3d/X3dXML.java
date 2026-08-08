@@ -8,6 +8,7 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import thut.core.client.render.model.Vertex;
 import thut.core.common.ThutCore;
@@ -78,19 +79,19 @@ public class X3dXML
             @XmlAttribute(name = "point")
             String point;
 
-            public thut.core.client.render.texturing.TextureCoordinate[] getTexture()
+            public Vector2f[] getTexture()
             {
-                final ArrayList<thut.core.client.render.texturing.TextureCoordinate> ret = new ArrayList<>();
+                final ArrayList<Vector2f> ret = new ArrayList<>();
                 final String[] points = this.point.split(" ");
                 if (points.length % 2 != 0) throw new ModelFormatException(
                         "Invalid number of elements in the points string " + points.length);
                 for (int i = 0; i < points.length; i += 2)
                 {
-                    final thut.core.client.render.texturing.TextureCoordinate toAdd = new thut.core.client.render.texturing.TextureCoordinate(
+                    final Vector2f toAdd = new Vector2f(
                             Float.parseFloat(points[i]), 1 - Float.parseFloat(points[i + 1]));
                     ret.add(toAdd);
                 }
-                return ret.toArray(new thut.core.client.render.texturing.TextureCoordinate[ret.size()]);
+                return ret.toArray(new Vector2f[0]);
             }
         }
 
@@ -107,7 +108,7 @@ public class X3dXML
                         .parseFloat(points[i + 2]));
                 ret.add(toAdd);
             }
-            return ret.toArray(new Vertex[ret.size()]);
+            return ret.toArray(new Vertex[0]);
         }
 
         @XmlAttribute(name = "solid")
@@ -120,9 +121,9 @@ public class X3dXML
         String index;
 
         @XmlElement(name = "Coordinate")
-        Coordinate        points;
+        Coordinate points;
         @XmlElement(name = "Normal")
-        Normal            normals;
+        Normal normals;
         @XmlElement(name = "TextureCoordinate")
         TextureCoordinate textures;
 
@@ -143,7 +144,7 @@ public class X3dXML
             return order;
         }
 
-        public thut.core.client.render.texturing.TextureCoordinate[] getTexture()
+        public org.joml.Vector2f[] getTexture()
         {
             if (this.textures == null) return null;
             return this.textures.getTexture();

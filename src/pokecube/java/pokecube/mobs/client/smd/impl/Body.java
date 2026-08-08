@@ -13,13 +13,13 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
-import thut.core.client.render.texturing.TextureCoordinate;
 import thut.core.common.ThutCore;
 import thut.lib.ResourceHelper;
 
@@ -211,7 +211,7 @@ public class Body implements IRetexturableModel
     private void parseFace(final String[] params, final int lineCount, final Material mat)
     {
         final MutableVertex[] faceVerts = new MutableVertex[3];
-        final TextureCoordinate[] uvs = new TextureCoordinate[3];
+        final Vector2f[] uvs = new Vector2f[3];
         for (int i = 0; i < 3; i++)
         {
             final String[] values = params[i].split("\\s+");
@@ -235,7 +235,7 @@ public class Body implements IRetexturableModel
                 this.nextVertexID += 1;
             }
             else faceVerts[i] = v;
-            uvs[i] = new TextureCoordinate(Float.parseFloat(values[7]), 1.0F - Float.parseFloat(values[8]));
+            uvs[i] = new Vector2f(Float.parseFloat(values[7]), 1.0F - Float.parseFloat(values[8]));
             if (values.length > 10) this.weighBones(values, faceVerts[i]);
         }
         final Face face = new Face(faceVerts, uvs);

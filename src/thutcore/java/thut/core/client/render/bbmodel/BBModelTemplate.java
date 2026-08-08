@@ -6,11 +6,11 @@ import com.google.gson.JsonObject;
 import com.mojang.math.Axis;
 import net.minecraft.core.Direction;
 import org.joml.Quaternionf;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.model.parts.Material;
-import thut.core.client.render.texturing.TextureCoordinate;
 import thut.core.common.ThutCore;
 import thut.lib.AxisAngles;
 
@@ -78,7 +78,7 @@ public class BBModelTemplate
     public static class BBModelQuad
     {
         public Vertex[] points = new Vertex[4];
-        public TextureCoordinate[] tex = new TextureCoordinate[4];
+        public Vector2f[] tex = new Vector2f[4];
         public int texture;
         public int rotation = 0;
         public float[] uvs;
@@ -288,7 +288,7 @@ public class BBModelTemplate
                     int i = (j + face.rotation / 90) % 4;
                     int u0 = tex_order[i][0];
                     int v0 = tex_order[i][1];
-                    face.tex[j] = new TextureCoordinate(face.uvs[u0] / us, face.uvs[v0] / vs);
+                    face.tex[j] = new Vector2f(face.uvs[u0] / us, face.uvs[v0] / vs);
                 }
             }
         }
@@ -402,7 +402,7 @@ public class BBModelTemplate
                     float[] uv = uv_order.get(vert_key);
                     quad.texture = face.getTexture();
                     quad.points[j] = v;
-                    quad.tex[j] = new TextureCoordinate(uv[0] / us, uv[1] / vs);
+                    quad.tex[j] = new Vector2f(uv[0] / us, uv[1] / vs);
                 }
 
                 if (map_order.size() == 4) this.quads.add(quad);

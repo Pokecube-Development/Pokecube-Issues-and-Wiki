@@ -160,7 +160,7 @@ public class Factory<T>
         if (attrs == null || elems == null)
         {
             Factory.knownAttrMappins.put(clazz, attrs = Maps.newHashMap());
-            Factory.knownAttrMappins.put(clazz, elems = Maps.newHashMap());
+            Factory.knownElemMappins.put(clazz, elems = Maps.newHashMap());
             for (final Field field : obj.getClass().getDeclaredFields())
             {
                 if (Modifier.isFinal(field.getModifiers())) continue;

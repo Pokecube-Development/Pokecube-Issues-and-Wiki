@@ -3,6 +3,7 @@ package thut.core.client.render.bbmodel;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import org.joml.Quaternionf;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import thut.api.maths.Vector4;
 import thut.core.client.render.bbmodel.BBModelTemplate.Element;
@@ -13,7 +14,6 @@ import thut.core.client.render.model.Vertex;
 import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.model.parts.Mesh;
 import thut.core.client.render.model.parts.Part;
-import thut.core.client.render.texturing.TextureCoordinate;
 import thut.core.client.render.x3d.X3dMesh;
 import thut.core.common.ThutCore;
 import thut.lib.AxisAngles;
@@ -165,7 +165,7 @@ public class BBModelPart extends Part
             List<Object> verts = lists.get(1);
             List<Object> tex = lists.get(2);
             Mesh m = new JsonMesh(order.toArray(new Integer[0]), verts.toArray(new Vertex[0]),
-                    tex.toArray(new TextureCoordinate[0]));
+                    tex.toArray(new Vector2f[0]));
             m.name = ThutCore.trim(key);
             Material mat = mats.getOrDefault(m.name, new Material(m.name));
             mat.expectedTexH = t.resolution.height;
@@ -182,7 +182,7 @@ public class BBModelPart extends Part
             List<Object> tex = lists.get(2);
 
             Mesh m = new X3dMesh(order.toArray(new Integer[0]), verts.toArray(new Vertex[0]), null,
-                    tex.toArray(new TextureCoordinate[0]));
+                    tex.toArray(new Vector2f[0]));
             m.name = ThutCore.trim(key);
             Material mat = mats.getOrDefault(m.name, new Material(m.name));
             mat.expectedTexH = t.resolution.height;

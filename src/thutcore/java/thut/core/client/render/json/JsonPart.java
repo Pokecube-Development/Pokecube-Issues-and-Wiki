@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.joml.Quaternionf;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import com.google.common.collect.Lists;
@@ -21,7 +22,6 @@ import thut.core.client.render.model.Vertex;
 import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.model.parts.Mesh;
 import thut.core.client.render.model.parts.Part;
-import thut.core.client.render.texturing.TextureCoordinate;
 import thut.core.common.ThutCore;
 
 public class JsonPart extends Part
@@ -306,7 +306,7 @@ public class JsonPart extends Part
         Integer o = order.size();
         int u0 = tex_order[i][0];
         int v0 = tex_order[i][1];
-        TextureCoordinate t = new TextureCoordinate(face.uv[u0] / us, face.uv[v0] / vs);
+        Vector2f t = new Vector2f(face.uv[u0] / us, face.uv[v0] / vs);
         order.add(o);
         verts.add(v);
         tex.add(t);
@@ -340,7 +340,7 @@ public class JsonPart extends Part
             List<Object> verts = lists.get(1);
             List<Object> tex = lists.get(2);
             Mesh m = new JsonMesh(order.toArray(new Integer[0]), verts.toArray(new Vertex[0]),
-                    tex.toArray(new TextureCoordinate[0]));
+                    tex.toArray(new Vector2f[0]));
             m.name = key;
             Material mat = new Material(key);
             m.setMaterial(mat);

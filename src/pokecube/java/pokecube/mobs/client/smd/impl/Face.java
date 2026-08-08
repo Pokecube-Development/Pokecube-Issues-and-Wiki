@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
@@ -13,7 +14,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.util.FastColor;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.model.parts.Mesh;
-import thut.core.client.render.texturing.TextureCoordinate;
 import thut.core.common.ThutCore;
 
 /**
@@ -25,7 +25,7 @@ public class Face
     private static final Vector3f ZP = (new Vector3f(0.0F, 0.0F, 1.0F)).normalize();
 
     public MutableVertex[] verts;
-    public TextureCoordinate[] uvs;
+    public Vector2f[] uvs;
     public Vertex normal;
 
     Vector3f a = new Vector3f();
@@ -36,12 +36,12 @@ public class Face
     {
         this.verts = new MutableVertex[face.verts.length];
         for (int i = 0; i < this.verts.length; i++) this.verts[i] = verts.get(face.verts[i].ID);
-        this.uvs = new TextureCoordinate[face.uvs.length];
+        this.uvs = new Vector2f[face.uvs.length];
         System.arraycopy(face.uvs, 0, this.uvs, 0, this.uvs.length);
         if (face.normal != null) this.normal = face.normal;
     }
 
-    public Face(final MutableVertex[] xyz, final TextureCoordinate[] uvs)
+    public Face(final MutableVertex[] xyz, final Vector2f[] uvs)
     {
         this.verts = xyz;
         this.uvs = uvs;
@@ -111,8 +111,8 @@ public class Face
             final float y = vert.y;
             final float z = vert.z;
 
-            final float u = this.uvs[i].u + (float) uvShift[0];
-            final float v = this.uvs[i].v + (float) uvShift[1];
+            final float u = this.uvs[i].x + (float) uvShift[0];
+            final float v = this.uvs[i].y + (float) uvShift[1];
 
             dp.set(x, y, z, 1);
             dp.mul(pos);
