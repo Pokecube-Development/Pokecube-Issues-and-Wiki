@@ -207,5 +207,6 @@ public class X3dModel extends BaseModel
                 });
             }
         }));
+        super.preProcessAnimations(animations);
     }
 }

@@ -1,6 +1,8 @@
 package thut.core.client.render.model.parts;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
@@ -18,13 +20,32 @@ import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.TextureCoordinate;
 
-public abstract class Mesh
+public class Mesh
 {
     public static boolean debug = false;
 
     public static float windowScale = 1;
     public static int verts = 0;
     public static double modelCullThreshold = 0;
+
+    public static Mesh merge(Mesh... meshs)
+    {
+        if(meshs.length==0) return null;
+        if(!Arrays.stream(meshs).allMatch(mesh -> mesh.GL_FORMAT==meshs[0].GL_FORMAT)) return null;
+        List<Vertex> verts = new ArrayList<>();
+        List<Vertex> norms = new ArrayList<>();
+        List<Integer> order = new ArrayList<>();
+        List<TextureCoordinate> texs = new ArrayList<>();
+        Arrays.stream(meshs).forEach(mesh->{
+            verts.addAll(Arrays.stream(mesh.vertices).toList());
+            norms.addAll(Arrays.stream(mesh.normals).toList());
+            texs.addAll(Arrays.stream(mesh.textureCoordinates).toList());
+            order.addAll(Arrays.stream(mesh.order).boxed().toList());
+        });
+        Mesh merged = new Mesh(order.toArray(new Integer[0]), verts.toArray(new Vertex[0]), norms.toArray(new Vertex[0]), texs.toArray(new TextureCoordinate[0]), meshs[0].GL_FORMAT);
+        merged.material = meshs[0].material;
+        return merged;
+    }
 
     public final Vertex[] vertices;
     public final Vertex[] normals;
@@ -53,7 +74,6 @@ public abstract class Mesh
     public float cullScale = 1;
     public float renderScale = 1;
 
-    private final TextureCoordinate dummyTex = new TextureCoordinate(0, 0);
     public static Vector4f METRIC = new Vector4f(1, 1, 1, 0);
 
     private static void clip(Vec3f bound, Vec3f point, boolean up)
@@ -92,6 +112,7 @@ public abstract class Mesh
         final Vec3f c = new Vec3f();
 
         // In this case, just fill all with dummy tex.
+        TextureCoordinate dummyTex = new TextureCoordinate(0, 0);
         if (tex == null) Arrays.fill(textureCoordinates, dummyTex);
         // Fill the order array first.
         for (int i = 0; i < order.length; i++) this.order[i] = order[i];
@@ -154,6 +175,7 @@ public abstract class Mesh
         min.set(mins);
         max.set(maxs);
 
+        Vector3f dummy_1 = new Vector3f();
         dummy_1.set(max.x - min.x, max.y - min.y, max.z - min.z);
         len = (float) Math.sqrt(dummy_1.dot(dummy_1));
 
@@ -163,7 +185,6 @@ public abstract class Mesh
     }
 
     private final Vector3f dummy3 = new Vector3f();
-    private final Vector3f dummy_1 = new Vector3f();
     private final Vector4f dummy4 = new Vector4f();
 
     protected void doRender(final PoseStack mat, final VertexConsumer buffer)

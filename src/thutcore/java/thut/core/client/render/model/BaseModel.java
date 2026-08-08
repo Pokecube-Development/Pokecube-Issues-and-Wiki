@@ -97,7 +97,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
 
     Set<String> heads = new HashSet<>();
     public String name;
-    protected boolean valid = true;
+    protected boolean valid;
     protected boolean loaded = false;
     protected boolean loading = false;
     protected ResourceLocation last_loaded = null;
@@ -340,5 +340,15 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     public void setAnimationHolder(IAnimationHolder holder)
     {
         this.animHolderHolder.set(holder);
+    }
+
+    @Override
+    public void preProcessAnimations(Collection<Animation> collection)
+    {
+        Set<String> animatedParts = new HashSet<>();
+        collection.forEach(a->{
+            animatedParts.addAll(a.sets.keySet());
+        });
+        for(var s: animatedParts) if(this.parts.containsKey(s)) this.parts.get(s).markAsAnimated();
     }
 }

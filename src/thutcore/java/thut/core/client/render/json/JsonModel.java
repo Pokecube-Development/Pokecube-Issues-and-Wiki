@@ -73,10 +73,4 @@ public class JsonModel extends BaseModel
         }
     }
 
-    @Override
-    public void preProcessAnimations(Collection<Animation> collection)
-    {
-
-    }
-
 }

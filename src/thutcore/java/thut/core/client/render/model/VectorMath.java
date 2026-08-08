@@ -55,12 +55,6 @@ public class VectorMath
         return ret;
     }
 
-    public static Mat4f fromVector6f(final Vector6f vector)
-    {
-        return VectorMath.fromVector6f(vector.vector1.x, vector.vector1.y, vector.vector1.z, vector.vector2.x,
-                vector.vector2.y, vector.vector2.z);
-    }
-
     public static Mat4f rotate(final float angle, final Vec3f axis, final Mat4f matrix)
     {
         return VectorMath.rotate(angle, axis, matrix, matrix);

@@ -7,7 +7,9 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
+import org.joml.Matrix4f;
 import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.api.maths.Vector3;
@@ -25,6 +27,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -32,11 +35,12 @@ import java.util.function.Predicate;
 
 public abstract class Part implements IExtendedModelPart, IRetexturableModel
 {
-    private final Map<String, IExtendedModelPart> parts = new Object2ObjectOpenHashMap<>();
+    protected final Map<String, IExtendedModelPart> parts = new Object2ObjectOpenHashMap<>();
 
-    private final List<IPartRenderAdder> renderAdders = new ArrayList<>();
-    private final List<IExtendedModelPart> order = new ArrayList<>();
-    private final List<Mesh> shapes = new ArrayList<>();
+    protected final List<IPartRenderAdder> renderAdders = new ArrayList<>();
+    protected final List<IExtendedModelPart> order = new ArrayList<>();
+    protected final List<Mesh> shapes = new ArrayList<>();
+    protected final List<Mesh> renderShapes = new ArrayList<>();
 
     private final String name;
 
@@ -79,10 +83,11 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     private boolean hidden = false;
     private boolean disabled = false;
     private boolean isHead = false;
+    private boolean isAnimated = false;
 
-    private final List<Material> materials = Lists.newArrayList();
-    private final Map<String, Material> namedMaterials = new Object2ObjectOpenHashMap<>();
-    private final Set<Material> matcache = Sets.newHashSet();
+    protected final List<Material> materials = Lists.newArrayList();
+    protected final Map<String, Material> namedMaterials = new Object2ObjectOpenHashMap<>();
+    protected final Set<Material> matcache = Sets.newHashSet();
 
     private Set<String> parentNames = Sets.newHashSet();
     private Set<String> childNames = Sets.newHashSet();
@@ -124,6 +129,52 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
+    public void tryCombineChildren()
+    {
+        List<Part> unanimated = new ArrayList<>();
+        for(var p: this.parts.values())
+        {
+            // Only our direct children.
+            // Only ones not starting with __, as those are special for worn things, etc
+            // Only ones with no children
+            if(p.getParent()==this&&!p.isAnimated()
+                &&!p.getName().startsWith("__")
+                &&p instanceof Part part
+                &&part.childNames.isEmpty()
+                // TODO later merge rotations and offset properly?
+                &&part.offset.magSq()==0
+                &&part.rotations.isEmpty()
+                )
+                    unanimated.add(part);
+        }
+        for(var p: unanimated)
+        {
+            // Attempt to merge the part in to us.
+            var mats = p.getMaterials().stream().map(m->m.name);
+            boolean allMatch = mats.allMatch(this.namedMaterials::containsKey);
+            if(allMatch)
+            {
+                p.preProcess();
+
+                for(var mesh: p.shapes)
+                {
+                    this.addShape(mesh);
+                }
+                this.order.remove(p);
+                this.parts.remove(p.name);
+                this.childNames.remove(p.name);
+
+                p.shapes.clear();
+                p.renderShapes.clear();
+                p.order.clear();
+                p.parts.clear();
+                p.childNames.clear();
+                p.materials.clear();
+            }
+        }
+    }
+
+    @Override
     public void preProcess()
     {
         this.sort(this.order);
@@ -133,6 +184,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public void addShape(final Mesh shape)
     {
         this.shapes.add(shape);
+        this.renderShapes.add(shape);
         if (shape.material == null) return;
         if (this.matcache.add(shape.material))
         {
@@ -147,13 +199,14 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public void setShapes(final List<Mesh> shapes)
     {
         this.shapes.clear();
+        this.renderShapes.clear();
         for (final Mesh shape : shapes) this.addShape(shape);
     }
 
     @Override
     public void applyTexture(final MultiBufferSource bufferIn, final ResourceLocation tex, final IPartTexturer texer)
     {
-        for (final Mesh shape : this.shapes)
+        for (final Mesh shape : this.renderShapes)
         {
             ResourceLocation tex_1 = tex;
             // Apply material only, we make these if defined anyay.
@@ -257,7 +310,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         for (var adder : this.renderAdders) adder.onRender(mat, this);
 
         this.preRender(mat);
-        for (final Mesh s : this.shapes)
+        for (final Mesh s : this.renderShapes)
         {
             s.renderScale = ds2;
             s.cullScale = ds / ds2;
@@ -341,6 +394,18 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
+    public void markAsAnimated()
+    {
+        this.isAnimated = true;
+    }
+
+    @Override
+    public boolean isAnimated()
+    {
+        return this.isAnimated;
+    }
+
+    @Override
     public boolean isHidden()
     {
         return this.hidden;
@@ -356,12 +421,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public void setPostRotations(final Vector4 angles)
     {
         this.postRot = angles;
-    }
-
-    @Override
-    public void setPostTranslations(final Vector3 point)
-    {
-        this.postTrans.set(point);
     }
 
     @Override
@@ -433,7 +492,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         }
         else
         {
-            shapes.forEach(m -> {
+            renderShapes.forEach(m -> {
                 if (m == null) return;
                 m.rgbabro[0] = (int) (r * this.colour_scales[0]);
                 m.rgbabro[1] = (int) (g * this.colour_scales[1]);

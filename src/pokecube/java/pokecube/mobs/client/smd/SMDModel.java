@@ -233,14 +233,6 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
         // TODO figure out animations for this.
     }
 
-    @Override
-    public void renderAllExcept(final PoseStack mat, final VertexConsumer buffer, final IModelRenderer<?> renderer,
-            final Collection<String> excludedGroupNames)
-    {
-        // SMD Renders whole thing at once, so no part rendering.
-        this.render(mat, buffer, renderer);
-    }
-
     public void render(final PoseStack mat, final VertexConsumer buffer, final IModelRenderer<?> renderer)
     {
         if (this.wrapped != null)
@@ -330,6 +322,18 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
             final ResourceLocation tex_1 = texer.getTexture(mat.name, tex);
             mat.makeVertexBuilder(tex_1, bufferIn);
         }
+    }
+
+    @Override
+    public void markAsAnimated()
+    {
+
+    }
+
+    @Override
+    public boolean isAnimated()
+    {
+        return true;
     }
 
     @Override

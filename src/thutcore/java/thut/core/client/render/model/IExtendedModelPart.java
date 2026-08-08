@@ -69,9 +69,12 @@ public interface IExtendedModelPart extends IModelCustom
 
     void applyTexture(MultiBufferSource bufferIn, ResourceLocation tex, IPartTexturer texer);
 
-    default void addMaterial(final Material material)
-    {
-        this.getMaterials().add(material);
+    void markAsAnimated();
+
+    boolean isAnimated();
+
+    default void tryCombineChildren(){
+
     }
 
     default void preProcess()
@@ -155,11 +158,6 @@ public interface IExtendedModelPart extends IModelCustom
 
     String getType();
 
-    default void removeChild(final String name)
-    {
-        this.getSubParts().remove(name);
-    }
-
     void resetToInit();
 
     default void setHeadPart(final boolean isHead)
@@ -221,8 +219,6 @@ public interface IExtendedModelPart extends IModelCustom
 
     void setPostRotations(Vector4 rotations);
 
-    void setPostTranslations(Vector3 translations);
-
     void setPreRotations(Vector4 rotations);
 
     void setPreScale(Vector3 scale);
@@ -233,17 +229,6 @@ public interface IExtendedModelPart extends IModelCustom
 
     void setColorScales(float r, float g, float b, float a);
 
-    /**
-     * Sets the colour for this part
-     *
-     * @param material - predicate to check if material is valid
-     * @param r
-     * @param g
-     * @param b
-     * @param a
-     * @param br
-     * @param o
-     */
     void setRGBABrO(@Nullable Predicate<Material> material, int r, int g, int b, int a, int br, int o);
 
     default void setRGBABrO(int r, int g, int b, int a, int br, int o)

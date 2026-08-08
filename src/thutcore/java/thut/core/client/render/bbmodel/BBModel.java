@@ -116,8 +116,4 @@ public class BBModel extends BaseModel
         super.updateMaterial(mat);
     }
 
-    @Override
-    public void preProcessAnimations(Collection<Animation> collection)
-    {}
-
 }
