@@ -118,7 +118,7 @@ public class AnimationChanger implements IAnimationChanger
             return rgba;
         }
         final int[] arr = pokemob.getRGBA();
-        rgba = (arr[3] & 0xFF) << 24 | (arr[0] & 0xFF) << 16 | (arr[1] & 0xFF) << 8 | (arr[2] & 0xFF) << 0;
+        rgba = (arr[3] & 0xFF) << 24 | (arr[0] & 0xFF) << 16 | (arr[1] & 0xFF) << 8 | (arr[2] & 0xFF);
         return rgba;
     }
 
