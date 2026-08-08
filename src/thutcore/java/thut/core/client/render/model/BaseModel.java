@@ -349,15 +349,18 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         collection.forEach(a->{
             animatedParts.addAll(a.sets.keySet());
         });
-        for(var s: animatedParts) if(this.parts.containsKey(s)) this.parts.get(s).markAsAnimated();
-        for(var name: this.getHeadParts()) if(this.parts.containsKey(name)) this.getParts().get(name).markAsAnimated();
-        for(var s: animatedParts) if(this.parts.containsKey(s)) this.parts.get(s).markAsAnimated();
+        var parts = this.getParts();
+
+        for(var s: animatedParts) if(parts.containsKey(s)) parts.get(s).markAsAnimated();
+        for(var name: this.getHeadParts()) if(parts.containsKey(name)) parts.get(name).markAsAnimated();
+
         var copy = new Object2ObjectOpenHashMap<String, IExtendedModelPart>();
         this.parts.values().forEach(part->{
             part.tryCombineChildren();
-            if(!(part.getMaterials().isEmpty() && part.getSubParts().isEmpty())) {
+            if(!(part.getMaterials().isEmpty() && part.getSubParts().isEmpty() && !part.getName().startsWith("__"))) {
                 copy.put(part.getName(), part);
             }
+            else System.out.println("Nothing for "+part.getName());
         });
         this.renderOrder.clear();
         this.parts = copy;
