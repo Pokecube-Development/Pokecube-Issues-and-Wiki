@@ -1,7 +1,7 @@
 package pokecube.mobs.client.smd.impl;
 
-import thut.api.maths.vecmath.Mat4f;
-import thut.api.maths.vecmath.Vector4f;
+import org.joml.Matrix4f;
+import org.joml.Vector4f;
 import thut.core.client.render.model.Vertex;
 
 /**
@@ -114,16 +114,16 @@ public class MutableVertex extends Vertex
      */
     public void mutateFromBone(final Bone bone, final float weight)
     {
-        final Mat4f transform = bone.transform;
+        final Matrix4f transform = bone.transform;
         if (transform != null)
         {
             this.init();
-            Mat4f.transform(transform, this.defPos, this.posTemp);
-            Mat4f.transform(transform, this.defNorm, this.normTemp);
-            this.posTemp.scale(weight);
-            this.normTemp.scale(weight);
-            Vector4f.add(this.posTemp, this.mutPos, this.mutPos);
-            Vector4f.add(this.normTemp, this.mutNorm, this.mutNorm);
+            transform.transform(this.defPos, this.posTemp);
+            transform.transform(this.defNorm, this.normTemp);
+            this.posTemp.mul(weight);
+            this.normTemp.mul(weight);
+            this.mutPos.add(this.posTemp);
+            this.mutNorm.add(this.normTemp);
         }
     }
 

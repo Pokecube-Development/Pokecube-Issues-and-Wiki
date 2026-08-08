@@ -16,11 +16,11 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
+import org.joml.Vector3f;
 import thut.api.boom.ExplosionCustom.BlastResult;
 import thut.api.boom.ExplosionCustom.HitEntity;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
-import thut.api.maths.vecmath.Vec3f;
 import thut.core.common.ThutCore;
 
 public abstract class ShadowMaskChecker extends AbstractChecker
@@ -338,13 +338,13 @@ public abstract class ShadowMaskChecker extends AbstractChecker
         }
     }
 
-    final Vec3f unit = new Vec3f();
+    final Vector3f unit = new Vector3f();
 
-    Vec3f min = new Vec3f(-1, -1, -1);
-    Vec3f max = new Vec3f(1, 1, 1);
+    Vector3f min = new Vector3f(-1, -1, -1);
+    Vector3f max = new Vector3f(1, 1, 1);
 
-    Vec3f min_next = new Vec3f(1, 1, 1);
-    Vec3f max_next = new Vec3f(-1, -1, -1);
+    Vector3f min_next = new Vector3f(1, 1, 1);
+    Vector3f max_next = new Vector3f(-1, -1, -1);
 
     int currentIndex = 0;
     int nextIndex = 0;
@@ -393,7 +393,7 @@ public abstract class ShadowMaskChecker extends AbstractChecker
         this.lastBoundCheck = Math.max(this.lastBoundCheck, 10);
     }
 
-    private boolean outOfBounds(final Vec3f unit)
+    private boolean outOfBounds(final Vector3f unit)
     {
         if (unit.x < this.min.x) return true;
         if (unit.y < this.min.y) return true;
@@ -415,8 +415,8 @@ public abstract class ShadowMaskChecker extends AbstractChecker
             // Gives some area around the blocked sections for actually being
             // checked.
             final float s = 1.0f;
-            this.min.scale(s);
-            this.max.scale(s);
+            this.min.mul(s);
+            this.max.mul(s);
             this.min_next.set(1, 1, 1);
             this.max_next.set(-1, -1, -1);
             this.lastBoundCheck = r;
@@ -451,7 +451,7 @@ public abstract class ShadowMaskChecker extends AbstractChecker
         this.rAbs.set(this.r).addTo(this.boom.centre);
         this.rHat.set(this.r).norm();
         final BlockPos relPos = this.r.getPos();
-        this.unit.set(this.rHat);
+        this.unit.set(this.rHat.x, this.rHat.y, this.rHat.z);
         if (this.outOfBounds(this.unit)) return false;
 
         str = this.boom.strength / rSq;

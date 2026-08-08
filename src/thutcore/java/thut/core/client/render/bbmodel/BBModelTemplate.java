@@ -7,7 +7,6 @@ import com.mojang.math.Axis;
 import net.minecraft.core.Direction;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
-import thut.api.maths.vecmath.Vec3f;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.model.parts.Material;
@@ -87,9 +86,9 @@ public class BBModelTemplate
         public boolean isValid()
         {
             // Check if we actually have any area
-            Vec3f v1 = new Vec3f(points[0]);
-            Vec3f v2 = new Vec3f(points[1]);
-            Vec3f v3 = new Vec3f(points[2]);
+            Vector3f v1 = new Vector3f(points[0]);
+            Vector3f v2 = new Vector3f(points[1]);
+            Vector3f v3 = new Vector3f(points[2]);
 
             v2.sub(v1);
             v3.sub(v1);

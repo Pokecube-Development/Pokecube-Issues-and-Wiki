@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import thut.api.maths.vecmath.Mat4f;
+import org.joml.Matrix4f;
 import thut.lib.ResourceHelper;
 
 /**
@@ -165,7 +165,7 @@ public class Animation
                     final int boneIndex = Integer.parseInt(params[0]);
                     final float[] locRots = new float[6];
                     for (int i = 1; i < 7; i++) locRots[i - 1] = Float.parseFloat(params[i]);
-                    final Mat4f animated = Helpers.makeMatrix(locRots[0], -locRots[1], -locRots[2], locRots[3],
+                    final Matrix4f animated = Helpers.makeMatrix(locRots[0], -locRots[1], -locRots[2], locRots[3],
                             -locRots[4], -locRots[5]);
                     this.frames.get(currentTime).addTransforms(boneIndex, animated);
                 }
@@ -192,7 +192,7 @@ public class Animation
             for (int j = 0; j < model.bones.size(); j++)
             {
                 final Bone bone = model.bones.get(j);
-                final Mat4f animated = frame.transforms.get(j);
+                final Matrix4f animated = frame.transforms.get(j);
                 bone.preloadAnimation(frame, animated);
             }
         }

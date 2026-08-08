@@ -14,12 +14,12 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
+import org.joml.Matrix3f;
+import org.joml.Vector3f;
 import thut.api.ThutCaps;
 import thut.api.entity.IAnimated;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
 import thut.api.entity.multipart.GenericPartEntity.BodyPart;
-import thut.api.maths.vecmath.Mat3f;
-import thut.api.maths.vecmath.Vec3f;
 import thut.core.common.ThutCore;
 import thut.core.common.network.PartSync;
 
@@ -35,8 +35,8 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         public T[] allParts;
         public T[] parts;
 
-        public Mat3f rot = new Mat3f();
-        public Vec3f r = new Vec3f();
+        public Matrix3f rot = new Matrix3f();
+        public Vector3f r = new Vector3f();
         public String effective_pose = "";
 
         int tick = -1;
@@ -254,15 +254,14 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         }
         if (getHolder().holder().parts.length == 0 && getHolder().allParts().isEmpty()) return;
 
-        Mat3f rot = getHolder().holder().rot;
-        Vec3f r = getHolder().holder().r;
+        Matrix3f rot = getHolder().holder().rot;
+        Vector3f r = getHolder().holder().r;
 
         final Vec3 v = weSelf().position();
         r.set((float) v.x(), (float) v.y(), (float) v.z());
         final Vec3 dr = new Vec3(r.x - weSelf().xOld, r.y - weSelf().yOld, r.z - weSelf().zOld);
         float rotY = weSelf() instanceof LivingEntity e ? e.yBodyRot : weSelf().getYRot();
-
-        rot.rotY((float) Math.toRadians(180 - rotY));
+        rot.rotate((float) Math.toRadians(180 - rotY), 0, 1, 0);
         if (weSelf().isAddedToLevel())
         {
             for (final T p : getHolder().holder().parts) p.update(rot, r, dr);

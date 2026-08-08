@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.google.common.collect.Lists;
 
-import thut.api.maths.vecmath.Mat4f;
+import org.joml.Matrix4f;
 
 /**
  * This is a section of an animation, it specifics a particular set of
@@ -14,8 +14,8 @@ public class Frame
 {
     public final int           ID;
     public Animation           owner;
-    public ArrayList<Mat4f> invertTransforms = Lists.newArrayList();
-    public ArrayList<Mat4f> transforms       = Lists.newArrayList();
+    public ArrayList<Matrix4f> invertTransforms = Lists.newArrayList();
+    public ArrayList<Matrix4f> transforms       = Lists.newArrayList();
 
     public Frame(final Animation parent)
     {
@@ -31,10 +31,10 @@ public class Frame
         this.invertTransforms = anim.invertTransforms;
     }
 
-    public void addTransforms(final int index, final Mat4f invertedData)
+    public void addTransforms(final int index, final Matrix4f invertedData)
     {
         this.transforms.add(index, invertedData);
-        final Mat4f inv = new Mat4f(invertedData);
+        final Matrix4f inv = new Matrix4f(invertedData);
         inv.invert();
         this.invertTransforms.add(index, inv);
     }
@@ -47,9 +47,9 @@ public class Frame
             final Bone bone = this.owner.bones.get(i);
             if (bone.parent != null)
             {
-                final Mat4f temp = Mat4f.mul(this.transforms.get(bone.parent.ID), this.transforms.get(i), null);
+                final Matrix4f temp = this.transforms.get(bone.parent.ID).mul(this.transforms.get(i));
                 this.transforms.set(i, temp);
-                this.invertTransforms.set(i, Mat4f.invert(temp, null));
+                this.invertTransforms.set(i, temp.invert(new Matrix4f()));
             }
         }
     }
@@ -57,14 +57,11 @@ public class Frame
     /**
      * Sets up the transforms for the given index.
      *
-     * @param id
-     *            - transform index
-     * @param degrees
      */
     public void setTransforms(final int id)
     {
-        final Mat4f rotator = Helpers.makeMatrix(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-        Mat4f.mul(rotator, this.transforms.get(id), this.transforms.get(id));
-        Mat4f.mul(Mat4f.invert(rotator, null), this.invertTransforms.get(id), this.invertTransforms.get(id));
+        final Matrix4f rotator = Helpers.makeMatrix(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+        rotator.mul(this.transforms.get(id), this.transforms.get(id));
+        rotator.invert(new Matrix4f()).mul(this.invertTransforms.get(id), this.invertTransforms.get(id));
     }
 }

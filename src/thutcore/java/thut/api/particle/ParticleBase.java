@@ -17,7 +17,6 @@ import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import thut.api.maths.Vector3;
-import thut.api.maths.vecmath.Vec3f;
 import thut.core.common.ThutCore;
 
 public class ParticleBase extends ParticleType<ParticleBase> implements IParticle, IAnimatedParticle, ParticleOptions
@@ -114,9 +113,9 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
         return this;
     }
 
-    protected void renderRotatedQuad(VertexConsumer buffer, Vec3f source, Quaternionf quaternion, float partialTicks)
+    protected void renderRotatedQuad(VertexConsumer buffer, Vector3f source, Quaternionf quaternion, float partialTicks)
     {
-        this.renderRotatedQuad(buffer, quaternion, source.getX(), source.getY(), source.getZ(), partialTicks);
+        this.renderRotatedQuad(buffer, quaternion, source.x, source.y, source.z, partialTicks);
     }
 
     protected void renderRotatedQuad(VertexConsumer buffer, Quaternionf quaternion, float x, float y, float z,
@@ -161,7 +160,7 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
     @Override
     @OnlyIn(value = Dist.CLIENT)
     public void renderParticle(final VertexConsumer buffer, final Camera renderInfo, final float partialTicks,
-            final Vec3f offset)
+            final Vector3f offset)
     {
         Quaternionf quaternion = getQuat(renderInfo, partialTicks);
 

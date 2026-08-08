@@ -1,8 +1,8 @@
 package thut.core.common.world.mobs.data.types;
 
 import io.netty.buffer.ByteBuf;
+import org.joml.Vector3f;
 import thut.api.entity.IMultiplePassengerEntity.Seat;
-import thut.api.maths.vecmath.Vec3f;
 import thut.api.world.mobs.data.Data;
 
 public class Data_Seat extends Data_Base<Seat>
@@ -10,7 +10,7 @@ public class Data_Seat extends Data_Base<Seat>
     public Data_Seat(String name)
     {
         super(name);
-        this.value = new Seat(new Vec3f(), null);
+        this.value = new Seat(new Vector3f(), null);
     }
 
     @Override

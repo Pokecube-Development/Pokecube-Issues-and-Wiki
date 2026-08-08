@@ -8,7 +8,7 @@ import io.netty.buffer.Unpooled;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
-import thut.api.maths.vecmath.Vec3f;
+import org.joml.Vector3f;
 
 public interface IMultiplePassengerEntity
 {
@@ -23,17 +23,17 @@ public interface IMultiplePassengerEntity
             return new Seat(buf);
         }
 
-        public Vec3f seat;
+        public Vector3f seat;
 
         private UUID entityId;
 
         public Seat(final ByteBuf buf)
         {
-            this.seat = new Vec3f(buf.readFloat(), buf.readFloat(), buf.readFloat());
+            this.seat = new Vector3f(buf.readFloat(), buf.readFloat(), buf.readFloat());
             this.setEntityId(new UUID(buf.readLong(), buf.readLong()));
         }
 
-        public Seat(final Vec3f vector3f, final UUID readInt)
+        public Seat(final Vector3f vector3f, final UUID readInt)
         {
             this.seat = vector3f;
             this.setEntityId(readInt != null ? readInt : Seat.BLANK);
@@ -42,15 +42,14 @@ public interface IMultiplePassengerEntity
         @Override
         public Object clone()
         {
-            return new Seat((Vec3f) this.seat.clone(), this.getEntityId());
+            return new Seat(new Vector3f(this.seat), this.getEntityId());
         }
 
         @Override
         public boolean equals(final Object obj)
         {
-            if (!(obj instanceof Seat)) return false;
-            final Seat other = (Seat) obj;
-            return this.getEntityId().equals(other.getEntityId()) && this.seat.epsilonEquals(other.seat, 0.1f);
+            if (!(obj instanceof Seat other)) return false;
+            return this.getEntityId().equals(other.getEntityId()) && this.seat.distanceSquared(other.seat)<1e-2;
         }
 
         /**
@@ -100,7 +99,7 @@ public interface IMultiplePassengerEntity
      * @param seat
      * @return
      */
-    Entity getPassenger(Vec3f seat);
+    Entity getPassenger(Vector3f seat);
 
     /**
      * Current pitch rotation for offsetting the ridden entitites
@@ -130,14 +129,14 @@ public interface IMultiplePassengerEntity
      * @param passenger
      * @return
      */
-    Vec3f getSeat(Entity passenger);
+    Vector3f getSeat(Entity passenger);
 
     /**
      * List of seats on this entity;
      *
      * @return
      */
-    List<Vec3f> getSeats();
+    List<Vector3f> getSeats();
 
     /**
      * Current rotation yaw, for offsetting of the ridden entitites.

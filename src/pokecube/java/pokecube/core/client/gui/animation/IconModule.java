@@ -11,6 +11,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.fml.loading.FMLPaths;
+import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
@@ -20,7 +21,6 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.client.gui.AnimationGui;
 import pokecube.core.database.Database;
-import thut.api.maths.vecmath.Vec3f;
 import thut.api.util.JsonUtil;
 import thut.lib.TComponent;
 
@@ -35,7 +35,7 @@ import java.util.*;
 public class IconModule extends AnimModule
 {
     private static final Set<PokedexEntry> borked = Sets.newHashSet();
-    private static final Map<PokedexEntry, Vec3f> original_sizes = Maps.newHashMap();
+    private static final Map<PokedexEntry, Vector3f> original_sizes = Maps.newHashMap();
     private static int tries = 0;
 
     boolean cap = false;
@@ -158,7 +158,7 @@ public class IconModule extends AnimModule
                 }
                 catch (final Exception e)
                 {
-                    final Vec3f dims = AnimationGui.entry.getModelSize();
+                    final Vector3f dims = AnimationGui.entry.getModelSize();
                     if (IconModule.borked.add(AnimationGui.entry))
                     {
                         if (IconModule.original_sizes.containsKey(AnimationGui.entry))
@@ -338,8 +338,8 @@ public class IconModule extends AnimModule
 
         int maxX = 0, minX = width, maxY = 0, minY = height;
         boolean scaled = false;
-        final Vec3f dims = entry.getModelSize();
-        if (!IconModule.original_sizes.containsKey(entry)) IconModule.original_sizes.put(entry, new Vec3f(dims));
+        final Vector3f dims = entry.getModelSize();
+        if (!IconModule.original_sizes.containsKey(entry)) IconModule.original_sizes.put(entry, new Vector3f(dims));
 
         try
         {
@@ -366,7 +366,7 @@ public class IconModule extends AnimModule
         }
         catch (IndexOutOfBoundsException e1)
         {
-            dims.scale(2);
+            dims.mul(2);
             AnimationGui.sizes.put(entry, dims.y);
             return false;
         }
@@ -380,7 +380,7 @@ public class IconModule extends AnimModule
             final float big = 1.05f;
             final float sml = 0.95f;
             float s = width / target;
-            if (!IconModule.original_sizes.containsKey(entry)) IconModule.original_sizes.put(entry, new Vec3f(dims));
+            if (!IconModule.original_sizes.containsKey(entry)) IconModule.original_sizes.put(entry, new Vector3f(dims));
             if (s > big)
             {
                 if (slowly) s = 1.005f;

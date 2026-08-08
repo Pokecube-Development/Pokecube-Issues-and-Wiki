@@ -27,6 +27,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.common.util.FakePlayer;
+import org.joml.Vector3f;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -48,7 +49,6 @@ import pokecube.core.utils.AITools;
 import pokecube.core.utils.Permissions;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
-import thut.api.maths.vecmath.Vec3f;
 import thut.core.common.ThutCore;
 import thut.core.common.commands.CommandTools;
 import thut.core.common.genetics.DefaultGenetics;
@@ -430,10 +430,10 @@ public class Pokecube extends Item implements IPokecube
         {
             final InteractionHand hand = player.getUsedItemHand();
             final Vec3 tmp = thrower.getLookAngle();
-            final Vec3f look = new Vec3f((float) tmp.x, (float) tmp.y, (float) tmp.z);
-            final Vec3f shift = new Vec3f();
-            shift.cross(look, new Vec3f(0, 1, 0));
-            shift.scale(player.getBbWidth() / 2);
+            final Vector3f look = new Vector3f((float) tmp.x, (float) tmp.y, (float) tmp.z);
+            final Vector3f shift = new Vector3f();
+            look.cross(new Vector3f(0, 1, 0), shift);
+            shift.mul(player.getBbWidth() / 2);
             if (hand == InteractionHand.OFF_HAND) shift.negate();
             temp.addTo(shift.x, shift.y, shift.z);
         }
@@ -495,10 +495,10 @@ public class Pokecube extends Item implements IPokecube
             {
                 final InteractionHand hand = player.getUsedItemHand();
                 final Vec3 tmp = thrower.getLookAngle();
-                final Vec3f look = new Vec3f((float) tmp.x, (float) tmp.y, (float) tmp.z);
-                final Vec3f shift = new Vec3f();
-                shift.cross(look, new Vec3f(0, 1, 0));
-                shift.scale(player.getBbWidth() / 2);
+                final Vector3f look = new Vector3f((float) tmp.x, (float) tmp.y, (float) tmp.z);
+                final Vector3f shift = new Vector3f();
+                look.cross(new Vector3f(0, 1, 0), shift);
+                shift.mul(player.getBbWidth() / 2);
                 if (hand == InteractionHand.OFF_HAND) shift.negate();
                 temp.addTo(shift.x, shift.y, shift.z);
             }

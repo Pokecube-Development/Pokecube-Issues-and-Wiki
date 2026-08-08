@@ -15,7 +15,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
 import net.minecraft.util.FastColor;
-import thut.api.maths.vecmath.Vec3f;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.TextureCoordinate;
@@ -80,7 +79,7 @@ public class Mesh
 
     public static Vector4f METRIC = new Vector4f(1, 1, 1, 0);
 
-    private static void clip(Vec3f bound, Vec3f point, boolean up)
+    private static void clip(Vector3f bound, Vector3f point, boolean up)
     {
         if (up)
         {
@@ -128,9 +127,9 @@ public class Mesh
 
         vertexMode = GL_FORMAT == GL11.GL_TRIANGLES ? Mode.TRIANGLES : Mode.QUADS;
 
-        Vec3f mins = new Vec3f(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE);
-        Vec3f maxs = new Vec3f(Float.MIN_VALUE, Float.MIN_VALUE, Float.MIN_VALUE);
-        final Vec3f c = new Vec3f();
+        Vector3f mins = new Vector3f(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE);
+        Vector3f maxs = new Vector3f(Float.MIN_VALUE, Float.MIN_VALUE, Float.MIN_VALUE);
+        final Vector3f a = new Vector3f(),b = new Vector3f(),c = new Vector3f();
 
         int i_1, i_2, i_3, i_4;
         // Calculate the normals for each triangle.
@@ -140,13 +139,13 @@ public class Mesh
             i_2 = order[i + 1];
             i_3 = order[i + 2];
 
-            Vec3f v1, v2, v3;
+            Vector3f v1, v2, v3;
             vertex = vertTmp.get(i_1);
-            v1 = new Vec3f(vertex.x, vertex.y, vertex.z);
+            v1 = new Vector3f(vertex.x, vertex.y, vertex.z);
             vertex = vertTmp.get(i_2);
-            v2 = new Vec3f(vertex.x, vertex.y, vertex.z);
+            v2 = new Vector3f(vertex.x, vertex.y, vertex.z);
             vertex = vertTmp.get(i_3);
-            v3 = new Vec3f(vertex.x, vertex.y, vertex.z);
+            v3 = new Vector3f(vertex.x, vertex.y, vertex.z);
 
             clip(mins, v1, false);
             clip(mins, v2, false);
@@ -160,17 +159,15 @@ public class Mesh
             {
                 i_4 = order[i + 3];
                 vertex = vertTmp.get(i_4);
-                Vec3f v4 = new Vec3f(vertex.x, vertex.y, vertex.z);
+                Vector3f v4 = new Vector3f(vertex.x, vertex.y, vertex.z);
 
                 clip(mins, v4, false);
                 clip(maxs, v4, true);
             }
 
-            final Vec3f a = new Vec3f(v2);
-            a.sub(v1);
-            final Vec3f b = new Vec3f(v3);
-            b.sub(v1);
-            c.cross(a, b);
+            v2.sub(v1,a);
+            v3.sub(v1,b);
+            a.cross(b, c);
             c.normalize();
             if (Double.isNaN(c.x))
             {
@@ -306,7 +303,6 @@ public class Mesh
             // can't guarentee compiler flags are set properly.
             for(int i = 0; i<this.vertices.length; i++)
             {
-                normal = normals[i];
                 // Next we can pull out the coordinates if not culled.
                 textureCoordinate = this.textureCoordinates[i];
                 vertex = this.vertices[i];
@@ -314,7 +310,7 @@ public class Mesh
                 verts++;
 
                 // Normals first, as they define culling.=
-                dn.set(normal.x, normal.y, normal.z);
+                dn.set(normals[i]);
                 dn.mul(norms);
 
                 x = Math.fma(this.renderScale, (vertex.x - mx), mx);
@@ -342,19 +338,17 @@ public class Mesh
         }
         else for(int i = 0; i<this.vertices.length; i++)
         {
-            normal = normals[i];
             // Next we can pull out the coordinates if not culled.
             textureCoordinate = this.textureCoordinates[i];
-            vertex = this.vertices[i];
 
             verts++;
 
             // Normals first, as they define culling.
-            dn.set(normal.x, normal.y, normal.z);
+            dn.set(normals[i]);
             dn.mul(norms);
 
             // Then the vertex
-            dp.set(vertex.x,  vertex.y, vertex.z, 1);
+            dp.set(this.vertices[i], 1);
             dp.mul(pos);
 
             // This results in u * su + du

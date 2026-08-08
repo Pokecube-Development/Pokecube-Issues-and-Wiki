@@ -18,8 +18,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import org.joml.Vector3f;
 import thut.api.maths.Vector3;
-import thut.api.maths.vecmath.Vec3f;
 import thut.api.particle.ParticleBase;
 import thut.api.particle.ParticleNoGravity;
 import thut.api.particle.ThutParticles;
@@ -80,7 +80,7 @@ public class ParticleFactories
             final float x = (float) (Mth.lerp(partialTicks, this.xo, this.x) - vec3d.x());
             final float y = (float) (Mth.lerp(partialTicks, this.yo, this.y) - vec3d.y());
             final float z = (float) (Mth.lerp(partialTicks, this.zo, this.z) - vec3d.z());
-            final Vec3f source = new Vec3f(x, y, z);
+            final Vector3f source = new Vector3f(x, y, z);
             this.particle.renderParticle(buffer, renderInfo, partialTicks, source);
         }
 

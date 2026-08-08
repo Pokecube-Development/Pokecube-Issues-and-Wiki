@@ -20,11 +20,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
+import org.joml.Vector3f;
 import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.BlockEntityInteractHandler;
 import thut.api.maths.Vector3;
-import thut.api.maths.vecmath.Vec3f;
 import thut.core.common.ThutCore;
 import thut.core.common.world.mobs.data.types.Data_Seat;
 
@@ -230,7 +230,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         F.set(destX, destY, destZ);
     }
 
-    public void addSeat(final Vec3f seat)
+    public void addSeat(final Vector3f seat)
     {
         int n = this.getSeatCount();
         try
@@ -306,7 +306,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     }
 
     @Override
-    public Entity getPassenger(final Vec3f seatl)
+    public Entity getPassenger(final Vector3f seatl)
     {
         UUID id = null;
         for (int i = 0; i < this.getSeatCount(); i++)
@@ -338,9 +338,9 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     }
 
     @Override
-    public Vec3f getSeat(final Entity passenger)
+    public Vector3f getSeat(final Entity passenger)
     {
-        final Vec3f ret = null;
+        final Vector3f ret = null;
         for (int i = 0; i < this.getSeatCount(); i++)
         {
             Seat seat;
@@ -360,9 +360,9 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     }
 
     @Override
-    public List<Vec3f> getSeats()
+    public List<Vector3f> getSeats()
     {
-        final List<Vec3f> ret = Lists.newArrayList();
+        final List<Vector3f> ret = Lists.newArrayList();
         for (int i = 0; i < this.getSeatCount(); i++)
         {
             final Seat seat = this.getSeat(i);

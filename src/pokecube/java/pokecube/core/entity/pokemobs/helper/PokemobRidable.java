@@ -22,11 +22,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidType;
+import org.joml.Vector3f;
 import pokecube.api.data.PokedexEntry;
 import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
 import thut.api.entity.multipart.GenericPartEntity.BodyPart;
-import thut.api.maths.vecmath.Vec3f;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 import thut.core.common.world.mobs.data.types.Data_Seat;
 
@@ -266,7 +266,7 @@ public abstract class PokemobRidable extends PokemobHasParts
     protected int seatCount = 0;
 
     @Override
-    public Entity getPassenger(final Vec3f seatl)
+    public Entity getPassenger(final Vector3f seatl)
     {
         this.initSeats();
         UUID id = null;
@@ -280,10 +280,10 @@ public abstract class PokemobRidable extends PokemobHasParts
     }
 
     @Override
-    public Vec3f getSeat(final Entity passenger)
+    public Vector3f getSeat(final Entity passenger)
     {
         this.initSeats();
-        final Vec3f ret = null;
+        final Vector3f ret = null;
         for (int i = 0; i < this.seatCount; i++)
         {
             Seat seat;
@@ -293,10 +293,10 @@ public abstract class PokemobRidable extends PokemobHasParts
     }
 
     @Override
-    public List<Vec3f> getSeats()
+    public List<Vector3f> getSeats()
     {
         this.initSeats();
-        final List<Vec3f> ret = Lists.newArrayList();
+        final List<Vector3f> ret = Lists.newArrayList();
         for (int i = 0; i < this.seatCount; i++)
         {
             final Seat seat = this.getSeat(i);
@@ -361,7 +361,7 @@ public abstract class PokemobRidable extends PokemobHasParts
             this.seatCount = bodySeats.size();
             for (int index = 0; index < this.seatCount; index++)
             {
-                final Vec3f seat = new Vec3f();
+                final Vector3f seat = new Vector3f();
                 final BodyPart part = bodySeats.get(index);
                 seat.x = (float) (part.__ride__.x) * size;
                 seat.y = (float) (part.__ride__.y) * size;
@@ -376,7 +376,7 @@ public abstract class PokemobRidable extends PokemobHasParts
             this.seatCount = entry.passengerOffsets.length;
             for (int index = 0; index < this.seatCount; index++)
             {
-                final Vec3f seat = new Vec3f();
+                final Vector3f seat = new Vector3f();
                 final double[] offset = entry.passengerOffsets[index];
                 seat.x = (float) offset[0];
                 seat.y = (float) offset[1];

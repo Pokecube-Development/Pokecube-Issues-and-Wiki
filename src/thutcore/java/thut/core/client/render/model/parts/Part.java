@@ -7,7 +7,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
-import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import thut.api.entity.IAnimated.IAnimationHolder;
@@ -25,9 +24,11 @@ import thut.lib.AxisAngles;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -131,46 +132,48 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     @Override
     public void tryCombineChildren()
     {
-        this.renderShapes.clear();
-        List<Part> unanimated = new ArrayList<>();
-        for(var p: this.parts.values())
+        renderShapes.clear();
+        for(var _p: new ArrayList<>(this.parts.values()))
         {
             // Only our direct children.
             // Only ones not starting with __, as those are special for worn things, etc
             // Only ones with no children
-            if(p.getParent()==this&&!p.isAnimated()
-                &&!p.getName().startsWith("__")
-                &&p instanceof Part part
-                &&part.childNames.isEmpty()
+            if(_p.getParent()==this&&!_p.isAnimated()
+                &&!_p.getName().startsWith("__")
+                &&_p instanceof Part p
+                &&p.childNames.isEmpty()
                 // TODO later merge rotations and offset properly?
-                &&part.offset.magSq()==0
-                &&part.rotations.isEmpty()
+                &&p.offset.magSq()==0
+                &&p.rotations.isEmpty()
                 )
             {
-                unanimated.add(part);
-            }
-        }
-        for(var p: unanimated)
-        {
-            // Attempt to merge the part in to us.
-            var mats = p.getMaterials().stream().map(m->m.name);
-            boolean allMatch = mats.allMatch(this.namedMaterials::containsKey);
-            if(allMatch)
-            {
-                for(var mesh: p.shapes)
+                // Attempt to merge the part in to us.
+                var mats = p.getMaterials().stream().map(m->m.name);
+                boolean allMatch = mats.allMatch(this.namedMaterials::containsKey);
+                PoseStack stack_there = new PoseStack();
+                p.preRender(stack_there);
+                if(allMatch)
                 {
-                    this.addShape(mesh);
-                }
-                this.order.remove(p);
-                this.parts.remove(p.name);
-                this.childNames.remove(p.name);
+                    Vector3f pShift = new Vector3f((float)p.offset.x,(float)p.offset.y,(float)p.offset.z);
+                    for(var mesh: p.shapes)
+                    {
+                        Set<Vertex> verts = new HashSet<>(Arrays.asList(mesh.vertices));
+                        for(var vert: verts){
+                            vert.add(pShift);
+                        }
+                        this.addShape(mesh);
+                    }
+                    this.order.remove(p);
+                    this.parts.remove(p.name);
+                    this.childNames.remove(p.name);
 
-                p.shapes.clear();
-                p.renderShapes.clear();
-                p.order.clear();
-                p.parts.clear();
-                p.childNames.clear();
-                p.materials.clear();
+                    p.shapes.clear();
+                    p.renderShapes.clear();
+                    p.order.clear();
+                    p.parts.clear();
+                    p.childNames.clear();
+                    p.materials.clear();
+                }
             }
         }
         Map<String, List<Mesh>> allShapes = new HashMap<>();

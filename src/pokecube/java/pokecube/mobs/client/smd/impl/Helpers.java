@@ -2,17 +2,12 @@ package pokecube.mobs.client.smd.impl;
 
 import java.util.ArrayList;
 
-import thut.api.maths.vecmath.Mat4f;
-import thut.api.maths.vecmath.Vec3f;
-import thut.core.client.render.model.VectorMath;
+import org.joml.Matrix4f;
+import pokecube.mobs.client.smd.VectorMath;
 
 /** Misc helper methods. */
 public class Helpers
 {
-    static final Vec3f X_AXIS = new Vec3f(1.0F, 0.0F, 0.0F);
-    static final Vec3f Y_AXIS = new Vec3f(0.0F, 1.0F, 0.0F);
-    static final Vec3f Z_AXIS = new Vec3f(0.0F, 0.0F, 1.0F);
-
     /**
      * Ensures that the given index will fit in the list.
      *
@@ -30,7 +25,7 @@ public class Helpers
      * y1, z1, and then it is rotated by zr, yr and xr, in that order, along
      * their respective axes.
      */
-    public static Mat4f makeMatrix(final float xl, final float yl, final float zl, final float xr, final float yr,
+    public static Matrix4f makeMatrix(final float xl, final float yl, final float zl, final float xr, final float yr,
             final float zr)
     {
         return VectorMath.fromVector6f(xl, yl, zl, xr, yr, zr);

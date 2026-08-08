@@ -21,8 +21,8 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.entity.EntityEvent;
-import thut.api.maths.vecmath.Mat3f;
-import thut.api.maths.vecmath.Vec3f;
+import org.joml.Matrix3f;
+import org.joml.Vector3f;
 import thut.core.common.ThutCore;
 import thut.core.common.network.PartInteract;
 
@@ -73,12 +73,12 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
                 final String id);
     }
 
-    public Vec3f r0;
+    public Vector3f r0;
 
     public float width;
     public float height;
 
-    public Vec3f r;
+    public Vector3f r;
 
     public final String id;
 
@@ -94,16 +94,16 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
 
         this.dimensions = EntityDimensions.scalable(width, height);
 
-        this.r0 = new Vec3f(x + width / 2, y, z + width / 2);
-        this.r = new Vec3f(x, y, z);
+        this.r0 = new Vector3f(x + width / 2, y, z + width / 2);
+        this.r = new Vector3f(x, y, z);
     }
 
-    public void update(final Mat3f rot, final Vec3f r, final Vec3 dr)
+    public void update(final Matrix3f rot, final Vector3f r, final Vec3 dr)
     {
-        this.r.set(this.r0.getX(), this.r0.getY(), this.r0.getZ());
+        this.r.set(this.r0.x, this.r0.y, this.r0.z);
         rot.transform(this.r);
         this.r.add(r);
-        this.setPos(this.r.getX(), this.r.getY(), this.r.getZ());
+        this.setPos(this.r.x, this.r.y, this.r.z);
         this.xOld = this.getX() + dr.x;
         this.yOld = this.getY() + dr.y;
         this.zOld = this.getZ() + dr.z;

@@ -12,10 +12,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import org.joml.Vector3f;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.maths.Vector3;
-import thut.api.maths.vecmath.Vec3f;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.model.parts.Material;
 import thut.core.common.ThutCore;
@@ -91,10 +91,10 @@ public interface IModel
         final Material material = new Material(mat.name);
         material.expectedTexH = mat.height;
         material.expectedTexW = mat.width;
-        material.diffuseColor = new Vec3f(1, 1, 1);
-        material.emissiveColor = new Vec3f(mat.light, mat.light, mat.light);
+        material.diffuseColor = new Vector3f(1, 1, 1);
+        material.emissiveColor = new Vector3f(mat.light, mat.light, mat.light);
         material.emissiveMagnitude = Math.min(1, (float) (material.emissiveColor.length() / Math.sqrt(3)) / 0.8f);
-        material.specularColor = new Vec3f(1, 1, 1);
+        material.specularColor = new Vector3f(1, 1, 1);
         material.alpha = mat.alpha;
         material.flat = !mat.smooth;
         material.transluscent = mat.transluscent;

@@ -18,6 +18,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import pokecube.mobs.client.smd.impl.Bone;
 import pokecube.mobs.client.smd.impl.Face;
 import pokecube.mobs.client.smd.impl.Helpers;
@@ -28,7 +30,6 @@ import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.api.maths.Vector3;
-import thut.api.maths.vecmath.Mat4f;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.IModel;
@@ -262,7 +263,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
                     pitch = (float) Math.toRadians(pitch) * info.pitchDirection;
 
                     // Head rotation matrix
-                    Mat4f headRot = new Mat4f();
+                    Matrix4f headRot;
 
                     float xr = 0, yr = 0, zr = 0;
 
@@ -364,9 +365,9 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     {
         final String mat_name = ThutCore.trim(mat.name);
         final Material material = new Material(mat_name);
-        material.diffuseColor = new thut.api.maths.vecmath.Vec3f(1, 1, 1);
-        material.emissiveColor = new thut.api.maths.vecmath.Vec3f(1, 1, 1);
-        material.specularColor = new thut.api.maths.vecmath.Vec3f(1, 1, 1);
+        material.diffuseColor = new Vector3f(1, 1, 1);
+        material.emissiveColor = new Vector3f(1, 1, 1);
+        material.specularColor = new Vector3f(1, 1, 1);
         material.alpha = mat.alpha;
         material.flat = !mat.smooth;
         material.transluscent = mat.transluscent;

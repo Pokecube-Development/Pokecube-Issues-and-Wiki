@@ -12,9 +12,9 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Vector3f;
 import thut.api.entity.IMultiplePassengerEntity.Seat;
 import thut.api.entity.blockentity.BlockEntityInteractHandler;
-import thut.api.maths.vecmath.Vec3f;
 import thut.lib.TComponent;
 
 public class CraftInteractHandler extends BlockEntityInteractHandler
@@ -88,7 +88,7 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
                 }
             }
             // Otherwise add as a seat, then make player ride
-            final Vec3f seat = new Vec3f(pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f);
+            final Vector3f seat = new Vector3f(pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f);
             System.out.println("Adding Seat! "+craft);
             this.craft.addSeat(seat);
             this.craft.setSeatID(craft.getSeatCount() - 1, player.getUUID());

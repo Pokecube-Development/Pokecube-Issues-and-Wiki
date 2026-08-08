@@ -53,6 +53,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent.EntityInte
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
+import org.joml.Vector3f;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.ai.IInhabitor;
 import pokecube.api.blocks.IInhabitable;
@@ -107,7 +108,6 @@ import thut.api.entity.genetics.IMobGenetics;
 import thut.api.item.ItemList;
 import thut.api.level.terrain.TerrainManager;
 import thut.api.maths.Vector3;
-import thut.api.maths.vecmath.Vec3f;
 import thut.api.world.WorldTickManager;
 import thut.api.world.WorldTickManager.DelayedTask;
 import thut.core.common.ThutCore;
@@ -916,7 +916,7 @@ public class PokemobEventsHandler
             if (!Permissions.canRide(pokemob, player)) return false;
         }
         final float scale = pokemob.getEntity().getScale();
-        final Vec3f dims = pokemob.getPokedexEntry().getModelSize();
+        final Vector3f dims = pokemob.getPokedexEntry().getModelSize();
         return dims.y * scale + dims.x * scale > rider.getBbWidth()
                 && Math.max(dims.x, dims.z) * scale > rider.getBbWidth() * 1.4;
     }

@@ -1,14 +1,9 @@
 package thut.core.client.render.model;
 
-import thut.api.maths.vecmath.Vec3f;
+import org.joml.Vector3f;
 
-public class Vertex extends Vec3f
+public class Vertex extends Vector3f
 {
-    /**
-     *
-     */
-    private static final long serialVersionUID = -289335306511899715L;
-
     public Vertex(final float x, final float y)
     {
         this(x, y, 0F);
@@ -18,4 +13,6 @@ public class Vertex extends Vec3f
     {
         super(x, y, z);
     }
+
+    public Vertex() {}
 }

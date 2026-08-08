@@ -34,6 +34,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.neoforge.common.util.TriState;
+import org.joml.Vector3f;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityManager;
@@ -70,7 +71,6 @@ import thut.api.Tracker;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
 import thut.api.item.ItemList;
 import thut.api.level.terrain.BiomeType;
-import thut.api.maths.vecmath.Vec3f;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
@@ -936,7 +936,7 @@ public class PokedexEntry
 
     // This is the actual size of the model, if not null, will be used for
     // scaling of rendering in guis, order is length, height, width
-    public Vec3f modelSize = null;
+    public Vector3f modelSize = null;
 
     /** Cached trimmed name. */
     private String trimmedName;
@@ -1434,9 +1434,9 @@ public class PokedexEntry
 
     }
 
-    public Vec3f getModelSize()
+    public Vector3f getModelSize()
     {
-        if (this.modelSize == null) this.modelSize = new Vec3f(this.length, this.height, this.width);
+        if (this.modelSize == null) this.modelSize = new Vector3f(this.length, this.height, this.width);
         return this.modelSize;
     }
 
