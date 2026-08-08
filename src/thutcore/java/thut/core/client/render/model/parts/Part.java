@@ -132,7 +132,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     @Override
     public void tryCombineChildren()
     {
-        renderShapes.clear();
         for(var _p: new ArrayList<>(this.parts.values()))
         {
             // Only our direct children.
@@ -176,6 +175,13 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                 }
             }
         }
+    }
+
+    @Override
+    public void preProcess()
+    {
+        this.sort(this.order);
+        IExtendedModelPart.super.preProcess();
         Map<String, List<Mesh>> allShapes = new HashMap<>();
         for(var mesh: this.shapes)
         {
@@ -191,13 +197,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
             Mesh mesh = Mesh.merge(pair.getValue().toArray(new Mesh[0]));
             renderShapes.add(mesh);
         }
-    }
-
-    @Override
-    public void preProcess()
-    {
-        this.sort(this.order);
-        IExtendedModelPart.super.preProcess();
     }
 
     public void addShape(final Mesh shape)

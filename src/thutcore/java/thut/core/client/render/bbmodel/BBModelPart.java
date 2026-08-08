@@ -62,6 +62,7 @@ public class BBModelPart extends Part
             }
         }
         BBModelPart root = make(t, allShapes, nextName(names, group), group, -1, parentOffsets);
+        root.markAsAnimated(); // TODO instead check if this is the case
         ours.add(root);
         parts.add(root);
         // then handle groups

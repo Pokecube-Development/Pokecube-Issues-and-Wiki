@@ -105,8 +105,6 @@ public class BBModel extends BaseModel
             this.parts.put(p.getName(), p);
             // Ensure the part is set to initial state
             p.resetToInit();
-            // Mark as not viable for post process merging
-            p.markAsAnimated();
         }
     }
 
