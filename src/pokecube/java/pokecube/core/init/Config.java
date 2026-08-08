@@ -231,7 +231,7 @@ public class Config extends ConfigData
         });
         registerValidator("pokecube.ai.flySpeedVitScale", t-> Interpolator1d.validJEP(new JEP(), t, "vit"));
         registerValidator("pokecube.ai.walkSpeedVitScale", t-> Interpolator1d.validJEP(new JEP(), t, "vit"));
-        registerValidator("pokecube.ai.flySpeedVitScale", t-> Interpolator1d.validJEP(new JEP(), t, "vit"));
+        registerValidator("pokecube.ai.surfSpeedVitScale", t-> Interpolator1d.validJEP(new JEP(), t, "vit"));
     }
 
     private static final Config defaults = new Config();
