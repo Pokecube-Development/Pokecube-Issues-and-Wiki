@@ -104,11 +104,7 @@ public class Cruncher
 
     public static int getVectorInt(final Vector3 rHat)
     {
-        if (rHat.magSq() > 511 * 511)
-        {
-            new Exception().printStackTrace();
-            return 0;
-        }
+        if (rHat.magSq() > 511 * 511) return 0;
         final int i = rHat.intX() + 512;
         final int j = rHat.intY() + 512;
         final int k = rHat.intZ() + 512;

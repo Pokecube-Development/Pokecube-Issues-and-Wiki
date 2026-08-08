@@ -37,7 +37,7 @@ public class JsonPart extends Part
         else offsets = b.rotation.origin.clone();
 
         List<Mesh> shapes = makeShapes(t, b, offsets);
-        JsonPart root = make(shapes.get(0), b.name + "_" + index, b, index);
+        JsonPart root = make(shapes.getFirst(), b.name + "_" + index, b, index);
         parts.add(root);
         if (shapes.size() > 1)
         {
@@ -373,7 +373,7 @@ public class JsonPart extends Part
 
     public JsonPart(String name)
     {
-        super(name + "");
+        super(name);
     }
 
     @Override

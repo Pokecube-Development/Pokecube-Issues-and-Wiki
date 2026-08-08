@@ -177,8 +177,7 @@ public class TextureHelper implements IPartTexturer
         if (customTex.defaults != null) this.default_path = customTex.defaults;
         if (customTex.smoothing != null)
         {
-            final boolean flat = !customTex.smoothing.equalsIgnoreCase("smooth");
-            this.default_flat = flat;
+            this.default_flat = !customTex.smoothing.equalsIgnoreCase("smooth");
         }
         this.clear();
         for (final TexAnim anim : customTex.anims)
@@ -272,7 +271,7 @@ public class TextureHelper implements IPartTexturer
         ResourceLocation tex = this.bindPerState(part);
         if (tex != null) return tex;
         final String defaults = this.formeMap.getOrDefault(this.mob.getForm(), this.default_path);
-        final String texName = this.texNames.containsKey(part) ? this.texNames.get(part) : defaults;
+        final String texName = this.texNames.getOrDefault(part, defaults);
         if (texName == null || texName.trim().isEmpty()) this.texNames.put(part, defaults);
         tex = this.getResource(texName);
         TexState state;
@@ -375,7 +374,7 @@ public class TextureHelper implements IPartTexturer
         if (this.mob == null) return false;
         final Set<RandomFixed> offsets = this.fixedOffsets.getOrDefault(part, Collections.emptySet());
         for (final RandomFixed state : offsets) state.applyState(toFill, this.mob);
-        if (offsets.size() > 0) return true;
+        if (!offsets.isEmpty()) return true;
         TexState state;
         if ((state = this.texStates.get(part)) != null) return state.applyState(toFill, this.mob);
         return false;

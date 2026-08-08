@@ -22,8 +22,7 @@ public class RandomFixed
 
     public boolean applyState(final double[] toFill, final IMobTexturable mob)
     {
-        double dx = 0;
-        double dy = 0;
+        double dx, dy;
         final long seed = mob.getRandomSeed() + ((long) this.seedModifier << 32);
         this.rand.setSeed(seed);
         dx = this.startU + this.rand.nextDouble() * this.rangeU;

@@ -9,7 +9,11 @@ public class Sequence
     {
         this.arr = arr;
         for (final double d : arr)
-            if (d >= 1) this.shift = false;
+            if (d >= 1)
+            {
+                this.shift = false;
+                break;
+            }
     }
 
 }

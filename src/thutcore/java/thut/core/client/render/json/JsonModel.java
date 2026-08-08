@@ -2,7 +2,6 @@ package thut.core.client.render.json;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +10,6 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import thut.api.entity.animation.Animation;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.json.JsonTemplate.JsonBlock;
 import thut.core.client.render.model.BaseModel;
@@ -20,10 +18,6 @@ import thut.lib.ResourceHelper;
 
 public class JsonModel extends BaseModel
 {
-    public JsonModel()
-    {
-        super();
-    }
 
     public JsonModel(final ResourceLocation l)
     {

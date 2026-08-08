@@ -43,23 +43,12 @@ import thut.core.common.ThutCore;
 @EventBusSubscriber(modid = ThutCore.MODID, value = Dist.CLIENT)
 public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IModel
 {
-    // This used to be done to allow reloading reosurcepacks properly, need to test if it still is needed.
-//    private static final Set<ModelWrapper<?>> WRAPPERS = Sets.newHashSet();
-
-    @SubscribeEvent
-    public static void onTextureReload(final TextureAtlasStitchedEvent event)
-    {
-        // This used to be done to allow reloading reosurcepacks properly, need to test if it still is needed.
-//        ModelWrapper.WRAPPERS.forEach(w -> w.setModel(null));
-    }
-
     public final ModelHolder model;
     public final IModelRenderer<?> renderer;
     private IModel imodel;
     private IModelCustom renderModel;
     private T entityIn;
     protected float rotationPointX = 0, rotationPointY = 0, rotationPointZ = 0;
-    protected float rotateAngleX = 0, rotateAngleY = 0, rotateAngleZ = 0, rotateAngle = 0;
 
     public long lastInit = -1;
     public boolean debugMode = false;
@@ -76,8 +65,6 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     {
         this.model = model;
         this.renderer = renderer;
-        // This used to be done to allow reloading reosurcepacks properly, need to test if it still is needed.
-//        ModelWrapper.WRAPPERS.add(this);
         Arrays.fill(this.tmp, 255);
     }
 
