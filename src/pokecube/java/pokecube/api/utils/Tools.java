@@ -212,7 +212,8 @@ public class Tools
 
         final double a = Tools.getCatchRate(HPmax, HP, catchRate, cubeBonus, statusBonus) + cubeBonus2;
 
-        if (a > 255) return 5;
+        if (a <= 0) return 0; // Case for custom cubeBonus2
+        if (a > 255) return 5;// Case for mastercube, etc
         final double b = 1048560 / Math.sqrt(Math.sqrt(16711680 / a));
         int n = 0;
 

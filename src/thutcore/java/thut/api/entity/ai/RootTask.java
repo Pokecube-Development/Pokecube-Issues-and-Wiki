@@ -94,27 +94,27 @@ public class RootTask<E extends LivingEntity> extends Behavior<E>
         return mobIn.tickCount % rate == mobIn.getId() % rate;
     }
 
-    protected void setWalkTo(E entity, final Vector3 pos, final double speed, final int dist)
+    public void setWalkTo(E entity, final Vector3 pos, final double speed, final int dist)
     {
         this.setWalkTo(entity, pos.toVec3d(), speed, dist);
     }
 
-    protected void setWalkTo(E entity, final Vec3 pos, final double speed, final int dist)
+    public void setWalkTo(E entity, final Vec3 pos, final double speed, final int dist)
     {
         this.setWalkTo(entity, new WalkTarget(pos, (float) speed, dist));
     }
 
-    protected void setWalkTo(E entity, final BlockPos pos, final double speed, final int dist)
+    public void setWalkTo(E entity, final BlockPos pos, final double speed, final int dist)
     {
         this.setWalkTo(entity, new WalkTarget(pos, (float) speed, dist));
     }
 
-    protected void setWalkTo(E entity, final Entity mobIn, final double speed, final int dist)
+    public void setWalkTo(E entity, final Entity mobIn, final double speed, final int dist)
     {
         this.setWalkTo(entity, new WalkTarget(new EntityTracker(mobIn, false), (float) speed, dist));
     }
 
-    protected void setWalkTo(E entity, WalkTarget target)
+    public void setWalkTo(E entity, WalkTarget target)
     {
         if (!(target.getTarget() instanceof EntityTracker) && target != null)
         {

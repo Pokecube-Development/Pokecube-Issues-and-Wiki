@@ -360,7 +360,6 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
             if(!(part.getMaterials().isEmpty() && part.getSubParts().isEmpty() && !part.getName().startsWith("__"))) {
                 copy.put(part.getName(), part);
             }
-            else System.out.println("Nothing for "+part.getName());
         });
         this.renderOrder.clear();
         this.parts = copy;

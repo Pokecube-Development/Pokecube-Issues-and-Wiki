@@ -11,6 +11,7 @@ import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
@@ -20,6 +21,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.IRunnable;
+import pokecube.core.ai.tasks.idle.hunger.BaitCheckEvent;
 import pokecube.core.ai.tasks.idle.hunger.EatFromChest;
 import pokecube.core.ai.tasks.idle.hunger.EatPlant;
 import pokecube.core.ai.tasks.idle.hunger.EatRedstone;
@@ -77,7 +79,7 @@ public class HungerTask extends BaseIdleTask
 
     public static float calculateHunger(final IPokemob pokemob)
     {
-        final float full = PokecubeCore.getConfig().pokemobLifeSpan / 4 + PokecubeCore.getConfig().pokemobLifeSpan;
+        final float full = PokecubeCore.getConfig().pokemobLifeSpan / 4f + PokecubeCore.getConfig().pokemobLifeSpan;
         final float current = -(pokemob.getHungerTime() - PokecubeCore.getConfig().pokemobLifeSpan);
         // Convert to a scale
         float hungerValue = current / full;
@@ -103,6 +105,8 @@ public class HungerTask extends BaseIdleTask
     }
 
     public static int TICKRATE = 20;
+    public static int BAITRATE = 20;
+    public static int HEALRATE = 10;
 
     public static float EATTHRESHOLD = 0.75f;
     public static float HUNTTHRESHOLD = 0.60f;
@@ -129,11 +133,17 @@ public class HungerTask extends BaseIdleTask
     }
 
     /**
-     * Swimming things look for fish hooks to try to go eat.
+     * Swimming things look for fish hooks to try to go eat, everything has the
+     * BaitCheckEvent fired to see if other bait is present.
      */
     protected void checkBait(ServerLevel level, IPokemob pokemob)
     {
-        if (pokemob.getPokedexEntry().swims())
+        // Fire the bait check event, if it is cancelled, someone processed it, so we return early.
+        var event = new BaitCheckEvent(pokemob, this);
+        PokecubeAPI.POKEMOB_BUS.post(event);
+        if(event.isCanceled()) return;
+
+        if (pokemob.getPokedexEntry().swims() && Math.random() > 0.99)
         {
             var entity = pokemob.getEntity();
             final List<FishingHook> hooks = new ArrayList<>();
@@ -191,7 +201,7 @@ public class HungerTask extends BaseIdleTask
         }
     }
 
-    private boolean hitThreshold(final float threshold)
+    public boolean hitThreshold(final float threshold)
     {
         return HungerTask.hitThreshold(this.hungerValue, threshold);
     }
@@ -299,11 +309,13 @@ public class HungerTask extends BaseIdleTask
     {
         var pokemob = PokemobCaps.getPokemobFor(entity);
         this.v.set(entity);
+        final int hungerTicks = HungerTask.TICKRATE;
+        final Random rand = new Random(pokemob.getRNGValue());
+        boolean isHungerTick = entity.tickCount % BAITRATE == rand.nextInt(BAITRATE);
 
         label:
-        {        // Check if we should go after bait. The Math.random() > 0.99 is to
-            // allow non-hungry fish to also try to get bait.
-            if (Math.random() > 0.99) this.checkBait(level, pokemob);
+        {   // Check if we should go after bait.
+            if(isHungerTick) this.checkBait(level, pokemob);
 
             // Do not run this if not really hungry
             if (!this.hitThreshold(HungerTask.EATTHRESHOLD)) break label;
@@ -316,17 +328,12 @@ public class HungerTask extends BaseIdleTask
             if (pokemob.getLogicState(LogicStates.SLEEPING) && hunting)
                 pokemob.setCombatState(CombatStates.HUNTING, false);
         }
-
-        this.v.set(entity);
-        final int hungerTicks = HungerTask.TICKRATE;
-
         // Check if we should go to sleep instead.
         this.checkSleep(pokemob);
 
-        final Random rand = new Random(pokemob.getRNGValue());
         final int cur = entity.tickCount / hungerTicks;
-        final int tick = rand.nextInt(10);
 
+        // Hunting could have reset the threshold here, so return now if that is the case.
         if (!this.hitThreshold(HungerTask.EATTHRESHOLD)) return;
         /*
          * Check the various hunger types if it is hunting. And if so, refresh
@@ -335,24 +342,24 @@ public class HungerTask extends BaseIdleTask
         this.getHunger(pokemob);
 
         // Everything after here only applies about once per second.
-        if (entity.tickCount % hungerTicks != 0) return;
+        if (!isHungerTick) return;
 
         // Check own inventory for berries to eat, and then if the mob is
         // allowed to, collect berries if none to eat.
         if (this.hitThreshold(HungerTask.EATTHRESHOLD) && !this.checkInventory(pokemob))
         {
             // Pokemobs set to stay can collect berries, or wild ones,
-            boolean tameCheck = pokemob.getGeneralState(GeneralStates.STAYING) || pokemob.getOwnerId() == null;
+            boolean wildOrStay = pokemob.getGeneralState(GeneralStates.STAYING) || pokemob.getOwnerId() == null;
             if (entity.getPersistentData().contains("lastInteract"))
             {
                 final long time = entity.getPersistentData().getLong("lastInteract");
                 final long diff = Tracker.instance().getTick() - time;
-                if (diff < PokecubeCore.getConfig().pokemobLifeSpan) tameCheck = false;
+                if (diff < PokecubeCore.getConfig().pokemobLifeSpan) wildOrStay = false;
             }
             // If they are allowed to, find the berries.
             // Only run this if we are getting close to hurt damage, mostly
             // to allow trying other food sources first.
-            if (tameCheck && this.hitThreshold(HungerTask.BERRYGEN)) new GenBerries(pokemob).run(level);
+            if (wildOrStay && this.hitThreshold(HungerTask.BERRYGEN)) new GenBerries(pokemob).run(level);
 
             // Otherwise take damage.
             if (this.hitThreshold(HungerTask.DAMAGE))
@@ -391,7 +398,7 @@ public class HungerTask extends BaseIdleTask
 
         // Regenerate health if out of battle.
         if (!BrainUtils.hasAttackTarget(entity) && pokemob.getHealth() > 0 && pokemob.getHungerCooldown() < 0
-                && pokemob.getHungerTime() < 0 && cur % 10 == tick)
+                && pokemob.getHungerTime() < 0 && cur % HEALRATE == rand.nextInt(HEALRATE))
         {
             final float dh = Math.max(1, pokemob.getMaxHealth() * 0.05f);
             final float toHeal = pokemob.getHealth() + dh;

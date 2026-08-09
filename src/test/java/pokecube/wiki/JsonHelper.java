@@ -17,6 +17,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import net.minecraft.resources.ResourceLocation;
+import org.joml.Vector3f;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
 import thut.core.common.ThutCore;
@@ -57,7 +58,7 @@ public class JsonHelper
         {
             float mobScale = 1;
             float scale = 1;
-            final thut.api.maths.vecmath.Vec3f dimensions = entry.getModelSize();
+            final Vector3f dimensions = entry.getModelSize();
             mobScale = Math.max(dimensions.z, Math.max(dimensions.y, dimensions.x));
             if (dimensions.x > 1 || dimensions.y > 1 || dimensions.z > 1) scale = 1 / (mobScale * 2);
             else if (dimensions.x > 0.5 || dimensions.y > 0.5 || dimensions.z > 0.5) scale = mobScale / (mobScale * 2);

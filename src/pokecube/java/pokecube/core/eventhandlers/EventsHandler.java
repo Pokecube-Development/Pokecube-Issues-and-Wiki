@@ -607,6 +607,11 @@ public class EventsHandler
                 pokemob.onRecall(true);
                 living.getPersistentData().putBoolean("pokecube:force_poof", true);
             }
+            // In this case, we force it to not poof
+            if(res == TriState.FALSE)
+            {
+                living.deathTime = 10;
+            }
         }
         if (deathTime >= deadTimer && forcePoof)
         {

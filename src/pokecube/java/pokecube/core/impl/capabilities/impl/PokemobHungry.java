@@ -35,14 +35,14 @@ public abstract class PokemobHungry extends PokemobMoves
     {
         int hungerValue = PokecubeCore.getConfig().pokemobLifeSpan / 4;
         ItemStack item = e instanceof ItemStack ? (ItemStack) e : ItemStack.EMPTY;
-        if (e instanceof ItemEntity) item = ((ItemEntity) e).getItem();
+        if (e instanceof ItemEntity eItem) item = eItem.getItem();
         if (!item.isEmpty())
         {
             final IPokemobUseable usable = PokemobCaps.getPokemobUsable(item);
             if (usable != null)
             {
                 final InteractionResultHolder<ItemStack> result = usable.onUse(this, item, this.getEntity());
-                if (e instanceof ItemEntity) ((ItemEntity) e).setItem(result.getObject());
+                if (e instanceof ItemEntity eItem) eItem.setItem(result.getObject());
                 else e = this.cast(result.getObject());
             }
             if (ItemList.is(PokemobHungry.LEPPABERRY, item)) hungerValue *= 2;
@@ -55,6 +55,12 @@ public abstract class PokemobHungry extends PokemobMoves
                 else if (current < 200) weight *= (int) (type.mid / 10f);
                 else weight *= (int) (type.high / 10f);
                 this.addHappiness(weight);
+            }
+            if(e instanceof ItemEntity eItem)
+            {
+                item.consume(1, this.getEntity());
+                if(item.isEmpty()) eItem.discard();
+                else eItem.setItem(item);
             }
         }
         this.applyHunger(-hungerValue);

@@ -934,7 +934,7 @@ public class PokemobEventsHandler
 
         final InteractEvent event = new InteractEvent(pokemob, player, evt);
         ThutCore.FORGE_BUS.post(event);
-        if (event.getResult() != TriState.DEFAULT)
+        if (event.getResult() != TriState.DEFAULT || event.isCanceled())
         {
             evt.setCanceled(true);
             evt.setCancellationResult(InteractionResult.SUCCESS);
