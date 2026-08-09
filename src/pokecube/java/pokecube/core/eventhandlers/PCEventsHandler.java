@@ -209,11 +209,11 @@ public class PCEventsHandler
     /**
      * Tries to send pokecube to PC if player has no room in inventory for it.
      * Otherwise, will add pokecube to player's inventory.
-     *
-     * @param evt
      */
     private static void onCapturePost(final CaptureEvent.Post evt)
     {
+        // Do not process ones which are marked as staying in world after capture
+        if(evt.inWorldAfterCapture()) return;
         // Case for things like snag cubes
         if (evt.getCaught() == null)
         {

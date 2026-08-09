@@ -18,11 +18,21 @@ public class CaptureEvent extends Event implements ICancellableEvent
      */
     public static class Post extends CaptureEvent
     {
+        private boolean inWorldAfter = false;
         public Post(final EntityPokecubeBase pokecube)
         {
             super(pokecube);
         }
 
+        public boolean inWorldAfterCapture()
+        {
+            return inWorldAfter;
+        }
+
+        public void setInWorldAfter()
+        {
+            this.inWorldAfter = true;
+        }
     }
 
     /**
