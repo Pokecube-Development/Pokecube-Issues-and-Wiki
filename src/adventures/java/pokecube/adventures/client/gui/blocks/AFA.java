@@ -83,7 +83,6 @@ public class AFA extends AbstractContainerScreen<AfaContainer>
     /** Draws the screen and all the components in it. */
     public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
-        this.renderBackground(graphics, mouseX, mouseY, partialTicks);
         super.render(graphics, mouseX, mouseY, partialTicks);
         this.renderOnboardingTooltips(graphics, mouseX, mouseY);
         this.renderTooltip(graphics, mouseX, mouseY);

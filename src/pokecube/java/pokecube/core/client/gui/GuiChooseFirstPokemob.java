@@ -155,7 +155,6 @@ public class GuiChooseFirstPokemob extends Screen
     @Override
     public void render(final GuiGraphics graphics, final int i, final int j, final float f)
     {
-        this.renderBackground(graphics, i, j, f);
         super.render(graphics, i, j, f);
 
         if (GuiChooseFirstPokemob.special)

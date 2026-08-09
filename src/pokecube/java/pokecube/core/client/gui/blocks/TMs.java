@@ -265,7 +265,6 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
     @Override
     public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
-        this.renderBackground(graphics, mouseX, mouseY, partialTicks);
         super.render(graphics, mouseX, mouseY, partialTicks);
         final String[] moves = this.menu.moves;
         final String s = moves.length > 0 ? moves[this.index % moves.length] : "";

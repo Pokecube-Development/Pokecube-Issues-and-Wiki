@@ -101,7 +101,6 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
     @Override
     public void render(final GuiGraphics graphics, final int x, final int y, final float z)
     {
-        super.renderBackground(graphics, x, y, z);
         super.render(graphics, x, y, z);
         modules.get(moduleIndex).render(graphics, x, y, z);
         for (Tab t : modules)

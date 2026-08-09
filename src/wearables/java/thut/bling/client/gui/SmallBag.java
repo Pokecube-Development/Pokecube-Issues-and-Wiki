@@ -66,7 +66,6 @@ public class SmallBag<T extends ChestMenu> extends AbstractContainerScreen<T>
     @Override
     public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float f)
     {
-        this.renderBackground(graphics, mouseY, mouseY, f);
         super.render(graphics, mouseX, mouseY, f);
         this.renderTooltip(graphics, mouseX, mouseY);
     }

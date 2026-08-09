@@ -464,7 +464,6 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
     @Override
     public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float f)
     {
-        this.renderBackground(graphics, mouseY, mouseY, f);
         super.render(graphics, mouseX, mouseY, f);
 
         this.autoButton.setTooltip(Tooltip.create(this.menu.inv.isAutoToPC() ? TComponent.translatable("block.pc.auto_on.tooltip")

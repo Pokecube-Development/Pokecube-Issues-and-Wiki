@@ -262,7 +262,6 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
     @Override
     public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float f)
     {
-        this.renderBackground(graphics, mouseX, mouseY, f);
         super.render(graphics,mouseX, mouseY, f);
 
         for (int i = 0; i < 54; i++)

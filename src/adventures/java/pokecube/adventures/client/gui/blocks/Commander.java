@@ -44,7 +44,6 @@ public class Commander extends Screen
     @Override
     public void render(final GuiGraphics graphics, final int a, final int b, final float c)
     {
-        this.renderBackground(graphics, a, b, c);
         super.render(graphics, a, b, c);
     }
 

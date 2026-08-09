@@ -233,7 +233,6 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
     @Override
     public void render(final GuiGraphics graphics, final int i, final int j, final float f)
     {
-        this.renderBackground(graphics, i, j, f);
         super.render(graphics, i, j, f);
         if (this.menu.tile.confirmed[0]) ((AbstractWidget) this.renderables.get(0))
                 .setTooltip(Tooltip.create(Component.translatable("block.trade_machine.trade_confirmed.tooltip")));
