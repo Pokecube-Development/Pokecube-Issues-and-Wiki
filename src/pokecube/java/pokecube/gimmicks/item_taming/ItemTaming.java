@@ -43,7 +43,7 @@ public class ItemTaming
     @SubscribeEvent
     public static void onLoadComplete(FMLLoadCompleteEvent event)
     {
-        if(config.disabled) return;
+        if(config.itemTamingDisabled) return;
 
         // Subscribe events to pokecube bus, as @EventBusSubscriber does not handle those
         PokecubeAPI.POKEMOB_BUS.addListener(ItemTaming::onBaitCheck);
