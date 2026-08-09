@@ -60,8 +60,8 @@ public class ItemTaming
     public static void onInteract(InteractEvent event)
     {
         var pokemob = event.pokemob;
-        if(pokemob.getOwner() != event.player) return;
-        if(pokemob.getPokecube().getItem() == Items.BARRIER || pokemob.getPokecube().isEmpty())
+        if(pokemob.getOwner() != event.player || pokemob.getEntity().level().isClientSide()) return;
+        if(pokemob.getPokecube().getItem() == Items.BARRIER)
         {
             if(PokecubeItems.getCubeId(event.event.getItemStack()) != null && !PokecubeManager.isFilled(event.event.getItemStack()))
             {
@@ -135,7 +135,7 @@ public class ItemTaming
     {
         var pokemob = event.pokemob;
         if(pokemob.getOwnerId() == null) return;
-        if(pokemob.getPokecube().getItem() == Items.BARRIER || pokemob.getPokecube().isEmpty())
+        if(pokemob.getPokecube().getItem() == Items.BARRIER)
         {
             event.setResult(TriState.FALSE);
         }
@@ -147,8 +147,8 @@ public class ItemTaming
     public static void onPreRecall(RecallEvent.Pre event)
     {
         var pokemob = event.recalled;
-        if(pokemob.getOwnerId() == null) return;
-        if(pokemob.getPokecube().getItem() == Items.BARRIER || pokemob.getPokecube().isEmpty())
+        if(pokemob.getOwnerId() == null || pokemob.getEntity().level().isClientSide()) return;
+        if(pokemob.getPokecube().getItem() == Items.BARRIER)
         {
             event.setCanceled(true);
         }
