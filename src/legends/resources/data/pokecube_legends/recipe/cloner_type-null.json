@@ -1,0 +1,32 @@
+{
+  "type": "pokecube_adventures:reviving",
+  "level": 40,
+  "tame": false,
+  "cost": 30000,
+  "priority": 1,
+  "inputs": [
+    {
+      "item": "pokecube_legends:imprisonment_helmet"
+    },
+    {
+      "item": "pokecube:pokemobegg"
+    },
+    {
+      "type": "neoforge:components",
+      "components": {
+        "minecraft:potion_contents": {
+          "potion": "minecraft:strong_regeneration"
+        }
+      },
+      "items": "minecraft:potion"
+    }
+  ],
+  "genes": [
+    {
+      "id":"pokecube:species",
+      "gene":{
+        "E": "type-null"
+      }
+    }
+  ]
+}
