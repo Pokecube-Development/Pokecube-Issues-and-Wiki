@@ -31,6 +31,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -41,6 +42,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.healer.HealerBlock;
 import pokecube.core.database.Database;
+import pokecube.core.database.spawns.SpawnPresets;
 import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.network.packets.PacketDataSync;
@@ -48,6 +50,7 @@ import pokecube.core.network.packets.PacketPokedex;
 import thut.api.level.structures.NamedVolumes.INamedStructure;
 import thut.api.level.structures.StructureManager;
 import thut.api.maths.Vector3;
+import thut.api.world.mobs.data.Data;
 import thut.core.common.commands.CommandTools;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.TerrainUpdate;
@@ -137,11 +140,27 @@ public class ItemPokedex extends Item
             {
                 Vector3 v = new Vector3().set(pos);
                 SpawnCheck checker = new SpawnCheck(v, level);
-                for (final PokedexEntry e : Database.spawnables)
-                    if (e.getSpawnData().getMatcher(new SpawnContext(player, e), checker, false) != null)
+
+                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("Matching Presets:"));
+                for(var pair: SpawnPresets.PRESETS.entrySet()){
+                    String preset = pair.getKey();
+                    var matcher = SpawnBiomeMatcher.get(preset);
+                    if(matcher.matches(checker))
+                        thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal(preset));
+                }
+
+                if (false)
+                {
+                    // No point in the below code, as it should show in the watch anyway.
+                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("Can Spawn Here:"));
+                    for (final PokedexEntry e : Database.spawnables)
                     {
-                        thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal(e.getTrimmedName()));
+                        if (e.getSpawnData().getMatcher(new SpawnContext(player, e), checker, false) != null)
+                        {
+                            thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal(e.getTrimmedName()));
+                        }
                     }
+                }
             }
         }
 
