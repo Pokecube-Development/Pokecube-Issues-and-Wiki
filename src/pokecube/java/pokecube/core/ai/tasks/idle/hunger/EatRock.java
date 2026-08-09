@@ -55,8 +55,6 @@ public class EatRock extends EatBlockBase
 
     private static final ResourceLocation NETHER_ORE = ResourceLocation.fromNamespaceAndPath("forge", "ores_in_ground/netherrack");
 
-//    private static final ResourceLocation COBBLE = ResourceLocation.parse("forge", "cobblestone");
-
     private static final Predicate<BlockState> checker = PokecubeTerrainChecker::isRock;
 
     @Override

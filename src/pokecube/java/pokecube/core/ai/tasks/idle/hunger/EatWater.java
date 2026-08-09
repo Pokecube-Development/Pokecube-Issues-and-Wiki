@@ -2,7 +2,6 @@ package pokecube.core.ai.tasks.idle.hunger;
 
 import java.util.function.Predicate;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.block.state.BlockState;
@@ -13,8 +12,6 @@ import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 
 public class EatWater extends EatBlockBase
 {
-    public static final ResourceLocation FOODTAG = ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID, "pokemob_redstone_food");
-
     private static final Predicate<BlockState> checker = (b2) -> b2.getFluidState().getType() instanceof WaterFluid;
 
     @Override
