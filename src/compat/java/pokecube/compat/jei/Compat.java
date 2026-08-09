@@ -80,13 +80,6 @@ public class Compat implements IModPlugin
     @Override
     public void registerRecipes(final IRecipeRegistration registration)
     {
-        // Run this first so that things are loaded for dedicated servers.
-        //        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-        //            Database.loadCustomPacks(true);
-        //            Database.listener.loaded = true;
-        //            Database.onResourcesReloaded();
-        //        });
-
         final List<Evolution> evos = Lists.newArrayList();
         final List<InteractRecipe> interactions = Lists.newArrayList();
         for (PokedexEntry entry : Database.getSortedFormes())
