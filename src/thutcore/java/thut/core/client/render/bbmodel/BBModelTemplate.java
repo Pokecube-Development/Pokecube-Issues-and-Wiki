@@ -310,9 +310,9 @@ public class BBModelTemplate
             var crnr = verts.get(face.vertices.get((2)));
             var prev = verts.get(face.vertices.get((3)));
 
-            toNext.sub(next, vert);
-            toPrev.sub(prev, vert);
-            toOpp.sub(crnr, vert);
+            next.sub(vert, toNext);
+            prev.sub(vert, toPrev);
+            crnr.sub(vert, toOpp);
 
             double angleNext = toNext.angle(toPrev);
             double angleOpp = toNext.angle(toOpp);

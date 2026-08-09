@@ -15,6 +15,7 @@ import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.animation.AnimationXML.Mat;
+import thut.core.client.render.bbmodel.BBModelPart;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.IPartTexturer;
@@ -182,6 +183,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     {
         this.sort(this.order);
         IExtendedModelPart.super.preProcess();
+        this.renderShapes.clear();
         Map<String, List<Mesh>> allShapes = new HashMap<>();
         for(var mesh: this.shapes)
         {
@@ -194,8 +196,13 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                 renderShapes.add(pair.getValue().getFirst());
                 continue;
             }
-            Mesh mesh = Mesh.merge(pair.getValue().toArray(new Mesh[0]));
-            renderShapes.add(mesh);
+            var meshs = pair.getValue();
+            Mesh mesh = Mesh.merge(meshs.toArray(new Mesh[0]));
+            if(mesh != null) renderShapes.add(mesh);
+            else
+            {
+                renderShapes.addAll(meshs);
+            }
         }
     }
 
