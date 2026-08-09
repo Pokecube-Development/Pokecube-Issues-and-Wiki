@@ -40,7 +40,6 @@ import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.client.render.texturing.TextureHelper;
 import thut.core.common.ThutCore;
 
-@EventBusSubscriber(modid = ThutCore.MODID, value = Dist.CLIENT)
 public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IModel
 {
     public final ModelHolder model;

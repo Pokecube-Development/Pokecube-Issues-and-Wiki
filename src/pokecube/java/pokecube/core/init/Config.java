@@ -316,10 +316,6 @@ public class Config extends ConfigData
     public double contactAttackDistance = 0;
     @Configure(category = Config.moves, comment = "How far ranged attacks will be able to hit from. [Default: 16]")
     public double rangedAttackDistance = 16;
-    @Configure(category = Config.moves, comment = "Can be used to scale damage from contact moves. [Default: 1.0]")
-    public double contactAttackDamageScale = 1;
-    @Configure(category = Config.moves, comment = "Can be used to scale damage from ranged moves. [Default: 1.0]")
-    public double rangedAttackDamageScale = 1;
     @Configure(category = Config.moves, comment = "Scaling factor on explosion type moves' block damage. [Default: 100]")
     public double blastStrength = 100;
     @Configure(category = Config.moves, comment = "Maximum radius of effect of an explosion type move. [Default: 16]")
@@ -417,10 +413,6 @@ public class Config extends ConfigData
     public int tameGatherDelay = 20;
     @Configure(category = Config.mobAI, comment = "This is how often wild pokemobs look for items to collect, smaller values are faster. [Min: 1] [Default: 200]")
     public int wildGatherDelay = 200;
-    @Configure(category = Config.mobAI, comment = "This is how far away tamed pokemobs will look for items to collect. [Default: 16]")
-    public int tameGatherDistance = 16;
-    @Configure(category = Config.mobAI, comment = "This is how far away wild pokemobs will look for items to collect. [Default: 8]")
-    public int wildGatherDistance = 8;
 
     @Configure(category = Config.mobAI, comment = "If true, tamed pokemobs will try to gather items. [Default: true]")
     public boolean tameGather = true;
@@ -687,8 +679,6 @@ public class Config extends ConfigData
     public String nonPokemobExpFunction = "h*(a+1)^2";
     @Configure(category = Config.advanced, comment = "This is how much exp is given for killing a pokemob, h is the max health of the mob, and a is the amount of armour it had. [Default: \"h*(a+1)^2\"]")
     public String pokemobExpFunction = "s*b*l/7";
-    @Configure(category = Config.advanced, comment = "If true, killing non-pokemobs will provide exp to pokemobs. [Default: false]")
-    public boolean nonPokemobExp = false;
     @Configure(category = Config.advanced, comment = "Teleporting via the move teleport will not work in any dimensions listed here.")
     public List<String> blackListedTeleDims = Lists.newArrayList();
 
@@ -805,9 +795,6 @@ public class Config extends ConfigData
 
     @Configure(category = Config.misc, type = Type.SERVER, comment = "If true, NPCs will display their name tags, this is server config for syncing to clients for balance purposes. [Default: true]")
     public boolean npcNameTags = true; // Synced for balance reasons
-
-    @Configure(category = Config.misc, type = Type.SERVER, comment = "Global size scaling factor for pokemobs. [Default: 1.0]")
-    public double scalefactor = 1;
 
     @Configure(category = Config.misc, type = Type.SERVER, comment = "Number of pages in the PC. [Default: 32]")
     public int pcPageCount = 32;

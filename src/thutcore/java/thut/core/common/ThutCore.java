@@ -219,7 +219,6 @@ public class ThutCore
 
     public static ThutCore instance;
 
-    // TODO Check this for crash on server
     public static final Proxy proxy = DistExecutor.runForDist(() -> thut.core.proxy.ClientProxy::new,
             () -> thut.core.proxy.CommonProxy::new);
 
