@@ -26,10 +26,12 @@ public class ItemRevive extends Item
         if (target.deathTime > 0)
         {
             IPokemob pokemob = PokemobCaps.getPokemobFor(target);
-            if (pokemob.getOwnerId() != null) break revive;
+            if (pokemob.getOwnerId() != null && target.deathTime < 10) break revive;
             PokecubeManager.heal(target);
             target.getPersistentData().putBoolean(TagNames.REVIVED, true);
-            stack.grow(-1);
+            float maxHP = pokemob.getStat(IPokemob.Stats.HP, false);
+            pokemob.getEntity().setHealth(maxHP/2); // Set to half health from revive
+            stack.consume(1, playerIn);
             return InteractionResult.CONSUME;
         }
         return super.interactLivingEntity(stack, playerIn, target, hand);
