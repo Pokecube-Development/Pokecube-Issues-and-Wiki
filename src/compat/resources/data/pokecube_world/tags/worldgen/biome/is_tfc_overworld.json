@@ -1,0 +1,25 @@
+{
+  "replace": false,
+  "values": [
+    {"id": "#tfc:is_burren", "required": false},
+    {"id": "#tfc:is_cenote", "required": false},
+    {"id": "#tfc:is_coastal_cliffs", "required": false},
+    {"id": "#tfc:is_continental_mountains", "required": false},
+    {"id": "#tfc:is_dolines", "required": false},
+    {"id": "#tfc:is_extreme_dolines", "required": false},
+    {"id": "#tfc:is_glaciated", "required": false},
+    {"id": "#tfc:is_ice_sheet", "required": false},
+    {"id": "#tfc:is_isolated_island", "required": false},
+    {"id": "#tfc:is_karst", "required": false},
+    {"id": "#tfc:is_nonvolcanic_mountains", "required": false},
+    {"id": "#tfc:is_ocean", "required": false},
+    {"id": "#tfc:is_oceanic_mountains", "required": false},
+    {"id": "#tfc:is_rift", "required": false},
+    {"id": "#tfc:is_river", "required": false},
+    {"id": "#tfc:is_salt_marsh", "required": false},
+    {"id": "#tfc:is_shield_volcano", "required": false},
+    {"id": "#tfc:is_shilin", "required": false},
+    {"id": "#tfc:is_tower_karst", "required": false},
+    {"id": "#tfc:is_volcanic_mountains", "required": false}
+  ]
+}
