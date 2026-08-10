@@ -48,6 +48,7 @@ public class ParticleFactories
             super((ClientLevel) worldIn, particleIn.position.x, particleIn.position.y, particleIn.position.z);
             this.particle = particleIn;
             this.world = worldIn;
+            this.friction = 1.0f;
             if (this.particle instanceof ParticleNoGravity) this.gravity = 0;
             this.xd = this.particle.velocity.x;
             this.yd = this.particle.velocity.z;
@@ -103,8 +104,8 @@ public class ParticleFactories
 
     public static final ParticleProvider<ParticleBase> GENERICFACTORY = (type, world, x, y, z, vx, vy, vz) -> {
         type = ThutParticles.clone(type);
-        type.setVelocity(new Vector3().set(vx, vy, vz));
-        type.setPosition(new Vector3().set(x, y, z));
+        type.setVelocity(new Vector3(vx, vy, vz));
+        type.setPosition(new Vector3(x, y, z));
         return new ThutParticle(world, type);
     };
 }

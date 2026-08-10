@@ -108,11 +108,6 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
     protected float bCol = 1.0F;
     protected float alpha = 1.0F;
 
-    protected ParticleBase read(final StringReader reader)
-    {// TODO finish this?
-        return this;
-    }
-
     protected void renderRotatedQuad(VertexConsumer buffer, Vector3f source, Quaternionf quaternion, float partialTicks)
     {
         this.renderRotatedQuad(buffer, quaternion, source.x, source.y, source.z, partialTicks);

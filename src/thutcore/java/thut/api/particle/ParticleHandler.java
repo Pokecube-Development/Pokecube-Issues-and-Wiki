@@ -35,7 +35,7 @@ public class ParticleHandler
         }
     }
 
-    static List<ParticlePacket> particles = Lists.newArrayList();
+    static final List<ParticlePacket> particles = Lists.newArrayList();
 
     public static void addParticle(final Vector3 location, final IParticle particle)
     {
@@ -99,7 +99,7 @@ public class ParticleHandler
                     }
                 }
                 mat.popPose();
-                for (int i = 0; i < list.size(); i++) ParticleHandler.particles.remove(list.get(i));
+                for (ParticlePacket particlePacket : list) ParticleHandler.particles.remove(particlePacket);
             }
         }
         catch (final Throwable e)

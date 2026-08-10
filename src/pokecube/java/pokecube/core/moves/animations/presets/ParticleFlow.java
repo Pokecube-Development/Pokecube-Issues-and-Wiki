@@ -34,7 +34,7 @@ public class ParticleFlow extends MoveAnimationBase
             angleF.rotateAboutLine(temp.normalize(), values.angle, temp1);
             angleF.set(temp1);
         }
-        final Vector3 dir = target.subtract(source).norm().scalarMult(0.01);
+        final Vector3 dir = target.subtract(source).scalarMult(0.05);
         for (double i = frac; i < frac3; i += 0.1)
         {
             if (values.density < 1 && Math.random() > values.density) continue;
