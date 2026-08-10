@@ -87,11 +87,15 @@ public class TextureHelper implements IPartTexturer
                 }
                 return true;
             }
-            // Randomise the order of this before checking, as they use the same
-            // RNG for the seed, this makes it more fair that one will match.
-            Collections.shuffle(this.randomStates);
-            for (final RandomState state : this.randomStates)
+            // Rotate the starting point deterministically instead of shuffling a
+            // shared list on every texture evaluation. This keeps random states fair
+            // without allocations or list mutations in the render hot path.
+            final int randomCount = this.randomStates.size();
+            final int start = randomCount == 0 ? 0
+                    : Math.floorMod(mob.getEntity().getId() * 31 + mob.getEntity().tickCount / 20, randomCount);
+            for (int offset = 0; offset < randomCount; offset++)
             {
+                final RandomState state = this.randomStates.get((start + offset) % randomCount);
                 if (state.apply(toFill, mob))
                 {
                     this.running.put(mob.getEntity().getId(), state);
@@ -325,7 +329,12 @@ public class TextureHelper implements IPartTexturer
             String form = mob.getForm();
             final String defaults = this.formeMap.getOrDefault(form, this.default_path);
             this.default_tex = this.getResource(defaults);
-            this.default_path = this.default_tex.getPath();
+            // Keep the namespace. Imported model packs can use textures from a
+            // namespace other than the entity type (for example pokecube_plus).
+            // Storing only getPath() made the next lookup silently rebuild the
+            // location as pokecube:<path>, producing a missing texture and repeated
+            // texture-manager lookups every frame.
+            this.default_path = this.default_tex.toString();
         }
     }
 

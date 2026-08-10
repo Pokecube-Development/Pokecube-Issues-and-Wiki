@@ -158,7 +158,7 @@ public class Animators
             }
         }
 
-        private static record AnimChannel(String channel, List<AnimationComponent> components, float length)
+        public static record AnimChannel(String channel, List<AnimationComponent> components, float length)
         {
         };
 
@@ -248,7 +248,7 @@ public class Animators
             for (var entry : by_channel.entrySet())
             {
                 var list = entry.getValue();
-                AnimationComponent prev = list.get(0);
+                AnimationComponent prev = list.getFirst();
                 boolean position = entry.getKey().equals("position");
                 boolean rotation = entry.getKey().equals("rotation");
 
@@ -418,12 +418,16 @@ public class Animators
             float rx = 0, ry = 0, rz = 0;
             float sx = 1, sy = 1, sz = 1;
             float alpha_scale = 1.0f, red_scale = 1.0f, blue_scale = 1.0f, green_scale = 1.0f;
-            float time1;
-            float time2;
+            float time1, time2;
             MolangVars molangs = holder.getMolangVars();
 
             time1 = (float) molangs.getAnimTime();
             time2 = (float) molangs.l;
+
+            // Bedrock procedural loops frequently drive a pose with q.anim_time
+            // while exposing no finite keyframe timeline. Channel selection still
+            // wraps below, but the Molang clock must remain continuous or the
+            // expression snaps whenever the synthetic animation length is reached.
 
             int aniTick = (int) Math.ceil(time1);
 
@@ -474,7 +478,7 @@ public class Animators
                 // Start by checking JEP components to the animation
                 for (int i = 0; i < 3; i++) if (component._rotJEPs[i] != null)
                 {
-                    molangs.updateJEP(component._rotJEPs[i], t1, t2);
+                    molangs.updateJEP(component._rotJEPs[i], animation.loops ? time1 : t1, animation.loops ? time2 : t2);
                     dr[i] = (float) component._rotJEPs[i].getValue() * component._rotFuncScale[i];
                 }
 
@@ -520,7 +524,7 @@ public class Animators
                 // Start by checking JEP components to the animation
                 for (int i = 0; i < 3; i++) if (component._posJEPs[i] != null)
                 {
-                    molangs.updateJEP(component._posJEPs[i], t1, t2);
+                    molangs.updateJEP(component._posJEPs[i], animation.loops ? time1 : t1, animation.loops ? time2 : t2);
                     dx[i] = (float) component._posJEPs[i].getValue() * component._posFuncScale[i];
                 }
 
@@ -566,7 +570,7 @@ public class Animators
                 // Start by checking JEP components to the animation
                 for (int i = 0; i < 3; i++) if (component._scaleJEPs[i] != null)
                 {
-                    molangs.updateJEP(component._scaleJEPs[i], t1, t2);
+                    molangs.updateJEP(component._scaleJEPs[i], animation.loops ? time1 : t1, animation.loops ? time2 : t2);
                     ds[i] = (float) component._scaleJEPs[i].getValue();
                 }
 
@@ -611,7 +615,7 @@ public class Animators
 
                 if (component._opacJEP != null)
                 {
-                    molangs.updateJEP(component._opacJEP, t1, t2);
+                    molangs.updateJEP(component._opacJEP, animation.loops ? time1 : t1, animation.loops ? time2 : t2);
                     alpha_scale *= component._opacJEP.getValue();
                 }
 
@@ -648,14 +652,13 @@ public class Animators
                 if (component == null) break colour;
                 animated = true;
                 float time = component.limbBased || limb ? t2 : t1;
-                aniTick = Math.max(aniTick, (int) Math.ceil(time));
 
                 any_hidden |= component.hidden;
 
                 // Start by checking JEP components to the animation
                 for (int i = 0; i < 3; i++) if (component._colJEPs[i] != null)
                 {
-                    molangs.updateJEP(component._colJEPs[i], t1, t2);
+                    molangs.updateJEP(component._colJEPs[i], animation.loops ? time1 : t1, animation.loops ? time2 : t2);
                     dc[i] = (float) component._colJEPs[i].getValue();
                 }
 
@@ -755,9 +758,7 @@ public class Animators
         {
             if (other instanceof KeyframeAnimator anim)
             {
-                Set<CHANNEL> our_channels = this.channelSet;
-                Set<CHANNEL> other_channels = anim.channelSet;
-                return Sets.intersection(our_channels, other_channels).isEmpty();
+                return Sets.intersection(this.channelSet, anim.channelSet).isEmpty();
             }
             return IAnimator.super.conflicts(other);
         }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import thut.api.entity.IAnimated.MolangVars;
 import thut.api.entity.animation.Animation;
@@ -17,7 +18,16 @@ import thut.core.common.ThutCore;
 
 public class AnimationConversion
 {
-    public static String convertMolangToJEP(String molang, boolean forcedLimbs)
+    private static final Map<String, String> MOLANG_CACHE = new ConcurrentHashMap<>();
+
+    public static String convertMolangToJEP(final String molang, final boolean forcedLimbs)
+    {
+        if (molang == null || molang.isBlank()) return "0";
+        final String key = (forcedLimbs ? "1|" : "0|") + molang;
+        return MOLANG_CACHE.computeIfAbsent(key, ignored -> convertMolangUncached(molang, forcedLimbs));
+    }
+
+    private static String convertMolangUncached(final String molang, final boolean forcedLimbs)
     {
         String jep = molang;
 
@@ -30,6 +40,17 @@ public class AnimationConversion
         jep = jep.toLowerCase(Locale.ROOT);
 
         jep = jep.replaceAll("math.", "");// We do not need "math."
+
+        // external riding expressions. Pokecube Plus currently maps the values
+        // available in Pokecube and safely neutralises controller-only inputs.
+        jep = jep.replaceAll("q\\.r\\.yaw_change\\([^)]*\\)", "yaw_speed");
+        jep = jep.replaceAll("q\\.riding_yaw_change\\([^)]*\\)", "yaw_speed");
+        jep = jep.replaceAll("q\\.r\\.(?:velocity_forward|input_forward|speed)\\([^)]*\\)", "l");
+        jep = jep.replaceAll("q\\.r\\.(?:pitch_change|roll_change|velocity_y|velocity_up|velocity_right|input_right|input_up|dive|pitch|target_distance_x|target_distance_y)\\([^)]*\\)", "0");
+        jep = jep.replaceAll("q\\.input_up\\([^)]*\\)", "0");
+        jep = jep.replace("v.bpm", "120").replace("variable.bpm", "120");
+        jep = jep.replace("v.foot", "0").replace("variable.foot", "0");
+        jep = jep.replace("ath.sin", "sin").replace("ath.cos", "cos");
 
         // cleanup missing * symbols
         jep = jep.replace(")clamp", ")*clamp");
@@ -63,9 +84,13 @@ public class AnimationConversion
     public static class XMLAnimationSegment extends AnimationComponent
     {
         static float[] _posFuncScales =
-        { -1 / 16f, -1 / 16f, 1 / 16f };
+                { -1 / 16f, -1 / 16f, 1 / 16f };
         static float[] _rotFuncScales =
-        { -1, -1, 1 };
+                { -1, -1, 1 };
+
+        public String rotFuncs = "";
+        public String scaleFuncs = "";
+        public String posFuncs = "";
 
         public XMLAnimationSegment(float length, float start_time)
         {
@@ -83,11 +108,11 @@ public class AnimationConversion
         boolean forcedLimbs = false;
         List<String> interpolations = new ArrayList<>();
         Object[] rotations =
-        { null, null, null };
+                { null, null, null };
         Object[] positions =
-        { null, null, null };
+                { null, null, null };
         Object[] scales =
-        { null, null, null };
+                { null, null, null };
         String channel = "";
 
         public BBModelAnimationSegment(double time, boolean forcedLimbs)
@@ -97,6 +122,11 @@ public class AnimationConversion
             interpolations.add("linear");
             interpolations.add("linear");
             interpolations.add("linear");
+        }
+
+        private static String normalInterpolation(final String interpolation)
+        {
+            return interpolation != null && interpolation.toLowerCase(Locale.ROOT).contains("step") ? "step" : "linear";
         }
 
         public void process(BBKeyFrame keyframe)
@@ -159,19 +189,19 @@ public class AnimationConversion
                 this.rotations[0] = x;
                 this.rotations[1] = y;
                 this.rotations[2] = z;
-                interpolations.set(0, keyframe.interpolation);
+                interpolations.set(0, normalInterpolation(keyframe.interpolation));
                 break;
             case "position":
                 this.positions[0] = x;
                 this.positions[1] = y;
                 this.positions[2] = z;
-                interpolations.set(1, keyframe.interpolation);
+                interpolations.set(1, normalInterpolation(keyframe.interpolation));
                 break;
             case "scale":
                 this.scales[0] = x;
                 this.scales[1] = z;
                 this.scales[2] = y;
-                interpolations.set(2, keyframe.interpolation);
+                interpolations.set(2, normalInterpolation(keyframe.interpolation));
                 has_scale = true;
                 break;
             }
@@ -217,7 +247,7 @@ public class AnimationConversion
         }
 
         public XMLAnimationSegment toXML(BBModelAnimationSegment first_frame, BBModelAnimationSegment next_frame,
-                double max_length)
+                double max_length, boolean singleFrame)
         {
             float start = this.time;
             float length = next_frame.time - this.time;
@@ -226,7 +256,7 @@ public class AnimationConversion
             if (length <= 0) length = (float) max_length;
             length = (float) Math.min(max_length - start, length);
 
-            if (first_frame == next_frame && !this.interpolations.contains("step")) start = 0;
+            if (singleFrame && !this.interpolations.contains("step")) start = 0;
 
             XMLAnimationSegment segment = new XMLAnimationSegment(length, start);
 
@@ -251,6 +281,13 @@ public class AnimationConversion
                 segment.rotOffset[0] = -old[0];
                 segment.rotOffset[1] = -old[1];
                 segment.rotOffset[2] = +old[2];
+
+                if (has_scale)
+                {
+                    segment.scaleOffset[0] = segment.scaleOffset[0];
+                    segment.scaleOffset[1] = segment.scaleOffset[1];
+                    segment.scaleOffset[2] = segment.scaleOffset[2];
+                }
             }
 
             if (next_frame != first_frame)
@@ -280,6 +317,8 @@ public class AnimationConversion
                 {
                     all_not_func = this.setDiff(segment.scaleChange, this.scales, next_frame.scales,
                             segment._scaleFunctions) & all_not_func;
+                    segment.scaleChange[0] = segment.scaleChange[0];
+                    segment.scaleChange[1] = segment.scaleChange[1];
                     segment.scaleChange[2] = -segment.scaleChange[2];
                 }
             }
@@ -350,7 +389,7 @@ public class AnimationConversion
                         if (frames.size() == 1)
                         {
                             var frame = frames.getFirst();
-                            var xml = frame.toXML(frame, frame, animation.length);
+                            var xml = frame.toXML(frame, frame, animation.length, true);
                             xml_parts.add(xml);
                         }
                         else
@@ -361,12 +400,22 @@ public class AnimationConversion
                             {
                                 var next_frame = frames.get(i + 1);
                                 var frame = frames.get(i);
-                                var xml = frame.toXML(first_frame, next_frame, animation.length);
+                                var xml = frame.toXML(first_frame, next_frame, animation.length, false);
                                 xml_parts.add(xml);
                                 last_frame = next_frame;
                             }
-                            var xml = last_frame.toXML(first_frame, first_frame, animation.length);
-                            if (xml._needJEPInit || last_frame.interpolations.contains("step")) xml_parts.add(xml);
+                            final float animationEnd = (float) (animation.length * 20);
+                            final float remaining = animationEnd - last_frame.time;
+                            // Add a closing segment only when there is actual time left
+                            // after the final keyframe. Creating a zero/full-length
+                            // segment at an already-complete cycle caused a pause and
+                            // visible snap on otherwise valid loops.
+                            if (remaining > 0.001f)
+                            {
+                                var xml = last_frame.toXML(first_frame, first_frame, animation.length, false);
+                                if (animation.loop.equals("loop") || xml._needJEPInit
+                                        || last_frame.interpolations.contains("step")) xml_parts.add(xml);
+                            }
                         }
                     }
                 }

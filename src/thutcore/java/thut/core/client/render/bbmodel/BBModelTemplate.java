@@ -2,9 +2,7 @@ package thut.core.client.render.bbmodel;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
 import com.mojang.math.Axis;
 import net.minecraft.core.Direction;
 import org.joml.Quaternionf;

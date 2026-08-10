@@ -9,6 +9,7 @@ import java.util.Set;
 
 import javax.annotation.Nonnull;
 
+import net.minecraft.world.entity.LivingEntity;
 import org.nfunk.jep.JEP;
 
 import net.minecraft.nbt.CompoundTag;
@@ -24,22 +25,16 @@ public interface IAnimated
      * The lower the index on the list, the higher the priority to use. The
      * renderer will walk up the list and pick the first value that it actually
      * has an animation for.
-     *
-     * @return
      */
     List<String> getChoices();
 
     /**
      * List of non-looping animations to run during an existing animation.
-     * 
-     * @return
      */
     List<String> transientAnimations();
 
     /**
      * The thing we animate for, for mobs, this is the Entity itself.
-     * 
-     * @return
      */
     Object getContext();
 
@@ -103,21 +98,24 @@ public interface IAnimated
         {
             MOLANG_MAP.put("query.anim_time", "(t/20)");
             MOLANG_MAP.put("query.ground_speed", "l");
+            MOLANG_MAP.put("query.limb_swing_amount", "limb_amount");
             MOLANG_MAP.put("query.health", "health");
             MOLANG_MAP.put("query.max_health", "max_health");
             MOLANG_MAP.put("query.is_in_water", "is_in_water");
             MOLANG_MAP.put("query.is_in_water_or_rain", "is_in_water_or_rain");
             MOLANG_MAP.put("query.is_on_fire", "is_on_fire");
-            MOLANG_MAP.put("query.is_on_fire", "is_on_fire");
             MOLANG_MAP.put("query.on_fire_time", "on_fire_time");
             MOLANG_MAP.put("query.is_on_ground", "is_on_ground");
             MOLANG_MAP.put("query.yaw_speed", "yaw_speed");
+            MOLANG_MAP.put("query.head_yaw", "head_yaw");
+            MOLANG_MAP.put("query.head_pitch", "head_pitch");
 
             Set<String> vars = new HashSet<>(MOLANG_MAP.keySet());
             for (String s : vars) MOLANG_MAP.put(s.replace("query.", "q."), MOLANG_MAP.get(s));
 
             JEP_VARS.put("t", 0.);
             JEP_VARS.put("l", 0.);
+            JEP_VARS.put("limb_amount", 0.);
             JEP_VARS.put("health", 20.);
             JEP_VARS.put("max_health", 20.);
             JEP_VARS.put("is_in_water", 0.);
@@ -126,10 +124,13 @@ public interface IAnimated
             JEP_VARS.put("on_fire_time", 0.);
             JEP_VARS.put("is_on_ground", 1.);
             JEP_VARS.put("yaw_speed", 0.);
+            JEP_VARS.put("head_yaw", 0.);
+            JEP_VARS.put("head_pitch", 0.);
         }
 
         public double t = 0;
         public double l = 0;
+        public double limb_amount = 0;
 
         public double health = 20;
         public double max_health = 20;
@@ -142,6 +143,8 @@ public interface IAnimated
 
         public double is_on_ground = 1;
         public double yaw_speed = 0;
+        public double head_yaw = 0;
+        public double head_pitch = 0;
 
         public void updateJEP(JEP jep, double anim_time, double walk_time)
         {
@@ -155,6 +158,8 @@ public interface IAnimated
             jep.setVarValue("on_fire_time", on_fire_time);
             jep.setVarValue("is_on_ground", is_on_ground);
             jep.setVarValue("yaw_speed", yaw_speed);
+            jep.setVarValue("head_yaw", head_yaw);
+            jep.setVarValue("head_pitch", head_pitch);
         }
 
         protected double t_0 = 0;
@@ -177,8 +182,6 @@ public interface IAnimated
 
         /**
          * Gets the animation about to be run.
-         *
-         * @return
          */
         String getPendingAnimations();
 
@@ -194,17 +197,12 @@ public interface IAnimated
 
         /**
          * This is the animation about to be run.
-         *
-         * @param name
          */
         void setPendingAnimations(final List<Animation> list, final String name);
 
         /**
          * This should get whatever animation we think the entity should be
          * doing.
-         *
-         * @param entityIn
-         * @return
          */
         String getAnimation(Entity entityIn);
 
@@ -245,15 +243,23 @@ public interface IAnimated
 
             final float limbSpeedFactor = 3f;
             molangs.l = limbSpeedFactor * limbSwing;
+            molangs.limb_amount = Math.max(0D, limbSwingAmount);
             molangs.t = ageInTicks;
             if (molangs.t < 0) molangs.t = 0;
 
             molangs.is_on_ground = entityIn.onGround() ? 1 : 0;
             molangs.is_in_water = entityIn.isInWater() ? 1 : 0;
+            molangs.is_in_water_or_rain = entityIn.isInWaterOrRain() ? 1 : 0;
             molangs.is_on_fire = entityIn.isOnFire() ? 1 : 0;
 
             molangs.yaw_speed = entityIn.getYRot() - entityIn.yRotO;
-
+            molangs.head_yaw = netHeadYaw;
+            molangs.head_pitch = headPitch;
+            if (entityIn instanceof LivingEntity living)
+            {
+                molangs.health = living.getHealth();
+                molangs.max_health = living.getMaxHealth();
+            }
             molangs.on_fire_time = entityIn.getRemainingFireTicks();
         }
     }
