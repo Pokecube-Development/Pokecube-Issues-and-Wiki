@@ -275,10 +275,9 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
             final String currentPhase, final float partialTick, final IExtendedModelPart part, IAnimationHolder holder,
             final float limbSwing)
     {
-        if (this.getRenderOrder().isEmpty()) return;
-        if (part == null) return;
-
         part.resetToInit();
+        if(!part.isAnimated()) return;
+
         boolean anim = !anims.isEmpty();
         if (anim) AnimationHelper.doAnimation(anims, holder, entity, part, partialTick, limbSwing);
         if (part.isHeadPart())
@@ -287,7 +286,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
             float ang;
             float ang2 = -info.headPitch;
             float head = info.headYaw + 180;
-            float diff = 0;
+            float diff;
             diff = head % 360;
             diff = (diff + 360) % 360;
             diff = (diff - 180) % 360;
