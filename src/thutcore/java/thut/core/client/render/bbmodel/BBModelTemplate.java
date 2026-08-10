@@ -59,22 +59,13 @@ public class BBModelTemplate
         else if(meta.format_version.startsWith("5."))
         {
             // First process the outliner
-            try
-            {
-                outliner.forEach(e -> e.init(this));
-                // Now replace outliner with the groups, as outliner is arranged appropriately for render order
-                outliner.replaceAll(g-> (JsonGroup) _by_uuid.get(g.uuid));
-                // Now re-run the init with proper groups
-                outliner.forEach(e -> e.init(this));
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-                throw e;
-            }
+            outliner.forEach(e -> e.init(this));
+            // Now replace outliner with the groups, as outliner is arranged appropriately for render order
+            outliner.replaceAll(g-> (JsonGroup) _by_uuid.get(g.uuid));
+            // Now re-run the init with proper groups
+            outliner.forEach(e -> e.init(this));
         }
         else throw new RuntimeException("No bb model processor for format {meta.model_format}");
-        System.out.println("Done");
     }
 
     @Override
