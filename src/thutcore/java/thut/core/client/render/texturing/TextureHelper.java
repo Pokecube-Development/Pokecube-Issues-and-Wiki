@@ -31,6 +31,16 @@ import thut.lib.RegHelper;
 
 public class TextureHelper implements IPartTexturer
 {
+    public static Object2ObjectOpenHashMap<String, ResourceLocation> TEXCACHE = new Object2ObjectOpenHashMap<>();
+
+    public static ResourceLocation getCachedResource(String namespace, String path)
+    {
+        return TEXCACHE.computeIfAbsent((namespace+":"+path),s->ResourceLocation.tryBuild(namespace, path));
+    }
+    public static ResourceLocation getCachedResource(String resource)
+    {
+        return TEXCACHE.computeIfAbsent(resource,s->ResourceLocation.tryParse(resource));
+    }
 
     private static class TexState
     {
@@ -316,7 +326,7 @@ public class TextureHelper implements IPartTexturer
                 if (this.remapped.containsKey(in)) return this.remapped.get(in);
                 if (!in.getPath().contains(".png"))
                 {
-                    final ResourceLocation updated = ResourceLocation.fromNamespaceAndPath(in.getNamespace(),
+                    final ResourceLocation updated = getCachedResource(in.getNamespace(),
                             "entity/textures/" + in.getPath() + ".png");
                     this.remapped.put(in, updated);
                 }
@@ -366,8 +376,8 @@ public class TextureHelper implements IPartTexturer
     private ResourceLocation getResource(final String tex)
     {
         if (tex == null) return this.mob.getTexture(null);
-        else if (tex.contains(":")) return ResourceLocation.parse(tex);
-        else return ResourceLocation.fromNamespaceAndPath(this.mob.getModId(), tex);
+        else if (tex.contains(":")) return getCachedResource(tex);
+        else return getCachedResource(this.mob.getModId(), tex);
     }
 
     @Override

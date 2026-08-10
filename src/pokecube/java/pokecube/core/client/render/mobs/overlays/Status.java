@@ -14,6 +14,7 @@ import pokecube.core.utils.Resources;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.texturing.IPartTexturer;
+import thut.core.client.render.texturing.TextureHelper;
 import thut.core.client.render.wrappers.ModelWrapper;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ import java.util.function.Function;
 
 public class Status
 {
+
     public static class StatusTexturer implements IPartTexturer
     {
         public ResourceLocation tex;
@@ -31,16 +33,27 @@ public class Status
 
         public float time = 0;
         public float rate = 1;
-        public int alpha = 128;
+        final int alpha;
         public int red = 255;
         public int green = 255;
         public int blue = 255;
 
         public boolean animated = true;
 
-        public StatusTexturer(final ResourceLocation tex)
+        private final String texFooter;
+
+        public StatusTexturer(final ResourceLocation tex, int alpha)
         {
             this.tex = tex;
+            this.alpha = alpha;
+            texFooter = "--sep--" + tex.getNamespace() + "--sep--" + tex.getPath() + "--sep--" + alpha;
+        }
+
+        public ResourceLocation toWrap(ResourceLocation wrap)
+        {
+            var newPath = wrap.getPath() + texFooter;
+            wrap = TextureHelper.getCachedResource(wrap.getNamespace(), newPath);
+            return wrap;
         }
 
         @Override
@@ -54,10 +67,7 @@ public class Status
                 {
                     wrap = default_;
                 }
-                wrap = ResourceLocation.fromNamespaceAndPath(wrap.getNamespace(),
-                        wrap.getPath() + "--sep--" + tex.getNamespace() + "--sep--" + tex.getPath() + "--sep--"
-                                + alpha);
-                return wrap;
+                return toWrap(wrap);
             }
             return this.tex;
         }
@@ -98,7 +108,7 @@ public class Status
                 rgbaIn[0] = red;
                 rgbaIn[1] = green;
                 rgbaIn[2] = blue;
-                rgbaIn[3] = this.alpha;
+                rgbaIn[3] = alpha;
             }
         }
 
@@ -109,8 +119,8 @@ public class Status
     public static record StatusOverlay(StatusTexturer texturer, float scale)
     {}
 
-    public static final StatusOverlay FRZTEX = new StatusOverlay(new StatusTexturer(Resources.STATUS_FRZ), 0.05f);
-    public static final StatusOverlay PARTEX = new StatusOverlay(new StatusTexturer(Resources.STATUS_PAR), 0.05f);
+    public static final StatusOverlay FRZTEX = new StatusOverlay(new StatusTexturer(Resources.STATUS_FRZ, 128), 0.05f);
+    public static final StatusOverlay PARTEX = new StatusOverlay(new StatusTexturer(Resources.STATUS_PAR, 128), 0.05f);
 
     public static final List<Function<IPokemob, StatusOverlay>> PROVIDERS = new ArrayList<>();
 

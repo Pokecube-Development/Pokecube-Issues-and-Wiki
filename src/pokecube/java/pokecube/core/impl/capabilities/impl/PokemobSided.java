@@ -1,5 +1,6 @@
 package pokecube.core.impl.capabilities.impl;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -46,24 +47,46 @@ public abstract class PokemobSided extends PokemobBase
 
     }
 
+    protected PokedexEntry _renderEntryCache, _lastEntryCache;
+    protected FormeHolder _renderHolderCache, _lastHolderCache;
+    protected byte _renderSexe, _lastRenderSexe;
+
+    protected Object2ObjectOpenHashMap<ResourceLocation, ResourceLocation> _TEXCACHE = new Object2ObjectOpenHashMap<>();
+
     @Override
     @OnlyIn(Dist.CLIENT)
     public ResourceLocation modifyTexture(ResourceLocation texture)
     {
         if (texture == null) return this.getTexture();
+
+        // These return or update the cache
         PokedexEntry entry = this.getPokedexEntry();
+        FormeHolder holder = this.getCustomHolder();
+        byte sexe = this.getSexe();
+
+        if (entry==_lastEntryCache && holder == _lastHolderCache && _TEXCACHE.containsKey(texture))
+        {
+            return _TEXCACHE.get(texture);
+        }
+        ResourceLocation orig = texture;
+        _lastEntryCache = entry;
+        _lastHolderCache = holder;
+
         // If texture is the same as root entry, then we might need to adjust
         // it, so replace with out getter, which also checks the entry's root
         // texture.
         if (texture.equals(entry.texture())) texture = this.getTexture();
 
-        if (this.getCustomHolder() != null && this.getCustomHolder().texture != null
-                && !this.getCustomHolder().texture.getNamespace().equals(entry.texture().getNamespace()))
-            return this.getCustomHolder().texture;
+        if (holder != null && holder.texture != null
+                && !holder.texture.getNamespace().equals(entry.texture().getNamespace()))
+        {
+            _TEXCACHE.put(orig, holder.texture);
+            return holder.texture;
+        }
 
         if (!texture.getPath().contains("entity/"))
         {
-            final int index = this.getSexe() == IPokemob.FEMALE && entry.textureDetails[1] != null ? 1 : 0;
+            final int index = sexe == IPokemob.FEMALE && entry.textureDetails[1] != null ? 1 : 0;
             final int effects = entry.textureDetails[index].length;
             final int texIndex = this.getEntity().tickCount % effects * 3 / effects;
             if (!this.texs.containsKey(texture))
@@ -98,6 +121,7 @@ public abstract class PokemobSided extends PokemobBase
             }
             else texture = this.shinyTexs.get(texture);
         }
+        _TEXCACHE.put(orig, texture);
         return texture;
     }
 }

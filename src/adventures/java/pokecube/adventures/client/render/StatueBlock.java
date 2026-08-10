@@ -63,8 +63,7 @@ public class StatueBlock implements BlockEntityRenderer<StatueEntity>
             }
             int alpha = tag.contains("statue:over_tex_a") ? tag.getInt("statue:over_tex_a") : 200;
 
-            StatusTexturer newTexer = new StatusTexturer(tex);
-            newTexer.alpha = alpha;
+            StatusTexturer newTexer = new StatusTexturer(tex, alpha);
             newTexer.animated = false;
 
             if (tag.contains("statue:anim"))

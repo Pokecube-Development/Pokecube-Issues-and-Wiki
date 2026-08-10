@@ -30,7 +30,7 @@ public class TerastalClient
             {
                 return TERA_TEX.computeIfAbsent(type.teraType.ordinal(), index -> {
                     var _type = type.teraType;
-                    var overlay = new StatusOverlay(new StatusTexturer(Resources.STATUS_TERA), 0.15f);
+                    var overlay = new StatusOverlay(new StatusTexturer(Resources.STATUS_TERA, 128), 0.15f);
                     overlay.texturer().rate = 0;
                     overlay.texturer().animated = false;
                     overlay.texturer().red = FastColor.ARGB32.red(_type.colour);

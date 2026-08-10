@@ -51,8 +51,7 @@ public class AFABlock implements BlockEntityRenderer<AfaTile>
             }
             else tex = inTag;
 
-            StatusTexturer newTexer = new StatusTexturer(tex);
-            newTexer.alpha = alpha;
+            StatusTexturer newTexer = new StatusTexturer(tex, alpha);
             newTexer.animated = false;
 
             if (tag.contains("statue:anim"))
