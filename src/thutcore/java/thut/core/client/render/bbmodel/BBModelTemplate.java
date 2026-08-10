@@ -2,7 +2,9 @@ package thut.core.client.render.bbmodel;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import com.mojang.math.Axis;
 import net.minecraft.core.Direction;
 import org.joml.Quaternionf;
@@ -34,7 +36,8 @@ public class BBModelTemplate
     public String name = "";
     public Meta meta;
     public List<Element> elements = new ArrayList<>();
-    public List<JsonGroup> outliner = new ArrayList<>();
+    public List<JsonGroup> outliner = new ArrayList<>(); // In BB 4.5 this was the groups, after 5.0 it is just child map
+    public List<JsonGroup> groups = new ArrayList<>(); // Added in BB 5.0, contains info except children
     public List<Texture> textures = new ArrayList<>();
     public List<BBAnimation> animations = new ArrayList<>();
     public Resolution resolution = new Resolution();
@@ -46,19 +49,45 @@ public class BBModelTemplate
     {
         elements.forEach(e -> _by_uuid.put(e.uuid, e));
         textures.forEach(e -> _by_uuid.put(e.uuid, e));
-        outliner.forEach(e -> e.init(this));
+        // Groups did not exist prior to 5.0
+        if(groups != null) groups.forEach(e -> _by_uuid.put(e.uuid, e));
+        if(meta.format_version.startsWith("4."))
+        {
+            // Groups were in the outliner here
+            outliner.forEach(e -> e.init(this));
+        }
+        else if(meta.format_version.startsWith("5."))
+        {
+            // First process the outliner
+            try
+            {
+                outliner.forEach(e -> e.init(this));
+                // Now replace outliner with the groups, as outliner is arranged appropriately for render order
+                outliner.replaceAll(g-> (JsonGroup) _by_uuid.get(g.uuid));
+                // Now re-run the init with proper groups
+                outliner.forEach(e -> e.init(this));
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                throw e;
+            }
+        }
+        else throw new RuntimeException("No bb model processor for format {meta.model_format}");
+        System.out.println("Done");
     }
 
     @Override
     public String toString()
     {
-        return name + " parts:" + elements + " groups:" + outliner;
+        return name + " parts:" + elements + " groups:" + groups;
     }
 
     public static class Meta
     {
         boolean box_uv;
         String model_format;
+        String format_version;
     }
 
     public static class Resolution
@@ -420,6 +449,8 @@ public class BBModelTemplate
         public String name;
         public String type;
         public String uuid;
+        public String shading = "flat";
+        public String render_order = "default";
         public float[] from;
         public float[] to;
         public float[] origin;   // Used by mesh and cube types
@@ -428,6 +459,9 @@ public class BBModelTemplate
         public int color;
         public boolean box_uv = false;
         public boolean visibility = true;
+        public boolean locked = false;
+        public boolean export = true;
+        public boolean allow_mirror_modeling = true;
         public float inflate = 0.0f;
         public Map<String, JsonObject> faces;
         public Map<String, float[]> vertices;
@@ -606,33 +640,58 @@ public class BBModelTemplate
         @Override
         public String toString()
         {
-            return name + " " + Arrays.toString(origin) + " " + color + " " + children;
+            return name + " " + (origin!=null?Arrays.toString(origin):"outline") + " " + color + " " + children;
         }
 
         public void init(BBModelTemplate template)
         {
-            List<Object> newChildren = new ArrayList<>();
-            for (Object o : children)
+            // Older versions outliner was the groups.
+            if("4.5".equals(template.meta.format_version) || this.origin!=null)
             {
-                if (o instanceof String)
+                List<Object> newChildren = new ArrayList<>();
+                for (Object o : children)
                 {
-                    Element b = (Element) template._by_uuid.get(o);
-                    if (b.name.equals("cube")) b.name = this.name;
-                    b._parent = this;
-                    b.shift(this.origin);
-                    newChildren.add(b);
-                    _empty = false;
+                    if (o instanceof String)
+                    {
+                        Element b = (Element) template._by_uuid.get(o);
+                        if (b.name.equals("cube")) b.name = this.name;
+                        b._parent = this;
+                        b.shift(this.origin);
+                        newChildren.add(b);
+                        _empty = false;
+                    }
+                    else
+                    {
+                        String json = JsonUtil.gson.toJson(o);
+                        JsonGroup g = JsonUtil.gson.fromJson(json, JsonGroup.class);
+                        g._parent = this;
+                        g.init(template);
+                        newChildren.add(g);
+                    }
                 }
-                else
+                this.children = newChildren;
+            }
+            else
+            {
+                var _group = template._by_uuid.get(uuid);
+                if(_group instanceof JsonGroup group)
                 {
-                    String json = JsonUtil.gson.toJson(o);
-                    JsonGroup g = JsonUtil.gson.fromJson(json, JsonGroup.class);
-                    g._parent = this;
-                    g.init(template);
-                    newChildren.add(g);
+                    for(var b: this.children)
+                    {
+                        if(b instanceof String)
+                        {
+                            group.children.add(b);
+                        }
+                        else
+                        {
+                            String json = JsonUtil.gson.toJson(b);
+                            JsonGroup g = JsonUtil.gson.fromJson(json, JsonGroup.class);
+                            group.children.add(template._by_uuid.get(g.uuid));
+                            g.init(template);
+                        }
+                    }
                 }
             }
-            this.children = newChildren;
         }
 
         @Override
