@@ -88,6 +88,11 @@ public class AnimationConversion
         static float[] _rotFuncScales =
                 { -1, -1, 1 };
 
+        static float[] _posFuncScales2 =
+                { 1 / 16f, -1 / 16f, 1 / 16f };
+        static float[] _rotFuncScales2 =
+                { 1, 1, 1 };
+
         public String rotFuncs = "";
         public String scaleFuncs = "";
         public String posFuncs = "";
@@ -137,46 +142,51 @@ public class AnimationConversion
             BBDataPoint data = points.getFirst();
 
             Object x = data.x, y = data.y, z = data.z;
-            try
+            if (data.x instanceof Double || data.x instanceof Integer)
             {
-                if (data.x instanceof Double || data.x instanceof Integer)
+                x = data.x;
+            }
+            else if (data.x instanceof String s && !s.isBlank())
+            {
+                try
                 {
-                    x = data.x;
+                    x = Double.parseDouble(s);
                 }
-                else if (data.x instanceof String)
+                catch (NumberFormatException ignored)
                 {
-                    x = Double.parseDouble((String) data.x);
+                    // Probably a parsable molang instead
                 }
             }
-            catch (Exception e)
-            {}
-            try
+            if (data.y instanceof Double || data.y instanceof Integer)
             {
-                if (data.y instanceof Double || data.y instanceof Integer)
+                y = data.y;
+            }
+            else if (data.y instanceof String s && !s.isBlank())
+            {
+                try
                 {
-                    y = data.y;
+                    y = Double.parseDouble(s);
                 }
-                else if (data.y instanceof String)
+                catch (NumberFormatException ignored)
                 {
-                    y = Double.parseDouble((String) data.y);
+                    // Probably a parsable molang instead
                 }
             }
-            catch (Exception e)
-            {}
-            try
+            if (data.z instanceof Double || data.z instanceof Integer)
             {
-                if (data.z instanceof Double || data.z instanceof Integer)
+                z = data.z;
+            }
+            else if (data.z instanceof String s && !s.isBlank())
+            {
+                try
                 {
-                    z = data.z;
+                    z = Double.parseDouble(s);
                 }
-                else if (data.z instanceof String)
+                catch (NumberFormatException ignored)
                 {
-                    z = Double.parseDouble((String) data.z);
+                    // Probably a parsable molang instead
                 }
             }
-            catch (Exception e)
-            {}
-
             if (x instanceof String s && s.isBlank()) x = null;
             if (y instanceof String s && s.isBlank()) y = null;
             if (z instanceof String s && s.isBlank()) z = null;
@@ -246,7 +256,7 @@ public class AnimationConversion
             return allValid;
         }
 
-        public XMLAnimationSegment toXML(BBModelAnimationSegment first_frame, BBModelAnimationSegment next_frame,
+        public XMLAnimationSegment toXML(BBModelTemplate template, BBModelAnimationSegment first_frame, BBModelAnimationSegment next_frame,
                 double max_length, boolean singleFrame)
         {
             float start = this.time;
@@ -259,6 +269,21 @@ public class AnimationConversion
             if (singleFrame && !this.interpolations.contains("step")) start = 0;
 
             XMLAnimationSegment segment = new XMLAnimationSegment(length, start);
+            float x_dir_rot = -1;
+            float y_dir_rot = -1;
+            float z_dir_rot = 1;
+            float x_dir_pos = -1;
+            float y_dir_pos = -1;
+            float z_dir_pos = 1;
+            if(!template.meta.model_format.startsWith("4."))
+            {
+                // These flipped sign in 5.0
+                segment._rotFuncScale = XMLAnimationSegment._rotFuncScales2;
+                segment._posFuncScale = XMLAnimationSegment._posFuncScales2;
+                x_dir_pos = 1;
+                x_dir_rot = 1;
+                y_dir_rot = 1;
+            }
 
             segment.limbBased = this.forcedLimbs;
 
@@ -272,15 +297,15 @@ public class AnimationConversion
 
                 var old = segment.posOffset.clone();
 
-                segment.posOffset[0] = -old[0] * 1 / 16f;
-                segment.posOffset[1] = -old[2] * 1 / 16f;
-                segment.posOffset[2] = +old[1] * 1 / 16f;
+                segment.posOffset[0] = old[0] * x_dir_pos / 16f;
+                segment.posOffset[1] = old[2] * y_dir_pos / 16f;
+                segment.posOffset[2] = old[1] * z_dir_pos / 16f;
 
                 old = segment.rotOffset.clone();
 
-                segment.rotOffset[0] = -old[0];
-                segment.rotOffset[1] = -old[1];
-                segment.rotOffset[2] = +old[2];
+                segment.rotOffset[0] = x_dir_rot*old[0];
+                segment.rotOffset[1] = y_dir_rot*old[1];
+                segment.rotOffset[2] = z_dir_rot*old[2];
 
                 if (has_scale)
                 {
@@ -298,9 +323,9 @@ public class AnimationConversion
                     all_not_func = this.setDiff(segment.rotChange, this.rotations, next_frame.rotations,
                             segment._rotFunctions) & all_not_func;
                     var old = segment.rotChange.clone();
-                    segment.rotChange[0] = +old[0];
-                    segment.rotChange[1] = +old[1];
-                    segment.rotChange[2] = -old[2];
+                    segment.rotChange[0] = -x_dir_rot*old[0];
+                    segment.rotChange[1] = -y_dir_rot*old[1];
+                    segment.rotChange[2] = -z_dir_rot*old[2];
                 }
 
                 if (!this.interpolations.get(1).contains("step"))
@@ -389,7 +414,7 @@ public class AnimationConversion
                         if (frames.size() == 1)
                         {
                             var frame = frames.getFirst();
-                            var xml = frame.toXML(frame, frame, animation.length, true);
+                            var xml = frame.toXML(template, frame, frame, animation.length, true);
                             xml_parts.add(xml);
                         }
                         else
@@ -400,7 +425,7 @@ public class AnimationConversion
                             {
                                 var next_frame = frames.get(i + 1);
                                 var frame = frames.get(i);
-                                var xml = frame.toXML(first_frame, next_frame, animation.length, false);
+                                var xml = frame.toXML(template, first_frame, next_frame, animation.length, false);
                                 xml_parts.add(xml);
                                 last_frame = next_frame;
                             }
@@ -412,7 +437,7 @@ public class AnimationConversion
                             // visible snap on otherwise valid loops.
                             if (remaining > 0.001f)
                             {
-                                var xml = last_frame.toXML(first_frame, first_frame, animation.length, false);
+                                var xml = last_frame.toXML(template, first_frame, first_frame, animation.length, false);
                                 if (animation.loop.equals("loop") || xml._needJEPInit
                                         || last_frame.interpolations.contains("step")) xml_parts.add(xml);
                             }

@@ -717,6 +717,8 @@ public class BBModelTemplate
         {
             public String name;
             public String type;
+            public boolean rotation_global; // added 5.0
+            public boolean quaternion_interpolation; // added 5.0
             public List<BBKeyFrame> keyframes = new ArrayList<>();
         }
 
