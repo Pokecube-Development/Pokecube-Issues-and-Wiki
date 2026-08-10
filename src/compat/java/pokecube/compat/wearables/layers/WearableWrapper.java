@@ -285,6 +285,9 @@ public class WearableWrapper
         // No Render invisible.
         if (wearer.getEffect(MobEffects.INVISIBILITY) != null) return;
 
+        final PlayerWearables worn = ThutWearables.getWearables(wearer);
+        var renderMap = worn.getRenderHolder();
+
         WornOffsets offsets = null;
 
         boolean debug = imodel instanceof ModelWrapper<?> wr && wr.debugMode;
@@ -344,12 +347,14 @@ public class WearableWrapper
                     {
                         imodel.getRenderOrder().add(wrapper);
                     }
-                    part.preProcess();
+                    if(!renderMap.containsKey(ident))
+                    {
+                        part.preProcess();
+                        renderMap.put(ident, part);
+                    }
                 }
             }
         }
-
-        final PlayerWearables worn = ThutWearables.getWearables(wearer);
 
         int index = 0;
         for (final EnumWearable wearable : EnumWearable.values())
@@ -408,7 +413,11 @@ public class WearableWrapper
                         {
                             imodel.getRenderOrder().add(wrapper);
                         }
-                        part.preProcess();
+                        if(!renderMap.containsKey(ident))
+                        {
+                            part.preProcess();
+                            renderMap.put(ident, part);
+                        }
                     }
                 }
             }

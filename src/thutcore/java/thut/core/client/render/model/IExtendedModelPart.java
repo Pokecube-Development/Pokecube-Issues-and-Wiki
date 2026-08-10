@@ -73,9 +73,7 @@ public interface IExtendedModelPart extends IModelCustom
 
     boolean isAnimated();
 
-    default void tryCombineChildren(){
-
-    }
+    default void tryCombineChildren(){}
 
     default void preProcess()
     {

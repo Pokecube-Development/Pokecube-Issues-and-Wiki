@@ -1,5 +1,6 @@
 package thut.wearables.inventory;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -233,6 +234,16 @@ public class PlayerWearables implements IWearableInventory, IItemHandlerModifiab
         final WearableSlot wSlot = this.slots.get(type);
         wSlot.setStack(slot, stack);
         return true;
+    }
+
+    Map<Object, Object> renderMap = new HashMap<>();
+
+    /**
+     * Cached lookup map of worn model parts, to prevent needing to re-create each time a mob changes
+     */
+    public Map<Object, Object> getRenderHolder()
+    {
+        return renderMap;
     }
 
     public static PlayerWearables makeProvider(final IAttachmentHolder in)
