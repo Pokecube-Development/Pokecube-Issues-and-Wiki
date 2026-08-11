@@ -275,7 +275,7 @@ public class AnimationConversion
             float x_dir_pos = -1;
             float y_dir_pos = -1;
             float z_dir_pos = 1;
-            if(!template.meta.model_format.startsWith("4."))
+            if(!template.meta.format_version.startsWith("4."))
             {
                 // These flipped sign in 5.0
                 segment._rotFuncScale = XMLAnimationSegment._rotFuncScales2;
