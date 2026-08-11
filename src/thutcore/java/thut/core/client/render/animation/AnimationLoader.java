@@ -448,8 +448,9 @@ public class AnimationLoader
                         m.tex = holder.texture;
                     }
 
-                    if (p.getParent() == null && noRotation != rotation)
-                        p.setDefaultAngles(rotation.x(), rotation.y(), rotation.z());
+                    boolean isRoot = p.getParent()!=null&&p.getParent().getType().equals("__root__");
+                    // Apply one level down, the __root__ part doesn't actually do anything
+                    if (isRoot && noRotation != rotation) p.setDefaultAngles(rotation.x(), rotation.y(), rotation.z());
                 }
 
             }

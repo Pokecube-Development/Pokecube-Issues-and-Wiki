@@ -220,9 +220,9 @@ public class BBModelPart extends Part
     @Override
     public void setDefaultAngles(float rx, float ry, float rz)
     {
-        this.rotations.x += rx;
-        this.rotations.y += ry;
-        this.rotations.z += rz;
+        this.rotations.x = rx;
+        this.rotations.y = ry;
+        this.rotations.z = rz;
     }
 
     @Override
