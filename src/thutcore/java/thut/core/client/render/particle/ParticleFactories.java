@@ -51,8 +51,8 @@ public class ParticleFactories
             this.friction = 1.0f;
             if (this.particle instanceof ParticleNoGravity) this.gravity = 0;
             this.xd = this.particle.velocity.x;
-            this.yd = this.particle.velocity.z;
-            this.zd = this.particle.velocity.y;
+            this.yd = this.particle.velocity.y;
+            this.zd = this.particle.velocity.z;
             this.setLifetime(this.particle.lifetime);
         }
 

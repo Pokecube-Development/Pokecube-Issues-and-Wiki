@@ -6,6 +6,7 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import org.joml.Quaternionf;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.core.common.ThutCore;
@@ -128,10 +129,9 @@ public class ThutParticles
             particle.size = 0.25f;
             if (vel != null)
             {
-                final Vector3 normal = vel.normalize().copy();
-                final Vector4 v3 = new Vector4(0, 1, 0, (float) (90 - normal.toSpherical().z * 180 / Math.PI));
-                final Vector4 v2 = new Vector4(1, 0, 0, (float) (90 + normal.y * 180 / Math.PI));
-                particle.setOrientation(v3.addAngles(v2).toQuaternion());
+                final Vector3 normal = vel.normalize();
+                Quaternionf orientation = new Quaternionf().fromAxisAngleDeg(normal.toJOML(), 0);
+                particle.setOrientation(orientation);
             }
             ret = particle;
         }

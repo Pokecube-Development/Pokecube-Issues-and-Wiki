@@ -46,6 +46,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.common.util.FakePlayer;
 import net.neoforged.neoforge.common.util.FakePlayerFactory;
 import net.neoforged.neoforge.entity.PartEntity;
+import org.joml.Vector3f;
+import org.joml.Vector3fc;
 import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 
@@ -1059,5 +1061,10 @@ public class Vector3
         nbt.putDouble(tag + "x", this.x);
         nbt.putDouble(tag + "y", this.y);
         nbt.putDouble(tag + "z", this.z);
+    }
+
+    public Vector3f toJOML()
+    {
+        return new Vector3f((float) x, (float) y, (float) z);
     }
 }

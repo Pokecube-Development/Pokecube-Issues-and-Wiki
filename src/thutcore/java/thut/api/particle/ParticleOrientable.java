@@ -9,20 +9,20 @@ import thut.api.maths.Vector4;
 
 public class ParticleOrientable extends ParticleBase
 {
-    public Vector4 orientation;
+    public Quaternionf orientation;
 
     public ParticleOrientable(final int x, final int y)
     {
         super(x, y);
         this.billboard = false;
-        this.orientation = new Vector4(0,0,0,1);
+        this.orientation = new Quaternionf(0,0,0,1);
     }
 
     @Override
     public ParticleBase read(final FriendlyByteBuf buffer)
     {
         super.read(buffer);
-        this.orientation = new Vector4(buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat());
+        this.orientation = new Quaternionf(buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat());
         return this;
     }
 
@@ -31,11 +31,11 @@ public class ParticleOrientable extends ParticleBase
     {
         Quaternionf quaternion;
         quaternion = new Quaternionf(renderInfo.rotation());
-        quaternion.mul(this.orientation.toMCQ());
+        quaternion.mul(this.orientation);
         return quaternion;
     }
 
-    public void setOrientation(final Vector4 orientation)
+    public void setOrientation(final Quaternionf orientation)
     {
         this.orientation = orientation;
     }

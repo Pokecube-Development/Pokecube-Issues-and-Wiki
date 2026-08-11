@@ -25,7 +25,8 @@ public class ParticleFlow extends MoveAnimationBase
         final double frac2 = time / (float) this.getDuration();
         final double frac = dist * frac2;
         final double frac3 = dist * time / this.getDuration();
-        final Vector3 temp = new Vector3().set(target).subtractFrom(source).norm();
+        Vector3 dir = target.subtract(source);
+        final Vector3 temp = dir.normalize();
         final Random rand = ThutCore.newRandom();
         final Vector3 temp1 = new Vector3();
         final Vector3 angleF = temp.horizonalPerp();
@@ -34,7 +35,7 @@ public class ParticleFlow extends MoveAnimationBase
             angleF.rotateAboutLine(temp.normalize(), values.angle, temp1);
             angleF.set(temp1);
         }
-        final Vector3 dir = target.subtract(source).scalarMult(0.05);
+        dir.scalarMultBy(0.05);
         for (double i = frac; i < frac3; i += 0.1)
         {
             if (values.density < 1 && Math.random() > values.density) continue;
@@ -46,7 +47,7 @@ public class ParticleFlow extends MoveAnimationBase
                 else temp1.set(factor * (0.5 - rand.nextDouble()), factor * (0.5 - rand.nextDouble()),
                         factor * (0.5 - rand.nextDouble()));
                 PokecubeCore.spawnParticle(info.attacker.level(), values.particle,
-                        source.add(temp.scalarMult(i).addTo(temp1)), dir, values.rgba, values.lifetime);
+                        source.add(temp1), dir, values.rgba, values.lifetime); // .scalarMult(i) was this
             }
         }
     }
