@@ -38,6 +38,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -268,10 +269,31 @@ public class AnimationLoader
                 if (animHolder != null) animHolder.clean();
 
                 // Handle customTextures
-                texturer.init(texs);
                 if (texs.defaults != null) holder.texture = ResourceLocation.parse(texs.defaults);
                 texturer.init(texs);
-
+                // Now, process materials appropriately
+                Set<Material> notCustom = new HashSet<>();
+                Material _default = null;
+                for(var p: model.getParts().values())
+                {
+                    for(var m: p.getMaterials())
+                    {
+                        // If the material is a registered custom, this is true
+                        boolean isCustom = texturer.hasMapping(m.name);
+                        if(!isCustom)
+                        {
+                            // Collect not-custom ones, and then set them all equal.
+                            notCustom.add(m);
+                            if(_default==null && !"auto:null".equals(m.name)) _default = m;
+                        }
+                    }
+                }
+                // Copy from default
+                if(_default!=null) for(var m: notCustom)
+                {
+                    m.name = _default.name;
+                    m.render_name = _default.render_name;
+                }
                 // Apply texture phases (ie texture animations)
                 for (Phase p : texPhases) texturer.applyTexturePhase(p);
 
@@ -397,7 +419,6 @@ public class AnimationLoader
                     List<String> matNames = new ArrayList<>();
                     for (TexPart part : texs.parts)
                     {
-
                         ResourceLocation tex = part.tex.contains(":")
                                 ? ResourceLocation.parse(part.tex)
                                 : ResourceLocation.fromNamespaceAndPath(holder.model.getNamespace(), part.tex);

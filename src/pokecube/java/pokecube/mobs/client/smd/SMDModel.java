@@ -67,7 +67,11 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
                 this.toLoad.mats.addAll(this.toLoad.wrapped.body.matsToFaces.keySet());
                 // Flag as loaded before running the callback
                 this.toLoad.loaded = true;
-                if (this.toLoad.callback != null) this.toLoad.callback.run(this.toLoad);
+                if (this.toLoad.callback != null)
+                {
+                    this.toLoad.callback.run(this.toLoad);
+                    this.toLoad.postInit();
+                }
                 this.toLoad.callback = null;
             }
             catch (final Exception e)
@@ -167,7 +171,11 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     @Override
     public IModel init(final IModelCallback callback)
     {
-        if (this.loaded && this.isValid()) callback.run(this);
+        if (this.loaded && this.isValid())
+        {
+            callback.run(this);
+            postInit();
+        }
         else this.callback = callback;
         return this;
     }
@@ -313,6 +321,12 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     public List<Material> getMaterials()
     {
         return this.mats;
+    }
+
+    @Override
+    public void updateMaterials(Collection<Material> materials)
+    {
+
     }
 
     @Override

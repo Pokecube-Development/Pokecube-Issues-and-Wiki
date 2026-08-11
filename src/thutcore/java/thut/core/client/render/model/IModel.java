@@ -69,9 +69,15 @@ public interface IModel
 
     default IModel init(final IModelCallback callback)
     {
-        if (this.isValid()) callback.run(this);
+        if (this.isValid())
+        {
+            callback.run(this);
+            this.postInit();
+        }
         return this;
     }
+
+    default void postInit(){}
 
     default boolean isLoaded()
     {

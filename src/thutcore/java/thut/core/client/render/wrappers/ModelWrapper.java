@@ -235,6 +235,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         this.renderer.setAnimation(entityIn, partialTickTime);
         holder.setContext(ThutCaps.getAnimated(entityIn));
         holder.preRunAll();
+        this.renderModel.prepareRender();
         this.applyAnimation(entityIn, this.renderer, partialTickTime, limbSwing);
         holder.postRunAll();
     }

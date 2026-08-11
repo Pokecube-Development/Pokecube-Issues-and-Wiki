@@ -334,6 +334,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         for (var adder : this.renderAdders) adder.onRender(mat, this);
 
         this.preRender(mat);
+//
         for (final Mesh s : this.renderShapes)
         {
             s.cullScale = ds / ds2;
@@ -565,6 +566,39 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                 }
             }
         }
+    }
+
+    @Override
+    public void updateMaterials(Collection<Material> materials)
+    {
+        synchronized (this.materials)
+        {
+            Map<String, Material> _mats = new HashMap<>();
+            materials.forEach(mat->_mats.put(mat.toString(), mat));
+            this.matcache.clear();
+            this.materials.clear();
+            this.namedMaterials.clear();
+            for (Mesh shape : this.shapes)
+            {
+                var old = shape.material;
+                var key = old.toString();
+                if(_mats.containsKey(key))
+                {
+                    var mat = _mats.get(key);
+                    shape.material = mat;
+                    if (this.matcache.add(mat))
+                    {
+                        this.materials.add(mat);
+                        this.namedMaterials.put(mat.name, mat);
+                    }
+                }
+                else
+                {
+                    System.err.println("Not found in new list! "+old.name);
+                }
+            }
+        }
+        this.getSubParts().values().forEach(part->part.updateMaterials(materials));
     }
 
     @Override

@@ -66,8 +66,6 @@ public interface IExtendedModelPart extends IModelCustom
 
     void addChild(IExtendedModelPart child);
 
-    List<Material> getMaterials();
-
     void applyTexture(MultiBufferSource bufferIn, ResourceLocation tex, IPartTexturer texer);
 
     void markAsAnimated();

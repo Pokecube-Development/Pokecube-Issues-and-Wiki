@@ -1,6 +1,7 @@
 package thut.core.client.render.model;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -50,7 +51,11 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
             synchronized (this.toLoad)
             {
                 // if we have a callback, run that
-                if (this.toLoad.callback != null) this.toLoad.callback.run(this.toLoad);
+                if (this.toLoad.callback != null)
+                {
+                    this.toLoad.callback.run(this.toLoad);
+                    this.toLoad.postInit();
+                }
                 // Then clear the callback
                 this.toLoad.callback = null;
                 // Then flag as loaded
@@ -143,10 +148,29 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         if (this.isValid() && !this.loading)
         {
             callback.run(this);
+            // Now handle post processing cleanup
+            postInit();
             this.loaded = true;
         }
         else this.callback = callback;
         return this;
+    }
+
+    @Override
+    public void postInit()
+    {
+        // Collect all materials
+        Set<Material> allMats = new HashSet<>();
+        this.getRenderOrder().forEach(e->allMats.addAll(e.getMaterials()));
+        this.updateMaterials(allMats);
+    }
+
+    @Override
+    public void updateMaterials(Collection<Material> materials)
+    {
+        this.materials.clear();
+        this.materials.addAll(materials);
+        this.getRenderOrder().forEach(p->p.updateMaterials(materials));
     }
 
     @Override
@@ -311,6 +335,25 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
                 part.setPostRotations(combined);
             }
         }
+    }
+
+    @Override
+    public void prepareRender()
+    {
+        var materials = this.getMaterials();
+        if(!materials.isEmpty())
+        {
+            var ref = materials.getFirst();
+            materials.forEach(m -> m.resetBufferCaches(ref));
+        }
+    }
+
+    List<Material> materials = new ArrayList<>();
+
+    @Override
+    public List<Material> getMaterials()
+    {
+        return materials;
     }
 
     @Override

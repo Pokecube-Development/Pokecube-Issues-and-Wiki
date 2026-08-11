@@ -1,9 +1,14 @@
 package thut.core.client.render.model.parts;
 
+import java.lang.reflect.Field;
 import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -54,8 +59,8 @@ public class Material
 
     public static final DepthTestStateShard LESSTHAN = new DepthTestStateShard("<", 513);
 
-    public final String name;
-    final String render_name;
+    public String name;
+    public String render_name;
 
     public String texture;
     public Vector3f diffuseColor;
@@ -92,6 +97,15 @@ public class Material
     {
         this.name = name;
         this.render_name = "thutcore:mat_" + name + "_";
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Material{" + "name='" + name + '\'' + ", diffuseColor=" + diffuseColor + ", specularColor="
+                + specularColor + ", emissiveColor=" + emissiveColor + ", transluscent=" + transluscent + ", alpha="
+                + alpha + ", shininess=" + shininess + ", ambientIntensity=" + ambientIntensity + ", emissiveMagnitude="
+                + emissiveMagnitude + ", flat=" + flat + ", cull=" + cull + ", shader='" + shader + '\'' + '}';
     }
 
     public Material(final String name, final String texture, final Vector3f diffuse, final Vector3f specular,
@@ -146,9 +160,38 @@ public class Material
         }
         if (bufferSource == null) bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
         if (this.tex == null || bufferSource == null) return buffer;
+        RenderCache cache = lastCache.get();
         this.vertexMode = mode;
+        if(cache != null && cache.mode == mode && cache.tex.equals(tex))
+        {
+            return cache.buffer;
+        }
         final RenderType type = this.makeRenderType(this.tex, mode);
-        return bufferSource.getBuffer(type);
+        cache = new RenderCache(tex, bufferSource.getBuffer(type), mode);
+        cacheUpdate.accept(cache);
+        return cache.buffer;
+    }
+
+    protected static record RenderCache(ResourceLocation tex, VertexConsumer buffer, VertexFormat.Mode mode){}
+    private RenderCache _renderCache;
+
+    Consumer<RenderCache> cacheUpdate = (cache)->{};
+    Supplier<RenderCache> lastCache = ()->_renderCache;;
+    public void resetBufferCaches(Material ref)
+    {
+        if(ref == this)
+        {
+            _renderCache = null;
+            cacheUpdate = (cache)->{
+                _renderCache = cache;
+            };
+            lastCache = ()->_renderCache;
+        }
+        else
+        {
+            this.lastCache = ref.lastCache;
+            this.cacheUpdate = ref.cacheUpdate;
+        }
     }
 
     public BaseTexture getTexture()

@@ -233,12 +233,12 @@ public class Mesh
             // We use the default mob format, since that is what mobs use.
             // This means we need these in this order!
             buffer.addVertex(
-                    //@formatter:off
-                    dp.x, dp.y, dp.z,
-                    argb,
-                    texUV.x, texUV.y,
-                    overlayUV, lightmapUV,
-                    dn.x, dn.y, dn.z);
+            //@formatter:off
+                dp.x, dp.y, dp.z,
+                argb,
+                texUV.x, texUV.y,
+                overlayUV, lightmapUV,
+                dn.x, dn.y, dn.z);
             //@formatter:on
         }
     }
