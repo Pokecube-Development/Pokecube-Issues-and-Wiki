@@ -300,8 +300,8 @@ public class Mesh
         texdR.set(du, dv);
         texdS.set(su, sv);
 
-        // Find buffer to render to
-        buffer = this.material.preRender(mat, buffer, this.vertexMode);
+        // Find buffer to render to, this is presently most expensive part here...
+        buffer = this.material.preRender(buffer, this.vertexMode);
 
         // Update colouring as needed
         int red = material.rgbabro[0];
@@ -326,7 +326,7 @@ public class Mesh
         Vertex[] normals = flat ? this.normalList : this.normals;
         final Matrix3f norms = pose.normal();
         final Matrix4f pos = pose.pose();
-        // Finally render
+        // Finally render, this should be JIT Compiler friendly
         doRender(normals, norms, pos, argb, overlayUV, lightmapUV, buffer);
     }
 

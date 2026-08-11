@@ -287,7 +287,7 @@ public class Body implements IRetexturableModel
                     texer.shiftUVs(tex, this.uvShift);
                     texer.shiftUVs(tex, this.uvShift);
                 }
-                this.render(mat, material.preRender(mat, buffer), material.rgbabro, entry, !material.flat);
+                this.render(mat, material.preRender(buffer), material.rgbabro, entry, !material.flat);
                 this.uvShift[0] = this.uvShift[1] = 0;
             }
         }

@@ -154,7 +154,7 @@ public class PartInteract extends Packet
             final double d0 = 36.0D;
             if (player.distanceToSqr(entity) < d0)
             {
-                final InteractionHand hand = this.getHand();
+                InteractionHand hand = this.getHand();
                 final ItemStack itemstack = hand != null ? player.getItemInHand(hand).copy() : ItemStack.EMPTY;
                 Optional<InteractionResult> optional = Optional.empty();
 
@@ -163,7 +163,7 @@ public class PartInteract extends Packet
                 else if (this.getAction() == ServerboundInteractPacket.ActionType.INTERACT_AT)
                 {
                 	// TODO check item part interactions
-                    if (EventHooks.onItemUseStart(player, itemstack, entity.getId()) != -1)
+                    if (EventHooks.onItemUseStart(player, itemstack, hand, entity.getId()) != -1)
                         return;
                     optional = Optional.of(entity.interactAt(player, this.getHitVec(), hand));
                 }

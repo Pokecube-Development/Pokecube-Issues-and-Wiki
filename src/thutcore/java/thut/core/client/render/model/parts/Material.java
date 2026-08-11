@@ -123,12 +123,12 @@ public class Material
         return renderType.makeRenderType(this, tex, mode);
     }
 
-    public VertexConsumer preRender(final PoseStack mat, final VertexConsumer buffer)
+    public VertexConsumer preRender(final VertexConsumer buffer)
     {
-        return preRender(mat, buffer, Mode.TRIANGLES);
+        return preRender(buffer, Mode.TRIANGLES);
     }
 
-    public VertexConsumer preRender(final PoseStack mat, final VertexConsumer buffer, Mode mode)
+    public VertexConsumer preRender(final VertexConsumer buffer, Mode mode)
     {
         if(HAS_IRIS){
             var s = RenderSystem.getShader();
