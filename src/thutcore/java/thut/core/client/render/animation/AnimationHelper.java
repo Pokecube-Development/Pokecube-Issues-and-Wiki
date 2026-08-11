@@ -25,15 +25,14 @@ public class AnimationHelper
     private final static Map<UUID, IAnimationHolder> holderMap = Maps.newHashMap();
 
     public static boolean animate(final Animation animation, final IAnimationHolder animate,
-            final IExtendedModelPart part, final float partialTick, final float limbSwing, final int tick)
+            final IExtendedModelPart part)
     {
         final IAnimator animator = animation.getComponents(part.getName());
         if (animator == null) return false;
-        return animator.animate(animation, animate, part, partialTick, limbSwing, tick);
+        return animator.animate(animation, animate, part);
     }
 
-    public static boolean doAnimation(List<Animation> list, IAnimationHolder holder, final Entity entity,
-            final IExtendedModelPart part, float partialTick, float limbSwing)
+    public static boolean doAnimation(List<Animation> list, IAnimationHolder holder, final IExtendedModelPart part)
     {
         boolean animate = false;
         if (holder != null)
@@ -41,7 +40,7 @@ public class AnimationHelper
             for (final Animation animation : list)
             {
                 holder.preRunAnim(animation);
-                animate = AnimationHelper.animate(animation, holder, part, partialTick, limbSwing, entity.tickCount);
+                animate = AnimationHelper.animate(animation, holder, part);
                 holder.postRunAnim(animation);
                 if(animate) break;
             }

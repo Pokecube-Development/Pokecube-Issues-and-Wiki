@@ -265,7 +265,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
             anims.addAll(holder.getPlaying());
         }
         else if (anim) anims.addAll(renderer.getAnimations().get(currentPhase));
-        this.updateAnimation(entity, renderer, anims, currentPhase, partialTicks, holder, limbSwing);
+        this.updateAnimation(anims, holder);
     }
 
     private void addChildrenToOrder(IExtendedModelPart part)
@@ -278,8 +278,8 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         }
     }
 
-    protected void updateAnimation(final Entity entity, final IModelRenderer<?> renderer, List<Animation> playingAnims,
-            final String currentPhase, final float partialTicks, IAnimationHolder holder, final float limbSwing)
+    @Override
+    public void updateAnimation(List<Animation> playingAnims, IAnimationHolder holder)
     {
         if (this.getRenderOrder().isEmpty()) return;
         if (animOrder.isEmpty())
@@ -291,12 +291,10 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
             }
         }
         for (var part : animOrder)
-            this.updatePart(entity,playingAnims, partialTicks, part, holder, limbSwing);
+            this.updatePart(playingAnims, part, holder);
     }
 
-    private void updatePart(final Entity entity, List<Animation> anims,
-            final float partialTick, final IExtendedModelPart part, IAnimationHolder holder,
-            final float limbSwing)
+    private void updatePart(List<Animation> anims, final IExtendedModelPart part, IAnimationHolder holder)
     {
         // Reset to starting position
         part.resetToInit();
@@ -305,7 +303,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         {
             boolean anim = !anims.isEmpty();
             // This computes transform for us from animations
-            if (anim) AnimationHelper.doAnimation(anims, holder, entity, part, partialTick, limbSwing);
+            if (anim) AnimationHelper.doAnimation(anims, holder, part);
             // This computes head rotation
             if (part.isHeadPart())
             {

@@ -62,8 +62,7 @@ public class Animators
 
     public static interface IAnimator
     {
-        boolean animate(Animation animation, IAnimationHolder holder, IExtendedModelPart part, float partialTick,
-                float limbSwing, int tick);
+        boolean animate(Animation animation, IAnimationHolder holder, IExtendedModelPart part);
 
         default void setColours(int... rgba)
         {}
@@ -406,8 +405,7 @@ public class Animators
         }
 
         @Override
-        public boolean animate(Animation animation, IAnimationHolder holder, IExtendedModelPart part, float partialTick,
-                float limbSwing, int tick)
+        public boolean animate(Animation animation, IAnimationHolder holder, IExtendedModelPart part)
         {
             if (this.hidden) return false;
 

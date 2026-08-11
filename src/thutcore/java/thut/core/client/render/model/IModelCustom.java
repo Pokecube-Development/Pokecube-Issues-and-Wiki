@@ -6,6 +6,9 @@ import java.util.List;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.world.entity.Entity;
+import thut.api.entity.IAnimated;
+import thut.api.entity.animation.Animation;
 import thut.core.client.render.model.parts.Material;
 
 public interface IModelCustom
@@ -34,6 +37,8 @@ public interface IModelCustom
     {
 
     }
+
+    default void updateAnimation(List<Animation> playingAnims, IAnimated.IAnimationHolder holder){}
 
     default void prepareRender()
     {
