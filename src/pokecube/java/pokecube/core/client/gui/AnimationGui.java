@@ -332,7 +332,7 @@ public class AnimationGui extends Screen
 
             final float xSize = this.width / 2;
             final float dx = xSize / 3 + this.shift[0];
-            final float dy = 00 + this.shift[1];
+            final float dy = this.shift[1];
 
             final float yaw = 0;
 
@@ -353,12 +353,10 @@ public class AnimationGui extends Screen
             entity.tickCount = Minecraft.getInstance().player.tickCount;
             entity.attackAnim += 0.0125;
 
-            partialTicks = minecraft.getTimer().getGameTimeDeltaTicks();
             if (this.isPauseScreen())
             {
                 entity.tickCount = 0;
                 entity.attackAnim = 0;
-                partialTicks = 0;
             }
 
             final float zoom = this.scale;
@@ -407,6 +405,7 @@ public class AnimationGui extends Screen
             // Sometimes things go bad and this happens
             if (l <= 0.0001 || l > 1e10) AnimationGui.entry.getModelSize().set(1, 1, 1);
             GuiPokemobHelper.autoScale = false;
+            entity.walkAnimation.update(0.075f, partialTicks);
             partialTicks = Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true);
             GuiPokemobHelper.renderMob(graphics.pose(), entity, j, k, this.yRenderAngle, this.xRenderAngle,
                     this.yHeadRenderAngle, this.xHeadRenderAngle, zoom, partialTicks);
