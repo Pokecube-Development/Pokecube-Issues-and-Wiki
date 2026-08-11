@@ -115,7 +115,6 @@ public class ClientInit
 //        Tracker.timerEnd("render time", 5000);
         Mesh.windowScale = (float) Math.sqrt(Minecraft.getInstance().getWindow().getScreenHeight()
                 * Minecraft.getInstance().getWindow().getScreenWidth() * 1e-3f);
-        Mesh.verts = 0;
         Mesh.modelCullThreshold = ThutCore.getConfig().modelCullThreshold;
 //        Tracker.timerStart();
     }

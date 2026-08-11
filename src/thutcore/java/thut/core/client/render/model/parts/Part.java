@@ -57,6 +57,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public Vector3 preTrans = new Vector3();
     public Vector3 postTrans = new Vector3();
     public Vertex preScale = new Vertex(1, 1, 1);
+    public Vertex postScale = new Vertex(1, 1, 1);
 
     public Vector3 offset = new Vector3();
     public Vector4 rotations = new Vector4();
@@ -323,7 +324,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         // Apply postRotation
         this.postRot.glRotate(mat);
         // Scale
-        mat.scale(this.scale.x, this.scale.y, this.scale.z);
+        mat.scale(this.postScale.x, this.postScale.y, this.postScale.z);
     }
 
     public void render(final PoseStack mat, final VertexConsumer buffer)
@@ -335,7 +336,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         this.preRender(mat);
         for (final Mesh s : this.renderShapes)
         {
-            s.renderScale = ds2;
             s.cullScale = ds / ds2;
             // Render each Shape
             s.renderShape(mat, buffer, this.texChangeHolder.get());
@@ -398,6 +398,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         this.preTrans.set(offset);
         this.preScale.set(1, 1, 1);
         this.postTrans.clear();
+        this.postScale.set(this.scale);
         this.colour_scales[0] = 1;
         this.colour_scales[1] = 1;
         this.colour_scales[2] = 1;
@@ -585,9 +586,10 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public void setPostScale(Vector3 scale)
+    public void setPostScale(Vector3f scale)
     {
-        ds2 = (float) scale.mag();
+        ds2 = scale.length();
+        this.postScale.mul(scale);
     }
 
     @Override

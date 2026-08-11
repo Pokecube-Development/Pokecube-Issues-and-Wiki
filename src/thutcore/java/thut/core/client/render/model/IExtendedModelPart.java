@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import thut.api.entity.IAnimated.IAnimationHolder;
@@ -128,11 +129,17 @@ public interface IExtendedModelPart extends IModelCustom
         return e;
     }
 
+    /**
+     * This applies transforms to mat, running back up the parent tree.
+     */
     default void preRender(PoseStack mat)
     {
 
     }
 
+    /**
+     * This removes transforms from mat, running back up the parent tree.
+     */
     default void postRender(PoseStack mat)
     {
 
@@ -221,7 +228,7 @@ public interface IExtendedModelPart extends IModelCustom
 
     void setPreScale(Vector3 scale);
 
-    void setPostScale(Vector3 scale);
+    void setPostScale(Vector3f scale);
 
     void setPreTranslations(Vector3 translations);
 

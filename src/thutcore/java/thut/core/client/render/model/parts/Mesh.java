@@ -24,7 +24,6 @@ public class Mesh
     public static boolean debug = false;
 
     public static float windowScale = 1;
-    public static int verts = 0;
     public static double modelCullThreshold = 0;
 
     public static Mesh merge(Mesh... meshs)
@@ -75,7 +74,6 @@ public class Mesh
 
     protected final float len;
     public float cullScale = 1;
-    public float renderScale = 1;
 
     public static Vector4f METRIC = new Vector4f(1, 1, 1, 0);
 
@@ -216,18 +214,42 @@ public class Mesh
         this.material.vertexMode = this.vertexMode;
     }
 
-    private final Vector3f dummy3 = new Vector3f();
-    private final Vector4f dummy4 = new Vector4f();
+    private final Vector3f dn = new Vector3f();
+    private final Vector4f dp = new Vector4f();
     private final Vector2f texdR = new Vector2f(), texdS = new Vector2f(), texUV =new Vector2f();
 
-    protected void doRender(final PoseStack mat, final VertexConsumer buffer)
+    protected final void doRender(Vertex[] normals, Matrix3f norms, Matrix4f pos, int argb, int overlayUV, int lightmapUV, VertexConsumer buffer)
     {
-        final PoseStack.Pose matrixstack$entry = mat.last();
-        final Matrix4f pos = matrixstack$entry.pose();
-        final Vector4f dp = this.dummy4;
+        // Hopefully the JIT sees what goes on here and optimises it...
+        for(int i = 0; i<vertices.length; i++)
+        {
+            // Compute transformed normal
+            normals[i].mul(norms, dn);
+            // Then the vertex
+            dp.set(vertices[i], 1);
+            dp.mul(pos);
+            // Then the texture
+            texdR.fma(textureCoordinates[i], texdS, texUV);
+            // We use the default mob format, since that is what mobs use.
+            // This means we need these in this order!
+            buffer.addVertex(
+                    //@formatter:off
+                    dp.x, dp.y, dp.z,
+                    argb,
+                    texUV.x, texUV.y,
+                    overlayUV, lightmapUV,
+                    dn.x, dn.y, dn.z);
+            //@formatter:on
+        }
+    }
 
+    public void renderShape(final PoseStack mat, VertexConsumer buffer, final IPartTexturer texturer)
+    {
+        var pose = mat.last();
+        // Check culling
         if (modelCullThreshold > 0)
         {
+            Matrix4f pos = pose.pose();
             float a = windowScale;
             float s = len * cullScale;
 
@@ -245,6 +267,43 @@ public class Mesh
             if (size_cull) return;
         }
 
+        // Apply Texturing.
+        if (texturer != null)
+        {
+            texturer.shiftUVs(this.material.name, this.uvShift);
+            if (texturer.isHidden(this.material.name)) return;
+            if (!same_mat && texturer.isHidden(this.name)) return;
+            texturer.modifiyRGBA(this.material.name, material.rgbabro);
+            if (!same_mat) texturer.modifiyRGBA(this.name, material.rgbabro);
+        }
+
+        // Apply material effects
+        if (this.material.emissiveMagnitude > 0)
+        {
+            final int j = (int) (this.material.emissiveMagnitude * 15);
+            material.rgbabro[4] = j << 20 | j << 4;
+        }
+
+        float du = (float) this.uvShift[0], dv = (float) this.uvShift[1];
+        float su = 1, sv = 1;
+
+        if (this.material.getTexture() != null)
+        {
+            float[] ouv = this.material.getTexture().getTexOffset();
+            float[] suv = this.material.getTexture().getTexScale();
+            du += ouv[0];
+            dv += ouv[1];
+
+            su *= suv[0];
+            sv *= suv[1];
+        }
+        texdR.set(du, dv);
+        texdS.set(su, sv);
+
+        // Find buffer to render to
+        buffer = this.material.preRender(mat, buffer, this.vertexMode);
+
+        // Update colouring as needed
         int red = material.rgbabro[0];
         int green = material.rgbabro[1];
         int blue = material.rgbabro[2];
@@ -265,118 +324,10 @@ public class Mesh
 
         final boolean flat = this.material.flat;
         Vertex[] normals = flat ? this.normalList : this.normals;
-        final Vector3f dn = this.dummy3;
-        final Matrix3f norms = matrixstack$entry.normal();
-
-        Vertex vertex;
-
-        float du = (float) this.uvShift[0];
-        float dv = (float) this.uvShift[1];
-        float su = 1;
-        float sv = 1;
-
-        if (this.material.getTexture() != null)
-        {
-            float[] ouv = this.material.getTexture().getTexOffset();
-            float[] suv = this.material.getTexture().getTexScale();
-            du += ouv[0];
-            dv += ouv[1];
-
-            su *= suv[0];
-            sv *= suv[1];
-        }
-        texdR.set(du, dv);
-        texdS.set(su, sv);
-
-        if (this.renderScale != 1)
-        {
-            float x, y, z;
-            float dx = (max.x - min.x) / 2;
-            float mx = min.x + dx;
-
-            float dy = (max.y - min.y) / 2;
-            float my = min.y + dy;
-
-            float dz = (max.z - min.z) / 2;
-            float mz = min.z + dz;
-
-            // This loop is copied here vs below for performance reasons, we
-            // can't guarentee compiler flags are set properly.
-            for(int i = 0; i<this.vertices.length; i++)
-            {
-                // Next we can pull out the coordinates if not culled.
-                vertex = this.vertices[i];
-
-                verts++;
-
-                // Normals first, as they define culling.=
-                normals[i].mul(norms, dn);
-
-                x = Math.fma(this.renderScale, (vertex.x - mx), mx);
-                y = Math.fma(this.renderScale, (vertex.y - my), my);
-                z = Math.fma(this.renderScale, (vertex.z - mz), mz);
-
-                dp.set(x, y, z, 1);
-                dp.mul(pos);
-
-                // This results in u * su + du
-                texdR.fma(this.textureCoordinates[i], texdS, texUV);
-
-                // We use the default mob format, since that is what mobs use.
-                // This means we need these in this order!
-                buffer.addVertex(
-                //@formatter:off
-                    dp.x, dp.y, dp.z,
-                    argb,
-                    texUV.x, texUV.y,
-                    overlayUV, lightmapUV,
-                    dn.x, dn.y, dn.z);
-                //@formatter:on
-            }
-        }
-        else for(int i = 0; i<this.vertices.length; i++)
-        {
-            verts++;
-            // Normals first, as they define culling.
-            normals[i].mul(norms, dn);
-            // Then the vertex
-            dp.set(this.vertices[i], 1);
-            dp.mul(pos);
-
-            // This results in u * su + du
-            texdR.fma(this.textureCoordinates[i], texdS, texUV);
-
-            // We use the default mob format, since that is what mobs use.
-            // This means we need these in this order!
-            buffer.addVertex(
-            //@formatter:off
-                dp.x, dp.y, dp.z,
-                argb,
-                texUV.x, texUV.y,
-                overlayUV, lightmapUV,
-                dn.x, dn.y, dn.z);
-            //@formatter:on
-        }
-    }
-
-    public void renderShape(final PoseStack mat, VertexConsumer buffer, final IPartTexturer texturer)
-    {
-        // Apply Texturing.
-        if (texturer != null)
-        {
-            texturer.shiftUVs(this.material.name, this.uvShift);
-            if (texturer.isHidden(this.material.name)) return;
-            if (!same_mat && texturer.isHidden(this.name)) return;
-            texturer.modifiyRGBA(this.material.name, material.rgbabro);
-            if (!same_mat) texturer.modifiyRGBA(this.name, material.rgbabro);
-        }
-        if (this.material.emissiveMagnitude > 0)
-        {
-            final int j = (int) (this.material.emissiveMagnitude * 15);
-            material.rgbabro[4] = j << 20 | j << 4;
-        }
-        buffer = this.material.preRender(mat, buffer, this.vertexMode);
-        this.doRender(mat, buffer);
+        final Matrix3f norms = pose.normal();
+        final Matrix4f pos = pose.pose();
+        // Finally render
+        doRender(normals, norms, pos, argb, overlayUV, lightmapUV, buffer);
     }
 
     public void setMaterial(final Material material)

@@ -266,46 +266,50 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
                 addChildrenToOrder(part);
             }
         }
-
         for (var part : animOrder)
-            this.updatePart(entity, renderer, playingAnims, currentPhase, partialTicks, part, holder, limbSwing);
+            this.updatePart(entity,playingAnims, partialTicks, part, holder, limbSwing);
     }
 
-    private void updatePart(final Entity entity, final IModelRenderer<?> renderer, List<Animation> anims,
-            final String currentPhase, final float partialTick, final IExtendedModelPart part, IAnimationHolder holder,
+    private void updatePart(final Entity entity, List<Animation> anims,
+            final float partialTick, final IExtendedModelPart part, IAnimationHolder holder,
             final float limbSwing)
     {
+        // Reset to starting position
         part.resetToInit();
-        if(!part.isAnimated()) return;
-
-        boolean anim = !anims.isEmpty();
-        if (anim) AnimationHelper.doAnimation(anims, holder, entity, part, partialTick, limbSwing);
-        if (part.isHeadPart())
+        // If animated, compute adjustments
+        if(part.isAnimated())
         {
-            HeadInfo info = holder.getHeadInfo();
-            float ang;
-            float ang2 = -info.headPitch;
-            float head = info.headYaw + 180;
-            float diff;
-            diff = head % 360;
-            diff = (diff + 360) % 360;
-            diff = (diff - 180) % 360;
-            diff = Math.max(diff, info.yawCapMin);
-            diff = Math.min(diff, info.yawCapMax);
-            ang = diff;
-            ang2 = Math.max(ang2, info.pitchCapMin);
-            ang2 = Math.min(ang2, info.pitchCapMax);
-            Vector4 dir;
-            if (info.yawAxis == 0) dir = new Vector4(info.yawDirection, 0, 0, ang);
-            else if (info.yawAxis == 2) dir = new Vector4(0, 0, info.yawDirection, ang);
-            else dir = new Vector4(0, info.yawDirection, 0, ang);
-            Vector4 dir2;
-            if (info.pitchAxis == 2) dir2 = new Vector4(0, 0, info.pitchDirection, ang2);
-            else if (info.pitchAxis == 1) dir2 = new Vector4(0, info.pitchDirection, 0, ang2);
-            else dir2 = new Vector4(info.pitchDirection, 0, 0, ang2);
-            final Vector4 combined = new Vector4();
-            combined.mul(dir.toQuaternion(), dir2.toQuaternion());
-            part.setPostRotations(combined);
+            boolean anim = !anims.isEmpty();
+            // This computes transform for us from animations
+            if (anim) AnimationHelper.doAnimation(anims, holder, entity, part, partialTick, limbSwing);
+            // This computes head rotation
+            if (part.isHeadPart())
+            {
+                HeadInfo info = holder.getHeadInfo();
+                float ang;
+                float ang2 = -info.headPitch;
+                float head = info.headYaw + 180;
+                float diff;
+                diff = head % 360;
+                diff = (diff + 360) % 360;
+                diff = (diff - 180) % 360;
+                diff = Math.max(diff, info.yawCapMin);
+                diff = Math.min(diff, info.yawCapMax);
+                ang = diff;
+                ang2 = Math.max(ang2, info.pitchCapMin);
+                ang2 = Math.min(ang2, info.pitchCapMax);
+                Vector4 dir;
+                if (info.yawAxis == 0) dir = new Vector4(info.yawDirection, 0, 0, ang);
+                else if (info.yawAxis == 2) dir = new Vector4(0, 0, info.yawDirection, ang);
+                else dir = new Vector4(0, info.yawDirection, 0, ang);
+                Vector4 dir2;
+                if (info.pitchAxis == 2) dir2 = new Vector4(0, 0, info.pitchDirection, ang2);
+                else if (info.pitchAxis == 1) dir2 = new Vector4(0, info.pitchDirection, 0, ang2);
+                else dir2 = new Vector4(info.pitchDirection, 0, 0, ang2);
+                final Vector4 combined = new Vector4();
+                combined.mul(dir.toQuaternion(), dir2.toQuaternion());
+                part.setPostRotations(combined);
+            }
         }
     }
 
