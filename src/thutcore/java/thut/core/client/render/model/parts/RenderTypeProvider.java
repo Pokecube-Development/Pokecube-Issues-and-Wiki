@@ -19,6 +19,7 @@ public interface RenderTypeProvider
     public static RenderTypeProvider NORMAL = (material, tex, mode) -> {
         material.tex = tex;
         String key = tex.toString() + mode;
+        if (material.types.containsKey(key)) return material.types.get(key);
         TextureManager texturemanager = Minecraft.getInstance().getTextureManager();
         var tex_obj = texturemanager.getTexture(tex, null);
         if (tex_obj instanceof BaseTexture baseTex)
@@ -30,7 +31,6 @@ public interface RenderTypeProvider
             material.texture_object = TextureFactory.create(texturemanager, tex, material.expectedTexH,
                     material.expectedTexW);
         }
-        if (material.types.containsKey(key)) return material.types.get(key);
         if (material.render_name.contains("water_mask_"))
         {
             material.cull = false;
