@@ -468,7 +468,6 @@ public class TypeTrainer extends NpcType
 
     public static void postInitTrainers()
     {
-        TradeEntryLoader.makeEntries();
         final List<TypeTrainer> toRemove = new ArrayList<>();
         for (final TypeTrainer t : TypeTrainer.typeMap.values())
         {

@@ -40,6 +40,7 @@ import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent.StartTracking;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
@@ -53,6 +54,7 @@ import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.adventures.inventory.trainer.ContainerTrainer;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.adventures.utils.DBLoader;
+import pokecube.adventures.utils.TradeEntryLoader;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -506,10 +508,16 @@ public class TrainerEventHandler
         }
     }
 
-    public static void loadTrades(final FMLLoadCompleteEvent event)
+    public static void initTrainers(final FMLLoadCompleteEvent event)
     {
         DBLoader.load();
         TypeTrainer.postInitTrainers();
+        TradeEntryLoader.makeEntries();
+    }
+
+    public static void onServerStart(ServerStartedEvent event)
+    {
+        TradeEntryLoader.postStartLoadTrades();
     }
 
     public static void captureAttempt(final CaptureEvent.Pre event)

@@ -231,6 +231,8 @@ public class TradeEntryLoader
         return false;
     }
 
+    private static TradeDatabase DATABASE;
+
     public static TradeDatabase loadDatabase()
     {
         final TradeDatabase full = new TradeDatabase();
@@ -273,12 +275,13 @@ public class TradeEntryLoader
         return full;
     }
 
-    public static void makeEntries()
+    /**
+     * Load tag based trades that require data loaded first
+     */
+    public static void postStartLoadTrades()
     {
-        final TradeDatabase database = TradeEntryLoader.loadDatabase();
-        Professions.clear();
         NpcType.TRADE_MAP.clear();
-        for (final TradeEntry entry : database.trades)
+        for (final TradeEntry entry : DATABASE.trades)
         {
             final TrainerTrades trades = new TrainerTrades();
             processTrades(trades, entry.trades);
@@ -289,7 +292,13 @@ public class TradeEntryLoader
             }
             TypeTrainer.tradesMap.put(entry.template, trades);
         }
-        for (ProfessionEntry entry : database.professions)
+    }
+
+    public static void makeEntries()
+    {
+        DATABASE = TradeEntryLoader.loadDatabase();
+        Professions.clear();
+        for (ProfessionEntry entry : DATABASE.professions)
         {
             for (final ProfiessionStage stage : entry.stages)
             {
