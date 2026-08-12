@@ -10,7 +10,6 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import pokecube.core.PokecubeCore;
-import pokecube.world.dimension.SecretBaseDimension;
 import pokecube.world.gen.features.FeaturesInit;
 import pokecube.world.gen.features.trees.foliage.FoliagePlacerTypes;
 import pokecube.world.gen.features.trees.trunks.TrunkPlacerTypes;
@@ -51,7 +50,6 @@ public class PokecubeWorld
         TRUNK_PLACERS.register(bus);
 
         PokecubeStructureProcessors.init(bus);
-        SecretBaseDimension.onConstruct(bus);
         FeaturesInit.init(bus);
         PokecubeStructures.init(bus);
         FoliagePlacerTypes.init();

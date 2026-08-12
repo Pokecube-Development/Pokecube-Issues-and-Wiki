@@ -1239,8 +1239,7 @@ public class LegendsCreativeTabs {
             addAfter(event, PokecubeAdv.COMMANDER.get(), PokecubeAdv.DAYCARE.get());
 
             addAfter(event, PokecubeAdv.DAYCARE.get(), PokecubeItems.NEST.get());
-            addAfter(event, PokecubeItems.NEST.get(), PokecubeItems.SECRET_BASE.get());
-            addAfter(event, PokecubeItems.SECRET_BASE.get(), PokecubeItems.REPEL.get());
+            addAfter(event, PokecubeItems.NEST.get(), PokecubeItems.REPEL.get());
         }
 
         if (event.getTab().equals(BERRIES_TAB.get()))

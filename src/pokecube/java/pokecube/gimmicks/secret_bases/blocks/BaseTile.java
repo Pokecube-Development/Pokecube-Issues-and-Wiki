@@ -1,4 +1,4 @@
-package pokecube.core.blocks.bases;
+package pokecube.gimmicks.secret_bases.blocks;
 
 import java.util.UUID;
 
@@ -10,7 +10,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
@@ -19,17 +18,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import pokecube.api.PokecubeAPI;
-import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
-import pokecube.core.commands.SecretBase;
+import pokecube.gimmicks.secret_bases.SecretBases;
+import pokecube.gimmicks.secret_bases.command.SecretBase;
 import pokecube.mobs.moves.world.ActionSecretPower;
-import pokecube.world.dimension.SecretBaseDimension;
+import pokecube.gimmicks.secret_bases.dimension.SecretBaseDimension;
 import thut.api.ThutCaps;
-import thut.api.attachments.Ownable;
 import thut.api.block.IOwnableTE;
-import thut.api.data.HolderProvider;
 import thut.lib.TComponent;
 
 /**
@@ -48,7 +44,7 @@ public class BaseTile extends InteractableTile
 
     public BaseTile(final BlockPos pos, final BlockState state)
     {
-        super(PokecubeItems.BASE_TYPE.get(), pos, state);
+        super(SecretBases.BASE_TYPE.get(), pos, state);
     }
 
     @Override

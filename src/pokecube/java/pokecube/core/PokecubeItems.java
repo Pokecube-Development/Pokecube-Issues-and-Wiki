@@ -40,7 +40,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -58,8 +57,6 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.items.IPokecube;
 import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.utils.Tools;
-import pokecube.core.blocks.bases.BaseBlock;
-import pokecube.core.blocks.bases.BaseTile;
 import pokecube.core.blocks.healer.HealerBlock;
 import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.blocks.maxspot.MaxBlock;
@@ -126,12 +123,10 @@ public class PokecubeItems extends ItemList
     public static final DeferredBlock<Block> PC_BASE;
     public static final DeferredBlock<Block> PC_TOP;
     public static final DeferredBlock<Block> REPEL;
-    public static final DeferredBlock<Block> SECRET_BASE;
     public static final DeferredBlock<Block> TM_MACHINE;
     public static final DeferredBlock<Block> TRADER;
 
     // Tile Entities
-    public static final Supplier<BlockEntityType<?>> BASE_TYPE;
     public static final Supplier<BlockEntityType<?>> HEALER_TYPE;
     public static final Supplier<BlockEntityType<?>> MAX_TYPE;
     public static final Supplier<BlockEntityType<NestTile>> NEST_TYPE;
@@ -155,6 +150,8 @@ public class PokecubeItems extends ItemList
      * reanimate to.
      */
     public static HashMap<ItemStack, PokedexEntry> fossils = new HashMap<>();
+
+    public static Set<Class<?>> DEFAULT_OWNABLE_TE = new HashSet<>();
 
     private static Set<ResourceLocation> errored = Sets.newHashSet();
 
@@ -188,11 +185,6 @@ public class PokecubeItems extends ItemList
                 () -> new NestBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).ignitedByLava()
                         .strength(0.5F).isValidSpawn(PokecubeItems::ocelotOrParrot).sound(SoundType.MANGROVE_ROOTS)
                         .instrument(NoteBlockInstrument.HARP).pushReaction(PushReaction.NORMAL)));
-        SECRET_BASE = PokecubeCore.BLOCKS
-                .register("secret_base",
-                        () -> new BaseBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
-                                .requiresCorrectToolForDrops().strength(2000).sound(SoundType.STONE)
-                                .instrument(NoteBlockInstrument.BASEDRUM)));
         REPEL = PokecubeCore.BLOCKS.register("repel",
                 () -> new RepelBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
                         .requiresCorrectToolForDrops().ignitedByLava().isValidSpawn(PokecubeItems::never)
@@ -218,8 +210,6 @@ public class PokecubeItems extends ItemList
                         .sound(SoundType.AMETHYST_CLUSTER)));
 
         // Tile Entity Types
-        BASE_TYPE = PokecubeCore.TILES.register("secret_base",
-                () -> BlockEntityType.Builder.of(BaseTile::new, PokecubeItems.SECRET_BASE.get()).build(null));
         MAX_TYPE = PokecubeCore.TILES.register("dynamax",
                 () -> BlockEntityType.Builder.of(MaxTile::new, PokecubeItems.DYNAMAX.get()).build(null));
         NEST_TYPE = PokecubeCore.TILES.register("nest",
@@ -241,8 +231,7 @@ public class PokecubeItems extends ItemList
         BARREL_MENU = PokecubeCore.MENU.register("barrel_menu",
                 () -> new MenuType<>(GenericBarrelMenu::threeRows, FeatureFlagSet.of()));
 
-        Set<Class<?>> DEFAULT_OWNABLE_TE = new HashSet<>();
-        DEFAULT_OWNABLE_TE.add(BaseTile.class);
+
         DEFAULT_OWNABLE_TE.add(HealerTile.class);
         DEFAULT_OWNABLE_TE.add(PCTile.class);
         DEFAULT_OWNABLE_TE.add(TraderTile.class);

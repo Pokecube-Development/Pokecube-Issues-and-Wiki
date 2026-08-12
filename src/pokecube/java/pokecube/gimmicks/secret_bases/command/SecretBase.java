@@ -1,4 +1,4 @@
-package pokecube.core.commands;
+package pokecube.gimmicks.secret_bases.command;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -23,9 +23,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
-import pokecube.core.blocks.bases.BaseTile;
-import pokecube.world.dimension.SecretBaseDimension;
+import pokecube.gimmicks.secret_bases.SecretBases;
+import pokecube.gimmicks.secret_bases.blocks.BaseTile;
+import pokecube.gimmicks.secret_bases.dimension.SecretBaseDimension;
 import thut.api.attachments.Ownable;
 import thut.api.block.IOwnableTE;
 import thut.api.entity.teleporting.TeleDest;
@@ -98,7 +98,7 @@ public class SecretBase
             {
                 final BlockPos base_pos = new BlockPos((int) input.x, (int) input.y, (int) input.z);
                 final BlockState original = pos.getBlockState(player.level());
-                pos.setBlock(player.level(), PokecubeItems.SECRET_BASE.get().defaultBlockState());
+                pos.setBlock(player.level(), SecretBases.SECRET_BASE.get().defaultBlockState());
                 if (player.level().getBlockEntity(pos.getPos()) instanceof BaseTile tile)
                 {
                     final IOwnableTE ownable = (IOwnableTE) tile.getData(Ownable.TYPE);

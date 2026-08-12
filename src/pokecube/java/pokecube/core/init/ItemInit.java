@@ -69,7 +69,6 @@ public class ItemInit
         Ownable.TILES.add(PokecubeItems.TM_TYPE.get());
         Ownable.TILES.add(PokecubeItems.PC_TYPE.get());
         Ownable.TILES.add(PokecubeItems.HEALER_TYPE.get());
-        Ownable.TILES.add(PokecubeItems.BASE_TYPE.get());
 
         PokecubeItems.POKECUBE_BLOCKS = new ItemStack(PokecubeItems.HEALER.get());
     }

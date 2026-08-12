@@ -1,4 +1,4 @@
-package pokecube.world.dimension;
+package pokecube.gimmicks.secret_bases.dimension;
 
 import com.google.common.collect.Lists;
 import com.mojang.serialization.MapCodec;
