@@ -470,10 +470,12 @@ public class JsonPokedexEntry
             if (base == null) PokecubeAPI.LOGGER.error("Error with base form {} for {}", this.base_form, entry);
             else entry.setBaseForme(base);
         }
+        // First the main list, incase successive ones require them,
+        if (this.models != null) PokedexEntryLoader.initFormeModels(entry, this.models);
+        // Then the primary model and gender models
         if (this.model != null) PokedexEntryLoader.initFormeModel(entry, model);
         if (this.female_model != null) PokedexEntryLoader.initFormeModel(entry, female_model);
         if (this.male_model != null) PokedexEntryLoader.initFormeModel(entry, male_model);
-        if (this.models != null) PokedexEntryLoader.initFormeModels(entry, this.models);
 
         // If it had gendered models, mark them accordingly so they get updated
         entry.setGenderedForm(male_model, IPokemob.MALE);
