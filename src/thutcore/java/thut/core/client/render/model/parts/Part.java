@@ -162,25 +162,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
             }
             for (var pair : allShapes.entrySet())
             {
-                var meshs = pair.getValue();
-                if (meshs.isEmpty()) continue;
-                Mesh mesh;
-                if (meshs.size() > 1)
-                {
-                    mesh = Mesh.merge(meshs.toArray(new Mesh[0]));
-                }
-                else
-                {
-                    mesh = meshs.getFirst();
-                }
-                if (mesh != null)
-                {
-                    renderShapes.add(mesh);
-                }
-                else
-                {
-                    renderShapes.addAll(meshs);
-                }
+                renderShapes.addAll(pair.getValue());
             }
         }
     }

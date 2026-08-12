@@ -2,7 +2,9 @@ package thut.core.client.render.model.parts;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 import org.jetbrains.annotations.NotNull;
@@ -30,31 +32,41 @@ public class Mesh implements Comparable<Mesh>
     public static float windowScale = 1;
     public static double modelCullThreshold = 0;
 
-    public static Mesh merge(Mesh... meshs)
+    public static List<Mesh> merge(List<Mesh> meshs)
     {
-        if(meshs.length==0) return null;
-        var first = meshs[0];
-        if(!Arrays.stream(meshs).allMatch(mesh -> mesh.GL_FORMAT==first.GL_FORMAT)) return null;
-        List<Vertex> verts = new ArrayList<>();
-        List<Vertex> norms = new ArrayList<>();
-        List<Vertex> normsList = new ArrayList<>();
-        List<Vector2f> texs = new ArrayList<>();
-        float len = 0;
-        for(var mesh:meshs)
-        {
-            verts.addAll(Arrays.stream(mesh.vertices).toList());
-            norms.addAll(Arrays.stream(mesh.normals).toList());
-            normsList.addAll(Arrays.stream(mesh.normalList).toList());
-            texs.addAll(Arrays.stream(mesh.textureCoordinates).toList());
-            // TODO see if we need to recompute this better?
-            len = Math.max(len, mesh.len);
-        }
-        var mesh = new Mesh(verts.toArray(new Vertex[0]),
-                norms.toArray(new Vertex[0]),normsList.toArray(new Vertex[0]),
-                texs.toArray(new Vector2f[0]), first.GL_FORMAT,len, first.material);
-        mesh.poseInfo = first.poseInfo;
-        mesh.texChangeHolder = first.texChangeHolder;
-        return mesh;
+        if (meshs.size() < 2) return meshs;
+        Map<Integer, List<Mesh>> byFMT = new HashMap<>();
+        meshs.forEach(mesh->byFMT.computeIfAbsent(mesh.GL_FORMAT, i->new ArrayList<>()).add(mesh));
+        List<Mesh> retList = new ArrayList<>();
+        byFMT.forEach((format, list)->{
+            var first = list.getFirst();
+            if(list.size() == 1)
+            {
+                retList.add(first);
+                return;
+            }
+            List<Vertex> verts = new ArrayList<>();
+            List<Vertex> norms = new ArrayList<>();
+            List<Vertex> normsList = new ArrayList<>();
+            List<Vector2f> texs = new ArrayList<>();
+            float len = 0;
+            for(var mesh : list)
+            {
+                verts.addAll(Arrays.stream(mesh.vertices).toList());
+                norms.addAll(Arrays.stream(mesh.normals).toList());
+                normsList.addAll(Arrays.stream(mesh.normalList).toList());
+                texs.addAll(Arrays.stream(mesh.textureCoordinates).toList());
+                // TODO see if we need to recompute this better?
+                len = Math.max(len, mesh.len);
+            }
+            var mesh = new Mesh(verts.toArray(new Vertex[0]),
+                    norms.toArray(new Vertex[0]),normsList.toArray(new Vertex[0]),
+                    texs.toArray(new Vector2f[0]), format, len, first.material);
+            mesh.poseInfo = first.poseInfo;
+            mesh.texChangeHolder = first.texChangeHolder;
+            retList.add(mesh);
+        });
+        return retList;
     }
 
     public final Vertex[] vertices;
