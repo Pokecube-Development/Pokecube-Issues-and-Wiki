@@ -34,7 +34,7 @@ public class EatRock extends EatBlockBase
 
     static
     {
-        toCobble.add(new CobbleConversion(ResourceLocation.fromNamespaceAndPath("forge", "netherrack"), Blocks.NETHERRACK::defaultBlockState));
+        toCobble.add(new CobbleConversion(ResourceLocation.fromNamespaceAndPath("c", "netherracks"), Blocks.NETHERRACK::defaultBlockState));
         toCobble.add(new CobbleConversion(ResourceLocation.fromNamespaceAndPath("minecraft", "calcite"), Blocks.DIORITE::defaultBlockState));
         toCobble.add(new CobbleConversion(ResourceLocation.fromNamespaceAndPath("minecraft", "smooth_basalt"), Blocks.BASALT::defaultBlockState));
         toCobble.add(new CobbleConversion(ResourceLocation.fromNamespaceAndPath("pokecube_legends", "meteor_cosmic_ore"), Blocks.TUFF::defaultBlockState));
@@ -43,17 +43,17 @@ public class EatRock extends EatBlockBase
         toCobble.add(new CobbleConversion(ResourceLocation.fromNamespaceAndPath("minecraft", "raw_iron_block"), Blocks.IRON_ORE::defaultBlockState));
         toCobble.add(new CobbleConversion(ResourceLocation.fromNamespaceAndPath("minecraft", "raw_gold_block"), Blocks.GOLD_ORE::defaultBlockState));
         toCobble.add(new CobbleConversion(ResourceLocation.fromNamespaceAndPath("minecraft", "raw_copper_block"), Blocks.COPPER_ORE::defaultBlockState));
-        toCobble.add(new CobbleConversion(ResourceLocation.fromNamespaceAndPath("minecraft", "sandstone"), Blocks.SAND::defaultBlockState));
+        toCobble.add(new CobbleConversion(ResourceLocation.fromNamespaceAndPath("c", "sandstone"), Blocks.SAND::defaultBlockState));
         toCobble.add(new CobbleConversion(ResourceLocation.fromNamespaceAndPath("minecraft", "base_stone_nether"), Blocks.NETHERRACK::defaultBlockState));
-        toCobble.add(new CobbleConversion(ResourceLocation.fromNamespaceAndPath("forge", "ores_in_ground/deepslate"), Blocks.COBBLED_DEEPSLATE::defaultBlockState));
-        toCobble.add(new CobbleConversion(ResourceLocation.fromNamespaceAndPath("forge", "ores"), Blocks.COBBLESTONE::defaultBlockState));
+        toCobble.add(new CobbleConversion(ResourceLocation.fromNamespaceAndPath("c", "ores_in_ground/deepslate"), Blocks.COBBLED_DEEPSLATE::defaultBlockState));
+        toCobble.add(new CobbleConversion(ResourceLocation.fromNamespaceAndPath("c", "cobblestones"), Blocks.COBBLESTONE::defaultBlockState));
     }
 
-    private static final ResourceLocation ORE = ResourceLocation.fromNamespaceAndPath("forge", "ores_in_ground/stone");
+    private static final ResourceLocation ORE = ResourceLocation.fromNamespaceAndPath("c", "ores_in_ground/stone");
 
-    private static final ResourceLocation DEEPSLATE_ORE = ResourceLocation.fromNamespaceAndPath("forge", "ores_in_ground/deepslate");
+    private static final ResourceLocation DEEPSLATE_ORE = ResourceLocation.fromNamespaceAndPath("c", "ores_in_ground/deepslate");
 
-    private static final ResourceLocation NETHER_ORE = ResourceLocation.fromNamespaceAndPath("forge", "ores_in_ground/netherrack");
+    private static final ResourceLocation NETHER_ORE = ResourceLocation.fromNamespaceAndPath("c", "ores_in_ground/netherrack");
 
     private static final Predicate<BlockState> checker = PokecubeTerrainChecker::isRock;
 

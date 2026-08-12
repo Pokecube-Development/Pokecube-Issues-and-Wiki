@@ -14,6 +14,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.pokedex.conditions.Condition;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeItems;
@@ -42,12 +43,21 @@ public class ItemMoveLearn implements MegaCondition
         boolean correct_offhand = ItemStack.isSameItem(mobIn.getEntity().getOffhandItem(), _value_offhand);
         if (correct_mainhand && correct_offhand)
         {
+            ItemStack heldItem = mobIn.getHeldItem();
+            ItemStack offhandItem = mobIn.getEntity().getOffhandItem();
             ItemStack learntMoveTM = new ItemStack(PokecubeItems.TM.get());
+
             ItemTM.addMoveToStack(learntMoveTM, _moveLearnt.getName());
             if (ItemTM.feedToPokemob(learntMoveTM, mobIn.getEntity())) {
-                mobIn.setHeldItem(ItemStack.EMPTY);
-                mobIn.getEntity().setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
+
+               if (heldItem.getCount() > 1) heldItem.grow(-1);
+               else mobIn.setHeldItem(ItemStack.EMPTY);
+
+                if (offhandItem.getCount() > 1) offhandItem.grow(-1);
+                else mobIn.getEntity().setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
             }
+            else
+                PokecubeAPI.logInfo(_moveLearnt.getName() + " was not taught to " + mobIn.getDisplayName().getString() + " although the conditions were met");
         }
 
         return true; // Always returns true to allow the mega to commence.
