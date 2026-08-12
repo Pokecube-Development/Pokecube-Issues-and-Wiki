@@ -136,7 +136,6 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
             alpha = this.tmp[3];
         }
         parent.setRGBABrO(red, green, blue, alpha, brightness, overlay);
-        for (var part : parent.getPartsList()) this.initColours(part, entity, poke, brightness, overlay);
     }
 
     @Override
@@ -165,17 +164,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         excluded.clear();
         final IMobColourable poke = ThutCaps.getColourable(entityIn);
         for (var part : this.getModel().getPartsList())
-        {
-            if (part.isHidden())
-            {
-                excluded.add(part.getName());
-                excluded.addAll(part.getRecursiveChildNames());
-            }
-            if (part.getParent() == null)
-            {
-                this.initColours(part, this.entityIn, poke, packedLightIn, packedOverlayIn);
-            }
-        }
+            if(!part.isHidden()) this.initColours(part, this.entityIn, poke, packedLightIn, packedOverlayIn);
     }
 
 	@Override

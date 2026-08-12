@@ -81,7 +81,7 @@ public interface IModelCustom
 
         public void rotate(Quaternionf rotation)
         {
-            pose.rotate(rotation);
+            pose.rotateAffine(rotation);
             normal.rotate(rotation);
         }
     }
