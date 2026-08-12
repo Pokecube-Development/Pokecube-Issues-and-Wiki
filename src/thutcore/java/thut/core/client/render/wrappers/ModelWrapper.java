@@ -52,8 +52,6 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     public final IRetexturableModel.Holder<IAnimationHolder> animHolderHolder = new IRetexturableModel.Holder<>();
     public final IRetexturableModel.Holder<IPartTexturer> texChangeHolder = new IRetexturableModel.Holder<>();
 
-    final Set<String> excluded = new ObjectOpenHashSet<>(16);
-
     public ModelWrapper(final ModelHolder model, final IModelRenderer<?> renderer)
     {
         this.model = model;
@@ -161,7 +159,6 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
 
     private void preInitModel(final int packedLightIn, final int packedOverlayIn)
     {
-        excluded.clear();
         final IMobColourable poke = ThutCaps.getColourable(entityIn);
         for (var part : this.getModel().getPartsList())
             if(!part.isHidden()) this.initColours(part, this.entityIn, poke, packedLightIn, packedOverlayIn);
@@ -178,7 +175,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         this.transformGlobal(poseStack, buffer, this.renderer.getAnimation(this.entityIn), this.entityIn,
                 Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true));
         preInitModel(packedLight, packedOverlay);
-        renderModel.renderAllExcept(poseStack, buffer, excluded);
+        renderModel.render(poseStack, buffer);
         poseStack.popPose();
 	}
 

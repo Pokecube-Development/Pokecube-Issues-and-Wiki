@@ -143,7 +143,6 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 
         public String name;
         public Map<String, PartInfo> parts = new Object2ObjectOpenHashMap<>();
-        Map<String, List<Vector5>> global;
         public Map<String, List<Animation>> animations = new Object2ObjectOpenHashMap<>();
         private final List<String> toRunNames = Lists.newArrayList();
         private final List<Animation> toRun = Lists.newArrayList();
@@ -316,11 +315,10 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         }
 
         @Override
-        public void updateModel(final Map<String, List<Vector5>> global, final ModelHolder model)
+        public void updateModel(final ModelHolder model)
         {
             this.name = model.name;
             this.texture = model.texture;
-            this.global = global;
         }
 
         @Override

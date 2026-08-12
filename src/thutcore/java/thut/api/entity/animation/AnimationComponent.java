@@ -7,9 +7,9 @@ import org.nfunk.jep.JEP;
 
 public class AnimationComponent
 {
-    private static float[] unity_scale =
+    private static final float[] unity_scale =
     { 1, 1, 1 };
-    private static float[] pixel_scale =
+    private static final float[] pixel_scale =
     { 1 / 16f, 1 / 16f, 1 / 16f };
 
     public double[] posChange = new double[3];

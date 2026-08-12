@@ -31,7 +31,7 @@ public class CapabilityAnimation
 
         List<Animation> playingList = DefaultImpl.EMPTY;
         List<String> tmpTransients = new ArrayList<>();
-        Set<Animation> transients = new HashSet<>();
+        final Set<Animation> transients = new HashSet<>();
 
         /**
          * This is a map of animation uuid -> start time for the animation

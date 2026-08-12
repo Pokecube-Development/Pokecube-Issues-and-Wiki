@@ -146,14 +146,6 @@ public interface IExtendedModelPart extends IModelCustom
 
     }
 
-    Vector3 minBound();
-
-    Vector3 maxBound();
-
-    Vector4 getDefaultRotations();
-
-    Vector3 getDefaultTranslations();
-
     String getName();
 
     IExtendedModelPart getParent();

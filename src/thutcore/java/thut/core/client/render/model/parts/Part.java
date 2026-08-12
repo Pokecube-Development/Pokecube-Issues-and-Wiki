@@ -26,7 +26,6 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -72,9 +71,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
 
     public float[] colour_scales = { 1f, 1f, 1f, 1f };
 
-    Vector3 min = new Vector3();
-    Vector3 max = new Vector3();
-
     public int brightness = 15728640;
     public int overlay = 655360;
 
@@ -99,37 +95,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public Part(final String name)
     {
         this.name = name;
-    }
-
-    private void initBounds()
-    {
-        if (!(this.max.isEmpty() && this.min.isEmpty())) return;
-        for (final Mesh shape : this.shapes)
-            for (final Vertex v : shape.vertices)
-            {
-
-                this.min.x = Math.min(this.min.x, v.x);
-                this.min.y = Math.min(this.min.y, v.y);
-                this.min.z = Math.min(this.min.z, v.z);
-
-                this.max.x = Math.max(this.max.x, v.x);
-                this.max.y = Math.max(this.max.y, v.y);
-                this.max.z = Math.max(this.max.z, v.z);
-            }
-    }
-
-    @Override
-    public Vector3 minBound()
-    {
-        this.initBounds();
-        return this.min;
-    }
-
-    @Override
-    public Vector3 maxBound()
-    {
-        this.initBounds();
-        return this.max;
     }
 
     @Override
@@ -285,18 +250,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public Vector4 getDefaultRotations()
-    {
-        return this.rotations;
-    }
-
-    @Override
-    public Vector3 getDefaultTranslations()
-    {
-        return this.offset;
-    }
-
-    @Override
     public String getName()
     {
         return this.name;
@@ -350,11 +303,9 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public void render(final PoseStack mat, final VertexConsumer buffer)
     {
         if (this.isDisabled()) return;
-
+        // TODO render adders for new rendering setup
         for (var adder : this.renderAdders) adder.onRender(mat, this);
-
         this.preRender(mat);
-//
         for (final Mesh s : this.renderShapes)
         {
             s.cullScale = ds / ds2;
@@ -368,16 +319,9 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     @Override
     public void renderLegacy(final PoseStack mat, final VertexConsumer buffer)
     {
-        this.renderAllExcept(mat, buffer, Collections.emptySet());
-    }
-
-    @Override
-    public void renderAllExcept(final PoseStack mat, final VertexConsumer buffer,
-            final Collection<String> excludedGroupNames)
-    {
         boolean skip = this.isHidden();
-        if (skip || excludedGroupNames.contains(this.name)) return;
-        for (var part : this.order) part.renderAllExcept(mat, buffer, excludedGroupNames);
+        if (skip) return;
+        for (var part : this.order) part.render(mat, buffer);
         this.render(mat, buffer);
     }
 

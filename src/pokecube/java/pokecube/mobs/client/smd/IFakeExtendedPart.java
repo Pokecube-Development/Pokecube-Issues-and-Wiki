@@ -19,18 +19,6 @@ public interface IFakeExtendedPart extends IExtendedModelPart
     }
 
     @Override
-    default Vector4 getDefaultRotations()
-    {
-        return null;
-    }
-
-    @Override
-    default Vector3 getDefaultTranslations()
-    {
-        return null;
-    }
-
-    @Override
     String getName();
 
     @Override

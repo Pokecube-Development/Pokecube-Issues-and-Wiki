@@ -14,44 +14,13 @@ import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.api.maths.Vector3;
-import thut.api.maths.Vector4;
 import thut.core.client.render.texturing.IPartTexturer;
 
 public interface IModelRenderer<T extends Entity>
 {
-    public static class Vector5
-    {
-        public Vector4 rotations;
-        public int time;
-
-        public Vector5()
-        {
-            this.time = 0;
-            this.rotations = new Vector4();
-        }
-
-        public Vector5(final Vector4 rotation, final int time)
-        {
-            this.rotations = rotation;
-            this.time = time;
-        }
-
-        @Override
-        public String toString()
-        {
-            return "|r:" + this.rotations + "|t:" + this.time;
-        }
-    }
-
     public static final String DEFAULTPHASE = "idle";
 
     static final Vector3 DEFAULTSCALE = new Vector3().set(1);
-
-    default void doRender(final T entity, final double d, final double d1, final double d2, final float f,
-            final float partialTick)
-    {
-
-    }
 
     default String getAnimation(final Entity entityIn)
     {
@@ -121,5 +90,5 @@ public interface IModelRenderer<T extends Entity>
 
     void setScale(Vector3 scale);
 
-    void updateModel(Map<String, List<Vector5>> phaseList, ModelHolder model);
+    default void updateModel(ModelHolder model){}
 }

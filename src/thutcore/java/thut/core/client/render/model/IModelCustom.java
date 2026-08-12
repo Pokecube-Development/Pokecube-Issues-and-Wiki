@@ -86,22 +86,12 @@ public interface IModelCustom
         }
     }
 
-    default void addSubPart(IExtendedModelPart subPart)
-    {
-
-    }
-
     default void render(final PoseStack mat, final VertexConsumer buffer)
     {
 
     }
 
     default void renderLegacy(final PoseStack mat, final VertexConsumer buffer)
-    {
-
-    }
-
-    default void renderAllExcept(final PoseStack mat, final VertexConsumer buffer, final Collection<String> excluded)
     {
 
     }

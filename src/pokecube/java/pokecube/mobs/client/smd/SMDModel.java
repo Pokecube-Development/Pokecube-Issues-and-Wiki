@@ -158,18 +158,6 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     @Override
-    public Vector3 minBound()
-    {
-        return this.min;
-    }
-
-    @Override
-    public Vector3 maxBound()
-    {
-        return this.max;
-    }
-
-    @Override
     public IModel init(final IModelCallback callback)
     {
         if (this.loaded && this.isValid())

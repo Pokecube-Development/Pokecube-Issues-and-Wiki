@@ -413,10 +413,6 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     }
 
     @Override
-    public void updateModel(final Map<String, List<Vector5>> phaseList, final ModelHolder model)
-    {}
-
-    @Override
     public HeadInfo getHeadInfo()
     {
         return HeadInfo.DUMMY;

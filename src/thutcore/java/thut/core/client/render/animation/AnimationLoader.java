@@ -23,7 +23,6 @@ import thut.core.client.render.animation.AnimationXML.XMLFile;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
-import thut.core.client.render.model.IModelRenderer.Vector5;
 import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.model.parts.Part;
 import thut.core.client.render.texturing.IPartTexturer;
@@ -131,7 +130,6 @@ public class AnimationLoader
             final List<Animation> animations = new ArrayList<>();
             final Map<String, List<String>> mergedAnimations = new Object2ObjectOpenHashMap<>();
             final Map<String, WornOffsets> wornOffsets = new Object2ObjectOpenHashMap<>();
-            final Map<String, List<Vector5>> phaseList = new Object2ObjectOpenHashMap<>();
             List<Phase> texPhases = new ArrayList<>();
 
             meta = file.model.metadata;
@@ -300,7 +298,7 @@ public class AnimationLoader
                 // Add the animation randomiser for the sub animations
                 if (!file.model.subanim.isEmpty()) animator.addChild(new AnimationRandomizer(file.model.subanim));
 
-                renderer.updateModel(phaseList, holder);
+                renderer.updateModel(holder);
 
                 // Set the global transforms
                 renderer.setRotationOffset(offset);

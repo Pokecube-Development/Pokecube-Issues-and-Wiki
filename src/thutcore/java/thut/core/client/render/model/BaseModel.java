@@ -267,8 +267,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     }
 
     @Override
-    public void renderAllExcept(final PoseStack mat, final VertexConsumer buffer,
-            final Collection<String> excludedGroupNames)
+    public void render(final PoseStack mat, final VertexConsumer buffer)
     {
         var last = mat.last();
         Matrix4f pos = new Matrix4f();
