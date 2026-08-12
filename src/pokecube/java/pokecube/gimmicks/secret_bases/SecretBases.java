@@ -1,6 +1,8 @@
 package pokecube.gimmicks.secret_bases;
 
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -41,6 +43,8 @@ public class SecretBases
                         () -> new BaseBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
                                 .requiresCorrectToolForDrops().strength(2000).sound(SoundType.STONE)
                                 .instrument(NoteBlockInstrument.BASEDRUM)));
+        PokecubeCore.ITEMS.register(SECRET_BASE.getId().getPath(), () -> new BlockItem(SECRET_BASE.get(), new Item.Properties()));
+
         BASE_TYPE = PokecubeCore.TILES.register("secret_base",
                 () -> BlockEntityType.Builder.of(BaseTile::new, SECRET_BASE.get()).build(null));
     }

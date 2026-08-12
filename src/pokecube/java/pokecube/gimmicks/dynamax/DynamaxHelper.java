@@ -10,7 +10,9 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -68,6 +70,8 @@ public class DynamaxHelper
                 () -> new MaxBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA).strength(0.8F)
                         .requiresCorrectToolForDrops().noOcclusion().forceSolidOn().lightLevel(i -> 5)
                         .sound(SoundType.AMETHYST_CLUSTER)));
+        PokecubeCore.ITEMS.register(DYNAMAX.getId().getPath(), () -> new BlockItem(DYNAMAX.get(), new Item.Properties()));
+
         MAX_TYPE = PokecubeCore.TILES.register("dynamax",
                 () -> BlockEntityType.Builder.of(MaxTile::new, DYNAMAX.get()).build(null));
     }

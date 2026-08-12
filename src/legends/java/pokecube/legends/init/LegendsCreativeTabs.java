@@ -941,7 +941,7 @@ public class LegendsCreativeTabs {
 
         if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
-            addAfter(event, BlockInit.RAID_SPAWNER.get(), BlockInit.CRAMOMATIC_BLOCK.get());
+            add(event, BlockInit.CRAMOMATIC_BLOCK.get());
 
             addAfter(event, Items.RESPAWN_ANCHOR, BlockInit.MAGNETIC_STONE.get());
             addBefore(event, Items.LIGHTNING_ROD, BlockInit.DISTORTIC_MIRROR.get());
@@ -1218,8 +1218,8 @@ public class LegendsCreativeTabs {
             addAfter(event, PokecubeItems.getStack("pokecube:revive").getItem(), PokecubeItems.getStack("pokecube:luckyegg").getItem());
             addAfter(event, PokecubeItems.getStack("pokecube:luckyegg").getItem(), PokecubeItems.getStack("pokecube:shiny_charm").getItem());
 
-            addAfter(event, ItemInit.DISTORTIC_WATER_BUCKET.get(), DynamaxHelper.DYNAMAX.get());
-            addAfter(event, BlockInit.RAID_SPAWNER.get(), PokecubeAdv.STATUE.get());
+            addAfter(event, ItemInit.DISTORTIC_WATER_BUCKET.get(), PokecubeAdv.STATUE.get());
+            // Here is where dynamax thing was?
             addAfter(event, PokecubeAdv.STATUE.get(), PokecubeItems.HEALER.get());
             addAfter(event, PokecubeItems.HEALER.get(), PokecubeItems.PC_TOP.get());
             addAfter(event, PokecubeItems.PC_TOP.get(), PokecubeItems.PC_BASE.get());
