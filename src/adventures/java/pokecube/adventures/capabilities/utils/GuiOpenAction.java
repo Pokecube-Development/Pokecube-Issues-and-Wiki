@@ -22,17 +22,16 @@ public class GuiOpenAction extends Action
     @Override
     public boolean doAction(final ActionContext action)
     {
-        if (!(action.target instanceof ServerPlayer target)) return false;
+        if (!(action.target instanceof ServerPlayer target) || !target.isShiftKeyDown()) return false;
         final Entity holder = action.holder;
         final IHasPokemobs trainer = TrainerCaps.getHasPokemobs(holder);
         if (trainer == null) return false;
         if (!trainer.stillValid(target)) return false;
-        final ServerPlayer player = target;
         final FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer(0));
         buffer.writeInt(holder.getId());
         final SimpleMenuProvider provider = new SimpleMenuProvider((i, p, e) -> new ContainerTrainer(i, p, buffer),
                 holder.getDisplayName());
-        player.openMenu(provider, buf -> {
+        target.openMenu(provider, buf -> {
             buf.writeInt(holder.getId());
         });
         return true;

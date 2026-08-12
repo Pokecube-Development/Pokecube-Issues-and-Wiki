@@ -171,6 +171,7 @@ public class TrainerEventHandler
 
         var mobs = mob.getData(TrainerCaps.TRAINER);
         if (!(mobs instanceof DefaultPokemobs pmobs)) return;
+
         ItemStack stack = ItemStack.EMPTY;
         try
         {
@@ -183,6 +184,9 @@ public class TrainerEventHandler
         pmobs.init(mob);
         var rewards = mob.getData(TrainerCaps.REWARDS);
         if (!stack.isEmpty() && rewards.getRewards().isEmpty()) rewards.getRewards().add(new Reward(stack));
+
+        // Also init messages
+        mob.getData(TrainerCaps.MESSAGES);
 
         mob.setData(TrainerCaps.TRAINER, mobs);
 
