@@ -21,9 +21,9 @@ public class ModelHolder
 
     // These are set by the AnimationLoader for if the model is loaded without a
     // renderer
-    private Vector3 loadedOffset = null;
+    private Vector3 loadedOffset = new Vector3(0);
 
-    private Vector3 loadedScale = null;
+    private Vector3 loadedScale = new Vector3(1);
 
     public ModelHolder(final ResourceLocation model, final ResourceLocation texture, final ResourceLocation animation,
             final String name)

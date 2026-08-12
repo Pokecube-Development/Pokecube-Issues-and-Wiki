@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
@@ -17,10 +16,6 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.TextureAtlasStitchedEvent;
 import thut.api.ModelHolder;
 import thut.api.ThutCaps;
 import thut.api.entity.IAnimated.IAnimationHolder;
@@ -38,7 +33,6 @@ import thut.core.client.render.model.ModelFactory;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.client.render.texturing.TextureHelper;
-import thut.core.common.ThutCore;
 
 public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IModel
 {
@@ -142,7 +136,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
             alpha = this.tmp[3];
         }
         parent.setRGBABrO(red, green, blue, alpha, brightness, overlay);
-        for (var part : parent.getRenderOrder()) this.initColours(part, entity, poke, brightness, overlay);
+        for (var part : parent.getPartsList()) this.initColours(part, entity, poke, brightness, overlay);
     }
 
     @Override
@@ -160,7 +154,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
 
         if (texer != null) texer.bindObject(this.entityIn);
         animHolder.initHeadInfoAndMolangs(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-        for (var part : this.getModel().getRenderOrder())
+        for (var part : this.getModel().getPartsList())
         {
             if (animChanger != null) animChanger.isPartHidden(part.getName(), entityIn, false);
         }
@@ -170,7 +164,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     {
         excluded.clear();
         final IMobColourable poke = ThutCaps.getColourable(entityIn);
-        for (var part : this.getModel().getRenderOrder())
+        for (var part : this.getModel().getPartsList())
         {
             if (part.isHidden())
             {
@@ -211,7 +205,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
                 texer.bindObject(entity);
                 if (texer instanceof TextureHelper helper) default_ = helper.default_tex;
                 ResourceLocation defs = default_;
-                for (var p : this.getModel().getRenderOrder()) p.applyTexture(bufferIn, defs, texer);
+                for (var p : this.getModel().getPartsList()) p.applyTexture(bufferIn, defs, texer);
             }
             this.setEntity(entity);
         }
@@ -275,9 +269,15 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     }
 
     @Override
-    public List<IExtendedModelPart> getRenderOrder()
+    public List<IExtendedModelPart> getPartsList()
     {
-        return getModel().getRenderOrder();
+        return getModel().getPartsList();
+    }
+
+    @Override
+    public void addCustomPart(IExtendedModelPart part)
+    {
+        getModel().addCustomPart(part);
     }
 
     @Override

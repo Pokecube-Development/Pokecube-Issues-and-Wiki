@@ -1,16 +1,12 @@
 package thut.core.client.render.model.parts;
 
-import java.lang.reflect.Field;
 import java.util.Map;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
@@ -23,10 +19,11 @@ import net.minecraft.client.renderer.RenderStateShard.DepthTestStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.fml.ModList;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 import thut.core.client.render.model.parts.textures.BaseTexture;
 
-public class Material
+public class Material implements Comparable<Material>
 {
     public static final RenderStateShard.TransparencyStateShard DEFAULTTRANSP = new RenderStateShard.TransparencyStateShard(
             "material_transparency", () ->
@@ -106,6 +103,18 @@ public class Material
                 + specularColor + ", emissiveColor=" + emissiveColor + ", transluscent=" + transluscent + ", alpha="
                 + alpha + ", shininess=" + shininess + ", ambientIntensity=" + ambientIntensity + ", emissiveMagnitude="
                 + emissiveMagnitude + ", flat=" + flat + ", cull=" + cull + ", shader='" + shader + '\'' + '}';
+    }
+
+    @Override
+    public int compareTo(@NotNull Material o)
+    {
+        boolean transp1 = this.transluscent || this.alpha < 1;
+        boolean transp2 = o.transluscent || o.alpha < 1;
+        if (transp1 != transp2) return transp1 ? 1 : -1;
+        boolean emiss1 = this.emissiveMagnitude > 0;
+        boolean emiss2 = o.emissiveMagnitude > 0;
+        if (emiss1 != emiss2) return emiss1 ? 1 : -1;
+        return name.compareTo(o.name);
     }
 
     public Material(final String name, final String texture, final Vector3f diffuse, final Vector3f specular,

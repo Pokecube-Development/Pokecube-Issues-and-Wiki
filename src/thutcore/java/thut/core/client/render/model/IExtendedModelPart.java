@@ -6,7 +6,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import thut.api.entity.IAnimated.IAnimationHolder;
@@ -14,6 +13,7 @@ import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.model.parts.Material;
+import thut.core.client.render.model.parts.Mesh;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel.Holder;
 
@@ -25,6 +25,7 @@ import java.util.function.Predicate;
 
 public interface IExtendedModelPart extends IModelCustom
 {
+
     public static interface IPartRenderAdder
     {
         boolean shouldAddTo(IExtendedModelPart part);
@@ -62,6 +63,11 @@ public interface IExtendedModelPart extends IModelCustom
         });
     }
 
+    public static void sortMeshes(final List<Mesh> meshes)
+    {
+        meshes.sort(null);
+    }
+
     void addPartRenderAdder(IPartRenderAdder adder);
 
     void addChild(IExtendedModelPart child);
@@ -90,11 +96,6 @@ public interface IExtendedModelPart extends IModelCustom
             parent = parent.getParent();
         }
         for (final IExtendedModelPart o : this.getSubParts().values()) o.preProcess();
-    }
-
-    default void sort(final List<IExtendedModelPart> order)
-    {
-        IExtendedModelPart.sort(order, this.getSubParts());
     }
 
     default Entity convertToGlobal(PoseStack mat, Vector3f fill)
@@ -127,6 +128,8 @@ public interface IExtendedModelPart extends IModelCustom
         return e;
     }
 
+    List<Mesh> getRenderMeshes();
+
     /**
      * This applies transforms to mat, running back up the parent tree.
      */
@@ -157,11 +160,24 @@ public interface IExtendedModelPart extends IModelCustom
 
     <T extends IExtendedModelPart> Map<String, T> getSubParts();
 
-    List<IExtendedModelPart> getRenderOrder();
+    List<IExtendedModelPart> getPartsList();
 
     String getType();
 
+    /**
+     * Returns the part to the pre-rendered state
+     */
     void resetToInit();
+
+    /**
+     * Applies required transformations to get the part ready to render.
+     */
+    void transformForRender();
+
+    /**
+     * @return the transformed location for our rendering.
+     */
+    PoseInfo getRenderPose();
 
     default void setHeadPart(final boolean isHead)
     {

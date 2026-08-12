@@ -261,6 +261,42 @@ public class BBModelPart extends Part
     }
 
     @Override
+    public void transformForRender()
+    {
+        // First set to wherever the parent is. Parents should have had this called first.
+        if (parent != null)
+        {
+            renderPose.set(parent.getRenderPose());
+        }
+        // Now apply the transforms from preRender
+        // Translate of offset for rotation.
+        renderPose.translate(this.preTrans.x, this.preTrans.y, this.preTrans.z);
+        renderPose.scale(this.preScale.x, this.preScale.y, this.preScale.z);
+
+        // // Apply PreOffset-Rotations.
+        float rx = this.rx + rotations.x;
+        float ry = this.ry + rotations.y;
+        float rz = this.rz + rotations.z;
+
+        if (rz != 0) renderPose.rotate(Axis.YN.rotationDegrees(rz));
+        if (ry != 0) renderPose.rotate(Axis.ZP.rotationDegrees(ry));
+        if (rx != 0) renderPose.rotate(Axis.XP.rotationDegrees(rx));
+
+        // Translate by post-PreOffset amount.
+        renderPose.translate(this.postTrans.x, this.postTrans.y, this.postTrans.z);
+        // Apply postRotation
+        renderPose.rotate(postRot.toMCQ());
+        // Scale
+        renderPose.scale(this.postScale.x, this.postScale.y, this.postScale.z);
+
+        for(var m: this.renderShapes)
+        {
+            m.hidden = this.isHidden() || this.isDisabled();
+            m.poseInfo.set(this.renderPose);
+        }
+    }
+
+    @Override
     public String getType()
     {
         return "json";

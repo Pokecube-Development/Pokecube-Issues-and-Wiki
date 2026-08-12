@@ -36,6 +36,7 @@ import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelCustom;
 import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.model.parts.Material;
+import thut.core.client.render.model.parts.Mesh;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.common.ThutCore;
@@ -231,6 +232,18 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     @Override
+    public void transformForRender()
+    {
+        // TODO
+    }
+
+    @Override
+    public PoseInfo getRenderPose()
+    {
+        return null;
+    }
+
+    @Override
     public boolean isValid()
     {
         return this.valid;
@@ -352,6 +365,13 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     @Override
+    public List<Mesh> getRenderMeshes()
+    {
+        Thread.dumpStack();
+        return List.of();
+    }
+
+    @Override
     public void setRGBABrO(Predicate<Material> material, final int r, final int g, final int b, final int a,
             final int br, final int o)
     {
@@ -399,7 +419,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     @Override
-    public List<IExtendedModelPart> getRenderOrder()
+    public List<IExtendedModelPart> getPartsList()
     {
         // TODO see what we need to do for this for wearables support later.
         return this.order;
@@ -436,7 +456,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     public void setAnimationHolder(Holder<IAnimationHolder> input)
     {
         this.animHolderHolder = input;
-        for (var part : this.getRenderOrder()) part.setAnimationHolder(input);
+        for (var part : this.getPartsList()) part.setAnimationHolder(input);
     }
 
     @Override
@@ -449,7 +469,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     public void setAnimationChanger(Holder<IAnimationChanger> input)
     {
         this.animChangeHolder = input;
-        for (var part : this.getRenderOrder()) if (part instanceof IRetexturableModel p) p.setAnimationChanger(input);
+        for (var part : this.getPartsList()) if (part instanceof IRetexturableModel p) p.setAnimationChanger(input);
     }
 
     @Override
@@ -462,7 +482,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     public void setTexturerChanger(Holder<IPartTexturer> input)
     {
         this.texChangeHolder = input;
-        for (var part : this.getRenderOrder()) if (part instanceof IRetexturableModel p) p.setTexturerChanger(input);
+        for (var part : this.getPartsList()) if (part instanceof IRetexturableModel p) p.setTexturerChanger(input);
     }
 
     @Override

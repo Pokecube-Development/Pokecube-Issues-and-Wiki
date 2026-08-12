@@ -16,6 +16,8 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
 import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
@@ -23,6 +25,7 @@ import thut.api.entity.animation.IAnimationChanger;
 import thut.api.maths.Vector4;
 import thut.core.client.render.animation.AnimationHelper;
 import thut.core.client.render.model.parts.Material;
+import thut.core.client.render.model.parts.Mesh;
 import thut.core.client.render.model.parts.Part;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
@@ -92,8 +95,9 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     IExtendedModelPart root_part = null;
     public Map<String, IExtendedModelPart> parts = new Object2ObjectOpenHashMap<>();
 
-    private final List<IExtendedModelPart> renderOrder = Lists.newArrayList();
-    private final List<IExtendedModelPart> animOrder = Lists.newArrayList();
+    private final List<IExtendedModelPart> partsList = new ArrayList<>();
+    private final List<Mesh> renderOrderMeshs = new ArrayList<>();
+    private final List<IExtendedModelPart> animOrder = new ArrayList<>();
     protected Map<String, Material> mats = new Object2ObjectOpenHashMap<>();
 
     IRetexturableModel.Holder<IAnimationChanger> animChangeHolder = new IRetexturableModel.Holder<>();
@@ -135,7 +139,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         {
             // Otherwise mark as invalid and exit
             this.valid = false;
-            if (!(e instanceof FileNotFoundException)) ThutCore.LOGGER.error("error loading " + l, e);
+            if (!(e instanceof FileNotFoundException)) ThutCore.LOGGER.error("error loading {}", l, e);
         }
 
     }
@@ -160,9 +164,13 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     public void postInit()
     {
         // Collect all materials
-        Set<Material> allMats = new HashSet<>();
-        this.getRenderOrder().forEach(e->allMats.addAll(e.getMaterials()));
-        this.updateMaterials(allMats);
+        synchronized (this.partsList)
+        {
+            Set<Material> allMats = new HashSet<>();
+            var parts = new ArrayList<>(this.getPartsList());
+            parts.forEach(e -> allMats.addAll(e.getMaterials()));
+            this.updateMaterials(allMats);
+        }
     }
 
     @Override
@@ -170,7 +178,8 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     {
         this.materials.clear();
         this.materials.addAll(materials);
-        this.getRenderOrder().forEach(p->p.updateMaterials(materials));
+        var parts = new ArrayList<>( this.getPartsList());
+        parts.forEach(p -> p.updateMaterials(materials));
     }
 
     @Override
@@ -186,24 +195,51 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     }
 
     @Override
-    public List<IExtendedModelPart> getRenderOrder()
+    public List<IExtendedModelPart> getPartsList()
     {
-        if ((this.renderOrder.isEmpty()) && this.isValid())
+        if ((this.partsList.isEmpty()) && this.isValid())
         {
-            if (this.callback != null) this.callback.run(this);
-            this.callback = null;
-            try
+            synchronized (partsList)
             {
-                IExtendedModelPart.sort(this.renderOrder, this.getParts());
+                if (this.callback != null) this.callback.run(this);
+                this.callback = null;
+                var parts = this.getParts();
+                this.partsList.addAll(parts.values());
+                synchronized (renderOrderMeshs)
+                {
+                    this.renderOrderMeshs.clear();
+                    for (var part : this.partsList)
+                    {
+                        part.preProcess();
+                        this.renderOrderMeshs.addAll(part.getRenderMeshes());
+                    }
+                    IExtendedModelPart.sortMeshes(this.renderOrderMeshs);
+                }
             }
-            catch (Exception e)
-            {
-                ThutCore.LOGGER.error("Error sorting parts for {} {}", this.last_loaded, this.name);
-                ThutCore.LOGGER.error(e);
-            }
-            for (var part : this.renderOrder) part.preProcess();
         }
-        return this.renderOrder;
+        return this.partsList;
+    }
+
+    final List<IExtendedModelPart> customParts = new ArrayList<>();
+
+    @Override
+    public void addCustomPart(IExtendedModelPart part)
+    {
+        synchronized (partsList)
+        {
+            if(this.partsList.contains(part)) return;
+            partsList.add(part);
+        }
+        synchronized (customParts)
+        {
+            if(this.customParts.contains(part)) return;
+            customParts.add(part);
+            synchronized (renderOrderMeshs)
+            {
+                part.preProcess();
+                this.getParts().put(part.getName(), part);
+            }
+        }
     }
 
     @Override
@@ -225,36 +261,40 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     }
 
     @Override
-    public void renderAll(final PoseStack mat, final VertexConsumer buffer)
+    public void renderLegacy(final PoseStack mat, final VertexConsumer buffer)
     {
-        for (var part : this.getRenderOrder()) part.render(mat, buffer);
+        for (var part : this.getPartsList()) part.render(mat, buffer);
     }
 
     @Override
     public void renderAllExcept(final PoseStack mat, final VertexConsumer buffer,
             final Collection<String> excludedGroupNames)
     {
-        for (var part : this.getRenderOrder())
-            if (!excludedGroupNames.contains(part.getName())) part.render(mat, buffer);
-    }
+        var last = mat.last();
+        Matrix4f pos = new Matrix4f();
+        Matrix3f norm = new Matrix3f();
 
-    @Override
-    public void renderOnly(final PoseStack mat, final VertexConsumer buffer, final Collection<String> groupNames)
-    {
-        for (var part : this.getRenderOrder()) part.renderOnly(mat, buffer, groupNames);
-    }
+        // Render custom parts first via legacy rendering
+        for (var part : this.customParts) part.render(mat, buffer);
 
-    @Override
-    public void renderPart(final PoseStack mat, final VertexConsumer buffer, final String partName)
-    {
-        for (var part : this.getRenderOrder()) if (part.getParent() == null) part.renderPart(mat, buffer, partName);
+        for(var m: this.renderOrderMeshs)
+        {
+            // Attempt to multiply correctly
+            last.pose().mul(m.poseInfo.pose(), pos);
+            m.poseInfo.pose().set(pos);
+
+            last.normal().mul(m.poseInfo.normal(), norm);
+            m.poseInfo.normal().set(norm);
+
+            m.renderShape(buffer);
+        }
     }
 
     @Override
     public void applyAnimation(final Entity entity, final IModelRenderer<?> renderer, final float partialTicks,
             final float limbSwing)
     {
-        if (this.getRenderOrder().isEmpty()) return;
+        if (this.getPartsList().isEmpty()) return;
         String currentPhase = renderer.getAnimation(entity);
         final IAnimationHolder holder = renderer.getAnimationHolder();
         boolean anim = renderer.getAnimations().containsKey(currentPhase);
@@ -281,7 +321,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     @Override
     public void updateAnimation(List<Animation> playingAnims, IAnimationHolder holder)
     {
-        if (this.getRenderOrder().isEmpty()) return;
+        if (this.getPartsList().isEmpty()) return;
         if (animOrder.isEmpty())
         {
             for (var part : this.getParts().values())
@@ -333,6 +373,8 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
                 part.setPostRotations(combined);
             }
         }
+        // Now apply transforms
+        part.transformForRender();
     }
 
     @Override
@@ -346,7 +388,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         }
     }
 
-    List<Material> materials = new ArrayList<>();
+    final List<Material> materials = new ArrayList<>();
 
     @Override
     public List<Material> getMaterials()
@@ -364,7 +406,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     public void setAnimationChanger(Holder<IAnimationChanger> input)
     {
         this.animChangeHolder = input;
-        for (var part : this.getRenderOrder()) if (part instanceof IRetexturableModel p) p.setAnimationChanger(input);
+        for (var part : this.getPartsList()) if (part instanceof IRetexturableModel p) p.setAnimationChanger(input);
     }
 
     @Override
@@ -377,7 +419,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     public void setTexturerChanger(Holder<IPartTexturer> input)
     {
         this.texChangeHolder = input;
-        for (var part : this.getRenderOrder()) if (part instanceof IRetexturableModel p) p.setTexturerChanger(input);
+        for (var part : this.getPartsList()) if (part instanceof IRetexturableModel p) p.setTexturerChanger(input);
     }
 
     @Override
@@ -405,7 +447,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
                 copy.put(part.getName(), part);
             }
         });
-        this.renderOrder.clear();
+        this.partsList.clear();
         this.parts = copy;
     }
 }

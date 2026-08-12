@@ -181,7 +181,7 @@ public class Util
                     part1.setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), alpha, brightness, overlay);
                     part1.setRGBABrO(notColurable, 255, 255, 255, alpha, brightness, overlay);
                 }
-                renderable.renderAll(mat, Util.makeBuilder(buff, Util.DUMMY));
+                renderable.renderLegacy(mat, Util.makeBuilder(buff, Util.DUMMY));
             }
             catch (Exception e)
             {
@@ -246,7 +246,7 @@ public class Util
             }
             else part.setRGBABrO(255, 255, 255, alpha, brightness, overlay);
         }
-        renderable.renderAll(mat, Util.makeBuilder(buff, Util.DUMMY));
+        renderable.renderLegacy(mat, Util.makeBuilder(buff, Util.DUMMY));
 
         for (var entry : toReset.entrySet())
         {

@@ -44,7 +44,12 @@ public interface IModel
 
     Map<String, IExtendedModelPart> getParts();
 
-    List<IExtendedModelPart> getRenderOrder();
+    List<IExtendedModelPart> getPartsList();
+
+    default void addCustomPart(IExtendedModelPart part)
+    {
+
+    }
 
     void setAnimationHolder(final IAnimationHolder holder);
 
@@ -59,6 +64,11 @@ public interface IModel
         // These are the parameters for models exported from blender.
         mat.mulPose(AxisAngles.MODEL_ROTATE);
         mat.translate(0, 0, dy - 1.5f);
+
+
+//        var quat = new Quaternionf().rotateXYZ((float) Math.PI / 2, 0, 0);
+//        mat.mulPose(quat);
+//        mat.translate(dx, dz+0.5f, dy - 1.5f);
     }
 
     /**

@@ -3,7 +3,9 @@ package thut.core.client.render.model.parts;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Supplier;
 
+import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
@@ -16,10 +18,12 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
 import net.minecraft.util.FastColor;
+import thut.core.client.render.model.IModelCustom;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.IPartTexturer;
+import thut.core.client.render.texturing.IRetexturableModel;
 
-public class Mesh
+public class Mesh implements Comparable<Mesh>
 {
     public static boolean debug = false;
 
@@ -29,7 +33,8 @@ public class Mesh
     public static Mesh merge(Mesh... meshs)
     {
         if(meshs.length==0) return null;
-        if(!Arrays.stream(meshs).allMatch(mesh -> mesh.GL_FORMAT==meshs[0].GL_FORMAT)) return null;
+        var first = meshs[0];
+        if(!Arrays.stream(meshs).allMatch(mesh -> mesh.GL_FORMAT==first.GL_FORMAT)) return null;
         List<Vertex> verts = new ArrayList<>();
         List<Vertex> norms = new ArrayList<>();
         List<Vertex> normsList = new ArrayList<>();
@@ -44,22 +49,28 @@ public class Mesh
             // TODO see if we need to recompute this better?
             len = Math.max(len, mesh.len);
         }
-        return new Mesh(verts.toArray(new Vertex[0]),
+        var mesh = new Mesh(verts.toArray(new Vertex[0]),
                 norms.toArray(new Vertex[0]),normsList.toArray(new Vertex[0]),
-                texs.toArray(new Vector2f[0]), meshs[0].GL_FORMAT,len, meshs[0].material);
+                texs.toArray(new Vector2f[0]), first.GL_FORMAT,len, first.material);
+        mesh.poseInfo = first.poseInfo;
+        mesh.texChangeHolder = first.texChangeHolder;
+        return mesh;
     }
 
     public final Vertex[] vertices;
     public final Vertex[] normals;
     public final Vector2f[] textureCoordinates;
 
-    Material material;
+    public Material material;
     public String name;
     public boolean overrideColour = false;
+    public boolean hidden = false;
     private final double[] uvShift =
     { 0, 0 };
     final int GL_FORMAT;
     final Vertex[] normalList;
+    public IModelCustom.PoseInfo poseInfo = new IModelCustom.PoseInfo();
+    public Supplier<IPartTexturer> texChangeHolder = new IRetexturableModel.Holder<>();
 
     public int[] rgbabro = new int[6];
 
@@ -243,13 +254,18 @@ public class Mesh
         }
     }
 
-    public void renderShape(final PoseStack mat, VertexConsumer buffer, final IPartTexturer texturer)
+    public void setPose(PoseStack mat)
     {
-        var pose = mat.last();
+        poseInfo.set(mat.last());
+    }
+
+    public void renderShape(VertexConsumer buffer)
+    {
+        if(hidden) return;
         // Check culling
         if (modelCullThreshold > 0)
         {
-            Matrix4f pos = pose.pose();
+            Matrix4f pos = poseInfo.pose();
             float a = windowScale;
             float s = len * cullScale;
 
@@ -268,6 +284,7 @@ public class Mesh
         }
 
         // Apply Texturing.
+        var texturer = texChangeHolder.get();
         if (texturer != null)
         {
             texturer.shiftUVs(this.material.name, this.uvShift);
@@ -324,8 +341,8 @@ public class Mesh
 
         final boolean flat = this.material.flat;
         Vertex[] normals = flat ? this.normalList : this.normals;
-        final Matrix3f norms = pose.normal();
-        final Matrix4f pos = pose.pose();
+        final Matrix3f norms = poseInfo.normal();
+        final Matrix4f pos = poseInfo.pose();
         // Finally render, this should be JIT Compiler friendly
         doRender(normals, norms, pos, argb, overlayUV, lightmapUV, buffer);
     }
@@ -335,5 +352,12 @@ public class Mesh
         this.material = material;
         this.name = material.name;
         same_mat = true;
+    }
+
+    @Override
+    public int compareTo(@NotNull Mesh o)
+    {
+        // Compare by material
+        return this.material.compareTo(o.material);
     }
 }

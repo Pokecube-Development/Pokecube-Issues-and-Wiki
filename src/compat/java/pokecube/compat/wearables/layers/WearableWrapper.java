@@ -280,7 +280,7 @@ public class WearableWrapper
         lastUUID = null;
     }
 
-    public static void applyWearables(final LivingEntity wearer, final IModelRenderer<?> renderer, final IModel imodel)
+    public static void applyWearables(final LivingEntity wearer, final IModelRenderer<?> renderer, final ModelWrapper<?> imodel)
     {
         // No Render invisible.
         if (wearer.getEffect(MobEffects.INVISIBILITY) != null) return;
@@ -288,7 +288,7 @@ public class WearableWrapper
         final PlayerWearables worn = ThutWearables.getWearables(wearer);
         var renderMap = worn.getRenderHolder();
 
-        WornOffsets offsets = null;
+        WornOffsets offsets;
 
         boolean debug = imodel instanceof ModelWrapper<?> wr && wr.debugMode;
 
@@ -317,18 +317,7 @@ public class WearableWrapper
                     wrapper.setOffsets(offsets);
                     wrapper.setParent(part);
                     part.addChild(wrapper);
-                    if (debug)
-                    {
-                        part.getRenderOrder().addFirst(wrapper);
-                        imodel.getParts().put(ident, wrapper);
-                        imodel.getRenderOrder().addFirst(wrapper);
-                    }
-                    else
-                    {
-                        part.getRenderOrder().add(wrapper);
-                        imodel.getParts().put(ident, wrapper);
-                        imodel.getRenderOrder().add(wrapper);
-                    }
+                    imodel.addCustomPart(wrapper);
                 }
 
                 if (wrapper.stack != stack || wrapper.mob != wearer || offsets != wrapper.offsets)
@@ -336,20 +325,10 @@ public class WearableWrapper
                     wrapper.setOffsets(offsets);
                     wrapper.stack = stack;
                     wrapper.mob = wearer;
-                    imodel.getRenderOrder().remove(wrapper);
 
-                    imodel.getParts().put(ident, wrapper);
-                    if (debug)
-                    {
-                        imodel.getRenderOrder().addFirst(wrapper);
-                    }
-                    else
-                    {
-                        imodel.getRenderOrder().add(wrapper);
-                    }
                     if(!renderMap.containsKey(ident))
                     {
-                        part.preProcess();
+                        imodel.addCustomPart(wrapper);
                         renderMap.put(ident, part);
                     }
                 }
@@ -380,18 +359,7 @@ public class WearableWrapper
                         wrapper = new WearableRenderWrapper(ident, offsets);
                         wrapper.setParent(part);
                         part.addChild(wrapper);
-                        if (debug)
-                        {
-                            part.getRenderOrder().addFirst(wrapper);
-                            imodel.getParts().put(ident, wrapper);
-                            imodel.getRenderOrder().addFirst(wrapper);
-                        }
-                        else
-                        {
-                            part.getRenderOrder().add(wrapper);
-                            imodel.getParts().put(ident, wrapper);
-                            imodel.getRenderOrder().add(wrapper);
-                        }
+                        imodel.addCustomPart(wrapper);
                     }
 
                     if (wrapper.stack != stack || wrapper.wearer != wearer || offsets != wrapper.offsets)
@@ -402,20 +370,9 @@ public class WearableWrapper
                         wrapper.stack = stack;
                         wrapper.wrapped = w;
                         wrapper.subIndex = i;
-                        imodel.getRenderOrder().remove(wrapper);
-
-                        imodel.getParts().put(ident, wrapper);
-                        if (debug)
-                        {
-                            imodel.getRenderOrder().addFirst(wrapper);
-                        }
-                        else
-                        {
-                            imodel.getRenderOrder().add(wrapper);
-                        }
                         if(!renderMap.containsKey(ident))
                         {
-                            part.preProcess();
+                            imodel.addCustomPart(wrapper);
                             renderMap.put(ident, part);
                         }
                     }
