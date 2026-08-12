@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
@@ -177,10 +178,7 @@ public class Material implements Comparable<Material>
         if (this.tex == null || bufferSource == null) return buffer;
         RenderCache cache = lastCache.get();
         this.vertexMode = mode;
-        if(cache != null && cache.mode == mode && cache.tex.equals(tex))
-        {
-            return cache.buffer;
-        }
+        if(cache!=null && cache == this._renderCache) return cache.buffer;
         final RenderType type = this.makeRenderType(this.tex, mode);
         cache = new RenderCache(tex, bufferSource.getBuffer(type), mode);
         cacheUpdate.accept(cache);
@@ -194,19 +192,11 @@ public class Material implements Comparable<Material>
     Supplier<RenderCache> lastCache = ()->_renderCache;;
     public void resetBufferCaches(Material ref)
     {
-        if(ref == this)
-        {
-            _renderCache = null;
-            cacheUpdate = (cache)->{
-                _renderCache = cache;
-            };
-            lastCache = ()->_renderCache;
-        }
-        else
-        {
-            this.lastCache = ref.lastCache;
-            this.cacheUpdate = ref.cacheUpdate;
-        }
+        _renderCache = null;
+        cacheUpdate = (cache)->{
+            _renderCache = cache;
+        };
+        lastCache = ()->_renderCache;
     }
 
     public BaseTexture getTexture()

@@ -160,7 +160,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                 var key = mesh.material.name;
                 allShapes.computeIfAbsent(key, m -> new ArrayList<>()).add(mesh);
             }
-            System.out.println(this.name+" "+allShapes.keySet());
             for (var pair : allShapes.entrySet())
             {
                 var meshs = pair.getValue();

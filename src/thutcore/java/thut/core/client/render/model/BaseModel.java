@@ -217,12 +217,25 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
                         this.renderOrderMeshs.addAll(part.getRenderMeshes());
                         _materials.addAll(part.getMaterials());
                     }
-                    IExtendedModelPart.sortMeshes(this.renderOrderMeshs);
                     List<Material> mats = new ArrayList<>(_materials);
+                    var root = mats.getFirst();
                     Map<String, Material> byName = new HashMap<>();
-                    for(var m: mats) if(!byName.containsKey(m.name)) byName.put(m.name, m);
+                    for(var m: mats)
+                    {
+                        m.resetBufferCaches(root);
+                        if (!byName.containsKey(m.name)) byName.put(m.name, m);
+                    }
                     mats = new ArrayList<>(byName.values());
-//                    this.updateMaterials(mats);
+                    this.updateMaterials(mats);
+                    // Recompute after merging materials
+                    this.renderOrderMeshs.clear();
+                    for (var part : this.partsList)
+                    {
+                        part.preProcess();
+                        this.renderOrderMeshs.addAll(part.getRenderMeshes());
+                        _materials.addAll(part.getMaterials());
+                    }
+                    IExtendedModelPart.sortMeshes(this.renderOrderMeshs);
                 }
             }
         }
