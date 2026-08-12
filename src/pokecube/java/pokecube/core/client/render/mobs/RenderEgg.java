@@ -131,7 +131,7 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     protected RenderType getRenderType(final EntityPokemobEgg entity, final boolean bool_a, final boolean bool_b,
             final boolean bool_c)
     {
-        if (model.lastInit == -1)
+        if (model.lastInit <= 0)
         {
             this.model = this.makeModel();
             this.model.lastInit = 0;

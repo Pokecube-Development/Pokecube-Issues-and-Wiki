@@ -585,7 +585,7 @@ public class AnimationGui extends Screen
             AnimationGui.renderMobs.clear();
             RenderPokemob.reloadModel(AnimationGui.entry);
             this.onUpdated();
-            this.renderHolder.wrapper.lastInit = Long.MIN_VALUE;
+            this.renderHolder.wrapper.lastInit = 0;
         }).bounds(this.width / 2 - xOffset, yOffset + dy, 40, 20).build());
 
         dy += 20;

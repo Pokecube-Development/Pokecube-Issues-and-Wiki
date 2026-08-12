@@ -39,9 +39,7 @@ import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.api.maths.Vector3;
-import thut.api.world.mobs.data.Data;
 import thut.core.client.render.animation.AnimationLoader;
-import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.animation.AnimationXML.Phase;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
@@ -181,13 +179,11 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         public boolean overrideAnim = false;
         public String anim = "";
 
-        // This will decrement if above 0, and if so, we don't render, this
-        // gives some time to actually load the model.
-        protected int loadTimer = 3;
+        // This is timer to wait until load to display a missingno, ms
+        protected long loadTimer;
 
-        // This increments while the model is not found, and if it exceeds 100,
-        // will render missingno model.
-        protected int failTimer = 0;
+        // This is the game tick time when we will count as failed, ms
+        protected long failTimer;
 
         HeadInfo headInfo = new HeadInfo();
 
@@ -278,8 +274,8 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 
         public void init()
         {
-            boolean noUpdate = this.wrapper != null && this.wrapper.lastInit > Tracker.instance().getTick()
-                    && this.wrapper.lastInit - Tracker.instance().getTick() < 100;
+            long time = Tracker.instance().getTick();
+            boolean noUpdate = this.wrapper != null && this.wrapper.lastInit > time;
             if (noUpdate) return;
             if (ThutCore.conf.debug_models) PokecubeAPI.logDebug("Reloaded model for " + entry);
             RenderPokemob.holders.put(this.entry, this);
@@ -288,8 +284,9 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             this.parts.clear();
             this.initModel(new ModelWrapper<>(this, this));
             this.checkedAnims = false;
-            this.failTimer = 0;
-            this.wrapper.lastInit = Tracker.instance().getTick() + 50;
+            this.failTimer = time + 100;
+            this.loadTimer = time + 3;
+            this.wrapper.lastInit = time + 150;
         }
 
         public void initModel(final ModelWrapper<Mob> model)
@@ -394,13 +391,13 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         if (RenderPokemob.holders.containsKey(entry))
         {
             var holder = RenderPokemob.holders.get(entry);
-            if (holder.wrapper != null) holder.wrapper.lastInit = Long.MIN_VALUE;
+            if (holder.wrapper != null) holder.wrapper.lastInit = 0;
             holder.init();
         }
         for (final Holder custom : RenderPokemob.customs.values())
             if (custom.entry == entry)
             {
-                if (custom.wrapper != null) custom.wrapper.lastInit = Long.MIN_VALUE;
+                if (custom.wrapper != null) custom.wrapper.lastInit = 0;
                 custom.init();
             }
     }
@@ -507,20 +504,25 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             }
             holder = temp;
         }
-
-        if (holder.failTimer > 50) holder = MISSNGNO;
-        if (holder.wrapper == null || !holder.wrapper.isLoaded())
+        long time = Tracker.instance().getTick();
+        if (holder.wrapper == null)
         {
             holder.init();
         }
-        if (holder.wrapper != null && !holder.wrapper.isLoaded())
+        if (holder.wrapper != null && !holder.wrapper.isLoaded() && holder.wrapper.lastInit < time)
         {
-            if (!holder.wrapper.isLoaded() && holder.wrapper.lastInit < Tracker.instance().getTick()) holder.init();
-            holder.failTimer++;
+            holder.init();
             return;
         }
+        if (holder.failTimer > 0 && holder.failTimer < time)
+        {
+            holder = MISSNGNO;
+        }
         // This gives time for the model to actually finish loading in.
-        if (holder.loadTimer-- > 0) return;
+        if (holder.loadTimer > time && !holder.wrapper.isLoaded())
+        {
+            return;
+        }
         holder.loadTimer = 0;
         holder.failTimer = 0;
         if (holder.wrapper == null || holder.wrapper.getModel() == null || !holder.wrapper.isValid()
