@@ -16,8 +16,8 @@ import net.minecraft.world.entity.ai.village.poi.PoiManager.Occupancy;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.ai.poi.PointsOfInterest;
-import pokecube.core.blocks.nests.NestTile;
+import pokecube.gimmicks.nests.NestTasks;
+import pokecube.gimmicks.nests.blocks.NestTile;
 import pokecube.gimmicks.nests.tasks.ants.AntTasks;
 import pokecube.gimmicks.nests.tasks.ants.nest.AntHabitat;
 
@@ -68,7 +68,7 @@ public class NestSensor extends Sensor<Mob>
         final PoiManager pois = worldIn.getPoiManager();
         final BlockPos pos = entityIn.blockPosition();
         final RandomSource rand = entityIn.getRandom();
-        final Optional<BlockPos> opt = pois.getRandom(PointsOfInterest.NEST, p -> this.validNest(p, worldIn, entityIn),
+        final Optional<BlockPos> opt = pois.getRandom(NestTasks.NEST_POI, p -> this.validNest(p, worldIn, entityIn),
                 Occupancy.ANY, pos, NestSensor.NESTSPACING, rand);
         if (opt.isPresent())
         {

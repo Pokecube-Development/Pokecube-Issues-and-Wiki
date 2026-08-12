@@ -44,9 +44,9 @@ import pokecube.api.events.init.RegisterMiscItems;
 import pokecube.api.events.init.RegisterPokecubes;
 import pokecube.api.items.IPokecube.DefaultPokecubeBehaviour;
 import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
 import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.eventhandlers.SpawnHandler;
+import pokecube.gimmicks.dynamax.DynamaxHelper;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock.State;
 import pokecube.legends.blocks.properties.Compostables;
@@ -333,7 +333,7 @@ public class PokecubeLegends
         final BlockState hit = event.getLevel().getBlockState(event.getPos());
         if (hit.getBlock() != BlockInit.RAID_SPAWNER.get())
         {
-            if (hit.getBlock() == PokecubeItems.DYNAMAX.get()) thut.lib.ChatHelper.sendSystemMessage(event.getEntity(),
+            if (hit.getBlock() == DynamaxHelper.DYNAMAX.get()) thut.lib.ChatHelper.sendSystemMessage(event.getEntity(),
                     TComponent.translatable("msg.notaraidspot.info"));
             return;
         }

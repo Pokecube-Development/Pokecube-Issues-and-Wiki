@@ -1,4 +1,4 @@
-package pokecube.core.blocks.nests;
+package pokecube.gimmicks.nests.blocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
@@ -24,7 +24,6 @@ import pokecube.api.entity.CapabilityInhabitable.HabitatProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.EggEvent;
-import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.eventhandlers.SpawnHandler;
@@ -41,6 +40,8 @@ import thut.lib.TComponent;
 
 import java.util.HashSet;
 import java.util.Random;
+
+import static pokecube.gimmicks.nests.NestTasks.NEST_TYPE;
 
 public class NestTile extends InteractableTile implements ITickTile
 {
@@ -75,7 +76,7 @@ public class NestTile extends InteractableTile implements ITickTile
 
     public NestTile(final BlockPos pos, final BlockState state)
     {
-        this(PokecubeItems.NEST_TYPE.get(), pos, state);
+        this(NEST_TYPE.get(), pos, state);
     }
 
     public NestTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)

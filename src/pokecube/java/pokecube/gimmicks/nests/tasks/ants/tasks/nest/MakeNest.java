@@ -20,7 +20,8 @@ import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
-import pokecube.core.blocks.nests.NestTile;
+import pokecube.gimmicks.nests.NestTasks;
+import pokecube.gimmicks.nests.blocks.NestTile;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.gimmicks.nests.tasks.ants.AntTasks;
 import pokecube.gimmicks.nests.tasks.ants.nest.AntHabitat;
@@ -55,11 +56,11 @@ public class MakeNest extends BaseIdleTask
         var entity = pokemob.getEntity();
         if (!MoveEventsHandler.canAffectBlock(pokemob, new Vector3(pos), "nest_building")) return false;
         final PoiManager pois = level.getPoiManager();
-        final long num = pois.getCountInRange(PointsOfInterest.NEST, pos, PokecubeCore.getConfig().nestSpacing,
+        final long num = pois.getCountInRange(NestTasks.NEST_POI, pos, PokecubeCore.getConfig().nestSpacing,
                 PoiManager.Occupancy.ANY);
         if (num > 0) return false;
         final Brain<?> brain = entity.getBrain();
-        level.setBlockAndUpdate(pos, PokecubeItems.NEST.get().defaultBlockState());
+        level.setBlockAndUpdate(pos, NestTasks.NEST.get().defaultBlockState());
         final BlockEntity tile = level.getBlockEntity(pos);
         if (!(tile instanceof NestTile nest)) return false;
         nest.setWrappedHab(new AntHabitat(nest));

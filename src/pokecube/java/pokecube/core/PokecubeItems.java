@@ -46,7 +46,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.material.MapColor;
-import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -59,10 +58,6 @@ import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.utils.Tools;
 import pokecube.core.blocks.healer.HealerBlock;
 import pokecube.core.blocks.healer.HealerTile;
-import pokecube.core.blocks.maxspot.MaxBlock;
-import pokecube.core.blocks.maxspot.MaxTile;
-import pokecube.core.blocks.nests.NestBlock;
-import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.blocks.pc.PCBlock;
 import pokecube.core.blocks.pc.PCTile;
 import pokecube.core.blocks.repel.RepelBlock;
@@ -117,9 +112,7 @@ public class PokecubeItems extends ItemList
     public static final DeferredBlock<Block> DEEPSLATE_FOSSIL_ORE;
     public static final DeferredBlock<Block> FOSSIL_ORE;
 
-    public static final DeferredBlock<Block> DYNAMAX;
     public static final DeferredBlock<Block> HEALER;
-    public static final DeferredBlock<Block> NEST;
     public static final DeferredBlock<Block> PC_BASE;
     public static final DeferredBlock<Block> PC_TOP;
     public static final DeferredBlock<Block> REPEL;
@@ -128,8 +121,6 @@ public class PokecubeItems extends ItemList
 
     // Tile Entities
     public static final Supplier<BlockEntityType<?>> HEALER_TYPE;
-    public static final Supplier<BlockEntityType<?>> MAX_TYPE;
-    public static final Supplier<BlockEntityType<NestTile>> NEST_TYPE;
     public static final Supplier<BlockEntityType<PCTile>> PC_TYPE;
     public static final Supplier<BlockEntityType<?>> REPEL_TYPE;
     public static final Supplier<BlockEntityType<TMTile>> TM_TYPE;
@@ -181,10 +172,6 @@ public class PokecubeItems extends ItemList
                         BlockBehaviour.Properties.of().mapColor(MapColor.DEEPSLATE).requiresCorrectToolForDrops()
                                 .strength(4.5f, 3.0f).sound(SoundType.DEEPSLATE)));
 
-        NEST = PokecubeCore.BLOCKS.register("nest",
-                () -> new NestBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).ignitedByLava()
-                        .strength(0.5F).isValidSpawn(PokecubeItems::ocelotOrParrot).sound(SoundType.MANGROVE_ROOTS)
-                        .instrument(NoteBlockInstrument.HARP).pushReaction(PushReaction.NORMAL)));
         REPEL = PokecubeCore.BLOCKS.register("repel",
                 () -> new RepelBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
                         .requiresCorrectToolForDrops().ignitedByLava().isValidSpawn(PokecubeItems::never)
@@ -204,19 +191,10 @@ public class PokecubeItems extends ItemList
         TRADER = PokecubeCore.BLOCKS.register("trade_machine",
                 () -> new TraderBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).strength(10)
                         .requiresCorrectToolForDrops().sound(SoundType.NETHERITE_BLOCK)));
-        DYNAMAX = PokecubeCore.BLOCKS.register("dynamax",
-                () -> new MaxBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA).strength(0.8F)
-                        .requiresCorrectToolForDrops().noOcclusion().forceSolidOn().lightLevel(i -> 5)
-                        .sound(SoundType.AMETHYST_CLUSTER)));
 
         // Tile Entity Types
-        MAX_TYPE = PokecubeCore.TILES.register("dynamax",
-                () -> BlockEntityType.Builder.of(MaxTile::new, PokecubeItems.DYNAMAX.get()).build(null));
-        NEST_TYPE = PokecubeCore.TILES.register("nest",
-                () -> BlockEntityType.Builder.of(NestTile::new, PokecubeItems.NEST.get()).build(null));
         REPEL_TYPE = PokecubeCore.TILES.register("repel",
                 () -> BlockEntityType.Builder.of(RepelTile::new, PokecubeItems.REPEL.get()).build(null));
-
         HEALER_TYPE = PokecubeCore.TILES.register("pokecenter",
                 () -> BlockEntityType.Builder.of(HealerTile::new, PokecubeItems.HEALER.get()).build(null));
         PC_TYPE = PokecubeCore.TILES.register("pc", () -> BlockEntityType.Builder

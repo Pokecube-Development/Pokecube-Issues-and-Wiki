@@ -4,7 +4,6 @@ import com.google.common.collect.Maps;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.level.block.state.BlockState;
-import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.PokemobBehaviour;
 import pokecube.world.terrain.PokecubeTerrainChecker;
@@ -25,7 +24,7 @@ public abstract class UtilBehaviour extends PokemobBehaviour
     public static Predicate<BlockState> diggable = state ->
             (PokecubeTerrainChecker.isTerrain(state) || PokecubeTerrainChecker.isRock(state)
                     || PokecubeTerrainChecker.isCutablePlant(state) || PokecubeTerrainChecker.isLeaves(state)
-                    || PokecubeTerrainChecker.isWood(state)) && state.getBlock() != PokecubeItems.NEST.get();
+                    || PokecubeTerrainChecker.isWood(state));
 
     public UtilBehaviour()
     {

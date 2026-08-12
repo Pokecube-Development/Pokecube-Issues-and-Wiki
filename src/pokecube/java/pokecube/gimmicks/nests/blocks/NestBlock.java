@@ -1,4 +1,4 @@
-package pokecube.core.blocks.nests;
+package pokecube.gimmicks.nests.blocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;

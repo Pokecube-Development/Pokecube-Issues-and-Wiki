@@ -16,7 +16,7 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.Sensor;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.blocks.nests.NestTile;
+import pokecube.gimmicks.nests.blocks.NestTile;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.gimmicks.nests.tasks.ants.AntTasks;
 import pokecube.gimmicks.nests.tasks.ants.AntTasks.AntRoom;

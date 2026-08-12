@@ -1,4 +1,4 @@
-package pokecube.core.blocks.maxspot;
+package pokecube.gimmicks.dynamax.blocks;
 
 import java.util.HashMap;
 import java.util.Map;

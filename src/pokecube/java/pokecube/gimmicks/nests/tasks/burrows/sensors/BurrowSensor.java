@@ -14,8 +14,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import pokecube.api.blocks.IInhabitable;
 import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.ai.poi.PointsOfInterest;
-import pokecube.core.blocks.nests.NestTile;
+import pokecube.gimmicks.nests.NestTasks;
+import pokecube.gimmicks.nests.blocks.NestTile;
 import pokecube.gimmicks.nests.tasks.burrows.BurrowTasks;
 import pokecube.gimmicks.nests.tasks.burrows.burrow.BurrowHab;
 
@@ -68,7 +68,7 @@ public class BurrowSensor extends Sensor<Mob>
         final PoiManager pois = worldIn.getPoiManager();
         final BlockPos pos = entityIn.blockPosition();
         final RandomSource rand = entityIn.getRandom();
-        final Optional<BlockPos> opt = pois.getRandom(PointsOfInterest.NEST,
+        final Optional<BlockPos> opt = pois.getRandom(NestTasks.NEST_POI,
                 p -> this.validNest(p, worldIn, entityIn), Occupancy.ANY, pos, 64, rand);
         if (opt.isPresent())
         {

@@ -22,7 +22,8 @@ import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
 import pokecube.core.ai.tasks.utility.StoreItems;
-import pokecube.core.blocks.nests.NestTile;
+import pokecube.gimmicks.nests.NestTasks;
+import pokecube.gimmicks.nests.blocks.NestTile;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.gimmicks.nests.tasks.burrows.BurrowTasks;
 import pokecube.gimmicks.nests.tasks.burrows.burrow.BurrowHab;
@@ -84,7 +85,7 @@ public class CheckBurrow extends BaseIdleTask
             final List<NearBlock> blocks = BrainUtils.getNearBlocks(entity);
 
             final PoiManager pois = level.getPoiManager();
-            final long num = pois.getCountInRange(PointsOfInterest.NEST, entity.blockPosition(),
+            final long num = pois.getCountInRange(NestTasks.NEST_POI, entity.blockPosition(),
                     PokecubeCore.getConfig().nestSpacing, PoiManager.Occupancy.ANY);
 
             if (blocks == null || num != 0) return;
@@ -124,7 +125,7 @@ public class CheckBurrow extends BaseIdleTask
         if (hab == null) return;
         pos = hab.burrow.getCenter();
         final Brain<?> brain = pokemob.getEntity().getBrain();
-        level.setBlockAndUpdate(pos, PokecubeItems.NEST.get().defaultBlockState());
+        level.setBlockAndUpdate(pos, NestTasks.NEST.get().defaultBlockState());
         final BlockEntity tile = level.getBlockEntity(pos);
         if (!(tile instanceof NestTile nest)) return;
         nest.setWrappedHab(hab);

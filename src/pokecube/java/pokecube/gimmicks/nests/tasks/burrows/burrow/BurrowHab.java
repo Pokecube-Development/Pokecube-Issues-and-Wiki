@@ -34,7 +34,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.blocks.nests.NestTile;
+import pokecube.gimmicks.nests.blocks.NestTile;
 import pokecube.core.database.Database;
 import pokecube.core.entity.genetics.genes.SpeciesGene;
 import pokecube.core.entity.genetics.genes.SpeciesGene.SpeciesInfo;

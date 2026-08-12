@@ -17,6 +17,8 @@ import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.gimmicks.dynamax.DynamaxHelper;
+import pokecube.gimmicks.nests.NestTasks;
 import pokecube.legends.Reference;
 
 import java.util.function.Supplier;
@@ -939,7 +941,6 @@ public class LegendsCreativeTabs {
 
         if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
-            addAfter(event, PokecubeItems.DYNAMAX.get(), BlockInit.RAID_SPAWNER.get());
             addAfter(event, BlockInit.RAID_SPAWNER.get(), BlockInit.CRAMOMATIC_BLOCK.get());
 
             addAfter(event, Items.RESPAWN_ANCHOR, BlockInit.MAGNETIC_STONE.get());
@@ -1217,7 +1218,7 @@ public class LegendsCreativeTabs {
             addAfter(event, PokecubeItems.getStack("pokecube:revive").getItem(), PokecubeItems.getStack("pokecube:luckyegg").getItem());
             addAfter(event, PokecubeItems.getStack("pokecube:luckyegg").getItem(), PokecubeItems.getStack("pokecube:shiny_charm").getItem());
 
-            addAfter(event, ItemInit.DISTORTIC_WATER_BUCKET.get(), PokecubeItems.DYNAMAX.get());
+            addAfter(event, ItemInit.DISTORTIC_WATER_BUCKET.get(), DynamaxHelper.DYNAMAX.get());
             addAfter(event, BlockInit.RAID_SPAWNER.get(), PokecubeAdv.STATUE.get());
             addAfter(event, PokecubeAdv.STATUE.get(), PokecubeItems.HEALER.get());
             addAfter(event, PokecubeItems.HEALER.get(), PokecubeItems.PC_TOP.get());
@@ -1238,8 +1239,8 @@ public class LegendsCreativeTabs {
             addAfter(event, PokecubeAdv.AFA.get(), PokecubeAdv.COMMANDER.get());
             addAfter(event, PokecubeAdv.COMMANDER.get(), PokecubeAdv.DAYCARE.get());
 
-            addAfter(event, PokecubeAdv.DAYCARE.get(), PokecubeItems.NEST.get());
-            addAfter(event, PokecubeItems.NEST.get(), PokecubeItems.REPEL.get());
+            addAfter(event, PokecubeAdv.DAYCARE.get(), NestTasks.NEST.get());
+            addAfter(event, NestTasks.NEST.get(), PokecubeItems.REPEL.get());
         }
 
         if (event.getTab().equals(BERRIES_TAB.get()))
