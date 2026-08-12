@@ -111,7 +111,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         this.getModel().preProcessAnimations(collection);
     }
 
-    private void initColours(final IExtendedModelPart parent, final T entity, IMobColourable poke, final int brightness,
+    private void initColours(final IExtendedModelPart part, final T entity, IMobColourable poke, final int brightness,
             final int overlay)
     {
         if (debugMode) return;
@@ -126,14 +126,14 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
             alpha = poke.getRGBA()[3];
         }
         final IAnimationChanger animChanger = this.renderer.getAnimationChanger();
-        if (animChanger != null && animChanger.modifyColourForPart(parent.getName(), entity, this.tmp))
+        if (animChanger != null && animChanger.modifyColourForPart(part.getName(), entity, this.tmp))
         {
             red = this.tmp[0];
             green = this.tmp[1];
             blue = this.tmp[2];
             alpha = this.tmp[3];
         }
-        parent.setRGBABrO(red, green, blue, alpha, brightness, overlay);
+        part.setRGBABrO(red, green, blue, alpha, brightness, overlay);
     }
 
     @Override

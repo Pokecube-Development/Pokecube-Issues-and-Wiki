@@ -3,6 +3,7 @@ package thut.core.client.render.texturing;
 import net.minecraft.resources.ResourceLocation;
 import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.animation.AnimationXML.Phase;
+import thut.core.client.render.model.IModel;
 
 public interface IPartTexturer
 {
@@ -38,7 +39,16 @@ public interface IPartTexturer
 
     }
 
+    /**
+     * Called to load animations, etc in from the CustomTex object
+     */
     void init(CustomTex tex);
+
+    /**
+     * Used for extra processing if needed on the model itself,
+     * such as marking specific parts as animated
+     */
+    default void init(IModel model){}
 
     default void applyTexturePhase(final Phase phase)
     {

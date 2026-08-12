@@ -3,6 +3,7 @@ package thut.core.client.render.model;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -207,13 +208,21 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
                 this.partsList.addAll(parts.values());
                 synchronized (renderOrderMeshs)
                 {
+                    // Now collect materials, and get them sorted properly
+                    Set<Material> _materials = new HashSet<>();
                     this.renderOrderMeshs.clear();
                     for (var part : this.partsList)
                     {
                         part.preProcess();
                         this.renderOrderMeshs.addAll(part.getRenderMeshes());
+                        _materials.addAll(part.getMaterials());
                     }
                     IExtendedModelPart.sortMeshes(this.renderOrderMeshs);
+                    List<Material> mats = new ArrayList<>(_materials);
+                    Map<String, Material> byName = new HashMap<>();
+                    for(var m: mats) if(!byName.containsKey(m.name)) byName.put(m.name, m);
+                    mats = new ArrayList<>(byName.values());
+//                    this.updateMaterials(mats);
                 }
             }
         }

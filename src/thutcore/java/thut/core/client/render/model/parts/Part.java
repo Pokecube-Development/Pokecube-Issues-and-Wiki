@@ -160,6 +160,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                 var key = mesh.material.name;
                 allShapes.computeIfAbsent(key, m -> new ArrayList<>()).add(mesh);
             }
+            System.out.println(this.name+" "+allShapes.keySet());
             for (var pair : allShapes.entrySet())
             {
                 var meshs = pair.getValue();
@@ -547,14 +548,14 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         synchronized (this.materials)
         {
             Map<String, Material> _mats = new HashMap<>();
-            materials.forEach(mat->_mats.put(mat.toString(), mat));
+            materials.forEach(mat->_mats.put(mat.render_name, mat));
             this.matcache.clear();
             this.materials.clear();
             this.namedMaterials.clear();
             for (Mesh shape : this.shapes)
             {
                 var old = shape.material;
-                var key = old.toString();
+                var key = old.render_name;
                 if(_mats.containsKey(key))
                 {
                     var mat = _mats.get(key);

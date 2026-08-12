@@ -111,6 +111,12 @@ public class Material implements Comparable<Material>
         boolean transp1 = this.transluscent || this.alpha < 1;
         boolean transp2 = o.transluscent || o.alpha < 1;
         if (transp1 != transp2) return transp1 ? 1 : -1;
+        if (diffuseColor!=null && o.diffuseColor==null) return +1;
+        if (o.diffuseColor!=null && diffuseColor==null) return -1;
+        if (specularColor!=null && o.specularColor==null) return +1;
+        if (o.specularColor!=null && specularColor==null) return -1;
+        if (emissiveColor!=null && o.emissiveColor==null) return +1;
+        if (o.emissiveColor!=null && emissiveColor==null) return -1;
         boolean emiss1 = this.emissiveMagnitude > 0;
         boolean emiss2 = o.emissiveMagnitude > 0;
         if (emiss1 != emiss2) return emiss1 ? 1 : -1;

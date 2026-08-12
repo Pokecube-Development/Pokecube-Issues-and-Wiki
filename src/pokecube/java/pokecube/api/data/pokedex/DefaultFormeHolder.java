@@ -1,5 +1,6 @@
 package pokecube.api.data.pokedex;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -143,7 +144,7 @@ public class DefaultFormeHolder
                 {
                     final List<String> ours = this.hidden == null ? Lists.newArrayList()
                             : Lists.newArrayList(this.hidden);
-                    for (final String s : p.hidden) ours.add(s);
+                    ours.addAll(Arrays.asList(p.hidden));
                     this.hidden = ours.toArray(new String[0]);
                 }
                 this.colours.addAll(p.colours);
