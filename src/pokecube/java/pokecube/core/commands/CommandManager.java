@@ -38,7 +38,6 @@ public class CommandManager
 
         commandDispatcher.register(command);
         TM.register(commandDispatcher);
-        SecretBase.register(commandDispatcher);
         Pokemake.register(commandDispatcher);
         Pokemake2.register(commandDispatcher);
         Meteor.register(commandDispatcher);

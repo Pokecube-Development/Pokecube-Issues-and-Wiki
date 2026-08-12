@@ -10,11 +10,10 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
-import pokecube.core.blocks.nests.NestTile;
+import pokecube.gimmicks.nests.NestTasks;
+import pokecube.gimmicks.nests.blocks.NestTile;
 import pokecube.gimmicks.nests.tasks.ants.nest.AntHabitat;
 import pokecube.gimmicks.nests.tasks.ants.sensors.NestSensor;
 import pokecube.gimmicks.nests.tasks.ants.sensors.NestSensor.AntNest;
@@ -89,13 +88,13 @@ public class CheckNest extends BaseIdleTask
                 if (!clearHive)
                 {
                     final PoiManager pois = level.getPoiManager();
-                    final long n = pois.getCountInRange(PointsOfInterest.NEST, pos.pos(), 1, PoiManager.Occupancy.ANY);
+                    final long n = pois.getCountInRange(NestTasks.NEST_POI, pos.pos(), 1, PoiManager.Occupancy.ANY);
                     clearHive = n == 0;
 
                     if (clearHive && dist < 256 && this.nest != null && level.isLoaded(pos.pos()))
                     {
                         // Lets remake the hive.
-                        level.setBlockAndUpdate(pos.pos(), PokecubeItems.NEST.get().defaultBlockState());
+                        level.setBlockAndUpdate(pos.pos(), NestTasks.NEST.get().defaultBlockState());
                         final BlockEntity tile = level.getBlockEntity(pos.pos());
                         if (tile instanceof NestTile nest)
                         {

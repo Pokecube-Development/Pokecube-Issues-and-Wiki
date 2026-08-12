@@ -38,11 +38,11 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.utility.GatherItems;
-import pokecube.core.blocks.nests.NestTile;
+import pokecube.gimmicks.nests.NestTasks;
+import pokecube.gimmicks.nests.blocks.NestTile;
 import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.eventhandlers.SpawnHandler.AABBRegion;
@@ -142,7 +142,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                     if (Config.Rules.canAffectBlocks(level))
                     {
                         PokecubeAPI.logInfo("Reviving Nest!");
-                        this.world.setBlockAndUpdate(this.here, PokecubeItems.NEST.get().defaultBlockState());
+                        this.world.setBlockAndUpdate(this.here, NestTasks.NEST.get().defaultBlockState());
                         tile = this.world.getBlockEntity(this.here);
                         if (!(tile instanceof NestTile nest)) return;
                         // Copy over the old habitat info.

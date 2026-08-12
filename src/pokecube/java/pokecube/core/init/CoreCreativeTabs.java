@@ -51,10 +51,8 @@ public class CoreCreativeTabs
             add(event, PokecubeItems.POKEDEX);
             add(event, PokecubeItems.POKEWATCH);
 
-            add(event, PokecubeItems.NEST);
             add(event, PokecubeItems.FOSSIL_ORE);
             add(event, PokecubeItems.DEEPSLATE_FOSSIL_ORE);
-            add(event, PokecubeItems.SECRET_BASE);
             add(event, PokecubeItems.REPEL);
 
             add(event, PokecubeItems.HEALER);
@@ -63,7 +61,6 @@ public class CoreCreativeTabs
             add(event, PokecubeItems.TRADER);
             add(event, PokecubeItems.TM_MACHINE);
             add(event, PokecubeItems.TM);
-            add(event, PokecubeItems.DYNAMAX);
 
             add(event, PokecubeItems.BERRYJUICE);
             add(event, PokecubeItems.CANDY);
@@ -98,9 +95,6 @@ public class CoreCreativeTabs
             addAfter(event, PokecubeItems.PC_BASE, PokecubeItems.TRADER);
             addAfter(event, PokecubeItems.TRADER, PokecubeItems.TM_MACHINE);
             addAfter(event, PokecubeItems.TM_MACHINE, PokecubeItems.TM);
-            addAfter(event, PokecubeItems.TM, PokecubeItems.DYNAMAX);
-            addAfter(event, Items.LODESTONE, PokecubeItems.SECRET_BASE);
-            addBefore(event, Items.BEE_NEST, PokecubeItems.NEST);
 
             addAfter(event, Items.BOOKSHELF, PokecubeItems.getStack("enigma_bookshelf").getItem());
             addAfter(event, PokecubeItems.getStack("enigma_bookshelf").getItem(),
@@ -198,7 +192,6 @@ public class CoreCreativeTabs
         {
             addAfter(event, Items.DEEPSLATE_COAL_ORE, PokecubeItems.FOSSIL_ORE);
             addAfter(event, PokecubeItems.FOSSIL_ORE, PokecubeItems.DEEPSLATE_FOSSIL_ORE);
-            addBefore(event, Items.BEE_NEST, PokecubeItems.NEST);
         }
 
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS && PokecubeCore.getConfig().itemsInVanillaTabs)

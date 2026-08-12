@@ -20,12 +20,8 @@ public class PointsOfInterest
     public static final DeferredHolder<PoiType, PoiType> _HEALER = PointsOfInterest.REG.register("healer",
             () -> new PoiType(Sets.newHashSet(PokecubeItems.HEALER.get().getStateDefinition().getPossibleStates()), 1,
                     2));
-    public static final DeferredHolder<PoiType, PoiType> _NEST = PointsOfInterest.REG.register("pokemob_nest",
-            () -> new PoiType(Sets.newHashSet(PokecubeItems.NEST.get().getStateDefinition().getPossibleStates()), 1,
-                    2));
 
-    public static final Predicate<Holder<PoiType>> HEALER = holder -> holder.is(_HEALER.getKey());;
-    public static final Predicate<Holder<PoiType>> NEST = holder -> holder.is(_NEST.getKey());;
+    public static final Predicate<Holder<PoiType>> HEALER = holder -> holder.is(_HEALER.getKey());
 
     // 1.19 notes: These need to turn to RegistryKey<PoiType>
 

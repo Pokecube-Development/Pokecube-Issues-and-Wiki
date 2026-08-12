@@ -42,7 +42,7 @@ import pokecube.api.utils.TagNames;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.blocks.nests.NestTile;
+import pokecube.gimmicks.nests.blocks.NestTile;
 import pokecube.core.database.Database;
 import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.entity.genetics.genes.SpeciesGene;
@@ -253,7 +253,7 @@ public class ItemPokemobEgg extends Item
         PokecubeAPI.POKEMOB_BUS.post(evt);
         EggInfo contents = PokemobCaps.getEggContents(stack);
         var nest = contents.getNest();
-        nests:
+        nests: // TODO an event or such for setting the nest tile in NestTasks?
         if (nest.isPresent())
         {
             final BlockPos pos = nest.get();

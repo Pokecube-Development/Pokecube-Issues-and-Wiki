@@ -1,4 +1,4 @@
-package pokecube.core.blocks.bases;
+package pokecube.gimmicks.secret_bases.blocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.EntityBlock;

@@ -35,7 +35,7 @@ public class SecretBaseRadarPage extends WatchPage
 
     public static Map<RadarMode, Set<BlockPos>> radar_hits = Maps.newHashMap();
 
-    public static enum RadarMode
+    public static enum RadarMode // TODO make this registerable, move bases to register from the gimmick
     {
         SECRET_BASE("base"), METEOR("meteor", 10), SPAWN_INHIBITORS("repels");
 
@@ -58,9 +58,8 @@ public class SecretBaseRadarPage extends WatchPage
 
     public static void updateRadar(final CompoundTag data)
     {
-        if (data.contains("_meteors_") && data.get("_meteors_") instanceof ListTag)
+        if (data.contains("_meteors_") && data.get("_meteors_") instanceof ListTag list)
         {
-            final ListTag list = (ListTag) data.get("_meteors_");
             pokecube.core.client.gui.watch.SecretBaseRadarPage.radar_hits.get(RadarMode.METEOR).clear();
             for (int i = 0; i < list.size(); i++)
             {
@@ -69,9 +68,8 @@ public class SecretBaseRadarPage extends WatchPage
                         .add(NbtUtils.readBlockPos(tag, "V").get());
             }
         }
-        if (data.contains("_bases_") && data.get("_bases_") instanceof ListTag)
+        if (data.contains("_bases_") && data.get("_bases_") instanceof ListTag list)
         {
-            final ListTag list = (ListTag) data.get("_bases_");
             pokecube.core.client.gui.watch.SecretBaseRadarPage.radar_hits.get(RadarMode.SECRET_BASE).clear();
             for (int i = 0; i < list.size(); i++)
             {
@@ -80,9 +78,8 @@ public class SecretBaseRadarPage extends WatchPage
                         .add(NbtUtils.readBlockPos(tag, "V").get());
             }
         }
-        if (data.contains("_repels_") && data.get("_repels_") instanceof ListTag)
+        if (data.contains("_repels_") && data.get("_repels_") instanceof ListTag list)
         {
-            final ListTag list = (ListTag) data.get("_repels_");
             pokecube.core.client.gui.watch.SecretBaseRadarPage.radar_hits.get(RadarMode.SPAWN_INHIBITORS).clear();
             for (int i = 0; i < list.size(); i++)
             {

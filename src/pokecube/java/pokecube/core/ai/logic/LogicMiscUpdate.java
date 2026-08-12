@@ -31,7 +31,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
-import pokecube.core.blocks.nests.NestTile;
+import pokecube.gimmicks.nests.blocks.NestTile;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.damage.attributes.PokecubeAttributes;
@@ -348,6 +348,7 @@ public class LogicMiscUpdate extends LogicBase
         for (int i = 0; i < this.flavourAmounts.length; i++)
             if (this.flavourAmounts[i] > 0) this.pokemob.setFlavourAmount(i, this.flavourAmounts[i] - 1);
 
+        // TODO move this to one added in NestTasks
         if (!this.initHome)
         {
             this.initHome = true;

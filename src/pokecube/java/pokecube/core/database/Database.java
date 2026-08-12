@@ -272,12 +272,12 @@ public class Database
         if (holder == null) return;
         Database.formeToEntry.put(holder.key, entry);
         Database.formeHoldersByKey.put(holder.loaded_from.key, holder);
+        Database.customModels.computeIfAbsent(entry, e->new ArrayList<>()).add(holder);
     }
 
     public static String convertMoveName(final String moveNameFromBulbapedia)
     {
-        final String ret = Database.trim(moveNameFromBulbapedia);
-        return ret;
+        return Database.trim(moveNameFromBulbapedia);
     }
 
     public static boolean entryExists(final String name)

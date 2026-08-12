@@ -127,7 +127,7 @@ public class TrainerSpawnHandler
             {
                 mobs.setType(type);
             }
-            if (mobs != null) initTrainer(mobs, level);
+            if (mobs != null) randomizeTrainerTeam(mob, mobs);
             if (mob instanceof TrainerNpc trainer) trainer.setTypes(!(thing.has("name") || thing.has("names")));
         });
     }
@@ -207,7 +207,7 @@ public class TrainerSpawnHandler
             final IHasRewards rewardsCap = npc.getData(TrainerCaps.REWARDS);
             final PokeType type = PokeType.values()[ThutCore.newRandom().nextInt(PokeType.values().length)];
             final Item item = BuiltInRegistries.ITEM.get(
-                    ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID, ":badge_" + type));
+                    ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID, "badge_" + type));
             if (item != null)
             {
                 final ItemStack badge = new ItemStack(item);

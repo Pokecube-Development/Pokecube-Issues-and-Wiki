@@ -10,11 +10,21 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.MapColor;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.registries.DeferredBlock;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.SharedAttributes;
@@ -27,7 +37,9 @@ import pokecube.api.events.pokemobs.ChangeForm;
 import pokecube.api.raids.RaidManager;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.blocks.maxspot.MaxTile;
+import pokecube.core.init.CoreCreativeTabs;
+import pokecube.gimmicks.dynamax.blocks.MaxBlock;
+import pokecube.gimmicks.dynamax.blocks.MaxTile;
 import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.eventhandlers.SpawnHandler;
@@ -38,13 +50,45 @@ import thut.api.entity.genetics.GeneRegistry;
 import thut.lib.TComponent;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * This class handles the dynamax mechanic
  */
+@Mod(value = PokecubeCore.MODID)
 @EventBusSubscriber(modid = PokecubeCore.MODID)
 public class DynamaxHelper
 {
+    public static final DeferredBlock<Block> DYNAMAX;
+    public static final Supplier<BlockEntityType<?>> MAX_TYPE;
+
+    static
+    {
+        DYNAMAX = PokecubeCore.BLOCKS.register("dynamax",
+                () -> new MaxBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA).strength(0.8F)
+                        .requiresCorrectToolForDrops().noOcclusion().forceSolidOn().lightLevel(i -> 5)
+                        .sound(SoundType.AMETHYST_CLUSTER)));
+        MAX_TYPE = PokecubeCore.TILES.register("dynamax",
+                () -> BlockEntityType.Builder.of(MaxTile::new, DYNAMAX.get()).build(null));
+    }
+
+    public DynamaxHelper()
+    {
+    }
+
+    @SubscribeEvent
+    public static void addCreative(BuildCreativeModeTabContentsEvent event)
+    {
+        if (event.getTab().equals(CoreCreativeTabs.BLOCKS_ITEMS_TAB.get()))
+        {
+            CoreCreativeTabs.addAfter(event, PokecubeItems.TM, DYNAMAX);
+        }
+        if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS && PokecubeCore.getConfig().itemsInVanillaTabs)
+        {
+            CoreCreativeTabs.addAfter(event, PokecubeItems.TM, DYNAMAX);
+        }
+    }
+
     /**
      * Setup and register stuff.
      */

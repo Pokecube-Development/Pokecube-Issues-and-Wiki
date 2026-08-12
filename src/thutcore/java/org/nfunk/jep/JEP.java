@@ -11,6 +11,9 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.Vector;
 
+import org.nfunk.jep.evaluation.CommandElement;
+import org.nfunk.jep.evaluation.CommandEvaluator;
+import org.nfunk.jep.evaluation.ExpressionCompiler;
 import org.nfunk.jep.function.Abs;
 import org.nfunk.jep.function.ArcCosine;
 import org.nfunk.jep.function.ArcCosineH;
@@ -110,6 +113,9 @@ public class JEP
 
     /** Last expression we parsed */
     public String last_parsed = "";
+
+    /** Cache of CommandElements for evaluation */
+    CommandElement[] _commands = null;
 
     /**
      * Creates a new JEP instance with the default settings.
@@ -556,7 +562,9 @@ public class JEP
             // evaluate the expression
             try
             {
-                result = this.ev.getValue(this.topNode, this.errorList, this.symTab);
+                if(_commands==null) _commands = new ExpressionCompiler().compile(this.topNode);
+                result = new CommandEvaluator().evaluate(_commands, this.symTab);
+//                result = this.ev.getValue(this.topNode, this.errorList, this.symTab);
             }
             catch (final Exception e)
             {
@@ -693,6 +701,7 @@ public class JEP
                 this.errorList.addElement(e.getMessage());
             }
         }
+        _commands = null;
         // Finally try to get the default value to force init of some stuff.
         this.getValueAsObject();
     }

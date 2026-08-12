@@ -39,6 +39,7 @@ import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.api.maths.Vector3;
+import thut.api.world.mobs.data.Data;
 import thut.core.client.render.animation.AnimationLoader;
 import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.animation.AnimationXML.Phase;
@@ -52,8 +53,10 @@ import thut.core.client.render.wrappers.ModelWrapper;
 import thut.core.common.ThutCore;
 
 import javax.xml.namespace.QName;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 {
@@ -63,6 +66,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         static final QName female = new QName("female");
 
         final PokedexEntry entry;
+        final Set<String> _custom_keys = new HashSet<>();
 
         public PokemobTexHelper(final PokedexEntry entry)
         {
@@ -71,12 +75,30 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         }
 
         @Override
-        public void init(final CustomTex customTex)
+        public void init(IModel model)
         {
-            // First do the super init
-            super.init(customTex);
+            var holders = Database.customModels.get(entry);
+            if(holders!=null) holders.forEach(forme->{
+                if (forme.loaded_from == null) return;
+                _custom_keys.addAll(forme.loaded_from._hide_);
+                _custom_keys.addAll(forme.loaded_from._colourMap_.keySet());
+                if (!forme.loaded_from._hide_.isEmpty())
+                {
+                    for (var p : model.getParts().values())
+                    {
+                        if (forme.loaded_from._hide_.contains(ThutCore.trim(p.getName())))
+                        {
+                            p.markAsAnimated();
+                        }
+                    }
+                }
+            });
+        }
 
-            // Then do our extra stuff.
+        @Override
+        public boolean hasMapping(String part)
+        {
+            return super.hasMapping(part) || _custom_keys.contains(part);
         }
 
         @Override

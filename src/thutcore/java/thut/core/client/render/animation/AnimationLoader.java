@@ -269,6 +269,7 @@ public class AnimationLoader
                 // Handle customTextures
                 if (texs.defaults != null) holder.texture = ResourceLocation.parse(texs.defaults);
                 texturer.init(texs);
+                texturer.init(model);
                 // Now, process materials appropriately
                 Set<Material> notCustom = new HashSet<>();
                 Material _default = null;

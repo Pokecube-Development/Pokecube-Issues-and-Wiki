@@ -9,7 +9,7 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.Nullable;
 import pokecube.core.PokecubeItems;
-import pokecube.core.blocks.nests.NestTile;
+import pokecube.gimmicks.nests.blocks.NestTile;
 import pokecube.core.blocks.pc.PCTile;
 import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.blocks.trade.TraderTile;
@@ -50,16 +50,6 @@ public class InventoryCaps
         }
     }
 
-    static class NestProvider implements ICapabilityProvider<NestTile, Direction, IItemHandler>
-    {
-        @Override
-        public @Nullable IItemHandler getCapability(NestTile object, Direction context)
-        {
-            // Only 1 inventory, so mark it as down here.
-            return Inventory.get(object);
-        }
-    }
-
     public static void AttachCaps(final RegisterCapabilitiesEvent event)
     {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, PokecubeItems.TM_TYPE.get(),
@@ -68,7 +58,6 @@ public class InventoryCaps
                 new TradeContainerProvider());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, PokecubeItems.PC_TYPE.get(),
                 new PCContainerProvider());
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, PokecubeItems.NEST_TYPE.get(), new NestProvider());
 
         // Register our providers for custom item attachments
         Inventory.REGISTRY.register(new HolderProvider.Provider<>()

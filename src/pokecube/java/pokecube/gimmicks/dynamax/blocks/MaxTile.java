@@ -1,4 +1,4 @@
-package pokecube.core.blocks.maxspot;
+package pokecube.gimmicks.dynamax.blocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -11,13 +11,14 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.eventhandlers.SpawnHandler.ForbidReason;
 import pokecube.core.items.ItemPokedex;
 import pokecube.core.items.berries.ItemBerry;
 import thut.lib.TComponent;
+
+import static pokecube.gimmicks.dynamax.DynamaxHelper.MAX_TYPE;
 
 public class MaxTile extends InteractableTile
 {
@@ -28,7 +29,7 @@ public class MaxTile extends InteractableTile
 
     public MaxTile(final BlockPos pos, final BlockState state)
     {
-        this(PokecubeItems.MAX_TYPE.get(), pos, state);
+        this(MAX_TYPE.get(), pos, state);
     }
 
     public MaxTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
