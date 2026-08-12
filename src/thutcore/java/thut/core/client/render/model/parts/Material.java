@@ -190,7 +190,7 @@ public class Material implements Comparable<Material>
 
     Consumer<RenderCache> cacheUpdate = (cache)->{};
     Supplier<RenderCache> lastCache = ()->_renderCache;;
-    public void resetBufferCaches(Material ref)
+    public void resetBufferCaches()
     {
         _renderCache = null;
         cacheUpdate = (cache)->{

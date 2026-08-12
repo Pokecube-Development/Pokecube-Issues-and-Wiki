@@ -218,11 +218,10 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
                         _materials.addAll(part.getMaterials());
                     }
                     List<Material> mats = new ArrayList<>(_materials);
-                    var root = mats.getFirst();
                     Map<String, Material> byName = new HashMap<>();
                     for(var m: mats)
                     {
-                        m.resetBufferCaches(root);
+                        m.resetBufferCaches();
                         if (!byName.containsKey(m.name)) byName.put(m.name, m);
                     }
                     mats = new ArrayList<>(byName.values());
@@ -285,6 +284,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     @Override
     public void renderLegacy(final PoseStack mat, final VertexConsumer buffer)
     {
+        this.prepareRender();
         for (var part : this.getPartsList()) part.render(mat, buffer);
     }
 
@@ -401,12 +401,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     @Override
     public void prepareRender()
     {
-        var materials = this.getMaterials();
-        if(!materials.isEmpty())
-        {
-            var ref = materials.getFirst();
-            materials.forEach(m -> m.resetBufferCaches(ref));
-        }
+        this.getMaterials().forEach(Material::resetBufferCaches);
     }
 
     final List<Material> materials = new ArrayList<>();
