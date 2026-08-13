@@ -178,7 +178,7 @@ public class Material implements Comparable<Material>
         if (this.tex == null || bufferSource == null) return buffer;
         RenderCache cache = lastCache.get();
         this.vertexMode = mode;
-        if(cache!=null && cache == this._renderCache) return cache.buffer;
+        if(cache!=null && mode == cache.mode && cache == this._renderCache) return cache.buffer;
         final RenderType type = this.makeRenderType(this.tex, mode);
         cache = new RenderCache(tex, bufferSource.getBuffer(type), mode);
         cacheUpdate.accept(cache);
