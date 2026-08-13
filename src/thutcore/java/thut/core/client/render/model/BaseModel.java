@@ -164,13 +164,27 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     @Override
     public void postInit()
     {
-        // Collect all materials
+        // Collect all materials, Before further processing
         synchronized (this.partsList)
         {
             Set<Material> allMats = new HashSet<>();
-            var parts = new ArrayList<>(this.getPartsList());
+            var parts = new ArrayList<>(this.parts.values());
             parts.forEach(e -> allMats.addAll(e.getMaterials()));
-            this.updateMaterials(allMats);
+
+            // Now merge duplicated materials
+            this.materials.clear();
+            List<Material> toSort = new ArrayList<>(allMats);
+            toSort.sort(null);
+            toSort = toSort.reversed();
+            toSort.forEach(m->{
+                var matches = this.materials.stream().filter(m1->m.compareTo(m1)==0).findFirst();
+                if(matches.isEmpty()) {
+                    this.materials.add(m);
+                }
+            });
+
+            // Finally set the parts materials
+            parts.forEach(p -> p.updateMaterials(materials));
         }
     }
 
@@ -179,7 +193,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     {
         this.materials.clear();
         this.materials.addAll(materials);
-        var parts = new ArrayList<>( this.getPartsList());
+        var parts = new ArrayList<>(this.parts.values());
         parts.forEach(p -> p.updateMaterials(materials));
     }
 
@@ -208,32 +222,22 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
                 this.partsList.addAll(parts.values());
                 synchronized (renderOrderMeshs)
                 {
-                    // Now collect materials, and get them sorted properly
-                    Set<Material> _materials = new HashSet<>();
                     this.renderOrderMeshs.clear();
-                    for (var part : this.partsList)
+                    int n = -1, m = 0;
+                    // Repeat part.preProcess until we
+                    // have a constant number of meshes
+                    while(n != this.renderOrderMeshs.size())
                     {
-                        part.preProcess();
-                        this.renderOrderMeshs.addAll(part.getRenderMeshes());
-                        _materials.addAll(part.getMaterials());
+                        m++;
+                        n = this.renderOrderMeshs.size();
+                        this.renderOrderMeshs.clear();
+                        for (var part : this.partsList)
+                        {
+                            part.preProcess();
+                            this.renderOrderMeshs.addAll(part.getRenderMeshes());
+                        }
                     }
-                    List<Material> mats = new ArrayList<>(_materials);
-                    Map<String, Material> byName = new HashMap<>();
-                    for(var m: mats)
-                    {
-                        m.resetBufferCaches();
-                        if (!byName.containsKey(m.name)) byName.put(m.name, m);
-                    }
-                    mats = new ArrayList<>(byName.values());
-                    this.updateMaterials(mats);
-                    // Recompute after merging materials
-                    this.renderOrderMeshs.clear();
-                    for (var part : this.partsList)
-                    {
-                        part.preProcess();
-                        this.renderOrderMeshs.addAll(part.getRenderMeshes());
-                        _materials.addAll(part.getMaterials());
-                    }
+                    System.out.println("Passes: "+m);
                     IExtendedModelPart.sortMeshes(this.renderOrderMeshs);
                 }
             }
@@ -454,7 +458,6 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         var parts = this.getParts();
 
         for(var s: animatedParts) if(parts.containsKey(s)) parts.get(s).markAsAnimated();
-        for(var name: this.getHeadParts()) if(parts.containsKey(name)) parts.get(name).markAsAnimated();
 
         var copy = new Object2ObjectOpenHashMap<String, IExtendedModelPart>();
         this.parts.values().forEach(part->{

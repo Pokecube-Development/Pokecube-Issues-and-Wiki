@@ -108,6 +108,7 @@ public interface IModel
         material.transluscent = mat.transluscent;
         material.cull = mat.cull;
         material.shader = mat.shader;
+        material.edited = true;
         if (!mat.tex.isBlank())
         {
             try

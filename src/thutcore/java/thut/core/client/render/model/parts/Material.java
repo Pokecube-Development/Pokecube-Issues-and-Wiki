@@ -74,6 +74,7 @@ public class Material implements Comparable<Material>
     public boolean transluscent = false;
     public boolean cull = false;
     public boolean flat = true;
+    public boolean edited = false;
     public int[] rgbabro = new int[6];
 
     public float expectedTexH = -1;
@@ -106,9 +107,14 @@ public class Material implements Comparable<Material>
                 + emissiveMagnitude + ", flat=" + flat + ", cull=" + cull + ", shader='" + shader + '\'' + '}';
     }
 
+    /**
+     * This is set so that sorting a list will result in
+     * the appropriate material order for rendering.
+     */
     @Override
     public int compareTo(@NotNull Material o)
     {
+        if(this.edited != o.edited) return this.edited ? -1: 1;
         boolean transp1 = this.transluscent || this.alpha < 1;
         boolean transp2 = o.transluscent || o.alpha < 1;
         if (transp1 != transp2) return transp1 ? 1 : -1;

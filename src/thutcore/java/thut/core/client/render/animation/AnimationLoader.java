@@ -356,9 +356,6 @@ public class AnimationLoader
                 }
                 renderer.getAnimations().putAll(newAnims);
 
-                // Pre-process the animations via the model
-                model.preProcessAnimations(allAnims);
-
                 // Process Dyeable parts.
                 animator.parseDyeables(dye);
 
@@ -401,6 +398,18 @@ public class AnimationLoader
                 renderer.getHeadInfo().yawCapMax = headCaps[1];
                 renderer.getHeadInfo().pitchCapMin = headCaps1[0];
                 renderer.getHeadInfo().pitchCapMax = headCaps1[1];
+
+                // Find custom parts to mark as animated
+                Set<String> animatedSet = new HashSet<>(model.getHeadParts());
+                animatedSet.addAll(shear);
+                animatedSet.addAll(dye);
+                animatedSet.forEach(key->model.getParts().computeIfPresent(key, (s, part)->{
+                    part.markAsAnimated();
+                    return part;
+                }));
+
+                // Pre-process the animations via the model
+                model.preProcessAnimations(allAnims);
             }
             else
             {

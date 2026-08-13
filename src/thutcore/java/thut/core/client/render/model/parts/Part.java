@@ -552,6 +552,19 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
             for (Mesh shape : this.shapes)
             {
                 var old = shape.material;
+
+                {
+//                    var matOpt = materials.stream().filter(m1->old.compareTo(m1)==0).findFirst();
+//                    var mat = matOpt.orElse(old);
+//                    System.out.println(mat.name+" "+old.name+" "+(mat==old));
+//                    shape.material = mat;
+//                    if (this.matcache.add(mat))
+//                    {
+//                        this.materials.add(mat);
+//                        this.namedMaterials.put(mat.name, mat);
+//                    }
+                }
+
                 var key = old.render_name;
                 if(_mats.containsKey(key))
                 {
