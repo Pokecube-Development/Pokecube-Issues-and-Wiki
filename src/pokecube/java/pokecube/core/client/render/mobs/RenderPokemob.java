@@ -285,7 +285,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             this.initModel(new ModelWrapper<>(this, this));
             this.checkedAnims = false;
             this.failTimer = time + 100;
-            this.loadTimer = time + 3;
+            this.loadTimer = time + 5;
             this.wrapper.lastInit = time + 150;
         }
 
@@ -516,6 +516,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         }
         if (holder.failTimer > 0 && holder.failTimer < time)
         {
+            holder.init(); // Recall init again, incase it works
             holder = MISSNGNO;
         }
         // This gives time for the model to actually finish loading in.
