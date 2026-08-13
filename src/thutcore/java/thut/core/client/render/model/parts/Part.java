@@ -357,6 +357,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         if (parent != null)
         {
             renderPose.set(parent.getRenderPose());
+            if(parent.isHidden()) this.hidden = true;
         }
         // Now apply the transforms from preRender
         // Translate of offset for rotation.
@@ -382,10 +383,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public void setHidden(final boolean hidden)
     {
         this.hidden = hidden;
-        for (final IExtendedModelPart part : this.parts.values())
-        {
-            part.setHidden(hidden);
-        }
     }
 
     @Override
