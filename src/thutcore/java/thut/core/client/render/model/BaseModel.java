@@ -182,14 +182,13 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
                     this.materials.add(m);
                 }
             });
-
             // Finally set the parts materials
             parts.forEach(p -> p.updateMaterials(materials));
         }
     }
 
     @Override
-    public void updateMaterials(Collection<Material> materials)
+    public void updateMaterials(List<Material> materials)
     {
         this.materials.clear();
         this.materials.addAll(materials);
@@ -223,12 +222,11 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
                 synchronized (renderOrderMeshs)
                 {
                     this.renderOrderMeshs.clear();
-                    int n = -1, m = 0;
+                    int n = -1;
                     // Repeat part.preProcess until we
                     // have a constant number of meshes
                     while(n != this.renderOrderMeshs.size())
                     {
-                        m++;
                         n = this.renderOrderMeshs.size();
                         this.renderOrderMeshs.clear();
                         for (var part : this.partsList)
@@ -237,7 +235,6 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
                             this.renderOrderMeshs.addAll(part.getRenderMeshes());
                         }
                     }
-                    System.out.println("Passes: "+m);
                     IExtendedModelPart.sortMeshes(this.renderOrderMeshs);
                 }
             }

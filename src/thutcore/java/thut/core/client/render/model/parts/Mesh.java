@@ -369,7 +369,11 @@ public class Mesh implements Comparable<Mesh>
     @Override
     public int compareTo(@NotNull Mesh o)
     {
-        // Compare by material
-        return this.material.compareTo(o.material);
+        // Compares by material, ignores edited flag check
+        boolean editO = this.material.edited;
+        this.material.edited = o.material.edited;
+        int comp = this.material.compareTo(o.material);
+        this.material.edited = editO;
+        return comp;
     }
 }

@@ -109,5 +109,5 @@ public interface IModelCustom
      * This is used to ensure all sub parts share the same set of materials,
      * for use with sharing render types, etc
      */
-    void updateMaterials(Collection<Material> materials);
+    void updateMaterials(List<Material> materials);
 }

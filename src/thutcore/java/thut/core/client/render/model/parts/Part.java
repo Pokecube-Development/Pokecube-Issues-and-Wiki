@@ -170,16 +170,15 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
             this.order.addAll(this.getSubParts().values());
             IExtendedModelPart.super.preProcess();
             this.renderShapes.clear();
-            Map<String, List<Mesh>> allShapes = new HashMap<>();
+            List<List<Mesh>> allMeshes = new ArrayList<>();
             for (var mesh : this.shapes)
             {
-                var key = mesh.material.name;
-                allShapes.computeIfAbsent(key, m -> new ArrayList<>()).add(mesh);
+                var listOpt = allMeshes.stream().filter(_list->_list.stream().anyMatch(m->m.material.compareTo(mesh.material)==0)).findFirst();
+                var list = listOpt.orElse(new ArrayList<>());
+                if(listOpt.isEmpty()) allMeshes.add(list);
+                list.add(mesh);
             }
-            for (var pair : allShapes.entrySet())
-            {
-                renderShapes.addAll(Mesh.merge(pair.getValue()));
-            }
+            for(var list: allMeshes) renderShapes.addAll(Mesh.merge(list));
         }
     }
 
@@ -540,12 +539,10 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public void updateMaterials(Collection<Material> materials)
+    public void updateMaterials(List<Material> materials)
     {
         synchronized (this.materials)
         {
-            Map<String, Material> _mats = new HashMap<>();
-            materials.forEach(mat->_mats.put(mat.render_name, mat));
             this.matcache.clear();
             this.materials.clear();
             this.namedMaterials.clear();
@@ -554,31 +551,14 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                 var old = shape.material;
 
                 {
-//                    var matOpt = materials.stream().filter(m1->old.compareTo(m1)==0).findFirst();
-//                    var mat = matOpt.orElse(old);
-//                    System.out.println(mat.name+" "+old.name+" "+(mat==old));
-//                    shape.material = mat;
-//                    if (this.matcache.add(mat))
-//                    {
-//                        this.materials.add(mat);
-//                        this.namedMaterials.put(mat.name, mat);
-//                    }
-                }
-
-                var key = old.render_name;
-                if(_mats.containsKey(key))
-                {
-                    var mat = _mats.get(key);
+                    var matOpt = materials.stream().filter(m1->old.compareTo(m1)==0).findFirst();
+                    var mat = matOpt.orElse(old);
                     shape.material = mat;
                     if (this.matcache.add(mat))
                     {
                         this.materials.add(mat);
                         this.namedMaterials.put(mat.name, mat);
                     }
-                }
-                else
-                {
-                    System.err.println("Not found in new list! "+old.name);
                 }
             }
         }

@@ -325,7 +325,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     @Override
-    public void updateMaterials(Collection<Material> materials)
+    public void updateMaterials(List<Material> materials)
     {
 
     }
