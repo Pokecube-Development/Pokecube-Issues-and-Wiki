@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.api.maths.Vector3;
@@ -100,33 +101,48 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     @Override
     public void tryCombineChildren()
     {
+        this.resetToInit();
         for(var _p: new ArrayList<>(this.parts.values()))
         {
             // Only our direct children.
             // Only ones not starting with __, as those are special for worn things, etc
             // Only ones with no children
-            if(_p.getParent()==this&&!_p.isAnimated()
+            if( _p.getParent()==this
+                &&!_p.isAnimated()
                 &&!_p.getName().startsWith("__")
                 &&_p instanceof Part p
-                &&p.childNames.isEmpty()
-                // TODO later merge rotations and offset properly?
-                &&p.offset.magSq()==0
-                &&p.rotations.isEmpty()
+                && p.parts.isEmpty()
                 )
             {
+                // TODO handle these cases properly
+                if(p.offset.magSq()!=0) continue;
+                if(!p.rotations.isEmpty()) continue;
+
                 // Attempt to merge the part in to us.
                 var mats = p.getMaterials().stream().map(m->m.name);
                 boolean allMatch = mats.allMatch(this.namedMaterials::containsKey);
-                PoseStack stack_there = new PoseStack();
-                p.preRender(stack_there);
+
                 if(allMatch)
                 {
-                    Vector3f pShift = new Vector3f((float)p.offset.x,(float)p.offset.y,(float)p.offset.z);
+                    p.resetToInit();
+                    p.transformForRender();
+                    Vector4f dp = new Vector4f();
+                    var norms = p.getRenderPose().normal();
+                    var pos = p.getRenderPose().pose();
                     for(var mesh: p.shapes)
                     {
-                        Set<Vertex> verts = new HashSet<>(Arrays.asList(mesh.vertices));
-                        for(var vert: verts){
-                            vert.add(pShift);
+                        Set<Vertex> process = new HashSet<>(Arrays.asList(mesh.normals));
+                        process.addAll(Arrays.asList(mesh.normalList));
+                        for(var n: process)
+                        {
+                            n.mul(norms);
+                        }
+                        process = new HashSet<>(Arrays.asList(mesh.vertices));
+                        for(var v: process)
+                        {
+                            dp.set(v, 1);
+                            dp.mul(pos);
+                            v.set(dp.x, dp.y, dp.z);
                         }
                         this.addShape(mesh);
                     }

@@ -95,6 +95,7 @@ public class X3dModel extends BaseModel
         this.valid = true;
         try
         {
+            this.name = model.toString();
             InputStream stream = ResourceHelper.getStream(model, Minecraft.getInstance().getResourceManager());
             this.last_loaded = model;
             if (stream == null)
