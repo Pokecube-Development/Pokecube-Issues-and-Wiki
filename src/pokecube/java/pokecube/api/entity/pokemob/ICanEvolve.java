@@ -25,12 +25,14 @@ import pokecube.api.events.pokemobs.ChangeForm;
 import pokecube.api.events.pokemobs.EvolveEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
+import pokecube.core.entity.genetics.GeneticsManager;
+import pokecube.core.entity.genetics.genes.AbilityGene;
 import pokecube.core.eventhandlers.PokemobEventsHandler.EvoTicker;
-import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.EntityTools;
+import thut.api.entity.genetics.Alleles;
 import thut.api.item.ItemList;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
@@ -323,6 +325,21 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         if (thisEntity == null) return false;
         LivingEntity evolution = thisEntity;
         final PokedexEntry oldEntry = this.getPokedexEntry();
+
+        Alleles<AbilityGene.AbilityObject, AbilityGene> geneAbility = thisMob.getGenes().getAlleles(GeneticsManager.ABILITYGENE);
+        final AbilityGene abilityGene = geneAbility.getExpressed();
+        final Ability abilityObject = abilityGene.getValue().abilityObject;
+        Ability specialAbility = null; // For pokemobs with abilities like battle bond that aren't their normal or hidden abilities
+
+        // If the ability is not in the current or new entry, then keep it.
+        if (thisEntity.getPersistentData().contains("pokecube:specialability") ||  !this.getPokedexEntry().abilities.contains(abilityObject.toString()) && !this.getPokedexEntry().abilitiesHidden.contains(abilityObject.toString()))
+        {
+            specialAbility = abilityObject;
+            thisMob.getEntity().getPersistentData().remove("pokecube:specialability");
+            thisMob.getEntity().getPersistentData().putBoolean("pokecube:specialability", true);
+            PokecubeAPI.logInfo(abilityObject + " on " + thisMob.getDisplayName().getString() + " is a special ability, keeping it");
+        }
+
         if (newEntry != null && newEntry != oldEntry)
         {
             this.setGeneralState(GeneralStates.EVOLVING, true);
@@ -398,6 +415,8 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             if (!evt.isCanceled() && thisEntity.isAddedToLevel())
                 EvoTicker.scheduleEvolve(thisEntity, evolution, immediate);
         }
+        if (specialAbility != null)
+            thisMob.setAbilityRaw(specialAbility);
         return true;
     }
 

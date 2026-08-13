@@ -157,7 +157,7 @@ public class MegaEvolveHelper
 
     }
 
-    private static boolean isMega(IPokemob pokemob)
+    public static boolean isMega(IPokemob pokemob)
     {
         var entity = pokemob.getEntity();
         return entity.getPersistentData().contains("pokecube:megatime");
