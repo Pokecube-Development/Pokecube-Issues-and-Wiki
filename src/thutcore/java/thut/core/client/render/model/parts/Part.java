@@ -43,7 +43,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     protected final List<Mesh> shapes = new ArrayList<>();
     protected final List<Mesh> renderShapes = new ArrayList<>();
 
-    private final String name;
+    public String name;
 
     protected IExtendedModelPart parent = null;
 

@@ -10,6 +10,7 @@ import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.bbmodel.BBModelTemplate.JsonGroup;
 import thut.core.client.render.model.BaseModel;
 import thut.core.client.render.model.IModelRenderer;
+import thut.core.client.render.model.parts.Part;
 import thut.core.common.ThutCore;
 import thut.lib.ResourceHelper;
 
@@ -102,6 +103,14 @@ public class BBModel extends BaseModel
         }
         for (BBModelPart p : parts)
         {
+            var old_name = p.getName();
+            int n = 1;
+            while(this.parts.containsKey(p.getName())&&p instanceof Part p2)
+            {
+                // BB models don't map by name, and groups can also share names as parts
+                // so here we just add to the end till it is new
+                p2.name = old_name+"_"+n++;
+            }
             this.parts.put(p.getName(), p);
             // Ensure the part is set to initial state
             p.resetToInit();
