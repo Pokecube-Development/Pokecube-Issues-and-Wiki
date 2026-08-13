@@ -399,12 +399,6 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         part.transformForRender();
     }
 
-    @Override
-    public void prepareRender()
-    {
-        this.getMaterials().forEach(Material::resetBufferCaches);
-    }
-
     final List<Material> materials = new ArrayList<>();
 
     @Override

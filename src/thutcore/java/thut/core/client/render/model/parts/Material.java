@@ -182,27 +182,9 @@ public class Material implements Comparable<Material>
         }
         if (bufferSource == null) bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
         if (this.tex == null || bufferSource == null) return buffer;
-        RenderCache cache = lastCache.get();
         this.vertexMode = mode;
-        if(cache!=null && mode == cache.mode && cache == this._renderCache) return cache.buffer;
         final RenderType type = this.makeRenderType(this.tex, mode);
-        cache = new RenderCache(tex, bufferSource.getBuffer(type), mode);
-        cacheUpdate.accept(cache);
-        return cache.buffer;
-    }
-
-    protected static record RenderCache(ResourceLocation tex, VertexConsumer buffer, VertexFormat.Mode mode){}
-    private RenderCache _renderCache;
-
-    Consumer<RenderCache> cacheUpdate = (cache)->{};
-    Supplier<RenderCache> lastCache = ()->_renderCache;;
-    public void resetBufferCaches()
-    {
-        _renderCache = null;
-        cacheUpdate = (cache)->{
-            _renderCache = cache;
-        };
-        lastCache = ()->_renderCache;
+        return bufferSource.getBuffer(type);
     }
 
     public BaseTexture getTexture()
