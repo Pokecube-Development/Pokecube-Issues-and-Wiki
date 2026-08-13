@@ -21,7 +21,6 @@ import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
 import net.minecraft.util.FastColor;
 import thut.core.client.render.model.IModelCustom;
-import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 
@@ -45,9 +44,9 @@ public class Mesh implements Comparable<Mesh>
                 retList.add(first);
                 return;
             }
-            List<Vertex> verts = new ArrayList<>();
-            List<Vertex> norms = new ArrayList<>();
-            List<Vertex> normsList = new ArrayList<>();
+            List<Vector3f> verts = new ArrayList<>();
+            List<Vector3f> norms = new ArrayList<>();
+            List<Vector3f> normsList = new ArrayList<>();
             List<Vector2f> texs = new ArrayList<>();
             float len = 0;
             for(var mesh : list)
@@ -59,8 +58,8 @@ public class Mesh implements Comparable<Mesh>
                 // TODO see if we need to recompute this better?
                 len = Math.max(len, mesh.len);
             }
-            var mesh = new Mesh(verts.toArray(new Vertex[0]),
-                    norms.toArray(new Vertex[0]),normsList.toArray(new Vertex[0]),
+            var mesh = new Mesh(verts.toArray(new Vector3f[0]),
+                    norms.toArray(new Vector3f[0]),normsList.toArray(new Vector3f[0]),
                     texs.toArray(new Vector2f[0]), format, len, first.material);
             mesh.poseInfo = first.poseInfo;
             mesh.texChangeHolder = first.texChangeHolder;
@@ -69,8 +68,8 @@ public class Mesh implements Comparable<Mesh>
         return retList;
     }
 
-    public final Vertex[] vertices;
-    public final Vertex[] normals;
+    public final Vector3f[] vertices;
+    public final Vector3f[] normals;
     public final Vector2f[] textureCoordinates;
 
     public Material material;
@@ -80,7 +79,7 @@ public class Mesh implements Comparable<Mesh>
     private final double[] uvShift =
     { 0, 0 };
     final int GL_FORMAT;
-    final Vertex[] normalList;
+    final Vector3f[] normalList;
     public IModelCustom.PoseInfo poseInfo = new IModelCustom.PoseInfo();
     public Supplier<IPartTexturer> texChangeHolder = new IRetexturableModel.Holder<>();
 
@@ -90,8 +89,8 @@ public class Mesh implements Comparable<Mesh>
 
     public final Mode vertexMode;
 
-    Vertex min = new Vertex(0, 0);
-    Vertex max = new Vertex(0, 0);
+    Vector3f min = new Vector3f();
+    Vector3f max = new Vector3f();
 
     final int iter;
 
@@ -116,7 +115,7 @@ public class Mesh implements Comparable<Mesh>
         }
     }
 
-    private Mesh(final Vertex[] vert, final Vertex[] norm, final Vertex[] normList, final Vector2f[] tex,
+    private Mesh(final Vector3f[] vert, final Vector3f[] norm, final Vector3f[] normList, final Vector2f[] tex,
             final int GL_FORMAT, float len, Material material){
         this.vertices= vert;
         this.normals = norm;
@@ -129,12 +128,12 @@ public class Mesh implements Comparable<Mesh>
         this.len = len;
     }
 
-    public Mesh(final Integer[] order, final Vertex[] vert, final Vertex[] norm, final Vector2f[] tex,
+    public Mesh(final Integer[] order, final Vector3f[] vert, final Vector3f[] norm, final Vector2f[] tex,
             final int GL_FORMAT)
     {
-        List<Vertex> vertTmp = new ArrayList<>(Arrays.stream(vert).toList());
-        List<Vertex> normATmp = new ArrayList<>(order.length);
-        List<Vertex> normBTmp = new ArrayList<>(order.length);
+        List<Vector3f> vertTmp = new ArrayList<>(Arrays.stream(vert).toList());
+        List<Vector3f> normATmp = new ArrayList<>(order.length);
+        List<Vector3f> normBTmp = new ArrayList<>(order.length);
         for(int i = 0; i< order.length;i++) {normBTmp.add(null);normATmp.add(null);}
         List<Vector2f> texTmp = tex==null? new ArrayList<>(): Arrays.stream(tex).toList();
         // In this case, just fill all with dummy tex.
@@ -142,8 +141,8 @@ public class Mesh implements Comparable<Mesh>
         if(tex==null) for(int i=0; i<order.length;i++) texTmp.add(dummyTex);
 
         this.GL_FORMAT = GL_FORMAT;
-        Vertex vertex;
-        Vertex normal;
+        Vector3f vertex;
+        Vector3f normal;
         this.iter = GL_FORMAT == GL11.GL_TRIANGLES ? 3 : 4;
 
         vertexMode = GL_FORMAT == GL11.GL_TRIANGLES ? Mode.TRIANGLES : Mode.QUADS;
@@ -196,7 +195,7 @@ public class Mesh implements Comparable<Mesh>
                 c.y = 0;
                 c.z = 1;
             }
-            normal = new Vertex(c.x, c.y, c.z);
+            normal = new Vector3f(c.x, c.y, c.z);
             for (int j = i; j < i + iter; j++)
             {
                 int i_0 = order[j];
@@ -213,9 +212,9 @@ public class Mesh implements Comparable<Mesh>
         len = (float) Math.sqrt(dummy_1.dot(dummy_1));
 
         // Now sort everything to no longer need the "order" array
-        List<Vertex> _verts = new ArrayList<>();
-        List<Vertex> _norms  = new ArrayList<>();
-        List<Vertex> _normsL  = new ArrayList<>();
+        List<Vector3f> _verts = new ArrayList<>();
+        List<Vector3f> _norms  = new ArrayList<>();
+        List<Vector3f> _normsL  = new ArrayList<>();
         List<Vector2f> _tex = new ArrayList<>();
 
         for (int i0 = 0; i0 < order.length; i0++)
@@ -227,9 +226,9 @@ public class Mesh implements Comparable<Mesh>
             _tex.add(texTmp.get(i));
         }
 
-        this.vertices = _verts.toArray(new Vertex[0]);
-        this.normalList = _normsL.toArray(new Vertex[0]);
-        this.normals = norm!=null?_norms.toArray(new Vertex[0]):normalList;
+        this.vertices = _verts.toArray(new Vector3f[0]);
+        this.normalList = _normsL.toArray(new Vector3f[0]);
+        this.normals = norm!=null?_norms.toArray(new Vector3f[0]):normalList;
         this.textureCoordinates = _tex.toArray(new Vector2f[0]);
 
         // Initialize a "default" material for us
@@ -241,7 +240,7 @@ public class Mesh implements Comparable<Mesh>
     private final Vector4f dp = new Vector4f();
     private final Vector2f texdR = new Vector2f(), texdS = new Vector2f(), texUV =new Vector2f();
 
-    protected final void doRender(Vertex[] normals, Matrix3f norms, Matrix4f pos, int argb, int overlayUV, int lightmapUV, VertexConsumer buffer)
+    protected final void doRender(Vector3f[] normals, Matrix3f norms, Matrix4f pos, int argb, int overlayUV, int lightmapUV, VertexConsumer buffer)
     {
         // Hopefully the JIT sees what goes on here and optimises it...
         for(int i = 0; i<vertices.length; i++)
@@ -352,7 +351,7 @@ public class Mesh implements Comparable<Mesh>
         int argb = FastColor.ARGB32.color(alpha, red, green, blue);
 
         final boolean flat = this.material.flat;
-        Vertex[] normals = flat ? this.normalList : this.normals;
+        Vector3f[] normals = flat ? this.normalList : this.normals;
         final Matrix3f norms = poseInfo.normal();
         final Matrix4f pos = poseInfo.pose();
         // Finally render, this should be JIT Compiler friendly

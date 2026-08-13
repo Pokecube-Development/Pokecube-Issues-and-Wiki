@@ -9,7 +9,6 @@ import org.joml.Quaternionf;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import thut.api.util.JsonUtil;
-import thut.core.client.render.model.Vertex;
 import thut.core.client.render.model.parts.Material;
 import thut.core.common.ThutCore;
 import thut.lib.AxisAngles;
@@ -95,7 +94,7 @@ public class BBModelTemplate
 
     public static class BBModelQuad
     {
-        public Vertex[] points = new Vertex[4];
+        public Vector3f[] points = new Vector3f[4];
         public Vector2f[] tex = new Vector2f[4];
         public int texture;
         public int rotation = 0;
@@ -170,10 +169,10 @@ public class BBModelTemplate
             {
                 // y low face, so y is from[1]
                 BBModelQuad face = new BBModelQuad();
-                face.points[0] = new Vertex(from[0], from[1], to[2]);
-                face.points[1] = new Vertex(from[0], from[1], from[2]);
-                face.points[2] = new Vertex(to[0], from[1], from[2]);
-                face.points[3] = new Vertex(to[0], from[1], to[2]);
+                face.points[0] = new Vector3f(from[0], from[1], to[2]);
+                face.points[1] = new Vector3f(from[0], from[1], from[2]);
+                face.points[2] = new Vector3f(to[0], from[1], from[2]);
+                face.points[3] = new Vector3f(to[0], from[1], to[2]);
                 face.rotation = down.rotation;
                 face.texture = down.getTexture();
                 face.uvs = down.uv;
@@ -183,10 +182,10 @@ public class BBModelTemplate
             {
                 // y high face, so y is to[1]
                 BBModelQuad face = new BBModelQuad();
-                face.points[0] = new Vertex(from[0], to[1], from[2]);
-                face.points[1] = new Vertex(from[0], to[1], to[2]);
-                face.points[2] = new Vertex(to[0], to[1], to[2]);
-                face.points[3] = new Vertex(to[0], to[1], from[2]);
+                face.points[0] = new Vector3f(from[0], to[1], from[2]);
+                face.points[1] = new Vector3f(from[0], to[1], to[2]);
+                face.points[2] = new Vector3f(to[0], to[1], to[2]);
+                face.points[3] = new Vector3f(to[0], to[1], from[2]);
                 face.rotation = up.rotation;
                 face.texture = up.getTexture();
                 face.uvs = up.uv;
@@ -196,10 +195,10 @@ public class BBModelTemplate
             {
                 // x low face, so x is from[0]
                 BBModelQuad face = new BBModelQuad();
-                face.points[0] = new Vertex(from[0], to[1], from[2]);
-                face.points[1] = new Vertex(from[0], from[1], from[2]);
-                face.points[2] = new Vertex(from[0], from[1], to[2]);
-                face.points[3] = new Vertex(from[0], to[1], to[2]);
+                face.points[0] = new Vector3f(from[0], to[1], from[2]);
+                face.points[1] = new Vector3f(from[0], from[1], from[2]);
+                face.points[2] = new Vector3f(from[0], from[1], to[2]);
+                face.points[3] = new Vector3f(from[0], to[1], to[2]);
                 face.rotation = west.rotation;
                 face.texture = west.getTexture();
                 face.uvs = west.uv;
@@ -209,10 +208,10 @@ public class BBModelTemplate
             {
                 // x high face, so x is to[0]
                 BBModelQuad face = new BBModelQuad();
-                face.points[0] = new Vertex(to[0], to[1], to[2]);
-                face.points[1] = new Vertex(to[0], from[1], to[2]);
-                face.points[2] = new Vertex(to[0], from[1], from[2]);
-                face.points[3] = new Vertex(to[0], to[1], from[2]);
+                face.points[0] = new Vector3f(to[0], to[1], to[2]);
+                face.points[1] = new Vector3f(to[0], from[1], to[2]);
+                face.points[2] = new Vector3f(to[0], from[1], from[2]);
+                face.points[3] = new Vector3f(to[0], to[1], from[2]);
                 face.rotation = east.rotation;
                 face.texture = east.getTexture();
                 face.uvs = east.uv;
@@ -222,10 +221,10 @@ public class BBModelTemplate
             {
                 // z low face, so z is from[2]
                 BBModelQuad face = new BBModelQuad();
-                face.points[0] = new Vertex(to[0], to[1], from[2]);
-                face.points[1] = new Vertex(to[0], from[1], from[2]);
-                face.points[2] = new Vertex(from[0], from[1], from[2]);
-                face.points[3] = new Vertex(from[0], to[1], from[2]);
+                face.points[0] = new Vector3f(to[0], to[1], from[2]);
+                face.points[1] = new Vector3f(to[0], from[1], from[2]);
+                face.points[2] = new Vector3f(from[0], from[1], from[2]);
+                face.points[3] = new Vector3f(from[0], to[1], from[2]);
                 face.rotation = north.rotation;
                 face.texture = north.getTexture();
                 face.uvs = north.uv;
@@ -235,10 +234,10 @@ public class BBModelTemplate
             {
                 // z high face, so z is to[2]
                 BBModelQuad face = new BBModelQuad();
-                face.points[0] = new Vertex(from[0], to[1], to[2]);
-                face.points[1] = new Vertex(from[0], from[1], to[2]);
-                face.points[2] = new Vertex(to[0], from[1], to[2]);
-                face.points[3] = new Vertex(to[0], to[1], to[2]);
+                face.points[0] = new Vector3f(from[0], to[1], to[2]);
+                face.points[1] = new Vector3f(from[0], from[1], to[2]);
+                face.points[2] = new Vector3f(to[0], from[1], to[2]);
+                face.points[3] = new Vector3f(to[0], to[1], to[2]);
                 face.rotation = south.rotation;
                 face.texture = south.getTexture();
                 face.uvs = south.uv;
@@ -289,7 +288,7 @@ public class BBModelTemplate
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Vertex v = face.points[j];
+                    Vector3f v = face.points[j];
                     // This should be a point on a box with a corner at 0,0,0.
                     Vector3f vec = new Vector3f(v.x, v.y, v.z);
 
@@ -317,12 +316,12 @@ public class BBModelTemplate
         List<BBModelQuad> quads = Lists.newArrayList();
         List<BBModelQuad> tris = Lists.newArrayList();
 
-        private boolean brokenQuad(MeshFace face, Map<String, Vertex> verts)
+        private boolean brokenQuad(MeshFace face, Map<String, Vector3f> verts)
         {
             if (face.vertices.size() != 4) return false;
-            Vertex toNext = new Vertex(0, 0);
-            Vertex toPrev = new Vertex(0, 0);
-            Vertex toOpp = new Vertex(0, 0);
+            Vector3f toNext = new Vector3f();
+            Vector3f toPrev = new Vector3f();
+            Vector3f toOpp = new Vector3f();
             var vert = verts.get(face.vertices.get(0));
             var next = verts.get(face.vertices.get((1)));
             var crnr = verts.get(face.vertices.get((2)));
@@ -358,14 +357,14 @@ public class BBModelTemplate
 
             Vector3f origin = new Vector3f(b.origin);
 
-            Map<String, Vertex> verts = Maps.newHashMap();
+            Map<String, Vector3f> verts = Maps.newHashMap();
 
             for (var entry : b.vertices.entrySet())
             {
                 var key = entry.getKey();
                 var array = entry.getValue();
 
-                Vertex v = new Vertex(0, 0, 0);
+                Vector3f v = new Vector3f(0, 0, 0);
                 // This should be a point on a box with a corner at 0,0,0.
                 Vector3f vec = new Vector3f(array);
 
@@ -416,7 +415,7 @@ public class BBModelTemplate
                 {
                     int i = same ? j : map_order.size() - j - 1;
                     String vert_key = map_order.get(i);
-                    Vertex v = verts.get(vert_key);
+                    Vector3f v = verts.get(vert_key);
                     float[] uv = uv_order.get(vert_key);
                     quad.texture = face.getTexture();
                     quad.points[j] = v;
@@ -427,7 +426,7 @@ public class BBModelTemplate
                 else if (map_order.size() == 3) this.tris.add(quad);
                 else
                 {
-                    ThutCore.LOGGER.error("Unsupported vertex count: {}", map_order.size());
+                    ThutCore.LOGGER.error("Unsupported Vector3f count: {}", map_order.size());
                 }
             }
         }
@@ -480,7 +479,7 @@ public class BBModelTemplate
                     for (int i = 0; i < 4; i++)
                     {
                         Integer o = order.size();
-                        Vertex v = face.points[i];
+                        Vector3f v = face.points[i];
                         var tx = face.tex[i];
                         order.add(o);
                         verts.add(v);
@@ -509,7 +508,7 @@ public class BBModelTemplate
                     for (int i = 0; i < 4; i++)
                     {
                         Integer o = order.size();
-                        Vertex v = face.points[i];
+                        Vector3f v = face.points[i];
                         var tx = face.tex[i];
                         order.add(o);
                         verts.add(v);
@@ -534,7 +533,7 @@ public class BBModelTemplate
                     for (int i = 0; i < 3; i++)
                     {
                         Integer o = order.size();
-                        Vertex v = face.points[i];
+                        Vector3f v = face.points[i];
                         var tx = face.tex[i];
                         order.add(o);
                         verts.add(v);

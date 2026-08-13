@@ -18,7 +18,6 @@ import net.minecraft.resources.ResourceLocation;
 import thut.api.maths.Vector4;
 import thut.core.client.render.json.JsonTemplate.JsonBlock;
 import thut.core.client.render.json.JsonTemplate.JsonFace;
-import thut.core.client.render.model.Vertex;
 import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.model.parts.Mesh;
 import thut.core.client.render.model.parts.Part;
@@ -289,7 +288,7 @@ public class JsonPart extends Part
         for (int i = 0; i < 4; i++)
         {
             float[] c = coords[i];
-            Vertex v = new Vertex(c[0], c[1], c[2]);
+            Vector3f v = new Vector3f(c[0], c[1], c[2]);
             Vector3f vec = new Vector3f(v.x, v.y, v.z);
 
             // We need to translate to rotation point, then rotate, then
@@ -339,7 +338,7 @@ public class JsonPart extends Part
             List<Object> order = lists.get(0);
             List<Object> verts = lists.get(1);
             List<Object> tex = lists.get(2);
-            Mesh m = new JsonMesh(order.toArray(new Integer[0]), verts.toArray(new Vertex[0]),
+            Mesh m = new JsonMesh(order.toArray(new Integer[0]), verts.toArray(new Vector3f[0]),
                     tex.toArray(new Vector2f[0]));
             m.name = key;
             Material mat = new Material(key);

@@ -12,7 +12,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.util.FastColor;
-import thut.core.client.render.model.Vertex;
 import thut.core.client.render.model.parts.Mesh;
 import thut.core.common.ThutCore;
 
@@ -26,7 +25,7 @@ public class Face
 
     public MutableVertex[] verts;
     public Vector2f[] uvs;
-    public Vertex normal;
+    public Vector3f normal;
 
     Vector3f a = new Vector3f();
     Vector3f b = new Vector3f();
@@ -128,7 +127,7 @@ public class Face
         }
     }
 
-    public Vertex calculateNormal()
+    public Vector3f calculateNormal()
     {
         this.a.set(this.verts[1].x - this.verts[0].x, this.verts[1].y - this.verts[0].y,
                 this.verts[1].z - this.verts[0].z);
@@ -136,7 +135,7 @@ public class Face
                 this.verts[2].z - this.verts[0].z);
         this.c.cross(this.a, this.b);
         this.c.normalize();
-        if (this.normal == null) this.normal = new Vertex(this.c.x, this.c.y, this.c.z);
+        if (this.normal == null) this.normal = new Vector3f(this.c.x, this.c.y, this.c.z);
         else
         {
             this.normal.x = this.c.x;

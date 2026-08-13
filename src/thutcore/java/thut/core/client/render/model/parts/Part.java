@@ -17,7 +17,6 @@ import thut.api.maths.Vector4;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.model.IExtendedModelPart;
-import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.common.ThutCore;
@@ -26,8 +25,6 @@ import thut.lib.AxisAngles;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -55,12 +52,12 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public Vector4 postRot = new Vector4();
     public Vector3 preTrans = new Vector3();
     public Vector3 postTrans = new Vector3();
-    public Vertex preScale = new Vertex(1, 1, 1);
-    public Vertex postScale = new Vertex(1, 1, 1);
+    public Vector3f preScale = new Vector3f(1, 1, 1);
+    public Vector3f postScale = new Vector3f(1, 1, 1);
 
     public Vector3 offset = new Vector3();
     public Vector4 rotations = new Vector4();
-    public Vertex scale = new Vertex(1, 1, 1);
+    public Vector3f scale = new Vector3f(1, 1, 1);
 
     protected Quaternionf _quat = new Quaternionf(0, 0, 0, 1);
     protected Vector4 _rot = new Vector4();
@@ -131,7 +128,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                     var pos = p.getRenderPose().pose();
                     for(var mesh: p.shapes)
                     {
-                        Set<Vertex> process = new HashSet<>(Arrays.asList(mesh.normals));
+                        Set<Vector3f> process = new HashSet<>(Arrays.asList(mesh.normals));
                         process.addAll(Arrays.asList(mesh.normalList));
                         for(var n: process)
                         {

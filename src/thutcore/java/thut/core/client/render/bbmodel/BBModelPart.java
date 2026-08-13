@@ -10,7 +10,6 @@ import thut.core.client.render.bbmodel.BBModelTemplate.Element;
 import thut.core.client.render.bbmodel.BBModelTemplate.IBBPart;
 import thut.core.client.render.bbmodel.BBModelTemplate.JsonGroup;
 import thut.core.client.render.json.JsonMesh;
-import thut.core.client.render.model.Vertex;
 import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.model.parts.Mesh;
 import thut.core.client.render.model.parts.Part;
@@ -164,7 +163,7 @@ public class BBModelPart extends Part
             List<Object> order = lists.get(0);
             List<Object> verts = lists.get(1);
             List<Object> tex = lists.get(2);
-            Mesh m = new JsonMesh(order.toArray(new Integer[0]), verts.toArray(new Vertex[0]),
+            Mesh m = new JsonMesh(order.toArray(new Integer[0]), verts.toArray(new Vector3f[0]),
                     tex.toArray(new Vector2f[0]));
             m.name = ThutCore.trim(key);
             Material mat = mats.getOrDefault(m.name, new Material(m.name));
@@ -181,7 +180,7 @@ public class BBModelPart extends Part
             List<Object> verts = lists.get(1);
             List<Object> tex = lists.get(2);
 
-            Mesh m = new X3dMesh(order.toArray(new Integer[0]), verts.toArray(new Vertex[0]), null,
+            Mesh m = new X3dMesh(order.toArray(new Integer[0]), verts.toArray(new Vector3f[0]), null,
                     tex.toArray(new Vector2f[0]));
             m.name = ThutCore.trim(key);
             Material mat = mats.getOrDefault(m.name, new Material(m.name));

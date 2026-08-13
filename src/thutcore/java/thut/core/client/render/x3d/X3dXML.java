@@ -10,7 +10,6 @@ import com.google.common.collect.Sets;
 
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import thut.core.client.render.model.Vertex;
 import thut.core.common.ThutCore;
 import thut.core.xml.bind.Factory;
 import thut.core.xml.bind.annotation.XmlAttribute;
@@ -55,7 +54,7 @@ public class X3dXML
             @XmlAttribute(name = "point")
             String point;
 
-            public Vertex[] getVertices()
+            public Vector3f[] getVertices()
             {
                 return IndexedTriangleSet.parseVertices(this.point);
             }
@@ -67,7 +66,7 @@ public class X3dXML
             @XmlAttribute(name = "vector")
             String vector;
 
-            public Vertex[] getNormals()
+            public Vector3f[] getNormals()
             {
                 return IndexedTriangleSet.parseVertices(this.vector);
             }
@@ -95,20 +94,20 @@ public class X3dXML
             }
         }
 
-        private static Vertex[] parseVertices(final String line) throws ModelFormatException
+        private static Vector3f[] parseVertices(final String line) throws ModelFormatException
         {
-            final ArrayList<Vertex> ret = new ArrayList<>();
+            final ArrayList<Vector3f> ret = new ArrayList<>();
 
             final String[] points = line.split(" ");
             if (points.length % 3 != 0) throw new ModelFormatException(
                     "Invalid number of elements in the points string");
             for (int i = 0; i < points.length; i += 3)
             {
-                final Vertex toAdd = new Vertex(Float.parseFloat(points[i]), Float.parseFloat(points[i + 1]), Float
+                final Vector3f toAdd = new Vector3f(Float.parseFloat(points[i]), Float.parseFloat(points[i + 1]), Float
                         .parseFloat(points[i + 2]));
                 ret.add(toAdd);
             }
-            return ret.toArray(new Vertex[0]);
+            return ret.toArray(new Vector3f[0]);
         }
 
         @XmlAttribute(name = "solid")
@@ -127,7 +126,7 @@ public class X3dXML
         @XmlElement(name = "TextureCoordinate")
         TextureCoordinate textures;
 
-        public Vertex[] getNormals()
+        public Vector3f[] getNormals()
         {
             return this.normals.getNormals();
         }
@@ -150,7 +149,7 @@ public class X3dXML
             return this.textures.getTexture();
         }
 
-        public Vertex[] getVertices()
+        public Vector3f[] getVertices()
         {
             return this.points.getVertices();
         }

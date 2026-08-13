@@ -1,14 +1,14 @@
 package pokecube.mobs.client.smd.impl;
 
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import org.joml.Vector4f;
-import thut.core.client.render.model.Vertex;
 
 /**
  * This is a Vertex which has a mutable position. It is for used in objects
  * where the vertices for a face can be moved around during animation.
  */
-public class MutableVertex extends Vertex
+public class MutableVertex extends Vector3f
 {
     /**
      *

@@ -22,7 +22,6 @@ import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.core.client.render.model.BaseModel;
 import thut.core.client.render.model.IExtendedModelPart;
-import thut.core.client.render.model.Vertex;
 import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.model.parts.Mesh;
 import thut.core.client.render.x3d.X3dXML.Appearance;
@@ -129,7 +128,7 @@ public class X3dModel extends BaseModel
             final Vector3 translation = new Vector3().set(Float.parseFloat(offset[0]), Float.parseFloat(offset[1]),
                     Float.parseFloat(offset[2]));
             offset = t.scale.split(" ");
-            final Vertex scale = new Vertex(Float.parseFloat(offset[0]), Float.parseFloat(offset[1]),
+            final Vector3f scale = new Vector3f(Float.parseFloat(offset[0]), Float.parseFloat(offset[1]),
                     Float.parseFloat(offset[2]));
             offset = t.rotation.split(" ");
             final Vector3f axis = new Vector3f(Float.parseFloat(offset[0]), Float.parseFloat(offset[1]),
