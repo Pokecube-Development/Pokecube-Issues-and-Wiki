@@ -1,7 +1,6 @@
 package pokecube.core.client.gui.watch;
 
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
@@ -24,85 +23,75 @@ import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.util.WatchPage;
 import thut.api.maths.Vector3;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class SecretBaseRadarPage extends WatchPage
 {
     public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_meteor");
     public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_meteor_nm");
 
-    public static Map<RadarMode, Set<BlockPos>> radar_hits = Maps.newHashMap();
+    public static Map<String, Set<BlockPos>> radar_hits = Maps.newHashMap();
+    public static Map<String, RadarMode> RADAR_MODES = new ConcurrentHashMap<>();
 
-    public static enum RadarMode // TODO make this registerable, move bases to register from the gimmick
+    public static RadarMode DEFAULT;
+    static
     {
-        SECRET_BASE("base"), METEOR("meteor", 10), SPAWN_INHIBITORS("repels");
+        RADAR_MODES.put("_repels_", DEFAULT = new RadarMode("repels", "_repels_",1));
+        RADAR_MODES.put("_meteors_", new RadarMode("meteor", "_meteors_", 10));
+    }
 
-        RadarMode(final String string)
+    public static class RadarMode // TODO make this registerable, move bases to register from the gimmick
+    {
+        public RadarMode(final String name, final String key, final float scale)
         {
-            this(string, 1);
-        }
-
-        RadarMode(final String string, final float scale)
-        {
-            this.key = Component.translatable("pokewatch.title." + string + "radar");
+            this.name = Component.translatable("pokewatch.title." + name + "radar");
+            this.key = key;
             this.rangeScale = scale;
-            SecretBaseRadarPage.radar_hits.put(this, Sets.newHashSet());
         }
 
-        final MutableComponent key;
-
+        final MutableComponent name;
+        final String key;
         final float rangeScale;
+
+        public void unpack(CompoundTag data)
+        {
+            var data_list = SecretBaseRadarPage.radar_hits.computeIfAbsent(key, k->new HashSet<>());
+            data_list.clear();
+            if (data.contains(key) && data.get(key) instanceof ListTag list)
+            {
+                for (int i = 0; i < list.size(); i++)
+                {
+                    final CompoundTag tag = list.getCompound(i);
+                    SecretBaseRadarPage.radar_hits.get(key).add(NbtUtils.readBlockPos(tag, "V").get());
+                }
+            }
+        }
     }
 
     public static void updateRadar(final CompoundTag data)
     {
-        if (data.contains("_meteors_") && data.get("_meteors_") instanceof ListTag list)
-        {
-            pokecube.core.client.gui.watch.SecretBaseRadarPage.radar_hits.get(RadarMode.METEOR).clear();
-            for (int i = 0; i < list.size(); i++)
-            {
-                final CompoundTag tag = list.getCompound(i);
-                pokecube.core.client.gui.watch.SecretBaseRadarPage.radar_hits.get(RadarMode.METEOR)
-                        .add(NbtUtils.readBlockPos(tag, "V").get());
-            }
-        }
-        if (data.contains("_bases_") && data.get("_bases_") instanceof ListTag list)
-        {
-            pokecube.core.client.gui.watch.SecretBaseRadarPage.radar_hits.get(RadarMode.SECRET_BASE).clear();
-            for (int i = 0; i < list.size(); i++)
-            {
-                final CompoundTag tag = list.getCompound(i);
-                pokecube.core.client.gui.watch.SecretBaseRadarPage.radar_hits.get(RadarMode.SECRET_BASE)
-                        .add(NbtUtils.readBlockPos(tag, "V").get());
-            }
-        }
-        if (data.contains("_repels_") && data.get("_repels_") instanceof ListTag list)
-        {
-            pokecube.core.client.gui.watch.SecretBaseRadarPage.radar_hits.get(RadarMode.SPAWN_INHIBITORS).clear();
-            for (int i = 0; i < list.size(); i++)
-            {
-                final CompoundTag tag = list.getCompound(i);
-                pokecube.core.client.gui.watch.SecretBaseRadarPage.radar_hits.get(RadarMode.SPAWN_INHIBITORS)
-                        .add(NbtUtils.readBlockPos(tag, "V").get());
-            }
-        }
-        pokecube.core.client.gui.watch.SecretBaseRadarPage.baseRange = data.getInt("R");
+        RADAR_MODES.forEach((key, mode)-> mode.unpack(data));
+        SecretBaseRadarPage.baseRange = data.getInt("R");
     }
 
     public static float baseRange = 64;
 
-    private static RadarMode mode = RadarMode.SECRET_BASE;
+    private static RadarMode mode = DEFAULT;
 
     public SecretBaseRadarPage(final GuiPokeWatch watch)
     {
-        super(Component.translatable(""), watch, SecretBaseRadarPage.TEX_DM, SecretBaseRadarPage.TEX_NM);
+        super(Component.literal(""), watch, SecretBaseRadarPage.TEX_DM, SecretBaseRadarPage.TEX_NM);
     }
 
     @Override
     public Component getTitle()
     {
-        return SecretBaseRadarPage.mode.key;
+        return SecretBaseRadarPage.mode.name;
     }
 
     @Override
@@ -112,8 +101,14 @@ public class SecretBaseRadarPage extends WatchPage
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
         this.addRenderableWidget(new TexButton.Builder(Component.literal(""),
-                b -> SecretBaseRadarPage.mode = RadarMode.values()[(SecretBaseRadarPage.mode.ordinal() + 1)
-                        % RadarMode.values().length]).bounds(x + 136, y + 90, 17, 17)
+                b -> {
+                    List<String> opts = new ArrayList<>(RADAR_MODES.keySet());
+                    opts.sort(null);
+                    int i = opts.indexOf(mode.key);
+                    if(i==-1) i = 0;
+                    i = (i + 1) % opts.size();
+                    SecretBaseRadarPage.mode = RADAR_MODES.get(opts.get(i));
+                }).bounds(x + 136, y + 90, 17, 17)
                 .setTexture(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(212, 123, 17, 17))
                 .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.radar.tooltip")))
                 .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.radar.narrate"))
@@ -139,7 +134,7 @@ public class SecretBaseRadarPage extends WatchPage
         final Vector3 here = new Vector3().set(this.watch.player);
         final float angle = this.watch.player.getYRot() % 360 + 180;
 
-        final Set<BlockPos> coords = SecretBaseRadarPage.radar_hits.get(SecretBaseRadarPage.mode);
+        final Set<BlockPos> coords = SecretBaseRadarPage.radar_hits.get(SecretBaseRadarPage.mode.key);
         final float scale = SecretBaseRadarPage.mode.rangeScale;
         final float range = SecretBaseRadarPage.baseRange * scale;
 
