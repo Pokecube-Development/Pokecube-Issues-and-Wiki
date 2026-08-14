@@ -107,7 +107,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     @Override
     public void preProcessAnimations(final Collection<Animation> collection)
     {
-        if (!this.isLoaded()) return;
+        if (this.getModel() == null) return;
         this.getModel().preProcessAnimations(collection);
     }
 

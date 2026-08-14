@@ -114,9 +114,8 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
     {
         if (entityIn instanceof WormholeEntity wormhole)
         {
-            final String state = wormhole.isIdle() ? "stable"
+            return wormhole.isIdle() ? "stable"
                     : wormhole.isClosing() ? "closing" : wormhole.isOpening() ? "opening" : "idle";
-            return state;
         }
 
         final IAnimationHolder holder = this.getAnimationHolder();
