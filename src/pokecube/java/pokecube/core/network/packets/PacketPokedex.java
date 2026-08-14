@@ -2,9 +2,13 @@ package pokecube.core.network.packets;
 
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -56,7 +60,6 @@ import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.utils.PokecubeSerializer;
-import pokecube.gimmicks.secret_bases.dimension.SecretBaseDimension;
 import thut.api.Tracker;
 import thut.api.entity.teleporting.TeleDest;
 import thut.api.maths.Cruncher.SquareLoopCruncher;
@@ -103,13 +106,58 @@ public class PacketPokedex extends NBTPacket
 
     public static boolean repelled = false;
 
-    @OnlyIn(value = Dist.CLIENT)
-    public static void sendChangePagePacket(final byte page, final boolean mode, final PokedexEntry selected)
+    public static Map<String, Function<ServerPlayer, List<GlobalPos>>> RADAR_SUPPLIERS = new ConcurrentHashMap<>();
+
+    static
     {
-        final PacketPokedex packet = new PacketPokedex(page);
-        packet.getTag().putBoolean("M", mode);
-        if (selected != null) packet.getTag().putString("F", selected.getName());
-        PacketPokedex.ASSEMBLER.sendToServer(packet.getTag());
+        RADAR_SUPPLIERS.put("_meteors_", player->{
+            final ServerLevel level = player.serverLevel().getLevel();
+            final BlockPos pos = player.blockPosition();
+            final GlobalPos here = GlobalPos.of(level.dimension(), pos);
+
+            final List<GlobalPos> meteors = new ArrayList<>(PokecubeSerializer.getInstance().meteors);
+            meteors.removeIf(p -> p.dimension() != here.dimension());
+
+            SquareLoopCruncher searcher = new SquareLoopCruncher();
+            int step = 12 * 16;
+            BlockPos testPos = searcher.getNext(pos, step);
+
+            ResourceLocation resourcelocation1 = ResourceLocation.parse("pokecube_world:meteorites");
+            var registry = level.registryAccess().registryOrThrow(RegHelper.STRUCTURE_REGISTRY);
+            var key = TagKey.create(RegHelper.STRUCTURE_REGISTRY, resourcelocation1);
+            HolderSet<Structure> holderset = HolderSet.direct(registry.getOrCreateTag(key).stream().toList());
+
+            long time = System.nanoTime();
+            while ((System.nanoTime() - time) < 5e5)
+            {
+                Pair<BlockPos, Holder<Structure>> thing = level.getChunkSource().getGenerator()
+                        .findNearestMapStructure(level, holderset, testPos, 1, false);
+                if (thing != null)
+                {
+                    BlockPos p2 = thing.getFirst();
+                    if (level.isPositionEntityTicking(p2))
+                        p2 = p2.atY(level.getHeight(Types.WORLD_SURFACE, p2.getX(), p2.getZ()));
+                    meteors.add(GlobalPos.of(level.dimension(), p2));
+                }
+                testPos = searcher.getNext(pos, step);
+            }
+            meteors.sort((c1, c2) -> {
+                final int d1 = c1.pos().compareTo(pos);
+                final int d2 = c2.pos().compareTo(pos);
+                return d2 - d1;
+            });
+            return meteors;
+        });
+        RADAR_SUPPLIERS.put("_repels_", player->{
+           List<GlobalPos> repels = new ArrayList<>();
+            final ServerLevel level = player.serverLevel().getLevel();
+            final BlockPos pos = player.blockPosition();
+            final List<ForbiddenEntry> _repels = SpawnHandler.getForbiddenEntries(level, pos);
+            _repels.forEach(entry->{
+                repels.add(GlobalPos.of(level.dimension(), entry.region.getPos()));
+            });
+            return repels;
+        });
     }
 
     @OnlyIn(value = Dist.CLIENT)
@@ -301,73 +349,19 @@ public class PacketPokedex extends NBTPacket
     {
         final PacketPokedex packet = new PacketPokedex(PacketPokedex.BASERADAR);
         ListTag list = new ListTag();
-
-        final ServerLevel level = player.serverLevel().getLevel();
-
-        final BlockPos pos = player.blockPosition();
-        final GlobalPos here = GlobalPos.of(level.dimension(), pos);
-        for (final GlobalPos c : SecretBaseDimension.getNearestBases(here, PokecubeCore.getConfig().baseRadarRange))
-        {
-            final CompoundTag nbt = new CompoundTag();
-            nbt.put("V", NbtUtils.writeBlockPos(c.pos()));
-            list.add(nbt);
+        for(var entry: RADAR_SUPPLIERS.entrySet()){
+            var key = entry.getKey();
+            var supplier = entry.getValue();
+            var posList = supplier.apply(player);
+            posList.forEach(c->{
+                final CompoundTag nbt = new CompoundTag();
+                nbt.put("V", NbtUtils.writeBlockPos(c.pos()));
+                list.add(nbt);
+            });
+            packet.getTag().put(key, list);
         }
-        packet.getTag().put("_bases_", list);
-
         packet.getTag().putBoolean("M", watch);
         packet.getTag().putInt("R", PokecubeCore.getConfig().baseRadarRange);
-        final List<GlobalPos> meteors = new ArrayList<>(PokecubeSerializer.getInstance().meteors);
-        meteors.removeIf(p -> p.dimension() != here.dimension());
-
-        SquareLoopCruncher searcher = new SquareLoopCruncher();
-        int step = 12 * 16;
-        BlockPos testPos = searcher.getNext(pos, step);
-
-        ResourceLocation resourcelocation1 = ResourceLocation.parse("pokecube_world:meteorites");
-        var registry = level.registryAccess().registryOrThrow(RegHelper.STRUCTURE_REGISTRY);
-        var key = TagKey.create(RegHelper.STRUCTURE_REGISTRY, resourcelocation1);
-        HolderSet<Structure> holderset = HolderSet.direct(registry.getOrCreateTag(key).stream().toList());
-
-        long time = System.nanoTime();
-        while ((System.nanoTime() - time) < 5e5)
-        {
-            Pair<BlockPos, Holder<Structure>> thing = level.getChunkSource().getGenerator()
-                    .findNearestMapStructure(level, holderset, testPos, 1, false);
-            if (thing != null)
-            {
-                BlockPos p2 = thing.getFirst();
-                if (level.isPositionEntityTicking(p2))
-                    p2 = p2.atY(level.getHeight(Types.WORLD_SURFACE, p2.getX(), p2.getZ()));
-                meteors.add(GlobalPos.of(level.dimension(), p2));
-            }
-            testPos = searcher.getNext(pos, step);
-        }
-
-        meteors.sort((c1, c2) -> {
-            final int d1 = c1.pos().compareTo(pos);
-            final int d2 = c2.pos().compareTo(pos);
-            return d2 - d1;
-        });
-
-        list = new ListTag();
-        for (int i = 0; i < Math.min(10, meteors.size()); i++)
-        {
-            final CompoundTag nbt = new CompoundTag();
-            nbt.put("V", NbtUtils.writeBlockPos(meteors.get(i).pos()));
-            list.add(nbt);
-        }
-        packet.getTag().put("_meteors_", list);
-
-        list = new ListTag();
-        final List<ForbiddenEntry> repels = SpawnHandler.getForbiddenEntries(level, pos);
-        for (final ForbiddenEntry entry : repels)
-        {
-            final CompoundTag nbt = new CompoundTag();
-            nbt.put("V", NbtUtils.writeBlockPos(entry.region.getPos()));
-            list.add(nbt);
-        }
-        packet.getTag().put("_repels_", list);
-
         PacketPokedex.ASSEMBLER.sendTo(packet.getTag(), player);
     }
 
