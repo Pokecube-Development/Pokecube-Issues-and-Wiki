@@ -3,6 +3,7 @@ package pokecube.adventures.client.gui.trainer.editor.pages;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.client.Minecraft;
@@ -24,7 +25,6 @@ import pokecube.core.client.gui.helper.GuardEntry;
 import pokecube.core.client.gui.helper.RouteEditHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.network.packets.PacketSyncRoutes;
-import thut.lib.TComponent;
 
 public class AI extends Page
 {
@@ -47,7 +47,7 @@ public class AI extends Page
 
     public AI(final EditorGui parent)
     {
-        super(TComponent.literal(""), parent);
+        super(Component.literal(""), parent);
         parent.guard.attachChangeListener(callback);
     }
 
@@ -86,10 +86,10 @@ public class AI extends Page
         final int sy = 12;
         int i = 0;
 
-        this.resetTimeLose = new EditBox(this.font, x + dx, y + dy + sy * i++, 50, 10, TComponent.literal(""));
-        this.resetTimeWin = new EditBox(this.font, x + dx, y + dy + sy * i++, 50, 10, TComponent.literal(""));
-        this.battleCooldown = new EditBox(this.font, x + dx, y + dy + sy * i++, 50, 10, TComponent.literal(""));
-        this.faceDirection = new EditBox(this.font, x + dx, y + dy + sy * i++, 30, 10, TComponent.literal(""));
+        this.resetTimeLose = new EditBox(this.font, x + dx, y + dy + sy * i++, 50, 10, Component.literal(""));
+        this.resetTimeWin = new EditBox(this.font, x + dx, y + dy + sy * i++, 50, 10, Component.literal(""));
+        this.battleCooldown = new EditBox(this.font, x + dx, y + dy + sy * i++, 50, 10, Component.literal(""));
+        this.faceDirection = new EditBox(this.font, x + dx, y + dy + sy * i++, 30, 10, Component.literal(""));
 
         final Predicate<String> intValid = input -> {
             try
@@ -146,14 +146,14 @@ public class AI extends Page
                 this.onChanged();
             };
 
-            final Button press = new Button.Builder(TComponent.literal(state.name()), action).bounds(x - 123,
+            final Button press = new Button.Builder(Component.literal(state.name()), action).bounds(x - 123,
                     y - 30 + index * 12, 100, 12).build();
 
             press.setFGColor(this.parent.aiStates.getAIState(state) ? 0x00FF00 : 0xFF0000);
             this.addRenderableWidget(press);
         }
 
-        this.addRenderableWidget(new Button.Builder(TComponent.translatable("traineredit.button.home"),
+        this.addRenderableWidget(new Button.Builder(Component.translatable("traineredit.button.home"),
                 (b) -> this.closeCallback.run()).bounds(x + 73, y + 64, 50, 12).build());
     }
 

@@ -2,6 +2,7 @@ package pokecube.adventures.client.gui.blocks;
 
 import java.util.List;
 
+import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Lists;
@@ -17,7 +18,6 @@ import pokecube.adventures.blocks.commander.CommanderTile;
 import pokecube.adventures.network.PacketCommander;
 import pokecube.api.entity.pokemob.IHasCommands.Command;
 import pokecube.core.PokecubeCore;
-import thut.lib.TComponent;
 
 public class Commander extends Screen
 {
@@ -29,7 +29,7 @@ public class Commander extends Screen
 
     public Commander(final BlockPos tilePos)
     {
-        super(TComponent.translatable("pokecube_adventures.commander.gui"));
+        super(Component.translatable("pokecube_adventures.commander.gui"));
         this.pos = tilePos;
         this.tile = (CommanderTile) PokecubeCore.proxy.getWorld().getBlockEntity(this.pos);
     }
@@ -59,20 +59,20 @@ public class Commander extends Screen
         for (final Command command : types)
             names.add(command.name());
 
-        this.addRenderableWidget(new Button.Builder(TComponent.literal("\u25b2"), (b) -> {
+        this.addRenderableWidget(new Button.Builder(Component.literal("\u25b2"), (b) -> {
             if (this.index < names.size() - 1) this.index++;
             else this.index = 0;
             this.command.setValue(names.get(this.index));
         }).bounds(this.width / 2 - xOffset + 64, this.height / 2 - yOffset - 85, 20, 20).build());
 
-        this.addRenderableWidget(new Button.Builder(TComponent.literal("\u25bc"), (b) -> {
+        this.addRenderableWidget(new Button.Builder(Component.literal("\u25bc"), (b) -> {
             if (this.index > 0) this.index--;
             else this.index = names.size() - 1;
             this.command.setValue(names.get(this.index));
         }).bounds(this.width / 2 - xOffset + 64, this.height / 2 - yOffset - 65, 20, 20).build());
 
         this.command = new EditBox(this.font, this.width / 2 - 50, this.height / 4 + 74 + yOffset, 100, 10,
-                TComponent.literal(""));
+                Component.literal(""));
         final String init = this.tile.getCommand() == null ? "ATTACKLOCATION" : "" + this.tile.getCommand();
         this.command.setValue(init);
 
@@ -80,7 +80,7 @@ public class Commander extends Screen
             if (init.equals(names.get(this.index))) break;
 
         this.args = new EditBox(this.font, this.width / 2 - 50, this.height / 4 + 94 + yOffset, 100, 10,
-                TComponent.literal(""));
+                Component.literal(""));
         this.args.setValue(this.tile.args);
 
         this.addRenderableWidget(this.command);

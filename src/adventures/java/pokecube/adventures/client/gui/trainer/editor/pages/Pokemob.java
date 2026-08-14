@@ -26,7 +26,6 @@ import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.database.Database;
 import pokecube.core.entity.genetics.genes.SizeGene;
 import pokecube.core.items.pokecubes.PokecubeManager;
-import thut.lib.TComponent;
 
 import java.util.function.Predicate;
 
@@ -62,7 +61,7 @@ public class Pokemob extends Page
 
     public Pokemob(final EditorGui parent)
     {
-        super(TComponent.literal(""), parent);
+        super(Component.literal(""), parent);
     }
 
     @Override
@@ -72,7 +71,7 @@ public class Pokemob extends Page
         final int yOffset = this.height / 2;
         final int xOffset = this.width / 2;
 
-        this.type = new EditBox(this.font, xOffset - 120, yOffset - 55, 100, 10, TComponent.literal(""));
+        this.type = new EditBox(this.font, xOffset - 120, yOffset - 55, 100, 10, Component.literal(""));
         this.addRenderableWidget(this.type);
 
         final Predicate<String> intValid = input -> {
@@ -101,30 +100,30 @@ public class Pokemob extends Page
         for (int i = 0; i < 4; i++)
         {
             this.moves[i] = new EditBox(this.font, xOffset - 120, yOffset - 30 + i * 10, 70, 10,
-                    TComponent.literal(""));
+                    Component.literal(""));
             this.addRenderableWidget(this.moves[i]);
         }
         final int evivshiftx = xOffset + 60;
         final int evivshifty = yOffset - 56;
         for (int i = 0; i < 6; i++)
         {
-            this.ivs[i] = new EditBox(this.font, evivshiftx, evivshifty + i * 10, 20, 10, TComponent.literal(""));
-            this.evs[i] = new EditBox(this.font, evivshiftx + 30, evivshifty + i * 10, 30, 10, TComponent.literal(""));
+            this.ivs[i] = new EditBox(this.font, evivshiftx, evivshifty + i * 10, 20, 10, Component.literal(""));
+            this.evs[i] = new EditBox(this.font, evivshiftx + 30, evivshifty + i * 10, 30, 10, Component.literal(""));
             this.ivs[i].setFilter(intValid);
             this.evs[i].setFilter(intValid);
             this.addRenderableWidget(this.ivs[i]);
             this.addRenderableWidget(this.evs[i]);
         }
-        this.level = new EditBox(this.font, xOffset - 120, yOffset + 26, 27, 10, TComponent.literal(""));
+        this.level = new EditBox(this.font, xOffset - 120, yOffset + 26, 27, 10, Component.literal(""));
         this.level.setFilter(intValid);
         this.addRenderableWidget(this.level);
 
-        this.size = new EditBox(this.font, xOffset - 90, yOffset + 26, 50, 10, TComponent.literal(""));
+        this.size = new EditBox(this.font, xOffset - 90, yOffset + 26, 50, 10, Component.literal(""));
         this.size.setFilter(floatValid);
         this.addRenderableWidget(this.size);
 
-        this.ability = new EditBox(this.font, xOffset - 60, yOffset + 50, 90, 10, TComponent.literal(""));
-        this.nature = new EditBox(this.font, xOffset - 120, yOffset + 50, 50, 10, TComponent.literal(""));
+        this.ability = new EditBox(this.font, xOffset - 60, yOffset + 50, 90, 10, Component.literal(""));
+        this.nature = new EditBox(this.font, xOffset - 120, yOffset + 50, 50, 10, Component.literal(""));
         this.addRenderableWidget(this.ability);
         this.addRenderableWidget(this.nature);
         this.nature.setEditable(false);
@@ -180,8 +179,8 @@ public class Pokemob extends Page
 
         // Now for the buttons
 
-        final Component next = TComponent.literal(">");
-        final Component prev = TComponent.literal("<");
+        final Component next = Component.literal(">");
+        final Component prev = Component.literal("<");
 
         this.addRenderableWidget(new Button.Builder(next, (b) -> {
             int index = this.nat.ordinal() + 1;
@@ -226,29 +225,29 @@ public class Pokemob extends Page
             this.onChanged();
         }).bounds(xOffset - 52, yOffset + 62, 12, 12).build());
 
-        this.addRenderableWidget(new Button.Builder(TComponent.translatable("traineredit.button.home"),
+        this.addRenderableWidget(new Button.Builder(Component.translatable("traineredit.button.home"),
                 (b) -> this.closeCallback.run()).bounds(xOffset + 73, yOffset + 64, 50, 12).build());
 
         this.addRenderableWidget(
-                new Button.Builder(TComponent.translatable("traineredit.button.apply"), (b) -> this.onChanged()).bounds(
+                new Button.Builder(Component.translatable("traineredit.button.apply"), (b) -> this.onChanged()).bounds(
                         xOffset + 73, yOffset + 52, 50, 12).build());
 
         // Live pokemob editing doesn't have this option, so the deleteCallback
         // will be null in that case.
         if (this.deleteCallback != null)
         {
-            this.addRenderableWidget(new Button.Builder(TComponent.translatable(
+            this.addRenderableWidget(new Button.Builder(Component.translatable(
                     this.pokemob == null ? "traineredit.button.newpokemob" : "traineredit.button.delete"), (b) -> {
                 if (this.pokemob != null) this.deleteCallback.run();
                 else
                 {
                     this.onChanged();
-                    if (this.pokemob != null) b.setMessage(TComponent.translatable("traineredit.button.delete"));
+                    if (this.pokemob != null) b.setMessage(Component.translatable("traineredit.button.delete"));
                 }
             }).bounds(xOffset + 73, yOffset + 40, 50, 12).build());
         }
 
-        this.addRenderableWidget(new Button.Builder(TComponent.literal(gender), (b) -> {
+        this.addRenderableWidget(new Button.Builder(Component.literal(gender), (b) -> {
             if (this.pokemob != null)
             {
                 final byte old = this.pokemob.getSexe();
@@ -260,18 +259,18 @@ public class Pokemob extends Page
                     this.pokemob.setSexe(this.gender);
                     final String newgender =
                             this.gender == IPokemob.MALE ? "♂" : this.gender == IPokemob.FEMALE ? "♀" : "o";
-                    b.setMessage(TComponent.literal(newgender));
+                    b.setMessage(Component.literal(newgender));
                     this.onChanged();
                 }
             }
         }).bounds(xOffset - 122, yOffset - 67, 10, 10).build());
 
-        this.addRenderableWidget(new Button.Builder(TComponent.literal(this.shiny ? "Y" : "N"), (b) -> {
+        this.addRenderableWidget(new Button.Builder(Component.literal(this.shiny ? "Y" : "N"), (b) -> {
             if (this.pokemob != null)
             {
                 this.shiny = !this.pokemob.isShiny();
                 this.pokemob.setShiny(this.shiny);
-                b.setMessage(TComponent.literal(this.shiny ? "Y" : "N"));
+                b.setMessage(Component.literal(this.shiny ? "Y" : "N"));
                 this.onChanged();
             }
         }).bounds(xOffset - 30, yOffset - 42, 10, 10).build());
@@ -293,7 +292,7 @@ public class Pokemob extends Page
                 if (entry == null || entry == Database.missingno)
                 {
                     Minecraft.getInstance().player.displayClientMessage(
-                            TComponent.translatable("traineredit.info.invalidentry"), true);
+                            Component.translatable("traineredit.info.invalidentry"), true);
                     this.type.setValue("");
                     return;
                 }
@@ -305,7 +304,7 @@ public class Pokemob extends Page
                     if (this.pokemob == null)
                     {
                         Minecraft.getInstance().player.displayClientMessage(
-                                TComponent.translatable("traineredit.info.invalidentry"), true);
+                                Component.translatable("traineredit.info.invalidentry"), true);
                         this.type.setValue("");
                         return;
                     }
@@ -409,7 +408,7 @@ public class Pokemob extends Page
         }
         catch (Exception e)
         {
-            this.parent.mc.player.displayClientMessage(TComponent.translatable("traineredit.error.pokemob", e), false);
+            this.parent.mc.player.displayClientMessage(Component.translatableEscape("traineredit.error.pokemob", e), false);
         }
     }
 

@@ -25,7 +25,6 @@ import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.FeaturesInit;
 import pokecube.legends.init.ItemInit;
 import pokecube.legends.worldgen.DimensionTranserHelper;
-import thut.lib.TComponent;
 
 public class DistortedMirror extends ItemBase
 {
@@ -43,7 +42,7 @@ public class DistortedMirror extends ItemBase
         String message;
         if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltip_id + ".tooltip");
         else message = I18n.get("pokecube.tooltip.advanced");
-        tooltipComponents.add(TComponent.translatable(message));
+        tooltipComponents.add(Component.translatable(message));
     }
 
     @Override

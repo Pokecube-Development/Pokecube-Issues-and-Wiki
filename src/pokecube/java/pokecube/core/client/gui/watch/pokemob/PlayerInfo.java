@@ -7,7 +7,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.StartWatch;
-import thut.lib.TComponent;
 
 public class PlayerInfo extends PokeStartPage
 {
@@ -31,9 +30,9 @@ public class PlayerInfo extends PokeStartPage
         if (this.watch.target instanceof Player) player = (Player) this.watch.target;
 
         // Name Player
-        final Component player_pokemob_red = TComponent.translatable("pokewatch.home.player_pokemob",
+        final Component player_pokemob_red = Component.translatableEscape("pokewatch.home.player_pokemob",
                 player.getDisplayName(), this.parent.pokemob.getDisplayName()).withStyle(ChatFormatting.DARK_RED);
-        final Component player_pokemob_blue = TComponent.translatable("pokewatch.home.player_pokemob",
+        final Component player_pokemob_blue = Component.translatableEscape("pokewatch.home.player_pokemob",
                 player.getDisplayName(), this.parent.pokemob.getDisplayName()).withStyle(ChatFormatting.DARK_BLUE);
         final Component pokemob_name = this.parent.pokemob.getDisplayName();
 

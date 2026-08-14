@@ -17,7 +17,6 @@ import net.minecraft.world.item.ItemStack;
 import thut.bling.ThutBling;
 import thut.bling.bag.large.LargeContainer;
 import thut.core.common.ThutCore;
-import thut.lib.TComponent;
 
 public class LargeEnderBag<T extends LargeContainer> extends AbstractContainerScreen<T>
 {
@@ -181,14 +180,14 @@ public class LargeEnderBag<T extends LargeContainer> extends AbstractContainerSc
 
         // Elements placed in order of selection when pressing tab
         this.renamePageBox = new EditBox(this.font,
-                x + 117, y + 6, 40, 10, TComponent.translatable("block.bag.rename.narrate"));
+                x + 117, y + 6, 40, 10, Component.translatable("block.bag.rename.narrate"));
         this.renamePageBox.setTooltip(Tooltip.create(Component.translatable("block.bag.rename.tooltip")));
         this.renamePageBox.setBordered(false);
         this.renamePageBox.setVisible(false);
         this.renamePageBox.setMaxLength(24);
         this.addRenderableWidget(this.renamePageBox);
 
-        final Component rename = TComponent.translatable("block.bag.rename");
+        final Component rename = Component.translatable("block.bag.rename");
         this.renameButton = this.addRenderableWidget(new Button.Builder(rename, (b) -> {
             final String box = this.renamePageBox.getValue();
             if (!box.equals(this.boxName) && this.renamePageBox.isVisible() && !this.renamePageBox.getValue().equals(""))
@@ -200,10 +199,10 @@ public class LargeEnderBag<T extends LargeContainer> extends AbstractContainerSc
             this.renamePageBox.setVisible(!this.renamePageBox.visible);
         }).bounds(x + 159, y + 5, 10, 10)
                 .tooltip(Tooltip.create(Component.translatable("block.bag.rename.tooltip")))
-                .createNarration(supplier -> TComponent.translatable("block.bag.rename.narrate")).build());
+                .createNarration(supplier -> Component.translatable("block.bag.rename.narrate")).build());
         this.renameButton.setAlpha(0);
 
-        final Component prev = TComponent.translatable("block.bag.previous");
+        final Component prev = Component.translatable("block.bag.previous");
         this.prevButton = this.addRenderableWidget(new Button.Builder(prev, (b) -> {
             this.menu.updateInventoryPages((byte) -1, this.minecraft.player.getInventory());
             this.selectedPageBox.setValue(this.menu.getPageNb());
@@ -213,12 +212,12 @@ public class LargeEnderBag<T extends LargeContainer> extends AbstractContainerSc
         this.prevButton.setAlpha(0);
 
         this.selectedPageBox = new EditBox(this.font,
-                x + 20, y + 128, 22, 10, TComponent.literal(this.page));
+                x + 20, y + 128, 22, 10, Component.literal(this.page));
         this.selectedPageBox.setTooltip(Tooltip.create(Component.translatable("block.bag.page.tooltip")));
         this.selectedPageBox.setBordered(false);
         this.addRenderableWidget(this.selectedPageBox);
 
-        final Component next = TComponent.translatable("block.bag.next");
+        final Component next = Component.translatable("block.bag.next");
         this.nextButton = this.addRenderableWidget(new Button.Builder(next, (b) -> {
             this.menu.updateInventoryPages((byte) 1, this.minecraft.player.getInventory());
             this.selectedPageBox.setValue(this.menu.getPageNb());
@@ -228,19 +227,19 @@ public class LargeEnderBag<T extends LargeContainer> extends AbstractContainerSc
         this.nextButton.setAlpha(0);
 
         this.searchBar = new EditBox(this.font,
-                x + 81, y + 128, 77, 10, TComponent.translatable("block.bag.search.narrate"));
+                x + 81, y + 128, 77, 10, Component.translatable("block.bag.search.narrate"));
         this.searchBar.setTooltip(Tooltip.create(Component.translatable("block.bag.search.tooltip")));
 
         this.searchBar.setBordered(false);
         this.searchBar.setVisible(false);
         this.addRenderableWidget(this.searchBar);
 
-        final Component search = TComponent.translatable("block.bag.search");
+        final Component search = Component.translatable("block.bag.search");
         this.searchButton = this.addRenderableWidget(new Button.Builder(search, (b) -> {
             this.searchBar.setVisible(!this.searchBar.visible);
         }).bounds(x + 159, y + 127, 10, 10)
                 .tooltip(Tooltip.create(Component.translatable("block.bag.search.tooltip")))
-                .createNarration(supplier -> TComponent.translatable("block.bag.search.narrate")).build());
+                .createNarration(supplier -> Component.translatable("block.bag.search.narrate")).build());
         this.searchButton.visible = true;
         this.searchButton.setAlpha(0);
 

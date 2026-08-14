@@ -5,7 +5,6 @@ import java.util.Random;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
 import pokecube.api.entity.pokemob.IPokemob;
-import thut.lib.TComponent;
 
 /**
  * This class matches a pokemob with a random chance. Note that this is
@@ -36,6 +35,6 @@ public class RandomChance extends PokemobCondition
     public Component makeDescription()
     {
         final String var = (int) (100 * this.chance) + "%";
-        return TComponent.translatable("pokemob.description.evolve.chance", var);
+        return Component.translatableEscape("pokemob.description.evolve.chance", var);
     }
 }

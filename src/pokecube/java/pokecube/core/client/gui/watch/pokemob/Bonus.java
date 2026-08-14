@@ -6,13 +6,13 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.MultiLineLabel;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
 import pokecube.core.entity.genetics.genes.SizeGene;
-import thut.lib.TComponent;
 
 public class Bonus extends PokeInfoPage
 {
@@ -22,7 +22,6 @@ public class Bonus extends PokeInfoPage
     int last = 0;
     final PokemobInfoPage parent;
 
-    private MultiLineLabel splitRenderer = MultiLineLabel.EMPTY;
     private final Font fontRender;
 
     public Bonus(final PokemobInfoPage parent)
@@ -61,35 +60,35 @@ public class Bonus extends PokeInfoPage
             graphics.drawString(font, I18n.get("pokewatch.ability", abilityName), x + dx, y + dy, abilitycolour, false);
         }
         final int happiness = this.parent.pokemob.getHappiness();
-        MutableComponent message = TComponent.literal("");
+        MutableComponent message = Component.literal("");
 
         // Draw size
         dy += 12; // 52
-        message = TComponent.translatable("pokewatch.size", "%.2f".formatted(SizeGene.getScale(this.parent.pokemob)));
-        this.splitRenderer = MultiLineLabel.create(this.fontRender, message, 112);
-        this.splitRenderer.renderLeftAlignedNoShadow(graphics, x + dx, y + dy, 12, sizeColour);
+        message = Component.translatableEscape("pokewatch.size", "%.2f".formatted(SizeGene.getScale(this.parent.pokemob)));
+        MultiLineLabel splitRenderer = MultiLineLabel.create(this.fontRender, message, 112);
+        splitRenderer.renderLeftAlignedNoShadow(graphics, x + dx, y + dy, 12, sizeColour);
 
         // Draw Nature
         dy += 12; // 64
         if (nature != null)
         {
-            message = TComponent.translatable("pokewatch.nature", this.parent.pokemob.getNature());
-            this.splitRenderer = MultiLineLabel.create(this.fontRender, message, 112);
-            this.splitRenderer.renderLeftAlignedNoShadow(graphics, x + dx, y + dy, 12, natureColour);
+            message = Component.translatableEscape("pokewatch.nature", this.parent.pokemob.getNature());
+            splitRenderer = MultiLineLabel.create(this.fontRender, message, 112);
+            splitRenderer.renderLeftAlignedNoShadow(graphics, x + dx, y + dy, 12, natureColour);
         }
 
-        if (happiness == 0) message = TComponent.translatable("pokemob.info.happy0", this.parent.pokemob.getDisplayName()).withStyle(ChatFormatting.DARK_RED);
-        if (happiness > 0) message = TComponent.translatable("pokemob.info.happy1", this.parent.pokemob.getDisplayName()).withStyle(ChatFormatting.RED);
-        if (happiness > 49) message = TComponent.translatable("pokemob.info.happy2", this.parent.pokemob.getDisplayName());
-        if (happiness > 99) message = TComponent.translatable("pokemob.info.happy3", this.parent.pokemob.getDisplayName());
-        if (happiness > 149) message = TComponent.translatable("pokemob.info.happy4", this.parent.pokemob.getDisplayName());
-        if (happiness > 199) message = TComponent.translatable("pokemob.info.happy5", this.parent.pokemob.getDisplayName()).withStyle(ChatFormatting.DARK_GREEN);
-        if (happiness > 254) message = TComponent.translatable("pokemob.info.happy6", this.parent.pokemob.getDisplayName()).withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD);
+        if (happiness == 0) message = Component.translatableEscape("pokemob.info.happy0", this.parent.pokemob.getDisplayName()).withStyle(ChatFormatting.DARK_RED);
+        if (happiness > 0) message = Component.translatableEscape("pokemob.info.happy1", this.parent.pokemob.getDisplayName()).withStyle(ChatFormatting.RED);
+        if (happiness > 49) message = Component.translatableEscape("pokemob.info.happy2", this.parent.pokemob.getDisplayName());
+        if (happiness > 99) message = Component.translatableEscape("pokemob.info.happy3", this.parent.pokemob.getDisplayName());
+        if (happiness > 149) message = Component.translatableEscape("pokemob.info.happy4", this.parent.pokemob.getDisplayName());
+        if (happiness > 199) message = Component.translatableEscape("pokemob.info.happy5", this.parent.pokemob.getDisplayName()).withStyle(ChatFormatting.DARK_GREEN);
+        if (happiness > 254) message = Component.translatableEscape("pokemob.info.happy6", this.parent.pokemob.getDisplayName()).withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD);
 
         // Draw Happiness
         dy += 12; // 76
-        this.splitRenderer = MultiLineLabel.create(this.fontRender, message, 112);
-        this.splitRenderer.renderLeftAlignedNoShadow(graphics, x + dx, y + dy, 12, sizeColour);
+        splitRenderer = MultiLineLabel.create(this.fontRender, message, 112);
+        splitRenderer.renderLeftAlignedNoShadow(graphics, x + dx, y + dy, 12, sizeColour);
     }
 
     @Override

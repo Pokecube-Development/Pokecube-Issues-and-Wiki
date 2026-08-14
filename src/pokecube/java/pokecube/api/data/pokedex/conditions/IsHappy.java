@@ -2,7 +2,6 @@ package pokecube.api.data.pokedex.conditions;
 
 import net.minecraft.network.chat.Component;
 import pokecube.api.entity.pokemob.IPokemob;
-import thut.lib.TComponent;
 
 /**
  * This class matches a pokemob with the specified happiness<br>
@@ -29,7 +28,7 @@ public class IsHappy extends PokemobCondition
     {
         if (above && amount > 200)
         {
-            return TComponent.translatable("pokemob.description.evolve.happy");
+            return Component.translatable("pokemob.description.evolve.happy");
         }
         return super.makeDescription();
     }

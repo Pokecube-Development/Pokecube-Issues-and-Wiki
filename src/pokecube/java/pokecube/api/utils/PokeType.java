@@ -2,12 +2,12 @@ package pokecube.api.utils;
 
 import com.google.common.collect.Maps;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import thut.core.common.ThutCore;
-import thut.lib.TComponent;
 
 import java.util.Arrays;
 import java.util.Locale;
@@ -40,10 +40,10 @@ public class PokeType
     @OnlyIn(Dist.CLIENT)
     public static MutableComponent getTranslatedName(final PokeType type)
     {
-        MutableComponent ret = TComponent.literal(type.name);
+        MutableComponent ret = Component.literal(type.name);
         final String translated = I18n.get(PokeType.getUnlocalizedName(type));
         if (translated != null && !translated.startsWith("type."))
-            ret = TComponent.translatable(PokeType.getUnlocalizedName(type));
+            ret = Component.translatable(PokeType.getUnlocalizedName(type));
         ret.setStyle(ret.getStyle().withColor(TextColor.fromRgb(type.colour)));
         return ret;
     }

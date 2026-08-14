@@ -17,7 +17,6 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
-import thut.lib.TComponent;
 
 public class SpawnListEntry
 {
@@ -41,7 +40,7 @@ public class SpawnListEntry
         boolean newDesc = matcher.spawnRule.desc != null && !matcher.spawnRule.desc.isBlank();
         if (newDesc)
         {
-            output.addAll(font.split(TComponent.translatable(matcher.spawnRule.desc), width - font.width(ind)));
+            output.addAll(font.split(Component.translatable(matcher.spawnRule.desc), width - font.width(ind)));
         }
         else
         {
@@ -56,14 +55,14 @@ public class SpawnListEntry
                 {
                     final List<Component> biomes = Lists.newArrayList();
                     for (final ResourceLocation b : stuff.clientBiomes()) biomes
-                            .add(TComponent.translatable(String.format("biome.%s.%s", b.getNamespace(), b.getPath())));
+                            .add(Component.translatable(String.format("biome.%s.%s", b.getNamespace(), b.getPath())));
 
                     if (!biomes.isEmpty())
                     {
                         String biomeString = I18n.get("pokewatch.spawns.biomes") + "\n";
                         for (final Component s : biomes) biomeString = biomeString + s.getString() + ",\n";
                         biomeString = biomeString.substring(0, biomeString.length() - 2) + ".";
-                        output.addAll(font.split(TComponent.literal(biomeString), width - font.width(ind)));
+                        output.addAll(font.split(Component.literal(biomeString), width - font.width(ind)));
                     }
 
                     final List<String> types = Lists.newArrayList();
@@ -76,7 +75,7 @@ public class SpawnListEntry
                     {
                         String typeString = I18n.get("pokewatch.spawns.types") + "\n";
                         for (final String s : types) typeString = typeString + s + ", ";
-                        output.addAll(font.split(TComponent.literal(typeString), width - font.width(ind)));
+                        output.addAll(font.split(Component.literal(typeString), width - font.width(ind)));
                     }
 
                     if (!stuff.clientStructures().isEmpty())
@@ -86,7 +85,7 @@ public class SpawnListEntry
                         {
                             msg = msg + I18n.get("spawn.structure." + s.replace(":", ".")) + ", ";
                         }
-                        output.addAll(font.split(TComponent.literal(msg), width - font.width(ind)));
+                        output.addAll(font.split(Component.literal(msg), width - font.width(ind)));
                     }
                 }
 
@@ -97,9 +96,9 @@ public class SpawnListEntry
                 final boolean water = matcher.water;
                 final boolean air = matcher.air;
                 if (water) if (air) output.addAll(
-                        font.split(TComponent.literal(ind + I18n.get("pokewatch.spawns.water_optional")), width));
+                        font.split(Component.literal(ind + I18n.get("pokewatch.spawns.water_optional")), width));
                 else output
-                        .addAll(font.split(TComponent.literal(ind + I18n.get("pokewatch.spawns.water_only")), width));
+                        .addAll(font.split(Component.literal(ind + I18n.get("pokewatch.spawns.water_only")), width));
                 String times = I18n.get("pokewatch.spawns.times");
                 int time = 0;
                 if (day)
@@ -128,7 +127,7 @@ public class SpawnListEntry
                     time++;
                     times = times + I18n.get("pokewatch.spawns.dawn");
                 }
-                output.addAll(font.split(TComponent.literal(times), width - font.width(ind)));
+                output.addAll(font.split(Component.literal(times), width - font.width(ind)));
             }
         }
 
@@ -183,9 +182,9 @@ public class SpawnListEntry
                     rate = ind + I18n.get("pokewatch.spawns.rate_single", var);
                 }
             }
-            if (!rate.isEmpty()) output.add(TComponent.literal(ind + rate).getVisualOrderText());
+            if (!rate.isEmpty()) output.add(Component.literal(ind + rate).getVisualOrderText());
         }
-        output.add(TComponent.literal("").getVisualOrderText());
+        output.add(Component.literal("").getVisualOrderText());
         return output;
     }
 

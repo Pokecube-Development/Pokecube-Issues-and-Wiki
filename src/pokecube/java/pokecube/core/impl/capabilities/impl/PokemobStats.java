@@ -1,5 +1,6 @@
 package pokecube.core.impl.capabilities.impl;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
@@ -12,7 +13,6 @@ import pokecube.api.utils.PokeType;
 import pokecube.api.utils.Tools;
 import pokecube.core.network.pokemobs.PacketNickname;
 import thut.core.common.ThutCore;
-import thut.lib.TComponent;
 
 public abstract class PokemobStats extends PokemobGenes
 {
@@ -154,7 +154,7 @@ public abstract class PokemobStats extends PokemobGenes
         else if (oldName) name = "";
         this.params.NICKNAMEDW.set(name);
         if (this.getEntity().isAddedToLevel())
-            this.getEntity().setCustomName(oldName ? null : TComponent.literal(nickname));
+            this.getEntity().setCustomName(oldName ? null : Component.literal(nickname));
     }
 
     @Override

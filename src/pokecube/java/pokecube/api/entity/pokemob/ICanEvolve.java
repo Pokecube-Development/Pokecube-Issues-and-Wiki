@@ -36,7 +36,6 @@ import thut.api.entity.genetics.Alleles;
 import thut.api.item.ItemList;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
-import thut.lib.TComponent;
 
 public interface ICanEvolve extends IHasEntry, IHasOwner
 {
@@ -57,7 +56,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         }
         this.setEvolutionTicks(-1);
         this.setGeneralState(GeneralStates.EVOLVING, false);
-        this.displayMessageToOwner(TComponent.translatable("pokemob.evolution.cancel",
+        this.displayMessageToOwner(Component.translatableEscape("pokemob.evolution.cancel",
                 PokemobCaps.getPokemobFor(entity).getDisplayName()));
     }
 
@@ -189,7 +188,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 this.setGeneralState(GeneralStates.EVOLVING, true);
                 // Send the message about evolving, to let user cancel.
                 this.displayMessageToOwner(
-                        TComponent.translatable("pokemob.evolution.start", thisMob.getDisplayName()));
+                        Component.translatableEscape("pokemob.evolution.start", thisMob.getDisplayName()));
                 return true;
             }
             // Evolve the mob.
@@ -257,7 +256,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         Collections.shuffle(moves);
         if (!theEntity.level().isClientSide)
         {
-            final Component mess = TComponent.translatable("pokemob.info.levelup", theMob.getDisplayName(), level + "");
+            final Component mess = Component.translatableEscape("pokemob.info.levelup", theMob.getDisplayName(), level + "");
             theMob.displayMessageToOwner(mess);
         }
         PokecubeAttributes.resetToEntry((IPokemob) this);
@@ -281,8 +280,8 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                     }
                     for (final String s : moves)
                     {
-                        final Component move = TComponent.translatable(MovesUtils.getUnlocalizedMove(s));
-                        final Component mess = TComponent.translatable("pokemob.move.notify.learn",
+                        final Component move = Component.translatable(MovesUtils.getUnlocalizedMove(s));
+                        final Component mess = Component.translatableEscape("pokemob.move.notify.learn",
                                 theMob.getDisplayName(), move);
                         theMob.displayMessageToOwner(mess);
                         theMob.getMoveStats().addPendingMove(s, theMob);

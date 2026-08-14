@@ -26,7 +26,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.moves.MovesUtils;
 import thut.core.common.ThutCore;
-import thut.lib.TComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,7 +123,7 @@ public class ItemTM extends Item
         var info = stack.get(TM_DATA);
         if (info != null)
         {
-            Component name = TComponent.translatable("pokemob.move." + info.moveName());
+            Component name = Component.translatable("pokemob.move." + info.moveName());
             var entry = MovesUtils.getMove(info.moveName());
             if (!stack.has(DataComponents.CUSTOM_NAME))
             {
@@ -137,7 +136,7 @@ public class ItemTM extends Item
             if (tooltipFlag.hasShiftDown())
             {
                 if (entry != null && entry.root_entry._effect_text_simple != null)
-                    tooltipComponents.add(TComponent.literal(entry.root_entry._effect_text_simple));
+                    tooltipComponents.add(Component.literal(entry.root_entry._effect_text_simple));
             }
         }
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);

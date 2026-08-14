@@ -26,7 +26,6 @@ import pokecube.nbtedit.packets.PacketHandler;
 import pokecube.nbtedit.packets.TileRequestPacket;
 import thut.core.common.ThutCore;
 import thut.core.common.network.Packet;
-import thut.lib.TComponent;
 
 public class ClientProxy extends CommonProxy
 {
@@ -86,7 +85,7 @@ public class ClientProxy extends CommonProxy
     @OnlyIn(value = Dist.CLIENT)
     public void sendMessage(final Player player, final String message, final ChatFormatting color)
     {
-        final Component component = TComponent.literal(message);
+        final Component component = Component.literal(message);
         component.getStyle().withColor(TextColor.fromLegacyFormat(color));
         thut.lib.ChatHelper.sendSystemMessage(Minecraft.getInstance().player, component);
     }

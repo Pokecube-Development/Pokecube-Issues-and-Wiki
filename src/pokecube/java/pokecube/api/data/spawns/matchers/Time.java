@@ -6,7 +6,6 @@ import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.data.spawns.SpawnCheck.MatchResult;
 import pokecube.core.utils.TimePeriod;
-import thut.lib.TComponent;
 
 /**
  * 
@@ -65,7 +64,7 @@ public class Time extends BaseMatcher
     {
         if (preset != null && !preset.isBlank())
         {
-            return TComponent.translatable("pokemob.description.evolve." + preset);
+            return Component.translatable("pokemob.description.evolve." + preset);
         }
         return super.makeDescription();
     }

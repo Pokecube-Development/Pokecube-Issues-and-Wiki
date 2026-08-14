@@ -1,6 +1,7 @@
 package thut.tech.common.entity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
@@ -8,7 +9,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import thut.api.entity.blockentity.IBlockEntity;
 import thut.core.init.CommonInit.ICustomStickHandler;
-import thut.lib.TComponent;
 import thut.tech.common.TechCore;
 
 public class LiftStickApplier implements ICustomStickHandler
@@ -26,7 +26,7 @@ public class LiftStickApplier implements ICustomStickHandler
         final EntityLift lift = IBlockEntity.BlockEntityFormer.makeBlockEntity(level, min, max,
                 TechCore.LIFTTYPE.get());
         final String message = lift != null ? "msg.lift.create" : "msg.lift.fail";
-        thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(message));
+        thut.lib.ChatHelper.sendSystemMessage(player, Component.translatable(message));
         if (lift != null)
         {
             lift.owner = player.getUUID();
@@ -50,7 +50,7 @@ public class LiftStickApplier implements ICustomStickHandler
         if (max.getY() - min.getY() > TechCore.config.maxHeight || dw > 2 * TechCore.config.maxRadius + 1)
         {
             final String message = "msg.lift.toobig";
-            if (!level.isClientSide) thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(message));
+            if (!level.isClientSide) thut.lib.ChatHelper.sendSystemMessage(player, Component.translatable(message));
             return false;
         }
         final int num = (dw + 1) * (max.getY() - min.getY() + 1);
@@ -61,7 +61,7 @@ public class LiftStickApplier implements ICustomStickHandler
         {
             final String message = "msg.lift.noblock";
             if (!level.isClientSide)
-                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(message, num));
+                thut.lib.ChatHelper.sendSystemMessage(player, Component.translatableEscape(message, num));
             return false;
         }
         return true;

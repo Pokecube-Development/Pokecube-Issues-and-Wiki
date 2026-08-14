@@ -3,11 +3,11 @@ package pokecube.nbtedit.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.nbtedit.NBTStringHelper;
 import pokecube.nbtedit.nbt.NamedNBT;
 import pokecube.nbtedit.nbt.Node;
-import thut.lib.TComponent;
 
 public class GuiNBTNode extends Button
 {
@@ -29,7 +29,7 @@ public class GuiNBTNode extends Button
     public GuiNBTNode(final GuiNBTTree tree, final Node<NamedNBT> node, final int x, final int y,
             CreateNarration narration)
     {
-        super(x, y, 10, Minecraft.getInstance().font.lineHeight, TComponent.literal(node.toString()),
+        super(x, y, 10, Minecraft.getInstance().font.lineHeight, Component.literal(node.toString()),
                 b -> tree.nodeClicked((GuiNBTNode) b), narration);
         this.tree = tree;
         this.node = node;

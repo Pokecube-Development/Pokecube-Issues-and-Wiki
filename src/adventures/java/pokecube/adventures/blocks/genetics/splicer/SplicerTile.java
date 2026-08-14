@@ -1,6 +1,7 @@
 package pokecube.adventures.blocks.genetics.splicer;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
@@ -18,8 +19,6 @@ import pokecube.adventures.blocks.genetics.helper.recipe.PoweredRecipe;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSplice;
 import pokecube.core.PokecubeCore;
-import thut.api.entity.genetics.IMobGenetics;
-import thut.lib.TComponent;
 
 public class SplicerTile extends BaseGeneticsTile
 {
@@ -63,7 +62,7 @@ public class SplicerTile extends BaseGeneticsTile
     @Override
     public InteractionResult useWithoutItem(BlockPos pos, Player player, BlockHitResult hit)
     {
-        final MutableComponent name = TComponent.translatable("block.pokecube_adventures.splicer");
+        final MutableComponent name = Component.translatable("block.pokecube_adventures.splicer");
         player.openMenu(new SimpleMenuProvider(
                 (id, playerInventory, playerIn) -> new SplicerContainer(id, playerInventory,
                         ContainerLevelAccess.create(this.getLevel(), pos)), name));

@@ -6,7 +6,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.moves.PokemobTerrainEffects;
-import thut.lib.TComponent;
 
 public class TerrainDamageSource extends DamageSource
 {
@@ -33,7 +32,7 @@ public class TerrainDamageSource extends DamageSource
     public Component getLocalizedDeathMessage(final LivingEntity LivingEntityIn)
     {
         final String s = "death.attack." + this.getMsgId();
-        return TComponent.translatable(s, LivingEntityIn.getDisplayName());
+        return Component.translatableEscape(s, LivingEntityIn.getDisplayName());
     }
 
     @Override

@@ -9,6 +9,7 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.commands.arguments.NbtTagArgument;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.adventures.client.gui.trainer.editor.pages.Rewards.RewardOption;
@@ -19,7 +20,6 @@ import pokecube.api.entity.trainers.IHasRewards.Reward;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.helper.INotifiedEntry;
 import pokecube.core.client.gui.helper.ScrollGui;
-import thut.lib.TComponent;
 
 import java.util.function.Predicate;
 
@@ -58,8 +58,8 @@ public class Rewards extends ListPage<RewardOption>
 
             this.index = index;
 
-            this.reward = new EditBox(parent.font, 0, 0, 150, 10, TComponent.literal(""));
-            this.chance = new EditBox(parent.font, 0, 0, 25, 10, TComponent.literal(""));
+            this.reward = new EditBox(parent.font, 0, 0, 150, 10, Component.literal(""));
+            this.chance = new EditBox(parent.font, 0, 0, 25, 10, Component.literal(""));
 
             this.chance.setValue("1.0");
 
@@ -87,13 +87,13 @@ public class Rewards extends ListPage<RewardOption>
                 this.chance.setValue(r.chance + "");
             }
 
-            this.confirm = new Button.Builder(TComponent.literal("Y"), (b) -> {
+            this.confirm = new Button.Builder(Component.literal("Y"), (b) -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.reward.setValue("");
                 this.onUpdated();
             }).bounds(0, 0, 10, 10).build();
 
-            this.delete = new Button.Builder(TComponent.literal("X"), (b) -> {
+            this.delete = new Button.Builder(Component.literal("X"), (b) -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.confirm.active = !this.confirm.active;
             }).bounds(0, 0, 10, 10).build();
@@ -102,7 +102,7 @@ public class Rewards extends ListPage<RewardOption>
             if (index == this.rewards.getRewards().size()) this.delete.active = false;
             this.confirm.active = false;
 
-            this.apply = new Button.Builder(TComponent.translatable("traineredit.button.apply"), (b) -> {
+            this.apply = new Button.Builder(Component.translatable("traineredit.button.apply"), (b) -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.onUpdated();
             }).bounds(0, 0, 45, 10).build();
@@ -193,7 +193,7 @@ public class Rewards extends ListPage<RewardOption>
             }
             catch (final Exception e)
             {
-                Minecraft.getInstance().player.displayClientMessage(TComponent.literal("Errored format for reward!"),
+                Minecraft.getInstance().player.displayClientMessage(Component.literal("Errored format for reward!"),
                         true);
             }
             final Tag tag = this.rewards.serializeNBT(PokecubeCore.proxy.getRegistries());
@@ -210,7 +210,7 @@ public class Rewards extends ListPage<RewardOption>
 
     public Rewards(final EditorGui parent)
     {
-        super(TComponent.literal(""), parent);
+        super(Component.literal(""), parent);
     }
 
     @Override
@@ -241,7 +241,7 @@ public class Rewards extends ListPage<RewardOption>
         super.onPageOpened();
         int x = this.width / 2;
         int y = this.height / 2;
-        this.addRenderableWidget(new Button.Builder(TComponent.translatable("traineredit.button.home"),
+        this.addRenderableWidget(new Button.Builder(Component.translatable("traineredit.button.home"),
                 (b) -> this.closeCallback.run()).bounds(x + 73, y + 64, 50, 12).build());
     }
 }

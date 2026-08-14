@@ -1,9 +1,5 @@
 package pokecube.core.client.gui.watch.pokemob;
 
-import java.util.List;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Tooltip;
@@ -13,7 +9,6 @@ import net.minecraft.resources.ResourceLocation;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
@@ -21,15 +16,10 @@ import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
 import pokecube.core.client.gui.watch.util.WatchPage;
 import pokecube.core.network.packets.PacketPokedex;
-import thut.lib.TComponent;
 
 public abstract class PokeInfoPage extends WatchPage
 {
     final PokemobInfoPage parent;
-    static List<PokedexEntry> entries = Lists.newArrayList();
-    static List<FormeHolder> formes = Lists.newArrayList();
-    static int entryIndex = 0;
-    static int formIndex = 0;
     public static TexButton formChanger;
     public static TexButton shiny;
     public static TexButton gender;
@@ -37,7 +27,7 @@ public abstract class PokeInfoPage extends WatchPage
     public PokeInfoPage(final PokemobInfoPage parent, final String title, final ResourceLocation day,
             final ResourceLocation night)
     {
-        super(TComponent.translatable("pokewatch.title.pokeinfo." + title), parent.watch, day, night);
+        super(Component.translatable("pokewatch.title.pokeinfo." + title), parent.watch, day, night);
         this.parent = parent;
     }
 
@@ -69,8 +59,8 @@ public abstract class PokeInfoPage extends WatchPage
         super.init();
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2;
-        final Component next = TComponent.literal("");
-        final Component prev = TComponent.literal("");
+        final Component next = Component.literal("");
+        final Component prev = Component.literal("");
 
         final TexButton prevBtn = this.addRenderableWidget(new TexButton.Builder(next, b -> {
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
@@ -109,7 +99,7 @@ public abstract class PokeInfoPage extends WatchPage
                 .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.next.narrate")).build());
 
         // Play Sound Button
-        this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
+        this.addRenderableWidget(new TexButton.Builder(Component.literal(""), b -> {
             this.watch.player.playSound(this.parent.pokemob.getSound(), 0.5f, 1.0F);
         }).bounds(x - 95, y + 40, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
                 .setRender(new UVImgRender(229, 72, 12, 12))
@@ -117,7 +107,7 @@ public abstract class PokeInfoPage extends WatchPage
                 .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.sound.narrate")).build());
 
         // Change Forms Button
-        formChanger = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
+        formChanger = this.addRenderableWidget(new TexButton.Builder(Component.literal(""), b -> {
             if (this.parent.pokemob.getEntity().isAddedToLevel()) return;
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
             PokedexEntry nextE = Pokedex.getInstance().getNextForm(entry);
@@ -136,7 +126,7 @@ public abstract class PokeInfoPage extends WatchPage
         formChanger.active = (firstEntry != nextEntry && previousEntry != firstEntry) && !this.parent.pokemob.getEntity().isAddedToLevel();
 
         // Shiny Button
-        shiny = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
+        shiny = this.addRenderableWidget(new TexButton.Builder(Component.literal(""), b -> {
             if (this.parent.pokemob.getPokedexEntry().hasShiny && !this.parent.pokemob.getEntity().isAddedToLevel())
             {
                 this.parent.pokemob.setShiny(!this.parent.pokemob.isShiny());
@@ -148,13 +138,13 @@ public abstract class PokeInfoPage extends WatchPage
         shiny.active = this.parent.pokemob.getPokedexEntry().hasShiny && !this.parent.pokemob.getEntity().isAddedToLevel();
 
         // Gender Button
-        Component genderText = TComponent.literal("");
+        Component genderText = Component.literal("");
         if (this.parent.pokemob.getSexe() == IPokemob.MALE)
         {
-            genderText = TComponent.literal("♂");
+            genderText = Component.literal("♂");
         } else if (this.parent.pokemob.getSexe() == IPokemob.FEMALE)
         {
-            genderText = TComponent.literal("♀");
+            genderText = Component.literal("♀");
         }
 
         gender = this.addRenderableWidget(new TexButton.Builder(genderText, b -> {

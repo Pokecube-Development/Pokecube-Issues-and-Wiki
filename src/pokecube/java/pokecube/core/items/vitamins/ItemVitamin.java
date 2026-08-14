@@ -12,7 +12,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import thut.lib.TComponent;
 
 public class ItemVitamin extends Item
 {
@@ -34,6 +33,6 @@ public class ItemVitamin extends Item
         String message;
         if (Screen.hasShiftDown()) message = I18n.get("pokecube.tooltip." + this.type);
         else message = I18n.get("pokecube.tooltip.advanced");
-        tooltipComponents.add(TComponent.translatable(message));
+        tooltipComponents.add(Component.translatable(message));
     }
 }

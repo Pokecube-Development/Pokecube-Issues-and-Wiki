@@ -79,7 +79,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.Logic;
-import pokecube.core.ai.tasks.combat.management.FindTargetsTask;
 import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
@@ -113,7 +112,6 @@ import thut.api.world.WorldTickManager.DelayedTask;
 import thut.core.common.ThutCore;
 import thut.core.common.network.SyncAttachments;
 import thut.lib.RegHelper;
-import thut.lib.TComponent;
 
 import java.util.Collection;
 import java.util.List;
@@ -871,7 +869,7 @@ public class PokemobEventsHandler
                 }
             }
             final Entity targetOwner = ownable != null ? ownable.getOwner() : null;
-            Component faintMsg = TComponent.translatable("pokemob.action.faint.enemy", attacked.getDisplayName());
+            Component faintMsg = Component.translatable("pokemob.action.faint.enemy", attacked.getDisplayName());
             attacker.displayMessageToOwner(faintMsg);
 
             // If the target has an owner, divert agro over to that, as the
@@ -1041,7 +1039,7 @@ public class PokemobEventsHandler
         if (deny)
         {
             // Add message here about cannot use items right now
-            thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokemob.action.cannotuse"));
+            thut.lib.ChatHelper.sendSystemMessage(player, Component.translatable("pokemob.action.cannotuse"));
             return;
         }
 

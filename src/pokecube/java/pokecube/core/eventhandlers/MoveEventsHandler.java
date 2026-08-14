@@ -1,6 +1,7 @@
 package pokecube.core.eventhandlers;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -58,7 +59,6 @@ import thut.api.entity.event.BreakTestEvent;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.commands.CommandTools;
-import thut.lib.TComponent;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -143,7 +143,7 @@ public class MoveEventsHandler
         if (!BreakTestEvent.testBreak(player.level(), location.getPos(), location.getBlockState(player.level()),
                 player))
         {
-            final MutableComponent message = TComponent.translatable("pokemob.createbase.deny.noperms");
+            final MutableComponent message = Component.translatable("pokemob.createbase.deny.noperms");
             if (!user.inCombat() && denyMessage) thut.lib.ChatHelper.sendSystemMessage(player, message);
             return false;
         }

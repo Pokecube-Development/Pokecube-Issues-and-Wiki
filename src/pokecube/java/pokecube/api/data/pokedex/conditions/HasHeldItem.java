@@ -11,7 +11,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.Tools;
-import thut.lib.TComponent;
 
 /**
  * This class matches a pokemob with the specified held or evolution item<br>
@@ -92,7 +91,7 @@ public class HasHeldItem extends PokemobCondition
     public Component makeDescription()
     {
         Component message = null;
-        if (!_value.isEmpty()) message = TComponent.translatable("pokemob.description.evolve.item",
+        if (!_value.isEmpty()) message = Component.translatableEscape("pokemob.description.evolve.item",
                 this._value.getHoverName().getString());
         else if (_tag != null)
         {
@@ -100,7 +99,7 @@ public class HasHeldItem extends PokemobCondition
             if (opt.isPresent())
             {
                 ItemStack stack = new ItemStack(opt.get().get(0));
-                message = TComponent.translatable("pokemob.description.evolve.item", stack.getHoverName().getString());
+                message = Component.translatableEscape("pokemob.description.evolve.item", stack.getHoverName().getString());
             }
         }
         return message;

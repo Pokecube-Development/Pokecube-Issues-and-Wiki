@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
 import pokecube.api.entity.pokemob.IPokemob;
-import thut.lib.TComponent;
 
 /**
  * This class matches a pokemob with the specified move<br>
@@ -36,6 +35,6 @@ public class HasName extends PokemobCondition {
 
     @Override
     public Component makeDescription() {
-        return TComponent.translatable(desc);
+        return Component.translatable(desc);
     }
 }

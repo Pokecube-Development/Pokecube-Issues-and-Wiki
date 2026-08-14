@@ -14,6 +14,7 @@ import com.mojang.brigadier.suggestion.SuggestionProvider;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -31,11 +32,10 @@ import pokecube.core.utils.PokemobTracker;
 import thut.api.util.PermNodes;
 import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.core.common.commands.CommandTools;
-import thut.lib.TComponent;
 
 public class Pokerecall
 {
-    private static SuggestionProvider<CommandSourceStack> SUGGEST_NAMES = (ctx, sb) -> {
+    private static final SuggestionProvider<CommandSourceStack> SUGGEST_NAMES = (ctx, sb) -> {
         final ServerPlayer player = ctx.getSource().getPlayerOrException();
         final Set<String> opts = Sets.newHashSet();
         final List<Entity> mobs = PokemobTracker.getMobs(player,
@@ -81,10 +81,10 @@ public class Pokerecall
                 }
             }
         }
-        if (num == 0) source.sendSuccess(() -> TComponent.translatable("pokecube.recall.fail"), false);
+        if (num == 0) source.sendSuccess(() -> Component.translatable("pokecube.recall.fail"), false);
         else {
             int finalNum = num;
-            source.sendSuccess(() -> TComponent.translatable("pokecube.recall.success", finalNum), false);
+            source.sendSuccess(() -> Component.translatableEscape("pokecube.recall.success", finalNum), false);
         }
         return 0;
     }
@@ -112,10 +112,10 @@ public class Pokerecall
                 }
             }
         }
-        if (num == 0) source.sendSuccess(() -> TComponent.translatable("pokecube.recall.fail"), false);
+        if (num == 0) source.sendSuccess(() -> Component.translatable("pokecube.recall.fail"), false);
         else {
             int finalNum = num;
-            source.sendSuccess(() -> TComponent.translatable("pokecube.recall.success", finalNum), false);
+            source.sendSuccess(() -> Component.translatableEscape("pokecube.recall.success", finalNum), false);
         }
         return 0;
     }

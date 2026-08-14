@@ -1,6 +1,7 @@
 package pokecube.legends.init.moves;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
@@ -17,9 +18,7 @@ import pokecube.legends.blocks.customblocks.PortalWarp;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.tileentity.RingTile;
 import thut.api.Tracker;
-import thut.api.entity.IHungrymob;
 import thut.api.maths.Vector3;
-import thut.lib.TComponent;
 
 public class ActionHyperspaceHole implements IMoveWorldEffect
 {
@@ -33,14 +32,13 @@ public class ActionHyperspaceHole implements IMoveWorldEffect
         final LivingEntity owner = user.getOwner();
         if (!(owner instanceof ServerPlayer player)) return false;
         final MutableComponent message;
-        final IHungrymob mob = user;
         int count = 1;
         final int level = user.getLevel();
         final int hungerValue = PokecubeCore.getConfig().pokemobLifeSpan / 16;
         count = (int) Math.max(1, Math.ceil(count * Math.pow((100 - level) / 100d, 3))) * hungerValue;
         if (level < PokecubeLegends.config.levelCreatePortal)
         {
-            message = TComponent.translatable("msg.hoopaportal.deny.too_weak");
+            message = Component.translatable("msg.hoopaportal.deny.too_weak");
             player.displayClientMessage(message, true);
             return false;
         }
@@ -54,7 +52,7 @@ public class ActionHyperspaceHole implements IMoveWorldEffect
                 final long diff = now - lastUse;
                 if (diff < PokecubeLegends.config.ticksPerPortalSpawn)
                 {
-                    message = TComponent.translatable("msg.hoopaportal.deny.too_soon");
+                    message = Component.translatable("msg.hoopaportal.deny.too_soon");
                     player.displayClientMessage(message, true);
                     return false;
                 }
@@ -68,8 +66,8 @@ public class ActionHyperspaceHole implements IMoveWorldEffect
             // Didn't place, so lets skip
             if (state == null)
             {
-                message = TComponent.translatable("msg.hoopaportal.deny.invalid");
-                mob.applyHunger(count);
+                message = Component.translatable("msg.hoopaportal.deny.invalid");
+                user.applyHunger(count);
             }
             else
             {
@@ -77,8 +75,8 @@ public class ActionHyperspaceHole implements IMoveWorldEffect
                 block.place(world, prevPos, context.getHorizontalDirection());
                 final BlockEntity tile = world.getBlockEntity(prevPos.above());
                 if (tile instanceof RingTile) ((RingTile) tile).despawns = true;
-                message = TComponent.translatable("msg.hoopaportal.accept.info");
-                mob.applyHunger(count);
+                message = Component.translatable("msg.hoopaportal.accept.info");
+                user.applyHunger(count);
             }
             player.displayClientMessage(message, true);
             return true;

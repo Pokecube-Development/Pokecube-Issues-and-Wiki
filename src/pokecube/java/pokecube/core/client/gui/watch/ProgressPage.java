@@ -16,7 +16,6 @@ import pokecube.core.client.gui.watch.progress.PerTypeProgress;
 import pokecube.core.client.gui.watch.progress.Progress;
 import pokecube.core.client.gui.watch.util.PageWithSubPages;
 import pokecube.core.network.packets.PacketPokedex;
-import thut.lib.TComponent;
 
 import java.util.List;
 
@@ -49,7 +48,7 @@ public class ProgressPage extends PageWithSubPages<Progress>
 
     public ProgressPage(final GuiPokeWatch watch)
     {
-        super(TComponent.translatable("pokewatch.progress.main.title"), watch, ProgressPage.TEX_DM,
+        super(Component.translatable("pokewatch.progress.main.title"), watch, ProgressPage.TEX_DM,
                 ProgressPage.TEX_NM);
     }
 
@@ -94,8 +93,8 @@ public class ProgressPage extends PageWithSubPages<Progress>
     {
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2;
-        final Component next = TComponent.literal("");
-        final Component prev = TComponent.literal("");
+        final Component next = Component.literal("");
+        final Component prev = Component.literal("");
 
         final TexButton prevBtn = this.addRenderableWidget(new TexButton.Builder(prev, b ->
         {

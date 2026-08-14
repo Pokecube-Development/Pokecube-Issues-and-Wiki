@@ -3,6 +3,7 @@ package thut.api.level.structures;
 import java.util.Locale;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
@@ -11,7 +12,6 @@ import thut.api.ThutCaps;
 import thut.api.util.PermNodes;
 import thut.core.init.CommonInit;
 import thut.core.init.CommonInit.ICustomStickHandler;
-import thut.lib.TComponent;
 
 public class StructureStickApplier implements ICustomStickHandler
 {
@@ -52,7 +52,7 @@ public class StructureStickApplier implements ICustomStickHandler
         {
             StructureManager.remove(level.dimension(), box, s -> s.is(structure));
             final String message = "msg.structmake.removed";
-            thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(message, structure, building));
+            thut.lib.ChatHelper.sendSystemMessage(player, Component.translatableEscape(message, structure, building));
         }
         else
         {
@@ -61,7 +61,7 @@ public class StructureStickApplier implements ICustomStickHandler
             {
                 structs.addBuilding(structure, building, box);
                 final String message = "msg.structmake.set";
-                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(message, structure, building));
+                thut.lib.ChatHelper.sendSystemMessage(player, Component.translatableEscape(message, structure, building));
             }
         }
     }

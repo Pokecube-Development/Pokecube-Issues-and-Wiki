@@ -23,7 +23,6 @@ import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.util.WatchPage;
 import thut.api.maths.Vector3;
-import thut.lib.TComponent;
 
 import java.util.Map;
 import java.util.Set;
@@ -46,7 +45,7 @@ public class SecretBaseRadarPage extends WatchPage
 
         RadarMode(final String string, final float scale)
         {
-            this.key = TComponent.translatable("pokewatch.title." + string + "radar");
+            this.key = Component.translatable("pokewatch.title." + string + "radar");
             this.rangeScale = scale;
             SecretBaseRadarPage.radar_hits.put(this, Sets.newHashSet());
         }
@@ -97,7 +96,7 @@ public class SecretBaseRadarPage extends WatchPage
 
     public SecretBaseRadarPage(final GuiPokeWatch watch)
     {
-        super(TComponent.translatable(""), watch, SecretBaseRadarPage.TEX_DM, SecretBaseRadarPage.TEX_NM);
+        super(Component.translatable(""), watch, SecretBaseRadarPage.TEX_DM, SecretBaseRadarPage.TEX_NM);
     }
 
     @Override
@@ -112,7 +111,7 @@ public class SecretBaseRadarPage extends WatchPage
         super.onPageOpened();
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
-        this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""),
+        this.addRenderableWidget(new TexButton.Builder(Component.literal(""),
                 b -> SecretBaseRadarPage.mode = RadarMode.values()[(SecretBaseRadarPage.mode.ordinal() + 1)
                         % RadarMode.values().length]).bounds(x + 136, y + 90, 17, 17)
                 .setTexture(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(212, 123, 17, 17))

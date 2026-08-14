@@ -12,6 +12,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
@@ -19,7 +20,6 @@ import net.neoforged.neoforge.server.permission.PermissionAPI;
 import net.neoforged.neoforge.server.permission.events.PermissionGatherEvent;
 import net.neoforged.neoforge.server.permission.nodes.PermissionNode;
 import net.neoforged.neoforge.server.permission.nodes.PermissionTypes;
-import thut.lib.TComponent;
 
 public class PermNodes
 {
@@ -148,7 +148,7 @@ public class PermNodes
     {
         PermissionNode<Boolean> node = new PermissionNode<>(modid, name, PermissionTypes.BOOLEAN,
                 (player, playerUUID, context) -> level.matches(playerUUID));
-        node.setInformation(TComponent.literal(node.getNodeName()), TComponent.literal(message));
+        node.setInformation(Component.literal(node.getNodeName()), Component.literal(message));
         NODES.put(name, node);
         NODES.put(node.getNodeName(), node);
     }
@@ -158,7 +158,7 @@ public class PermNodes
     {
         PermissionNode<String> node = new PermissionNode<>(modid, name, PermissionTypes.STRING,
                 (player, playerUUID, context) -> _default);
-        node.setInformation(TComponent.literal(node.getNodeName()), TComponent.literal(message));
+        node.setInformation(Component.literal(node.getNodeName()), Component.literal(message));
         NODES.put(name, node);
         NODES.put(node.getNodeName(), node);
 
@@ -171,7 +171,7 @@ public class PermNodes
     {
         PermissionNode<Integer> node = new PermissionNode<>(modid, name, PermissionTypes.INTEGER,
                 (player, playerUUID, context) -> _default);
-        node.setInformation(TComponent.literal(node.getNodeName()), TComponent.literal(message));
+        node.setInformation(Component.literal(node.getNodeName()), Component.literal(message));
         NODES.put(name, node);
         NODES.put(node.getNodeName(), node);
     }

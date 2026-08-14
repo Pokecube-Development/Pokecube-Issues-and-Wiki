@@ -17,7 +17,6 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import thut.lib.TComponent;
 
 import java.util.List;
 
@@ -65,13 +64,13 @@ public class FlowerBase extends FlowerBlock
             return;
         if (Screen.hasShiftDown())
         {
-            tooltipComponents.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip"));
+            tooltipComponents.add(Component.translatable("legends." + this.tooltip_id + ".tooltip"));
             for (int lineAmt = 1; lineAmt <= tooltipLineAmt;)
             {
-                tooltipComponents.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip.line" + lineAmt));
+                tooltipComponents.add(Component.translatable("legends." + this.tooltip_id + ".tooltip.line" + lineAmt));
                 lineAmt++;
             }
         }
-        else tooltipComponents.add(TComponent.translatable("pokecube.tooltip.advanced"));
+        else tooltipComponents.add(Component.translatable("pokecube.tooltip.advanced"));
     }
 }

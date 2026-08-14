@@ -10,6 +10,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.client.gui.helper.GuardEntry;
@@ -20,7 +21,6 @@ import pokecube.core.network.packets.PacketSyncRoutes;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.Resources;
-import thut.lib.TComponent;
 
 public class Routes extends Tab
 {
@@ -108,11 +108,11 @@ public class Routes extends Tab
 
         this.list.smoothScroll = false;
 
-        this.addRenderableWidget(new Button.Builder(TComponent.literal("⇧"), (b) -> {
+        this.addRenderableWidget(new Button.Builder(Component.literal("⇧"), (b) -> {
             this.list.scroll(-50);
         }).bounds(xOffset + 45, yOffset + 54, 30, 10).build());
 
-        this.addRenderableWidget(new Button.Builder(TComponent.literal("⇩"), (b) -> {
+        this.addRenderableWidget(new Button.Builder(Component.literal("⇩"), (b) -> {
             this.list.scroll(50);
         }).bounds(xOffset + 15, yOffset + 54, 30, 10).build());
     }

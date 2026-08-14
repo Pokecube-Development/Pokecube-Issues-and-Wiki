@@ -46,7 +46,6 @@ import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
-import thut.lib.TComponent;
 
 public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
 {
@@ -117,7 +116,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
 
     public PokemobInfoPage(final GuiPokeWatch watch)
     {
-        super(TComponent.translatable("pokewatch.title.pokeinfo"), watch, GuiPokeWatch.TEX_DM, GuiPokeWatch.TEX_NM);
+        super(Component.translatable("pokewatch.title.pokeinfo"), watch, GuiPokeWatch.TEX_DM, GuiPokeWatch.TEX_NM);
         this.pokemob = watch.pokemob;
     }
 
@@ -239,7 +238,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         super.init();
         final int x = this.watch.width / 2 + 90;
         final int y = this.watch.height / 2 + 30;
-        this.searchBox = new EditBox(this.font, x - 205, y - 113, 100, 10, TComponent.literal(""));
+        this.searchBox = new EditBox(this.font, x - 205, y - 113, 100, 10, Component.literal(""));
         this.searchBox.setTooltip(Tooltip.create(Component.translatable("editbox.pokecube.pokewatch.search.tooltip")));
         this.addRenderableWidget(this.searchBox);
         this.index = PokemobInfoPage.savedIndex;

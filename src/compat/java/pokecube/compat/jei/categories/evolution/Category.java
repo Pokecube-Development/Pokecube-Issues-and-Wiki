@@ -20,7 +20,6 @@ import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.api.data.pokedex.conditions.HasHeldItem;
 import pokecube.compat.jei.Compat;
 import pokecube.compat.jei.ingredients.Pokemob;
-import thut.lib.TComponent;
 
 import java.awt.*;
 
@@ -52,7 +51,7 @@ public class Category implements IRecipeCategory<Evolution>
     @Override
     public Component getTitle()
     {
-        return TComponent.literal(this.localizedName);
+        return Component.literal(this.localizedName);
     }
 
     @Override

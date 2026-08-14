@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -35,7 +36,6 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
-import thut.lib.TComponent;
 
 public class DynamaxRaid implements IBossProvider
 {
@@ -140,7 +140,7 @@ public class DynamaxRaid implements IBossProvider
             {
                 final Entity catcher = event.pokecube.shootingEntity;
                 if (catcher instanceof Player player)
-                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
+                    thut.lib.ChatHelper.sendSystemMessage(player, Component.translatable("pokecube.denied"));
                 event.setCanceled(true);
                 event.setResult(TriState.FALSE);
                 CaptureManager.onCaptureDenied(event.pokecube);
@@ -182,7 +182,7 @@ public class DynamaxRaid implements IBossProvider
     {
         if (event.pokemob.getEntity().getLastHurtByMob() instanceof ServerPlayer player)
             thut.lib.ChatHelper.sendSystemMessage(player,
-                    TComponent.translatable("pokecube.raid.capture.dynamax", event.pokemob.getDisplayName()));
+                    Component.translatable("pokecube.raid.capture.dynamax", event.pokemob.getDisplayName()));
     }
 
     @Override

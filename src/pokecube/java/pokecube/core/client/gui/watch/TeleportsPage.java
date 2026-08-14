@@ -19,7 +19,6 @@ import pokecube.core.client.gui.watch.TeleportsPage.TeleOption;
 import pokecube.core.client.gui.watch.util.ListPage;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.api.entity.teleporting.TeleDest;
-import thut.lib.TComponent;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -50,7 +49,7 @@ public class TeleportsPage extends ListPage<TeleOption>
             this.offsetY = offsetY;
             this.guiHeight = height;
             this.parent = parent;
-            this.confirm = new Button.Builder(TComponent.literal("Y"), b -> {
+            this.confirm = new Button.Builder(Component.literal("Y"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
                 // Send packet for removal server side
                 PacketPokedex.sendRemoveTelePacket(this.dest.index);
@@ -61,7 +60,7 @@ public class TeleportsPage extends ListPage<TeleOption>
             }).bounds(0, 0, 10, 10).createNarration(
                     supplier -> Component.translatable("button.pokecube.pokewatch.confirm_delete.narrate")).build();
 
-            this.delete = new Button.Builder(TComponent.literal("x"), b -> {
+            this.delete = new Button.Builder(Component.literal("x"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.confirm.active = !this.confirm.active;
             }).bounds(0, 0, 10, 10)
@@ -71,7 +70,7 @@ public class TeleportsPage extends ListPage<TeleOption>
             this.delete.setFGColor(0xFFFF0000);
             this.confirm.active = false;
 
-            this.moveUp = new Button.Builder(TComponent.literal("⇧"), b -> {
+            this.moveUp = new Button.Builder(Component.literal("⇧"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.parent.scheduleUpdate(() -> {
                     PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index - 1);
@@ -82,7 +81,7 @@ public class TeleportsPage extends ListPage<TeleOption>
                     .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.move_up.narrate"))
                     .build();
 
-            this.moveDown = new Button.Builder(TComponent.literal("⇩"), b -> {
+            this.moveDown = new Button.Builder(Component.literal("⇩"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.parent.scheduleUpdate(() -> {
                     PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index + 1);
@@ -213,7 +212,7 @@ public class TeleportsPage extends ListPage<TeleOption>
 
     public TeleportsPage(final GuiPokeWatch watch)
     {
-        super(TComponent.translatable("pokewatch.title.teleports"), watch, TeleportsPage.TEX_DM, TeleportsPage.TEX_NM);
+        super(Component.translatable("pokewatch.title.teleports"), watch, TeleportsPage.TEX_DM, TeleportsPage.TEX_NM);
     }
 
     protected double scroll = 0;
@@ -233,7 +232,7 @@ public class TeleportsPage extends ListPage<TeleOption>
 
         for (final TeleDest d : this.locations)
         {
-            final EditBox name = new ListEditBox(this.font, 0, 0, 104, 10, TComponent.literal("")).registerPreFocus(
+            final EditBox name = new ListEditBox(this.font, 0, 0, 104, 10, Component.literal("")).registerPreFocus(
                     this);
             name.setValue(d.getName());
             this.list.addEntry(new TeleOption(this.minecraft, offsetY, d, name, height, this));

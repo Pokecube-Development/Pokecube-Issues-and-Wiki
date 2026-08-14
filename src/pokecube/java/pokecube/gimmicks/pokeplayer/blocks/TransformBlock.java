@@ -21,7 +21,6 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.gimmicks.pokeplayer.Pokeplayer;
 import thut.api.ThutCaps;
-import thut.lib.TComponent;
 
 import java.util.List;
 
@@ -80,7 +79,7 @@ public class TransformBlock extends Block {
                                 TooltipFlag tooltipFlag)
     {
         tooltipComponents.clear();
-        tooltipComponents.add(TComponent.translatable("block.pokecube.transform_block"));
-        tooltipComponents.add(TComponent.translatable("block.pokecube.transform_block.desc"));
+        tooltipComponents.add(Component.translatable("block.pokecube.transform_block"));
+        tooltipComponents.add(Component.translatable("block.pokecube.transform_block.desc"));
     }
 }

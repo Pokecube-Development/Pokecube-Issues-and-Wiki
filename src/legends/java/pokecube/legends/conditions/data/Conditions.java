@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
@@ -37,7 +38,6 @@ import pokecube.mobs.moves.world.ActionTeleport;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.lib.RegHelper;
-import thut.lib.TComponent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -401,7 +401,7 @@ public abstract class Conditions
                     if (message)
                     {
                         this.sendLegendBuild(context.player(),
-                                TComponent.translatable(this.getEntry().getUnlocalizedName()));
+                                Component.translatable(this.getEntry().getUnlocalizedName()));
                     }
                     return CanSpawn.NO;
                 }

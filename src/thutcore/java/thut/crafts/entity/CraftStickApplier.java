@@ -1,6 +1,7 @@
 package thut.crafts.entity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
@@ -9,7 +10,6 @@ import net.minecraft.world.phys.AABB;
 import thut.api.entity.blockentity.IBlockEntity;
 import thut.core.init.CommonInit.ICustomStickHandler;
 import thut.crafts.ThutCrafts;
-import thut.lib.TComponent;
 
 public class CraftStickApplier implements ICustomStickHandler
 {
@@ -26,7 +26,7 @@ public class CraftStickApplier implements ICustomStickHandler
         final EntityCraft craft = IBlockEntity.BlockEntityFormer.makeBlockEntity(level, min, max,
                 ThutCrafts.CRAFTTYPE.get());
         final String message = craft != null ? "msg.craft.create" : "msg.craft.fail";
-        thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(message));
+        thut.lib.ChatHelper.sendSystemMessage(player, Component.translatable(message));
     }
 
     @Override
@@ -39,7 +39,7 @@ public class CraftStickApplier implements ICustomStickHandler
         if (max.getY() - min.getY() > 30 || dw > 2 * 20 + 1)
         {
             final String message = "msg.craft.toobig";
-            thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(message));
+            thut.lib.ChatHelper.sendSystemMessage(player, Component.translatable(message));
             return false;
         }
         return true;

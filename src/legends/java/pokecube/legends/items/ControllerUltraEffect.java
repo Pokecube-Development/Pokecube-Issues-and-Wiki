@@ -15,7 +15,6 @@ import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import pokecube.legends.init.ItemInit;
-import thut.lib.TComponent;
 
 public class ControllerUltraEffect extends ItemBase
 {
@@ -40,7 +39,7 @@ public class ControllerUltraEffect extends ItemBase
         String message;
         if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltip_id + ".tooltip");
         else message = I18n.get("pokecube.tooltip.advanced");
-        tooltipComponents.add(TComponent.translatable(message));
+        tooltipComponents.add(Component.translatable(message));
     }
 
     @Override

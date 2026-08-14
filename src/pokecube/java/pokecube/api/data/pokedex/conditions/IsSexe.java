@@ -3,7 +3,6 @@ package pokecube.api.data.pokedex.conditions;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
 import pokecube.api.entity.pokemob.IPokemob;
-import thut.lib.TComponent;
 
 /**
  * This class matches a pokemob with the specified sex<br>
@@ -38,8 +37,8 @@ public class IsSexe extends PokemobCondition
     @Override
     public Component makeDescription()
     {
-        if (this._gender == 1) return TComponent.translatable("pokemob.description.evolve.male");
-        if (this._gender == 2) return TComponent.translatable("pokemob.description.evolve.female");
+        if (this._gender == 1) return Component.translatable("pokemob.description.evolve.male");
+        if (this._gender == 2) return Component.translatable("pokemob.description.evolve.female");
         return super.makeDescription();
     }
 }

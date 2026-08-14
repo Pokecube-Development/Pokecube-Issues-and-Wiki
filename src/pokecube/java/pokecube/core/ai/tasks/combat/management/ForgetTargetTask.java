@@ -24,7 +24,6 @@ import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.combat.CombatTask;
 import thut.api.entity.ai.RootTask;
-import thut.lib.TComponent;
 
 import java.util.Map;
 import java.util.Set;
@@ -88,7 +87,6 @@ public class ForgetTargetTask extends CombatTask
 
         // Check if we should be cancelling due to wild mobs
         this.mutualDeagro = true;
-        final IPokemob mobA = pokemob;
         final IPokemob mobB = this.pokemobTarget;
         Battle b = pokemob.getBattle();
 
@@ -112,7 +110,7 @@ public class ForgetTargetTask extends CombatTask
         var target = this.getAttackTarget(entity);
 
         boolean deAgro = mate == target;
-        boolean exitBattle = b != null && (b.getAllies(mobA.getEntity()).size()<=1 || b.getEnemies(mobA.getEntity()).size()<=1);
+        boolean exitBattle = b != null && (b.getAllies(pokemob.getEntity()).size()<=1 || b.getEnemies(pokemob.getEntity()).size()<=1);
 
         final ForgetEntry entry = new ForgetEntry(level.getGameTime(), target);
         if (this.forgotten.containsKey(entry.mob.getUUID()))
@@ -141,9 +139,9 @@ public class ForgetTargetTask extends CombatTask
                 break agroCheck;
             }
 
-            final boolean weTame = mobA.getOwnerId() != null && !mobA.getCombatState(CombatStates.MATEFIGHT);
+            final boolean weTame = pokemob.getOwnerId() != null && !pokemob.getCombatState(CombatStates.MATEFIGHT);
             final boolean theyTame = mobB.getOwnerId() != null && !mobB.getCombatState(CombatStates.MATEFIGHT);
-            final boolean weHunt = mobA.getCombatState(CombatStates.HUNTING);
+            final boolean weHunt = pokemob.getCombatState(CombatStates.HUNTING);
             final boolean theyHunt = mobB.getCombatState(CombatStates.HUNTING);
 
             final boolean bothWild = !weTame && !theyTame;
@@ -162,27 +160,27 @@ public class ForgetTargetTask extends CombatTask
 
             if (bothWild && !oneHunting)
             {
-                final float weHealth = mobA.getEntity().getHealth() / mobA.getEntity().getMaxHealth();
+                final float weHealth = pokemob.getEntity().getHealth() / pokemob.getEntity().getMaxHealth();
                 final float theyHealth = mobB.getEntity().getHealth() / mobB.getEntity().getMaxHealth();
                 // Wild mobs shouldn't fight to the death unless hunting.
                 if (weHealth < 0.5 || theyHealth < 0.5)
                 {
-                    mobA.setCombatState(CombatStates.MATEFIGHT, false);
+                    pokemob.setCombatState(CombatStates.MATEFIGHT, false);
                     mobB.setCombatState(CombatStates.MATEFIGHT, false);
 
-                    if (weHealth < 0.5) if (mobA.getEntity().getBrain()
+                    if (weHealth < 0.5) if (pokemob.getEntity().getBrain()
                             .checkMemory(MemoryModules.HUNTED_BY.get(), MemoryStatus.REGISTERED))
-                        mobA.getEntity().getBrain().setMemory(MemoryModules.HUNTED_BY.get(), mobB.getEntity());
+                        pokemob.getEntity().getBrain().setMemory(MemoryModules.HUNTED_BY.get(), mobB.getEntity());
                     if (theyHealth < 0.5) if (mobB.getEntity().getBrain()
                             .checkMemory(MemoryModules.HUNTED_BY.get(), MemoryStatus.REGISTERED))
-                        mobB.getEntity().getBrain().setMemory(MemoryModules.HUNTED_BY.get(), mobA.getEntity());
+                        mobB.getEntity().getBrain().setMemory(MemoryModules.HUNTED_BY.get(), pokemob.getEntity());
 
                     if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("No want to fight, too weak!");
                     deAgro = true;
                 }
             }
         }
-        if (mobA.getCombatState(CombatStates.FAINTED))
+        if (pokemob.getCombatState(CombatStates.FAINTED))
         {
             giveUpTimer /= 2;
             exitBattle = true;
@@ -281,8 +279,7 @@ public class ForgetTargetTask extends CombatTask
             if (this.ticksSinceSeen++ > giveUpTimer)
             {
                 // Send deagress message and put mob on cooldown.
-                final Component message = TComponent.translatable("pokemob.deagress.timeout",
-                        pokemob.getDisplayName().getString());
+                final Component message = Component.translatable("pokemob.deagress.timeout", pokemob.getDisplayName());
                 try
                 {
                     if (target instanceof Player player) thut.lib.ChatHelper.sendSystemMessage(player, message);
@@ -308,8 +305,7 @@ public class ForgetTargetTask extends CombatTask
                 if (owned) break distance;
 
                 // Send deagress message and put mob on cooldown.
-                final Component message = TComponent.translatable("pokemob.deagress.timeout",
-                        pokemob.getDisplayName().getString());
+                final Component message = Component.translatableEscape("pokemob.deagress.timeout", pokemob.getDisplayName());
                 try
                 {
                     if (target instanceof Player player) thut.lib.ChatHelper.sendSystemMessage(player, message);

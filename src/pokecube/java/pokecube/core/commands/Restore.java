@@ -17,6 +17,7 @@ import net.minecraft.commands.arguments.GameProfileArgument;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.ClickEvent.Action;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -34,7 +35,6 @@ import thut.api.util.PermNodes;
 import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
-import thut.lib.TComponent;
 
 public class Restore
 {
@@ -164,7 +164,7 @@ public class Restore
     {
         if (players.size() != 1)
         {
-            source.sendFailure(TComponent.translatable("pokecube.command.restore_only_one"));
+            source.sendFailure(Component.translatable("pokecube.command.restore_only_one"));
             return 1;
         }
         toMatch = ThutCore.trim(toMatch);
@@ -175,9 +175,9 @@ public class Restore
         final PlayerPokemobCache pokemobCache = PlayerDataHandler.getInstance()
                 .getPlayerData(source.registryAccess(), profile.getId()).getData(PlayerPokemobCache.class);
         final Map<Integer, ItemStack> cache = pokemobCache.cache;
-        MutableComponent message = TComponent.literal("Pokemobs: ");
+        MutableComponent message = Component.literal("Pokemobs: ");
         thut.lib.ChatHelper.sendSystemMessage(user, message);
-        message = TComponent.literal("");
+        message = Component.literal("");
         for (final Entry<Integer, ItemStack> entry : cache.entrySet())
         {
             final Integer id = entry.getKey();
@@ -219,7 +219,7 @@ public class Restore
             if (size > 32000)
             {
                 thut.lib.ChatHelper.sendSystemMessage(user, message);
-                message = TComponent.literal("");
+                message = Component.literal("");
             }
         }
         thut.lib.ChatHelper.sendSystemMessage(user, message);

@@ -17,7 +17,6 @@ import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.PokecubeCore;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.pokemobs.PacketCommand.DefaultHandler;
-import thut.lib.TComponent;
 
 public class AttackEntityHandler extends DefaultHandler
 {
@@ -76,8 +75,8 @@ public class AttackEntityHandler extends DefaultHandler
                 if (PokecubeCore.getConfig().debug_commands) PokecubeAPI.logInfo("Ally Attack on Self");
                 return;
             }
-            final Component mess = TComponent.translatable("pokemob.command.attack", pokemob.getDisplayName(),
-                    target.getDisplayName(), TComponent.translatable(MovesUtils.getUnlocalizedMove(move.getName())));
+            final Component mess = Component.translatableEscape("pokemob.command.attack", pokemob.getDisplayName(),
+                    target.getDisplayName(), Component.translatable(MovesUtils.getUnlocalizedMove(move.getName())));
             if (this.fromOwner()) pokemob.displayMessageToOwner(mess);
             if (PokecubeCore.getConfig().debug_commands) PokecubeAPI.logInfo("Starting Combat");
             Battle.createOrAddToBattle(pokemob.getEntity(), living);

@@ -3,6 +3,7 @@ package thut.wearables.client.render;
 import java.lang.reflect.Field;
 import java.util.Map;
 
+import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Maps;
@@ -27,7 +28,7 @@ import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import net.neoforged.neoforge.client.settings.KeyModifier;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
-import thut.lib.TComponent;
+
 import thut.wearables.EnumWearable;
 import thut.wearables.IWearable;
 import thut.wearables.Reference;
@@ -150,15 +151,15 @@ public class WearableEventHandler
             {
             case 2:
                 message = I18n.get("wearables.keyuse.left", key.formatted(ChatFormatting.GRAY));
-                evt.getToolTip().add(TComponent.literal(message));
+                evt.getToolTip().add(Component.literal(message));
                 key = WearableEventHandler.keys[slot.index + 1].getTranslatedKeyMessage().getString()
                         .formatted(ChatFormatting.GRAY);
                 message = I18n.get("wearables.keyuse.right", key);
-                evt.getToolTip().add(TComponent.literal(message));
+                evt.getToolTip().add(Component.literal(message));
                 break;
             default:
                 message = I18n.get("wearables.keyuse.single", key.formatted(ChatFormatting.GRAY));
-                evt.getToolTip().add(TComponent.literal(message));
+                evt.getToolTip().add(Component.literal(message));
                 break;
             }
         }

@@ -2,6 +2,7 @@ package pokecube.mobs.moves.world;
 
 import net.minecraft.core.GlobalPos;
 import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.state.BlockState;
@@ -12,7 +13,6 @@ import pokecube.gimmicks.secret_bases.command.SecretBase;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
-import thut.lib.TComponent;
 
 /**
  * This is the implementation of Secret Power's secret base creation. When used on a block, if it is a "terrain"
@@ -38,13 +38,13 @@ public class ActionSecretPower implements IMoveWorldEffect
         final BlockState state = location.getBlockState(player.level());
         if (!(PokecubeTerrainChecker.isTerrain(state) || PokecubeTerrainChecker.isWood(state)))
         {
-            final MutableComponent message = TComponent.translatable("pokemob.createbase.deny.wrongloc");
+            final MutableComponent message = Component.translatable("pokemob.createbase.deny.wrongloc");
             thut.lib.ChatHelper.sendSystemMessage(player, message);
             return false;
         }
         SecretBase.pendingBaseLocations.put(player.getUUID(),
                 GlobalPos.of(player.level().dimension(), location.getPos()));
-        final MutableComponent message = TComponent.translatable("pokemob.createbase.confirm",
+        final MutableComponent message = Component.translatableEscape("pokemob.createbase.confirm",
                 location.set(location.getPos()));
         message.setStyle(message.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
                 "/pokebase confirm " + player.getX() + " " + player.getY() + " " + player.getZ())));

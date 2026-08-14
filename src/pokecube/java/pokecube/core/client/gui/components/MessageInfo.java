@@ -6,11 +6,11 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.GuiEvent;
 import pokecube.core.client.gui.GuiInfoMessages;
-import thut.lib.TComponent;
 
 public class MessageInfo extends GuiEventComponent
 {
@@ -98,7 +98,7 @@ public class MessageInfo extends GuiEventComponent
             int index = l + this.offset;
             if (index < 0) index = 0;
             if (index > size) break;
-            final MutableComponent mess2 = TComponent.literal(toUse.get(index));
+            final MutableComponent mess2 = Component.literal(toUse.get(index));
             var mess1 = minecraft.font.split(mess2, trim);
             for (int j = mess1.size() - 1; j >= 0; j--)
             {

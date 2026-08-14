@@ -16,7 +16,6 @@ import pokecube.core.init.Sounds;
 import pokecube.core.inventory.healer.HealerContainer;
 import pokecube.core.network.packets.PacketHeal;
 import pokecube.core.utils.Resources;
-import thut.lib.TComponent;
 
 public class Healer<T extends HealerContainer> extends AbstractContainerScreen<T>
 {
@@ -53,7 +52,7 @@ public class Healer<T extends HealerContainer> extends AbstractContainerScreen<T
     @Override
     protected void renderLabels(final GuiGraphics graphics, final int x, final int y)
     {
-        graphics.drawString(this.font, TComponent.translatable("block.pokecube.pokecenter").getString(),
+        graphics.drawString(this.font, Component.translatable("block.pokecube.pokecenter").getString(),
                 8, 6, 4210752, false);
         graphics.drawString(this.font, this.playerInventoryTitle.getString(),
                 8, this.imageHeight - 94 + 2, 4210752, false);

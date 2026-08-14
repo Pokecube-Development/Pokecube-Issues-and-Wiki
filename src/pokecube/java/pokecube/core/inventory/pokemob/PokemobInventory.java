@@ -16,20 +16,15 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import thut.lib.TComponent;
 
 public class PokemobInventory extends SimpleContainer implements Nameable
 {
-    public static final int[] ALL_ARMOR_SLOTS = new int[]
-    { 0, 1, 2, 3 };
-    public static final int[] HELMET_SLOT_ONLY = new int[]
-    { 3 };
 
     public static final int MAIN_INVENTORY_SIZE = 7;
 
-    private Int2ObjectArrayMap<EquipmentSlot> SLOTMAP = new Int2ObjectArrayMap<>(5);
+    private final Int2ObjectArrayMap<EquipmentSlot> SLOTMAP = new Int2ObjectArrayMap<>(5);
 
-    private NonNullList<ItemStack> tmpList = NonNullList.of(ItemStack.EMPTY, ItemStack.EMPTY);
+    private final NonNullList<ItemStack> tmpList = NonNullList.of(ItemStack.EMPTY, ItemStack.EMPTY);
     Container start = null;
 
     public final LivingEntity entity;
@@ -63,7 +58,7 @@ public class PokemobInventory extends SimpleContainer implements Nameable
     @Override
     public Component getName()
     {
-        return TComponent.translatable("container.inventory");
+        return Component.translatable("container.inventory");
     }
 
     @Override
@@ -94,7 +89,7 @@ public class PokemobInventory extends SimpleContainer implements Nameable
         {
             List<ItemStack> list = tmpList;
             list.set(0, getItem(slot));
-            return list != null && !list.get(0).isEmpty() ? ContainerHelper.removeItem(list, 0, amount)
+            return list != null && !list.getFirst().isEmpty() ? ContainerHelper.removeItem(list, 0, amount)
                     : ItemStack.EMPTY;
         }
         if (slot == 1)
@@ -115,9 +110,9 @@ public class PokemobInventory extends SimpleContainer implements Nameable
         {
             List<ItemStack> list = tmpList;
             list.set(0, getItem(slot));
-            if (!list.get(0).isEmpty())
+            if (!list.getFirst().isEmpty())
             {
-                ItemStack itemstack = list.get(0);
+                ItemStack itemstack = list.getFirst();
                 this.setItem(slot, ItemStack.EMPTY);
                 return itemstack;
             }

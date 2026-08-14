@@ -51,7 +51,6 @@ import thut.api.entity.event.CopyUpdateEvent;
 import thut.api.maths.Vector3;
 import thut.api.util.PermNodes;
 import thut.core.common.ThutCore;
-import thut.lib.TComponent;
 import thut.wearables.inventory.PlayerWearables;
 
 @EventBusSubscriber(modid = PokecubeCore.MODID)
@@ -85,7 +84,7 @@ public class Pokeplayer
     }
 
     private static final SimpleCommandExceptionType ERROR_FAILED = new SimpleCommandExceptionType(
-            TComponent.translatable("not copy?"));
+            Component.translatable("not copy?"));
 
     public static final String PERMSELF = "pokeplayer.self";
     public static final String PERMOTHER = "pokeplayer.other";

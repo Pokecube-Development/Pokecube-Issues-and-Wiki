@@ -9,11 +9,11 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.Component;
 import thut.api.util.PermNodes;
 import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.core.common.ThutCore;
 import thut.core.common.config.Config.ConfigData;
-import thut.lib.TComponent;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -28,11 +28,11 @@ public class CommandConfigs
         {
             final Field f = data.getClass().getField(field);
             final Object value = f.get(data);
-            source.sendSuccess(() -> TComponent.translatable("thutcore.command.settings.check", field, value), true);
+            source.sendSuccess(() -> Component.translatableEscape("thutcore.command.settings.check", field, value), true);
         }
         catch (final Exception e)
         {
-            throw new SimpleCommandExceptionType(TComponent.literal("Error with field name " + field)).create();
+            throw new SimpleCommandExceptionType(Component.literal("Error with field name " + field)).create();
         }
 
         return 0;
@@ -51,7 +51,7 @@ public class CommandConfigs
         catch (final Exception e)
         {
             ThutCore.LOGGER.error(e);
-            throw new SimpleCommandExceptionType(TComponent.literal("Error with field name " + field)).create();
+            throw new SimpleCommandExceptionType(Component.literal("Error with field name " + field)).create();
         }
         final String[] args = message.split(" ");
         StringBuilder val = new StringBuilder(args[0]);
@@ -60,21 +60,21 @@ public class CommandConfigs
         case "!set" ->
         {
             CommandConfigs.handleSet(data, args, value, f);
-            source.sendSuccess(() -> TComponent.translatable("thutcore.command.settings.array.set", field, value),
+            source.sendSuccess(() -> Component.translatableEscape("thutcore.command.settings.array.set", field, value),
                     true);
             return 0;
         }
         case "!add" ->
         {
             CommandConfigs.handleAdd(data, args, value, f);
-            source.sendSuccess(() -> TComponent.translatable("thutcore.command.settings.array.add", field, value),
+            source.sendSuccess(() -> Component.translatableEscape("thutcore.command.settings.array.add", field, value),
                     true);
             return 0;
         }
         case "!remove" ->
         {
             CommandConfigs.handleRemove(data, args, value, f);
-            source.sendSuccess(() -> TComponent.translatable("thutcore.command.settings.array.remove", field, value),
+            source.sendSuccess(() -> Component.translatableEscape("thutcore.command.settings.array.remove", field, value),
                     true);
             return 0;
         }
@@ -84,12 +84,12 @@ public class CommandConfigs
         try
         {
             Object finalValue3 = data.updateField(f, val.toString());
-            source.sendSuccess(() -> TComponent.translatable("thutcore.command.settings.set", field, finalValue3),
+            source.sendSuccess(() -> Component.translatableEscape("thutcore.command.settings.set", field, finalValue3),
                     true);
         }
         catch (final Exception e)
         {
-            throw new SimpleCommandExceptionType(TComponent.literal("Error with setting field name " + field)).create();
+            throw new SimpleCommandExceptionType(Component.literal("Error with setting field name " + field)).create();
         }
         return 0;
     }
@@ -112,14 +112,14 @@ public class CommandConfigs
             toSet = Arrays.copyOf((int[]) o, len + 1);
             ((int[]) toSet)[len] = CommandConfigs.parseInt(value.toString());
         }
-        else throw new SimpleCommandExceptionType(TComponent.literal("This can only by done for arrays.")).create();
+        else throw new SimpleCommandExceptionType(Component.literal("This can only by done for arrays.")).create();
         try
         {
             data.updateField(field, toSet);
         }
         catch (final Exception e)
         {
-            throw new SimpleCommandExceptionType(TComponent.literal("Error with setting field name " + field)).create();
+            throw new SimpleCommandExceptionType(Component.literal("Error with setting field name " + field)).create();
         }
     }
 
@@ -146,14 +146,14 @@ public class CommandConfigs
             toSet = arr = new int[values.size()];
             for (int i = 0; i < values.size(); i++) arr[i] = values.get(i);
         }
-        else throw new SimpleCommandExceptionType(TComponent.literal("This can only by done for arrays.")).create();
+        else throw new SimpleCommandExceptionType(Component.literal("This can only by done for arrays.")).create();
         try
         {
             data.updateField(field, toSet);
         }
         catch (final Exception e)
         {
-            throw new SimpleCommandExceptionType(TComponent.literal("Error with setting field name " + field)).create();
+            throw new SimpleCommandExceptionType(Component.literal("Error with setting field name " + field)).create();
         }
     }
 
@@ -174,14 +174,14 @@ public class CommandConfigs
             arr[num] = CommandConfigs.parseInt(value.toString());
             toSet = arr.clone();
         }
-        else throw new SimpleCommandExceptionType(TComponent.literal("This can only by done for arrays.")).create();
+        else throw new SimpleCommandExceptionType(Component.literal("This can only by done for arrays.")).create();
         try
         {
             data.updateField(field, toSet);
         }
         catch (final Exception e)
         {
-            throw new SimpleCommandExceptionType(TComponent.literal("Error with setting field name " + field)).create();
+            throw new SimpleCommandExceptionType(Component.literal("Error with setting field name " + field)).create();
         }
     }
 
@@ -203,7 +203,7 @@ public class CommandConfigs
         catch (final NumberFormatException var2)
         {
             throw new SimpleCommandExceptionType(
-                    TComponent.translatable("commands.generic.num.invalid", new Object[] { input })).create();
+                    Component.translatableEscape("commands.generic.num.invalid", new Object[] { input })).create();
         }
     }
 

@@ -24,7 +24,6 @@ import thut.api.attachments.Linkable.ILinkStorage;
 import thut.api.block.ITickTile;
 import thut.api.entity.teleporting.TeleDest;
 import thut.core.common.ThutCore;
-import thut.lib.TComponent;
 
 import java.util.List;
 
@@ -104,7 +103,7 @@ public class SiphonTile extends InteractableTile implements ITickTile
     @Override
     public InteractionResult useWithoutItem(BlockPos pos, Player player, BlockHitResult hit)
     {
-        Component message = TComponent.translatable("block.rfsiphon.info",
+        Component message = Component.translatableEscape("block.rfsiphon.info",
                 this.energy.theoreticalOutput - this.energy.currentOutput, this.energy.theoreticalOutput);
         player.displayClientMessage(message, true);
         return super.useWithoutItem(pos, player, hit);
@@ -156,7 +155,7 @@ public class SiphonTile extends InteractableTile implements ITickTile
             {
                 if (user instanceof ServerPlayer player)
                 {
-                    player.displayClientMessage(TComponent.translatable("block.pokecube_adventures.siphon.unlink",
+                    player.displayClientMessage(Component.translatableEscape("block.pokecube_adventures.siphon.unlink",
                             new TeleDest().setPos(pos).getInfoName()), true);
                 }
                 return true;
@@ -164,7 +163,7 @@ public class SiphonTile extends InteractableTile implements ITickTile
             this.wirelessLinks.add(pos);
             if (user instanceof ServerPlayer player)
             {
-                player.displayClientMessage(TComponent.translatable("block.pokecube_adventures.siphon.link",
+                player.displayClientMessage(Component.translatableEscape("block.pokecube_adventures.siphon.link",
                         new TeleDest().setPos(pos).getInfoName()), true);
             }
             return true;

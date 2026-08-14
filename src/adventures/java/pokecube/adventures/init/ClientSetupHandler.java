@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.resources.PlayerSkin.Model;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -56,7 +57,6 @@ import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.core.common.ThutCore;
-import thut.lib.TComponent;
 
 import java.lang.reflect.Field;
 import java.util.Map;
@@ -110,36 +110,36 @@ public class ClientSetupHandler
                 final int index = ClonerHelper.getIndex(stack);
                 if (genes != null) for (final Alleles<?, ?> a : genes.getAlleles().values())
                 {
-                    MutableComponent comp = TComponent.translatable(
+                    MutableComponent comp = Component.translatableEscape(
                             PokecubeAdv.MODID + ".tooltip.gene.expressed." + a.getExpressed().getKey().getPath(),
                             a.getExpressed());
                     evt.getToolTip().add(comp);
                     if (Config.instance.expandedDNATooltips || Screen.hasControlDown())
                     {
-                        comp = TComponent.translatable(
+                        comp = Component.translatableEscape(
                                 PokecubeAdv.MODID + ".tooltip.gene.parent." + a.getExpressed().getKey().getPath(),
                                 a.getAllele(0), a.getAllele(1));
                         evt.getToolTip().add(comp);
                     }
                 }
                 if (genes != null && !(Config.instance.expandedDNATooltips || Screen.hasControlDown()))
-                    evt.getToolTip().add(TComponent.translatable(PokecubeAdv.MODID + ".tooltip.gene.expand"));
+                    evt.getToolTip().add(Component.translatable(PokecubeAdv.MODID + ".tooltip.gene.expand"));
                 if (index != -1) evt.getToolTip()
-                        .add(TComponent.translatable(PokecubeAdv.MODID + ".tooltip.gene.array.index", index));
+                        .add(Component.translatableEscape(PokecubeAdv.MODID + ".tooltip.gene.array.index", index));
                 Set<Class<? extends Gene<?>>> genesSet;
                 if (!(genesSet = ClonerHelper.getGeneSelectors(access, stack)).isEmpty())
                     if (Screen.hasControlDown()) for (final Class<? extends Gene<?>> geneC : genesSet)
                         try
                         {
                             final Gene<?> gene = geneC.getConstructor().newInstance();
-                            evt.getToolTip().add(TComponent.translatable(
+                            evt.getToolTip().add(Component.translatable(
                                     PokecubeAdv.MODID + ".tooltip.selector.gene." + gene.getKey().getPath()));
                         }
                         catch (final Exception e)
                         {
 
                         }
-                    else evt.getToolTip().add(TComponent.translatable(PokecubeAdv.MODID + ".tooltip.gene.expand"));
+                    else evt.getToolTip().add(Component.translatable(PokecubeAdv.MODID + ".tooltip.gene.expand"));
                 if (RecipeSelector.isSelector(access, stack))
                 {
                     final SelectorImpl.SelectorValue value = ClonerHelper.getSelectorValue(stack);

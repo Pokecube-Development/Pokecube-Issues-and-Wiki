@@ -9,6 +9,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -26,7 +27,6 @@ import pokecube.mobs.moves.world.ActionSecretPower;
 import pokecube.gimmicks.secret_bases.dimension.SecretBaseDimension;
 import thut.api.ThutCaps;
 import thut.api.block.IOwnableTE;
-import thut.lib.TComponent;
 
 /**
  * This provides the functionality for Secret Bases. It applies on right click interactions, and acts as the entry point
@@ -75,7 +75,7 @@ public class BaseTile extends InteractableTile
             {
                 // We need to remove the location.
                 this.level.setBlockAndUpdate(pos, this.original);
-                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokemob.removebase.stale"));
+                thut.lib.ChatHelper.sendSystemMessage(player, Component.translatable("pokemob.removebase.stale"));
                 return InteractionResult.FAIL;
             }
         }

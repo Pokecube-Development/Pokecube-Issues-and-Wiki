@@ -5,11 +5,11 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -28,7 +28,6 @@ import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.handlers.PokedexInspector.IInspectReward;
 import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
 import thut.api.util.JsonUtil;
-import thut.lib.TComponent;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -68,7 +67,7 @@ public class XMLRewardsHandler
                     if (giveReward && entity instanceof Player player)
                     {
                         tag.putBoolean(this.tagString, true);
-                        thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(this.message));
+                        thut.lib.ChatHelper.sendSystemMessage(player, Component.translatable(this.message));
                         Tools.giveItem(player, reward.copy());
                         PokecubePlayerDataHandler.saveCustomData(entity.registryAccess(), entity.getStringUUID());
                     }
@@ -186,7 +185,7 @@ public class XMLRewardsHandler
                 {
                     final ItemStack book = this.getInfoStack(lang);
                     data.tag.putBoolean(this.key, true);
-                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(this.message));
+                    thut.lib.ChatHelper.sendSystemMessage(player, Component.translatable(this.message));
                     Tools.giveItem(player, book);
                     PokecubePlayerDataHandler.saveCustomData(entity.registryAccess(), entity.getStringUUID());
                 }

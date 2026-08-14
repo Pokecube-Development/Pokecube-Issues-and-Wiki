@@ -46,7 +46,6 @@ import thut.api.boom.ExplosionCustom;
 import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
-import thut.lib.TComponent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -85,14 +84,14 @@ public class MovesUtils implements IMoveConstants
         final IPokemob attacked = PokemobCaps.getPokemobFor(target);
         final Component targName = target != null
                 ? target.getDisplayName()
-                : attacker != null ? attacker.getDisplayName() : TComponent.literal("ERR PLS REPORT");
+                : attacker != null ? attacker.getDisplayName() : Component.literal("ERR PLS REPORT");
         Component msg =
-                arg == null ? TComponent.translatable(key, targName) : TComponent.translatable(key, targName, arg);
+                arg == null ? Component.translatableEscape(key, targName) : Component.translatableEscape(key, targName, arg);
         if (attacker != null) attacker.displayMessageToOwner(msg);
         key = baseKey + ".target";
         if (target != null && (attacker == null || target != attacker.getEntity()))
         {
-            msg = arg == null ? TComponent.translatable(key, targName) : TComponent.translatable(key, targName, arg);
+            msg = arg == null ? Component.translatableEscape(key, targName) : Component.translatableEscape(key, targName, arg);
             if (attacked != null) attacked.displayMessageToOwner(msg);
         }
     }
@@ -222,11 +221,11 @@ public class MovesUtils implements IMoveConstants
         if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Move Message Send: {} on {}", baseKey, target);
         final IPokemob attacked = PokemobCaps.getPokemobFor(target);
         final Component targName = attacker != null ? attacker.getDisplayName() : target.getDisplayName();
-        if (attacker != null) attacker.displayMessageToOwner(TComponent.translatable(key, targName, otherArg));
+        if (attacker != null) attacker.displayMessageToOwner(Component.translatableEscape(key, targName, otherArg));
         key = baseKey + ".target";
         if (target != attacker.getEntity() && target != null)
         {
-            final Component message = TComponent.translatable(key, targName, otherArg);
+            final Component message = Component.translatableEscape(key, targName, otherArg);
             if (attacked != null) attacked.displayMessageToOwner(message);
             else if (target instanceof Player player) PacketPokemobMessage.sendMessage(player, message);
         }
@@ -243,11 +242,11 @@ public class MovesUtils implements IMoveConstants
                 PokecubeAPI.logInfo("Move Message Send: {} on {}", baseKey, target);
             final IPokemob attacked = PokemobCaps.getPokemobFor(target);
             final Component targName = attacker != null ? attacker.getDisplayName() : target.getDisplayName();
-            if (attacker != null) attacker.displayMessageToOwner(TComponent.translatable(key, targName));
+            if (attacker != null) attacker.displayMessageToOwner(Component.translatableEscape(key, targName));
             key = baseKey + ".target";
             if (target != attacker.getEntity() && target != null)
             {
-                final Component message = TComponent.translatable(key, targName);
+                final Component message = Component.translatableEscape(key, targName);
                 if (attacked != null) attacked.displayMessageToOwner(message);
                 else if (target instanceof Player player) PacketPokemobMessage.sendMessage(player, message);
             }
@@ -259,19 +258,19 @@ public class MovesUtils implements IMoveConstants
             else baseKey += ".rise" + amount;
             final String statName = "pokemob.move.stat" + stat;
 
-            MutableComponent otherArg = TComponent.translatable(statName);
+            MutableComponent otherArg = Component.translatable(statName);
             String key = baseKey + ".user";
             if (PokecubeCore.getConfig().debug_moves)
                 PokecubeAPI.logInfo("Move Message Send: {} on {}", baseKey, target);
             final IPokemob attacked = PokemobCaps.getPokemobFor(target);
             final Component targName = target != null
                     ? target.getDisplayName()
-                    : attacker != null ? attacker.getDisplayName() : TComponent.literal("ERR PLS REPORT");
-            if (attacker != null) attacker.displayMessageToOwner(TComponent.translatable(key, targName, otherArg));
+                    : attacker != null ? attacker.getDisplayName() : Component.literal("ERR PLS REPORT");
+            if (attacker != null) attacker.displayMessageToOwner(Component.translatableEscape(key, targName, otherArg));
             key = baseKey + ".target";
             if (target != attacker.getEntity() && target != null)
             {
-                final Component message = TComponent.translatable(key, targName, otherArg);
+                final Component message = Component.translatableEscape(key, targName, otherArg);
                 if (attacked != null) attacked.displayMessageToOwner(message);
                 else if (target instanceof Player player) PacketPokemobMessage.sendMessage(player, message);
             }
@@ -287,11 +286,11 @@ public class MovesUtils implements IMoveConstants
             String key = baseKey + ".user";
             final IPokemob attacked = PokemobCaps.getPokemobFor(target);
             final Component targName = target.getDisplayName();
-            if (attacked != null) attacked.displayMessageToOwner(TComponent.translatable(key, targName));
+            if (attacked != null) attacked.displayMessageToOwner(Component.translatableEscape(key, targName));
             key = baseKey + ".target";
             if (attacker != target)
             {
-                final Component message = TComponent.translatable(key, targName);
+                final Component message = Component.translatableEscape(key, targName);
                 if (attacker != null) attacker.displayMessageToOwner(message);
                 else if (target instanceof Player player) PacketPokemobMessage.sendMessage(player, message);
             }
@@ -402,7 +401,7 @@ public class MovesUtils implements IMoveConstants
     public static MutableComponent getMoveName(final String attack, IPokemob user)
     {
         MoveEntry move = getMove(attack);
-        MutableComponent name = TComponent.translatable("pokemob.move." + attack);
+        MutableComponent name = Component.translatable("pokemob.move." + attack);
         if (move != null)
         {
             // Ternary statement prevents a crash where game doesn't know what type the move is

@@ -13,6 +13,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -32,7 +33,6 @@ import thut.api.entity.blockentity.world.IBlockEntityWorld;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.network.TileUpdate;
-import thut.lib.TComponent;
 import thut.tech.common.TechCore;
 import thut.tech.common.entity.EntityLift;
 import thut.tech.common.network.PacketLift;
@@ -133,14 +133,14 @@ public class ControllerTile extends BlockEntity implements ITickTile// ,
                     this.callFaces[side.ordinal()] = !this.isCallPanel(side);
                     this.floorDisplay[side.ordinal()] = false;
                     thut.lib.ChatHelper.sendSystemMessage(player,
-                            TComponent.translatable(message, this.isCallPanel(side)));
+                            Component.translatableEscape(message, this.isCallPanel(side)));
                     break;
                 case 2:
                     this.floorDisplay[side.ordinal()] = !this.isFloorDisplay(side);
                     this.callFaces[side.ordinal()] = false;
                     message = "msg.floorDisplay";
                     thut.lib.ChatHelper.sendSystemMessage(player,
-                            TComponent.translatable(message, this.isFloorDisplay(side)));
+                            Component.translatableEscape(message, this.isFloorDisplay(side)));
                     break;
                 case 13:
                     if (this.getLift() != null) this.setLift(null);
@@ -148,7 +148,7 @@ public class ControllerTile extends BlockEntity implements ITickTile// ,
                 case 16:
                     this.editFace[side.ordinal()] = false;
                     message = "msg.editMode";
-                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(message, false));
+                    thut.lib.ChatHelper.sendSystemMessage(player, Component.translatableEscape(message, false));
                     break;
                 }
                 if (clicker instanceof ServerPlayer) this.sendUpdate((ServerPlayer) clicker);

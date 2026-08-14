@@ -5,7 +5,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -29,7 +28,6 @@ import pokecube.core.utils.Permissions;
 import pokecube.core.utils.PokemobTracker;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
-import thut.lib.TComponent;
 
 import java.util.UUID;
 
@@ -128,7 +126,7 @@ public class SendOutManager
             if (cube.shootingEntity instanceof Player player)
             {
                 Tools.giveItem(player, cube.getItem());
-                user.displayClientMessage(TComponent.translatable("pokecube.sendout.fail.noperms.general"), true);
+                user.displayClientMessage(Component.translatable("pokecube.sendout.fail.noperms.general"), true);
                 cube.discard();
             }
             return null;
@@ -153,7 +151,7 @@ public class SendOutManager
             if (v == null && isPlayers && cube.shootingEntity instanceof Player player)
             {
                 Tools.giveItem(player, cube.getItem());
-                user.displayClientMessage(TComponent.translatable("pokecube.noroom"), true);
+                user.displayClientMessage(Component.translatable("pokecube.noroom"), true);
                 cube.discard();
                 return null;
             }
@@ -171,7 +169,7 @@ public class SendOutManager
                 {
                     Tools.giveItem(user, cube.getItem());
                     user.displayClientMessage(
-                            TComponent.translatable("pokecube.sendout.fail.noperms.specific", pokemob.getDisplayName()),
+                            Component.translatable("pokecube.sendout.fail.noperms.specific", pokemob.getDisplayName()),
                             true);
                     cube.discard();
                     return null;
@@ -185,7 +183,7 @@ public class SendOutManager
                 {
                     Tools.giveItem(user, cube.getItem());
                     user.displayClientMessage(
-                            TComponent.translatable("pokecube.sendout.fail.cancelled", pokemob.getDisplayName()), true);
+                            Component.translatable("pokecube.sendout.fail.cancelled", pokemob.getDisplayName()), true);
                     cube.discard();
                 }
                 return null;

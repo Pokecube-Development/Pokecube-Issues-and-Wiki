@@ -29,7 +29,6 @@ import thut.core.client.render.animation.AnimationChanger;
 import thut.core.client.render.animation.AnimationLoader;
 import thut.core.client.render.model.parts.Mesh;
 import thut.lib.RegHelper;
-import thut.lib.TComponent;
 import thut.wearables.EnumWearable;
 import thut.wearables.ThutWearables;
 import thut.wearables.inventory.PlayerWearables;
@@ -262,18 +261,18 @@ public class WornOffsetModule extends AnimModule
     {
         int yOffset = parent.height / 2;
 
-        final Component zero = TComponent.literal("0");
-        final Component one = TComponent.literal("1");
-        final Component right = TComponent.literal("\u25b6");
-        final Component left = TComponent.literal("\u25c0");
+        final Component zero = Component.literal("0");
+        final Component one = Component.literal("1");
+        final Component right = Component.literal("\u25b6");
+        final Component left = Component.literal("\u25c0");
 
-        final Component reset = TComponent.translatable("wearables.button.reset");
-        final Component copy = TComponent.translatable("wearables.button.copy");
-        final Component see = TComponent.translatable("wearables.button.see");
+        final Component reset = Component.translatable("wearables.button.reset");
+        final Component copy = Component.translatable("wearables.button.copy");
+        final Component see = Component.translatable("wearables.button.see");
 
         yOffset -= yOffset / 2;
         yOffset += 57;
-        final Component blank = TComponent.literal("");
+        final Component blank = Component.literal("");
 
         int dx = parent.width - 210;
         this.worn_item = new ListEditBox(parent.font, dx, yOffset - 90, 100, 10, blank);
@@ -328,7 +327,7 @@ public class WornOffsetModule extends AnimModule
             }
             xml = xml.formatted(key, part, dX, dY, dZ, rX, rY, rZ, scale);
             Minecraft.getInstance().keyboardHandler.setClipboard(xml);
-            Minecraft.getInstance().player.displayClientMessage(TComponent.literal("Copied XML to clipboard"), true);
+            Minecraft.getInstance().player.displayClientMessage(Component.literal("Copied XML to clipboard"), true);
         }).bounds(dx, yOffset - 60, 30, 10).build());
 
         dx += 30;

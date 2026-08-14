@@ -5,13 +5,13 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import org.lwjgl.glfw.GLFW;
 import pokecube.nbtedit.nbt.NBTTree;
 import pokecube.nbtedit.packets.CustomNBTPacket;
 import pokecube.nbtedit.packets.EntityNBTPacket;
 import pokecube.nbtedit.packets.TileNBTPacket;
-import thut.lib.TComponent;
 
 public class GuiEditNBTTree extends Screen
 {
@@ -23,7 +23,7 @@ public class GuiEditNBTTree extends Screen
 
     private GuiEditNBTTree(CompoundTag tag)
     {
-        super(TComponent.translatable("nbtedit.tree"));
+        super(Component.translatable("nbtedit.tree"));
         this.guiTree = new GuiNBTTree(new NBTTree(tag));
     }
 
@@ -89,10 +89,10 @@ public class GuiEditNBTTree extends Screen
         this.guiTree.init(this.minecraft, this.width, this.height);
 
         this.addRenderableWidget(
-                new Button.Builder(TComponent.literal("Save"), (b) -> this.quitWithSave()).bounds(this.width / 4 - 100,
+                new Button.Builder(Component.literal("Save"), (b) -> this.quitWithSave()).bounds(this.width / 4 - 100,
                         this.height - 27, 200, 20).build());
 
-        this.addRenderableWidget(new Button.Builder(TComponent.literal("Quit"), (b) -> this.quitWithoutSaving()).bounds(
+        this.addRenderableWidget(new Button.Builder(Component.literal("Quit"), (b) -> this.quitWithoutSaving()).bounds(
                 this.width * 3 / 4 - 100, this.height - 27, 200, 20).build());
 
         this.children.add(this.guiTree);

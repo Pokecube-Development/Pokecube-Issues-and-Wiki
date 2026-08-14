@@ -21,7 +21,6 @@ import pokecube.core.inventory.pc.PCContainer;
 import pokecube.core.inventory.pc.PCSlot;
 import pokecube.core.network.packets.PacketPC;
 import thut.core.common.ThutCore;
-import thut.lib.TComponent;
 
 public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
 {
@@ -47,8 +46,8 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
     Button renameButton;
     Button searchButton;
 
-    MutableComponent autoOn = TComponent.translatable("block.pc.auto_on");
-    MutableComponent autoOff = TComponent.translatable("block.pc.auto_off");
+    MutableComponent autoOn = Component.translatable("block.pc.auto_on");
+    MutableComponent autoOff = Component.translatable("block.pc.auto_off");
 
     private String boxName = "1";
 
@@ -250,7 +249,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
         final int y = this.height / 2 - 120;
 
         // Elements placed in order of selection when pressing tab
-        final Component darkMode = TComponent.literal("");
+        final Component darkMode = Component.literal("");
         this.darkModeButton = this.addRenderableWidget(new Button.Builder(darkMode, (b) -> {
             this.darkModeButton.visible = false;
             this.lightModeButton.visible = true;
@@ -260,7 +259,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
         this.darkModeButton.visible = (!PokecubeCore.getConfig().darkMode && PokecubeCore.getConfig().fancyGUI);
         this.darkModeButton.setAlpha(0);
 
-        final Component lightMode = TComponent.literal("");
+        final Component lightMode = Component.literal("");
         this.lightModeButton = this.addRenderableWidget(new Button.Builder(lightMode, (b) -> {
             this.lightModeButton.visible = false;
             this.darkModeButton.visible = true;
@@ -270,7 +269,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
         this.lightModeButton.visible = (PokecubeCore.getConfig().darkMode && PokecubeCore.getConfig().fancyGUI);
         this.lightModeButton.setAlpha(0);
 
-        this.renamePageBox = new EditBox(this.font, x + 117, y + 7, 40, 10, TComponent.translatable("block.pc.rename.narrate"));
+        this.renamePageBox = new EditBox(this.font, x + 117, y + 7, 40, 10, Component.translatable("block.pc.rename.narrate"));
         this.renamePageBox.setTooltip(Tooltip.create(Component.translatable("block.pc.rename.tooltip")));
         if (!PokecubeCore.getConfig().fancyGUI) this.renamePageBox.setPosition(x + 117, y + 6);
         if (this.lightModeButton.visible)
@@ -283,7 +282,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
 
         if (!this.bound)
         {
-            final Component rename = TComponent.translatable("block.pc.rename");
+            final Component rename = Component.translatable("block.pc.rename");
             this.renameButton = this.addRenderableWidget(new Button.Builder(rename, (b) -> {
                 final String box = this.renamePageBox.getValue();
                 if (!box.equals(this.boxName) && this.renamePageBox.isVisible() && !this.renamePageBox.getValue().equals(""))
@@ -295,11 +294,11 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
                 this.renamePageBox.setVisible(!this.renamePageBox.visible);
             }).bounds(x + 158, y + 4, 10, 10)
                     .tooltip(Tooltip.create(Component.translatable("block.pc.rename.tooltip")))
-                    .createNarration(supplier -> TComponent.translatable("block.pc.rename.narrate")).build());
+                    .createNarration(supplier -> Component.translatable("block.pc.rename.narrate")).build());
             this.renameButton.setAlpha(0);
         }
 
-        final Component prev = TComponent.translatable("block.pc.previous");
+        final Component prev = Component.translatable("block.pc.previous");
         this.prevButton = this.addRenderableWidget(new Button.Builder(prev, (b) -> {
             this.menu.updateInventoryPages((byte) -1, this.minecraft.player.getInventory());
             this.selectedPageBox.setValue(this.menu.getPageNb());
@@ -309,7 +308,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
         this.prevButton.setAlpha(0);
 
         this.selectedPageBox = new EditBox(this.font,
-                x + 21, y + 129, 21, 10, TComponent.translatable("block.pc.page.tooltip.narrate"));
+                x + 21, y + 129, 21, 10, Component.translatable("block.pc.page.tooltip.narrate"));
         this.selectedPageBox.setTooltip(Tooltip.create(Component.translatable("block.pc.page.tooltip")));
         if (!PokecubeCore.getConfig().fancyGUI) this.selectedPageBox.setPosition(x + 21, y + 128);
         if (this.lightModeButton.visible)
@@ -318,7 +317,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
         this.selectedPageBox.setBordered(false);
         this.addRenderableWidget(this.selectedPageBox);
 
-        final Component next = TComponent.translatable("block.pc.next");
+        final Component next = Component.translatable("block.pc.next");
         this.nextButton = this.addRenderableWidget(new Button.Builder(next, (b) -> {
             this.menu.updateInventoryPages((byte) 1, this.minecraft.player.getInventory());
             this.selectedPageBox.setValue(this.menu.getPageNb());
@@ -331,7 +330,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
         this.renamePageBox.setValue("");
 
         this.searchBar = new EditBox(this.font,
-                x + 63, y + 129, 72, 10, TComponent.translatable("block.pc.search.narrate"));
+                x + 63, y + 129, 72, 10, Component.translatable("block.pc.search.narrate"));
         this.searchBar.setTooltip(Tooltip.create(Component.translatable("block.pc.search.tooltip")));
         if (!PokecubeCore.getConfig().fancyGUI) this.searchBar.setPosition(x + 63, y + 128);
         if (this.lightModeButton.visible)
@@ -341,18 +340,18 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
         this.searchBar.setVisible(false);
         this.addRenderableWidget(this.searchBar);
 
-        final Component search = TComponent.translatable("block.pc.search");
+        final Component search = Component.translatable("block.pc.search");
         this.searchButton = this.addRenderableWidget(new Button.Builder(search, (b) -> {
             this.searchBar.setVisible(!this.searchBar.visible);
         }).bounds(x + 134, y + 126, 12, 12)
                 .tooltip(Tooltip.create(Component.translatable("block.pc.search.tooltip")))
-                .createNarration(supplier -> TComponent.translatable("block.pc.search.narrate")).build());
+                .createNarration(supplier -> Component.translatable("block.pc.search.narrate")).build());
         this.searchButton.visible = true;
         this.searchButton.setAlpha(0);
 
         if (!this.bound)
         {
-            this.confirmButton = this.addRenderableWidget(new Button.Builder(TComponent.translatable("block.pc.option.confirm"), (b) -> {
+            this.confirmButton = this.addRenderableWidget(new Button.Builder(Component.translatable("block.pc.option.confirm"), (b) -> {
                 this.confirmButton.visible = !this.confirmButton.visible;
                 this.release = !this.release;
                 this.menu.setRelease(this.release, this.minecraft.player.getUUID());
@@ -372,11 +371,11 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
                 }
             }).bounds(x + 135, y + 127, 10, 10)
                     .tooltip(Tooltip.create(Component.translatable("block.pc.option.confirm.tooltip")))
-                    .createNarration(supplier -> TComponent.translatable("block.pc.option.confirm.narrate")).build());
+                    .createNarration(supplier -> Component.translatable("block.pc.option.confirm.narrate")).build());
             this.confirmButton.setAlpha(0);
             this.confirmButton.visible = false;
 
-            this.releaseButton = this.addRenderableWidget(new Button.Builder(TComponent.translatable("block.pc.option.release"), (b) -> {
+            this.releaseButton = this.addRenderableWidget(new Button.Builder(Component.translatable("block.pc.option.release"), (b) -> {
                 this.confirmButton.visible = !this.confirmButton.visible;
                 this.release = !this.release;
                 if (!this.release && this.menu.release)
@@ -402,7 +401,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
                 PokecubeCore.packets.sendToServer(packet);
             }).bounds(x + 147, y + 127, 10, 10)
                     .tooltip(Tooltip.create(Component.translatable("block.pc.option.release.tooltip")))
-                    .createNarration(supplier -> TComponent.translatable("block.pc.option.release.narrate")).build());
+                    .createNarration(supplier -> Component.translatable("block.pc.option.release.narrate")).build());
             this.releaseButton.setAlpha(0);
             this.releaseButton.setFocused(false);
         }
@@ -415,8 +414,8 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
                 var _auto = this.menu.inv.isAutoToPC() ? autoOn : autoOff;
                 b.setMessage(_auto);
               }).bounds(x + 159, y + 127, 10, 10)
-                .createNarration(supplier -> this.menu.inv.isAutoToPC() ? TComponent.translatable("block.pc.auto_on.narrate")
-                        : TComponent.translatable("block.pc.auto_off.narrate")).build());
+                .createNarration(supplier -> this.menu.inv.isAutoToPC() ? Component.translatable("block.pc.auto_on.narrate")
+                        : Component.translatable("block.pc.auto_off.narrate")).build());
             this.autoButton.setAlpha(0);
         }
 
@@ -444,7 +443,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
 //                }).bounds(x + 137, y + 105, 50, 20).build());
 //            }
 //        }
-//        else this.addRenderableWidget(new Button.Builder(TComponent.literal(""), (b) -> {
+//        else this.addRenderableWidget(new Button.Builder(Component.literal(""), (b) -> {
 //            // TODO bind.
 //            // this.container.pcTile.toggleBound();
 //            this.minecraft.player.closeContainer();
@@ -466,8 +465,8 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
     {
         super.render(graphics, mouseX, mouseY, f);
 
-        this.autoButton.setTooltip(Tooltip.create(this.menu.inv.isAutoToPC() ? TComponent.translatable("block.pc.auto_on.tooltip")
-                : TComponent.translatable("block.pc.auto_off.tooltip")));
+        this.autoButton.setTooltip(Tooltip.create(this.menu.inv.isAutoToPC() ? Component.translatable("block.pc.auto_on.tooltip")
+                : Component.translatable("block.pc.auto_off.tooltip")));
 
         for (int i = 0; i < 54; i++)
         {

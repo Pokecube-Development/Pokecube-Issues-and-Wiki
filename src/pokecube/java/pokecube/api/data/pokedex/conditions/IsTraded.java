@@ -2,7 +2,6 @@ package pokecube.api.data.pokedex.conditions;
 
 import net.minecraft.network.chat.Component;
 import pokecube.api.entity.pokemob.IPokemob;
-import thut.lib.TComponent;
 
 /**
  * This class matches a traded pokemob<br>
@@ -21,6 +20,6 @@ public class IsTraded extends PokemobCondition
     @Override
     public Component makeDescription()
     {
-        return TComponent.translatable("pokemob.description.evolve.traded");
+        return Component.translatable("pokemob.description.evolve.traded");
     }
 }

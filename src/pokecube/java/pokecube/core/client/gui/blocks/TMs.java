@@ -19,7 +19,6 @@ import pokecube.core.inventory.tms.TMContainer;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.packets.PacketTMs;
 import pokecube.core.utils.Resources;
-import thut.lib.TComponent;
 
 public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
 {
@@ -87,10 +86,10 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
     protected void renderLabels(final GuiGraphics graphics, final int x, final int y)
     {
         if (this.lightModeButton.visible && PokecubeCore.getConfig().fancyGUI)
-            graphics.drawString(this.font, TComponent.translatable("block.pokecube.tm_machine"), 8, 6, 0xB2AFD6, false);
+            graphics.drawString(this.font, Component.translatable("block.pokecube.tm_machine"), 8, 6, 0xB2AFD6, false);
         else if (PokecubeCore.getConfig().fancyGUI)
-            graphics.drawString(this.font, TComponent.translatable("block.pokecube.tm_machine"), 8, 6, 0xFFFFFF, false);
-        else graphics.drawString(this.font, TComponent.translatable("block.pokecube.tm_machine"), 8, 6, 4210752, false);
+            graphics.drawString(this.font, Component.translatable("block.pokecube.tm_machine"), 8, 6, 0xFFFFFF, false);
+        else graphics.drawString(this.font, Component.translatable("block.pokecube.tm_machine"), 8, 6, 4210752, false);
 
         graphics.drawString(this.font, this.playerInventoryTitle.getString(), 8, this.imageHeight - 94 + 2, 4210752,
                 false);
@@ -188,7 +187,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         final int y = (this.height - this.imageHeight) / 2;
 
         // Elements placed in order of selection when pressing tab
-        final Component darkMode = TComponent.literal("");
+        final Component darkMode = Component.literal("");
         this.darkModeButton = this.addRenderableWidget(new Button.Builder(darkMode, (b) -> {
             this.darkModeButton.visible = false;
             this.lightModeButton.visible = true;
@@ -198,7 +197,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         this.darkModeButton.visible = (!PokecubeCore.getConfig().darkMode && PokecubeCore.getConfig().fancyGUI);
         this.darkModeButton.setAlpha(0);
 
-        final Component lightMode = TComponent.literal("");
+        final Component lightMode = Component.literal("");
         this.lightModeButton = this.addRenderableWidget(new Button.Builder(lightMode, (b) -> {
             this.lightModeButton.visible = false;
             this.darkModeButton.visible = true;
@@ -213,12 +212,12 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         this.movesSelection = this.addRenderableWidget(
                 new Button.Builder(Component.literal(""), (b) -> {}).bounds(x + 58, y + 16, 111, 18)
                         .tooltip(Tooltip.create(Component.translatable("block.tm_machine.moves_selection.tooltip")))
-                        .createNarration(supplier -> TComponent.translatable(
+                        .createNarration(supplier -> Component.translatable(
                                 "block.tm_machine.moves_selection.narrate" + MovesUtils.getMoveName(s, null))).build());
         this.movesSelection.setAlpha(0);
         this.movesSelection.active = false;
 
-        final Component prev = TComponent.translatable("block.tm_machine.previous");
+        final Component prev = Component.translatable("block.tm_machine.previous");
         this.prevButton = this.addRenderableWidget(new Button.Builder(prev, (b) -> {
             final String[] moves = this.menu.moves;
             this.index--;
@@ -230,7 +229,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         this.prevButton.setAlpha(0);
 
         this.searchBar = this.addRenderableWidget(new EditBox(this.font, x + 72, y + 38, 86, 10,
-                TComponent.translatable("block.tm_machine.search_bar.narrate")));
+                Component.translatable("block.tm_machine.search_bar.narrate")));
         this.searchBar.setTooltip(Tooltip.create(Component.translatable("block.tm_machine.search_bar.tooltip")));
         if (!PokecubeCore.getConfig().fancyGUI) this.searchBar.setPosition(x + 72, y + 37);
         if (this.lightModeButton.visible)
@@ -240,7 +239,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         else this.searchBar.setTextColor(0xFFFFFF);
         this.searchBar.setBordered(false);
 
-        final Component next = TComponent.translatable("block.tm_machine.next");
+        final Component next = Component.translatable("block.tm_machine.next");
         this.nextButton = this.addRenderableWidget(new Button.Builder(next, (b) -> {
             final String[] moves = this.menu.moves;
             this.index++;
@@ -250,7 +249,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
                 .createNarration(supplier -> Component.translatable("block.tm_machine.next.narrate")).build());
         this.nextButton.setAlpha(0);
 
-        final Component apply = TComponent.translatable("block.tm_machine.apply").withStyle(ChatFormatting.WHITE);
+        final Component apply = Component.translatable("block.tm_machine.apply").withStyle(ChatFormatting.WHITE);
         this.applyButton = this.addRenderableWidget(new Button.Builder(apply, (b) -> {
             final PacketTMs packet = new PacketTMs();
             packet.data.putInt("m", this.index);

@@ -15,7 +15,6 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.data.PokemobMatchInit;
 import thut.api.util.JsonUtil;
-import thut.lib.TComponent;
 
 public abstract class PokemobCondition
 {
@@ -78,7 +77,7 @@ public abstract class PokemobCondition
             Component base = wrap.makeDescription();
             if (base != null)
             {
-                return TComponent.translatable("pokemob.description.negate", base);
+                return Component.translatableEscape("pokemob.description.negate", base);
             }
             return super.makeDescription();
         }
@@ -114,7 +113,7 @@ public abstract class PokemobCondition
 
     public Component makeDescription()
     {
-        return TComponent.literal("Missingno");
+        return Component.literal("Missingno");
     }
 
     public static void addDescriptions(List<Component> comps, PokemobCondition condition)

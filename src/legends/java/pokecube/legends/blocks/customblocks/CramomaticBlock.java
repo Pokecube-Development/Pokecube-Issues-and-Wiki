@@ -33,7 +33,6 @@ import net.neoforged.api.distmarker.OnlyIn;
 import pokecube.legends.Reference;
 import pokecube.legends.blocks.BlockBase;
 import thut.api.item.ItemList;
-import thut.lib.TComponent;
 
 import java.util.HashMap;
 import java.util.List;
@@ -65,10 +64,10 @@ public class CramomaticBlock extends Rotates implements SimpleWaterloggedBlock
     {
         if (Screen.hasShiftDown())
         {
-			tooltipComponents.add(TComponent.translatable("legends." + this.infoName + ".tooltip"));
-			tooltipComponents.add(TComponent.translatable("legends." + this.infoName + ".tooltip.line1"));
+			tooltipComponents.add(Component.translatable("legends." + this.infoName + ".tooltip"));
+			tooltipComponents.add(Component.translatable("legends." + this.infoName + ".tooltip.line1"));
         }
-        else tooltipComponents.add(TComponent.translatable("pokecube.tooltip.advanced"));
+        else tooltipComponents.add(Component.translatable("pokecube.tooltip.advanced"));
     }
 
     // Precise selection box @formatter:off
@@ -178,7 +177,7 @@ public class CramomaticBlock extends Rotates implements SimpleWaterloggedBlock
         else if (!ItemList.is(CramomaticBlock.CRAMOMATIC_FUEL, player.getMainHandItem()) && !player.getItemInHand(hand)
                 .isEmpty())
         {
-			player.displayClientMessage(TComponent.translatable("msg.pokecube_legends.cramomatic.fail"), true);
+			player.displayClientMessage(Component.translatable("msg.pokecube_legends.cramomatic.fail"), true);
             return ItemInteractionResult.SUCCESS;
         }
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;

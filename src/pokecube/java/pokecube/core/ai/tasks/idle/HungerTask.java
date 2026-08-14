@@ -2,6 +2,7 @@ package pokecube.core.ai.tasks.idle;
 
 import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
@@ -37,7 +38,6 @@ import thut.api.Tracker;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.lib.ItemStackTools;
-import thut.lib.TComponent;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -378,14 +378,14 @@ public class HungerTask extends BaseIdleTask
                         {
                             this.lastMessageTick1 = (int) (entity.level().getGameTime() + 100);
                             pokemob.displayMessageToOwner(
-                                    TComponent.translatable("pokemob.hungry.hurt", pokemob.getDisplayName()));
+                                    Component.translatable("pokemob.hungry.hurt", pokemob.getDisplayName()));
                         }
                     }
                     else if (this.lastMessageTick2 < entity.level().getGameTime())
                     {
                         this.lastMessageTick2 = (int) (entity.level().getGameTime() + 100);
                         pokemob.displayMessageToOwner(
-                                TComponent.translatable("pokemob.hungry.dead", pokemob.getDisplayName()));
+                                Component.translatable("pokemob.hungry.dead", pokemob.getDisplayName()));
                     }
                 }
             }

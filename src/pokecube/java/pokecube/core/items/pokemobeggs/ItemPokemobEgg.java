@@ -57,7 +57,6 @@ import thut.api.entity.genetics.IMobGenetics;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.genetics.DefaultGenetics;
-import thut.lib.TComponent;
 
 /** @author Manchou */
 public class ItemPokemobEgg extends Item
@@ -245,7 +244,7 @@ public class ItemPokemobEgg extends Item
         {
             final LivingEntity owner = mob.getOwner();
             if (owner instanceof Player player) thut.lib.ChatHelper.sendSystemMessage(player,
-                    TComponent.translatable("pokemob.hatch", mob.getDisplayName().getString()));
+                    Component.translatableEscape("pokemob.hatch", mob.getDisplayName().getString()));
             if (world.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) world.addFreshEntity(new ExperienceOrb(world,
                     entity.getX(), entity.getY(), entity.getZ(), entity.getRandom().nextInt(7) + 1));
         }
@@ -283,10 +282,10 @@ public class ItemPokemobEgg extends Item
     {
         final PokedexEntry entry = ItemPokemobEgg.getEntry(stack, PokecubeCore.proxy.getRegistries());
         if (entry != null) tooltipComponents.add(1,
-                TComponent.translatable("item.pokecube.pokemobegg.named", I18n.get(entry.getUnlocalizedName()))
+                Component.translatableEscape("item.pokecube.pokemobegg.named", I18n.get(entry.getUnlocalizedName()))
                         .withStyle(ChatFormatting.GOLD));
         else tooltipComponents.add(1,
-                TComponent.translatable("item.pokecube.pokemobegg.command").withStyle(ChatFormatting.RED));
+                Component.translatable("item.pokecube.pokemobegg.command").withStyle(ChatFormatting.RED));
     }
 
     /**

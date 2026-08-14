@@ -1,5 +1,6 @@
 package pokecube.gimmicks.item_taming;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -34,7 +35,6 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.item.ItemList;
 import thut.core.common.ThutCore;
 import thut.core.common.config.Config;
-import thut.lib.TComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -139,7 +139,7 @@ public class ItemTaming
                         // Ensure it is not sitting anymore
                         pokemob.setLogicState(LogicStates.SITTING, false);
                         if(owner instanceof Player player)
-                            player.displayClientMessage(TComponent.translatable("pokecube.caught", pokemob.getDisplayName()), true);
+                            player.displayClientMessage(Component.translatableEscape("pokecube.caught", pokemob.getDisplayName()), true);
                         owner.playSound(Sounds.CAPTURE_SOUND.get(), (float) PokecubeCore.getConfig().captureVolume, 1);
 
                         PokecubeManager.addToCube(stack, mob);

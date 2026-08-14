@@ -14,6 +14,7 @@ import net.minecraft.commands.arguments.GameProfileArgument;
 import net.minecraft.commands.arguments.coordinates.Vec3Argument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
@@ -34,7 +35,6 @@ import thut.api.maths.Vector3;
 import thut.api.util.PermNodes;
 import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.core.common.commands.CommandTools;
-import thut.lib.TComponent;
 
 import java.util.Collection;
 import java.util.Map;
@@ -76,13 +76,13 @@ public class SecretBase
         if (player.level().dimension() != SecretBaseDimension.WORLD_KEY)
         {
             thut.lib.ChatHelper.sendSystemMessage(player,
-                    TComponent.translatable("pokecube.secretbase.exit.notinbase"));
+                    Component.translatable("pokecube.secretbase.exit.notinbase"));
             return 1;
         }
         final GlobalPos pos = SecretBaseDimension.getSecretBaseLoc(player.getUUID(), player.getServer(), false);
         final Vector3 v = new Vector3().set(pos).addTo(0.5, 0, 0.5);
         ThutTeleporter.transferTo(player, new TeleDest().setLoc(pos, v), true);
-        thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.secretbase.exit"));
+        thut.lib.ChatHelper.sendSystemMessage(player, Component.translatable("pokecube.secretbase.exit"));
         return 0;
     }
 
@@ -110,7 +110,7 @@ public class SecretBase
                     pos.x = pos.intX();
                     pos.y = pos.intY();
                     pos.z = pos.intZ();
-                    final MutableComponent message = TComponent.translatable("pokemob.createbase.confirmed", pos);
+                    final MutableComponent message = Component.translatableEscape("pokemob.createbase.confirmed", pos);
                     thut.lib.ChatHelper.sendSystemMessage(player, message);
                     return 0;
                 }

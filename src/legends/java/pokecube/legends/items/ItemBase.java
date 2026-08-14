@@ -9,7 +9,6 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import thut.lib.TComponent;
 
 import java.util.List;
 
@@ -85,14 +84,14 @@ public class ItemBase extends Item
         if (!this.hasTooltip) return;
         if (Screen.hasShiftDown())
         {
-            tooltipComponents.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip"));
+            tooltipComponents.add(Component.translatable("legends." + this.tooltip_id + ".tooltip"));
             for (int lineAmt = 1; lineAmt <= tooltipLineAmt; )
             {
                 tooltipComponents.add(
-                        TComponent.translatable("legends." + this.tooltip_id + ".tooltip.line" + lineAmt));
+                        Component.translatable("legends." + this.tooltip_id + ".tooltip.line" + lineAmt));
                 lineAmt++;
             }
         }
-        else tooltipComponents.add(TComponent.translatable("pokecube.tooltip.advanced"));
+        else tooltipComponents.add(Component.translatable("pokecube.tooltip.advanced"));
     }
 }

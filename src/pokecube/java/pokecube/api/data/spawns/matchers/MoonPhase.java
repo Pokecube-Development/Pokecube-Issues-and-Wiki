@@ -4,7 +4,6 @@ import net.minecraft.network.chat.Component;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.data.spawns.SpawnCheck.MatchResult;
-import thut.lib.TComponent;
 
 /**
  * 
@@ -36,6 +35,6 @@ public class MoonPhase extends BaseMatcher
     @Override
     public Component makeDescription()
     {
-        return TComponent.translatable("pokemob.description.evolve.moon_phase_" + phase);
+        return Component.translatable("pokemob.description.evolve.moon_phase_" + phase);
     }
 }

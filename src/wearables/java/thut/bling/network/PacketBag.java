@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
@@ -23,15 +24,13 @@ import thut.bling.bag.small.SmallInventory;
 import thut.bling.bag.small.SmallManager;
 import thut.bling.data.SmallBagData;
 import thut.lib.RegHelper;
-import thut.lib.TComponent;
 import thut.wearables.network.Packet;
 
 public class PacketBag extends Packet
 {
-    public static final MutableComponent ENDERBAG = TComponent.translatable("item.thut_bling.bling_bag_ender_vanilla");
-    public static final MutableComponent LARGEENDERBAG = TComponent
-            .translatable("item.thut_bling.bling_bag_ender_large");
-    public static final MutableComponent SMALLBAG = TComponent.translatable("item.thut_bling.bling_bag");
+    public static final MutableComponent ENDERBAG = Component.translatable("item.thut_bling.bling_bag_ender_vanilla");
+    public static final MutableComponent LARGEENDERBAG = Component.translatable("item.thut_bling.bling_bag_ender_large");
+    public static final MutableComponent SMALLBAG = Component.translatable("item.thut_bling.bling_bag");
 
     public static final byte SETPAGE = 0;
     public static final byte RENAME = 1;

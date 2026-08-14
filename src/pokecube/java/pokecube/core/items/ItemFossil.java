@@ -11,7 +11,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.database.Database;
-import thut.lib.TComponent;
 
 public class ItemFossil extends Item
 {
@@ -34,6 +33,6 @@ public class ItemFossil extends Item
             TooltipFlag tooltipFlag)
     {
         if (this.entry == null) this.entry = Database.getEntry(this.type);
-        tooltipComponents.add(TComponent.translatable(this.entry.getUnlocalizedName()).withStyle(ChatFormatting.GOLD));
+        tooltipComponents.add(Component.translatable(this.entry.getUnlocalizedName()).withStyle(ChatFormatting.GOLD));
     }
 }

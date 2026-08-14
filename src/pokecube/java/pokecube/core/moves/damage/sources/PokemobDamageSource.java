@@ -18,7 +18,6 @@ import pokecube.api.utils.PokeType;
 import pokecube.api.utils.Tools;
 import thut.api.ThutCaps;
 import thut.api.attachments.IOwnable;
-import thut.lib.TComponent;
 
 import javax.annotation.Nullable;
 
@@ -57,20 +56,20 @@ public class PokemobDamageSource extends DamageSource implements IPokedamage
         final ItemStack usedItem =
                 this.damageSourceEntity != null ? this.damageSourceEntity.getMainHandItem() : ItemStack.EMPTY;
         if (!usedItem.isEmpty() && usedItem.has(DataComponents.CUSTOM_NAME))
-            return TComponent.translatable("death.attack." + this.type().msgId(), died.getDisplayName(),
+            return Component.translatableEscape("death.attack." + this.type().msgId(), died.getDisplayName(),
                     this.damageSourceEntity.getDisplayName(), usedItem.getDisplayName());
         final IPokemob sourceMob = PokemobCaps.getPokemobFor(this.damageSourceEntity);
         if (sourceMob != null && sourceMob.getOwner() != null)
         {
-            return TComponent.translatable("pokemob.killed.tame", died.getDisplayName(),
+            return Component.translatableEscape("pokemob.killed.tame", died.getDisplayName(),
                     sourceMob.getOwner().getDisplayName(), this.damageSourceEntity.getDisplayName());
         }
         else if (sourceMob != null && sourceMob.getOwner() == null && !sourceMob.getGeneralState(GeneralStates.TAMED))
         {
-            return TComponent.translatable("pokemob.killed.wild", died.getDisplayName(),
+            return Component.translatableEscape("pokemob.killed.wild", died.getDisplayName(),
                     this.damageSourceEntity.getDisplayName());
         }
-        return TComponent.translatable("death.attack." + this.type().msgId(), died.getDisplayName(),
+        return Component.translatableEscape("death.attack." + this.type().msgId(), died.getDisplayName(),
                 this.damageSourceEntity.getDisplayName());
     }
 

@@ -20,6 +20,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tags.TagKey;
@@ -82,7 +83,6 @@ import thut.api.data.HolderProvider;
 import thut.api.item.ItemList;
 import thut.api.util.JsonUtil;
 import thut.lib.RegHelper;
-import thut.lib.TComponent;
 
 public class PokecubeItems extends ItemList
 {
@@ -630,7 +630,7 @@ public class PokecubeItems extends ItemList
         final ItemStack candy = PokecubeItems.getStack("candy");
         if (candy.isEmpty()) return ItemStack.EMPTY;
         PokecubeItems.makeStackValid(candy);
-        candy.set(DataComponents.ITEM_NAME, TComponent.translatable("item.pokecube.candy.rare"));
+        candy.set(DataComponents.ITEM_NAME, Component.translatable("item.pokecube.candy.rare"));
         return candy;
     }
 

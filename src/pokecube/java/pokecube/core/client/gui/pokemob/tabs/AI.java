@@ -21,7 +21,6 @@ import pokecube.core.network.pokemobs.PacketAIRoutine;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.network.pokemobs.PacketUpdateAI;
 import pokecube.core.utils.Resources;
-import thut.lib.TComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -158,14 +157,14 @@ public class AI extends Tab
             AIRoutine routine = AIRoutine.values()[i];
             String name = routine.toString();
             if (!routine.isAllowed(pokemob)) continue;
-            Component tooltip = TComponent.translatable("pokemob.gui.ai." + name.toLowerCase(Locale.ROOT) + ".desc");
-            Component nameComp = TComponent.translatable("pokemob.gui.ai." + name.toLowerCase(Locale.ROOT));
+            Component tooltip = Component.translatable("pokemob.gui.ai." + name.toLowerCase(Locale.ROOT) + ".desc");
+            Component nameComp = Component.translatable("pokemob.gui.ai." + name.toLowerCase(Locale.ROOT));
             int size = parent.font.width(nameComp);
             if (size > 38)
             {
                 name = nameComp.getString();
                 FormattedText trimmed = parent.font.substrByWidth(nameComp, 38);
-                MutableComponent text = TComponent.literal(trimmed.getString());
+                MutableComponent text = Component.literal(trimmed.getString());
                 text.setStyle(nameComp.getStyle());
                 nameComp = text;
             }
@@ -193,12 +192,12 @@ public class AI extends Tab
         yOffset += 45;
         String mode = pokemob.getEntity().getPersistentData().getString("pokecube:mega_mode");
         parent.addRenderableWidget(
-                this.megaMode = new EditBox(parent.font, xOffset, yOffset, 80, 10, TComponent.literal(mode)));
+                this.megaMode = new EditBox(parent.font, xOffset, yOffset, 80, 10, Component.literal(mode)));
         this.megaMode.setValue(mode);
         List<String> modes = new ArrayList<>();
         modes.add("");
         for (var h : ChangeFormHandler.processors) modes.add(h.changeKey());
-        parent.addRenderableWidget(back = new Button.Builder(TComponent.literal("<"), b -> {
+        parent.addRenderableWidget(back = new Button.Builder(Component.literal("<"), b -> {
             int i = modes.indexOf(megaMode.getValue());
             if (i == -1) i = 1;
             i -= 1;
@@ -206,7 +205,7 @@ public class AI extends Tab
             megaMode.setValue(modes.get(i));
             sendUpdate();
         }).bounds(xOffset - 10, yOffset, 10, 10).build());
-        parent.addRenderableWidget(fwd = new Button.Builder(TComponent.literal(">"), b -> {
+        parent.addRenderableWidget(fwd = new Button.Builder(Component.literal(">"), b -> {
             int i = modes.indexOf(megaMode.getValue());
             if (i == -1) i = modes.size();
             i += 1;
@@ -241,7 +240,7 @@ public class AI extends Tab
         PacketUpdateAI.sendMegaModePacket(this.menu.pokemob, mode);
         this.menu.pokemob.getEntity().getPersistentData().putString("pokecube:mega_mode", mode);
         // Send status message thingy
-        this.parent.getMinecraft().player.displayClientMessage(TComponent.translatable("pokemob.gui.update.megamode"),
+        this.parent.getMinecraft().player.displayClientMessage(Component.translatable("pokemob.gui.update.megamode"),
                 true);
     }
 }

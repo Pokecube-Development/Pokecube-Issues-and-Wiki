@@ -74,7 +74,6 @@ import thut.api.level.terrain.BiomeType;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
-import thut.lib.TComponent;
 
 import javax.annotation.Nullable;
 import java.lang.annotation.Retention;
@@ -135,7 +134,7 @@ public class PokedexEntry
                 if ("eevee".equals(data.user)) ThutCore.conf.debug = true;
                 List<Component> baseComps = PokemobCondition.getDescriptions(_condition);
                 if ("eevee".equals(data.user)) ThutCore.conf.debug = false;
-                for (var c : baseComps) comps.add(TComponent.translatable("pokemob.description.tabbed", c));
+                for (var c : baseComps) comps.add(Component.translatableEscape("pokemob.description.tabbed", c));
             }
             return comps;
         }
@@ -159,7 +158,7 @@ public class PokedexEntry
             // @formatter:on
             final PokedexEntry entry = this.data.getUser();
             final PokedexEntry nex = this.data.getResult();
-            final MutableComponent subEvo = TComponent.translatable("pokemob.description.evolve.to",
+            final MutableComponent subEvo = Component.translatableEscape("pokemob.description.evolve.to",
                     entry.getTranslatedName(), nex.getTranslatedName());
             final List<MutableComponent> list = this.getEvoClauses();
             for (final MutableComponent item : list) subEvo.append("\n").append(item);
@@ -1341,9 +1340,9 @@ public class PokedexEntry
             final PokedexEntry entry = this;
             final MutableComponent typeString = PokeType.getTranslatedName(type1);
             if (type2 != PokeType.unknown) typeString.append("/").append(PokeType.getTranslatedName(type2));
-            final MutableComponent typeDesc = TComponent.translatable("pokemob.description.type",
+            final MutableComponent typeDesc = Component.translatableEscape("pokemob.description.type",
                     entry.getTranslatedName(), typeString);
-            MutableComponent evoString = TComponent.literal("");
+            MutableComponent evoString = Component.literal("");
             for (final EvolutionData d : entry.evolutions)
             {
                 if (d.evolution == null) continue;
@@ -1359,7 +1358,7 @@ public class PokedexEntry
             MutableComponent descString = typeDesc;
             if (evoString != null) descString = descString.append("\n").append(evoString);
             if (entry._evolvesFrom != null) descString = descString.append("\n")
-                    .append(TComponent.translatable("pokemob.description.evolve.from", entry.getTranslatedName(),
+                    .append(Component.translatableEscape("pokemob.description.evolve.from", entry.getTranslatedName(),
                             entry._evolvesFrom.getTranslatedName()));
             return descString;
         });
@@ -1603,7 +1602,7 @@ public class PokedexEntry
         {
             String key = this.getUnlocalizedName();
             if (!(this.getEntityType() instanceof PokemobType<?>)) key = this.getEntityType().getDescriptionId();
-            this.nameComp = TComponent.translatable(key);
+            this.nameComp = Component.translatable(key);
             this.nameComp.setStyle(this.nameComp.getStyle().withClickEvent(
                     new ClickEvent(net.minecraft.network.chat.ClickEvent.Action.CHANGE_PAGE, this.getTrimmedName())));
         }
