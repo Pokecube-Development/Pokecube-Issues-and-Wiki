@@ -1,6 +1,7 @@
 package pokecube.gimmicks.nests;
 
 import com.google.common.collect.Sets;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
@@ -13,11 +14,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
@@ -31,8 +34,13 @@ import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.Nullable;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.ai.IInhabitor;
 import pokecube.api.entity.CapabilityInhabitor;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.events.EggEvent;
+import pokecube.api.items.EggInfo;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.poi.PointsOfInterest;
@@ -47,6 +55,7 @@ import pokecube.gimmicks.nests.tasks.bees.BeeTasks.BeeInhabitor;
 import pokecube.gimmicks.nests.tasks.burrows.BurrowTasks;
 import thut.api.attachments.Inventory;
 import thut.api.data.HolderProvider;
+import thut.api.inventory.InvHelper;
 import thut.api.item.ItemList;
 
 import java.util.function.Predicate;
@@ -81,6 +90,25 @@ public class NestTasks
 
     public NestTasks()
     {
+        PokecubeAPI.POKEMOB_BUS.addListener(EventPriority.LOW, NestTasks::onHatch);
+    }
+
+    public static void onHatch(EggEvent.Hatch event)
+    {
+        var stack = event.egg.getMainHandItem();
+        var world = event.egg.level();
+        var mob = event.mob;
+        EggInfo contents = PokemobCaps.getEggContents(stack);
+        var nest = contents.getNest();
+        nests: // TODO an event or such for setting the nest tile in NestTasks?
+        if (nest.isPresent())
+        {
+            final BlockPos pos = nest.get();
+            if (!world.isLoaded(pos)) break nests;
+            final BlockEntity tile = world.getBlockEntity(pos);
+            if (tile instanceof NestTile _nest) _nest.addResident(mob);
+            mob.setGeneralState(GeneralStates.EXITINGCUBE, false);
+        }
     }
 
     @SubscribeEvent
@@ -122,6 +150,24 @@ public class NestTasks
     {
         event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK, NEST_TYPE.get(), new NestProvider());
+
+        Inventory.REGISTRY.register(new HolderProvider.Provider<>()
+        {
+            final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube", "nest");
+
+            @Override
+            public InvHelper.ItemCap apply(IAttachmentHolder t)
+            {
+                if (t instanceof NestTile) return new InvHelper.ItemCap(54);
+                return null;
+            }
+
+            @Override
+            protected ResourceLocation key()
+            {
+                return ID;
+            }
+        });
     }
 
     public static void init()

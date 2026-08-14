@@ -237,7 +237,7 @@ public class EntityPokemobEgg extends AgeableMob
         final EggEvent.PreHatch event = new EggEvent.PreHatch(this);
         ThutCore.FORGE_BUS.post(event);
         if (!event.isCanceled())
-            ItemPokemobEgg.spawn(this.getPokemob(true), this.getMainHandItem(), this.level(), this);
+            ItemPokemobEgg.spawn(this.getPokemob(true), this.level(), this);
         this.discard();
     }
 

@@ -9,7 +9,6 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
@@ -31,7 +30,6 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
-import pokecube.gimmicks.nests.blocks.NestTile;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.damage.attributes.PokecubeAttributes;
@@ -70,7 +68,6 @@ public class LogicMiscUpdate extends LogicBase
     private final int[] flavourAmounts = new int[5];
 
     private String particle = null;
-    private boolean initHome = false;
     private boolean checkedEvol = false;
 
     private int floatTimer = 0;
@@ -348,21 +345,6 @@ public class LogicMiscUpdate extends LogicBase
         for (int i = 0; i < this.flavourAmounts.length; i++)
             if (this.flavourAmounts[i] > 0) this.pokemob.setFlavourAmount(i, this.flavourAmounts[i] - 1);
 
-        // TODO move this to one added in NestTasks
-        if (!this.initHome)
-        {
-            this.initHome = true;
-            homes:
-            if (this.pokemob.getHome() != null)
-            {
-                if (!world.isLoaded(this.pokemob.getHome())) break homes;
-                final BlockEntity te = world.getBlockEntity(this.pokemob.getHome());
-                if (te instanceof NestTile nest)
-                {
-                    nest.addResident(this.pokemob);
-                }
-            }
-        }
         // Ensure our pose matches what we are doing
         this.checkPose();
         // This is used server side as well, for hitbox positions.
