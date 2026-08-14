@@ -104,11 +104,11 @@ public class GimmickEvos
 
     /**
      * Changes tyrogue's evolution based on stats.
-     * 
-     * @param evt
+     *
      */
     private static void evolveTyrogue(final EvolveEvent.Pre evt)
     {
+        if (!config.doTyrogue) return;
         if (evt.mob.getPokedexEntry() == Database.getEntry("tyrogue"))
         {
             final int atk = evt.mob.getStat(Stats.ATTACK, false);
@@ -122,11 +122,11 @@ public class GimmickEvos
     /**
      * Creates a shedinja in the player's inventory if their nincada evolves
      * into ninjask, and they have a spare pokecube.
-     * 
-     * @param evt
+     *
      */
     private static void makeShedinja(final EvolveEvent.Post evt)
     {
+        if (!config.doShedinja) return;
         if (evt.mob.getOwner() instanceof ServerPlayer player)
         {
             if (evt.mob.getPokedexEntry() == Database.getEntry("ninjask"))
