@@ -5,6 +5,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.ICancellableEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEvent;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 
 public class EggEvent extends Event
@@ -31,9 +32,11 @@ public class EggEvent extends Event
 
     public static class Hatch extends EggEvent
     {
-        public Hatch(final Entity egg)
+        public final IPokemob mob;
+        public Hatch(final Entity egg, IPokemob mob)
         {
             super((EntityPokemobEgg) egg);
+            this.mob = mob;
         }
     }
 

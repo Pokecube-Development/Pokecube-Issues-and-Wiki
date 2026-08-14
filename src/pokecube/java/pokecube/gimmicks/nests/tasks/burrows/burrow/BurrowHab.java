@@ -242,14 +242,8 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
             }
 
             final BlockEntity tile = world.getBlockEntity(this.burrow.getCenter());
-
             if (tile instanceof NestTile nest)
             {
-                nest.residents.removeIf(p -> {
-                    if (p == null) return true;
-                    if (!p.getEntity().isAlive()) return true;
-                    return !p.getEntity().isAddedToLevel();
-                });
                 nest.residents.forEach(p -> this.mobs.add(p.getEntity().getUUID()));
             }
 

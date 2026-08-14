@@ -126,6 +126,7 @@ public class NestTile extends InteractableTile implements ITickTile
     public void addResident(final IPokemob resident)
     {
         this.residents.add(resident);
+        // TODO also decide on setting a home pos and distance to the resident here.
         final IInhabitable hab = this.getWrappedHab();
         if (resident.getEntity().getBrain().checkMemory(MemoryModules.NEST_POS.get(), MemoryStatus.REGISTERED))
         {
@@ -173,14 +174,15 @@ public class NestTile extends InteractableTile implements ITickTile
         SpawnHandler.removeForbiddenSpawningCoord(region.getPos(), this.level);
     }
 
-    public void removeResident(final IPokemob resident)
-    {
-        this.residents.remove(resident);
-    }
-
     @Override
     public void tick()
     {
+        // Cleanup stale mobs
+        residents.removeIf(p -> {
+            if (p == null) return true;
+            if (!p.getEntity().isAlive()) return true;
+            return !p.getEntity().isAddedToLevel();
+        });
         if (this.habitat != null && this.level instanceof ServerLevel level) this.habitat.onTick(level);
         this.time++;
     }

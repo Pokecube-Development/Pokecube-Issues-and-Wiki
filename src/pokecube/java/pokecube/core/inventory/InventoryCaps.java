@@ -9,7 +9,6 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.Nullable;
 import pokecube.core.PokecubeItems;
-import pokecube.gimmicks.nests.blocks.NestTile;
 import pokecube.core.blocks.pc.PCTile;
 import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.blocks.trade.TraderTile;
@@ -104,24 +103,6 @@ public class InventoryCaps
             public ItemCap apply(IAttachmentHolder t)
             {
                 if (t instanceof PCTile tile) return new PCWrapper(tile);
-                return null;
-            }
-
-            @Override
-            protected ResourceLocation key()
-            {
-                return ID;
-            }
-        });
-
-        Inventory.REGISTRY.register(new HolderProvider.Provider<>()
-        {
-            final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube", "nest");
-
-            @Override
-            public ItemCap apply(IAttachmentHolder t)
-            {
-                if (t instanceof NestTile) return new ItemCap(54);
                 return null;
             }
 

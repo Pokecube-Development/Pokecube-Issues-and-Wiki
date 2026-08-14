@@ -7,7 +7,6 @@ import com.google.common.base.Predicate;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -25,7 +24,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
@@ -42,7 +40,6 @@ import pokecube.api.utils.TagNames;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.gimmicks.nests.blocks.NestTile;
 import pokecube.core.database.Database;
 import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.entity.genetics.genes.SpeciesGene;
@@ -236,7 +233,7 @@ public class ItemPokemobEgg extends Item
         return PokemobCaps.getPokemobFor(entity);
     }
 
-    public static void spawn(final IPokemob mob, final ItemStack stack, final Level world, final EntityPokemobEgg egg)
+    public static void spawn(final IPokemob mob, final Level world, final EntityPokemobEgg egg)
     {
         final Mob entity = mob.getEntity();
         world.addFreshEntity(entity);
@@ -248,19 +245,8 @@ public class ItemPokemobEgg extends Item
             if (world.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) world.addFreshEntity(new ExperienceOrb(world,
                     entity.getX(), entity.getY(), entity.getZ(), entity.getRandom().nextInt(7) + 1));
         }
-        final EggEvent.Hatch evt = new EggEvent.Hatch(egg);
+        final EggEvent.Hatch evt = new EggEvent.Hatch(egg, mob);
         PokecubeAPI.POKEMOB_BUS.post(evt);
-        EggInfo contents = PokemobCaps.getEggContents(stack);
-        var nest = contents.getNest();
-        nests: // TODO an event or such for setting the nest tile in NestTasks?
-        if (nest.isPresent())
-        {
-            final BlockPos pos = nest.get();
-            if (!world.isLoaded(pos)) break nests;
-            final BlockEntity tile = world.getBlockEntity(pos);
-            if (tile instanceof NestTile _nest) _nest.addResident(mob);
-            mob.setGeneralState(GeneralStates.EXITINGCUBE, false);
-        }
         entity.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
         entity.playAmbientSound();
     }
