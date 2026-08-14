@@ -88,6 +88,8 @@ public class PokemobMoveStats
     public MoveEntry selectedMove;
     /** The moves we are currently using */
     public final List<MoveApplication> movesInProgress = Lists.newArrayList();
+    /** The application of the last move we used, useful for the effects of protecting moves. */
+    public MoveApplication lastMoveApplication = null;
     public boolean targettingSelf = false;
     /**
      * This is the ability to apply in battle, out of battle it will be reset to whatever the mob's normal ability was.
@@ -132,6 +134,8 @@ public class PokemobMoveStats
         targettingSelf = false;
         synchronized (movesInProgress)
         {
+            movesInProgress.forEach(moveApplication ->
+                    lastMoveApplication = moveApplication.isFinished() ? moveApplication : lastMoveApplication);
             movesInProgress.removeIf(MoveApplication::isFinished);
             for (var move : movesInProgress)
             {

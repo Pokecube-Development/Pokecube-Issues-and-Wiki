@@ -29,7 +29,4 @@ public class PowerConstruct extends Ability
         }
 
     }
-
-    @Override
-    public boolean canChange(IPokemob mob, PokedexEntry changeTo){ return true; }
 }
