@@ -113,6 +113,7 @@ public class MegaEvoData extends ResourceData
         MegaCondition.CONDITIONS.put("ability", Ability.class);
         MegaCondition.CONDITIONS.put("move", Move.class);
         MegaCondition.CONDITIONS.put("item_move_learn", ItemMoveLearn.class);
+        MegaCondition.CONDITIONS.put("hp_threshold", HPThreshold.class);
     }
 
     public static PokedexEntry getMegaEvo(IPokemob pokemob)
