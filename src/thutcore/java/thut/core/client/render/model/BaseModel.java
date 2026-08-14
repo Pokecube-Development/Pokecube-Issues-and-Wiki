@@ -58,14 +58,9 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
                 if (this.toLoad.callback != null)
                 {
                     this.toLoad.callback.run(this.toLoad);
-                    this.toLoad.postInit();
                 }
-                // Then clear the callback
-                this.toLoad.callback = null;
-                // Then flag as loaded
-                this.toLoad.loaded = true;
-                // Then mark as no longer loading
-                this.toLoad.loading = false;
+                // Then call postInit
+                this.toLoad.postInit();
             }
         }
 
@@ -155,7 +150,6 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
             callback.run(this);
             // Now handle post processing cleanup
             postInit();
-            this.loaded = true;
         }
         else this.callback = callback;
         return this;
@@ -185,6 +179,9 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
             // Finally set the parts materials
             parts.forEach(p -> p.updateMaterials(materials));
         }
+        this.loaded = true;
+        this.loading = false;
+        this.callback = null;
     }
 
     @Override
