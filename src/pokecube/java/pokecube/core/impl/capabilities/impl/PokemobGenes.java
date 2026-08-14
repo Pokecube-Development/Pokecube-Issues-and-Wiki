@@ -85,7 +85,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
             Thread.dumpStack();
             throw new RuntimeException(e);
         }
-        if (this.inCombat()) return this.moveInfo.battleAbility;
+        if (this.inCombat() && this._abilityChanged) return this.moveInfo.battleAbility;
         final AbilityGene gene = abilityGene.getExpressed();
         final AbilityObject obj = gene.getValue();
         // not in battle, re-synchronize this.
