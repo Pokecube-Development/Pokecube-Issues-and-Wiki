@@ -54,7 +54,7 @@ public class SetupHandler
         ThutCore.FORGE_BUS.addListener(EventPriority.LOW, TrainerEventHandler::onBrainInit);
         // Trainer data loading events
         modEventBus.addListener(EventPriority.HIGH, TrainerEventHandler::initTrainers);
-        ThutCore.FORGE_BUS.addListener(EventPriority.HIGH, TrainerEventHandler::onServerStart);
+        ThutCore.FORGE_BUS.addListener(EventPriority.HIGH, TrainerEventHandler::onTagsUpdated);
         // Manages npcs joining battles, such as preventing always friendly ones
         // from doing so.
         ThutCore.FORGE_BUS.addListener(TrainerEventHandler::onBattleJoin);
