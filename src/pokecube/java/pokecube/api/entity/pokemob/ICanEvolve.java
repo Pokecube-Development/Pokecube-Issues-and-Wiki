@@ -33,7 +33,6 @@ import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.EntityTools;
-import pokecube.gimmicks.mega.MegaEvolveHelper;
 import thut.api.entity.genetics.Alleles;
 import thut.api.item.ItemList;
 import thut.core.common.ThutCore;
