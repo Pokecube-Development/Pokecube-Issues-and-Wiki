@@ -49,7 +49,6 @@ import thut.core.client.render.animation.AnimationHelper;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
 import thut.lib.RegHelper;
-import thut.lib.TComponent;
 
 import java.util.List;
 import java.util.Locale;
@@ -179,7 +178,7 @@ public class AnimationGui extends Screen
 
     public AnimationGui()
     {
-        super(TComponent.translatable("pokecube.model_reloader"));
+        super(Component.translatable("pokecube.model_reloader"));
         modules.add(new WornOffsetModule(this));
         modules.add(new IconModule(this));
     }
@@ -436,7 +435,7 @@ public class AnimationGui extends Screen
         if (AnimationGui.entry == null) AnimationGui.entry = Pokedex.getInstance().getFirstEntry();
         if (AnimationGui.entry != null) AnimationGui.mob = AnimationGui.entry.getName();
 
-        final Component blank = TComponent.literal("");
+        final Component blank = Component.literal("");
 
         this.anim = new ListEditBox(this.font, this.width - 101, yOffset + 43 - yOffset / 2, 100, 10, blank);
         this.state_g = new ListEditBox(this.font, this.width - 101, yOffset - 33 - yOffset / 2, 100, 10, blank);
@@ -466,19 +465,19 @@ public class AnimationGui extends Screen
             }
         }
 
-        final Component up = TComponent.literal("\u25bc");
-        final Component down = TComponent.literal("\u25b2");
-        final Component right = TComponent.literal("\u25b6");
-        final Component left = TComponent.literal("\u25c0");
-        final Component next = TComponent.literal("next");
-        final Component prev = TComponent.literal("prev");
-        final Component plus = TComponent.literal("+");
-        final Component minus = TComponent.literal("-");
+        final Component up = Component.literal("\u25bc");
+        final Component down = Component.literal("\u25b2");
+        final Component right = Component.literal("\u25b6");
+        final Component left = Component.literal("\u25c0");
+        final Component next = Component.literal("next");
+        final Component prev = Component.literal("prev");
+        final Component plus = Component.literal("+");
+        final Component minus = Component.literal("-");
 
-        final Component reset = TComponent.literal("reset");
-        final Component f5 = TComponent.literal("f5");
-        final Component bg = TComponent.literal("bg");
-        final Component module = TComponent.literal("module");
+        final Component reset = Component.literal("reset");
+        final Component f5 = Component.literal("f5");
+        final Component bg = Component.literal("bg");
+        final Component module = Component.literal("module");
 
         int dy = -120;
         dy += 20;
@@ -556,24 +555,24 @@ public class AnimationGui extends Screen
         }).bounds(this.width / 2 - xOffset, yOffset + dy, 40, 20).build());
 
         dy += 20;
-        this.addRenderableWidget(new Button.Builder(TComponent.literal("normal"), (b) -> {
+        this.addRenderableWidget(new Button.Builder(Component.literal("normal"), (b) -> {
             this.shiny = !this.shiny;
-            b.setMessage(TComponent.literal(this.shiny ? "shiny" : "normal"));
+            b.setMessage(Component.literal(this.shiny ? "shiny" : "normal"));
             this.onUpdated();
         }).bounds(this.width / 2 - xOffset, yOffset + dy, 40, 20).build());
 
         dy += 20;
-        this.addRenderableWidget(new Button.Builder(TComponent.literal("sexe:M"), (b) -> {
+        this.addRenderableWidget(new Button.Builder(Component.literal("sexe:M"), (b) -> {
             final String[] gender = b.getMessage().getString().split(":");
             if (gender[1].equalsIgnoreCase("f"))
             {
                 this.sexe = IPokemob.MALE;
-                b.setMessage(TComponent.literal("sexe:M"));
+                b.setMessage(Component.literal("sexe:M"));
             }
             else if (gender[1].equalsIgnoreCase("m"))
             {
                 this.sexe = IPokemob.FEMALE;
-                b.setMessage(TComponent.literal("sexe:F"));
+                b.setMessage(Component.literal("sexe:F"));
             }
             AnimationGui.entry = AnimationGui.entry.getForGender(sexe);
             this.forme.setValue(AnimationGui.entry.name);

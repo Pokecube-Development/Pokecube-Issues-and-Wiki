@@ -2,6 +2,7 @@ package thut.wearables.network;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -9,7 +10,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import thut.lib.TComponent;
+
 import thut.wearables.ThutWearables;
 
 public class MouseOverPacket extends Packet
@@ -38,7 +39,7 @@ public class MouseOverPacket extends Packet
             }
         }
         else thut.lib.ChatHelper.sendSystemMessage(Minecraft.getInstance().player,
-                TComponent.translatable("wearables.other.fail"));
+                Component.translatable("wearables.other.fail"));
     }
 
     @Override

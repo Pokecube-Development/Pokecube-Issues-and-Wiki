@@ -8,6 +8,7 @@ import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -27,12 +28,11 @@ import thut.api.entity.animation.IAnimationChanger;
 import thut.api.entity.animation.IAnimationChanger.WornOffsets;
 import thut.core.client.render.animation.AnimationChanger;
 import thut.core.client.render.model.IExtendedModelPart;
-import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.model.parts.Part;
 import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.client.render.wrappers.ModelWrapper;
-import thut.lib.TComponent;
+
 import thut.wearables.EnumWearable;
 import thut.wearables.IWearable;
 import thut.wearables.ThutWearables;
@@ -198,8 +198,7 @@ public class WearableWrapper
         return ThutWearables.getWearable(stack);
     }
 
-    public static WornOffsets getPartParent(final LivingEntity wearer, final IModelRenderer<?> renderer,
-            final IModel imodel, final String identifier)
+    public static WornOffsets getPartParent(final IModelRenderer<?> renderer, final String identifier)
     {
         final IAnimationChanger temp = renderer.getAnimationChanger();
         if (temp instanceof AnimationChanger changer) return changer.wornOffsets.get(identifier);
@@ -226,9 +225,9 @@ public class WearableWrapper
             int x = pokegui.getGuiLeft() + ThutWearables.config.buttonPos.get(0) - 18;
             int y = pokegui.getGuiTop() + ThutWearables.config.buttonPos.get(1) + 10;
             event.getScreen().addRenderableWidget(
-                    button = new GuiWearableButton(x, y, 9, 9, TComponent.translatable("button.wearables.on"),
+                    button = new GuiWearableButton(x, y, 9, 9, Component.translatable("button.wearables.on"),
                             b -> openPokemobWearables(pokegui),
-                            supplier -> TComponent.translatable("button.wearables.on"), pokegui));
+                            supplier -> Component.translatable("button.wearables.on"), pokegui));
             button.stillVisible = () -> pokegui.moduleIndex == 0;
             button.setFGColor(0xFFFF00FF);
         }
@@ -239,8 +238,8 @@ public class WearableWrapper
                 int x = wear.getGuiLeft() + ThutWearables.config.buttonPos.get(0);
                 int y = wear.getGuiTop() + ThutWearables.config.buttonPos.get(1);
                 event.getScreen().addRenderableWidget(
-                        button = new GuiWearableButton(x, y, 9, 9, TComponent.translatable("button.wearables.off"),
-                                b -> openPokemobGui(), supplier -> TComponent.translatable("button.wearables.off"),
+                        button = new GuiWearableButton(x, y, 9, 9, Component.translatable("button.wearables.off"),
+                                b -> openPokemobGui(), supplier -> Component.translatable("button.wearables.off"),
                                 wear));
                 button.setFGColor(0xFFFF00FF);
             }
@@ -263,7 +262,7 @@ public class WearableWrapper
 
     private static void openPokemobGui()
     {
-        Entity e = null;
+        Entity e;
         if (lastID != -1 && lastUUID != null)
         {
             e = Minecraft.getInstance().level.getEntity(lastID);
@@ -290,12 +289,10 @@ public class WearableWrapper
 
         WornOffsets offsets;
 
-        boolean debug = imodel instanceof ModelWrapper<?> wr && wr.debugMode;
-
         for (var slot : EquipmentSlot.values())
         {
             String ident = EQUIP_SLOTS.get(slot);
-            offsets = WearableWrapper.getPartParent(wearer, renderer, imodel, ident);
+            offsets = WearableWrapper.getPartParent(renderer, ident);
             if (offsets != null && imodel.getParts().containsKey(offsets.parent))
             {
                 ItemStack stack = wearer.getItemBySlot(slot);
@@ -345,7 +342,7 @@ public class WearableWrapper
                 index++;
                 final IWearable w = WearableWrapper.getWearable(worn.getWearable(wearable, i));
                 ItemStack stack = worn.getWearable(wearable);
-                offsets = WearableWrapper.getPartParent(wearer, renderer, imodel, ident);
+                offsets = WearableWrapper.getPartParent(renderer, ident);
                 if (offsets != null && imodel.getParts().containsKey(offsets.parent))
                 {
                     WearableRenderWrapper wrapper;

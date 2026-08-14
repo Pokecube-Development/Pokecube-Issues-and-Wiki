@@ -4,6 +4,7 @@ import java.util.Locale;
 import java.util.stream.Stream;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
@@ -11,7 +12,6 @@ import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import thut.api.util.PermNodes;
 import thut.core.init.CommonInit;
 import thut.core.init.CommonInit.ICustomStickHandler;
-import thut.lib.TComponent;
 
 public class SubbiomeStickApplier implements ICustomStickHandler
 {
@@ -44,7 +44,7 @@ public class SubbiomeStickApplier implements ICustomStickHandler
             TerrainManager.getInstance().getTerrain(level, p).setBiome(p, subbiome);
         });
         final String message = "msg.subbiome.set";
-        thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(message, subbiome.name));
+        thut.lib.ChatHelper.sendSystemMessage(player, Component.translatableEscape(message, subbiome.name));
     }
 
     @Override

@@ -19,7 +19,6 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import thut.lib.TComponent;
 
 import java.util.List;
 
@@ -114,8 +113,8 @@ public class BlockBase extends Block
         if (!this.hasTooltip)
             return;
         if (Screen.hasShiftDown())
-            tooltipComponents.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip"));
-        else tooltipComponents.add(TComponent.translatable("pokecube.tooltip.advanced"));
+            tooltipComponents.add(Component.translatable("legends." + this.tooltip_id + ".tooltip"));
+        else tooltipComponents.add(Component.translatable("pokecube.tooltip.advanced"));
     }
 
     public int ticksRandomly()

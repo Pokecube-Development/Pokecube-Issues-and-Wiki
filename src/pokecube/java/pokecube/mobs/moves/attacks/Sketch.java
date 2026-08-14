@@ -1,5 +1,6 @@
 package pokecube.mobs.moves.attacks;
 
+import net.minecraft.network.chat.Component;
 import pokecube.api.data.moves.MoveProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
@@ -8,7 +9,6 @@ import pokecube.api.moves.utils.MoveApplication.Damage;
 import pokecube.api.moves.utils.MoveApplication.PostMoveUse;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.moves.MovesUtils;
-import thut.lib.TComponent;
 
 @MoveProvider(name = "sketch")
 public class Sketch implements PostMoveUse
@@ -28,7 +28,7 @@ public class Sketch implements PostMoveUse
             if (attacker.getMove(i) != null && attacker.getMove(i).equals(packet.getName()))
         {
             attacker.setMove(i, toSketch.name);
-            attacker.displayMessageToOwner(TComponent.translatable("pokemob.move.sketched", attacker.getDisplayName(),
+            attacker.displayMessageToOwner(Component.translatableEscape("pokemob.move.sketched", attacker.getDisplayName(),
                     MovesUtils.getMoveName(lastHitBy, attacker)));
             return;
         }

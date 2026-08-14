@@ -14,6 +14,7 @@ import net.minecraft.commands.Commands;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.Connection;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
 import net.minecraft.resources.ResourceKey;
@@ -49,7 +50,6 @@ import thut.bot.entity.BotPlayer;
 import thut.bot.entity.ai.IBotAI;
 import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
-import thut.lib.TComponent;
 
 import java.io.File;
 import java.io.IOException;
@@ -126,10 +126,10 @@ public class ThutBot
     }
 
     private static final SimpleCommandExceptionType NO_SUMMON_2 = new SimpleCommandExceptionType(
-            TComponent.translatable("Cannot summon a second bot of the same name!"));
+            Component.translatable("Cannot summon a second bot of the same name!"));
 
     private static final SimpleCommandExceptionType NO_KILL = new SimpleCommandExceptionType(
-            TComponent.translatable("No bot by that name to kill!"));
+            Component.translatable("No bot by that name to kill!"));
 
     private static void onCommandRegister(final RegisterCommandsEvent event)
     {
@@ -379,9 +379,9 @@ public class ThutBot
         server.invalidateStatus();
         MutableComponent mutablecomponent;
         if (player.getGameProfile().getName().equalsIgnoreCase(s))
-            mutablecomponent = TComponent.translatable("multiplayer.player.joined", player.getDisplayName());
+            mutablecomponent = Component.translatable("multiplayer.player.joined", player.getDisplayName());
         else
-            mutablecomponent = TComponent.translatable("multiplayer.player.joined.renamed", player.getDisplayName(), s);
+            mutablecomponent = Component.translatable("multiplayer.player.joined.renamed", player.getDisplayName(), s);
 
         list.broadcastSystemMessage(mutablecomponent.withStyle(ChatFormatting.YELLOW), false);
         servergamepacketlistenerimpl.teleport(player.getX(), player.getY(), player.getZ(), player.getYRot(),

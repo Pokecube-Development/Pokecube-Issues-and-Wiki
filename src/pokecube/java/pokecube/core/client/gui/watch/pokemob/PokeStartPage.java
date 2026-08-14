@@ -1,9 +1,5 @@
 package pokecube.core.client.gui.watch.pokemob;
 
-import java.util.List;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
@@ -11,7 +7,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
-import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
@@ -19,20 +14,15 @@ import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.StartWatch;
 import pokecube.core.client.gui.watch.util.WatchPage;
 import pokecube.core.network.packets.PacketPokedex;
-import thut.lib.TComponent;
 
 public abstract class PokeStartPage extends WatchPage
 {
     final StartWatch parent;
-    static List<PokedexEntry> entries = Lists.newArrayList();
-    static List<FormeHolder> formes = Lists.newArrayList();
-    static int entryIndex = 0;
-    static int formIndex = 0;
 
     public PokeStartPage(final StartWatch parent, final String title, final ResourceLocation day,
             final ResourceLocation night)
     {
-        super(TComponent.translatable("" + title), parent.watch, day, night);
+        super(Component.translatable("" + title), parent.watch, day, night);
         this.parent = parent;
     }
 
@@ -52,8 +42,8 @@ public abstract class PokeStartPage extends WatchPage
         super.init();
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2;
-        final Component next = TComponent.literal("");
-        final Component prev = TComponent.literal("");
+        final Component next = Component.literal("");
+        final Component prev = Component.literal("");
 
         final TexButton prevBtn = this.addRenderableWidget(new TexButton.Builder(prev, b -> {
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();

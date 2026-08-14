@@ -3,6 +3,7 @@ package thut.crafts.entity;
 import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity.RemovalReason;
@@ -15,7 +16,6 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 import thut.api.entity.IMultiplePassengerEntity.Seat;
 import thut.api.entity.blockentity.BlockEntityInteractHandler;
-import thut.lib.TComponent;
 
 public class CraftInteractHandler extends BlockEntityInteractHandler
 {
@@ -104,7 +104,7 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
     {
         if (stack.getItem() == Items.BLAZE_ROD) if (!player.level().isClientSide)
         {
-            thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("msg.craft.killed"));
+            thut.lib.ChatHelper.sendSystemMessage(player, Component.translatable("msg.craft.killed"));
             this.craft.remove(RemovalReason.KILLED);
             return InteractionResult.SUCCESS;
         }

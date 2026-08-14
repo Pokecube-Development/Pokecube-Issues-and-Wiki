@@ -6,6 +6,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -16,7 +17,6 @@ import pokecube.core.impl.PokecubeMod;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.inventory.big.BigInventory;
 import thut.api.inventory.big.Manager;
-import thut.lib.TComponent;
 
 public class PCInventory extends BigInventory
 {
@@ -45,12 +45,11 @@ public class PCInventory extends BigInventory
 
         if (PokecubeManager.isFilled(mob))
         {
-            final ItemStack stack = mob;
-            if (world != null) PokecubeManager.heal(stack, world, false);
+            if (world != null) PokecubeManager.heal(mob, world, false);
             PlayerPokemobCache.UpdateCache(mob, true, false);
             Player player = PokecubeCore.proxy.getPlayer(uuid);
             if (player != null) thut.lib.ChatHelper.sendSystemMessage(player,
-                    TComponent.translatable("block.pc.sentto", mob.getHoverName()));
+                    Component.translatable("block.pc.sentto", mob.getHoverName()));
         }
         pc.addItem(mob.copy());
         return true;

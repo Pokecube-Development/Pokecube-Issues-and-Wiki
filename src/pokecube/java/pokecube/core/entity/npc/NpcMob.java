@@ -63,7 +63,6 @@ import thut.api.entity.ai.BrainUtil;
 import thut.api.inventory.npc.NpcContainer;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
-import thut.lib.TComponent;
 
 import java.util.Collection;
 import java.util.List;
@@ -341,10 +340,10 @@ public class NpcMob extends Villager implements IEntityWithComplexSpawn
             if (this.getNPCName().startsWith("pokecube."))
             {
                 final String[] args = this.getNPCName().split(":");
-                if (args.length == 2) display = TComponent.translatable(args[0], args[1]);
-                else display = TComponent.literal(this.getNPCName());
+                if (args.length == 2) display = Component.translatableEscape(args[0], args[1]);
+                else display = Component.literal(this.getNPCName());
             }
-            else display = TComponent.literal(this.getNPCName());
+            else display = Component.literal(this.getNPCName());
             display.withStyle((style) -> {
                 return style.withHoverEvent(this.createHoverEvent()).withInsertion(this.getStringUUID());
             });

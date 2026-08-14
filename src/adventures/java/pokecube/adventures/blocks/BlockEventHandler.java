@@ -3,6 +3,7 @@ package pokecube.adventures.blocks;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -24,7 +25,6 @@ import thut.api.attachments.Linkable.LinkStorage;
 import thut.api.attachments.Linkable.LinkableImpl;
 import thut.api.block.IOwnableTE;
 import thut.api.data.HolderProvider;
-import thut.lib.TComponent;
 
 import java.util.UUID;
 
@@ -64,7 +64,7 @@ public class BlockEventHandler
             {
                 if (user instanceof Player player)
                 {
-                    player.displayClientMessage(TComponent.translatable("block.pokecube_adventures.warp_pad.link",
+                    player.displayClientMessage(Component.translatableEscape("block.pokecube_adventures.warp_pad.link",
                             tile.getDest().getInfoName()), true);
                 }
             }

@@ -39,7 +39,6 @@ import thut.api.entity.ai.IAIRunnable;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.DataSync;
-import thut.lib.TComponent;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -380,7 +379,7 @@ public interface IPokemob
     default Component getDisplayName()
     {
         if (this.getPokemonNickname().isEmpty()) return this.getPokedexEntry().getTranslatedName();
-        return TComponent.literal(this.getPokemonNickname());
+        return Component.literal(this.getPokemonNickname());
     }
 
     /**

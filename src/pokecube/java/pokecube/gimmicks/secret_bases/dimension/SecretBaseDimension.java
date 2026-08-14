@@ -10,13 +10,13 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.*;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.block.Blocks;
@@ -47,7 +47,6 @@ import thut.api.entity.teleporting.TeleDest;
 import thut.api.entity.teleporting.ThutTeleporter;
 import thut.api.maths.Vector3;
 import thut.lib.RegHelper;
-import thut.lib.TComponent;
 
 import java.util.List;
 import java.util.UUID;
@@ -66,7 +65,7 @@ public class SecretBaseDimension
         final GlobalPos pos = SecretBaseDimension.getSecretBaseLoc(baseOwner, player.getServer(), true);
         final Vector3 v = new Vector3().set(pos).addTo(0.5, 0, 0.5);
         ThutTeleporter.transferTo(player, new TeleDest().setLoc(pos, v), true);
-        thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.secretbase.enter"));
+        thut.lib.ChatHelper.sendSystemMessage(player, Component.translatable("pokecube.secretbase.enter"));
     }
 
     public static void sendToExit(final ServerPlayer player, final UUID baseOwner)
@@ -74,7 +73,7 @@ public class SecretBaseDimension
         final GlobalPos pos = SecretBaseDimension.getSecretBaseLoc(baseOwner, player.getServer(), false);
         final Vector3 v = new Vector3().set(pos).addTo(0.5, 0, 0.5);
         ThutTeleporter.transferTo(player, new TeleDest().setLoc(pos, v), true);
-        thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.secretbase.exit"));
+        thut.lib.ChatHelper.sendSystemMessage(player, Component.translatable("pokecube.secretbase.exit"));
     }
 
     public static void setSecretBasePoint(final ServerPlayer player, final GlobalPos gpos, final boolean inBase)
@@ -96,7 +95,7 @@ public class SecretBaseDimension
             if (tag.contains("secret_base_exit"))
             {
                 final CompoundTag exito = tag.getCompound("secret_base_exit");
-                GlobalPos old = null;
+                GlobalPos old;
                 try
                 {
                     old = GlobalPos.CODEC.decode(NbtOps.INSTANCE, exito).result().get().getFirst();
@@ -192,10 +191,8 @@ public class SecretBaseDimension
 
     public static class SecretChunkGenerator extends ChunkGenerator
     {
-        public static final MapCodec<SecretChunkGenerator> CODEC = RecordCodecBuilder.mapCodec((builder) -> {
-            return builder.group(BiomeSource.CODEC.fieldOf("biome_source").forGetter(m -> m.biomeSource))
-                    .apply(builder, SecretChunkGenerator::new);
-        });
+        public static final MapCodec<SecretChunkGenerator> CODEC = RecordCodecBuilder.mapCodec((builder) -> builder.group(BiomeSource.CODEC.fieldOf("biome_source").forGetter(m -> m.biomeSource))
+                .apply(builder, SecretChunkGenerator::new));
 
         BlockState[] states = new BlockState[256];
 
@@ -263,7 +260,7 @@ public class SecretBaseDimension
             final ChunkPos pos = chunk.getPos();
             final boolean stone = pos.x % 16 == 0 && pos.z % 16 == 0;
             final BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-            BlockState state = Blocks.STONE.defaultBlockState();
+            BlockState state;
             final Heightmap heightmap = chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.OCEAN_FLOOR_WG);
             final Heightmap heightmap1 = chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.WORLD_SURFACE_WG);
             for (int i = 0; i < 16; i++)
@@ -306,8 +303,6 @@ public class SecretBaseDimension
 
     public static final ResourceKey<Level> WORLD_KEY = ResourceKey.create(RegHelper.DIMENSION_REGISTRY,
             SecretBaseDimension.IDLOC);
-    public static final ResourceKey<Biome> BIOME_KEY = ResourceKey.create(RegHelper.BIOME_REGISTRY,
-            SecretBaseDimension.IDLOC);
 
     public static final double WORLDSIZE = 2 * 2999984;
 
@@ -334,7 +329,6 @@ public class SecretBaseDimension
         public static void onClientTick(final ClientTickEvent.Pre event)
         {
             final Level world = PokecubeCore.proxy.getWorld();
-            var A = DimensionRegister.SECRET_BASE;
             if (world == null) return;
             if (world.getWorldBorder().getSize() != WORLDSIZE
                     && world.dimension().compareTo(SecretBaseDimension.WORLD_KEY) == 0)
@@ -450,13 +444,7 @@ public class SecretBaseDimension
     {
         final BlockPos pos1 = nearestBase.getWorldPosition();
         final BlockPos pos2 = pos1.offset(16, 255, 16);
-        final AABB chunkBox = AABB.encapsulatingFullBlocks(pos1, pos2);
-
-        // int index = fromChunkPos(nearestBase);
-        //
-        //
-
-        return chunkBox;
+        return AABB.encapsulatingFullBlocks(pos1, pos2);
     }
 
     public static List<GlobalPos> getNearestBases(final GlobalPos here, final int baseRadarRange)

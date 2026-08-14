@@ -37,7 +37,6 @@ import pokecube.core.utils.EntityTools;
 import thut.api.entity.multipart.GenericPartEntity;
 import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
-import thut.lib.TComponent;
 
 import java.awt.*;
 import java.util.Random;
@@ -114,7 +113,7 @@ public class Health
                 }
             }
         val = new String(chars);
-        return TComponent.literal(val).setStyle(compIn.getStyle());
+        return Component.literal(val).setStyle(compIn.getStyle());
     }
 
     private static void blit(final VertexConsumer buffer, final Matrix4f pos, final float x1, final float y1,

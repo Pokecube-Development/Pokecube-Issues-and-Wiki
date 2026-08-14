@@ -43,7 +43,6 @@ import thut.core.common.ThutCore;
 import thut.core.common.world.mobs.data.PacketDataSync;
 import thut.core.common.world.mobs.data.types.Data_Vec3;
 import thut.crafts.ThutCrafts;
-import thut.lib.TComponent;
 
 import java.util.List;
 import java.util.Map;
@@ -715,6 +714,6 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
     @Override
     public Component getCustomName()
     {
-        return TComponent.literal("%s at %s".formatted(this.getClass(), this.position()));
+        return Component.literal("%s at %s".formatted(this.getClass(), this.position()));
     }
 }

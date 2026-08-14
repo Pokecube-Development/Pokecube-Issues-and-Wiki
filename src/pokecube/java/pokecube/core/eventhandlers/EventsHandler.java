@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -85,7 +86,6 @@ import pokecube.core.network.pokemobs.PacketSyncStatus;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.nbtedit.NBTEdit;
-import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
 import thut.api.attachments.Ownable;
@@ -109,7 +109,6 @@ import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.handlers.PlayerDataHandler.PlayerData;
 import thut.core.common.handlers.PlayerDataHandler.PlayerDataManager;
 import thut.lib.RegHelper;
-import thut.lib.TComponent;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -463,11 +462,11 @@ public class EventsHandler
             }
             if (!valid.isEmpty())
             {
-                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("Spawn Presets valid for here:"));
-                for (String s : valid) thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal(s));
+                thut.lib.ChatHelper.sendSystemMessage(player, Component.literal("Spawn Presets valid for here:"));
+                for (String s : valid) thut.lib.ChatHelper.sendSystemMessage(player, Component.literal(s));
             }
             else thut.lib.ChatHelper.sendSystemMessage(player,
-                    TComponent.literal("No matching presets for this location"));
+                    Component.literal("No matching presets for this location"));
         }
         if (isEvoLocDebug)
         {
@@ -480,16 +479,16 @@ public class EventsHandler
             seg.refresh(level);
             BiomeType type = seg.getBiome(v);
             PokecubeCore.getConfig().debug_spawning = false;
-            thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("SubBiome Type: " + type.name));
+            thut.lib.ChatHelper.sendSystemMessage(player, Component.literal("SubBiome Type: " + type.name));
         }
         if (isStructureDebug)
         {
             final Set<INamedStructure> set = StructureManager.getFor(level.dimension(), v.getPos(), true);
             if (set.isEmpty())
-                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("No structures for this location"));
+                thut.lib.ChatHelper.sendSystemMessage(player, Component.literal("No structures for this location"));
             else for (INamedStructure structure : set)
             {
-                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal(structure.getName()));
+                thut.lib.ChatHelper.sendSystemMessage(player, Component.literal(structure.getName()));
             }
         }
     }
@@ -876,7 +875,7 @@ public class EventsHandler
         if (PokecubeCore.getConfig().guiOnLogin) new ChooseFirst(player);
         else if (!PokecubeSerializer.getInstance().hasStarter(player) && PokecubeCore.getConfig().msgAboutProfessor)
             thut.lib.ChatHelper.sendSystemMessage(player,
-                    TComponent.translatable("pokecube.login.find_prof_or_config"));
+                    Component.translatable("pokecube.login.find_prof_or_config"));
     }
 
     public static void recallAllPokemobs(final LivingEntity user)

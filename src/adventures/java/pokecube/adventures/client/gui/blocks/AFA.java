@@ -21,7 +21,6 @@ import pokecube.adventures.blocks.afa.AfaContainer;
 import pokecube.adventures.network.PacketAFA;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.utils.Resources;
-import thut.lib.TComponent;
 
 public class AFA extends AbstractContainerScreen<AfaContainer>
 {
@@ -79,8 +78,8 @@ public class AFA extends AbstractContainerScreen<AfaContainer>
         graphics.drawString(this.font, text, 62, 54, color, false);
     }
 
-    @Override
     /** Draws the screen and all the components in it. */
+    @Override
     public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
         super.render(graphics, mouseX, mouseY, partialTicks);
@@ -97,7 +96,7 @@ public class AFA extends AbstractContainerScreen<AfaContainer>
         final int yOffset = -88;
 
         // Elements placed in order of selection when pressing tab
-        final Component prev = TComponent.translatable("block.ability_field_amplifier.previous");
+        final Component prev = Component.translatable("block.ability_field_amplifier.previous");
         this.addRenderableWidget(new Button.Builder(prev, (b) -> {
             final PacketAFA message = new PacketAFA();
             message.data.putBoolean("U", false);
@@ -106,7 +105,7 @@ public class AFA extends AbstractContainerScreen<AfaContainer>
         }).bounds(this.width / 2 + xOffset + 30, this.height / 2 - yOffset - 117, 10, 10)
                 .createNarration(supplier -> Component.translatable("block.ability_field_amplifier.previous.narrate")).build());
 
-        final Component next = TComponent.translatable("block.ability_field_amplifier.next");
+        final Component next = Component.translatable("block.ability_field_amplifier.next");
         this.addRenderableWidget(new Button.Builder(next, (b) -> {
             final PacketAFA message = new PacketAFA();
             message.data.putBoolean("U", true);

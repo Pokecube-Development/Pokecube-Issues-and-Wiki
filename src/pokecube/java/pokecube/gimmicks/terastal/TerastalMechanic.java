@@ -39,7 +39,6 @@ import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
-import thut.lib.TComponent;
 
 import javax.annotation.Nullable;
 
@@ -104,11 +103,11 @@ public class TerastalMechanic
                         pokemob.getOwnerId());
                 int teraCooldown = data.getInt("pokecube:tera_cooldown");
                 if (teraCooldown == 0) thut.lib.ChatHelper.sendSystemMessage(player,
-                        TComponent.translatable("pokecube.mega.noring", pokemob.getDisplayName()));
+                        Component.translatableEscape("pokecube.mega.noring", pokemob.getDisplayName()));
                 else if (teraCooldown > 0) thut.lib.ChatHelper.sendSystemMessage(player,
-                        TComponent.translatable("pokemob.terastal.on_cooldown"));
+                        Component.translatable("pokemob.terastal.on_cooldown"));
                 else thut.lib.ChatHelper.sendSystemMessage(player,
-                            TComponent.translatable("pokemob.terastal.not_yet", pokemob.getDisplayName()));
+                            Component.translatableEscape("pokemob.terastal.not_yet", pokemob.getDisplayName()));
             }
         }
 
@@ -181,9 +180,9 @@ public class TerastalMechanic
             data.putInt("pokecube:tera_cooldown", 1);
             PokecubePlayerDataHandler.saveCustomData(provider, pokemob.getOwnerId().toString());
         }
-        Component mess = TComponent.translatable("pokemob.terastal.command.transform", pokemob.getDisplayName());
+        Component mess = Component.translatableEscape("pokemob.terastal.command.transform", pokemob.getDisplayName());
         pokemob.displayMessageToOwner(mess);
-        mess = TComponent.translatable("pokemob.terastal.success", pokemob.getDisplayName());
+        mess = Component.translatableEscape("pokemob.terastal.success", pokemob.getDisplayName());
 
         MegaEvoTicker.scheduleChange(PokecubeCore.getConfig().evolutionTicks, pokemob.getPokedexEntry(), pokemob, mess,
                 () -> {
@@ -223,9 +222,9 @@ public class TerastalMechanic
         if (genes == null) return false;
         if (genes.getExpressed().getValue().isTera)
         {
-            Component mess = TComponent.translatable("pokemob.terastal.command.revert", pokemob.getDisplayName());
+            Component mess = Component.translatableEscape("pokemob.terastal.command.revert", pokemob.getDisplayName());
             pokemob.displayMessageToOwner(mess);
-            mess = TComponent.translatable("pokemob.terastal.revert", pokemob.getDisplayName());
+            mess = Component.translatableEscape("pokemob.terastal.revert", pokemob.getDisplayName());
             MegaEvoTicker.scheduleChange(PokecubeCore.getConfig().evolutionTicks, pokemob.getPokedexEntry(), pokemob,
                     mess, () -> {
                         // Flag as evolving for animation effects

@@ -34,7 +34,6 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.ThutCaps;
 import thut.api.attachments.IOwnable;
 import thut.api.maths.Vector3;
-import thut.lib.TComponent;
 
 import java.util.UUID;
 
@@ -188,7 +187,7 @@ public class CaptureManager
             pokemob.setOwner((UUID) null);
             if (cube.shootingEntity instanceof Player player && !(cube.shootingEntity instanceof FakePlayer))
             {
-                final Component mess = TComponent.translatable("pokecube.missed", pokemob.getDisplayName());
+                final Component mess = Component.translatable("pokecube.missed", pokemob.getDisplayName());
                 player.displayClientMessage(mess, true);
             }
         }
@@ -234,7 +233,7 @@ public class CaptureManager
                     AbilityManager.getAbility(pokemob.getEntity().getPersistentData().getString(TagNames.ABILITY)));
             if (cube.shootingEntity instanceof Player player && !(cube.shootingEntity instanceof FakePlayer))
             {
-                final Component mess = TComponent.translatable("pokecube.caught", pokemob.getDisplayName());
+                final Component mess = Component.translatable("pokecube.caught", pokemob.getDisplayName());
                 player.displayClientMessage(mess, true);
                 cube.setPos(cube.shootingEntity.getX(), cube.shootingEntity.getY(), cube.shootingEntity.getZ());
                 cube.playSound(Sounds.CAPTURE_SOUND.get(), (float) PokecubeCore.getConfig().captureVolume, 1);
@@ -243,7 +242,7 @@ public class CaptureManager
         else if (mob instanceof LivingEntity living)
         {
             PokecubeManager.addToCube(cube.getItem(), living);
-            final Component mess = TComponent.translatable("pokecube.caught", mob.getDisplayName());
+            final Component mess = Component.translatable("pokecube.caught", mob.getDisplayName());
             if (cube.shootingEntity instanceof Player player) player.displayClientMessage(mess, true);
             cube.playSound(Sounds.CAPTURE_SOUND.get(), (float) PokecubeCore.getConfig().captureVolume, 1);
         }

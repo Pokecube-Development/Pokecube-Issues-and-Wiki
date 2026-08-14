@@ -11,7 +11,6 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.server.level.ServerPlayer;
 import thut.api.util.PermNodes;
-import thut.lib.TComponent;
 
 public class CommandTools
 {
@@ -43,8 +42,8 @@ public class CommandTools
     {
         if (formatting == null) formatting = "";
         for (int i = 0; i < args.length; i++)
-            if (args[i] instanceof String) args[i] = TComponent.translatable((String) args[i]);
-        final MutableComponent translated = TComponent.translatable(key, args);
+            if (args[i] instanceof String) args[i] = Component.translatable((String) args[i]);
+        final MutableComponent translated = Component.translatableEscape(key, args);
         if (!formatting.isEmpty())
         {
             final String[] args2 = formatting.split(":");

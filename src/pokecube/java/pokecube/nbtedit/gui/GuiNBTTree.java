@@ -15,13 +15,13 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.nbtedit.NBTStringHelper;
 import pokecube.nbtedit.nbt.NBTTree;
 import pokecube.nbtedit.nbt.NamedNBT;
 import pokecube.nbtedit.nbt.Node;
-import thut.lib.TComponent;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -64,7 +64,7 @@ public class GuiNBTTree extends Screen
 
     public GuiNBTTree(final NBTTree tree)
     {
-        super(TComponent.translatable("nbtedit.tree"));
+        super(Component.translatable("nbtedit.tree"));
         this.tree = tree;
         this.yClick = -1;
         this.focusedSlotIndex = -1;

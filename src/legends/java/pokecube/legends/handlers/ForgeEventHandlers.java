@@ -2,6 +2,7 @@ package pokecube.legends.handlers;
 
 import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -28,7 +29,6 @@ import thut.api.maths.Vector3;
 import thut.api.util.PermNodes;
 import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.api.util.PermNodes.StringSetPermCache;
-import thut.lib.TComponent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -126,7 +126,7 @@ public class ForgeEventHandlers
             if (player != null)
             {
                 player.inventoryMenu.sendAllDataToRemote();
-                player.displayClientMessage(TComponent.translatable("msg.cannot_defile_temple"), true);
+                player.displayClientMessage(Component.translatable("msg.cannot_defile_temple"), true);
             }
         }
     }
@@ -143,7 +143,7 @@ public class ForgeEventHandlers
             if (player != null)
             {
                 player.inventoryMenu.sendAllDataToRemote();
-                player.displayClientMessage(TComponent.translatable("msg.cannot_defile_temple"), true);
+                player.displayClientMessage(Component.translatable("msg.cannot_defile_temple"), true);
             }
         }
     }

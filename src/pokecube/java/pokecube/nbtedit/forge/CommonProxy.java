@@ -13,7 +13,6 @@ import pokecube.nbtedit.NBTEdit;
 import thut.api.util.PermNodes;
 import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.core.common.Proxy;
-import thut.lib.TComponent;
 
 public class CommonProxy implements Proxy
 {
@@ -61,7 +60,7 @@ public class CommonProxy implements Proxy
     {
         if (player != null)
         {
-            final Component component = TComponent.literal(message);
+            final Component component = Component.literal(message);
             component.getStyle().withColor(TextColor.fromLegacyFormat(color));
             thut.lib.ChatHelper.sendSystemMessage(player, component);
         }

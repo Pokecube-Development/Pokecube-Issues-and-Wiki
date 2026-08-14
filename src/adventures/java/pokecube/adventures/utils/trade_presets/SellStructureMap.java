@@ -2,15 +2,14 @@ package pokecube.adventures.utils.trade_presets;
 
 import com.google.gson.JsonPrimitive;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponentPredicate;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.MapItem;
-import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.saveddata.maps.MapDecorationTypes;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
@@ -23,7 +22,6 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.utils.Tools;
 import thut.api.util.JsonUtil;
 import thut.lib.RegHelper;
-import thut.lib.TComponent;
 
 import java.util.Locale;
 import java.util.Optional;
@@ -74,7 +72,7 @@ public class SellStructureMap implements TradePreset
                     MapItem.renderBiomePreviewMap(serverlevel, itemstack);
                     MapItemSavedData.addTargetDecoration(itemstack, blockpos, "+", MapDecorationTypes.RED_X);
                     itemstack.set(DataComponents.ITEM_NAME,
-                            TComponent.translatable("filled_map." + loc.getPath().toLowerCase(Locale.ROOT)));
+                            Component.translatable("filled_map." + loc.getPath().toLowerCase(Locale.ROOT)));
                     return itemstack;
                 }
             }

@@ -18,7 +18,6 @@ import pokecube.core.client.gui.watch.PokemobInfoPage;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.moves.MovesUtils;
-import thut.lib.TComponent;
 
 import java.util.List;
 
@@ -98,12 +97,12 @@ public class Moves extends ListPage<LineEntry>
                 graphics.drawString(this.font, moveName, x + dx, y + dy + offset[1] + offset[4], colour, false);
                 if (hovored == i && move != null)
                 {
-                    Component value = TComponent.literal("-");
+                    Component value = Component.literal("-");
                     final int pwr = move.getPWR(this.parent.pokemob, this.watch.player);
-                    Component stat = move.getCategory(pokemob) == AttackCategory.PHYSICAL ? TComponent.translatable(
-                            "pokewatch.ATT", value) : TComponent.translatable("pokewatch.ATTSP", value);
-                    if (pwr > 0) value = TComponent.translatable("pokewatch.moves.pwr.fmt", pwr, stat);
-                    Component info = TComponent.translatable("pokewatch.moves.pwr", value);
+                    Component stat = move.getCategory(pokemob) == AttackCategory.PHYSICAL ? Component.translatableEscape(
+                            "pokewatch.ATT", value) : Component.translatableEscape("pokewatch.ATTSP", value);
+                    if (pwr > 0) value = Component.translatableEscape("pokewatch.moves.pwr.fmt", pwr, stat);
+                    Component info = Component.translatableEscape("pokewatch.moves.pwr", value);
                     final int box = Math.max(10, this.font.width(info) + 2);
                     final int mx1 = 170 - box;
                     final int my1 = offset[1] + 18;
@@ -198,10 +197,10 @@ public class Moves extends ListPage<LineEntry>
                     if (m == null || !m.root_entry._implemented) continue;
 
                     final MutableComponent moveName = MovesUtils.getMoveName(s, pokemob);
-                    final MutableComponent main = TComponent.translatable("pokewatch.moves.lvl", i, moveName);
+                    final MutableComponent main = Component.translatableEscape("pokewatch.moves.lvl", i, moveName);
                     main.setStyle(main.getStyle().withColor(TextColor.fromRgb(0x449944))
                             .withClickEvent(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s))
-                            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TComponent.literal(s))));
+                            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.literal(s))));
                     this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main.getVisualOrderText(),
                             colour).setClickListner(listener));
                 }
@@ -212,10 +211,10 @@ public class Moves extends ListPage<LineEntry>
                 if (m == null || !m.root_entry._implemented) continue;
 
                 final MutableComponent moveName = MovesUtils.getMoveName(s, pokemob);
-                final MutableComponent main = TComponent.translatable("pokewatch.moves.tm", moveName);
+                final MutableComponent main = Component.translatableEscape("pokewatch.moves.tm", moveName);
                 main.setStyle(main.getStyle().withColor(TextColor.fromRgb(0x449944))
                         .withClickEvent(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s))
-                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TComponent.literal(s))));
+                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.literal(s))));
                 this.list.addEntry(
                         new LineEntry(this.list, 0, 0, this.font, main.getVisualOrderText(), colour).setClickListner(
                                 listener));
@@ -351,13 +350,13 @@ public class Moves extends ListPage<LineEntry>
             if (!(var instanceof Component comp) || pokemob == null) break tooltip;
             final MoveEntry move = MovesUtils.getMove(comp.getString());
             if (move == null) break tooltip;
-            Component value = TComponent.literal("-");
+            Component value = Component.literal("-");
             final int pwr = move.getPWR(pokemob, this.watch.player);
             Component stat =
-                    move.getCategory(pokemob) == AttackCategory.PHYSICAL ? TComponent.translatable("pokewatch.ATT",
-                            value) : TComponent.translatable("pokewatch.ATTSP", value);
-            if (pwr > 0) value = TComponent.translatable("pokewatch.moves.pwr.fmt", pwr, stat);
-            Component info = TComponent.translatable("pokewatch.moves.pwr", value);
+                    move.getCategory(pokemob) == AttackCategory.PHYSICAL ? Component.translatableEscape("pokewatch.ATT",
+                            value) : Component.translatableEscape("pokewatch.ATTSP", value);
+            if (pwr > 0) value = Component.translatableEscape("pokewatch.moves.pwr.fmt", pwr, stat);
+            Component info = Component.translatableEscape("pokewatch.moves.pwr", value);
             final int box = Math.max(10, this.font.width(info) + 2);
             final int mx = 106 - box;
             final int my = 0;

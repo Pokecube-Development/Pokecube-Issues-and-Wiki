@@ -2,6 +2,7 @@ package thut.tech.common.blocks.lift;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -26,7 +27,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import thut.api.block.ITickTile;
 import thut.core.common.network.TileUpdate;
-import thut.lib.TComponent;
 import thut.tech.common.TechCore;
 
 public class ControllerBlock extends Block implements EntityBlock
@@ -104,8 +104,7 @@ public class ControllerBlock extends Block implements EntityBlock
         final boolean called = state.getValue(ControllerBlock.CALLED);
         // Note that we do not check if the side is on, as this allows
         // only buttons, with no display number!
-        if (te.isCallPanel(side) && !called) return true;
-        return false;
+        return te.isCallPanel(side) && !called;
     }
 
     /**
@@ -196,23 +195,23 @@ public class ControllerBlock extends Block implements EntityBlock
         {
             final boolean sideOn = !te.isSideOn(side);
             thut.lib.ChatHelper.sendSystemMessage(playerIn,
-                    TComponent.translatable("msg.lift.side." + (sideOn ? "on" : "off")));
+                    Component.translatable("msg.lift.side." + (sideOn ? "on" : "off")));
             if (sideOn)
             {
                 final boolean call = te.isCallPanel(side);
                 final boolean edit = te.isEditMode(side);
                 final boolean display = te.isFloorDisplay(side);
                 if (edit)
-                    thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable("msg.lift.side.edit"));
+                    thut.lib.ChatHelper.sendSystemMessage(playerIn, Component.translatable("msg.lift.side.edit"));
                 else if (call)
-                    thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable("msg.lift.side.call"));
+                    thut.lib.ChatHelper.sendSystemMessage(playerIn, Component.translatable("msg.lift.side.call"));
                 else if (display)
-                    thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable("msg.lift.side.display"));
+                    thut.lib.ChatHelper.sendSystemMessage(playerIn, Component.translatable("msg.lift.side.display"));
                 else
                 {
                     final int page = te.getSidePage(side);
                     thut.lib.ChatHelper.sendSystemMessage(playerIn,
-                            TComponent.translatable("msg.lift.side.page", page));
+                            Component.translatable("msg.lift.side.page", page));
                 }
             }
         }

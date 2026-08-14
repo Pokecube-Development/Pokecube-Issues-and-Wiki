@@ -2,6 +2,7 @@ package pokecube.adventures.blocks.genetics.extractor;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
@@ -21,7 +22,6 @@ import pokecube.adventures.blocks.genetics.helper.recipe.RecipeExtract;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector;
 import pokecube.core.PokecubeCore;
 import thut.api.item.ItemList;
-import thut.lib.TComponent;
 
 public class ExtractorTile extends BaseGeneticsTile
 {
@@ -79,7 +79,7 @@ public class ExtractorTile extends BaseGeneticsTile
     @Override
     public InteractionResult useWithoutItem(final BlockPos pos, final Player player, final BlockHitResult hit)
     {
-        final MutableComponent name = TComponent.translatable("block.pokecube_adventures.extractor");
+        final MutableComponent name = Component.translatable("block.pokecube_adventures.extractor");
         player.openMenu(new SimpleMenuProvider(
                 (id, playerInventory, playerIn) -> new ExtractorContainer(id, playerInventory,
                         ContainerLevelAccess.create(this.getLevel(), pos)), name));

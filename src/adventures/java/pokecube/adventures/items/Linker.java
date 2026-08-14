@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -27,7 +28,6 @@ import thut.api.attachments.Linkable.LinkHolder;
 import thut.api.attachments.Linkable.LinkStorage;
 import thut.api.util.PermNodes;
 import thut.api.util.PermNodes.DefaultPermissionLevel;
-import thut.lib.TComponent;
 
 import java.util.UUID;
 
@@ -78,7 +78,7 @@ public class Linker extends Item
                 {
                     if (user instanceof Player player)
                     {
-                        player.displayClientMessage(TComponent.translatable("item.pokecube_adventures.linker.unset"),
+                        player.displayClientMessage(Component.translatable("item.pokecube_adventures.linker.unset"),
                                 true);
                         player.swing(player.getUsedItemHand());
                     }
@@ -91,7 +91,7 @@ public class Linker extends Item
                 {
                     if (user instanceof Player player)
                     {
-                        player.displayClientMessage(TComponent.translatable("item.pokecube_adventures.linker.set"),
+                        player.displayClientMessage(Component.translatable("item.pokecube_adventures.linker.set"),
                                 true);
                         player.swing(player.getUsedItemHand());
                     }
@@ -102,7 +102,7 @@ public class Linker extends Item
                     Minecraft.getInstance().keyboardHandler.setClipboard(loc);
                     if (user instanceof Player player)
                     {
-                        player.displayClientMessage(TComponent.translatable("item.pokecube_adventures.linker.set"),
+                        player.displayClientMessage(Component.translatable("item.pokecube_adventures.linker.set"),
                                 true);
                         player.swing(player.getUsedItemHand());
                     }
@@ -183,7 +183,7 @@ public class Linker extends Item
                 {
                     final BlockPos bpos = pos.pos().above();
                     player.displayClientMessage(
-                            TComponent.translatable("item.pokecube_adventures.linked.mob", target.getDisplayName(),
+                            Component.translatableEscape("item.pokecube_adventures.linked.mob", target.getDisplayName(),
                                     bpos.getX(), bpos.getY(), bpos.getZ()), true);
                 }
             }
@@ -193,7 +193,7 @@ public class Linker extends Item
                 player.swing(player.getUsedItemHand());
                 return InteractionResult.sidedSuccess(player.level().isClientSide());
             }
-            else player.displayClientMessage(TComponent.translatable("item.pokecube_adventures.linked.mob.fail"), true);
+            else player.displayClientMessage(Component.translatable("item.pokecube_adventures.linked.mob.fail"), true);
         }
         return super.interactLivingEntity(stack, player, target, usedHand);
     }

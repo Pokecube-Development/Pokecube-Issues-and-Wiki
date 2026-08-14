@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -15,7 +16,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.CustomData;
 import thut.api.entity.blockentity.BlockEntityInteractHandler;
 import thut.core.common.ThutCore;
-import thut.lib.TComponent;
 import thut.tech.common.TechCore;
 
 public class LiftInteractHandler extends BlockEntityInteractHandler
@@ -56,8 +56,7 @@ public class LiftInteractHandler extends BlockEntityInteractHandler
             ThutCore.LOGGER.error("Killing unowned Lift: " + this.lift);
             if (!this.lift.getCommandSenderWorld().isClientSide)
             {
-                final String message = "msg.lift.killed";
-                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(message));
+                thut.lib.ChatHelper.sendSystemMessage(player, Component.translatable("msg.lift.killed"));
                 if (LiftInteractHandler.DROPSPARTS)
                 {
                     final BlockPos max = this.lift.boundMax;
@@ -79,12 +78,9 @@ public class LiftInteractHandler extends BlockEntityInteractHandler
             if (data == null) data = new CompoundTag();
             data.putString("lift", this.lift.getStringUUID());
             stack.set(DataComponents.CUSTOM_DATA, CustomData.of(data));
-            
-
-            final String message = "msg.liftSet";
 
             if (!this.lift.getCommandSenderWorld().isClientSide)
-                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(message));
+                thut.lib.ChatHelper.sendSystemMessage(player, Component.translatable("msg.liftSet"));
             return InteractionResult.SUCCESS;
         }
         else if (shouldDisplayOwner)
@@ -92,8 +88,7 @@ public class LiftInteractHandler extends BlockEntityInteractHandler
             if (!this.lift.getCommandSenderWorld().isClientSide && this.lift.owner != null)
             {
                 final Entity ownerentity = this.lift.getCommandSenderWorld().getPlayerByUUID(this.lift.owner);
-                final String message = "msg.lift.owner";
-                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(message, ownerentity.getName()));
+                thut.lib.ChatHelper.sendSystemMessage(player, Component.translatable("msg.lift.owner", ownerentity.getName()));
             }
             return InteractionResult.SUCCESS;
         }
@@ -101,8 +96,7 @@ public class LiftInteractHandler extends BlockEntityInteractHandler
         {
             if (!this.lift.getCommandSenderWorld().isClientSide)
             {
-                final String message = "msg.lift.killed";
-                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(message));
+                thut.lib.ChatHelper.sendSystemMessage(player, Component.translatable("msg.lift.killed"));
                 if (LiftInteractHandler.DROPSPARTS)
                 {
                     final BlockPos max = this.lift.boundMax;

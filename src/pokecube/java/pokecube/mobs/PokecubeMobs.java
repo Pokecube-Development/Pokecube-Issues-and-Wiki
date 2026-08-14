@@ -6,6 +6,7 @@ import java.util.Random;
 import com.google.common.collect.Maps;
 
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
@@ -55,9 +56,7 @@ import pokecube.mobs.data.DataGenerator;
 import pokecube.mobs.init.PokemobSounds;
 import pokecube.mobs.moves.MoveRegister;
 import pokecube.mobs.moves.attacks.NaturePower;
-import pokecube.mobs.moves.world.ActionNaturePower;
 import thut.core.common.ThutCore;
-import thut.lib.TComponent;
 
 @Mod(value = PokecubeMobs.MODID)
 public class PokecubeMobs
@@ -109,7 +108,7 @@ public class PokecubeMobs
                 if (shuckle.getOwner() instanceof Player player)
                 {
                     final String message = "A sweet smell is coming from " + shuckle.getDisplayName().getString();
-                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal(message));
+                    thut.lib.ChatHelper.sendSystemMessage(player, Component.literal(message));
                 }
                 shuckle.setHeldItem(new ItemStack(PokecubeItems.BERRYJUICE.get()));
                 return;
@@ -124,7 +123,7 @@ public class PokecubeMobs
                 {
                     final String message = "The smell coming from " + shuckle.getDisplayName().getString()
                             + " has changed";
-                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal(message));
+                    thut.lib.ChatHelper.sendSystemMessage(player, Component.literal(message));
                 }
                 shuckle.setHeldItem(candy);
                 return;

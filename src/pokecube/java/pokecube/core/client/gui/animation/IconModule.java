@@ -22,7 +22,6 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.client.gui.AnimationGui;
 import pokecube.core.database.Database;
 import thut.api.util.JsonUtil;
-import thut.lib.TComponent;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -79,7 +78,7 @@ public class IconModule extends AnimModule
     {
         final int yOffset = parent.height / 2;
         int dy = -120;
-        final Component icons = TComponent.literal("Icons");
+        final Component icons = Component.literal("Icons");
 
         final Button iconBtn = this.addRenderableWidget(new Button.Builder(icons, (b) -> {
             this.doneLocs.clear();
@@ -95,7 +94,7 @@ public class IconModule extends AnimModule
 
         dy += 230;
         this.addRenderableWidget(
-                new Button.Builder(TComponent.literal("WRTSIZE"), (b) -> IconModule.printSizes()).bounds(0,
+                new Button.Builder(Component.literal("WRTSIZE"), (b) -> IconModule.printSizes()).bounds(0,
                         yOffset + dy, 40, 10).build());
 
         this.setEnabled(false);

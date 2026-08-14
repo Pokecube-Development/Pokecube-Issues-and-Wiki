@@ -2,7 +2,6 @@ package pokecube.api.data.pokedex.conditions;
 
 import net.minecraft.network.chat.Component;
 import pokecube.api.entity.pokemob.IPokemob;
-import thut.lib.TComponent;
 
 /**
  * This class matches a pokemob which is at least the given level<br>
@@ -25,6 +24,6 @@ public class AtLeastLevel extends PokemobCondition
     @Override
     public Component makeDescription()
     {
-        return TComponent.translatable("pokemob.description.evolve.level", this.level);
+        return Component.translatableEscape("pokemob.description.evolve.level", this.level);
     }
 }

@@ -22,8 +22,6 @@ import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.StatsCollector;
 import pokecube.core.network.packets.PacketPokedex;
-import thut.lib.TComponent;
-
 import java.util.List;
 
 public class Description extends ListPage<LineEntry>
@@ -48,7 +46,7 @@ public class Description extends ListPage<LineEntry>
         {
             final int x = this.watch.width / 2 + 10;
             final int y = this.watch.height / 2 + 22;
-            final Component check_conditions = TComponent.translatable("pokewatch.capture.check");
+            final Component check_conditions = Component.translatable("pokewatch.capture.check");
             final TexButton button = this.addRenderableWidget(new TexButton.Builder(check_conditions, b -> {
                 PacketPokedex.sendCaptureCheck(e);
             }).bounds(x + 3, y + 21, 100, 12).setTexture(GuiPokeWatch.getWidgetTex())
@@ -120,7 +118,7 @@ public class Description extends ListPage<LineEntry>
         if (fullColour)
         {
             String key = "entity.pokecube." + pokedexEntry.getTrimmedName() + ".dexDesc";
-            page = TComponent.translatable(key);
+            page = Component.translatable(key);
             // No description
             if (page.getString().equals(key))
             {
@@ -128,13 +126,13 @@ public class Description extends ListPage<LineEntry>
                 if (pokedexEntry.generated)
                 {
                     key = "entity.pokecube." + pokedexEntry.getBaseForme().getTrimmedName() + ".dexDesc";
-                    page = TComponent.translatable(key);
+                    page = Component.translatable(key);
                 }
-                else page = TComponent.literal("");
+                else page = Component.literal("");
             }
             list = Lists.newArrayList(this.font.split(page, 108));
             if (page.getString().isBlank()) list.clear();
-            list.add(TComponent.literal("").getVisualOrderText());
+            list.add(Component.literal("").getVisualOrderText());
             page = pokedexEntry.getDescription(this.parent.pokemob, this.parent.pokemob.getCustomHolder());
             list.addAll(this.font.split(page, 108));
         }

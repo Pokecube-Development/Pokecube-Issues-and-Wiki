@@ -169,8 +169,7 @@ public class RecipeSelector extends CustomRecipe
         if (book.isEmpty() || modifier.isEmpty()) return false;
         final SelectorValue value = RecipeSelector.getSelectorValue(modifier);
         final SelectorValue oldValue = ClonerHelper.getSelectorValue(book);
-        if (value.equals(oldValue)) return false;
-        return true;
+        return !value.equals(oldValue);
     }
 
 }

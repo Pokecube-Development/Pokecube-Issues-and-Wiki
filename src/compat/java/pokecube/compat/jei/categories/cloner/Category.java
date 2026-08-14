@@ -25,7 +25,6 @@ import pokecube.core.database.Database;
 import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.entity.genetics.genes.SpeciesGene;
 import thut.api.entity.genetics.Gene;
-import thut.lib.TComponent;
 
 import java.awt.*;
 import java.util.List;
@@ -55,7 +54,7 @@ public class Category implements IRecipeCategory<RecipeClone>
     @Override
     public Component getTitle()
     {
-        return TComponent.literal(this.localizedName);
+        return Component.literal(this.localizedName);
     }
 
     @Override
@@ -82,7 +81,7 @@ public class Category implements IRecipeCategory<RecipeClone>
     {
         final Rectangle arrow = new Rectangle(51, 18, 32, 17);
         if (!arrow.contains(mouseX, mouseY)) return;
-        builder.add(TComponent.translatable("gui.jei.cloner.need_egg"));
+        builder.add(Component.translatable("gui.jei.cloner.need_egg"));
     }
 
     @Override

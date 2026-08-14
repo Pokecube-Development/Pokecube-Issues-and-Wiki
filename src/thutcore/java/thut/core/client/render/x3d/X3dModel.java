@@ -14,7 +14,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.Animators.KeyframeAnimator;
@@ -95,7 +94,7 @@ public class X3dModel extends BaseModel
         try
         {
             this.name = model.toString();
-            InputStream stream = ResourceHelper.getStream(model, Minecraft.getInstance().getResourceManager());
+            InputStream stream = ResourceHelper.getStream(model);
             this.last_loaded = model;
             if (stream == null)
             {

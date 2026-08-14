@@ -26,7 +26,6 @@ import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.core.PokecubeCore;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.damage.sources.StatusEffectDamageSource;
-import thut.lib.TComponent;
 
 public class NonPersistantStatusEffect extends BaseEffect
 {
@@ -53,7 +52,7 @@ public class NonPersistantStatusEffect extends BaseEffect
             case CURSED:
                 if (pokemob != null)
                 {
-                    final Component mess = TComponent.translatable("pokemob.status.curse.ours",
+                    final Component mess = Component.translatableEscape("pokemob.status.curse.ours",
                             pokemob.getDisplayName());
                     pokemob.displayMessageToOwner(mess);
                 }

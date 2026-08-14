@@ -4,11 +4,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import org.lwjgl.glfw.GLFW;
 import pokecube.nbtedit.nbt.SaveStates;
-import thut.lib.TComponent;
 
 public class GuiSaveSlotButton extends Button
 {
@@ -26,7 +26,7 @@ public class GuiSaveSlotButton extends Button
 
     public GuiSaveSlotButton(final SaveStates.SaveState save, final int x, final int y, final OnPress onClick, CreateNarration narration)
     {
-        super(x, y, GuiSaveSlotButton.X_SIZE, GuiSaveSlotButton.HEIGHT, TComponent.literal((save.tag.isEmpty() ? "Save " : "Load ")
+        super(x, y, GuiSaveSlotButton.X_SIZE, GuiSaveSlotButton.HEIGHT, Component.literal((save.tag.isEmpty() ? "Save " : "Load ")
                 + save.name), onClick, narration);
         this.save = save;
         this.setX(this.rightX = x);
@@ -125,7 +125,7 @@ public class GuiSaveSlotButton extends Button
 
     private void setMessage(final String string)
     {
-        this.setMessage(TComponent.literal(string));
+        this.setMessage(Component.literal(string));
     }
 
     public void startEditing()

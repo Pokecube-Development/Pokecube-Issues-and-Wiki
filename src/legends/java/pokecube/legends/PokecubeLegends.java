@@ -3,6 +3,7 @@ package pokecube.legends;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -80,7 +81,6 @@ import thut.api.attachments.CopyMob;
 import thut.api.block.flowing.FlowingBlock;
 import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
-import thut.lib.TComponent;
 
 @Mod(value = Reference.ID)
 public class PokecubeLegends
@@ -334,7 +334,7 @@ public class PokecubeLegends
         if (hit.getBlock() != BlockInit.RAID_SPAWNER.get())
         {
             if (hit.getBlock() == DynamaxHelper.DYNAMAX.get()) thut.lib.ChatHelper.sendSystemMessage(event.getEntity(),
-                    TComponent.translatable("msg.notaraidspot.info"));
+                    Component.translatable("msg.notaraidspot.info"));
             return;
         }
         final boolean active = hit.getValue(RaidSpawnBlock.ACTIVE).active();

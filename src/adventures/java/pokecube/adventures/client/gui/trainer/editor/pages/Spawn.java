@@ -3,11 +3,11 @@ package pokecube.adventures.client.gui.trainer.editor.pages;
 import com.google.common.collect.Lists;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.network.chat.Component;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.adventures.client.gui.trainer.editor.pages.util.Page;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.core.entity.npc.NpcType;
-import thut.lib.TComponent;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class Spawn extends Page
 
     public Spawn(final EditorGui parent)
     {
-        super(TComponent.literal(""), parent);
+        super(Component.literal(""), parent);
     }
 
     @Override
@@ -32,8 +32,8 @@ public class Spawn extends Page
         super.onPageOpened();
         int yOffset = this.height / 2;
         int xOffset = this.width / 2;
-        this.type = new EditBox(this.font, xOffset - 45, yOffset, 100, 10, TComponent.literal(""));
-        this.level = new EditBox(this.font, xOffset - 45, yOffset + 20, 100, 10, TComponent.literal(""));
+        this.type = new EditBox(this.font, xOffset - 45, yOffset, 100, 10, Component.literal(""));
+        this.level = new EditBox(this.font, xOffset - 45, yOffset + 20, 100, 10, Component.literal(""));
 
         this.index = this.index % NpcType.typeMap.size();
         final List<String> types = Lists.newArrayList(NpcType.typeMap.keySet());
@@ -62,28 +62,28 @@ public class Spawn extends Page
         this.addRenderableWidget(this.level);
         this.addRenderableWidget(this.type);
 
-        this.addRenderableWidget(new Button.Builder(TComponent.literal("Next"), (b) -> {
+        this.addRenderableWidget(new Button.Builder(Component.literal("Next"), (b) -> {
             this.index++;
             this.index = this.index % types.size();
             this.type.setValue(types.get(this.index));
         }).bounds(xOffset + 75 - 15, yOffset, 40, 20).build());
 
-        this.addRenderableWidget(new Button.Builder(TComponent.literal("Prev"), (b) -> {
+        this.addRenderableWidget(new Button.Builder(Component.literal("Prev"), (b) -> {
             this.index--;
             if (this.index < 0) this.index = types.size() - 1;
             this.type.setValue(types.get(this.index));
         }).bounds(xOffset - 75 - 15, yOffset, 40, 20).build());
 
-        this.addRenderableWidget(new Button.Builder(TComponent.literal("Stands"), (b) -> {
-            if (b.getMessage().getString().equals("wanders")) b.setMessage(TComponent.literal("stands"));
-            else b.setMessage(TComponent.literal("wanders"));
+        this.addRenderableWidget(new Button.Builder(Component.literal("Stands"), (b) -> {
+            if (b.getMessage().getString().equals("wanders")) b.setMessage(Component.literal("stands"));
+            else b.setMessage(Component.literal("wanders"));
             this.stand = b.getMessage().getString().equals("stands");
         }).bounds(xOffset - 5, yOffset + 40, 40, 20).build());
 
-        this.addRenderableWidget(new Button.Builder(TComponent.literal("Random"), (b) -> {
-            if (b.getMessage().getString().equals("male")) b.setMessage(TComponent.literal("female"));
-            else if (b.getMessage().getString().equals("female")) b.setMessage(TComponent.literal("random"));
-            else b.setMessage(TComponent.literal("male"));
+        this.addRenderableWidget(new Button.Builder(Component.literal("Random"), (b) -> {
+            if (b.getMessage().getString().equals("male")) b.setMessage(Component.literal("female"));
+            else if (b.getMessage().getString().equals("female")) b.setMessage(Component.literal("random"));
+            else b.setMessage(Component.literal("male"));
             this.gender = b.getMessage().getString();
         }).bounds(xOffset - 45, yOffset + 40, 40, 20).build());
 
@@ -91,15 +91,15 @@ public class Spawn extends Page
         yOffset += 10;
 
         this.addRenderableWidget(
-                new Button.Builder(TComponent.literal("Spawn NPC"), (b) -> this.send("npc")).bounds(xOffset - 100,
+                new Button.Builder(Component.literal("Spawn NPC"), (b) -> this.send("npc")).bounds(xOffset - 100,
                         yOffset - 80, 80, 20).build());
 
         this.addRenderableWidget(
-                new Button.Builder(TComponent.literal("Spawn Trainer"), (b) -> this.send("trainer")).bounds(
+                new Button.Builder(Component.literal("Spawn Trainer"), (b) -> this.send("trainer")).bounds(
                         xOffset - 20, yOffset - 80, 80, 20).build());
 
         this.addRenderableWidget(
-                new Button.Builder(TComponent.literal("Spawn Leader"), (b) -> this.send("leader")).bounds(xOffset + 60,
+                new Button.Builder(Component.literal("Spawn Leader"), (b) -> this.send("leader")).bounds(xOffset + 60,
                         yOffset - 80, 80, 20).build());
     }
 

@@ -3,6 +3,7 @@ package pokecube.gimmicks.dynamax.blocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -16,7 +17,6 @@ import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.eventhandlers.SpawnHandler.ForbidReason;
 import pokecube.core.items.ItemPokedex;
 import pokecube.core.items.berries.ItemBerry;
-import thut.lib.TComponent;
 
 import static pokecube.gimmicks.dynamax.DynamaxHelper.MAX_TYPE;
 
@@ -54,14 +54,14 @@ public class MaxTile extends InteractableTile
             this.range = Math.max(1, berry.type.index);
             if (!player.isCreative() && old != this.range) stack.split(1);
             if (!this.getLevel().isClientSide)
-                player.displayClientMessage(TComponent.translatable("repel.info.setrange", this.range, this.enabled),
+                player.displayClientMessage(Component.translatableEscape("repel.info.setrange", this.range, this.enabled),
                         true);
             return ItemInteractionResult.SUCCESS;
         }
         else if (stack.getItem() instanceof ItemPokedex)
         {
             if (!this.getLevel().isClientSide)
-                player.displayClientMessage(TComponent.translatable("repel.info.getrange", this.range, this.enabled),
+                player.displayClientMessage(Component.translatableEscape("repel.info.getrange", this.range, this.enabled),
                         true);
             return ItemInteractionResult.SUCCESS;
         }

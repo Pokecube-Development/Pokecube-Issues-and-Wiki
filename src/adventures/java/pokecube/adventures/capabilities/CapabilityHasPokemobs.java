@@ -44,7 +44,6 @@ import pokecube.api.items.IPokecube;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.npc.Activities;
-import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.handlers.PokecubePlayerDataHandler;

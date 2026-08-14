@@ -20,7 +20,6 @@ import pokecube.api.data.spawns.matchers.MatchChecker;
 import pokecube.api.data.spawns.matchers.MatcherLoaders;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import thut.api.util.JsonUtil;
-import thut.lib.TComponent;
 
 public class SpawnRule
 {
@@ -147,7 +146,7 @@ public class SpawnRule
     public Component makeDescription()
     {
         if (_cached_desc != null) return _cached_desc;
-        if (this.desc != null && !this.desc.isBlank()) _cached_desc = TComponent.translatable(desc);
+        if (this.desc != null && !this.desc.isBlank()) _cached_desc = Component.translatable(desc);
         if (_cached_desc == null)
         {
             if (this._matchers.isEmpty() && !this.matchers.isEmpty())

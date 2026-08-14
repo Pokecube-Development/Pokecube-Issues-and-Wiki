@@ -1,6 +1,7 @@
 package pokecube.adventures.blocks.genetics.cloner;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
@@ -19,7 +20,6 @@ import pokecube.adventures.blocks.genetics.helper.recipe.PoweredRecipe;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeClone;
 import pokecube.core.PokecubeCore;
 import thut.api.item.ItemList;
-import thut.lib.TComponent;
 
 public class ClonerTile extends GeneticsTileParentable<ClonerTile>
 {
@@ -87,7 +87,7 @@ public class ClonerTile extends GeneticsTileParentable<ClonerTile>
             hit = new BlockHitResult(hit.getLocation(), hit.getDirection(), new_pos, hit.isInside());
             return down.useWithoutItem(this.getLevel(), player, hit);
         }
-        final MutableComponent name = TComponent.translatable("block.pokecube_adventures.cloner");
+        final MutableComponent name = Component.translatable("block.pokecube_adventures.cloner");
         player.openMenu(new SimpleMenuProvider(
                 (id, playerInventory, playerIn) -> new ClonerContainer(id, playerInventory,
                         ContainerLevelAccess.create(this.getLevel(), pos)), name));

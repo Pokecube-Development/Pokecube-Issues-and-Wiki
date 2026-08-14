@@ -2,7 +2,7 @@ package pokecube.nbtedit.gui;
 
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.EditBox;
-import thut.lib.TComponent;
+import net.minecraft.network.chat.Component;
 
 public class TextFieldWidget2 extends EditBox
 {
@@ -11,7 +11,7 @@ public class TextFieldWidget2 extends EditBox
     public TextFieldWidget2(final Font font, final int x, final int y, final int w, final int h,
             final boolean allowSection)
     {
-        super(font, x, y, w, h, TComponent.literal(""));
+        super(font, x, y, w, h, Component.literal(""));
         this.allowSection = allowSection;
     }
 

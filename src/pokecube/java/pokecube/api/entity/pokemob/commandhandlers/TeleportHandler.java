@@ -27,7 +27,6 @@ import pokecube.core.network.pokemobs.PacketCommand.DefaultHandler;
 import thut.api.entity.teleporting.TeleDest;
 import thut.api.entity.teleporting.ThutTeleporter;
 import thut.core.common.handlers.PlayerDataHandler;
-import thut.lib.TComponent;
 
 public class TeleportHandler extends DefaultHandler
 {
@@ -150,7 +149,7 @@ public class TeleportHandler extends DefaultHandler
         final boolean inCombat = pokemob.inCombat();
         if (inCombat)
         {
-            final Component text = TComponent.translatable("pokemob.teleport.incombat", pokemob.getDisplayName());
+            final Component text = Component.translatable("pokemob.teleport.incombat", pokemob.getDisplayName());
             if (this.fromOwner()) pokemob.displayMessageToOwner(text);
             return;
         }
@@ -164,7 +163,7 @@ public class TeleportHandler extends DefaultHandler
             if (TeleportHandler.invalidDests.contains(dim.location())
                     || TeleportHandler.invalidDests.contains(oldDim.location()))
             {
-                final Component text = TComponent.translatable("pokemob.teleport.invalid");
+                final Component text = Component.translatable("pokemob.teleport.invalid");
                 if (this.fromOwner()) pokemob.displayMessageToOwner(text);
                 return;
             }
@@ -177,7 +176,7 @@ public class TeleportHandler extends DefaultHandler
         }
         if (needed > count)
         {
-            final Component text = TComponent.translatable("pokemob.teleport.noitems", needed);
+            final Component text = Component.translatableEscape("pokemob.teleport.noitems", needed);
             if (this.fromOwner()) pokemob.displayMessageToOwner(text);
             return;
         }
@@ -199,12 +198,12 @@ public class TeleportHandler extends DefaultHandler
         }
         if (needed > 0)
         {
-            final Component text = TComponent.translatable("pokemob.teleport.noitems", needed);
+            final Component text = Component.translatableEscape("pokemob.teleport.noitems", needed);
             if (this.fromOwner()) pokemob.displayMessageToOwner(text);
             return;
         }
-        final Component attackName = TComponent.translatable(MovesUtils.getUnlocalizedMove(IMoveNames.MOVE_TELEPORT));
-        final Component text = TComponent.translatable("pokemob.move.used.user", pokemob.getDisplayName(), attackName);
+        final Component attackName = Component.translatable(MovesUtils.getUnlocalizedMove(IMoveNames.MOVE_TELEPORT));
+        final Component text = Component.translatableEscape("pokemob.move.used.user", pokemob.getDisplayName(), attackName);
         if (this.fromOwner()) pokemob.displayMessageToOwner(text);
 
         // Send a teleport event for the using mob, if that fails, do not

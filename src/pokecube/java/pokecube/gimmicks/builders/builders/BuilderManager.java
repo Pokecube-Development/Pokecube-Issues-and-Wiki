@@ -399,7 +399,7 @@ public class BuilderManager
 
                 // TODO fix this for if needed for debugging.
                 //                book.setTag(nbt);
-                //                book.setHoverName(TComponent.literal("Blueprint"));
+                //                book.setHoverName(Component.literal("Blueprint"));
                 return true;
             }
         }

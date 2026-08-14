@@ -22,7 +22,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.ItemBasedSelector;
-import thut.lib.TComponent;
 
 public class SelectorImpl
 {
@@ -68,8 +67,8 @@ public class SelectorImpl
         @OnlyIn(Dist.CLIENT)
         public void addToTooltip(final List<Component> toolTip)
         {
-            toolTip.add(TComponent.translatable("container.geneselector.tooltip.a", this.selectorDestructChance));
-            toolTip.add(TComponent.translatable("container.geneselector.tooltip.b", this.dnaDestructChance));
+            toolTip.add(Component.translatableEscape("container.geneselector.tooltip.a", this.selectorDestructChance));
+            toolTip.add(Component.translatableEscape("container.geneselector.tooltip.b", this.dnaDestructChance));
         }
 
         @Override

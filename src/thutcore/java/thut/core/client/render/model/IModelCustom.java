@@ -1,6 +1,5 @@
 package thut.core.client.render.model;
 
-import java.util.Collection;
 import java.util.List;
 
 import com.mojang.blaze3d.vertex.PoseStack;

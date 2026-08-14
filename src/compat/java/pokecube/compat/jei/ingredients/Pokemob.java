@@ -12,14 +12,12 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
-import org.joml.Vector4f;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.database.Database;
 import thut.lib.TCodecs;
-import thut.lib.TComponent;
 
 import java.util.Collection;
 import java.util.List;
@@ -73,8 +71,8 @@ public class Pokemob implements IIngredientType<PokedexEntry>
         public List<Component> getTooltip(Pokemob pokemob, TooltipFlag flag)
         {
             final List<Component> list = Lists.newArrayList(
-                    TComponent.translatable(pokemob.entry.getUnlocalizedName()));
-            if (pokemob.holder != null) list.add(TComponent.literal(pokemob.holder.name));
+                    Component.translatable(pokemob.entry.getUnlocalizedName()));
+            if (pokemob.holder != null) list.add(Component.literal(pokemob.holder.name));
             return list;
         }
 

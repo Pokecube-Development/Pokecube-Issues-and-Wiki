@@ -5,6 +5,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -50,7 +51,6 @@ import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
 import thut.core.common.network.nbtpacket.NBTPacket;
 import thut.core.common.network.nbtpacket.PacketAssembly;
-import thut.lib.TComponent;
 import thut.wearables.network.Packet;
 
 public class PacketTrainer extends NBTPacket
@@ -110,7 +110,7 @@ public class PacketTrainer extends NBTPacket
         if (!canEdit)
         {
             thut.lib.ChatHelper.sendSystemMessage(editor,
-                    TComponent.literal(ChatFormatting.RED + "You are not allowed to do that."));
+                    Component.literal(ChatFormatting.RED + "You are not allowed to do that."));
             return;
         }
         final PacketTrainer packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
@@ -209,7 +209,7 @@ public class PacketTrainer extends NBTPacket
             if (!PermNodes.getBooleanPerm(player, PacketTrainer.SPAWNTRAINER))
             {
                 thut.lib.ChatHelper.sendSystemMessage(player,
-                        TComponent.literal(ChatFormatting.RED + "You are not allowed to do that."));
+                        Component.literal(ChatFormatting.RED + "You are not allowed to do that."));
                 return;
             }
             PokecubeAPI.logDebug("Recieved Trainer Spawn Packet");
@@ -250,7 +250,7 @@ public class PacketTrainer extends NBTPacket
             if (!PermNodes.getBooleanPerm(player, PacketTrainer.EDITTRAINER))
             {
                 thut.lib.ChatHelper.sendSystemMessage(player,
-                        TComponent.literal(ChatFormatting.RED + "You are not allowed to do that."));
+                        Component.literal(ChatFormatting.RED + "You are not allowed to do that."));
                 return;
             }
 
@@ -261,7 +261,7 @@ public class PacketTrainer extends NBTPacket
                 try
                 {
                     rewards.deserializeNBT(reg, (ListTag) this.getTag().get("__rewards__"));
-                    player.displayClientMessage(TComponent.literal("Updated rewards list"), true);
+                    player.displayClientMessage(Component.literal("Updated rewards list"), true);
                 }
                 catch (final Exception e)
                 {
@@ -296,7 +296,7 @@ public class PacketTrainer extends NBTPacket
                         npc.updateTrades();
                     }
                     mob.setInvulnerable(aiStates.getAIState(AIState.INVULNERABLE));
-                    player.displayClientMessage(TComponent.literal("Updated AI Setting"), true);
+                    player.displayClientMessage(Component.literal("Updated AI Setting"), true);
                 }
                 catch (final Exception e)
                 {
@@ -312,7 +312,7 @@ public class PacketTrainer extends NBTPacket
                 try
                 {
                     messages.deserializeNBT(reg, (CompoundTag) this.getTag().get("__messages__"));
-                    player.displayClientMessage(TComponent.literal("Updated AI Setting"), true);
+                    player.displayClientMessage(Component.literal("Updated AI Setting"), true);
                 }
                 catch (final Exception e)
                 {
@@ -353,7 +353,7 @@ public class PacketTrainer extends NBTPacket
             if (!PermNodes.getBooleanPerm(player, PacketTrainer.EDITTRAINER))
             {
                 thut.lib.ChatHelper.sendSystemMessage(player,
-                        TComponent.literal(ChatFormatting.RED + "You are not allowed to do that."));
+                        Component.literal(ChatFormatting.RED + "You are not allowed to do that."));
                 return;
             }
             mob = player.level().getEntity(id);
@@ -363,7 +363,7 @@ public class PacketTrainer extends NBTPacket
             if (!PermNodes.getBooleanPerm(player, PacketTrainer.EDITMOB))
             {
                 thut.lib.ChatHelper.sendSystemMessage(player,
-                        TComponent.literal(ChatFormatting.RED + "You are not allowed to do that."));
+                        Component.literal(ChatFormatting.RED + "You are not allowed to do that."));
                 return;
             }
             mob = player.level().getEntity(id);

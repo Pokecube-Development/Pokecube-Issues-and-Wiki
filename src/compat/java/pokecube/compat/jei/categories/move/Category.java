@@ -20,7 +20,6 @@ import pokecube.adventures.PokecubeAdv;
 import pokecube.compat.jei.Compat;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.recipes.MoveRecipe;
-import thut.lib.TComponent;
 
 import java.awt.*;
 
@@ -64,7 +63,7 @@ public class Category implements IRecipeCategory<MoveRecipe>
     @Override
     public Component getTitle()
     {
-        return TComponent.literal(this.localizedName);
+        return Component.literal(this.localizedName);
     }
 
     @Override

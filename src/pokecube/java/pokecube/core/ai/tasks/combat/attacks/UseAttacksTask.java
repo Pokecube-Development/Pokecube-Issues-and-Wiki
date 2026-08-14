@@ -25,7 +25,6 @@ import pokecube.core.ai.tasks.combat.CombatTask;
 import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.moves.MovesUtils;
 import thut.api.maths.Vector3;
-import thut.lib.TComponent;
 
 import java.util.Map;
 
@@ -99,8 +98,7 @@ public class UseAttacksTask extends CombatTask implements IMoveUseAI
                     && !pokemob.getGeneralState(GeneralStates.TAMED) && player.getLastHurtByMob() != entity
                     && player.getLastHurtMob() != entity)
             {
-                final Component message = TComponent.translatable("pokemob.agress",
-                        pokemob.getDisplayName().getString());
+                final Component message = Component.translatable("pokemob.agress", pokemob.getDisplayName());
                 try
                 {
                     // Only send this once.
@@ -108,7 +106,7 @@ public class UseAttacksTask extends CombatTask implements IMoveUseAI
                 }
                 catch (final Exception e)
                 {
-                    PokecubeAPI.LOGGER.log(Level.WARN, "Error with message for " + target, e);
+                    PokecubeAPI.LOGGER.log(Level.WARN, "Error with message for {}", target, e);
                 }
                 pokemob.setAttackCooldown(PokecubeCore.getConfig().pokemobagressticks);
             }
@@ -122,7 +120,7 @@ public class UseAttacksTask extends CombatTask implements IMoveUseAI
         if (pokemob.getCombatState(CombatStates.EXECUTINGMOVE) && moveTarget.isEmpty()) this.clearUseMove(pokemob);
 
         double var1 = (entity.getBbWidth() + 0.75) * (entity.getBbWidth() + 0.75);
-        boolean distanced = false;
+        boolean distanced;
         final double dist = entity.distanceToSqr(target.getX(), target.getY(), target.getZ());
 
         distanced = attack.isRanged(pokemob);

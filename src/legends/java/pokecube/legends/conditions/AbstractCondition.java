@@ -29,7 +29,6 @@ import pokecube.legends.conditions.data.Conditions.Spawn;
 import thut.api.Tracker;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
-import thut.lib.TComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -237,14 +236,14 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     public MutableComponent sendNoTrust(final Entity trainer)
     {
         final String message = "msg.notrust.info";
-        return TComponent.translatable(message, TComponent.translatable(this.getEntry().getUnlocalizedName()));
+        return Component.translatableEscape(message, Component.translatable(this.getEntry().getUnlocalizedName()));
     }
 
     public MutableComponent sendNoHere(final Entity trainer)
     {
         final String message = "msg.nohere.info";
-        final MutableComponent component = TComponent.translatable(message,
-                TComponent.translatable(this.getEntry().getUnlocalizedName()));
+        final MutableComponent component = Component.translatableEscape(message,
+                Component.translatable(this.getEntry().getUnlocalizedName()));
         if (trainer instanceof Player player) thut.lib.ChatHelper.sendSystemMessage(player, component);
         return component;
     }
@@ -253,22 +252,22 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     public MutableComponent sendLegend(final Entity trainer, final String type, final int numA, final int numB)
     {
         final String message = "msg.infolegend.info";
-        final Component typeMess = TComponent.translatable(PokeType.getUnlocalizedName(PokeType.getType(type)));
-        return TComponent.translatable(message, typeMess, numA + 1, numB);
+        final Component typeMess = Component.translatable(PokeType.getUnlocalizedName(PokeType.getType(type)));
+        return Component.translatableEscape(message, typeMess, numA + 1, numB);
     }
 
     // Catch specific Legend
     public MutableComponent sendLegendExtra(final Object names)
     {
         final String message = "msg.infolegendextra.info";
-        return TComponent.translatable(message, names);
+        return Component.translatableEscape(message, names);
     }
 
     // Build Legend
     public void sendLegendBuild(final Entity trainer, final Object name)
     {
         final String message = "msg.reginotlookright.info";
-        final MutableComponent component = TComponent.translatable(message, name);
+        final MutableComponent component = Component.translatableEscape(message, name);
         if (trainer instanceof Player player) player.displayClientMessage(component, true);
     }
 }

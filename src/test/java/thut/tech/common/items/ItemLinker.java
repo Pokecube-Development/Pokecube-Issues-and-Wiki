@@ -14,7 +14,6 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import thut.api.entity.blockentity.block.TempTile;
-import thut.lib.TComponent;
 import thut.tech.common.TechCore;
 import thut.tech.common.blocks.lift.ControllerTile;
 import thut.tech.common.entity.EntityLift;
@@ -92,7 +91,7 @@ public class ItemLinker extends Item
                     if (floor >= 64) floor = 64 - floor;
                     final String message = "msg.floorSet";
                     if (!worldIn.isClientSide)
-                        thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message, floor));
+                        thut.lib.ChatHelper.sendSystemMessage(playerIn, Component.translatableEscape(message, floor));
                     return InteractionResult.SUCCESS;
                 }
             }
@@ -104,7 +103,7 @@ public class ItemLinker extends Item
                 te.setSidePage(face, 0);
                 final String message = "msg.editMode";
                 if (!worldIn.isClientSide) thut.lib.ChatHelper.sendSystemMessage(playerIn,
-                        TComponent.translatable(message, te.editFace[face.ordinal()]));
+                        Component.translatableEscape(message, te.editFace[face.ordinal()]));
                 return InteractionResult.SUCCESS;
             }
         }
@@ -127,7 +126,7 @@ public class ItemLinker extends Item
         CompoundTag data = stack.has(DataComponents.CUSTOM_DATA)
                 ? stack.get(DataComponents.CUSTOM_DATA).copyTag()
                 : null;
-        if (data != null && data.contains("lift")) return TComponent.translatable("item.thuttech.linker.linked");
+        if (data != null && data.contains("lift")) return Component.translatable("item.thuttech.linker.linked");
         return super.getName(stack);
     }
 }

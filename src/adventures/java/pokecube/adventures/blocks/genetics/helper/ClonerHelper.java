@@ -1,27 +1,14 @@
 package pokecube.adventures.blocks.genetics.helper;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.Set;
-import java.util.function.Supplier;
 
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
 
-import io.netty.buffer.ByteBuf;
-import net.minecraft.ResourceLocationException;
 import net.minecraft.core.HolderLookup.Provider;
-import net.minecraft.core.component.DataComponentType;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.neoforged.neoforge.registries.DeferredRegister;
 import pokecube.adventures.blocks.genetics.helper.SelectorImpl.SelectorValue;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
@@ -98,7 +85,7 @@ public class ClonerHelper
             catch (Exception e)
             {
                 if (PokecubeCore.getConfig().debug_misc)
-                    PokecubeAPI.LOGGER.warn("Error locating selectors for " + stack, e);
+                    PokecubeAPI.LOGGER.warn("Error locating selectors for {}", stack, e);
             }
         }
         return ret;

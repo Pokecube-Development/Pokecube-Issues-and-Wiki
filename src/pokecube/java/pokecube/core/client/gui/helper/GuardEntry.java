@@ -26,7 +26,6 @@ import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability.IGuardTask;
 import pokecube.core.utils.TimePeriod;
 import thut.api.attachments.Linkable;
-import thut.lib.TComponent;
 
 public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implements INotifiedEntry
 {
@@ -60,28 +59,28 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
         this.index = index;
         this.entity = entity;
 
-        this.delete = new Button.Builder(TComponent.literal("X"), this::deleteClicked)
-                .tooltip(Tooltip.create(TComponent.translatable("pokecube.gui.delete.start.desc")))
+        this.delete = new Button.Builder(Component.literal("X"), this::deleteClicked)
+                .tooltip(Tooltip.create(Component.translatable("pokecube.gui.delete.start.desc")))
                 .bounds(-200, 0, 10, 10).build();
         this.delete.setFGColor(0xFFFF0000);
 
-        this.confirm = new Button.Builder(TComponent.literal("Y"), this::confirmClicked)
-                .tooltip(Tooltip.create(TComponent.translatable("pokecube.gui.delete.start.desc")))
+        this.confirm = new Button.Builder(Component.literal("Y"), this::confirmClicked)
+                .tooltip(Tooltip.create(Component.translatable("pokecube.gui.delete.start.desc")))
                 .bounds(-200, 0, 10, 10).build();
         this.confirm.active = false;
 
         if (index == guard.getTasks().size()) this.delete.active = false;
 
-        this.moveUp = new Button.Builder(TComponent.literal("\u21e7"), this::moveUpClicked)
-                .tooltip(Tooltip.create(TComponent.translatable("pokecube.gui.move.up.desc")))
+        this.moveUp = new Button.Builder(Component.literal("\u21e7"), this::moveUpClicked)
+                .tooltip(Tooltip.create(Component.translatable("pokecube.gui.move.up.desc")))
                 .bounds(-200, 0, 10, 10).build();
 
-        this.moveDown = new Button.Builder(TComponent.literal("\u21e9"), this::moveDownClicked)
-                .tooltip(Tooltip.create(TComponent.translatable("pokecube.gui.move.down.desc")))
+        this.moveDown = new Button.Builder(Component.literal("\u21e9"), this::moveDownClicked)
+                .tooltip(Tooltip.create(Component.translatable("pokecube.gui.move.down.desc")))
                 .bounds(-200, 0, 10, 10).build();
 
-        this.update = new Button.Builder(TComponent.literal("btn"), b -> this.update())
-                .tooltip(Tooltip.create(TComponent.translatable("pokemob.route.btn.desc")))
+        this.update = new Button.Builder(Component.literal("btn"), b -> this.update())
+                .tooltip(Tooltip.create(Component.translatable("pokemob.route.btn.desc")))
                 .bounds(-200, 0, 20, 10).build();
 
         this.moveUp.active = index > 0 && index < guard.getTasks().size();
@@ -223,13 +222,13 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
         catch (final NumberFormatException e)
         {
             // Send status message about not working here.
-            final Component mess = TComponent.translatable("pokecube.route.info.pos.formatinfo");
+            final Component mess = Component.translatable("pokecube.route.info.pos.formatinfo");
             this.parent.getMinecraft().player.displayClientMessage(mess, false);
         }
         else if (args.length != 0)
         {
             // Send status message about not working here.
-            final Component mess = TComponent.translatable("pokecube.route.info.pos.formatinfo");
+            final Component mess = Component.translatable("pokecube.route.info.pos.formatinfo");
             this.parent.getMinecraft().player.displayClientMessage(mess, false);
         }
         return null;
@@ -319,13 +318,13 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
         catch (final NumberFormatException e)
         {
             // Send status message about not working here.
-            final Component mess = TComponent.translatable("pokecube.route.info.time.formaterror");
+            final Component mess = Component.translatable("pokecube.route.info.time.formaterror");
             this.parent.getMinecraft().player.displayClientMessage(mess, false);
         }
         else if (args.length != 0)
         {
             // Send status message about not working here.
-            final Component mess = TComponent.translatable("pokecube.route.info.time.formatinfo");
+            final Component mess = Component.translatable("pokecube.route.info.time.formatinfo");
             this.parent.getMinecraft().player.displayClientMessage(mess, false);
         }
         return null;
@@ -342,7 +341,7 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
         }
         catch (final NumberFormatException e)
         {
-            final Component mess = TComponent.translatable("pokecube.route.info.dist.formaterror");
+            final Component mess = Component.translatable("pokecube.route.info.dist.formaterror");
             this.parent.getMinecraft().player.displayClientMessage(mess, false);
             return;
         }
@@ -364,12 +363,12 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
             data.put("T", tag);
             data.putInt("I", this.entity.getId());
             this.function.apply(data);
-            final Component mess = TComponent.translatable("pokemob.route.updated");
+            final Component mess = Component.translatable("pokemob.route.updated");
             this.parent.getMinecraft().player.displayClientMessage(mess, false);
         }
         else
         {
-            final Component mess = TComponent.translatable("pokecube.route.info.incomplete");
+            final Component mess = Component.translatable("pokecube.route.info.incomplete");
             this.parent.getMinecraft().player.displayClientMessage(mess, false);
         }
     }

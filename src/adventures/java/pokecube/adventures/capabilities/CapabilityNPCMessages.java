@@ -3,6 +3,7 @@ package pokecube.adventures.capabilities;
 import com.google.common.collect.Maps;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -15,13 +16,8 @@ import pokecube.api.entity.trainers.IHasMessages;
 import pokecube.api.entity.trainers.actions.Action;
 import pokecube.api.entity.trainers.actions.IAction;
 import pokecube.api.entity.trainers.actions.MessageState;
-import pokecube.adventures.capabilities.CapabilityHasRewards.DefaultRewards;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates.DefaultAIStates;
-import pokecube.adventures.capabilities.CapabilityNPCMessages.DefaultMessager;
-import pokecube.adventures.capabilities.CapabilityNPCMessages.DefaultMessager;
 import pokecube.core.PokecubeCore;
 import thut.api.data.HolderProvider;
-import thut.lib.TComponent;
 
 import java.util.Map;
 
@@ -78,7 +74,7 @@ public class CapabilityNPCMessages
                     || this.messages.get(state).trim().isEmpty())
                 return false;
             if (target instanceof ServerPlayer player)
-                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(this.messages.get(state), args));
+                thut.lib.ChatHelper.sendSystemMessage(player, Component.translatableEscape(this.messages.get(state), args));
             if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logInfo(state + ": " + this.messages.get(state));
             return true;
         }

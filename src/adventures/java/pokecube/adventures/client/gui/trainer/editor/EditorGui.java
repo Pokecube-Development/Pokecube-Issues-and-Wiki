@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import pokecube.adventures.PokecubeAdv;
@@ -25,7 +26,6 @@ import pokecube.api.entity.trainers.IHasRewards;
 import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.utils.CapHolders;
-import thut.lib.TComponent;
 
 import java.util.List;
 
@@ -73,7 +73,7 @@ public class EditorGui extends Screen
 
     public EditorGui(final Entity mob)
     {
-        super(TComponent.literal(""));
+        super(Component.literal(""));
         this.entity = mob;
         this.trainer = TrainerCaps.getHasPokemobs(mob);
         this.rewards = TrainerCaps.getHasRewards(mob);

@@ -20,6 +20,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.StringTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -66,7 +67,6 @@ import thut.core.common.network.Packet;
 import thut.core.common.network.nbtpacket.NBTPacket;
 import thut.core.common.network.nbtpacket.PacketAssembly;
 import thut.lib.RegHelper;
-import thut.lib.TComponent;
 
 public class PacketPokedex extends NBTPacket
 {
@@ -569,14 +569,14 @@ public class PacketPokedex extends NBTPacket
             final int index = this.getTag().getInt("I");
             final TeleDest loc = TeleportHandler.getTeleport(player.getStringUUID(), index);
             TeleportHandler.unsetTeleport(index, player.getStringUUID());
-            thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("Deleted " + loc.getName()));
+            thut.lib.ChatHelper.sendSystemMessage(player, Component.literal("Deleted " + loc.getName()));
             PlayerDataHandler.getInstance().save(access, player.getStringUUID());
             PacketDataSync.syncData(player, "pokecube-data");
             return;
         case RENAME:
             final String name = this.getTag().getString("N");
             TeleportHandler.renameTeleport(player.getStringUUID(), this.getTag().getInt("I"), name);
-            thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("Set teleport as " + name));
+            thut.lib.ChatHelper.sendSystemMessage(player, Component.literal("Set teleport as " + name));
             PlayerDataHandler.getInstance().save(access, player.getStringUUID());
             PacketDataSync.syncData(player, "pokecube-data");
             return;
@@ -589,12 +589,12 @@ public class PacketPokedex extends NBTPacket
             if (!reward)
             {
                 if (inspected)
-                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokedex.inspect.available"));
+                    thut.lib.ChatHelper.sendSystemMessage(player, Component.translatable("pokedex.inspect.available"));
             }
             else
             {
                 if (!inspected)
-                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokedex.inspect.nothing"));
+                    thut.lib.ChatHelper.sendSystemMessage(player, Component.translatable("pokedex.inspect.nothing"));
                 player.closeContainer();
             }
             return;
@@ -605,12 +605,12 @@ public class PacketPokedex extends NBTPacket
             {
                 final boolean valid = condition.canCapture(player);
                 if (valid) thut.lib.ChatHelper.sendSystemMessage(player,
-                        TComponent.translatable("pokewatch.capture.check.yes", entry.getTranslatedName()));
+                        Component.translatable("pokewatch.capture.check.yes", entry.getTranslatedName()));
                 else
                 {
                     thut.lib.ChatHelper.sendSystemMessage(player, condition.getFailureMessage(player));
                     thut.lib.ChatHelper.sendSystemMessage(player,
-                            TComponent.translatable("pokewatch.capture.check.no", entry.getTranslatedName()));
+                            Component.translatable("pokewatch.capture.check.no", entry.getTranslatedName()));
                 }
             }
             return;

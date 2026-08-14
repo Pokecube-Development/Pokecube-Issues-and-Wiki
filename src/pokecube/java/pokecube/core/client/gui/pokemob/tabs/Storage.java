@@ -25,7 +25,6 @@ import pokecube.core.network.pokemobs.PacketUpdateAI;
 import pokecube.core.utils.Resources;
 import thut.api.attachments.Linkable;
 import thut.core.common.ThutCore;
-import thut.lib.TComponent;
 
 import java.util.List;
 
@@ -72,16 +71,16 @@ public class Storage extends Tab
         final int ds = 10;
 
         this.addRenderableWidget(this.berry = new EditBox(parent.font, xOffset + 10, yOffset + dy + ds * 0, 50, 10,
-                TComponent.literal("")));
+                Component.literal("")));
         this.addRenderableWidget(this.storage = new EditBox(parent.font, xOffset + 10, yOffset + dy + ds * 1, 50, 10,
-                TComponent.literal("")));
+                Component.literal("")));
         this.addRenderableWidget(
                 this.storageFace = new EditBox(parent.font, xOffset + 10, yOffset + dy + ds * 2, 50, 10,
-                        TComponent.literal("")));
+                        Component.literal("")));
         this.addRenderableWidget(this.empty = new EditBox(parent.font, xOffset + 10, yOffset + dy + ds * 3, 50, 10,
-                TComponent.literal("")));
+                Component.literal("")));
         this.addRenderableWidget(this.emptyFace = new EditBox(parent.font, xOffset + 10, yOffset + dy + ds * 4, 50, 10,
-                TComponent.literal("")));
+                Component.literal("")));
         this.textBoxes = Lists.newArrayList(this.berry, this.storage, this.storageFace, this.empty, this.emptyFace);
 
         final CompoundTag nbt = this.ai.serializeNBT(Minecraft.getInstance().level.registryAccess());
@@ -107,7 +106,7 @@ public class Storage extends Tab
         final int l = (this.height - this.imageHeight) / 2;
 
         this.addRenderableWidget(
-                new TooltipArea.Builder(TComponent.translatable("pokemob.gui.slot.storage.off_hand"), (x, y) -> {
+                new TooltipArea.Builder(Component.translatable("pokemob.gui.slot.storage.off_hand"), (x, y) -> {
                     Slot offhand_slot = menu.slots.get(3);
                     if (offhand_slot.hasItem()) return false;
                     return PokecubeCore.getConfig().pokemobGuiTooltips;
@@ -198,23 +197,23 @@ public class Storage extends Tab
 
         if (this.berry.isMouseOver(mouseX, mouseY))
         {
-            graphics.renderTooltip(this.parent.font, TComponent.translatable("pokemob.gui.storage.berry"), x, y);
+            graphics.renderTooltip(this.parent.font, Component.translatable("pokemob.gui.storage.berry"), x, y);
         }
         if (this.storage.isMouseOver(mouseX, mouseY))
         {
-            graphics.renderTooltip(this.parent.font, TComponent.translatable("pokemob.gui.storage.storage"), x, y);
+            graphics.renderTooltip(this.parent.font, Component.translatable("pokemob.gui.storage.storage"), x, y);
         }
         if (this.storageFace.isMouseOver(mouseX, mouseY))
         {
-            graphics.renderTooltip(this.parent.font, TComponent.translatable("pokemob.gui.storage.storageFace"), x, y);
+            graphics.renderTooltip(this.parent.font, Component.translatable("pokemob.gui.storage.storageFace"), x, y);
         }
         if (this.empty.isMouseOver(mouseX, mouseY))
         {
-            graphics.renderTooltip(this.parent.font, TComponent.translatable("pokemob.gui.storage.empty"), x, y);
+            graphics.renderTooltip(this.parent.font, Component.translatable("pokemob.gui.storage.empty"), x, y);
         }
         if (this.emptyFace.isMouseOver(mouseX, mouseY))
         {
-            graphics.renderTooltip(this.parent.font, TComponent.translatable("pokemob.gui.storage.emptyFace"), x, y);
+            graphics.renderTooltip(this.parent.font, Component.translatable("pokemob.gui.storage.emptyFace"), x, y);
         }
 
         super.renderLabels(graphics, mouseX, mouseY);
@@ -278,7 +277,7 @@ public class Storage extends Tab
         PacketUpdateAI.sendUpdatePacket(this.pokemob, this.ai, "pokecube:storage_ai");
 
         // Send status message thingy
-        this.parent.getMinecraft().player.displayClientMessage(TComponent.translatable("pokemob.gui.updatestorage"),
+        this.parent.getMinecraft().player.displayClientMessage(Component.translatable("pokemob.gui.updatestorage"),
                 true);
     }
 

@@ -5,6 +5,7 @@ import java.util.List;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -14,7 +15,6 @@ import net.minecraft.world.level.Level;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.network.pokemobs.PacketCommand.DefaultHandler;
-import thut.lib.TComponent;
 
 public class ChangeFormHandler extends DefaultHandler
 {
@@ -125,7 +125,7 @@ public class ChangeFormHandler extends DefaultHandler
         {
             if (last != null) last.onFail(pokemob);
             else if (!hasRing) thut.lib.ChatHelper.sendSystemMessage(player,
-                    TComponent.translatable("pokecube.mega.noring", pokemob.getDisplayName()));
+                    Component.translatable("pokecube.mega.noring", pokemob.getDisplayName()));
         }
     }
 }

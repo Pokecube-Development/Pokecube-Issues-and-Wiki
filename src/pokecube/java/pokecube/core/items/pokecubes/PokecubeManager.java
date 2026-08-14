@@ -22,7 +22,6 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.moves.damage.effects.StatusEffects;
 import thut.api.entity.genetics.GeneHolder;
 import thut.core.common.genetics.DefaultGenetics;
-import thut.lib.TComponent;
 
 import java.util.UUID;
 
@@ -194,11 +193,11 @@ public class PokecubeManager
         if (statusIns != null)
         {
             var status = statusIns.getEffect();
-            if (status == StatusEffects.BURN) name = TComponent.translatable("pokecube.filled.brn", name);
-            else if (status == StatusEffects.FREEZE) name = TComponent.translatable("pokecube.filled.frz", name);
-            else if (status == StatusEffects.PARALYSIS) name = TComponent.translatable("pokecube.filled.par", name);
-            else if (status == StatusEffects.SLEEP) name = TComponent.translatable("pokecube.filled.slp", name);
-            else if (status == StatusEffects.POISON) name = TComponent.translatable("pokecube.filled.psn", name);
+            if (status == StatusEffects.BURN) name = Component.translatableEscape("pokecube.filled.brn", name);
+            else if (status == StatusEffects.FREEZE) name = Component.translatableEscape("pokecube.filled.frz", name);
+            else if (status == StatusEffects.PARALYSIS) name = Component.translatableEscape("pokecube.filled.par", name);
+            else if (status == StatusEffects.SLEEP) name = Component.translatableEscape("pokecube.filled.slp", name);
+            else if (status == StatusEffects.POISON) name = Component.translatableEscape("pokecube.filled.psn", name);
         }
         itemStack.set(DataComponents.ITEM_NAME, name);
         return itemStack;

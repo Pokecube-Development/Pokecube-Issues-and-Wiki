@@ -8,7 +8,6 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.json.JsonTemplate.JsonBlock;
@@ -30,7 +29,7 @@ public class JsonModel extends BaseModel
         try
         {
             this.last_loaded = model;
-            BufferedReader reader = ResourceHelper.getReader(model, Minecraft.getInstance().getResourceManager());
+            BufferedReader reader = ResourceHelper.getReader(model);
             if (reader == null)
             {
                 this.valid = false;

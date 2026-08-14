@@ -7,11 +7,11 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.Entity;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability.IGuardTask;
-import thut.lib.TComponent;
 
 public class RouteEditHelper
 {
@@ -22,16 +22,16 @@ public class RouteEditHelper
     {
         final Font fontRenderer = Minecraft.getInstance().font;
         int num = 0;
-        final MutableComponent blank = TComponent.literal("");
+        final MutableComponent blank = Component.literal("");
         for (final IGuardTask task : guard.getTasks())
         {
             final ListEditBox location = new ListEditBox(fontRenderer, -200, 0, width, 10, blank);
             final ListEditBox time = new ListEditBox(fontRenderer, -200, 0, width, 10, blank);
             final ListEditBox dist = new ListEditBox(fontRenderer, -200, 0, width, 10, blank);
 
-            location.setTooltip(Tooltip.create(TComponent.translatable("pokemob.route.location.tooltip")));
-            time.setTooltip(Tooltip.create(TComponent.translatable("pokemob.route.timeperiod.tooltip")));
-            dist.setTooltip(Tooltip.create(TComponent.translatable("pokemob.route.variation.tooltip")));
+            location.setTooltip(Tooltip.create(Component.translatable("pokemob.route.location.tooltip")));
+            time.setTooltip(Tooltip.create(Component.translatable("pokemob.route.timeperiod.tooltip")));
+            dist.setTooltip(Tooltip.create(Component.translatable("pokemob.route.variation.tooltip")));
 
             location.registerPreFocus(parent);
             time.registerPreFocus(parent);

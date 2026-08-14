@@ -43,7 +43,6 @@ import pokecube.api.raids.RaidManager;
 import pokecube.core.blocks.InteractableHorizontalBlock;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.tileentity.RaidSpawn;
-import thut.lib.TComponent;
 
 import java.util.List;
 
@@ -165,7 +164,7 @@ public class RaidSpawnBlock extends InteractableHorizontalBlock implements Simpl
         String message;
         if (Screen.hasShiftDown()) message = I18n.get("legendblock." + this.infoname + ".tooltip");
         else message = I18n.get("pokecube.tooltip.advanced");
-        tooltipComponents.add(TComponent.translatable(message));
+        tooltipComponents.add(Component.translatable(message));
     }
 
     @Override

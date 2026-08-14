@@ -12,7 +12,6 @@ import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.pokemobs.PacketCommand.DefaultHandler;
 import thut.api.maths.Vector3;
-import thut.lib.TComponent;
 
 public class AttackLocationHandler extends DefaultHandler
 {
@@ -39,8 +38,8 @@ public class AttackLocationHandler extends DefaultHandler
         {
             final MoveEntry move = MovesUtils.getMove(pokemob.getMove(currentMove));
             // Send move use message first.
-            Component mess = TComponent.translatable("pokemob.action.usemove", pokemob.getDisplayName(),
-                    TComponent.translatable(MovesUtils.getUnlocalizedMove(move.getName())));
+            Component mess = Component.translatableEscape("pokemob.action.usemove", pokemob.getDisplayName(),
+                    Component.translatable(MovesUtils.getUnlocalizedMove(move.getName())));
             if (this.fromOwner()) pokemob.displayMessageToOwner(mess);
 
             final float value = HungerTask.calculateHunger(pokemob);
@@ -48,7 +47,7 @@ public class AttackLocationHandler extends DefaultHandler
             // If too hungry, send message about that.
             if (HungerTask.hitThreshold(value, HungerTask.HUNTTHRESHOLD))
             {
-                mess = TComponent.translatable("pokemob.action.hungry", pokemob.getDisplayName());
+                mess = Component.translatableEscape("pokemob.action.hungry", pokemob.getDisplayName());
                 if (this.fromOwner()) pokemob.displayMessageToOwner(mess);
                 return;
             }

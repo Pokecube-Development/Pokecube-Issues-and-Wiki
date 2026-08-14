@@ -6,6 +6,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
@@ -18,7 +19,6 @@ import pokecube.core.entity.npc.NpcType;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.ThutCaps;
 import thut.api.entity.ICopyMob;
-import thut.lib.TComponent;
 
 import java.util.List;
 
@@ -41,7 +41,7 @@ public class Trainer extends Page
 
     public Trainer(final EditorGui parent)
     {
-        super(TComponent.literal(""), parent);
+        super(Component.literal(""), parent);
     }
 
     @Override
@@ -56,12 +56,12 @@ public class Trainer extends Page
         int i = 0;
         final int dx = -120;
 
-        this.type = new EditBox(this.font, x + dx, y + dy + sy * i++, 100, 10, TComponent.literal(""));
-        this.name = new EditBox(this.font, x + dx, y + dy + sy * i++, 100, 10, TComponent.literal(""));
-        this.tradeList = new EditBox(this.font, x + dx, y + dy + sy * i++, 100, 10, TComponent.literal(""));
-        this.playerName = new EditBox(this.font, x + dx, y + dy + sy * i++, 100, 10, TComponent.literal(""));
-        this.customTex = new EditBox(this.font, x + dx, y + dy + sy * i++, 100, 10, TComponent.literal(""));
-        this.copyMob = new EditBox(this.font, x + dx, y + dy + sy * i++, 100, 10, TComponent.literal(""));
+        this.type = new EditBox(this.font, x + dx, y + dy + sy * i++, 100, 10, Component.literal(""));
+        this.name = new EditBox(this.font, x + dx, y + dy + sy * i++, 100, 10, Component.literal(""));
+        this.tradeList = new EditBox(this.font, x + dx, y + dy + sy * i++, 100, 10, Component.literal(""));
+        this.playerName = new EditBox(this.font, x + dx, y + dy + sy * i++, 100, 10, Component.literal(""));
+        this.customTex = new EditBox(this.font, x + dx, y + dy + sy * i++, 100, 10, Component.literal(""));
+        this.copyMob = new EditBox(this.font, x + dx, y + dy + sy * i++, 100, 10, Component.literal(""));
 
         this.copyMob.setMaxLength(255);
 
@@ -150,7 +150,7 @@ public class Trainer extends Page
             {
                 final int i2 = i;
 
-                this.addRenderableWidget(new Button.Builder(TComponent.literal("mob " + (i + 1)), (b) -> {
+                this.addRenderableWidget(new Button.Builder(Component.literal("mob " + (i + 1)), (b) -> {
                     this.parent.changePage(pokemobIndex);
                     if (!(this.parent.current_page instanceof Pokemob page)) return;
                     page.pokemob = PokemobCaps.getPokemobIn(this.parent.trainer.getPokemob(i2),
@@ -175,7 +175,7 @@ public class Trainer extends Page
             {
                 final int i2 = this.parent.trainer.countPokemon();
 
-                this.addRenderableWidget(new Button.Builder(TComponent.literal("mob +"), (b) -> {
+                this.addRenderableWidget(new Button.Builder(Component.literal("mob +"), (b) -> {
                     this.parent.changePage(pokemobIndex);
                     if (!(this.parent.current_page instanceof Pokemob page)) return;
                     page.index = i2;
@@ -194,45 +194,45 @@ public class Trainer extends Page
             }
         }
 
-        this.addRenderableWidget(new Button.Builder(TComponent.literal(">"), (b) -> {
+        this.addRenderableWidget(new Button.Builder(Component.literal(">"), (b) -> {
             this.index++;
             this.index = this.index % types.size();
             this.type.setValue(types.get(this.index));
             this.onUpdated();
         }).bounds(x - 9, y + dy - 1, 10, 10).build());
 
-        this.addRenderableWidget(new Button.Builder(TComponent.literal("<"), (b) -> {
+        this.addRenderableWidget(new Button.Builder(Component.literal("<"), (b) -> {
             this.index--;
             if (this.index < 0) this.index = types.size() - 1;
             this.type.setValue(types.get(this.index));
             this.onUpdated();
         }).bounds(x - 19, y + dy - 1, 10, 10).build());
 
-        this.addRenderableWidget(new Button.Builder(TComponent.translatable("traineredit.button.delete"), (b) -> {
+        this.addRenderableWidget(new Button.Builder(Component.translatable("traineredit.button.delete"), (b) -> {
             final PacketTrainer message = new PacketTrainer(PacketTrainer.KILLTRAINER);
             message.getTag().putInt("I", this.parent.entity.getId());
             PacketTrainer.ASSEMBLER.sendToServer(message.getTag());
             this.onClose();
         }).bounds(x - 123, y + 55, 40, 20).build());
 
-        this.addRenderableWidget(new Button.Builder(TComponent.literal(this.male ? "♂" : "♀"), (b) -> {
+        this.addRenderableWidget(new Button.Builder(Component.literal(this.male ? "♂" : "♀"), (b) -> {
             this.male = !this.male;
-            b.setMessage(TComponent.literal(this.male ? "♂" : "♀"));
+            b.setMessage(Component.literal(this.male ? "♂" : "♀"));
             this.onUpdated();
         }).bounds(x - 19, y + dy + 9, 10, 10).build());
 
         this.addRenderableWidget(
-                new Button.Builder(TComponent.literal(this.typename ? "Name Prefix" : "No Prefix"), (b) -> {
+                new Button.Builder(Component.literal(this.typename ? "Name Prefix" : "No Prefix"), (b) -> {
                     this.typename = !this.typename;
-                    b.setMessage(TComponent.literal(this.typename ? "Name Prefix" : "No Prefix"));
+                    b.setMessage(Component.literal(this.typename ? "Name Prefix" : "No Prefix"));
                     this.onUpdated();
                 }).bounds(x + 60, y - 53, 60, 10).build());
 
         this.addRenderableWidget(
-                new Button.Builder(TComponent.translatable("traineredit.button.apply"), (b) -> this.onUpdated()).bounds(
+                new Button.Builder(Component.translatable("traineredit.button.apply"), (b) -> this.onUpdated()).bounds(
                         x + 80, y - 73, 40, 20).build());
 
-        this.addRenderableWidget(new Button.Builder(TComponent.translatable("traineredit.button.exit"), (b) -> {
+        this.addRenderableWidget(new Button.Builder(Component.translatable("traineredit.button.exit"), (b) -> {
             this.onUpdated();
             this.onClose();
         }).bounds(x + 80, y + 55, 40, 20).build());
@@ -242,7 +242,7 @@ public class Trainer extends Page
         final int rewardIndex = index;
         final int yOff = 15;
 
-        this.addRenderableWidget(new Button.Builder(TComponent.translatable("traineredit.button.rewards"), (b) -> {
+        this.addRenderableWidget(new Button.Builder(Component.translatable("traineredit.button.rewards"), (b) -> {
             // Change to a rewards page
             this.parent.changePage(rewardIndex);
             if (!(this.parent.current_page instanceof Rewards page)) return;
@@ -254,7 +254,7 @@ public class Trainer extends Page
             if (EditorGui.PAGELIST.get(index) == Messages.class) break;
         final int messIndex = index;
 
-        this.addRenderableWidget(new Button.Builder(TComponent.translatable("traineredit.button.messages"), (b) -> {
+        this.addRenderableWidget(new Button.Builder(Component.translatable("traineredit.button.messages"), (b) -> {
             // Change to a messages page
             // Change to a ai page
             this.parent.changePage(messIndex);
@@ -267,7 +267,7 @@ public class Trainer extends Page
             if (EditorGui.PAGELIST.get(index) == AI.class) break;
         final int aiIndex = index;
 
-        this.addRenderableWidget(new Button.Builder(TComponent.translatable("traineredit.button.ai"), (b) -> {
+        this.addRenderableWidget(new Button.Builder(Component.translatable("traineredit.button.ai"), (b) -> {
             // Change to a ai page
             this.parent.changePage(aiIndex);
             if (!(this.parent.current_page instanceof AI page)) return;

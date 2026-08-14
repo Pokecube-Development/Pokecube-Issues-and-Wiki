@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.renderer.GameRenderer;
-import thut.lib.TComponent;
+import net.minecraft.network.chat.Component;
 
 public class GuiNBTButton extends Button
 {
@@ -16,7 +16,7 @@ public class GuiNBTButton extends Button
 
     public GuiNBTButton(int id, final int x, final int y, final OnPress onPress, CreateNarration narration)
     {
-        super(x, y, GuiNBTButton.WIDTH, GuiNBTButton.HEIGHT, TComponent.translatable(""), onPress, narration);
+        super(x, y, GuiNBTButton.WIDTH, GuiNBTButton.HEIGHT, Component.literal(""), onPress, narration);
         this.id = id;
     }
 

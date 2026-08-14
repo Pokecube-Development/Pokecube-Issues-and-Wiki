@@ -1,6 +1,7 @@
 package pokecube.legends.spawns;
 
 import com.google.common.collect.Lists;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Mob;
@@ -31,7 +32,6 @@ import pokecube.legends.conditions.AbstractCondition;
 import pokecube.legends.conditions.data.Conditions.Spawn;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
-import thut.lib.TComponent;
 
 import java.util.Collections;
 import java.util.List;
@@ -160,14 +160,14 @@ public class LegendarySpawn
                         SpawnEvent.SpawnSurface.of(entry));
                 if (spawnCondition.canSpawn(context, false).test()) break;
             }
-            evt.getEntity().displayClientMessage(TComponent.translatable("msg.noitem.info",
-                    TComponent.translatable(match.entry.getUnlocalizedName())), true);
+            evt.getEntity().displayClientMessage(Component.translatable("msg.noitem.info",
+                    Component.translatable(match.entry.getUnlocalizedName())), true);
             evt.getEntity().getPersistentData().putLong("pokecube_legends:msgtick", Tracker.instance().getTick());
             return;
         }
 
         boolean worked = false;
-        SpawnResult result = SpawnResult.FAIL;
+        SpawnResult result;
         final List<PokedexEntry> wrong_items = Lists.newArrayList();
         final List<PokedexEntry> wrong_biomes = Lists.newArrayList();
         final List<PokedexEntry> already_spawned = Lists.newArrayList();
@@ -216,8 +216,8 @@ public class LegendarySpawn
         if (!already_spawned.isEmpty())
         {
             Collections.shuffle(already_spawned);
-            evt.getEntity().displayClientMessage(TComponent.translatable("msg.alreadyspawned.info",
-                    TComponent.translatable(already_spawned.getFirst().getUnlocalizedName())), true);
+            evt.getEntity().displayClientMessage(Component.translatable("msg.alreadyspawned.info",
+                    Component.translatable(already_spawned.getFirst().getUnlocalizedName())), true);
             evt.setCanceled(true);
             evt.setUseItem(TriState.FALSE);
             evt.setUseBlock(TriState.FALSE);
@@ -226,8 +226,8 @@ public class LegendarySpawn
         if (!wrong_items.isEmpty())
         {
             Collections.shuffle(wrong_items);
-            evt.getEntity().displayClientMessage(TComponent.translatable("msg.wrongitem.info",
-                    TComponent.translatable(wrong_items.getFirst().getUnlocalizedName())), true);
+            evt.getEntity().displayClientMessage(Component.translatable("msg.wrongitem.info",
+                    Component.translatable(wrong_items.getFirst().getUnlocalizedName())), true);
             evt.setCanceled(true);
             evt.setUseItem(TriState.FALSE);
             evt.setUseBlock(TriState.FALSE);
@@ -236,8 +236,8 @@ public class LegendarySpawn
         if (!wrong_biomes.isEmpty())
         {
             Collections.shuffle(wrong_biomes);
-            evt.getEntity().displayClientMessage(TComponent.translatable("msg.nohere.info",
-                    TComponent.translatable(matches.getFirst().entry.getUnlocalizedName())), true);
+            evt.getEntity().displayClientMessage(Component.translatable("msg.nohere.info",
+                    Component.translatable(matches.getFirst().entry.getUnlocalizedName())), true);
             evt.setCanceled(true);
             evt.setUseItem(TriState.FALSE);
             evt.setUseBlock(TriState.FALSE);

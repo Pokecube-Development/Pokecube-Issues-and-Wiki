@@ -3,7 +3,7 @@ package pokecube.nbtedit.gui;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import thut.lib.TComponent;
+import net.minecraft.network.chat.Component;
 
 public class GuiCharacterButton extends Button
 {
@@ -13,7 +13,7 @@ public class GuiCharacterButton extends Button
 
     public GuiCharacterButton(final byte id, final int x, final int y, final OnPress onPress, CreateNarration narration)
     {
-        super(x, y, GuiCharacterButton.WIDTH, GuiCharacterButton.HEIGHT, TComponent.translatable(""), onPress, narration);
+        super(x, y, GuiCharacterButton.WIDTH, GuiCharacterButton.HEIGHT, Component.literal(""), onPress, narration);
         this.id = id;
     }
 

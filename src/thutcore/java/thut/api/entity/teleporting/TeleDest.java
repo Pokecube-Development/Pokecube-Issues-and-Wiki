@@ -7,7 +7,6 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
-import thut.lib.TComponent;
 
 public class TeleDest
 {
@@ -149,7 +148,7 @@ public class TeleDest
 
     public Component getInfoName()
     {
-        return TComponent.translatable("teledest.location", this.loc.pos().getX(), this.loc.pos().getY(),
+        return Component.translatableEscape("teledest.location", this.loc.pos().getX(), this.loc.pos().getY(),
                 this.loc.pos().getZ(), this.loc.dimension().location());
     }
 

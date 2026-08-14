@@ -19,14 +19,13 @@ import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.network.packets.PacketPokedex;
-import thut.lib.TComponent;
 
 public class GlobalProgress extends Progress
 {
 
     public GlobalProgress(final GuiPokeWatch watch)
     {
-        super(TComponent.translatable("pokewatch.progress.global.title"), watch);
+        super(Component.translatable("pokewatch.progress.global.title"), watch);
     }
 
     @Override
@@ -46,11 +45,11 @@ public class GlobalProgress extends Progress
         this.killed0 = KillStats.getNumberUniqueKilledBy(player.getUUID());
         this.killed1 = KillStats.getTotalNumberKilledBy(player.getUUID());
 
-        final MutableComponent captureLine = TComponent.translatable("pokewatch.progress.global.caught", this.caught1,
+        final MutableComponent captureLine = Component.translatableEscape("pokewatch.progress.global.caught", this.caught1,
                 this.caught0);
-        final MutableComponent killLine = TComponent.translatable("pokewatch.progress.global.killed", this.killed1,
+        final MutableComponent killLine = Component.translatableEscape("pokewatch.progress.global.killed", this.killed1,
                 this.killed0);
-        final MutableComponent hatchLine = TComponent.translatable("pokewatch.progress.global.hatched", this.hatched1,
+        final MutableComponent hatchLine = Component.translatableEscape("pokewatch.progress.global.hatched", this.hatched1,
                 this.hatched0);
 
         final AABB centre = this.watch.player.getBoundingBox();
@@ -58,13 +57,13 @@ public class GlobalProgress extends Progress
                 PokecubeCore.getConfig().maxSpawnRadius);
         final List<Entity> otherMobs = this.watch.player.level().getEntities(this.watch.player, bb,
                 input -> input instanceof Animal && PokemobCaps.getPokemobFor(input) != null);
-        final MutableComponent nearbyLine = TComponent.translatable("pokewatch.progress.global.nearby",
+        final MutableComponent nearbyLine = Component.translatableEscape("pokewatch.progress.global.nearby",
                 otherMobs.size());
 
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 5;
 
-        final Component inspect = TComponent.translatable("pokewatch.progress.inspect");
+        final Component inspect = Component.translatable("pokewatch.progress.inspect");
 
         final TexButton inspectBtn = this.addRenderableWidget(new TexButton.Builder(inspect, b -> {
             PacketPokedex.sendInspectPacket(true, Minecraft.getInstance().getLanguageManager().getSelected());

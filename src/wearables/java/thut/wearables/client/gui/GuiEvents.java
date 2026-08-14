@@ -9,13 +9,13 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.network.chat.Component;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent.Init;
 import thut.core.common.ThutCore;
-import thut.lib.TComponent;
 import thut.wearables.ThutWearables;
 import thut.wearables.network.PacketGui;
 
@@ -55,8 +55,8 @@ public class GuiEvents
             int x = gui.getGuiLeft() + ThutWearables.config.buttonPos.get(0);
             int y = gui.getGuiTop() + ThutWearables.config.buttonPos.get(1);
             final GuiWearableButton button = new GuiWearableButton(x, y, 9, 9,
-                    TComponent.translatable(GuiEvents.active ? "button.wearables.off" : "button.wearables.on"),
-                    b -> pressButton(gui), supplier -> TComponent
+                    Component.translatable(GuiEvents.active ? "button.wearables.off" : "button.wearables.on"),
+                    b -> pressButton(gui), supplier -> Component
                             .translatable(GuiEvents.active ? "button.wearables.off" : "button.wearables.on"),
                     gui);
             event.getScreen().addRenderableWidget(button);
@@ -66,8 +66,8 @@ public class GuiEvents
         {
             GuiEvents.active = event.getScreen() instanceof GuiWearables;
             GuiWearableButton button = new GuiWearableButton(gui.getGuiLeft() + 43, gui.getGuiTop() + 9, 9, 9,
-                    TComponent.translatable(GuiEvents.active ? "button.wearables.off" : "button.wearables.on"),
-                    b -> pressButton(gui), supplier -> TComponent
+                    Component.translatable(GuiEvents.active ? "button.wearables.off" : "button.wearables.on"),
+                    b -> pressButton(gui), supplier -> Component
                             .translatable(GuiEvents.active ? "button.wearables.off" : "button.wearables.on"),
                     gui);
             event.getScreen().addRenderableWidget(button);

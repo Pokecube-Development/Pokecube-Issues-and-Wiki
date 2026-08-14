@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -37,7 +38,6 @@ import thut.core.common.ThutCore.MobEvents;
 import thut.core.common.network.EntityUpdate;
 import thut.core.common.world.mobs.data.SyncHandler;
 import thut.crafts.entity.EntityCraft;
-import thut.lib.TComponent;
 
 @EventBusSubscriber
 public class CommonInit
@@ -151,7 +151,7 @@ public class CommonInit
             data.put("min", min);
             final String message = handler.getCornerMessage();
             if (!worldIn.isClientSide)
-                thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message, pos));
+                thut.lib.ChatHelper.sendSystemMessage(playerIn, Component.translatableEscape(message, pos));
             evt.setCanceled(true);
             data.putLong("time", Tracker.instance().getTick());
             itemstack.set(DataComponents.CUSTOM_DATA, CustomData.of(data));

@@ -24,7 +24,6 @@ import pokecube.core.inventory.trade.TradeContainer;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.network.packets.PacketTrade;
 import pokecube.core.utils.Resources;
-import thut.lib.TComponent;
 
 public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
 {
@@ -60,10 +59,10 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
     protected void renderLabels(final GuiGraphics graphics, final int p_146979_1_, final int p_146979_2_)
     {
         if (this.lightModeButton.visible && PokecubeCore.getConfig().fancyGUI) graphics.drawString(this.font,
-                TComponent.translatable("block.pokecube.trade_machine"), 8, 6, 0xB2AFD6, false);
+                Component.translatable("block.pokecube.trade_machine"), 8, 6, 0xB2AFD6, false);
         else if (PokecubeCore.getConfig().fancyGUI) graphics.drawString(this.font,
-                TComponent.translatable("block.pokecube.trade_machine"), 8, 6, 0xFFFFFF, false);
-        else graphics.drawString(this.font, TComponent.translatable("block.pokecube.trade_machine"), 8, 6, 4210752,
+                Component.translatable("block.pokecube.trade_machine"), 8, 6, 0xFFFFFF, false);
+        else graphics.drawString(this.font, Component.translatable("block.pokecube.trade_machine"), 8, 6, 4210752,
                 false);
 
         graphics.drawString(this.font, this.playerInventoryTitle.getString(), 8, this.imageHeight - 94 + 2, 4210752,
@@ -183,7 +182,7 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
         final int y = (this.height - this.imageHeight) / 2;
 
         // Elements placed in order of selection when pressing tab
-        final Component trade = TComponent.translatable("block.trade_machine.trade");
+        final Component trade = Component.translatable("block.trade_machine.trade");
         this.tradeButton = this.addRenderableWidget(new Button.Builder(trade, (b) -> {
             final PacketTrade packet = new PacketTrade();
             packet.data.putByte("s", (byte) 0);
@@ -200,7 +199,7 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
                 .createNarration(supplier -> Component.translatable("block.trade_machine.trade.narrate")).build());
         this.trade2Button.setAlpha(0);
 
-        final Component darkMode = TComponent.literal("");
+        final Component darkMode = Component.literal("");
         this.darkModeButton = this.addRenderableWidget(new Button.Builder(darkMode, (b) -> {
             this.darkModeButton.visible = false;
             this.lightModeButton.visible = true;
@@ -210,7 +209,7 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
         this.darkModeButton.visible = (!PokecubeCore.getConfig().darkMode && PokecubeCore.getConfig().fancyGUI);
         this.darkModeButton.setAlpha(0);
 
-        final Component lightMode = TComponent.literal("");
+        final Component lightMode = Component.literal("");
         this.lightModeButton = this.addRenderableWidget(new Button.Builder(lightMode, (b) -> {
             this.lightModeButton.visible = false;
             this.darkModeButton.visible = true;

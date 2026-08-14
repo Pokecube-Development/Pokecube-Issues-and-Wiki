@@ -59,7 +59,6 @@ import thut.api.attachments.Ownable;
 import thut.api.entity.genetics.Alleles;
 import thut.core.common.ThutCore;
 import thut.core.common.genetics.DefaultGenetics;
-import thut.lib.TComponent;
 
 import java.util.UUID;
 
@@ -279,8 +278,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
                 has = has || StatsCollector.getHatched(this.getPokedexEntry(), player) > 0;
                 if (!has) StatsCollector.addCapture(this);
             }
-            final Component mess = TComponent.translatable("pokemob.action.return", this.getDisplayName());
-            this.displayMessageToOwner(mess);
+            this.displayMessageToOwner(Component.translatable("pokemob.action.return", this.getDisplayName()));
         }
         if (!added && this.getOwnerId() != null)
         {

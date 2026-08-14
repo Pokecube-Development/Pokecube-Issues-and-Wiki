@@ -7,6 +7,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import pokecube.adventures.capabilities.utils.BattleAction;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.adventures.client.gui.trainer.editor.pages.Messages.MessageOption;
@@ -19,7 +20,6 @@ import pokecube.api.entity.trainers.actions.MessageState;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.helper.INotifiedEntry;
 import pokecube.core.client.gui.helper.ScrollGui;
-import thut.lib.TComponent;
 
 public class Messages extends ListPage<MessageOption>
 {
@@ -54,8 +54,8 @@ public class Messages extends ListPage<MessageOption>
 
             this.index = index;
 
-            this.message = new EditBox(parent.font, 0, 0, 170, 10, TComponent.literal(""));
-            this.action = new EditBox(parent.font, 0, 0, 170, 10, TComponent.literal(""));
+            this.message = new EditBox(parent.font, 0, 0, 170, 10, Component.literal(""));
+            this.action = new EditBox(parent.font, 0, 0, 170, 10, Component.literal(""));
 
             final MessageState state = MessageState.values()[this.index];
             this.message.setValue(this.messages.getMessage(state));
@@ -70,7 +70,7 @@ public class Messages extends ListPage<MessageOption>
             this.message.setMaxLength(1024);
             this.action.setMaxLength(1024);
 
-            this.apply = new Button.Builder(TComponent.translatable("traineredit.button.apply"), (b) -> {
+            this.apply = new Button.Builder(Component.translatable("traineredit.button.apply"), (b) -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.onUpdated();
             }).bounds(0, 0, 50, 10).build();
@@ -142,7 +142,7 @@ public class Messages extends ListPage<MessageOption>
 
     public Messages(final EditorGui parent)
     {
-        super(TComponent.literal(""), parent);
+        super(Component.literal(""), parent);
     }
 
     @Override
@@ -173,7 +173,7 @@ public class Messages extends ListPage<MessageOption>
         super.onPageOpened();
         int x = this.width / 2;
         int y = this.height / 2;
-        this.addRenderableWidget(new Button.Builder(TComponent.translatable("traineredit.button.home"),
+        this.addRenderableWidget(new Button.Builder(Component.translatable("traineredit.button.home"),
                 (b) -> this.closeCallback.run()).bounds(x + 73, y + 64, 50, 12).build());
     }
 }

@@ -21,7 +21,6 @@ import pokecube.core.client.gui.watch.util.WatchPage;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.Resources;
-import thut.lib.TComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +32,7 @@ public class GuiPokeWatch extends Screen
 
         public MissingPage(final GuiPokeWatch watch)
         {
-            super(TComponent.translatable("pokewatch.title.blank"), watch, GuiPokeWatch.TEX_DM, GuiPokeWatch.TEX_NM);
+            super(Component.translatable("pokewatch.title.blank"), watch, GuiPokeWatch.TEX_DM, GuiPokeWatch.TEX_NM);
             this.font = Minecraft.getInstance().font;
         }
 
@@ -137,7 +136,7 @@ public class GuiPokeWatch extends Screen
 
     public GuiPokeWatch(final Player player, final LivingEntity target)
     {
-        super(TComponent.translatable("pokecube.watch"));
+        super(Component.translatable("pokecube.watch"));
         this.target = target;
         this.pokemob = PokemobCaps.getPokemobFor(target);
         if (this.pokemob != null)
@@ -239,7 +238,7 @@ public class GuiPokeWatch extends Screen
         final int x = (this.width - GuiPokeWatch.GUIW) / 2 + 90;
         final int y = (this.height - GuiPokeWatch.GUIH) / 2 + 30;
 
-        var nm = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
+        var nm = this.addRenderableWidget(new TexButton.Builder(Component.literal(""), b -> {
             GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
             this.init();
         }).bounds(x - 108, y + 102, 17, 17).setRender(new TexButton.UVImgRender(110, 72, 17, 17))

@@ -25,7 +25,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.ModTags;
 import pokecube.core.inventory.bookshelves.GenericBookshelfMenu;
-import thut.lib.TComponent;
 
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
@@ -78,7 +77,7 @@ public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity 
     @Override
     protected Component getDefaultName()
     {
-        return TComponent.translatable("container." + PokecubeCore.MODID + ".generic_bookshelf");
+        return Component.translatable("container." + PokecubeCore.MODID + ".generic_bookshelf");
     }
 
     @Override

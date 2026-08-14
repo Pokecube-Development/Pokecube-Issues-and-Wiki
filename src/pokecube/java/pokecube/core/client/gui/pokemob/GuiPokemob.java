@@ -20,7 +20,6 @@ import pokecube.core.client.gui.pokemob.tabs.Storage;
 import pokecube.core.client.gui.pokemob.tabs.Tab;
 import pokecube.core.inventory.pokemob.PokemobContainer;
 import pokecube.core.utils.Resources;
-import thut.lib.TComponent;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -107,7 +106,7 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
         {
             if (t.isHovored())
             {
-                graphics.renderComponentTooltip(this.font, Lists.newArrayList(TComponent.translatable(t.desc)), x, y);
+                graphics.renderComponentTooltip(this.font, Lists.newArrayList(Component.translatable(t.desc)), x, y);
             }
         }
         for (var component : this.renderables)
@@ -173,7 +172,7 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
             Tab t = modules.get(i);
             if (t.icon == null)
             {
-                Component tab = TComponent.translatable(t.text);
+                Component tab = Component.translatable(t.text);
                 graphics.drawString(this.font, tab, k + 28 * (i + 1), l - 28, 4210752, false);
             }
         }

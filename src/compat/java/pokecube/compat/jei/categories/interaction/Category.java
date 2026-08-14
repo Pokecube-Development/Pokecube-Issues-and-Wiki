@@ -1,6 +1,5 @@
 package pokecube.compat.jei.categories.interaction;
 
-import com.google.common.collect.Lists;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
@@ -20,11 +19,8 @@ import pokecube.adventures.PokecubeAdv;
 import pokecube.compat.jei.Compat;
 import pokecube.compat.jei.ingredients.Pokemob;
 import pokecube.core.PokecubeItems;
-import pokecube.core.recipes.MoveRecipe;
-import thut.lib.TComponent;
 
 import java.awt.*;
-import java.util.List;
 
 public class Category implements IRecipeCategory<InteractRecipe>
 {
@@ -52,7 +48,7 @@ public class Category implements IRecipeCategory<InteractRecipe>
     @Override
     public Component getTitle()
     {
-        return TComponent.literal(this.localizedName);
+        return Component.literal(this.localizedName);
     }
 
     @Override
@@ -79,10 +75,10 @@ public class Category implements IRecipeCategory<InteractRecipe>
     {
         final Rectangle arrow = new Rectangle(44, 18, 32, 17);
         if (!arrow.contains(mouseX, mouseY)) return;
-        if (!recipe.interaction.male) builder.add(TComponent.translatable("gui.jei.pokemob.nogender",
-                TComponent.translatable("gui.jei.pokemob.gender.male")));
-        if (!recipe.interaction.female) builder.add(TComponent.translatable("gui.jei.pokemob.nogender",
-                TComponent.translatable("gui.jei.pokemob.gender.female")));
+        if (!recipe.interaction.male) builder.add(Component.translatableEscape("gui.jei.pokemob.nogender",
+                Component.translatable("gui.jei.pokemob.gender.male")));
+        if (!recipe.interaction.female) builder.add(Component.translatableEscape("gui.jei.pokemob.nogender",
+                Component.translatable("gui.jei.pokemob.gender.female")));
     }
 
     @Override

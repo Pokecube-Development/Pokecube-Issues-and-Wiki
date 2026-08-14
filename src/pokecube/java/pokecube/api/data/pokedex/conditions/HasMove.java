@@ -4,7 +4,6 @@ import net.minecraft.network.chat.Component;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.Tools;
 import pokecube.core.moves.MovesUtils;
-import thut.lib.TComponent;
 
 /**
  * This class matches a pokemob with the specified move<br>
@@ -27,6 +26,6 @@ public class HasMove extends PokemobCondition
     @Override
     public Component makeDescription()
     {
-        return TComponent.translatable("pokemob.description.evolve.move", MovesUtils.getMoveName(this.move, null));
+        return Component.translatableEscape("pokemob.description.evolve.move", MovesUtils.getMoveName(this.move, null));
     }
 }

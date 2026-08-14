@@ -4,6 +4,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.ClickEvent.Action;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
@@ -17,7 +18,6 @@ import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.database.Database;
 import pokecube.core.network.packets.PacketPokedex;
-import thut.lib.TComponent;
 
 import java.util.Collections;
 
@@ -98,14 +98,14 @@ public class Breeding extends ListPage<LineEntry>
         final PokedexEntry ourEntry = this.parent.pokemob.getPokedexEntry();
         this.list = new ScrollGui<>(this, this.minecraft, width, height, this.font.lineHeight, offsetX, offsetY);
 
-        MutableComponent main = TComponent.translatable(ourEntry.getUnlocalizedName());
+        MutableComponent main;
         if (!PacketPokedex.noBreeding.contains(ourEntry))
             for (final String name : PacketPokedex.relatedLists.getOrDefault(ourEntry.getTrimmedName(),
                     Collections.emptyList()))
             {
                 final PokedexEntry entry = Database.getEntry(name);
                 if (entry == null) continue;
-                main = TComponent.translatable(entry.getUnlocalizedName());
+                main = Component.translatable(entry.getUnlocalizedName());
                 main.setStyle(main.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_GRAY))
                         .withClickEvent(new ClickEvent(Action.CHANGE_PAGE, entry.getName())));
                 this.list.addEntry(

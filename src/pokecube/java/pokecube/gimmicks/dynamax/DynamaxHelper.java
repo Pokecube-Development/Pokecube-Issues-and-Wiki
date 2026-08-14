@@ -14,7 +14,6 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -49,7 +48,6 @@ import pokecube.core.eventhandlers.SpawnHandler.ForbiddenEntry;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import thut.api.Tracker;
 import thut.api.entity.genetics.GeneRegistry;
-import thut.lib.TComponent;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -147,10 +145,10 @@ public class DynamaxHelper
                 PokedexEntry newEntry = entry;
                 if (isDyna)
                 {
-                    Component mess = TComponent.translatable("pokemob.dynamax.command.revert", oldName);
+                    Component mess = Component.translatableEscape("pokemob.dynamax.command.revert", oldName);
                     pokemob.displayMessageToOwner(mess);
                     newEntry = pokemob.getBasePokedexEntry();
-                    mess = TComponent.translatable("pokemob.dynamax.revert", oldName);
+                    mess = Component.translatableEscape("pokemob.dynamax.revert", oldName);
                     MegaEvoTicker.scheduleRevert(newEntry, pokemob, mess);
                 }
                 else
@@ -161,7 +159,7 @@ public class DynamaxHelper
                     if (dynatime != 0 && time - dynatime < PokecubeCore.getConfig().dynamax_cooldown)
                     {
                         thut.lib.ChatHelper.sendSystemMessage(player,
-                                TComponent.translatable("pokemob.dynamax.too_soon", pokemob.getDisplayName()));
+                                Component.translatableEscape("pokemob.dynamax.too_soon", pokemob.getDisplayName()));
                         return true;
                     }
                     var info = DynamaxGene.getDyna(mob);
@@ -171,9 +169,9 @@ public class DynamaxHelper
                         if (gEntry != null) newEntry = gEntry;
                     }
 
-                    Component mess = TComponent.translatable("pokemob.dynamax.command.evolve", oldName);
+                    Component mess = Component.translatableEscape("pokemob.dynamax.command.evolve", oldName);
                     pokemob.displayMessageToOwner(mess);
-                    mess = TComponent.translatable("pokemob.dynamax.success", oldName);
+                    mess = Component.translatableEscape("pokemob.dynamax.success", oldName);
                     PokecubePlayerDataHandler.getCustomDataTag(reg, owner.getUUID()).putLong("pokecube:dynatime", time);
                     doDynamax(pokemob, newEntry, PokecubeCore.getConfig().dynamax_duration, mess);
                 }
@@ -181,9 +179,9 @@ public class DynamaxHelper
             }
             if (isDyna)
             {
-                Component mess = TComponent.translatable("pokemob.dynamax.command.revert", oldName);
+                Component mess = Component.translatableEscape("pokemob.dynamax.command.revert", oldName);
                 pokemob.displayMessageToOwner(mess);
-                mess = TComponent.translatable("pokemob.dynamax.revert", oldName);
+                mess = Component.translatableEscape("pokemob.dynamax.revert", oldName);
                 MegaEvoTicker.scheduleRevert(entry, pokemob, mess);
                 return true;
             }
@@ -207,7 +205,7 @@ public class DynamaxHelper
         {
             final LivingEntity owner = pokemob.getOwner();
             if (owner instanceof ServerPlayer player) thut.lib.ChatHelper.sendSystemMessage(player,
-                    TComponent.translatable("pokemob.dynamax.failed", pokemob.getDisplayName()));
+                    Component.translatableEscape("pokemob.dynamax.failed", pokemob.getDisplayName()));
         }
     }
 

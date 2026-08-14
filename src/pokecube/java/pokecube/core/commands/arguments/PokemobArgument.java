@@ -18,12 +18,12 @@ import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.synchronization.SuggestionProviders;
 import net.minecraft.nbt.Tag;
 import net.minecraft.nbt.TagParser;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.commands.arguments.PokemobArgument.PokemobInput;
 import pokecube.core.database.Database;
 import thut.core.common.ThutCore;
-import thut.lib.TComponent;
 
 public class PokemobArgument implements ArgumentType<PokemobInput>
 {
@@ -36,15 +36,11 @@ public class PokemobArgument implements ArgumentType<PokemobInput>
     private static final Collection<String> EXAMPLES = Arrays.asList("missingno", "rattata");
 
     public static final SuggestionProvider<CommandSourceStack> SUMMONABLE_ENTITIES = SuggestionProviders
-            .register(ResourceLocation.parse("pokedex_entries"), (provider, builder) ->
-            {
-                return SharedSuggestionProvider.suggest(Database.getSortedFormes(), builder, e -> e.getTrimmedName(),
-                        e -> TComponent.translatable(e.getName()));
-            });
+            .register(ResourceLocation.parse("pokedex_entries"), (provider, builder) -> SharedSuggestionProvider.suggest(Database.getSortedFormes(), builder,
+                    PokedexEntry::getTrimmedName,
+                    e -> Component.translatable(e.getName())));
 
-    public static final DynamicCommandExceptionType ERROR_UNKNOWN_ENTITY = new DynamicCommandExceptionType((thing) -> {
-        return TComponent.translatable("entity.notFound", thing);
-    });
+    public static final DynamicCommandExceptionType ERROR_UNKNOWN_ENTITY = new DynamicCommandExceptionType((thing) -> Component.translatableEscape("entity.notFound", thing));
 
     public static PokemobInput getEntry(CommandContext<CommandSourceStack> stack, String key)
             throws CommandSyntaxException
@@ -57,9 +53,8 @@ public class PokemobArgument implements ArgumentType<PokemobInput>
         if (name.endsWith("*"))
         {
             var key = name.length() > 1 ? name.substring(0, name.length() - 1) : "";
-            var entries = Database.getSortedFormes().stream().filter(e -> key.isBlank() || e.getName().startsWith(key))
+            return Database.getSortedFormes().stream().filter(e -> key.isBlank() || e.getName().startsWith(key))
                     .toList();
-            return entries;
         }
         var entry = Database.getEntry(name);
         if (entry == null) return Collections.emptyList();
@@ -83,7 +78,7 @@ public class PokemobArgument implements ArgumentType<PokemobInput>
         String s = reader.getString().substring(i, reader.getCursor());
         var entries = getMatching(s);
         if (entries.isEmpty()) throw ERROR_UNKNOWN_ENTITY.create(reader);
-        PokedexEntry entry = entries.size() == 1 ? entries.get(0)
+        PokedexEntry entry = entries.size() == 1 ? entries.getFirst()
                 : entries.get(ThutCore.newRandom().nextInt(entries.size()));
         if (entry == null) throw ERROR_UNKNOWN_ENTITY.create(reader);
         PokemobInput resp = new PokemobInput();

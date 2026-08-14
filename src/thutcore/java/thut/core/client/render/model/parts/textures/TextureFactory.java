@@ -2,7 +2,6 @@ package thut.core.client.render.model.parts.textures;
 
 import com.mojang.blaze3d.platform.NativeImage;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
 import thut.lib.ResourceHelper;
@@ -30,7 +29,7 @@ public class TextureFactory
         }
         // default this negative so not more than expected if not found.
         NativeImage img = null;
-        if (ResourceHelper.exists(mcmeta, Minecraft.getInstance().getResourceManager()))
+        if (ResourceHelper.exists(mcmeta))
         {
             // If has mcmeta file, read info from that, and hand in -1 for
             // img_h, as it will determine it itself.

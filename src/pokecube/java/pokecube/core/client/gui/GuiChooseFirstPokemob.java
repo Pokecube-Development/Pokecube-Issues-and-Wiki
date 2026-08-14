@@ -32,7 +32,6 @@ import pokecube.core.database.Database;
 import pokecube.core.entity.genetics.genes.SizeGene;
 import pokecube.core.network.packets.PacketChoose;
 import pokecube.core.utils.Resources;
-import thut.lib.TComponent;
 
 public class GuiChooseFirstPokemob extends Screen
 {
@@ -61,7 +60,7 @@ public class GuiChooseFirstPokemob extends Screen
 
     public GuiChooseFirstPokemob(PokedexEntry[] _starters)
     {
-        super(TComponent.translatable("pokecube.starter.select"));
+        super(Component.translatable("pokecube.starter.select"));
         if (_starters == null) _starters = Database.getStarters();
         GuiChooseFirstPokemob.starters = _starters;
         this.player = PokecubeCore.proxy.getPlayer();
@@ -93,13 +92,13 @@ public class GuiChooseFirstPokemob extends Screen
         final int yOffset = 110;
         if (GuiChooseFirstPokemob.starters.length > 0)
         {
-            final Component next = TComponent.translatable("pokewatch.button.next");
+            final Component next = Component.translatable("pokewatch.button.next");
             this.addRenderableWidget(this.next = new Button.Builder(next, (b) -> {
                 this.index++;
                 if (this.index >= GuiChooseFirstPokemob.starters.length) this.index = 0;
             }).bounds(this.width / 2 - xOffset + 65, this.height / 2 - yOffset, 50, 20).build());
 
-            final Component prev = TComponent.translatable("pokewatch.button.previous");
+            final Component prev = Component.translatable("pokewatch.button.previous");
             this.addRenderableWidget(this.prev = new Button.Builder(prev, (b) -> {
                 if (this.index > 0) this.index--;
                 else this.index = GuiChooseFirstPokemob.starters.length - 1;
@@ -107,13 +106,13 @@ public class GuiChooseFirstPokemob extends Screen
         }
 
         this.addRenderableWidget(
-                this.choose = new Button.Builder(TComponent.translatable("gui.pokemob.select"), (b) -> {
+                this.choose = new Button.Builder(Component.translatable("gui.pokemob.select"), (b) -> {
                     this.sendMessage(this.pokedexEntry);
                     this.player.closeContainer();
                 }).bounds(this.width / 2 - xOffset - 25, this.height / 2 - yOffset + 160, 50, 20).build());
 
         this.addRenderableWidget(
-                this.accept = new Button.Builder(TComponent.translatable("gui.pokemob.accept"), (b) -> {
+                this.accept = new Button.Builder(Component.translatable("gui.pokemob.accept"), (b) -> {
                     this.gotSpecial = true;
 
                     this.next.visible = true;
@@ -129,7 +128,7 @@ public class GuiChooseFirstPokemob extends Screen
                     }
                 }).bounds(this.width / 2 - xOffset + 64, this.height / 2 - yOffset + 30, 50, 20).build());
 
-        this.addRenderableWidget(this.deny = new Button.Builder(TComponent.translatable("gui.pokemob.deny"), (b) -> {
+        this.addRenderableWidget(this.deny = new Button.Builder(Component.translatable("gui.pokemob.deny"), (b) -> {
             this.next.visible = true;
             this.prev.visible = true;
             this.choose.visible = true;

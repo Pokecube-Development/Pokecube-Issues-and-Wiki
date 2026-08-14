@@ -18,7 +18,6 @@ import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.network.pokemobs.PacketSyncNewMoves;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
-import thut.lib.TComponent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -285,8 +284,8 @@ public interface IHasMoves extends IHasStats
                 learned = true;
                 if (thisMob.getOwner() != null && thisEntity.isAlive())
                 {
-                    final Component move = TComponent.translatable(MovesUtils.getUnlocalizedMove(moveName));
-                    final Component mess = TComponent.translatable("pokemob.move.notify.learn",
+                    final Component move = Component.translatable(MovesUtils.getUnlocalizedMove(moveName));
+                    final Component mess = Component.translatableEscape("pokemob.move.notify.learn",
                             thisMob.getDisplayName(), move);
                     thisMob.displayMessageToOwner(mess);
                 }
@@ -298,7 +297,7 @@ public interface IHasMoves extends IHasStats
         {
             final Component mess = CommandTools.makeTranslatedMessage("pokemob.move.notify.learn", "",
                     thisMob.getDisplayName().getString(),
-                    TComponent.translatable(MovesUtils.getUnlocalizedMove(moveName)));
+                    Component.translatable(MovesUtils.getUnlocalizedMove(moveName)));
             thisMob.displayMessageToOwner(mess);
             this.getMoveStats().addPendingMove(moveName, (IPokemob) this);
             return;

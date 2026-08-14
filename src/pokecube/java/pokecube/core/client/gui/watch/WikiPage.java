@@ -13,7 +13,6 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
-import net.minecraft.world.item.ItemStack;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.helper.TexButton;
@@ -26,7 +25,6 @@ import pokecube.core.database.rewards.XMLRewardsHandler.FreeBookParser.PagesFile
 import pokecube.core.database.rewards.XMLRewardsHandler.FreeBookParser.PagesFile.Page;
 import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.handlers.PokedexInspector.IInspectReward;
-import thut.lib.TComponent;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -58,7 +56,7 @@ public class WikiPage extends ListPage<LineEntry>
 
     public WikiPage(final GuiPokeWatch watch)
     {
-        super(TComponent.translatable("pokewatch.title.wiki"), watch, WikiPage.TEX_DM, WikiPage.TEX_NM);
+        super(Component.translatable("pokewatch.title.wiki"), watch, WikiPage.TEX_DM, WikiPage.TEX_NM);
     }
 
     @Override
@@ -112,8 +110,8 @@ public class WikiPage extends ListPage<LineEntry>
     {
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2;
-        final Component next = TComponent.literal("");
-        final Component prev = TComponent.literal("");
+        final Component next = Component.literal("");
+        final Component prev = Component.literal("");
 
         super.initList();
         this.setList();
@@ -228,7 +226,7 @@ public class WikiPage extends ListPage<LineEntry>
                         ref_val = ref_val.replace("{_ref_:", "").replace("}", "");
                     }
 
-                    final MutableComponent comp = TComponent.literal(line);
+                    final MutableComponent comp = Component.literal(line);
                     var list = this.font.getSplitter().splitLines(comp, 215, Style.EMPTY);
                     Style style = Style.EMPTY;
 
@@ -244,7 +242,7 @@ public class WikiPage extends ListPage<LineEntry>
                             entry = e;
                             style = entry.getStyle();
                         }
-                        else entry = TComponent.literal(element.getString());
+                        else entry = Component.literal(element.getString());
                         String text = entry.getString();
 
                         if (element instanceof Component c) style = c.getStyle();
@@ -253,14 +251,14 @@ public class WikiPage extends ListPage<LineEntry>
                         if (text.contains(linkin))
                         {
                             text = text.replace(linkin, "");
-                            entry = TComponent.literal(text);
+                            entry = Component.literal(text);
                             style = style.withClickEvent(new ClickEvent(Action.CHANGE_PAGE, link_val));
                         }
                         // We have a ref
                         if (text.contains(refin))
                         {
                             text = text.replace(refin, "");
-                            entry = TComponent.literal(text);
+                            entry = Component.literal(text);
                             this.refs.put(ref_val, this.list.getSize());
                         }
                         if (text.contains("�"))
@@ -274,7 +272,7 @@ public class WikiPage extends ListPage<LineEntry>
                                 index = _text.indexOf("�");
                             }
                         }
-                        else entry = TComponent.literal(fmt + text);
+                        else entry = Component.literal(fmt + text);
                         entry.setStyle(style);
                         final LineEntry wikiline = new WikiLine(this.list, 0, 0, this.font, entry.getVisualOrderText(),
                                 pagenum).setClickListner(listener);
@@ -282,7 +280,7 @@ public class WikiPage extends ListPage<LineEntry>
                     }
                 }
                 final LineEntry wikiline = new WikiLine(this.list, 0, 0, this.font,
-                        TComponent.literal("").getVisualOrderText(), pagenum);
+                        Component.literal("").getVisualOrderText(), pagenum);
                 this.list.addEntry(wikiline);
                 pagenum++;
             }

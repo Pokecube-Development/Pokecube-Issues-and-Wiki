@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
@@ -45,7 +46,6 @@ import thut.api.level.terrain.TerrainManager;
 import thut.bot.entity.BotPlayer;
 import thut.bot.entity.ai.BotAI;
 import thut.core.common.ThutCore;
-import thut.lib.TComponent;
 
 @BotAI(key = "thutbot:road")
 public class RoadBuilder extends AbstractBot
@@ -727,9 +727,9 @@ public class RoadBuilder extends AbstractBot
             if (opt.isPresent())
             {
                 // Front side of sign
-                opt.get().updateText(t -> t.setMessage(1, TComponent.translatable(this.subbiome)), true);
+                opt.get().updateText(t -> t.setMessage(1, Component.translatable(this.subbiome)), true);
                 // Back side of sign
-                opt.get().updateText(t -> t.setMessage(1, TComponent.translatable(this.subbiome)), false);
+                opt.get().updateText(t -> t.setMessage(1, Component.translatable(this.subbiome)), false);
             }
         }
     }

@@ -22,7 +22,6 @@ import pokecube.nbtedit.NBTStringHelper;
 import pokecube.nbtedit.nbt.NamedNBT;
 import pokecube.nbtedit.nbt.Node;
 import pokecube.nbtedit.nbt.ParseHelper;
-import thut.lib.TComponent;
 
 import java.util.function.Consumer;
 
@@ -125,7 +124,7 @@ public class GuiEditNBT extends AbstractWidget
             final boolean editValue)
     {
         super((parent.width - GuiEditNBT.WIDTH) / 2, (parent.height - GuiEditNBT.HEIGHT) / 2, GuiEditNBT.WIDTH,
-                GuiEditNBT.HEIGHT, TComponent.literal(""));
+                GuiEditNBT.HEIGHT, Component.literal(""));
         this.parent = parent;
         this.node = node;
         this.nbt = node.getObject().getNBT();
@@ -206,11 +205,11 @@ public class GuiEditNBT extends AbstractWidget
         else if (this.canEditValue) this.value.setFocused(true);
 
         this.save = this.parent.addTopWidget(
-                new Button.Builder(TComponent.literal("Save"), (b) -> this.saveAndQuit()).bounds(x + 9, y + 62, 75, 20)
+                new Button.Builder(Component.literal("Save"), (b) -> this.saveAndQuit()).bounds(x + 9, y + 62, 75, 20)
                         .build());
 
         this.quit = this.parent.addTopWidget(
-                new Button.Builder(TComponent.literal("Cancel"), (b) -> this.parent.closeWindow()).bounds(x + 93,
+                new Button.Builder(Component.literal("Cancel"), (b) -> this.parent.closeWindow()).bounds(x + 93,
                         y + 62, 75, 20).build());
     }
 

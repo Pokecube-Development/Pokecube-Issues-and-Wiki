@@ -14,7 +14,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -120,7 +119,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
         try
         {
             // Check if the model even exists
-            if (!ResourceHelper.exists(model, Minecraft.getInstance().getResourceManager()))
+            if (!ResourceHelper.exists(model))
             {
                 this.valid = false;
                 return;

@@ -1,5 +1,6 @@
 package pokecube.core.eventhandlers;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -22,7 +23,6 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
 import pokecube.core.utils.Permissions;
-import thut.lib.TComponent;
 
 public class StatsHandler
 {
@@ -64,7 +64,7 @@ public class StatsHandler
             evt.setCanceled(true);
             evt.setResult(TriState.FALSE);
             if (catcher instanceof Player player)
-                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
+                thut.lib.ChatHelper.sendSystemMessage(player, Component.translatable("pokecube.denied"));
             CaptureManager.onCaptureDenied(evt.pokecube);
             return;
         }
@@ -77,7 +77,7 @@ public class StatsHandler
             {
                 evt.setCanceled(true);
                 evt.setResult(TriState.FALSE);
-                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
+                thut.lib.ChatHelper.sendSystemMessage(player, Component.translatable("pokecube.denied"));
                 CaptureManager.onCaptureDenied(evt.pokecube);
                 return;
             }
@@ -93,7 +93,7 @@ public class StatsHandler
             }
             catch (final Exception e)
             {
-                PokecubeAPI.LOGGER.error("Error checking capture for " + entry, e);
+                PokecubeAPI.LOGGER.error("Error checking capture for {}", entry, e);
             }
 
             if (deny)
@@ -101,10 +101,9 @@ public class StatsHandler
                 evt.setCanceled(true);
                 evt.setResult(TriState.FALSE);
                 if (catcher instanceof Player player)
-                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
+                    thut.lib.ChatHelper.sendSystemMessage(player, Component.translatable("pokecube.denied"));
                 condition.onCaptureFail(catcher, evt.getCaught());
                 CaptureManager.onCaptureDenied(evt.pokecube);
-                return;
             }
         }
     }

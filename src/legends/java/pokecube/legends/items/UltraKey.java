@@ -29,7 +29,6 @@ import pokecube.legends.init.FeaturesInit;
 import pokecube.legends.init.ItemInit;
 import pokecube.legends.init.ParticleInit;
 import pokecube.legends.worldgen.DimensionTranserHelper;
-import thut.lib.TComponent;
 
 public class UltraKey extends ItemBase
 {
@@ -45,11 +44,11 @@ public class UltraKey extends ItemBase
     {
         if (Screen.hasShiftDown())
         {
-            tooltipComponents.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip"));
-            tooltipComponents.add(TComponent.translatable(I18n.get("legends." + this.tooltip_id + ".tooltip.line1",
+            tooltipComponents.add(Component.translatable("legends." + this.tooltip_id + ".tooltip"));
+            tooltipComponents.add(Component.translatable(I18n.get("legends." + this.tooltip_id + ".tooltip.line1",
                     PokecubeLegends.config.ultraKeyRequiredFuelAmount, ChatFormatting.LIGHT_PURPLE, ChatFormatting.BOLD)));
         }
-        else tooltipComponents.add(TComponent.translatable("pokecube.tooltip.advanced"));
+        else tooltipComponents.add(Component.translatable("pokecube.tooltip.advanced"));
     }
 
     @Override
@@ -136,7 +135,7 @@ public class UltraKey extends ItemBase
         {
             final String message = I18n.get("msg.pokecube_legends.ultrakey.no_dust",
                     PokecubeLegends.config.ultraKeyRequiredFuelAmount, ChatFormatting.RED, ChatFormatting.BOLD);
-            player.displayClientMessage(TComponent.translatable(message), true);
+            player.displayClientMessage(Component.translatable(message), true);
 
             teleportFailEffects(entity, world, ParticleInit.ERROR.get(), SoundEvents.AXE_SCRAPE, SoundEvents.BEACON_DEACTIVATE);
         } else

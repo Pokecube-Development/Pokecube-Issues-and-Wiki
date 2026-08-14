@@ -31,7 +31,6 @@ import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.core.common.handlers.PlayerDataHandler;
-import thut.lib.TComponent;
 
 public class StartWatch extends PageWithSubPages<PokeStartPage>
 {
@@ -65,7 +64,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
 
     public StartWatch(final GuiPokeWatch watch)
     {
-        super(TComponent.translatable(""), watch, GuiPokeWatch.TEX_DM, GuiPokeWatch.TEX_NM);
+        super(Component.translatable(""), watch, GuiPokeWatch.TEX_DM, GuiPokeWatch.TEX_NM);
         this.pokemob = watch.pokemob;
     }
 
@@ -218,7 +217,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
 
         // Play Sound Button
-        this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""),
+        this.addRenderableWidget(new TexButton.Builder(Component.literal(""),
                 b -> this.watch.player.playSound(this.pokemob.getSound(), 0.5f, 1.0F)).bounds(x - 78, y + 95, 12, 12)
                 .setRender(new UVImgRender(229, 72, 12, 12)).setTexture(GuiPokeWatch.getWidgetTex())
                 .tooltip(Tooltip.create(Component.translatable("button.pokecube.pokewatch.sound.tooltip")))
@@ -226,7 +225,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
                 .build());
 
         // Shiny Button
-        shiny = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
+        shiny = this.addRenderableWidget(new TexButton.Builder(Component.literal(""), b -> {
             if (this.pokemob.getPokedexEntry().hasShiny && !this.pokemob.getEntity().isAddedToLevel())
             {
                 this.pokemob.setShiny(!this.pokemob.isShiny());
@@ -239,7 +238,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
         shiny.active = this.pokemob.getPokedexEntry().hasShiny && !this.pokemob.getEntity().isAddedToLevel();
 
         // Change Forms Button
-        formChanger = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
+        formChanger = this.addRenderableWidget(new TexButton.Builder(Component.literal(""), b -> {
             if (this.pokemob.getEntity().isAddedToLevel()) return;
             PokedexEntry entry = this.pokemob.getPokedexEntry();
             PokedexEntry nextEntry = Pokedex.getInstance().getNextForm(entry);
@@ -260,14 +259,14 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
                 (firstEntry != nextEntry && previousEntry != firstEntry) && !this.pokemob.getEntity().isAddedToLevel();
 
         // Gender Button
-        Component genderText = TComponent.literal("");
+        Component genderText = Component.literal("");
         if (this.pokemob.getSexe() == IPokemob.MALE)
         {
-            genderText = TComponent.literal("♂");
+            genderText = Component.literal("♂");
         }
         else if (this.pokemob.getSexe() == IPokemob.FEMALE)
         {
-            genderText = TComponent.literal("♀");
+            genderText = Component.literal("♀");
         }
 
         StartWatch.gender = this.addRenderableWidget(new TexButton.Builder(genderText, b -> {
@@ -278,7 +277,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
             case IPokemob.MALE:
                 e = old.getForGender(IPokemob.FEMALE);
                 this.pokemob.setSexe(IPokemob.FEMALE);
-                b.setMessage(TComponent.literal("♀"));
+                b.setMessage(Component.literal("♀"));
                 b.setFGColor(ChatFormatting.DARK_RED.getColor());
                 if (e != old)
                 {
@@ -290,7 +289,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
             case IPokemob.FEMALE:
                 e = old.getForGender(IPokemob.MALE);
                 this.pokemob.setSexe(IPokemob.MALE);
-                b.setMessage(TComponent.literal("♂"));
+                b.setMessage(Component.literal("♂"));
                 b.setFGColor(ChatFormatting.DARK_BLUE.getColor());
                 if (e != old)
                 {

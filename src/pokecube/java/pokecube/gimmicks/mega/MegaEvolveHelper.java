@@ -26,7 +26,6 @@ import pokecube.core.items.megastuff.ItemMegawearable;
 import pokecube.gimmicks.mega.MegaCapability.MegaStone;
 import pokecube.gimmicks.mega.MegaCapability.MegaWearable;
 import thut.api.Tracker;
-import thut.lib.TComponent;
 import thut.wearables.ThutWearables;
 import thut.wearables.inventory.PlayerWearables;
 
@@ -111,24 +110,24 @@ public class MegaEvolveHelper
 
             if (isMega)
             {
-                Component mess = TComponent.translatable("pokemob.megaevolve.command.revert", oldName);
+                Component mess = Component.translatableEscape("pokemob.megaevolve.command.revert", oldName);
                 pokemob.displayMessageToOwner(mess);
                 newEntry = pokemob.getBasePokedexEntry();
-                mess = TComponent.translatable("pokemob.megaevolve.revert", oldName,
-                        TComponent.translatable(newEntry.getUnlocalizedName()));
+                mess = Component.translatableEscape("pokemob.megaevolve.revert", oldName,
+                        Component.translatable(newEntry.getUnlocalizedName()));
                 MegaEvoTicker.scheduleRevert(newEntry, pokemob, mess);
             }
             else if (newEntry != null)
             {
-                Component mess = TComponent.translatable("pokemob.megaevolve.command.evolve", oldName);
+                Component mess = Component.translatableEscape("pokemob.megaevolve.command.evolve", oldName);
                 pokemob.displayMessageToOwner(mess);
-                mess = TComponent.translatable("pokemob.megaevolve.success", oldName,
-                        TComponent.translatable(newEntry.getUnlocalizedName()));
+                mess = Component.translatableEscape("pokemob.megaevolve.success", oldName,
+                        Component.translatable(newEntry.getUnlocalizedName()));
                 MegaEvolveHelper.megaEvolve(pokemob, newEntry, mess);
             }
             else {
                 thut.lib.ChatHelper.sendSystemMessage(player,
-                        TComponent.translatable("pokemob.megaevolve.failed", pokemob.getDisplayName()));
+                        Component.translatableEscape("pokemob.megaevolve.failed", pokemob.getDisplayName()));
 
             }
             return true;
@@ -152,7 +151,7 @@ public class MegaEvolveHelper
         {
             final LivingEntity owner = pokemob.getOwner();
             if (owner instanceof ServerPlayer player) thut.lib.ChatHelper.sendSystemMessage(player,
-                    TComponent.translatable("pokecube.mega.noring", pokemob.getDisplayName()));
+                    Component.translatableEscape("pokecube.mega.noring", pokemob.getDisplayName()));
         }
 
     }

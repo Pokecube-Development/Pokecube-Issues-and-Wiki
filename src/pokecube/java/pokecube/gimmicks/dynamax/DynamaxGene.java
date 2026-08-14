@@ -6,7 +6,6 @@ import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import pokecube.api.PokecubeAPI;
@@ -24,7 +23,6 @@ import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.core.common.ThutCore;
-import thut.lib.TComponent;
 
 public class DynamaxGene implements Gene<DynaObject>
 {
@@ -151,11 +149,11 @@ public class DynamaxGene implements Gene<DynaObject>
             this.dynatime = entity.getPersistentData().getLong("pokecube:dynatime");
             if (!this.de_dyna && time - dynaEnd > this.dynatime)
             {
-                Component mess = TComponent.translatable("pokemob.dynamax.timeout.revert", pokemob.getDisplayName());
+                Component mess = Component.translatableEscape("pokemob.dynamax.timeout.revert", pokemob.getDisplayName());
                 pokemob.displayMessageToOwner(mess);
 
                 final PokedexEntry newEntry = pokemob.getBasePokedexEntry();
-                mess = TComponent.translatable("pokemob.dynamax.revert", pokemob.getDisplayName());
+                mess = Component.translatableEscape("pokemob.dynamax.revert", pokemob.getDisplayName());
                 MegaEvoTicker.scheduleRevert(PokecubeCore.getConfig().evolutionTicks / 2, newEntry, pokemob, mess);
                 if (PokecubeCore.getConfig().debug_commands) PokecubeAPI.logInfo("Reverting Dynamax");
 

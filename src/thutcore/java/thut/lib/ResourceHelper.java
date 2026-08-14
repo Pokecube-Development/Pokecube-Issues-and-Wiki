@@ -6,12 +6,18 @@ import java.io.InputStream;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 
 public class ResourceHelper
 {
+    public static BufferedReader getReader(ResourceLocation l)
+    {
+        return getReader(l, Minecraft.getInstance().getResourceManager());
+    }
+
     @Nullable
     public static BufferedReader getReader(ResourceLocation l, ResourceManager source)
     {
@@ -23,6 +29,11 @@ public class ResourceHelper
         {
             return null;
         }
+    }
+
+    public static InputStream getStream(ResourceLocation l)
+    {
+        return getStream(l, Minecraft.getInstance().getResourceManager());
     }
 
     @Nullable
@@ -38,17 +49,9 @@ public class ResourceHelper
         }
     }
 
-    @Nullable
-    public static Resource getResource(ResourceLocation l, ResourceManager source)
+    public static boolean exists(ResourceLocation l)
     {
-        try
-        {
-            return source.getResourceOrThrow(l);
-        }
-        catch (IOException e)
-        {
-            return null;
-        }
+        return exists(l, Minecraft.getInstance().getResourceManager());
     }
 
     public static boolean exists(ResourceLocation l, ResourceManager source)
