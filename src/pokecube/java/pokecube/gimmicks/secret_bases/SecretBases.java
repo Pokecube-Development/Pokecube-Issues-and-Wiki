@@ -2,8 +2,6 @@ package pokecube.gimmicks.secret_bases;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -25,7 +23,6 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.client.gui.watch.SecretBaseRadarPage;
 import pokecube.core.init.CoreCreativeTabs;
 import pokecube.core.network.packets.PacketPokedex;
 import pokecube.gimmicks.secret_bases.blocks.BaseBlock;
@@ -45,8 +42,7 @@ public class SecretBases
 
     static
     {
-        SECRET_BASE = PokecubeCore.BLOCKS
-                .register("secret_base",
+        SECRET_BASE = PokecubeCore.BLOCKS.register("secret_base",
                         () -> new BaseBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
                                 .requiresCorrectToolForDrops().strength(2000).sound(SoundType.STONE)
                                 .instrument(NoteBlockInstrument.BASEDRUM)));
@@ -74,9 +70,6 @@ public class SecretBases
             final GlobalPos here = GlobalPos.of(level.dimension(), pos);
             return SecretBaseDimension.getNearestBases(here, PokecubeCore.getConfig().baseRadarRange);
         });
-
-        SecretBaseRadarPage.RADAR_MODES.put("_bases_",
-                SecretBaseRadarPage.DEFAULT = new SecretBaseRadarPage.RadarMode("base", "_bases_", 1));
     }
 
     @SubscribeEvent
