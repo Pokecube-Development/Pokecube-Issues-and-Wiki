@@ -7,7 +7,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 public class HPThreshold implements MegaCondition
 {
     // Percentage threshold
-    public String threshold = "";
+    public int threshold = 0;
     public int _threshold = 0;
 
     @Override
@@ -18,13 +18,6 @@ public class HPThreshold implements MegaCondition
     }
 
     @Override
-    public void init(HolderLookup.Provider registries)
-    {
-        try
-        {
-            _threshold = Integer.parseInt(threshold);
-        } catch (NumberFormatException e) {}
-    }
-
+    public void init(HolderLookup.Provider registries) { _threshold = threshold; }
 }
 

@@ -32,6 +32,7 @@ import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.EntityTools;
+import pokecube.gimmicks.mega.MegaEvolveHelper;
 import thut.api.entity.genetics.Alleles;
 import thut.api.item.ItemList;
 import thut.core.common.ThutCore;
@@ -388,6 +389,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             // Sync ability back, or store old ability.
             if (!permanent)
             {
+                if (!MegaEvolveHelper.isMega(thisMob)) thisEntity.getPersistentData().remove("pokecube:mega_ability");
                 if (thisEntity.getPersistentData().contains("pokecube:mega_ability"))
                 {
                     final String ability = thisEntity.getPersistentData().getString("pokecube:mega_ability");

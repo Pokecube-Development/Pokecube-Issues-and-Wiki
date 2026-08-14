@@ -6,6 +6,7 @@ import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.moves.utils.MoveApplication.AccuracyProvider;
 import pokecube.api.moves.utils.MoveApplication.DamageApplier;
 import pokecube.api.moves.utils.MoveApplication.HealProvider;
+import pokecube.api.moves.utils.MoveApplication.LastMoveEffect;
 import pokecube.api.moves.utils.MoveApplication.OnMoveFail;
 import pokecube.api.moves.utils.MoveApplication.OngoingApplier;
 import pokecube.api.moves.utils.MoveApplication.PostMoveUse;
@@ -33,6 +34,7 @@ public class LoadedMove implements IMove
     public PreApplyTests doRun = null;
     public OngoingApplier applyOngoing = null;
     public PostMoveUse afterUse = null;
+    public LastMoveEffect lastMoveEffects = null;
     public OnMoveFail onFail = null;
 
     /**
@@ -184,6 +186,15 @@ public class LoadedMove implements IMove
     {
         return afterUse;
     }
+
+    /**
+     * This is called from the last move of the target after the user has used a move.
+     * If null, this will use LastMoveEffect.DEFAULT
+     * @param t
+     * @return
+     */
+    @Override
+    public LastMoveEffect getLastMoveEffect(MoveApplication t) { return lastMoveEffects; }
 
     @Nullable
     /**

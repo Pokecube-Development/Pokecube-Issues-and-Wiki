@@ -8,6 +8,7 @@ import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.moves.utils.MoveApplication.AccuracyProvider;
 import pokecube.api.moves.utils.MoveApplication.DamageApplier;
 import pokecube.api.moves.utils.MoveApplication.HealProvider;
+import pokecube.api.moves.utils.MoveApplication.LastMoveEffect;
 import pokecube.api.moves.utils.MoveApplication.OnMoveFail;
 import pokecube.api.moves.utils.MoveApplication.OngoingApplier;
 import pokecube.api.moves.utils.MoveApplication.PostMoveUse;
@@ -30,6 +31,7 @@ public interface IMove extends Consumer<MoveApplication>
         PreApplyTests doRun = this.getRunChecks(t);
         OngoingApplier applyOngoing = this.getOngoingEffect(t);
         PostMoveUse afterUse = this.getPostUse(t);
+        LastMoveEffect lastMoveEffects = this.getLastMoveEffect(t);
         OnMoveFail onFail = this.getOnFail(t);
 
         if (status != null) t.status = status;
@@ -41,6 +43,7 @@ public interface IMove extends Consumer<MoveApplication>
         if (doRun != null) t.doRun = doRun;
         if (applyOngoing != null) t.applyOngoing = applyOngoing;
         if (afterUse != null) t.afterUse = afterUse;
+        if (lastMoveEffects != null) t.lastMoveEffects = lastMoveEffects;
         if (onFail != null) t.onFail = onFail;
         preProcess(t);
     }
@@ -184,6 +187,15 @@ public interface IMove extends Consumer<MoveApplication>
     {
         return null;
     }
+
+    @Nullable
+    /**
+     * This is called from the last move of the target after the user has used a move.
+     * If null, this will use LastMoveEffect.DEFAULT
+     * @param t
+     * @return
+     */
+    default LastMoveEffect getLastMoveEffect(MoveApplication t) { return null; }
 
     @Nullable
     /**

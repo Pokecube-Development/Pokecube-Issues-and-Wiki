@@ -26,6 +26,7 @@ import pokecube.api.moves.utils.IMoveConstants.AttackCategory;
 import pokecube.api.utils.PokeType;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.tags.Tags;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.MovesUtils.StatDiff;
 import pokecube.core.moves.animations.AnimationMultiAnimations;
@@ -339,6 +340,10 @@ public class MoveApplication implements Comparable<MoveApplication>
                 t.hit = true;
                 t.didCrit = criticalRatio != 1;
             }
+            if (efficiency == -1)
+                t.getUser().getEntity().getPersistentData().putBoolean("lastMoveMissed", true);
+            else
+                t.getUser().getEntity().getPersistentData().remove("lastMoveMissed");
 
             int afterHealth = 0;
             if (attackedHp != null) afterHealth = (int) attackedHp.getHealth();
@@ -503,6 +508,24 @@ public class MoveApplication implements Comparable<MoveApplication>
         }
     }
 
+    // For moves with effects after the user used another move (e.g. protecting effects in kings shield)
+    public static interface LastMoveEffect
+    {
+        LastMoveEffect DEFAULT = new LastMoveEffect()
+        {};
+
+        /**
+         * The effect of this move when the target uses another move.
+         *
+         * @param lastMove the application of the move used by the attacker.
+         * @param nextMoveTarget the application of the move used by the target after lastMove.
+         */
+        default void applyLastMoveEffect(MoveApplication lastMove, MoveApplication nextMoveTarget)
+        {
+            //NO-OP
+        }
+    }
+
     public static interface OnMoveFail
     {
         OnMoveFail DEFAULT = new OnMoveFail()
@@ -611,6 +634,10 @@ public class MoveApplication implements Comparable<MoveApplication>
      */
     public PostMoveUse afterUse = PostMoveUse.DEFAULT;
     /**
+     * Runs checks after the next move used by the target.
+     */
+    public LastMoveEffect lastMoveEffects = LastMoveEffect.DEFAULT;
+    /**
      * This gets applied if the move has failed or is cancelled.
      */
     public OnMoveFail onFail = OnMoveFail.DEFAULT;
@@ -658,6 +685,7 @@ public class MoveApplication implements Comparable<MoveApplication>
         this.apply_number++;
         if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Applying move: {} used by {}", getMove().name,
                 this.getUser().getDisplayName().getString());
+        PokecubeAPI.logInfo(getTarget().getName().getString());
 
         // then basic events and checks.
         // Events are: Pre, Post
@@ -666,17 +694,20 @@ public class MoveApplication implements Comparable<MoveApplication>
         // Fire the pre event, if cancelled, assume someone else is handling the
         // moves.
         if (PokecubeAPI.MOVE_BUS.post(preEvent).isCanceled()) return;
-
+        getUser().getEntity().getPersistentData().remove("pokecube:lastMoveFailed");
         boolean no_run = this.canceled || this.failed;
         // Now check other things, such as possible move failure.
         if (no_run || !(no_run = doRun.checkPreApply(this)) || this.getTarget() == null)
         {
-            // for now, buth have the same message, as "cancelled" and
+            // for now, both have the same message, as "cancelled" and
             // "failed" are normally similar causes.
 
             // If the attacked was null, this message should tell at least
             // the user that things broke.
             MovesUtils.displayEfficiencyMessages(user, getTarget(), -2, 0);
+
+            // For any move that has different functionality if the last move failed (e.g. stomping tantrum)
+            getUser().getEntity().getPersistentData().putBoolean("pokecube:lastMoveFailed", true);
 
             // We can get here if we had no target, but otherwise the move
             // worked. This can be the case for using move on terrain, etc. In
@@ -700,6 +731,10 @@ public class MoveApplication implements Comparable<MoveApplication>
 
         // Now process infatuation if it occured
         final IPokemob targetPokemob = PokemobCaps.getPokemobFor(getTarget());
+        if (getTarget() instanceof Player player)
+        {
+            PokecubeAPI.logInfo(player.getName().getString() + " is the target!");
+        }
         // Now lets set infatuation if needed
         if (infatuate && targetPokemob != null) targetPokemob.getMoveStats().infatuateTarget = user.getEntity();
 
@@ -724,10 +759,18 @@ public class MoveApplication implements Comparable<MoveApplication>
             if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Applying Ongoing Effect Checks");
             applyOngoing.applyOngoingEffects(dealt);
         }
+
+        // Apply checks for the last move the target used.
+        if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Applying Last Move Checks");
+        if (targetPokemob != null)
+        {
+            MoveApplication lastMoveTarget = targetPokemob.getMoveStats().lastMoveApplication;
+            if (lastMoveTarget != null) lastMoveTarget.lastMoveEffects.applyLastMoveEffect(lastMoveTarget, this);
+        }
+        else PokecubeAPI.logInfo(getTarget().getName().getString());
         // Now apply the after move use, this gets done even if it missed.
         if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Applying Post Move Checks");
         afterUse.applyPostMove(dealt);
-
         PokecubeAPI.MOVE_BUS.post(postEvent);
     }
 
