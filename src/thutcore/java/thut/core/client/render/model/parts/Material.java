@@ -1,12 +1,9 @@
 package thut.core.client.render.model.parts;
 
 import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;

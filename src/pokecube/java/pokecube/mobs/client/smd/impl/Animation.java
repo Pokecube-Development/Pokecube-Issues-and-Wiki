@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix4f;
 import thut.lib.ResourceHelper;
@@ -80,7 +79,7 @@ public class Animation
      */
     private void loadAnimation(ResourceLocation resloc) throws Exception
     {
-        final BufferedReader reader = ResourceHelper.getReader(resloc, Minecraft.getInstance().getResourceManager());
+        final BufferedReader reader = ResourceHelper.getReader(resloc);
         if (reader == null) throw new FileNotFoundException(resloc.toString());
         String currentLine = null;
         int lineCount = 0;

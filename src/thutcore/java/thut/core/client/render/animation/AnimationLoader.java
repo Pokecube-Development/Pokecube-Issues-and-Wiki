@@ -474,7 +474,7 @@ public class AnimationLoader
     {
         try
         {
-            InputStream stream = ResourceHelper.getStream(animations, Minecraft.getInstance().getResourceManager());
+            InputStream stream = ResourceHelper.getStream(animations);
             if (stream == null) throw new FileNotFoundException(animations.toString());
             if (ThutCore.conf.debug_models) ThutCore.LOGGER.debug("Loading " + animations + " for " + holder.name);
             AnimationLoader.parse(stream, holder, model, renderer);

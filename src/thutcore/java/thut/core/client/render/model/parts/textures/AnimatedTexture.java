@@ -7,7 +7,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.blaze3d.platform.NativeImage;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.Tickable;
 import net.minecraft.resources.ResourceLocation;
 import thut.api.util.JsonUtil;
@@ -112,7 +111,6 @@ public class AnimatedTexture extends BaseTexture implements Tickable
         super(location);
         try
         {
-            var manager = Minecraft.getInstance().getResourceManager();
             if (img == null)
             {
                 img = this.getImage();
@@ -120,7 +118,7 @@ public class AnimatedTexture extends BaseTexture implements Tickable
             if (hasMeta)
             {
                 ResourceLocation mcmeta = ResourceLocation.fromNamespaceAndPath(location.getNamespace(), location.getPath() + ".mcmeta");
-                var reader = ResourceHelper.getReader(mcmeta, manager);
+                var reader = ResourceHelper.getReader(mcmeta);
                 info = JsonUtil.gson.fromJson(reader, McMeta.class).animation;
                 if (info != null)
                 {

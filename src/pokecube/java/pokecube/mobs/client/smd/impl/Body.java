@@ -11,7 +11,6 @@ import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -133,7 +132,7 @@ public class Body implements IRetexturableModel
 
     private void loadModel(final ResourceLocation resloc, final Body body) throws Exception
     {
-        final BufferedReader reader = ResourceHelper.getReader(resloc, Minecraft.getInstance().getResourceManager());
+        final BufferedReader reader = ResourceHelper.getReader(resloc);
         if (reader == null) throw new FileNotFoundException(resloc.toString());
         String currentLine = null;
         int lineCount = -1;

@@ -3,7 +3,6 @@ package thut.core.client.render.model;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +13,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import org.joml.Matrix3f;
@@ -121,7 +119,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         {
             // Check if the model even exists
             this.last_loaded = l;
-            if (!ResourceHelper.exists(l, Minecraft.getInstance().getResourceManager()))
+            if (!ResourceHelper.exists(l))
             {
                 this.valid = false;
                 return;
