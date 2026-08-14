@@ -27,6 +27,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.entity.genetics.genes.AbilityGene;
+import pokecube.core.entity.genetics.genes.SpeciesGene;
 import pokecube.core.eventhandlers.PokemobEventsHandler.EvoTicker;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.damage.attributes.PokecubeAttributes;
@@ -328,16 +329,18 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
 
         Alleles<AbilityGene.AbilityObject, AbilityGene> geneAbility = thisMob.getGenes().getAlleles(GeneticsManager.ABILITYGENE);
         final AbilityGene abilityGene = geneAbility.getExpressed();
-        final Ability abilityObject = abilityGene.getValue().abilityObject;
+        Ability abilityObject = abilityGene.getValue().abilityObject;
         Ability specialAbility = null; // For pokemobs with abilities like battle bond that aren't their normal or hidden abilities
 
+        Alleles<SpeciesGene.SpeciesInfo, SpeciesGene> genesSpecies = thisMob.getGenes().getAlleles(GeneticsManager.SPECIESGENE);
+        SpeciesGene.SpeciesInfo speciesGene = genesSpecies.getExpressed().getValue();
+
         // If the ability is not in the current or new entry, then keep it.
-        if (thisEntity.getPersistentData().contains("pokecube:specialability") ||  !this.getPokedexEntry().abilities.contains(abilityObject.toString()) && !this.getPokedexEntry().abilitiesHidden.contains(abilityObject.toString()))
+        if (thisEntity.getPersistentData().contains("pokecube:special_ability") || (!oldEntry.abilities.contains(abilityObject.toString()) && !oldEntry.abilitiesHidden.contains(abilityObject.toString())))
         {
             specialAbility = abilityObject;
-            thisMob.getEntity().getPersistentData().remove("pokecube:specialability");
-            thisMob.getEntity().getPersistentData().putBoolean("pokecube:specialability", true);
             PokecubeAPI.logInfo(abilityObject + " on " + thisMob.getDisplayName().getString() + " is a special ability, keeping it");
+            thisEntity.getPersistentData().putBoolean("pokecube:special_ability", true);
         }
 
         if (newEntry != null && newEntry != oldEntry)
@@ -369,6 +372,9 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 evolution.setUUID(uuid);
 
                 this.setEntity(mob);
+
+                // Set permanent entry
+                speciesGene.setEntry(newEntry);
                 // sync these separately, as often are linked to the Tameable itself
                 if(ownerE!=null) this.setOwner(ownerE);
                 else this.setOwner(owner);
@@ -380,16 +386,12 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             // Flag the mob as evolving.
             thisMob.setGeneralState(GeneralStates.EVOLVING, true);
 
-            // Set entry, this should fix expressed species gene.
-            thisMob.setPokedexEntry(newEntry);
-
             // Remove this tag if present.
             evolution.getPersistentData().remove("pokecube:mega_base");
 
             // Sync ability back, or store old ability.
             if (!permanent)
             {
-                if (!MegaEvolveHelper.isMega(thisMob)) thisEntity.getPersistentData().remove("pokecube:mega_ability");
                 if (thisEntity.getPersistentData().contains("pokecube:mega_ability"))
                 {
                     final String ability = thisEntity.getPersistentData().getString("pokecube:mega_ability");
@@ -408,6 +410,9 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                         PokecubeAPI.logInfo("Mega Evolving, changing ability to " + ability);
                     if (ability != null) thisMob.setAbilityRaw(ability);
                 }
+
+                // Set temporary entry
+                speciesGene.setTmpEntry(newEntry);
             }
 
             final EvolveEvent evt = new EvolveEvent.Post(thisMob);
@@ -417,7 +422,9 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 EvoTicker.scheduleEvolve(thisEntity, evolution, immediate);
         }
         if (specialAbility != null)
+        {
             thisMob.setAbilityRaw(specialAbility);
+        }
         return true;
     }
 
