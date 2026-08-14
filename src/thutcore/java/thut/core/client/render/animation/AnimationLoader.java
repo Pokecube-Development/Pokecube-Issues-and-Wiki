@@ -5,10 +5,10 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Vector3f;
-import org.w3c.dom.Node;
 import thut.api.ModelHolder;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
+import thut.api.entity.animation.AnimationLoadEvent;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.api.entity.animation.IAnimationChanger.WornOffsets;
 import thut.api.maths.Vector3;
@@ -96,7 +96,7 @@ public class AnimationLoader
         return new Vector3f(x, y, z);
     }
 
-    public static void parse(@Nonnull InputStream stream, @Nonnull ModelHolder holder, @Nonnull IModel model,
+    private static void parse(@Nonnull InputStream stream, @Nonnull ModelHolder holder, @Nonnull IModel model,
             @Nullable IModelRenderer<?> renderer)
     {
         try
@@ -469,7 +469,7 @@ public class AnimationLoader
         }
     }
 
-    public static boolean parse(final ModelHolder holder, final IModel model, final IModelRenderer<?> renderer,
+    private static boolean parse(final ModelHolder holder, final IModel model, final IModelRenderer<?> renderer,
             ResourceLocation animations)
     {
         try
@@ -489,15 +489,28 @@ public class AnimationLoader
 
     public static void parse(final ModelHolder holder, final IModel model, final IModelRenderer<?> renderer)
     {
+        ThutCore.FORGE_BUS.post(new AnimationLoadEvent.Pre(holder, model, renderer));
         final ResourceLocation anims = holder.animation;
-        if (anims == null && holder.backupAnimations.isEmpty()) return;
+        if (anims == null && holder.backupAnimations.isEmpty())
+        {
+            ThutCore.FORGE_BUS.post(new AnimationLoadEvent.Fail(holder, model, renderer));
+            return;
+        }
         if (!AnimationLoader.parse(holder, model, renderer, anims))
         {
             for (final ResourceLocation loc : holder.backupAnimations)
-                if (AnimationLoader.parse(holder, model, renderer, loc)) return;
+                if (AnimationLoader.parse(holder, model, renderer, loc))
+                {
+                    ThutCore.FORGE_BUS.post(new AnimationLoadEvent.Post(holder, model, renderer));
+                    return;
+                }
         }
-        else return;
-
+        else
+        {
+            ThutCore.FORGE_BUS.post(new AnimationLoadEvent.Post(holder, model, renderer));
+            return;
+        }
+        ThutCore.FORGE_BUS.post(new AnimationLoadEvent.Fail(holder, model, renderer));
         ThutCore.LOGGER.error("Error in parsing animation file {} for {}, also checked {}", holder.animation,
                 holder.name, holder.backupAnimations);
     }
@@ -507,14 +520,5 @@ public class AnimationLoader
         final String[] r = toSplit.split(",");
         toFill[0] = Float.parseFloat(r[0]);
         toFill[1] = Float.parseFloat(r[1]);
-    }
-
-    public static void setHeadCaps(final Node node, final float[] toFill, final float[] toFill1)
-    {
-        if (node.getAttributes() == null) return;
-        if (node.getAttributes().getNamedItem("headCap") != null)
-            AnimationLoader.setHeadCaps(node.getAttributes().getNamedItem("headCap").getNodeValue(), toFill);
-        if (node.getAttributes().getNamedItem("headCap1") != null)
-            AnimationLoader.setHeadCaps(node.getAttributes().getNamedItem("headCap1").getNodeValue(), toFill1);
     }
 }
