@@ -685,7 +685,6 @@ public class MoveApplication implements Comparable<MoveApplication>
         this.apply_number++;
         if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Applying move: {} used by {}", getMove().name,
                 this.getUser().getDisplayName().getString());
-        PokecubeAPI.logInfo(getTarget().getName().getString());
 
         // then basic events and checks.
         // Events are: Pre, Post
