@@ -154,6 +154,8 @@ public class MoveApplicationRegistry
         {
             // Now let's apply the move for as many hits as we can
             moveApplication.apply();
+            // Set the last move application to the just applied MoveAppliction
+            moveApplication.getUser().getMoveStats().lastMoveApplication = moveApplication;
             // If we missed, reset this.
             if (!moveApplication.hit) hits = -1;
         }

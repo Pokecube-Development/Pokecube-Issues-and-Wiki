@@ -134,8 +134,6 @@ public class PokemobMoveStats
         targettingSelf = false;
         synchronized (movesInProgress)
         {
-            movesInProgress.forEach(moveApplication ->
-                    lastMoveApplication = moveApplication.isFinished() ? moveApplication : lastMoveApplication);
             movesInProgress.removeIf(MoveApplication::isFinished);
             for (var move : movesInProgress)
             {

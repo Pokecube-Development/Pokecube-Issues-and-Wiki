@@ -685,7 +685,6 @@ public class MoveApplication implements Comparable<MoveApplication>
         this.apply_number++;
         if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Applying move: {} used by {}", getMove().name,
                 this.getUser().getDisplayName().getString());
-        PokecubeAPI.logInfo(getTarget().getName().getString());
 
         // then basic events and checks.
         // Events are: Pre, Post
@@ -696,6 +695,7 @@ public class MoveApplication implements Comparable<MoveApplication>
         if (PokecubeAPI.MOVE_BUS.post(preEvent).isCanceled()) return;
         getUser().getEntity().getPersistentData().remove("pokecube:lastMoveFailed");
         boolean no_run = this.canceled || this.failed;
+        final IPokemob targetPokemob = PokemobCaps.getPokemobFor(getTarget());
         // Now check other things, such as possible move failure.
         if (no_run || !(no_run = doRun.checkPreApply(this)) || this.getTarget() == null)
         {
@@ -714,6 +714,14 @@ public class MoveApplication implements Comparable<MoveApplication>
             // that case, we still want to play sounds.
             if (!no_run) this.getMove().playSounds(this);
 
+            // Apply checks for the last move the target used.
+            if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Applying Last Move Checks");
+            if (targetPokemob != null)
+            {
+                MoveApplication lastMoveTarget = targetPokemob.getMoveStats().lastMoveApplication;
+                if (lastMoveTarget != null) lastMoveTarget.lastMoveEffects.applyLastMoveEffect(lastMoveTarget, this);
+            }
+
             // Run the on failure.
             onFail.onMoveFail(this);
 
@@ -730,11 +738,6 @@ public class MoveApplication implements Comparable<MoveApplication>
         this.getMove().playSounds(this);
 
         // Now process infatuation if it occured
-        final IPokemob targetPokemob = PokemobCaps.getPokemobFor(getTarget());
-        if (getTarget() instanceof Player player)
-        {
-            PokecubeAPI.logInfo(player.getName().getString() + " is the target!");
-        }
         // Now lets set infatuation if needed
         if (infatuate && targetPokemob != null) targetPokemob.getMoveStats().infatuateTarget = user.getEntity();
 
@@ -767,7 +770,7 @@ public class MoveApplication implements Comparable<MoveApplication>
             MoveApplication lastMoveTarget = targetPokemob.getMoveStats().lastMoveApplication;
             if (lastMoveTarget != null) lastMoveTarget.lastMoveEffects.applyLastMoveEffect(lastMoveTarget, this);
         }
-        else PokecubeAPI.logInfo(getTarget().getName().getString());
+
         // Now apply the after move use, this gets done even if it missed.
         if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Applying Post Move Checks");
         afterUse.applyPostMove(dealt);

@@ -188,7 +188,7 @@ public class ItemPokedex extends Item
             thut.lib.ChatHelper.sendSystemMessage(playerIn, message);
         }
 
-        if (!playerIn.isCrouching())
+        if (!playerIn.isCrouching() || context.getHand() == InteractionHand.OFF_HAND)
         {
             final Entity entityHit = Tools.getPointedEntity(playerIn, 16, 0.5);
             final IPokemob pokemob = PokemobCaps.getPokemobFor(entityHit);
