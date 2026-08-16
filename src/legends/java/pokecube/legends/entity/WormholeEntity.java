@@ -749,8 +749,12 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
     public void addAdditionalSaveData(final CompoundTag nbt)
     {
         CompoundTag tag = new CompoundTag();
-        this.getDest().writeToNBT(tag);
-        nbt.put("warp_dest", tag);
+        var dest = this.getDest();
+        if (dest != null)
+        {
+            dest.writeToNBT(tag);
+            nbt.put("warp_dest", tag);
+        }
         tag = new CompoundTag();
         this.getAnchorPos().writeToNBT(tag);
         nbt.put("anchor_pos", tag);
