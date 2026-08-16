@@ -1,7 +1,9 @@
 package pokecube.gimmicks.secret_bases;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -12,6 +14,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -21,6 +24,7 @@ import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.init.CoreCreativeTabs;
@@ -30,6 +34,7 @@ import pokecube.gimmicks.secret_bases.blocks.BaseTile;
 import pokecube.gimmicks.secret_bases.command.SecretBase;
 import pokecube.gimmicks.secret_bases.dimension.SecretBaseDimension;
 import thut.api.attachments.Ownable;
+import thut.lib.RegHelper;
 
 import java.util.function.Supplier;
 
@@ -37,24 +42,43 @@ import java.util.function.Supplier;
 @EventBusSubscriber(modid = PokecubeCore.MODID)
 public class SecretBases
 {
+    public static final DeferredRegister.Blocks BLOCKS;
+    public static final DeferredRegister.Items ITEMS;
+    public static final DeferredRegister<BlockEntityType<?>> TILES;
+    public static final DeferredRegister<MapCodec<? extends ChunkGenerator>> CHUNKGEN;
+
     public static final Supplier<BlockEntityType<?>> BASE_TYPE;
     public static final DeferredBlock<Block> SECRET_BASE;
-
+    public static final Supplier<MapCodec<SecretBaseDimension.SecretChunkGenerator>> SECRET_BASEGEN;
     static
     {
-        SECRET_BASE = PokecubeCore.BLOCKS.register("secret_base",
+        // Setup the DeferredRegisters
+        BLOCKS = DeferredRegister.createBlocks(PokecubeCore.MODID);
+        ITEMS = DeferredRegister.createItems(PokecubeCore.MODID);
+        TILES = DeferredRegister.create(RegHelper.BLOCK_ENTITY_TYPE_REGISTRY, PokecubeCore.MODID);
+        CHUNKGEN = DeferredRegister.create(BuiltInRegistries.CHUNK_GENERATOR, PokecubeCore.MODID);
+
+        // Register the block
+        SECRET_BASE = BLOCKS.register("secret_base",
                         () -> new BaseBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
                                 .requiresCorrectToolForDrops().strength(2000).sound(SoundType.STONE)
                                 .instrument(NoteBlockInstrument.BASEDRUM)));
-        PokecubeCore.ITEMS.register(SECRET_BASE.getId().getPath(), () -> new BlockItem(SECRET_BASE.get(), new Item.Properties()));
+        // Then register the item
+        ITEMS.register(SECRET_BASE.getId().getPath(), () -> new BlockItem(SECRET_BASE.get(), new Item.Properties()));
 
-        BASE_TYPE = PokecubeCore.TILES.register("secret_base",
+        BASE_TYPE = TILES.register("secret_base",
                 () -> BlockEntityType.Builder.of(BaseTile::new, SECRET_BASE.get()).build(null));
+        SECRET_BASEGEN = CHUNKGEN.register("secret_base",
+                () -> SecretBaseDimension.SecretChunkGenerator.CODEC);
     }
 
     public SecretBases(IEventBus bus)
     {
-        SecretBaseDimension.onConstruct(bus);
+        // Register the DeferredRegisters
+        BLOCKS.register(bus);
+        ITEMS.register(bus);
+        TILES.register(bus);
+        CHUNKGEN.register(bus);
         PokecubeItems.DEFAULT_OWNABLE_TE.add(SecretBase.class);
     }
 

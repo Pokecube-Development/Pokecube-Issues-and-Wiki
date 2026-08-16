@@ -21,6 +21,7 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
@@ -33,6 +34,7 @@ import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.Nullable;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.ai.IInhabitor;
@@ -57,6 +59,7 @@ import thut.api.attachments.Inventory;
 import thut.api.data.HolderProvider;
 import thut.api.inventory.InvHelper;
 import thut.api.item.ItemList;
+import thut.lib.RegHelper;
 
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -65,6 +68,10 @@ import java.util.function.Supplier;
 @EventBusSubscriber(modid = PokecubeCore.MODID)
 public class NestTasks
 {
+    public static final DeferredRegister.Blocks BLOCKS;
+    public static final DeferredRegister.Items ITEMS;
+    public static final DeferredRegister<BlockEntityType<?>> TILES;
+
     public static final DeferredBlock<Block> NEST;
     public static final Supplier<BlockEntityType<NestTile>> NEST_TYPE;
     public static final DeferredHolder<PoiType, PoiType> NEST_POI_TYPE;
@@ -72,14 +79,19 @@ public class NestTasks
 
     static
     {
-        NEST = PokecubeCore.BLOCKS.register("nest",
+        // Setup the DeferredRegisters
+        BLOCKS = DeferredRegister.createBlocks(PokecubeCore.MODID);
+        ITEMS = DeferredRegister.createItems(PokecubeCore.MODID);
+        TILES = DeferredRegister.create(RegHelper.BLOCK_ENTITY_TYPE_REGISTRY, PokecubeCore.MODID);
+
+        NEST = BLOCKS.register("nest",
                 () -> new NestBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).ignitedByLava()
                         .strength(0.5F).isValidSpawn(PokecubeItems::ocelotOrParrot).sound(SoundType.MANGROVE_ROOTS)
                         .instrument(NoteBlockInstrument.HARP).pushReaction(PushReaction.NORMAL)));
-        PokecubeCore.ITEMS.register(NEST.getId().getPath(), () -> new BlockItem(NEST.get(), new Item.Properties()));
+        ITEMS.register(NEST.getId().getPath(), () -> new BlockItem(NEST.get(), new Item.Properties()));
 
 
-        NEST_TYPE = PokecubeCore.TILES.register("nest",
+        NEST_TYPE = TILES.register("nest",
                 () -> BlockEntityType.Builder.of(NestTile::new, NEST.get()).build(null));
         NEST_POI_TYPE = PointsOfInterest.REG.register("pokemob_nest",
                 () -> new PoiType(Sets.newHashSet(NEST.get().getStateDefinition().getPossibleStates()), 1,
@@ -88,8 +100,14 @@ public class NestTasks
         init();
     }
 
-    public NestTasks()
+    public NestTasks(IEventBus bus)
     {
+        // Register the DeferredRegisters
+        BLOCKS.register(bus);
+        ITEMS.register(bus);
+        TILES.register(bus);
+
+        // Register custom listeners for the POKEMOB_BUS
         PokecubeAPI.POKEMOB_BUS.addListener(EventPriority.LOW, NestTasks::onHatch);
     }
 

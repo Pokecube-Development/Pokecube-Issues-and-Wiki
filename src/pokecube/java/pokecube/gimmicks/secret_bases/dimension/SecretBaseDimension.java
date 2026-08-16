@@ -55,11 +55,6 @@ import java.util.function.Supplier;
 
 public class SecretBaseDimension
 {
-    public static void onConstruct(final IEventBus bus)
-    {
-        DimensionRegister.CHUNKGEN.register(bus);
-    }
-
     public static void sendToBase(final ServerPlayer player, final UUID baseOwner)
     {
         final GlobalPos pos = SecretBaseDimension.getSecretBaseLoc(baseOwner, player.getServer(), true);
@@ -305,21 +300,6 @@ public class SecretBaseDimension
             SecretBaseDimension.IDLOC);
 
     public static final double WORLDSIZE = 2 * 2999984;
-
-    @EventBusSubscriber(modid = PokecubeCore.MODID)
-    public static class DimensionRegister
-    {
-        public static final DeferredRegister<MapCodec<? extends ChunkGenerator>> CHUNKGEN = DeferredRegister.create(
-                BuiltInRegistries.CHUNK_GENERATOR, PokecubeCore.MODID);
-        public static final Supplier<MapCodec<SecretChunkGenerator>> SECRET_BASE = CHUNKGEN.register("secret_base",
-                () -> SecretChunkGenerator.CODEC);
-
-        @SubscribeEvent
-        public static void dummy(FMLLoadCompleteEvent event)
-        {
-
-        }
-    }
 
     @EventBusSubscriber(value = Dist.CLIENT)
     public static class ClientEventHandler

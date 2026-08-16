@@ -20,12 +20,14 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.SharedAttributes;
@@ -48,6 +50,7 @@ import pokecube.core.eventhandlers.SpawnHandler.ForbiddenEntry;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import thut.api.Tracker;
 import thut.api.entity.genetics.GeneRegistry;
+import thut.lib.RegHelper;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -59,23 +62,38 @@ import java.util.function.Supplier;
 @EventBusSubscriber(modid = PokecubeCore.MODID)
 public class DynamaxHelper
 {
+    public static final DeferredRegister.Blocks BLOCKS;
+    public static final DeferredRegister.Items ITEMS;
+    public static final DeferredRegister<BlockEntityType<?>> TILES;
+
     public static final DeferredBlock<Block> DYNAMAX;
     public static final Supplier<BlockEntityType<?>> MAX_TYPE;
 
     static
     {
-        DYNAMAX = PokecubeCore.BLOCKS.register("dynamax",
+        // Setup the DeferredRegisters
+        BLOCKS = DeferredRegister.createBlocks(PokecubeCore.MODID);
+        ITEMS = DeferredRegister.createItems(PokecubeCore.MODID);
+        TILES = DeferredRegister.create(RegHelper.BLOCK_ENTITY_TYPE_REGISTRY, PokecubeCore.MODID);
+
+        // Register the block
+        DYNAMAX = BLOCKS.register("dynamax",
                 () -> new MaxBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA).strength(0.8F)
                         .requiresCorrectToolForDrops().noOcclusion().forceSolidOn().lightLevel(i -> 5)
                         .sound(SoundType.AMETHYST_CLUSTER)));
-        PokecubeCore.ITEMS.register(DYNAMAX.getId().getPath(), () -> new BlockItem(DYNAMAX.get(), new Item.Properties()));
+        // Then register the item
+        ITEMS.register(DYNAMAX.getId().getPath(), () -> new BlockItem(DYNAMAX.get(), new Item.Properties()));
 
-        MAX_TYPE = PokecubeCore.TILES.register("dynamax",
+        MAX_TYPE = TILES.register("dynamax",
                 () -> BlockEntityType.Builder.of(MaxTile::new, DYNAMAX.get()).build(null));
     }
 
-    public DynamaxHelper()
+    public DynamaxHelper(IEventBus bus)
     {
+        // Register the DeferredRegisters
+        BLOCKS.register(bus);
+        ITEMS.register(bus);
+        TILES.register(bus);
     }
 
     @SubscribeEvent
