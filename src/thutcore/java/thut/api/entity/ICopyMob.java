@@ -131,6 +131,7 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
         final LivingEntity living = this.getCopiedMob();
         if (living != null && holder != null)
         {
+            living.getPersistentData().putBoolean("__copy_tick__", true);
             living.setId(-(holder.getId() + 100));
             living.noPhysics = true;
             living.level = holder.level;
@@ -163,7 +164,7 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
                 living.setHealth(holder.getHealth());
                 living.setAirSupply(holder.getAirSupply());
             }
-
+            living.getPersistentData().remove("__copy_tick__");
         }
     }
 

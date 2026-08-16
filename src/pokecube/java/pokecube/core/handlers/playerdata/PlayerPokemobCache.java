@@ -35,6 +35,7 @@ public class PlayerPokemobCache extends PlayerData
     public static void UpdateCache(final IPokemob mob)
     {
         if (!mob.isPlayerOwned() || mob.getOwnerId() == null) return;
+        if (mob.getEntity().getPersistentData().contains("__copy_tick__")) return;
         if (!mob.getEntity().isEffectiveAi()) return;
         final ItemStack stack = PokecubeManager.pokemobToItem(mob);
         final MinecraftServer server = ThutCore.proxy.getServer();
