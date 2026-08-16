@@ -482,7 +482,7 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
                     return true;
                 });
                 final float boom = 0.5f * this.uses;
-                this.level.explode(this, this.getX(), this.getY(), this.getZ(), boom, Level.ExplosionInteraction.NONE);
+                if (boom > 0) this.level.explode(this, this.getX(), this.getY(), this.getZ(), boom, Level.ExplosionInteraction.NONE);
                 this.discard();
             }
             return;
