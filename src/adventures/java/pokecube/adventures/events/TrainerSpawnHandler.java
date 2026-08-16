@@ -206,8 +206,9 @@ public class TrainerSpawnHandler
 
             final IHasRewards rewardsCap = npc.getData(TrainerCaps.REWARDS);
             final PokeType type = PokeType.values()[ThutCore.newRandom().nextInt(PokeType.values().length)];
+            String _type = type == PokeType.unknown ? "unknown" : type.name;
             final Item item = BuiltInRegistries.ITEM.get(
-                    ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID, "badge_" + type));
+                    ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID, "badge_" + _type));
             if (item != null)
             {
                 final ItemStack badge = new ItemStack(item);
