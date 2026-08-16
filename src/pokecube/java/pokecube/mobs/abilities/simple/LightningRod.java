@@ -12,14 +12,24 @@ import pokecube.core.moves.MovesUtils;
 public class LightningRod extends Ability
 {
     @Override
+    public int beforeDamage(IPokemob mob, MoveApplication move, int damage)
+    {
+        boolean weAreTarget = mob.getEntity() == move.getTarget() && mob.getAbility() == this;
+        if (weAreTarget && move.getMove().getType(move.getUser()) == PokeType.getType("electric") && move.getTarget() == mob)
+            return 0;
+        return super.beforeDamage(mob, move, damage);
+    }
+
+    @Override
     public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
-        if (mob.getEntity() == move.getTarget() && move.type == PokeType.getType("electric"))
-        {
+        if (!areWeTarget(mob, move)) return;
+        if (move.getMove().getType(move.getUser()) == PokeType.getType("electric")) {
             move.canceled = true;
             byte boost = IMoveConstants.SPATACK;
             MovesUtils.handleStats2(mob, mob.getOwner(), boost, IMoveConstants.RAISE);
         }
+
     }
 
 }
