@@ -9,6 +9,8 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.core.GlobalPos;
+import net.minecraft.core.SectionPos;
+import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceKey;
@@ -392,16 +394,35 @@ public final class SpawnHandler
         return new BlockPos(x, y, z);
     }
 
+    public static int TIME_SEED_FACTOR = 1200; // Default 1200 ticks, about 1 minute
+
+    public static long getSeed(Vec3i pos, ServerLevel level)
+    {
+        // First by coordinate
+        long seed = getSeed(pos.getX(), pos.getY(), pos.getZ());
+        // Now add from level seed
+        seed ^= level.getSeed();
+        // Now add from time of day
+        var rng = new LegacyRandomSource(level.getDayTime() / TIME_SEED_FACTOR);
+        seed ^= rng.nextLong();
+        return seed;
+    }
+
+    public static long getSeed(int x, int y, int z)
+    {
+        long i = (long)(x * 3129871) ^ (long)z * 116129781L ^ (long)y;
+        i = i * i * 42317861L + i * 11L;
+        return i >> 16;
+    }
+
     public static Vector3 getRandomPointNear(final ServerLevel world, final Vector3 pos, final int range,
             SpawnEvent.SpawnSurface surfaceMatch)
     {
         // Lets try a few times
         int n = 16;
-        long seed = world.getSeed()^(world.getDayTime()<<12);
-        var rngFactory = new LegacyRandomSource.LegacyPositionalRandomFactory(seed);
-        var cPos = ChunkCoordinate.getChunkCoordFromWorldCoord(pos.getPos(), world);
-        var rng = rngFactory.at(cPos.pos().getX(),cPos.pos().getY(),cPos.pos().getZ());
-        rng.consumeCount(32);
+        SectionPos spos = SectionPos.of(pos.getPos());
+        long seed = getSeed(spos, world);
+        var rng = new LegacyRandomSource(seed);
         while (n-- > 0)
         {
             int dx = rng.nextInt(range);

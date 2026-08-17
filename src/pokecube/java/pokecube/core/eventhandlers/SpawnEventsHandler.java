@@ -135,10 +135,8 @@ public class SpawnEventsHandler
         final List<PokedexEntry> entries = Lists.newArrayList(Database.spawnables);
 
         SectionPos pos = SectionPos.of(v.getPos());
-        // This gives us a fixed random value for the location
-        long seedA = pos.asLong() ^ world.getSeed();
-        // This now makes it also depend on the time of the day.
-        seedA ^= world.dayTime() / 600;
+        // This gives us a fixed random value for the location, as well as time of day
+        long seedA = SpawnHandler.getSeed(pos, world);
         Random rand = new Random(seedA);
 
         SpawnCheck filter = new SpawnCheck(v, world);
@@ -151,7 +149,8 @@ public class SpawnEventsHandler
 
         if (entries.isEmpty()) return;
 
-        // Now we shuffle it
+        // Now we shuffle it, we want more random order than just picking
+        // a random starting point, then going from there...
         Collections.shuffle(entries, rand);
 
         double random = rand.nextDouble();
