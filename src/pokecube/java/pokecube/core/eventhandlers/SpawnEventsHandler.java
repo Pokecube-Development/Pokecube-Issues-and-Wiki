@@ -277,7 +277,7 @@ public class SpawnEventsHandler
                     entity.moveTo(vec31.x, vec31.y, vec31.z, f, entity.getXRot());
                     if (entity instanceof Mob mob)
                     {
-                        mob.finalizeSpawn(level, level.getCurrentDifficultyAt(BlockPos.containing(vec31)),
+                        EventHooks.finalizeMobSpawn(mob, level, level.getCurrentDifficultyAt(BlockPos.containing(vec31)),
                                 MobSpawnType.STRUCTURE, null);
                         level.addFreshEntityWithPassengers(entity);
                     }

@@ -336,13 +336,13 @@ public final class SpawnHandler
         SpawnHandler.forbidReasons.clear();
     }
 
-    public static Mob creatureSpecificInit(final Mob MobEntity, final Level world, final SpawnBiomeMatcher matcher)
+    public static Mob creatureSpecificInit(final Mob mob, final Level world, final SpawnBiomeMatcher matcher)
     {
         // call the neoforge FinalizeSpawnEvent notifying of the spawn
-        EventHooks.finalizeMobSpawn(MobEntity, (ServerLevelAccessor) world,
-                world.getCurrentDifficultyAt(world.getSharedSpawnPos()), MobSpawnType.NATURAL, null);
+        EventHooks.finalizeMobSpawn(mob, (ServerLevelAccessor) world,
+                world.getCurrentDifficultyAt(mob.getOnPos()), MobSpawnType.NATURAL, null);
         // Then call the spawn init stuff for the pokemob itself
-        IPokemob pokemob = PokemobCaps.getPokemobFor(MobEntity);
+        IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         if (pokemob != null)
         {
             pokemob = pokemob.spawnInit(matcher.spawnRule);
