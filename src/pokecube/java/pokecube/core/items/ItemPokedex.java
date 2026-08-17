@@ -47,7 +47,7 @@ import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.network.packets.PacketDataSync;
 import pokecube.core.network.packets.PacketPokedex;
-import thut.api.level.structures.NamedVolumes.INamedStructure;
+import thut.api.level.structures.NamedVolumes.INamedVolume;
 import thut.api.level.structures.StructureManager;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
@@ -120,8 +120,8 @@ public class ItemPokedex extends Item
             // datapacks/configs.
             if (PokecubeCore.getConfig().debug_misc)
             {
-                final Set<INamedStructure> infos = StructureManager.getFor(level.dimension(), pos, false);
-                for (final INamedStructure i : infos)
+                final Set<INamedVolume> infos = StructureManager.getFor(level.dimension(), pos, false);
+                for (final INamedVolume i : infos)
                 {
                     thut.lib.ChatHelper.sendSystemMessage(player, Component.literal(i.getName()));
                     BlockPos.betweenClosedStream(i.getTotalBounds()).forEach(p -> {

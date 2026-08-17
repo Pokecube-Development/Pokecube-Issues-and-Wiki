@@ -6,7 +6,7 @@ import net.minecraft.world.level.Level;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.data.spawns.SpawnCheck.MatchResult;
-import thut.api.level.structures.NamedVolumes.INamedStructure;
+import thut.api.level.structures.NamedVolumes.INamedVolume;
 import thut.api.level.structures.StructureManager;
 
 public interface StructureMatcher extends MatchChecker
@@ -15,7 +15,7 @@ public interface StructureMatcher extends MatchChecker
     {
         if (!matcher._validStructures.isEmpty())
         {
-            final Set<INamedStructure> set = StructureManager.getFor(((Level) checker.world).dimension(),
+            final Set<INamedVolume> set = StructureManager.getFor(((Level) checker.world).dimension(),
                     checker.pos, false);
             for (var i : set) if (matcher._validStructures.contains(i.getName())) return MatchResult.SUCCEED;
             return MatchResult.FAIL;

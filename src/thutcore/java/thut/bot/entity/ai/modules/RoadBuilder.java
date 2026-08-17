@@ -39,7 +39,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.item.ItemList;
-import thut.api.level.structures.NamedVolumes.INamedStructure;
+import thut.api.level.structures.NamedVolumes.INamedVolume;
 import thut.api.level.structures.StructureManager;
 import thut.api.level.terrain.BiomeType;
 import thut.api.level.terrain.TerrainManager;
@@ -605,7 +605,7 @@ public class RoadBuilder extends AbstractBot
                 pos = BlockPos.containing(vec);
 
                 // If too close to a structure, skip point
-                final Set<INamedStructure> inside = StructureManager.getNear(level.dimension(), pos, 2, false);
+                final Set<INamedVolume> inside = StructureManager.getNear(level.dimension(), pos, 2, false);
                 if (!inside.isEmpty()) continue;
 
                 // check if we need this edge at all

@@ -12,13 +12,23 @@ import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 import thut.lib.RegHelper;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
 
 public class NamedVolumes
 {
     public static interface INamedPart
     {
+        /**
+         * @return The name of this part
+         */
         String getName();
+        /**
+         * @return A key for the deserialiser for this part for loading it from nbt, etc.
+         */
+        String getType();
 
         BoundingBox getBounds();
 
@@ -33,9 +43,17 @@ public class NamedVolumes
         }
     }
 
-    public static interface INamedStructure
+    public static interface INamedVolume
     {
+        /**
+         * @return The name of this volume, does not need to be unique or registered anywhere
+         */
         String getName();
+
+        /**
+         * @return A key for the deserialiser for this volume for loading it from nbt, etc.
+         */
+        String getType();
 
         default boolean is(String name)
         {
@@ -87,7 +105,10 @@ public class NamedVolumes
         return b.isInside(pos);
     }
 
-    public static class NamedStructureWrapper implements INamedStructure
+    public static Map<String, Supplier<INamedVolume>> VOLUMES_FACTORY_REGISTRY = new HashMap<>();
+    public static Map<String, Supplier<INamedPart>> PART_FACTORY_REGISTRY = new HashMap<>();
+
+    public static class NamedStructureWrapper implements INamedVolume
     {
         List<INamedPart> parts = Lists.newArrayList();
         final String name;
@@ -116,7 +137,7 @@ public class NamedVolumes
         @Override
         public boolean equals(final Object obj)
         {
-            if (!(obj instanceof INamedStructure)) return false;
+            if (!(obj instanceof INamedVolume)) return false;
             return obj.toString().equals(this.toString());
         }
 
@@ -136,9 +157,15 @@ public class NamedVolumes
         }
 
         @Override
+        public String getType()
+        {
+            return "minecraft:structure";
+        }
+
+        @Override
         public boolean is(String name)
         {
-            if (INamedStructure.super.is(name)) return true;
+            if (INamedVolume.super.is(name)) return true;
             var key = RegHelper.STRUCTURE_REGISTRY;
             var tag = TagKey.create(key, ResourceLocation.parse(name));
             var registry = level.registryAccess().registryOrThrow(key);
@@ -187,6 +214,12 @@ public class NamedVolumes
         public String getName()
         {
             return name;
+        }
+
+        @Override
+        public String getType()
+        {
+            return "minecraft:structure_part";
         }
 
         @Override

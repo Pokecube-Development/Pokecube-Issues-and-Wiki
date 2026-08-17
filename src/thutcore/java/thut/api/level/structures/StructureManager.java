@@ -11,7 +11,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.level.ChunkEvent;
-import thut.api.level.structures.NamedVolumes.INamedStructure;
+import thut.api.level.structures.NamedVolumes.INamedVolume;
 import thut.api.level.structures.NamedVolumes.NamedStructureWrapper;
 import thut.api.level.terrain.GlobalChunkPos;
 import thut.core.common.ThutCore;
@@ -28,9 +28,9 @@ public class StructureManager
      * This is a cache of loaded chunks, it is used to prevent thread lock contention when trying to look up a chunk, as
      * it seems that world.chunkExists returning true does not mean that you can just go and ask for the chunk...
      */
-    public static Map<GlobalChunkPos, Set<INamedStructure>> map_by_pos = Maps.newHashMap();
+    public static Map<GlobalChunkPos, Set<INamedVolume>> map_by_pos = Maps.newHashMap();
 
-    public static void addStructure(ResourceKey<Level> dim, INamedStructure structure)
+    public static void addStructure(ResourceKey<Level> dim, INamedVolume structure)
     {
         final BoundingBox b = structure.getTotalBounds();
         if (b.getXSpan() > 2560 || b.getZSpan() > 2560)
@@ -43,38 +43,38 @@ public class StructureManager
             {
                 final ChunkPos p = new ChunkPos(x, z);
                 final GlobalChunkPos pos = new GlobalChunkPos(dim, p);
-                final Set<INamedStructure> set = StructureManager.getOrMake(pos);
+                final Set<INamedVolume> set = StructureManager.getOrMake(pos);
                 set.add(structure);
             }
     }
 
-    public static Set<INamedStructure> getOrMake(final GlobalChunkPos pos)
+    public static Set<INamedVolume> getOrMake(final GlobalChunkPos pos)
     {
         return StructureManager.map_by_pos.computeIfAbsent(pos, k -> Sets.newHashSet());
     }
 
-    public static void remove(ResourceKey<Level> dim, BoundingBox b, Predicate<INamedStructure> structure)
+    public static void remove(ResourceKey<Level> dim, BoundingBox b, Predicate<INamedVolume> structure)
     {
         for (int x = b.minX() >> 4; x <= b.maxX() >> 4; x++)
             for (int z = b.minZ() >> 4; z <= b.maxZ() >> 4; z++)
             {
                 final ChunkPos p = new ChunkPos(x, z);
                 final GlobalChunkPos pos = new GlobalChunkPos(dim, p);
-                final Set<INamedStructure> forPos = StructureManager.map_by_pos.getOrDefault(pos,
+                final Set<INamedVolume> forPos = StructureManager.map_by_pos.getOrDefault(pos,
                         Collections.emptySet());
                 if (!forPos.isEmpty()) forPos.removeIf(structure);
             }
     }
 
-    public static Set<INamedStructure> getColliding(ResourceKey<Level> dim, BoundingBox b)
+    public static Set<INamedVolume> getColliding(ResourceKey<Level> dim, BoundingBox b)
     {
-        final Set<INamedStructure> matches = Sets.newHashSet();
+        final Set<INamedVolume> matches = Sets.newHashSet();
         for (int x = b.minX() >> 4; x <= b.maxX() >> 4; x++)
             for (int z = b.minZ() >> 4; z <= b.maxZ() >> 4; z++)
             {
                 final ChunkPos p = new ChunkPos(x, z);
                 final GlobalChunkPos pos = new GlobalChunkPos(dim, p);
-                final Set<INamedStructure> forPos = StructureManager.map_by_pos.getOrDefault(pos,
+                final Set<INamedVolume> forPos = StructureManager.map_by_pos.getOrDefault(pos,
                         Collections.emptySet());
                 forPos.forEach(structure -> {
                     if (b.intersects(structure.getTotalBounds())) matches.add(structure);
@@ -83,31 +83,31 @@ public class StructureManager
         return matches;
     }
 
-    public static Set<INamedStructure> getFor(final ResourceKey<Level> dim, final BlockPos loc, boolean forSubbiome)
+    public static Set<INamedVolume> getFor(final ResourceKey<Level> dim, final BlockPos loc, boolean forSubbiome)
     {
         final GlobalChunkPos pos = new GlobalChunkPos(dim, new ChunkPos(loc));
-        final Set<INamedStructure> forPos = StructureManager.map_by_pos.getOrDefault(pos, Collections.emptySet());
+        final Set<INamedVolume> forPos = StructureManager.map_by_pos.getOrDefault(pos, Collections.emptySet());
         if (forPos.isEmpty()) return forPos;
-        final Set<INamedStructure> matches = Sets.newHashSet();
-        for (final INamedStructure i : forPos) if (i.isIn(loc, forSubbiome)) matches.add(i);
+        final Set<INamedVolume> matches = Sets.newHashSet();
+        for (final INamedVolume i : forPos) if (i.isIn(loc, forSubbiome)) matches.add(i);
         return matches;
     }
 
-    private static Set<INamedStructure> getNearInt(final ResourceKey<Level> dim, final BlockPos loc, final ChunkPos pos,
+    private static Set<INamedVolume> getNearInt(final ResourceKey<Level> dim, final BlockPos loc, final ChunkPos pos,
             final int distance, boolean forSubbiome)
     {
         final GlobalChunkPos gpos = new GlobalChunkPos(dim, pos);
-        final Set<INamedStructure> forPos = StructureManager.map_by_pos.getOrDefault(gpos, Collections.emptySet());
+        final Set<INamedVolume> forPos = StructureManager.map_by_pos.getOrDefault(gpos, Collections.emptySet());
         if (forPos.isEmpty()) return forPos;
-        final Set<INamedStructure> matches = Sets.newHashSet();
-        for (final INamedStructure i : forPos) if (i.isNear(loc, distance, forSubbiome)) matches.add(i);
+        final Set<INamedVolume> matches = Sets.newHashSet();
+        for (final INamedVolume i : forPos) if (i.isNear(loc, distance, forSubbiome)) matches.add(i);
         return matches;
     }
 
-    public static Set<INamedStructure> getNear(final ResourceKey<Level> dim, final BlockPos loc, final int distance,
+    public static Set<INamedVolume> getNear(final ResourceKey<Level> dim, final BlockPos loc, final int distance,
             boolean forSubbiome)
     {
-        final Set<INamedStructure> matches = Sets.newHashSet();
+        final Set<INamedVolume> matches = Sets.newHashSet();
         final ChunkPos origin = new ChunkPos(loc);
         int dr = SectionPos.blockToSectionCoord(distance);
         dr = Math.max(dr, 1);

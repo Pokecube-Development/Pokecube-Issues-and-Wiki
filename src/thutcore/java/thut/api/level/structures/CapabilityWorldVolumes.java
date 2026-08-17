@@ -20,19 +20,16 @@ import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import thut.api.level.structures.NamedVolumes.INamedPart;
-import thut.api.level.structures.NamedVolumes.INamedStructure;
+import thut.api.level.structures.NamedVolumes.INamedVolume;
 
-public class CapabilityWorldStructures implements INBTSerializable<CompoundTag>
+public class CapabilityWorldVolumes implements INBTSerializable<CompoundTag>
 {
     public static class Building implements INamedPart, INBTSerializable<CompoundTag>
     {
         String name;
         BoundingBox bounds;
 
-        public Building(HolderLookup.Provider registries, CompoundTag tag)
-        {
-            this.deserializeNBT(registries, tag);
-        }
+        public Building(){}
 
         public Building(String name, BoundingBox box)
         {
@@ -44,6 +41,12 @@ public class CapabilityWorldStructures implements INBTSerializable<CompoundTag>
         public String getName()
         {
             return name;
+        }
+
+        @Override
+        public String getType()
+        {
+            return "thutcore:building_part";
         }
 
         @Override
@@ -69,19 +72,15 @@ public class CapabilityWorldStructures implements INBTSerializable<CompoundTag>
         }
     }
 
-    public static class Structure implements INamedStructure, INBTSerializable<CompoundTag>
+    public static class Structure implements INamedVolume, INBTSerializable<CompoundTag>
     {
         String name;
         BoundingBox bounds;
         List<INamedPart> buildings = Lists.newArrayList();
 
         private int hash = -1;
-        private String key;
 
-        public Structure(HolderLookup.Provider registries, CompoundTag tag)
-        {
-            this.deserializeNBT(registries, tag);
-        }
+        public Structure(){}
 
         public Structure(String name, BoundingBox box)
         {
@@ -99,16 +98,16 @@ public class CapabilityWorldStructures implements INBTSerializable<CompoundTag>
         @Override
         public boolean equals(final Object obj)
         {
-            if (!(obj instanceof INamedStructure)) return false;
+            if (!(obj instanceof INamedVolume)) return false;
             return obj.toString().equals(this.toString());
         }
 
         @Override
         public String toString()
         {
-            this.key = this.getName() + " " + this.getTotalBounds();
-            this.hash = this.key.hashCode();
-            return this.key;
+            String key = this.getName() + " " + this.getTotalBounds();
+            this.hash = key.hashCode();
+            return key;
         }
 
         @SuppressWarnings("deprecation")
@@ -122,6 +121,12 @@ public class CapabilityWorldStructures implements INBTSerializable<CompoundTag>
         public String getName()
         {
             return name;
+        }
+
+        @Override
+        public String getType()
+        {
+            return "thutcore:structure";
         }
 
         @Override
@@ -144,9 +149,9 @@ public class CapabilityWorldStructures implements INBTSerializable<CompoundTag>
             tag.put("bounds", BoundingBox.CODEC.encodeStart(NbtOps.INSTANCE, this.bounds).getOrThrow());
             ListTag list = new ListTag();
             this.buildings.forEach(b -> {
-                if (b instanceof Building building)
+                if(b instanceof INBTSerializable<?> sera)
                 {
-                    list.add(building.serializeNBT(registries));
+                    list.add(sera.serializeNBT(registries));
                 }
             });
             tag.put("buildings", list);
@@ -163,23 +168,59 @@ public class CapabilityWorldStructures implements INBTSerializable<CompoundTag>
             list.forEach(tag -> {
                 if (tag instanceof CompoundTag comp)
                 {
-                    buildings.add(new Building(registries, comp));
+                    var key = comp.getString("key");
+
+                    // LEGACY Support TODO remove this.
+                    if(key.isEmpty())
+                    {
+                        var part = new Building();
+                        part.deserializeNBT(registries, comp);
+                        buildings.add(part);
+                        return;
+                    }
+
+                    var data = comp.getCompound("tag");
+                    if(NamedVolumes.PART_FACTORY_REGISTRY.containsKey(key))
+                    {
+                        var factory = NamedVolumes.PART_FACTORY_REGISTRY.get(key);
+                        var obj = factory.get();
+                        if(obj instanceof INBTSerializable<?> sera)
+                        {
+                            try
+                            {
+                                @SuppressWarnings("unchecked")
+                                var ser = (INBTSerializable<CompoundTag>) sera;
+                                ser.deserializeNBT(registries, data);
+                                buildings.add(obj);
+                            }
+                            catch (Exception ignored)
+                            {
+
+                            }
+                        }
+                    }
                 }
             });
         }
     }
 
-    private final List<Structure> structures = Lists.newArrayList();
+    static
+    {
+        NamedVolumes.VOLUMES_FACTORY_REGISTRY.put("thutcore:structure", Structure::new);
+        NamedVolumes.PART_FACTORY_REGISTRY.put("thutcore:building_part", Building::new);
+    }
+
+    private final List<INamedVolume> volumes = Lists.newArrayList();
     private final ServerLevel level;
 
-    public CapabilityWorldStructures(ServerLevel level)
+    public CapabilityWorldVolumes(ServerLevel level)
     {
         this.level = level;
     }
 
     public void addStructure(Structure s)
     {
-        if (!this.structures.contains(s)) this.structures.add(s);
+        if (!this.volumes.contains(s)) this.volumes.add(s);
         StructureManager.addStructure(level.dimension(), s);
     }
 
@@ -187,7 +228,7 @@ public class CapabilityWorldStructures implements INBTSerializable<CompoundTag>
     {
         if (building == null) building = "unk_part";
         Building b = new Building(building, bounds);
-        Set<INamedStructure> intersects = StructureManager.getColliding(level.dimension(), bounds);
+        Set<INamedVolume> intersects = StructureManager.getColliding(level.dimension(), bounds);
         Structure s = null;
         if (!intersects.isEmpty())
         {
@@ -207,39 +248,78 @@ public class CapabilityWorldStructures implements INBTSerializable<CompoundTag>
     {
         CompoundTag tag = new CompoundTag();
         ListTag list = new ListTag();
-        this.structures.forEach(b -> list.add(b.serializeNBT(registries)));
-        tag.put("structures", list);
+        this.volumes.forEach(b -> {
+            if(b instanceof INBTSerializable<?> sera)
+            {
+                list.add(sera.serializeNBT(registries));
+            }
+        });
+        tag.put("volumes", list);
         return tag;
     }
 
     @Override
     public void deserializeNBT(HolderLookup.Provider registries, CompoundTag nbt)
     {
-        ListTag list = nbt.getList("structures", Tag.TAG_COMPOUND);
-        this.structures.clear();
+        ListTag list = nbt.getList("volumes", Tag.TAG_COMPOUND);;
+        //LEGACY Support TODO remove this,
+        if(nbt.contains("structures") && !nbt.contains("volumes"))
+            list =  nbt.getList("structures", Tag.TAG_COMPOUND);
+        this.volumes.clear();
         list.forEach(tag -> {
-            if (tag instanceof CompoundTag comp) this.addStructure(new Structure(registries, comp));
+            if (tag instanceof CompoundTag comp) {
+                var key = comp.getString("key");
+
+                // LEGACY Support TODO remove this.
+                if(key.isEmpty())
+                {
+                    var struct = new Structure();
+                    struct.deserializeNBT(registries, comp);
+                    volumes.add(struct);
+                    return;
+                }
+                var data = comp.getCompound("tag");
+                if(NamedVolumes.VOLUMES_FACTORY_REGISTRY.containsKey(key))
+                {
+                    var factory = NamedVolumes.VOLUMES_FACTORY_REGISTRY.get(key);
+                    var obj = factory.get();
+                    if(obj instanceof INBTSerializable<?> sera)
+                    {
+                        try
+                        {
+                            @SuppressWarnings("unchecked")
+                            var ser = (INBTSerializable<CompoundTag>) sera;
+                            ser.deserializeNBT(registries, data);
+                            volumes.add(obj);
+                        }
+                        catch (Exception ignored)
+                        {
+
+                        }
+                    }
+                }
+            }
         });
     }
 
-    public static CapabilityWorldStructures makeProvider(final IAttachmentHolder in)
+    public static CapabilityWorldVolumes makeProvider(final IAttachmentHolder in)
     {
         if (!(in instanceof ServerLevel level)) return null;
-        return new CapabilityWorldStructures(level);
+        return new CapabilityWorldVolumes(level);
     }
 
-    public static CapabilityWorldStructures get(final IAttachmentHolder in)
+    public static CapabilityWorldVolumes get(final IAttachmentHolder in)
     {
         return in.getData(TYPE_SAVE.get());
     }
 
     public static final ResourceLocation LOCSAVEABLE = ResourceLocation.parse("thutcore:world_structures");
 
-    public static Supplier<AttachmentType<CapabilityWorldStructures>> TYPE_SAVE;
+    public static Supplier<AttachmentType<CapabilityWorldVolumes>> TYPE_SAVE;
 
     public static void registerAttachment(DeferredRegister<AttachmentType<?>> registry)
     {
-        Function<IAttachmentHolder, CapabilityWorldStructures> func_a = CapabilityWorldStructures::makeProvider;
+        Function<IAttachmentHolder, CapabilityWorldVolumes> func_a = CapabilityWorldVolumes::makeProvider;
         var attach_a = AttachmentType.serializable(func_a).build();
         TYPE_SAVE = registry.register(LOCSAVEABLE.getPath(), () -> attach_a);
     }

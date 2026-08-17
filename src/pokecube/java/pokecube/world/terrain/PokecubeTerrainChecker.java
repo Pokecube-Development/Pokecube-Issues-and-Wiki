@@ -17,7 +17,7 @@ import net.minecraft.world.level.material.FluidState;
 import pokecube.api.data.spawns.SpawnCheck.TerrainType;
 import pokecube.core.PokecubeCore;
 import pokecube.world.gen.structures.GenericJigsawStructure;
-import thut.api.level.structures.NamedVolumes.INamedStructure;
+import thut.api.level.structures.NamedVolumes.INamedVolume;
 import thut.api.level.structures.StructureManager;
 import thut.api.level.terrain.BiomeType;
 import thut.api.level.terrain.TerrainChecker;
@@ -56,7 +56,7 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
         ChunkAccess chunk = segment.chunk;
         if (caveAdjusted)
         {
-            final Set<INamedStructure> set = StructureManager.getFor(rworld.dimension(), v.getPos(), true);
+            final Set<INamedVolume> set = StructureManager.getFor(rworld.dimension(), v.getPos(), true);
             for (var info : set)
             {
                 String subbiome = null;

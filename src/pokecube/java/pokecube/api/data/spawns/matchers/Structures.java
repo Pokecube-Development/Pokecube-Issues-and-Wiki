@@ -9,7 +9,7 @@ import net.minecraft.world.level.Level;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.data.spawns.SpawnCheck.MatchResult;
-import thut.api.level.structures.NamedVolumes.INamedStructure;
+import thut.api.level.structures.NamedVolumes.INamedVolume;
 import thut.api.level.structures.StructureManager;
 
 import javax.annotation.Nullable;
@@ -33,7 +33,7 @@ public class Structures extends BaseMatcher
     @Override
     public MatchResult _matches(SpawnBiomeMatcher matcher, SpawnCheck checker)
     {
-        Set<INamedStructure> set = checker.namedStructures;
+        Set<INamedVolume> set = checker.namedStructures;
         if (set == null) set = checker.namedStructures = StructureManager.getFor(((Level) checker.world).dimension(),
                 checker.pos, false);
         for (var j : this._validStructures) for (var i : set) if (i.is(j)) return MatchResult.SUCCEED;

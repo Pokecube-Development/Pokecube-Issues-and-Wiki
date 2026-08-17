@@ -13,7 +13,7 @@ import net.minecraft.world.level.material.FluidState;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.utils.TimePeriod;
 import pokecube.world.terrain.PokecubeTerrainChecker;
-import thut.api.level.structures.NamedVolumes.INamedStructure;
+import thut.api.level.structures.NamedVolumes.INamedVolume;
 import thut.api.level.terrain.BiomeType;
 import thut.api.level.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
@@ -92,7 +92,7 @@ public class SpawnCheck
     public final BlockPos pos;
     // These are only looked up if needed, but then cached for further uses of
     // the spawnCheck
-    public Set<INamedStructure> namedStructures = null;
+    public Set<INamedVolume> namedStructures = null;
 
     public SpawnCheck(final Vector3 location, final LevelAccessor world)
     {

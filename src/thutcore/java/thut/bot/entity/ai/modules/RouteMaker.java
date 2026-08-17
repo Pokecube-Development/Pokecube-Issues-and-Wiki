@@ -18,7 +18,7 @@ import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.phys.Vec3;
 import thut.api.Tracker;
-import thut.api.level.structures.NamedVolumes.INamedStructure;
+import thut.api.level.structures.NamedVolumes.INamedVolume;
 import thut.api.level.structures.StructureManager;
 import thut.api.maths.Cruncher.SquareLoopCruncher;
 import thut.bot.ThutBot;
@@ -287,9 +287,9 @@ public class RouteMaker extends AbstractBot
     {
         final ServerLevel world = (ServerLevel) this.player.level;
         int size = 32;
-        final Set<INamedStructure> near = StructureManager.getNear(world.dimension(), next, 0, false);
+        final Set<INamedVolume> near = StructureManager.getNear(world.dimension(), next, 0, false);
         infos:
-        for (final INamedStructure i : near) if (i.is(target.toString()))
+        for (final INamedVolume i : near) if (i.is(target.toString()))
         {
             size = Math.max(i.getTotalBounds().getXSpan(), i.getTotalBounds().getZSpan());
             break infos;

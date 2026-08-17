@@ -95,7 +95,7 @@ import thut.api.data.HolderProvider;
 import thut.api.entity.IMobTexturable;
 import thut.api.entity.event.LevelEntityEvent;
 import thut.api.item.ItemList;
-import thut.api.level.structures.NamedVolumes.INamedStructure;
+import thut.api.level.structures.NamedVolumes.INamedVolume;
 import thut.api.level.structures.StructureManager;
 import thut.api.level.terrain.BiomeType;
 import thut.api.level.terrain.TerrainManager;
@@ -483,10 +483,10 @@ public class EventsHandler
         }
         if (isStructureDebug)
         {
-            final Set<INamedStructure> set = StructureManager.getFor(level.dimension(), v.getPos(), true);
+            final Set<INamedVolume> set = StructureManager.getFor(level.dimension(), v.getPos(), true);
             if (set.isEmpty())
                 thut.lib.ChatHelper.sendSystemMessage(player, Component.literal("No structures for this location"));
-            else for (INamedStructure structure : set)
+            else for (INamedVolume structure : set)
             {
                 thut.lib.ChatHelper.sendSystemMessage(player, Component.literal(structure.getName()));
             }

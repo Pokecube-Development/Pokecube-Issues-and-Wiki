@@ -31,7 +31,7 @@ import thut.api.entity.IMobColourable;
 import thut.api.entity.IMobTexturable;
 import thut.api.entity.IShearable;
 import thut.api.entity.genetics.IMobGenetics;
-import thut.api.level.structures.CapabilityWorldStructures;
+import thut.api.level.structures.CapabilityWorldVolumes;
 import thut.api.level.terrain.CapabilityTerrain;
 import thut.api.level.terrain.CapabilityTerrain.ITerrainProvider;
 import thut.api.level.terrain.ITerrainAffected;
@@ -51,7 +51,7 @@ public class ThutCaps
         CopyMob.registerAttachment(registry);
         CapabilityTerrain.registerAttachment(registry);
         CapabilityTerrainAffected.registerAttachment(registry);
-        CapabilityWorldStructures.registerAttachment(registry);
+        CapabilityWorldVolumes.registerAttachment(registry);
         Linkable.registerAttachment(registry);
         DefaultGenetics.registerAttachment(registry);
         Inventory.registerAttachment(registry);
@@ -143,10 +143,10 @@ public class ThutCaps
         return Ownable.get(in);
     }
 
-    public static CapabilityWorldStructures getWorldStructures(IAttachmentHolder in)
+    public static CapabilityWorldVolumes getWorldStructures(IAttachmentHolder in)
     {
         if (in == null) return null;
-        return CapabilityWorldStructures.get(in);
+        return CapabilityWorldVolumes.get(in);
     }
 
     public static ITerrainProvider getTerrainProvider(IAttachmentHolder in)

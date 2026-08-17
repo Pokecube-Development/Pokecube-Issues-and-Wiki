@@ -23,7 +23,7 @@ import pokecube.legends.Reference;
 import pokecube.legends.conditions.AbstractCondition;
 import thut.api.entity.event.BreakTestEvent;
 import thut.api.item.ItemList;
-import thut.api.level.structures.NamedVolumes.INamedStructure;
+import thut.api.level.structures.NamedVolumes.INamedVolume;
 import thut.api.level.structures.StructureManager;
 import thut.api.maths.Vector3;
 import thut.api.util.PermNodes;
@@ -61,8 +61,8 @@ public class ForgeEventHandlers
         if (ItemList.is(ForgeEventHandlers.WHILTELISTED, state)) return false;
         if (newState != null && ItemList.is(ForgeEventHandlers.WHILTELISTED, newState)) return false;
         if (player != null && player.isCreative()) return false;
-        final Set<INamedStructure> set = StructureManager.getFor(world.dimension(), pos, false);
-        for (final INamedStructure info : set)
+        final Set<INamedVolume> set = StructureManager.getFor(world.dimension(), pos, false);
+        for (final INamedVolume info : set)
         {
             String name = info.getName();
             if (!name.contains(":")) name = "minecraft:" + name;
