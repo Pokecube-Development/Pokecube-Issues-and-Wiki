@@ -192,7 +192,7 @@ public class ForgetTargetTask extends CombatTask
         {
             // If health is below 0, it fainted, we give some time for other to
             // send out a new mob before we completely deagro.
-            if (target.getHealth() <= 0)
+            if (target.getHealth() <= 0 || target.isRemoved())
             {
                 if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("They are Dead!");
 
@@ -205,8 +205,9 @@ public class ForgetTargetTask extends CombatTask
                     {
                         if (e.isAlive())
                         {
-                            // Divery agro to it.
-                            Battle.createOrAddToBattle(entity, e);
+                            // Divert agro to it.
+                            pokemob.getTargetFinder().clear(entity);
+                            BrainUtils.setAttackTarget(entity, e);
                             return;
                         }
                     }

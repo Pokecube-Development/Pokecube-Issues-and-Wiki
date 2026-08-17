@@ -187,6 +187,7 @@ public class FindTargetsTask extends PokemobBehaviour implements IAICombat, ITar
     public void clear(Mob entityIn)
     {
         entityIn.getBrain().eraseMemory(MemoryModules.ATTACKTARGETID.get());
+        entityIn.getBrain().eraseMemory(MemoryModules.ATTACKTARGET.get());
         entityIn.getBrain().eraseMemory(MemoryModules.TIMER_SWAPTARGET.get());
         entityIn.getBrain().eraseMemory(MemoryModules.TIMER_FORGETTARGET.get());
         entityIn.getBrain().eraseMemory(MemoryModules.TARGETOWNER.get());
