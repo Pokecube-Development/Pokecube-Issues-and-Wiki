@@ -31,7 +31,7 @@ public class NamedVolumes
         /**
          * @return A key for the deserialiser for this part for loading it from nbt, etc.
          */
-        String getType();
+        String getKey();
 
         BoundingBox getBounds();
 
@@ -56,7 +56,7 @@ public class NamedVolumes
         /**
          * @return A key for the deserialiser for this volume for loading it from nbt, etc.
          */
-        String getType();
+        String getKey();
 
         default boolean is(String name)
         {
@@ -181,9 +181,9 @@ public class NamedVolumes
     {
         CompoundTag tag = new CompoundTag();
         if(volume instanceof INamedVolume vol)
-            tag.putString("key", vol.getType());
+            tag.putString("key", vol.getKey());
         else if(volume instanceof INamedPart part)
-            tag.putString("key", part.getType());
+            tag.putString("key", part.getKey());
 
         return tag;
     }
@@ -237,7 +237,7 @@ public class NamedVolumes
         }
 
         @Override
-        public String getType()
+        public String getKey()
         {
             return "minecraft:structure";
         }
@@ -297,7 +297,7 @@ public class NamedVolumes
         }
 
         @Override
-        public String getType()
+        public String getKey()
         {
             return "minecraft:structure_part";
         }

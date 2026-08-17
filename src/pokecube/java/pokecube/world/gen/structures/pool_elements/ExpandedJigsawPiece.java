@@ -443,6 +443,12 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
     }
 
     @Override
+    public String getKey()
+    {
+        return "pokecube_world:jigsaw_part";
+    }
+
+    @Override
     public BoundingBox getBounds()
     {
         throw new IllegalStateException("This should always be wrapped.");

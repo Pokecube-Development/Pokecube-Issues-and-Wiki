@@ -44,7 +44,7 @@ public class CapabilityWorldVolumes implements INBTSerializable<CompoundTag>
         }
 
         @Override
-        public String getType()
+        public String getKey()
         {
             return "thutcore:building_part";
         }
@@ -124,7 +124,7 @@ public class CapabilityWorldVolumes implements INBTSerializable<CompoundTag>
         }
 
         @Override
-        public String getType()
+        public String getKey()
         {
             return "thutcore:structure";
         }
