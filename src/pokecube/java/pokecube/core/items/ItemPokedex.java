@@ -134,7 +134,7 @@ public class ItemPokedex extends Item
 
             // Debug option for checking what can spawn in an area, for testing
             // datapacks/configs.
-            if (PokecubeCore.getConfig().debug_spawning)
+            if (PokecubeCore.getConfig().debug_spawning && this == PokecubeItems.POKEDEX.asItem())
             {
                 Vector3 v = new Vector3().set(pos);
                 SpawnCheck checker = new SpawnCheck(v, level);
