@@ -349,12 +349,9 @@ public class StatueEntity extends InteractableTile implements IEnergyStorage
     {
         if (!player.isShiftKeyDown() && stack.is(TagKey.create(Registries.ITEM, FUELTAG)))
         {
-            if (player instanceof ServerPlayer && !player.isCreative())
-            {
-                stack.shrink(1);
-                if (fuelTimer < Tracker.instance().getTick()) fuelTimer = Tracker.instance().getTick();
-                fuelTimer += PokecubeAdv.config.statueFuelDuration;
-            }
+            if (player instanceof ServerPlayer && !player.isCreative()) stack.shrink(1);
+            if (fuelTimer < Tracker.instance().getTick()) fuelTimer = Tracker.instance().getTick();
+            fuelTimer += PokecubeAdv.config.statueFuelDuration;
             return ItemInteractionResult.CONSUME;
         }
         return super.useItemOn(stack, pos, player, hand, hitResult);
