@@ -334,13 +334,19 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         Alleles<SpeciesGene.SpeciesInfo, SpeciesGene> genesSpecies = thisMob.getGenes().getAlleles(GeneticsManager.SPECIESGENE);
         SpeciesGene.SpeciesInfo speciesGene = genesSpecies.getExpressed().getValue();
 
-        // If the ability is not in the current or new entry, then keep it.
-        if (thisEntity.getPersistentData().contains("pokecube:special_ability") || (!oldEntry.abilities.contains(abilityObject.toString()) && !oldEntry.abilitiesHidden.contains(abilityObject.toString())))
+        if (abilityObject != null)
         {
-            specialAbility = abilityObject;
-            PokecubeAPI.logInfo(abilityObject + " on " + thisMob.getDisplayName().getString() + " is a special ability, keeping it");
-            thisEntity.getPersistentData().putBoolean("pokecube:special_ability", true);
+            // If the ability is not in the current or new entry, then keep it.
+            if (thisEntity.getPersistentData().contains("pokecube:special_ability") || (!oldEntry.abilities.contains(abilityObject.toString()) && !oldEntry.abilitiesHidden.contains(abilityObject.toString())))
+            {
+                specialAbility = abilityObject;
+                if (PokecubeCore.getConfig().debug_ai)
+                    PokecubeAPI.logInfo(abilityObject + " on " + thisMob.getDisplayName().getString() + " is a special ability, keeping it");
+                thisEntity.getPersistentData().putBoolean("pokecube:special_ability", true);
+            }
         }
+        else if (PokecubeCore.getConfig().debug_ai)
+            PokecubeAPI.logInfo("Skipping special ability checks as ability is null");
 
         if (newEntry != null && newEntry != oldEntry)
         {
