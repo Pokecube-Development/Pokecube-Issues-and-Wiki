@@ -3,6 +3,7 @@ package pokecube.core.database.spawns;
 import java.util.Map;
 import java.util.Random;
 
+import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import org.nfunk.jep.JEP;
 
 import com.google.common.collect.Maps;
@@ -139,7 +140,7 @@ public class SpawnRateMask
         double old_x;
         double old_y;
 
-        Random rand = new Random(level.getSeed());
+        var rand = new LegacyRandomSource(level.getSeed());
         old_t = this.phase_t;
         old_x = this.phase_x;
         old_y = this.phase_y;
