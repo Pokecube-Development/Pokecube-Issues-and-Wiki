@@ -11,6 +11,7 @@ import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.ClickEvent.Action;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import pokecube.api.data.PokedexEntry;
@@ -136,15 +137,29 @@ public class SpawnListEntry
             String rate;
             if (matcher.spawnRule.values.containsKey("Local_Rate"))
             {
+                String colour = "";
                 float val = 0;
                 try
                 {
                     val = Float.parseFloat(matcher.spawnRule.getString("Local_Rate"));
-                    // TODO decide if we want to mark these somehow for a different colour?
                     // This means that the rate is the one currently selected for spawn.
-                    if (val > 1) val -= 1;
+                    if (val > 2)
+                    {
+                        val -= 2;
+                        colour = "§2";
+                    }
+                    // This means that it is also valid for the location, just a different time
+                    else if (val > 1)
+                    {
+                        // It was assigned rate +1 so that it sorts to top of list
+                        val -= 1;
+                        colour = "";
+                    }
                     // This means that the spawn won't occur here without statues
-                    if (val < 0) val = 0;
+                    else
+                    {
+                        colour = "§c";
+                    }
                 }
                 catch (final Exception e)
                 {
@@ -164,7 +179,7 @@ public class SpawnListEntry
                     }
                     val = val2;
                 }
-                rate = I18n.get("pokewatch.spawns.rate_local", val + "%");
+                rate = colour + I18n.get("pokewatch.spawns.rate_local", val + "%");
             }
             else
             {

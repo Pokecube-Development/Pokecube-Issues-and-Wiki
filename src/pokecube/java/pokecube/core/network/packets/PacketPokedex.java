@@ -236,14 +236,14 @@ public class PacketPokedex extends NBTPacket
         final CompoundTag spawns = new CompoundTag();
 
         Map<PokedexEntry, Float> rates;
-        ArrayList<PokedexEntry> names;
+        Set<PokedexEntry> names;
         float total = 0;
         ServerLevel level = player.serverLevel().getLevel();
         Vector3 pos = new Vector3().set(player);
         SpawnCheck checker = new SpawnCheck(pos, level);
 
         rates = Maps.newHashMap();
-        names = new ArrayList<>();
+        names = new HashSet<>();
         final boolean repelled = SpawnHandler.getNoSpawnReason(level, pos.getPos()) != ForbidReason.NONE;
         for (final PokedexEntry e : Database.spawnables)
             if (e.getSpawnData().getMatcher(new SpawnContext(player, e), checker, false) != null) names.add(e);
@@ -268,7 +268,7 @@ public class PacketPokedex extends NBTPacket
         }
 
         SpawnContext base = new SpawnContext(player, Database.missingno);
-        int N = ServerLevel.TICKS_PER_DAY / SpawnHandler.TIME_SEED_FACTOR;
+        int N = ServerLevel.TICKS_PER_DAY / SpawnHandler.TIME_SEED_FACTOR, M = 0;
         Set<PokedexEntry> spawnable = new HashSet<>();
         int now = (int) (level.getDayTime() / SpawnHandler.TIME_SEED_FACTOR);
         PokedexEntry spawnsNow = null;
@@ -282,6 +282,7 @@ public class PacketPokedex extends NBTPacket
                 if (now == i) spawnsNow = context.entry();
                 // Add 1 for each time the mob can spawn in a day
                 rates.put(context.entry(), spawnable.add(context.entry())?1f:rates.get(context.entry())+1f);
+                M++;
             }
         }
         var packet = new PacketPokedex(PacketPokedex.REQUESTLOC);
@@ -289,9 +290,12 @@ public class PacketPokedex extends NBTPacket
         {
             final SpawnBiomeMatcher matcher = matchers.get(e);
             var rate = rates.get(e);
-            if(!spawnable.contains(e)) rate *= -1f;
-            else rate /= N;
-            if(e == spawnsNow) rate += 1f;
+            if(spawnable.contains(e))
+            {
+                rate /= M;
+                if(e == spawnsNow) rate += 2f;
+                else rate += 1f;
+            }
 
             matcher.spawnRule.values.put("Local_Rate", rate + "");
             String match = PacketPokedex.serialize(matcher);
