@@ -133,9 +133,7 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
         if (!super.checkExtraStartConditions(worldIn, owner)) return false;
         final Brain<?> brain = owner.getBrain();
         if (brain.hasMemoryValue(MemoryTypes.BATTLETARGET.get())) return false;
-        if (owner.tickCount % PokecubeAdv.config.trainerAgroRate != 0) return false;
-//        return owner.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES);
-        return true;
+        return owner.tickCount % PokecubeAdv.config.trainerAgroRate == 0;
     }
 
     @Override

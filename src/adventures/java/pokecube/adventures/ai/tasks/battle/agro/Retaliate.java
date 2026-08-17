@@ -7,6 +7,7 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import pokecube.api.entity.trainers.IHasPokemobs;
+import pokecube.api.moves.Battle;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 
@@ -29,8 +30,11 @@ public class Retaliate extends BaseAgroTask
     @Override
     public boolean ignoreHasBattled(IHasPokemobs trainer, LivingEntity target)
     {
-        final Brain<?> brain = trainer.getTrainer().getBrain();
+        var _trainer = trainer.getTrainer();
+        final Brain<?> brain = _trainer.getBrain();
         if (!brain.hasMemoryValue(MemoryModuleType.HURT_BY_ENTITY)) return false;
+        var battle = Battle.getBattle(_trainer);
+        if (battle == Battle.getBattle(target)) return false;
         return brain.getMemory(MemoryModuleType.HURT_BY_ENTITY).get() == target;
     }
 
@@ -38,11 +42,9 @@ public class Retaliate extends BaseAgroTask
     public boolean isValidTarget(IHasPokemobs trainer, LivingEntity target)
     {
         if (target == null) return false;
-        final Brain<?> brain = trainer.getTrainer().getBrain();
         if (!EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(target)) return false;
-        if (!brain.hasMemoryValue(MemoryModuleType.HURT_BY_ENTITY)) return false;
         if (!(target.isAlive() && BrainUtils.canSee(trainer.getTrainer(), target))) return false;
-        return brain.getMemory(MemoryModuleType.HURT_BY_ENTITY).get() == target;
+        return ignoreHasBattled(trainer, target);
     }
 
 }
