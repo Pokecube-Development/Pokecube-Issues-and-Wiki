@@ -7,6 +7,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.LevelUpEvent;
 import pokecube.api.utils.PokeType;
@@ -134,8 +135,12 @@ public abstract class PokemobStats extends PokemobGenes
         final ItemStack held = this.getHeldItem();
         if (evolve) while (this.canEvolve(held))
         {
+            var before = this.getPokedexEntry();
             boolean evolved = this.evolve(false, true, held);
-            if (!evolved) break;
+            var after = this.getPokedexEntry();
+            // The entry comparision is incase something interrupts the evolution,
+            // to escape the while loop
+            if (!evolved || after == before) break;
             this.params.EXP.set(exp);
             this.levelUp(level);
         }

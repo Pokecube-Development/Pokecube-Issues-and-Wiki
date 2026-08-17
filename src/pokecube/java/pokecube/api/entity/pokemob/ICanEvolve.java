@@ -362,20 +362,16 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                     PokecubeAPI.LOGGER.warn("invalid entry for {} during evolution", newEntry);
                     return false;
                 }
-
-                final int id = evolution.getId();
-                final UUID uuid = evolution.getUUID();
-
                 // Load raw data first
-                evolution.load(thisEntity.saveWithoutId(new CompoundTag()));
-                // Sync attachments
-                mob.copyAttachmentsFrom(thisEntity, false);
+                if(evolution != thisEntity)
+                {
+                    evolution.load(thisEntity.saveWithoutId(new CompoundTag()));
+                    // Sync attachments
+                    mob.copyAttachmentsFrom(thisEntity, false);
 
-                // Copy transforms over.
-                EntityTools.copyEntityTransforms(evolution, thisEntity);
-                evolution.setId(id);
-                evolution.setUUID(uuid);
-
+                    // Copy transforms over.
+                    EntityTools.copyEntityTransforms(evolution, thisEntity);
+                }
                 this.setEntity(mob);
 
                 // Set permanent entry
