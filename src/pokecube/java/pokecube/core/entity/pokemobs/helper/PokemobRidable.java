@@ -211,8 +211,8 @@ public abstract class PokemobRidable extends PokemobHasParts
     {
         var controller = this.getPokemob().getController();
         boolean shouldFly = controller.verticalControl;
-        float fwdScale = controller.moveFwd;
-        // This one already has the sign applied via xxa
+        // These already have the sign applied via xxa and zza
+        float fwdScale = Math.abs(controller.moveFwd);
         float sideScale = Math.abs(controller.moveSide);
         if (shouldFly)
         {
