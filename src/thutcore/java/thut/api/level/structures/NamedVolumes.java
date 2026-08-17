@@ -2,6 +2,8 @@ package thut.api.level.structures;
 
 import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
@@ -10,6 +12,7 @@ import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
+import net.neoforged.neoforge.common.util.INBTSerializable;
 import thut.lib.RegHelper;
 
 import java.util.HashMap;
@@ -107,6 +110,83 @@ public class NamedVolumes
 
     public static Map<String, Supplier<INamedVolume>> VOLUMES_FACTORY_REGISTRY = new HashMap<>();
     public static Map<String, Supplier<INamedPart>> PART_FACTORY_REGISTRY = new HashMap<>();
+
+    public static INamedPart loadPart(HolderLookup.Provider registries, CompoundTag comp)
+    {
+        var key = comp.getString("key");
+        // LEGACY Support TODO remove this.
+        if (key.isEmpty())
+        {
+            var part = new CapabilityWorldVolumes.Building();
+            part.deserializeNBT(registries, comp);
+            return part;
+        }
+        var data = comp.getCompound("tag");
+        if (NamedVolumes.PART_FACTORY_REGISTRY.containsKey(key))
+        {
+            var factory = NamedVolumes.PART_FACTORY_REGISTRY.get(key);
+            var obj = factory.get();
+            if (obj instanceof INBTSerializable<?> sera)
+            {
+                try
+                {
+                    @SuppressWarnings("unchecked")
+                    var ser = (INBTSerializable<CompoundTag>) sera;
+                    ser.deserializeNBT(registries, data);
+                    return obj;
+                }
+                catch (Exception ignored)
+                {
+
+                }
+            }
+        }
+        return null;
+    }
+
+    public static INamedVolume loadVolume(HolderLookup.Provider registries, CompoundTag comp)
+    {
+        var key = comp.getString("key");
+        // LEGACY Support TODO remove this.
+        if(key.isEmpty())
+        {
+            var struct = new CapabilityWorldVolumes.Structure();
+            struct.deserializeNBT(registries, comp);
+            return struct;
+        }
+        var data = comp.getCompound("tag");
+        if(NamedVolumes.VOLUMES_FACTORY_REGISTRY.containsKey(key))
+        {
+            var factory = NamedVolumes.VOLUMES_FACTORY_REGISTRY.get(key);
+            var obj = factory.get();
+            if(obj instanceof INBTSerializable<?> sera)
+            {
+                try
+                {
+                    @SuppressWarnings("unchecked")
+                    var ser = (INBTSerializable<CompoundTag>) sera;
+                    ser.deserializeNBT(registries, data);
+                    return obj;
+                }
+                catch (Exception ignored)
+                {
+
+                }
+            }
+        }
+        return null;
+    }
+
+    public static CompoundTag saveVolumeOrPart(HolderLookup.Provider registries, Object volume)
+    {
+        CompoundTag tag = new CompoundTag();
+        if(volume instanceof INamedVolume vol)
+            tag.putString("key", vol.getType());
+        else if(volume instanceof INamedPart part)
+            tag.putString("key", part.getType());
+
+        return tag;
+    }
 
     public static class NamedStructureWrapper implements INamedVolume
     {

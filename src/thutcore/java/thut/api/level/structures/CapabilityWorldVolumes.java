@@ -149,10 +149,8 @@ public class CapabilityWorldVolumes implements INBTSerializable<CompoundTag>
             tag.put("bounds", BoundingBox.CODEC.encodeStart(NbtOps.INSTANCE, this.bounds).getOrThrow());
             ListTag list = new ListTag();
             this.buildings.forEach(b -> {
-                if(b instanceof INBTSerializable<?> sera)
-                {
-                    list.add(sera.serializeNBT(registries));
-                }
+                var _tag = NamedVolumes.saveVolumeOrPart(registries, b);
+                if(!_tag.isEmpty()) list.add(_tag);
             });
             tag.put("buildings", list);
             return tag;
@@ -168,37 +166,8 @@ public class CapabilityWorldVolumes implements INBTSerializable<CompoundTag>
             list.forEach(tag -> {
                 if (tag instanceof CompoundTag comp)
                 {
-                    var key = comp.getString("key");
-
-                    // LEGACY Support TODO remove this.
-                    if(key.isEmpty())
-                    {
-                        var part = new Building();
-                        part.deserializeNBT(registries, comp);
-                        buildings.add(part);
-                        return;
-                    }
-
-                    var data = comp.getCompound("tag");
-                    if(NamedVolumes.PART_FACTORY_REGISTRY.containsKey(key))
-                    {
-                        var factory = NamedVolumes.PART_FACTORY_REGISTRY.get(key);
-                        var obj = factory.get();
-                        if(obj instanceof INBTSerializable<?> sera)
-                        {
-                            try
-                            {
-                                @SuppressWarnings("unchecked")
-                                var ser = (INBTSerializable<CompoundTag>) sera;
-                                ser.deserializeNBT(registries, data);
-                                buildings.add(obj);
-                            }
-                            catch (Exception ignored)
-                            {
-
-                            }
-                        }
-                    }
+                    var part = NamedVolumes.loadPart(registries, comp);
+                    if (part != null) this.buildings.add(part);
                 }
             });
         }
@@ -249,10 +218,8 @@ public class CapabilityWorldVolumes implements INBTSerializable<CompoundTag>
         CompoundTag tag = new CompoundTag();
         ListTag list = new ListTag();
         this.volumes.forEach(b -> {
-            if(b instanceof INBTSerializable<?> sera)
-            {
-                list.add(sera.serializeNBT(registries));
-            }
+            var _tag = NamedVolumes.saveVolumeOrPart(registries, b);
+            if(!_tag.isEmpty()) list.add(_tag);
         });
         tag.put("volumes", list);
         return tag;
@@ -268,36 +235,8 @@ public class CapabilityWorldVolumes implements INBTSerializable<CompoundTag>
         this.volumes.clear();
         list.forEach(tag -> {
             if (tag instanceof CompoundTag comp) {
-                var key = comp.getString("key");
-
-                // LEGACY Support TODO remove this.
-                if(key.isEmpty())
-                {
-                    var struct = new Structure();
-                    struct.deserializeNBT(registries, comp);
-                    volumes.add(struct);
-                    return;
-                }
-                var data = comp.getCompound("tag");
-                if(NamedVolumes.VOLUMES_FACTORY_REGISTRY.containsKey(key))
-                {
-                    var factory = NamedVolumes.VOLUMES_FACTORY_REGISTRY.get(key);
-                    var obj = factory.get();
-                    if(obj instanceof INBTSerializable<?> sera)
-                    {
-                        try
-                        {
-                            @SuppressWarnings("unchecked")
-                            var ser = (INBTSerializable<CompoundTag>) sera;
-                            ser.deserializeNBT(registries, data);
-                            volumes.add(obj);
-                        }
-                        catch (Exception ignored)
-                        {
-
-                        }
-                    }
-                }
+                var volume = NamedVolumes.loadVolume(registries, comp);
+                if (volume != null) this.volumes.add(volume);
             }
         });
     }
