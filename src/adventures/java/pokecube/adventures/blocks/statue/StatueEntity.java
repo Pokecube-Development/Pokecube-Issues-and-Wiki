@@ -360,45 +360,13 @@ public class StatueEntity extends InteractableTile implements IEnergyStorage
         return super.useItemOn(stack, pos, player, hand, hitResult);
     }
 
-    public static final Codec<DataComponentMap> COMPONENTS_CODEC = DataComponentMap.CODEC.optionalFieldOf("components",
-            DataComponentMap.EMPTY).codec();
-
     @Override
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     public void loadAdditional(final CompoundTag compound, Provider provider)
     {
         super.loadAdditional(compound, provider);
         // The stuff below only matters for when this is placed directly or nbt
         // edited. when loading normally, level is null, so we exit here.
         if (this.level == null) return;
-        // Legacy conversion TODO remove this eventually.
-        if (compound.contains("ForgeCaps"))
-        {
-            CompoundTag caps = compound.getCompound("ForgeCaps");
-            if (caps.contains("thutcore:copymob"))
-            {
-                caps = caps.getCompound("thutcore:copymob");
-                // loadAditional is called before componets get read, so lets stick them back in.
-                COMPONENTS_CODEC.parse(provider.createSerializationContext(NbtOps.INSTANCE), compound)
-                        .resultOrPartial(string -> PokecubeAPI.LOGGER.warn("Failed to load components: {}", string))
-                        .ifPresent(this::setComponents);
-                var builder = DataComponentMap.builder();
-                var comps = this.components();
-                comps.keySet().forEach(t -> {
-                    var v = comps.get(t);
-                    if (t != CopyMob.COPY_STORE.get())
-                    {
-                        DataComponentType _t = t;
-                        builder.set(_t, v);
-                    }
-                });
-                builder.set(CopyMob.COPY_STORE, new CopyInfo(caps));
-                this.setComponents(builder.build());
-                COMPONENTS_CODEC.encodeStart(provider.createSerializationContext(NbtOps.INSTANCE), this.components())
-                        .resultOrPartial(string -> PokecubeAPI.LOGGER.warn("Failed to save components: {}", string))
-                        .ifPresent(tag -> compound.merge((CompoundTag) tag));
-            }
-        }
         // Ensure we are unpacked before sending update
         unpackStatue(this);
         // Server side send packet that it changed
