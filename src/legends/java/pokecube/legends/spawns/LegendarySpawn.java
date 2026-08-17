@@ -157,6 +157,7 @@ public class LegendarySpawn
                 final ISpecialSpawnCondition spawnCondition = SpecialCaseRegister.getSpawnCondition(entry);
                 if (spawnCondition == null) continue;
                 SpawnContext context = new SpawnContext((ServerPlayer) evt.getEntity(), level, entry, location,
+                        level.getDayTime(),
                         SpawnEvent.SpawnSurface.of(entry));
                 if (spawnCondition.canSpawn(context, false).test()) break;
             }
@@ -175,7 +176,7 @@ public class LegendarySpawn
         for (final LegendarySpawn match : matches)
         {
             SpawnContext context = new SpawnContext((ServerPlayer) evt.getEntity(), level, match.entry, location,
-                    SpawnEvent.SpawnSurface.of(match.entry));
+                    level.getDayTime(), SpawnEvent.SpawnSurface.of(match.entry));
             result = LegendarySpawn.trySpawn(match, stack, evt, context, false);
             worked = result == SpawnResult.SUCCESS;
             if (worked) break;

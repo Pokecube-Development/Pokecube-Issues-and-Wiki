@@ -131,12 +131,13 @@ public class SpawnEventsHandler
     {
         Vector3 v = event.getLocation();
         final ServerLevel world = event.level();
+        SpawnContext context = event.context();
         BlockState state = v.getBlockState(world);
         final List<PokedexEntry> entries = Lists.newArrayList(Database.spawnables);
 
         SectionPos pos = SectionPos.of(v.getPos());
         // This gives us a fixed random value for the location, as well as time of day
-        long seedA = SpawnHandler.getSeed(pos, world);
+        long seedA = SpawnHandler.getSeed(pos, world, context.time());
         Random rand = new Random(seedA);
 
         SpawnCheck filter = new SpawnCheck(v, world);
@@ -158,7 +159,6 @@ public class SpawnEventsHandler
         PokedexEntry dbe = entries.get(index);
 
         SpawnCheck checker = new SpawnCheck(v, world);
-        SpawnContext context = event.context();
         context = new SpawnContext(context, dbe);
         float weight = dbe.getSpawnData().getWeight(context, checker, true);
         final int max = entries.size();

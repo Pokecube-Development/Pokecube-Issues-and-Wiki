@@ -396,14 +396,14 @@ public final class SpawnHandler
 
     public static int TIME_SEED_FACTOR = 1200; // Default 1200 ticks, about 1 minute
 
-    public static long getSeed(Vec3i pos, ServerLevel level)
+    public static long getSeed(Vec3i pos, ServerLevel level, long time)
     {
         // First by coordinate
         long seed = getSeed(pos.getX(), pos.getY(), pos.getZ());
         // Now add from level seed
         seed ^= level.getSeed();
         // Now add from time of day
-        var rng = new LegacyRandomSource(level.getDayTime() / TIME_SEED_FACTOR);
+        var rng = new LegacyRandomSource(time / TIME_SEED_FACTOR);
         seed ^= rng.nextLong();
         return seed;
     }
@@ -421,7 +421,7 @@ public final class SpawnHandler
         // Lets try a few times
         int n = 16;
         SectionPos spos = SectionPos.of(pos.getPos());
-        long seed = getSeed(spos, world);
+        long seed = getSeed(spos, world, world.getDayTime());
         var rng = new LegacyRandomSource(seed);
         while (n-- > 0)
         {
@@ -768,7 +768,7 @@ public final class SpawnHandler
     {
         if (minRadius > maxRadius) return;
         Vector3 v = new Vector3().set(player);
-        SpawnContext base = new SpawnContext(player, level, Database.missingno, v, SpawnEvent.SpawnSurface.any());
+        SpawnContext base = new SpawnContext(player, level, Database.missingno, v, level.getDayTime(), SpawnEvent.SpawnSurface.any());
         SpawnContext context = randomSpawnContext(base, minRadius, maxRadius);
         this.doSpawnForContext(context);
     }

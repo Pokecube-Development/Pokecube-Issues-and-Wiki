@@ -2,13 +2,12 @@ package pokecube.core.network.packets;
 
 import java.util.ArrayList;
 import java.util.BitSet;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -269,14 +268,32 @@ public class PacketPokedex extends NBTPacket
         }
 
         SpawnContext base = new SpawnContext(player, Database.missingno);
-        SpawnContext context = SpawnHandler.getSpawnForLoc(base);
-        if (context != null && context.entry() != null) rates.put(context.entry(), 1f);
-
+        int N = ServerLevel.TICKS_PER_DAY / SpawnHandler.TIME_SEED_FACTOR;
+        Set<PokedexEntry> spawnable = new HashSet<>();
+        int now = (int) (level.getDayTime() / SpawnHandler.TIME_SEED_FACTOR);
+        PokedexEntry spawnsNow = null;
+        for(int i = 0; i < N; i++)
+        {
+            long test = i * SpawnHandler.TIME_SEED_FACTOR + SpawnHandler.TIME_SEED_FACTOR/2;
+            base = new SpawnContext(base, test);
+            SpawnContext context = SpawnHandler.getSpawnForLoc(base);
+            if (context != null && context.entry() != null)
+            {
+                if (now == i) spawnsNow = context.entry();
+                // Add 1 for each time the mob can spawn in a day
+                rates.put(context.entry(), spawnable.add(context.entry())?1f:rates.get(context.entry())+1f);
+            }
+        }
         var packet = new PacketPokedex(PacketPokedex.REQUESTLOC);
         for (final PokedexEntry e : names)
         {
             final SpawnBiomeMatcher matcher = matchers.get(e);
-            matcher.spawnRule.values.put("Local_Rate", rates.get(e) + "");
+            var rate = rates.get(e);
+            if(!spawnable.contains(e)) rate *= -1f;
+            else rate /= N;
+            if(e == spawnsNow) rate += 1f;
+
+            matcher.spawnRule.values.put("Local_Rate", rate + "");
             String match = PacketPokedex.serialize(matcher);
             // This is null in the case that the spawn is not valid, or is
             // hidden by the desc being set to __hidden__

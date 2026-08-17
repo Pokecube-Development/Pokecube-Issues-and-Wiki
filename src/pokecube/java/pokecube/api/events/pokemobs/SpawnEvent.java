@@ -43,33 +43,40 @@ public class SpawnEvent extends Event implements ICancellableEvent
     }
 
     public static record SpawnContext(@Nullable ServerPlayer player, @Nonnull ServerLevel level,
-            @Nonnull PokedexEntry entry, @Nonnull Vector3 location, SpawnSurface surface)
+            @Nonnull PokedexEntry entry, @Nonnull Vector3 location, long time, SpawnSurface surface)
     {
         public SpawnContext(@Nonnull IPokemob pokemob_)
         {
             this(pokemob_.getOwner() instanceof ServerPlayer player ? player : null,
                     (ServerLevel) pokemob_.getEntity().level, pokemob_.getPokedexEntry(),
-                    new Vector3().set(pokemob_.getEntity()), SpawnSurface.of(pokemob_.getPokedexEntry()));
+                    new Vector3().set(pokemob_.getEntity()), pokemob_.getEntity().level.getDayTime(),
+                    SpawnSurface.of(pokemob_.getPokedexEntry()));
         }
 
         public SpawnContext(@Nonnull ServerPlayer player, PokedexEntry entry)
         {
-            this(player, (ServerLevel) player.level, entry, new Vector3().set(player), SpawnSurface.of(entry));
+            this(player, (ServerLevel) player.level, entry, new Vector3().set(player),
+                    player.level.getDayTime(), SpawnSurface.of(entry));
         }
 
         public SpawnContext(SpawnContext context, PokedexEntry entry)
         {
-            this(context.player, context.level, entry, context.location, SpawnSurface.of(entry));
+            this(context.player, context.level, entry, context.location, context.time, SpawnSurface.of(entry));
         }
 
         public SpawnContext(SpawnContext context, Vector3 location)
         {
-            this(context.player, context.level, context.entry, location, SpawnSurface.of(context.entry));
+            this(context.player, context.level, context.entry, location, context.time, SpawnSurface.of(context.entry));
+        }
+
+        public SpawnContext(SpawnContext context, long time)
+        {
+            this(context.player, context.level, context.entry, context.location, time, SpawnSurface.of(context.entry));
         }
 
         public SpawnContext(ServerLevel level, PokedexEntry entry, Vector3 location)
         {
-            this(null, level, entry, location, SpawnSurface.of(entry));
+            this(null, level, entry, location, level.getDayTime(), SpawnSurface.of(entry));
         }
 
         /**

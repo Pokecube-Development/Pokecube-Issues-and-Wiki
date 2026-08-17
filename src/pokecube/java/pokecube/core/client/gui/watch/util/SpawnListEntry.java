@@ -133,29 +133,34 @@ public class SpawnListEntry
 
         if (includeRate)
         {
-            String rate = "";
+            String rate;
             if (matcher.spawnRule.values.containsKey("Local_Rate"))
             {
                 float val = 0;
                 try
                 {
                     val = Float.parseFloat(matcher.spawnRule.getString("Local_Rate"));
+                    // TODO decide if we want to mark these somehow for a different colour?
+                    // This means that the rate is the one currently selected for spawn.
+                    if (val > 1) val -= 1;
+                    // This means that the spawn won't occur here without statues
+                    if (val < 0) val = 0;
                 }
                 catch (final Exception e)
                 {
 
                 }
-                if (val > 1e-3) val = (int) (val * 1000) / 10f;
+                if (val > 1e-3) val = Math.round(val * 1000) / 10f;
                 else if (val != 0)
                 {
                     float denom = 1000f;
                     float numer = 100000f;
-                    float val2 = (int) (val * numer) / denom;
+                    float val2 = Math.round(val * numer) / denom;
                     if ((val * numer) != 0) while (val2 == 0)
                     {
                         numer *= 100;
                         denom *= 100;
-                        val2 = (int) (val * numer) / denom;
+                        val2 = Math.round(val * numer) / denom;
                     }
                     val = val2;
                 }
@@ -172,8 +177,8 @@ public class SpawnListEntry
                 {
 
                 }
-                if (val > 10e-4) val = (int) (val * 1000) / 10f;
-                else val = (int) (val * 10000) / 100f;
+                if (val > 10e-4) val = Math.round(val * 1000) / 10f;
+                else val = Math.round(val * 10000) / 100f;
 
                 if (val == 0) rate = "";
                 else
