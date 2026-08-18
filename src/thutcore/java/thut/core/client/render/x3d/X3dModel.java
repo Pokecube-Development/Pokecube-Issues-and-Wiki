@@ -159,8 +159,8 @@ public class X3dModel extends BaseModel
             o.setShapes(shapes);
             o.rotations.set(rotations.x, rotations.y, rotations.z, rotations.w);
             o.offset.set(translation);
-            o.scale = scale;
-            o.ds1 = scale.length();
+            o.postScale = scale;
+            o.rawPostScale = new Vector3f(scale);
             this.parts.put(name, o);
             childMap.put(name, children);
         }

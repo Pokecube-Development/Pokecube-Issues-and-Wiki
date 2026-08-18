@@ -53,18 +53,16 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public Vector3 preTrans = new Vector3();
     public Vector3 postTrans = new Vector3();
     public Vector3f preScale = new Vector3f(1, 1, 1);
+    public Vector3f rawPostScale = new Vector3f(1, 1, 1);
     public Vector3f postScale = new Vector3f(1, 1, 1);
 
     public Vector3 offset = new Vector3();
     public Vector4 rotations = new Vector4();
-    public Vector3f scale = new Vector3f(1, 1, 1);
 
     protected Quaternionf _quat = new Quaternionf(0, 0, 0, 1);
     protected Vector4 _rot = new Vector4();
 
     private float ds = 1;
-    public float ds0 = 1;
-    public float ds1 = 1;
     private float ds2 = 1;
 
     public float[] colour_scales = { 1f, 1f, 1f, 1f };
@@ -329,13 +327,13 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         this.preTrans.set(offset);
         this.preScale.set(1, 1, 1);
         this.postTrans.clear();
-        this.postScale.set(this.scale);
+
         this.colour_scales[0] = 1;
         this.colour_scales[1] = 1;
         this.colour_scales[2] = 1;
         this.colour_scales[3] = 1;
         this.hidden = false;
-        ds0 = ds = 1;
+        ds = 1;
 
         renderPose.pose().identity();
         renderPose.normal().identity();
@@ -446,7 +444,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         this.preScale.x = (float) scale.x;
         this.preScale.y = (float) scale.y;
         this.preScale.z = (float) scale.z;
-        ds0 = ds = (float) scale.mag();
+        ds = (float) scale.mag();
     }
 
     @Override
@@ -578,10 +576,19 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public void setPostScale(Vector3f scale)
+    public void mulPostScale(Vector3f scale)
     {
-        ds2 = scale.length();
+        ds2 *= scale.length();
         this.postScale.mul(scale);
+        var _scale = new Vector3f(1/scale.x,1/scale.y,1/scale.z);
+        this.getPartsList().forEach(p->p.mulPostScale(_scale));
+    }
+
+    @Override
+    public void resetPostScale()
+    {
+        this.postScale.set(this.rawPostScale);
+        this.getPartsList().forEach(IExtendedModelPart::resetPostScale);
     }
 
     @Override

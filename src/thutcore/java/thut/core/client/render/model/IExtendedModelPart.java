@@ -234,7 +234,15 @@ public interface IExtendedModelPart extends IModelCustom
 
     void setPreScale(Vector3 scale);
 
-    void setPostScale(Vector3f scale);
+    /**
+     * Multiplies render scaling factor by scale
+     */
+    void mulPostScale(Vector3f scale);
+
+    /**
+     * Resets render scaling factor
+     */
+    void resetPostScale();
 
     void setPreTranslations(Vector3 translations);
 

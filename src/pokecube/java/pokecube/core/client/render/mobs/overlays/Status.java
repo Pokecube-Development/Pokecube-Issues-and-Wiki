@@ -12,7 +12,6 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.utils.Resources;
-import thut.api.maths.Vector3;
 import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.TextureHelper;
@@ -146,8 +145,7 @@ public class Status
             var mat = event.getPoseStack();
             mat.pushPose();
 
-            float ds = effects.scale();
-            float s = (1 + ds) / 1.73205081f;
+            float s = 1 + effects.scale();
             Vector3f scale = new Vector3f(s, s, s);
 
             final StatusTexturer statusTexturer = effects.texturer();
@@ -162,7 +160,7 @@ public class Status
             wrap.getParts().forEach((n, p) -> {
                 p.applyTexture(buf, default_, statusTexturer);
                 if (EXCLUDED_PARTS.contains(p.getName())) p.setDisabled(true);
-                p.setPostScale(scale);
+                p.mulPostScale(scale);
             });
 
             boolean oldRenderOverlay = RenderMobOverlays.enabled;
@@ -185,8 +183,7 @@ public class Status
                     if (EXCLUDED_PARTS.contains(p.getName())) p.setDisabled(false);
                 });
             }
-            scale.set(0, 0, 1);
-            for (var p : wrap.getParts().values()) p.setPostScale(scale);
+            for (var p : wrap.getParts().values()) p.resetPostScale();
             wrap.renderer.setTexturer(texer);
 
             mat.popPose();

@@ -428,7 +428,7 @@ public class JsonPart extends Part
         // Apply postRotation
         this.postRot.glRotate(mat);
         // Scale
-        mat.scale(this.scale.x, this.scale.y, this.scale.z);
+        mat.scale(this.postScale.x, this.postScale.y, this.postScale.z);
     }
 
     @Override
