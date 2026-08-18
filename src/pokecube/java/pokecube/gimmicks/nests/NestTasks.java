@@ -23,6 +23,7 @@ import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
@@ -59,6 +60,7 @@ import thut.api.attachments.Inventory;
 import thut.api.data.HolderProvider;
 import thut.api.inventory.InvHelper;
 import thut.api.item.ItemList;
+import thut.core.common.config.Config;
 import thut.lib.RegHelper;
 
 import java.util.function.Predicate;
@@ -100,6 +102,8 @@ public class NestTasks
         init();
     }
 
+    public static NestConfig config = new NestConfig();
+
     public NestTasks(IEventBus bus)
     {
         // Register the DeferredRegisters
@@ -109,6 +113,9 @@ public class NestTasks
 
         // Register custom listeners for the POKEMOB_BUS
         PokecubeAPI.POKEMOB_BUS.addListener(EventPriority.LOW, NestTasks::onHatch);
+
+        Config.setupConfigs(ModList.get().getModContainerById("pokecube").get(), config,
+                PokecubeCore.MODID+"/gimmicks", "nests");
     }
 
     public static void onHatch(EggEvent.Hatch event)

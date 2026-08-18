@@ -13,12 +13,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
-import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
 import pokecube.gimmicks.nests.NestTasks;
 import pokecube.gimmicks.nests.blocks.NestTile;
@@ -56,7 +53,7 @@ public class MakeNest extends BaseIdleTask
         var entity = pokemob.getEntity();
         if (!MoveEventsHandler.canAffectBlock(pokemob, new Vector3(pos), "nest_building")) return false;
         final PoiManager pois = level.getPoiManager();
-        final long num = pois.getCountInRange(NestTasks.NEST_POI, pos, PokecubeCore.getConfig().nestSpacing,
+        final long num = pois.getCountInRange(NestTasks.NEST_POI, pos, NestTasks.config.nestSpacing,
                 PoiManager.Occupancy.ANY);
         if (num > 0) return false;
         final Brain<?> brain = entity.getBrain();

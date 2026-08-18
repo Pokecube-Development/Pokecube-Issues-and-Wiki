@@ -354,7 +354,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         this.eggs.removeIf(uuid -> {
             final Entity mob = world.getEntity(uuid);
             if (!(mob instanceof EntityPokemobEgg egg) || !mob.isAddedToLevel()) return true;
-            if (ants > PokecubeCore.getConfig().antNestMobNumber || !playerNear) egg.setAge(-100);
+            if (ants > NestTasks.config.antNestMobNumber || !playerNear) egg.setAge(-100);
             else if (egg.getAge() < -100) egg.setAge(-rng.nextInt(100));
             return false;
         });
@@ -690,8 +690,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         this.ants.remove(mob.getUUID());
         this.workers.get(AntTasks.getJob(mob)).remove(mob.getUUID());
 
-        if (this.eggs.size() < Math.min(Math.max(PokecubeCore.getConfig().antNestMobNumber / 2, ants / 2),
-                PokecubeCore.getConfig().antNestMobNumber / 2))
+        if (this.eggs.size() < Math.min(Math.max(NestTasks.config.antNestMobNumber / 2, ants / 2),
+                NestTasks.config.antNestMobNumber / 2))
         {
             final IPokemob poke = PokemobCaps.getPokemobFor(mob);
             Optional<BlockPos> room = this.getFreeEggRoom();

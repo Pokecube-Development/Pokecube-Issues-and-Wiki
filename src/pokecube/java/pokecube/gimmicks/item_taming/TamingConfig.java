@@ -11,7 +11,7 @@ public class TamingConfig extends ConfigData
 
     public TamingConfig()
     {
-        super("pokecube_item_taming");
+        super("item_taming");
     }
 
     @Override

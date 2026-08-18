@@ -10,6 +10,7 @@ import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.EventHooks;
@@ -39,14 +40,15 @@ import thut.core.common.config.Config;
 import java.util.ArrayList;
 import java.util.List;
 
+@Mod(value = PokecubeCore.MODID)
 @EventBusSubscriber(modid = PokecubeCore.MODID)
 public class ItemTaming
 {
     public static TamingConfig config = new TamingConfig();
-    @SubscribeEvent
-    public static void setupConfigs(final NewRegistryEvent event)
+
+    public ItemTaming()
     {
-        Config.setupConfigs(ModList.get().getModContainerById("pokecube").get(), config, PokecubeCore.MODID, "pokecube_item_taming");
+        Config.setupConfigs(ModList.get().getModContainerById("pokecube").get(), config, PokecubeCore.MODID+"/gimmicks", "item_taming");
     }
 
     @SubscribeEvent

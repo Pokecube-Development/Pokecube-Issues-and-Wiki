@@ -16,12 +16,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
 import pokecube.core.eventhandlers.MoveEventsHandler;
+import pokecube.gimmicks.nests.NestTasks;
 import pokecube.gimmicks.nests.tasks.bees.BeeTasks;
 import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
@@ -80,7 +80,7 @@ public class MakeHive extends BaseIdleTask
 
         final PoiManager pois = level.getPoiManager();
         final long num = pois.getCountInRange(p -> p.is(PoiTypeTags.BEE_HOME), pos,
-                PokecubeCore.getConfig().nestSpacing, PoiManager.Occupancy.ANY);
+                NestTasks.config.nestSpacing, PoiManager.Occupancy.ANY);
         if (num > 0) return false;
 
         final Brain<?> brain = entity.getBrain();

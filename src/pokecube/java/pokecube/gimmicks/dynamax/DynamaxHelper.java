@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
@@ -50,6 +51,7 @@ import pokecube.core.eventhandlers.SpawnHandler.ForbiddenEntry;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import thut.api.Tracker;
 import thut.api.entity.genetics.GeneRegistry;
+import thut.core.common.config.Config;
 import thut.lib.RegHelper;
 
 import java.util.List;
@@ -88,12 +90,17 @@ public class DynamaxHelper
                 () -> BlockEntityType.Builder.of(MaxTile::new, DYNAMAX.get()).build(null));
     }
 
+    public static DynamaxConfig config = new DynamaxConfig();
+
     public DynamaxHelper(IEventBus bus)
     {
         // Register the DeferredRegisters
         BLOCKS.register(bus);
         ITEMS.register(bus);
         TILES.register(bus);
+
+        // Setup config file
+        Config.setupConfigs(ModList.get().getModContainerById("pokecube").get(), config, PokecubeCore.MODID+"/gimmicks", "dynamax");
     }
 
     @SubscribeEvent
@@ -174,7 +181,7 @@ public class DynamaxHelper
                     final long dynatime = PokecubePlayerDataHandler.getCustomDataTag(reg, owner.getUUID())
                             .getLong("pokecube:dynatime");
                     final long time = Tracker.instance().getTick();
-                    if (dynatime != 0 && time - dynatime < PokecubeCore.getConfig().dynamax_cooldown)
+                    if (dynatime != 0 && time - dynatime < config.dynamax_cooldown)
                     {
                         thut.lib.ChatHelper.sendSystemMessage(player,
                                 Component.translatableEscape("pokemob.dynamax.too_soon", pokemob.getDisplayName()));
@@ -191,7 +198,7 @@ public class DynamaxHelper
                     pokemob.displayMessageToOwner(mess);
                     mess = Component.translatableEscape("pokemob.dynamax.success", oldName);
                     PokecubePlayerDataHandler.getCustomDataTag(reg, owner.getUUID()).putLong("pokecube:dynatime", time);
-                    doDynamax(pokemob, newEntry, PokecubeCore.getConfig().dynamax_duration, mess);
+                    doDynamax(pokemob, newEntry, config.dynamax_duration, mess);
                 }
                 return true;
             }
@@ -302,7 +309,7 @@ public class DynamaxHelper
         entity.heal(toAdd);
 
         if (!info.gigantamax)
-            SharedAttributes.adjustScale(entity, PokecubeCore.getConfig().dynamax_scale, DYNAMOD, true);
+            SharedAttributes.adjustScale(entity, config.dynamax_scale, DYNAMOD, true);
     }
 
     public static boolean isDynamax(IPokemob pokemob)

@@ -26,6 +26,7 @@ import pokecube.api.raids.RaidManager;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
+import pokecube.gimmicks.nests.NestTasks;
 import pokecube.gimmicks.nests.tasks.ants.nest.AntHabitat;
 import pokecube.gimmicks.nests.tasks.ants.sensors.EggSensor;
 import pokecube.gimmicks.nests.tasks.ants.sensors.GatherSensor;
@@ -110,7 +111,7 @@ public class AntTasks
     private static void addTasks(final IPokemob pokemob, final List<IAIRunnable> list,
             Map<String, IAIRunnable> namedTasks)
     {
-        if (!PokecubeCore.getConfig().pokemobsMakeNests) return;
+        if (!NestTasks.config.pokemobsMakeNests) return;
         if (!AntTasks.ANTAI.isAllowed(pokemob)) return;
 
         list.add(new CheckNest().setPriority(200));

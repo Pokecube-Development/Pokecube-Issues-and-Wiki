@@ -32,8 +32,8 @@ import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.api.data.PokedexEntry.SpawnData;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
+import pokecube.gimmicks.nests.NestTasks;
 import pokecube.gimmicks.nests.blocks.NestTile;
 import pokecube.core.database.Database;
 import pokecube.core.entity.genetics.genes.SpeciesGene;
@@ -58,7 +58,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
         final Predicate<Mob> filter = hab::canEnterHabitat;
         final List<Mob> mobs = pokemob.getEntity().level().getEntitiesOfClass(Mob.class,
                 hab.burrow.getOutBounds().inflate(10), filter);
-        for (final Mob mob : mobs) if (!hab.mobs.contains(mob.getUUID())) hab.mobs.add(mob.getUUID());
+        for (final Mob mob : mobs) hab.mobs.add(mob.getUUID());
         return hab;
     }
 
@@ -72,9 +72,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
 
     final Set<PokedexEntry> mutations = Sets.newHashSet();
 
-    Predicate<PokedexEntry> valid = e -> {
-        return this.related.contains(e) || this.mutations.contains(e);
-    };
+    Predicate<PokedexEntry> valid = e -> this.related.contains(e) || this.mutations.contains(e);
 
     public Set<UUID> eggs = Sets.newHashSet();
     public Set<UUID> mobs = Sets.newHashSet();
@@ -162,9 +160,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
         });
         nbt.put("mobs", mobs);
         final ListTag muts = new ListTag();
-        this.mutations.forEach(entry -> {
-            muts.add(StringTag.valueOf(entry.getTrimmedName()));
-        });
+        this.mutations.forEach(entry -> muts.add(StringTag.valueOf(entry.getTrimmedName())));
         nbt.put("mutated", muts);
         return nbt;
     }
@@ -219,7 +215,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
         this.eggs.removeIf(uuid -> {
             final Entity mob = world.getEntity(uuid);
             if (!(mob instanceof EntityPokemobEgg egg) || !mob.isAddedToLevel()) return true;
-            if (this.mobs.size() > PokecubeCore.getConfig().nestMobNumber || !playerNear) egg.setAge(-100);
+            if (this.mobs.size() > NestTasks.config.nestMobNumber || !playerNear) egg.setAge(-100);
             else if (egg.getAge() < -100) egg.setAge(-rng.nextInt(100));
             return false;
         });
@@ -289,7 +285,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
 
             // If we have less than 3 eggs, make one from one of the random
             // related mobs.
-            if (this.eggs.size() < 3 && rng.nextDouble() < PokecubeCore.getConfig().nestEggRate)
+            if (this.eggs.size() < 3 && rng.nextDouble() < NestTasks.config.nestEggRate)
             {
                 final List<PokedexEntry> entries = Lists.newArrayList(this.related);
                 Collections.shuffle(entries);

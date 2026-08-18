@@ -144,7 +144,6 @@ public class Config extends ConfigData
         }
     }
 
-    public static final String nests = "nests";
     public static final String spawning = "spawning";
     public static final String database = "database";
     public static final String world = "generation";
@@ -157,7 +156,6 @@ public class Config extends ConfigData
     public static final String healthbars = "healthbars";
     public static final String genetics = "genetics";
     public static final String items = "items";
-    public static final String dynamax = "dynamax";
     public static final String debug_modes = "debug";
 
     public static Config instance;
@@ -559,17 +557,6 @@ public class Config extends ConfigData
     @Configure(category = Config.spawning, comment = "If false, specific pokemob spawn rates are not affected by location is ignored. [Default: true]")
     public boolean applySpawnRateMask = true;
 
-    @Configure(category = Config.nests, comment = "Wild pokemobs make nests, these result in effective mob spawners where they made them, and will prevent other mobs spawning in the area, unless the nests are cleared out. [Default: true]")
-    public boolean pokemobsMakeNests = true;
-    @Configure(category = Config.nests, comment = "Probability per second of a nest spawning an egg, if it has less than 3 eggs. [Default: 0.25]")
-    public double nestEggRate = 0.25;
-    @Configure(category = Config.nests, comment = "The number of pokemobs that work at one nest. [Default: 3]")
-    public int nestMobNumber = 3;
-    @Configure(category = Config.nests, comment = "The number of ant pokemobs that work at one nest. [Default: 10]")
-    public int antNestMobNumber = 10;
-    @Configure(category = Config.nests, comment = "Minimum distance between burrows made by wild pokemobs. [Default: 64]")
-    public int nestSpacing = 64;
-
     @Configure(category = Config.spawning, comment = "These determine what lvl pokemobs spawn based on location. If central is true, then the origin for the function is 0,0, otherwise it is world spawn. if radial is true, then the function takes the variable r, which is horizontal distance from the origin. Otherwise it takes x and y, which are the horizontal coordinates with respect to the origin.")
     public List<String> dimensionSpawnLevels = Lists.newArrayList(//@formatter:off
             "{\"dim\":\"the_nether\",\"func\":\"abs((25)*(sin(x*8*10^-3)^3 + sin(y*8*10^-3)^3))\",\"radial\":false,\"central\":false}",
@@ -745,15 +732,6 @@ public class Config extends ConfigData
     public int scannedNameColour = 0x88FFFF;
     @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Name color on the health bar of an unknown pokemob. [Default: 8947848]")
     public int unknownNameColour = 0x888888;
-
-    @Configure(category = Config.dynamax, comment = "Dynamax cooldown in ticks. [Default: 6000]")
-    public int dynamax_cooldown = 6000;
-    @Configure(category = Config.dynamax, comment = "Dynamax duration in ticks. [Default: 250]")
-    public int dynamax_duration = 250;
-    @Configure(category = Config.dynamax, comment = "Scale of dynamaxed pokemobs. [Default: 5.0]")
-    public double dynamax_scale = 5.0;
-    @Configure(category = Config.dynamax, comment = "Z-Move cooldown in ticks. [Default: 2000]")
-    public int z_move_cooldown = 2000;
 
     // Config options which are needed to by synchronized on both sides
 

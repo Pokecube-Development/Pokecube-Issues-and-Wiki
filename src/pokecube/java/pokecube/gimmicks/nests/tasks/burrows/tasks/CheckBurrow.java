@@ -14,12 +14,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
-import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
-import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
 import pokecube.core.ai.tasks.utility.StoreItems;
 import pokecube.gimmicks.nests.NestTasks;
@@ -86,7 +83,7 @@ public class CheckBurrow extends BaseIdleTask
 
             final PoiManager pois = level.getPoiManager();
             final long num = pois.getCountInRange(NestTasks.NEST_POI, entity.blockPosition(),
-                    PokecubeCore.getConfig().nestSpacing, PoiManager.Occupancy.ANY);
+                    NestTasks.config.nestSpacing, PoiManager.Occupancy.ANY);
 
             if (blocks == null || num != 0) return;
 

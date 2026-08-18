@@ -16,6 +16,7 @@ import pokecube.api.events.pokemobs.InitAIEvent.Init.Type;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
+import pokecube.gimmicks.nests.NestTasks;
 import pokecube.gimmicks.nests.tasks.burrows.burrow.BurrowHab;
 import pokecube.gimmicks.nests.tasks.burrows.sensors.BurrowSensor;
 import pokecube.gimmicks.nests.tasks.burrows.sensors.BurrowSensor.Burrow;
@@ -76,7 +77,7 @@ public class BurrowTasks
     private static void addTasks(final IPokemob pokemob, final List<IAIRunnable> list,
             Map<String, IAIRunnable> namedTasks)
     {
-        if (!PokecubeCore.getConfig().pokemobsMakeNests) return;
+        if (!NestTasks.config.pokemobsMakeNests) return;
         if (!BurrowTasks.isValid(pokemob.getEntity())) return;
 
         list.add(new CheckBurrow());
