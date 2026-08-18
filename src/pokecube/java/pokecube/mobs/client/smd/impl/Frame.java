@@ -47,9 +47,8 @@ public class Frame
             final Bone bone = this.owner.bones.get(i);
             if (bone.parent != null)
             {
-                final Matrix4f temp = this.transforms.get(bone.parent.ID).mul(this.transforms.get(i));
-                this.transforms.set(i, temp);
-                this.invertTransforms.set(i, temp.invert(new Matrix4f()));
+                final Matrix4f temp = this.transforms.get(bone.parent.ID).mul(this.transforms.get(i), this.transforms.get(i));
+                temp.invert(this.invertTransforms.get(i));
             }
         }
     }

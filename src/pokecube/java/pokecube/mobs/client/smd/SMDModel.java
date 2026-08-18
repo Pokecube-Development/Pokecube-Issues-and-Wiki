@@ -242,7 +242,8 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
         // TODO figure out animations for this.
     }
 
-    public void render(final PoseStack mat, final VertexConsumer buffer, final IModelRenderer<?> renderer)
+    @Override
+    public void render(PoseStack mat, VertexConsumer buffer)
     {
         if (this.wrapped != null)
         {
@@ -251,13 +252,12 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
             // Makes model face correct way.
             mat.mulPose(Axis.YP.rotationDegrees(180));
 
-            final HeadInfo info = renderer.getAnimationHolder() != null ? renderer.getAnimationHolder().getHeadInfo()
-                    : HeadInfo.DUMMY;
+            var holder = this.animHolderHolder.get();
+            final HeadInfo info = holder != null ? holder.getHeadInfo():HeadInfo.DUMMY;
 
             // only increment frame if a tick has passed.
             if (this.wrapped.body.currentAnim != null && this.wrapped.body.currentAnim.frameCount() > 0)
-                this.wrapped.body.currentAnim
-                        .setCurrentFrame(info.currentTick % this.wrapped.body.currentAnim.frameCount());
+                this.wrapped.body.currentAnim.setCurrentFrame(info.currentTick % this.wrapped.body.currentAnim.frameCount());
             // Check head parts for rendering rotations of them.
             for (final String s : this.getHeadParts())
             {
@@ -409,6 +409,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     public List<IExtendedModelPart> getPartsList()
     {
         // TODO see what we need to do for this for wearables support later.
+        if(this.order.isEmpty()) this.order.add(this);
         return this.order;
     }
 
@@ -443,7 +444,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     public void setAnimationHolder(Holder<IAnimationHolder> input)
     {
         this.animHolderHolder = input;
-        for (var part : this.getPartsList()) part.setAnimationHolder(input);
+        for (var part : this.getPartsList()) if(part!=this) part.setAnimationHolder(input);
     }
 
     @Override
@@ -456,7 +457,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     public void setAnimationChanger(Holder<IAnimationChanger> input)
     {
         this.animChangeHolder = input;
-        for (var part : this.getPartsList()) if (part instanceof IRetexturableModel p) p.setAnimationChanger(input);
+        for (var part : this.getPartsList()) if(part!=this)  if (part instanceof IRetexturableModel p) p.setAnimationChanger(input);
     }
 
     @Override
@@ -469,7 +470,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     public void setTexturerChanger(Holder<IPartTexturer> input)
     {
         this.texChangeHolder = input;
-        for (var part : this.getPartsList()) if (part instanceof IRetexturableModel p) p.setTexturerChanger(input);
+        for (var part : this.getPartsList()) if(part!=this)  if (part instanceof IRetexturableModel p) p.setTexturerChanger(input);
     }
 
     @Override

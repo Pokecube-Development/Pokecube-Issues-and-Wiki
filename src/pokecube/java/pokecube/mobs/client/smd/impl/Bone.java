@@ -17,7 +17,7 @@ public class Bone
     public Body            owner;
     /** transformation matrix for when this bone has not been moved */
     public Matrix4f        rest;
-    public Matrix4f        restInv;
+    public Matrix4f        restInv = new Matrix4f();
     /** Transformation matrix for the new position of this bone. */
     public Matrix4f        transform        = new Matrix4f();
     /**
@@ -41,10 +41,8 @@ public class Bone
         this.owner = owner;
         this.parent = parent;
 
-        final Iterator<Map.Entry<MutableVertex, Float>> iterator = b.verts.entrySet().iterator();
-        while (iterator.hasNext())
+        for (Map.Entry<MutableVertex, Float> entry : b.verts.entrySet())
         {
-            final Map.Entry<MutableVertex, Float> entry = iterator.next();
             this.verts.put(owner.verts.get(entry.getKey().ID), entry.getValue());
         }
         this.animatedTransforms = new HashMap<>(b.animatedTransforms);
@@ -126,7 +124,7 @@ public class Bone
 
     public void invertRestMatrix()
     {
-        this.restInv = this.rest.invert(this.restInv);
+        this.rest.invert(this.restInv);
     }
 
     /**
@@ -160,18 +158,18 @@ public class Bone
         {
             // We have an animation, so our delta matrix will be based on this.
             final Frame currentFrame = this.owner.currentAnim.frames.get(this.owner.currentAnim.index);
-            currentFrame.transforms.get(this.ID).set(delta);
-            currentFrame.invertTransforms.get(this.ID).set(inverted);
+            delta.set(currentFrame.transforms.get(this.ID));
+            inverted.set(currentFrame.invertTransforms.get(this.ID));
         }
         else
         {
             // No animation, so use rest matrix for the delta.
-            this.rest.set(delta);
-            this.restInv.set(inverted);
+            delta.set(this.rest);
+            inverted.set(this.restInv);
         }
         // Apply the dynamic transformation.
-        delta.mul(this.dynamicTransform, delta);
-        delta.mul(inverted, delta);
+        delta.mul(this.dynamicTransform);
+        delta.mul(inverted);
         this.transform = this.parent != null ? this.parent.transform.mul(delta, this.getTransform())
                 : this.getTransform();
         for (final Bone child : this.children)

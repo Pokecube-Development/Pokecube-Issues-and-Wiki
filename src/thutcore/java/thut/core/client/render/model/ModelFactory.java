@@ -26,9 +26,9 @@ public class ModelFactory
 
     static
     {
-        ModelFactory.registerIModel("bbmodel", BBModel::new);
-        ModelFactory.registerIModel("json", JsonModel::new);
-        ModelFactory.registerIModel("x3d", X3dModel::new);
+        ModelFactory.registerIModel("bbmodel", BBModel::new, false);
+        ModelFactory.registerIModel("json", JsonModel::new, false);
+        ModelFactory.registerIModel("x3d", X3dModel::new, false);
     }
 
     public static IModel create(final ResourceLocation location, final ModelHolder model, final IModelCallback callback)
@@ -112,7 +112,17 @@ public class ModelFactory
 
     public static void registerIModel(final String extension, final IFactory<?> clazz)
     {
+        registerIModel(extension, clazz, true);
+    }
+
+    public static void registerIModel(final String extension, final IFactory<?> clazz, boolean addFirst)
+    {
         ModelFactory.modelFactories.put(extension, clazz);
-        if (!ModelFactory.knownExtension.contains(extension)) ModelFactory.knownExtension.add(extension);
+        // Add new ones ahead of existing ones, as they are likely to be a replacement for rendering
+        if (!ModelFactory.knownExtension.contains(extension))
+        {
+            if (addFirst) ModelFactory.knownExtension.addFirst(extension);
+            else ModelFactory.knownExtension.add(extension);
+        }
     }
 }

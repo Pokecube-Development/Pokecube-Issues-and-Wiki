@@ -12,8 +12,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.util.FastColor;
-import thut.core.client.render.model.parts.Mesh;
-import thut.core.common.ThutCore;
 
 /**
  * A group of vertices, these get moved around by animations on bones, this just
@@ -75,20 +73,6 @@ public class Face
         final Vector3f dn = this.dummy3;
         int argb = FastColor.ARGB32.color(alpha, red, green, blue);
 
-        boolean cull = ThutCore.getConfig().modelCullThreshold > 0;
-        // TODO give this a material to check for culling!
-        if (cull)
-        {
-            // TODO use face centre instead here!
-            dp.set(verts[0].x, verts[0].y, verts[0].z, 1);
-            dp.mul(pos);
-            double dr2 = Math.abs(dp.dot(Mesh.METRIC));
-            if (dr2 < ThutCore.getConfig().modelCullThreshold)
-            {
-                cull = false;
-            }
-        }
-
         for (int i = 0; i < 3; i++)
         {
             final MutableVertex vert = this.verts[i];
@@ -100,27 +84,14 @@ public class Face
             dn.set(nx, ny, nz);
             dn.mul(norms);
 
-            // Similar to Mesh, except we only have to check the 1 face, as we
-            // only have 1 face! so only apply on i==0. Then, apply a similar
-            // threshold to what is used in Mesh
-            final boolean tryCull = cull && i == 0 && dn.dot(ZP) < (smoothShading ? -0.2 : 0.0);
-            if (tryCull) break;
-
-            final float x = vert.x;
-            final float y = vert.y;
-            final float z = vert.z;
-
-            final float u = this.uvs[i].x + (float) uvShift[0];
-            final float v = this.uvs[i].y + (float) uvShift[1];
-
-            dp.set(x, y, z, 1);
+            dp.set(vert, 1);
             dp.mul(pos);
 
             buffer.addVertex(
             //@formatter:off
                 dp.x(), dp.y(), dp.z(),
                 argb,
-                u, v,
+                this.uvs[i].x + (float) uvShift[0], this.uvs[i].y + (float) uvShift[1],
                 overlayUV, lightmapUV,
                 dn.x(), dn.y(), dn.z());
             //@formatter:on
@@ -133,7 +104,7 @@ public class Face
                 this.verts[1].z - this.verts[0].z);
         this.b.set(this.verts[2].x - this.verts[0].x, this.verts[2].y - this.verts[0].y,
                 this.verts[2].z - this.verts[0].z);
-        this.c.cross(this.a, this.b);
+        this.a.cross(this.b, this.c);
         this.c.normalize();
         if (this.normal == null) this.normal = new Vector3f(this.c.x, this.c.y, this.c.z);
         else
