@@ -36,7 +36,7 @@ public interface IGuardAICapability extends INBTSerializable<CompoundTag>
             final CompoundTag nbt = (CompoundTag) tag;
             if (nbt.contains("pos")) this.setPos(NbtUtils.readBlockPos(nbt, "pos").get());
             this.setRoamDistance(nbt.getFloat("d"));
-            this.setActiveTime(new TimePeriod((int) nbt.getLong("start"), (int) nbt.getLong("end")));
+            this.setActiveTime(new TimePeriod(nbt.getDouble("start"), nbt.getDouble("end")));
         }
 
         default Tag serialze()
@@ -47,8 +47,8 @@ public interface IGuardAICapability extends INBTSerializable<CompoundTag>
             TimePeriod time;
             if ((time = this.getActiveTime()) != null)
             {
-                tag.putLong("start", time.startTick);
-                tag.putLong("end", time.endTick);
+                tag.putDouble("start", time.startTime);
+                tag.putDouble("end", time.endTime);
             }
             return tag;
         }

@@ -311,8 +311,8 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
         final String[] args = text.split(" ");
         if (args.length == 2) try
         {
-            final int x = Integer.parseInt(args[0]);
-            final int y = Integer.parseInt(args[1]);
+            final double x = Double.parseDouble(args[0]);
+            final double y = Double.parseDouble(args[1]);
             return new TimePeriod(x, y);
         }
         catch (final NumberFormatException e)

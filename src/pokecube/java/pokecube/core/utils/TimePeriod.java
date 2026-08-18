@@ -14,12 +14,10 @@ import net.minecraft.world.level.Level;
  */
 public final class TimePeriod
 {
-    public final static TimePeriod fullDay = new TimePeriod(0, 24000);
+    public final static TimePeriod fullDay = new TimePeriod(0, 1.0);
 
     public final static TimePeriod never = new TimePeriod(0, 0);
 
-    public final int startTick;
-    public final int endTick;
     public final double startTime;
 
     public final double endTime;
@@ -32,34 +30,21 @@ public final class TimePeriod
      */
     public TimePeriod(final double start, final double end)
     {
-        this((int) (start * 24000), (int) (end * 24000));
-    }
-
-    public TimePeriod(int sTick, int eTick)
-    {
-        sTick = Math.min(Math.max(sTick, 0), 24000);
-        eTick = Math.min(Math.max(eTick, 0), 24000);
-        this.startTick = sTick;
-        this.endTick = eTick;
-        this.startTime = this.startTick / 24000.0;
-        this.endTime = this.endTick / 24000.0;
-        this.wrapped = this.startTick > this.endTick;
+        this.startTime = start;
+        this.endTime = end;
+        this.wrapped = this.startTime > this.endTime;
     }
 
     public TimePeriod(final TimePeriod other)
     {
         if (null != other)
         {
-            this.startTick = other.startTick;
-            this.endTick = other.endTick;
             this.startTime = other.startTime;
             this.endTime = other.endTime;
             this.wrapped = other.wrapped;
         }
         else
         {
-            this.startTick = 0;
-            this.endTick = 24000;
             this.startTime = 0.0;
             this.endTime = 1.0;
             this.wrapped = false;
@@ -68,7 +53,7 @@ public final class TimePeriod
 
     public boolean contains(final double time)
     {
-        if (this.startTick == this.endTick) return false;
+        if (this.startTime == this.endTime) return false;
         return this.wrapped ? time >= this.startTime || time <= this.endTime
                 : time >= this.startTime && time <= this.endTime;
     }
@@ -79,15 +64,15 @@ public final class TimePeriod
         return this.contains(time / (double) dayLength);
     }
 
-    public boolean overlaps(final TimePeriod other)
+    public static double getTime(Level level)
     {
-        if (null != other) return this.startTick < other.endTick && this.endTick > other.startTick;
-        return false;
+        return getTime(level, level.getDayTime());
     }
 
-    public static double getTime(Level level)
-    {// TODO better way to choose current time, such as other day lengths
-        return level.getDayTime() % 24000 / 24000d;
+    public static double getTime(Level level, long testTime)
+    {   // TODO better way to choose current time, such as other day lengths
+        // This can probably somehow use level.getDayTimeFraction()
+        return testTime % 24000 / 24000d;
     }
 
 }

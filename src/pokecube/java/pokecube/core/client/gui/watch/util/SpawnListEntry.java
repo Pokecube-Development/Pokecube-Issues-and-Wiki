@@ -11,7 +11,6 @@ import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.ClickEvent.Action;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import pokecube.api.data.PokedexEntry;
@@ -60,10 +59,10 @@ public class SpawnListEntry
 
                     if (!biomes.isEmpty())
                     {
-                        String biomeString = I18n.get("pokewatch.spawns.biomes") + "\n";
-                        for (final Component s : biomes) biomeString = biomeString + s.getString() + ",\n";
-                        biomeString = biomeString.substring(0, biomeString.length() - 2) + ".";
-                        output.addAll(font.split(Component.literal(biomeString), width - font.width(ind)));
+                        StringBuilder biomeString = new StringBuilder(I18n.get("pokewatch.spawns.biomes") + "\n");
+                        for (final Component s : biomes) biomeString.append(s.getString()).append(",\n");
+                        biomeString = new StringBuilder(biomeString.substring(0, biomeString.length() - 2) + ".");
+                        output.addAll(font.split(Component.literal(biomeString.toString()), width - font.width(ind)));
                     }
 
                     final List<String> types = Lists.newArrayList();
@@ -74,19 +73,19 @@ public class SpawnListEntry
                     for (final String s : stuff.clientTypes()) types.add(I18n.get("thutcore.biometype." + s));
                     if (!types.isEmpty())
                     {
-                        String typeString = I18n.get("pokewatch.spawns.types") + "\n";
-                        for (final String s : types) typeString = typeString + s + ", ";
-                        output.addAll(font.split(Component.literal(typeString), width - font.width(ind)));
+                        StringBuilder typeString = new StringBuilder(I18n.get("pokewatch.spawns.types") + "\n");
+                        for (final String s : types) typeString.append(s).append(", ");
+                        output.addAll(font.split(Component.literal(typeString.toString()), width - font.width(ind)));
                     }
 
                     if (!stuff.clientStructures().isEmpty())
                     {
-                        String msg = I18n.get("pokewatch.spawns.structures") + "\n";
+                        StringBuilder msg = new StringBuilder(I18n.get("pokewatch.spawns.structures") + "\n");
                         for (String s : stuff.clientStructures())
                         {
-                            msg = msg + I18n.get("spawn.structure." + s.replace(":", ".")) + ", ";
+                            msg.append(I18n.get("spawn.structure." + s.replace(":", "."))).append(", ");
                         }
-                        output.addAll(font.split(Component.literal(msg), width - font.width(ind)));
+                        output.addAll(font.split(Component.literal(msg.toString()), width - font.width(ind)));
                     }
                 }
 
@@ -125,7 +124,6 @@ public class SpawnListEntry
                 {
                     if (time > 0) times = times + ", ";
                     else times = times + " ";
-                    time++;
                     times = times + I18n.get("pokewatch.spawns.dawn");
                 }
                 output.addAll(font.split(Component.literal(times), width - font.width(ind)));
@@ -138,6 +136,7 @@ public class SpawnListEntry
             if (matcher.spawnRule.values.containsKey("Local_Rate"))
             {
                 String colour = "";
+                boolean obfuscate = false;
                 float val = 0;
                 try
                 {
@@ -156,16 +155,19 @@ public class SpawnListEntry
                         colour = "";
                     }
                     // This means that the spawn won't occur here without statues
-                    else
+                    else if (val > 0)
                     {
-                        colour = "§c";
+                        colour = "§c§k";
+                        obfuscate = true;
                     }
+                    // In the val == 0 case, we don't obfuscate, as it is intended for a marker for legendary summons
                 }
-                catch (final Exception e)
+                catch (final Exception ignored)
                 {
 
                 }
-                if (val > 1e-3) val = Math.round(val * 1000) / 10f;
+                if (obfuscate) val = 99f; // fixed digits of blur
+                else if (val > 1e-3) val = Math.round(val * 1000) / 10f;
                 else if (val != 0)
                 {
                     float denom = 1000f;
@@ -179,7 +181,7 @@ public class SpawnListEntry
                     }
                     val = val2;
                 }
-                rate = colour + I18n.get("pokewatch.spawns.rate_local", val + "%");
+                rate = I18n.get("pokewatch.spawns.rate_local", colour + val + "%§r");
             }
             else
             {
@@ -188,7 +190,7 @@ public class SpawnListEntry
                 {
                     val = Float.parseFloat(matcher.spawnRule.getString("rate"));
                 }
-                catch (final Exception e)
+                catch (final Exception ignored)
                 {
 
                 }

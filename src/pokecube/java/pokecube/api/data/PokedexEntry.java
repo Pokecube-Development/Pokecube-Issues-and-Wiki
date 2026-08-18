@@ -536,7 +536,7 @@ public class PokedexEntry
 
         public SpawnBiomeMatcher getMatcher(final SpawnContext context)
         {
-            SpawnCheck checker = new SpawnCheck(context.location(), context.level());
+            SpawnCheck checker = new SpawnCheck(context);
             return this.getMatcher(context, checker, true);
         }
 

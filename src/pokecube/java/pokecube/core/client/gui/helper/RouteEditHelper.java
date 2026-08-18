@@ -42,7 +42,7 @@ public class RouteEditHelper
             dist.setMaxLength(Short.MAX_VALUE);
             if (task.getPos() != null)
                 location.setValue(task.getPos().getX() + " " + task.getPos().getY() + " " + task.getPos().getZ());
-            time.setValue(task.getActiveTime().startTick + " " + task.getActiveTime().endTick);
+            time.setValue(task.getActiveTime().startTime + " " + task.getActiveTime().endTime);
             dist.setValue(task.getRoamDistance() + "");
             location.moveCursor(-location.getCursorPosition(), false);
             time.moveCursor(-time.getCursorPosition(), false);

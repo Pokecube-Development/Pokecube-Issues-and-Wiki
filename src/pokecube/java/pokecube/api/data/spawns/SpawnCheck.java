@@ -11,6 +11,7 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.material.FluidState;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.events.pokemobs.SpawnEvent;
 import pokecube.core.utils.TimePeriod;
 import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.level.structures.NamedVolumes.INamedVolume;
@@ -94,7 +95,17 @@ public class SpawnCheck
     // the spawnCheck
     public Set<INamedVolume> namedStructures = null;
 
+    public SpawnCheck(SpawnEvent.SpawnContext context)
+    {
+        this(context.location(), context.level(), context.time());
+    }
+
     public SpawnCheck(final Vector3 location, final LevelAccessor world)
+    {
+        this(location, world, world.dayTime());
+    }
+
+    public SpawnCheck(final Vector3 location, final LevelAccessor world, long time)
     {
         this.world = world;
         this.pos = location.getPos();
@@ -106,7 +117,7 @@ public class SpawnCheck
         else level = ((WorldGenRegion) world).getLevel();
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
         this.type = t.getBiome(location);
-        this.time = (float) TimePeriod.getTime(level);
+        this.time = (float) TimePeriod.getTime(level, time);
         this.blockState = location.getBlockState(world);
         this.fluid = world.getFluidState(location.getPos());
         final int lightBlock = world.getMaxLocalRawBrightness(location.getPos());
