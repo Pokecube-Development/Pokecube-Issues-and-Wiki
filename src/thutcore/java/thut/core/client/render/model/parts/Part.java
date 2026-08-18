@@ -57,6 +57,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public Vector3f postScale = new Vector3f(1, 1, 1);
 
     public Vector3f offset = new Vector3f();
+    public Vector3f meshMid = new Vector3f(), dMid = new Vector3f();
     public Vector4 rotations = new Vector4();
 
     protected Quaternionf _quat = new Quaternionf(0, 0, 0, 1);
@@ -174,6 +175,16 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                 list.add(mesh);
             }
             for(var list: allMeshes) renderShapes.addAll(Mesh.merge(list));
+
+            this.meshMid.set(0);
+            int n = 0;
+            for (var m : this.renderShapes)
+                for (var v : m.vertices)
+                {
+                    n++;
+                    this.meshMid.add(v);
+                }
+            if (n > 0) this.meshMid.div(n);
         }
     }
 
@@ -367,9 +378,8 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         // Finally apply Scale
         renderPose.scale(this.scale);
 
-        Vector3f scale = new Vector3f(this.postScale);
-        scale.div(this.scale);
-        boolean hasScale = Math.abs(scale.lengthSquared() - 3) > 1e-4;
+        boolean hasScale = Math.abs(this.postScale.lengthSquared() - 3) > 1e-4;
+        if(hasScale) dMid.set(this.meshMid).div(this.postScale).sub(this.meshMid);
 
         for(var m: this.renderShapes)
         {
@@ -381,10 +391,8 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
             // status overlays, etc.
             if(hasScale)
             {
-                Vector3f dmid = new Vector3f();
                 m.poseInfo.scale(this.postScale);
-                dmid.set(m.mid).div(scale).sub(m.mid);
-                m.poseInfo.translate(dmid);
+                m.poseInfo.translate(dMid);
             }
         }
     }
