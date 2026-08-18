@@ -42,7 +42,6 @@ import net.neoforged.neoforge.fluids.FluidType;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.SpawnData;
-import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -183,11 +182,11 @@ public class EntityPokemob extends PokemobRidable
         SpawnContext context = new SpawnContext(pokemob);
         SpawnCheck checker = new SpawnCheck(loc, worldIn);
 
-        final SpawnBiomeMatcher matcher = entry.getMatcher(context, checker);
+        var record = entry.getMatcher(context, checker);
 
-        final int orig_override = entry.getLevel(matcher);
+        final int orig_override = entry.getLevel(record);
         int overrideLevel = orig_override;
-        final Variance variance = entry.getVariance(matcher);
+        final Variance variance = entry.getVariance(record);
         if (variance != null) overrideLevel = variance.apply(overrideLevel);
 
         if (pokemob != null)

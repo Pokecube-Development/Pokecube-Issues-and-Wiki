@@ -786,12 +786,12 @@ public final class SpawnHandler
         final Vector3 v2 = new Vector3();
         final Vector3 point = v2.clear();
         SpawnHandler.refreshTerrain(loc, level, false);
-        final SpawnBiomeMatcher matcher = entry.getMatcher(context);
-        if (matcher == null) return;
+        var record = entry.getMatcher(context);
+        if (record == null) return;
         final byte distGroupZone = 4;
         final Random rand = ThutCore.newRandom();
-        final int n = Math.max(entry.getMax(matcher) - entry.getMin(matcher), 1);
-        final int spawnNumber = entry.getMin(matcher) + rand.nextInt(n);
+        final int n = Math.max(entry.getMax(record) - entry.getMin(record), 1);
+        final int spawnNumber = entry.getMin(record) + rand.nextInt(n);
         for (int i = 0; i < spawnNumber; i++)
         {
             final Vector3 dr = SpawnHandler.getRandomPointNear(level, loc, distGroupZone, context.surface());
@@ -811,8 +811,8 @@ public final class SpawnHandler
                 context = new SpawnContext(context, point);
                 final SpawnEvent.Pick.Final event = new SpawnEvent.Pick.Final(context);
                 String spawnArgs = "";
-                if (matcher.spawnRule.values.containsKey(SpawnBiomeMatcher.SPAWNCOMMAND))
-                    spawnArgs = matcher.spawnRule.getString(SpawnBiomeMatcher.SPAWNCOMMAND);
+                if (record.matcher().spawnRule.values.containsKey(SpawnBiomeMatcher.SPAWNCOMMAND))
+                    spawnArgs = record.matcher().spawnRule.getString(SpawnBiomeMatcher.SPAWNCOMMAND);
                 event.setSpawnArgs(spawnArgs);
                 PokecubeAPI.POKEMOB_BUS.post(event);
                 if (event.getPicked() == null) continue;
@@ -821,7 +821,7 @@ public final class SpawnHandler
                 entity.moveTo(x, y, z, level.random.nextFloat() * 360.0F, 0.0F);
                 if (entity.checkSpawnRules(level, MobSpawnType.NATURAL))
                 {
-                    if ((entity = SpawnHandler.creatureSpecificInit(entity, level, matcher)) != null)
+                    if ((entity = SpawnHandler.creatureSpecificInit(entity, level, record.matcher())) != null)
                     {
                         IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
                         if (!(spawnArgs = event.getSpawnArgs()).isEmpty())

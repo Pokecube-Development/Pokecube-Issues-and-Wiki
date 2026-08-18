@@ -41,7 +41,6 @@ import pokecube.api.events.data.SpawnMatchInit;
 import pokecube.api.events.pokemobs.SpawnCheckEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.network.packets.PacketPokedex;
 import thut.api.level.terrain.BiomeDatabase;
 import thut.api.level.terrain.BiomeType;
 import thut.core.common.ThutCore;
@@ -68,9 +67,6 @@ public class SpawnBiomeMatcher
 
     public static final String WEATHER = "weather";
     public static final String WEATHERNOT = "noWeather";
-
-    public static final String BIOMES = "biomes";
-    public static final String BIOMESBLACKLIST = "biomesBlacklist";
 
     public static final String MAXLIGHT = "maxLight";
 
@@ -199,10 +195,6 @@ public class SpawnBiomeMatcher
     }
 
     public static Set<TagKey<Biome>> SOFTBLACKLIST = Sets.newHashSet();
-
-    public static MatchChecker DEFAULT_MATERIAL = new pokecube.api.data.spawns.matchers.Material();
-
-    private static boolean loadedIn = false;
 
     public static final Map<String, SpawnRule> PRESETS = Maps.newHashMap();
 
@@ -955,11 +947,6 @@ public class SpawnBiomeMatcher
             for (final SpawnBiomeMatcher child : this._or_children) or_valid = or_valid || child._valid;
 
             this._valid = or_valid || and_valid || this._usesMatchers;
-
-            if (!this._valid && SpawnBiomeMatcher.loadedIn && !__client__)
-            {
-                PokecubeAPI.logDebug("Invalid Matcher: {}", PacketPokedex.gson.toJson(spawnRule));
-            }
             this.initFields();
             return;
         }
@@ -1013,9 +1000,6 @@ public class SpawnBiomeMatcher
                                 );
         //@formatter:on
         if (!hasSomething && !hasBasicSettings) this._valid = false;
-
-        if (!this._valid && SpawnBiomeMatcher.loadedIn) PokecubeAPI.logDebug("Invalid Matcher: {} ({})",
-                PacketPokedex.gson.toJson(spawnRule), PacketPokedex.gson.toJson(this.spawnRule));
         this.initFields();
     }
 

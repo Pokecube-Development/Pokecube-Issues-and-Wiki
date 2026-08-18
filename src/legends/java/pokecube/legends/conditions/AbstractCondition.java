@@ -199,7 +199,7 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
         {
             data = new SpawnData(context.entry());
             SpawnEntry entry = new SpawnEntry();
-            data.matchers.put(SpawnBiomeMatcher.get(spawnRules.location), entry);
+            data.addEntry(spawnRules.location, entry);
             canSpawnHere = SpawnHandler.canSpawn(data, context, false);
         }
         else canSpawnHere = data == null;

@@ -27,6 +27,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
@@ -34,6 +35,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.neoforge.common.util.TriState;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.abilities.Ability;
@@ -48,6 +50,7 @@ import pokecube.api.data.pokedex.InteractsAndEvolutions.Interact;
 import pokecube.api.data.pokedex.conditions.PokemobCondition;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
+import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.pokemob.ICanEvolve;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
@@ -509,9 +512,20 @@ public class PokedexEntry
             public Variance variance = null;
         }
 
+        public static record SpawnRecord(SpawnBiomeMatcher matcher, SpawnEntry entry) implements Comparable<SpawnRecord>
+        {
+            @Override
+            public int compareTo(@NotNull PokedexEntry.SpawnData.SpawnRecord o)
+            {
+                int r1 = Double.compare(this.entry==null?0:entry.rate, o.entry==null?0:o.entry.rate);
+                if (r1 != 0 && !(this.entry==null && o.entry==null)) return r1;
+                return matcher.spawnRule.toString().compareTo(o.matcher.spawnRule.toString());
+            }
+        }
+
         final PokedexEntry entry;
 
-        public Map<SpawnBiomeMatcher, SpawnEntry> matchers = Maps.newHashMap();
+        private final List<SpawnRecord> matchers = new ArrayList<>();
 
         public SpawnData(final PokedexEntry entry)
         {
@@ -523,65 +537,83 @@ public class PokedexEntry
             return this.entry;
         }
 
-        public int getLevel(final SpawnBiomeMatcher matcher)
+        public void addEntry(SpawnRule rule, SpawnEntry entry)
         {
-            final SpawnEntry entry = this.matchers.get(matcher);
+            this.matchers.add(new SpawnRecord(SpawnBiomeMatcher.get(rule), entry));
+            this.matchers.sort(null);
+        }
+
+        public List<SpawnRecord> getMatcherList()
+        {
+            return matchers;
+        }
+
+        public int getLevel(final SpawnRecord record)
+        {
+            final SpawnEntry entry = record.entry;
             return entry == null ? -1 : entry.level;
         }
 
-        public SpawnBiomeMatcher getMatcher(final SpawnContext context, final SpawnCheck checker)
+        public SpawnRecord getMatcher(final SpawnContext context, final SpawnCheck checker)
         {
             return this.getMatcher(context, checker, true);
         }
 
-        public SpawnBiomeMatcher getMatcher(final SpawnContext context)
+        public SpawnRecord getMatcher(final SpawnContext context)
         {
             SpawnCheck checker = new SpawnCheck(context);
             return this.getMatcher(context, checker, true);
         }
 
-        public SpawnBiomeMatcher getMatcher(final SpawnContext context, final SpawnCheck checker,
+        public SpawnRecord getMatcher(final SpawnContext context, final SpawnCheck checker,
                 final boolean forSpawn)
         {
-            List<SpawnBiomeMatcher> matchers = Lists.newArrayList(this.matchers.keySet());
-            Collections.shuffle(matchers);
-            for (var matcher : matchers)
+            if(this.matchers.isEmpty()) return null;
+            List<SpawnRecord> records = Lists.newArrayList(this.matchers);
+            var rng = new LegacyRandomSource(checker.getRNGSeed());
+            while (!records.isEmpty())
             {
+                var record = records.remove(rng.nextInt(records.size()));
                 final SpawnEvent.Check evt = new SpawnEvent.Check(context, forSpawn);
                 PokecubeAPI.POKEMOB_BUS.post(evt);
                 if (evt.isCanceled()) continue;
-                if (evt.getResult() == TriState.TRUE) return matcher;
-                if (matcher.matches(checker)) return matcher;
+                if (evt.getResult() == TriState.TRUE) return record;
+                if (record.matcher.matches(checker)) return record;
             }
             return null;
         }
 
-        public int getMax(final SpawnBiomeMatcher matcher)
+        public int getMax(final SpawnRecord record)
         {
-            final SpawnEntry entry = this.matchers.get(matcher);
+            final SpawnEntry entry = record.entry;
             return entry == null ? 4 : entry.max;
         }
 
-        public int getMin(final SpawnBiomeMatcher matcher)
+        public int getMin(final SpawnRecord record)
         {
-            final SpawnEntry entry = this.matchers.get(matcher);
+            final SpawnEntry entry = record.entry;
             return entry == null ? 2 : entry.min;
         }
 
-        public Variance getVariance(final SpawnBiomeMatcher matcher)
+        public Variance getVariance(final SpawnRecord record)
         {
-            final SpawnEntry entry = this.matchers.get(matcher);
+            final SpawnEntry entry = record.entry;
             return entry == null ? new Variance() : entry.variance;
         }
 
         public float getWeight(final SpawnContext context, SpawnCheck checker, boolean forSpawn)
         {
-            final SpawnEntry entry = this.matchers.get(getMatcher(context, checker, forSpawn));
-            float rate = entry == null ? 0 : entry.rate;
-            if (entry != null)
+            var record = getMatcher(context, checker, forSpawn);
+            float rate = 0;
+            if (record != null)
             {
-                if (context.location().y > entry.maxY) rate = 0;
-                if (context.location().y < entry.minY) rate = 0;
+                final SpawnEntry entry = record.entry;
+                rate = entry == null ? 0 : entry.rate;
+                if (entry != null)
+                {
+                    if (context.location().y > entry.maxY) rate = 0;
+                    if (context.location().y < entry.minY) rate = 0;
+                }
             }
             SpawnEvent.Check.Rate event = new SpawnEvent.Check.Rate(context, forSpawn, rate);
             PokecubeAPI.POKEMOB_BUS.post(event);
@@ -590,8 +622,8 @@ public class PokedexEntry
 
         public boolean isValid(final ResourceLocation biome)
         {
-            for (final SpawnBiomeMatcher matcher : this.matchers.keySet())
-                if (matcher.getValidBiomes().contains(TagKey.create(RegHelper.BIOME_REGISTRY, biome))) return true;
+            for (var matcher : this.matchers)
+                if (matcher.matcher.getValidBiomes().contains(TagKey.create(RegHelper.BIOME_REGISTRY, biome))) return true;
             return false;
         }
 
@@ -607,8 +639,8 @@ public class PokedexEntry
 
         public boolean isValid(final BiomeType biome)
         {
-            for (final SpawnBiomeMatcher matcher : this.matchers.keySet())
-                if (matcher._validSubBiomes.contains(biome)) return true;
+            for (var record : this.matchers)
+                if (record.matcher._validSubBiomes.contains(biome)) return true;
             return false;
         }
 
@@ -622,7 +654,7 @@ public class PokedexEntry
 
         public void postInit()
         {
-            for (final SpawnBiomeMatcher matcher : this.matchers.keySet()) matcher.reset();
+            for (var record : this.matchers) record.matcher.reset();
         }
     }
 

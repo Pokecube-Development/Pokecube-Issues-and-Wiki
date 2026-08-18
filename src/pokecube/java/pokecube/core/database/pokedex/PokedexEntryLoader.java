@@ -19,7 +19,6 @@ import javax.annotation.Nullable;
 import com.google.gson.JsonElement;
 import org.apache.commons.lang3.ClassUtils;
 
-import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 
 import net.minecraft.resources.ResourceLocation;
@@ -41,9 +40,6 @@ import pokecube.core.database.Database;
 import pokecube.core.database.spawns.PokemobSpawns;
 import pokecube.core.database.spawns.PokemobSpawns.SpawnSet;
 import thut.api.util.JsonUtil;
-import thut.core.xml.bind.annotation.XmlAnyAttribute;
-import thut.core.xml.bind.annotation.XmlElement;
-import thut.core.xml.bind.annotation.XmlRootElement;
 
 public class PokedexEntryLoader
 {
@@ -214,9 +210,8 @@ public class PokedexEntryLoader
 
     /**
      * This is safe to run before tags are loaded.
-     *
      */
-    public static SpawnBiomeMatcher handleAddSpawn(PokedexEntry entry, SpawnBiomeMatcher matcher)
+    public static void handleAddSpawn(PokedexEntry entry, SpawnBiomeMatcher matcher)
     {
         final SpawnEntry spawnEntry = new SpawnEntry();
         String val;
@@ -230,7 +225,7 @@ public class PokedexEntryLoader
         if ((val = rule.removeString(VARIANCE)) != null) spawnEntry.variance = new FunctionVariance(val);
         if (entry.getSpawnData() == null) entry.setSpawnData(new SpawnData(entry));
         matcher = SpawnBiomeMatcher.get(rule);
-        entry.getSpawnData().matchers.put(matcher, spawnEntry);
+        entry.getSpawnData().addEntry(rule, spawnEntry);
         if (!Database.spawnables.contains(entry)) Database.spawnables.add(entry);
         // If it can spawn in water, then it can swim in water.
         if (matcher.water) entry.mobType |= MovementType.WATER.mask;
@@ -252,7 +247,6 @@ public class PokedexEntryLoader
                 });
             }
         }
-        return matcher;
     }
 
     public static void initFormeModels(final PokedexEntry entry, final List<DefaultFormeHolder> list)

@@ -104,6 +104,7 @@ public class SpawnRegion implements NamedVolumes.INamedVolume, INBTSerializable<
         Random rand = new Random(seedA);
 
         SpawnCheck filter = new SpawnCheck(v, world);
+        filter.setRNGSeed(seedA);
         // Filter out entries which are not even valid options here.
         entries.removeIf(dbe -> {
             SpawnEvent.SpawnContext toUse = new SpawnEvent.SpawnContext(event.context(), dbe);

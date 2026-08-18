@@ -2,6 +2,7 @@ package pokecube.api.data.spawns;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -20,6 +21,7 @@ import thut.api.level.terrain.BiomeType;
 import thut.api.level.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 import java.util.Set;
 
@@ -97,6 +99,10 @@ public class SpawnCheck
     // These are only looked up if needed, but then cached for further uses of
     // the spawnCheck
     public Set<INamedVolume> namedStructures = null;
+    /**
+     * RNG seed for shuffling, etc. If this is zero,
+     */
+    private long RNGSeed = 0;
 
     public SpawnCheck(SpawnEvent.SpawnContext context)
     {
@@ -135,6 +141,17 @@ public class SpawnCheck
         this.dawn = PokedexEntry.dawn.contains(time);
         this.night = PokedexEntry.night.contains(time);
         this.terrain = PokecubeTerrainChecker.getTerrain(location, world);
+    }
+
+    public long getRNGSeed()
+    {
+        if(RNGSeed==0) RNGSeed = ThutCore.newRandom().nextLong();
+        return RNGSeed;
+    }
+
+    public void setRNGSeed(long RNGSeed)
+    {
+        this.RNGSeed = RNGSeed;
     }
 
     @Override

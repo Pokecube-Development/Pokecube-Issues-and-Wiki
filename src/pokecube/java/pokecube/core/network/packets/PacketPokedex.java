@@ -152,9 +152,7 @@ public class PacketPokedex extends NBTPacket
             final ServerLevel level = player.serverLevel().getLevel();
             final BlockPos pos = player.blockPosition();
             final List<ForbiddenEntry> _repels = SpawnHandler.getForbiddenEntries(level, pos);
-            _repels.forEach(entry->{
-                repels.add(GlobalPos.of(level.dimension(), entry.region.getPos()));
-            });
+            _repels.forEach(entry-> repels.add(GlobalPos.of(level.dimension(), entry.region.getPos())));
             return repels;
         });
     }
@@ -251,13 +249,13 @@ public class PacketPokedex extends NBTPacket
         for (final PokedexEntry e : names)
         {
             SpawnContext scontext = new SpawnContext(player, e);
-            final SpawnBiomeMatcher matcher = e.getSpawnData().getMatcher(scontext, checker, false);
-            if (matcher == null) continue;
+            var record = e.getSpawnData().getMatcher(scontext, checker, false);
+            if (record == null) continue;
             float val = e.getSpawnData().getWeight(scontext, checker, true);
-            final float min = e.getSpawnData().getMin(matcher);
-            final float num = min + (e.getSpawnData().getMax(matcher) - min) / 2;
+            final float min = e.getSpawnData().getMin(record);
+            final float num = min + (e.getSpawnData().getMax(record) - min) / 2;
             val *= num;
-            matchers.put(e, matcher);
+            matchers.put(e, record.matcher());
             total += val;
             rates.put(e, val);
         }
@@ -321,14 +319,14 @@ public class PacketPokedex extends NBTPacket
         var entry = Database.getEntry(tag.getString("V"));
         var packet = new PacketPokedex(PacketPokedex.REQUESTMOB);
         SpawnCheck check = new SpawnCheck(new Vector3(player), player.level);
-        if (entry.getSpawnData() != null) for (final SpawnBiomeMatcher matcher : entry.getSpawnData().matchers.keySet())
+        if (entry.getSpawnData() != null) for (var record : entry.getSpawnData().getMatcherList())
         {
-            String serialised = PacketPokedex.serialize(matcher);
+            String serialised = PacketPokedex.serialize(record.matcher());
             // This is null in the case that the spawn is not valid, or is
             // hidden by the desc being set to __hidden__
             if (serialised == null) continue;
             spawns.putString("" + n, serialised);
-            if (matcher.matches(check)) spawnHere.putBoolean("" + n, true);
+            if (record.matcher().matches(check)) spawnHere.putBoolean("" + n, true);
             n++;
         }
         if (PokemobSpawns.REGEX_SPAWNS.containsKey(entry))
