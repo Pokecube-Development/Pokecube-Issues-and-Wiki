@@ -55,6 +55,8 @@ public class WorldTickManager
         private final List<DelayedTask> delayed = new ArrayList<>();
 
         private boolean ticking = false;
+        private long lastEndTick;
+        private long lastStartTick;
 
         public WorldData(final ServerLevel world)
         {
@@ -63,6 +65,9 @@ public class WorldTickManager
 
         public void onWorldTickEnd()
         {
+            long tick = Tracker.instance().getTick();
+            if (tick == lastEndTick) return;
+            lastEndTick = tick;
             this.ticking = true;
             for (final IWorldTickListener data : this.data) data.onTickEnd(this.world);
             this.ticking = false;
@@ -74,6 +79,10 @@ public class WorldTickManager
 
         public void onWorldTickStart()
         {
+            long tick = Tracker.instance().getTick();
+            if (tick == lastStartTick) return;
+            lastStartTick = tick;
+
             this.ticking = true;
             for (final IWorldTickListener data : this.data) data.onTickStart(this.world);
             this.ticking = false;
