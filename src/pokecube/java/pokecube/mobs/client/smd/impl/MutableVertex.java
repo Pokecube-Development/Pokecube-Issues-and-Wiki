@@ -128,14 +128,6 @@ public class MutableVertex extends Vector3f
         }
     }
 
-    private void mulGeneric(Matrix4fc mat, Vector4f right, Vector4f dest) {
-        float x = right.x, y = right.y, z = right.z, w = right.w;
-        dest.x = org.joml.Math.fma(mat.m00(), x, org.joml.Math.fma(mat.m10(), y, org.joml.Math.fma(mat.m20(), z, mat.m30() * w)));
-        dest.y = org.joml.Math.fma(mat.m01(), x, org.joml.Math.fma(mat.m11(), y, org.joml.Math.fma(mat.m21(), z, mat.m31() * w)));
-        dest.z = org.joml.Math.fma(mat.m02(), x, org.joml.Math.fma(mat.m12(), y, org.joml.Math.fma(mat.m22(), z, mat.m32() * w)));
-        dest.w = org.joml.Math.fma(mat.m03(), x, org.joml.Math.fma(mat.m13(), y, Math.fma(mat.m23(), z, mat.m33() * w)));
-    }
-
     public void reset()
     {
         this.mutPos.set(0, 0, 0, 0);
