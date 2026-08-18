@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    {"id": "minecraft:overworld", "required": false},
+    {"id": "minecraft:overworld_caves", "required": false},
+    {"id": "pokecube_world:overworld", "required": false}
+  ]
+}

@@ -162,7 +162,7 @@
       "or_preset":"ocean_ground,ocean_water"
     },
     {
-      "preset":"overworld",
+      "preset":"_overworld_biome",
       "matchers":{
         "biome":{
           "biome_tags":"#minecraft:is_overworld"
@@ -171,6 +171,21 @@
           "type":"all"
         }
       }
+    },
+    {
+      "preset":"_overworld_dimension",
+      "matchers":{
+        "dimension_type":{
+          "types":"#pokecube_world:is_overworld"
+        },
+        "material":{
+          "type":"all"
+        }
+      }
+    },
+    {
+      "preset":"overworld",
+      "or_preset":"_overworld_dimension,_overworld_biome"
     },
     {
       "preset":"overworld_surface",

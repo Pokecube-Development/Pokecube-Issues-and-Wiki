@@ -8,6 +8,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.material.FluidState;
 import pokecube.api.data.PokedexEntry;
@@ -91,6 +92,8 @@ public class SpawnCheck
     public final LevelAccessor world;
     public final ChunkAccess chunk;
     public final BlockPos pos;
+    public final Holder<DimensionType> dimensionType;
+    public final Holder<Level> dimension;
     // These are only looked up if needed, but then cached for further uses of
     // the spawnCheck
     public Set<INamedVolume> namedStructures = null;
@@ -116,6 +119,8 @@ public class SpawnCheck
         if (world instanceof Level l) level = l;
         else level = ((WorldGenRegion) world).getLevel();
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
+        this.dimensionType = level.dimensionTypeRegistration();
+        this.dimension = level.holderOrThrow(level.dimension());
         this.type = t.getBiome(location);
         this.time = (float) TimePeriod.getTime(time);
         this.blockState = location.getBlockState(world);
