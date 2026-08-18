@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import thut.api.entity.IAnimated;
 import thut.api.entity.animation.Animation;
 import thut.core.client.render.model.parts.Material;
@@ -60,9 +61,19 @@ public interface IModelCustom
             return new PoseInfo(this);
         }
 
+        public void translate(Vector3f v)
+        {
+            pose.translate(v.x, v.y, v.z);
+        }
+
         public void translate(double x, double y, double z)
         {
             pose.translate((float)x, (float)y, (float)z);
+        }
+
+        public void scale(Vector3f v)
+        {
+            scale(v.x, v.y, v.z);
         }
 
         public void scale(float x, float y, float z)

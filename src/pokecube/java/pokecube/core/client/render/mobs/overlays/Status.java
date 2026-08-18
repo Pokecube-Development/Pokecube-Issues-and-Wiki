@@ -145,8 +145,7 @@ public class Status
             var mat = event.getPoseStack();
             mat.pushPose();
 
-            float s = 1 + effects.scale();
-            Vector3f scale = new Vector3f(s, s, s);
+            Vector3f scale = new Vector3f(1 + effects.scale());
 
             final StatusTexturer statusTexturer = effects.texturer();
 

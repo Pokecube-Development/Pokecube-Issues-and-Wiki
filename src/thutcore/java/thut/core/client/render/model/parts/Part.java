@@ -50,13 +50,13 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
 
     public Vector4 preRot = new Vector4();
     public Vector4 postRot = new Vector4();
-    public Vector3 preTrans = new Vector3();
-    public Vector3 postTrans = new Vector3();
+    public Vector3f preTrans = new Vector3f();
+    public Vector3f postTrans = new Vector3f();
     public Vector3f preScale = new Vector3f(1, 1, 1);
-    public Vector3f rawPostScale = new Vector3f(1, 1, 1);
+    public Vector3f scale = new Vector3f(1, 1, 1);
     public Vector3f postScale = new Vector3f(1, 1, 1);
 
-    public Vector3 offset = new Vector3();
+    public Vector3f offset = new Vector3f();
     public Vector4 rotations = new Vector4();
 
     protected Quaternionf _quat = new Quaternionf(0, 0, 0, 1);
@@ -110,7 +110,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                 )
             {
                 // TODO handle these cases properly
-                if(p.offset.magSq()!=0) continue;
+                if(p.offset.lengthSquared()!=0) continue;
                 if(!p.rotations.isEmpty()) continue;
 
                 // Attempt to merge the part in to us.
@@ -289,7 +289,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         // Apply postRotation
         this.postRot.glRotate(mat);
         // Scale
-        mat.scale(this.postScale.x, this.postScale.y, this.postScale.z);
+        mat.scale(this.scale.x, this.scale.y, this.scale.z);
     }
 
     public void render(final PoseStack mat, final VertexConsumer buffer)
@@ -325,15 +325,15 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         // Post rot is head direction
         this.postRot.set(0, 0, 0, 1);
         this.preTrans.set(offset);
-        this.preScale.set(1, 1, 1);
-        this.postTrans.clear();
+        this.preScale.set(1);
+        this.postTrans.set(0);
 
         this.colour_scales[0] = 1;
         this.colour_scales[1] = 1;
         this.colour_scales[2] = 1;
         this.colour_scales[3] = 1;
         this.hidden = false;
-        ds = 1;
+        ds = ds2 = 1;
 
         renderPose.pose().identity();
         renderPose.normal().identity();
@@ -352,25 +352,40 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         if (parent != null)
         {
             renderPose.set(parent.getRenderPose());
-            if(parent.isHidden()) this.hidden = true;
+            if(parent.isHidden()) this.setHidden(true);
         }
         // Now apply the transforms from preRender
         // Translate of offset for rotation.
-        renderPose.translate(this.preTrans.x, this.preTrans.y, this.preTrans.z);
-        renderPose.scale(this.preScale.x, this.preScale.y, this.preScale.z);
+        renderPose.translate(this.preTrans);
+        renderPose.scale(this.preScale);
         // // Apply PreOffset-Rotations.
         renderPose.rotate(preRot.toMCQ());
         // Translate by post-PreOffset amount.
-        renderPose.translate(this.postTrans.x, this.postTrans.y, this.postTrans.z);
+        renderPose.translate(this.postTrans);
         // Apply postRotation
         renderPose.rotate(postRot.toMCQ());
-        // Scale
-        renderPose.scale(this.postScale.x, this.postScale.y, this.postScale.z);
+        // Finally apply Scale
+        renderPose.scale(this.scale);
+
+        Vector3f scale = new Vector3f(this.postScale);
+        scale.div(this.scale);
+        boolean hasScale = Math.abs(scale.lengthSquared() - 3) > 1e-4;
 
         for(var m: this.renderShapes)
         {
             m.hidden = this.isHidden() || this.isDisabled();
             m.poseInfo.set(this.renderPose);
+            // If we have a custom post scale, we apply it to the mesh directly
+            // This prevents it compounding on parent scales, and allows the post scale
+            // to expand out from the model. Post scale effects are used for things like
+            // status overlays, etc.
+            if(hasScale)
+            {
+                Vector3f dmid = new Vector3f();
+                m.poseInfo.scale(this.postScale);
+                dmid.set(m.mid).div(scale).sub(m.mid);
+                m.poseInfo.translate(dmid);
+            }
         }
     }
 
@@ -450,7 +465,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     @Override
     public void setPreTranslations(final Vector3 point)
     {
-        this.preTrans.set(offset).addTo(point);
+        this.preTrans.set(offset).add((float)point.x, (float)point.y, (float)point.z);
     }
 
     @Override
@@ -580,15 +595,12 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     {
         ds2 *= scale.length();
         this.postScale.mul(scale);
-        var _scale = new Vector3f(1/scale.x,1/scale.y,1/scale.z);
-        this.getPartsList().forEach(p->p.mulPostScale(_scale));
     }
 
     @Override
     public void resetPostScale()
     {
-        this.postScale.set(this.rawPostScale);
-        this.getPartsList().forEach(IExtendedModelPart::resetPostScale);
+        this.postScale.set(1);
     }
 
     @Override

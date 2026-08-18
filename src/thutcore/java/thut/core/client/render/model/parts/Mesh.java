@@ -91,6 +91,7 @@ public class Mesh implements Comparable<Mesh>
 
     Vector3f min = new Vector3f();
     Vector3f max = new Vector3f();
+    public Vector3f mid = new Vector3f();
 
     final int iter;
 
@@ -206,10 +207,9 @@ public class Mesh implements Comparable<Mesh>
 
         min.set(mins);
         max.set(maxs);
-
-        Vector3f dummy_1 = new Vector3f();
-        dummy_1.set(max.x - min.x, max.y - min.y, max.z - min.z);
-        len = (float) Math.sqrt(dummy_1.dot(dummy_1));
+        // First set to extents for len calc
+        mid.set(max).sub(min);
+        len = (float) Math.sqrt(mid.dot(mid));
 
         // Now sort everything to no longer need the "order" array
         List<Vector3f> _verts = new ArrayList<>();
@@ -225,6 +225,11 @@ public class Mesh implements Comparable<Mesh>
             _verts.add(vertTmp.get(i));
             _tex.add(texTmp.get(i));
         }
+
+        // Then compute mean point
+        mid.set(0);
+        for(var v: _verts) mid.add(v);
+        mid.div(_verts.size());
 
         this.vertices = _verts.toArray(new Vector3f[0]);
         this.normalList = _normsL.toArray(new Vector3f[0]);

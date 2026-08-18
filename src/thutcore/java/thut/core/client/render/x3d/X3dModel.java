@@ -17,7 +17,6 @@ import com.google.common.collect.Sets;
 import net.minecraft.resources.ResourceLocation;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.Animators.KeyframeAnimator;
-import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.core.client.render.model.BaseModel;
 import thut.core.client.render.model.IExtendedModelPart;
@@ -124,7 +123,7 @@ public class X3dModel extends BaseModel
         for (Transform t : allTransforms)
         {
             String[] offset = t.translation.split(" ");
-            final Vector3 translation = new Vector3().set(Float.parseFloat(offset[0]), Float.parseFloat(offset[1]),
+            final Vector3f translation = new Vector3f(Float.parseFloat(offset[0]), Float.parseFloat(offset[1]),
                     Float.parseFloat(offset[2]));
             offset = t.scale.split(" ");
             final Vector3f scale = new Vector3f(Float.parseFloat(offset[0]), Float.parseFloat(offset[1]),
@@ -159,8 +158,7 @@ public class X3dModel extends BaseModel
             o.setShapes(shapes);
             o.rotations.set(rotations.x, rotations.y, rotations.z, rotations.w);
             o.offset.set(translation);
-            o.postScale = scale;
-            o.rawPostScale = new Vector3f(scale);
+            o.scale = scale;
             this.parts.put(name, o);
             childMap.put(name, children);
         }

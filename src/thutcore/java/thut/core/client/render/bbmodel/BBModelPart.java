@@ -98,7 +98,7 @@ public class BBModelPart extends Part
             float x = b.getRotation()[0];
             float y = b.getRotation()[1];
             float z = b.getRotation()[2];
-            part.rotations.set(x, y, z, 1);
+            part.setDefaultAngles(x, y, z);
         }
 
         offsets[0] /= 16.0f;
@@ -196,7 +196,6 @@ public class BBModelPart extends Part
     }
 
     public int index = 0;
-    private float rx = 0, ry = 0, rz = 0;
 
     public BBModelPart(String name)
     {
@@ -204,95 +203,33 @@ public class BBModelPart extends Part
     }
 
     @Override
-    public void setPreRotations(Vector4 angles)
-    {
-        this.preRot.mul(angles, rotations);
-    }
-
-    @Override
     public void resetToInit()
     {
         super.resetToInit();
-        rx = ry = rz = 0;
     }
 
     @Override
     public void setDefaultAngles(float rx, float ry, float rz)
     {
-        this.rotations.x = rx;
-        this.rotations.y = ry;
-        this.rotations.z = rz;
+        // Angles are permuted here compared to the base Part implementation
+        _quat.set(0, 0, 0, 1);
+        if (rz != 0) _quat.mul(AxisAngles.YN.rotationDegrees(rz));
+        if (ry != 0) _quat.mul(AxisAngles.ZP.rotationDegrees(ry));
+        if (rx != 0) _quat.mul(AxisAngles.XP.rotationDegrees(rx));
+        _rot.set(_quat);
+        this.preRot.mul(rotations, _rot);
+        this.rotations.set(preRot.x, preRot.y, preRot.z, preRot.w);
     }
 
     @Override
     public void setAnimAngles(float rx, float ry, float rz)
     {
-        this.rx = rx;
-        this.ry = ry;
-        this.rz = rz;
-    }
-
-    @Override
-    public void preRender(PoseStack mat)
-    {
-        if (this.getParent() != null) getParent().preRender(mat);
-
-        mat.pushPose();
-
-        // Translate of offset for rotation.
-        mat.translate(this.preTrans.x, this.preTrans.y, this.preTrans.z);
-        mat.scale(this.preScale.x, this.preScale.y, this.preScale.z);
-
-        float rx = this.rx + rotations.x;
-        float ry = this.ry + rotations.y;
-        float rz = this.rz + rotations.z;
-
-        if (rz != 0) mat.mulPose(Axis.YN.rotationDegrees(rz));
-        if (ry != 0) mat.mulPose(Axis.ZP.rotationDegrees(ry));
-        if (rx != 0) mat.mulPose(Axis.XP.rotationDegrees(rx));
-
-        // Translate by post-PreOffset amount.
-        mat.translate(this.postTrans.x, this.postTrans.y, this.postTrans.z);
-        // Apply postRotation
-        this.postRot.glRotate(mat);
-        // Scale
-        mat.scale(this.postScale.x, this.postScale.y, this.postScale.z);
-    }
-
-    @Override
-    public void transformForRender()
-    {
-        // First set to wherever the parent is. Parents should have had this called first.
-        if (parent != null)
-        {
-            renderPose.set(parent.getRenderPose());
-        }
-        // Now apply the transforms from preRender
-        // Translate of offset for rotation.
-        renderPose.translate(this.preTrans.x, this.preTrans.y, this.preTrans.z);
-        renderPose.scale(this.preScale.x, this.preScale.y, this.preScale.z);
-
-        // // Apply PreOffset-Rotations.
-        float rx = this.rx + rotations.x;
-        float ry = this.ry + rotations.y;
-        float rz = this.rz + rotations.z;
-
-        if (rz != 0) renderPose.rotate(Axis.YN.rotationDegrees(rz));
-        if (ry != 0) renderPose.rotate(Axis.ZP.rotationDegrees(ry));
-        if (rx != 0) renderPose.rotate(Axis.XP.rotationDegrees(rx));
-
-        // Translate by post-PreOffset amount.
-        renderPose.translate(this.postTrans.x, this.postTrans.y, this.postTrans.z);
-        // Apply postRotation
-        renderPose.rotate(postRot.toMCQ());
-        // Scale
-        renderPose.scale(this.postScale.x, this.postScale.y, this.postScale.z);
-
-        for(var m: this.renderShapes)
-        {
-            m.hidden = this.isHidden() || this.isDisabled();
-            m.poseInfo.set(this.renderPose);
-        }
+        // Angles are permuted here compared to the base Part implementation
+        _quat.set(0, 0, 0, 1);
+        if (rz != 0) _quat.mul(AxisAngles.YN.rotationDegrees(rz));
+        if (ry != 0) _quat.mul(AxisAngles.ZP.rotationDegrees(ry));
+        if (rx != 0) _quat.mul(AxisAngles.XP.rotationDegrees(rx));
+        this.setPreRotations(_rot.set(_quat));
     }
 
     @Override
