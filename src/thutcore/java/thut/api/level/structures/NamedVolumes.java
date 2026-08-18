@@ -67,8 +67,17 @@ public class NamedVolumes
 
         BoundingBox getTotalBounds();
 
+        /**
+         * @return If this is a local volume, it will apply a subbiome
+         */
+        default boolean notAsSubbiome()
+        {
+            return false;
+        }
+
         default boolean isIn(final BlockPos pos, boolean forTerrain)
         {
+            if (forTerrain && this.notAsSubbiome()) return false;
             if (this.getParts().isEmpty()) return false;
             if (!this.getTotalBounds().isInside(pos)) return false;
             synchronized (this.getParts())
@@ -80,6 +89,7 @@ public class NamedVolumes
 
         default boolean isNear(final BlockPos pos, final int distance, boolean forTerrain)
         {
+            if (forTerrain && this.notAsSubbiome()) return false;
             if (this.getParts().isEmpty()) return false;
             if (!inflate(this.getTotalBounds(), distance).isInside(pos)) return false;
             synchronized (this.getParts())

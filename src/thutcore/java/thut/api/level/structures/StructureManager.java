@@ -30,12 +30,14 @@ public class StructureManager
      */
     public static Map<GlobalChunkPos, Set<INamedVolume>> map_by_pos = Maps.newHashMap();
 
-    public static void addStructure(ResourceKey<Level> dim, INamedVolume structure)
+    public static void addStructure(ResourceKey<Level> dim, INamedVolume volume)
     {
-        final BoundingBox b = structure.getTotalBounds();
+        // Only allow ones marked as use for subbiomes
+        if (volume.notAsSubbiome()) return;
+        final BoundingBox b = volume.getTotalBounds();
         if (b.getXSpan() > 2560 || b.getZSpan() > 2560)
         {
-            ThutCore.LOGGER.warn("Warning, too big box for {}: {}", structure.getName(), b);
+            ThutCore.LOGGER.warn("Warning, too big box for {}: {}", volume.getName(), b);
             return;
         }
         for (int x = b.minX() >> 4; x <= b.maxX() >> 4; x++)
@@ -44,7 +46,7 @@ public class StructureManager
                 final ChunkPos p = new ChunkPos(x, z);
                 final GlobalChunkPos pos = new GlobalChunkPos(dim, p);
                 final Set<INamedVolume> set = StructureManager.getOrMake(pos);
-                set.add(structure);
+                set.add(volume);
             }
     }
 

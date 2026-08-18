@@ -59,6 +59,7 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
             final Set<INamedVolume> set = StructureManager.getFor(rworld.dimension(), v.getPos(), true);
             for (var info : set)
             {
+                if (info.notAsSubbiome()) continue;
                 String subbiome = null;
                 var obj = info.getWrapped();
                 // first manually check structures to see if they define a

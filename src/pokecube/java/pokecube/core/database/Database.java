@@ -38,6 +38,7 @@ import pokecube.core.database.rewards.XMLRewardsHandler.XMLRewards;
 import pokecube.core.database.spawns.PokemobSpawns;
 import pokecube.core.database.spawns.SpawnPresets;
 import pokecube.core.database.spawns.SpawnRateMask;
+import pokecube.core.database.spawns.SpawnRegion;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.database.types.CombatTypeLoader;
 import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
@@ -81,40 +82,6 @@ public class Database
         return name;
     }
 
-    @XmlRootElement(name = "Drops")
-    public static class XMLDrops
-    {
-        @XmlElement(name = "Drop")
-        private final List<JsonElement> pokemon = Lists.newArrayList();
-    }
-
-    @XmlRootElement(name = "Helds")
-    public static class XMLHelds
-    {
-        @XmlElement(name = "Held")
-        private final List<JsonElement> pokemon = Lists.newArrayList();
-    }
-
-    public static class XMLSpawnEntry extends SpawnRule
-    {
-        static final String STARTER = "starter";
-        boolean overwrite = false;
-        String name;
-
-        public Boolean isStarter()
-        {
-            if (!this.values.containsKey(XMLSpawnEntry.STARTER)) return null;
-            return Boolean.parseBoolean(this.getString(XMLSpawnEntry.STARTER));
-        }
-    }
-
-    @XmlRootElement(name = "Spawns")
-    public static class XMLSpawns
-    {
-        @XmlElement(name = "Spawn")
-        private final List<XMLSpawnEntry> pokemon = Lists.newArrayList();
-    }
-
     @XmlRootElement(name = "Items")
     public static class XMLStarterItems
     {
@@ -131,9 +98,9 @@ public class Database
                 final ResourceManager resourceManager, final ProfilerFiller preparationsProfiler,
                 final ProfilerFiller reloadProfiler, final Executor backgroundExecutor, final Executor gameExecutor)
         {
-            return CompletableFuture.supplyAsync(() -> {
-                return this.prepare(resourceManager, preparationsProfiler);
-            }, backgroundExecutor).thenCompose(stage::wait).thenAcceptAsync((object) -> {
+            return CompletableFuture.supplyAsync(() ->
+                    this.prepare(resourceManager, preparationsProfiler), backgroundExecutor)
+                    .thenCompose(stage::wait).thenAcceptAsync((object) -> {
                 this.apply(object, resourceManager, reloadProfiler);
             }, gameExecutor);
         }
@@ -163,7 +130,6 @@ public class Database
     private static List<String> sortedFormNames = Lists.newArrayList();
     public static HashMap<Integer, PokedexEntry> baseFormes = new HashMap<>();
     public static HashMap<Integer, PokedexEntry> dummyMap = new HashMap<>();
-    public static HashMap<String, ArrayList<PokedexEntry>> mobReplacements = new HashMap<>();
     public static HashMap<PokedexEntry, List<FormeHolder>> customModels = new HashMap<>();
     public static HashMap<ResourceLocation, PokedexEntry> formeToEntry = new HashMap<>();
     public static Map<String, FormeHolder> formeHoldersByKey = new HashMap<>();
@@ -600,7 +566,6 @@ public class Database
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Post Init of Database.");
         final List<PokedexEntry> toRemove = new ArrayList<>();
         final Set<Integer> removedNums = Sets.newHashSet();
-        final List<PokedexEntry> removed = Lists.newArrayList();
         for (final PokedexEntry e : Pokedex.getInstance().getRegisteredEntries()) if (e.base) Database.addEntry(e);
         int dummies = 0;
         /* find non-registered entries to remove later. */
@@ -610,7 +575,6 @@ public class Database
                 if (p.dummy) dummies++;
                 else removedNums.add(p.getPokedexNb());
                 toRemove.add(p);
-                removed.add(p);
             }
         toRemove.sort(Database.COMPARATOR);
         final List<PokedexEntry> messageList = Lists.newArrayList(toRemove);
@@ -634,7 +598,6 @@ public class Database
                 Database.formLists.remove(p.pokedexNb);
             }
             else if (Database.formLists.containsKey(p.pokedexNb)) Database.formLists.get(p.pokedexNb).remove(p);
-            Database.spawnables.remove(p);
         }
 
         /* Cleanup evolutions which are not actually in game. */
@@ -645,22 +608,6 @@ public class Database
                 if (!Pokedex.getInstance().getRegisteredEntries().contains(d.evolution)) invalidEvos.add(d);
             e.evolutions.removeAll(invalidEvos);
         }
-
-        Database.spawnablesByType.clear();
-        Database.spawnables.forEach(entry -> {
-            var type = entry.type1;
-            if (type != PokeType.unknown)
-            {
-                var list = spawnablesByType.computeIfAbsent(type, key -> new ArrayList<>());
-                list.add(entry);
-            }
-            type = entry.type2;
-            if (type != PokeType.unknown)
-            {
-                var list = spawnablesByType.computeIfAbsent(type, key -> new ArrayList<>());
-                list.add(entry);
-            }
-        });
 
         toRemove.forEach(Database.allFormes::remove);
         if (PokecubeCore.getConfig().debug_data)
@@ -785,6 +732,23 @@ public class Database
             }
         }
 
+        Database.spawnablesByType.clear();
+        Database.spawnables.forEach(entry -> {
+            var type = entry.type1;
+            if (type != PokeType.unknown)
+            {
+                var list = spawnablesByType.computeIfAbsent(type, key -> new ArrayList<>());
+                list.add(entry);
+            }
+            type = entry.type2;
+            if (type != PokeType.unknown)
+            {
+                var list = spawnablesByType.computeIfAbsent(type, key -> new ArrayList<>());
+                list.add(entry);
+            }
+        });
+        SpawnRegion.initAllSpawns();
+
         // This gets re-set to true if listener hears a reload
         Database.listener.loaded = false;
         Database.needs_reload = false;
@@ -800,7 +764,6 @@ public class Database
     {
         Database.listener.loaded = true;
         Database.needs_reload = true;
-//        Database.onResourcesReloaded();
         DefaultFormeHolder._main_init_ = true;
     }
 

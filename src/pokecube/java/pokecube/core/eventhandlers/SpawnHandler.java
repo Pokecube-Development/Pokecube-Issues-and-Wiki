@@ -63,6 +63,7 @@ import pokecube.core.utils.ChunkCoordinate;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.world.terrain.PokecubeTerrainChecker;
+import thut.api.Tracker;
 import thut.api.boom.ExplosionCustom;
 import thut.api.boom.ExplosionCustom.DefaultBreaker;
 import thut.api.level.terrain.BiomeType;
@@ -421,7 +422,8 @@ public final class SpawnHandler
         // Lets try a few times
         int n = 16;
         SectionPos spos = SectionPos.of(pos.getPos());
-        long seed = getSeed(spos, world, world.getDayTime());
+        // This is used for spawn coordinate itself, so can use game tick instead of day time
+        long seed = getSeed(spos, world, Tracker.instance().getTick() * TIME_SEED_FACTOR);
         var rng = new LegacyRandomSource(seed);
         while (n-- > 0)
         {
@@ -790,7 +792,6 @@ public final class SpawnHandler
         final Random rand = ThutCore.newRandom();
         final int n = Math.max(entry.getMax(matcher) - entry.getMin(matcher), 1);
         final int spawnNumber = entry.getMin(matcher) + rand.nextInt(n);
-
         for (int i = 0; i < spawnNumber; i++)
         {
             final Vector3 dr = SpawnHandler.getRandomPointNear(level, loc, distGroupZone, context.surface());

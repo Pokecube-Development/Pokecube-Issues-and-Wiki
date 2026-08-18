@@ -11,15 +11,12 @@ import com.google.gson.JsonSyntaxException;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.SectionPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.WorldGenRegion;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -29,7 +26,6 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
@@ -41,14 +37,12 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.level.ChunkEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
-import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.events.StructureEvent;
 import pokecube.api.events.npcs.NpcSpawn;
 import pokecube.api.events.pokemobs.SpawnEvent;
-import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
-import pokecube.core.database.Database;
+import pokecube.core.database.spawns.SpawnRegion;
 import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
@@ -62,15 +56,12 @@ import thut.api.entity.ICopyMob;
 import thut.api.level.terrain.BiomeType;
 import thut.api.level.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
-import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -129,69 +120,9 @@ public class SpawnEventsHandler
 
     private static void PickSpawn(final SpawnEvent.Pick.Pre event)
     {
-        Vector3 v = event.getLocation();
-        final ServerLevel world = event.level();
-        SpawnContext context = event.context();
-        BlockState state = v.getBlockState(world);
-        final List<PokedexEntry> entries = Lists.newArrayList(Database.spawnables);
-
-        SectionPos pos = SectionPos.of(v.getPos());
-        // This gives us a fixed random value for the location, as well as time of day
-        long seedA = SpawnHandler.getSeed(pos, world, context.time());
-        Random rand = new Random(seedA);
-
-        SpawnCheck filter = new SpawnCheck(v, world);
-        // Filter out entries which are not even valid options here.
-        entries.removeIf(dbe -> {
-            SpawnContext toUse = new SpawnContext(event.context(), dbe);
-            float weight = dbe.getSpawnData().getWeight(toUse, filter, true);
-            return weight <= 0;
-        });
-
-        if (entries.isEmpty()) return;
-
-        // Now we shuffle it, we want more random order than just picking
-        // a random starting point, then going from there...
-        Collections.shuffle(entries, rand);
-
-        double random = rand.nextDouble();
-        int index = 0;
-        PokedexEntry dbe = entries.get(index);
-
-        SpawnCheck checker = new SpawnCheck(v, world);
-        context = new SpawnContext(context, dbe);
-        float weight = dbe.getSpawnData().getWeight(context, checker, true);
-        final int max = entries.size();
-        final Vector3 vbak = v.copy();
-        while (weight <= random && index++ < max)
-        {
-            dbe = entries.get(index % entries.size());
-            context = new SpawnContext(context, v);
-            context = new SpawnContext(context, dbe);
-            weight = dbe.getSpawnData().getWeight(context, checker, true);
-
-            if (weight == 0) continue;
-            if (!dbe.flys() && random >= weight) if (!(dbe.swims() && state.getFluidState().is(FluidTags.WATER)))
-            {
-                v = Vector3.getNextSurfacePoint(world, vbak, Vector3.secondAxisNeg, 20);
-                if (v != null)
-                {
-                    v.offsetBy(Direction.UP);
-                    context = new SpawnContext(context, v);
-                    checker = new SpawnCheck(v, world);
-                    weight = dbe.getSpawnData().getWeight(context, checker, true);
-                }
-                else weight = 0;
-            }
-            if (v == null) v = vbak.copy();
-        }
-        if (random > weight || v == null) return;
-        if (dbe.isLegendary())
-        {
-            final int level = SpawnHandler.getSpawnLevel(context);
-            if (level < PokecubeCore.getConfig().minLegendLevel) return;
-        }
-        event.setLocation(v);
+        SpawnRegion region = SpawnRegion.getFor(event.level(), event.getLocation().getPos());
+        PokedexEntry dbe = region.getSpawnFor(event);
+        if (dbe == null) return;
         event.setPick(dbe);
     }
 

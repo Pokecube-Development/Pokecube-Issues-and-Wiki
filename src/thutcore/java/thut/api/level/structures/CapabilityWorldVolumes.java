@@ -1,6 +1,9 @@
 package thut.api.level.structures;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -179,7 +182,8 @@ public class CapabilityWorldVolumes implements INBTSerializable<CompoundTag>
         NamedVolumes.PART_FACTORY_REGISTRY.put("thutcore:building_part", Building::new);
     }
 
-    private final List<INamedVolume> volumes = Lists.newArrayList();
+    private final List<INamedVolume> volumes = new ArrayList<>();
+    private final Map<String, INamedVolume> unique = new HashMap<>();
     private final ServerLevel level;
 
     public CapabilityWorldVolumes(ServerLevel level)
@@ -187,10 +191,20 @@ public class CapabilityWorldVolumes implements INBTSerializable<CompoundTag>
         this.level = level;
     }
 
-    public void addStructure(Structure s)
+    public INamedVolume getUnique(String name)
     {
-        if (!this.volumes.contains(s)) this.volumes.add(s);
-        StructureManager.addStructure(level.dimension(), s);
+        return unique.getOrDefault(name, null);
+    }
+
+    public void addVolume(INamedVolume volume, boolean unique)
+    {
+        if (!this.volumes.contains(volume))
+        {
+            if(unique && this.unique.containsKey(volume.getName())) return;
+            this.unique.put(volume.getName(), volume);
+            this.volumes.add(volume);
+            StructureManager.addStructure(level.dimension(), volume);
+        }
     }
 
     public void addBuilding(String structure, String building, BoundingBox bounds)
@@ -209,7 +223,7 @@ public class CapabilityWorldVolumes implements INBTSerializable<CompoundTag>
         }
         if (s == null) s = new Structure(structure, bounds);
         s.addBuilding(b);
-        addStructure(s);
+        addVolume(s, false);
     }
 
     @Override
@@ -233,10 +247,15 @@ public class CapabilityWorldVolumes implements INBTSerializable<CompoundTag>
         if(nbt.contains("structures") && !nbt.contains("volumes"))
             list =  nbt.getList("structures", Tag.TAG_COMPOUND);
         this.volumes.clear();
+        this.unique.clear();
         list.forEach(tag -> {
             if (tag instanceof CompoundTag comp) {
                 var volume = NamedVolumes.loadVolume(registries, comp);
-                if (volume != null) this.volumes.add(volume);
+                if (volume != null)
+                {
+                    this.volumes.add(volume);
+                    this.unique.put(volume.getName(), volume);
+                }
             }
         });
     }

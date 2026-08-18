@@ -200,6 +200,11 @@ public class EventsHandler
         }
     }
 
+    static
+    {
+        WorldTickManager.registerStaticData(() -> WorldTickScheduler.INSTANCE, p -> true);
+    }
+
     public static final ResourceLocation NOGENESTAG = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID,
             "no_genetics");
 
@@ -357,8 +362,6 @@ public class EventsHandler
         SpawnEventsHandler.register();
         StatsHandler.register();
         MoveQueuer.register();
-
-        WorldTickManager.registerStaticData(() -> WorldTickScheduler.INSTANCE, p -> true);
 
         // Here we register the onWorldLoad for pokemob tracker, this handles
         // initializing the tracked pokemob maps, etc.

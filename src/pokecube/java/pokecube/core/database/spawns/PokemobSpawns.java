@@ -100,7 +100,7 @@ public class PokemobSpawns extends ResourceData
         this.validLoad = !resources.isEmpty();
         MASTER_LIST.rules.clear();
         preLoad();
-        resources.forEach((l, r) -> this.loadFile(l, r));
+        resources.forEach(this::loadFile);
         if (this.validLoad)
         {
             if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Loaded Pokemob spawns.");
