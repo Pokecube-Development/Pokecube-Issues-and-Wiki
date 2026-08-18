@@ -66,13 +66,14 @@ public final class TimePeriod
 
     public static double getTime(Level level)
     {
-        return getTime(level, level.getDayTime());
+        // Neoforge handles throttling getDayTime
+        return getTime(level.getDayTime());
     }
 
-    public static double getTime(Level level, long testTime)
-    {   // TODO better way to choose current time, such as other day lengths
-        // This can probably somehow use level.getDayTimeFraction()
-        return testTime % 24000 / 24000d;
+    public static double getTime(long testTime)
+    {
+        double denom = Level.TICKS_PER_DAY;
+        return testTime % Level.TICKS_PER_DAY / denom;
     }
 
 }

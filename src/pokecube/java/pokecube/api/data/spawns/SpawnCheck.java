@@ -117,7 +117,7 @@ public class SpawnCheck
         else level = ((WorldGenRegion) world).getLevel();
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
         this.type = t.getBiome(location);
-        this.time = (float) TimePeriod.getTime(level, time);
+        this.time = (float) TimePeriod.getTime(time);
         this.blockState = location.getBlockState(world);
         this.fluid = world.getFluidState(location.getPos());
         final int lightBlock = world.getMaxLocalRawBrightness(location.getPos());
