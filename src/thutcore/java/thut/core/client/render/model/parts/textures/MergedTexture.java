@@ -47,7 +47,6 @@ public class MergedTexture extends BaseTexture
         imageB.throwIfError();
         NativeImage nB = imageB.getImage();
 
-        alpha = 0.75f;
         float sA = (1 - alpha);
         float sB = alpha;
         int xb, yb, xa, ya;
@@ -69,7 +68,7 @@ public class MergedTexture extends BaseTexture
 
             if (aA == 0) continue;
 
-            int rB = rA, gB = gA, bB = bA;
+            int rB, gB, bB;
 
             int rgbaB = nB.getPixelRGBA(xb, yb);
             rB = FastColor.ABGR32.red(rgbaB);
