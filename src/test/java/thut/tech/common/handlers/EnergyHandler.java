@@ -3,7 +3,6 @@ package thut.tech.common.handlers;
 import net.minecraft.core.Direction;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.EventBusSubscriber.Bus;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.ICapabilityProvider;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
@@ -16,7 +15,7 @@ import thut.tech.common.TechCore;
 import thut.tech.common.blocks.lift.ControllerTile;
 import thut.tech.common.entity.EntityLift;
 
-@EventBusSubscriber(bus = Bus.MOD)
+@EventBusSubscriber
 public class EnergyHandler
 {
     public static class ProviderLift implements ICapabilityProvider<EntityLift, Direction, IEnergyStorage>
