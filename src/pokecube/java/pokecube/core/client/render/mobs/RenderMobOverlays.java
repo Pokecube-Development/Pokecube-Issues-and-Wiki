@@ -41,12 +41,9 @@ public class RenderMobOverlays
         }
     }
 
-    public static void renderPre(final RenderLivingEvent.Pre<Mob, EntityModel<Mob>> event)
-    {
-    }
-
     public static void renderNameplate(final RenderNameTagEvent event)
     {
+        if (!RenderMobOverlays.enabled) return;
         if (event.getEntity() instanceof LivingEntity living && event.getPartialTick() >= 0)
         {
             if (PokecubeCore.getConfig().doHealthBars)

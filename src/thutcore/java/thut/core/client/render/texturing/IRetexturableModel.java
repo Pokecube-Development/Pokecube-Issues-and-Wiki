@@ -29,4 +29,9 @@ public interface IRetexturableModel
     Holder<IPartTexturer> getTexturerChanger();
 
     void setTexturerChanger(Holder<IPartTexturer> input);
+
+    default void setTransientTexturerChanger(Holder<IPartTexturer> input)
+    {
+        this.setTexturerChanger(input);
+    }
 }

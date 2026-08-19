@@ -118,7 +118,6 @@ public class EventsHandlerClient
 
         // Register the handler for drawing things like evolution, etc
         ThutCore.FORGE_BUS.addListener(RenderMobOverlays::renderPost);
-        ThutCore.FORGE_BUS.addListener(RenderMobOverlays::renderPre);
         ThutCore.FORGE_BUS.addListener(RenderMobOverlays::renderNameplate);
         // Register the handler for drawing selected box around targeted
         // entities for throwing cubes at

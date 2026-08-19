@@ -47,6 +47,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     IRetexturableModel.Holder<IAnimationChanger> animChangeHolder = new IRetexturableModel.Holder<>();
     IRetexturableModel.Holder<IAnimationHolder> animHolderHolder = new IRetexturableModel.Holder<>();
     IRetexturableModel.Holder<IPartTexturer> texChangeHolder = new IRetexturableModel.Holder<>();
+    IRetexturableModel.Holder<IPartTexturer> transientTexChangeHolder = new IRetexturableModel.Holder<>();
 
     public Vector4 preRot = new Vector4();
     public Vector4 postRot = new Vector4();
@@ -404,6 +405,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         for(var m: this.renderShapes)
         {
             m.hidden = this.isHidden() || this.isDisabled();
+            m.texChangeHolder = this.transientTexChangeHolder;
             m.poseInfo.set(this.renderPose);
             // If we have a custom post scale, we apply it to the mesh directly
             // This prevents it compounding on parent scales, and allows the post scale
@@ -415,6 +417,9 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                 m.poseInfo.translate(dMid);
             }
         }
+        if (hasScale) resetPostScale();
+        // Reset transient holder
+        this.transientTexChangeHolder = this.texChangeHolder;
     }
 
     @Override
@@ -508,8 +513,8 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         renderShapes.forEach(m -> {
             if (m == null) return;
             var _mat = m.getRenderMaterial();
-            if (material != null  && !Mesh.debug && !material.test(_mat)) return;
-            var _rgabro = _mat==null ? m.rgbabro : _mat.rgbabro;
+            if (material != null && !Mesh.debug && !material.test(_mat)) return;
+            var _rgabro = _mat == null || Mesh.debug ? m.rgbabro : _mat.rgbabro;
             _rgabro[0] = (int) (r * this.colour_scales[0]);
             _rgabro[1] = (int) (g * this.colour_scales[1]);
             _rgabro[2] = (int) (b * this.colour_scales[2]);
@@ -687,13 +692,20 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     @Override
     public Holder<IPartTexturer> getTexturerChanger()
     {
-        return this.texChangeHolder;
+        return this.transientTexChangeHolder;
     }
 
     @Override
     public void setTexturerChanger(Holder<IPartTexturer> input)
     {
-        this.texChangeHolder = input;
+        this.texChangeHolder = this.transientTexChangeHolder = input;
         for (var part : this.getPartsList()) if (part instanceof IRetexturableModel p) p.setTexturerChanger(input);
+    }
+
+    @Override
+    public void setTransientTexturerChanger(Holder<IPartTexturer> input)
+    {
+        this.transientTexChangeHolder = input;
+        for (var part : this.getPartsList()) if (part instanceof IRetexturableModel p) p.setTransientTexturerChanger(input);
     }
 }

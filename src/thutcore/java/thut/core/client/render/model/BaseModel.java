@@ -330,7 +330,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         part.setHeadPart(this.getHeadParts().contains(part.getName()));
         for (var child : part.getSubParts().values())
         {
-            animOrder.add(child);
+            if (!animOrder.contains(child)) animOrder.add(child);
             addChildrenToOrder(child);
         }
     }
@@ -343,7 +343,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         {
             for (var part : this.getParts().values())
             {
-                animOrder.add(part);
+                if (!animOrder.contains(part)) animOrder.add(part);
                 addChildrenToOrder(part);
             }
         }

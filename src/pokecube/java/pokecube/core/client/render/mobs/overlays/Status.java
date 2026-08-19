@@ -14,6 +14,7 @@ import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.utils.Resources;
 import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.texturing.IPartTexturer;
+import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.client.render.texturing.TextureHelper;
 import thut.core.client.render.wrappers.ModelWrapper;
 
@@ -149,17 +150,23 @@ public class Status
 
             final StatusTexturer statusTexturer = effects.texturer();
 
-            final ResourceLocation default_ = effects.texturer().tex;
             final IPartTexturer texer = wrap.renderer.getTexturer();
+            // Set it to renderer so we don't re-loop through here.
             if (texer == statusTexturer) return;
             wrap.renderer.setTexturer(statusTexturer);
-            statusTexturer.bindObject(mob);
 
-            var buf = event.getMultiBufferSource();
+            // Otherwise use the transient texturer calls
+            statusTexturer.bindObject(mob);
+            IRetexturableModel.Holder<IPartTexturer> holder = new IRetexturableModel.Holder<>();
+            holder.set(statusTexturer);
+
             wrap.getParts().forEach((n, p) -> {
-                p.applyTexture(buf, default_, statusTexturer);
                 if (EXCLUDED_PARTS.contains(p.getName())) p.setDisabled(true);
-                p.mulPostScale(scale);
+                else
+                {
+                    p.mulPostScale(scale);
+                    if (p instanceof IRetexturableModel m) m.setTransientTexturerChanger(holder);
+                }
             });
 
             boolean oldRenderOverlay = RenderMobOverlays.enabled;
@@ -173,16 +180,10 @@ public class Status
             accessor.setRenderShadow(oldShadow);
             RenderMobOverlays.enabled = oldRenderOverlay;
 
-            if (texer != null)
-            {
-                final ResourceLocation orig_ = renderer.getTextureLocation(mob);
-                texer.bindObject(mob);
-                wrap.getParts().forEach((n, p) -> {
-                    p.applyTexture(buf, orig_, texer);
-                    if (EXCLUDED_PARTS.contains(p.getName())) p.setDisabled(false);
-                });
-            }
-            for (var p : wrap.getParts().values()) p.resetPostScale();
+            wrap.getParts().forEach((n, p) -> {
+                if (EXCLUDED_PARTS.contains(p.getName())) p.setDisabled(false);
+            });
+            // Reset to original one after applying this.
             wrap.renderer.setTexturer(texer);
 
             mat.popPose();

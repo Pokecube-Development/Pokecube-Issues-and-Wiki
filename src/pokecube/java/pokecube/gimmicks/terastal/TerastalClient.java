@@ -1,12 +1,15 @@
 package pokecube.gimmicks.terastal;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.FastColor;
+import net.minecraft.world.entity.Mob;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.neoforge.client.event.RenderLivingEvent;
 import pokecube.api.events.PokecubeTooltipEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.render.mobs.overlays.Status;
@@ -20,6 +23,12 @@ import thut.core.common.ThutCore;
 public class TerastalClient
 {
     private static final Int2ObjectArrayMap<StatusOverlay> TERA_TEX = new Int2ObjectArrayMap<>();
+
+//    @SubscribeEvent
+    public static void renderPre(final RenderLivingEvent.Pre<Mob, EntityModel<Mob>> event)
+    {
+        // TODO decide if we want to do something fancier here
+    }
 
     @SubscribeEvent
     public static void init(FMLLoadCompleteEvent event)
