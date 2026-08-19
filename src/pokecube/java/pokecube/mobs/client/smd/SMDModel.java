@@ -200,6 +200,19 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     @Override
+    public int getDepth()
+    {
+        // TODO
+        return 0;
+    }
+
+    @Override
+    public void setDepth(int n)
+    {
+        // TODO
+    }
+
+    @Override
     public HashMap<String, IExtendedModelPart> getParts()
     {
         // SMD Renders whole thing at once, so no part rendering.

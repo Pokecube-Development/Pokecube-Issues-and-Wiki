@@ -15,6 +15,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import thut.api.entity.IAnimated.HeadInfo;
@@ -346,14 +347,15 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
                 if (!animOrder.contains(part)) animOrder.add(part);
                 addChildrenToOrder(part);
             }
+            animOrder.sort(null);
         }
+        // Then apply animations
         for (var part : animOrder)
             this.updatePart(playingAnims, part, holder);
     }
 
     private void updatePart(List<Animation> anims, final IExtendedModelPart part, IAnimationHolder holder)
     {
-        // Reset to starting position
         part.resetToInit();
         // If animated, compute adjustments
         if(part.isAnimated())
@@ -362,7 +364,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
             // This computes transform for us from animations
             if (anim) AnimationHelper.doAnimation(anims, holder, part);
             // This computes head rotation
-            if (part.isHeadPart())
+            if (part.isHeadPart() && !part.isHidden())
             {
                 HeadInfo info = holder.getHeadInfo();
                 float ang;
@@ -390,7 +392,6 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
                 part.setPostRotations(combined);
             }
         }
-        // Now apply transforms
         part.transformForRender();
     }
 

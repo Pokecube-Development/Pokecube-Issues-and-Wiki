@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import thut.api.entity.IAnimated.IAnimationHolder;
@@ -23,7 +24,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
-public interface IExtendedModelPart extends IModelCustom
+public interface IExtendedModelPart extends IModelCustom, Comparable<IExtendedModelPart>
 {
 
     public static interface IPartRenderAdder
@@ -105,6 +106,7 @@ public interface IExtendedModelPart extends IModelCustom
             child = parent;
             name = child.getName();
             parent = parent.getParent();
+            this.setDepth(this.getDepth() + 1);
         }
         for (final IExtendedModelPart o : this.getSubParts().values()) o.preProcess();
     }
@@ -160,6 +162,19 @@ public interface IExtendedModelPart extends IModelCustom
     String getName();
 
     IExtendedModelPart getParent();
+
+    /**
+     * Depth in the render tree
+     */
+    int getDepth();
+
+    void setDepth(int n);
+
+    @Override
+    default int compareTo(@NotNull IExtendedModelPart o)
+    {
+        return this.getDepth() - o.getDepth();
+    }
 
     <T extends IExtendedModelPart> Map<String, T> getSubParts();
 

@@ -71,6 +71,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
 
     public int brightness = 15728640;
     public int overlay = 655360;
+    private int depth = 0;
 
     // Set this true to mark animations for this as limb based if they are
     // normal keyframes
@@ -160,6 +161,18 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                 }
             }
         }
+    }
+
+    @Override
+    public int getDepth()
+    {
+        return depth;
+    }
+
+    @Override
+    public void setDepth(int n)
+    {
+        this.depth = n;
     }
 
     /**
@@ -384,7 +397,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         if (parent != null)
         {
             renderPose.set(parent.getRenderPose());
-            if(parent.isHidden()) this.setHidden(true);
+            if(parent.isHidden()) this.hidden = true;
         }
         // Now apply the transforms from preRender
         // Translate of offset for rotation.
