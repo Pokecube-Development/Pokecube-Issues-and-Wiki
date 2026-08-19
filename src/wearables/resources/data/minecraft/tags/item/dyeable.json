@@ -3,6 +3,7 @@
   "values": [
     "#thut_bling:bling",
     "thut_bling:bling_bag",
+    {"id": "pokecube_adventures:statue", "required":  false},
     {"id": "pokecube_adventures:bag", "required":  false},
     {"id": "pokecube:pokewatch", "required":  false},
     {"id": "#pokecube:mega_wearables", "required":  false}

@@ -76,35 +76,15 @@ public class WearablesRenderer<T extends LivingEntity, M extends HumanoidModel<T
                 Leg.render(mat, buff, wearable, slot, index, wearer, stack, partialTicks, thin, packedLightIn, overlay,
                         theModel);
                 break;
-            case BACK:
+            case BACK, WAIST, NECK:
                 Body.render(mat, buff, wearable, slot, index, wearer, stack, partialTicks, thin, packedLightIn, overlay,
                         theModel);
                 break;
-            case EAR:
+            case EAR, HAT, EYE:
                 Head.render(mat, buff, wearable, slot, index, wearer, stack, partialTicks, thin, packedLightIn, overlay,
                         theModel);
                 break;
-            case EYE:
-                Head.render(mat, buff, wearable, slot, index, wearer, stack, partialTicks, thin, packedLightIn, overlay,
-                        theModel);
-                break;
-            case FINGER:
-                Arm.render(mat, buff, wearable, slot, index, wearer, stack, partialTicks, thin, packedLightIn, overlay,
-                        theModel);
-                break;
-            case HAT:
-                Head.render(mat, buff, wearable, slot, index, wearer, stack, partialTicks, thin, packedLightIn, overlay,
-                        theModel);
-                break;
-            case NECK:
-                Body.render(mat, buff, wearable, slot, index, wearer, stack, partialTicks, thin, packedLightIn, overlay,
-                        theModel);
-                break;
-            case WAIST:
-                Body.render(mat, buff, wearable, slot, index, wearer, stack, partialTicks, thin, packedLightIn, overlay,
-                        theModel);
-                break;
-            case WRIST:
+            case FINGER, WRIST:
                 Arm.render(mat, buff, wearable, slot, index, wearer, stack, partialTicks, thin, packedLightIn, overlay,
                         theModel);
                 break;

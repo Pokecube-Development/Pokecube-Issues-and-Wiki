@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.AABB;
@@ -62,8 +63,11 @@ public class StatueBlock implements BlockEntityRenderer<StatueEntity>
                 tag.putString("statue:tex_cache", tex.toString());
             }
             int alpha = tag.contains("statue:over_tex_a") ? tag.getInt("statue:over_tex_a") : 200;
+            int ARGB_A = FastColor.ARGB32.color(alpha, 255, 255, 255);
+            int ARGB_B = FastColor.ARGB32.color(255 - alpha, 255, 255, 255);
+            if(tag.contains("statue:dyed_colour")) ARGB_A = FastColor.ARGB32.color(alpha, tag.getInt("statue:dyed_colour"));
 
-            StatusTexturer newTexer = new StatusTexturer(tex, alpha);
+            StatusTexturer newTexer = new StatusTexturer(tex, ARGB_A, ARGB_B);
             newTexer.animated = false;
 
             if (tag.contains("statue:anim"))

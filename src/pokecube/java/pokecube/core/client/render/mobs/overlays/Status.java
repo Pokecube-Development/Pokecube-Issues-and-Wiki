@@ -34,7 +34,7 @@ public class Status
 
         public float time = 0;
         public float rate = 1;
-        final int alpha;
+        public int alpha;
         public int red = 255;
         public int green = 255;
         public int blue = 255;
@@ -48,6 +48,13 @@ public class Status
             this.tex = tex;
             this.alpha = alpha;
             texFooter = "--sep--" + tex.getNamespace() + "--sep--" + tex.getPath() + "--sep--" + alpha;
+        }
+
+        public StatusTexturer(final ResourceLocation tex, int ARGB_A, int ARGB_B)
+        {
+            this.tex = tex;
+            this.alpha = 255;
+            texFooter = "--sep--" + tex.getNamespace() + "--sep--" + tex.getPath() + "--sep--" + ARGB_A + "--sep--" + ARGB_B;
         }
 
         public ResourceLocation toWrap(ResourceLocation wrap)

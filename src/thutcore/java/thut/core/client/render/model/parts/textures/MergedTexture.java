@@ -15,13 +15,26 @@ import net.minecraft.util.FastColor;
 public class MergedTexture extends BaseTexture
 {
     ResourceLocation locB;
-    float alpha;
+    int ARGB_A;
+    int ARGB_B;
+    int ARGB_M;
+
+    public MergedTexture(ResourceLocation locA, ResourceLocation locB, int ARGB_A, int ARGB_B)
+    {
+        super(locA);
+        this.locB = locB;
+        this.ARGB_A = ARGB_A;
+        this.ARGB_B = ARGB_B;
+        ARGB_M = FastColor.ARGB32.average(ARGB_A, ARGB_B);
+    }
 
     public MergedTexture(ResourceLocation locA, ResourceLocation locB, int alpha)
     {
         super(locA);
         this.locB = locB;
-        this.alpha = alpha / 255f;
+        ARGB_A = FastColor.ARGB32.color(255 - alpha,255,255,255);
+        ARGB_B = FastColor.ARGB32.color(alpha, 255,255,255);
+        ARGB_M = FastColor.ARGB32.average(ARGB_A, ARGB_B);
     }
 
     @Override
@@ -47,8 +60,19 @@ public class MergedTexture extends BaseTexture
         imageB.throwIfError();
         NativeImage nB = imageB.getImage();
 
-        float sA = (1 - alpha);
-        float sB = alpha;
+        float sA = FastColor.ARGB32.alpha(ARGB_A) / 255f;
+        float sB = FastColor.ARGB32.alpha(ARGB_B) / 255f;
+        float scale = sA + sB;
+        if(scale > 1)
+        {
+            sA /= scale;
+            sB /= scale;
+        }
+
+        float mR = FastColor.ARGB32.red(ARGB_M) / 255f;
+        float mG = FastColor.ARGB32.green(ARGB_M) / 255f;
+        float mB = FastColor.ARGB32.blue(ARGB_M) / 255f;
+
         int xb, yb, xa, ya;
 
         // We do this rather than nA.blendPixel as we need to weight based
@@ -75,9 +99,9 @@ public class MergedTexture extends BaseTexture
             gB = FastColor.ABGR32.green(rgbaB);
             bB = FastColor.ABGR32.blue(rgbaB);
 
-            rA = (int) (sA * rA + sB * rB);
-            gA = (int) (sA * gA + sB * gB);
-            bA = (int) (sA * bA + sB * bB);
+            rA = (int) Math.min(255, (sA * rA + sB * rB) * mR);
+            gA = (int) Math.min(255, (sA * gA + sB * gB) * mG);
+            bA = (int) Math.min(255, (sA * bA + sB * bB) * mB);
 
             nA.setPixelRGBA(xa, ya, FastColor.ABGR32.color(aA, bA, gA, rA));
         }
