@@ -63,7 +63,6 @@ import pokecube.adventures.blocks.siphon.SiphonBlock;
 import pokecube.adventures.blocks.siphon.SiphonTile;
 import pokecube.adventures.blocks.statue.PokemobStatue;
 import pokecube.adventures.blocks.statue.StatueEntity;
-import pokecube.adventures.blocks.statue.StatueItem;
 import pokecube.adventures.blocks.warp_pad.WarpPadBlock;
 import pokecube.adventures.blocks.warp_pad.WarpPadTile;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs;
@@ -265,10 +264,7 @@ public class PokecubeAdv
         for (final DeferredHolder<Block, ? extends Block> reg : PokecubeAdv.BLOCKS.getEntries())
         {
             final Item.Properties props = new Item.Properties();
-            // Statue does something a bit differently.
-            if (reg == PokecubeAdv.STATUE)
-                PokecubeAdv.ITEMS.register(reg.getId().getPath(), () -> new StatueItem(reg.get(), props));
-            else PokecubeAdv.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), props));
+            PokecubeAdv.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), props));
         }
 
         for (final DeferredHolder<Block, ? extends Block> reg : PokecubeAdv.DECORATIONS.getEntries())
