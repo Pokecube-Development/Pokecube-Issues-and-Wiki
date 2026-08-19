@@ -31,6 +31,7 @@ import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.Data;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.genetics.DefaultGenetics;
+import thut.core.common.mobs.DefaultColourable;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 import thut.core.common.world.mobs.data.types.Data_Byte;
 import thut.core.common.world.mobs.data.types.Data_Float;
@@ -256,6 +257,7 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
         this.entity = entityIn;
         // ensure we are the entity's IPokemob
         entityIn.setData(PokemobCaps.POKEMOB, this);
+        entityIn.setData(DefaultColourable.TYPE_SAVE, this);
 
         this.setGenes(entityIn.getData(DefaultGenetics.TYPE));
         this.setDataSync(entityIn.getData(DataSync_Impl.TYPE));
