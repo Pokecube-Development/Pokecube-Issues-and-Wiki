@@ -66,9 +66,9 @@ public class StatueBlock implements BlockEntityRenderer<StatueEntity>
                 tag.putString("statue:tex_cache", tex.toString());
             }
             int alpha = tag.contains("statue:over_tex_a") ? tag.getInt("statue:over_tex_a") : 200;
-            int ARGB_A = FastColor.ARGB32.color(alpha, 255, 255, 255);
-            int ARGB_B = FastColor.ARGB32.color(255 - alpha, 255, 255, 255);
-            if(isDyed) ARGB_A = FastColor.ARGB32.color(alpha, components.get(DataComponents.DYED_COLOR).rgb());
+            int ARGB_A = FastColor.ARGB32.color(255 - alpha, 255, 255, 255);
+            int ARGB_B = FastColor.ARGB32.color(alpha, 255, 255, 255);
+            if(isDyed) ARGB_A = FastColor.ARGB32.color(255 - alpha, components.get(DataComponents.DYED_COLOR).rgb());
 
             StatusTexturer newTexer = new StatusTexturer(tex, ARGB_A, ARGB_B);
             newTexer.animated = false;
