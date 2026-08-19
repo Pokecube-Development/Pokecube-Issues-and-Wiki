@@ -6,6 +6,8 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -26,8 +28,8 @@ public class StatueBlock implements BlockEntityRenderer<StatueEntity>
     public StatueBlock(final BlockEntityRendererProvider.Context dispatcher)
     {}
 
-    public static void renderStatue(CopyMob.CopyInfo info, final float partialTicks, final PoseStack mat,
-            final MultiBufferSource bufferIn, final int combinedLightIn, final int combinedOverlayIn)
+    public static void renderStatue(CopyMob.CopyInfo info, DataComponentMap components, final PoseStack mat,
+            final MultiBufferSource bufferIn, final int combinedLightIn)
     {
         if (info.copy().getCopiedMob() == null)
         {
@@ -37,6 +39,7 @@ public class StatueBlock implements BlockEntityRenderer<StatueEntity>
 
         final Minecraft mc = Minecraft.getInstance();
         CompoundTag tag = info.tag();
+        var isDyed = components.has(DataComponents.DYED_COLOR);
         if (tag.contains("statue:over_tex") && mc.getEntityRenderDispatcher()
                 .getRenderer(mob) instanceof LivingEntityRenderer<?, ?> _renderer
                 && _renderer.getModel() instanceof ModelWrapper<?> _wrap)
@@ -65,7 +68,7 @@ public class StatueBlock implements BlockEntityRenderer<StatueEntity>
             int alpha = tag.contains("statue:over_tex_a") ? tag.getInt("statue:over_tex_a") : 200;
             int ARGB_A = FastColor.ARGB32.color(alpha, 255, 255, 255);
             int ARGB_B = FastColor.ARGB32.color(255 - alpha, 255, 255, 255);
-            if(tag.contains("statue:dyed_colour")) ARGB_A = FastColor.ARGB32.color(alpha, tag.getInt("statue:dyed_colour"));
+            if(isDyed) ARGB_A = FastColor.ARGB32.color(alpha, components.get(DataComponents.DYED_COLOR).rgb());
 
             StatusTexturer newTexer = new StatusTexturer(tex, ARGB_A, ARGB_B);
             newTexer.animated = false;
@@ -105,7 +108,7 @@ public class StatueBlock implements BlockEntityRenderer<StatueEntity>
         var info = StatueEntity.unpackStatue(tile);
         tile.checkMob();
         if (info.copy().getCopiedMob() == null || tile.ticks++ < 10) return;
-        renderStatue(info, partialTicks, matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
+        renderStatue(info, tile.components(), matrixStackIn, bufferIn, combinedLightIn);
     }
 
     @Override

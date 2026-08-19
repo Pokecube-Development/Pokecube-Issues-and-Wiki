@@ -87,7 +87,7 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IClie
             var size_gene = genes.getAlleles(GeneticsManager.SIZEGENE);
             if (size_gene != null) size_gene.getExpressed().onUpdateTick(mob);
         }
-        StatueBlock.renderStatue(info, 0, mat, bufs, light, overlay);
+        StatueBlock.renderStatue(info, stack.getComponents(), mat, bufs, light);
     }
 
     @Override
