@@ -70,6 +70,9 @@ public interface IExtendedModelPart extends IModelCustom
 
     void addPartRenderAdder(IPartRenderAdder adder);
 
+    /**
+     * This can occur during render thread, mostly for adding layers
+     */
     void addChild(IExtendedModelPart child);
 
     void applyTexture(MultiBufferSource bufferIn, ResourceLocation tex, IPartTexturer texer);
@@ -78,8 +81,16 @@ public interface IExtendedModelPart extends IModelCustom
 
     boolean isAnimated();
 
+    /**
+     * This occurs outside the main render loop,
+     * synchronized and slow blocks are "fine".
+     */
     default void tryCombineChildren(){}
 
+    /**
+     * This occurs outside the main render loop,
+     * synchronized and slow blocks are "fine".
+     */
     default void preProcess()
     {
         var parent = this.getParent();
@@ -201,9 +212,12 @@ public interface IExtendedModelPart extends IModelCustom
         return false;
     }
 
+    /**
+     * This occurs outside the main render loop,
+     * synchronized and slow blocks are "fine".
+     */
     default void updateMaterial(final Mat mat, final Material material)
     {
-
     }
 
     default Set<String> getParentNames()

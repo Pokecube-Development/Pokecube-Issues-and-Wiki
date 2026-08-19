@@ -13,7 +13,6 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.RenderStateShard.DepthTestStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.fml.ModList;
@@ -30,6 +29,7 @@ public class Material implements Comparable<Material>
                 RenderSystem.defaultBlendFunc();
             }, () -> {
                 RenderSystem.disableBlend();
+                RenderSystem.defaultBlendFunc();
             });
 
     static final RenderType WATER_MASK = RenderType.create("water_mask_", DefaultVertexFormat.POSITION,
@@ -51,8 +51,6 @@ public class Material implements Comparable<Material>
     static{
         HAS_IRIS = ModList.get().isLoaded("iris");
     }
-
-    public static final DepthTestStateShard LESSTHAN = new DepthTestStateShard("<", 513);
 
     public String name;
     public String render_name;
@@ -87,7 +85,6 @@ public class Material implements Comparable<Material>
     MultiBufferSource bufferSource = null;
 
     final Map<String, RenderType> types = new Object2ObjectOpenHashMap<>(2);
-    final Map<ResourceLocation, double[]> uv_scales = new Object2ObjectOpenHashMap<>(2);
 
     public Material(final String name)
     {

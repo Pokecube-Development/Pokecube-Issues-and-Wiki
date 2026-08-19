@@ -86,14 +86,18 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     protected final Map<String, Material> namedMaterials = new Object2ObjectOpenHashMap<>();
     protected final Set<Material> matcache = Sets.newHashSet();
 
-    private Set<String> parentNames = Sets.newHashSet();
-    private Set<String> childNames = Sets.newHashSet();
+    private final Set<String> parentNames = Sets.newHashSet();
+    private final Set<String> childNames = Sets.newHashSet();
 
     public Part(final String name)
     {
         this.name = name;
     }
 
+    /**
+     * This occurs outside the main render loop,
+     * synchronized and slow blocks are "fine".
+     */
     @Override
     public void tryCombineChildren()
     {
@@ -157,6 +161,10 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         }
     }
 
+    /**
+     * This occurs outside the main render loop,
+     * synchronized and slow blocks are "fine".
+     */
     @Override
     public void preProcess()
     {
@@ -194,6 +202,10 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         return renderShapes;
     }
 
+    /**
+     * This occurs outside the main render loop,
+     * synchronized and slow blocks are "fine".
+     */
     public void addShape(final Mesh shape)
     {
         this.shapes.add(shape);
@@ -209,6 +221,10 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         }
     }
 
+    /**
+     * This occurs outside the main render loop,
+     * synchronized and slow blocks are "fine".
+     */
     public void setShapes(final List<Mesh> shapes)
     {
         this.shapes.clear();
@@ -220,13 +236,17 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     {
         for (final Mesh shape : this.renderShapes)
         {
-            ResourceLocation tex_1 = tex;
+            var tex_1 = tex;
+            var material = shape.getRenderMaterial();
             // Apply material only, we make these if defined anyay.
-            if (texer.hasMapping(shape.material.name)) tex_1 = texer.getTexture(shape.material.name, tex_1);
-            shape.material.makeVertexBuilder(tex_1, bufferIn, shape.vertexMode);
+            if (texer.hasMapping(material.name)) tex_1 = texer.getTexture(material.name, tex_1);
+            material.makeVertexBuilder(tex_1, bufferIn, shape.vertexMode);
         }
     }
 
+    /**
+     * This can occur during render thread, mostly for adding layers
+     */
     @Override
     public void addChild(final IExtendedModelPart subPart)
     {
@@ -485,35 +505,24 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
             this.brightness = br;
             this.overlay = o;
         }
-        if (material != null && !Mesh.debug)
-        {
-            this.materials.forEach(m -> {
-                if (m == null) return;
-                if (material.test(m))
-                {
-                    m.rgbabro[0] = (int) (r * this.colour_scales[0]);
-                    m.rgbabro[1] = (int) (g * this.colour_scales[1]);
-                    m.rgbabro[2] = (int) (b * this.colour_scales[2]);
-                    m.rgbabro[3] = (int) (a * this.colour_scales[3]);
-                    m.rgbabro[4] = this.brightness;
-                    m.rgbabro[5] = this.overlay;
-                }
-            });
-        }
-        else
-        {
-            renderShapes.forEach(m -> {
-                if (m == null) return;
-                m.rgbabro[0] = (int) (r * this.colour_scales[0]);
-                m.rgbabro[1] = (int) (g * this.colour_scales[1]);
-                m.rgbabro[2] = (int) (b * this.colour_scales[2]);
-                m.rgbabro[3] = (int) (a * this.colour_scales[3]);
-                m.rgbabro[4] = this.brightness;
-                m.rgbabro[5] = this.overlay;
-            });
-        }
+        renderShapes.forEach(m -> {
+            if (m == null) return;
+            var _mat = m.getRenderMaterial();
+            if (material != null  && !Mesh.debug && !material.test(_mat)) return;
+            var _rgabro = _mat==null ? m.rgbabro : _mat.rgbabro;
+            _rgabro[0] = (int) (r * this.colour_scales[0]);
+            _rgabro[1] = (int) (g * this.colour_scales[1]);
+            _rgabro[2] = (int) (b * this.colour_scales[2]);
+            _rgabro[3] = (int) (a * this.colour_scales[3]);
+            _rgabro[4] = this.brightness;
+            _rgabro[5] = this.overlay;
+        });
     }
 
+    /**
+     * This occurs outside the main render loop,
+     * synchronized and slow blocks are "fine".
+     */
     @Override
     public void updateMaterial(final Mat mat, final Material material)
     {
@@ -553,6 +562,10 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         }
     }
 
+    /**
+     * This occurs outside the main render loop,
+     * synchronized and slow blocks are "fine".
+     */
     @Override
     public void updateMaterials(List<Material> materials)
     {
@@ -564,16 +577,14 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
             for (Mesh shape : this.shapes)
             {
                 var old = shape.material;
-
+                var matOpt = materials.stream().filter(m1->old.compareTo(m1)==0).findFirst();
+                var mat = matOpt.orElse(old);
+                shape.material = mat;
+                shape.renderMaterial = mat;
+                if (this.matcache.add(mat))
                 {
-                    var matOpt = materials.stream().filter(m1->old.compareTo(m1)==0).findFirst();
-                    var mat = matOpt.orElse(old);
-                    shape.material = mat;
-                    if (this.matcache.add(mat))
-                    {
-                        this.materials.add(mat);
-                        this.namedMaterials.put(mat.name, mat);
-                    }
+                    this.materials.add(mat);
+                    this.namedMaterials.put(mat.name, mat);
                 }
             }
         }
@@ -637,6 +648,10 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         return isHead;
     }
 
+    /**
+     * This occurs outside the main render loop,
+     * synchronized and slow blocks are "fine".
+     */
     @Override
     public void addPartRenderAdder(IPartRenderAdder adder)
     {

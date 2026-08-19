@@ -20,6 +20,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
 import net.minecraft.util.FastColor;
+import pokecube.api.PokecubeAPI;
 import thut.core.client.render.model.IModelCustom;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
@@ -72,7 +73,16 @@ public class Mesh implements Comparable<Mesh>
     public final Vector3f[] normals;
     public final Vector2f[] textureCoordinates;
 
+    /**
+     * This is the Material normally associated with this mesh,
+     * it is whatever results from the model loading set of code.
+     */
     public Material material;
+    /**
+     * This is the material to be used in the next render pass,
+     * it will be reset to material after being rendered.
+     */
+    public Material renderMaterial;
     public String name;
     public boolean overrideColour = false;
     public boolean hidden = false;
@@ -125,7 +135,7 @@ public class Mesh implements Comparable<Mesh>
         this.GL_FORMAT = GL_FORMAT;
         this.iter = GL_FORMAT == GL11.GL_TRIANGLES ? 3 : 4;
         vertexMode = GL_FORMAT == GL11.GL_TRIANGLES ? Mode.TRIANGLES : Mode.QUADS;
-        this.material = material;
+        this.material = this.renderMaterial = material;
         this.len = len;
     }
 
@@ -237,7 +247,7 @@ public class Mesh implements Comparable<Mesh>
         this.textureCoordinates = _tex.toArray(new Vector2f[0]);
 
         // Initialize a "default" material for us
-        this.material = new Material("auto:" + this.name);
+        this.material = this.renderMaterial = new Material("auto:" + this.name);
         this.material.vertexMode = this.vertexMode;
     }
 
@@ -277,107 +287,126 @@ public class Mesh implements Comparable<Mesh>
 
     public void renderShape(VertexConsumer buffer)
     {
-        if(hidden) return;
-        // Check culling
-        if (modelCullThreshold > 0)
+        render:
+        if(!hidden)
         {
-            Matrix4f pos = poseInfo.pose();
-            float a = windowScale;
-            float s = len * cullScale;
+            // Check culling
+            if (modelCullThreshold > 0)
+            {
+                Matrix4f pos = poseInfo.pose();
+                float a = windowScale;
+                float s = len * cullScale;
 
-            dp.set(s, s, s, 0);
-            dp.mul(pos);
-            dp.mul(a);
-            double dr2_us = dp.dot(dp);
+                dp.set(s, s, s, 0);
+                dp.mul(pos);
+                dp.mul(a);
+                double dr2_us = dp.dot(dp);
 
-            dp.set(0, 0, 0, 1);
-            dp.mul(pos);
-            double dr2_2 = dp.dot(dp);
+                dp.set(0, 0, 0, 1);
+                dp.mul(pos);
+                double dr2_2 = dp.dot(dp);
 
-            boolean size_cull = modelCullThreshold * dr2_2 >= dr2_us;
+                boolean size_cull = modelCullThreshold * dr2_2 >= dr2_us;
 
-            if (size_cull) return;
+                if (size_cull) break render;
+            }
+
+            // Apply Texturing.
+            var texturer = texChangeHolder.get();
+            if (texturer != null)
+            {
+                texturer.shiftUVs(this.renderMaterial.name, this.uvShift);
+                if (texturer.isHidden(this.renderMaterial.name)) break render;
+                if (!same_mat && texturer.isHidden(this.name)) break render;
+                texturer.modifiyRGBA(this.renderMaterial.name, renderMaterial.rgbabro);
+                if (!same_mat) texturer.modifiyRGBA(this.name, renderMaterial.rgbabro);
+            }
+
+            // Apply material effects
+            if (this.renderMaterial.emissiveMagnitude > 0)
+            {
+                final int j = (int) (this.renderMaterial.emissiveMagnitude * 15);
+                renderMaterial.rgbabro[4] = j << 20 | j << 4;
+            }
+
+            float du = (float) this.uvShift[0], dv = (float) this.uvShift[1];
+            float su = 1, sv = 1;
+
+            if (this.renderMaterial.getTexture() != null)
+            {
+                float[] ouv = this.renderMaterial.getTexture().getTexOffset();
+                float[] suv = this.renderMaterial.getTexture().getTexScale();
+                du += ouv[0];
+                dv += ouv[1];
+
+                su *= suv[0];
+                sv *= suv[1];
+            }
+            texdR.set(du, dv);
+            texdS.set(su, sv);
+
+            // Find buffer to render to, this is presently most expensive part here...
+            buffer = this.renderMaterial.preRender(buffer, this.vertexMode);
+
+            // Update colouring as needed
+            int red = renderMaterial.rgbabro[0];
+            int green = renderMaterial.rgbabro[1];
+            int blue = renderMaterial.rgbabro[2];
+            int alpha = (int) (this.renderMaterial.alpha * renderMaterial.rgbabro[3]);
+            int lightmapUV = renderMaterial.rgbabro[4];
+            int overlayUV = renderMaterial.rgbabro[5];
+
+            if (debug || overrideColour)
+            {
+                red = this.rgbabro[0];
+                green = this.rgbabro[1];
+                blue = this.rgbabro[2];
+                alpha = (int) (this.renderMaterial.alpha * this.rgbabro[3]);
+                lightmapUV = this.rgbabro[4];
+                overlayUV = this.rgbabro[5];
+            }
+            int argb = FastColor.ARGB32.color(alpha, red, green, blue);
+
+            final boolean flat = this.material.flat;
+            Vector3f[] normals = flat ? this.normalList : this.normals;
+            final Matrix3f norms = poseInfo.normal();
+            final Matrix4f pos = poseInfo.pose();
+            // Finally render, this should be JIT Compiler friendly
+            doRender(normals, norms, pos, argb, overlayUV, lightmapUV, buffer);
         }
-
-        // Apply Texturing.
-        var texturer = texChangeHolder.get();
-        if (texturer != null)
-        {
-            texturer.shiftUVs(this.material.name, this.uvShift);
-            if (texturer.isHidden(this.material.name)) return;
-            if (!same_mat && texturer.isHidden(this.name)) return;
-            texturer.modifiyRGBA(this.material.name, material.rgbabro);
-            if (!same_mat) texturer.modifiyRGBA(this.name, material.rgbabro);
-        }
-
-        // Apply material effects
-        if (this.material.emissiveMagnitude > 0)
-        {
-            final int j = (int) (this.material.emissiveMagnitude * 15);
-            material.rgbabro[4] = j << 20 | j << 4;
-        }
-
-        float du = (float) this.uvShift[0], dv = (float) this.uvShift[1];
-        float su = 1, sv = 1;
-
-        if (this.material.getTexture() != null)
-        {
-            float[] ouv = this.material.getTexture().getTexOffset();
-            float[] suv = this.material.getTexture().getTexScale();
-            du += ouv[0];
-            dv += ouv[1];
-
-            su *= suv[0];
-            sv *= suv[1];
-        }
-        texdR.set(du, dv);
-        texdS.set(su, sv);
-
-        // Find buffer to render to, this is presently most expensive part here...
-        buffer = this.material.preRender(buffer, this.vertexMode);
-
-        // Update colouring as needed
-        int red = material.rgbabro[0];
-        int green = material.rgbabro[1];
-        int blue = material.rgbabro[2];
-        int alpha = (int) (this.material.alpha * material.rgbabro[3]);
-        int lightmapUV = material.rgbabro[4];
-        int overlayUV = material.rgbabro[5];
-
-        if (debug || overrideColour)
-        {
-            red = this.rgbabro[0];
-            green = this.rgbabro[1];
-            blue = this.rgbabro[2];
-            alpha = (int) (this.material.alpha * this.rgbabro[3]);
-            lightmapUV = this.rgbabro[4];
-            overlayUV = this.rgbabro[5];
-        }
-        int argb = FastColor.ARGB32.color(alpha, red, green, blue);
-
-        final boolean flat = this.material.flat;
-        Vector3f[] normals = flat ? this.normalList : this.normals;
-        final Matrix3f norms = poseInfo.normal();
-        final Matrix4f pos = poseInfo.pose();
-        // Finally render, this should be JIT Compiler friendly
-        doRender(normals, norms, pos, argb, overlayUV, lightmapUV, buffer);
+        this.renderMaterial = this.material;
     }
 
     public void setMaterial(final Material material)
     {
-        this.material = material;
+        this.material = this.renderMaterial = material;
         this.name = material.name;
         same_mat = true;
+    }
+
+    public Material getRenderMaterial()
+    {
+        return this.renderMaterial;
+    }
+
+    public void setRenderMaterial(Material material)
+    {
+        if(material.vertexMode!=this.material.vertexMode)
+        {
+            PokecubeAPI.LOGGER.error("Warning, material mode miss-match, cancelling set");
+            material = this.material;
+        }
+        this.renderMaterial = material;
     }
 
     @Override
     public int compareTo(@NotNull Mesh o)
     {
         // Compares by material, ignores edited flag check
-        boolean editO = this.material.edited;
-        this.material.edited = o.material.edited;
-        int comp = this.material.compareTo(o.material);
-        this.material.edited = editO;
+        boolean editO = this.renderMaterial.edited;
+        this.renderMaterial.edited = o.renderMaterial.edited;
+        int comp = this.renderMaterial.compareTo(o.renderMaterial);
+        this.renderMaterial.edited = editO;
         return comp;
     }
 }

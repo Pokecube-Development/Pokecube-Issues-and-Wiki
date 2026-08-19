@@ -118,6 +118,9 @@ public interface IModelCustom
     /**
      * This is used to ensure all sub parts share the same set of materials,
      * for use with sharing render types, etc
+     * <p>
+     * This occurs outside the main render loop,
+     * synchronized and slow blocks are "fine".
      */
     void updateMaterials(List<Material> materials);
 }
