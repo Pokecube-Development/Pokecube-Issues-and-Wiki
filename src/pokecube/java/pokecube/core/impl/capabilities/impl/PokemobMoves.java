@@ -477,6 +477,7 @@ public abstract class PokemobMoves extends PokemobStats
         }
         final LivingEntity old = getCopy().getCopiedMob();
         getCopy().setCopiedID(id == -1 ? null : RegHelper.getKey(to));
+        if (to == null) getCopy().setCopiedMob(null);
         this.getCopy().onBaseTick(this.getEntity().level, this.getEntity());
         if (to != old && !this.getEntity().level.isClientSide())
             SyncAttachments.syncChange(this.getEntity(), PokemobMoves.TO_SYNC);
