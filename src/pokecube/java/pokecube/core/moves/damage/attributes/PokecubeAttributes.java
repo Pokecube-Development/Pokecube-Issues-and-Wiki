@@ -191,7 +191,7 @@ public class PokecubeAttributes
     public static double modifierToRatio(int mod, int index)
     {
         if (mod == 0) return 1;
-        double m = mod;
+        double m = Math.abs(mod);
         if (index > 5)
         {
             if (mod > 0) return 1 + m / 3;
@@ -229,9 +229,8 @@ public class PokecubeAttributes
         var attr = entity.getAttribute(hold);
         if (attr != null)
         {
-            attr.addOrReplacePermanentModifier(
-                    new AttributeModifier(STAT_MOD, modifierToRatio(newValue, stat.ordinal()),
-                            AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+            double modifier = modifierToRatio(newValue, stat.ordinal());
+            attr.addOrReplacePermanentModifier(new AttributeModifier(STAT_MOD, modifier, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
             PacketSyncModifier.sendUpdate(entity);
         }
     }
