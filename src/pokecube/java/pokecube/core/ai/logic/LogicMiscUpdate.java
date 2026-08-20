@@ -338,7 +338,14 @@ public class LogicMiscUpdate extends LogicBase
             molangs.health = health;
             molangs.max_health = max;
 
+            molangs.yaw_speed = entity.getYRot() - entity.yRotO;
+
+            molangs.on_fire_time = entity.getRemainingFireTicks();
+
             molangs.is_in_water_or_rain = entity.isInWaterOrRain() ? 1 : 0;
+            molangs.is_on_ground = entity.onGround() ? 1 : 0;
+            molangs.is_in_water = entity.isInWater() ? 1 : 0;
+            molangs.is_on_fire = entity.isOnFire() ? 1 : 0;
         }
 
         for (int i = 0; i < 5; i++) this.flavourAmounts[i] = this.pokemob.getFlavourAmount(i);

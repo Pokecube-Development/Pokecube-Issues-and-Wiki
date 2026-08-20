@@ -9,7 +9,6 @@ import java.util.Set;
 
 import javax.annotation.Nonnull;
 
-import net.minecraft.world.entity.LivingEntity;
 import org.nfunk.jep.JEP;
 
 import net.minecraft.nbt.CompoundTag;
@@ -44,17 +43,6 @@ public interface IAnimated
     {
         public static final HeadInfo DUMMY = new HeadInfo();
 
-        /**
-         * This should be updated to match the mob, incase the IModel needs to
-         * do custom rendering itself.
-         */
-        public float headYaw;
-        /**
-         * This should be updated to match the mob, incase the IModel needs to
-         * do custom rendering itself.
-         */
-        public float headPitch;
-
         /** This is the current ticksExisted for the object being rendered.. */
         public int currentTick = 0;
         /**
@@ -63,11 +51,13 @@ public interface IAnimated
          */
         public int lastTick = 0;
 
+        // Caps on amount that the model can look around
         public float yawCapMax = 180;
         public float yawCapMin = -180;
         public float pitchCapMax = 40;
         public float pitchCapMin = -40;
 
+        // Rotation axes for the head parts
         public int yawAxis = 2;
         public int pitchAxis = 0;
         public int yawDirection = -1;
@@ -93,6 +83,8 @@ public interface IAnimated
     {
         public static final Map<String, String> MOLANG_MAP = new HashMap<>();
         public static final Map<String, Double> JEP_VARS = new HashMap<>();
+
+        public static final MolangVars DUMMY = new MolangVars();
 
         static
         {
@@ -143,8 +135,9 @@ public interface IAnimated
 
         public double is_on_ground = 1;
         public double yaw_speed = 0;
-        public double head_yaw = 0;
-        public double head_pitch = 0;
+
+        public float head_yaw = 0;
+        public float head_pitch = 0;
 
         public void updateJEP(JEP jep, double anim_time, double walk_time)
         {
@@ -232,35 +225,30 @@ public interface IAnimated
                 final float ageInTicks, final float netHeadYaw, final float headPitch)
         {
             HeadInfo info = this.getHeadInfo();
-            MolangVars molangs = this.getMolangVars();
             if (!info.fixed)
             {
-                info.headPitch = headPitch;
-                info.headYaw = netHeadYaw;
+                MolangVars molangs = this.getMolangVars();
+                final float limbSpeedFactor = 3f;
+                molangs.l = limbSpeedFactor * limbSwing;
+                molangs.limb_amount = Math.max(0D, limbSwingAmount);
+                molangs.t = ageInTicks;
+                if (molangs.t < 0) molangs.t = 0;
+
+                molangs.head_yaw = netHeadYaw;
+                molangs.head_pitch = headPitch;
+
+                // Things not updated here due to slow lookup, or otherwise not depending on render tick:
+//                    health
+//                    max_health
+//                    is_in_water_or_rain
+//                    is_on_ground
+//                    is_in_water
+//                    is_on_fire
+//                    on_fire_time
+//                    yaw_speed
             }
             info.currentTick = entityIn.tickCount;
             info.lastTick = entityIn.tickCount;
-
-            final float limbSpeedFactor = 3f;
-            molangs.l = limbSpeedFactor * limbSwing;
-            molangs.limb_amount = Math.max(0D, limbSwingAmount);
-            molangs.t = ageInTicks;
-            if (molangs.t < 0) molangs.t = 0;
-
-            molangs.is_on_ground = entityIn.onGround() ? 1 : 0;
-            molangs.is_in_water = entityIn.isInWater() ? 1 : 0;
-            molangs.is_in_water_or_rain = entityIn.isInWaterOrRain() ? 1 : 0;
-            molangs.is_on_fire = entityIn.isOnFire() ? 1 : 0;
-
-            molangs.yaw_speed = entityIn.getYRot() - entityIn.yRotO;
-            molangs.head_yaw = netHeadYaw;
-            molangs.head_pitch = headPitch;
-            if (entityIn instanceof LivingEntity living)
-            {
-                molangs.health = living.getHealth();
-                molangs.max_health = living.getMaxHealth();
-            }
-            molangs.on_fire_time = entityIn.getRemainingFireTicks();
         }
     }
 }

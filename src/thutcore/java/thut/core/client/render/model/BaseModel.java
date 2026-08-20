@@ -368,10 +368,11 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
             // This computes head rotation
             if (part.isHeadPart() && !part.isHidden())
             {
-                HeadInfo info = holder.getHeadInfo();
+                var info = holder.getHeadInfo();
+                var molangs = holder.getMolangVars();
                 float ang;
-                float ang2 = -info.headPitch;
-                float head = info.headYaw + 180;
+                float ang2 = -molangs.head_pitch;
+                float head = molangs.head_yaw + 180;
                 float diff;
                 diff = head % 360;
                 diff = (diff + 360) % 360;

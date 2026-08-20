@@ -260,8 +260,8 @@ public class CapabilityAnimation
             // In this case, also load/save head info
             if (this.fixed)
             {
-                tag.putFloat("Hy", this.head.headYaw);
-                tag.putFloat("Hp", this.head.headPitch);
+                tag.putFloat("Hy", this.molangs.head_yaw);
+                tag.putFloat("Hp", this.molangs.head_pitch);
             }
 
             return tag;
@@ -276,8 +276,8 @@ public class CapabilityAnimation
             if (this.fixed)
             {
                 this.head.fixed = true;
-                this.head.headYaw = nbt.getFloat("Hy");
-                this.head.headPitch = nbt.getFloat("Hp");
+                this.molangs.head_yaw = nbt.getFloat("Hy");
+                this.molangs.head_pitch = nbt.getFloat("Hp");
             }
         }
 

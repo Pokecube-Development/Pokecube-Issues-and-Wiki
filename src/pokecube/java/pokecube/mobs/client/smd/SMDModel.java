@@ -24,6 +24,7 @@ import pokecube.mobs.client.smd.impl.Face;
 import pokecube.mobs.client.smd.impl.Helpers;
 import pokecube.mobs.client.smd.impl.Model;
 import pokecube.mobs.client.smd.impl.MutableVertex;
+import thut.api.entity.IAnimated;
 import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
@@ -267,6 +268,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
 
             var holder = this.animHolderHolder.get();
             final HeadInfo info = holder != null ? holder.getHeadInfo():HeadInfo.DUMMY;
+            var molangs = holder != null ? holder.getMolangVars(): IAnimated.MolangVars.DUMMY;
 
             // only increment frame if a tick has passed.
             if (this.wrapped.body.currentAnim != null && this.wrapped.body.currentAnim.frameCount() > 0)
@@ -278,9 +280,9 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
                 if (bone != null)
                 {
                     // Cap and convert pitch and yaw to radians.
-                    float yaw = Math.max(Math.min(info.headYaw, info.yawCapMax), info.yawCapMin);
+                    float yaw = Math.max(Math.min(molangs.head_yaw, info.yawCapMax), info.yawCapMin);
                     yaw = (float) Math.toRadians(yaw) * info.yawDirection;
-                    float pitch = -Math.max(Math.min(info.headPitch, info.pitchCapMax), info.pitchCapMin);
+                    float pitch = -Math.max(Math.min(molangs.head_pitch, info.pitchCapMax), info.pitchCapMin);
                     pitch = (float) Math.toRadians(pitch) * info.pitchDirection;
 
                     // Head rotation matrix
