@@ -550,8 +550,7 @@ public class PokedexEntry
 
         public int getLevel(final SpawnRecord record)
         {
-            final SpawnEntry entry = record.entry;
-            return entry == null ? -1 : entry.level;
+            return record == null || record.entry == null ? -1 : record.entry.level;
         }
 
         public SpawnRecord getMatcher(final SpawnContext context, final SpawnCheck checker)
@@ -585,20 +584,17 @@ public class PokedexEntry
 
         public int getMax(final SpawnRecord record)
         {
-            final SpawnEntry entry = record.entry;
-            return entry == null ? 4 : entry.max;
+            return record == null || record.entry == null ? 4 : record.entry.max;
         }
 
         public int getMin(final SpawnRecord record)
         {
-            final SpawnEntry entry = record.entry;
-            return entry == null ? 2 : entry.min;
+            return record == null || record.entry == null ? 2 : record.entry.min;
         }
 
         public Variance getVariance(final SpawnRecord record)
         {
-            final SpawnEntry entry = record.entry;
-            return entry == null ? new Variance() : entry.variance;
+            return record == null || record.entry == null ? new Variance() : record.entry.variance;
         }
 
         public float getWeight(final SpawnContext context, SpawnCheck checker, boolean forSpawn)
