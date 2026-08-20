@@ -81,6 +81,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     private boolean disabled = false;
     private boolean isHead = false;
     private boolean isAnimated = false;
+    private boolean is2D = false;
 
     protected final PoseInfo renderPose = new PoseInfo();
 
@@ -200,12 +201,26 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
 
             this.meshMid.set(0);
             int n = 0;
+            Vector3f norm = new Vector3f();
+            this.is2D = true;
             for (var m : this.renderShapes)
+            {
+                if (m.vertices.length < 3) continue;
+                norm.set(m.normals[0]);
+                double epsD = 1e-10;
+                boolean is2DMesh = true;
                 for (var v : m.vertices)
                 {
                     n++;
                     this.meshMid.add(v);
                 }
+                for(var n1: m.normalList)
+                {
+                    if(!is2DMesh) break;
+                    is2DMesh &= Math.abs(norm.dot(n1)) > 1 - epsD;
+                }
+                this.is2D &= is2DMesh;
+            }
             if (n > 0) this.meshMid.div(n);
         }
     }
@@ -430,7 +445,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                 m.poseInfo.translate(dMid);
             }
         }
-        if (hasScale) resetPostScale();
+        if (hasScale) this.postScale.set(1);
         // Reset transient holder
         this.transientTexChangeHolder = this.texChangeHolder;
     }
@@ -635,12 +650,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public void resetPostScale()
-    {
-        this.postScale.set(1);
-    }
-
-    @Override
     public void setColorScales(float r, float g, float b, float a)
     {
         r = Math.max(0, Math.min(r, 1));
@@ -720,5 +729,11 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     {
         this.transientTexChangeHolder = input;
         for (var part : this.getPartsList()) if (part instanceof IRetexturableModel p) p.setTransientTexturerChanger(input);
+    }
+
+    @Override
+    public boolean is2D()
+    {
+        return this.is2D;
     }
 }

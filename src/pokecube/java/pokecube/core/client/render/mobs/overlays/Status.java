@@ -13,6 +13,7 @@ import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.utils.Resources;
 import thut.core.client.render.animation.AnimationXML.CustomTex;
+import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.client.render.texturing.TextureHelper;
@@ -166,9 +167,18 @@ public class Status
             statusTexturer.bindObject(mob);
             IRetexturableModel.Holder<IPartTexturer> holder = new IRetexturableModel.Holder<>();
             holder.set(statusTexturer);
+            List<IExtendedModelPart> excluded = new ArrayList<>();
 
-            wrap.getParts().forEach((n, p) -> {
-                if (EXCLUDED_PARTS.contains(p.getName())) p.setDisabled(true);
+            wrap.getPartsList().forEach( p -> {
+                // Exclude specifically excluded parts, such as worn items, also exclude 2d parts
+                if (EXCLUDED_PARTS.contains(p.getName()) || p.is2D())
+                {
+                    if (!p.isDisabled())
+                    {
+                        excluded.add(p);
+                        p.setDisabled(true);
+                    }
+                }
                 else
                 {
                     p.mulPostScale(scale);
@@ -187,9 +197,8 @@ public class Status
             accessor.setRenderShadow(oldShadow);
             RenderMobOverlays.enabled = oldRenderOverlay;
 
-            wrap.getParts().forEach((n, p) -> {
-                if (EXCLUDED_PARTS.contains(p.getName())) p.setDisabled(false);
-            });
+            // re-enable excluded parts
+            excluded.forEach(p->p.setDisabled(false));
             // Reset to original one after applying this.
             wrap.renderer.setTexturer(texer);
 

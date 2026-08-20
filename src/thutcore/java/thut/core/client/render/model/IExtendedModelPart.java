@@ -227,6 +227,11 @@ public interface IExtendedModelPart extends IModelCustom, Comparable<IExtendedMo
         return false;
     }
 
+    default boolean is2D()
+    {
+        return false;
+    }
+
     /**
      * This occurs outside the main render loop,
      * synchronized and slow blocks are "fine".
@@ -264,14 +269,10 @@ public interface IExtendedModelPart extends IModelCustom, Comparable<IExtendedMo
     void setPreScale(Vector3 scale);
 
     /**
-     * Multiplies render scaling factor by scale
+     * Multiplies render scaling factor by scale,
+     * this should get automatically reset after the render call.
      */
     void mulPostScale(Vector3f scale);
-
-    /**
-     * Resets render scaling factor
-     */
-    void resetPostScale();
 
     void setPreTranslations(Vector3 translations);
 

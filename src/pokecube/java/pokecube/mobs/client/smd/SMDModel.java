@@ -441,13 +441,6 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     @Override
-    public void resetPostScale()
-    {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     public void addPartRenderAdder(IPartRenderAdder adder)
     {
         // TODO Auto-generated method stub
