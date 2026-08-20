@@ -127,7 +127,7 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
     public IPokemob pokemob = null;
     boolean shiny = false;
     public int[] shift = { 0, 0, 0 };
-    public int scale = 1000;
+    public int scale = 1000, ticks = 0;// these are for rendering purposes
     public String animation = "idle";
     public Ability ability = null;
     public int distance = 4;
@@ -185,7 +185,22 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket()
     {
+        this.refreshAbility(false);
         return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider provider)
+    {
+        this.refreshAbility(false);
+        return this.saveWithoutMetadata(provider);
+    }
+
+    @Override
+    public void handleUpdateTag(final CompoundTag tag, HolderLookup.Provider provider)
+    {
+        this.loadWithComponents(tag, provider);
+        this.refreshAbility(false);
     }
 
     @Override
@@ -198,6 +213,7 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
     @Override
     public void tick()
     {
+        this.ticks++; // This one is used for rendering purposes
         if (!(this.getLevel() instanceof ServerLevel)) return;
 
         int levelFactor = 0;
