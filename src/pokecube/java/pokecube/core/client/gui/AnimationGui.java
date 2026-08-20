@@ -346,11 +346,11 @@ public class AnimationGui extends Screen
             entity.setYRot(yaw);
             entity.yRotO = entity.getYRot();
             entity.setXRot(this.yHeadRenderAngle);
+            entity.xRotO = entity.getXRot();
             entity.yHeadRot = this.xHeadRenderAngle;
             entity.yHeadRotO = entity.yHeadRot;
-            entity.xRotO = entity.getYRot();
             entity.tickCount = Minecraft.getInstance().player.tickCount;
-            entity.attackAnim += 0.0125;
+            entity.attackAnim += 0.0125f;
 
             if (this.isPauseScreen())
             {
