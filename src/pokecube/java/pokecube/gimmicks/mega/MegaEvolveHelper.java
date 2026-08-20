@@ -10,11 +10,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler;
 import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler.IChangeHandler;
@@ -25,6 +27,7 @@ import pokecube.core.inventory.pc.PCContainer;
 import pokecube.core.items.megastuff.ItemMegawearable;
 import pokecube.gimmicks.mega.MegaCapability.MegaStone;
 import pokecube.gimmicks.mega.MegaCapability.MegaWearable;
+import pokecube.gimmicks.mega.abilities.BattleBond;
 import thut.api.Tracker;
 import thut.wearables.ThutWearables;
 import thut.wearables.inventory.PlayerWearables;
@@ -37,6 +40,7 @@ import java.util.function.Supplier;
  * - Registers a handler for commands to mega-evolve<br> - Ensures that pokemobs are able to mega-evolve<br> - Ensures
  * that they un-mega-evolve when recalled<br>
  */
+@Mod(value = PokecubeCore.MODID)
 @EventBusSubscriber(modid = PokecubeCore.MODID)
 public class MegaEvolveHelper
 {
@@ -57,6 +61,11 @@ public class MegaEvolveHelper
                         .networkSynchronized(MegaStone.STREAM_CODEC).build());
 
         MegaCapability.RegisterMegaType(ResourceLocation.parse("pokecube:default"), MegaCapability::new);
+    }
+
+    public MegaEvolveHelper()
+    {
+        AbilityManager.registerAbilityPackage(BattleBond.class.getPackage());
     }
 
     @SubscribeEvent

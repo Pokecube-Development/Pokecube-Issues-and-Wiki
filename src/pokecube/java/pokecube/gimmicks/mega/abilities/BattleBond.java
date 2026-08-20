@@ -1,7 +1,5 @@
-package pokecube.mobs.abilities.simple;
+package pokecube.gimmicks.mega.abilities;
 
-import pokecube.api.PokecubeAPI;
-import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IHasCommands;
