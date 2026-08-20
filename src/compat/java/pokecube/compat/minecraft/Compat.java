@@ -21,7 +21,6 @@ import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import pokecube.adventures.Config;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
-import pokecube.api.entity.CapabilityInhabitable;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.init.CompatEvent;
@@ -32,7 +31,6 @@ import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.JsonPokedexEntry;
 import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.entity.pokemobs.PokemobType;
-import pokecube.gimmicks.nests.tasks.bees.BeeTasks;
 import thut.api.attachments.Ownable;
 import thut.api.data.HolderProvider;
 import thut.api.item.ItemList;
@@ -109,7 +107,6 @@ public class Compat
         // And this handles applying the IPokemob to them.
         ThutCore.FORGE_BUS.addListener(Compat::LivingConstruct);
 
-        CapabilityInhabitable.Register(ResourceLocation.parse("pokecube:vanilla_bees"), BeeTasks.BeeHabitat::new);
         Ownable._REGISTRY.register(new HolderProvider.Provider<>()
         {
             final ResourceLocation KEY = ResourceLocation.parse("pokecube:ownable_mobs");

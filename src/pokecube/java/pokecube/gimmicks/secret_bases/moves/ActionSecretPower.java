@@ -1,4 +1,4 @@
-package pokecube.mobs.moves.world;
+package pokecube.gimmicks.secret_bases.moves;
 
 import net.minecraft.core.GlobalPos;
 import net.minecraft.network.chat.ClickEvent;

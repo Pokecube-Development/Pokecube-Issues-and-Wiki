@@ -39,6 +39,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.Nullable;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.ai.IInhabitor;
+import pokecube.api.entity.CapabilityInhabitable;
 import pokecube.api.entity.CapabilityInhabitor;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
@@ -116,6 +117,9 @@ public class NestTasks
 
         Config.setupConfigs(ModList.get().getModContainerById("pokecube").get(), config,
                 PokecubeCore.MODID+"/gimmicks", "nests");
+
+        // Register vanilla bees as living in nests
+        CapabilityInhabitable.Register(ResourceLocation.parse("pokecube:vanilla_bees"), BeeTasks.BeeHabitat::new);
     }
 
     public static void onHatch(EggEvent.Hatch event)

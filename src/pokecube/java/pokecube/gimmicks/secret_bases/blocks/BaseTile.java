@@ -23,7 +23,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.gimmicks.secret_bases.SecretBases;
 import pokecube.gimmicks.secret_bases.command.SecretBase;
-import pokecube.mobs.moves.world.ActionSecretPower;
+import pokecube.gimmicks.secret_bases.moves.ActionSecretPower;
 import pokecube.gimmicks.secret_bases.dimension.SecretBaseDimension;
 import thut.api.ThutCaps;
 import thut.api.block.IOwnableTE;

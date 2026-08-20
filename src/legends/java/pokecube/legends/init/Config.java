@@ -14,8 +14,6 @@ import net.minecraft.world.level.Level;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.database.Database;
-import pokecube.gimmicks.dynamax.DynamaxRaid;
-import pokecube.gimmicks.terastal.TerastalRaid;
 import pokecube.legends.Reference;
 import pokecube.legends.conditions.LegendaryConditions;
 import pokecube.legends.entity.WormholeEntity;
@@ -74,8 +72,6 @@ public class Config extends ConfigData
     public double meteorChanceForAny = 0.15;
 
     // Raids
-    @Configure(category = "raids", comment = "Duration of raids in ticks. [Default: 3000]")
-    public int raidDuration = 3000;
     @Configure(category = "raids", comment = "Chance for a raid to reset. [Default: 0.1]")
     public double raidResetChance = 0.1;
     @Configure(category = "raids", comment = "Chance for a reset raid to be rare. [Default: 0.1]")
@@ -170,9 +166,6 @@ public class Config extends ConfigData
 
         WormholeSpawns.teleWormholeChanceNormal = this.teleWormholeChanceNormal;
         WormholeSpawns.teleWormholeChanceWorms = this.teleWormholeChanceWorms;
-
-        DynamaxRaid.RAID_DURATION = this.raidDuration;
-        TerastalRaid.RAID_DURATION = this.raidDuration;
         
         WormholeEntity.WEIGHTED_DIM_MAP.clear();
         WormholeEntity.NO_HOLES.clear();

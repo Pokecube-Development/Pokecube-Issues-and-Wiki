@@ -36,11 +36,13 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.init.CoreCreativeTabs;
+import pokecube.core.moves.implementations.MovesAdder;
 import pokecube.core.network.packets.PacketPokedex;
 import pokecube.gimmicks.secret_bases.blocks.BaseBlock;
 import pokecube.gimmicks.secret_bases.blocks.BaseTile;
 import pokecube.gimmicks.secret_bases.command.SecretBase;
 import pokecube.gimmicks.secret_bases.dimension.SecretBaseDimension;
+import pokecube.gimmicks.secret_bases.moves.ActionSecretPower;
 import thut.api.attachments.Ownable;
 import thut.api.entity.teleporting.TeleDest;
 import thut.api.entity.teleporting.ThutTeleporter;
@@ -90,6 +92,7 @@ public class SecretBases
         TILES.register(bus);
         CHUNKGEN.register(bus);
         PokecubeItems.DEFAULT_OWNABLE_TE.add(SecretBase.class);
+        MovesAdder.worldActionPackages.add(ActionSecretPower.class.getPackage());
     }
 
     @SubscribeEvent
