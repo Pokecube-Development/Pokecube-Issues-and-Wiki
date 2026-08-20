@@ -29,9 +29,8 @@ public class SandVeil extends Ability
         {
             MovesUtils.handleStats2(mob, mob.getEntity(), IMoveConstants.EVASION, IMoveConstants.RAISE);
             mob.getEntity().getPersistentData().putBoolean("pokecube:SandVeilActive", true);
-        } else {
-            int drop = IMoveConstants.EVASION;
-            MovesUtils.handleStats2(mob, mob.getEntity(), drop, IMoveConstants.FALL);
+        } else if (mob.getEntity().getPersistentData().contains("pokecube:SandVeilActive")) {
+            MovesUtils.handleStats2(mob, mob.getEntity(), IMoveConstants.EVASION, IMoveConstants.FALL);
             mob.getEntity().getPersistentData().remove("pokecube:SandVeilActive");
         }
     }

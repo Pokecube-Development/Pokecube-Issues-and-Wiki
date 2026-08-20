@@ -28,12 +28,10 @@ public class SnowCloak extends Ability
 
         if (teffect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.HAIL) && !mob.getEntity().getPersistentData().contains("pokecube:SnowCloakActive"))
         {
-            int boost = IMoveConstants.EVASION;
-            MovesUtils.handleStats2(mob, mob.getEntity(), boost, IMoveConstants.RAISE);
+            MovesUtils.handleStats2(mob, mob.getEntity(), IMoveConstants.EVASION, IMoveConstants.RAISE);
             mob.getEntity().getPersistentData().putBoolean("pokecube:SnowCloakActive", true);
-        } else {
-            int drop = IMoveConstants.EVASION;
-            MovesUtils.handleStats2(mob, mob.getEntity(), drop, IMoveConstants.FALL);
+        } else if (mob.getEntity().getPersistentData().contains("pokecube:SnowCloakActive")) {
+            MovesUtils.handleStats2(mob, mob.getEntity(), IMoveConstants.EVASION, IMoveConstants.FALL);
             mob.getEntity().getPersistentData().remove("pokecube:SnowCloakActive");
         }
     }

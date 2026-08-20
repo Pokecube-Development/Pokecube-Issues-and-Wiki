@@ -28,9 +28,8 @@ public class SwiftSwim extends Ability
         if (teffect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.RAIN) && !mob.getEntity().getPersistentData().contains("pokecube:SwiftSwimActive")) {
             MovesUtils.handleStats2(mob, mob.getEntity(), IMoveConstants.VIT, IMoveConstants.SHARP);
             mob.getEntity().getPersistentData().putBoolean("pokecube:SwiftSwimActive", true);
-        } else {
-            int drop = IMoveConstants.VIT;
-            MovesUtils.handleStats2(mob, mob.getEntity(), drop, IMoveConstants.HARSH);
+        } else if (mob.getEntity().getPersistentData().contains("pokecube:SwiftSwimActive")) {
+            MovesUtils.handleStats2(mob, mob.getEntity(), IMoveConstants.VIT, IMoveConstants.HARSH);
             mob.getEntity().getPersistentData().remove("pokecube:SwiftSwimActive");
         }
     }
