@@ -19,7 +19,7 @@ public class Defiant extends Ability
         {
             if (move.applied_stat_effects.diffs()[i] < 0)
             {
-                MovesUtils.handleStats2(mob, mob.getOwner(), IMoveConstants.ATTACK, IMoveConstants.SHARP);
+                MovesUtils.handleStats2(mob, mob.getEntity(), IMoveConstants.ATTACK, IMoveConstants.SHARP);
             }
         }
     }

@@ -20,7 +20,7 @@ public class ChillingNeigh extends Ability
         if (!targetMob.inCombat())
         {
             byte boost = IMoveConstants.ATTACK;
-            MovesUtils.handleStats2(mob, mob.getOwner(), boost, IMoveConstants.RAISE);
+            MovesUtils.handleStats2(mob, mob.getEntity(), boost, IMoveConstants.RAISE);
         }
     }
 }

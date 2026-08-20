@@ -15,7 +15,7 @@ public class SwiftSwim extends Ability {
         final boolean rain = world.isRaining();
         if (rain) {
             byte boost = IMoveConstants.VIT;
-            MovesUtils.handleStats2(mob, mob.getOwner(), boost, IMoveConstants.RAISE);
+            MovesUtils.handleStats2(mob, mob.getEntity(), boost, IMoveConstants.RAISE);
         }
     }
 }

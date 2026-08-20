@@ -32,7 +32,7 @@ public class KingsShield implements PostMoveUse, LastMoveEffect
         // Return if the next move did not fail or if no move was used after King's Shield or we used the next move.
         if (lastMove == null || nextMoveTarget == null || !nextMoveTarget.failed || nextMoveTarget.getUser() == lastMove.getUser()) return;
         if (nextMoveTarget.getMove().isContact(target)) // Lower attack if move made contact.
-            MovesUtils.handleStats2(target, target.getOwner(), IMoveConstants.ATTACK,
+            MovesUtils.handleStats2(target, lastMove.getUser().getEntity(), IMoveConstants.ATTACK,
                     IMoveConstants.FALL);
     }
 }
