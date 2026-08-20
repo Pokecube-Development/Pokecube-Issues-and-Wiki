@@ -49,19 +49,16 @@ public class Mesh implements Comparable<Mesh>
             List<Vector3f> norms = new ArrayList<>();
             List<Vector3f> normsList = new ArrayList<>();
             List<Vector2f> texs = new ArrayList<>();
-            float len = 0;
             for(var mesh : list)
             {
                 verts.addAll(Arrays.stream(mesh.vertices).toList());
                 norms.addAll(Arrays.stream(mesh.normals).toList());
                 normsList.addAll(Arrays.stream(mesh.normalList).toList());
                 texs.addAll(Arrays.stream(mesh.textureCoordinates).toList());
-                // TODO see if we need to recompute this better?
-                len = Math.max(len, mesh.len);
             }
             var mesh = new Mesh(verts.toArray(new Vector3f[0]),
                     norms.toArray(new Vector3f[0]),normsList.toArray(new Vector3f[0]),
-                    texs.toArray(new Vector2f[0]), format, len, first.material);
+                    texs.toArray(new Vector2f[0]), format, first.material);
             mesh.poseInfo = first.poseInfo;
             mesh.texChangeHolder = first.texChangeHolder;
             retList.add(mesh);
@@ -70,6 +67,10 @@ public class Mesh implements Comparable<Mesh>
     }
 
     public final Vector3f[] vertices;
+    /**
+     * Vertex normals, whatever are loaded in from the model,
+     * otherwise computed identically to normalList
+     */
     public final Vector3f[] normals;
     public final Vector2f[] textureCoordinates;
 
@@ -86,9 +87,13 @@ public class Mesh implements Comparable<Mesh>
     public String name;
     public boolean overrideColour = false;
     public boolean hidden = false;
+    public boolean is2D = false;
     private final double[] uvShift =
     { 0, 0 };
     final int GL_FORMAT;
+    /**
+     * Face normals,computed from render order itself.
+     */
     final Vector3f[] normalList;
     public IModelCustom.PoseInfo poseInfo = new IModelCustom.PoseInfo();
     public Supplier<IPartTexturer> texChangeHolder = new IRetexturableModel.Holder<>();
@@ -102,12 +107,8 @@ public class Mesh implements Comparable<Mesh>
     Vector3f min = new Vector3f();
     Vector3f max = new Vector3f();
 
-    final int iter;
-
-    protected final float len;
+    protected float len;
     public float cullScale = 1;
-
-    public static Vector4f METRIC = new Vector4f(1, 1, 1, 0);
 
     private static void clip(Vector3f bound, Vector3f point, boolean up)
     {
@@ -126,16 +127,15 @@ public class Mesh implements Comparable<Mesh>
     }
 
     private Mesh(final Vector3f[] vert, final Vector3f[] norm, final Vector3f[] normList, final Vector2f[] tex,
-            final int GL_FORMAT, float len, Material material){
+            final int GL_FORMAT, Material material){
         this.vertices= vert;
         this.normals = norm;
         this.normalList = normList;
         this.textureCoordinates = tex;
         this.GL_FORMAT = GL_FORMAT;
-        this.iter = GL_FORMAT == GL11.GL_TRIANGLES ? 3 : 4;
         vertexMode = GL_FORMAT == GL11.GL_TRIANGLES ? Mode.TRIANGLES : Mode.QUADS;
         this.material = this.renderMaterial = material;
-        this.len = len;
+        initStats();
     }
 
     public Mesh(final Integer[] order, final Vector3f[] vert, final Vector3f[] norm, final Vector2f[] tex,
@@ -153,15 +153,13 @@ public class Mesh implements Comparable<Mesh>
         this.GL_FORMAT = GL_FORMAT;
         Vector3f vertex;
         Vector3f normal;
-        this.iter = GL_FORMAT == GL11.GL_TRIANGLES ? 3 : 4;
+        int iter = GL_FORMAT == GL11.GL_TRIANGLES ? 3 : 4;
 
         vertexMode = GL_FORMAT == GL11.GL_TRIANGLES ? Mode.TRIANGLES : Mode.QUADS;
 
-        Vector3f mins = new Vector3f(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE);
-        Vector3f maxs = new Vector3f(Float.MIN_VALUE, Float.MIN_VALUE, Float.MIN_VALUE);
         final Vector3f a = new Vector3f(),b = new Vector3f(),c = new Vector3f();
 
-        int i_1, i_2, i_3, i_4;
+        int i_1, i_2, i_3;
         // Calculate the normals for each triangle.
         for (int i = 0; i < order.length; i += iter)
         {
@@ -176,24 +174,6 @@ public class Mesh implements Comparable<Mesh>
             v2 = new Vector3f(vertex.x, vertex.y, vertex.z);
             vertex = vertTmp.get(i_3);
             v3 = new Vector3f(vertex.x, vertex.y, vertex.z);
-
-            clip(mins, v1, false);
-            clip(mins, v2, false);
-            clip(mins, v3, false);
-
-            clip(maxs, v1, true);
-            clip(maxs, v2, true);
-            clip(maxs, v3, true);
-
-            if (iter == 4)
-            {
-                i_4 = order[i + 3];
-                vertex = vertTmp.get(i_4);
-                Vector3f v4 = new Vector3f(vertex.x, vertex.y, vertex.z);
-
-                clip(mins, v4, false);
-                clip(maxs, v4, true);
-            }
 
             v2.sub(v1,a);
             v3.sub(v1,b);
@@ -213,13 +193,6 @@ public class Mesh implements Comparable<Mesh>
                 if (norm != null) normATmp.set(j, norm[i_0]);
             }
         }
-
-        min.set(mins);
-        max.set(maxs);
-        // First set to extents for len calc
-        Vector3f _len = new Vector3f();
-        _len.set(max).sub(min);
-        len = (float) Math.sqrt(_len.dot(_len));
 
         // Now sort everything to no longer need the "order" array
         List<Vector3f> _verts = new ArrayList<>();
@@ -241,6 +214,8 @@ public class Mesh implements Comparable<Mesh>
         this.normals = norm!=null?_norms.toArray(new Vector3f[0]):normalList;
         this.textureCoordinates = _tex.toArray(new Vector2f[0]);
 
+        initStats();
+
         // Initialize a "default" material for us
         this.material = this.renderMaterial = new Material("auto:" + this.name);
         this.material.vertexMode = this.vertexMode;
@@ -249,6 +224,31 @@ public class Mesh implements Comparable<Mesh>
     private final Vector3f dn = new Vector3f();
     private final Vector4f dp = new Vector4f();
     private final Vector2f texdR = new Vector2f(), texdS = new Vector2f(), texUV =new Vector2f();
+
+    private void initStats()
+    {
+        dn.set(normalList[0]);
+        double epsD = 1e-10;
+        is2D = true;
+        for (var n1 : normalList)
+        {
+            if (!is2D) break;
+            is2D &= Math.abs(dn.dot(n1)) > 1 - epsD;
+        }
+        Vector3f mins = new Vector3f(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE);
+        Vector3f maxs = new Vector3f(Float.MIN_VALUE, Float.MIN_VALUE, Float.MIN_VALUE);
+        for (var v : vertices)
+        {
+            clip(mins, v, false);
+            clip(maxs, v, true);
+        }
+        min.set(mins);
+        max.set(maxs);
+        // First set to extents for len calc
+        Vector3f _len = new Vector3f();
+        _len.set(max).sub(min);
+        len = (float) Math.sqrt(_len.dot(_len));
+    }
 
     protected final void doRender(Vector3f[] normals, Matrix3f norms, Matrix4f pos, int argb, int overlayUV, int lightmapUV, VertexConsumer buffer)
     {

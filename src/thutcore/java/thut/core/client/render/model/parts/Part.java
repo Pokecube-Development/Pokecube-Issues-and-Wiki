@@ -201,25 +201,18 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
 
             this.meshMid.set(0);
             int n = 0;
-            Vector3f norm = new Vector3f();
             this.is2D = true;
+            Vector3f norm = null;
+            double epsD = 1e-10;
             for (var m : this.renderShapes)
             {
-                if (m.vertices.length < 3) continue;
-                norm.set(m.normals[0]);
-                double epsD = 1e-10;
-                boolean is2DMesh = true;
+                if (norm == null) norm = m.normalList[0];
                 for (var v : m.vertices)
                 {
                     n++;
                     this.meshMid.add(v);
                 }
-                for(var n1: m.normalList)
-                {
-                    if(!is2DMesh) break;
-                    is2DMesh &= Math.abs(norm.dot(n1)) > 1 - epsD;
-                }
-                this.is2D &= is2DMesh;
+                this.is2D &= m.is2D && Math.abs(norm.dot(m.normalList[0]))>1-epsD;
             }
             if (n > 0) this.meshMid.div(n);
         }
