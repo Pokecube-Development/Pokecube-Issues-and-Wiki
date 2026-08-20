@@ -10,6 +10,8 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.utils.RecipePokeAdv;
+import thut.api.attachments.CopyMob;
+import thut.lib.RegHelper;
 
 public class RecipeStatueCoat extends CustomRecipe
 {
@@ -34,6 +36,11 @@ public class RecipeStatueCoat extends CustomRecipe
                 else return false;
             }
         }
+        if (!statue.isEmpty())
+        {
+            var info = statue.get(CopyMob.COPY_STORE);
+            if (info.tag().isEmpty()) return false;
+        }
         return !block.isEmpty() && !statue.isEmpty();
     }
 
@@ -52,14 +59,11 @@ public class RecipeStatueCoat extends CustomRecipe
                 else if (block.isEmpty() && stack.getItem() instanceof BlockItem) block = stack;
             }
         }
-        // TODO a data component for this
-        Thread.dumpStack();
-//        CompoundTag blockTag = statue.getOrCreateTagElement("BlockEntityTag");
-//        CompoundTag modelTag = blockTag.getCompound("custom_model");
-//        modelTag.putString("over_tex", RegHelper.getKey(block.getItem()).toString());
-//
-//        blockTag.put("custom_model", modelTag);
-
+        var info = statue.get(CopyMob.COPY_STORE);
+        info = new CopyMob.CopyInfo(info.tag().copy());
+        info.tag().putString("statue:over_tex", RegHelper.getKey(block.getItem()).toString());
+        info.tag().remove("statue:tex_cache"); // Remove the cache
+        statue.set(CopyMob.COPY_STORE, info);
         return statue;
     }
 
