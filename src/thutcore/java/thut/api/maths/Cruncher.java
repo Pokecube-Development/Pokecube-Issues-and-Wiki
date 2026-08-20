@@ -5,6 +5,9 @@ import it.unimi.dsi.fastutil.ints.IntSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 public class Cruncher
 {
     private static short[][] CUBECACHE;
@@ -16,26 +19,23 @@ public class Cruncher
 
     public static boolean useCache = false;
 
-    private static final Thread CACHEGEN = new Thread(Cruncher::_doInit);
+    private static Future<?> RUNNER;
 
     public static void init()
     {
         // already initialized!
-        if (Cruncher.useCache||CACHEGEN.isAlive()) return;
-        CACHEGEN.setDaemon(true);
-        CACHEGEN.setName("cruncher_cache_generator");
-        CACHEGEN.start();
+        if (Cruncher.useCache || RUNNER != null) return;
+        var executor = Executors.newVirtualThreadPerTaskExecutor();
+        RUNNER = executor.submit(Cruncher::_doInit);
     }
 
     public static short[][] CUBECACHE()
     {
-        while (Cruncher.CUBECACHE == null) CACHEGEN.isAlive();
         return CUBECACHE;
     }
 
     public static short[][] SPHERECACHE()
     {
-        while (Cruncher.SPHERECACHE == null) CACHEGEN.isAlive();
         return SPHERECACHE;
     }
 
@@ -109,11 +109,6 @@ public class Cruncher
         final int j = rHat.intY() + 512;
         final int k = rHat.intZ() + 512;
         return i + (j << 10) + (k << 20);
-    }
-
-    public static long getVectorLong(final Vector3 rHat)
-    {
-        return rHat.getPos().asLong();
     }
 
     public static void indexToVals(final int radius, final int index, final int diffSq, final int diffCb,

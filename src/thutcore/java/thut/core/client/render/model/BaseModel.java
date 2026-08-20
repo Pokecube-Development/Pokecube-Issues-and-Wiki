@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Executors;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -65,11 +66,12 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
 
         public void start()
         {
-            String key = "ThutCore: Model Load: " + res;
-            final Thread loader = new Thread(this);
-            loader.setName(key);
-            if (ThutCore.conf.asyncModelLoads) loader.start();
-            else loader.run();
+            if (ThutCore.conf.asyncModelLoads)
+            {
+                var executor = Executors.newVirtualThreadPerTaskExecutor();
+                executor.submit(this);
+            }
+            else this.run();
         }
     }
 
