@@ -24,14 +24,9 @@ public interface IRetexturableModel
 
     Holder<IAnimationChanger> getAnimationChanger();
 
-    void setAnimationChanger(Holder<IAnimationChanger> input);
+    void setChangers(Holder<IAnimationChanger> animations, Holder<IPartTexturer> textures);
 
     Holder<IPartTexturer> getTexturerChanger();
 
-    void setTexturerChanger(Holder<IPartTexturer> input);
-
-    default void setTransientTexturerChanger(Holder<IPartTexturer> input)
-    {
-        this.setTexturerChanger(input);
-    }
+    void setTransientTexturerChanger(Holder<IPartTexturer> input);
 }

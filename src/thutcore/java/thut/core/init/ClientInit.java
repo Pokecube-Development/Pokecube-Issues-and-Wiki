@@ -189,7 +189,7 @@ public class ClientInit
         if (renderer.getModel() instanceof ModelWrapper<LivingEntity> wrap)
         {
             var tex = renderer.getTextureLocation(living);
-            wrap.setMob(living, event.getMultiBufferSource(), tex);
+            wrap.setMob(living, event.getMultiBufferSource(), tex, event.getPackedLight());
         }
     }
 

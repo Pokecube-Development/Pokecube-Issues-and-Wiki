@@ -13,8 +13,11 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import thut.api.ModelHolder;
 import thut.api.ThutCaps;
 import thut.api.entity.IAnimated.IAnimationHolder;
@@ -148,13 +151,6 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         animHolder.postRunAll();
     }
 
-    private void preInitModel(final int packedLightIn, final int packedOverlayIn)
-    {
-        final IMobColourable poke = ThutCaps.getColourable(entityIn);
-        for (var part : this.getModel().getPartsList())
-            if(!part.isHidden()) this.initColours(part, this.entityIn, poke, packedLightIn, packedOverlayIn);
-    }
-
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay,
 			int color) {
@@ -165,27 +161,30 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         poseStack.pushPose();
         this.transformGlobal(poseStack, buffer, this.renderer.getAnimation(this.entityIn), this.entityIn,
                 Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true));
-        preInitModel(packedLight, packedOverlay);
         renderModel.render(poseStack, buffer);
         poseStack.popPose();
 	}
 
-    public void setMob(final T entity, final MultiBufferSource bufferIn, ResourceLocation default_)
+    public void setMob(final T entity, final MultiBufferSource bufferIn, ResourceLocation default_, int packedLight)
     {
-        if (this.getModel() == null) return;
-        Object lock = this.getModel();
-        synchronized (lock)
+        var model = this.getModel();
+        if (model == null || !model.isLoaded() || !model.isValid()) return;
+        int packedOverlay = entity instanceof LivingEntity living
+                ? LivingEntityRenderer.getOverlayCoords(living, 0f)
+                : OverlayTexture.NO_OVERLAY;
+        final IPartTexturer texer = this.renderer.getTexturer();
+        if (texer != null)
         {
-            final IPartTexturer texer = this.renderer.getTexturer();
-            if (texer != null)
-            {
-                texer.bindObject(entity);
-                if (texer instanceof TextureHelper helper) default_ = helper.default_tex;
-                ResourceLocation defs = default_;
-                for (var p : this.getModel().getPartsList()) p.applyTexture(bufferIn, defs, texer);
-            }
-            this.setEntity(entity);
+            texer.bindObject(entity);
+            if (texer instanceof TextureHelper helper) default_ = helper.default_tex;
         }
+        final IMobColourable poke = ThutCaps.getColourable(entity);
+        for (var p : model.getPartsList())
+        {
+            if (texer != null) p.applyTexture(bufferIn, default_, texer);
+            this.initColours(p, entity, poke, packedLight, packedOverlay);
+        }
+        this.setEntity(entity);
     }
 
     /**
@@ -275,8 +274,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
             part.setAnimationHolder(this.animHolderHolder);
             if (part instanceof IRetexturableModel p)
             {
-                p.setAnimationChanger(animChangeHolder);
-                p.setTexturerChanger(texChangeHolder);
+                p.setChangers(animChangeHolder, texChangeHolder);
             }
         }
         else{

@@ -698,23 +698,20 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public void setAnimationChanger(Holder<IAnimationChanger> input)
+    public void setChangers(Holder<IAnimationChanger> animations, Holder<IPartTexturer> textures)
     {
-        this.animChangeHolder = input;
-        for (var part : this.getPartsList()) if (part instanceof IRetexturableModel p) p.setAnimationChanger(input);
+        this.animChangeHolder = animations;
+        this.texChangeHolder = this.transientTexChangeHolder = textures;
+        for (var part : this.getPartsList()) if (part instanceof IRetexturableModel p)
+        {
+            p.setChangers(animations, textures);
+        }
     }
 
     @Override
     public Holder<IPartTexturer> getTexturerChanger()
     {
         return this.transientTexChangeHolder;
-    }
-
-    @Override
-    public void setTexturerChanger(Holder<IPartTexturer> input)
-    {
-        this.texChangeHolder = this.transientTexChangeHolder = input;
-        for (var part : this.getPartsList()) if (part instanceof IRetexturableModel p) p.setTexturerChanger(input);
     }
 
     @Override

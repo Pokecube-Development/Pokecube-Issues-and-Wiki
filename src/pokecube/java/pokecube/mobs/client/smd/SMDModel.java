@@ -468,23 +468,25 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     @Override
-    public void setAnimationChanger(Holder<IAnimationChanger> input)
+    public void setChangers(Holder<IAnimationChanger> animations, Holder<IPartTexturer> textures)
     {
-        this.animChangeHolder = input;
-        for (var part : this.getPartsList()) if(part!=this)  if (part instanceof IRetexturableModel p) p.setAnimationChanger(input);
+        this.animChangeHolder = animations;
+        this.texChangeHolder = textures;
+        for (var part : this.getPartsList()) if (part instanceof IRetexturableModel p)
+        {
+            p.setChangers(animations, textures);
+        }
+    }
+
+    @Override
+    public void setTransientTexturerChanger(Holder<IPartTexturer> input)
+    {
     }
 
     @Override
     public Holder<IPartTexturer> getTexturerChanger()
     {
         return this.texChangeHolder;
-    }
-
-    @Override
-    public void setTexturerChanger(Holder<IPartTexturer> input)
-    {
-        this.texChangeHolder = input;
-        for (var part : this.getPartsList()) if(part!=this)  if (part instanceof IRetexturableModel p) p.setTexturerChanger(input);
     }
 
     @Override

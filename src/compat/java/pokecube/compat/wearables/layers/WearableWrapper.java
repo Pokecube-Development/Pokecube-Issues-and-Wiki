@@ -307,10 +307,7 @@ public class WearableWrapper
                     wrapper = new HeldItemWrapper(ident);
                     wrapper.setAnimationHolder(part.getAnimationHolder());
                     if (part instanceof IRetexturableModel p)
-                    {
-                        wrapper.setAnimationChanger(p.getAnimationChanger());
-                        wrapper.setTexturerChanger(p.getTexturerChanger());
-                    }
+                        wrapper.setChangers(p.getAnimationChanger(), p.getTexturerChanger());
                     wrapper.setOffsets(offsets);
                     wrapper.setParent(part);
                     part.addChild(wrapper);

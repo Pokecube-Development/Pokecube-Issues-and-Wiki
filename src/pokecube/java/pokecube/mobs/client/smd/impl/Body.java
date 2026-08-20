@@ -348,9 +348,10 @@ public class Body implements IRetexturableModel
     }
 
     @Override
-    public void setAnimationChanger(Holder<IAnimationChanger> input)
+    public void setChangers(Holder<IAnimationChanger> animations, Holder<IPartTexturer> textures)
     {
-        this.animChangeHolder = input;
+        this.animChangeHolder = animations;
+        this.texChangeHolder = textures;
     }
 
     @Override
@@ -360,8 +361,8 @@ public class Body implements IRetexturableModel
     }
 
     @Override
-    public void setTexturerChanger(Holder<IPartTexturer> input)
+    public void setTransientTexturerChanger(Holder<IPartTexturer> input)
     {
-        this.texChangeHolder = input;
+
     }
 }
