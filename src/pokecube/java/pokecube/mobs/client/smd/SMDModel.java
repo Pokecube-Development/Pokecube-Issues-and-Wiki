@@ -176,8 +176,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     @Override
-    public void applyAnimation(final Entity entity, final IModelRenderer<?> renderer, final float partialTicks,
-            final float limbSwing)
+    public void applyAnimation(final Entity entity, final IModelRenderer<?> renderer)
     {
         this.wrapped.setAnimation(renderer.getAnimation(entity));
     }

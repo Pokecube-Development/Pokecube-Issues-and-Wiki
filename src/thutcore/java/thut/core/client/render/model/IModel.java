@@ -30,7 +30,7 @@ public interface IModel
 
     public static ImmutableSet<String> emptyAnims = ImmutableSet.of();
 
-    void applyAnimation(Entity entity, IModelRenderer<?> renderer, float partialTicks, float limbSwing);
+    void applyAnimation(Entity entity, IModelRenderer<?> renderer);
 
     default Set<String> getBuiltInAnimations()
     {

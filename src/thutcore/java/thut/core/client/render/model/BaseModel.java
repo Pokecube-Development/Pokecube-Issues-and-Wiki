@@ -16,10 +16,8 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
-import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.IAnimationChanger;
@@ -311,8 +309,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     }
 
     @Override
-    public void applyAnimation(final Entity entity, final IModelRenderer<?> renderer, final float partialTicks,
-            final float limbSwing)
+    public void applyAnimation(final Entity entity, final IModelRenderer<?> renderer)
     {
         if (this.getPartsList().isEmpty()) return;
         String currentPhase = renderer.getAnimation(entity);
@@ -351,14 +348,21 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
             }
             animOrder.sort(null);
         }
+        var animChanger = this.getAnimationChanger().get();
         // Then apply animations
         for (var part : animOrder)
-            this.updatePart(playingAnims, part, holder);
+            this.updatePart(playingAnims, part, holder, animChanger);
     }
 
-    private void updatePart(List<Animation> anims, final IExtendedModelPart part, IAnimationHolder holder)
+    private void updatePart(List<Animation> anims, IExtendedModelPart part, IAnimationHolder holder, IAnimationChanger animChanger)
     {
         part.resetToInit();
+
+        // Check if part should be hidden
+        if(animChanger != null && holder.getContext().getContext() instanceof Entity e &&
+                animChanger.isPartHidden(part.getName(), e, false))
+            part.setHidden(true);
+
         // If animated, compute adjustments
         if(part.isAnimated())
         {

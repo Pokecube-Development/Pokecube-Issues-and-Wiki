@@ -10,7 +10,6 @@ import java.util.Set;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -67,11 +66,10 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     }
 
     @Override
-    public void applyAnimation(final Entity entity, final IModelRenderer<?> renderer, final float partialTicks,
-            final float limbSwing)
+    public void applyAnimation(final Entity entity, final IModelRenderer<?> renderer)
     {
         if (!this.isLoaded()) return;
-        this.getModel().applyAnimation(entity, renderer, partialTicks, limbSwing);
+        this.getModel().applyAnimation(entity, renderer);
     }
 
     @Override
@@ -141,20 +139,13 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
             final float netHeadYaw, final float headPitch)
     {
         if (!this.isLoaded()) return;
-        this.setEntity(entityIn);
-        var texer = this.renderer.getTexturer();
-        var animChanger = this.renderer.getAnimationChanger();
         var animHolder = this.renderer.getAnimationHolder();
-
-        this.animChangeHolder.set(animChanger);
-        this.texChangeHolder.set(texer);
-
-        if (texer != null) texer.bindObject(this.entityIn);
         animHolder.initHeadInfoAndMolangs(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-        for (var part : this.getModel().getPartsList())
-        {
-            if (animChanger != null) animChanger.isPartHidden(part.getName(), entityIn, false);
-        }
+        animHolder.setContext(ThutCaps.getAnimated(entityIn));
+        animHolder.preRunAll();
+        this.renderModel.prepareRender();
+        this.applyAnimation(entityIn, this.renderer);
+        animHolder.postRunAll();
     }
 
     private void preInitModel(final int packedLightIn, final int packedOverlayIn)
@@ -211,13 +202,12 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         if (this.getModel() == null) this.setModel(ModelFactory.createWithRenderer(this.model, this.renderer));
         if (!this.isLoaded()) return;
         this.setEntity(entityIn);
-        var holder = this.animHolderHolder.get();
+        var texer = this.renderer.getTexturer();
+        var animChanger = this.renderer.getAnimationChanger();
+        this.animChangeHolder.set(animChanger);
+        this.texChangeHolder.set(texer);
+        if (texer != null) texer.bindObject(this.entityIn);
         this.renderer.setAnimation(entityIn, partialTickTime);
-        holder.setContext(ThutCaps.getAnimated(entityIn));
-        holder.preRunAll();
-        this.renderModel.prepareRender();
-        this.applyAnimation(entityIn, this.renderer, partialTickTime, limbSwing);
-        holder.postRunAll();
     }
 
     @Override
