@@ -19,9 +19,9 @@ public class Download extends Ability
         if (targetMob != null)
         {
             if (targetMob.getStat(IPokemob.Stats.SPDEFENSE, true) > targetMob.getStat(IPokemob.Stats.DEFENSE, true))
-                MovesUtils.handleStats2(targetMob, mob.getOwner(), IMoveConstants.ATTACK, IMoveConstants.RAISE);
+                MovesUtils.handleStats2(mob, mob.getEntity(), IMoveConstants.ATTACK, IMoveConstants.RAISE);
             else // If Def <= spDef, raise special attack.
-                MovesUtils.handleStats2(targetMob, mob.getOwner(), IMoveConstants.SPATACK, IMoveConstants.RAISE);
+                MovesUtils.handleStats2(mob, mob.getEntity(), IMoveConstants.SPATACK, IMoveConstants.RAISE);
         }
     }
 }

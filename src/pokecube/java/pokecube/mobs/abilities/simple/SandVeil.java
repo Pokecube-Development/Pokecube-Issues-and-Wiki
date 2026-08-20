@@ -16,7 +16,6 @@ import thut.api.maths.Vector3;
 public class SandVeil extends Ability
 {
     @Override
-    // Apply +1 evasion in the sand.
     public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
         final Level world = mob.getEntity().level();
@@ -26,8 +25,23 @@ public class SandVeil extends Ability
 
         if (!areWeUser(mob, move)) return;
 
-        if (teffect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.SAND))
-            MovesUtils.handleStats2(mob, mob.getOwner(), IMoveConstants.EVASION, IMoveConstants.RAISE);
+        if (teffect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.SAND) && !mob.getEntity().getPersistentData().contains("pokecube:SandVeilActive"))
+        {
+            MovesUtils.handleStats2(mob, mob.getEntity(), IMoveConstants.EVASION, IMoveConstants.RAISE);
+            mob.getEntity().getPersistentData().putBoolean("pokecube:SandVeilActive", true);
+        } else if (mob.getEntity().getPersistentData().contains("pokecube:SandVeilActive")) {
+            MovesUtils.handleStats2(mob, mob.getEntity(), IMoveConstants.EVASION, IMoveConstants.FALL);
+            mob.getEntity().getPersistentData().remove("pokecube:SandVeilActive");
+        }
+    }
+
+    @Override
+    public void endCombat(IPokemob mob) { mob.getEntity().getPersistentData().remove("pokecube:SandVeilActive"); }
+
+    @Override
+    public void onRecall(IPokemob mob)
+    {
+        mob.getEntity().getPersistentData().remove("pokecube:SandVeilActive");
     }
 }
 

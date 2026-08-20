@@ -8,14 +8,14 @@ import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.utils.PokeType;
 import pokecube.core.moves.MovesUtils;
 
-@AbilityProvider(name = "lightning-rod")
-public class LightningRod extends Ability
+@AbilityProvider(name = "storm-drain")
+public class StormDrain extends Ability
 {
     @Override
     public int beforeDamage(IPokemob mob, MoveApplication move, int damage)
     {
         boolean weAreTarget = mob.getEntity() == move.getTarget() && mob.getAbility() == this;
-        if (weAreTarget && move.getMove().getType(move.getUser()) == PokeType.getType("electric") && move.getTarget() == mob)
+        if (weAreTarget && move.getMove().getType(move.getUser()) == PokeType.getType("water") && move.getTarget() == mob)
             return 0;
         return super.beforeDamage(mob, move, damage);
     }
@@ -24,7 +24,7 @@ public class LightningRod extends Ability
     public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
         if (!areWeTarget(mob, move)) return;
-        if (move.getMove().getType(move.getUser()) == PokeType.getType("electric")) {
+        if (move.getMove().getType(move.getUser()) == PokeType.getType("water")) {
             move.canceled = true;
             byte boost = IMoveConstants.SPATACK;
             MovesUtils.handleStats2(mob, mob.getEntity(), boost, IMoveConstants.RAISE);

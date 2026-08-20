@@ -34,7 +34,7 @@ public class Protosynthesis extends Ability {
                 stat = tmp;
                 boost = IMoveConstants.VIT;
             }
-            MovesUtils.handleStats2(mob, mob.getOwner(), boost, IMoveConstants.RAISE);
+            MovesUtils.handleStats2(mob, mob.getEntity(), boost, IMoveConstants.RAISE);
         }
     }
 }

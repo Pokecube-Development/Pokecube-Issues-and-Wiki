@@ -12,35 +12,34 @@ import thut.api.level.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
 
-@AbilityProvider(name = "swift-swim")
-public class SwiftSwim extends Ability
+@AbilityProvider(name = "chlorophyll")
+public class Chlorophyll extends Ability
 {
     @Override
-    // Apply speed increase in the rain.
-    public void preMoveUse(final IPokemob mob, final MoveApplication move) {
+    // Apply speed increase in the sun.
+    public void preMoveUse(final IPokemob mob, final MoveApplication move)
+    {
         final Level world = mob.getEntity().level();
         final TerrainSegment segment = TerrainManager.getInstance().getTerrian(world, new Vector3());
         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemob_effects");
-
-
         if (!areWeUser(mob, move)) return;
 
-        if (teffect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.RAIN) && !mob.getEntity().getPersistentData().contains("pokecube:SwiftSwimActive")) {
+        if (teffect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.SUN) && !mob.getEntity().getPersistentData().contains("pokecube:ChlorophyllActive"))
+        {
             MovesUtils.handleStats2(mob, mob.getEntity(), IMoveConstants.VIT, IMoveConstants.SHARP);
-            mob.getEntity().getPersistentData().putBoolean("pokecube:SwiftSwimActive", true);
-        } else if (mob.getEntity().getPersistentData().contains("pokecube:SwiftSwimActive")) {
+            mob.getEntity().getPersistentData().putBoolean("pokecube:ChlorophyllActive", true);
+        } else if (mob.getEntity().getPersistentData().contains("pokecube:ChlorophyllActive")) {
             MovesUtils.handleStats2(mob, mob.getEntity(), IMoveConstants.VIT, IMoveConstants.HARSH);
-            mob.getEntity().getPersistentData().remove("pokecube:SwiftSwimActive");
+            mob.getEntity().getPersistentData().remove("pokecube:ChlorophyllActive");
         }
     }
 
     @Override
-    public void endCombat(IPokemob mob) {
-        mob.getEntity().getPersistentData().remove("pokecube:SwiftSwimActive");
+    public void endCombat(IPokemob mob)
+    {
+        mob.getEntity().getPersistentData().remove("pokecube:ChlorophyllActive");
     }
 
     @Override
-    public void onRecall(IPokemob mob) {
-        mob.getEntity().getPersistentData().remove("pokecube:SwiftSwimActive");
-    }
+    public void onRecall(IPokemob mob) { mob.getEntity().getPersistentData().remove("pokecube:ChlorophyllActive"); }
 }

@@ -15,6 +15,6 @@ public class TangledFeet extends Ability
     public void preMoveUse(final IPokemob mob, final MoveApplication move)
     { // Increase evasion when confused.
         if (mob.getEntity().hasEffect(StatusEffects.CONFUSE))
-            MovesUtils.handleStats2(mob, mob.getOwner(), IMoveConstants.EVASION, IMoveConstants.RAISE);
+            MovesUtils.handleStats2(mob, mob.getEntity(), IMoveConstants.EVASION, IMoveConstants.RAISE);
     }
 }

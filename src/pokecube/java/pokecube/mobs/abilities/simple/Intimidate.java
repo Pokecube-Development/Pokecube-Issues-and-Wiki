@@ -16,7 +16,7 @@ public class Intimidate extends Ability
     public void onAgress(IPokemob mob, LivingEntity target)
     {
         final IPokemob targetMob = PokemobCaps.getPokemobFor(target);
-        if (targetMob != null) MovesUtils.handleStats2(targetMob, mob.getOwner(), IMoveConstants.ATTACK,
+        if (targetMob != null) MovesUtils.handleStats2(mob, targetMob.getEntity(), IMoveConstants.ATTACK,
                 IMoveConstants.FALL);
     }
 }

@@ -20,7 +20,7 @@ public class GrimNeigh extends Ability
         if (!targetMob.inCombat())
         {
             byte boost = IMoveConstants.SPATACK;
-            MovesUtils.handleStats2(mob, mob.getOwner(), boost, IMoveConstants.RAISE);
+            MovesUtils.handleStats2(mob, mob.getEntity(), boost, IMoveConstants.RAISE);
         }
     }
 }

@@ -504,6 +504,7 @@ public class MovesUtils implements IMoveConstants
         }
     }
 
+    // Stat change occurs to targetPokemob from attacker.
     public static boolean handleStats2(final IPokemob targetPokemob, final Entity attacker, final int statEffect,
             final int statEffectAmount)
     {
