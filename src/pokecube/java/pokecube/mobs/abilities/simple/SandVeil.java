@@ -16,7 +16,6 @@ import thut.api.maths.Vector3;
 public class SandVeil extends Ability
 {
     @Override
-    // Apply +1 evasion in the sand.
     public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
         final Level world = mob.getEntity().level();
@@ -30,6 +29,10 @@ public class SandVeil extends Ability
         {
             MovesUtils.handleStats2(mob, mob.getEntity(), IMoveConstants.EVASION, IMoveConstants.RAISE);
             mob.getEntity().getPersistentData().putBoolean("pokecube:SandVeilActive", true);
+        } else {
+            int drop = IMoveConstants.EVASION;
+            MovesUtils.handleStats2(mob, mob.getEntity(), drop, IMoveConstants.FALL);
+            mob.getEntity().getPersistentData().remove("pokecube:SandVeilActive");
         }
     }
 

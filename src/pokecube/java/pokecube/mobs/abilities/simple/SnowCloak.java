@@ -17,7 +17,6 @@ import thut.api.maths.Vector3;
 public class SnowCloak extends Ability
 {
     @Override
-    // Apply +1 evasion in the snow.
     public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
         final Level world = mob.getEntity().level();
@@ -32,6 +31,10 @@ public class SnowCloak extends Ability
             int boost = IMoveConstants.EVASION;
             MovesUtils.handleStats2(mob, mob.getEntity(), boost, IMoveConstants.RAISE);
             mob.getEntity().getPersistentData().putBoolean("pokecube:SnowCloakActive", true);
+        } else {
+            int drop = IMoveConstants.EVASION;
+            MovesUtils.handleStats2(mob, mob.getEntity(), drop, IMoveConstants.FALL);
+            mob.getEntity().getPersistentData().remove("pokecube:SnowCloakActive");
         }
     }
 

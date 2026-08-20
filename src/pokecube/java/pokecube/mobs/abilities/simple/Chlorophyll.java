@@ -22,15 +22,17 @@ public class Chlorophyll extends Ability
         final Level world = mob.getEntity().level();
         final TerrainSegment segment = TerrainManager.getInstance().getTerrian(world, new Vector3());
         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemob_effects");
-
         if (!areWeUser(mob, move)) return;
 
         if (teffect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.SUN) && !mob.getEntity().getPersistentData().contains("pokecube:ChlorophyllActive"))
         {
             MovesUtils.handleStats2(mob, mob.getEntity(), IMoveConstants.VIT, IMoveConstants.RAISE);
             mob.getEntity().getPersistentData().putBoolean("pokecube:ChlorophyllActive", true);
+        } else {
+            int drop = IMoveConstants.VIT;
+            MovesUtils.handleStats2(mob, mob.getEntity(), drop, IMoveConstants.HARSH);
+            mob.getEntity().getPersistentData().remove("pokecube:ChlorophyllActive");
         }
-
     }
 
     @Override
