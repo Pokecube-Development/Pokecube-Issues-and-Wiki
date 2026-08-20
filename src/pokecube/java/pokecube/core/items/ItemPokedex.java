@@ -94,7 +94,7 @@ public class ItemPokedex extends Item
     {
         final ItemStack itemstack = player.getItemInHand(hand);
         if (!world.isClientSide) SpawnHandler.refreshTerrain(new Vector3().set(player), player.level(), true);
-        if (!player.isCrouching())
+        if (!player.isCrouching() || hand == InteractionHand.OFF_HAND)
         {
             final Entity entityHit = Tools.getPointedEntity(player, 16, 0.5);
             final IPokemob pokemob = PokemobCaps.getPokemobFor(entityHit);
