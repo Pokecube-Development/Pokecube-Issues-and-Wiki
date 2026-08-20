@@ -23,14 +23,14 @@ import thut.core.common.config.Configure;
 import thut.lib.RegHelper;
 
 import static thut.core.common.config.Config.registerRange;
-import static thut.core.common.config.Config.registerValidator;
+import static thut.core.common.config.Config.registerStringValidator;
 import static thut.core.common.config.Config.VALID_RESOURCE;
 
 public class Config extends ConfigData
 {
     static
     {
-        registerValidator("pokecube_legends.general.arceus_protected_structures",t->{
+        registerStringValidator("pokecube_legends.general.arceus_protected_structures",t->{
             if(VALID_RESOURCE.test(t))return true;
             if(t.contains("->")){
                 var args = t.split("->");
@@ -38,7 +38,7 @@ public class Config extends ConfigData
             }
             return false;
         });
-        registerValidator("pokecube_legends.wormholes.wormhole_destination_weights",t->{
+        registerStringValidator("pokecube_legends.wormholes.wormhole_destination_weights",t->{
             if(VALID_RESOURCE.test(t))return true;
             if(t.contains("->")){
                 var args = t.split("->");
@@ -47,7 +47,7 @@ public class Config extends ConfigData
             }
             return false;
         });
-        registerValidator("pokecube_legends.wormholes.wormhole_destination_blacklist", VALID_RESOURCE);
+        registerStringValidator("pokecube_legends.wormholes.wormhole_destination_blacklist", VALID_RESOURCE);
         registerRange("pokecube_legends.wormholes.wormholesChunkloadRadius", 0, 2);
     }
 

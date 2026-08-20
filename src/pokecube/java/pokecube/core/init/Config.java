@@ -41,9 +41,13 @@ import thut.core.common.config.Configure;
 import thut.lib.RegHelper;
 
 import javax.annotation.Nullable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.function.Predicate;
 
-import static thut.core.common.config.Config.registerValidator;
+import static thut.core.common.config.Config.registerStringValidator;
+import static thut.core.common.config.Config.registerGenericValidator;
 import static thut.core.common.config.Config.VALID_RESOURCE;
 import static thut.core.common.config.Config.VALID_RESOURCE_OR_TAG;
 
@@ -162,7 +166,7 @@ public class Config extends ConfigData
 
     static
     {
-        registerValidator("pokecube.spawning.dimensionSpawnLevels",t-> {
+        registerStringValidator("pokecube.spawning.dimensionSpawnLevels",t-> {
             try
             {
                 var func = JsonUtil.gson.fromJson(t, SpawnEvent.Function.class);
@@ -173,24 +177,24 @@ public class Config extends ConfigData
                 return false;
             }
         });
-        registerValidator("pokecube.spawning.spawnLevelVariance", t->{
+        registerStringValidator("pokecube.spawning.spawnLevelVariance", t->{
             var func = new FunctionVariance(t);
             return !func.parser.hasError();
         });
-        registerValidator("pokecube.advanced.nonPokemobExpFunction", t->{
+        registerStringValidator("pokecube.advanced.nonPokemobExpFunction", t->{
             var func = makeExpJEP(t);
             return !func.hasError();
         });
-        registerValidator("pokecube.advanced.pokemobExpFunction", t->{
+        registerStringValidator("pokecube.advanced.pokemobExpFunction", t->{
             var func = makeExpJEP(t);
             return !func.hasError();
         });
-        registerValidator("pokecube.genetics.epigeneticEVFunction", t->{
+        registerStringValidator("pokecube.genetics.epigeneticEVFunction", t->{
             var jep = new JEP();
             GeneticsManager.initJEP(jep, t);
             return !jep.hasError();
         });
-        registerValidator("pokecube.genetics.mutationRates", t->{
+        registerStringValidator("pokecube.genetics.mutationRates", t->{
             var args = t.split(" ");
             if(args.length!=2) return false;
             try
@@ -203,18 +207,20 @@ public class Config extends ConfigData
             }
             return ResourceLocation.tryParse(args[0])!=null;
         });
-        registerValidator("pokecube.spawning.softSpawnBiomeBlacklist",VALID_RESOURCE_OR_TAG);
+        registerStringValidator("pokecube.generation.professor_override", s->true);
 
-        registerValidator("pokecube.spawning.spawnDimBlacklist",VALID_RESOURCE);
-        registerValidator("pokecube.spawning.spawnDimWhitelist",VALID_RESOURCE);
+        registerStringValidator("pokecube.spawning.softSpawnBiomeBlacklist",VALID_RESOURCE_OR_TAG);
 
-        registerValidator("pokecube.spawning.deactivateWhitelist",VALID_RESOURCE);
+        registerStringValidator("pokecube.spawning.spawnDimBlacklist",VALID_RESOURCE);
+        registerStringValidator("pokecube.spawning.spawnDimWhitelist",VALID_RESOURCE);
 
-        registerValidator("pokecube.ai.blackListedFlyDims",VALID_RESOURCE);
-        registerValidator("pokecube.ai.aggroBlacklist",VALID_RESOURCE_OR_TAG);
+        registerStringValidator("pokecube.spawning.deactivateWhitelist",VALID_RESOURCE);
+
+        registerStringValidator("pokecube.ai.blackListedFlyDims",VALID_RESOURCE);
+        registerStringValidator("pokecube.ai.aggroBlacklist",VALID_RESOURCE_OR_TAG);
 
         List<String> VAR_KEYS = Lists.newArrayList("jc","rc","eggDpl","eggDpm");
-        registerValidator("pokecube.advanced.extraVars", t->{
+        registerStringValidator("pokecube.advanced.extraVars", t->{
             var args = t.split(":");
             if(args.length!=2) return false;
             try
@@ -227,9 +233,32 @@ public class Config extends ConfigData
             }
             return VAR_KEYS.contains(args[0]);
         });
-        registerValidator("pokecube.ai.flySpeedVitScale", t-> Interpolator1d.validJEP(new JEP(), t, "vit"));
-        registerValidator("pokecube.ai.walkSpeedVitScale", t-> Interpolator1d.validJEP(new JEP(), t, "vit"));
-        registerValidator("pokecube.ai.surfSpeedVitScale", t-> Interpolator1d.validJEP(new JEP(), t, "vit"));
+        registerStringValidator("pokecube.ai.flySpeedVitScale", t-> Interpolator1d.validJEP(new JEP(), t, "vit"));
+        registerStringValidator("pokecube.ai.walkSpeedVitScale", t-> Interpolator1d.validJEP(new JEP(), t, "vit"));
+        registerStringValidator("pokecube.ai.surfSpeedVitScale", t-> Interpolator1d.validJEP(new JEP(), t, "vit"));
+
+
+        // Client options set
+        registerGenericValidator("pokecube.client.guiSelectedPos", o->o instanceof Integer);
+        registerGenericValidator("pokecube.client.guiTeleportPos", o->o instanceof Integer);
+        registerGenericValidator("pokecube.client.guiTargetPos", o->o instanceof Integer);
+        registerGenericValidator("pokecube.client.guiMessagePos", o->o instanceof Integer);
+        registerGenericValidator("pokecube.client.messagePadding", o->o instanceof Integer);
+
+        Set<String> _guiRefs = new HashSet<>();
+        _guiRefs.add("top_left");
+        _guiRefs.add("middle_left");
+        _guiRefs.add("bottom_left");
+        _guiRefs.add("top_right");
+        _guiRefs.add("right_bottom");
+        _guiRefs.add("right_middle");
+        _guiRefs.add("bottom_middle");
+        Predicate<String> isReference = _guiRefs::contains;
+        registerStringValidator("pokecube.client.guiRef",isReference);
+        registerStringValidator("pokecube.client.messageRef",isReference);
+        registerStringValidator("pokecube.client.targetRef",isReference);
+        registerStringValidator("pokecube.client.teleRef",isReference);
+
     }
 
     private static final Config defaults = new Config();
@@ -278,35 +307,35 @@ public class Config extends ConfigData
     @Configure(category = Config.misc, comment = "A list of NBT tags to remove before saving the pokemob in its pokecube")
     public List<String> persistent_tag_blacklist = Lists.newArrayList();
 
-    @Configure(category = Config.perms, comment = "")
+    @Configure(category = Config.perms)
     public boolean permsCapture = false;
-    @Configure(category = Config.perms, comment = "")
+    @Configure(category = Config.perms)
     public boolean permsCaptureSpecific = false;
-    @Configure(category = Config.perms, comment = "")
+    @Configure(category = Config.perms)
     public boolean permsHatch = false;
-    @Configure(category = Config.perms, comment = "")
+    @Configure(category = Config.perms)
     public boolean permsHatchSpecific = false;
-    @Configure(category = Config.perms, comment = "")
+    @Configure(category = Config.perms)
     public boolean permsSendOut = false;
-    @Configure(category = Config.perms, comment = "")
+    @Configure(category = Config.perms)
     public boolean permsSendOutSpecific = false;
-    @Configure(category = Config.perms, comment = "")
+    @Configure(category = Config.perms)
     public boolean permsRide = false;
-    @Configure(category = Config.perms, comment = "")
+    @Configure(category = Config.perms)
     public boolean permsRideSpecific = false;
-    @Configure(category = Config.perms, comment = "")
+    @Configure(category = Config.perms)
     public boolean permsFly = false;
-    @Configure(category = Config.perms, comment = "")
+    @Configure(category = Config.perms)
     public boolean permsFlySpecific = false;
-    @Configure(category = Config.perms, comment = "")
+    @Configure(category = Config.perms)
     public boolean permsSurf = false;
-    @Configure(category = Config.perms, comment = "")
+    @Configure(category = Config.perms)
     public boolean permsSurfSpecific = false;
-    @Configure(category = Config.perms, comment = "")
+    @Configure(category = Config.perms)
     public boolean permsDive = false;
-    @Configure(category = Config.perms, comment = "")
+    @Configure(category = Config.perms)
     public boolean permsDiveSpecific = false;
-    @Configure(category = Config.perms, comment = "")
+    @Configure(category = Config.perms)
     public boolean permsMoveAction = false;
 
     // Move Use related settings
@@ -525,8 +554,7 @@ public class Config extends ConfigData
     public boolean allowRaidingPokecenters = false;
     @Configure(category = Config.world, comment = "Any structure not in structure_subbiomes will apply as ruins, unless something else sets it first (like the structure's spawn settings). [Default: true]")
     public boolean structs_default_ruins = true;
-//    @Configure(category = Config.world, comment = "This is what the value in the structure data block will be replaced with to generate the professor.", worldRestart = true)
-    // TODO Find why this breaks config reloading for comment in ModConfigSpec.correct
+    @Configure(category = Config.world, comment = "This is what the value in the structure data block will be replaced with to generate the professor.", worldRestart = true)
     public String professor_override = "pokecube:mob:spawn_professor";
 
     // Mob Spawning settings
@@ -583,18 +611,18 @@ public class Config extends ConfigData
     public int repelRadius = 16;
 
     // Gui/client settings
-
-    @Configure(category = Config.client, type = Type.CLIENT, comment = "Fancy style GUIs. Set to false for vanilla style GUIs. [Default: true]")
-    public boolean fancyGUI = true;
+    @Configure(category = Config.client, type = Type.CLIENT, comment = "Fancy style GUIs. Set to false for vanilla style GUIs. [Default: false]")
+    public boolean fancyGUI = false;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Default to dark mode in certain GUIs, such as the PC. [Default: false]")
     public boolean darkMode = false;
-    @Configure(category = Config.client, type = Type.CLIENT, comment = "Positioning of the tamed pokemob GUI. [Default: \"top_left\"]")
+
+    @Configure(category = Config.client, type = Type.CLIENT, comment = "Positioning of the tamed pokemob GUI.")
     public String guiRef = "top_left";
-    @Configure(category = Config.client, type = Type.CLIENT, comment = "Positioning of the pokemob message GUI. [Default: \"right_middle\"]")
+    @Configure(category = Config.client, type = Type.CLIENT, comment = "Positioning of the pokemob message GUI.")
     public String messageRef = "right_middle";
-    @Configure(category = Config.client, type = Type.CLIENT, comment = "Positioning of the target pokemob GUI. [Default: \"top_right\"]")
+    @Configure(category = Config.client, type = Type.CLIENT, comment = "Positioning of the target pokemob GUI.")
     public String targetRef = "top_right";
-    @Configure(category = Config.client, type = Type.CLIENT, comment = "Positioning of the teleport pokemob GUI. [Default: \"top_right\"]")
+    @Configure(category = Config.client, type = Type.CLIENT, comment = "Positioning of the teleport pokemob GUI.")
     public String teleRef = "top_right";
 
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the tamed pokemob GUI based on the position of guiRef. [Default: [0, 0]]")
@@ -608,14 +636,6 @@ public class Config extends ConfigData
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Padding of the pokemob message GUI based on the position of messageRef. [Default: [0, 0]]")
     public List<Integer> messagePadding = Lists.newArrayList(0, 0);
 
-    @Configure(category = Config.client, type = Type.CLIENT, comment = "Scale of the GUI. [Default: 1.0]")
-    public double guiSize = 1;
-    @Configure(category = Config.client, type = Type.CLIENT, comment = "Scale of the telport pokemob GUI. [Default: 1.0]")
-    public double teleSize = 1;
-    @Configure(category = Config.client, type = Type.CLIENT, comment = "Scale of the target pokemob GUI. [Default: 1.0]")
-    public double targetSize = 1;
-    @Configure(category = Config.client, type = Type.CLIENT, comment = "Scale of the pokemob message GUI. [Default: 1.0]")
-    public double messageSize = 1;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Volume scale of the capture sound. [Default: 0.2]")
     public double captureVolume = 0.2;
     @Configure(category = Config.moves, type = Type.CLIENT, comment = "Volume scale of the cry sound. [Default: 0.0625]")
@@ -624,8 +644,6 @@ public class Config extends ConfigData
     public double moveVolumeEffect = 0.25;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "The moves on the pokemob gui is positioned below the health bar. [Default: true]")
     public boolean guiDown = true;
-    @Configure(category = Config.client, type = Type.CLIENT, comment = "Allows the GUI to automatically scale according to screen size. [Default: false]")
-    public boolean guiAutoScale = false;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Allows pokemobs to auto select moves. [Default: false]")
     public boolean autoSelectMoves = false;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Pokemobs will be to auto recalled when too far. [Default: true]")
@@ -642,10 +660,8 @@ public class Config extends ConfigData
     public boolean preloadModels = false;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Preloads pokemob models during load. [Default: false]")
     public boolean showTargetBox = false;
-
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Width of the pokemob message GUI. [Default: 150]")
     public int messageWidth = 150;
-
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Auto recall distance of Pokemobs. [Default: 32]")
     public int autoRecallDistance = 32;
 
@@ -714,8 +730,6 @@ public class Config extends ConfigData
     public boolean showHeldItem = true;
     @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Should the health bar display the armor of the pokemob. [Default: true]")
     public boolean showArmor = true;
-    @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Height of the health text on the health bar. [Default: 10]")
-    public int hpTextHeight = 10;
     @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Should the health bar display only when looking at the pokemob. [Default: true]")
     public boolean showOnlyFocused = true;
     @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Should the health bars be added for non-normal pokemobs. [Default: false]")

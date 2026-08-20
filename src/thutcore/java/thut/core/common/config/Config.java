@@ -389,20 +389,25 @@ public class Config
         holder.onUpdated();
     }
 
-    private static Map<String, Predicate<Object>> VALIDATORS = new HashMap<>();
-    private static Map<String, Integer> MIN_RANGES_INT = new HashMap<>();
-    private static Map<String, Integer> MAX_RANGES_INT = new HashMap<>();
-    private static Map<String, Double> MIN_RANGES_DBL = new HashMap<>();
-    private static Map<String, Double> MAX_RANGES_DBL = new HashMap<>();
+    private static final Map<String, Predicate<Object>> VALIDATORS = new HashMap<>();
+    private static final Map<String, Integer> MIN_RANGES_INT = new HashMap<>();
+    private static final Map<String, Integer> MAX_RANGES_INT = new HashMap<>();
+    private static final Map<String, Double> MIN_RANGES_DBL = new HashMap<>();
+    private static final Map<String, Double> MAX_RANGES_DBL = new HashMap<>();
 
     /**
      * Registers a validator for testing whether a string is valid for entry in the list
      * @param key - format should be `[modid].[category].[fieldname]`
      * @param validator - Returns true if format is correct
      */
-    public static void registerValidator(String key, Predicate<String> validator)
+    public static void registerStringValidator(String key, Predicate<String> validator)
     {
         VALIDATORS.put(key, o-> o instanceof String s && validator.test(s));
+    }
+
+    public static void registerGenericValidator(String key, Predicate<Object> validator)
+    {
+        VALIDATORS.put(key, validator);
     }
 
     /**

@@ -22,7 +22,7 @@ import thut.core.common.config.Configure;
 import thut.core.common.terrain.ConfigTerrainBuilder;
 import thut.core.common.terrain.ConfigTerrainChecker;
 
-import static thut.core.common.config.Config.registerValidator;
+import static thut.core.common.config.Config.registerStringValidator;
 
 public class ConfigHandler extends ConfigData
 {
@@ -39,7 +39,7 @@ public class ConfigHandler extends ConfigData
         Config.registerRange("thutcore.explosions.maxMsPerTick",1,50);
         Config.registerRange("thutcore.explosions.explosionRadius",0,1024);
         Config.registerRange("thutcore.explosions.minBlastEffect",0.0,1024.0);
-        registerValidator("thutcore.biomes.structure_subbiomes",t-> {
+        registerStringValidator("thutcore.biomes.structure_subbiomes",t-> {
             try
             {
                 JsonUtil.gson.fromJson(t, TerrainChecker.StructInfo.class);

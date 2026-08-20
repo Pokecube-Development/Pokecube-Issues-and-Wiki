@@ -20,7 +20,7 @@ import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
 import thut.lib.RegHelper;
 
-import static thut.core.common.config.Config.registerValidator;
+import static thut.core.common.config.Config.registerStringValidator;
 import static thut.core.common.config.Config.VALID_RESOURCE;
 
 public class Config extends ConfigData
@@ -35,41 +35,41 @@ public class Config extends ConfigData
 
     static
     {
-        registerValidator("pokecube_adventures.trainers.custom_trainers",VALID_RESOURCE);
-        registerValidator("pokecube_adventures.trainers.trainer_defeat_reward",t->{
+        registerStringValidator("pokecube_adventures.trainers.custom_trainers",VALID_RESOURCE);
+        registerStringValidator("pokecube_adventures.trainers.trainer_defeat_reward",t->{
             try{ JsonUtil.gson.toJsonTree(t);}
             catch (Exception e){return false;}
             return true;
         });
-        registerValidator("pokecube_adventures.machine.siphonPowerFuncion",t->{
+        registerStringValidator("pokecube_adventures.machine.siphonPowerFuncion",t->{
             try{ return EnergyHandler.initPowerParser(new JEP(), t);}
             catch (Exception e){return false;}
         });
-        registerValidator("pokecube_adventures.machine.siphonHungerFunction",t->{
+        registerStringValidator("pokecube_adventures.machine.siphonHungerFunction",t->{
             try{ return EnergyHandler.initHungerParser(new JEP(), t);}
             catch (Exception e){return false;}
         });
-        registerValidator("pokecube_adventures.machine.clonerEfficiencyFunction",t->{
+        registerStringValidator("pokecube_adventures.machine.clonerEfficiencyFunction",t->{
             try{ return BaseGeneticsTile.initParser(new JEP(), t);}
             catch (Exception e){return false;}
         });
-        registerValidator("pokecube_adventures.machine.warpPadCostFunction",t->{
+        registerStringValidator("pokecube_adventures.machine.warpPadCostFunction",t->{
             try{ return WarpPadTile.initParser(new JEP(), t);}
             catch (Exception e){return false;}
         });
-        registerValidator("pokecube_adventures.machine.dayCarePowerPerExp",t->{
+        registerStringValidator("pokecube_adventures.machine.dayCarePowerPerExp",t->{
             try{ return DaycareTile.initParser(new JEP(), t);}
             catch (Exception e){return false;}
         });
-        registerValidator("pokecube_adventures.machine.dayCareExpFunction",t->{
+        registerStringValidator("pokecube_adventures.machine.dayCareExpFunction",t->{
             try{ return DaycareTile.initParser(new JEP(), t);}
             catch (Exception e){return false;}
         });
-        registerValidator("pokecube_adventures.machine.afaCostFunction",t->{
+        registerStringValidator("pokecube_adventures.machine.afaCostFunction",t->{
             try{ return AfaTile.initParser(new JEP(), t);}
             catch (Exception e){return false;}
         });
-        registerValidator("pokecube_adventures.machine.afaCostFunctionShiny",t->{
+        registerStringValidator("pokecube_adventures.machine.afaCostFunctionShiny",t->{
             try{ return AfaTile.initParserS(new JEP(), t);}
             catch (Exception e){return false;}
         });
