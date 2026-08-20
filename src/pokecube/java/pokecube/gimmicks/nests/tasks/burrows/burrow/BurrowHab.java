@@ -254,7 +254,15 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
                 final Biome b = world.getBiome(this.burrow.getCenter()).value();
                 for (final EntityType<?> t : types)
                 {
-                    final IPokemob pokemob = PokemobCaps.getPokemobFor(t.create(world));
+                    final IPokemob pokemob;
+                    try
+                    {
+                        pokemob = PokemobCaps.getPokemobFor(t.create(world));
+                    }
+                    catch (Exception e)
+                    {
+                        continue;
+                    }
                     if (pokemob != null)
                     {
                         final PokedexEntry entry = pokemob.getPokedexEntry();

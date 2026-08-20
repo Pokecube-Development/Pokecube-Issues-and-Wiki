@@ -213,7 +213,15 @@ public class Compat
         ServerLevel testLevel = event.getServer().getLevel(Level.OVERWORLD);
         List<JsonPokedexEntry> entries = new ArrayList<>();
         BuiltInRegistries.ENTITY_TYPE.forEach(t -> {
-            Entity e = t.create(testLevel);
+            Entity e;
+            try
+            {
+                e = t.create(testLevel);
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
             if (e instanceof Mob && makePokemob.test(t))
             {
                 @SuppressWarnings("unchecked")
