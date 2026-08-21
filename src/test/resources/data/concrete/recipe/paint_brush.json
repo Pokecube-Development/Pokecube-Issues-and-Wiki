@@ -17,7 +17,7 @@
     }
   },
   "result": {
-    "item": "concrete:paint_brush",
+    "id": "concrete:paint_brush",
     "count": 1
   }
 }

@@ -1,13 +1,14 @@
 {
   "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 60,
+  "experience": 0.3,
   "group": "concrete:lime",
   "ingredient": {
     "item": "minecraft:calcite"
   },
   "result": {
-    "item": "concrete:dust_cao",
+    "id": "concrete:dust_cao",
     "count": 4
-  },
-  "experience": 0.3,
-  "cookingtime": 60
+  }
 }

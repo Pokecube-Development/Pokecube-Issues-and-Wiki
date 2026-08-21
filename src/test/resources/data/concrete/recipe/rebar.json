@@ -14,7 +14,7 @@
     }
   },
   "result": {
-    "item": "concrete:rebar",
+    "id": "concrete:rebar",
     "count": 8
   }
 }

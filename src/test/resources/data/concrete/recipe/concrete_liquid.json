@@ -30,7 +30,7 @@
     }
   ],
   "result": {
-    "item": "concrete:wet_concrete_block",
+    "id": "concrete:wet_concrete_block",
     "count": 8
   }
 }

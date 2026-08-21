@@ -10,7 +10,7 @@
     }
   ],
   "result": {
-    "item": "concrete:concrete_bucket",
+    "id": "concrete:concrete_bucket",
     "count": 1
   }
 }
