@@ -7,12 +7,10 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
-import org.lwjgl.BufferUtils;
 import thut.api.entity.animation.CapabilityAnimation;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.model.IExtendedModelPart;
@@ -24,9 +22,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -174,12 +170,9 @@ public class X3dtoBBModel
                     groupCoord.name = part.name;
 
                     last.pose().mul(part.getRenderPose().pose(), posMat);
-                    var mut_mid = new Vector4f(part.meshMid, 1);
-                    mut_mid.mul(posMat);
-                    // TODO figure out the translation from here to rotation point.
-                    // this gives a spot at the middle of the mesh, not nessisarily where
-                    // we want to be rotating from.
-                    groupCoord.origin = new float[] { mut_mid.x, mut_mid.y, mut_mid.z };
+                    Vector4f origin = new Vector4f(0,0,0,1);
+                    origin.mul(posMat);
+                    groupCoord.origin = new float[] { origin.x, origin.y, origin.z };
                     groupCoord.rotation = new float[] { 0, 0, 0 };
 
                     groupOutliner.uuid = groupID;
@@ -245,9 +238,8 @@ public class X3dtoBBModel
                 var asString = Base64.getEncoder().encodeToString(baos.toByteArray());
                 texture.source = "data:image/png;base64,"+asString;
             }
-            catch (IOException e)
+            catch (IOException ignored)
             {
-                e.printStackTrace();
             }
 
             result.textures.add(texture);
