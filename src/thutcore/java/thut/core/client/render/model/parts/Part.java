@@ -33,6 +33,8 @@ import java.util.function.Predicate;
 
 public abstract class Part implements IExtendedModelPart, IRetexturableModel
 {
+    public static boolean mergeMeshes = true;
+
     protected final Map<String, IExtendedModelPart> parts = new Object2ObjectOpenHashMap<>();
 
     protected final List<IPartRenderAdder> renderAdders = new ArrayList<>();
@@ -125,7 +127,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                 var mats = p.getMaterials().stream().map(m->m.name);
                 boolean allMatch = mats.allMatch(this.namedMaterials::containsKey);
 
-                if(allMatch)
+                if(allMatch && mergeMeshes)
                 {
                     p.resetToInit();
                     p.transformForRender();

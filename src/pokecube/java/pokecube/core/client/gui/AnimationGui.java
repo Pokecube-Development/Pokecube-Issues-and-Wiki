@@ -10,11 +10,14 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
+import net.neoforged.fml.loading.FMLPaths;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 import pokecube.api.PokecubeAPI;
@@ -45,11 +48,18 @@ import thut.api.entity.animation.AnimationComponent;
 import thut.api.entity.animation.Animators;
 import thut.api.entity.animation.Animators.IAnimator;
 import thut.api.entity.animation.Animators.KeyframeAnimator;
+import thut.api.util.JsonUtil;
 import thut.core.client.render.animation.AnimationHelper;
+import thut.core.client.render.bbmodel.X3dtoBBModel;
+import thut.core.client.render.model.parts.Part;
+import thut.core.client.render.x3d.X3dModel;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
 import thut.lib.RegHelper;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -582,9 +592,33 @@ public class AnimationGui extends Screen
         dy += 20;
         this.addRenderableWidget(new Button.Builder(f5, (b) -> {
             AnimationGui.renderMobs.clear();
+            Part.mergeMeshes = false;
             RenderPokemob.reloadModel(AnimationGui.entry);
             this.onUpdated();
             this.renderHolder.wrapper.lastInit = 0;
+            var start = System.currentTimeMillis() + 500;
+            while(!this.renderHolder.wrapper.isValid() && System.currentTimeMillis() < start);
+            var model = this.renderHolder.wrapper.getModel();
+            if(model instanceof X3dModel x3d){
+                try
+                {
+                    var mob = this.toRender.getEntity();
+                    this.renderHolder.wrapper.setMob(mob,  Minecraft.getInstance().renderBuffers().bufferSource(), ResourceLocation.parse("minecraft:stone"),
+                            LightTexture.FULL_BLOCK);
+                    this.renderHolder.wrapper.prepareMobModel(mob, 0, 0, 0);
+                    var bb = X3dtoBBModel.convert(x3d);
+                    final String json = JsonUtil.gson.toJson(bb);
+                    final File dir = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve(bb.name+".bbmodel").toFile();
+                    FileOutputStream outS = new FileOutputStream(dir);
+                    outS.write(json.getBytes());
+                    outS.close();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+            Part.mergeMeshes = true;
         }).bounds(this.width / 2 - xOffset, yOffset + dy, 40, 20).build());
 
         dy += 20;

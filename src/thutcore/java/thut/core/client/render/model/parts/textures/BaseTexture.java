@@ -20,13 +20,12 @@ public class BaseTexture extends SimpleTexture
         super(location);
     }
 
-    protected NativeImage getImage()
+    public NativeImage getImage()
     {
         try
         {
             var manager = Minecraft.getInstance().getResourceManager();
-            var img = this.getTextureImage(manager).getImage();
-            return img;
+            return this.getTextureImage(manager).getImage();
         }
         catch (IOException e)
         {

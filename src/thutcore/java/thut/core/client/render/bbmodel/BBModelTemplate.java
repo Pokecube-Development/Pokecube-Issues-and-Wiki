@@ -30,8 +30,8 @@ public class BBModelTemplate
         String getName();
     }
 
-    public String name = "";
     public Meta meta;
+    public String name = "";
     public List<Element> elements = new ArrayList<>();
     public List<JsonGroup> outliner = new ArrayList<>(); // In BB 4.5 this was the groups, after 5.0 it is just child map
     public List<JsonGroup> groups = new ArrayList<>(); // Added in BB 5.0, contains info except children
@@ -73,23 +73,30 @@ public class BBModelTemplate
 
     public static class Meta
     {
-        boolean box_uv;
-        String model_format;
-        String format_version;
+        public boolean box_uv = false;
+        public String model_format = "free";
+        public String format_version = "5.0";
     }
 
     public static class Resolution
     {
-        float width = 16;
-        float height = 16;
+        public float width = 16;
+        public float height = 16;
     }
 
     public static class Texture
     {
-        String name;
-        String id;
-        String render_mode;
-        String uuid;
+        public String name;
+        public String id;
+        public String render_mode;
+        public String uuid;
+        public String file_format = "png";
+        public String source;
+        public int width = 16;
+        public int height = 16;
+        public int uv_width = 16;
+        public int uv_height = 16;
+        public boolean visible = true;
     }
 
     public static class BBModelQuad
@@ -738,13 +745,13 @@ public class BBModelTemplate
 
         public static class BBDataPoint
         {
-            Object x;
-            Object y;
-            Object z;
-            String effect;
-            String locator;
-            String script;
-            String file;
+            public Object x;
+            public Object y;
+            public Object z;
+            public String effect;
+            public String locator;
+            public String script;
+            public String file;
         }
     }
 
