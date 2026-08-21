@@ -2,7 +2,6 @@ package thut.core.client.render.animation;
 
 import com.google.common.collect.Sets;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Vector3f;
 import thut.api.ModelHolder;
@@ -167,7 +166,11 @@ public class AnimationLoader
                         try
                         {
                             final Animation anim = AnimationRegistry.make(phase, null);
-                            if (anim != null) xmlAnimations.add(anim);
+                            if (anim != null)
+                            {
+                                model.preProcessXMLAnimation(anim);
+                                xmlAnimations.add(anim);
+                            }
                         }
                         catch (final Exception e)
                         {
@@ -182,7 +185,11 @@ public class AnimationLoader
                     if (ThutCore.conf.debug_models)
                         ThutCore.LOGGER.debug("Building Animation " + phase.type + " for " + holder.name);
                     final Animation anim = AnimationBuilder.build(phase, model.getParts().keySet(), null);
-                    if (anim != null) xmlAnimations.add(anim);
+                    if (anim != null)
+                    {
+                        model.preProcessXMLAnimation(anim);
+                        xmlAnimations.add(anim);
+                    }
                 }
 
             // Handle merges
@@ -409,7 +416,7 @@ public class AnimationLoader
                 }));
 
                 // Pre-process the animations via the model
-                model.preProcessAnimations(allAnims);
+                model.processAnimations(allAnims);
             }
             else
             {

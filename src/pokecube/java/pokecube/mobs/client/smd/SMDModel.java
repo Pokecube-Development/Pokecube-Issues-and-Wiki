@@ -250,7 +250,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     @Override
-    public void preProcessAnimations(final Collection<Animation> collection)
+    public void processAnimations(final Collection<Animation> collection)
     {
         // TODO figure out animations for this.
     }

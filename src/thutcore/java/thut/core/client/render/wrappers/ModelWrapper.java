@@ -106,10 +106,10 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     }
 
     @Override
-    public void preProcessAnimations(final Collection<Animation> collection)
+    public void processAnimations(final Collection<Animation> collection)
     {
         if (this.getModel() == null) return;
-        this.getModel().preProcessAnimations(collection);
+        this.getModel().processAnimations(collection);
     }
 
     private void initColours(final IExtendedModelPart part, final T entity, IMobColourable poke, final int brightness,

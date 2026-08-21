@@ -306,13 +306,6 @@ public class AnimationConversion
                 segment.rotOffset[0] = x_dir_rot*old[0];
                 segment.rotOffset[1] = y_dir_rot*old[1];
                 segment.rotOffset[2] = z_dir_rot*old[2];
-
-                if (has_scale)
-                {
-                    segment.scaleOffset[0] = segment.scaleOffset[0];
-                    segment.scaleOffset[1] = segment.scaleOffset[1];
-                    segment.scaleOffset[2] = segment.scaleOffset[2];
-                }
             }
 
             if (next_frame != first_frame)
@@ -342,8 +335,6 @@ public class AnimationConversion
                 {
                     all_not_func = this.setDiff(segment.scaleChange, this.scales, next_frame.scales,
                             segment._scaleFunctions) & all_not_func;
-                    segment.scaleChange[0] = segment.scaleChange[0];
-                    segment.scaleChange[1] = segment.scaleChange[1];
                     segment.scaleChange[2] = -segment.scaleChange[2];
                 }
             }

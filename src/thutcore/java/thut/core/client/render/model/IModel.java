@@ -86,7 +86,19 @@ public interface IModel
         return true;
     }
 
-    void preProcessAnimations(Collection<Animation> collection);
+    /**
+     * Pre-processing step on animations loaded from xml files
+     */
+    default void preProcessXMLAnimation(Animation animation)
+    {
+
+    }
+
+    /**
+     * Final pre-processing steps on all loaded animations, after merging ones from
+     * xml files with any built in animations
+     */
+    void processAnimations(Collection<Animation> collection);
 
     default void setOffset(final Vector3 offset)
     {

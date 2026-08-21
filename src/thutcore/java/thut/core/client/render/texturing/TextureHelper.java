@@ -208,6 +208,8 @@ public class TextureHelper implements IPartTexturer
             final String name = ThutCore.trim(anim.name);
             final String partTex = anim.tex;
             this.addMapping(name, partTex);
+            // Also apply mapping directly for anything that is named like the material
+            this.addMapping(partTex.replace(".png", ""), partTex);
         }
         for (final TexCustom anim : customTex.custom)
         {

@@ -74,6 +74,7 @@ public class X3dtoBBModel
 
         PoseStack pose = new PoseStack();
         pose.mulPose(AxisAngles.XN.rotationDegrees(90));
+        pose.scale(16,16,16);
         var last = pose.last();
 
         Matrix4f posMat = new Matrix4f();
@@ -85,6 +86,9 @@ public class X3dtoBBModel
                 BBModelTemplate.Element element = new BBModelTemplate.Element();
                 element.name = name;
                 element.type = "mesh";
+                element.box_uv = null;
+                element.origin = new float[] {0,0,0};
+                element.rotation = new float[] {0,0,0};
                 element.vertices = new HashMap<>();
                 element.faces = new HashMap<>();
 
@@ -159,8 +163,9 @@ public class X3dtoBBModel
                 var partID = partsToUUID.get(part);
                 if (!partsToGroup.containsKey(partID)) partsToGroup.put(partID, UUID.randomUUID().toString());
                 var groupID = partsToGroup.get(partID);
+                boolean isAnimated = part.isAnimated();
                 // Handle adding the group
-                if (!part.getSubParts().isEmpty())
+                if (!part.getSubParts().isEmpty() || isAnimated)
                 {
                     BBModelTemplate.JsonGroup groupCoord = groups_by_id.computeIfAbsent(groupID,
                             s -> new BBModelTemplate.JsonGroup());
@@ -196,10 +201,21 @@ public class X3dtoBBModel
                         partNameToOutlinerGroup.put(parent.getName(), parentGroup);
                     if (parentGroup.children == null) parentGroup.children = new ArrayList<>();
                     if (!parentGroup.children.contains(ourGroup)) parentGroup.children.add(ourGroup);
-                    if(part.getSubParts().isEmpty())
+
+
+                    if (part.getSubParts().isEmpty())
                     {
-                        if (!parentGroup.children.contains(partID)) parentGroup.children.add(partID);
+                        // If we are animated, we make a new group for us, and add ourselves to it.
+                        if(isAnimated)
+                        {
+
+                        }
+                        else
+                        {
+                            if (!parentGroup.children.contains(partID)) parentGroup.children.add(partID);
+                        }
                     }
+
                     ourGroup._parent = parentGroup;
                 }
             }

@@ -449,12 +449,10 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     }
 
     @Override
-    public void preProcessAnimations(Collection<Animation> collection)
+    public void processAnimations(Collection<Animation> collection)
     {
         Set<String> animatedParts = new HashSet<>();
-        collection.forEach(a->{
-            animatedParts.addAll(a.sets.keySet());
-        });
+        collection.forEach(a-> animatedParts.addAll(a.sets.keySet()));
         var parts = this.getParts();
 
         for(var s: animatedParts) if(parts.containsKey(s)) parts.get(s).markAsAnimated();

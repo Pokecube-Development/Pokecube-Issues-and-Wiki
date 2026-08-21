@@ -2,7 +2,7 @@ package thut.core.client.render.x3d;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,7 +16,7 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.resources.ResourceLocation;
 import thut.api.entity.animation.Animation;
-import thut.api.entity.animation.Animators.KeyframeAnimator;
+import thut.api.entity.animation.Animators;
 import thut.api.maths.Vector4;
 import thut.core.client.render.model.BaseModel;
 import thut.core.client.render.model.IExtendedModelPart;
@@ -107,11 +107,11 @@ public class X3dModel extends BaseModel
         catch (final Exception e)
         {
             this.valid = false;
-            if (!(e instanceof FileNotFoundException)) ThutCore.LOGGER.error("error loading " + model, e);
+            if (!(e instanceof FileNotFoundException)) ThutCore.LOGGER.error("error loading {}", model, e);
         }
     }
 
-    private void makeObjects(final X3dXML xml) throws Exception
+    private void makeObjects(final X3dXML xml)
     {
         final Map<String, Set<String>> childMap = Maps.newHashMap();
         final Set<Transform> allTransforms = Sets.newHashSet();
@@ -176,13 +176,14 @@ public class X3dModel extends BaseModel
     }
 
     @Override
-    public void preProcessAnimations(final Collection<Animation> animations)
+    public void preProcessXMLAnimation(Animation animation)
     {
-        // a: animation, comps: component lists
-        animations.forEach(a -> a.sets.forEach((s, anim) -> {
-            if (anim instanceof KeyframeAnimator a2)
+        for(var a: animation.sets.values())
+        {
+            if (a instanceof Animators.KeyframeAnimator a2)
             {
-                a2.components.forEach(comp -> {
+                for (var comp : a2.components)
+                {
                     double d0, d1, d2;
                     // These get adjusted so the coordinate system is
                     // consistant with the older versions.
@@ -201,9 +202,8 @@ public class X3dModel extends BaseModel
                     comp.posChange[0] = -d0;
                     comp.posChange[1] = d2;
                     comp.posChange[2] = -d1;
-                });
+                }
             }
-        }));
-        super.preProcessAnimations(animations);
+        }
     }
 }

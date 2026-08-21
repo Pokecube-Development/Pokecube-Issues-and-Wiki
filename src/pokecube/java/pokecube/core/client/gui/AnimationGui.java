@@ -59,7 +59,6 @@ import thut.lib.RegHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -394,7 +393,7 @@ public class AnimationGui extends Screen
                     Object ren = manager.getRenderer(toRender.getEntity());
                     if (ren instanceof RenderPokemob renderer)
                     {
-                        renderer.getModel().preProcessAnimations(Lists.newArrayList(anim));
+                        renderer.getModel().processAnimations(Lists.newArrayList(anim));
                         renderer.getModel().renderer.getAnimations().put("test_anim", Lists.newArrayList(anim));
                     }
                 }
@@ -597,7 +596,7 @@ public class AnimationGui extends Screen
             this.onUpdated();
             this.renderHolder.wrapper.lastInit = 0;
             var start = System.currentTimeMillis() + 500;
-            while(!this.renderHolder.wrapper.isValid() && System.currentTimeMillis() < start);
+            while(System.currentTimeMillis() < start);
             var model = this.renderHolder.wrapper.getModel();
             if(model instanceof X3dModel x3d){
                 try
@@ -607,7 +606,7 @@ public class AnimationGui extends Screen
                             LightTexture.FULL_BLOCK);
                     this.renderHolder.wrapper.prepareMobModel(mob, 0, 0, 0);
                     var bb = X3dtoBBModel.convert(x3d);
-                    final String json = JsonUtil.gson.toJson(bb);
+                    final String json = JsonUtil.smol_gson.toJson(bb);
                     final File dir = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve(bb.name+".bbmodel").toFile();
                     FileOutputStream outS = new FileOutputStream(dir);
                     outS.write(json.getBytes());

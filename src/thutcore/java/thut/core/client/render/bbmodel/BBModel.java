@@ -3,7 +3,11 @@ package thut.core.client.render.bbmodel;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import net.minecraft.resources.ResourceLocation;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import thut.api.entity.animation.Animation;
+import thut.api.entity.animation.AnimationComponent;
+import thut.api.entity.animation.Animators;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.bbmodel.BBModelTemplate.JsonGroup;
@@ -11,11 +15,13 @@ import thut.core.client.render.model.BaseModel;
 import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.model.parts.Part;
 import thut.core.common.ThutCore;
+import thut.lib.AxisAngles;
 import thut.lib.ResourceHelper;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,11 +30,6 @@ public class BBModel extends BaseModel
 {
     private BBModelTemplate template;
     private final Set<String> builtin_anims = Sets.newHashSet();
-
-    public BBModel()
-    {
-        super();
-    }
 
     public BBModel(final ResourceLocation l)
     {
@@ -103,15 +104,113 @@ public class BBModel extends BaseModel
         {
             var old_name = p.getName();
             int n = 1;
-            while(this.parts.containsKey(p.getName())&&p instanceof Part p2)
+            while (this.parts.containsKey(p.getName()) && p instanceof Part p2)
             {
                 // BB models don't map by name, and groups can also share names as parts
                 // so here we just add to the end till it is new
-                p2.name = old_name+"_"+n++;
+                p2.name = old_name + "_" + n++;
             }
             this.parts.put(p.getName(), p);
             // Ensure the part is set to initial state
             p.resetToInit();
+        }
+    }
+
+    @Override
+    public void preProcessXMLAnimation(Animation animation)
+    {
+        Vector3f out = new Vector3f();
+        Quaternionf quat = new Quaternionf();
+        for (var a : animation.sets.values())
+        {
+            if (a instanceof Animators.KeyframeAnimator a2)
+            {
+                // First undo the results of "precompute"
+                for (int i = a2.components.size()-1; i > 0; i--)
+                {
+                    AnimationComponent here = a2.components.get(i);
+                    AnimationComponent prev = a2.components.get(i-1);
+                    for (int j = 0; j < 3; j++)
+                    {
+                        here.rotOffset[j] -= prev.rotOffset[j] + prev.rotChange[j];
+                    }
+                }
+
+                for(int i = 0; i<a2.components.size(); i++)
+                {
+                    var comp = a2.components.get(i);
+
+                    double d0, d1, d2;
+                    // These get adjusted so the coordinate system is
+                    // consistant with the x3d cases
+                    d0 = comp.posOffset[0] / 16;
+                    d1 = comp.posOffset[1] / 16;
+                    d2 = comp.posOffset[2] / 16;
+                    //
+                    comp.posOffset[0] = -d0;
+                    comp.posOffset[1] = d2;
+                    comp.posOffset[2] = -d1;
+                    //
+                    d0 = comp.posChange[0] / 16;
+                    d1 = comp.posChange[1] / 16;
+                    d2 = comp.posChange[2] / 16;
+                    //
+                    comp.posChange[0] = -d0;
+                    comp.posChange[1] = d2;
+                    comp.posChange[2] = -d1;
+
+                    // Convert the rotations to new coordinate system
+                    d0 = comp.rotOffset[0];
+                    d1 = comp.rotOffset[1];
+                    d2 = comp.rotOffset[2];
+
+                    comp.rotOffset[0] = -d0;
+                    comp.rotOffset[1] = d1;
+                    comp.rotOffset[2] = -d2;
+
+                    d0 = comp.rotChange[0];
+                    d1 = comp.rotChange[1];
+                    d2 = comp.rotChange[2];
+
+                    comp.rotChange[0] = -d0;
+                    comp.rotChange[1] = d1;
+                    comp.rotChange[2] = -d2;
+
+                    quat.set(0,0,0,1);
+                    quat.mul(AxisAngles.ZP.rotationDegrees((float)comp.rotOffset[2]));
+                    quat.mul(AxisAngles.YP.rotationDegrees((float)comp.rotOffset[1]));
+                    quat.mul(AxisAngles.XP.rotationDegrees((float)comp.rotOffset[0]));
+
+                    quat.getEulerAnglesXYZ(out);
+                    out.mul((float)(180/Math.PI));
+                    comp.rotOffset[0] = out.x;
+                    comp.rotOffset[1] = out.y;
+                    comp.rotOffset[2] = out.z;
+
+                    quat.set(0,0,0,1);
+                    quat.mul(AxisAngles.ZP.rotationDegrees((float)comp.rotChange[2]));
+                    quat.mul(AxisAngles.YP.rotationDegrees((float)comp.rotChange[1]));
+                    quat.mul(AxisAngles.XP.rotationDegrees((float)comp.rotChange[0]));
+
+                    quat.getEulerAnglesXYZ(out);
+                    out.mul((float)(180/Math.PI));
+                    comp.rotChange[0] = out.x;
+                    comp.rotChange[1] = out.y;
+                    comp.rotChange[2] = out.z;
+                }
+
+                AnimationComponent prev = a2.components.getFirst();
+                // now re-do the "precompute"
+                for (int i = 1; i < a2.components.size(); i++)
+                {
+                    AnimationComponent here = a2.components.get(i);
+                    for (int j = 0; j < 3; j++)
+                    {
+                        here.rotOffset[j] += prev.rotOffset[j] + prev.rotChange[j];
+                    }
+                    prev = here;
+                }
+            }
         }
     }
 

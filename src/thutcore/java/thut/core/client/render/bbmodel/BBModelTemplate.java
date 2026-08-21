@@ -251,9 +251,6 @@ public class BBModelTemplate
                 if (face.isValid()) quads[Direction.SOUTH.ordinal()] = face;
             }
 
-            float us = template.resolution.width;
-            float vs = template.resolution.height;
-
             Quaternionf quat = new Quaternionf(0, 0, 0, 1);
 
             if (b.getRotation() != null)
@@ -310,6 +307,12 @@ public class BBModelTemplate
 
                     v.set(vec.x() / 16, -vec.z() / 16, vec.y() / 16);
                     int i = (j + face.rotation / 90) % 4;
+
+
+                    var tex = template.textures.get(face.texture);
+                    float us = tex.width;
+                    float vs = tex.height;
+
                     int u0 = tex_order[i][0];
                     int v0 = tex_order[i][1];
                     face.tex[j] = new Vector2f(face.uvs[u0] / us, face.uvs[v0] / vs);
@@ -347,9 +350,6 @@ public class BBModelTemplate
 
         public BBMeshElement(BBModelTemplate template, Element b)
         {
-            float us = template.resolution.width;
-            float vs = template.resolution.height;
-
             Quaternionf quat = new Quaternionf(0, 0, 0, 1);
 
             if (b.getRotation() != null)
@@ -425,6 +425,9 @@ public class BBModelTemplate
                     Vector3f v = verts.get(vert_key);
                     float[] uv = uv_order.get(vert_key);
                     quad.texture = face.getTexture();
+                    var tex = template.textures.get(quad.texture);
+                    float us = tex.width;
+                    float vs = tex.height;
                     quad.points[j] = v;
                     quad.tex[j] = new Vector2f(uv[0] / us, uv[1] / vs);
                 }
@@ -452,7 +455,7 @@ public class BBModelTemplate
         public float[] rotation;
         public float[] position; // Used by locator types
         public int color;
-        public boolean box_uv = false;
+        public Boolean box_uv = false;
         public boolean visibility = true;
         public boolean locked = false;
         public boolean export = true;
@@ -646,9 +649,14 @@ public class BBModelTemplate
                 List<Object> newChildren = new ArrayList<>();
                 for (Object o : children)
                 {
+                    if (o == null)
+                    {
+                        continue;
+                    }
                     if (o instanceof String)
                     {
                         Element b = (Element) template._by_uuid.get(o);
+                        if (b == null) continue;
                         if (b.name.equals("cube")) b.name = this.name;
                         b._parent = this;
                         b.shift(this.origin);
@@ -673,7 +681,11 @@ public class BBModelTemplate
                 {
                     for(var b: this.children)
                     {
-                        if(b instanceof String)
+                        if (b == null)
+                        {
+                            continue;
+                        }
+                        if (b instanceof String)
                         {
                             group.children.add(b);
                         }
