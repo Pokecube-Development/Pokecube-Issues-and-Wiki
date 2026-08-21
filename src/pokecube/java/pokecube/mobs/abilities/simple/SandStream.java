@@ -24,7 +24,7 @@ public class SandStream extends Ability
         if (target != null) // Only trigger if against a pokemob.
         {
             final Level world = mob.getEntity().level();
-            final TerrainSegment segment = TerrainManager.getInstance().getTerrian(world, new Vector3());
+            final TerrainSegment segment = TerrainManager.getInstance().getTerrainForEntity(mob.getEntity());
             final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemob_effects");
 
             int duration = 300 + ThutCore.newRandom().nextInt(600);

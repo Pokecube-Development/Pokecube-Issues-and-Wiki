@@ -48,7 +48,7 @@ public class TerrainMove implements IMove
 
         this.duration = 300 + ThutCore.newRandom().nextInt(600);
         final Level world = user.getEntity().level();
-        final TerrainSegment segment = TerrainManager.getInstance().getTerrian(world, new Vector3(user.getEntity()));
+        final TerrainSegment segment = TerrainManager.getInstance().getTerrainForEntity(user.getEntity());
 
         EffectType apply = this.effect;
         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemob_effects");
