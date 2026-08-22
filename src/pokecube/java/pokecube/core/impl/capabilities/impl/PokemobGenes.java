@@ -155,7 +155,11 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         }
         _entryChanged = false;
         Alleles<SpeciesInfo, SpeciesGene> genesSpecies = getGenes().getAlleles(GeneticsManager.SPECIESGENE);
-        return this._renderEntryCache = genesSpecies.getExpressed().getValue().getTmpEntry();
+        var gene = genesSpecies.getExpressed().getValue();
+        this._renderEntryCache = gene.getTmpEntry();
+        // Regenerate forme_cache as well
+        this._renderHolderCache = gene.getForme();
+        return this._renderEntryCache;
     }
 
     @Override
@@ -461,11 +465,12 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
             return this._renderHolderCache;
         }
         _formChanged = false;
-        Alleles<SpeciesInfo, SpeciesGene> genesSpecies = getGenes().getAlleles(GeneticsManager.SPECIESGENE);
         // Ensures the species gene is initialised
         var entry = this.getPokedexEntry();
-        FormeHolder holder = genesSpecies.getExpressed().getValue().getForme();
-        if (holder == null) return this._renderHolderCache = entry.getModel(this.getSexe());
+        Alleles<SpeciesInfo, SpeciesGene> genesSpecies = getGenes().getAlleles(GeneticsManager.SPECIESGENE);
+        var gene = genesSpecies.getExpressed().getValue();
+        FormeHolder holder = gene.getForme();
+        if (holder == null && entry == gene.getBaseEntry()) return this._renderHolderCache = entry.getModel(this.getSexe());
         return this._renderHolderCache = holder;
     }
 }

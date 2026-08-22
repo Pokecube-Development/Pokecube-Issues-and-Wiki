@@ -134,6 +134,16 @@ public class SpeciesGene implements Gene<SpeciesInfo>
         {
             if (this.forme != null && this.forme._entry == null) this.forme.setEntry(entry);
             if (this.tmpForme != null) return tmpForme;
+            if (this.tmpEntry != null && forme != null && forme._entry.isGenderForme)
+            {
+                var base = forme._entry.getBaseForme();
+                // Check if our forme is a gender forme
+                if(forme == base.female_holder || forme == base.male_holder)
+                {
+                    // In this case, return the tmpForm regardless of whether it should be expected.
+                    return tmpForme;
+                }
+            }
             return forme;
         }
 
