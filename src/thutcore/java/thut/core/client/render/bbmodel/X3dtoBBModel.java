@@ -87,8 +87,8 @@ public class X3dtoBBModel
                 element.name = name;
                 element.type = "mesh";
                 element.box_uv = null;
-                element.origin = new float[] {0,0,0};
-                element.rotation = new float[] {0,0,0};
+                element.origin = new float[] { 0, 0, 0 };
+                element.rotation = new float[] { 0, 0, 0 };
                 element.vertices = new HashMap<>();
                 element.faces = new HashMap<>();
 

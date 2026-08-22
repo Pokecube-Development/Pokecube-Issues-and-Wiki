@@ -61,6 +61,7 @@ public class Mesh implements Comparable<Mesh>
                     texs.toArray(new Vector2f[0]), format, first.material);
             mesh.poseInfo = first.poseInfo;
             mesh.texChangeHolder = first.texChangeHolder;
+            mesh.name = first.name;
             retList.add(mesh);
         });
         return retList;
@@ -306,6 +307,9 @@ public class Mesh implements Comparable<Mesh>
                 if (size_cull) break render;
             }
 
+            float du = (float) this.uvShift[0], dv = (float) this.uvShift[1];
+            float su = 1, sv = 1;
+
             // Apply Texturing.
             var texturer = texChangeHolder.get();
             if (texturer != null)
@@ -315,6 +319,18 @@ public class Mesh implements Comparable<Mesh>
                 if (!same_mat && texturer.isHidden(this.name)) break render;
                 texturer.modifiyRGBA(this.renderMaterial.name, renderMaterial.rgbabro);
                 if (!same_mat) texturer.modifiyRGBA(this.name, renderMaterial.rgbabro);
+
+                var texture = this.renderMaterial.getTexture();
+                if (texture != null && (du != 0 || dv != 0))
+                {
+                    float[] ouv = texture.getTexOffset();
+                    float[] suv = texture.getTexScale();
+                    du += ouv[0];
+                    dv += ouv[1];
+
+                    su *= suv[0];
+                    sv *= suv[1];
+                }
             }
 
             // Apply material effects
@@ -322,20 +338,6 @@ public class Mesh implements Comparable<Mesh>
             {
                 final int j = (int) (this.renderMaterial.emissiveMagnitude * 15);
                 renderMaterial.rgbabro[4] = j << 20 | j << 4;
-            }
-
-            float du = (float) this.uvShift[0], dv = (float) this.uvShift[1];
-            float su = 1, sv = 1;
-
-            if (this.renderMaterial.getTexture() != null)
-            {
-                float[] ouv = this.renderMaterial.getTexture().getTexOffset();
-                float[] suv = this.renderMaterial.getTexture().getTexScale();
-                du += ouv[0];
-                dv += ouv[1];
-
-                su *= suv[0];
-                sv *= suv[1];
             }
             texdR.set(du, dv);
             texdS.set(su, sv);

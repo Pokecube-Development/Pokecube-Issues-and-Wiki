@@ -92,11 +92,23 @@ public class BBModelTemplate
         public String uuid;
         public String file_format = "png";
         public String source;
-        public int width = 16;
-        public int height = 16;
-        public int uv_width = 16;
-        public int uv_height = 16;
+        public Integer width;
+        public Integer height;
+        public Integer uv_width;
+        public Integer uv_height;
         public boolean visible = true;
+    }
+
+    public float getTexWidth(int index)
+    {
+        Texture tex = this.textures.get(index);
+        return tex.width != null ? tex.width : resolution.width;
+    }
+
+    public float getTexHeight(int index)
+    {
+        Texture tex = this.textures.get(index);
+        return tex.height != null ? tex.height : resolution.height;
     }
 
     public static class BBModelQuad
@@ -308,10 +320,8 @@ public class BBModelTemplate
                     v.set(vec.x() / 16, -vec.z() / 16, vec.y() / 16);
                     int i = (j + face.rotation / 90) % 4;
 
-
-                    var tex = template.textures.get(face.texture);
-                    float us = tex.width;
-                    float vs = tex.height;
+                    float us = template.getTexWidth(face.texture);
+                    float vs = template.getTexHeight(face.texture);
 
                     int u0 = tex_order[i][0];
                     int v0 = tex_order[i][1];
@@ -425,9 +435,8 @@ public class BBModelTemplate
                     Vector3f v = verts.get(vert_key);
                     float[] uv = uv_order.get(vert_key);
                     quad.texture = face.getTexture();
-                    var tex = template.textures.get(quad.texture);
-                    float us = tex.width;
-                    float vs = tex.height;
+                    float us = template.getTexWidth(quad.texture);
+                    float vs = template.getTexHeight(quad.texture);
                     quad.points[j] = v;
                     quad.tex[j] = new Vector2f(uv[0] / us, uv[1] / vs);
                 }

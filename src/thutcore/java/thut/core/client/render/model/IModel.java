@@ -16,6 +16,7 @@ import org.joml.Vector3f;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.maths.Vector3;
+import thut.core.client.render.animation.AnimationXML;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.model.parts.Material;
 import thut.core.common.ThutCore;
@@ -77,6 +78,14 @@ public interface IModel
             this.postInit();
         }
         return this;
+    }
+
+    default void initModelMetadata(AnimationXML.ModelMetadata metaData)
+    {
+        metaData.headAxis = 2;
+        metaData.headDir = -1;
+        metaData.headAxis2 = 0;
+        metaData.headDir2 = -1;
     }
 
     default void postInit(){}

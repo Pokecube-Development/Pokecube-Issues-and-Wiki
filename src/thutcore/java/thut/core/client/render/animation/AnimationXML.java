@@ -278,7 +278,7 @@ public class AnimationXML
     }
 
     @XmlRootElement(name = "metadata")
-    public static class Metadata
+    public static class ModelMetadata
     {
         @XmlAttribute(name = "head")
         public String head;
@@ -287,17 +287,17 @@ public class AnimationXML
         @XmlAttribute(name = "dye")
         public String dye;
         @XmlAttribute(name = "headAxis")
-        public int headAxis = 2;
+        public Integer headAxis;
         @XmlAttribute(name = "headAxis2")
-        public int headAxis2 = 0;
+        public Integer headAxis2;
         @XmlAttribute(name = "headCap")
         public String headCap = "-100, 100 ";
         @XmlAttribute(name = "headCap1")
         public String headCap1 = "-30, 70";
         @XmlAttribute(name = "headDir")
-        public int headDir = -1;
+        public Integer headDir;
         @XmlAttribute(name = "headDir2")
-        public int headDir2 = -1;
+        public Integer headDir2;
     }
 
     @XmlRootElement(name = "model")
@@ -308,7 +308,7 @@ public class AnimationXML
         @XmlElement(name = "customModel")
         public CustomModel customModel;
         @XmlElement(name = "metadata")
-        public Metadata metadata;
+        public ModelMetadata metadata;
         @XmlElement(name = "phase")
         public List<Phase> phases = Lists.newArrayList();
         @XmlElement(name = "worn")

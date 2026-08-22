@@ -3,19 +3,22 @@ package thut.core.client.render.bbmodel;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import net.minecraft.resources.ResourceLocation;
+import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.AnimationComponent;
 import thut.api.entity.animation.Animators;
+import thut.api.maths.Vector4;
 import thut.api.util.JsonUtil;
+import thut.core.client.render.animation.AnimationXML;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.bbmodel.BBModelTemplate.JsonGroup;
 import thut.core.client.render.model.BaseModel;
 import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.model.parts.Part;
 import thut.core.common.ThutCore;
-import thut.lib.AxisAngles;
 import thut.lib.ResourceHelper;
 
 import java.io.BufferedReader;
@@ -79,6 +82,14 @@ public class BBModel extends BaseModel
             this.builtin_anims.add(key);
             tblAnims.addAll(list);
         }
+    }
+
+    @Override
+    public void postInit()
+    {
+        super.postInit();
+        // Cleanup the template, to save on memory
+        this.template = null;
     }
 
     private void makeObjects(BBModelTemplate t)
@@ -163,36 +174,94 @@ public class BBModel extends BaseModel
                     d0 = comp.rotOffset[0];
                     d1 = comp.rotOffset[1];
                     d2 = comp.rotOffset[2];
-
-                    comp.rotOffset[0] = -d0;
-                    comp.rotOffset[1] = d1;
-                    comp.rotOffset[2] = -d2;
-
-                    d0 = comp.rotChange[0];
-                    d1 = comp.rotChange[1];
-                    d2 = comp.rotChange[2];
-
-                    comp.rotChange[0] = -d0;
-                    comp.rotChange[1] = d1;
-                    comp.rotChange[2] = -d2;
-
+                    out.set(d0, d1, d2);
+                    out.z *= -1;
+                    out.x *= -1;
+                    // Convert to radians for the quat maths
+                    out.div((float)(180/Math.PI));
                     quat.set(0,0,0,1);
-                    quat.mul(AxisAngles.ZP.rotationDegrees((float)comp.rotOffset[2]));
-                    quat.mul(AxisAngles.YP.rotationDegrees((float)comp.rotOffset[1]));
-                    quat.mul(AxisAngles.XP.rotationDegrees((float)comp.rotOffset[0]));
-
-                    quat.getEulerAnglesXYZ(out);
+                    // XML rotations are funny when using all three axes...
+                    if (d0 != 0 && d1 != 0 && d2 != 0)
+                    {
+                        quat.rotateX(out.x).rotateZ(out.z).rotateY(out.y);
+                        quat.getEulerAnglesZXY(out);
+                    }
+                    else if (
+                            (d0 != 0 && d1 == 0 && d2 == 0) ||
+                            (d0 == 0 && d1 != 0 && d2 == 0) ||
+                            (d0 == 0 && d1 == 0 && d2 != 0))
+                    {
+                        // Single rotation case, seems to be fine
+                    }
+                    else if (d0 != 0 && d1 != 0 && d2 == 0)
+                    {
+                        quat.rotateX(out.x);
+                        quat.rotateY(out.y);
+                        quat.getEulerAnglesZYX(out);
+                    }
+                    else if (d0 == 0 && d1 != 0 && d2 != 0)
+                    {
+                        // this case seems to work
+                        quat.rotateZ(out.z);
+                        quat.rotateY(out.y);
+                        quat.getEulerAnglesZYX(out);
+                    }
+                    else
+                    {
+                        if (d0 != 0) quat.rotateX(out.x);
+                        if (d2 != 0) quat.rotateZ(out.z);
+                        if (d1 != 0) quat.rotateY(out.y);
+                        quat.getEulerAnglesZYX(out);
+                    }
+                    // Convert back to degrees
                     out.mul((float)(180/Math.PI));
                     comp.rotOffset[0] = out.x;
                     comp.rotOffset[1] = out.y;
                     comp.rotOffset[2] = out.z;
 
+                    d0 = comp.rotChange[0];
+                    d1 = comp.rotChange[1];
+                    d2 = comp.rotChange[2];
+                    out.set(d0, d1, d2);
+                    out.z *= -1;
+                    out.x *= -1;
+                    // Convert to radians for the quat maths
+                    out.div((float)(180/Math.PI));
                     quat.set(0,0,0,1);
-                    quat.mul(AxisAngles.ZP.rotationDegrees((float)comp.rotChange[2]));
-                    quat.mul(AxisAngles.YP.rotationDegrees((float)comp.rotChange[1]));
-                    quat.mul(AxisAngles.XP.rotationDegrees((float)comp.rotChange[0]));
-
-                    quat.getEulerAnglesXYZ(out);
+                    // XML rotations are funny when using all three axes...
+                    if (d0 != 0 && d1 != 0 && d2 != 0)
+                    {
+                        quat.rotateX(out.x).rotateZ(out.z).rotateY(out.y);
+                        quat.getEulerAnglesZXY(out);
+                    }
+                    else if (
+                            (d0 != 0 && d1 == 0 && d2 == 0) ||
+                                    (d0 == 0 && d1 != 0 && d2 == 0) ||
+                                    (d0 == 0 && d1 == 0 && d2 != 0))
+                    {
+                        // Single rotation case, seems to be fine
+                    }
+                    else if (d0 != 0 && d1 != 0 && d2 == 0)
+                    {
+                        quat.rotateX(out.x);
+                        quat.rotateY(out.y);
+                        quat.getEulerAnglesZYX(out);
+                    }
+                    else if (d0 == 0 && d1 != 0 && d2 != 0)
+                    {
+                        // this case seems to work
+                        quat.rotateZ(out.z);
+                        quat.rotateY(out.y);
+                        quat.getEulerAnglesZYX(out);
+                    }
+                    else
+                    {
+                        if (d0 != 0) quat.rotateX(out.x);
+                        if (d2 != 0) quat.rotateZ(out.z);
+                        if (d1 != 0) quat.rotateY(out.y);
+                        quat.getEulerAnglesZYX(out);
+                    }
+                    // Convert back to degrees
                     out.mul((float)(180/Math.PI));
                     comp.rotChange[0] = out.x;
                     comp.rotChange[1] = out.y;
@@ -212,6 +281,15 @@ public class BBModel extends BaseModel
                 }
             }
         }
+    }
+
+    @Override
+    public void initModelMetadata(AnimationXML.ModelMetadata metaData)
+    {
+        metaData.headAxis = 2;
+        metaData.headDir = -1;
+        metaData.headAxis2 = 0;
+        metaData.headDir2 = 1;
     }
 
     @Override

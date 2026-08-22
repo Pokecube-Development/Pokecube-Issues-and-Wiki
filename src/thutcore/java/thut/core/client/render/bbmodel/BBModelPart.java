@@ -1,11 +1,8 @@
 package thut.core.client.render.bbmodel;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
 import org.joml.Quaternionf;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import thut.api.maths.Vector4;
 import thut.core.client.render.bbmodel.BBModelTemplate.Element;
 import thut.core.client.render.bbmodel.BBModelTemplate.IBBPart;
 import thut.core.client.render.bbmodel.BBModelTemplate.JsonGroup;

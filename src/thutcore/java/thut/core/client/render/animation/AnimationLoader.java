@@ -14,7 +14,7 @@ import thut.api.maths.Vector3;
 import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.animation.AnimationXML.Merge;
-import thut.core.client.render.animation.AnimationXML.Metadata;
+import thut.core.client.render.animation.AnimationXML.ModelMetadata;
 import thut.core.client.render.animation.AnimationXML.Phase;
 import thut.core.client.render.animation.AnimationXML.TexPart;
 import thut.core.client.render.animation.AnimationXML.Worn;
@@ -102,7 +102,8 @@ public class AnimationLoader
         {
             final XMLFile file = AnimationXML.load(stream);
 
-            Metadata meta = new Metadata();
+            ModelMetadata meta = new ModelMetadata();
+            model.initModelMetadata(meta);
             // Variables for the head rotation info
             int headDir = meta.headDir;
             int headDir2 = meta.headDir2;
@@ -138,10 +139,10 @@ public class AnimationLoader
                 AnimationLoader.addStrings(meta.shear, shear);
                 AnimationLoader.addStrings(meta.dye, dye);
 
-                headDir = meta.headDir;
-                headDir2 = meta.headDir2;
-                headAxis = meta.headAxis;
-                headAxis2 = meta.headAxis2;
+                if (meta.headDir != null) headDir = meta.headDir;
+                if (meta.headDir2 != null) headDir2 = meta.headDir2;
+                if (meta.headAxis != null) headAxis = meta.headAxis;
+                if (meta.headAxis2 != null) headAxis2 = meta.headAxis2;
 
                 AnimationLoader.setHeadCaps(meta.headCap, headCaps);
                 AnimationLoader.setHeadCaps(meta.headCap1, headCaps1);
@@ -162,7 +163,7 @@ public class AnimationLoader
                     else if (AnimationRegistry.animations.containsKey(name))
                     {
                         if (ThutCore.conf.debug_models)
-                            ThutCore.LOGGER.debug("Loading " + name + " for " + holder.name);
+                            ThutCore.LOGGER.debug("Loading animation " + name + " for " + holder.name);
                         try
                         {
                             final Animation anim = AnimationRegistry.make(phase, null);
@@ -224,24 +225,19 @@ public class AnimationLoader
                 wornOffsets.put(w_ident, new WornOffsets(w_parent, w_offset, w_scale, w_angles));
             }
 
+            // Texture processing step 1
             CustomTex texs = file.model.customTex;
             if (texs == null)
             {
                 texs = new CustomTex();
                 if (holder.texture != null) texs.defaults = holder.texture.toString();
             }
+            if (texs.defaults != null) holder.texture = ResourceLocation.parse(texs.defaults);
 
             // Handle materials
             for (final Mat mat : file.model.materials)
             {
-                try
-                {
-                    model.updateMaterial(mat);
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
+                model.updateMaterial(mat);
                 if (mat.tex.isBlank()) continue;
                 TexPart part = new TexPart();
                 part.name = mat.name;
@@ -273,8 +269,7 @@ public class AnimationLoader
                 final IAnimationHolder animHolder = renderer.getAnimationHolder();
                 if (animHolder != null) animHolder.clean();
 
-                // Handle customTextures
-                if (texs.defaults != null) holder.texture = ResourceLocation.parse(texs.defaults);
+                // Texture processing step 2
                 texturer.init(texs);
                 texturer.init(model);
                 // Now, process materials appropriately

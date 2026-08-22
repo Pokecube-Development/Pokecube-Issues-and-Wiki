@@ -2,7 +2,6 @@ package thut.core.client.render.x3d;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,6 +15,7 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.resources.ResourceLocation;
 import thut.api.entity.animation.Animation;
+import thut.api.entity.animation.AnimationComponent;
 import thut.api.entity.animation.Animators;
 import thut.api.maths.Vector4;
 import thut.core.client.render.model.BaseModel;
@@ -182,6 +182,17 @@ public class X3dModel extends BaseModel
         {
             if (a instanceof Animators.KeyframeAnimator a2)
             {
+                // First undo the results of "precompute"
+                for (int i = a2.components.size()-1; i > 0; i--)
+                {
+                    AnimationComponent here = a2.components.get(i);
+                    AnimationComponent prev = a2.components.get(i-1);
+                    for (int j = 0; j < 3; j++)
+                    {
+                        here.rotOffset[j] -= prev.rotOffset[j] + prev.rotChange[j];
+                    }
+                }
+
                 for (var comp : a2.components)
                 {
                     double d0, d1, d2;
@@ -202,6 +213,18 @@ public class X3dModel extends BaseModel
                     comp.posChange[0] = -d0;
                     comp.posChange[1] = d2;
                     comp.posChange[2] = -d1;
+                }
+
+                AnimationComponent prev = a2.components.getFirst();
+                // now re-do the "precompute"
+                for (int i = 1; i < a2.components.size(); i++)
+                {
+                    AnimationComponent here = a2.components.get(i);
+                    for (int j = 0; j < 3; j++)
+                    {
+                        here.rotOffset[j] += prev.rotOffset[j] + prev.rotChange[j];
+                    }
+                    prev = here;
                 }
             }
         }

@@ -2,6 +2,7 @@ package thut.core.client.render.texturing;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -194,22 +195,32 @@ public class TextureHelper implements IPartTexturer
             this.default_flat = !customTex.smoothing.equalsIgnoreCase("smooth");
         }
         this.clear();
-        for (final TexAnim anim : customTex.anims)
-        {
-            final String name = ThutCore.trim(anim.part);
-            final String trigger = anim.trigger.trim();
-            final String[] diffs = anim.diffs.trim().split(",");
-            TexState states = this.texStates.get(name);
-            if (states == null) this.texStates.put(name, states = new TexState());
-            states.addState(trigger, diffs);
-        }
+        Map<String, String> nameTexMap = new HashMap<>();
         for (final TexPart anim : customTex.parts)
         {
             final String name = ThutCore.trim(anim.name);
             final String partTex = anim.tex;
             this.addMapping(name, partTex);
             // Also apply mapping directly for anything that is named like the material
-            this.addMapping(partTex.replace(".png", ""), partTex);
+            var part = partTex.replace(".png", "");
+            this.addMapping(part, partTex);
+            nameTexMap.put(name, part);
+        }
+        for (final TexAnim anim : customTex.anims)
+        {
+            String name = ThutCore.trim(anim.part);
+            final String trigger = anim.trigger.trim();
+            final String[] diffs = anim.diffs.trim().split(",");
+            TexState states = this.texStates.get(name);
+            if (states == null) this.texStates.put(name, states = new TexState());
+            states.addState(trigger, diffs);
+            if(nameTexMap.containsKey(name))
+            {
+                name = nameTexMap.get(name);
+                states = this.texStates.get(name);
+                if (states == null) this.texStates.put(name, states = new TexState());
+                states.addState(trigger, diffs);
+            }
         }
         for (final TexCustom anim : customTex.custom)
         {
@@ -305,10 +316,10 @@ public class TextureHelper implements IPartTexturer
         if (thing instanceof IAttachmentHolder cap) this.mob = ThutCaps.getTexturable(cap);
         if (this.mob == null && thing instanceof Entity e) this.mob = new IMobTexturable()
         {
-            Entity entity = e;
-            String modid = RegHelper.getKey(this.entity.getType()).getNamespace();
+            final Entity entity = e;
+            final String modid = RegHelper.getKey(this.entity.getType()).getNamespace();
 
-            Map<ResourceLocation, ResourceLocation> remapped = new Object2ObjectOpenHashMap<>();
+            final Map<ResourceLocation, ResourceLocation> remapped = new Object2ObjectOpenHashMap<>();
 
             @Override
             public Entity getEntity()

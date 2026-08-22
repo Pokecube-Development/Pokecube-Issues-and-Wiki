@@ -194,12 +194,14 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
             List<List<Mesh>> allMeshes = new ArrayList<>();
             for (var mesh : this.shapes)
             {
-                var listOpt = allMeshes.stream().filter(_list->_list.stream().anyMatch(m->m.material.compareTo(mesh.material)==0)).findFirst();
+                var listOpt = allMeshes.stream()
+                        .filter(_list -> _list.stream().anyMatch(m -> m.material.compareTo(mesh.material) == 0))
+                        .findFirst();
                 var list = listOpt.orElse(new ArrayList<>());
-                if(listOpt.isEmpty()) allMeshes.add(list);
+                if (listOpt.isEmpty()) allMeshes.add(list);
                 list.add(mesh);
             }
-            for(var list: allMeshes) renderShapes.addAll(Mesh.merge(list));
+            for (var list : allMeshes) renderShapes.addAll(Mesh.merge(list));
 
             this.meshMid.set(0);
             int n = 0;
@@ -563,7 +565,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         else for (final String s : parts)
             for (final Mesh mesh : this.shapes)
             {
-                if (mesh.name == null) mesh.name = this.getName();
                 if (mesh.name.equals(ThutCore.trim(s)) || mesh.name.equals(mat.name) || this.getName().equals(s))
                 {
                     mesh.setMaterial(material);

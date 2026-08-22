@@ -95,10 +95,9 @@ public class Material implements Comparable<Material>
     @Override
     public String toString()
     {
-        return "Material{" + "name='" + name + '\'' + ", diffuseColor=" + diffuseColor + ", specularColor="
-                + specularColor + ", emissiveColor=" + emissiveColor + ", transluscent=" + transluscent + ", alpha="
+        return "Material{" + "name='" + name + '\'' + ", emissiveColor=" + emissiveColor + ", transluscent=" + transluscent + ", alpha="
                 + alpha + ", shininess=" + shininess + ", ambientIntensity=" + ambientIntensity + ", emissiveMagnitude="
-                + emissiveMagnitude + ", flat=" + flat + ", cull=" + cull + ", shader='" + shader + '\'' + '}';
+                + emissiveMagnitude + ", flat=" + flat + ", cull=" + cull + ", shader='" + shader + '\'' + super.toString() + '}';
     }
 
     /**
