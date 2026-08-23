@@ -38,14 +38,28 @@ public interface RenderTypeProvider
             return Material.WATER_MASK;
         }
 
-        RenderType type = null;
-        final String id = material.render_name + "_" + mode + "_" + tex;
+        RenderType type;
+        final String id = material.render_name + "_" + mode + "_" + tex + "_" + material.alpha;
         final RenderType.CompositeState.CompositeStateBuilder builder = RenderType.CompositeState.builder();
         // No blur, No MipMap
         builder.setTextureState(new RenderStateShard.TextureStateShard(tex, false, false));
 
-        builder.setTransparencyState(Material.DEFAULTTRANSP);
-
+        // These are needed in general for world lighting
+        builder.setLightmapState(RenderStateShard.LIGHTMAP);
+        builder.setOverlayState(RenderStateShard.OVERLAY);
+        final boolean transp = material.alpha < 1 || material.transluscent;
+        // disable culling entirely
+        if (!material.cull)
+        {
+            builder.setCullState(RenderStateShard.NO_CULL);
+        }
+        if (transp)
+        {
+            // These act like masking
+            builder.setWriteMaskState(RenderStateShard.COLOR_WRITE);
+            builder.setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST);
+        }
+        builder.setTransparencyState(RenderType.TRANSLUCENT_TRANSPARENCY);
         RenderStateShard.ShaderStateShard shard = Material.SHADERS.get(material.shader);
         if (shard == null)
         {
@@ -62,25 +76,13 @@ public interface RenderTypeProvider
                 Material.SHADERS.put(material.shader, shard);
             }
         }
+        if (material.emissiveMagnitude > 0 && (shard == RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER
+                || shard == RenderStateShard.RENDERTYPE_ENTITY_ALPHA_SHADER))
+        {
+            shard = RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_EMISSIVE_SHADER;
+        }
 
         builder.setShaderState(shard);
-
-        // These are needed in general for world lighting
-        builder.setLightmapState(RenderStateShard.LIGHTMAP);
-        builder.setOverlayState(RenderStateShard.OVERLAY);
-
-        final boolean transp = material.alpha < 1 || material.transluscent;
-        // disable culling entirely
-        if (!material.cull)
-        {
-            builder.setCullState(RenderStateShard.NO_CULL);
-        }
-        if (transp)
-        {
-            // These act like masking
-            builder.setWriteMaskState(RenderStateShard.COLOR_WRITE);
-            builder.setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST);
-        }
         final RenderType.CompositeState rendertype$state = builder.createCompositeState(true);
         type = RenderType.create(id, DefaultVertexFormat.NEW_ENTITY, mode, 256, true, false, rendertype$state);
 

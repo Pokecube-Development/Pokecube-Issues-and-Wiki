@@ -51,7 +51,7 @@ public class Util
         // No blur, No MipMap
         builder.setTextureState(new RenderStateShard.TextureStateShard(loc, false, false));
 
-        builder.setTransparencyState(Material.DEFAULTTRANSP);
+        builder.setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY);
 
         builder.setShaderState(RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER);
 

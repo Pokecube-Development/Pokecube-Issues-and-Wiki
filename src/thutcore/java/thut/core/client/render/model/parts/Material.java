@@ -22,16 +22,6 @@ import thut.core.client.render.model.parts.textures.BaseTexture;
 
 public class Material implements Comparable<Material>
 {
-    public static final RenderStateShard.TransparencyStateShard DEFAULTTRANSP = new RenderStateShard.TransparencyStateShard(
-            "material_transparency", () ->
-            {
-                RenderSystem.enableBlend();
-                RenderSystem.defaultBlendFunc();
-            }, () -> {
-                RenderSystem.disableBlend();
-                RenderSystem.defaultBlendFunc();
-            });
-
     static final RenderType WATER_MASK = RenderType.create("water_mask_", DefaultVertexFormat.POSITION,
             VertexFormat.Mode.TRIANGLES, 256,
             RenderType.CompositeState.builder().setShaderState(RenderStateShard.RENDERTYPE_WATER_MASK_SHADER)
@@ -40,15 +30,13 @@ public class Material implements Comparable<Material>
 
     public static final Map<String, RenderStateShard.ShaderStateShard> SHADERS = Maps.newHashMap();
 
+    public static boolean HAS_IRIS;
     static
     {
         SHADERS.put("alpha_shader", RenderStateShard.RENDERTYPE_ENTITY_ALPHA_SHADER);
         SHADERS.put("eyes_shader", RenderStateShard.RENDERTYPE_EYES_SHADER);
         SHADERS.put("swirl_shader", RenderStateShard.RENDERTYPE_ENERGY_SWIRL_SHADER);
-    }
 
-    public static boolean HAS_IRIS;
-    static{
         HAS_IRIS = ModList.get().isLoaded("iris");
     }
 
