@@ -50,7 +50,8 @@ import thut.api.entity.animation.Animators.IAnimator;
 import thut.api.entity.animation.Animators.KeyframeAnimator;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.animation.AnimationHelper;
-import thut.core.client.render.bbmodel.X3dtoBBModel;
+import thut.core.client.render.bbmodel.BaseModelToBBModel;
+import thut.core.client.render.model.BaseModel;
 import thut.core.client.render.model.parts.Part;
 import thut.core.client.render.x3d.X3dModel;
 import thut.core.common.ThutCore;
@@ -598,14 +599,14 @@ public class AnimationGui extends Screen
             var start = System.currentTimeMillis() + 500;
             while(System.currentTimeMillis() < start);
             var model = this.renderHolder.wrapper.getModel();
-            if(model instanceof X3dModel x3d){
+            if(model instanceof BaseModel _model){
                 try
                 {
                     var mob = this.toRender.getEntity();
                     this.renderHolder.wrapper.setMob(mob,  Minecraft.getInstance().renderBuffers().bufferSource(), ResourceLocation.parse("minecraft:stone"),
                             LightTexture.FULL_BLOCK);
                     this.renderHolder.wrapper.prepareMobModel(mob, 0, 0, 0);
-                    var bb = X3dtoBBModel.convert(x3d, renderHolder.animations);
+                    var bb = BaseModelToBBModel.convert(_model, renderHolder.animations);
                     final String json = JsonUtil.smol_gson.toJson(bb);
                     final File dir = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve(bb.name+".bbmodel").toFile();
                     FileOutputStream outS = new FileOutputStream(dir);

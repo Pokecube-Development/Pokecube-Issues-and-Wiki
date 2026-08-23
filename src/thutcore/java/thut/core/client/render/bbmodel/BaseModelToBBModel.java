@@ -15,9 +15,9 @@ import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.Animators;
 import thut.api.entity.animation.CapabilityAnimation;
 import thut.api.util.JsonUtil;
+import thut.core.client.render.model.BaseModel;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.parts.Part;
-import thut.core.client.render.x3d.X3dModel;
 import thut.lib.AxisAngles;
 
 import javax.imageio.ImageIO;
@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-public class X3dtoBBModel
+public class BaseModelToBBModel
 {
     public static String randomKey(Set<String> existing, int len)
     {
@@ -44,7 +44,7 @@ public class X3dtoBBModel
         return var;
     }
 
-    public static BBModelTemplate convert(X3dModel model, Map<String, List<Animation>> animations)
+    public static BBModelTemplate convert(BaseModel model, Map<String, List<Animation>> animations)
     {
         BBModelTemplate result = new BBModelTemplate();
         result.name = model.name;
