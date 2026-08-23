@@ -11,6 +11,8 @@ import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+import thut.api.entity.animation.Animation;
+import thut.api.entity.animation.Animators;
 import thut.api.entity.animation.CapabilityAnimation;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.model.IExtendedModelPart;
@@ -41,7 +43,7 @@ public class X3dtoBBModel
         return var;
     }
 
-    public static BBModelTemplate convert(X3dModel model)
+    public static BBModelTemplate convert(X3dModel model, Map<String, List<Animation>> animations)
     {
         BBModelTemplate result = new BBModelTemplate();
         result.name = model.name;
@@ -259,6 +261,42 @@ public class X3dtoBBModel
             }
 
             result.textures.add(texture);
+        }
+
+        // Now for animations
+        for (String animName : animations.keySet())
+        {
+            List<Animation> animlist = animations.get(animName);
+            System.out.println(animName);
+            for (var _anim : animlist)
+            {
+                System.out.println(" " + _anim.name);
+                BBModelTemplate.BBAnimation anim = new BBModelTemplate.BBAnimation();
+                anim.name = _anim.name;
+                anim.uuid = UUID.randomUUID().toString();
+                anim.loop = "loop";
+                anim.animators = new HashMap<>();
+                for (var pair : _anim.sets.entrySet())
+                {
+                    if (!(pair.getValue() instanceof Animators.KeyframeAnimator frames)) continue;
+                    System.out.println(pair.getKey() + " " + frames.channels);
+                    var key = UUID.randomUUID().toString();
+                    BBModelTemplate.BBAnimation.BBAnimator animator = new BBModelTemplate.BBAnimation.BBAnimator();
+                    animator.name = pair.getKey();
+                    animator.type = "bone";
+                    for (var channel : frames.channels)
+                    {
+                        if (channel == null) continue;
+                        ;
+                        BBModelTemplate.BBAnimation.BBKeyFrame frame = new BBModelTemplate.BBAnimation.BBKeyFrame();
+                        frame.channel = channel.channel();
+                        frame.uuid = UUID.randomUUID().toString();
+                        animator.keyframes.add(frame);
+                    }
+                    anim.animators.put(key, animator);
+                }
+                result.animations.add(anim);
+            }
         }
 
         result.outliner.addAll(outliner_by_id.values().stream().filter(g->g._parent==null).toList());

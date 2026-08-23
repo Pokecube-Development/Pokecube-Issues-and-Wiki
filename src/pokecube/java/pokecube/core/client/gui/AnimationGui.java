@@ -605,7 +605,7 @@ public class AnimationGui extends Screen
                     this.renderHolder.wrapper.setMob(mob,  Minecraft.getInstance().renderBuffers().bufferSource(), ResourceLocation.parse("minecraft:stone"),
                             LightTexture.FULL_BLOCK);
                     this.renderHolder.wrapper.prepareMobModel(mob, 0, 0, 0);
-                    var bb = X3dtoBBModel.convert(x3d);
+                    var bb = X3dtoBBModel.convert(x3d, renderHolder.animations);
                     final String json = JsonUtil.smol_gson.toJson(bb);
                     final File dir = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve(bb.name+".bbmodel").toFile();
                     FileOutputStream outS = new FileOutputStream(dir);
