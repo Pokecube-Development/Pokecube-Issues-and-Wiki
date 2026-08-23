@@ -142,9 +142,14 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         @Override
         public void applyTexturePhase(final Phase phase)
         {
-            if (phase.values.containsKey(male)) this.entry.textureDetails[0] = this.fromValue(phase.values.get(male));
+            if (phase.values.containsKey(male))
+            {
+                this.entry.textureDetails[0] = this.fromValue(phase.values.get(male));
+            }
             if (phase.values.containsKey(female))
+            {
                 this.entry.textureDetails[1] = this.fromValue(phase.values.get(female));
+            }
         }
 
         private String[] fromValue(final String string)

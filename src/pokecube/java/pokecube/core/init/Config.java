@@ -664,6 +664,8 @@ public class Config extends ConfigData
     public int messageWidth = 150;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Auto recall distance of Pokemobs. [Default: 32]")
     public int autoRecallDistance = 32;
+    @Configure(category = Config.client, type = Type.CLIENT, comment = "Converts x3d to bbmodels in animation gui [Default: false]")
+    public boolean outputBBModels = false;
 
     @Configure(category = Config.advanced, comment = "Makes all rare candies bad. [Default: false]")
     boolean reputs = false;

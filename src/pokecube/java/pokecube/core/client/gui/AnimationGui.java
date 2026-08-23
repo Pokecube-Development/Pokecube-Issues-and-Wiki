@@ -592,37 +592,41 @@ public class AnimationGui extends Screen
         dy += 20;
         this.addRenderableWidget(new Button.Builder(f5, (b) -> {
             AnimationGui.renderMobs.clear();
-            Part.mergeMeshes = false;
+            if(PokecubeCore.getConfig().outputBBModels) Part.mergeMeshes = false;
             RenderPokemob.reloadModel(AnimationGui.entry);
             this.onUpdated();
             this.renderHolder.wrapper.lastInit = 0;
-            var start = System.currentTimeMillis() + 500;
-            while(System.currentTimeMillis() < start);
-            var model = this.renderHolder.wrapper.getModel();
-            if(model instanceof BaseModel _model){
-                try
+            if (PokecubeCore.getConfig().outputBBModels)
+            {
+                var start = System.currentTimeMillis() + 500;
+                while (System.currentTimeMillis() < start) ;
+                var model = this.renderHolder.wrapper.getModel();
+                if (model instanceof BaseModel _model && false)
                 {
-                    var mob = this.toRender.getEntity();
-                    this.renderHolder.wrapper.setMob(mob, Minecraft.getInstance().renderBuffers().bufferSource(),
-                            ResourceLocation.parse("minecraft:stone"), LightTexture.FULL_BLOCK);
-                    this.renderHolder.wrapper.prepareMobModel(mob, 0, 0, 0);
-                    var bb = BaseModelToBBModel.convert(_model, renderHolder.animations);
-                    if (bb != null)
+                    try
                     {
-                        final String json = JsonUtil.smol_gson.toJson(bb);
-                        final File dir = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve(bb.name + ".bbmodel")
-                                .toFile();
-                        FileOutputStream outS = new FileOutputStream(dir);
-                        outS.write(json.getBytes());
-                        outS.close();
+                        var mob = this.toRender.getEntity();
+                        this.renderHolder.wrapper.setMob(mob, Minecraft.getInstance().renderBuffers().bufferSource(),
+                                ResourceLocation.parse("minecraft:stone"), LightTexture.FULL_BLOCK);
+                        this.renderHolder.wrapper.prepareMobModel(mob, 0, 0, 0);
+                        var bb = BaseModelToBBModel.convert(_model, renderHolder.animations);
+                        if (bb != null)
+                        {
+                            final String json = JsonUtil.smol_gson.toJson(bb);
+                            final File dir = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve(bb.name + ".bbmodel")
+                                    .toFile();
+                            FileOutputStream outS = new FileOutputStream(dir);
+                            outS.write(json.getBytes());
+                            outS.close();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
                     }
                 }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
             }
-            Part.mergeMeshes = true;
+            if(PokecubeCore.getConfig().outputBBModels) Part.mergeMeshes = true;
         }).bounds(this.width / 2 - xOffset, yOffset + dy, 40, 20).build());
 
         dy += 20;

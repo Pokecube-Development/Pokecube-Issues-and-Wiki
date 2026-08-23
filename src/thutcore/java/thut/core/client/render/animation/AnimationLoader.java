@@ -4,6 +4,7 @@ import com.google.common.collect.Sets;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Vector3f;
+import pokecube.api.PokecubeAPI;
 import thut.api.ModelHolder;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
@@ -100,10 +101,19 @@ public class AnimationLoader
     {
         try
         {
-            final XMLFile file = AnimationXML.load(stream);
-
-            ModelMetadata meta = new ModelMetadata();
-            model.initModelMetadata(meta);
+            final XMLFile file;
+            ModelMetadata meta;
+            try
+            {
+                file = AnimationXML.load(stream);
+                meta = new ModelMetadata();
+                model.initModelMetadata(meta);
+            }
+            catch (Exception e)
+            {
+                PokecubeAPI.LOGGER.error("Error loading xml file for {}", holder.animation, e);
+                return;
+            }
             // Variables for the head rotation info
             int headDir = meta.headDir;
             int headDir2 = meta.headDir2;
@@ -163,7 +173,7 @@ public class AnimationLoader
                     else if (AnimationRegistry.animations.containsKey(name))
                     {
                         if (ThutCore.conf.debug_models)
-                            ThutCore.LOGGER.debug("Loading animation " + name + " for " + holder.name);
+                            ThutCore.LOGGER.debug("Loading animation {} for {}", name, holder.name);
                         try
                         {
                             final Animation anim = AnimationRegistry.make(phase, null);
@@ -175,8 +185,7 @@ public class AnimationLoader
                         }
                         catch (final Exception e)
                         {
-                            ThutCore.LOGGER.error("Error with animation for model: " + holder.name + " Anim: " + name,
-                                    e);
+                            ThutCore.LOGGER.error("Error with animation for model: {} Anim: {}", holder.name, name, e);
                         }
                     }
                 }
@@ -184,7 +193,7 @@ public class AnimationLoader
                 else if (phase.type != null)
                 {
                     if (ThutCore.conf.debug_models)
-                        ThutCore.LOGGER.debug("Building Animation " + phase.type + " for " + holder.name);
+                        ThutCore.LOGGER.debug("Building Animation {} for {}", phase.type, holder.name);
                     final Animation anim = AnimationBuilder.build(phase, model.getParts().keySet(), null);
                     if (anim != null)
                     {

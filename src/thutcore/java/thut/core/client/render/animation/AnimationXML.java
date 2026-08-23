@@ -420,17 +420,8 @@ public class AnimationXML
         public Model model;
     }
 
-    public static XMLFile load(final InputStream res)
+    public static XMLFile load(final InputStream res) throws Exception
     {
-        XMLFile database = null;
-        try
-        {
-            database = Factory.make(res, XMLFile.class);
-        }
-        catch (final Exception e)
-        {
-            ThutCore.LOGGER.error("Error parsing xml", e);
-        }
-        return database;
+        return Factory.make(res, XMLFile.class);
     }
 }
