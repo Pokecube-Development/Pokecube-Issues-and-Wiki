@@ -5,7 +5,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
@@ -20,7 +19,6 @@ import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.entity.genetics.genes.SpeciesGene.SpeciesInfo;
 import thut.api.ThutCaps;
 import thut.api.entity.ICopyMob;
-import thut.api.entity.event.CopySetEvent;
 import thut.api.entity.genetics.Gene;
 import thut.core.common.ThutCore;
 

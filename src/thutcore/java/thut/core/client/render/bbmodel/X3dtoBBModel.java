@@ -25,6 +25,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -65,6 +66,7 @@ public class X3dtoBBModel
         Map<String, String> partsToGroup = new HashMap<>();
         Map<String, BBModelTemplate.JsonGroup> partNameToOutlinerGroup = new HashMap<>();
         Map<IExtendedModelPart, String> partsToUUID = new HashMap<>();
+        Map<String, String> partNameToUUID = new HashMap<>();
 
         var holder = new CapabilityAnimation.DefaultImpl();
         holder.overridePlaying("");
@@ -163,7 +165,12 @@ public class X3dtoBBModel
                     });
                 }
                 var partID = partsToUUID.get(part);
-                if (!partsToGroup.containsKey(partID)) partsToGroup.put(partID, UUID.randomUUID().toString());
+                if (!partsToGroup.containsKey(partID))
+                {
+                    var id =  UUID.randomUUID().toString();
+                    partsToGroup.put(partID, id);
+                    partNameToUUID.put(part.getName(), id);
+                }
                 var groupID = partsToGroup.get(partID);
                 boolean isAnimated = part.isAnimated();
                 // Handle adding the group
@@ -194,7 +201,12 @@ public class X3dtoBBModel
                     var parent = part.getParent();
                     if (!partsToUUID.containsKey(parent)) partsToUUID.put(parent, UUID.randomUUID().toString());
                     var parentID = partsToUUID.get(parent);
-                    if (!partsToGroup.containsKey(parentID)) partsToGroup.put(parentID, UUID.randomUUID().toString());
+                    if (!partsToGroup.containsKey(parentID))
+                    {
+                        var id =  UUID.randomUUID().toString();
+                        partsToGroup.put(parentID, id);
+                        partNameToUUID.put(parent.getName(), id);
+                    }
                     var parentGroupID = partsToGroup.get(parentID);
                     var parentGroup = outliner_by_id.computeIfAbsent(parentGroupID,
                             s -> new BBModelTemplate.JsonGroup());
@@ -267,31 +279,90 @@ public class X3dtoBBModel
         for (String animName : animations.keySet())
         {
             List<Animation> animlist = animations.get(animName);
-            System.out.println(animName);
             for (var _anim : animlist)
             {
-                System.out.println(" " + _anim.name);
                 BBModelTemplate.BBAnimation anim = new BBModelTemplate.BBAnimation();
                 anim.name = _anim.name;
                 anim.uuid = UUID.randomUUID().toString();
                 anim.loop = "loop";
                 anim.animators = new HashMap<>();
+                anim.length = _anim.length*20;
+                System.out.println(anim.name);
                 for (var pair : _anim.sets.entrySet())
                 {
                     if (!(pair.getValue() instanceof Animators.KeyframeAnimator frames)) continue;
-                    System.out.println(pair.getKey() + " " + frames.channels);
-                    var key = UUID.randomUUID().toString();
+                    var key = partNameToUUID.get(pair.getKey());
+                    if(key==null)
+                    {
+                        System.out.println("Did not find mapping for "+key);
+                        continue;
+                    }
                     BBModelTemplate.BBAnimation.BBAnimator animator = new BBModelTemplate.BBAnimation.BBAnimator();
                     animator.name = pair.getKey();
                     animator.type = "bone";
+                    System.out.println(animator.name);
                     for (var channel : frames.channels)
                     {
                         if (channel == null) continue;
-                        ;
-                        BBModelTemplate.BBAnimation.BBKeyFrame frame = new BBModelTemplate.BBAnimation.BBKeyFrame();
-                        frame.channel = channel.channel();
-                        frame.uuid = UUID.randomUUID().toString();
-                        animator.keyframes.add(frame);
+                        for(var component: channel.components())
+                        {
+                            BBModelTemplate.BBAnimation.BBKeyFrame frame = new BBModelTemplate.BBAnimation.BBKeyFrame();
+                            frame.channel = channel.channel();
+                            BBModelTemplate.BBAnimation.BBDataPoint point = new BBModelTemplate.BBAnimation.BBDataPoint();
+                            switch (frame.channel)
+                            {
+                            case "position":
+                                var posOffset = component.posOffset;
+                                point.x = posOffset[0];
+                                point.y = posOffset[2];
+                                point.z = posOffset[1];
+                                break;
+                            case "rotation":
+                                var rotOffset = component.rotOffset;
+                                System.out.println(Arrays.toString(rotOffset)+" "+ Arrays.toString(
+                                        component._rotFunctions));
+                                if(component._rotFunctions[0]!=null)
+                                    point.x = component._rotFunctions[0];
+                                else
+                                    point.x = -rotOffset[0];
+                                if(component._rotFunctions[1]!=null)
+                                    point.y = component._rotFunctions[1];
+                                else
+                                    point.y = rotOffset[1];
+                                if(component._rotFunctions[2]!=null)
+                                    point.z = component._rotFunctions[2];
+                                else
+                                    point.z = -rotOffset[2];
+                                break;
+                            case "scale":
+                                break;
+                            }
+                            if(point.x instanceof String s){
+                                s = s.replace("sin(", "math.sin(");
+                                s = s.replace("cos(", "math.cos(");
+                                s = s.replace("*l*", "*q.anim_time*20*");
+                                s = s.replace("(0.05*", "(");
+                                point.x = s;
+                            }
+                            if(point.y instanceof String s){
+                                s = s.replace("sin(", "math.sin(");
+                                s = s.replace("cos(", "math.cos(");
+                                s = s.replace("*l*", "*q.anim_time*20*");
+                                s = s.replace("(0.05*", "(");
+                                point.y = s;
+                            }
+                            if(point.z instanceof String s){
+                                s = s.replace("sin(", "math.sin(");
+                                s = s.replace("cos(", "math.cos(");
+                                s = s.replace("*l*", "*q.anim_time*20*");
+                                s = s.replace("(0.05*", "(");
+                                point.z = s;
+                            }
+                            frame.data_points.add(point);
+                            frame.uuid = UUID.randomUUID().toString();
+                            frame.time = 20*component.startKey;
+                            animator.keyframes.add(frame);
+                        }
                     }
                     anim.animators.put(key, animator);
                 }

@@ -3,14 +3,11 @@ package thut.core.client.render.bbmodel;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import net.minecraft.resources.ResourceLocation;
-import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
-import org.joml.Vector4f;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.AnimationComponent;
 import thut.api.entity.animation.Animators;
-import thut.api.maths.Vector4;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.animation.AnimationXML;
 import thut.core.client.render.animation.AnimationXML.Mat;
@@ -24,7 +21,6 @@ import thut.lib.ResourceHelper;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -178,8 +174,8 @@ public class BBModel extends BaseModel
                     out.z *= -1;
                     out.x *= -1;
                     // Convert to radians for the quat maths
-                    out.div((float)(180/Math.PI));
-                    quat.set(0,0,0,1);
+                    out.div((float) (180 / Math.PI));
+                    quat.set(0, 0, 0, 1);
                     // XML rotations are funny when using all three axes...
                     if (d0 != 0 && d1 != 0 && d2 != 0)
                     {
@@ -195,6 +191,7 @@ public class BBModel extends BaseModel
                     }
                     else if (d0 != 0 && d1 != 0 && d2 == 0)
                     {
+                        // This case is still broken for cases with large y angles
                         quat.rotateX(out.x);
                         quat.rotateY(out.y);
                         quat.getEulerAnglesZYX(out);
@@ -214,7 +211,7 @@ public class BBModel extends BaseModel
                         quat.getEulerAnglesZYX(out);
                     }
                     // Convert back to degrees
-                    out.mul((float)(180/Math.PI));
+                    out.mul((float) (180 / Math.PI));
                     comp.rotOffset[0] = out.x;
                     comp.rotOffset[1] = out.y;
                     comp.rotOffset[2] = out.z;
@@ -226,8 +223,8 @@ public class BBModel extends BaseModel
                     out.z *= -1;
                     out.x *= -1;
                     // Convert to radians for the quat maths
-                    out.div((float)(180/Math.PI));
-                    quat.set(0,0,0,1);
+                    out.div((float) (180 / Math.PI));
+                    quat.set(0, 0, 0, 1);
                     // XML rotations are funny when using all three axes...
                     if (d0 != 0 && d1 != 0 && d2 != 0)
                     {
@@ -236,13 +233,14 @@ public class BBModel extends BaseModel
                     }
                     else if (
                             (d0 != 0 && d1 == 0 && d2 == 0) ||
-                                    (d0 == 0 && d1 != 0 && d2 == 0) ||
-                                    (d0 == 0 && d1 == 0 && d2 != 0))
+                            (d0 == 0 && d1 != 0 && d2 == 0) ||
+                            (d0 == 0 && d1 == 0 && d2 != 0))
                     {
                         // Single rotation case, seems to be fine
                     }
                     else if (d0 != 0 && d1 != 0 && d2 == 0)
                     {
+                        // This case is still broken for cases with large y angles
                         quat.rotateX(out.x);
                         quat.rotateY(out.y);
                         quat.getEulerAnglesZYX(out);
@@ -262,7 +260,7 @@ public class BBModel extends BaseModel
                         quat.getEulerAnglesZYX(out);
                     }
                     // Convert back to degrees
-                    out.mul((float)(180/Math.PI));
+                    out.mul((float) (180 / Math.PI));
                     comp.rotChange[0] = out.x;
                     comp.rotChange[1] = out.y;
                     comp.rotChange[2] = out.z;
