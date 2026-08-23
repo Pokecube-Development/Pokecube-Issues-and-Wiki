@@ -46,6 +46,7 @@ public class BaseModelToBBModel
 
     public static BBModelTemplate convert(BaseModel model, Map<String, List<Animation>> animations)
     {
+        if(model instanceof BBModel) return null;
         BBModelTemplate result = new BBModelTemplate();
         result.name = model.name;
         if (result.name.contains("/"))
@@ -286,7 +287,8 @@ public class BaseModelToBBModel
                 anim.uuid = UUID.randomUUID().toString();
                 anim.loop = "loop";
                 anim.animators = new HashMap<>();
-                anim.length = _anim.length*20;
+                System.out.println(_anim.getLength());
+                anim.length = _anim.getLength()/20f;
                 System.out.println(anim.name);
                 for (var pair : _anim.sets.entrySet())
                 {
@@ -304,35 +306,56 @@ public class BaseModelToBBModel
                     for (var channel : frames.channels)
                     {
                         if (channel == null) continue;
-                        for(var component: channel.components())
+                        var list = new ArrayList<>(channel.components());
+                        boolean looped = _anim.loops && list.size() > 1;
+                        if(looped)
                         {
+                            list.add(channel.components().getFirst());
+                        }
+                        for(int i = 0; i<list.size(); i++)
+                        {
+                            var component = list.get(i);
                             BBModelTemplate.BBAnimation.BBKeyFrame frame = new BBModelTemplate.BBAnimation.BBKeyFrame();
-                            frame.channel = channel.channel();
                             BBModelTemplate.BBAnimation.BBDataPoint point = new BBModelTemplate.BBAnimation.BBDataPoint();
+                            frame.channel = channel.channel();
+                            frame.data_points.add(point);
+                            frame.uuid = UUID.randomUUID().toString();
+                            frame.time = component.startKey / 20f;
+                            if(looped && i == list.size()-1) frame.time = anim.length;
                             switch (frame.channel)
                             {
                             case "position":
                                 var posOffset = component.posOffset;
-                                point.x = posOffset[0];
-                                point.y = posOffset[2];
-                                point.z = posOffset[1];
+                                point.x = posOffset[0] * 16;
+                                point.y = posOffset[2] * 16;
+                                point.z = posOffset[1] * 16;
                                 break;
                             case "rotation":
                                 var rotOffset = component.rotOffset;
-                                System.out.println(Arrays.toString(rotOffset)+" "+ Arrays.toString(
-                                        component._rotFunctions));
                                 if(component._rotFunctions[0]!=null)
+                                {
                                     point.x = component._rotFunctions[0];
+                                }
                                 else
+                                {
                                     point.x = -rotOffset[0];
+                                }
                                 if(component._rotFunctions[1]!=null)
+                                {
                                     point.y = component._rotFunctions[1];
+                                }
                                 else
+                                {
                                     point.y = rotOffset[1];
+                                }
                                 if(component._rotFunctions[2]!=null)
+                                {
                                     point.z = component._rotFunctions[2];
+                                }
                                 else
+                                {
                                     point.z = -rotOffset[2];
+                                }
                                 break;
                             case "scale":
                                 break;
@@ -358,9 +381,6 @@ public class BaseModelToBBModel
                                 s = s.replace("(0.05*", "(");
                                 point.z = s;
                             }
-                            frame.data_points.add(point);
-                            frame.uuid = UUID.randomUUID().toString();
-                            frame.time = 20*component.startKey;
                             animator.keyframes.add(frame);
                         }
                     }

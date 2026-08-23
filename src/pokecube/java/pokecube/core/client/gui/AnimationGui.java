@@ -603,15 +603,19 @@ public class AnimationGui extends Screen
                 try
                 {
                     var mob = this.toRender.getEntity();
-                    this.renderHolder.wrapper.setMob(mob,  Minecraft.getInstance().renderBuffers().bufferSource(), ResourceLocation.parse("minecraft:stone"),
-                            LightTexture.FULL_BLOCK);
+                    this.renderHolder.wrapper.setMob(mob, Minecraft.getInstance().renderBuffers().bufferSource(),
+                            ResourceLocation.parse("minecraft:stone"), LightTexture.FULL_BLOCK);
                     this.renderHolder.wrapper.prepareMobModel(mob, 0, 0, 0);
                     var bb = BaseModelToBBModel.convert(_model, renderHolder.animations);
-                    final String json = JsonUtil.smol_gson.toJson(bb);
-                    final File dir = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve(bb.name+".bbmodel").toFile();
-                    FileOutputStream outS = new FileOutputStream(dir);
-                    outS.write(json.getBytes());
-                    outS.close();
+                    if (bb != null)
+                    {
+                        final String json = JsonUtil.smol_gson.toJson(bb);
+                        final File dir = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve(bb.name + ".bbmodel")
+                                .toFile();
+                        FileOutputStream outS = new FileOutputStream(dir);
+                        outS.write(json.getBytes());
+                        outS.close();
+                    }
                 }
                 catch (Exception e)
                 {

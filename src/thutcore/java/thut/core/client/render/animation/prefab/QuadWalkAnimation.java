@@ -71,10 +71,10 @@ public class QuadWalkAnimation extends Animation
     public QuadWalkAnimation init(final Set<String> hl, final Set<String> hr, final Set<String> fl,
             final Set<String> fr, int duration, final float legAngle, final float armAngle)
     {
-        String phase1 = "x:%f*cos(0.05*l*%d)";
-        String phase2 = "x:-%f*cos(0.05*l*%d)";
-        String phase3 = "x:%f*sin(0.05*l*%d)";
-        String phase4 = "x:-%f*sin(0.05*l*%d)";
+        String phase1 = "x:%.1f*cos(0.05*l*%d)";
+        String phase2 = "x:-%.1f*cos(0.05*l*%d)";
+        String phase3 = "x:%.1f*sin(0.05*l*%d)";
+        String phase4 = "x:-%.1f*sin(0.05*l*%d)";
 
         for (final String s : hr)
         {

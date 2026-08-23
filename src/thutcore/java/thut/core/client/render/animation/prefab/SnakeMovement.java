@@ -22,7 +22,7 @@ public class SnakeMovement extends Animation
         final int num = parts.size();
         final int mod = num > 6 ? 3 : 2;
         double dphi = mod * Math.PI / num;
-        String phase = "0.5*%f*sin(t*0.001*%d + %f)";
+        String phase = "0.5*%.1f*sin(t*0.001*%d + %.1f)";
 
         for (int i = 0; i < parts.size(); i++)
         {
