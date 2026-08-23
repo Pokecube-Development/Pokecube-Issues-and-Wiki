@@ -41,6 +41,8 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.database.Database;
 import pokecube.core.items.ItemPokedex;
+import pokecube.core.moves.MovesUtils;
+import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.gimmicks.pokeplayer.blocks.TransformBlock;
 import thut.api.ThutCaps;
@@ -285,6 +287,7 @@ public class Pokeplayer
             Pokeplayer.updateFloating(player, pokemob);
             Pokeplayer.updateFlying(player, pokemob);
             Pokeplayer.updateSwimming(player, pokemob);
+            Pokeplayer.updateStatus(player, pokemob);
             Pokeplayer.updateFireResistance(player, pokemob);
 
             final ICopyMob copy = ThutCaps.getCopyMob(player);
@@ -358,4 +361,13 @@ public class Pokeplayer
         if (pokemob == null) return;
         if (pokemob.getPokedexEntry().isHeatProof || pokemob.isType(PokeType.getType("fire"))) player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 60, 1, true, false));
     }
+
+    // This should run before anything giving a status effect (e.g. updateFireResistance)
+    // This makes sure that pokeplayers do not lose status effects they should have (e.g. fire res for fire types)
+    private static void updateStatus(final Player player, final IPokemob pokemob)
+    {
+        player.removeAllEffects();
+        StatusEffects.setStatus(player, pokemob.getEntity(), StatusEffects.getStatusEffect(pokemob.getEntity()));
+    }
+
 }
