@@ -19,6 +19,7 @@ import pokecube.core.entity.genetics.genes.ShinyGene;
 import pokecube.core.entity.genetics.genes.SpeciesGene;
 import pokecube.core.entity.genetics.genes.SpeciesGene.SpeciesInfo;
 import pokecube.core.network.pokemobs.PacketChangeForme;
+import thut.api.attachments.Shearable;
 import thut.api.entity.IMobColourable;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
@@ -159,6 +160,8 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         this._renderEntryCache = gene.getTmpEntry();
         // Regenerate forme_cache as well
         this._renderHolderCache = gene.getForme();
+        // Ensure that this data has been registered
+        if (this._renderEntryCache.canBeSheared()) this.getEntity().getData(Shearable.TYPE);
         return this._renderEntryCache;
     }
 

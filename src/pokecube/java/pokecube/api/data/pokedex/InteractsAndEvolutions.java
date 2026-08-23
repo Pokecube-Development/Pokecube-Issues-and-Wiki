@@ -167,37 +167,6 @@ public class InteractsAndEvolutions
             }
             return false;
         }
-
-        public PokemobCondition toCondition(HolderLookup.Provider registries)
-        {
-            PokemobCondition result = null;
-            List<PokemobCondition> bits = new ArrayList<>();
-            if (condition != null)
-            {
-                result = PokemobCondition.makeFromElement(registries, condition, bits);
-                bits.add(result);
-            }
-
-            if (male != null && !male)
-            {
-                var res = new IsSexe();
-                bits.add(res);
-                res.sexe = "male";
-                if (result == null) result = res.not();
-                else result = result.and(res.not());
-            }
-
-            if (female != null && !female)
-            {
-                var res = new IsSexe();
-                bits.add(res);
-                res.sexe = "female";
-                if (result == null) result = res.not();
-                else result = result.and(res.not());
-            }
-            if (result == null) result = new PokemobCondition.ConditionTrue();
-            return PokemobMatchInit.initMatchChecker(registries, result, bits);
-        }
     }
 
     public static class Action

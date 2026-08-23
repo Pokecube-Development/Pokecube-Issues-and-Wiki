@@ -293,6 +293,7 @@ public class PokedexEntry
 
         public static void initForEntry(final PokedexEntry entry, final List<Interact> data, final boolean replace)
         {
+            if (replace) entry.interactionLogic.hasShearInteraction = false;
             if (data == null || data.isEmpty())
             {
                 InteractionLogic.initForEntry(entry);
@@ -316,6 +317,7 @@ public class PokedexEntry
                             interact.isTag = true;
                             key = new JsonPrimitive(id.substring(1));
                         }
+                        entry.interactionLogic.hasShearInteraction |= id.equals(SHEARS.toString());
                     }
                 }
 
@@ -333,6 +335,7 @@ public class PokedexEntry
                     if (!replace && entry.interactionLogic.canInteract(keyStack)) continue;
                     entry.interactionLogic.stackActions.put(keyStack, interaction);
                     DispenseBehaviourInteract.registerBehavior(keyStack);
+                    entry.interactionLogic.hasShearInteraction |= isShears.test(keyStack);
                 }
 
                 interaction.male = interact.male;
@@ -367,6 +370,8 @@ public class PokedexEntry
         public HashMap<ItemStack, Interaction> stackActions = Maps.newHashMap();
 
         public HashMap<ResourceLocation, Interaction> tagActions = Maps.newHashMap();
+
+        public boolean hasShearInteraction = false;
 
         boolean canInteract(final ItemStack key)
         {
@@ -1204,6 +1209,14 @@ public class PokedexEntry
     public boolean canEvolve()
     {
         return !this.evolutions.isEmpty();
+    }
+
+    /**
+     * @return whether one of our interactions is a shear type.
+     */
+    public boolean canBeSheared()
+    {
+        return interactionLogic.hasShearInteraction;
     }
 
     public void copyFieldsToGenderForm(final PokedexEntry forme)

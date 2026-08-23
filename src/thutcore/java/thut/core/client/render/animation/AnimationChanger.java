@@ -13,7 +13,6 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.DyeColor;
 import thut.api.ThutCaps;
-import thut.api.attachments.Shearable;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.IMobColourable;
 import thut.api.entity.IShearable;
@@ -146,8 +145,11 @@ public class AnimationChanger implements IAnimationChanger
     {
         this.checkWildCard(part);
         for (final IAnimationChanger child : this.children) if (child.isPartHidden(part, entity, default_)) return true;
-        final IShearable shear = Shearable.get(entity);
-        if (this.shearables.contains(part) && shear != null) return shear.isSheared();
+        IShearable shear = ThutCaps.getShearable(entity);
+        if (this.shearables.contains(part) && shear != null)
+        {
+            return shear.isSheared();
+        }
         return default_;
     }
 

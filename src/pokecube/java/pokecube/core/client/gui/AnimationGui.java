@@ -601,7 +601,7 @@ public class AnimationGui extends Screen
                 var start = System.currentTimeMillis() + 500;
                 while (System.currentTimeMillis() < start) ;
                 var model = this.renderHolder.wrapper.getModel();
-                if (model instanceof BaseModel _model && false)
+                if (model instanceof BaseModel _model)
                 {
                     try
                     {
@@ -613,8 +613,9 @@ public class AnimationGui extends Screen
                         if (bb != null)
                         {
                             final String json = JsonUtil.smol_gson.toJson(bb);
-                            final File dir = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve(bb.name + ".bbmodel")
-                                    .toFile();
+                            var rootDir = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve("bbmodels");
+                            rootDir.toFile().mkdirs();
+                            final File dir = rootDir.resolve(bb.name + ".bbmodel").toFile();
                             FileOutputStream outS = new FileOutputStream(dir);
                             outS.write(json.getBytes());
                             outS.close();

@@ -19,6 +19,7 @@ import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.impl.capabilities.impl.PokemobSexed;
 import thut.api.Tracker;
+import thut.api.attachments.Shearable;
 import thut.api.item.ItemList;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 
@@ -113,6 +114,7 @@ public class DefaultPokemob extends PokemobSexed implements IPokemob
 
         if (this.getPokedexEntry().interact(shears))
         {
+            this.getEntity().getData(Shearable.TYPE);
             final ArrayList<ItemStack> ret = new ArrayList<>();
             this.setGeneralState(GeneralStates.SHEARED, true);
             this.getEntity().getPersistentData().putLong(TagNames.SHEARTIME, Tracker.instance().getTick());

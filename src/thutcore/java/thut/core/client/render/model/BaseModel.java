@@ -361,12 +361,12 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         part.resetToInit();
 
         // Check if part should be hidden
-        if(animChanger != null && holder.getContext().getContext() instanceof Entity e &&
+        if(animChanger != null && holder.getContext() != null && holder.getContext().getContext() instanceof Entity e &&
                 animChanger.isPartHidden(part.getName(), e, false))
             part.setHidden(true);
 
         // If animated, compute adjustments
-        if(part.isAnimated())
+        if(part.isAnimated() && !part.isHidden())
         {
             boolean anim = !anims.isEmpty();
             // This computes transform for us from animations

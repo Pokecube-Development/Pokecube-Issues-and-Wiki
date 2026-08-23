@@ -206,6 +206,10 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         this.animChangeHolder.set(animChanger);
         this.texChangeHolder.set(texer);
         if (texer != null) texer.bindObject(this.entityIn);
+        if (imodel instanceof IRetexturableModel _model && _model.getAnimationChanger() != this.animChangeHolder)
+        {
+            _model.setChangers(animChangeHolder, texChangeHolder);
+        }
         this.renderer.setAnimation(entityIn, partialTickTime);
     }
 
@@ -269,15 +273,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     public IModel setModel(IModel imodel)
     {
         this.imodel = imodel;
-        if (imodel != null) for (var part : imodel.getParts().values())
-        {
-            part.setAnimationHolder(this.animHolderHolder);
-            if (part instanceof IRetexturableModel p)
-            {
-                p.setChangers(animChangeHolder, texChangeHolder);
-            }
-        }
-        else{
+        if (imodel == null) {
             Thread.dumpStack();
         }
         if (imodel instanceof IModelCustom m) renderModel = m;
