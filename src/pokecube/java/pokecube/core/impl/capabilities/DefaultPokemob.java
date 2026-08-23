@@ -16,12 +16,10 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.utils.TagNames;
-import pokecube.core.PokecubeCore;
 import pokecube.core.impl.capabilities.impl.PokemobSexed;
 import thut.api.Tracker;
 import thut.api.attachments.Shearable;
 import thut.api.item.ItemList;
-import thut.core.common.world.mobs.data.DataSync_Impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,6 +128,7 @@ public class DefaultPokemob extends PokemobSexed implements IPokemob
                     final Item wool = Sheep.ITEM_BY_DYE.get(colour).asItem();
                     final ItemStack _toAdd = new ItemStack(wool, stack.getCount());
                     stack.getComponents().keySet().forEach(c -> _toAdd.copyFrom(stack, c));
+                    toAdd = _toAdd;
                 }
                 ret.add(toAdd);
             }

@@ -40,7 +40,7 @@ public class PaintBrushRecipe extends CustomRecipe
     {
         if (DYETAGS.isEmpty()) for (final DyeColor colour : DyeColor.values())
         {
-            final ResourceLocation tag = ResourceLocation.fromNamespaceAndPath("forge", "dyes/" + colour.getName());
+            final ResourceLocation tag = ResourceLocation.fromNamespaceAndPath("c", "dyes/" + colour.getName());
             DYETAGS.put(colour, TagKey.create(RegHelper.ITEM_REGISTRY, tag));
         }
         return DYETAGS;

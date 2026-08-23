@@ -4,7 +4,6 @@
 package pokecube.api.data;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -63,7 +62,7 @@ public class Pokedex
     public PokedexEntry getLastEntry()
     {
         if (this.entries.isEmpty()) return this.getFirstEntry();
-        return this.entries.get(this.entries.size() - 1);
+        return this.entries.getLast();
     }
 
     public PokedexEntry getNext(PokedexEntry pokedexEntry, int i)
@@ -72,7 +71,7 @@ public class Pokedex
         Integer index = this.entryIndecies.get(pokedexEntry);
         if (index == null)
         {
-            PokecubeAPI.LOGGER.error("Attempt to get a non existant entry: " + pokedexEntry,
+            PokecubeAPI.LOGGER.error("Attempt to get a non existant entry: {}", pokedexEntry,
                     new NullPointerException());
             return this.getFirstEntry();
         }
@@ -97,7 +96,7 @@ public class Pokedex
     public PokedexEntry getFirstForm(PokedexEntry input)
     {
         PokedexEntry test = input;
-        PokedexEntry prev = input;
+        PokedexEntry prev;
         prev = getPreviousForm(test);
         List<PokedexEntry> formes = Lists.newArrayList(Database.getSortedFormes());
         int i_test = formes.indexOf(test);
@@ -181,7 +180,7 @@ public class Pokedex
 
     private void resort()
     {
-        Collections.sort(this.entries, Database.COMPARATOR);
+        this.entries.sort(Database.COMPARATOR);
         this.entryIndecies.clear();
         for (int i = 0; i < this.entries.size(); i++) this.entryIndecies.put(this.entries.get(i), i);
     }

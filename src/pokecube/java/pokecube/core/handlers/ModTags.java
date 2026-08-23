@@ -8,7 +8,7 @@ import pokecube.core.PokecubeCore;
 
 public class ModTags {
 
-    public static final TagKey<Item> BOOKS = itemTags("forge", "books");
+    public static final TagKey<Item> BOOKS = itemTags("c", "books");
     public static final TagKey<Item> BOOKSHELF_ITEMS = itemTags(PokecubeCore.MODID, "bookshelf_items");
 
     public static TagKey<Item> itemTags(String id, String name) {
