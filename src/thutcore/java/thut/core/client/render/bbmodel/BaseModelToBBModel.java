@@ -25,7 +25,6 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -217,19 +216,10 @@ public class BaseModelToBBModel
                     if (parentGroup.children == null) parentGroup.children = new ArrayList<>();
                     if (!parentGroup.children.contains(ourGroup)) parentGroup.children.add(ourGroup);
 
-
-                    if (part.getSubParts().isEmpty())
-                    {
-                        // If we are animated, we make a new group for us, and add ourselves to it.
-                        if(isAnimated)
-                        {
-
-                        }
-                        else
-                        {
-                            if (!parentGroup.children.contains(partID)) parentGroup.children.add(partID);
-                        }
-                    }
+                    // If we are animated, we make a new group for us, and add ourselves to it.
+                    // Otherwise we add ourself to our parent's group
+                    if(part.getSubParts().isEmpty() && !isAnimated && !parentGroup.children.contains(partID))
+                        parentGroup.children.add(partID);
 
                     ourGroup._parent = parentGroup;
                 }
@@ -287,9 +277,7 @@ public class BaseModelToBBModel
                 anim.uuid = UUID.randomUUID().toString();
                 anim.loop = "loop";
                 anim.animators = new HashMap<>();
-                System.out.println(_anim.getLength());
                 anim.length = _anim.getLength()/20f;
-                System.out.println(anim.name);
                 for (var pair : _anim.sets.entrySet())
                 {
                     if (!(pair.getValue() instanceof Animators.KeyframeAnimator frames)) continue;
@@ -302,7 +290,6 @@ public class BaseModelToBBModel
                     BBModelTemplate.BBAnimation.BBAnimator animator = new BBModelTemplate.BBAnimation.BBAnimator();
                     animator.name = pair.getKey();
                     animator.type = "bone";
-                    System.out.println(animator.name);
                     for (var channel : frames.channels)
                     {
                         if (channel == null) continue;
