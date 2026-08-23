@@ -52,6 +52,13 @@ public class Material implements Comparable<Material>
         HAS_IRIS = ModList.get().isLoaded("iris");
     }
 
+    private static long renderTick = 0;
+
+    public static void startRender()
+    {
+        renderTick++;
+    }
+
     public String name;
     public String render_name;
 
@@ -77,6 +84,8 @@ public class Material implements Comparable<Material>
 
     public BaseTexture texture_object;
     public Mode vertexMode = null;
+
+    private long lastTick = -1;
 
     public String shader = "";
 
@@ -175,10 +184,15 @@ public class Material implements Comparable<Material>
         }
         if (bufferSource == null) bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
         if (this.tex == null || bufferSource == null) return buffer;
-        this.vertexMode = mode;
+        if (lastTick == renderTick && renderMode == mode) return renderCache;
+        this.vertexMode = renderMode = mode;
+        this.lastTick = renderTick;
         final RenderType type = this.makeRenderType(this.tex, mode);
-        return bufferSource.getBuffer(type);
+        return renderCache = bufferSource.getBuffer(type);
     }
+
+    private VertexConsumer renderCache;
+    private Mode renderMode;
 
     public BaseTexture getTexture()
     {

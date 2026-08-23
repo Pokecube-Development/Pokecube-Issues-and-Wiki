@@ -353,6 +353,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     {
         if (this.isDisabled()) return;
         // TODO render adders for new rendering setup
+        Material.startRender();
         for (var adder : this.renderAdders) adder.onRender(mat, this);
         this.preRender(mat);
         for (final Mesh s : this.renderShapes)

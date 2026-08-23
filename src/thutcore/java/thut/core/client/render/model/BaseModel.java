@@ -292,6 +292,8 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         Matrix4f pos = new Matrix4f();
         Matrix3f norm = new Matrix3f();
 
+        Material.startRender();
+
         // Render custom parts first via legacy rendering
         for (var part : this.customParts) part.render(mat, buffer);
 
