@@ -2,20 +2,14 @@ package pokecube.gimmicks.mega.conditions;
 
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.pokedex.conditions.HasHeldItem;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.Tools;
 import pokecube.gimmicks.mega.MegaCapability;
-import pokecube.gimmicks.mega.MegaEvoData;
 import pokecube.gimmicks.mega.MegaEvolveHelper;
 import pokecube.gimmicks.mega.MegaStoneColours;
 import thut.api.item.ItemList;
-
-import java.util.Collections;
-import java.util.List;
 
 public class HeldItem extends HasHeldItem implements MegaCondition
 {

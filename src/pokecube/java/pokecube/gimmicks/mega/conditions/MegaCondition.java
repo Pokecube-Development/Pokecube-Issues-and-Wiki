@@ -66,9 +66,7 @@ public interface MegaCondition
 
     default MegaCondition and(MegaCondition other)
     {
-        return (mobIn, entryTo) -> {
-            return this.matches(mobIn, entryTo) && other.matches(mobIn, entryTo);
-        };
+        return (mobIn, entryTo) -> this.matches(mobIn, entryTo) && other.matches(mobIn, entryTo);
     }
 
     boolean matches(IPokemob mobIn, PokedexEntry entryTo);

@@ -47,8 +47,8 @@ public class ItemMoveLearn implements MegaCondition
                if (heldItem.getCount() > 1) heldItem.grow(-1);
                else mobIn.setHeldItem(ItemStack.EMPTY);
 
-                if (offhandItem.getCount() > 1) offhandItem.grow(-1);
-                else mobIn.getEntity().setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
+               if (offhandItem.getCount() > 1) offhandItem.grow(-1);
+               else mobIn.getEntity().setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
             }
             else
                 PokecubeAPI.logInfo(_moveLearnt.getName() + " was not taught to " + mobIn.getDisplayName().getString() + " although the conditions were met");

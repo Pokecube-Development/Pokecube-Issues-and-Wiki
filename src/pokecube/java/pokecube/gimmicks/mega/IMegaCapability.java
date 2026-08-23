@@ -39,10 +39,6 @@ public interface IMegaCapability
 
     /**
      * Check if the mega stone is valid for the given entry.
-     *
-     * @param stack
-     * @param entry
-     * @return
      */
     boolean isValid(ItemStack stack, PokedexEntry entry);
 }

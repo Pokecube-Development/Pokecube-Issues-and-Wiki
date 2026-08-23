@@ -1,6 +1,5 @@
 package pokecube.gimmicks.mega;
 
-import com.mojang.datafixers.types.Func;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import io.netty.buffer.ByteBuf;
@@ -194,13 +193,5 @@ public class MegaCapability implements IMegaCapability
             if (!stack2.isEmpty()) return MegaCapability.getForStack(stack2);
         }
         return Database.missingno;
-    }
-
-    protected static boolean isStoneOrWearable(final ItemStack stack)
-    {
-        final boolean isStone = stack.has(MegaEvolveHelper.MEGA_STONE);
-        final boolean isMegaWear = stack.has(MegaEvolveHelper.MEGA_WEARABLE);
-        final boolean isBling = stack.has(ThutBling.BLING_GEM_DATA);
-        return isStone || isMegaWear || isBling;
     }
 }

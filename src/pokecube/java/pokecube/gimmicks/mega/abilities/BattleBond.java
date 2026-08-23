@@ -23,10 +23,4 @@ public class BattleBond extends Ability
             mob.handleCommand(IHasCommands.Command.CHANGEFORM, new ChangeFormHandler());
         }
     }
-
-    @Override
-    public int beforeDamage(final IPokemob mob, final MoveApplication move, final int damage)
-    {
-        return damage;
-    }
 }

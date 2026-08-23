@@ -82,8 +82,7 @@ public class MegaEvoData extends ResourceData
                 PokecubeAPI.LOGGER.error("invalid rule {} for a mega evo rule!", rule);
                 return;
             }
-            List<MegaRule> rules = RULES.get(user);
-            if (rules == null) RULES.put(user, rules = new ArrayList<>());
+            List<MegaRule> rules = RULES.computeIfAbsent(user, k -> new ArrayList<>());
             rules.add(this);
             if (auto_revert) REVERSIONS.put(_entryTo, user);
         }
@@ -144,7 +143,7 @@ public class MegaEvoData extends ResourceData
         final Map<ResourceLocation, Resource> resources = PackFinder.getJsonResources(path);
         RULES.clear();
         preLoad();
-        resources.forEach((l, r) -> this.loadFile(l, r));
+        resources.forEach(this::loadFile);
         if (this.validLoad)
         {
             if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Loaded Pokemob spawns.");
