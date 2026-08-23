@@ -317,8 +317,8 @@ public class Mesh implements Comparable<Mesh>
                 texturer.shiftUVs(this.renderMaterial.name, this.uvShift);
                 if (texturer.isHidden(this.renderMaterial.name)) break render;
                 if (!same_mat && texturer.isHidden(this.name)) break render;
-                texturer.modifiyRGBA(this.renderMaterial.name, renderMaterial.rgbabro);
-                if (!same_mat) texturer.modifiyRGBA(this.name, renderMaterial.rgbabro);
+                texturer.modifiyRGBA(this.renderMaterial.name, rgbabro);
+                if (!same_mat) texturer.modifiyRGBA(this.name, rgbabro);
 
                 var texture = this.renderMaterial.getTexture();
                 if (texture != null && (du != 0 || dv != 0))
@@ -337,7 +337,7 @@ public class Mesh implements Comparable<Mesh>
             if (this.renderMaterial.emissiveMagnitude > 0)
             {
                 final int j = (int) (this.renderMaterial.emissiveMagnitude * 15);
-                renderMaterial.rgbabro[4] = j << 20 | j << 4;
+                rgbabro[4] = j << 20 | j << 4;
             }
             texdR.set(du, dv);
             texdS.set(su, sv);
@@ -346,23 +346,19 @@ public class Mesh implements Comparable<Mesh>
             buffer = this.renderMaterial.preRender(buffer, this.vertexMode);
 
             // Update colouring as needed
-            int red = renderMaterial.rgbabro[0];
-            int green = renderMaterial.rgbabro[1];
-            int blue = renderMaterial.rgbabro[2];
-            int alpha = (int) (this.renderMaterial.alpha * renderMaterial.rgbabro[3]);
-            int lightmapUV = renderMaterial.rgbabro[4];
-            int overlayUV = renderMaterial.rgbabro[5];
-
-            if (debug || overrideColour)
+            int red = this.rgbabro[0];
+            int green = this.rgbabro[1];
+            int blue = this.rgbabro[2];
+            int alpha = (int) (this.renderMaterial.alpha * this.rgbabro[3]);
+            int lightmapUV = this.rgbabro[4];
+            int overlayUV = this.rgbabro[5];
+            int argb;
+            if (Material.HAS_IRIS && material.isShadow)
             {
-                red = this.rgbabro[0];
-                green = this.rgbabro[1];
-                blue = this.rgbabro[2];
-                alpha = (int) (this.renderMaterial.alpha * this.rgbabro[3]);
-                lightmapUV = this.rgbabro[4];
-                overlayUV = this.rgbabro[5];
+                argb = Material.SHADOW_ARGB;
+                lightmapUV = overlayUV = 0;
             }
-            int argb = FastColor.ARGB32.color(alpha, red, green, blue);
+            else argb = FastColor.ARGB32.color(alpha, red, green, blue);
 
             final boolean flat = this.material.flat;
             Vector3f[] normals = flat ? this.normalList : this.normals;

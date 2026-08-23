@@ -12,6 +12,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.pokedex.InteractsAndEvolutions.DyeInfo;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeItems;
@@ -55,6 +56,8 @@ public class DefaultFormeHolder
     public String anim = null;
     public Boolean hasShiny = null;
 
+    public DyeInfo dye = null;
+
     public String parent = null;
     public String root_entry = null;
 
@@ -83,6 +86,7 @@ public class DefaultFormeHolder
         if (fromKey == null)
         {
             fromKey = new PokedexEntry(0, this.key, true);
+            if (this.dye != null) this.dye.accept(fromKey);
             if (this.types != null)
             {
                 String[] types = this.types.split(",");

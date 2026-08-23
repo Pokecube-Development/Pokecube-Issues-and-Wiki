@@ -78,6 +78,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     // Set this true to mark animations for this as limb based if they are
     // normal keyframes
     public boolean isOverridenLimb = false;
+    public boolean isCustomColour = false;
 
     private boolean hidden = false;
     private boolean disabled = false;
@@ -391,6 +392,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         this.colour_scales[2] = 1;
         this.colour_scales[3] = 1;
         this.hidden = false;
+        this.isCustomColour = false;
         ds = ds2 = 1;
 
         renderPose.pose().identity();
@@ -540,7 +542,8 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
             if (m == null) return;
             var _mat = m.getRenderMaterial();
             if (material != null && !Mesh.debug && !material.test(_mat)) return;
-            var _rgabro = _mat == null || Mesh.debug ? m.rgbabro : _mat.rgbabro;
+            m.overrideColour = this.isCustomColour;
+            var _rgabro = m.rgbabro;
             _rgabro[0] = (int) (r * this.colour_scales[0]);
             _rgabro[1] = (int) (g * this.colour_scales[1]);
             _rgabro[2] = (int) (b * this.colour_scales[2]);
@@ -548,6 +551,12 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
             _rgabro[4] = this.brightness;
             _rgabro[5] = this.overlay;
         });
+    }
+
+    @Override
+    public void setColourOverridden()
+    {
+        this.isCustomColour = true;
     }
 
     /**

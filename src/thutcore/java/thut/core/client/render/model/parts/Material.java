@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
 import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
@@ -31,6 +32,7 @@ public class Material implements Comparable<Material>
     public static final Map<String, RenderStateShard.ShaderStateShard> SHADERS = Maps.newHashMap();
 
     public static boolean HAS_IRIS;
+    public static int SHADOW_ARGB;
     static
     {
         SHADERS.put("alpha_shader", RenderStateShard.RENDERTYPE_ENTITY_ALPHA_SHADER);
@@ -38,6 +40,7 @@ public class Material implements Comparable<Material>
         SHADERS.put("swirl_shader", RenderStateShard.RENDERTYPE_ENERGY_SWIRL_SHADER);
 
         HAS_IRIS = ModList.get().isLoaded("iris");
+        SHADOW_ARGB = FastColor.ARGB32.color(0,0,0,0);
     }
 
     private static long renderTick = 0;
@@ -65,6 +68,9 @@ public class Material implements Comparable<Material>
     public boolean cull = false;
     public boolean flat = true;
     public boolean edited = false;
+    public boolean isShadow = false;
+    // Generally you should use Mesh.rgbabro instead of this one.
+    // this is here for possible custom mesh implementations, like SMD
     public int[] rgbabro = new int[6];
 
     public float expectedTexH = -1;
@@ -156,19 +162,12 @@ public class Material implements Comparable<Material>
 
     public VertexConsumer preRender(final VertexConsumer buffer, Mode mode)
     {
-        if(HAS_IRIS){
+        isShadow = false;
+        if(HAS_IRIS)
+        {
             var s = RenderSystem.getShader();
-            boolean is_shadow = s != null && s.getName().startsWith("shadow_terrain");
-            if(is_shadow)
-            {
-                rgbabro[0] = 0;
-                rgbabro[1] = 0;
-                rgbabro[2] = 0;
-                rgbabro[3] = 0;
-                rgbabro[4] = 0;
-                rgbabro[5] = 0;
-                return buffer;
-            }
+            isShadow= s != null && s.getName().startsWith("shadow_terrain");
+            if(isShadow) return buffer;
         }
         if (bufferSource == null) bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
         if (this.tex == null || bufferSource == null) return buffer;

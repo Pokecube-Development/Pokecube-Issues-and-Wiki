@@ -284,4 +284,6 @@ public interface IExtendedModelPart extends IModelCustom, Comparable<IExtendedMo
     {
         setRGBABrO(m -> true, r, g, b, a, br, o);
     }
+
+    default void setColourOverridden(){}
 }

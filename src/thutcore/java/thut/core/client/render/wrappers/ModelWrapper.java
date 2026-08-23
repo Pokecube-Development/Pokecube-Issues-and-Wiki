@@ -133,6 +133,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
             green = this.tmp[1];
             blue = this.tmp[2];
             alpha = this.tmp[3];
+            part.setColourOverridden();
         }
         part.setRGBABrO(red, green, blue, alpha, brightness, overlay);
     }

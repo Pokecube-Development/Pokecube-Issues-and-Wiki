@@ -113,7 +113,7 @@ public class AnimationChanger implements IAnimationChanger
             final Function<Integer, Integer> offset = this.colourOffsets.get(partIdentifier);
             int colour = pokemob.getDyeColour() & 15;
             if (offset != null) colour = offset.apply(colour);
-            rgba += DyeColor.byId(colour).getTextColor();
+            rgba |= DyeColor.byId(colour).getTextColor();
             return rgba;
         }
         final int[] arr = pokemob.getRGBA();
