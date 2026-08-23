@@ -215,6 +215,7 @@ public class StatusEffects
 
     public static boolean setStatus(LivingEntity mob, LivingEntity source, MobEffectInstance instance)
     {
+        if (instance == null) return false;
         var status = instance.getEffect();
         // If it already has the status, skip
         if (mob.hasEffect(status)) return false;
