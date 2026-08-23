@@ -93,10 +93,6 @@ public class AnimationConversion
         static float[] _rotFuncScales2 =
                 { 1, 1, 1 };
 
-        public String rotFuncs = "";
-        public String scaleFuncs = "";
-        public String posFuncs = "";
-
         public XMLAnimationSegment(float length, float start_time)
         {
             this.length = length;
@@ -110,7 +106,7 @@ public class AnimationConversion
     {
         final float time;
         boolean has_scale = false;
-        boolean forcedLimbs = false;
+        boolean forcedLimbs;
         List<String> interpolations = new ArrayList<>();
         Object[] rotations =
                 { null, null, null };
