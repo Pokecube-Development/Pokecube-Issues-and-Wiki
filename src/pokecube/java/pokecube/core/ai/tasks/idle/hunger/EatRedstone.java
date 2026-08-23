@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
@@ -33,7 +34,7 @@ public class EatRedstone extends EatBlockBase
         final BlockState current = world.getBlockState(block.getPos());
         if (!EatRedstone.checker.test(current)) return EatResult.NOEAT;
 
-        pokemob.applyHunger(-PokecubeCore.getConfig().pokemobLifeSpan / 4);
+        pokemob.eat(EatRedstone.class);// Set indicator of having eaten something, this fires the event
 
         return EatResult.EATEN;
     }

@@ -22,7 +22,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.IRunnable;
-import pokecube.core.ai.tasks.idle.hunger.BaitCheckEvent;
+import pokecube.api.events.pokemobs.ai.BaitCheckEvent;
 import pokecube.core.ai.tasks.idle.hunger.EatFromChest;
 import pokecube.core.ai.tasks.idle.hunger.EatPlant;
 import pokecube.core.ai.tasks.idle.hunger.EatRedstone;
@@ -52,6 +52,7 @@ public class HungerTask extends BaseIdleTask
 {
     public static final ResourceLocation FOODTAG = ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID,
             "pokemob_food");
+    public static final Object SUNLIGHT = new Object();
 
     private static class GenBerries implements IRunnable
     {
@@ -240,7 +241,8 @@ public class HungerTask extends BaseIdleTask
     {
         if (level.isDay() && this.v.canSeeSky(level))
         {
-            pokemob.applyHunger(-PokecubeCore.getConfig().pokemobLifeSpan / 4);
+            // Set indicator of having eaten something, this fires the event
+            pokemob.eat(SUNLIGHT);
             pokemob.setCombatState(CombatStates.HUNTING, false);
             return true;
         }

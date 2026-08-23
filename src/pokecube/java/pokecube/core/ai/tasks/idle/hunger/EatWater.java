@@ -4,6 +4,7 @@ import java.util.function.Predicate;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.WaterFluid;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -31,7 +32,7 @@ public class EatWater extends EatBlockBase
 
         if (!EatWater.checker.test(current)) return EatResult.NOEAT;
 
-        pokemob.applyHunger(-PokecubeCore.getConfig().pokemobLifeSpan / 4);
+        pokemob.eat(EatWater.class);// Set indicator of having eaten something, this fires the event
 
         return EatResult.EATEN;
     }

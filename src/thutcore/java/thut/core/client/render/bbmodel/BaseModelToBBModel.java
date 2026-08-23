@@ -11,6 +11,7 @@ import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+import pokecube.api.PokecubeAPI;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.Animators;
 import thut.api.entity.animation.CapabilityAnimation;
@@ -284,7 +285,7 @@ public class BaseModelToBBModel
                     var key = partNameToUUID.get(pair.getKey());
                     if(key==null)
                     {
-                        System.out.println("Did not find mapping for "+key);
+                        PokecubeAPI.logInfo("Did not find mapping for {}", pair.getKey());
                         continue;
                     }
                     BBModelTemplate.BBAnimation.BBAnimator animator = new BBModelTemplate.BBAnimation.BBAnimator();

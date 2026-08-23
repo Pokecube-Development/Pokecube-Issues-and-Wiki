@@ -1,4 +1,4 @@
-package pokecube.core.ai.tasks.idle.hunger;
+package pokecube.api.events.pokemobs.ai;
 
 import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.ICancellableEvent;

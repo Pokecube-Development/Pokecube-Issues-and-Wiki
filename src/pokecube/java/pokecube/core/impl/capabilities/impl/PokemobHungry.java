@@ -5,12 +5,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
+import pokecube.api.events.pokemobs.ai.EatObjectEvent;
 import pokecube.api.items.IPokemobUseable;
 import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.SpawnHandler;
@@ -33,9 +35,21 @@ public abstract class PokemobHungry extends PokemobMoves
     @Override
     public <T> T eat(T e)
     {
-        int hungerValue = PokecubeCore.getConfig().pokemobLifeSpan / 4;
+        // Don't eat stuf if we are not alive...
+        if (!this.getEntity().isAlive()) return null;
+
+        var eatPreEvent = new EatObjectEvent.Pre(this, e);
+        PokecubeAPI.POKEMOB_BUS.post(eatPreEvent);
+        if (eatPreEvent.isCanceled()) return null;
         ItemStack item = e instanceof ItemStack ? (ItemStack) e : ItemStack.EMPTY;
         if (e instanceof ItemEntity eItem) item = eItem.getItem();
+
+        int hungerValue = PokecubeCore.getConfig().pokemobLifeSpan / 4;
+        int happinessAdjustment = 1;
+        float hp = this.getHealth();
+        float missingHp = this.getMaxHealth() - hp;
+        float toHeal = Math.max(1, missingHp * 0.25f);
+
         if (!item.isEmpty())
         {
             final IPokemobUseable usable = PokemobCaps.getPokemobUsable(item);
@@ -54,24 +68,32 @@ public abstract class PokemobHungry extends PokemobMoves
                 if (current < 100) weight *= (int) (type.low / 10f);
                 else if (current < 200) weight *= (int) (type.mid / 10f);
                 else weight *= (int) (type.high / 10f);
-                this.addHappiness(weight);
-            }
-            if(e instanceof ItemEntity eItem)
-            {
-                item.consume(1, this.getEntity());
-                if(item.isEmpty()) eItem.discard();
-                else eItem.setItem(item);
+                happinessAdjustment = weight;
             }
         }
+
+        var postEatEvent = new EatObjectEvent.Post(this, e, happinessAdjustment, hungerValue, toHeal);
+        PokecubeAPI.POKEMOB_BUS.post(postEatEvent);
+
+        toHeal = postEatEvent.toHeal;
+        hungerValue = postEatEvent.hungerValue;
+        happinessAdjustment = postEatEvent.happinessAdjustment;
+
+        if(e instanceof ItemEntity eItem && !item.isEmpty())
+        {
+            item.consume(1, this.getEntity());
+            if(item.isEmpty()) eItem.discard();
+            else eItem.setItem(item);
+        }
+
+        this.addHappiness(happinessAdjustment);
         this.applyHunger(-hungerValue);
+        this.setHealth(Math.min(hp+toHeal, this.getMaxHealth()));
         this.hungerCooldown = 0;
-        this.getEntity()
-                .playSound(BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.generic.eat")), 1, 1);
+
+        this.getEntity().playSound(BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.generic.eat")), 1, 1);
         this.setCombatState(CombatStates.HUNTING, false);
-        if (!this.getEntity().isAlive()) return null;
-        final float missingHp = this.getMaxHealth() - this.getHealth();
-        final float toHeal = this.getHealth() + Math.max(1, missingHp * 0.25f);
-        this.setHealth(Math.min(toHeal, this.getMaxHealth()));
+
         // Make wild pokemon level up naturally to their cap, to allow wild
         // hatches
         if (!this.getGeneralState(GeneralStates.TAMED))
