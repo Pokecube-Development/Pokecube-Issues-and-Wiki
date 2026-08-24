@@ -46,7 +46,6 @@ public class BaseModelToBBModel
 
     public static BBModelTemplate convert(BaseModel model, Map<String, List<Animation>> animations)
     {
-        if(model instanceof BBModel) return null;
         BBModelTemplate result = new BBModelTemplate();
         result.name = model.name;
         if (result.name.contains("/"))
@@ -309,7 +308,9 @@ public class BaseModelToBBModel
                             frame.data_points.add(point);
                             frame.uuid = UUID.randomUUID().toString();
                             frame.time = component.startKey / 20f;
-                            if(looped && i == list.size()-1) frame.time = anim.length;
+                            float rotXScale = model instanceof BBModel ? 1 : -1;
+                            float rotZScale = model instanceof BBModel ? 1 : -1;
+                            if (looped && i == list.size() - 1) frame.time = anim.length;
                             switch (frame.channel)
                             {
                             case "position":
@@ -326,7 +327,7 @@ public class BaseModelToBBModel
                                 }
                                 else
                                 {
-                                    point.x = -rotOffset[0];
+                                    point.x = rotXScale * rotOffset[0];
                                 }
                                 if(component._rotFunctions[1]!=null)
                                 {
@@ -342,7 +343,7 @@ public class BaseModelToBBModel
                                 }
                                 else
                                 {
-                                    point.z = -rotOffset[2];
+                                    point.z = rotZScale * rotOffset[2];
                                 }
                                 break;
                             case "scale":
