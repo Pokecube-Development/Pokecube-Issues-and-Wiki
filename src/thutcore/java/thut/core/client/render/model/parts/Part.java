@@ -203,6 +203,8 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                 list.add(mesh);
             }
             for (var list : allMeshes) renderShapes.addAll(Mesh.merge(list));
+            this.shapes.clear();
+            this.shapes.addAll(this.renderShapes);
 
             this.meshMid.set(0);
             int n = 0;

@@ -30,14 +30,9 @@ import thut.lib.ResourceHelper;
 
 public class X3dModel extends BaseModel
 {
-    public X3dModel()
+    public X3dModel(final ResourceLocation l, IModelCallback callback)
     {
-        super();
-    }
-
-    public X3dModel(final ResourceLocation l)
-    {
-        super(l);
+        super(l, callback);
     }
 
     private void addChildren(final Set<Transform> allTransforms, final Transform transform)

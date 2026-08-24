@@ -62,6 +62,8 @@ public class Mesh implements Comparable<Mesh>
             mesh.poseInfo = first.poseInfo;
             mesh.texChangeHolder = first.texChangeHolder;
             mesh.name = first.name;
+            // Marks the "same mat" as true
+            if (first.name.equals(first.material.name)) mesh.setMaterial(first.material);
             retList.add(mesh);
         });
         return retList;

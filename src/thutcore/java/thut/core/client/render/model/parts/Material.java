@@ -43,7 +43,7 @@ public class Material implements Comparable<Material>
         SHADOW_ARGB = FastColor.ARGB32.color(0,0,0,0);
     }
 
-    private static long renderTick = 0;
+    static long renderTick = 0;
 
     public static void startRender()
     {

@@ -1,10 +1,9 @@
 package thut.core.client.render.bbmodel;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+import pokecube.api.PokecubeAPI;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.AnimationComponent;
 import thut.api.entity.animation.Animators;
@@ -28,11 +27,11 @@ import java.util.Set;
 public class BBModel extends BaseModel
 {
     private BBModelTemplate template;
-    private final Set<String> builtin_anims = Sets.newHashSet();
+    private Set<String> builtin_anims = new HashSet<>();
 
-    public BBModel(final ResourceLocation l)
+    public BBModel(final ResourceLocation l, IModelCallback callback)
     {
-        super(l);
+        super(l, callback);
     }
 
     @Override
@@ -70,14 +69,22 @@ public class BBModel extends BaseModel
     @Override
     public void initBuiltInAnimations(IModelRenderer<?> renderer, List<Animation> tblAnims)
     {
-        var loaded = AnimationConversion.make_animations(this.template, this);
-        this.builtin_anims.clear();
-        for (var entry : loaded.entrySet())
+        try
         {
-            String key = entry.getKey();
-            var list = entry.getValue();
-            this.builtin_anims.add(key);
-            tblAnims.addAll(list);
+            var loaded = AnimationConversion.make_animations(this.template, this);
+            this.builtin_anims = new HashSet<>();
+            for (var entry : loaded.entrySet())
+            {
+                String key = entry.getKey();
+                var list = entry.getValue();
+                this.builtin_anims.add(key);
+                tblAnims.addAll(list);
+            }
+        }
+        catch (Throwable e)
+        {
+            PokecubeAPI.LOGGER.error("Error loading animations for {}", this.template, e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -91,7 +98,7 @@ public class BBModel extends BaseModel
 
     private void makeObjects(BBModelTemplate t)
     {
-        List<BBModelPart> parts = Lists.newArrayList();
+        List<BBModelPart> parts = new ArrayList<>();
 
         if (t.outliner.isEmpty())
         {

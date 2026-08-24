@@ -18,7 +18,7 @@ public class ModelFactory
 {
     public static interface IFactory<T extends IModel>
     {
-        T create(ResourceLocation model);
+        T create(ResourceLocation model, IModelCallback callback);
     }
 
     private static final Map<String, IFactory<?>> modelFactories = Maps.newHashMap();
@@ -44,11 +44,11 @@ public class ModelFactory
                 final ResourceLocation model1 = ResourceLocation.fromNamespaceAndPath(location.getNamespace(),
                         path + "." + ext1);
                 if (ThutCore.conf.debug_models) ThutCore.LOGGER.debug("Checking {}", model1);
-                ret = factory.create(model1);
+                ret = factory.create(model1, callback);
                 ext = ext1;
                 if (ret != null && ret.isValid()) break;
             }
-            if (ret == null) ret = new X3dModel();
+            if (ret == null) ret = new X3dModel(location, callback).init(callback);
             if (!ret.isValid())
             {
                 if (ThutCore.conf.debug_models) ThutCore.LOGGER.error("No Model found for {}", location);
@@ -58,7 +58,7 @@ public class ModelFactory
                 if (ThutCore.conf.debug_models) ThutCore.LOGGER.debug("Successfully loaded model for {}", location);
                 model.extension = ext;
             }
-            return ret.init(callback);
+            return ret;
         }
         else
         {
@@ -70,7 +70,7 @@ public class ModelFactory
                 return null;
             }
             model.extension = ext;
-            return factory.create(location).init(callback);
+            return factory.create(location, callback);
         }
     }
 

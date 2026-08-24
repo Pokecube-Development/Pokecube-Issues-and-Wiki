@@ -56,6 +56,8 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
                 if (this.toLoad.callback != null)
                 {
                     this.toLoad.callback.run(this.toLoad);
+                    // Then clear it
+                    this.toLoad.callback = null;
                 }
                 // Then call postInit
                 this.toLoad.postInit();
@@ -108,14 +110,9 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
 
     protected IModelCallback callback = null;
 
-    public BaseModel()
+    public BaseModel(final ResourceLocation l, IModelCallback callback)
     {
         this.valid = true;
-    }
-
-    public BaseModel(final ResourceLocation l)
-    {
-        this();
         try
         {
             // Check if the model even exists
@@ -126,6 +123,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
                 return;
             }
             loading = true;
+            this.callback = callback;
             // If it did exist, then lets schedule load on another thread
             Loader loader = new Loader(this, l);
             loader.start();
@@ -146,6 +144,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     {
         if (this.isValid() && !this.loading)
         {
+            // Start by calling the callback
             callback.run(this);
             // Now handle post processing cleanup
             postInit();
@@ -180,7 +179,6 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         }
         this.loaded = true;
         this.loading = false;
-        this.callback = null;
     }
 
     @Override
@@ -211,8 +209,6 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         {
             synchronized (partsList)
             {
-                if (this.callback != null) this.callback.run(this);
-                this.callback = null;
                 var parts = this.getParts();
                 this.partsList.addAll(parts.values());
                 synchronized (renderOrderMeshs)
@@ -265,9 +261,16 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     {
         if (root_part == null)
         {
-            root_part = new RootPart();
-            for (var part : this.parts.values()) if (part.getParent() == null) root_part.addChild(part);
-            this.parts.put(root_part.getName(), root_part);
+            if(this.parts.containsKey("__root__"))
+            {
+                this.root_part = this.parts.get("__root__");
+            }
+            else
+            {
+                root_part = new RootPart();
+                for (var part : this.parts.values()) if (part.getParent() == null) root_part.addChild(part);
+                this.parts.put(root_part.getName(), root_part);
+            }
         }
         return this.parts;
     }

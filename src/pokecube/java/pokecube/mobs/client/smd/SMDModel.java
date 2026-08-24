@@ -114,7 +114,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
         this.nullPartsMap.put(this.getName(), this);
     }
 
-    public SMDModel(final ResourceLocation model)
+    public SMDModel(final ResourceLocation model, IModelCallback callback)
     {
         this();
         try
@@ -125,6 +125,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
                 this.valid = false;
                 return;
             }
+            this.callback = callback;
             // If it did exist, then lets schedule load on another thread
             final Thread loader = new Thread(new Loader(this, model));
             loader.setName("ThutCore: SMD Load: " + model);

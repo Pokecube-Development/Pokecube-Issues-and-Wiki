@@ -18,9 +18,9 @@ import thut.lib.ResourceHelper;
 public class JsonModel extends BaseModel
 {
 
-    public JsonModel(final ResourceLocation l)
+    public JsonModel(final ResourceLocation l, IModelCallback callback)
     {
-        super(l);
+        super(l, callback);
     }
 
     @Override
