@@ -363,6 +363,10 @@ public class Config extends ConfigData
     public double pokemobToOtherMobDamageRatio = 1;
     @Configure(category = Config.moves, comment = "This is a scaling factor for damage dealt by pokemobs to NPCs. [Default: 1.0]")
     public double pokemobToNPCDamageRatio = 1;
+    @Configure(category = Config.moves, comment = "This is a scaling factor on evasion for when members of the same team hit each other accidentally. [Default: 2.0]")
+    public double IFFEvasionModifier = 2.0;
+    @Configure(category = Config.moves, comment = "This is a scaling factor on accuracy for when members of the same team hit each other accidentally. [Default: 0.5]")
+    public double IFFAccuracyModifier = 0.5;
     @Configure(category = Config.moves, comment = "This is the hunger cost per item smelted by fire type moves. [Default: 100]")
     public int baseSmeltingHunger = 100;
     @Configure(category = Config.moves, comment = "If true, only pokemobs can deal damage to pokemobs. [Default: false]")

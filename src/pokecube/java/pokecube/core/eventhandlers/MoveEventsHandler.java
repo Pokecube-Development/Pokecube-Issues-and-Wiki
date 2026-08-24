@@ -24,13 +24,17 @@ import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.abilities.Ability;
+import pokecube.api.data.moves.MoveApplicationRegistry;
 import pokecube.api.entity.IOngoingAffected;
+import pokecube.api.entity.TeamManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.events.pokemobs.combat.ComputeStatEvent;
 import pokecube.api.events.pokemobs.combat.MoveUse;
 import pokecube.api.events.pokemobs.combat.MoveUse.MoveWorldAction;
 import pokecube.api.events.pokemobs.combat.StatusEvent;
 import pokecube.api.items.IPokemobUseable;
+import pokecube.api.moves.Battle;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveNames;
 import pokecube.api.moves.utils.IMoveWorldEffect;
@@ -205,8 +209,45 @@ public class MoveEventsHandler
         PokecubeAPI.MOVE_BUS.addListener(EventPriority.LOWEST, false, MoveEventsHandler::onWorldAction);
         // This handles application of world actions for the moves.
         PokecubeAPI.MOVE_BUS.addListener(EventPriority.LOWEST, false, MoveEventsHandler::preStatusAdded);
+        // This handles application of world actions for the moves.
+        PokecubeAPI.MOVE_BUS.addListener(EventPriority.LOWEST, false, MoveEventsHandler::onComputeStats);
         // Setup recipes for moves that may have loaded in.
         ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, false, MoveEventsHandler::initServerMoveRecipes);
+    }
+
+    /**
+     * Here we apply a major accuracy hit for friendly fire moves. If an attack is not set as one which
+     * applies to your own side in battle, then this will decrease the user accuracy, and increase the
+     * target evasion for the attack's application on the target, if the target and user are on the same side.
+     */
+    private static void onComputeStats(ComputeStatEvent event)
+    {
+        var moveApplication = event.context;
+        var us = event.affected.getEntity();
+        var them = moveApplication.getTarget();
+        if (them == us || them == null) them = moveApplication.getUser().getEntity();
+        if (them == null) return; // No target...
+        var battleA = event.affected.getBattle();
+        var battleB = event.affected == moveApplication.getUser() ? battleA : Battle.getBattle(them);
+
+        if (battleA != null && battleB != null)
+        {
+            // Both are in battle, so we check based on the sides
+            if (battleB != battleA) return; // Different battle, we will ignore it.
+            if (!battleA.getAllies(them).contains(us)) return; // Are on different sides, so ignore.
+        }
+        else
+        {
+            // Otherwise we check based on team, this checks owner internally
+            if(!TeamManager.sameTeam(them, us)) return; // Different teams, so ignored.
+        }
+
+        var validator = MoveApplicationRegistry.getValidator(moveApplication.getMove());
+        if (validator.test(moveApplication)) return; // was a valid move application
+
+        // Halve accuracy, double evasion, this should result in a 1/4 chance to hit with default settings
+        if (event.stat == IPokemob.Stats.ACCURACY) event.newValue *= PokecubeCore.getConfig().IFFAccuracyModifier;
+        if (event.stat == IPokemob.Stats.EVASION) event.newValue *= PokecubeCore.getConfig().IFFEvasionModifier;
     }
 
     private static void initServerMoveRecipes(ServerAboutToStartEvent event)

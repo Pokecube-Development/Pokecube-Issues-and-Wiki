@@ -96,6 +96,7 @@ public class Battle
 
     public static Battle getBattle(final LivingEntity mob)
     {
+        if (mob == null) return null;
         if (!(mob.level() instanceof ServerLevel level)) return null;
         final BattleManager manager = BattleManager.managers.get(level.dimension());
         var b = manager.getFor(mob);

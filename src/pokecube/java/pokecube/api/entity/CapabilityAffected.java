@@ -3,6 +3,7 @@ package pokecube.api.entity;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import com.google.common.collect.Lists;
@@ -28,9 +29,6 @@ public class CapabilityAffected
         IOngoingEffect[] cachedArray;
         final Map<ResourceLocation, Set<IOngoingEffect>> map = Maps.newHashMap();
 
-        public DefaultAffected()
-        {}
-
         public DefaultAffected(final LivingEntity entity)
         {
             this.entity = entity;
@@ -47,13 +45,7 @@ public class CapabilityAffected
                 for (final IOngoingEffect old : set)
                 {
                     final AddType type = old.canAdd(this, effect);
-                    if (type != AddType.ACCEPT) switch (type)
-                    {
-                    case UPDATED:
-                        return true;
-                    default:
-                        return false;
-                    }
+                    if (type != AddType.ACCEPT) return Objects.requireNonNull(type) == AddType.UPDATED;
                 }
                 this.effects.add(effect);
                 this.getEffects(effect.getID()).add(effect);
@@ -136,7 +128,7 @@ public class CapabilityAffected
         @Override
         public void tick()
         {
-            this.cachedArray = this.effects.toArray(new IOngoingEffect[this.effects.size()]);
+            this.cachedArray = this.effects.toArray(new IOngoingEffect[0]);
             for (final IOngoingEffect effect : this.cachedArray)
             {
                 final OngoingTickEvent event = new OngoingTickEvent(this.getEntity(), effect, false);

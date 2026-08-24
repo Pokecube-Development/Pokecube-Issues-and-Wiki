@@ -88,7 +88,6 @@ public class DodgeTask extends CombatTask
         Vector3 perp = temp.normalize();
         if (perp.isNaN())
         {
-            new Exception().printStackTrace();
             perp.clear();
         }
 

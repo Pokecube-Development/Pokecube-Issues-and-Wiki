@@ -1,10 +1,13 @@
 package pokecube.api.entity.pokemob;
 
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob.HappinessType;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.moves.PokemobMoveStats;
+import pokecube.api.events.pokemobs.combat.ComputeStatEvent;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.utils.PokeType;
 import pokecube.api.utils.Tools;
 import pokecube.core.moves.damage.attributes.PokecubeAttributes;
@@ -124,6 +127,23 @@ public interface IHasStats extends IHasEntry
     default double getFloatStat(final Stats stat)
     {
         return PokecubeAttributes.getStatValue(this.getEntity(), stat);
+    }
+
+    /**
+     * Context sensitive variant of getFloatStat, context in combat is the other party, and can result in adjustments
+     * <p>
+     * An example being increased evasion to attacks by members on your same side in a battle.
+     */
+    default double getFloatStat(Stats stat, MoveApplication context)
+    {
+        double statAmt = getFloatStat(stat);
+        if (this instanceof IPokemob pokemob)
+        {
+            var event = new ComputeStatEvent(pokemob, context, stat, statAmt);
+            PokecubeAPI.MOVE_BUS.post(event);
+            if (!event.isCanceled()) statAmt = event.newValue;
+        }
+        return statAmt;
     }
 
     default float getHealth()

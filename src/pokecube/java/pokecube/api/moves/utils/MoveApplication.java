@@ -26,7 +26,6 @@ import pokecube.api.moves.utils.IMoveConstants.AttackCategory;
 import pokecube.api.utils.PokeType;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.tags.Tags;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.MovesUtils.StatDiff;
 import pokecube.core.moves.animations.AnimationMultiAnimations;
@@ -114,12 +113,6 @@ public class MoveApplication implements Comparable<MoveApplication>
     {
         public static StatApplier DEFAULT = new StatApplier()
         {};
-        public static StatApplier NOOP = new StatApplier()
-        {
-            @Override
-            public void applyStats(Damage t)
-            {}
-        };
 
         default void applyStats(Damage t)
         {
@@ -478,8 +471,8 @@ public class MoveApplication implements Comparable<MoveApplication>
                 var rand = t.move().getTarget().getRandom();
                 if (moveAcc > 0)
                 {
-                    final double accuracy = user.getFloatStat(Stats.ACCURACY );
-                    final double evasion = targetPokemob.getFloatStat(Stats.EVASION);
+                    final double accuracy = user.getFloatStat(Stats.ACCURACY, t.move());
+                    final double evasion = targetPokemob.getFloatStat(Stats.EVASION, t.move());
                     final double moveAccuracy = moveAcc / 100d;
                     final double hitModifier = moveAccuracy * accuracy / evasion;
                     if (hitModifier < rand.nextDouble()) efficiency = -1;
@@ -531,7 +524,7 @@ public class MoveApplication implements Comparable<MoveApplication>
         OnMoveFail DEFAULT = new OnMoveFail()
         {};
 
-        default void onMoveFail(MoveApplication t)
+        default void onMoveFail(MoveApplication ignored)
         {
             // NO-OP
         }

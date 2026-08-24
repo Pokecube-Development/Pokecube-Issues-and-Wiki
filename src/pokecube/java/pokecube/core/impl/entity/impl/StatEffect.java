@@ -61,8 +61,7 @@ public class StatEffect extends BaseEffect
         case ATTACK:
             final Holder<MobEffect> atkD = MobEffects.WEAKNESS;
             final Holder<MobEffect> atkU = MobEffects.DAMAGE_BOOST;
-            // TODO make this configurable, currently the weakness affect is a
-            // bit too much
+            // TODO make this configurable, currently the weakness affect is a bit too much
             if (up)
             {
                 if (entity.hasEffect(atkD)) entity.removeEffect(atkD);
