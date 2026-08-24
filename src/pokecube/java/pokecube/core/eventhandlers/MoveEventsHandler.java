@@ -450,8 +450,9 @@ public class MoveEventsHandler
                 return;
             }
         }
-        if (attacker.inCombat()) actions.stream().anyMatch(a -> a.applyInCombat(attacker, location));
-        else actions.stream().anyMatch(a -> a.applyOutOfCombat(attacker, location));
+        // Apply each action based on in combat status
+        if (attacker.inCombat()) actions.forEach(a -> a.applyInCombat(attacker, location));
+        else actions.forEach(a -> a.applyOutOfCombat(attacker, location));
 
         // Now apply defaults if they exist
         DefaultAction _action;
