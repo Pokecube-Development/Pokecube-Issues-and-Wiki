@@ -199,6 +199,9 @@
     "pokecube.configuration.moves": "Moves Options",
     "pokecube.configuration.permissions": "Permissions Options",
     "pokecube.configuration.section.pokecube.pokecube.common.toml": "Main Configuration Options",
+    "pokecube.configuration.section.pokecube.gimmicks.dynamax.common.toml": "Dynamax and Raids Options",
+    "pokecube.configuration.section.pokecube.gimmicks.item_taming.common.toml": "Item Taming Options",
+    "pokecube.configuration.section.pokecube.gimmicks.nests.common.toml": "Pokemob Nests Options",
     "pokecube.configuration.section.pokecube.pokecube.client.toml": "Client Only Options",
     "pokecube.configuration.section.pokecube.server.toml": "Server Synced Options"
 }

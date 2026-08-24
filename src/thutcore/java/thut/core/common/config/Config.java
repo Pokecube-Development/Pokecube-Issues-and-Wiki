@@ -125,7 +125,7 @@ public class Config
                 }
                 catch (final Exception e)
                 {
-                    ThutCore.LOGGER.error("Error updating config value for " + f);
+                    ThutCore.LOGGER.error("Error updating config value for {}", f);
                 }
             return changed;
         }
@@ -169,7 +169,7 @@ public class Config
                     final String[] vars = update instanceof String s
                             ? s.split("``")
                             : update instanceof String[] s ? s : null;
-                    int[] toSet = null;
+                    int[] toSet;
                     if (vars == null) toSet = (int[]) update;
                     else
                     {
@@ -269,9 +269,32 @@ public class Config
         Config.build(SERVER_BUILDER, serverList, holder, ModConfig.Type.SERVER);
         Config.build(CLIENT_BUILDER, clientList, holder, ModConfig.Type.CLIENT);
 
-        final ModConfigSpec COMMON_CONFIG_SPEC = commonList.isEmpty() ? null : COMMON_BUILDER.pop().build();
-        final ModConfigSpec CLIENT_CONFIG_SPEC = clientList.isEmpty() ? null : CLIENT_BUILDER.pop().build();
-        final ModConfigSpec SERVER_CONFIG_SPEC = serverList.isEmpty() ? null : SERVER_BUILDER.pop().build();
+        // Try to pop off the header value, not all will have this, if they don't use sub categories
+        try
+        {
+            COMMON_BUILDER.pop();
+        }
+        catch (Throwable ignored)
+        {
+        }
+        try
+        {
+            CLIENT_BUILDER.pop();
+        }
+        catch (Throwable ignored)
+        {
+        }
+        try
+        {
+            SERVER_BUILDER.pop();
+        }
+        catch (Throwable ignored)
+        {
+        }
+
+        final ModConfigSpec COMMON_CONFIG_SPEC = commonList.isEmpty() ? null : COMMON_BUILDER.build();
+        final ModConfigSpec CLIENT_CONFIG_SPEC = clientList.isEmpty() ? null : CLIENT_BUILDER.build();
+        final ModConfigSpec SERVER_CONFIG_SPEC = serverList.isEmpty() ? null : SERVER_BUILDER.build();
 
         return new ModConfigSpec[] { COMMON_CONFIG_SPEC, CLIENT_CONFIG_SPEC, SERVER_CONFIG_SPEC };
     }
@@ -312,7 +335,7 @@ public class Config
             }
             catch (final Exception e)
             {
-                ThutCore.LOGGER.error("Error getting field " + field, e);
+                ThutCore.LOGGER.error("Error getting field {}", field, e);
             }
         }
         String cat = "";
@@ -324,12 +347,25 @@ public class Config
                 if (!cat.equals(conf.category()))
                 {
                     // Empty the first time, otherwise we pop off
-                    if (!cat.isEmpty()) builder.pop();
+                    if (!cat.isEmpty())
+                    {
+                        try
+                        {
+                            builder.pop();
+                        }
+                        catch (Throwable ignored)
+                        {
+                            System.out.println("oops");
+                        }
+                    }
                     cat = conf.category();
                     // Push the category
-                    builder.push(cat);
-                    if (cat_comments.containsKey(cat)) Config.addComment(builder, cat_comments.get(cat));
-                    builder.translation(ModLoadingContext.get().getActiveNamespace() + ".config." + cat);
+                    if(!cat.isEmpty())
+                    {
+                        builder.push(cat);
+                        if (cat_comments.containsKey(cat)) Config.addComment(builder, cat_comments.get(cat));
+                        builder.translation(ModLoadingContext.get().getActiveNamespace() + ".config." + cat);
+                    }
                 }
                 if (!conf.comment().isEmpty()) Config.addComment(builder, conf.comment());
                 else Config.addComment(builder, "sets " + field.getName());
@@ -343,7 +379,7 @@ public class Config
             }
             catch (final Exception e)
             {
-                ThutCore.LOGGER.error("Error getting field " + field, e);
+                ThutCore.LOGGER.error("Error getting field {}", field, e);
             }
     }
 
@@ -432,7 +468,7 @@ public class Config
 
     private static ModConfigSpec.ConfigValue<?> makeValue(Field field, String cat, String modid, Builder builder, Object o)
     {
-        String key = modid+"."+cat+"."+field.getName();
+        String key = cat.isEmpty() ? modid + "." + field.getName() : modid + "." + cat + "." + field.getName();
         return switch (o)
         {
             case Boolean b -> builder.define(field.getName(), (boolean) b);

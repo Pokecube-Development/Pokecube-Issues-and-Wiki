@@ -21,7 +21,7 @@ public class DynamaxConfig extends Config.ConfigData
 
     public DynamaxConfig()
     {
-        super("dynamax");
+        super(dynamax);
     }
 
     @Override
