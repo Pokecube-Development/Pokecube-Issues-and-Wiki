@@ -106,7 +106,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     @Override
     public void tryCombineChildren()
     {
-        this.resetToInit();
         for(var _p: new ArrayList<>(this.parts.values()))
         {
             // Only our direct children.
@@ -129,8 +128,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
 
                 if(allMatch && mergeMeshes)
                 {
-                    p.resetToInit();
-                    p.transformForRender();
                     Vector4f dp = new Vector4f();
                     var norms = p.getRenderPose().normal();
                     var pos = p.getRenderPose().pose();

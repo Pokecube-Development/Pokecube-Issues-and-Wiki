@@ -20,6 +20,7 @@ import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
+import thut.api.entity.animation.CapabilityAnimation;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.api.maths.Vector4;
 import thut.core.client.render.animation.AnimationHelper;
@@ -29,6 +30,7 @@ import thut.core.client.render.model.parts.Part;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.common.ThutCore;
+import thut.lib.AxisAngles;
 import thut.lib.ResourceHelper;
 
 public abstract class BaseModel implements IModelCustom, IModel, IRetexturableModel
@@ -204,39 +206,52 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         return this.heads;
     }
 
+    private void collectAndSimplifyMeshs()
+    {
+        synchronized (renderOrderMeshs)
+        {
+            var parts = this.getParts();
+            this.partsList.addAll(parts.values());
+            this.renderOrderMeshs.clear();
+            int n = -1;
+            // Blank animation for setting to root locations
+            var holder = new CapabilityAnimation.DefaultImpl();
+            holder.overridePlaying("");
+            // Repeat part.preProcess and part.tryCombineChildren
+            // until we have a constant number of meshes
+            while (n != this.renderOrderMeshs.size())
+            {
+                n = this.renderOrderMeshs.size();
+                this.renderOrderMeshs.clear();
+
+                // this should result in all parts being translated to their root positions
+                this.updateAnimation(List.of(), holder);
+
+                for (var part : this.partsList)
+                {
+                    part.preProcess();
+                    part.tryCombineChildren();
+                    this.renderOrderMeshs.addAll(part.getRenderMeshes());
+                    if (part.getPartsList().isEmpty() && part.getRenderMeshes().isEmpty())
+                    {
+                        parts.remove(part.getName());
+                    }
+                }
+                partsList.clear();
+                this.partsList.addAll(parts.values());
+            }
+            IExtendedModelPart.sortMeshes(this.renderOrderMeshs);
+        }
+    }
+
     @Override
     public List<IExtendedModelPart> getPartsList()
     {
-        if ((this.partsList.isEmpty()) && this.isValid())
+        if (this.partsList.isEmpty() && this.isValid())
         {
             synchronized (partsList)
             {
-                var parts = this.getParts();
-                this.partsList.addAll(parts.values());
-                synchronized (renderOrderMeshs)
-                {
-                    this.renderOrderMeshs.clear();
-                    int n = -1;
-                    // Repeat part.preProcess until we
-                    // have a constant number of meshes
-                    while(n != this.renderOrderMeshs.size())
-                    {
-                        n = this.renderOrderMeshs.size();
-                        this.renderOrderMeshs.clear();
-                        for (var part : this.partsList)
-                        {
-                            part.preProcess();
-                            this.renderOrderMeshs.addAll(part.getRenderMeshes());
-                            if (part.getPartsList().isEmpty() && part.getRenderMeshes().isEmpty())
-                            {
-                                parts.remove(part.getName());
-                            }
-                        }
-                        partsList.clear();
-                        this.partsList.addAll(parts.values());
-                    }
-                    IExtendedModelPart.sortMeshes(this.renderOrderMeshs);
-                }
+                this.collectAndSimplifyMeshs();
             }
         }
         return this.partsList;
@@ -467,17 +482,6 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         Set<String> animatedParts = new HashSet<>();
         collection.forEach(a-> animatedParts.addAll(a.sets.keySet()));
         var parts = this.getParts();
-
         for(var s: animatedParts) if(parts.containsKey(s)) parts.get(s).markAsAnimated();
-
-        var copy = new Object2ObjectOpenHashMap<String, IExtendedModelPart>();
-        this.parts.values().forEach(part->{
-            part.tryCombineChildren();
-            if(!(part.getMaterials().isEmpty() && part.getSubParts().isEmpty() && !part.getName().startsWith("__"))) {
-                copy.put(part.getName(), part);
-            }
-        });
-        this.partsList.clear();
-        this.parts = copy;
     }
 }
