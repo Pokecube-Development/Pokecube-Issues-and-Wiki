@@ -1,14 +1,13 @@
 package thut.core.client.render.animation;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 import net.minecraft.world.entity.Entity;
 import thut.api.entity.IAnimated.IAnimationHolder;
@@ -18,15 +17,8 @@ import thut.core.client.render.animation.AnimationXML.SubAnim;
 
 public class AnimationRandomizer implements IAnimationChanger
 {
-    private static class AnimationSet
+    private record AnimationSet(RandomAnimation anim)
     {
-        final RandomAnimation anim;
-
-        public AnimationSet(final RandomAnimation anim)
-        {
-            this.anim = anim;
-        }
-
     }
 
     private static class LoadedAnimSet
@@ -45,11 +37,11 @@ public class AnimationRandomizer implements IAnimationChanger
         }
     }
 
-    Map<String, List<RandomAnimation>> sets       = Maps.newHashMap();
-    Map<String, Set<LoadedAnimSet>>    loadedSets = Maps.newHashMap();
+    Map<String, List<RandomAnimation>> sets       = new HashMap<>();
+    Map<String, Set<LoadedAnimSet>>    loadedSets = new HashMap<>();
 
-    Set<String>              allAnims = Sets.newHashSet();
-    Map<String, Set<String>> reversed = Maps.newHashMap();
+    Set<String>              allAnims = new HashSet<>();
+    Map<String, Set<String>> reversed = new HashMap<>();
 
     IAnimationHolder currentHolder = null;
 
@@ -59,12 +51,11 @@ public class AnimationRandomizer implements IAnimationChanger
         {
             this.allAnims.add(a.base);
             this.allAnims.add(a.name);
-            Set<LoadedAnimSet> sets = this.loadedSets.get(a.base);
-            if (sets == null) this.loadedSets.put(a.base, sets = Sets.newHashSet());
+            Set<LoadedAnimSet> sets = this.loadedSets.computeIfAbsent(a.base, k -> new HashSet<>());
             final LoadedAnimSet set = new LoadedAnimSet();
             set.name = a.name;
             set.weight = a.weight;
-            final Set<String> parents = this.reversed.getOrDefault(a.name, Sets.newHashSet());
+            final Set<String> parents = this.reversed.getOrDefault(a.name, new HashSet<>());
             parents.add(a.base);
             this.reversed.put(a.name, parents);
             sets.add(set);
@@ -82,8 +73,7 @@ public class AnimationRandomizer implements IAnimationChanger
 
     private void addAnimationSet(final Animation animation, final String parent)
     {
-        List<RandomAnimation> anims = this.sets.get(parent);
-        if (anims == null) this.sets.put(parent, anims = Lists.newArrayList());
+        List<RandomAnimation> anims = this.sets.computeIfAbsent(parent, k -> new ArrayList<>());
         anims.add(new RandomAnimation(animation));
     }
 
@@ -91,12 +81,6 @@ public class AnimationRandomizer implements IAnimationChanger
     public void addChild(final IAnimationChanger randomizer)
     {
         // Nope
-    }
-
-    @Override
-    public WornOffsets getOffsets(final String part)
-    {
-        return null;
     }
 
     @Override
@@ -108,7 +92,7 @@ public class AnimationRandomizer implements IAnimationChanger
     @Override
     public void init(final Collection<Animation> existingAnimations)
     {
-        final Set<String> animations = Sets.newHashSet(this.loadedSets.keySet());
+        final Set<String> animations = new HashSet<>(this.loadedSets.keySet());
         for (final Animation existing : existingAnimations)
             if (this.loadedSets.containsKey(existing.name)) animations.add(existing.name);
         for (final String s : animations)

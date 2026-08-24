@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Maps;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
@@ -19,6 +18,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import org.joml.Vector3f;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
@@ -29,7 +29,6 @@ import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.CapabilityAnimation;
 import thut.api.entity.animation.IAnimationChanger;
-import thut.api.maths.Vector3;
 import thut.core.client.render.animation.AnimationLoader;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
@@ -70,12 +69,6 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
         }
 
         @Override
-        public WornOffsets getOffsets(final String part)
-        {
-            return null;
-        }
-
-        @Override
         public void init(final Collection<Animation> anims)
         {}
 
@@ -107,7 +100,7 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
 
     private final HashMap<String, List<Animation>> anims = Maps.newHashMap();
 
-    private final Vector3 scale = new Vector3();
+    private final Vector3f scale = new Vector3f(1);
 
     public RenderEgg(final EntityRendererProvider.Context manager)
     {
@@ -138,13 +131,8 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
         }
         final RenderType.CompositeState rendertype$state = RenderType.CompositeState.builder()
                 .setTextureState(new RenderStateShard.TextureStateShard(this.getTextureLocation(entity), false, false))
-                .setTransparencyState(new RenderStateShard.TransparencyStateShard("translucent_transparency", () ->
-                {
-                    RenderSystem.enableBlend();
-                    RenderSystem.defaultBlendFunc();
-                }, () -> {
-                    RenderSystem.disableBlend();
-                })).setShaderState(RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER)
+                .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                .setShaderState(RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER)
                 .setCullState(new RenderStateShard.CullStateShard(false))
                 .setLightmapState(new RenderStateShard.LightmapStateShard(true))
                 .setOverlayState(new RenderStateShard.OverlayStateShard(true)).createCompositeState(false);
@@ -153,7 +141,7 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     }
 
     @Override
-    public Vector3 getScale()
+    public Vector3f getScale()
     {
         return this.scale;
     }
@@ -186,22 +174,21 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     public void scaleEntity(final PoseStack mat, final Entity entity, final IModel model, final float partialTick)
     {
         final float s = 1f;
-        float sx = (float) this.getScale().x;
-        float sy = (float) this.getScale().y;
-        float sz = (float) this.getScale().z;
+        float sx = this.getScale().x;
+        float sy = this.getScale().y;
+        float sz = this.getScale().z;
         sx *= s;
         sy *= s;
         sz *= s;
-        if (!this.getScale().isEmpty()) mat.scale(sx, sy, sz);
-        else mat.scale(s, s, s);
+        mat.scale(sx, sy, sz);
     }
 
     @Override
-    public void setRotationOffset(final Vector3 offset)
+    public void setRotationOffset(final Vector3f offset)
     {}
 
     @Override
-    public void setScale(final Vector3 scale)
+    public void setScale(final Vector3f scale)
     {
         this.scale.set(scale);
     }

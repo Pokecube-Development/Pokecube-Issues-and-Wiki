@@ -47,9 +47,6 @@ public class AnimationXML
         @XmlAttribute(name = "offset")
         public String offset = "0,0,0";
 
-        public Set<String> _requiredStates = new HashSet<>();
-        public Set<String> _bannedStates = new HashSet<>();
-
         private final Set<String> _parts = new HashSet<>();
 
         private final Vector3f _particlePosition = new Vector3f();
@@ -71,7 +68,7 @@ public class AnimationXML
             var v3 = AnimationLoader.getVector3(offset, null);
             if (v3 != null)
             {
-                _particlePosition.set((float) v3.x, (float) v3.y, (float) v3.z);
+                _particlePosition.set(v3.x, v3.y, v3.z);
             }
         }
 

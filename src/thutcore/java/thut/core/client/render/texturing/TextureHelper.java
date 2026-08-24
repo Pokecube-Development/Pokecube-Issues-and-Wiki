@@ -13,6 +13,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
+import pokecube.api.PokecubeAPI;
 import thut.api.ThutCaps;
 import thut.api.entity.IMobTexturable;
 import thut.core.client.render.animation.AnimationXML.ColourTex;
@@ -56,14 +57,9 @@ public class TextureHelper implements IPartTexturer
         {
             final double[] arr = new double[diffs.length];
             for (int i = 0; i < arr.length; i++) arr[i] = Double.parseDouble(diffs[i].trim());
-
             if (trigger.contains("random")) this.randomStates.add(new RandomState(trigger, arr));
             else if (trigger.equals("sequence") || trigger.equals("time")) this.sequence = new Sequence(arr);
-            else if (this.parseState(trigger, arr))
-            {
-
-            }
-            else new NullPointerException("No Template found for " + trigger).printStackTrace();
+            else if (!this.parseState(trigger, arr)) PokecubeAPI.LOGGER.error(new NullPointerException("No Template found for " + trigger));
         }
 
         boolean applyState(final double[] toFill, final IMobTexturable mob)
@@ -239,8 +235,7 @@ public class TextureHelper implements IPartTexturer
         {
             final RandomFixed s = new RandomFixed();
             s.seedModifier = state.seed;
-            Set<RandomFixed> set = this.fixedOffsets.get(state.material);
-            if (set == null) this.fixedOffsets.put(state.material, set = Sets.newHashSet());
+            Set<RandomFixed> set = this.fixedOffsets.computeIfAbsent(state.material, k -> Sets.newHashSet());
             set.add(s);
         }
         for (final ColourTex state : customTex.colours)
@@ -251,8 +246,7 @@ public class TextureHelper implements IPartTexturer
             s.green = state.green;
             s.blue = state.blue;
             s.forme = state.forme;
-            Set<Colour> set = this.colours.get(state.material);
-            if (set == null) this.colours.put(state.material, set = Sets.newHashSet());
+            Set<Colour> set = this.colours.computeIfAbsent(state.material, k -> Sets.newHashSet());
             set.add(s);
         }
     }
@@ -276,12 +270,7 @@ public class TextureHelper implements IPartTexturer
     @Override
     public void addCustomMapping(final String part, final String state, final String tex)
     {
-        Map<String, String> partMap = this.texNames2.get(part);
-        if (partMap == null)
-        {
-            partMap = new Object2ObjectOpenHashMap<>();
-            this.texNames2.put(part, partMap);
-        }
+        Map<String, String> partMap = this.texNames2.computeIfAbsent(part, k -> new Object2ObjectOpenHashMap<>());
         partMap.put(state, tex);
     }
 
@@ -370,9 +359,7 @@ public class TextureHelper implements IPartTexturer
         {
             final String texKey = part + key;
             String tex;
-            if ((tex = this.texNames.get(texKey)) != null)
-            {}
-            else
+            if ((tex = this.texNames.get(texKey)) == null)
             {
                 tex = partNames.get(key);
                 this.texNames.put(texKey, tex);

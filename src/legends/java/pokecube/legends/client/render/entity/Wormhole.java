@@ -1,7 +1,6 @@
 package pokecube.legends.client.render.entity;
 
 import com.google.common.collect.Maps;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
@@ -11,6 +10,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import org.joml.Vector3f;
 import pokecube.legends.Reference;
 import pokecube.legends.entity.WormholeEntity;
 import thut.api.ModelHolder;
@@ -18,7 +18,6 @@ import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.IAnimationChanger;
-import thut.api.maths.Vector3;
 import thut.core.client.render.animation.AnimationLoader;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
@@ -38,9 +37,9 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
 
     private final HashMap<String, List<Animation>> anims = Maps.newHashMap();
 
-    final Vector3 rotPoint = new Vector3();
-    private Vector3 offset = new Vector3();
-    private Vector3 scale = new Vector3();
+    final Vector3f rotPoint = new Vector3f();
+    private Vector3f offset = new Vector3f();
+    private Vector3f scale = new Vector3f(1);
 
     public Wormhole(final EntityRendererProvider.Context renderManager)
     {
@@ -71,13 +70,8 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
         }
         final RenderType.CompositeState rendertype$state = RenderType.CompositeState.builder()
                 .setTextureState(new RenderStateShard.TextureStateShard(this.getTextureLocation(entity), false, false))
-                .setTransparencyState(new RenderStateShard.TransparencyStateShard("translucent_transparency", () ->
-                {
-                    RenderSystem.enableBlend();
-                    RenderSystem.defaultBlendFunc();
-                }, () -> {
-                    RenderSystem.disableBlend();
-                })).setShaderState(RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER)
+                .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                .setShaderState(RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER)
                 .setCullState(new RenderStateShard.CullStateShard(false))
                 .setLightmapState(new RenderStateShard.LightmapStateShard(true))
                 .setOverlayState(new RenderStateShard.OverlayStateShard(true)).createCompositeState(false);
@@ -129,13 +123,13 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
     }
 
     @Override
-    public Vector3 getRotationOffset()
+    public Vector3f getRotationOffset()
     {
         return this.offset;
     }
 
     @Override
-    public Vector3 getScale()
+    public Vector3f getScale()
     {
         return this.scale;
     }
@@ -144,26 +138,25 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
     public void scaleEntity(final PoseStack mat, final Entity entity, final IModel model, final float partialTick)
     {
         final float s = 1;
-        float sx = (float) this.getScale().x;
-        float sy = (float) this.getScale().y;
-        float sz = (float) this.getScale().z;
+        float sx = this.getScale().x;
+        float sy = this.getScale().y;
+        float sz = this.getScale().z;
         sx *= s;
         sy *= s;
         sz *= s;
-        this.rotPoint.set(this.getRotationOffset()).scalarMultBy(s);
+        this.rotPoint.set(this.getRotationOffset()).mul(s);
         model.setOffset(this.rotPoint);
-        if (!this.getScale().isEmpty()) mat.scale(sx, sy, sz);
-        else mat.scale(s, s, s);
+        mat.scale(sx, sy, sz);
     }
 
     @Override
-    public void setRotationOffset(final Vector3 offset)
+    public void setRotationOffset(final Vector3f offset)
     {
         this.offset = offset;
     }
 
     @Override
-    public void setScale(final Vector3 scale)
+    public void setScale(final Vector3f scale)
     {
         this.scale = scale;
     }

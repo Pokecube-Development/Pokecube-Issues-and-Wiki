@@ -6,7 +6,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
@@ -17,6 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import org.joml.Vector3f;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.SharedAttributes;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -35,7 +35,6 @@ import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.IAnimationChanger;
-import thut.api.maths.Vector3;
 import thut.bling.client.render.Util;
 import thut.core.client.render.animation.AnimationLoader;
 import thut.core.client.render.model.IModel;
@@ -61,7 +60,7 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
             "textures/item/pokecubefront.png");
 
     public static record ModelSet(IAnimationChanger changer, IPartTexturer texer, ModelWrapper<EntityPokecube> model,
-            Vector3 offset, Vector3 scale, HashMap<String, List<Animation>> anims)
+            Vector3f offset, Vector3f scale, HashMap<String, List<Animation>> anims)
     {}
 
     private final Set<ResourceLocation> noModel = new HashSet<>();
@@ -70,7 +69,7 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     // holder is set per entity, so doesn't need to be in the ModelSet
     private IAnimationHolder holder = null;
     // This one is used as a temporary holder
-    private final Vector3 rotPoint = new Vector3();
+    private final Vector3f rotPoint = new Vector3f();
 
     // Temp listes for presently running animations
     private final List<String> toRunNames = Lists.newArrayList();
@@ -82,8 +81,8 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     private IAnimationChanger changer = null;
     private IPartTexturer texer = null;
 
-    private Vector3 offset = new Vector3();
-    private Vector3 scale = new Vector3();
+    private Vector3f offset = new Vector3f();
+    private Vector3f scale = new Vector3f(1);
 
     EntityModel<EntityPokecube> baseModel;
 
@@ -211,7 +210,7 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
                 SharedAttributes.adjustScale(entity, scale, RenderPokecube.EXITCUBE, false);
                 IPokemob pokemob = PokemobCaps.getPokemobFor(capturing);
                 stack.pushPose();
-                Vector3 capt = entity.capturePos;
+                Vector3f capt = entity.capturePos.toJOML();
                 stack.translate(capt.x - entity.getX(), capt.y - entity.getY(), capt.z - entity.getZ());
                 if (pokemob != null)
                 {
@@ -345,13 +344,13 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     }
 
     @Override
-    public Vector3 getRotationOffset()
+    public Vector3f getRotationOffset()
     {
         return this.offset;
     }
 
     @Override
-    public Vector3 getScale()
+    public Vector3f getScale()
     {
         return this.scale;
     }
@@ -360,17 +359,16 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     public void scaleEntity(final PoseStack mat, final Entity entity, final IModel model, final float partialTick)
     {
         final float s = 16;
-        float sx = (float) this.getScale().x;
-        float sy = (float) this.getScale().y;
-        float sz = (float) this.getScale().z;
+        float sx = this.getScale().x;
+        float sy = this.getScale().y;
+        float sz = this.getScale().z;
         sx *= s;
         sy *= s;
         sz *= s;
-        this.rotPoint.set(this.getRotationOffset()).scalarMultBy(s);
+        this.rotPoint.set(this.getRotationOffset()).mul(s);
         model.setOffset(this.rotPoint);
         mat.mulPose(AxisAngles.ZP.rotationDegrees(90));
-        if (!this.getScale().isEmpty()) mat.scale(sx, sy, sz);
-        else mat.scale(s, s, s);
+        mat.scale(sx, sy, sz);
     }
 
     @Override
@@ -395,13 +393,13 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     }
 
     @Override
-    public void setRotationOffset(final Vector3 offset)
+    public void setRotationOffset(final Vector3f offset)
     {
         this.offset = offset;
     }
 
     @Override
-    public void setScale(final Vector3 scale)
+    public void setScale(final Vector3f scale)
     {
         this.scale = scale;
     }

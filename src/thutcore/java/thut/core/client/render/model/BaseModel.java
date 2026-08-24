@@ -175,7 +175,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
                 }
             });
             // Finally set the parts materials
-            parts.forEach(p -> p.updateMaterials(materials));
+            this.updateMaterials(this.materials);
         }
         this.loaded = true;
         this.loading = false;
@@ -184,10 +184,12 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     @Override
     public void updateMaterials(List<Material> materials)
     {
-        this.materials.clear();
-        this.materials.addAll(materials);
-        var parts = new ArrayList<>(this.parts.values());
-        parts.forEach(p -> p.updateMaterials(materials));
+        if (materials != this.materials)
+        {
+            this.materials.clear();
+            this.materials.addAll(materials);
+        }
+        this.parts.values().forEach(p -> p.updateMaterials(materials));
     }
 
     @Override

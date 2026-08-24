@@ -12,7 +12,6 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.IAnimationChanger;
-import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.animation.AnimationXML.Mat;
@@ -517,18 +516,18 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public void setPreScale(final Vector3 scale)
+    public void setPreScale(final Vector3f scale)
     {
-        this.preScale.x = (float) scale.x;
-        this.preScale.y = (float) scale.y;
-        this.preScale.z = (float) scale.z;
-        ds = (float) scale.mag();
+        this.preScale.x = scale.x;
+        this.preScale.y = scale.y;
+        this.preScale.z = scale.z;
+        ds = scale.length();
     }
 
     @Override
-    public void setPreTranslations(final Vector3 point)
+    public void setPreTranslations(final Vector3f point)
     {
-        this.preTrans.set(offset).add((float)point.x, (float)point.y, (float)point.z);
+        this.preTrans.set(offset).add(point.x, point.y, point.z);
     }
 
     @Override

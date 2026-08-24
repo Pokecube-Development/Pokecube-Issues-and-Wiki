@@ -11,7 +11,6 @@ import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.AnimationLoadEvent;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.api.entity.animation.IAnimationChanger.WornOffsets;
-import thut.api.maths.Vector3;
 import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.animation.AnimationXML.Merge;
@@ -52,10 +51,10 @@ public class AnimationLoader
         for (final String s : names) toAddTo.add(ThutCore.trim(s));
     }
 
-    public static Vector3 getVector3(final String shift, final Vector3 default_)
+    public static Vector3f getVector3(final String shift, final Vector3f default_)
     {
         if (shift == null || shift.isEmpty()) return default_;
-        final Vector3 vect = new Vector3().set(default_);
+        final Vector3f vect = default_ == null ? new Vector3f() : new Vector3f(default_);
         String[] r;
         r = shift.split(",");
         if (r.length == 1)
@@ -127,9 +126,9 @@ public class AnimationLoader
             Vector3f noRotation = new Vector3f();
 
             // Global model transforms
-            Vector3 offset = new Vector3();
+            Vector3f offset = new Vector3f();
             Vector3f rotation = noRotation;
-            Vector3 scale = new Vector3(1, 1, 1);
+            Vector3f scale = new Vector3f(1);
 
             // Custom tagged parts.
             final Set<String> headNames = Sets.newHashSet();
@@ -226,9 +225,9 @@ public class AnimationLoader
             // Handle worn offsets.
             for (final Worn worn : file.model.worn)
             {
-                final Vector3 w_offset = AnimationLoader.getVector3(worn.offset, null);
-                final Vector3 w_angles = AnimationLoader.getVector3(worn.angles, null);
-                final Vector3 w_scale = AnimationLoader.getVector3(worn.scale, null);
+                var w_offset = AnimationLoader.getVector3(worn.offset, null);
+                var w_angles = AnimationLoader.getVector3(worn.angles, null);
+                var w_scale = AnimationLoader.getVector3(worn.scale, null);
                 final String w_parent = worn.parent;
                 final String w_ident = worn.id;
                 wornOffsets.put(w_ident, new WornOffsets(w_parent, w_offset, w_scale, w_angles));

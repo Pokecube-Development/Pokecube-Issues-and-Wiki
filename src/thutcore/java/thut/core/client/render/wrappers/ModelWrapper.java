@@ -18,13 +18,13 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import org.joml.Vector3f;
 import thut.api.ModelHolder;
 import thut.api.ThutCaps;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.IMobColourable;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.IAnimationChanger;
-import thut.api.maths.Vector3;
 import thut.core.client.render.animation.AnimationHelper;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.model.IExtendedModelPart;
@@ -215,9 +215,9 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     }
 
     @Override
-    public void setOffset(final Vector3 point)
+    public void setOffset(final Vector3f point)
     {
-        this.setRotationPoint((float) point.x, (float) point.y, (float) point.z);
+        this.setRotationPoint(point.x, point.y, point.z);
     }
 
     public void setRotationPoint(final float par1, final float par2, final float par3)

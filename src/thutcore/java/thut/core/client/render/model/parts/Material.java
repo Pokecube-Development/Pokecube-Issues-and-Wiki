@@ -146,11 +146,12 @@ public class Material implements Comparable<Material>
 
     public void makeVertexBuilder(final ResourceLocation texture, final MultiBufferSource buffer, Mode mode)
     {
-        this.makeRenderType(texture, mode);
+        this.tex = texture;
+        this.renderMode = mode;
         bufferSource = buffer;
     }
 
-    private RenderType makeRenderType(final ResourceLocation tex, Mode mode)
+    public RenderType makeRenderType(final ResourceLocation tex, Mode mode)
     {
         return renderType.makeRenderType(this, tex, mode);
     }

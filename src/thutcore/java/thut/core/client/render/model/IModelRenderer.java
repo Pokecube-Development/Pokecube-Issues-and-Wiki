@@ -8,19 +8,19 @@ import javax.annotation.Nonnull;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.world.entity.Entity;
+import org.joml.Vector3f;
 import thut.api.ModelHolder;
 import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.IAnimationChanger;
-import thut.api.maths.Vector3;
 import thut.core.client.render.texturing.IPartTexturer;
 
 public interface IModelRenderer<T extends Entity>
 {
     public static final String DEFAULTPHASE = "idle";
 
-    static final Vector3 DEFAULTSCALE = new Vector3().set(1);
+    static final Vector3f DEFAULTSCALE = new Vector3f(1), ORIGIN = new Vector3f();
 
     default String getAnimation(final Entity entityIn)
     {
@@ -31,12 +31,12 @@ public interface IModelRenderer<T extends Entity>
 
     Map<String, List<Animation>> getAnimations();
 
-    default Vector3 getRotationOffset()
+    default Vector3f getRotationOffset()
     {
-        return Vector3.empty;
+        return IModelRenderer.ORIGIN;
     }
 
-    default Vector3 getScale()
+    default Vector3f getScale()
     {
         return IModelRenderer.DEFAULTSCALE;
     }
@@ -86,9 +86,9 @@ public interface IModelRenderer<T extends Entity>
 
     void setTexturer(IPartTexturer texturer);
 
-    void setRotationOffset(Vector3 offset);
+    void setRotationOffset(Vector3f offset);
 
-    void setScale(Vector3 scale);
+    void setScale(Vector3f scale);
 
     default void updateModel(ModelHolder model){}
 }

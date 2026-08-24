@@ -115,18 +115,18 @@ public class WearableWrapper
             if (stack.isEmpty() || mob == null) return;
             mat.pushPose();
             this.preRender(mat);
-            mat.translate(this.offsets.offset.x, this.offsets.offset.y, this.offsets.offset.z);
+            mat.translate(this.offsets.offset().x, this.offsets.offset().y, this.offsets.offset().z);
 
             mat.scale(1, -1, -1);
             mat.mulPose(Axis.YP.rotationDegrees(180));
 
-            mat.mulPose(Axis.ZP.rotationDegrees((float) offsets.angles.z));
-            mat.mulPose(Axis.YP.rotationDegrees((float) offsets.angles.y));
-            mat.mulPose(Axis.XP.rotationDegrees((float) offsets.angles.x));
+            mat.mulPose(Axis.ZP.rotationDegrees((float) offsets.angles().z));
+            mat.mulPose(Axis.YP.rotationDegrees((float) offsets.angles().y));
+            mat.mulPose(Axis.XP.rotationDegrees((float) offsets.angles().x));
 
-            float sx = (float) this.offsets.scale.x;
-            float sy = (float) this.offsets.scale.y;
-            float sz = (float) this.offsets.scale.z;
+            float sx = (float) this.offsets.scale().x;
+            float sy = (float) this.offsets.scale().y;
+            float sz = (float) this.offsets.scale().z;
             mat.scale(sx, -sy, -sz);
 
             final MultiBufferSource buff = Minecraft.getInstance().renderBuffers().bufferSource();
@@ -172,18 +172,18 @@ public class WearableWrapper
             final int ol = this.overlay;
             mat.pushPose();
             this.preRender(mat);
-            mat.translate(this.offsets.offset.x, this.offsets.offset.y, this.offsets.offset.z);
+            mat.translate(this.offsets.offset().x, this.offsets.offset().y, this.offsets.offset().z);
 
             mat.scale(1, -1, -1);
             mat.mulPose(Axis.YP.rotationDegrees(180));
 
-            mat.mulPose(Axis.ZP.rotationDegrees((float) offsets.angles.z));
-            mat.mulPose(Axis.YP.rotationDegrees((float) offsets.angles.y));
-            mat.mulPose(Axis.XP.rotationDegrees((float) offsets.angles.x));
+            mat.mulPose(Axis.ZP.rotationDegrees((float) offsets.angles().z));
+            mat.mulPose(Axis.YP.rotationDegrees((float) offsets.angles().y));
+            mat.mulPose(Axis.XP.rotationDegrees((float) offsets.angles().x));
 
-            float sx = (float) this.offsets.scale.x;
-            float sy = (float) this.offsets.scale.y;
-            float sz = (float) this.offsets.scale.z;
+            float sx = (float) this.offsets.scale().x;
+            float sy = (float) this.offsets.scale().y;
+            float sz = (float) this.offsets.scale().z;
             mat.scale(sx, -sy, -sz);
 
             this.wrapped.renderWearable(mat, buff, this.slot, this.subIndex, this.wearer, this.stack, pt, br, ol);
@@ -293,11 +293,11 @@ public class WearableWrapper
         {
             String ident = EQUIP_SLOTS.get(slot);
             offsets = WearableWrapper.getPartParent(renderer, ident);
-            if (offsets != null && imodel.getParts().containsKey(offsets.parent))
+            if (offsets != null && imodel.getParts().containsKey(offsets.parent()))
             {
                 ItemStack stack = wearer.getItemBySlot(slot);
                 HeldItemWrapper wrapper;
-                final IExtendedModelPart part = imodel.getParts().get(offsets.parent);
+                final IExtendedModelPart part = imodel.getParts().get(offsets.parent());
                 if (imodel.getParts().get(ident) instanceof HeldItemWrapper wrap)
                 {
                     wrapper = wrap;
@@ -340,10 +340,10 @@ public class WearableWrapper
                 final IWearable w = WearableWrapper.getWearable(worn.getWearable(wearable, i));
                 ItemStack stack = worn.getWearable(wearable);
                 offsets = WearableWrapper.getPartParent(renderer, ident);
-                if (offsets != null && imodel.getParts().containsKey(offsets.parent))
+                if (offsets != null && imodel.getParts().containsKey(offsets.parent()))
                 {
                     WearableRenderWrapper wrapper;
-                    final IExtendedModelPart part = imodel.getParts().get(offsets.parent);
+                    final IExtendedModelPart part = imodel.getParts().get(offsets.parent());
                     if (imodel.getParts().get(ident) instanceof WearableRenderWrapper wrap)
                     {
                         wrapper = wrap;

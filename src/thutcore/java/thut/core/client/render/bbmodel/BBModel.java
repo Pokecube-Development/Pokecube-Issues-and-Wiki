@@ -104,7 +104,7 @@ public class BBModel extends BaseModel
         {
             // We will make a single group, and just add everything to that.
             JsonGroup main = new JsonGroup();
-            main.name = "root";
+            main.name = "__root__";
             main.origin = new float[] { 0, 0, 0 };
             main.children.addAll(t.elements);
         }

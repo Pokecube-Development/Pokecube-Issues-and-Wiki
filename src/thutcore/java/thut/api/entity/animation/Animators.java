@@ -11,6 +11,7 @@ import java.util.function.Function;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
+import org.joml.Vector3f;
 import org.nfunk.jep.JEP;
 
 import com.google.common.collect.Lists;
@@ -410,7 +411,7 @@ public class Animators
             if (this.hidden) return false;
 
             boolean animated = false;
-            final Vector3 temp = animation._shift.clear();
+            final Vector3f temp = animation._shift.set(0);
 
             float px = 0, py = 0, pz = 0;
             float rx = 0, ry = 0, rz = 0;
@@ -607,7 +608,6 @@ public class Animators
                 if (component == null) break opacity;
                 animated = true;
                 float time = component.limbBased || limb ? t2 : t1;
-                aniTick = Math.max(aniTick, (int) Math.ceil(time));
 
                 any_hidden |= component.hidden;
 
@@ -712,7 +712,7 @@ public class Animators
                 ry += dr[1];
                 rz += dr[2];
 
-                temp.addTo(dx[0], dx[1], dx[2]);
+                temp.add(dx[0], dx[1], dx[2]);
 
                 sx *= ds[0];
                 sy *= ds[1];

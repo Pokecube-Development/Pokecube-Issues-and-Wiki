@@ -15,7 +15,6 @@ import net.minecraft.world.entity.Entity;
 import org.joml.Vector3f;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
-import thut.api.maths.Vector3;
 import thut.core.client.render.animation.AnimationXML;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.model.parts.Material;
@@ -109,7 +108,7 @@ public interface IModel
      */
     void processAnimations(Collection<Animation> collection);
 
-    default void setOffset(final Vector3 offset)
+    default void setOffset(final Vector3f offset)
     {
 
     }

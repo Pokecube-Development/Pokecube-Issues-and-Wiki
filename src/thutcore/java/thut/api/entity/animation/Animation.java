@@ -7,8 +7,8 @@ import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import org.joml.Vector3f;
 import thut.api.entity.animation.Animators.IAnimator;
-import thut.api.maths.Vector3;
 import thut.core.client.render.animation.AnimationXML.Phase;
 
 public class Animation
@@ -42,7 +42,7 @@ public class Animation
 
     public boolean hasLimbBased = false;
 
-    public Vector3 _shift = new Vector3();
+    public Vector3f _shift = new Vector3f();
 
     public Map<String, IAnimator> sets = new Object2ObjectOpenHashMap<>();
 

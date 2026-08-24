@@ -8,20 +8,15 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import net.minecraft.world.entity.Entity;
+import org.joml.Vector3f;
 import thut.api.entity.IAnimated.IAnimationHolder;
-import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
 public interface IAnimationChanger
 {
-    public static class WornOffsets
+    public record WornOffsets(String parent, Vector3f offset, Vector3f scale, Vector3f angles)
     {
-        public final String  parent;
-        public final Vector3 offset;
-        public final Vector3 scale;
-        public final Vector3 angles;
-
-        public WornOffsets(final String parent, final Vector3 offset, final Vector3 scale, final Vector3 angles)
+        public WornOffsets(final String parent, final Vector3f offset, final Vector3f scale, final Vector3f angles)
         {
             this.scale = scale;
             this.angles = angles;
@@ -47,7 +42,7 @@ public interface IAnimationChanger
     }
 
     @Nullable
-    WornOffsets getOffsets(String part);
+    default WornOffsets getOffsets(String part){return null;}
 
     void init(Collection<Animation> anims);
 

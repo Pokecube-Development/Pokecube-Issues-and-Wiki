@@ -5,7 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import net.minecraft.resources.ResourceLocation;
-import thut.api.maths.Vector3;
+import org.joml.Vector3f;
 
 public class ModelHolder
 {
@@ -21,9 +21,9 @@ public class ModelHolder
 
     // These are set by the AnimationLoader for if the model is loaded without a
     // renderer
-    private Vector3 loadedOffset = new Vector3(0);
+    private Vector3f loadedOffset = new Vector3f(0);
 
-    private Vector3 loadedScale = new Vector3(1);
+    private Vector3f loadedScale = new Vector3f(1);
 
     public ModelHolder(final ResourceLocation model, final ResourceLocation texture, final ResourceLocation animation,
             final String name)
@@ -39,22 +39,22 @@ public class ModelHolder
         this(model, null, ResourceLocation.fromNamespaceAndPath(model.getNamespace(), model.getPath() + ".xml"), model.getPath());
     }
 
-    public Vector3 getLoadedOffset()
+    public Vector3f getLoadedOffset()
     {
         return loadedOffset;
     }
 
-    public void setLoadedOffset(Vector3 loadedOffset)
+    public void setLoadedOffset(Vector3f loadedOffset)
     {
         this.loadedOffset = loadedOffset;
     }
 
-    public Vector3 getLoadedScale()
+    public Vector3f getLoadedScale()
     {
         return loadedScale;
     }
 
-    public void setLoadedScale(Vector3 loadedScale)
+    public void setLoadedScale(Vector3f loadedScale)
     {
         this.loadedScale = loadedScale;
     }

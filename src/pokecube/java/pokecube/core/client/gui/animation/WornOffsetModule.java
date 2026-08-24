@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Lists;
@@ -23,7 +24,6 @@ import pokecube.core.client.gui.AnimationGui;
 import pokecube.core.client.gui.helper.ListEditBox;
 import pokecube.core.client.render.mobs.RenderPokemob;
 import thut.api.entity.animation.IAnimationChanger.WornOffsets;
-import thut.api.maths.Vector3;
 import thut.bling.BlingItem;
 import thut.core.client.render.animation.AnimationChanger;
 import thut.core.client.render.animation.AnimationLoader;
@@ -74,18 +74,18 @@ public class WornOffsetModule extends AnimModule
             WornOffsets old = changer.wornOffsets.get(key);
             if (old != null)
             {
-                this.worn_part.setValue(old.parent);
-                dX.setValue(String.format(Locale.ROOT, "%.3f", old.offset.x));
-                dY.setValue(String.format(Locale.ROOT, "%.3f", old.offset.y));
-                dZ.setValue(String.format(Locale.ROOT, "%.3f", old.offset.z));
+                this.worn_part.setValue(old.parent());
+                dX.setValue(String.format(Locale.ROOT, "%.3f", old.offset().x));
+                dY.setValue(String.format(Locale.ROOT, "%.3f", old.offset().y));
+                dZ.setValue(String.format(Locale.ROOT, "%.3f", old.offset().z));
 
-                rX.setValue(String.format(Locale.ROOT, "%.1f", old.angles.x));
-                rY.setValue(String.format(Locale.ROOT, "%.1f", old.angles.y));
-                rZ.setValue(String.format(Locale.ROOT, "%.1f", old.angles.z));
+                rX.setValue(String.format(Locale.ROOT, "%.1f", old.angles().x));
+                rY.setValue(String.format(Locale.ROOT, "%.1f", old.angles().y));
+                rZ.setValue(String.format(Locale.ROOT, "%.1f", old.angles().z));
 
-                double sx = old.scale.x;
-                double sy = old.scale.y;
-                double sz = old.scale.z;
+                double sx = old.scale().x;
+                double sy = old.scale().y;
+                double sz = old.scale().z;
 
                 if (sx == sy && sy == sz) scaleS.setValue(String.format(Locale.ROOT, "%.3f", sx));
                 else scaleS.setValue("%.3f,%.3f,%.3f".formatted(sx, sy, sz));
@@ -161,11 +161,11 @@ public class WornOffsetModule extends AnimModule
         if (ren instanceof RenderPokemob renderer
                 && renderer.getModel().renderer.getAnimationChanger() instanceof AnimationChanger changer)
         {
-            Vector3 w_offset = new Vector3(Float.parseFloat(dX.getValue()), Float.parseFloat(dY.getValue()),
+            var w_offset = new Vector3f(Float.parseFloat(dX.getValue()), Float.parseFloat(dY.getValue()),
                     Float.parseFloat(dZ.getValue()));
-            Vector3 w_angles = new Vector3(Float.parseFloat(rX.getValue()), Float.parseFloat(rY.getValue()),
+            var w_angles = new Vector3f(Float.parseFloat(rX.getValue()), Float.parseFloat(rY.getValue()),
                     Float.parseFloat(rZ.getValue()));
-            Vector3 w_scale = AnimationLoader.getVector3(this.scaleS.getValue(), null);
+            var w_scale = AnimationLoader.getVector3(this.scaleS.getValue(), null);
             WornOffsets replace = new WornOffsets(part, w_offset, w_scale, w_angles);
             changer.wornOffsets.put(key, replace);
         }
@@ -249,8 +249,7 @@ public class WornOffsetModule extends AnimModule
             if (test_animation.getValue().isBlank()) parent.testAnimation = "";
             else
             {
-                String args = "f::" + worn_part.getValue() + "::" + test_animation.getValue();
-                parent.testAnimation = args;
+                parent.testAnimation = "f::" + worn_part.getValue() + "::" + test_animation.getValue();
             }
         }
         return false;
@@ -263,8 +262,8 @@ public class WornOffsetModule extends AnimModule
 
         final Component zero = Component.literal("0");
         final Component one = Component.literal("1");
-        final Component right = Component.literal("\u25b6");
-        final Component left = Component.literal("\u25c0");
+        final Component right = Component.literal("▶");
+        final Component left = Component.literal("◀");
 
         final Component reset = Component.translatable("wearables.button.reset");
         final Component copy = Component.translatable("wearables.button.copy");
@@ -279,7 +278,7 @@ public class WornOffsetModule extends AnimModule
         this.worn_slot = new ListEditBox(parent.font, dx, yOffset - 80, 100, 10, blank);
         this.worn_part = new ListEditBox(parent.font, dx, yOffset - 70, 100, 10, blank);
 
-        this.test_animation = new ListEditBox(parent.font, dx, yOffset - 00, 100, 10, blank);
+        this.test_animation = new ListEditBox(parent.font, dx, yOffset, 100, 10, blank);
 
         yOffset += 10;
         this.scaleS = new ListEditBox(parent.font, dx, yOffset - 50, 100, 10, one);
@@ -316,7 +315,7 @@ public class WornOffsetModule extends AnimModule
             String rZ = trim.apply(this.rZ.getValue());
 
             String scale = scaleS.getValue();
-            Vector3 v = AnimationLoader.getVector3(scale, Vector3.empty);
+            var v = AnimationLoader.getVector3(scale, new Vector3f());
             if (v.x == v.y && v.y == v.z) scale = trim.apply(String.format(Locale.ROOT, "%.3f", v.x));
             else
             {
@@ -374,7 +373,7 @@ public class WornOffsetModule extends AnimModule
                 int index = renders.indexOf(this.worn_part.getValue());
                 if (index == -1)
                 {
-                    this.worn_part.setValue(renders.get(0));
+                    this.worn_part.setValue(renders.getFirst());
                 }
                 else
                 {
@@ -398,7 +397,7 @@ public class WornOffsetModule extends AnimModule
                 int index = renders.indexOf(this.worn_part.getValue());
                 if (index == -1)
                 {
-                    this.worn_part.setValue(renders.get(0));
+                    this.worn_part.setValue(renders.getFirst());
                 }
                 else
                 {
@@ -418,7 +417,7 @@ public class WornOffsetModule extends AnimModule
         this.dZ.setValue("0");
         this.scaleS.setValue("1");
 
-        this.worn_slot.setValue(this.sortedSlots.get(0));
+        this.worn_slot.setValue(this.sortedSlots.getFirst());
         this.worn_slot.setEditable(false);
 
         this.addRenderableWidget(this.worn_item);

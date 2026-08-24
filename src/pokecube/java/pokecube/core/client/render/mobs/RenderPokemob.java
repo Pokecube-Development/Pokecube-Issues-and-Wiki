@@ -1,7 +1,5 @@
 package pokecube.core.client.render.mobs;
 
-import com.google.common.collect.Lists;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
@@ -18,6 +16,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Pose;
+import org.joml.Vector3f;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.pokedex.DefaultFormeHolder.TexColours;
@@ -38,7 +37,6 @@ import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.IAnimationChanger;
-import thut.api.maths.Vector3;
 import thut.core.client.render.animation.AnimationLoader;
 import thut.core.client.render.animation.AnimationXML.Phase;
 import thut.core.client.render.model.IModel;
@@ -51,6 +49,7 @@ import thut.core.client.render.wrappers.ModelWrapper;
 import thut.core.common.ThutCore;
 
 import javax.xml.namespace.QName;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -163,17 +162,15 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     public static class Holder extends ModelHolder implements IModelRenderer<Mob>
     {
         public ModelWrapper<Mob> wrapper;
-        final Vector3 rotPoint = new Vector3();
-        Map<String, List<Animation>> anims = new Object2ObjectOpenHashMap<>();
+        final Vector3f rotPoint = new Vector3f();
 
         public String name;
         public Map<String, PartInfo> parts = new Object2ObjectOpenHashMap<>();
         public Map<String, List<Animation>> animations = new Object2ObjectOpenHashMap<>();
-        private final List<String> toRunNames = Lists.newArrayList();
-        private final List<Animation> toRun = Lists.newArrayList();
-        private Vector3 offset = new Vector3();
-        ;
-        private Vector3 scale = new Vector3();
+        private final List<String> toRunNames = new ArrayList<>();
+        private final List<Animation> toRun = new ArrayList<>();
+        private Vector3f offset = new Vector3f();
+        private Vector3f scale = new Vector3f(1);
         PokedexEntry entry;
 
         boolean checkedAnims = false;
@@ -242,13 +239,13 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         }
 
         @Override
-        public Vector3 getRotationOffset()
+        public Vector3f getRotationOffset()
         {
             return this.offset;
         }
 
         @Override
-        public Vector3 getScale()
+        public Vector3f getScale()
         {
             return this.scale;
         }
@@ -314,26 +311,25 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
                 float scale = Math.min(1, (entity.tickCount + 1 + partialTick) / LogicMiscUpdate.EXITCUBEDURATION);
                 s = Math.max(0.01f, s * scale);
             }
-            float sx = (float) this.getScale().x;
-            float sy = (float) this.getScale().y;
-            float sz = (float) this.getScale().z;
+            float sx = this.getScale().x;
+            float sy = this.getScale().y;
+            float sz = this.getScale().z;
             sx *= s;
             sy *= s;
             sz *= s;
-            this.rotPoint.set(this.getRotationOffset()).scalarMultBy(s);
+            this.rotPoint.set(this.getRotationOffset()).mul(s);
             model.setOffset(this.rotPoint);
-            if (!this.getScale().isEmpty()) mat.scale(sx, sy, sz);
-            else mat.scale(s, s, s);
+            mat.scale(sx, sy, sz);
         }
 
         @Override
-        public void setRotationOffset(final Vector3 offset)
+        public void setRotationOffset(final Vector3f offset)
         {
             this.offset = offset;
         }
 
         @Override
-        public void setScale(final Vector3 scale)
+        public void setScale(final Vector3f scale)
         {
             this.scale = scale;
         }
@@ -433,7 +429,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         }
     }
 
-    private static Holder MISSNGNO = new Holder(Database.missingno);
+    private static final Holder MISSNGNO = new Holder(Database.missingno);
 
     private static Holder getMissingNo()
     {
@@ -547,12 +543,8 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     {
         final RenderType.CompositeState rendertype$state = RenderType.CompositeState.builder()
                 .setTextureState(new RenderStateShard.TextureStateShard(this.getTextureLocation(entity), false, false))
-                .setTransparencyState(new RenderStateShard.TransparencyStateShard("translucent_transparency", () -> {
-                    RenderSystem.enableBlend();
-                    RenderSystem.defaultBlendFunc();
-                }, () -> {
-                    RenderSystem.disableBlend();
-                })).setShaderState(RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER)
+                .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                .setShaderState(RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER)
                 .setCullState(new RenderStateShard.CullStateShard(false))
                 .setLightmapState(new RenderStateShard.LightmapStateShard(true))
                 .setOverlayState(new RenderStateShard.OverlayStateShard(true)).createCompositeState(false);

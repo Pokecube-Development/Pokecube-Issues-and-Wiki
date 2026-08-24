@@ -266,7 +266,7 @@ public interface IExtendedModelPart extends IModelCustom, Comparable<IExtendedMo
 
     void setPreRotations(Vector4 rotations);
 
-    void setPreScale(Vector3 scale);
+    void setPreScale(Vector3f scale);
 
     /**
      * Multiplies render scaling factor by scale,
@@ -274,7 +274,7 @@ public interface IExtendedModelPart extends IModelCustom, Comparable<IExtendedMo
      */
     void mulPostScale(Vector3f scale);
 
-    void setPreTranslations(Vector3 translations);
+    void setPreTranslations(Vector3f translations);
 
     void setColorScales(float r, float g, float b, float a);
 

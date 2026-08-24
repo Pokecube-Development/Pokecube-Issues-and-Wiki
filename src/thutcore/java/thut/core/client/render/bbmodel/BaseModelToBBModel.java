@@ -130,6 +130,7 @@ public class BaseModelToBBModel
                         }
                         int iter = mesh.vertexMode == VertexFormat.Mode.TRIANGLES ? 3 : 4;
                         var material = mesh.material;
+                        material.makeRenderType(material.tex, mesh.vertexMode);
                         var texture = material.getTexture();
                         var img = texture.getImage();
                         if (!textures.contains(material.tex))

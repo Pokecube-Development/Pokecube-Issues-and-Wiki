@@ -1,6 +1,6 @@
 package pokecube.mobs.client.smd;
 
-import thut.api.maths.Vector3;
+import org.joml.Vector3f;
 import thut.api.maths.Vector4;
 import thut.core.client.render.model.IExtendedModelPart;
 
@@ -11,8 +11,6 @@ import thut.core.client.render.model.IExtendedModelPart;
  */
 public interface IFakeExtendedPart extends IExtendedModelPart
 {
-    int[] RGAB = new int[] { 255, 255, 255, 255, 255 };
-
     @Override
     default void addChild(final IExtendedModelPart child)
     {
@@ -51,12 +49,12 @@ public interface IFakeExtendedPart extends IExtendedModelPart
     }
 
     @Override
-    default void setPreScale(final Vector3 scale)
+    default void setPreScale(final Vector3f scale)
     {
     }
 
     @Override
-    default void setPreTranslations(final Vector3 translations)
+    default void setPreTranslations(final Vector3f translations)
     {
     }
 }
