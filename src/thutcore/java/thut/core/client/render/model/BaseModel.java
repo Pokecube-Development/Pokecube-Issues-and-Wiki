@@ -227,7 +227,13 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
                         {
                             part.preProcess();
                             this.renderOrderMeshs.addAll(part.getRenderMeshes());
+                            if (part.getPartsList().isEmpty() && part.getRenderMeshes().isEmpty())
+                            {
+                                parts.remove(part.getName());
+                            }
                         }
+                        partsList.clear();
+                        this.partsList.addAll(parts.values());
                     }
                     IExtendedModelPart.sortMeshes(this.renderOrderMeshs);
                 }
