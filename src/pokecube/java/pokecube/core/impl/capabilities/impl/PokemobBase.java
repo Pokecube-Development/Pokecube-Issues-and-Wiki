@@ -252,17 +252,31 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
     }
 
     @Override
-    public void setEntity(final Mob entityIn)
+    public void setEntity(final Mob entityIn, boolean onEvolution)
     {
+        if (entityIn == this.entity) return;
+        var oldEntity = this.entity;
+        // Set this here before the below setData call for PokemobCaps.POKEMOB
         this.entity = entityIn;
         // ensure we are the entity's IPokemob
         entityIn.setData(PokemobCaps.POKEMOB, this);
         entityIn.setData(DefaultColourable.TYPE_SAVE, this);
 
-        this.setGenes(entityIn.getData(DefaultGenetics.TYPE));
-        this.setDataSync(entityIn.getData(DataSync_Impl.TYPE));
-        this.setOwnerHolder(entityIn.getData(Ownable.TYPE));
-        this.setCopy(entityIn.getData(CopyMob.TYPE_COPY));
+        // If it is on evolution, copy this over from the old entity
+        if (onEvolution && oldEntity != null)
+        {
+            entityIn.setData(DefaultGenetics.TYPE, oldEntity.getData(DefaultGenetics.TYPE));
+            entityIn.setData(DataSync_Impl.TYPE, oldEntity.getData(DataSync_Impl.TYPE));
+            entityIn.setData(Ownable.TYPE, oldEntity.getData(Ownable.TYPE));
+            entityIn.setData(CopyMob.TYPE_COPY, oldEntity.getData(CopyMob.TYPE_COPY));
+        }
+        else // Otherwise set ours to the ones from the entity
+        {
+            this.setGenes(entityIn.getData(DefaultGenetics.TYPE));
+            this.setDataSync(entityIn.getData(DataSync_Impl.TYPE));
+            this.setOwnerHolder(entityIn.getData(Ownable.TYPE));
+            this.setCopy(entityIn.getData(CopyMob.TYPE_COPY));
+        }
     }
 
     protected void setMaxHealth(final float maxHealth)

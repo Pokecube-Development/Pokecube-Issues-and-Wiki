@@ -1097,7 +1097,7 @@ public class PokemobEventsHandler
                         }
                     if (!valid) break evo;
 
-                    boolean evolved = pokemob.evolve(true, false, held);
+                    boolean evolved = pokemob.evolve(true, held);
                     if (evolved) if (!player.isCreative())
                     {
                         held.shrink(1);

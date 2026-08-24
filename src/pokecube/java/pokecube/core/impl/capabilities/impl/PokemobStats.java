@@ -113,7 +113,7 @@ public abstract class PokemobStats extends PokemobGenes
                     if (mob.isAlive() && (this.canEvolve(ItemStack.EMPTY) || this.canEvolve(held)))
                     {
                         this.levelUp(newLvl);
-                        this.evolve(true, false, held);
+                        this.evolve(true, held);
                     }
                     ret.levelUp(newLvl);
                     if (mob.isAddedToLevel() && ret.getOwner() instanceof Player && mob.level().getGameRules()
@@ -136,7 +136,7 @@ public abstract class PokemobStats extends PokemobGenes
         if (evolve) while (this.canEvolve(held))
         {
             var before = this.getPokedexEntry();
-            boolean evolved = this.evolve(false, true, held);
+            boolean evolved = this.evolve(false, held);
             var after = this.getPokedexEntry();
             // The entry comparision is incase something interrupts the evolution,
             // to escape the while loop

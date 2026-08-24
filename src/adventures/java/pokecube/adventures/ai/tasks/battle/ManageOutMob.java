@@ -82,7 +82,7 @@ public class ManageOutMob extends BaseBattleTask
                         // check if our mob should evolve, if so, do so
                         while (next.canEvolve(next.getHeldItem()))
                         {
-                            boolean evolved = next.evolve(false, false);
+                            boolean evolved = next.evolve(false);
                             PokemobCaps.updatePokecube(nextStack,
                                     PokemobCaps.getPokemobIn(nextStack).withPokemob(next));
                             if (!evolved) break;

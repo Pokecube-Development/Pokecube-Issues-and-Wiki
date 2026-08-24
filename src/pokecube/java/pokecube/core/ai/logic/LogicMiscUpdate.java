@@ -228,7 +228,7 @@ public class LogicMiscUpdate extends LogicBase
         if (evo_ticks > 0) this.pokemob.setEvolutionTicks(evo_ticks - 1);
         if (!this.checkedEvol && this.pokemob.traded())
         {
-            this.pokemob.evolve(true, false, this.pokemob.getHeldItem());
+            this.pokemob.evolve(true, this.pokemob.getHeldItem());
             this.checkedEvol = true;
             return;
         }
@@ -245,7 +245,7 @@ public class LogicMiscUpdate extends LogicBase
             }
             if (evo_ticks <= 50)
             {
-                this.pokemob.evolve(false, false, this.pokemob.getEvolutionStack());
+                this.pokemob.evolve(false, this.pokemob.getEvolutionStack());
                 this.pokemob.setGeneralState(GeneralStates.EVOLVING, false);
                 this.pokemob.setEvolutionTicks(-1);
             }

@@ -33,7 +33,12 @@ public interface IHasEntry extends IHasMobAIStates
     /**
      * @param entityIn Sets the vanilla entity for this pokemob
      */
-    void setEntity(Mob entityIn);
+    void setEntity(Mob entityIn, boolean onEvolution);
+
+    default void setEntity(Mob entityIn)
+    {
+        setEntity(entityIn, false);
+    }
 
     /**
      * the {@link PokedexEntry} of the species of this Pokemob This will
