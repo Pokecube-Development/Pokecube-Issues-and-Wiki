@@ -23,8 +23,7 @@ import thut.lib.AxisAngles;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -118,33 +117,59 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                 && p.parts.isEmpty()
                 )
             {
-                // TODO handle these cases properly
-                if(p.offset.lengthSquared()!=0) continue;
-                if(!p.rotations.isEmpty()) continue;
-
                 // Attempt to merge the part in to us.
-                var mats = p.getMaterials().stream().map(m->m.name);
+                var mats = p.getMaterials().stream().map(m -> m.name);
                 boolean allMatch = mats.allMatch(this.namedMaterials::containsKey);
 
-                if(allMatch && mergeMeshes)
+                if (allMatch && mergeMeshes)
                 {
+                    p.renderPose.pose().identity();
+                    p.renderPose.normal().identity();
+                    // Now apply the transforms from preRender
+                    // Translate of offset for rotation.
+                    p.renderPose.translate(p.preTrans);
+                    p.renderPose.scale(p.preScale);
+                    // // Apply PreOffset-Rotations.
+                    p.renderPose.rotate(p.preRot.toMCQ());
+                    // Translate by post-PreOffset amount.
+                    p.renderPose.translate(p.postTrans);
+                    // Apply postRotation
+                    p.renderPose.rotate(p.postRot.toMCQ());
+                    // Finally apply Scale
+                    p.renderPose.scale(p.scale);
+
+                    var tranform = p.renderPose.pose();
                     Vector4f dp = new Vector4f();
-                    var norms = p.getRenderPose().normal();
-                    var pos = p.getRenderPose().pose();
-                    for(var mesh: p.shapes)
+
+                    for (var mesh : p.shapes)
                     {
-                        Set<Vector3f> process = new HashSet<>(Arrays.asList(mesh.normals));
-                        process.addAll(Arrays.asList(mesh.normalList));
-                        for(var n: process)
+                        // Check if we can do a simple hash map for de-duping later
+                        Map<Integer, Vector3f> verts = new HashMap<>();
+                        boolean validHash = true;
+                        for (int i = 0; i < mesh.vertices.length; i++)
                         {
-                            n.mul(norms);
-                        }
-                        process = new HashSet<>(Arrays.asList(mesh.vertices));
-                        for(var v: process)
-                        {
+                            // Copy array
+                            mesh.vertices[i] = new Vector3f(mesh.vertices[i]);
+                            var v = mesh.vertices[i];
                             dp.set(v, 1);
-                            dp.mul(pos);
+                            dp.mul(tranform);
                             v.set(dp.x, dp.y, dp.z);
+                            // Transform to new location
+                            int id = v.hashCode();
+                            if (!verts.containsKey(id)) verts.put(id, v);
+                            else
+                            {
+                                var prev = verts.get(id);
+                                if (prev.distanceSquared(v) > 1e-12) validHash = false;
+                            }
+                        }
+                        if (validHash)
+                        {
+                            for (int i = 0; i < mesh.vertices.length; i++)
+                            {
+                                int id = mesh.vertices[i].hashCode();
+                                mesh.vertices[i] = verts.get(id);
+                            }
                         }
                         this.addShape(mesh);
                     }
