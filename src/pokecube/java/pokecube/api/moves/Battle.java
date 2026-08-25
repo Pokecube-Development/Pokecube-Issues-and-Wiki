@@ -18,6 +18,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.TeamManager;
@@ -137,7 +138,7 @@ public class Battle
                 // Already in battle, no need to proceed.
                 return true;
             }
-            existingA.mergeFrom(agressor, target, existingB, level);
+            existingA.mergeFrom(agressor, target, existingB);
             return false;
         }
         if (existingA != null) existingA.addToBattle(agressor, target);
@@ -155,7 +156,7 @@ public class Battle
         return true;
     }
 
-    private static final Comparator<LivingEntity> BATTLESORTER = (o1, o2) -> Integer.compare(o1.getId(), o2.getId());
+    private static final Comparator<LivingEntity> BATTLESORTER = Comparator.comparingInt(Entity::getId);
 
     private final Map<UUID, LivingEntity> side1 = Maps.newHashMap();
     private final Map<UUID, LivingEntity> side2 = Maps.newHashMap();
@@ -201,8 +202,6 @@ public class Battle
 
     /**
      * Adds the given entity onto our allied side of a battle, without triggering agression
-     * @param entity
-     * @param toAdd
      */
     public void addAlly(LivingEntity entity, LivingEntity toAdd)
     {
@@ -215,8 +214,6 @@ public class Battle
     }
     /**
      * Adds the given entity onto the enemy side of a battle, without triggering agression
-     * @param entity
-     * @param toAdd
      */
     public void addEnemy(LivingEntity entity, LivingEntity toAdd)
     {
@@ -252,8 +249,7 @@ public class Battle
         }
     }
 
-    private void mergeFrom(final LivingEntity mobA, final LivingEntity mobB, final Battle other,
-            final ServerLevel world)
+    private void mergeFrom(final LivingEntity mobA, final LivingEntity mobB, final Battle other)
     {
         final boolean mobAisSide1 = this.side1.containsKey(mobA.getUUID());
         final boolean mobBisSide1 = other.side1.containsKey(mobB.getUUID());
@@ -328,7 +324,6 @@ public class Battle
         else
         {
             aIs1 = this.teams1.contains(teamA);
-            aIs2 = this.teams2.contains(teamA);
             if (aIs1)
             {
                 this.addToSide(this.side1, this.teams1, mobA, teamA, mobB);
@@ -383,6 +378,11 @@ public class Battle
         boolean changed = false;
         for (final LivingEntity mob1 : side.values())
         {
+            // Use this chance to check for player owned, as this ticks during "tick"
+            this.hadPlayer |= mob1 instanceof Player;
+            final IPokemob poke = PokemobCaps.getPokemobFor(mob1);
+            this.hadPlayer |= poke != null && poke.isPlayerOwned();
+
             if (!mob1.isAlive())
             {
                 set.remove(mob1);
@@ -403,7 +403,6 @@ public class Battle
                     continue;
                 }
                 if (tick > tooLong) stale.add(mob1);
-                continue;
             }
             else
             {
@@ -493,7 +492,9 @@ public class Battle
 
         for (final LivingEntity mob1 : mobs)
         {
+            this.hadPlayer |= mob1 instanceof Player;
             final IPokemob poke = PokemobCaps.getPokemobFor(mob1);
+            this.hadPlayer |= poke != null && poke.isPlayerOwned();
             if (!(mob1 instanceof Mob mob)) continue;
             BrainUtils.initiateCombat(mob, main2);
             if (poke != null && poke.getAbility() != null) poke.getAbility().startCombat(poke);
@@ -501,7 +502,9 @@ public class Battle
         mobs = Lists.newArrayList(this.side2.values());
         for (final LivingEntity mob2 : mobs)
         {
+            this.hadPlayer |= mob2 instanceof Player;
             final IPokemob poke = PokemobCaps.getPokemobFor(mob2);
+            this.hadPlayer |= poke != null && poke.isPlayerOwned();
             // This was already handled
             if (mob2 == main2) continue;
             if (!(mob2 instanceof Mob mob)) continue;
@@ -525,6 +528,12 @@ public class Battle
             if (poke != null && poke.getAbility() != null) poke.getAbility().endCombat(poke);
             BrainUtils.deagro(mob2);
         }
+    }
+
+    private boolean hadPlayer = false;
+    public boolean hadPlayer()
+    {
+        return this.hadPlayer;
     }
 
     @Override

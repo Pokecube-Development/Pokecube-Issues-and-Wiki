@@ -42,7 +42,7 @@ public abstract class PokemobCombat extends PokemobBase
     {
         if (!(source instanceof PokemobDamageSource))
         {
-            int armour = 0;
+            int armour;
             if (source.is(DamageTypes.MAGIC)) armour = (int) (this.getPokemob().getStat(Stats.SPDEFENSE, true) / 12.5);
             else armour = this.getArmorValue();
             damage = CombatRules.getDamageAfterAbsorb(this, damage, source, armour,
@@ -70,13 +70,12 @@ public abstract class PokemobCombat extends PokemobBase
         }
     }
 
-    @Override
     /** Get the experience points the entity currently has. */
+    @Override
     public int getBaseExperienceReward()
     {
         final float scale = (float) PokecubeCore.getConfig().expFromDeathDropScale;
-        final int exp = (int) Math.max(1,
+        return (int) Math.max(1,
                 this.getPokemob().getBaseXP() * scale * 0.01 * Math.sqrt(this.getPokemob().getLevel()));
-        return exp;
     }
 }

@@ -299,6 +299,8 @@ public class Config extends ConfigData
     public boolean pvpExp = false;
     @Configure(category = Config.misc, comment = "Mobs marked as \"cloned\" will drop items on death. [Default: false]")
     public boolean clonesDrop = false;
+    @Configure(category = Config.misc, comment = "Do pokemobs drop items from wild battles. [Default: false]")
+    public boolean dropFromWildBattles = false;
     @Configure(category = Config.misc, comment = "Add items to vanilla tabs. [Default: true]", gameRestart = true)
     public boolean itemsInVanillaTabs = true;
 
@@ -959,7 +961,7 @@ public class Config extends ConfigData
             }
             catch (final Exception e)
             {
-                PokecubeAPI.LOGGER.error("Error with mutation rate for " + s, e);
+                PokecubeAPI.LOGGER.error("Error with mutation rate for {}", s, e);
             }
         }
         GeneticsManager.epigeneticFunction = epigeneticEVFunction;
@@ -1023,7 +1025,7 @@ public class Config extends ConfigData
                 }
                 catch (final Exception e)
                 {
-                    PokecubeAPI.LOGGER.error("No Sound for " + s, e);
+                    PokecubeAPI.LOGGER.error("No Sound for {}", s, e);
                     failed = true;
                     break;
                 }

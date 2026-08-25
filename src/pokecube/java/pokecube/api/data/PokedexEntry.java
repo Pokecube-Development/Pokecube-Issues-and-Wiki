@@ -1544,7 +1544,7 @@ public class PokedexEntry
         if (mob.level().isClientSide) return ItemStack.EMPTY;
         if (this.heldTable != null)
         {
-            final LootTable loottable = mob.level().getServer().reloadableRegistries().getLootTable(this.lootTable);
+            final LootTable loottable = mob.level().getServer().reloadableRegistries().getLootTable(this.heldTable);
             LootParams params = new LootParams.Builder((ServerLevel) mob.level()).withParameter(
                             LootContextParams.THIS_ENTITY, mob)
                     .withParameter(LootContextParams.DAMAGE_SOURCE, mob.level().damageSources().generic())

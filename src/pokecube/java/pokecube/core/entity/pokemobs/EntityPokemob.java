@@ -33,7 +33,9 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForgeMod;
@@ -61,10 +63,12 @@ import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.init.Config;
 import pokecube.core.init.EntityTypes;
+import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.utils.PokemobTracker;
 import thut.api.ThutCaps;
+import thut.api.Tracker;
 import thut.api.entity.IAnimated;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
@@ -78,6 +82,10 @@ public class EntityPokemob extends PokemobRidable
 
     private static final EntityDataAccessor<Byte> CLIMBING = SynchedEntityData.defineId(EntityPokemob.class,
             EntityDataSerializers.BYTE);
+
+    long _lastBattleTimer = 0;
+    // This is initialised to true, so they still drop from things that kill them not involving wild battles
+    private boolean _lastBattleHasPlayer = true;
 
     public EntityPokemob(final EntityType<? extends TamableAnimal> type, final Level world)
     {
@@ -402,7 +410,64 @@ public class EntityPokemob extends PokemobRidable
             }
             else climbDelay = 5;
             this.setBesideClimbableBlock(climb);
+
+            long tick = Tracker.instance().getTick();
+            var battle = getPokemob().getBattle();
+            if (battle != null)
+            {
+                _lastBattleTimer = tick;
+                _lastBattleHasPlayer = battle.hadPlayer();
+            }
+            if (tick - _lastBattleTimer > 2400)
+            {
+                _lastBattleTimer = tick;
+                _lastBattleHasPlayer = true;
+            }
         }
+    }
+
+    @Override
+    protected void dropFromLootTable(DamageSource damageSource, boolean attackedRecently)
+    {
+        if (!_lastBattleHasPlayer && !PokecubeCore.getConfig().dropFromWildBattles)
+        {
+            var pokemob = this.getPokemob();
+            if (!pokemob.isPlayerOwned())
+            {
+                // Consume all berries in inventory here.
+                // This only consumes berries incase the mob had picked up some other items
+                // so that it can still drop those if it needs to
+                for (int i = 0; i < pokemob.getInventory().getContainerSize(); i++)
+                {
+                    if (pokemob.getInventory().getItem(i).getItem() instanceof ItemBerry)
+                    {
+                        pokemob.getInventory().setItem(i, ItemStack.EMPTY);
+                    }
+                }
+                // Now confiscate the held item if it is one the mob could have spawned with
+                var held = pokemob.getHeldItem();
+                var heldTable = pokemob.getPokedexEntry().heldTable;
+                if (heldTable != null && !held.isEmpty())
+                {
+                    final LootTable loottable = this.level().getServer().reloadableRegistries().getLootTable(heldTable);
+                    LootParams params = new LootParams.Builder((ServerLevel) this.level()).withParameter(
+                                    LootContextParams.THIS_ENTITY, this)
+                            .withParameter(LootContextParams.DAMAGE_SOURCE, this.level().damageSources().generic())
+                            .withParameter(LootContextParams.ORIGIN, this.position()).create(loottable.getParamSet());
+                    var items = loottable.getRandomItems(params);
+                    for (ItemStack a : items)
+                    {
+                        if (ItemStack.isSameItem(held, a))
+                        {
+                            pokemob.setHeldItem(ItemStack.EMPTY);
+                            break;
+                        }
+                    }
+                }
+            }
+            return;
+        }
+        super.dropFromLootTable(damageSource, attackedRecently);
     }
 
     @Override
