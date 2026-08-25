@@ -562,7 +562,7 @@ public class Config extends ConfigData
     @Configure(category = Config.world, comment = "This is what the value in the structure data block will be replaced with to generate the professor.", worldRestart = true)
     public String professor_override = "pokecube:mob:spawn_professor";
     @Configure(category = Config.world, comment = "The tag of structures to search for when placing spawn.", worldRestart = true)
-    public String spawn_structure_tag = "pokecube_world:starting_town";//starting_town//scattered_pokecenters
+    public String spawn_structure_tag = "pokecube_world:scattered_pokecenters"; // was pokecube_world:starting_town
 
     // Mob Spawning settings
     @Configure(category = Config.spawning, comment = "the configs for deactivating/disabling monsters and animals will also affect these worlds, not only vanilla worlds.")
