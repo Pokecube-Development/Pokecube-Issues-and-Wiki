@@ -86,6 +86,8 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     private boolean isAnimated = false;
     private boolean is2D = false;
 
+    protected boolean requireMatsForMerge = true;
+
     protected final PoseInfo renderPose = new PoseInfo();
 
     protected final List<Material> materials = Lists.newArrayList();
@@ -131,7 +133,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
             // Only ones not starting with __, as those are special for worn things, etc
             // Only ones with no children
             if( mergeMeshes
-                &&_p.getParent()==this
+                &&_p.getParent() == this
                 &&!_p.isAnimated()
                 &&!_p.getName().startsWith("__")
                 &&_p instanceof Part p
@@ -139,7 +141,14 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                 )
             {
                 // Attempt to merge the part in to us.
-
+                if (p.requireMatsForMerge)
+                {
+                    // TODO see why this is fine to not include for jsonpart, but not x3d part
+                    // Slakoth model was where this was noticed.
+                    var mats = p.getMaterials().stream().map(m -> m.name);
+                    boolean allMatch = mats.allMatch(this.namedMaterials::containsKey);
+                    if (!allMatch) continue;
+                }
                 // Start by setting up renderPose appropriately
                 p.prepareForCombine();
 

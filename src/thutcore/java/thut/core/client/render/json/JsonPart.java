@@ -369,6 +369,7 @@ public class JsonPart extends Part
     public JsonPart(String name)
     {
         super(name);
+        requireMatsForMerge = false;
     }
 
     @Override

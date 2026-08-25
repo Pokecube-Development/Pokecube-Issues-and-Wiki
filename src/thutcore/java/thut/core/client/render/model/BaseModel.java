@@ -207,10 +207,13 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
 
     private void collectAndSimplifyMeshs()
     {
+        if (this.parts.isEmpty()) return;
         synchronized (renderOrderMeshs)
         {
             var parts = this.getParts();
+            this.partsList.clear();
             this.partsList.addAll(parts.values());
+            this.partsList.sort(null);
             this.renderOrderMeshs.clear();
             int n = -1;
             // Blank animation for setting to root locations
