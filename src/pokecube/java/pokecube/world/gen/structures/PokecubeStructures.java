@@ -2,7 +2,6 @@ package pokecube.world.gen.structures;
 
 import java.util.function.Supplier;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -11,7 +10,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
-import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.utils.PokecubeSerializer;
@@ -30,10 +28,10 @@ public class PokecubeStructures
         STRUCTURES = PokecubeWorld.STRUCTURE_TYPES.register("generic_surface_jigsaw",
                 () -> () -> GenericJigsawStructure.CODEC);
         EXPANDED_POOL_ELEMENT = PokecubeWorld.POOL_ELEMENT_TYPES.register("expanded_pool_element",
-                () -> () -> ExpandedJigsawPiece.makeCodec());
+                () -> ExpandedJigsawPiece::makeCodec);
     }
 
-    public static void init(final IEventBus bus)
+    public static void init()
     {
         ThutCore.FORGE_BUS.addListener(PokecubeStructures::spawnVillageChecker);
     }
@@ -44,13 +42,13 @@ public class PokecubeStructures
         if (event.getLevel() instanceof ServerLevel serverWorld)
         {
             final ResourceKey<Level> key = serverWorld.dimension();
-            if (PokecubeCore.getConfig().doSpawnBuilding && !PokecubeSerializer.getInstance().hasPlacedSpawn()
+            if (PokecubeCore.getConfig().doSpawnBuilding && !PokecubeSerializer.getInstance().hasPlacedSpawnOrCenter()
                     && key.equals(Level.OVERWORLD))
             {
                 serverWorld.getServer().execute(() -> {
-                    final ResourceLocation location = ResourceLocation.parse("pokecube_world:starting_town");
+                    final ResourceLocation location = ResourceLocation.parse(PokecubeCore.getConfig().spawn_structure_tag);
                     TagKey<Structure> tagkey = TagKey.create(RegHelper.STRUCTURE_REGISTRY, location);
-                    serverWorld.findNearestMapStructure(tagkey, BlockPos.ZERO, 5, false);
+                    serverWorld.findNearestMapStructure(tagkey, serverWorld.getSharedSpawnPos(), 5, false);
                 });
             }
         }

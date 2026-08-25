@@ -12,7 +12,6 @@ import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.event.level.LevelEvent.Load;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.utils.PokeType;
 import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import thut.api.maths.Vector3;
 
@@ -253,13 +252,6 @@ public class PokemobTracker
     {
         final AABB box = location.getAABB().inflate(distance, distance, distance);
         return PokemobTracker.countPokemobs(world, box, e -> e.getPokedexEntry() == entry);
-    }
-
-    public static int countPokemobs(final Vector3 location, final LevelAccessor world, final double distance,
-            final PokeType type)
-    {
-        final AABB box = location.getAABB().inflate(distance, distance, distance);
-        return PokemobTracker.countPokemobs(world, box, e -> e.isType(type));
     }
 
     public static int countPokemobs(final LevelAccessor world, final Vector3 location, final double radius)

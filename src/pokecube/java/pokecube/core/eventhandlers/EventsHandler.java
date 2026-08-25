@@ -208,8 +208,6 @@ public class EventsHandler
     public static final ResourceLocation NOGENESTAG = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID,
             "no_genetics");
 
-    static double max = 0;
-
     /**
      * This returns true if the given entity is not a vanilla entity, or is not a mob-like entity, it returns false for
      * modded mobs, as well as players, armour stands, boats, etc
@@ -445,9 +443,8 @@ public class EventsHandler
 
         // These two are fine for production environments, as players can use
         // them to try to figure out what might be spawning where they currently
-        // are.
+        // are, as well as to figure out whether their datapack structure register.
         boolean isSpawnPresetDebug = evt.getItemStack().getDisplayName().getString().contains("spawn_preset_debug");
-        boolean isEvoLocDebug = evt.getItemStack().getDisplayName().getString().contains("evolution_location_debug");
         boolean isSubbiomeDebug = evt.getItemStack().getDisplayName().getString().contains("subbiome_debug");
         boolean isStructureDebug = evt.getItemStack().getDisplayName().getString().contains("structure_debug");
 
@@ -470,10 +467,6 @@ public class EventsHandler
             }
             else thut.lib.ChatHelper.sendSystemMessage(player,
                     Component.literal("No matching presets for this location"));
-        }
-        if (isEvoLocDebug)
-        {
-
         }
         if (isSubbiomeDebug)
         {
@@ -937,7 +930,7 @@ public class EventsHandler
             return pokemob != excluded && pokemob.getOwner() == player && (includeStay || !pokemob.getGeneralState(
                     GeneralStates.STAYING));
         }
-        else if (toRecall instanceof EntityPokecube mob && !mob.getItem().isEmpty())
+        else if (includeCubes && toRecall instanceof EntityPokecube mob && !mob.getItem().isEmpty())
         {
             final String name = PokecubeManager.getOwner(mob.getItem(), toRecall.level());
             return name != null && name.equals(player.getStringUUID());

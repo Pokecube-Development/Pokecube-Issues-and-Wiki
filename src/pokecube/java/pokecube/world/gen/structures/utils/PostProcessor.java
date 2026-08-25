@@ -64,7 +64,7 @@ public class PostProcessor implements BiConsumer<GenerationContext, List<PoolEle
             if (part.getElement() instanceof final ExpandedJigsawPiece piece)
             {
 
-                if (PokecubeSerializer.getInstance().hasPlacedSpawn() || !PokecubeCore.getConfig().doSpawnBuilding)
+                if (PokecubeSerializer.getInstance().hasPlacedSpawnOrCenter() || !PokecubeCore.getConfig().doSpawnBuilding)
                     return;
                 // Check if we should place a professor.
 

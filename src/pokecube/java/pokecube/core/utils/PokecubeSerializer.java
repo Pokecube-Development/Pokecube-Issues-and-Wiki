@@ -16,7 +16,6 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -171,7 +170,7 @@ public class PokecubeSerializer
         return this.hasPlacedSpawn() || this.hasPlacedCenter();
     }
 
-    public boolean canMeteorLand(final GlobalPos location, final ServerLevel world)
+    public boolean canMeteorLand(final GlobalPos location)
     {
         for (final GlobalPos v : this.meteors) if (this.tooClose(location, v)) return false;
         return true;
@@ -228,7 +227,7 @@ public class PokecubeSerializer
         }
         catch (final Exception exception)
         {
-            exception.printStackTrace();
+            PokecubeAPI.LOGGER.error(exception);
         }
     }
 
@@ -325,7 +324,7 @@ public class PokecubeSerializer
         }
         catch (final Exception exception)
         {
-            exception.printStackTrace();
+            PokecubeAPI.LOGGER.error(exception);
         }
     }
 

@@ -77,8 +77,6 @@ public class PCEventsHandler
 
     /**
      * If player tosses a pokecube item, it will be send to PC instead.
-     *
-     * @param evt
      */
     private static void onSendToPC(final pokecube.api.events.PCEvent evt)
     {
@@ -91,8 +89,6 @@ public class PCEventsHandler
      * Used for changing name from "Someone's PC" to "Thutmose's PC". This is
      * done as all of the PC systems are named after whoever made them. See
      * Bill's PC for an example.
-     *
-     * @param evt
      */
     private static void onPlayerJoinWorld(final EntityJoinLevelEvent evt)
     {
@@ -108,8 +104,6 @@ public class PCEventsHandler
 
     /**
      * Sends the packet with the player's PC data to that player.
-     *
-     * @param evt
      */
     private static void onPlayerLogin(final PlayerLoggedInEvent evt)
     {
@@ -120,8 +114,6 @@ public class PCEventsHandler
     /**
      * This sends pokecube to PC if the player has a full inventory and tries to
      * pick up a pokecube.
-     *
-     * @param evt
      */
     private static void onItemPickup(final ItemEntityPickupEvent.Pre evt)
     {
@@ -148,8 +140,6 @@ public class PCEventsHandler
 
     /**
      * If player tosses a pokecube item, it will be send to PC instead.
-     *
-     * @param evt
      */
     private static void onItemTossed(final ItemTossEvent evt)
     {
@@ -167,8 +157,6 @@ public class PCEventsHandler
      * Attempts to send the pokecube to the PC whenever the ItemEntity it is in
      * expires. This prevents losing pokemobs if the cube is somehow left in the
      * world.
-     *
-     * @param evt
      */
     private static void onItemExpire(final ItemExpireEvent evt)
     {
@@ -188,8 +176,6 @@ public class PCEventsHandler
 
     /**
      * Tries to send pokecubes to PC when player dies.
-     *
-     * @param evt
      */
     private static void onPlayerDrops(final LivingDropsEvent evt)
     {
@@ -257,7 +243,7 @@ public class PCEventsHandler
     public static void recallAll(final List<Entity> mobs, final boolean cubesToPC)
     {
         if (mobs.isEmpty()) return;
-        if (!(mobs.get(0).level() instanceof ServerLevel level)) return;
+        if (!(mobs.getFirst().level() instanceof ServerLevel level)) return;
         EventsHandler.Schedule(level, w -> {
             for (final Entity o : mobs)
             {
@@ -283,9 +269,6 @@ public class PCEventsHandler
     /**
      * Gets a list of all pokemobs out of their cube belonging to the player in
      * the player's current world.
-     *
-     * @param player
-     * @return
      */
     public static List<Entity> getOutMobs(final LivingEntity player, final boolean includeStay)
     {

@@ -715,7 +715,7 @@ public final class SpawnHandler
             if (!TerrainManager.isAreaLoaded(world, v, 0)) return;
             loc.y = world.getHeight();
             final GlobalPos pos = GlobalPos.of(world.dimension(), new BlockPos((int) loc.x, (int) loc.y, (int) loc.z));
-            if (PokecubeSerializer.getInstance().canMeteorLand(pos, world))
+            if (PokecubeSerializer.getInstance().canMeteorLand(pos))
             {
                 final Vector3 direction = v1.set(rand.nextGaussian() / 2, -1, rand.nextGaussian() / 2);
                 v.set(loc.x, loc.y, loc.z);
@@ -742,7 +742,7 @@ public final class SpawnHandler
         if (context == null || context.entry() == Database.missingno) return;
         if (v.isNaN()) return;
         if (SpawnHandler.isPointValidForSpawn(context, true))
-            this.doSpawnForType(context, t);
+            this.doSpawnForType(context);
     }
 
     @Nullable
@@ -775,7 +775,7 @@ public final class SpawnHandler
         this.doSpawnForContext(context);
     }
 
-    private void doSpawnForType(SpawnContext context, final TerrainSegment t)
+    private void doSpawnForType(SpawnContext context)
     {
         final SpawnData entry = context.entry().getSpawnData();
         ServerLevel level = context.level();

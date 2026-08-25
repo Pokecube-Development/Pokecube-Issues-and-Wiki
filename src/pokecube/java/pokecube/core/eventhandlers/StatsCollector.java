@@ -41,16 +41,12 @@ public class StatsCollector
     public static void addHatched(final EntityPokemobEgg hatched)
     {
         String owner;
-        IPokemob mob = null;
+        IPokemob mob;
         if (hatched.getEggOwner() instanceof ServerPlayer player && !(hatched.getEggOwner() instanceof FakePlayer))
         {
             owner = player.getStringUUID();
             mob = hatched.getPokemob(true);
-            if (mob == null)
-            {
-                new Exception().printStackTrace();
-                return;
-            }
+            if (mob == null) return;
             final PokedexEntry dbe = Database.getEntry(mob);
             final PokecubePlayerStats stats = PlayerDataHandler.getInstance()
                     .getPlayerData(player.registryAccess(), owner).getData(PokecubePlayerStats.class);
@@ -107,13 +103,6 @@ public class StatsCollector
     {
         return PlayerDataHandler.getInstance().getPlayerData(access(), uuid).getData(PokecubePlayerStats.class)
                 .getHatches();
-    }
-
-    public static int getKilled(final PokedexEntry dbe, final Player player)
-    {
-        final Integer n = PlayerDataHandler.getInstance().getPlayerData(player).getData(PokecubePlayerStats.class)
-                .getKills().get(dbe);
-        return n == null ? 0 : n;
     }
 
     public static Map<PokedexEntry, Integer> getKills(final UUID uuid)
