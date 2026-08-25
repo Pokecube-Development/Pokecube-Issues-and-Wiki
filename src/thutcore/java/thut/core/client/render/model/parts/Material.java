@@ -141,13 +141,7 @@ public class Material implements Comparable<Material>
 
     public void makeVertexBuilder(final ResourceLocation texture, final MultiBufferSource buffer)
     {
-        makeVertexBuilder(texture, buffer, Mode.TRIANGLES);
-    }
-
-    public void makeVertexBuilder(final ResourceLocation texture, final MultiBufferSource buffer, Mode mode)
-    {
         this.tex = texture;
-        this.renderMode = mode;
         bufferSource = buffer;
     }
 
@@ -172,12 +166,16 @@ public class Material implements Comparable<Material>
         }
         if (bufferSource == null) bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
         if (this.tex == null || bufferSource == null) return buffer;
-        if (lastTick == renderTick && renderMode == mode) return renderCache;
+        // Incase someone swaps models faster than a tick can run?
+        if (lastTick == renderTick && renderMode == mode && LAST_BUILDER == this) return renderCache;
         this.vertexMode = renderMode = mode;
         this.lastTick = renderTick;
+        LAST_BUILDER = this;
         final RenderType type = this.makeRenderType(this.tex, mode);
         return renderCache = bufferSource.getBuffer(type);
     }
+
+    private static Material LAST_BUILDER;
 
     private VertexConsumer renderCache;
     private Mode renderMode;

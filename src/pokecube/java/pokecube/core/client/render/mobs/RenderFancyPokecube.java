@@ -359,12 +359,9 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     public void scaleEntity(final PoseStack mat, final Entity entity, final IModel model, final float partialTick)
     {
         final float s = 16;
-        float sx = this.getScale().x;
-        float sy = this.getScale().y;
-        float sz = this.getScale().z;
-        sx *= s;
-        sy *= s;
-        sz *= s;
+        float sx = this.getScale().x * s;
+        float sy = this.getScale().y * s;
+        float sz = this.getScale().z * s;
         this.rotPoint.set(this.getRotationOffset()).mul(s);
         model.setOffset(this.rotPoint);
         mat.mulPose(AxisAngles.ZP.rotationDegrees(90));

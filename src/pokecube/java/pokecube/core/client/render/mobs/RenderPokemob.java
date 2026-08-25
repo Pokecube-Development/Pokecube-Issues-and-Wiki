@@ -16,6 +16,9 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Pose;
+import net.neoforged.fml.ModLoader;
+import net.neoforged.fml.ModWorkManager;
+import net.neoforged.fml.loading.progress.StartupNotificationManager;
 import org.joml.Vector3f;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
@@ -54,6 +57,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
 
 public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 {
@@ -274,9 +279,8 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             return this.toRun;
         }
 
-        public void init()
+        public void init(long time)
         {
-            long time = Tracker.instance().getTick();
             boolean noUpdate = this.wrapper != null && this.wrapper.lastInit > time;
             if (noUpdate) return;
             if (ThutCore.conf.debug_models) PokecubeAPI.logDebug("Reloaded model for " + entry);
@@ -311,12 +315,9 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
                 float scale = Math.min(1, (entity.tickCount + 1 + partialTick) / LogicMiscUpdate.EXITCUBEDURATION);
                 s = Math.max(0.01f, s * scale);
             }
-            float sx = this.getScale().x;
-            float sy = this.getScale().y;
-            float sz = this.getScale().z;
-            sx *= s;
-            sy *= s;
-            sz *= s;
+            float sx = this.getScale().x * s;
+            float sy = this.getScale().y * s;
+            float sz = this.getScale().z * s;
             this.rotPoint.set(this.getRotationOffset()).mul(s);
             model.setOffset(this.rotPoint);
             mat.scale(sx, sy, sz);
@@ -389,17 +390,18 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 
     public static void reloadModel(final PokedexEntry entry)
     {
+        long time = Tracker.instance().getTick();
         if (RenderPokemob.holders.containsKey(entry))
         {
             var holder = RenderPokemob.holders.get(entry);
             if (holder.wrapper != null) holder.wrapper.lastInit = 0;
-            holder.init();
+            holder.init(time);
         }
         for (final Holder custom : RenderPokemob.customs.values())
             if (custom.entry == entry)
             {
                 if (custom.wrapper != null) custom.wrapper.lastInit = 0;
-                custom.init();
+                custom.init(time);
             }
     }
 
@@ -425,7 +427,10 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             }
             RenderPokemob.holders.put(entry, holder);
             // Always initialize starters, so the gui doesn't act a bit funny
-            if (PokecubeCore.getConfig().preloadModels || entry.isStarter) holder.init();
+            if (PokecubeCore.getConfig().preloadModels || entry.isStarter)
+            {
+                holder.init(System.currentTimeMillis());
+            }
         }
     }
 
@@ -436,7 +441,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         if (RenderPokemob.MISSNGNO.wrapper == null || !RenderPokemob.MISSNGNO.wrapper.isLoaded())
         {
             if (RenderPokemob.MISSNGNO.wrapper != null) RenderPokemob.MISSNGNO.wrapper.lastInit = Long.MIN_VALUE;
-            RenderPokemob.MISSNGNO.init();
+            RenderPokemob.MISSNGNO.init(System.currentTimeMillis());
         }
         return RenderPokemob.MISSNGNO;
     }
@@ -445,9 +450,9 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     Holder activeHolder = null;
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public RenderPokemob(final PokedexEntry entry, final EntityRendererProvider.Context p_i50961_1_)
+    public RenderPokemob(final PokedexEntry entry, final EntityRendererProvider.Context context)
     {
-        super(p_i50961_1_, new ModelWrapper(RenderPokemob.getMissingNo(), RenderPokemob.getMissingNo()), 1);
+        super(context, new ModelWrapper(RenderPokemob.getMissingNo(), RenderPokemob.getMissingNo()), 1);
         if (entry == Database.missingno) register();
         if (RenderPokemob.holders.containsKey(entry)) this.holder = RenderPokemob.holders.get(entry);
         else
@@ -470,6 +475,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob == null) return;
         PokedexEntry entry = pokemob.getPokedexEntry();
+        long time = Tracker.instance().getTick();
 
         Holder holder = RenderPokemob.holders.getOrDefault(entry, this.holder);
         FormeHolder forme = pokemob.getCustomHolder();
@@ -501,23 +507,22 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
                 if (forme.animation != null) temp.animation = forme.animation;
                 if (forme.texture != null) temp.texture = forme.texture;
                 RenderPokemob.customs.put(model, temp);
-                temp.init();
+                temp.init(time);
             }
             holder = temp;
         }
-        long time = Tracker.instance().getTick();
         if (holder.wrapper == null)
         {
-            holder.init();
+            holder.init(time);
         }
         if (holder.wrapper != null && !holder.wrapper.isLoaded() && holder.wrapper.lastInit < time)
         {
-            holder.init();
+            holder.init(time);
             return;
         }
         if (holder.failTimer > 0 && holder.failTimer < time)
         {
-            holder.init(); // Recall init again, incase it works
+            holder.init(time); // Recall init again, incase it works
             holder = MISSNGNO;
         }
         // This gives time for the model to actually finish loading in.
@@ -572,7 +577,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
                 if (forme.animation != null) temp.animation = forme.animation;
                 if (forme.texture != null) temp.texture = forme.texture;
                 RenderPokemob.customs.put(model, temp);
-                temp.init();
+                temp.init(Tracker.instance().getTick());
             }
             holder = temp;
         }

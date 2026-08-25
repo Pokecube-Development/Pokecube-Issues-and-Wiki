@@ -137,14 +137,10 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
     @Override
     public void scaleEntity(final PoseStack mat, final Entity entity, final IModel model, final float partialTick)
     {
-        final float s = 1;
         float sx = this.getScale().x;
         float sy = this.getScale().y;
         float sz = this.getScale().z;
-        sx *= s;
-        sy *= s;
-        sz *= s;
-        this.rotPoint.set(this.getRotationOffset()).mul(s);
+        this.rotPoint.set(this.getRotationOffset());
         model.setOffset(this.rotPoint);
         mat.scale(sx, sy, sz);
     }

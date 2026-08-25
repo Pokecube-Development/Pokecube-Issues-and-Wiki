@@ -290,7 +290,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
             var material = shape.getRenderMaterial();
             // Apply material only, we make these if defined anyay.
             if (texer.hasMapping(material.name)) tex_1 = texer.getTexture(material.name, tex_1);
-            material.makeVertexBuilder(tex_1, bufferIn, shape.vertexMode);
+            material.makeVertexBuilder(tex_1, bufferIn);
         }
     }
 

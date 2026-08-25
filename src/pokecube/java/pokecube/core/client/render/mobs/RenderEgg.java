@@ -173,13 +173,9 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     @Override
     public void scaleEntity(final PoseStack mat, final Entity entity, final IModel model, final float partialTick)
     {
-        final float s = 1f;
         float sx = this.getScale().x;
         float sy = this.getScale().y;
         float sz = this.getScale().z;
-        sx *= s;
-        sy *= s;
-        sz *= s;
         mat.scale(sx, sy, sz);
     }
 
