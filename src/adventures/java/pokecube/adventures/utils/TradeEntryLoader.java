@@ -292,6 +292,7 @@ public class TradeEntryLoader
             }
             TypeTrainer.tradesMap.put(entry.template, trades);
         }
+        TypeTrainer.initSpawns();
     }
 
     public static void makeEntries()

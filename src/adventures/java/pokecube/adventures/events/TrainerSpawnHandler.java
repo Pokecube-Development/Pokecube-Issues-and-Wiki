@@ -39,6 +39,7 @@ import pokecube.api.entity.trainers.IHasRewards.Reward;
 import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.events.StructureEvent;
 import pokecube.api.events.npcs.NpcSpawn;
+import pokecube.api.events.pokemobs.SpawnEvent;
 import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
@@ -53,6 +54,7 @@ import thut.api.level.terrain.TerrainManager;
 import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
+import thut.core.common.network.EntityUpdate;
 
 import java.util.Collections;
 import java.util.List;
@@ -142,39 +144,17 @@ public class TrainerSpawnHandler
     }
 
     /** Given a player, find a random position near it. */
-    public static Vector3 getRandomSpawningPointNearEntity(final Level world, final Entity player, final int maxRange)
+    public static Vector3 getRandomSpawningPointNearEntity(final ServerLevel level, final Entity player, int maxRange)
     {
         if (player == null) return null;
-
-        final Vector3 v = TrainerSpawnHandler.vec1.set(player);
-
-        final Random rand = ThutCore.newRandom();
-
-        // SElect random gaussians from here.
-        double x = rand.nextGaussian() * maxRange;
-        double z = rand.nextGaussian() * maxRange;
-
-        // Cap x and z to distance.
-        if (Math.abs(x) > maxRange) x = Math.signum(x) * maxRange;
-        if (Math.abs(z) > maxRange) z = Math.signum(z) * maxRange;
-
-        // Don't select distances too far up/down from current.
-        final double y = Math.min(Math.max(5, rand.nextGaussian() * 10), 10);
-        v.addTo(x, y, z);
-
-        // Don't select unloaded areas.
-        if (!TerrainManager.isAreaLoaded(world, v, 8)) return null;
-
-        // Find surface
-        final Vector3 temp1 = Vector3.getNextSurfacePoint(world, TrainerSpawnHandler.vec1, Vector3.secondAxisNeg, 10);
-
-        if (temp1 != null)
+        Vector3 v = new Vector3(player);
+        Vector3 v1 = SpawnHandler.getRandomPointNear(level, v, maxRange, SpawnEvent.SpawnSurface.notAir());
+        if (v1 != null)
         {
-            if (!temp1.addTo(0, 1, 0).isClearOfBlocks(world)) return null;
-            if (!temp1.add(0, 1, 0).isClearOfBlocks(world)) return null;
-            return temp1;
+            v.set(v1).addTo(0, 1, 0);
+            if (!v.isClearOfBlocks(level)) v1 = null;
         }
-        return null;
+        return v1;
     }
 
     public static TrainerNpc getTrainer(Vector3 v, final ServerLevel w)
@@ -185,6 +165,7 @@ public class TrainerSpawnHandler
         final TrainerNpc trainer = new TrainerNpc(EntityTypes.getTrainer(), w);
         v.moveEntity(trainer);
         trainer.setNpcType(ttype);
+        if (ttype instanceof TypeTrainer type) trainer.getPokemobs().setType(type);
         trainer.getAIStates().setAIState(AIState.MATES, true);
         trainer.getAIStates().setAIState(AIState.TRADES_ITEMS, true);
         initTrainer(trainer.getPokemobs(), level);
@@ -234,15 +215,11 @@ public class TrainerSpawnHandler
         final List<ServerPlayer> players = w.players();
         if (players.isEmpty()) return;
         final Player p = players.get(w.random.nextInt(players.size()));
-        Vector3 v = TrainerSpawnHandler.getRandomSpawningPointNearEntity(w, p, Config.instance.trainerBox);
+        int dist = Math.min(PokecubeCore.getConfig().maxSpawnRadius, Config.instance.trainerBox);
+        Vector3 v = TrainerSpawnHandler.getRandomSpawningPointNearEntity(w, p, dist);
         if (v == null) return;
-        if (v.y <= 0) v.y = v.getMaxY(w);
-        final Vector3 temp = Vector3.getNextSurfacePoint(w, v, Vector3.secondAxisNeg, 20);
-        v = temp != null ? temp.offset(Direction.UP) : v;
         if (v.y <= 0 || v.y >= w.getMaxBuildHeight()) return;
-
         if (!SpawnHandler.checkNoSpawnerInArea(w, v.intX(), v.intY(), v.intZ())) return;
-
         final int count = TrainerTracker.countTrainers(w, v, PokecubeAdv.config.trainerBox);
         if (count < Config.instance.trainerDensity)
         {
@@ -251,34 +228,35 @@ public class TrainerSpawnHandler
             if (w.isEmptyBlock(v.getPos()) && w.isEmptyBlock(u.getPos()) || !w.isEmptyBlock(up.getPos())) return;
 
             final long time = System.nanoTime();
-            final TrainerNpc t = TrainerSpawnHandler.getTrainer(v, w);
-            if (t == null) return;
-            final IHasPokemobs cap = TrainerCaps.getHasPokemobs(t);
-            final NpcSpawn.Spawn event = new NpcSpawn.Spawn(t, v.getPos(), w, MobSpawnType.NATURAL);
+            final TrainerNpc npc = TrainerSpawnHandler.getTrainer(v, w);
+            if (npc == null) return;
+            final IHasPokemobs cap = TrainerCaps.getHasPokemobs(npc);
+            final NpcSpawn.Spawn event = new NpcSpawn.Spawn(npc, v.getPos(), w, MobSpawnType.NATURAL);
             ThutCore.FORGE_BUS.post(event);
             if (event.isCanceled())
             {
-                t.remove(RemovalReason.DISCARDED);
+                npc.remove(RemovalReason.DISCARDED);
                 return;
             }
             final double dt = (System.nanoTime() - time) / 1000000D;
             if (dt > 20) PokecubeAPI.LOGGER.warn("Trainer {} {}ms ", cap.getType().getName(), dt);
-            v.offsetBy(Direction.UP).moveEntity(t);
+            v.offsetBy(Direction.UP).moveEntity(npc);
 
             FluidState fluid = w.getFluidState(v.getPos());
             // Not valid spawning spot, so deny the spawn here.
             if (!fluid.isEmpty() && fluid.getType() != Fluids.WATER) return;
 
-            if (t.getPokemobs().countPokemon() > 0 && SpawnHandler.checkNoSpawnerInArea(w, (int) t.getX(),
-                    (int) t.getY(), (int) t.getZ()))
+            if (npc.getPokemobs().countPokemon() > 0 && SpawnHandler.checkNoSpawnerInArea(w, (int) npc.getX(),
+                    (int) npc.getY(), (int) npc.getZ()))
             {
-                w.addFreshEntity(t);
-                TrainerSpawnHandler.randomizeTrainerTeam(t, cap);
+                w.addFreshEntity(npc);
+                TrainerSpawnHandler.randomizeTrainerTeam(npc, cap);
                 // Force a re-fresh of the type for fixing bag, belt, etc.
-                t.setNpcType(t.getNpcType());
-                if (PokecubeCore.getConfig().debug_spawning) PokecubeAPI.logInfo("Spawned Trainer: " + t + " " + count);
+                npc.setNpcType(npc.getNpcType());
+                EntityUpdate.sendEntityUpdate(npc);
+                if (PokecubeCore.getConfig().debug_spawning) PokecubeAPI.logInfo("Spawned Trainer: " + npc + " " + count);
             }
-            else t.remove(RemovalReason.DISCARDED);
+            else npc.remove(RemovalReason.DISCARDED);
         }
     }
 

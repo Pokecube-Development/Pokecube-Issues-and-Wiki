@@ -17,15 +17,8 @@ import thut.api.maths.Vector3;
 
 public class TrainerTracker
 {
-    private static class Entry implements Comparable<Entry>
+    private record Entry(TrainerBase npc) implements Comparable<Entry>
     {
-        final TrainerBase npc;
-
-        public Entry(final TrainerBase npc)
-        {
-            this.npc = npc;
-        }
-
         public BlockPos getPos()
         {
             return this.npc.blockPosition();
@@ -34,7 +27,7 @@ public class TrainerTracker
         @Override
         public boolean equals(final Object obj)
         {
-            if (obj instanceof Entry entry) return entry.npc.getUUID().equals(this.npc.getUUID());
+            if (obj instanceof Entry(TrainerBase npc1)) return npc1.getUUID().equals(this.npc.getUUID());
             return false;
         }
 
@@ -51,7 +44,7 @@ public class TrainerTracker
         }
     }
 
-    private static Map<ResourceKey<Level>, List<Entry>> mobMap = new HashMap<>();
+    private static final Map<ResourceKey<Level>, List<Entry>> mobMap = new HashMap<>();
 
     public static void add(final TrainerBase npc)
     {

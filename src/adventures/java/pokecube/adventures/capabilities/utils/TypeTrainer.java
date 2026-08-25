@@ -500,7 +500,6 @@ public class TypeTrainer extends NpcType
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Loaded Trainer Types: " + TypeTrainer.typeMap);
         if (!toRemove.isEmpty()) PokecubeAPI.logInfo("Removing Trainer Types: " + toRemove);
         for (final TypeTrainer t : toRemove) TypeTrainer.typeMap.remove(t.getName());
-        TypeTrainer.initSpawns();
     }
 
     /** 1 = male, 2 = female, 3 = both */

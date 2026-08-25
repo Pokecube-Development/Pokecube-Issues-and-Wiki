@@ -146,12 +146,16 @@ public class NpcType
     @Nullable
     public static NpcType getRandomForLocation(Vector3 v, final ServerLevel w)
     {
-        if (w.getBlockState(v.getPos()).isAir() && w.getBlockState(v.getPos().below()).isAir())
-            v = v.getTopBlockPos(w).offsetBy(Direction.UP);
         final SpawnCheck checker = new SpawnCheck(v, w);
-        final List<NpcType> types = Lists.newArrayList(typeMap.values());
-        Collections.shuffle(types);
-        for (NpcType type : types) if (type.shouldSpawn(checker, w)) return type;
+        final List<NpcType> types = new ArrayList<>();
+        for(var type: typeMap.values()) if(!type.spawns.isEmpty()) types.add(type);
+        if(types.isEmpty()) return null;
+        int randomStart = w.getRandom().nextInt(types.size());
+        for(int i = 0; i<types.size(); i++){
+            int index = (i + randomStart)%types.size();
+            var type = types.get(index);
+            if (type.shouldSpawn(checker, w)) return type;
+        }
         return null;
     }
 

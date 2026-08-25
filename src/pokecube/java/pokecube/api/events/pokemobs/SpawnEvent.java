@@ -40,6 +40,11 @@ public class SpawnEvent extends Event implements ICancellableEvent
         {
             return new SpawnSurface(true, fluid -> true);
         }
+
+        public static SpawnSurface notAir()
+        {
+            return new SpawnSurface(false, fluid -> true);
+        }
     }
 
     public static record SpawnContext(@Nullable ServerPlayer player, @Nonnull ServerLevel level,
@@ -123,7 +128,7 @@ public class SpawnEvent extends Event implements ICancellableEvent
         /**
          * This event is called when checking what the spawn rate for a mob is at that location. getOriginalRate() will
          * return the un-modified rate. getRate() is what will be used for the actual value.
-         *
+         * <p>
          * There is a listener for this in SpawnRateMask set to HIGHEST priority, which will apply the mask over this if
          * forSpawn is true.
          */
