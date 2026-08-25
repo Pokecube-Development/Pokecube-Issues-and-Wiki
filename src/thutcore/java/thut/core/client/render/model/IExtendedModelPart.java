@@ -268,6 +268,8 @@ public interface IExtendedModelPart extends IModelCustom, Comparable<IExtendedMo
 
     void setPreScale(Vector3f scale);
 
+    default void setBaseTranslationsAndScale(Vector3f translation, Vector3f scale){}
+
     /**
      * Multiplies render scaling factor by scale,
      * this should get automatically reset after the render call.

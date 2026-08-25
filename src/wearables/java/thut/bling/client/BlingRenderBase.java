@@ -1,5 +1,6 @@
 package thut.bling.client;
 
+import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
@@ -11,6 +12,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import thut.api.ThutCaps;
 import thut.api.entity.IAnimated.IAnimationHolder;
+import thut.api.entity.animation.CapabilityAnimation;
 import thut.bling.ThutBling;
 import thut.bling.client.render.Ankle;
 import thut.bling.client.render.Back;
@@ -25,6 +27,7 @@ import thut.bling.client.render.Wrist;
 import thut.bling.data.GemData;
 import thut.core.client.render.animation.AnimationHelper;
 import thut.core.client.render.model.IModel;
+import thut.core.client.render.model.IModelCustom;
 import thut.lib.RegHelper;
 import thut.wearables.EnumWearable;
 
@@ -75,6 +78,12 @@ public abstract class BlingRenderBase
         final IAnimationHolder holder = AnimationHelper.getHolder(wearer);
         holder.setContext(ThutCaps.getAnimated(wearer));
         model.setAnimationHolder(holder);
+        // this should result in all parts being translated to their root positions
+        if(model instanceof IModelCustom renderable)
+        {
+            renderable.updateAnimation(List.of(), holder);
+        }
+
         switch (slot)
         {
         case ANKLE:

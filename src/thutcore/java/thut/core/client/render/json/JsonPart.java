@@ -10,12 +10,10 @@ import org.joml.Vector3f;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import thut.api.maths.Vector4;
 import thut.core.client.render.json.JsonTemplate.JsonBlock;
 import thut.core.client.render.json.JsonTemplate.JsonFace;
 import thut.core.client.render.model.parts.Material;
@@ -294,23 +292,22 @@ public class JsonPart extends Part
             // We need to translate to rotation point, then rotate, then
             // translate back.
             vec.add(origin);
-            // TODO: Fix this
-            // vec.transform(quat);
-        vec.sub(origin);
+            quat.transform(vec);
+            vec.sub(origin);
 
-        // Now translate to where it should be
-        vec.add(shift);
+            // Now translate to where it should be
+            vec.add(shift);
 
-        v.set(vec.x() / 16, vec.y() / 16, vec.z() / 16);
-        Integer o = order.size();
-        int u0 = tex_order[i][0];
-        int v0 = tex_order[i][1];
-        Vector2f t = new Vector2f(face.uv[u0] / us, face.uv[v0] / vs);
-        order.add(o);
-        verts.add(v);
-        tex.add(t);
+            v.set(vec.x() / 16, vec.y() / 16, vec.z() / 16);
+            Integer o = order.size();
+            int u0 = tex_order[i][0];
+            int v0 = tex_order[i][1];
+            Vector2f t = new Vector2f(face.uv[u0] / us, face.uv[v0] / vs);
+            order.add(o);
+            verts.add(v);
+            tex.add(t);
+        }
     }
-}
 
     private static List<Mesh> makeShapes(JsonTemplate t, JsonBlock b, float[] offsets)
     {
@@ -368,7 +365,6 @@ public class JsonPart extends Part
     }
 
     public int index = 0;
-    private float rx = 0, ry = 0, rz = 0;
 
     public JsonPart(String name)
     {
@@ -376,59 +372,10 @@ public class JsonPart extends Part
     }
 
     @Override
-    public void setPreRotations(Vector4 angles)
+    protected void prepareForCombine()
     {
-        this.preRot.mul(angles, rotations);
-    }
-
-    @Override
-    public void resetToInit()
-    {
-        super.resetToInit();
-        rx = ry = rz = 0;
-    }
-
-    @Override
-    public void setDefaultAngles(float rx, float ry, float rz)
-    {
-        this.rotations.x += rx;
-        this.rotations.y += ry;
-        this.rotations.z += rz;
-    }
-
-    @Override
-    public void setAnimAngles(float rx, float ry, float rz)
-    {
-        this.rx = rx;
-        this.ry = ry;
-        this.rz = rz;
-    }
-
-    @Override
-    public void preRender(PoseStack mat)
-    {
-        if (this.getParent() != null) getParent().preRender(mat);
-
-        mat.pushPose();
-
-        // Translate of offset for rotation.
-        mat.translate(this.preTrans.x, this.preTrans.y, this.preTrans.z);
-        mat.scale(this.preScale.x, this.preScale.y, this.preScale.z);
-
-        float rx = this.rx + rotations.x;
-        float ry = this.ry + rotations.y;
-        float rz = this.rz + rotations.z;
-
-        if (rz != 0) mat.mulPose(Axis.YN.rotationDegrees(rz));
-        if (ry != 0) mat.mulPose(Axis.ZP.rotationDegrees(ry));
-        if (rx != 0) mat.mulPose(Axis.XP.rotationDegrees(rx));
-
-        // Translate by post-PreOffset amount.
-        mat.translate(this.postTrans.x, this.postTrans.y, this.postTrans.z);
-        // Apply postRotation
-        this.postRot.glRotate(mat);
-        // Scale
-        mat.scale(this.postScale.x, this.postScale.y, this.postScale.z);
+        renderPose.pose().identity();
+        renderPose.normal().identity();
     }
 
     @Override

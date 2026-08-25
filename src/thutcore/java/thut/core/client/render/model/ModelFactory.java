@@ -103,8 +103,7 @@ public class ModelFactory
             {
                 if (p.getParent() == null)
                 {
-                    p.setPreScale(model.getLoadedScale());
-                    p.setPreTranslations(model.getLoadedOffset());
+                    p.setBaseTranslationsAndScale(model.getLoadedOffset(), model.getLoadedScale());
                 }
             }
         });

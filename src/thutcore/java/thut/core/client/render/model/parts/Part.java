@@ -51,11 +51,13 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
 
     public Vector4 preRot = new Vector4();
     public Vector4 postRot = new Vector4();
+    public Vector3f basePreTrans = new Vector3f();
     public Vector3f preTrans = new Vector3f();
     public Vector3f postTrans = new Vector3f();
-    public Vector3f preScale = new Vector3f(1, 1, 1);
-    public Vector3f scale = new Vector3f(1, 1, 1);
-    public Vector3f postScale = new Vector3f(1, 1, 1);
+    public Vector3f preScale = new Vector3f( 1);
+    public Vector3f basePreScale = new Vector3f(1);
+    public Vector3f scale = new Vector3f(1);
+    public Vector3f postScale = new Vector3f(1);
 
     public Vector3f offset = new Vector3f();
     public Vector3f meshMid = new Vector3f(), dMid = new Vector3f();
@@ -98,6 +100,24 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         this.name = name;
     }
 
+    protected void prepareForCombine()
+    {
+        this.renderPose.pose().identity();
+        this.renderPose.normal().identity();
+        // Now apply the transforms from preRender
+        // Translate of offset for rotation.
+        this.renderPose.translate(this.preTrans);
+        this.renderPose.scale(this.preScale);
+        // // Apply PreOffset-Rotations.
+        this.renderPose.rotate(this.preRot.toMCQ());
+        // Translate by post-PreOffset amount.
+        this.renderPose.translate(this.postTrans);
+        // Apply postRotation
+        this.renderPose.rotate(this.postRot.toMCQ());
+        // Finally apply Scale
+        this.renderPose.scale(this.scale);
+    }
+
     /**
      * This occurs outside the main render loop,
      * synchronized and slow blocks are "fine".
@@ -110,7 +130,8 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
             // Only our direct children.
             // Only ones not starting with __, as those are special for worn things, etc
             // Only ones with no children
-            if( _p.getParent()==this
+            if( mergeMeshes
+                &&_p.getParent()==this
                 &&!_p.isAnimated()
                 &&!_p.getName().startsWith("__")
                 &&_p instanceof Part p
@@ -118,72 +139,57 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                 )
             {
                 // Attempt to merge the part in to us.
-                var mats = p.getMaterials().stream().map(m -> m.name);
-                boolean allMatch = mats.allMatch(this.namedMaterials::containsKey);
 
-                if (allMatch && mergeMeshes)
+                // Start by setting up renderPose appropriately
+                p.prepareForCombine();
+
+                var tranform = p.renderPose.pose();
+                Vector4f dp = new Vector4f();
+
+                // Then process each mesh to add to ours.
+                for (var mesh : p.shapes)
                 {
-                    p.renderPose.pose().identity();
-                    p.renderPose.normal().identity();
-                    // Now apply the transforms from preRender
-                    // Translate of offset for rotation.
-                    p.renderPose.translate(p.preTrans);
-                    p.renderPose.scale(p.preScale);
-                    // // Apply PreOffset-Rotations.
-                    p.renderPose.rotate(p.preRot.toMCQ());
-                    // Translate by post-PreOffset amount.
-                    p.renderPose.translate(p.postTrans);
-                    // Apply postRotation
-                    p.renderPose.rotate(p.postRot.toMCQ());
-                    // Finally apply Scale
-                    p.renderPose.scale(p.scale);
-
-                    var tranform = p.renderPose.pose();
-                    Vector4f dp = new Vector4f();
-
-                    for (var mesh : p.shapes)
+                    // Check if we can do a simple hash map for de-duping later
+                    Map<Integer, Vector3f> verts = new HashMap<>();
+                    boolean validHash = true;
+                    for (int i = 0; i < mesh.vertices.length; i++)
                     {
-                        // Check if we can do a simple hash map for de-duping later
-                        Map<Integer, Vector3f> verts = new HashMap<>();
-                        boolean validHash = true;
+                        // Copy array
+                        mesh.vertices[i] = new Vector3f(mesh.vertices[i]);
+                        var v = mesh.vertices[i];
+                        dp.set(v, 1);
+                        dp.mul(tranform);
+                        v.set(dp.x, dp.y, dp.z);
+                        // Transform to new location
+                        int id = v.hashCode();
+                        if (!verts.containsKey(id)) verts.put(id, v);
+                        else
+                        {
+                            var prev = verts.get(id);
+                            if (prev.distanceSquared(v) > 1e-12) validHash = false;
+                        }
+                    }
+                    if (validHash)
+                    {
                         for (int i = 0; i < mesh.vertices.length; i++)
                         {
-                            // Copy array
-                            mesh.vertices[i] = new Vector3f(mesh.vertices[i]);
-                            var v = mesh.vertices[i];
-                            dp.set(v, 1);
-                            dp.mul(tranform);
-                            v.set(dp.x, dp.y, dp.z);
-                            // Transform to new location
-                            int id = v.hashCode();
-                            if (!verts.containsKey(id)) verts.put(id, v);
-                            else
-                            {
-                                var prev = verts.get(id);
-                                if (prev.distanceSquared(v) > 1e-12) validHash = false;
-                            }
+                            int id = mesh.vertices[i].hashCode();
+                            mesh.vertices[i] = verts.get(id);
                         }
-                        if (validHash)
-                        {
-                            for (int i = 0; i < mesh.vertices.length; i++)
-                            {
-                                int id = mesh.vertices[i].hashCode();
-                                mesh.vertices[i] = verts.get(id);
-                            }
-                        }
-                        this.addShape(mesh);
                     }
-                    this.order.remove(p);
-                    this.parts.remove(p.name);
-                    this.childNames.remove(p.name);
-
-                    p.shapes.clear();
-                    p.renderShapes.clear();
-                    p.order.clear();
-                    p.parts.clear();
-                    p.childNames.clear();
-                    p.materials.clear();
+                    this.addShape(mesh);
                 }
+                this.order.remove(p);
+                this.parts.remove(p.name);
+                this.childNames.remove(p.name);
+
+                p.shapes.clear();
+                p.renderShapes.clear();
+                p.order.clear();
+                p.parts.clear();
+                p.childNames.clear();
+                p.materials.clear();
+
             }
         }
     }
@@ -379,7 +385,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         // TODO render adders for new rendering setup
         Material.startRender();
         for (var adder : this.renderAdders) adder.onRender(mat, this);
-        this.preRender(mat);
         for (final Mesh s : this.renderShapes)
         {
             s.cullScale = ds / ds2;
@@ -387,7 +392,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
             s.setPose(mat);
             s.renderShape(buffer);
         }
-        this.postRender(mat);
     }
 
     @Override
@@ -406,8 +410,8 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         this.preRot.set(rotations.x, rotations.y, rotations.z, rotations.w);
         // Post rot is head direction
         this.postRot.set(0, 0, 0, 1);
-        this.preTrans.set(offset);
-        this.preScale.set(1);
+        this.preTrans.set(offset).add(basePreTrans);
+        this.preScale.set(basePreScale);
         this.postTrans.set(0);
 
         this.colour_scales[0] = 1;
@@ -538,6 +542,13 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
+    public void setBaseTranslationsAndScale(Vector3f translation, Vector3f scale)
+    {
+        this.basePreScale.set(scale);
+        this.basePreTrans.set(translation);
+    }
+
+    @Override
     public void setPreScale(final Vector3f scale)
     {
         this.preScale.x = scale.x;
@@ -549,7 +560,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     @Override
     public void setPreTranslations(final Vector3f point)
     {
-        this.preTrans.set(offset).add(point.x, point.y, point.z);
+        this.preTrans.set(offset).add(basePreTrans).add(point);
     }
 
     @Override

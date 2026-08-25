@@ -24,7 +24,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.client.entity.animation.json.AnimationHolder;
 import thut.api.ModelHolder;
+import thut.api.entity.IAnimated;
+import thut.api.entity.animation.CapabilityAnimation;
 import thut.bling.ThutBling;
 import thut.bling.data.GemData;
 import thut.core.client.render.model.IExtendedModelPart;
@@ -172,16 +175,16 @@ public class Util
             }
             try
             {
-                for (final IExtendedModelPart part1 : model.getParts().values())
+                for (final IExtendedModelPart part : model.getPartsList())
                 {
-                    if (texs != null) for (var m : part1.getMaterials())
+                    if (texs != null) for (var m : part.getMaterials())
                     {
                         m.tex = texs[0];
                     }
-                    part1.setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), alpha, brightness, overlay);
-                    part1.setRGBABrO(notColurable, 255, 255, 255, alpha, brightness, overlay);
+                    part.setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), alpha, brightness, overlay);
+                    part.setRGBABrO(notColurable, 255, 255, 255, alpha, brightness, overlay);
                 }
-                renderable.renderLegacy(mat, Util.makeBuilder(buff, Util.DUMMY));
+                renderable.render(mat, Util.makeBuilder(buff, Util.DUMMY));
             }
             catch (Exception e)
             {
@@ -195,7 +198,7 @@ public class Util
             final int brightness, final int overlay, Predicate<Material> notColurable)
     {
         if (!(model instanceof IModelCustom renderable)) return;
-        ResourceLocation tex0 = null;
+        ResourceLocation tex0;
         Color colour;
         int alpha = 255;
         GemData data = stack.get(ThutBling.BLING_GEM_DATA);
@@ -228,7 +231,7 @@ public class Util
 
         Map<Material, ResourceLocation> toReset = Maps.newHashMap();
         List<Material> toClear = new ArrayList<>();
-        for (final IExtendedModelPart part : model.getParts().values())
+        for (final IExtendedModelPart part : model.getPartsList())
         {
             boolean isGem = false;
             if (tex0 != null && (isGem = part.getName().contains(itempart))) for (Material m : part.getMaterials())
@@ -246,7 +249,7 @@ public class Util
             }
             else part.setRGBABrO(255, 255, 255, alpha, brightness, overlay);
         }
-        renderable.renderLegacy(mat, Util.makeBuilder(buff, Util.DUMMY));
+        renderable.render(mat, Util.makeBuilder(buff, Util.DUMMY));
 
         for (var entry : toReset.entrySet())
         {

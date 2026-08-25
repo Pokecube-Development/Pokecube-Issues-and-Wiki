@@ -72,28 +72,29 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     public void applyAnimation(final Entity entity, final IModelRenderer<?> renderer)
     {
         if (!this.isLoaded()) return;
-        this.getModel().applyAnimation(entity, renderer);
+        this.imodel.applyAnimation(entity, renderer);
     }
 
     @Override
     public Set<String> getHeadParts()
     {
         if (this.getModel() == null) return Collections.emptySet();
-        return this.getModel().getHeadParts();
+        return this.imodel.getHeadParts();
     }
 
     @Override
     public Map<String, IExtendedModelPart> getParts()
     {
-        return this.getModel().getParts();
+        if (this.getModel() == null) return Map.of();
+        return this.imodel.getParts();
     }
 
     @Override
     public boolean isValid()
     {
         // Wait for the imodel before claiming to be invalid
-        if (this.getModel() == null) return true;
-        return this.getModel().isValid();
+        if (this.getModel()== null) return true;
+        return this.imodel.isValid();
     }
 
     @Override
@@ -102,14 +103,14 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         // If we have no model, obviously not loaded yet
         if (this.getModel() == null) return false;
         // Otherwise ask the model
-        return this.getModel().isLoaded();
+        return this.imodel.isLoaded();
     }
 
     @Override
     public void processAnimations(final Collection<Animation> collection)
     {
         if (this.getModel() == null) return;
-        this.getModel().processAnimations(collection);
+        this.imodel.processAnimations(collection);
     }
 
     private void initColours(final IExtendedModelPart part, final T entity, IMobColourable poke, final int brightness,

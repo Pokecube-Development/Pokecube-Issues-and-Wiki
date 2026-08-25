@@ -30,7 +30,6 @@ import thut.core.client.render.model.parts.Part;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.common.ThutCore;
-import thut.lib.AxisAngles;
 import thut.lib.ResourceHelper;
 
 public abstract class BaseModel implements IModelCustom, IModel, IRetexturableModel
@@ -225,12 +224,13 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
                 this.renderOrderMeshs.clear();
 
                 // this should result in all parts being translated to their root positions
-                this.updateAnimation(List.of(), holder);
+                if(!this.partsList.isEmpty()) this.updateAnimation(List.of(), holder);
 
                 for (var part : this.partsList)
                 {
-                    part.preProcess();
+                    part.preProcess(); // Setup initial render meshs
                     part.tryCombineChildren();
+                    part.preProcess(); // Re-do setup incase changed
                     this.renderOrderMeshs.addAll(part.getRenderMeshes());
                     if (part.getPartsList().isEmpty() && part.getRenderMeshes().isEmpty())
                     {
@@ -320,11 +320,16 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
 
         Material.startRender();
 
+        Set<Mesh> rendered = new HashSet<>();
         // Render custom parts first via legacy rendering
-        for (var part : this.customParts) part.render(mat, buffer);
-
+        for (var part : this.customParts)
+        {
+            rendered.addAll(part.getRenderMeshes());
+            part.render(mat, buffer);
+        }
         for(var m: this.renderOrderMeshs)
         {
+            if(rendered.contains(m)) continue;
             // Attempt to multiply correctly
             last.pose().mul(m.poseInfo.pose(), pos);
             m.poseInfo.pose().set(pos);

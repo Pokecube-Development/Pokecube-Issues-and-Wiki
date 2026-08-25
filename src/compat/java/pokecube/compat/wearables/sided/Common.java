@@ -17,14 +17,20 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.items.megastuff.ItemMegawearable;
 import thut.api.ModelHolder;
+import thut.api.ThutCaps;
+import thut.api.entity.IAnimated;
 import thut.bling.client.render.Util;
+import thut.core.client.render.animation.AnimationHelper;
 import thut.core.client.render.model.IModel;
+import thut.core.client.render.model.IModelCustom;
 import thut.core.client.render.model.ModelFactory;
 import thut.wearables.EnumWearable;
 import thut.wearables.IActiveWearable;
 import thut.wearables.ThutWearables;
 import thut.wearables.events.WearableDroppedEvent;
 import thut.wearables.impl.WearableData;
+
+import java.util.List;
 
 @EventBusSubscriber
 public class Common
@@ -82,6 +88,17 @@ public class Common
             boolean reload = Util.shouldReloadModel();
             if ((this.model == null || reload) && this._model != null)
                 this.model = ModelFactory.createScaled(new ModelHolder(this._model));
+            if(model!=null)
+            {
+                IAnimated.IAnimationHolder holder = AnimationHelper.getHolder(wearer);
+                holder.setContext(ThutCaps.getAnimated(wearer));
+                model.setAnimationHolder(holder);
+                // this should result in all parts being translated to their root positions
+                if (model instanceof IModelCustom renderable)
+                {
+                    renderable.updateAnimation(List.of(), holder);
+                }
+            }
         }
     }
 
