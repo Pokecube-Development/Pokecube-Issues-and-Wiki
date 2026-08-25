@@ -1,0 +1,17 @@
+{
+  "elements": [
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:scattered/pokecenter_start/building",
+        "processors": "pokecube:mossify_20_percent",
+        "projection": "rigid",
+        "biome_type": "pokecenter",
+        "int_config":{"y_offset": -5}
+      },
+      "weight": 9
+    }
+  ],
+  "fallback": "minecraft:empty",
+  "name": "pokecube:scattered/pokecenter"
+}

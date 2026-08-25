@@ -208,6 +208,7 @@ public class Config extends ConfigData
             return ResourceLocation.tryParse(args[0])!=null;
         });
         registerStringValidator("pokecube.generation.professor_override", s->true);
+        registerStringValidator("pokecube.generation.spawn_structure_tag", VALID_RESOURCE);
 
         registerStringValidator("pokecube.spawning.softSpawnBiomeBlacklist",VALID_RESOURCE_OR_TAG);
 
@@ -560,6 +561,8 @@ public class Config extends ConfigData
     public boolean structs_default_ruins = true;
     @Configure(category = Config.world, comment = "This is what the value in the structure data block will be replaced with to generate the professor.", worldRestart = true)
     public String professor_override = "pokecube:mob:spawn_professor";
+    @Configure(category = Config.world, comment = "The tag of structures to search for when placing spawn.", worldRestart = true)
+    public String spawn_structure_tag = "pokecube_world:starting_town";//starting_town//scattered_pokecenters
 
     // Mob Spawning settings
     @Configure(category = Config.spawning, comment = "the configs for deactivating/disabling monsters and animals will also affect these worlds, not only vanilla worlds.")

@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "pokecube:pokecenter",
+      "weight": 2
+    }
+  ],
+  "placement": {
+    "salt": 1257609452,
+    "spacing": 32,
+    "separation": 12,
+    "type": "minecraft:random_spread"
+  }
+}

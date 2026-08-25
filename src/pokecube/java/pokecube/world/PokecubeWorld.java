@@ -51,7 +51,7 @@ public class PokecubeWorld
 
         PokecubeStructureProcessors.init(bus);
         FeaturesInit.init(bus);
-        PokecubeStructures.init(bus);
+        PokecubeStructures.init();
         FoliagePlacerTypes.init();
         TrunkPlacerTypes.init();
 
