@@ -91,7 +91,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     }
 
     IExtendedModelPart root_part = null;
-    
+
     public Map<String, IExtendedModelPart> parts = new Object2ObjectOpenHashMap<>();
     private final List<IExtendedModelPart> partsList = new ArrayList<>();
     private final List<Mesh> renderOrderMeshs = new ArrayList<>();

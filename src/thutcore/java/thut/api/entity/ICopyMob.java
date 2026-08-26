@@ -58,7 +58,18 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
             this.setCopiedNBT(nbt.getCompound("tag"));
             var oldId = this.getCopiedID();
             var oldMob = this.getCopiedMob();
-            if (oldId != null && oldId.equals(this.getCopiedID()) && oldMob != null) oldMob.load(tag);
+            if (oldId != null && oldId.equals(this.getCopiedID()) && oldMob != null)
+            {
+                LivingEntity fake = null;
+                // Client side this results in a glitch in location when the update is sent.
+                if(oldMob.level().isClientSide())
+                {
+                    fake = EntityType.PIG.create(oldMob.level());
+                    copyEntityTransforms(fake, oldMob);
+                };
+                oldMob.load(tag);
+                if(oldMob.level().isClientSide()) copyEntityTransforms(oldMob, fake);
+            }
         }
         else
         {
