@@ -10,11 +10,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import net.neoforged.neoforge.event.EventHooks;
-import thut.api.entity.event.CopySetEvent;
 import thut.api.entity.event.CopyUpdateEvent;
 import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
-import thut.mixin.accessors.WalkAniAccessor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -32,7 +30,7 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
     /**
      * Use for cases where event is not needed to cancel the set, or where the copy is not applied to a mob
      */
-    default void setCopiedMob( LivingEntity mob){setCopiedMob(null, mob);};
+    default void setCopiedMob( LivingEntity mob){setCopiedMob(null, mob);}
 
     /**
      * Use for cases which may be cancelled via events listing for onCopySet
@@ -197,14 +195,25 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
         ICopyMob.copyRotations(to, from);
         ICopyMob.copyPositions(to, from);
 
-        WalkAniAccessor toWalk = (WalkAniAccessor) to.walkAnimation;
-        WalkAniAccessor fromWalk = (WalkAniAccessor) from.walkAnimation;
+        var walkTo = to.walkAnimation;
+        var walkFrom = from.walkAnimation;
 
-        toWalk.copyCap$setPosition(fromWalk.copyCap$position());
+        WalkAccess toWalk = (WalkAccess) walkTo;
+        WalkAccess fromWalk = (WalkAccess) walkFrom;
+
+        toWalk.copyCap$setPosition(walkFrom.position());
         toWalk.copyCap$setSpeedOld(fromWalk.copyCap$speedOld());
-        toWalk.copyCap$setSpeed(fromWalk.copyCap$speed());
+        toWalk.copyCap$setSpeed(walkFrom.speed());
 
         to.setOnGround(from.onGround());
         // TODO more variable syncing, used to do fluids, etc
+    }
+
+    public static interface WalkAccess
+    {
+        float copyCap$speedOld();
+        void copyCap$setSpeedOld(float speedOld);
+        void copyCap$setPosition(float position);
+        void copyCap$setSpeed(float speed);
     }
 }

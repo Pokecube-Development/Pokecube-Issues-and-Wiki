@@ -5,28 +5,23 @@ import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 import net.minecraft.world.entity.WalkAnimationState;
+import thut.api.entity.ICopyMob;
 
 @Mixin(WalkAnimationState.class)
-public interface WalkAniAccessor
+public abstract class WalkAniAccessor implements ICopyMob.WalkAccess
 {
     @Accessor("speedOld")
     @Mutable
-    void copyCap$setSpeedOld(float maxValue);
+    public abstract void copyCap$setSpeedOld(float speedOld);
 
     @Accessor("speedOld")
-    float copyCap$speedOld();
+    public abstract float copyCap$speedOld();
 
     @Accessor("position")
     @Mutable
-    void copyCap$setPosition(float maxValue);
-
-    @Accessor("position")
-    float copyCap$position();
+    public abstract void copyCap$setPosition(float position);
 
     @Accessor("speed")
     @Mutable
-    void copyCap$setSpeed(float maxValue);
-
-    @Accessor("speed")
-    float copyCap$speed();
+    public abstract void copyCap$setSpeed(float maxValue);
 }
