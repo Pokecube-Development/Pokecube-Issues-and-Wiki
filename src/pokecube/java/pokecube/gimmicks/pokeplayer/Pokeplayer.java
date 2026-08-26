@@ -212,8 +212,8 @@ public class Pokeplayer
         final ICopyMob copy = ThutCaps.getCopyMob(event.getEntity());
         copy.setFullTick(true);
 
-        // If we are copied, then just use the mob's step height.
-        if (copy.getCopiedMob() != null)
+        // If we are copied, then just use the mob's step height, but only for ones which are tall.
+        if (copy.getCopiedMob() != null && copy.getCopiedMob().getBbHeight() > 2)
         {
             double dStep = copy.getCopiedMob().getAttribute(Attributes.STEP_HEIGHT).getValue() - event.getEntity()
                     .getAttribute(Attributes.STEP_HEIGHT).getValue();
@@ -269,6 +269,10 @@ public class Pokeplayer
             var hunger = pokemob.getHungerTime();
             var foodData = player.getFoodData();
             int food = foodData.getFoodLevel();
+            pokemob.updateHealth();
+            float maxHP = pokemob.getMaxHealth();
+            // Sync max health amount
+            player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxHP);
             float pokeHunger = HungerTask.calculateHunger(pokemob);
             int hungerRate = PokecubeCore.getConfig().pokemobLifeSpan / 25;
             if (pokeHunger < 0.8)

@@ -19,6 +19,7 @@ import pokecube.api.entity.pokemob.moves.PokemobMoveStats;
 import pokecube.core.ai.logic.Logic;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.routes.IGuardAICapability;
+import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import pokecube.core.network.pokemobs.PacketPingBoss;
 import pokecube.core.utils.PokemobTracker;
 import thut.api.attachments.CopyMob;
@@ -292,7 +293,7 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
     public void updateHealth()
     {
         final float old = this.getMaxHealth();
-        final float maxHealth = this.getStat(Stats.HP, false);
+        final float maxHealth = PokecubeAttributes.valuesToHPStat(this);
         float health = this.getHealth();
 
         if (maxHealth > old)
