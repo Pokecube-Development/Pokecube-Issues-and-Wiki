@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -30,6 +31,8 @@ import thut.lib.ResourceHelper;
 
 public class X3dModel extends BaseModel
 {
+    protected Map<String, Material> mats = new Object2ObjectOpenHashMap<>();
+
     public X3dModel(final ResourceLocation l, IModelCallback callback)
     {
         super(l, callback);

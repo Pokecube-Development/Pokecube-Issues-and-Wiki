@@ -91,12 +91,10 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     }
 
     IExtendedModelPart root_part = null;
+    
     public Map<String, IExtendedModelPart> parts = new Object2ObjectOpenHashMap<>();
-
     private final List<IExtendedModelPart> partsList = new ArrayList<>();
     private final List<Mesh> renderOrderMeshs = new ArrayList<>();
-    private final List<IExtendedModelPart> animOrder = new ArrayList<>();
-    protected Map<String, Material> mats = new Object2ObjectOpenHashMap<>();
 
     IRetexturableModel.Holder<IAnimationChanger> animChangeHolder = new IRetexturableModel.Holder<>();
     IRetexturableModel.Holder<IAnimationHolder> animHolderHolder = new IRetexturableModel.Holder<>();
@@ -231,6 +229,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
 
                 for (var part : this.partsList)
                 {
+                    part.setHeadPart(this.getHeadParts().contains(part.getName()));
                     part.preProcess(); // Setup initial render meshs
                     part.tryCombineChildren();
                     part.preProcess(); // Re-do setup incase changed
@@ -242,6 +241,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
                 }
                 partsList.clear();
                 this.partsList.addAll(parts.values());
+                this.partsList.sort(null);
             }
             IExtendedModelPart.sortMeshes(this.renderOrderMeshs);
         }
@@ -255,6 +255,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
             synchronized (partsList)
             {
                 this.collectAndSimplifyMeshs();
+                this.partsList.sort(null);
             }
         }
         return this.partsList;
@@ -361,32 +362,13 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         this.updateAnimation(anims, holder);
     }
 
-    private void addChildrenToOrder(IExtendedModelPart part)
-    {
-        part.setHeadPart(this.getHeadParts().contains(part.getName()));
-        for (var child : part.getSubParts().values())
-        {
-            if (!animOrder.contains(child)) animOrder.add(child);
-            addChildrenToOrder(child);
-        }
-    }
-
     @Override
     public void updateAnimation(List<Animation> playingAnims, IAnimationHolder holder)
     {
         if (this.getPartsList().isEmpty()) return;
-        if (animOrder.isEmpty())
-        {
-            for (var part : this.getParts().values())
-            {
-                if (!animOrder.contains(part)) animOrder.add(part);
-                addChildrenToOrder(part);
-            }
-            animOrder.sort(null);
-        }
         var animChanger = this.getAnimationChanger().get();
         // Then apply animations
-        for (var part : animOrder)
+        for (var part : partsList)
             this.updatePart(playingAnims, part, holder, animChanger);
     }
 
