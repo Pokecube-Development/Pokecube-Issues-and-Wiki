@@ -31,7 +31,7 @@ import thut.lib.ResourceHelper;
 
 public class X3dModel extends BaseModel
 {
-    protected Map<String, Material> mats = new Object2ObjectOpenHashMap<>();
+    protected Map<String, Material> mats;
 
     public X3dModel(final ResourceLocation l, IModelCallback callback)
     {
@@ -111,6 +111,7 @@ public class X3dModel extends BaseModel
 
     private void makeObjects(final X3dXML xml)
     {
+        this.mats = new Object2ObjectOpenHashMap<>();
         final Map<String, Set<String>> childMap = Maps.newHashMap();
         final Set<Transform> allTransforms = Sets.newHashSet();
         for (final Transform f : xml.model.scene.transforms)
