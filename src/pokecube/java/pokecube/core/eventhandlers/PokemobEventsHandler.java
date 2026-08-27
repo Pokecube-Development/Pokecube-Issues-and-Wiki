@@ -298,8 +298,6 @@ public class PokemobEventsHandler
         @Override
         public void run()
         {
-            if (!this.mob.isAddedToLevel() || !this.mob.isAlive()) return;
-
             if (this.pokemob.getPokedexEntry().isMega() && this.pokemob.getOwner() instanceof ServerPlayer player)
                 Triggers.MEGAEVOLVEPOKEMOB.get().trigger(player, this.pokemob);
             final int evoTicks = this.pokemob.getEvolutionTicks();

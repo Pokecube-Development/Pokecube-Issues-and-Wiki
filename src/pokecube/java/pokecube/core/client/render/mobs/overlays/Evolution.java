@@ -51,7 +51,6 @@ public class Evolution
     public static void renderEffect(final IPokemob pokemob, final PoseStack mat, final MultiBufferSource bufferIn,
             final float partialTick, final int duration, final boolean scaleMob)
     {
-        if (!pokemob.getEntity().isAddedToLevel()) return;
         int ticks = pokemob.getEvolutionTicks();
 
         float scaleShift = 0;

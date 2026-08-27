@@ -30,7 +30,7 @@ public class RenderMobOverlays
         Minecraft mc = Minecraft.getInstance();
         Entity cameraEntity = mc.getCameraEntity();
         float partialTicks = event.getPartialTick();
-        if (cameraEntity == null || !event.getEntity().isAlive()) return;
+        if (cameraEntity == null) return;
         final IPokemob pokemob = PokemobCaps.getPokemobFor(event.getEntity());
         if (pokemob != null) // TODO && event.getEntity().canUpdate() what was this for?
         {
