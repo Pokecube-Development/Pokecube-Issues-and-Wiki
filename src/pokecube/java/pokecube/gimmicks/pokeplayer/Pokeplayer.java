@@ -41,7 +41,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.database.Database;
 import pokecube.core.items.ItemPokedex;
-import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.utils.PokemobTracker;
@@ -291,6 +290,9 @@ public class Pokeplayer
             var foodData = player.getFoodData();
             int food = foodData.getFoodLevel();
             float pokeHunger = HungerTask.calculateHunger(pokemob);
+            pokemob.updateHealth();
+            float maxHP = pokemob.getMaxHealth();
+            player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxHP);
             // Re-sync hp
             player.setHealth(pokemob.getHealth());
             int hungerRate = PokecubeCore.getConfig().pokemobLifeSpan / 25;
