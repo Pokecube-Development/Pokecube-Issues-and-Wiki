@@ -401,7 +401,7 @@ public class PokemobEventsHandler
         {
             // Initialise these when added to world.
             pokemob.getMoveStats().reset();
-            PokecubeAttributes.resetToEntry(pokemob);
+            WorldTickManager.scheduleTask(mob.level(), ()->PokecubeAttributes.resetToEntry(pokemob));
         }
 
         if (mob.level().isClientSide()) return;

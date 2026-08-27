@@ -179,12 +179,22 @@ public class WorldTickManager
         holder.addData(data);
     }
 
+    public static void scheduleTask(final Level level, final Runnable task)
+    {
+        scheduleTask(level.dimension(), task);
+    }
+
+    public static void scheduleTask(final ResourceKey<Level> key, final Runnable task)
+    {
+        scheduleTask(key, new DelayedTask(0, task));
+    }
+
     public static void scheduleTask(final ResourceKey<Level> key, final DelayedTask task)
     {
         final WorldData holder = WorldTickManager.dataMap.get(key);
         if (holder == null)
         {
-            ThutCore.LOGGER.error("Adding Data before load???");
+            ThutCore.LOGGER.error("Adding Task before load???");
             return;
         }
         holder.addDelayedTask(task);
@@ -235,7 +245,7 @@ public class WorldTickManager
             final WorldData data = WorldTickManager.dataMap.get(key);
             if (data == null)
             {
-                ThutCore.LOGGER.error("Ticking world before load???");
+                ThutCore.LOGGER.error("Ticking world Post before load???");
                 return;
             }
             data.onWorldTickEnd();
@@ -252,7 +262,7 @@ public class WorldTickManager
             final WorldData data = WorldTickManager.dataMap.get(key);
             if (data == null)
             {
-                ThutCore.LOGGER.error("Ticking world before load???");
+                ThutCore.LOGGER.error("Ticking world Pre before load???");
                 return;
             }
             data.onWorldTickStart();

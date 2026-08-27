@@ -11,4 +11,15 @@ public interface IEntityProvider
     {
         return getEntity(world, id, true);
     }
+
+    default Entity getTrackable(Entity input)
+    {
+        var entity = getEntity(input.level(), input.getId(), false);
+        if (entity == null)
+        {
+            System.err.println("Trying to send a packet when something isn't tracked?");
+            Thread.dumpStack();
+        }
+        return entity != null ? entity : input;
+    }
 }

@@ -121,7 +121,6 @@ public class StatsInfo extends PokeInfoPage
         graphics.drawString(this.font, nat[4] + ": " + _DEFSPE, x + dx, statYOffSet + 54, 0x78C850, false);
         graphics.drawString(this.font, nat[5] + ": " + _VIT, x + dx, statYOffSet + 63, 0xF85888, false);
 
-        dx = 15 + offsetX;
         byte[] stats2 = this.parent.pokemob.getIVs();
         HP = stats2[0];
         ATT = stats2[1];

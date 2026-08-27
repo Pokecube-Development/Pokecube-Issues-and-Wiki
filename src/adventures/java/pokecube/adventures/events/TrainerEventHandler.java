@@ -96,6 +96,7 @@ import thut.api.inventory.npc.NpcContainer;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
+import thut.api.world.WorldTickManager;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
@@ -363,7 +364,10 @@ public class TrainerEventHandler
         SpawnContext context = new SpawnContext(slevel, Database.missingno, new Vector3().set(mob));
         final int level = SpawnHandler.getSpawnLevel(context);
         TrainerSpawnHandler.initTrainer(mobs, level);
-        if (mob.isAddedToLevel()) EntityUpdate.sendEntityUpdate(mob);
+        if (mob.isAddedToLevel())
+        {
+            WorldTickManager.scheduleTask(mob.level(), ()->EntityUpdate.sendEntityUpdate(mob));
+        }
     }
 
     /**

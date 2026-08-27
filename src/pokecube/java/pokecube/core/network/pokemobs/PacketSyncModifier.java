@@ -11,6 +11,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.SharedAttributes;
 import pokecube.core.PokecubeCore;
 import pokecube.core.moves.damage.attributes.PokecubeAttributes;
+import thut.api.entity.EntityProvider;
 import thut.core.common.network.Packet;
 
 public class PacketSyncModifier extends Packet

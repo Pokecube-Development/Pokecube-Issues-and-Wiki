@@ -16,6 +16,7 @@ import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import thut.api.entity.EntityProvider;
 
 public class PacketHandler
 {
@@ -114,12 +115,14 @@ public class PacketHandler
 
     public void sendToTracking(final Packet message, final Entity tracked)
     {
-        PacketDistributor.sendToPlayersTrackingEntity(tracked, message);
+        var _tracked = EntityProvider.provider.getTrackable(tracked);
+        if(_tracked instanceof ServerPlayer) PacketDistributor.sendToPlayersTrackingEntityAndSelf(_tracked, message);
+        else PacketDistributor.sendToPlayersTrackingEntity(_tracked, message);
     }
 
     public void sendToTrackingAndSelf(final Packet message, final Entity tracked)
     {
-        PacketDistributor.sendToPlayersTrackingEntityAndSelf(tracked, message);
+        PacketDistributor.sendToPlayersTrackingEntityAndSelf(EntityProvider.provider.getTrackable(tracked), message);
     }
 
     public void sendToTracking(final Packet message, final ChunkAccess tracked)
