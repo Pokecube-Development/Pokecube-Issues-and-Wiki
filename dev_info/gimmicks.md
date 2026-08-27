@@ -7,16 +7,17 @@ Gimmicks in Pokecube are generally small, mostly standalone features which are a
 
 ## List of Gimmicks
 
--   [builders](../src/main/java/pokecube/gimmicks/builders/BuilderTasks.java) - AI tasks system to allow pokemobs to build structures based on instructions in their offhand slot.
+-   [builders](../src/pokecube/java/pokecube/gimmicks/builders/BuilderTasks.java) - AI tasks system to allow pokemobs to build structures based on instructions in their offhand slot.
     -   Example of AI adding
--   [dynamax](../src/main/java/pokecube/gimmicks/dynamax/DynamaxHelper.java) - Dynamax implementation
+-   [dynamax](../src/pokecube/java/pokecube/gimmicks/dynamax/DynamaxHelper.java) - Dynamax implementation
     -   Example of new genes adding
--   [evolutions](../src/main/java/pokecube/gimmicks/evolutions/GimmickEvos.java) - Handling for custom evolutions, such as Tyrouge, Shedinja, etc.
+-   [evolutions](../src/pokecube/java/pokecube/gimmicks/evolutions/GimmickEvos.java) - Handling for custom evolutions, such as Tyrouge, Shedinja, etc.
     -   Has example of making a json config file
--   [mega](../src/main/java/pokecube/gimmicks/mega/MegaEvolveHelper.java) - Mega evolution implementation
+-   [mega](../src/pokecube/java/pokecube/gimmicks/mega/MegaEvolveHelper.java) - Mega evolution implementation
     -   Loads rules from data
--   [nests](../src/main/java/pokecube/gimmicks/nests/NestTasks.java) - handles durant nest building, bee hive mechanics and burrow digging
+-   [nests](../src/pokecube/java/pokecube/gimmicks/nests/NestTasks.java) - handles durant nest building, bee hive mechanics and burrow digging
     -   Example of AI adding
--   [terastal](../src/main/java/pokecube/gimmicks/terastal/TerastalMechanic.java) - Terastal implementation
+-   [terastal](../src/pokecube/java/pokecube/gimmicks/terastal/TerastalMechanic.java) - Terastal implementation
     -   Example of new genes adding
--   [zmoves](../src/main/java/pokecube/gimmicks/zmoves/GZMoveManager.java) - Z moves implementation
+-   [zmoves](../src/pokecube/java/pokecube/gimmicks/zmoves/GZMoveManager.java) - Z moves implementation
+- [pokeplayer](../src/main/java/pokecube/gimmicks/pokeplayer/Pokeplayer.java) - Pokeplayer implementation

@@ -41,8 +41,8 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.database.Database;
 import pokecube.core.items.ItemPokedex;
-import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import pokecube.core.moves.damage.effects.StatusEffects;
+import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.gimmicks.pokeplayer.blocks.TransformBlock;
 import thut.api.ThutCaps;
@@ -78,6 +78,9 @@ public class Pokeplayer
 
         // interaction with self with items
         ThutCore.FORGE_BUS.addListener(Pokeplayer::onRightClickItem);
+
+        // for opening pokemob inventory
+        ThutCore.FORGE_BUS.addListener(Pokeplayer::onRightClickEmpty);
 
         // Events for ensuring pokeplayers behave properly
 
@@ -138,6 +141,8 @@ public class Pokeplayer
         if (pokemob == null) {
             player.sendSystemMessage(Component.literal("Reverted " + player.getName().getString() + " back into a player"));
             copy.setCopiedMob(player, null); // Changes player back into a player
+            player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20.0);
+            player.setHealth(20.0f);
             return 0;
         }
         copy.setCopiedMob(player, pokemob.getEntity());
@@ -182,28 +187,43 @@ public class Pokeplayer
     private static void onRightClickItem(PlayerInteractEvent.RightClickItem evt)
     {
         // Try using it on self if it is a usable item or a pokedex
-        final ICopyMob copy = ThutCaps.getCopyMob(evt.getEntity());
+        final Player player = evt.getEntity();
+        final ICopyMob copy = ThutCaps.getCopyMob(player);
         if (copy != null && copy.getCopiedMob() != null)
         {
             var stack = evt.getItemStack();
-            if (stack.getItem() instanceof ItemPokedex && evt.getEntity().isShiftKeyDown())
+            if (stack.getItem() instanceof ItemPokedex && player.isShiftKeyDown())
             {
-                stack.interactLivingEntity(evt.getEntity(), copy.getCopiedMob(), evt.getHand());
+                stack.interactLivingEntity(player, copy.getCopiedMob(), evt.getHand());
                 evt.setCanceled(true);
                 return;
             }
             var usable = PokemobCaps.getPokemobUsable(stack);
             var pokemob = PokemobCaps.getPokemobFor(copy.getCopiedMob());
-            if (usable != null && pokemob != null)
+            if (pokemob != null)
             {
-                var res = usable.onUse(pokemob, stack, evt.getEntity());
-                if (res.getResult().indicateItemUse())
+                if (usable != null)
                 {
-                    evt.setCancellationResult(res.getResult());
-                    evt.setCanceled(true);
+                    var res = usable.onUse(pokemob, stack, player);
+                    if (res.getResult().indicateItemUse())
+                    {
+                        evt.setCancellationResult(res.getResult());
+                        evt.setCanceled(true);
+                    }
                 }
             }
             if (copy instanceof TrackedAttachment tracked) tracked.markDirty();
+        }
+    }
+
+    private static void onRightClickEmpty(PlayerInteractEvent.RightClickEmpty evt)
+    {
+        Player player = evt.getEntity();
+        Entity mob = ThutCaps.getCopyMob(player).getCopiedMob();
+        if (mob != null)
+        {
+            if (player.isCrouching() || player.isShiftKeyDown()) // Open Pokemob inventory with shift + right click when not looking at a block
+                PacketPokemobGui.sendPagePacket((byte)0, mob.getId());
         }
     }
 
@@ -270,6 +290,9 @@ public class Pokeplayer
             var foodData = player.getFoodData();
             int food = foodData.getFoodLevel();
             float pokeHunger = HungerTask.calculateHunger(pokemob);
+            pokemob.updateHealth();
+            float maxHP = pokemob.getMaxHealth();
+            player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxHP);
             // Re-sync hp
             player.setHealth(pokemob.getHealth());
             int hungerRate = PokecubeCore.getConfig().pokemobLifeSpan / 25;
