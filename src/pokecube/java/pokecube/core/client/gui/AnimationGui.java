@@ -420,8 +420,7 @@ public class AnimationGui extends Screen
                 lastSpeedUpdate = entity.tickCount;
             }
             partialTicks = Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true);
-            GuiPokemobHelper.renderMob(graphics.pose(), entity, j, k, this.yRenderAngle, this.xRenderAngle,
-                    this.yHeadRenderAngle, this.xHeadRenderAngle, zoom, partialTicks);
+            GuiPokemobHelper.renderMob(graphics.pose(), entity, j, k, this.yRenderAngle, this.xRenderAngle, zoom, partialTicks, true);
             GuiPokemobHelper.autoScale = true;
             if (this.renderHolder != null) this.renderHolder.overrideAnim = false;
             graphics.pose().popPose();

@@ -73,13 +73,12 @@ public class GuiPokemobHelper
     public static void renderMob(final LivingEntity entity, final int dx, final int dy, final float pitch,
             final float yaw, final float headPitch, final float headYaw, final float scale, float partialTicks)
     {
-        GuiPokemobHelper.renderMob(new PoseStack(), entity, dx, dy, pitch, yaw, headPitch, headYaw, scale,
-                partialTicks);
+        GuiPokemobHelper.renderMob(new PoseStack(), entity, dx, dy, pitch, yaw, scale, partialTicks, false);
     }
 
     public static void renderMob(final PoseStack mat, final LivingEntity entity, final int dx, final int dy,
-            final float pitch, final float yaw, final float headPitch, final float headYaw, float scale,
-            float partialTicks)
+            final float pitch, final float yaw, float scale,
+            float partialTicks, boolean aninmated)
     {
         IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         scale *= 30;
@@ -130,11 +129,20 @@ public class GuiPokemobHelper
                 .bufferSource();
         RenderMobOverlays.enabled = false;
         // If it is an ICopyMob, the entity id is negative, so we want to not do a gui render in that case.
-        if (pokemob != null && !pokemob.getEntity().isAddedToLevel() && pokemob.getEntity().getId() >= 0)
+        if (!aninmated)
         {
-            var animated = ThutCaps.getAnimated(pokemob.getEntity());
+            var animated = ThutCaps.getAnimated(entity);
             animated.getChoices().clear();
             animated.getChoices().add("gui_render");
+
+            entity.yHeadRotO = entity.yHeadRot;
+            entity.xRotO = entity.getXRot();
+            entity.yBodyRotO = entity.yBodyRot;
+            entity.yRotO = entity.getYRot();
+
+            entity.oAttackAnim = entity.attackAnim;
+            entity.walkDistO = entity.walkDist;
+            partialTicks = 0;
         }
         entityrenderermanager.render(entity, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks, mat, irendertypebuffer$impl,
                 LightTexture.FULL_BRIGHT);

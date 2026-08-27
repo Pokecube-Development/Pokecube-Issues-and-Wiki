@@ -135,7 +135,7 @@ public class TargetInfo extends GuiEventComponent
             entity.yHeadRot = entity.yHeadRotO = entity.yBodyRot;
 
             float tick = evt.getTick();
-            GuiPokemobHelper.renderMob(evt.getMat(), entity, -30, -25, 0, 0, 0, 0, 0.75f, tick);
+            GuiPokemobHelper.renderMob(evt.getMat(), entity, -30, -25, 0, 0, 0.75f, tick, true);
 
             entity.yBodyRot = yBodyRot;
             entity.yBodyRotO = yBodyRotO;

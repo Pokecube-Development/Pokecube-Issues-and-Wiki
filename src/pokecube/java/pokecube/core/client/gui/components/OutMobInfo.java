@@ -7,7 +7,6 @@ import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
-import pokecube.api.utils.PokeType;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.GuiEvent;
@@ -225,8 +224,8 @@ public class OutMobInfo extends GuiEventComponent
             float renderScale = 1.0f;
             float tick = evt.getTick();
 
-            GuiPokemobHelper.renderMob(evt.getMat(), mob, mobOffsetX - 30, mobOffsetY - 25, 0, 0, 0, 0, renderScale,
-                    tick);
+            GuiPokemobHelper.renderMob(evt.getMat(), mob, mobOffsetX - 30, mobOffsetY - 25, 0, 0, renderScale,
+                    tick, true);
 
             mob.yBodyRot = yBodyRot;
             mob.yBodyRotO = yBodyRotO;
@@ -256,8 +255,8 @@ public class OutMobInfo extends GuiEventComponent
                 mob.yBodyRot = mob.yBodyRotO = 180.0F + f * 20.0F;
                 mob.yHeadRot = mob.yHeadRotO = mob.yBodyRot;
 
-                GuiPokemobHelper.renderMob(evt.getMat(), mob, mobOffsetX - 30, mobOffsetY - 25, 0, 0, 0, 0,
-                        renderScale * allyScale, tick);
+                GuiPokemobHelper.renderMob(evt.getMat(), mob, mobOffsetX - 30, mobOffsetY - 25, 0, 0,
+                        renderScale * allyScale, tick, true);
 
                 mob.yBodyRot = yBodyRot;
                 mob.yBodyRotO = yBodyRotO;
