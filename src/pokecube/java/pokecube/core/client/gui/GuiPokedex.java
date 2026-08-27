@@ -25,6 +25,7 @@ import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.PokeType;
+import pokecube.core.PokecubeCore;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.helper.TexButton;
@@ -32,6 +33,7 @@ import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.database.Database;
+import pokecube.core.entity.genetics.genes.SizeGene;
 import pokecube.core.eventhandlers.StatsCollector;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
@@ -64,7 +66,7 @@ public class GuiPokedex extends Screen
 
     public GuiPokedex(final IPokemob pokemob, final Player PlayerEntity)
     {
-        super(Component.translatable("pokecube.pokedex.gui"));
+        super(Component.literal(""));
         this.xSize = 256;
         this.ySize = 192;
         this.pokemob = pokemob;
@@ -310,15 +312,24 @@ public class GuiPokedex extends Screen
                 StatsCollector.getCaptured(pokedexEntry.getBaseForme(), Minecraft.getInstance().player) > 0
                         || StatsCollector.getHatched(pokedexEntry.getBaseForme(), Minecraft.getInstance().player) > 0;
         // Set colouring accordingly.
-        if (fullColour) renderMob.setRGBA(255, 255, 255, 255);
-        else if (stats.hasInspected(pokedexEntry)) renderMob.setRGBA(127, 127, 127, 255);
-        else renderMob.setRGBA(15, 15, 15, 255);
+        int[] oldRGBA = pokemob.getRGBA().clone();
+        if(PokecubeCore.getConfig().darkenUnknownAndUnCaughtMobs)
+        {
+            if (fullColour) renderMob.setRGBA(255, 255, 255, 255);
+            else if (stats.hasInspected(pokedexEntry)) renderMob.setRGBA(127, 127, 127, 255);
+            else renderMob.setRGBA(15, 15, 15, 255);
+        }
+
+        if(!pokemob.getEntity().isAddedToLevel()) SizeGene.setScale(pokemob, 1);
 
         GlStateManager._enableDepthTest();
-        final float yaw = Util.getMillis() / 20;
+        final float yaw = Util.getMillis() / 20f;
         final float pitch = 0;
         final float hx = 0;
         GuiPokemobHelper.renderMob(renderMob.getEntity(), j2 + 5, k2 + 50, pitch, yaw, hx, yaw, 2.0F, partialTick);
+
+        // Reset colour
+        pokemob.setRGBA(oldRGBA);
 
         // Draw info about mob
         final int yOffset = this.height / 2 - 82;

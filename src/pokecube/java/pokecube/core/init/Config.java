@@ -675,6 +675,8 @@ public class Config extends ConfigData
     public int autoRecallDistance = 32;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Converts x3d to bbmodels in animation gui [Default: false]")
     public boolean outputBBModels = false;
+    @Configure(category = Config.client, type = Type.CLIENT, comment = "Makes unknown or uncaught mobs darker in the watch [Default: true]")
+    public boolean darkenUnknownAndUnCaughtMobs = true;
 
     @Configure(category = Config.advanced, comment = "Makes all rare candies bad. [Default: false]")
     boolean reputs = false;

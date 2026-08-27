@@ -1,7 +1,6 @@
 package pokecube.core.client.gui.watch;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
@@ -24,6 +23,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.utils.PokeType;
+import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.AnimationGui;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.ShiftedTooltip;
@@ -44,7 +44,6 @@ import pokecube.core.eventhandlers.StatsCollector;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.network.packets.PacketPokedex;
-import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
 
 public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
@@ -65,13 +64,13 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
 
     public static class UVHolder
     {
-        private int uOffset = 0;
-        private int vOffset = 0;
+        private final int uOffset;
+        private final int vOffset;
 
-        private int buttonX = 0;
-        private int buttonY = 0;
+        private final int buttonX;
+        private final int buttonY;
 
-        private int index = 0;
+        private final int index;
 
         public UVHolder(int x, int y, int u, int v, int index)
         {
@@ -161,11 +160,11 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                 if (check.startsWith(text))
                 {
                     String name = entry.getName();
-                    if (name.contains(" ")) name = "\'" + name + "\'";
+                    if (name.contains(" ")) name = "'" + name + "'";
                     ret.add(name);
                 }
             }
-            Collections.sort(ret, (o1, o2) -> {
+            ret.sort((o1, o2) -> {
                 if (o1.startsWith("'") && !o2.startsWith("'")) return 1;
                 else if (o2.startsWith("'") && !o1.startsWith("'")) return -1;
                 return o1.compareToIgnoreCase(o2);
@@ -174,13 +173,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                 if (t.startsWith("'") && t.endsWith("'")) t = t.substring(1, t.length() - 1);
                 return t;
             });
-            String match = text;
-            for (final String name : ret) if (ThutCore.trim(name).startsWith(ThutCore.trim(match)))
-            {
-                match = name;
-                break;
-            }
-            if (!ret.isEmpty()) this.searchBox.setValue(ret.get(0));
+            if (!ret.isEmpty()) this.searchBox.setValue(ret.getFirst());
             return true;
         }
         else if (keyCode == GLFW.GLFW_KEY_ENTER)
@@ -266,7 +259,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         }
         this.addRenderableWidget(this.searchBox);
         this.searchBox.setVisible(!this.watch.canEdit(pokemob));
-        this.searchBox.setEditable(!this.watch.canEdit(pokemob));;
+        this.searchBox.setEditable(!this.watch.canEdit(pokemob));
         this.updateEntryField(entry);
         // Force close and open the page to update.
         this.changePage(this.index);
@@ -346,8 +339,8 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         // Draw Subtitle Page
         var title = this.current_page.getTitle();
         graphics.drawString(this.font, title, x + 103 - this.font.width(title) / 2, y + 30, colour, false);
-        int dx = -76;
-        int dy = 10;
+        int dx;
+        int dy;
 
         // We only want to draw the level if we are actually inspecting a
         // pokemob.
@@ -390,11 +383,15 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             pokemob.setGeneralState(GeneralStates.EVOLVING, false);
 
             // Set colouring accordingly.
-            if (fullColour) pokemob.setRGBA(255, 255, 255, 255);
-            else if (stats.hasInspected(pokedexEntry)) pokemob.setRGBA(127, 127, 127, 255);
-            else pokemob.setRGBA(15, 15, 15, 255);
+            int[] oldRGBA = pokemob.getRGBA().clone();
+            if(PokecubeCore.getConfig().darkenUnknownAndUnCaughtMobs)
+            {
+                if (fullColour) pokemob.setRGBA(255, 255, 255, 255);
+                else if (stats.hasInspected(pokedexEntry)) pokemob.setRGBA(127, 127, 127, 255);
+                else pokemob.setRGBA(15, 15, 15, 255);
+            }
 
-            SizeGene.setScale(pokemob, 1);
+            if(!pokemob.getEntity().isAddedToLevel()) SizeGene.setScale(pokemob, 1);
 
             final float yaw = Util.getMillis() / 20f;
             dx = -80; // 90
@@ -402,6 +399,9 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
 
             // Draw the actual pokemob
             GuiPokemobHelper.renderMob(pokemob.getEntity(), x + dx, y + dy, 0, yaw, 0, yaw, 2f, partialTicks);
+
+            // Reset colour
+            pokemob.setRGBA(oldRGBA);
 
             final String level = "Lvl " + this.pokemob.getLevel();
             dx = -77;

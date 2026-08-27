@@ -17,6 +17,7 @@ import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.AnimationGui;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
@@ -64,7 +65,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
 
     public StartWatch(final GuiPokeWatch watch)
     {
-        super(Component.translatable(""), watch, GuiPokeWatch.TEX_DM, GuiPokeWatch.TEX_NM);
+        super(Component.literal(""), watch, GuiPokeWatch.TEX_DM, GuiPokeWatch.TEX_NM);
         this.pokemob = watch.pokemob;
     }
 
@@ -167,11 +168,15 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
             pokemob.setGeneralState(GeneralStates.EVOLVING, false);
 
             // Set colouring accordingly.
-            if (fullColour) pokemob.setRGBA(255, 255, 255, 255);
-            else if (stats.hasInspected(pokedexEntry)) pokemob.setRGBA(127, 127, 127, 255);
-            else pokemob.setRGBA(15, 15, 15, 255);
+            int[] oldRGBA = pokemob.getRGBA().clone();
+            if(PokecubeCore.getConfig().darkenUnknownAndUnCaughtMobs)
+            {
+                if (fullColour) pokemob.setRGBA(255, 255, 255, 255);
+                else if (stats.hasInspected(pokedexEntry)) pokemob.setRGBA(127, 127, 127, 255);
+                else pokemob.setRGBA(15, 15, 15, 255);
+            }
 
-            SizeGene.setScale(pokemob, 1);
+            if(!pokemob.getEntity().isAddedToLevel()) SizeGene.setScale(pokemob, 1);
 
             final float yaw = Util.getMillis() / 20f;
             dx = -15; //90
@@ -179,6 +184,9 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
 
             // Draw the actual pokemob
             GuiPokemobHelper.renderMob(pokemob.getEntity(), x + dx, y + dy, 0, yaw, 0, yaw, 3.0F, partialTicks);
+
+            // Reset colour
+            pokemob.setRGBA(oldRGBA);
         }
     }
 
