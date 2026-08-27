@@ -137,8 +137,8 @@ public class Pokeplayer
     public static int transformPlayer(IPokemob pokemob, LivingEntity player)
     {
         var copy = ThutCaps.getCopyMob(player);
-
-        if (pokemob == null) {
+        if (pokemob == null)
+        {
             player.sendSystemMessage(Component.literal("Reverted " + player.getName().getString() + " back into a player"));
             copy.setCopiedMob(player, null); // Changes player back into a player
             player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20.0);
@@ -146,6 +146,11 @@ public class Pokeplayer
             return 0;
         }
         copy.setCopiedMob(player, pokemob.getEntity());
+        pokemob.updateHealth();
+        float maxHP = pokemob.getMaxHealth();
+        player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxHP);
+        // Re-sync hp
+        player.setHealth(pokemob.getHealth());
         player.sendSystemMessage(Component.literal("Transformed " + player.getName().getString() + " into " + pokemob.getDisplayName().getString()));
         return 0;
     }
@@ -263,7 +268,7 @@ public class Pokeplayer
             if (event.newCopy != null) event.newCopy.getPersistentData().putUUID("copy_parent", player.getUUID());
 
             final ICopyMob copy = ThutCaps.getCopyMob(player);
-            if (copy instanceof TrackedAttachment tracked && !(player.level().isClientSide()))
+            if (copy instanceof TrackedAttachment tracked)
             {
                 tracked.markDirty();
             }
@@ -290,11 +295,6 @@ public class Pokeplayer
             var foodData = player.getFoodData();
             int food = foodData.getFoodLevel();
             float pokeHunger = HungerTask.calculateHunger(pokemob);
-            pokemob.updateHealth();
-            float maxHP = pokemob.getMaxHealth();
-            player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxHP);
-            // Re-sync hp
-            player.setHealth(pokemob.getHealth());
             int hungerRate = PokecubeCore.getConfig().pokemobLifeSpan / 25;
             if (pokeHunger < 0.8)
             {

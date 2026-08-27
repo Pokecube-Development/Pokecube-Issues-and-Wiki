@@ -218,8 +218,6 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics
 
     /**
      * Incremenrs pokemob move index
-     *
-     * @param i
      */
     public void nextMove(final int i)
     {
@@ -227,7 +225,7 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics
         if (pokemob != null)
         {
             int index = pokemob.getMoveIndex() + i;
-            int max = 0;
+            int max;
             for (max = 0; max < 4; max++) if (pokemob.getMove(max) == null) break;
             if (index >= 5) index = 0;
             if (index >= max) index = 5;
@@ -375,8 +373,6 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics
 
     /**
      * Decrements pokemob move index
-     *
-     * @param j
      */
     public void previousMove(final int j)
     {
@@ -415,8 +411,6 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics
 
     /**
      * Sets pokemob's move index.
-     *
-     * @param num
      */
     public void setMove(final int num)
     {

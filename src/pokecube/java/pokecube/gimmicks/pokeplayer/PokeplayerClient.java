@@ -25,14 +25,6 @@ public class PokeplayerClient
             if (copy == null) return null;
             return PokemobCaps.getPokemobFor(copy.getCopiedMob());
         }
-
-        @Override
-        public void _drawGui(GuiEvent evt)
-        {
-            this.pos.y0 += this.bounds.h;
-            this.pos.y1 += this.bounds.h;
-            super._drawGui(evt);
-        }
     }
 
     public static class PokePlayerGuiOverride extends GuiDisplayPokecubeInfo
@@ -40,6 +32,17 @@ public class PokeplayerClient
         public PokePlayerGuiOverride()
         {
             super();
+            // We will only make this adjustment if some other addon hasn't adjusted it
+            if (outMobRenderer.getClass() == OutMobInfo.class)
+            {
+                var handler = new PokePlayerComponent();
+                var selectedHandlers = GUI_HANDLERS.get(GuiEvent.RenderSelectedInfo.class);
+                selectedHandlers.remove(outMobRenderer);
+                selectedHandlers.add(handler);
+                COMPONENTS.remove(outMobRenderer);
+                COMPONENTS.add(handler);
+                outMobRenderer = handler;
+            }
         }
 
         @Override
@@ -49,6 +52,13 @@ public class PokeplayerClient
             if (copy == null) return super.getCurrentPokemob();
             var mob = PokemobCaps.getPokemobFor(copy.getCopiedMob());
             return mob == null ? super.getCurrentPokemob() : mob;
+        }
+
+        @Override
+        public IPokemob[] getPokemobsToDisplay()
+        {
+            // TODO maybe adjust this?
+            return super.getPokemobsToDisplay();
         }
     }
 
