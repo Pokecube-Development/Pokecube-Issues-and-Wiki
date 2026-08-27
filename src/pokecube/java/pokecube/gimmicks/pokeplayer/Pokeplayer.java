@@ -270,6 +270,8 @@ public class Pokeplayer
             var foodData = player.getFoodData();
             int food = foodData.getFoodLevel();
             float pokeHunger = HungerTask.calculateHunger(pokemob);
+            // Re-sync hp
+            player.setHealth(pokemob.getHealth());
             int hungerRate = PokecubeCore.getConfig().pokemobLifeSpan / 25;
             if (pokeHunger < 0.8)
             {
