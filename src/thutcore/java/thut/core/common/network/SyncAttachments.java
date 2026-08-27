@@ -154,6 +154,7 @@ public class SyncAttachments extends Packet
     private static void sendForKey(Entity mob, ResourceLocation key)
     {
         var type = NeoForgeRegistries.ATTACHMENT_TYPES.get(key);
+        if (EntityProvider.provider.getEntity(mob.level(), mob.getId(), false) == null) return;
         if (!mob.hasData(type)) return;
         var data = mob.getData(type);
         if (!(data instanceof INBTSerializable)) return;
@@ -170,9 +171,9 @@ public class SyncAttachments extends Packet
                     if (def != null) return ((INBTSerializable) def).serializeNBT(mob.registryAccess());
                     else ThutCore.logInfo("No attachment for {} for {}", key, mob);
                 }
-                catch (IllegalArgumentException | IllegalAccessException e)
+                catch (Exception e)
                 {
-                    e.printStackTrace();
+                    ThutCore.LOGGER.error("Error syncing attachments for {} for {}", key, mob, e);
                 }
                 return new CompoundTag();
             });

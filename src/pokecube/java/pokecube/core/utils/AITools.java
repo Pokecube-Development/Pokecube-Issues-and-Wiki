@@ -264,7 +264,6 @@ public class AITools
             WorldTickManager.scheduleTask(level.dimension(),
                     new WorldTickManager.DelayedTask(Tracker.instance().getTick() + 1,
                             () -> SyncAttachments.syncChange(entity, SyncAttachments.SYNCED)));
-            ;
         }
     }
 }
