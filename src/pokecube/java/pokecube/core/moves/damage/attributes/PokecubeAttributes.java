@@ -95,7 +95,7 @@ public class PokecubeAttributes
             }
         }
         mob.setHealth(mob.getMaxHealth() - beforeDamage);
-        PacketSyncModifier.sendUpdate(pokemob.getEntity());
+        if (pokemob.getEntity().isAddedToLevel()) PacketSyncModifier.sendUpdate(pokemob.getEntity());
     }
 
     public static double getStatValue(LivingEntity entity, IPokemob.Stats stat)

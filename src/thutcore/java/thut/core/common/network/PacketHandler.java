@@ -115,14 +115,14 @@ public class PacketHandler
 
     public void sendToTracking(final Packet message, final Entity tracked)
     {
-        var _tracked = EntityProvider.provider.getTrackable(tracked);
+        var _tracked = EntityProvider.getTracked(tracked);
         if(_tracked instanceof ServerPlayer) PacketDistributor.sendToPlayersTrackingEntityAndSelf(_tracked, message);
         else PacketDistributor.sendToPlayersTrackingEntity(_tracked, message);
     }
 
     public void sendToTrackingAndSelf(final Packet message, final Entity tracked)
     {
-        PacketDistributor.sendToPlayersTrackingEntityAndSelf(EntityProvider.provider.getTrackable(tracked), message);
+        PacketDistributor.sendToPlayersTrackingEntityAndSelf(EntityProvider.getTracked(tracked), message);
     }
 
     public void sendToTracking(final Packet message, final ChunkAccess tracked)

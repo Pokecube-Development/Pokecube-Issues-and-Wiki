@@ -24,6 +24,7 @@ import pokecube.core.ai.tasks.IMoveUseAI;
 import pokecube.core.ai.tasks.combat.CombatTask;
 import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.moves.MovesUtils;
+import thut.api.entity.EntityProvider;
 import thut.api.maths.Vector3;
 
 import java.util.Map;
@@ -77,6 +78,7 @@ public class UseAttacksTask extends CombatTask implements IMoveUseAI
 
         var target = this.getAttackTarget(entity);
         var pokemobTarget = PokemobCaps.getPokemobFor(target);
+        target = EntityProvider.getTracked(target);
 
         var onDelay = brain.getMemory(MemoryModules.ATTACKDELAY.get());
         var moveTarget = brain.getMemory(MemoryModules.MOVE_TARGET.get());

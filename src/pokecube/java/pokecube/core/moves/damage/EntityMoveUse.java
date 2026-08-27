@@ -35,6 +35,7 @@ import pokecube.core.init.EntityTypes;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.EntityTools;
 import thut.api.attachments.CopyMob;
+import thut.api.entity.EntityProvider;
 import thut.api.maths.Vector3;
 
 import java.util.List;
@@ -195,6 +196,8 @@ public class EntityMoveUse extends ThrowableProjectile
         else this.onSelf = true;
 
         if (this.getUser() == this.getTarget()) this.onSelf = true;
+        // If it isn't a self targetting move, add self to ignored list.
+        if (!onSelf) this.addIgnoredEntity(this.getUser());
 
         this.dist = this.start.distanceTo(this.end);
         this.refreshDimensions();
@@ -212,7 +215,13 @@ public class EntityMoveUse extends ThrowableProjectile
 
     public void addIgnoredEntity(Entity entity)
     {
-        if (entity != null) this.apply.alreadyHit.add(entity.getUUID());
+        if (entity != null)
+        {
+            this.apply.alreadyHit.add(entity.getUUID());
+            // Also add the trackable copy
+            entity = EntityProvider.getTracked(entity);
+            this.apply.alreadyHit.add(entity.getUUID());
+        }
     }
 
     @Override

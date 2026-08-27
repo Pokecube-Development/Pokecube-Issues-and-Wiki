@@ -16,6 +16,20 @@ public class EntityProvider implements IEntityProvider
         this.defaults = defaults;
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T extends Entity> T getTracked(T input)
+    {
+        var result = provider.getTrackable(input);
+        try
+        {
+            return (T)result;
+        }
+        catch (Exception e)
+        {
+            return input;
+        }
+    }
+
     @Override
     public Entity getEntity(final Level world, int id, final boolean targetCopyMob)
     {

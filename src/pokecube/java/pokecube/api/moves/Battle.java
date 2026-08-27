@@ -30,6 +30,7 @@ import pokecube.api.events.combat.JoinBattleEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.utils.AITools;
+import thut.api.entity.EntityProvider;
 import thut.api.maths.Vector3;
 import thut.api.world.IWorldTickListener;
 import thut.api.world.WorldTickManager;
@@ -402,7 +403,10 @@ public class Battle
                     }
                     continue;
                 }
-                if (tick > tooLong) stale.add(mob1);
+                if (tick > tooLong)
+                {
+                    stale.add(mob1);
+                }
             }
             else
             {
@@ -416,13 +420,13 @@ public class Battle
                     // check members of the other team, and see if any of them
                     // are still trying to attack it.
                     boolean valid = mob1 instanceof Mob;
-                    if (!valid)
+                    if (!valid && mob1.getId() >= 0)
                     {
                         valid = true;
                         List<LivingEntity> otherSide = set == s1 ? s2 : s1;
                         for (LivingEntity e : otherSide)
                         {
-                            if (BrainUtils.getAttackTarget(e) == mob1)
+                            if (EntityProvider.getTracked(BrainUtils.getAttackTarget(e)) == mob1)
                             {
                                 valid = false;
                                 break;
@@ -430,7 +434,10 @@ public class Battle
                         }
 
                     }
-                    if (valid) stale.add(mob1);
+                    if (valid)
+                    {
+                        stale.add(mob1);
+                    }
                 }
                 else if (!set.contains(mob1))
                 {
