@@ -372,7 +372,7 @@ public class Config
                 if(conf.gameRestart()) builder.gameRestart();
                 if(conf.worldRestart()) builder.worldRestart();
                 builder.translation(
-                        ModLoadingContext.get().getActiveNamespace() + ".config." + field.getName() + ".tooltip");
+                        ModLoadingContext.get().getActiveNamespace() + ".config." + field.getName());
                 final Object o = field.get(holder);
                 ModConfigSpec.ConfigValue<?> spec = makeValue(field, cat, holder.MODID, builder, o);
                 holder.init(type, field, spec);
