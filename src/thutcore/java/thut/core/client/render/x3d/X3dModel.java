@@ -145,8 +145,8 @@ public class X3dModel extends BaseModel
             for (final X3dXML.Shape shape : group.shapes)
             {
                 final IndexedTriangleSet triangleSet = shape.triangleSet;
-                final X3dMesh renderShape = new X3dMesh(triangleSet.getOrder(), triangleSet.getVertices(),
-                        triangleSet.getNormals(), triangleSet.getTexture());
+                final Mesh renderShape = new Mesh(triangleSet.getOrder(), triangleSet.getVertices(),
+                        triangleSet.getNormals(), triangleSet.getTexture(), Mesh.TRIANGLE_FMT);
                 shapes.add(renderShape);
                 final Appearance appearance = shape.appearance;
                 final Material material = this.getMaterial(appearance);

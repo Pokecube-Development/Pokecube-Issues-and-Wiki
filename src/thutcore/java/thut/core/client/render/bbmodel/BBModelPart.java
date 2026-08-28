@@ -6,11 +6,9 @@ import org.joml.Vector3f;
 import thut.core.client.render.bbmodel.BBModelTemplate.Element;
 import thut.core.client.render.bbmodel.BBModelTemplate.IBBPart;
 import thut.core.client.render.bbmodel.BBModelTemplate.JsonGroup;
-import thut.core.client.render.json.JsonMesh;
 import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.model.parts.Mesh;
 import thut.core.client.render.model.parts.Part;
-import thut.core.client.render.x3d.X3dMesh;
 import thut.core.common.ThutCore;
 import thut.lib.AxisAngles;
 
@@ -160,8 +158,8 @@ public class BBModelPart extends Part
             List<Object> order = lists.get(0);
             List<Object> verts = lists.get(1);
             List<Object> tex = lists.get(2);
-            Mesh m = new JsonMesh(order.toArray(new Integer[0]), verts.toArray(new Vector3f[0]),
-                    tex.toArray(new Vector2f[0]));
+            Mesh m = new Mesh(order.toArray(new Integer[0]), verts.toArray(new Vector3f[0]), null,
+                    tex.toArray(new Vector2f[0]), Mesh.QUAD_FMT);
             m.name = ThutCore.trim(key);
             Material mat = mats.getOrDefault(m.name, new Material(m.name));
             mat.expectedTexH = t.resolution.height;
@@ -177,8 +175,8 @@ public class BBModelPart extends Part
             List<Object> verts = lists.get(1);
             List<Object> tex = lists.get(2);
 
-            Mesh m = new X3dMesh(order.toArray(new Integer[0]), verts.toArray(new Vector3f[0]), null,
-                    tex.toArray(new Vector2f[0]));
+            Mesh m = new Mesh(order.toArray(new Integer[0]), verts.toArray(new Vector3f[0]), null,
+                    tex.toArray(new Vector2f[0]), Mesh.TRIANGLE_FMT);
             m.name = ThutCore.trim(key);
             Material mat = mats.getOrDefault(m.name, new Material(m.name));
             mat.expectedTexH = t.resolution.height;

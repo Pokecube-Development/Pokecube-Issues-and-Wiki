@@ -335,8 +335,8 @@ public class JsonPart extends Part
             List<Object> order = lists.get(0);
             List<Object> verts = lists.get(1);
             List<Object> tex = lists.get(2);
-            Mesh m = new JsonMesh(order.toArray(new Integer[0]), verts.toArray(new Vector3f[0]),
-                    tex.toArray(new Vector2f[0]));
+            Mesh m = new Mesh(order.toArray(new Integer[0]), verts.toArray(new Vector3f[0]), null,
+                    tex.toArray(new Vector2f[0]), Mesh.QUAD_FMT);
             m.name = key;
             Material mat = new Material(key);
             m.setMaterial(mat);

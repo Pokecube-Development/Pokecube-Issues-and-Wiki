@@ -13,7 +13,6 @@ import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
-import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -31,6 +30,8 @@ public class Mesh implements Comparable<Mesh>
 
     public static float windowScale = 1;
     public static double modelCullThreshold = 0;
+    public static int TRIANGLE_FMT = 4; // GL11.GL_TRIANGLES
+    public static int QUAD_FMT = 7; // GL11.GL_QUADS
 
     public static List<Mesh> merge(List<Mesh> meshs)
     {
@@ -136,7 +137,7 @@ public class Mesh implements Comparable<Mesh>
         this.normalList = normList;
         this.textureCoordinates = tex;
         this.GL_FORMAT = GL_FORMAT;
-        vertexMode = GL_FORMAT == GL11.GL_TRIANGLES ? Mode.TRIANGLES : Mode.QUADS;
+        vertexMode = GL_FORMAT == TRIANGLE_FMT ? Mode.TRIANGLES : Mode.QUADS;
         this.material = this.renderMaterial = material;
         initStats();
     }
@@ -156,9 +157,9 @@ public class Mesh implements Comparable<Mesh>
         this.GL_FORMAT = GL_FORMAT;
         Vector3f vertex;
         Vector3f normal;
-        int iter = GL_FORMAT == GL11.GL_TRIANGLES ? 3 : 4;
+        int iter = GL_FORMAT == TRIANGLE_FMT ? 3 : 4;
 
-        vertexMode = GL_FORMAT == GL11.GL_TRIANGLES ? Mode.TRIANGLES : Mode.QUADS;
+        vertexMode = GL_FORMAT == TRIANGLE_FMT ? Mode.TRIANGLES : Mode.QUADS;
 
         final Vector3f a = new Vector3f(),b = new Vector3f(),c = new Vector3f();
 
