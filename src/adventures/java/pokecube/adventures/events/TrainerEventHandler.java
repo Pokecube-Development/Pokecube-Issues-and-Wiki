@@ -96,10 +96,8 @@ import thut.api.inventory.npc.NpcContainer;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
-import thut.api.world.WorldTickManager;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.ThutCore;
-import thut.core.common.network.EntityUpdate;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 import thut.wearables.events.WearableDroppedEvent;
 import thut.wearables.events.WearableUseEvent;
@@ -343,7 +341,7 @@ public class TrainerEventHandler
         if(trainer!=null) event.setCanceled(true);
     }
 
-    public static void initTrainer(final LivingEntity mob, final MobSpawnType reason)
+    public static boolean initTrainer(final LivingEntity mob, final MobSpawnType reason)
     {
         if (mob instanceof NpcMob npc)
         {
@@ -352,22 +350,19 @@ public class TrainerEventHandler
         }
 
         final IHasPokemobs mobs = TrainerCaps.getHasPokemobs(mob);
-        if (mobs == null || !(mob.level() instanceof ServerLevel slevel) || mob instanceof Player) return;
+        if (mobs == null || !(mob.level() instanceof ServerLevel slevel) || mob instanceof Player) return false;
         if (mob.getPersistentData().contains("pokeadv_join")
-                && mob.getPersistentData().getLong("pokeadv_join") == mob.level().getGameTime()) return;
+                && mob.getPersistentData().getLong("pokeadv_join") == mob.level().getGameTime()) return false;
         mob.getPersistentData().putLong("pokeadv_join", mob.level().getGameTime());
 
-        if (mobs.countPokemon() != 0) return;
+        if (mobs.countPokemon() != 0) return false;
         final TypeTrainer newType = TypeTrainer.get(mob, true);
-        if (newType == null) return;
+        if (newType == null) return false;
         mobs.setType(newType);
         SpawnContext context = new SpawnContext(slevel, Database.missingno, new Vector3().set(mob));
         final int level = SpawnHandler.getSpawnLevel(context);
         TrainerSpawnHandler.initTrainer(mobs, level);
-        if (mob.isAddedToLevel())
-        {
-            WorldTickManager.scheduleTask(mob.level(), ()->EntityUpdate.sendEntityUpdate(mob));
-        }
+        return true;
     }
 
     /**

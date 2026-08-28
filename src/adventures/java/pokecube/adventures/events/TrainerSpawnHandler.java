@@ -13,14 +13,13 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.common.util.TriState;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
@@ -50,7 +49,6 @@ import pokecube.core.entity.npc.NpcType;
 import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.eventhandlers.SpawnEventsHandler;
 import pokecube.core.eventhandlers.SpawnHandler;
-import thut.api.level.terrain.TerrainManager;
 import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
@@ -58,11 +56,9 @@ import thut.core.common.network.EntityUpdate;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class TrainerSpawnHandler
 {
-    private static final Vector3 vec1 = new Vector3();
 
     static
     {
@@ -129,7 +125,7 @@ public class TrainerSpawnHandler
             {
                 mobs.setType(type);
             }
-            if (mobs != null) randomizeTrainerTeam(mob, mobs);
+            if (mobs != null) randomizeTrainerTeam(mob, mobs, level);
             if (mob instanceof TrainerNpc trainer) trainer.setTypes(!(thing.has("name") || thing.has("names")));
         });
     }
@@ -172,11 +168,11 @@ public class TrainerSpawnHandler
         return trainer;
     }
 
-    public static void randomizeTrainerTeam(final Entity trainer, final IHasPokemobs mobs)
+    public static void randomizeTrainerTeam(final Entity trainer, final IHasPokemobs mobs, int level)
     {
         final Vector3 loc = new Vector3().set(trainer);
         // Set level based on what wild pokemobs have.
-        int level = SpawnHandler.getSpawnLevel(
+        if(level < 0) level = SpawnHandler.getSpawnLevel(
                 new SpawnContext((ServerLevel) trainer.level, Pokedex.getInstance().getFirstEntry(), loc));
 
         if (trainer instanceof LeaderNpc npc)
@@ -250,7 +246,7 @@ public class TrainerSpawnHandler
                     (int) npc.getY(), (int) npc.getZ()))
             {
                 w.addFreshEntity(npc);
-                TrainerSpawnHandler.randomizeTrainerTeam(npc, cap);
+                TrainerSpawnHandler.randomizeTrainerTeam(npc, cap, -1);
                 // Force a re-fresh of the type for fixing bag, belt, etc.
                 npc.setNpcType(npc.getNpcType());
                 EntityUpdate.sendEntityUpdate(npc);
@@ -274,21 +270,11 @@ public class TrainerSpawnHandler
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void onJoinLevel(EntityJoinLevelEvent event)
+    public static void onStartTracking(PlayerEvent.StartTracking event)
     {
-        if (event.getEntity() instanceof NpcMob npc)
+        if (event.getTarget() instanceof NpcMob npc && event.getEntity() instanceof ServerPlayer)
         {
-            if (!npc.level().isAreaLoaded(npc.getOnPos(), 2) && npc.level() instanceof ServerLevel)
-            {
-                EventsHandler.Schedule(npc.level(), w -> {
-                    if (!npc.isAddedToLevel()) return true;
-                    if (!npc.level().isAreaLoaded(npc.getOnPos(), 2)) return false;
-                    TrainerEventHandler.initTrainer(npc, null);
-                    return true;
-                });
-                return;
-            }
-            TrainerEventHandler.initTrainer(npc, null);
+            if(TrainerEventHandler.initTrainer(npc, null)) EntityUpdate.sendEntityUpdate(npc);
         }
     }
 
