@@ -16,6 +16,7 @@ public class SyncHandler
     public static void EntityUpdate(final EntityTickEvent.Post event)
     {
         if (event.getEntity().level().isClientSide || !event.getEntity().hasData(DataSync_Impl.TYPE)) return;
+        if (!event.getEntity().isAlive()) return;
         Entity entity = event.getEntity();
         DataSync data = SyncHandler.getData(entity);
         mainData:
