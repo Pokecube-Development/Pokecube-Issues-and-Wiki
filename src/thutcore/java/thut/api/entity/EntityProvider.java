@@ -19,6 +19,7 @@ public class EntityProvider implements IEntityProvider
     @SuppressWarnings("unchecked")
     public static <T extends Entity> T getTracked(T input)
     {
+        if (input == null) return input;
         var result = provider.getTrackable(input);
         try
         {
