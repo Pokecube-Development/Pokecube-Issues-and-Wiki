@@ -22,8 +22,9 @@ public class PokeplayerClient
         protected IPokemob getMob()
         {
             var copy = ThutCaps.getCopyMob(Minecraft.getInstance().player);
-            if (copy == null) return null;
-            return PokemobCaps.getPokemobFor(copy.getCopiedMob());
+            if (copy == null) return super.getMob();
+            var mob = PokemobCaps.getPokemobFor(copy.getCopiedMob());
+            return mob == null ? super.getMob() : mob;
         }
     }
 
