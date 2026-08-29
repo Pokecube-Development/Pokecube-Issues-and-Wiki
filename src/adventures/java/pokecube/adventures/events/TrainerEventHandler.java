@@ -328,9 +328,9 @@ public class TrainerEventHandler
 
     public static void onBattleExit(ExitBattleEvent event)
     {
-        if(event.isCanceled()) return;
+        if (event.isCanceled()) return;
         IHasPokemobs trainer = TrainerCaps.getHasPokemobs(event.mob);
-        if(trainer!=null) trainer.onSetTarget(null, true);
+        if (trainer != null) trainer.onSetTarget(null, true);
     }
 
     public static void onAgroTest(ValidBattleTarget event)

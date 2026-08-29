@@ -186,7 +186,7 @@ public class GuardAICapability implements IGuardAICapability
     public IGuardTask getPrimaryTask()
     {
         if (this.tasks.isEmpty()) this.tasks.add(new GuardTask());
-        return this.tasks.get(0);
+        return this.tasks.getFirst();
     }
 
     @Override

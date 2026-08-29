@@ -214,7 +214,7 @@ public class TrainerSpawnHandler
         int dist = Math.min(PokecubeCore.getConfig().maxSpawnRadius, Config.instance.trainerBox);
         Vector3 v = TrainerSpawnHandler.getRandomSpawningPointNearEntity(w, p, dist);
         if (v == null) return;
-        if (v.y <= 0 || v.y >= w.getMaxBuildHeight()) return;
+        if (v.y <= w.getMinBuildHeight() || v.y >= w.getMaxBuildHeight()) return;
         if (!SpawnHandler.checkNoSpawnerInArea(w, v.intX(), v.intY(), v.intZ())) return;
         final int count = TrainerTracker.countTrainers(w, v, PokecubeAdv.config.trainerBox);
         if (count < Config.instance.trainerDensity)

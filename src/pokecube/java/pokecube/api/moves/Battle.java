@@ -377,6 +377,7 @@ public class Battle
     {
         final int tooLong = Battle.BATTLE_END_TIMER;
         boolean changed = false;
+        outer:
         for (final LivingEntity mob1 : side.values())
         {
             // Use this chance to check for player owned, as this ticks during "tick"
@@ -410,6 +411,12 @@ public class Battle
             }
             else
             {
+                // check if we have any teammates in the battle
+                for(var mob2: side.values())
+                {
+                    if(TeamManager.sameTeam(mob2, mob1) && mob2.isAlive())
+                        continue outer;
+                }
 
                 LivingEntity target = BrainUtils.getAttackTarget(mob1);
                 // No more target means we remove it from the battle.

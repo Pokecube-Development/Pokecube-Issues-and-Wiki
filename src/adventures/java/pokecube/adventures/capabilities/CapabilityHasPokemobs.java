@@ -2,6 +2,7 @@ package pokecube.adventures.capabilities;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -736,14 +737,16 @@ public class CapabilityHasPokemobs
             final LivingEntity old = this.getTarget();
             // No calling this if we already have that target.
             if (old == target) return;
+            var user = this.getTrainer();
             // No calling this if we are the target.
-            if (target == this.getTrainer()) return;
+            if (target == user) return;
 
             if (!ignoreCanBattle && target != null && !this.canBattle(target, true).test()) return;
 
             final Set<ITargetWatcher> watchers = this.getTargetWatchers();
             // No next pokemob, so we shouldn't have a target in this case.
 
+            var brain = user.getBrain();
             // Set this here, before trying to validate other's target below.
             battle_check:
             {
@@ -752,9 +755,25 @@ public class CapabilityHasPokemobs
                     Battle b = Battle.getBattle(target);
                     if (b != null && b.getAllies(target).contains(old)) break battle_check;
                 }
-                this.getTrainer().getBrain().eraseMemory(MemoryTypes.BATTLETARGET.get());
-                if (target != null) this.getTrainer().getBrain().setMemory(MemoryTypes.BATTLETARGET.get(), new BattleTarget(this.getTrainer()
-                        .getOnPos(), target));
+                var battleMem = MemoryTypes.BATTLETARGET.get();
+                brain.eraseMemory(battleMem);
+                if (target != null)
+                {
+                    var pos = user.getOnPos();
+                    var key = "pokecube_adventures:last_battle_pos";
+                    var tag = user.getPersistentData().getCompound(key);
+                    if (!tag.isEmpty())
+                    {
+                        var oldPos = new BlockPos(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
+                        if (oldPos.distManhattan(pos) < 8) pos = oldPos;
+                    }
+                    var battleTarget = new BattleTarget(pos, target);
+                    brain.setMemory(battleMem, battleTarget);
+                    tag.putInt("x", pos.getX());
+                    tag.putInt("y", pos.getY());
+                    tag.putInt("z", pos.getZ());
+                    user.getPersistentData().put(key, tag);
+                }
             }
 
             final IHasPokemobs oldOther = TrainerCaps.getHasPokemobs(old);
@@ -767,37 +786,37 @@ public class CapabilityHasPokemobs
                 this.getAIStates().setAIState(AIState.THROWING, false);
                 this.getAIStates().setAIState(AIState.INBATTLE, false);
                 BrainUtils.deagro(this.getTrainer());
-                this.getTrainer().getBrain().eraseMemory(MemoryTypes.BATTLETARGET.get());
-                this.getTrainer().getBrain().setActiveActivityIfPossible(Activity.IDLE);
+                brain.eraseMemory(MemoryTypes.BATTLETARGET.get());
+                brain.setActiveActivityIfPossible(Activity.IDLE);
                 return;
             }
 
             final IHasPokemobs other = TrainerCaps.getHasPokemobs(target);
-            if (other != null) other.onSetTarget(this.getTrainer(), true);
+            if (other != null) other.onSetTarget(user, true);
 
             if (this.getAttackCooldown() <= 0)
             {
                 int cooldown = Config.instance.trainerBattleDelay;
-                final LivingEntity hitBy = this.user.getBrain().hasMemoryValue(MemoryModuleType.HURT_BY_ENTITY)
-                        ? this.user.getBrain().getMemory(MemoryModuleType.HURT_BY_ENTITY).get()
+                final LivingEntity hitBy = brain.hasMemoryValue(MemoryModuleType.HURT_BY_ENTITY)
+                        ? brain.getMemory(MemoryModuleType.HURT_BY_ENTITY).get()
                         : null;
-                final int hurtTimer = this.user.tickCount - this.user.getLastHurtMobTimestamp();
+                final int hurtTimer = user.tickCount - user.getLastHurtMobTimestamp();
                 // No cooldown if someone was punching is!
                 if (hitBy == target && hurtTimer < 500) cooldown = 0;
                 this.setAttackCooldown(cooldown);
                 if (target != null)
                 {
-                    var messages = this.getTrainer().getData(TrainerCaps.MESSAGES);
-                    messages.sendMessage(MessageState.AGRESS, target, this.user.getDisplayName(),
+                    var messages = user.getData(TrainerCaps.MESSAGES);
+                    messages.sendMessage(MessageState.AGRESS, target, user.getDisplayName(),
                             target.getDisplayName());
-                    messages.doAction(MessageState.AGRESS, new ActionContext(target, this.getTrainer()));
+                    messages.doAction(MessageState.AGRESS, new ActionContext(target, user));
                 }
                 this.getAIStates().setAIState(AIState.INBATTLE, true);
             }
             // Notify the watchers that a target was actually set.
             for (final ITargetWatcher watcher : watchers) watcher.onSet(this, target);
 
-            this.getTrainer().getBrain().setActiveActivityIfPossible(Activities.BATTLE.get());
+            brain.setActiveActivityIfPossible(Activities.BATTLE.get());
         }
 
         @Override

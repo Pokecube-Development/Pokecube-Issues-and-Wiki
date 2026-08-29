@@ -109,7 +109,6 @@ public class BrainUtil
             if (!brain.memories.containsKey(module)) brain.memories.put(module, Optional.empty());
         });
         SENSOR_TYPES.forEach((type) -> {
-            @SuppressWarnings("unchecked")
             final SensorType<? extends Sensor<? super LivingEntity>> stype = (SensorType<? extends Sensor<? super LivingEntity>>) type;
             @SuppressWarnings("unchecked")
             final Sensor<LivingEntity> sense = (Sensor<LivingEntity>) stype.create();

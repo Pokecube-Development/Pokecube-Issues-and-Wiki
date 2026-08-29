@@ -255,7 +255,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                         theMob.displayMessageToOwner(mess);
                         theMob.getMoveStats().addPendingMove(s, theMob);
                     }
-                    EntityUpdate.sendEntityUpdate(this.getEntity());
+                    if(this.getEntity().isAddedToLevel()) EntityUpdate.sendEntityUpdate(this.getEntity());
                     return;
                 }
             }
