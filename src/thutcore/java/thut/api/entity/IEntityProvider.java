@@ -15,9 +15,9 @@ public interface IEntityProvider
     default Entity getTrackable(Entity input)
     {
         var entity = getEntity(input.level(), input.getId(), false);
-        if (entity == null)
+        if (entity == null && input != null && !input.isRemoved())
         {
-            System.err.println("Trying to send a packet when something isn't tracked?");
+            System.err.println("Trying to send a packet when something isn't tracked? "+input);
             Thread.dumpStack();
         }
         return entity != null ? entity : input;

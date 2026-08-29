@@ -62,11 +62,17 @@ public class Data_ItemStack extends Data_Base<ItemStack>
     {
         super.write(buf);
         final FriendlyByteBuf wrapped = new FriendlyByteBuf(Unpooled.buffer(0));
-        if (this.value.isEmpty()) wrapped.writeByte(0);
+        ItemStack tmp = this.value.copy();
+        // Seems a rare race condition can make the stack empty
+        // between this check and the writeNbt?
+        if (tmp.isEmpty())
+        {
+            wrapped.writeByte(0);
+        }
         else
         {
             wrapped.writeByte(1);
-            wrapped.writeNbt(this.value.save(provider));
+            wrapped.writeNbt(tmp.save(provider));
         }
         final int num = wrapped.readableBytes();
         buf.writeInt(num);

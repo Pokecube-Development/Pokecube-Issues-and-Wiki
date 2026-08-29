@@ -41,7 +41,7 @@ public class PacketDataSync extends Packet
         final PlayerData data = manager.getData(dataType);
         if (data == null)
         {
-            PokecubeAPI.LOGGER.error("No datatype for " + dataType);
+            PokecubeAPI.LOGGER.error("No datatype for {}", dataType);
             return;
         }
         PacketDataSync.syncData(data, player.getUUID(), (ServerPlayer) player, true);
@@ -71,7 +71,15 @@ public class PacketDataSync extends Packet
     @Override
     public void write(final FriendlyByteBuf buffer)
     {
-        buffer.writeNbt(this.data);
+        try
+        {
+            buffer.writeNbt(this.data);
+        }
+        catch (Exception e)
+        {
+            System.err.println(e.getMessage());
+            System.out.println(this.data);
+        }
     }
 
     private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("pokecube:sync_data"));
