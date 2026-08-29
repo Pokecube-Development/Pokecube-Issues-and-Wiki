@@ -97,7 +97,7 @@ public class GuardAI extends Goal
     {
         if (this.capability == null)
         {
-            PokecubeAPI.LOGGER.error("No guard cap for " + this.entity);
+            PokecubeAPI.LOGGER.error("No guard cap for {}", this.entity);
             return false;
         }
         // TODO find some way to determine actual length of day

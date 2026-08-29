@@ -25,7 +25,6 @@ import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.utils.TimePeriod;
 
 public class GuardAICapability implements IGuardAICapability
@@ -35,7 +34,7 @@ public class GuardAICapability implements IGuardAICapability
     {
         private static final ResourceLocation UID = ResourceLocation.parse("pokecube:guard_task");
 
-        private AttributeModifier executingGuardTask = null;
+        private final AttributeModifier executingGuardTask;
 
         private Vec3 lastPos;
 
@@ -168,7 +167,7 @@ public class GuardAICapability implements IGuardAICapability
 
     private final List<IGuardTask> tasks = Lists.newArrayList(new GuardTask());
 
-    private List<Runnable> listeners = Lists.newArrayList();
+    private final List<Runnable> listeners = Lists.newArrayList();
 
     private GuardState state = GuardState.IDLE;
 
@@ -207,7 +206,7 @@ public class GuardAICapability implements IGuardAICapability
     {
         List<Runnable> dirty = Lists.newArrayList(listeners);
         this.listeners.clear();
-        dirty.forEach(r -> r.run());
+        dirty.forEach(Runnable::run);
     }
 
     @Override
@@ -281,8 +280,6 @@ public class GuardAICapability implements IGuardAICapability
         ret.put("tasks", this.serializeTasks());
         return ret;
     }
-
-    static final ResourceLocation GUARDCAP = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "guardai");
 
     public static Supplier<AttachmentType<IGuardAICapability>> GUARD_HOLDER;
 
