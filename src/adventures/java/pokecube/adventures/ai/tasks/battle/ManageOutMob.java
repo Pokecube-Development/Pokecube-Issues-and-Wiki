@@ -5,6 +5,9 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.entity.ai.memory.WalkTarget;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.Config;
@@ -134,10 +137,15 @@ public class ManageOutMob extends BaseBattleTask
     protected void tick(final ServerLevel worldIn, final LivingEntity owner, final long gameTime)
     {
         final boolean hasMob = this.getTrainer(owner).getOutMob() != null;
-
-        owner.getBrain().getMemory(MemoryTypes.BATTLETARGET.get())
-                .ifPresent(target -> BehaviorUtils.lookAtEntity(owner, target));
-
+        var brain = owner.getBrain();
+        var targOpt = brain.getMemory(MemoryTypes.BATTLETARGET.get());
+        targOpt.ifPresent(target -> {
+            if (brain.checkMemory(MemoryModuleType.WALK_TARGET, MemoryStatus.REGISTERED))
+            {
+                brain.setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(target.battlePos(), 1, 1));
+            }
+            BehaviorUtils.lookAtEntity(owner, target.target());
+        });
         if (hasMob) this.considerSwapPokemob(owner);
         else this.doAggression(owner, worldIn);
     }

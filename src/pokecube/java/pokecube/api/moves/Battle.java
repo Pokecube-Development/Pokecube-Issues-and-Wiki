@@ -426,7 +426,8 @@ public class Battle
                         List<LivingEntity> otherSide = set == s1 ? s2 : s1;
                         for (LivingEntity e : otherSide)
                         {
-                            if (EntityProvider.getTracked(BrainUtils.getAttackTarget(e)) == mob1)
+                            var _targ = BrainUtils.getAttackTarget(e);
+                            if (EntityProvider.getTracked(_targ) == mob1)
                             {
                                 valid = false;
                                 break;
@@ -456,7 +457,7 @@ public class Battle
         final List<LivingEntity> stale = Lists.newArrayList();
         boolean changed = false;
 
-        int numBefore = this.side1.size()+this.side2.size();
+        int numBefore = this.side1.size() + this.side2.size();
 
         // check if we have any stale mobs, this checks if they have revived
         // somehow using a timer. The function calls are before || so that both

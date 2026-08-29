@@ -29,7 +29,7 @@ public class ManagePokemobTarget extends BaseBattleTask
         if (gameTime % 10 != 0) return;
 
         var brain = owner.getBrain();
-        var target = brain.getMemory(MemoryTypes.BATTLETARGET.get()).get();
+        var target = brain.getMemory(MemoryTypes.BATTLETARGET.get()).get().target();
         final IHasPokemobs other = TrainerCaps.getHasPokemobs(target);
         if (other != null)
         {

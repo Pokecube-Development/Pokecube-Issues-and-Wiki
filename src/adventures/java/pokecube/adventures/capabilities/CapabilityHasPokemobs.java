@@ -24,6 +24,7 @@ import net.neoforged.neoforge.common.util.TriState;
 import pokecube.adventures.Config;
 import pokecube.adventures.advancements.Triggers;
 import pokecube.adventures.ai.brain.MemoryTypes;
+import pokecube.adventures.ai.tasks.battle.BaseBattleTask.BattleTarget;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerBase;
@@ -41,6 +42,7 @@ import pokecube.api.entity.trainers.actions.MessageState;
 import pokecube.api.events.npcs.TrainerInteractEvent;
 import pokecube.api.events.npcs.TrainerInteractEvent.CanInteract;
 import pokecube.api.items.IPokecube;
+import pokecube.api.moves.Battle;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.npc.Activities;
@@ -380,7 +382,7 @@ public class CapabilityHasPokemobs
         {
             final Brain<?> brain = this.user.getBrain();
             if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET.get())) return null;
-            return brain.getMemory(MemoryTypes.BATTLETARGET.get()).get();
+            return brain.getMemory(MemoryTypes.BATTLETARGET.get()).get().target();
         }
 
         @Override
@@ -743,8 +745,17 @@ public class CapabilityHasPokemobs
             // No next pokemob, so we shouldn't have a target in this case.
 
             // Set this here, before trying to validate other's target below.
-            this.getTrainer().getBrain().eraseMemory(MemoryTypes.BATTLETARGET.get());
-            if (target != null) this.getTrainer().getBrain().setMemory(MemoryTypes.BATTLETARGET.get(), target);
+            battle_check:
+            {
+                if (old != null)
+                {
+                    Battle b = Battle.getBattle(target);
+                    if (b != null && b.getAllies(target).contains(old)) break battle_check;
+                }
+                this.getTrainer().getBrain().eraseMemory(MemoryTypes.BATTLETARGET.get());
+                if (target != null) this.getTrainer().getBrain().setMemory(MemoryTypes.BATTLETARGET.get(), new BattleTarget(this.getTrainer()
+                        .getOnPos(), target));
+            }
 
             final IHasPokemobs oldOther = TrainerCaps.getHasPokemobs(old);
             if (oldOther != null) oldOther.onSetTarget(null);
@@ -930,7 +941,7 @@ public class CapabilityHasPokemobs
         {
             final Brain<?> brain = this.user.getBrain();
             if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET.get())) return null;
-            return brain.getMemory(MemoryTypes.BATTLETARGET.get()).get();
+            return brain.getMemory(MemoryTypes.BATTLETARGET.get()).get().target();
         }
 
         @Override

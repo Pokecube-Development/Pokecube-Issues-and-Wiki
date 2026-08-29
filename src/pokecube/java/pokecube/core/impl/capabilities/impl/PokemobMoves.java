@@ -260,7 +260,6 @@ public abstract class PokemobMoves extends PokemobStats
                     }
                 }
             }
-            this.setBattle(b);
 
             // If no battle, but is in combat, then make a new battle
             if (b == null && this.inCombat())
@@ -269,10 +268,9 @@ public abstract class PokemobMoves extends PokemobStats
                 if (target != null) Battle.createOrAddToBattle(entity, target);
 
                 b = Battle.getBattle(entity);
-                this.setBattle(b);
             }
+            this.setBattle(b);
             this.setCombatState(CombatStates.BATTLING, b != null);
-
             int ownerOffset = owner != null ? 1 : 0;
 
             // No battle case
@@ -299,6 +297,13 @@ public abstract class PokemobMoves extends PokemobStats
                 setNoBattle(ownerOffset);
                 this.setCombatState(CombatStates.BATTLING, false);
                 break battle_check;
+            }
+
+            // Now, check if any of the enemies are attacking our owner, if so, divert
+            if (owner != null) for (var mob : mobs)
+            {
+                var mobTarget = BrainUtils.getAttackTarget(mob);
+                if (mobTarget == owner) BrainUtils.setAttackTarget(mob, entity);
             }
 
             // Now ensure target index is in range.

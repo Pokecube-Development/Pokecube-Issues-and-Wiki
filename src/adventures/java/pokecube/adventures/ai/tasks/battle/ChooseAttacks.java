@@ -51,7 +51,7 @@ public class ChooseAttacks extends BaseBattleTask
     {   // If trainer has a living, real mob out, tell it to do stuff.
         owner.getBrain().getMemory(MemoryTypes.BATTLETARGET.get()).ifPresent(target -> {
             // Check if pokemob has a valid Pokemob as a target.
-            if (PokemobCaps.getPokemobFor(target) != null)
+            if (PokemobCaps.getPokemobFor(target.target()) != null)
                 // using best move for target.
                 this.considerSwapMove(owner);
                 // Otherwise just pick whatever does most damage

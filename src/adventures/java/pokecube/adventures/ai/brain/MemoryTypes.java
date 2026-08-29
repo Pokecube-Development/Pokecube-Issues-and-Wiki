@@ -3,13 +3,13 @@ package pokecube.adventures.ai.brain;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import pokecube.adventures.PokecubeAdv;
+import pokecube.adventures.ai.tasks.battle.BaseBattleTask.BattleTarget;
 
 public class MemoryTypes
 {
-    public static final Supplier<MemoryModuleType<LivingEntity>> BATTLETARGET;
+    public static final Supplier<MemoryModuleType<BattleTarget>> BATTLETARGET;
     public static final Supplier<MemoryModuleType<Integer>> NO_SEEN_TARGET_TIMER;
     public static final Supplier<MemoryModuleType<Integer>> DE_AGRO_TIMER;
 

@@ -17,7 +17,7 @@
   "spawns": [
     {
       "preset": "all_not_caves",
-      "rate": "0.4"
+      "rate": "0.05"
     }
   ],
   "gender": "Both"

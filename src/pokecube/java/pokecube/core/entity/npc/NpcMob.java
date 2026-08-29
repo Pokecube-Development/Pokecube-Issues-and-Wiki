@@ -82,7 +82,7 @@ public class NpcMob extends Villager implements IEntityWithComplexSpawn
     private boolean male = true;
     public boolean stationary = false;
     protected boolean invuln = false;
-    public Vector3 location = null;
+    public Vector3 location;
     public GuardAI guardAI;
 
     public String customTrades = "";

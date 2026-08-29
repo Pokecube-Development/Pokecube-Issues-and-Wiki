@@ -435,12 +435,10 @@ public class FindTargetsTask extends PokemobBehaviour implements IAICombat, ITar
 
             LivingEntity newTarget = chooseNewTarget(entity, target);
             // Now fire our re-direct event
-            if(newTarget!=target)
+            if (newTarget != target)
             {
                 BrainUtils.setAttackTarget(entity, newTarget);
-                if(newTarget!=null)
-                    brain.setMemory(MemoryModules.ATTACKTARGETID.get(), newTarget.getUUID());
-                System.out.println("Target Validation Failed "+target+" "+newTarget+"\n     "+entity);
+                if (newTarget != null) brain.setMemory(MemoryModules.ATTACKTARGETID.get(), newTarget.getUUID());
                 return false;
             }
             if (!brain.hasMemoryValue(MemoryModules.ATTACKTARGETID.get()))

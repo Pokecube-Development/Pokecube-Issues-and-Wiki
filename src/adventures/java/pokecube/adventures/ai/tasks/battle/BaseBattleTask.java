@@ -1,6 +1,7 @@
 package pokecube.adventures.ai.tasks.battle;
 
 import com.google.common.collect.Maps;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.Brain;
@@ -15,6 +16,8 @@ import java.util.Map;
 public abstract class BaseBattleTask extends BaseTask
 {
     private static final Map<MemoryModuleType<?>, MemoryStatus> MEMS = Maps.newHashMap();
+
+    public static record BattleTarget(BlockPos battlePos, LivingEntity target){}
 
     static
     {

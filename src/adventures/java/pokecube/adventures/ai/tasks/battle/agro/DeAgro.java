@@ -40,7 +40,7 @@ public class DeAgro extends BaseBattleTask
     protected void tick(final ServerLevel worldIn, final LivingEntity owner, final long gameTime)
     {
         var brain = owner.getBrain();
-        var target = brain.getMemory(MemoryTypes.BATTLETARGET.get()).get();
+        var target = brain.getMemory(MemoryTypes.BATTLETARGET.get()).get().target();
         boolean deagro = !target.isAlive() || target.getHealth() <= 0;
         int noSeeTicks = brain.getMemory(MemoryTypes.NO_SEEN_TARGET_TIMER.get()).orElse(0);
         int deagroTimer = brain.getMemory(MemoryTypes.DE_AGRO_TIMER.get()).orElse(20);

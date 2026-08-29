@@ -53,11 +53,11 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
     {
         final Brain<?> brain = entityIn.getBrain();
         if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET.get())) return false;
-        final LivingEntity targ = brain.getMemory(MemoryTypes.BATTLETARGET.get()).get();
-        if (targ != this.target)
+        var targ = brain.getMemory(MemoryTypes.BATTLETARGET.get()).get();
+        if (targ.target() != this.target)
         {
             this.timer = 0;
-            this.target = targ;
+            this.target = targ.target();
         }
         return this.maxTimer <= 0 || this.timer++ < this.maxTimer;
     }
