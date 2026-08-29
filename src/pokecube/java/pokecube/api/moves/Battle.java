@@ -385,6 +385,13 @@ public class Battle
             final IPokemob poke = PokemobCaps.getPokemobFor(mob1);
             this.hadPlayer |= poke != null && poke.isPlayerOwned();
 
+            // If the mob has gotten to far from the centre of the battle, we will have it exit.
+            if(getCentre().distToEntity(mob1) > PokecubeCore.getConfig().chaseDistance)
+            {
+                stale.add(mob1);
+                continue;
+            }
+
             if (!mob1.isAlive())
             {
                 set.remove(mob1);
