@@ -2,6 +2,7 @@ package thut.api.entity;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
+import pokecube.core.PokecubeCore;
 
 public interface IEntityProvider
 {
@@ -15,7 +16,7 @@ public interface IEntityProvider
     default Entity getTrackable(Entity input)
     {
         var entity = getEntity(input.level(), input.getId(), false);
-        if (entity == null && input != null && !input.isRemoved())
+        if (entity == null && input != null && !input.isRemoved() && PokecubeCore.getConfig().debug_misc)
         {
             System.err.println("Trying to send a packet when something isn't tracked? "+input);
             Thread.dumpStack();
