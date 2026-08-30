@@ -1,5 +1,6 @@
 package pokecube.adventures.init;
 
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -7,6 +8,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import pokecube.adventures.PokecubeAdv;
+import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.adventures.ai.tasks.Tasks;
 import pokecube.adventures.capabilities.CapabilityHasTrades;
 import pokecube.adventures.events.TrainerEventHandler;
@@ -19,8 +21,10 @@ import pokecube.adventures.utils.EnergyHandler;
 import pokecube.adventures.utils.TrainerTracker;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.events.init.CompatEvent;
+import pokecube.api.moves.Battle;
 import pokecube.compat.Compat;
 import thut.api.attachments.Ownable;
+import thut.api.entity.EntityProvider;
 import thut.core.common.ThutCore;
 
 @EventBusSubscriber(modid = PokecubeAdv.MODID)
@@ -101,6 +105,26 @@ public class SetupHandler
 
         PacketTrainer.register();
         Tasks.init();
+
+        // Register a battle validator that checks for battle target
+        Battle.BATTLE_TESTS.add(testSet -> {
+            var brain = testSet.mob().getBrain();
+            if (brain.checkMemory(MemoryTypes.BATTLETARGET.get(), MemoryStatus.VALUE_PRESENT))
+            {
+                var battleTarget = brain.getMemory(MemoryTypes.BATTLETARGET.get()).get().target();
+                var battleTarget_t = EntityProvider.getTracked(battleTarget);
+                if (battleTarget_t != null && testSet.otherSideMap().containsKey(battleTarget_t.getUUID()))
+                {
+                    testSet.battle().markAsValid(testSet.mob());
+                    testSet.battle().markAsValid(testSet.otherSideMap().get(battleTarget_t.getUUID()));
+                }
+                else if (battleTarget != null && testSet.otherSideMap().containsKey(battleTarget.getUUID()))
+                {
+                    testSet.battle().markAsValid(testSet.mob());
+                    testSet.battle().markAsValid(testSet.otherSideMap().get(battleTarget.getUUID()));
+                }
+            }
+        });
     }
 
     @SubscribeEvent

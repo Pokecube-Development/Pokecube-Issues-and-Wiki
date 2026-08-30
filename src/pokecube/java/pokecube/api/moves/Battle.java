@@ -1,10 +1,13 @@
 package pokecube.api.moves;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
@@ -159,6 +162,79 @@ public class Battle
 
     private static final Comparator<LivingEntity> BATTLESORTER = Comparator.comparingInt(Entity::getId);
 
+    public static record ValidBattler(Battle battle, LivingEntity mob,
+            List<LivingEntity> mobSide, List<LivingEntity> otherSide,
+            Map<UUID, LivingEntity> mobSideMap, Map<UUID, LivingEntity> otherSideMap,
+            AtomicBoolean changed, AtomicBoolean invalid){}
+
+    public static final List<Consumer<ValidBattler>> BATTLE_TESTS = new ArrayList<>();
+
+    static
+    {
+        // Add a check for too far from battle
+        BATTLE_TESTS.add(testSet -> {
+            var mob1 = testSet.mob;
+            if (testSet.battle.getCentre().distToEntity(mob1) > PokecubeCore.getConfig().chaseDistance)
+            {
+                testSet.battle.markAsValid(mob1, -10);
+                testSet.invalid.set(true);
+            }
+        });
+        // Add a check to mark mobs who have a valid target
+        BATTLE_TESTS.add(testSet -> {
+            var mob1 = testSet.mob;
+            var mob1_e = EntityProvider.getTracked(mob1);
+            var mob1_t = BrainUtils.getAttackTarget(mob1);
+            var mob1_t_e = EntityProvider.getTracked(mob1_t);
+            if (mob1_t_e != null && testSet.otherSideMap.containsKey(mob1_t_e.getUUID()))
+            {
+                testSet.battle.markAsValid(mob1);
+                testSet.battle.markAsValid(testSet.otherSideMap.get(mob1_t_e.getUUID()));
+                return;
+            }
+            else if (mob1_t != null && testSet.otherSideMap.containsKey(mob1_t.getUUID()))
+            {
+                testSet.battle.markAsValid(mob1);
+                testSet.battle.markAsValid(testSet.otherSideMap.get(mob1_t.getUUID()));
+                return;
+            }
+            if (mob1_e == mob1) return;
+            mob1_t = BrainUtils.getAttackTarget(mob1_e);
+            mob1_t_e = EntityProvider.getTracked(mob1_e);
+            if (mob1_t_e != null && testSet.otherSideMap.containsKey(mob1_t_e.getUUID()))
+            {
+                testSet.battle.markAsValid(mob1);
+                testSet.battle.markAsValid(testSet.otherSideMap.get(mob1_t_e.getUUID()));
+            }
+            else if (mob1_t != null && testSet.otherSideMap.containsKey(mob1_t.getUUID()))
+            {
+                testSet.battle.markAsValid(mob1);
+                testSet.battle.markAsValid(testSet.otherSideMap.get(mob1_t.getUUID()));
+            }
+        });
+        // Add one to re-map removed and re-added mobs
+        BATTLE_TESTS.add(testSet -> {
+            var mob1 = testSet.mob;
+            var set = testSet.mobSide;
+            var side = testSet.mobSideMap;
+            var battle = testSet.battle;
+            set.remove(mob1);
+            final UUID id = mob1.getUUID();
+            final Entity mob = battle.world.getEntity(id);
+            if (mob != null && mob != mob1)
+            {
+                if (mob instanceof LivingEntity living)
+                {
+                    side.put(id, living);
+                    if (!set.contains(living)) set.add(living);
+                    // We changed if we had to adjust the sets.
+                    testSet.battle.markAsValid(living);
+                    testSet.changed.set(true);
+                }
+            }
+        });
+    }
+
     private final Map<UUID, LivingEntity> side1 = Maps.newHashMap();
     private final Map<UUID, LivingEntity> side2 = Maps.newHashMap();
 
@@ -206,10 +282,11 @@ public class Battle
      */
     public void addAlly(LivingEntity entity, LivingEntity toAdd)
     {
-        var sideMap = side1.containsKey(entity.getUUID())?side1:side2;
-        var sideList = sideMap==side1?s1:s2;
+        var sideMap = side1.containsKey(entity.getUUID()) ? side1 : side2;
+        var sideList = sideMap == side1 ? s1 : s2;
+        markAsValid(toAdd);
         sideList.add(toAdd);
-        sideMap.put(toAdd.getUUID(),toAdd);
+        sideMap.put(toAdd.getUUID(), toAdd);
         final BattleManager manager = BattleManager.managers.get(world.dimension());
         manager.battlesById.put(toAdd.getUUID(), this);
     }
@@ -218,10 +295,11 @@ public class Battle
      */
     public void addEnemy(LivingEntity entity, LivingEntity toAdd)
     {
-        var sideMap = side1.containsKey(entity.getUUID())?side2:side1;
-        var sideList = sideMap==side1?s1:s2;
+        var sideMap = side1.containsKey(entity.getUUID()) ? side2 : side1;
+        var sideList = sideMap == side1 ? s1 : s2;
+        markAsValid(toAdd);
         sideList.add(toAdd);
-        sideMap.put(toAdd.getUUID(),toAdd);
+        sideMap.put(toAdd.getUUID(), toAdd);
         final BattleManager manager = BattleManager.managers.get(world.dimension());
         manager.battlesById.put(toAdd.getUUID(), this);
     }
@@ -234,6 +312,7 @@ public class Battle
 
         List<LivingEntity> s = side == side1 ? s1 : s2;
         s.add(mob);
+        markAsValid(mob);
 
         final ServerLevel world = (ServerLevel) mob.level();
         final BattleManager manager = BattleManager.managers.get(world.dimension());
@@ -349,6 +428,16 @@ public class Battle
         this.sortSides();
     }
 
+    public void markAsValid(LivingEntity mob)
+    {
+        markAsValid(mob, BATTLE_END_TIMER);
+    }
+
+    public void markAsValid(LivingEntity mob, int duration)
+    {
+        this.aliveTracker.put(mob, duration);
+    }
+
     public void removeFromBattle(final LivingEntity mob)
     {
         if (PokecubeCore.getConfig().debug_moves)
@@ -373,95 +462,35 @@ public class Battle
         ThutCore.FORGE_BUS.post(new ExitBattleEvent(mob, this));
     }
 
-    private boolean checkStale(final Map<UUID, LivingEntity> side, List<LivingEntity> set, List<LivingEntity> stale)
+    private boolean checkStale()
     {
-        final int tooLong = Battle.BATTLE_END_TIMER;
-        boolean changed = false;
-        outer:
-        for (final LivingEntity mob1 : side.values())
+        // set itself might get changed during the tests
+        AtomicBoolean changed = new AtomicBoolean(false);
+        var _set1 = new ArrayList<>(side1.values());
+        var _set2 = new ArrayList<>(side2.values());
+        for (var mob1 : _set1)
         {
-            // Use this chance to check for player owned, as this ticks during "tick"
-            this.hadPlayer |= mob1 instanceof Player;
-            final IPokemob poke = PokemobCaps.getPokemobFor(mob1);
-            this.hadPlayer |= poke != null && poke.isPlayerOwned();
-
-            // If the mob has gotten to far from the centre of the battle, we will have it exit.
-            if(getCentre().distToEntity(mob1) > PokecubeCore.getConfig().chaseDistance)
+            AtomicBoolean invalid = new AtomicBoolean(false);
+            ValidBattler testSet = new ValidBattler(this, mob1, s1, s2, side1, side2, changed, invalid);
+            for (var test : BATTLE_TESTS)
             {
-                stale.add(mob1);
-                continue;
+                test.accept(testSet);
+                if (invalid.get()) break;
             }
-
-            if (!mob1.isAlive())
-            {
-                set.remove(mob1);
-                final int tick = this.aliveTracker.getInt(mob1) + 1;
-                this.aliveTracker.put(mob1, tick);
-                final UUID id = mob1.getUUID();
-                final Entity mob = this.world.getEntity(id);
-                if (mob != null && mob != mob1)
-                {
-                    this.aliveTracker.removeInt(mob1);
-                    if (mob instanceof LivingEntity living)
-                    {
-                        side.put(id, living);
-                        if (!set.contains(living)) set.add(living);
-                        // We changed if we had to adjust the sets.
-                        changed = true;
-                    }
-                    continue;
-                }
-                if (tick > tooLong)
-                {
-                    stale.add(mob1);
-                }
-            }
-            else
-            {
-                // check if we have any teammates in the battle
-                for(var mob2: side.values())
-                {
-                    if(TeamManager.sameTeam(mob2, mob1) && mob2.isAlive())
-                        continue outer;
-                }
-
-                LivingEntity target = BrainUtils.getAttackTarget(mob1);
-                // No more target means we remove it from the battle.
-                if (target == null)
-                {
-                    // Null target could also occur if the LivingEntity is not a
-                    // Mob, such as for a player. So in that case, we need to
-                    // check members of the other team, and see if any of them
-                    // are still trying to attack it.
-                    boolean valid = mob1 instanceof Mob;
-                    if (!valid && mob1.getId() >= 0)
-                    {
-                        valid = true;
-                        List<LivingEntity> otherSide = set == s1 ? s2 : s1;
-                        for (LivingEntity e : otherSide)
-                        {
-                            var _targ = BrainUtils.getAttackTarget(e);
-                            if (EntityProvider.getTracked(_targ) == mob1)
-                            {
-                                valid = false;
-                                break;
-                            }
-                        }
-
-                    }
-                    if (valid)
-                    {
-                        stale.add(mob1);
-                    }
-                }
-                else if (!set.contains(mob1))
-                {
-                    set.add(mob1);
-                    changed = true;
-                }
-            }
+            if (!invalid.get() && !s1.contains(mob1)) s1.add(mob1);
         }
-        return changed;
+        for (var mob2 : _set2)
+        {
+            AtomicBoolean invalid = new AtomicBoolean(false);
+            ValidBattler testSet = new ValidBattler(this, mob2, s2, s1, side2, side1, changed, invalid);
+            for (var test : BATTLE_TESTS)
+            {
+                test.accept(testSet);
+                if (invalid.get()) break;
+            }
+            if (!invalid.get() && !s2.contains(mob2)) s2.add(mob2);
+        }
+        return changed.get();
     }
 
     private void tick()
@@ -469,15 +498,25 @@ public class Battle
         if (this.ended) return;
         this.valid = true;
         final List<LivingEntity> stale = Lists.newArrayList();
-        boolean changed = false;
+        boolean changed;
 
         int numBefore = this.side1.size() + this.side2.size();
 
         // check if we have any stale mobs, this checks if they have revived
         // somehow using a timer. The function calls are before || so that both
         // sets get checked, and not optimised out.
-        changed = checkStale(side1, s1, stale) || changed;
-        changed = checkStale(side2, s2, stale) || changed;
+        changed = checkStale();
+
+        s1.forEach(e -> {
+            int tick = this.aliveTracker.getInt(e) - 1;
+            if (tick < 0) stale.add(e);
+            else this.aliveTracker.put(e, tick);
+        });
+        s2.forEach(e -> {
+            int tick = this.aliveTracker.getInt(e) - 1;
+            if (tick < 0) stale.add(e);
+            else this.aliveTracker.put(e, tick);
+        });
 
         // Remove anything that is stale from the battle.
         stale.forEach(this::removeFromBattle);
