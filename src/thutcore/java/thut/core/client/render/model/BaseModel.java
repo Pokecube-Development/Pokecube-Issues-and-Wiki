@@ -324,16 +324,8 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
 
         Material.startRender();
 
-        Set<Mesh> rendered = new HashSet<>();
-        // Render custom parts first via legacy rendering
-        for (var part : this.customParts)
-        {
-            rendered.addAll(part.getRenderMeshes());
-            part.render(mat, buffer);
-        }
         for(var m: this.renderOrderMeshs)
         {
-            if(rendered.contains(m)) continue;
             // Attempt to multiply correctly
             last.pose().mul(m.poseInfo.pose(), pos);
             m.poseInfo.pose().set(pos);
@@ -342,6 +334,11 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
             m.poseInfo.normal().set(norm);
 
             m.renderShape(buffer);
+        }
+        // Render custom parts next via legacy rendering
+        for (var part : this.customParts)
+        {
+            part.render(mat, buffer);
         }
     }
 
