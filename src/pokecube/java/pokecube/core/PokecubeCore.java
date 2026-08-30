@@ -64,6 +64,7 @@ import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.handlers.DispenseBehaviors;
 import pokecube.core.handlers.PaintingsHandler;
 import pokecube.core.handlers.RecipeHandler;
+import pokecube.core.handlers.loot_tables.PokecubeLoot;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
 import pokecube.core.handlers.playerdata.PokecubePlayerData;
@@ -283,6 +284,7 @@ public class PokecubeCore
         PokecubeAttributes.REGISTER.register(bus);
 
         PokecubeWorld.init(bus);
+        PokecubeLoot.init(bus);
         CommandManager.init(bus);
 
         bus.addListener(this::loadComplete);
