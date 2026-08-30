@@ -28,15 +28,7 @@ public class ManagePokemobTarget extends BaseBattleTask
         // Only run this every 10 ticks
         if (gameTime % 10 != 0) return;
 
-        var brain = owner.getBrain();
-        var target = brain.getMemory(MemoryTypes.BATTLETARGET.get()).get().target();
-        final IHasPokemobs other = TrainerCaps.getHasPokemobs(target);
-        if (other != null)
-        {
-            other.onSetTarget(owner, true);
-            var mob = other.getOutMob();
-            if (mob != null && mob.getEntity().isAddedToLevel()) target = mob.getEntity();
-        }
+        var target = getTarget(owner);
 
         final IPokemob mob = this.getTrainer(owner).getOutMob();
 

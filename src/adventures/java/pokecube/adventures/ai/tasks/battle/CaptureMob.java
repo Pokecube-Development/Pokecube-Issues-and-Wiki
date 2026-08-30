@@ -23,13 +23,13 @@ public class CaptureMob extends BaseBattleTask
     @Override
     protected void start(final ServerLevel worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
-        final IPokemob targ = PokemobCaps.getPokemobFor(this.getTrainer(entityIn).getTarget());
+        var target = getTarget(entityIn);
+        final IPokemob targ = PokemobCaps.getPokemobFor(target);
         if (targ != null && targ.getOwnerId() == null && gameTimeIn - this.lastTry > CaptureMob.COOLDOWN)
         {
             this.lastTry = gameTimeIn;
             final ItemStack itemStack = new ItemStack(PokecubeItems.getFilledCube(PokecubeBehaviour.DEFAULTCUBE), 1);
-            ((IPokecube) itemStack.getItem()).throwPokecubeAt(worldIn, entityIn, itemStack, null,
-                    this.getTrainer(entityIn).getTarget());
+            ((IPokecube) itemStack.getItem()).throwPokecubeAt(worldIn, entityIn, itemStack, null, target);
         }
     }
 

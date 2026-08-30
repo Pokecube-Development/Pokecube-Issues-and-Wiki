@@ -102,8 +102,9 @@ public class ManageOutMob extends BaseBattleTask
             }
             return;
         }
+        var target = getTarget(living);
         // Send next cube at the target.
-        trainer.throwCubeAt(trainer.getTarget());
+        trainer.throwCubeAt(target);
     }
 
     private boolean considerSwapPokemob(LivingEntity living)

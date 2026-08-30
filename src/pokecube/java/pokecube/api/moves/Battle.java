@@ -477,7 +477,11 @@ public class Battle
                 test.accept(testSet);
                 if (invalid.get()) break;
             }
-            if (!invalid.get() && !s1.contains(mob1)) s1.add(mob1);
+            if (!invalid.get() && !s1.contains(mob1))
+            {
+                s1.add(mob1);
+                changed.set(true);
+            }
         }
         for (var mob2 : _set2)
         {
@@ -488,7 +492,11 @@ public class Battle
                 test.accept(testSet);
                 if (invalid.get()) break;
             }
-            if (!invalid.get() && !s2.contains(mob2)) s2.add(mob2);
+            if (!invalid.get() && !s2.contains(mob2))
+            {
+                s2.add(mob2);
+                changed.set(true);
+            }
         }
         return changed.get();
     }

@@ -262,10 +262,7 @@ public class TrainerSpawnHandler
         if (Config.instance.trainerSpawn && evt.getLevel() instanceof ServerLevel level
                 && evt.getLevel().getGameTime() % PokecubeCore.getConfig().spawnRate == 0)
         {
-            final long time = System.nanoTime();
             TrainerSpawnHandler.tick(level);
-            final double dt = (System.nanoTime() - time) / 1000000D;
-            if (dt > 50) PokecubeAPI.LOGGER.warn("Trainer Spawn Tick took {}ms", dt);
         }
     }
 
