@@ -58,8 +58,6 @@ public interface IHasOwner extends IHasMobAIStates, IOwnable
     /**
      * Displays a message in the console of the owner player (if this pokemob is
      * tamed).
-     *
-     * @param message
      */
     void displayMessageToOwner(Component message);
 
@@ -85,10 +83,10 @@ public interface IHasOwner extends IHasMobAIStates, IOwnable
      */
     ItemStack getPokecube();
 
-    @Nonnull
     /**
      * @return Team we are on, guarding pokemobs shouldn't attack team members.
      */
+    @Nonnull
     String getPokemobTeam();
 
     /** @return the String nickname */
@@ -109,15 +107,11 @@ public interface IHasOwner extends IHasMobAIStates, IOwnable
 
     /**
      * Sets the pokecube id to know whether its a greatcube, ultracube...
-     *
-     * @param pokeballId
      */
     void setPokecube(ItemStack pokecube);
 
     /**
      * Sets the team we are on, this is used for things like guarding
-     *
-     * @param team
      */
     void setPokemobTeam(@Nonnull String team);
 
@@ -126,8 +120,6 @@ public interface IHasOwner extends IHasMobAIStates, IOwnable
 
     /**
      * Sets that we are traded.
-     *
-     * @param trade
      */
     default void setTraded(final boolean trade)
     {
@@ -136,8 +128,6 @@ public interface IHasOwner extends IHasMobAIStates, IOwnable
 
     /**
      * Has pokemob been traded
-     *
-     * @return
      */
     default boolean traded()
     {

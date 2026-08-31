@@ -15,11 +15,6 @@ public interface IPokemobUseable
 
     }
 
-    /**
-     * @param attacker
-     * @param stack
-     * @return
-     */
     public default InteractionResultHolder<ItemStack> onMoveTick(final IPokemob attacker, final ItemStack stack,
             final MoveApplication moveuse, boolean pre)
     {
@@ -30,8 +25,6 @@ public interface IPokemobUseable
      * Called every tick while this item is the active held item for the
      * pokemob.
      *
-     * @param pokemob
-     * @param stack
      * @return something happened
      */
     public default InteractionResultHolder<ItemStack> onTick(final IPokemob pokemob, final ItemStack stack)
@@ -44,9 +37,6 @@ public interface IPokemobUseable
      * the pokemob with the itemstack. It can also be called via onTick or
      * onMoveTick, in which case user will be pokemob.getEntity()
      *
-     * @param user
-     * @param pokemob
-     * @param stack
      * @return something happened
      */
     public default InteractionResultHolder<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack,

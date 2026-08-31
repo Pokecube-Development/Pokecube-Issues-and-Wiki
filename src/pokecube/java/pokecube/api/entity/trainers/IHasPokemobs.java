@@ -42,7 +42,7 @@ public interface IHasPokemobs extends INBTSerializable<CompoundTag>, Container, 
      */
     public static enum LevelMode
     {
-        CONFIG, YES, NO;
+        CONFIG, YES, NO
     }
 
     /**
@@ -117,7 +117,7 @@ public interface IHasPokemobs extends INBTSerializable<CompoundTag>, Container, 
     {
         UUID mobID = PokecubeManager.getUUID(mob, getTrainer().level());
         if (mobID == null) mobID = UUID.randomUUID();
-        UUID testID = UUID.randomUUID();
+        UUID testID;
         boolean found = false;
         int foundID = -1;
         for (int i = 0; i < this.getMaxPokemobCount(); i++)
@@ -169,8 +169,6 @@ public interface IHasPokemobs extends INBTSerializable<CompoundTag>, Container, 
 
     /**
      * Adds a target watcher for combat validity checks.
-     *
-     * @param watcher
      */
     default void addTargetWatcher(final ITargetWatcher watcher)
     {
@@ -193,7 +191,7 @@ public interface IHasPokemobs extends INBTSerializable<CompoundTag>, Container, 
     {
         final LevelMode type = this.getLevelMode();
         if (type == LevelMode.CONFIG) return Config.instance.trainerslevel;
-        return type == LevelMode.YES ? true : false;
+        return type == LevelMode.YES;
     }
 
     /**
@@ -295,8 +293,6 @@ public interface IHasPokemobs extends INBTSerializable<CompoundTag>, Container, 
 
     /**
      * This returns the target without any additional checks
-     *
-     * @return
      */
     LivingEntity getTargetRaw();
 
@@ -322,7 +318,6 @@ public interface IHasPokemobs extends INBTSerializable<CompoundTag>, Container, 
     /**
      * Target sensitive version of isAgressive
      *
-     * @param target
      * @return if we should attack it.
      */
     default boolean isAgressive(final Entity target)
@@ -358,8 +353,6 @@ public interface IHasPokemobs extends INBTSerializable<CompoundTag>, Container, 
 
     /**
      * Removes a ITargetWatcher from our collection of watchers.
-     *
-     * @param watcher
      */
     default void removeTargetWatcher(final ITargetWatcher watcher)
     {
@@ -376,15 +369,11 @@ public interface IHasPokemobs extends INBTSerializable<CompoundTag>, Container, 
 
     /**
      * Sets the cooldown for sending our new pokemobs in battle.
-     *
-     * @param value
      */
     void setAttackCooldown(int value);
 
     /**
      * Sets whether we can use mega evolution
-     *
-     * @param flag
      */
     void setCanMegaEvolve(boolean flag);
 
@@ -408,8 +397,6 @@ public interface IHasPokemobs extends INBTSerializable<CompoundTag>, Container, 
 
     /**
      * Sets the next slot for the pokemob we should send in battle.
-     *
-     * @param value
      */
     void setNextSlot(int value);
 
@@ -437,8 +424,6 @@ public interface IHasPokemobs extends INBTSerializable<CompoundTag>, Container, 
 
     /**
      * Called when we have a new combat target.
-     *
-     * @param target
      */
     default void onSetTarget(final LivingEntity target)
     {
@@ -453,15 +438,12 @@ public interface IHasPokemobs extends INBTSerializable<CompoundTag>, Container, 
     /**
      * Called when we have a new combat target.
      *
-     * @param target
      * @param ignoreCanBattle - if true, will ignore if we should be able to battle.
      */
     void onSetTarget(LivingEntity target, boolean ignoreCanBattle);
 
     /**
      * Sets our trainer type, see {@link #getType()} for details
-     *
-     * @param type
      */
     void setType(TypeTrainer type);
 
@@ -474,8 +456,6 @@ public interface IHasPokemobs extends INBTSerializable<CompoundTag>, Container, 
 
     /**
      * Sets our {@link DataSync} object used to synchronize values between client and server
-     *
-     * @param sync
      */
     void setDataSync(DataSync sync);
 

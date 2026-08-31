@@ -20,11 +20,13 @@ import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
+import pokecube.api.events.StructureEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.world.gen.structures.GenericJigsawStructure.AvoidanceSettings.AvoidanceEntry;
 import pokecube.world.gen.structures.utils.ExpandedJigsawPacement;
 import pokecube.world.utils.GeneralUtils;
+import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 
 import java.util.ArrayList;
@@ -34,34 +36,33 @@ import java.util.Set;
 
 public class GenericJigsawStructure extends Structure
 {
-    public static final MapCodec<GenericJigsawStructure> CODEC = RecordCodecBuilder.mapCodec((instance) -> {
-        return instance.group(//@formatter:off
-                Structure.settingsCodec(instance),
-                Codec.STRING.fieldOf("start_pool").orElse("").forGetter(s -> s.name),
-                StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(s -> s.startPool),
-                Codec.intRange(0, 30).fieldOf("size").forGetter(s -> s.max_depth),
-                YSettings.CODEC.fieldOf("y_settings").orElse(YSettings.DEFAULT).forGetter(s -> s.y_settings),
-                ClearanceSettings.CODEC.fieldOf("clearances").orElse(ClearanceSettings.DEFAULT).forGetter(s -> s.clearances),
-                Codec.STRING.listOf().fieldOf("required_parts").orElse(new ArrayList<>()).forGetter(s -> s.required_parts),
-                Codec.STRING.fieldOf("spawn_preset").orElse("").forGetter(s -> s._spawn_preset),
-                Codec.STRING.fieldOf("spawn_blacklist").orElse("").forGetter(s -> s._spawn_blacklist),
-                Codec.STRING.fieldOf("biome_type").orElse("none").forGetter(s -> s.biome_type),
-                Heightmap.Types.CODEC.fieldOf("height_type").orElse(Heightmap.Types.WORLD_SURFACE_WG).forGetter(structure -> structure.height_type),
-                ResourceKey.codec(RegHelper.STRUCTURE_SET_REGISTRY).listOf().fieldOf("structures_to_avoid").orElse(new ArrayList<>()).forGetter(config -> config.structures_to_avoid),
-                Codec.INT.fieldOf("avoid_range").orElse(4).forGetter(s -> s.avoid_range),
-                Codec.INT.fieldOf("biome_room").orElse(2).forGetter(s -> s.biome_room), 
-                AvoidanceSettings.CODEC.fieldOf("avoidances").orElse(AvoidanceSettings.DEFAULT).forGetter(s -> s.avoidances)
-                      //@formatter:on
-        ).apply(instance, GenericJigsawStructure::new);
-    });
+    public static final MapCodec<GenericJigsawStructure> CODEC = RecordCodecBuilder.mapCodec((instance) -> instance.group(//@formatter:off
+            Structure.settingsCodec(instance),
+            Codec.STRING.fieldOf("start_pool").orElse("").forGetter(s -> s.name),
+            StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(s -> s.startPool),
+            Codec.intRange(0, 30).fieldOf("size").forGetter(s -> s.max_depth),
+            YSettings.CODEC.fieldOf("y_settings").orElse(YSettings.DEFAULT).forGetter(s -> s.y_settings),
+            ClearanceSettings.CODEC.fieldOf("clearances").orElse(ClearanceSettings.DEFAULT).forGetter(s -> s.clearances),
+            Codec.STRING.listOf().fieldOf("required_parts").orElse(new ArrayList<>()).forGetter(s -> s.required_parts),
+            Codec.STRING.fieldOf("spawn_preset").orElse("").forGetter(s -> s._spawn_preset),
+            Codec.STRING.fieldOf("spawn_blacklist").orElse("").forGetter(s -> s._spawn_blacklist),
+            Codec.STRING.fieldOf("biome_type").orElse("none").forGetter(s -> s.biome_type),
+            Heightmap.Types.CODEC.fieldOf("height_type").orElse(Heightmap.Types.WORLD_SURFACE_WG).forGetter(structure -> structure.height_type),
+            ResourceKey.codec(RegHelper.STRUCTURE_SET_REGISTRY).listOf().fieldOf("structures_to_avoid").orElse(new ArrayList<>()).forGetter(config -> config.structures_to_avoid),
+            Codec.INT.fieldOf("avoid_range").orElse(4).forGetter(s -> s.avoid_range),
+            Codec.INT.fieldOf("biome_room").orElse(2).forGetter(s -> s.biome_room),
+            AvoidanceSettings.CODEC.fieldOf("avoidances").orElse(AvoidanceSettings.DEFAULT).forGetter(s -> s.avoidances)
+                  //@formatter:on
+    ).apply(instance, GenericJigsawStructure::new));
 
-    public static class YSettings
-    {
-        public static final YSettings DEFAULT = new YSettings(0, 0, Integer.MIN_VALUE, Integer.MAX_VALUE,
-                Integer.MAX_VALUE, Integer.MIN_VALUE, 0, "surface");
+    public record YSettings(int vertical_offset, int y_check_radius, int min_y, int max_y, int max_dy, int fixed_y, int dy_offset,
+            String surface_type)
+        {
+            public static final YSettings DEFAULT = new YSettings(0, 0, Integer.MIN_VALUE, Integer.MAX_VALUE,
+                    Integer.MAX_VALUE, Integer.MIN_VALUE, 0, "surface");
 
-        public static final Codec<YSettings> CODEC = RecordCodecBuilder.create((instance) -> {
-            return instance.group(Codec.INT.fieldOf("vertical_offset").orElse(0).forGetter(s -> s.vertical_offset),
+            public static final Codec<YSettings> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
+                            Codec.INT.fieldOf("vertical_offset").orElse(0).forGetter(s -> s.vertical_offset),
                             Codec.INT.fieldOf("y_check_radius").orElse(0).forGetter(s -> s.y_check_radius),
                             Codec.INT.fieldOf("min_y").orElse(Integer.MIN_VALUE).forGetter(s -> s.min_y),
                             Codec.INT.fieldOf("max_y").orElse(Integer.MAX_VALUE).forGetter(s -> s.max_y),
@@ -69,42 +70,18 @@ public class GenericJigsawStructure extends Structure
                             Codec.INT.fieldOf("fixed_y").orElse(Integer.MIN_VALUE).forGetter(s -> s.fixed_y),
                             Codec.INT.fieldOf("dy_offset").orElse(Integer.MAX_VALUE).forGetter(s -> s.dy_offset),
                             Codec.STRING.fieldOf("surface_type").orElse("surface").forGetter(s -> s.surface_type))
-                    .apply(instance, YSettings::new);
-        });
+                    .apply(instance, YSettings::new));
 
-        public final int vertical_offset;
-        public final int y_check_radius;
-        public final int min_y;
-        public final int max_y;
-        public final int max_dy;
-        public final int fixed_y;
-        public final int dy_offset;
-        public final String surface_type;
-
-        public YSettings(int vertical_offset, int y_check_radius, int min_y, int max_y, int max_dy, int fixed_y,
-                int dy_offset, String surface_type)
-        {
-            this.vertical_offset = vertical_offset;
-            this.y_check_radius = y_check_radius;
-            this.min_y = min_y;
-            this.max_y = max_y;
-            this.max_dy = max_dy;
-            this.fixed_y = fixed_y;
-            this.surface_type = surface_type;
-            this.dy_offset = dy_offset;
         }
-    }
 
     public static class ClearanceSettings
     {
         public static final ClearanceSettings DEFAULT = new ClearanceSettings(0, 0, 100);
 
-        public static final Codec<ClearanceSettings> CODEC = RecordCodecBuilder.create((instance) -> {
-            return instance.group(Codec.INT.fieldOf("h_clearance").orElse(0).forGetter(s -> s.h_clearance),
-                    Codec.INT.fieldOf("v_clearance").orElse(0).forGetter(s -> s.v_clearance),
-                    Codec.INT.fieldOf("max_distance_from_center").orElse(100)
-                            .forGetter(s -> s.max_distance_from_center)).apply(instance, ClearanceSettings::new);
-        });
+        public static final Codec<ClearanceSettings> CODEC = RecordCodecBuilder.create((instance) -> instance.group(Codec.INT.fieldOf("h_clearance").orElse(0).forGetter(s -> s.h_clearance),
+                Codec.INT.fieldOf("v_clearance").orElse(0).forGetter(s -> s.v_clearance),
+                Codec.INT.fieldOf("max_distance_from_center").orElse(100)
+                        .forGetter(s -> s.max_distance_from_center)).apply(instance, ClearanceSettings::new));
 
         public int h_clearance;
         public int v_clearance;
@@ -122,11 +99,9 @@ public class GenericJigsawStructure extends Structure
     {
         public static class AvoidanceEntry
         {
-            public static final Codec<AvoidanceEntry> CODEC = RecordCodecBuilder.create((instance) -> {
-                return instance.group(Codec.INT.fieldOf("distance").orElse(0).forGetter(s -> s.distance),
-                                Codec.STRING.fieldOf("name").orElse("").forGetter(s -> s.name))
-                        .apply(instance, AvoidanceEntry::new);
-            });
+            public static final Codec<AvoidanceEntry> CODEC = RecordCodecBuilder.create((instance) -> instance.group(Codec.INT.fieldOf("distance").orElse(0).forGetter(s -> s.distance),
+                            Codec.STRING.fieldOf("name").orElse("").forGetter(s -> s.name))
+                    .apply(instance, AvoidanceEntry::new));
 
             public int distance;
             public String name;
@@ -272,6 +247,10 @@ public class GenericJigsawStructure extends Structure
         BiomeSource biomes = context.biomeSource();
         ChunkPos pos = context.chunkPos();
         var rng = context.randomState();
+
+        var testEvent = new StructureEvent.PickLocation(context, this.startPool);
+        ThutCore.FORGE_BUS.post(testEvent);
+        if (testEvent.isCanceled()) return false;
 
         if (tooClose(context)) return false;
         ServerLevel level = ExpandedJigsawPacement.getForGen(context);

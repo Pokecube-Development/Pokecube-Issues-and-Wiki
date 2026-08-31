@@ -54,8 +54,6 @@ public interface IHasNPCAIStates extends INBTSerializable<CompoundTag>
     }
 
     /**
-     * 
-     * @param state
      * @return whether the state is enabled.
      */
     boolean getAIState(AIState state);
@@ -82,8 +80,6 @@ public interface IHasNPCAIStates extends INBTSerializable<CompoundTag>
 
     /**
      * Restores state from the compressed cache from {@link #getTotalState()}
-     * 
-     * @param state
      */
     void setTotalState(int state);
 }

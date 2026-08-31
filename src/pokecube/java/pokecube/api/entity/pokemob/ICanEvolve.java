@@ -16,7 +16,6 @@ import net.minecraft.world.item.ItemStack;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.EvolutionData;
-import pokecube.api.data.PokedexEntry.SpawnData.SpawnRecord;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.entity.pokemob.IPokemob.HappinessType;
@@ -74,13 +73,6 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             for (final EvolutionData d : this.getPokedexEntry().getEvolutions())
                 if (d.shouldEvolve((IPokemob) this, stack)) return true;
         return false;
-    }
-
-    default IPokemob evolveForSpawn(SpawnRecord record)
-    {
-        final IPokemob thisMob = (IPokemob) this;
-
-        return thisMob;
     }
 
     /**

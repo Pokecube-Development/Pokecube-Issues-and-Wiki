@@ -166,7 +166,7 @@ public class SpawnEventsHandler
 
     private static void spawnNpc(final StructureEvent.ReadTag event, final NpcMob mob, final JsonObject thing)
     {
-        var checkEvent = new NpcSpawn.Check(mob, event.pos, event.worldActual, MobSpawnType.STRUCTURE, thing);
+        var checkEvent = new NpcSpawn.Check(mob, event.pos, MobSpawnType.STRUCTURE, thing);
         ThutCore.FORGE_BUS.post(checkEvent);
         if (!checkEvent.isCanceled())
         {

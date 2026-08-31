@@ -7,7 +7,7 @@ import net.neoforged.bus.api.ICancellableEvent;
 /**
  * Cancelling this event will prevent population of the memory for valid combat targets.
  * This is called while populating the list of valid targets for either a pokemob or an npc
- *
+ * <p>
  * This event is fired on the ThutCore.FORGE_BUS, which should be the regular game bus for Neoforge.
  */
 public class ValidBattleTarget extends Event implements ICancellableEvent

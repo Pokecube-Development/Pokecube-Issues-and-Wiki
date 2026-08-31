@@ -9,7 +9,7 @@ import pokecube.api.moves.Battle;
  * Called when a mob is removed from battle. This event during normal use ignore cancelation, and
  * mostly serves as a notification that the mob was removed from battle. The mob
  * may be dead or discarded when this occurs. Context is null in this case.
- *
+ * <p>
  * When this event is fired from PacketBattleTargets, it is the player trying to exit a battle, so
  * will be treated as an attempt to flee.
  * 

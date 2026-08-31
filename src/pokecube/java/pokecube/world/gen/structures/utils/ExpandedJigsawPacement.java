@@ -143,32 +143,34 @@ public class ExpandedJigsawPacement
             int i = (boundingbox.maxX() + boundingbox.minX()) / 2;
             int j = (boundingbox.maxZ() + boundingbox.minZ()) / 2;
 
-            int root_dy = config.y_settings.vertical_offset;
+            int root_dy = config.y_settings.vertical_offset();
             int ground_y = 0;
 
             if (config.air)
             {
                 ground_y = chunkgenerator.getFirstFreeHeight(i, j, config.height_type, levelheightaccessor, rng);
-                ground_y = Math.max(config.y_settings.min_y, ground_y);
-                if (config.y_settings.vertical_offset > 0)
-                    root_dy = config.y_settings.dy_offset + worldgenrandom.nextInt(config.y_settings.vertical_offset);
+                ground_y = Math.max(config.y_settings.min_y(), ground_y);
+                if (config.y_settings.vertical_offset() > 0)
+                    root_dy = config.y_settings.dy_offset() + worldgenrandom.nextInt(
+                            config.y_settings.vertical_offset());
             }
             else if (config.underground)
             {
                 ground_y = chunkgenerator.getFirstFreeHeight(i, j, config.height_type, levelheightaccessor, rng);
-                ground_y = Math.min(config.y_settings.max_y, ground_y);
-                if (config.y_settings.vertical_offset > 0)
-                    root_dy = -config.y_settings.dy_offset - worldgenrandom.nextInt(config.y_settings.vertical_offset);
+                ground_y = Math.min(config.y_settings.max_y(), ground_y);
+                if (config.y_settings.vertical_offset() > 0)
+                    root_dy = -config.y_settings.dy_offset() - worldgenrandom.nextInt(
+                            config.y_settings.vertical_offset());
             }
             else if (on_surface)
             {
                 ground_y = chunkgenerator.getFirstFreeHeight(i, j, config.height_type, levelheightaccessor, rng);
-                root_dy = config.y_settings.vertical_offset;
+                root_dy = config.y_settings.vertical_offset();
             }
 
-            if (config.y_settings.fixed_y > Integer.MIN_VALUE)
+            if (config.y_settings.fixed_y() > Integer.MIN_VALUE)
             {
-                ground_y = config.y_settings.fixed_y;
+                ground_y = config.y_settings.fixed_y();
             }
 
             int k = centre.getY() + root_dy + ground_y;

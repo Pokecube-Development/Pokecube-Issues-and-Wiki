@@ -8,7 +8,7 @@ public class GeneEditEvent extends Event
 
     public static enum EditType
     {
-        SPLICE, EXTRACT, OTHER;
+        SPLICE, EXTRACT, OTHER
     }
 
     public final IMobGenetics resultGenes;

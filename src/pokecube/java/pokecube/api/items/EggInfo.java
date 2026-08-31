@@ -55,7 +55,7 @@ public record EggInfo(CompoundTag tag)
         return NbtUtils.readBlockPos(tag, "nestLoc");
     }
 
-    public static final Codec<EggInfo> CODEC = CompoundTag.CODEC.<EggInfo>comapFlatMap(EggInfo::read, EggInfo::tag)
+    public static final Codec<EggInfo> CODEC = CompoundTag.CODEC.comapFlatMap(EggInfo::read, EggInfo::tag)
             .stable();
     public static final StreamCodec<ByteBuf, EggInfo> STREAM_CODEC = ByteBufCodecs.COMPOUND_TAG.map(EggInfo::parse,
             EggInfo::tag);

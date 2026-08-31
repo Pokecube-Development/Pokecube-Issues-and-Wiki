@@ -109,7 +109,7 @@ public class PokemobMoveStats
     /** The array of moves. */
     private String[] baseMoves = new String[4];
     /** The array of moves. */
-    private String[] movesToUse = new String[4];
+    private final String[] movesToUse = new String[4];
 
     public void reset()
     {
@@ -189,13 +189,6 @@ public class PokemobMoveStats
 
     public String[] getMovesToUse()
     {
-        return movesToUse;
-    }
-
-    public String[] setMovesToUse(String[] movesToUse)
-    {
-        if (baseMoves == movesToUse) Thread.dumpStack();
-        this.movesToUse = movesToUse;
         return movesToUse;
     }
 

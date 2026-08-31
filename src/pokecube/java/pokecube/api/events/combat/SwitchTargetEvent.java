@@ -9,11 +9,11 @@ import pokecube.api.entity.pokemob.IPokemob;
  * This event is fired when a pokemob attempts to switch target in battle.
  * This can either be from the owner sending the command for index, or when the
  * pokemob is checking if the combat order has re-arranged.
- *
+ * <p>
  * This is fired on the ThutCore.FORGE_BUS.
- * 
+ * <p>
  * An example use of this event: Preventing wild mobs re-agressing the player
- *
+ * <p>
  * If cancelled, the target is not changed. otherwise, target changes to whatever is in newTarget
  * 
  * @author Thutmose

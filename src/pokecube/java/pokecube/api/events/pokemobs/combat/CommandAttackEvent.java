@@ -31,8 +31,6 @@ public class CommandAttackEvent extends EntityEvent implements ICancellableEvent
 
     /**
      * Target of this attack command.
-     *
-     * @return
      */
     public Entity getTarget()
     {
@@ -41,8 +39,6 @@ public class CommandAttackEvent extends EntityEvent implements ICancellableEvent
 
     /**
      * Sets the target of the attack command.
-     *
-     * @param target
      */
     public void setTarget(@Nullable Entity target)
     {

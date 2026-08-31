@@ -97,22 +97,16 @@ public interface IHasMobAIStates extends IMoveConstants
 
     /**
      * Used for loading combat state.
-     *
-     * @param state
      */
     void setTotalCombatState(int state);
 
     /**
      * Used for loading general state.
-     *
-     * @param state
      */
     void setTotalGeneralState(int state);
 
     /**
      * Used for loading logic state.
-     *
-     * @param state
      */
     void setTotalLogicState(int state);
 

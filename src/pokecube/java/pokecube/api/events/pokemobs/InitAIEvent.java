@@ -46,7 +46,7 @@ public class InitAIEvent extends EntityEvent
     {
         public static enum Type
         {
-            IDLE, COMBAT, UTILITY;
+            IDLE, COMBAT, UTILITY
         }
 
         public final Type type;

@@ -14,7 +14,6 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.PokeType;
 import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -163,17 +162,6 @@ public class SpawnEvent extends Event implements ICancellableEvent
         }
     }
 
-    public static class Despawn extends SpawnEvent implements ICancellableEvent
-    {
-        public final IPokemob pokemob;
-
-        public Despawn(final IPokemob pokemob_)
-        {
-            super(new SpawnContext(pokemob_));
-            this.pokemob = pokemob_;
-        }
-    }
-
     public static class Function
     {
         public String dim;
@@ -250,24 +238,6 @@ public class SpawnEvent extends Event implements ICancellableEvent
             this.level = level;
         }
 
-    }
-
-    public static class LevelRange extends Variance
-    {
-        int[] nums;
-
-        public LevelRange(final int[] vars)
-        {
-            this.nums = vars.clone();
-            if (this.nums[0] <= 0 || this.nums[1] <= 0) this.nums[1] = this.nums[0] = 1;
-            if (this.nums[0] == this.nums[1]) this.nums[1]++;
-        }
-
-        @Override
-        public int apply(final int level)
-        {
-            return this.nums[0] + ThutCore.newRandom().nextInt(this.nums[1] - this.nums[0]);
-        }
     }
 
     public static class Pick extends SpawnEvent

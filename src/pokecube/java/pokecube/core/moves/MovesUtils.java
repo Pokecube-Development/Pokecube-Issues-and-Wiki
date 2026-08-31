@@ -28,6 +28,7 @@ import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.events.pokemobs.combat.AttackEvent;
 import pokecube.api.events.pokemobs.combat.MoveUse;
 import pokecube.api.moves.Battle;
 import pokecube.api.moves.MoveEntry;
@@ -608,6 +609,8 @@ public class MovesUtils implements IMoveConstants
         if (pokemob == null) return;
 
         MoveApplication apply = new MoveApplication(move, pokemob, target);
+        // Fire the AttackEvent first
+        PokecubeAPI.MOVE_BUS.post(new AttackEvent(apply));
         // Pre-apply to run any special pre-processing needed for changing move
         // targets, etc.
         MoveApplicationRegistry.preApply(apply);

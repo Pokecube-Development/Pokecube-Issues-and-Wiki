@@ -11,7 +11,7 @@ import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.MoveApplication;
 import thut.api.maths.Vector3;
 
-/** These events are fired on the {@link pokecube.core.PokecubeAPI#MOVE_BUS} */
+/** These events are fired on the {@link pokecube.api.PokecubeAPI#MOVE_BUS} */
 public class MoveUse extends Event
 {
     public static class ActualMoveUse extends MoveUse implements ICancellableEvent
@@ -22,7 +22,7 @@ public class MoveUse extends Event
          * <br>
          * If you cancel this event, make sure to send the appropriate
          * notification messages! <br>
-         * this is fired on the {@link pokecube.core.PokecubeAPI#MOVE_BUS}
+         * this is fired on the {@link pokecube.api.PokecubeAPI#MOVE_BUS}
          */
         public static class Init extends ActualMoveUse
         {
@@ -35,7 +35,7 @@ public class MoveUse extends Event
         /**
          * This is called after the post move use.<br>
          * <br>
-         * this is fired on the {@link pokecube.core.PokecubeAPI#MOVE_BUS}
+         * this is fired on the {@link pokecube.api.PokecubeAPI#MOVE_BUS}
          */
         public static class Post extends ActualMoveUse
         {
@@ -49,7 +49,7 @@ public class MoveUse extends Event
          * This is called during the pre move use method of the move
          * calculations <br>
          * <br>
-         * this is fired on the {@link pokecube.core.PokecubeAPI#MOVE_BUS}
+         * this is fired on the {@link pokecube.api.PokecubeAPI#MOVE_BUS}
          */
         public static class PreMoveStatus extends ActualMoveUse
         {
@@ -79,7 +79,7 @@ public class MoveUse extends Event
          * This is not @Cancelable, It is fired after processing the move use
          * and effects. <br>
          * <br>
-         * this is fired on the {@link pokecube.core.PokecubeAPI#MOVE_BUS}
+         * this is fired on the {@link pokecube.api.PokecubeAPI#MOVE_BUS}
          */
         public static class Post extends DuringUse
         {
@@ -95,7 +95,7 @@ public class MoveUse extends Event
          * any needed effects, or cancel this event to prevent any application.
          * <br>
          * <br>
-         * this is fired on the {@link pokecube.core.PokecubeAPI#MOVE_BUS}
+         * this is fired on the {@link pokecube.api.PokecubeAPI#MOVE_BUS}
          */
         public static class Pre extends DuringUse implements ICancellableEvent
         {
@@ -139,7 +139,7 @@ public class MoveUse extends Event
          * cancelled, so if you want to interfere, make sure to cancel this
          * event.<br>
          * <br>
-         * this is fired on the {@link pokecube.core.PokecubeAPI#MOVE_BUS}
+         * this is fired on the {@link pokecube.api.PokecubeAPI#MOVE_BUS}
          */
         public static class OnAction extends MoveWorldAction implements ICancellableEvent
         {

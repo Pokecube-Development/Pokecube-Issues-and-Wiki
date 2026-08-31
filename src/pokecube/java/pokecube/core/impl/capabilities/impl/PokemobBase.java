@@ -223,12 +223,6 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
         this.params.register(this.dataSync);
     }
 
-    @Override
-    public DataSync dataSync()
-    {
-        return this.dataSync;
-    }
-
     /**
      * @return the ownerHolder
      */

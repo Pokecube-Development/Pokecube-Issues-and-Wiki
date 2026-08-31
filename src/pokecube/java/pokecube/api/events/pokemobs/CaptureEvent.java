@@ -38,9 +38,9 @@ public class CaptureEvent extends Event implements ICancellableEvent
     /**
      * Pre is sent before the capture is completed, canceling it will prevent
      * capture. Setting the result to TriState.FALSE will prevent capture.
-     *
+     * <p>
      * Setting the result to TriState.TRUE will result in a successful capture.
-     *
+     * <p>
      * the default result state is set to FALSE if the mob is at 0 hp
      */
     public static class Pre extends CaptureEvent

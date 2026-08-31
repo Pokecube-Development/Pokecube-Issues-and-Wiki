@@ -16,15 +16,11 @@ public interface IHasTrades extends INBTSerializable<CompoundTag>
 {
     /**
      * Called when the trade is applied
-     * 
-     * @param trade
      */
     void applyTrade(MerchantOffer trade);
 
     /**
      * Called when the gui to access trades is opened.
-     * 
-     * @param player
      */
     void setCustomer(Player player);
 
@@ -58,8 +54,6 @@ public interface IHasTrades extends INBTSerializable<CompoundTag>
     /**
      * Called when a trade is updated, usually after the trade is about to be
      * completed.
-     * 
-     * @param stack
      */
     void verify(ItemStack stack);
 }

@@ -4,7 +4,6 @@ import com.google.gson.JsonObject;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.level.LevelAccessor;
 import net.neoforged.bus.api.ICancellableEvent;
 import pokecube.core.entity.npc.NpcMob;
 
@@ -13,7 +12,7 @@ public class NpcSpawn extends NpcEvent
     private final BlockPos location;
     private final MobSpawnType reason;
 
-    private NpcSpawn(final NpcMob trainer, final BlockPos location, final LevelAccessor world,
+    private NpcSpawn(final NpcMob trainer, final BlockPos location,
             final MobSpawnType reason)
     {
         super(trainer);
@@ -35,20 +34,19 @@ public class NpcSpawn extends NpcEvent
     {
         public final JsonObject args;
 
-        public Check(final NpcMob trainer, final BlockPos location, final LevelAccessor world,
+        public Check(final NpcMob trainer, final BlockPos location,
                 final MobSpawnType reason, final JsonObject args)
         {
-            super(trainer, location, world, reason);
+            super(trainer, location, reason);
             this.args = args;
         }
     }
 
     public static class Spawn extends NpcSpawn implements ICancellableEvent
     {
-        public Spawn(final NpcMob trainer, final BlockPos location, final LevelAccessor world,
-                final MobSpawnType reason)
+        public Spawn(final NpcMob trainer, final BlockPos location, final MobSpawnType reason)
         {
-            super(trainer, location, world, reason);
+            super(trainer, location, reason);
         }
     }
 

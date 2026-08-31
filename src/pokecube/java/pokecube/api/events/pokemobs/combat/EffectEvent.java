@@ -13,7 +13,7 @@ import pokecube.core.impl.entity.impl.NonPersistantStatusEffect.Effect;
  * to prevent pokecube dealing with it<br>
  * <br>
  * These events are fired on the
- * {@link pokecube.core.PokecubeCore#MOVE_BUS}
+ * {@link pokecube.api.PokecubeAPI#MOVE_BUS}
  */
 public class EffectEvent extends EntityEvent implements ICancellableEvent
 {

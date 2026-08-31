@@ -12,7 +12,7 @@ import pokecube.api.moves.Battle;
  * cancelled, the battle addition does not occur. The existing battles for the
  * two are also passed in, and may be null. This is fired on the
  * ThutCore.FORGE_BUS.
- * 
+ * <p>
  * An example use of this event: Preventing always friendly npcs from trying to
  * engage in battle.
  * 

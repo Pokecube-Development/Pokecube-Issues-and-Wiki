@@ -1,7 +1,6 @@
 package pokecube.api.entity.pokemob;
 
 import pokecube.core.items.berries.BerryManager;
-import thut.core.common.ThutCore;
 
 public enum Nature
 {
@@ -45,16 +44,11 @@ public enum Nature
     /**
      * Returns the prefered berry for this nature, if it returns -1, it likes
      * all berries equally.
-     *
-     * @param type
-     * @return
      */
     public static int getFavouriteBerryIndex(final Nature type)
     {
         int ret = -1;
-        final byte good = type.goodFlavour;
-        final byte bad = type.badFlavour;
-        if (good == bad) return ret;
+        if (type.goodFlavour == type.badFlavour) return ret;
         if (type.favourteBerry != -1) return type.favourteBerry;
 
         int max = 0;
@@ -97,10 +91,5 @@ public enum Nature
     public byte[] getStatsMod()
     {
         return this.stats;
-    }
-
-    public static String getLocalizationKey(final Nature type)
-    {
-        return "pokecube.nature." + ThutCore.trim(type.toString());
     }
 }

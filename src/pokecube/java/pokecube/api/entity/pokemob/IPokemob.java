@@ -340,11 +340,6 @@ public interface IPokemob
     }
 
     /**
-     * @return our {@link DataSync} object used to synchronize values between client and server
-     */
-    DataSync dataSync();
-
-    /**
      * @return Whether we float above the ground.
      */
     default boolean floats()

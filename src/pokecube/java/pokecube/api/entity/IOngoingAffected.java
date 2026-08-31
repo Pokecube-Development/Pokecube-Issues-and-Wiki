@@ -23,14 +23,12 @@ public interface IOngoingAffected extends INBTSerializable<ListTag>
     {
         public static enum AddType
         {
-            DENY, ACCEPT, UPDATED;
+            DENY, ACCEPT, UPDATED
         }
 
         /**
          * Apply whatever the effect needed is, this method is responsible for
          * lowering the duration if needed.
-         *
-         * @param target
          */
         void affectTarget(IOngoingAffected target);
 
@@ -38,8 +36,6 @@ public interface IOngoingAffected extends INBTSerializable<ListTag>
          * This is called every tick, rather than just damaging ones. This can
          * be used to apply any custom logic which needs to occur outside of the
          * regular move cooldown limits.
-         * 
-         * @param target
          */
         default void onTick(IOngoingAffected target)
         {
@@ -50,8 +46,6 @@ public interface IOngoingAffected extends INBTSerializable<ListTag>
          * Should multiples of this effect be allowed at once. If false, a new
          * effect of the same ID will not be allowed to be added while this one
          * is active.
-         *
-         * @return
          */
         default boolean allowMultiple()
         {
@@ -70,7 +64,6 @@ public interface IOngoingAffected extends INBTSerializable<ListTag>
          * DENY -> Do not add the new effect, return false.<br>
          * UPDATED -> Do not add the new effect, return true.
          *
-         * @param affected
          * @return can this effect be added to the mob.
          */
         default AddType canAdd(final IOngoingAffected affected, final IOngoingEffect toAdd)
@@ -85,10 +78,10 @@ public interface IOngoingAffected extends INBTSerializable<ListTag>
             if (nbt.contains("U")) setSource(nbt.getUUID("U"));
         }
 
-        @Nullable
         /**
          * @return the UUID of the mob responsible for the effect
          */
+        @Nullable
         UUID getSource();
 
         /**
@@ -150,7 +143,7 @@ public interface IOngoingAffected extends INBTSerializable<ListTag>
             }
             catch (final Exception e)
             {
-                PokecubeAPI.LOGGER.error("Error loading effect: " + key + " " + value, e);
+                PokecubeAPI.LOGGER.error("Error loading effect: {} {}", key, value, e);
             }
         }
     }

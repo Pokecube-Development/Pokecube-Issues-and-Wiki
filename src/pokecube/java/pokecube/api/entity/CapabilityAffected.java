@@ -118,9 +118,8 @@ public class CapabilityAffected
                     final int duration = event.getDuration();
                     effect.setDuration(duration);
                     effect.affectTarget(this);
-                    if (effect.getDuration() == 0) stale.add(effect);
                 }
-                else if (effect.getDuration() == 0) stale.add(effect);
+                if (effect.getDuration() == 0) stale.add(effect);
             }
             for (final IOngoingEffect effect : stale) this.removeEffect(effect);
         }

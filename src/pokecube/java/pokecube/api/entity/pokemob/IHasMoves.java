@@ -300,7 +300,6 @@ public interface IHasMoves extends IHasStats
                     Component.translatable(MovesUtils.getUnlocalizedMove(moveName)));
             thisMob.displayMessageToOwner(mess);
             this.getMoveStats().addPendingMove(moveName, (IPokemob) this);
-            return;
         }
         else if (!learned)
         {
@@ -348,8 +347,6 @@ public interface IHasMoves extends IHasStats
 
     /**
      * See {@link IHasMoves#getAttackCooldown()}
-     *
-     * @param timer
      */
     void setAttackCooldown(int timer);
 
@@ -364,8 +361,6 @@ public interface IHasMoves extends IHasStats
     /**
      * Sets the index of the new move to learn from the list of learnable new moves, see
      * {@link PokemobMoveStats#newMoves}
-     *
-     * @param num
      */
     default void setLeaningMoveIndex(final int num)
     {
@@ -375,8 +370,7 @@ public interface IHasMoves extends IHasStats
     /**
      * Sets the {@link String} id of the specified move.
      *
-     * @param i        from 0 to 3
-     * @param moveName
+     * @param i from 0 to 3
      */
     void setMove(int i, String moveName);
 
@@ -390,8 +384,6 @@ public interface IHasMoves extends IHasStats
     /**
      * The pokemob will render and have moves according to whatever is set here. If null is set, then it will use its
      * own moves.
-     *
-     * @param to
      */
     void setTransformedTo(LivingEntity to);
 }

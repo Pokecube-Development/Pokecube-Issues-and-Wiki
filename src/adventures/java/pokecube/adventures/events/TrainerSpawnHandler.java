@@ -227,7 +227,7 @@ public class TrainerSpawnHandler
             final TrainerNpc npc = TrainerSpawnHandler.getTrainer(v, w);
             if (npc == null) return;
             final IHasPokemobs cap = TrainerCaps.getHasPokemobs(npc);
-            final NpcSpawn.Spawn event = new NpcSpawn.Spawn(npc, v.getPos(), w, MobSpawnType.NATURAL);
+            final NpcSpawn.Spawn event = new NpcSpawn.Spawn(npc, v.getPos(), MobSpawnType.NATURAL);
             ThutCore.FORGE_BUS.post(event);
             if (event.isCanceled())
             {
@@ -311,7 +311,7 @@ public class TrainerSpawnHandler
                 PokecubeAPI.LOGGER.error("Error parsing {}", function, e);
             }
             if (PokecubeCore.getConfig().debug_spawning) PokecubeAPI.logInfo("Adding trainer: " + mob);
-            var checkEvent = new NpcSpawn.Check(mob, event.pos, event.worldActual, MobSpawnType.STRUCTURE, thing);
+            var checkEvent = new NpcSpawn.Check(mob, event.pos, MobSpawnType.STRUCTURE, thing);
             ThutCore.FORGE_BUS.post(checkEvent);
             if (!checkEvent.isCanceled())
             {

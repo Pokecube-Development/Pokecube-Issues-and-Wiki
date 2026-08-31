@@ -1,18 +1,16 @@
 package pokecube.api.events;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.Structure.GenerationContext;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureEntityInfo;
@@ -21,33 +19,18 @@ import net.neoforged.bus.api.ICancellableEvent;
 import net.neoforged.neoforge.common.util.TriState;
 
 import javax.annotation.Nullable;
-import java.util.Random;
 
 public class StructureEvent extends Event
 {
     public static class PickLocation extends StructureEvent implements ICancellableEvent
     {
-        public final ChunkGenerator chunkGen;
-        public final Random rand;
-        public final ChunkPos pos;
+        public final GenerationContext context;
+        public final Holder<StructureTemplatePool> startPool;
 
-        public final LevelHeightAccessor heightAccessor;
-
-        private final ResourceKey<Level> key;
-
-        public PickLocation(final ChunkGenerator chunkGen, final Random rand, final ChunkPos pos,
-                final LevelHeightAccessor heightAccessor)
+        public PickLocation(GenerationContext context, Holder<StructureTemplatePool> startPool)
         {
-            this.chunkGen = chunkGen;
-            this.rand = rand;
-            this.pos = pos;
-            this.heightAccessor = heightAccessor;
-            this.key = Level.OVERWORLD;
-        }
-
-        public ResourceKey<Level> getDimensionKey()
-        {
-            return this.key;
+            this.context = context;
+            this.startPool = startPool;
         }
     }
 
