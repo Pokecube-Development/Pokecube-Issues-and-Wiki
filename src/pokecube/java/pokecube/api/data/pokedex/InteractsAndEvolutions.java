@@ -3,6 +3,7 @@ package pokecube.api.data.pokedex;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
@@ -173,6 +174,7 @@ public class InteractsAndEvolutions
         public Map<String, String> values = Maps.newHashMap();
         public String tag;
         public String lootTable;
+        public JsonElement effect;
         public List<JsonElement> drops = Lists.newArrayList();
     }
 

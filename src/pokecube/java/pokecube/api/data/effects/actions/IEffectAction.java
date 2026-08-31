@@ -8,4 +8,9 @@ public interface IEffectAction
 
     default void init()
     {}
+
+    default void init(LivingEntity mob)
+    {
+        this.init();
+    }
 }

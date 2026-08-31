@@ -102,7 +102,7 @@ public class DefaultFormeHolder
         }
         else if (fromKey.pokedexNb != 0)
         {
-            new IllegalArgumentException("Duplicate entry!").printStackTrace();
+//            new IllegalArgumentException("Duplicate entry!").printStackTrace();
         }
         return fromKey;
     }

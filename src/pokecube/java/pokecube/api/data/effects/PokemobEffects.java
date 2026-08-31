@@ -39,7 +39,7 @@ public class PokemobEffects implements IMergeable<PokemobEffects>
 
     public void init()
     {
-        var effects = MaterialEffects.fromJson(material_rules);
+        var effects = EffectsFactory.fromJson(material_rules);
         pokemobs.forEach(name -> {
             PokedexEntry entry = Database.getEntry(name);
             if (entry != null) entry.materialActions = effects;

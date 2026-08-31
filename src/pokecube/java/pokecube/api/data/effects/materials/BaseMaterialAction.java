@@ -7,7 +7,7 @@ import com.google.gson.JsonObject;
 
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.data.effects.MaterialEffects;
+import pokecube.api.data.effects.EffectsFactory;
 import pokecube.api.data.effects.actions.IEffectAction;
 import thut.api.util.JsonUtil;
 
@@ -16,7 +16,7 @@ public abstract class BaseMaterialAction implements IMaterialAction
     boolean replace = false;
     public List<JsonObject> actions = Lists.newArrayList();
 
-    List<IEffectAction> _actions = Lists.newArrayList();
+    public List<IEffectAction> _actions = Lists.newArrayList();
 
     @Override
     public void mergeFrom(IMaterialAction other)
@@ -46,7 +46,7 @@ public abstract class BaseMaterialAction implements IMaterialAction
                 PokecubeAPI.LOGGER.error("No key found for action {}", obj);
                 return;
             }
-            var clazz = MaterialEffects.ACTIONS.get(key);
+            var clazz = EffectsFactory.ACTIONS.get(key);
             if (clazz == null)
             {
                 PokecubeAPI.LOGGER.error("No action registered for key {}", key);

@@ -20,6 +20,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
@@ -40,7 +41,9 @@ import org.joml.Vector3f;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityManager;
-import pokecube.api.data.effects.materials.IMaterialAction;
+import pokecube.api.data.effects.EffectsFactory;
+import pokecube.api.data.effects.actions.IEffectAction;
+import pokecube.api.data.effects.materials.BaseMaterialAction;
 import pokecube.api.data.pokedex.DefaultFormeHolder;
 import pokecube.api.data.pokedex.EvolutionDataLoader;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.Action;
@@ -223,6 +226,8 @@ public class PokedexEntry
 
             public ResourceKey<LootTable> lootTable;
 
+            public IEffectAction effectAction;
+
             public boolean male = true;
             public boolean female = true;
 
@@ -363,6 +368,31 @@ public class PokedexEntry
                         interaction.lootTable = ResourceKey.create(Registries.LOOT_TABLE,
                                 ResourceLocation.parse(action.lootTable));
                     }
+                    if(action.effect != null)
+                    {
+                        List<JsonObject> effect_json = new ArrayList<>();
+                        if (action.effect.isJsonArray())
+                        {
+                            var arr = action.effect.getAsJsonArray();
+                            arr.asList().forEach(e -> {if (e.isJsonObject()) effect_json.add(e.getAsJsonObject());});
+                        }
+                        else if (action.effect.isJsonObject()) effect_json.add(action.effect.getAsJsonObject());
+                        var effects = EffectsFactory.fromJson(effect_json);
+                        if (effects.size() == 1) interaction.effectAction = effects.getFirst();
+                        else
+                        {
+                            var multi = new BaseMaterialAction()
+                            {
+                                @Override
+                                public boolean shouldApply(LivingEntity mob)
+                                {
+                                    return true;
+                                }
+                            };
+                            multi._actions = effects;
+                            interaction.effectAction = multi;
+                        }
+                    }
                 }
             }
         }
@@ -440,6 +470,7 @@ public class PokedexEntry
             data.putLong("lastInteract", timer);
             pokemob.applyHunger((int) (action.hunger * PokecubeCore.getConfig().interactHungerScale));
             if (consumeInput && !player.isCreative()) held.shrink(1);
+            if (action.effectAction != null) action.effectAction.applyEffect(entity);
             if (held.isEmpty()) player.getInventory().setItem(player.getInventory().selected, result);
             else if (!player.getInventory().add(result)) player.drop(result, false);
             if (player != pokemob.getOwner()) Battle.createOrAddToBattle(entity, player);
@@ -473,7 +504,11 @@ public class PokedexEntry
             if (InteractionLogic.isShears.test(held))
             {
                 if (pokemob.isSheared()) return true;
-                if (doInteract) pokemob.shear(held);
+                if (doInteract)
+                {
+                    pokemob.shear(held);
+                    if (action.effectAction != null) action.effectAction.applyEffect(entity);
+                }
                 return true;
             }
             if (!doInteract) return true;
@@ -836,7 +871,7 @@ public class PokedexEntry
     public boolean hasShiny = true;
     /** Materials which will hurt or make it despawn. */
     @CopyToGender
-    public List<IMaterialAction> materialActions = Lists.newArrayList();
+    public List<IEffectAction> materialActions = Lists.newArrayList();
     @CopyToGender
     public float height = -1;
     @CopyToGender
