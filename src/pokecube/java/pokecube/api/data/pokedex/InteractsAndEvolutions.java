@@ -9,7 +9,6 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
-import pokecube.api.data.pokedex.conditions.IsSexe;
 import pokecube.api.data.pokedex.conditions.PokemobCondition;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.events.data.PokemobMatchInit;

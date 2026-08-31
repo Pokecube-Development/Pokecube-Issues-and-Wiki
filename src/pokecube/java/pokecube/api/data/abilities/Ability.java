@@ -67,7 +67,7 @@ public abstract class Ability
      */
     public String getName()
     {
-        return "ability." + this.toString() + ".name";
+        return "ability." + this + ".name";
     }
 
     /**

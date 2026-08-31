@@ -87,9 +87,7 @@ public class BookInstructionsParser
         var written = source.get(DataComponents.WRITTEN_BOOK_CONTENT);
         if (written != null)
         {
-            written.getPages(true).forEach(comp -> {
-                lines.add(comp.getString());
-            });
+            written.getPages(true).forEach(comp -> lines.add(comp.getString()));
         }
         var writable = source.get(DataComponents.WRITABLE_BOOK_CONTENT);
         if (writable != null)
@@ -111,7 +109,7 @@ public class BookInstructionsParser
                     if (s.isBlank()) continue;
                     // Allow headers, etc in the book
                     if (instructions.isEmpty() && !s.startsWith(start_key)) continue;
-                    if (!instructions.isEmpty() && instructions.get(instructions.size() - 1).startsWith("end:")) break;
+                    if (!instructions.isEmpty() && instructions.getLast().startsWith("end:")) break;
                     instructions.add(s);
                 }
             }

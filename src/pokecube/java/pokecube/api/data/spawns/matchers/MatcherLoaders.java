@@ -15,7 +15,7 @@ import java.util.function.BiFunction;
 
 public class MatcherLoaders
 {
-    private static Set<Package> packages = Sets.newHashSet();
+    private static final Set<Package> packages = Sets.newHashSet();
     public static Map<String, Class<? extends MatchChecker>> matchClasses = new HashMap<>();
 
     public static void registerMatcherPackage(Package pack)

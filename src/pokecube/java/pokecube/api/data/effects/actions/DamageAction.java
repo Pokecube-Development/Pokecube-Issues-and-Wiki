@@ -14,7 +14,6 @@ public class DamageAction implements IEffectAction
     String damage_type = "material";
 
     DamageSource _damage;
-    RegistryAccess _reg = null;
 
     public DamageAction()
     {}
@@ -27,7 +26,4 @@ public class DamageAction implements IEffectAction
         mob.hurt(_damage, damage);
     }
 
-    @Override
-    public void init()
-    {}
 }

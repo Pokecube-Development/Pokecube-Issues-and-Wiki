@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class PokeType
 {
-    private static Map<String, PokeType> names = Maps.newHashMap();
+    private static final Map<String, PokeType> names = Maps.newHashMap();
     private static PokeType[] values = new PokeType[0];
 
     public static final PokeType unknown = new PokeType(0, "???");
@@ -76,7 +76,7 @@ public class PokeType
         this.ordinal = values.length;
         names.put(name, this);
         values = Arrays.copyOf(values, values.length + 1);
-        values[values.length - 1] = this;;
+        values[values.length - 1] = this;
     }
 
     @Override

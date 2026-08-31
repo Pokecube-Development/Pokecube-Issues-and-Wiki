@@ -70,7 +70,6 @@ public class PokemobEffects implements IMergeable<PokemobEffects>
         });
 
         List<PokemobEffects> loaded = Lists.newArrayList();
-        loaded.clear();
 
         toLoad.forEach((k, v) -> {
             v.sort(null);
@@ -86,14 +85,12 @@ public class PokemobEffects implements IMergeable<PokemobEffects>
             loaded.add(e);
         });
 
-        loaded.forEach(effects -> {
-            effects.init();
-        });
+        loaded.forEach(PokemobEffects::init);
     }
 
     private static PokemobEffects loadDatabase(final InputStream stream) throws Exception
     {
-        PokemobEffects database = null;
+        PokemobEffects database;
         final InputStreamReader reader = new InputStreamReader(stream);
         database = JsonUtil.gson.fromJson(reader, PokemobEffects.class);
         reader.close();

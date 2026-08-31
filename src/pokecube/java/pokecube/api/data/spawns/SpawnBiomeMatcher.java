@@ -233,8 +233,6 @@ public class SpawnBiomeMatcher
     {
     };
 
-    protected boolean _hasMaterialMatcher = false;
-
     // Biomes are tracked separately for the checks needed in worldgen.
     public List<Biomes> _biomeMatchers = new ArrayList<>();
 
@@ -252,8 +250,6 @@ public class SpawnBiomeMatcher
 
     public boolean needThunder = false;
     public boolean noThunder = false;
-
-    public boolean strict_type_cat = false;
 
     public final SpawnRule spawnRule;
 
@@ -952,7 +948,7 @@ public class SpawnBiomeMatcher
         }
         this._noConditions = false;
 
-        PokecubeAPI.LOGGER.warn("Warning, Old format for spawn rules: " + this.spawnRule);
+        PokecubeAPI.LOGGER.warn("Warning, Old format for spawn rules: {}", this.spawnRule);
 
         // Lets deal with the weather checks
         String weather = spawnRule.getString(SpawnBiomeMatcher.WEATHER);

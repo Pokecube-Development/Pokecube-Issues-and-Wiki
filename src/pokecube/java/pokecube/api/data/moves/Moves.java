@@ -10,7 +10,7 @@ import pokecube.core.database.pokedex.PokedexEntryLoader.IMergeable;
 
 public class Moves
 {
-    public class Move implements Comparable<Move>, IMergeable<Move>
+    public static class Move implements Comparable<Move>, IMergeable<Move>
     {
         public boolean replace = false;
         public boolean remove = false;
@@ -64,7 +64,7 @@ public class Moves
         }
     }
 
-    public class Animation implements Comparable<Animation>, IMergeable<Animation>
+    public static class Animation implements Comparable<Animation>, IMergeable<Animation>
     {
         public boolean replace = false;
         public boolean remove = false;

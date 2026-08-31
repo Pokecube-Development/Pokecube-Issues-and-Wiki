@@ -24,8 +24,6 @@ public interface IInhabitable
 
     /**
      * Called when an egg hatches and resident is added to the nest.
-     * 
-     * @param mob
      */
     default void addResident(Mob mob)
     {}
@@ -50,8 +48,6 @@ public interface IInhabitable
     /**
      * If this is a savable habitat, this should return a unique key, otherwise
      * it can stay null.
-     *
-     * @return
      */
     default ResourceLocation getKey()
     {

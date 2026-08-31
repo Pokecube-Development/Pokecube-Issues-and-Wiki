@@ -21,7 +21,6 @@ public abstract class BaseMatcher implements MatchChecker
         MatchResult base = _matches(matcher, checker);
         // If we are set to negate we swap fail and succeed, otherwise we return
         // whatever the base was.
-        MatchResult result = negate ? base == MatchResult.SUCCEED ? MatchResult.FAIL : MatchResult.SUCCEED : base;
-        return result;
+        return negate ? base == MatchResult.SUCCEED ? MatchResult.FAIL : MatchResult.SUCCEED : base;
     }
 }

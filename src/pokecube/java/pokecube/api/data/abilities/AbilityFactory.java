@@ -6,21 +6,15 @@ public interface AbilityFactory
 {
     public static AbilityFactory forSupplier(Supplier<Ability> supply)
     {
-        return args -> {
-            return supply.get().init(args);
-        };
+        return args -> supply.get().init(args);
     }
 
     public static AbilityFactory forAbility(Ability supply)
     {
-        return args -> {
-            return supply.init(args);
-        };
+        return supply::init;
     }
 
-    public static AbilityFactory DUMMY = args -> {
-        return new DummyAbility().init(args);
-    };
+    public static AbilityFactory DUMMY = args -> new DummyAbility().init(args);
 
     Ability create(Object... args);
 }

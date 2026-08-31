@@ -1040,7 +1040,7 @@ public class PokedexEntry
                     ItemStack stack = i.getKey();
                     if (stack.isEmpty())
                     {
-                        PokecubeAPI.LOGGER.error("Error with key for {}", this);
+                        PokecubeAPI.LOGGER.error("Error with key for {} for {}", i, this);
                         continue;
                     }
                     PokecubeItems.ADDED_HELD.add(RegHelper.getKey(stack));
@@ -1363,7 +1363,7 @@ public class PokedexEntry
         return this._childNb;
     }
 
-    public PokedexEntry getChild(final PokedexEntry fatherNb)
+    public PokedexEntry getChild(final PokedexEntry ignored)
     {
         return this.getChild();
     }

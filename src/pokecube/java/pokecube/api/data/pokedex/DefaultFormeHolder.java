@@ -1,6 +1,7 @@
 package pokecube.api.data.pokedex;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -65,8 +66,6 @@ public class DefaultFormeHolder
     public List<MatTexs> matTex = Lists.newArrayList();
     public String[] hidden = {};
 
-    private PokedexEntry _entry = null;
-
     public Map<String, TexColours> _colourMap_ = Maps.newHashMap();
     public Map<String, MatTexs> _matsMap_ = Maps.newHashMap();
     public Set<String> _hide_ = Sets.newHashSet();
@@ -96,17 +95,16 @@ public class DefaultFormeHolder
             if (this.ability != null)
             {
                 String[] abilities = this.ability.split(",");
-                for (String s : abilities) fromKey.abilities.add(s);
+                Collections.addAll(fromKey.abilities, abilities);
             }
             if (mass > 0) fromKey.mass = mass;
             if (hasShiny != null) fromKey.hasShiny = this.hasShiny;
         }
         else if (fromKey.pokedexNb != 0)
         {
-            new IllegalArgumentException("Duplicate entry!");
+            new IllegalArgumentException("Duplicate entry!").printStackTrace();
         }
-        this._entry = fromKey;
-        return _entry;
+        return fromKey;
     }
 
     public FormeHolder getForme(final PokedexEntry baseEntry)

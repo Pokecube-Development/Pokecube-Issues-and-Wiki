@@ -59,153 +59,141 @@ public interface IMove extends Consumer<MoveApplication>
 
     }
 
-    @Nullable
     /**
      * This is the applier for setting status effects, If null, this will use
      * StatusApplier.DEFAULT
-     * 
-     * @param t
+     *
      * @return new applier or null
      */
+    @Nullable
     default StatusApplier getStatus(MoveApplication t)
     {
         return null;
     }
 
-    @Nullable
     /**
      * This is the applier for setting stats such as lowering/raising them, If
      * null, this will use StatApplier.DEFAULT
-     * 
-     * @param t
+     *
      * @return new applier or null
      */
+    @Nullable
     default StatApplier getStats(MoveApplication t)
     {
         return null;
     }
 
-    @Nullable
     /**
      * This is the applier for dealing damage. Custom implementations of this
      * are advised to also check the AccuracyProvider, as that is generally
      * checked during calls to the DamageApplier. If null, this will use
      * DamageApplier.DEFAULT
-     * 
-     * @param t
+     *
      * @return new applier or null
      */
+    @Nullable
     default DamageApplier getDamage(MoveApplication t)
     {
         return null;
     }
 
-    @Nullable
     /**
      * This is the provider for move accuracy. What this should do is adjust the
      * "efficiency" of the provided Accuracy record. If the move is to miss,
      * this should be set to -1, otherwise it can be set to smaller or larger
      * numbers than 1 to adjust damage. If null, this will use
      * AccuracyProvider.DEFAULT.
-     * 
-     * @param t
+     *
      * @return new applier or null
      */
+    @Nullable
     default AccuracyProvider getAccuracy(MoveApplication t)
     {
         return null;
     }
 
-    @Nullable
     /**
      * This applies "recoil" effects. This is health effects that scale based on
      * damage dealt, so includes recoil damage from moves like take-down, as
      * well as healing from moves like absorb. If null, this will use
      * RecoilApplier.DEFAULT
-     * 
-     * @param t
+     *
      * @return new applier or null
      */
+    @Nullable
     default RecoilApplier getRecoil(MoveApplication t)
     {
         return null;
     }
 
-    @Nullable
     /**
      * This applies healing effects to the target of the move. These effects
      * tend to scale on the maximum health of the target. If null, this will use
      * HealProvider.DEFAULT
-     * 
-     * @param t
+     *
      * @return new applier or null
      */
+    @Nullable
     default HealProvider getHealer(MoveApplication t)
     {
         return null;
     }
 
-    @Nullable
     /**
      * This does initial checks for whether the attack can proceed. Such as
      * checking status effects, etc. If null, this will use
      * PreApplyTests.DEFAULT
-     * 
-     * @param t
-     * @return
+     *
+     * @return new applier or null
      */
+    @Nullable
     default PreApplyTests getRunChecks(MoveApplication t)
     {
         return null;
     }
 
-    @Nullable
     /**
      * This is called after applying healing and recoil effects if the move
      * hits, it is generally used to apply ongoing effects such as fire spin,
      * etc. If null, this will use OngoingApplier.NOOP or whatever is registered
      * via MoveApplicationRegistry
-     * 
-     * @param t
-     * @return
+     *
+     * @return new applier or null
      */
+    @Nullable
     default OngoingApplier getOngoingEffect(MoveApplication t)
     {
         return null;
     }
 
-    @Nullable
     /**
      * This is called after the move has executed. Note that the Damage passed
      * in will indicate if the move missed via the efficiency in it, and this is
      * also called if it misses. If null, this will use PostMoveUse.DEFAULT
-     * 
-     * @param t
-     * @return
      */
+    @Nullable
     default PostMoveUse getPostUse(MoveApplication t)
     {
         return null;
     }
 
-    @Nullable
     /**
      * This is called from the last move of the target after the user has used a move.
      * If null, this will use LastMoveEffect.DEFAULT
-     * @param t
-     * @return
+     *
+     * @return new applier or null
      */
+    @Nullable
     default LastMoveEffect getLastMoveEffect(MoveApplication t) { return null; }
 
-    @Nullable
     /**
      * This is called if the move fails. If you need to reset counters, etc in
      * this case, here is a good place to do so. If null, this will use
      * OnMoveFail.DEFAULT
-     * 
-     * @param t
-     * @return
+     *
+     * @return new applier or null
      */
+    @Nullable
     default OnMoveFail getOnFail(MoveApplication t)
     {
         return null;

@@ -33,8 +33,8 @@ public class Biomes extends BaseMatcher
     public String biome_tags = "";
     public String sub_biomes = "";
 
-    private Set<TagKey<Biome>> _validBiomes = Sets.newHashSet();
-    private Set<BiomeType> _validSubBiomes = Sets.newHashSet();
+    private final Set<TagKey<Biome>> _validBiomes = Sets.newHashSet();
+    private final Set<BiomeType> _validSubBiomes = Sets.newHashSet();
     private boolean _allValid = false;
 
     /**
@@ -47,7 +47,7 @@ public class Biomes extends BaseMatcher
         {
             matched = matched && biome.is(tag);
         }
-        return negate ? !matched : matched;
+        return negate != matched;
     }
 
     /**
@@ -60,7 +60,7 @@ public class Biomes extends BaseMatcher
         {
             matched = matched && biome.equals(subbiome);
         }
-        return negate ? !matched : matched;
+        return negate != matched;
     }
 
     @Override
@@ -87,7 +87,6 @@ public class Biomes extends BaseMatcher
                 {
                     TagKey<Biome> tag = TagKey.create(Registries.BIOME, ResourceLocation.parse(s.replace("#", "")));
                     this._validBiomes.add(tag);
-                    continue;
                 }
                 else
                 {

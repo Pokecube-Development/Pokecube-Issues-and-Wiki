@@ -26,10 +26,10 @@ import pokecube.api.utils.Tools.MergeOrder;
 
 public class MoveApplicationRegistry
 {
-    private static Map<String, Consumer<MoveApplication>> MOVE_MODIFIERS = Maps.newHashMap();
-    private static Map<String, Predicate<MoveApplication>> TARGET_REGISTRY = Maps.newHashMap();
-    private static Map<String, OngoingApplier> EFFECT_REGISTRY = Maps.newHashMap();
-    private static Set<String> allyTargetMoves = Sets.newHashSet();
+    private static final Map<String, Consumer<MoveApplication>> MOVE_MODIFIERS = Maps.newHashMap();
+    private static final Map<String, Predicate<MoveApplication>> TARGET_REGISTRY = Maps.newHashMap();
+    private static final Map<String, OngoingApplier> EFFECT_REGISTRY = Maps.newHashMap();
+    private static final Set<String> allyTargetMoves = Sets.newHashSet();
 
     static
     {

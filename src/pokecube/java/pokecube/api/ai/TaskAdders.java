@@ -10,7 +10,7 @@ import pokecube.api.events.pokemobs.InitAIEvent.Init;
 
 public class TaskAdders
 {
-    private static Map<Init.Type, List<ITaskAdder>> taskAdders = Maps.newConcurrentMap();
+    private static final Map<Init.Type, List<ITaskAdder>> taskAdders = Maps.newConcurrentMap();
 
     static
     {

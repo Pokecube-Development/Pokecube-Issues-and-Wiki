@@ -20,7 +20,7 @@ public class Location extends BaseMatcher
 {
     public String f;
 
-    private JEP _parser = new JEP();
+    private final JEP _parser = new JEP();
 
     @Override
     public MatchResult _matches(SpawnBiomeMatcher matcher, SpawnCheck checker)

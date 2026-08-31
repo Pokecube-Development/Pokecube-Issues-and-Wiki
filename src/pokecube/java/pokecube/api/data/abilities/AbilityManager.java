@@ -20,8 +20,8 @@ import java.util.function.Supplier;
 public class AbilityManager
 {
 
-    private static Map<String, AbilityFactory> nameMap = Maps.newHashMap();
-    private static Set<Package> packages = Sets.newHashSet();
+    private static final Map<String, AbilityFactory> nameMap = Maps.newHashMap();
+    private static final Set<Package> packages = Sets.newHashSet();
 
     public static void registerAbilityPackage(Package pack)
     {
@@ -44,8 +44,7 @@ public class AbilityManager
         if (name == null) return null;
         if (name.startsWith("ability.")) name = name.substring(7);
         if (name.endsWith(".name")) name = name.substring(0, name.length() - 5);
-        Ability ability = AbilityManager.makeAbility(name, args);
-        return ability;
+        return AbilityManager.makeAbility(name, args);
     }
 
     public static boolean hasAbility(final String abilityName, final IPokemob pokemob)

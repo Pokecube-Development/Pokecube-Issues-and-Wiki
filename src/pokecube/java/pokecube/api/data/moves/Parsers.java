@@ -194,12 +194,11 @@ public class Parsers
                         entry.power = Integer.parseInt(var);
                         if (PokecubeCore.getConfig().debug_moves)
                             PokecubeAPI.logInfo(entry.name + " set to fixed damage of " + var);
-                        return;
                     }
                     catch (final NumberFormatException e)
                     {
-                        PokecubeAPI.LOGGER.error("Error parsing fixed damage for " + entry.name + " "
-                                + entry.root_entry._effect_text_simple + " " + var, e);
+                        PokecubeAPI.LOGGER.error("Error parsing fixed damage for {} {} {}", entry.name,
+                                entry.root_entry._effect_text_simple, var, e);
                     }
                 }
             }
@@ -353,9 +352,6 @@ public class Parsers
      * This is used to register a custom parser for moves. Call this during
      * InitDatabase.Pre, as that is send right before the custom parsers would
      * be first used.
-     * 
-     * @param move
-     * @param parser
      */
     public static void registerCustomParser(String move, BaseParser parser)
     {

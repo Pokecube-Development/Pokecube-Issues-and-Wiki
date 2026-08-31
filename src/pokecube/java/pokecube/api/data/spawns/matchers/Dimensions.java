@@ -26,7 +26,7 @@ public class Dimensions extends BaseMatcher
 {
     public String types = "";
 
-    private Set<TagKey<Level>> _validTypes = Sets.newHashSet();
+    private final Set<TagKey<Level>> _validTypes = Sets.newHashSet();
 
     /**
      * Test if biome matches

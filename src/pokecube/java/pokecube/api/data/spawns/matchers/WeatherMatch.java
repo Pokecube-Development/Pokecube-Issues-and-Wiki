@@ -55,8 +55,7 @@ public class WeatherMatch extends BaseMatcher
     public void init()
     {
         this._weather = getWeather(type);
-        _thunder = false;
-        if ("thunder".equals(type)) _thunder = true;
+        _thunder = "thunder".equals(type);
     }
 
     private Weather getWeather(final String name)
