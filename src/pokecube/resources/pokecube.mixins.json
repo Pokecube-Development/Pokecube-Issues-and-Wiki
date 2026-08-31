@@ -14,14 +14,12 @@
     "brain.MixinVilagerBrainUpdate",
     "entity.BeeHiveFix",
     "entity.EntityDeathMixin",
-    "entity.EntityScaleMixin",
     "features.LessJungleBushInStructuresMixin",
     "features.NoBasaltColumnsInStructuresMixin",
     "features.NoDeltasInStructuresMixin",
     "features.NoFluidFallsInStructuresMixin",
     "features.NoLakesInStructuresMixin",
-    "features.StructureTemplateAdditions",
-    "invokers.SurfaceSystemInvoker"
+    "features.StructureTemplateAdditions"
   ],
   "client": [
   ],
