@@ -16,7 +16,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.combat.CombatTask;
 import pokecube.core.moves.MovesUtils;
-import thut.api.entity.ai.IAICombat;
 import thut.core.common.ThutCore;
 
 import java.util.Map;

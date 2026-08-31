@@ -113,7 +113,7 @@ public class MateTask extends BaseIdleTask
         if (this.mate == null) return;
 
         // Make them walk to each other
-        this.approachEachOther(entity, this.mate, 1);
+        this.approachEachOther(entity, this.mate);
 
         BrainUtils.setMateTarget((AgeableMob) entity, this.mate);
         BrainUtils.setMateTarget(this.mate, (AgeableMob) entity);
@@ -156,16 +156,16 @@ public class MateTask extends BaseIdleTask
         return this.mates != null;
     }
 
-    void approachEachOther(final LivingEntity firstEntity, final LivingEntity secondEntity, final float speed)
+    void approachEachOther(final LivingEntity firstEntity, final LivingEntity secondEntity)
     {
-        this.approach(firstEntity, secondEntity, speed);
-        this.approach(secondEntity, firstEntity, speed);
+        this.approach(firstEntity, secondEntity);
+        this.approach(secondEntity, firstEntity);
     }
 
-    void approach(final LivingEntity living, final LivingEntity target, final float speed)
+    void approach(final LivingEntity living, final LivingEntity target)
     {
         final PositionTracker entityposwrapper = new PosWrapWrap(new EntityTracker(target, false), this.loadThrottle());
-        final WalkTarget walktarget = new WalkTarget(entityposwrapper, speed, 0);
+        final WalkTarget walktarget = new WalkTarget(entityposwrapper, 1, 0);
         living.getBrain().setMemory(MemoryModuleType.LOOK_TARGET, entityposwrapper);
         living.getBrain().setMemory(MemoryModuleType.WALK_TARGET, walktarget);
     }

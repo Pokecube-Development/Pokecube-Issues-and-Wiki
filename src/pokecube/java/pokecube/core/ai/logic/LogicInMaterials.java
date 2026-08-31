@@ -3,7 +3,6 @@ package pokecube.core.ai.logic;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import pokecube.api.entity.pokemob.IPokemob;
-import thut.api.maths.Vector3;
 
 /**
  * Manages interactions with materials for the pokemob. This is what is used to make some mobs despawn in high light, or
@@ -11,8 +10,6 @@ import thut.api.maths.Vector3;
  */
 public class LogicInMaterials extends LogicBase
 {
-    Vector3 v = new Vector3();
-
     public LogicInMaterials(final IPokemob entity)
     {
         super(entity);

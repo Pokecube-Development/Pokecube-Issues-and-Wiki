@@ -91,7 +91,7 @@ public class CheckBurrow extends BaseIdleTask
             final List<NearBlock> surfaces = Lists.newArrayList();
             blocks.forEach(b -> {
                 if (b == null) return;
-                if (PokecubeTerrainChecker.isTerrain(b.getState())) surfaces.add(b);
+                if (PokecubeTerrainChecker.isTerrain(b.state())) surfaces.add(b);
             });
 
             // last we check the terrain
@@ -115,7 +115,7 @@ public class CheckBurrow extends BaseIdleTask
 
     private void placeNest(ServerLevel level, IPokemob pokemob, NearBlock block)
     {
-        BlockPos pos = block.getPos();
+        BlockPos pos = block.pos();
         if (!MoveEventsHandler.canAffectBlock(pokemob, new Vector3(pos), "nest_building")) return;
         // Then pick and make a new burrow.
         final BurrowHab hab = BurrowHab.makeFor(pokemob, pos);

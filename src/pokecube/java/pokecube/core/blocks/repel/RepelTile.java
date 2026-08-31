@@ -21,8 +21,6 @@ import pokecube.core.items.berries.ItemBerry;
 
 public class RepelTile extends InteractableTile
 {
-    public static int NESTSPAWNTYPES = 1;
-
     public int range = PokecubeCore.getConfig().repelRadius;
     public boolean enabled = true;
 
@@ -36,11 +34,11 @@ public class RepelTile extends InteractableTile
         super(tileEntityTypeIn, pos, state);
     }
 
-    public boolean addForbiddenSpawningCoord()
+    public void addForbiddenSpawningCoord()
     {
-        if (this.getLevel() == null || this.getLevel().isClientSide || !this.enabled) return false;
+        if (this.getLevel() == null || this.getLevel().isClientSide || !this.enabled) return;
         final BlockPos pos = this.getBlockPos();
-        return SpawnHandler.addForbiddenSpawningCoord(pos, this.level, this.range, ForbidReason.REPEL);
+        SpawnHandler.addForbiddenSpawningCoord(pos, this.level, this.range, ForbidReason.REPEL);
     }
 
     @Override
@@ -85,10 +83,10 @@ public class RepelTile extends InteractableTile
         this.removeForbiddenSpawningCoord();
     }
 
-    public boolean removeForbiddenSpawningCoord()
+    public void removeForbiddenSpawningCoord()
     {
-        if (this.getLevel() == null || this.getLevel().isClientSide) return false;
-        return SpawnHandler.removeForbiddenSpawningCoord(this.getBlockPos(), this.level);
+        if (this.getLevel() == null || this.getLevel().isClientSide) return;
+        SpawnHandler.removeForbiddenSpawningCoord(this.getBlockPos(), this.level);
     }
 
     @Override
@@ -100,8 +98,6 @@ public class RepelTile extends InteractableTile
 
     /**
      * Writes a tile entity to NBT.
-     *
-     * @return
      */
     @Override
     public void saveAdditional(final CompoundTag nbt, HolderLookup.Provider registries)

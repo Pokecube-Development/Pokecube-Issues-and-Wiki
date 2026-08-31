@@ -13,8 +13,7 @@ public class BlockUtils
     public static <B extends Block, T> MapCodec<B> singleArgumentCodec(
             BiFunction<BlockBehaviour.Properties, T, B> factory, RecordCodecBuilder<B, T> codec)
     {
-        return RecordCodecBuilder.mapCodec(
-                p_304392_ -> p_304392_.group(BlockBehaviour.propertiesCodec(), codec).apply(p_304392_, factory));
+        return RecordCodecBuilder.mapCodec(inst -> inst.group(BlockBehaviour.propertiesCodec(), codec).apply(inst, factory));
     }
     
 }

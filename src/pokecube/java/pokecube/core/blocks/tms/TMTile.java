@@ -2,7 +2,6 @@ package pokecube.core.blocks.tms;
 
 import com.google.common.collect.Sets;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionResult;
@@ -19,7 +18,6 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.inventory.tms.TMContainer;
 import pokecube.core.items.ItemTM;
-import thut.api.attachments.Inventory;
 
 import java.util.Arrays;
 import java.util.Set;

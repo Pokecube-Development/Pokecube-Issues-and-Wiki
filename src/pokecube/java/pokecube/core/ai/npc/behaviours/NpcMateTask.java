@@ -77,7 +77,7 @@ public class NpcMateTask extends VillagerMakeLove
     private void tryToGiveBirth(ServerLevel level, Villager mob, Villager target)
     {
         Optional<BlockPos> optional = this.takeVacantBed(level, mob);
-        if (!optional.isPresent())
+        if (optional.isEmpty())
         {
             mob.setAge(3000);
             target.setAge(3000);
@@ -155,11 +155,7 @@ public class NpcMateTask extends VillagerMakeLove
 
     private Optional<BlockPos> takeVacantBed(ServerLevel level, Villager mob)
     {
-        return level.getPoiManager().take((poi) -> {
-            return poi.is(PoiTypes.HOME);
-        }, (pos, poi) -> {
-            return this.canReach(mob, poi, pos);
-        }, mob.blockPosition(), 48);
+        return level.getPoiManager().take((poi) -> poi.is(PoiTypes.HOME), (pos, poi) -> this.canReach(mob, poi, pos), mob.blockPosition(), 48);
     }
 
     private boolean canReach(Villager mob, BlockPos target, Holder<PoiType> poi)

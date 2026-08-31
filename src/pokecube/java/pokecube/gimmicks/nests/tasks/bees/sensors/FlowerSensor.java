@@ -41,11 +41,11 @@ public class FlowerSensor extends Sensor<LivingEntity>
         if (brain.hasMemoryValue(BeeTasks.FLOWER_POS.get())) return;
         final List<NearBlock> blocks = BrainUtils.getNearBlocks(entityIn);
         if (blocks == null) return;
-        for (final NearBlock b : blocks) if (FlowerSensor.flowerPredicate.test(b.getState())
+        for (final NearBlock b : blocks) if (FlowerSensor.flowerPredicate.test(b.state())
                 && entityIn.getRandom().nextFloat() < this.flowerSenseChance)
         {
             brain.eraseMemory(BeeTasks.NO_FLOWER_TIME.get());
-            brain.setMemory(BeeTasks.FLOWER_POS.get(), GlobalPos.of(entityIn.level().dimension(), b.getPos()));
+            brain.setMemory(BeeTasks.FLOWER_POS.get(), GlobalPos.of(entityIn.level().dimension(), b.pos()));
             return;
         }
         // we returned earlier if we had found a flower, so here we increment

@@ -190,8 +190,7 @@ public class GenericBookshelfEmpty extends BaseEntityBlock implements SimpleWate
     @Override
     public int getAnalogOutputSignal(final BlockState state, final Level world, final BlockPos pos)
     {
-        final int books = this.getBooks(state);
-        return books;
+        return this.getBooks(state);
     }
 
     @Override

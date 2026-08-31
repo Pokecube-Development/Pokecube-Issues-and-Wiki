@@ -66,15 +66,15 @@ public class EatRock extends EatBlockBase
         final Mob entity = pokemob.getEntity();
         double diff = 1.5;
         diff = Math.max(diff, entity.getBbWidth());
-        final double dist = block.getPos().distManhattan(entity.blockPosition());
-        this.setWalkTo(entity, block.getPos(), 1, 0);
+        final double dist = block.pos().distManhattan(entity.blockPosition());
+        this.setWalkTo(entity, block.pos(), 1, 0);
         if (dist > diff) return EatResult.PATHING;
 
         final ServerLevel world = (ServerLevel) entity.level();
-        final BlockState current = world.getBlockState(block.getPos());
+        final BlockState current = world.getBlockState(block.pos());
         if (!EatRock.checker.test(current)) return EatResult.NOEAT;
 
-        List<ItemStack> list = Block.getDrops(current, world, block.getPos(), null);
+        List<ItemStack> list = Block.getDrops(current, world, block.pos(), null);
         if (list.isEmpty()) return EatResult.NOEAT;
         
         // Clear immutability if some mod makes an immutable list...
@@ -97,7 +97,7 @@ public class EatRock extends EatBlockBase
         for (final ItemStack stack : list)
         {
             // If so, Replant it.
-            if (!replanted) replanted = new ReplantTask(stack, current, block.getPos(), true).run(world);
+            if (!replanted) replanted = new ReplantTask(stack, current, block.pos(), true).run(world);
             new InventoryChange(entity, 2, stack, true).run(world);
         }
 
@@ -117,9 +117,9 @@ public class EatRock extends EatBlockBase
             if (PokecubeCore.getConfig().pokemobsEatGravel && drop.getBlock() == Blocks.GRAVEL)
                 drop = Blocks.AIR.defaultBlockState();
             // If we are allowed to, we remove the eaten block
-            final boolean canEat = MoveEventsHandler.canAffectBlock(pokemob, new Vector3().set(block.getPos()),
+            final boolean canEat = MoveEventsHandler.canAffectBlock(pokemob, new Vector3().set(block.pos()),
                     "nom_nom_nom", false, false);
-            if (canEat) world.setBlockAndUpdate(block.getPos(), drop);
+            if (canEat) world.setBlockAndUpdate(block.pos(), drop);
         }
         return EatResult.EATEN;
     }
@@ -127,7 +127,7 @@ public class EatRock extends EatBlockBase
     @Override
     public boolean isValid(final NearBlock block)
     {
-        return EatRock.checker.test(block.getState());
+        return EatRock.checker.test(block.state());
     }
 
 }

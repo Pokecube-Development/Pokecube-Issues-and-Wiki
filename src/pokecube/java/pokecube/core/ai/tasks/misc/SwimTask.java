@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableMap;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.neoforged.neoforge.common.NeoForgeMod;
-import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import thut.api.entity.ai.RootTask;
 
@@ -12,15 +11,10 @@ public class SwimTask extends RootTask<Mob>
 {
     private final float jumpChance;
 
-    public SwimTask(final IPokemob pokemob, final float jumpChance)
+    public SwimTask(float jumpChance)
     {
         super(ImmutableMap.of());
         this.jumpChance = jumpChance;
-    }
-
-    public SwimTask(final float jumpChance)
-    {
-        this(null, jumpChance);
     }
 
     @Override

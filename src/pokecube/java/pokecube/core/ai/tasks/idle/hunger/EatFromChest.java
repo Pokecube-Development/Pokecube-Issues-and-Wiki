@@ -32,13 +32,13 @@ public class EatFromChest extends EatBlockBase
 
         double diff = 1.5;
         diff = Math.max(diff, entity.getBbWidth());
-        final double dist = block.getPos().distManhattan(entity.blockPosition());
-        this.setWalkTo(entity, block.getPos(), 1, 0);
+        final double dist = block.pos().distManhattan(entity.blockPosition());
+        this.setWalkTo(entity, block.pos(), 1, 0);
         if (dist > diff) return EatResult.PATHING;
         final ServerLevel world = (ServerLevel) entity.level();
-        final BlockState current = world.getBlockState(block.getPos());
+        final BlockState current = world.getBlockState(block.pos());
         if (!EatFromChest.checker.test(current)) return EatResult.NOEAT;
-        final Container container = (Container) world.getBlockEntity(block.getPos());
+        final Container container = (Container) world.getBlockEntity(block.pos());
         for (int i1 = 0; i1 < container.getContainerSize(); i1++)
         {
             final ItemStack stack = container.getItem(i1);
@@ -56,7 +56,7 @@ public class EatFromChest extends EatBlockBase
     @Override
     public boolean isValid(final NearBlock block)
     {
-        return EatFromChest.checker.test(block.getState());
+        return EatFromChest.checker.test(block.state());
     }
 
 }

@@ -34,7 +34,7 @@ import java.util.Set;
 public class LogicMountedControl extends LogicBase
 {
     private static final ResourceLocation UID = ResourceLocation.parse("pokecube:ridden_step");
-    private AttributeModifier riddenStep = null;
+    private final AttributeModifier riddenStep;
 
     public static Set<ResourceKey<Level>> BLACKLISTED = Sets.newHashSet();
     public static Interpolator1d FLYVITSCALER;
@@ -113,7 +113,6 @@ public class LogicMountedControl extends LogicBase
                     if (rider instanceof ServerPlayer player) ChatHelper.sendSystemMessage(player,
                             Component.translatable("pokemob.fly.disabled", pokemob.getDisplayName()));
                 }
-                ;
                 this.canFly = false;
             }
         }
@@ -176,7 +175,6 @@ public class LogicMountedControl extends LogicBase
 
         this.wasRiding = true;
         this.entity.setYRot(this.pokemob.getHeading());
-        ;
 
         shouldControl = this.entity.onGround() || this.pokemob.canUseFly();
         verticalControl = false;

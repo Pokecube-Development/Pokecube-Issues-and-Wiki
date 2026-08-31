@@ -13,8 +13,7 @@ public interface IBlockEatTask
             if (this.isValid(b))
             {
                 final EatResult result = this.eat(pokemob, b);
-                if (result == EatResult.NOEAT) continue;
-                else return result;
+                if (result != EatResult.NOEAT) return result;
             }
         return EatResult.NOEAT;
     }

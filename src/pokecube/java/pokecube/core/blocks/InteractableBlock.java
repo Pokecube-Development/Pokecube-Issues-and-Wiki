@@ -65,16 +65,12 @@ public abstract class InteractableBlock extends Block
         {
             final BlockEntity tileentity = worldIn.getBlockEntity(pos);
             if (tileentity instanceof InteractableTile interact) interact.onBroken();
-            if (tileentity == null)
-            {
-
-            }
-            else if (tileentity instanceof Container container)
+            if (tileentity instanceof Container container)
             {
                 Containers.dropContents(worldIn, pos, container);
                 worldIn.updateNeighbourForOutputSignal(pos, this);
             }
-            else
+            else if (tileentity != null)
             {
                 final IItemHandler items = ThutCaps.getInventory(tileentity);
                 if (items != null)

@@ -4,11 +4,9 @@ import java.util.function.Predicate;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.WaterFluid;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 
 public class EatWater extends EatBlockBase
@@ -23,12 +21,12 @@ public class EatWater extends EatBlockBase
         final Mob entity = pokemob.getEntity();
         double diff = 1.5;
         diff = Math.max(diff, entity.getBbWidth());
-        final double dist = block.getPos().distManhattan(entity.blockPosition());
-        this.setWalkTo(entity, block.getPos(), 1, 0);
+        final double dist = block.pos().distManhattan(entity.blockPosition());
+        this.setWalkTo(entity, block.pos(), 1, 0);
         if (dist > diff) return EatResult.PATHING;
 
         final ServerLevel world = (ServerLevel) entity.level();
-        final BlockState current = world.getBlockState(block.getPos());
+        final BlockState current = world.getBlockState(block.pos());
 
         if (!EatWater.checker.test(current)) return EatResult.NOEAT;
 
@@ -40,7 +38,7 @@ public class EatWater extends EatBlockBase
     @Override
     public boolean isValid(final NearBlock block)
     {
-        return EatWater.checker.test(block.getState());
+        return EatWater.checker.test(block.state());
     }
 
 }

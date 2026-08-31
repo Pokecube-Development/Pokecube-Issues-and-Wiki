@@ -57,7 +57,7 @@ public class MakeHive extends BaseIdleTask
         // click with a hive item to place.
         for (final Direction dir : dirs)
         {
-            final BlockPos pos = b.getPos().relative(dir);
+            final BlockPos pos = b.pos().relative(dir);
             final BlockState old = level.getBlockState(pos);
             if (!state.canSurvive(level, pos)) continue;
             if (!old.canBeReplaced()) continue;
@@ -76,7 +76,7 @@ public class MakeHive extends BaseIdleTask
     private boolean placeHive(ServerLevel level, Mob entity, NearBlock b, Direction dir)
     {
         if (!this.canPlaceHive(level, b, dir)) return false;
-        final BlockPos pos = b.getPos();
+        final BlockPos pos = b.pos();
 
         final PoiManager pois = level.getPoiManager();
         final long num = pois.getCountInRange(p -> p.is(PoiTypeTags.BEE_HOME), pos,
@@ -115,11 +115,11 @@ public class MakeHive extends BaseIdleTask
         final List<NearBlock> surfaces = Lists.newArrayList();
 
         if (blocks != null) blocks.forEach(b -> {
-            if (PokecubeTerrainChecker.isLeaves(b.getState()) && this.canPlaceHive(level, b, Direction.DOWN))
+            if (PokecubeTerrainChecker.isLeaves(b.state()) && this.canPlaceHive(level, b, Direction.DOWN))
                 leaves.add(b);
-            if (PokecubeTerrainChecker.isWood(b.getState()) && this.canPlaceHive(level, b,
+            if (PokecubeTerrainChecker.isWood(b.state()) && this.canPlaceHive(level, b,
                     Direction.Plane.HORIZONTAL.stream())) logs.add(b);
-            if (PokecubeTerrainChecker.isTerrain(b.getState()) && this.canPlaceHive(level, b, Direction.values()))
+            if (PokecubeTerrainChecker.isTerrain(b.state()) && this.canPlaceHive(level, b, Direction.values()))
                 surfaces.add(b);
         });
 
@@ -127,7 +127,7 @@ public class MakeHive extends BaseIdleTask
         if (!leaves.isEmpty())
         {
             final NearBlock validLeaf = leaves.getFirst();
-            if (!MoveEventsHandler.canAffectBlock(PokemobCaps.getPokemobFor(entity), new Vector3(validLeaf.getPos()),
+            if (!MoveEventsHandler.canAffectBlock(PokemobCaps.getPokemobFor(entity), new Vector3(validLeaf.pos()),
                     "nest_building")) return;
             this.placeHive(level, entity, validLeaf, Direction.DOWN);
             return;

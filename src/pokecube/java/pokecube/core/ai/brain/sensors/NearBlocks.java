@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
@@ -32,27 +33,7 @@ import java.util.Set;
 
 public class NearBlocks extends Sensor<LivingEntity>
 {
-    public static class NearBlock
-    {
-        private final BlockState state;
-        private final BlockPos pos;
-
-        public NearBlock(final BlockState state, final BlockPos pos)
-        {
-            this.state = state;
-            this.pos = pos;
-        }
-
-        public BlockPos getPos()
-        {
-            return this.pos;
-        }
-
-        public BlockState getState()
-        {
-            return this.state;
-        }
-    }
+    public record NearBlock(BlockState state, BlockPos pos){}
 
     int tick = 0;
 
@@ -71,7 +52,7 @@ public class NearBlocks extends Sensor<LivingEntity>
         }
         catch (final Exception e)
         {
-            e.printStackTrace();
+            PokecubeAPI.LOGGER.error("Error checking nearby blocks AI blocks for {}", entityIn, e);
             return;
         }
         this.tick++;
@@ -110,7 +91,7 @@ public class NearBlocks extends Sensor<LivingEntity>
         }
 
         final BlockPos o0 = entityIn.blockPosition();
-        list.sort((o1, o2) -> (int) (o1.getPos().distSqr(o0) - o2.getPos().distSqr(o0)));
+        list.sort((o1, o2) -> (int) (o1.pos().distSqr(o0) - o2.pos().distSqr(o0)));
         final Brain<?> brain = entityIn.getBrain();
         if (!list.isEmpty()) brain.setMemory(MemoryModules.VISIBLE_BLOCKS.get(), list);
         else brain.eraseMemory(MemoryModules.VISIBLE_BLOCKS.get());

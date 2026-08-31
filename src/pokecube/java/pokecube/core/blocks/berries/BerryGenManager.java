@@ -9,9 +9,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.features.TreeFeatures;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -53,7 +51,7 @@ public class BerryGenManager
         public String berry;
     }
 
-    private static class TreeConfig
+    public static class TreeConfig
     {
         public String berry;
         public String tree;
@@ -63,7 +61,7 @@ public class BerryGenManager
     private static class TreeProvider
     {
         public List<ResourceLocation> trees = Lists.newArrayList();
-        private Map<ResourceLocation, TreeGrower> growers = new HashMap<>();
+        private final Map<ResourceLocation, TreeGrower> growers = new HashMap<>();
 
         public Supplier<TreeGrower> getTree(ServerLevel worldIn, RandomSource random)
         {
@@ -91,11 +89,11 @@ public class BerryGenManager
             new TagMatchTest(TagKey.create(RegHelper.BLOCK_REGISTRY, BerryGenManager.REPLACETAG)),
             Blocks.STRUCTURE_VOID.defaultBlockState());
 
-    private static Map<Integer, TreeProvider> trees = Maps.newHashMap();
+    private static final Map<Integer, TreeProvider> trees = Maps.newHashMap();
 
     public static Map<SpawnBiomeMatcher, List<ItemStack>> berryLocations = Maps.newHashMap();
 
-    private static List<SpawnBiomeMatcher> matchers = Lists.newArrayList();
+    private static final List<SpawnBiomeMatcher> matchers = Lists.newArrayList();
 
     public static BerryConfig list = new BerryConfig();
 
@@ -165,9 +163,7 @@ public class BerryGenManager
                 if (item != null)
                 {
                     int id = item.type.index;
-                    TreeProvider prov = trees.computeIfAbsent(id, (i) -> {
-                        return new TreeProvider();
-                    });
+                    TreeProvider prov = trees.computeIfAbsent(id, (i) -> new TreeProvider());
                     ResourceLocation loc = ResourceLocation.parse(conf.tree);
                     if (!prov.trees.contains(loc)) for (int i = 0; i < conf.weight; i++) prov.trees.add(loc);
                 }
@@ -204,7 +200,7 @@ public class BerryGenManager
             }
             catch (final Exception e)
             {
-                PokecubeAPI.LOGGER.error("Error loading Berries Spawn Database " + s, e);
+                PokecubeAPI.LOGGER.error("Error loading Berries Spawn Database {}", s, e);
             }
         });
     }

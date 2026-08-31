@@ -14,8 +14,8 @@ public class Schedules
 
     static
     {
-        ADULT = PokecubeCore.SCHEDULES.register("adult_npc", () -> Schedules.makeAdult());
-        CHILD = PokecubeCore.SCHEDULES.register("child_npc", () -> Schedules.makeChild());
+        ADULT = PokecubeCore.SCHEDULES.register("adult_npc", Schedules::makeAdult);
+        CHILD = PokecubeCore.SCHEDULES.register("child_npc", Schedules::makeChild);
     }
 
     public static void init()

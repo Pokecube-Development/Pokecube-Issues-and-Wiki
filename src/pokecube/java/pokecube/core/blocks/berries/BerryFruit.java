@@ -221,7 +221,7 @@ public class BerryFruit extends BushBlock
         if (!level.isClientSide)
         {
             if (level.getBlockState(pos.below()).is(BerryManager.berryCrops.get(this.ind).get()))
-                level.setBlockAndUpdate(pos.below(), state2.setValue(CropBlock.AGE, Integer.valueOf(5)));
+                level.setBlockAndUpdate(pos.below(), state2.setValue(CropBlock.AGE, 5));
             level.destroyBlock(pos, true);
         }
         return InteractionResult.SUCCESS;
@@ -232,7 +232,7 @@ public class BerryFruit extends BushBlock
     {
         final BlockState state2 = BerryManager.berryCrops.get(this.ind).get().defaultBlockState();
         if (world.getBlockState(pos.below()).is(BerryManager.berryCrops.get(this.ind).get()))
-            world.setBlockAndUpdate(pos.below(), state2.setValue(CropBlock.AGE, Integer.valueOf(5)));
+            world.setBlockAndUpdate(pos.below(), state2.setValue(CropBlock.AGE, 5));
         return super.playerWillDestroy(world, pos, state2, player);
     }
 }

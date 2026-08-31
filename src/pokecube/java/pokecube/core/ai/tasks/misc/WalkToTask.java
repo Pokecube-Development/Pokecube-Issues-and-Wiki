@@ -24,7 +24,6 @@ import java.util.Optional;
 
 public class WalkToTask extends Behavior<Mob>
 {
-    private static final int MAX_COOLDOWN_BEFORE_RETRYING = 40;
     private int remainingCooldown;
     @Nullable
     private Path path;
@@ -102,7 +101,7 @@ public class WalkToTask extends Behavior<Mob>
 
     protected void start(ServerLevel level, Mob entity, long gameTime) {
         entity.getBrain().setMemory(MemoryModuleType.PATH, this.path);
-        entity.getNavigation().moveTo(this.path, (double)this.speedModifier);
+        entity.getNavigation().moveTo(this.path, this.speedModifier);
     }
 
     protected void tick(ServerLevel level, Mob owner, long gameTime) {

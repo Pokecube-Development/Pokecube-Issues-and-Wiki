@@ -32,7 +32,7 @@ import java.util.function.Supplier;
 public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity implements WorldlyContainer
 {
     public static Supplier<BlockEntityType<GenericBookshelfEmptyTile>> FILLABLE_SHELVES_TYPE;
-    public NonNullList<ItemStack> items = NonNullList.withSize(9, ItemStack.EMPTY);
+    public NonNullList<ItemStack> items;
     private Component name;
 
     private GenericBookshelfEmptyTile(final BlockEntityType<?> tileEntityType, final BlockPos pos,
@@ -84,19 +84,6 @@ public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity 
     public int getContainerSize()
     {
         return 9;
-    }
-
-    public int addItem(ItemStack stack)
-    {
-        for (int i = 0; i < this.items.size(); ++i)
-        {
-            if (this.items.get(i).isEmpty())
-            {
-                this.setItem(i, stack);
-                return i;
-            }
-        }
-        return -1;
     }
 
     @Override

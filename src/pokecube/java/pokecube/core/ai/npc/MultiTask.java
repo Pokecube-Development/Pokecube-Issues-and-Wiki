@@ -34,20 +34,14 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
         this.memories = modules;
         this.ordering = ordering;
         this.runType = type;
-        tasks.forEach((pair) -> {
-            this.behaviors.add(pair.getFirst(), pair.getSecond());
-        });
+        tasks.forEach((pair) -> this.behaviors.add(pair.getFirst(), pair.getSecond()));
     }
 
     @SuppressWarnings("unchecked")
     @Override
     protected boolean canStillUse(final ServerLevel worldIn, final E entityIn, final long gameTimeIn)
     {
-        return this.behaviors.stream().filter((task) -> {
-            return task.getStatus() == Behavior.Status.RUNNING;
-        }).anyMatch((task) -> {
-            return ((BehaviourAccessor<E>) task).invokeCanStillUse(worldIn, entityIn, gameTimeIn);
-        });
+        return this.behaviors.stream().filter((task) -> task.getStatus() == Status.RUNNING).anyMatch((task) -> ((BehaviourAccessor<E>) task).invokeCanStillUse(worldIn, entityIn, gameTimeIn));
     }
 
     @Override
@@ -66,34 +60,25 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
     @Override
     protected void tick(final ServerLevel worldIn, final E owner, final long gameTime)
     {
-        this.behaviors.stream().filter((task) -> {
-            return task.getStatus() == Behavior.Status.RUNNING;
-        }).forEach((task) -> {
-            task.tickOrStop(worldIn, owner, gameTime);
-        });
+        this.behaviors.stream().filter((task) -> task.getStatus() == Status.RUNNING).forEach((task) -> task.tickOrStop(worldIn, owner, gameTime));
     }
 
     @Override
     protected void stop(final ServerLevel worldIn, final E entityIn, final long gameTimeIn)
     {
-        this.behaviors.stream().filter((task) -> {
-            return task.getStatus() == Behavior.Status.RUNNING;
-        }).forEach((task) -> {
-            task.doStop(worldIn, entityIn, gameTimeIn);
-        });
+        this.behaviors.stream().filter((task) -> task.getStatus() == Status.RUNNING).forEach((task) -> task.doStop(worldIn, entityIn, gameTimeIn));
         this.memories.forEach(entityIn.getBrain()::eraseMemory);
     }
 
     @Override
     public String toString()
     {
-        final Set<? extends Behavior<? super E>> set = this.behaviors.stream().filter((task) -> {
-            return task.getStatus() == Behavior.Status.RUNNING;
-        }).collect(Collectors.toSet());
+        final Set<? extends Behavior<? super E>> set = this.behaviors.stream().filter((task) ->
+                task.getStatus() == Status.RUNNING).collect(Collectors.toSet());
         return "(" + this.getClass().getSimpleName() + "): " + set;
     }
 
-    static enum Ordering
+    public static enum Ordering
     {
         ORDERED((list) -> {}), SHUFFLED(ShufflingList::shuffle);
 
@@ -110,7 +95,7 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
         }
     }
 
-    static enum RunType
+    public static enum RunType
     {
         RUN_ONE
         {
@@ -118,11 +103,7 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
             public <E extends LivingEntity> void process(final ShufflingList<Behavior<? super E>> list,
                     final ServerLevel world, final E mob, final long time)
             {
-                list.stream().filter((sub_task) -> {
-                    return sub_task.getStatus() == Behavior.Status.STOPPED;
-                }).filter((sub_task) -> {
-                    return sub_task.tryStart(world, mob, time);
-                }).findFirst();
+                list.stream().filter((sub_task) -> sub_task.getStatus() == Status.STOPPED).filter((sub_task) -> sub_task.tryStart(world, mob, time)).findFirst();
             }
         },
         TRY_ALL
@@ -131,11 +112,7 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
             public <E extends LivingEntity> void process(final ShufflingList<Behavior<? super E>> list,
                     final ServerLevel world, final E mob, final long time)
             {
-                list.stream().filter((sub_task) -> {
-                    return sub_task.getStatus() == Behavior.Status.STOPPED;
-                }).forEach((sub_task) -> {
-                    sub_task.tryStart(world, mob, time);
-                });
+                list.stream().filter((sub_task) -> sub_task.getStatus() == Status.STOPPED).forEach((sub_task) -> sub_task.tryStart(world, mob, time));
             }
         };
 

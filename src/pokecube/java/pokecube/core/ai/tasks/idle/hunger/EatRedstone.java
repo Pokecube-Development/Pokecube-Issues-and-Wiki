@@ -5,7 +5,6 @@ import java.util.function.Predicate;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
@@ -26,12 +25,12 @@ public class EatRedstone extends EatBlockBase
         final Mob entity = pokemob.getEntity();
         double diff = 3;
         diff = Math.max(diff, entity.getBbWidth());
-        final double dist = block.getPos().distManhattan(entity.blockPosition());
-        this.setWalkTo(entity, block.getPos(), 1, 0);
+        final double dist = block.pos().distManhattan(entity.blockPosition());
+        this.setWalkTo(entity, block.pos(), 1, 0);
         if (dist > diff) return EatResult.PATHING;
 
         final ServerLevel world = (ServerLevel) entity.level();
-        final BlockState current = world.getBlockState(block.getPos());
+        final BlockState current = world.getBlockState(block.pos());
         if (!EatRedstone.checker.test(current)) return EatResult.NOEAT;
 
         pokemob.eat(EatRedstone.class);// Set indicator of having eaten something, this fires the event
@@ -42,7 +41,7 @@ public class EatRedstone extends EatBlockBase
     @Override
     public boolean isValid(final NearBlock block)
     {
-        return EatRedstone.checker.test(block.getState());
+        return EatRedstone.checker.test(block.state());
     }
 
 }

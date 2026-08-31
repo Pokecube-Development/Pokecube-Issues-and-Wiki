@@ -299,9 +299,9 @@ public class GatherItems extends PokemobBehaviour
 
     private boolean isValidBlock(NearBlock block, StoreItems storage)
     {
-        if (!storage.checkValid(block.getState())) return false;
+        if (!storage.checkValid(block.state())) return false;
         boolean canHarvest = false;
-        HarvestContext context = new HarvestContext(storage.level, block.getState(), block.getPos(),
+        HarvestContext context = new HarvestContext(storage.level, block.state(), block.pos(),
                 storage.getTaskInventory(), storage.getTaskInventory() == storage.getPokeInventory());
         for (final Entry<ResourceLocation, IHarvester> entry : GatherItems.REGISTRY.entrySet())
         {
@@ -317,8 +317,8 @@ public class GatherItems extends PokemobBehaviour
             details.targetItem = null;
         if (details.targetBlock != null)
         {
-            final BlockState state = storage.entity.level().getBlockState(details.targetBlock.getPos());
-            final HarvestCheckEvent event = new HarvestCheckEvent(storage.pokemob, state, details.targetBlock.getPos());
+            final BlockState state = storage.entity.level().getBlockState(details.targetBlock.pos());
+            final HarvestCheckEvent event = new HarvestCheckEvent(storage.pokemob, state, details.targetBlock.pos());
             PokecubeAPI.POKEMOB_BUS.post(event);
             boolean canHarvest = false;
             final boolean blacklisted = ItemList.is(GatherItems.BLACKLIST, state);
@@ -364,8 +364,8 @@ public class GatherItems extends PokemobBehaviour
             details.targetBlock = details.blocks.getFirst();
 
             details.currentHarvester = null;
-            HarvestContext context = new HarvestContext(storage.level, details.targetBlock.getState(),
-                    details.targetBlock.getPos(), storage.getTaskInventory(),
+            HarvestContext context = new HarvestContext(storage.level, details.targetBlock.state(),
+                    details.targetBlock.pos(), storage.getTaskInventory(),
                     storage.getTaskInventory() == storage.getPokeInventory());
             for (final Entry<ResourceLocation, IHarvester> entry : GatherItems.REGISTRY.entrySet())
             {
@@ -388,7 +388,7 @@ public class GatherItems extends PokemobBehaviour
 
         final Vector3 stuffLoc = new Vector3();
         if (details.targetItem != null) stuffLoc.set(details.targetItem);
-        else stuffLoc.set(details.targetBlock.getPos());
+        else stuffLoc.set(details.targetBlock.pos());
 
         // Set path to the stuff found.
         final double speed = 1;
@@ -529,7 +529,7 @@ public class GatherItems extends PokemobBehaviour
         {
             details.blocks = Lists.newArrayList(blocks);
             details.blocks.removeIf(b -> {
-                if (!inRange.test(b.getPos())) return true;
+                if (!inRange.test(b.pos())) return true;
                 return !isValidBlock(b, storage);
             });
             if (details.blocks.isEmpty()) details.blocks = null;

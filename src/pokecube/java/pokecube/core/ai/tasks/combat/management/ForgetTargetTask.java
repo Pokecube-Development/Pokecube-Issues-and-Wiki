@@ -287,7 +287,7 @@ public class ForgetTargetTask extends CombatTask
                 }
                 catch (final Exception e)
                 {
-                    PokecubeAPI.LOGGER.log(Level.WARN, "Error with message for " + target, e);
+                    PokecubeAPI.LOGGER.log(Level.WARN, "Error with message for {}", target, e);
                 }
                 deAgro = true;
                 if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Not seen for too long.");
@@ -313,11 +313,10 @@ public class ForgetTargetTask extends CombatTask
                 }
                 catch (final Exception e)
                 {
-                    PokecubeAPI.LOGGER.log(Level.WARN, "Error with message for " + target, e);
+                    PokecubeAPI.LOGGER.log(Level.WARN, "Error with message for {}", target, e);
                 }
                 deAgro = exitBattle = true;
                 if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Too far from target.");
-                break agroCheck;
             }
         }
         // All we do is deagro if needed.
@@ -352,19 +351,11 @@ public class ForgetTargetTask extends CombatTask
                 this.pokemobTarget.getTargetFinder().clear(entity);
                 this.pokemobTarget.onSetTarget(null, true);
             }
-            BrainUtils.deagro(entity, this.mutualDeagro);
-            this.pokemobTarget = null;
-            this.battleTime = 0;
-            this.ticksSinceSeen = 0;
         }
-        else
-        {
-            // Clear these as well.
-            BrainUtils.deagro(entity, this.mutualDeagro);
-            this.pokemobTarget = null;
-            this.battleTime = 0;
-            this.ticksSinceSeen = 0;
-        }
+        BrainUtils.deagro(entity, this.mutualDeagro);
+        this.pokemobTarget = null;
+        this.battleTime = 0;
+        this.ticksSinceSeen = 0;
         // Clear target finder anyway, to let it reset
         pokemob.getTargetFinder().clear(entity);
     }

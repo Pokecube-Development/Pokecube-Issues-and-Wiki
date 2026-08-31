@@ -49,7 +49,7 @@ public class MakeNest extends BaseIdleTask
 
     private boolean placeNest(ServerLevel level, IPokemob pokemob, final NearBlock b)
     {
-        final BlockPos pos = b.getPos();
+        final BlockPos pos = b.pos();
         var entity = pokemob.getEntity();
         if (!MoveEventsHandler.canAffectBlock(pokemob, new Vector3(pos), "nest_building")) return false;
         final PoiManager pois = level.getPoiManager();
@@ -89,7 +89,7 @@ public class MakeNest extends BaseIdleTask
         final List<NearBlock> surfaces = Lists.newArrayList();
         blocks.forEach(b -> {
             if (b == null) return;
-            if (PokecubeTerrainChecker.isTerrain(b.getState())) surfaces.add(b);
+            if (PokecubeTerrainChecker.isTerrain(b.state())) surfaces.add(b);
         });
         // last we check the terrain
         if (!surfaces.isEmpty())

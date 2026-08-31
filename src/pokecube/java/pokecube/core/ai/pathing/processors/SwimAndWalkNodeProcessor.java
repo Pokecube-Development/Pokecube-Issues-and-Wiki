@@ -20,8 +20,8 @@ import thut.core.common.ThutCore;
  */
 public class SwimAndWalkNodeProcessor extends NodeEvaluator
 {
-    private SwimNodeEvaluator swimmer;
-    private WalkNodeEvaluator walker;
+    private final SwimNodeEvaluator swimmer;
+    private final WalkNodeEvaluator walker;
 
     private float oldWalkPriority;
     private float oldWaterBorderPriority;
@@ -53,13 +53,6 @@ public class SwimAndWalkNodeProcessor extends NodeEvaluator
         mob.setPathfindingMalus(PathType.WATER_BORDER, 4.0F);
     }
 
-    /**
-     * This method is called when all nodes have been processed and PathEntity
-     * is created. {@link net.minecraft.world.pathfinder.WalkNodeProcessor
-     * WalkNodeProcessor} uses this to change its field
-     * {@link net.minecraft.world.pathfinder.WalkNodeProcessor#avoidsWater
-     * avoidsWater}
-     */
     @Override
     public void done()
     {
