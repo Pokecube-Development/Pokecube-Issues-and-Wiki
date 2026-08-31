@@ -83,6 +83,7 @@ import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
 import pokecube.core.impl.capabilities.DefaultPokemob;
+import pokecube.core.impl.capabilities.impl.PokemobHungry;
 import pokecube.core.init.Config;
 import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
@@ -282,14 +283,12 @@ public class PokemobEventsHandler
             });
         }
 
-        private final Entity mob;
         private final IPokemob pokemob;
         private final PokedexEntry mega;
         private final Component message;
 
         private MegaEvoTicker(final PokedexEntry mega, final IPokemob evolver, final Component message)
         {
-            this.mob = evolver.getEntity();
             this.message = message;
             this.mega = mega;
             this.pokemob = evolver;
@@ -877,7 +876,7 @@ public class PokemobEventsHandler
 
             if (attacker.getCombatState(CombatStates.HUNTING))
             {
-                attacker.eat(attacked);
+                attacker.eat(attacked, PokemobHungry.EAT_SOUND);
                 attacker.setCombatState(CombatStates.HUNTING, false);
                 pokemob.getNavigation().stop();
             }

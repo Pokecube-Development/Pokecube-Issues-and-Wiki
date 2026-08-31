@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.idle.HungerTask;
+import pokecube.core.impl.capabilities.impl.PokemobHungry;
 import thut.api.item.ItemList;
 
 public class EatFromChest extends EatBlockBase
@@ -43,7 +44,7 @@ public class EatFromChest extends EatBlockBase
             final ItemStack stack = container.getItem(i1);
             if (ItemList.is(HungerTask.FOODTAG, stack))
             {
-                pokemob.eat(stack);
+                pokemob.eat(stack, PokemobHungry.EAT_SOUND);
                 stack.shrink(1);
                 if (stack.isEmpty()) container.setItem(i1, ItemStack.EMPTY);
                 return EatResult.EATEN;

@@ -20,6 +20,7 @@ import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.TaskBase.InventoryChange;
 import pokecube.core.ai.tasks.utility.GatherItems.ReplantTask;
 import pokecube.core.eventhandlers.MoveEventsHandler;
+import pokecube.core.impl.capabilities.impl.PokemobHungry;
 import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
@@ -83,7 +84,7 @@ public class EatRock extends EatBlockBase
         final boolean isOre = ItemList.is(EatRock.ORE, first);
         final boolean isDeepslateOre = ItemList.is(EatRock.DEEPSLATE_ORE, first);
         final boolean isNetherOre = ItemList.is(EatRock.NETHER_ORE, first);
-        pokemob.eat(first);
+        pokemob.eat(first, PokemobHungry.EAT_SOUND);
         first.grow(-1);
         if (first.isEmpty()) list.removeFirst();
         if (isOre) list.addFirst(new ItemStack(Blocks.COBBLESTONE));

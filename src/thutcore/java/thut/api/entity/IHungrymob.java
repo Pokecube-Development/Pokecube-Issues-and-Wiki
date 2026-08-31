@@ -1,5 +1,7 @@
 package thut.api.entity;
 
+import net.minecraft.resources.ResourceLocation;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -16,11 +18,15 @@ public interface IHungrymob
      * The return is whatever is "left" after eating, in the case of an
      * itemEntity or ItemStack, this is the remaining items. Note, this is
      * nullable!
-     *
-     * @param e
      */
     @Nullable
-    <T> T eat(@Nonnull T e);
+    <T> T eat(@Nonnull T e, ResourceLocation sound);
+
+    @Nullable
+    default <T> T eat(@Nonnull T e)
+    {
+        return eat(e, null);
+    }
 
     /** Mob eats berries */
     boolean eatsBerries();
@@ -63,8 +69,6 @@ public interface IHungrymob
     /**
      * Called when the mob fails to eat the entity, this is often because it
      * was already eaten by someone else.
-     *
-     * @param e
      */
     void noEat(Object e);
 

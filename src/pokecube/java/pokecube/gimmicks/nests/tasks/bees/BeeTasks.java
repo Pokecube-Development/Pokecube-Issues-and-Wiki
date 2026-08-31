@@ -15,7 +15,6 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraft.world.entity.animal.Bee;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
@@ -57,8 +56,7 @@ public class BeeTasks
         // Only care about bees
         if (!isBee) return false;
         // Only process stock pokemobs
-        if (!pokemob.getPokedexEntry().stock) return false;
-        return true;
+        return pokemob.getPokedexEntry().stock;
     };
 
     public static AIRoutine BEEAI = new AIRoutine("BEEAI", true, isBee);
@@ -156,7 +154,7 @@ public class BeeTasks
         public GlobalPos getHome()
         {
             Optional<GlobalPos> home = BeeTasks.getHive(this.bee);
-            return home.isPresent() ? home.get() : null;
+            return home.orElse(null);
         }
 
         @Override
@@ -167,7 +165,7 @@ public class BeeTasks
             final Optional<Boolean> hasNectar = brain.getMemory(BeeTasks.HAS_NECTAR.get());
             final boolean nectar = hasNectar.isPresent() && hasNectar.get();
             final IPokemob pokemob = PokemobCaps.getPokemobFor(this.bee);
-            if (pokemob != null && nectar) pokemob.eat(ItemStack.EMPTY);
+            if (pokemob != null && nectar) pokemob.eat(BeeTasks.class);
             brain.eraseMemory(BeeTasks.HAS_NECTAR.get());
         }
 
@@ -175,7 +173,7 @@ public class BeeTasks
         public GlobalPos getWorkSite()
         {
             Optional<GlobalPos> flower = BeeTasks.getFlower(this.bee);
-            return flower.isPresent() ? flower.get() : null;
+            return flower.orElse(null);
         }
 
         @Override
@@ -222,7 +220,7 @@ public class BeeTasks
                         int j = world.random.nextInt(100) == 0 ? 2 : 1;
                         if (i + j > 5) --j;
                         world.setBlockAndUpdate(this.hive.getBlockPos(),
-                                state.setValue(BeehiveBlock.HONEY_LEVEL, Integer.valueOf(i + j)));
+                                state.setValue(BeehiveBlock.HONEY_LEVEL, i + j));
                     }
                 }
             }
@@ -250,9 +248,8 @@ public class BeeTasks
             // Try to enter the hive
             this.addOccupant(mob, nectar);
             // If this changed, then we added correctly.
-            final boolean added = num < this.hive.stored.size();
 
-            return added;
+            return num < this.hive.stored.size();
         }
 
         private void addOccupant(Mob mob, boolean nectar)
@@ -274,8 +271,7 @@ public class BeeTasks
                         this.hive.savedFlowerPos = bee.getSavedFlowerPos();
                     }
                     BlockPos blockpos = this.hive.getBlockPos();
-                    this.hive.getLevel().playSound(null, (double) blockpos.getX(), (double) blockpos.getY(),
-                            (double) blockpos.getZ(), SoundEvents.BEEHIVE_ENTER, SoundSource.BLOCKS, 1.0F, 1.0F);
+                    this.hive.getLevel().playSound(null, blockpos.getX(), blockpos.getY(), blockpos.getZ(), SoundEvents.BEEHIVE_ENTER, SoundSource.BLOCKS, 1.0F, 1.0F);
                     this.hive.getLevel().gameEvent(GameEvent.BLOCK_CHANGE, blockpos,
                             GameEvent.Context.of(mob, this.hive.getBlockState()));
                 }

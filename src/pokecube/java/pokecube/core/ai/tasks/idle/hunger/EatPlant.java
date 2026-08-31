@@ -13,6 +13,7 @@ import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.TaskBase.InventoryChange;
 import pokecube.core.ai.tasks.utility.GatherItems.ReplantTask;
 import pokecube.core.eventhandlers.MoveEventsHandler;
+import pokecube.core.impl.capabilities.impl.PokemobHungry;
 import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
 
@@ -51,7 +52,7 @@ public class EatPlant extends EatBlockBase
         // Copy the list incase the original was immutable.
         list = Lists.newArrayList(list);
         final ItemStack first = list.getFirst();
-        pokemob.eat(first);
+        pokemob.eat(first, PokemobHungry.EAT_SOUND);
         first.grow(-1);
         if (first.isEmpty()) list.removeFirst();
         boolean replanted = false;

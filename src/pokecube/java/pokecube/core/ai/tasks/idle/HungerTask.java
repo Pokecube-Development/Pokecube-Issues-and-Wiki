@@ -30,6 +30,7 @@ import pokecube.core.ai.tasks.idle.hunger.EatRock;
 import pokecube.core.ai.tasks.idle.hunger.EatWater;
 import pokecube.core.ai.tasks.idle.hunger.IBlockEatTask;
 import pokecube.core.blocks.berries.BerryGenManager;
+import pokecube.core.impl.capabilities.impl.PokemobHungry;
 import pokecube.core.inventory.pokemob.PokemobInventory;
 import pokecube.core.moves.damage.effects.Sleep;
 import pokecube.core.moves.damage.effects.StatusEffects;
@@ -72,7 +73,7 @@ public class HungerTask extends BaseIdleTask
             {
                 ItemStackTools.addItemStackToInventory(stack.copy(), this.pokemob.getInventory(), 2,
                         PokemobInventory.MAIN_INVENTORY_SIZE);
-                this.pokemob.eat(stack);
+                this.pokemob.eat(stack, PokemobHungry.EAT_SOUND);
             }
             return true;
         }
@@ -223,7 +224,7 @@ public class HungerTask extends BaseIdleTask
             if (ItemList.is(HungerTask.FOODTAG, stack))
             {
                 final int size = stack.getCount();
-                pokemob.eat(stack);
+                pokemob.eat(stack, PokemobHungry.EAT_SOUND);
                 if (size == stack.getCount()) stack.shrink(1);
                 if (stack.isEmpty()) pokemob.getInventory().setItem(i, ItemStack.EMPTY);
                 return true;

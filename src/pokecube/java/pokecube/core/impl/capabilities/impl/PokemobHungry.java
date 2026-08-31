@@ -25,6 +25,7 @@ public abstract class PokemobHungry extends PokemobMoves
 {
     public static final ResourceLocation LEPPABERRY = ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID,
             "berry_leppa");
+    public static final ResourceLocation EAT_SOUND = ResourceLocation.parse("entity.generic.eat");
 
     @SuppressWarnings("unchecked")
     <T> T cast(final Object o)
@@ -33,7 +34,7 @@ public abstract class PokemobHungry extends PokemobMoves
     }
 
     @Override
-    public <T> T eat(T e)
+    public <T> T eat(T e, ResourceLocation eat_sound)
     {
         // Don't eat stuf if we are not alive...
         if (!this.getEntity().isAlive()) return null;
@@ -91,7 +92,7 @@ public abstract class PokemobHungry extends PokemobMoves
         this.setHealth(Math.min(hp+toHeal, this.getMaxHealth()));
         this.hungerCooldown = 0;
 
-        this.getEntity().playSound(BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("entity.generic.eat")), 1, 1);
+        if (eat_sound != null) this.getEntity().playSound(BuiltInRegistries.SOUND_EVENT.get(eat_sound), 1, 1);
         this.setCombatState(CombatStates.HUNTING, false);
 
         // Make wild pokemon level up naturally to their cap, to allow wild
