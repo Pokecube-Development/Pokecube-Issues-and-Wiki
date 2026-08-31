@@ -1,6 +1,5 @@
 package pokecube.mobs.abilities.simple;
 
-import net.minecraft.world.level.Level;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -10,7 +9,6 @@ import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.PokemobTerrainEffects;
 import thut.api.level.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
-import thut.api.maths.Vector3;
 
 @AbilityProvider(name = "swift-swim")
 public class SwiftSwim extends Ability
@@ -18,8 +16,7 @@ public class SwiftSwim extends Ability
     @Override
     // Apply speed increase in the rain.
     public void preMoveUse(final IPokemob mob, final MoveApplication move) {
-        final Level world = mob.getEntity().level();
-        final TerrainSegment segment = TerrainManager.getInstance().getTerrian(world, new Vector3());
+        final TerrainSegment segment = TerrainManager.getInstance().getTerrainForEntity(mob.getEntity());
         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemob_effects");
 
 

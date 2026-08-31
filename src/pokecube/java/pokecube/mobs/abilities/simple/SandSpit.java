@@ -10,7 +10,6 @@ import pokecube.core.moves.PokemobTerrainEffects;
 import thut.api.Tracker;
 import thut.api.level.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
-import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.network.TerrainUpdate;
 
@@ -27,7 +26,7 @@ public class SandSpit extends Ability
 
         final Level world = mob.getEntity().level();
 
-        final TerrainSegment segment = TerrainManager.getInstance().getTerrian(world, new Vector3());
+        final TerrainSegment segment = TerrainManager.getInstance().getTerrainForEntity(mob.getEntity());
         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemob_effects");
 
         if (move.hit)

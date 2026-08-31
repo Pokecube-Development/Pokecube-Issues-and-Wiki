@@ -7,13 +7,10 @@ import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.moves.utils.IMoveConstants;
-import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.PokemobTerrainEffects;
 import thut.api.Tracker;
 import thut.api.level.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
-import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.network.TerrainUpdate;
 
@@ -28,7 +25,7 @@ public class Drought extends Ability
         if (target != null) // Only trigger if against a pokemob.
         {
             final Level world = mob.getEntity().level();
-            final TerrainSegment segment = TerrainManager.getInstance().getTerrian(world, new Vector3());
+            final TerrainSegment segment = TerrainManager.getInstance().getTerrainForEntity(mob.getEntity());
             final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemob_effects");
 
             int duration = 300 + ThutCore.newRandom().nextInt(600);

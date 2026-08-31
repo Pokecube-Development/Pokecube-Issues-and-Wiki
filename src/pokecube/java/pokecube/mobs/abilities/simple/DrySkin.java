@@ -2,7 +2,6 @@ package pokecube.mobs.abilities.simple;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.level.Level;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -11,7 +10,6 @@ import pokecube.api.utils.PokeType;
 import pokecube.core.moves.PokemobTerrainEffects;
 import thut.api.level.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
-import thut.api.maths.Vector3;
 
 @AbilityProvider(name = "dry-skin")
 public class DrySkin extends Ability
@@ -43,9 +41,7 @@ public class DrySkin extends Ability
         // We can be target and user at the same time, if self move.
         if (areWeTarget(mob, move)) return;
 
-        final Level world = mob.getEntity().level();
-
-        final TerrainSegment segment = TerrainManager.getInstance().getTerrian(world, new Vector3());
+        final TerrainSegment segment = TerrainManager.getInstance().getTerrainForEntity(mob.getEntity());
         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemob_effects");
         final Mob user = mob.getEntity();
 
