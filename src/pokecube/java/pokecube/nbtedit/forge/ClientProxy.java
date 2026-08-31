@@ -17,10 +17,8 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.entity.PartEntity;
-import pokecube.api.PokecubeAPI;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.nbtedit.gui.GuiEditNBTTree;
-import pokecube.nbtedit.nbt.SaveStates;
 import pokecube.nbtedit.packets.EntityRequestPacket;
 import pokecube.nbtedit.packets.PacketHandler;
 import pokecube.nbtedit.packets.TileRequestPacket;
@@ -95,15 +93,5 @@ public class ClientProxy extends CommonProxy
     public void setupClient()
     {
         ThutCore.FORGE_BUS.register(this);
-        try
-        {
-            final SaveStates save = NBTEdit.getSaveStates();
-            save.load();
-            save.save();
-        }
-        catch (final Exception e)
-        {
-            PokecubeAPI.LOGGER.catching(e);
-        }
     }
 }

@@ -879,7 +879,7 @@ public class SpawnBiomeMatcher
                 var server = ServerLifecycleHooks.getCurrentServer();
                 RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, server.registryAccess());
                 var output = RegistryCodecs.homogeneousList(RegHelper.BIOME_REGISTRY).parse(ops, arr);
-                this._biomeHolderset = output.result().get();
+                this._biomeHolderset = output.result().orElseThrow();
             }
             catch (Exception e)
             {
@@ -936,7 +936,7 @@ public class SpawnBiomeMatcher
         if (!this._or_children.isEmpty() || !this._and_children.isEmpty() || this._usesMatchers
                 || !this._not_children.isEmpty())
         {
-            boolean or_valid = !this._or_children.isEmpty();
+            boolean or_valid = false;
             boolean and_valid = !this._and_children.isEmpty();
 
             for (final SpawnBiomeMatcher child : this._and_children) and_valid = and_valid && child._valid;
@@ -1045,7 +1045,7 @@ public class SpawnBiomeMatcher
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            PokecubeAPI.LOGGER.error(e);
             return false;
         }
     }
@@ -1065,7 +1065,7 @@ public class SpawnBiomeMatcher
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                PokecubeAPI.LOGGER.error(e);
             }
         }
     }

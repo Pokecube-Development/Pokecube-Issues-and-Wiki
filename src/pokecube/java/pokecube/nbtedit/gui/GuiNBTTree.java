@@ -694,7 +694,6 @@ public class GuiNBTTree extends Screen
 
     public boolean stopEditingSlot()
     {
-        NBTEdit.getSaveStates().save();
         this.focusedSlotIndex = -1;
         return true;
     }

@@ -121,84 +121,80 @@ public class DefaultFormeHolder
             }
             return null;
         }
-        if (this.key != null)
+        final ResourceLocation key = PokecubeItems.toPokecubeResource(this.key);
+        if (FormeHolder.formeHolders.containsKey(key)) return FormeHolder.formeHolders.get(key);
+
+        parent_check:
+        if (this.parent != null)
         {
-            final ResourceLocation key = PokecubeItems.toPokecubeResource(this.key);
-            if (FormeHolder.formeHolders.containsKey(key)) return FormeHolder.formeHolders.get(key);
-
-            parent_check:
-            if (this.parent != null)
+            final ResourceLocation pkey = PokecubeItems.toPokecubeResource(this.parent);
+            final FormeHolder parent = FormeHolder.formeHolders.get(pkey);
+            if (parent == null || parent.loaded_from == null)
             {
-                final ResourceLocation pkey = PokecubeItems.toPokecubeResource(this.parent);
-                final FormeHolder parent = FormeHolder.formeHolders.get(pkey);
-                if (parent == null || parent.loaded_from == null)
-                {
-                    PokecubeAPI.LOGGER.error(
-                            "Error loading parent {} for {}, it needs to be registered earlier in the file!",
-                            this.parent, this.key);
-                    break parent_check;
-                }
-                final DefaultFormeHolder p = parent.loaded_from;
-                if (p.tex != null && this.tex == null) this.tex = p.tex;
-                if (p.model != null && this.model == null) this.model = p.model;
-                if (p.anim != null && this.anim == null) this.anim = p.anim;
-                if (p.hidden != null) if (p.hidden.length > 0)
-                {
-                    final List<String> ours = this.hidden == null ? Lists.newArrayList()
-                            : Lists.newArrayList(this.hidden);
-                    ours.addAll(Arrays.asList(p.hidden));
-                    this.hidden = ours.toArray(new String[0]);
-                }
-                this.colours.addAll(p.colours);
-                this.matTex.addAll(p.matTex);
+                PokecubeAPI.LOGGER.error(
+                        "Error loading parent {} for {}, it needs to be registered earlier in the file!",
+                        this.parent, this.key);
+                break parent_check;
             }
-
-            if (this.hidden != null) for (final String element : this.hidden)
+            final DefaultFormeHolder p = parent.loaded_from;
+            if (p.tex != null && this.tex == null) this.tex = p.tex;
+            if (p.model != null && this.model == null) this.model = p.model;
+            if (p.anim != null && this.anim == null) this.anim = p.anim;
+            if (p.hidden != null) if (p.hidden.length > 0)
             {
-                final String value = ThutCore.trim(element);
-                this._hide_.add(value);
+                final List<String> ours = this.hidden == null ? Lists.newArrayList()
+                        : Lists.newArrayList(this.hidden);
+                ours.addAll(Arrays.asList(p.hidden));
+                this.hidden = ours.toArray(new String[0]);
             }
-            if (this.colours != null) for (final TexColours c : this.colours)
-            {
-                c.material = ThutCore.trim(c.material);
-                this._colourMap_.put(c.material, c);
-            }
-            if (this.matTex != null) for (final MatTexs c : this.matTex)
-            {
-                c.material = ThutCore.trim(c.material);
-                this._matsMap_.put(c.material, c);
-            }
-            var base = this.getEntry().getBaseForme();
-            if (base == null || base == Database.missingno)
-            {
-                this.getEntry().setBaseForme(baseEntry);
-                baseEntry.copyToForm(this.getEntry());
-            }
-            String model = this.getEntry().modelPath;
-            String modid = this.getEntry().getModId();
-            String tex = this.getEntry().texturePath;
-            if (modid == null) modid = "pokecube_mobs";
-            if (!tex.contains(":")) tex = modid + ":" + tex;
-            if (!model.contains(":")) model = modid + ":" + model;
-
-            this.getEntry().texturePath = tex;
-            this.getEntry().modelPath = model;
-
-            ResourceLocation texl = this.tex != null ? PokecubeItems.toResource(tex + this.tex, modid) : null;
-            ResourceLocation modell = this.model != null ? PokecubeItems.toResource(model + this.model, modid) : null;
-            ResourceLocation animl = this.anim != null ? PokecubeItems.toResource(model + this.anim, modid) : null;
-
-            if (texl != null && !texl.getPath().endsWith(".png"))
-                texl = ResourceLocation.fromNamespaceAndPath(texl.getNamespace(), texl.getPath() + ".png");
-            if (animl != null && !animl.getPath().endsWith(".xml"))
-                animl = ResourceLocation.fromNamespaceAndPath(animl.getNamespace(), animl.getPath() + ".xml");
-
-            final FormeHolder holder = FormeHolder.get(this.getEntry(), modell, texl, animl, key);
-            holder.loaded_from = this;
-            holder._entry = this.getEntry();
-            Database.registerFormeHolder(this.getEntry(), holder);
-            return holder;
+            this.colours.addAll(p.colours);
+            this.matTex.addAll(p.matTex);
         }
-        return null;
+
+        if (this.hidden != null) for (final String element : this.hidden)
+        {
+            final String value = ThutCore.trim(element);
+            this._hide_.add(value);
+        }
+        if (this.colours != null) for (final TexColours c : this.colours)
+        {
+            c.material = ThutCore.trim(c.material);
+            this._colourMap_.put(c.material, c);
+        }
+        if (this.matTex != null) for (final MatTexs c : this.matTex)
+        {
+            c.material = ThutCore.trim(c.material);
+            this._matsMap_.put(c.material, c);
+        }
+        var base = this.getEntry().getBaseForme();
+        if (base == null || base == Database.missingno)
+        {
+            this.getEntry().setBaseForme(baseEntry);
+            baseEntry.copyToForm(this.getEntry());
+        }
+        String model = this.getEntry().modelPath;
+        String modid = this.getEntry().getModId();
+        String tex = this.getEntry().texturePath;
+        if (modid == null) modid = "pokecube_mobs";
+        if (!tex.contains(":")) tex = modid + ":" + tex;
+        if (!model.contains(":")) model = modid + ":" + model;
+
+        this.getEntry().texturePath = tex;
+        this.getEntry().modelPath = model;
+
+        ResourceLocation texl = this.tex != null ? PokecubeItems.toResource(tex + this.tex, modid) : null;
+        ResourceLocation modell = this.model != null ? PokecubeItems.toResource(model + this.model, modid) : null;
+        ResourceLocation animl = this.anim != null ? PokecubeItems.toResource(model + this.anim, modid) : null;
+
+        if (texl != null && !texl.getPath().endsWith(".png"))
+            texl = ResourceLocation.fromNamespaceAndPath(texl.getNamespace(), texl.getPath() + ".png");
+        if (animl != null && !animl.getPath().endsWith(".xml"))
+            animl = ResourceLocation.fromNamespaceAndPath(animl.getNamespace(), animl.getPath() + ".xml");
+
+        final FormeHolder holder = FormeHolder.get(this.getEntry(), modell, texl, animl, key);
+        holder.loaded_from = this;
+        holder._entry = this.getEntry();
+        Database.registerFormeHolder(this.getEntry(), holder);
+        return holder;
     }
 }

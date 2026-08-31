@@ -1,7 +1,5 @@
 package pokecube.nbtedit;
 
-import java.io.File;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,13 +7,11 @@ import org.apache.logging.log4j.Logger;
 import net.minecraft.nbt.CompoundTag;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import pokecube.nbtedit.forge.CommonProxy;
 import pokecube.nbtedit.nbt.NBTNodeSorter;
 import pokecube.nbtedit.nbt.NBTTree;
 import pokecube.nbtedit.nbt.NamedNBT;
-import pokecube.nbtedit.nbt.SaveStates;
 import pokecube.nbtedit.packets.PacketHandler;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
@@ -56,14 +52,7 @@ public class NBTEdit
 
     public static final ConfigHolder config = new ConfigHolder();
 
-    private static SaveStates saves;
-
     static final String SEP = System.lineSeparator();
-
-    public static SaveStates getSaveStates()
-    {
-        return NBTEdit.saves;
-    }
 
     public static void log(final Level l, final String s)
     {
@@ -96,6 +85,6 @@ public class NBTEdit
 
     public static void throwing(final String cls, final String mthd, final Throwable thr)
     {
-        NBTEdit.LOGGER.warn("class: " + cls + " method: " + mthd, thr);
+        NBTEdit.LOGGER.warn("class: {} method: {}", cls, mthd, thr);
     }
 }

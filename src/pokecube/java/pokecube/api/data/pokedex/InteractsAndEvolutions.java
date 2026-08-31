@@ -3,7 +3,6 @@ package pokecube.api.data.pokedex;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
@@ -84,15 +83,14 @@ public class InteractsAndEvolutions
 
         public PokemobCondition toCondition(HolderLookup.Provider registries)
         {
-            PokemobCondition result = null;
             // First check if we have a loadable condition, if so, just use
             // that, the rest will be left as description information!
             if (condition != null)
             {
-                result = PokemobCondition.makeFromElement(registries, condition, _bits);
+                PokemobCondition result = PokemobCondition.makeFromElement(registries, condition, _bits);
                 return PokemobMatchInit.initMatchChecker(registries, result, _bits);
             }
-            return result;
+            return null;
         }
 
         @Override
@@ -108,12 +106,9 @@ public class InteractsAndEvolutions
                         final Object theirs = f.get(obj);
                         if (ours != null && !ours.equals(theirs)) return false;
                         if (theirs != null && !theirs.equals(ours)) return false;
-                        if (ours == null && theirs != null) return false;
-                        if (theirs == null && ours != null) return false;
                     }
                     catch (final Exception e)
                     {
-                        e.printStackTrace();
                         return false;
                     }
                 return true;

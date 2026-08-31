@@ -37,7 +37,6 @@ import pokecube.adventures.ai.tasks.battle.CaptureMob;
 import pokecube.adventures.ai.tasks.battle.agro.AgroTargets;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerBase;
-import pokecube.adventures.utils.TradeEntryLoader;
 import pokecube.adventures.utils.TradeEntryLoader.Trade;
 import pokecube.adventures.utils.TrainerTracker;
 import pokecube.api.PokecubeAPI;
@@ -468,7 +467,6 @@ public class TypeTrainer extends NpcType
 
     public static void postInitTrainers()
     {
-        final List<TypeTrainer> toRemove = new ArrayList<>();
         for (final TypeTrainer t : TypeTrainer.typeMap.values())
         {
             t.pokemon.clear();
@@ -495,11 +493,8 @@ public class TypeTrainer extends NpcType
                 }
             // Remove large pokemobs from their list.
             t.pokemon.removeIf(e -> (e.length > 8 || e.height > 8 || e.width > 8));
-            if (t.pokemon.isEmpty() && t != TypeTrainer.merchant) toRemove.add(t);
         }
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Loaded Trainer Types: " + TypeTrainer.typeMap);
-        if (!toRemove.isEmpty()) PokecubeAPI.logInfo("Removing Trainer Types: " + toRemove);
-        for (final TypeTrainer t : toRemove) TypeTrainer.typeMap.remove(t.getName());
     }
 
     /** 1 = male, 2 = female, 3 = both */
@@ -609,6 +604,7 @@ public class TypeTrainer extends NpcType
                 }
                 catch (final NumberFormatException e)
                 {
+                    PokecubeAPI.LOGGER.error(e);
                 }
                 this.loot[num] = stack;
                 num++;
