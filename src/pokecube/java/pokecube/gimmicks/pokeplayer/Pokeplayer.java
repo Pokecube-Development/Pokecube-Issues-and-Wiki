@@ -296,7 +296,8 @@ public class Pokeplayer
             int food = foodData.getFoodLevel();
             float pokeHunger = HungerTask.calculateHunger(pokemob);
             int hungerRate = PokecubeCore.getConfig().pokemobLifeSpan / 25;
-            if (pokeHunger < 0.8)
+            // If we are below berry gen threshold, sync back from the player's hunger
+            if (pokeHunger < HungerTask.BERRYGEN)
             {
                 if (food > 0)
                 {
@@ -304,9 +305,12 @@ public class Pokeplayer
                     pokemob.setHungerTime(hunger - hungerRate);
                 }
             }
-            else if (foodData.needsFood() && pokeHunger > 0.9)
+            // If we are above the hunt threshold, sync from pokemob to player
+            // hunt threshold is where they will do things like eat rocks, etc
+            else if (foodData.needsFood() && pokeHunger >= HungerTask.HUNTTHRESHOLD)
             {
                 foodData.setFoodLevel(food + 1);
+                foodData.setSaturation(5f);
                 pokemob.setHungerTime(hunger + hungerRate);
             }
             // TODO find appropriate places to do this instead of once per second.
