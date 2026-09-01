@@ -75,7 +75,9 @@ public class TeleportsPage extends ListPage<TeleOption>
                 this.parent.scheduleUpdate(() -> {
                     PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index - 1);
                     // Update the list for the page.
+                    this.parent.onPageClosed();
                     this.parent.initList();
+                    this.parent.onPageOpened();
                 });
             }).bounds(0, 0, 10, 10)
                     .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.move_up.narrate"))
@@ -86,7 +88,9 @@ public class TeleportsPage extends ListPage<TeleOption>
                 this.parent.scheduleUpdate(() -> {
                     PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index + 1);
                     // Update the list for the page.
+                    this.parent.onPageClosed();
                     this.parent.initList();
+                    this.parent.onPageOpened();
                 });
             }).bounds(0, 0, 10, 10)
                     .createNarration(supplier -> Component.translatable("button.pokecube.pokewatch.move_down.narrate"))

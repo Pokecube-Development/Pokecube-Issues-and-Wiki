@@ -174,6 +174,7 @@ public class SpawnsPage extends ListPage<LineEntry>
     @Override
     public void preRender()
     {
+        super.preRender();
         // This is to give extra time for packet syncing.
         if (this.last != PacketPokedex.selectedLoc.size() || this.repel != PacketPokedex.repelled)
         {

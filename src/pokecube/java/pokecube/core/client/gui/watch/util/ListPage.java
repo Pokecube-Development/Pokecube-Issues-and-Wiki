@@ -84,13 +84,19 @@ public abstract class ListPage<T extends AbstractSelectionList.Entry<T>> extends
     }
 
     @Override
-    public void renderPage(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
+    public void preRender()
     {
         if (this.updateRunnable != null)
         {
             this.updateRunnable.run();
             this.updateRunnable = null;
         }
+        super.preRender();
+    }
+
+    @Override
+    public void renderPage(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
+    {
         this.drawTitle(graphics, mouseX, mouseY, partialTicks);
     }
 }
