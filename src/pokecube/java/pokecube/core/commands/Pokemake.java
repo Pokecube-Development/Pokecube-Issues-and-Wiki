@@ -133,9 +133,7 @@ public class Pokemake
             else if (arg.equalsIgnoreCase("b")) blue = Integer.parseInt(val);
             else if (arg.equalsIgnoreCase("a"))
             {
-                String ability = null;
-                ability = val;
-                if (AbilityManager.abilityExists(ability)) mob.setAbilityRaw(AbilityManager.getAbility(ability));
+                if (AbilityManager.abilityExists(val)) mob.setAbilityRaw(AbilityManager.getAbility(val));
             }
             else if (arg.equalsIgnoreCase("m") && mindex < 4)
             {

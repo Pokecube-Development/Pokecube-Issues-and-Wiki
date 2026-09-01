@@ -215,26 +215,25 @@ public class Pokemake2
         // Process if wild-like first
         boolean asWild = nbt.getBoolean("wild");
 
+        int exp = 0, level=1;
         // Then process level
         if (nbt.getTagType("level") == Tag.TAG_INT || nbt.getTagType("l") == Tag.TAG_INT)
         {
-            int level = nbt.contains("level") ? nbt.getInt("level") : nbt.getInt("l");
-            int exp = Tools.levelToXp(pokemob.getExperienceMode(), level);
-            if (asWild) pokemob.setForSpawn(exp);
-            else
+            level = nbt.contains("level") ? nbt.getInt("level") : nbt.getInt("l");
+            exp = Tools.levelToXp(pokemob.getExperienceMode(), level);
+        }
+        if (asWild) pokemob.setForSpawn(exp);
+        else
+        {
+            pokemob.setExp(exp, false);
+            pokemob.levelUp(level);
+            // Now re-learn the moves in order if neede
+            for (int i = 0; i < move_num; i++)
             {
-                pokemob.setExp(exp, false);
-                pokemob.levelUp(level);
-
-                // Now re-learn the moves in order if neede
-                for (int i = 0; i < move_num; i++)
-                {
-                    var move = read_moves[i];
-                    pokemob.setMove(i, move);
-                }
+                var move = read_moves[i];
+                pokemob.setMove(i, move);
             }
         }
-
         return pokemob;
     }
 
