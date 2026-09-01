@@ -1,18 +1,19 @@
 package pokecube.mobs.moves.attacks;
 
-import pokecube.api.PokecubeAPI;
 import pokecube.api.data.moves.MoveProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.moves.utils.MoveApplication.Damage;
 import pokecube.api.moves.utils.MoveApplication.PostMoveUse;
 import pokecube.api.moves.utils.MoveApplication.LastMoveEffect;
+import pokecube.api.moves.utils.MoveApplication.BlockCondition;
 import pokecube.core.moves.MovesUtils;
 
 @MoveProvider(name = "kings-shield")
-public class KingsShield implements PostMoveUse, LastMoveEffect
+public class KingsShield implements PostMoveUse, LastMoveEffect, BlockCondition
 {
     @Override
     public void applyPostMove(Damage t) {
@@ -34,5 +35,12 @@ public class KingsShield implements PostMoveUse, LastMoveEffect
         if (nextMoveTarget.getMove().isContact(target)) // Lower attack if move made contact.
             MovesUtils.handleStats2(target, lastMove.getUser().getEntity(), IMoveConstants.ATTACK,
                     IMoveConstants.FALL);
+    }
+
+    @Override
+    // King's Shield only blocks physical and special moves.
+    public boolean matches(IPokemob blocker, IPokemob user, MoveEntry incomingMove)
+    {
+        return incomingMove.category == IMoveConstants.AttackCategory.PHYSICAL || incomingMove.category == IMoveConstants.AttackCategory.SPECIAL;
     }
 }

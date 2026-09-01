@@ -1,6 +1,7 @@
 package pokecube.api.moves.utils;
 
 import com.google.common.collect.Sets;
+import com.jcraft.jorbis.Block;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
@@ -519,6 +520,24 @@ public class MoveApplication implements Comparable<MoveApplication>
         }
     }
 
+    public static interface BlockCondition
+    {
+        BlockCondition DEFAULT = new BlockCondition()
+        {};
+
+        /**
+         * Whether the incoming move should be blocked or not.
+         *
+         * @param blocker The pokemob whose ability to block incomingMove is checked.
+         * @param user The pokemob using incomingMove
+         * @param incomingMove The move that blocker is attempting to block.
+         */
+        default boolean matches(IPokemob blocker, IPokemob user, MoveEntry incomingMove)
+        {
+            return true;
+        }
+    }
+
     public static interface OnMoveFail
     {
         OnMoveFail DEFAULT = new OnMoveFail()
@@ -630,6 +649,10 @@ public class MoveApplication implements Comparable<MoveApplication>
      * Runs checks after the next move used by the target.
      */
     public LastMoveEffect lastMoveEffects = LastMoveEffect.DEFAULT;
+    /**
+     * Runs checks after the user uses a block move to see if the next move should be blocked.
+     */
+    public BlockCondition blockCondition = BlockCondition.DEFAULT;
     /**
      * This gets applied if the move has failed or is cancelled.
      */

@@ -398,7 +398,7 @@ public class MoveEventsHandler
         boolean blockMove = Tags.MOVE.isIn("block-moves", move.getName()); // If we are using a "block" move (e.g. protect)
         boolean unblockable = Tags.MOVE.isIn("no-block-moves", move.getName()); // If we are using a move that goes through protect (e.g. phantom force)
 
-        // Reset attacker's protect parameters if they are set to block moves when they did not use protect
+        // Reset attacker's protect parameters if they have been set last turn.
         if (attacker.getLastMoveUsed() != null && attacker.getMoveStats().blocked && attacker.getMoveStats().blockTimer-- <= 0)
         {
             if (Tags.MOVE.isIn("block-moves", attacker.getLastMoveUsed()))
@@ -427,8 +427,8 @@ public class MoveEventsHandler
             }
         }
 
-        // Set the move to fail if the target is set to block moves and we are not using an unblockable move.
-        if (attacker != target && !unblockable && target.getMoveStats().blocked)
+        // Set the move to fail if the target is set to block moves, their last move's block condition is fulfilled and we are not using an unblockable move.
+        if (attacker != target && !unblockable && target.getMoveStats().blocked && target.getMoveStats().lastMoveApplication.blockCondition.matches(target, attacker, attack))
         {
             move.failed = true;
             MovesUtils.sendPairedMessages(attacker.getEntity(), target, "pokemob.move.protect");
