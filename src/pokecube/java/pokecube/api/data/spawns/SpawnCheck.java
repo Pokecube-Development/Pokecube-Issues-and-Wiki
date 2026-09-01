@@ -11,6 +11,7 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.material.FluidState;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.events.pokemobs.SpawnEvent;
 import pokecube.core.utils.TimePeriod;
@@ -22,6 +23,7 @@ import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
+import java.util.Optional;
 import java.util.Set;
 
 public class SpawnCheck
@@ -125,7 +127,17 @@ public class SpawnCheck
         else level = ((WorldGenRegion) world).getLevel();
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
         this.dimensionType = level.dimensionTypeRegistration();
-        this.dimension = level.holderOrThrow(level.dimension());
+        Optional<Holder.Reference<Level>> _dimension;
+        try
+        {
+            _dimension = level.holder(level.dimension());
+        }
+        catch (Exception e)
+        {
+            if (!level.isClientSide()) PokecubeAPI.LOGGER.error(e);
+            _dimension = Optional.empty();
+        }
+        this.dimension = _dimension.isPresent() ? _dimension.get() : Holder.direct(level);
         this.type = t.getBiome(location);
         this.time = (float) TimePeriod.getTime(time);
         this.blockState = location.getBlockState(world);
