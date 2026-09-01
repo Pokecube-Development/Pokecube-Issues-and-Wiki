@@ -66,6 +66,7 @@ public class SpawnsPage extends ListPage<LineEntry>
     public void initList()
     {
         super.initList();
+        this.last = -1;
         int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2;
         final int max = this.font.lineHeight;
@@ -171,14 +172,22 @@ public class SpawnsPage extends ListPage<LineEntry>
     }
 
     @Override
-    public void renderPage(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
+    public void preRender()
     {
         // This is to give extra time for packet syncing.
         if (this.last != PacketPokedex.selectedLoc.size() || this.repel != PacketPokedex.repelled)
         {
+            this.onPageClosed();
             this.initList();
+            this.onPageOpened();
             this.last = PacketPokedex.selectedLoc.size();
+            this.repel = PacketPokedex.repelled;
         }
+    }
+
+    @Override
+    public void renderPage(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
+    {
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
         final int colour = 0xFF78C850;
@@ -193,7 +202,7 @@ public class SpawnsPage extends ListPage<LineEntry>
             for (var entry : list)
                 graphics.drawCenteredString(this.font, entry, x + 130, y + 128 + 8 * n++, 0); // 100
         }
-        else if (this.repel = PacketPokedex.repelled)
+        else if (this.repel)
         {
             final MutableComponent comp = Component.translatable("pokewatch.spawns.repelled");
             var list = this.font.split(comp, 205);

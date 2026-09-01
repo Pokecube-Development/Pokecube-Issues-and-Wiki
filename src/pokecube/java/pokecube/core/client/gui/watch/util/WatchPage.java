@@ -88,8 +88,11 @@ public abstract class WatchPage extends Screen implements GuiEventListener
         this.renderables.add(this::renderPage);
     }
 
+    public void preRender()
+    {
+    }
+
     public void renderPage(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
     {
-
     }
 }

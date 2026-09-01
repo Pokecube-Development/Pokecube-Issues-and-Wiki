@@ -215,6 +215,7 @@ public class GuiPokeWatch extends Screen
     public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
     {
         // No rendering from us, let the sub page handle it
+        this.current_page.preRender();
     }
 
     @Override
