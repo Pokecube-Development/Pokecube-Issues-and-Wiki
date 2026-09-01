@@ -158,10 +158,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             // Clear held item if used for evolving.
             if (needed_items.contains(data) && ItemStack.isSameItem(stack, thisMob.getHeldItem()))
                 thisMob.setHeldItem(ItemStack.EMPTY);
-            // Lean any moves that should are supposed to have just
-            // learnt.
-            if (delayed) thisMob.getMoveStats().oldLevel = thisMob.getLevel() - 1;
-            else if (data != null) thisMob.getMoveStats().oldLevel = thisMob.getMoveStats().oldLevel;
+            // Lean any moves that should are supposed to have just learnt.
             thisMob.levelUp(thisMob.getLevel());
 
             thisMob.setBasePokedexEntry(evol);
@@ -222,37 +219,34 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         }
         PokecubeAttributes.resetToEntry((IPokemob) this);
         HappinessType.applyHappiness(theMob, HappinessType.LEVEL);
-        if (moves != null)
+        if (theMob.getGeneralState(GeneralStates.TAMED))
         {
-            if (theMob.getGeneralState(GeneralStates.TAMED))
+            if (theMob.getMove(theMob.getMovesCount() - 1) != null)
             {
-                if (theMob.getMove(theMob.getMovesCount() - 1) != null)
+                for (int i = 0; i < theMob.getMovesCount(); i++)
                 {
-                    for (int i = 0; i < theMob.getMovesCount(); i++)
-                    {
-                        String s = theMob.getMove(i);
-                        if (s == null) continue;
-                        for (final String s1 : moves)
-                            if (s.equals(s1))
-                            {
-                                moves.remove(s1);
-                                break;
-                            }
-                    }
-                    for (final String s : moves)
-                    {
-                        final Component move = Component.translatable(MovesUtils.getUnlocalizedMove(s));
-                        final Component mess = Component.translatableEscape("pokemob.move.notify.learn",
-                                theMob.getDisplayName(), move);
-                        theMob.displayMessageToOwner(mess);
-                        theMob.getMoveStats().addPendingMove(s, theMob);
-                    }
-                    if(this.getEntity().isAddedToLevel()) EntityUpdate.sendEntityUpdate(this.getEntity());
-                    return;
+                    String s = theMob.getMove(i);
+                    if (s == null) continue;
+                    for (final String s1 : moves)
+                        if (s.equals(s1))
+                        {
+                            moves.remove(s1);
+                            break;
+                        }
                 }
+                for (final String s : moves)
+                {
+                    final Component move = Component.translatable(MovesUtils.getUnlocalizedMove(s));
+                    final Component mess = Component.translatableEscape("pokemob.move.notify.learn",
+                            theMob.getDisplayName(), move);
+                    theMob.displayMessageToOwner(mess);
+                    theMob.getMoveStats().addPendingMove(s, theMob);
+                }
+                if(this.getEntity().isAddedToLevel()) EntityUpdate.sendEntityUpdate(this.getEntity());
+                return;
             }
-            for (final String s : moves) theMob.learn(s);
         }
+        for (final String s : moves) theMob.learn(s);
     }
 
     default boolean changeForm(final PokedexEntry newEntry)
