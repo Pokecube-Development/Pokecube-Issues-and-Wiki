@@ -263,14 +263,13 @@ public final class SpawnHandler
     public static boolean lvlCap = false;
     public static int capLevel = 50;
 
-    public static boolean addForbiddenSpawningCoord(final BlockPos pos, final Level dim, final int range,
+    public static void addForbiddenSpawningCoord(final BlockPos pos, final Level dim, final int range,
             final ForbidReason reason)
     {
         Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.computeIfAbsent(dim.dimension(),
                 k -> Maps.newHashMap());
-        if (entries.containsKey(pos)) return false;
+        if (entries.containsKey(pos)) return;
         entries.put(pos, new ForbiddenEntry(range, reason, pos));
-        return true;
     }
 
     public static void addForbiddenSpawningCoord(final Level dim, final ForbidRegion region, final ForbidReason reason)
@@ -416,15 +415,23 @@ public final class SpawnHandler
         return i >> 16;
     }
 
+
     public static Vector3 getRandomPointNear(final ServerLevel world, final Vector3 pos, final int range,
             SpawnEvent.SpawnSurface surfaceMatch)
     {
+        return getRandomPointNear(world, pos, range, surfaceMatch, true, 0);
+    }
+
+    public static Vector3 getRandomPointNear(final ServerLevel world, final Vector3 pos, final int range,
+            SpawnEvent.SpawnSurface surfaceMatch, boolean chunkRNG, int rngOffset)
+    {
         // Lets try a few times
         int n = 16;
-        SectionPos spos = SectionPos.of(pos.getPos());
         // This is used for spawn coordinate itself, so can use game tick instead of day time
-        long seed = getSeed(spos, world, Tracker.instance().getTick() * TIME_SEED_FACTOR);
+        long seed = getSeed(chunkRNG ? SectionPos.of(pos.getPos()) : pos.getPos(), world,
+                Tracker.instance().getTick() * TIME_SEED_FACTOR);
         var rng = new LegacyRandomSource(seed);
+        rng.consumeCount(rngOffset);
         while (n-- > 0)
         {
             int dx = rng.nextInt(range);
@@ -668,12 +675,12 @@ public final class SpawnHandler
                 }
     }
 
-    public static boolean removeForbiddenSpawningCoord(final BlockPos pos, final Level world)
+    public static void removeForbiddenSpawningCoord(final BlockPos pos, final Level world)
     {
-        if (world == null) return false;
+        if (world == null) return;
         final Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.get(world.dimension());
-        if (entries == null) return false;
-        return entries.remove(pos) != null;
+        if (entries == null) return;
+        entries.remove(pos);
     }
 
     public JEP parser = new JEP();
@@ -794,7 +801,7 @@ public final class SpawnHandler
         final int spawnNumber = entry.getMin(record) + rand.nextInt(n);
         for (int i = 0; i < spawnNumber; i++)
         {
-            final Vector3 dr = SpawnHandler.getRandomPointNear(level, loc, distGroupZone, context.surface());
+            final Vector3 dr = SpawnHandler.getRandomPointNear(level, loc, distGroupZone, context.surface(), false, i);
             if (dr != null) point.set(dr);
             else point.set(loc);
 
