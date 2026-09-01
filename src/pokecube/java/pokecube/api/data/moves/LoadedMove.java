@@ -5,6 +5,7 @@ import pokecube.api.moves.utils.MoveApplication.AccuracyProvider;
 import pokecube.api.moves.utils.MoveApplication.DamageApplier;
 import pokecube.api.moves.utils.MoveApplication.HealProvider;
 import pokecube.api.moves.utils.MoveApplication.LastMoveEffect;
+import pokecube.api.moves.utils.MoveApplication.BlockCondition;
 import pokecube.api.moves.utils.MoveApplication.OnMoveFail;
 import pokecube.api.moves.utils.MoveApplication.OngoingApplier;
 import pokecube.api.moves.utils.MoveApplication.PostMoveUse;
@@ -33,6 +34,7 @@ public class LoadedMove implements IMove
     public OngoingApplier applyOngoing = null;
     public PostMoveUse afterUse = null;
     public LastMoveEffect lastMoveEffects = null;
+    public BlockCondition blockCondition = null;
     public OnMoveFail onFail = null;
 
     @Override
@@ -97,6 +99,9 @@ public class LoadedMove implements IMove
 
     @Override
     public LastMoveEffect getLastMoveEffect(MoveApplication t) { return lastMoveEffects; }
+
+    @Override
+    public BlockCondition getBlockCondition(MoveApplication t) { return blockCondition; }
 
     @Override
     public OnMoveFail getOnFail(MoveApplication t)
