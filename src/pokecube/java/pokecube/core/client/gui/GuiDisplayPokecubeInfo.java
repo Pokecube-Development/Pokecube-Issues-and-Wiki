@@ -58,7 +58,6 @@ import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,15 +117,15 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics
                 new MoveIndexHandler((byte) moveIndex).setFromOwner(true));
     }
 
-    private static final IPokemob[] EMPTY = new IPokemob[0];
+    private static final List<IPokemob> EMPTY = new ArrayList<>();
 
     protected Font fontRenderer;
 
     protected Minecraft minecraft;
 
-    IPokemob[] pokemobsCache = new IPokemob[0];
+    List<IPokemob> pokemobsCache = new ArrayList<>();
 
-    int refreshCounter = 0;
+    long refreshCounter = 0;
 
     public int indexPokemob = 0;
 
@@ -146,13 +145,13 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics
     protected void render(GuiGraphics graphics, DeltaTracker deltaTracker)
     {
         ThutCore.FORGE_BUS.post(new GuiEvent.RenderMoveMessages(graphics, deltaTracker));
-        if (this.indexPokemob > this.getPokemobsToDisplay().length)
+        if (this.indexPokemob > this.getPokemobsToDisplay().size())
         {
             this.refreshCounter = 0;
             this.indexPokemob = 0;
             this.pokemobsCache = this.getPokemobsToDisplay();
         }
-        if (this.indexPokemob >= this.getPokemobsToDisplay().length) this.indexPokemob = 0;
+        if (this.indexPokemob >= this.getPokemobsToDisplay().size()) this.indexPokemob = 0;
         if (this.fontRenderer == null) this.fontRenderer = this.minecraft.font;
 
         if (Minecraft.getInstance().screen instanceof ChatScreen)
@@ -176,19 +175,18 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics
     public IPokemob getCurrentPokemob()
     {
         IPokemob pokemob = null;
-        if (this.indexPokemob < this.pokemobsCache.length && this.indexPokemob >= 0 && this.pokemobsCache.length > 0)
-            pokemob = this.pokemobsCache[this.indexPokemob];
+        if (this.indexPokemob < this.pokemobsCache.size() && this.indexPokemob >= 0)
+            pokemob = this.pokemobsCache.get(this.indexPokemob);
         return pokemob;
     }
 
-    public IPokemob[] getPokemobsToDisplay()
+    public List<IPokemob> getPokemobsToDisplay()
     {
-        if (this.refreshCounter++ > 5) this.refreshCounter = 0;
-        if (this.refreshCounter > 0) return this.pokemobsCache;
-
+        if (this.refreshCounter > System.currentTimeMillis()) return this.pokemobsCache;
+        this.refreshCounter = System.currentTimeMillis() + 250; // 250ms delay here
         final Player player = this.minecraft.player;
 
-        if (player == null || player.level == null) return GuiDisplayPokecubeInfo.EMPTY;
+        if (player == null) return GuiDisplayPokecubeInfo.EMPTY;
 
         final List<IPokemob> pokemobs = EventsHandlerClient.getPokemobs(player, 96);
         final List<IPokemob> ret = new ArrayList<>();
@@ -199,12 +197,10 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics
             if (owner && !pokemob.getLogicState(LogicStates.SITTING) && !pokemob.getGeneralState(GeneralStates.STAYING))
                 ret.add(pokemob);
         }
-        if (this.pokemobsCache.length != ret.size()) this.pokemobsCache = ret.toArray(new IPokemob[0]);
-        else this.pokemobsCache = ret.toArray(this.pokemobsCache);
-        Arrays.sort(this.pokemobsCache, (o1, o2) -> {
+        this.pokemobsCache = ret;
+        this.pokemobsCache.sort((o1, o2) -> {
             final Entity e1 = o1.getEntity();
             final Entity e2 = o2.getEntity();
-
             if (e1.tickCount == e2.tickCount)
             {
                 if (o2.getLevel() == o1.getLevel())
@@ -237,7 +233,7 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics
     public void nextPokemob()
     {
         this.indexPokemob++;
-        if (this.indexPokemob >= this.pokemobsCache.length) this.indexPokemob = 0;
+        if (this.indexPokemob >= this.pokemobsCache.size()) this.indexPokemob = 0;
     }
 
     public Predicate<Entity> getAttackSelector()
@@ -290,20 +286,17 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics
                 && selector.test(Minecraft.getInstance().crosshairPickEntity))
             target = Minecraft.getInstance().crosshairPickEntity;
         final Vector3 targetLocation = Tools.getPointedLocation(player, 32);
-        if (pokemob != null)
+        if (pokemob.getMove(pokemob.getMoveIndex()) == null) return;
+        if (pokemob.getMove(pokemob.getMoveIndex()).equalsIgnoreCase(IMoveNames.MOVE_TELEPORT))
         {
-            if (pokemob.getMove(pokemob.getMoveIndex()) == null) return;
-            if (pokemob.getMove(pokemob.getMoveIndex()).equalsIgnoreCase(IMoveNames.MOVE_TELEPORT))
+            if (!GuiTeleport.instance().getState())
             {
-                if (!GuiTeleport.instance().getState())
-                {
-                    GuiTeleport.instance().setState(true);
-                    return;
-                }
-                GuiTeleport.instance().setState(false);
-                PacketCommand.sendCommand(pokemob, Command.TELEPORT, new TeleportHandler().setFromOwner(true));
+                GuiTeleport.instance().setState(true);
                 return;
             }
+            GuiTeleport.instance().setState(false);
+            PacketCommand.sendCommand(pokemob, Command.TELEPORT, new TeleportHandler().setFromOwner(true));
+            return;
         }
         if ((target instanceof LivingEntity || target instanceof PartEntity<?>)) PacketCommand
                 .sendCommand(pokemob, Command.ATTACKENTITY, new AttackEntityHandler(target.getId()).setFromOwner(true));
@@ -335,7 +328,8 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics
             if (targetMob != null && player.getUUID().equals(targetMob.getOwnerId())) targetMob.onRecall();
         }
 
-        if (this.indexPokemob >= this.pokemobsCache.length) this.indexPokemob--;
+        this.refreshCounter = 0; // Reset this to mark an immediate list update
+        if (this.indexPokemob >= this.pokemobsCache.size()) this.indexPokemob--;
         if (this.indexPokemob < 0) this.indexPokemob = 0;
     }
 
@@ -400,7 +394,7 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics
     public void previousPokemob()
     {
         this.indexPokemob--;
-        if (this.indexPokemob < 0) this.indexPokemob = this.pokemobsCache.length - 1;
+        if (this.indexPokemob < 0) this.indexPokemob = this.pokemobsCache.size() - 1;
     }
 
     public void saveConfig()

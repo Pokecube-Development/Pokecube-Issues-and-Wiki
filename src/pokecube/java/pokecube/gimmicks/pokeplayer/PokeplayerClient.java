@@ -13,6 +13,8 @@ import pokecube.core.client.gui.GuiDisplayPokecubeInfo;
 import pokecube.core.client.gui.components.OutMobInfo;
 import thut.api.ThutCaps;
 
+import java.util.List;
+
 @EventBusSubscriber(modid = PokecubeCore.MODID, value = Dist.CLIENT)
 public class PokeplayerClient
 {
@@ -21,10 +23,8 @@ public class PokeplayerClient
         @Override
         protected IPokemob getMob()
         {
-            var copy = ThutCaps.getCopyMob(Minecraft.getInstance().player);
-            if (copy == null) return super.getMob();
-            var mob = PokemobCaps.getPokemobFor(copy.getCopiedMob());
-            return mob == null ? super.getMob() : mob;
+            // This now no longer does anything special, but is kept here as an API reference
+            return super.getMob();
         }
     }
 
@@ -34,6 +34,7 @@ public class PokeplayerClient
         {
             super();
             // We will only make this adjustment if some other addon hasn't adjusted it
+            // This now no longer does anything special, but is kept here as an API reference
             if (outMobRenderer.getClass() == OutMobInfo.class)
             {
                 var handler = new PokePlayerComponent();
@@ -47,18 +48,24 @@ public class PokeplayerClient
         }
 
         @Override
-        public IPokemob getCurrentPokemob()
+        public List<IPokemob> getPokemobsToDisplay()
         {
+            var list = super.getPokemobsToDisplay();
             var copy = ThutCaps.getCopyMob(Minecraft.getInstance().player);
-            if (copy == null) return super.getCurrentPokemob();
+            if (copy == null) return list;
             var mob = PokemobCaps.getPokemobFor(copy.getCopiedMob());
-            return mob == null ? super.getCurrentPokemob() : mob;
-        }
-
-        @Override
-        public IPokemob[] getPokemobsToDisplay()
-        {
-            // TODO maybe adjust this?
+            if (mob != null && !list.contains(mob))
+            {
+                // Remove any previous instances of us, this occurs because of the "markDirty" in Pokeplayer
+                // resulting in the IPokemob instance being replaced with the one synced from the server
+                for(var _mob: list)
+                    if(_mob.getEntity().getId()==mob.getEntity().getId())
+                    {
+                        list.remove(_mob);
+                        break;
+                    }
+                list.addFirst(mob);
+            }
             return super.getPokemobsToDisplay();
         }
     }

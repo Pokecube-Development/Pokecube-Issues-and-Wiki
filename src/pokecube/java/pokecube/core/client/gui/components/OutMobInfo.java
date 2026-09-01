@@ -158,7 +158,7 @@ public class OutMobInfo extends GuiEventComponent
             // Draw number of pokemon
             RenderSystem.enableBlend();
             var info = GuiDisplayPokecubeInfo.instance();
-            int n = info.getPokemobsToDisplay().length;
+            int n = info.getPokemobsToDisplay().size();
             int n2 = info.indexPokemob + 1;
             String txt = n == 1 ? n + "" : n2 + "/" + n;
             int num = gui.getFont().width(txt);
