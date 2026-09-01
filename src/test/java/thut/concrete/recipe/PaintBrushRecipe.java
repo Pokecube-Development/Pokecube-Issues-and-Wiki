@@ -34,7 +34,7 @@ public class PaintBrushRecipe extends CustomRecipe
         return () -> new SimpleCraftingRecipeSerializer<>(create);
     }
 
-    private static Map<DyeColor, TagKey<Item>> DYETAGS = Maps.newHashMap();
+    private static final Map<DyeColor, TagKey<Item>> DYETAGS = Maps.newHashMap();
 
     public static Map<DyeColor, TagKey<Item>> getDyeTagMap()
     {
@@ -105,8 +105,7 @@ public class PaintBrushRecipe extends CustomRecipe
             break;
         }
         if (dyeColour == null) return ItemStack.EMPTY;
-        ItemStack brush = new ItemStack(Concrete.BRUSHES[dyeColour.ordinal()].get());
-        return brush;
+        return new ItemStack(Concrete.BRUSHES[dyeColour.ordinal()].get());
     }
 
     @Override
@@ -124,7 +123,7 @@ public class PaintBrushRecipe extends CustomRecipe
     @Override
     public NonNullList<ItemStack> getRemainingItems(final CraftingInput inv)
     {
-        final NonNullList<ItemStack> nonnulllist = NonNullList.<ItemStack>withSize(inv.size(),
+        final NonNullList<ItemStack> nonnulllist = NonNullList.withSize(inv.size(),
                 ItemStack.EMPTY);
         for (int i = 0; i < nonnulllist.size(); ++i)
         {

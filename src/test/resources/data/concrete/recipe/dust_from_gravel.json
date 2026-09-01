@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 25,
+  "experience": 0.1,
+  "group": "concrete:lime",
+  "ingredient": {
+    "item": "minecraft:gravel"
+  },
+  "result": {
+    "id": "concrete:dust",
+    "count": 4
+  }
+}

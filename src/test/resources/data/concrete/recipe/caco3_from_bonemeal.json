@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 25,
+  "experience": 0.1,
+  "group": "concrete:lime",
+  "ingredient": {
+    "item": "minecraft:bone_meal"
+  },
+  "result": {
+    "id": "concrete:dust_caco3"
+  }
+}
