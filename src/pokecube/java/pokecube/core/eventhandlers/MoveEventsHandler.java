@@ -21,6 +21,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.neoforge.common.util.TriState;
+import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.abilities.Ability;
@@ -59,7 +60,6 @@ import pokecube.core.moves.world.DefaultIceAction;
 import pokecube.core.moves.world.DefaultWaterAction;
 import pokecube.core.recipes.MoveRecipe;
 import pokecube.core.utils.Permissions;
-import thut.api.entity.event.BreakTestEvent;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.commands.CommandTools;
@@ -144,11 +144,13 @@ public class MoveEventsHandler
             return false;
         }
         final Player player = (Player) owner;
-        if (!BreakTestEvent.testBreak(player.level(), location.getPos(), location.getBlockState(player.level()),
-                player))
+        var event = new BlockEvent.BreakEvent(player.level(), location.getPos(), location.getBlockState(player.level()), player);
+        ThutCore.FORGE_BUS.post(event);
+        if (event.isCanceled())
         {
             final MutableComponent message = Component.translatable("pokemob.createbase.deny.noperms");
-            if (!user.inCombat() && denyMessage) thut.lib.ChatHelper.sendSystemMessage(player, message);
+            if (!user.inCombat() && denyMessage && move.contains("secret-power"))
+                thut.lib.ChatHelper.sendSystemMessage(player, message);
             return false;
         }
         return true;

@@ -24,7 +24,7 @@ public class BreakTestEvent extends BreakEvent
         {
             var event = new BreakTestEvent(world, pos, state, player);
             ThutCore.FORGE_BUS.post(event);
-            return !event.wasPreCancelled();
+            return !event.wasPreCancelled() && !event.isCanceled();
         }
         catch (Exception e)
         {
@@ -42,7 +42,6 @@ public class BreakTestEvent extends BreakEvent
     private static void handleCancel(BreakTestEvent event)
     {
         if (event.isCanceled()) event.setPreCancelled();
-        event.setCanceled(true);
     }
 
     private boolean preCancelled = false;
