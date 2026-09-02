@@ -53,8 +53,8 @@ public abstract class PokemobMoves extends PokemobStats
         if (attack == IMoveConstants.MOVE_NONE || attack == null) return;
 
         // If no target location selected, set it accordingly.
-        if (targetLocation == null) if (target != null) targetLocation = new Vector3().set(target);
-        else targetLocation = new Vector3().set(this.getEntity());
+        if (targetLocation == null && target != null) targetLocation = new Vector3().set(target);
+        else if (targetLocation == null) targetLocation = new Vector3().set(this.getEntity());
 
         // If all moves are disabled, use struggle instead.
         final int index = this.getMoveIndex();

@@ -55,8 +55,8 @@ public class UseMoves extends UtilBehaviour implements IMoveUseAI
         boolean checkRange = false;
 
         IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
-        var pos = BrainUtils.getMoveUseTarget(entity);
-        Vector3 destination = new Vector3(pos.currentPosition());
+        var pos = BrainUtils.getMoveUseTarget(entity).currentPosition();
+        Vector3 destination = new Vector3(pos);
         final MoveEntry move = pokemob.getSelectedMove();
 
         if (!running)

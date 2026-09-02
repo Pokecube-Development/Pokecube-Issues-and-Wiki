@@ -102,7 +102,7 @@ public class BrainUtils extends BrainUtil
 
     public static void setMoveUseTarget(final LivingEntity mobIn, final Vector3 pos)
     {
-        BrainUtils.setMoveUseTarget(mobIn, new VectorPosWrapper(pos));
+        BrainUtils.setMoveUseTarget(mobIn, new VectorPosWrapper(new Vector3(pos)));
     }
 
     public static void setMoveUseTarget(final LivingEntity mobIn, final PositionTracker pos)

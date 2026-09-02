@@ -699,7 +699,7 @@ public class MovesUtils implements IMoveConstants
                 {
                     if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, move, target)).isCanceled())
                         break apply_test;
-                    if (mob != target) end.set(mob);
+                    if (mob != target && target != null) end.set(mob);
                     final EntityMoveUse moveUse = EntityMoveUse.create(level, apply, end);
                     MoveQueuer.queueMove(moveUse);
                     did = true;

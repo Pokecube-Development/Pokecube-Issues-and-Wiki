@@ -88,6 +88,9 @@ public class EntityMoveUse extends ThrowableProjectile
 
     Vector3 end = new Vector3();
     Vector3 start = new Vector3();
+    // This is the originally set endpoint,
+    // not adjusted like end is for self moves
+    Vector3 finalApply = new Vector3(Double.NaN);
 
     Vector3 here = new Vector3();
     Vector3 prev = new Vector3();
@@ -289,7 +292,7 @@ public class EntityMoveUse extends ThrowableProjectile
                 this.finished = true;
                 // We only apply this to do block effects, not for damage. For
                 // damage. we use the call above to doMoveUse(entity)
-                this.getMove().doWorldAction(userMob, this.end, this.dir);
+                this.getMove().doWorldAction(userMob, this.finalApply, this.dir);
                 this.discard();
             }
         }
@@ -310,6 +313,7 @@ public class EntityMoveUse extends ThrowableProjectile
         this.end.x = this.getEntityData().get(EntityMoveUse.ENDX);
         this.end.y = this.getEntityData().get(EntityMoveUse.ENDY);
         this.end.z = this.getEntityData().get(EntityMoveUse.ENDZ);
+        if (this.finalApply.isNaN()) this.finalApply.set(this.end);
         return this.end;
     }
 
@@ -412,6 +416,7 @@ public class EntityMoveUse extends ThrowableProjectile
     public EntityMoveUse setEnd(final Vector3 location)
     {
         this.end.set(location);
+        this.finalApply.set(location);
         this.getEntityData().set(EntityMoveUse.ENDX, (float) this.end.x);
         this.getEntityData().set(EntityMoveUse.ENDY, (float) this.end.y);
         this.getEntityData().set(EntityMoveUse.ENDZ, (float) this.end.z);
@@ -614,7 +619,7 @@ public class EntityMoveUse extends ThrowableProjectile
                 this.finished = true;
                 // We only apply this to do block effects, not for damage. For
                 // damage. we use the call above to doMoveUse(entity)
-                this.getMove().doWorldAction(userMob, this.end, this.dir);
+                this.getMove().doWorldAction(userMob, this.finalApply, this.dir);
             }
         }
 
