@@ -61,7 +61,7 @@ public abstract class BaseBattleTask extends BaseTask
             {
                 other.onSetTarget(owner, true);
                 var mob = other.getOutMob();
-                if (mob != null && mob.getEntity().isAddedToLevel()) target = mob.getEntity();
+                if (mob != null && mob.getTrackedEntity().isAddedToLevel()) target = mob.getTrackedEntity();
             }
         }
         return target;

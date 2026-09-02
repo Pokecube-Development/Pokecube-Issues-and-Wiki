@@ -425,7 +425,7 @@ public class PokedexEntry
         public boolean applyInteraction(final Player player, InteractionHand hand, final IPokemob pokemob,
                 final boolean consumeInput)
         {
-            final Mob entity = pokemob.getEntity();
+            var entity = pokemob.getTrackedEntity();
             final ItemStack held = player.getItemInHand(hand);
             final CompoundTag data = entity.getPersistentData();
             final Interaction action = this.getFor(held);
@@ -434,12 +434,11 @@ public class PokedexEntry
             {
                 final LootTable loottable = level.getServer().reloadableRegistries().getLootTable(action.lootTable);
                 // Forge lets us stuff in a bunch of random params and not crash, so stuff all that are valid
-                LootParams params = new LootParams.Builder(level).withParameter(LootContextParams.THIS_ENTITY,
-                                pokemob.getEntity())
+                LootParams params = new LootParams.Builder(level).withParameter(LootContextParams.THIS_ENTITY, entity)
                         // Add generic damage source for entity loot tables
                         .withParameter(LootContextParams.DAMAGE_SOURCE, player.damageSources().generic())
                         // Add position for entity loot tables
-                        .withParameter(LootContextParams.ORIGIN, pokemob.getEntity().position())
+                        .withParameter(LootContextParams.ORIGIN, entity.position())
                         // Now some player specific params
                         .withParameter(LootContextParams.ATTACKING_ENTITY, player)
                         .withParameter(LootContextParams.DIRECT_ATTACKING_ENTITY, player)
@@ -479,7 +478,7 @@ public class PokedexEntry
 
         boolean interact(final Player player, InteractionHand hand, final IPokemob pokemob, final boolean doInteract)
         {
-            final Mob entity = pokemob.getEntity();
+            var entity = pokemob.getTrackedEntity();
             final ItemStack held = player.getItemInHand(hand);
             final Interaction action = this.getFor(held);
             if (action == null || action.stacks.isEmpty())

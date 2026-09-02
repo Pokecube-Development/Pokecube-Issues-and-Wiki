@@ -35,7 +35,6 @@ import pokecube.core.utils.EntityTools;
 import thut.api.entity.genetics.Alleles;
 import thut.api.item.ItemList;
 import thut.core.common.ThutCore;
-import thut.core.common.network.EntityUpdate;
 
 public interface ICanEvolve extends IHasEntry, IHasOwner
 {
@@ -47,8 +46,8 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
     default void cancelEvolve()
     {
         if (!this.isEvolving()) return;
-        final LivingEntity entity = this.getEntity();
-        if (this.getEntity().level().isClientSide)
+        var entity = this.getTrackedEntity();
+        if (entity.level().isClientSide)
         {
             final MessageServer message = new MessageServer(MessageServer.CANCELEVOLVE, entity.getId());
             PokecubeCore.packets.sendToServer(message);
@@ -96,7 +95,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
      */
     default boolean evolve(final boolean delayed, final ItemStack stack)
     {
-        final LivingEntity thisEntity = this.getEntity();
+        var thisEntity = this.getTrackedEntity();
         final IPokemob thisMob = (IPokemob) this;
         if (thisEntity == null) return false;
         // Do not evolve can't evolve.
@@ -207,7 +206,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
      */
     default void levelUp(final int level)
     {
-        final LivingEntity theEntity = this.getEntity();
+        var theEntity = this.getTrackedEntity();
         final IPokemob theMob = (IPokemob) this;
         final List<String> moves = Database.getLevelUpMoves(theMob.getPokedexEntry(), level,
                 theMob.getMoveStats().oldLevel);
@@ -242,7 +241,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                     theMob.displayMessageToOwner(mess);
                     theMob.getMoveStats().addPendingMove(s, theMob);
                 }
-                if(this.getEntity().isAddedToLevel()) EntityUpdate.sendEntityUpdate(this.getEntity());
+                ((IPokemob) this).markDirty();
                 return;
             }
         }
@@ -251,7 +250,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
 
     default boolean changeForm(final PokedexEntry newEntry)
     {
-        if (this.getEntity().level() instanceof ServerLevel level)
+        if (this.getTrackedEntity().level() instanceof ServerLevel level)
             return this.changeForm(newEntry, !level.isHandlingTick(), false);
         return this.changeForm(newEntry, true, false);
     }

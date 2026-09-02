@@ -33,7 +33,6 @@ public class ManagePokemobTarget extends BaseBattleTask
         final IPokemob mob = this.getTrainer(owner).getOutMob();
 
         if (mob == null || target == null) return;
-        LivingEntity ourMob = mob.getEntity();
 
         Battle ourBattle = Battle.getBattle(owner);
         Battle battle = mob.getBattle();
@@ -48,7 +47,7 @@ public class ManagePokemobTarget extends BaseBattleTask
             {
                 List<LivingEntity> mobs = Lists.newArrayList(battle.getEnemies(owner));
                 // Ensure that the mobs are valid targets.
-                mobs.removeIf(t2 -> !AITools.shouldBeAbleToAgro(ourMob, t2));
+                mobs.removeIf(t2 -> !AITools.shouldBeAbleToAgro(mob.getEntity(), t2));
                 for (int i = 0; i < mobs.size(); i++)
                 {
                     enemy = mobs.get(i);
@@ -65,7 +64,7 @@ public class ManagePokemobTarget extends BaseBattleTask
                 var enemyTarget = BrainUtils.getAttackTarget(enemy);
                 if (enemyTarget == owner)
                 {
-                    BrainUtils.setAttackTarget(enemy, ourMob);
+                    BrainUtils.setAttackTarget(enemy, mob.getTrackedEntity());
                     var enemyPokemob = PokemobCaps.getPokemobFor(enemy);
                     if (enemyPokemob != null)
                     {

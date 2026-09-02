@@ -10,10 +10,19 @@ import thut.api.entity.IBreedingMob;
 
 public interface IHasEntry extends IHasMobAIStates
 {
-    /** @return the minecraft entity associated with this pokemob */
+    /**
+     * This entitiy should be used for and brain related checks
+     * <br>
+     * @return the minecraft entity associated with this pokemob
+     * */
     Mob getEntity();
 
-    /** @return The world trackable entity associated with this pokemob, can be same as getEntity() */
+    /**
+     * This entity should be used for any damage related checks, or things like
+     * looking up where the mob is in world, etc.
+     * <br>
+     * @return The world trackable entity associated with this pokemob, can be same as getEntity()
+     */
     default LivingEntity getTrackedEntity()
     {
         return this.getEntity();

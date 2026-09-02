@@ -22,11 +22,9 @@ import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.Nullable;
 import org.nfunk.jep.JEP;
-import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.siphon.SiphonTickEvent;
 import pokecube.adventures.blocks.siphon.SiphonTile;
-import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -382,7 +380,7 @@ public class EnergyHandler
             // Not electric type, no energy to extract.
             if (!pokemob.isType(PokeType.getType("electric"))) return 0;
 
-            final Mob living = pokemob.getEntity();
+            var living = pokemob.getTrackedEntity();
             // We will update our energy when this is called, as that
             if (Tracker.instance().getTick() != this.lastTickCheck)
             {

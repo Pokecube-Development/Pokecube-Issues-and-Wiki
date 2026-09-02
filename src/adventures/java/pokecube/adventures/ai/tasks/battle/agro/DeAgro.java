@@ -78,7 +78,7 @@ public class DeAgro extends BaseBattleTask
             if (other.getOutID() != null)
             {
                 final IPokemob outMob = other.getOutMob();
-                if (outMob != null && !outMob.getEntity().isAlive())
+                if (outMob != null && !outMob.getTrackedEntity().isAlive())
                 {
                     other.setOutID(null);
                     other.setOutMob(null);
