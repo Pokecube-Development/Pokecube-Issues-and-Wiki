@@ -502,14 +502,6 @@ public class EventsHandler
             ThutCaps.getDataSync(living);
             ThutCaps.getGenetics(living);
             ThutCaps.getCopyMob(living);
-            var ownable = ThutCaps.getOwnable(living);
-
-            // Ensure this is setup.
-            if (ownable == null)
-            {
-                living.getData(Ownable.TYPE.get());
-            }
-
             // Texture
             living.getData(IMobTexturable.Defaults.TYPE);
             // IPokemob
@@ -520,6 +512,15 @@ public class EventsHandler
     private static void onMobJoinWorld(final EntityJoinLevelEvent evt)
     {
         var entity = evt.getEntity();
+        if (entity instanceof EntityPokemob)
+        {
+            var ownable = ThutCaps.getOwnable(entity);
+            // Ensure this is setup.
+            if (ownable == null)
+            {
+                entity.getData(Ownable.TYPE.get());
+            }
+        }
         if (PokecubeCore.getConfig().disableVanillaMonsters && EventsHandler.MONSTERMATCHER.test(entity))
         {
             entity.discard();
@@ -593,9 +594,7 @@ public class EventsHandler
             final FaintEvent event = new FaintEvent(pokemob);
             PokecubeAPI.POKEMOB_BUS.post(event);
             TriState res = event.getResult();
-            boolean despawn = isTamed
-                    ? PokecubeCore.getConfig().tameDeadDespawn
-                    : PokecubeCore.getConfig().wildDeadDespawn;
+            boolean despawn = PokecubeCore.getConfig().tameDeadDespawn;
             despawn = res == TriState.DEFAULT ? despawn : res == TriState.TRUE;
             if (despawn)
             {
