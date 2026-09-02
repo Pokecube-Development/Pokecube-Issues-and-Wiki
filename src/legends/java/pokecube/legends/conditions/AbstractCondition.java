@@ -249,9 +249,9 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     }
 
     // Basic Legend
-    public MutableComponent sendLegend(final Entity trainer, final String type, final int numA, final int numB)
+    public MutableComponent sendLegend(String type, int numA, int numB, boolean capture)
     {
-        final String message = "msg.infolegend.info";
+        final String message = capture?"msg.infolegend.info":"msg.infolegend.kill.info";
         final Component typeMess = Component.translatable(PokeType.getUnlocalizedName(PokeType.getType(type)));
         return Component.translatableEscape(message, typeMess, numA + 1, numB);
     }

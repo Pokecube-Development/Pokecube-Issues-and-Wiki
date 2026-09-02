@@ -55,7 +55,7 @@ public abstract class AbstractTypedCondition extends AbstractCondition
         int count1 = capture ? this.caughtNumber(trainer, this.type) : this.killedNumber(trainer, this.type);
         final int count2 = this.spawnNumber(this.type);
         return this.sendNoTrust(trainer).append("\n")
-                .append(this.sendLegend(trainer, this.type.name, (int) (count2 * this.threshold), count1));
+                .append(this.sendLegend(this.type.name, (int) (count2 * this.threshold), count1, this.capture));
     }
 
 }

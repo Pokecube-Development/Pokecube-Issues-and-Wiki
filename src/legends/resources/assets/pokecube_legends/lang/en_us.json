@@ -99,11 +99,12 @@
     "item.pokecube.rocketcube.desc": "§7A modified pokécube used by Team Rocket.",
 
     "_comment4": "Raid Alerts",
-    "raid.nocube.info": "§l§cYou cannot capture Raid pokemobs with simple pokécubes!",
+    "raid.nocube.info": "§l§cYou cannot capture Raid Pokémobs with simple pokécubes!",
     "raid.lifelevel.info": "§l§cIt's too strong to stay in the pokécube!",
 
     "_comment5": "Pokemob Legendary Capture Alerts",
-    "msg.infolegend.info": "§aCapture [%1$s§a] Type Pokémobs so he can Trust You. Needs: %2$s, §aOwn: %3$s.",
+    "msg.infolegend.info": "§aCapture [%1$s§a] Type Pokémobs so it will trust you. Needs: %2$s, §aOwned: %3$s.",
+    "msg.infolegend.kill.info": "§aKill [%1$s§a] Type Pokémobs so it will trust you. Needs: %2$s, §aKilled: %3$s.",
     "msg.infolegendduo.info": "§aCapture [%1$s§a] Type Pokémobs, and Kill [%2$s§a] Type Pokémobs. Needs: %3$s, §aOwn: %4$s. §aNeeds Kill: %5$s, §aKilled: %6$s.",
     "msg.infolegendextra.info": "§aGet [%1$s§a] to Catch this Pokémob.",
     "msg.nohere.info": "§c[§a%1$s§c] does not spawn in this location",
