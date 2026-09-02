@@ -23,7 +23,7 @@ public class Rest implements HealProvider
 
         attacker.healStatus();
         attacker.healChanges();
-        attacker.getEntity().heal(attacker.getEntity().getMaxHealth() - attacker.getEntity().getHealth());
+        packet.getUserEntity().heal(attacker.getEntity().getMaxHealth() - attacker.getEntity().getHealth());
         MovesUtils.sendPairedMessages(attacker.getEntity(), target, "pokemob.move.hprestore");
         StatusEffects.setStatus(attacker.getEntity(), attacker.getEntity(), StatusEffects.SLEEP, 2, 1);
     }

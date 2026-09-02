@@ -14,7 +14,7 @@ public class IronBarbs extends Ability
     {
         if (move.getMove().isContact(move.getUser()))
         {
-            final LivingEntity entity = move.getUser().getEntity();
+            final LivingEntity entity = move.getUserEntity();
             final float maxHp = entity.getMaxHealth();
             // TODO message about recoil
             entity.hurt(entity.damageSources().magic(), 0.125f * maxHp);

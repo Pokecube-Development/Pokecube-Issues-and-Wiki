@@ -18,7 +18,9 @@ public class GuardSplit implements PostMoveUse
         MoveApplication packet = t.move();
         if (packet.canceled || packet.failed) return;
         IPokemob attacker = packet.getUser();
-        final IPokemob attacked = PokemobCaps.getPokemobFor(packet.getTarget());
+        var attackerE = packet.getUserEntity();
+        var attackedE = packet.getTarget();
+        final IPokemob attacked = PokemobCaps.getPokemobFor(attackedE);
         if (attacked != null)
         {
             final int spdef = attacker.getStat(Stats.SPDEFENSE, true);
@@ -30,21 +32,21 @@ public class GuardSplit implements PostMoveUse
             final int averageDef = (def + def2) / 2;
             final int averageSpdef = (spdef + spdef2) / 2;
 
-            var defModAtker = PokecubeAttributes.getModifierValue(attacker.getEntity(), Stats.DEFENSE)
-                    * PokecubeAttributes.getNatureModifier(attacker.getEntity(), Stats.DEFENSE);
-            var defModAtked = PokecubeAttributes.getModifierValue(attacked.getEntity(), Stats.DEFENSE)
-                    * PokecubeAttributes.getNatureModifier(attacked.getEntity(), Stats.DEFENSE);
+            var defModAtker = PokecubeAttributes.getModifierValue(attackerE, Stats.DEFENSE)
+                    * PokecubeAttributes.getNatureModifier(attackerE, Stats.DEFENSE);
+            var defModAtked = PokecubeAttributes.getModifierValue(attackedE, Stats.DEFENSE)
+                    * PokecubeAttributes.getNatureModifier(attackedE, Stats.DEFENSE);
 
-            var spdefModAtker = PokecubeAttributes.getModifierValue(attacker.getEntity(), Stats.SPDEFENSE)
-                    * PokecubeAttributes.getNatureModifier(attacker.getEntity(), Stats.SPDEFENSE);
-            var spdefModAtked = PokecubeAttributes.getModifierValue(attacked.getEntity(), Stats.SPDEFENSE)
-                    * PokecubeAttributes.getNatureModifier(attacked.getEntity(), Stats.SPDEFENSE);
+            var spdefModAtker = PokecubeAttributes.getModifierValue(attackerE, Stats.SPDEFENSE)
+                    * PokecubeAttributes.getNatureModifier(attackerE, Stats.SPDEFENSE);
+            var spdefModAtked = PokecubeAttributes.getModifierValue(attackedE, Stats.SPDEFENSE)
+                    * PokecubeAttributes.getNatureModifier(attackedE, Stats.SPDEFENSE);
 
-            PokecubeAttributes.setStat(attacker.getEntity(), Stats.DEFENSE, averageDef / defModAtker);
-            PokecubeAttributes.setStat(attacked.getEntity(), Stats.DEFENSE, averageDef / defModAtked);
+            PokecubeAttributes.setStat(attackerE, Stats.DEFENSE, averageDef / defModAtker);
+            PokecubeAttributes.setStat(attackedE, Stats.DEFENSE, averageDef / defModAtked);
 
-            PokecubeAttributes.setStat(attacker.getEntity(), Stats.SPDEFENSE, averageSpdef / spdefModAtker);
-            PokecubeAttributes.setStat(attacked.getEntity(), Stats.SPDEFENSE, averageSpdef / spdefModAtked);
+            PokecubeAttributes.setStat(attackerE, Stats.SPDEFENSE, averageSpdef / spdefModAtker);
+            PokecubeAttributes.setStat(attackedE, Stats.SPDEFENSE, averageSpdef / spdefModAtked);
         }
     }
 }

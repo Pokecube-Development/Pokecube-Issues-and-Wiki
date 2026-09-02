@@ -19,6 +19,7 @@ public class Swagger implements PostMoveUse
         if (packet.canceled || packet.failed) return;
 
         IPokemob attacker = packet.getUser();
+        var attackerE = packet.getUserEntity();
         final IPokemob target = PokemobCaps.getPokemobFor(packet.getTarget());
 
         if (target != null)
@@ -26,7 +27,7 @@ public class Swagger implements PostMoveUse
             packet.stat_effects[IPokemob.Stats.ATTACK.ordinal()] = 2;
 
             MovesUtils.displayStatsMessage(attacker, packet.getTarget(), 0, 1, (byte)2);
-            StatusEffects.setStatus(packet.getTarget(), attacker.getEntity(), StatusEffects.CONFUSE, attacker.getEntity().getRandom().nextInt(2, 6), 1);
+            StatusEffects.setStatus(packet.getTarget(), attackerE, StatusEffects.CONFUSE, attackerE.getRandom().nextInt(2, 6), 1);
             MovesUtils.displayStatusMessages(attacker, target.getEntity(), IMoveConstants.CHANGE_CONFUSED, false);
         }
     }

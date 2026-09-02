@@ -21,7 +21,7 @@ public class Synthesis implements HealProvider
         if (heal > 0)
         {
             heal = Math.min(max_hp - current_hp, heal);
-            if (heal > 0) moveAppl.getUser().getEntity().heal(heal);
+            if (heal > 0) moveAppl.getUserEntity().heal(heal);
         }
     }
 

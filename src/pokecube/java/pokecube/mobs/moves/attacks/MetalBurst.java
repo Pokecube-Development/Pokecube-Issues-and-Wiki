@@ -18,7 +18,7 @@ public class MetalBurst implements PostMoveUse
         if (t.move().canceled || t.move().failed) return;
         IPokemob user = t.move().getUser();
         LivingEntity target = t.move().getTarget();
-        final LivingEntity attacker = user.getEntity();
+        final LivingEntity attacker = t.move().getUserEntity();
         if (!user.getMoveStats().biding)
         {
             attacker.getPersistentData().putLong("bideTime",

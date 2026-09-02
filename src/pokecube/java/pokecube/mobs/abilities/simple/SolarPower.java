@@ -1,6 +1,5 @@
 package pokecube.mobs.abilities.simple;
 
-import net.minecraft.world.entity.Mob;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -17,7 +16,7 @@ public class SolarPower extends Ability
     // Apply 50% spA increase in the sun.
     public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
-        final TerrainSegment segment = TerrainManager.getInstance().getTerrainForEntity(mob.getEntity());
+        final TerrainSegment segment = TerrainManager.getInstance().getTerrainForEntity(move.getUserEntity());
         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemob_effects");
 
         if (!areWeUser(mob, move)) return;
@@ -34,9 +33,9 @@ public class SolarPower extends Ability
         // We can be target and user at the same time, if self move.
         if (areWeTarget(mob, move)) return;
 
-        final TerrainSegment segment = TerrainManager.getInstance().getTerrainForEntity(mob.getEntity());
+        final TerrainSegment segment = TerrainManager.getInstance().getTerrainForEntity(move.getUserEntity());
         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemob_effects");
-        final Mob user = mob.getEntity();
+        var user = move.getUserEntity();
 
         if (teffect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.SUN)) {
             user.hurt(user.damageSources().fall(), Math.min(user.getMaxHealth() / 8.0f, user.getHealth()));

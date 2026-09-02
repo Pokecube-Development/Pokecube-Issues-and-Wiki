@@ -36,6 +36,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.pokemobs.EvolveEvent;
+import pokecube.api.moves.Battle;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.idle.HungerTask;
@@ -86,6 +87,12 @@ public class Pokeplayer
 
         // Evolution
         PokecubeAPI.POKEMOB_BUS.addListener(Pokeplayer::onEvolve);
+
+
+        // Add a check to not remove pokeplayers
+        Battle.BATTLE_TESTS.add(testSet -> {
+            if (testSet.mob().getId() < 0) testSet.battle().markAsValid(testSet.mob());
+        });
     }
 
     private static final SimpleCommandExceptionType ERROR_FAILED = new SimpleCommandExceptionType(
@@ -363,7 +370,16 @@ public class Pokeplayer
 
     private static void updateFloating(final Player player, final IPokemob pokemob)
     {
-        if (pokemob == null || !pokemob.floats()) return;
+        if (pokemob == null || !pokemob.floats())
+        {
+            if(player.getPersistentData().getBoolean("pokeplayer:floating"))
+            {
+                player.setNoGravity(false);
+                player.getPersistentData().remove("pokeplayer:floating");
+            }
+            return;
+        }
+        player.getPersistentData().putBoolean("pokeplayer:floating", true);
         if (!player.isShiftKeyDown())
         {
             player.setNoGravity(false);

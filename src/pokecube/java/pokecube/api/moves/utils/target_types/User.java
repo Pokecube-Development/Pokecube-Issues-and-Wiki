@@ -9,6 +9,6 @@ public class User implements IMoveTargetter
     @Override
     public boolean test(MoveApplication move)
     {
-        return move.getTarget() == move.getUser().getEntity();
+        return move.getTarget() == move.getUserEntity();
     }
 }

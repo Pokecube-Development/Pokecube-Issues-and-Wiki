@@ -20,7 +20,7 @@ public class Mirrorcoat implements PostMoveUse
         MoveApplication packet = t.move();
         if (packet.canceled || packet.failed) return;
         IPokemob user = packet.getUser();
-        final LivingEntity attacker = user.getEntity();
+        final LivingEntity attacker = packet.getUserEntity();
         final LivingEntity attacked = packet.getTarget();
         if (!user.getMoveStats().biding)
         {

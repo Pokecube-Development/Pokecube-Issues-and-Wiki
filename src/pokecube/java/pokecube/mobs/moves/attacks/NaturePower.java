@@ -35,7 +35,7 @@ public class NaturePower implements PreProcessor
     {
         if (t.getTarget() == null) return;
         // check terrain effects first
-        var terrain = TerrainManager.getInstance().getTerrainForEntity(t.getUser().getEntity());
+        var terrain = TerrainManager.getInstance().getTerrainForEntity(t.getUserEntity());
         PokemobTerrainEffects effects = (PokemobTerrainEffects) terrain.geTerrainEffect("pokemob_effects");
         for (String s : ActionNaturePower.BY_TERRAIN.keySet())
         {
@@ -52,7 +52,7 @@ public class NaturePower implements PreProcessor
             }
         }
         // Next, if we got here, try by location
-        SpawnCheck checker = new SpawnCheck(new Vector3(t.getUser()), t.getUser().getEntity().level());
+        SpawnCheck checker = new SpawnCheck(new Vector3(t.getUser()), t.getUserEntity().level());
         for (var rule : ActionNaturePower.NATURE_RULES)
         {
             var matcher = SpawnBiomeMatcher.get(rule);

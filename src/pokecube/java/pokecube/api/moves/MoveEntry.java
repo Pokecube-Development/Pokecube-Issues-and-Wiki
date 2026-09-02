@@ -6,7 +6,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.moves.MoveApplicationRegistry;
@@ -46,8 +45,6 @@ public class MoveEntry implements IMoveConstants
 
     public static record MoveSounds(SoundEvent onSource, SoundEvent onTarget)
     {}
-
-    ;
 
     private static final HashMap<String, MoveEntry> movesNames = new HashMap<>();
     private static final HashMap<String, MoveEntry> legacyMoveNames = new HashMap<>();
@@ -321,9 +318,6 @@ public class MoveEntry implements IMoveConstants
 
     /**
      * User sensitive version of {@link Move_Base#getCategory()}
-     *
-     * @param user
-     * @return
      */
     public AttackCategory getCategory(final IPokemob user)
     {
@@ -359,7 +353,7 @@ public class MoveEntry implements IMoveConstants
 
     public void playSounds(MoveApplication application)
     {
-        Mob attacker = application.getUser().getEntity();
+        LivingEntity attacker = application.getUserEntity();
         LivingEntity attacked = application.getTarget();
 
         if (attacked == null) attacked = attacker;

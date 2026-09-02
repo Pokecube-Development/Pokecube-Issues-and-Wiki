@@ -18,7 +18,7 @@ public class Move_Ongoing implements Function<Damage, IOngoingEffect>
     @Override
     public IOngoingEffect apply(Damage t)
     {
-        return this.makeEffect(t.move().getUser().getEntity());
+        return this.makeEffect(t.move().getUserEntity());
     }
 
     protected float damageTarget(final LivingEntity mob, final LivingEntity user, final float damage)

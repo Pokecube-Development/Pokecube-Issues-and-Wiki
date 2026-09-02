@@ -225,8 +225,8 @@ public class MoveEventsHandler
         var moveApplication = event.context;
         var us = event.affected.getEntity();
         var them = moveApplication.getTarget();
-        if (them == us || them == null) them = moveApplication.getUser().getEntity();
-        if (them == null) return; // No target...
+        if (them == us || them == null) them = moveApplication.getUserEntity();
+        if (them == us) return; // No target...
         var battleA = event.affected.getBattle();
         var battleB = event.affected == moveApplication.getUser() ? battleA : Battle.getBattle(them);
 

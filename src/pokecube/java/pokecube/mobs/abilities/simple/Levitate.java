@@ -12,8 +12,8 @@ public class Levitate extends Ability
     @Override
     public int beforeDamage(IPokemob mob, MoveApplication move, int damage)
     {
-        boolean weAreTarget = mob.getEntity() == move.getTarget() && mob.getAbility() == this;
-        if (weAreTarget && move.getMove().getType(move.getUser()) == PokeType.getType("ground") && move.getTarget() == mob)
+        boolean weAreTarget = move.getUserEntity() == move.getTarget() && mob.getAbility() == this;
+        if (weAreTarget && move.getMove().getType(move.getUser()) == PokeType.getType("ground"))
             return 0;
         return super.beforeDamage(mob, move, damage);
     }

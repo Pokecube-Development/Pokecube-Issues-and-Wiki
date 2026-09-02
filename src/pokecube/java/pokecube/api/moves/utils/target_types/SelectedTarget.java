@@ -10,7 +10,7 @@ public class SelectedTarget implements IMoveTargetter
     @Override
     public boolean test(MoveApplication move)
     {
-        if (move.getTarget() == null || move.getTarget() == move.getUser().getEntity()) return false;
+        if (move.getTarget() == null || move.getTarget() == move.getUserEntity()) return false;
         boolean targetsAllyIfPossible = MoveApplicationRegistry.targetsAllyIfPossible(move);
         boolean valid = false;
         // Check if we target ally first, if so, then return true if the target
@@ -24,7 +24,7 @@ public class SelectedTarget implements IMoveTargetter
         if (!valid)
         {
             boolean noAllyTarget = move.getUser().getMoveStats().targetAlly == null
-                    || move.getUser().getMoveStats().targetAlly == move.getUser().getEntity();
+                    || move.getUser().getMoveStats().targetAlly == move.getUserEntity();
 
             // If if doesn't target allies, or there is no selected ally, then
             // let

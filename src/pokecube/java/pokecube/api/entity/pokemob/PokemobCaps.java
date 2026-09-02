@@ -30,6 +30,7 @@ import pokecube.api.items.IPokemobUseable;
 import pokecube.api.items.PokecubeContents;
 import pokecube.api.items.PokesealContents;
 import pokecube.core.utils.EntityTools;
+import thut.api.ThutCaps;
 import thut.api.attachments.Breedable;
 import thut.api.data.HolderProvider;
 import thut.api.entity.IBreedingMob;
@@ -82,7 +83,9 @@ public class PokemobCaps
         if (entityIn == null) return null;
         if (entityIn instanceof Entity entity) entityIn = EntityTools.getCoreEntity(entity);
         if (entityIn.hasData(POKEMOB)) return entityIn.getData(POKEMOB);
-        return null;
+        // Check if it is copying a pokemob
+        var copyMob = ThutCaps.getCopyMob(entityIn);
+        return copyMob == null ? null : getPokemobFor(copyMob.getCopiedMob());
     }
 
     public static IOngoingAffected getAffected(final IAttachmentHolder in)

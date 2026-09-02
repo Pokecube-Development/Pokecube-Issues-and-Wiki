@@ -1,7 +1,6 @@
 package pokecube.api.moves.utils;
 
 import com.google.common.collect.Sets;
-import com.jcraft.jorbis.Block;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
@@ -9,7 +8,6 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.npc.Npc;
 import net.minecraft.world.entity.player.Player;
@@ -33,6 +31,7 @@ import pokecube.core.moves.animations.AnimationMultiAnimations;
 import pokecube.core.moves.damage.sources.PokemobDamageSource;
 import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.utils.EntityTools;
+import thut.api.entity.EntityProvider;
 import thut.api.level.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
 
@@ -62,21 +61,21 @@ public class MoveApplication implements Comparable<MoveApplication>
         default boolean checkPreApply(MoveApplication t)
         {
             final IPokemob attackedMob = PokemobCaps.getPokemobFor(t.getTarget());
-            if (t.getUser().getEntity().hasEffect(StatusEffects.SLEEP))
+            if (t.getUserEntity().hasEffect(StatusEffects.SLEEP))
             {
-                MovesUtils.displayStatusMessages(attackedMob, t.getUser().getEntity(), IMoveConstants.STATUS_SLP,
+                MovesUtils.displayStatusMessages(attackedMob, t.getUserEntity(), IMoveConstants.STATUS_SLP,
                         false);
                 return false;
             }
-            if (t.getUser().getEntity().hasEffect(StatusEffects.FREEZE))
+            if (t.getUserEntity().hasEffect(StatusEffects.FREEZE))
             {
-                MovesUtils.displayStatusMessages(attackedMob, t.getUser().getEntity(), IMoveConstants.STATUS_FRZ,
+                MovesUtils.displayStatusMessages(attackedMob, t.getUserEntity(), IMoveConstants.STATUS_FRZ,
                         false);
                 return false;
             }
-            if (t.getUser().getEntity().hasEffect(StatusEffects.PARALYSIS) && Math.random() > 0.75)
+            if (t.getUserEntity().hasEffect(StatusEffects.PARALYSIS) && Math.random() > 0.75)
             {
-                MovesUtils.displayStatusMessages(attackedMob, t.getUser().getEntity(), IMoveConstants.STATUS_PAR,
+                MovesUtils.displayStatusMessages(attackedMob, t.getUserEntity(), IMoveConstants.STATUS_PAR,
                         false);
                 return false;
             }
@@ -259,7 +258,7 @@ public class MoveApplication implements Comparable<MoveApplication>
 
             boolean self = user == targetPokemob;
 
-            if (self && move.defrosts && targetPokemob != null && t.getUser().getEntity()
+            if (self && move.defrosts && targetPokemob != null && t.getUserEntity()
                     .hasEffect(StatusEffects.FREEZE)) targetPokemob.healStatus();
 
             if (finalAttackStrength > 0 && !target.isInvulnerable())
@@ -335,9 +334,9 @@ public class MoveApplication implements Comparable<MoveApplication>
                 t.didCrit = criticalRatio != 1;
             }
             if (efficiency == -1)
-                t.getUser().getEntity().getPersistentData().putBoolean("lastMoveMissed", true);
+                t.getUserEntity().getPersistentData().putBoolean("lastMoveMissed", true);
             else
-                t.getUser().getEntity().getPersistentData().remove("lastMoveMissed");
+                t.getUserEntity().getPersistentData().remove("lastMoveMissed");
 
             int afterHealth = 0;
             if (attackedHp != null) afterHealth = (int) attackedHp.getHealth();
@@ -412,19 +411,19 @@ public class MoveApplication implements Comparable<MoveApplication>
                         PokecubeAPI.LOGGER.info("Applying recoil healing for move {} of amount {}", t.move().getName(),
                                 recoil);
                     recoil = Math.min(recoil, moveAppl.getUser().getMaxHealth() - moveAppl.getUser().getHealth());
-                    if (recoil > 0) moveAppl.getUser().getEntity().heal(recoil);
-                    MovesUtils.sendPairedMessages(moveAppl.getUser().getEntity(), other, "pokemob.move.recoil.heal");
+                    if (recoil > 0) moveAppl.getUserEntity().heal(recoil);
+                    MovesUtils.sendPairedMessages(moveAppl.getUserEntity(), other, "pokemob.move.recoil.heal");
                 }
                 // Otherwise it damages as recoil.
                 else
                 {
-                    Mob entity = moveAppl.getUser().getEntity();
+                    var entity = moveAppl.getUserEntity();
                     recoil = -Math.min(Math.abs(recoil), moveAppl.getUser().getMaxHealth() / 2.0f);
                     if (PokecubeCore.getConfig().debug_moves)
                         PokecubeAPI.LOGGER.info("Applying recoil damage for move {} of amount {}", t.move().getName(),
                                 recoil);
                     entity.hurt(entity.damageSources().fall(), -recoil);
-                    MovesUtils.sendPairedMessages(moveAppl.getUser().getEntity(), other, "pokemob.move.recoil.damage");
+                    MovesUtils.sendPairedMessages(moveAppl.getUserEntity(), other, "pokemob.move.recoil.damage");
                 }
             }
         }
@@ -440,9 +439,10 @@ public class MoveApplication implements Comparable<MoveApplication>
         {
             var moveAppl = t.move();
             MoveEntry move = moveAppl.getMove();
+            var target = moveAppl.getTarget();
 
-            float max_hp = moveAppl.getTarget().getMaxHealth();
-            float current_hp = moveAppl.getTarget().getHealth();
+            float max_hp = target.getMaxHealth();
+            float current_hp = target.getHealth();
 
             float heal = move.root_entry._healing * max_hp / 100.0f;
             if (heal > 0)
@@ -451,7 +451,11 @@ public class MoveApplication implements Comparable<MoveApplication>
                 if (PokecubeCore.getConfig().debug_moves)
                     PokecubeAPI.logInfo("Applying healing for move {} of amount {} ({}<-{})", t.move().getName(), heal,
                             move.root_entry._healing, move.root_entry.getMove().healing);
-                if (heal > 0) moveAppl.getTarget().heal(heal);
+                if (heal > 0)
+                {
+                    target.heal(heal);
+                    MovesUtils.sendPairedMessages(target, moveAppl.getUser(), "pokemob.move.hprestore");
+                }
             }
         }
     }
@@ -552,6 +556,7 @@ public class MoveApplication implements Comparable<MoveApplication>
     private IPokemob user;
     private MoveEntry move;
     private LivingEntity target;
+    private LivingEntity userEntity;
 
     // Move specific things
     public int pwr;
@@ -709,7 +714,7 @@ public class MoveApplication implements Comparable<MoveApplication>
         // Fire the pre event, if cancelled, assume someone else is handling the
         // moves.
         if (PokecubeAPI.MOVE_BUS.post(preEvent).isCanceled()) return;
-        getUser().getEntity().getPersistentData().remove("pokecube:lastMoveFailed");
+        getUserEntity().getPersistentData().remove("pokecube:lastMoveFailed");
         boolean no_run = this.canceled || this.failed;
         final IPokemob targetPokemob = PokemobCaps.getPokemobFor(getTarget());
         // Now check other things, such as possible move failure.
@@ -723,7 +728,7 @@ public class MoveApplication implements Comparable<MoveApplication>
             MovesUtils.displayEfficiencyMessages(user, getTarget(), -2, 0);
 
             // For any move that has different functionality if the last move failed (e.g. stomping tantrum)
-            getUser().getEntity().getPersistentData().putBoolean("pokecube:lastMoveFailed", true);
+            getUserEntity().getPersistentData().putBoolean("pokecube:lastMoveFailed", true);
 
             // We can get here if we had no target, but otherwise the move
             // worked. This can be the case for using move on terrain, etc. In
@@ -806,6 +811,12 @@ public class MoveApplication implements Comparable<MoveApplication>
     }
 
     @Nonnull
+    public LivingEntity getUserEntity()
+    {
+        return userEntity;
+    }
+
+    @Nonnull
     public void setMove(MoveEntry move)
     {
         this.move = move;
@@ -831,6 +842,7 @@ public class MoveApplication implements Comparable<MoveApplication>
         this.pwr = move.getPWR(user, target);
         this.type = move.getType(user);
         this.stab = user.isType(type);
+        this.userEntity = EntityProvider.getTracked(user.getEntity());
     }
 
     @Nullable
@@ -841,7 +853,10 @@ public class MoveApplication implements Comparable<MoveApplication>
 
     public void setTarget(@Nullable LivingEntity target)
     {
-        this.target = target;
+        // if target isn't null, ensure it is set to the root target
+        if (target != null) this.target = EntityProvider.getTracked(target);
+        else this.target = target;
+        if (this.user != null) this.pwr = move.getPWR(user, this.target);
     }
 
     @Override
@@ -850,8 +865,8 @@ public class MoveApplication implements Comparable<MoveApplication>
         double d0 = 0;
         double d1 = 0;
 
-        if (getTarget() != null) d0 = getTarget().distanceToSqr(getUser().getEntity());
-        if (o.getTarget() != null) d1 = o.getTarget().distanceToSqr(o.getUser().getEntity());
+        if (getTarget() != null) d0 = getTarget().distanceToSqr(getUserEntity());
+        if (o.getTarget() != null) d1 = o.getTarget().distanceToSqr(o.getUserEntity());
 
         return Double.compare(d0, d1);
     }

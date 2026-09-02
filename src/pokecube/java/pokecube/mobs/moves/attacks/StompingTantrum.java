@@ -9,7 +9,7 @@ public class StompingTantrum implements PreApplyTests
 {
     @Override
     public boolean checkPreApply(MoveApplication t) {
-        if (t.getUser().getEntity().getPersistentData().contains("pokecube:lastMoveFailed"))
+        if (t.getUserEntity().getPersistentData().contains("pokecube:lastMoveFailed"))
             t.pwr = 150;
         return PreApplyTests.super.checkPreApply(t);
     }

@@ -9,7 +9,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AnvilMenu;
@@ -602,7 +601,7 @@ public class MovesUtils implements IMoveConstants
         return applied;
     }
 
-    public static void useMove(@Nonnull MoveEntry move, @Nonnull Mob user, @Nullable LivingEntity target,
+    public static void useMove(@Nonnull MoveEntry move, @Nonnull LivingEntity user, @Nullable LivingEntity target,
             @Nonnull final Vector3 start, @Nonnull final Vector3 end)
     {
         final IPokemob pokemob = PokemobCaps.getPokemobFor(user);
@@ -615,17 +614,17 @@ public class MovesUtils implements IMoveConstants
         // targets, etc.
         MoveApplicationRegistry.preApply(apply);
         move = apply.getMove();
-        user = apply.getUser().getEntity();
+        user = apply.getUserEntity();
         target = apply.getTarget();
 
         Predicate<MoveApplication> target_test = MoveApplicationRegistry.getValidator(move);
-        Mob mob = user;
-        Level level = mob.level;
-        Battle battle = Battle.getBattle(mob);
+        LivingEntity mob = user;
+        Level level = user.level;
+        Battle battle = Battle.getBattle(user);
 
         Set<UUID> applied = new HashSet<>();
 
-        boolean notUser = true;
+        boolean notUser = user != target;
         if (battle != null)
         {
             List<LivingEntity> targets = Lists.newArrayList();
@@ -638,9 +637,9 @@ public class MovesUtils implements IMoveConstants
             // Then targetted ally
             options.add(pokemob.getMoveStats().targetAlly);
             // Then all enemies
-            options.addAll(battle.getEnemies(mob));
+            options.addAll(battle.getEnemies(user));
             // Then all allies
-            options.addAll(battle.getAllies(mob));
+            options.addAll(battle.getAllies(user));
 
             // Now ensure no null entries or duplicates in the actual list.
             for (var e : options) if (e != null && !targets.contains(e)) targets.add(e);
@@ -663,7 +662,10 @@ public class MovesUtils implements IMoveConstants
                         PokecubeAPI.logInfo("Queuing move: {} used by {} on {}", move.name,
                                 user.getDisplayName().getString(), s.getDisplayName().getString());
                     MoveQueuer.queueMove(moveUse);
-                    if (s == user) notUser = false;
+                    if (s == user || s == pokemob.getEntity())
+                    {
+                        notUser = false;
+                    }
                     if (!move.isMultiTarget()) break;
                 }
             }
@@ -686,7 +688,10 @@ public class MovesUtils implements IMoveConstants
                         final EntityMoveUse moveUse = EntityMoveUse.create(level, apply, end);
                         MoveQueuer.queueMove(moveUse);
                         did = true;
-                        if (target == user) notUser = false;
+                        if (target == user)
+                        {
+                            notUser = false;
+                        }
                     }
                 }
                 apply.setTarget(mob);
@@ -698,7 +703,10 @@ public class MovesUtils implements IMoveConstants
                     final EntityMoveUse moveUse = EntityMoveUse.create(level, apply, end);
                     MoveQueuer.queueMove(moveUse);
                     did = true;
-                    if (mob == user) notUser = false;
+                    if (mob == user)
+                    {
+                        notUser = false;
+                    }
                 }
 
                 if (!did)
@@ -711,7 +719,10 @@ public class MovesUtils implements IMoveConstants
                 }
             }
         }
-        if (notUser) apply.alreadyHit.add(user.getUUID());
+        if (notUser)
+        {
+            apply.alreadyHit.add(user.getUUID());
+        }
     }
 
     public static ItemStack applyEnchants(IPokemob pokemob, ItemStack tool)

@@ -43,12 +43,13 @@ public class TerrainMove implements IMove
     public PostMoveUse getPostUse(MoveApplication t)
     {
         IPokemob user = t.getUser();
+        var attackerE = t.getUserEntity();
         if (user.getMoveStats().SPECIALCOUNTER > 0 || t.canceled) return null;
         user.getMoveStats().SPECIALCOUNTER = 20;
 
         this.duration = 300 + ThutCore.newRandom().nextInt(600);
-        final Level world = user.getEntity().level();
-        final TerrainSegment segment = TerrainManager.getInstance().getTerrainForEntity(user.getEntity());
+        final Level world = attackerE.level();
+        final TerrainSegment segment = TerrainManager.getInstance().getTerrainForEntity(attackerE);
 
         EffectType apply = this.effect;
         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemob_effects");

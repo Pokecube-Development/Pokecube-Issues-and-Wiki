@@ -15,7 +15,6 @@ public class Teleport implements PostMoveUse
     {
         MoveApplication packet = t.move();
         if (packet.canceled || packet.failed) return;
-        IPokemob attacker = packet.getUser();
-        BrainUtils.deagro(attacker.getEntity());
+        BrainUtils.deagro(packet.getUserEntity());
     }
 }

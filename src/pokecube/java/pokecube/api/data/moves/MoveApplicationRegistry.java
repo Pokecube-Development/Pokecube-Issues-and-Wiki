@@ -143,7 +143,7 @@ public class MoveApplicationRegistry
         if (hits > 0)
         {
             int min = moveApplication.getMove().root_entry._min_hits;
-            hits = min + moveApplication.getUser().getEntity().getRandom().nextInt(1 + hits - min);
+            hits = min + moveApplication.getUserEntity().getRandom().nextInt(1 + hits - min);
         }
 
         // Reset this here, as this is for tracking during the hit itself, and

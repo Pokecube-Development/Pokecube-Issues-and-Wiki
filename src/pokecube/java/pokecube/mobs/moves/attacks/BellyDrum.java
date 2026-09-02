@@ -17,6 +17,7 @@ public class BellyDrum implements PostMoveUse
         if (packet.canceled || packet.failed) return;
 
         IPokemob attacker = packet.getUser();
+        var attackerE = packet.getUserEntity();
         final IPokemob target = PokemobCaps.getPokemobFor(packet.getTarget());
 
         if (target != null)
@@ -25,7 +26,7 @@ public class BellyDrum implements PostMoveUse
             {
                 packet.stat_effects[IPokemob.Stats.ATTACK.ordinal()] = 6;
 
-                attacker.setHealth(attacker.getHealth() - (attacker.getMaxHealth() / 2.0f));
+                attackerE.setHealth(attacker.getHealth() - (attacker.getMaxHealth() / 2.0f));
                 attacker.displayMessageToOwner(Component.translatableEscape("pokemob.move.bellydrum.user", target.getDisplayName()));
             }
             else

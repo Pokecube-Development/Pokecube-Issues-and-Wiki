@@ -21,7 +21,7 @@ public class Sketch implements PostMoveUse
         if (packet.canceled || packet.failed) return;
         IPokemob attacker = packet.getUser();
         if (attacker.getTransformedTo() != null) return;
-        final String lastHitBy = attacker.getEntity().getPersistentData().getString("lastMoveHitBy");
+        final String lastHitBy = packet.getUserEntity().getPersistentData().getString("lastMoveHitBy");
         final MoveEntry toSketch = MovesUtils.getMove(lastHitBy);
         if (Tags.MOVE.isIn("no-sketch", lastHitBy) || toSketch == null) return;
         for (int i = 0; i < attacker.getMovesCount(); i++)

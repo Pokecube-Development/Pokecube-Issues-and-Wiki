@@ -30,6 +30,6 @@ public class Whirlwind implements PostMoveUse
             if (attacked.getGeneralState(GeneralStates.TAMED)) attacked.onRecall();
         }
         // ends the battle
-        BrainUtils.deagro(packet.getUser().getEntity());
+        BrainUtils.deagro(packet.getUserEntity());
     }
 }

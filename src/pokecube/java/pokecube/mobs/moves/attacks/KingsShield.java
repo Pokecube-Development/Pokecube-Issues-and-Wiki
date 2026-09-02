@@ -2,7 +2,6 @@ package pokecube.mobs.moves.attacks;
 
 import pokecube.api.data.moves.MoveProvider;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
@@ -17,13 +16,7 @@ public class KingsShield implements PostMoveUse, LastMoveEffect, BlockCondition
 {
     @Override
     public void applyPostMove(Damage t) {
-        MoveApplication packet = t.move();
-
-        IPokemob attacker = packet.getUser();
-        final IPokemob target = PokemobCaps.getPokemobFor(packet.getTarget());
-
-        if (packet.canceled || packet.failed || target == null) return;
-
+        // This wasn't doing anything?
     }
 
     @Override
@@ -33,7 +26,7 @@ public class KingsShield implements PostMoveUse, LastMoveEffect, BlockCondition
         // Return if the next move did not fail or if no move was used after King's Shield or we used the next move.
         if (lastMove == null || nextMoveTarget == null || !nextMoveTarget.failed || nextMoveTarget.getUser() == lastMove.getUser()) return;
         if (nextMoveTarget.getMove().isContact(target)) // Lower attack if move made contact.
-            MovesUtils.handleStats2(target, lastMove.getUser().getEntity(), IMoveConstants.ATTACK,
+            MovesUtils.handleStats2(target, lastMove.getUserEntity(), IMoveConstants.ATTACK,
                     IMoveConstants.FALL);
     }
 

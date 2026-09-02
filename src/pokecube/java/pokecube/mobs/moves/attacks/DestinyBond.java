@@ -77,8 +77,7 @@ public class DestinyBond implements PreApplyTests
     {
         LivingEntity target = t.getTarget();
         if (target == null) return false;
-        final IPokemob attacker = t.getUser();
-        final LivingEntity attackerMob = attacker.getEntity();
+        final LivingEntity attackerMob = t.getUserEntity();
         final UUID userId = attackerMob.getUUID();
         final Set<UUID> hits = usedOn.getOrDefault(userId, Sets.newHashSet());
         final boolean added = hits.add(target.getUUID());

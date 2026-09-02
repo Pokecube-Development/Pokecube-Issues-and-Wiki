@@ -17,16 +17,19 @@ public class Powertrick implements PostMoveUse
         MoveApplication packet = t.move();
         if (packet.canceled || packet.failed) return;
         IPokemob attacker = packet.getUser();
+        var attackerE = packet.getUserEntity();
 
         final int def = attacker.getStat(Stats.DEFENSE, true);
         final int atk = attacker.getStat(Stats.ATTACK, true);
 
-        var defModAtker = PokecubeAttributes.getModifierValue(attacker.getEntity(), Stats.DEFENSE)
-                * PokecubeAttributes.getNatureModifier(attacker.getEntity(), Stats.DEFENSE);
-        var atkModAtker = PokecubeAttributes.getModifierValue(attacker.getEntity(), Stats.ATTACK)
-                * PokecubeAttributes.getNatureModifier(attacker.getEntity(), Stats.ATTACK);
+        var defModAtker =
+                PokecubeAttributes.getModifierValue(attackerE, Stats.DEFENSE) * PokecubeAttributes.getNatureModifier(
+                        attackerE, Stats.DEFENSE);
+        var atkModAtker =
+                PokecubeAttributes.getModifierValue(attackerE, Stats.ATTACK) * PokecubeAttributes.getNatureModifier(
+                        attackerE, Stats.ATTACK);
 
-        PokecubeAttributes.setStat(attacker.getEntity(), Stats.DEFENSE, atk / defModAtker);
-        PokecubeAttributes.setStat(attacker.getEntity(), Stats.ATTACK, def / atkModAtker);
+        PokecubeAttributes.setStat(attackerE, Stats.DEFENSE, atk / defModAtker);
+        PokecubeAttributes.setStat(attackerE, Stats.ATTACK, def / atkModAtker);
     }
 }

@@ -33,7 +33,7 @@ public class RockHead extends Ability
                     PokecubeAPI.LOGGER.info("Applying recoil healing for move {} of amount {}", t.move().getName(),
                             recoil);
                 recoil = Math.min(recoil, moveAppl.getUser().getMaxHealth() - moveAppl.getUser().getHealth());
-                if (recoil > 0) moveAppl.getUser().getEntity().heal(recoil);
+                if (recoil > 0) moveAppl.getUserEntity().heal(recoil);
                 MovesUtils.sendPairedMessages(moveAppl.getUser().getEntity(), other, "pokemob.move.recoil.heal");
             }
         }

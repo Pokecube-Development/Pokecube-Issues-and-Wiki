@@ -18,17 +18,19 @@ public class MovePsychoShift implements PostMoveUse
         MoveApplication packet = t.move();
         if (packet.canceled || packet.failed) return;
         IPokemob attacker = packet.getUser();
+        var attackerE = packet.getUserEntity();
+        var attackedE = packet.getTarget();
 
-        boolean failed = !StatusEffects.hasAnyStatusEffects(attacker.getEntity());
-        final IPokemob hit = PokemobCaps.getPokemobFor(packet.getTarget());
+        boolean failed = !StatusEffects.hasAnyStatusEffects(attackerE);
+        final IPokemob hit = PokemobCaps.getPokemobFor(attackedE);
         if (hit != null && !failed)
         {
-            var existing = StatusEffects.getStatusEffect(attacker.getEntity());
-            if (StatusEffects.hasAnyStatusEffects(hit.getEntity())) failed = true;
-            else if (StatusEffects.setStatus(hit.getEntity(), attacker.getEntity(), existing)) attacker.healStatus();
+            var existing = StatusEffects.getStatusEffect(attackerE);
+            if (StatusEffects.hasAnyStatusEffects(attackedE)) failed = true;
+            else if (StatusEffects.setStatus(attackedE, attackerE, existing)) attacker.healStatus();
             else failed = true;
         }
-        if (failed) MovesUtils.displayEfficiencyMessages(attacker, packet.getTarget(), -2, 0);
+        if (failed) MovesUtils.displayEfficiencyMessages(attacker, attackedE, -2, 0);
     }
 
 }

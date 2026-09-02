@@ -8,7 +8,6 @@ import java.util.BitSet;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Explosion;
 import net.neoforged.neoforge.event.level.ExplosionEvent;
 import pokecube.api.data.moves.IMove;
@@ -34,6 +33,7 @@ public class Move_Explode implements IMove
     private static class Hitter implements IEntityHitter
     {
         private final IPokemob user;
+        private final LivingEntity userEntity;
         private final MoveApplication move;
         private final BitSet hit = new BitSet();
 
@@ -41,6 +41,7 @@ public class Move_Explode implements IMove
         {
             this.move = move;
             user = move.getUser();
+            userEntity = move.getUserEntity();
         }
 
         @Override
@@ -49,7 +50,7 @@ public class Move_Explode implements IMove
             // Dont hit twice, and only hit living entities.
             if (this.hit.get(e.getId()) || !(e instanceof LivingEntity)) return;
             // Dont hit self, that is taken care of elsewhere.
-            if (e == this.user.getEntity()) return;
+            if (e == this.user.getEntity() || e == userEntity) return;
             // Flag as already hit.
             this.hit.set(e.getId());
             MoveApplicationRegistry.apply(move);
@@ -80,7 +81,7 @@ public class Move_Explode implements IMove
         public void applyPostMove(Damage t)
         {
             IPokemob user = t.move().getUser();
-            Mob mob = user.getEntity();
+            var mob = t.move().getUserEntity();
             Object test = t.move().customFlags.get("explosion-moves-flag");
             Object hit = t.move().customFlags.get("explosion-moves-boomed");
             if (test instanceof Hitter hitter && hit == null)
@@ -117,8 +118,7 @@ public class Move_Explode implements IMove
         // Only run this the first time, it gets re-used after that
         t.customFlags.computeIfAbsent("explosion-moves-flag", s -> {
             IMove.super.accept(t);
-            Hitter hitter = new Hitter(t);
-            return hitter;
+            return new Hitter(t);
         });
     }
 

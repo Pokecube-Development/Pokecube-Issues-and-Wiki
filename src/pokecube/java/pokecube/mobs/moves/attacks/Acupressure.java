@@ -22,7 +22,7 @@ public class Acupressure implements PreProcessor
             IPokemob.Stats stat = IPokemob.Stats.values()[rand];
             if (stat != IPokemob.Stats.HP)
             {
-                boolean valid = PokecubeAttributes.getModifier(attacker.getEntity(), stat) < 6;
+                boolean valid = PokecubeAttributes.getModifier(t.getUserEntity(), stat) < 6;
                 if (valid)
                 {
                     t.stat_chance = 1;

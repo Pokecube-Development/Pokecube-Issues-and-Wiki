@@ -14,8 +14,8 @@ public class StormDrain extends Ability
     @Override
     public int beforeDamage(IPokemob mob, MoveApplication move, int damage)
     {
-        boolean weAreTarget = mob.getEntity() == move.getTarget() && mob.getAbility() == this;
-        if (weAreTarget && move.getMove().getType(move.getUser()) == PokeType.getType("water") && move.getTarget() == mob)
+        boolean weAreTarget = move.getUserEntity() == move.getTarget() && mob.getAbility() == this;
+        if (weAreTarget && move.getMove().getType(move.getUser()) == PokeType.getType("water"))
             return 0;
         return super.beforeDamage(mob, move, damage);
     }

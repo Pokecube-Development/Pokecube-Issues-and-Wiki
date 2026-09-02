@@ -6,6 +6,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.network.syncher.SynchedEntityData.Builder;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -34,7 +35,6 @@ import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.EntityTools;
-import thut.api.attachments.CopyMob;
 import thut.api.entity.EntityProvider;
 import thut.api.maths.Vector3;
 
@@ -77,11 +77,11 @@ public class EntityMoveUse extends ThrowableProjectile
     {
         var entity = new EntityMoveUse(EntityTypes.getMove(), level);
         entity.apply = apply.copyForMoveUse();
-        Vector3 start = new Vector3(apply.getUser().getEntity());
+        Vector3 start = new Vector3(apply.getUserEntity());
         entity.setStart(start);
         start.moveEntity(entity);
         entity.setMove(apply.getMove());
-        entity.setUser(apply.getUser().getEntity());
+        entity.setUser(apply.getUserEntity());
         entity.setTarget(apply.getTarget());
         entity.setEnd(endpoint);
         return entity;
@@ -95,7 +95,7 @@ public class EntityMoveUse extends ThrowableProjectile
 
     Vector3 dir = new Vector3();
 
-    Mob user = null;
+    LivingEntity user = null;
     LivingEntity target = null;
 
     MoveEntry move = null;
@@ -144,7 +144,7 @@ public class EntityMoveUse extends ThrowableProjectile
         if (apply != null)
         {
             this.setMove(apply.getMove());
-            this.setUser(apply.getUser().getEntity());
+            this.setUser(apply.getUserEntity());
             this.setTarget(apply.getTarget());
         }
 
@@ -197,7 +197,10 @@ public class EntityMoveUse extends ThrowableProjectile
 
         if (this.getUser() == this.getTarget()) this.onSelf = true;
         // If it isn't a self targetting move, add self to ignored list.
-        if (!onSelf) this.addIgnoredEntity(this.getUser());
+        if (!onSelf)
+        {
+            this.addIgnoredEntity(this.getUser());
+        }
 
         this.dist = this.start.distanceTo(this.end);
         this.refreshDimensions();
@@ -235,7 +238,7 @@ public class EntityMoveUse extends ThrowableProjectile
     private void doMoveUse(LivingEntity target)
     {
         final MoveEntry attack = this.getMove();
-        final Mob user = this.getUser();
+        final LivingEntity user = this.getUser();
         if (user == null || !this.isAlive() || !user.isAlive()) return;
 
         final LivingEntity living = EntityTools.getCoreLiving(target);
@@ -348,11 +351,11 @@ public class EntityMoveUse extends ThrowableProjectile
         return this.target;
     }
 
-    public Mob getUser()
+    public LivingEntity getUser()
     {
         if (this.user != null) return this.user;
         // We use api entity, incase it is the copy mob using the attack.
-        if (PokecubeAPI.getEntity(level(), this.getEntityData().get(EntityMoveUse.USER)) instanceof Mob user)
+        if (PokecubeAPI.getEntity(level(), this.getEntityData().get(EntityMoveUse.USER)) instanceof LivingEntity user)
             this.user = user;
         return this.user;
     }
@@ -453,7 +456,7 @@ public class EntityMoveUse extends ThrowableProjectile
         return this;
     }
 
-    public EntityMoveUse setUser(final Mob user)
+    public EntityMoveUse setUser(final LivingEntity user)
     {
         this.user = user;
         this.getEntityData().set(EntityMoveUse.USER, user.getId());
@@ -558,28 +561,34 @@ public class EntityMoveUse extends ThrowableProjectile
         // Not ready to apply yet
         if (this.getApplicationTick() < age) return;
 
-        final Vec3 v = this.getDeltaMovement();
-        testBox = testBox.expandTowards(v.x, v.y, v.z);
-        final List<Entity> hits = this.level.getEntities(this, testBox, this.valid);
-        final AABB hitBox = testBox;
+        if (this.onSelf)
+        {
+            this.doMoveUse(this.user);
+        }
+        else
+        {
+            final Vec3 v = this.getDeltaMovement();
+            testBox = testBox.expandTowards(v.x, v.y, v.z);
+            final List<Entity> hits = this.level.getEntities(this, testBox, this.valid);
+            final AABB hitBox = testBox;
 
-        hits.removeIf(e -> {
-            boolean hit = hitboxes.size() > 1;
-            if (!hit) for (final AABB box : hitboxes)
-                if (box.intersects(e.getBoundingBox()))
-                {
-                    hit = true;
-                    break;
-                }
-            if (!hit) return true;
-            if (!e.isMultipartEntity()) return false;
-            if (!(EntityTools.getCoreEntity(e) instanceof LivingEntity)) return true;
-            final PartEntity<?>[] parts = e.getParts();
-            for (final PartEntity<?> part : parts) if (part.getBoundingBox().intersects(hitBox)) return false;
-            return true;
-        });
-
-        for (final Entity e : hits) if (e instanceof LivingEntity living) this.doMoveUse(living);
+            hits.removeIf(e -> {
+                boolean hit = hitboxes.size() > 1;
+                if (!hit) for (final AABB box : hitboxes)
+                    if (box.intersects(e.getBoundingBox()))
+                    {
+                        hit = true;
+                        break;
+                    }
+                if (!hit) return true;
+                if (!e.isMultipartEntity()) return false;
+                if (!(EntityTools.getCoreEntity(e) instanceof LivingEntity)) return true;
+                final PartEntity<?>[] parts = e.getParts();
+                for (final PartEntity<?> part : parts) if (part.getBoundingBox().intersects(hitBox)) return false;
+                return true;
+            });
+            for (final Entity e : hits) if (e instanceof LivingEntity living) this.doMoveUse(living);
+        }
 
         if (this.getMove() != null && userMob != null && !this.finished && !this.level.isClientSide)
         {
@@ -614,7 +623,7 @@ public class EntityMoveUse extends ThrowableProjectile
             {
                 // Send message about having missed the target
                 if (target != null) MovesUtils.displayEfficiencyMessages(userMob, target, -1, 0);
-                if (PokecubeCore.getConfig().debug_moves && user != null && this.getMove() != null)
+                if (PokecubeCore.getConfig().debug_moves && this.getMove() != null)
                 {
                     PokecubeAPI.logInfo("B: Attack {} by {} terminated without applying!", this.getMove().getName(),
                             user.getDisplayName().getString());

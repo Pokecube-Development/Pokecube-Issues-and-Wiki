@@ -29,7 +29,7 @@ public class Aftermath extends Ability
             ThutCore.FORGE_BUS.post(evt);
             if (!evt.isCanceled())
             {
-                final LivingEntity attacker = move.getUser().getEntity();
+                final LivingEntity attacker = move.getUserEntity();
                 final float hp = attacker.getHealth();
                 attacker.hurt(attacker.damageSources().magic(), hp / 4);
             }
