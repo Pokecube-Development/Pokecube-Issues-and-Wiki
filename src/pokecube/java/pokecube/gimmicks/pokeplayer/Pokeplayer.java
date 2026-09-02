@@ -41,9 +41,14 @@ import pokecube.api.moves.Battle;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.idle.HungerTask;
+import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.database.Database;
+import pokecube.core.entity.npc.NpcMob;
+import pokecube.core.entity.npc.NpcType;
 import pokecube.core.items.ItemPokedex;
+import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.damage.effects.StatusEffects;
+import pokecube.core.network.packets.PacketHeal;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.gimmicks.pokeplayer.blocks.TransformBlock;
@@ -82,6 +87,9 @@ public class Pokeplayer
 
         // interaction with self with items
         ThutCore.FORGE_BUS.addListener(Pokeplayer::onRightClickItem);
+
+        // Interaction with entities (e.g. healing when right clicking a healer)
+        ThutCore.FORGE_BUS.addListener(Pokeplayer::onEntityInteractSpecific);
 
         // for opening pokemob inventory
         ThutCore.FORGE_BUS.addListener(Pokeplayer::onRightClickEmpty);
@@ -239,6 +247,25 @@ public class Pokeplayer
                 }
             }
             if (copy instanceof TrackedAttachment tracked) tracked.markDirty();
+        }
+    }
+
+    private static void onEntityInteractSpecific(PlayerInteractEvent.EntityInteractSpecific evt)
+    {
+        final Player player = evt.getEntity();
+        final ICopyMob copy = ThutCaps.getCopyMob(player);
+        if (copy == null) return;
+        final LivingEntity pokemob = EntityProvider.getTracked(copy.getCopiedMob());
+        if (pokemob == null) return;
+
+        Entity entity = EntityProvider.getTracked(evt.getTarget());
+
+        if (entity instanceof NpcMob npc)
+        {
+            if (npc.getNpcType().equals(NpcType.byType("healer")))
+            {
+                PokecubeManager.heal(pokemob);
+            }
         }
     }
 
