@@ -299,6 +299,7 @@ public class GuiPokedex extends Screen
         final IPokemob renderMob = EventsHandlerClient.getRenderMob(GuiPokedex.pokedexEntry, this.PlayerEntity.level());
         if (!renderMob.getEntity().isAddedToLevel())
             EntityTools.copyEntityTransforms(renderMob.getEntity(), this.PlayerEntity);
+        if (this.pokemob == null) this.pokemob = renderMob;
 
         final PokedexEntry pokedexEntry = renderMob.getPokedexEntry();
         final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(Minecraft.getInstance().player)
