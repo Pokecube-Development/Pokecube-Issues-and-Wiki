@@ -49,10 +49,10 @@ public class PacketBattleCancel extends Packet
     {
         var copy = ThutCaps.getCopyMob(player);
         if (copy == null) return;
-        LivingEntity pokeplayer = EntityProvider.getTracked(copy.getCopiedMob());
-        if (pokeplayer == null) return;
+        LivingEntity pokemob = copy.getCopiedMob();
+        if (pokemob == null) return;
 
-        BrainUtils.deagro(pokeplayer);
+        BrainUtils.deagro(pokemob);
     }
 
     @Override
