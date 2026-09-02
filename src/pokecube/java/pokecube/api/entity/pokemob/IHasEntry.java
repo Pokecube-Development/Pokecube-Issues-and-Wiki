@@ -2,6 +2,7 @@ package pokecube.api.entity.pokemob;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import pokecube.api.data.PokedexEntry;
@@ -11,6 +12,12 @@ public interface IHasEntry extends IHasMobAIStates
 {
     /** @return the minecraft entity associated with this pokemob */
     Mob getEntity();
+
+    /** @return The world trackable entity associated with this pokemob, can be same as getEntity() */
+    default LivingEntity getTrackedEntity()
+    {
+        return this.getEntity();
+    }
 
     /** @return the {@link PokedexEntry} of the species of this Pokemob */
     PokedexEntry getPokedexEntry();
@@ -35,9 +42,14 @@ public interface IHasEntry extends IHasMobAIStates
      */
     void setEntity(Mob entityIn, boolean onEvolution);
 
+    default void setTrackableEntity(LivingEntity entityIn)
+    {
+    }
+
     default void setEntity(Mob entityIn)
     {
         setEntity(entityIn, false);
+        this.setTrackableEntity(entityIn);
     }
 
     /**

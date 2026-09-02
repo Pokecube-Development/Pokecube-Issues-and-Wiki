@@ -728,6 +728,9 @@ public class PokemobEventsHandler
         final IPokemob pokemob = PokemobCaps.getPokemobFor(living);
         if (pokemob != null)
         {
+            // Set the trackable entity to be the real one in the event.
+            pokemob.setTrackableEntity(evt.realEntity);
+
             // Reset death time if we are not dead.
             if (evt.getEntity().getHealth() > 0) evt.getEntity().deathTime = 0;
 

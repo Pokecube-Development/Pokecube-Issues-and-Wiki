@@ -62,13 +62,16 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
             {
                 LivingEntity fake = null;
                 // Client side this results in a glitch in location when the update is sent.
-                if(oldMob.level().isClientSide())
+                if (oldMob.level().isClientSide())
                 {
                     fake = EntityType.PIG.create(oldMob.level());
                     copyEntityTransforms(fake, oldMob);
-                };
+                }
                 oldMob.load(tag);
-                if(oldMob.level().isClientSide()) copyEntityTransforms(oldMob, fake);
+                if (oldMob.level().isClientSide())
+                {
+                    copyEntityTransforms(oldMob, fake);
+                }
             }
         }
         else

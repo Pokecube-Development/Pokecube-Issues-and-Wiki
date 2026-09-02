@@ -48,6 +48,7 @@ import pokecube.core.utils.PokemobTracker;
 import pokecube.gimmicks.pokeplayer.blocks.TransformBlock;
 import thut.api.ThutCaps;
 import thut.api.attachments.TrackedAttachment;
+import thut.api.entity.EntityProvider;
 import thut.api.entity.ICopyMob;
 import thut.api.entity.event.CopySetEvent;
 import thut.api.entity.event.CopyUpdateEvent;
@@ -91,7 +92,11 @@ public class Pokeplayer
 
         // Add a check to not remove pokeplayers
         Battle.BATTLE_TESTS.add(testSet -> {
-            if (testSet.mob().getId() < 0) testSet.battle().markAsValid(testSet.mob());
+            // Check if id below 0, ie is a copy, and if the same side also contains the owner
+            if (testSet.mob().getId() < 0 && testSet.mobSide().contains(EntityProvider.getTracked(testSet.mob())))
+            {
+                testSet.battle().markAsValid(testSet.mob());
+            }
         });
     }
 

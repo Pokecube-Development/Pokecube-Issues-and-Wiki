@@ -64,8 +64,9 @@ public class Battle
         }
 
         @Nullable
-        public Battle getFor(final LivingEntity mob)
+        public Battle getFor(LivingEntity mob)
         {
+            mob = EntityProvider.getTracked(mob);
             return this.battlesById.get(mob.getUUID());
         }
 
@@ -218,18 +219,28 @@ public class Battle
             var set = testSet.mobSide;
             var side = testSet.mobSideMap;
             var battle = testSet.battle;
-            set.remove(mob1);
-            final UUID id = mob1.getUUID();
-            final Entity mob = battle.world.getEntity(id);
-            if (mob != null && mob != mob1)
+            if (mob1.isRemoved())
             {
-                if (mob instanceof LivingEntity living)
+                // Discarded is set if it was recalled and re-sent out, or if it evolved, etc
+                if (mob1.getRemovalReason() != Entity.RemovalReason.DISCARDED)
                 {
-                    side.put(id, living);
-                    if (!set.contains(living)) set.add(living);
-                    // We changed if we had to adjust the sets.
-                    testSet.battle.markAsValid(living);
-                    testSet.changed.set(true);
+                    testSet.battle.markAsValid(mob1, -10);
+                    testSet.invalid.set(true);
+                    return;
+                }
+                set.remove(mob1);
+                final UUID id = mob1.getUUID();
+                final Entity mob = battle.world.getEntity(id);
+                if (mob != null && mob != mob1)
+                {
+                    if (mob instanceof LivingEntity living)
+                    {
+                        side.put(id, living);
+                        if (!set.contains(living)) set.add(living);
+                        // We changed if we had to adjust the sets.
+                        testSet.battle.markAsValid(living);
+                        testSet.changed.set(true);
+                    }
                 }
             }
         });
@@ -265,6 +276,7 @@ public class Battle
 
     public List<LivingEntity> getAllies(LivingEntity mob)
     {
+        mob = EntityProvider.getTracked(mob);
         if (side1.containsKey(mob.getUUID())) return s1;
         if (side2.containsKey(mob.getUUID())) return s2;
         return Lists.newArrayList();
@@ -272,6 +284,7 @@ public class Battle
 
     public List<LivingEntity> getEnemies(LivingEntity mob)
     {
+        mob = EntityProvider.getTracked(mob);
         if (side1.containsKey(mob.getUUID())) return s2;
         if (side2.containsKey(mob.getUUID())) return s1;
         return Lists.newArrayList();
@@ -282,20 +295,34 @@ public class Battle
      */
     public void addAlly(LivingEntity entity, LivingEntity toAdd)
     {
+        entity = EntityProvider.getTracked(entity);
+        toAdd = EntityProvider.getTracked(toAdd);
+
         var sideMap = side1.containsKey(entity.getUUID()) ? side1 : side2;
+        var uuid = toAdd.getUUID();
+        var otherSideMap = sideMap == side1 ? side2 : side1;
+        if (otherSideMap.containsKey(uuid)) return;
+        if (manager.battlesById.containsKey(uuid)) return;
         var sideList = sideMap == side1 ? s1 : s2;
         markAsValid(toAdd);
         sideList.add(toAdd);
-        sideMap.put(toAdd.getUUID(), toAdd);
+        sideMap.put(uuid, toAdd);
         final BattleManager manager = BattleManager.managers.get(world.dimension());
-        manager.battlesById.put(toAdd.getUUID(), this);
+        manager.battlesById.put(uuid, this);
     }
     /**
      * Adds the given entity onto the enemy side of a battle, without triggering agression
      */
     public void addEnemy(LivingEntity entity, LivingEntity toAdd)
     {
+        entity = EntityProvider.getTracked(entity);
+        toAdd = EntityProvider.getTracked(toAdd);
+
         var sideMap = side1.containsKey(entity.getUUID()) ? side2 : side1;
+        var uuid = toAdd.getUUID();
+        var otherSideMap = sideMap == side1 ? side2 : side1;
+        if (otherSideMap.containsKey(uuid)) return;
+        if (manager.battlesById.containsKey(uuid)) return;
         var sideList = sideMap == side1 ? s1 : s2;
         markAsValid(toAdd);
         sideList.add(toAdd);
@@ -329,8 +356,11 @@ public class Battle
         }
     }
 
-    private void mergeFrom(final LivingEntity mobA, final LivingEntity mobB, final Battle other)
+    private void mergeFrom(LivingEntity mobA, LivingEntity mobB, final Battle other)
     {
+        mobA = EntityProvider.getTracked(mobA);
+        mobB = EntityProvider.getTracked(mobB);
+
         final boolean mobAisSide1 = this.side1.containsKey(mobA.getUUID());
         final boolean mobBisSide1 = other.side1.containsKey(mobB.getUUID());
 
@@ -365,22 +395,22 @@ public class Battle
         s1.removeIf(Entity::isRemoved);
         s2.removeIf(Entity::isRemoved);
 
-        Set<LivingEntity> mask = Sets.newHashSet();
+        Set<UUID> mask = Sets.newHashSet();
         // Remove duplicates
-        s1.removeIf(v -> !mask.add(v));
-        s2.removeIf(v -> !mask.add(v));
+        s1.removeIf(v -> !mask.add(v.getUUID()));
+        s2.removeIf(v -> !mask.add(v.getUUID()));
 
         s1.sort(BATTLESORTER);
         s2.sort(BATTLESORTER);
     }
 
-    public void addToBattle(final LivingEntity mobA, final LivingEntity mobB)
+    public void addToBattle(LivingEntity mobA, LivingEntity mobB)
     {
+        mobA = EntityProvider.getTracked(mobA);
+        mobB = EntityProvider.getTracked(mobB);
+
         final String teamA = TeamManager.getTeam(mobA);
         final String teamB = TeamManager.getTeam(mobB);
-
-        if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Adding {}({}) and {}({}) to a battle!",
-                mobA.getName().getString(), mobA.getId(), mobB.getName().getString(), mobB.getId());
 
         boolean aIs1 = this.side1.containsKey(mobA.getUUID());
         boolean aIs2 = this.side2.containsKey(mobA.getUUID());
@@ -389,7 +419,15 @@ public class Battle
         final boolean bIs2 = this.side2.containsKey(mobB.getUUID());
 
         // Already in the battle, so skip.
-        if ((aIs1 || aIs2) && (bIs1 || bIs2)) return;
+        if ((aIs1 || aIs2) && (bIs1 || bIs2))
+        {
+            if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Not Adding {}({}) and {}({}) to a battle, already in one",
+                    mobA.getName().getString(), mobA.getId(), mobB.getName().getString(), mobB.getId());
+            return;
+        }
+
+        if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Adding {}({}) and {}({}) to a battle!",
+                mobA.getName().getString(), mobA.getId(), mobB.getName().getString(), mobB.getId());
 
         if (aIs1 || bIs2)
         {
@@ -477,7 +515,7 @@ public class Battle
                 test.accept(testSet);
                 if (invalid.get()) break;
             }
-            if (!invalid.get() && !s1.contains(mob1))
+            if (!invalid.get() && !s1.contains(mob1) && !s2.contains(mob1))
             {
                 s1.add(mob1);
                 changed.set(true);
@@ -492,7 +530,7 @@ public class Battle
                 test.accept(testSet);
                 if (invalid.get()) break;
             }
-            if (!invalid.get() && !s2.contains(mob2))
+            if (!invalid.get() && !s1.contains(mob2) && !s2.contains(mob2))
             {
                 s2.add(mob2);
                 changed.set(true);

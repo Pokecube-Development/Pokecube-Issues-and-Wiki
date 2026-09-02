@@ -211,6 +211,7 @@ public abstract class PokemobMoves extends PokemobStats
     {
         // Enemy always empty when not in battle
         this.setTargetID(-1);
+        this.setBattle(null);
 
         // Ally is either us, or owner when not in battle.
         int allyIndex = this.getMoveStats().allyIndex % 2;
@@ -231,11 +232,12 @@ public abstract class PokemobMoves extends PokemobStats
     {
         LivingEntity owner = this.getOwner();
         LivingEntity target = null;
+        LivingEntity trackedEntity = this.getTrackedEntity();
         // Only process battle stuff server side.
         battle_check:
-        if (!entity.level().isClientSide())
+        if (!trackedEntity.level().isClientSide())
         {
-            Battle b = Battle.getBattle(entity);
+            Battle b = Battle.getBattle(trackedEntity);
 
             if (owner != null && !this.getGeneralState(GeneralStates.STAYING) && this.isRoutineEnabled(
                     AIRoutine.AGRESSIVE))
@@ -248,7 +250,7 @@ public abstract class PokemobMoves extends PokemobStats
                     {
                         // We just add the owner to the list directly, don't call the addToBattle as
                         // we don't want to interrupt the existing target selections
-                        b.addAlly(entity, owner);
+                        b.addAlly(trackedEntity, owner);
                     }
                     else if (b == null)
                     {
@@ -256,7 +258,7 @@ public abstract class PokemobMoves extends PokemobStats
                         b = b2;
                         var mobs = b.getEnemies(owner);
                         // we use createoradd here to ensure that we are agressed.
-                        if (!mobs.isEmpty()) Battle.createOrAddToBattle(entity, mobs.getFirst());
+                        if (!mobs.isEmpty()) Battle.createOrAddToBattle(trackedEntity, mobs.getFirst());
                     }
                 }
             }
@@ -264,10 +266,11 @@ public abstract class PokemobMoves extends PokemobStats
             // If no battle, but is in combat, then make a new battle
             if (b == null && this.inCombat())
             {
-                target = entity.getTarget();
-                if (target != null) Battle.createOrAddToBattle(entity, target);
+                // Use this.getEntity here for the brain's target
+                target = this.getEntity().getTarget();
+                if (target != null) Battle.createOrAddToBattle(trackedEntity, target);
 
-                b = Battle.getBattle(entity);
+                b = Battle.getBattle(trackedEntity);
             }
             this.setBattle(b);
             this.setCombatState(CombatStates.BATTLING, b != null);
@@ -285,25 +288,24 @@ public abstract class PokemobMoves extends PokemobStats
             // Handle the enemies lists first, as if there are none, we can end
             // early.
 
-            List<LivingEntity> mobs = Lists.newArrayList(b.getEnemies(entity));
+            List<LivingEntity> mobs = Lists.newArrayList(b.getEnemies(trackedEntity));
 
             // Ensure that the mobs are valid targets.
-            mobs.removeIf(t2 -> !AITools.shouldBeAbleToAgro(entity, t2));
+            mobs.removeIf(t2 -> !AITools.shouldBeAbleToAgro(trackedEntity, t2));
 
             // If no enemies, lets just end the battle.
             if (mobs.isEmpty())
             {
-                b.removeFromBattle(entity);
                 setNoBattle(ownerOffset);
                 this.setCombatState(CombatStates.BATTLING, false);
                 break battle_check;
             }
 
             // Now, check if any of the enemies are attacking our owner, if so, divert
-            if (owner != null) for (var mob : mobs)
+            if (owner != null && owner != trackedEntity) for (var mob : mobs)
             {
                 var mobTarget = BrainUtils.getAttackTarget(mob);
-                if (mobTarget == owner) BrainUtils.setAttackTarget(mob, entity);
+                if (mobTarget == owner) BrainUtils.setAttackTarget(mob, trackedEntity);
             }
 
             // Now ensure target index is in range.
@@ -317,7 +319,7 @@ public abstract class PokemobMoves extends PokemobStats
             target = mobs.isEmpty() ? null : mobs.get(targetIndex % mobs.size());
 
             // Then also sync attack target in brain.
-            var brainTarget = BrainUtils.getAttackTarget(entity);
+            var brainTarget = BrainUtils.getAttackTarget(this.getEntity());
             brains:
             if (target != brainTarget)
             {
@@ -331,11 +333,13 @@ public abstract class PokemobMoves extends PokemobStats
                     break brains;
                 }
                 // Fire an event to check if we should switch back
-                SwitchTargetEvent event = new SwitchTargetEvent(this, target, brainTarget);
+                SwitchTargetEvent event;
+                if (brainTarget != null) event = new SwitchTargetEvent(this, target, brainTarget);
+                else event = new SwitchTargetEvent(this, null, target);
                 ThutCore.FORGE_BUS.post(event);
-                if(!event.isCanceled())
+                if (!event.isCanceled())
                 {
-                    BrainUtils.setAttackTarget(entity, target = event.getNewTarget());
+                    BrainUtils.setAttackTarget(this.getEntity(), target = event.getNewTarget());
                 }
                 else
                 {
@@ -346,7 +350,7 @@ public abstract class PokemobMoves extends PokemobStats
             this.setTargetID(target == null ? -1 : target.getId());
 
             // Allies are simple
-            mobs = b.getAllies(entity);
+            mobs = b.getAllies(trackedEntity);
             // Update how many allies we have
             this.params.ALLYNUMDW.set(mobs.size());
             // Get the number for modulo, as we also include owner here if
@@ -372,14 +376,17 @@ public abstract class PokemobMoves extends PokemobStats
         else
         {
             int id = this.getTargetID();
-            Entity e = PokecubeAPI.getEntity(entity.level(), id);
-            if (e instanceof LivingEntity living) target = living;
+            Entity e = PokecubeAPI.getEntity(trackedEntity.level(), id);
+            if (e instanceof LivingEntity living)
+            {
+                target = living;
+            }
         }
 
         // Then both sides update targetEnemy and targetAlly
         this.getMoveStats().targetEnemy = target;
-        Entity e = PokecubeAPI.getEntity(entity.level(), this.getAllyID());
-        this.getMoveStats().targetAlly = e instanceof LivingEntity living ? living : null;
+        Entity e = PokecubeAPI.getEntity(trackedEntity.level(), this.getAllyID());
+        this.getMoveStats().targetAlly = e instanceof LivingEntity living && living != trackedEntity ? living : null;
 
         // Only owned mobs process beyond here.
         if (owner == null) return;

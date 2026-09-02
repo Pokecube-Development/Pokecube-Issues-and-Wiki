@@ -8,6 +8,7 @@ import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -185,6 +186,8 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
     protected Vector3 here = new Vector3();
     /** The Entity this IPokemob is attached to. */
     protected Mob entity;
+    /** The Entity this IPokemob is attached to for world lookups, may differ from entity */
+    protected LivingEntity trackedEntity;
     /** Our original owner. */
     protected UUID OTID;
     /** Used for maintaining/storing homes and routes. */
@@ -272,6 +275,18 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
             this.setOwnerHolder(entityIn.getData(Ownable.TYPE));
             this.setCopy(entityIn.getData(CopyMob.TYPE_COPY));
         }
+    }
+
+    @Override
+    public void setTrackableEntity(LivingEntity entityIn)
+    {
+        this.trackedEntity = entityIn;
+    }
+
+    @Override
+    public LivingEntity getTrackedEntity()
+    {
+        return trackedEntity;
     }
 
     protected void setMaxHealth(final float maxHealth)

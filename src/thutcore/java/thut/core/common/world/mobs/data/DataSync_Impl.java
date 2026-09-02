@@ -228,10 +228,27 @@ public class DataSync_Impl implements DataSync
     @Override
     public void mapFrom(DataSync other, String tag)
     {
+        Map<String, Data<?>> oldMap = new HashMap<>();
+        for(var d: this.getTagged(tag)) oldMap.put(d.getName(), d);
         this.clearMatching(tag);
         this.setRegisterTag(tag);
         List<Data<?>> tagged = other.getTagged(tag);
-        for (var d : tagged) this.register(d);
+        for (var d : tagged)
+        {
+            this.register(d);
+            if (oldMap.containsKey(d.getName()))
+            {
+                try
+                {
+                    var oldD = oldMap.get(d.getName());
+                    d.setRaw(oldD.get());
+                }
+                catch (Exception e)
+                {
+                    ThutCore.LOGGER.error("Error copying existing data for {}", d.getName(), e);
+                }
+            }
+        }
     }
 
     @Override
