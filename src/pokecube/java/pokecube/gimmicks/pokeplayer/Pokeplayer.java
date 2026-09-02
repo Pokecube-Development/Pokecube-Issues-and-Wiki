@@ -263,9 +263,7 @@ public class Pokeplayer
         if (entity instanceof NpcMob npc)
         {
             if (npc.getNpcType().equals(NpcType.byType("healer")))
-            {
                 PokecubeManager.heal(pokemob);
-            }
         }
     }
 
