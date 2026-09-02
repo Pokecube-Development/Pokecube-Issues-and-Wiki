@@ -25,6 +25,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
@@ -46,6 +47,7 @@ import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.gimmicks.pokeplayer.blocks.TransformBlock;
+import pokecube.gimmicks.pokeplayer.network.PokeplayerPacketHandler;
 import thut.api.ThutCaps;
 import thut.api.attachments.TrackedAttachment;
 import thut.api.entity.EntityProvider;
@@ -99,6 +101,13 @@ public class Pokeplayer
             }
         });
     }
+
+    /// Packets need to be initialised somewhere, called here
+    public static void setup(FMLCommonSetupEvent event)
+    {
+        PokeplayerPacketHandler.init();
+    }
+
 
     private static final SimpleCommandExceptionType ERROR_FAILED = new SimpleCommandExceptionType(
             Component.translatable("not copy?"));
