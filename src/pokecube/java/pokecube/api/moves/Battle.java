@@ -570,7 +570,7 @@ public class Battle
         // We have changed if stale is not empty
         changed = changed || !stale.isEmpty();
         // If one side is empty, end the battle
-        if (this.side1.isEmpty() || this.side2.isEmpty()) this.end();
+        if (this.s1.isEmpty() || this.s2.isEmpty()) this.end();
         // Otherwise If we did change, sort the sides
         else if (changed) this.sortSides();
 

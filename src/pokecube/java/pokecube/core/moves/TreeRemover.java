@@ -80,8 +80,8 @@ public class TreeRemover
 
     public int cutTree(final boolean count)
     {
-        if (this.blocks.size() > 0 && count) this.clear();
-        else if (this.blocks.size() > 0) return this.cutPoints(count);
+        if (!this.blocks.isEmpty() && count) this.clear();
+        else if (!this.blocks.isEmpty()) return this.cutPoints(count);
         final Vector3 base = this.findTreeBase();
         int ret = 0;
         if (!base.isEmpty())
@@ -101,7 +101,7 @@ public class TreeRemover
         if (PokecubeTerrainChecker.isWood(temp.set(this.centre).getBlockState(this.world)))
         {
             boolean valid = false;
-            while (this.centre.intY() + k > 0)
+            while (this.centre.intY() + k > world.getMinBuildHeight())
             {
                 if (PokecubeTerrainChecker.isWood(temp.set(this.centre).addTo(0, k, 0).getBlockState(this.world)))
                 {}

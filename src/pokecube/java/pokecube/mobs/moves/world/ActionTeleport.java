@@ -5,6 +5,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.HitResult;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -85,7 +86,7 @@ public class ActionTeleport implements IMoveWorldEffect
     {}
 
     @Override
-    public boolean applyOutOfCombat(final IPokemob user, final Vector3 location)
+    public boolean applyOutOfCombat(final IPokemob user, final Vector3 location, HitResult hit)
     {
         if (user.getOwner() instanceof ServerPlayer target)
         {
@@ -96,14 +97,14 @@ public class ActionTeleport implements IMoveWorldEffect
             }
             catch (final Exception e)
             {
-                PokecubeAPI.LOGGER.error("Error Teleporting " + target, e);
+                PokecubeAPI.LOGGER.error("Error Teleporting {}", target, e);
             }
         }
         return true;
     }
 
     @Override
-    public boolean applyInCombat(IPokemob user, Vector3 location)
+    public boolean applyInCombat(IPokemob user, Vector3 location, HitResult hit)
     {
         Battle battle = user.getBattle();
         BrainUtils.deagro(user.getEntity());

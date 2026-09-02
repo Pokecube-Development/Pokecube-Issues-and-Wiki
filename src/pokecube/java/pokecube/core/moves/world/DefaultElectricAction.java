@@ -1,9 +1,12 @@
 package pokecube.core.moves.world;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.utils.PokeType;
@@ -21,33 +24,24 @@ public class DefaultElectricAction extends DefaultAction
         super(move);
     }
 
-    @Override
     /**
      * This will have the following effects, for "Strong" electric type moves:
      * Melt sand to glass
      */
-    public boolean applyOutOfCombat(IPokemob user, Vector3 location)
+    @Override
+    public boolean applyOutOfCombat(IPokemob user, Vector3 location, HitResult hit)
     {
         if (move.getPWR() < ELECTRICSTRONG || !PokecubeCore.getConfig().defaultElectricActions) return false;
         // Things below here all actually damage blocks, so check this.
+        if(!(hit instanceof BlockHitResult blockHit)) return false;
         if (!MoveEventsHandler.canAffectBlock(user, location, move.getName())) return false;
-
         final Level world = user.getEntity().level();
-        final BlockState state = location.getBlockState(world);
+        BlockPos pos = blockHit.getBlockPos();
+        final BlockState state = world.getBlockState(pos);
         final Block block = state.getBlock();
-        final Vector3 nextBlock = new Vector3().set(user.getEntity()).subtractFrom(location).reverse().norm()
-                .addTo(location);
-        final BlockState nextState = nextBlock.getBlockState(world);
         if (block == Blocks.SAND)
         {
-            location.setBlock(world, Blocks.GLASS.defaultBlockState());
-            return true;
-        }
-        else if (state
-                .canBeReplaced(MoveEventsHandler.getContext(world, user, Blocks.GLASS.defaultBlockState(), location))
-                && nextState.getBlock() == Blocks.SAND)
-        {
-            nextBlock.setBlock(world, Blocks.GLASS.defaultBlockState());
+            world.setBlockAndUpdate(pos, Blocks.GLASS.defaultBlockState());
             return true;
         }
         return false;

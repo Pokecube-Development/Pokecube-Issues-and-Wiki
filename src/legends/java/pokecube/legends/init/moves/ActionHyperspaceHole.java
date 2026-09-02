@@ -8,6 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.HitResult;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.core.PokecubeCore;
@@ -26,7 +27,7 @@ public class ActionHyperspaceHole implements IMoveWorldEffect
     {}
 
     @Override
-    public boolean applyOutOfCombat(final IPokemob user, final Vector3 location)
+    public boolean applyOutOfCombat(IPokemob user, Vector3 location, HitResult hit)
     {
         if (user.inCombat()) return false;
         final LivingEntity owner = user.getOwner();
@@ -59,7 +60,7 @@ public class ActionHyperspaceHole implements IMoveWorldEffect
             }
             final PortalWarp block = (PortalWarp) BlockInit.MIRAGE_SPOTS.get();
             final UseContext context = MoveEventsHandler.getContext(world, user, block.defaultBlockState(),
-                    location.add(0, 2, 0));
+                    location.add(0, 1, 0));
             final BlockPos prevPos = context.getClickedPos();
             final BlockState state = BlockInit.MIRAGE_SPOTS.get().getStateForPlacement(context);
 

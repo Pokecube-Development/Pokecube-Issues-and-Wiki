@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FarmBlock;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.HitResult;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.utils.PokeType;
@@ -26,12 +27,12 @@ public class DefaultWaterAction extends DefaultAction
         super(move);
     }
 
-    @Override
     /**
      * This will have the following effects, for water type moves: Extinguish
      * fires if strong: turn lava to obsidian water farmland
      */
-    public boolean applyOutOfCombat(IPokemob user, Vector3 location)
+    @Override
+    public boolean applyOutOfCombat(IPokemob user, Vector3 location, HitResult hit)
     {
         if (!PokecubeCore.getConfig().defaultWaterActions) return false;
         if (user.getMoveStats().targettingSelf) return false;

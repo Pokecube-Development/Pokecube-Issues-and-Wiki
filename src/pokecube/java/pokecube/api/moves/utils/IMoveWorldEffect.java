@@ -1,18 +1,19 @@
 package pokecube.api.moves.utils;
 
+import net.minecraft.world.phys.HitResult;
 import pokecube.api.entity.pokemob.IPokemob;
 import thut.api.maths.Vector3;
 
 public interface IMoveWorldEffect
 {
     /** Apply the effect for the pokemob, move is used at the given location */
-    default boolean applyOutOfCombat(IPokemob user, Vector3 location)
+    default boolean applyOutOfCombat(IPokemob user, Vector3 location, HitResult hit)
     {
         return false;
     }
 
     /** Apply the effect for the pokemob, move is used at the given location */
-    default boolean applyInCombat(IPokemob user, Vector3 location)
+    default boolean applyInCombat(IPokemob user, Vector3 location, HitResult hit)
     {
         return false;
     }

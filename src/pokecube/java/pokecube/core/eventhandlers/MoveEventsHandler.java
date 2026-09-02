@@ -171,17 +171,23 @@ public class MoveEventsHandler
     }
 
     public static UseContext getContext(final Level world, final IPokemob user, final BlockState toPlace,
-            final Vector3 target)
+            BlockHitResult hit)
     {
         final ItemStack stack = new ItemStack(toPlace.getBlock());
         final Player player = getRelevantPlayer(user);
+        return new UseContext(world, player, InteractionHand.MAIN_HAND, stack, hit);
+    }
+
+    public static UseContext getContext(final Level world, final IPokemob user, final BlockState toPlace,
+            final Vector3 target)
+    {
         final Vector3 origin = new Vector3().set(user.getEntity());
         final Vec3 start = origin.toVec3d();
         final Vec3 end = target.toVec3d();
         final ClipContext context = new ClipContext(start, end, ClipContext.Block.COLLIDER, Fluid.ANY,
                 user.getEntity());
         final BlockHitResult hit = world.clip(context);
-        return new UseContext(world, player, InteractionHand.MAIN_HAND, stack, hit);
+        return getContext(world, user, toPlace, hit);
     }
 
     public static UseContext getContext(final Level world, final Entity user, final BlockState toPlace,
@@ -465,8 +471,8 @@ public class MoveEventsHandler
             }
         }
         // Apply each action based on in combat status
-        if (attacker.inCombat()) actions.forEach(a -> a.applyInCombat(attacker, location));
-        else actions.forEach(a -> a.applyOutOfCombat(attacker, location));
+        if (attacker.inCombat()) actions.forEach(a -> a.applyInCombat(attacker, location, evt.getHitResult()));
+        else actions.forEach(a -> a.applyOutOfCombat(attacker, location, evt.getHitResult()));
 
         // Now apply defaults if they exist
         DefaultAction _action;
@@ -482,8 +488,8 @@ public class MoveEventsHandler
         if (_action != null)
         {
             _action.init();
-            if (attacker.inCombat()) _action.applyInCombat(attacker, location);
-            else _action.applyOutOfCombat(attacker, location);
+            if (attacker.inCombat()) _action.applyInCombat(attacker, location, evt.getHitResult());
+            else _action.applyOutOfCombat(attacker, location, evt.getHitResult());
         }
     }
 }

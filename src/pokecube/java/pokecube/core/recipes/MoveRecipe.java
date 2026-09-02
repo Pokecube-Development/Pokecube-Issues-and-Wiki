@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -22,6 +23,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
@@ -53,9 +56,9 @@ public class MoveRecipe implements Recipe<MoveRecipe.WorldCraftInventory>
         }
 
         @Override
-        public boolean applyOutOfCombat(final IPokemob user, final Vector3 location)
+        public boolean applyOutOfCombat(IPokemob user, Vector3 location, HitResult hit)
         {
-            return this.recipe.applyEffect(user, location, this.getMoveName());
+            return this.recipe.applyEffect(user, location, hit, this.getMoveName());
         }
 
         @Override
@@ -190,20 +193,22 @@ public class MoveRecipe implements Recipe<MoveRecipe.WorldCraftInventory>
         return RecipeHandler.MOVE_TYPE.get();
     }
 
-    public boolean applyEffect(final IPokemob user, final Vector3 location, final String name)
+    public boolean applyEffect(IPokemob user, Vector3 location, HitResult hit, String name)
     {
-        return this.attemptCraft(user, location) || this.attemptWorldCraft(user, location, name);
+        return this.attemptCraft(user, location, hit) || this.attemptWorldCraft(user, location, hit, name);
     }
 
-    public boolean attemptWorldCraft(final IPokemob user, final Vector3 location, final String name)
+    public boolean attemptWorldCraft(IPokemob user, Vector3 location, HitResult hit, String name)
     {
+        if(!(hit instanceof BlockHitResult blockHit)) return false;
         // Things below here all actually damage blocks, so check this.
         if (!MoveEventsHandler.canAffectBlock(user, location, name, false, true)) return false;
         // This should look at the block hit, and attempt to craft that into
         // a shapeless recipe.
-        final Level world = user.getEntity().level();
-        final BlockState block = location.getBlockState(world);
-        if (block == null || world.isEmptyBlock(location.getPos())) return false;
+        Level world = user.getEntity().level();
+        BlockPos pos = blockHit.getBlockPos();
+        if (world.isEmptyBlock(pos)) return false;
+        BlockState block = world.getBlockState(pos);
         final ItemStack item = new ItemStack(block.getBlock());
         final WorldCraftInventory inven = new WorldCraftInventory(List.of(item), user);
         boolean matched = this.matches(inven, world);
@@ -216,7 +221,7 @@ public class MoveRecipe implements Recipe<MoveRecipe.WorldCraftInventory>
             final ItemEntity drop = new ItemEntity(world, location.x, location.y, location.z, stack);
             world.addFreshEntity(drop);
         }
-        location.setBlock(world, toSet.defaultBlockState());
+        world.setBlockAndUpdate(pos, toSet.defaultBlockState());
         return true;
     }
 
@@ -259,7 +264,7 @@ public class MoveRecipe implements Recipe<MoveRecipe.WorldCraftInventory>
         return depth;
     }
 
-    public boolean attemptCraft(final IPokemob attacker, final Vector3 location)
+    public boolean attemptCraft(IPokemob attacker, Vector3 location, HitResult hit)
     {
         // This should look for items near the location, and try to stuff
         // them into a shapeless recipe.

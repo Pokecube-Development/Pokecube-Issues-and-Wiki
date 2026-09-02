@@ -16,6 +16,7 @@ import net.minecraft.world.level.biome.Climate;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.phys.HitResult;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -151,7 +152,7 @@ public class ActionNaturePower implements IMoveWorldEffect
     {
         public static class Column
         {
-            int dy = 0;
+            int dy = -1;
             float threshold = 0.5f;
             List<String> ids = Lists.newArrayList();
             List<Float> weights = Lists.newArrayList();
@@ -426,11 +427,11 @@ public class ActionNaturePower implements IMoveWorldEffect
     {}
 
     @Override
-    public boolean applyOutOfCombat(final IPokemob attacker, final Vector3 location)
+    public boolean applyOutOfCombat(final IPokemob user, final Vector3 location, HitResult hit)
     {
-        if (!(attacker.getOwner() instanceof ServerPlayer)) return false;
-        if (!(attacker.getEntity().level() instanceof ServerLevel level)) return false;
-        if (!MoveEventsHandler.canAffectBlock(attacker, location, this.getMoveName())) return false;
+        if (!(user.getOwner() instanceof ServerPlayer)) return false;
+        if (!(user.getEntity().level() instanceof ServerLevel level)) return false;
+        if (!MoveEventsHandler.canAffectBlock(user, location, this.getMoveName())) return false;
         final BlockPos pos = location.getPos();
         if (this.changers.isEmpty()) this.init();
         // Check the changers in order, and apply the first one that returns

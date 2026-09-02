@@ -6,7 +6,6 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.network.syncher.SynchedEntityData.Builder;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -192,8 +191,12 @@ public class EntityMoveUse extends ThrowableProjectile
 
         this.init = true;
         this.startAge = this.getDuration();
-        if (this.start.distToSq(end) > 0.125) this.dir.set(this.end).subtractFrom(this.start).norm();
-        else this.onSelf = true;
+        if (this.start.distToSq(end) > 0.01) this.dir.set(this.end).subtractFrom(this.start).norm();
+        else
+        {
+            this.onSelf = true;
+            this.dir.set(user.getLookAngle()).norm();
+        }
 
         if (this.getUser() == this.getTarget()) this.onSelf = true;
         // If it isn't a self targetting move, add self to ignored list.
@@ -286,7 +289,7 @@ public class EntityMoveUse extends ThrowableProjectile
                 this.finished = true;
                 // We only apply this to do block effects, not for damage. For
                 // damage. we use the call above to doMoveUse(entity)
-                this.getMove().doWorldAction(userMob, this.end);
+                this.getMove().doWorldAction(userMob, this.end, this.dir);
                 this.discard();
             }
         }
@@ -611,7 +614,7 @@ public class EntityMoveUse extends ThrowableProjectile
                 this.finished = true;
                 // We only apply this to do block effects, not for damage. For
                 // damage. we use the call above to doMoveUse(entity)
-                this.getMove().doWorldAction(userMob, this.end);
+                this.getMove().doWorldAction(userMob, this.end, this.dir);
             }
         }
 

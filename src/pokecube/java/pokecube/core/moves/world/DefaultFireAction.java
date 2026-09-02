@@ -1,6 +1,7 @@
 package pokecube.core.moves.world;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -15,12 +16,13 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.MoveEventsHandler;
-import pokecube.core.eventhandlers.MoveEventsHandler.UseContext;
 import thut.api.maths.Vector3;
 
 import java.util.List;
@@ -91,21 +93,24 @@ public class DefaultFireAction extends DefaultAction
      * above, attempt to cook items nearby
      */
     @Override
-    public boolean applyOutOfCombat(IPokemob user, Vector3 location)
+    public boolean applyOutOfCombat(IPokemob user, Vector3 location, HitResult hit)
     {
         if (move.getPWR() <= 0 || !PokecubeCore.getConfig().defaultFireActions) return false;
-        final Level world = user.getEntity().level();
-        final UseContext context = MoveEventsHandler.getContext(world, user, Blocks.LAVA.defaultBlockState(), location);
-        final BlockState state = context.getHitState();
-        Block block = state.getBlock();
-        final BlockPos hitPos = context.getHitPos();
-        final BlockPos prevPos = context.getClickedPos();
-        final boolean light = BaseFireBlock.canBePlacedAt(world, prevPos, context.getHorizontalDirection());
-        final BlockState prev = world.getBlockState(prevPos);
-
         final boolean smelted = DefaultFireAction.attemptSmelt(user, location);
         // First try to smelt items
         if (smelted) return true;
+        if (hit.getType() != HitResult.Type.BLOCK) return false;
+        if(!(hit instanceof BlockHitResult blockHit)) return false;
+
+        final Level world = user.getEntity().level();
+        BlockState state = world.getBlockState(blockHit.getBlockPos());
+        Block block = state.getBlock();
+        Direction direction = getHitDirection(world, blockHit);
+        final BlockPos hitPos = blockHit.getBlockPos().immutable();
+        final BlockPos prevPos = hitPos.relative(direction);
+        final boolean light = BaseFireBlock.canBePlacedAt(world, prevPos, direction);
+        Block prevBlock = world.getBlockState(prevPos).getBlock();
+        // Now try weak effects
 
         // Melt Snow
         if (block == Blocks.SNOW_BLOCK)
@@ -132,33 +137,6 @@ public class DefaultFireAction extends DefaultAction
             world.setBlockAndUpdate(hitPos, Blocks.WATER.defaultBlockState());
             return true;
         }
-        block = prev.getBlock();
-
-        // Melt Snow
-        if (block == Blocks.SNOW_BLOCK)
-        {
-            // Things below here all actually damage blocks, so check this.
-            if (!MoveEventsHandler.canAffectBlock(user, new Vector3(prevPos), move.getName())) return false;
-            world.setBlockAndUpdate(prevPos, Blocks.WATER.defaultBlockState());
-            return true;
-        }
-        // Melt Snow
-        else if (block == Blocks.SNOW)
-        {
-            // Things below here all actually damage blocks, so check this.
-            if (!MoveEventsHandler.canAffectBlock(user, new Vector3(prevPos), move.getName())) return false;
-            final int level = prev.getValue(SnowLayerBlock.LAYERS);
-            world.setBlockAndUpdate(prevPos, Blocks.WATER.defaultBlockState().setValue(LiquidBlock.LEVEL, level));
-            return true;
-        }
-        // Melt Ice
-        else if (block == Blocks.ICE)
-        {
-            // Things below here all actually damage blocks, so check this.
-            if (!MoveEventsHandler.canAffectBlock(user, new Vector3(prevPos), move.getName())) return false;
-            world.setBlockAndUpdate(prevPos, Blocks.WATER.defaultBlockState());
-            return true;
-        }
 
         // Start fires
         if (light && move.getPWR() < FIRESTRONG)
@@ -169,9 +147,9 @@ public class DefaultFireAction extends DefaultAction
             world.setBlockAndUpdate(prevPos, fire);
             return true;
         }
+        // Then see if we need to try strong effects
         if (move.getPWR() < FIRESTRONG) return false;
 
-        block = state.getBlock();
         // Melt obsidian
         if (block == Blocks.OBSIDIAN)
         {
@@ -181,27 +159,11 @@ public class DefaultFireAction extends DefaultAction
             return true;
         }
         // Evapourate water
-        else if (block == Blocks.WATER)
+        else if (prevBlock == Blocks.WATER)
         {
             // Things below here all actually damage blocks, so check this.
-            if (!MoveEventsHandler.canAffectBlock(user, new Vector3(hitPos), move.getName())) return false;
-            world.setBlockAndUpdate(hitPos, Blocks.AIR.defaultBlockState());
-            return true;
-        }
-        block = prev.getBlock();
-        if (block == Blocks.OBSIDIAN)
-        {
-            // Things below here all actually damage blocks, so check this.
-            if (!MoveEventsHandler.canAffectBlock(user, new Vector3(hitPos), move.getName())) return false;
-            world.setBlockAndUpdate(hitPos, Blocks.LAVA.defaultBlockState());
-            return true;
-        }
-        // Evapourate water
-        else if (block == Blocks.WATER)
-        {
-            // Things below here all actually damage blocks, so check this.
-            if (!MoveEventsHandler.canAffectBlock(user, new Vector3(hitPos), move.getName())) return false;
-            world.setBlockAndUpdate(hitPos, Blocks.AIR.defaultBlockState());
+            if (!MoveEventsHandler.canAffectBlock(user, new Vector3(prevPos), move.getName())) return false;
+            world.setBlockAndUpdate(prevPos, Blocks.AIR.defaultBlockState());
             return true;
         }
         // Start fires

@@ -1,6 +1,8 @@
 package pokecube.mobs.moves.world;
 
 import net.minecraft.core.Direction;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.core.PokecubeCore;
@@ -16,10 +18,12 @@ public class ActionCut implements IMoveWorldEffect
     }
 
     @Override
-    public boolean applyOutOfCombat(final IPokemob user, final Vector3 location)
+    public boolean applyOutOfCombat(IPokemob user, Vector3 location, HitResult hit)
     {
+        if(!(hit instanceof BlockHitResult blockHit)) return false;
+        location = new Vector3(blockHit.getBlockPos());
         boolean used = false;
-        int count = 10;
+        int count;
         final int level = user.getLevel();
         final int hungerValue = PokecubeCore.getConfig().pokemobLifeSpan / 8;
         if (!MoveEventsHandler.canAffectBlock(user, location, this.getMoveName())) return false;

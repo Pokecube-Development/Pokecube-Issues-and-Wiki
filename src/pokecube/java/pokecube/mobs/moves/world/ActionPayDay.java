@@ -11,6 +11,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.phys.HitResult;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.IMoveWorldEffect;
 import thut.api.maths.Vector3;
@@ -24,7 +25,7 @@ public class ActionPayDay implements IMoveWorldEffect
     {}
 
     @Override
-    public boolean applyInCombat(final IPokemob user, final Vector3 location)
+    public boolean applyInCombat(final IPokemob user, final Vector3 location, HitResult hit)
     {
         final LivingEntity poke = user.getEntity();
         final LootTable loottable = poke.level().getServer().reloadableRegistries()

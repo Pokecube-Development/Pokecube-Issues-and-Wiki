@@ -3,6 +3,7 @@ package pokecube.mobs.moves.world;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.HitResult;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.core.PokecubeCore;
@@ -15,7 +16,7 @@ public class ActionFlash implements IMoveWorldEffect
     }
 
     @Override
-    public boolean applyOutOfCombat(final IPokemob user, final Vector3 location)
+    public boolean applyOutOfCombat(final IPokemob user, final Vector3 location, HitResult hit)
     {
         final LivingEntity owner = user.getOwner();
         if (owner == null) return false;

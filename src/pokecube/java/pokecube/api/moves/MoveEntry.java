@@ -6,6 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.moves.MoveApplicationRegistry;
@@ -228,17 +229,19 @@ public class MoveEntry implements IMoveConstants
      * @param attacker - mob using the move
      * @param location - locaton move hits
      */
-    public void doWorldAction(IPokemob attacker, Vector3 location)
+    public void doWorldAction(IPokemob attacker, Vector3 location, Vector3 direction)
     {
-        Vector3 origin = new Vector3().set(attacker.getEntity().getEyePosition(0));
-        Vector3 direction = location.subtract(origin).norm().scalarMultBy(0.5);
-        location = location.add(direction);
-        MoveWorldAction.PreAction preEvent = new MoveWorldAction.PreAction(this, attacker, location);
+        var entity = attacker.getTrackedEntity();
+        var clipContext = new ClipContext(location.toVec3d(), direction.scalarMult(0.1).addTo(location).toVec3d(), ClipContext.Block.OUTLINE, ClipContext.Fluid.ANY, entity);
+        var hit = entity.level().clip(clipContext);
+
+        var preEvent = new MoveWorldAction.PreAction(this, attacker, location, hit);
+        var onEvent = new MoveWorldAction.OnAction(this, attacker, location, hit);
+        var postEvent = new MoveWorldAction.PostAction(this, attacker, location, hit);
+
         if (!PokecubeAPI.MOVE_BUS.post(preEvent).isCanceled())
         {
-            MoveWorldAction.OnAction onEvent = new MoveWorldAction.OnAction(this, attacker, location);
             PokecubeAPI.MOVE_BUS.post(onEvent);
-            MoveWorldAction.PostAction postEvent = new MoveWorldAction.PostAction(this, attacker, location);
             PokecubeAPI.MOVE_BUS.post(postEvent);
         }
     }

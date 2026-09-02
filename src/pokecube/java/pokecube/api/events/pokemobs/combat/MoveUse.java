@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.phys.HitResult;
 import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.ICancellableEvent;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -125,9 +126,9 @@ public class MoveUse extends Event
         {
             public final List<ItemEntity> items;
 
-            public AffectItem(MoveEntry move, IPokemob user, Vector3 location, List<ItemEntity> items)
+            public AffectItem(MoveEntry move, IPokemob user, Vector3 location, HitResult hit, List<ItemEntity> items)
             {
-                super(move, user, location);
+                super(move, user, location, hit);
                 this.items = items;
             }
         }
@@ -143,39 +144,46 @@ public class MoveUse extends Event
          */
         public static class OnAction extends MoveWorldAction implements ICancellableEvent
         {
-            public OnAction(MoveEntry move, IPokemob user, Vector3 location)
+            public OnAction(MoveEntry move, IPokemob user, Vector3 location, HitResult hit)
             {
-                super(move, user, location);
+                super(move, user, location, hit);
             }
         }
 
         public static class PostAction extends MoveWorldAction
         {
-            public PostAction(MoveEntry move, IPokemob user, Vector3 location)
+            public PostAction(MoveEntry move, IPokemob user, Vector3 location, HitResult hit)
             {
-                super(move, user, location);
+                super(move, user, location, hit);
             }
         }
 
         public static class PreAction extends MoveWorldAction implements ICancellableEvent
         {
-            public PreAction(MoveEntry move, IPokemob user, Vector3 location)
+            public PreAction(MoveEntry move, IPokemob user, Vector3 location, HitResult hit)
             {
-                super(move, user, location);
+                super(move, user, location, hit);
             }
         }
 
         private final Vector3 location;
+        private final HitResult hit;
 
-        MoveWorldAction(MoveEntry move, IPokemob user, Vector3 location)
+        MoveWorldAction(MoveEntry move, IPokemob user, Vector3 location, HitResult hit)
         {
             super(user, move);
             this.location = location;
+            this.hit = hit;
         }
 
         public Vector3 getLocation()
         {
             return this.location;
+        }
+
+        public HitResult getHitResult()
+        {
+            return hit;
         }
     }
 

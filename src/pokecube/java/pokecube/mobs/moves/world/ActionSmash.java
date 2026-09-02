@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.HitResult;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.combat.MoveUse;
@@ -26,10 +27,10 @@ public class ActionSmash implements IMoveWorldEffect
     {}
 
     @Override
-    public boolean applyOutOfCombat(final IPokemob user, final Vector3 location)
+    public boolean applyOutOfCombat(IPokemob user, Vector3 location, HitResult hit)
     {
         boolean used = false;
-        int count = 10;
+        int count;
         int level = user.getLevel();
         final int hungerValue = PokecubeCore.getConfig().pokemobLifeSpan / 8;
         if (!MoveEventsHandler.canAffectBlock(user, location, this.getMoveName())) return false;
@@ -49,7 +50,7 @@ public class ActionSmash implements IMoveWorldEffect
             if (!items.isEmpty())
             {
                 final MoveEntry move = MovesUtils.getMove(this.getMoveName());
-                return PokecubeAPI.MOVE_BUS.post(new MoveUse.MoveWorldAction.AffectItem(move, user, location, items))
+                return PokecubeAPI.MOVE_BUS.post(new MoveUse.MoveWorldAction.AffectItem(move, user, location, hit, items))
                         .isCanceled();
             }
         }

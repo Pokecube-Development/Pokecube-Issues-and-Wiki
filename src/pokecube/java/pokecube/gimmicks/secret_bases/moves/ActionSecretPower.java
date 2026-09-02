@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.HitResult;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.gimmicks.secret_bases.blocks.BaseBlock;
@@ -31,7 +32,7 @@ public class ActionSecretPower implements IMoveWorldEffect
     {}
 
     @Override
-    public boolean applyOutOfCombat(final IPokemob attacker, final Vector3 location)
+    public boolean applyOutOfCombat(final IPokemob attacker, final Vector3 location, HitResult hit)
     {
         if (!(attacker.getOwner() instanceof ServerPlayer player)) return false;
         if (!MoveEventsHandler.canAffectBlock(attacker, location, this.getMoveName())) return false;
