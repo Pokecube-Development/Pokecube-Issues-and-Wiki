@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.EventPriority;
+import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
@@ -80,6 +81,11 @@ public class MoveEventsHandler
             super(worldIn, playerIn, handIn, stackIn, rayTraceResultIn);
         }
 
+        public BlockHitResult getBlockHitResult()
+        {
+            return this.getHitResult();
+        }
+
         public BlockPos getHitPos()
         {
             return this.getHitResult().getBlockPos();
@@ -117,8 +123,15 @@ public class MoveEventsHandler
         return MoveEventsHandler.canAffectBlock(user, location, move, true, true);
     }
 
+    public static Player getRelevantPlayer(IPokemob user)
+    {
+        LivingEntity owner = user.getOwner();
+        if (!(owner instanceof Player)) owner = PokecubeMod.getFakePlayer(user.getEntity().level());
+        return (Player) owner;
+    }
+
     /**
-     * This method should be called before any block setting by any move effects.
+     * This method should be called before any block setting or breaking by any move effects.
      */
     public static boolean canAffectBlock(final IPokemob user, final Vector3 location, final String move,
             final boolean repelWarning, final boolean denyMessage)
@@ -137,13 +150,14 @@ public class MoveEventsHandler
         LivingEntity owner = user.getOwner();
         final boolean repel = SpawnHandler.getNoSpawnReason(user.getEntity().level(), location.intX(), location.intY(),
                 location.intZ()) == ForbidReason.REPEL;
-        if (!(owner instanceof Player)) owner = PokecubeMod.getFakePlayer(user.getEntity().level());
         if (repel)
         {
-            if (!user.inCombat() && repelWarning) CommandTools.sendError(owner, "pokemob.action.denyrepel");
+            if (!user.inCombat() && repelWarning && owner != null)
+                CommandTools.sendError(owner, "pokemob.action.denyrepel");
             return false;
         }
-        final Player player = (Player) owner;
+        Player player = getRelevantPlayer(user);
+        if (!CommonHooks.canEntityDestroy(user.getTrackedEntity().level(), location.getPos(), player)) return false;
         var event = new BlockEvent.BreakEvent(player.level(), location.getPos(), location.getBlockState(player.level()), player);
         ThutCore.FORGE_BUS.post(event);
         if (event.isCanceled())
@@ -160,9 +174,7 @@ public class MoveEventsHandler
             final Vector3 target)
     {
         final ItemStack stack = new ItemStack(toPlace.getBlock());
-        final Player player = user.getOwner() instanceof Player
-                ? (Player) user.getOwner()
-                : PokecubeMod.getFakePlayer(world);
+        final Player player = getRelevantPlayer(user);
         final Vector3 origin = new Vector3().set(user.getEntity());
         final Vec3 start = origin.toVec3d();
         final Vec3 end = target.toVec3d();
@@ -464,6 +476,7 @@ public class MoveEventsHandler
             if ((_action = new DefaultIceAction(move)).isValid()) break actions;
             if ((_action = new DefaultElectricAction(move)).isValid()) break actions;
             if ((_action = new DefaultFireAction(move)).isValid()) break actions;
+            if ((_action = new DefaultAction(move)).isValid()) break actions;
             _action = null;
         }
         if (_action != null)

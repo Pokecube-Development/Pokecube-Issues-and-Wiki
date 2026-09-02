@@ -279,8 +279,6 @@ public class Config extends ConfigData
     @Configure(category = Config.misc, comment = "additional Mob IDs or Entity_Type tags which are blacklisted from going into snag cubes")
     public List<String> snag_cube_blacklist = Lists.newArrayList();
 
-    @Configure(category = Config.misc, comment = "Automatically adds interactions such as water from water types, and lighting torches for fire types. [Default: true]")
-    public boolean defaultInteractions = true;
     @Configure(category = Config.misc, comment = "The mob's favourite berry can be used to speed up breeding. [Default: true]")
     public boolean berryBreeding = true;
     @Configure(category = Config.misc, comment = "Using a bed will heal your pokemobs. [Default: true]")
@@ -376,6 +374,9 @@ public class Config extends ConfigData
     public boolean onlyPokemobsDamagePokemobs = false;
     @Configure(category = Config.moves, comment = "This scales how much damage players can deal to pokemobs. [Default: 1.0]")
     public double playerToPokemobDamageScale = 1;
+
+    @Configure(category = Config.misc, comment = "Automatically adds interactions such as water from water types, and lighting torches for fire types. [Default: true]")
+    public boolean defaultInteractions = true;
     @Configure(category = Config.moves, comment = "Enables world effects of fire type moves, such as: lighting fires, smelting, etc. [Default: true]")
     public boolean defaultFireActions = true;
     @Configure(category = Config.moves, comment = "Enables world effects of water type moves. [Default: true]")
@@ -384,6 +385,9 @@ public class Config extends ConfigData
     public boolean defaultElectricActions = true;
     @Configure(category = Config.moves, comment = "Enables world effects of ice type moves. [Default: true]")
     public boolean defaultIceActions = true;
+    @Configure(category = Config.moves, comment = "Enables world effects of right clicking with damaging moves. [Default: true]")
+    public boolean defaultInteractAction = true;
+
     @Configure(category = Config.moves, comment = "If this is false, then when a pokemob replaces a move, the old move will be added to the list of moves it can learn. [Default: false]")
     public boolean movesForgottenWhenOverriden = false;
 
