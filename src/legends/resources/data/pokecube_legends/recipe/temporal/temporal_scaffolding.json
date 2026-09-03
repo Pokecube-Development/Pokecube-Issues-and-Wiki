@@ -8,7 +8,7 @@
   ],
   "key": {
     "~": {
-      "tag": "c:string"
+      "tag": "c:strings"
     },
     "I": {
       "item": "pokecube_legends:temporal_bamboo"
