@@ -29,7 +29,6 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
@@ -51,7 +50,6 @@ import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.gimmicks.pokeplayer.blocks.TransformBlock;
 import pokecube.gimmicks.pokeplayer.network.PokeplayerPacketHandler;
-import pokecube.gimmicks.pokeplayer.network.packets.PacketHandshake;
 import thut.api.ThutCaps;
 import thut.api.attachments.TrackedAttachment;
 import thut.api.entity.EntityProvider;
@@ -77,8 +75,6 @@ public class Pokeplayer
     {
         // The commmand to turn into a pokemob
         ThutCore.FORGE_BUS.addListener(Pokeplayer::onCommandRegister);
-        // For syncing pokeplayer when joining a world
-        ThutCore.FORGE_BUS.addListener(Pokeplayer::onPlayerJoinWorld);
         // We want to sync from copy to us, not other way, so handle that here.
         ThutCore.FORGE_BUS.addListener(Pokeplayer::onCopyTick);
         // Handles resetting flight permissions when un-setting mob
@@ -197,13 +193,6 @@ public class Pokeplayer
                 }).executes(ctx -> doPokeplayerCommand(StringArgumentType.getString(ctx, "entry_or_none"),
                         ctx.getSource().getEntity()))));
         event.getDispatcher().register(command);
-    }
-
-    private static void onPlayerJoinWorld(final EntityJoinLevelEvent evt)
-    {
-        if (!(evt.getEntity() instanceof Player player)) return;
-        var copy = ThutCaps.getCopyMob(player);
-        if (copy == null) return;
     }
 
     private static void onEvolve(EvolveEvent.Post event)
