@@ -701,7 +701,7 @@ public class PokedexEntry
     public static TimePeriod dusk = new TimePeriod(0.45, 0.6);
     public static TimePeriod night = new TimePeriod(0.6, 0.85);
 
-    private static final PokedexEntry BLANK = new PokedexEntry(true);
+    private static final PokedexEntry BLANK = new PokedexEntry();
 
     public static final ResourceLocation MODELNO = ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID,
             MODELPATH + "missingno");
@@ -754,6 +754,8 @@ public class PokedexEntry
     @CopyToGender
     @Required
     public int[] stats = null;
+    @CopyToGender
+    public byte[] evs;
 
     /** The abilities available to the pokedex entry. */
     @CopyToGender
@@ -839,8 +841,7 @@ public class PokedexEntry
     /** Who this pokemon evolves from. */
     @CopyToGender
     public PokedexEntry _evolvesFrom = null;
-    @CopyToGender
-    public byte[] evs;
+
     public PokedexEntry female = null;
     /** Inital list of species which are prey */
     @CopyToGender
@@ -1032,7 +1033,7 @@ public class PokedexEntry
     /**
      * This constructor is used for making blank entry for copy comparisons.
      */
-    private PokedexEntry(final boolean ignored)
+    private PokedexEntry()
     {
         // Nothing
     }
@@ -1280,9 +1281,8 @@ public class PokedexEntry
 
         if (e.possibleMoves == null) e.possibleMoves = this.possibleMoves;
         if (e.lvlUpMoves == null) e.lvlUpMoves = this.lvlUpMoves;
-        if (e.stats == null) e.stats = this.stats.clone();
-        if (this.evs == null) PokecubeAPI.LOGGER.error("{} {}", this, this.baseForme, new IllegalArgumentException());
-        if (e.evs == null) e.evs = this.evs.clone();
+        if (e.stats == null && this.stats != null) e.stats = this.stats.clone();
+        if (e.evs == null && this.evs != null) e.evs = this.evs.clone();
         if (e.height == -1) e.height = this.height;
         if (e.width == -1) e.width = this.width;
         if (e.length == -1) e.length = this.length;
@@ -1310,20 +1310,20 @@ public class PokedexEntry
         if (gender == IPokemob.MALE && model != null)
         {
             this._male_holder = model;
-            this.male = model.getEntry();
+            model._loaded = true;
+            this.male = model.getEntry(this);
             this.male.isGenderForme = true;
             this.male.isMaleForme = true;
-            this.male.setBaseForme(this);
             this.copyToForm(male);
             this.copyFieldsToGenderForm(this.male);
         }
         if (gender == IPokemob.FEMALE && model != null)
         {
             this._female_holder = model;
-            this.female = model.getEntry();
+            model._loaded = true;
+            this.female = model.getEntry(this);
             this.female.isGenderForme = true;
             this.female.isFemaleForme = true;
-            this.female.setBaseForme(this);
             this.copyToForm(female);
             this.copyFieldsToGenderForm(this.female);
         }
@@ -1467,7 +1467,7 @@ public class PokedexEntry
     /** @return the EVs earned by enemy at the end of a fight */
     public byte[] getEVs()
     {
-        return this.evs;
+        return this._root_json.evs.asArray();
     }
 
     public PokedexEntry getForGender(final byte gender)
@@ -1623,38 +1623,32 @@ public class PokedexEntry
 
     public int getStatATT()
     {
-        return this.stats[1];
+        return this._root_json.stats.attack;
     }
 
     public int getStatATTSPE()
     {
-        return this.stats[3];
+        return this._root_json.stats.special_attack;
     }
 
     public int getStatDEF()
     {
-        return this.stats[2];
+        return this._root_json.stats.defense;
     }
 
     public int getStatDEFSPE()
     {
-        return this.stats[4];
+        return this._root_json.stats.special_defense;
     }
 
     public int getStatHP()
     {
-        return this.stats[0];
-    }
-
-    /** @return the stats */
-    public int[] getStats()
-    {
-        return this.stats;
+        return this._root_json.stats.hp;
     }
 
     public int getStatVIT()
     {
-        return this.stats[5];
+        return this._root_json.stats.speed;
     }
 
     public String getTexture(final byte gender)

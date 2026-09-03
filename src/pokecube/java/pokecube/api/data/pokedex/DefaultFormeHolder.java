@@ -18,6 +18,7 @@ import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
+import pokecube.core.database.pokedex.JsonPokedexEntry;
 import thut.core.common.ThutCore;
 
 public class DefaultFormeHolder
@@ -69,6 +70,7 @@ public class DefaultFormeHolder
     public Map<String, TexColours> _colourMap_ = Maps.newHashMap();
     public Map<String, MatTexs> _matsMap_ = Maps.newHashMap();
     public Set<String> _hide_ = Sets.newHashSet();
+    public boolean _loaded = false;
     private final List<FormeHolder> _matches = Lists.newArrayList();
 
     @Override
@@ -79,12 +81,14 @@ public class DefaultFormeHolder
         return this.key.equals(holder.key);
     }
 
-    public PokedexEntry getEntry()
+    public PokedexEntry getEntry(PokedexEntry baseEntry)
     {
         PokedexEntry fromKey = Database.getEntry(this.key);
         if (fromKey == null)
         {
-            fromKey = new PokedexEntry(0, this.key, true);
+            int nb = baseEntry != null ? baseEntry.pokedexNb : 0;
+            fromKey = new PokedexEntry(nb, this.key, true);
+            if (baseEntry != null) fromKey.setBaseForme(baseEntry);
             if (this.dye != null) this.dye.accept(fromKey);
             if (this.types != null)
             {
@@ -99,10 +103,15 @@ public class DefaultFormeHolder
             }
             if (mass > 0) fromKey.mass = mass;
             if (hasShiny != null) fromKey.hasShiny = this.hasShiny;
+            if (fromKey.getBaseForme() != null)
+            {
+                fromKey._root_json = JsonPokedexEntry.fromPokedexEntry(fromKey);
+            }
         }
-        else if (fromKey.pokedexNb != 0)
+        else if (fromKey.pokedexNb != 0 && !_loaded && fromKey != baseEntry)
         {
-//            new IllegalArgumentException("Duplicate entry!").printStackTrace();
+            System.out.println(this.key + "\n" + fromKey._root_json + " " + fromKey.getBaseForme()+" "+(fromKey==baseEntry));
+            PokecubeAPI.LOGGER.error("Existing entry for {}", this.key, new IllegalArgumentException());
         }
         return fromKey;
     }
@@ -166,21 +175,23 @@ public class DefaultFormeHolder
             c.material = ThutCore.trim(c.material);
             this._matsMap_.put(c.material, c);
         }
-        var base = this.getEntry().getBaseForme();
+        var entry = this.getEntry(baseEntry);
+        _loaded = true;
+        var base = entry.getBaseForme();
         if (base == null || base == Database.missingno)
         {
-            this.getEntry().setBaseForme(baseEntry);
-            baseEntry.copyToForm(this.getEntry());
+            entry.setBaseForme(baseEntry);
+            baseEntry.copyToForm(entry);
         }
-        String model = this.getEntry().modelPath;
-        String modid = this.getEntry().getModId();
-        String tex = this.getEntry().texturePath;
+        String model = entry.modelPath;
+        String modid = entry.getModId();
+        String tex = entry.texturePath;
         if (modid == null) modid = "pokecube_mobs";
         if (!tex.contains(":")) tex = modid + ":" + tex;
         if (!model.contains(":")) model = modid + ":" + model;
 
-        this.getEntry().texturePath = tex;
-        this.getEntry().modelPath = model;
+        entry.texturePath = tex;
+        entry.modelPath = model;
 
         ResourceLocation texl = this.tex != null ? PokecubeItems.toResource(tex + this.tex, modid) : null;
         ResourceLocation modell = this.model != null ? PokecubeItems.toResource(model + this.model, modid) : null;
@@ -191,10 +202,10 @@ public class DefaultFormeHolder
         if (animl != null && !animl.getPath().endsWith(".xml"))
             animl = ResourceLocation.fromNamespaceAndPath(animl.getNamespace(), animl.getPath() + ".xml");
 
-        final FormeHolder holder = FormeHolder.get(this.getEntry(), modell, texl, animl, key);
+        final FormeHolder holder = FormeHolder.get(entry, modell, texl, animl, key);
         holder.loaded_from = this;
-        holder._entry = this.getEntry();
-        Database.registerFormeHolder(this.getEntry(), holder);
+        holder._entry = entry;
+        Database.registerFormeHolder(entry, holder);
         return holder;
     }
 }

@@ -56,9 +56,9 @@ public class JsonPokedexEntry
      */
     public static class Sizes implements Consumer<PokedexEntry>
     {
-        float height;
-        float width = -1;
-        float length = -1;
+        public float height;
+        public float width = -1;
+        public float length = -1;
 
         @Override
         public void accept(PokedexEntry t)
@@ -77,17 +77,17 @@ public class JsonPokedexEntry
      */
     public static class Stats implements Consumer<PokedexEntry>
     {
-        int hp = 0;
-        int attack = 0;
-        int defense = 0;
-        int special_attack = 0;
-        int special_defense = 0;
-        int speed = 0;
+        public int hp = 0;
+        public int attack = 0;
+        public int defense = 0;
+        public int special_attack = 0;
+        public int special_defense = 0;
+        public int speed = 0;
 
         @Override
         public void accept(PokedexEntry t)
         {
-            t.stats = new int[] { hp, attack, defense, special_attack, special_defense, speed };
+//            t.stats = new int[] { hp, attack, defense, special_attack, special_defense, speed };
         }
 
         public void set(int[] stats)
@@ -98,6 +98,16 @@ public class JsonPokedexEntry
             this.special_attack = stats[0];
             this.special_defense = stats[0];
             this.speed = stats[0];
+        }
+
+        public void cloneFrom(Stats other)
+        {
+            this.hp = other.hp;
+            this.attack = other.attack;
+            this.defense = other.defense;
+            this.special_attack = other.special_attack;
+            this.special_defense = other.special_defense;
+            this.speed = other.speed;
         }
     }
 
@@ -121,6 +131,12 @@ public class JsonPokedexEntry
             this.special_attack = stats[0];
             this.special_defense = stats[0];
             this.speed = stats[0];
+        }
+
+        public byte[] asArray()
+        {
+            return new byte[] { (byte) hp, (byte) attack, (byte) defense, (byte) special_attack, (byte) special_defense,
+                    (byte) speed };
         }
     }
 
@@ -184,13 +200,14 @@ public class JsonPokedexEntry
     public static JsonPokedexEntry fromPokedexEntry(PokedexEntry e)
     {
         JsonPokedexEntry made;
-
         if (e._root_json != null)
         {
             made = e._root_json;
         }
         else
         {
+            JsonPokedexEntry root = null;
+            if (e.getBaseForme() != null) root = e.getBaseForme()._root_json;
             made = new JsonPokedexEntry();
             made.name = e.getTrimmedName();
             made.modid = e.getModId();
@@ -204,15 +221,32 @@ public class JsonPokedexEntry
             made.size.length = e.length;
 
             made.stats = new Stats();
-            made.stats.set(e.stats);
-
             made.evs = new EVs();
-            made.evs.set(e.evs);
 
-            made.gender_rate = e.sexeRatio;
-            made.capture_rate = e.catchRate;
+            if (root != null)
+            {
+                if (root.stats == null)
+                {
+                    PokecubeAPI.LOGGER.error("No root stats for {}", e, new IllegalStateException());
+                }
+                if (root.evs == null)
+                {
+                    PokecubeAPI.LOGGER.error("No root evs for {}", e, new IllegalStateException());
+                }
+                made.stats.cloneFrom(root.stats != null ? root.stats : made.stats);
+                made.evs.cloneFrom(root.evs != null ? root.evs : made.evs);
+            }
+            else
+            {
+                PokecubeAPI.LOGGER.error("No root for {}", e, new IllegalStateException());
+                made.stats.set(e.stats);
+                made.evs.set(e.evs);
+            }
+            made.gender_rate = e.getSexeRatio();
+            made.capture_rate = e.getCatchRate();
             made.base_experience = e.baseXP;
             made.mass = (float) e.mass;
+            e._root_json = made;
         }
         return made;
     }
@@ -423,7 +457,7 @@ public class JsonPokedexEntry
                 }
                 catch (Exception e)
                 {
-                    e.printStackTrace();
+                    PokecubeAPI.LOGGER.error("Error checking poseShapes", e);
                 }
             });
         }
@@ -454,7 +488,7 @@ public class JsonPokedexEntry
                     }
                     catch (Exception e)
                     {
-                        e.printStackTrace();
+                        PokecubeAPI.LOGGER.error("Error checking passengerOffsets", e);
                     }
                     entry.passengerOffsets[i][0] = x;
                     entry.passengerOffsets[i][1] = z;
