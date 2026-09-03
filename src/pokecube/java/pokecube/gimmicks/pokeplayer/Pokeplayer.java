@@ -14,6 +14,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -25,6 +26,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.phys.HitResult;
+import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -40,6 +42,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.pokemobs.EvolveEvent;
+import pokecube.api.events.pokemobs.combat.StatusEvent;
 import pokecube.api.moves.Battle;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
@@ -99,7 +102,7 @@ public class Pokeplayer
         PokecubeAPI.POKEMOB_BUS.addListener(Pokeplayer::onEvolve);
 
         // Proper status allocation to the player
-        //PokecubeAPI.MOVE_BUS.addListener(Pokeplayer::preStatusAddedPokeplayer);
+        PokecubeAPI.MOVE_BUS.addListener(Pokeplayer::preStatusAddedPokeplayer);
 
 
         // Add a check to not remove pokeplayers
@@ -445,39 +448,65 @@ public class Pokeplayer
         if (pokemob.getPokedexEntry().isHeatProof || pokemob.isType(PokeType.getType("fire"))) player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 60, 1, true, false));
     }
 
-    /// Performs pokemob checks for status, then gives pokemob the player's status,
+    /// Gives pokemob the player's status,
     /// so effects like golden apple status are not lost.
     /// This should run after any player status changes in onCopyTick().
     private static void updateStatus(final Player player, final IPokemob pokemob)
     {
-        Collection<MobEffectInstance> statusEffectInstances = player.getActiveEffects();
+        // Set pokemob status effects to the player's
+        LivingEntity pokemobEntity = pokemob.getTrackedEntity();
+        StatusEffects.setStatus(pokemobEntity, player, StatusEffects.getStatusEffect(player));
+    }
 
-        // Perform pokemob checks for status (e.g. remove burn from fire types)
-        for (MobEffectInstance statusEffectInstance : statusEffectInstances)
+    /// Adapted from line 298 - 331 of MoveEventsHandler (preStatusAdded())
+    /// Performs pokemob checks for status, with the added check of
+    /// infinite duration. If it is infinite, then make it 3 seconds
+    private static void preStatusAddedPokeplayer(StatusEvent.PreAdd event)
+    {
+        // Only for when the player is getting the status.
+        if (!(event.getEntity() instanceof Player player)) return;
+
+        ICopyMob copy = ThutCaps.getCopyMob(player);
+        if (copy == null) return;
+        LivingEntity pokemobEntity = EntityProvider.getTracked(copy.getCopiedMob());
+        if (pokemobEntity == null) return;
+        IPokemob pokemob = PokemobCaps.getPokemobFor(pokemobEntity);
+
+        Holder<MobEffect> status = event.getStatus();
+        MobEffectInstance statusEffectInstance = event.getInstance();
+
+        // If infinite, set it to 3 seconds (60 ticks)
+        if (status == StatusEffects.BURN)
         {
-            Holder<MobEffect> status = statusEffectInstance.getEffect();
-
-            if (status == StatusEffects.BURN)
-                if (pokemob.isType(PokeType.getType("fire")))
-                    player.removeEffect(status);
-
-            else if (status == StatusEffects.PARALYSIS)
-                if (pokemob.isType(PokeType.getType("electric")))
-                    player.removeEffect(status);
-
-            else if (status == StatusEffects.FREEZE)
-                if (pokemob.isType(PokeType.getType("ice")))
-                    player.removeEffect(status);
-
-            else if (status == StatusEffects.POISON)
-                if (pokemob.isType(PokeType.getType("poison")) || pokemob.isType(PokeType.getType("steel")))
-                    player.removeEffect(status);
+            if (pokemob.isType(PokeType.getType("fire")))
+                player.removeEffect(status);
+            if (statusEffectInstance.isInfiniteDuration())
+                event.setInstance(new MobEffectInstance(status, 60, statusEffectInstance.getAmplifier()));
         }
 
-        // Erase existing pokemob status effects, replacing them with the player's/
-        LivingEntity pokemobEntity = pokemob.getEntity();
-        pokemobEntity.removeAllEffects();
-        StatusEffects.setStatus(pokemobEntity, player, StatusEffects.getStatusEffect(player));
+        else if (status == StatusEffects.PARALYSIS)
+        {
+            if (pokemob.isType(PokeType.getType("electric")))
+                player.removeEffect(status);
+            if (statusEffectInstance.isInfiniteDuration())
+                event.setInstance(new MobEffectInstance(status, 60, statusEffectInstance.getAmplifier()));
+        }
+
+        else if (status == StatusEffects.FREEZE)
+        {
+            if (pokemob.isType(PokeType.getType("ice")))
+                player.removeEffect(status);
+            if (statusEffectInstance.isInfiniteDuration())
+                event.setInstance(new MobEffectInstance(status, 60, statusEffectInstance.getAmplifier()));
+        }
+
+        else if (status == StatusEffects.POISON)
+        {
+            if (pokemob.isType(PokeType.getType("poison")) || pokemob.isType(PokeType.getType("steel")))
+                player.removeEffect(status);
+            if (statusEffectInstance.isInfiniteDuration())
+                event.setInstance(new MobEffectInstance(status, 60, statusEffectInstance.getAmplifier()));
+        }
     }
 
 }

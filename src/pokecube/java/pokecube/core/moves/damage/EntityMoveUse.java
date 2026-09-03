@@ -267,6 +267,10 @@ public class EntityMoveUse extends ThrowableProjectile
         if (!this.level.isClientSide)
         {
             final IPokemob userMob = PokemobCaps.getPokemobFor(user);
+            if (userMob == null) {
+                this.discard();
+                return;
+            }
             Battle b = Battle.getBattle(user);
             // Initiate battle in here if the target was not the intended
             // target.
