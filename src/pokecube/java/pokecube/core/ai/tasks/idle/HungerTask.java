@@ -439,7 +439,15 @@ public class HungerTask extends BaseIdleTask
         // Do not run this if on cooldown
         if (pokemob.getHungerCooldown() > 0) return false;
         // We are already hunting something!
-        if (BrainUtils.hasHuntTarget(entity)) return false;
+        if (BrainUtils.hasHuntTarget(entity))
+        {
+            // Check validity of the hunt target
+            var target = BrainUtils.getHuntTarget(entity);
+            if(target==null||target.isRemoved()){
+                BrainUtils.setHuntTarget(entity, null);
+            }
+            else return false;
+        }
 
         final List<NearBlock> blocks = BrainUtils.getNearBlocks(entity);
 
