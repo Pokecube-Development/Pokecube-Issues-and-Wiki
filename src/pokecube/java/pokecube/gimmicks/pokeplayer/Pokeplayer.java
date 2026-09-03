@@ -35,6 +35,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
+import net.neoforged.neoforge.server.permission.PermissionAPI;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -125,12 +126,19 @@ public class Pokeplayer
     public static final String PERMSELF = "pokeplayer.self";
     public static final String PERMOTHER = "pokeplayer.other";
 
+    public static final String PERMTRANSFORMPOKEMOB = "pokeplayer.transform.pokemob";
+    public static final String PERMTRANSFORMPLAYER = "pokeplayer.transform.player";
+
     static
     {
         PermNodes.registerBooleanNode(PokecubeCore.MODID, PERMSELF, PermNodes.DefaultPermissionLevel.OP,
                 "Allowed to use pokeplayer command on self");
         PermNodes.registerBooleanNode(PokecubeCore.MODID, PERMOTHER, PermNodes.DefaultPermissionLevel.OP,
                 "Allowed to use pokeplayer command on other");
+        PermNodes.registerBooleanNode(PokecubeCore.MODID, PERMTRANSFORMPOKEMOB, PermNodes.DefaultPermissionLevel.ALL,
+                "Allowed to transform into a pokemob");
+        PermNodes.registerBooleanNode(PokecubeCore.MODID, PERMTRANSFORMPLAYER, PermNodes.DefaultPermissionLevel.ALL,
+                "Allowed to transform back into a player");
 
         TRANSFORM_BLOCK  = PokecubeCore.BLOCKS.register("transform_block",
                 () -> new TransformBlock(
@@ -170,18 +178,27 @@ public class Pokeplayer
         var copy = ThutCaps.getCopyMob(player);
         if (pokemob == null)
         {
+            if(player instanceof ServerPlayer splayer)
+                if(!PermissionAPI.getPermission(splayer, PermNodes.getBooleanNode(PERMTRANSFORMPLAYER)))
+                {
+                    player.sendSystemMessage(Component.translatable("pokeplayer.revert.denied"));
+                    return -1;
+                }
             player.sendSystemMessage(Component.literal("Reverted " + player.getName().getString() + " back into a player"));
             copy.setCopiedMob(player, null); // Changes player back into a player
             player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20.0);
             player.setHealth(20.0f);
             return 0;
         }
+        if(player instanceof ServerPlayer splayer)
+            if(!PermissionAPI.getPermission(splayer, PermNodes.getBooleanNode(PERMTRANSFORMPOKEMOB)))
+            {
+                player.sendSystemMessage(Component.translatable("pokeplayer.transform.denied"));
+                return -1;
+            }
         copy.setCopiedMob(player, pokemob.getEntity());
-        pokemob.updateHealth();
-        float maxHP = pokemob.getMaxHealth();
-        player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxHP);
-        // Re-sync hp
-        player.setHealth(pokemob.getHealth());
+        pokemob.setTrackableEntity(player); // Mark the player as the trackable entity for the pokemob
+        pokemob.updateHealth(); // Calling update health internally sets the HP for the trackable entity
         player.sendSystemMessage(Component.literal("Transformed " + player.getName().getString() + " into " + pokemob.getDisplayName().getString()));
         return 0;
     }
@@ -323,7 +340,7 @@ public class Pokeplayer
         if (pokemob != null)
         {
             pokemob.setOwner(player);
-            Pokeplayer.syncHungerAndMaxHP(player, pokemob);
+            Pokeplayer.syncHunger(player, pokemob);
             Pokeplayer.setFlying(player, pokemob);
             Pokeplayer.updateFloating(player, pokemob);
             Pokeplayer.updateFlying(player, pokemob);
@@ -333,7 +350,7 @@ public class Pokeplayer
         }
     }
 
-    private static void syncHungerAndMaxHP(final Player player, final IPokemob pokemob)
+    private static void syncHunger(final Player player, final IPokemob pokemob)
     {
         // Sync hunger
         var hunger = pokemob.getHungerTime();
@@ -358,12 +375,6 @@ public class Pokeplayer
             foodData.setSaturation(5f);
             pokemob.setHungerTime(hunger + hungerRate);
         }
-
-        // Sync max hp
-        float maxHP = pokemob.getMaxHealth();
-        // Internally this does the check for if it is the same,
-        // so no harm in just setting like this.
-        player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxHP);
     }
 
     private static void setFlying(final Player player, final IPokemob pokemob)

@@ -291,7 +291,7 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
 
     protected void setMaxHealth(final float maxHealth)
     {
-        final AttributeInstance health = this.getEntity().getAttribute(Attributes.MAX_HEALTH);
+        final AttributeInstance health = this.getTrackedEntity().getAttribute(Attributes.MAX_HEALTH);
         health.setBaseValue(maxHealth);
     }
 

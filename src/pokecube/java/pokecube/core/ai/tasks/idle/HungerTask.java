@@ -443,7 +443,8 @@ public class HungerTask extends BaseIdleTask
         {
             // Check validity of the hunt target
             var target = BrainUtils.getHuntTarget(entity);
-            if(target==null||target.isRemoved()){
+            if (target == null || target.isRemoved())
+            {
                 BrainUtils.setHuntTarget(entity, null);
             }
             else return false;

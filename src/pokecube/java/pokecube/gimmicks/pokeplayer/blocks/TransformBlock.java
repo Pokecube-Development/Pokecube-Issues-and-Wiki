@@ -51,24 +51,28 @@ public class TransformBlock extends Block {
             pokemob.setHeldItem(ItemStack.EMPTY);
             pokemob.getEntity().setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
 
-            Pokeplayer.transformPlayer(pokemob, player);
+            int result = Pokeplayer.transformPlayer(pokemob, player);
+            if(result < 0) return ItemInteractionResult.FAIL;
             player.setItemInHand(hand, ItemStack.EMPTY);
             return ItemInteractionResult.CONSUME;
         }
         // If transformed, revert the player
-        if (!notTransformed) {
+        if (!notTransformed)
+        {
             var mob = copy.getCopiedMob();
-            var pokemob = PokemobCaps.getPokemobFor(mob);
-
-            pokemob.setHeldItem(ItemStack.EMPTY); // Remove held and offhand items to prevent cloning
-            mob.setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
-            pokemob.setHealth(pokemob.getMaxHealth());
-
             var cube = new ItemStack(PokecubeItems.getEmptyCube(ResourceLocation.parse("pokecube:pokecube")));
-            if (pokemob != null && !pokemob.getPokecube().isEmpty()) cube = pokemob.getPokecube();
+            var pokemob = PokemobCaps.getPokemobFor(mob);
+            if (pokemob != null && !pokemob.getPokecube().isEmpty())
+            {
+                pokemob.setHeldItem(ItemStack.EMPTY); // Remove held and offhand items to prevent cloning
+                mob.setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
+                pokemob.setHealth(pokemob.getMaxHealth());
+                cube = pokemob.getPokecube();
+            }
             PokecubeManager.addToCube(cube, mob);
-            if (!player.addItem(cube));// Should drop in here instead.
-            Pokeplayer.transformPlayer(null, player);
+            if (!player.addItem(cube)) ;// TODO Should drop in here instead.
+            int result = Pokeplayer.transformPlayer(null, player);
+            if (result < 0) return ItemInteractionResult.FAIL;
         }
         return ItemInteractionResult.SUCCESS;
     }

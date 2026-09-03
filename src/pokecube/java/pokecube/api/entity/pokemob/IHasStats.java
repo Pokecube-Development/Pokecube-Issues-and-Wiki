@@ -299,7 +299,7 @@ public interface IHasStats extends IHasEntry
      */
     default void setHealth(final float health)
     {
-        this.getEntity().setHealth(health);
+        this.getTrackedEntity().setHealth(health);
     }
 
     /**
