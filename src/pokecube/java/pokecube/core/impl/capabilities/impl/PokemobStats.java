@@ -7,7 +7,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.LevelUpEvent;
 import pokecube.api.utils.PokeType;
@@ -102,9 +101,9 @@ public abstract class PokemobStats extends PokemobGenes
         if (oldLvl != newLvl)
         {
             // Fire event to allow others to interfere
-            final LevelUpEvent lvlup = new LevelUpEvent(this, newLvl, this.getMoveStats().oldLevel);
-            PokecubeAPI.POKEMOB_BUS.post(lvlup);
-            if (!lvlup.isCanceled())
+            var lvlupPre = new LevelUpEvent.Pre(this, newLvl, this.getMoveStats().oldLevel);
+            PokecubeAPI.POKEMOB_BUS.post(lvlupPre);
+            if (!lvlupPre.isCanceled())
             {
                 if (notifyLevelUp)
                 {
@@ -119,6 +118,8 @@ public abstract class PokemobStats extends PokemobGenes
                     if (mob.isAddedToLevel() && ret.getOwner() instanceof Player && mob.level().getGameRules()
                             .getBoolean(GameRules.RULE_DOMOBLOOT) && !mob.level().isClientSide) mob.level()
                             .addFreshEntity(new ExperienceOrb(mob.level(), mob.getX(), mob.getY(), mob.getZ(), 1));
+                    var lvlupPost = new LevelUpEvent.Post(this, newLvl, this.getMoveStats().oldLevel);
+                    PokecubeAPI.POKEMOB_BUS.post(lvlupPost);
                 }
             }
             else this.params.EXP.set(old);
