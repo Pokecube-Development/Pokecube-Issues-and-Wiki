@@ -225,9 +225,9 @@ public class StatusEffects
         for (var e : exclusions) if (mob.hasEffect(e)) return false;
 
         // Now check events for if the status can be applied, this handles pokemob types, etc
-        var event = new StatusEvent.PreAdd(mob, source, status, instance.getAmplifier());
+        var event = new StatusEvent.PreAdd(mob, source, status, instance);
         if (PokecubeAPI.MOVE_BUS.post(event).getResult() == TriState.FALSE) return false;
-
+        instance = event.getInstance();
         // finally apply the status
         var applied = mob.addEffect(instance, source);
         if (applied && source != null)

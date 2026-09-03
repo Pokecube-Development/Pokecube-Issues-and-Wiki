@@ -2,6 +2,7 @@ package pokecube.api.events.pokemobs.combat;
 
 import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.neoforged.bus.api.ICancellableEvent;
 import net.neoforged.neoforge.common.util.TriState;
@@ -72,10 +73,14 @@ public abstract class StatusEvent extends EntityEvent
     public static class PreAdd extends StatusEvent
     {
         private TriState result = TriState.DEFAULT;
+        private MobEffectInstance instance;
+        private final MobEffectInstance originalInstance;
 
-        public PreAdd(Entity entity, Entity source, Holder<MobEffect> status, int amplifier)
+        public PreAdd(Entity entity, Entity source, Holder<MobEffect> status, MobEffectInstance effect)
         {
-            super(entity, source, status, amplifier);
+            super(entity, source, status, effect.getAmplifier());
+            instance = effect;
+            originalInstance = effect;
         }
 
         public TriState getResult()
@@ -87,6 +92,20 @@ public abstract class StatusEvent extends EntityEvent
         {
             this.result = result;
         }
-    }
 
+        public MobEffectInstance getInstance()
+        {
+            return instance;
+        }
+
+        public void setInstance(MobEffectInstance instance)
+        {
+            this.instance = instance;
+        }
+
+        public MobEffectInstance getOriginalInstance()
+        {
+            return originalInstance;
+        }
+    }
 }
