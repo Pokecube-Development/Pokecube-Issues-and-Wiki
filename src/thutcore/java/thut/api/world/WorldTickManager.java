@@ -157,6 +157,7 @@ public class WorldTickManager
     }
 
     public static List<StaticData> staticData = Lists.newArrayList();
+    public static final List<Runnable> clientRuns = Lists.newArrayList();
 
     static Map<ResourceKey<Level>, WorldData> dataMap = Maps.newHashMap();
 
@@ -181,7 +182,8 @@ public class WorldTickManager
 
     public static void scheduleTask(final Level level, final Runnable task)
     {
-        scheduleTask(level.dimension(), task);
+        if (level.isClientSide()) clientRuns.add(task);
+        else scheduleTask(level.dimension(), task);
     }
 
     public static void scheduleTask(final ResourceKey<Level> key, final Runnable task)
@@ -249,7 +251,11 @@ public class WorldTickManager
                 return;
             }
             data.onWorldTickEnd();
-
+        }
+        else synchronized (clientRuns)
+        {
+            clientRuns.forEach(Runnable::run);
+            clientRuns.clear();
         }
     }
 

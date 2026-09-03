@@ -4,13 +4,10 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.LivingEntity;
-import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import thut.api.ThutCaps;
-import thut.api.attachments.TrackedAttachment;
 import thut.core.common.network.Packet;
 
 /// Very barebones packet, if you would like another example see
@@ -44,13 +41,7 @@ public class PacketHandshake extends Packet
         if (copy == null) return;
         IPokemob pokemob = PokemobCaps.getPokemobFor(copy.getCopiedMob());
         if (pokemob == null) return;
-
-        if (copy instanceof TrackedAttachment tracked)
-        {
-            tracked.markDirty();
-            player.getPersistentData().putBoolean("pokeplayer:needs_sync", true);
-            pokemob.markDirty();
-        }
+        player.getPersistentData().putBoolean("pokeplayer:needs_sync", true);
     }
 
     @Override
@@ -59,7 +50,7 @@ public class PacketHandshake extends Packet
     {}
 
     /// Type of packet. No extra data required, just make a unique name (and make sure it starts with pokecube:, the game crashes otherwise)
-    private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("pokecube:pokeplayer_handshake"));
+    private final static Type<Packet> TYPE = new Type<>(ResourceLocation.parse("pokecube:pokeplayer_handshake"));
 
     @Override
     public Type<? extends CustomPacketPayload> type()

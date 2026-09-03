@@ -22,6 +22,7 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent.StartTracking;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import thut.api.ThutCaps;
 import thut.api.Tracker;
 import thut.api.attachments.TrackedAttachment;
 import thut.api.entity.EntityProvider;
@@ -121,16 +122,33 @@ public class SyncAttachments extends Packet
             throws InvocationTargetException, IllegalAccessException
     {
         if (event.getEntity().level().isClientSide()) return;
+        // Handle primary mob first
         var mob = event.getEntity();
+        syncDirty(mob);
+    }
+
+    public static void syncDirty(Entity mob) throws InvocationTargetException, IllegalAccessException
+    {
         @SuppressWarnings("unchecked")
         Map<AttachmentType<?>, Object> map = (Map<AttachmentType<?>, Object>) ATTCHMAP.invoke(mob);
         map.forEach((type, value) -> {
             if (value instanceof TrackedAttachment tracked && tracked.isDirty())
             {
-                sendForKey(mob, NeoForgeRegistries.ATTACHMENT_TYPES.getKey(type));
-                tracked.markClean();
+                // Special handling for ICopyMobs
+                if (tracked.isDirty())
+                {
+                    sendForKey(mob, NeoForgeRegistries.ATTACHMENT_TYPES.getKey(type));
+                    tracked.markClean();
+                }
             }
         });
+        // Now handle syncing copy's attachments
+        var copy = ThutCaps.getCopyMob(mob);
+        if (copy != null && copy.isFullTick())
+        {
+            var mob2 = copy.getCopiedMob();
+            if (mob2 != null) syncDirty(mob2);
+        }
     }
 
     public static void syncChange(Entity mob, Collection<ResourceLocation> changes)

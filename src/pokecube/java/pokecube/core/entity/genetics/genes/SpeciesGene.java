@@ -20,6 +20,7 @@ import pokecube.core.entity.genetics.genes.SpeciesGene.SpeciesInfo;
 import thut.api.ThutCaps;
 import thut.api.entity.ICopyMob;
 import thut.api.entity.genetics.Gene;
+import thut.api.world.WorldTickManager;
 import thut.core.common.ThutCore;
 
 import javax.annotation.Nullable;
@@ -341,6 +342,12 @@ public class SpeciesGene implements Gene<SpeciesInfo>
             _pokemob = PokemobCaps.getPokemobFor(entity);
             if (_pokemob == null) _copy = ThutCaps.getCopyMob(entity);
             _checked = true;
+            // Ensure this is synced
+            if (_pokemob != null)
+            {
+                _pokemob.setDataSync(ThutCaps.getDataSync(entity));
+                WorldTickManager.scheduleTask(entity.level(), () -> _pokemob.setGenes(ThutCaps.getGenetics(entity)));
+            }
         }
         if (_copy != null && entity instanceof LivingEntity living)
         {
@@ -361,7 +368,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
                     // mark entity id as something invalid for real mobs
                     e.setId(-(living.getId() + 100));
                     var genes = ThutCaps.getGenetics(e);
-                    if (genes != null && e.getId() < 100) genes.markDirty();
+                    if (e.getId() < -100) genes.markDirty();
                     _transformed = _copy.getCopiedMob()!=null;//Event could have been canceled
                 }
             }

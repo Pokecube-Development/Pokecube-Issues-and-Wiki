@@ -201,14 +201,9 @@ public class Pokeplayer
 
     private static void onPlayerJoinWorld(final EntityJoinLevelEvent evt)
     {
-        if (!evt.getLevel().isClientSide()) return;
         if (!(evt.getEntity() instanceof Player player)) return;
-
         var copy = ThutCaps.getCopyMob(player);
         if (copy == null) return;
-
-        // This needs to occur so that pokeplayer is synced between both sides.
-        PacketHandshake.sendPacket();
     }
 
     private static void onEvolve(EvolveEvent.Post event)
@@ -312,12 +307,6 @@ public class Pokeplayer
             IPokemob oldMob = PokemobCaps.getPokemobFor(event.oldCopy);
             if (oldMob != null) PokemobTracker.removePokemob(oldMob);
             if (event.newCopy != null) event.newCopy.getPersistentData().putUUID("copy_parent", player.getUUID());
-
-            final ICopyMob copy = ThutCaps.getCopyMob(player);
-            if (copy instanceof TrackedAttachment tracked)
-            {
-                tracked.markDirty();
-            }
         }
     }
 
@@ -359,18 +348,6 @@ public class Pokeplayer
                 foodData.setSaturation(5f);
                 pokemob.setHungerTime(hunger + hungerRate);
             }
-            // TODO find appropriate places to do this instead of once per second.
-            // This is what is responsible for updating moves,
-            // etc, maybe should be marked right at transform?
-            // The loading for this might also be responsible for hp glitches at low health.
-
-            ICopyMob copy = ThutCaps.getCopyMob(player);
-            if (player.tickCount % 20 == 0 && copy instanceof TrackedAttachment tracked)
-            {
-                pokemob.markDirty();
-                tracked.markDirty();
-            }
-
             pokemob.setOwner(player);
             pokemob.setDataSync(ThutCaps.getDataSync(player));
             Pokeplayer.setFlying(player, pokemob);
@@ -379,13 +356,6 @@ public class Pokeplayer
             Pokeplayer.updateSwimming(player, pokemob);
             Pokeplayer.updateStatus(player, pokemob);
             Pokeplayer.updateFireResistance(player, pokemob);
-
-            if (copy instanceof TrackedAttachment tracked && player.getPersistentData().getBoolean("pokeplayer:needs_sync"))
-            {
-                tracked.markDirty();
-                player.getPersistentData().remove("pokeplayer:needs_sync");
-                pokemob.markDirty();
-            }
         }
     }
 
