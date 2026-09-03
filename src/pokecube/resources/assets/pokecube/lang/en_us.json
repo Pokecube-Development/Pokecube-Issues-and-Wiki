@@ -165,7 +165,7 @@
     "key.pokemob.target.next": "Next Target",
     "key.pokemob.target.prev": "Previous Target",
     "key.pokemob.yield": "Flee Battle",
-    "key.pokeplayer.cancelbattle": "Cancel Battle (As Pokeplayer)",
+    "key.pokeplayer.openpokemobinv": "Open Pokémob Inventory (As Pokeplayer)",
 
     "_comment": "Pokemob Types",
 
