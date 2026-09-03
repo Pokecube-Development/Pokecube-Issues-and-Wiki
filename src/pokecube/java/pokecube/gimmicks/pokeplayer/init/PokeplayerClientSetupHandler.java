@@ -21,12 +21,12 @@ import java.util.List;
 /// Here we setup the keybinds for pokeplayer stuff
 public class PokeplayerClientSetupHandler
 {
-    public static KeyMapping cancelBattle;
+    public static KeyMapping openPokemobInv;
 
     static
     {
-        cancelBattle = new KeyMapping("key.pokeplayer.cancelbattle", KeyConflictContext.IN_GAME, KeyModifier.ALT, Type.KEYSYM,
-            GLFW.GLFW_KEY_K, "key.categories.pokecube");
+        openPokemobInv = new KeyMapping("key.pokeplayer.openpokemobinv", KeyConflictContext.IN_GAME, KeyModifier.ALT, Type.KEYSYM,
+            GLFW.GLFW_KEY_RIGHT, "key.categories.pokecube");
     }
 
     private static final List<KeyMapping> KEYS = new ArrayList<>();
@@ -46,7 +46,7 @@ public class PokeplayerClientSetupHandler
     public static void registerKeybinds(RegisterKeyMappingsEvent event)
     {
         PokecubeAPI.logDebug("Init Pokeplayer Keybinds");
-        registerKey(PokeplayerClientSetupHandler.cancelBattle, event);
+        registerKey(PokeplayerClientSetupHandler.openPokemobInv, event);
     }
 
     @SubscribeEvent

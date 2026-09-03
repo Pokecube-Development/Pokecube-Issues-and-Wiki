@@ -29,6 +29,7 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
@@ -41,18 +42,16 @@ import pokecube.api.moves.Battle;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.idle.HungerTask;
-import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.database.Database;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.items.ItemPokedex;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.damage.effects.StatusEffects;
-import pokecube.core.network.packets.PacketHeal;
-import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.gimmicks.pokeplayer.blocks.TransformBlock;
 import pokecube.gimmicks.pokeplayer.network.PokeplayerPacketHandler;
+import pokecube.gimmicks.pokeplayer.network.packets.PacketHandshake;
 import thut.api.ThutCaps;
 import thut.api.attachments.TrackedAttachment;
 import thut.api.entity.EntityProvider;
@@ -78,6 +77,8 @@ public class Pokeplayer
     {
         // The commmand to turn into a pokemob
         ThutCore.FORGE_BUS.addListener(Pokeplayer::onCommandRegister);
+        // For syncing pokeplayer when joining a world
+        ThutCore.FORGE_BUS.addListener(Pokeplayer::onPlayerJoinWorld);
         // We want to sync from copy to us, not other way, so handle that here.
         ThutCore.FORGE_BUS.addListener(Pokeplayer::onCopyTick);
         // Handles resetting flight permissions when un-setting mob
@@ -90,9 +91,6 @@ public class Pokeplayer
 
         // Interaction with entities (e.g. healing when right clicking a healer)
         ThutCore.FORGE_BUS.addListener(Pokeplayer::onEntityInteractSpecific);
-
-        // for opening pokemob inventory
-        ThutCore.FORGE_BUS.addListener(Pokeplayer::onRightClickEmpty);
 
         // Events for ensuring pokeplayers behave properly
 
@@ -111,6 +109,7 @@ public class Pokeplayer
     }
 
     /// Packets need to be initialised somewhere, called here
+    @SubscribeEvent
     public static void setup(FMLCommonSetupEvent event)
     {
         PokeplayerPacketHandler.init();
@@ -200,6 +199,18 @@ public class Pokeplayer
         event.getDispatcher().register(command);
     }
 
+    private static void onPlayerJoinWorld(final EntityJoinLevelEvent evt)
+    {
+        if (!evt.getLevel().isClientSide()) return;
+        if (!(evt.getEntity() instanceof Player player)) return;
+
+        var copy = ThutCaps.getCopyMob(player);
+        if (copy == null) return;
+
+        // This needs to occur so that pokeplayer is synced between both sides.
+        PacketHandshake.sendPacket();
+    }
+
     private static void onEvolve(EvolveEvent.Post event)
     {
         var entity = event.mob.getEntity();
@@ -264,17 +275,6 @@ public class Pokeplayer
         {
             if (npc.getNpcType().equals(NpcType.byType("healer")))
                 PokecubeManager.heal(pokemob);
-        }
-    }
-
-    private static void onRightClickEmpty(PlayerInteractEvent.RightClickEmpty evt)
-    {
-        Player player = evt.getEntity();
-        Entity mob = ThutCaps.getCopyMob(player).getCopiedMob();
-        if (mob != null)
-        {
-            if (player.isCrouching() || player.isShiftKeyDown()) // Open Pokemob inventory with shift + right click when not looking at a block
-                PacketPokemobGui.sendPagePacket((byte)0, mob.getId());
         }
     }
 
@@ -363,7 +363,13 @@ public class Pokeplayer
             // This is what is responsible for updating moves,
             // etc, maybe should be marked right at transform?
             // The loading for this might also be responsible for hp glitches at low health.
-            if (player.tickCount % 20 == 0) pokemob.markDirty();
+
+            ICopyMob copy = ThutCaps.getCopyMob(player);
+            if (player.tickCount % 20 == 0 && copy instanceof TrackedAttachment tracked)
+            {
+                pokemob.markDirty();
+                tracked.markDirty();
+            }
 
             pokemob.setOwner(player);
             pokemob.setDataSync(ThutCaps.getDataSync(player));
@@ -374,10 +380,11 @@ public class Pokeplayer
             Pokeplayer.updateStatus(player, pokemob);
             Pokeplayer.updateFireResistance(player, pokemob);
 
-            final ICopyMob copy = ThutCaps.getCopyMob(player);
-            if (copy instanceof TrackedAttachment tracked && !(player.level().isClientSide()))
+            if (copy instanceof TrackedAttachment tracked && player.getPersistentData().getBoolean("pokeplayer:needs_sync"))
             {
-                if (pokemob.isDirty() || pokemob.getGenes().isDirty()) tracked.markDirty();
+                tracked.markDirty();
+                player.getPersistentData().remove("pokeplayer:needs_sync");
+                pokemob.markDirty();
             }
         }
     }

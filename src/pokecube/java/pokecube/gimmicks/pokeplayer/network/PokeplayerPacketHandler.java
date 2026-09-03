@@ -1,7 +1,7 @@
 package pokecube.gimmicks.pokeplayer.network;
 
 import pokecube.core.PokecubeCore;
-import pokecube.gimmicks.pokeplayer.network.packets.PacketBattleCancel;
+import pokecube.gimmicks.pokeplayer.network.packets.PacketHandshake;
 
 public class PokeplayerPacketHandler
 {
@@ -10,6 +10,6 @@ public class PokeplayerPacketHandler
     {
         // Here we are registering a client -> server packet.
         // You can also register server -> client packets and client <-> server packets.
-        PokecubeCore.packets.registerToServerMessage(PacketBattleCancel.class);
+        PokecubeCore.packets.registerToServerMessage(PacketHandshake.class);
     }
 }

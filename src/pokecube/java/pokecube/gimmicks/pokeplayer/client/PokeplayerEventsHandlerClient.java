@@ -1,6 +1,7 @@
 package pokecube.gimmicks.pokeplayer.client;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -8,8 +9,11 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import pokecube.core.PokecubeCore;
+import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.gimmicks.pokeplayer.init.PokeplayerClientSetupHandler;
-import pokecube.gimmicks.pokeplayer.network.packets.PacketBattleCancel;
+import thut.api.ThutCaps;
+import thut.api.entity.EntityProvider;
+import thut.api.entity.ICopyMob;
 import thut.core.common.ThutCore;
 
 
@@ -38,8 +42,14 @@ public class PokeplayerEventsHandlerClient
         final Player player = Minecraft.getInstance().player;
         // We only handle these ingame anyway.
         if (player == null) return;
-        // Sends PacketBattleCancel to the server if the correct key is pressed.
-        if (PokeplayerClientSetupHandler.cancelBattle.consumeClick()) PacketBattleCancel.sendCancelPacket();
+        final ICopyMob copy = ThutCaps.getCopyMob(player);
+        if (copy == null) return;
+        final LivingEntity pokemob = EntityProvider.getTracked(copy.getCopiedMob());
+        if (pokemob == null) return;
+
+
+        // Opens Pokemob inventory if the correct key is pressed.
+        if (PokeplayerClientSetupHandler.openPokemobInv.consumeClick()) PacketPokemobGui.sendPagePacket((byte)0, pokemob.getId());
 
         PokeplayerClientSetupHandler.clearKeyUse();
     }
