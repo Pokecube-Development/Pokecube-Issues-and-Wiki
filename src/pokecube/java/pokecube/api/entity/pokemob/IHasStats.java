@@ -73,8 +73,17 @@ public interface IHasStats extends IHasEntry
      */
     default int getBaseStat(final Stats stat)
     {
-        if (stat.ordinal() > 5) return 1;
-        return this.getPokedexEntry().getStats()[stat.ordinal()];
+        var entry = this.getPokedexEntry();
+        return switch (stat)
+        {
+            case HP -> entry.getStatHP();
+            case ATTACK -> entry.getStatATT();
+            case DEFENSE -> entry.getStatDEF();
+            case SPATTACK -> entry.getStatATTSPE();
+            case SPDEFENSE -> entry.getStatDEFSPE();
+            case VIT -> entry.getStatVIT();
+            case ACCURACY, EVASION -> 1;
+        };
     }
 
     /**

@@ -1,6 +1,3 @@
-/**
- *
- */
 package pokecube.core.items;
 
 import net.minecraft.core.BlockPos;
@@ -30,13 +27,11 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
 import pokecube.api.data.Pokedex;
-import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
-import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -145,19 +140,6 @@ public class ItemPokedex extends Item
                     var matcher = SpawnBiomeMatcher.get(preset);
                     if(matcher.matches(checker))
                         thut.lib.ChatHelper.sendSystemMessage(player, Component.literal(preset));
-                }
-
-                if (false)
-                {
-                    // No point in the below code, as it should show in the watch anyway.
-                    thut.lib.ChatHelper.sendSystemMessage(player, Component.literal("Can Spawn Here:"));
-                    for (final PokedexEntry e : Database.spawnables)
-                    {
-                        if (e.getSpawnData().getMatcher(new SpawnContext(player, e), checker, false) != null)
-                        {
-                            thut.lib.ChatHelper.sendSystemMessage(player, Component.literal(e.getTrimmedName()));
-                        }
-                    }
                 }
             }
         }

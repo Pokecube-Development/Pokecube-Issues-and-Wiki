@@ -21,7 +21,6 @@ import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.data.effects.PokemobEffects;
 import pokecube.api.data.pokedex.DefaultFormeHolder;
-import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.events.init.InitDatabase;
@@ -126,8 +125,8 @@ public class Database
     public static Int2ObjectOpenHashMap<PokedexEntry> data = new Int2ObjectOpenHashMap<>();
     public static HashMap<String, PokedexEntry> data2 = new HashMap<>();
     public static HashSet<PokedexEntry> allFormes = new HashSet<>();
-    private static List<PokedexEntry> sortedFormes = Lists.newArrayList();
-    private static List<String> sortedFormNames = Lists.newArrayList();
+    private static final List<PokedexEntry> sortedFormes = Lists.newArrayList();
+    private static final List<String> sortedFormNames = Lists.newArrayList();
     public static HashMap<Integer, PokedexEntry> baseFormes = new HashMap<>();
     public static HashMap<Integer, PokedexEntry> dummyMap = new HashMap<>();
     public static HashMap<PokedexEntry, List<FormeHolder>> customModels = new HashMap<>();
@@ -169,16 +168,8 @@ public class Database
         Database.missingno.type1 = PokeType.unknown;
         Database.missingno.type2 = PokeType.unknown;
         Database.missingno.base = true;
-        Database.missingno.evs = new byte[6];
-        Database.missingno.stats = new int[6];
         Database.missingno.height = 1;
         Database.missingno.width = Database.missingno.length = 0.41f;
-        Database.missingno.stats[0] = 33;
-        Database.missingno.stats[1] = 136;
-        Database.missingno.stats[2] = 0;
-        Database.missingno.stats[3] = 6;
-        Database.missingno.stats[4] = 6;
-        Database.missingno.stats[5] = 29;
         Database.missingno.addMoves(Lists.newArrayList(), Maps.newHashMap());
         Database.missingno.addMove("sky-attack");
         Database.missingno.mobType = 15;
@@ -200,9 +191,6 @@ public class Database
 
     /**
      * Replaces a dummy base form with the first form in the sorted list.
-     *
-     * @param formes
-     * @param vars
      */
     private static void checkDummies(final List<PokedexEntry> formes, final Map.Entry<Integer, PokedexEntry> vars)
     {
@@ -408,8 +396,7 @@ public class Database
                 }
                 catch (final Exception e2)
                 {
-                    PokecubeAPI.LOGGER.error("Error copying data: {} <-> {}", e, base);
-                    e2.printStackTrace();
+                    PokecubeAPI.LOGGER.error("Error copying data: {} <-> {}", e, base, e2);
                     continue;
                 }
                 if (e.height <= 0)
@@ -449,19 +436,19 @@ public class Database
             final Set<PokedexEntry> set = Sets.newHashSet();
             set.addAll(entry.forms.values());
             set.add(entry);
-            /** Collect all the different forms we can for this mob. */
+            /* Collect all the different forms we can for this mob. */
             for (final PokedexEntry e : Database.allFormes) if (e.getPokedexNb() == entry.getPokedexNb()) set.add(e);
             formes.addAll(set);
-            /** If only 1 form, no point in processing this. */
+            /* If only 1 form, no point in processing this. */
             if (formes.size() > 1)
             {
                 formes.sort(Database.COMPARATOR);
-                /**
+                /*
                  * First init the formes, to copy the stuff over from the
                  * current base forme if needed.
                  */
                 Database.initFormes(formes, entry);
-                /**
+                /*
                  * Then check if the base form, or any others, are dummy forms,
                  * and replace them.
                  */
@@ -506,7 +493,7 @@ public class Database
             {
                 final BufferedReader reader = ResourceHelper.getReader(resource);
                 if (reader == null) throw new FileNotFoundException(file.toString());
-                final StringBuffer sb = new StringBuffer();
+                final StringBuilder sb = new StringBuilder();
                 String str;
                 while ((str = reader.readLine()) != null) sb.append(str);
                 reader.close();
@@ -518,7 +505,7 @@ public class Database
             }
             catch (final Exception e)
             {
-                PokecubeAPI.LOGGER.error("Error with rewards file " + file, e);
+                PokecubeAPI.LOGGER.error("Error with rewards file {}", file, e);
             }
         });
     }
@@ -803,7 +790,7 @@ public class Database
             }
             catch (final Exception e)
             {
-                PokecubeAPI.LOGGER.fatal("Error with pack " + infoS, e);
+                PokecubeAPI.LOGGER.fatal("Error with pack {}", infoS, e);
             }
     }
 
