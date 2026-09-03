@@ -5,9 +5,11 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -61,6 +63,8 @@ import thut.api.util.PermNodes;
 import thut.core.common.ThutCore;
 import thut.wearables.inventory.PlayerWearables;
 
+import java.util.Collection;
+
 @EventBusSubscriber(modid = PokecubeCore.MODID)
 public class Pokeplayer
 {
@@ -92,6 +96,9 @@ public class Pokeplayer
 
         // Evolution
         PokecubeAPI.POKEMOB_BUS.addListener(Pokeplayer::onEvolve);
+
+        // Proper status allocation to the player
+        //PokecubeAPI.MOVE_BUS.addListener(Pokeplayer::preStatusAddedPokeplayer);
 
 
         // Add a check to not remove pokeplayers
@@ -343,14 +350,13 @@ public class Pokeplayer
             Pokeplayer.updateFloating(player, pokemob);
             Pokeplayer.updateFlying(player, pokemob);
             Pokeplayer.updateSwimming(player, pokemob);
-            Pokeplayer.updateStatus(player, pokemob);
             Pokeplayer.updateFireResistance(player, pokemob);
+            Pokeplayer.updateStatus(player, pokemob);
         }
     }
 
     private static void setFlying(final Player player, final IPokemob pokemob)
     {
-        if (pokemob == null) return;
         final boolean fly = pokemob.floats() || pokemob.flys();
         if (player.mayFly() != fly)
         {
@@ -365,7 +371,6 @@ public class Pokeplayer
 
     private static void updateFlying(final Player player, final IPokemob pokemob)
     {
-        if (pokemob == null) return;
         if (pokemob.floats() || pokemob.flys())
         {
             player.fallDistance = 0;
@@ -375,7 +380,7 @@ public class Pokeplayer
 
     private static void updateFloating(final Player player, final IPokemob pokemob)
     {
-        if (pokemob == null || !pokemob.floats())
+        if (!pokemob.floats())
         {
             if(player.getPersistentData().getBoolean("pokeplayer:floating"))
             {
@@ -410,22 +415,47 @@ public class Pokeplayer
 
     private static void updateSwimming(final Player player, final IPokemob pokemob)
     {
-        if (pokemob == null) return;
         if (pokemob.getPokedexEntry().swims() || pokemob.isType(PokeType.getType("water"))) player.setAirSupply(300);
     }
 
     private static void updateFireResistance(final Player player, final IPokemob pokemob)
     {
-        if (pokemob == null) return;
         if (pokemob.getPokedexEntry().isHeatProof || pokemob.isType(PokeType.getType("fire"))) player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 60, 1, true, false));
     }
 
-    // This should run before anything giving a status effect (e.g. updateFireResistance)
-    // This makes sure that pokeplayers do not lose status effects they should have (e.g. fire res for fire types)
+    /// Performs pokemob checks for status, then gives pokemob the player's status,
+    /// so effects like golden apple status are not lost.
+    /// This should run after any player status changes in onCopyTick().
     private static void updateStatus(final Player player, final IPokemob pokemob)
     {
-        player.removeAllEffects();
-        StatusEffects.setStatus(player, pokemob.getEntity(), StatusEffects.getStatusEffect(pokemob.getEntity()));
+        Collection<MobEffectInstance> statusEffectInstances = player.getActiveEffects();
+
+        // Perform pokemob checks for status (e.g. remove burn from fire types)
+        for (MobEffectInstance statusEffectInstance : statusEffectInstances)
+        {
+            Holder<MobEffect> status = statusEffectInstance.getEffect();
+
+            if (status == StatusEffects.BURN)
+                if (pokemob.isType(PokeType.getType("fire")))
+                    player.removeEffect(status);
+
+            else if (status == StatusEffects.PARALYSIS)
+                if (pokemob.isType(PokeType.getType("electric")))
+                    player.removeEffect(status);
+
+            else if (status == StatusEffects.FREEZE)
+                if (pokemob.isType(PokeType.getType("ice")))
+                    player.removeEffect(status);
+
+            else if (status == StatusEffects.POISON)
+                if (pokemob.isType(PokeType.getType("poison")) || pokemob.isType(PokeType.getType("steel")))
+                    player.removeEffect(status);
+        }
+
+        // Erase existing pokemob status effects, replacing them with the player's/
+        LivingEntity pokemobEntity = pokemob.getEntity();
+        pokemobEntity.removeAllEffects();
+        StatusEffects.setStatus(pokemobEntity, player, StatusEffects.getStatusEffect(player));
     }
 
 }
