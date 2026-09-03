@@ -322,29 +322,8 @@ public class Pokeplayer
         final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob != null)
         {
-            var hunger = pokemob.getHungerTime();
-            var foodData = player.getFoodData();
-            int food = foodData.getFoodLevel();
-            float pokeHunger = HungerTask.calculateHunger(pokemob);
-            int hungerRate = PokecubeCore.getConfig().pokemobLifeSpan / 25;
-            // If we are below berry gen threshold, sync back from the player's hunger
-            if (pokeHunger < HungerTask.BERRYGEN)
-            {
-                if (food > 0)
-                {
-                    foodData.setFoodLevel(food - 1);
-                    pokemob.setHungerTime(hunger - hungerRate);
-                }
-            }
-            // If we are above the hunt threshold, sync from pokemob to player
-            // hunt threshold is where they will do things like eat rocks, etc
-            else if (foodData.needsFood() && pokeHunger >= HungerTask.HUNTTHRESHOLD)
-            {
-                foodData.setFoodLevel(food + 1);
-                foodData.setSaturation(5f);
-                pokemob.setHungerTime(hunger + hungerRate);
-            }
             pokemob.setOwner(player);
+            Pokeplayer.syncHungerAndMaxHP(player, pokemob);
             Pokeplayer.setFlying(player, pokemob);
             Pokeplayer.updateFloating(player, pokemob);
             Pokeplayer.updateFlying(player, pokemob);
@@ -352,6 +331,39 @@ public class Pokeplayer
             Pokeplayer.updateFireResistance(player, pokemob);
             Pokeplayer.updateStatus(player, pokemob);
         }
+    }
+
+    private static void syncHungerAndMaxHP(final Player player, final IPokemob pokemob)
+    {
+        // Sync hunger
+        var hunger = pokemob.getHungerTime();
+        var foodData = player.getFoodData();
+        int food = foodData.getFoodLevel();
+        float pokeHunger = HungerTask.calculateHunger(pokemob);
+        int hungerRate = PokecubeCore.getConfig().pokemobLifeSpan / 25;
+        // If we are below berry gen threshold, sync back from the player's hunger
+        if (pokeHunger < HungerTask.BERRYGEN)
+        {
+            if (food > 0)
+            {
+                foodData.setFoodLevel(food - 1);
+                pokemob.setHungerTime(hunger - hungerRate);
+            }
+        }
+        // If we are above the hunt threshold, sync from pokemob to player
+        // hunt threshold is where they will do things like eat rocks, etc
+        else if (foodData.needsFood() && pokeHunger >= HungerTask.HUNTTHRESHOLD)
+        {
+            foodData.setFoodLevel(food + 1);
+            foodData.setSaturation(5f);
+            pokemob.setHungerTime(hunger + hungerRate);
+        }
+
+        // Sync max hp
+        float maxHP = pokemob.getMaxHealth();
+        // Internally this does the check for if it is the same,
+        // so no harm in just setting like this.
+        player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxHP);
     }
 
     private static void setFlying(final Player player, final IPokemob pokemob)
