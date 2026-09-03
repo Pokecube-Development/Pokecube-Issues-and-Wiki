@@ -15,9 +15,11 @@ public class SyncHandler
     @SubscribeEvent
     public static void EntityUpdate(final EntityTickEvent.Post event)
     {
-        if (event.getEntity().level().isClientSide || !event.getEntity().hasData(DataSync_Impl.TYPE)) return;
-        if (!event.getEntity().isAlive()) return;
         Entity entity = event.getEntity();
+        // No running on clients, or for ones with no data
+        if (entity.level().isClientSide || !entity.hasData(DataSync_Impl.TYPE)) return;
+        // No running for dead ones, or attached ticking ICopyMobs
+        if (!entity.isAlive() || entity.getId() < -100) return;
         DataSync data = SyncHandler.getData(entity);
         mainData:
         {
@@ -36,6 +38,7 @@ public class SyncHandler
             entity = copy.getCopiedMob();
             data = SyncHandler.getData(entity);
             if (data == null) break copyData;
+
             long tick = Tracker.instance().getTick();
             if (tick == data.getTick()) break copyData;
             data.setTick(tick);
@@ -54,9 +57,8 @@ public class SyncHandler
     @SubscribeEvent
     public static void startTracking(final StartTracking event)
     {
-        if (event.getTarget().level().isClientSide) return;
+        if (event.getTarget().level().isClientSide || !event.getTarget().hasData(DataSync_Impl.TYPE)) return;
         final DataSync data = SyncHandler.getData(event.getTarget());
-        if (data == null) return;
         PacketDataSync.sync((ServerPlayer) event.getEntity(), data, event.getTarget().getId(), true);
     }
 }

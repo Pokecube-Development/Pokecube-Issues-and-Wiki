@@ -345,7 +345,6 @@ public class Pokeplayer
                 pokemob.setHungerTime(hunger + hungerRate);
             }
             pokemob.setOwner(player);
-            pokemob.setDataSync(ThutCaps.getDataSync(player));
             Pokeplayer.setFlying(player, pokemob);
             Pokeplayer.updateFloating(player, pokemob);
             Pokeplayer.updateFlying(player, pokemob);
