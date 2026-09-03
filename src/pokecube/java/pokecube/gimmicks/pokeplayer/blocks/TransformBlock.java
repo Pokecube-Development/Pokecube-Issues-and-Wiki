@@ -44,17 +44,20 @@ public class TransformBlock extends Block {
         if (notTransformed && isFilled) {
             var pokemob = PokemobCaps.getPokemobIn(stack, level).pokemob();
 
-            if (pokemob != null) pokemob.setPokecube(stack);
-
-            player.addItem(pokemob.getHeldItem()); // Transfer pokemob held and offhand items to player
-            player.addItem(pokemob.getEntity().getOffhandItem());
-            pokemob.setHeldItem(ItemStack.EMPTY);
-            pokemob.getEntity().setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
-
-            int result = Pokeplayer.transformPlayer(pokemob, player);
-            if(result < 0) return ItemInteractionResult.FAIL;
-            player.setItemInHand(hand, ItemStack.EMPTY);
-            return ItemInteractionResult.CONSUME;
+            if (pokemob != null)
+            {
+                ItemStack heldA = pokemob.getHeldItem();
+                ItemStack heldB = pokemob.getEntity().getOffhandItem();
+                pokemob.setHeldItem(ItemStack.EMPTY);
+                pokemob.setPokecube(stack);
+                pokemob.getEntity().setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
+                int result = Pokeplayer.transformPlayer(pokemob, player);
+                if(result < 0) return ItemInteractionResult.FAIL;
+                player.addItem(heldA); // Transfer pokemob held and offhand items to player
+                player.addItem(heldB);
+                player.setItemInHand(hand, ItemStack.EMPTY);
+                return ItemInteractionResult.CONSUME;
+            }
         }
         // If transformed, revert the player
         if (!notTransformed)
@@ -62,6 +65,8 @@ public class TransformBlock extends Block {
             var mob = copy.getCopiedMob();
             var cube = new ItemStack(PokecubeItems.getEmptyCube(ResourceLocation.parse("pokecube:pokecube")));
             var pokemob = PokemobCaps.getPokemobFor(mob);
+            int result = Pokeplayer.transformPlayer(null, player);
+            if (result < 0) return ItemInteractionResult.FAIL;
             if (pokemob != null && !pokemob.getPokecube().isEmpty())
             {
                 pokemob.setHeldItem(ItemStack.EMPTY); // Remove held and offhand items to prevent cloning
@@ -71,8 +76,6 @@ public class TransformBlock extends Block {
             }
             PokecubeManager.addToCube(cube, mob);
             if (!player.addItem(cube)) ;// TODO Should drop in here instead.
-            int result = Pokeplayer.transformPlayer(null, player);
-            if (result < 0) return ItemInteractionResult.FAIL;
         }
         return ItemInteractionResult.SUCCESS;
     }
