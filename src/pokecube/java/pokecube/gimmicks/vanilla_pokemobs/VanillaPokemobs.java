@@ -14,6 +14,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -204,11 +205,14 @@ public class VanillaPokemobs
         });
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOW)
     private static void onMobConstructingEvent(final EntityConstructing event)
     {
         if (!config.non_vanilla_pokemobs && !config.vanilla_pokemobs || duringCheck) return;
         if (!(event.getEntity() instanceof Mob mob)) return;
+        // Return here incase some other addon has already added it in
+        if (mob.hasData(PokemobCaps.POKEMOB)) return;
+        // Don't try to make pokemobs vanilla pokemobs
         if (mob instanceof EntityPokemob) return;
         // Only consider mobEntity, IPokemob requires that
         // Do not apply this to trainers!
