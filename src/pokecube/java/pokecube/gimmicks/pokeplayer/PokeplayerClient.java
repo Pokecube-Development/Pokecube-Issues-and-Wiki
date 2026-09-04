@@ -51,21 +51,15 @@ public class PokeplayerClient
         public List<IPokemob> getPokemobsToDisplay()
         {
             var list = super.getPokemobsToDisplay();
-            var copy = ThutCaps.getCopyMob(Minecraft.getInstance().player);
+            var player = Minecraft.getInstance().player;
+            var copy = ThutCaps.getCopyMob(player);
             if (copy == null) return list;
+            // Remove any previous instances of us, this occurs because of the "markDirty" in Pokeplayer
+            // resulting in the IPokemob instance being replaced with the one synced from the server,
+            // or if we have transformed back from a pokemob recently
+            list.removeIf(mob->mob.getTrackedEntity() == player);
             var mob = PokemobCaps.getPokemobFor(copy.getCopiedMob());
-            if (mob != null && !list.contains(mob))
-            {
-                // Remove any previous instances of us, this occurs because of the "markDirty" in Pokeplayer
-                // resulting in the IPokemob instance being replaced with the one synced from the server
-                for(var _mob: list)
-                    if(_mob.getEntity().getId()==mob.getEntity().getId())
-                    {
-                        list.remove(_mob);
-                        break;
-                    }
-                list.addFirst(mob);
-            }
+            if (mob != null && !list.contains(mob)) list.addFirst(mob);
             return super.getPokemobsToDisplay();
         }
     }
