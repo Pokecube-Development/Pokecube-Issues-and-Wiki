@@ -77,8 +77,8 @@ public class PacketDataSync extends Packet
         }
         catch (Exception e)
         {
-            System.err.println(e.getMessage());
-            System.out.println(this.data);
+            PokecubeAPI.LOGGER.error("Error encoding data packet", e);
+            PokecubeAPI.LOGGER.error("Data was: {}", this.data);
         }
     }
 
