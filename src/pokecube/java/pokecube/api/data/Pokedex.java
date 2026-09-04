@@ -148,6 +148,7 @@ public class Pokedex
             i_next = formes.indexOf(entry);
             for (int i = i_next; i < formes.size(); i++)
             {
+                if (i < 0) continue;
                 var e = formes.get(i);
                 if (e.getPokedexNb() == entry.getPokedexNb())
                 {
@@ -155,7 +156,8 @@ public class Pokedex
                 }
                 else break;
             }
-            newEntry = formes.get(i_next);
+            if (i_next >= 0) newEntry = formes.get(i_next);
+            else newEntry = formes.getFirst();
         }
         return newEntry;
     }

@@ -306,7 +306,7 @@ public class Moves extends ListPage<LineEntry>
     public boolean mouseReleased(final double mouseX, final double mouseY, final int mouseButton)
     {
         IPokemob pokemob = this.parent.pokemob;
-        if (mouseButton == 0 && pokemob != null)
+        if (mouseButton == 0 && pokemob != null && moveOffsets != null)
         {
             int dx = 53; // -30
             int dy = 18; // 20
