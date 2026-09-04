@@ -16,8 +16,10 @@ import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
+import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.TagsUpdatedEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import net.neoforged.neoforge.event.entity.EntityEvent.EntityConstructing;
@@ -36,6 +38,7 @@ import pokecube.core.database.pokedex.JsonPokedexEntry;
 import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.moves.damage.attributes.PokecubeAttributes;
+import pokecube.gimmicks.vanilla_pokemobs.network.PacketHandshake;
 import thut.api.attachments.Ownable;
 import thut.api.data.HolderProvider;
 import thut.api.util.JsonUtil;
@@ -335,8 +338,22 @@ public class VanillaPokemobs
         VanillaPokemobsConfig.saveConfig(config);
     }
 
+    public static void onFMLCommonSetup(FMLCommonSetupEvent ignored)
+    {
+        PokecubeCore.packets.registerToClientMessage(PacketHandshake.class);
+    }
+
+    public static void onHandshake(OnDatapackSyncEvent event)
+    {
+        if (event.getPlayer() != null) PacketHandshake.sendPacket(event.getPlayer());
+    }
+
     public VanillaPokemobs(IEventBus bus)
     {
+        // we register the packet and handshake regardless
+        bus.addListener(VanillaPokemobs::onFMLCommonSetup);
+        ThutCore.FORGE_BUS.addListener(VanillaPokemobs::onHandshake);
+
         // We have loaded the config when class was loaded, let now register if we are able to.
         if (!config.non_vanilla_pokemobs && !config.vanilla_pokemobs) return;
         // Register our events

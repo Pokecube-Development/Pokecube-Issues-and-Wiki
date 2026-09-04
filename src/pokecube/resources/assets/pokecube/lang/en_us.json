@@ -167,6 +167,11 @@
     "key.pokemob.yield": "Flee Battle",
     "key.pokeplayer.openpokemobinv": "Open Pokémob Inventory (As Pokeplayer)",
 
+
+    "_comment": "Vanilla pokemob stuff",
+
+    "pokecube.vanilla_pokemobs.config_missmatch": "Config mis-match for pokecube/gimmicks/vanilla_pokemobs.json\n\nServer has:\n\nvanilla_pokemobs=%1$s\nnon_vanilla_pokemobs=%2$s\nYou need the same settings to connect.",
+
     "_comment": "Pokemob Types",
 
     "type.normal": "normal",
