@@ -69,6 +69,8 @@ public class LogicMiscUpdate extends LogicBase
 
     private String particle = null;
     private boolean checkedEvol = false;
+    private boolean usedMoveSinceResetAttr = false;
+    private boolean usingMoveThisTick = false;
 
     private int floatTimer = 0;
 
@@ -131,17 +133,23 @@ public class LogicMiscUpdate extends LogicBase
             }
             this.combatTimer++;
 
-            if (this.combatTimer > 50 && this.combatTimer % 100 == 0 && PokecubeCore.getConfig().outOfCombatHealing)
+            if (this.combatTimer > 50 && this.combatTimer % 100 == 0)
             {
-                float health = this.pokemob.getHealth();
-                final float max = this.pokemob.getMaxHealth();
-                if (health < max && health > 0)
+                // If we are using a move, reset the combat healing timer
+                if (usingMoveThisTick) combatTimer = 10;
+                    // Otherwise, if we had attacked before, reset attributes next cycle
+                else if (usedMoveSinceResetAttr) PokecubeAttributes.resetToEntry(this.pokemob);
+                    // Finally otherwise apply the healing
+                else if (PokecubeCore.getConfig().outOfCombatHealing)
                 {
-                    health = Math.min(max, health + max / 16);
-                    this.pokemob.setHealth(health);
+                    float health = this.pokemob.getHealth();
+                    final float max = this.pokemob.getMaxHealth();
+                    if (health < max && health > 0)
+                    {
+                        health = Math.min(max, health + max / 16);
+                        this.pokemob.setHealth(health);
+                    }
                 }
-                // Then reset stat multipliers here as well incase field move use applied stats.
-                PokecubeAttributes.resetToEntry(this.pokemob);
             }
         }
         /*
@@ -296,6 +304,9 @@ public class LogicMiscUpdate extends LogicBase
 
         if (this.entity.onGround()) this.floatTimer = 0;
         else this.floatTimer++;
+
+        usingMoveThisTick = this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE);
+        this.usedMoveSinceResetAttr |= usingMoveThisTick;
 
         // Now some server only processing
         if (!world.isClientSide)
@@ -598,7 +609,7 @@ public class LogicMiscUpdate extends LogicBase
         {
             addAnimation(transients, "blink", false);
         }
-        if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE))
+        if (usingMoveThisTick)
         {
             MoveEntry move = this.pokemob.getSelectedMove();
             {

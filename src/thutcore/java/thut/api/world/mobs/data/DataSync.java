@@ -58,7 +58,7 @@ public interface DataSync
      */
     default int tickRate()
     {
-        return 10;
+        return 20;
     }
 
     boolean syncNow();

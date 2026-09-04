@@ -16,7 +16,7 @@ public abstract class Data_Base<T> implements Data<T>
     protected T value;
 
     private boolean realtime = false;
-    protected Provider provider = null;
+    protected Provider provider;
     private DataSync sync;
 
     public Data_Base(String name)
@@ -113,9 +113,9 @@ public abstract class Data_Base<T> implements Data<T>
     }
 
     @Override
-    public Data<T> setRealtime()
+    public Data<T> setRealtime(boolean realtime)
     {
-        realtime = true;
+        this.realtime = realtime;
         return this;
     }
 

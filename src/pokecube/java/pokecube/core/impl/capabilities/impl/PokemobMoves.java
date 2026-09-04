@@ -419,10 +419,24 @@ public abstract class PokemobMoves extends PokemobStats
     }
 
     @Override
-    public void setAttackCooldown(final int timer) {this.params.ATTACKCOOLDOWN.set(timer);}
+    public void setAttackCooldown(final int timer)
+    {
+        if (!this.getEntity().level().isClientSide())
+        {
+            this.params.ATTACKCOOLDOWN.setRealtime(this.isPlayerOwned());
+            this.params.ATTACKCOOLDOWN.set(timer);
+        }
+    }
 
     @Override
-    public void setDisableTimer(final int index, final int timer) {this.params.DISABLE[index].set(timer);}
+    public void setDisableTimer(final int index, final int timer)
+    {
+        if (!this.getEntity().level().isClientSide())
+        {
+            this.params.DISABLE[index].setRealtime(this.isPlayerOwned());
+            this.params.DISABLE[index].set(timer);
+        }
+    }
 
     @Override
     public void setExplosionState(final int i)
@@ -447,6 +461,7 @@ public abstract class PokemobMoves extends PokemobStats
             this.moveInfo.BLOCKCOUNTER = 0;
             this.moveInfo.blocked = false;
             this.moveInfo.blockTimer = 0;
+            this.params.MOVEINDEXDW.setRealtime(this.isPlayerOwned());
             this.params.MOVEINDEXDW.set((byte) moveIndex);
             this.getMoveStats().selectedMove = null;
         }

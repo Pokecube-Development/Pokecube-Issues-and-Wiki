@@ -37,7 +37,12 @@ public interface Data<T>
 
     boolean isRealtime();
 
-    Data<T> setRealtime();
+    default Data<T> setRealtime()
+    {
+        return setRealtime(true);
+    }
+
+    Data<T> setRealtime(boolean realtime);
 
     void setRaw(Object value);
 }

@@ -120,8 +120,8 @@ public abstract class PokemobBase implements IPokemob
 
             // From EntityMovesPokemb
             this.EXP = sync.register(new Data_Int("exp", 0));
-            this.MOVEINDEXDW = sync.register(new Data_Byte("move_index", (byte) -1).setRealtime());
-            this.ATTACKCOOLDOWN = sync.register(new Data_Int("attack_cd").setRealtime());
+            this.MOVEINDEXDW = sync.register(new Data_Byte("move_index", (byte) -1));
+            this.ATTACKCOOLDOWN = sync.register(new Data_Int("attack_cd"));
 
             this.DYECOLOUR = sync.register(new Data_Int("dye", -1));
 

@@ -27,7 +27,7 @@ public class SyncHandler
             if (tick == data.getTick()) break mainData;
             data.setTick(tick);
             boolean shouldTick = data.syncNow();
-            shouldTick |= tick % data.tickRate() == data.tickOffset() % data.tickRate();
+            shouldTick |= (tick % data.tickRate()) == (data.tickOffset() % data.tickRate());
             if (!shouldTick) break mainData;
             PacketDataSync.sync(entity, data, entity.getId(), false);
         }
@@ -43,7 +43,7 @@ public class SyncHandler
             if (tick == data.getTick()) break copyData;
             data.setTick(tick);
             boolean shouldTick = data.syncNow();
-            shouldTick |= tick % data.tickRate() == data.tickOffset() % data.tickRate();
+            shouldTick |= (tick % data.tickRate()) == (data.tickOffset() % data.tickRate());
             if (!shouldTick) break copyData;
             PacketDataSync.sync(event.getEntity(), data, entity.getId(), false);
         }

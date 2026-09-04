@@ -43,4 +43,9 @@ public class Data_Seat extends Data_Base<Seat>
         if (this.value != null) this.value.writeToBuf(buf);
     }
 
+    @Override
+    public boolean isRealtime()
+    {
+        return this.value != null && this.value.getEntityId() != Seat.BLANK;
+    }
 }

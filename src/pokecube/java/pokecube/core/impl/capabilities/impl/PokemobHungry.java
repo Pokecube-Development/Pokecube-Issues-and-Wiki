@@ -211,6 +211,10 @@ public abstract class PokemobHungry extends PokemobMoves
     @Override
     public void setHungerTime(final int hungerTime)
     {
-        this.params.HUNGERDW.set(hungerTime);
+        if(!this.getEntity().level().isClientSide())
+        {
+            this.params.HUNGERDW.setRealtime(this.isPlayerOwned());
+            this.params.HUNGERDW.set(hungerTime);
+        }
     }
 }
