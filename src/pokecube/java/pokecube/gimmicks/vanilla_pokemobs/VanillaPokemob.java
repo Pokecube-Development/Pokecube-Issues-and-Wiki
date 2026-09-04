@@ -50,4 +50,16 @@ public class VanillaPokemob extends PokemobSaves
         }
         return tag;
     }
+
+    // Cache of raw max hp, set to whatever the initial max hp of the mob was
+    float rawMaxHP = -1;
+    /**
+     * Here we ensure that the vanilla mobs have at least their original HP stat.
+     */
+    @Override
+    public int getMaxHPStat()
+    {
+        if (rawMaxHP < 0) rawMaxHP = getEntity().getMaxHealth();
+        return (int) Math.max(super.getMaxHPStat(), rawMaxHP);
+    }
 }

@@ -341,4 +341,18 @@ public interface IHasStats extends IHasEntry
     {
         this.getMoveStats().type2 = type2;
     }
+
+    /**
+     * Computed the expected maxHP for the pokemob
+     */
+    default int getMaxHPStat()
+    {
+        int IV = this.getIVs()[IPokemob.Stats.HP.ordinal()];
+        int EV = this.getEVs()[IPokemob.Stats.HP.ordinal()] / 4;
+        int baseStat = this.getBaseStat(IPokemob.Stats.HP);
+        int level = this.getLevel();
+        int actualStat = 1;
+        if (baseStat != 1) actualStat = level + 10 + (2 * baseStat + IV + EV) * level / 100;
+        return actualStat;
+    }
 }

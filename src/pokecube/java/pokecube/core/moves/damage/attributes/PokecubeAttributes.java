@@ -74,7 +74,7 @@ public class PokecubeAttributes
                 // Hp gets HP function applied
                 if (i == 0)
                 {
-                    int actualStat = valuesToHPStat(pokemob);
+                    int actualStat = pokemob.getMaxHPStat();
                     attr.setBaseValue(actualStat);
                 }
                 // Stats besides Accuracy and Evasion get theirs applied.
@@ -202,17 +202,6 @@ public class PokecubeAttributes
             if (mod > 0) return 1 + m / 2;
             return 2 / (m + 2);
         }
-    }
-
-    public static int valuesToHPStat(IPokemob pokemob)
-    {
-        int IV = pokemob.getIVs()[IPokemob.Stats.HP.ordinal()];
-        int EV = pokemob.getEVs()[IPokemob.Stats.HP.ordinal()] / 4;
-        int baseStat = pokemob.getBaseStat(IPokemob.Stats.HP);
-        int level = pokemob.getLevel();
-        int actualStat = 1;
-        if (baseStat != 1) actualStat = level + 10 + (2 * baseStat + IV + EV) * level / 100;
-        return actualStat;
     }
 
     public static int valuesToRegularStat(IPokemob.Stats stat, IPokemob pokemob)

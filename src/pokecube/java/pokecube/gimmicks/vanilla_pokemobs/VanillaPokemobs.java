@@ -36,7 +36,6 @@ import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import thut.api.attachments.Ownable;
 import thut.api.data.HolderProvider;
-import thut.api.item.ItemList;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
@@ -48,12 +47,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
+/**
+ * This gimmick allows making vanilla and otherwise not-pokemob mobs be pokemobs.
+ * <br>
+ * This provides an example of using the IPokemob system for arbitrary modded entity support.
+ */
 @Mod(value = PokecubeCore.MODID)
 public class VanillaPokemobs
 {
     private static final PokedexEntry DERP;
-    private static final ResourceLocation NOTPOKEMOBS = ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID,
-            "never_pokemob");
 
     static
     {
@@ -79,8 +81,7 @@ public class VanillaPokemobs
         if (config.not_pokemobs.contains(s)) return false;
         // Tags will only work after world load, so ones that need tags will still
         // get attributes added to them
-        if (config._tags_not_pokemob.stream().anyMatch(e::is)) return false;
-        return !ItemList.is(VanillaPokemobs.NOTPOKEMOBS, e);
+        return config._tags_not_pokemob.stream().noneMatch(e::is);
     };
 
     @SuppressWarnings("unchecked")
@@ -116,6 +117,10 @@ public class VanillaPokemobs
                 return KEY;
             }
 
+            /**
+             * @param input the entity to apply to
+             * @return null if not applicable, otherwise a new Ownable
+             */
             @Override
             public Ownable.IOwnableSerializable apply(IAttachmentHolder input)
             {
@@ -128,6 +133,9 @@ public class VanillaPokemobs
                 return new Ownable.ImplE(mob);
             }
 
+            /**
+             * This is set to 1000 so that it applies later in the queue than other sources.
+             */
             @Override
             public int getPriority()
             {
@@ -144,6 +152,10 @@ public class VanillaPokemobs
                 return KEY;
             }
 
+            /**
+             * @param input the entity to apply to
+             * @return null if not applicable, otherwise a new VanillaPokemob
+             */
             @Override
             public IPokemob apply(IAttachmentHolder input)
             {
@@ -179,6 +191,9 @@ public class VanillaPokemobs
                 return new VanillaPokemob(mob);
             }
 
+            /**
+             * This is set to 1000 so that it applies later in the queue than other sources.
+             */
             @Override
             public int getPriority()
             {
