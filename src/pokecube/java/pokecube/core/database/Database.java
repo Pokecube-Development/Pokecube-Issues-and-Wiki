@@ -304,7 +304,13 @@ public class Database
 
     public static List<String> getLevelUpMoves(final PokedexEntry entry, final int level, final int oldLevel)
     {
-        return entry != null ? entry.getMovesForLevel(level, oldLevel) : null;
+        if (entry == null) return null;
+
+        List<String> levelUpMoves = new ArrayList<String>();
+        for (int i = 0; i < level; i++)
+            levelUpMoves.addAll(entry.getMovesForLevel(i + 1, i));
+
+        return levelUpMoves;
     }
 
     public static List<PokedexEntry> getSortedFormes()

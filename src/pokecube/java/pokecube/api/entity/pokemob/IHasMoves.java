@@ -268,12 +268,12 @@ public interface IHasMoves extends IHasStats
      */
     default void learn(final String moveName)
     {
-        if (moveName == null || this.getEntity().level() == null || this.getEntity().level().isClientSide) return;
+        if (moveName == null || this.getTrackedEntity().level() == null || this.getEntity().level().isClientSide) return;
         if (!MovesUtils.isMoveImplemented(moveName)) return;
-        final LivingEntity thisEntity = this.getEntity();
+        final LivingEntity thisEntity = this.getTrackedEntity();
         final IPokemob thisMob = PokemobCaps.getPokemobFor(thisEntity);
         // check it's not already known or forgotten
-        for (int i = 0; i < this.getMovesCount(); i++) if (moveName.equals(this.getMove(i))) return;
+        if (this.knowsMove(moveName)) return;
 
         boolean learned = false;
         for (int i = 0; i < this.getMovesCount(); i++)
