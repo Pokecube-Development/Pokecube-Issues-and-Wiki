@@ -52,6 +52,7 @@ import pokecube.core.impl.entity.impl.NonPersistantStatusEffect.Effect;
 import pokecube.core.impl.entity.impl.OngoingMoveEffect;
 import pokecube.core.init.Config;
 import pokecube.core.init.ItemGenerator;
+import pokecube.core.inventory.tms.TMContainer;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.moves.world.DefaultAction;
@@ -59,6 +60,7 @@ import pokecube.core.moves.world.DefaultElectricAction;
 import pokecube.core.moves.world.DefaultFireAction;
 import pokecube.core.moves.world.DefaultIceAction;
 import pokecube.core.moves.world.DefaultWaterAction;
+import pokecube.core.network.packets.PacketTMs;
 import pokecube.core.recipes.MoveRecipe;
 import pokecube.core.utils.Permissions;
 import thut.api.maths.Vector3;
@@ -214,6 +216,9 @@ public class MoveEventsHandler
         IOngoingAffected.EFFECTS.put(NonPersistantStatusEffect.ID, NonPersistantStatusEffect.class);
         IOngoingAffected.EFFECTS.put(OngoingMoveEffect.ID, OngoingMoveEffect.class);
         Effect.initDefaults();
+
+        // This is set as LOW, incase someone else wants to do some stuff after the packet goes through
+        PokecubeAPI.MOVE_BUS.addListener(EventPriority.LOW, PacketTMs::sendMovesList);
 
         // These are all lowest, and false so that addons can override the
         // behaviour as needed

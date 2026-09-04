@@ -14,7 +14,6 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -26,7 +25,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.phys.HitResult;
-import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -41,6 +39,7 @@ import net.neoforged.neoforge.server.permission.PermissionAPI;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.events.TMMachineEvent;
 import pokecube.api.events.pokemobs.EvolveEvent;
 import pokecube.api.events.pokemobs.combat.StatusEvent;
 import pokecube.api.moves.Battle;
@@ -66,8 +65,6 @@ import thut.api.maths.Vector3;
 import thut.api.util.PermNodes;
 import thut.core.common.ThutCore;
 import thut.wearables.inventory.PlayerWearables;
-
-import java.util.Collection;
 
 @EventBusSubscriber(modid = PokecubeCore.MODID)
 public class Pokeplayer
@@ -103,6 +100,8 @@ public class Pokeplayer
 
         // Proper status allocation to the player
         PokecubeAPI.MOVE_BUS.addListener(Pokeplayer::preStatusAddedPokeplayer);
+        // TM Machine listings for the pokeplayer
+        PokecubeAPI.MOVE_BUS.addListener(Pokeplayer::onTMMachineEvent);
 
 
         // Add a check to not remove pokeplayers
@@ -507,6 +506,18 @@ public class Pokeplayer
             if (statusEffectInstance.isInfiniteDuration())
                 event.setInstance(new MobEffectInstance(status, 60, statusEffectInstance.getAmplifier()));
         }
+    }
+
+    /**
+     * This listens for when the TM machine is re-listing moves, and if it was for an empty itemstack, it will add the
+     * pokeplayer's moves to the list instead.
+     */
+    private static void onTMMachineEvent(TMMachineEvent event)
+    {
+        if (!event.item.isEmpty()) return;
+        IPokemob pokemob = PokemobCaps.getPokemobFor(event.player);
+        if (pokemob == null) return;
+        event.moves.addAll(event.container.tile.getMoves(pokemob));
     }
 
 }

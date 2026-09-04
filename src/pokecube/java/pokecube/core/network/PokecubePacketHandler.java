@@ -49,7 +49,7 @@ public class PokecubePacketHandler
         PokecubeCore.packets.registerBiDirectionalMessage(PacketPC.class);
         PokecubeCore.packets.registerToServerMessage(PacketHeal.class);
         PokecubeCore.packets.registerBiDirectionalMessage(PacketTrade.class);
-        PokecubeCore.packets.registerToServerMessage(PacketTMs.class);
+        PokecubeCore.packets.registerBiDirectionalMessage(PacketTMs.class);
 
         // Packets for Pokemobs
         PokecubeCore.packets.registerToServerMessage(PacketAIRoutine.class);

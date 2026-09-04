@@ -207,22 +207,29 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         this.lightModeButton.visible = (PokecubeCore.getConfig().darkMode && PokecubeCore.getConfig().fancyGUI);
         this.lightModeButton.setAlpha(0);
 
-        final String[] moves1 = this.menu.moves;
-        final String s = moves1.length > 0 ? moves1[this.index % moves1.length] : "";
-        this.movesSelection = this.addRenderableWidget(
-                new Button.Builder(Component.literal(""), (b) -> {}).bounds(x + 58, y + 16, 111, 18)
-                        .tooltip(Tooltip.create(Component.translatable("block.tm_machine.moves_selection.tooltip")))
-                        .createNarration(supplier -> Component.translatable(
-                                "block.tm_machine.moves_selection.narrate" + MovesUtils.getMoveName(s, null))).build());
+        synchronized (this.menu.moves)
+        {
+            var moves1 = this.menu.moves;
+            final String s = !moves1.isEmpty() ? moves1.get(this.index % moves1.size()) : "";
+            this.movesSelection = this.addRenderableWidget(
+                    new Button.Builder(Component.literal(""), (b) -> {}).bounds(x + 58, y + 16, 111, 18)
+                            .tooltip(Tooltip.create(Component.translatable("block.tm_machine.moves_selection.tooltip")))
+                            .createNarration(supplier -> Component.translatable(
+                                    "block.tm_machine.moves_selection.narrate" + MovesUtils.getMoveName(s, null)))
+                            .build());
+        }
         this.movesSelection.setAlpha(0);
         this.movesSelection.active = false;
 
         final Component prev = Component.translatable("block.tm_machine.previous");
         this.prevButton = this.addRenderableWidget(new Button.Builder(prev, (b) -> {
-            final String[] moves = this.menu.moves;
-            this.index--;
-            if (this.index < 0 && moves.length > 0) this.index = moves.length - 1;
-            else if (this.index < 0) this.index = 0;
+            synchronized (this.menu.moves)
+            {
+                var moves = this.menu.moves;
+                this.index--;
+                if (this.index < 0 && !moves.isEmpty()) this.index = moves.size() - 1;
+                else if (this.index < 0) this.index = 0;
+            }
         }).bounds(x + 58, y + 36, 10, 10)
                 .tooltip(Tooltip.create(Component.translatable("block.tm_machine.previous.tooltip")))
                 .createNarration(supplier -> Component.translatable("block.tm_machine.previous.narrate")).build());
@@ -241,22 +248,22 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
 
         final Component next = Component.translatable("block.tm_machine.next");
         this.nextButton = this.addRenderableWidget(new Button.Builder(next, (b) -> {
-            final String[] moves = this.menu.moves;
-            this.index++;
-            if (this.index > moves.length - 1) this.index = 0;
+            synchronized (this.menu.moves)
+            {
+                var moves = this.menu.moves;
+                this.index++;
+                if (this.index > moves.size() - 1) this.index = 0;
+            }
         }).bounds(x + 159, y + 36, 10, 10)
                 .tooltip(Tooltip.create(Component.translatable("block.tm_machine.next.tooltip")))
                 .createNarration(supplier -> Component.translatable("block.tm_machine.next.narrate")).build());
         this.nextButton.setAlpha(0);
 
         final Component apply = Component.translatable("block.tm_machine.apply").withStyle(ChatFormatting.WHITE);
-        this.applyButton = this.addRenderableWidget(new Button.Builder(apply, (b) -> {
-            final PacketTMs packet = new PacketTMs();
-            packet.data.putInt("m", this.index);
-            PokecubeCore.packets.sendToServer(packet);
-        }).bounds(x + 105, y + 48, 19, 19)
-                .tooltip(Tooltip.create(Component.translatable("block.tm_machine.apply.tooltip")))
-                .createNarration(supplier -> Component.translatable("block.tm_machine.apply.narrate")).build());
+        this.applyButton = this.addRenderableWidget(
+                new Button.Builder(apply, (b) -> PacketTMs.sendApplyMove(this.index)).bounds(x + 105, y + 48, 19, 19)
+                        .tooltip(Tooltip.create(Component.translatable("block.tm_machine.apply.tooltip")))
+                        .createNarration(supplier -> Component.translatable("block.tm_machine.apply.narrate")).build());
         this.applyButton.setAlpha(0);
     }
 
@@ -265,8 +272,12 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
     public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
         super.render(graphics, mouseX, mouseY, partialTicks);
-        final String[] moves = this.menu.moves;
-        final String s = moves.length > 0 ? moves[this.index % moves.length] : "";
+        var moves = this.menu.moves;
+        String s;
+        synchronized (this.menu.moves)
+        {
+            s = !moves.isEmpty() ? moves.get(this.index % moves.size()) : "";
+        }
         final MoveEntry move = MovesUtils.getMove(s);
         if (move != null)
         {
