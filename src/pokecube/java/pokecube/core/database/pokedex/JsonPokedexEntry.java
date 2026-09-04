@@ -207,17 +207,16 @@ public class JsonPokedexEntry
             made = new JsonPokedexEntry();
             made.name = e.getTrimmedName();
             made.modid = e.getModId();
-            made.stock = e.stock;
-            made.id = e.pokedexNb;
             made.is_default = e.base;
 
             made.size = new Sizes();
-
             made.stats = new Stats();
             made.evs = new EVs();
 
             if (root != null)
             {
+                made.stock = root.stock;
+                made.id = root.id;
                 made.size = root.size;
                 if (root.stats == null)
                 {
@@ -229,20 +228,31 @@ public class JsonPokedexEntry
                 }
                 made.stats.cloneFrom(root.stats != null ? root.stats : made.stats);
                 made.evs.cloneFrom(root.evs != null ? root.evs : made.evs);
+
+                made.gender_rate = root.gender_rate;
+                made.capture_rate = root.capture_rate;
+                made.base_experience = root.base_experience;
+                made.base_happiness = root.base_happiness;
+                made.growth_rate = root.growth_rate;
+                made.mass = root.mass;
             }
             else
             {
                 PokecubeAPI.LOGGER.error("No root for {}", e, new IllegalStateException());
+                made.stats.set(e.stats);
+                made.evs.set(e.evs);
+
                 made.size.height = e.getHeight();
                 made.size.width = e.getWidth();
                 made.size.length = e.getLength();
-                made.stats.set(e.stats);
-                made.evs.set(e.evs);
+
+                made.stock = e.stock;
+                made.id = e.pokedexNb;
+                made.gender_rate = e.getSexeRatio();
+                made.capture_rate = e.getCatchRate();
+                made.base_experience = e.baseXP;
+                made.mass = (float) e.mass;
             }
-            made.gender_rate = e.getSexeRatio();
-            made.capture_rate = e.getCatchRate();
-            made.base_experience = e.baseXP;
-            made.mass = (float) e.mass;
             e._root_json = made;
         }
         return made;

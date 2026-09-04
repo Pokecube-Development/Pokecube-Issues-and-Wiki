@@ -1,5 +1,9 @@
 package pokecube.gimmicks.vanilla_pokemobs;
 
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
 import net.neoforged.fml.loading.FMLPaths;
 import pokecube.api.PokecubeAPI;
 import thut.api.util.JsonUtil;
@@ -9,12 +13,36 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VanillaPokemobsConfig
 {
     public boolean vanilla_pokemobs = false;
     public boolean non_vanilla_pokemobs = false;
+    public List<String> not_pokemobs = new ArrayList<>();
     public boolean _registered = false;
+    public List<TagKey<EntityType<?>>> _tags_not_pokemob = new ArrayList<>();
+
+    public VanillaPokemobsConfig(){
+        not_pokemobs.add("minecraft:player");
+        not_pokemobs.add("minecraft:villager");
+        not_pokemobs.add("minecraft:wandering_trader");
+        not_pokemobs.add("minecraft:evoker");
+        not_pokemobs.add("minecraft:illusioner");
+        not_pokemobs.add("minecraft:pillager");
+        not_pokemobs.add("minecraft:vindicator");
+        not_pokemobs.add("minecraft:illusioner");
+        not_pokemobs.add("minecraft:witch");
+        not_pokemobs.add("pokecube:npc");
+        not_pokemobs.add("pokecube:egg");
+        not_pokemobs.add("pokecube_adventures:trainer");
+        not_pokemobs.add("pokecube_adventures:leader");
+        not_pokemobs.add("#c:villagers");
+        not_pokemobs.add("#c:capturing_not_supported");
+        not_pokemobs.add("#c:teleporting_not_supported");
+        not_pokemobs.add("#pokecube:never_pokemob");
+    }
 
     public static VanillaPokemobsConfig loadConfig()
     {
@@ -41,6 +69,25 @@ public class VanillaPokemobsConfig
                 PokecubeAPI.LOGGER.error("Error loading config for vanilla_pokemobs", e);
             }
         }
+
+        // Now process tags out
+        config._tags_not_pokemob.clear();
+        for (String s : config.not_pokemobs)
+        {
+            try
+            {
+                if (s.startsWith("#"))
+                {
+                    s = s.substring(1);
+                    config._tags_not_pokemob.add(TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.parse(s)));
+                }
+            }
+            catch (Exception ignored)
+            {
+            }
+        }
+        // TODO make this re-do a pass after tags load in, to update the lists.
+        // this way you only need to specify the tags once, and it can correct it as needed.
 
         // Re-save the config file to ensure standard format, etc
         final String json = JsonUtil.gson.toJson(config);

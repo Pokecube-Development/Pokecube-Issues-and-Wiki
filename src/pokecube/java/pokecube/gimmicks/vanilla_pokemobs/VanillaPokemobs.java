@@ -80,6 +80,12 @@ public class VanillaPokemobs
         final boolean vanilla = RegHelper.getKey(e).getNamespace().equals("minecraft");
         if (!vanilla && !config.non_vanilla_pokemobs) return false;
         if (vanilla && !config.vanilla_pokemobs) return false;
+        var s = RegHelper.getKey(e).toString();
+        // This works before world load, as is just the strings
+        if (config.not_pokemobs.contains(s)) return false;
+        // Tags will only work after world load, so ones that need tags will still
+        // get attributes added to them
+        if (config._tags_not_pokemob.stream().anyMatch(e::is)) return false;
         return !ItemList.is(VanillaPokemobs.NOTPOKEMOBS, e);
     };
 
@@ -247,7 +253,11 @@ public class VanillaPokemobs
                 }
                 if (!newDerp.stock && generated.add(newDerp))
                 {
-                    entries.add(JsonPokedexEntry.fromPokedexEntry(newDerp));
+                    var entry = JsonPokedexEntry.fromPokedexEntry(newDerp);
+                    entry.size.height = e.getBbHeight();
+                    entry.size.width = e.getBbWidth();
+                    entry.size.length = e.getBbWidth();
+                    entries.add(entry);
                 }
             }
         });
