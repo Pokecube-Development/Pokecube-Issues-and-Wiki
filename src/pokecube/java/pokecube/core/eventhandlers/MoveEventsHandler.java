@@ -52,7 +52,6 @@ import pokecube.core.impl.entity.impl.NonPersistantStatusEffect.Effect;
 import pokecube.core.impl.entity.impl.OngoingMoveEffect;
 import pokecube.core.init.Config;
 import pokecube.core.init.ItemGenerator;
-import pokecube.core.inventory.tms.TMContainer;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.moves.world.DefaultAction;
@@ -483,16 +482,22 @@ public class MoveEventsHandler
         DefaultAction _action;
         actions:
         {
+            // First the typed actions
             if ((_action = new DefaultWaterAction(move)).isValid()) break actions;
             if ((_action = new DefaultIceAction(move)).isValid()) break actions;
             if ((_action = new DefaultElectricAction(move)).isValid()) break actions;
             if ((_action = new DefaultFireAction(move)).isValid()) break actions;
-            if ((_action = new DefaultAction(move)).isValid()) break actions;
             _action = null;
         }
         if (_action != null)
         {
             _action.init();
+            if (attacker.inCombat()) _action.applyInCombat(attacker, location, evt.getHitResult());
+            else _action.applyOutOfCombat(attacker, location, evt.getHitResult());
+        }
+        // Finally apply the root default action
+        if ((_action = new DefaultAction(move)).isValid())
+        {
             if (attacker.inCombat()) _action.applyInCombat(attacker, location, evt.getHitResult());
             else _action.applyOutOfCombat(attacker, location, evt.getHitResult());
         }
