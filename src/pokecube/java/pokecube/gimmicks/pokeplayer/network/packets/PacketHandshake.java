@@ -20,8 +20,7 @@ public class PacketHandshake extends Packet
     public PacketHandshake()
     {}
 
-    /// Functions like these are important for error checking.
-    /// Neoforge raises an exception if you have no exception handling.
+    /// Functions like these are good for readability purposes.
     public static void sendPacket()
     {
         PokecubeCore.packets.sendToServer(new PacketHandshake());
