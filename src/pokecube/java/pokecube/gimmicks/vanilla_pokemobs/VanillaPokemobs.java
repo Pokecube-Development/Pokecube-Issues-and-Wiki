@@ -3,6 +3,7 @@ package pokecube.gimmicks.vanilla_pokemobs;
 import com.google.common.collect.Sets;
 import net.minecraft.SharedConstants;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.packs.PackType;
@@ -17,6 +18,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
+import net.neoforged.neoforge.event.TagsUpdatedEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import net.neoforged.neoforge.event.entity.EntityEvent.EntityConstructing;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
@@ -43,6 +45,7 @@ import thut.lib.RegHelper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -308,6 +311,30 @@ public class VanillaPokemobs
         if (VanillaPokemobs.makePokemob.test(event.getEntity().getType())) event.setCanceled(true);
     }
 
+    private static void onTagsReloaded(TagsUpdatedEvent event)
+    {
+        if (!event.shouldUpdateStaticData()) return;
+        Set<String> entries = new HashSet<>(config.not_pokemobs);
+        Set<String> tags = new HashSet<>(config.not_pokemobs);
+        entries.removeIf(s->s.startsWith("#"));
+        tags.removeIf(s->!s.startsWith("#"));
+        var reg = event.getRegistryAccess().registry(Registries.ENTITY_TYPE).get();
+        for (var key : config._tags_not_pokemob)
+        {
+            var things = reg.asLookup().get(key);
+            if (things.isEmpty()) continue;
+            var tagged = things.get();
+            for (var type : tagged.stream().toList())
+            {
+                entries.add(RegHelper.getKey(type.value()).toString());
+            }
+        }
+        config.not_pokemobs.clear();
+        config.not_pokemobs.addAll(tags);
+        config.not_pokemobs.addAll(entries);
+        VanillaPokemobsConfig.saveConfig(config);
+    }
+
     public VanillaPokemobs(IEventBus bus)
     {
         // We have loaded the config when class was loaded, let now register if we are able to.
@@ -321,6 +348,8 @@ public class VanillaPokemobs
         ThutCore.FORGE_BUS.addListener(VanillaPokemobs::onServerStarted);
         // And this handles applying the IPokemob to them.
         ThutCore.FORGE_BUS.addListener(VanillaPokemobs::onMobConstructingEvent);
+        // Add listener for when tags reload to update the config appropriately.
+        ThutCore.FORGE_BUS.addListener(VanillaPokemobs::onTagsReloaded);
 
         bus.addListener(VanillaPokemobs::onEntityAttributes);
     }
