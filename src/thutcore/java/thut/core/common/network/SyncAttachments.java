@@ -137,7 +137,7 @@ public class SyncAttachments extends Packet
                 // Special handling for ICopyMobs
                 if (tracked.isDirty())
                 {
-                    sendForKey(mob, NeoForgeRegistries.ATTACHMENT_TYPES.getKey(type));
+                    sendForKey(mob, NeoForgeRegistries.ATTACHMENT_TYPES.getKey(type), false);
                     tracked.markClean();
                 }
             }
@@ -153,7 +153,7 @@ public class SyncAttachments extends Packet
 
     public static void syncChange(Entity mob, Collection<ResourceLocation> changes)
     {
-        changes.forEach(key -> sendForKey(mob, key));
+        changes.forEach(key -> sendForKey(mob, key, false));
     }
 
     public static <T> void syncChange(AttachmentType<T> type, Entity mob)
@@ -161,7 +161,7 @@ public class SyncAttachments extends Packet
         var data = mob.getData(type);
         if (!(data instanceof INBTSerializable)) return;
         var key = NeoForgeRegistries.ATTACHMENT_TYPES.getKey(type);
-        sendForKey(mob, key);
+        sendForKey(mob, key, false);
     }
 
     public static <T> void syncChange(Supplier<AttachmentType<T>> type, Entity mob)
@@ -169,7 +169,7 @@ public class SyncAttachments extends Packet
         syncChange(type.get(), mob);
     }
 
-    private static void sendForKey(Entity mob, ResourceLocation key)
+    private static void sendForKey(Entity mob, ResourceLocation key, boolean markDirty)
     {
         var type = NeoForgeRegistries.ATTACHMENT_TYPES.get(key);
         if (EntityProvider.provider.getEntity(mob.level(), mob.getId(), false) == null) return;
@@ -177,7 +177,8 @@ public class SyncAttachments extends Packet
         var data = mob.getData(type);
         if (!(data instanceof INBTSerializable)) return;
         var tag = ((INBTSerializable) data).serializeNBT(mob.registryAccess());
-        if(!(data instanceof TrackedAttachment tracked && tracked.isDirty())&&!UNCHECKED_SYNC.contains(key))
+        if (!markDirty && !(data instanceof TrackedAttachment tracked && tracked.isDirty()) && !UNCHECKED_SYNC.contains(
+                key))
         {
             @SuppressWarnings("unchecked")
             var test = DEFAULTS.computeIfAbsent(key, a -> {
@@ -204,7 +205,7 @@ public class SyncAttachments extends Packet
     private static void sendPackets(LivingEntity mob)
     {
         syncChange(mob, SYNCED);
-        SYNCED.forEach(key -> sendForKey(mob, key));
+        SYNCED.forEach(key -> sendForKey(mob, key, true));
     }
 
     CompoundTag data;

@@ -268,24 +268,6 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
-    public void onRemovedFromLevel()
-    {
-        PokemobTracker.removePokemob(this.getPokemob());
-        if (this.getPokemob().isPlayerOwned() && this.getPokemob().getOwnerId() != null)
-            PlayerPokemobCache.UpdateCache(this.getPokemob());
-        super.onRemovedFromLevel();
-    }
-
-    @Override
-    public void onAddedToLevel()
-    {
-        PokemobTracker.addPokemob(this.getPokemob());
-        if (this.getPokemob().isPlayerOwned() && this.getPokemob().getOwnerId() != null)
-            PlayerPokemobCache.UpdateCache(this.getPokemob());
-        super.onAddedToLevel();
-    }
-
-    @Override
     public void writeSpawnData(final RegistryFriendlyByteBuf data)
     {
         this.initSeats();
