@@ -270,7 +270,7 @@ public interface IHasMoves extends IHasStats
     {
         if (moveName == null || this.getTrackedEntity().level() == null || this.getEntity().level().isClientSide) return;
         if (!MovesUtils.isMoveImplemented(moveName)) return;
-        final LivingEntity thisEntity = this.getTrackedEntity();
+        final LivingEntity thisEntity = this.getEntity();
         final IPokemob thisMob = PokemobCaps.getPokemobFor(thisEntity);
         // check it's not already known or forgotten
         if (this.knowsMove(moveName)) return;
