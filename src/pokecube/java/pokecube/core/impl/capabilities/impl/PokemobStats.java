@@ -19,8 +19,13 @@ public abstract class PokemobStats extends PokemobGenes
     @Override
     public void addHappiness(final int toAdd)
     {
-        this.bonusHappiness += toAdd;
-        this.params.HAPPYDW.set(this.bonusHappiness);
+        if (this.getEntity().level().isClientSide())
+        {
+            return;
+        }
+        this.params.HAPPYDW.set(toAdd + this.params.HAPPYDW.get());
+        // This second call clips the happiness by the pokemob's base value
+        getHappiness();
     }
 
     @Override
@@ -32,10 +37,14 @@ public abstract class PokemobStats extends PokemobGenes
     @Override
     public int getHappiness()
     {
-        this.bonusHappiness = this.params.HAPPYDW.get();
-        this.bonusHappiness = Math.max(this.bonusHappiness, -this.getPokedexEntry().getHappiness());
-        this.bonusHappiness = Math.min(this.bonusHappiness, 255 - this.getPokedexEntry().getHappiness());
-        return this.bonusHappiness + this.getPokedexEntry().getHappiness();
+        var happiness = this.params.HAPPYDW.get();
+        if (!this.getEntity().level().isClientSide())
+        {
+            happiness = Math.max(happiness, -this.getPokedexEntry().getHappiness());
+            happiness = Math.min(happiness, 255 - this.getPokedexEntry().getHappiness());
+            this.params.HAPPYDW.set(happiness);
+        }
+        return happiness + this.getPokedexEntry().getHappiness();
     }
 
     @Override

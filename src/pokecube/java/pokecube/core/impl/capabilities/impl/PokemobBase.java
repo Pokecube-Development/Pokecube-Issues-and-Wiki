@@ -150,8 +150,6 @@ public abstract class PokemobBase implements IPokemob
     /** Cached Team for this Pokemob */
     protected String team = "";
 
-    /** The happiness value of the pokemob */
-    protected int bonusHappiness = 0;
     /** Tracks whether this was a shadow mob at some point. */
     protected boolean wasShadow = false;
     /** Number used as seed for various RNG things. */
