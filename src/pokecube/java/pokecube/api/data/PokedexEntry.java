@@ -907,10 +907,6 @@ public class PokedexEntry
     @CopyToGender
     public float length = -1;
 
-    /** Map of Level to Moves learned. */
-    @CopyToGender
-    private Map<Integer, ArrayList<String>> lvlUpMoves;
-
     public PokedexEntry male = null;
 
     /** Movement type for this mob, this is a bitmask for MovementType */
@@ -927,10 +923,6 @@ public class PokedexEntry
     /** Offset between top of hitbox and where player sits */
     @CopyToGender
     public double[][] passengerOffsets = { { 0, 0.75, 0 } };
-
-    /** All possible moves */
-    @CopyToGender
-    private List<String> possibleMoves;
 
     /** If the above is floating, how high does it try to float */
     @CopyToGender
@@ -1213,18 +1205,6 @@ public class PokedexEntry
         this.forms.put(key, form);
     }
 
-    public void addMove(final String move)
-    {
-        for (final String s : this.possibleMoves) if (s.equals(move)) return;
-        this.possibleMoves.add(move);
-    }
-
-    public void addMoves(final List<String> moves, final Map<Integer, ArrayList<String>> lvlUpMoves2)
-    {
-        this.lvlUpMoves = lvlUpMoves2;
-        this.possibleMoves = moves;
-    }
-
     private void addRelation(final PokedexEntry toAdd)
     {
         if (!this.getRelated().contains(toAdd) && toAdd != null && toAdd != this) this.getRelated().add(toAdd);
@@ -1278,8 +1258,6 @@ public class PokedexEntry
             throw new IllegalArgumentException("Cannot add a second base form");
         e.pokedexNb = this.pokedexNb;
 
-        if (e.possibleMoves == null) e.possibleMoves = this.possibleMoves;
-        if (e.lvlUpMoves == null) e.lvlUpMoves = this.lvlUpMoves;
         if (e.stats == null && this.stats != null) e.stats = this.stats.clone();
         if (e.evs == null && this.evs != null) e.evs = this.evs.clone();
         if (e.height == -1) e.height = this.height;
@@ -1527,38 +1505,24 @@ public class PokedexEntry
     /** A list of all valid moves for this pokemob */
     public List<String> getMoves()
     {
-        return this.possibleMoves;
+        return this._root_json.getMoves()._all_moves;
     }
 
     public List<String> getMovesForLevel(final int level)
     {
-        final List<String> ret = new ArrayList<>();
-
-        if (this.lvlUpMoves == null) return ret;
-
-        for (int i = 0; i <= level; i++)
-        {
-            if (this.lvlUpMoves.get(i) == null) continue;
-            ret.addAll(this.lvlUpMoves.get(i));
-        }
-
-        return ret;
+        return getMovesForLevel(level, 0);
     }
 
     public List<String> getMovesForLevel(final int level, final int oldLevel)
     {
         final List<String> ret = new ArrayList<>();
-
-        if (this.lvlUpMoves == null) return ret;
-
-        if (oldLevel <= 0) return this.getMovesForLevel(level);
-
-        for (int i = oldLevel; i < level; i++)
+        var levelMoves = this._root_json.getMoves()._moves_by_level;
+        for (var lvl : levelMoves)
         {
-            if (this.lvlUpMoves.get(i + 1) == null) continue;
-            ret.addAll(this.lvlUpMoves.get(i + 1));
+            if (lvl.L < oldLevel) continue;
+            if (lvl.L > level) break;
+            ret.addAll(lvl.moves);
         }
-
         return ret;
     }
 

@@ -2,7 +2,6 @@ package pokecube.core.database.pokedex;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
@@ -10,6 +9,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
+import org.jetbrains.annotations.NotNull;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.SpawnData;
@@ -37,6 +37,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -161,35 +162,43 @@ public class JsonPokedexEntry
      */
     public static class Moves implements Consumer<PokedexEntry>
     {
-        public static class LevelMoves
+        public static class LevelMoves implements Comparable<LevelMoves>
         {
             public int L;
             public List<String> moves = new ArrayList<>();
+
+            @Override
+            public int compareTo(@NotNull JsonPokedexEntry.Moves.LevelMoves o)
+            {
+                return Integer.compare(L, o.L);
+            }
         }
 
         public List<String> misc = new ArrayList<>();
         public List<LevelMoves> level_up = new ArrayList<>();
 
+        public List<String> _all_moves = new ArrayList<>();
+        public List<LevelMoves> _moves_by_level = new ArrayList<>();
+
         @Override
         public void accept(PokedexEntry t)
         {
-            Map<Integer, ArrayList<String>> lvlUpMoves = new HashMap<>();
-            Set<String> allMoves = Sets.newHashSet();
-            misc.forEach(s -> allMoves.add(Database.convertMoveName(s)));
+            Set<String> _all = new HashSet<>();
+            _all_moves.clear();
+            _moves_by_level.clear();
+            misc.forEach(s -> _all.add(Database.convertMoveName(s)));
             for (LevelMoves m : level_up)
             {
-                ArrayList<String> forLevel = new ArrayList<>();
-                m.moves.forEach(s -> {
-                    allMoves.add(Database.convertMoveName(s));
-                    forLevel.add(Database.convertMoveName(s));
+                m.moves.replaceAll(s -> {
+                    var name = Database.convertMoveName(s);
+                    _all.add(name);
+                    return name;
                 });
-                lvlUpMoves.put(m.L, forLevel);
+                _moves_by_level.add(m);
             }
-            if (lvlUpMoves.isEmpty()) lvlUpMoves = null;
-            ArrayList<String> _allMoves = new ArrayList<>(allMoves);
-            if (_allMoves.isEmpty()) _allMoves = null;
-            else _allMoves.sort(null);
-            t.addMoves(_allMoves, lvlUpMoves);
+            _moves_by_level.sort(null);
+            _all_moves.addAll(_all);
+            _all_moves.sort(null);
         }
     }
 
@@ -234,6 +243,7 @@ public class JsonPokedexEntry
                 made.base_experience = root.base_experience;
                 made.base_happiness = root.base_happiness;
                 made.growth_rate = root.growth_rate;
+                made.moves = root.moves;
                 made.mass = root.mass;
             }
             else
@@ -379,6 +389,16 @@ public class JsonPokedexEntry
         for (var l : this.__loaded_from) if (!other.__loaded_from.contains(l)) other.__loaded_from.add(l);
         mergeBasic(other);
         return this;
+    }
+
+    public Moves getMoves()
+    {
+        if (moves == null)
+        {
+            moves = new Moves();
+            PokecubeAPI.LOGGER.error("No moves found for {}", this.name);
+        }
+        return moves;
     }
 
     @Override

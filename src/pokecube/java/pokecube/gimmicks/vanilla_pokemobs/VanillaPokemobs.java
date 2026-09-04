@@ -1,7 +1,5 @@
 package pokecube.gimmicks.vanilla_pokemobs;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import net.minecraft.SharedConstants;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -63,8 +61,6 @@ public class VanillaPokemobs
         VanillaPokemobs.DERP.type1 = PokeType.unknown;
         VanillaPokemobs.DERP.type2 = PokeType.unknown;
         VanillaPokemobs.DERP.base = true;
-        VanillaPokemobs.DERP.addMoves(Lists.newArrayList(), Maps.newHashMap());
-        VanillaPokemobs.DERP.addMove("skyattack");
         VanillaPokemobs.DERP.stock = false;
     }
 

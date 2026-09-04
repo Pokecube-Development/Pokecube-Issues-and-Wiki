@@ -1,7 +1,6 @@
 package pokecube.core.database;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonElement;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
@@ -170,8 +169,6 @@ public class Database
         Database.missingno.base = true;
         Database.missingno.height = 1;
         Database.missingno.width = Database.missingno.length = 0.41f;
-        Database.missingno.addMoves(Lists.newArrayList(), Maps.newHashMap());
-        Database.missingno.addMove("sky-attack");
         Database.missingno.mobType = 15;
         Database.addEntry(Database.missingno);
     }
